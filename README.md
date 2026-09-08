@@ -44,8 +44,8 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 
 ## 📚 Documentação e Artigos Técnicos
 
-- [Artigo Científico Principal](../Artigos/Artigo_Cientifico_Netuno5.docx)
-- [Apêndices Técnicos do Artigo](../Artigos/Apendices_Artigo_Netuno5.docx)
+- [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
+- [Relatório de Verificação e Validação](docs/verificacao_e_validacao.md)
 - [Fluxogramas Metodológicos](netuno/docs/fluxogramas_metodologicos.md)
 - [Diretrizes de Decisão Robusta](netuno/docs/proximos_passos_decisao_robusta.md)
 - [Relatório de Validação dos Algoritmos](netuno/docs/relatorio_validacao.md)
