@@ -24,15 +24,31 @@ O Netuno é um modelo de apoio à decisão com passo diário. Suas saídas são 
 
 ## 1. Chuva efetiva e captação
 
-Para compatibilidade com o algoritmo documentado no Netuno 4, o descarte inicial `df` é tratado como **limiar do evento**, e não como uma lâmina subtraída de toda chuva aceita. Nos dias em que a regra de descarte se aplica:
+O descarte de primeira chuva `df` é uma lâmina **efetivamente subtraída** da precipitação do evento: a água descartada deixa de estar disponível para consumo. Nos dias em que a regra de descarte está ativa:
 
 ```text
-Pef,t = 0,    se Pt < df
-Pef,t = Pt,   se Pt ≥ df
+Pef,t = max(0, Pt − df)     se a regra de descarte se aplica ao dia t
+Pef,t = Pt                  caso contrário
 Vcap,t = Pef,t × A × C
 ```
 
-`Pt` e `Pef,t` estão em mm/dia, `A` em m², `C` é adimensional e `Vcap,t` resulta em litros, pois 1 mm sobre 1 m² equivale a 1 L. Nos modos periódico e por intervalo de dias, o mesmo teste só é acionado quando a regra configurada estiver ativa. Esse limiar numérico **não representa o volume hidráulico de um dispositivo físico de first flush** (`A × df`); esse dispositivo deve ser dimensionado separadamente. Em particular, o motor não usa `max(0, Pt − df)`.
+`Pt` e `Pef,t` estão em mm/dia, `A` em m², `C` é adimensional e `Vcap,t` resulta em litros, pois 1 mm sobre 1 m² equivale a 1 L.
+
+### Quando a regra se aplica
+
+O que varia entre os modos não é a fórmula, mas **em quais dias** ela é acionada:
+
+| Modo | Regra | Aplicação |
+| :--- | :--- | :--- |
+| 1 | Todos os eventos | todo dia com `Pt > 0` |
+| 2 | Primeiro evento após estiagem | dias com `Pt > 0` cujo dia anterior teve `Pt < 1 mm` |
+| 3 | Periodicidade de manutenção | dias com `Pt > 0`, respeitado o intervalo mínimo configurado desde o último descarte |
+
+Nos modos 2 e 3, os dias em que a regra não é acionada aproveitam a precipitação integral (`Pef,t = Pt`).
+
+> **Diferença deliberada em relação ao Netuno 4.** O Netuno 4 tratava `df` como limiar do evento (aproveitando `Pt` integralmente sempre que `Pt ≥ df`). O Netuno 5 subtrai a lâmina, o que é fisicamente mais fiel: a água desviada para o dispositivo de descarte não chega à cisterna. A consequência é mensurável e está quantificada em [`verificacao_e_validacao.md`](verificacao_e_validacao.md) §5: o Netuno 5 estima, em média, **2,3 a 2,7 pontos percentuais menos** economia de água potável que o Netuno 4 sobre os 4.050 casos de referência. Cerca de 46% dessa diferença é atribuível a esta mudança de tratamento. Estudos que comparem resultados das duas versões devem declarar esta diferença metodológica.
+
+O parâmetro `df` é uma **lâmina** (mm), não o volume hidráulico do dispositivo físico de first flush (`A × df` litros); o dispositivo deve ser dimensionado separadamente.
 
 ## 2. Demanda e balanço YAS
 

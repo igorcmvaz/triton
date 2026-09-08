@@ -19,6 +19,7 @@ from netuno.core.tariffs_database import (
 )
 from netuno.core.parser import NetunoConfig
 from netuno.core.economic import calculate_water_bill
+from netuno.core.tariffs_structure import CODIGOS_VALIDOS
 from netuno.ui.dialogs.dialog_economic import DialogTariffs
 
 
@@ -66,9 +67,15 @@ class TestTariffsDatabase(unittest.TestCase):
                     min_v, max_v, val, is_fix = t
                     self.assertGreaterEqual(min_v, 0.0)
                     self.assertGreaterEqual(val, 0.0)
-                    # -1 = custo fixo/disponibilidade; 1 = tarifa progressiva por faixa;
-                    # -2 = franquia de consumo mínimo com taxa fixa inclusa (ver economic.py)
-                    self.assertIn(is_fix, [-2, -1, 1])
+                    # Os códigos são definidos em netuno/core/tariffs_structure.py,
+                    # fonte única desde a 5.0.7. Antes disso eram literais espalhados
+                    # pelo código, e este teste rejeitava a tarifa legítima da DAE
+                    # Americana por desconhecer a franquia de consumo mínimo (-2).
+                    self.assertIn(
+                        is_fix, CODIGOS_VALIDOS,
+                        f"código de faixa desconhecido {is_fix} em {uf_code}/{city_name}; "
+                        f"conhecidos: {sorted(CODIGOS_VALIDOS)}"
+                    )
                     
         self.assertEqual(total_cities_found, 652)
 

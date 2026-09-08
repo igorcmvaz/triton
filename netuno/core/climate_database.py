@@ -79,14 +79,24 @@ def get_climate_database_dir() -> str:
     if _BASE_DIR_CACHE and os.path.isdir(_BASE_DIR_CACHE):
         return _BASE_DIR_CACHE
 
+    # Ordem de busca, da mais específica para a mais genérica.
+    #
+    # A primeira entrada é a localização canônica: a base climática fica na raiz do
+    # programa, ao lado do pacote `netuno`. As demais existem para execução a partir
+    # de outro diretório de trabalho (scripts de estudo) e para instalações que
+    # optem por mantê-la sob `data/`.
+    #
+    # A variável de ambiente NETUNO_CLIMATE_DATA_DIR tem precedência sobre todas,
+    # para instalações que guardem os ~6,5 GB fora da árvore do programa.
+    raiz_do_programa = os.path.join(os.path.dirname(__file__), "..", "..")
     candidates = [
-        os.path.join(os.path.dirname(__file__), "..", "..", "Netuno future files for 652 cities"),
+        os.environ.get("NETUNO_CLIMATE_DATA_DIR", ""),
+        os.path.join(raiz_do_programa, "Netuno future files for 652 cities"),
         os.path.join(os.getcwd(), "Netuno future files for 652 cities"),
-        os.path.join(os.path.dirname(__file__), "..", "..", "replicacao_projected", "Netuno future files for 652 cities"),
-        os.path.join(os.getcwd(), "replicacao_projected", "Netuno future files for 652 cities"),
-        os.path.join(os.path.dirname(__file__), "..", "..", "data", "Netuno future files for 652 cities"),
+        os.path.join(raiz_do_programa, "data", "Netuno future files for 652 cities"),
         os.path.join(os.getcwd(), "data", "Netuno future files for 652 cities"),
     ]
+    candidates = [c for c in candidates if c]
 
     for cand in candidates:
         norm_path = os.path.abspath(cand)

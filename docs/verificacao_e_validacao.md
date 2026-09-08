@@ -33,7 +33,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
 | Aderência ao Netuno 4 | MAE de 2,29 a 2,71 pp em 4.050 casos de referência (§5) |
-| Questão aberta | metodologia documentada e código divergem no descarte de primeira chuva (§5.5) |
+| Diferença metodológica declarada | o descarte de primeira chuva subtrai a lâmina, ao contrário do Netuno 4 (§5.5) |
 
 O motor hidrológico está **correto nos dois caminhos de execução**. O defeito detectado no
 kernel acelerado foi corrigido e a paridade entre as duas implementações passou a ser
@@ -332,64 +332,52 @@ estima consistentemente menos economia de água potável que o Netuno 4. Não é
 numérico nem dispersão aleatória — é um deslocamento sistemático, reproduzido em dois
 conjuntos independentes e quatro cidades.
 
-### 5.5 Causa provável: o descarte de primeira chuva
+### 5.5 Origem da divergência: o descarte de primeira chuva
 
-Há uma **contradição entre a metodologia documentada e o código implementado**.
+A investigação identificou a causa principal e, no curso desta apuração, ela foi
+**resolvida como defeito de documentação** — não de código.
 
-[`docs/metodologia.md`](metodologia.md) §1 descreve o descarte como *limiar do evento* e
-é explícito ao negar a alternativa:
-
-```text
-Pef,t = 0,    se Pt < df
-Pef,t = Pt,   se Pt ≥ df
-```
-
-> «Para compatibilidade com o algoritmo documentado no Netuno 4 […] Em particular, o
-> motor não usa `max(0, Pt − df)`.»
-
-As três implementações do balanço (`simulation.py`, linhas 421, 501 e 755) fazem
-exatamente o que o documento nega:
+**O que o código faz.** As três implementações do balanço subtraem a lâmina de descarte
+da precipitação do evento:
 
 ```python
-p_eff = p_i - discard_mm if p_i > discard_mm else 0.0   # isto é max(0, Pt − df)
+p_eff = p_i - discard_mm if p_i > discard_mm else 0.0   # max(0, Pt − df)
 ```
 
-Subtrair a lâmina de descarte de todo evento aceito remove `df × A × C` litros por dia
-de chuva, reduzindo sistematicamente o volume captado em relação à regra de limiar — o
-que produziria exatamente um viés negativo constante.
+**O que a documentação afirmava.** Até esta apuração, `docs/metodologia.md` descrevia o
+descarte como *limiar do evento* — aproveitando `Pt` integralmente sempre que `Pt ≥ df` —
+e negava explicitamente a subtração. Essa descrição estava **errada**.
 
-**Experimento.** Trocando as três ocorrências pela fórmula documentada e repetindo a
-comparação sobre os 2.592 casos de Manaus/São Paulo:
+**Resolução.** O comportamento implementado é o pretendido e é fisicamente mais fiel: a
+água desviada para o dispositivo de descarte não chega à cisterna, logo não fica
+disponível para consumo. O que varia entre os modos de descarte não é a fórmula, mas em
+quais dias ela é acionada — todos os eventos, primeiro evento após estiagem, ou
+periodicidade de manutenção. A documentação foi corrigida; o código permanece inalterado.
 
-| Métrica | Código atual (`max(0, Pt − df)`) | Documentado (limiar) |
+### 5.5.1 Quantificação da diferença em relação ao Netuno 4
+
+O Netuno 4 adotava o tratamento por limiar. A mudança para subtração explica parte
+substancial do viés medido em §5.4. Experimento sobre os 2.592 casos de Manaus/São Paulo,
+substituindo a subtração pelo limiar do Netuno 4:
+
+| Métrica | Netuno 5 (subtração) | Limiar do Netuno 4 |
 | :--- | ---: | ---: |
-| MAE | 2,71 pp | **1,47 pp** |
-| RMSE | 3,33 pp | **2,05 pp** |
-| Viés | −2,71 pp | **−1,47 pp** |
-| Casos ≤ 5 pp | 88,6% | **97,6%** |
-| Casos ≤ 10 pp | 99,9% | **100,0%** |
+| MAE | 2,71 pp | 1,47 pp |
+| RMSE | 3,33 pp | 2,05 pp |
+| Viés | −2,71 pp | −1,47 pp |
+| Casos ≤ 5 pp | 88,6% | 97,6% |
 
-Todas as métricas melhoram: a fórmula **documentada** replica o Netuno 4
-substancialmente melhor que a **implementada**.
+Ou seja: **cerca de 46% da divergência em relação ao Netuno 4 é atribuível a esta
+diferença metodológica deliberada.** O restante — viés residual de −1,47 pp — provém de
+ao menos um outro fator sistemático ainda não identificado, e permanece como questão
+aberta de verificação.
 
-**Esta apuração não alterou o código.** A escolha entre as duas semânticas muda todos os
-resultados numéricos do software e é uma decisão de modelagem que cabe aos responsáveis
-científicos, não à verificação. O experimento foi revertido; o repositório mantém o
-comportamento atual.
-
-Registram-se as três leituras possíveis, para que a decisão seja informada:
-
-1. **O código está errado e a documentação certa** — nesse caso a correção melhora a
-   fidelidade de replicação, como o experimento indica.
-2. **A documentação está desatualizada** e a subtração foi uma mudança deliberada de
-   modelagem — nesse caso o texto precisa ser corrigido, e o viés de −2,7 pp em relação
-   ao Netuno 4 passa a ser um resultado esperado a declarar nas publicações.
-3. **Ambas as semânticas são defensáveis** — e então convém expô-las como opção
-   configurável, documentando qual foi usada em cada estudo publicado.
-
-Note-se que, mesmo com a fórmula documentada, resta viés de −1,47 pp. A troca do
-descarte explica cerca de **46% da divergência**, não a totalidade; há ao menos mais um
-fator sistemático não identificado.
+**Consequência para publicações.** O Netuno 5 estima sistematicamente menos economia de
+água potável que o Netuno 4, por uma razão conhecida e defensável. Estudos que comparem
+resultados entre as duas versões, ou que reaproveitem números publicados com o Netuno 4,
+devem declarar esta diferença. A semântica está travada por teste de regressão em
+`tests/invariants/test_scientific_properties.py`, para que não seja revertida por engano
+como se fosse defeito.
 
 ### 5.6 Automação
 
