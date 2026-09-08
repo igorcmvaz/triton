@@ -1,8 +1,9 @@
 # Relatório de Verificação e Validação — Netuno 5.0.7
 
-**Data da apuração:** 7 de setembro de 2026
+**Data da apuração:** 7–8 de setembro de 2026
 **Escopo:** núcleo de cálculo (`netuno.core`), com ênfase no motor de balanço hídrico diário
-**Ambiente:** Python 3.13.1, Windows 11, sem `numba` instalado
+**Ambiente:** Python 3.13.1, Windows 11. Os dois kernels foram exercitados: o de referência
+na instalação principal e o acelerado num ambiente isolado com `numba` 0.67.0.
 
 ---
 
@@ -26,11 +27,13 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 265 testes, 0 falhas, 1 ignorado |
+| Suíte de testes | 271 testes, 0 falhas (mais 3 de replicação sob demanda) |
 | Cobertura do núcleo de cálculo | 81% das linhas |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
+| Aderência ao Netuno 4 | MAE de 2,29 a 2,71 pp em 4.050 casos de referência (§5) |
+| Questão aberta | metodologia documentada e código divergem no descarte de primeira chuva (§5.5) |
 
 O motor hidrológico está **correto nos dois caminhos de execução**. O defeito detectado no
 kernel acelerado foi corrigido e a paridade entre as duas implementações passou a ser
@@ -267,7 +270,132 @@ paridade como guarda permanente. As alternativas descartadas ficam registradas:
 
 ---
 
-## 5. Correção aplicada nesta apuração
+## 5. Aderência de replicação ao Netuno 4
+
+Esta é a evidência central de um estudo de replicação. Até esta apuração era a única
+comparação **não automatizada**: `compare_netuno4_netuno5.py` existia desde o início,
+mas não seguia o padrão `test_*.py`, de modo que o pytest coletava zero testes do
+diretório e a função só era chamada pelo seu próprio bloco `__main__`.
+
+### 5.1 Dados de referência
+
+`data/simulation_outputs/**/Planilha.csv` reúne **4.050 casos** exportados do Netuno 4,
+versionados e preservados byte a byte:
+
+| Conjunto | Casos | Cidades |
+| :--- | ---: | :--- |
+| `SimulacaoFloripaBrasilia` | 1.458 | Florianópolis, Brasília |
+| `SimulacaoManausSaoPaulo` | 2.592 | Manaus, São Paulo |
+
+### 5.2 Resultado
+
+Medição de 8 de setembro de 2026, excluindo os casos de referência nula (§5.3):
+
+| Conjunto | MAE | RMSE | Viés | Erro máx. | ≤ 5 pp | ≤ 10 pp |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Floripa/Brasília | 2,29 pp | 2,72 pp | −2,29 pp | 7,43 pp | 97,4% | 100,0% |
+| Manaus/São Paulo | 2,71 pp | 3,33 pp | −2,71 pp | 10,60 pp | 88,6% | 99,9% |
+
+### 5.3 Casos de referência nula
+
+Em parte das linhas o Netuno 4 exportou `0,00` enquanto o Netuno 5 calcula valor
+positivo. A incidência difere muito entre os conjuntos — **0,35% em Manaus/São Paulo
+contra 34,98% em Floripa/Brasília** — o que aponta para característica dos dados de
+referência (o Netuno 4 provavelmente não encontrou volume ótimo sob o seu próprio
+critério) e não para erro do Netuno 5, que nunca devolve zero nesses casos. São
+segregados das estatísticas para não dominá-las.
+
+### 5.4 A divergência é sistemática, não dispersa
+
+O achado mais relevante desta seção não é a magnitude do erro, mas a sua **estrutura**.
+Nos dois conjuntos, o erro médio **com sinal** coincide em módulo com o erro médio
+absoluto:
+
+```
+Floripa/Brasília:  viés = −2,29 pp    MAE = 2,29 pp    |viés| / MAE = 1,00
+Manaus/São Paulo:  viés = −2,71 pp    MAE = 2,71 pp    |viés| / MAE = 1,00
+```
+
+Isso significa que praticamente **todos** os desvios têm a mesma direção: o Netuno 5
+estima consistentemente menos economia de água potável que o Netuno 4. Não é ruído
+numérico nem dispersão aleatória — é um deslocamento sistemático, reproduzido em dois
+conjuntos independentes e quatro cidades.
+
+### 5.5 Causa provável: o descarte de primeira chuva
+
+Há uma **contradição entre a metodologia documentada e o código implementado**.
+
+[`docs/metodologia.md`](metodologia.md) §1 descreve o descarte como *limiar do evento* e
+é explícito ao negar a alternativa:
+
+```text
+Pef,t = 0,    se Pt < df
+Pef,t = Pt,   se Pt ≥ df
+```
+
+> «Para compatibilidade com o algoritmo documentado no Netuno 4 […] Em particular, o
+> motor não usa `max(0, Pt − df)`.»
+
+As três implementações do balanço (`simulation.py`, linhas 421, 501 e 755) fazem
+exatamente o que o documento nega:
+
+```python
+p_eff = p_i - discard_mm if p_i > discard_mm else 0.0   # isto é max(0, Pt − df)
+```
+
+Subtrair a lâmina de descarte de todo evento aceito remove `df × A × C` litros por dia
+de chuva, reduzindo sistematicamente o volume captado em relação à regra de limiar — o
+que produziria exatamente um viés negativo constante.
+
+**Experimento.** Trocando as três ocorrências pela fórmula documentada e repetindo a
+comparação sobre os 2.592 casos de Manaus/São Paulo:
+
+| Métrica | Código atual (`max(0, Pt − df)`) | Documentado (limiar) |
+| :--- | ---: | ---: |
+| MAE | 2,71 pp | **1,47 pp** |
+| RMSE | 3,33 pp | **2,05 pp** |
+| Viés | −2,71 pp | **−1,47 pp** |
+| Casos ≤ 5 pp | 88,6% | **97,6%** |
+| Casos ≤ 10 pp | 99,9% | **100,0%** |
+
+Todas as métricas melhoram: a fórmula **documentada** replica o Netuno 4
+substancialmente melhor que a **implementada**.
+
+**Esta apuração não alterou o código.** A escolha entre as duas semânticas muda todos os
+resultados numéricos do software e é uma decisão de modelagem que cabe aos responsáveis
+científicos, não à verificação. O experimento foi revertido; o repositório mantém o
+comportamento atual.
+
+Registram-se as três leituras possíveis, para que a decisão seja informada:
+
+1. **O código está errado e a documentação certa** — nesse caso a correção melhora a
+   fidelidade de replicação, como o experimento indica.
+2. **A documentação está desatualizada** e a subtração foi uma mudança deliberada de
+   modelagem — nesse caso o texto precisa ser corrigido, e o viés de −2,7 pp em relação
+   ao Netuno 4 passa a ser um resultado esperado a declarar nas publicações.
+3. **Ambas as semânticas são defensáveis** — e então convém expô-las como opção
+   configurável, documentando qual foi usada em cada estudo publicado.
+
+Note-se que, mesmo com a fórmula documentada, resta viés de −1,47 pp. A troca do
+descarte explica cerca de **46% da divergência**, não a totalidade; há ao menos mais um
+fator sistemático não identificado.
+
+### 5.6 Automação
+
+A comparação passou a ser executável e verificada:
+
+```bash
+python scripts/qa_runner.py --layer replicacao   # 4.050 casos
+pytest -m replicacao                             # equivalente
+```
+
+A execução completa leva cerca de 40 s com os kernels acelerados e mais de dez minutos
+sem eles, e por isso fica fora da suíte padrão, que roda uma amostra determinística de
+15 casos apenas para detectar quebra do arranjo de comparação.
+
+---
+
+## 6. Correção aplicada nesta apuração
 
 `tests/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
 **SP/Americana (DAE Americana)**, por asseverar `is_fix ∈ [−1, 1]`.
@@ -282,7 +410,7 @@ Distribuição no catálogo das 652 cidades: `is_fix = 1` em 3.510 faixas, `−1
 
 ---
 
-## 6. Limitações desta verificação
+## 7. Limitações desta verificação
 
 Registradas explicitamente para que o relatório não seja lido além do que sustenta:
 
@@ -299,7 +427,7 @@ Registradas explicitamente para que o relatório não seja lido além do que sus
 
 ---
 
-## 7. Como reproduzir
+## 8. Como reproduzir
 
 ```bash
 # suíte completa com cobertura
