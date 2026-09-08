@@ -1,0 +1,96 @@
+{
+  "schema": {
+    "name": "netuno-project",
+    "version": 2
+  },
+  "version": "5.0.7",
+  "metadata": {
+    "project_id": "N5-CLI-TEMPLATE",
+    "name": "Modelo CLI Netuno",
+    "created_at": "12/08/2026 00:00"
+  },
+  "rainfall": {
+    "file_name": "Florianopolis1.csv",
+    "start_date": "01/01/2002",
+    "total_days": 0,
+    "precipitation_mm": []
+  },
+  "inputs": {
+    "building_and_demand": {
+      "catchment_area_m2": 100.0,
+      "runoff_coeff": 0.85,
+      "residents_count": 4,
+      "residents_type": 0,
+      "residents_monthly": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+      "demand_value": 120.0,
+      "demand_type": 0,
+      "demand_monthly": [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
+      "use_variable": true,
+      "rainwater_share": 0.40
+    },
+    "rainfall_discard": {
+      "discard_mm": 1.0,
+      "discard_mode": 1,
+      "discard_days_interval": 7
+    },
+    "reservoirs_and_pumping": {
+      "lower_tank_fixed_l": 4000.0,
+      "lower_tank_max_l": 10000.0,
+      "lower_tank_step_l": 500.0,
+      "lower_tank_mode": 1,
+      "delta_ideal_pct": 5.0,
+      "upper_tank_vol_l": 500.0,
+      "upper_tank_used": true,
+      "pumping_threshold_l": 250.0,
+      "pump": {
+        "count": 1,
+        "power_str": "1/2 CV",
+        "power_kw": 0.36775,
+        "flow_rate_l_h": 2280.0,
+        "efficiency_pct": 55.0,
+        "startup_time_h": 0.03,
+        "unit_cost": 300.0
+      }
+    },
+    "financial_and_economic": {
+      "analysis_period_years": 20,
+      "tma_monthly_pct": 2.0,
+      "inflation_monthly_pct": 0.2,
+      "sewage_mode": 1,
+      "sewage_rate_pct": 100.0,
+      "water_tax_fixed": 0.0,
+      "water_tax_var_pct": 0.0,
+      "tariff_escalation_months": 12,
+      "water_tariff_escalation_pct": 5.0,
+      "sewage_tariff_escalation_pct": 5.0,
+      "elec_tariff": 1.0,
+      "elec_tax_fixed": 0.0,
+      "elec_tax_var_pct": 0.0,
+      "elec_tariff_escalation_pct": 5.0
+    },
+    "capex_and_opex": {
+      "cost_lower_tank": 2500.0,
+      "cost_upper_tank": 380.0,
+      "cost_labor": 1500.0,
+      "cost_piping": 950.0,
+      "cost_accessories": 500.0
+    }
+  },
+  "analysis": {
+    "topsis_weights": [0.33, 0.33, 0.34],
+    "environmental": {
+      "lower_material_key": "PEAD",
+      "upper_material_key": "PEAD",
+      "grid_co2_factor_kg_kwh": 0.085,
+      "potable_water_co2_kg_m3": 0.35,
+      "chemical_treatment_co2_m3": 0.02,
+      "system_lifespan_years": 20,
+      "pipes": [
+        {"diameter_mm": 100, "length_m": 20},
+        {"diameter_mm": 50, "length_m": 15}
+      ],
+      "pump": {"power_cv": 0.5, "specific_kwh_per_m3": 0.40}
+    }
+  },
+  "ui_state": {}
+}

@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netuno"
+version = "5.0.7"
+description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)", email = "sustainability@contato.ufsc.br" }
+]
+keywords = [
+    "rainwater-harvesting",
+    "water-conservation",
+    "sustainability",
+    "mcdm",
+    "topsis",
+    "smaa-vikor",
+    "engineering-economics",
+    "life-cycle-assessment",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "PySide6>=6.5.0",
+    "matplotlib>=3.7.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "reportlab>=4.0.0",
+    "pydantic>=2.0.0",
+    "ezdxf>=1.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pyinstaller>=6.0.0",
+    "time-machine>=2.14.0",
+]
+
+[project.scripts]
+netuno = "netuno.cli:main"
+netuno-gui = "main:main"
+
+[project.urls]
+Homepage = "https://sustainability.ufsc.br/"
+Documentation = "https://sustainability.ufsc.br/netuno"
+Repository = "https://github.com/ufsc-gestao-espaco-sustentavel/netuno"
+
+[tool.setuptools]
+packages = ["netuno", "netuno.core", "netuno.ui", "netuno.data", "netuno.docs"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.txt", "*.csv", "*.png", "*.ico", "*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]

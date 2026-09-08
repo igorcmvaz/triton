@@ -1,0 +1,7 @@
+# Netuno 5 — Dependências de Desenvolvimento, Testes e Compilação
+-r requirements.txt
+
+pytest>=7.4.0
+pytest-cov>=4.1.0
+time-machine>=2.14.0
+pyinstaller>=6.0.0

@@ -1,0 +1,86 @@
+{
+  "format_version": "5.0",
+  "software_version": "5.0.7",
+  "case_id": "1",
+  "title": "Residência Unifamiliar Sustentável",
+  "typology": "Residencial Unifamiliar",
+  "climate_city": "Florianopolis1",
+  "rain_file": "Florianopolis1.csv",
+  "rain_sha256": "c2efedd93b596b29f1b72c4fd1e6c9a251248d89cf68698a625a8296b1f36842",
+  "area": 180.0,
+  "runoff": 0.85,
+  "discard": 2.0,
+  "discard_mode": 1,
+  "discard_days": 7,
+  "residents": 4,
+  "demand": 180.0,
+  "share": 40.0,
+  "upper_vol": 500.0,
+  "upper_used": true,
+  "pump_thresh_pct": 10.0,
+  "sweep_max": 10000.0,
+  "sweep_step": 500.0,
+  "delta_ideal": 5.0,
+  "lower_tank_material": "PEAD",
+  "upper_tank_material": "PEAD",
+  "pipes_list": [
+    [
+      100,
+      25.0
+    ],
+    [
+      50,
+      15.0
+    ]
+  ],
+  "pump_power_kw": 0.368,
+  "pump_flow_rate": 2280.0,
+  "pump_efficiency": 55.0,
+  "pump_count": 1,
+  "elec_tariff": 0.95,
+  "chlorine_treatment_enabled": true,
+  "chlorine_dose_mg_l": 2.0,
+  "chlorine_cost_per_kg": 25.0,
+  "water_tariffs": [
+    [
+      0.0,
+      0.0,
+      46.34,
+      -1
+    ],
+    [
+      0.0,
+      10.0,
+      3.08,
+      1
+    ],
+    [
+      10.0,
+      25.0,
+      14.31,
+      1
+    ],
+    [
+      25.0,
+      50.0,
+      19.14,
+      1
+    ],
+    [
+      50.0,
+      999999.0,
+      24.08,
+      1
+    ]
+  ],
+  "sewage_rate": 100.0,
+  "sewage_mode": 1,
+  "tma_annual": 10.0,
+  "inflation_annual": 4.0,
+  "optima": {
+    "technical_volume_l": 2000.0,
+    "economic_volume_l": 4500.0,
+    "environmental_volume_l": 1500.0,
+    "topsis_recommended_l": 2500.0
+  }
+}

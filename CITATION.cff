@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "Netuno 5"
+message: "Se este software for usado em trabalho acadêmico, por favor cite-o conforme abaixo."
+type: software
+authors:
+  - family-names: Ghisi
+    given-names: Enedir
+    affiliation: "Universidade Federal de Santa Catarina"
+  - family-names: Cordova
+    given-names: "Marcelo Marcel"
+    affiliation: "Universidade Federal de Santa Catarina"
+version: "5.0.7"
+date-released: "2026-09-07"
+license: MIT
+abstract: >-
+  Plataforma computacional para dimensionamento e simulação de sistemas de
+  aproveitamento de água de chuva em edificações, com balanço hídrico diário
+  Yield-After-Spill, análise econômico-financeira sobre base tarifária auditada
+  de 652 municípios brasileiros, avaliação simplificada de ciclo de vida e
+  tomada de decisão multicritério por TOPSIS e SMAA-VIKOR. Desenvolvida pelo
+  Grupo de Pesquisa Gestão do Espaço Sustentável da UFSC como evolução e
+  replicação do Netuno 4.
+keywords:
+  - rainwater-harvesting
+  - water-conservation
+  - sustainability
+  - life-cycle-assessment
+  - multi-criteria-decision-making
+  - topsis
+  - engineering-economics
+repository-code: "https://github.com/ufsc-gestao-espaco-sustentavel/netuno"

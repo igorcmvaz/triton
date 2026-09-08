@@ -1,0 +1,80 @@
+{
+  "format_version": "5.0",
+  "software_version": "5.0.7",
+  "case_id": "2",
+  "title": "Edifício Corporativo EcoOffice",
+  "typology": "Comercial / Escritórios",
+  "climate_city": "Brasilia2",
+  "rain_file": "Brasilia2.csv",
+  "rain_sha256": "fb121ac5e308c6a009111ba20408d0a7e27363bddeca5404b29cae3cf864d54d",
+  "area": 650.0,
+  "runoff": 0.9,
+  "discard": 2.0,
+  "discard_mode": 2,
+  "discard_days": 7,
+  "residents": 80,
+  "demand": 50.0,
+  "share": 65.0,
+  "upper_vol": 3000.0,
+  "upper_used": true,
+  "pump_thresh_pct": 15.0,
+  "sweep_max": 50000.0,
+  "sweep_step": 2500.0,
+  "delta_ideal": 3.0,
+  "lower_tank_material": "CONCRETO",
+  "upper_tank_material": "PRFV",
+  "pipes_list": [
+    [
+      150,
+      40.0
+    ],
+    [
+      75,
+      35.0
+    ]
+  ],
+  "pump_power_kw": 1.1,
+  "pump_flow_rate": 7200.0,
+  "pump_efficiency": 65.0,
+  "pump_count": 2,
+  "elec_tariff": 1.05,
+  "chlorine_treatment_enabled": true,
+  "chlorine_dose_mg_l": 3.0,
+  "chlorine_cost_per_kg": 20.0,
+  "water_tariffs": [
+    [
+      0.0,
+      10.0,
+      7.8,
+      0
+    ],
+    [
+      10.0,
+      25.0,
+      15.6,
+      0
+    ],
+    [
+      25.0,
+      50.0,
+      22.4,
+      0
+    ],
+    [
+      50.0,
+      999999.0,
+      28.9,
+      0
+    ]
+  ],
+  "sewage_rate": 100.0,
+  "sewage_mode": 1,
+  "tma_annual": 12.0,
+  "inflation_annual": 4.5,
+  "optima": {
+    "technical_volume_l": 5000.0,
+    "economic_volume_l": 25000.0,
+    "environmental_volume_l": 2500.0,
+    "topsis_recommended_l": 10000.0
+  }
+}
