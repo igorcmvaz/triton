@@ -75,15 +75,22 @@ python tarifas/atualizar_tarifas.py --detect-changes
 | Arquivo | Descrição |
 | :--- | :--- |
 | 🐍 **`atualizar_tarifas.py`** | **Script principal de atualização automática, webscraping e monitoramento de mudanças.** |
-| 🐍 **`audit_tariffs.py`** | Motor detalhado de auditoria de consistência, cálculo de scores de confiança (A, B, C, D) e validação de faixas. |
 | 📊 **`catalogo_tarifas_auditado_652.xlsx`** | Planilha Excel oficial formatada contendo o resumo consolidado de todas as 652 cidades. |
 | 📄 **`catalogo_tarifas_auditado_652.csv`** | Versão em texto plano (CSV) do catálogo das 652 cidades para leitura rápida por scripts. |
 | 📄 **`tarifas_detalhadas_auditadas.csv`** | Base de dados exaustiva com todas as faixas tarifárias (m³), cobranças mínimas, alíquotas de esgoto e fontes. |
 | 🗄️ **`validated_cidades_50k.json`** | Banco de dados mestre estruturado em JSON com as coordenadas, prestadores e parâmetros de cada cidade. |
-| 🐍 **`generate_uf_tariffs_breakdown.py`** | Gera gráficos e tabelas de dispersão de tarifas por Unidade da Federação. |
-| 🐍 **`plot_tariff_tiers_summary.py`** | Gera gráficos da estrutura de blocos e faixas progressivas de consumo. |
 | 📖 **`FONTES_E_METODOLOGIA.md`** | Documentação completa com as fontes primárias oficiais (ANEEL, SINISA, Agências Reguladoras). |
 | 📖 **`PANORAMA_TARIFAS_E_CONFIABILIDADE.md`** | Panorama analítico com as estatísticas de auditoria e confiabilidade do catálogo. |
+
+> **Onde ficam os demais scripts.** `audit_tariffs.py`, `generate_uf_tariffs_breakdown.py`,
+> `plot_tariff_tiers_summary.py` e `build_tariff_workbook.mjs` existiam em cópias idênticas
+> aqui e em [`../scripts/`](../scripts/). Passaram a existir apenas em `scripts/`, que é o
+> diretório de scripts do projeto; duas cópias do mesmo arquivo divergem com o tempo.
+>
+> **Onde fica o banco tarifário.** O arquivo `brazil_cities_tariffs.json` é único e vive em
+> [`../netuno/data/`](../netuno/data/), dentro do pacote — ver
+> [`../docs/verificacao_e_validacao.md`](../docs/verificacao_e_validacao.md) §6 para o
+> defeito que a duplicação anterior causou.
 
 ---
 

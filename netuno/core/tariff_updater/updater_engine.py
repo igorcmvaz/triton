@@ -22,7 +22,7 @@ class TariffUpdateEngine:
 
     def __init__(self, root_dir: Optional[Path] = None):
         self.root_dir = root_dir or Path(__file__).resolve().parents[3]
-        self.json_db_path = self.root_dir / "data" / "tarifas" / "brazil_cities_tariffs.json"
+        self.json_db_path = self.root_dir / "netuno" / "data" / "brazil_cities_tariffs.json"
         self.csv_catalog_path = self.root_dir / "tarifas" / "catalogo_tarifas_auditado_652.csv"
         
         self.aneel_updater = AneelTariffUpdater(cache_dir=self.root_dir / "tmp")

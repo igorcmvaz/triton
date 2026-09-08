@@ -26,7 +26,7 @@ if hasattr(sys.stdout, "reconfigure"):
         pass
 
 ROOT = Path(__file__).resolve().parent.parent
-DB_PATH = ROOT / "data" / "tarifas" / "brazil_cities_tariffs.json"
+DB_PATH = ROOT / "netuno" / "data" / "brazil_cities_tariffs.json"
 OUT_DIR = ROOT / "outputs"
 
 
