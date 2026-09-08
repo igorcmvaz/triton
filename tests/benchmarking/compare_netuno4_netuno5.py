@@ -18,15 +18,24 @@ from netuno.core.parser import load_precipitation
 from netuno.core.simulation import run_sweep_simulation
 
 
-def run_benchmark_comparison(planilha_path: str) -> Dict[str, Any]:
+def run_benchmark_comparison(planilha_path: str, limite_de_casos: int = 0) -> Dict[str, Any]:
     """
     Lê um arquivo de planilha CSV exportado do Netuno 4 e roda as mesmas configurações no Netuno 5,
     retornando métricas estatísticas comparativas detalhadas.
+
+    ``limite_de_casos`` maior que zero restringe a comparação às primeiras N linhas.
+    A comparação completa percorre uma varredura de volumes por caso e leva cerca de
+    40 s com os kernels acelerados — e mais de dez minutos sem eles. O limite existe
+    para que a suíte padrão possa verificar o arranjo de comparação sem pagar esse
+    custo; a amostra é determinística, e não aleatória, para que a execução seja
+    reproduzível.
     """
     if not os.path.exists(planilha_path):
         return {"status": "error", "message": f"Arquivo não encontrado: {planilha_path}"}
 
     df_plan = pd.read_csv(planilha_path, sep=';', decimal=',', encoding='latin1', engine='python')
+    if limite_de_casos > 0:
+        df_plan = df_plan.head(limite_de_casos)
     precip_dir = os.path.join(BASE_DIR, "data", "rainfall")
 
     results_comparison = []

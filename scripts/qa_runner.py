@@ -56,6 +56,9 @@ CAMADAS = {
                 "tests/invariants/test_numba_python_parity.py"],
     "ui": ["tests/ui"],
     "benchmarking": ["tests/benchmarking"],
+    # Comparação completa contra os resultados oficiais do Netuno 4 (4.050 casos).
+    # Excluída da execução padrão por ser lenta; ver pyproject.toml, addopts.
+    "replicacao": ["tests/benchmarking", "-m", "replicacao"],
 }
 
 
