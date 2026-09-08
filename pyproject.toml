@@ -57,6 +57,19 @@ dev = [
     "time-machine>=2.14.0",
 ]
 
+# Aceleração opcional do balanço hídrico diário (kernels JIT).
+#
+# Sem numba o programa usa o kernel Python de referência, e os resultados são os
+# mesmos: a paridade entre as duas implementações é verificada por
+# tests/invariants/test_numba_python_parity.py.
+#
+# O ganho é de 107x a 267x. Em uso interativo é imperceptível (a varredura mais
+# pesada leva 0,48 s em Python puro); em estudos de lote é a diferença entre
+# minutos e horas. Instale com:  pip install -e ".[acelerado]"
+acelerado = [
+    "numba>=0.59.0",
+]
+
 [project.scripts]
 netuno = "netuno.cli:main"
 netuno-gui = "main:main"
