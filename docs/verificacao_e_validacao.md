@@ -27,12 +27,13 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 364 testes, 0 falhas (mais 3 de replicação sob demanda) |
+| Suíte de testes | 378 testes, 0 falhas (mais 3 de replicação sob demanda) |
 | Cobertura do núcleo de cálculo | 84% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
 | Aderência ao Netuno 4 | MAE de 2,29 a 2,71 pp em 4.050 casos de referência (§5) |
+| Banco tarifário | 465 cidades divergentes reconciliadas; insensíveis ao consumo: 43 → 7 (§6) |
 | Diferença metodológica declarada | o descarte de primeira chuva subtrai a lâmina, ao contrário do Netuno 4 (§5.5) |
 
 O motor hidrológico está **correto nos dois caminhos de execução**. O defeito detectado no
@@ -394,7 +395,92 @@ sem eles, e por isso fica fora da suíte padrão, que roda uma amostra determin�
 
 ---
 
-## 6. Correção aplicada nesta apuração
+## 6. Correção do banco tarifário
+
+### 6.1 O defeito
+
+Existiam **duas cópias divergentes** de `brazil_cities_tariffs.json` — uma em
+`data/tarifas/` e outra em `netuno/data/` — e o carregador preferia a primeira. Elas
+discordavam em **465 das 652 cidades**.
+
+A divergência estava sempre na **primeira faixa progressiva**:
+
+- na cópia carregada, 464 cidades tinham essa faixa com tarifa **zerada**;
+- na cópia do pacote, nenhuma tinha, mas 324 guardavam ali o valor `taxa fixa ÷ largura
+  da faixa`, que somado à própria taxa fixa **cobrava o consumo inicial duas vezes**.
+
+Nenhuma das duas estava certa, porque a primeira faixa tem dois significados distintos
+conforme o prestador: pode ser consumo já coberto pela tarifa mínima (aí a tarifa por m³
+deve ser zero) ou pode ter tarifa volumétrica própria (aí zerar perde cobrança real).
+
+### 6.2 Consequência
+
+Onde a faixa zerada era a única, a conta ficava **totalmente insensível ao consumo**:
+economizar água não reduzia a fatura, e o Netuno calculava retorno econômico nulo para
+qualquer sistema, por melhor que fosse o desempenho hídrico. Isso ocorria em 43
+municípios (6,6%).
+
+Nos demais, o efeito era mais discreto e mais insidioso: a conta continuava crescendo
+pelas faixas superiores, mas **subestimava** o custo do consumo inicial — justamente a
+faixa onde se concentra o consumo residencial típico.
+
+### 6.3 A correção
+
+`scripts/reconciliar_tarifas.py` reconstrói a primeira faixa a partir de
+`tarifas/tarifas_detalhadas_auditadas.csv`, a base auditada com procedência e grau de
+confiança por município. O critério é documental, não aritmético:
+
+- a base registra tarifa por m³ para a menor faixa → tarifa genuína, restaurada;
+- a base registra apenas tarifa mínima → faixa coberta pelo fixo, mantida em zero.
+
+Três particularidades exigiram tratamento explícito:
+
+| Situação | Municípios | Tratamento |
+| :--- | ---: | :--- |
+| A primeira linha do CSV é o rótulo `Tarifa fixa`, não a menor faixa | 65 | seleção pela menor faixa, e não pela ordem do arquivo |
+| Faixa inicial descrita como `Até N m³` (SANEPAR) | 34 | interpretada como faixa de 0 a N |
+| Duas tabelas concorrentes para a mesma faixa (ES/Aracruz, «SAAE / CESAN conforme área») | 1 | **não alterada** — escolher uma seria arbitrar qual concessionária atende o imóvel |
+
+Corrigiu-se também a parcela fixa de quatro municípios do Piauí, que declaravam
+R$ 52,89 inexistentes na base auditada, duplicando a cobrança da primeira faixa.
+
+### 6.4 Resultado
+
+| Indicador | Antes | Depois |
+| :--- | ---: | ---: |
+| Municípios com conta insensível ao consumo | 43 (6,6%) | **7 (1,1%)** |
+| Cidades com faixas divergentes entre as duas cópias | 465 | **1** (a ambígua) |
+| Cidades com tarifa alterada | — | 140 |
+
+Entre as 140 cidades alteradas, a conta de 15 m³ **subiu em 136 e não caiu em nenhuma**,
+com variação mediana de **+74,7%**. A leitura é direta: as contas estavam subestimadas, e
+com elas a economia atribuída ao aproveitamento de água de chuva. **Estudos econômicos
+executados antes desta correção subestimam o retorno nesses municípios.**
+
+### 6.5 Ressalva sobre a CORSAN
+
+Trinta e seis dos municípios corrigidos são atendidos pela CORSAN, cuja estrutura
+tarifária é **exponencial**: a base auditada registra que «o faturamento de água usa
+PB×Cⁿ acrescido do serviço básico». O expoente `n` **não consta** da base auditada, que
+resume a tarifa como «R$ 9,15/m³ + R$ 43,39/mês» — uma aproximação linear feita pelos
+próprios auditores.
+
+A correção adota essa aproximação, o que é inequivocamente melhor que a tarifa nula
+anterior, mas **não é exato**: se `n < 1`, a forma linear superestima a conta em consumos
+altos. Antes de publicar resultados econômicos para municípios da CORSAN, convém
+confrontar a conta calculada com uma fatura real.
+
+### 6.6 Os sete municípios remanescentes
+
+Em MG (Mariana, Sete Lagoas, Viçosa) e SP (Bauru, Bebedouro, Pirassununga, São José do
+Rio Pardo) a própria base auditada registra apenas a tarifa mínima, sem parcela
+volumétrica. Não é erro de conversão: é lacuna de fonte primária. Ficam registrados em
+`tests/unit/test_tariffs_structure.py`, num teste que falha tanto se a lista crescer
+quanto se um deles for corrigido sem atualizar o registro.
+
+---
+
+## 7. Correção aplicada nesta apuração
 
 `tests/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
 **SP/Americana (DAE Americana)**, por asseverar `is_fix ∈ [−1, 1]`.
@@ -409,7 +495,7 @@ Distribuição no catálogo das 652 cidades: `is_fix = 1` em 3.510 faixas, `−1
 
 ---
 
-## 7. Limitações desta verificação
+## 8. Limitações desta verificação
 
 Registradas explicitamente para que o relatório não seja lido além do que sustenta:
 
@@ -426,7 +512,7 @@ Registradas explicitamente para que o relatório não seja lido além do que sus
 
 ---
 
-## 8. Como reproduzir
+## 9. Como reproduzir
 
 ```bash
 # suíte completa com cobertura
