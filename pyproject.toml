@@ -75,7 +75,11 @@ dev = [
 # pesada leva 0,48 s em Python puro); em estudos de lote é a diferença entre
 # minutos e horas. Instale com:  pip install -e ".[acelerado]"
 acelerado = [
-    "numba>=0.59.0",
+    # Piso em 0.62 por compatibilidade de numpy, não por recurso do numba:
+    # versões anteriores exigem numpy<2.2 e o pip as resolve rebaixando um numpy
+    # 2.3 já instalado. A partir de 0.62 o requisito é numpy<2.6, e a instalação
+    # do extra deixa de mexer no ambiente existente.
+    "numba>=0.62",
 ]
 
 [project.scripts]
