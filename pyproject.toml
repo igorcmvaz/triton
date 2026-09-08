@@ -98,7 +98,15 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-q"
+# A comparação completa de replicação contra o Netuno 4 percorre milhares de
+# varreduras e leva de 40 s (com numba) a mais de dez minutos (sem). Fica fora da
+# execução padrão e é chamada sob demanda:
+#     pytest -m replicacao
+#     python scripts/qa_runner.py --layer replicacao
+addopts = "-q -m 'not replicacao'"
+markers = [
+    "replicacao: comparação completa contra os resultados oficiais do Netuno 4 (lenta)",
+]
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::UserWarning",
