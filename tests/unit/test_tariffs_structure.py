@@ -20,7 +20,9 @@ Registro de municípios afetados
 -------------------------------
 A apuração de 8 de setembro de 2026 encontrou 43 municípios (6,6%) com tarifa insensível
 ao consumo. A reconciliação com a base auditada
-(`scripts/reconciliar_tarifas.py`) corrigiu 36 deles, e restam **7 (1.1%)**.
+(`scripts/reconciliar_tarifas.py`) corrigiu 36 deles. Em seguida,
+`scripts/completar_tarifas_faltantes.py` obteve em fonte primária as tabelas de Viçosa
+e Bauru, restando **5 (0.8%)**.
 
 Os remanescentes não são erro de conversão: a própria base auditada só registra para eles
 a tarifa mínima, sem parcela volumétrica. Corrigi-los exige consultar as resoluções
@@ -51,8 +53,6 @@ from netuno.core.tariffs_structure import (
 SEM_RESPOSTA_AO_CONSUMO = {
     ("MG", "Mariana"),  # SAAE Mariana
     ("MG", "Sete Lagoas"),  # SAAE Sete Lagoas
-    ("MG", "Viçosa"),  # SAAE Viçosa
-    ("SP", "Bauru"),  # DAE Bauru
     ("SP", "Bebedouro"),  # SAAEB Ambiental
     ("SP", "Pirassununga"),  # SAEP Pirassununga
     ("SP", "São José do Rio Pardo"),  # SAERP São José do Rio Pardo

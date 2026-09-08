@@ -16765,7 +16765,7 @@
       "regiao": "Sudeste",
       "prestador_saneamento": "SAAE Viçosa",
       "agencia_reguladora": "ARIS-MG",
-      "vigencia_saneamento": "Vigente em 19/08/2026",
+      "vigencia_saneamento": "Resolução ARIS-MG nº 227/2026",
       "fonte_url": "https://www.saaevicosa.mg.gov.br/pagina/89/tarifas",
       "confianca_grau": "B — boa",
       "confianca_score": 80.0,
@@ -16778,6 +16778,48 @@
           5.0,
           2.817,
           1
+        ],
+        [
+          5.0,
+          10.0,
+          2.9296,
+          1
+        ],
+        [
+          10.0,
+          15.0,
+          3.1388,
+          1
+        ],
+        [
+          15.0,
+          20.0,
+          7.0343,
+          1
+        ],
+        [
+          20.0,
+          40.0,
+          7.0343,
+          1
+        ],
+        [
+          40.0,
+          60.0,
+          9.7387,
+          1
+        ],
+        [
+          60.0,
+          300.0,
+          10.3342,
+          1
+        ],
+        [
+          300.0,
+          999999.0,
+          10.9458,
+          1
         ]
       ],
       "faixas_desc": "0–5 m³: R$ 2.82/m³",
@@ -16788,7 +16830,13 @@
       "status_energia": "AUTO_UPDATED",
       "update_status_sanitation": "MANUAL_REVIEW_NEEDED",
       "status_desc_sanitation": "Prestador local (SAAE Viçosa). Recomenda-se conferência manual do decreto municipal no portal oficial.",
-      "status_global": "MANUAL_REVIEW_NEEDED"
+      "status_global": "MANUAL_REVIEW_NEEDED",
+      "procedencia_tarifa": {
+        "fonte": "https://www.saaevicosa.mg.gov.br/pagina/89/tarifas",
+        "ato": "Resolução ARIS-MG nº 227/2026",
+        "consultado_em": "2026-09-08",
+        "observacao": "Tabela residencial completa, com oito faixas. A primeira faixa (2,8170) já constava do catálogo e confere com a fonte, o que corrobora a leitura das demais. A Tarifa Básica Operacional (TBO) de R$ 26,57 NÃO foi incluída: a documentação do SAAE a associa ao esgoto, e incluí-la como parcela fixa de água exigiria confirmação."
+      }
     },
     "MS - Campo Grande": {
       "municipio": "Campo Grande",
@@ -33929,7 +33977,7 @@
       "regiao": "Sudeste",
       "prestador_saneamento": "DAE Bauru",
       "agencia_reguladora": "DAE Bauru",
-      "vigencia_saneamento": "Tabela 2026 vigente em 19/08/2026",
+      "vigencia_saneamento": "Resolução nº 02, de 11/02/2026",
       "fonte_url": "https://www.daebauru.sp.gov.br/conta_agua.php?item=CA1",
       "confianca_grau": "A — alta",
       "confianca_score": 93.0,
@@ -33939,14 +33987,14 @@
       "faixas": [
         [
           0.0,
-          0.0,
+          6.0,
           19.37,
-          -1
+          -2
         ],
         [
-          0.0,
           6.0,
-          0.0,
+          999999.0,
+          3.23,
           1
         ]
       ],
@@ -33958,7 +34006,13 @@
       "status_energia": "AUTO_UPDATED",
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
-      "status_global": "AUTO_OR_VERIFIED"
+      "status_global": "AUTO_OR_VERIFIED",
+      "procedencia_tarifa": {
+        "fonte": "https://www.daebauru.sp.gov.br/conta_agua.php?item=CA1",
+        "ato": "Resolução nº 02, de 11/02/2026",
+        "consultado_em": "2026-09-08",
+        "observacao": "A franquia de R$ 19,37 até 6 m³ já constava do catálogo e confere com a fonte. A marginal de R$ 3,23/m³ é confirmada pelos degraus publicados (7 m³ = R$ 22,60; 8 m³ = R$ 25,82; 9 m³ = R$ 29,05), cujas diferenças são 3,23, 3,22 e 3,23. ATENÇÃO: a tabela oficial segue por degraus até 100 m³ com valores crescentes, e apenas os primeiros foram lidos. A marginal constante adotada é, portanto, um PISO — subestima a conta em consumos altos, e com ela a economia. É conservadora, e melhor que a ausência anterior de qualquer parcela volumétrica, mas não é a tabela integral."
+      }
     },
     "SP - Bebedouro": {
       "municipio": "Bebedouro",
