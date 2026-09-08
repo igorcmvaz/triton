@@ -212,16 +212,16 @@ def figura_divergencia_kernels():
 # Figura 3 — cobertura de testes por módulo do núcleo
 # --------------------------------------------------------------------------------------
 def figura_cobertura():
-    # Medição de 2026-09-07 (pytest-cov sobre netuno.core)
+    # Medição de 2026-09-08 (pytest-cov sobre netuno.core), após a campanha de cobertura.
     modulos = [
-        ("excel_scenarios", 14), ("change_detector", 24), ("scenarios", 33),
-        ("cost_estimates", 63), ("environmental_sync", 64), ("simulation", 70),
-        ("tariff_updater/aneel", 71), ("updater_engine", 73), ("tariffs_database", 75),
-        ("environmental_justif.", 79), ("simulation_excel_exp.", 78),
+        ("cost_estimates", 63), ("environmental_sync", 64), ("excel_scenarios", 66),
+        ("change_detector", 70), ("aneel_updater", 71), ("simulation", 72),
+        ("updater_engine", 73), ("tariffs_database", 75),
+        ("simulation_excel_exp.", 78), ("environmental_justif.", 79),
         ("climate_database", 82), ("report_generator", 83), ("water_quality", 84),
-        ("economic", 87), ("parser", 87), ("esg_certifications", 90),
-        ("cad_exporter", 94), ("environmental", 95), ("mcdm_methods", 95),
-        ("topsis", 98), ("report_service", 100),
+        ("parser", 87), ("scenarios", 88), ("esg_certifications", 90),
+        ("cad_exporter", 94), ("economic", 95), ("mcdm_methods", 95),
+        ("environmental", 96), ("topsis", 98), ("report_service", 100),
     ]
     modulos.sort(key=lambda x: x[1])
     nomes = [m[0] for m in modulos]
@@ -251,8 +251,8 @@ def figura_cobertura():
     ax.grid(axis="y", visible=False)
 
     fig.text(0.01, 0.005,
-             "Vermelho: abaixo de 50%.  Laranja: entre 50% e a meta.  Azul: na meta ou acima.  "
-             "Total do núcleo: 81%.",
+             "Laranja: entre 50% e a meta.  Azul: na meta ou acima.  Nenhum módulo abaixo de 50%.  "
+             "Total do núcleo: 84%.",
              ha="left", fontsize=8, color=TINTA_SUAVE)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     destino = FIGURAS / "fig03_cobertura_por_modulo.png"

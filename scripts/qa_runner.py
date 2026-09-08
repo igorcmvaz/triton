@@ -38,13 +38,15 @@ COBERTURA_MINIMA_PADRAO = 80
 # média agregada passe — a média esconde concentração de risco.
 PISO_POR_MODULO = 50
 
-# Módulos sabidamente abaixo do piso em 5.0.7, com correção planejada. Enquanto constarem
-# aqui, não reprovam a execução, mas são sempre listados no relatório.
-DIVIDA_TECNICA_CONHECIDA = {
-    "netuno/core/excel_scenarios.py",
-    "netuno/core/scenarios.py",
-    "netuno/core/tariff_updater/change_detector.py",
-}
+# Módulos isentos do piso por dívida técnica reconhecida. Enquanto constarem aqui, não
+# reprovam a execução, mas são sempre listados no relatório.
+#
+# A lista está vazia desde 2026-09-08: os três módulos que a ocupavam foram cobertos e
+# passaram a responder ao piso como os demais.
+#   excel_scenarios      14% -> 66%
+#   scenarios            33% -> 88%
+#   change_detector      24% -> 70%
+DIVIDA_TECNICA_CONHECIDA: set[str] = set()
 
 CAMADAS = {
     "all": ["tests"],
