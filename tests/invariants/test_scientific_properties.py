@@ -183,3 +183,91 @@ def test_serie_sem_chuva_nao_produz_aproveitamento():
     assert res.potential_potable_savings_pct == 0.0
     assert res.avg_pluvial_consumed_l_day == 0.0
     assert res.total_overflow_liters == 0.0
+
+
+# ---------------------------------------------------------------------------------
+# P10 — Semântica do descarte de primeira chuva
+#
+# Trava uma decisão de modelagem, não um detalhe de implementação. O descarte subtrai
+# a lâmina da precipitação do evento — `Pef = max(0, Pt − df)` — porque a água desviada
+# para o dispositivo não chega à cisterna.
+#
+# O Netuno 4 usava outro tratamento: `df` como limiar, aproveitando `Pt` integralmente
+# sempre que `Pt ≥ df`. A diferença é deliberada e responde por cerca de 46% do viés
+# medido contra o Netuno 4 (ver docs/verificacao_e_validacao.md §5.5).
+#
+# Estes testes existem para que a semântica não seja revertida por engano, ao ser
+# confundida com defeito.
+# ---------------------------------------------------------------------------------
+
+def test_descarte_subtrai_a_lamina_e_nao_atua_como_limiar():
+    """P10 — Com chuva uniforme acima do limiar, o descarte reduz proporcionalmente.
+
+    Sob o tratamento por limiar do Netuno 4, uma série em que toda chuva excede `df`
+    seria aproveitada integralmente e o descarte não teria efeito algum. Sob a
+    subtração, cada evento perde exatamente `df` mm.
+    """
+    chuva = np.full(730, 10.0)  # todo dia chove 10 mm, sempre acima do descarte
+    parametros = dict(
+        precip_data=chuva, area=100.0, runoff_coeff=1.0, discard_mode=1,
+        total_demand_per_day=2000.0, rainwater_share=1.0,
+    )
+
+    sem_descarte = run_single_simulation(lower_tank_vol=1e9, discard_mm=0.0, **parametros)
+    com_descarte = run_single_simulation(lower_tank_vol=1e9, discard_mm=2.0, **parametros)
+
+    assert com_descarte.avg_pluvial_consumed_l_day < sem_descarte.avg_pluvial_consumed_l_day, (
+        "o descarte não reduziu o aproveitamento: o motor está tratando `df` como "
+        "limiar (comportamento do Netuno 4) em vez de subtrair a lâmina"
+    )
+
+    # Com área de 100 m², coeficiente 1,0 e reservatório irrestrito, subtrair 2 mm
+    # equivale a 200 L/dia a menos de captação.
+    perda_observada = (sem_descarte.avg_pluvial_consumed_l_day
+                       - com_descarte.avg_pluvial_consumed_l_day)
+    assert perda_observada == pytest.approx(200.0, rel=1e-3), (
+        f"perda de {perda_observada:.2f} L/dia; esperada 200 L/dia (2 mm × 100 m² × 1,0)"
+    )
+
+
+def test_chuva_abaixo_do_descarte_nao_e_captada():
+    """P10b — Evento menor que a lâmina de descarte não rende captação alguma."""
+    chuva = np.full(365, 1.5)  # todo evento abaixo do descarte de 3 mm
+    resultado = run_single_simulation(
+        precip_data=chuva, lower_tank_vol=10000.0, area=100.0, runoff_coeff=1.0,
+        discard_mm=3.0, discard_mode=1, total_demand_per_day=500.0, rainwater_share=1.0,
+    )
+    assert resultado.avg_pluvial_consumed_l_day == pytest.approx(0.0, abs=1e-9)
+
+
+@pytest.mark.parametrize("modo,descricao", [
+    (1, "todos os eventos"),
+    (2, "primeiro evento após estiagem"),
+    (3, "periodicidade de manutenção"),
+])
+def test_modos_de_descarte_diferem_apenas_na_frequencia(modo, descricao):
+    """P10c — Os modos mudam em quais dias o descarte age, não a fórmula.
+
+    Numa série com dias secos intercalados, o modo 1 descarta em todo evento e os
+    modos 2 e 3 em subconjuntos dele. Logo o modo 1 nunca aproveita mais água que os
+    demais sob a mesma lâmina.
+    """
+    rng = np.random.default_rng(11)
+    chuva = rng.exponential(scale=8.0, size=1095)
+    chuva[rng.random(1095) < 0.45] = 0.0  # intercala estiagens
+
+    parametros = dict(
+        precip_data=chuva, lower_tank_vol=8000.0, area=120.0, runoff_coeff=0.9,
+        discard_mm=4.0, discard_days_interval=7,
+        total_demand_per_day=700.0, rainwater_share=0.5,
+    )
+
+    todos_os_eventos = run_single_simulation(discard_mode=1, **parametros)
+    avaliado = run_single_simulation(discard_mode=modo, **parametros)
+
+    assert avaliado.avg_pluvial_consumed_l_day >= (
+        todos_os_eventos.avg_pluvial_consumed_l_day - 1e-9
+    ), (
+        f"o modo {modo} ({descricao}) aproveitou menos água que o modo 1, que descarta "
+        "em todos os eventos — a frequência de descarte está invertida"
+    )
