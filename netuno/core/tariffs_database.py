@@ -66,31 +66,36 @@ CATEGORIAS_TARIFARIAS: Dict[str, Dict[str, Any]] = {
 }
 
 
+#: Nome do arquivo do banco tarifário, único em toda a distribuição.
+NOME_DO_BANCO = "brazil_cities_tariffs.json"
+
+
 def _find_database_file() -> str:
-    """Localiza o arquivo JSON de tarifas em tempo de execução ou no executável PyInstaller."""
-    candidates = []
-    
-    # 1. Se estiver rodando empacotado via PyInstaller
-    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        candidates.append(os.path.join(sys._MEIPASS, 'data', 'tarifas', 'brazil_cities_tariffs.json'))
-        candidates.append(os.path.join(sys._MEIPASS, 'netuno', 'data', 'brazil_cities_tariffs.json'))
-        candidates.append(os.path.join(sys._MEIPASS, 'data', 'brazil_cities_tariffs.json'))
-        
-    # 2. Localização relativa ao módulo atual
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    curr_dir = os.path.dirname(os.path.abspath(__file__))
-    candidates.append(os.path.join(base_dir, 'data', 'tarifas', 'brazil_cities_tariffs.json'))
-    candidates.append(os.path.join(base_dir, 'netuno', 'data', 'brazil_cities_tariffs.json'))
-    candidates.append(os.path.join(curr_dir, '..', 'data', 'brazil_cities_tariffs.json'))
-    candidates.append(os.path.join('data', 'tarifas', 'brazil_cities_tariffs.json'))
-    candidates.append(os.path.join('netuno', 'data', 'brazil_cities_tariffs.json'))
-    
-    for path in candidates:
-        if os.path.isfile(path):
-            return os.path.normpath(path)
-            
+    """Localiza o banco tarifário, em execução normal ou empacotado com PyInstaller.
+
+    O banco é **único** e vive dentro do pacote, em ``netuno/data/``. Assim ele
+    acompanha tanto a instalação por ``pip`` (via ``package-data``) quanto o executável
+    congelado, e o atualizador tarifário escreve exatamente no arquivo que o programa lê.
+
+    Até a versão 5.0.7 havia duas cópias — ``data/tarifas/`` e ``netuno/data/`` — ambas
+    empacotadas, com esta busca preferindo a primeira. Elas divergiram em 465 das 652
+    cidades sem que nada acusasse, e a cópia lida tinha a primeira faixa tarifária
+    zerada em 464 delas. Manter uma única cópia elimina a classe do problema; o teste
+    `tests/unit/test_tariffs_structure.py` impede o reaparecimento de uma segunda.
+    """
+    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    candidatos = []
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        candidatos.append(os.path.join(sys._MEIPASS, "netuno", "data", NOME_DO_BANCO))
+    candidatos.append(os.path.join(diretorio_do_pacote, "data", NOME_DO_BANCO))
+
+    for caminho in candidatos:
+        if os.path.isfile(caminho):
+            return os.path.normpath(caminho)
+
     raise FileNotFoundError(
-        "Arquivo 'brazil_cities_tariffs.json' não encontrado nos caminhos de busca: " + str(candidates)
+        f"Banco tarifário '{NOME_DO_BANCO}' não encontrado. Caminhos consultados: {candidatos}"
     )
 
 

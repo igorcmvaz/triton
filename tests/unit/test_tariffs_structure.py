@@ -30,9 +30,12 @@ O registro abaixo existe para que a lista não cresça sem ser notada e para que
 que incluam esses municípios saibam que ali a economia monetária calculada será nula.
 """
 
+from pathlib import Path
+
 import pytest
 
 from netuno.core.tariffs_database import (
+    _find_database_file,
     get_available_ufs,
     get_cities_by_uf,
     get_city_data,
@@ -83,6 +86,48 @@ def test_todos_os_codigos_do_catalogo_sao_conhecidos():
 def test_catalogo_cobre_as_652_cidades():
     """A contagem do catálogo não pode encolher sem que se perceba."""
     assert sum(1 for _ in _todas_as_cidades()) == 652
+
+
+def test_existe_uma_unica_copia_do_banco_tarifario():
+    """Trava a causa raiz do maior defeito de dados encontrado na 5.0.7.
+
+    Havia duas cópias de `brazil_cities_tariffs.json`, ambas empacotadas no executável,
+    e o carregador preferia a de `data/tarifas/`. Elas divergiram em 465 das 652 cidades
+    sem que nada acusasse: a cópia lida tinha a primeira faixa tarifária zerada em 464
+    delas, e a outra guardava ali um valor derivado que cobrava o consumo inicial duas
+    vezes. Duas fontes da verdade para o mesmo dado divergem por construção.
+
+    O banco agora é único e vive dentro do pacote, em `netuno/data/`, de modo que
+    acompanha tanto a instalação por `pip` quanto o executável congelado, e o
+    atualizador tarifário escreve exatamente no arquivo que o programa lê.
+    """
+    raiz = Path(__file__).resolve().parents[2]
+
+    # Varredura restrita aos diretórios que plausivelmente hospedariam o banco. Um
+    # rglob sobre a raiz percorreria os 37 mil arquivos da base climática e faria a
+    # suíte inteira levar minutos.
+    diretorios_candidatos = ["data", "netuno", "tarifas", "templates", "scripts"]
+    encontrados = sorted(
+        caminho.relative_to(raiz).as_posix()
+        for diretorio in diretorios_candidatos
+        if (raiz / diretorio).is_dir()
+        for caminho in (raiz / diretorio).rglob("brazil_cities_tariffs.json")
+    )
+    if (raiz / "brazil_cities_tariffs.json").is_file():
+        encontrados.append("brazil_cities_tariffs.json")
+
+    assert encontrados == ["netuno/data/brazil_cities_tariffs.json"], (
+        "o banco tarifário deve existir em exatamente um lugar, dentro do pacote. "
+        f"Encontrado em: {encontrados}"
+    )
+
+
+def test_o_banco_carregado_e_o_do_pacote():
+    """O arquivo efetivamente lido é o canônico, e não outro achado por acaso."""
+    caminho = Path(_find_database_file()).resolve()
+    esperado = (Path(__file__).resolve().parents[2]
+                / "netuno" / "data" / "brazil_cities_tariffs.json").resolve()
+    assert caminho == esperado, f"banco carregado de {caminho}, esperado {esperado}"
 
 
 def test_lista_de_municipios_sem_resposta_ao_consumo_nao_cresceu():

@@ -54,8 +54,8 @@ if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 
 BASE_AUDITADA = RAIZ / "tarifas" / "tarifas_detalhadas_auditadas.csv"
+# Cópia única do banco tarifário, dentro do pacote (ver tariffs_database._find_database_file).
 COPIAS = [
-    RAIZ / "data" / "tarifas" / "brazil_cities_tariffs.json",
     RAIZ / "netuno" / "data" / "brazil_cities_tariffs.json",
 ]
 
