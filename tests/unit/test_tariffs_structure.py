@@ -18,15 +18,16 @@ Duas verificações têm consequência científica direta:
 
 Registro de municípios afetados
 -------------------------------
-43 dos 652 municípios (6.6%) têm tarifa que não responde ao
-consumo, quase todos por terem a tarifa volumétrica registrada como ``0,0`` ao lado de
-uma taxa fixa de disponibilidade. A concentração no Rio Grande do Sul sugere que a
-estrutura da CORSAN foi transcrita apenas na parcela fixa.
+A apuração de 8 de setembro de 2026 encontrou 43 municípios (6,6%) com tarifa insensível
+ao consumo. A reconciliação com a base auditada
+(`scripts/reconciliar_tarifas.py`) corrigiu 36 deles, e restam **7 (1.1%)**.
 
-Estas cidades **não foram corrigidas**: obter a tarifa correta exige consultar as
-resoluções vigentes de cada prestador, o que é trabalho de fonte primária e não de
-verificação. O registro abaixo existe para que a lista não cresça sem ser notada e para
-que os estudos que incluam esses municípios saibam o que esperar.
+Os remanescentes não são erro de conversão: a própria base auditada só registra para eles
+a tarifa mínima, sem parcela volumétrica. Corrigi-los exige consultar as resoluções
+vigentes de cada prestador — trabalho de fonte primária, não de verificação.
+
+O registro abaixo existe para que a lista não cresça sem ser notada e para que os estudos
+que incluam esses municípios saibam que ali a economia monetária calculada será nula.
 """
 
 import pytest
@@ -48,42 +49,6 @@ SEM_RESPOSTA_AO_CONSUMO = {
     ("MG", "Mariana"),  # SAAE Mariana
     ("MG", "Sete Lagoas"),  # SAAE Sete Lagoas
     ("MG", "Viçosa"),  # SAAE Viçosa
-    ("RS", "Alegrete"),  # CORSAN
-    ("RS", "Alvorada"),  # CORSAN
-    ("RS", "Bento Gonçalves"),  # CORSAN
-    ("RS", "Cachoeira do Sul"),  # CORSAN
-    ("RS", "Cachoeirinha"),  # CORSAN
-    ("RS", "Camaquã"),  # CORSAN
-    ("RS", "Campo Bom"),  # CORSAN
-    ("RS", "Canoas"),  # CORSAN
-    ("RS", "Capão da Canoa"),  # CORSAN
-    ("RS", "Carazinho"),  # CORSAN
-    ("RS", "Cruz Alta"),  # CORSAN
-    ("RS", "Erechim"),  # CORSAN
-    ("RS", "Esteio"),  # CORSAN
-    ("RS", "Farroupilha"),  # CORSAN
-    ("RS", "Gravataí"),  # CORSAN
-    ("RS", "Guaíba"),  # CORSAN
-    ("RS", "Ijuí"),  # CORSAN
-    ("RS", "Lajeado"),  # CORSAN
-    ("RS", "Montenegro"),  # CORSAN
-    ("RS", "Novo Hamburgo"),  # COMUSA Novo Hamburgo
-    ("RS", "Parobé"),  # CORSAN
-    ("RS", "Passo Fundo"),  # CORSAN
-    ("RS", "Rio Grande"),  # CORSAN
-    ("RS", "Santa Cruz do Sul"),  # CORSAN
-    ("RS", "Santa Maria"),  # CORSAN
-    ("RS", "Santa Rosa"),  # CORSAN
-    ("RS", "Santo Ângelo"),  # CORSAN
-    ("RS", "Sapiranga"),  # CORSAN
-    ("RS", "Sapucaia do Sul"),  # CORSAN
-    ("RS", "São Borja"),  # CORSAN
-    ("RS", "São Gabriel"),  # São Gabriel Saneamento S.A.
-    ("RS", "Taquara"),  # CORSAN
-    ("RS", "Tramandaí"),  # CORSAN
-    ("RS", "Vacaria"),  # CORSAN
-    ("RS", "Venâncio Aires"),  # CORSAN
-    ("RS", "Viamão"),  # CORSAN
     ("SP", "Bauru"),  # DAE Bauru
     ("SP", "Bebedouro"),  # SAAEB Ambiental
     ("SP", "Pirassununga"),  # SAEP Pirassununga
