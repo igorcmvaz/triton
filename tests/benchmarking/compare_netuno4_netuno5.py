@@ -103,8 +103,8 @@ def run_benchmark_comparison(planilha_path: str) -> Dict[str, Any]:
 if __name__ == "__main__":
     sample_plan = os.path.join(BASE_DIR, "data", "simulation_outputs", "SimulacaoManausSaoPaulo", "Planilha.csv")
     res = run_benchmark_comparison(sample_plan)
-    print("📊 Resultado do Benchmarking Netuno 4 vs Netuno 5:")
-    print(f"   • Total de Casos: {res.get('total_compared')}")
-    print(f"   • MAE (Erro Médio Absoluto): {res.get('mae_pct'):.4f}%")
-    print(f"   • RMSE (Raiz do Erro Quadrático Médio): {res.get('rmse_pct'):.4f}%")
-    print(f"   • Erro Máximo: {res.get('max_error_pct'):.4f}%")
+    print("Resultado do Benchmarking Netuno 4 vs Netuno 5:")
+    print(f"   - Total de Casos: {res.get('total_compared')}")
+    print(f"   - MAE (Erro Médio Absoluto): {res.get('mae_pct'):.4f}%")
+    print(f"   - RMSE (Raiz do Erro Quadrático Médio): {res.get('rmse_pct'):.4f}%")
+    print(f"   - Erro Máximo: {res.get('max_error_pct'):.4f}%")
