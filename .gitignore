@@ -64,6 +64,8 @@ data/simulation_outputs/**
 !data/simulation_outputs/
 !data/simulation_outputs/*/
 !data/simulation_outputs/**/Planilha.csv
+# Projetos exportados do Netuno 4 usados como fixture do parser (~1,9 KB cada).
+!data/simulation_outputs/*_Descarte*_Area*.csv
 
 # ---------------------------------------------------------------------------
 # Node / PNPM (versão web descontinuada — ver LegadoWeb/)

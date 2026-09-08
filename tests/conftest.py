@@ -74,6 +74,53 @@ MODULOS_QUE_EXIGEM_INTERFACE = [
 collect_ignore = [] if TEM_INTERFACE_GRAFICA else list(MODULOS_QUE_EXIGEM_INTERFACE)
 
 
+def _base_climatica_disponivel() -> bool:
+    """A base CMIP6 das 652 cidades está presente nesta instalação?
+
+    São ~6,5 GB e 37 mil arquivos, distribuídos separadamente do código: não cabem em
+    repositório. Um clone limpo — e portanto qualquer execução de integração contínua —
+    não os tem.
+    """
+    try:
+        from netuno.core.climate_database import get_climate_database_dir
+
+        return os.path.isdir(get_climate_database_dir())
+    except Exception:
+        return False
+
+
+TEM_BASE_CLIMATICA = _base_climatica_disponivel()
+
+#: Módulos que só fazem sentido com a base climática presente.
+MODULOS_QUE_EXIGEM_BASE_CLIMATICA = [
+    "unit/test_climate_database.py",
+    "integration/test_national_climate_flow.py",
+]
+
+if not TEM_BASE_CLIMATICA:
+    collect_ignore.extend(MODULOS_QUE_EXIGEM_BASE_CLIMATICA)
+
+#: Testes avulsos, em módulos de outra natureza, que dependem da base climática.
+#: Identificados pelo nome porque marcá-los exigiria editar módulos alheios ao tema.
+TESTES_QUE_EXIGEM_BASE_CLIMATICA = {
+    "test_tab_project_defaults",
+    "test_tab_project_tariff_location",
+}
+
+
+def pytest_collection_modifyitems(config, items):
+    """Ignora, sem falhar, o que depende de dados não distribuídos com o código."""
+    if TEM_BASE_CLIMATICA:
+        return
+
+    motivo = pytest.mark.skip(
+        reason="base climática CMIP6 ausente (distribuída separadamente, ~6,5 GB)"
+    )
+    for item in items:
+        if item.name.split("[")[0] in TESTES_QUE_EXIGEM_BASE_CLIMATICA:
+            item.add_marker(motivo)
+
+
 def pytest_report_header(config):
     """Registra no cabeçalho qual kernel e qual stack estão sendo exercitados."""
     try:
@@ -86,7 +133,8 @@ def pytest_report_header(config):
     interface = "Qt disponível" if TEM_INTERFACE_GRAFICA else (
         f"sem Qt — {len(MODULOS_QUE_EXIGEM_INTERFACE)} módulos de interface não coletados"
     )
-    return f"netuno: kernel {kernel} | {interface}"
+    clima = "base climática presente" if TEM_BASE_CLIMATICA else "sem base climática"
+    return f"netuno: kernel {kernel} | {interface} | {clima}"
 
 
 @pytest.fixture(scope="session", autouse=True)
