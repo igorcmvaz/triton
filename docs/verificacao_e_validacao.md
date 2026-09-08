@@ -282,12 +282,30 @@ paridade como guarda permanente. As alternativas descartadas ficam registradas:
 
 ---
 
-## 5. Aderência de replicação ao Netuno 4
+## 5. O Netuno 4 como instrumento de verificação
 
-Esta é a evidência central de um estudo de replicação. Até esta apuração era a única
-comparação **não automatizada**: `compare_netuno4_netuno5.py` existia desde o início,
-mas não seguia o padrão `test_*.py`, de modo que o pytest coletava zero testes do
-diretório e a função só era chamada pelo seu próprio bloco `__main__`.
+### 5.0 O papel da comparação
+
+O Netuno 4 **não é alvo de fidelidade**. O Netuno 5 adota deliberadamente decisões de
+modelagem distintas — a mais relevante delas no tratamento do descarte de primeira chuva
+(§5.5) — e espera-se que os resultados difiram.
+
+O que o Netuno 4 oferece é algo mais valioso e mais escasso: **um conjunto independente
+de 4.050 resultados**, produzidos por outra implementação do mesmo modelo conceitual, com
+o qual verificar se o balanço hídrico do Netuno 5 calcula o que deveria. Sem essa
+referência externa, a verificação do motor se limitaria a propriedades internas
+(§2) — necessárias, porém insuficientes para detectar um erro sistemático que
+respeitasse todas elas.
+
+Daí a importância da decomposição (§5.4): a métrica que interessa não é a distância
+total entre os dois programas, e sim **o resíduo depois de neutralizadas as diferenças
+de projeto conhecidas**. Esse resíduo — 0,25 pp — é o resultado de verificação. A
+distância total é apenas a soma dele com escolhas deliberadas.
+
+Até esta apuração a comparação era a única **não automatizada**:
+`compare_netuno4_netuno5.py` existia desde o início, mas não seguia o padrão
+`test_*.py`, de modo que o pytest coletava zero testes do diretório e a função só era
+chamada pelo seu próprio bloco `__main__`.
 
 ### 5.1 Dados de referência
 
@@ -344,12 +362,12 @@ A atribuição resultante:
 **Neutralizadas as duas diferenças conhecidas, o motor do Netuno 5 reproduz o Netuno 4
 com erro médio absoluto de 0,25 pp e 100% dos casos dentro de 5 pontos percentuais.**
 O resíduo é compatível com a precisão de duas casas decimais da própria planilha de
-referência, o que significa que o balanço hídrico diário foi replicado dentro do que os
-dados de referência permitem distinguir.
+referência, o que significa que o balanço hídrico diário calcula, dentro do que os dados
+permitem distinguir, o mesmo que uma implementação independente do modelo.
 
-Esta é uma afirmação substancialmente mais forte que a da configuração 1. A divergência
-observada entre os dois programas não é erro não explicado: é a soma de duas escolhas de
-projeto documentadas.
+**É este número que verifica o motor.** A divergência total de 2,81 pp da configuração 1
+não mede erro: mede a soma de duas decisões de projeto do Netuno 5, ambas deliberadas e
+documentadas.
 
 #### Como a semântica de limiar foi medida sem alterar o motor
 
