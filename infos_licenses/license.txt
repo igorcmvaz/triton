@@ -1,21 +1,17 @@
-MIT License
+Netuno 5 — Licenca
 
-Copyright (c) 2026 Grupo de Pesquisa Gestão do Espaço Sustentável - Netuno 5
+Este software e distribuido sob a GNU General Public License v3.0 ou posterior
+(GPL-3.0-or-later).
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+O texto integral da licenca esta no arquivo LICENSE, na raiz do projeto.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Copyright (c) 2026 Grupo de Pesquisa Gestao do Espaco Sustentavel
+Universidade Federal de Santa Catarina (UFSC)
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Este programa e software livre: voce pode redistribui-lo e/ou modifica-lo sob os
+termos da GNU General Public License conforme publicada pela Free Software
+Foundation, na versao 3 da Licenca ou (a seu criterio) qualquer versao posterior.
+
+Este programa e distribuido na expectativa de ser util, mas SEM QUALQUER
+GARANTIA; sem mesmo a garantia implicita de COMERCIALIZACAO ou ADEQUACAO A UM
+PROPOSITO ESPECIFICO. Consulte a GNU General Public License para mais detalhes.

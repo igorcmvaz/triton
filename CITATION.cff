@@ -11,7 +11,7 @@ authors:
     affiliation: "Universidade Federal de Santa Catarina"
 version: "5.0.7"
 date-released: "2026-09-07"
-license: MIT
+license: GPL-3.0-or-later
 abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
   aproveitamento de água de chuva em edificações, com balanço hídrico diário
