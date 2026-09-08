@@ -13,6 +13,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | entender as equações e as fronteiras do modelo | [`metodologia.md`](metodologia.md) |
 | saber o que foi verificado e o que não foi | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) |
 | gerar novos casos de referência no Netuno 4 | [`protocolo_netuno4.md`](protocolo_netuno4.md) |
+| **conferir as contas dos casos analíticos** | [`conferencia_dos_casos_analiticos.md`](conferencia_dos_casos_analiticos.md) |
 | ver o encadeamento do cálculo em diagramas | [`../netuno/docs/fluxogramas_metodologicos.md`](../netuno/docs/fluxogramas_metodologicos.md) |
 | conferir um cálculo à mão | [`../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md`](../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) |
 | usar a linha de comando | [`../infos_licenses/CLI_USAGE.md`](../infos_licenses/CLI_USAGE.md) |
@@ -37,6 +38,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | :--- | :--- |
 | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) | **Relatório principal de V&V**: propriedades científicas, cobertura, replicação, defeitos, limitações |
 | [`protocolo_netuno4.md`](protocolo_netuno4.md) | Roteiro para gerar casos de referência na interface do Netuno 4 |
+| [`conferencia_dos_casos_analiticos.md`](conferencia_dos_casos_analiticos.md) | **Pede revisão humana** — as nove derivações analíticas em forma conferível |
 | [`../netuno/docs/relatorio_validacao.md`](../netuno/docs/relatorio_validacao.md) | Relatório de verificação técnica dos algoritmos (PT) |
 | [`../netuno/docs/relatorio_validacao_en.md`](../netuno/docs/relatorio_validacao_en.md) | Idem, em inglês |
 | [`../tests/README.md`](../tests/README.md) | Organização da suíte de testes por camadas |
