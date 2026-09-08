@@ -1,0 +1,13 @@
+{
+  "cisterna_inferior": {"family": "NETUNO_Cisterna", "type": "Padrão"},
+  "reservatorio_superior": {"family": "NETUNO_ReservatorioSuperior", "type": "Padrão"},
+  "filtro_pluvial": {"family": "NETUNO_FiltroPluvial", "type": "Padrão"},
+  "first_flush": {"family": "NETUNO_FirstFlush", "type": "Padrão"},
+  "motobomba": {"family": "NETUNO_Motobomba", "type": "Padrão"},
+  "registro_gaveta": {"family": "NETUNO_RegistroGaveta", "type": "Padrão"},
+  "registro_esfera": {"family": "NETUNO_RegistroEsfera", "type": "Padrão"},
+  "valvula_retencao": {"family": "NETUNO_ValvulaRetencao", "type": "Padrão"},
+  "air_gap": {"family": "NETUNO_AirGap", "type": "Padrão"},
+  "ladrao_sifonado": {"family": "NETUNO_LadraoSifonado", "type": "Padrão"},
+  "ponto_nao_potavel": {"family": "NETUNO_PontoNaoPotavel", "type": "Padrão"}
+}

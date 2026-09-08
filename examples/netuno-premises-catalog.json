@@ -1,0 +1,69 @@
+{
+  "schema": {"name": "netuno-premises-catalog", "version": 1},
+  "premises": [
+    {
+      "id": "residencia-base",
+      "name": "Residência base — 4 moradores",
+      "config": {
+        "area": 100.0,
+        "demand_value": 120.0,
+        "residents_count": 4,
+        "rainwater_share": 0.40,
+        "runoff_coeff": 0.85,
+        "discard": 1.0,
+        "lower_tank_mode": 1,
+        "lower_tank_max": 10000.0,
+        "lower_tank_step": 500.0,
+        "upper_tank_used": 1,
+        "upper_tank_vol": 500.0,
+        "pumping_threshold": 250.0,
+        "analysis_period_years": 20
+      },
+      "analysis": {
+        "topsis_weights": [0.33, 0.33, 0.34],
+        "environmental": {
+          "lower_material_key": "PEAD",
+          "upper_material_key": "PEAD",
+          "grid_co2_factor_kg_kwh": 0.085,
+          "potable_water_co2_kg_m3": 0.35,
+          "chemical_treatment_co2_m3": 0.02,
+          "system_lifespan_years": 20,
+          "pipes": [{"diameter_mm": 100, "length_m": 20}, {"diameter_mm": 50, "length_m": 15}],
+          "pump": {"power_cv": 0.5, "specific_kwh_per_m3": 0.40}
+        }
+      }
+    },
+    {
+      "id": "residencia-ampliada",
+      "name": "Residência ampliada — 6 moradores",
+      "config": {
+        "area": 160.0,
+        "demand_value": 130.0,
+        "residents_count": 6,
+        "rainwater_share": 0.45,
+        "runoff_coeff": 0.85,
+        "discard": 1.0,
+        "lower_tank_mode": 1,
+        "lower_tank_max": 15000.0,
+        "lower_tank_step": 500.0,
+        "upper_tank_used": 1,
+        "upper_tank_vol": 1000.0,
+        "pumping_threshold": 500.0,
+        "analysis_period_years": 20
+      },
+      "analysis": {
+        "topsis_weights": [0.40, 0.35, 0.25],
+        "environmental": {
+          "lower_material_key": "CONCRETO",
+          "upper_material_key": "PEAD",
+          "grid_co2_factor_kg_kwh": 0.085,
+          "potable_water_co2_kg_m3": 0.35,
+          "chemical_treatment_co2_m3": 0.02,
+          "system_lifespan_years": 20,
+          "pipes": [{"diameter_mm": 100, "length_m": 28}, {"diameter_mm": 50, "length_m": 20}],
+          "pump": {"power_cv": 0.75, "specific_kwh_per_m3": 0.40}
+        }
+      }
+    }
+  ]
+}

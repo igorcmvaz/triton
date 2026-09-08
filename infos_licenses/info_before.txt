@@ -1,0 +1,24 @@
+BEM-VINDO AO INSTALADOR DO NETUNO
+
+SOBRE O SOFTWARE:
+O Netuno 5 é uma ferramenta computacional desenvolvida para suporte a simulações 
+e análises de desempenho térmico e eficiência no ambiente construído.
+
+AVISO DE VERSÃO BETA:
+Esta aplicação encontra-se atualmente em ESTÁGIO BETA de desenvolvimento. 
+Isso significa que o sistema pode conter instabilidades, comportamentos 
+inesperados ou pequenas divergências nos resultados.
+
+ISENÇÃO DE RESPONSABILIDADE:
+O uso do software e a interpretação dos resultados gerados são de inteira 
+e exclusiva responsabilidade do usuário. Recomenda-se a validação crítica 
+dos dados antes de sua aplicação em projetos oficiais ou publicações.
+
+SUPORTE, DÚVIDAS E SUGESTÕES:
+Caso encontre algum erro, tenha dúvidas sobre o uso ou queira enviar sugestões 
+de melhorias, entre em contato diretamente com o responsável técnico:
+
+  - Contato: Igor Catão
+  - E-mail:  igor.catao@posgrad.ufsc.br
+
+Clique em "Avançar" para continuar com a instalação.

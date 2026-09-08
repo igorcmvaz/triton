@@ -1,0 +1,25 @@
+# Normaliza finais de linha: o projeto usa LF em toda a base de código.
+* text=auto eol=lf
+
+# Binários — nunca sofrem conversão de fim de linha.
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.pdf  binary
+*.xlsx binary
+*.dxf  binary
+*.shp  binary
+*.shx  binary
+*.dbf  binary
+*.prj  binary
+*.tar.xz binary
+
+# As planilhas de referência do Netuno 4 estão em latin-1 com separador ';'.
+# Preservadas como estão para que a comparação de replicação continue exata.
+data/simulation_outputs/**/Planilha.csv -text
+
+# Estatísticas de linguagem do GitHub: não contar dados nem legado como código.
+data/**            linguist-generated
+LegadoWeb/**       linguist-vendored
+additional_material/** linguist-documentation
+docs/**            linguist-documentation

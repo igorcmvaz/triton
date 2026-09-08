@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+.eggs/
+
+# Ambientes virtuais
+venv/
+venv_*/
+.venv/
+env/
+ENV/
+
+# ---------------------------------------------------------------------------
+# Artefatos de compilação (PyInstaller / Inno Setup)
+# ---------------------------------------------------------------------------
+build/
+dist/
+*.manifest
+
+# ---------------------------------------------------------------------------
+# Saídas de QA e relatórios gerados
+# ---------------------------------------------------------------------------
+reports/
+
+# ---------------------------------------------------------------------------
+# Cache de execução do programa
+#
+# tmp/ é o diretório de cache do atualizador tarifário da ANEEL
+# (netuno/core/tariff_updater/aneel_updater.py). O CSV baixado passa de 85 MB e
+# é regenerável — não deve ser versionado.
+# ---------------------------------------------------------------------------
+tmp/
+outputs/
+
+# ---------------------------------------------------------------------------
+# Base climática CMIP6 (~6,5 GB, 37.164 arquivos)
+#
+# Exigida em tempo de execução por netuno/core/climate_database.py, mas grande
+# demais para controle de versão. Distribuída separadamente.
+# ---------------------------------------------------------------------------
+Netuno future files for 652 cities/
+Netuno_future_files_split/
+
+# ---------------------------------------------------------------------------
+# Saídas de simulação em lote (~514 MB, 4.055 arquivos gerados)
+#
+# EXCEÇÃO IMPORTANTE: as planilhas Planilha.csv são os resultados oficiais
+# exportados do Netuno 4 e constituem a referência de validação da replicação
+# (4.050 casos). Elas SÃO versionadas.
+# ---------------------------------------------------------------------------
+data/simulation_outputs/**
+!data/simulation_outputs/
+!data/simulation_outputs/*/
+!data/simulation_outputs/**/Planilha.csv
+
+# ---------------------------------------------------------------------------
+# Node / PNPM (versão web descontinuada — ver LegadoWeb/)
+# ---------------------------------------------------------------------------
+.pnpm-store/
+node_modules/
+
+# ---------------------------------------------------------------------------
+# Sistema operacional e editores
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/

@@ -1,0 +1,6522 @@
+{
+  "Abaetetuba": {
+    "nearest": {
+      "lat": -1.625,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -1.72183,
+      "lon": -48.8788
+    }
+  },
+  "Abreu e Lima": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.90072,
+      "lon": -34.8984
+    }
+  },
+  "Acaraú": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -2.88769,
+      "lon": -40.1183
+    }
+  },
+  "Acará": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -1.95383,
+      "lon": -48.1985
+    }
+  },
+  "Alagoinhas": {
+    "nearest": {
+      "lat": -12.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -12.1335,
+      "lon": -38.4208
+    }
+  },
+  "Alegrete": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -29.7902,
+      "lon": -55.7949
+    }
+  },
+  "Alenquer": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -54.625
+    },
+    "target": {
+      "lat": -1.94623,
+      "lon": -54.7384
+    }
+  },
+  "Alfenas": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -45.875
+    },
+    "target": {
+      "lat": -21.4256,
+      "lon": -45.9477
+    }
+  },
+  "Almirante Tamandaré": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -25.3188,
+      "lon": -49.3037
+    }
+  },
+  "Alta Floresta": {
+    "nearest": {
+      "lat": -9.875,
+      "lon": -56.125
+    },
+    "target": {
+      "lat": -9.86674,
+      "lon": -56.0867
+    }
+  },
+  "Altamira": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -52.125
+    },
+    "target": {
+      "lat": -3.20407,
+      "lon": -52.21
+    }
+  },
+  "Alvorada": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.9914,
+      "lon": -51.0809
+    }
+  },
+  "Americana": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.7374,
+      "lon": -47.3331
+    }
+  },
+  "Amparo": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.7088,
+      "lon": -46.772
+    }
+  },
+  "Ananindeua": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -1.36391,
+      "lon": -48.3743
+    }
+  },
+  "Andradina": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -20.8948,
+      "lon": -51.3786
+    }
+  },
+  "Angra dos Reis": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -23.0011,
+      "lon": -44.3196
+    }
+  },
+  "Anápolis": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -16.3281,
+      "lon": -48.953
+    }
+  },
+  "Aparecida de Goiânia": {
+    "nearest": {
+      "lat": -16.875,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -16.8198,
+      "lon": -49.2469
+    }
+  },
+  "Apucarana": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -23.55,
+      "lon": -51.4635
+    }
+  },
+  "Aquiraz": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -3.89929,
+      "lon": -38.3896
+    }
+  },
+  "Aracaju": {
+    "nearest": {
+      "lat": -10.875,
+      "lon": -37.125
+    },
+    "target": {
+      "lat": -10.9091,
+      "lon": -37.0677
+    }
+  },
+  "Aracati": {
+    "nearest": {
+      "lat": -4.625,
+      "lon": -37.875
+    },
+    "target": {
+      "lat": -4.55826,
+      "lon": -37.7679
+    }
+  },
+  "Aracruz": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -19.82,
+      "lon": -40.2764
+    }
+  },
+  "Araguari": {
+    "nearest": {
+      "lat": -18.625,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -18.6456,
+      "lon": -48.1934
+    }
+  },
+  "Araguaína": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -7.19238,
+      "lon": -48.2044
+    }
+  },
+  "Arapiraca": {
+    "nearest": {
+      "lat": -9.875,
+      "lon": -36.625
+    },
+    "target": {
+      "lat": -9.75487,
+      "lon": -36.6615
+    }
+  },
+  "Arapongas": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -23.4153,
+      "lon": -51.4259
+    }
+  },
+  "Araranguá": {
+    "nearest": {
+      "lat": -28.875,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -28.9356,
+      "lon": -49.4918
+    }
+  },
+  "Araraquara": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -21.7845,
+      "lon": -48.178
+    }
+  },
+  "Araras": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.3572,
+      "lon": -47.3842
+    }
+  },
+  "Araripina": {
+    "nearest": {
+      "lat": -7.625,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -7.57073,
+      "lon": -40.494
+    }
+  },
+  "Araruama": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.375
+    },
+    "target": {
+      "lat": -22.8697,
+      "lon": -42.3326
+    }
+  },
+  "Araucária": {
+    "nearest": {
+      "lat": -25.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -25.5859,
+      "lon": -49.4047
+    }
+  },
+  "Araxá": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -19.5902,
+      "lon": -46.9438
+    }
+  },
+  "Araçatuba": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -21.2076,
+      "lon": -50.4401
+    }
+  },
+  "Arcoverde": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -37.125
+    },
+    "target": {
+      "lat": -8.41519,
+      "lon": -37.0577
+    }
+  },
+  "Ariquemes": {
+    "nearest": {
+      "lat": -9.875,
+      "lon": -63.125
+    },
+    "target": {
+      "lat": -9.90571,
+      "lon": -63.0325
+    }
+  },
+  "Artur Nogueira": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -22.5727,
+      "lon": -47.1727
+    }
+  },
+  "Arujá": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.3965,
+      "lon": -46.32
+    }
+  },
+  "Assis": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -22.66,
+      "lon": -50.4183
+    }
+  },
+  "Assu": {
+    "nearest": {
+      "lat": -5.625,
+      "lon": -36.875
+    },
+    "target": {
+      "lat": -5.58362,
+      "lon": -36.914
+    }
+  },
+  "Atibaia": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.1171,
+      "lon": -46.5563
+    }
+  },
+  "Avaré": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -23.1067,
+      "lon": -48.9251
+    }
+  },
+  "Açailândia": {
+    "nearest": {
+      "lat": -4.875,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -4.94714,
+      "lon": -47.5004
+    }
+  },
+  "Bacabal": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -4.22447,
+      "lon": -44.7832
+    }
+  },
+  "Bagé": {
+    "nearest": {
+      "lat": -31.375,
+      "lon": -54.125
+    },
+    "target": {
+      "lat": -31.3297,
+      "lon": -54.0999
+    }
+  },
+  "Baião": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -2.79021,
+      "lon": -49.6694
+    }
+  },
+  "Balneário Camboriú": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.9926,
+      "lon": -48.6352
+    }
+  },
+  "Balsas": {
+    "nearest": {
+      "lat": -7.625,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -7.53214,
+      "lon": -46.0372
+    }
+  },
+  "Barbacena": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -21.2214,
+      "lon": -43.7703
+    }
+  },
+  "Barbalha": {
+    "nearest": {
+      "lat": -7.375,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -7.2982,
+      "lon": -39.3021
+    }
+  },
+  "Barcarena": {
+    "nearest": {
+      "lat": -1.625,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -1.51187,
+      "lon": -48.6195
+    }
+  },
+  "Barra": {
+    "nearest": {
+      "lat": -11.125,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -11.0859,
+      "lon": -43.1459
+    }
+  },
+  "Barra Mansa": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -22.5481,
+      "lon": -44.1752
+    }
+  },
+  "Barra do Corda": {
+    "nearest": {
+      "lat": -5.375,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -5.49682,
+      "lon": -45.2485
+    }
+  },
+  "Barra do Garças": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -15.8804,
+      "lon": -52.264
+    }
+  },
+  "Barra do Piraí": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -22.4715,
+      "lon": -43.8269
+    }
+  },
+  "Barreiras": {
+    "nearest": {
+      "lat": -12.125,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -12.1439,
+      "lon": -44.9968
+    }
+  },
+  "Barreirinhas": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -2.75863,
+      "lon": -42.8232
+    }
+  },
+  "Barretos": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -20.5531,
+      "lon": -48.5698
+    }
+  },
+  "Barueri": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.5057,
+      "lon": -46.879
+    }
+  },
+  "Batatais": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -20.8929,
+      "lon": -47.5921
+    }
+  },
+  "Bauru": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -22.3246,
+      "lon": -49.0871
+    }
+  },
+  "Bayeux": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.1238,
+      "lon": -34.9293
+    }
+  },
+  "Bebedouro": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -20.9491,
+      "lon": -48.4791
+    }
+  },
+  "Beberibe": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -4.17741,
+      "lon": -38.1271
+    }
+  },
+  "Belford Roxo": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.764,
+      "lon": -43.3992
+    }
+  },
+  "Belo Horizonte": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -19.9102,
+      "lon": -43.9266
+    }
+  },
+  "Belo Jardim": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -36.375
+    },
+    "target": {
+      "lat": -8.3313,
+      "lon": -36.4258
+    }
+  },
+  "Belém": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -1.4554,
+      "lon": -48.4898
+    }
+  },
+  "Benevides": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -1.36183,
+      "lon": -48.2434
+    }
+  },
+  "Bento Gonçalves": {
+    "nearest": {
+      "lat": -29.125,
+      "lon": -51.625
+    },
+    "target": {
+      "lat": -29.1662,
+      "lon": -51.5165
+    }
+  },
+  "Bertioga": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -23.8486,
+      "lon": -46.1396
+    }
+  },
+  "Betim": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -19.9668,
+      "lon": -44.2008
+    }
+  },
+  "Bezerros": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -8.2328,
+      "lon": -35.796
+    }
+  },
+  "Biguaçu": {
+    "nearest": {
+      "lat": -27.375,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -27.496,
+      "lon": -48.6598
+    }
+  },
+  "Birigui": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -21.291,
+      "lon": -50.3432
+    }
+  },
+  "Blumenau": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -26.9155,
+      "lon": -49.0709
+    }
+  },
+  "Boa Viagem": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -5.11258,
+      "lon": -39.7337
+    }
+  },
+  "Boa Vista": {
+    "nearest": {
+      "lat": 2.875,
+      "lon": -60.625
+    },
+    "target": {
+      "lat": 2.82384,
+      "lon": -60.6753
+    }
+  },
+  "Boituva": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -23.2855,
+      "lon": -47.6786
+    }
+  },
+  "Bom Despacho": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -19.7386,
+      "lon": -45.2622
+    }
+  },
+  "Bom Jesus da Lapa": {
+    "nearest": {
+      "lat": -13.375,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -13.2506,
+      "lon": -43.4108
+    }
+  },
+  "Botucatu": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -22.8837,
+      "lon": -48.4437
+    }
+  },
+  "Bragança": {
+    "nearest": {
+      "lat": -1.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -1.06126,
+      "lon": -46.7826
+    }
+  },
+  "Bragança Paulista": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -22.9527,
+      "lon": -46.5419
+    }
+  },
+  "Brasília": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -15.7795,
+      "lon": -47.9297
+    }
+  },
+  "Brejo Santo": {
+    "nearest": {
+      "lat": -7.375,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -7.48469,
+      "lon": -38.9799
+    }
+  },
+  "Breves": {
+    "nearest": {
+      "lat": -1.625,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -1.68036,
+      "lon": -50.4791
+    }
+  },
+  "Brumado": {
+    "nearest": {
+      "lat": -14.125,
+      "lon": -41.625
+    },
+    "target": {
+      "lat": -14.2021,
+      "lon": -41.6696
+    }
+  },
+  "Brusque": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -27.0977,
+      "lon": -48.9107
+    }
+  },
+  "Buriticupu": {
+    "nearest": {
+      "lat": -4.375,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -4.32375,
+      "lon": -46.4409
+    }
+  },
+  "Buíque": {
+    "nearest": {
+      "lat": -8.625,
+      "lon": -37.125
+    },
+    "target": {
+      "lat": -8.61954,
+      "lon": -37.1606
+    }
+  },
+  "Cabedelo": {
+    "nearest": {
+      "lat": -6.875,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -6.98731,
+      "lon": -34.8284
+    }
+  },
+  "Cabo Frio": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.125
+    },
+    "target": {
+      "lat": -22.8894,
+      "lon": -42.0286
+    }
+  },
+  "Cabo de Santo Agostinho": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.28218,
+      "lon": -35.0253
+    }
+  },
+  "Cachoeira do Sul": {
+    "nearest": {
+      "lat": -30.125,
+      "lon": -52.875
+    },
+    "target": {
+      "lat": -30.033,
+      "lon": -52.8928
+    }
+  },
+  "Cachoeiras de Macacu": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -22.4658,
+      "lon": -42.6523
+    }
+  },
+  "Cachoeirinha": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.9472,
+      "lon": -51.1016
+    }
+  },
+  "Cachoeiro de Itapemirim": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -41.125
+    },
+    "target": {
+      "lat": -20.8462,
+      "lon": -41.1198
+    }
+  },
+  "Cacoal": {
+    "nearest": {
+      "lat": -11.375,
+      "lon": -61.375
+    },
+    "target": {
+      "lat": -11.4343,
+      "lon": -61.4562
+    }
+  },
+  "Caetité": {
+    "nearest": {
+      "lat": -14.125,
+      "lon": -42.375
+    },
+    "target": {
+      "lat": -14.0684,
+      "lon": -42.4861
+    }
+  },
+  "Caicó": {
+    "nearest": {
+      "lat": -6.375,
+      "lon": -37.125
+    },
+    "target": {
+      "lat": -6.45441,
+      "lon": -37.1067
+    }
+  },
+  "Caieiras": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.3607,
+      "lon": -46.7397
+    }
+  },
+  "Cajamar": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.355,
+      "lon": -46.8781
+    }
+  },
+  "Cajazeiras": {
+    "nearest": {
+      "lat": -6.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -6.88004,
+      "lon": -38.5577
+    }
+  },
+  "Caldas Novas": {
+    "nearest": {
+      "lat": -17.625,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -17.7441,
+      "lon": -48.6246
+    }
+  },
+  "Camaquã": {
+    "nearest": {
+      "lat": -30.875,
+      "lon": -51.875
+    },
+    "target": {
+      "lat": -30.8489,
+      "lon": -51.8043
+    }
+  },
+  "Camaragibe": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.02351,
+      "lon": -34.9782
+    }
+  },
+  "Camaçari": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -12.6996,
+      "lon": -38.3263
+    }
+  },
+  "Camboriú": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -27.0241,
+      "lon": -48.6503
+    }
+  },
+  "Cambé": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -23.2766,
+      "lon": -51.2798
+    }
+  },
+  "Cametá": {
+    "nearest": {
+      "lat": -2.125,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -2.24295,
+      "lon": -49.4979
+    }
+  },
+  "Camocim": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -40.875
+    },
+    "target": {
+      "lat": -2.9005,
+      "lon": -40.8544
+    }
+  },
+  "Campina Grande": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -7.22196,
+      "lon": -35.8731
+    }
+  },
+  "Campinas": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -22.9053,
+      "lon": -47.0659
+    }
+  },
+  "Campo Belo": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -20.8932,
+      "lon": -45.2699
+    }
+  },
+  "Campo Bom": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.6747,
+      "lon": -51.0606
+    }
+  },
+  "Campo Formoso": {
+    "nearest": {
+      "lat": -10.625,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -10.5105,
+      "lon": -40.32
+    }
+  },
+  "Campo Grande": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -54.625
+    },
+    "target": {
+      "lat": -20.4486,
+      "lon": -54.6295
+    }
+  },
+  "Campo Largo": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -25.4525,
+      "lon": -49.529
+    }
+  },
+  "Campo Limpo Paulista": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.2078,
+      "lon": -46.7889
+    }
+  },
+  "Campo Mourão": {
+    "nearest": {
+      "lat": -24.125,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -24.0463,
+      "lon": -52.378
+    }
+  },
+  "Campos dos Goytacazes": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -41.375
+    },
+    "target": {
+      "lat": -21.7622,
+      "lon": -41.3181
+    }
+  },
+  "Canaã dos Carajás": {
+    "nearest": {
+      "lat": -6.375,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -6.49659,
+      "lon": -49.8776
+    }
+  },
+  "Candeias": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -12.6716,
+      "lon": -38.5472
+    }
+  },
+  "Canindé": {
+    "nearest": {
+      "lat": -4.375,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -4.35162,
+      "lon": -39.3155
+    }
+  },
+  "Canoas": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.9128,
+      "lon": -51.1857
+    }
+  },
+  "Canoinhas": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -26.1766,
+      "lon": -50.395
+    }
+  },
+  "Capanema": {
+    "nearest": {
+      "lat": -1.125,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -1.20529,
+      "lon": -47.1778
+    }
+  },
+  "Capitão Poço": {
+    "nearest": {
+      "lat": -1.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -1.74785,
+      "lon": -47.0629
+    }
+  },
+  "Capivari": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -22.9951,
+      "lon": -47.5071
+    }
+  },
+  "Capão da Canoa": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -29.7642,
+      "lon": -50.0282
+    }
+  },
+  "Caraguatatuba": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -23.6125,
+      "lon": -45.4125
+    }
+  },
+  "Carapicuíba": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.5235,
+      "lon": -46.8407
+    }
+  },
+  "Caratinga": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -42.125
+    },
+    "target": {
+      "lat": -19.7868,
+      "lon": -42.1292
+    }
+  },
+  "Carazinho": {
+    "nearest": {
+      "lat": -28.375,
+      "lon": -52.875
+    },
+    "target": {
+      "lat": -28.2958,
+      "lon": -52.7933
+    }
+  },
+  "Cariacica": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -20.2632,
+      "lon": -40.4165
+    }
+  },
+  "Carpina": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -7.84566,
+      "lon": -35.2514
+    }
+  },
+  "Caruaru": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -8.28455,
+      "lon": -35.9699
+    }
+  },
+  "Casa Nova": {
+    "nearest": {
+      "lat": -9.125,
+      "lon": -40.875
+    },
+    "target": {
+      "lat": -9.16408,
+      "lon": -40.974
+    }
+  },
+  "Cascavel": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -4.12967,
+      "lon": -38.2412
+    }
+  },
+  "Castanhal": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -1.29797,
+      "lon": -47.9167
+    }
+  },
+  "Castro": {
+    "nearest": {
+      "lat": -24.875,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -24.7891,
+      "lon": -50.0108
+    }
+  },
+  "Cataguases": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -21.3924,
+      "lon": -42.6896
+    }
+  },
+  "Catalão": {
+    "nearest": {
+      "lat": -18.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -18.1656,
+      "lon": -47.944
+    }
+  },
+  "Catanduva": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -21.1314,
+      "lon": -48.977
+    }
+  },
+  "Caucaia": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -3.72797,
+      "lon": -38.6619
+    }
+  },
+  "Caxias": {
+    "nearest": {
+      "lat": -4.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -4.86505,
+      "lon": -43.3617
+    }
+  },
+  "Caxias do Sul": {
+    "nearest": {
+      "lat": -29.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.1629,
+      "lon": -51.1792
+    }
+  },
+  "Caçador": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -26.7757,
+      "lon": -51.012
+    }
+  },
+  "Caçapava": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -23.0992,
+      "lon": -45.7076
+    }
+  },
+  "Ceará-Mirim": {
+    "nearest": {
+      "lat": -5.625,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -5.64323,
+      "lon": -35.4247
+    }
+  },
+  "Chapadinha": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -3.73875,
+      "lon": -43.3538
+    }
+  },
+  "Chapecó": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -52.625
+    },
+    "target": {
+      "lat": -27.1004,
+      "lon": -52.6152
+    }
+  },
+  "Cianorte": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -52.625
+    },
+    "target": {
+      "lat": -23.6599,
+      "lon": -52.6054
+    }
+  },
+  "Cidade Ocidental": {
+    "nearest": {
+      "lat": -16.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -16.0765,
+      "lon": -47.9252
+    }
+  },
+  "Coari": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -63.125
+    },
+    "target": {
+      "lat": -4.09412,
+      "lon": -63.1441
+    }
+  },
+  "Codó": {
+    "nearest": {
+      "lat": -4.375,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -4.45562,
+      "lon": -43.8924
+    }
+  },
+  "Colatina": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -19.5493,
+      "lon": -40.6269
+    }
+  },
+  "Colombo": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -25.2925,
+      "lon": -49.2262
+    }
+  },
+  "Conceição do Coité": {
+    "nearest": {
+      "lat": -11.625,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -11.56,
+      "lon": -39.2808
+    }
+  },
+  "Concórdia": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -52.125
+    },
+    "target": {
+      "lat": -27.2335,
+      "lon": -52.026
+    }
+  },
+  "Congonhas": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -20.4958,
+      "lon": -43.851
+    }
+  },
+  "Conselheiro Lafaiete": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -20.6634,
+      "lon": -43.7846
+    }
+  },
+  "Contagem": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -19.9321,
+      "lon": -44.0539
+    }
+  },
+  "Coroatá": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -4.13442,
+      "lon": -44.1244
+    }
+  },
+  "Coronel Fabriciano": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -19.5179,
+      "lon": -42.6276
+    }
+  },
+  "Corumbá": {
+    "nearest": {
+      "lat": -19.125,
+      "lon": -57.625
+    },
+    "target": {
+      "lat": -19.0077,
+      "lon": -57.651
+    }
+  },
+  "Coruripe": {
+    "nearest": {
+      "lat": -10.125,
+      "lon": -36.125
+    },
+    "target": {
+      "lat": -10.1276,
+      "lon": -36.1717
+    }
+  },
+  "Cosmópolis": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -22.6419,
+      "lon": -47.1926
+    }
+  },
+  "Cotia": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.6022,
+      "lon": -46.919
+    }
+  },
+  "Crateús": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -5.16768,
+      "lon": -40.6536
+    }
+  },
+  "Crato": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -7.2153,
+      "lon": -39.4103
+    }
+  },
+  "Criciúma": {
+    "nearest": {
+      "lat": -28.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -28.6723,
+      "lon": -49.3729
+    }
+  },
+  "Cristalina": {
+    "nearest": {
+      "lat": -16.875,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -16.7676,
+      "lon": -47.6131
+    }
+  },
+  "Cruz Alta": {
+    "nearest": {
+      "lat": -28.625,
+      "lon": -53.625
+    },
+    "target": {
+      "lat": -28.645,
+      "lon": -53.6048
+    }
+  },
+  "Cruz das Almas": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -12.6675,
+      "lon": -39.1008
+    }
+  },
+  "Cruzeiro": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -22.5728,
+      "lon": -44.969
+    }
+  },
+  "Cruzeiro do Sul": {
+    "nearest": {
+      "lat": -7.625,
+      "lon": -72.625
+    },
+    "target": {
+      "lat": -7.62762,
+      "lon": -72.6756
+    }
+  },
+  "Cubatão": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.8911,
+      "lon": -46.424
+    }
+  },
+  "Cuiabá": {
+    "nearest": {
+      "lat": -15.625,
+      "lon": -56.125
+    },
+    "target": {
+      "lat": -15.601,
+      "lon": -56.0974
+    }
+  },
+  "Curitiba": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -25.4195,
+      "lon": -49.2646
+    }
+  },
+  "Curvelo": {
+    "nearest": {
+      "lat": -18.875,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -18.7527,
+      "lon": -44.4303
+    }
+  },
+  "Cáceres": {
+    "nearest": {
+      "lat": -16.125,
+      "lon": -57.625
+    },
+    "target": {
+      "lat": -16.0764,
+      "lon": -57.6818
+    }
+  },
+  "Delmiro Gouveia": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -37.875
+    },
+    "target": {
+      "lat": -9.38534,
+      "lon": -37.9987
+    }
+  },
+  "Diadema": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.6813,
+      "lon": -46.6205
+    }
+  },
+  "Dias d'Ávila": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -12.6187,
+      "lon": -38.2926
+    }
+  },
+  "Divinópolis": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -20.1446,
+      "lon": -44.8912
+    }
+  },
+  "Dom Eliseu": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -4.19944,
+      "lon": -47.8245
+    }
+  },
+  "Dourados": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -54.875
+    },
+    "target": {
+      "lat": -22.2231,
+      "lon": -54.812
+    }
+  },
+  "Duque de Caxias": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.7858,
+      "lon": -43.3049
+    }
+  },
+  "Embu das Artes": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.6437,
+      "lon": -46.8579
+    }
+  },
+  "Embu-Guaçu": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.8297,
+      "lon": -46.8136
+    }
+  },
+  "Erechim": {
+    "nearest": {
+      "lat": -27.625,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -27.6364,
+      "lon": -52.2697
+    }
+  },
+  "Escada": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.35672,
+      "lon": -35.2241
+    }
+  },
+  "Esmeraldas": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -19.764,
+      "lon": -44.3065
+    }
+  },
+  "Esteio": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.852,
+      "lon": -51.1841
+    }
+  },
+  "Estância": {
+    "nearest": {
+      "lat": -11.375,
+      "lon": -37.375
+    },
+    "target": {
+      "lat": -11.2659,
+      "lon": -37.4484
+    }
+  },
+  "Euclides da Cunha": {
+    "nearest": {
+      "lat": -10.625,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -10.5078,
+      "lon": -39.0153
+    }
+  },
+  "Eunápolis": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -16.3715,
+      "lon": -39.5821
+    }
+  },
+  "Eusébio": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -3.8925,
+      "lon": -38.4559
+    }
+  },
+  "Extrema": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -22.854,
+      "lon": -46.3178
+    }
+  },
+  "Extremoz": {
+    "nearest": {
+      "lat": -5.625,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -5.70143,
+      "lon": -35.3048
+    }
+  },
+  "Farroupilha": {
+    "nearest": {
+      "lat": -29.125,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -29.2227,
+      "lon": -51.3419
+    }
+  },
+  "Fazenda Rio Grande": {
+    "nearest": {
+      "lat": -25.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -25.6624,
+      "lon": -49.3073
+    }
+  },
+  "Feira de Santana": {
+    "nearest": {
+      "lat": -12.375,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -12.2664,
+      "lon": -38.9663
+    }
+  },
+  "Fernandópolis": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -20.2806,
+      "lon": -50.2471
+    }
+  },
+  "Ferraz de Vasconcelos": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.5411,
+      "lon": -46.371
+    }
+  },
+  "Floriano": {
+    "nearest": {
+      "lat": -6.875,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -6.77182,
+      "lon": -43.0241
+    }
+  },
+  "Florianópolis": {
+    "nearest": {
+      "lat": -27.625,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -27.5945,
+      "lon": -48.5477
+    }
+  },
+  "Formiga": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -20.4618,
+      "lon": -45.4268
+    }
+  },
+  "Formosa": {
+    "nearest": {
+      "lat": -15.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -15.54,
+      "lon": -47.337
+    }
+  },
+  "Fortaleza": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -3.71664,
+      "lon": -38.5423
+    }
+  },
+  "Foz do Iguaçu": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -54.375
+    },
+    "target": {
+      "lat": -25.5427,
+      "lon": -54.5827
+    }
+  },
+  "Franca": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -20.5352,
+      "lon": -47.4039
+    }
+  },
+  "Francisco Beltrão": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -53.125
+    },
+    "target": {
+      "lat": -26.0817,
+      "lon": -53.0535
+    }
+  },
+  "Francisco Morato": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.2792,
+      "lon": -46.7448
+    }
+  },
+  "Franco da Rocha": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.3229,
+      "lon": -46.729
+    }
+  },
+  "Frutal": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -20.0259,
+      "lon": -48.9355
+    }
+  },
+  "Garanhuns": {
+    "nearest": {
+      "lat": -8.875,
+      "lon": -36.375
+    },
+    "target": {
+      "lat": -8.88243,
+      "lon": -36.4966
+    }
+  },
+  "Gaspar": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.9336,
+      "lon": -48.9534
+    }
+  },
+  "Goiana": {
+    "nearest": {
+      "lat": -7.625,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.5606,
+      "lon": -34.9959
+    }
+  },
+  "Goianira": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -16.4947,
+      "lon": -49.427
+    }
+  },
+  "Goianésia": {
+    "nearest": {
+      "lat": -15.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -15.3118,
+      "lon": -49.1162
+    }
+  },
+  "Goiânia": {
+    "nearest": {
+      "lat": -16.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -16.6864,
+      "lon": -49.2643
+    }
+  },
+  "Governador Valadares": {
+    "nearest": {
+      "lat": -18.875,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -18.8545,
+      "lon": -41.9555
+    }
+  },
+  "Grajaú": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -5.81367,
+      "lon": -46.1462
+    }
+  },
+  "Granja": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -40.875
+    },
+    "target": {
+      "lat": -3.12788,
+      "lon": -40.8372
+    }
+  },
+  "Gravataí": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -50.875
+    },
+    "target": {
+      "lat": -29.9413,
+      "lon": -50.9869
+    }
+  },
+  "Gravatá": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.625
+    },
+    "target": {
+      "lat": -8.21118,
+      "lon": -35.5675
+    }
+  },
+  "Guanambi": {
+    "nearest": {
+      "lat": -14.125,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -14.2231,
+      "lon": -42.7799
+    }
+  },
+  "Guapimirim": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -22.5347,
+      "lon": -42.9895
+    }
+  },
+  "Guarabira": {
+    "nearest": {
+      "lat": -6.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -6.85064,
+      "lon": -35.485
+    }
+  },
+  "Guarapari": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -20.6772,
+      "lon": -40.5093
+    }
+  },
+  "Guarapuava": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -25.3902,
+      "lon": -51.4623
+    }
+  },
+  "Guaratinguetá": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -22.8075,
+      "lon": -45.1938
+    }
+  },
+  "Guarujá": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.9888,
+      "lon": -46.258
+    }
+  },
+  "Guarulhos": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.4538,
+      "lon": -46.5333
+    }
+  },
+  "Guaxupé": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -21.305,
+      "lon": -46.7081
+    }
+  },
+  "Guaíba": {
+    "nearest": {
+      "lat": -30.125,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -30.1086,
+      "lon": -51.3233
+    }
+  },
+  "Gurupi": {
+    "nearest": {
+      "lat": -11.625,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -11.7279,
+      "lon": -49.068
+    }
+  },
+  "Horizonte": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -4.1209,
+      "lon": -38.4707
+    }
+  },
+  "Hortolândia": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -22.8529,
+      "lon": -47.2143
+    }
+  },
+  "Humaitá": {
+    "nearest": {
+      "lat": -7.625,
+      "lon": -63.125
+    },
+    "target": {
+      "lat": -7.51171,
+      "lon": -63.0327
+    }
+  },
+  "Ibiporã": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -23.2659,
+      "lon": -51.0522
+    }
+  },
+  "Ibirité": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -20.0252,
+      "lon": -44.0569
+    }
+  },
+  "Ibitinga": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -21.7562,
+      "lon": -48.8319
+    }
+  },
+  "Ibiúna": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.6596,
+      "lon": -47.223
+    }
+  },
+  "Icó": {
+    "nearest": {
+      "lat": -6.375,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -6.39627,
+      "lon": -38.8554
+    }
+  },
+  "Igarapé-Miri": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -1.97533,
+      "lon": -48.9575
+    }
+  },
+  "Igarassu": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.82881,
+      "lon": -34.9013
+    }
+  },
+  "Iguatu": {
+    "nearest": {
+      "lat": -6.375,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -6.36281,
+      "lon": -39.2892
+    }
+  },
+  "Ijuí": {
+    "nearest": {
+      "lat": -28.375,
+      "lon": -53.875
+    },
+    "target": {
+      "lat": -28.388,
+      "lon": -53.92
+    }
+  },
+  "Ilhéus": {
+    "nearest": {
+      "lat": -14.875,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -14.793,
+      "lon": -39.046
+    }
+  },
+  "Imbituba": {
+    "nearest": {
+      "lat": -28.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -28.2284,
+      "lon": -48.6659
+    }
+  },
+  "Imperatriz": {
+    "nearest": {
+      "lat": -5.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -5.51847,
+      "lon": -47.4777
+    }
+  },
+  "Indaial": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -26.8992,
+      "lon": -49.2354
+    }
+  },
+  "Indaiatuba": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.0816,
+      "lon": -47.2101
+    }
+  },
+  "Inhumas": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -16.3611,
+      "lon": -49.5001
+    }
+  },
+  "Ipatinga": {
+    "nearest": {
+      "lat": -19.375,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -19.4703,
+      "lon": -42.5476
+    }
+  },
+  "Ipirá": {
+    "nearest": {
+      "lat": -12.125,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -12.1561,
+      "lon": -39.7359
+    }
+  },
+  "Ipojuca": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.39303,
+      "lon": -35.0609
+    }
+  },
+  "Iranduba": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -60.125
+    },
+    "target": {
+      "lat": -3.27479,
+      "lon": -60.19
+    }
+  },
+  "Irati": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -50.625
+    },
+    "target": {
+      "lat": -25.4697,
+      "lon": -50.6493
+    }
+  },
+  "Irecê": {
+    "nearest": {
+      "lat": -11.375,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -11.3033,
+      "lon": -41.8535
+    }
+  },
+  "Itabaiana": {
+    "nearest": {
+      "lat": -10.625,
+      "lon": -37.375
+    },
+    "target": {
+      "lat": -10.6826,
+      "lon": -37.4273
+    }
+  },
+  "Itaberaba": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -12.5242,
+      "lon": -40.3059
+    }
+  },
+  "Itabira": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -19.6239,
+      "lon": -43.2312
+    }
+  },
+  "Itabirito": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -20.2501,
+      "lon": -43.8038
+    }
+  },
+  "Itaboraí": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -22.7565,
+      "lon": -42.8639
+    }
+  },
+  "Itabuna": {
+    "nearest": {
+      "lat": -14.875,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -14.7876,
+      "lon": -39.2781
+    }
+  },
+  "Itacoatiara": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -58.375
+    },
+    "target": {
+      "lat": -3.13861,
+      "lon": -58.4449
+    }
+  },
+  "Itaguaí": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -22.8636,
+      "lon": -43.7798
+    }
+  },
+  "Itaitinga": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -3.96577,
+      "lon": -38.5298
+    }
+  },
+  "Itaituba": {
+    "nearest": {
+      "lat": -4.375,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -4.2667,
+      "lon": -55.9926
+    }
+  },
+  "Itajaí": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.9101,
+      "lon": -48.6705
+    }
+  },
+  "Itajubá": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -22.4225,
+      "lon": -45.4598
+    }
+  },
+  "Itamaraju": {
+    "nearest": {
+      "lat": -17.125,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -17.0378,
+      "lon": -39.5386
+    }
+  },
+  "Itanhaém": {
+    "nearest": {
+      "lat": -24.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -24.1736,
+      "lon": -46.788
+    }
+  },
+  "Itapecerica da Serra": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.7161,
+      "lon": -46.8572
+    }
+  },
+  "Itapecuru-Mirim": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -3.40202,
+      "lon": -44.3508
+    }
+  },
+  "Itapema": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -27.0861,
+      "lon": -48.616
+    }
+  },
+  "Itaperuna": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -21.1997,
+      "lon": -41.8799
+    }
+  },
+  "Itapetinga": {
+    "nearest": {
+      "lat": -15.125,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -15.2475,
+      "lon": -40.2482
+    }
+  },
+  "Itapetininga": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -23.5886,
+      "lon": -48.0483
+    }
+  },
+  "Itapeva": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -23.9788,
+      "lon": -48.8764
+    }
+  },
+  "Itapevi": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.5488,
+      "lon": -46.9327
+    }
+  },
+  "Itapipoca": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -3.49933,
+      "lon": -39.5836
+    }
+  },
+  "Itapira": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.4357,
+      "lon": -46.8224
+    }
+  },
+  "Itaquaquecetuba": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.4835,
+      "lon": -46.3457
+    }
+  },
+  "Itatiba": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.0035,
+      "lon": -46.8464
+    }
+  },
+  "Itaúna": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -44.625
+    },
+    "target": {
+      "lat": -20.0818,
+      "lon": -44.5801
+    }
+  },
+  "Itu": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -23.2544,
+      "lon": -47.2927
+    }
+  },
+  "Ituiutaba": {
+    "nearest": {
+      "lat": -18.875,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -18.9772,
+      "lon": -49.4639
+    }
+  },
+  "Itumbiara": {
+    "nearest": {
+      "lat": -18.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -18.4093,
+      "lon": -49.2158
+    }
+  },
+  "Itupeva": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.1526,
+      "lon": -47.0593
+    }
+  },
+  "Içara": {
+    "nearest": {
+      "lat": -28.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -28.7132,
+      "lon": -49.3087
+    }
+  },
+  "Jaboatão dos Guararapes": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.11298,
+      "lon": -35.015
+    }
+  },
+  "Jaboticabal": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -21.252,
+      "lon": -48.3252
+    }
+  },
+  "Jacareí": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -45.875
+    },
+    "target": {
+      "lat": -23.2983,
+      "lon": -45.9658
+    }
+  },
+  "Jacobina": {
+    "nearest": {
+      "lat": -11.125,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -11.1812,
+      "lon": -40.5117
+    }
+  },
+  "Jaguariúna": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.7037,
+      "lon": -46.9851
+    }
+  },
+  "Janaúba": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -15.8022,
+      "lon": -43.3132
+    }
+  },
+  "Jandira": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.5275,
+      "lon": -46.9023
+    }
+  },
+  "Januária": {
+    "nearest": {
+      "lat": -15.375,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -15.4802,
+      "lon": -44.3639
+    }
+  },
+  "Japeri": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -43.625
+    },
+    "target": {
+      "lat": -22.6435,
+      "lon": -43.6602
+    }
+  },
+  "Jaraguá do Sul": {
+    "nearest": {
+      "lat": -26.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -26.4851,
+      "lon": -49.0713
+    }
+  },
+  "Jaru": {
+    "nearest": {
+      "lat": -10.375,
+      "lon": -62.375
+    },
+    "target": {
+      "lat": -10.4318,
+      "lon": -62.4788
+    }
+  },
+  "Jataí": {
+    "nearest": {
+      "lat": -17.875,
+      "lon": -51.625
+    },
+    "target": {
+      "lat": -17.8784,
+      "lon": -51.7204
+    }
+  },
+  "Jaú": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -22.2936,
+      "lon": -48.5592
+    }
+  },
+  "Jequié": {
+    "nearest": {
+      "lat": -13.875,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -13.8509,
+      "lon": -40.0877
+    }
+  },
+  "Ji-Paraná": {
+    "nearest": {
+      "lat": -10.875,
+      "lon": -61.875
+    },
+    "target": {
+      "lat": -10.8777,
+      "lon": -61.9322
+    }
+  },
+  "Joinville": {
+    "nearest": {
+      "lat": -26.375,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.3045,
+      "lon": -48.8487
+    }
+  },
+  "João Monlevade": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -19.8126,
+      "lon": -43.1735
+    }
+  },
+  "João Pessoa": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.11509,
+      "lon": -34.8641
+    }
+  },
+  "Juazeiro": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -9.41622,
+      "lon": -40.5033
+    }
+  },
+  "Juazeiro do Norte": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -7.19621,
+      "lon": -39.3076
+    }
+  },
+  "Juiz de Fora": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -21.7595,
+      "lon": -43.3398
+    }
+  },
+  "Jundiaí": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.1852,
+      "lon": -46.8974
+    }
+  },
+  "Juruti": {
+    "nearest": {
+      "lat": -2.125,
+      "lon": -56.125
+    },
+    "target": {
+      "lat": -2.16347,
+      "lon": -56.0889
+    }
+  },
+  "Lagarto": {
+    "nearest": {
+      "lat": -10.875,
+      "lon": -37.625
+    },
+    "target": {
+      "lat": -10.9136,
+      "lon": -37.6689
+    }
+  },
+  "Lages": {
+    "nearest": {
+      "lat": -27.875,
+      "lon": -50.375
+    },
+    "target": {
+      "lat": -27.815,
+      "lon": -50.3259
+    }
+  },
+  "Lagoa Santa": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -19.6397,
+      "lon": -43.8932
+    }
+  },
+  "Lagoa da Prata": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -20.0237,
+      "lon": -45.5401
+    }
+  },
+  "Lajeado": {
+    "nearest": {
+      "lat": -29.375,
+      "lon": -51.875
+    },
+    "target": {
+      "lat": -29.4591,
+      "lon": -51.9644
+    }
+  },
+  "Lauro de Freitas": {
+    "nearest": {
+      "lat": -12.875,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -12.8978,
+      "lon": -38.321
+    }
+  },
+  "Lavras": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -21.248,
+      "lon": -45.0009
+    }
+  },
+  "Leme": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.1809,
+      "lon": -47.3841
+    }
+  },
+  "Lençóis Paulista": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -22.6027,
+      "lon": -48.8037
+    }
+  },
+  "Leopoldina": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -21.5296,
+      "lon": -42.6421
+    }
+  },
+  "Limeira": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.566,
+      "lon": -47.397
+    }
+  },
+  "Limoeiro": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -7.8726,
+      "lon": -35.4402
+    }
+  },
+  "Limoeiro do Norte": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -38.125
+    },
+    "target": {
+      "lat": -5.14392,
+      "lon": -38.0847
+    }
+  },
+  "Linhares": {
+    "nearest": {
+      "lat": -19.375,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -19.3946,
+      "lon": -40.0643
+    }
+  },
+  "Lins": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -21.6718,
+      "lon": -49.7526
+    }
+  },
+  "Londrina": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -23.304,
+      "lon": -51.1691
+    }
+  },
+  "Lorena": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -22.7334,
+      "lon": -45.1197
+    }
+  },
+  "Louveira": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.0856,
+      "lon": -46.9484
+    }
+  },
+  "Lucas do Rio Verde": {
+    "nearest": {
+      "lat": -13.125,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -13.0588,
+      "lon": -55.9042
+    }
+  },
+  "Luziânia": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -16.253,
+      "lon": -47.95
+    }
+  },
+  "Luís Eduardo Magalhães": {
+    "nearest": {
+      "lat": -12.125,
+      "lon": -45.875
+    },
+    "target": {
+      "lat": -12.0956,
+      "lon": -45.7866
+    }
+  },
+  "Macapá": {
+    "nearest": {
+      "lat": 0.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": 0.034934,
+      "lon": -51.0694
+    }
+  },
+  "Macaé": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -22.3768,
+      "lon": -41.7848
+    }
+  },
+  "Macaíba": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -5.85229,
+      "lon": -35.3552
+    }
+  },
+  "Maceió": {
+    "nearest": {
+      "lat": -9.625,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -9.66599,
+      "lon": -35.735
+    }
+  },
+  "Mafra": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -26.1159,
+      "lon": -49.8086
+    }
+  },
+  "Magé": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -22.6632,
+      "lon": -43.0315
+    }
+  },
+  "Mairinque": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.5398,
+      "lon": -47.185
+    }
+  },
+  "Mairiporã": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.3171,
+      "lon": -46.5897
+    }
+  },
+  "Manacapuru": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -60.625
+    },
+    "target": {
+      "lat": -3.29066,
+      "lon": -60.6216
+    }
+  },
+  "Manaus": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -60.125
+    },
+    "target": {
+      "lat": -3.11866,
+      "lon": -60.0212
+    }
+  },
+  "Manhuaçu": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -42.125
+    },
+    "target": {
+      "lat": -20.2572,
+      "lon": -42.028
+    }
+  },
+  "Manicoré": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -61.375
+    },
+    "target": {
+      "lat": -5.80462,
+      "lon": -61.2895
+    }
+  },
+  "Marabá": {
+    "nearest": {
+      "lat": -5.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -5.38075,
+      "lon": -49.1327
+    }
+  },
+  "Maracanaú": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -3.86699,
+      "lon": -38.6259
+    }
+  },
+  "Maranguape": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -3.89143,
+      "lon": -38.6829
+    }
+  },
+  "Marechal Cândido Rondon": {
+    "nearest": {
+      "lat": -24.625,
+      "lon": -54.125
+    },
+    "target": {
+      "lat": -24.557,
+      "lon": -54.0571
+    }
+  },
+  "Marechal Deodoro": {
+    "nearest": {
+      "lat": -9.625,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -9.70971,
+      "lon": -35.8967
+    }
+  },
+  "Mariana": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -20.3765,
+      "lon": -43.414
+    }
+  },
+  "Maricá": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -22.9354,
+      "lon": -42.8246
+    }
+  },
+  "Maringá": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.875
+    },
+    "target": {
+      "lat": -23.4205,
+      "lon": -51.9333
+    }
+  },
+  "Marituba": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -1.36002,
+      "lon": -48.3421
+    }
+  },
+  "Marília": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -22.2171,
+      "lon": -49.9501
+    }
+  },
+  "Matão": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -21.6025,
+      "lon": -48.364
+    }
+  },
+  "Mauá": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.6677,
+      "lon": -46.4613
+    }
+  },
+  "Maués": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -57.625
+    },
+    "target": {
+      "lat": -3.39289,
+      "lon": -57.7067
+    }
+  },
+  "Medianeira": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -54.125
+    },
+    "target": {
+      "lat": -25.2977,
+      "lon": -54.0943
+    }
+  },
+  "Mesquita": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.8028,
+      "lon": -43.4601
+    }
+  },
+  "Mineiros": {
+    "nearest": {
+      "lat": -17.625,
+      "lon": -52.625
+    },
+    "target": {
+      "lat": -17.5654,
+      "lon": -52.5537
+    }
+  },
+  "Mirassol": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -20.8169,
+      "lon": -49.5206
+    }
+  },
+  "Mococa": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -21.4647,
+      "lon": -47.0024
+    }
+  },
+  "Mogi Guaçu": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.3675,
+      "lon": -46.9428
+    }
+  },
+  "Mogi Mirim": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.4332,
+      "lon": -46.9532
+    }
+  },
+  "Mogi das Cruzes": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -23.5208,
+      "lon": -46.1854
+    }
+  },
+  "Moju": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -1.88993,
+      "lon": -48.7668
+    }
+  },
+  "Mongaguá": {
+    "nearest": {
+      "lat": -24.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -24.0809,
+      "lon": -46.6265
+    }
+  },
+  "Monte Alegre": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -54.125
+    },
+    "target": {
+      "lat": -1.99768,
+      "lon": -54.0724
+    }
+  },
+  "Monte Mor": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.945,
+      "lon": -47.3122
+    }
+  },
+  "Montenegro": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -29.6824,
+      "lon": -51.4679
+    }
+  },
+  "Montes Claros": {
+    "nearest": {
+      "lat": -16.625,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -16.7282,
+      "lon": -43.8578
+    }
+  },
+  "Morada Nova": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -5.09736,
+      "lon": -38.3702
+    }
+  },
+  "Moreno": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.10871,
+      "lon": -35.0835
+    }
+  },
+  "Morrinhos": {
+    "nearest": {
+      "lat": -17.625,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -17.7334,
+      "lon": -49.1059
+    }
+  },
+  "Mossoró": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -37.375
+    },
+    "target": {
+      "lat": -5.18374,
+      "lon": -37.3474
+    }
+  },
+  "Muriaé": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -42.375
+    },
+    "target": {
+      "lat": -21.13,
+      "lon": -42.3693
+    }
+  },
+  "Natal": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -5.79357,
+      "lon": -35.1986
+    }
+  },
+  "Navegantes": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.8943,
+      "lon": -48.6546
+    }
+  },
+  "Naviraí": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -54.125
+    },
+    "target": {
+      "lat": -23.0618,
+      "lon": -54.1995
+    }
+  },
+  "Nilópolis": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.8057,
+      "lon": -43.4233
+    }
+  },
+  "Niterói": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.8832,
+      "lon": -43.1034
+    }
+  },
+  "Nossa Senhora do Socorro": {
+    "nearest": {
+      "lat": -10.875,
+      "lon": -37.125
+    },
+    "target": {
+      "lat": -10.8468,
+      "lon": -37.1231
+    }
+  },
+  "Nova Friburgo": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -22.2932,
+      "lon": -42.5377
+    }
+  },
+  "Nova Iguaçu": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.7556,
+      "lon": -43.4603
+    }
+  },
+  "Nova Lima": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -19.9758,
+      "lon": -43.8509
+    }
+  },
+  "Nova Mutum": {
+    "nearest": {
+      "lat": -13.875,
+      "lon": -56.125
+    },
+    "target": {
+      "lat": -13.8374,
+      "lon": -56.0743
+    }
+  },
+  "Nova Odessa": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.7832,
+      "lon": -47.2941
+    }
+  },
+  "Nova Serrana": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -19.8713,
+      "lon": -44.9847
+    }
+  },
+  "Novo Gama": {
+    "nearest": {
+      "lat": -16.125,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -16.0592,
+      "lon": -48.0417
+    }
+  },
+  "Novo Hamburgo": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.6875,
+      "lon": -51.1328
+    }
+  },
+  "Novo Repartimento": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -4.24749,
+      "lon": -49.9499
+    }
+  },
+  "Olinda": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.01017,
+      "lon": -34.8545
+    }
+  },
+  "Olímpia": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -20.7366,
+      "lon": -48.9106
+    }
+  },
+  "Oriximiná": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -1.75989,
+      "lon": -55.8579
+    }
+  },
+  "Osasco": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.5324,
+      "lon": -46.7916
+    }
+  },
+  "Ouricuri": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -7.87918,
+      "lon": -40.08
+    }
+  },
+  "Ourinhos": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -22.9797,
+      "lon": -49.8697
+    }
+  },
+  "Ouro Preto": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -43.625
+    },
+    "target": {
+      "lat": -20.3796,
+      "lon": -43.512
+    }
+  },
+  "Pacajus": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -4.17107,
+      "lon": -38.465
+    }
+  },
+  "Pacatuba": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -3.9784,
+      "lon": -38.6183
+    }
+  },
+  "Palhoça": {
+    "nearest": {
+      "lat": -27.625,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -27.6455,
+      "lon": -48.6697
+    }
+  },
+  "Palmares": {
+    "nearest": {
+      "lat": -8.625,
+      "lon": -35.625
+    },
+    "target": {
+      "lat": -8.68423,
+      "lon": -35.589
+    }
+  },
+  "Palmas": {
+    "nearest": {
+      "lat": -10.125,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -10.24,
+      "lon": -48.3558
+    }
+  },
+  "Palmeira dos Índios": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -36.625
+    },
+    "target": {
+      "lat": -9.40568,
+      "lon": -36.6328
+    }
+  },
+  "Paracatu": {
+    "nearest": {
+      "lat": -17.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -17.2252,
+      "lon": -46.8711
+    }
+  },
+  "Paragominas": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -3.00212,
+      "lon": -47.3527
+    }
+  },
+  "Paranaguá": {
+    "nearest": {
+      "lat": -25.625,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -25.5161,
+      "lon": -48.5225
+    }
+  },
+  "Paranavaí": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -23.0816,
+      "lon": -52.4617
+    }
+  },
+  "Parauapebas": {
+    "nearest": {
+      "lat": -6.125,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -6.06781,
+      "lon": -49.9037
+    }
+  },
+  "Paraíso do Tocantins": {
+    "nearest": {
+      "lat": -10.125,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -10.175,
+      "lon": -48.8823
+    }
+  },
+  "Parintins": {
+    "nearest": {
+      "lat": -2.625,
+      "lon": -56.625
+    },
+    "target": {
+      "lat": -2.63741,
+      "lon": -56.729
+    }
+  },
+  "Parnamirim": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -5.91116,
+      "lon": -35.271
+    }
+  },
+  "Parnaíba": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -2.90585,
+      "lon": -41.7754
+    }
+  },
+  "Parobé": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -50.875
+    },
+    "target": {
+      "lat": -29.6243,
+      "lon": -50.8312
+    }
+  },
+  "Pará de Minas": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.625
+    },
+    "target": {
+      "lat": -19.8534,
+      "lon": -44.6114
+    }
+  },
+  "Passo Fundo": {
+    "nearest": {
+      "lat": -28.375,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -28.2576,
+      "lon": -52.4091
+    }
+  },
+  "Passos": {
+    "nearest": {
+      "lat": -20.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -20.7193,
+      "lon": -46.609
+    }
+  },
+  "Pato Branco": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -52.625
+    },
+    "target": {
+      "lat": -26.2292,
+      "lon": -52.6706
+    }
+  },
+  "Patos": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -37.375
+    },
+    "target": {
+      "lat": -7.01743,
+      "lon": -37.2747
+    }
+  },
+  "Patos de Minas": {
+    "nearest": {
+      "lat": -18.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -18.5699,
+      "lon": -46.5013
+    }
+  },
+  "Patrocínio": {
+    "nearest": {
+      "lat": -18.875,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -18.9379,
+      "lon": -46.9934
+    }
+  },
+  "Paudalho": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -7.90287,
+      "lon": -35.1716
+    }
+  },
+  "Paulista": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.93401,
+      "lon": -34.8684
+    }
+  },
+  "Paulo Afonso": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -38.125
+    },
+    "target": {
+      "lat": -9.3983,
+      "lon": -38.2216
+    }
+  },
+  "Paulínia": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -22.7542,
+      "lon": -47.1488
+    }
+  },
+  "Paço do Lumiar": {
+    "nearest": {
+      "lat": -2.625,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -2.51657,
+      "lon": -44.1019
+    }
+  },
+  "Pedro Leopoldo": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -19.6308,
+      "lon": -44.0383
+    }
+  },
+  "Pelotas": {
+    "nearest": {
+      "lat": -31.875,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -31.7649,
+      "lon": -52.3371
+    }
+  },
+  "Penedo": {
+    "nearest": {
+      "lat": -10.375,
+      "lon": -36.625
+    },
+    "target": {
+      "lat": -10.2874,
+      "lon": -36.5819
+    }
+  },
+  "Penápolis": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -21.4148,
+      "lon": -50.0769
+    }
+  },
+  "Peruíbe": {
+    "nearest": {
+      "lat": -24.375,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -24.312,
+      "lon": -47.0012
+    }
+  },
+  "Pesqueira": {
+    "nearest": {
+      "lat": -8.375,
+      "lon": -36.625
+    },
+    "target": {
+      "lat": -8.35797,
+      "lon": -36.6978
+    }
+  },
+  "Petrolina": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -40.625
+    },
+    "target": {
+      "lat": -9.38866,
+      "lon": -40.5027
+    }
+  },
+  "Petrópolis": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -22.52,
+      "lon": -43.1926
+    }
+  },
+  "Picos": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -41.375
+    },
+    "target": {
+      "lat": -7.07721,
+      "lon": -41.467
+    }
+  },
+  "Piedade": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -23.7139,
+      "lon": -47.4256
+    }
+  },
+  "Pindamonhangaba": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -22.9246,
+      "lon": -45.4613
+    }
+  },
+  "Pinhais": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -25.4429,
+      "lon": -49.1927
+    }
+  },
+  "Pinheiro": {
+    "nearest": {
+      "lat": -2.625,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -2.52224,
+      "lon": -45.0788
+    }
+  },
+  "Piracicaba": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -22.7338,
+      "lon": -47.6476
+    }
+  },
+  "Pirapora": {
+    "nearest": {
+      "lat": -17.375,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -17.3392,
+      "lon": -44.934
+    }
+  },
+  "Piraquara": {
+    "nearest": {
+      "lat": -25.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -25.4422,
+      "lon": -49.0624
+    }
+  },
+  "Pirassununga": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -21.996,
+      "lon": -47.4257
+    }
+  },
+  "Piripiri": {
+    "nearest": {
+      "lat": -4.375,
+      "lon": -41.875
+    },
+    "target": {
+      "lat": -4.27157,
+      "lon": -41.7716
+    }
+  },
+  "Planaltina": {
+    "nearest": {
+      "lat": -15.375,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -15.452,
+      "lon": -47.6089
+    }
+  },
+  "Ponta Grossa": {
+    "nearest": {
+      "lat": -25.125,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -25.0916,
+      "lon": -50.1668
+    }
+  },
+  "Ponta Porã": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -55.375
+    },
+    "target": {
+      "lat": -22.5296,
+      "lon": -55.7203
+    }
+  },
+  "Ponte Nova": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -20.4111,
+      "lon": -42.8978
+    }
+  },
+  "Pontes e Lacerda": {
+    "nearest": {
+      "lat": -15.125,
+      "lon": -59.375
+    },
+    "target": {
+      "lat": -15.2219,
+      "lon": -59.3435
+    }
+  },
+  "Portel": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -50.625
+    },
+    "target": {
+      "lat": -1.93639,
+      "lon": -50.8194
+    }
+  },
+  "Porto Alegre": {
+    "nearest": {
+      "lat": -30.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -30.0318,
+      "lon": -51.2065
+    }
+  },
+  "Porto Feliz": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -23.2093,
+      "lon": -47.5251
+    }
+  },
+  "Porto Ferreira": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -21.8498,
+      "lon": -47.487
+    }
+  },
+  "Porto Nacional": {
+    "nearest": {
+      "lat": -10.625,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -10.7027,
+      "lon": -48.408
+    }
+  },
+  "Porto Seguro": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -16.4435,
+      "lon": -39.0643
+    }
+  },
+  "Porto Velho": {
+    "nearest": {
+      "lat": -8.875,
+      "lon": -63.875
+    },
+    "target": {
+      "lat": -8.76077,
+      "lon": -63.8999
+    }
+  },
+  "Pouso Alegre": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -45.875
+    },
+    "target": {
+      "lat": -22.2266,
+      "lon": -45.9389
+    }
+  },
+  "Poá": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.5333,
+      "lon": -46.3473
+    }
+  },
+  "Poços de Caldas": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -21.78,
+      "lon": -46.5692
+    }
+  },
+  "Praia Grande": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -24.0084,
+      "lon": -46.4121
+    }
+  },
+  "Presidente Prudente": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -22.1207,
+      "lon": -51.3925
+    }
+  },
+  "Primavera do Leste": {
+    "nearest": {
+      "lat": -15.625,
+      "lon": -54.375
+    },
+    "target": {
+      "lat": -15.544,
+      "lon": -54.2811
+    }
+  },
+  "Queimados": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -43.625
+    },
+    "target": {
+      "lat": -22.7102,
+      "lon": -43.5518
+    }
+  },
+  "Quixadá": {
+    "nearest": {
+      "lat": -4.875,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -4.9663,
+      "lon": -39.0155
+    }
+  },
+  "Quixeramobim": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -5.19067,
+      "lon": -39.2889
+    }
+  },
+  "Recife": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.04666,
+      "lon": -34.8771
+    }
+  },
+  "Redenção": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -8.02529,
+      "lon": -50.0317
+    }
+  },
+  "Registro": {
+    "nearest": {
+      "lat": -24.375,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -24.4979,
+      "lon": -47.8449
+    }
+  },
+  "Resende": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -22.4705,
+      "lon": -44.4509
+    }
+  },
+  "Ribeira do Pombal": {
+    "nearest": {
+      "lat": -10.875,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -10.8373,
+      "lon": -38.5382
+    }
+  },
+  "Ribeirão Pires": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.7067,
+      "lon": -46.4058
+    }
+  },
+  "Ribeirão Preto": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -21.1699,
+      "lon": -47.8099
+    }
+  },
+  "Ribeirão das Neves": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -19.7621,
+      "lon": -44.0844
+    }
+  },
+  "Rio Bonito": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -22.7181,
+      "lon": -42.6276
+    }
+  },
+  "Rio Branco": {
+    "nearest": {
+      "lat": -9.875,
+      "lon": -67.875
+    },
+    "target": {
+      "lat": -9.97499,
+      "lon": -67.8243
+    }
+  },
+  "Rio Claro": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -47.625
+    },
+    "target": {
+      "lat": -22.3984,
+      "lon": -47.5546
+    }
+  },
+  "Rio Grande": {
+    "nearest": {
+      "lat": -32.125,
+      "lon": -52.125
+    },
+    "target": {
+      "lat": -32.0349,
+      "lon": -52.1071
+    }
+  },
+  "Rio Largo": {
+    "nearest": {
+      "lat": -9.375,
+      "lon": -35.875
+    },
+    "target": {
+      "lat": -9.47783,
+      "lon": -35.8394
+    }
+  },
+  "Rio Verde": {
+    "nearest": {
+      "lat": -17.875,
+      "lon": -50.875
+    },
+    "target": {
+      "lat": -17.7923,
+      "lon": -50.9192
+    }
+  },
+  "Rio das Ostras": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -42.125
+    },
+    "target": {
+      "lat": -22.5174,
+      "lon": -41.9475
+    }
+  },
+  "Rio de Janeiro": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.9129,
+      "lon": -43.2003
+    }
+  },
+  "Rio do Sul": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -27.2156,
+      "lon": -49.643
+    }
+  },
+  "Rolim de Moura": {
+    "nearest": {
+      "lat": -11.625,
+      "lon": -61.875
+    },
+    "target": {
+      "lat": -11.7271,
+      "lon": -61.7714
+    }
+  },
+  "Rolândia": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -23.3101,
+      "lon": -51.3659
+    }
+  },
+  "Rondon do Pará": {
+    "nearest": {
+      "lat": -4.875,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -4.77793,
+      "lon": -48.067
+    }
+  },
+  "Rondonópolis": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -54.625
+    },
+    "target": {
+      "lat": -16.4673,
+      "lon": -54.6372
+    }
+  },
+  "Russas": {
+    "nearest": {
+      "lat": -4.875,
+      "lon": -37.875
+    },
+    "target": {
+      "lat": -4.92673,
+      "lon": -37.9721
+    }
+  },
+  "Sabará": {
+    "nearest": {
+      "lat": -19.875,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -19.884,
+      "lon": -43.8263
+    }
+  },
+  "Salgueiro": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -8.07373,
+      "lon": -39.1247
+    }
+  },
+  "Salto": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -23.1996,
+      "lon": -47.2931
+    }
+  },
+  "Salvador": {
+    "nearest": {
+      "lat": -12.875,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -12.9718,
+      "lon": -38.5011
+    }
+  },
+  "Santa Bárbara d'Oeste": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.7553,
+      "lon": -47.4143
+    }
+  },
+  "Santa Cruz do Capibaribe": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -36.125
+    },
+    "target": {
+      "lat": -7.94802,
+      "lon": -36.2061
+    }
+  },
+  "Santa Cruz do Sul": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -29.722,
+      "lon": -52.4343
+    }
+  },
+  "Santa Inês": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -3.65112,
+      "lon": -45.3774
+    }
+  },
+  "Santa Isabel": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -23.3172,
+      "lon": -46.2237
+    }
+  },
+  "Santa Izabel do Pará": {
+    "nearest": {
+      "lat": -1.375,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -1.29686,
+      "lon": -48.1606
+    }
+  },
+  "Santa Luzia": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -4.06873,
+      "lon": -45.69
+    }
+  },
+  "Santa Maria": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -53.875
+    },
+    "target": {
+      "lat": -29.6868,
+      "lon": -53.8149
+    }
+  },
+  "Santa Rita": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -34.875
+    },
+    "target": {
+      "lat": -7.11724,
+      "lon": -34.9753
+    }
+  },
+  "Santa Rosa": {
+    "nearest": {
+      "lat": -27.875,
+      "lon": -54.375
+    },
+    "target": {
+      "lat": -27.8702,
+      "lon": -54.4796
+    }
+  },
+  "Santana": {
+    "nearest": {
+      "lat": -0.125,
+      "lon": -51.375
+    },
+    "target": {
+      "lat": -0.045434,
+      "lon": -51.1729
+    }
+  },
+  "Santana de Parnaíba": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.4439,
+      "lon": -46.9178
+    }
+  },
+  "Santana do Livramento": {
+    "nearest": {
+      "lat": -30.875,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -30.8773,
+      "lon": -55.5392
+    }
+  },
+  "Santarém": {
+    "nearest": {
+      "lat": -2.375,
+      "lon": -54.625
+    },
+    "target": {
+      "lat": -2.43849,
+      "lon": -54.6996
+    }
+  },
+  "Santo Amaro": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -38.625
+    },
+    "target": {
+      "lat": -12.5472,
+      "lon": -38.7137
+    }
+  },
+  "Santo André": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.6737,
+      "lon": -46.5432
+    }
+  },
+  "Santo Antônio de Jesus": {
+    "nearest": {
+      "lat": -12.875,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -12.9614,
+      "lon": -39.2584
+    }
+  },
+  "Santo Antônio do Descoberto": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -15.9412,
+      "lon": -48.2578
+    }
+  },
+  "Santo Estêvão": {
+    "nearest": {
+      "lat": -12.375,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -12.428,
+      "lon": -39.2505
+    }
+  },
+  "Santo Ângelo": {
+    "nearest": {
+      "lat": -28.375,
+      "lon": -54.375
+    },
+    "target": {
+      "lat": -28.3001,
+      "lon": -54.2668
+    }
+  },
+  "Santos": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.9535,
+      "lon": -46.335
+    }
+  },
+  "Sapiranga": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.6349,
+      "lon": -51.0064
+    }
+  },
+  "Sapucaia do Sul": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.8276,
+      "lon": -51.145
+    }
+  },
+  "Sapé": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -7.09359,
+      "lon": -35.228
+    }
+  },
+  "Saquarema": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -22.9292,
+      "lon": -42.5099
+    }
+  },
+  "Sarandi": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -51.875
+    },
+    "target": {
+      "lat": -23.4441,
+      "lon": -51.876
+    }
+  },
+  "Senador Canedo": {
+    "nearest": {
+      "lat": -16.625,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -16.7084,
+      "lon": -49.0914
+    }
+  },
+  "Senhor do Bonfim": {
+    "nearest": {
+      "lat": -10.375,
+      "lon": -40.125
+    },
+    "target": {
+      "lat": -10.4594,
+      "lon": -40.1865
+    }
+  },
+  "Seropédica": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.625
+    },
+    "target": {
+      "lat": -22.7526,
+      "lon": -43.7155
+    }
+  },
+  "Serra": {
+    "nearest": {
+      "lat": -20.125,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -20.121,
+      "lon": -40.3074
+    }
+  },
+  "Serra Talhada": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -7.98178,
+      "lon": -38.289
+    }
+  },
+  "Serrinha": {
+    "nearest": {
+      "lat": -11.625,
+      "lon": -39.125
+    },
+    "target": {
+      "lat": -11.6584,
+      "lon": -39.01
+    }
+  },
+  "Sertãozinho": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -21.1316,
+      "lon": -47.9875
+    }
+  },
+  "Sete Lagoas": {
+    "nearest": {
+      "lat": -19.375,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -19.4569,
+      "lon": -44.2413
+    }
+  },
+  "Simões Filho": {
+    "nearest": {
+      "lat": -12.875,
+      "lon": -38.375
+    },
+    "target": {
+      "lat": -12.7866,
+      "lon": -38.4029
+    }
+  },
+  "Sinop": {
+    "nearest": {
+      "lat": -11.875,
+      "lon": -55.625
+    },
+    "target": {
+      "lat": -11.8604,
+      "lon": -55.5091
+    }
+  },
+  "Sobral": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -3.68913,
+      "lon": -40.3482
+    }
+  },
+  "Sorocaba": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -23.4969,
+      "lon": -47.4451
+    }
+  },
+  "Sorriso": {
+    "nearest": {
+      "lat": -12.625,
+      "lon": -55.625
+    },
+    "target": {
+      "lat": -12.5425,
+      "lon": -55.7211
+    }
+  },
+  "Sousa": {
+    "nearest": {
+      "lat": -6.875,
+      "lon": -38.125
+    },
+    "target": {
+      "lat": -6.75148,
+      "lon": -38.2311
+    }
+  },
+  "Sumaré": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -22.8204,
+      "lon": -47.2728
+    }
+  },
+  "Surubim": {
+    "nearest": {
+      "lat": -7.875,
+      "lon": -35.625
+    },
+    "target": {
+      "lat": -7.84746,
+      "lon": -35.7481
+    }
+  },
+  "Suzano": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.375
+    },
+    "target": {
+      "lat": -23.5448,
+      "lon": -46.3112
+    }
+  },
+  "São Bento do Sul": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -26.2495,
+      "lon": -49.3831
+    }
+  },
+  "São Bernardo do Campo": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.6914,
+      "lon": -46.5646
+    }
+  },
+  "São Borja": {
+    "nearest": {
+      "lat": -28.625,
+      "lon": -55.875
+    },
+    "target": {
+      "lat": -28.6578,
+      "lon": -56.0036
+    }
+  },
+  "São Caetano do Sul": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.6229,
+      "lon": -46.5548
+    }
+  },
+  "São Carlos": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -22.0174,
+      "lon": -47.886
+    }
+  },
+  "São Cristóvão": {
+    "nearest": {
+      "lat": -11.125,
+      "lon": -37.375
+    },
+    "target": {
+      "lat": -11.0084,
+      "lon": -37.2044
+    }
+  },
+  "São Francisco": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -15.9514,
+      "lon": -44.8593
+    }
+  },
+  "São Francisco do Sul": {
+    "nearest": {
+      "lat": -26.375,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -26.2579,
+      "lon": -48.6344
+    }
+  },
+  "São Félix do Xingu": {
+    "nearest": {
+      "lat": -6.625,
+      "lon": -51.875
+    },
+    "target": {
+      "lat": -6.64254,
+      "lon": -51.9904
+    }
+  },
+  "São Gabriel": {
+    "nearest": {
+      "lat": -30.375,
+      "lon": -54.375
+    },
+    "target": {
+      "lat": -30.3337,
+      "lon": -54.3217
+    }
+  },
+  "São Gabriel da Cachoeira": {
+    "nearest": {
+      "lat": -0.125,
+      "lon": -67.125
+    },
+    "target": {
+      "lat": -0.11909,
+      "lon": -67.084
+    }
+  },
+  "São Gonçalo": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.8268,
+      "lon": -43.0634
+    }
+  },
+  "São Gonçalo do Amarante": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -38.875
+    },
+    "target": {
+      "lat": -3.60515,
+      "lon": -38.9726
+    }
+  },
+  "São José": {
+    "nearest": {
+      "lat": -27.625,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -27.6136,
+      "lon": -48.6366
+    }
+  },
+  "São José de Ribamar": {
+    "nearest": {
+      "lat": -2.625,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -2.54704,
+      "lon": -44.0597
+    }
+  },
+  "São José do Rio Pardo": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -21.5953,
+      "lon": -46.8873
+    }
+  },
+  "São José do Rio Preto": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -20.8113,
+      "lon": -49.3758
+    }
+  },
+  "São José dos Campos": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -45.875
+    },
+    "target": {
+      "lat": -23.1896,
+      "lon": -45.8841
+    }
+  },
+  "São José dos Pinhais": {
+    "nearest": {
+      "lat": -25.625,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -25.5313,
+      "lon": -49.2031
+    }
+  },
+  "São João da Boa Vista": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -21.9707,
+      "lon": -46.7944
+    }
+  },
+  "São João de Meriti": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -43.375
+    },
+    "target": {
+      "lat": -22.8058,
+      "lon": -43.3729
+    }
+  },
+  "São João del-Rei": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -21.1311,
+      "lon": -44.2526
+    }
+  },
+  "São Leopoldo": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -29.7545,
+      "lon": -51.1498
+    }
+  },
+  "São Lourenço da Mata": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.125
+    },
+    "target": {
+      "lat": -8.00684,
+      "lon": -35.0124
+    }
+  },
+  "São Luís": {
+    "nearest": {
+      "lat": -2.625,
+      "lon": -44.375
+    },
+    "target": {
+      "lat": -2.53874,
+      "lon": -44.2825
+    }
+  },
+  "São Mateus": {
+    "nearest": {
+      "lat": -18.625,
+      "lon": -39.875
+    },
+    "target": {
+      "lat": -18.7214,
+      "lon": -39.8579
+    }
+  },
+  "São Miguel do Guamá": {
+    "nearest": {
+      "lat": -1.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -1.61307,
+      "lon": -47.4784
+    }
+  },
+  "São Miguel dos Campos": {
+    "nearest": {
+      "lat": -9.875,
+      "lon": -36.125
+    },
+    "target": {
+      "lat": -9.78301,
+      "lon": -36.0971
+    }
+  },
+  "São Paulo": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.5329,
+      "lon": -46.6395
+    }
+  },
+  "São Pedro da Aldeia": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -42.125
+    },
+    "target": {
+      "lat": -22.8429,
+      "lon": -42.1026
+    }
+  },
+  "São Roque": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.5226,
+      "lon": -47.1357
+    }
+  },
+  "São Sebastião": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -23.7951,
+      "lon": -45.4143
+    }
+  },
+  "São Sebastião do Paraíso": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -20.9167,
+      "lon": -46.9837
+    }
+  },
+  "São Vicente": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -46.625
+    },
+    "target": {
+      "lat": -23.9574,
+      "lon": -46.3883
+    }
+  },
+  "Tabatinga": {
+    "nearest": {
+      "lat": -4.125,
+      "lon": -69.875
+    },
+    "target": {
+      "lat": -4.2416,
+      "lon": -69.9383
+    }
+  },
+  "Taboão da Serra": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.6019,
+      "lon": -46.7526
+    }
+  },
+  "Tailândia": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -48.875
+    },
+    "target": {
+      "lat": -2.94584,
+      "lon": -48.9489
+    }
+  },
+  "Tangará da Serra": {
+    "nearest": {
+      "lat": -14.625,
+      "lon": -57.375
+    },
+    "target": {
+      "lat": -14.6229,
+      "lon": -57.4933
+    }
+  },
+  "Taquara": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -50.875
+    },
+    "target": {
+      "lat": -29.6505,
+      "lon": -50.7753
+    }
+  },
+  "Taquaritinga": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -21.4049,
+      "lon": -48.5103
+    }
+  },
+  "Tatuí": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -23.3487,
+      "lon": -47.8461
+    }
+  },
+  "Taubaté": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -23.0104,
+      "lon": -45.5593
+    }
+  },
+  "Tauá": {
+    "nearest": {
+      "lat": -5.875,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -5.98585,
+      "lon": -40.2968
+    }
+  },
+  "Tefé": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -64.625
+    },
+    "target": {
+      "lat": -3.36822,
+      "lon": -64.7193
+    }
+  },
+  "Teixeira de Freitas": {
+    "nearest": {
+      "lat": -17.625,
+      "lon": -39.625
+    },
+    "target": {
+      "lat": -17.5399,
+      "lon": -39.74
+    }
+  },
+  "Telêmaco Borba": {
+    "nearest": {
+      "lat": -24.375,
+      "lon": -50.625
+    },
+    "target": {
+      "lat": -24.3245,
+      "lon": -50.6176
+    }
+  },
+  "Teresina": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -5.09194,
+      "lon": -42.8034
+    }
+  },
+  "Teresópolis": {
+    "nearest": {
+      "lat": -22.375,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -22.4165,
+      "lon": -42.9752
+    }
+  },
+  "Teófilo Otoni": {
+    "nearest": {
+      "lat": -17.875,
+      "lon": -41.625
+    },
+    "target": {
+      "lat": -17.8595,
+      "lon": -41.5087
+    }
+  },
+  "Tianguá": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -40.875
+    },
+    "target": {
+      "lat": -3.72965,
+      "lon": -40.9923
+    }
+  },
+  "Tijucas": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -48.625
+    },
+    "target": {
+      "lat": -27.2354,
+      "lon": -48.6322
+    }
+  },
+  "Timon": {
+    "nearest": {
+      "lat": -5.125,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -5.09769,
+      "lon": -42.8329
+    }
+  },
+  "Timóteo": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -42.625
+    },
+    "target": {
+      "lat": -19.5811,
+      "lon": -42.6471
+    }
+  },
+  "Tobias Barreto": {
+    "nearest": {
+      "lat": -11.125,
+      "lon": -37.875
+    },
+    "target": {
+      "lat": -11.1798,
+      "lon": -37.9995
+    }
+  },
+  "Toledo": {
+    "nearest": {
+      "lat": -24.625,
+      "lon": -53.625
+    },
+    "target": {
+      "lat": -24.7246,
+      "lon": -53.7412
+    }
+  },
+  "Tomé-Açu": {
+    "nearest": {
+      "lat": -2.375,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -2.41302,
+      "lon": -48.1415
+    }
+  },
+  "Trairi": {
+    "nearest": {
+      "lat": -3.375,
+      "lon": -39.375
+    },
+    "target": {
+      "lat": -3.26932,
+      "lon": -39.2681
+    }
+  },
+  "Tramandaí": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -50.125
+    },
+    "target": {
+      "lat": -29.9841,
+      "lon": -50.1322
+    }
+  },
+  "Tremembé": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -22.9571,
+      "lon": -45.5475
+    }
+  },
+  "Trindade": {
+    "nearest": {
+      "lat": -16.625,
+      "lon": -49.375
+    },
+    "target": {
+      "lat": -16.6517,
+      "lon": -49.4927
+    }
+  },
+  "Três Corações": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -21.6921,
+      "lon": -45.2511
+    }
+  },
+  "Três Lagoas": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -51.625
+    },
+    "target": {
+      "lat": -20.7849,
+      "lon": -51.7007
+    }
+  },
+  "Três Pontas": {
+    "nearest": {
+      "lat": -21.375,
+      "lon": -45.625
+    },
+    "target": {
+      "lat": -21.3694,
+      "lon": -45.5109
+    }
+  },
+  "Três Rios": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -43.125
+    },
+    "target": {
+      "lat": -22.1165,
+      "lon": -43.2185
+    }
+  },
+  "Tubarão": {
+    "nearest": {
+      "lat": -28.375,
+      "lon": -49.125
+    },
+    "target": {
+      "lat": -28.4713,
+      "lon": -49.0144
+    }
+  },
+  "Tucuruí": {
+    "nearest": {
+      "lat": -3.875,
+      "lon": -49.625
+    },
+    "target": {
+      "lat": -3.7657,
+      "lon": -49.6773
+    }
+  },
+  "Tupã": {
+    "nearest": {
+      "lat": -21.875,
+      "lon": -50.625
+    },
+    "target": {
+      "lat": -21.9335,
+      "lon": -50.5191
+    }
+  },
+  "Tutóia": {
+    "nearest": {
+      "lat": -2.875,
+      "lon": -42.375
+    },
+    "target": {
+      "lat": -2.76141,
+      "lon": -42.2755
+    }
+  },
+  "Ubatuba": {
+    "nearest": {
+      "lat": -23.375,
+      "lon": -45.125
+    },
+    "target": {
+      "lat": -23.4332,
+      "lon": -45.0834
+    }
+  },
+  "Uberaba": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -19.7472,
+      "lon": -47.9381
+    }
+  },
+  "Uberlândia": {
+    "nearest": {
+      "lat": -18.875,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -18.9141,
+      "lon": -48.2749
+    }
+  },
+  "Ubá": {
+    "nearest": {
+      "lat": -21.125,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -21.1204,
+      "lon": -42.9359
+    }
+  },
+  "Umuarama": {
+    "nearest": {
+      "lat": -23.875,
+      "lon": -53.375
+    },
+    "target": {
+      "lat": -23.7656,
+      "lon": -53.3201
+    }
+  },
+  "Unaí": {
+    "nearest": {
+      "lat": -16.375,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -16.3592,
+      "lon": -46.9022
+    }
+  },
+  "União da Vitória": {
+    "nearest": {
+      "lat": -26.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -26.2273,
+      "lon": -51.0873
+    }
+  },
+  "União dos Palmares": {
+    "nearest": {
+      "lat": -9.125,
+      "lon": -36.125
+    },
+    "target": {
+      "lat": -9.15921,
+      "lon": -36.0223
+    }
+  },
+  "Uruguaiana": {
+    "nearest": {
+      "lat": -29.875,
+      "lon": -57.125
+    },
+    "target": {
+      "lat": -29.7614,
+      "lon": -57.0853
+    }
+  },
+  "Vacaria": {
+    "nearest": {
+      "lat": -28.625,
+      "lon": -50.875
+    },
+    "target": {
+      "lat": -28.5079,
+      "lon": -50.9418
+    }
+  },
+  "Valença": {
+    "nearest": {
+      "lat": -22.125,
+      "lon": -43.625
+    },
+    "target": {
+      "lat": -22.2445,
+      "lon": -43.7129
+    }
+  },
+  "Valinhos": {
+    "nearest": {
+      "lat": -22.875,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -22.9698,
+      "lon": -46.9974
+    }
+  },
+  "Valparaíso de Goiás": {
+    "nearest": {
+      "lat": -16.125,
+      "lon": -47.875
+    },
+    "target": {
+      "lat": -16.0651,
+      "lon": -47.9757
+    }
+  },
+  "Vargem Grande Paulista": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.125
+    },
+    "target": {
+      "lat": -23.5993,
+      "lon": -47.022
+    }
+  },
+  "Varginha": {
+    "nearest": {
+      "lat": -21.625,
+      "lon": -45.375
+    },
+    "target": {
+      "lat": -21.5556,
+      "lon": -45.4364
+    }
+  },
+  "Venâncio Aires": {
+    "nearest": {
+      "lat": -29.625,
+      "lon": -52.125
+    },
+    "target": {
+      "lat": -29.6143,
+      "lon": -52.1932
+    }
+  },
+  "Vespasiano": {
+    "nearest": {
+      "lat": -19.625,
+      "lon": -43.875
+    },
+    "target": {
+      "lat": -19.6883,
+      "lon": -43.9239
+    }
+  },
+  "Viamão": {
+    "nearest": {
+      "lat": -30.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -30.0819,
+      "lon": -51.0194
+    }
+  },
+  "Viana": {
+    "nearest": {
+      "lat": -3.125,
+      "lon": -44.875
+    },
+    "target": {
+      "lat": -3.20451,
+      "lon": -44.9912
+    }
+  },
+  "Videira": {
+    "nearest": {
+      "lat": -27.125,
+      "lon": -51.125
+    },
+    "target": {
+      "lat": -27.0086,
+      "lon": -51.1543
+    }
+  },
+  "Vigia": {
+    "nearest": {
+      "lat": -0.875,
+      "lon": -48.125
+    },
+    "target": {
+      "lat": -0.861194,
+      "lon": -48.1386
+    }
+  },
+  "Vila Velha": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -20.3417,
+      "lon": -40.2875
+    }
+  },
+  "Vilhena": {
+    "nearest": {
+      "lat": -12.875,
+      "lon": -60.125
+    },
+    "target": {
+      "lat": -12.7502,
+      "lon": -60.1488
+    }
+  },
+  "Vinhedo": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.0302,
+      "lon": -46.9833
+    }
+  },
+  "Viseu": {
+    "nearest": {
+      "lat": -1.125,
+      "lon": -46.125
+    },
+    "target": {
+      "lat": -1.19124,
+      "lon": -46.1399
+    }
+  },
+  "Vitória": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -40.375
+    },
+    "target": {
+      "lat": -20.3155,
+      "lon": -40.3128
+    }
+  },
+  "Vitória da Conquista": {
+    "nearest": {
+      "lat": -14.875,
+      "lon": -40.875
+    },
+    "target": {
+      "lat": -14.8615,
+      "lon": -40.8442
+    }
+  },
+  "Vitória de Santo Antão": {
+    "nearest": {
+      "lat": -8.125,
+      "lon": -35.375
+    },
+    "target": {
+      "lat": -8.12819,
+      "lon": -35.2976
+    }
+  },
+  "Viçosa": {
+    "nearest": {
+      "lat": -20.875,
+      "lon": -42.875
+    },
+    "target": {
+      "lat": -20.7559,
+      "lon": -42.8742
+    }
+  },
+  "Viçosa do Ceará": {
+    "nearest": {
+      "lat": -3.625,
+      "lon": -41.125
+    },
+    "target": {
+      "lat": -3.5667,
+      "lon": -41.0916
+    }
+  },
+  "Volta Redonda": {
+    "nearest": {
+      "lat": -22.625,
+      "lon": -44.125
+    },
+    "target": {
+      "lat": -22.5202,
+      "lon": -44.0996
+    }
+  },
+  "Votorantim": {
+    "nearest": {
+      "lat": -23.625,
+      "lon": -47.375
+    },
+    "target": {
+      "lat": -23.5446,
+      "lon": -47.4388
+    }
+  },
+  "Votuporanga": {
+    "nearest": {
+      "lat": -20.375,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -20.4237,
+      "lon": -49.9781
+    }
+  },
+  "Várzea Grande": {
+    "nearest": {
+      "lat": -15.625,
+      "lon": -56.125
+    },
+    "target": {
+      "lat": -15.6458,
+      "lon": -56.1322
+    }
+  },
+  "Várzea Paulista": {
+    "nearest": {
+      "lat": -23.125,
+      "lon": -46.875
+    },
+    "target": {
+      "lat": -23.2136,
+      "lon": -46.8234
+    }
+  },
+  "Xanxerê": {
+    "nearest": {
+      "lat": -26.875,
+      "lon": -52.375
+    },
+    "target": {
+      "lat": -26.8747,
+      "lon": -52.4036
+    }
+  },
+  "Xinguara": {
+    "nearest": {
+      "lat": -7.125,
+      "lon": -49.875
+    },
+    "target": {
+      "lat": -7.0983,
+      "lon": -49.9437
+    }
+  },
+  "Águas Lindas de Goiás": {
+    "nearest": {
+      "lat": -15.875,
+      "lon": -48.375
+    },
+    "target": {
+      "lat": -15.7617,
+      "lon": -48.2816
+    }
+  },
+  "Óbidos": {
+    "nearest": {
+      "lat": -1.875,
+      "lon": -55.625
+    },
+    "target": {
+      "lat": -1.90107,
+      "lon": -55.5208
+    }
+  }
+}

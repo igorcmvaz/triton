@@ -1,0 +1,179 @@
+{
+  "$schema": "https://netuno.local/schemas/bim-interchange-1.0.json",
+  "schema_version": "1.0",
+  "generator": {
+    "application": "Netuno 5",
+    "format": "BIM interchange",
+    "generated_at_utc": "2026-09-03T22:10:43.896831+00:00"
+  },
+  "project": {
+    "name": "Exemplo de Coordenação CAD-BIM",
+    "reference": "N5-CAD-BIM-EXEMPLO",
+    "location": "Não informada",
+    "coordinate_status": "local_unreferenced"
+  },
+  "units": {
+    "length": "millimetre",
+    "volume": "litre",
+    "flow": "litre_per_minute",
+    "power": "kilowatt",
+    "rotation": "degree"
+  },
+  "calculated_design": {
+    "catchment_area_m2": 250.0,
+    "first_flush_depth_mm": 2.0,
+    "lower_storage_l": 10000.0,
+    "upper_storage_l": 1000.0,
+    "note": "Valores de cálculo; confirmar seleção comercial e compatibilização antes da execução."
+  },
+  "component_types": [
+    {
+      "type_id": "cisterna_inferior",
+      "cad_block": "NETUNO_CISTERNA_PLANTA",
+      "revit_category": "OST_PlumbingFixtures",
+      "parameters": [
+        "CAPACIDADE_L",
+        "DIAMETRO_MM",
+        "ALTURA_MM"
+      ]
+    },
+    {
+      "type_id": "reservatorio_superior",
+      "cad_block": "NETUNO_RES_SUP_PLANTA",
+      "revit_category": "OST_PlumbingFixtures",
+      "parameters": [
+        "CAPACIDADE_L",
+        "LARGURA_MM",
+        "COMPRIMENTO_MM",
+        "ALTURA_MM"
+      ]
+    },
+    {
+      "type_id": "filtro_pluvial",
+      "cad_block": "NETUNO_FILTRO_PLUVIAL",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "DN_MM",
+        "MALHA_MM"
+      ]
+    },
+    {
+      "type_id": "first_flush",
+      "cad_block": "NETUNO_FIRST_FLUSH",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "VOLUME_L",
+        "DESCARTE_MM"
+      ]
+    },
+    {
+      "type_id": "motobomba",
+      "cad_block": "NETUNO_MOTOBOMBA",
+      "revit_category": "OST_MechanicalEquipment",
+      "parameters": [
+        "POTENCIA_KW",
+        "VAZAO_L_MIN",
+        "ALTURA_MCA"
+      ]
+    },
+    {
+      "type_id": "registro_gaveta",
+      "cad_block": "NETUNO_REG_GAVETA",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "DN_MM"
+      ]
+    },
+    {
+      "type_id": "registro_esfera",
+      "cad_block": "NETUNO_REG_ESFERA",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "DN_MM"
+      ]
+    },
+    {
+      "type_id": "valvula_retencao",
+      "cad_block": "NETUNO_VALV_RETENCAO",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "DN_MM"
+      ]
+    },
+    {
+      "type_id": "air_gap",
+      "cad_block": "NETUNO_AIR_GAP",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "FOLGA_MM",
+        "DN_MM"
+      ]
+    },
+    {
+      "type_id": "ladrao_sifonado",
+      "cad_block": "NETUNO_LADRAO_SIFONADO",
+      "revit_category": "OST_PipeAccessory",
+      "parameters": [
+        "DN_MM",
+        "MALHA_MM"
+      ]
+    },
+    {
+      "type_id": "ponto_nao_potavel",
+      "cad_block": "NETUNO_PONTO_NAO_POTAVEL",
+      "revit_category": "OST_PlumbingFixtures",
+      "parameters": [
+        "USO",
+        "DN_MM"
+      ]
+    }
+  ],
+  "instances": [
+    {
+      "instance_id": "CI-01",
+      "type_id": "cisterna_inferior",
+      "level": "Térreo",
+      "position_mm": {
+        "x": 12500.0,
+        "y": 8200.0,
+        "z": 0.0
+      },
+      "rotation_deg": 0.0,
+      "parameters": {
+        "CAPACIDADE_L": 10000,
+        "DIAMETRO_MM": 2400
+      }
+    },
+    {
+      "instance_id": "FP-01",
+      "type_id": "filtro_pluvial",
+      "level": "Térreo",
+      "position_mm": {
+        "x": 9800.0,
+        "y": 8200.0,
+        "z": 0.0
+      },
+      "rotation_deg": 0.0,
+      "parameters": {
+        "DN_MM": 100,
+        "MALHA_MM": 1.0
+      }
+    },
+    {
+      "instance_id": "B-01",
+      "type_id": "motobomba",
+      "level": "Térreo",
+      "position_mm": {
+        "x": 15000.0,
+        "y": 8200.0,
+        "z": 0.0
+      },
+      "rotation_deg": 90.0,
+      "parameters": {
+        "POTENCIA_KW": 0.37,
+        "VAZAO_L_MIN": 40,
+        "ALTURA_MCA": 18
+      }
+    }
+  ]
+}

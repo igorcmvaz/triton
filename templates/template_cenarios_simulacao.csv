@@ -1,0 +1,5 @@
+scenario_id;description;roof_area_m2;runoff_coefficient;first_flush_mm;tank_volume_liters;daily_demand_liters;non_potable_pct
+CENARIO_01;Residencial Pequeno - Reservatório 3000L;100.0;0.85;2.0;3000;450.0;40.0
+CENARIO_02;Residencial Médio - Reservatório 5000L;150.0;0.85;2.0;5000;600.0;45.0
+CENARIO_03;Residencial Grande - Reservatório 10000L;250.0;0.90;2.0;10000;900.0;50.0
+CENARIO_04;Comercial / Escritório - Reservatório 15000L;500.0;0.90;2.0;15000;2000.0;65.0

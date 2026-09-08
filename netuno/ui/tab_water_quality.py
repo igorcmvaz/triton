@@ -1,0 +1,427 @@
+"""
+Etapa 3: Qualidade da Água & Linha de Tratamento da ETAP (Netuno 5).
+Integra o modelo físico de lavagem de primeira chuva (wash-off), diretrizes da NBR 15527 / NBR 16783,
+dimensionamento paramétrico de filtros autolimpantes, dosagem de cloro, reatores UV e filtros de polimento.
+"""
+
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
+    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea,
+    QCheckBox, QTableWidget, QTableWidgetItem, QHeaderView, QRadioButton
+)
+from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QFont, QColor
+
+from netuno.ui.translation import tr, get_current_theme
+from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
+from netuno.core.water_quality import (
+    calculate_first_flush_washoff, size_etap, WATER_QUALITY_CLASSES, FirstFlushAnalysis
+)
+
+
+class TabWaterQuality(QWidget):
+    water_quality_updated = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.main_window = parent
+        self.setAttribute(Qt.WA_StyledBackground, True)
+        self.config: NetunoConfig = getattr(parent, 'config', NetunoConfig())
+        self.init_ui()
+
+    def init_ui(self):
+        main_vbox = QVBoxLayout(self)
+        main_vbox.setContentsMargins(0, 0, 0, 0)
+        main_vbox.setSpacing(0)
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setStyleSheet("QScrollArea { border: none; background-color: transparent; }")
+
+        content = QWidget()
+        lay = QVBoxLayout(content)
+        lay.setContentsMargins(40, 34, 40, 40)
+        lay.setSpacing(16)
+
+        is_dark = get_current_theme() == "dark"
+        text_color = "#48d5b7" if is_dark else "#087f6b"
+        card_bg = "#1e293b" if is_dark else "#f8fafc"
+        card_border = "#334155" if is_dark else "#cbd5e1"
+        sub_text_color = "#94a3b8" if is_dark else "#64748b"
+
+        # ── HEADER DA ABA ──
+        lbl_title = QLabel(tr("Qualidade da água e linha de tratamento"))
+        lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; color: #133c32;")
+        lay.addWidget(lbl_title)
+
+        lbl_desc = QLabel(tr(
+            "Análise do impacto físico do descarte de primeira chuva (wash-off), metas normativas da ABNT NBR 15527:2019 / NBR 16783 "
+            "e dimensionamento paramétrico de filtros mecânicos, desinfecção e polimento."
+        ))
+        lbl_desc.setWordWrap(True)
+        lbl_desc.setStyleSheet(f"font-size: 11.5px; color: {sub_text_color}; margin-bottom: 4px;")
+        lay.addWidget(lbl_desc)
+
+        # ── SEÇÃO A: DESCARTE INICIAL & MODELO DE LAVAGEM (FIRST FLUSH WASH-OFF) ──
+        gb_ff = QGroupBox(tr("🌧️ A. Descarte de Primeira Chuva (First Flush) e Eficiência de Limpeza"))
+        gb_ff.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
+        lay_ff = QVBoxLayout(gb_ff)
+        lay_ff.setSpacing(10)
+
+        row_ff_input = QHBoxLayout()
+        self.lbl_discard_info = QLabel()
+        self.lbl_discard_info.setStyleSheet(
+            f"font-size: 12.5px; font-weight: bold; color: {'#38bdf8' if is_dark else '#0284c7'}; "
+            f"background-color: {'#1e293b' if is_dark else '#e0f2fe'}; padding: 5px 12px; border-radius: 6px;"
+        )
+        row_ff_input.addWidget(self.lbl_discard_info)
+
+        lbl_unit_info = QLabel(tr("(Parâmetro unificado na Etapa 1: Projeto e Chuva · 1,0 mm = 1,0 L descartado por m² de telhado)"))
+        lbl_unit_info.setStyleSheet(f"font-size: 11px; color: {sub_text_color};")
+        row_ff_input.addWidget(lbl_unit_info)
+        row_ff_input.addStretch()
+        lay_ff.addLayout(row_ff_input)
+
+        # Cards com Indicadores da Limpeza
+        grid_cards = QGridLayout()
+        grid_cards.setSpacing(10)
+
+        self.card_vol_disc = self._create_metric_card(tr("Volume Descartado Estimado"), "-- m³/ano", "#0284c7")
+        self.card_rem_solids = self._create_metric_card(tr("Remoção Sólidos Grosseiros"), "-- %", "#059669")
+        self.card_rem_turb = self._create_metric_card(tr("Remoção Turbidez / Fuligem"), "-- %", "#059669")
+        self.card_rem_bact = self._create_metric_card(tr("Remoção Carga Bacteriológica"), "-- %", "#059669")
+
+        grid_cards.addWidget(self.card_vol_disc, 0, 0)
+        grid_cards.addWidget(self.card_rem_solids, 0, 1)
+        grid_cards.addWidget(self.card_rem_turb, 0, 2)
+        grid_cards.addWidget(self.card_rem_bact, 0, 3)
+        lay_ff.addLayout(grid_cards)
+
+        # Card de Diagnóstico Físico
+        self.frame_ff_diag = QFrame()
+        self.frame_ff_diag.setStyleSheet(f"""
+            QFrame {{
+                background-color: {card_bg};
+                border: 1px solid {card_border};
+                border-radius: 6px;
+                padding: 8px;
+            }}
+        """)
+        lay_diag = QVBoxLayout(self.frame_ff_diag)
+        lay_diag.setSpacing(4)
+        self.lbl_diag_class = QLabel("<b>Classificação:</b> --")
+        self.lbl_diag_text = QLabel("--")
+        self.lbl_diag_text.setWordWrap(True)
+        self.lbl_diag_text.setStyleSheet(f"font-size: 11px; color: {sub_text_color};")
+        lay_diag.addWidget(self.lbl_diag_class)
+        lay_diag.addWidget(self.lbl_diag_text)
+        lay_ff.addWidget(self.frame_ff_diag)
+
+        lay.addWidget(gb_ff)
+
+        # ── SEÇÃO B: USOS FINAIS & LIMITES NORMATIVOS NBR 15527 ──
+        gb_uses = QGroupBox(tr("📋 B. Classe de Uso Final e Parâmetros da Qualidade (ABNT NBR 15527)"))
+        gb_uses.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
+        lay_uses = QVBoxLayout(gb_uses)
+        lay_uses.setSpacing(10)
+
+        row_class_sel = QHBoxLayout()
+        row_class_sel.addWidget(QLabel(f"<b>{tr('Classe de Uso Alvo:')}</b>"))
+        self.combo_class = QComboBox()
+        self.combo_class.setMinimumWidth(320)
+        for class_id, class_info in WATER_QUALITY_CLASSES.items():
+            self.combo_class.addItem(tr(class_info.nome), class_id)
+        self.combo_class.currentIndexChanged.connect(self.on_class_changed)
+        row_class_sel.addWidget(self.combo_class)
+        row_class_sel.addStretch()
+        lay_uses.addLayout(row_class_sel)
+
+        # Tabela com Parâmetros Normativos
+        self.table_limits = QTableWidget()
+        self.table_limits.setFixedHeight(75)
+        self.table_limits.setColumnCount(5)
+        self.table_limits.setHorizontalHeaderLabels([
+            tr("Turbidez Máxima"), tr("Cor Aparente"), tr("Faixa de pH"),
+            tr("Cloro Residual Livre"), tr("Coliformes Termotolerantes")
+        ])
+        self.table_limits.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table_limits.verticalHeader().setVisible(False)
+        self.table_limits.verticalHeader().setDefaultSectionSize(32)
+        self.table_limits.setRowCount(1)
+        lay_uses.addWidget(self.table_limits)
+
+        lay.addWidget(gb_uses)
+
+        # ── SEÇÃO C: LINHA DE TRATAMENTO PARAMETRIZADA (ETAP) ──
+        gb_etap = QGroupBox(tr("⚙️ C. Dimensionamento Paramétrico da Linha de Tratamento (ETAP)"))
+        gb_etap.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
+        lay_etap = QGridLayout(gb_etap)
+        lay_etap.setSpacing(10)
+
+        # 1. Filtro Mecânico de Entrada
+        lay_etap.addWidget(QLabel(f"<b>{tr('1. Pré-Filtração Mecânica:')}</b>"), 0, 0)
+        self.lbl_filter_type = QLabel("--")
+        self.lbl_filter_type.setStyleSheet("font-weight: bold; color: #0284c7;")
+        lay_etap.addWidget(self.lbl_filter_type, 0, 1)
+
+        # 2. Desinfecção
+        lay_etap.addWidget(QLabel(f"<b>{tr('2. Sistema de Desinfecção:')}</b>"), 1, 0)
+        self.combo_disinf = QComboBox()
+        self.combo_disinf.addItem(tr("Dosador de Pastilhas de Cloro (Hipoclorito)"), "cloro")
+        self.combo_disinf.addItem(tr("Reator de Radiação Ultravioleta (UV) Germicida"), "uv")
+        self.combo_disinf.addItem(tr("Gerador de Ozônio (O3)"), "ozonio")
+        self.combo_disinf.addItem(tr("Nenhum (Sem desinfecção química/física)"), "nenhum")
+        self.combo_disinf.currentIndexChanged.connect(self.on_disinfection_changed)
+        lay_etap.addWidget(self.combo_disinf, 1, 1)
+
+        # Dose de Cloro (se selecionado)
+        self.lbl_cl_dose = QLabel(f"<b>{tr('Dose de Cloro (mg/L):')}</b>")
+        self.txt_cl_dose = QLineEdit("")
+        self.txt_cl_dose.setPlaceholderText(tr("Ex: 1,5"))
+        self.txt_cl_dose.setFixedWidth(70)
+        self.txt_cl_dose.textChanged.connect(self.recalculate_all)
+        row_cl = QHBoxLayout()
+        row_cl.addWidget(self.lbl_cl_dose)
+        row_cl.addWidget(self.txt_cl_dose)
+        row_cl.addStretch()
+        lay_etap.addLayout(row_cl, 2, 1)
+
+        # 3. Filtro de Polimento
+        lay_etap.addWidget(QLabel(f"<b>{tr('3. Polimento Físico:')}</b>"), 3, 0)
+        self.chk_polishing = QCheckBox(tr("Incluir Filtro de Polimento Fino (Carvão Ativado / Areia Multicamada)"))
+        self.chk_polishing.toggled.connect(self.recalculate_all)
+        lay_etap.addWidget(self.chk_polishing, 3, 1)
+
+        lay.addWidget(gb_etap)
+
+        # ── SEÇÃO C.1: MEMÓRIA DE CÁLCULO DA CLORAÇÃO ──
+        self.gb_cl_calc = QGroupBox(tr("🧪 Memória de Cálculo da Desinfecção por Cloração (Hipoclorito de Cálcio)"))
+        self.gb_cl_calc.setStyleSheet(f"""
+            QGroupBox {{
+                font-weight: bold;
+                color: {text_color};
+                background-color: {'#18181b' if is_dark else '#f0fdf4'};
+                border: 1.5px solid {'#166534' if is_dark else '#86efac'};
+                border-radius: 8px;
+                padding: 12px;
+            }}
+        """)
+        lay_cl_calc = QGridLayout(self.gb_cl_calc)
+        lay_cl_calc.setSpacing(8)
+
+        self.lbl_cl_calc_demand = QLabel("--")
+        self.lbl_cl_calc_dose = QLabel("--")
+        self.lbl_cl_calc_active = QLabel("--")
+        self.lbl_cl_calc_commercial = QLabel("--")
+        self.lbl_cl_calc_daily = QLabel("--")
+        self.lbl_cl_calc_cost = QLabel("--")
+        self.lbl_cl_calc_norm = QLabel("--")
+
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Volume Anual Tratado:')}</b>"), 0, 0)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_demand, 0, 1)
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Dosagem de Projeto:')}</b>"), 0, 2)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_dose, 0, 3)
+
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Massa Cloro Ativo Puro:')}</b>"), 1, 0)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_active, 1, 1)
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Consumo de Pastilhas (65%):')}</b>"), 1, 2)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_commercial, 1, 3)
+
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Consumo Diário Estimado:')}</b>"), 2, 0)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_daily, 2, 1)
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Custo Químico Anual:')}</b>"), 2, 2)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_cost, 2, 3)
+
+        lay_cl_calc.addWidget(QLabel(f"<b>{tr('Enquadramento Normativo:')}</b>"), 3, 0)
+        lay_cl_calc.addWidget(self.lbl_cl_calc_norm, 3, 1, 1, 3)
+
+        lay.addWidget(self.gb_cl_calc)
+
+        # ── SEÇÃO D: RESUMO DE CUSTOS E IMPACTO AMBIENTAL DA ETAP ──
+        gb_summary = QGroupBox(tr("💰 D. Síntese de Custos (CAPEX/OPEX) e Pegada de Carbono da ETAP"))
+        gb_summary.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
+        lay_sum = QHBoxLayout(gb_summary)
+        lay_sum.setSpacing(12)
+
+        self.card_etap_capex = self._create_metric_card(tr("Investimento ETAP (CAPEX)"), "R$ --", "#0284c7")
+        self.card_etap_opex = self._create_metric_card(tr("Insumos Anuais (OPEX)"), "R$ --/ano", "#e11d48")
+        self.card_etap_co2 = self._create_metric_card(tr("Emissões Anuais Insumos"), "-- kg CO2e/ano", "#059669")
+
+        lay_sum.addWidget(self.card_etap_capex)
+        lay_sum.addWidget(self.card_etap_opex)
+        lay_sum.addWidget(self.card_etap_co2)
+        lay.addWidget(gb_summary)
+
+        scroll.setWidget(content)
+        main_vbox.addWidget(scroll)
+
+        self.on_class_changed()
+        self.on_disinfection_changed()
+        self.recalculate_all()
+
+    def _create_metric_card(self, title: str, initial_value: str, color_hex: str) -> QFrame:
+        is_dark = get_current_theme() == "dark"
+        card = QFrame()
+        card.setStyleSheet(f"""
+            QFrame {{
+                background-color: {'#18181b' if is_dark else '#ffffff'};
+                border: 1.5px solid {'#3f3f46' if is_dark else '#e2e8f0'};
+                border-radius: 8px;
+                padding: 10px;
+            }}
+        """)
+        v = QVBoxLayout(card)
+        v.setContentsMargins(4, 4, 4, 4)
+        v.setSpacing(3)
+        lbl_t = QLabel(title)
+        lbl_t.setStyleSheet(f"font-size: 10.5px; color: {'#a1a1aa' if is_dark else '#64748b'}; font-weight: 500;")
+        lbl_v = QLabel(initial_value)
+        lbl_v.setObjectName("val_label")
+        lbl_v.setStyleSheet(f"font-size: 14px; font-weight: bold; color: {color_hex};")
+        v.addWidget(lbl_t)
+        v.addWidget(lbl_v)
+        return card
+
+    def _set_card_value(self, card: QFrame, val_str: str):
+        lbl = card.findChild(QLabel, "val_label")
+        if lbl:
+            lbl.setText(val_str)
+
+    def on_discard_changed(self):
+        try:
+            val = parse_float(self.txt_discard.text().replace(',', '.'))
+            self.config.discard = max(0.0, val)
+            self.recalculate_all()
+            self.water_quality_updated.emit()
+        except Exception:
+            pass
+
+    def on_class_changed(self):
+        class_id = self.combo_class.currentData() or "classe_1"
+        self.config.water_quality_target_class = class_id
+        class_obj = WATER_QUALITY_CLASSES.get(class_id, WATER_QUALITY_CLASSES["classe_1"])
+
+        # Atualiza tabela de limites com itens alinhados e protegidos contra edição
+        colif_str = "Ausência (0 UFC/100 mL)" if class_obj.coliformes_termo_max_ufc_100ml == 0 else f"≤ {class_obj.coliformes_termo_max_ufc_100ml:.0f} UFC"
+        vals = [
+            f"≤ {class_obj.turbidez_max_ntu:.1f} NTU",
+            f"≤ {class_obj.cor_aparente_max_uh:.0f} uH",
+            f"{class_obj.ph_min:.1f} a {class_obj.ph_max:.1f}",
+            f"{class_obj.cloro_residual_min_mg_l:.1f} a {class_obj.cloro_residual_max_mg_l:.1f} mg/L",
+            colif_str
+        ]
+        for c_idx, val_txt in enumerate(vals):
+            it = QTableWidgetItem(val_txt)
+            it.setTextAlignment(Qt.AlignCenter)
+            it.setFlags(it.flags() & ~Qt.ItemIsEditable)
+            self.table_limits.setItem(0, c_idx, it)
+
+        if class_obj.exige_filtracao_fina:
+            self.chk_polishing.setChecked(True)
+
+        self.recalculate_all()
+
+    def on_disinfection_changed(self):
+        method = self.combo_disinf.currentData() or "cloro"
+        self.config.water_quality_disinfection = method
+        is_cloro = (method == "cloro")
+        self.lbl_cl_dose.setVisible(is_cloro)
+        self.txt_cl_dose.setVisible(is_cloro)
+        if hasattr(self, 'gb_cl_calc'):
+            self.gb_cl_calc.setVisible(is_cloro)
+        self.recalculate_all()
+
+    def recalculate_all(self):
+        # Sincroniza com a Etapa 1 (Projeto e Chuva)
+        discard_val = getattr(self.config, 'discard', 1.0)
+        if self.main_window and hasattr(self.main_window, 'tab_project') and hasattr(self.main_window.tab_project, 'txt_discard'):
+            try:
+                discard_val = parse_float(self.main_window.tab_project.txt_discard.text().replace(',', '.'), discard_val)
+            except Exception:
+                pass
+        self.config.discard = max(0.0, discard_val)
+
+        roof_area = getattr(self.config, 'area', 100.0)
+        if self.main_window and hasattr(self.main_window, 'tab_building') and hasattr(self.main_window.tab_building, 'txt_area'):
+            try:
+                roof_area = parse_float(self.main_window.tab_building.txt_area.text().replace(',', '.'), roof_area)
+            except Exception:
+                pass
+
+        if hasattr(self, 'lbl_discard_info'):
+            self.lbl_discard_info.setText(f"💧 {tr('Lâmina de Descarte Configurada:')} {format_ptbr(discard_val, 1)} mm")
+
+        # 1. Análise Wash-off
+        ff_res: FirstFlushAnalysis = calculate_first_flush_washoff(
+            discard_mm=discard_val,
+            roof_area_m2=roof_area,
+            annual_precipitation_mm=1500.0,
+            roof_runoff_coeff=getattr(self.config, 'runoff_coeff', 0.85),
+        )
+
+        self._set_card_value(self.card_vol_disc, f"{ff_res.annual_discard_volume_m3:.1f} m³/ano")
+        self._set_card_value(self.card_rem_solids, f"{ff_res.removal_coarse_solids_pct:.1f} %")
+        self._set_card_value(self.card_rem_turb, f"{ff_res.removal_turbidity_pct:.1f} %")
+        self._set_card_value(self.card_rem_bact, f"{ff_res.removal_bacteria_pct:.1f} %")
+
+        self.lbl_diag_class.setText(f"<b>{tr('Classificação:')}</b> {ff_res.cleanliness_classification} "
+                                   f"(Turbidez Bruta Pós-Descarte Estimada: ~{ff_res.estimated_post_discard_turbidity_ntu:.1f} NTU)")
+        self.lbl_diag_text.setText(ff_res.recommendation_text)
+
+        # 2. Dimensionamento ETAP
+        class_id = self.combo_class.currentData() or "classe_1"
+        disinf_method = self.combo_disinf.currentData() or "cloro"
+        dose_cl = parse_float(self.txt_cl_dose.text().replace(',', '.'), 1.5)
+        include_pol = self.chk_polishing.isChecked()
+
+        # Consumo anual aproximado de água pluvial
+        sim_pluv_m3 = getattr(self.config, 'annual_pluvial_consumed_m3', 120.0)
+        if sim_pluv_m3 <= 0:
+            sim_pluv_m3 = 120.0
+
+        etap_res = size_etap(
+            target_class_id=class_id,
+            annual_pluvial_consumed_m3=sim_pluv_m3,
+            roof_area_m2=roof_area,
+            disinfection_choice=disinf_method,
+            include_polishing_filter=include_pol,
+            chlorine_dose_mg_l=dose_cl,
+            chlorine_kg_price_brl=38.0,
+            regional_factor=1.0,
+        )
+
+        self.lbl_filter_type.setText(f"{etap_res.pre_filter_type} (Malha {etap_res.pre_filter_mesh_microns} µm)")
+        self._set_card_value(self.card_etap_capex, f"R$ {etap_res.total_etap_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
+        self._set_card_value(self.card_etap_opex, f"R$ {etap_res.total_etap_annual_opex:,.2f}/ano".replace(',', 'X').replace('.', ',').replace('X', '.'))
+        self._set_card_value(self.card_etap_co2, f"{etap_res.total_etap_co2e_kg_yr:.1f} kg CO2e/ano")
+
+        # Atualiza a memória de cálculo do cloro
+        if hasattr(self, 'gb_cl_calc'):
+            is_cloro = (disinf_method == "cloro")
+            self.gb_cl_calc.setVisible(is_cloro)
+            if is_cloro:
+                vol_pluv_m3 = sim_pluv_m3
+                vol_pluv_l_dia = (vol_pluv_m3 * 1000.0) / 365.25
+                active_kg_yr = (vol_pluv_m3 * dose_cl) / 1000.0
+                comm_kg_yr = active_kg_yr / 0.65 if dose_cl > 0 else 0.0
+                daily_g_day = (vol_pluv_l_dia * dose_cl) / 1000.0
+                cost_yr = comm_kg_yr * 38.0
+
+                self.lbl_cl_calc_demand.setText(f"{vol_pluv_m3:,.1f} m³/ano ({vol_pluv_l_dia:,.0f} L/dia)".replace(',', 'X').replace('.', ',').replace('X', '.'))
+                self.lbl_cl_calc_dose.setText(f"{dose_cl:.2f} mg/L (ou g/m³ de Cl₂ ativo)")
+                self.lbl_cl_calc_active.setText(f"{active_kg_yr:.3f} kg Cl₂ ativo/ano")
+                self.lbl_cl_calc_commercial.setText(f"{comm_kg_yr:.2f} kg pastilhas/ano ({comm_kg_yr*1000/12:.0f} g/mês)")
+                self.lbl_cl_calc_daily.setText(f"{daily_g_day:.2f} g Cl₂ ativo/dia")
+                self.lbl_cl_calc_cost.setText(f"R$ {cost_yr:,.2f}/ano (base R$ 38,00/kg)".replace(',', 'X').replace('.', ',').replace('X', '.'))
+                
+                if dose_cl < 0.5:
+                    self.lbl_cl_calc_norm.setText(f"<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>")
+                elif dose_cl <= 2.0:
+                    self.lbl_cl_calc_norm.setText(f"<span style='color: #16a34a;'>✅ Atende plenamente à NBR 15527 / NBR 16783 (Residual livre esperado: 0,5 a 2,0 mg/L).</span>")
+                else:
+                    self.lbl_cl_calc_norm.setText(f"<span style='color: #0284c7;'>ℹ️ Hipercloração (> 2,0 mg/L). Recomendado para desinfecção de choque ou águas com alta matéria orgânica.</span>")
+
+        # Atualiza parâmetros na config
+        self.config.chlorine_dose_mg_l = dose_cl
+        self.config.chlorine_treatment_enabled = (disinf_method == "cloro")
