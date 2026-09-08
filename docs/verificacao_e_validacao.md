@@ -27,8 +27,8 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 271 testes, 0 falhas (mais 3 de replicação sob demanda) |
-| Cobertura do núcleo de cálculo | 81% das linhas |
+| Suíte de testes | 364 testes, 0 falhas (mais 3 de replicação sob demanda) |
+| Cobertura do núcleo de cálculo | 84% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
@@ -106,21 +106,32 @@ interna e cancela no balanço combinado.
 
 ![Cobertura de testes por módulo](figuras/fig03_cobertura_por_modulo.png)
 
-*Figura 2 — Cobertura de linhas por módulo do núcleo. A cobertura total é de 81%. Três
-módulos estão abaixo de 50%.*
+*Figura 2 — Cobertura de linhas por módulo do núcleo. A cobertura total é de 84% e
+nenhum módulo está abaixo de 50%.*
 
-A cobertura agregada de 81% é adequada, mas a distribuição é desigual e a leitura por
-módulo é mais informativa que o total:
+A cobertura agregada é de **84%**, e a distribuição deixou de ter concentrações de risco:
 
 | Faixa | Módulos | Leitura |
 | :--- | :--- | :--- |
-| ≥ 90% | `report_service`, `topsis`, `mcdm_methods`, `environmental`, `cad_exporter`, `esg_certifications` | núcleo decisório bem coberto |
-| 63–87% | `economic`, `parser`, `report_generator`, `climate_database`, `simulation`, `cost_estimates` | lacunas concentradas em ramos de exceção |
-| < 50% | `scenarios` (33%), `change_detector` (24%), `excel_scenarios` (14%) | risco concentrado |
+| ≥ 90% | `report_service`, `topsis`, `environmental`, `mcdm_methods`, `economic`, `cad_exporter`, `esg_certifications` | núcleo decisório e financeiro bem cobertos |
+| 63–88% | `scenarios`, `parser`, `water_quality`, `report_generator`, `climate_database`, `simulation`, `excel_scenarios`, `change_detector`, `cost_estimates` | lacunas concentradas em ramos de exceção |
+| < 50% | nenhum | — |
 
-Os 70% de `simulation.py` são explicados em §4: 167 linhas correspondem aos kernels JIT,
-que não existem neste ambiente e que a ferramenta de cobertura não consegue instrumentar
-mesmo quando existem.
+Três módulos saíram da faixa crítica nesta apuração:
+
+| Módulo | Antes | Depois | Como |
+| :--- | ---: | ---: | :--- |
+| `scenarios` | 33% | **88%** | matriz fatorial em modo sequencial e exportação no formato do Netuno 4 |
+| `change_detector` | 24% | **70%** | transições de estado com a sessão HTTP substituída por dublê |
+| `excel_scenarios` | 14% | **66%** | ida e volta entre o modelo gerado e o leitor do próprio programa |
+
+Com isso o portão de cobertura do `qa_runner` deixou de ter isenções: os três módulos
+respondem ao piso como os demais.
+
+Os 72% de `simulation.py` são artefato de medição, não lacuna: 167 linhas correspondem
+aos kernels JIT, que a ferramenta de cobertura não instrumenta mesmo quando estão
+ativos. A verificação desses kernels é feita por comparação com o kernel de referência
+(§4), e não por cobertura.
 
 ---
 
