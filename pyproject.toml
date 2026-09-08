@@ -8,7 +8,7 @@ version = "5.0.7"
 description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "GPL-3.0-or-later" }
 authors = [
     { name = "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)", email = "sustainability@contato.ufsc.br" }
 ]
@@ -28,7 +28,7 @@ classifiers = [
     "Environment :: Win32 (MS Windows)",
     "Intended Audience :: Science/Research",
     "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",

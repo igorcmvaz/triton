@@ -2,7 +2,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
 [![GUI Framework](https://img.shields.io/badge/GUI-PySide6%20(Qt6)-green)](https://www.qt.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
 
 O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa Gestão do Espaço Sustentável da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
@@ -171,4 +171,4 @@ pytest tests/test_mcdm_methods.py tests/ui/ -v
 ## 📄 Licença e Créditos
 
 Desenvolvido pelo **Grupo de Pesquisa Gestão do Espaço Sustentável** — Universidade Federal de Santa Catarina (UFSC).  
-Distribuído sob a licença **MIT**. Consulte o arquivo [`infos_licenses/license.txt`](infos_licenses/license.txt) para mais detalhes.
+Distribuído sob a **GNU General Public License v3.0 ou posterior**. Consulte o arquivo [`LICENSE`](LICENSE) para o texto integral.
