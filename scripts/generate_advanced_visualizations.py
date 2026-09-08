@@ -1289,11 +1289,11 @@ def main():
         
     print("[*] Carregando base consolidada de 7.172 registros...")
     df = pd.read_csv(CSV_COMPLETO, sep=';', decimal=',')
-    print(f"✓ {len(df):,} perfis ótimos carregados com sucesso!")
+    print(f"[ok] {len(df):,} perfis ótimos carregados com sucesso!")
     
     states_gdf = load_basemap()
     if states_gdf is not None:
-        print(f"✓ Shapefile do Brasil carregado com {len(states_gdf)} estados.")
+        print(f"[ok] Shapefile do Brasil carregado com {len(states_gdf)} estados.")
         
     plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
     

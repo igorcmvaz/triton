@@ -97,7 +97,7 @@ def split_climates(input_dir=None, output_dir=None, num_workers=None):
 
     files = sorted(glob.glob(os.path.join(input_dir, "*.csv")) + glob.glob(os.path.join(input_dir, "*.txt")))
     if not files:
-        print(f"❌ Nenhum arquivo encontrado em: {input_dir}")
+        print(f"[x] Nenhum arquivo encontrado em: {input_dir}")
         return
 
     workers = num_workers or os.cpu_count() or 4

@@ -539,7 +539,7 @@ def main():
         print(f"\n[*] Base completa encontrada em cache: {csv_completo_path}")
         print("    Carregando dados para análise estatística, figuras e relatório...")
         df_all = pd.read_csv(csv_completo_path, sep=';', decimal=',')
-        print(f"✓ {len(df_all):,} perfis ótimos carregados com sucesso do cache!")
+        print(f"[ok] {len(df_all):,} perfis ótimos carregados com sucesso do cache!")
     else:
         # 6. Execução Paralela
         max_cpus = max(1, min(os.cpu_count() or 4, 20))
@@ -561,7 +561,7 @@ def main():
                     print(f"    [{done_count}/{total_tasks}] cidades simuladas ({len(records_all):,} perfis computados)...")
                     
         t_sim = time.time() - t_sim0
-        print(f"✓ Simulação concluída com sucesso em {t_sim:.2f}s! Total de perfis ótimos: {len(records_all):,}")
+        print(f"[ok] Simulação concluída com sucesso em {t_sim:.2f}s! Total de perfis ótimos: {len(records_all):,}")
         
         df_all = pd.DataFrame(records_all)
         

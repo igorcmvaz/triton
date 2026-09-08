@@ -211,7 +211,7 @@ def load_geo_and_catalogue():
 
 def load_and_process_capitals_data():
     """Extrai do Parquet e consolida todas as métricas das 27 capitais."""
-    print("⏳ Carregando dados completos das 27 capitais do banco Parquet consolidado...")
+    print("[...] Carregando dados completos das 27 capitais do banco Parquet consolidado...")
     t0 = time.time()
     dataset = ds.dataset(PARQUET_PATH, format="parquet")
     filter_expr = ds.field("city").isin(CAPITAIS_BR)
@@ -232,7 +232,7 @@ def load_and_process_capitals_data():
     safe_cols = [c for c in cols if c in schema_cols]
     table = dataset.scanner(filter=filter_expr, columns=safe_cols).to_table()
     df = table.to_pandas()
-    print(f"✓ Carregados {len(df):,} registros em {time.time()-t0:.2f}s.")
+    print(f"[ok] Carregados {len(df):,} registros em {time.time()-t0:.2f}s.")
 
     # Padronização de colunas
     if "vpl_6pct_brl" not in df.columns and "vpl_brl" in df.columns:
@@ -252,7 +252,7 @@ def load_and_process_capitals_data():
 
 def aggregate_capitals_data(df, geo_dict, cat_dict):
     """Calcula estatísticas agregadas, curvas de volume, ótimos e impactos climáticos."""
-    print("⏳ Processando agregações multi-dimensionais e cálculos de otimização...")
+    print("[...] Processando agregações multi-dimensionais e cálculos de otimização...")
     
     # 1. Agregação Histórica por (city, building_code, lower_tank_vol_l)
     df_hist = df[df["horizon_std"] == "Historical"].copy()
@@ -521,7 +521,7 @@ def aggregate_capitals_data(df, geo_dict, cat_dict):
 
         capitals_data.append(cap_obj)
 
-    print(f"✓ Agregação concluída para {len(capitals_data)} capitais brasileiras.")
+    print(f"[ok] Agregação concluída para {len(capitals_data)} capitais brasileiras.")
     return grouped_hist, capitals_data
 
 
@@ -531,7 +531,7 @@ def aggregate_capitals_data(df, geo_dict, cat_dict):
 
 def generate_scientific_figures(grouped_hist, capitals_data):
     """Gera o conjunto completo de figuras científicas para o observatório cobrindo todas as 27 capitais com subplots por região."""
-    print("\n🎨 Gerando conjunto de figuras científicas em alta resolução (300 DPI) para todas as 27 capitais...")
+    print("\n[fig] Gerando conjunto de figuras científicas em alta resolução (300 DPI) para todas as 27 capitais...")
     setup_matplotlib_netuno_style(dark_mode=False)
 
     # 1. Curvas Canônicas de VPL vs Volume com Subplots por Macrorregião (Grid 2x3 para cada tipologia)
@@ -614,7 +614,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
         plt.savefig(out_png)
         plt.close()
 
-    print(" ✓ Curvas Canônicas VPL vs Volume geradas com subplots regionais para as 5 tipologias.")
+    print(" [ok] Curvas Canônicas VPL vs Volume geradas com subplots regionais para as 5 tipologias.")
 
     # 2. Rankings Nacionais de VPL Ótimo (Todas as 5 Tipologias)
     for bcode in ["UTI", "UTG", "MSG", "MFH", "MFL"]:
@@ -676,7 +676,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
         plt.savefig(out_png)
         plt.close()
 
-    print(" ✓ Rankings Nacionais de VPL gerados para as 5 tipologias.")
+    print(" [ok] Rankings Nacionais de VPL gerados para as 5 tipologias.")
 
     # 3. Matriz Multi-Tipologia (Grid 5x1)
     fig, axes = plt.subplots(1, 5, figsize=(20, 9.5), sharey=True)
@@ -730,7 +730,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "matriz_multitipologia_vpl_otimo_27_capitais.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Matriz Multi-Tipologia VPL gerada.")
+    print(" [ok] Matriz Multi-Tipologia VPL gerada.")
 
     # 3.1 Matriz Multi-Tipologia CO2 Líquido Evitado (Grid 5x1)
     fig, axes = plt.subplots(1, 5, figsize=(20, 9.5), sharey=True)
@@ -784,7 +784,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "matriz_multitipologia_co2_otimo_27_capitais.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Matriz Multi-Tipologia CO₂ gerada.")
+    print(" [ok] Matriz Multi-Tipologia CO2 gerada.")
 
     # 3.2 Rankings Nacionais de CO2 (Todas as 5 Tipologias)
     for bcode in ["UTI", "UTG", "MSG", "MFH", "MFL"]:
@@ -838,7 +838,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
         out_png = os.path.join(FIGURAS_DIR, f"ranking_nacional_co2_otimo_{bcode}.png")
         plt.savefig(out_png)
         plt.close()
-    print(" ✓ Rankings Nacionais de CO₂ gerados para as 5 tipologias.")
+    print(" [ok] Rankings Nacionais de CO2 gerados para as 5 tipologias.")
 
     # 4. Gráfico Radar Multi-Critério TOPSIS com Subplots por Macrorregião (Grid 2x3 Polar)
     fig, axes = plt.subplots(2, 3, figsize=(19, 12.5), subplot_kw=dict(polar=True))
@@ -964,7 +964,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "figura_radar_multicriterio_capitais.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Radar Multi-Critério por Região gerado.")
+    print(" [ok] Radar Multi-Critério por Região gerado.")
 
     # 4.1 Curvas de CO2 vs Volume de Cisterna com Subplots por Macrorregião (Grid 2x3)
     fig, axes = plt.subplots(2, 3, figsize=(18, 11))
@@ -1045,7 +1045,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "figura_curvas_co2_vs_volume_5_tipologias.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Curvas de CO₂ vs Volume por Região geradas.")
+    print(" [ok] Curvas de CO2 vs Volume por Região geradas.")
 
     # 5. Trajetórias Climáticas CMIP6 com Subplots por Macrorregião (Grid 2x5)
     fig, axes = plt.subplots(2, 5, figsize=(23, 9.5), sharey=True)
@@ -1116,7 +1116,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "figura_trajetorias_climaticas_capitais_cmip6.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Trajetórias Climáticas CMIP6 por Região geradas.")
+    print(" [ok] Trajetórias Climáticas CMIP6 por Região geradas.")
 
     # 6. Análise de Sensibilidade TMA com Subplots por Macrorregião (Grid 2x3)
     fig, axes = plt.subplots(2, 3, figsize=(18, 11))
@@ -1205,7 +1205,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png = os.path.join(FIGURAS_DIR, "figura_sensibilidade_tma_capitais.png")
     plt.savefig(out_png)
     plt.close()
-    print(" ✓ Gráfico de Sensibilidade TMA por Região gerado.")
+    print(" [ok] Gráfico de Sensibilidade TMA por Região gerado.")
 
     # 10. Figura MCDM VIKOR: Fronteira de Compromisso (Utilidade S vs Arrependimento R)
     fig, axes = plt.subplots(1, 2, figsize=(16, 7))
@@ -1270,7 +1270,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png_vikor = os.path.join(FIGURAS_DIR, "fig_mcdm_vikor_compromise_capitais.png")
     plt.savefig(out_png_vikor)
     plt.close()
-    print(" ✓ Figura MCDM VIKOR (Fronteira de Compromisso) gerada.")
+    print(" [ok] Figura MCDM VIKOR (Fronteira de Compromisso) gerada.")
     
     # 11. Figura MCDM SMAA: Distribuição de Aceitabilidade de Primeiro Lugar (b_i^1)
     fig, ax_smaa = plt.subplots(figsize=(13, 7))
@@ -1305,7 +1305,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png_smaa = os.path.join(FIGURAS_DIR, "fig_mcdm_smaa_acceptability_capitais.png")
     plt.savefig(out_png_smaa)
     plt.close()
-    print(" ✓ Figura MCDM SMAA (Aceitabilidade de Postos) gerada.")
+    print(" [ok] Figura MCDM SMAA (Aceitabilidade de Postos) gerada.")
 
     # 12. Figura MCDM Pesos Centrais: Decomposição das 3 Dimensões
     fig, ax_cw = plt.subplots(figsize=(11, 6.5))
@@ -1339,7 +1339,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
     out_png_cw = os.path.join(FIGURAS_DIR, "fig_mcdm_central_weights_ternary_capitais.png")
     plt.savefig(out_png_cw)
     plt.close()
-    print(" ✓ Figura MCDM Pesos Centrais SMAA gerada.")
+    print(" [ok] Figura MCDM Pesos Centrais SMAA gerada.")
 
 
 # ====================================================================================================
@@ -1348,7 +1348,7 @@ def generate_scientific_figures(grouped_hist, capitals_data):
 
 def generate_advanced_html_dashboard(capitals_data):
     """Gera a interface completa do Dashboard das 27 Capitais Brasileiras."""
-    print("\n🌐 Construindo Dashboard HTML Interativo de Alta Fidelidade...")
+    print("\n[global] Construindo Dashboard HTML Interativo de Alta Fidelidade...")
 
     json_capitals = json.dumps(capitals_data, ensure_ascii=False)
 
@@ -3113,7 +3113,7 @@ def generate_advanced_html_dashboard(capitals_data):
     out_html = os.path.join(OUTPUT_DIR, "dashboard_capitais_modo_global.html")
     with open(out_html, "w", encoding="utf-8") as f:
         f.write(html_code)
-    print(f"✓ Dashboard HTML Interativo salvo em: {out_html}")
+    print(f"[ok] Dashboard HTML Interativo salvo em: {out_html}")
     return out_html
 
 
@@ -3223,9 +3223,9 @@ def export_csv_and_summary_reports(capitals_data, grouped_hist):
     out_csv_all = os.path.join(OUTPUT_DIR, "capitais_varredura_completa.csv")
     grouped_hist.to_csv(out_csv_all, index=False, sep=";", encoding="utf-8-sig")
 
-    print(f"✓ CSV de Resumo salvo: {out_csv_summary}")
-    print(f"✓ CSV MCDM (VIKOR & SMAA) salvo: {out_csv_mcdm}")
-    print(f"✓ CSV de Varredura Completa salvo: {out_csv_all}")
+    print(f"[ok] CSV de Resumo salvo: {out_csv_summary}")
+    print(f"[ok] CSV MCDM (VIKOR & SMAA) salvo: {out_csv_mcdm}")
+    print(f"[ok] CSV de Varredura Completa salvo: {out_csv_all}")
 
 
 def main():
@@ -3252,9 +3252,9 @@ def main():
     export_csv_and_summary_reports(capitals_data, grouped_hist)
 
     print("\n" + "=" * 90)
-    print("🎉 DASHBOARD E FIGURAS DAS CAPITAIS GERADOS COM SUCESSO TOTAL!")
-    print(f"📁 Dashboard: {os.path.join(OUTPUT_DIR, 'dashboard_capitais_modo_global.html')}")
-    print(f"📁 Figuras: {FIGURAS_DIR}")
+    print("[fim] DASHBOARD E FIGURAS DAS CAPITAIS GERADOS COM SUCESSO TOTAL!")
+    print(f"[dir] Dashboard: {os.path.join(OUTPUT_DIR, 'dashboard_capitais_modo_global.html')}")
+    print(f"[dir] Figuras: {FIGURAS_DIR}")
     print("=" * 90)
 
 

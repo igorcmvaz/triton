@@ -14,8 +14,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+from functools import lru_cache
+
 from netuno.core.parser import load_precipitation
 from netuno.core.simulation import run_sweep_simulation
+
+
+@lru_cache(maxsize=32)
+def _serie_em_cache(caminho: str):
+    """Série pluviométrica lida uma única vez por arquivo.
+
+    As planilhas de referência têm milhares de linhas mas apenas seis séries distintas:
+    sem cache, o mesmo CSV é relido centenas de vezes e a leitura domina o tempo de
+    execução da comparação.
+    """
+    return load_precipitation(caminho)
 
 
 def run_benchmark_comparison(planilha_path: str, limite_de_casos: int = 0) -> Dict[str, Any]:
@@ -48,7 +61,7 @@ def run_benchmark_comparison(planilha_path: str, limite_de_casos: int = 0) -> Di
             if not os.path.exists(p_path):
                 continue
 
-            p_data = load_precipitation(p_path)
+            p_data = _serie_em_cache(p_path)
             discard_mm = float(row.iloc[2])
             area = float(row.iloc[3])
             demand_capita = float(row.iloc[4])

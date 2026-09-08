@@ -169,6 +169,73 @@ def test_aderencia_completa_ao_netuno4(nome_da_planilha):
     )
 
 
+@pytest.fixture(scope="module")
+def decomposicao():
+    """Decomposição da divergência, calculada uma única vez por sessão de teste.
+
+    Cada configuração percorre 2.583 casos; sem cache, cada teste que a consultasse
+    repetiria a varredura inteira.
+    """
+    from tests.benchmarking.decomposicao_divergencia import decompor
+    return decompor()
+
+
+@pytest.mark.replicacao
+def test_o_balanco_hidrico_replica_o_netuno4(decomposicao):
+    """A afirmação central do estudo de replicação, isolada das escolhas de projeto.
+
+    Comparar o ótimo de um programa com o do outro mistura três diferenças: o balanço
+    hídrico, o critério que escolhe o volume ótimo e o tratamento do descarte de
+    primeira chuva. `decomposicao_divergencia.py` as separa.
+
+    Neutralizadas as duas diferenças metodológicas conhecidas — avaliando o Netuno 5 no
+    volume que o Netuno 4 declarou ótimo e adotando o descarte por limiar do Netuno 4 —
+    o que resta é a diferença do motor. A medição de 8 de setembro de 2026 sobre 2.583
+    casos deu **MAE de 0,245 pp com 100% dos casos dentro de 5 pp**, compatível com a
+    precisão de duas casas decimais da própria planilha de referência.
+
+    O limite de 0,5 pp existe para detectar regressão do motor, não para atestar
+    qualidade: uma alteração no balanço diário que degradasse a replicação seria
+    apanhada aqui, ainda que a comparação ingênua continuasse dentro dos seus limiares.
+    """
+    controlado = decomposicao.get("volume_e_descarte_do_netuno4")
+    assert controlado is not None, "a decomposição não produziu a configuração controlada"
+
+    assert controlado.casos > 1000, (
+        f"apenas {controlado.casos} casos comparados; a decomposição perdeu linhas"
+    )
+    assert controlado.mae_pp < 0.5, (
+        f"o balanço hídrico divergiu do Netuno 4 em {controlado.mae_pp:.3f} pp de MAE, "
+        "acima do limite de 0,5 pp. Neutralizadas as diferenças de critério e de "
+        "descarte, o motor deveria replicar a referência quase exatamente."
+    )
+    assert controlado.fracao_ate_5pp >= 0.99, (
+        f"apenas {controlado.fracao_ate_5pp:.1%} dos casos ficaram dentro de 5 pp"
+    )
+
+
+@pytest.mark.replicacao
+def test_as_diferencas_metodologicas_explicam_a_divergencia(decomposicao):
+    """Cada diferença de projeto responde por parcela conhecida da divergência.
+
+    Serve de guarda contra uma conclusão apressada: se a divergência total crescesse
+    sem que as parcelas conhecidas crescessem junto, teria surgido uma terceira causa
+    ainda não identificada.
+    """
+    no_volume = decomposicao["volume_do_netuno4"].mae_pp
+    controlado = decomposicao["volume_e_descarte_do_netuno4"].mae_pp
+
+    assert no_volume > controlado, (
+        "adotar o descarte do Netuno 4 deveria aproximar os resultados, não afastá-los"
+    )
+    contribuicao_do_descarte = no_volume - controlado
+    assert contribuicao_do_descarte > 0.5, (
+        f"o tratamento do descarte responde por apenas {contribuicao_do_descarte:.3f} pp; "
+        "historicamente responde por cerca de 1,36 pp. Uma queda sugere que a semântica "
+        "do descarte mudou."
+    )
+
+
 @pytest.mark.replicacao
 def test_divergencia_e_sistematica_e_nao_dispersa():
     """Documenta em teste o viés sistemático da replicação.

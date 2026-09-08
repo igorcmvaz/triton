@@ -580,7 +580,7 @@ def build_docx_article():
         r_run.font.size = Pt(9.5)
 
     doc.save(OUTPUT_DOCX)
-    print(f"✓ Documento Word do Artigo Científico gerado com sucesso em: {OUTPUT_DOCX}")
+    print(f"[ok] Documento Word do Artigo Científico gerado com sucesso em: {OUTPUT_DOCX}")
 
 if __name__ == "__main__":
     build_docx_article()
