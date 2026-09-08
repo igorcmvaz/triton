@@ -89,7 +89,7 @@ netuno-gui = "main:main"
 [project.urls]
 Homepage = "https://sustainability.ufsc.br/"
 Documentation = "https://sustainability.ufsc.br/netuno"
-Repository = "https://github.com/ufsc-gestao-espaco-sustentavel/netuno"
+Repository = "https://github.com/igorcmvaz/netuno"
 
 [tool.setuptools]
 packages = ["netuno", "netuno.core", "netuno.ui", "netuno.data", "netuno.docs"]

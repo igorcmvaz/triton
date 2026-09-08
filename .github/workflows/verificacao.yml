@@ -1,0 +1,95 @@
+name: Verificação
+
+# A suíte numérica roda sem a stack gráfica desde a 5.0.7 (ver tests/conftest.py),
+# o que permite verificá-la num contêiner mínimo. A matriz com e sem `numba` existe
+# porque o programa alterna entre dois kernels de balanço hídrico conforme a
+# biblioteca esteja instalada: sem essa matriz, a paridade entre eles só seria
+# verificada sob demanda, e foi justamente uma divergência entre kernels o defeito
+# mais sutil encontrado na auditoria.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  nucleo:
+    name: Núcleo de cálculo (${{ matrix.kernel }}, Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.13"]
+        kernel: [python, jit]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      - name: Instalar dependências do núcleo
+        run: |
+          python -m pip install --upgrade pip
+          # PySide6 e matplotlib ficam de fora: os módulos de interface não são
+          # coletados quando Qt está ausente, e o objetivo aqui é o núcleo numérico.
+          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow
+          pip install pytest pytest-cov
+
+      - name: Instalar o kernel acelerado
+        if: matrix.kernel == 'jit'
+        run: pip install "numba>=0.62"
+
+      - name: Registrar o ambiente
+        run: |
+          python -c "from netuno.core import simulation; print('HAS_NUMBA =', simulation.HAS_NUMBA)"
+          python -c "import numpy, pandas; print('numpy', numpy.__version__, '| pandas', pandas.__version__)"
+
+      - name: Verificar que o kernel esperado está ativo
+        run: |
+          python - <<'PY'
+          import sys
+          from netuno.core import simulation
+          esperado = "${{ matrix.kernel }}" == "jit"
+          if simulation.HAS_NUMBA != esperado:
+              sys.exit(f"kernel inesperado: HAS_NUMBA={simulation.HAS_NUMBA}, esperado {esperado}")
+          print("kernel conforme a matriz")
+          PY
+
+      - name: Suíte de verificação
+        run: python -m pytest --cov=netuno.core --cov-report=term-missing
+
+      - name: Portão de cobertura
+        if: matrix.kernel == 'python' && matrix.python == '3.13'
+        run: python -m pytest --cov=netuno.core --cov-fail-under=80 -q
+
+  replicacao:
+    name: Replicação contra o Netuno 4
+    runs-on: ubuntu-latest
+    # A comparação percorre 4.050 casos de referência. Com o kernel acelerado leva
+    # cerca de dois minutos; sem ele, mais de dez. Roda apenas no push para main.
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow
+          pip install pytest "numba>=0.62"
+
+      - name: Aderência de replicação
+        run: python -m pytest -m replicacao -v
+
+      - name: Decomposição da divergência
+        run: python tests/benchmarking/decomposicao_divergencia.py
