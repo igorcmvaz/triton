@@ -382,14 +382,19 @@ except ImportError:
 if HAS_NUMBA:
     @numba.njit(fastmath=True)
     def _numba_sim_single(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, non_pot_in_arr, irr_arr
     ):
         n_days = len(precip_data)
         v_lower = 0.0
         total_pluvial_consumed = 0.0
         total_potable_consumed = 0.0
         total_spilled = 0.0
-        
+        # A repartição entre uso interno e irrigação é acumulada dia a dia, como no
+        # kernel Python de referência. Derivá-la dos totais anuais introduziria viés
+        # sistemático, pois Σ min(aᵢ,bᵢ) ≤ min(Σaᵢ, Σbᵢ).
+        total_pluvial_indoor = 0.0
+        total_pluvial_irrigation = 0.0
+
         days_full = 0
         days_partial = 0
         days_null = 0
@@ -438,16 +443,24 @@ if HAS_NUMBA:
             else:
                 days_null += 1
 
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
             total_spilled += v_spill_today
+            total_pluvial_indoor += c_pluv_in
+            total_pluvial_irrigation += c_pluv_irr
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
 
 
     @numba.njit(fastmath=True)
     def _numba_sim_dual(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold, non_pot_in_arr, irr_arr
     ):
         n_days = len(precip_data)
         v_lower = 0.0
@@ -458,6 +471,9 @@ if HAS_NUMBA:
         total_pumped = 0.0
         total_pump_cycles = 0
         max_pump_batch = 0.0
+        # Ver a nota em _numba_sim_single: a repartição é acumulada dia a dia.
+        total_pluvial_indoor = 0.0
+        total_pluvial_irrigation = 0.0
 
         days_full = 0
         days_partial = 0
@@ -540,13 +556,21 @@ if HAS_NUMBA:
             else:
                 days_null += 1
 
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
             total_spilled += v_spill_today
             total_pumped += v_rec_today
             total_pump_cycles += cycles_today
+            total_pluvial_indoor += c_pluv_in
+            total_pluvial_irrigation += c_pluv_irr
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
 
 
 def run_single_simulation(
@@ -616,16 +640,29 @@ def run_single_simulation(
         p_arr = np.ascontiguousarray(precip_data, dtype=np.float64)
         t_arr = np.ascontiguousarray(tot_demands_arr, dtype=np.float64)
         pl_arr = np.ascontiguousarray(pluvial_demands_arr, dtype=np.float64)
+
+        # Vetores da repartição interno/irrigação. Quando a edificação não define
+        # irrigação, usar a própria demanda pluvial como teto do uso interno faz o
+        # kernel reproduzir exatamente o caso sem repartição: como
+        # v_c = min(demanda_pluvial, disponível) ≤ demanda_pluvial, o mínimo diário
+        # devolve v_c inteiro ao uso interno e zero à irrigação.
+        if non_pot_in_arr is not None and irr_arr is not None:
+            np_in_arr = np.ascontiguousarray(non_pot_in_arr, dtype=np.float64)
+            ir_arr = np.ascontiguousarray(irr_arr, dtype=np.float64)
+        else:
+            np_in_arr = pl_arr
+            ir_arr = np.zeros(len(p_arr), dtype=np.float64)
+
         if not upper_tank_used or upper_tank_vol <= 0:
             res_tup = _numba_sim_single(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, np_in_arr, ir_arr
             )
         else:
             res_tup = _numba_sim_dual(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold)
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr
             )
-        
-        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null = res_tup
+
+        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation = res_tup
         total_demand_period = float(np.sum(tot_demands_arr))
         potential_savings_pct = (tot_pluv / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
         
@@ -633,13 +670,11 @@ def run_single_simulation(
         irr_vol_nominal = float(building_config.get("irrigation_liters_per_day", 0.0)) if building_config else 0.0
         vol_supp = days_supp * irr_vol_nominal
 
-        if non_pot_in_arr is not None and irr_arr is not None:
-            tot_non_pot_demand = float(np.sum(non_pot_in_arr))
-            pluv_in_est = min(tot_pluv, tot_non_pot_demand)
-            pluv_irr_est = min(tot_pluv - pluv_in_est, float(np.sum(irr_arr)))
-        else:
-            pluv_in_est = tot_pluv
-            pluv_irr_est = 0.0
+        # Valores exatos, acumulados dia a dia dentro do kernel. Até a versão 5.0.7
+        # estes eram estimados a partir dos totais anuais, o que superestimava o uso
+        # interno e subestimava a irrigação em até 26%.
+        pluv_in_est = pluv_indoor
+        pluv_irr_est = pluv_irrigation
 
         return SingleTankSimulationResult(
             lower_tank_vol=lower_tank_vol,

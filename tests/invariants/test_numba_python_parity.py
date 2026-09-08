@@ -164,26 +164,22 @@ def test_kernel_jit_preserva_a_conservacao_de_massa(monkeypatch):
 
 
 @numba_necessario
-@pytest.mark.xfail(
-    strict=False,
-    reason=(
-        "DEFEITO CONHECIDO (Netuno 5.0.7): o kernel JIT estima a divisão entre consumo "
-        "interno e irrigação aplicando min() sobre os TOTAIS anuais "
-        "(simulation.py:638-639), enquanto o kernel Python acumula min() DIA A DIA "
-        "(simulation.py:788-791). Como Σ min(aᵢ,bᵢ) ≤ min(Σaᵢ, Σbᵢ), o JIT superestima "
-        "sistematicamente o consumo interno e subestima a irrigação. Divergência medida: "
-        "até 1,8% no interno e 26,3% na irrigação. Os totais agregados permanecem corretos."
-    ),
-)
 @pytest.mark.parametrize("volume", [1000.0, 5000.0, 20000.0])
 def test_kernels_concordam_na_divisao_interno_irrigacao(monkeypatch, volume):
-    """Regressão do defeito de divisão interno/irrigação no kernel JIT.
+    """Regressão do defeito de repartição interno/irrigação no kernel JIT.
 
-    A divisão importa para além do relatório: LEED v4 pontua uso externo (WEc1) e uso
-    interno (WEc2) em créditos separados, de modo que um erro na repartição pode alterar
-    o enquadramento em certificação, ainda que o total de água aproveitada esteja certo.
+    Histórico. Até a correção, o kernel JIT estimava a repartição aplicando `min()`
+    sobre os TOTAIS anuais, enquanto o kernel Python acumulava `min()` DIA A DIA.
+    Como Σ min(aᵢ,bᵢ) ≤ min(Σaᵢ, Σbᵢ), o JIT superestimava sistematicamente o consumo
+    interno e subestimava a irrigação — divergência medida de 1,8% no interno e 26,3%
+    na irrigação, com os totais agregados permanecendo corretos.
 
-    Quando o defeito for corrigido este teste passa a XPASS, sinalizando a correção.
+    A correção passou a acumular a repartição dentro dos próprios kernels. Este teste
+    impede o retorno do viés.
+
+    A repartição importa para além do relatório: LEED v4 pontua uso externo (WEc1) e
+    uso interno (WEc2) em créditos separados, de modo que um erro na repartição pode
+    alterar o enquadramento em certificação ainda que o total esteja certo.
     """
     configuracao_predial = dict(
         demand=200.0, residents=4, share=0.5, demand_mode="constant",

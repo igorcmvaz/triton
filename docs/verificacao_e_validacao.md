@@ -30,10 +30,11 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 | Cobertura do núcleo de cálculo | 81% das linhas |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
-| Defeitos abertos | 1 (repartição interno/irrigação no kernel JIT) |
+| Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
 
-O motor hidrológico está **correto no caminho de execução efetivamente usado**. O defeito
-aberto afeta apenas um caminho alternativo que não está ativo nesta instalação (§4).
+O motor hidrológico está **correto nos dois caminhos de execução**. O defeito detectado no
+kernel acelerado foi corrigido e a paridade entre as duas implementações passou a ser
+verificada automaticamente (§4).
 
 ---
 
@@ -120,7 +121,7 @@ mesmo quando existem.
 
 ---
 
-## 4. Defeito aberto: repartição interno/irrigação no kernel JIT
+## 4. Defeito corrigido: repartição interno/irrigação no kernel JIT
 
 ### 4.1 Contexto
 
@@ -185,16 +186,41 @@ cosmética: **LEED v4 pontua uso externo (WEc1) e uso interno (WEc2) em crédito
 de modo que um erro de 26% na componente de irrigação pode alterar o enquadramento em
 certificação ainda que a economia total esteja correta.
 
-**Situação nesta instalação:** dormente. Sem `numba` instalado, o kernel Python é sempre
-usado e todos os resultados estão corretos.
+### 4.4 A correção
 
-### 4.4 Rastreamento
+Os kernels JIT passaram a acumular a repartição **dia a dia**, exatamente como o kernel
+Python de referência, em vez de derivá-la dos totais anuais. Os vetores de demanda interna
+e de irrigação passaram a ser argumentos dos kernels, e a estimativa enviesada foi removida
+do local de chamada.
 
-O defeito está registrado como teste de regressão em
+Quando a edificação não define irrigação, o local de chamada passa a própria demanda pluvial
+como teto do uso interno. Isso reproduz exatamente o caso sem repartição: como
+`v_c = min(demanda_pluvial, disponível) ≤ demanda_pluvial`, o mínimo diário devolve `v_c`
+inteiro ao uso interno e zero à irrigação — sem necessidade de um caminho condicional dentro
+do kernel compilado.
+
+**Verificação da correção**, em ambiente isolado com `numba` 0.67.0:
+
+| Indicador (V = 1.000 L) | Antes — JIT | Antes — Python | Depois — ambos |
+| :--- | ---: | ---: | ---: |
+| Consumo pluvial interno (m³/ano) | 102,270 | 100,430 | **100,429885** |
+| Consumo pluvial de irrigação (m³/ano) | 5,156 | 6,996 | **6,995885** |
+| Divergência relativa máxima | 26,3% | — | **0,00 × 10⁰** |
+
+O kernel JIT convergiu para os valores do kernel de referência — foi corrigido na direção
+certa. Os 25 testes de paridade, antes ignorados, passam agora integralmente: a suíte de
+invariantes executa **73 testes sob `numba`** contra 48 sem ele.
+
+**O desempenho foi preservado:** 189× a 239× de ganho nas varreduras após a correção,
+contra 199× a 267× antes — diferença dentro do ruído de medição.
+
+### 4.4.1 Rastreamento
+
+A regressão está travada em
 [`tests/invariants/test_numba_python_parity.py`](../tests/invariants/test_numba_python_parity.py),
-marcado `xfail` com a causa documentada. Em ambiente sem `numba` o teste é ignorado; em
-ambiente com `numba` ele falha de forma controlada, sem quebrar a suíte. Quando o defeito
-for corrigido, o teste passa a `XPASS` e sinaliza a correção.
+que compara os dois kernels em 3 cenários × 3 volumes × 8 indicadores, incluindo a
+repartição interno/irrigação. Em ambiente sem `numba` os testes são ignorados; onde ele
+existir, qualquer retorno do viés reprova a suíte.
 
 ### 4.5 Quanto custa remover o caminho acelerado
 
@@ -223,22 +249,21 @@ Com séries de 30 anos isso significa cerca de **7 minutos** em Python puro cont
 **~3 segundos** com JIT. Em estudos climáticos sobre as 652 cidades, com múltiplos modelos
 GCM e cenários SSP, o fator 267× é a diferença entre horas e minutos.
 
-### 4.6 Recomendação revista
+### 4.6 A decisão tomada
 
 Esta medição **inverteu a recomendação preliminar** deste relatório. A hipótese inicial era
 remover os kernels JIT, por não estarem declarados, não serem testados e já terem divergido.
-Os números não sustentam essa escolha: o ganho de duas ordens de grandeza é real e incide
+Os números não sustentaram a escolha: o ganho de duas ordens de grandeza é real e incide
 exatamente sobre a carga de trabalho que a pesquisa executa.
 
-**Recomenda-se a opção A — corrigir a repartição dentro dos kernels JIT** — combinada com a
-declaração de `numba` como dependência opcional documentada e com os testes de paridade de
-`test_numba_python_parity.py` como guarda permanente contra nova divergência.
+Optou-se por **corrigir a repartição dentro dos kernels JIT** (§4.4), preservando o
+desempenho, e por declarar `numba` como dependência opcional documentada, com os testes de
+paridade como guarda permanente. As alternativas descartadas ficam registradas:
 
-| Opção | Efeito | Custo |
+| Opção | Efeito | Por que não |
 | :--- | :--- | :--- |
-| **A. Corrigir a repartição nos kernels JIT** *(recomendada)* | elimina o defeito e preserva o ganho de 107–267× | altera código JIT; exige ambiente com `numba` para validar |
-| **B. Declarar `numba` e corrigir** | idem, tornando o caminho rápido suportado e previsível | dependência pesada (~200 MB com LLVM) |
-| **C. Remover os kernels JIT** | elimina a classe inteira de risco; −167 linhas | custa ~7 min por estudo internacional, e horas nos estudos climáticos |
+| **Remover os kernels JIT** | eliminaria a classe inteira de risco; −167 linhas | custaria ~7 min por estudo internacional e horas nos estudos climáticos das 652 cidades |
+| **Manter o defeito documentado** | nenhum trabalho | erro de 26% na componente que o LEED v4 pontua em crédito separado |
 
 ---
 
