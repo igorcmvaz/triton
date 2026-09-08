@@ -196,16 +196,49 @@ marcado `xfail` com a causa documentada. Em ambiente sem `numba` o teste é igno
 ambiente com `numba` ele falha de forma controlada, sem quebrar a suíte. Quando o defeito
 for corrigido, o teste passa a `XPASS` e sinaliza a correção.
 
-### 4.5 Opções de correção
+### 4.5 Quanto custa remover o caminho acelerado
+
+Medição em ambiente isolado (`numba` 0.67.0), alternando `HAS_NUMBA` no mesmo processo e
+no mesmo hardware, com aquecimento prévio do JIT para excluir o tempo de compilação:
+
+| Carga | Kernel JIT | Kernel Python | Razão |
+| :--- | ---: | ---: | ---: |
+| Simulação única, série de 10 anos | 0,04 ms | 4,1 ms | 107× |
+| Simulação única, série de 100 anos | 0,3 ms | 41,1 ms | 159× |
+| Varredura, 10 anos × 201 volumes | 0,5 ms | 0,10 s | 218× |
+| Varredura, 30 anos × 201 volumes | 1,8 ms | **0,48 s** | 267× |
+
+A compilação JIT custa **0,56 s**, paga uma vez por sessão, na primeira simulação.
+
+**Leitura em duas partes, porque a resposta difere conforme o uso:**
+
+*Uso interativo no desktop.* A varredura mais pesada leva **0,48 s** em Python puro — abaixo
+do limiar de percepção para uma interação de clique-e-resultado. E como a compilação JIT
+custa 0,56 s por sessão, o caminho acelerado só se paga a partir da segunda varredura
+pesada. Para o uso interativo, remover o `numba` seria imperceptível.
+
+*Estudos em lote.* Aqui a conta se inverte. O estudo internacional roda, conforme o próprio
+`run_simulation_global.py`, **255 cidades × 11 tipologias × 12 volumes = 33.660 simulações**.
+Com séries de 30 anos isso significa cerca de **7 minutos** em Python puro contra
+**~3 segundos** com JIT. Em estudos climáticos sobre as 652 cidades, com múltiplos modelos
+GCM e cenários SSP, o fator 267× é a diferença entre horas e minutos.
+
+### 4.6 Recomendação revista
+
+Esta medição **inverteu a recomendação preliminar** deste relatório. A hipótese inicial era
+remover os kernels JIT, por não estarem declarados, não serem testados e já terem divergido.
+Os números não sustentam essa escolha: o ganho de duas ordens de grandeza é real e incide
+exatamente sobre a carga de trabalho que a pesquisa executa.
+
+**Recomenda-se a opção A — corrigir a repartição dentro dos kernels JIT** — combinada com a
+declaração de `numba` como dependência opcional documentada e com os testes de paridade de
+`test_numba_python_parity.py` como guarda permanente contra nova divergência.
 
 | Opção | Efeito | Custo |
 | :--- | :--- | :--- |
-| **A. Acumular a repartição dentro dos kernels JIT** | corrige mantendo o desempenho | altera código JIT; exige ambiente com `numba` para testar |
-| **B. Declarar `numba` como dependência e corrigir** | torna o caminho rápido determinístico e suportado | adiciona dependência pesada (~200 MB com LLVM) |
-| **C. Remover os kernels JIT** | elimina a classe inteira de risco; −167 linhas | perde o caminho acelerado |
-
-A opção **C** merece consideração séria: o caminho JIT nunca esteve ativo nesta instalação,
-não é declarado, não é testado por padrão e já demonstrou divergir do kernel de referência.
+| **A. Corrigir a repartição nos kernels JIT** *(recomendada)* | elimina o defeito e preserva o ganho de 107–267× | altera código JIT; exige ambiente com `numba` para validar |
+| **B. Declarar `numba` e corrigir** | idem, tornando o caminho rápido suportado e previsível | dependência pesada (~200 MB com LLVM) |
+| **C. Remover os kernels JIT** | elimina a classe inteira de risco; −167 linhas | custa ~7 min por estudo internacional, e horas nos estudos climáticos |
 
 ---
 
