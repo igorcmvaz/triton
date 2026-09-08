@@ -158,8 +158,8 @@ def main():
     print(f" [E] ANEEL B1 - Atos Vigentes         : {stats.get('energy_auto_updated', 0)}")
     print(f" [W] Saneamento - Scraped / Auditado : {stats.get('sanitation_scraped', 0) + stats.get('sanitation_verified', 0)}")
     print("=" * 80)
-    print(f" [📋] Relatório Markdown salvo em     : {report_path}")
-    print(f" [📊] Dashboard HTML interativo em   : {dashboard_path}")
+    print(f" [[lista]] Relatório Markdown salvo em     : {report_path}")
+    print(f" [[dados]] Dashboard HTML interativo em   : {dashboard_path}")
     print("=" * 80)
 
 

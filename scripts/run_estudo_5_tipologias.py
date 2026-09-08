@@ -1363,7 +1363,7 @@ def run_recalculation():
 
     total_sec = time.time() - t_start_total
     print("=" * 105)
-    print(f" [✔ SUCESSO] RECÁLCULO INTEGRAL CONCLUÍDO EM {total_sec/60.0:.2f} MINUTOS ({total_sec:.1f}s)!")
+    print(f" [[ok] SUCESSO] RECÁLCULO INTEGRAL CONCLUÍDO EM {total_sec/60.0:.2f} MINUTOS ({total_sec:.1f}s)!")
     print(f" [*] Registros consolidados: {processed_count:,}")
     print(f" [*] Tamanho final do banco: {os.path.getsize(FINAL_PARQUET_PATH)/(1024*1024*1024):.2f} GB")
     print("=" * 105)

@@ -294,7 +294,7 @@ def run_mass_simulations(
 
     total_files = len(files)
     if total_files == 0:
-        print(f"❌ Nenhum arquivo de precipitação encontrado em: {input_dir}")
+        print(f"[x] Nenhum arquivo de precipitação encontrado em: {input_dir}")
         return
 
     # Monta a grade de tarefas

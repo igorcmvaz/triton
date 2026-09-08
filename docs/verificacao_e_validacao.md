@@ -32,7 +32,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
-| Aderência ao Netuno 4 | MAE de 2,29 a 2,71 pp em 4.050 casos de referência (§5) |
+| Aderência ao Netuno 4 | o balanço hídrico replica a referência com MAE de **0,25 pp** quando neutralizadas as duas diferenças de projeto (§5.4) |
 | Banco tarifário | 465 cidades divergentes reconciliadas; insensíveis ao consumo: 43 → 7 (§6) |
 | Diferença metodológica declarada | o descarte de primeira chuva subtrai a lâmina, ao contrário do Netuno 4 (§5.5) |
 
@@ -317,21 +317,67 @@ referência (o Netuno 4 provavelmente não encontrou volume ótimo sob o seu pr�
 critério) e não para erro do Netuno 5, que nunca devolve zero nesses casos. São
 segregados das estatísticas para não dominá-las.
 
-### 5.4 A divergência é sistemática, não dispersa
+### 5.4 Decomposição da divergência
 
-O achado mais relevante desta seção não é a magnitude do erro, mas a sua **estrutura**.
-Nos dois conjuntos, o erro médio **com sinal** coincide em módulo com o erro médio
-absoluto:
+Comparar o resultado ótimo de um programa com o do outro mistura três diferenças
+distintas: o balanço hídrico, o critério que escolhe o volume ótimo e o tratamento do
+descarte de primeira chuva. Uma métrica agregada sobre essa mistura **não permite dizer
+se o motor replica o Netuno 4** — apenas que os dois programas, como um todo, diferem.
+
+`tests/benchmarking/decomposicao_divergencia.py` separa as parcelas, comparando em três
+configurações sucessivamente mais controladas sobre os 2.583 casos de Manaus/São Paulo:
+
+| Configuração | MAE | Viés | ≤ 5 pp |
+| :--- | ---: | ---: | ---: |
+| 1. Ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | −2,71 pp | 88,6% |
+| 2. Avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
+| 3. Idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
+
+A atribuição resultante:
+
+| Fonte da divergência | Contribuição | Natureza |
+| :--- | ---: | :--- |
+| Critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |
+| Tratamento do descarte de primeira chuva | 1,36 pp (50%) | diferença metodológica deliberada (§5.5) |
+| Resíduo do balanço hídrico | 0,25 pp (9%) | — |
+
+**Neutralizadas as duas diferenças conhecidas, o motor do Netuno 5 reproduz o Netuno 4
+com erro médio absoluto de 0,25 pp e 100% dos casos dentro de 5 pontos percentuais.**
+O resíduo é compatível com a precisão de duas casas decimais da própria planilha de
+referência, o que significa que o balanço hídrico diário foi replicado dentro do que os
+dados de referência permitem distinguir.
+
+Esta é uma afirmação substancialmente mais forte que a da configuração 1. A divergência
+observada entre os dois programas não é erro não explicado: é a soma de duas escolhas de
+projeto documentadas.
+
+#### Como a semântica de limiar foi medida sem alterar o motor
+
+O Netuno 5 calcula `Pef = max(0, Pt − df)`. Para medir a regra do Netuno 4
+(`Pef = Pt se Pt ≥ df`) sem tocar no código do balanço, transforma-se a série de entrada:
+
+```text
+P′ = Pt + df   quando Pt ≥ df
+P′ = 0         caso contrário
+```
+
+Assim `max(0, P′ − df)` devolve exatamente `Pt` nos eventos aceitos e `0` nos
+descartados. A medição não depende de uma versão modificada do motor, e portanto não
+corre o risco de comparar contra código que não é o distribuído.
+
+### 5.4.1 A divergência é sistemática, não dispersa
+
+Na configuração 1, o erro médio **com sinal** coincide em módulo com o erro médio
+absoluto, nos dois conjuntos independentes:
 
 ```
 Floripa/Brasília:  viés = −2,29 pp    MAE = 2,29 pp    |viés| / MAE = 1,00
 Manaus/São Paulo:  viés = −2,71 pp    MAE = 2,71 pp    |viés| / MAE = 1,00
 ```
 
-Isso significa que praticamente **todos** os desvios têm a mesma direção: o Netuno 5
-estima consistentemente menos economia de água potável que o Netuno 4. Não é ruído
-numérico nem dispersão aleatória — é um deslocamento sistemático, reproduzido em dois
-conjuntos independentes e quatro cidades.
+Praticamente todos os desvios têm a mesma direção: o Netuno 5 estima consistentemente
+menos economia que o Netuno 4. Era esse padrão — deslocamento, e não dispersão — que
+indicava causa estrutural e não ruído numérico, e que levou à decomposição acima.
 
 ### 5.5 Origem da divergência: o descarte de primeira chuva
 
@@ -355,30 +401,22 @@ disponível para consumo. O que varia entre os modos de descarte não é a fórm
 quais dias ela é acionada — todos os eventos, primeiro evento após estiagem, ou
 periodicidade de manutenção. A documentação foi corrigida; o código permanece inalterado.
 
-### 5.5.1 Quantificação da diferença em relação ao Netuno 4
+### 5.5.1 Consequência para publicações
 
-O Netuno 4 adotava o tratamento por limiar. A mudança para subtração explica parte
-substancial do viés medido em §5.4. Experimento sobre os 2.592 casos de Manaus/São Paulo,
-substituindo a subtração pelo limiar do Netuno 4:
+A quantificação desta diferença está em §5.4: ela responde por **1,36 pp (50%)** da
+divergência total em relação ao Netuno 4. Neutralizada junto com o critério de volume
+ótimo, o resíduo cai a 0,25 pp — ou seja, esta é a maior das duas causas conhecidas, e
+não sobra terceira causa relevante.
 
-| Métrica | Netuno 5 (subtração) | Limiar do Netuno 4 |
-| :--- | ---: | ---: |
-| MAE | 2,71 pp | 1,47 pp |
-| RMSE | 3,33 pp | 2,05 pp |
-| Viés | −2,71 pp | −1,47 pp |
-| Casos ≤ 5 pp | 88,6% | 97,6% |
+O Netuno 5 estima sistematicamente menos economia de água potável que o Netuno 4, por
+uma razão conhecida e defensável: a água desviada para o dispositivo de descarte não
+chega à cisterna. Estudos que comparem resultados entre as duas versões, ou que
+reaproveitem números publicados com o Netuno 4, **devem declarar esta diferença**.
 
-Ou seja: **cerca de 46% da divergência em relação ao Netuno 4 é atribuível a esta
-diferença metodológica deliberada.** O restante — viés residual de −1,47 pp — provém de
-ao menos um outro fator sistemático ainda não identificado, e permanece como questão
-aberta de verificação.
-
-**Consequência para publicações.** O Netuno 5 estima sistematicamente menos economia de
-água potável que o Netuno 4, por uma razão conhecida e defensável. Estudos que comparem
-resultados entre as duas versões, ou que reaproveitem números publicados com o Netuno 4,
-devem declarar esta diferença. A semântica está travada por teste de regressão em
-`tests/invariants/test_scientific_properties.py`, para que não seja revertida por engano
-como se fosse defeito.
+A semântica está travada por teste de regressão em
+`tests/invariants/test_scientific_properties.py` (P10), para que não seja revertida por
+engano como se fosse defeito, e a sua contribuição para a divergência é monitorada por
+`tests/benchmarking/test_replicacao_netuno4.py`.
 
 ### 5.6 Automação
 

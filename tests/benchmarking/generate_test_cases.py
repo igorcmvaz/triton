@@ -66,7 +66,7 @@ def export_scenarios_to_csv(scenarios: List[Dict[str, Any]], output_file: str):
     df = pd.DataFrame(scenarios)
     os.makedirs(os.path.dirname(os.path.abspath(output_file)), exist_ok=True)
     df.to_csv(output_file, index=False, sep=";", decimal=",", encoding="utf-8-sig")
-    print(f"✅ {len(scenarios)} cenários de teste exportados para: {output_file}")
+    print(f"[ok] {len(scenarios)} cenários de teste exportados para: {output_file}")
 
 
 if __name__ == "__main__":
