@@ -27,8 +27,8 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 378 testes, 0 falhas (mais 3 de replicação sob demanda) |
-| Cobertura do núcleo de cálculo | 84% das linhas, nenhum módulo abaixo de 50% |
+| Suíte de testes | 423 testes, 0 falhas (mais 5 de replicação sob demanda) |
+| Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
 | Defeitos abertos | 0 — o defeito da repartição interno/irrigação foi corrigido (§4) |
@@ -110,7 +110,7 @@ interna e cancela no balanço combinado.
 *Figura 2 — Cobertura de linhas por módulo do núcleo. A cobertura total é de 84% e
 nenhum módulo está abaixo de 50%.*
 
-A cobertura agregada é de **84%**, e a distribuição deixou de ter concentrações de risco:
+A cobertura agregada é de **85%**, e a distribuição deixou de ter concentrações de risco:
 
 | Faixa | Módulos | Leitura |
 | :--- | :--- | :--- |
