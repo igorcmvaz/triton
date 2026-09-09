@@ -692,6 +692,56 @@ REFERENCIAS: Dict[str, Referencia] = dict(
             ),
         ),
         _r(
+            chave="composites_uk_2026",
+            autores="COMPOSITES UK",
+            ano=2026,
+            titulo="Embodied carbon data for composites",
+            veiculo="Composites UK, Reino Unido",
+            tipo="relatorio",
+            detalhe="atualizado em 22/04/2026",
+            url="https://compositesuk.co.uk/industry-support/environmental/embodied-carbon-data-for-composites/",
+            acessado_em=date(2026, 9, 9),
+            recuperado_por="editor",
+            nota_pt=(
+                "Fonte do fator do PRFV: faixa típica de **2,5 a 4,0 kg CO₂e/kg** para peças de "
+                "compósito de fibra de vidro, adotando-se o ponto médio de 3,25. Registra também "
+                "que o valor de 8,1 kg CO₂e/kg, ainda encontrado em literatura antiga, vem da base "
+                "ICE dos anos 1990 e foi removido na versão 4.0 dessa base."
+            ),
+            nota_en=(
+                "Source of the GRP factor: typical range of **2.5 to 4.0 kg CO₂e/kg** for glass "
+                "fibre composite parts, with the 3.25 midpoint adopted. It also records that the "
+                "8.1 kg CO₂e/kg figure still found in older literature comes from the 1990s ICE "
+                "database and was removed in version 4.0 of that database."
+            ),
+        ),
+        _r(
+            chave="worldstainless_2024",
+            autores="WORLDSTAINLESS (World Steel Association)",
+            ano=2024,
+            titulo="Stainless steel CO₂ emissions report",
+            veiculo="worldstainless, Bruxelas",
+            tipo="relatorio",
+            detalhe="divulgado em 24/09/2024; berço-ao-portão, escopos 1, 2 e 3",
+            url="https://worldstainless.org/media/press-releases/stainless-steel-co2-emissions-report-1/",
+            acessado_em=date(2026, 9, 9),
+            recuperado_por="editor",
+            nota_pt=(
+                "Fonte do fator do aço inoxidável. A emissão depende fortemente do teor de sucata "
+                "da carga: 1,95 kg CO₂/kg a 85% de sucata, 2,45 a 75%, **3,70 a 50%** e 6,80 a 30% "
+                "— um fator de 3,5 entre os extremos. Adota-se o ponto de 50%. Um estudo que não "
+                "declare o teor de sucata não é comparável, pela mesma razão que um fator de rede "
+                "sem ano não é."
+            ),
+            nota_en=(
+                "Source of the stainless steel factor. Emissions depend strongly on the scrap "
+                "content of the charge: 1.95 kg CO₂/kg at 85% scrap, 2.45 at 75%, **3.70 at 50%** "
+                "and 6.80 at 30% — a factor of 3.5 between the extremes. The 50% point is adopted. "
+                "A study that does not declare its scrap content is not comparable, for the same "
+                "reason a grid factor without a year is not."
+            ),
+        ),
+        _r(
             chave="mcti_sirene_fe",
             autores="BRASIL. Ministério da Ciência, Tecnologia e Inovação (MCTI). SIRENE",
             ano=2026,
@@ -1013,6 +1063,8 @@ REFERENCIAS_POR_SECAO: Dict[str, Tuple[str, ...]] = {
         "abnt_5688",
         "fortlev_fibra",
         "sidac_concreto",
+        "composites_uk_2026",
+        "worldstainless_2024",
         "alsabri_2020",
         "du_2013",
         "garfi_2016",

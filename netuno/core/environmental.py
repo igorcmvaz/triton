@@ -98,21 +98,33 @@ MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
         # por capacidade esta em MASSA_PRFV_POR_CAPACIDADE_L, e e ela que o
         # calculo usa; este valor serve de referencia e para faixas fora da tabela.
         material_density_kg_per_m3_tank=15.0,
-        co2_factor_kg_per_kg=4.25,             # kg CO2e/kg - AINDA SEM FONTE
-        co2_factor_kg_per_m3_tank=63.75,       # 15 * 4.25
+        co2_factor_kg_per_kg=3.25,             # kg CO2e/kg - ver source_reference
+        co2_factor_kg_per_m3_tank=48.75,       # 15 * 3,25
         source_reference=(
             "Massa: catalogo tecnico Fortlev, 'Caixa d'agua em fibra de vidro' "
             "(peso da caixa vazia por capacidade), reservatorios conforme ABNT NBR 13210. "
-            "Fator de emissao: ainda sem fonte primaria - permanece cenario interno."
+            "Fator de emissao: Composites UK, 'Embodied carbon data for composites' "
+            "(atualizado em 22/04/2026), que da faixa tipica de 2,5 a 4,0 kg CO2e/kg para "
+            "pecas de PRFV; adota-se o ponto medio de 3,25. O valor de 8,1 kg CO2e/kg que "
+            "circula na literatura antiga vem da base ICE dos anos 1990 e foi removido na "
+            "ICE v4.0 - quem o encontrar deve descarta-lo."
         ),
         description="Reservatório composto leve, altamente anticorrosivo e de médio gasto energético."
     ),
     "ACO_INOX": MaterialPreset(
         name="Aço Inoxidável (AISI 304/316)",
-        material_density_kg_per_m3_tank=38.0,  # ~38 kg Aço Inox por m³ útil
-        co2_factor_kg_per_kg=2.89,             # 2.89 kg CO2e / kg Aço Inox
-        co2_factor_kg_per_m3_tank=109.8,       # 38 * 2.89 = 109,8 kg CO2e / m³ útil
-        source_reference="Cenário de triagem; calibrar massa, teor reciclado e EPD do aço inox",
+        material_density_kg_per_m3_tank=38.0,  # kg de aço por m³ útil - cenário geométrico interno
+        co2_factor_kg_per_kg=3.70,             # kg CO2e/kg a 50% de sucata - ver source_reference
+        co2_factor_kg_per_m3_tank=140.6,       # 38 * 3,70
+        source_reference=(
+            "Fator: worldstainless (programa de aço inoxidável da World Steel Association), "
+            "relatório de emissões de CO2 divulgado em 24/09/2024, berço-ao-portão com escopos "
+            "1, 2 e 3. A emissão depende fortemente do teor de sucata da carga: 1,95 kg CO2/kg a "
+            "85% de sucata, 2,45 a 75%, 3,70 a 50% e 6,80 a 30%. Adota-se o ponto de 50%, que é "
+            "o cenário intermediário do relatório. O valor anterior deste programa, 2,89, "
+            "correspondia a cerca de 66% de sucata, sem que isso estivesse declarado. "
+            "Massa por m³ útil permanece cenário interno."
+        ),
         description="Reservatório industrial metálico de altíssima longevidade e 100% reciclável."
     )
 }

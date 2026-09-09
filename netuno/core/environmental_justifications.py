@@ -134,7 +134,10 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
                 "Média ponderada: 0,70 × 4,5 + 0,30 × 2,5 = ~4,0 kg CO2e/kg (ajustado para 4,25 kg CO2e/kg"
                 " considerando desperdícios de processamento)."
             ),
-            source_reference="Cenário interno: selecionar EPD/inventário versionado do compósito adotado",
+            source_reference=(
+                "COMPOSITES UK, Embodied carbon data for composites (atual. 22/04/2026): "
+                "faixa tipica de 2,5 a 4,0 kg CO2e/kg para pecas de PRFV"
+            ),
             calculation_basis="LCA de composição típica PRFV hand-lay-up",
             notes="PRFV com resina epóxi ecológica pode reduzir a ~2,8-3,2 kg CO2e/kg."
         )
@@ -154,21 +157,28 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
         ),
         "co2_factor": ParameterJustification(
             title="Fator de Emissão de CO2e do Aço Inoxidável",
-            short_description="2,89 kg CO2e por kg de aço inox AISI 304",
+            short_description="3,70 kg CO2e por kg de aço inox, a 50% de sucata",
             detailed_explanation=(
-                "A pegada do aço inox é alta comparada ao aço carbono (0,7-0,9 kg CO2e/kg) "
-                "devido ao alto teor de Cromo e Níquel:\n"
-                "• Minério e sinterização: ~1,0 kg CO2e/kg\n"
-                "• Fusão em forno elétrico de arco (EAF): ~1,2 kg CO2e/kg\n"
-                "• Redução de Cr/Ni e refino: ~0,6 kg CO2e/kg\n"
-                "• Laminação e acabamento: ~0,09 kg CO2e/kg\n\n"
-                "Total: ~2,89 kg CO2e/kg (AISI 304 primary route)."
+                "A pegada do aço inox é alta comparada à do aço carbono (0,7 a 0,9 kg CO2e/kg) "
+                "por causa do teor de cromo e níquel.\n\n"
+                "O que domina o resultado, porém, não é a liga: é o teor de sucata da carga. "
+                "O relatório worldstainless publica, berço-ao-portão com escopos 1, 2 e 3:\n"
+                "\u2022 85% de sucata: 1,95 kg CO2e/kg\n"
+                "\u2022 75% de sucata: 2,45 kg CO2e/kg\n"
+                "\u2022 50% de sucata: 3,70 kg CO2e/kg  (adotado)\n"
+                "\u2022 30% de sucata: 6,80 kg CO2e/kg\n\n"
+                "São 3,5 vezes entre os extremos. Um estudo que não declare o teor de sucata "
+                "não é comparável, pela mesma razão que um fator de rede sem ano não é."
             ),
-            source_reference="Cenário interno: selecionar EPD do aço com teor reciclado e rota declarados",
-            calculation_basis="Life Cycle Inventory de produção aço inox AISI 304 (EAF)",
+            source_reference=(
+                "WORLDSTAINLESS (World Steel Association), Stainless steel CO2 emissions "
+                "report (24/09/2024): 3,70 kg CO2/kg a 50% de sucata"
+            ),
+            calculation_basis="worldstainless, berço-ao-portão, escopos 1, 2 e 3, carga com 50% de sucata",
             notes=(
-                "Uso de aço inox reciclado reduz para ~1,5-1,8 kg CO2e/kg.\n"
-                "Este projeto assume produção primária (95% reciclabilidade ao final de vida)."
+                "Elevar o teor de sucata para 85% levaria o fator a 1,95 kg CO2e/kg, quase metade "
+                "do adotado. O aço inox é reciclável ao final da vida, o que não entra "
+                "nesta fronteira berço-ao-portão."
             )
         )
     }
