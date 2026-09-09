@@ -270,12 +270,19 @@ def size_etap(
     if grid_co2_factor_kg_kwh is None:
         grid_co2_factor_kg_kwh = fator_co2eq(BASE_PADRAO)
 
-    # 1. Filtro mecânico de entrada (Vórtex ou Cesto autolimpante)
-    if roof_area_m2 <= 150.0:
+    # 1. Filtro mecânico de entrada (vórtex ou cesto autolimpante)
+    #
+    # Os limites de faixa acompanham a área que o próprio produto declara
+    # atender. Até a versão 5.0.7 eles eram 150 e 400 m², contra rótulos de
+    # "até 200 m²" e "até 500 m²": um telhado de 180 m² recebia o filtro da
+    # faixa seguinte, mais caro em R$ 600, embora o da primeira faixa fosse
+    # declarado suficiente. O separador de folhas da Bakof Tec, por exemplo,
+    # é indicado para coberturas de até 200 m².
+    if roof_area_m2 <= 200.0:
         pre_filter_type = "Filtro Autolimpante Vórtex DN 100 (Até 200 m²)"
         pre_filter_mesh_microns = 350
         base_pre_filter_capex = 650.0
-    elif roof_area_m2 <= 400.0:
+    elif roof_area_m2 <= 500.0:
         pre_filter_type = "Filtro Autolimpante Vórtex DN 150 (Até 500 m²)"
         pre_filter_mesh_microns = 400
         base_pre_filter_capex = 1250.0
