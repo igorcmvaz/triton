@@ -742,6 +742,32 @@ REFERENCIAS: Dict[str, Referencia] = dict(
             ),
         ),
         _r(
+            chave="snis_2023",
+            autores="BRASIL. Ministério das Cidades. Sistema Nacional de Informações sobre Saneamento (SNIS)",
+            ano=2023,
+            titulo="Diagnóstico temático dos serviços de água e esgoto: visão geral — ano-base 2022",
+            veiculo="Ministério das Cidades, Brasília",
+            tipo="relatorio",
+            detalhe="indicador IN058, consumo de energia elétrica em sistemas de abastecimento de água",
+            url="https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/snis",
+            acessado_em=date(2026, 9, 9),
+            recuperado_por="usuario",
+            nota_pt=(
+                "Única fonte brasileira de intensidade energética do abastecimento: **0,67 kWh/m³** "
+                "na média nacional de 2022, variando de 0,61 a 0,78 entre macrorregiões e de 0,64 a "
+                "0,73 conforme a natureza do prestador. O esgotamento consome 0,29 kWh/m³ à parte, "
+                "que **não** é evitado quando se usa água pluvial em bacia sanitária, porque a água "
+                "vai para o esgoto do mesmo jeito."
+            ),
+            nota_en=(
+                "The only Brazilian source for the energy intensity of water supply: **0.67 kWh/m³** "
+                "as the 2022 national average, ranging from 0.61 to 0.78 across regions and 0.64 to "
+                "0.73 by type of provider. Sewage consumes a further 0.29 kWh/m³, which is **not** "
+                "avoided when rainwater is used for toilet flushing, since the water reaches the "
+                "sewer either way."
+            ),
+        ),
+        _r(
             chave="mcti_sirene_fe",
             autores="BRASIL. Ministério da Ciência, Tecnologia e Inovação (MCTI). SIRENE",
             ano=2026,
@@ -1065,6 +1091,7 @@ REFERENCIAS_POR_SECAO: Dict[str, Tuple[str, ...]] = {
         "sidac_concreto",
         "composites_uk_2026",
         "worldstainless_2024",
+        "snis_2023",
         "alsabri_2020",
         "du_2013",
         "garfi_2016",

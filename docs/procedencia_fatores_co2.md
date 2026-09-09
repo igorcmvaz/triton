@@ -228,6 +228,54 @@ concessionária local. Para publicação, o ideal é o inventário da CASAN.
 
 ---
 
+## O achado que exige decisão sua
+
+**Com dados brasileiros de energia, o sistema pluvial deixa de compensar em
+carbono no horizonte de 20 anos.**
+
+O SNIS publica, para 2022, consumo de 0,67 kWh por m³ de água distribuída
+(indicador IN058). Combinado com a matriz elétrica brasileira, que é limpa, e com
+a parcela não energética deduzida de Garfí et al., a emissão evitada por metro
+cúbico de água da rede cai de 0,350 para **0,147 kg CO₂e/m³**.
+
+Para uma cisterna de 5.000 L com 40 m de tubulação, aproveitando 100 m³/ano:
+
+| Saída | Padrão atual (0,350) | Dados brasileiros (0,147) |
+| :--- | ---: | ---: |
+| CO₂ evitado por ano | 35,0 kg | 14,7 kg |
+| Saldo líquido anual | 31,6 kg | 11,3 kg |
+| Payback ambiental | 8,2 anos | **23,0 anos** |
+| Economia em 20 anos | +372,3 kg | **−33,8 kg** |
+
+O sinal se inverte: em vinte anos o sistema emite mais do que evita.
+
+**Isto não é artefato de modelagem.** Decorre de a matriz elétrica brasileira ser
+limpa. Água tratada no Brasil carrega pouco carbono, então deslocá-la economiza
+pouco, enquanto o reservatório e a tubulação custam carbono para fabricar do
+mesmo jeito. É o inverso do que se observa em país de matriz suja, onde o mesmo
+sistema compensa depressa.
+
+**O que não foi feito, e por quê.** O valor padrão continua em 0,350. Trocá-lo
+inverteria a conclusão de todo estudo ambiental já feito com o programa, e essa
+é uma decisão sua, não minha. A rota brasileira está disponível e selecionável
+na aba ambiental, sob o nome «Rede pública brasileira (SNIS + matriz elétrica
+local)».
+
+**Três ressalvas antes de decidir.**
+
+1. A parcela não energética, de 0,09 kg CO₂e/m³, é deduzida de Garfí et al. pela
+   afirmação de que a eletricidade responde por cerca de 80% do impacto do
+   tratamento convencional. Não é medição brasileira. Um inventário da CASAN
+   fecharia isso.
+2. O indicador IN058 é energia por m³ **produzido**, e não por m³ consumido pelo
+   usuário. Como há perdas na distribuição, a energia por m³ efetivamente
+   entregue é maior, e a emissão evitada também.
+3. Carbono não é o único critério. O sistema pluvial continua economizando água
+   potável e dinheiro, e reduzindo escoamento superficial, que são os motivos
+   pelos quais a maior parte dos projetos existe.
+
+---
+
 ## Versão 5.0.8 — tubulações e reservatórios com dados de fabricante
 
 ### Massa linear dos tubos

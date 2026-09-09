@@ -86,6 +86,16 @@
       "fonte": "Garfi et al. (2016), cenario 5, caso base com 12 kWh/m3 (Tabela 3).",
       "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
       "matriz_da_fonte": "Espanha"
+    },
+    "rede_publica_brasil_snis": {
+      "nome_pt": "Rede publica brasileira (SNIS + matriz eletrica local)",
+      "nome_en": "Brazilian mains supply (SNIS + local electricity matrix)",
+      "tipo": "energia_mais_outros",
+      "kwh_por_m3": 0.67,
+      "co2_nao_energetico_kg_m3": 0.09,
+      "fonte": "Intensidade energetica: SNIS, Diagnostico Tematico dos Servicos de Agua e Esgoto 2023 (ano-base 2022), indicador IN058 - consumo de energia eletrica em sistemas de abastecimento de agua: 0,67 kWh/m3 no Brasil. Por macrorregiao vai de 0,61 a 0,78, e por natureza do prestador de 0,64 (empresa privada) a 0,73 (regional). Parcela nao energetica (produtos quimicos, infraestrutura, lodo): 0,09 kg CO2e/m3, deduzida de Garfi et al. (2016), que atribui cerca de 80% do impacto do tratamento convencional a eletricidade.",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "observacao": "E a unica rota calculada com dados brasileiros de energia. Com a matriz nacional, sai bem abaixo dos 0,35 adotados por padrao, que vem de fonte espanhola: a matriz brasileira e limpa, entao a agua tratada aqui carrega menos carbono que na Europa. A consequencia e desconfortavel mas relevante: o beneficio de carbono do sistema pluvial no Brasil e menor do que o valor padrao sugere."
     }
   },
   "_nota_sobre_intensidade_energetica": [
