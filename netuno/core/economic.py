@@ -194,10 +194,27 @@ def calculate_water_bill(
             if is_fix == -1:
                 # Custo fixo / disponibilidade por unidade
                 c_agua_unit += rate_or_fix
+            elif is_fix == -3:
+                # Piso: aplicado depois, sobre o total tarifado.
+                continue
             elif vol_m3_unit > min_v:
                 v_in_tier = min(vol_m3_unit, max_v) - min_v
                 if v_in_tier > 0:
                     c_agua_unit += v_in_tier * rate_or_fix
+
+    # 2. Piso de pagamento (is_fix == -3)
+    #
+    # Regime distinto do custo fixo, e o motor nao o tinha. O custo fixo SOMA por
+    # cima do consumo medido; o piso nao soma, LIMITA por baixo. Com piso de
+    # R$ 40 e consumo tarifado de R$ 55, economizar ate R$ 15 nao reduz nada -
+    # e e justamente isso que um estudo de aproveitamento pluvial precisa
+    # enxergar. Ver netuno/core/tariff_regimes.py.
+    piso = 0.0
+    for t in effective_tariffs:
+        if int(t[3]) == -3:
+            piso = max(piso, float(t[2]))
+    if piso > 0.0:
+        c_agua_unit = max(c_agua_unit, piso)
 
     # Cálculo do esgoto
     if sewage_mode == 0:  # Custo fixo de esgoto

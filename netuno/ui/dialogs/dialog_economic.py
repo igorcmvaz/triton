@@ -11,6 +11,7 @@ from PySide6.QtGui import QColor, QFont, QDesktopServices
 from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, format_ptbr
 from netuno.core.economic import run_economic_analysis, calculate_water_bill
+from netuno.core.tariff_regimes import resumo_do_regime, validar_estrutura
 from netuno.core.tariffs_database import (
     get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count,
     search_cities
@@ -282,6 +283,21 @@ class DialogTariffs(QDialog):
         row_info2.addStretch()
         card_lay.addLayout(row_info2)
 
+        # Linha 2.1: regime de tarifa minima e ressalva de estrutura.
+        self.lbl_regime = QLabel("")
+        self.lbl_regime.setWordWrap(True)
+        self.lbl_regime.setStyleSheet("font-size: 11px; color: #1e3a8a;")
+        card_lay.addWidget(self.lbl_regime)
+
+        self.lbl_estrutura_aviso = QLabel("")
+        self.lbl_estrutura_aviso.setWordWrap(True)
+        self.lbl_estrutura_aviso.setStyleSheet(
+            "font-size: 11px; color: #7c2d12; background-color: #fef3c7; "
+            "border: 1px solid #fbbf24; border-radius: 4px; padding: 5px;"
+        )
+        self.lbl_estrutura_aviso.setVisible(False)
+        card_lay.addWidget(self.lbl_estrutura_aviso)
+
         # Linha 3: Eletricidade B1 (ANEEL)
         row_elec = QHBoxLayout()
         self.chk_update_elec = QCheckBox(tr("Sincronizar tarifa de eletricidade B1 (ANEEL)"))
@@ -550,6 +566,13 @@ class DialogTariffs(QDialog):
             self.lbl_confianca.setText(f"⭐ <b>{tr('Modo:')}</b> {tr('Personalizado')}")
             self.btn_open_url.setVisible(False)
             self.lbl_elec_info.setText("")
+            self.lbl_regime.setText(tr(
+                "💧 <b>Regime de cobrança:</b> defina você mesmo. Se a sua concessionária cobra um "
+                "mínimo que já dá direito a alguns m³, lance-o como faixa de R$ 0,00/m³ até esse "
+                "volume: abaixo dele economizar água não reduz a conta."
+            ))
+            self.lbl_estrutura_aviso.setText("")
+            self.lbl_estrutura_aviso.setVisible(False)
             self.lbl_disclaimer.setText(tr(
                 "💡 <b>Modo Personalizado:</b> As faixas e alíquotas abaixo são editáveis livremente. "
                 "Insira os valores com impostos inclusos conforme a fatura do seu projeto."
@@ -581,6 +604,25 @@ class DialogTariffs(QDialog):
         self.lbl_prestador.setText(f"🏢 <b>{tr('Prestador:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
         self.lbl_vigencia.setText(f"📋 <b>{tr('Regulação / Vigência:')}</b> {reg_str}")
         self.lbl_confianca.setText(f"⭐ <b>{tr('Confiança:')}</b> {conf_grau} ({conf_score:.0f}/100)")
+
+        # Regime de tarifa minima. O projetista nao precisa do nome do regime:
+        # precisa saber se economizar agua reduz a conta, e a partir de que
+        # consumo. Num municipio com franquia de 15 m3, uma residencia que
+        # consome 12 m3 nao economiza um centavo por instalar cisterna.
+        self.lbl_regime.setText(f"💧 <b>{tr('Regime de cobrança:')}</b> {resumo_do_regime(data)}")
+
+        # Estrutura incompleta ou suspeita: escolhivel sim, mas nunca em silencio.
+        erros = [a for a in validar_estrutura(data) if a.gravidade == "erro"]
+        ressalva = data.get("_ressalva_estrutura", "")
+        if erros or ressalva:
+            texto = ressalva or "; ".join(a.mensagem for a in erros)
+            self.lbl_estrutura_aviso.setText(
+                f"⚠️ <b>{tr('Estrutura tarifária a conferir:')}</b> {texto}"
+            )
+            self.lbl_estrutura_aviso.setVisible(True)
+        else:
+            self.lbl_estrutura_aviso.setText("")
+            self.lbl_estrutura_aviso.setVisible(False)
         
         # Link da Fonte
         url = data.get('fonte_url', '')
