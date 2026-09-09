@@ -438,11 +438,17 @@ def test_material_cost_multipliers_and_tank_pricing():
     # (20m * 38 + 15m * 18) * 1.25 = (760 + 270) * 1.25 = 1030 * 1.25 = 1287.50
     assert pipe_cost == 1287.50
 
-    # Cloração
+    # Cloração: a massa devolvida é de PRODUTO comercial, já corrigida pela
+    # pureza, porque é o produto que se compra e sobre ele que incide o preço.
+    # Até a versão 5.0.8 esta conta devolvia a massa de cloro ATIVO e a
+    # multiplicava pelo preço do produto, subestimando o custo em 1/pureza.
+    from netuno.core.chlorination import PUREZA_PADRAO
+
     cl_kg, cl_cost = estimate_annual_chlorination_cost(100.0, dose_mg_l=2.0, cost_per_kg=25.0)
-    # 100 m³ * 2 g/m³ = 200 g = 0.20 kg
-    assert cl_kg == pytest.approx(0.20)
-    assert cl_cost == pytest.approx(5.00)
+    cloro_ativo_kg = 100.0 * 2.0 / 1000.0            # 100 m³ a 2 g/m³ = 0,20 kg
+    assert cl_kg == pytest.approx(cloro_ativo_kg / PUREZA_PADRAO)
+    assert cl_cost == pytest.approx(cl_kg * 25.0)
+    assert cl_kg > cloro_ativo_kg
 
     # CAPEX discriminado
     est = estimate_preliminary_capex(5000.0, 500.0, True, 0.368, lower_material="CONCRETO", upper_material="PEAD")

@@ -13,6 +13,7 @@ Inclui:
 """
 
 import json
+from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
 import os
 from pathlib import Path
 from typing import List, Tuple, Dict, Any, Optional
@@ -331,11 +332,30 @@ def estimate_pipe_network_cost(pipes: Optional[List[Any]] = None) -> float:
     return round(total * 1.25, 2)
 
 
-def estimate_annual_chlorination_cost(annual_pluvial_m3: float, dose_mg_l: float = 2.0, cost_per_kg: float = DEFAULT_CHLORINE_COST_PER_KG) -> Tuple[float, float]:
-    """Calcula a massa anual de cloro necessária e o custo operacional anual correspondente."""
-    annual_cl2_kg = (max(0.0, annual_pluvial_m3) * max(0.0, dose_mg_l)) / 1000.0
-    annual_cost = annual_cl2_kg * max(0.0, cost_per_kg)
-    return annual_cl2_kg, annual_cost
+def estimate_annual_chlorination_cost(
+    annual_pluvial_m3: float,
+    dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO,
+    cost_per_kg: float = DEFAULT_CHLORINE_COST_PER_KG,
+    purity: float = PUREZA_PADRAO,
+) -> Tuple[float, float]:
+    """Massa anual de produto e custo correspondente.
+
+    A massa devolvida e de **produto comercial**, ja corrigida pela pureza, que
+    e o que se compra e sobre o que incide o preco em R$/kg.
+
+    Ate a versao 5.0.8 esta funcao calculava a massa de cloro ATIVO e a
+    multiplicava pelo preco do produto, subestimando o custo em 1/pureza -
+    cerca de 35%. Era a quarta convencao de cloro do programa, e alimentava a
+    interface enquanto o modulo economico ja usava a corrigida, de modo que os
+    dois exibiam custos diferentes para a mesma cloracao.
+    """
+    cloracao = Cloracao(
+        dose_mg_por_litro=max(0.0, dose_mg_l),
+        pureza=max(1e-6, purity),
+    )
+    annual_product_kg = cloracao.massa_anual_de_produto_kg(max(0.0, annual_pluvial_m3))
+    annual_cost = annual_product_kg * max(0.0, cost_per_kg)
+    return annual_product_kg, annual_cost
 
 
 def annualize_operational_costs(
