@@ -18,6 +18,10 @@ from netuno.core.economic import (
     run_robust_economic_analysis, EconomicAnalysisResult, calculate_effective_tariff,
     run_sensitivity_analysis
 )
+from netuno.core.etap_integration import (
+    capex_incremental_da_etap,
+    opex_anual_incremental_da_etap,
+)
 from netuno.core.cost_estimates import (
     estimate_preliminary_capex, default_maintenance_items,
     MATERIAL_COST_MULTIPLIERS, PIPE_COST_PER_METER, estimate_annual_chlorination_cost,
@@ -676,10 +680,17 @@ class TabEconomicIntegrated(QWidget):
             cfg.pump_power_kw, cfg.pump_count,
             lower_material=low_mat, upper_material=up_mat
         )
+        # A linha de tratamento entra no investimento. Ate a 5.0.8 esta soma a
+        # ignorava, e marcar a filtracao fina nao mexia no valor exibido.
+        # A regra incremental - descontar a verba generica ja embutida em
+        # «Acessorios» - vive em netuno/core/etap_integration.py, e e a mesma
+        # que o motor do nucleo usa.
+        etap_capex_inc = capex_incremental_da_etap(cfg)
         total_capex = 0.0 if lower_vol <= 0 else (
             est["lower"] + cfg.cost_upper_tank +
             (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-            cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor
+            cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+            etap_capex_inc
         )
 
         has_sim = False
@@ -752,6 +763,10 @@ class TabEconomicIntegrated(QWidget):
                 pump_hours_year = (t_rec + t_part) / max(0.01, cfg.pump_efficiency / 100.0)
 
         annual_om_base = annualize_operational_costs(cfg.op_costs, annual_saved_m3)
+        # Custeio da linha de tratamento sem a cloracao, que a linha de cloro
+        # abaixo ja cobra. Sem isto, escolher ultravioleta ou filtro de polimento
+        # nao mexia na manutencao exibida.
+        annual_om_base += opex_anual_incremental_da_etap(cfg, annual_saved_m3)
 
         # Cloração
         cl2_enabled = getattr(cfg, "chlorine_treatment_enabled", True)
@@ -906,7 +921,8 @@ class TabEconomicIntegrated(QWidget):
                     capex_v = 0.0 if v_vol <= 0 else (
                         c_low + cfg.cost_upper_tank +
                         (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-                        cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor
+                        cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+                        capex_incremental_da_etap(cfg, vol_m3_val)
                     )
                     tw_v, ts_v = calculate_effective_tariff(
                         cfg, vol_m3_val,
@@ -933,6 +949,8 @@ class TabEconomicIntegrated(QWidget):
                         ann_cl_cost_v = 0.0
 
                     annual_om_v = annualize_operational_costs(cfg.op_costs, vol_m3_val) if v_vol > 0 else 0.0
+                    if v_vol > 0:
+                        annual_om_v += opex_anual_incremental_da_etap(cfg, vol_m3_val)
 
                     econ_v = run_robust_economic_analysis(
                         initial_investment=capex_v,

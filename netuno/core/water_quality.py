@@ -249,6 +249,10 @@ class EtapSizingResult:
     total_etap_co2e_kg_yr: float
     target_quality_class: str
     disinfection_stages: List[str] = field(default_factory=list)
+    # A classe alvo recomenda filtracao fina e o usuario dispensou. Nao e erro:
+    # as classes 2 a 4 sao adaptadas e nao normativas, de modo que a recomendacao
+    # e do programa. Fica registrado para o relatorio poder declarar a escolha.
+    polishing_recommended_but_declined: bool = False
 
 
 def size_etap(
@@ -362,7 +366,14 @@ def size_etap(
     polishing_opex = 0.0
     polishing_type = "Nenhum (Qualidade padrão atendida)"
 
-    if include_polishing_filter or target_class.exige_filtracao_fina:
+    # A escolha do usuario manda. Ate a 5.0.8 a condicao era
+    # `include_polishing_filter or target_class.exige_filtracao_fina`, e a classe
+    # sobrepunha a escolha em silencio: desmarcar a caixa nao surtia efeito
+    # nenhum nas classes 2 a 4.
+    polimento_recomendado = bool(target_class.exige_filtracao_fina)
+    polimento_recusado = polimento_recomendado and not include_polishing_filter
+
+    if include_polishing_filter:
         if target_class_id == "classe_4":
             polishing_type = "Filtro de Carvão Ativado em Bloco (Remoção de Cor e Odor)"
             polishing_capex = 550.0 * regional_factor
@@ -373,6 +384,13 @@ def size_etap(
             polishing_capex = 380.0 * regional_factor
             polishing_opex = 90.0 * regional_factor
             co2e_chemicals_kg += 4.0
+
+    if polimento_recusado:
+        polishing_type = (
+            "Nenhum — a classe alvo recomenda filtração fina, e ela foi dispensada. "
+            "As classes 2 a 4 são adaptadas e não normativas: a recomendação é do "
+            "programa, e a escolha é do projetista."
+        )
 
     tot_capex = pre_filter_capex + disinf_capex + polishing_capex
     tot_opex = disinf_opex + polishing_opex
@@ -395,6 +413,7 @@ def size_etap(
         polishing_filter_type=polishing_type,
         polishing_capex=polishing_capex,
         polishing_annual_opex=polishing_opex,
+        polishing_recommended_but_declined=polimento_recusado,
         total_etap_capex=tot_capex,
         total_etap_annual_opex=tot_opex,
         total_etap_co2e_kg_yr=co2e_chemicals_kg,

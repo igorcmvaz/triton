@@ -181,3 +181,50 @@ def dimensionar_etap_do_projeto(
         custo_anual_do_cloro=custo_cloro,
         co2e_anual_do_cloro=co2e_cloro,
     )
+
+
+def capex_incremental_da_etap(
+    config: Any = None,
+    annual_pluvial_m3: Optional[float] = None,
+    sim_result: Any = None,
+) -> float:
+    """Investimento da linha de tratamento que ainda NÃO está no CAPEX.
+
+    O estimador de custos já embute em «Acessórios» uma verba de filtração e
+    tratamento — R$ 350 na casa unifamiliar térrea, R$ 2.100 na tipologia
+    industrial. A linha dimensionada substitui essa verba, de modo que só a
+    diferença é investimento novo. Somar o total contaria o filtro duas vezes.
+
+    O desconto só se aplica quando há acessórios orçados: sem eles não existe
+    verba a deslocar.
+
+    Esta é a definição única da regra. O módulo econômico e a aba econômica
+    integrada a consomem, em vez de cada um somar por conta própria.
+    """
+    if not bool(getattr(config, "etap_enabled", True)):
+        return 0.0
+
+    # Importado aqui para não criar ciclo: `cost_estimates` não depende deste
+    # módulo, mas o econômico depende dos dois.
+    from netuno.core.cost_estimates import verba_generica_de_tratamento_brl
+
+    etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3, sim_result)
+    verba = verba_generica_de_tratamento_brl(getattr(config, "building_typology", "UTI"))
+    deslocavel = verba if float(getattr(config, "cost_accessories", 0.0) or 0.0) > 0 else 0.0
+    return max(0.0, etap.capex - deslocavel)
+
+
+def opex_anual_incremental_da_etap(
+    config: Any = None,
+    annual_pluvial_m3: Optional[float] = None,
+    sim_result: Any = None,
+) -> float:
+    """Custeio anual da linha de tratamento que ainda NÃO está no fluxo de caixa.
+
+    Os dois motores econômicos já custeiam o hipoclorito por uma linha própria.
+    O que a ETAP acrescenta é o resto: lâmpada germicida, energia do reator,
+    refil do filtro de polimento.
+    """
+    if not bool(getattr(config, "etap_enabled", True)):
+        return 0.0
+    return dimensionar_etap_do_projeto(config, annual_pluvial_m3, sim_result).opex_anual_sem_cloro

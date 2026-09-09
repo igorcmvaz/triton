@@ -191,8 +191,17 @@ class TabWaterQuality(QWidget):
         # 3. Filtro de Polimento
         lay_etap.addWidget(QLabel(f"<b>{tr('3. Polimento Físico:')}</b>"), 3, 0)
         self.chk_polishing = QCheckBox(tr("Incluir Filtro de Polimento Fino (Carvão Ativado / Areia Multicamada)"))
+        self.chk_polishing.setChecked(False)   # padrão: não utilizar
         self.chk_polishing.toggled.connect(self.on_polishing_changed)
         lay_etap.addWidget(self.chk_polishing, 3, 1)
+
+        # A classe alvo pode recomendar o polimento. Recomendar é escrever aqui,
+        # e não marcar a caixa por conta própria.
+        self.lbl_polishing_reco = QLabel("")
+        self.lbl_polishing_reco.setWordWrap(True)
+        self.lbl_polishing_reco.setStyleSheet("color: #92400e; font-size: 11px;")
+        self.lbl_polishing_reco.setVisible(False)
+        lay_etap.addWidget(self.lbl_polishing_reco, 4, 1)
 
         lay.addWidget(gb_etap)
 
@@ -318,17 +327,49 @@ class TabWaterQuality(QWidget):
             it.setFlags(it.flags() & ~Qt.ItemIsEditable)
             self.table_limits.setItem(0, c_idx, it)
 
-        if class_obj.exige_filtracao_fina:
-            self.chk_polishing.setChecked(True)
+        # A classe NAO marca mais a caixa. Marcar sozinho fazia o polimento
+        # parecer obrigatorio, e as classes 2 a 4 sao "adaptada, nao normativa"
+        # pelo proprio programa: a recomendacao e dele, e a escolha e do
+        # projetista. Recomendacao se apresenta, nao se impoe.
+        self._atualizar_recomendacao_de_polimento(class_obj)
         self.config.water_quality_polishing = self.chk_polishing.isChecked()
 
         self.recalculate_all()
         self.water_quality_updated.emit()
 
+    def _atualizar_recomendacao_de_polimento(self, class_obj):
+        """Mostra a recomendação da classe sem tocar na caixa de seleção.
+
+        As classes 2 a 4 são adaptadas e não normativas: a exigência de
+        filtração fina é recomendação do programa, e cabe ao projetista aceitá-la
+        ou não. Marcar a caixa sozinho fazia a recomendação parecer obrigação.
+        """
+        if not hasattr(self, "lbl_polishing_reco"):
+            return
+        recomenda = bool(getattr(class_obj, "exige_filtracao_fina", False))
+        self.lbl_polishing_reco.setVisible(recomenda)
+        # Limpar o texto, e nao so esconder: um rotulo escondido que guarda a
+        # recomendacao da classe anterior mente sobre a classe atual.
+        self.lbl_polishing_reco.setText("")
+        if recomenda and not self.chk_polishing.isChecked():
+            self.lbl_polishing_reco.setText(tr(
+                "A classe selecionada recomenda filtração fina. A recomendação é do "
+                "programa, e não da NBR 15527:2019 — as classes 2 a 4 são adaptadas. "
+                "Sem o filtro, o investimento e o custeio da linha de tratamento não o incluem."
+            ))
+        elif recomenda:
+            self.lbl_polishing_reco.setText(tr(
+                "A classe selecionada recomenda filtração fina, e ela está incluída."
+            ))
+
     def on_polishing_changed(self):
         # O campo existia e nunca era escrito: marcar o filtro nao alterava o
         # investimento nem a emissao vistos pelos demais modulos.
         self.config.water_quality_polishing = self.chk_polishing.isChecked()
+        classe = WATER_QUALITY_CLASSES.get(
+            self.combo_class.currentData() or "classe_1", WATER_QUALITY_CLASSES["classe_1"]
+        )
+        self._atualizar_recomendacao_de_polimento(classe)
         self.recalculate_all()
         self.water_quality_updated.emit()
 

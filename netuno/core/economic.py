@@ -12,8 +12,11 @@ from netuno.core.pump_hydraulics import (
     vazao_l_por_h,
 )
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
-from netuno.core.etap_integration import dimensionar_etap_do_projeto
-from netuno.core.cost_estimates import verba_generica_de_tratamento_brl
+from netuno.core.etap_integration import (
+    capex_incremental_da_etap,
+    dimensionar_etap_do_projeto,
+    opex_anual_incremental_da_etap,
+)
 from netuno.core.simulation import SingleTankSimulationResult
 
 
@@ -420,17 +423,13 @@ def run_economic_analysis(
     # CAPEX; do custeio anual desconta-se a cloracao, que as linhas acima ja
     # custeiam, de modo que o hipoclorito e pago uma vez so.
     etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3=annual_pluvial_m3, sim_result=sim_result)
-    if getattr(config, 'etap_enabled', True):
-        # «Acessorios» ja traz uma verba de filtracao e tratamento. A linha
-        # dimensionada a substitui, de modo que so a diferenca e custo novo -
-        # e o desconto so se aplica quando ha acessorios orcados.
-        verba = verba_generica_de_tratamento_brl(getattr(config, 'building_typology', 'UTI'))
-        deslocavel = verba if float(getattr(config, 'cost_accessories', 0.0)) > 0 else 0.0
-        etap_capex = max(0.0, etap.capex - deslocavel)
-        annual_etap_opex = etap.opex_anual_sem_cloro
-    else:
-        etap_capex = 0.0
-        annual_etap_opex = 0.0
+    # A regra incremental - descontar a verba generica de «Acessorios» do CAPEX e
+    # a cloracao do custeio - vive em netuno/core/etap_integration.py, e nao aqui:
+    # a aba economica integrada monta o proprio fluxo de caixa e precisa da mesma
+    # regra. Duas copias divergiriam, e foi assim que o cloro chegou a ter cinco
+    # convencoes.
+    etap_capex = capex_incremental_da_etap(config, annual_pluvial_m3, sim_result)
+    annual_etap_opex = opex_anual_incremental_da_etap(config, annual_pluvial_m3, sim_result)
     monthly_etap_opex_base = annual_etap_opex / 12.0
     capex += etap_capex
 
