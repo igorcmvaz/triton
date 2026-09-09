@@ -203,11 +203,55 @@ um resultado nas seguintes, e se deixar de mover, alguma ponte se rompeu.
 
 ## Ainda aguardando decisão sua
 
-**A rota de água padrão.** Adotar a rota brasileira do SNIS (0,147 kg CO₂e/m³)
-em lugar da convencional (0,35) leva o payback de 8,2 para 23,0 anos e o saldo de
-20 anos de +372 para −34 kg. Não mudei o padrão: inverte conclusões de estudos já
-publicados, e a escolha é sua.
+### Decisão 1 — a rota de água padrão
 
-**As duas funções verificadas e não ligadas.** `save_costs_database` e
-`get_tank_linear_regression` exigem telas que ninguém pediu. Ligar ou remover é
-decisão sua.
+O fator de emissão evitada não é propriedade do sistema pluvial: é propriedade da
+água que ele desloca. Hoje o padrão é `convencional_br`, **0,350 kg CO₂e/m³**,
+adotado pelo programa e corroborado por Garfí et al. (2016), cuja faixa para
+tratamento convencional é 0,41 a 0,47 — **matriz elétrica espanhola**.
+
+A alternativa é `rede_publica_brasil_snis`, **0,147 kg CO₂e/m³**, a única rota
+calculada com dados brasileiros: intensidade energética de 0,67 kWh/m³ do
+indicador IN058 do SNIS (Diagnóstico Temático 2023, ano-base 2022), mais 0,09 kg
+CO₂e/m³ de parcela não energética deduzida de Garfí et al.
+
+A matriz brasileira é limpa, então a água tratada aqui carrega menos carbono que
+na Europa. A consequência é desconfortável: **o benefício de carbono do sistema
+pluvial no Brasil é menor do que o valor padrão sugere.**
+
+Efeito para uma cisterna de 5.000 L aproveitando 120 m³/ano, em função da energia
+de bombeamento — que é o que decide o sinal do resultado:
+
+| Bombeamento | Convencional (0,350) | SNIS (0,147) |
+| :--- | ---: | ---: |
+| 0 kWh/ano (sem recalque) | 6,96 anos · +526 kg | 17,56 anos · +39 kg |
+| 100 kWh/ano | 8,52 anos · +379 kg | 32,59 anos · **−109 kg** |
+| 200 kWh/ano | 11,48 anos · +209 kg | nunca paga · **−279 kg** |
+
+Com a rota do SNIS e recalque, o sistema deixa de compensar em carbono dentro da
+vida útil de 20 anos. **Não mudei o padrão**: isso inverte conclusões de estudos
+já publicados, e a escolha é sua.
+
+As três respostas possíveis:
+
+1. **Manter `convencional_br`.** A comparabilidade com o que já foi publicado
+   fica preservada, e o valor segue declarado como sendo de fonte espanhola.
+2. **Trocar para `rede_publica_brasil_snis`.** O padrão passa a ser o valor
+   brasileiro; refaço a rodada dos casos de referência e entrego a tabela de
+   antes e depois.
+3. **Manter o padrão e avisar na interface** quando a rota escolhida for a
+   espanhola, com a brasileira ao lado para comparação.
+
+### Decisão 2 — as duas funções verificadas e não ligadas
+
+`save_costs_database` é a metade de escrita do banco de custos, e não há editor de
+custos na interface. `get_tank_linear_regression` devolve inclinação, intercepto
+e R² do modelo de preço por volume, e não há onde exibir isso.
+
+As duas estão cobertas por teste, de modo que não quebram em silêncio. As três
+respostas possíveis:
+
+1. **Deixar como estão**, verificadas e disponíveis para quem escrever script.
+2. **Remover as duas**, e o teste com elas.
+3. **Construir as telas**: um editor do banco de custos, e a qualidade do ajuste
+   de preço exibida junto da estimativa de CAPEX.
