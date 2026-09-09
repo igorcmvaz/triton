@@ -190,16 +190,47 @@ PIPE_EMISSION_FACTORS_PER_METER: Dict[int, float] = {
     for dn, massa in PIPE_LINEAR_MASS_KG_PER_M.items()
 }
 
-# Emissão incorporada de motobomba por potência (CV).
-# Cenário interno de triagem: substituir por massa/BOM/EPD do equipamento.
+# Emissão incorporada de motobomba, por potência.
+#
+# **Estes seis valores continuam sem fonte publicada.** A busca foi feita e o
+# resultado está registrado para que não se repita: nem o catálogo Schneider,
+# nem a tabela de seleção, nem os catálogos Fortlev e Bakof publicam massa por
+# modelo, e a literatura de ACV de bombas trata de equipamentos industriais,
+# cuja fase de operação responde por mais de 99% do impacto — proporção que não
+# se transfere para uma bomba residencial de meio CV, ligada poucas horas por
+# ano, em que o incorporado chega a um quarto do total.
+#
+# Apenas dois dos seis vieram de estimativa própria de massa: os de 1/4 e 1/2
+# CV. Os outros quatro são **extrapolação aritmética** a partir do de 1/2 CV,
+# como PUMP_EMBEDDED_CO2_SOURCE registra. É a maior lacuna de procedência que
+# resta no módulo, embora seja termo pequeno no resultado.
 PUMP_EMBEDDED_CO2: Dict[float, float] = {
-    0.25: 12.0,  # 1/4 CV: ~12 kg CO2e
-    0.50: 18.0,  # 1/2 CV: ~18 kg CO2e
-    0.75: 24.0,  # 3/4 CV: ~24 kg CO2e
-    1.00: 30.0,  # 1.0 CV: ~30 kg CO2e
-    1.50: 42.0,  # 1.5 CV: ~42 kg CO2e
-    2.00: 55.0,  # 2.0 CV: ~55 kg CO2e
+    0.25: 12.0,
+    0.50: 18.0,
+    0.75: 24.0,
+    1.00: 30.0,
+    1.50: 42.0,
+    2.00: 55.0,
 }
+
+PUMP_EMBEDDED_CO2_SOURCE: Dict[float, str] = {
+    0.25: "estimativa interna de massa e composição; sem fonte publicada",
+    0.50: "estimativa interna de massa e composição; sem fonte publicada",
+    0.75: "extrapolação aritmética do valor de 0,5 CV (x1,33)",
+    1.00: "extrapolação aritmética do valor de 0,5 CV (x1,67)",
+    1.50: "extrapolação aritmética do valor de 1,0 CV (x1,40)",
+    2.00: "extrapolação aritmética do valor de 1,5 CV (x1,31)",
+}
+
+
+def pump_embodied_co2_is_extrapolated(power_cv: float) -> bool:
+    """Diz se o valor daquela potência é extrapolado em vez de estimado.
+
+    Exposto para que a interface e os relatórios possam sinalizar, em vez de
+    apresentar os seis valores como se tivessem o mesmo estatuto.
+    """
+    fonte = PUMP_EMBEDDED_CO2_SOURCE.get(power_cv, "")
+    return "extrapola" in fonte
 
 
 # Massa de reservatorio vazio por capacidade, catalogo tecnico Fortlev

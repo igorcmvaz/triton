@@ -119,10 +119,18 @@ E = P × [(Vrecalcado / Q) + (Npartidas × tpartida)] / η
 A cloração usa uma dose aplicada informada pelo usuário:
 
 ```text
-mCl2,eq (kg/ano) = Vtratado (m³/ano) × dose (mg/L) / 1000
-custoCl2 = mCl2,eq × preço_por_kg
-CO2Cl2 = mCl2,eq × fator_kgCO2e_por_kgCl2
+mCl2,ativo (kg/ano) = Vtratado (m³/ano) × dose (mg/L) / 1000
+mproduto  (kg/ano) = mCl2,ativo / pureza
+custoCl2           = mproduto × preço_por_kg_de_produto
+CO2Cl2             = mproduto × fator_kgCO2e_por_kg_de_produto
 ```
+
+A **pureza** está na conta porque a dose é prescrita em cloro ativo e o que se
+compra, transporta e fabrica é a pastilha, com 65% de cloro ativo. Somar uma
+dose de cloro ativo a um fator por quilo de pastilha subestima em 35%, e foi
+metade da divergência que separava o módulo ambiental do de qualidade até a
+versão 5.0.7. A cadeia está em `netuno/core/chlorination.py`, e os três módulos
+— ambiental, econômico e de qualidade — partem dela.
 
 Essa conta estima **massa aplicada em cloro equivalente**, não a demanda de cloro da água. Demanda de cloro é a diferença entre dose aplicada e residual após tempo de contato, e exige ensaio com a água da fonte, definição do residual-alvo, pH, turbidez, matéria orgânica, tempo de contato e protocolo sanitário aplicável. Portanto, a dose padrão serve apenas para cenário econômico/ambiental e não prescreve tratamento.
 
@@ -148,7 +156,27 @@ CO2líquido,vida = anos × (CO2água_evitado,anual
                   − CO2incorporado
 ```
 
-Massas, fatores de materiais, fator da água, fator da rede e fator do cloro são hipóteses editáveis. Para publicação ou projeto executivo, substitua-os por inventário geograficamente e temporalmente representativo, EPDs/dados de fornecedor e análise de sensibilidade. O fator elétrico deve corresponder ao ano/escopo do estudo; a série oficial brasileira é publicada pelo MCTI/SIRENE.
+A partir da versão 5.0.8 os fatores têm fonte declarada, e não são mais hipóteses
+internas. O detalhe valor a valor está em
+[`procedencia_fatores_co2.md`](procedencia_fatores_co2.md):
+
+| Item | Fonte |
+| :--- | :--- |
+| PEAD | Franklin Associates para o American Chemistry Council (2020) |
+| PVC de tubo | EPD Australasia S-P-05503, por kg de tubo instalado |
+| PRFV | Composites UK, faixa de 2,5 a 4,0 kg CO₂e/kg |
+| Aço inox | worldstainless, por teor de sucata da carga |
+| Concreto | Hammond & Jones, corroborado pelo SIDAC |
+| Massa linear dos tubos | pesos Amanco Wavin e geometria das NBR 5648 e 5688 |
+| Massa do reservatório em PRFV | catálogo Fortlev, por capacidade |
+| Rede elétrica | bases de CO₂e nomeadas (SIDAC, CaDI, Vaz et al. 2025) |
+| Água substituída | rotas selecionáveis, incluindo a brasileira do SNIS |
+
+Duas ressalvas permanecem. **O fator da rede é CO₂-equivalente, não CO₂**: a
+série do MCTI/SIRENE cobre só o dióxido de carbono e só a geração, e usá-la aqui
+subestimaria o bombeamento. E as **motobombas** continuam sem fonte, com quatro
+dos seis valores extrapolados aritmeticamente — nenhum catálogo consultado
+publica massa por potência.
 
 ## 8. TOPSIS e novo diagnóstico da concessão
 
