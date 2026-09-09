@@ -12,6 +12,7 @@ from PySide6.QtCore import Qt, QCoreApplication
 from PySide6.QtWidgets import QApplication, QProxyStyle, QStyle, QAbstractSpinBox
 from netuno.ui.translation import check_first_run_language
 from netuno.ui.main_window import MainWindow
+from netuno.ui.qt_diagnostics import instalar_captura_de_avisos
 
 
 class NoMnemonicUnderlineStyle(QProxyStyle):
@@ -32,6 +33,14 @@ def main():
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
 
     app = QApplication(sys.argv)
+
+    # Captura os avisos do Qt: cada aviso distinto aparece uma vez no console,
+    # com a pilha Python gravada em avisos_qt.log. Era assim que o
+    # "QFont::setPointSize: Point size <= 0 (-1)" enchia o console sem que se
+    # soubesse de onde vinha — ele nao vem do codigo do Netuno, e nao se
+    # reproduz na construcao das telas.
+    instalar_captura_de_avisos()
+
     app.setStyle(NoMnemonicUnderlineStyle(app.style()))
     app.setApplicationName("Netuno 5")
     app.setOrganizationName("Grupo de Pesquisa Gestão do Espaço Sustentável")

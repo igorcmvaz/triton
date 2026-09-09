@@ -60,7 +60,7 @@ def clean_build_dirs(base_dir: Path):
 def build_pyinstaller(args, base_dir: Path) -> bool:
     """Executa a compilação do executável com PyInstaller."""
     print("\n=======================================================")
-    print("  Iniciando Compilação PyInstaller — Netuno 5.0.7")
+    print("  Iniciando Compilação PyInstaller — Netuno 5.0.8")
     print("=======================================================")
 
     try:

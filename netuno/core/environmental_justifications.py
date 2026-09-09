@@ -45,16 +45,25 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
         ),
         "co2_factor": ParameterJustification(
             title="Fator de Emissão de CO2e do PEAD",
-            short_description="3,0 kg CO2e por kg de material processado",
+            short_description="1,612 kg CO2e por kg de resina PEAD",
             detailed_explanation=(
-                "O fator de 3,0 kg CO2e/kg reflete toda a pegada de carbono da produção do PEAD:\n"
-                "• Extração e refino de petróleo bruto (~1,5 kg CO2e/kg)\n"
-                "• Polimerização e processamento químico (~1,0 kg CO2e/kg)\n"
-                "• Transporte industrial (~0,5 kg CO2e/kg)\n\n"
-                "A decomposição é apenas o racional histórico do cenário interno. O fator não foi "
-                "auditado contra uma EPD ou processo versionado nesta distribuição."
+                "Valor publicado, berco-ao-portao, para a resina de PEAD virgem:\n"
+                "- 1.221 kg CO2e por 1.000 kg vindos dos materiais de entrada (76%)\n"
+                "- 390 kg CO2e por 1.000 kg da producao da resina em si (24%)\n"
+                "- Total: 1.612 kg CO2e por 1.000 kg, ou seja 1,612 kg CO2e/kg\n\n"
+                "Metodo TRACI 2.1 com GWP-100 do IPCC (2013); escopo Estados Unidos.\n\n"
+                "Substitui o valor interno anterior de 3,00 kg CO2e/kg, que nao tinha fonte e "
+                "cuja decomposicao declarava a MESMA fronteira (extracao e refino, polimerizacao, "
+                "transporte). A diferenca, portanto, nao se explica por fronteira: o valor antigo "
+                "superestimava a resina em cerca de 86%.\n\n"
+                "Ressalva de escopo: a resina consumida no Brasil tem matriz eletrica e cadeia de "
+                "materia-prima diferentes das norte-americanas. Para publicacao, prefira a EPD do "
+                "fabricante efetivamente empregado."
             ),
-            source_reference="Cenário interno: selecionar EPD/inventário versionado do PEAD adotado",
+            source_reference=(
+                "FRANKLIN ASSOCIATES para o American Chemistry Council (out/2020), "
+                "Cradle-to-Gate Life Cycle Analysis of High-Density Polyethylene (HDPE) Resin, Tabela 6"
+            ),
             calculation_basis="Life Cycle Assessment (LCA) de produção PEAD virgin",
             notes=(
                 "Valores com reciclagem podem ser 30-50% menores (~1,5-2,1 kg CO2e/kg).\n"
@@ -172,12 +181,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 50 mm (2\")",
         short_description="1,54 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 50 mm contém ~0,55 kg de material PVC por metro.\n"
-            "Considerando fator de emissão do PVC = 2,80 kg CO2e/kg:\n"
-            "  0,55 kg × 2,80 kg CO2e/kg = 1,54 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 50 mm contém 0,668 kg de material PVC por metro.\n"
+            "Considerando fator de emissão do PVC = 2,36 kg CO2e/kg:\n"
+            "  0,55 kg x 2,36 kg CO2e/kg = 1,30 kg CO2e/m\n\n"
             "Este é o tubo mais fino do padrão, usado para linhas de recirculação e drenos."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: peso de produto ou geometria normativa. Fator da resina: FRANKLIN ASSOCIATES para o American Chemistry Council (dez/2021), Cradle-to-Gate Life Cycle Analysis of Polyvinyl Chloride (PVC) Resin, Tabela 7 (2,36 kg CO2e/kg); substituir por ficha técnica/EPD",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Inclui cimento PVC (5-10% das dimensões do tubo) e aditivos estabilizadores."
     ),
@@ -185,12 +194,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 75 mm (3\")",
         short_description="2,66 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 75 mm contém ~0,95 kg de material PVC por metro.\n"
-            "Cálculo: 0,95 kg × 2,80 kg CO2e/kg = 2,66 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 75 mm contém 1,412 kg de material PVC por metro.\n"
+            "Cálculo: 0,95 kg x 2,36 kg CO2e/kg = 2,24 kg CO2e/m\n\n"
             "Diâmetro intermediário, tipicamente usado para distribuição principal "
             "e interconexões entre cisterna e caixa superior."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: peso de produto ou geometria normativa. Fator da resina: FRANKLIN ASSOCIATES para o American Chemistry Council (dez/2021), Cradle-to-Gate Life Cycle Analysis of Polyvinyl Chloride (PVC) Resin, Tabela 7 (2,36 kg CO2e/kg); substituir por ficha técnica/EPD",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Tubo Schedule 40 com pressão nominal 100 psi (padrão sistemas de aproveitamento)."
     ),
@@ -198,12 +207,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 100 mm (4\")",
         short_description="3,92 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 100 mm contém ~1,40 kg de material PVC por metro.\n"
-            "Cálculo: 1,40 kg × 2,80 kg CO2e/kg = 3,92 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 100 mm contém 1,176 kg de material PVC por metro.\n"
+            "Cálculo: 1,40 kg x 2,36 kg CO2e/kg = 3,30 kg CO2e/m\n\n"
             "Tubo de maior seção, usado para linhas de grande vazão, "
             "captação principal e alimentação de cisterna."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: peso de produto ou geometria normativa. Fator da resina: FRANKLIN ASSOCIATES para o American Chemistry Council (dez/2021), Cradle-to-Gate Life Cycle Analysis of Polyvinyl Chloride (PVC) Resin, Tabela 7 (2,36 kg CO2e/kg); substituir por ficha técnica/EPD",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Mais econômico para grandes vazões que múltiplas linhas menores."
     ),
@@ -211,12 +220,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 150 mm (6\")",
         short_description="7,84 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 150 mm contém ~2,80 kg de material PVC por metro.\n"
-            "Cálculo: 2,80 kg × 2,80 kg CO2e/kg = 7,84 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 150 mm contém 2,502 kg de material PVC por metro.\n"
+            "Cálculo: 2,80 kg x 2,36 kg CO2e/kg = 6,61 kg CO2e/m\n\n"
             "Tubo de maior seção do catálogo padrão, usado em coletas de grande escala "
             "ou quando a velocidade de fluxo deve ser minimizada (reduz perdas)."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: peso de produto ou geometria normativa. Fator da resina: FRANKLIN ASSOCIATES para o American Chemistry Council (dez/2021), Cradle-to-Gate Life Cycle Analysis of Polyvinyl Chloride (PVC) Resin, Tabela 7 (2,36 kg CO2e/kg); substituir por ficha técnica/EPD",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Próximo limite de aplicação em sistemas residenciais/comerciais de médio porte."
     )
@@ -559,14 +568,14 @@ def generate_html_justifications_pipes() -> str:
     """
     
     for dn, co2_per_m in PIPE_EMISSION_FACTORS_PER_METER.items():
-        weight_per_m = co2_per_m / 2.80  # Reverso: 2.80 é fator PVC
+        weight_per_m = co2_per_m / 2.36  # Reverso: 2.80 é fator PVC
         html += f"""
         <tr style='background-color: #fff7ed;'>
             <td><b>DN {dn} mm ({format_ptbr(dn / 25.4, 1)}")</b></td>
             <td align='center'>{format_ptbr(weight_per_m, 2)}</td>
             <td align='center'><b>{format_ptbr(co2_per_m, 2)}</b></td>
             <td>
-                Hipótese de massa linear × 2,80 kg CO2e/kg. Verifique classe, fabricante, massa e EPD do tubo.
+                Hipótese de massa linear × 2,36 kg CO2e/kg. Verifique classe, fabricante, massa e EPD do tubo.
             </td>
         </tr>
         """

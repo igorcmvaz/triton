@@ -14,6 +14,47 @@ projeto, EPDs ou inventários versionados compatíveis com a fronteira do estudo
 from dataclasses import dataclass, field, replace
 from typing import Dict, List, Any, Optional, Tuple
 
+from netuno.core.grid_emission_factors import BASE_PADRAO as BASE_PADRAO_DA_REDE
+from netuno.core.grid_emission_factors import fator_co2eq as _fator_co2eq_da_rede
+from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
+from netuno.core.water_supply_routes import ROTA_PADRAO as ROTA_PADRAO_DA_AGUA
+from netuno.core.water_supply_routes import co2_evitado_por_m3 as _co2_evitado_por_m3
+
+
+def grid_factor_default() -> float:
+    """Fator da rede elétrica em **kg CO₂e/kWh**, para uso em ACV.
+
+    É uma função — e não uma constante — porque `dataclasses` exige
+    `default_factory` para valores lidos de arquivo, e porque assim o número
+    nunca aparece transcrito no código-fonte.
+
+    **Por que CO₂e e não CO₂.** Uma versão intermediária deste módulo passou a
+    ler a série anual do MCTI/SIRENE, que é de **CO₂ apenas** e cobre só a
+    geração. Foi um erro de grandeza: uma ACV precisa de CO₂-equivalente e de
+    fronteira que inclua transmissão, distribuição, construção das usinas e as
+    emissões biogênicas e de uso da terra. Vaz, Scolaro & Ghisi (2025,
+    DOI 10.1016/j.scitotenv.2025.179774) mostram que a intensidade sobe de
+    ~0,07 kg CO₂/kWh (SIRENE) para até 0,20 kg CO₂e/kWh quando os demais
+    processos e gases entram. Usar o número do SIRENE aqui subestimaria o
+    bombeamento e inflaria o saldo ambiental do sistema.
+
+    A série do MCTI continua disponível em `grid_emission_factors.fator_anual`,
+    corretamente rotulada, para quem precisar dela.
+    """
+    return _fator_co2eq_da_rede(BASE_PADRAO_DA_REDE)
+
+
+def potable_water_factor_default() -> float:
+    """Emissao evitada por m3, da rota de producao de agua adotada por padrao.
+
+    A emissao evitada nao e propriedade do sistema pluvial: e propriedade da
+    agua que se deixa de consumir. Substituir agua dessalinizada, agua tratada
+    convencionalmente ou agua engarrafada sao coisas separadas por ordens de
+    grandeza. O catalogo de rotas esta em
+    :mod:`netuno.core.water_supply_routes`.
+    """
+    return _co2_evitado_por_m3(ROTA_PADRAO_DA_AGUA)
+
 
 @dataclass
 class MaterialPreset:
@@ -31,10 +72,16 @@ class MaterialPreset:
 MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
     "PEAD": MaterialPreset(
         name="Polietileno de Alta Densidade (PEAD)",
-        material_density_kg_per_m3_tank=22.0,  # ~22 kg PEAD por m³ útil
-        co2_factor_kg_per_kg=3.00,             # 3,0 kg CO2e / kg PEAD
-        co2_factor_kg_per_m3_tank=66.0,        # 22 * 3.0 = 66 kg CO2e / m³ útil
-        source_reference="Cenário de triagem; calibrar com EPD/inventário do fornecedor (famílias ICE/Ecoinvent)",
+        material_density_kg_per_m3_tank=22.0,   # ~22 kg PEAD por m³ útil (cenário geométrico interno)
+        co2_factor_kg_per_kg=1.612,             # kg CO2e / kg resina PEAD — ver source_reference
+        co2_factor_kg_per_m3_tank=35.464,       # 22 * 1,612
+        source_reference=(
+            "Resina: Franklin Associates para o American Chemistry Council (out/2020), "
+            "'Cradle-to-Gate Life Cycle Analysis of High-Density Polyethylene (HDPE) Resin', "
+            "Tabela 6: 1.612 kg CO2e por 1.000 kg de resina (TRACI 2.1 / IPCC 2013 GWP-100, "
+            "escopo EUA). Substitui o valor interno anterior de 3,00, que não tinha fonte e "
+            "declarava a mesma fronteira. A massa por m³ segue sendo cenário interno."
+        ),
         description="Reservatório plástico rotomoldado pré-fabricado. Leve e de fácil instalação."
     ),
     "CONCRETO": MaterialPreset(
@@ -47,10 +94,17 @@ MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
     ),
     "FIBRA": MaterialPreset(
         name="Poliéster Reforçado com Fibra de Vidro (PRFV)",
-        material_density_kg_per_m3_tank=20.0,  # ~20 kg PRFV por m³ útil
-        co2_factor_kg_per_kg=4.25,             # 4.25 kg CO2e / kg PRFV
-        co2_factor_kg_per_m3_tank=85.0,        # 20 * 4.25 = 85 kg CO2e / m³ útil
-        source_reference="Cenário de triagem; calibrar massa e EPD do reservatório PRFV",
+        # Densidade media da linha Fortlev entre 1.000 e 10.000 L. A massa exata
+        # por capacidade esta em MASSA_PRFV_POR_CAPACIDADE_L, e e ela que o
+        # calculo usa; este valor serve de referencia e para faixas fora da tabela.
+        material_density_kg_per_m3_tank=15.0,
+        co2_factor_kg_per_kg=4.25,             # kg CO2e/kg - AINDA SEM FONTE
+        co2_factor_kg_per_m3_tank=63.75,       # 15 * 4.25
+        source_reference=(
+            "Massa: catalogo tecnico Fortlev, 'Caixa d'agua em fibra de vidro' "
+            "(peso da caixa vazia por capacidade), reservatorios conforme ABNT NBR 13210. "
+            "Fator de emissao: ainda sem fonte primaria - permanece cenario interno."
+        ),
         description="Reservatório composto leve, altamente anticorrosivo e de médio gasto energético."
     ),
     "ACO_INOX": MaterialPreset(
@@ -63,20 +117,64 @@ MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
     )
 }
 
-# Emissões lineares de tubulações de PVC rígido por diâmetro nominal (DN).
-# Cenário interno de triagem: calibrar massa linear e EPD/inventário do tubo.
+# Massa linear de tubo de PVC, por diâmetro nominal, em kg/m.
+#
+# Três origens, declaradas por linha em PIPE_LINEAR_MASS_SOURCE:
+#
+# 1. DN 20 a 60 — **peso real de produto**, da ficha técnica FTC000021 da
+#    Amanco Wavin (revisão de outubro/2025), linha Soldável Água Fria, tubo
+#    ponta-bolsa de 6 m. O peso unitário publicado foi dividido pelo
+#    comprimento.
+# 2. DN 75, 85 e 110 — geometria da ABNT NBR 5648 (tubo soldável de água fria,
+#    diâmetro externo e espessura de parede da mesma ficha técnica, p. 8),
+#    multiplicada pela densidade efetiva calibrada nos pesos reais acima.
+# 3. DN 100 e 150 — geometria da ABNT NBR 5688:2018, Tabela 1, **série
+#    reforçada**, que é a série que a própria norma destina a água pluvial.
+#    São linhas de captação e extravasamento, não de pressão.
+#
+# A densidade efetiva de 1,511 g/cm³ foi obtida dos seis pesos reais e é muito
+# consistente entre eles (1,504 a 1,516). Ela é maior que a densidade do PVC-U
+# puro porque incorpora a massa da bolsa, que o tubo comercial traz.
+#
+# Até a versão 5.0.7 estas massas eram cenário interno. O erro não era pequeno
+# nem sistemático: o DN 110 estava 47% abaixo do real e o DN 20, 36% acima.
+PIPE_LINEAR_MASS_KG_PER_M: Dict[int, float] = {
+    20:  0.132,
+    25:  0.189,
+    32:  0.299,
+    40:  0.427,
+    50:  0.668,
+    60:  0.884,
+    75:  1.412,
+    85:  1.792,
+    100: 1.176,
+    110: 3.009,
+    150: 2.502,
+}
+
+PIPE_LINEAR_MASS_SOURCE: Dict[int, str] = {
+    20:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 20 x 6 m: 791,94 g",
+    25:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 25 x 6 m: 1.132,24 g",
+    32:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 32 x 6 m: 1.793,14 g",
+    40:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 40 x 6 m: 2.561,27 g",
+    50:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 50 x 6 m: 4.010,80 g",
+    60:  "Amanco Wavin FTC000021 (out/2025), tubo soldável 60 x 6 m: 5.305,97 g",
+    75:  "ABNT NBR 5648: DE 75,0 mm, parede 4,2 mm; densidade efetiva 1,511 g/cm³",
+    85:  "ABNT NBR 5648: DE 85,0 mm, parede 4,7 mm; densidade efetiva 1,511 g/cm³",
+    100: "ABNT NBR 5688:2018 Tab. 1, série reforçada: dem 101,6 mm, parede 2,5 mm",
+    110: "ABNT NBR 5648: DE 110,0 mm, parede 6,1 mm; densidade efetiva 1,511 g/cm³",
+    150: "ABNT NBR 5688:2018 Tab. 1, série reforçada: dem 150,0 mm, parede 3,6 mm",
+}
+
+# Emissão por metro = massa linear x fator do tubo instalado. O fator é
+# 2,36 kg CO2e/kg, módulos A1-A3 da Declaração Ambiental de Produto EPD
+# Australasia S-P-05503 (RXP PVC Pipes, 25/11/2022, EN 15804+A2), cuja unidade
+# declarada é 1 kg de tubo instalado.
+PVC_PIPE_CO2E_PER_KG = 2.36
+
 PIPE_EMISSION_FACTORS_PER_METER: Dict[int, float] = {
-    20:  0.50,   # DN 20 mm (1/2"): ~0.18 kg PVC/m * 2.80 kg CO2e/kg = 0.50 kg CO2e/m
-    25:  0.67,   # DN 25 mm (3/4"): ~0.24 kg PVC/m * 2.80 kg CO2e/kg = 0.67 kg CO2e/m
-    32:  0.95,   # DN 32 mm (1"): ~0.34 kg PVC/m * 2.80 kg CO2e/kg = 0.95 kg CO2e/m
-    40:  1.23,   # DN 40 mm (1 1/4"): ~0.44 kg PVC/m * 2.80 kg CO2e/kg = 1.23 kg CO2e/m
-    50:  1.54,   # DN 50 mm (1 1/2"): ~0.55 kg PVC/m * 2.80 kg CO2e/kg = 1.54 kg CO2e/m
-    60:  1.96,   # DN 60 mm (2"): ~0.70 kg PVC/m * 2.80 kg CO2e/kg = 1.96 kg CO2e/m
-    75:  2.66,   # DN 75 mm (2 1/2"): ~0.95 kg PVC/m * 2.80 kg CO2e/kg = 2.66 kg CO2e/m
-    85:  3.22,   # DN 85 mm (3"): ~1.15 kg PVC/m * 2.80 kg CO2e/kg = 3.22 kg CO2e/m
-    100: 3.92,   # DN 100 mm (4"): ~1.40 kg PVC/m * 2.80 kg CO2e/kg = 3.92 kg CO2e/m
-    110: 4.48,   # DN 110 mm (4"): ~1.60 kg PVC/m * 2.80 kg CO2e/kg = 4.48 kg CO2e/m
-    150: 7.84,   # DN 150 mm (6"): ~2.80 kg PVC/m * 2.80 kg CO2e/kg = 7.84 kg CO2e/m
+    dn: round(massa * PVC_PIPE_CO2E_PER_KG, 4)
+    for dn, massa in PIPE_LINEAR_MASS_KG_PER_M.items()
 }
 
 # Emissão incorporada de motobomba por potência (CV).
@@ -89,6 +187,81 @@ PUMP_EMBEDDED_CO2: Dict[float, float] = {
     1.50: 42.0,  # 1.5 CV: ~42 kg CO2e
     2.00: 55.0,  # 2.0 CV: ~55 kg CO2e
 }
+
+
+# Massa de reservatorio vazio por capacidade, catalogo tecnico Fortlev
+# "Caixa d'agua em fibra de vidro" (coluna "Peso em quilos - caixa vazia").
+# Fabricados conforme ABNT NBR 13210.
+#
+# O programa tratava a massa como densidade CONSTANTE de 20 kg por m3 util. Os
+# dados do fabricante mostram que nao e: ha economia de escala clara, de
+# 20,3 kg/m3 num reservatorio de 1.000 L para 13,7 kg/m3 num de 10.000 L. A
+# constante de 20 so vale para o menor reservatorio da linha, e superestima em
+# cerca de 25% um reservatorio de 5.000 L, que e o porte tipico destes estudos.
+MASSA_PRFV_POR_CAPACIDADE_L: Dict[float, float] = {
+    310.0: 9.70,
+    500.0: 14.10,
+    1000.0: 20.30,
+    1500.0: 27.10,
+    2000.0: 34.80,
+    3000.0: 49.00,
+    4000.0: 57.10,
+    5000.0: 74.90,
+    6000.0: 94.00,
+    7500.0: 110.30,
+    8000.0: 116.40,
+    10000.0: 136.70,
+    12000.0: 161.00,
+    15000.0: 190.90,
+    20000.0: 278.10,
+    25000.0: 413.00,
+}
+
+FONTE_MASSA_PRFV = (
+    "FORTLEV, Catalogo tecnico 'Caixa d'agua em fibra de vidro', tabela de peso "
+    "em quilos (caixa vazia). Reservatorios conforme ABNT NBR 13210."
+)
+
+
+def massa_de_reservatorio_prfv_kg(capacidade_litros: float) -> float:
+    """Massa do reservatorio vazio em PRFV, interpolada do catalogo.
+
+    Fora da faixa tabelada extrapola-se pela densidade do extremo mais proximo,
+    porque uma extrapolacao linear da curva daria massa negativa para volumes
+    pequenos.
+    """
+    if capacidade_litros <= 0:
+        return 0.0
+
+    tabela = sorted(MASSA_PRFV_POR_CAPACIDADE_L.items())
+    menor_v, menor_m = tabela[0]
+    maior_v, maior_m = tabela[-1]
+
+    if capacidade_litros <= menor_v:
+        return capacidade_litros * (menor_m / menor_v)
+    if capacidade_litros >= maior_v:
+        return capacidade_litros * (maior_m / maior_v)
+
+    for (v0, m0), (v1, m1) in zip(tabela, tabela[1:]):
+        if v0 <= capacidade_litros <= v1:
+            fracao = (capacidade_litros - v0) / (v1 - v0)
+            return m0 + fracao * (m1 - m0)
+
+    return capacidade_litros * (maior_m / maior_v)
+
+
+def massa_do_reservatorio_kg(capacidade_litros: float, material_key: str, densidade_kg_m3: float) -> float:
+    """Massa do reservatorio vazio.
+
+    Para o PRFV usa-se a tabela do catalogo Fortlev, porque a massa nao e
+    proporcional ao volume: ha economia de escala, e tratar a densidade como
+    constante superestimava um reservatorio de 10.000 L em 46%. Para os demais
+    materiais, na falta de tabela de fabricante, mantem-se a densidade constante,
+    que segue sendo cenario interno.
+    """
+    if normalize_material_key(material_key) == "FIBRA":
+        return massa_de_reservatorio_prfv_kg(capacidade_litros)
+    return (capacidade_litros / 1000.0) * densidade_kg_m3
 
 
 MATERIAL_KEY_ALIASES: Dict[str, str] = {
@@ -163,12 +336,26 @@ class EnvironmentalConfig:
     pump: PumpInput = field(default_factory=PumpInput)
 
     # Operação, Tratamento Químico e Matriz Elétrica
-    grid_co2_factor_kg_kwh: float = 0.085        # Hipótese editável; selecionar série MCTI/SIRENE do período
-    potable_water_co2_kg_m3: float = 0.35        # Emissão evitada da água potável da rede (kg CO2e/m³)
+    # Fator da rede elétrica em kg CO2e/kWh. As bases documentadas — SIDAC,
+    # CaDI, e os indicadores de Vaz, Scolaro & Ghisi (2025) — estão em
+    # `netuno.core.grid_emission_factors.bases_disponiveis()`, cada uma com
+    # fonte, gás e fronteira declarados.
+    grid_co2_factor_kg_kwh: float = field(default_factory=grid_factor_default)
+    grid_co2_factor_basis: str = BASE_PADRAO_DA_REDE  # base do fator acima, para o relatório
+    # Rota de producao da agua substituida. Define a emissao evitada por m3.
+    water_supply_route: str = ROTA_PADRAO_DA_AGUA
+    potable_water_co2_kg_m3: float = field(default_factory=potable_water_factor_default)
     # Cloração: a massa anual é calculada a partir do volume pluvial
     # efetivamente utilizado.  A intensidade de CO2e resulta de dose × fator.
-    chlorine_dose_mg_l: float = 2.0              # Dose de cloro equivalente (mg Cl2/L)
-    chlorine_co2_kg_per_kg: float = 25.0         # Fator de emissão do insumo (kg CO2e/kg Cl2)
+    # Cadeia unica em netuno/core/chlorination.py. A dose e de cloro ATIVO;
+    # o fator e por kg de PRODUTO comercial, e a pureza faz a ponte.
+    chlorine_dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO   # mg de Cl2 ativo por litro
+    chlorine_product_purity: float = PUREZA_PADRAO         # kg Cl2 ativo por kg de produto
+    # Ate a 5.0.7 este campo valia 25,0 e era descrito como kg CO2e/kg de Cl2.
+    # O numero nao tinha fonte e era identico ao custo (25,00 R$/kg) no
+    # costs_database.json. Substituido pelo fator do hipoclorito de calcio,
+    # por kg de PRODUTO, que o modulo de qualidade ja usava.
+    chlorine_co2_kg_per_kg: float = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
     # Campo legado. Projetos antigos podem informar diretamente kg CO2e/m³;
     # quando presente, ele preserva o resultado histórico de emissão.
     chemical_treatment_co2_m3: Optional[float] = None
@@ -202,7 +389,8 @@ class EnvironmentalResult:
     total_embodied_co2_kg: float         # CO2 inicial total (kg CO2e)
     annual_pumping_co2_kg: float         # CO2 anual de bombeamento (kg CO2e / ano)
     annual_treatment_co2_kg: float       # CO2 anual de dosagem química (kg CO2e / ano)
-    annual_chlorine_kg: float             # Massa anual de cloro equivalente (kg Cl2 / ano)
+    annual_chlorine_kg: float             # Massa anual de PRODUTO comercial (kg/ano),
+                                          # ja corrigida pela pureza - e o que se compra
     chlorine_dose_mg_l: float             # Dose adotada para o inventário (mg Cl2/L)
     chlorine_co2_kg_per_kg: float         # Fator adotado para o insumo (kg CO2e/kg Cl2)
     treatment_co2_kg_per_m3: float        # Intensidade efetiva do tratamento (kg CO2e/m³)
@@ -277,7 +465,7 @@ def calculate_lca(
     den_lower = config.custom_lower_density_kg_m3 if (config.custom_lower_density_kg_m3 and config.custom_lower_density_kg_m3 > 0) else preset_lower.material_density_kg_per_m3_tank
     co2_lower = config.custom_lower_co2_per_kg if (config.custom_lower_co2_per_kg and config.custom_lower_co2_per_kg > 0) else preset_lower.co2_factor_kg_per_kg
 
-    lower_mass = vol_m3 * den_lower
+    lower_mass = massa_do_reservatorio_kg(tank_vol_liters, config.lower_material_key, den_lower)
     lower_embodied = lower_mass * co2_lower
 
     items.append(LCAItemBreakdown(
@@ -298,7 +486,7 @@ def calculate_lca(
         den_upper = config.custom_upper_density_kg_m3 if (config.custom_upper_density_kg_m3 and config.custom_upper_density_kg_m3 > 0) else preset_upper.material_density_kg_per_m3_tank
         co2_upper = config.custom_upper_co2_per_kg if (config.custom_upper_co2_per_kg and config.custom_upper_co2_per_kg > 0) else preset_upper.co2_factor_kg_per_kg
 
-        upper_mass = vol_up_m3 * den_upper
+        upper_mass = massa_do_reservatorio_kg(config.upper_tank_vol_liters, config.upper_material_key, den_upper)
         upper_embodied = upper_mass * co2_upper
 
         items.append(LCAItemBreakdown(
@@ -370,8 +558,17 @@ def calculate_lca(
         chlorine_co2_kg_per_kg = max(0.0, float(config.chlorine_co2_kg_per_kg))
         ref_saved_m3 = float(getattr(config, 'annual_water_saved_m3', 0.0))
         pluvial_cl2_base = ref_saved_m3 if ref_saved_m3 > 0 else annual_pluvial_m3
-        annual_chlorine_kg = pluvial_cl2_base * chlorine_dose_mg_l / 1000.0
-        calculated_treatment_factor = chlorine_dose_mg_l * chlorine_co2_kg_per_kg / 1000.0
+
+        # A conta passa pela cadeia unica: a pureza converte dose de cloro ativo
+        # em massa de produto, que e a base do fator de emissao. Somar os dois
+        # sem essa conversao era metade do erro de 11,7x entre os modulos.
+        cloracao = Cloracao(
+            dose_mg_por_litro=chlorine_dose_mg_l,
+            pureza=max(1e-6, float(getattr(config, 'chlorine_product_purity', PUREZA_PADRAO))),
+            fator_kg_co2e_por_kg_produto=chlorine_co2_kg_per_kg,
+        )
+        annual_chlorine_kg = cloracao.massa_anual_de_produto_kg(pluvial_cl2_base)
+        calculated_treatment_factor = cloracao.co2e_kg_por_m3
         treatment_co2_factor = (
             max(0.0, float(config.chemical_treatment_co2_m3))
             if config.chemical_treatment_co2_m3 is not None

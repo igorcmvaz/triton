@@ -1,0 +1,106 @@
+{
+  "_nota": [
+    "Rotas de producao da agua que o sistema pluvial substitui. A emissao evitada por m3",
+    "NAO e uma constante do sistema pluvial: depende inteiramente do que se deixa de consumir.",
+    "Substituir agua dessalinizada e muito mais vantajoso do que substituir agua de manancial",
+    "tratada por gravidade, e o programa passa a permitir declarar qual e o caso.",
+    "",
+    "Dois tipos de rota:",
+    "  'energia_mais_outros' - a rota declara intensidade energetica (kWh/m3) e uma parcela",
+    "     nao energetica (produtos quimicos, infraestrutura). O CO2 e recalculado com o fator",
+    "     de rede escolhido pelo usuario. E o tratamento correto para rotas dominadas por",
+    "     eletricidade, como a dessalinizacao, cujo impacto muda com a matriz local.",
+    "  'total_publicado' - so se conhece o total publicado pela fonte. Usa-se como esta, e",
+    "     declara-se a matriz eletrica que a fonte assumiu, para que o leitor saiba o limite",
+    "     da transposicao."
+  ],
+  "rota_padrao": "convencional_br",
+  "rotas": {
+    "convencional_br": {
+      "nome_pt": "Rede publica, tratamento convencional (padrao do programa)",
+      "nome_en": "Mains supply, conventional treatment (programme default)",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 0.35,
+      "fonte": "Valor adotado pelo programa. Corroborado por Garfi, Cadena, Sanchez-Ramos & Ferrer (2016): o cenario 1 (tratamento convencional) fica entre 0,41 e 0,47 kg CO2e/m3, deduzido do cenario 3 (0,512) e da afirmacao de que o cenario 3 e 10 a 24% maior que o cenario 1. Os 0,35 adotados ficam logo abaixo dessa faixa, o que e conservador: subestima o beneficio do sistema pluvial.",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha; a parcela eletrica responde por cerca de 80% do impacto segundo a fonte",
+      "conservador": true
+    },
+    "convencional_garfi": {
+      "nome_pt": "Rede publica, tratamento convencional (valor deduzido da fonte)",
+      "nome_en": "Mains supply, conventional treatment (value derived from the source)",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 0.44,
+      "faixa": [
+        0.41,
+        0.47
+      ],
+      "fonte": "Garfi et al. (2016), cenario 1. Deduzido: o cenario 3 vale 0,512 kg CO2e/m3 e a fonte afirma que ele e 10 a 24% maior que o cenario 1.",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha"
+    },
+    "convencional_com_osmose_domiciliar": {
+      "nome_pt": "Rede publica + osmose reversa domiciliar",
+      "nome_en": "Mains supply + domestic reverse osmosis",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 0.512,
+      "fonte": "Garfi et al. (2016), cenario 3, caso base com 0,15 kWh/m3 no equipamento domiciliar (Tabela 3).",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha"
+    },
+    "osmose_reversa_na_eta": {
+      "nome_pt": "Osmose reversa na estacao de tratamento",
+      "nome_en": "Reverse osmosis at the treatment plant",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 1.02,
+      "fonte": "Garfi et al. (2016), cenario 2. A fonte afirma que este cenario tem impacto de quase o dobro do cenario 3 (0,512), com a eletricidade respondendo por 95% do total.",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha",
+      "aproximado": true
+    },
+    "dessalinizacao_osmose_reversa": {
+      "nome_pt": "Dessalinizacao de agua do mar por osmose reversa",
+      "nome_en": "Seawater desalination by reverse osmosis",
+      "tipo": "energia_mais_outros",
+      "kwh_por_m3": 3.75,
+      "co2_nao_energetico_kg_m3": 0.05,
+      "fonte": "Intensidade energetica de 3,75 kWh/m3 relatada para plantas australianas de osmose reversa, citada por Vieira, Beal, Ghisi & Stewart (2014). A parcela nao energetica (produtos quimicos, membranas, infraestrutura) e estimativa interna e permanece editavel.",
+      "doi_da_fonte": "10.1016/j.rser.2014.03.012",
+      "observacao": "O impacto da dessalinizacao e dominado pela eletricidade, e por isso muda muito com a matriz local. Recalcula-se com o fator de rede escolhido."
+    },
+    "agua_mineral_pet": {
+      "nome_pt": "Agua mineral engarrafada em PET",
+      "nome_en": "Bottled mineral water in PET",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 75.1,
+      "fonte": "Garfi et al. (2016), cenario 4, caso base com 50% de reciclagem das garrafas (Tabela 3).",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha",
+      "observacao": "Cerca de 90% do impacto vem da fabricacao da embalagem. So se aplica quando o uso substituido e de fato agua engarrafada."
+    },
+    "agua_mineral_vidro": {
+      "nome_pt": "Agua mineral engarrafada em vidro",
+      "nome_en": "Bottled mineral water in glass",
+      "tipo": "total_publicado",
+      "co2_total_kg_m3": 60.8,
+      "fonte": "Garfi et al. (2016), cenario 5, caso base com 12 kWh/m3 (Tabela 3).",
+      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
+      "matriz_da_fonte": "Espanha"
+    }
+  },
+  "_nota_sobre_intensidade_energetica": [
+    "A intensidade energetica (kWh/m3) NAO e um indicador do merito da agua substituida,",
+    "e nao aparece como rota selecionavel. Representar a agua da rede so pela eletricidade",
+    "ignora produtos quimicos, infraestrutura, perdas e lodo, e daria 0,041 kg CO2e/m3 -",
+    "cerca de um oitavo do valor completo. Quem escolhesse essa opcao destruiria a analise.",
+    "",
+    "kWh/m3 permanece em dois lugares legitimos:",
+    "  1. Consumo da bomba DO SISTEMA PLUVIAL (PumpInput.specific_kwh_per_m3). E entrada do",
+    "     modelo, nao indicador: a bomba consome energia e isso emite.",
+    "  2. Dentro da rota de dessalinizacao, porque ela e ~95% eletricidade e o impacto tem",
+    "     de acompanhar a matriz local. Ainda assim e aproximacao declarada.",
+    "",
+    "Para comparar a intensidade energetica do abastecimento brasileiro, a fonte adequada",
+    "e o SINISA (antigo SNIS), que publica consumo especifico por prestador."
+  ]
+}

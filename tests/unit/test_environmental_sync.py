@@ -133,7 +133,13 @@ def test_lca_uses_annual_pump_kwh_when_provided():
         system_lifespan_years=20.0,
     )
     res = calculate_lca(5000.0, 100.0, config)
-    assert res.annual_pumping_co2_kg == pytest.approx(150.0 * 0.085, rel=1e-3)
+    # O fator da rede vem da série oficial do MCTI e muda com o ano adotado, de
+    # modo que repeti-lo aqui como constante faria o teste envelhecer junto com
+    # a matriz elétrica. O que se verifica é a relação — energia × fator —, não
+    # o número.
+    assert res.annual_pumping_co2_kg == pytest.approx(
+        150.0 * config.grid_co2_factor_kg_kwh, rel=1e-3
+    )
 
 
 def test_nearest_pump_cv_lookup():

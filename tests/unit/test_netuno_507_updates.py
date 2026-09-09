@@ -1,6 +1,6 @@
 """
-Testes de verificação para as atualizações do Netuno 5.0.7:
-1. Versão 5.0.7
+Testes de verificação introduzidos na versão 5.0.7:
+1. Coerência da versão declarada
 2. Paybacks simples e descontados calculados com precisão mensal
 3. Cloração uniforme do reservatório superior nas varreduras
 4. Sincronização e integridade do módulo ambiental
@@ -15,8 +15,30 @@ from netuno.core.environmental import (
 )
 
 
-def test_version_is_5_0_7():
-    assert __version__ == "5.0.7"
+def test_versao_declarada_e_coerente():
+    """A versao e declarada num lugar so e segue versionamento semantico.
+
+    Fixar o numero exato aqui faria o teste reprovar a cada release, sem
+    detectar defeito nenhum. O que se verifica e a forma e a coerencia entre
+    netuno/__init__.py e pyproject.toml, que e onde o engano acontece.
+    """
+    import os
+    import re
+
+    assert re.fullmatch(r"\d+\.\d+\.\d+", __version__), __version__
+
+    raiz = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    caminho = os.path.join(raiz, "pyproject.toml")
+    if not os.path.isfile(caminho):
+        pytest.skip("pyproject.toml nao distribuido nesta copia")
+
+    with open(caminho, encoding="utf-8") as arquivo:
+        conteudo = arquivo.read()
+    declarada = re.search(r'^version\s*=\s*"([^"]+)"', conteudo, re.M)
+    assert declarada, "pyproject.toml sem declaracao de versao"
+    assert declarada.group(1) == __version__, (
+        f"pyproject.toml diz {declarada.group(1)}, netuno/__init__.py diz {__version__}"
+    )
 
 
 def test_monthly_precision_payback_simple():

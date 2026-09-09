@@ -26,7 +26,10 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from netuno.core.economic import run_economic_analysis
-from netuno.core.environmental import EnvironmentalConfig, MATERIAL_PRESETS, PipeInput, PumpInput, calculate_lca
+from netuno.core.environmental import (
+    EnvironmentalConfig, MATERIAL_PRESETS, PipeInput, PumpInput, calculate_lca,
+    grid_factor_default,
+)
 from netuno.core.parser import (
     NetunoConfig, export_netuno_json, load_netuno_project, load_precipitation, parse_netuno_csv,
 )
@@ -161,7 +164,7 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
         "custom_lower_co2_per_kg": value("txt_lower_co2_kg", 0.0) or None,
         "custom_upper_density_kg_m3": value("txt_upper_density", 0.0) or None,
         "custom_upper_co2_per_kg": value("txt_upper_co2_kg", 0.0) or None,
-        "grid_co2_factor_kg_kwh": value("txt_grid_co2", 0.085),
+        "grid_co2_factor_kg_kwh": value("txt_grid_co2", grid_factor_default()),
         "potable_water_co2_kg_m3": value("txt_potable_co2", 0.35),
         "chlorine_dose_mg_l": chlorine_dose,
         "chlorine_co2_kg_per_kg": chlorine_factor,
@@ -372,7 +375,7 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         "pump": pump,
         "pump_count": int(raw.get("pump_count", cfg.pump_count)),
         "pump_material": str(raw.get("pump_material", pump.material)),
-        "grid_co2_factor_kg_kwh": float(raw.get("grid_co2_factor_kg_kwh", 0.085)),
+        "grid_co2_factor_kg_kwh": float(raw.get("grid_co2_factor_kg_kwh", grid_factor_default())),
         "potable_water_co2_kg_m3": float(raw.get("potable_water_co2_kg_m3", 0.35)),
         "chlorine_dose_mg_l": chlorine_dose,
         "chlorine_co2_kg_per_kg": chlorine_factor,
@@ -570,7 +573,7 @@ def _template_analysis() -> Dict[str, Any]:
         "topsis_weights": [0.33, 0.33, 0.34],
         "environmental": {
             "lower_material_key": "PEAD", "upper_material_key": "PEAD",
-            "grid_co2_factor_kg_kwh": 0.085, "potable_water_co2_kg_m3": 0.35,
+            "grid_co2_factor_kg_kwh": grid_factor_default(), "potable_water_co2_kg_m3": 0.35,
             "chlorine_dose_mg_l": 2.0, "chlorine_co2_kg_per_kg": 25.0,
             "system_lifespan_years": 20,
             "pipes": [{"diameter_mm": 100, "length_m": 20}, {"diameter_mm": 50, "length_m": 15}],

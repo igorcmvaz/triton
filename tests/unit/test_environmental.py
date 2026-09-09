@@ -4,8 +4,10 @@ Testes unitários para o módulo core de Análise do Ciclo de Vida (netuno.core.
 
 import pytest
 from netuno.core.environmental import (
-    EnvironmentalConfig, PipeInput, PumpInput, calculate_lca, run_environmental_sweep, MATERIAL_PRESETS
+    EnvironmentalConfig, PipeInput, PumpInput, calculate_lca, run_environmental_sweep,
+    MATERIAL_PRESETS, PIPE_EMISSION_FACTORS_PER_METER, PUMP_EMBEDDED_CO2,
 )
+from netuno.core.chlorination import Cloracao
 
 
 def test_calculate_lca_basic():
@@ -13,7 +15,7 @@ def test_calculate_lca_basic():
         lower_material_key="PEAD",
         upper_tank_used=False,
         pipes=[
-            PipeInput(diameter_mm=100, length_m=10.0), # 10m * 3.92 kg CO2/m = 39.2 kg CO2e
+            PipeInput(diameter_mm=100, length_m=10.0),
         ],
         pump=PumpInput(power_cv=0.50, specific_kwh_per_m3=0.40), # 18 kg CO2e
         system_lifespan_years=20.0,
@@ -24,12 +26,22 @@ def test_calculate_lca_basic():
     # 5,000 L reservoir (5 m³), saves 100 m³/year pluvial
     res = calculate_lca(5000.0, 100.0, config)
 
-    # 5 m³ * 22 kg/m³ = 110 kg PEAD * 3.0 kg CO2e/kg = 330 kg CO2e cisterna
-    assert res.lower_tank_mass_kg == pytest.approx(110.0)
-    assert res.total_pipes_co2_kg == pytest.approx(39.2)
-    assert res.pump_embodied_co2_kg == pytest.approx(18.0)
-    # Total embodied = 330 + 39.2 + 18.0 = 387.2 kg CO2e
-    assert res.total_embodied_co2_kg == pytest.approx(387.2)
+    # Os fatores de emissão vêm de fontes datadas e mudam quando a fonte muda
+    # (o do PEAD passou de 3,00 para 1,612 ao ser substituído pelo valor do
+    # relatório do American Chemistry Council). Repeti-los aqui como constantes
+    # transformaria cada atualização de fonte numa falsa reprovação. O que se
+    # verifica é a composição — massa × fator, soma das parcelas —, não o número.
+    preset_pead = MATERIAL_PRESETS["PEAD"]
+    co2_tubo_por_m = PIPE_EMISSION_FACTORS_PER_METER[100]
+
+    assert res.lower_tank_mass_kg == pytest.approx(5.0 * preset_pead.material_density_kg_per_m3_tank)
+    assert res.total_pipes_co2_kg == pytest.approx(10.0 * co2_tubo_por_m)
+    assert res.pump_embodied_co2_kg == pytest.approx(PUMP_EMBEDDED_CO2[0.50])
+
+    co2_cisterna = res.lower_tank_mass_kg * preset_pead.co2_factor_kg_per_kg
+    assert res.total_embodied_co2_kg == pytest.approx(
+        co2_cisterna + res.total_pipes_co2_kg + res.pump_embodied_co2_kg
+    )
 
     # Pumping: 100 m³ * 0.40 kWh/m³ * 0.085 kg CO2/kWh = 3.4 kg CO2e / yr
     assert res.annual_pumping_co2_kg == pytest.approx(3.4)
@@ -40,8 +52,10 @@ def test_calculate_lca_basic():
     # Net annual avoided = 35.0 - 3.4 = 31.6 kg CO2e / yr
     assert res.net_annual_avoided_co2_kg == pytest.approx(31.6)
 
-    # Payback = 387.2 / 31.6 = ~12.253 years
-    assert res.environmental_payback_years == pytest.approx(387.2 / 31.6, abs=0.01)
+    # Payback ambiental = CO2 incorporado / saldo anual evitado.
+    assert res.environmental_payback_years == pytest.approx(
+        res.total_embodied_co2_kg / res.net_annual_avoided_co2_kg, abs=0.01
+    )
 
     # Inventory items should contain expected breakdown
     assert len(res.inventory_items) >= 4
@@ -72,20 +86,60 @@ def test_prfv_alias_uses_fiberglass_preset_and_zero_is_no_system_baseline():
 
 
 def test_chlorine_mass_and_emissions_are_calculated_from_dose():
+    """A massa reportada e de PRODUTO comercial, nao de cloro ativo.
+
+    A distincao nao e cosmetica. A dose e prescrita em mg de cloro ativo por
+    litro, mas o que se compra, se transporta e se fabrica e a pastilha, que tem
+    65% de cloro ativo. Somar uma dose de cloro ativo a um fator de emissao por
+    kg de pastilha subestima em 35%, e era metade da divergencia de 11,7x que
+    existia entre o modulo ambiental e o de qualidade.
+    """
     config = EnvironmentalConfig(
         upper_tank_used=True,
         pipes=[],
         chlorine_dose_mg_l=2.0,
-        chlorine_co2_kg_per_kg=25.0,
     )
     result = calculate_lca(5000.0, 100.0, config)
 
-    # 100 m³/ano = 100.000 L/ano; 2 mg/L = 0,2 kg Cl2/ano.
-    assert result.annual_chlorine_kg == pytest.approx(0.2)
-    assert result.treatment_co2_kg_per_m3 == pytest.approx(0.05)
-    assert result.annual_treatment_co2_kg == pytest.approx(5.0)
-    chlorine_item = next(item for item in result.inventory_items if "Dosagem Qu" in item.category)
-    assert "0.200 kg Cl2/ano" in chlorine_item.quantity_str
+    cloracao = Cloracao(
+        dose_mg_por_litro=2.0,
+        pureza=config.chlorine_product_purity,
+        fator_kg_co2e_por_kg_produto=config.chlorine_co2_kg_per_kg,
+    )
+
+    # 100 m3/ano com 2 mg/L dao 0,2 kg de cloro ATIVO; a 65% de pureza, isso
+    # exige 0,3077 kg de pastilha.
+    assert cloracao.cloro_ativo_kg_por_m3 * 100 == pytest.approx(0.2)
+    assert result.annual_chlorine_kg == pytest.approx(0.2 / config.chlorine_product_purity)
+
+    assert result.treatment_co2_kg_per_m3 == pytest.approx(cloracao.co2e_kg_por_m3)
+    assert result.annual_treatment_co2_kg == pytest.approx(cloracao.co2e_anual_kg(100.0))
+
+
+def test_fator_do_cloro_deixou_de_ser_o_custo():
+    """Guarda contra o retorno do 25,0.
+
+    O valor 25,0 kg CO2e/kg vinha sem fonte e era identico ao
+    `chlorine_cost_per_kg = 25.00` (R$/kg) do costs_database.json. Cloro de rota
+    cloro-alcali fica entre 1 e 2 kg CO2e/kg; 25 e implausivel por uma ordem de
+    grandeza, e a coincidencia com o preco denuncia a origem do engano.
+    """
+    config = EnvironmentalConfig()
+    assert config.chlorine_co2_kg_per_kg < 5.0, (
+        "fator de emissao do cloro implausivel - conferir se nao e o custo em R$/kg"
+    )
+
+
+def test_os_modulos_ambiental_e_de_qualidade_concordam_no_cloro():
+    """Os dois usavam bases diferentes e divergiam por 11,7x."""
+    from netuno.core.chlorination import (
+        FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
+        PUREZA_PADRAO,
+    )
+
+    config = EnvironmentalConfig()
+    assert config.chlorine_co2_kg_per_kg == FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
+    assert config.chlorine_product_purity == PUREZA_PADRAO
 
 
 def test_environmental_sweep():

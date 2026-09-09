@@ -152,7 +152,27 @@ Massas, fatores de materiais, fator da água, fator da rede e fator do cloro sã
 
 ## 8. TOPSIS e novo diagnóstico da concessão
 
-Os três critérios são de benefício: água pluvial consumida, VPL e CO2e líquido evitado. Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
+São **sete** os critérios avaliados, quatro de benefício e três de custo:
+
+| Critério | Sentido |
+| :--- | :--- |
+| Potencial de economia de água potável | benefício |
+| Extravasamento | custo |
+| Valor presente líquido | benefício |
+| Payback descontado | custo |
+| Taxa interna de retorno | benefício |
+| CO₂ de ciclo de vida | custo |
+| Água potável consumida | custo |
+
+> Até a versão 5.0.7 esta seção descrevia **três** critérios — água pluvial consumida,
+> VPL e CO₂e líquido evitado. O motor (`netuno/core/topsis.py`) já usava sete; a
+> documentação é que estava defasada.
+
+Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
+
+**Esta é uma variante declarada, não o TOPSIS canônico.** Hwang & Yoon (1981) normalizam pela norma euclidiana dos valores originais. Onde todos os valores de um critério são positivos e o mínimo é zero, as duas formas coincidem; onde há VPL negativo — o caso que motivou a mudança — divergem, e os escores não são comparáveis com os de uma implementação canônica sobre a mesma matriz.
+
+O VIKOR implementado em `netuno/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por Dirichlet simétrica; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
 
 Além do escore agregado, a versão 5.0.7 calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 

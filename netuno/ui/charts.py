@@ -1089,10 +1089,22 @@ class CO2ComparisonChart(NetunoBaseChart):
         water_saved_annual = getattr(lca_result, 'annual_water_saved_m3', getattr(lca_result, 'annual_pluvial_m3', 0.0))
         potable_residual_annual = max(0.0, total_demand_m3 - water_saved_annual)
 
-        baseline_co2_lifetime = total_demand_m3 * 0.35 * lifespan_years
+        # O fator da água potável evitada era 0,35 fixo aqui, de modo que editá-lo
+        # na interface não mudava este gráfico. Recupera-se agora o fator
+        # efetivamente usado no cálculo, já que
+        # `annual_avoided_co2_kg = annual_pluvial_m3 × potable_water_co2_kg_m3`.
+        pluvial_annual = getattr(lca_result, 'annual_pluvial_m3', 0.0) or 0.0
+        avoided_annual = getattr(lca_result, 'annual_avoided_co2_kg', 0.0) or 0.0
+        if pluvial_annual > 0:
+            potable_co2_factor = avoided_annual / pluvial_annual
+        else:
+            from netuno.core.environmental import potable_water_factor_default
+            potable_co2_factor = potable_water_factor_default()
+
+        baseline_co2_lifetime = total_demand_m3 * potable_co2_factor * lifespan_years
         system_embodied = lca_result.total_embodied_co2_kg
         system_op_lifetime = (lca_result.annual_pumping_co2_kg + lca_result.annual_treatment_co2_kg) * lifespan_years
-        system_potable_lifetime = potable_residual_annual * 0.35 * lifespan_years
+        system_potable_lifetime = potable_residual_annual * potable_co2_factor * lifespan_years
         system_total_co2_lifetime = system_embodied + system_op_lifetime + system_potable_lifetime
 
         net_avoided = baseline_co2_lifetime - system_total_co2_lifetime

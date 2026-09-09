@@ -16,6 +16,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from netuno.ui.translation import get_current_lang, tr, get_current_theme
+from netuno.core.bibliography import render_bloco_da_secao, render_bibliografia_completa
 from netuno.core.environmental_justifications import (
     generate_html_justifications_materials,
     generate_html_justifications_pipes,
@@ -112,7 +113,7 @@ class TabDocumentation(QWidget):
             "🧭 " + tr("Metodologia de Cálculo por Etapa"),
             "🏆 " + tr("TOPSIS: Decisão Multicritério"),
             "🏠 " + tr("Coeficientes de Telhados (MIX)"),
-            "📊 " + tr("9 Índices Pluviométricos (ETCCDI)"),
+            "📊 " + tr("9 Índices Pluviométricos (ETCCDI + Sazonalidade)"),
             "🌧️ " + tr("Precipitação & Hidrologia"),
             "🏢 " + tr("Edificação & Demanda"),
             "🚰 " + tr("Reservatórios & Bombeamento"),
@@ -227,13 +228,19 @@ class TabDocumentation(QWidget):
                     if en else "Onde: energia é o consumo anual de eletricidade; potência é a potência da bomba; horas de recalque são as horas de transferência; partidas são os acionamentos; tempo de partida é a duração de cada acionamento; e η é o rendimento da bomba.")
         return "Where: all symbols are defined by the immediately associated calculation step." if en else "Onde: todos os símbolos são definidos pela etapa de cálculo imediatamente associada."
 
-    def _create_browser(self, html_content: str) -> QTextBrowser:
+    def _create_browser(self, html_content: str, secao: str | None = None) -> QTextBrowser:
         """Aplica tipografia editorial e transforma equações em blocos científicos numerados.
 
         As fórmulas são extraídas somente de parágrafos completos.  Substituir uma
         tag ``code`` no meio de um ``p`` gerava HTML inválido no QTextBrowser, o
         que fazia texto normal herdar a fonte matemática e deixava pontuação e
         espaçamentos soltos.
+
+        Quando ``secao`` é informada, o bloco «Referências desta seção» é
+        anexado ao final, a partir de :mod:`netuno.core.bibliography`. Ele entra
+        **depois** do processamento de equações justamente para ficar fora do
+        alcance do regex acima, que reescreve parágrafos contendo ``<code>``
+        com ``=`` — uma citação apanhada por ele sairia reempacotada.
         """
         equation_number = 0
 
@@ -306,6 +313,9 @@ class TabDocumentation(QWidget):
             td {{ padding:7px; vertical-align:top; }}
         </style>
         """
+        if secao:
+            content += render_bloco_da_secao(secao, get_current_lang() if get_current_lang() == "pt" else "en")
+
         browser = QTextBrowser()
         browser.setOpenExternalLinks(True)
         browser.setFrameShape(QFrame.NoFrame)
@@ -407,7 +417,7 @@ class TabDocumentation(QWidget):
             <h3 style='color:#0369a1;'>Etapas 7–9 — Decisão e comunicação</h3>
             <p>A etapa 7 classifica as alternativas da varredura por TOPSIS, com critérios técnicos, econômicos e ambientais. A etapa 8 gera relatórios para stakeholders e pesquisa com as entradas, premissas e resultados calculados; a etapa 9 apresenta a documentação metodológica. Os documentos são apoio à decisão: projeto local, normas, faturas, orçamentos e quantitativos devem ser validados por responsável técnico.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='metodologia')
 
     def create_tab_topsis_method(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -442,6 +452,21 @@ class TabDocumentation(QWidget):
                 <li><b>Central Weight Vector (w<sub>i</sub><sup>c</sup>):</b> The typical centroid preference profile that justifies selecting alternative <i>i</i>.</li>
                 <li><b>Confidence Factor (p<sub>i</sub><sup>c</sup>):</b> Reliability probability that alternative <i>i</i> remains optimal when preferences are close to its central weight vector.</li>
             </ul>
+
+            <h3 style='color:#0369a1;'>4. Fidelity to the published formulations</h3>
+            <p>Three notes on how this implementation relates to the published formulations, so that results can be compared with other software on equal terms.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.1 Normalisation adopted</h4>
+            <p>Hwang &amp; Yoon normalise each column by its Euclidean norm. Net present value, however, is routinely negative, and vector normalisation over signed values does not preserve the ordering the method assumes. This engine therefore <b>translates each criterion by its own minimum before normalising</b>:</p>
+            <p><i>r<sub>ij</sub> = (x<sub>ij</sub> − min<sub>i</sub> x<sub>ij</sub>) / √( Σ<sub>i</sub> (x<sub>ij</sub> − min<sub>i</sub> x<sub>ij</sub>)² )</i></p>
+            <p>Where every value of a criterion is positive and its minimum is zero, this reduces to the canonical form. Where negative values occur, the two differ, so closeness scores should be compared only against runs using the same normalisation.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.2 Scope of the VIKOR ranking</h4>
+            <p>Opricovic &amp; Tzeng propose the compromise solution subject to two conditions: <b>C1</b>, acceptable advantage, and <b>C2</b>, acceptable stability in decision making; when either fails, the method returns a set of compromise solutions rather than a single one. This engine ranks by <i>Q</i> without evaluating those conditions, so the VIKOR output is an ordering of alternatives. The stochastic analysis in section 3 addresses the same concern by other means, reporting how often each alternative holds first place across the preference space.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.3 Reference implementations and criteria</h4>
+            <p>The SMAA-VIKOR here follows the design of the <code>crispyn</code> library (Aleksandra Bączkiewicz, MIT licence), which implements <code>VIKOR</code> and <code>VIKOR_SMAA</code>. Netuno's version is an <b>independent implementation</b> written directly on NumPy; the repository serves as a comparison baseline, not as the origin of this code. Note that <code>crispyn</code> does <b>not</b> implement TOPSIS, so it is not the reference for section 1.</p>
+            <p>The seven criteria evaluated are: potable water savings, overflow, net present value, discounted payback, internal rate of return, life-cycle CO₂ and potable water consumed. Weights may be supplied as three pillar weights, apportioned within each pillar, or as seven individual weights.</p>
             """
         else:
             html = """
@@ -486,8 +511,23 @@ class TabDocumentation(QWidget):
                 <li><b>Vetor Central de Pesos (w<sub>i</sub><sup>c</sup>):</b> Vetor baricêntrico de preferências que justificaria a escolha daquela cisterna específica.</li>
                 <li><b>Fator de Confiança (p<sub>i</sub><sup>c</sup>):</b> Grau de estabilidade da alternativa quando as preferências reais do decisor gravitam em torno do seu vetor central.</li>
             </ul>
+
+            <h3 style='color:#0369a1;'>4. Fidelidade às formulações publicadas</h3>
+            <p>Três notas sobre a relação entre esta implementação e as formulações publicadas, para que os resultados possam ser comparados com os de outros programas em igualdade de condições.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.1 Normalização adotada</h4>
+            <p>Hwang &amp; Yoon normalizam cada coluna pela norma euclidiana. O valor presente líquido, porém, é rotineiramente negativo, e a normalização vetorial sobre valores com sinal não preserva a ordenação que o método pressupõe. Este motor, portanto, <b>translada cada critério pelo seu próprio mínimo antes de normalizar</b>:</p>
+            <p><i>r<sub>ij</sub> = (x<sub>ij</sub> − mín<sub>i</sub> x<sub>ij</sub>) / √( Σ<sub>i</sub> (x<sub>ij</sub> − mín<sub>i</sub> x<sub>ij</sub>)² )</i></p>
+            <p>Onde todos os valores de um critério são positivos e o mínimo é zero, isso se reduz à forma canônica. Havendo valores negativos, as duas diferem, de modo que os escores de proximidade devem ser comparados apenas com execuções que usem a mesma normalização.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.2 Alcance do ranking VIKOR</h4>
+            <p>Opricovic &amp; Tzeng propõem a solução de compromisso sujeita a duas condições: <b>C1</b>, vantagem aceitável, e <b>C2</b>, estabilidade aceitável na decisão; falhando qualquer uma, o método devolve um conjunto de soluções de compromisso em vez de uma só. Este motor ordena por <i>Q</i> sem avaliar essas condições, de modo que a saída do VIKOR é uma ordenação de alternativas. A análise estocástica da seção 3 trata da mesma preocupação por outro caminho, ao informar com que frequência cada alternativa ocupa o primeiro lugar ao longo do espaço de preferências.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.3 Implementações de referência e critérios</h4>
+            <p>O SMAA-VIKOR daqui segue o desenho da biblioteca <code>crispyn</code> (Aleksandra Bączkiewicz, licença MIT), que implementa <code>VIKOR</code> e <code>VIKOR_SMAA</code>. A versão do Netuno é uma <b>implementação independente</b>, escrita diretamente sobre NumPy; o repositório serve de base de comparação, não de origem deste código. Note que <code>crispyn</code> <b>não</b> implementa TOPSIS, de modo que não é a referência da seção 1.</p>
+            <p>Os sete critérios avaliados são: potencial de economia de água potável, extravasamento, valor presente líquido, payback descontado, taxa interna de retorno, CO₂ de ciclo de vida e água potável consumida. Os pesos podem ser informados como três pesos por pilar, rateados dentro de cada um, ou como sete pesos individuais.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='topsis')
 
     def create_tab_acv_justifications(self) -> QWidget:
         """Capítulo único de ACV: reúne inventário, equações, premissas e referências."""
@@ -543,7 +583,7 @@ class TabDocumentation(QWidget):
             generate_html_justifications_operational(),
         ]
         separator = "<hr style='border:0; border-top:2px solid #cbd5e1; margin:24px 0;'/>"
-        return self._create_browser(introduction + separator.join(sections))
+        return self._create_browser(introduction + separator.join(sections), secao='acv')
 
     def create_tab_esg_certifications(self) -> QWidget:
         """Capítulo de Certificações Ambientais e Critérios ESG (LEED, AQUA, Casa Azul, GRI 303)."""
@@ -701,7 +741,7 @@ class TabDocumentation(QWidget):
                 </li>
             </ul>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='esg')
 
     def create_tab_roof_materials(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -850,150 +890,204 @@ class TabDocumentation(QWidget):
                 </p>
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='telhados')
 
     def create_tab_rain_indices(self) -> QWidget:
-        if get_current_lang() != "pt":
+        """Os nove índices, com a equação de cada um e as divergências declaradas.
+
+        A tabela anterior tinha uma coluna intitulada «Descrição e Equação de
+        Cálculo» que não trazia equação nenhuma. Aqui cada índice aparece com a
+        fórmula efetivamente implementada em ``netuno/core/calculator.py``, e as
+        três escolhas metodológicas que se afastam do ETCCDI padrão estão ditas
+        em voz alta, em vez de ficarem só no código.
+        """
+        ingles = get_current_lang() != "pt"
+
+        if ingles:
             html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📊 9 Rainfall and Climatological Indices (ETCCDI)</h2>
+            <h2 style='color: #0284c7; margin-top: 0px;'>📊 Nine Rainfall Indices (ETCCDI + Seasonality)</h2>
             <p style='font-size: 13px; line-height: 1.5;'>
-                Netuno 5 analyzes the rainfall time series through the <b>9 ETCCDI Standard Climatological Indicators</b> (<i>Expert Team on Climate Change Detection and Indices</i> - WMO), assessing total volume, variability, extreme rainfall events, and dry periods.
+                Netuno 5 characterises the rainfall series through eight indices from the
+                <b>ETCCDI</b> set (<i>Expert Team on Climate Change Detection and Indices</i>, WMO/CLIVAR)
+                plus the <b>Seasonality Index</b> of Walsh &amp; Lawler. Together they describe annual
+                depth, extremes, dry spells and how concentrated the rain is across the year — the four
+                things that decide whether a tank of a given size will keep working.
             </p>
+
+            <h3>Common definitions</h3>
+            <p>Every index below is computed <b>per calendar year</b>, over years with a complete record
+            (365 or 366 days). Two thresholds govern the whole set:</p>
+            <ul>
+                <li><b>Wet day:</b> <i>P<sub>i</sub> ≥ 1.0 mm</i></li>
+                <li><b>Dry day:</b> <i>P<sub>i</sub> &lt; 1.0 mm</i></li>
+            </ul>
+            <p>where <i>P<sub>i</sub></i> is the rainfall depth on day <i>i</i>, in millimetres.</p>
 
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 10px; font-size: 12px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='left' style='width: 18%;'>Index / Acronym</th>
-                    <th align='left' style='width: 25%;'>Full Name</th>
-                    <th align='center' style='width: 12%;'>Unit</th>
-                    <th align='left'>Description and Calculation Equation</th>
+                    <th align='left' style='width: 13%;'>Index</th>
+                    <th align='center' style='width: 13%;'>Unit</th>
+                    <th align='left' style='width: 36%;'>Equation</th>
+                    <th align='left'>What it tells you</th>
                 </tr>
                 <tr>
-                    <td><b>PRCPTOT</b></td>
-                    <td>Annual Total Precipitation on Wet Days</td>
-                    <td align='center'>mm/year</td>
-                    <td>Cumulative sum of rainfall occurring only on wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>PRCPTOT</b></td><td align='center'>mm/year</td>
+                    <td><i>PRCPTOT = Σ P<sub>i</sub></i> &nbsp; for all <i>P<sub>i</sub> ≥ 1.0</i></td>
+                    <td>Annual wet-day total. The gross water available to the catchment.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R95p</b></td>
-                    <td>Very Wet Days (Extreme Precipitation Above 95th Percentile)</td>
-                    <td align='center'>mm/year</td>
-                    <td>Total volume of rainfall on extreme days where daily rainfall exceeds the 95th percentile (P95) of the local historical series.</td>
+                    <td><b>R95p</b></td><td align='center'>mm/year</td>
+                    <td><i>R95p = Σ P<sub>i</sub></i> &nbsp; for all <i>P<sub>i</sub> &gt; q<sub>95</sub></i>,<br/>
+                        where <i>q<sub>95</sub></i> is the 95th percentile of wet-day rainfall</td>
+                    <td>Depth falling on the very wettest days — water that arrives faster than a tank can hold.</td>
                 </tr>
                 <tr>
-                    <td><b>RX1day</b></td>
-                    <td>Max 1-Day Precipitation</td>
-                    <td align='center'>mm/day</td>
-                    <td>Highest daily rainfall value registered in a single day of the year. Measures peak daily rainfall intensity.</td>
+                    <td><b>RX1day</b></td><td align='center'>mm/day</td>
+                    <td><i>RX1day = max(P<sub>i</sub>)</i></td>
+                    <td>The single largest daily depth. Sizes gutters and downpipes.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>RX5day</b></td>
-                    <td>Max 5-Day Consecutive Precipitation</td>
-                    <td align='center'>mm/5 days</td>
-                    <td>Highest cumulative rainfall in a moving window of 5 consecutive days. Key to evaluate soil saturation and heavy cumulative events.</td>
+                    <td><b>RX5day</b></td><td align='center'>mm</td>
+                    <td><i>RX5day = max<sub>i</sub> ( Σ<sub>j=i−4</sub><sup>i</sup> P<sub>j</sub> )</i></td>
+                    <td>Largest five-day accumulation. The event most likely to overflow a full tank.</td>
                 </tr>
                 <tr>
-                    <td><b>SDII</b></td>
-                    <td>Simple Daily Intensity Index</td>
-                    <td align='center'>mm/wet day</td>
-                    <td>Mean rainfall depth falling on wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>SDII</b></td><td align='center'>mm/wet day</td>
+                    <td><i>SDII = ( Σ P<sub>i</sub> ) / n<sub>wet</sub></i> &nbsp; over wet days only</td>
+                    <td>Mean intensity of a rainy day. High SDII with few wet days means bursty supply.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R20mm</b></td>
-                    <td>Very Heavy Precipitation Days (≥ 20 mm)</td>
-                    <td align='center'>days/year</td>
-                    <td>Number of days in the year where daily rainfall was equal to or higher than 20 mm.</td>
+                    <td><b>R20mm</b></td><td align='center'>days/year</td>
+                    <td><i>R20mm = #{ i : P<sub>i</sub> ≥ 20.0 }</i></td>
+                    <td>Count of heavy-rain days.</td>
                 </tr>
                 <tr>
-                    <td><b>CDD</b></td>
-                    <td>Consecutive Dry Days</td>
-                    <td align='center'>days/year</td>
-                    <td>Maximum number of consecutive dry days (<i>P<sub>t</sub> < 1,0 mm</i>) in the year. Measures the longest drought/dry spell.</td>
+                    <td><b>CDD</b></td><td align='center'>days</td>
+                    <td>Longest run of consecutive <i>i</i> with <i>P<sub>i</sub> &lt; 1.0</i></td>
+                    <td>The longest drought the tank must bridge. The single most demanding constraint on volume.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>CWD</b></td>
-                    <td>Consecutive Wet Days</td>
-                    <td align='center'>days/year</td>
-                    <td>Maximum number of consecutive wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>) in the year.</td>
+                    <td><b>CWD</b></td><td align='center'>days</td>
+                    <td>Longest run of consecutive <i>i</i> with <i>P<sub>i</sub> ≥ 1.0</i></td>
+                    <td>The longest wet spell; indicates prolonged spill.</td>
                 </tr>
                 <tr>
-                    <td><b>SI (Seasonality)</b></td>
-                    <td>Walsh & Lawler Seasonality Index (1981)</td>
-                    <td align='center'>adimensional</td>
-                    <td>Measures the concentration of monthly rainfall throughout the year.</td>
+                    <td><b>SI</b></td><td align='center'>dimensionless</td>
+                    <td><i>SI = (1/R) · Σ<sub>m=1</sub><sup>12</sup> | X<sub>m</sub> − R/12 |</i><br/>
+                        <i>R</i> = annual total; <i>X<sub>m</sub></i> = total of month <i>m</i></td>
+                    <td>How unevenly rain is spread across the months. 0 = perfectly uniform; 1.83 = all rain in one month.</td>
                 </tr>
             </table>
+
+            <h3>Methodological notes</h3>
+            <p><b>1. Composition of the set.</b> Eight indices follow the ETCCDI definitions; the Seasonality
+            Index follows Walsh &amp; Lawler (1981). The two references are combined because the ETCCDI set
+            characterises totals, extremes and spells, but not how rainfall is distributed across the months
+            &mdash; which is what governs the storage a tank needs. R10mm, part of the ETCCDI set, is not
+            computed here: R20mm already covers heavy-rain days at the threshold relevant to roof catchment.</p>
+            <p><b>2. Percentile base period.</b> <i>q<sub>95</sub></i> is computed over the series loaded for
+            the study, rather than over the 1961&ndash;1990 reference period used in climate-monitoring
+            applications of ETCCDI. This keeps R95p consistent with the record actually driving the
+            simulation. For comparison with published ETCCDI figures, load a series covering the same base
+            period.</p>
+            <p><b>3. Rolling window at the turn of the year.</b> RX5day is computed within each calendar
+            year, so the first four days form windows of one to four days. The effect is confined to peaks
+            occurring in the first days of January.</p>
             """
         else:
             html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📊 9 Índices Pluviométricos e Climatológicos (ETCCDI)</h2>
+            <h2 style='color: #0284c7; margin-top: 0px;'>📊 Nove Índices Pluviométricos (ETCCDI + Sazonalidade)</h2>
             <p style='font-size: 13px; line-height: 1.5;'>
-                O Netuno 5 analisa a série temporal de precipitação por meio dos <b>9 Indicadores Climatológicos Padrão do ETCCDI</b> (<i>Expert Team on Climate Change Detection and Indices</i> - OMM/WMO), avaliando o volume total, a variabilidade, os eventos extremos de chuva e os períodos de estiagem.
+                O Netuno 5 caracteriza a série de chuva por oito índices do conjunto <b>ETCCDI</b>
+                (<i>Expert Team on Climate Change Detection and Indices</i>, OMM/CLIVAR) mais o
+                <b>Índice de Sazonalidade</b> de Walsh &amp; Lawler. Juntos descrevem lâmina anual,
+                extremos, estiagens e a concentração da chuva ao longo do ano — as quatro coisas que
+                decidem se um reservatório de dado volume continuará funcionando.
             </p>
+
+            <h3>Definições comuns a todos</h3>
+            <p>Todos os índices são calculados <b>por ano civil</b>, sobre anos com registro completo
+            (365 ou 366 dias). Dois limiares regem o conjunto inteiro:</p>
+            <ul>
+                <li><b>Dia úmido:</b> <i>P<sub>i</sub> ≥ 1,0 mm</i></li>
+                <li><b>Dia seco:</b> <i>P<sub>i</sub> &lt; 1,0 mm</i></li>
+            </ul>
+            <p>em que <i>P<sub>i</sub></i> é a lâmina precipitada no dia <i>i</i>, em milímetros.</p>
 
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 10px; font-size: 12px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='left' style='width: 18%;'>Índice / Sigla</th>
-                    <th align='left' style='width: 25%;'>Nome Extenso</th>
-                    <th align='center' style='width: 12%;'>Unidade</th>
-                    <th align='left'>Descrição e Equação de Cálculo</th>
+                    <th align='left' style='width: 13%;'>Índice</th>
+                    <th align='center' style='width: 13%;'>Unidade</th>
+                    <th align='left' style='width: 36%;'>Equação</th>
+                    <th align='left'>O que informa</th>
                 </tr>
                 <tr>
-                    <td><b>PRCPTOT</b></td>
-                    <td>Precipitação Total Anual em Dias Úmidos</td>
-                    <td align='center'>mm/ano</td>
-                    <td>Soma total acumulada de chuva ocorrida apenas nos dias considerados úmidos (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>PRCPTOT</b></td><td align='center'>mm/ano</td>
+                    <td><i>PRCPTOT = Σ P<sub>i</sub></i> &nbsp; para todo <i>P<sub>i</sub> ≥ 1,0</i></td>
+                    <td>Total anual em dias úmidos. A água bruta disponível à área de captação.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R95p</b></td>
-                    <td>Precipitação Extrema Acima do Percentil 95</td>
-                    <td align='center'>mm/ano</td>
-                    <td>Volume total de chuva acumulado em dias de precipitação extrema, cujos valores superam o percentil 95 (P95) da série histórica do local.</td>
+                    <td><b>R95p</b></td><td align='center'>mm/ano</td>
+                    <td><i>R95p = Σ P<sub>i</sub></i> &nbsp; para todo <i>P<sub>i</sub> &gt; q<sub>95</sub></i>,<br/>
+                        em que <i>q<sub>95</sub></i> é o percentil 95 da chuva dos dias úmidos</td>
+                    <td>Lâmina que cai nos dias mais chuvosos — água que chega mais depressa do que o reservatório consegue guardar.</td>
                 </tr>
                 <tr>
-                    <td><b>RX1day</b></td>
-                    <td>Máxima Precipitação em 1 Dia</td>
-                    <td align='center'>mm/dia</td>
-                    <td>Maior valor diário de chuva registrado em um único dia no ano. Mede picos de chuva diária extrema.</td>
+                    <td><b>RX1day</b></td><td align='center'>mm/dia</td>
+                    <td><i>RX1day = máx(P<sub>i</sub>)</i></td>
+                    <td>Maior lâmina diária do ano. Dimensiona calhas e condutores.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>RX5day</b></td>
-                    <td>Máxima Precipitação em 5 Dias Consecutivos</td>
-                    <td align='center'>mm/5 dias</td>
-                    <td>Maior acumulado de precipitação em uma janela móvel de 5 dias consecutivos no ano. Importante para avaliar saturação de solo e grandes acumulados.</td>
+                    <td><b>RX5day</b></td><td align='center'>mm</td>
+                    <td><i>RX5day = máx<sub>i</sub> ( Σ<sub>j=i−4</sub><sup>i</sup> P<sub>j</sub> )</i></td>
+                    <td>Maior acumulado em cinco dias. O evento que mais provavelmente extravasa um reservatório cheio.</td>
                 </tr>
                 <tr>
-                    <td><b>SDII</b></td>
-                    <td>Simple Daily Intensity Index (Intensidade Diária Simples)</td>
-                    <td align='center'>mm/dia úmido</td>
-                    <td>Média da lâmina de chuva precipitada apenas nos dias chuvosos (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>SDII</b></td><td align='center'>mm/dia úmido</td>
+                    <td><i>SDII = ( Σ P<sub>i</sub> ) / n<sub>úmidos</sub></i> &nbsp; só nos dias úmidos</td>
+                    <td>Intensidade média de um dia de chuva. SDII alto com poucos dias úmidos indica oferta concentrada.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R20mm</b></td>
-                    <td>Dias com Chuva Forte (≥ 20 mm)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Contagem de dias no ano em que a precipitação diária foi igual ou superior a 20 mm.</td>
+                    <td><b>R20mm</b></td><td align='center'>dias/ano</td>
+                    <td><i>R20mm = #{ i : P<sub>i</sub> ≥ 20,0 }</i></td>
+                    <td>Contagem de dias de chuva forte.</td>
                 </tr>
                 <tr>
-                    <td><b>CDD</b></td>
-                    <td>Consecutive Dry Days (Dias Secos Consecutivos)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Maior número de dias secos consecutivos (<i>P<sub>t</sub> < 1,0 mm</i>) no ano. Mede o período máximo de estiagem ininterrupta.</td>
+                    <td><b>CDD</b></td><td align='center'>dias</td>
+                    <td>Maior sequência de <i>i</i> consecutivos com <i>P<sub>i</sub> &lt; 1,0</i></td>
+                    <td>A maior estiagem que o reservatório precisa atravessar. É a restrição mais exigente sobre o volume.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>CWD</b></td>
-                    <td>Consecutive Wet Days (Dias Úmidos Consecutivos)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Maior número de dias chuvosos consecutivos (<i>P<sub>t</sub> ≥ 1,0 mm</i>) no ano.</td>
+                    <td><b>CWD</b></td><td align='center'>dias</td>
+                    <td>Maior sequência de <i>i</i> consecutivos com <i>P<sub>i</sub> ≥ 1,0</i></td>
+                    <td>O maior período chuvoso contínuo; indica extravasamento prolongado.</td>
                 </tr>
                 <tr>
-                    <td><b>SI (Sazonalidade)</b></td>
-                    <td>Índice de Sazonalidade de Walsh & Lawler (1981)</td>
-                    <td align='center'>adimensional</td>
-                    <td>Mede a concentração mensal da chuva ao longo do ano.</td>
+                    <td><b>SI</b></td><td align='center'>adimensional</td>
+                    <td><i>SI = (1/R) · Σ<sub>m=1</sub><sup>12</sup> | X<sub>m</sub> − R/12 |</i><br/>
+                        <i>R</i> = total anual; <i>X<sub>m</sub></i> = total do mês <i>m</i></td>
+                    <td>Quão desigual é a distribuição da chuva entre os meses. 0 = perfeitamente uniforme; 1,83 = toda a chuva num único mês.</td>
                 </tr>
             </table>
+
+            <h3>Notas metodológicas</h3>
+            <p><b>1. Composição do conjunto.</b> Oito índices seguem as definições do ETCCDI; o Índice de
+            Sazonalidade segue Walsh &amp; Lawler (1981). As duas referências são combinadas porque o conjunto
+            ETCCDI caracteriza totais, extremos e sequências, mas não a distribuição da chuva ao longo dos
+            meses &mdash; que é justamente o que governa o volume de reservação necessário. O R10mm, do
+            conjunto ETCCDI, não é calculado: o R20mm já cobre dias de chuva forte no limiar relevante para
+            captação em cobertura.</p>
+            <p><b>2. Período-base do percentil.</b> O <i>q<sub>95</sub></i> é calculado sobre a série carregada
+            para o estudo, e não sobre o período de referência de 1961&ndash;1990 usado nas aplicações do
+            ETCCDI voltadas ao monitoramento climático. Isso mantém o R95p coerente com o registro que de
+            fato alimenta a simulação. Para comparar com valores ETCCDI publicados, carregue série que
+            cubra o mesmo período-base.</p>
+            <p><b>3. Janela móvel na virada do ano.</b> O RX5day é calculado dentro de cada ano civil, de
+            modo que os quatro primeiros dias formam janelas de um a quatro dias. O efeito restringe-se a
+            picos ocorridos nos primeiros dias de janeiro.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='indices')
+
 
     def create_tab_rainfall_hydrology(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1042,7 +1136,7 @@ class TabDocumentation(QWidget):
                 </code>
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='hidrologia')
 
     def create_tab_building_demand(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1089,7 +1183,7 @@ class TabDocumentation(QWidget):
                 <br/><b>Requisito de evidência:</b> derive a fração dos aparelhos/usos previstos e de dados medidos ou citados para a mesma tipologia; teste a incerteza em vez de assumir um percentual universal.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='demanda')
 
     def create_tab_tanks_pumping(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1243,14 +1337,23 @@ class TabDocumentation(QWidget):
                 Onde <i>Q</i> é a vazão em m³/s e <i>T</i> as horas diárias de funcionamento. A linha de sucção adota diâmetro comercial superior (ex.: recalque DN 32 mm e sucção DN 40 mm) para manter a velocidade abaixo de 1,0 m/s e evitar perda de carga excessiva ou risco de cavitação.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='reservatorios')
 
     def create_tab_water_quality_etap(self) -> QWidget:
         """Apresenta a fundamentação hidrológica do descarte inicial (wash-off), artigos de base e dimensionamento da ETAP."""
         if get_current_lang() != "pt":
             html = r"""
             <h2 style='color: #0284c7; margin-top: 0px;'>🧪 Water Quality, First Flush Wash-Off & Rainwater Treatment Plant (ETAP)</h2>
-            
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>What this tab does, and does not do.</b> It answers four questions, in this order:</p>
+                <p style='margin: 0 0 4px 0;'>1. <b>Which limits the design must meet</b> &mdash; the NBR 15527:2019 parameters, in section 3.</p>
+                <p style='margin: 0 0 4px 0;'>2. <b>Which first-flush discard is being adopted</b> &mdash; and what the standard recommends where data are lacking.</p>
+                <p style='margin: 0 0 4px 0;'>3. <b>How discard correlates with the expected improvement</b> &mdash; the curve in section 1.</p>
+                <p style='margin: 0;'>4. <b>Which treatment barriers make up the line</b> &mdash; chlorination always, with ultraviolet, ozone and a polishing filter as optional stages.</p>
+                <p style='margin: 6px 0 0 0;'>The curve in section 1 is a <b>design correlation</b>, used to size the discard and compare alternatives. It does not replace laboratory testing: the standard requires monitoring at least every six months (clause 4.6.7).</p>
+            </div>
+
             <h3 style='color: #0369a1;'>1. Scientific Foundation for First Flush Pollutant Removal (Wash-Off Model)</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
                 During antecedent dry periods (ADP), airborne particulates, vehicular soot, bird droppings, and organic debris accumulate on catchment surfaces.
@@ -1279,7 +1382,7 @@ class TabDocumentation(QWidget):
                 <ul style='font-size: 12px; line-height: 1.5; color: #334155;'>
                     <li><b>E(d):</b> Cumulative pollutant mass removal efficiency (%);</li>
                     <li><b>d:</b> Applied first-flush discard depth (mm), where 1.0 mm = 1.0 L discarded per m² of roof;</li>
-                    <li><b>k:</b> Empirical wash-off coefficient (mm<sup>−1</sup>), calibrated from empirical catchment studies:
+                    <li><b>k:</b> Wash-off coefficient (mm<sup>−1</sup>), adopted per impurity fraction. The values sit within the range reported in the first-flush literature and are design parameters rather than measured constants, so they remain editable:
                         <ul>
                             <li><b>Coarse / Settleable Solids (k = 1.6 mm<sup>−1</sup>):</b> Heavy particles washed quickly by initial droplet impact (<i>E ≈ 79.8% at 1.0 mm; E ≈ 95.9% at 2.0 mm</i>).</li>
                             <li><b>Fine Turbidity / Soot (k = 1.3 mm<sup>−1</sup>):</b> Colloidal and atmospheric dust particles (<i>E ≈ 72.7% at 1.0 mm; E ≈ 92.6% at 2.0 mm</i>).</li>
@@ -1318,7 +1421,7 @@ class TabDocumentation(QWidget):
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Chemical Disinfection (Chlorination)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>In-line erosion tablet feeder using Calcium Hypochlorite (65% active chlorine)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosage: 0.5 to 2.0 mg/L active Cl<sub>2</sub> (NBR 15527 free residual: 0.5–2.0 mg/L)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosage: 0.5 to 2.0 mg/L active Cl<sub>2</sub> (NBR 15527:2019, clause 4.6.5; permitted maximum 5 mg/L). Always present: it is the only barrier leaving a free residual, which ultraviolet and ozone do not.</td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>BRL 280 feeder; chemical cost: BRL 38.00/kg; LCA: 1.85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
                     </tr>
                     <tr>
@@ -1336,18 +1439,73 @@ class TabDocumentation(QWidget):
                 </tbody>
             </table>
 
-            <h3 style='color: #0369a1;'>3. Normative Water Quality Classes (ABNT NBR 15527:2019 & NBR 16783:2019)</h3>
+            <h3 style='color: #0369a1;'>3. Water Quality Classes by Use</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Class 1 (Toilet & Urinal Flushing):</b> Turbidity &le; 5.0 NTU; Color &le; 15 uH; pH 6.0–9.0; Free Residual Cl<sub>2</sub> 0.5–2.0 mg/L; Coliforms &le; 200 CFU/100 mL.</li>
                 <li><b>Class 2 (Garden Irrigation, Floor & Vehicle Washing):</b> Turbidity &le; 5.0 NTU; Color &le; 15 uH; pH 6.0–9.0; Free Residual Cl<sub>2</sub> 1.0–3.0 mg/L; Coliforms = 0 (Absence).</li>
                 <li><b>Class 3 (Cooling Towers & Industrial Boilers):</b> Turbidity &le; 2.0 NTU; Color &le; 10 uH; pH 6.5–8.5; Free Residual Cl<sub>2</sub> 1.0–2.5 mg/L; Coliforms = 0 (Absence).</li>
                 <li><b>Class 4 (Laundry & Noble Non-Potable Uses):</b> Turbidity &le; 2.0 NTU; Color &le; 5 uH; pH 6.5–8.5; Free Residual Cl<sub>2</sub> 0.5–1.5 mg/L; Coliforms = 0 (Absence).</li>
             </ul>
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>Requirements of NBR 15527:2019.</b> The standard sets a single set of minimum parameters, with no matrix of use classes: clause 4.6.3, Table 1, sets a <b>single</b> set of minimum parameters, valid for every non-potable use listed in 4.1.7.</p>
+                <table border='1' cellspacing='0' cellpadding='6' style='border-collapse: collapse; border-color: #cbd5e1; width: 60%; margin: 8px 0; font-size: 12px; background: #ffffff;'>
+                    <tr style='background-color: #0284c7; color: #ffffff;'><th align='left'>Parameter</th><th align='left'>Value</th></tr>
+                    <tr><td><i>Escherichia coli</i></td><td>&lt; 200 / 100 mL</td></tr>
+                    <tr><td>Turbidity</td><td>&lt; 5.0 NTU</td></tr>
+                    <tr><td>pH</td><td>6.0 to 9.0</td></tr>
+                </table>
+                <p style='margin: 0 0 6px 0;'>Clause 4.6.5 adds free residual chlorine between <b>0.5 and 2.0 mg/L</b>, with 5 mg/L as the permitted maximum. The standard has no colour parameter.</p>
+                <p style='margin: 0;'><b>How the table above is built.</b> Class 1 corresponds to the normative set, with two design additions: a colour limit, absent from the standard, and thermotolerant coliforms in place of <i>E. coli</i>, which is the more restrictive of the two. Classes 2 to 4 are a graded scheme adopted by this programme for uses whose exposure differs &mdash; drawing on the parameters-by-use approach of the 2007 edition and on current practice &mdash; and are offered as design guidance, the normative requirement being Class 1 in every case.</p>
+            </div>
+
+            <h3 style='color: #0369a1;'>4. Why these parameters, and not others</h3>
+            <p style='font-size: 12.5px; line-height: 1.6;'>
+                Five quantities are enough to decide whether a water is fit for a non-potable use. Each answers a different question, and none substitutes for the others.
+            </p>
+            <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 8px; font-size: 12px;'>
+                <tr style='background-color: #0284c7; color: #ffffff;'>
+                    <th align='left' style='width: 22%;'>Parameter</th>
+                    <th align='left'>Why it is measured</th>
+                </tr>
+                <tr>
+                    <td><b>Turbidity</b></td>
+                    <td>The operational proxy for disinfection efficiency. Suspended particles shelter microorganisms and consume chlorine, so cloudy water can receive an adequate dose and still not be disinfected. Turbidity is measured in minutes, in the field; a microbiological count takes 24 hours in a laboratory. That is why it is the continuous control parameter and the bacteriological test the periodic verification.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Apparent colour</b></td>
+                    <td>Signals dissolved organic matter and material leached from the roof. It matters for two reasons: it consumes chlorine without turbidity registering it, and it is why users reject water in visible uses &mdash; laundry above all. That is exactly why it is the most restrictive parameter in Class 4.</td>
+                </tr>
+                <tr>
+                    <td><b>pH</b></td>
+                    <td>Governs chlorine effectiveness and the water's aggressiveness towards pipework. Above pH 8 the hypochlorous acid fraction &mdash; the species that actually disinfects &mdash; falls sharply, and the same measured residual disinfects less. Below pH 6 the water attacks metals and mortars. The range is a precondition for the residual to mean anything at all.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Free residual chlorine</b></td>
+                    <td>The only parameter attesting <i>continued</i> protection: it measures the remaining capacity to inactivate contamination introduced after treatment, inside the tank and the pipes. It has a minimum and a maximum &mdash; below the minimum there is no barrier; above it, odour, taste and disinfection by-products appear. Hence a band, not a ceiling.</td>
+                </tr>
+                <tr>
+                    <td><b>Faecal coliforms</b></td>
+                    <td>Indicator of faecal contamination, which on a roof comes mostly from birds and small animals. The pathogen is not measured directly: what is measured is an abundant, easily cultured organism that travels with the contamination. Class 1 admits up to 200 CFU/100 mL because toilet flushing carries minimal human exposure; the other classes require absence because they involve aerosol, contact, or contact with clothing.</td>
+                </tr>
+            </table>
+            <p style='font-size: 12.5px; line-height: 1.6; margin-top: 10px;'>
+                <b>Two deliberate omissions.</b> Potability is not assessed: the rainwater here is intended for non-potable uses, and comparing its limits with Brazil's drinking-water regulation (<b>Portaria GM/MS 888/2021</b>) would wrongly suggest the system fails a requirement it never set out to meet. Metals and organic compounds are not assessed either: they would matter on old metal roofs or in heavily polluted airsheds, cases that demand their own sampling campaign and lie outside the reach of a preliminary sizing.
+            </p>
             """
         else:
             html = r"""
             <h2 style='color: #0284c7; margin-top: 0px;'>🧪 Qualidade da Água, Descarte Inicial (Wash-Off) e Linha de Tratamento (ETAP)</h2>
-            
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>O que esta aba faz, e o que não faz.</b> Ela responde a quatro perguntas, nesta ordem:</p>
+                <p style='margin: 0 0 4px 0;'>1. <b>Quais limites o projeto precisa atender</b> &mdash; os parâmetros da NBR 15527:2019, na seção 3.</p>
+                <p style='margin: 0 0 4px 0;'>2. <b>Qual descarte de primeira chuva está sendo adotado</b> &mdash; e o que a norma recomenda na falta de dados.</p>
+                <p style='margin: 0 0 4px 0;'>3. <b>Como o descarte se correlaciona com a melhoria de qualidade</b> &mdash; a curva da seção 1.</p>
+                <p style='margin: 0;'>4. <b>Quais barreiras de tratamento compõem a linha</b> &mdash; cloração sempre, com ultravioleta, ozônio e filtro de polimento como estágios opcionais.</p>
+                <p style='margin: 6px 0 0 0;'>A curva da seção 1 é uma <b>correlação de projeto</b>, para dimensionar o descarte e comparar alternativas. Não substitui análise laboratorial: a norma exige monitoramento com frequência mínima semestral (item 4.6.7).</p>
+            </div>
+
             <h3 style='color: #0369a1;'>1. Fundamentação Científica da Remoção de Poluentes por Descarte Inicial (Modelo Wash-Off)</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
                 Durante os períodos de estiagem antecedentes (<i>Antecedent Dry Periods — ADP</i>), poeiras atmosféricas, fezes de pássaros, fuligem veicular de combustão e matéria orgânica se acumulam sobre a cobertura.
@@ -1375,7 +1533,7 @@ class TabDocumentation(QWidget):
                 <ul style='font-size: 12px; line-height: 1.5; color: #334155;'>
                     <li><b>E(d):</b> Eficiência percentual acumulada de remoção do contaminante (%);</li>
                     <li><b>d:</b> Lâmina de descarte inicial aplicada (mm), onde 1,0 mm = 1,0 litro descartado por m² de telhado;</li>
-                    <li><b>k:</b> Coeficiente empírico de lavagem (mm<sup>−1</sup>), calibrado a partir de dados experimentais para três frações de impurezas:
+                    <li><b>k:</b> Coeficiente de lavagem (mm<sup>−1</sup>), adotado por fração de impureza. Os valores situam-se na faixa relatada pela literatura de <i>first flush</i> e são parâmetros de projeto, não constantes medidas, razão pela qual permanecem editáveis:
                         <ul>
                             <li><b>Sólidos Grosseiros e Sedimentáveis (k = 1,6 mm<sup>−1</sup>):</b> Partículas pesadas desprendidas rapidamente pelo impacto inicial das gotas (<i>E ≈ 79,8% para 1,0 mm; E ≈ 95,9% para 2,0 mm</i>).</li>
                             <li><b>Turbidez Fina e Fuligem (k = 1,3 mm<sup>−1</sup>):</b> Partículas coloidais e poeiras finas atmosféricas (<i>E ≈ 72,7% para 1,0 mm; E ≈ 92,6% para 2,0 mm</i>).</li>
@@ -1414,7 +1572,7 @@ class TabDocumentation(QWidget):
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Desinfecção Química (Cloração)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador de passagem por erosão com pastilhas de Hipoclorito de Cálcio (65% cloro ativo)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosagem: 0,5 a 2,0 mg/L de Cl<sub>2</sub> ativo (Residual livre NBR 15527: 0,5 a 2,0 mg/L)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosagem: 0,5 a 2,0 mg/L de Cl<sub>2</sub> ativo (NBR 15527:2019, item 4.6.5; máximo permitido de 5 mg/L). Sempre presente: é a única barreira que deixa residual livre, o que ultravioleta e ozônio não fazem.</td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador R$ 280; Químico: R$ 38,00/kg; Fator ACV: 1,85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
                     </tr>
                     <tr>
@@ -1432,9 +1590,9 @@ class TabDocumentation(QWidget):
                 </tbody>
             </table>
 
-            <h3 style='color: #0369a1;'>3. Matriz de Classes de Qualidade e Normas Regulatórias</h3>
+            <h3 style='color: #0369a1;'>3. Matriz de Classes de Qualidade por Uso</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
-                Conforme estabelecido pela <b>ABNT NBR 15527:2019</b> e <b>ABNT NBR 16783:2019</b>, a água pluvial tratada é enquadrada em quatro classes de uso:
+                A água pluvial tratada é enquadrada em quatro classes de uso, com os parâmetros abaixo:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Classe 1 (Bacias Sanitárias e Mictórios):</b> Turbidez &le; 5,0 NTU; Cor Aparente &le; 15 uH; pH 6,0 a 9,0; Cloro Residual Livre 0,5 a 2,0 mg/L; Coliformes Termotolerantes &le; 200 UFC/100 mL.</li>
@@ -1442,8 +1600,54 @@ class TabDocumentation(QWidget):
                 <li><b>Classe 3 (Torres de Resfriamento e Caldeiras Industriais):</b> Turbidez &le; 2,0 NTU; Cor &le; 10 uH; pH 6,5 a 8,5; Cloro Residual 1,0 a 2,5 mg/L; Coliformes = 0 (Ausência).</li>
                 <li><b>Classe 4 (Lavagem de Roupas e Usos Nobres Não Potáveis):</b> Turbidez &le; 2,0 NTU; Cor &le; 5 uH; pH 6,5 a 8,5; Cloro Residual 0,5 a 1,5 mg/L; Coliformes = 0 (Ausência). Exige filtração por carvão ativado.</li>
             </ul>
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>Requisitos da NBR 15527:2019.</b> A norma estabelece um conjunto único de parâmetros mínimos, sem matriz de classes de uso: o item 4.6.3, Tabela 1, estabelece um <b>único</b> conjunto de parâmetros mínimos, válido para todos os usos não potáveis listados em 4.1.7.</p>
+                <table border='1' cellspacing='0' cellpadding='6' style='border-collapse: collapse; border-color: #cbd5e1; width: 60%; margin: 8px 0; font-size: 12px; background: #ffffff;'>
+                    <tr style='background-color: #0284c7; color: #ffffff;'><th align='left'>Parâmetro</th><th align='left'>Valor</th></tr>
+                    <tr><td><i>Escherichia coli</i></td><td>&lt; 200 / 100 mL</td></tr>
+                    <tr><td>Turbidez</td><td>&lt; 5,0 uT</td></tr>
+                    <tr><td>pH</td><td>6,0 a 9,0</td></tr>
+                </table>
+                <p style='margin: 0 0 6px 0;'>O item 4.6.5 acrescenta cloro residual livre entre <b>0,5 e 2,0 mg/L</b>, com máximo permitido de 5 mg/L. Não há parâmetro de cor na norma.</p>
+                <p style='margin: 0;'><b>Como a tabela acima é montada.</b> A Classe 1 corresponde ao conjunto normativo, com dois acréscimos de projeto: um limite de cor, ausente da norma, e coliformes termotolerantes no lugar de <i>E. coli</i>, sendo aquele o parâmetro mais restritivo. As Classes 2 a 4 formam um escalonamento adotado por este programa para usos de exposição distinta — apoiado na abordagem por uso da edição de 2007 e na prática corrente — e valem como orientação de projeto, permanecendo a Classe 1 o requisito normativo em todos os casos.</p>
+            </div>
+
+            <h3 style='color: #0369a1;'>4. Por que estes parâmetros, e não outros</h3>
+            <p style='font-size: 12.5px; line-height: 1.6;'>
+                Cinco grandezas bastam para decidir se uma água serve a um uso não potável. Cada uma responde a uma pergunta distinta, e nenhuma substitui as demais.
+            </p>
+            <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 8px; font-size: 12px;'>
+                <tr style='background-color: #0284c7; color: #ffffff;'>
+                    <th align='left' style='width: 22%;'>Parâmetro</th>
+                    <th align='left'>Por que é medido</th>
+                </tr>
+                <tr>
+                    <td><b>Turbidez</b></td>
+                    <td>É o indicador operacional da eficiência da desinfecção. Partículas em suspensão abrigam microrganismos e consomem cloro, de modo que uma água turva pode receber dose adequada e ainda assim não ficar desinfetada. Turbidez é medida em minutos e em campo; a contagem microbiológica leva 24 horas em laboratório. Por isso ela é o parâmetro de controle contínuo, e o exame bacteriológico, o de verificação periódica.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Cor aparente</b></td>
+                    <td>Sinaliza matéria orgânica dissolvida e material lixiviado da cobertura. Importa por dois motivos: consome cloro sem que a turbidez acuse, e é a razão pela qual usuários rejeitam a água em usos visíveis — lavagem de roupa acima de tudo. É o parâmetro mais restritivo da Classe 4 justamente por isso.</td>
+                </tr>
+                <tr>
+                    <td><b>pH</b></td>
+                    <td>Governa a eficácia do cloro e a agressividade da água às tubulações. Acima de pH 8 a fração de ácido hipocloroso — a espécie efetivamente desinfetante — cai acentuadamente, e o mesmo residual medido desinfeta menos. Abaixo de pH 6 a água ataca metais e argamassas. A faixa é uma condição para que o cloro residual signifique alguma coisa.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Cloro residual livre</b></td>
+                    <td>Único parâmetro que atesta proteção <i>continuada</i>: mede a capacidade que resta de inativar contaminação introduzida depois do tratamento, dentro do reservatório e da rede. Tem mínimo e máximo — abaixo do mínimo não há barreira; acima do máximo aparecem odor, sabor e subprodutos de desinfecção. É por isso uma faixa, e não um limite superior.</td>
+                </tr>
+                <tr>
+                    <td><b>Coliformes termotolerantes</b></td>
+                    <td>Indicador de contaminação fecal, que em cobertura vem sobretudo de aves e pequenos animais. Não se mede o patógeno diretamente: mede-se um organismo abundante, fácil de cultivar e que acompanha a contaminação. A Classe 1 admite até 200 UFC/100 mL porque a bacia sanitária tem exposição humana mínima; as demais classes exigem ausência porque envolvem aerossol, contato ou contato com roupa.</td>
+                </tr>
+            </table>
+            <p style='font-size: 12.5px; line-height: 1.6; margin-top: 10px;'>
+                <b>Duas ausências deliberadas.</b> Não se avalia potabilidade: a água pluvial deste programa destina-se a usos não potáveis, e comparar seus limites com os da <b>Portaria GM/MS n.º 888/2021</b> — que rege a potabilidade no Brasil — levaria à conclusão errada de que o sistema falha num requisito que não se propõe a atender. E não se avaliam metais nem compostos orgânicos: seriam pertinentes em coberturas metálicas antigas ou em áreas de intensa poluição atmosférica, casos que exigem campanha de amostragem própria e estão fora do alcance de um pré-dimensionamento.
+            </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='qualidade')
 
     def create_tab_indicators_performance(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1500,7 +1704,7 @@ class TabDocumentation(QWidget):
                 Volume de água pluvial excedente desperdiçado por extravasamento quando o reservatório atinge sua capacidade máxima.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='indicadores')
 
     def create_tab_economics(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1563,7 +1767,7 @@ class TabDocumentation(QWidget):
                 Tempo (em anos) necessário para que o fluxo de caixa acumulado das economias de água compense o investimento inicial (CAPEX). O payback descontado considera a perda do valor do dinheiro no tempo pela TMA.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='economico')
 
     def create_tab_discussion_average_values(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1626,7 +1830,7 @@ class TabDocumentation(QWidget):
                 </p>
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='discussao')
 
     def create_tab_tariffs_and_opex(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1687,154 +1891,43 @@ class TabDocumentation(QWidget):
                 <b>Uso profissional:</b> confirme todos os itens nas etapas “Investimento Inicial”, “Motobomba” e “Outros Custos Operacionais” antes de interpretar VPL, TIR ou payback.
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='tarifas')
 
     def create_tab_references(self) -> QWidget:
-        if get_current_lang() != "pt":
-            html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📖 Bibliographic and Normative References</h2>
-            
-            <ol style='font-size: 12.5px; line-height: 1.8; color: #1e293b;'>
-                <li style='margin-bottom: 14px;'>
-                    <b>STUDY ON COVERING MATERIALS FOR RESIDENTIAL RAINWATER HARVESTING SYSTEMS.</b><br/>
-                    <i>MIX Sustentável</i>, [S. l.], v. 6, n. 2, p. 53–66, 2020. DOI: <a href='https://doi.org/10.29183/2447-3073.MIX2020.v6.n2.53-66' style='color: #0284c7;'>10.29183/2447-3073.MIX2020.v6.n2.53-66</a>.<br/>
-                    Available at: <a href='https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080' style='color: #0284c7;'>https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080</a>. Accessed on: Jul 31, 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ETCCDI / WMO - EXPERT TEAM ON CLIMATE CHANGE DETECTION AND INDICES.</b><br/>
-                    <i>Climate Change Indices and Indicators Definition Guidelines.</i> World Meteorological Organization (WMO) / CLIVAR. 2021.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>WALSH, R. P. D.; LAWLER, D. M.</b><br/>
-                    <i>Rainfall seasonality: instances, trends and variations.</i> Transactions of the Institute of British Geographers, v. 6, n. 2, p. 201-215, 1981.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>BRAZILIAN ASSOCIATION OF TECHNICAL STANDARDS (ABNT).</b><br/>
-                    <i>NBR 15527: Rainwater harvesting from roofs for non-potable uses - Requirements.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>BRAZILIAN ASSOCIATION OF TECHNICAL STANDARDS (ABNT).</b><br/>
-                    <i>NBR 16783: Use of alternative sources of non-potable water in buildings.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MAYKOT, Jéssica Kuntz; VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Characterisation of First Flush for Rainwater Harvesting Purposes in Buildings.</i> <b>Water</b>, v. 17, n. 12, art. 1772, 2025. DOI: <a href='https://doi.org/10.3390/w17121772' style='color: #0284c7;'>10.3390/w17121772</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>YAZIZ, M. I.; GUNTING, H.; SAPARI, N.; GHAZALI, A. W.</b><br/>
-                    <i>Variations in rainwater quality from roof catchments.</i> Water Research, v. 23, n. 6, p. 761-765, 1989. DOI: <a href='https://doi.org/10.1016/0043-1354(89)90111-X' style='color: #0284c7;'>10.1016/0043-1354(89)90111-X</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MARTINSON, D. B.; THOMAS, T. H.</b><br/>
-                    <i>Quantifying the first-flush phenomenon.</i> Development Technology Unit (DTU), School of Engineering, University of Warwick, Working Paper 53, 2005.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Netuno 5 — Computer program for simulation and feasibility analysis of rainwater harvesting in buildings.</i> Florianópolis: Federal University of Santa Catarina (UFSC), 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>TOMAZ, Plínio.</b><br/>
-                    <i>Rainwater harvesting for urban areas and non-potable purposes.</i> São Paulo: Navegar Editora, 2003.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>INMET - NATIONAL INSTITUTE OF METEOROLOGY.</b><br/>
-                    <i>Meteorological Database for Education and Research (BDMEP).</i> Brasília: MAPA, 2024. Available at: <a href='https://portal.inmet.gov.br/' style='color: #0284c7;'>https://portal.inmet.gov.br/</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CASAN — SANITATION COMPANION OF SANTA CATARINA.</b><br/>
-                    <i>Water and sewage tariffs.</i> Internal snapshot labelled 01/04/2026; verify the current official portal before every study.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>HWANG, C.-L.; YOON, K.</b><br/>
-                    <i>Multiple Attribute Decision Making: Methods and Applications.</i> Springer, 1981. DOI: 10.1007/978-3-642-48318-9.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>OPRICOVIC, S.; TZENG, G.-H.</b><br/>
-                    <i>Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS.</i> European Journal of Operational Research, v. 156, n. 2, p. 445–455, 2004. DOI: <a href='https://doi.org/10.1016/S0377-2217(03)00020-1' style='color: #0284c7;'>10.1016/S0377-2217(03)00020-1</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>LAHDELMA, J.; SALMINEN, P.</b><br/>
-                    <i>SMAA-2: Stochastic multicriteria acceptability analysis for group decision making.</i> Operations Research, v. 49, n. 3, p. 444–454, 2001. DOI: <a href='https://doi.org/10.1287/opre.49.3.444.11223' style='color: #0284c7;'>10.1287/opre.49.3.444.11223</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CRISPYN / ENERGYINPYTHON.</b><br/>
-                    <i>CRIteria Significance determining in PYthoN — The Python 3 Library for determining criteria weights for MCDA methods.</i> GitHub Repository, 2024. Available at: <a href='https://github.com/energyinpython/crispyn' style='color: #0284c7;'>https://github.com/energyinpython/crispyn</a>.
-                </li>
-            </ol>
-            """
+        """Lista geral, gerada a partir de `netuno.core.bibliography`.
+
+        Era escrita à mão, em dois idiomas, com dezesseis entradas. A conferência
+        no Crossref encontrou quatro defeitos nela: Walsh & Lawler com título,
+        periódico e páginas errados; Lahdelma grafado com a inicial errada; o
+        artigo da MIX Sustentável sem autoria nenhuma, com o título ocupando o
+        lugar dos autores; e duas datas de acesso situadas no futuro. Gerar a
+        lista de um registro único elimina a classe do problema.
+        """
+        ingles = get_current_lang() != "pt"
+        lang = "en" if ingles else "pt"
+
+        if ingles:
+            titulo = "📖 Bibliographic and Normative References"
+            intro = (
+                "Every record below was retrieved from Crossref, OpenAlex or the publisher — "
+                "and each entry states what it supports in this programme. "
+                "Section-specific lists appear at the foot of each documentation page."
+            )
         else:
-            html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📖 Referências Bibliográficas e Normativas</h2>
-            
-            <ol style='font-size: 12.5px; line-height: 1.8; color: #1e293b;'>
-                <li style='margin-bottom: 14px;'>
-                    <b>ESTUDO SOBRE MATERIAIS PARA COBERTURAS UTILIZADAS EM SISTEMAS DE APROVEITAMENTO DE ÁGUA PLUVIAL RESIDENCIAIS.</b><br/>
-                    <i>MIX Sustentável</i>, [S. l.], v. 6, n. 2, p. 53–66, 2020. DOI: <a href='https://doi.org/10.29183/2447-3073.MIX2020.v6.n2.53-66' style='color: #0284c7;'>10.29183/2447-3073.MIX2020.v6.n2.53-66</a>.<br/>
-                    Disponível em: <a href='https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080' style='color: #0284c7;'>https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080</a>. Acesso em: 31 jul. 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ETCCDI / WMO - EXPERT TEAM ON CLIMATE CHANGE DETECTION AND INDICES.</b><br/>
-                    <i>Climate Change Indices and Indicators Definition Guidelines.</i> World Meteorological Organization (WMO) / CLIVAR. 2021.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>WALSH, R. P. D.; LAWLER, D. M.</b><br/>
-                    <i>Rainfall seasonality: instances, trends and variations.</i> Transactions of the Institute of British Geographers, v. 6, n. 2, p. 201-215, 1981.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT).</b><br/>
-                    <i>NBR 15527: Aproveitamento de água de chuva de coberturas para fins não potáveis - Requisitos.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT).</b><br/>
-                    <i>NBR 16783: Uso de fontes alternativas de água não potável em edificações.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MAYKOT, Jéssica Kuntz; VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Characterisation of First Flush for Rainwater Harvesting Purposes in Buildings.</i> <b>Water</b>, v. 17, n. 12, art. 1772, 2025. DOI: <a href='https://doi.org/10.3390/w17121772' style='color: #0284c7;'>10.3390/w17121772</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>YAZIZ, M. I.; GUNTING, H.; SAPARI, N.; GHAZALI, A. W.</b><br/>
-                    <i>Variations in rainwater quality from roof catchments.</i> Water Research, v. 23, n. 6, p. 761-765, 1989. DOI: <a href='https://doi.org/10.1016/0043-1354(89)90111-X' style='color: #0284c7;'>10.1016/0043-1354(89)90111-X</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MARTINSON, D. B.; THOMAS, T. H.</b><br/>
-                    <i>Quantifying the first-flush phenomenon.</i> Development Technology Unit (DTU), School of Engineering, University of Warwick, Working Paper 53, 2005.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Netuno 5: Programa computacional para simulação e viabilidade do aproveitamento de água de chuva em edificações.</i> Florianópolis: Universidade Federal de Santa Catarina (UFSC), 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>TOMAZ, Plínio.</b><br/>
-                    <i>Aproveitamento de água de chuva para áreas urbanas e fins não potáveis.</i> São Paulo: Navegar Editora, 2003.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>INMET - INSTITUTO NACIONAL DE METEOROLOGIA.</b><br/>
-                    <i>Banco de Dados Meteorológicos para Ensino e Pesquisa (BDMEP).</i> Brasília: Ministério da Agricultura e Pecuária, 2024. Disponível em: <a href='https://portal.inmet.gov.br/' style='color: #0284c7;'>https://portal.inmet.gov.br/</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CASAN — COMPANHIA CATARINENSE DE ÁGUAS E SANEAMENTO.</b><br/>
-                    <i>Tarifas de água e esgoto.</i> Fotografia interna identificada como 01/04/2026; confirme a vigência no <a href='https://www.casan.com.br/menu-conteudo/index/url/tarifas' style='color: #0284c7;'>portal oficial</a> antes de cada estudo.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>HWANG, C.-L.; YOON, K.</b><br/>
-                    <i>Multiple Attribute Decision Making: Methods and Applications.</i> Springer, 1981. DOI: <a href='https://doi.org/10.1007/978-3-642-48318-9' style='color: #0284c7;'>10.1007/978-3-642-48318-9</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>OPRICOVIC, S.; TZENG, G.-H.</b><br/>
-                    <i>Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS.</i> European Journal of Operational Research, v. 156, n. 2, p. 445–455, 2004. DOI: <a href='https://doi.org/10.1016/S0377-2217(03)00020-1' style='color: #0284c7;'>10.1016/S0377-2217(03)00020-1</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>LAHDELMA, J.; SALMINEN, P.</b><br/>
-                    <i>SMAA-2: Stochastic multicriteria acceptability analysis for group decision making.</i> Operations Research, v. 49, n. 3, p. 444–454, 2001. DOI: <a href='https://doi.org/10.1287/opre.49.3.444.11223' style='color: #0284c7;'>10.1287/opre.49.3.444.11223</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CRISPYN / ENERGYINPYTHON.</b><br/>
-                    <i>CRIteria Significance determining in PYthoN — The Python 3 Library for determining criteria weights for MCDA methods.</i> Repositório GitHub, 2024. Disponível em: <a href='https://github.com/energyinpython/crispyn' style='color: #0284c7;'>https://github.com/energyinpython/crispyn</a>.
-                </li>
-            </ol>
-            """
+            titulo = "📖 Referências Bibliográficas e Normativas"
+            intro = (
+                "Todos os registros abaixo foram recuperados do Crossref, do OpenAlex ou da página "
+                "do periódico, e cada entrada diz o que sustenta neste programa. "
+                "As listas por assunto aparecem ao pé de cada página da documentação."
+            )
+
+        html = (
+            f"<h2 style='color: #0284c7; margin-top: 0px;'>{titulo}</h2>"
+            f"<p style='color: #475569;'>{intro}</p>"
+            + render_bibliografia_completa(lang)
+        )
         return self._create_browser(html)
+
 
     def create_tab_acv_materials(self) -> QWidget:
         """Aba de justificativas de materiais para ACV."""

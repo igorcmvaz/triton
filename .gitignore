@@ -83,3 +83,6 @@ desktop.ini
 *~
 .idea/
 .vscode/
+
+# Log de avisos do Qt, gerado em tempo de execucao
+avisos_qt.log

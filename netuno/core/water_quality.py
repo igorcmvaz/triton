@@ -1,12 +1,54 @@
-"""
-Módulo Core de Qualidade da Água e Dimensionamento da ETAP (Estação de Tratamento de Água Pluvial).
-Baseado nas diretrizes da ABNT NBR 15527:2019 e NBR 16783 (Usos não potáveis de fontes alternativas).
-Inclui modelo de remoção por descarte de primeira chuva (wash-off), matriz de usos finais,
-dimensionamento paramétrico de filtros mecânicos, desinfecção (cloração e radiação UV) e filtros de polimento.
+"""Qualidade da agua pluvial e dimensionamento da linha de tratamento (ETAP).
+
+**Conferido contra o texto da ABNT NBR 15527:2019 em 2026-09-08.** O resultado
+dessa conferencia mudou o que este modulo pode afirmar.
+
+A norma de 2019 **nao traz** matriz de classes de uso. A secao 4.6.3, Tabela 1,
+estabelece um unico conjunto de parametros minimos, valido para todos os usos
+nao potaveis listados em 4.1.7:
+
+    Escherichia coli   < 200 / 100 mL
+    Turbidez           < 5,0 uT
+    pH                 6,0 a 9,0
+
+E a secao 4.6.5 recomenda cloro residual livre entre 0,5 e 2,0 mg/L, com maximo
+permitido de 5 mg/L.
+
+Tres consequencias para este codigo:
+
+1. A **Classe 1** reproduz a Tabela 1 quase exatamente, e por isso e a unica que
+   pode invocar a norma. Duas ressalvas: a norma fala em *Escherichia coli*, nao
+   em coliformes termotolerantes (E. coli e subconjunto destes, de modo que o
+   limite aqui e mais restritivo que o normativo); e a norma **nao tem parametro
+   de cor**, que aqui e acrescimo de projeto.
+2. As **Classes 2, 3 e 4 nao sao da NBR 15527:2019.** Sao esquema adaptado deste
+   programa, coerente com a pratica corrente e com a edicao de 2007 da norma,
+   que trazia parametros por uso. Exibi-las como normativas era atribuicao
+   incorreta, e foi corrigido.
+3. O **descarte de escoamento inicial** recomendado pela norma, na falta de
+   dados, e de **2 mm** (secao 4.3.5). Este modulo dizia 1,0 mm.
+
+Outros pontos do texto que o programa passa a poder citar com precisao: a norma
+da a disponibilidade por ``Vdisp = P x A x C x eta``, recomendando eta = 0,85 na
+falta de dados (4.1.6); lista sete usos nao potaveis admitidos (4.1.7); e exige
+monitoramento com frequencia minima semestral (4.6.7).
 """
 
 import math
 from dataclasses import dataclass, field
+
+from typing import List, Optional
+
+from netuno.core.chlorination import (
+    Cloracao,
+    FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
+    PUREZA_PADRAO,
+)
+from netuno.core.grid_emission_factors import BASE_PADRAO, fator_co2eq
+
+# Preco medio da energia eletrica residencial usado para o custo operacional
+# do reator UV. Permanece premissa interna, editavel.
+ENERGY_PRICE_BRL_PER_KWH = 0.95
 from typing import Dict, List, Any, Optional, Tuple
 
 
@@ -30,8 +72,8 @@ class WaterQualityClass:
 WATER_QUALITY_CLASSES: Dict[str, WaterQualityClass] = {
     "classe_1": WaterQualityClass(
         id="classe_1",
-        nome="Classe 1: Bacias Sanitárias e Mictórios",
-        descricao="Descargas em bacias sanitárias e mictórios sem contato dérmico direto.",
+        nome="Classe 1: parâmetros mínimos da NBR 15527:2019",
+        descricao=("Conjunto normativo da NBR 15527:2019 (Tabela 1 e item 4.6.5), válido para todos os usos não potáveis previstos em 4.1.7: bacias sanitárias, mictórios, lavagem de pisos e veículos, reserva de incêndio, uso ornamental, irrigação paisagística e sistemas de resfriamento. A norma trata de E. coli, não de coliformes termotolerantes, e não define parâmetro de cor."),
         turbidez_max_ntu=5.0,
         cor_aparente_max_uh=15.0,
         ph_min=6.0,
@@ -44,7 +86,7 @@ WATER_QUALITY_CLASSES: Dict[str, WaterQualityClass] = {
     ),
     "classe_2": WaterQualityClass(
         id="classe_2",
-        nome="Classe 2: Irrigação de Jardins e Lavagem de Pisos/Veículos",
+        nome="Classe 2 (adaptada, não normativa): Irrigação de Jardins e Lavagem de Pisos/Veículos",
         descricao="Contato dérmico eventual e geração moderada de aerossóis.",
         turbidez_max_ntu=5.0,
         cor_aparente_max_uh=15.0,
@@ -58,7 +100,7 @@ WATER_QUALITY_CLASSES: Dict[str, WaterQualityClass] = {
     ),
     "classe_3": WaterQualityClass(
         id="classe_3",
-        nome="Classe 3: Torres de Resfriamento e Caldeiras Industriais",
+        nome="Classe 3 (adaptada, não normativa): Torres de Resfriamento e Caldeiras Industriais",
         descricao="Usos industriais e climatização com controle severo de biofilme e incrustação.",
         turbidez_max_ntu=2.0,
         cor_aparente_max_uh=10.0,
@@ -72,7 +114,7 @@ WATER_QUALITY_CLASSES: Dict[str, WaterQualityClass] = {
     ),
     "classe_4": WaterQualityClass(
         id="classe_4",
-        nome="Classe 4: Lavagem de Roupas e Usos Nobres Não Potáveis",
+        nome="Classe 4 (adaptada, não normativa): Lavagem de Roupas e Usos Nobres Não Potáveis",
         descricao="Usos que exigem água translúcida e isenta de odores para não manchar tecidos.",
         turbidez_max_ntu=2.0,
         cor_aparente_max_uh=5.0,
@@ -115,10 +157,24 @@ def calculate_first_flush_washoff(
     """
     d = max(0.0, float(discard_mm))
 
-    # Coeficientes de lavagem empíricos calibrados da literatura hidrológica urbana
-    k_solids = 1.6   # Sólidos grosseiros lavam rapidamente
-    k_turbidity = 1.3 # Partículas finas/turbidez
-    k_bacteria = 1.1  # Bactérias e biofilme aderido lavam mais lentamente
+    # Coeficientes de decaimento da curva de lavagem, por fração de sujeira.
+    #
+    # A finalidade desta função é **correlacionar** a lâmina descartada com a
+    # melhoria esperada de qualidade, para que o usuário veja o efeito da escolha
+    # do descarte. Não é modelo preditivo: os coeficientes são parâmetros de
+    # projeto, situados na faixa relatada pela literatura de first flush, e não
+    # resultam de ajuste a dados medidos.
+    #
+    # A referência de apoio é MAYKOT, MARTINS VAZ & GHISI (2025), Water 17(12),
+    # art. 1772, DOI 10.3390/w17121772, que caracteriza experimentalmente o
+    # descarte de primeira chuva em edificações.
+    #
+    # A ordem entre eles tem base física: partícula pesada sai no primeiro
+    # impacto das gotas, e biofilme aderido à telha resiste mais. Daí o menor
+    # coeficiente ser o das bactérias.
+    k_solids = 1.6    # sólidos grosseiros e sedimentáveis
+    k_turbidity = 1.3 # partículas finas e fuligem
+    k_bacteria = 1.1  # carga bacteriológica e biofilme
 
     rem_solids = 100.0 * (1.0 - math.exp(-k_solids * d)) if d > 0 else 0.0
     rem_turb = 100.0 * (1.0 - math.exp(-k_turbidity * d)) if d > 0 else 0.0
@@ -138,7 +194,7 @@ def calculate_first_flush_washoff(
             "poeiras e matéria orgânica pesada para o reservatório, exigindo trocas frequentes de filtros."
         )
     elif d < 1.5:
-        classification = "Descarte Padrão NBR 15527 (1,0 mm)"
+        classification = "Descarte recomendado pela NBR 15527:2019 (2 mm)"
         recom = (
             "Atende plenamente aos requisitos da NBR 15527. Remove entre 75% e 85% dos sólidos iniciais, "
             "garantindo excelente proteção à bomba e redução expressiva no consumo de desinfetante."
@@ -192,6 +248,7 @@ class EtapSizingResult:
     total_etap_annual_opex: float
     total_etap_co2e_kg_yr: float
     target_quality_class: str
+    disinfection_stages: List[str] = field(default_factory=list)
 
 
 def size_etap(
@@ -203,11 +260,15 @@ def size_etap(
     chlorine_dose_mg_l: float = 1.5,
     chlorine_kg_price_brl: float = 38.0,
     regional_factor: float = 1.0,
+    grid_co2_factor_kg_kwh: Optional[float] = None,
 ) -> EtapSizingResult:
     """
     Dimensiona os equipamentos e insumos químicos da ETAP.
     """
     target_class = WATER_QUALITY_CLASSES.get(target_class_id, WATER_QUALITY_CLASSES["classe_1"])
+
+    if grid_co2_factor_kg_kwh is None:
+        grid_co2_factor_kg_kwh = fator_co2eq(BASE_PADRAO)
 
     # 1. Filtro mecânico de entrada (Vórtex ou Cesto autolimpante)
     if roof_area_m2 <= 150.0:
@@ -236,25 +297,26 @@ def size_etap(
     uv_lamp_cost = 0.0
     co2e_chemicals_kg = 0.0
 
+    # A cloracao e obrigatoria: e a unica barreira que deixa residual livre, e a
+    # NBR 15527:2019 (4.6.5) trabalha justamente com residual entre 0,5 e 2,0 mg/L.
+    # UV e ozonio desinfetam na passagem e nao deixam residual, de modo que sao
+    # estagios ADICIONAIS, nao alternativas.
     method = disinfection_choice.lower()
-    if method == "cloro":
-        # Dosador de pastilhas de hipoclorito de cálcio (65% cloro ativo)
-        base_dosador_capex = 280.0
-        disinf_capex = base_dosador_capex * regional_factor
-        
-        dose = max(0.5, float(chlorine_dose_mg_l))
-        # Massa de cloro necessária = V (m³) * dose (g/m³) / 1000 = kg de cloro ativo
-        # Pastilhas têm 65% de pureza ativa:
-        active_kg = (annual_vol * dose) / 1000.0
-        annual_chlorine_kg = active_kg / 0.65
-        annual_chlorine_cost = annual_chlorine_kg * chlorine_kg_price_brl
-        disinf_opex = annual_chlorine_cost
-        
-        # Emissão de fabricação do hipoclorito: ~1.85 kg CO2e / kg
-        co2e_chemicals_kg = annual_chlorine_kg * 1.85
 
-    elif method == "uv":
-        # Reator Ultravioleta germicida (dose > 30 mJ/cm²)
+    base_dosador_capex = 280.0
+    disinf_capex = base_dosador_capex * regional_factor
+
+    dose = max(0.5, float(chlorine_dose_mg_l))
+    cloracao = Cloracao(dose_mg_por_litro=dose)
+    annual_chlorine_kg = cloracao.massa_anual_de_produto_kg(annual_vol)
+    annual_chlorine_cost = annual_chlorine_kg * chlorine_kg_price_brl
+    disinf_opex = annual_chlorine_cost
+    co2e_chemicals_kg = cloracao.co2e_anual_kg(annual_vol)
+
+    disinfection_stages = ["Cloração (dosador de pastilhas de hipoclorito de cálcio)"]
+
+    if method == "uv":
+        # Reator ultravioleta germicida, dose > 30 mJ/cm2 (NSF/ANSI 55).
         if annual_vol <= 200.0:
             uv_watts = 25.0
             base_uv_capex = 1200.0
@@ -263,22 +325,21 @@ def size_etap(
             uv_watts = 55.0
             base_uv_capex = 2200.0
             uv_lamp_cost = 320.0
-            
-        disinf_capex = base_uv_capex * regional_factor
-        # Estimativa de operação anual UV: ligada junto ao bombeamento (~1.500 horas/ano)
+
+        disinf_capex += base_uv_capex * regional_factor
+        # Operacao estimada em 1.500 h/ano, junto ao bombeamento.
         uv_kwh = (uv_watts * 1500.0) / 1000.0
-        # Substituição anual da lâmpada germicida (9.000 h úteis):
-        disinf_opex = uv_lamp_cost * regional_factor
-        co2e_chemicals_kg = (uv_watts * 0.12)  # Emissão incorporada amortizada da lâmpada
+        # A energia do reator entrava em lugar nenhum: nem no custo, nem na
+        # emissao. Agora entra nos dois.
+        disinf_opex += uv_lamp_cost * regional_factor + uv_kwh * ENERGY_PRICE_BRL_PER_KWH
+        co2e_chemicals_kg += (uv_watts * 0.12) + uv_kwh * grid_co2_factor_kg_kwh
+        disinfection_stages.append("Reator ultravioleta (barreira adicional, sem residual)")
 
     elif method == "ozonio":
-        disinf_capex = 3500.0 * regional_factor
-        disinf_opex = 200.0 * regional_factor
-        co2e_chemicals_kg = 15.0
-    else:
-        # Sem desinfecção
-        disinf_capex = 0.0
-        disinf_opex = 0.0
+        disinf_capex += 3500.0 * regional_factor
+        disinf_opex += 200.0 * regional_factor
+        co2e_chemicals_kg += 15.0
+        disinfection_stages.append("Ozonização (barreira adicional, sem residual)")
 
     # 3. Filtro de Polimento (Carvão Ativado ou Areia)
     polishing_capex = 0.0
@@ -320,4 +381,5 @@ def size_etap(
         total_etap_annual_opex=tot_opex,
         total_etap_co2e_kg_yr=co2e_chemicals_kg,
         target_quality_class=target_class.nome,
+        disinfection_stages=disinfection_stages,
     )

@@ -17,14 +17,15 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor
 
-from netuno.ui.translation import tr, get_current_theme
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
 from netuno.core.parser import format_ptbr
 from netuno.core.environmental import (
     EnvironmentalConfig, EnvironmentalResult, EnvironmentalSweepResult,
     PipeInput, PumpInput, MATERIAL_PRESETS, PIPE_EMISSION_FACTORS_PER_METER, PUMP_EMBEDDED_CO2,
-    calculate_lca, run_environmental_sweep
+    calculate_lca, run_environmental_sweep, grid_factor_default
 )
 from netuno.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
+from netuno.core import water_supply_routes as rotas_de_agua
 from netuno.core.pump_energy import compute_annual_pump_energy, CV_TO_KW
 from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
 from netuno.ui.charts import (
@@ -86,7 +87,7 @@ class LCAParametersDialog(QDialog):
         ann_kwh = sync.get("annual_pump_kwh")
         if ann_kwh is None: ann_kwh = 0.0
         spec_kwh = sync.get("specific_kwh_per_m3")
-        if spec_kwh is None: spec_kwh = 0.085
+        if spec_kwh is None: spec_kwh = PumpInput.specific_kwh_per_m3
 
         banner = QFrame()
         banner.setStyleSheet("QFrame { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 6px 12px; }")
@@ -303,6 +304,24 @@ class LCAParametersDialog(QDialog):
         self.txt_potable_co2.setStyleSheet("background-color: #dcfce7; border: 1px solid #86efac; font-weight: bold; color: #166534;")
         form_r.addRow(QLabel(tr("Abatimento Água Potável (kg CO2/m³):")), self.txt_potable_co2)
 
+        # ── ROTA DA AGUA SUBSTITUIDA ──
+        # A emissao evitada nao e propriedade do sistema pluvial: e propriedade
+        # da agua que ele desloca. Escolher a rota reescreve o campo abaixo.
+        self.cmb_rota_agua = QComboBox()
+        for _chave in rotas_de_agua.chaves_das_rotas():
+            self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
+        _padrao = self.cmb_rota_agua.findData(rotas_de_agua.ROTA_PADRAO)
+        if _padrao >= 0:
+            self.cmb_rota_agua.setCurrentIndex(_padrao)
+        self.cmb_rota_agua.currentIndexChanged.connect(self._aplicar_rota_de_agua)
+        form_r.addRow(QLabel(tr("Água substituída pelo sistema:")), self.cmb_rota_agua)
+
+        self.lbl_rota_fonte = QLabel("")
+        self.lbl_rota_fonte.setWordWrap(True)
+        self.lbl_rota_fonte.setStyleSheet("color: #475569; font-size: 11px;")
+        form_r.addRow("", self.lbl_rota_fonte)
+
+
         lay_r.addLayout(form_r)
         lay_cols.addWidget(gb_right, stretch=1)
 
@@ -336,6 +355,37 @@ class LCAParametersDialog(QDialog):
         btns.addWidget(btn_save)
 
         main_layout.addLayout(btns)
+
+    def _aplicar_rota_de_agua(self):
+        """Reescreve o abatimento por m3 com o valor da rota escolhida.
+
+        As rotas dominadas por eletricidade - a dessalinizacao a frente - sao
+        recalculadas com o fator de rede que estiver no formulario, e nao com o
+        da matriz do pais onde a fonte foi publicada. Com a matriz brasileira a
+        dessalinizacao sai perto do tratamento convencional; com uma matriz
+        carvoeira, varias vezes acima. Fixar um numero unico esconderia isso.
+        """
+        chave = self.cmb_rota_agua.currentData()
+        if not chave or not hasattr(self, "txt_potable_co2"):
+            # O combo e montado antes do campo; durante a construcao nao ha o
+            # que reescrever ainda.
+            return
+
+        try:
+            fator_da_rede = float(str(self.txt_grid_co2.text()).replace(",", "."))
+        except ValueError:
+            fator_da_rede = grid_factor_default()
+
+        valor = rotas_de_agua.co2_evitado_por_m3(chave, fator_da_rede)
+        self.txt_potable_co2.setText(f"{valor:.3f}")
+
+        procedencia = rotas_de_agua.procedencia_da_rota(chave)
+        partes = [procedencia.get("fonte", "")]
+        if procedencia.get("matriz_da_fonte"):
+            partes.append(tr("Matriz assumida pela fonte") + ": " + procedencia["matriz_da_fonte"] + ".")
+        if procedencia.get("observacao"):
+            partes.append(procedencia["observacao"])
+        self.lbl_rota_fonte.setText(" ".join(x for x in partes if x))
 
     def _apply_material_preset(self, combo, density_field, co2_field):
         key = combo.currentData() or "PEAD"
@@ -804,9 +854,13 @@ class TabEnvironmental(QWidget):
         default_cv = 0.5
         self.txt_pump_cv = QLineEdit(f"{default_cv:.2f}")
         self.txt_pump_co2 = QLineEdit(f"{PUMP_EMBEDDED_CO2.get(default_cv, 18.0):.1f}")
-        self.txt_pump_kwh = QLineEdit("0.085")
+        # Até a versão 5.0.7 este campo nascia com 0,085 — o fator da rede
+        # elétrica, copiado da linha seguinte. São grandezas diferentes, e o
+        # padrão do modelo é 0,40 kWh/m³: a interface partia de um valor 4,7×
+        # menor que o do motor.
+        self.txt_pump_kwh = QLineEdit(f"{PumpInput.specific_kwh_per_m3:.2f}")
 
-        self.txt_grid_co2 = QLineEdit("0.085")
+        self.txt_grid_co2 = QLineEdit(f"{grid_factor_default():.4f}")
         self.txt_potable_co2 = QLineEdit("0.350")
         # Dose e fator ficam separados para tornar a massa anual de cloro
         # auditável; os padrões equivalem a 0,050 kg CO2e/m³.
@@ -1099,7 +1153,7 @@ class TabEnvironmental(QWidget):
         pump_co2 = None if abs(pump_co2_val - PUMP_EMBEDDED_CO2.get(pump_cv, pump_co2_val)) < 0.1 else pump_co2_val
 
         annual_pump_kwh = 0.0
-        specific_kwh = parse_f(self.txt_pump_kwh.text(), 0.085)
+        specific_kwh = parse_f(self.txt_pump_kwh.text(), PumpInput.specific_kwh_per_m3)
         pump_count = 1
 
         if cfg is not None:
@@ -1132,7 +1186,7 @@ class TabEnvironmental(QWidget):
             pump=pump,
             pump_count=pump_count,
             annual_pump_kwh=annual_pump_kwh,
-            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), 0.085),
+            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), grid_factor_default()),
             potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350),
             chlorine_dose_mg_l=parse_f(self.txt_chlorine_dose.text(), 2.0),
             chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), 25.0),

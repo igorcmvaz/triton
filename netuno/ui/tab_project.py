@@ -129,7 +129,7 @@ class TabProject(QWidget):
 
         lbl_desc = QLabel(tr(
             "Selecione uma das 652 cidades brasileiras da Base Climatológica Nacional (CMIP6 com modelos GCMs e projeções climáticas) "
-            "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores ETCCDI."
+            "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores pluviométricos."
         ))
         lbl_desc.setWordWrap(True)
         lbl_desc.setStyleSheet(f"color: {muted_color}; font-size: 12px; margin-bottom: 2px;")
@@ -459,7 +459,7 @@ class TabProject(QWidget):
             self.table_indices_summary.horizontalScrollBar().setValue
         )
         self.table_indices.horizontalHeader().sectionResized.connect(self._sync_summary_column_widths)
-        self.tab_widget.addTab(w_table_years, tr("📋 Tabela Detalhada Ano a Ano (ETCCDI)"))
+        self.tab_widget.addTab(w_table_years, tr("📋 Tabela Detalhada Ano a Ano"))
 
         # Sub-aba 3: Pré-visualização Diária (First Flush)
         w_daily = QWidget()

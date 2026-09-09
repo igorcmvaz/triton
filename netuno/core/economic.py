@@ -4,6 +4,7 @@ from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
 from netuno.core.simulation import SingleTankSimulationResult
 
 
@@ -351,10 +352,18 @@ def run_economic_analysis(
         
     # 2.1 Chlorination / Chemical Treatment Cost (OPEX)
     chlorine_enabled = getattr(config, 'chlorine_treatment_enabled', True)
-    dose_mg_l = getattr(config, 'chlorine_dose_mg_l', 2.0)
+    dose_mg_l = getattr(config, 'chlorine_dose_mg_l', DOSE_PADRAO_MG_POR_LITRO)
     cost_per_kg_cl2 = getattr(config, 'chlorine_cost_per_kg', 25.0)
-    
-    monthly_cl2_kg = (vol_pluv_m3_month * dose_mg_l / 1000.0) if chlorine_enabled else 0.0
+
+    # O que se compra e o PRODUTO (pastilha a 65% de cloro ativo), nao o cloro
+    # puro, e o preco em R$/kg e do produto. Ate a 5.0.7 esta conta usava a massa
+    # de cloro ativo, subestimando o custo em 1/0,65 - cerca de 35%. A conversao
+    # vem da cadeia unica em netuno/core/chlorination.py.
+    _cloracao = Cloracao(
+        dose_mg_por_litro=max(0.0, float(dose_mg_l)),
+        pureza=max(1e-6, float(getattr(config, 'chlorine_product_purity', PUREZA_PADRAO))),
+    )
+    monthly_cl2_kg = _cloracao.massa_anual_de_produto_kg(vol_pluv_m3_month) if chlorine_enabled else 0.0
     monthly_cl2_cost_base = monthly_cl2_kg * cost_per_kg_cl2
     annual_cl2_kg = monthly_cl2_kg * 12.0
     annual_cl2_cost = monthly_cl2_cost_base * 12.0
