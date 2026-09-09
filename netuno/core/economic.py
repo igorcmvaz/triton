@@ -12,6 +12,8 @@ from netuno.core.pump_hydraulics import (
     vazao_l_por_h,
 )
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
+from netuno.core.etap_integration import dimensionar_etap_do_projeto
+from netuno.core.cost_estimates import verba_generica_de_tratamento_brl
 from netuno.core.simulation import SingleTankSimulationResult
 
 
@@ -122,6 +124,12 @@ class EconomicAnalysisResult:
     monthly_pump_cost_brl: float = 0.0
     annual_pump_cost_brl: float = 0.0
     annual_chlorine_cost_brl: float = 0.0
+    # Linha de tratamento (ETAP). O investimento entra no CAPEX e o custeio
+    # anual, descontada a cloracao ja contabilizada, entra no fluxo de caixa.
+    etap_capex_brl: float = 0.0
+    annual_etap_opex_brl: float = 0.0
+    etap_disinfection_method: str = ""
+    etap_disinfection_stages: List[str] = field(default_factory=list)
     annual_iptu_savings_brl: float = 0.0
     annual_chlorine_kg: float = 0.0
     monthly_cash_flows: List[MonthlyCashFlowItem] = field(default_factory=list)
@@ -383,6 +391,10 @@ def run_economic_analysis(
             config.elec_tax_fixed
         )
         
+    # Volume pluvial anual efetivamente aproveitado, base de dimensionamento da
+    # linha de tratamento e da dosagem.
+    annual_pluvial_m3 = vol_pluv_m3_month * 12.0
+
     # 2.1 Chlorination / Chemical Treatment Cost (OPEX)
     chlorine_enabled = getattr(config, 'chlorine_treatment_enabled', True)
     dose_mg_l = getattr(config, 'chlorine_dose_mg_l', DOSE_PADRAO_MG_POR_LITRO)
@@ -400,6 +412,27 @@ def run_economic_analysis(
     monthly_cl2_cost_base = monthly_cl2_kg * cost_per_kg_cl2
     annual_cl2_kg = monthly_cl2_kg * 12.0
     annual_cl2_cost = monthly_cl2_cost_base * 12.0
+
+    # 2.1.1 Linha de tratamento (ETAP)
+    #
+    # A escolha feita na aba de Qualidade da Agua - classe alvo, desinfeccao e
+    # filtro de polimento - chega aqui pela configuracao. O investimento entra no
+    # CAPEX; do custeio anual desconta-se a cloracao, que as linhas acima ja
+    # custeiam, de modo que o hipoclorito e pago uma vez so.
+    etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3=annual_pluvial_m3, sim_result=sim_result)
+    if getattr(config, 'etap_enabled', True):
+        # «Acessorios» ja traz uma verba de filtracao e tratamento. A linha
+        # dimensionada a substitui, de modo que so a diferenca e custo novo -
+        # e o desconto so se aplica quando ha acessorios orcados.
+        verba = verba_generica_de_tratamento_brl(getattr(config, 'building_typology', 'UTI'))
+        deslocavel = verba if float(getattr(config, 'cost_accessories', 0.0)) > 0 else 0.0
+        etap_capex = max(0.0, etap.capex - deslocavel)
+        annual_etap_opex = etap.opex_anual_sem_cloro
+    else:
+        etap_capex = 0.0
+        annual_etap_opex = 0.0
+    monthly_etap_opex_base = annual_etap_opex / 12.0
+    capex += etap_capex
 
     # 2.2 Benefício Fiscal do IPTU Verde
     iptu_enabled = getattr(config, 'iptu_green_enabled', False)
@@ -483,11 +516,15 @@ def run_economic_analysis(
                 
         # Chlorination chemical consumable cost indexed to inflation
         cl2_cost = monthly_cl2_cost_base * inf_factor
+
+        # Custeio da ETAP sem a cloracao: lampada germicida, energia do reator,
+        # refil do filtro de polimento. Indexado a inflacao como os demais O&M.
+        etap_cost = monthly_etap_opex_base * inf_factor
         
         # IPTU Verde savings
         iptu_s = monthly_iptu_savings_base * inf_factor
         
-        net_s = w_savings - p_cost - om_cost - cl2_cost + iptu_s
+        net_s = w_savings - p_cost - om_cost - cl2_cost - etap_cost + iptu_s
         disc_net_s = net_s / ((1.0 + tma_monthly) ** m)
         cumulative_disc += disc_net_s
         
@@ -504,7 +541,7 @@ def run_economic_analysis(
             water_savings=w_savings,
             pump_energy_kwh=monthly_pump_kwh_base,
             pump_cost=p_cost,
-            om_cost=om_cost,
+            om_cost=om_cost + etap_cost,
             chlorine_cost=cl2_cost,
             iptu_savings=iptu_s,
             net_savings=net_s,
@@ -529,7 +566,7 @@ def run_economic_analysis(
         payback_years=payback_yrs,
         capex_total=capex,
         annual_water_savings_brl=monthly_water_savings_base * 12.0,
-        annual_opex_brl=(monthly_pump_cost_base * 12.0) + annual_cl2_cost,
+        annual_opex_brl=(monthly_pump_cost_base * 12.0) + annual_cl2_cost + annual_etap_opex,
         monthly_pump_kwh=monthly_pump_kwh_base,
         annual_pump_kwh=monthly_pump_kwh_base * 12.0,
         monthly_pump_cost_brl=monthly_pump_cost_base,
@@ -537,7 +574,11 @@ def run_economic_analysis(
         annual_chlorine_cost_brl=annual_cl2_cost,
         annual_iptu_savings_brl=annual_iptu_savings_base,
         annual_chlorine_kg=annual_cl2_kg,
-        monthly_cash_flows=cash_flows
+        monthly_cash_flows=cash_flows,
+        etap_capex_brl=etap_capex,
+        annual_etap_opex_brl=annual_etap_opex,
+        etap_disinfection_method=etap.metodo,
+        etap_disinfection_stages=etap.estagios,
     )
 
 

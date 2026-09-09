@@ -241,6 +241,10 @@ class NetunoConfig:
     water_quality_target_class: str = "classe_1"
     water_quality_disinfection: str = "cloro"   # "cloro", "uv", "ozonio", "nenhum"
     water_quality_polishing: bool = False
+    # Desligar devolve o comportamento da 5.0.7, em que a linha de tratamento
+    # nao entrava no investimento nem no custeio. Serve para reproduzir estudos
+    # anteriores, e para hipoteses de CAPEX nulo.
+    etap_enabled: bool = True
     
     # Chlorination / Chemical Disinfection Treatment
     chlorine_treatment_enabled: bool = True

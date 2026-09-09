@@ -17,6 +17,7 @@ from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
 from netuno.core.water_quality import (
     calculate_first_flush_washoff, size_etap, WATER_QUALITY_CLASSES, FirstFlushAnalysis
 )
+from netuno.core.etap_integration import volume_pluvial_anual_m3
 
 
 class TabWaterQuality(QWidget):
@@ -190,7 +191,7 @@ class TabWaterQuality(QWidget):
         # 3. Filtro de Polimento
         lay_etap.addWidget(QLabel(f"<b>{tr('3. Polimento Físico:')}</b>"), 3, 0)
         self.chk_polishing = QCheckBox(tr("Incluir Filtro de Polimento Fino (Carvão Ativado / Areia Multicamada)"))
-        self.chk_polishing.toggled.connect(self.recalculate_all)
+        self.chk_polishing.toggled.connect(self.on_polishing_changed)
         lay_etap.addWidget(self.chk_polishing, 3, 1)
 
         lay.addWidget(gb_etap)
@@ -319,8 +320,17 @@ class TabWaterQuality(QWidget):
 
         if class_obj.exige_filtracao_fina:
             self.chk_polishing.setChecked(True)
+        self.config.water_quality_polishing = self.chk_polishing.isChecked()
 
         self.recalculate_all()
+        self.water_quality_updated.emit()
+
+    def on_polishing_changed(self):
+        # O campo existia e nunca era escrito: marcar o filtro nao alterava o
+        # investimento nem a emissao vistos pelos demais modulos.
+        self.config.water_quality_polishing = self.chk_polishing.isChecked()
+        self.recalculate_all()
+        self.water_quality_updated.emit()
 
     def on_disinfection_changed(self):
         method = self.combo_disinf.currentData() or "cloro"
@@ -331,6 +341,34 @@ class TabWaterQuality(QWidget):
         if hasattr(self, 'gb_cl_calc'):
             self.gb_cl_calc.setVisible(is_cloro)
         self.recalculate_all()
+        self.water_quality_updated.emit()
+
+    def _simulacao_corrente(self):
+        """O resultado da simulação de volume único, quando já houve uma."""
+        mw = self.main_window
+        if mw is None or not hasattr(mw, 'tab_tanks_simulation'):
+            return None
+        return getattr(mw.tab_tanks_simulation, 'last_single_result', None)
+
+    def _precipitacao_anual_mm(self, padrao: float = 1500.0) -> float:
+        """Precipitação média anual da série carregada.
+
+        Estava fixa em 1.500 mm no cálculo de wash-off, o que fazia o volume
+        anual de descarte ser o mesmo em Manaus e em Caxias do Sul.
+        """
+        mw = self.main_window
+        if mw is None or not hasattr(mw, 'tab_tanks_simulation'):
+            return padrao
+        dados = getattr(mw.tab_tanks_simulation, 'precip_data', None)
+        if dados is None or len(dados) == 0:
+            return padrao
+        try:
+            total = float(sum(float(v) for v in dados))
+            anos = max(1.0, len(dados) / 365.25)
+            media = total / anos
+        except (TypeError, ValueError):
+            return padrao
+        return media if media > 0 else padrao
 
     def recalculate_all(self):
         # Sincroniza com a Etapa 1 (Projeto e Chuva)
@@ -352,11 +390,17 @@ class TabWaterQuality(QWidget):
         if hasattr(self, 'lbl_discard_info'):
             self.lbl_discard_info.setText(f"💧 {tr('Lâmina de Descarte Configurada:')} {format_ptbr(discard_val, 1)} mm")
 
+        # A precipitacao anual e o volume pluvial saem da simulacao carregada.
+        # Estavam fixos em 1.500 mm e 120 m3/ano, de modo que a linha de
+        # tratamento era dimensionada para um projeto imaginario.
+        sim_result = self._simulacao_corrente()
+        precip_anual = self._precipitacao_anual_mm()
+
         # 1. Análise Wash-off
         ff_res: FirstFlushAnalysis = calculate_first_flush_washoff(
             discard_mm=discard_val,
             roof_area_m2=roof_area,
-            annual_precipitation_mm=1500.0,
+            annual_precipitation_mm=precip_anual,
             roof_runoff_coeff=getattr(self.config, 'runoff_coeff', 0.85),
         )
 
@@ -372,13 +416,17 @@ class TabWaterQuality(QWidget):
         # 2. Dimensionamento ETAP
         class_id = self.combo_class.currentData() or "classe_1"
         disinf_method = self.combo_disinf.currentData() or "cloro"
-        dose_cl = parse_float(self.txt_cl_dose.text().replace(',', '.'), 1.5)
+        dose_cl = parse_float(self.txt_cl_dose.text().replace(',', '.'),
+                              getattr(self.config, 'chlorine_dose_mg_l', 1.5))
         include_pol = self.chk_polishing.isChecked()
 
-        # Consumo anual aproximado de água pluvial
-        sim_pluv_m3 = getattr(self.config, 'annual_pluvial_consumed_m3', 120.0)
-        if sim_pluv_m3 <= 0:
-            sim_pluv_m3 = 120.0
+        # A dose digitada aqui e a do projeto: sem esta linha, o economico e a
+        # ACV seguiam com a dose padrao enquanto a tela mostrava outra.
+        self.config.chlorine_dose_mg_l = max(0.0, dose_cl)
+        self.config.water_quality_polishing = include_pol
+
+        # Consumo anual de água pluvial, medido pela simulação quando existe.
+        sim_pluv_m3 = volume_pluvial_anual_m3(self.config, sim_result)
 
         etap_res = size_etap(
             target_class_id=class_id,
@@ -387,7 +435,12 @@ class TabWaterQuality(QWidget):
             disinfection_choice=disinf_method,
             include_polishing_filter=include_pol,
             chlorine_dose_mg_l=dose_cl,
-            chlorine_kg_price_brl=38.0,
+            # O preco estava fixo em R$ 38,00/kg enquanto o modulo economico
+            # usava `chlorine_cost_per_kg`, de 25,00: a mesma cloracao custava
+            # dois valores diferentes no mesmo projeto.
+            chlorine_kg_price_brl=getattr(self.config, 'chlorine_cost_per_kg', 25.0),
+            chlorine_product_purity=getattr(self.config, 'chlorine_product_purity', 0.65),
+            chlorine_co2_kg_per_kg=getattr(self.config, 'chlorine_co2_kg_per_kg', 1.85),
             regional_factor=1.0,
         )
 

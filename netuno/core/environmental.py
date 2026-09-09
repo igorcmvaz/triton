@@ -20,6 +20,10 @@ from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
 from netuno.core.water_supply_routes import ROTA_PADRAO as ROTA_PADRAO_DA_AGUA
 from netuno.core.water_supply_routes import co2_evitado_por_m3 as _co2_evitado_por_m3
+from netuno.core.etap_integration import (
+    AREA_DE_RECURSO_M2,
+    dimensionar_etap_do_projeto,
+)
 
 
 def grid_factor_default() -> float:
@@ -407,6 +411,19 @@ class EnvironmentalConfig:
     chemical_treatment_co2_m3: Optional[float] = None
     system_lifespan_years: float = 20.0          # Vida útil considerada (anos)
 
+    # Linha de tratamento (ETAP). Estes três campos são a escolha feita na aba
+    # de Qualidade da Água. Até a versão 5.0.7 eles existiam apenas em
+    # `NetunoConfig`, eram escritos pela interface e não eram lidos por ninguém:
+    # optar por ultravioleta não alterava emissão nem custo. Ver
+    # `netuno/core/etap_integration.py`.
+    water_quality_target_class: str = "classe_1"
+    water_quality_disinfection: str = "cloro"    # "cloro", "uv", "ozonio"
+    water_quality_polishing: bool = False
+    roof_area_m2: float = AREA_DE_RECURSO_M2     # dimensiona o filtro de entrada
+    # Desligar devolve o comportamento da 5.0.7, em que o tratamento era só a
+    # cloração. Serve para reproduzir estudos anteriores, não para uso corrente.
+    etap_enabled: bool = True
+
     def __post_init__(self):
         if self.material_key is not None:
             self.lower_material_key = self.material_key
@@ -434,7 +451,9 @@ class EnvironmentalResult:
     pump_embodied_co2_kg: float          # CO2 de fabricação da bomba (kg CO2e)
     total_embodied_co2_kg: float         # CO2 inicial total (kg CO2e)
     annual_pumping_co2_kg: float         # CO2 anual de bombeamento (kg CO2e / ano)
-    annual_treatment_co2_kg: float       # CO2 anual de dosagem química (kg CO2e / ano)
+    annual_treatment_co2_kg: float       # CO2 anual da linha de tratamento (kg CO2e / ano),
+                                          # inclui a cloração e, quando houver,
+                                          # ultravioleta, ozônio e polimento
     annual_chlorine_kg: float             # Massa anual de PRODUTO comercial (kg/ano),
                                           # ja corrigida pela pureza - e o que se compra
     chlorine_dose_mg_l: float             # Dose adotada para o inventário (mg Cl2/L)
@@ -447,6 +466,11 @@ class EnvironmentalResult:
     specific_co2_avoided_g_per_liter: float # CO2 evitado por litro de chuva (g CO2e / L)
     is_environmentally_viable: bool
     inventory_items: List[LCAItemBreakdown] = field(default_factory=list)
+    # Parcela da linha de tratamento que NAO e a cloracao: reator ultravioleta,
+    # ozonizador e filtro de polimento. Zero quando so ha cloracao.
+    etap_extra_co2_kg_yr: float = 0.0
+    etap_capex_brl: float = 0.0
+    etap_disinfection_stages: List[str] = field(default_factory=list)
 
 
 def empty_environmental_result() -> EnvironmentalResult:
@@ -598,7 +622,12 @@ def calculate_lca(
         source_reference="Fator de rede editável; usar a série MCTI/SIRENE do período do estudo"
     ))
 
-    # 6. Operação Anual (Tratamento Químico / Cloração no Reservatório Superior)
+    # 6. Operação Anual (linha de tratamento: cloração e, quando houver, as
+    #    barreiras adicionais dimensionadas pela ETAP)
+    etap_extra_co2 = 0.0
+    etap_capex = 0.0
+    etap_stages: List[str] = []
+    pluvial_cl2_base = 0.0
     if config.upper_tank_used:
         chlorine_dose_mg_l = max(0.0, float(config.chlorine_dose_mg_l))
         chlorine_co2_kg_per_kg = max(0.0, float(config.chlorine_co2_kg_per_kg))
@@ -621,6 +650,21 @@ def calculate_lca(
             else calculated_treatment_factor
         )
         annual_treatment_co2 = pluvial_cl2_base * treatment_co2_factor
+
+        # A ETAP substitui este termo, e nao se soma a ele. O total dela ja
+        # contem o hipoclorito; somar contaria o cloro duas vezes.
+        #
+        # O campo legado `chemical_treatment_co2_m3` continua tendo precedencia,
+        # porque projetos antigos informavam a intensidade diretamente e trocar
+        # o numero por baixo mudaria resultados ja publicados.
+        if getattr(config, 'etap_enabled', True) and config.chemical_treatment_co2_m3 is None:
+            etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3=pluvial_cl2_base)
+            annual_treatment_co2 = etap.co2e_anual
+            etap_extra_co2 = etap.co2e_anual_sem_cloro
+            etap_capex = etap.capex
+            etap_stages = etap.estagios
+            treatment_co2_factor = annual_treatment_co2 / max(1e-9, pluvial_cl2_base)
+            annual_chlorine_kg = etap.resultado.annual_chlorine_kg
     else:
         chlorine_dose_mg_l = 0.0
         chlorine_co2_kg_per_kg = 0.0
@@ -629,14 +673,21 @@ def calculate_lca(
         annual_treatment_co2 = 0.0
 
     if annual_treatment_co2 > 0:
+        if etap_stages:
+            categoria = "Linha de Tratamento (ETAP)"
+            fonte = ("Estágios: " + "; ".join(etap_stages) +
+                     ". Dimensionamento em netuno/core/water_quality.py")
+        else:
+            categoria = "Dosagem Química / Desinfecção (Caixa Superior)"
+            fonte = "Dosagem no reservatório superior configurada pelo usuário"
         items.append(LCAItemBreakdown(
-            category="Dosagem Química / Desinfecção (Caixa Superior)",
-            quantity_str=(f"{pluvial_cl2_base:.1f} m³/ano; {annual_chlorine_kg:.3f} kg Cl2/ano "
-                          f"({chlorine_dose_mg_l:.2f} mg/L; {treatment_co2_factor:.3f} kg CO2e/m³)"),
+            category=categoria,
+            quantity_str=(f"{pluvial_cl2_base:.1f} m³/ano; {annual_chlorine_kg:.3f} kg produto/ano "
+                          f"({chlorine_dose_mg_l:.2f} mg Cl2/L; {treatment_co2_factor:.3f} kg CO2e/m³)"),
             embodied_co2_kg=0.0,
             annual_op_co2_kg=annual_treatment_co2,
             lifetime_net_co2_kg=annual_treatment_co2 * config.system_lifespan_years,
-            source_reference="Dosagem no reservatório superior configurada pelo usuário"
+            source_reference=fonte
         ))
 
     # 7. Operação Anual Evitada (Água Potável da Rede Pública)
@@ -687,7 +738,10 @@ def calculate_lca(
         environmental_payback_years=env_payback,
         specific_co2_avoided_g_per_liter=specific_co2_avoided_g_l,
         is_environmentally_viable=is_viable,
-        inventory_items=items
+        inventory_items=items,
+        etap_extra_co2_kg_yr=etap_extra_co2,
+        etap_capex_brl=etap_capex,
+        etap_disinfection_stages=etap_stages,
     )
 
 

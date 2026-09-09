@@ -16,6 +16,10 @@ def test_financial_invariants_zero_investment():
     config.cost_piping = 0.0
     config.cost_accessories = 0.0
     config.pump_unit_cost = 0.0
+    # A hipotese e de investimento nulo, e a linha de tratamento e investimento:
+    # o filtro de entrada e o dosador custam R$ 930 mesmo na configuracao minima.
+    # Desliga-la faz parte de zerar o CAPEX, e nao e um contorno do teste.
+    config.etap_enabled = False
     config.water_tariffs = [(0, 9999, 10.0, 0)]
     config.sewage_rate = 0.0
 

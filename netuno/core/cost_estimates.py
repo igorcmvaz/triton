@@ -188,6 +188,23 @@ def load_costs_database() -> Dict[str, Any]:
     }
 
 
+def verba_generica_de_tratamento_brl(typology: str = "UTI") -> float:
+    """Verba de filtracao e tratamento ja embutida em «Acessorios».
+
+    O estimador consolida painel, sensores, tratamento e desconexao em um unico
+    campo de acessorios. Quando a ETAP e dimensionada, ela substitui a parcela de
+    tratamento desse pacote, e so a diferenca e investimento novo. Sem este
+    desconto o filtro apareceria duas vezes no CAPEX.
+    """
+    db = load_costs_database()
+    cfgs = db.get("typology_subsystems_configs", _DEFAULT_TYPOLOGY_CONFIGS)
+    cfg = cfgs.get(str(typology).upper(), cfgs.get("UTI", {}))
+    try:
+        return max(0.0, float(cfg.get("treatment_filtration_cost", 350.0)))
+    except (TypeError, ValueError):
+        return 350.0
+
+
 def save_costs_database(data: Dict[str, Any]) -> bool:
     """Salva dados customizados no arquivo JSON de custos."""
     try:

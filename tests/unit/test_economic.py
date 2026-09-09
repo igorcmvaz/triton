@@ -234,7 +234,12 @@ def test_economic_vpl_and_payback_favorable():
     
     econ = run_economic_analysis(config, sim_res)
     
-    assert econ.capex_total == 2300.0
+    # O CAPEX passou a conter a linha de tratamento, que ate a 5.0.7 era
+    # dimensionada e descartada. A soma dos seis campos de custo continua sendo
+    # a base; a ETAP e a parcela nova, e o teste a nomeia em vez de congelar o
+    # total, para que trocar o filtro de entrada nao quebre o caso.
+    assert econ.etap_capex_brl > 0.0
+    assert econ.capex_total == pytest.approx(2300.0 + econ.etap_capex_brl)
     assert len(econ.monthly_cash_flows) == 240
     assert econ.vpl > 0.0
     assert econ.payback_months is not None
@@ -272,7 +277,7 @@ def test_economic_unfavorable_scenario_negative_vpl():
     econ = run_economic_analysis(config, sim_res)
     
     # Configuração inicial inclui bomba principal e reserva.
-    assert econ.capex_total == 90000.0
+    assert econ.capex_total == pytest.approx(90000.0 + econ.etap_capex_brl)
     assert econ.vpl < 0.0
     assert econ.payback_months is None
     assert econ.payback_years is None

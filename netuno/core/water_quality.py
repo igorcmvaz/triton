@@ -261,6 +261,8 @@ def size_etap(
     chlorine_kg_price_brl: float = 38.0,
     regional_factor: float = 1.0,
     grid_co2_factor_kg_kwh: Optional[float] = None,
+    chlorine_product_purity: float = PUREZA_PADRAO,
+    chlorine_co2_kg_per_kg: float = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
 ) -> EtapSizingResult:
     """
     Dimensiona os equipamentos e insumos químicos da ETAP.
@@ -314,7 +316,14 @@ def size_etap(
     disinf_capex = base_dosador_capex * regional_factor
 
     dose = max(0.5, float(chlorine_dose_mg_l))
-    cloracao = Cloracao(dose_mg_por_litro=dose)
+    # A pureza e o fator vem do projeto, nao de valores fixos: sao os mesmos que
+    # o modulo economico e a ACV usam, e e essa identidade que permite descontar
+    # a parcela do cloro sem contar duas vezes.
+    cloracao = Cloracao(
+        dose_mg_por_litro=dose,
+        pureza=max(1e-6, float(chlorine_product_purity)),
+        fator_kg_co2e_por_kg_produto=max(0.0, float(chlorine_co2_kg_per_kg)),
+    )
     annual_chlorine_kg = cloracao.massa_anual_de_produto_kg(annual_vol)
     annual_chlorine_cost = annual_chlorine_kg * chlorine_kg_price_brl
     disinf_opex = annual_chlorine_cost
@@ -373,7 +382,9 @@ def size_etap(
         pre_filter_mesh_microns=pre_filter_mesh_microns,
         pre_filter_capex=tot_capex - (disinf_capex + polishing_capex),
         disinfection_method=method,
-        chlorine_dose_mg_l=chlorine_dose_mg_l if method == "cloro" else 0.0,
+        # A cloracao e sempre aplicada (4.6.5 da NBR 15527:2019 exige residual
+        # livre), de modo que a dose adotada vale para qualquer metodo escolhido.
+        chlorine_dose_mg_l=dose,
         annual_chlorine_kg=annual_chlorine_kg,
         annual_chlorine_cost_brl=annual_chlorine_cost,
         uv_power_watts=uv_watts,
