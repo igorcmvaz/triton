@@ -12,7 +12,8 @@ from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, format_ptbr
 from netuno.core.economic import run_economic_analysis, calculate_water_bill
 from netuno.core.tariffs_database import (
-    get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count
+    get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count,
+    search_cities
 )
 from netuno.core.cost_estimates import (
     LOWER_TANK_PRICE_TABLE, UPPER_TANK_PRICE_TABLE, estimate_preliminary_capex,
@@ -169,6 +170,22 @@ class DialogTariffs(QDialog):
         lbl_sel_info.setWordWrap(True)
         lbl_sel_info.setStyleSheet(f"font-size: 11px; font-weight: normal; color: {sub_text_color};")
         lay_city.addWidget(lbl_sel_info)
+
+        # Busca de municipio: a selecao exigia saber a UF de antemao, e a base
+        # tem 652 municipios de 27 estados. A busca varre nome, estado e
+        # prestadora de saneamento, e posiciona os dois combos no resultado.
+        row_busca = QHBoxLayout()
+        row_busca.setSpacing(6)
+        row_busca.addWidget(QLabel(f"<b>{tr('Buscar município:')}</b>"))
+        self.txt_busca_municipio = QLineEdit()
+        self.txt_busca_municipio.setPlaceholderText(
+            tr("Nome do município, estado ou prestadora (ex.: Joinville, CASAN)"))
+        self.txt_busca_municipio.textEdited.connect(self._buscar_municipio)
+        row_busca.addWidget(self.txt_busca_municipio, stretch=1)
+        self.lbl_busca_resultado = QLabel("")
+        self.lbl_busca_resultado.setStyleSheet("color: #475569; font-size: 11px;")
+        row_busca.addWidget(self.lbl_busca_resultado)
+        lay_city.addLayout(row_busca)
 
         row_sel = QHBoxLayout()
         row_sel.setSpacing(6)
@@ -428,6 +445,48 @@ class DialogTariffs(QDialog):
         self.combo_uf.currentIndexChanged.connect(self.on_uf_changed)
         self.combo_city.currentIndexChanged.connect(self.on_city_changed)
         self.combo_category.currentIndexChanged.connect(self.apply_city_tariffs)
+        self.update_city_preview()
+
+    def _buscar_municipio(self, texto: str):
+        """Posiciona os combos no primeiro municipio que casa com a busca.
+
+        Devolve o numero de resultados para que o usuario saiba que ha mais de
+        um, e nao se surpreenda com a escolha feita por ele.
+        """
+        consulta = (texto or "").strip()
+        if len(consulta) < 3:
+            self.lbl_busca_resultado.setText("")
+            return
+
+        achados = search_cities(consulta, limit=20)
+        if not achados:
+            self.lbl_busca_resultado.setText(tr("nenhum município encontrado"))
+            return
+
+        primeiro = achados[0]
+        uf = primeiro.get("uf", "")
+        municipio = primeiro.get("municipio", "")
+        if not uf or not municipio:
+            return
+
+        idx_uf = self.combo_uf.findData(uf)
+        if idx_uf < 0:
+            return
+
+        anterior = self._is_populating_ui
+        self._is_populating_ui = True
+        try:
+            self.combo_uf.setCurrentIndex(idx_uf)
+            self.populate_cities_for_current_uf(select_city=municipio)
+        finally:
+            self._is_populating_ui = anterior
+
+        prestadora = primeiro.get("prestador_saneamento", "")
+        sufixo = f" — {prestadora}" if prestadora else ""
+        extra = f" (+{len(achados) - 1})" if len(achados) > 1 else ""
+        self.lbl_busca_resultado.setText(f"{uf} · {municipio}{sufixo}{extra}")
+
+        self.apply_city_tariffs()
         self.update_city_preview()
 
     def populate_cities_for_current_uf(self, select_city=None):

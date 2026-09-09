@@ -290,6 +290,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
                         <tr><td>Consumo Médio Potável</td><td>{potable_day_str} L/dia</td></tr>
                         <tr><td>Volume Extravasado</td><td>{spill_day_str} L/dia</td></tr>
                         <tr><td>Garantia Plena (100%)</td><td class="val-bold">{sat_full_str}% dos dias</td></tr>
+                        <tr><td>Atendimento Nulo (0%)</td><td class="val-bold">{sat_null_str}% dos dias</td></tr>
                     </table>
                 </td>
                 <td>
@@ -467,6 +468,18 @@ def generate_environmental_html_report(
     # Cloração
     cl2_dose_str = format_ptbr(lca_result.chlorine_dose_mg_l, 2)
     cl2_kg_yr_str = format_ptbr(lca_result.annual_chlorine_kg, 3)
+
+    # Linha de tratamento: sem nomear os estagios, dois laudos com valores muito
+    # diferentes ficariam indistinguiveis.
+    estagios = list(getattr(lca_result, 'etap_disinfection_stages', []) or [])
+    if estagios:
+        etap_stages_html = (
+            "<div class=\"eq-box\"><b>"
+            + ('Linha de tratamento considerada:' if not is_en else 'Treatment train considered:')
+            + "</b> " + "; ".join(estagios) + ".</div>"
+        )
+    else:
+        etap_stages_html = ""
 
     # Tabela de itens do ICV
     # Convenção estrita: Emitido para a atmosfera = Positivo (+) / Vermelho (ruim)
@@ -785,7 +798,7 @@ def generate_environmental_html_report(
                 <tr>
                     <td class="val-red">+{embodied_co2_str} kg CO2e</td>
                     <td class="val-red">+{ann_pumping_co2_str} kg/ano</td>
-                    <td class="val-red">+{ann_treatment_co2_str} kg/ano ({cl2_kg_yr_str} kg Cl2/ano)</td>
+                    <td class="val-red">+{ann_treatment_co2_str} kg/ano ({cl2_kg_yr_str} kg produto/ano a {cl2_dose_str} mg Cl2/L)</td>
                     <td class="val-green">-{ann_avoided_co2_str} kg/ano</td>
                     <td class="{'val-green' if net_ann_co2_val >= 0 else 'val-red'}">{net_ann_co2_str} kg CO2e/ano</td>
                     <td class="val-bold">{payback_env_str}</td>
@@ -799,6 +812,8 @@ def generate_environmental_html_report(
             <i>{'Saldo 20 Anos (kg CO2e) = CO2 Incorporado (+) + [CO2 Bombeamento (+) + CO2 Cloração (+) - CO2 Evitado da Rede (-)] × 20 anos.' if not is_en else '20-Year Net Balance (kg CO2e) = Embodied CO2 (+) + [Pumping CO2 (+) + Treatment CO2 (+) - Avoided Grid Water (-)] × 20 yrs.'}</i>
             {'O payback ambiental representa o tempo necessário para que as emissões evitadas pela água pluvial compensem integralmente o carbono incorporado nos materiais.' if not is_en else 'Environmental payback represents the time required for operational avoided emissions to offset initial material embodied carbon.'}
         </div>
+
+        {etap_stages_html}
 
         {charts_html}
 

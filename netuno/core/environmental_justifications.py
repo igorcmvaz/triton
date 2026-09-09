@@ -353,6 +353,27 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
         calculation_basis="m_Cl2 = V_pluvial (m³/ano) × dose (mg/L) / 1000",
         notes="Use a dosagem adotada pelo projeto de tratamento ou uma análise de sensibilidade."
     ),
+    "chlorine_purity": ParameterJustification(
+        title="Pureza do produto clorado",
+        short_description="Massa de produto = massa de cloro ativo / pureza",
+        detailed_explanation=(
+            "A dose e prescrita em cloro ATIVO, e e o cloro ativo que desinfeta. "
+            "O que se compra, porem, e o PRODUTO comercial, e tanto o preco quanto "
+            "o fator de emissao sao por quilo de produto. A pureza faz a ponte "
+            "entre os dois.\n\n"
+            "Hipoclorito de calcio em pastilha: 0,65 kg de cloro ativo por kg de "
+            "produto. Hipoclorito de sodio liquido (agua sanitaria): cerca de 0,10. "
+            "Dicloroisocianurato de sodio: cerca de 0,56.\n\n"
+            "O efeito e de 1/pureza, e nao e pequeno: a mesma dose, a agua "
+            "sanitaria exige seis vezes mais produto que a pastilha."
+        ),
+        source_reference=(
+            "Teor declarado em rotulo dos produtos comerciais; "
+            "cadeia de conversao em netuno/core/chlorination.py"
+        ),
+        calculation_basis="m_produto = m_Cl2_ativo / pureza",
+        notes="Confira o teor no rotulo do produto adotado antes de editar."
+    ),
     "chlorine_co2": ParameterJustification(
         title="Fator de emissão do cloro",
         short_description="CO2e anual = massa anual de cloro × fator (kg CO2e/kg Cl2)",

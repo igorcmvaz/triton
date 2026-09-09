@@ -22,7 +22,8 @@ from netuno.core.parser import load_precipitation, parse_float, format_ptbr
 from netuno.core.calculator import IndicesCalculator
 from netuno.core.tariffs_database import get_available_ufs, get_cities_by_uf, get_city_data
 from netuno.core.climate_database import (
-    CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path
+    CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path,
+    get_available_climate_cities
 )
 from netuno.ui.translation import tr, get_current_theme
 from netuno.ui.date_picker import DatePickerLineEdit
@@ -537,7 +538,19 @@ class TabProject(QWidget):
         prev_blocked = self.combo_climate_city.blockSignals(True)
         self.combo_climate_city.clear()
 
+        # A lista vem da base tarifaria, e quem tem de ter arquivo e a base
+        # CLIMATICA. Ofertar uma cidade sem serie de precipitacao levaria o
+        # usuario a descobrir a falta so ao tentar simular.
         cities = get_cities_by_uf(uf_code)
+        try:
+            com_serie = set(get_available_climate_cities())
+        except Exception:
+            com_serie = set()
+        if com_serie:
+            filtradas = [c for c in cities if c in com_serie]
+            # Se o filtro esvaziar a lista, o problema esta na base climatica e
+            # nao na escolha do usuario: melhor ofertar tudo que nada.
+            cities = filtradas or cities
         for c in cities:
             self.combo_climate_city.addItem(c, c)
 

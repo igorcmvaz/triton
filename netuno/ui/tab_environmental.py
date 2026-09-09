@@ -26,6 +26,16 @@ from netuno.core.environmental import (
 )
 from netuno.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
 from netuno.core import water_supply_routes as rotas_de_agua
+from netuno.core.grid_emission_factors import (
+    BASE_PADRAO as BASE_PADRAO_DA_REDE,
+    bases_disponiveis as bases_de_rede_disponiveis,
+    fator_co2eq as fator_co2eq_da_base,
+    procedencia_da_base,
+)
+from netuno.core.chlorination import PUREZA_PADRAO as PUREZA_PADRAO_DO_CLORO
+from netuno.core.etap_integration import AREA_DE_RECURSO_M2
+from netuno.core.environmental import pump_embodied_co2_is_extrapolated
+from dataclasses import replace
 from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
 from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
@@ -37,7 +47,8 @@ from netuno.ui.justified_widgets import (
     JustifiedLineEdit, JustifiedComboBox, JustifiedCheckBox
 )
 from netuno.core.environmental_justifications import (
-    get_material_justification, get_operational_justification
+    get_material_justification, get_operational_justification,
+    get_pipe_justification, get_pump_justification
 )
 import numpy as np
 
@@ -238,7 +249,18 @@ class LCAParametersDialog(QDialog):
         self.txt_chlorine_dose = JustifiedLineEdit(self.tab_env.txt_chlorine_dose.text())
         self.txt_chlorine_dose.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
         self.txt_chlorine_dose.set_justification(get_operational_justification("chlorine_dose"))
-        form_l.addRow(QLabel(tr("Dosagem de Cloro (mg/L):")), self.txt_chlorine_dose)
+        form_l.addRow(QLabel(tr("Dosagem de Cloro (mg Cl2 ativo/L):")), self.txt_chlorine_dose)
+
+        # A dose e de cloro ATIVO; o que se compra e o PRODUTO. A pureza faz a
+        # ponte, e nao era editavel: valia sempre 65%, do hipoclorito de calcio
+        # em pastilha. Quem usa agua sanitaria (cerca de 10%) precisa de seis
+        # vezes mais produto para a mesma dose.
+        self.txt_chlorine_purity = JustifiedLineEdit(
+            f"{getattr(self.tab_env, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO):.2f}"
+        )
+        self.txt_chlorine_purity.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
+        self.txt_chlorine_purity.set_justification(get_operational_justification("chlorine_purity"))
+        form_l.addRow(QLabel(tr("Pureza do Produto (kg Cl2 ativo/kg):")), self.txt_chlorine_purity)
 
         self.txt_lifespan = JustifiedLineEdit(self.tab_env.txt_lifespan.text())
         form_l.addRow(QLabel(tr("Vida Útil do Projeto (anos):")), self.txt_lifespan)
@@ -275,6 +297,10 @@ class LCAParametersDialog(QDialog):
             val_str = self.tab_env.txt_pipes_co2[dn].text() if (hasattr(self.tab_env, 'txt_pipes_co2') and dn in self.tab_env.txt_pipes_co2) else f"{pipe_co2_factor(dn):.2f}"
             txt_co2 = JustifiedLineEdit(val_str)
             txt_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
+            # A justificativa existia e nao era exibida. Os quatro diametros
+            # documentados a recebem; os demais seguem sem nota propria, porque
+            # a massa linear vem da mesma tabela e nao ha texto especifico.
+            txt_co2.set_justification(get_pipe_justification(dn))
             self.txt_pipes_co2[dn] = txt_co2
             form_r.addRow(QLabel(tr(f"CO2 Tubo DN {dn} (kg CO2/m):")), txt_co2)
 
@@ -291,9 +317,28 @@ class LCAParametersDialog(QDialog):
         form_r.addRow(QLabel(tr("CO2 Motobomba (kg CO2/un):")), self.txt_pump_co2)
 
         # ── FATORES OPERACIONAIS ──
+        # ── BASE DO FATOR DA REDE ──
+        # As bases documentadas diferem em gas contabilizado e em fronteira:
+        # a serie do MCTI e CO2 apenas, e apenas da geracao; as demais sao
+        # CO2-equivalente com fronteira mais larga. Escolher a base reescreve o
+        # campo abaixo, e a procedencia fica a vista.
+        self.cmb_base_rede = QComboBox()
+        for _chave in sorted(bases_de_rede_disponiveis()):
+            self.cmb_base_rede.addItem(_chave, _chave)
+        _idx = self.cmb_base_rede.findData(BASE_PADRAO_DA_REDE)
+        if _idx >= 0:
+            self.cmb_base_rede.setCurrentIndex(_idx)
+        self.cmb_base_rede.currentIndexChanged.connect(self._aplicar_base_da_rede)
+        form_r.addRow(QLabel(tr("Base do fator da rede:")), self.cmb_base_rede)
+
         self.txt_grid_co2 = JustifiedLineEdit(self.tab_env.txt_grid_co2.text())
         self.txt_grid_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
         form_r.addRow(QLabel(tr("Matriz Elétrica (kg CO2/kWh):")), self.txt_grid_co2)
+
+        self.lbl_base_rede_fonte = QLabel("")
+        self.lbl_base_rede_fonte.setWordWrap(True)
+        self.lbl_base_rede_fonte.setStyleSheet("color: #475569; font-size: 11px;")
+        form_r.addRow("", self.lbl_base_rede_fonte)
 
         self.txt_chlorine_co2 = JustifiedLineEdit(self.tab_env.txt_chlorine_co2.text())
         self.txt_chlorine_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
@@ -335,6 +380,7 @@ class LCAParametersDialog(QDialog):
         self._update_upper_density_justification()
         self._update_upper_co2_justification()
         self._update_pump_co2_justification()
+        self._mostrar_procedencia_da_base()
 
         # ── BOTÕES DE SALVAR E CANCELAR ──
         btns = QHBoxLayout()
@@ -388,6 +434,45 @@ class LCAParametersDialog(QDialog):
             partes.append(procedencia["observacao"])
         self.lbl_rota_fonte.setText(" ".join(x for x in partes if x))
 
+    def _aplicar_base_da_rede(self):
+        """Reescreve o fator da rede com o valor da base escolhida.
+
+        As bases nao sao intercambiaveis: a serie do MCTI contabiliza CO2 apenas,
+        e apenas da geracao, ao passo que as demais sao CO2-equivalente com
+        fronteira mais larga. Trocar uma pela outra sem dizer qual e qual foi o
+        que produziu a divergencia de quase duas vezes entre modulos.
+        """
+        chave = self.cmb_base_rede.currentData()
+        if not chave or not hasattr(self, "txt_grid_co2"):
+            return
+
+        self.txt_grid_co2.setText(f"{fator_co2eq_da_base(chave):.4f}")
+        self._mostrar_procedencia_da_base()
+
+        # A rota da agua depende do fator da rede quando e dominada por energia.
+        if hasattr(self, "cmb_rota_agua"):
+            self._aplicar_rota_de_agua()
+
+    def _mostrar_procedencia_da_base(self):
+        """Escreve a fonte, o gas e a fronteira da base selecionada.
+
+        Separado de `_aplicar_base_da_rede` porque a abertura do dialogo precisa
+        do rotulo e NAO pode reescrever o fator: apagaria um valor que o usuario
+        tenha editado a mao.
+        """
+        chave = self.cmb_base_rede.currentData()
+        if not chave or not hasattr(self, "lbl_base_rede_fonte"):
+            return
+        proc = procedencia_da_base(chave)
+        partes = [proc.get("fonte", "")]
+        if proc.get("gas"):
+            partes.append(tr("Gás contabilizado") + ": " + str(proc["gas"]) + ".")
+        if proc.get("fronteira"):
+            partes.append(tr("Fronteira") + ": " + str(proc["fronteira"]) + ".")
+        if proc.get("observacao"):
+            partes.append(str(proc["observacao"]))
+        self.lbl_base_rede_fonte.setText(" ".join(x for x in partes if x))
+
     def _apply_material_preset(self, combo, density_field, co2_field):
         key = combo.currentData() or "PEAD"
         density, co2 = material_preset_values(key)
@@ -430,10 +515,37 @@ class LCAParametersDialog(QDialog):
             self.txt_upper_co2_kg.set_justification(just)
 
     def _update_pump_co2_justification(self):
-        """Atualiza o campo de CO2 da bomba (agora sem justificativa inline)."""
-        # Este método pode permanecer para manter compatibilidade com signals,
-        # mas não tenta mais acessar justificativas que foram movidas para documentação
-        pass
+        """Exibe a justificativa da emissão de fabricação da motobomba.
+
+        Era um `pass`: o método existia apenas para não quebrar os signals, e a
+        motobomba ficava sem justificativa visível — o único fator do módulo
+        ambiental cuja procedência continua sendo extrapolação aritmética a
+        partir do valor de meio cavalo. É o que a nota abaixo declara.
+        """
+        if not isinstance(getattr(self, "txt_pump_co2", None), JustifiedLineEdit):
+            return
+        try:
+            cv = float(str(self.txt_pump_cv.text()).replace(",", "."))
+        except (ValueError, AttributeError):
+            cv = 0.5
+
+        # O dicionário é indexado pelas seis potências comerciais; a mais
+        # próxima é a que descreve o valor exibido.
+        potencias = (0.25, 0.5, 0.75, 1.0, 1.5, 2.0)
+        proxima = min(potencias, key=lambda x: abs(x - cv))
+        just = get_pump_justification(proxima)
+
+        if just is not None and pump_embodied_co2_is_extrapolated(proxima):
+            just = replace(
+                just,
+                detailed_explanation=(
+                    "VALOR EXTRAPOLADO — a emissão de fabricação desta potência não foi "
+                    "medida nem publicada: resulta de escalonamento aritmético a partir "
+                    "do valor de 0,5 CV. Trate-a como ordem de grandeza.\n\n"
+                    + just.detailed_explanation
+                ),
+            )
+        self.txt_pump_co2.set_justification(just)
 
     def _on_lower_material_changed(self):
         self._apply_material_preset(self.combo_lower_mat, self.txt_lower_density, self.txt_lower_co2_kg)
@@ -472,7 +584,12 @@ class LCAParametersDialog(QDialog):
         self.txt_chlorine_dose.setText(te.txt_chlorine_dose.text())
         self.txt_chlorine_co2.setText(te.txt_chlorine_co2.text())
         self.txt_lifespan.setText(te.txt_lifespan.text())
-        
+        self.txt_chlorine_purity.setText(
+            f"{getattr(te, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO):.2f}")
+        _ib = self.cmb_base_rede.findData(getattr(te, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE))
+        if _ib >= 0:
+            self.cmb_base_rede.setCurrentIndex(_ib)
+
         # Atualiza justificativas após carregar os valores
         self._update_lower_density_justification()
         self._update_lower_co2_justification()
@@ -546,6 +663,15 @@ class LCAParametersDialog(QDialog):
         te.txt_chlorine_dose.setText(self.txt_chlorine_dose.text())
         te.txt_chlorine_co2.setText(self.txt_chlorine_co2.text())
         te.txt_lifespan.setText(self.txt_lifespan.text())
+
+        # A pureza e a base nomeada nao tem campo proprio na aba; ficam no
+        # estado dela, de onde `get_config` as le.
+        try:
+            te._pureza_do_cloro = max(0.01, min(1.0,
+                float(str(self.txt_chlorine_purity.text()).replace(',', '.'))))
+        except ValueError:
+            te._pureza_do_cloro = PUREZA_PADRAO_DO_CLORO
+        te._base_do_fator_da_rede = self.cmb_base_rede.currentData() or BASE_PADRAO_DA_REDE
 
         # Sincroniza todos os comprimentos de tubulação com a configuração global do projeto (CAPEX)
         cfg = getattr(te.window(), "config", None) if te.window() else None
@@ -1174,6 +1300,8 @@ class TabEnvironmental(QWidget):
             specific_kwh_per_m3=specific_kwh,
         )
 
+        proj_cfg = getattr(self.window(), 'config', None) if self.window() else None
+
         return EnvironmentalConfig(
             lower_material_key=lower_key,
             custom_lower_density_kg_m3=preset_or_none(lower_key, lower_density, "material_density_kg_per_m3_tank"),
@@ -1191,7 +1319,21 @@ class TabEnvironmental(QWidget):
             potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350),
             chlorine_dose_mg_l=parse_f(self.txt_chlorine_dose.text(), 2.0),
             chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
+            # A pureza e a base nomeada nao tem campo nesta aba: sao editadas no
+            # dialogo de parametros, que as deixa aqui. Sem esta linha o valor
+            # escolhido seria ignorado, que e o defeito que ele corrige.
+            chlorine_product_purity=max(0.01, min(1.0, float(
+                getattr(self, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO)))),
+            grid_co2_factor_basis=str(
+                getattr(self, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE)),
             system_lifespan_years=parse_f(self.txt_lifespan.text(), 20.0),
+            # A escolha de desinfeccao vem da Etapa 2 e atravessa ate aqui: e o
+            # que faz optar por ultravioleta mudar a emissao anual.
+            water_quality_target_class=str(getattr(proj_cfg, 'water_quality_target_class', 'classe_1')),
+            water_quality_disinfection=str(getattr(proj_cfg, 'water_quality_disinfection', 'cloro')),
+            water_quality_polishing=bool(getattr(proj_cfg, 'water_quality_polishing', False)),
+            roof_area_m2=float(getattr(proj_cfg, 'area', AREA_DE_RECURSO_M2) or AREA_DE_RECURSO_M2),
+            etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )
 
     def _on_env_volume_changed(self):
