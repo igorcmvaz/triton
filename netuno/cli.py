@@ -26,6 +26,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from netuno.core.economic import run_economic_analysis
+from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.environmental import (
     EnvironmentalConfig, MATERIAL_PRESETS, PipeInput, PumpInput, calculate_lca,
     grid_factor_default,
@@ -148,15 +149,15 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
         pipes.append({"diameter_mm": diameter, "length_m": length,
                       "custom_co2_per_m": factor if factor > 0 else None})
     legacy_treatment_factor = value("txt_treatment_co2", 0.0)
-    chlorine_dose = value("txt_chlorine_dose", 2.0)
+    chlorine_dose = value("txt_chlorine_dose", DOSE_PADRAO_MG_POR_LITRO)
     # Estados de interface anteriores guardavam apenas kg CO2e/m³. Ao ler
     # esses projetos, convertemos o fator para manter a emissão equivalente.
     if "txt_chlorine_co2" in text:
-        chlorine_factor = value("txt_chlorine_co2", 25.0)
+        chlorine_factor = value("txt_chlorine_co2", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO)
     elif legacy_treatment_factor > 0 and chlorine_dose > 0:
         chlorine_factor = legacy_treatment_factor / (chlorine_dose / 1000.0)
     else:
-        chlorine_factor = 25.0
+        chlorine_factor = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
     output["environmental"] = {
         "lower_material_key": material("combo_lower_mat", "PEAD"),
         "upper_material_key": material("combo_upper_mat", "PEAD"),
@@ -356,10 +357,10 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         material=str(pump_raw.get("material", "Ferro Fundido, Cobre & Alumínio")),
     )
     has_explicit_chlorine = "chlorine_dose_mg_l" in raw or "chlorine_co2_kg_per_kg" in raw
-    chlorine_dose = float(raw.get("chlorine_dose_mg_l", 2.0))
+    chlorine_dose = float(raw.get("chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO))
     legacy_treatment = None if has_explicit_chlorine else float(raw.get("chemical_treatment_co2_m3", 0.02))
     if has_explicit_chlorine:
-        chlorine_factor = float(raw.get("chlorine_co2_kg_per_kg", 25.0))
+        chlorine_factor = float(raw.get("chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO))
     elif chlorine_dose > 0:
         chlorine_factor = legacy_treatment / (chlorine_dose / 1000.0)
     else:
@@ -574,7 +575,8 @@ def _template_analysis() -> Dict[str, Any]:
         "environmental": {
             "lower_material_key": "PEAD", "upper_material_key": "PEAD",
             "grid_co2_factor_kg_kwh": grid_factor_default(), "potable_water_co2_kg_m3": 0.35,
-            "chlorine_dose_mg_l": 2.0, "chlorine_co2_kg_per_kg": 25.0,
+            "chlorine_dose_mg_l": DOSE_PADRAO_MG_POR_LITRO,
+            "chlorine_co2_kg_per_kg": FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
             "system_lifespan_years": 20,
             "pipes": [{"diameter_mm": 100, "length_m": 20}, {"diameter_mm": 50, "length_m": 15}],
             "pump": {"power_cv": 0.5, "specific_kwh_per_m3": 0.40},

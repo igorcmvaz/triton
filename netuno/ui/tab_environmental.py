@@ -26,6 +26,7 @@ from netuno.core.environmental import (
 )
 from netuno.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
 from netuno.core import water_supply_routes as rotas_de_agua
+from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.pump_energy import compute_annual_pump_energy, CV_TO_KW
 from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
 from netuno.ui.charts import (
@@ -864,8 +865,8 @@ class TabEnvironmental(QWidget):
         self.txt_potable_co2 = QLineEdit("0.350")
         # Dose e fator ficam separados para tornar a massa anual de cloro
         # auditável; os padrões equivalem a 0,050 kg CO2e/m³.
-        self.txt_chlorine_dose = QLineEdit("2.00")
-        self.txt_chlorine_co2 = QLineEdit("25.00")
+        self.txt_chlorine_dose = QLineEdit(f"{DOSE_PADRAO_MG_POR_LITRO:.2f}")
+        self.txt_chlorine_co2 = QLineEdit(f"{FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO:.2f}")
         self.txt_lifespan = QLineEdit("20")
 
     def _get_project_context(self):
@@ -1189,7 +1190,7 @@ class TabEnvironmental(QWidget):
             grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), grid_factor_default()),
             potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350),
             chlorine_dose_mg_l=parse_f(self.txt_chlorine_dose.text(), 2.0),
-            chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), 25.0),
+            chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
             system_lifespan_years=parse_f(self.txt_lifespan.text(), 20.0),
         )
 
