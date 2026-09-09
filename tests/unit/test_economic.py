@@ -80,8 +80,13 @@ def test_americana_residential_minimum_franchise_tariff():
 
 def test_preliminary_capex_and_maintenance_follow_system_configuration():
     estimates = estimate_preliminary_capex(5000.0, 500.0, True, 0.36775)
-    # 5.000 L é um ponto explícito da tabela interna de triagem (Fortlev/Acqualimp).
-    assert estimates["lower"] == pytest.approx(2899.0)
+    # 5.000 L é um ponto explícito da tabela de preços do banco de custos. O que
+    # se verifica é o vínculo com o banco, e não o número: o preço é de varejo e
+    # muda quando a fonte é atualizada, mas a estimativa tem de continuar
+    # devolvendo exatamente o valor tabelado nos pontos que existem na tabela.
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+    tabelado_5000 = dict(LOWER_TANK_PRICE_TABLE)[5000.0]
+    assert estimates["lower"] == pytest.approx(tabelado_5000)
     assert estimates["pump_unit"] >= 280.0
     assert estimates["labor"] > 0
     assert len(default_maintenance_items(True)) == 3
@@ -427,12 +432,15 @@ def test_material_cost_multipliers_and_tank_pricing():
         estimate_annual_chlorination_cost, estimate_preliminary_capex
     )
 
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+
     p_pead = estimate_tank_price_linear(5000.0, "PEAD")
     p_concreto = estimate_tank_price_linear(5000.0, "CONCRETO")
     p_prfv = estimate_tank_price_linear(5000.0, "PRFV")
     p_inox = estimate_tank_price_linear(5000.0, "ACO_INOX")
 
-    assert p_pead == pytest.approx(2899.0)
+    # O polietileno é a referência da tabela, e o multiplicador de material é 1.
+    assert p_pead == pytest.approx(dict(LOWER_TANK_PRICE_TABLE)[5000.0])
     assert p_prfv > p_pead
     assert p_concreto > p_prfv
     assert p_inox > p_concreto
@@ -504,8 +512,15 @@ def test_capex_dialog_opens_recalculated_for_every_sweep_volume(qapp):
 
     assert dialog.table_lower_costs.rowCount() == 4
     assert dialog.table_lower_costs.item(0, 0).text() == "0"
-    assert "449,90" in dialog.table_lower_costs.item(1, 1).text()
-    assert dialog.txt_upper.text() == "289,90"
+    # O diálogo mostra o preço tabelado para 1.000 L, formatado em pt-BR. O
+    # valor vem do banco de custos, e o teste o lê de lá em vez de congelá-lo.
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+    _esperado = f"{dict(LOWER_TANK_PRICE_TABLE)[1000.0]:.2f}".replace(".", ",")
+    assert _esperado in dialog.table_lower_costs.item(1, 1).text()
+    # A caixa superior padrao e de 500 L, e o preco tambem vem do banco.
+    from netuno.core.cost_estimates import UPPER_TANK_PRICE_TABLE
+    _esperado_sup = f"{dict(UPPER_TANK_PRICE_TABLE)[500.0]:.2f}".replace(".", ",")
+    assert dialog.txt_upper.text() == _esperado_sup
 
     pump_dialog = DialogMotobomba(config=config)
     assert pump_dialog.chk_backup_pump.isChecked()

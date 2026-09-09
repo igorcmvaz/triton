@@ -111,14 +111,55 @@ def co2_evitado_por_m3(chave: str = ROTA_PADRAO, fator_da_rede_kg_kwh: Optional[
     raise ValueError(f"Tipo de rota não reconhecido em {chave!r}: {tipo!r}")
 
 
+#: Valor de base do programa, em kg CO2e/m3. É o da rota padrão, e existe como
+#: constante para que a interface e os relatórios possam dizê-lo sem repetir o
+#: número. Escolhido por ficar logo abaixo das faixas publicadas para tratamento
+#: convencional, tanto com matriz europeia quanto com brasileira: subestimar o
+#: benefício do sistema pluvial é o erro conservador.
+BASE_DO_PROGRAMA_KG_M3 = 0.35
+
+_CAMPOS_DE_PROCEDENCIA = (
+    "fonte",
+    "doi_da_fonte",
+    "matriz_da_fonte",
+    "fronteira",
+    "tecnologia",
+    "fronteira_incompleta",
+    "observacao",
+    "faixa",
+    "aproximado",
+    "conservador",
+)
+
+
 def procedencia_da_rota(chave: str) -> Dict[str, Any]:
-    """Fonte, DOI, matriz assumida e ressalvas de uma rota."""
+    """Fonte, DOI, matriz, tecnologia, fronteira e ressalvas de uma rota.
+
+    A **tecnologia** e a **fronteira** são o que torna a escolha informada. Sem
+    elas, dois valores muito diferentes parecem discordar quando na verdade
+    descrevem a mesma coisa medida de dois jeitos: 0,236 e 0,394 kg CO2e/m3 são
+    o mesmo tratamento convencional brasileiro, um por m3 produzido na estação e
+    outro por m3 entregue na edificação, e o que os separa são as perdas de
+    distribuição.
+    """
     registro = rota(chave)
-    return {
-        campo: registro[campo]
-        for campo in ("fonte", "doi_da_fonte", "matriz_da_fonte", "observacao", "faixa", "aproximado", "conservador")
-        if campo in registro
-    }
+    return {campo: registro[campo] for campo in _CAMPOS_DE_PROCEDENCIA if campo in registro}
+
+
+def fronteira_e_incompleta(chave: str) -> bool:
+    """Diz se a rota declara fronteira parcial.
+
+    Uma rota assim subestima por construção, e não serve como estimativa central
+    da emissão evitada: ou foi publicada na porta da estação, sem as perdas de
+    distribuição, ou cobre apenas a energia, sem produtos químicos nem
+    infraestrutura. Continua no catálogo como limite inferior declarado.
+    """
+    return bool(rota(chave).get("fronteira_incompleta", False))
+
+
+def chaves_com_fronteira_completa() -> List[str]:
+    """As rotas que servem como estimativa central da emissão evitada."""
+    return [c for c in chaves_das_rotas() if not fronteira_e_incompleta(c)]
 
 
 def comparar_rotas(fator_da_rede_kg_kwh: Optional[float] = None) -> List[Dict[str, Any]]:

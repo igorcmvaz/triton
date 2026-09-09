@@ -353,6 +353,29 @@ class LCAParametersDialog(QDialog):
         # ── ROTA DA AGUA SUBSTITUIDA ──
         # A emissao evitada nao e propriedade do sistema pluvial: e propriedade
         # da agua que ele desloca. Escolher a rota reescreve o campo abaixo.
+        #
+        # O combo ja existia e reescrevia o numero em silencio. Quem nao
+        # conhecesse a literatura nao tinha como saber por que escolher uma rota
+        # e nao outra, nem qual e a base do programa.
+        _lbl_rota_ajuda = QLabel(tr(
+            "<b>Qual água o sistema substitui?</b> O CO₂ evitado por m³ não é uma constante "
+            "do sistema pluvial: é propriedade da água que ele deixa de consumir. Substituir "
+            "água dessalinizada vale dezenas de vezes mais do que substituir água de manancial "
+            "tratada por gravidade.<br><br>"
+            "A <b>base do programa é {base:.2f} kg CO₂e/m³</b>, de tratamento convencional. Foi "
+            "escolhida por ficar logo abaixo das faixas publicadas tanto com matriz europeia "
+            "(0,41 a 0,47, Garfí et al., 2016) quanto com matriz brasileira (0,336 a 0,461 por "
+            "macrorregião, Vaz et al., 2025): subestimar o benefício é o erro conservador.<br><br>"
+            "Escolha abaixo a rota que corresponde ao <b>tratamento do seu local</b>. Cada uma "
+            "declara fonte, tecnologia, matriz elétrica e fronteira do sistema."
+        ).format(base=rotas_de_agua.BASE_DO_PROGRAMA_KG_M3))
+        _lbl_rota_ajuda.setWordWrap(True)
+        _lbl_rota_ajuda.setStyleSheet(
+            "color: #334155; font-size: 11px; font-weight: normal; "
+            "background-color: #f1f5f9; border: 1px solid #cbd5e1; "
+            "border-radius: 4px; padding: 7px;"
+        )
+        form_r.addRow(_lbl_rota_ajuda)
         self.cmb_rota_agua = QComboBox()
         for _chave in rotas_de_agua.chaves_das_rotas():
             self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
@@ -361,6 +384,16 @@ class LCAParametersDialog(QDialog):
             self.cmb_rota_agua.setCurrentIndex(_padrao)
         self.cmb_rota_agua.currentIndexChanged.connect(self._aplicar_rota_de_agua)
         form_r.addRow(QLabel(tr("Água substituída pelo sistema:")), self.cmb_rota_agua)
+
+        self.lbl_rota_aviso = QLabel("")
+        self.lbl_rota_aviso.setWordWrap(True)
+        self.lbl_rota_aviso.setStyleSheet(
+            "color: #7c2d12; font-size: 11px; font-weight: bold; "
+            "background-color: #fef3c7; border: 1px solid #fbbf24; "
+            "border-radius: 4px; padding: 5px;"
+        )
+        self.lbl_rota_aviso.setVisible(False)
+        form_r.addRow("", self.lbl_rota_aviso)
 
         self.lbl_rota_fonte = QLabel("")
         self.lbl_rota_fonte.setWordWrap(True)
@@ -381,6 +414,7 @@ class LCAParametersDialog(QDialog):
         self._update_upper_co2_justification()
         self._update_pump_co2_justification()
         self._mostrar_procedencia_da_base()
+        self._mostrar_procedencia_da_rota()
 
         # ── BOTÕES DE SALVAR E CANCELAR ──
         btns = QHBoxLayout()
@@ -425,14 +459,49 @@ class LCAParametersDialog(QDialog):
 
         valor = rotas_de_agua.co2_evitado_por_m3(chave, fator_da_rede)
         self.txt_potable_co2.setText(f"{valor:.3f}")
+        self._mostrar_procedencia_da_rota()
+
+    def _mostrar_procedencia_da_rota(self):
+        """Escreve fonte, tecnologia, matriz e fronteira da rota selecionada.
+
+        Separado de `_aplicar_rota_de_agua` porque a abertura do diálogo precisa
+        do rótulo e NÃO pode reescrever o fator: apagaria um valor editado à mão.
+        """
+        chave = self.cmb_rota_agua.currentData()
+        if not chave or not hasattr(self, "lbl_rota_fonte"):
+            return
 
         procedencia = rotas_de_agua.procedencia_da_rota(chave)
-        partes = [procedencia.get("fonte", "")]
+        partes = []
+        if procedencia.get("tecnologia"):
+            partes.append(tr("Tecnologia") + ": " + str(procedencia["tecnologia"]) + ".")
+        if procedencia.get("faixa"):
+            _min, _max = procedencia["faixa"][0], procedencia["faixa"][-1]
+            partes.append(tr("Faixa publicada") + f": {_min:.3f} a {_max:.3f} kg CO2e/m3.")
+        partes.append(procedencia.get("fonte", ""))
         if procedencia.get("matriz_da_fonte"):
             partes.append(tr("Matriz assumida pela fonte") + ": " + procedencia["matriz_da_fonte"] + ".")
+        if procedencia.get("fronteira"):
+            partes.append(tr("Fronteira") + ": " + str(procedencia["fronteira"]))
         if procedencia.get("observacao"):
             partes.append(procedencia["observacao"])
         self.lbl_rota_fonte.setText(" ".join(x for x in partes if x))
+
+        # Rotas de fronteira parcial subestimam por construcao. Deixa-las
+        # escolhiveis sem aviso seria repetir, com outro nome, o defeito de
+        # publicar numero sem procedencia.
+        if hasattr(self, "lbl_rota_aviso"):
+            incompleta = rotas_de_agua.fronteira_e_incompleta(chave)
+            self.lbl_rota_aviso.setVisible(incompleta)
+            # Limpar o texto, e nao so esconder: um rotulo escondido que guarda
+            # o aviso da rota anterior mente sobre a rota atual.
+            self.lbl_rota_aviso.setText("")
+            if incompleta:
+                self.lbl_rota_aviso.setText(tr(
+                    "⚠ Fronteira incompleta. Esta rota subestima por construção e serve como "
+                    "LIMITE INFERIOR, não como estimativa central da emissão evitada. Para o "
+                    "valor central, use a base do programa ou uma das rotas de Vaz et al. (2025)."
+                ))
 
     def _aplicar_base_da_rede(self):
         """Reescreve o fator da rede com o valor da base escolhida.

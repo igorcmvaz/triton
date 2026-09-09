@@ -118,10 +118,12 @@ def test_gravar_o_banco_de_custos_preserva_o_que_foi_gravado(tmp_path, monkeypat
     """
     import netuno.core.cost_estimates as ce
 
+    # `save_costs_database` recarrega as constantes de tempo de execucao a partir
+    # do arquivo que acabou de gravar. Com o caminho desviado, isso deixaria o
+    # modulo com os valores do arquivo temporario pelo resto da sessao de testes.
+    dados = load_costs_database()
     destino = tmp_path / "costs_database.json"
     monkeypatch.setattr(ce, "COSTS_FILE_PATH", destino)
-
-    dados = load_costs_database()
     dados["labor_percentage"] = 0.42
     assert save_costs_database(dados) is True
     assert destino.is_file()
@@ -129,6 +131,11 @@ def test_gravar_o_banco_de_custos_preserva_o_que_foi_gravado(tmp_path, monkeypat
     relido = json.loads(destino.read_text(encoding="utf-8"))
     assert relido["labor_percentage"] == pytest.approx(0.42)
     assert "typology_subsystems_configs" in relido
+
+    # Devolve o modulo ao banco de verdade, ou os testes seguintes veriam os
+    # numeros do arquivo temporario.
+    monkeypatch.undo()
+    ce._refresh_runtime_constants()
 
 
 # ──────────────── a busca chega a tela e move os dois combos ───────────────────
