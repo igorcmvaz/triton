@@ -201,57 +201,58 @@ um resultado nas seguintes, e se deixar de mover, alguma ponte se rompeu.
 
 ---
 
-## Ainda aguardando decisão sua
+## As duas decisões, respondidas e implementadas
 
-### Decisão 1 — a rota de água padrão
+### Decisão 1 — a rota de água
 
-O fator de emissão evitada não é propriedade do sistema pluvial: é propriedade da
-água que ele desloca. Hoje o padrão é `convencional_br`, **0,350 kg CO₂e/m³**,
-adotado pelo programa e corroborado por Garfí et al. (2016), cuja faixa para
-tratamento convencional é 0,41 a 0,47 — **matriz elétrica espanhola**.
+**Resposta:** o valor passa a ser escolhido pelo usuário conforme a **tecnologia
+de tratamento** do local, com **0,35 kg CO₂e/m³ como base do programa**. A rota
+do SNIS não é adotada, porque parte de um indicador de energia e uma avaliação de
+ciclo de vida é mais do que energia.
 
-A alternativa é `rede_publica_brasil_snis`, **0,147 kg CO₂e/m³**, a única rota
-calculada com dados brasileiros: intensidade energética de 0,67 kWh/m³ do
-indicador IN058 do SNIS (Diagnóstico Temático 2023, ano-base 2022), mais 0,09 kg
-CO₂e/m³ de parcela não energética deduzida de Garfí et al.
+**Feito.** O catálogo foi de 8 para 19 rotas, cada uma declarando fonte, DOI,
+tecnologia, matriz elétrica assumida e fronteira do sistema. Entraram as cinco
+macrorregiões brasileiras de Vaz, Ghisi, Scolaro & Schaefer (2025), estações
+urbanas do Paquistão, matriz limpa escocesa, matriz carvoeira chinesa e a
+dessalinização térmica. O seletor passou a explicar a escolha, e não só a
+fazê-la. Ver [rotas_de_producao_de_agua.md](rotas_de_producao_de_agua.md).
 
-A matriz brasileira é limpa, então a água tratada aqui carrega menos carbono que
-na Europa. A consequência é desconfortável: **o benefício de carbono do sistema
-pluvial no Brasil é menor do que o valor padrão sugere.**
+Duas correções de fundo vieram junto.
 
-Efeito para uma cisterna de 5.000 L aproveitando 120 m³/ano, em função da energia
-de bombeamento — que é o que decide o sinal do resultado:
+**A fronteira.** O sistema pluvial substitui água entregue na edificação, não
+água produzida na estação, e entre uma e outra estão as perdas de distribuição:
+de 33,9% no sudeste a 46,9% no norte. Os 0,236 kg CO₂e/m³ que o artigo publica
+são de porta de estação; por m³ entregue, as macrorregiões vão de 0,336 a 0,461.
+Não são valores discordantes, são a mesma água medida em dois pontos. A base de
+0,35 fica logo abaixo dessa faixa e da europeia, o que a torna conservadora.
 
-| Bombeamento | Convencional (0,350) | SNIS (0,147) |
-| :--- | ---: | ---: |
-| 0 kWh/ano (sem recalque) | 6,96 anos · +526 kg | 17,56 anos · +39 kg |
-| 100 kWh/ano | 8,52 anos · +379 kg | 32,59 anos · **−109 kg** |
-| 200 kWh/ano | 11,48 anos · +209 kg | nunca paga · **−279 kg** |
+**A rota do SNIS** ganhou `fronteira_incompleta` no registro e aviso visível na
+interface, ao lado das outras duas de fronteira parcial. Continua no catálogo
+porque o limite inferior é informação; sinalizada porque um limite inferior
+apresentado como estimativa central é desinformação.
 
-Com a rota do SNIS e recalque, o sistema deixa de compensar em carbono dentro da
-vida útil de 20 anos. **Não mudei o padrão**: isso inverte conclusões de estudos
-já publicados, e a escolha é sua.
+### Decisão 2 — as duas funções verificadas
 
-As três respostas possíveis:
+**Resposta:** manter as duas, e fazer a interpolação usar o banco de dados como
+referência.
 
-1. **Manter `convencional_br`.** A comparabilidade com o que já foi publicado
-   fica preservada, e o valor segue declarado como sendo de fonte espanhola.
-2. **Trocar para `rede_publica_brasil_snis`.** O padrão passa a ser o valor
-   brasileiro; refaço a rodada dos casos de referência e entrego a tabela de
-   antes e depois.
-3. **Manter o padrão e avisar na interface** quando a rota escolhida for a
-   espanhola, com a brasileira ao lado para comparação.
+**Feito.** A extrapolação acima do maior volume tabelado passa a usar a regressão
+ajustada sobre o banco inteiro, o que dá consumidor a
+`get_tank_linear_regression`. O critério anterior era a inclinação dos dois
+últimos pontos, o par mais sensível a ruído de varejo de toda a série: uma
+promoção no maior volume girava a reta inteira. Com R² abaixo de 0,90 cai-se no
+método local, e o preço extrapolado nunca fica abaixo do último tabelado.
 
-### Decisão 2 — as duas funções verificadas e não ligadas
+A pesquisa de preços encontrou um defeito na tabela: ela misturava fabricantes, e
+o resultado era 1.750 L a R$ 1.399 contra 2.000 L a R$ 1.299. **Um reservatório
+maior custava menos**, na faixa que é justamente a residencial. A tabela nova é
+de uma marca num único varejista, coletada no mesmo dia, com máximo corrente para
+garantir monotonicidade, e o banco declara de onde veio.
 
-`save_costs_database` é a metade de escrita do banco de custos, e não há editor de
-custos na interface. `get_tank_linear_regression` devolve inclinação, intercepto
-e R² do modelo de preço por volume, e não há onde exibir isso.
+Corrigir o arquivo não bastava: a tabela de recurso embutida no código guardava a
+versão defeituosa, de modo que bastava o arquivo faltar — instalação nova,
+permissão negada, arquivo corrompido — para o defeito voltar sem aviso. Só
+apareceu porque um teste exercitou o caminho de recurso.
 
-As duas estão cobertas por teste, de modo que não quebram em silêncio. As três
-respostas possíveis:
-
-1. **Deixar como estão**, verificadas e disponíveis para quem escrever script.
-2. **Remover as duas**, e o teste com elas.
-3. **Construir as telas**: um editor do banco de custos, e a qualidade do ajuste
-   de preço exibida junto da estimativa de CAPEX.
+`save_costs_database` fica como está, verificada por teste. Sem editor de custos
+na interface, construir a tela seria escopo que ninguém pediu.
