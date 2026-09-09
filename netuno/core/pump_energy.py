@@ -67,3 +67,42 @@ def nearest_pump_cv(power_cv: float) -> float:
     if not PUMP_EMBEDDED_CO2:
         return power_cv
     return min(PUMP_EMBEDDED_CO2.keys(), key=lambda cv: abs(cv - power_cv))
+
+# ---------------------------------------------------------------------------
+# Consumo específico de recurso
+# ---------------------------------------------------------------------------
+# Quando há simulação, o consumo vem da física acima, com o tempo de recalque e
+# o número de partidas que a simulação produziu. Sem simulação, o módulo
+# ambiental precisava de um valor de partida, e usava 0,40 kWh/m³ — número sem
+# origem, e 36% acima do que a mesma física dá para a bomba padrão.
+#
+# Deriva-se agora do mesmo cálculo, com as premissas declaradas, para que os
+# dois caminhos não possam divergir por construção.
+
+BOMBA_PADRAO_CV = 0.50
+BOMBA_PADRAO_VAZAO_L_H = 2280.0
+BOMBA_PADRAO_RENDIMENTO = 0.55
+BOMBA_PADRAO_TEMPO_DE_PARTIDA_H = 0.03
+BOMBA_PADRAO_PARTIDAS_POR_M3 = 2.0
+
+
+def consumo_especifico_padrao_kwh_por_m3() -> float:
+    """kWh por m³ recalcado, para a bomba padrão, sem simulação disponível.
+
+    ``E = P / (Q x eta) + n_partidas x t_partida x P / eta``
+
+    Com 0,5 CV, 2.280 L/h, rendimento de 55% e duas partidas por m³, dá cerca de
+    0,333 kWh/m³. As duas partidas por m³ correspondem a um reservatório
+    superior de 500 L consumido em ciclos de meia carga, que é o arranjo
+    residencial corrente.
+    """
+    potencia_kw = BOMBA_PADRAO_CV * CV_TO_KW
+    vazao_m3_h = BOMBA_PADRAO_VAZAO_L_H / 1000.0
+    recalque = potencia_kw / (vazao_m3_h * BOMBA_PADRAO_RENDIMENTO)
+    partidas = (
+        BOMBA_PADRAO_PARTIDAS_POR_M3
+        * BOMBA_PADRAO_TEMPO_DE_PARTIDA_H
+        * potencia_kw
+        / BOMBA_PADRAO_RENDIMENTO
+    )
+    return recalque + partidas

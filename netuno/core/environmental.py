@@ -16,6 +16,7 @@ from typing import Dict, List, Any, Optional, Tuple
 
 from netuno.core.grid_emission_factors import BASE_PADRAO as BASE_PADRAO_DA_REDE
 from netuno.core.grid_emission_factors import fator_co2eq as _fator_co2eq_da_rede
+from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
 from netuno.core.water_supply_routes import ROTA_PADRAO as ROTA_PADRAO_DA_AGUA
 from netuno.core.water_supply_routes import co2_evitado_por_m3 as _co2_evitado_por_m3
@@ -312,7 +313,9 @@ class PipeInput:
 class PumpInput:
     power_cv: float = 0.50             # 0.25, 0.5, 0.75, 1.0, 1.5, 2.0 CV
     custom_embodied_co2: Optional[float] = None # kg CO2e de fabricação por unidade
-    specific_kwh_per_m3: float = 0.40  # Consumo elétrico (kWh/m³)
+    # Derivado da mesma física do módulo econômico, em pump_energy.py. Era
+    # 0,40 fixo, sem origem e 36% acima do que aquela física dá.
+    specific_kwh_per_m3: float = field(default_factory=consumo_especifico_padrao_kwh_por_m3)
     material: str = "Ferro Fundido, Cobre & Alumínio"
 
 

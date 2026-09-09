@@ -27,7 +27,7 @@ from netuno.core.environmental import (
 from netuno.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
 from netuno.core import water_supply_routes as rotas_de_agua
 from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
-from netuno.core.pump_energy import compute_annual_pump_energy, CV_TO_KW
+from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
 from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
 from netuno.ui.charts import (
     NetunoBaseChart, CO2ComparisonChart, EnvironmentalBalanceSummaryChart,
@@ -88,7 +88,7 @@ class LCAParametersDialog(QDialog):
         ann_kwh = sync.get("annual_pump_kwh")
         if ann_kwh is None: ann_kwh = 0.0
         spec_kwh = sync.get("specific_kwh_per_m3")
-        if spec_kwh is None: spec_kwh = PumpInput.specific_kwh_per_m3
+        if spec_kwh is None: spec_kwh = consumo_especifico_padrao_kwh_por_m3()
 
         banner = QFrame()
         banner.setStyleSheet("QFrame { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 6px 12px; }")
@@ -857,9 +857,9 @@ class TabEnvironmental(QWidget):
         self.txt_pump_co2 = QLineEdit(f"{PUMP_EMBEDDED_CO2.get(default_cv, 18.0):.1f}")
         # Até a versão 5.0.7 este campo nascia com 0,085 — o fator da rede
         # elétrica, copiado da linha seguinte. São grandezas diferentes, e o
-        # padrão do modelo é 0,40 kWh/m³: a interface partia de um valor 4,7×
-        # menor que o do motor.
-        self.txt_pump_kwh = QLineEdit(f"{PumpInput.specific_kwh_per_m3:.2f}")
+        # padrão do modelo vem da física do bombeamento: a interface partia de um
+        # valor várias vezes menor que o do motor.
+        self.txt_pump_kwh = QLineEdit(f"{consumo_especifico_padrao_kwh_por_m3():.2f}")
 
         self.txt_grid_co2 = QLineEdit(f"{grid_factor_default():.4f}")
         self.txt_potable_co2 = QLineEdit("0.350")
@@ -1154,7 +1154,7 @@ class TabEnvironmental(QWidget):
         pump_co2 = None if abs(pump_co2_val - PUMP_EMBEDDED_CO2.get(pump_cv, pump_co2_val)) < 0.1 else pump_co2_val
 
         annual_pump_kwh = 0.0
-        specific_kwh = parse_f(self.txt_pump_kwh.text(), PumpInput.specific_kwh_per_m3)
+        specific_kwh = parse_f(self.txt_pump_kwh.text(), consumo_especifico_padrao_kwh_por_m3())
         pump_count = 1
 
         if cfg is not None:
