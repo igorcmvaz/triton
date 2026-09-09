@@ -12,6 +12,7 @@ from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, format_ptbr
 from netuno.core.economic import run_economic_analysis, calculate_water_bill
 from netuno.core.tariff_regimes import resumo_do_regime, validar_estrutura
+from netuno.core.tariff_category import incompatibilidade_de_categoria
 from netuno.core.tariffs_database import (
     get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count,
     search_cities
@@ -612,9 +613,17 @@ class DialogTariffs(QDialog):
         self.lbl_regime.setText(f"💧 <b>{tr('Regime de cobrança:')}</b> {resumo_do_regime(data)}")
 
         # Estrutura incompleta ou suspeita: escolhivel sim, mas nunca em silencio.
+        # A categoria vem primeiro, porque erra a conta inteira e nao um trecho.
+        incompativel = incompatibilidade_de_categoria(self.config)
         erros = [a for a in validar_estrutura(data) if a.gravidade == "erro"]
         ressalva = data.get("_ressalva_estrutura", "")
-        if erros or ressalva:
+        if incompativel:
+            self.lbl_estrutura_aviso.setText(
+                f"⚠️ <b>{tr('Categoria tarifária incompatível:')}</b> "
+                + incompativel.replace("\n\n", "<br><br>")
+            )
+            self.lbl_estrutura_aviso.setVisible(True)
+        elif erros or ressalva:
             texto = ressalva or "; ".join(a.mensagem for a in erros)
             self.lbl_estrutura_aviso.setText(
                 f"⚠️ <b>{tr('Estrutura tarifária a conferir:')}</b> {texto}"

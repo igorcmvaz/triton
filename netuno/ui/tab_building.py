@@ -1566,6 +1566,13 @@ class TabBuilding(QWidget):
         # Salva o estado dos aparelhos hidráulicos e template
         if hasattr(self, "combo_building_template"):
             cfg["template_id"] = self.combo_building_template.currentData() or "res_medio"
+            # A tipologia também vai para a configuração do projeto. Sem isto
+            # ela ficava presa neste dicionário, e o módulo econômico não
+            # tinha como saber que cobra tarifa residencial de uma escola.
+            _janela = self.window()
+            _proj = getattr(_janela, "config", None) if _janela else None
+            if _proj is not None:
+                _proj.building_template_id = cfg["template_id"]
         if hasattr(self, "sp_shower_count"):
             cfg["shower_count"] = self.sp_shower_count.value()
             cfg["shower_time"] = self.sp_shower_time.value()

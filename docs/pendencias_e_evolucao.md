@@ -15,7 +15,7 @@ sua, está dito.
 | :-- | :--- | :--- | :--- |
 | 1 | Quatro municípios sem tarifa de excedente | payback nulo por defeito de cadastro | dado externo |
 | 2 | Cinco municípios da BRK Tocantins com tarifa decrescente | conta subestimada no primeiro bloco | dado externo |
-| 3 | Categoria tarifária fixa em Residencial | comercial e público fora do alcance | você |
+| 3 | Tipologia não residencial faturada com tarifa residencial | economia subestimada pela metade em escola e hospital | você |
 | 4 | Esgoto tratado como percentual único | superestima onde há faixa própria | você |
 | 5 | Emissão de fabricação da motobomba extrapolada | único fator sem fonte primária na ACV | dado externo |
 | 6 | Reajuste tarifário como percentual único | projeção de 20 anos frágil | você |
@@ -67,23 +67,59 @@ seria adivinhar.
 
 ---
 
-## 3. Categoria tarifária fixa em Residencial
+## 3. Tipologia não residencial faturada com tarifa residencial
 
-**Situação.** As 652 estruturas são da categoria **Residencial**. Os catálogos
-das concessionárias trazem também Comercial, Industrial, Público e Público
-Especial, com tarifas bem diferentes — na CASAN, a faixa de 0 a 10 m³ custa
-R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial, mais que o dobro.
+**Não era «comercial fora do alcance». Era pior: o programa oferecia as
+tipologias não residenciais e as faturava com a tarifa residencial, calado.**
 
-**Efeito.** Um estudo em escola, hospital ou indústria — que é onde o
-aproveitamento pluvial costuma ter melhor retorno, pela escala — usa a tarifa
-errada, e subestima a economia em mais de 100%.
+**O que existe.** A aba de edificação tem oito tipologias, e cada uma ajusta
+consumo per capita e fração não potável: Residencial Unifamiliar em três padrões,
+Edifício Multifamiliar, Comercial/Escritórios, Escola/Creche, Hotel/Pousada e
+Hospital/Clínica. A demanda que elas definem sempre atravessou o programa
+corretamente.
 
-**Caminho.** A estrutura de dados já suporta: bastaria uma chave `categorias`
-dentro de cada município e um seletor na tela. O trabalho é de coleta, não de
-código.
+**O que não existe.** As 652 estruturas tarifárias são todas da categoria
+«Residencial normal». Confirmado nos três arquivos da coleta: o catálogo
+auditado em XLSX, o CSV detalhado de 3.604 linhas e o banco em JSON. As 3.604
+linhas do CSV são **faixas de consumo**, não categorias.
 
-**Decisão sua.** Se o alvo do programa é residencial, isto vira apenas uma
-ressalva de escopo a declarar. Se não é, é a maior lacuna de dado do projeto.
+**A desconexão.** `template_id` era gravado num dicionário local da aba de
+edificação e **nunca alcançava `NetunoConfig`**. Nenhum outro módulo sabia que
+tipo de edificação estava sendo estudada, de modo que o econômico não tinha nem
+como perceber que cobrava tarifa residencial de um hospital.
+
+**O tamanho do erro.** Tabela Tarifária CASAN 04/2026, primeira faixa:
+
+| Categoria | R$/m³ | TFDI R$/mês |
+| :--- | ---: | ---: |
+| Residencial | 3,08 | 46,34 |
+| Residencial Social | 0,58 | 8,63 |
+| Micro e Pequeno Comércio | 4,80 | 46,34 |
+| Comercial, Industrial, Pública | 6,81 | 46,34 |
+| Pública Especial | 2,04 | 13,89 |
+
+Como a economia de água é avaliada pela tarifa, subestimá-la subestima a economia
+na mesma proporção. Um estudo de escola ou hospital mostra **menos da metade** do
+retorno na primeira faixa.
+
+**O que foi feito.** A tipologia passou a chegar à configuração, e
+`netuno/core/tariff_category.py` mapeia cada uma à categoria que a concessionária
+usaria. Quando as duas não combinam, o aviso aparece em dois lugares: no diálogo
+de tarifas, onde a escolha é feita, e acima dos indicadores do painel econômico,
+onde o resultado contaminado é lido. O aviso diz o sentido do erro — os valores
+estão subestimados — e o que fazer: lançar a estrutura da categoria correta no
+modo Personalizado.
+
+**O que falta.** As estruturas das demais categorias, para os municípios que
+interessarem. Não são difíceis de coletar: aparecem na mesma tabela das
+concessionárias, lado a lado com a residencial, como a da CASAN acima mostra. O
+trabalho é de coleta, e a estrutura de dados suportaria uma chave `categorias`
+por município com um seletor na tela.
+
+**Decisão sua.** Se o alvo do programa é residencial, o aviso resolve: declara a
+limitação onde ela importa. Se escola, hospital e comércio estão no horizonte —
+e é onde o aproveitamento pluvial costuma render mais, pela escala — a coleta das
+outras categorias é a tarefa de dado mais valiosa do projeto.
 
 ---
 

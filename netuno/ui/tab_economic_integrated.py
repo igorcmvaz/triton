@@ -18,6 +18,7 @@ from netuno.core.economic import (
     run_robust_economic_analysis, EconomicAnalysisResult, calculate_effective_tariff,
     run_sensitivity_analysis
 )
+from netuno.core.tariff_category import incompatibilidade_de_categoria
 from netuno.core.etap_integration import (
     capex_incremental_da_etap,
     opex_anual_incremental_da_etap,
@@ -172,6 +173,17 @@ class TabEconomicIntegrated(QWidget):
         self.lbl_val_payback = mk_card(tr("Payback Simples / Descontado"),     "#0284c7")
         self.lbl_val_vpl     = mk_card(tr("VPL (Valor Presente Líquido)"),     "#16a34a")
         self.lbl_val_tir     = mk_card(tr("TIR (Taxa Interna Retorno)"),       "#d97706")
+
+        # Aviso de categoria tarifaria incompativel, acima dos indicadores:
+        # se a tarifa esta errada, os cinco numeros abaixo estao errados.
+        self.lbl_aviso_categoria = QLabel("")
+        self.lbl_aviso_categoria.setWordWrap(True)
+        self.lbl_aviso_categoria.setStyleSheet(
+            "font-size: 11px; color: #7c2d12; background-color: #fef3c7; "
+            "border: 1px solid #fbbf24; border-radius: 4px; padding: 6px;"
+        )
+        self.lbl_aviso_categoria.setVisible(False)
+        layout.addWidget(self.lbl_aviso_categoria)
 
         layout.addWidget(gb_res)
 
@@ -685,6 +697,17 @@ class TabEconomicIntegrated(QWidget):
         # A regra incremental - descontar a verba generica ja embutida em
         # «Acessorios» - vive em netuno/core/etap_integration.py, e e a mesma
         # que o motor do nucleo usa.
+        # Tipologia nao residencial com tarifa residencial: a conta inteira sai
+        # errada, e o sentido do erro e conhecido. Avisar aqui tambem, e nao so
+        # no dialogo, porque e aqui que o resultado contaminado e lido.
+        if hasattr(self, "lbl_aviso_categoria"):
+            _incompat = incompatibilidade_de_categoria(cfg)
+            self.lbl_aviso_categoria.setText(
+                (tr("⚠️ Categoria tarifária incompatível: ") + _incompat.split("\n")[0])
+                if _incompat else ""
+            )
+            self.lbl_aviso_categoria.setVisible(bool(_incompat))
+
         etap_capex_inc = capex_incremental_da_etap(cfg)
         total_capex = 0.0 if lower_vol <= 0 else (
             est["lower"] + cfg.cost_upper_tank +

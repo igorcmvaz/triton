@@ -237,6 +237,14 @@ class NetunoConfig:
     iptu_discount_pct: float = 5.0          # Desconto municipal do IPTU Verde (%)
     tariff_flag: str = "verde"              # "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
 
+    # Tipologia da edificação, escolhida na Etapa 2.
+    #
+    # Ficava presa num dicionário local da aba de edificação: a demanda que ela
+    # define atravessava o programa, mas a tipologia em si não. Sem ela nenhum
+    # módulo sabe que tipo de edificação está sendo estudada, e o econômico não
+    # tem como perceber que cobra tarifa residencial de um hospital.
+    building_template_id: str = "res_medio"
+
     # Qualidade da Água & Linha de Tratamento (ETAP)
     water_quality_target_class: str = "classe_1"
     water_quality_disinfection: str = "cloro"   # "cloro", "uv", "ozonio", "nenhum"
