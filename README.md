@@ -68,7 +68,7 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 ## 📂 Estrutura do Repositório
 
 ```text
-Netuno5_0_7 (atual)/
+Netuno5_0_8 (atual)/
 ├── netuno/                     # Pacote Python Principal (Core Engine & Desktop UI)
 │   ├── core/                   # Motores de cálculo (hidrologia, economia, ACV, MCDM, tarifas)
 │   ├── ui/                     # Interface gráfica desktop PySide6 (abas, gráficos, diálogos)
@@ -102,7 +102,7 @@ Netuno5_0_7 (atual)/
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash
 # Acesse a pasta raiz do programa
-cd "Netuno5_0_7 (atual)"
+cd "Netuno5_0_8 (atual)"
 
 # Instale o pacote e suas dependências
 pip install -e .
