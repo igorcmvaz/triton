@@ -3,7 +3,7 @@
 Documento de leitura, escrito ao fim da revisão. O detalhe valor a valor está em
 [`procedencia_fatores_co2.md`](procedencia_fatores_co2.md).
 
-**527 testes passando.** Trabalho em `versao-5.0.8-procedencia`, seis commits,
+**527 testes passando.** Trabalho em `versao-5.0.8-procedencia`, dez commits,
 nada mesclado ao `main`.
 
 ---
@@ -68,9 +68,19 @@ Um arquivo que diz `Descarte2` e `Percentual90` era lido como 1 mm e 40%.
 interface, 0,85 no exportador CAD, 0,90 no motor e na planilha. O mesmo projeto
 rendia captações diferentes conforme o caminho de entrada.
 
+**Os módulos econômico e ambiental calculavam a energia da bomba de dois
+jeitos.** O econômico por potência vezes horas dividido pelo rendimento; o
+ambiental por volume vezes um consumo específico de 0,40 kWh/m³ sem origem. A
+mesma física dá 0,333 para a bomba padrão. O valor passou a ser derivado, de
+modo que os dois caminhos não podem mais divergir.
+
+**As faixas do pré-filtro contradiziam os próprios rótulos.** Os limites eram
+150 e 400 m², contra rótulos de «até 200 m²» e «até 500 m²». Um telhado de
+180 m² recebia o filtro da faixa seguinte, mais caro em R$ 600.
+
 E dois menores: o gráfico de balanço usava 0,35 kg CO₂e/m³ fixo, ignorando o
 fator da interface; e o campo de energia da bomba nascia com 0,085, que é o
-fator da rede, em vez de 0,40.
+fator da rede.
 
 ---
 
@@ -142,9 +152,13 @@ dizer o que o programa usa.
 
 ## 7. O que continua sem fonte
 
-**Motobombas.** Seis valores, quatro deles extrapolação aritmética do valor de
-0,5 CV. Nem o catálogo Schneider nem a tabela de seleção publicam peso por
-modelo. É a maior lacuna que resta, embora seja termo pequeno no resultado.
+**Motobombas.** Seis valores, quatro deles extrapolação aritmética. A busca foi
+feita e está registrada no código para não se repetir: nem Schneider, nem
+Fortlev, nem Bakof publicam massa por modelo, e a literatura de ACV de bombas
+trata de equipamentos industriais, cuja fase de operação responde por mais de
+99% do impacto — proporção que não vale para uma bomba residencial de meio CV
+ligada poucas horas por ano, em que o incorporado chega a um quarto do total.
+O código agora declara, por potência, o que é estimativa e o que é extrapolação.
 
 **Massa do reservatório em polietileno.** Fortlev e Bakof publicam dimensões,
 não pesos. Especificações de revendedor dão 17 a 21 kg/m³, e um dado de 5.000 L
@@ -161,6 +175,12 @@ verdade exigiria os dados brutos.
 
 **Menores:** vida útil de 20 anos, 80 eventos de chuva por ano e turbidez bruta
 de 45 NTU.
+
+**Lacuna de apresentação, não de número.** O gerador de relatórios prepara
+alguns valores e não os insere no documento: o percentual de dias em que a
+demanda pluvial não foi atendida, no relatório executivo, e a dose de cloro, no
+ambiental. São informações calculadas e omitidas, e ficam anotadas para uma
+próxima passagem.
 
 ---
 
