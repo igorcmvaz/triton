@@ -335,7 +335,8 @@ def run_economic_analysis(
         # Até a versão 5.0.8 esta conta usava vazão e rendimento fixos, que não
         # acompanhavam a potência escolhida, e o custo da energia divergia da
         # emissão calculada para a mesma bomba.
-        altura = float(getattr(config, "pump_manometric_head_m", ALTURA_MANOMETRICA_PADRAO_M))
+        altura_informada = float(getattr(config, "pump_manometric_head_m", 0.0) or 0.0)
+        altura = altura_informada if altura_informada > 0 else ALTURA_MANOMETRICA_PADRAO_M
         eta = (
             (config.pump_efficiency / 100.0)
             if config.pump_efficiency > 0
@@ -352,7 +353,9 @@ def run_economic_analysis(
         t_total_hours_month = t_rec_hours_month + t_part_hours_month
 
         volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
-        if config.pump_flow_rate > 0:
+        if altura_informada > 0:
+            especifica = energia_especifica_kwh_por_m3(altura_informada, eta)
+        elif config.pump_flow_rate > 0:
             especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
         else:
             especifica = energia_especifica_kwh_por_m3(altura, eta)

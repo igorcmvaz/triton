@@ -316,7 +316,10 @@ class NetunoConfig:
     # pesa no consumo de bombeamento, e até a versão 5.0.8 não existia: estava
     # embutido na vazão e no rendimento fixos, que juntos implicavam 67 m —
     # altura de edifício alto, não de casa.
-    pump_manometric_head_m: float = ALTURA_MANOMETRICA_PADRAO_M
+    # Zero significa «não informada»: o assistente de motobomba a calcula a
+    # partir da altura geométrica e das perdas, e é ela que rege a energia
+    # quando existe. Sem ela, cai-se na vazão informada ou no valor de recurso.
+    pump_manometric_head_m: float = 0.0
 
     # Rendimento do conjunto motobomba. Zero ou negativo faz o programa adotar o
     # típico do porte, que cresce com a potência.

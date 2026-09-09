@@ -58,7 +58,8 @@ def compute_annual_pump_energy(
 
     # Rendimento e vazão vêm da potência e da altura quando não forem
     # informados. Fixá-los desacoplava a bomba da própria escolha do usuário.
-    altura = float(getattr(config, "pump_manometric_head_m", ALTURA_MANOMETRICA_PADRAO_M))
+    altura_informada = float(getattr(config, "pump_manometric_head_m", 0.0) or 0.0)
+    altura = altura_informada if altura_informada > 0 else ALTURA_MANOMETRICA_PADRAO_M
     eta = (
         max(0.01, config.pump_efficiency / 100.0)
         if config.pump_efficiency > 0
@@ -83,7 +84,11 @@ def compute_annual_pump_energy(
     # ela vem de ρ·g·H/η. As duas formas coincidem quando a vazão é a que a
     # bomba entrega naquela altura, e é a primeira que vale quando o usuário
     # declara o ponto de operação.
-    if config.pump_flow_rate > 0:
+    if altura_informada > 0:
+        # O assistente determinou o desnível: é ele que manda. A vazão do
+        # catálogo é o valor nominal do modelo, não a vazão contra esta altura.
+        especifica = energia_especifica_kwh_por_m3(altura_informada, eta)
+    elif config.pump_flow_rate > 0:
         especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
     else:
         especifica = energia_especifica_kwh_por_m3(altura, eta)

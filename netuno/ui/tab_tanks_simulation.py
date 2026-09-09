@@ -1288,6 +1288,13 @@ class TabTanksSimulation(QWidget):
                     main_win.config.pump_flow_rate = data["flow_lh"]
                     main_win.config.pump_unit_cost = data["cost"]
                     main_win.config.upper_tank_vol = data["upper_vol"]
+                    # O rendimento e a altura manométrica eram calculados pelo
+                    # assistente e descartados aqui. Sem eles, a emissão e o custo
+                    # de bombeamento ignoravam o desnível informado pelo usuário.
+                    if data.get("efficiency"):
+                        main_win.config.pump_efficiency = float(data["efficiency"])
+                    if data.get("manometric_head_m"):
+                        main_win.config.pump_manometric_head_m = float(data["manometric_head_m"])
                     if hasattr(main_win.config, "update_pump_pipes") and "suction_dn" in data and "recalque_dn" in data:
                         main_win.config.update_pump_pipes(
                             data["suction_dn"], data["recalque_dn"],
@@ -1296,6 +1303,8 @@ class TabTanksSimulation(QWidget):
                 self.txt_upper_vol.setText(str(data["upper_vol"]))
                 QMessageBox.information(self, tr("Motobomba Selecionada"),
                     tr(f"Motobomba selecionada com sucesso!\n"
-                       f"Potencia: {data['kw']:.3f} kW | Vazao: {data['flow_lh']:.0f} L/h | "
+                       f"Potencia: {data['kw']:.3f} kW | Vazao: {data['flow_lh']:.0f} L/h\n"
+                       f"Altura manometrica: {data.get('manometric_head_m', 0):.1f} mca | "
+                       f"Rendimento: {data.get('efficiency', 0):.0f}%\n"
                        f"Custo: R$ {data['cost']:.2f} | Vol. Sup.: {data['upper_vol']:.0f} L"))
                 self.on_param_changed()

@@ -567,6 +567,11 @@ class PumpSelectionWizardDialog(QDialog):
             loss_m = 0.5
 
         h_man = h_geom + loss_m
+        # Guardados para irem no retorno: são o resultado do assistente, e sem
+        # eles o cálculo de energia volta a usar a altura de recurso.
+        self.h_man_calculada = h_man
+        self.h_geom_informada = h_geom
+        self.perda_de_carga_calculada = loss_m
         self.lbl_loss.setText(f"{loss_m:.2f} mca")
         self.lbl_hman.setText(f"{h_man:.2f} mca")
 
@@ -648,6 +653,12 @@ class PumpSelectionWizardDialog(QDialog):
             "bocal_suc": p_data.get('bocal_suc', ''),
             "bocal_rec": p_data.get('bocal_rec', ''),
             "brand": p_data.get('brand', ''),
+            # A hidráulica calculada aqui precisa chegar ao motor. Sem estes três
+            # campos o programa refazia a conta com a altura de recurso, e não com
+            # o desnível que o usuário informou.
+            "manometric_head_m": getattr(self, "h_man_calculada", 0.0),
+            "geometric_head_m": getattr(self, "h_geom_informada", 0.0),
+            "head_loss_m": getattr(self, "perda_de_carga_calculada", 0.0),
         }
 
     def update_sweep_table(self, h_man: float, eta: float):
