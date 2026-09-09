@@ -17,6 +17,8 @@ from pathlib import Path
 
 import ezdxf
 from ezdxf.enums import TextEntityAlignment
+from netuno.core.pump_hydraulics import vazao_l_por_h
+from netuno.core.pump_energy import CV_TO_KW
 
 from .cad_block_library import configure_cad_document, generate_block_library_dxf
 
@@ -91,19 +93,17 @@ def calculate_forchheimer_pumping_diameters(
     # 1. Vazão de bombeamento Q (m³/h -> m³/s)
     q_m3_h = float(pump_flow_rate_m3_h or 0.0)
     if q_m3_h <= 0.05:
+        # A vazao vem da equacao da bomba, e nao de uma tabela propria deste
+        # modulo. Ate a versao 5.0.8 havia aqui uma segunda tabela - 2,4 m3/h
+        # para meio CV - que discordava dos 2.280 L/h usados no calculo de
+        # energia para a mesma bomba.
+        potencias_cv = [
+            ("1 1/2", 1.5), ("1.5", 1.5), ("3/4", 0.75), ("0.75", 0.75),
+            ("1/2", 0.5), ("0.5", 0.5), ("2", 2.0), ("1", 1.0),
+        ]
         hp_str = str(pump_hp).strip()
-        if "1/2" in hp_str or "0.5" in hp_str:
-            q_m3_h = 2.4
-        elif "3/4" in hp_str or "0.75" in hp_str:
-            q_m3_h = 3.6
-        elif "1.5" in hp_str or "1 1/2" in hp_str:
-            q_m3_h = 6.0
-        elif "2" in hp_str:
-            q_m3_h = 8.0
-        elif "1" in hp_str:
-            q_m3_h = 4.8
-        else:
-            q_m3_h = 3.0
+        cv = next((v for k, v in potencias_cv if k in hp_str), 0.5)
+        q_m3_h = vazao_l_por_h(cv * CV_TO_KW) / 1000.0
 
     q_m3_s = q_m3_h / 3600.0
     q_l_s = q_m3_s * 1000.0

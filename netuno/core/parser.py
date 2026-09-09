@@ -1,6 +1,7 @@
 import os
 import re
 from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.pump_hydraulics import ALTURA_MANOMETRICA_PADRAO_M
 from netuno.core.chlorination import (
     DOSE_PADRAO_MG_POR_LITRO,
     FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
@@ -309,8 +310,22 @@ class NetunoConfig:
     pump_count: int = 2  # principal + reserva como configuração inicial recomendada
     pump_power_str: str = "1/2"
     pump_power_kw: float = 0.36775  # kW (1 CV ~ 0.7355 kW -> 1/2 CV ~ 0.36775 kW)
-    pump_efficiency: float = 55.0  # %
-    pump_flow_rate: float = 2280.0  # L/h, referência de motobomba periférica residencial 1/2 CV
+
+    # Altura manométrica total: desnível geométrico entre a sucção e a entrada
+    # do reservatório superior, mais as perdas de carga. É o parâmetro que mais
+    # pesa no consumo de bombeamento, e até a versão 5.0.8 não existia: estava
+    # embutido na vazão e no rendimento fixos, que juntos implicavam 67 m —
+    # altura de edifício alto, não de casa.
+    pump_manometric_head_m: float = ALTURA_MANOMETRICA_PADRAO_M
+
+    # Rendimento do conjunto motobomba. Zero ou negativo faz o programa adotar o
+    # típico do porte, que cresce com a potência.
+    pump_efficiency: float = 0.0  # %, 0 = deduzir do porte
+
+    # Vazão em L/h. Zero faz o programa deduzi-la da potência e da altura, pela
+    # equação da bomba. Antes era 2.280 fixo, e não acompanhava a potência: uma
+    # bomba de 2 CV recalcava tão devagar quanto uma de 1/4.
+    pump_flow_rate: float = 0.0
     pump_startup_time_h: float = 0.03  # hours
     pump_unit_cost: float = 300.0  # R$, referência de mercado para motobomba periférica 1/2 CV
     elec_tariff: float = 0.6957  # R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)

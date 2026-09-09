@@ -4,6 +4,13 @@ from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.pump_hydraulics import (
+    ALTURA_MANOMETRICA_PADRAO_M,
+    energia_especifica_a_partir_da_vazao,
+    energia_especifica_kwh_por_m3,
+    rendimento_tipico,
+    vazao_l_por_h,
+)
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
 from netuno.core.simulation import SingleTankSimulationResult
 
@@ -318,18 +325,41 @@ def run_economic_analysis(
     monthly_pump_cost_base = 0.0
     monthly_pump_kwh_base = 0.0
     
-    if config.upper_tank_used and config.pump_flow_rate > 0:
+    if config.upper_tank_used and config.pump_power_kw > 0:
         # Pump runtime based on total simulated days
         tot_days = max(1, sim_result.total_days)
         avg_daily_pumped = sim_result.total_pumped_liters / tot_days
         avg_daily_cycles = sim_result.total_pump_cycles / tot_days
-        
-        t_rec_hours_month = (avg_daily_pumped * days_in_month) / config.pump_flow_rate
+
+        # Mesma hidráulica do módulo ambiental, em netuno/core/pump_hydraulics.py.
+        # Até a versão 5.0.8 esta conta usava vazão e rendimento fixos, que não
+        # acompanhavam a potência escolhida, e o custo da energia divergia da
+        # emissão calculada para a mesma bomba.
+        altura = float(getattr(config, "pump_manometric_head_m", ALTURA_MANOMETRICA_PADRAO_M))
+        eta = (
+            (config.pump_efficiency / 100.0)
+            if config.pump_efficiency > 0
+            else rendimento_tipico(config.pump_power_kw)
+        )
+        vazao = (
+            config.pump_flow_rate
+            if config.pump_flow_rate > 0
+            else vazao_l_por_h(config.pump_power_kw, altura, eta)
+        )
+
+        t_rec_hours_month = (avg_daily_pumped * days_in_month) / max(1e-6, vazao)
         t_part_hours_month = avg_daily_cycles * days_in_month * config.pump_startup_time_h
         t_total_hours_month = t_rec_hours_month + t_part_hours_month
-        
-        eta = (config.pump_efficiency / 100.0) if config.pump_efficiency > 0 else 0.55
-        monthly_pump_kwh_base = (config.pump_power_kw * t_total_hours_month) / eta
+
+        volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
+        if config.pump_flow_rate > 0:
+            especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
+        else:
+            especifica = energia_especifica_kwh_por_m3(altura, eta)
+        monthly_pump_kwh_base = (
+            especifica * volume_mensal_m3
+            + (config.pump_power_kw * t_part_hours_month) / eta
+        )
         
         # Ajuste por bandeira tarifária ANEEL ou Tarifa Branca
         tariff_flag = getattr(config, 'tariff_flag', 'verde')

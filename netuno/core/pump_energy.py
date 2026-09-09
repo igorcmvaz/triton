@@ -7,6 +7,15 @@ from dataclasses import dataclass
 from typing import Optional
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.pump_hydraulics import (
+    ALTURA_MANOMETRICA_PADRAO_M,
+    TEMPO_DE_PARTIDA_H,
+    energia_especifica_a_partir_da_vazao,
+    energia_especifica_kwh_por_m3,
+    ponto_de_operacao,
+    rendimento_tipico,
+    vazao_l_por_h,
+)
 from netuno.core.simulation import SingleTankSimulationResult
 
 CV_TO_KW = 0.735499
@@ -44,15 +53,43 @@ def compute_annual_pump_energy(
     result.annual_pumped_m3 = (sim_result.total_pumped_liters / num_years) / 1000.0
     result.annual_cycles = int(round(sim_result.total_pump_cycles / num_years))
 
-    if not result.upper_tank_used or config.pump_flow_rate <= 0:
+    if not result.upper_tank_used:
         return result
 
-    t_rec = (sim_result.total_pumped_liters / num_years) / config.pump_flow_rate
+    # Rendimento e vazão vêm da potência e da altura quando não forem
+    # informados. Fixá-los desacoplava a bomba da própria escolha do usuário.
+    altura = float(getattr(config, "pump_manometric_head_m", ALTURA_MANOMETRICA_PADRAO_M))
+    eta = (
+        max(0.01, config.pump_efficiency / 100.0)
+        if config.pump_efficiency > 0
+        else rendimento_tipico(config.pump_power_kw)
+    )
+    vazao = (
+        config.pump_flow_rate
+        if config.pump_flow_rate > 0
+        else vazao_l_por_h(config.pump_power_kw, altura, eta)
+    )
+    if vazao <= 0:
+        return result
+
+    t_rec = (sim_result.total_pumped_liters / num_years) / vazao
     t_part = result.annual_cycles * config.pump_startup_time_h
-    eta = max(0.01, config.pump_efficiency / 100.0) if config.pump_efficiency > 0 else 0.55
 
     result.pump_hours_year = t_rec + t_part
-    result.annual_kwh = (config.pump_power_kw * result.pump_hours_year) / eta
+    # O recalque custa ρ·g·H/η por m³, e as partidas somam energia sem entregar
+    # vazão útil. Antes tudo saía de potência × horas, o que embutia a altura
+    # nos números fixos de vazão e rendimento.
+    # Com vazão informada, a energia por m³ é P/Q, direto. Sem vazão informada,
+    # ela vem de ρ·g·H/η. As duas formas coincidem quando a vazão é a que a
+    # bomba entrega naquela altura, e é a primeira que vale quando o usuário
+    # declara o ponto de operação.
+    if config.pump_flow_rate > 0:
+        especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
+    else:
+        especifica = energia_especifica_kwh_por_m3(altura, eta)
+    energia_recalque = especifica * result.annual_pumped_m3
+    energia_partidas = (config.pump_power_kw * t_part) / eta
+    result.annual_kwh = energia_recalque + energia_partidas
 
     if result.annual_pumped_m3 > 0:
         result.specific_kwh_per_m3 = result.annual_kwh / result.annual_pumped_m3
@@ -80,29 +117,30 @@ def nearest_pump_cv(power_cv: float) -> float:
 # dois caminhos não possam divergir por construção.
 
 BOMBA_PADRAO_CV = 0.50
-BOMBA_PADRAO_VAZAO_L_H = 2280.0
-BOMBA_PADRAO_RENDIMENTO = 0.55
-BOMBA_PADRAO_TEMPO_DE_PARTIDA_H = 0.03
 BOMBA_PADRAO_PARTIDAS_POR_M3 = 2.0
 
 
 def consumo_especifico_padrao_kwh_por_m3() -> float:
-    """kWh por m³ recalcado, para a bomba padrão, sem simulação disponível.
+    """kWh por m³ elevado, sem simulação disponível.
 
-    ``E = P / (Q x eta) + n_partidas x t_partida x P / eta``
+    Resolve pela mesma física do caminho principal: ``ρ·g·H/η`` para o recalque,
+    mais o custo das partidas. Com a altura de recurso de 12 m e o rendimento
+    típico de meio CV, dá cerca de 0,07 kWh/m³.
 
-    Com 0,5 CV, 2.280 L/h, rendimento de 55% e duas partidas por m³, dá cerca de
-    0,333 kWh/m³. As duas partidas por m³ correspondem a um reservatório
-    superior de 500 L consumido em ciclos de meia carga, que é o arranjo
-    residencial corrente.
+    Até a versão 5.0.8 este valor era 0,40 e depois 0,333, ambos derivados de uma
+    vazão e um rendimento fixos que, juntos, implicavam 67 m de altura
+    manométrica — cerca de cinco vezes o desnível de uma casa com cisterna
+    enterrada.
     """
     potencia_kw = BOMBA_PADRAO_CV * CV_TO_KW
-    vazao_m3_h = BOMBA_PADRAO_VAZAO_L_H / 1000.0
-    recalque = potencia_kw / (vazao_m3_h * BOMBA_PADRAO_RENDIMENTO)
+    eta = rendimento_tipico(potencia_kw)
+    ponto = ponto_de_operacao(potencia_kw, ALTURA_MANOMETRICA_PADRAO_M, eta)
+
+    recalque = ponto.energia_especifica_kwh_m3
     partidas = (
         BOMBA_PADRAO_PARTIDAS_POR_M3
-        * BOMBA_PADRAO_TEMPO_DE_PARTIDA_H
+        * TEMPO_DE_PARTIDA_H
         * potencia_kw
-        / BOMBA_PADRAO_RENDIMENTO
+        / eta
     )
     return recalque + partidas

@@ -88,11 +88,29 @@ def test_pump_energy_exact_physics_formula():
     t_part_expected = avg_daily_cycles * days_in_month * (10.0 / 3600.0)
     t_tot_expected = t_rec_expected + t_part_expected
 
-    energy_kwh_expected = (0.7355 * t_tot_expected) / 0.60
+    # A potencia de placa e o que o motor CONSOME: a energia por m3 recalcado e
+    # P/Q, e nao P/Q dividido pelo rendimento. O rendimento ja esta embutido no
+    # fato de uma bomba de P kW entregar Q m3/h naquela altura.
+    #
+    # Ate a versao 5.0.8 esta conta fazia P x horas / eta, dividindo por eta uma
+    # segunda vez e superestimando a energia de bombeamento em 1/eta - 67% com o
+    # rendimento de 60% usado aqui. Este teste fixava justamente a conta errada.
+    volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
+    energia_recalque = (0.7355 / 3.0) * volume_mensal_m3
+
+    # As partidas sao a excecao: ali a bomba consome sem entregar vazao util, de
+    # modo que a perda entra explicitamente.
+    energia_partidas = (0.7355 * t_part_expected) / 0.60
+
+    energy_kwh_expected = energia_recalque + energia_partidas
     cost_expected = energy_kwh_expected * 1.00
 
     assert pytest.approx(econ.monthly_pump_kwh, rel=1e-3) == energy_kwh_expected
     assert pytest.approx(econ.monthly_pump_cost_brl, rel=1e-3) == cost_expected
+
+    # E a comparacao com a conta antiga, para que a diferenca fique registrada.
+    conta_antiga = (0.7355 * t_tot_expected) / 0.60
+    assert conta_antiga > energy_kwh_expected * 1.5
 
 
 def test_pump_backup_count_capex_cost():
