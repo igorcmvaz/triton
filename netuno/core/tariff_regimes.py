@@ -48,6 +48,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
+from netuno.core.tariffs_structure import (
+    FAIXA_ISENTA,
+    FAIXA_PROGRESSIVA,
+    FRANQUIA_DE_CONSUMO_MINIMO,
+    PISO_DE_PAGAMENTO as CODIGO_PISO,
+    TAXA_FIXA_DE_DISPONIBILIDADE,
+    TETO_ABERTO_M3,
+)
+
 #: Cobra-se um valor fixo que já dá direito a N m³. Economizar abaixo de N não
 #: reduz a conta. É o regime mais comum no Brasil.
 FRANQUIA_NO_MINIMO = "franquia_no_minimo"
@@ -77,10 +86,13 @@ REGIMES = (
 #: referência para conferência, não de valor adotado.
 CONSUMO_MINIMO_USUAL_M3 = 10.0
 
-TIPO_CUSTO_FIXO = -1
-TIPO_FRANQUIA_RETROATIVA = -2
-TIPO_PISO_DE_PAGAMENTO = -3
-TIPOS_DE_FAIXA = (0, 1)
+# Os códigos do quarto campo da quádrupla têm definição única em
+# `tariffs_structure.py`, que existe justamente para impedir que sejam repetidos
+# como literais. Importam-se de lá; aqui ficam apenas apelidos locais.
+TIPO_CUSTO_FIXO = TAXA_FIXA_DE_DISPONIBILIDADE
+TIPO_FRANQUIA_RETROATIVA = FRANQUIA_DE_CONSUMO_MINIMO
+TIPO_PISO_DE_PAGAMENTO = CODIGO_PISO
+TIPOS_DE_FAIXA = (FAIXA_ISENTA, FAIXA_PROGRESSIVA)
 
 
 Faixa = Sequence[float]
@@ -199,7 +211,7 @@ def validar_estrutura(registro: Dict[str, Any]) -> List[Achado]:
                 Achado("nao_comeca_em_zero", "erro",
                        f"a primeira faixa começa em {tiers[0][0]:.0f} m³ e não em 0")
             )
-        if est.teto_tabelado_m3 < 9999.0:
+        if est.teto_tabelado_m3 < TETO_ABERTO_M3:
             achados.append(
                 Achado(
                     "tabela_truncada", "erro",
