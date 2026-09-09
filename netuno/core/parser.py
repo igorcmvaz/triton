@@ -1,4 +1,11 @@
 import os
+import re
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.chlorination import (
+    DOSE_PADRAO_MG_POR_LITRO,
+    FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
+    PUREZA_PADRAO,
+)
 import csv
 import hashlib
 import socket
@@ -174,7 +181,7 @@ class NetunoConfig:
     daily_residents: List[float] = field(default_factory=list)
     daily_shares: List[float] = field(default_factory=list)
     
-    runoff_coeff: float = 0.75  # runoff coefficient C (0..1)
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO  # ver hydrology_defaults
     
     # Upper Reservoir
     upper_tank_vol: float = 500.0  # liters
@@ -236,9 +243,12 @@ class NetunoConfig:
     
     # Chlorination / Chemical Disinfection Treatment
     chlorine_treatment_enabled: bool = True
-    chlorine_dose_mg_l: float = 2.0         # Dose de cloro (mg Cl2 / L)
-    chlorine_cost_per_kg: float = 25.0      # Custo do insumo de cloro (R$ / kg Cl2)
-    chlorine_co2_kg_per_kg: float = 25.0    # Fator de emissão ACV (kg CO2e / kg Cl2)
+    chlorine_dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO   # mg de Cl2 ativo por litro
+    chlorine_product_purity: float = PUREZA_PADRAO         # kg Cl2 ativo por kg de produto
+    chlorine_cost_per_kg: float = 25.0      # R$ por kg de PRODUTO comercial
+    # O valor de 25,0 que aqui estava nao tinha fonte e era identico ao custo
+    # acima, em R$/kg. Ver netuno/core/chlorination.py.
+    chlorine_co2_kg_per_kg: float = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 
     # Piping Network
     # List of tuples/dicts or PipeInput: (diameter_mm, length_m)
@@ -349,9 +359,66 @@ class NetunoConfig:
         self.cost_labor = float(val)
 
 
+def parametros_do_nome_do_arquivo(caminho: str) -> Dict[str, float]:
+    """Extrai os parâmetros codificados no nome de uma exportação do Netuno 4.
+
+    O Netuno 4 exporta a varredura como uma tabela de volume contra resultado, e
+    **não grava parâmetro nenhum dentro do arquivo**. Toda a configuração fica no
+    nome, por convenção:
+
+        Florianopolis2_Descarte2_Area100_Consumo100_Pessoas4_Percentual90_Coefs08_Recalque20_5000_500_2.csv
+
+    Antes desta versão, ``parse_netuno_csv`` ignorava o nome e devolvia a
+    configuração padrão inteira — área, demanda, coeficiente, descarte, tudo. O
+    retorno parecia uma leitura bem-sucedida, e quem montasse uma comparação com
+    o Netuno 4 a partir dele rodava com parâmetros que não eram os do arquivo,
+    sem qualquer sinal de que algo estava errado.
+
+    Devolve apenas as chaves efetivamente encontradas, para que quem chama possa
+    distinguir «não estava no nome» de «era igual ao padrão».
+    """
+    nome = os.path.basename(caminho)
+    achados: Dict[str, float] = {}
+
+    padroes = {
+        "discard": r"Descarte(\d+(?:[.,]\d+)?)",
+        "area": r"Area(\d+(?:[.,]\d+)?)",
+        "demand_value": r"Consumo(\d+(?:[.,]\d+)?)",
+        "residents_count": r"Pessoas(\d+)",
+        "rainwater_share_pct": r"Percentual(\d+(?:[.,]\d+)?)",
+        "runoff_coeff_raw": r"Coefs?(\d+)",
+        "pumping_threshold": r"Recalque(\d+(?:[.,]\d+)?)",
+    }
+    for chave, padrao in padroes.items():
+        m = re.search(padrao, nome, re.IGNORECASE)
+        if m:
+            achados[chave] = float(m.group(1).replace(",", "."))
+
+    # "Coefs08" designa 0,80; "Coefs095", 0,95. O dígito inicial nunca é a
+    # unidade, porque um coeficiente de escoamento não passa de 1.
+    if "runoff_coeff_raw" in achados:
+        bruto = achados.pop("runoff_coeff_raw")
+        achados["runoff_coeff"] = bruto / (10.0 ** len(str(int(bruto))))
+
+    if "rainwater_share_pct" in achados:
+        achados["rainwater_share"] = achados.pop("rainwater_share_pct") / 100.0
+
+    return achados
+
+
 def parse_netuno_csv(file_path: str) -> NetunoConfig:
-    """Parses a Netuno 4 .csv file into a NetunoConfig object."""
+    """Lê uma exportação .csv do Netuno 4 e devolve a configuração correspondente.
+
+    O Netuno 4 grava a configuração **no nome do arquivo**, não no conteúdo, de
+    modo que a leitura começa por ali. O que estiver também no corpo do arquivo
+    prevalece sobre o nome, porque é mais específico.
+    """
     config = NetunoConfig()
+
+    for chave, valor in parametros_do_nome_do_arquivo(file_path).items():
+        if hasattr(config, chave):
+            atual = getattr(config, chave)
+            setattr(config, chave, int(valor) if isinstance(atual, int) else valor)
     
     with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
         lines = f.readlines()
@@ -399,7 +466,7 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
             elif key.startswith("Percentual de gua potvel") or key.startswith("Percentual de água potável"):
                 config.rainwater_share = parse_float(parts[1], 0.4)
             elif key.startswith("Coeficiente de escoamento"):
-                config.runoff_coeff = parse_float(parts[1], 0.9)
+                config.runoff_coeff = parse_float(parts[1], COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             elif key.startswith("Reservatrio superior") or key.startswith("Reservatório superior"):
                 # Format: Reservatório superior (litros);500;0 (0 = used/desejado, 1 = not used)
                 config.upper_tank_vol = parse_float(parts[1], 500.0)
@@ -798,7 +865,7 @@ def load_netuno_project(file_path: str) -> dict:
             # Building & Demand
             b = inputs.get("building_and_demand", {})
             cfg.area = b.get("catchment_area_m2", 100.0)
-            cfg.runoff_coeff = b.get("runoff_coeff", 0.9)
+            cfg.runoff_coeff = b.get("runoff_coeff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             cfg.residents_count = b.get("residents_count", 3)
             cfg.residents_type = b.get("residents_type", 0)
             cfg.residents_monthly = b.get("residents_monthly", [])

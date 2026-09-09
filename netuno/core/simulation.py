@@ -1,4 +1,5 @@
 import math
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
@@ -577,7 +578,7 @@ def run_single_simulation(
     precip_data: np.ndarray,
     lower_tank_vol: float,
     area: float = 100.0,
-    runoff_coeff: float = 0.9,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
     discard_mm: float = 1.0,
     discard_mode: int = 1,  # 1 = Todos os eventos, 2 = 1º evento pós estiagem (1 dia sem chuva), 3 = A cada X dias
     discard_days_interval: int = 7,  # Intervalo de dias para o modo 3
@@ -907,7 +908,7 @@ def run_sweep_simulation(
     lower_tank_max: float = 10000.0,
     lower_tank_step: float = 250.0,
     area: float = 100.0,
-    runoff_coeff: float = 0.9,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
     discard_mm: float = 1.0,
     discard_mode: int = 1,
     discard_days_interval: int = 7,

@@ -7,6 +7,7 @@ Suporta dois modelos principais de exportação:
 """
 
 import os
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import base64
 from html import escape
 from datetime import datetime
@@ -44,7 +45,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     climate_period = escape(str(audit.get("climate_period", "-")))
     analysis_years = escape(str(audit.get("analysis_period_years", 20)))
     area = project_data.get("area", 100.0)
-    runoff = project_data.get("runoff", 0.75)
+    runoff = project_data.get("runoff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard = project_data.get("discard", 2.0)
     residents = project_data.get("residents", 4)
     demand = project_data.get("demand", 200.0)
@@ -382,7 +383,7 @@ def generate_environmental_html_report(
     climate_period = escape(str(audit.get("climate_period", "-")))
     tariff_location = escape(str(audit.get("tariff_location", "-")))
     area = project_data.get("area", 100.0)
-    runoff = project_data.get("runoff", 0.75)
+    runoff = project_data.get("runoff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard = project_data.get("discard", 2.0)
     residents = project_data.get("residents", 4)
     demand = project_data.get("demand", 200.0)

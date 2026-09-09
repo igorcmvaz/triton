@@ -37,14 +37,64 @@ def test_load_precipitation_file():
     assert len(arr) == 31411
 
 def test_parse_netuno_project_csv():
-    path = os.path.join(WORKSPACE_DIR, "data", "simulation_outputs", "Florianopolis2_Descarte2_Area100_Consumo100_Pessoas4_Percentual90_Coefs08_Recalque20_5000_500_2.csv")
+    """A configuracao de uma exportacao do Netuno 4 vem do NOME do arquivo.
+
+    O Netuno 4 grava so a tabela de varredura: volume contra resultado, sem
+    parametro nenhum no corpo. Toda a configuracao fica no nome, por convencao.
+
+    Ate a versao 5.0.7 este parser ignorava o nome e devolvia a configuracao
+    padrao inteira. O retorno parecia leitura bem-sucedida, e este teste fixava
+    exatamente esses padroes - area 100 e residentes 4 batiam por coincidencia,
+    e os outros cinco estavam simplesmente errados. Quem montasse uma comparacao
+    com o Netuno 4 a partir dele rodava com descarte de 1 mm onde o arquivo diz
+    2 mm, e com 40% de fracao pluvial onde o arquivo diz 90%.
+    """
+    nome = ("Florianopolis2_Descarte2_Area100_Consumo100_Pessoas4"
+            "_Percentual90_Coefs08_Recalque20_5000_500_2.csv")
+    path = os.path.join(WORKSPACE_DIR, "data", "simulation_outputs", nome)
     cfg = parse_netuno_csv(path)
-    assert cfg.area == 100.0
-    assert cfg.demand_value == 200.0
-    assert cfg.residents_count == 4
-    assert cfg.rainwater_share == 0.4
-    assert cfg.runoff_coeff == 0.75
-    assert cfg.discard == 1.0
+
+    assert cfg.discard == 2.0                # Descarte2
+    assert cfg.area == 100.0                 # Area100
+    assert cfg.demand_value == 100.0         # Consumo100
+    assert cfg.residents_count == 4          # Pessoas4
+    assert cfg.rainwater_share == 0.9        # Percentual90
+    assert cfg.runoff_coeff == 0.8           # Coefs08
+    assert cfg.pumping_threshold == 20.0     # Recalque20
+
+
+def test_parametros_do_nome_devolvem_so_o_que_encontram():
+    """Distingue «nao estava no nome» de «era igual ao padrao».
+
+    E essa distincao que faltava: uma configuracao devolvida por inteiro nao
+    permitia saber o que fora lido e o que fora presumido.
+    """
+    from netuno.core.parser import parametros_do_nome_do_arquivo
+
+    completo = parametros_do_nome_do_arquivo(
+        "Manaus1_Descarte2_Area200_Consumo150_Pessoas5_Percentual40_Coefs09_Recalque0.csv"
+    )
+    assert completo["discard"] == 2.0
+    assert completo["area"] == 200.0
+    assert completo["runoff_coeff"] == 0.9
+    assert completo["rainwater_share"] == 0.4
+
+    vazio = parametros_do_nome_do_arquivo("arquivo_qualquer.csv")
+    assert vazio == {}
+
+
+def test_coeficiente_do_nome_nunca_passa_de_um():
+    """«Coefs08» e 0,80 e «Coefs095» e 0,95, nunca 8 nem 95.
+
+    Um coeficiente de escoamento acima de 1 significaria captar mais agua do que
+    a que cai no telhado.
+    """
+    from netuno.core.parser import parametros_do_nome_do_arquivo
+
+    for sufixo, esperado in (("Coefs08", 0.8), ("Coefs09", 0.9), ("Coefs095", 0.95)):
+        lido = parametros_do_nome_do_arquivo(f"Serie_{sufixo}_Area100.csv")
+        assert lido["runoff_coeff"] == pytest.approx(esperado)
+        assert 0.0 < lido["runoff_coeff"] <= 1.0
 
 def test_export_netuno4_csv_roundtrip(tmp_path):
     from netuno.core.parser import NetunoConfig, export_netuno_csv, parse_netuno_csv

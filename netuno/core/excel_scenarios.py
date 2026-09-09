@@ -1,4 +1,5 @@
 import os
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import itertools
 import io
 from dataclasses import dataclass, field
@@ -110,7 +111,7 @@ def parse_excel_scenarios(file_input: Union[str, bytes, io.BytesIO]) -> List[Dic
             share = share_val
             
         discard = parse_float(get_val(["descarte", "discard"], 1.0), 1.0)
-        runoff = parse_float(get_val(["coef", "runoff", "escoamento"], 0.9), 0.9)
+        runoff = parse_float(get_val(["coef", "runoff", "escoamento"], COEFICIENTE_DE_ESCOAMENTO_PADRAO), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
         
         mode_str = str(get_val(["modo", "mode"], "varredura")).lower()
         is_sweep = "varredura" in mode_str or "sweep" in mode_str or "range" in mode_str
@@ -150,7 +151,7 @@ def generate_factorial_grid(
     upper_tank_vol: float = 0.0,
     pumping_threshold: float = 0.0,
     discard_mm: float = 1.0,
-    runoff_coeff: float = 0.9,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
     is_sweep: bool = True,
     sweep_step: float = 250.0
 ) -> List[Dict[str, Any]]:

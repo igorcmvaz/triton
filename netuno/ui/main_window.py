@@ -4,6 +4,7 @@ Interface moderna com navegação por Sidebar em 6 Etapas, Live Preview e Sem Po
 """
 
 import os
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QMenuBar, QMenu, QMessageBox, QFileDialog,
     QToolBar, QLabel, QVBoxLayout, QFrame, QPushButton
@@ -615,7 +616,7 @@ class MainWindow(QMainWindow):
             cfg.demand_value = b_cfg.get('demand', 200.0)
             cfg.residents_count = b_cfg.get('residents', 3)
             cfg.rainwater_share = b_cfg.get('share', 0.4)
-            cfg.runoff_coeff = b_cfg.get('runoff', 0.75)
+            cfg.runoff_coeff = b_cfg.get('runoff', COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             cfg.demand_monthly = b_cfg.get('monthly_demands') or []
             cfg.residents_monthly = b_cfg.get('monthly_residents') or []
 
