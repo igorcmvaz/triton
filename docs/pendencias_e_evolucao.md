@@ -25,6 +25,7 @@ sua, está dito.
 | 10 | Percentil do P95 sobre a série toda | diverge do ETCCDI | você |
 | 11 | Constantes de domínio repetidas | divergência futura | eu |
 | 12 | Módulos de 2.000+ linhas | manutenção | eu |
+| 13 | Seis campos gravados e nunca lidos | demanda antiga possivelmente multiplicada pelos moradores | você |
 
 ---
 
@@ -293,6 +294,43 @@ suíte atual como rede.
 
 ---
 
+## 13. Seis campos gravados no arquivo e nunca lidos
+
+O quadro de ligações desta rodada varreu os 78 arquivos do pacote atrás de cada
+nome de campo de `NetunoConfig`. Seis aparecem **apenas** em `parser.py`: são
+lidos do arquivo, escritos de volta, e nenhum cálculo os consulta.
+
+| Campo | O que deveria significar | Consequência de ignorá-lo |
+| :--- | :--- | :--- |
+| `demand_type` | per capita ou total, no formato do Netuno 4 | a demanda é sempre `demand_value × residents_count` |
+| `residents_type` | fixo ou variável, idem | nenhuma, o número mensal já tem campo próprio |
+| `install_month` | mês em que o sistema entra em operação | o fluxo de caixa começa sempre no mês 1 |
+| `climate_source_mode` | base nacional ou arquivo do usuário | nenhuma, a escolha se deduz do caminho do arquivo |
+| `irrigation_garden_area_m2` | área de jardim, para o assistente | o assistente de irrigação nunca foi ligado |
+| `irrigation_rate_l_m2_day` | taxa de rega, idem | idem |
+
+**Dois pedem decisão sua.**
+
+`install_month` é o mais direto: o mês de instalação existe no formato e o fluxo
+de caixa o ignora. Implementar significa deslocar o início do fluxo, o que muda
+o valor presente líquido de todo projeto que declare um mês diferente de janeiro.
+É uma correção pequena no código e visível no resultado — por isso não a fiz sem
+perguntar.
+
+`demand_type` é o que me preocupa. O rótulo da linha antiga é
+`Demanda de água total;<tipo>;1;<valor>;`, e a demanda hoje é sempre tratada como
+per capita. Se o código `1` significar demanda **total** no Netuno 4, todo projeto
+antigo importado com esse código tem a demanda multiplicada pelo número de
+moradores — quatro vezes maior, numa residência típica. **Preciso de um arquivo
+`.netuno` do Netuno 4 com demanda total declarada** para confirmar antes de mexer.
+Não corrigi no escuro porque, se eu estiver errado sobre o significado do código,
+a correção quebra a leitura dos arquivos que hoje funcionam.
+
+Os outros quatro não pedem decisão: `residents_type` e `climate_source_mode` são
+redundantes, e os dois de irrigação pertencem a um assistente de dimensionamento
+que nunca foi ligado à tela. Ficam gravados para não quebrar arquivos existentes.
+
+---
 ## O que esta rodada resolveu
 
 Registrado para não gerar retrabalho.
@@ -320,6 +358,9 @@ Registrado para não gerar retrabalho.
 4. **Item 7, tarifa social**, se o uso em habitação de interesse social estiver
    no horizonte.
 5. **Item 9**, fixtures dos raspadores, antes que uma concessionária mude o site.
+
+O **item 13** entra logo depois do 3: `demand_type` decide se os estudos antigos
+importados estão certos, e a confirmação custa um arquivo do Netuno 4.
 
 Os itens 11 e 12 são meus e não precisam da sua decisão: entram quando houver
 folga, sem alterar comportamento.

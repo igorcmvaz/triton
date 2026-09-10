@@ -383,6 +383,26 @@ class DialogTariffs(QDialog):
         gb_esgoto.setLayout(lay_esg)
         lay.addWidget(gb_esgoto)
 
+        # ── BLOCO 4: IMPOSTOS SOBRE A CONTA DE AGUA ──
+        # O motor economico soma os dois desde sempre; ate esta versao a tela
+        # nao os oferecia e ainda os zerava ao fechar.
+        gb_imp = QGroupBox(tr("Impostos e encargos sobre a conta de água (opcional)"))
+        lay_imp = QHBoxLayout()
+        _tax_fix = float(getattr(self.config, "water_tax_fixed", 0.0) or 0.0)
+        _tax_var = float(getattr(self.config, "water_tax_var", 0.0) or 0.0)
+        lay_imp.addWidget(QLabel(tr("Imposto fixo (R$/mês):")))
+        self.txt_tax_fix = QLineEdit(f"{_tax_fix:.2f}".replace(".", ","))
+        self.txt_tax_fix.setFixedWidth(90)
+        lay_imp.addWidget(self.txt_tax_fix)
+        lay_imp.addSpacing(18)
+        lay_imp.addWidget(QLabel(tr("Imposto variável (%):")))
+        self.txt_tax_var = QLineEdit(f"{_tax_var:.2f}".replace(".", ","))
+        self.txt_tax_var.setFixedWidth(90)
+        lay_imp.addWidget(self.txt_tax_var)
+        lay_imp.addStretch()
+        gb_imp.setLayout(lay_imp)
+        lay.addWidget(gb_imp)
+
         # Estilo de RadioButtons
         self.setStyleSheet(f"""
             QRadioButton {{ padding: 3px; }}
@@ -839,8 +859,16 @@ class DialogTariffs(QDialog):
             self.config.water_tariffs = tariffs
             self.config.sewage_mode = 0 if self.radio_esg_fix.isChecked() else 1
             self.config.sewage_rate = float(self.txt_esg_val.text().replace(',', '.'))
-            self.config.water_tax_fixed = 0.0
-            self.config.water_tax_var = 0.0
+            # Ate 5.0.8 estes dois eram zerados aqui, apagando o que o arquivo
+            # do projeto ou a linha de comando tivessem declarado.
+            def _num(campo, padrao=0.0):
+                t = campo.text().strip().replace(".", "").replace(",", ".")
+                try:
+                    return max(0.0, float(t)) if t else padrao
+                except ValueError:
+                    return padrao
+            self.config.water_tax_fixed = _num(self.txt_tax_fix)
+            self.config.water_tax_var = _num(self.txt_tax_var)
             
             # Persist selected city metadata
             if self.combo_uf.currentIndex() >= 0:
@@ -1656,8 +1684,23 @@ class DialogElectricity(QDialog):
         self.txt_elec_tariff = QLineEdit(elec_tariff_str)
         lay_p.addWidget(self.txt_elec_tariff)
 
+        # Impostos da conta de energia. No Brasil a fatura carrega ICMS mais
+        # PIS/COFINS, entre 25% e 30% em boa parte dos estados, e o bombeamento
+        # e o unico custo operacional recorrente do sistema.
+        _e_var = float(getattr(self.config, "elec_tax_var", 0.0) or 0.0)
+        _e_fix = float(getattr(self.config, "elec_tax_fixed", 0.0) or 0.0)
+        lay_p.addWidget(QLabel(tr("Imposto variável sobre a conta de energia (%):")))
+        self.txt_elec_tax_var = QLineEdit(f"{_e_var:.2f}".replace(".", ","))
+        lay_p.addWidget(self.txt_elec_tax_var)
+        lay_p.addWidget(QLabel(tr("Imposto fixo sobre a conta de energia (R$/mês):")))
+        self.txt_elec_tax_fix = QLineEdit(f"{_e_fix:.2f}".replace(".", ","))
+        lay_p.addWidget(self.txt_elec_tax_fix)
+
         self.chk_backup_pump = QCheckBox(tr("Considerar motobomba de reserva"))
-        self.chk_backup_pump.setChecked(True if getattr(self.config, 'pump_count', 2) >= 1 else True)
+        # O ternario anterior devolvia True nos dois ramos, de modo que a caixa abria
+        # sempre marcada e o OK devolvia pump_count = 2, apagando a escolha de bomba
+        # unica. A contagem de bombas entra na ACV e no CAPEX.
+        self.chk_backup_pump.setChecked(int(getattr(self.config, 'pump_count', 2)) >= 2)
         lay_p.addWidget(self.chk_backup_pump)
 
         lay.addWidget(gb_pump)
@@ -1849,8 +1892,8 @@ class DialogElectricity(QDialog):
             self.config.pump_startup_time_h = float(self.txt_startup.text().replace(',', '.')) / 3600.0
             self.config.pump_unit_cost = _parse_val(self.txt_unit_cost)
             self.config.elec_tariff = _parse_val(self.txt_elec_tariff)
-            self.config.elec_tax_fixed = 0.0
-            self.config.elec_tax_var = 0.0
+            self.config.elec_tax_fixed = max(0.0, _parse_val(self.txt_elec_tax_fix))
+            self.config.elec_tax_var = max(0.0, _parse_val(self.txt_elec_tax_var))
             self.config.pump_count = 2 if self.chk_backup_pump.isChecked() else 1
             
             # Persiste seleção de cidade da eletricidade
