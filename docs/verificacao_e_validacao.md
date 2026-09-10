@@ -538,7 +538,7 @@ quanto se um deles for corrigido sem atualizar o registro.
 
 ## 7. Correção aplicada nesta apuração
 
-`tests/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
+`tests/unit/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
 **SP/Americana (DAE Americana)**, por asseverar `is_fix ∈ [−1, 1]`.
 
 A investigação mostrou que `−2` é semântica **deliberada e suportada**: `economic.py:149`
