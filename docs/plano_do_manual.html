@@ -1,0 +1,646 @@
+<title>Plano do Manual do Netuno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+  :root {
+    --papel:#f5f8f9; --carta:#fff; --tinta:#14212a; --tinta2:#446071; --tinta3:#7c939f;
+    --linha:#d5dee3; --linha2:#b0c0ca; --realce:#eef6fa;
+    --ent:#0f7aa8; --nuc:#c25d28; --sai:#2f8659; --dad:#7d5fb0;
+    --al-bg:#fdf3e8; --al-bd:#e0b184;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --papel:#101720; --carta:#17212a; --tinta:#e3ecf2; --tinta2:#a5bac6; --tinta3:#738b98;
+      --linha:#2a3945; --linha2:#42576a; --realce:#1c2a35;
+      --ent:#2e97c4; --nuc:#d4703a; --sai:#3f9d6b; --dad:#9b7bd4;
+      --al-bg:#291f16; --al-bd:#67492c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --papel:#101720; --carta:#17212a; --tinta:#e3ecf2; --tinta2:#a5bac6; --tinta3:#738b98;
+    --linha:#2a3945; --linha2:#42576a; --realce:#1c2a35;
+    --ent:#2e97c4; --nuc:#d4703a; --sai:#3f9d6b; --dad:#9b7bd4;
+    --al-bg:#291f16; --al-bd:#67492c;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--papel);color:var(--tinta);margin:0;
+       font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15.5px;line-height:1.62;
+       padding:0 20px 90px}
+  .folha{max-width:1000px;margin:0 auto}
+  header.topo{padding:56px 0 12px;border-bottom:2px solid var(--tinta);margin-bottom:30px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+           text-transform:uppercase;color:var(--tinta3);margin:0 0 13px}
+  h1{font-family:"IBM Plex Serif",Georgia,serif;font-size:clamp(30px,4.8vw,42px);
+     line-height:1.08;font-weight:600;letter-spacing:-.015em;margin:0 0 16px}
+  .abertura{font-size:16.5px;color:var(--tinta2);max-width:66ch;margin:0}
+  h2{font-family:"IBM Plex Serif",Georgia,serif;font-size:25px;font-weight:600;
+     letter-spacing:-.01em;margin:58px 0 6px;padding-top:22px;border-top:2px solid var(--tinta)}
+  h2 .parte{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
+            color:var(--ent);display:block;margin-bottom:6px;letter-spacing:.1em;
+            text-transform:uppercase}
+  h3{font-size:16px;font-weight:600;margin:34px 0 4px}
+  h3 .cap{font-family:"IBM Plex Mono",monospace;color:var(--tinta3);font-weight:400;
+          margin-right:9px;font-size:14px}
+  p{max-width:70ch;margin:0 0 14px}
+  .lede{color:var(--tinta2);font-size:14.5px;margin:4px 0 12px}
+  code{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--papel);
+       border:1px solid var(--linha);border-radius:3px;padding:1px 4px;overflow-wrap:anywhere}
+  ul,ol{max-width:70ch;padding-left:22px;margin:0 0 14px}
+  li{margin-bottom:5px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:14px 0 24px}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--linha);vertical-align:top}
+  th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--tinta3);
+     font-weight:600;border-bottom:1px solid var(--linha2)}
+  td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;
+            font-variant-numeric:tabular-nums;white-space:nowrap}
+  .caixa{background:var(--carta);border:1px solid var(--linha);border-radius:7px;
+         padding:4px 16px;margin:16px 0 26px;overflow-x:auto}
+  .painel{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;
+          margin:26px 0 32px}
+  .tile{background:var(--carta);border:1px solid var(--linha);border-radius:6px;padding:12px 13px}
+  .tile .v{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:500;line-height:1.1;
+           font-variant-numeric:tabular-nums;display:block}
+  .tile .r{font-size:11.5px;color:var(--tinta2);margin-top:3px;display:block}
+  .alerta{background:var(--al-bg);border:1px solid var(--al-bd);border-left:3px solid var(--nuc);
+          border-radius:5px;padding:15px 18px;margin:22px 0;font-size:14.5px}
+  .alerta p{margin:0;max-width:none}
+  .alerta p+p{margin-top:9px}
+  .fonte{font-size:12.5px;color:var(--tinta3);margin:6px 0 0;max-width:none}
+  .fonte b{color:var(--sai);font-weight:500}
+  .fonte i{color:var(--nuc);font-style:normal;font-weight:500}
+  .cap-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:"IBM Plex Mono",monospace;
+            font-size:11.5px;color:var(--tinta3);margin:2px 0 10px}
+  .cap-meta b{color:var(--tinta2);font-weight:500}
+  nav.sum{background:var(--carta);border:1px solid var(--linha);border-radius:7px;
+          padding:16px 20px;margin:0 0 10px}
+  nav.sum ol{margin:0;padding-left:20px;font-size:14px;columns:2;column-gap:34px;max-width:none}
+  nav.sum li{margin-bottom:6px;break-inside:avoid}
+  nav.sum a{color:var(--tinta2);text-decoration:none;border-bottom:1px solid var(--linha2)}
+  nav.sum a:hover{color:var(--ent);border-color:var(--ent)}
+  footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--linha);
+         font-size:13px;color:var(--tinta3)}
+  .mono{font-family:"IBM Plex Mono",monospace}
+  @media (max-width:720px){ nav.sum ol{columns:1} }
+</style>
+
+<div class="folha">
+
+<header class="topo">
+  <p class="eyebrow">Netuno 5.0.8 &middot; plano editorial &middot; 10 de setembro de 2026</p>
+  <h1>Plano do Manual do Netuno 5</h1>
+  <p class="abertura">
+    Seis partes, trinta e sete cap&iacute;tulos e sete ap&ecirc;ndices, na ordem em
+    que o Manual do Netuno&nbsp;4 organizou o assunto e com o que o Netuno&nbsp;5
+    acrescentou. Cada cap&iacute;tulo diz o que j&aacute; existe escrito no
+    reposit&oacute;rio, o que precisa ser escrito do zero, e quantas p&aacute;ginas
+    deve ocupar.
+  </p>
+</header>
+
+<div class="painel">
+  <div class="tile"><span class="v" style="color:var(--ent)">37</span><span class="r">cap&iacute;tulos</span></div>
+  <div class="tile"><span class="v" style="color:var(--ent)">7</span><span class="r">ap&ecirc;ndices</span></div>
+  <div class="tile"><span class="v" style="color:var(--sai)">9</span><span class="r">estudos de caso</span></div>
+  <div class="tile"><span class="v" style="color:var(--nuc)">412</span><span class="r">p&aacute;ginas somadas</span></div>
+  <div class="tile"><span class="v" style="color:var(--sai)">44%</span><span class="r">j&aacute; escrito, em fragmentos</span></div>
+  <div class="tile"><span class="v" style="color:var(--dad)">62</span><span class="r">p&aacute;ginas do Netuno 4</span></div>
+</div>
+
+<p style="font-size:13px;color:var(--tinta3);max-width:74ch;margin:-14px 0 0">As p&aacute;ginas s&atilde;o somadas cap&iacute;tulo a cap&iacute;tulo, e n&atilde;o estimadas em bloco: 262 nos vinte e oito cap&iacute;tulos de texto, 92 nos nove estudos de caso e 58 nos ap&ecirc;ndices. O Manual do Netuno&nbsp;4 tem 62 p&aacute;ginas e dez cap&iacute;tulos.</p>
+
+<h2 style="border-top:none;padding-top:0;margin-top:34px">Antes de come&ccedil;ar: tr&ecirc;s decis&otilde;es</h2>
+
+<p>
+  <b>Um manual ou dois.</b> O Netuno&nbsp;4 misturou uso e m&eacute;todo: o
+  cap&iacute;tulo&nbsp;3 ensina a preencher os campos e o&nbsp;4 explica as
+  equa&ccedil;&otilde;es. Funcionou com 62 p&aacute;ginas. Com 102 par&acirc;metros
+  e 24 processos, misturar as duas coisas produz um documento que ningu&eacute;m
+  l&ecirc; inteiro e no qual ningu&eacute;m acha nada. A proposta separa: as Partes
+  II e III cobrem o mesmo assunto por dois &acirc;ngulos, <i>onde se informa</i> e
+  <i>o que o programa faz com isso</i>, e cada cap&iacute;tulo de uma remete ao da
+  outra. Quem quer operar l&ecirc; a II; quem vai publicar l&ecirc; a III.
+</p>
+
+<p>
+  <b>O manual n&atilde;o pode divergir do programa.</b> Um manual de 370
+  p&aacute;ginas envelhece em silêncio. Os ap&ecirc;ndices A e B &mdash; os 102
+  par&acirc;metros e os 24 processos &mdash; devem ser <b>gerados do fonte</b>, como
+  o mapa de processos j&aacute; &eacute;, e n&atilde;o transcritos. O mesmo vale
+  para as tabelas de valores-padr&atilde;o espalhadas pelos cap&iacute;tulos.
+</p>
+
+<p>
+  <b>As limita&ccedil;&otilde;es entram no manual.</b> O Netuno&nbsp;4 tem um
+  cap&iacute;tulo de «erros eventuais». O Netuno&nbsp;5 precisa de mais que isso: um
+  cap&iacute;tulo de limita&ccedil;&otilde;es conhecidas, alimentado pelas
+  pend&ecirc;ncias. Um programa que declara onde n&atilde;o serve &eacute; mais
+  confi&aacute;vel que um que finge servir para tudo, e num programa acad&ecirc;mico
+  isso &eacute; obriga&ccedil;&atilde;o.
+</p>
+
+<nav class="sum">
+  <ol>
+    <li><a href="#p1">Parte I &mdash; O programa</a></li>
+    <li><a href="#p2">Parte II &mdash; Entrada de dados</a></li>
+    <li><a href="#p3">Parte III &mdash; M&eacute;todo de c&aacute;lculo</a></li>
+    <li><a href="#p4">Parte IV &mdash; Estudos de caso</a></li>
+    <li><a href="#p5">Parte V &mdash; Verifica&ccedil;&atilde;o e limites</a></li>
+    <li><a href="#p6">Parte VI &mdash; Linha de comando</a></li>
+    <li><a href="#ap">Ap&ecirc;ndices</a></li>
+    <li><a href="#ordem">Em que ordem escrever</a></li>
+  </ol>
+</nav>
+
+<!-- ─────────────────────────────── PARTE I ─────────────────────────────── -->
+<h2 id="p1"><span class="parte">Parte I</span>O programa</h2>
+<p class="lede">Quatro cap&iacute;tulos, 28 p&aacute;ginas. Para quem abriu
+o programa pela primeira vez, e para quem vinha do Netuno&nbsp;4.</p>
+
+<h3><span class="cap">1</span>Introdu&ccedil;&atilde;o</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>escrever do zero</span></div>
+<p>
+  O que o programa faz e a quem serve. O modelo comportamental de base di&aacute;ria,
+  e por que ele difere de m&eacute;todos por valores m&eacute;dios. Um panorama das
+  seis dimens&otilde;es que o Netuno&nbsp;5 avalia: t&eacute;cnica, qualidade da
+  &aacute;gua, econ&ocirc;mica, ambiental, certifica&ccedil;&atilde;o e decis&atilde;o
+  multicrit&eacute;rio.
+</p>
+<p>
+  <b>Se&ccedil;&atilde;o obrigat&oacute;ria: o que mudou do Netuno&nbsp;4.</b> Uma
+  tabela de correspond&ecirc;ncia recurso a recurso, e a lista das
+  diverg&ecirc;ncias deliberadas de m&eacute;todo com o efeito de cada uma. A mais
+  importante &eacute; o descarte: o Netuno&nbsp;4 trata a l&acirc;mina como limiar
+  do evento, o Netuno&nbsp;5 a subtrai, e a diferen&ccedil;a vale de 2,3 a 2,7
+  pontos percentuais de economia sobre 4.050 casos de refer&ecirc;ncia. Quem
+  comparar resultados das duas vers&otilde;es precisa saber disso na
+  p&aacute;gina&nbsp;10, n&atilde;o num anexo.
+</p>
+<p class="fonte"><b>Existe:</b> <code>metodologia.md</code> §1 (a diverg&ecirc;ncia
+quantificada) &middot; <code>estado_da_versao_5_0_8.md</code> &middot;
+<code>protocolo_netuno4.md</code> §1 (tabela de correspond&ecirc;ncia).
+<i>Falta:</i> o texto de abertura e o panorama.</p>
+
+<h3><span class="cap">2</span>Instala&ccedil;&atilde;o, requisitos e primeira execu&ccedil;&atilde;o</h3>
+<div class="cap-meta"><span><b>6 p.</b></span><span>escrever do zero</span></div>
+<ul>
+  <li>Requisitos, e o que degrada quando falta: sem <code>numba</code> o mesmo
+      la&ccedil;o roda em Python puro com o mesmo resultado; sem Qt WebEngine o PDF
+      cai no gerador alternativo.</li>
+  <li>A base clim&aacute;tica de 6,5&nbsp;GB &eacute; distribu&iacute;da &agrave;
+      parte. Como obter, onde instalar, e o que o programa faz sem ela.</li>
+  <li>Arquivos de exemplo que acompanham o manual, como no cap&iacute;tulo&nbsp;2 do
+      Netuno&nbsp;4.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> <code>README.md</code>, <code>requirements.txt</code>,
+os tr&ecirc;s <code>examples/*.netuno</code>. <i>Falta:</i> o roteiro de
+instala&ccedil;&atilde;o e o conjunto de arquivos de acompanhamento.</p>
+
+<h3><span class="cap">3</span>A janela: mapa das dezessete abas</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>escrever do zero</span><span>figuras: 17</span></div>
+<p>
+  Uma p&aacute;gina por aba, com captura de tela numerada e a fun&ccedil;&atilde;o de
+  cada &aacute;rea. &Eacute; o cap&iacute;tulo mais consultado de qualquer manual e o
+  que mais envelhece: gerar as capturas por script, com projeto de exemplo fixo, para
+  poder refaz&ecirc;-las todas a cada vers&atilde;o.
+</p>
+<p>
+  Abre com o fluxo recomendado de trabalho, que n&atilde;o &eacute; a ordem das abas:
+  Projeto &rarr; Edifica&ccedil;&atilde;o &rarr; Qualidade &rarr; Varredura &rarr;
+  Econ&ocirc;mico &rarr; Ambiental &rarr; Otimizador &rarr; Relat&oacute;rios.
+</p>
+
+<h3><span class="cap">4</span>Arquivos: o projeto, as s&eacute;ries e as sa&iacute;das</h3>
+<div class="cap-meta"><span><b>4 p.</b></span><span>escrever do zero</span></div>
+<ul>
+  <li>O arquivo <code>.netuno</code>: formato JSON por se&ccedil;&otilde;es, os 102
+      campos, compatibilidade com arquivos antigos.</li>
+  <li>Formato aceito de s&eacute;rie de chuva, e o tratamento de falhas.</li>
+  <li>Sa&iacute;das: HTML, PDF, DXF, IFC e planilhas.</li>
+</ul>
+
+<!-- ─────────────────────────────── PARTE II ────────────────────────────── -->
+<h2 id="p2"><span class="parte">Parte II</span>Entrada de dados</h2>
+<p class="lede">Oito cap&iacute;tulos, 76 p&aacute;ginas. Corresponde ao
+cap&iacute;tulo&nbsp;3 do Netuno&nbsp;4, que tinha 8 p&aacute;ginas. Cada
+cap&iacute;tulo segue a mesma forma: onde fica o campo, o que significa, que faixa
+&eacute; plaus&iacute;vel, qual o padr&atilde;o e de onde ele vem, o que acontece se
+for deixado em branco, e para onde o valor vai.</p>
+
+<h3><span class="cap">5</span>Precipita&ccedil;&atilde;o</h3>
+<div class="cap-meta"><span><b>12 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>Arquivo pr&oacute;prio: formato, recorte temporal, ano incompleto.</li>
+  <li>Base nacional: 652 cidades, 19 modelos CMIP6, 3 cen&aacute;rios, tr&ecirc;s
+      janelas temporais. Como escolher modelo e cen&aacute;rio, e o que significa
+      cada um.</li>
+  <li><b>Quadro:</b> a s&eacute;rie de chuva &eacute; lida <b>duas vezes</b>, por
+      caminhos independentes. Uma leitura vira volume captado; a outra decide se o
+      jardim &eacute; regado. Um mesmo dia pode suprimir a irriga&ccedil;&atilde;o e
+      ainda render capta&ccedil;&atilde;o.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> aba de Documenta&ccedil;&atilde;o, p&aacute;gina
+«Precipita&ccedil;&atilde;o &amp; Hidrologia». <i>Falta:</i> o guia da base CMIP6,
+que hoje n&atilde;o est&aacute; documentado em lugar nenhum.</p>
+
+<h3><span class="cap">6</span>Capta&ccedil;&atilde;o: &aacute;rea, coeficiente e descarte</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>&Aacute;rea de capta&ccedil;&atilde;o: proje&ccedil;&atilde;o horizontal, e o
+      erro comum de usar a &aacute;rea inclinada.</li>
+  <li>Coeficiente de escoamento por material de cobertura, com a tabela de mistura.</li>
+  <li>Os <b>tr&ecirc;s modos de descarte</b>, com exemplo num&eacute;rico de cada:
+      todo evento, primeiro evento ap&oacute;s estiagem, e a cada X dias.</li>
+  <li><b>Quadro:</b> a l&acirc;mina &eacute; subtra&iacute;da, e o dia que n&atilde;o
+      a supera se perde <b>inteiro</b>. E <code>d<sub>f</sub></code> &eacute; uma
+      l&acirc;mina, n&atilde;o o volume do dispositivo f&iacute;sico, que exige
+      dimensionamento &agrave; parte.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> aba de Documenta&ccedil;&atilde;o, «Coeficientes de
+Telhados» e as equa&ccedil;&otilde;es; <code>metodologia.md</code> §1.</p>
+
+<h3><span class="cap">7</span>Edifica&ccedil;&atilde;o e demanda</h3>
+<div class="cap-meta"><span><b>14 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>As 8 tipologias e os padr&otilde;es de consumo per capita de cada uma.</li>
+  <li>Os 4 modos de demanda: constante, semanal, mensal e di&aacute;ria.</li>
+  <li>Discretiza&ccedil;&atilde;o dos usos: pot&aacute;vel interno, n&atilde;o
+      pot&aacute;vel interno e externo. Por que a chuva atende o segundo e nunca o
+      primeiro.</li>
+  <li>Micromedi&ccedil;&atilde;o: o n&uacute;mero de economias e o efeito nas faixas
+      tarif&aacute;rias progressivas.</li>
+</ul>
+
+<h3><span class="cap">8</span>Irriga&ccedil;&atilde;o e supress&atilde;o por chuva</h3>
+<div class="cap-meta"><span><b>6 p.</b></span><span>escrever do zero</span></div>
+<p>
+  Volume di&aacute;rio, limiar de supress&atilde;o, e a op&ccedil;&atilde;o de
+  suprimento de reserva pela rede. Esta &uacute;ltima merece quadro pr&oacute;prio:
+  desligada, o jardim simplesmente n&atilde;o &eacute; regado no dia seco, a
+  edifica&ccedil;&atilde;o n&atilde;o compra essa &aacute;gua, e o programa passa a
+  reportar <b>demanda n&atilde;o atendida</b> como terceira parcela do balan&ccedil;o.
+</p>
+
+<h3><span class="cap">9</span>Qualidade da &aacute;gua e a ETAP</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>As 4 classes de uso e o que cada uma exige.</li>
+  <li>As 3 desinfec&ccedil;&otilde;es: cloro, ultravioleta e oz&ocirc;nio.</li>
+  <li>Filtro de entrada e filtro de polimento, e o registro de quando o polimento
+      &eacute; recomendado e recusado.</li>
+  <li>Dose, pureza do produto e pre&ccedil;o. <b>Quadro:</b> o que se compra &eacute;
+      o produto, pastilha a 65% de cloro ativo, e n&atilde;o o cloro puro.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> aba de Documenta&ccedil;&atilde;o, «Qualidade da
+&Aacute;gua &amp; Linha de Tratamento». <i>Aten&ccedil;&atilde;o:</i> a matriz de 4
+classes est&aacute; atribu&iacute;da &agrave; NBR&nbsp;15527:2019, e a matriz por uso
+&eacute; caracter&iacute;stica da vers&atilde;o de 2007. Conferir antes de publicar.</p>
+
+<h3><span class="cap">10</span>Reservat&oacute;rios e bombeamento</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>Reservat&oacute;rio inferior: volume conhecido ou varredura.</li>
+  <li>Reservat&oacute;rio superior e limiar de acionamento.</li>
+  <li>Motobomba: pot&ecirc;ncia, vaz&atilde;o, altura manom&eacute;trica,
+      rendimentos e n&uacute;mero de bombas.</li>
+  <li><b>Quadro:</b> a pot&ecirc;ncia de placa &eacute; a mec&acirc;nica no
+      <b>eixo</b>. O rendimento da bomba e o do motor s&atilde;o grandezas
+      diferentes, e o programa pede as duas. Em branco, o do motor sai da
+      Tabela&nbsp;13 da ABNT NBR&nbsp;17094-2.</li>
+  <li>Materiais dos reservat&oacute;rios e comprimentos por di&acirc;metro de tubo,
+      que alimentam a ACV.</li>
+</ul>
+
+<h3><span class="cap">11</span>Custos, tarifas e par&acirc;metros financeiros</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>As cinco rubricas de CAPEX e o que cada uma cobre.</li>
+  <li>Tarifas: sele&ccedil;&atilde;o por munic&iacute;pio, edi&ccedil;&atilde;o
+      manual das faixas, esgoto, impostos.</li>
+  <li>TMA, infla&ccedil;&atilde;o, per&iacute;odo de an&aacute;lise e os tr&ecirc;s
+      reajustes separados.</li>
+  <li>IPTU verde.</li>
+</ul>
+
+<h3><span class="cap">12</span>Par&acirc;metros ambientais</h3>
+<div class="cap-meta"><span><b>6 p.</b></span><span>existe</span></div>
+<p>Materiais, fatores de emiss&atilde;o, rota de produ&ccedil;&atilde;o da &aacute;gua,
+base da rede el&eacute;trica e vida &uacute;til.</p>
+<p class="fonte"><b>Existe:</b> <code>procedencia_fatores_co2.md</code> (24&nbsp;kB) e
+<code>rotas_de_producao_de_agua.md</code>. Praticamente pronto.</p>
+
+<!-- ────────────────────────────── PARTE III ────────────────────────────── -->
+<h2 id="p3"><span class="parte">Parte III</span>M&eacute;todo de c&aacute;lculo</h2>
+<p class="lede">Dez cap&iacute;tulos, 94 p&aacute;ginas. Corresponde aos
+cap&iacute;tulos 4 e 5 do Netuno&nbsp;4. &Eacute; a parte que sustenta
+publica&ccedil;&atilde;o: cada afirma&ccedil;&atilde;o num&eacute;rica com
+proced&ecirc;ncia declarada.</p>
+
+<h3><span class="cap">13</span>O balan&ccedil;o h&iacute;drico di&aacute;rio</h3>
+<div class="cap-meta"><span><b>16 p.</b></span><span>parcial</span><span>o cap&iacute;tulo central</span></div>
+<p>
+  O percurso de um dia, na ordem em que o programa o executa: descarte, capta&ccedil;&atilde;o,
+  armazenamento, extravasamento, atendimento, reparti&ccedil;&atilde;o e complemento
+  de rede. Com <b>uma tabela de dez dias resolvida &agrave; m&atilde;o</b>, coluna a
+  coluna, que o leitor possa refazer na planilha. O Netuno&nbsp;4 faz isso no
+  cap&iacute;tulo&nbsp;4 e &eacute; o que torna o m&eacute;todo audit&aacute;vel.
+</p>
+<ul>
+  <li>Reservat&oacute;rio &uacute;nico e o caso com recalque, separados.</li>
+  <li><b>Quadro:</b> o modelo YAS. O extravasamento &eacute; calculado <b>antes</b>
+      da retirada da demanda, e inverter as duas faria o reservat&oacute;rio aceitar
+      &aacute;gua que fisicamente j&aacute; teria transbordado.</li>
+  <li><b>Quadro:</b> o fechamento do balan&ccedil;o. Demanda total = pluvial +
+      pot&aacute;vel + n&atilde;o atendida; e capta&ccedil;&atilde;o = extravasado +
+      consumido + armazenado.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> <code>metodologia.md</code> §§1&ndash;4; aba de
+Documenta&ccedil;&atilde;o, «Metodologia por Etapa». <i>Falta:</i> a tabela dos dez
+dias, que &eacute; o cora&ccedil;&atilde;o do cap&iacute;tulo.</p>
+
+<h3><span class="cap">14</span>Volume ideal e a varredura</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>
+  O crit&eacute;rio do ganho marginal, a grade discreta e o quantum comercial de
+  250&nbsp;L, o teto de 40 volumes, e o caso em que o volume ideal n&atilde;o
+  &eacute; determinado &mdash; que o Netuno&nbsp;4 trata em §7.3.1 e vale repetir.
+  <b>Quadro:</b> o volume ideal depende do passo da varredura, e o programa registra
+  quando ajustou o passo.
+</p>
+
+<h3><span class="cap">15</span>Indicadores de efici&ecirc;ncia</h3>
+<div class="cap-meta"><span><b>6 p.</b></span><span>parcial</span></div>
+<p>Potencial de economia, confiabilidade volum&eacute;trica e temporal,
+extravasamento, dias de atendimento pleno, parcial e nulo. Cada um com
+defini&ccedil;&atilde;o formal, unidade e o que ele n&atilde;o mede.</p>
+
+<h3><span class="cap">16</span>&Iacute;ndices pluviom&eacute;tricos</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>
+  Os nove &iacute;ndices com <b>a equa&ccedil;&atilde;o de cada um</b>, que hoje a
+  interface n&atilde;o mostra. E as tr&ecirc;s ressalvas que precisam aparecer:
+  o conjunto n&atilde;o &eacute; ETCCDI puro, o percentil&nbsp;95 &eacute; calculado
+  sobre a s&eacute;rie inteira e n&atilde;o sobre a base 1961&ndash;1990, e o RX5day
+  usa janelas incompletas no in&iacute;cio do ano.
+</p>
+
+<h3><span class="cap">17</span>Dimensionamento da ETAP</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>Da classe alvo &agrave;s etapas de tratamento; CAPEX e custeio incrementais sobre a
+verba gen&eacute;rica; a regra de que a linha de tratamento <b>substitui</b> o termo
+de clora&ccedil;&atilde;o na ACV em vez de somar a ele.</p>
+
+<h3><span class="cap">18</span>Energia de bombeamento</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>
+  A cadeia completa, do eixo &agrave; tomada. Recalque por
+  <code>&rho;gH/(&eta;<sub>bomba</sub>&middot;&eta;<sub>motor</sub>)</code>, partidas
+  por <code>placa&middot;t/&eta;<sub>motor</sub></code>, sem o rendimento da bomba
+  porque n&atilde;o h&aacute; vaz&atilde;o. Com a tabela da NBR&nbsp;17094-2 e a
+  confer&ecirc;ncia contra curva de cat&aacute;logo.
+</p>
+
+<h3><span class="cap">19</span>An&aacute;lise econ&ocirc;mica</h3>
+<div class="cap-meta"><span><b>14 p.</b></span><span>parcial</span></div>
+<ul>
+  <li>A economia &eacute; a <b>diferen&ccedil;a entre duas contas</b>, e n&atilde;o
+      volume vezes tarifa m&eacute;dia.</li>
+  <li>Os <b>cinco regimes de m&iacute;nimo</b> tarif&aacute;rio, com exemplo de cada:
+      faixa progressiva, disponibilidade que soma, franquia retroativa, piso que
+      limita por baixo, e sem m&iacute;nimo. <b>Quadro:</b> onde h&aacute; piso de
+      pagamento, economizar abaixo dele n&atilde;o reduz nada.</li>
+  <li>Fluxo de caixa, reajustes separados de &aacute;gua, esgoto e energia, VPL, TIR
+      e payback descontado.</li>
+</ul>
+<p class="fonte"><b>Existe:</b> aba de Documenta&ccedil;&atilde;o, «Tarifas, Impostos
+&amp; OPEX» e «An&aacute;lise Econ&ocirc;mico-Financeira»;
+<code>tariff_regimes.py</code> documenta os cinco regimes.</p>
+
+<h3><span class="cap">20</span>Avalia&ccedil;&atilde;o de ciclo de vida</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>existe</span></div>
+<p>
+  As sete etapas do invent&aacute;rio, o payback de carbono, e a fronteira: a
+  &aacute;gua evitada &eacute; a <b>entregue</b>, n&atilde;o a produzida. As perdas de
+  distribui&ccedil;&atilde;o no Brasil v&atilde;o de 33,9% no Sudeste a 46,9% no
+  Norte.
+</p>
+<p class="fonte"><b>Existe:</b> <code>procedencia_fatores_co2.md</code> cobre quase
+tudo. <i>Falta:</i> declarar quais fatores seguem com r&oacute;tulo de triagem.</p>
+
+<h3><span class="cap">21</span>Certifica&ccedil;&otilde;es</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>existe</span></div>
+<p>LEED&nbsp;v4, AQUA-HQE, Selo Casa Azul, EDGE e GRI&nbsp;303. <b>Quadro:</b> o EDGE
+&eacute; o &uacute;nico que n&atilde;o pontua, e o programa avalia s&oacute; a barra
+de &aacute;gua.</p>
+<p class="fonte"><b>Existe:</b> <code>certificacao_edge.md</code> e a aba de
+Documenta&ccedil;&atilde;o.</p>
+
+<h3><span class="cap">22</span>Decis&atilde;o multicrit&eacute;rio</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>
+  Os sete crit&eacute;rios, os pesos, TOPSIS e SMAA-VIKOR. Com tr&ecirc;s
+  declara&ccedil;&otilde;es que hoje faltam: a normaliza&ccedil;&atilde;o
+  &eacute; uma <b>variante</b> de Hwang e Yoon, que translada por
+  <code>x&minus;min(x)</code> para admitir VPL negativo; as condi&ccedil;&otilde;es
+  C1 e C2 de Opricovic n&atilde;o est&atilde;o implementadas; e a atribui&ccedil;&atilde;o
+  de origem do c&oacute;digo.
+</p>
+
+<!-- ─────────────────────────────── PARTE IV ────────────────────────────── -->
+<h2 id="p4"><span class="parte">Parte IV</span>Estudos de caso</h2>
+<p class="lede">Nove cap&iacute;tulos, 92 p&aacute;ginas. &Eacute; a parte
+que o Netuno&nbsp;4 chama de «exemplos de utiliza&ccedil;&atilde;o» e que ocupa um
+quinto daquele manual. Aqui deve ocupar um quarto.</p>
+
+<p>
+  Os quatro primeiros casos <b>reproduzem</b> os do Netuno&nbsp;4, na mesma ordem e
+  com os mesmos dados de entrada, para que quem conhece o programa antigo veja o novo
+  fazendo o que espera. Os cinco seguintes exercitam o que s&oacute; o Netuno&nbsp;5
+  faz. Cada caso segue a mesma forma: enunciado, dados de entrada em tabela,
+  execu&ccedil;&atilde;o passo a passo com capturas, resultados comentados, e
+  <b>uma li&ccedil;&atilde;o</b> que o caso existe para ensinar.
+</p>
+
+<div class="caixa">
+<table>
+  <tr><th>#</th><th>Caso</th><th>O que exercita</th><th>Li&ccedil;&atilde;o</th><th class="n">p.</th></tr>
+  <tr><td>23</td><td>Resid&ecirc;ncia unifamiliar, volume conhecido</td>
+      <td>Balan&ccedil;o com reservat&oacute;rio inferior apenas</td>
+      <td>O b&aacute;sico, e a compara&ccedil;&atilde;o direta com o Netuno&nbsp;4</td><td class="n">10</td></tr>
+  <tr><td>24</td><td>Com reservat&oacute;rio superior e recalque</td>
+      <td>Limiar de acionamento, ciclos, energia</td>
+      <td>O superior n&atilde;o aumenta a economia; muda o custo operacional</td><td class="n">10</td></tr>
+  <tr><td>25</td><td>Varredura de volumes</td>
+      <td>Grade, ganho marginal, volume ideal</td>
+      <td>Ler a curva, e o caso sem &oacute;timo determinado</td><td class="n">10</td></tr>
+  <tr><td>26</td><td>An&aacute;lise econ&ocirc;mica completa</td>
+      <td>Tarifa real, CAPEX, fluxo de caixa, VPL</td>
+      <td>O regime tarif&aacute;rio decide a viabilidade</td><td class="n">12</td></tr>
+  <tr><td>27</td><td>Escola p&uacute;blica</td>
+      <td>Tipologia n&atilde;o residencial, demanda modulada por calend&aacute;rio</td>
+      <td>F&eacute;rias escolares e o descasamento entre chuva e demanda</td><td class="n">10</td></tr>
+  <tr><td>28</td><td>Tr&ecirc;s cidades</td>
+      <td>Florian&oacute;polis, Bras&iacute;lia e Manaus, mesmo projeto</td>
+      <td>Regime de chuva importa mais que volume de reservat&oacute;rio</td><td class="n">10</td></tr>
+  <tr><td>29</td><td>Cen&aacute;rios clim&aacute;ticos</td>
+      <td>CMIP6, tr&ecirc;s cen&aacute;rios, tr&ecirc;s janelas</td>
+      <td>Dimensionar hoje para a chuva de 2060</td><td class="n">10</td></tr>
+  <tr><td>30</td><td>Qualidade da &aacute;gua e ETAP</td>
+      <td>Quatro classes, tr&ecirc;s desinfec&ccedil;&otilde;es</td>
+      <td>O tratamento pode ser a maior parcela do investimento</td><td class="n">8</td></tr>
+  <tr><td>31</td><td>Decis&atilde;o multicrit&eacute;rio e certifica&ccedil;&atilde;o</td>
+      <td>Sete crit&eacute;rios, pesos, LEED e EDGE</td>
+      <td>O volume de maior economia raramente &eacute; o de melhor compromisso</td><td class="n">12</td></tr>
+</table>
+</div>
+
+<div class="alerta">
+  <p><b>Os arquivos de todos os casos precisam acompanhar o manual.</b> O
+  Netuno&nbsp;4 faz isso no cap&iacute;tulo&nbsp;2, e &eacute; o que separa um manual
+  de um livro. Cada caso com o <code>.netuno</code> e a s&eacute;rie de chuva, de modo
+  que o leitor abra e refa&ccedil;a. Existem tr&ecirc;s em
+  <code>examples/</code>, e faltam seis.</p>
+  <p>E os n&uacute;meros publicados nos casos <b>envelhecem a cada corre&ccedil;&atilde;o
+  do programa</b>. Esta rodada mesmo mudou o consumo da motobomba em 65%. A
+  sa&iacute;da &eacute; gerar os resultados dos casos por script, como parte da
+  su&iacute;te, e falhar quando divergirem do publicado.</p>
+</div>
+
+<!-- ─────────────────────────────── PARTE V ─────────────────────────────── -->
+<h2 id="p5"><span class="parte">Parte V</span>Verifica&ccedil;&atilde;o e limites</h2>
+<p class="lede">Quatro cap&iacute;tulos, 44 p&aacute;ginas. N&atilde;o existe
+no Netuno&nbsp;4 al&eacute;m do cap&iacute;tulo de erros. &Eacute; o que distingue um
+manual de programa acad&ecirc;mico de um folheto.</p>
+
+<h3><span class="cap">32</span>Como o programa &eacute; verificado</h3>
+<div class="cap-meta"><span><b>12 p.</b></span><span>existe</span></div>
+<p>Os 854 testes e o que cada fam&iacute;lia guarda: invariantes f&iacute;sicas,
+propriedades cient&iacute;ficas, percurso de informa&ccedil;&atilde;o, casos
+anal&iacute;ticos de solu&ccedil;&atilde;o fechada, persist&ecirc;ncia.</p>
+<p class="fonte"><b>Existe:</b> <code>verificacao_e_validacao.md</code> (30&nbsp;kB) e
+<code>conferencia_dos_casos_analiticos.md</code>. Quase pronto.</p>
+
+<h3><span class="cap">33</span>Compara&ccedil;&atilde;o com o Netuno&nbsp;4</h3>
+<div class="cap-meta"><span><b>10 p.</b></span><span>parcial</span></div>
+<p>Os 4.050 casos de refer&ecirc;ncia, a diferen&ccedil;a m&eacute;dia de 2,3 a 2,7
+pontos percentuais, e a decomposi&ccedil;&atilde;o por causa.</p>
+<p class="fonte"><b>Existe:</b> <code>protocolo_netuno4.md</code> e
+<code>verificacao_e_validacao.md</code> §5. <i>Aten&ccedil;&atilde;o:</i> o protocolo
+manda usar a op&ccedil;&atilde;o <code>--descarte-como-limiar</code>, que n&atilde;o
+existe na linha de comando. Implementar ou retirar antes de publicar.</p>
+
+<h3><span class="cap">34</span>Limita&ccedil;&otilde;es conhecidas</h3>
+<div class="cap-meta"><span><b>14 p.</b></span><span>existe</span></div>
+<p>
+  Onde o programa n&atilde;o serve, e por qu&ecirc;. A categoria tarif&aacute;rio
+  fixada em residencial; os munic&iacute;pios sem tarifa de excedente; os fatores de
+  ACV com r&oacute;tulo de triagem; as constantes de <i>wash-off</i> n&atilde;o
+  calibradas; a aus&ecirc;ncia de tarifa social; o percentil sobre a s&eacute;rie
+  inteira.
+</p>
+<p class="fonte"><b>Existe:</b> <code>pendencias_e_evolucao.md</code> (24&nbsp;kB, 17
+itens). Precisa ser reescrito em voz de manual, sem perder a franqueza.</p>
+
+<h3><span class="cap">35</span>Mensagens de erro e o que fazer</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>escrever do zero</span></div>
+<p>Uma tabela por mensagem: o que a disparou, o que significa e como resolver.
+Corresponde ao cap&iacute;tulo&nbsp;8 do Netuno&nbsp;4. As mensagens da porta de
+valida&ccedil;&atilde;o f&iacute;sica j&aacute; nomeiam o campo e a faixa, e servem de
+ponto de partida.</p>
+
+<!-- ─────────────────────────────── PARTE VI ────────────────────────────── -->
+<h2 id="p6"><span class="parte">Parte VI</span>Linha de comando e automa&ccedil;&atilde;o</h2>
+<p class="lede">Dois cap&iacute;tulos, 20 p&aacute;ginas. N&atilde;o existe
+no Netuno&nbsp;4.</p>
+
+<h3><span class="cap">36</span>Uso pela linha de comando</h3>
+<div class="cap-meta"><span><b>12 p.</b></span><span>parcial</span></div>
+<p>Os 55 par&acirc;metros alcan&ccedil;&aacute;veis, os formatos de sa&iacute;da, e
+os 47 que <b>s&oacute;</b> a interface oferece.</p>
+<p class="fonte"><b>Existe:</b> aba de Documenta&ccedil;&atilde;o, «Uso pela Linha de
+Comando».</p>
+
+<h3><span class="cap">37</span>Lote, cen&aacute;rios e sensibilidade</h3>
+<div class="cap-meta"><span><b>8 p.</b></span><span>parcial</span></div>
+<p>Simula&ccedil;&atilde;o em lote sobre muitas cidades, matriz de cen&aacute;rios e
+an&aacute;lise de sensibilidade por sorteio da demanda. &Eacute; como se produz um
+artigo com o programa, e merece um exemplo real de ponta a ponta.</p>
+
+<!-- ────────────────────────────── APÊNDICES ────────────────────────────── -->
+<h2 id="ap"><span class="parte">Ap&ecirc;ndices</span>Refer&ecirc;ncia</h2>
+<p class="lede">58 p&aacute;ginas. Os dois primeiros <b>gerados do fonte</b>.</p>
+
+<div class="caixa">
+<table>
+  <tr><th></th><th>Ap&ecirc;ndice</th><th>Conte&uacute;do</th><th>Origem</th><th class="n">p.</th></tr>
+  <tr><td>A</td><td>Os 102 par&acirc;metros</td>
+      <td>Nome, padr&atilde;o, unidade, tela e m&oacute;dulos consumidores</td>
+      <td><b>gerar do fonte</b></td><td class="n">14</td></tr>
+  <tr><td>B</td><td>Os 24 processos</td>
+      <td>Gatilho, entradas, regras, sa&iacute;das e exce&ccedil;&otilde;es</td>
+      <td><b>gerar do fonte</b></td><td class="n">16</td></tr>
+  <tr><td>C</td><td>Fatores de emiss&atilde;o</td>
+      <td>Valor, fonte, fronteira, ano e r&oacute;tulo de triagem</td>
+      <td><code>procedencia_fatores_co2.md</code></td><td class="n">10</td></tr>
+  <tr><td>D</td><td>Base tarif&aacute;ria</td>
+      <td>652 munic&iacute;pios, 5 regimes, data de coleta</td>
+      <td>base + <code>tariff_regimes.py</code></td><td class="n">6</td></tr>
+  <tr><td>E</td><td>Base clim&aacute;tica</td>
+      <td>652 cidades, 19 modelos, 3 cen&aacute;rios, proced&ecirc;ncia</td>
+      <td><b>escrever do zero</b></td><td class="n">4</td></tr>
+  <tr><td>F</td><td>Gloss&aacute;rio</td>
+      <td>Termos t&eacute;cnicos e siglas, em portugu&ecirc;s e ingl&ecirc;s</td>
+      <td><b>escrever do zero</b></td><td class="n">4</td></tr>
+  <tr><td>G</td><td>Refer&ecirc;ncias</td>
+      <td>Normas, artigos e bases, no padr&atilde;o do peri&oacute;dico alvo</td>
+      <td><code>bibliography.py</code></td><td class="n">4</td></tr>
+</table>
+</div>
+
+<!-- ─────────────────────────────── ORDEM ───────────────────────────────── -->
+<h2 id="ordem"><span class="parte">Execu&ccedil;&atilde;o</span>Em que ordem escrever</h2>
+
+<p>
+  N&atilde;o na ordem dos cap&iacute;tulos. Escrever a Parte&nbsp;I primeiro &eacute;
+  o erro mais comum: a introdu&ccedil;&atilde;o s&oacute; fica boa quando o resto
+  existe.
+</p>
+
+<ol>
+  <li><b>Cap&iacute;tulo 13, o balan&ccedil;o di&aacute;rio, com a tabela dos dez
+      dias.</b> &Eacute; o cap&iacute;tulo do qual todos os outros dependem, e a
+      tabela resolvida &agrave; m&atilde;o &eacute; o que d&aacute; autoridade ao
+      manual inteiro.</li>
+  <li><b>Casos 23 a 26</b>, que reproduzem o Netuno&nbsp;4. Escrev&ecirc;-los cedo
+      revela o que falta explicar nas Partes II e III, e os arquivos de exemplo
+      ficam prontos para os demais.</li>
+  <li><b>Ap&ecirc;ndices A e B</b>, gerados por script. Baratos, e passam a servir de
+      &iacute;ndice enquanto o resto se escreve.</li>
+  <li><b>Parte II inteira</b>, guiada pelo que os casos mostraram faltar.</li>
+  <li><b>Parte III</b>, aproveitando os quatro documentos que j&aacute; existem.</li>
+  <li><b>Casos 27 a 31</b>, os que exercitam o que s&oacute; o Netuno&nbsp;5 faz.</li>
+  <li><b>Parte V</b>, que &eacute; recorte e reescrita do que j&aacute; existe.</li>
+  <li><b>Parte VI e ap&ecirc;ndices restantes.</b></li>
+  <li><b>Parte I, por &uacute;ltimo.</b></li>
+</ol>
+
+<div class="alerta">
+  <p><b>Duas decis&otilde;es de produ&ccedil;&atilde;o valem ser tomadas agora,
+  porque mudam como tudo se escreve.</b></p>
+  <p><b>Formato de origem.</b> Markdown no reposit&oacute;rio, ao lado do
+  c&oacute;digo, com convers&atilde;o para PDF por script. Assim o manual entra no
+  mesmo controle de vers&atilde;o do programa, os ap&ecirc;ndices gerados se
+  encaixam sem trabalho manual, e uma corre&ccedil;&atilde;o de f&oacute;rmula pode
+  atualizar texto e n&uacute;meros na mesma altera&ccedil;&atilde;o.</p>
+  <p><b>Os n&uacute;meros dos casos como teste.</b> Cada resultado publicado nos nove
+  casos vira uma asser&ccedil;&atilde;o na su&iacute;te. Quando uma corre&ccedil;&atilde;o
+  mudar um n&uacute;mero, o teste falha e aponta a p&aacute;gina a corrigir, em vez de
+  o manual passar anos dizendo o que o programa n&atilde;o faz mais.</p>
+</div>
+
+<footer>
+  <p class="mono">Netuno 5.0.8 &middot; 37 cap&iacute;tulos &middot; 7 ap&ecirc;ndices &middot; 9 estudos de caso &middot; 412 p&aacute;ginas</p>
+</footer>
+
+</div>

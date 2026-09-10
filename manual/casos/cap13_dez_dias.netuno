@@ -1,0 +1,185 @@
+{
+  "schema": {
+    "name": "netuno-project",
+    "version": 2
+  },
+  "version": "5.0.8",
+  "metadata": {
+    "project_id": "N5-20260910-182928-3F998FE4",
+    "name": "Manual, capitulo 13 - dez dias resolvidos",
+    "created_at": "10/09/2026 18:29",
+    "saved_at": "10/09/2026 18:29:28"
+  },
+  "rainfall": {
+    "source_mode": "national_db",
+    "climate_city_uf": "SC",
+    "climate_city_name": "Florianópolis",
+    "climate_model": "INM-CM4",
+    "climate_scenario": "HIST",
+    "climate_start_date": "01/01/1980",
+    "climate_end_date": "31/12/2013",
+    "file_name": "",
+    "start_date": "01/01/2020",
+    "total_days": 0,
+    "precipitation_mm": []
+  },
+  "inputs": {
+    "building_and_demand": {
+      "catchment_area_m2": 100.0,
+      "runoff_coeff": 0.85,
+      "residents_count": 1,
+      "residents_type": 0,
+      "residents_monthly": [],
+      "demand_value": 200.0,
+      "demand_type": 0,
+      "demand_monthly": [],
+      "use_variable": false,
+      "rainwater_share": 0.4
+    },
+    "rainfall_discard": {
+      "discard_mm": 2.0,
+      "discard_mode": 1,
+      "discard_days_interval": 7
+    },
+    "reservoirs_and_pumping": {
+      "lower_tank_fixed_l": 2000.0,
+      "lower_tank_max_l": 10000.0,
+      "lower_tank_step_l": 250.0,
+      "lower_tank_mode": 0,
+      "delta_ideal_pct": 5.0,
+      "upper_tank_vol_l": 500.0,
+      "upper_tank_used": false,
+      "pumping_threshold_l": 50.0,
+      "pump": {
+        "count": 2,
+        "power_str": "1/2",
+        "power_kw": 0.36775,
+        "flow_rate_l_h": 0.0,
+        "efficiency_pct": 0.0,
+        "startup_time_h": 0.03,
+        "motor_efficiency": 0.0,
+        "unit_cost": 300.0,
+        "manometric_head_m": 0.0
+      }
+    },
+    "financial_and_economic": {
+      "analysis_period_years": 20,
+      "tma_monthly_pct": 2.0,
+      "inflation_monthly_pct": 0.2,
+      "sewage_mode": 1,
+      "sewage_rate_pct": 100.0,
+      "water_tax_fixed": 0.0,
+      "water_tax_var_pct": 0.0,
+      "water_tariffs": [
+        [
+          0.0,
+          0.0,
+          46.34,
+          -1
+        ],
+        [
+          0.0,
+          10.0,
+          3.08,
+          1
+        ],
+        [
+          10.0,
+          25.0,
+          14.31,
+          1
+        ],
+        [
+          25.0,
+          50.0,
+          19.14,
+          1
+        ],
+        [
+          50.0,
+          999999.0,
+          24.08,
+          1
+        ]
+      ],
+      "tariff_city_uf": "SC",
+      "tariff_city_name": "Florianópolis",
+      "elec_city_uf": "SC",
+      "elec_city_name": "Florianópolis",
+      "tariff_escalation_months": 12.0,
+      "water_tariff_escalation_pct": 5.0,
+      "sewage_tariff_escalation_pct": 5.0,
+      "elec_tariff": 0.6957,
+      "elec_tax_fixed": 0.0,
+      "elec_tax_var_pct": 0.0,
+      "elec_tariff_escalation_pct": 5.0
+    },
+    "water_quality_and_etap": {
+      "target_class": "classe_1",
+      "disinfection": "cloro",
+      "polishing_filter": false,
+      "etap_enabled": true,
+      "chlorine_treatment_enabled": true,
+      "chlorine_dose_mg_l": 1.5,
+      "chlorine_product_purity": 0.65,
+      "chlorine_cost_per_kg": 25.0,
+      "chlorine_co2_kg_per_kg": 1.85
+    },
+    "materials_and_typology": {
+      "building_template_id": "res_medio",
+      "lower_tank_material": "PEAD",
+      "upper_tank_material": "PEAD"
+    },
+    "irrigation": {
+      "garden_area_m2": 0.0,
+      "rate_l_m2_day": 3.0,
+      "liters_per_day": 50.0,
+      "rain_threshold_mm": 2.0,
+      "potable_backup": true
+    },
+    "incentives_and_shares": {
+      "iptu_green_enabled": false,
+      "iptu_annual_value": 4000.0,
+      "iptu_discount_pct": 5.0,
+      "tariff_flag": "verde",
+      "tariff_customized": false,
+      "num_economias": 1,
+      "potable_indoor_share": 0.65,
+      "non_potable_indoor_share": 0.35,
+      "install_month": 0,
+      "econ_lower_tank_vol": 2000.0,
+      "demand_mode": "constant",
+      "edge_base_case_l_person_day": 0.0
+    },
+    "capex_and_opex": {
+      "cost_lower_tank": 0.0,
+      "cost_upper_tank": 0.0,
+      "cost_labor": 0.0,
+      "cost_piping": 0.0,
+      "cost_accessories": 0.0,
+      "operational_costs": [
+        [
+          "Inspeção e limpeza de calhas/pré-filtro",
+          12,
+          240.0,
+          0.0
+        ],
+        [
+          "Limpeza e inspeção do reservatório",
+          12,
+          320.0,
+          0.0
+        ],
+        [
+          "Manutenção preventiva da motobomba",
+          12,
+          180.0,
+          0.0
+        ]
+      ]
+    },
+    "global_optimizer_scenarios": []
+  },
+  "ui_state": {},
+  "analysis": {}
+}
