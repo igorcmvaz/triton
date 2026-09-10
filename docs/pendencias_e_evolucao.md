@@ -28,7 +28,7 @@ sua, está dito.
 | 13 | Seis campos gravados e nunca lidos | demanda antiga possivelmente multiplicada pelos moradores | você |
 | 14 | Tempo de partida de 108 s por acionamento | 19% do consumo da motobomba | você |
 | 15 | Lâmina de descarte padrão de 1 mm | a tela sugere 2 mm, e a norma também | você |
-| 16 | Semântica do descarte contra o Manual do Netuno 4 | 35% da chuva aproveitável | você |
+| 16 | `--descarte-como-limiar` citada no protocolo e não implementada | protocolo de verificação instrui usar bandeira inexistente | você |
 | ~~17~~ | ~~Placa de eixo ou de tomada~~ | resolvido pela NBR 17094-2 | — |
 
 ---
@@ -397,10 +397,32 @@ As duas leituras separam **35% da chuva aproveitável** com `d_f` = 2 mm: 1.091
 contra 1.472 mm/ano na série de verificação. Não é diferença de redação.
 
 Corrigi o texto da aba para descrever o que o programa faz, porque um programa não
-pode documentar duas coisas incompatíveis. Mas **não há cópia do Manual do Netuno 4
-neste repositório** para arbitrar qual das duas o original implementa, e isso
-importa num estudo de replicação. Você tem o manual. Se o Netuno 4 usa o limiar, é
-o código que precisa mudar, e o efeito é grande.
+pode documentar duas coisas incompatíveis.
+
+**A divergência contra o Netuno 4 já estava resolvida, e eu não tinha visto.** O
+Manual do Netuno 4 de junho de 2014 está no repositório, em
+`additional_material/documentation/`, e a seção 3.1 dele diz: «caso a precipitação
+em um dado dia esteja abaixo desse valor, o Netuno considerará que não houve
+precipitação». É a regra de limiar. O `metodologia.md` §1 registra a diferença como
+**deliberada**, com a justificativa física — a água desviada para o dispositivo de
+descarte não chega à cisterna — e com o efeito quantificado sobre 4.050 casos de
+referência: o Netuno 5 estima de 2,3 a 2,7 pontos percentuais menos economia, e
+cerca de 46% dessa diferença vem daqui.
+
+O parágrafo que eu corrigi na aba de Documentação descrevia corretamente o
+**Netuno 4**, e errado o Netuno 5. A correção continua válida: aquela página fala
+do que este programa faz.
+
+**O que sobra de verdade é menor, e é uma ponta solta.** O `protocolo_netuno4.md`
+§2 manda rodar toda comparação duas vezes, «com e sem `--descarte-como-limiar`»,
+para isolar o balanço hídrico da diferença deliberada. **Essa opção não existe na
+linha de comando.** Não há nenhuma ocorrência dela em `netuno/cli.py`. O protocolo
+de verificação instrui a usar uma bandeira que ninguém implementou.
+
+Duas saídas, e a escolha é sua: implementar a bandeira, que é pequena e transforma
+a série de entrada sem tocar no motor; ou retirar a instrução do protocolo e
+adotar a alternativa que o próprio documento oferece, rodar com descarte zero, caso
+em que as duas regras coincidem.
 
 ---
 ## 17. A potência de placa é de eixo ou de tomada?
