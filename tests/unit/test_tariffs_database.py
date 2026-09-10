@@ -111,7 +111,10 @@ class TestTariffsDatabase(unittest.TestCase):
         bh = get_city_data("MG", "Belo Horizonte")
         self.assertIsNotNone(bh)
         self.assertEqual(bh['prestador_saneamento'], "COPASA")
-        self.assertEqual(bh['esgoto_pct'], 80.0)
+        # COPASA cobra 74% da agua no esgoto dinamico (coleta e tratamento),
+        # conforme a ARSAE-MG e as seis faixas da coleta auditada. O banco
+        # guardava 80%, que era o valor de recurso.
+        self.assertAlmostEqual(bh['esgoto_pct'], 74.0, delta=0.5)
 
     def test_dialog_tariffs_ui(self):
         """Valida inicialização e comportamento do diálogo DialogTariffs."""
@@ -128,13 +131,16 @@ class TestTariffsDatabase(unittest.TestCase):
         self.assertGreater(dlg.table.rowCount(), 0)
         self.assertEqual(dlg.txt_esg_val.text(), "100,0")
         
-        # Testa troca de cidade para MG - Belo Horizonte (esgoto 80%)
+        # Testa troca de cidade para MG - Belo Horizonte
         mg_idx = dlg.combo_uf.findData("MG")
         dlg.combo_uf.setCurrentIndex(mg_idx)
         dlg.combo_city.setCurrentText("Belo Horizonte")
         self.assertIn("COPASA", dlg.lbl_prestador.text())
-        self.assertIn("80%", dlg.lbl_prestador.text())
-        self.assertEqual(dlg.txt_esg_val.text(), "80,0")
+        # O percentual exibido vem do banco, e nao de um numero congelado no
+        # teste: corrigir a fonte nao pode quebrar a verificacao da tela.
+        _pct = get_city_data("MG", "Belo Horizonte")["esgoto_pct"]
+        self.assertIn(f"{_pct:.0f}%", dlg.lbl_prestador.text())
+        self.assertEqual(dlg.txt_esg_val.text(), f"{_pct:.1f}".replace(".", ","))
         
         # Testa sobrescrita manual pelo usuário: usuário troca para 75%
         dlg.txt_esg_val.setText("75,0")

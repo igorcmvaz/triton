@@ -9022,7 +9022,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9090,7 +9090,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Aparecida de Goiânia": {
       "municipio": "Aparecida de Goiânia",
@@ -9104,7 +9111,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9172,7 +9179,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Caldas Novas": {
       "municipio": "Caldas Novas",
@@ -9186,7 +9200,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9254,7 +9268,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Catalão": {
       "municipio": "Catalão",
@@ -9268,7 +9289,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9336,7 +9357,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Cidade Ocidental": {
       "municipio": "Cidade Ocidental",
@@ -9350,7 +9378,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9418,7 +9446,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Cristalina": {
       "municipio": "Cristalina",
@@ -9432,7 +9467,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9500,7 +9535,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Formosa": {
       "municipio": "Formosa",
@@ -9514,7 +9556,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9582,7 +9624,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Goianira": {
       "municipio": "Goianira",
@@ -9596,7 +9645,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9664,7 +9713,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Goianésia": {
       "municipio": "Goianésia",
@@ -9678,7 +9734,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9746,7 +9802,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Goiânia": {
       "municipio": "Goiânia",
@@ -9760,7 +9823,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9828,7 +9891,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Inhumas": {
       "municipio": "Inhumas",
@@ -9842,7 +9912,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9910,7 +9980,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Itumbiara": {
       "municipio": "Itumbiara",
@@ -9924,7 +10001,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -9992,7 +10069,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Jataí": {
       "municipio": "Jataí",
@@ -10006,7 +10090,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10074,7 +10158,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Luziânia": {
       "municipio": "Luziânia",
@@ -10088,7 +10179,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10156,7 +10247,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Mineiros": {
       "municipio": "Mineiros",
@@ -10170,7 +10268,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10238,7 +10336,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Morrinhos": {
       "municipio": "Morrinhos",
@@ -10252,7 +10357,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10320,7 +10425,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Novo Gama": {
       "municipio": "Novo Gama",
@@ -10334,7 +10446,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10402,7 +10514,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Planaltina": {
       "municipio": "Planaltina",
@@ -10416,7 +10535,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10484,7 +10603,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Rio Verde": {
       "municipio": "Rio Verde",
@@ -10498,7 +10624,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10566,7 +10692,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Santo Antônio do Descoberto": {
       "municipio": "Santo Antônio do Descoberto",
@@ -10580,7 +10713,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10648,7 +10781,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Senador Canedo": {
       "municipio": "Senador Canedo",
@@ -10662,7 +10802,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10730,7 +10870,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Trindade": {
       "municipio": "Trindade",
@@ -10744,7 +10891,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10812,7 +10959,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Valparaíso de Goiás": {
       "municipio": "Valparaíso de Goiás",
@@ -10826,7 +10980,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10894,7 +11048,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "GO - Águas Lindas de Goiás": {
       "municipio": "Águas Lindas de Goiás",
@@ -10908,7 +11069,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 17.46,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -10976,7 +11137,14 @@
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução Normativa Conjunta AGR/AR nº 01/2026).",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (8 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MA - Açailândia": {
       "municipio": "Açailândia",
@@ -12398,7 +12566,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12454,7 +12622,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Araguari": {
       "municipio": "Araguari",
@@ -12538,7 +12713,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12594,7 +12769,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Barbacena": {
       "municipio": "Barbacena",
@@ -12608,7 +12790,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12664,7 +12846,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Belo Horizonte": {
       "municipio": "Belo Horizonte",
@@ -12678,7 +12867,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12734,7 +12923,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Betim": {
       "municipio": "Betim",
@@ -12748,7 +12944,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12804,7 +13000,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Bom Despacho": {
       "municipio": "Bom Despacho",
@@ -12818,7 +13021,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12874,7 +13077,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Campo Belo": {
       "municipio": "Campo Belo",
@@ -12888,7 +13098,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -12944,7 +13154,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Caratinga": {
       "municipio": "Caratinga",
@@ -12958,7 +13175,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13014,7 +13231,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Cataguases": {
       "municipio": "Cataguases",
@@ -13028,7 +13252,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13084,7 +13308,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Congonhas": {
       "municipio": "Congonhas",
@@ -13098,7 +13329,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13154,7 +13385,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Conselheiro Lafaiete": {
       "municipio": "Conselheiro Lafaiete",
@@ -13168,7 +13406,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13224,7 +13462,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Contagem": {
       "municipio": "Contagem",
@@ -13238,7 +13483,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13294,7 +13539,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Coronel Fabriciano": {
       "municipio": "Coronel Fabriciano",
@@ -13308,7 +13560,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13364,7 +13616,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Curvelo": {
       "municipio": "Curvelo",
@@ -13378,7 +13637,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13434,7 +13693,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Divinópolis": {
       "municipio": "Divinópolis",
@@ -13448,7 +13714,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13504,7 +13770,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Esmeraldas": {
       "municipio": "Esmeraldas",
@@ -13518,7 +13791,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13574,7 +13847,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Extrema": {
       "municipio": "Extrema",
@@ -13588,7 +13868,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13644,7 +13924,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Formiga": {
       "municipio": "Formiga",
@@ -13770,7 +14057,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13826,7 +14113,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Governador Valadares": {
       "municipio": "Governador Valadares",
@@ -13910,7 +14204,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -13966,7 +14260,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Ibirité": {
       "municipio": "Ibirité",
@@ -13980,7 +14281,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14036,7 +14337,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Ipatinga": {
       "municipio": "Ipatinga",
@@ -14050,7 +14358,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14106,7 +14414,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Itabira": {
       "municipio": "Itabira",
@@ -14278,7 +14593,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14334,7 +14649,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Itaúna": {
       "municipio": "Itaúna",
@@ -14348,7 +14670,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14404,7 +14726,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Ituiutaba": {
       "municipio": "Ituiutaba",
@@ -14524,7 +14853,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14580,7 +14909,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Januária": {
       "municipio": "Januária",
@@ -14594,7 +14930,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14650,7 +14986,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - João Monlevade": {
       "municipio": "João Monlevade",
@@ -14664,7 +15007,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14720,7 +15063,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Juiz de Fora": {
       "municipio": "Juiz de Fora",
@@ -14790,7 +15140,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 58.0% a 70.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "MG - Lagoa Santa": {
       "municipio": "Lagoa Santa",
@@ -14804,7 +15156,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -14860,7 +15212,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Lagoa da Prata": {
       "municipio": "Lagoa da Prata",
@@ -14974,7 +15333,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15030,7 +15389,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Leopoldina": {
       "municipio": "Leopoldina",
@@ -15044,7 +15410,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15100,7 +15466,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Manhuaçu": {
       "municipio": "Manhuaçu",
@@ -15206,7 +15579,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15262,7 +15635,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Muriaé": {
       "municipio": "Muriaé",
@@ -15328,7 +15708,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15384,7 +15764,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Nova Serrana": {
       "municipio": "Nova Serrana",
@@ -15398,7 +15785,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15454,7 +15841,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Ouro Preto": {
       "municipio": "Ouro Preto",
@@ -15468,7 +15862,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.7213,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 95.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15518,7 +15912,14 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 95.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (5 faixas, espalhamento 0.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Paracatu": {
       "municipio": "Paracatu",
@@ -15532,7 +15933,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15588,7 +15989,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Pará de Minas": {
       "municipio": "Pará de Minas",
@@ -15706,7 +16114,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15762,7 +16170,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Patrocínio": {
       "municipio": "Patrocínio",
@@ -15828,7 +16243,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -15884,7 +16299,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Pirapora": {
       "municipio": "Pirapora",
@@ -16062,7 +16484,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16118,7 +16540,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Poços de Caldas": {
       "municipio": "Poços de Caldas",
@@ -16214,7 +16643,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16270,7 +16699,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Sabará": {
       "municipio": "Sabará",
@@ -16284,7 +16720,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16340,7 +16776,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Sete Lagoas": {
       "municipio": "Sete Lagoas",
@@ -16396,7 +16839,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16452,7 +16895,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - São João del-Rei": {
       "municipio": "São João del-Rei",
@@ -16518,7 +16968,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16574,7 +17024,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Teófilo Otoni": {
       "municipio": "Teófilo Otoni",
@@ -16588,7 +17045,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16644,7 +17101,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Timóteo": {
       "municipio": "Timóteo",
@@ -16658,7 +17122,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16714,7 +17178,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Três Corações": {
       "municipio": "Três Corações",
@@ -16728,7 +17199,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -16784,7 +17255,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Três Pontas": {
       "municipio": "Três Pontas",
@@ -16972,7 +17450,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -17028,7 +17506,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Unaí": {
       "municipio": "Unaí",
@@ -17042,7 +17527,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -17098,7 +17583,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Varginha": {
       "municipio": "Varginha",
@@ -17112,7 +17604,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -17168,7 +17660,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Vespasiano": {
       "municipio": "Vespasiano",
@@ -17182,7 +17681,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 25.77,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 73.9,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -17238,7 +17737,14 @@
       "status_desc_sanitation": "Atualizado com sucesso via webscraping da página oficial.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 73.9,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (6 faixas, espalhamento 0.4 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "MG - Viçosa": {
       "municipio": "Viçosa",
@@ -21198,7 +21704,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Cabedelo": {
       "municipio": "Cabedelo",
@@ -21256,7 +21764,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Cajazeiras": {
       "municipio": "Cajazeiras",
@@ -21314,7 +21824,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Campina Grande": {
       "municipio": "Campina Grande",
@@ -21372,7 +21884,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Guarabira": {
       "municipio": "Guarabira",
@@ -21430,7 +21944,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - João Pessoa": {
       "municipio": "João Pessoa",
@@ -21488,7 +22004,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Patos": {
       "municipio": "Patos",
@@ -21546,7 +22064,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Santa Rita": {
       "municipio": "Santa Rita",
@@ -21604,7 +22124,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Sapé": {
       "municipio": "Sapé",
@@ -21662,7 +22184,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PB - Sousa": {
       "municipio": "Sousa",
@@ -21720,7 +22244,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 79.9% a 100.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "PE - Abreu e Lima": {
       "municipio": "Abreu e Lima",
@@ -30518,7 +31044,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 5.0
+      "consumo_minimo_faturado_m3": 5.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 21.6% a 69.9% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "RS - Cruz Alta": {
       "municipio": "Cruz Alta",
@@ -31548,7 +32076,9 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 40.0% a 80.0% entre as faixas de consumo, e o programa guarda um numero unico (80.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "RS - Taquara": {
       "municipio": "Taquara",
@@ -31878,7 +32408,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 44.95,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 100.0,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -31916,7 +32446,14 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "consumo_minimo_faturado_m3": 0.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 100.0,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (3 faixas, espalhamento 0.0 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "SC - Biguaçu": {
       "municipio": "Biguaçu",
@@ -31988,7 +32525,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 100.0,
       "tarifa_fixa_mensal": 47.43,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 111.6,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -32026,7 +32563,14 @@
       "status_desc_sanitation": "Dados auditados da base canônica oficial de saneamento.",
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 111.6,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (2 faixas, espalhamento 0.0 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "SC - Brusque": {
       "municipio": "Brusque",
@@ -38222,7 +38766,7 @@
       "confianca_grau": "A — alta",
       "confianca_score": 87.0,
       "tarifa_fixa_mensal": 40.84,
-      "esgoto_pct": 80.0,
+      "esgoto_pct": 69.3,
       "esgoto_modo": 1,
       "faixas": [
         [
@@ -38272,7 +38816,14 @@
         "efeito": "acima do teto a conta voltou a crescer; antes ficava achatada e o programa nao via economia nenhuma"
       },
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "_correcao_esgoto": {
+        "em": "2026-09-09",
+        "de": 80.0,
+        "para": 69.3,
+        "origem": "tarifa de esgoto por m3 da coleta auditada (tarifas/tarifas_detalhadas_auditadas.csv), media das faixas com agua e esgoto declarados (3 faixas, espalhamento 3.2 p.p.)",
+        "motivo": "o valor guardado era o de recurso, 80%, aplicado onde a coleta trazia outro percentual"
+      }
     },
     "SP - Leme": {
       "municipio": "Leme",
@@ -40740,7 +41291,9 @@
       "status_desc_sanitation": "Prestador local (SAAE Salto). Recomenda-se conferência manual do decreto municipal no portal oficial.",
       "status_global": "MANUAL_REVIEW_NEEDED",
       "regime_tarifario": "franquia_no_minimo",
-      "consumo_minimo_faturado_m3": 10.0
+      "consumo_minimo_faturado_m3": 10.0,
+      "esgoto_pct_varia_por_faixa": true,
+      "_ressalva_esgoto": "O percentual de esgoto varia de 96.9% a 109.1% entre as faixas de consumo, e o programa guarda um numero unico (100.0%). Nenhum valor unico representa esta estrutura: a conta de esgoto sera aproximada. Confira a tabela da concessionaria antes de usar este municipio num estudo publicavel."
     },
     "SP - Santa Bárbara d'Oeste": {
       "municipio": "Santa Bárbara d'Oeste",

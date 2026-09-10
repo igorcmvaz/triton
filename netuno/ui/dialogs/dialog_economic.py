@@ -616,7 +616,7 @@ class DialogTariffs(QDialog):
         # A categoria vem primeiro, porque erra a conta inteira e nao um trecho.
         incompativel = incompatibilidade_de_categoria(self.config)
         erros = [a for a in validar_estrutura(data) if a.gravidade == "erro"]
-        ressalva = data.get("_ressalva_estrutura", "")
+        ressalva = data.get("_ressalva_estrutura", "") or data.get("_ressalva_esgoto", "")
         if incompativel:
             self.lbl_estrutura_aviso.setText(
                 f"⚠️ <b>{tr('Categoria tarifária incompatível:')}</b> "
