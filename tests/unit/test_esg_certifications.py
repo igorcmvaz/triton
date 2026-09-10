@@ -42,7 +42,10 @@ def test_esg_simplified_mode():
     assert res.outdoor_savings_pct > 0.0
     assert res.leed.indoor_water_points >= 2
     assert res.leed.outdoor_water_points >= 1
-    assert len(res.credit_details) == 5
+    # Conta pelo conteúdo, não pelo tamanho: a matriz cresce quando entra uma
+    # certificação nova, e contar linhas quebra o teste sem indicar defeito.
+    codigos = {d.credit_code for d in res.credit_details}
+    assert {"WEc1", "WEc2", "Categoria 4", "Critério 2.1", "WEM14"} <= codigos
     # Focus field should be populated
     assert any(d.focus for d in res.credit_details)
 

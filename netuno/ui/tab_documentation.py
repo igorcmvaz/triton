@@ -123,7 +123,7 @@ class TabDocumentation(QWidget):
             "💡 " + tr("Discussão: Valores Médios vs Simulação"),
             "⚙️ " + tr("Tarifas, Impostos & OPEX"),
             "🍃 " + tr("Análise do Ciclo de Vida (ACV): Premissas e Justificativas"),
-            "🌿 " + tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, GRI)"),
+            "🌿 " + tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, EDGE, GRI)"),
             "📖 " + tr("Referências Bibliográficas"),
             "⌨️ " + tr("Uso pela Linha de Comando"),
         ]
@@ -593,7 +593,7 @@ class TabDocumentation(QWidget):
             <p style='font-size: 13px; line-height: 1.6;'>
                 Rainwater harvesting in buildings is a high-impact strategy for global green building certification and ESG corporate sustainability reporting. 
                 Netuno 5 integrates the daily Yield-After-Spill (YAS) water balance results with the technical criteria of four major sustainability frameworks:
-                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, and <b>GRI Standard 303</b>.
+                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, <b>EDGE</b>, and <b>GRI Standard 303</b>.
             </p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px;'>1. LEED v4 and v4.1 (USGBC / GBC Brasil) — Water Efficiency (WE) Category</h3>
@@ -663,6 +663,36 @@ class TabDocumentation(QWidget):
                     <br/><code>Water Positive Ratio = (Annual Rainwater Harvested / Total Annual Water Demand) × 100%</code>.
                 </li>
             </ul>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. EDGE (IFC / World Bank Group) &mdash; the Water Bar</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                EDGE is the only standard on this list that <b>awards no points</b>. It measures the
+                percentage of savings against a <i>local base case</i> along three independent bars
+                &mdash; energy, water, and embodied energy in materials &mdash; and requires each one to
+                cross its threshold:
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>EDGE Certified:</b> at least <b>20%</b> savings in energy, water and embodied energy in materials.</li>
+                <li><b>EDGE Advanced (Zero Carbon Ready):</b> EDGE Certified plus <b>40%</b> or more on-site energy savings.</li>
+                <li><b>Zero Carbon:</b> EDGE Advanced plus 100% renewables, on-site or off-site, or purchased offsets.</li>
+            </ul>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Rainwater harvesting is measure <b>WEM14</b>, whose input in the EDGE App is the
+                <b>catchment area in m&sup2;</b>. Netuno reports the contribution of that single measure
+                to the water bar, together with the catchment area to declare.
+            </p>
+            <div style='background-color: #fffbeb; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 4px; margin: 10px 0; font-size: 12.5px;'>
+                <b>What Netuno cannot know.</b> The base case is local: it varies by country and
+                building type and is set by the EDGE App itself. Without a declared base case, Netuno
+                uses the project's own modelled demand, which is a floor rather than the certification
+                figure &mdash; a project that also installs efficient fixtures has a higher base case.
+                <b>Certification comes from the EDGE App, not from here.</b>
+            </div>
+            <p style='font-size: 11.5px; color: #64748b;'>
+                Source: IFC, <i>EDGE Certification Process</i>, edgebuildings.com/certify/certification/,
+                accessed 10 September 2026. Measure codes checked against a certified EDGE v3.0.0
+                assessment report.
+            </p>
             """
         else:
             html = """
@@ -670,7 +700,7 @@ class TabDocumentation(QWidget):
             <p style='font-size: 13px; line-height: 1.6;'>
                 O aproveitamento de água de chuva em edificações constitui uma das estratégias de maior peso para obtenção de selos sustentáveis e elaboração de relatórios corporativos ESG. 
                 O <b>Netuno 5</b> traduz os resultados da simulação hidrológica diária contínua (modelo YAS) em pontuações e enquadramentos auditáveis em quatro referenciais líderes:
-                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b> e <b>GRI Standard 303</b>.
+                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, <b>EDGE</b> e <b>GRI Standard 303</b>.
             </p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px;'>1. LEED v4 e v4.1 (USGBC / GBC Brasil) — Categoria Water Efficiency (WE)</h3>
@@ -740,6 +770,38 @@ class TabDocumentation(QWidget):
                     <br/><code>Water Positive Ratio = (Volume Pluvial Anual Consumido / Demanda Anual Total) × 100%</code>.
                 </li>
             </ul>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. EDGE (IFC / Grupo Banco Mundial) &mdash; a Barra de &Aacute;gua</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                O EDGE &eacute; o &uacute;nico desta lista que <b>n&atilde;o pontua</b>. Ele mede
+                percentual de economia contra um <i>caso-base local</i> em tr&ecirc;s barras
+                independentes &mdash; energia, &aacute;gua e energia incorporada nos materiais &mdash;
+                e exige que cada uma cruze o seu limiar:
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>EDGE Certified:</b> no m&iacute;nimo <b>20%</b> de economia em energia, em &aacute;gua e na energia incorporada aos materiais.</li>
+                <li><b>EDGE Advanced (Zero Carbon Ready):</b> o n&iacute;vel anterior, mais <b>40%</b> ou mais de economia de energia no local.</li>
+                <li><b>Zero Carbon:</b> o EDGE Advanced, mais 100% de energia renov&aacute;vel, no local ou fora dele, ou compensa&ccedil;&atilde;o adquirida.</li>
+            </ul>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                O aproveitamento pluvial &eacute; a medida <b>WEM14</b>, cuja entrada no aplicativo
+                EDGE &eacute; a <b>&aacute;rea de capta&ccedil;&atilde;o em m&sup2;</b>. O Netuno informa
+                a contribui&ccedil;&atilde;o dessa medida para a barra de &aacute;gua e a &aacute;rea
+                de capta&ccedil;&atilde;o a declarar.
+            </p>
+            <div style='background-color: #fffbeb; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 4px; margin: 10px 0; font-size: 12.5px;'>
+                <b>O que o Netuno n&atilde;o tem como saber.</b> O caso-base &eacute; local: varia por
+                pa&iacute;s e por tipologia, e &eacute; fixado pelo pr&oacute;prio aplicativo EDGE. Sem
+                caso-base declarado, o Netuno usa a demanda modelada do projeto, que &eacute; um piso e
+                n&atilde;o o n&uacute;mero da certifica&ccedil;&atilde;o &mdash; um projeto que tamb&eacute;m
+                instale lou&ccedil;as e metais eficientes tem caso-base maior.
+                <b>A certifica&ccedil;&atilde;o sai do aplicativo EDGE, n&atilde;o daqui.</b>
+            </div>
+            <p style='font-size: 11.5px; color: #64748b;'>
+                Fonte: IFC, <i>EDGE Certification Process</i>, edgebuildings.com/certify/certification/,
+                consultado em 10 de setembro de 2026. C&oacute;digos das medidas conferidos contra um
+                relat&oacute;rio de avalia&ccedil;&atilde;o EDGE v3.0.0 de projeto certificado.
+            </p>
             """
         return self._create_browser(html, secao='esg')
 

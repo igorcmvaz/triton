@@ -422,7 +422,9 @@ def generate_environmental_html_report(
             annual_potable_consumed_m3=annual_potable_m3,
             net_co2e_saved_kg_lifetime=lca_result.lifetime_net_co2_saved_kg if lca_result else 0.0,
             project_lifetime_years=20,
-            has_irrigation_demand=True
+            has_irrigation_demand=True,
+            # A area de captacao e a entrada do campo WEM14 do EDGE.
+            catchment_area_m2=float(area) if isinstance(area, (int, float)) else 0.0,
         )
 
     # Formatação numérica
@@ -836,6 +838,12 @@ def generate_environmental_html_report(
                 <p><b>{'Graduação' if not is_en else 'Rating'}: {esg_result.casa_azul.category}</b></p>
                 <div class="esg-badge">+{esg_result.casa_azul.points_awarded} {'pontos CAIXA' if not is_en else 'points'}</div>
                 <p style="margin-top: 3px;">{esg_result.casa_azul.description}</p>
+            </div>
+            <div class="esg-card">
+                <h4>🌍 EDGE (IFC)</h4>
+                <p><b>{'Barra de água' if not is_en else 'Water bar'}: {format_ptbr(esg_result.edge.economia_de_agua_pct, 1)}%</b></p>
+                <div class="esg-badge">{('Atende ao padrão de água' if not is_en else 'Meets water standard') if esg_result.edge.atende_o_padrao_de_agua else (('Faltam ' if not is_en else 'Short by ') + format_ptbr(abs(esg_result.edge.margem_pct), 1) + ' p.p.')}</div>
+                <p style="margin-top: 3px;">{'Sem pontos: o EDGE mede percentual contra um caso-base local. Área de captação da WEM14: ' if not is_en else 'No points: EDGE measures percentage against a local base case. WEM14 catchment area: '}{format_ptbr(esg_result.edge.area_de_captacao_m2, 0)} m²</p>
             </div>
             <div class="esg-card">
                 <h4>💧 GRI 303 & Water Positive</h4>

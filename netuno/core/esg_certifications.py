@@ -4,10 +4,21 @@ Calcula a elegibilidade de créditos para certificações sustentáveis de edifi
 - LEED v4 / v4.1 (Water Efficiency - WEc1 e WEc2);
 - Processo AQUA-HQE (Categoria 4 - Gestão da Água);
 - Selo Casa Azul CAIXA (Critérios de Conservação de Água);
+- EDGE (IFC / Banco Mundial), barra de água — medida WEM14;
 - Indicadores GRI 303 (Água e Efluentes) e Pegada Hídrica Evitada (Water Positive Index).
+
+O EDGE é o único da lista que não pontua: mede percentual de economia contra um
+caso-base local e o compara com um limiar. Ver `netuno/core/edge_certification.py`.
 """
 
 from dataclasses import dataclass, field
+
+from netuno.core.edge_certification import (
+    AvaliacaoEdge,
+    LIMIAR_DE_AGUA_PCT,
+    avaliar_agua_edge,
+    regra_da_barra_de_agua,
+)
 from typing import Dict, Any, Optional, List
 
 
@@ -57,6 +68,7 @@ class EsgConsolidatedReport:
     leed: LeedWaterCredits
     aqua: AquaHqeRating
     casa_azul: CasaAzulRating
+    edge: AvaliacaoEdge
     annual_potable_saved_m3: float
     lifetime_potable_saved_m3: float
     annual_co2e_saved_kg: float
@@ -80,6 +92,8 @@ def calculate_esg_certifications(
     is_simplified_mode: bool = False,
     indoor_demand_m3: Optional[float] = None,
     outdoor_demand_m3: Optional[float] = None,
+    catchment_area_m2: float = 0.0,
+    edge_base_case_annual_m3: Optional[float] = None,
 ) -> EsgConsolidatedReport:
     """
     Consolida as pontuações e relatórios ESG do sistema pluvial.
@@ -260,6 +274,15 @@ def calculate_esg_certifications(
         description=casa_desc,
     )
 
+    # 4. EDGE (IFC): barra de água, medida WEM14
+    # Não pontua. Mede percentual contra um caso-base local e compara com 20%.
+    edge_result = avaliar_agua_edge(
+        volume_pluvial_anual_m3=annual_saved_m3,
+        demanda_total_anual_m3=tot_demand_m3,
+        area_de_captacao_m2=catchment_area_m2,
+        consumo_base_anual_m3_declarado=edge_base_case_annual_m3,
+    )
+
     # Indicadores GRI e Pegada Hídrica
     lifetime_saved_m3 = annual_saved_m3 * project_lifetime_years
     annual_co2_kg = float(net_co2e_saved_kg_lifetime) / max(1.0, float(project_lifetime_years))
@@ -271,7 +294,11 @@ def calculate_esg_certifications(
         f"poupando {annual_saved_m3:,.0f} m³/ano de água tratada "
         f"({lifetime_saved_m3:,.0f} m³ acumulados em {project_lifetime_years} anos). "
         f"No Selo LEED v4 WE (máximo de 8 pontos possíveis), o projeto tirou {tot_leed} de 8 pontos ({tot_leed}/8 pts) "
-        f"e qualificou-se com perfil '{aqua_level}' no Processo AQUA-HQE."
+        f"e qualificou-se com perfil '{aqua_level}' no Processo AQUA-HQE. "
+        f"Na certificação EDGE, que não pontua e sim mede percentual contra um "
+        f"caso-base, a barra de água chega a {edge_result.economia_de_agua_pct:.1f}% — "
+        f"{'acima' if edge_result.atende_o_padrao_de_agua else 'abaixo'} do limiar de "
+        f"{LIMIAR_DE_AGUA_PCT:.0f}% exigido em cada uma das três barras."
     )
 
     # Montagem detalhada da matriz de critérios
@@ -321,6 +348,32 @@ def calculate_esg_certifications(
             notes="Gera bonificação e elegibilidade a juros reduzidos em financiamentos habitacionais CAIXA."
         ),
         EsgCreditDetail(
+            certification="EDGE (IFC / Banco Mundial)",
+            credit_code="WEM14",
+            credit_name="Sistema de Aproveitamento de Água Pluvial",
+            focus="Barra de Água do Projeto",
+            requirement_rule=regra_da_barra_de_agua(),
+            achieved_performance=(
+                f"Barra de água: {edge_result.economia_de_agua_pct:.1f}% "
+                f"(base: {edge_result.consumo_base_anual_m3:,.0f} m³/ano)"
+            ),
+            points_or_level=(
+                "Atende ao padrão de água"
+                if edge_result.atende_o_padrao_de_agua
+                else f"Faltam {abs(edge_result.margem_pct):.1f} p.p."
+            ),
+            status=(
+                "Padrão de água atendido"
+                if edge_result.atende_o_padrao_de_agua
+                else "Abaixo do limiar (20%)"
+            ),
+            notes=(
+                f"O EDGE não atribui pontos. Área de captação a declarar no campo "
+                f"da WEM14: {edge_result.area_de_captacao_m2:,.0f} m². "
+                + edge_result.ressalva
+            ),
+        ),
+        EsgCreditDetail(
             certification="GRI Standard 303",
             credit_code="303-3 / 303-5",
             credit_name="Circularidade Hídrica",
@@ -337,6 +390,7 @@ def calculate_esg_certifications(
         leed=leed_result,
         aqua=aqua_result,
         casa_azul=casa_azul_result,
+        edge=edge_result,
         annual_potable_saved_m3=annual_saved_m3,
         lifetime_potable_saved_m3=lifetime_saved_m3,
         annual_co2e_saved_kg=annual_co2_kg,

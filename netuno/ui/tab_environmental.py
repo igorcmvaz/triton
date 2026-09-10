@@ -39,6 +39,7 @@ from dataclasses import replace
 from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
 from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
+from netuno.core.edge_certification import consumo_base_anual_m3
 from netuno.ui.charts import (
     NetunoBaseChart, CO2ComparisonChart, EnvironmentalBalanceSummaryChart,
     LCAComponentBreakdownChart, WaterAndCarbonComparisonChart
@@ -923,12 +924,32 @@ class TabEnvironmental(QWidget):
         self.card_aqua = self._create_kpi_card(tr("Processo AQUA-HQE (Gestão da Água)"), "--", tr("Categoria 4 — Desempenho"), "#0284c7", is_dark)
         self.card_casa_azul = self._create_kpi_card(tr("Selo Casa Azul CAIXA"), "--", tr("Critério de Conservação"), "#0ea5e9", is_dark)
         self.card_gri = self._create_kpi_card(tr("GRI 303: Água Evitada da Rede"), "-- m³/ano", tr("Pegada Hídrica Preservada"), "#059669", is_dark)
+        self.card_edge = self._create_kpi_card(
+            tr("EDGE (IFC): Barra de Água"), "--%",
+            tr("Limiar de 20% — o EDGE não pontua"), "#b45309", is_dark)
 
         grid_esg.addWidget(self.card_leed, 0, 0)
         grid_esg.addWidget(self.card_aqua, 0, 1)
         grid_esg.addWidget(self.card_casa_azul, 1, 0)
         grid_esg.addWidget(self.card_gri, 1, 1)
+        grid_esg.addWidget(self.card_edge, 2, 0, 1, 2)
         lay_esg.addLayout(grid_esg)
+
+        # Caso-base do EDGE. O aplicativo do IFC fixa um consumo de referencia
+        # local, que o Netuno nao tem como saber; quem informa e o usuario.
+        row_edge = QHBoxLayout()
+        row_edge.addWidget(QLabel(
+            tr("Caso-base de consumo do EDGE (L/pessoa·dia, opcional):")))
+        self.txt_edge_base = QLineEdit()
+        self.txt_edge_base.setPlaceholderText(tr("em branco: usa a demanda do projeto"))
+        self.txt_edge_base.setFixedWidth(150)
+        self.txt_edge_base.setToolTip(tr(
+            "O EDGE mede a economia contra um caso-base local, que varia por país e "
+            "tipologia e é fixado pelo aplicativo. Em branco, o Netuno usa a demanda "
+            "modelada do projeto — que é um piso, não o número da certificação."))
+        row_edge.addWidget(self.txt_edge_base)
+        row_edge.addStretch()
+        lay_esg.addLayout(row_edge)
 
         self.lbl_esg_summary_box = QLabel(tr("Síntese Executiva ESG: Execute a simulação para gerar o relatório de créditos ambientais."))
         self.lbl_esg_summary_box.setWordWrap(True)
@@ -1405,6 +1426,27 @@ class TabEnvironmental(QWidget):
             etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )
 
+    def _edge_base_case_annual_m3(self):
+        """Caso-base do EDGE em m3/ano, ou None quando nao foi declarado."""
+        campo = getattr(self, 'txt_edge_base', None)
+        if campo is None:
+            return None
+        texto = campo.text().strip().replace(',', '.')
+        if not texto:
+            return None
+        try:
+            litros = float(texto)
+        except ValueError:
+            return None
+        if litros <= 0.0:
+            return None
+        cfg = getattr(self.window(), 'config', None)
+        pessoas = float(getattr(cfg, 'residents_count', 0) or 0)
+        economias = float(getattr(cfg, 'num_economias', 1) or 1)
+        if pessoas <= 0.0:
+            return None
+        return consumo_base_anual_m3(litros, pessoas * max(1.0, economias))
+
     def _on_env_volume_changed(self):
         cur_v = self.combo_env_active_volume.currentData()
         if cur_v is not None:
@@ -1614,6 +1656,11 @@ class TabEnvironmental(QWidget):
             is_simplified_mode=is_simplified,
             indoor_demand_m3=indoor_dem_m3,
             outdoor_demand_m3=outdoor_dem_m3,
+            # Entrada do campo WEM14 do EDGE, vinda da aba de projeto.
+            catchment_area_m2=float(
+                getattr(getattr(self.window(), 'config', None), 'area', 0.0) or 0.0
+            ),
+            edge_base_case_annual_m3=self._edge_base_case_annual_m3(),
         )
 
         if hasattr(self, 'card_leed'):
@@ -1638,6 +1685,19 @@ class TabEnvironmental(QWidget):
             self._update_kpi(self.card_casa_azul, f"Nível {esg_res.casa_azul.category} (+{esg_res.casa_azul.points_awarded} pts)")
         if hasattr(self, 'card_gri'):
             self._update_kpi(self.card_gri, f"{format_ptbr(esg_res.annual_potable_saved_m3, 0)} m³/ano")
+        if hasattr(self, 'card_edge'):
+            e = esg_res.edge
+            self._update_kpi(
+                self.card_edge,
+                f"{format_ptbr(e.economia_de_agua_pct, 1)}%",
+                ("Atende ao padrão de água (≥ 20%)" if e.atende_o_padrao_de_agua
+                 else f"Faltam {format_ptbr(abs(e.margem_pct), 1)} pontos percentuais"),
+            )
+            self.card_edge.setToolTip(
+                f"{e.descricao}\n\n{e.ressalva}\n\n"
+                f"Área de captação a declarar no campo da medida WEM14: "
+                f"{format_ptbr(e.area_de_captacao_m2, 0)} m²."
+            )
         if hasattr(self, 'lbl_esg_summary_box'):
             self.lbl_esg_summary_box.setText(f"🌿 <b>{tr('Síntese Executiva ESG & Certificações:')}</b> {esg_res.esg_summary_text}")
 

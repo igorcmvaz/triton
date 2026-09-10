@@ -1132,6 +1132,8 @@ class TabReportsPdf(QWidget):
             is_simplified_mode=is_simplified,
             indoor_demand_m3=indoor_dem_m3,
             outdoor_demand_m3=outdoor_dem_m3,
+            catchment_area_m2=self._safe_float(
+                self._project_data.get("area"), 0.0),
         )
 
     def _update_report_preview_text_legacy(self):
@@ -1227,6 +1229,9 @@ class TabReportsPdf(QWidget):
                 f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
                 f"     {tr('Processo AQUA-HQE')}            : {tr(esg.aqua.performance_level)} ({'⭐'*esg.aqua.stars}) — {tr(esg.aqua.description)}",
                 f"     {tr('Selo Casa Azul CAIXA')}         : {tr(esg.casa_azul.category)} (+{esg.casa_azul.points_awarded} pts) — {esg.casa_azul.criterion_met and tr('Critério 2.1 Conforme')}",
+                f"     {tr('EDGE (IFC) — barra de água')} : {br(esg.edge.economia_de_agua_pct,1)}% "
+                f"({tr('atende ao padrão') if esg.edge.atende_o_padrao_de_agua else tr('abaixo do limiar de 20%')})"
+                f" — {tr('WEM14, área de captação')} {br(esg.edge.area_de_captacao_m2,0)} m²",
                 f"     {tr('GRI Standard 303 (Água)')}      : GRI 303-3 / 303-5 ({br(annual_m3,1)} m³ retirados/economizados)",
                 "═" * 72,
             ]

@@ -238,6 +238,9 @@ class NetunoConfig:
     
     # Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL
     iptu_green_enabled: bool = False
+    # Caso-base de consumo do aplicativo EDGE, em L/pessoa*dia. Zero significa
+    # nao declarado: entao vale a demanda modelada do projeto, com ressalva.
+    edge_base_case_l_person_day: float = 0.0
     iptu_annual_value: float = 4000.0       # Valor venal do IPTU anual da edificação (R$/ano)
     iptu_discount_pct: float = 5.0          # Desconto municipal do IPTU Verde (%)
     tariff_flag: str = "verde"              # "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
@@ -867,6 +870,8 @@ def export_netuno_json(
                 "install_month": getattr(config, "install_month", 0),
                 "econ_lower_tank_vol": getattr(config, "econ_lower_tank_vol", 2000.0),
                 "demand_mode": getattr(config, "demand_mode", "constant"),
+                "edge_base_case_l_person_day": getattr(
+                    config, "edge_base_case_l_person_day", 0.0),
             },
             "capex_and_opex": {
                 "cost_lower_tank": config.cost_lower_tank,
@@ -1058,6 +1063,8 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.install_month = inc.get("install_month", cfg.install_month)
             cfg.econ_lower_tank_vol = inc.get("econ_lower_tank_vol", cfg.econ_lower_tank_vol)
             cfg.demand_mode = inc.get("demand_mode", cfg.demand_mode)
+            cfg.edge_base_case_l_person_day = inc.get(
+                "edge_base_case_l_person_day", cfg.edge_base_case_l_person_day)
             if "operational_costs" in co:
                 cfg.op_costs = [tuple(item) for item in co["operational_costs"]]
 
