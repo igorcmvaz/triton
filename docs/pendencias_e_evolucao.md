@@ -29,6 +29,7 @@ sua, está dito.
 | 14 | Tempo de partida de 108 s por acionamento | 19% do consumo da motobomba | você |
 | 15 | Lâmina de descarte padrão de 1 mm | a tela sugere 2 mm, e a norma também | você |
 | 16 | Semântica do descarte contra o Manual do Netuno 4 | 35% da chuva aproveitável | você |
+| 17 | Placa de eixo ou de tomada | 43% a 67% no consumo da motobomba | você |
 
 ---
 
@@ -400,6 +401,54 @@ pode documentar duas coisas incompatíveis. Mas **não há cópia do Manual do N
 neste repositório** para arbitrar qual das duas o original implementa, e isso
 importa num estudo de replicação. Você tem o manual. Se o Netuno 4 usa o limiar, é
 o código que precisa mudar, e o efeito é grande.
+
+---
+## 17. A potência de placa é de eixo ou de tomada?
+
+O módulo de hidráulica declara que o rendimento é «do conjunto motobomba, já
+incluindo motor e parte hidráulica». Isso significa tratar a potência de placa
+como **potência elétrica de entrada**, e o rendimento como fio-a-água.
+
+A conferência contra uma bomba real diz outra coisa. Tomando a curva de catálogo
+da Dancor CP-4R de 1/2 CV, que dá 8,4 m³/h a 6 m.c.a. e 0,4 m³/h a 22 m.c.a., e
+ajustando a parábola usual `H = H₀ − kQ²`:
+
+| Grandeza | Valor |
+| :--- | ---: |
+| vazão a 12 m.c.a. | 6,65 m³/h |
+| potência hidráulica no ponto | 217 W |
+| placa | 370 W |
+| razão entre as duas | 0,59 |
+
+Essa razão de 0,59 é o **rendimento da bomba**, não do conjunto. O programa adota
+0,50 para essa faixa de potência e prevê 5,66 m³/h, quinze por cento abaixo do
+catálogo: é um rendimento de bomba, conservador, e não um rendimento fio-a-água.
+
+A norma de máquinas elétricas girantes define a potência nominal do motor como a
+**potência mecânica no eixo**. Se a placa é de eixo, então `ρgH/η` devolve energia
+de eixo por metro cúbico, e falta ainda dividir pelo rendimento do motor para
+chegar à energia que o medidor registra:
+
+| Leitura | kWh/m³ a 12 m.c.a. |
+| :--- | ---: |
+| placa de tomada, como está hoje | 0,0654 |
+| placa de eixo, motor a 70% | 0,0934 |
+| placa de eixo, motor a 65% | 0,1006 |
+| placa de eixo, motor a 60% | 0,1090 |
+
+A diferença é de 43% a 67% no consumo da motobomba, que atravessa para o custo de
+energia no fluxo de caixa e para a emissão operacional na avaliação de ciclo de
+vida.
+
+**Não mexi.** A correção da energia de partida desta rodada é independente desta
+questão: qualquer que seja a leitura da placa, os dois termos da mesma expressão
+têm de tratá-la do mesmo jeito, e era isso que estava quebrado. Mas o **nível
+absoluto** do consumo depende desta decisão, e ela é sua.
+
+Se a resposta for «de eixo», o ajuste é acrescentar um rendimento de motor
+explícito, com padrão na faixa de 60% a 70% para motores monofásicos de fração de
+CV, e aplicá-lo aos dois termos. A conferência acima foi feita com **uma** bomba;
+vale repetir com duas ou três curvas antes de decidir.
 
 ---
 ## O que esta rodada resolveu
