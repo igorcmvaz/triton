@@ -801,7 +801,10 @@ def export_netuno_json(
                     "flow_rate_l_h": config.pump_flow_rate,
                     "efficiency_pct": config.pump_efficiency,
                     "startup_time_h": config.pump_startup_time_h,
-                    "unit_cost": config.pump_unit_cost
+                    "unit_cost": config.pump_unit_cost,
+                    # Saida do assistente de motobomba. Zero significa "nao informada",
+                    # e sem ela o calculo de energia volta a usar a altura de recurso.
+                    "manometric_head_m": getattr(config, "pump_manometric_head_m", 0.0)
                 }
             },
             "financial_and_economic": {
@@ -824,6 +827,46 @@ def export_netuno_json(
                 "elec_tax_fixed": config.elec_tax_fixed,
                 "elec_tax_var_pct": config.elec_tax_var,
                 "elec_tariff_escalation_pct": getattr(config, 'elec_tariff_escalation', 5.0)
+            },
+            # Secoes que faltavam. Ate a 5.0.8 o arquivo gravava seis secoes e
+            # trinta campos ficavam de fora, voltando ao padrao em silencio ao
+            # reabrir: quem salvasse um estudo com ozonio, 30 m de desnivel e
+            # cisterna de concreto reabria outro, com cloracao, altura zero e PEAD.
+            "water_quality_and_etap": {
+                "target_class": getattr(config, "water_quality_target_class", "classe_1"),
+                "disinfection": getattr(config, "water_quality_disinfection", "cloro"),
+                "polishing_filter": bool(getattr(config, "water_quality_polishing", False)),
+                "etap_enabled": bool(getattr(config, "etap_enabled", True)),
+                "chlorine_treatment_enabled": bool(getattr(config, "chlorine_treatment_enabled", True)),
+                "chlorine_dose_mg_l": getattr(config, "chlorine_dose_mg_l", 1.5),
+                "chlorine_product_purity": getattr(config, "chlorine_product_purity", 0.65),
+                "chlorine_cost_per_kg": getattr(config, "chlorine_cost_per_kg", 25.0),
+                "chlorine_co2_kg_per_kg": getattr(config, "chlorine_co2_kg_per_kg", 1.85),
+            },
+            "materials_and_typology": {
+                "building_template_id": getattr(config, "building_template_id", "res_medio"),
+                "lower_tank_material": getattr(config, "lower_tank_material", "PEAD"),
+                "upper_tank_material": getattr(config, "upper_tank_material", "PEAD"),
+            },
+            "irrigation": {
+                "garden_area_m2": getattr(config, "irrigation_garden_area_m2", 0.0),
+                "rate_l_m2_day": getattr(config, "irrigation_rate_l_m2_day", 3.0),
+                "liters_per_day": getattr(config, "irrigation_liters_per_day", 50.0),
+                "rain_threshold_mm": getattr(config, "irrigation_rain_threshold_mm", 2.0),
+                "potable_backup": bool(getattr(config, "irrigation_potable_backup", True)),
+            },
+            "incentives_and_shares": {
+                "iptu_green_enabled": bool(getattr(config, "iptu_green_enabled", False)),
+                "iptu_annual_value": getattr(config, "iptu_annual_value", 4000.0),
+                "iptu_discount_pct": getattr(config, "iptu_discount_pct", 5.0),
+                "tariff_flag": getattr(config, "tariff_flag", "verde"),
+                "tariff_customized": bool(getattr(config, "tariff_customized", False)),
+                "num_economias": getattr(config, "num_economias", 1),
+                "potable_indoor_share": getattr(config, "potable_indoor_share", 0.65),
+                "non_potable_indoor_share": getattr(config, "non_potable_indoor_share", 0.35),
+                "install_month": getattr(config, "install_month", 0),
+                "econ_lower_tank_vol": getattr(config, "econ_lower_tank_vol", 2000.0),
+                "demand_mode": getattr(config, "demand_mode", "constant"),
             },
             "capex_and_opex": {
                 "cost_lower_tank": config.cost_lower_tank,
@@ -942,6 +985,10 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.pump_efficiency = pump.get("efficiency_pct", 55.0)
             cfg.pump_startup_time_h = pump.get("startup_time_h", 0.03)
             cfg.pump_unit_cost = pump.get("unit_cost", 320.0)
+            # Zero significa «não informada»: é o que faz a precedência do
+            # cálculo de energia funcionar. Sem persistir, o desnível levantado
+            # pelo assistente se perdia ao reabrir o projeto.
+            cfg.pump_manometric_head_m = pump.get("manometric_head_m", 0.0)
 
             # Financial & Economic
             fe = inputs.get("financial_and_economic", {})
@@ -972,6 +1019,45 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.cost_labor = co.get("cost_labor", 1500.0)
             cfg.cost_piping = co.get("cost_piping", 950.0)
             cfg.cost_accessories = co.get("cost_accessories", 500.0)
+
+            # Secoes acrescentadas na 5.0.8. `get` com o padrao mantem os arquivos
+            # anteriores legiveis: o que nao existir no arquivo cai no padrao, que
+            # e o comportamento que eles ja tinham.
+            wq = inputs.get("water_quality_and_etap", {})
+            cfg.water_quality_target_class = wq.get("target_class", "classe_1")
+            cfg.water_quality_disinfection = wq.get("disinfection", "cloro")
+            cfg.water_quality_polishing = bool(wq.get("polishing_filter", False))
+            cfg.etap_enabled = bool(wq.get("etap_enabled", True))
+            cfg.chlorine_treatment_enabled = bool(wq.get("chlorine_treatment_enabled", True))
+            cfg.chlorine_dose_mg_l = wq.get("chlorine_dose_mg_l", cfg.chlorine_dose_mg_l)
+            cfg.chlorine_product_purity = wq.get("chlorine_product_purity", cfg.chlorine_product_purity)
+            cfg.chlorine_cost_per_kg = wq.get("chlorine_cost_per_kg", cfg.chlorine_cost_per_kg)
+            cfg.chlorine_co2_kg_per_kg = wq.get("chlorine_co2_kg_per_kg", cfg.chlorine_co2_kg_per_kg)
+
+            mt = inputs.get("materials_and_typology", {})
+            cfg.building_template_id = mt.get("building_template_id", "res_medio")
+            cfg.lower_tank_material = mt.get("lower_tank_material", "PEAD")
+            cfg.upper_tank_material = mt.get("upper_tank_material", "PEAD")
+
+            ir = inputs.get("irrigation", {})
+            cfg.irrigation_garden_area_m2 = ir.get("garden_area_m2", cfg.irrigation_garden_area_m2)
+            cfg.irrigation_rate_l_m2_day = ir.get("rate_l_m2_day", cfg.irrigation_rate_l_m2_day)
+            cfg.irrigation_liters_per_day = ir.get("liters_per_day", cfg.irrigation_liters_per_day)
+            cfg.irrigation_rain_threshold_mm = ir.get("rain_threshold_mm", cfg.irrigation_rain_threshold_mm)
+            cfg.irrigation_potable_backup = bool(ir.get("potable_backup", True))
+
+            inc = inputs.get("incentives_and_shares", {})
+            cfg.iptu_green_enabled = bool(inc.get("iptu_green_enabled", False))
+            cfg.iptu_annual_value = inc.get("iptu_annual_value", cfg.iptu_annual_value)
+            cfg.iptu_discount_pct = inc.get("iptu_discount_pct", cfg.iptu_discount_pct)
+            cfg.tariff_flag = inc.get("tariff_flag", "verde")
+            cfg.tariff_customized = bool(inc.get("tariff_customized", False))
+            cfg.num_economias = inc.get("num_economias", cfg.num_economias)
+            cfg.potable_indoor_share = inc.get("potable_indoor_share", cfg.potable_indoor_share)
+            cfg.non_potable_indoor_share = inc.get("non_potable_indoor_share", cfg.non_potable_indoor_share)
+            cfg.install_month = inc.get("install_month", cfg.install_month)
+            cfg.econ_lower_tank_vol = inc.get("econ_lower_tank_vol", cfg.econ_lower_tank_vol)
+            cfg.demand_mode = inc.get("demand_mode", cfg.demand_mode)
             if "operational_costs" in co:
                 cfg.op_costs = [tuple(item) for item in co["operational_costs"]]
 
