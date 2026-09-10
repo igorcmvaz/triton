@@ -69,11 +69,15 @@ def test_a_energia_nao_divide_pelo_rendimento_uma_segunda_vez():
     horas_partida = sim.total_pump_cycles * cfg.pump_startup_time_h
     antiga = cfg.pump_power_kw * (horas_recalque + horas_partida) / (cfg.pump_efficiency / 100.0)
 
-    assert antiga > correta
-    # Com o termo das partidas tambem corrigido, o excesso da formula antiga e
-    # exatamente 1/eta, e nao um numero aproximado: as duas contas passam a
-    # diferir por um fator unico, que e a assinatura do defeito.
-    assert antiga / correta == pytest.approx(100.0 / cfg.pump_efficiency, rel=1e-9)
+    # A conta antiga dividia pelo rendimento da BOMBA. A correta divide pelo
+    # rendimento do MOTOR, que e o que separa a energia de eixo da faturada. As
+    # duas diferem pela razao entre os dois rendimentos, e nao por 1/eta.
+    from netuno.core.pump_hydraulics import rendimento_do_motor
+    eta_motor = rendimento_do_motor(cfg.pump_power_kw)
+    assert correta == pytest.approx(
+        cfg.pump_power_kw * (horas_recalque + horas_partida) / eta_motor, rel=1e-9)
+    assert antiga / correta == pytest.approx(
+        eta_motor / (cfg.pump_efficiency / 100.0), rel=1e-9)
 
 
 def test_o_excesso_da_formula_antiga_e_exatamente_um_sobre_eta():

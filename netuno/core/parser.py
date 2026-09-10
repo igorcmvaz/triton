@@ -350,6 +350,11 @@ class NetunoConfig:
     # bomba de 2 CV recalcava tão devagar quanto uma de 1/4.
     pump_flow_rate: float = 0.0
     pump_startup_time_h: float = 0.03  # hours
+    # Rendimento do MOTOR, em %. A potencia de placa e a mecanica no eixo, e o
+    # rendimento do motor e o que separa a energia de eixo da energia que o
+    # medidor registra. Zero significa nao informado: vale entao a Tabela 13 da
+    # ABNT NBR 17094-2:2016 para a potencia escolhida.
+    pump_motor_efficiency: float = 0.0  # %
     pump_unit_cost: float = 300.0  # R$, referência de mercado para motobomba periférica 1/2 CV
     elec_tariff: float = 0.6957  # R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)
     elec_tax_fixed: float = 0.0  # R$
@@ -804,6 +809,7 @@ def export_netuno_json(
                     "flow_rate_l_h": config.pump_flow_rate,
                     "efficiency_pct": config.pump_efficiency,
                     "startup_time_h": config.pump_startup_time_h,
+                    "motor_efficiency": getattr(config, "pump_motor_efficiency", 0.0),
                     "unit_cost": config.pump_unit_cost,
                     # Saida do assistente de motobomba. Zero significa "nao informada",
                     # e sem ela o calculo de energia volta a usar a altura de recurso.
@@ -989,6 +995,8 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.pump_flow_rate = pump.get("flow_rate_l_h", 2280.0)
             cfg.pump_efficiency = pump.get("efficiency_pct", 55.0)
             cfg.pump_startup_time_h = pump.get("startup_time_h", 0.03)
+            cfg.pump_motor_efficiency = pump.get(
+                "motor_efficiency", cfg.pump_motor_efficiency)
             cfg.pump_unit_cost = pump.get("unit_cost", 320.0)
             # Zero significa «não informada»: é o que faz a precedência do
             # cálculo de energia funcionar. Sem persistir, o desnível levantado

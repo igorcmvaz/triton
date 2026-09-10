@@ -1662,7 +1662,19 @@ class DialogElectricity(QDialog):
 
         lay_p.addWidget(QLabel(tr("Rendimento (%):")))
         self.txt_eff = QLineEdit(f"{self.config.pump_efficiency:.1f}".replace('.', ','))
+        self.txt_eff.setToolTip(tr(
+            "Rendimento da BOMBA, isto é, da parte hidráulica. Não inclui o motor: a potência de placa é a mecânica no eixo, e o rendimento do motor é campo à parte."))
         lay_p.addWidget(self.txt_eff)
+
+        # O rendimento do motor separa a energia de eixo da energia faturada.
+        lay_p.addWidget(QLabel(tr("Rendimento do motor (%, em branco usa a NBR 17094-2):")))
+        _mot = float(getattr(self.config, 'pump_motor_efficiency', 0.0) or 0.0)
+        self.txt_motor_eff = QLineEdit(
+            f"{_mot:.1f}".replace('.', ',') if _mot > 0 else "")
+        self.txt_motor_eff.setPlaceholderText(tr("Ex: 60,5 para meio CV"))
+        self.txt_motor_eff.setToolTip(tr(
+            "A potência de placa é a potência mecânica no eixo, e a ABNT NBR 17094-2 manda marcar o rendimento na placa como grandeza separada. Em branco, o programa adota a Tabela 13 da norma para a potência escolhida: 60,5% em meio CV, 69,3% em um CV."))
+        lay_p.addWidget(self.txt_motor_eff)
 
         lay_p.addWidget(QLabel(tr("Vazão nominal (litros/hora):")))
         self.txt_flow = QLineEdit(f"{self.config.pump_flow_rate:.0f}".replace('.', ','))
@@ -1888,6 +1900,12 @@ class DialogElectricity(QDialog):
 
             self.config.pump_power_kw = p_kw
             self.config.pump_efficiency = float(self.txt_eff.text().replace(',', '.'))
+            _mot_txt = self.txt_motor_eff.text().strip().replace(',', '.')
+            try:
+                self.config.pump_motor_efficiency = max(0.0, min(100.0, float(_mot_txt))) \
+                    if _mot_txt else 0.0
+            except ValueError:
+                self.config.pump_motor_efficiency = 0.0
             self.config.pump_flow_rate = float(self.txt_flow.text().replace(',', '.'))
             self.config.pump_startup_time_h = float(self.txt_startup.text().replace(',', '.')) / 3600.0
             self.config.pump_unit_cost = _parse_val(self.txt_unit_cost)

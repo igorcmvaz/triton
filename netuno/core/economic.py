@@ -8,6 +8,7 @@ from netuno.core.pump_hydraulics import (
     ALTURA_MANOMETRICA_PADRAO_M,
     energia_especifica_a_partir_da_vazao,
     energia_especifica_kwh_por_m3,
+    rendimento_do_motor,
     rendimento_tipico,
     vazao_l_por_h,
 )
@@ -375,6 +376,14 @@ def run_economic_analysis(
             if config.pump_flow_rate > 0
             else vazao_l_por_h(config.pump_power_kw, altura, eta)
         )
+        # A placa e de eixo: o rendimento do motor separa a energia de eixo da
+        # energia faturada. Mesma cadeia de netuno/core/pump_hydraulics.py.
+        eta_motor_pct = float(getattr(config, "pump_motor_efficiency", 0.0) or 0.0)
+        eta_motor = (
+            max(0.01, min(1.0, eta_motor_pct / 100.0))
+            if eta_motor_pct > 0
+            else rendimento_do_motor(config.pump_power_kw)
+        )
 
         t_rec_hours_month = (avg_daily_pumped * days_in_month) / max(1e-6, vazao)
         t_part_hours_month = avg_daily_cycles * days_in_month * config.pump_startup_time_h
@@ -382,16 +391,17 @@ def run_economic_analysis(
 
         volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
         if altura_informada > 0:
-            especifica = energia_especifica_kwh_por_m3(altura_informada, eta)
+            especifica = energia_especifica_kwh_por_m3(altura_informada, eta, eta_motor)
         elif config.pump_flow_rate > 0:
-            especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
+            especifica = energia_especifica_a_partir_da_vazao(
+                config.pump_power_kw, vazao, eta_motor)
         else:
-            especifica = energia_especifica_kwh_por_m3(altura, eta)
-        # As partidas somam potencia de placa x tempo, sem 1/eta: a placa ja e
-        # o que o motor consome. Mesma convencao de netuno/core/pump_energy.py.
+            especifica = energia_especifica_kwh_por_m3(altura, eta, eta_motor)
+        # Na partida nao ha vazao util, mas o motor puxa: placa / rendimento do
+        # MOTOR, sem o rendimento da bomba. Mesma convencao de pump_energy.py.
         monthly_pump_kwh_base = (
             especifica * volume_mensal_m3
-            + config.pump_power_kw * t_part_hours_month
+            + (config.pump_power_kw * t_part_hours_month) / eta_motor
         )
         
         # Ajuste por bandeira tarifária ANEEL ou Tarifa Branca

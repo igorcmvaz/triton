@@ -14,6 +14,7 @@ from PySide6.QtWidgets import QApplication
 from netuno.core.parser import NetunoConfig
 from netuno.core.simulation import SingleTankSimulationResult, SimulationDayResult
 from netuno.core.economic import run_economic_analysis
+from netuno.core.pump_hydraulics import rendimento_do_motor
 from netuno.ui.tab_tanks_simulation import TabTanksSimulation
 
 
@@ -88,24 +89,26 @@ def test_pump_energy_exact_physics_formula():
     t_part_expected = avg_daily_cycles * days_in_month * (10.0 / 3600.0)
     t_tot_expected = t_rec_expected + t_part_expected
 
-    # A potencia de placa e o que o motor CONSOME: a energia por m3 recalcado e
-    # P/Q, e nao P/Q dividido pelo rendimento. O rendimento ja esta embutido no
-    # fato de uma bomba de P kW entregar Q m3/h naquela altura.
+    # A potencia de placa e a potencia mecanica NO EIXO, por definicao da ABNT
+    # NBR 17094-2:2016, que manda marcar o rendimento na placa como grandeza
+    # separada. Duas consequencias, e as duas estao nesta conta:
     #
-    # Ate a versao 5.0.8 esta conta fazia P x horas / eta, dividindo por eta uma
-    # segunda vez e superestimando a energia de bombeamento em 1/eta - 67% com o
-    # rendimento de 60% usado aqui. Este teste fixava justamente a conta errada.
+    # 1. o rendimento DA BOMBA ja esta embutido no fato de um motor de P kW no
+    #    eixo fazer a bomba entregar Q m3/h naquela altura, e dividir por ele
+    #    outra vez contaria a perda hidraulica duas vezes;
+    # 2. o rendimento DO MOTOR ainda falta, e e o que separa a energia de eixo
+    #    da energia que o medidor registra.
+    #
+    # Ate a 5.0.7 a conta fazia P x horas / eta_bomba, que errava nos dois
+    # sentidos ao mesmo tempo. A 5.0.8 corrigiu o recalque e deixou as partidas.
+    eta_motor = rendimento_do_motor(0.7355)
     volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
-    energia_recalque = (0.7355 / 3.0) * volume_mensal_m3
+    energia_recalque = (0.7355 / 3.0) / eta_motor * volume_mensal_m3
 
-    # As partidas NAO sao excecao. A versao anterior deste teste dizia que sim,
-    # com o argumento de que ali a bomba consome sem entregar vazao util e que a
-    # perda entraria explicitamente. O argumento confunde duas coisas: o trabalho
-    # util e de fato nulo na partida, mas o medidor registra o que o motor puxa,
-    # e sob a convencao deste programa a potencia de placa JA e o que ele puxa.
-    # Dividir por eta afirmaria que na partida o motor consome 1/eta vezes a
-    # placa, o que so vale para o transitorio de corrente, de fracao de segundo.
-    energia_partidas = 0.7355 * t_part_expected
+    # Na partida a bomba nao entrega vazao util, mas o motor puxa da tomada: a
+    # placa dividida pelo rendimento do motor, sem o rendimento da bomba, porque
+    # perda hidraulica nao existe quando nao ha vazao.
+    energia_partidas = (0.7355 * t_part_expected) / eta_motor
 
     energy_kwh_expected = energia_recalque + energia_partidas
     cost_expected = energy_kwh_expected * 1.00
@@ -114,8 +117,9 @@ def test_pump_energy_exact_physics_formula():
     assert pytest.approx(econ.monthly_pump_cost_brl, rel=1e-3) == cost_expected
 
     # E a comparacao com a conta antiga, para que a diferenca fique registrada.
+    # A conta antiga dividia pelo rendimento da bomba, e nao do motor.
     conta_antiga = (0.7355 * t_tot_expected) / 0.60
-    assert conta_antiga > energy_kwh_expected * 1.5
+    assert conta_antiga != pytest.approx(energy_kwh_expected, rel=1e-3)
 
 
 def test_pump_backup_count_capex_cost():

@@ -29,7 +29,7 @@ sua, está dito.
 | 14 | Tempo de partida de 108 s por acionamento | 19% do consumo da motobomba | você |
 | 15 | Lâmina de descarte padrão de 1 mm | a tela sugere 2 mm, e a norma também | você |
 | 16 | Semântica do descarte contra o Manual do Netuno 4 | 35% da chuva aproveitável | você |
-| 17 | Placa de eixo ou de tomada | 43% a 67% no consumo da motobomba | você |
+| ~~17~~ | ~~Placa de eixo ou de tomada~~ | resolvido pela NBR 17094-2 | — |
 
 ---
 
@@ -440,15 +440,38 @@ A diferença é de 43% a 67% no consumo da motobomba, que atravessa para o custo
 energia no fluxo de caixa e para a emissão operacional na avaliação de ciclo de
 vida.
 
-**Não mexi.** A correção da energia de partida desta rodada é independente desta
-questão: qualquer que seja a leitura da placa, os dois termos da mesma expressão
-têm de tratá-la do mesmo jeito, e era isso que estava quebrado. Mas o **nível
-absoluto** do consumo depende desta decisão, e ela é sua.
+**RESOLVIDO.** A placa é de eixo, e a fonte é normativa: a ABNT NBR 17094-2:2016
+manda marcar o rendimento na placa de identificação como grandeza separada da
+potência, o que só faz sentido se a potência for a mecânica no eixo.
 
-Se a resposta for «de eixo», o ajuste é acrescentar um rendimento de motor
-explícito, com padrão na faixa de 60% a 70% para motores monofásicos de fração de
-CV, e aplicá-lo aos dois termos. A conferência acima foi feita com **uma** bomba;
-vale repetir com duas ou três curvas antes de decidir.
+A Tabela 13 da mesma norma dá o rendimento nominal mínimo a plena carga da linha
+IR1, e a Tabela 14 o da linha IR2. Motobombas residenciais são de 2 polos:
+
+| Potência | 2 polos, IR1 | 2 polos, IR2 |
+| :--- | ---: | ---: |
+| 1/4 CV, 0,18 kW | 50,0% | 64,0% |
+| 1/3 CV, 0,25 kW | 55,5% | 68,0% |
+| 1/2 CV, 0,37 kW | 60,5% | 72,0% |
+| 3/4 CV, 0,55 kW | 64,0% | 74,0% |
+| 1 CV, 0,75 kW | 69,3% | 75,5% |
+| 1,5 CV, 1,10 kW | 71,5% | 82,5% |
+| 2 CV, 1,50 kW | 72,4% | 84,0% |
+
+Adotou-se a linha IR1 como referência, por ser o piso normativo e o que se
+encontra em motobomba de prateleira. Quem tiver motor IR2 informa o valor da
+placa no campo novo da tela de energia.
+
+A cadeia ficou assim, nos dois motores de cálculo:
+
+```
+recalque:  e = ρ·g·H / (η_bomba · η_motor)     kWh por m³ elevado
+partidas:  E = placa · t / η_motor             sem η_bomba, porque não há vazão
+```
+
+Efeito medido no caso de referência, meio CV a 12 m.c.a.: o consumo específico
+passa de 0,0654 para 0,1080 kWh/m³, e o consumo anual da motobomba de 6,81 para
+11,26 kWh. O valor de recurso usado quando não há simulação passa de 0,0874 para
+0,1446 kWh/m³.
 
 ---
 ## O que esta rodada resolveu
