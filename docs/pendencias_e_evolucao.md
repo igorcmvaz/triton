@@ -16,7 +16,7 @@ sua, está dito.
 | 1 | Quatro municípios sem tarifa de excedente | payback nulo por defeito de cadastro | dado externo |
 | 2 | Cinco municípios da BRK Tocantins com tarifa decrescente | conta subestimada no primeiro bloco | dado externo |
 | 3 | Tipologia não residencial faturada com tarifa residencial | economia subestimada pela metade em escola e hospital | você |
-| 4 | Esgoto tratado como percentual único | superestima onde há faixa própria | você |
+| 4 | Esgoto por faixas próprias (14 municípios) | percentual único não representa a estrutura | eu |
 | 5 | Emissão de fabricação da motobomba extrapolada | único fator sem fonte primária na ACV | dado externo |
 | 6 | Reajuste tarifário como percentual único | projeção de 20 anos frágil | você |
 | 7 | Sem tarifa social nem bandeiras de água | classe de baixa renda mal representada | você |
@@ -123,20 +123,36 @@ outras categorias é a tarefa de dado mais valiosa do projeto.
 
 ---
 
-## 4. Esgoto tratado como percentual único
+## 4. Esgoto: percentual único onde a estrutura tem faixas
 
-**Situação.** O esgoto entra como percentual da conta de água (`esgoto_pct`),
-100% na CASAN e 80% em várias outras.
+**Corrigido em parte, e o resto está identificado.**
 
-**O que isso não cobre.** Algumas concessionárias têm **estrutura de faixas
-própria** para esgoto, e não um percentual. Outras cobram esgoto só sobre o
-volume medido acima do mínimo. Outras aplicam percentuais diferentes por faixa.
+**O que se achou.** Mesmo padrão da tipologia: dado coletado que o programa não
+usava. A coleta detalhada tem tarifa de esgoto **por m³** para 543 municípios, e
+o banco de execução guarda só um percentual da conta de água.
 
-**Efeito.** Onde o esgoto tem estrutura própria, o percentual único erra a conta,
-e o erro é grande: o esgoto costuma ser a metade da fatura.
+Em 89 deles o percentual não reproduzia a tarifa coletada — todos com 80,0%, o
+valor de recurso aplicado por cima do dado:
 
-**Caminho.** O motor já aceita `sewage_mode` 0 (fixo) e 1 (percentual). Faltaria
-um modo 2, com faixas próprias, e a coleta correspondente.
+| Município | Guardado | Coletado |
+| :--- | ---: | ---: |
+| Goiânia e mais 62 da SANEAGO | 80% | 100% |
+| Blumenau | 80% | 112% |
+| Belo Horizonte (COPASA/ARSAE) | 80% | 74% |
+| Caxias do Sul | 80% | 38% |
+
+Como o esgoto costuma ser a metade da fatura, o erro se propaga inteiro para a
+economia atribuída ao sistema pluvial.
+
+**O que foi feito.** 75 corrigidos, com a origem registrada em cada município.
+
+**O que falta.** Catorze municípios têm percentual que **varia entre faixas** —
+Caxias do Sul de 21,6% a 69,9%, os dez da CAGEPA na Paraíba de 79,9% a 100%.
+Nenhum número único os representa. Ficam marcados, com ressalva na tela, e pedem
+o que o motor ainda não tem: **faixas próprias de esgoto**, um `sewage_mode = 2`.
+
+O dado para isso **já existe** na coleta, para 543 municípios. É a melhoria de
+tarifa com melhor relação entre esforço e efeito que resta.
 
 ---
 
