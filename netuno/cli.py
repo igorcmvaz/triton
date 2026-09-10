@@ -31,6 +31,7 @@ from netuno.core.environmental import (
     EnvironmentalConfig, MATERIAL_PRESETS, PipeInput, PumpInput, calculate_lca,
     grid_factor_default,
 )
+from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
 from netuno.core.parser import (
     NetunoConfig, export_netuno_json, load_netuno_project, load_precipitation, parse_netuno_csv,
 )
@@ -353,18 +354,38 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
     power_cv = float(pump_raw.get("power_cv", max(0.25, round(cfg.pump_power_kw / 0.7355, 2))))
     pump = PumpInput(
         power_cv=power_cv, custom_embodied_co2=pump_raw.get("custom_embodied_co2"),
-        specific_kwh_per_m3=float(pump_raw.get("specific_kwh_per_m3", 0.40)),
+        # 0,40 kWh/m3 era o valor anterior a correcao da hidraulica, que dividia
+        # pelo rendimento duas vezes e implicava 67 m de altura manometrica. O
+        # padrao do programa passou a sair de rho.g.H/eta com altura de casa, e a
+        # linha de comando ficou com o numero antigo: 3,7 vezes maior, de modo que
+        # a mesma configuracao dava emissao diferente na tela e no terminal.
+        specific_kwh_per_m3=float(
+            pump_raw.get("specific_kwh_per_m3", consumo_especifico_padrao_kwh_por_m3())
+        ),
         material=str(pump_raw.get("material", "Ferro Fundido, Cobre & Alumínio")),
     )
     has_explicit_chlorine = "chlorine_dose_mg_l" in raw or "chlorine_co2_kg_per_kg" in raw
     chlorine_dose = float(raw.get("chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO))
-    legacy_treatment = None if has_explicit_chlorine else float(raw.get("chemical_treatment_co2_m3", 0.02))
+
+    # A sobreposicao legada de intensidade de tratamento vale SO quando o projeto
+    # a declara. Ate a 5.0.8 ela era aplicada sempre que o projeto nao trazia
+    # parametros de cloro - a maioria - e, com a linha de tratamento ligada, isso
+    # passou a ter efeito novo: o campo legado tem precedencia sobre a ETAP e a
+    # DESLIGAVA. Escolher ozonio cobrava o ozonizador no fluxo de caixa e nao
+    # emitia por ele. Projetos que a declaram continuam reproduzindo o resultado
+    # historico; os demais passam a usar a cadeia atual, como a interface ja faz.
+    legacy_treatment = (
+        float(raw["chemical_treatment_co2_m3"])
+        if (not has_explicit_chlorine and "chemical_treatment_co2_m3" in raw)
+        else None
+    )
     if has_explicit_chlorine:
         chlorine_factor = float(raw.get("chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO))
-    elif chlorine_dose > 0:
+    elif legacy_treatment is not None and chlorine_dose > 0:
+        # Projeto legado: reconstroi o fator que reproduz a intensidade declarada.
         chlorine_factor = legacy_treatment / (chlorine_dose / 1000.0)
     else:
-        chlorine_factor = 0.0
+        chlorine_factor = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
     values = {
         "lower_material_key": raw.get("lower_material_key", "PEAD"),
         "custom_lower_density_kg_m3": raw.get("custom_lower_density_kg_m3"),
@@ -388,7 +409,19 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
     return EnvironmentalConfig(
         lower_tank_vol=result.lower_tank_vol, annual_water_saved_m3=result.annual_pluvial_consumed_m3,
         annual_pump_kwh=annual_pump_kwh, upper_tank_used=bool(cfg.upper_tank_used),
-        upper_tank_vol_liters=cfg.upper_tank_vol, **values,
+        upper_tank_vol_liters=cfg.upper_tank_vol,
+        # A escolha da linha de tratamento tem de atravessar TAMBEM pela linha de
+        # comando. `run_economic_analysis` recebe o NetunoConfig inteiro e ja a
+        # honrava; a ACV montava a propria configuracao sem estes campos e caia
+        # nos padroes. A mesma rodada cobrava o ozonizador no fluxo de caixa e
+        # emitia como se fosse so cloracao.
+        water_quality_target_class=getattr(cfg, "water_quality_target_class", "classe_1"),
+        water_quality_disinfection=getattr(cfg, "water_quality_disinfection", "cloro"),
+        water_quality_polishing=bool(getattr(cfg, "water_quality_polishing", False)),
+        etap_enabled=bool(getattr(cfg, "etap_enabled", True)),
+        roof_area_m2=float(getattr(cfg, "area", 100.0) or 100.0),
+        chlorine_product_purity=float(getattr(cfg, "chlorine_product_purity", 0.65) or 0.65),
+        **values,
     )
 
 
