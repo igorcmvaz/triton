@@ -55,6 +55,11 @@ class SingleTankSimulationResult:
     avg_pluvial_indoor_consumed_l_day: float = 0.0
     avg_pluvial_irrigation_consumed_l_day: float = 0.0
     avg_irrigation_suppressed_l_day: float = 0.0
+    # Demanda que nao foi atendida por ninguem: acontece quando o suprimento
+    # de reserva da irrigacao esta desligado e a cisterna nao da conta. Sem
+    # este campo o balanco nao fecha as claras, porque a demanda total deixa
+    # de ser a soma do pluvial com o potavel.
+    avg_unmet_demand_l_day: float = 0.0
     total_irrigation_days_suppressed: int = 0
     total_irrigation_days_active: int = 0
 
@@ -383,7 +388,7 @@ except ImportError:
 if HAS_NUMBA:
     @numba.njit(fastmath=True)
     def _numba_sim_single(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, non_pot_in_arr, irr_arr
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, non_pot_in_arr, irr_arr, pot_in_arr, irr_backup
     ):
         n_days = len(precip_data)
         v_lower = 0.0
@@ -395,6 +400,7 @@ if HAS_NUMBA:
         # sistemático, pois Σ min(aᵢ,bᵢ) ≤ min(Σaᵢ, Σbᵢ).
         total_pluvial_indoor = 0.0
         total_pluvial_irrigation = 0.0
+        total_unmet = 0.0
 
         days_full = 0
         days_partial = 0
@@ -436,7 +442,25 @@ if HAS_NUMBA:
             v_c = min(pluvial_demand_per_day, v_in_tank)
             v_lower = v_in_tank - v_c
 
-            potable_used = tot_demand_day - v_c
+            # A reparticao precisa vir ANTES do potavel: o deficit de irrigacao
+            # so vira consumo de rede se o suprimento de reserva estiver ligado.
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+            deficit_in = non_pot_in_arr[i] - c_pluv_in
+            if deficit_in < 0.0:
+                deficit_in = 0.0
+            deficit_irr = irr_arr[i] - c_pluv_irr
+            if deficit_irr < 0.0:
+                deficit_irr = 0.0
+            if irr_backup:
+                potable_used = pot_in_arr[i] + deficit_in + deficit_irr
+                unmet_today = 0.0
+            else:
+                potable_used = pot_in_arr[i] + deficit_in
+                unmet_today = deficit_irr
             if v_c >= pluvial_demand_per_day - 1e-5:
                 days_full += 1
             elif v_c > 1e-5:
@@ -444,24 +468,19 @@ if HAS_NUMBA:
             else:
                 days_null += 1
 
-            c_pluv_in = min(v_c, non_pot_in_arr[i])
-            residual = v_c - c_pluv_in
-            if residual < 0.0:
-                residual = 0.0
-            c_pluv_irr = min(residual, irr_arr[i])
-
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
             total_spilled += v_spill_today
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
+            total_unmet += unmet_today
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
 
 
     @numba.njit(fastmath=True)
     def _numba_sim_dual(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold, non_pot_in_arr, irr_arr
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold, non_pot_in_arr, irr_arr, pot_in_arr, irr_backup
     ):
         n_days = len(precip_data)
         v_lower = 0.0
@@ -475,6 +494,7 @@ if HAS_NUMBA:
         # Ver a nota em _numba_sim_single: a repartição é acumulada dia a dia.
         total_pluvial_indoor = 0.0
         total_pluvial_irrigation = 0.0
+        total_unmet = 0.0
 
         days_full = 0
         days_partial = 0
@@ -549,19 +569,31 @@ if HAS_NUMBA:
                     else:
                         break
 
-            potable_used = tot_demand_day - v_c
+            # A reparticao precisa vir ANTES do potavel: o deficit de irrigacao
+            # so vira consumo de rede se o suprimento de reserva estiver ligado.
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+            deficit_in = non_pot_in_arr[i] - c_pluv_in
+            if deficit_in < 0.0:
+                deficit_in = 0.0
+            deficit_irr = irr_arr[i] - c_pluv_irr
+            if deficit_irr < 0.0:
+                deficit_irr = 0.0
+            if irr_backup:
+                potable_used = pot_in_arr[i] + deficit_in + deficit_irr
+                unmet_today = 0.0
+            else:
+                potable_used = pot_in_arr[i] + deficit_in
+                unmet_today = deficit_irr
             if v_c >= pluvial_demand_per_day - 1e-5:
                 days_full += 1
             elif v_c > 1e-5:
                 days_partial += 1
             else:
                 days_null += 1
-
-            c_pluv_in = min(v_c, non_pot_in_arr[i])
-            residual = v_c - c_pluv_in
-            if residual < 0.0:
-                residual = 0.0
-            c_pluv_irr = min(residual, irr_arr[i])
 
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
@@ -570,8 +602,9 @@ if HAS_NUMBA:
             total_pump_cycles += cycles_today
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
+            total_unmet += unmet_today
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
 
 
 def validar_parametros_fisicos(
@@ -716,18 +749,32 @@ def run_single_simulation(
             np_in_arr = pl_arr
             ir_arr = np.zeros(len(p_arr), dtype=np.float64)
 
+        # A bandeira do suprimento de reserva atravessa ate o kernel: sem ela,
+        # desligar a reserva nao mudava um litro no resumo.
+        irr_backup = bool(building_config.get("irrigation_potable_backup", True)) \
+            if building_config else True
+        if pot_in_arr is not None:
+            pt_arr = np.ascontiguousarray(pot_in_arr, dtype=np.float64)
+        else:
+            pt_arr = np.ascontiguousarray(
+                np.maximum(0.0, t_arr - pl_arr), dtype=np.float64)
+
         if not upper_tank_used or upper_tank_vol <= 0:
             res_tup = _numba_sim_single(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, np_in_arr, ir_arr
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, np_in_arr, ir_arr, pt_arr, irr_backup
             )
         else:
             res_tup = _numba_sim_dual(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr, pt_arr, irr_backup
             )
 
-        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation = res_tup
+        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation, tot_unmet = res_tup
         total_demand_period = float(np.sum(tot_demands_arr))
         potential_savings_pct = (tot_pluv / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
+        # O potavel vem do acumulador, e nao da diferenca: com o suprimento de
+        # reserva desligado, a irrigacao nao atendida nao e comprada da rede.
+        avg_potable_kernel = tot_pot / len(p_arr)
+        avg_unmet_kernel = tot_unmet / len(p_arr)
         
         days_supp = int(np.sum(irr_suppressed_mask)) if irr_suppressed_mask is not None else 0
         irr_vol_nominal = float(building_config.get("irrigation_liters_per_day", 0.0)) if building_config else 0.0
@@ -743,7 +790,7 @@ def run_single_simulation(
             lower_tank_vol=lower_tank_vol,
             potential_potable_savings_pct=potential_savings_pct,
             avg_pluvial_consumed_l_day=tot_pluv / n_days,
-            avg_potable_consumed_l_day=(total_demand_period - tot_pluv) / n_days,
+            avg_potable_consumed_l_day=avg_potable_kernel,
             avg_spilled_l_day=tot_spill / n_days,
             pct_days_full_satisfaction=(d_full / n_days) * 100.0,
             pct_days_partial_satisfaction=(d_part / n_days) * 100.0,
@@ -758,6 +805,7 @@ def run_single_simulation(
             avg_irrigation_suppressed_l_day=vol_supp / n_days,
             total_irrigation_days_suppressed=days_supp,
             total_irrigation_days_active=n_days - days_supp,
+            avg_unmet_demand_l_day=avg_unmet_kernel,
         )
 
     # State variables (Pure Python fallback and detailed daily results)
@@ -768,6 +816,7 @@ def run_single_simulation(
     total_pluvial_indoor_consumed = 0.0
     total_pluvial_irrigation_consumed = 0.0
     total_potable_consumed = 0.0
+    total_unmet_demand = 0.0
     total_spilled = 0.0
     total_pumped = 0.0
     total_pump_cycles = 0
@@ -891,6 +940,9 @@ def run_single_simulation(
         deficit_in = max(0.0, non_pot_in_day - c_pluv_in)
         deficit_irr = max(0.0, irr_day - c_pluv_irr) if irr_backup_enabled else 0.0
         potable_used = pot_in_day + deficit_in + deficit_irr
+        # Sem suprimento de reserva, o deficit de irrigacao nao e comprado da
+        # rede: fica como demanda nao atendida, e o balanco precisa mostra-la.
+        unmet_today = 0.0 if irr_backup_enabled else max(0.0, irr_day - c_pluv_irr)
         
         # Satisfaction metric
         if v_c >= pluvial_demand_per_day - 1e-5:
@@ -905,6 +957,7 @@ def run_single_simulation(
             
         total_pluvial_consumed += v_c
         total_potable_consumed += potable_used
+        total_unmet_demand += unmet_today
         total_spilled += v_spill_today
         total_pumped += v_rec_today
         total_pump_cycles += cycles_today
@@ -936,7 +989,11 @@ def run_single_simulation(
     potential_savings_pct = (total_pluvial_consumed / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
     
     avg_pluvial = total_pluvial_consumed / n_days
-    avg_potable = (total_demand_period - total_pluvial_consumed) / n_days
+    # Vem do acumulador dia a dia, que respeita o suprimento de reserva. Ate a
+    # versao 5.0.8 era recalculado por diferenca, o que atribuia ao potavel toda
+    # a demanda nao atendida pela chuva - inclusive a irrigacao que a regra manda
+    # nao fazer. Com a reserva ligada, que e o padrao, as duas formulas coincidem.
+    avg_potable = total_potable_consumed / n_days
     avg_spilled = total_spilled / n_days
     
     pct_full = (days_full / n_days) * 100.0
@@ -962,6 +1019,7 @@ def run_single_simulation(
         avg_irrigation_suppressed_l_day=vol_irr_suppressed / n_days,
         total_irrigation_days_suppressed=days_irr_suppressed,
         total_irrigation_days_active=n_days - days_irr_suppressed,
+        avg_unmet_demand_l_day=total_unmet_demand / n_days,
     )
 
 

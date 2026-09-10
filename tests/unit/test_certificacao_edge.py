@@ -216,3 +216,31 @@ def test_valor_ilegivel_no_campo_nao_derruba_a_tela(qapp):
     for texto in ("abc", "-5", "0"):
         aba.txt_edge_base.setText(texto)
         assert aba._edge_base_case_annual_m3() is None
+
+
+def test_o_caso_base_percorre_os_dois_sentidos(qapp):
+    """Tela → projeto → arquivo → projeto → tela.
+
+    O extrator de ligações desta rodada pegou o campo recém-criado como
+    «gravado e nunca lido»: a tela lia a própria caixa de texto e nunca tocava
+    a configuração. Gravado no arquivo, o valor não voltava para a tela.
+    """
+    pytest.importorskip("PySide6")
+    from netuno.core.parser import NetunoConfig
+    from netuno.ui.tab_environmental import TabEnvironmental
+
+    aba = TabEnvironmental()
+    janela = aba.window()
+    janela.config = NetunoConfig()
+    janela.config.residents_count = 4
+
+    # tela → projeto
+    aba.txt_edge_base.setText("172")
+    aba._edge_base_case_annual_m3()
+    assert janela.config.edge_base_case_l_person_day == pytest.approx(172.0)
+
+    # projeto → tela, numa aba nova, como acontece ao reabrir
+    outra = TabEnvironmental()
+    outra.window().config = janela.config
+    outra.sync_from_project(force=True)
+    assert outra.txt_edge_base.text().strip() != ""

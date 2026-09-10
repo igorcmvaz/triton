@@ -387,9 +387,11 @@ def run_economic_analysis(
             especifica = energia_especifica_a_partir_da_vazao(config.pump_power_kw, vazao)
         else:
             especifica = energia_especifica_kwh_por_m3(altura, eta)
+        # As partidas somam potencia de placa x tempo, sem 1/eta: a placa ja e
+        # o que o motor consome. Mesma convencao de netuno/core/pump_energy.py.
         monthly_pump_kwh_base = (
             especifica * volume_mensal_m3
-            + (config.pump_power_kw * t_part_hours_month) / eta
+            + config.pump_power_kw * t_part_hours_month
         )
         
         # Ajuste por bandeira tarifária ANEEL ou Tarifa Branca

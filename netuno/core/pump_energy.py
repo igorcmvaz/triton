@@ -38,8 +38,14 @@ def compute_annual_pump_energy(
     upper_tank_used: Optional[bool] = None,
 ) -> PumpEnergyResult:
     """
-    Estima kWh/ano da motobomba com base nos resultados da simulação:
-    E = P_kW * (t_recalque + t_partida) / eta
+    Estima kWh/ano da motobomba com base nos resultados da simulação.
+
+    O recalque custa ``e = ρ·g·H/η`` por m³ elevado, ou ``P/Q`` quando a vazão
+    de operação é declarada. As partidas somam ``P × t``: a potência de placa
+    já é o que o motor consome, e dividi-la por η contaria a perda duas vezes.
+
+    A fórmula antiga, ``E = P × (t_recalque + t_partida) / η``, superestimava
+    o consumo em 1/η e sobrevivia aqui no termo das partidas.
     """
     result = PumpEnergyResult(
         pump_power_cv=config.pump_power_kw / CV_TO_KW if config.pump_power_kw > 0 else 0.0,
@@ -93,7 +99,10 @@ def compute_annual_pump_energy(
     else:
         especifica = energia_especifica_kwh_por_m3(altura, eta)
     energia_recalque = especifica * result.annual_pumped_m3
-    energia_partidas = (config.pump_power_kw * t_part) / eta
+    # A potencia de placa ja e o que o motor consome durante a partida:
+    # dividir por eta aqui contaria a perda duas vezes, como diz a docstring
+    # de energia_especifica_a_partir_da_vazao.
+    energia_partidas = config.pump_power_kw * t_part
     result.annual_kwh = energia_recalque + energia_partidas
 
     if result.annual_pumped_m3 > 0:
@@ -142,10 +151,7 @@ def consumo_especifico_padrao_kwh_por_m3() -> float:
     ponto = ponto_de_operacao(potencia_kw, ALTURA_MANOMETRICA_PADRAO_M, eta)
 
     recalque = ponto.energia_especifica_kwh_m3
-    partidas = (
-        BOMBA_PADRAO_PARTIDAS_POR_M3
-        * TEMPO_DE_PARTIDA_H
-        * potencia_kw
-        / eta
-    )
+    # Sem o 1/eta, pelo mesmo motivo do termo de partidas em
+    # compute_annual_pump_energy.
+    partidas = BOMBA_PADRAO_PARTIDAS_POR_M3 * TEMPO_DE_PARTIDA_H * potencia_kw
     return recalque + partidas

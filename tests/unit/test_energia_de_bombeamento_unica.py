@@ -70,7 +70,10 @@ def test_a_energia_nao_divide_pelo_rendimento_uma_segunda_vez():
     antiga = cfg.pump_power_kw * (horas_recalque + horas_partida) / (cfg.pump_efficiency / 100.0)
 
     assert antiga > correta
-    assert antiga / correta == pytest.approx(1.68, abs=0.06)
+    # Com o termo das partidas tambem corrigido, o excesso da formula antiga e
+    # exatamente 1/eta, e nao um numero aproximado: as duas contas passam a
+    # diferir por um fator unico, que e a assinatura do defeito.
+    assert antiga / correta == pytest.approx(100.0 / cfg.pump_efficiency, rel=1e-9)
 
 
 def test_o_excesso_da_formula_antiga_e_exatamente_um_sobre_eta():

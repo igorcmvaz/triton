@@ -1146,6 +1146,13 @@ class TabEnvironmental(QWidget):
         if cfg is None:
             return self._last_sync_snapshot
 
+        # Caso-base do EDGE: vem do projeto, e volta para ele ao calcular. Sem os
+        # dois sentidos, o valor gravado no arquivo nunca chegaria à tela.
+        if hasattr(self, 'txt_edge_base'):
+            base_edge = float(getattr(cfg, 'edge_base_case_l_person_day', 0.0) or 0.0)
+            if base_edge > 0.0 and not self.txt_edge_base.text().strip():
+                self.txt_edge_base.setText(f"{base_edge:g}".replace(".", ","))
+
         # Sincroniza sempre os comprimentos de tubulação do CAPEX / projeto
         if hasattr(cfg, "get_pipe_length"):
             for dn in (20, 25, 32, 40, 50, 60, 75, 85, 100, 110, 150):
@@ -1441,6 +1448,9 @@ class TabEnvironmental(QWidget):
         if litros <= 0.0:
             return None
         cfg = getattr(self.window(), 'config', None)
+        if cfg is not None:
+            # Devolve ao projeto para que o valor sobreviva a salvar e reabrir.
+            cfg.edge_base_case_l_person_day = litros
         pessoas = float(getattr(cfg, 'residents_count', 0) or 0)
         economias = float(getattr(cfg, 'num_economias', 1) or 1)
         if pessoas <= 0.0:

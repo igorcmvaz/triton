@@ -26,6 +26,9 @@ sua, está dito.
 | 11 | Constantes de domínio repetidas | divergência futura | eu |
 | 12 | Módulos de 2.000+ linhas | manutenção | eu |
 | 13 | Seis campos gravados e nunca lidos | demanda antiga possivelmente multiplicada pelos moradores | você |
+| 14 | Tempo de partida de 108 s por acionamento | 19% do consumo da motobomba | você |
+| 15 | Lâmina de descarte padrão de 1 mm | a tela sugere 2 mm, e a norma também | você |
+| 16 | Semântica do descarte contra o Manual do Netuno 4 | 35% da chuva aproveitável | você |
 
 ---
 
@@ -329,6 +332,74 @@ a correção quebra a leitura dos arquivos que hoje funcionam.
 Os outros quatro não pedem decisão: `residents_type` e `climate_source_mode` são
 redundantes, e os dois de irrigação pertencem a um assistente de dimensionamento
 que nunca foi ligado à tela. Ficam gravados para não quebrar arquivos existentes.
+
+---
+## 14. Tempo de partida da motobomba: 108 s por acionamento
+
+`pump_startup_time_h` vale 0,03 h, ou **108 segundos por acionamento**, descritos
+no fonte como «tempo perdido em cada partida, com a bomba consumindo sem entregar
+vazão útil».
+
+Medido no caso padrão — meio CV, 12 m.c.a., rendimento 0,50, 98 acionamentos por
+ano, 87,5 m³ recalcados:
+
+| Parcela | kWh/ano |
+| :--- | ---: |
+| recalque | 5,72 |
+| partidas, com 108 s | 1,09 |
+| partidas, com 3 s | 0,03 |
+
+As partidas pesam **19% do consumo anual** da motobomba. Com um transitório de 3 s,
+que é a ordem de grandeza do arranque de um conjunto pequeno, pesariam 0,5%.
+
+Cento e oito segundos por partida é o tempo de **escorva** de uma bomba
+autoaspirante cuja linha de sucção drenou. Numa instalação com válvula de pé em
+ordem, a linha permanece escorvada e as partidas seguintes são imediatas. O padrão
+atual trata o pior caso como norma.
+
+**Não mexi**, porque é premissa de projeto e muda o resultado de todo estudo com
+reservatório superior. A pergunta é sua: o valor de referência deve ser o tempo de
+escorva, ou o transitório de partida?
+
+---
+
+## 15. Lâmina de descarte: o padrão é 1 mm, a tela sugere 2 mm
+
+`NetunoConfig.discard` vale **1,0 mm**. O campo da aba Projeto abre vazio com a
+dica «Ex: 2,0», o gerador de relatório assume 2,0 quando o dado falta, e a NBR
+15527 recomenda 2 mm na ausência de dado local.
+
+Quem não tocar no campo fica com 1 mm enquanto a própria tela sugere 2. Na série
+sintética de dez anos usada na verificação, passar de 1 para 2 mm reduz a chuva
+aproveitável de 1.303 para 1.091 mm/ano — 16% — embora o potencial de economia
+caia apenas 0,12 ponto percentual, porque aquele caso é limitado pela demanda e
+não pela oferta. Num caso limitado pela oferta, a diferença aparece inteira.
+
+**Não mexi**: alterar o padrão muda o resultado de todo estudo novo.
+
+---
+
+## 16. Duas semânticas de descarte, e o programa documentava as duas
+
+O código subtrai a lâmina da chuva bruta:
+
+```
+p_eff = p − d_f   se p > d_f,   senão   0
+```
+
+A aba de Documentação, no capítulo das equações, afirmava o contrário: que `d_f`
+seria um **limiar do evento**, abaixo do qual o dia se perde inteiro e acima do
+qual entra a «precipitação diária integral» — e que essa seria a leitura do
+**Manual do Netuno 4**.
+
+As duas leituras separam **35% da chuva aproveitável** com `d_f` = 2 mm: 1.091
+contra 1.472 mm/ano na série de verificação. Não é diferença de redação.
+
+Corrigi o texto da aba para descrever o que o programa faz, porque um programa não
+pode documentar duas coisas incompatíveis. Mas **não há cópia do Manual do Netuno 4
+neste repositório** para arbitrar qual das duas o original implementa, e isso
+importa num estudo de replicação. Você tem o manual. Se o Netuno 4 usa o limiar, é
+o código que precisa mudar, e o efeito é grande.
 
 ---
 ## O que esta rodada resolveu

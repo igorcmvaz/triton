@@ -98,9 +98,14 @@ def test_pump_energy_exact_physics_formula():
     volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
     energia_recalque = (0.7355 / 3.0) * volume_mensal_m3
 
-    # As partidas sao a excecao: ali a bomba consome sem entregar vazao util, de
-    # modo que a perda entra explicitamente.
-    energia_partidas = (0.7355 * t_part_expected) / 0.60
+    # As partidas NAO sao excecao. A versao anterior deste teste dizia que sim,
+    # com o argumento de que ali a bomba consome sem entregar vazao util e que a
+    # perda entraria explicitamente. O argumento confunde duas coisas: o trabalho
+    # util e de fato nulo na partida, mas o medidor registra o que o motor puxa,
+    # e sob a convencao deste programa a potencia de placa JA e o que ele puxa.
+    # Dividir por eta afirmaria que na partida o motor consome 1/eta vezes a
+    # placa, o que so vale para o transitorio de corrente, de fracao de segundo.
+    energia_partidas = 0.7355 * t_part_expected
 
     energy_kwh_expected = energia_recalque + energia_partidas
     cost_expected = energy_kwh_expected * 1.00

@@ -22,6 +22,13 @@ from netuno.core.edge_certification import (
 from typing import Dict, Any, Optional, List
 
 
+# Tetos normativos da categoria Water Efficiency do LEED v4 BD+C. Estavam
+# repetidos como literais em dez pontos do programa; ficam aqui, uma vez.
+LEED_WEC1_MAX_PONTOS = 2   # reducao do uso externo
+LEED_WEC2_MAX_PONTOS = 6   # reducao do uso interno
+LEED_WE_MAX_PONTOS = LEED_WEC1_MAX_PONTOS + LEED_WEC2_MAX_PONTOS
+
+
 @dataclass
 class EsgCreditDetail:
     certification: str             # "LEED v4 / v4.1", "Processo AQUA-HQE", "Selo Casa Azul CAIXA", "GRI 303"
@@ -43,7 +50,7 @@ class LeedWaterCredits:
     savings_pct: float
     indoor_savings_pct: float = 0.0
     outdoor_savings_pct: float = 0.0
-    max_possible_points: int = 8
+    max_possible_points: int = LEED_WE_MAX_PONTOS
     badge_label: str = ""
     description: str = ""
 
@@ -201,12 +208,15 @@ def calculate_esg_certifications(
     if not has_real_outdoor or calc_out_pct <= 0:
         outdoor_desc = "sem demanda externa cadastrada no projeto (0 de 2 pontos no crédito WEc1)"
     else:
-        outdoor_desc = f"a economia externa de {calc_out_pct:.1f}% garante {outdoor_pts} de 2 pontos possíveis no crédito WEc1 (Uso Externo)"
+        outdoor_desc = (f"a economia externa de {calc_out_pct:.1f}% garante {outdoor_pts} de "
+                        f"{LEED_WEC1_MAX_PONTOS} pontos possíveis no crédito WEc1 (Uso Externo)")
 
     leed_desc = (
-        f"No Selo LEED v4 Water Efficiency, o crédito de água pluvial possui um teto máximo normativo de 8 pontos. "
-        f"O projeto tirou {tot_leed} de 8 pontos possíveis (máx. 8 pts): "
-        f"a economia interna de {calc_in_pct:.1f}% confere {indoor_pts} de 6 pontos possíveis no crédito WEc2 (Uso Interno) "
+        f"No Selo LEED v4 Water Efficiency, o crédito de água pluvial possui um teto máximo "
+        f"normativo de {LEED_WE_MAX_PONTOS} pontos. "
+        f"O projeto tirou {tot_leed} de {LEED_WE_MAX_PONTOS} pontos possíveis: "
+        f"a economia interna de {calc_in_pct:.1f}% confere {indoor_pts} de {LEED_WEC2_MAX_PONTOS} "
+        f"pontos possíveis no crédito WEc2 (Uso Interno) "
         f"e {outdoor_desc}{mode_text}."
     )
 
@@ -218,6 +228,7 @@ def calculate_esg_certifications(
         indoor_savings_pct=calc_in_pct,
         outdoor_savings_pct=calc_out_pct,
         badge_label=leed_badge,
+        max_possible_points=LEED_WE_MAX_PONTOS,
         description=leed_desc,
     )
 
@@ -293,7 +304,8 @@ def calculate_esg_certifications(
         f"(interno: {calc_in_pct:.1f}%, externo: {calc_out_pct:.1f}%), "
         f"poupando {annual_saved_m3:,.0f} m³/ano de água tratada "
         f"({lifetime_saved_m3:,.0f} m³ acumulados em {project_lifetime_years} anos). "
-        f"No Selo LEED v4 WE (máximo de 8 pontos possíveis), o projeto tirou {tot_leed} de 8 pontos ({tot_leed}/8 pts) "
+        f"No Selo LEED v4 WE (máximo de {LEED_WE_MAX_PONTOS} pontos possíveis), o projeto tirou "
+        f"{tot_leed} de {LEED_WE_MAX_PONTOS} pontos "
         f"e qualificou-se com perfil '{aqua_level}' no Processo AQUA-HQE. "
         f"Na certificação EDGE, que não pontua e sim mede percentual contra um "
         f"caso-base, a barra de água chega a {edge_result.economia_de_agua_pct:.1f}% — "
@@ -310,7 +322,7 @@ def calculate_esg_certifications(
             focus="Área Externa & Jardim",
             requirement_rule="Máx. 2 pts: ≥ 50% red.: 1 pt | ≥ 100% ou s/ rega potável: 2 pts",
             achieved_performance=outdoor_perf,
-            points_or_level=f"{outdoor_pts} / 2 pts",
+            points_or_level=f"{outdoor_pts} / {LEED_WEC1_MAX_PONTOS} pts",
             status=outdoor_status,
             notes=f"Teto máximo de 2 pontos no crédito WEc1. {outdoor_notes}"
         ),
@@ -321,7 +333,7 @@ def calculate_esg_certifications(
             focus="Bacias, Mictórios & Lavagem",
             requirement_rule="Máx. 6 pts: ≥ 25%: 1 pt | ≥ 30%: 2 | ≥ 35%: 3 | ≥ 40%: 4 | ≥ 45%: 5 | ≥ 50%: 6 pts",
             achieved_performance=f"Economia interna: {calc_in_pct:.1f}%",
-            points_or_level=f"{indoor_pts} / 6 pts",
+            points_or_level=f"{indoor_pts} / {LEED_WEC2_MAX_PONTOS} pts",
             status="Elegível" if indoor_pts > 0 else "Abaixo do limiar (25%)",
             notes=f"Teto máximo de 6 pontos no crédito WEc2 (tirou {indoor_pts} de 6 pts). Suprimento a bacias sanitárias e lavanderia com água de chuva conforme ABNT NBR 15527."
         ),

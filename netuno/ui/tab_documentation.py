@@ -1164,7 +1164,7 @@ class TabDocumentation(QWidget):
 
             <h3 style='color: #0369a1;'>First Flush / Initial Discard ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                In the legacy-compatible Netuno algorithm, <i>d<sub>f</sub></i> is a rainfall-event threshold, not a depth subtracted from every accepted event. When the discard rule applies and <i>P<sub>t</sub> &lt; d<sub>f</sub></i>, that day's effective rainfall is zero; when <i>P<sub>t</sub> ≥ d<sub>f</sub></i>, the full daily rainfall is used. This reproduces the Netuno 4 manual and must not be confused with the physical volume of a first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate hydraulic design.
+                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtracted</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
             </p>
 
             <h3 style='color: #0369a1;'>Daily Capturable Volume ($V_{cap, t}$)</h3>
@@ -1187,7 +1187,7 @@ class TabDocumentation(QWidget):
 
             <h3 style='color: #0369a1;'>First Flush / Descarte Inicial ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                No algoritmo compatível com o Netuno legado, <i>d<sub>f</sub></i> é um <b>limiar do evento de chuva</b>, não uma lâmina subtraída de todo evento aceito. Quando a regra de descarte se aplica e <i>P<sub>t</sub> &lt; d<sub>f</sub></i>, a chuva efetiva do dia é zero; quando <i>P<sub>t</sub> ≥ d<sub>f</sub></i>, entra a precipitação diária integral. Isso reproduz o Manual do Netuno 4 e não deve ser confundido com o volume físico de um dispositivo de first flush, <i>A × d<sub>f</sub></i>, que exige dimensionamento hidráulico separado.
+                Quando a regra de descarte se aplica no dia, <i>d<sub>f</sub></i> é <b>subtraída</b> da chuva bruta: a chuva efetiva é <i>P<sub>t</sub> − d<sub>f</sub></i> quando <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, e <b>zero</b> caso contrário — o dia que não supera a lâmina se perde inteiro, e não em parte. Nos dias em que a regra não se aplica, a chuva do dia é captável integralmente. Repare que <i>d<sub>f</sub></i> é uma <b>lâmina</b> (mm), e não o volume hidráulico do dispositivo físico de first flush, <i>A × d<sub>f</sub></i>, que exige dimensionamento separado.
             </p>
 
             <h3 style='color: #0369a1;'>Volume Diário Captável ($V_{cap, t}$)</h3>
