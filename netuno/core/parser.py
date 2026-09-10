@@ -214,7 +214,12 @@ class NetunoConfig:
     tariff_city_name: str = "Florianópolis"
     elec_city_uf: str = "SC"
     elec_city_name: str = "Florianópolis"
-    sewage_rate: float = 100.0  # % of water bill or fixed R$
+    # Percentual da TARIFA DE ÁGUA quando sewage_mode == 1, ou valor fixo em R$
+    # quando sewage_mode == 0. O denominador é a parcela de água, não a fatura:
+    # a CASAN cobra 100%, o que faz o esgoto igualar a água e responder por
+    # metade da fatura total. Confundir os dois denominadores dobra ou divide
+    # pela metade a conta de esgoto.
+    sewage_rate: float = 100.0
     sewage_mode: int = 1  # 0 = fixed R$, 1 = % of water bill
     water_tax_fixed: float = 0.0  # R$
     water_tax_var: float = 0.0  # %

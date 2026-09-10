@@ -14,8 +14,11 @@ onde a coleta trazia outro. O erro tem os dois sentidos e nenhum é pequeno:
 | Blumenau | 80% | 112% |
 | Caxias do Sul | 80% | 38% |
 
-Como o esgoto costuma ser a metade da fatura, o erro se propaga inteiro para a
-economia atribuída ao sistema pluvial: em Goiânia a conta de esgoto saía 20%
+**Atenção ao denominador**, que é onde esta área produz erro: `esgoto_pct` é
+percentual da tarifa de ÁGUA, não da fatura. A CASAN cobra 100% — o esgoto
+iguala a água, e por isso responde por metade da fatura total. Como a parcela
+de esgoto acompanha a de água metro cúbico a metro cúbico, um erro no
+percentual se propaga inteiro para a economia atribuída ao sistema pluvial: em Goiânia a conta de esgoto saía 20%
 abaixo, e portanto a economia também.
 
 Catorze municípios têm percentual que **varia entre faixas** — Caxias do Sul de
@@ -182,3 +185,41 @@ def test_a_conta_de_esgoto_acompanha_o_percentual():
     assert com_100 == pytest.approx(so_agua * 2.00)
     # Os 20 pontos de diferença são 11% da fatura: é o tamanho do erro em Goiás.
     assert (com_100 - com_80) / com_100 == pytest.approx(0.10, abs=0.01)
+
+
+# ─────────────────────── o denominador, que é onde se erra ─────────────────────
+
+def test_o_percentual_e_da_tarifa_de_agua_e_nao_da_fatura():
+    """Florianópolis é o caso concreto, e o que separa as duas leituras.
+
+    A CASAN cobra `esgoto_pct = 100`. Isso NÃO quer dizer que o esgoto seja a
+    fatura inteira: quer dizer que o esgoto **iguala a água**, e portanto responde
+    por metade da fatura total. Os dois enunciados são o mesmo com denominadores
+    diferentes, e trocá-los dobra ou divide pela metade a conta.
+    """
+    from netuno.core.economic import calculate_water_bill
+
+    casan = next(c for c in CIDADES.values() if c.get("municipio") == "Florianópolis")
+    assert float(casan["esgoto_pct"]) == pytest.approx(100.0)
+
+    for m3 in (10, 15, 20, 30):
+        agua = calculate_water_bill(m3 * 1000.0, casan["faixas"], sewage_mode=1, sewage_rate=0.0)
+        total = calculate_water_bill(
+            m3 * 1000.0, casan["faixas"], sewage_mode=1, sewage_rate=casan["esgoto_pct"]
+        )
+        esgoto = total - agua
+        assert esgoto == pytest.approx(agua), m3          # 100% da ÁGUA
+        assert esgoto / total == pytest.approx(0.50), m3  # 50% da FATURA
+
+
+def test_o_denominador_vale_para_qualquer_percentual():
+    """A regra geral: esgoto/fatura = pct / (100 + pct)."""
+    from netuno.core.economic import calculate_water_bill
+
+    faixas = [[0.0, 999999.0, 5.0, 1]]
+    for pct in (38.0, 74.0, 80.0, 100.0, 140.0):
+        agua = calculate_water_bill(10_000.0, faixas, sewage_mode=1, sewage_rate=0.0)
+        total = calculate_water_bill(10_000.0, faixas, sewage_mode=1, sewage_rate=pct)
+        esgoto = total - agua
+        assert esgoto == pytest.approx(agua * pct / 100.0)
+        assert esgoto / total == pytest.approx(pct / (100.0 + pct))

@@ -141,8 +141,11 @@ valor de recurso aplicado por cima do dado:
 | Belo Horizonte (COPASA/ARSAE) | 80% | 74% |
 | Caxias do Sul | 80% | 38% |
 
-Como o esgoto costuma ser a metade da fatura, o erro se propaga inteiro para a
-economia atribuída ao sistema pluvial.
+**Atenção ao denominador**, que é onde esta área produz erro: `esgoto_pct` é
+percentual da tarifa de ÁGUA, não da fatura. A CASAN cobra 100% — o esgoto
+iguala a água, e por isso responde por metade da fatura total. Como a parcela
+de esgoto acompanha a de água metro cúbico a metro cúbico, um erro no
+percentual se propaga inteiro para a economia atribuída ao sistema pluvial.
 
 **O que foi feito.** 75 corrigidos, com a origem registrada em cada município.
 
