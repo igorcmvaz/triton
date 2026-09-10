@@ -26,63 +26,68 @@ INCLUI = re.compile(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$")
 
 #: A ordem do manual. Capítulo sem arquivo entra como esqueleto marcado.
 SUMARIO = [
-    ("Parte I — O programa", [
-        (1, "introducao"), (2, "instalacao"), (3, "a_janela"), (4, "arquivos"),
+    ("Parte 1 — Comece aqui", [
+        (1, "o_que_o_netuno_faz"), (2, "instalacao"), (3, "por_onde_comecar"),
     ]),
-    ("Parte II — Entrada de dados", [
-        (5, "precipitacao"), (6, "captacao"), (7, "edificacao_e_demanda"),
-        (8, "irrigacao"), (9, "qualidade_da_agua"), (10, "reservatorios"),
-        (11, "custos_e_tarifas"), (12, "parametros_ambientais"),
+    ("Parte 2 — Tutorial: um estudo do começo ao fim", [
+        (4, "o_projeto_e_a_chuva"), (5, "a_edificacao_e_a_demanda"),
+        (6, "a_primeira_simulacao"), (7, "escolher_o_volume"),
+        (8, "reservatorio_superior"), (9, "qualidade_que_o_uso_exige"),
+        (10, "quanto_custa"), (11, "quanto_carbono_evita"),
+        (12, "qual_volume_escolher"), (13, "o_relatorio_e_o_artigo"),
     ]),
-    ("Parte III — Método de cálculo", [
-        (13, "balanco_diario"), (14, "volume_ideal"), (15, "indicadores"),
-        (16, "indices_pluviometricos"), (17, "etap"), (18, "energia_de_bombeamento"),
-        (19, "analise_economica"), (20, "acv"), (21, "certificacoes"),
-        (22, "multicriterio"),
+    ("Parte 3 — Guias de tarefa", [
+        (14, "comparar_cidades"), (15, "cenario_climatico"),
+        (16, "ajustar_a_tarifa"), (17, "modular_a_demanda"),
+        (18, "escola_hospital_comercio"), (19, "rodar_em_lote"),
+        (20, "sensibilidade"), (21, "importar_do_netuno4"),
+        (22, "exportar_cad_bim_planilha"),
     ]),
-    ("Parte IV — Estudos de caso", [
-        (23, "caso_residencia"), (24, "caso_recalque"), (25, "caso_varredura"),
-        (26, "caso_economico"), (27, "caso_escola"), (28, "caso_tres_cidades"),
-        (29, "caso_cenarios_climaticos"), (30, "caso_qualidade"),
-        (31, "caso_multicriterio"),
+    ("Parte 4 — O método", [
+        (23, "balanco_diario"), (24, "volume_ideal"), (25, "indicadores"),
+        (26, "indices_pluviometricos"), (27, "etap"),
+        (28, "energia_de_bombeamento"), (29, "analise_economica"),
+        (30, "acv"), (31, "certificacoes"), (32, "multicriterio"),
     ]),
-    ("Parte V — Verificação e limites", [
-        (32, "verificacao"), (33, "comparacao_netuno4"), (34, "limitacoes"),
-        (35, "mensagens_de_erro"),
+    ("Parte 5 — Enganos comuns de projeto", [
+        (33, "dez_enganos"),
     ]),
-    ("Parte VI — Linha de comando", [
-        (36, "linha_de_comando"), (37, "lote_e_sensibilidade"),
+    ("Parte 6 — Confiabilidade", [
+        (34, "verificacao"), (35, "comparacao_netuno4"), (36, "limitacoes"),
+        (37, "mensagens_de_erro"),
     ]),
 ]
 
 APENDICES = [
     ("A", "A_parametros"), ("B", "B_processos"), ("C", "C_fatores_de_emissao"),
-    ("D", "D_base_tarifaria"), ("E", "E_base_climatica"), ("F", "F_glossario"),
-    ("G", "G_referencias"),
+    ("D", "D_regimes_tarifarios"), ("E", "E_base_climatica"),
+    ("F", "F_linha_de_comando"), ("G", "G_glossario"), ("H", "H_referencias"),
+    ("I", "I_fichas"),
 ]
 
 TITULOS = {
-    1: "Introdução", 2: "Instalação, requisitos e primeira execução",
-    3: "A janela: mapa das dezessete abas", 4: "Arquivos do programa",
-    5: "Precipitação", 6: "Captação: área, coeficiente e descarte",
-    7: "Edificação e demanda", 8: "Irrigação e supressão por chuva",
-    9: "Qualidade da água e a ETAP", 10: "Reservatórios e bombeamento",
-    11: "Custos, tarifas e parâmetros financeiros", 12: "Parâmetros ambientais",
-    13: "O balanço hídrico diário", 14: "Volume ideal e a varredura",
-    15: "Indicadores de eficiência", 16: "Índices pluviométricos",
-    17: "Dimensionamento da ETAP", 18: "Energia de bombeamento",
-    19: "Análise econômica", 20: "Avaliação de ciclo de vida",
-    21: "Certificações", 22: "Decisão multicritério",
-    23: "Caso 1: residência unifamiliar, volume conhecido",
-    24: "Caso 2: com reservatório superior e recalque",
-    25: "Caso 3: varredura de volumes",
-    26: "Caso 4: análise econômica completa",
-    27: "Caso 5: escola pública", 28: "Caso 6: três cidades",
-    29: "Caso 7: cenários climáticos", 30: "Caso 8: qualidade da água e ETAP",
-    31: "Caso 9: decisão multicritério e certificação",
-    32: "Como o programa é verificado", 33: "Comparação com o Netuno 4",
-    34: "Limitações conhecidas", 35: "Mensagens de erro e o que fazer",
-    36: "Uso pela linha de comando", 37: "Lote, cenários e sensibilidade",
+    1: "O que o Netuno faz, e o que ele não faz",
+    2: "Instalação e primeira execução",
+    3: "Por onde começar, conforme o seu objetivo",
+    4: "O projeto e a chuva", 5: "A edificação e a demanda",
+    6: "A primeira simulação", 7: "Escolher o volume",
+    8: "Precisa de reservatório superior?", 9: "Que qualidade o uso exige",
+    10: "Quanto custa e em quanto se paga", 11: "Quanto carbono evita",
+    12: "Qual volume escolher, afinal", 13: "O relatório, e o que declarar num artigo",
+    14: "Comparar cidades", 15: "Usar cenário climático futuro",
+    16: "Ajustar a tarifa do seu município", 17: "Modular a demanda por calendário",
+    18: "Simular escola, hospital e comércio", 19: "Rodar em lote",
+    20: "Análise de sensibilidade", 21: "Importar um projeto do Netuno 4",
+    22: "Exportar para CAD, BIM e planilha",
+    23: "O balanço hídrico diário", 24: "Volume ideal e a varredura",
+    25: "Indicadores de eficiência", 26: "Índices pluviométricos",
+    27: "Dimensionamento da ETAP", 28: "Energia de bombeamento",
+    29: "Análise econômica e os regimes tarifários",
+    30: "Avaliação de ciclo de vida", 31: "Certificações",
+    32: "Decisão multicritério",
+    33: "Dez enganos que o programa não impede",
+    34: "Como o programa é verificado", 35: "Comparação com o Netuno 4",
+    36: "Limitações conhecidas", 37: "Mensagens de erro e o que fazer",
 }
 
 
