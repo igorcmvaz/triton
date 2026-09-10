@@ -582,12 +582,11 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         v_map = []
         for r in sweep_results:
-            annual_pump_kwh = 0.0
-            if bool(getattr(cfg, "upper_tank_used", 1)) and cfg.pump_flow_rate > 0:
-                years = max(1.0, r.total_days / 365.25)
-                run_h = (r.total_pumped_liters / years) / cfg.pump_flow_rate
-                start_h = (r.total_pump_cycles / years) * cfg.pump_startup_time_h
-                annual_pump_kwh = cfg.pump_power_kw * (run_h + start_h) / max(0.01, cfg.pump_efficiency / 100.0)
+            # A energia de recalque sai da funcao unica do nucleo. Aqui havia uma
+            # copia da formula antiga, que dividia pelo rendimento uma segunda vez:
+            # o criterio ambiental do multicriterio ranqueava volumes com uma
+            # energia 1,68 vezes maior que a da aba ambiental, no mesmo projeto.
+            annual_pump_kwh = _energia_anual_de_bombeamento(cfg, r)
             v_map.append((r.lower_tank_vol, r.annual_pluvial_consumed_m3, annual_pump_kwh))
         env_sweep = run_environmental_sweep(v_map, env_cfg)
         env_dict = {d["volume_l"]: d for d in env_sweep.sweep_details}
@@ -661,11 +660,12 @@ class TabEconomicGlobalOptimizer(QWidget):
                         t_rec_v = (r_item.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                         ann_cyc_v = r_item.total_pump_cycles / max(1.0, sim_days / 365.25)
                         t_part_v = ann_cyc_v * cfg.pump_startup_time_h
-                        p_hrs_v = (t_rec_v + t_part_v) / max(0.01, cfg.pump_efficiency / 100.0)
+                        # Horas de operacao, sem dividir pelo rendimento.
+                        p_hrs_v = t_rec_v + t_part_v
                     else:
                         ann_pumped_l = (annual_m3_val if v_vol > 0 else 0.0) * 1000.0
                         t_rec_v = ann_pumped_l / cfg.pump_flow_rate
-                        p_hrs_v = t_rec_v / max(0.01, cfg.pump_efficiency / 100.0)
+                        p_hrs_v = t_rec_v
 
                 cl2_enabled = getattr(cfg, "chlorine_treatment_enabled", True)
                 cl2_dose = getattr(cfg, "chlorine_dose_mg_l", 2.0)
@@ -915,3 +915,17 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         self._updating_table = False
         self.optimization_updated.emit()
+
+
+def _energia_anual_de_bombeamento(cfg, resultado) -> float:
+    """kWh/ano de recalque, pela função única do núcleo.
+
+    Existiam quatro cópias da fórmula antiga espalhadas pela interface, todas
+    dividindo pelo rendimento uma segunda vez — a potência de placa já o embute.
+    Superestimavam em 1/η, 1,68 vezes com rendimento de 55%.
+    """
+    from netuno.core.pump_energy import compute_annual_pump_energy
+
+    if not bool(getattr(cfg, "upper_tank_used", 1)):
+        return 0.0
+    return compute_annual_pump_energy(cfg, resultado, upper_tank_used=True).annual_kwh

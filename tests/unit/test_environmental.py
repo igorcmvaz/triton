@@ -36,7 +36,12 @@ def test_calculate_lca_basic():
 
     assert res.lower_tank_mass_kg == pytest.approx(5.0 * preset_pead.material_density_kg_per_m3_tank)
     assert res.total_pipes_co2_kg == pytest.approx(10.0 * co2_tubo_por_m)
-    assert res.pump_embodied_co2_kg == pytest.approx(PUMP_EMBEDDED_CO2[0.50])
+    # O carbono da motobomba acompanha a QUANTIDADE de bombas do projeto, que
+    # por padrao e principal mais reserva. Congelar uma bomba aqui escondia que
+    # este padrao divergia do de `NetunoConfig`, onde sempre foram duas.
+    assert res.pump_embodied_co2_kg == pytest.approx(
+        PUMP_EMBEDDED_CO2[0.50] * config.pump_count
+    )
 
     co2_cisterna = res.lower_tank_mass_kg * preset_pead.co2_factor_kg_per_kg
     assert res.total_embodied_co2_kg == pytest.approx(
@@ -191,3 +196,30 @@ def test_tab_environmental_charts_dynamic_sizing(qapp):
     # Retorno para aba 0: encolhe novamente para a altura das abas de gráficos
     tab.tab_charts_env.setCurrentIndex(0)
     assert tab.tab_charts_env.maximumHeight() <= 530
+
+
+def test_a_contagem_de_bombas_e_a_mesma_no_projeto_e_na_acv():
+    """Os dois padrões divergiam, e ninguém via.
+
+    `NetunoConfig.pump_count` sempre foi 2 — principal mais reserva, a
+    configuração inicial recomendada — e o módulo econômico cobra as duas
+    (`pump_unit_cost × pump_count`). `EnvironmentalConfig.pump_count` era 1, de
+    modo que a avaliação de ciclo de vida contava o carbono de uma bomba só,
+    18 kg CO₂e a menos, para o mesmo sistema que o econômico orçava com duas.
+
+    A divergência só aparecia quando a configuração ambiental era construída sem
+    o projeto — geração de relatório e alguns caminhos de otimização.
+    """
+    from netuno.core.environmental import EnvironmentalConfig
+    from netuno.core.parser import NetunoConfig
+
+    assert EnvironmentalConfig().pump_count == NetunoConfig().pump_count
+
+
+def test_o_carbono_da_bomba_dobra_com_a_bomba_reserva():
+    from netuno.core.environmental import EnvironmentalConfig, calculate_lca
+
+    uma = calculate_lca(5000.0, 100.0, EnvironmentalConfig(annual_water_saved_m3=100.0, pump_count=1))
+    duas = calculate_lca(5000.0, 100.0, EnvironmentalConfig(annual_water_saved_m3=100.0, pump_count=2))
+    assert duas.pump_embodied_co2_kg == pytest.approx(2 * uma.pump_embodied_co2_kg)
+    assert duas.total_embodied_co2_kg > uma.total_embodied_co2_kg

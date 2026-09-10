@@ -783,7 +783,9 @@ class TabEconomicIntegrated(QWidget):
                 t_rec = (single_res.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                 ann_cyc = single_res.total_pump_cycles / max(1.0, sim_days / 365.25)
                 t_part = ann_cyc * cfg.pump_startup_time_h
-                pump_hours_year = (t_rec + t_part) / max(0.01, cfg.pump_efficiency / 100.0)
+                # Horas de operacao, sem dividir pelo rendimento: a potencia de
+                # placa ja o embute, e dividir de novo conta a perda duas vezes.
+                pump_hours_year = t_rec + t_part
 
         annual_om_base = annualize_operational_costs(cfg.op_costs, annual_saved_m3)
         # Custeio da linha de tratamento sem a cloracao, que a linha de cloro
@@ -957,11 +959,11 @@ class TabEconomicIntegrated(QWidget):
                             t_rec_v = (r_item.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                             ann_cyc_v = r_item.total_pump_cycles / max(1.0, sim_days / 365.25)
                             t_part_v = ann_cyc_v * cfg.pump_startup_time_h
-                            p_hrs_v = (t_rec_v + t_part_v) / max(0.01, cfg.pump_efficiency / 100.0)
+                            p_hrs_v = t_rec_v + t_part_v
                         else:
                             ann_pumped_l = vol_m3_val * 1000.0
                             t_rec_v = ann_pumped_l / cfg.pump_flow_rate
-                            p_hrs_v = t_rec_v / max(0.01, cfg.pump_efficiency / 100.0)
+                            p_hrs_v = t_rec_v
 
                     # Cloração proporcional ao volume tratado para cada reservatório
                     if upper_used and v_vol > 0:

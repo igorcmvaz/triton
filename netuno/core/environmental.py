@@ -359,7 +359,10 @@ class EnvironmentalConfig:
     lower_tank_vol: float = 4000.0
     annual_water_saved_m3: float = 0.0
     annual_pump_kwh: float = 0.0
-    pump_count: int = 1                          # 1 = Principal, 2 = Principal + Reserva/Backup
+    # Principal mais reserva, como em `NetunoConfig.pump_count`. Os dois padroes
+    # divergiam - 2 no projeto, 1 aqui - de modo que o economico cobrava duas
+    # bombas e a ACV contava o carbono de uma so, 18 kg CO2e a menos.
+    pump_count: int = 2                          # 1 = Principal, 2 = Principal + Reserva/Backup
     pump_material: str = "Ferro Fundido, Cobre & Alumínio"
     material_key: Optional[str] = None
 
