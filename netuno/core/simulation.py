@@ -574,6 +574,56 @@ if HAS_NUMBA:
         return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
 
 
+def validar_parametros_fisicos(
+    lower_tank_vol: float,
+    area: float,
+    runoff_coeff: float,
+    discard_mm: float,
+    total_demand_per_day: float,
+    rainwater_share: float,
+    upper_tank_vol: float = 0.0,
+) -> None:
+    """Rejeita entrada fisicamente impossivel, antes de simular.
+
+    Ate a versao 5.0.8 area negativa, coeficiente negativo e volume negativo
+    passavam sem erro e produziam potencial de economia NEGATIVO - de -166% no
+    caso do volume. Um percentual assim nao significa nada e atravessa o
+    programa inteiro: vira economia de agua no economico, emissao evitada na
+    ACV e numero no relatorio.
+
+    Nao se cala o valor: area negativa e erro de digitacao, e quem digitou
+    precisa ver. Levanta-se `ValueError` nomeando o campo.
+
+    Volume ZERO e valido: e a referencia "sem sistema" da varredura.
+    """
+    if lower_tank_vol < 0:
+        raise ValueError(
+            f"Volume do reservatorio inferior negativo ({lower_tank_vol:g} L). "
+            "Zero e valido e representa o cenario sem sistema; negativo, nao."
+        )
+    if upper_tank_vol < 0:
+        raise ValueError(f"Volume do reservatorio superior negativo ({upper_tank_vol:g} L).")
+    if area < 0:
+        raise ValueError(f"Area de captacao negativa ({area:g} m2).")
+    if not 0.0 <= runoff_coeff <= 1.0:
+        raise ValueError(
+            f"Coeficiente de escoamento fora de [0, 1]: {runoff_coeff:g}. "
+            "Acima de 1 a cobertura entregaria mais agua do que a chuva traz; "
+            "abaixo de 0, captacao negativa. Telhados usuais ficam entre 0,80 e 0,95."
+        )
+    if discard_mm < 0:
+        raise ValueError(
+            f"Lamina de descarte negativa ({discard_mm:g} mm): o descarte retira "
+            "agua da captacao, nao acrescenta."
+        )
+    if total_demand_per_day < 0:
+        raise ValueError(f"Demanda diaria negativa ({total_demand_per_day:g} L/dia).")
+    if not 0.0 <= rainwater_share <= 1.0:
+        raise ValueError(
+            f"Fracao atendivel por agua pluvial fora de [0, 1]: {rainwater_share:g}. "
+            "Informe 0,4 para 40%, nao 40."
+        )
+
 def run_single_simulation(
     precip_data: np.ndarray,
     lower_tank_vol: float,
@@ -608,6 +658,18 @@ def run_single_simulation(
     Replicates Netuno 4.0 exact daily water balance equations.
     Supports constant, weekly, monthly and full daily modulated demand series.
     """
+    # Entrada fisicamente impossivel produz resultado sem sentido que atravessa
+    # o programa inteiro sem erro. Barra-se aqui, nomeando o campo.
+    validar_parametros_fisicos(
+        lower_tank_vol=float(lower_tank_vol),
+        area=float(area),
+        runoff_coeff=float(runoff_coeff),
+        discard_mm=float(discard_mm),
+        total_demand_per_day=float(total_demand_per_day),
+        rainwater_share=float(rainwater_share),
+        upper_tank_vol=float(upper_tank_vol),
+    )
+
     n_days = len(precip_data)
     pumping_threshold = max(0.0, min(float(pumping_threshold), max(0.0, float(upper_tank_vol))))
 
