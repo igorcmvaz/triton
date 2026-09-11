@@ -28,7 +28,7 @@ férias não é o aluno que bebe menos água, é que não há aluno.
 
 ## 17.2. Como preencher
 
-Na aba **Edificação**, escolha o modo. Abre-se a tabela do período.
+Na etapa **2. Edificação Consumo**, escolha o modo. Abre-se a tabela do período.
 
 - Célula vazia ou zerada **cai para o valor constante**. Isso é deliberado: permite
   modular só os meses que interessam e deixar o resto no padrão.

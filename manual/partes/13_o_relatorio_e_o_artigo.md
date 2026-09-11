@@ -20,7 +20,7 @@ enquadramento nas certificações: LEED, AQUA-HQE, Selo Casa Azul, EDGE e GRI 30
 **Científico.** Método completo, premissas declaradas, série utilizada, e os
 resultados com a precisão que um artigo exige. É a base para publicação.
 
-Além deles, a aba de Exportação gera desenho em DXF, modelo em IFC e planilhas com a
+Além deles, a etapa **10. Exportação** gera desenho em DXF, modelo em IFC e planilhas com a
 série diária e a varredura completa.
 
 ---

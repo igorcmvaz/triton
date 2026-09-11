@@ -123,10 +123,10 @@ Usados quando o projeto não declara:
 | rendimento da bomba | 55% | motobombas residenciais de meio a um CV ficam entre 40% e 60% no ponto de operação |
 | tempo de partida | 108 s | ver a ressalva abaixo |
 
-> **A altura manométrica é o parâmetro que mais pesa no consumo.** Quem conhece o
+> **Aprofundamento: a altura manométrica é o parâmetro que mais pesa.** Quem conhece o
 > desnível do projeto deve informá-lo. Dobrar a altura dobra a energia.
 
-> **O tempo de partida de 108 s merece atenção.** Ele representa o tempo de escorva
+> **Aprofundamento: o tempo de partida de 108 s.** Ele representa o tempo de escorva
 > de uma bomba autoaspirante cuja linha de sucção drenou. Numa instalação com válvula
 > de pé em ordem, a linha permanece escorvada e as partidas seguintes são imediatas.
 > No caso de referência, as partidas respondem por 19% do consumo anual; com um

@@ -42,7 +42,7 @@ combinação de volume, coeficiente e área. Sessenta combinações são verific
 **Teto da fração atendível.** O potencial nunca ultrapassa a fração de demanda
 atendível por chuva, verificado até volumes de 100 m³.
 
-**Paridade entre motores.** O núcleo compilado e o laço em Python puro têm de
+**Paridade entre motores.** O núcleo compilado e o laço de referência têm de
 devolver o mesmo número, para reservatório único e duplo, com e sem suprimento de
 reserva da irrigação. A tolerância exigida é 10⁻⁹.
 
@@ -116,17 +116,18 @@ do programa como medição estaria errado.
 
 ---
 
-## 34.8. Como rodar a suíte
+## 34.8. Quem roda a suíte, e quando
 
-```bash
-python -m pytest
-```
+A suíte acompanha o **código-fonte** do programa, e não a instalação: ela é executada
+pelo grupo de pesquisa a cada alteração, antes de qualquer versão ser publicada.
 
-Sem PySide6 instalado, os módulos que dependem da interface não são coletados e o
-restante roda normalmente — o que permite verificar o núcleo em ambiente mínimo.
+O que isso significa para você, que usa o programa instalado: a versão que está na sua
+máquina passou pelas novecentas asserções descritas neste capítulo, incluindo as que
+conferem cada número impresso neste manual.
 
-Para rodar só as invariantes:
-
-```bash
-python -m pytest tests/invariants -q
-```
+> **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob
+> licença GPL v3, e a suíte roda com um único comando no ambiente de
+> desenvolvimento. Um revisor que queira conferir as invariantes — fechamento de
+> massa, monotonicidade, paridade entre os dois motores de cálculo — encontra no
+> repositório os arquivos de teste organizados por tema, e o apêndice B liga cada
+> processo do programa ao que o verifica.

@@ -3,8 +3,9 @@
 > Onde o programa não serve, e por quê. Um programa que declara seus limites é mais
 > confiável que um que finge servir para tudo.
 
-Este capítulo é derivado do registro de pendências do repositório, mantido em
-`docs/pendencias_e_evolucao.md`, e reflete o estado da versão 5.0.8.
+Este capítulo é derivado do registro de pendências que o grupo de pesquisa mantém, e
+reflete o estado da versão 5.0.8. Uma limitação sai desta lista quando é resolvida, e
+não quando deixa de ser mencionada.
 
 ---
 

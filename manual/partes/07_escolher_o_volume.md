@@ -13,7 +13,8 @@ O Netuno responde rodando a mesma simulação para muitos volumes. É a **varred
 
 ## 7.1. Rodar a varredura
 
-Na aba **Varredura**, informe o volume máximo e o passo. Para o nosso projeto:
+Na etapa **4. Reservatório & Custos**, escolha o modo varredura e informe o
+volume máximo e o passo. Para o nosso projeto:
 máximo de 20.000 L, passo de 1.000 L.
 
 Duas coisas acontecem que convém saber:

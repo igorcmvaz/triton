@@ -69,9 +69,9 @@ hidráulica, que é do projetista.
 Os três do capítulo 13: executivo, ambiental com ESG, e científico. Em HTML para
 consulta e em PDF para entrega.
 
-> A conversão para PDF usa o motor do Qt quando ele está disponível e cai para um
-> gerador alternativo quando não está. O segundo produz um documento mais simples,
-> com o mesmo conteúdo.
+> O programa tem dois geradores de PDF e usa o mais completo que a máquina permitir.
+> Quando cai para o alternativo, o documento sai mais simples, com o mesmo conteúdo e
+> os mesmos números.
 
 ---
 

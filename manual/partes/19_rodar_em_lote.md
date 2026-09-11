@@ -1,113 +1,116 @@
-# 19. Rodar em lote
+# 19. Comparar muitos casos de uma vez
 
-> **Pergunta que este guia responde:** como rodar cem simulações sem clicar cem
-> vezes?
+> **Pergunta que este guia responde:** como comparar dezenas de alternativas sem
+> refazer o projeto inteiro a cada uma?
 
-Pela linha de comando. É o mesmo núcleo de cálculo da interface, sem tela.
+O programa foi feito para isso. A chave é entender que existem **três** formas de
+comparar muitos casos, e que elas respondem a perguntas diferentes.
 
 ---
 
-## 19.1. O comando básico
+## 19.1. As três formas
 
-```bash
-python -m netuno.cli run projeto.netuno
+| Se o que muda é | Use | Onde |
+| :--- | :--- | :--- |
+| **só o volume da cisterna** | a varredura | Reservatório e Custos |
+| **o volume, e você quer decidir** | a tabela multicritério | Multi-Critério |
+| **qualquer outra premissa** | projetos salvos, um por caso | arquivo `.netuno` |
+
+A primeira é automática, a segunda também, e a terceira exige organização.
+
+---
+
+## 19.2. A varredura: dezenas de volumes numa passada
+
+Na etapa **4. Reservatório & Custos**, escolha o modo **varredura** e informe o volume
+máximo e o passo. O programa simula todos os volumes da grade e desenha a curva.
+
+É o caminho normal, e não uma função avançada: a varredura é quase sempre a resposta
+certa, porque a pergunta «qual volume?» é a pergunta do projeto. O capítulo 7 percorre
+uma varredura completa, e o 24 explica como a grade é montada.
+
+Uma varredura de 0 a 20.000 L com passo de 1.000 L são vinte e uma simulações de
+trinta anos, e leva poucos segundos.
+
+---
+
+## 19.3. A tabela multicritério: todos os volumes, todas as dimensões
+
+A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da varredura com:
+
+- a economia de água e os dias de atendimento;
+- o valor presente líquido, o retorno descontado e a taxa interna de retorno;
+- o carbono líquido ao fim da vida útil e o retorno ambiental;
+- a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
+
+É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de
+resposta para cada linha de volume. O **perfil de decisão** troca os pesos das
+dimensões e reordena a tabela na hora. O capítulo 32 explica os métodos por trás.
+
+---
+
+## 19.4. Quando muda outra coisa que não o volume
+
+Cidade, tarifa, demanda, material, tipologia: para variar qualquer uma delas, o
+caminho é **um projeto salvo por caso**.
+
+O procedimento, que parece burocrático e economiza horas:
+
+1. Monte o projeto completo uma vez, com todo o detalhe.
+2. Salve com um nome que descreva o caso: `escola_florianopolis_5000.netuno`.
+3. Mude **uma** coisa, e salve com outro nome.
+4. Rode cada um, e anote o resultado numa planilha sua.
+
+Os arquivos de exemplo do manual foram feitos assim: `05_manaus.netuno`,
+`06_brasilia.netuno` e `07_saopaulo.netuno` são o mesmo projeto, com a série de chuva
+trocada. É o que o guia 14 compara.
+
+> **Mude uma coisa de cada vez.** Se você trocar a cidade e a tarifa juntas, o
+> resultado muda e não há como saber qual das duas o moveu. Parece óbvio, e é o erro
+> mais comum em estudos comparativos.
+
+---
+
+## 19.5. Como organizar os arquivos
+
+Uma convenção de nomes poupa mais tempo do que parece:
+
+```
+estudo_escola/
+   base.netuno
+   cidade_florianopolis.netuno
+   cidade_manaus.netuno
+   tarifa_comercial.netuno
+   demanda_medida.netuno
+   resultados.xlsx
 ```
 
-Roda a análise técnica e imprime o resultado. As opções que mais importam:
+E três hábitos que evitam retrabalho:
 
-| Opção | Para quê |
-| :--- | :--- |
-| `--analysis` | `technical`, `economic`, `environmental`, `topsis` ou `all` |
-| `--volume` | força um volume, ignorando o do projeto |
-| `--rainfall` | troca a série de chuva do projeto |
-| `--set CAMPO=VALOR` | sobrescreve qualquer campo; repetível |
-| `--format` | `text`, `json`, `csv`, `html` ou `xlsx` |
-| `--output` | arquivo de saída, obrigatório fora do modo texto |
-| `--seed` | semente, para análises estocásticas reproduzíveis |
+**Guarde o projeto, não só o resultado.** O `.netuno` tem a chuva dentro dele e
+reproduz o estudo inteiro; a planilha de resultados, não.
 
-Exemplo de uma varredura de cidades, mantendo o projeto:
+**Anote o que muda no nome do arquivo.** Seis meses depois, `teste3.netuno` não
+significa nada.
 
-```bash
-for cidade in Florianopolis1 Brasilia1 Manaus1 SaoPaulo1; do
-  python -m netuno.cli run projeto.netuno \
-    --rainfall "data/rainfall/${cidade}.csv" \
-    --analysis all --format json --output "saida/${cidade}.json"
-done
-```
+**Exporte para planilha ao fim de cada rodada.** A etapa **10. Exportação**
+grava as tabelas em `.xlsx`, e é lá que a comparação entre casos é montada.
 
 ---
 
-## 19.2. Os subcomandos
+## 19.6. Quantos casos cabem
 
-| Subcomando | O que faz |
-| :--- | :--- |
-| `run` | simula um projeto |
-| `analyze` | executa a cadeia completa de análises |
-| `validate` | confere a estrutura e as premissas de um projeto |
-| `init` | cria um modelo `.netuno` editável |
-| `matrix` | combina premissas de edificação com catálogo climático |
-| `matrix-projects` | executa vários `.netuno` de uma lista ou pasta |
-| `batch` | executa cenários declarados numa planilha CSV ou XLSX |
-| `uncertainty` | propaga incertezas por Monte Carlo |
+Não há limite no programa. Há limite de paciência: cada simulação de trinta anos leva
+frações de segundo, mas montar e conferir cada projeto leva minutos.
 
-`validate` merece atenção: rode-o antes de qualquer lote. Ele confere a estrutura do
-projeto e as premissas, e evita descobrir um erro de cadastro depois de duzentas
-simulações.
+Na prática, um estudo comparativo bem conduzido tem entre cinco e vinte casos. Mais do
+que isso, costuma ser sinal de que a pergunta não foi bem formulada — ou de que o
+trabalho é um estudo de larga escala, que é outra coisa.
 
----
-
-## 19.3. Matriz fatorial
-
-Quando você quer o produto cartesiano de várias premissas — três cidades, quatro
-volumes, duas tipologias — use `matrix`:
-
-```bash
-python -m netuno.cli matrix --help
-```
-
-Ele combina o catálogo de premissas de edificação com o catálogo climático e gera
-todas as combinações. É a forma de produzir a base de um artigo.
-
----
-
-## 19.4. Planilha de cenários
-
-O subcomando `batch` lê uma planilha em que **cada linha é um cenário** e cada
-coluna um parâmetro. É o caminho mais simples quando os cenários não formam um
-produto cartesiano limpo.
-
-```bash
-python -m netuno.cli batch cenarios.csv --output resultados.xlsx
-```
-
-Um exemplo de planilha acompanha o programa, em `examples/`.
-
----
-
-## 19.5. O que a linha de comando não faz
-
-**Cinquenta e cinco dos 103 parâmetros** do projeto são alcançáveis pela linha de
-comando. Os outros só existem na interface.
-
-Isso não é limitação de propósito: os parâmetros ausentes são os de detalhamento
-fino — materiais de reservatório, comprimentos por diâmetro de tubo, perfis de
-modulação diária. Para um estudo em lote, o caminho é montar o `.netuno` **na
-interface**, com todo o detalhe, e depois variar pela linha de comando só o que
-muda entre os cenários.
-
-O apêndice F traz a referência completa das opções.
-
----
-
-## 19.6. Reprodutibilidade
-
-Três conselhos que evitam retrabalho:
-
-**Guarde o comando.** Num arquivo de script versionado junto com os resultados, e
-não no histórico do terminal.
-
-**Fixe a semente.** Qualquer análise com sorteio — sensibilidade de pesos, Monte
-Carlo — precisa de `--seed` para ser reproduzível.
-
-**Grave a saída em JSON.** É o formato que preserva todos os campos. CSV e XLSX são
-para leitura humana; JSON é para reprocessar.
+> **Aprofundamento: estudos de larga escala.** O grupo de pesquisa executa séries de
+> milhares de simulações para trabalhos publicados — matrizes fatoriais de cidade,
+> área, demanda e volume, com propagação de incerteza por Monte Carlo. Isso é feito
+> por uma interface de automação que acompanha a distribuição de código-fonte do
+> programa, e não pela janela. Se o seu trabalho chegou a essa escala, o caminho é
+> entrar em contato com o grupo: a interface existe, é a mesma usada para verificar o
+> programa, e o capítulo 34 descreve o que ela verifica.

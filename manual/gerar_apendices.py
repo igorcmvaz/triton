@@ -56,25 +56,36 @@ PAPEL = {
     "core/simulation_excel_exporter.py": "Planilhas",
     "core/scenarios.py": "Cenários",
     "core/parser.py": "Arquivo do projeto",
-    "cli.py": "Linha de comando",
+    "cli.py": "Automação",
 }
+
+#: Telas que a janela principal nunca abre. Existem no pacote, e o usuário não
+#: chega a elas: `tab_single_sim.py`, `tab_matrix_sim.py` e
+#: `tab_scenarios_modern.py`. Ficam fora do apêndice para que ele não cite tela
+#: inexistente; o capítulo 36 registra a pendência.
+TELAS_ORFAS = ("tab_single_sim.py", "tab_matrix_sim.py",
+               "tab_scenarios_modern.py", "dialog_scenario_simulation.py")
 
 TELAS = {
     "tab_project.py": "Projeto", "tab_building.py": "Edificação",
-    "tab_water_quality.py": "Qualidade", "tab_single_sim.py": "Simulação",
-    "tab_tanks_simulation.py": "Varredura", "tab_matrix_sim.py": "Matriz",
+    "tab_water_quality.py": "Qualidade",
+    "tab_tanks_simulation.py": "Varredura",
     "tab_economic.py": "Econômico", "tab_economic_integrated.py": "Econ. integrado",
     "tab_economic_global_optimizer.py": "Otimizador", "tab_environmental.py": "Ambiental",
-    "tab_scenarios_modern.py": "Cenários", "tab_tariffs_manager.py": "Tarifas",
+    "tab_tariffs_manager.py": "Tarifas",
     "tab_reports.py": "Relatórios", "tab_reports_pdf.py": "Relatórios",
     "tab_charts_netuno.py": "Gráficos", "tab_export.py": "Exportação",
     "tab_documentation.py": "Documentação", "main_window.py": "Janela principal",
     "dialog_economic.py": "Tarifas e custos", "dialog_monthly_values.py": "Valores mensais",
     "dialog_upper_tank.py": "Caixa superior", "dialog_variable_input.py": "Entrada variável",
     "pump_wizard_dialog.py": "Assistente da bomba",
-    "dialog_scenario_simulation.py": "Cenários",
     "dialog_validation_report.py": "Validação",
 }
+
+assert not (set(TELAS_ORFAS) & set(TELAS)), (
+    "tela inalcançável listada em TELAS: a janela principal não a abre, e o "
+    "apêndice mandaria o leitor procurar uma tela que não existe"
+)
 
 SECOES = [
     ("project_id", "Identificação"), ("project_name", "Identificação"),
@@ -209,14 +220,15 @@ def apendice_a():
     L = [
         "# Apêndice A — Os parâmetros do projeto",
         "",
-        f"São **{len(campos)} parâmetros**. Este apêndice é **gerado do fonte** por",
-        "`manual/gerar_apendices.py`, lendo a classe `NetunoConfig` e varrendo os",
-        f"{len(FONTES)} arquivos do pacote atrás de cada nome de campo. Não foi",
-        "transcrito à mão, e por isso não diverge do programa.",
+        f"São **{len(campos)} parâmetros**. É a lista completa do que um projeto",
+        "guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.",
         "",
-        "A coluna **onde se informa** lista as telas em que o campo aparece; a coluna",
-        "**quem consome** lista os módulos de cálculo que o leem. Campo sem nenhuma das",
-        "duas é campo gravado no arquivo e nunca lido, e está listado no capítulo 34.",
+        "A lista não foi transcrita à mão: é extraída do próprio programa a cada",
+        "versão, e por isso não pode divergir dele.",
+        "",
+        "A coluna **onde se informa** diz em que tela o campo aparece; a coluna",
+        "**quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo",
+        "gravado no arquivo e nunca lido, e está listado no capítulo 34.",
         "",
     ]
     for sec in ORDEM:
@@ -253,12 +265,16 @@ def apendice_b():
     L = [
         "# Apêndice B — Os processos do programa",
         "",
-        f"São **{len(PROCESSOS)} processos**, do arquivo de chuva ao relatório. Cada um",
-        "declara o que o dispara, o que recebe, as regras com suas ramificações, as",
-        "funções responsáveis, o que produz e o que acontece quando falha.",
+        f"São **{len(PROCESSOS)} processos**, do arquivo de chuva ao relatório. Cada",
+        "um declara o que o dispara, o que recebe, as regras com suas ramificações, o",
+        "que produz e o que acontece quando falha.",
         "",
-        "Este apêndice é gerado por `manual/gerar_apendices.py`, e as funções citadas",
-        "são conferidas contra o fonte antes de a página ser escrita.",
+        "É o apêndice mais técnico do manual, e serve a duas pessoas: quem revisa um",
+        "estudo feito com o programa e precisa saber exatamente que conta foi feita, e",
+        "quem encontrou um resultado estranho e quer saber por onde o número passou.",
+        "",
+        "Os nomes em `código` são os campos do arquivo de projeto, listados no",
+        "apêndice A.",
         "",
     ]
     for pid, nome, fam, gatilho, entradas, regras, fns, saidas, excecao in PROCESSOS:
@@ -270,8 +286,9 @@ def apendice_b():
         L += [f"{i}. {_limpa(r)}" for i, r in enumerate(regras, 1)]
         L += ["", "**Saídas**", ""]
         L += [f"- {_limpa(s)}" for s in saidas]
-        L += ["", "**Funções.** " + ", ".join(f"`{f}` ({m})" for m, f in fns), "",
-              f"**Exceção.** {_limpa(excecao)}", ""]
+        # As funções internas de cada processo ficam fora do manual: o leitor
+        # instala um executável, e nome de função só ajuda quem tem o fonte.
+        L += ["", f"**Exceção.** {_limpa(excecao)}", ""]
     return NL.join(L), len(PROCESSOS)
 
 
@@ -322,8 +339,8 @@ def apendice_d():
         "# Apêndice D — Regimes tarifários",
         "",
         f"A base traz **{len(cidades)} municípios** com estrutura tarifária, percentual",
-        "de esgoto, regime de mínimo, data de vigência e fonte. Este apêndice é gerado",
-        "da própria base por `manual/gerar_apendices.py`.",
+        "de esgoto, regime de mínimo, data de vigência e fonte. Esta lista é extraída",
+        "da própria base do programa, e não transcrita.",
         "",
         "## D.1. Os códigos de faixa",
         "",
@@ -366,64 +383,6 @@ def apendice_d():
     return NL.join(L), len(cidades)
 
 
-def apendice_f():
-    """Referência da linha de comando, lida do próprio argparse."""
-    import subprocess
-    import sys as _sys
-
-    raiz = os.path.dirname(AQUI)
-    cli = os.path.join(PKG, "cli.py")
-    if not os.path.exists(cli):
-        return None, 0
-
-    def ajuda(*args):
-        try:
-            r = subprocess.run(
-                [_sys.executable, "-m", "netuno.cli", *args, "--help"],
-                capture_output=True, text=True, cwd=raiz, timeout=120,
-                env=dict(os.environ, PYTHONPATH=raiz, PYTHONIOENCODING="utf-8"))
-            return (r.stdout or "").strip()
-        except Exception:
-            return ""
-
-    geral = ajuda()
-    if not geral:
-        return None, 0
-
-    subcomandos = [
-        ("run", "Simula um projeto"),
-        ("analyze", "Executa a cadeia completa de análises"),
-        ("validate", "Confere a estrutura e as premissas de um projeto"),
-        ("init", "Cria um modelo .netuno editável"),
-        ("matrix", "Combina premissas de edificação com catálogo climático"),
-        ("matrix-projects", "Executa vários projetos de uma lista ou pasta"),
-        ("batch", "Executa cenários de uma planilha"),
-        ("uncertainty", "Propaga incertezas por Monte Carlo"),
-    ]
-
-    L = [
-        "# Apêndice F — Referência da linha de comando",
-        "",
-        "Gerado do próprio `argparse` do programa por `manual/gerar_apendices.py`.",
-        "O guia 19 ensina a usar; este apêndice lista as opções.",
-        "",
-        "## F.1. Uso geral",
-        "",
-        "```",
-        geral,
-        "```",
-        "",
-    ]
-    n = 1
-    for nome, desc in subcomandos:
-        texto = ajuda(nome)
-        if not texto:
-            continue
-        n += 1
-        L += [f"## F.{n}. `{nome}` — {desc}", "", "```", texto, "```", ""]
-    return NL.join(L), n
-
-
 def main():
     texto, n = apendice_a()
     p = os.path.join(SAIDA, "A_parametros.md")
@@ -446,13 +405,8 @@ def main():
         open(p, "w", encoding="utf-8").write(texto + NL)
         print(f"  D_regimes_tarifarios.md — {n} municípios")
 
-    texto, n = apendice_f()
-    if texto is None:
-        print("  F_linha_de_comando.md — pulado: CLI não respondeu")
-    else:
-        p = os.path.join(SAIDA, "F_linha_de_comando.md")
-        open(p, "w", encoding="utf-8").write(texto + NL)
-        print(f"  F_linha_de_comando.md — {n} seções")
+    # O apêndice F é escrito à mão: descreve arquivos, pastas e formatos do
+    # programa instalado, e não há de onde extraí-lo automaticamente.
 
 
 if __name__ == "__main__":

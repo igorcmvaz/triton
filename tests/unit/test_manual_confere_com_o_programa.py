@@ -539,7 +539,7 @@ def test_o_capitulo_13_traz_a_lista_de_declaracao():
 # ══════════════════════════════════════════════════════════════════════════════
 
 CAPITULOS = 37
-APENDICES = 9
+APENDICES = 10
 
 
 def _manual_montado():
@@ -716,3 +716,122 @@ def test_os_capitulos_finais_citam_o_que_precisam_citar():
         texto = _capitulo(arquivo)
         for termo in termos:
             assert termo in texto, f"{arquivo} não cita {termo}"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# O manual descreve o programa instalado, e não o ambiente de desenvolvimento
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# O leitor recebe um executável. Comando de terminal, nome de módulo e caminho de
+# arquivo-fonte descrevem uma máquina que ele não tem, e mandá-lo procurá-los é
+# pior que omissão: é instrução que não funciona.
+
+TERMOS_DE_DESENVOLVIMENTO = (
+    "python -m", "python manual", "pip install", "pytest", "requirements.txt",
+    "PySide6", "Numba", "netuno.cli", "argparse",
+)
+
+
+def _todo_o_texto_do_manual():
+    partes = []
+    for pasta in ("partes", "apendices"):
+        caminho = os.path.join(MANUAL, pasta)
+        for arquivo in sorted(os.listdir(caminho)):
+            if arquivo.endswith(".md"):
+                partes.append((
+                    os.path.join(pasta, arquivo),
+                    open(os.path.join(caminho, arquivo), encoding="utf-8").read()))
+    return partes
+
+
+def test_o_manual_nao_manda_o_leitor_rodar_nada_no_terminal():
+    achados = []
+    for nome, texto in _todo_o_texto_do_manual():
+        for termo in TERMOS_DE_DESENVOLVIMENTO:
+            if termo.lower() in texto.lower():
+                achados.append(f"{nome}: {termo}")
+    assert not achados, achados
+
+
+def test_o_manual_nao_cita_arquivos_de_codigo():
+    """`.py` no texto é sinal de que a frase fala do repositório, não do programa."""
+    achados = []
+    for nome, texto in _todo_o_texto_do_manual():
+        for linha in texto.split(chr(10)):
+            if re.search(r"[\w/\\]+\.py\b", linha):
+                achados.append(f"{nome}: {linha.strip()[:70]}")
+    assert not achados, achados
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Figuras
+# ══════════════════════════════════════════════════════════════════════════════
+
+FIGURAS_ESPERADAS = 7
+
+
+def test_as_figuras_estao_numeradas_na_ordem_da_leitura():
+    """A legenda «Figura 1» já apareceu no capítulo 23, depois da «Figura 2».
+
+    A numeração passou a ser feita na montagem, e este teste é o que impede o
+    problema de voltar quando alguém inserir uma figura no meio.
+    """
+    texto = _manual_montado()
+    numeros = [int(n) for n in re.findall(r"\*Figura (\d+) —", texto)]
+    assert numeros == list(range(1, len(numeros) + 1)), numeros
+    assert len(numeros) == FIGURAS_ESPERADAS
+
+
+def test_os_desenhos_explicativos_existem():
+    """Os três desenhos que explicam o sistema a quem chega agora."""
+    pasta = os.path.join(MANUAL, "figuras")
+    for nome in ("fig00_sistema.png", "fig00b_destino.png", "fig00c_fracao.png"):
+        caminho = os.path.join(pasta, nome)
+        assert os.path.exists(caminho), nome
+        assert os.path.getsize(caminho) > 20_000, nome
+
+
+def test_o_capitulo_1_apresenta_o_sistema_antes_de_falar_do_programa():
+    """Quem abre o manual pode não saber o que é a instalação que vai simular."""
+    texto = _capitulo("01_o_que_o_netuno_faz.md")
+    assert "O que é um sistema de aproveitamento de água pluvial" in texto
+    for termo in ("calhas", "cisterna", "primeira chuva", "projeção horizontal",
+                  "fig00_sistema.png", "fig00b_destino.png"):
+        assert termo in texto, termo
+    # A ordem importa: o desenho do sistema vem antes do desenho do dia.
+    assert texto.index("fig00_sistema.png") < texto.index("fig00b_destino.png")
+
+
+def test_o_manual_explica_as_duas_caixas():
+    texto = _manual_montado()
+    assert "Aprofundamento" in texto
+    cabeca = texto.split("## Sumário")[0]
+    assert "régua **laranja**" in cabeca
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# As telas citadas são as telas que existem
+# ══════════════════════════════════════════════════════════════════════════════
+
+ETAPAS = (
+    "1. Projeto e Chuva", "2. Edificação Consumo", "3. Qualidade & ETAP",
+    "4. Reservatório & Custos", "5. Resultados Técnicos",
+    "6. Resultados Econômicos", "7. Resultados Ambientais & ESG",
+    "8. Decisão Multicritério", "9. Relatórios PDF", "10. Exportação",
+    "11. Documentação", "12. Gestor de Tarifas",
+)
+
+
+def test_as_etapas_citadas_pelo_manual_sao_as_da_barra_lateral():
+    """O nome que o manual manda procurar precisa existir na tela."""
+    fonte = os.path.join(RAIZ, "netuno", "ui", "sidebar.py")
+    texto_fonte = open(fonte, encoding="utf-8").read()
+    for etapa in ETAPAS:
+        assert etapa in texto_fonte, f"a barra lateral não tem «{etapa}»"
+
+    citadas = set()
+    for _, texto in _todo_o_texto_do_manual():
+        for m in re.finditer(r"etapa \*\*([^*]+)\*\*", texto):
+            citadas.add(m.group(1).strip())
+    desconhecidas = [c for c in citadas
+                     if not any(c.startswith(e) or e.endswith(c) for e in ETAPAS)]
+    assert not desconhecidas, desconhecidas

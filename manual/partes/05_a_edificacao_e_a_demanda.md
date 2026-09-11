@@ -13,7 +13,7 @@ ultrapassa.
 
 ## 5.1. A tipologia
 
-Na aba **Edificação**, escolha *Residencial unifamiliar*. O programa traz oito
+Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
 tipologias, cada uma com o consumo per capita de referência e a repartição usual dos
 usos finais:
 
@@ -70,6 +70,10 @@ Repartição usual numa residência brasileira:
 
 Somando os três que a chuva atende, chega-se aos 40% do tutorial. É um valor
 defensável para residência unifamiliar sem jardim grande.
+
+![A repartição do consumo numa residência, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
+
+*Figura 3 — Em cinza, os usos que exigem água potável; em verde, os que não exigem. A soma dos verdes é a fração atendível, e é o teto do potencial de economia.*
 
 > **Este número é o teto.** Com 40% de fração atendível, o potencial de economia
 > **jamais** passa de 40%, por maior que seja o reservatório e por mais que chova.

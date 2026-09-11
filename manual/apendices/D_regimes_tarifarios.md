@@ -1,8 +1,8 @@
 # Apêndice D — Regimes tarifários
 
 A base traz **652 municípios** com estrutura tarifária, percentual
-de esgoto, regime de mínimo, data de vigência e fonte. Este apêndice é gerado
-da própria base por `manual/gerar_apendices.py`.
+de esgoto, regime de mínimo, data de vigência e fonte. Esta lista é extraída
+da própria base do programa, e não transcrita.
 
 ## D.1. Os códigos de faixa
 

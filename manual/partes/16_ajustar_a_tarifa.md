@@ -14,7 +14,7 @@ frequentemente está errado nos estudos publicados.
 O programa traz **652 municípios** com estrutura tarifária, percentual de esgoto,
 regime de mínimo, data de vigência e a fonte de onde o dado veio.
 
-Na aba de tarifas, escolha o estado e o município. O programa mostra a estrutura e o
+Na etapa **12. Gestor de Tarifas**, escolha o estado e o município. O programa mostra a estrutura e o
 **grau de confiança** do registro. Confira três coisas contra a resolução da sua
 concessionária:
 

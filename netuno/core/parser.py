@@ -788,6 +788,21 @@ def export_netuno_json(
                 "use_variable": b_data.get("use_variable", False),
                 "rainwater_share": b_data.get("share", config.rainwater_share)
             },
+            # A modulacao por calendario. Ate a 5.0.8 estas sete listas
+            # existiam na configuracao e nenhuma era gravada: um projeto
+            # semanal ou diario reabria como constante, sem aviso. A lista
+            # mensal de demanda fica na secao acima, por compatibilidade com
+            # os arquivos ja gravados.
+            "demand_modulation": {
+                "demand_mode": b_data.get("demand_mode", getattr(config, "demand_mode", "constant")),
+                "weekly_demands": b_data.get("weekly_demands") or list(getattr(config, "weekly_demands", [])),
+                "weekly_residents": b_data.get("weekly_residents") or list(getattr(config, "weekly_residents", [])),
+                "weekly_shares": b_data.get("weekly_shares") or list(getattr(config, "weekly_shares", [])),
+                "monthly_shares": b_data.get("monthly_shares") or list(getattr(config, "monthly_shares", [])),
+                "daily_demands": b_data.get("daily_demands") or list(getattr(config, "daily_demands", [])),
+                "daily_residents": b_data.get("daily_residents") or list(getattr(config, "daily_residents", [])),
+                "daily_shares": b_data.get("daily_shares") or list(getattr(config, "daily_shares", [])),
+            },
             "rainfall_discard": {
                 "discard_mm": b_data.get("discard", config.discard),
                 "discard_mode": config.discard_mode,
@@ -901,6 +916,13 @@ def export_netuno_json(
     return file_path
 
 
+class FormatoDeProjetoDesconhecido(ValueError):
+    """O arquivo e JSON, mas nao e um projeto do Netuno.
+
+    Existe para que o erro suba com nome proprio, em vez de ser confundido com
+    um JSON truncado — que e o outro motivo de falha na abertura.
+    """
+
 def load_netuno_project(file_path: str) -> dict:
     """
     Carrega um projeto Netuno a partir de um arquivo JSON (.netuno / .json)
@@ -931,6 +953,20 @@ def load_netuno_project(file_path: str) -> dict:
             meta = data.get("metadata", {})
             rainfall = data.get("rainfall", {})
             inputs = data.get("inputs", {})
+
+            # Um JSON que nao traz nenhuma das secoes do projeto nao e um
+            # projeto do Netuno. Ate a 5.0.8 ele era aceito e devolvia a
+            # configuracao padrao inteira, de modo que o estudo aberto nao era
+            # o estudo do arquivo — e nada avisava.
+            if not inputs and not rainfall and "schema" not in data:
+                raise FormatoDeProjetoDesconhecido(
+                    f"O arquivo '{os.path.basename(file_path)}' e um JSON valido, "
+                    "mas nao tem as secoes de um projeto do Netuno "
+                    "('schema', 'rainfall', 'inputs'). Se ele veio de uma versao "
+                    "antiga ou de outro programa, converta-o antes de abrir: "
+                    "abrir assim carregaria um projeto padrao com o nome deste "
+                    "arquivo."
+                )
 
             cfg = NetunoConfig()
             cfg.project_id = meta.get("project_id", "N5-PROJ")
@@ -1098,10 +1134,32 @@ def load_netuno_project(file_path: str) -> dict:
                 "irrigation_garden_area_m2": cfg.irrigation_garden_area_m2,
                 "irrigation_rate_l_m2_day": cfg.irrigation_rate_l_m2_day,
             }
+            mod = inputs.get("demand_modulation", {})
+            if mod:
+                cfg.demand_mode = mod.get("demand_mode", cfg.demand_mode)
+                cfg.weekly_demands = list(mod.get("weekly_demands", []) or [])
+                cfg.weekly_residents = list(mod.get("weekly_residents", []) or [])
+                cfg.weekly_shares = list(mod.get("weekly_shares", []) or [])
+                cfg.monthly_shares = list(mod.get("monthly_shares", []) or [])
+                cfg.daily_demands = list(mod.get("daily_demands", []) or [])
+                cfg.daily_residents = list(mod.get("daily_residents", []) or [])
+                cfg.daily_shares = list(mod.get("daily_shares", []) or [])
+            res["building_data"].update({
+                "demand_mode": cfg.demand_mode,
+                "weekly_demands": cfg.weekly_demands,
+                "weekly_residents": cfg.weekly_residents,
+                "weekly_shares": cfg.weekly_shares,
+                "monthly_shares": cfg.monthly_shares,
+                "daily_demands": cfg.daily_demands,
+                "daily_residents": cfg.daily_residents,
+                "daily_shares": cfg.daily_shares,
+            })
             res["global_scenarios"] = inputs.get("global_optimizer_scenarios", [])
             res["ui_state"] = data.get("ui_state", {})
             res["analysis"] = data.get("analysis", {})
             return res
+        except FormatoDeProjetoDesconhecido:
+            raise
         except Exception:
             pass
 

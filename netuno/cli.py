@@ -301,6 +301,17 @@ def _run_technical(cfg: NetunoConfig, precip: Any, volume: Optional[float] = Non
         rainwater_share=cfg.rainwater_share, upper_tank_vol=cfg.upper_tank_vol,
         upper_tank_used=bool(cfg.upper_tank_used), pumping_threshold=cfg.pumping_threshold,
         monthly_demands=cfg.demand_monthly or None, monthly_residents=cfg.residents_monthly or None,
+        # O modo de demanda e as listas semanais e diarias nao eram repassados:
+        # a simulacao caia em "constant" e a modulacao do projeto era ignorada,
+        # inclusive as listas mensais, que chegavam aqui e nao eram usadas.
+        demand_mode=getattr(cfg, "demand_mode", "constant") or "constant",
+        monthly_shares=cfg.monthly_shares or None,
+        weekly_demands=cfg.weekly_demands or None,
+        weekly_residents=cfg.weekly_residents or None,
+        weekly_shares=cfg.weekly_shares or None,
+        daily_demands=cfg.daily_demands or None,
+        daily_residents=cfg.daily_residents or None,
+        daily_shares=cfg.daily_shares or None,
         start_date_str=cfg.start_date,
     )
     if volume is not None:

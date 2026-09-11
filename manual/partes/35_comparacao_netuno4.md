@@ -19,7 +19,7 @@ mas incapazes de detectar um erro sistemático que as respeitasse todas.
 
 ## 35.2. Os dados de referência
 
-Quatro mil e cinquenta casos exportados do Netuno 4, preservados no repositório:
+Quatro mil e cinquenta casos exportados do Netuno 4 e preservados desde então:
 
 | Conjunto | Casos | Cidades |
 | :--- | ---: | :--- |
@@ -108,10 +108,10 @@ Aplicada essa transformação, o cálculo `P_ef = max(0, P′ − d_f)` do Netun
 reproduz exatamente a semântica de limiar. A medição não corre o risco de validar
 código que não é o distribuído.
 
-> **Uma ressalva de documentação.** O protocolo de verificação do repositório
-> instrui a usar uma opção de linha de comando para essa emulação. Essa opção
-> **não está implementada**. Use a transformação da série, ou compare com descarte
-> igual a zero, em que as duas regras coincidem.
+> **Uma ressalva de documentação.** O protocolo de verificação interno instrui a
+> usar uma opção automática para essa emulação. Essa opção **não está
+> implementada**. Use a transformação da série, ou compare com descarte igual a zero,
+> em que as duas regras coincidem.
 
 ---
 

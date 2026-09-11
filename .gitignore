@@ -87,5 +87,8 @@ desktop.ini
 # Log de avisos do Qt, gerado em tempo de execucao
 avisos_qt.log
 
-# O manual montado e derivado: gera-se com manual/gerar.py
+# O manual montado e o PDF sao derivados: build_exe.py os regera antes
+# de empacotar, e manual/gerar.py + manual/gerar_pdf.py a qualquer momento.
 manual/Manual-Netuno-5.md
+manual/Manual-Netuno-5.pdf
+manual/Manual-Netuno-5.pdf.novo

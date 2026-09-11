@@ -100,7 +100,7 @@ Vpoup = média diária consumida de pluvial × 365,25 ÷ 1000     [m³/ano]
 
 **O que mede:** a base de cálculo do econômico e da avaliação de ciclo de vida.
 
-> **O 365,25 não é descuido.** A conversão usa o ano médio, incluindo bissextos,
+> **Aprofundamento: o 365,25 não é descuido.** A conversão usa o ano médio, incluindo bissextos,
 > porque séries longas os contêm. Usar 365 introduziria um viés sistemático de
 > 0,07% — pequeno, mas gratuito.
 

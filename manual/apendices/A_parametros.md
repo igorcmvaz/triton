@@ -1,13 +1,14 @@
 # Apêndice A — Os parâmetros do projeto
 
-São **103 parâmetros**. Este apêndice é **gerado do fonte** por
-`manual/gerar_apendices.py`, lendo a classe `NetunoConfig` e varrendo os
-79 arquivos do pacote atrás de cada nome de campo. Não foi
-transcrito à mão, e por isso não diverge do programa.
+São **103 parâmetros**. É a lista completa do que um projeto
+guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
-A coluna **onde se informa** lista as telas em que o campo aparece; a coluna
-**quem consome** lista os módulos de cálculo que o leem. Campo sem nenhuma das
-duas é campo gravado no arquivo e nunca lido, e está listado no capítulo 34.
+A lista não foi transcrita à mão: é extraída do próprio programa a cada
+versão, e por isso não pode divergir dele.
+
+A coluna **onde se informa** diz em que tela o campo aparece; a coluna
+**quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo
+gravado no arquivo e nunca lido, e está listado no capítulo 34.
 
 ## A.1. Identificação
 
@@ -15,8 +16,8 @@ duas é campo gravado no arquivo e nunca lido, e está listado no capítulo 34.
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | CAD e BIM, Linha de comando, Planilhas, Relatórios |
-| `project_id` | — | — | Janela principal, Relatórios | Linha de comando |
+| `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
+| `project_id` | — | — | Janela principal, Relatórios | Automação |
 | `created_at` | — | — | Janela principal | — |
 
 ## A.2. Chuva
@@ -25,7 +26,7 @@ duas é campo gravado no arquivo e nunca lido, e está listado no capítulo 34.
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `precip_file` | — | — | Cenários, Janela principal, Projeto, Simulação | Cenários, Linha de comando, Planilhas |
+| `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
 | `climate_source_mode` | national_db | — | — | — |
 | `climate_city_uf` | SC | — | Projeto, Relatórios | — |
 | `climate_city_name` | Florianópolis | — | Projeto, Relatórios | — |
@@ -33,7 +34,7 @@ duas é campo gravado no arquivo e nunca lido, e está listado no capítulo 34.
 | `climate_scenario` | HIST | — | Projeto, Relatórios | — |
 | `climate_start_date` | 01/01/1980 | — | Relatórios | — |
 | `climate_end_date` | 31/12/2013 | — | Projeto, Relatórios | — |
-| `start_date` | 01/01/1980 | — | Cenários, Janela principal, Projeto, Simulação, Tarifas e custos | Clima, Linha de comando |
+| `start_date` | 01/01/1980 | — | Janela principal, Projeto, Tarifas e custos | Automação, Clima |
 
 Observações do fonte:
 
@@ -45,12 +46,12 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `discard` | 1 | mm | Cenários, Documentação, Gráficos, Janela principal, Matriz, Projeto, Qualidade, Relatórios, Simulação | CAD e BIM, Cenários, Linha de comando, Planilhas, Relatórios |
-| `discard_mode` | 1 | código | Janela principal, Projeto, Simulação, Varredura | Balanço diário, Cenários, Linha de comando |
-| `discard_days_interval` | 7 | dias | Janela principal, Projeto, Simulação, Varredura | Balanço diário, Cenários, Linha de comando |
-| `area` | 100 | m² | Ambiental, Cenários, Documentação, Edificação, Gráficos, Janela principal, Matriz, Qualidade, Relatórios, Simulação, Varredura | ACV, Balanço diário, CAD e BIM, Cenários, ETAP, Linha de comando, Planilhas, Relatórios |
+| `discard` | 1 | mm | Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | Automação, CAD e BIM, Cenários, Planilhas, Relatórios |
+| `discard_mode` | 1 | código | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
+| `discard_days_interval` | 7 | dias | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
+| `area` | 100 | m² | Ambiental, Documentação, Edificação, Gráficos, Janela principal, Qualidade, Relatórios, Varredura | ACV, Automação, Balanço diário, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `irrigation_garden_area_m2` | 0 | m² | — | — |
-| `runoff_coeff` | — | — | Cenários, Janela principal, Matriz, Qualidade, Relatórios, Simulação, Varredura | Balanço diário, Cenários, Linha de comando, Planilhas |
+| `runoff_coeff` | — | — | Janela principal, Qualidade, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 
 Observações do fonte:
 
@@ -81,22 +82,22 @@ Observações do fonte:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
-| `demand_mode` | constant | — | Ambiental, Edificação, Relatórios, Varredura | Balanço diário |
-| `demand_value` | 200 | L/dia | Documentação, Econ. integrado, Janela principal, Relatórios, Simulação | Balanço diário, Linha de comando |
-| `demand_monthly` | — | — | Janela principal | Linha de comando |
+| `demand_mode` | constant | — | Ambiental, Edificação, Janela principal, Relatórios, Varredura | Automação, Balanço diário |
+| `demand_value` | 200 | L/dia | Documentação, Econ. integrado, Janela principal, Relatórios | Automação, Balanço diário |
+| `demand_monthly` | — | — | Janela principal | Automação |
 | `residents_type` | 0 | código | — | — |
-| `residents_count` | 4 | hab | Ambiental, Econ. integrado, Janela principal, Relatórios, Simulação | Balanço diário, Linha de comando |
-| `residents_monthly` | — | — | Janela principal | Linha de comando |
+| `residents_count` | 4 | hab | Ambiental, Econ. integrado, Janela principal, Relatórios | Automação, Balanço diário |
+| `residents_monthly` | — | — | Janela principal | Automação |
 | `potable_indoor_share` | 0,65 | fração | Edificação | — |
 | `non_potable_indoor_share` | 0,35 | fração | Edificação | Balanço diário |
-| `rainwater_share` | 0,4 | fração | Cenários, Documentação, Janela principal, Matriz, Relatórios, Simulação, Varredura | Balanço diário, Cenários, Linha de comando, Planilhas |
-| `weekly_demands` | — | — | Edificação, Varredura | Balanço diário |
-| `weekly_residents` | — | — | Edificação, Varredura | Balanço diário |
-| `weekly_shares` | — | — | Edificação, Varredura | Balanço diário |
-| `monthly_shares` | — | — | Edificação, Varredura | Balanço diário |
-| `daily_demands` | — | — | Edificação, Varredura | Balanço diário |
-| `daily_residents` | — | — | Edificação, Varredura | Balanço diário |
-| `daily_shares` | — | — | Edificação, Varredura | Balanço diário |
+| `rainwater_share` | 0,4 | fração | Documentação, Janela principal, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `weekly_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `weekly_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `weekly_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `monthly_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
 
 Observações do fonte:
 
@@ -130,15 +131,15 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, ETAP, Linha de comando |
-| `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, ETAP, Linha de comando |
-| `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, ETAP, Linha de comando |
-| `etap_enabled` | sim | — | Ambiental | ACV, ETAP, Linha de comando |
+| `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `etap_enabled` | sim | — | Ambiental | ACV, Automação, ETAP |
 | `chlorine_treatment_enabled` | sim | — | Econ. integrado, Otimizador, Qualidade | Econômico |
-| `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econ. integrado, Otimizador, Qualidade | ACV, ETAP, Econômico, Linha de comando, Relatórios |
-| `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, ETAP, Econômico, Linha de comando |
+| `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econ. integrado, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
+| `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
 | `chlorine_cost_per_kg` | 25 | R$/kg | Econ. integrado, Otimizador, Qualidade | ETAP, Econômico, Preços |
-| `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, ETAP, Linha de comando |
+| `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, Automação, ETAP |
 
 Observações do fonte:
 
@@ -153,18 +154,18 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Cenários, Econ. integrado, Exportação, Janela principal, Matriz, Otimizador, Relatórios, Simulação, Tarifas e custos, Varredura | Balanço diário, CAD e BIM, Cenários, Linha de comando, Multicritério, Planilhas |
-| `upper_tank_used` | 1 | código | Ambiental, Cenários, Econ. integrado, Janela principal, Matriz, Otimizador, Relatórios, Simulação, Tarifas e custos, Varredura | ACV, Balanço diário, Cenários, Econômico, Linha de comando, Motobomba, Planilhas |
-| `lower_tank_max` | 10000 | L | Cenários, Janela principal, Relatórios, Simulação, Varredura | Balanço diário, Cenários, Linha de comando, Planilhas |
-| `lower_tank_step` | 250 | L | Cenários, Janela principal, Relatórios, Simulação, Varredura | Balanço diário, Cenários, Linha de comando, Planilhas |
-| `lower_tank_mode` | 1 | código | Janela principal, Relatórios, Simulação | Linha de comando |
-| `lower_tank_fixed` | 2000 | L | Simulação, Tarifas e custos | Linha de comando |
-| `delta_ideal` | 5 | %/m³ | Janela principal, Matriz, Otimizador, Simulação, Varredura | Cenários, Linha de comando |
-| `econ_lower_tank_vol` | 2000 | L | Ambiental, Econ. integrado, Tarifas e custos, Varredura | Linha de comando |
+| `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econ. integrado, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
+| `upper_tank_used` | 1 | código | Ambiental, Econ. integrado, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Econômico, Motobomba, Planilhas |
+| `lower_tank_max` | 10000 | L | Janela principal, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `lower_tank_step` | 250 | L | Janela principal, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `lower_tank_mode` | 1 | código | Janela principal, Relatórios | Automação |
+| `lower_tank_fixed` | 2000 | L | Tarifas e custos | Automação |
+| `delta_ideal` | 5 | %/m³ | Janela principal, Otimizador, Varredura | Automação, Cenários |
+| `econ_lower_tank_vol` | 2000 | L | Ambiental, Econ. integrado, Tarifas e custos, Varredura | Automação |
 | `lower_tank_material` | PEAD | — | Econ. integrado, Otimizador, Tarifas e custos | ACV |
 | `upper_tank_material` | PEAD | — | Econ. integrado, Otimizador, Tarifas e custos | ACV |
-| `cost_lower_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Econômico, Linha de comando |
-| `cost_upper_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Econômico, Linha de comando |
+| `cost_lower_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_upper_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do fonte:
 
@@ -184,16 +185,16 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `pumping_threshold` | 50 | L | Cenários, Janela principal, Matriz, Simulação, Varredura | Balanço diário, Cenários, Linha de comando, Planilhas |
-| `pump_count` | 2 | un | Ambiental, Econ. integrado, Otimizador, Relatórios, Tarifas e custos | ACV, Econômico, Linha de comando, Preços, Relatórios |
+| `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `pump_count` | 2 | un | Ambiental, Econ. integrado, Otimizador, Relatórios, Tarifas e custos | ACV, Automação, Econômico, Preços, Relatórios |
 | `pump_power_str` | 1/2 | — | Relatórios | — |
-| `pump_power_kw` | 0,36775 | kW | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | CAD e BIM, Econômico, Linha de comando, Motobomba, Preços, Relatórios |
+| `pump_power_kw` | 0,36775 | kW | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, CAD e BIM, Econômico, Motobomba, Preços, Relatórios |
 | `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Econômico, Motobomba |
-| `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Econômico, Linha de comando, Motobomba |
-| `pump_flow_rate` | 0 | L/h | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Econômico, Linha de comando, Motobomba |
-| `pump_startup_time_h` | 0,03 | h | Econ. integrado, Gráficos, Otimizador, Tarifas e custos | Econômico, Linha de comando, Motobomba |
+| `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Econômico, Motobomba |
+| `pump_flow_rate` | 0 | L/h | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Econômico, Motobomba |
+| `pump_startup_time_h` | 0,03 | h | Econ. integrado, Gráficos, Otimizador, Tarifas e custos | Automação, Econômico, Motobomba |
 | `pump_motor_efficiency` | 0 | % | Tarifas e custos | Econômico, Motobomba |
-| `pump_unit_cost` | 300 | R$ | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico, Linha de comando, Preços |
+| `pump_unit_cost` | 300 | R$ | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
 
 Observações do fonte:
 
@@ -219,9 +220,9 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `cost_labor` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Econômico, Linha de comando |
-| `cost_piping` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Econômico, Linha de comando |
-| `cost_accessories` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | ETAP, Econômico, Linha de comando |
+| `cost_labor` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_piping` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_accessories` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, ETAP, Econômico |
 
 ## A.12. Operação
 
@@ -241,16 +242,16 @@ Observações do fonte:
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
-| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Econômico, Linha de comando |
-| `sewage_mode` | 1 | código | Econ. integrado, Otimizador, Projeto, Tarifas, Tarifas e custos | Econômico, Linha de comando |
-| `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Econômico, Linha de comando |
-| `water_tax_var` | 0 | % | Tarifas e custos | Econômico, Linha de comando |
-| `tariff_escalation` | 12 | meses | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico, Linha de comando |
-| `water_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Econômico, Linha de comando |
-| `sewage_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador | Econômico, Linha de comando |
-| `elec_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Econômico, Linha de comando |
+| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `sewage_mode` | 1 | código | Econ. integrado, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
+| `water_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
+| `tariff_escalation` | 12 | meses | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
+| `water_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
+| `sewage_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador | Automação, Econômico |
+| `elec_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
 | `tariff_flag` | verde | — | Econ. integrado | Econômico |
-| `elec_tariff` | 0,6957 | R$/kWh | Econ. integrado, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Econômico, Linha de comando |
+| `elec_tariff` | 0,6957 | R$/kWh | Econ. integrado, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do fonte:
 
@@ -272,8 +273,8 @@ Observações do fonte:
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
 | `elec_city_name` | Florianópolis | — | Janela principal, Projeto, Tarifas e custos | — |
-| `elec_tax_fixed` | 0 | R$/mês | Tarifas e custos | Econômico, Linha de comando |
-| `elec_tax_var` | 0 | % | Tarifas e custos | Econômico, Linha de comando |
+| `elec_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
+| `elec_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
 
 Observações do fonte:
 
@@ -301,9 +302,9 @@ Observações do fonte:
 
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `inflation` | 0,2 | %/mês | Documentação, Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico, Linha de comando |
-| `analysis_period_years` | 20 | anos | Econ. integrado, Econômico, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Econômico, Linha de comando, Relatórios |
-| `tma` | 2 | %/mês | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico, Linha de comando, Planilhas |
+| `inflation` | 0,2 | %/mês | Documentação, Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
+| `analysis_period_years` | 20 | anos | Econ. integrado, Econômico, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Econômico, Relatórios |
+| `tma` | 2 | %/mês | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Planilhas |
 | `install_month` | 0 | mês | — | — |
 
 Observações do fonte:

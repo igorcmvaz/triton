@@ -57,6 +57,38 @@ def clean_build_dirs(base_dir: Path):
                 print(f"[!] Aviso ao limpar {folder}/: {exc}")
 
 
+def build_manual(base_dir: Path) -> bool:
+    """Monta o manual e compõe o PDF antes de empacotar.
+
+    O PDF é derivado: sai do Markdown, que sai dos capítulos, das tabelas e das
+    figuras geradas rodando o próprio programa. Gerá-lo aqui é o que garante que
+    o manual embarcado no instalador corresponde à versão empacotada, em vez de
+    ser um arquivo antigo que alguém esqueceu de atualizar.
+    """
+    print("
+[*] Montando o manual...")
+    etapas = [
+        ("tabelas", "manual/gerar_tabelas.py"),
+        ("figuras", "manual/gerar_figuras.py"),
+        ("desenhos", "manual/gerar_desenhos.py"),
+        ("apêndices", "manual/gerar_apendices.py"),
+        ("casos", "manual/gerar_casos.py"),
+        ("montagem", "manual/gerar.py"),
+        ("PDF", "manual/gerar_pdf.py"),
+    ]
+    for rotulo, script in etapas:
+        caminho = base_dir / script
+        if not caminho.exists():
+            print(f"    {rotulo}: {script} não encontrado; pulando")
+            continue
+        res = subprocess.run([sys.executable, str(caminho)], cwd=base_dir)
+        if res.returncode != 0:
+            print(f"[ERRO] Falha ao gerar {rotulo}.")
+            return False
+        print(f"    {rotulo}: ok")
+    return True
+
+
 def build_pyinstaller(args, base_dir: Path) -> bool:
     """Executa a compilação do executável com PyInstaller."""
     print("\n=======================================================")
@@ -183,7 +215,7 @@ def build_inno_setup(base_dir: Path) -> bool:
     print(f"[+] Utilizando script: {iss_script.relative_to(base_dir)}")
     res = subprocess.run([str(iscc), str(iss_script)], cwd=base_dir)
     if res.returncode == 0:
-        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_7.exe")
+        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_8.exe")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")
@@ -199,12 +231,17 @@ def main():
     parser.add_argument("--onefile", action="store_true", help="Gera um executável único autocontido")
     parser.add_argument("--console", action="store_true", help="Mantém o console do prompt aberto ao executar")
     parser.add_argument("--installer", action="store_true", help="Compila automaticamente o instalador Inno Setup após o build")
+    parser.add_argument("--sem-manual", action="store_true", help="Não regera o manual antes de empacotar")
 
     args = parser.parse_args()
     base_dir = Path(__file__).resolve().parent
 
     if args.clean:
         clean_build_dirs(base_dir)
+
+    # O manual entra no pacote, e por isso é gerado antes dele.
+    if not args.sem_manual and not build_manual(base_dir):
+        print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
 
     success = build_pyinstaller(args, base_dir)
     if success and args.installer:

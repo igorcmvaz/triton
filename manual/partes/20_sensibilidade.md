@@ -3,94 +3,89 @@
 > **Pergunta que este guia responde:** qual premissa mais move o meu resultado, e o
 > quanto ele aguenta?
 
-Todo estudo pluvial repousa sobre premissas incertas: a tarifa vai subir 5% ao ano?
-A demanda é mesmo 150 L por pessoa? A cisterna custa mesmo isso? A análise de
-sensibilidade mede quanto dessas dúvidas chega ao resultado.
+Todo estudo pluvial repousa sobre premissas incertas. A tarifa vai mesmo subir 5% ao
+ano? A demanda é mesmo 150 litros por pessoa? A cisterna custa mesmo isso?
+
+A análise de sensibilidade mede quanto dessas dúvidas chega ao resultado. Ela não
+elimina a incerteza; ela mostra o tamanho dela, que é o que um leitor precisa saber
+para confiar no número.
 
 ---
 
-## 20.1. Monte Carlo, pela linha de comando
+## 20.1. O procedimento, em três passos
 
-```bash
-python -m netuno.cli uncertainty projeto.netuno \
-  --samples 2000 --seed 42 \
-  --rainfall-cv 10 --demand-cv 15 --area-cv 5 --capex-cv 20 \
-  --analysis all --format json --output incerteza.json
-```
+Não é preciso nenhuma ferramenta especial. O método é o mesmo que se usa em qualquer
+análise de engenharia:
 
-Cada `--*-cv` é o **coeficiente de variação**, em percentual, da premissa
-correspondente. O programa sorteia, roda, e devolve a distribuição do resultado em
-vez de um número.
+1. **Escolha a premissa** que você suspeita ser a mais influente.
+2. **Rode o projeto três vezes**: com o valor provável, com um valor baixo e com um
+   alto.
+3. **Anote o resultado das três** e compare.
 
-| Opção | O que perturba |
-| :--- | :--- |
-| `--rainfall-cv` | a lâmina de chuva |
-| `--area-cv` | a área de captação |
-| `--demand-cv` | a demanda |
-| `--capex-cv` | o investimento |
-| `--samples` | número de sorteios |
-| `--seed` | semente, obrigatória para reprodutibilidade |
+Repita para cada premissa duvidosa. Ao fim, você sabe quais delas movem o resultado e
+quais não movem — e essa é a informação que vale.
+
+O guia 19 mostra como organizar os arquivos para que isso não vire confusão.
 
 ---
 
-## 20.2. Escolher os coeficientes
+## 20.2. Que faixa adotar para cada premissa
 
-O coeficiente de variação não é palpite: ele vem do que você sabe sobre a incerteza
-de cada dado.
+A faixa não é palpite: ela vem do que você sabe sobre a origem do dado.
 
-| Premissa | CV plausível | Por quê |
+| Premissa | Variação plausível | Por quê |
 | :--- | ---: | :--- |
 | área de captação | 2 a 5% | é medida em projeto; o erro é de leitura |
 | demanda, se medida | 5 a 10% | variação real entre meses |
 | demanda, se de referência | 15 a 25% | a dispersão da literatura é grande |
-| chuva | 10 a 20% | variabilidade interanual |
+| chuva | 10 a 20% | variabilidade entre anos |
 | investimento | 15 a 30% | dispersão de orçamento é notória |
+| reajuste da tarifa | 3 a 7% ao ano | depende da concessionária e do período |
 
-> **Não sorteie o que você conhece.** Se a área foi medida em levantamento, o CV é
-> pequeno; inflá-lo produz uma incerteza artificial que dilui o resultado.
-
----
-
-## 20.3. Sensibilidade dos pesos do multicritério
-
-Caso diferente, e frequentemente mais útil. Se o volume recomendado depende dos
-pesos, o estudo precisa mostrar **quanto** depende:
-
-```bash
-python -m netuno.cli run projeto.netuno \
-  --analysis topsis --weight-sensitivity 1000 --seed 42
-```
-
-O programa sorteia mil combinações de pesos e informa com que **frequência** cada
-volume vence. Um volume que vence em 80% dos sorteios é uma recomendação robusta;
-um que vence em 30% é uma recomendação frágil, e o texto precisa dizer isso.
-
-É o mesmo princípio do SMAA-VIKOR, disponível na interface.
+> **Não perturbe o que você conhece.** Se a área foi medida em levantamento, a faixa é
+> estreita; alargá-la produz uma incerteza artificial que dilui o resultado e esconde
+> a premissa que realmente importa.
 
 ---
 
-## 20.4. A premissa que quase sempre domina
+## 20.3. A premissa que quase sempre domina
 
-Em estudos econômicos de aproveitamento pluvial, a premissa que mais move o
-resultado costuma ser o **reajuste tarifário**, e ela **não** está entre as opções
-de `uncertainty`.
+Em estudos econômicos de aproveitamento pluvial, quem mais move o resultado costuma
+ser o **reajuste tarifário**.
 
-Cinco por cento ao ano durante vinte anos multiplica a tarifa por 2,65. Três por
-cento multiplica por 1,81; sete por cento, por 3,87. O valor presente líquido varia
-proporcionalmente.
+Cinco por cento ao ano durante vinte anos multiplica a tarifa por 2,65. Três por cento
+multiplica por 1,81; sete por cento, por 3,87. O valor presente líquido acompanha,
+quase proporcionalmente.
 
-Para testar isso, rode o caso com reajustes diferentes e compare:
+Faça o teste no seu caso: na etapa **6. Resultados Econômicos**, mude o reajuste anual
+para 3%, anote o VPL, repita com 5% e com 7%. Três rodadas, três minutos, e uma faixa
+em vez de um número.
 
-```bash
-for r in 3 5 7; do
-  python -m netuno.cli run projeto.netuno --analysis economic \
-    --set water_tariff_escalation=$r --set sewage_tariff_escalation=$r \
-    --format json --output "saida/reajuste_${r}.json"
-done
-```
+> **Num artigo, mostre essa faixa.** Um valor presente líquido único, calculado com
+> reajuste de 5% ao ano e apresentado sem sensibilidade, sugere uma precisão que a
+> premissa não tem.
 
-> **Num artigo, mostre essa faixa.** Um VPL único com reajuste de 5% ao ano
-> apresentado sem sensibilidade sugere uma precisão que a premissa não tem.
+---
+
+## 20.4. A sensibilidade que o programa faz sozinho
+
+Há um caso em que não é preciso rodar três vezes: a **escolha do volume pelos pesos**
+do multicritério.
+
+Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** já é uma
+análise de sensibilidade pronta. Ela responde: se os pesos das dimensões fossem
+sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro lugar?
+
+Leia assim:
+
+| Aceitabilidade do volume vencedor | O que significa |
+| :--- | :--- |
+| acima de 70% | recomendação robusta; os pesos quase não importam |
+| entre 40 e 70% | recomendação razoável, e vale declarar a segunda opção |
+| abaixo de 40% | a escolha depende dos pesos, e o texto precisa dizer isso |
+
+Um volume que vence em 80% dos sorteios é uma recomendação; um que vence em 30% é uma
+preferência. O capítulo 32 explica o método.
 
 ---
 
@@ -98,24 +93,31 @@ done
 
 Três formas, da mais simples à mais completa:
 
-**Tabela de cenários.** Pessimista, provável e otimista, com as premissas de cada
-um declaradas. Simples e defensável.
+**Tabela de cenários.** Pessimista, provável e otimista, com as premissas de cada um
+declaradas. Simples, honesta e suficiente para a maior parte dos trabalhos.
 
 **Gráfico de tornado.** Uma barra por premissa, mostrando o quanto o resultado varia
 quando ela varia sozinha. Ordena as premissas por importância e é a apresentação mais
 informativa por área de página.
 
-**Distribuição.** Histograma ou faixa de confiança do Monte Carlo. Exige declarar as
-distribuições adotadas, e não só os coeficientes de variação.
+**Distribuição.** A faixa completa do resultado, quando todas as premissas variam
+juntas. Exige declarar as distribuições adotadas, e não só as faixas.
+
+> **Aprofundamento: propagação por Monte Carlo.** A terceira forma é feita sorteando
+> milhares de combinações de premissas e acumulando a distribuição do resultado. O
+> programa tem essa capacidade na interface de automação que acompanha a distribuição
+> de código-fonte, usada nos trabalhos do grupo de pesquisa. Para um estudo de curso
+> ou de projeto, a tabela de cenários do primeiro item responde a mesma pergunta com
+> uma fração do esforço — e é mais fácil de defender, porque cada cenário tem
+> premissas que se pode ler.
 
 ---
 
 ## 20.6. O que declarar
 
-- os **coeficientes de variação** e a origem de cada um;
-- o número de **amostras** e a **semente**;
-- a **distribuição** adotada, quando não for a padrão do programa;
-- para sensibilidade de pesos, o número de sorteios e a frequência vencedora;
+- as **faixas** adotadas e a origem de cada uma;
+- quantas rodadas foram feitas, e com que valores;
+- para a escolha do volume, a **aceitabilidade** do vencedor;
 - **quais premissas não foram perturbadas**, e por quê.
 
 A última é a que mais se esquece, e a que um revisor mais cobra.

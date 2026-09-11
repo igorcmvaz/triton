@@ -4,6 +4,11 @@
 > Netuno faz em cada dia da série, e saberá dizer por que o programa chegou ao
 > número que chegou.
 
+> **Antes de começar.** A Parte 4 é a camada técnica do manual: ela mostra as contas
+> por dentro. Você não precisa dela para usar o programa — a Parte 2 basta — mas
+> precisa dela para **defender** um resultado, seja numa banca, numa revisão ou
+> diante de um cliente que perguntou de onde saiu o número.
+
 Este é o capítulo do qual todos os outros dependem. O potencial de economia, o fluxo
 de caixa, a emissão evitada e a ordenação multicritério saem, todos, dos números que
 o balanço diário produz. Quem entende este capítulo entende o programa.
@@ -242,8 +247,9 @@ O capítulo 36 reúne estas e as demais limitações conhecidas.
 
 ## 23.8. Para conferir
 
-O caso resolvido deste capítulo está em `manual/casos/cap23_dez_dias.netuno`. Abra,
-rode, e compare com a tabela impressa. Se algum número divergir, o manual está
-desatualizado em relação ao programa — e nesse caso a suíte de testes já terá
-avisado, porque cada número desta tabela tem asserção correspondente em
-`tests/unit/test_manual_confere_com_o_programa.py`.
+O caso resolvido deste capítulo está no arquivo `03_dez_dias.netuno`, na pasta de
+casos que acompanha o programa. Abra, rode, e compare com a tabela impressa.
+
+Se algum número divergir, é o manual que está desatualizado em relação ao programa. E
+nesse caso a verificação automática já terá avisado, porque cada número desta tabela
+tem uma asserção correspondente na suíte de testes descrita no capítulo 34.

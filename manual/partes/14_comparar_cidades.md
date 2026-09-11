@@ -13,8 +13,8 @@ Mantenha todos os parâmetros do projeto e troque só a série de precipitação
 **Projeto**, escolha outra cidade da base nacional ou carregue outro arquivo, e rode
 de novo.
 
-Para comparar muitas cidades de uma vez, use a linha de comando em lote — o guia 19
-mostra.
+Para comparar várias cidades sem refazer o projeto a cada uma, salve um arquivo por
+cidade. O guia 19 mostra como organizar isso.
 
 ---
 

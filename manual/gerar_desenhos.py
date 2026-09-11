@@ -1,0 +1,286 @@
+# -*- coding: utf-8 -*-
+"""Desenhos explicativos do manual.
+
+As figuras de `gerar_figuras.py` mostram **resultados**; estas mostram o
+**sistema**. Servem ao leitor que está chegando agora: antes de discutir
+potencial de economia, é preciso saber o que é um sistema de aproveitamento de
+água pluvial e por onde a água passa.
+
+Cada seta é declarada como ligação entre duas caixas nomeadas, e um verificador
+confere que as duas pontas encostam numa caixa existente. Foi assim que as setas
+soltas do mapa de processos foram eliminadas, e a mesma disciplina vale aqui.
+
+Saída: manual/figuras/fig00*.png
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt                                  # noqa: E402
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch    # noqa: E402
+
+AQUI = Path(__file__).resolve().parent
+FIGURAS = AQUI / "figuras"
+FIGURAS.mkdir(exist_ok=True)
+
+# A mesma paleta das figuras de resultado.
+AZUL = "#2a78d6"
+LARANJA = "#eb6834"
+VERDE = "#0ca30c"
+ROXO = "#7d5fb0"
+TINTA = "#0b0b0b"
+TINTA2 = "#52514e"
+SUPERFICIE = "#fcfcfb"
+CINZA = "#8a8880"
+
+NL = chr(10)
+
+
+class Prancha:
+    """Uma prancha de desenho com caixas nomeadas e setas entre elas."""
+
+    def __init__(self, largura, altura, tamanho=(7.4, 4.4)):
+        self.fig, self.ax = plt.subplots(figsize=tamanho)
+        self.fig.patch.set_facecolor(SUPERFICIE)
+        self.ax.set_facecolor(SUPERFICIE)
+        self.ax.set_xlim(0, largura)
+        self.ax.set_ylim(0, altura)
+        self.ax.set_aspect("equal")
+        self.ax.axis("off")
+        self.caixas = {}
+        self.ligacoes = []
+
+    def caixa(self, nome, x, y, w, h, rotulo, cor=AZUL, fundo="#ffffff",
+              tinta=TINTA, tamanho=8.2, tracejada=False, peso="normal"):
+        self.ax.add_patch(FancyBboxPatch(
+            (x, y), w, h, boxstyle="round,pad=0.0,rounding_size=1.2",
+            linewidth=1.4, edgecolor=cor, facecolor=fundo, zorder=3,
+            linestyle="--" if tracejada else "-"))
+        self.ax.text(x + w / 2.0, y + h / 2.0, rotulo, ha="center", va="center",
+                     fontsize=tamanho, color=tinta, zorder=4, linespacing=1.35,
+                     fontweight=peso)
+        self.caixas[nome] = (x, y, w, h)
+        return nome
+
+    def _ancora(self, nome, lado):
+        x, y, w, h = self.caixas[nome]
+        return {
+            "d": (x + w, y + h / 2.0), "e": (x, y + h / 2.0),
+            "c": (x + w / 2.0, y + h), "b": (x + w / 2.0, y),
+            "cd": (x + w * 0.78, y + h), "bd": (x + w * 0.78, y),
+            "ce": (x + w * 0.22, y + h), "be": (x + w * 0.22, y),
+        }[lado]
+
+    def seta(self, de, lado_de, para, lado_para, rotulo="", cor=AZUL,
+             curva=0.0, rotulo_em=None, tracejada=False, tamanho=7.4):
+        p1 = self._ancora(de, lado_de)
+        p2 = self._ancora(para, lado_para)
+        self.ax.add_patch(FancyArrowPatch(
+            p1, p2, arrowstyle="-|>", mutation_scale=11, linewidth=1.3,
+            color=cor, zorder=2, shrinkA=1.5, shrinkB=1.5,
+            linestyle="--" if tracejada else "-",
+            connectionstyle="arc3,rad=" + str(curva)))
+        if rotulo:
+            if rotulo_em is None:
+                mx = (p1[0] + p2[0]) / 2.0
+                my = (p1[1] + p2[1]) / 2.0
+            else:
+                mx, my = rotulo_em
+            self.ax.text(mx, my, rotulo, ha="center", va="center",
+                         fontsize=tamanho, color=cor, zorder=5,
+                         bbox=dict(boxstyle="round,pad=0.2", fc=SUPERFICIE,
+                                   ec="none"))
+        self.ligacoes.append((de, para))
+
+    def nota(self, x, y, texto, cor=TINTA2, tamanho=7.6):
+        self.ax.text(x, y, texto, ha="left", va="top", fontsize=tamanho,
+                     color=cor, linespacing=1.45, zorder=4)
+
+    def titulo(self, texto):
+        self.ax.set_title(texto, color=TINTA, fontsize=10.5, loc="left", pad=10)
+
+    def conferir(self):
+        """Toda seta precisa sair de uma caixa e chegar noutra caixa."""
+        for de, para in self.ligacoes:
+            for nome in (de, para):
+                if nome not in self.caixas:
+                    raise AssertionError("seta ligada a caixa inexistente: " + nome)
+
+    def salvar(self, nome):
+        self.conferir()
+        self.fig.savefig(FIGURAS / nome, dpi=170, bbox_inches="tight",
+                         facecolor=SUPERFICIE)
+        plt.close(self.fig)
+        print("  figuras/" + nome)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Desenho 1 — o sistema inteiro, da chuva ao uso
+# ══════════════════════════════════════════════════════════════════════════════
+
+def desenho_sistema():
+    p = Prancha(100, 78, tamanho=(7.4, 5.8))
+    p.titulo("Por onde a água passa, da chuva à torneira")
+
+    # Fileira de cima: a captação.
+    p.caixa("chuva", 1, 65, 26, 11, "Chuva" + NL + "sobre a cobertura",
+            cor=AZUL, peso="bold")
+    p.caixa("calha", 38, 65, 22, 11, "Calhas e" + NL + "condutores", cor=AZUL)
+    p.caixa("descarte", 71, 65, 28, 11,
+            "Descarte da" + NL + "primeira chuva", cor=LARANJA)
+    p.caixa("perdido", 71, 50, 28, 9, "Vai embora", cor=CINZA, tinta=TINTA2,
+            tracejada=True)
+
+    # Meio: o armazenamento.
+    p.caixa("cisterna", 16, 34, 34, 13,
+            "Cisterna" + NL + "(reservatório inferior)", cor=AZUL, peso="bold")
+    p.caixa("extravasor", 64, 35, 35, 11,
+            "Extravasa para a" + NL + "drenagem", cor=LARANJA)
+
+    # Fileira de baixo: a distribuição.
+    p.caixa("bomba", 1, 14, 20, 10, "Motobomba", cor=ROXO)
+    p.caixa("superior", 32, 13, 24, 12, "Reservatório" + NL + "superior",
+            cor=ROXO, tracejada=True)
+    p.caixa("usos", 68, 13, 31, 12, "Usos não potáveis", cor=VERDE,
+            peso="bold")
+    p.caixa("rede", 68, 0, 31, 9, "Rede pública", cor=CINZA, tinta=TINTA2)
+
+    p.seta("chuva", "d", "calha", "e", "escoa")
+    p.seta("calha", "d", "descarte", "e", "conduz")
+    p.seta("descarte", "b", "perdido", "c", "os primeiros mm", cor=LARANJA,
+           rotulo_em=(85, 62))
+    # A seta sai por baixo do descarte, e não pelo lado: saindo pelo lado ela
+    # passaria por trás da caixa das calhas e pareceria vir de lá.
+    p.seta("descarte", "be", "cisterna", "cd", "o resto da chuva", curva=0.22,
+           rotulo_em=(52, 53))
+    p.seta("cisterna", "d", "extravasor", "e", "quando enche", cor=LARANJA,
+           rotulo_em=(57, 44))
+    p.seta("cisterna", "be", "bomba", "c", "")
+    p.seta("bomba", "d", "superior", "e", "recalque", cor=ROXO,
+           rotulo_em=(26, 22))
+    p.seta("superior", "d", "usos", "e", "por gravidade", cor=VERDE,
+           rotulo_em=(62, 22))
+    p.seta("rede", "c", "usos", "b", "completa o que faltou", cor=CINZA,
+           rotulo_em=(83, 10.5), tamanho=7.0)
+
+    p.nota(1, 9,
+           "O reservatório superior é opcional: em casa térrea a bomba" + NL +
+           "pode alimentar os pontos de uso diretamente. O que ele muda" + NL +
+           "é quando a água chega, e não quanta chega.")
+    p.salvar("fig00_sistema.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Desenho 2 — o destino da chuva de um dia
+# ══════════════════════════════════════════════════════════════════════════════
+
+def desenho_destino():
+    p = Prancha(100, 64, tamanho=(7.4, 4.8))
+    p.titulo("O destino da chuva de um dia")
+
+    p.caixa("chuva", 1, 51, 24, 11, "Chuva do dia" + NL + "P, em milímetros",
+            cor=AZUL, peso="bold")
+    p.caixa("descartada", 36, 51, 26, 11,
+            "Descarte" + NL + "os primeiros mm", cor=LARANJA)
+    p.caixa("efetiva", 72, 51, 27, 11, "Chuva efetiva" + NL + "o que sobra",
+            cor=AZUL, peso="bold")
+
+    p.caixa("perdas", 1, 32, 24, 11, "Perdas do" + NL + "telhado", cor=CINZA,
+            tinta=TINTA2, tracejada=True)
+    p.caixa("captado", 36, 32, 34, 11,
+            "Volume captado" + NL + "chuva × área × coeficiente", cor=AZUL,
+            peso="bold", tamanho=7.8)
+
+    p.caixa("transborda", 1, 10, 27, 12,
+            "Transborda" + NL + "se não cabe", cor=LARANJA)
+    p.caixa("consumido", 36, 10, 30, 12,
+            "Consumido hoje" + NL + "até a demanda do dia", cor=VERDE,
+            peso="bold", tamanho=7.8)
+    p.caixa("guardado", 73, 10, 26, 12,
+            "Guardado" + NL + "para amanhã", cor=ROXO)
+
+    p.seta("chuva", "d", "descartada", "e", "primeiro", cor=LARANJA)
+    p.seta("descartada", "d", "efetiva", "e", "sobra")
+    p.seta("efetiva", "b", "captado", "cd", "vira volume", curva=0.22,
+           rotulo_em=(78, 45))
+    p.seta("captado", "e", "perdas", "d", "o que não escoa", cor=CINZA,
+           rotulo_em=(30.5, 46.5))
+    p.seta("captado", "be", "transborda", "c", "", cor=LARANJA, curva=0.12)
+    p.seta("captado", "b", "consumido", "c", "")
+    p.seta("captado", "bd", "guardado", "c", "", cor=ROXO, curva=-0.12)
+
+    p.nota(1, 7,
+           "A ordem importa: o transbordamento é calculado antes do consumo do "
+           "dia." + NL + "Sem essa ordem o modelo aceitaria água que já tinha "
+           "transbordado. O capítulo 23 volta a isso.")
+    p.salvar("fig00b_destino.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Desenho 3 — que parte do consumo a chuva pode atender
+# ══════════════════════════════════════════════════════════════════════════════
+
+def desenho_fracao():
+    fig, ax = plt.subplots(figsize=(7.4, 3.1))
+    fig.patch.set_facecolor(SUPERFICIE)
+    ax.set_facecolor(SUPERFICIE)
+
+    # Ordens de grandeza de uma residência, para explicar o conceito. A fonte
+    # dos percentuais de uso final está no capítulo 5.
+    usos = [
+        ("Banho", 28, False), ("Cozinha\ne beber", 18, False),
+        ("Higiene", 14, False),
+        ("Bacia\nsanitária", 20, True), ("Máquina\nde lavar", 12, True),
+        ("Limpeza\ne rega", 8, True),
+    ]
+    esquerda = 0.0
+    for nome, pct, atendivel in usos:
+        cor = VERDE if atendivel else CINZA
+        ax.barh(0, pct, left=esquerda, height=0.5, color=cor,
+                edgecolor=SUPERFICIE, linewidth=2.0, zorder=3)
+        ax.text(esquerda + pct / 2.0, 0, str(pct) + "%", ha="center",
+                va="center", fontsize=8.0, color="white", zorder=4,
+                fontweight="bold")
+        ax.text(esquerda + pct / 2.0, -0.36, nome, ha="center", va="top",
+                fontsize=7.2, color=TINTA2, zorder=4, linespacing=1.3)
+        esquerda += pct
+
+    ax.annotate("", xy=(0.3, 0.46), xytext=(59.7, 0.46),
+                arrowprops=dict(arrowstyle="<->", color=CINZA, linewidth=1.2))
+    ax.text(30, 0.56, "exige água potável: 60%", ha="center", va="bottom",
+            fontsize=8.4, color=TINTA2)
+    ax.annotate("", xy=(60.3, 0.46), xytext=(99.7, 0.46),
+                arrowprops=dict(arrowstyle="<->", color=VERDE, linewidth=1.3))
+    ax.text(80, 0.56, "pode ser água de chuva: 40%", ha="center", va="bottom",
+            fontsize=8.4, color=VERDE, fontweight="bold")
+
+    ax.set_xlim(0, 100)
+    ax.set_ylim(-1.15, 0.95)
+    ax.axis("off")
+    ax.set_title("Onde a água da chuva pode entrar, numa residência",
+                 color=TINTA, fontsize=10.5, loc="left", pad=12)
+    ax.text(0, -0.72,
+            "Os usos em verde não exigem água potável. A soma deles é a fração "
+            "atendível, e ela é o teto de tudo" + NL + "o que vem depois: "
+            "nenhum reservatório, por maior que seja, economiza mais do que "
+            "essa fração.",
+            ha="left", va="top", fontsize=7.6, color=TINTA2, linespacing=1.45)
+
+    fig.savefig(FIGURAS / "fig00c_fracao.png", dpi=170, bbox_inches="tight",
+                facecolor=SUPERFICIE)
+    plt.close(fig)
+    print("  figuras/fig00c_fracao.png")
+
+
+def main():
+    print("desenhos explicativos:")
+    desenho_sistema()
+    desenho_destino()
+    desenho_fracao()
+
+
+if __name__ == "__main__":
+    main()

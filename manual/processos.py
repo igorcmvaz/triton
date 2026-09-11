@@ -433,13 +433,17 @@ PROCESSOS = [
  "não está disponível.",
 ),
 (
- "PROC-24", "Rodar sem interface", "cli",
- "Linha de comando.",
- ["arquivo de projeto ou parâmetros por argumento", "arquivo de chuva"],
- ["Chama o <b>mesmo</b> núcleo, sem tela.",
-  "55 dos 102 parâmetros são alcançáveis por ela.",
-  "Simulação em lote e análise de sensibilidade por sorteio da demanda."],
- [("cli.py", "main")],
+ "PROC-24", "Automação para estudos de larga escala", "cli",
+ "Interface de automação, que acompanha a distribuição de código-fonte e não o "
+ "programa instalado.",
+ ["arquivo de projeto", "arquivo de chuva"],
+ ["Chama o <b>mesmo</b> núcleo de cálculo da janela, sem tela.",
+  "55 dos 103 parâmetros são alcançáveis por ela; os demais só existem na interface, "
+  "e o caminho é montar o projeto na janela e variar por automação só o que muda "
+  "entre os casos.",
+  "Serve a matrizes fatoriais de milhares de casos e à propagação de incerteza por "
+  "sorteio, que são o instrumental dos trabalhos publicados pelo grupo."],
+ [],
  ["JSON e CSV com os resultados"],
  "Parâmetro fora de faixa é recusado antes de simular, com a mesma porta de validação "
  "da interface.",
@@ -452,5 +456,5 @@ FAMILIAS = {
     "bomba": ("Motobomba", "nuc"), "economico": ("Econômico", "sai"),
     "acv": ("ACV", "sai"), "esg": ("ESG e certificações", "sai"),
     "mcdm": ("Multicritério", "sai"), "arquivo": ("Arquivo do projeto", "ent"),
-    "relatorio": ("Relatórios", "sai"), "cli": ("Linha de comando", "sai"),
+    "relatorio": ("Relatórios", "sai"), "cli": ("Automação", "sai"),
 }

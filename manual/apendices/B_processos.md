@@ -1,11 +1,15 @@
 # Apêndice B — Os processos do programa
 
-São **24 processos**, do arquivo de chuva ao relatório. Cada um
-declara o que o dispara, o que recebe, as regras com suas ramificações, as
-funções responsáveis, o que produz e o que acontece quando falha.
+São **24 processos**, do arquivo de chuva ao relatório. Cada
+um declara o que o dispara, o que recebe, as regras com suas ramificações, o
+que produz e o que acontece quando falha.
 
-Este apêndice é gerado por `manual/gerar_apendices.py`, e as funções citadas
-são conferidas contra o fonte antes de a página ser escrita.
+É o apêndice mais técnico do manual, e serve a duas pessoas: quem revisa um
+estudo feito com o programa e precisa saber exatamente que conta foi feita, e
+quem encontrou um resultado estranho e quer saber por onde o número passou.
+
+Os nomes em `código` são os campos do arquivo de projeto, listados no
+apêndice A.
 
 ## PROC-01 — Carregar a série de precipitação
 
@@ -28,8 +32,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - `precip_data`: vetor de mm/dia, que é a entrada de **dois** processos distintos — PROC-04 (descarte e captação) e PROC-03 (supressão de irrigação)
-
-**Funções.** `load_national_climate_series` (climate_database.py), `get_climate_file_path` (climate_database.py), `load_precipitation` (parser.py)
 
 **Exceção.** Arquivo ilegível ou sem coluna de chuva interrompe o carregamento com mensagem; a simulação não roda com série vazia.
 
@@ -60,8 +62,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `non_pot_in_arr`: não potável interna, prioridade 1 da chuva
 - `pluv_arr` = não potável interna + irrigação ativa
 
-**Funções.** `build_detailed_daily_demand_vectors` (simulation.py)
-
 **Exceção.** Data inicial ilegível cai para 01/01/1980 em vez de interromper, porque só afeta o dia da semana.
 
 ## PROC-03 — Suprimir a irrigação nos dias de chuva
@@ -86,8 +86,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 
 - `irr_arr`: irrigação do dia
 - `irr_suppressed_mask`: dias suprimidos, que viram `total_irrigation_days_suppressed` no resultado
-
-**Funções.** `build_detailed_daily_demand_vectors` (simulation.py)
 
 **Exceção.** Sem volume de irrigação cadastrado, o vetor é zero e a máscara é falsa em todos os dias.
 
@@ -117,8 +115,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `p_eff`: lâmina efetiva do dia, em mm, que segue **só** para PROC-05
 - `eff_precip_mm` na série diária detalhada, quando ela é guardada
 
-**Funções.** `run_single_simulation` (simulation.py)
-
 **Exceção.** Lâmina de descarte negativa é rejeitada na porta de validação, antes do laço.
 
 ## PROC-05 — Converter lâmina em volume captado
@@ -143,8 +139,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 
 - `v_ac`: volume captado do dia, que segue para PROC-06
 - `harvested_liters` na série diária
-
-**Funções.** `run_single_simulation` (simulation.py)
 
 **Exceção.** Área negativa ou coeficiente fora de [0, 1] levantam `ValueError` nomeando o campo, em PROC-11.
 
@@ -171,8 +165,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `v_spill_today`, somado em `avg_spilled_l_day`, que vira critério de extravasamento no multicritério
 - `v_in_tank`, o volume disponível para atendimento
 
-**Funções.** `run_single_simulation` (simulation.py)
-
 **Exceção.** Volume zero é válido e representa o cenário sem sistema; negativo é rejeitado.
 
 ## PROC-07 — Atender com reservatório único
@@ -194,8 +186,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - `v_c`: volume pluvial consumido no dia
-
-**Funções.** `run_single_simulation` (simulation.py)
 
 **Exceção.** Nenhuma: o mínimo já trata reservatório vazio e demanda nula.
 
@@ -226,8 +216,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `cycles_today`, somado em `total_pump_cycles`
 - `max_pump_batch_liters`
 
-**Funções.** `run_single_simulation` (simulation.py)
-
 **Exceção.** Volume superior negativo é rejeitado na validação. O laço tem saída garantida: se não há água embaixo nem em cima, interrompe.
 
 ## PROC-09 — Repartir o atendimento e completar com potável
@@ -256,8 +244,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `potable_consumed_liters` do dia
 - `avg_pluvial_indoor_consumed_l_day` e `avg_pluvial_irrigation_consumed_l_day`, que separam o uso interno do externo para os créditos WEc1 e WEc2 do LEED
 
-**Funções.** `run_single_simulation` (simulation.py)
-
 **Exceção.** Nenhuma: todas as parcelas são mínimos e máximos com zero.
 
 ## PROC-10 — Classificar o atendimento do dia
@@ -280,8 +266,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - `pct_days_full_satisfaction`, `pct_days_partial_satisfaction` e `pct_days_null_satisfaction`, que são a confiabilidade temporal do sistema
-
-**Funções.** `run_single_simulation` (simulation.py)
 
 **Exceção.** Nenhuma.
 
@@ -311,8 +295,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 
 - Nenhuma saída: ou passa, ou levanta `ValueError`
 
-**Funções.** `validar_parametros_fisicos` (simulation.py)
-
 **Exceção.** É o próprio tratamento. Antes desta porta, volume de −1.000 L devolvia −166,67% de economia, e o número seguia para o econômico, para a ACV e para o relatório.
 
 ## PROC-12 — Agregar o período e calcular os indicadores
@@ -336,8 +318,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - `SingleTankSimulationResult`, com 21 campos, que é o objeto que **todos** os módulos a jusante consomem
-
-**Funções.** `run_single_simulation` (simulation.py)
 
 **Exceção.** Demanda total nula devolve potencial zero em vez de dividir por zero.
 
@@ -366,8 +346,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `SweepSimulationResult`: um resultado por volume, o volume ideal, e o registro de que o passo foi ajustado
 - A lista de volumes é a lista de **candidatos** do multicritério
 
-**Funções.** `build_sweep_volume_grid` (simulation.py), `run_sweep_simulation` (simulation.py)
-
 **Exceção.** Passo maior que o máximo devolve grade com um ponto. O ajuste do passo é registrado em `step_adjusted`, e não silenciado.
 
 ## PROC-14 — Calcular os índices pluviométricos
@@ -391,8 +369,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - Nove séries anuais, para gráfico e relatório
-
-**Funções.** `IndicesCalculator` (calculator.py), `compute_seasonality_index` (calculator.py), `find_max_consecutive_run_length` (calculator.py)
 
 **Exceção.** Série menor que um ano devolve os índices possíveis, sem interromper.
 
@@ -427,8 +403,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `total_etap_co2e_kg_yr`, que substitui a cloração na ACV
 - `disinfection_stages`, exibido no relatório
 
-**Funções.** `size_etap` (water_quality.py), `dimensionar_etap_do_projeto` (etap_integration.py), `capex_incremental_da_etap` (etap_integration.py), `opex_anual_incremental_da_etap` (etap_integration.py), `Cloracao` (chlorination.py)
-
 **Exceção.** Pureza fora de (0, 1] é recusada pelo validador da cadeia de cloração.
 
 ## PROC-16 — Calcular a energia de bombeamento
@@ -455,8 +429,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 
 - `annual_kwh`, que vira custo no econômico e emissão na ACV
 - `pump_hours_year`, `annual_cycles`
-
-**Funções.** `compute_annual_pump_energy` (pump_energy.py), `energia_especifica_kwh_por_m3` (pump_hydraulics.py), `vazao_l_por_h` (pump_hydraulics.py), `rendimento_tipico` (pump_hydraulics.py)
 
 **Exceção.** Sem caixa superior, ou com potência zero, a energia é zero e o processo não roda.
 
@@ -487,8 +459,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - Valor da conta em R$/mês, para a projeção de PROC-18
-
-**Funções.** `calculate_water_bill` (economic.py), `resumo_do_regime` (tariff_regimes.py), `validar_estrutura` (tariff_regimes.py), `CODIGOS_VALIDOS` (tariffs_structure.py)
 
 **Exceção.** Tabela vazia cai para a estrutura da CASAN. Estrutura incompleta é sinalizada pela porta de validação, que separa erro de aviso.
 
@@ -521,8 +491,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `vpl`, `tir_monthly_pct`, `tir_annual_pct`, `payback_months`
 - `monthly_cash_flows`, série mês a mês
 - `annual_pump_kwh`, `annual_chlorine_kg`, `etap_capex_brl`
-
-**Funções.** `run_economic_analysis` (economic.py), `calculate_effective_tariff` (economic.py)
 
 **Exceção.** Economia mensal negativa é truncada em zero antes de entrar no fluxo. TIR sem raiz real devolve nulo em vez de um número inventado.
 
@@ -558,8 +526,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `environmental_payback_years`
 - `inventory_items`, o inventário item a item
 
-**Funções.** `calculate_lca` (environmental.py), `co2_evitado_por_m3` (water_supply_routes.py), `fator_co2eq` (grid_emission_factors.py)
-
 **Exceção.** Fator sem procedência primária recebe rótulo de triagem, e o rótulo é exibido — a lacuna é declarada, não escondida.
 
 ## PROC-20 — Enquadrar nas certificações
@@ -592,8 +558,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - `esg_summary_text`
 - cartões de LEED, AQUA, Casa Azul, EDGE e GRI
 
-**Funções.** `calculate_esg_certifications` (esg_certifications.py), `avaliar_agua_edge` (edge_certification.py), `consumo_base_anual_m3` (edge_certification.py)
-
 **Exceção.** Demanda total nula devolve zero por cento sem dividir por zero.
 
 ## PROC-21 — Ordenar volumes por múltiplos critérios
@@ -617,8 +581,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 **Saídas**
 
 - Ordenação dos volumes, distância ao ideal por critério, volume de compromisso
-
-**Funções.** `calculate_topsis_scores` (topsis.py), `run_vikor` (mcdm_methods.py)
 
 **Exceção.** Candidato único devolve ordenação trivial. Critério constante entre candidatos não contribui para a distância.
 
@@ -646,8 +608,6 @@ são conferidas contra o fonte antes de a página ser escrita.
 - Arquivo `.netuno`
 - `NetunoConfig` reconstruída
 
-**Funções.** `export_netuno_json` (parser.py), `load_netuno_project` (parser.py)
-
 **Exceção.** Seção ausente no arquivo cai para os padrões da classe. JSON inválido interrompe a abertura com mensagem.
 
 ## PROC-23 — Emitir relatórios e exportações
@@ -671,32 +631,28 @@ são conferidas contra o fonte antes de a página ser escrita.
 
 - HTML, PDF, DXF, IFC e XLSX
 
-**Funções.** `generate_executive_html_report` (report_generator.py), `generate_environmental_html_report` (report_generator.py), `generate_research_html_report` (report_generator.py), `save_pdf_report` (report_generator.py)
-
 **Exceção.** A conversão para PDF tenta o motor do Qt e cai para o gerador alternativo quando ele não está disponível.
 
-## PROC-24 — Rodar sem interface
+## PROC-24 — Automação para estudos de larga escala
 
-*Linha de comando*
+*Automação*
 
-**Gatilho.** Linha de comando.
+**Gatilho.** Interface de automação, que acompanha a distribuição de código-fonte e não o programa instalado.
 
 **Entradas**
 
-- arquivo de projeto ou parâmetros por argumento
+- arquivo de projeto
 - arquivo de chuva
 
 **Regras**
 
-1. Chama o **mesmo** núcleo, sem tela.
-2. 55 dos 102 parâmetros são alcançáveis por ela.
-3. Simulação em lote e análise de sensibilidade por sorteio da demanda.
+1. Chama o **mesmo** núcleo de cálculo da janela, sem tela.
+2. 55 dos 103 parâmetros são alcançáveis por ela; os demais só existem na interface, e o caminho é montar o projeto na janela e variar por automação só o que muda entre os casos.
+3. Serve a matrizes fatoriais de milhares de casos e à propagação de incerteza por sorteio, que são o instrumental dos trabalhos publicados pelo grupo.
 
 **Saídas**
 
 - JSON e CSV com os resultados
-
-**Funções.** `main` (cli.py)
 
 **Exceção.** Parâmetro fora de faixa é recusado antes de simular, com a mesma porta de validação da interface.
 

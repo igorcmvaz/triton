@@ -61,8 +61,8 @@ SUMARIO = [
 APENDICES = [
     ("A", "A_parametros"), ("B", "B_processos"), ("C", "C_fatores_de_emissao"),
     ("D", "D_regimes_tarifarios"), ("E", "E_base_climatica"),
-    ("F", "F_linha_de_comando"), ("G", "G_glossario"), ("H", "H_referencias"),
-    ("I", "I_fichas"),
+    ("F", "F_arquivos_e_formatos"), ("G", "G_glossario"), ("H", "H_referencias"),
+    ("I", "I_fichas"), ("J", "J_arquivos_de_exemplo"),
 ]
 
 TITULOS = {
@@ -76,7 +76,7 @@ TITULOS = {
     12: "Qual volume escolher, afinal", 13: "O relatório, e o que declarar num artigo",
     14: "Comparar cidades", 15: "Usar cenário climático futuro",
     16: "Ajustar a tarifa do seu município", 17: "Modular a demanda por calendário",
-    18: "Simular escola, hospital e comércio", 19: "Rodar em lote",
+    18: "Simular escola, hospital e comércio", 19: "Comparar muitos casos de uma vez",
     20: "Análise de sensibilidade", 21: "Importar um projeto do Netuno 4",
     22: "Exportar para CAD, BIM e planilha",
     23: "O balanço hídrico diário", 24: "Volume ideal e a varredura",
@@ -149,11 +149,20 @@ def frontmatter(sumario_linhas, palavras):
         "| revisar um estudo | Parte 6, e os apêndices A e B |",
         "| não errar | capítulo 33 |",
         "",
+        "O manual supõe um leitor de engenharia que ainda não conhece o assunto: os",
+        "conceitos são apresentados antes de serem usados, e o vocabulário está no",
+        "apêndice G. Duas caixas aparecem ao longo do texto, e elas se distinguem:",
+        "",
+        "| A caixa | Quando aparece |",
+        "| :--- | :--- |",
+        "| de régua **azul** | aviso ou observação que muda o que você faz |",
+        "| de régua **laranja**, marcada *Aprofundamento* | o detalhe técnico por trás; pode ser pulada numa primeira leitura |",
+        "",
         "> **Todo número impresso neste manual é calculado pelo programa.** As tabelas",
-        "> e as figuras são geradas por `manual/gerar_tabelas.py` e",
-        "> `manual/gerar_figuras.py`, e cada valor publicado tem asserção",
-        "> correspondente na suíte de testes. Quando o programa muda, o teste falha e",
-        "> aponta a página.",
+        "> e as figuras não foram digitadas: são produzidas rodando o Netuno com os",
+        "> dados de entrada que cada capítulo declara. Cada valor publicado tem uma",
+        "> verificação automática correspondente, de modo que uma correção no programa",
+        "> não possa deixar o manual mentindo. O capítulo 34 explica como isso é feito.",
         "",
         "---",
         "",
@@ -164,6 +173,23 @@ def frontmatter(sumario_linhas, palavras):
         "---",
         "",
     ])
+
+
+def numerar_figuras(corpo):
+    """Renumera as legendas na ordem em que o leitor as encontra.
+
+    As figuras foram escritas na ordem em que foram produzidas, e não na ordem
+    dos capítulos: a legenda «Figura 1» aparecia no capítulo 23, depois da
+    «Figura 2» do capítulo 7. Numerar na montagem tira a numeração das mãos de
+    quem escreve o capítulo, e a legenda deixa de poder divergir.
+    """
+    contador = [0]
+
+    def proxima(m):
+        contador[0] += 1
+        return "*Figura " + str(contador[0]) + " —"
+
+    return re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
 
 
 def main():
@@ -178,8 +204,9 @@ def main():
     APEND_TITULOS = {
         "A": "Os parâmetros do projeto", "B": "Os processos do programa",
         "C": "Fatores de emissão", "D": "Regimes tarifários",
-        "E": "Base climática", "F": "Referência da linha de comando",
+        "E": "Base climática", "F": "Arquivos, pastas e formatos",
         "G": "Glossário", "H": "Referências", "I": "Fichas de uma página",
+        "J": "Arquivos de exemplo",
     }
     for letra, _ in APENDICES:
         sumario.append(f"{letra}. {APEND_TITULOS.get(letra, '')}")
@@ -209,6 +236,7 @@ def main():
 
     destino = os.path.join(AQUI, "Manual-Netuno-5.md")
     corpo = (NL + "---" + NL + NL).join(partes)
+    corpo = numerar_figuras(corpo)
     palavras = len(corpo.split())
     corpo = frontmatter(sumario, palavras) + corpo
     open(destino, "w", encoding="utf-8").write(corpo)

@@ -1508,6 +1508,54 @@ class TabBuilding(QWidget):
             else:
                 self.lbl_tot_pluvial.setText(tr("Demanda Pluvial: -- L/dia"))
 
+    def _preencher_tabela_calendario(self, tabela, linhas, demandas,
+                                     moradores, fracoes):
+        """Escreve na tabela os valores lidos do projeto.
+
+        A fracao e gravada de 0 a 1 e exibida em porcentagem, que e a mesma
+        convencao da leitura em `get_building_config`.
+        """
+        if not demandas and not moradores and not fracoes:
+            return
+        tabela.blockSignals(True)
+        try:
+            for r in range(linhas):
+                d = float(demandas[r]) if demandas and r < len(demandas) else None
+                m = float(moradores[r]) if moradores and r < len(moradores) else None
+                f = float(fracoes[r]) if fracoes and r < len(fracoes) else None
+                if d is not None:
+                    tabela.setItem(r, 1, QTableWidgetItem(f"{d:.1f}"))
+                if m is not None:
+                    tabela.setItem(r, 2, QTableWidgetItem(str(int(m))))
+                if f is not None:
+                    tabela.setItem(r, 3, QTableWidgetItem(f"{f * 100.0:.1f}"))
+                if d is not None and m is not None and f is not None:
+                    tabela.setItem(r, 4, QTableWidgetItem(f"{d * m * f:.1f}"))
+        except (TypeError, ValueError):
+            pass
+        finally:
+            tabela.blockSignals(False)
+
+    def _restaurar_serie_diaria(self, demandas, moradores, fracoes):
+        """Reconstroi a serie diaria lida do projeto, com a mesma forma do CSV."""
+        if not demandas:
+            return
+        linhas = []
+        for i, d in enumerate(demandas):
+            m = moradores[i] if moradores and i < len(moradores) else 1
+            f = fracoes[i] if fracoes and i < len(fracoes) else 0.0
+            linhas.append((f"dia {i + 1}", float(d), int(m), float(f) * 100.0,
+                           float(d) * int(m) * float(f)))
+        self.daily_custom_series = linhas
+        if hasattr(self, "table_daily_preview"):
+            self.table_daily_preview.setRowCount(len(linhas))
+            for r, (rotulo, d, m, sh, tot) in enumerate(linhas):
+                self.table_daily_preview.setItem(r, 0, QTableWidgetItem(rotulo))
+                self.table_daily_preview.setItem(r, 1, QTableWidgetItem(f"{d:.1f}"))
+                self.table_daily_preview.setItem(r, 2, QTableWidgetItem(str(m)))
+                self.table_daily_preview.setItem(r, 3, QTableWidgetItem(f"{sh:.1f}"))
+                self.table_daily_preview.setItem(r, 4, QTableWidgetItem(f"{tot:.1f}"))
+
     def get_building_config(self) -> dict:
         area_val = parse_float(self.txt_area.text(), 0.0)
         runoff_val = self.get_runoff_value()
@@ -1683,6 +1731,19 @@ class TabBuilding(QWidget):
                     tpl = next((t for t in BUILDING_TEMPLATES if t["id"] == tpl_id), None)
                     if tpl:
                         self._update_contextual_labels(tpl)
+
+            # Repovoa as tabelas de calendario. Sem isto a configuracao
+            # carrega a modulacao e a tela mostra tabelas vazias: o primeiro
+            # salvamento seguinte leria a tela e apagaria o que foi lido.
+            self._preencher_tabela_calendario(
+                self.table_weekly, 7, cfg.get("weekly_demands"),
+                cfg.get("weekly_residents"), cfg.get("weekly_shares"))
+            self._preencher_tabela_calendario(
+                self.table_monthly, 12, cfg.get("monthly_demands"),
+                cfg.get("monthly_residents"), cfg.get("monthly_shares"))
+            self._restaurar_serie_diaria(
+                cfg.get("daily_demands"), cfg.get("daily_residents"),
+                cfg.get("daily_shares"))
 
             # Restaura modo de demanda
             d_mode = cfg.get("demand_mode", "constant")

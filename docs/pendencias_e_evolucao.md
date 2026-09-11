@@ -495,7 +495,63 @@ passa de 0,0654 para 0,1080 kWh/m³, e o consumo anual da motobomba de 6,81 para
 11,26 kWh. O valor de recurso usado quando não há simulação passa de 0,0874 para
 0,1446 kWh/m³.
 
+## 18. Quatro telas existem no pacote e a janela nunca as abre
+
+`tab_single_sim.py` (870 linhas), `tab_matrix_sim.py` (265),
+`tab_scenarios_modern.py` (441) e `dialog_scenario_simulation.py` não são
+instanciados pela janela principal. `TabScenariosModern` chega a ser importado e
+nunca é usado; o diálogo de cenários só é aberto pela tela de matriz, que também
+é inalcançável.
+
+São cerca de 1.600 linhas de interface que ninguém vê, e duas delas — a matriz
+fatorial e a simulação de cenários — implementam funcionalidade que **não existe
+para o usuário**, embora a matriz fatorial seja exatamente o que o guia 19 diria
+para usar se ela estivesse ligada.
+
+Três saídas, e a escolha é sua:
+
+1. **Ligar a matriz fatorial** à barra lateral, como 13ª etapa. É a de maior
+   valor para o usuário, e a que mais mexe na interface.
+2. **Remover as quatro**, encolhendo o pacote e o instalador.
+3. **Deixar como está**, e registrar no cabeçalho de cada arquivo que a tela não
+   é alcançável, para que ninguém gaste tempo mantendo-a.
+
+Enquanto não houver decisão, o apêndice A do manual exclui essas telas da coluna
+«onde se informa»: citá-las mandaria o leitor procurar tela que não existe. A
+exclusão é verificada por asserção no gerador.
+
 ---
+
+## 19. A linha de comando não acompanha o executável
+
+O `Netuno.spec` empacota só `main.py`, a janela. A linha de comando existe no
+código-fonte, é usada nos estudos de larga escala do grupo e **não chega ao
+usuário que instala**.
+
+O manual foi escrito para quem instala, e por isso deixou de documentá-la: o
+apêndice F passou a descrever arquivos, pastas e formatos, e os guias 19 e 20
+foram reescritos em torno do que a janela oferece. Onde a capacidade só existe
+por automação — matriz de milhares de casos, Monte Carlo — o texto diz isso numa
+caixa de aprofundamento, sem ensinar comando nenhum.
+
+Se a decisão for distribuir a linha de comando, ela precisa de um segundo
+executável no `Netuno.spec`, de uma entrada no instalador e de um capítulo
+próprio no manual. Não é difícil; é decisão, não implementação.
+
+---
+
+## 20. O instalador não leva a base climática
+
+A base de 6,5 GB é distribuída à parte, o que é acertado, mas hoje não há
+instalador próprio dela nem verificação de integridade no programa: a tela
+simplesmente oferece menos opções quando ela falta. O capítulo 2 e o apêndice E
+do manual descrevem o comportamento como ele é.
+
+Vale decidir se a base ganha instalador próprio — com verificação de soma de
+conferência — ou se fica como pasta copiada à mão.
+
+---
+
 ## O que esta rodada resolveu
 
 Registrado para não gerar retrabalho.
@@ -510,6 +566,21 @@ Registrado para não gerar retrabalho.
   gera desconto desde o primeiro**.
 - **Porta de validação** antes do gravador automático de tarifas.
 - **Duplicação de códigos de faixa** que eu havia introduzido, unificada.
+- **Modulação por calendário gravada.** As sete listas de perfil semanal, mensal
+  e diário não iam para o arquivo, e `demand_mode` nunca era escrito a partir da
+  tela: um projeto de escola modulado por dia da semana reabria como demanda
+  constante, sem aviso. Gravação, leitura, repovoamento das tabelas da tela e
+  repasse para a simulação, com teste que falha se a modulação voltar inerte.
+- **Projeto de esquema desconhecido recusado.** Um JSON sem as seções do Netuno
+  era aceito e devolvia a configuração padrão inteira — o usuário abria um estudo
+  de 180 m² e simulava 100 m². Agora a abertura para com mensagem própria. Os
+  três estudos de `examples/` estavam nessa situação desde 2025 e foram
+  convertidos para o esquema corrente.
+- **Nove projetos de exemplo** que reproduzem os resultados impressos no manual,
+  cada um com a série de chuva incorporada, verificados por teste que relê o
+  arquivo gravado e refaz a simulação.
+- **Manual em PDF**, composto do próprio Markdown, com desenhos explicativos do
+  sistema e caixas de aprofundamento para o conteúdo avançado.
 
 ---
 

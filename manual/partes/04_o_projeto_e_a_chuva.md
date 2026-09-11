@@ -22,7 +22,7 @@ ano — o que, como o capítulo 7 vai mostrar, muda tudo na hora de escolher o v
 
 ## 4.1. A série de precipitação
 
-Abra a aba **Projeto**. Há dois caminhos para a chuva.
+Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 
 **Arquivo próprio.** Um CSV com uma leitura diária por linha, em milímetros, em
 coluna única. É o caminho de quem tem dados de uma estação específica, do INMET ou
@@ -32,8 +32,8 @@ da Agência Nacional de Águas.
 cenários de emissão. É o caminho deste tutorial, e o guia 15 mostra como usar os
 cenários futuros.
 
-Para o nosso projeto, use a série de Florianópolis que acompanha o programa, em
-`data/rainfall/Florianopolis1.csv`, e recorte os **30 primeiros anos**.
+Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
+os **30 primeiros anos**.
 
 <!-- inclui: _tabelas/cap04_serie.md -->
 

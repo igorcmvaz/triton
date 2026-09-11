@@ -67,15 +67,27 @@ produz a curva de retorno, que é o argumento mais forte de qualquer estudo.
 
 ## 3.3. A ordem de trabalho no programa
 
-As abas não estão na ordem em que se usa. O fluxo recomendado:
+A barra lateral está numerada, e a numeração é a ordem de trabalho. As quatro
+primeiras etapas são de entrada; as cinco seguintes, de resultado; as três últimas
+são ferramentas.
 
-```
-Projeto → Edificação → Qualidade → Varredura
-        → Econômico → Ambiental → Otimizador → Relatórios
-```
+| Etapa | O que se faz nela | Capítulo |
+| :--- | :--- | :--- |
+| 1. Projeto e Chuva | a série de precipitação e a captação | 4 |
+| 2. Edificação Consumo | quem ocupa, quanto consome, que parte a chuva atende | 5 |
+| 3. Qualidade & ETAP | a classe de água e o tratamento | 9 |
+| 4. Reservatório & Custos | o volume, ou a varredura de volumes, e o orçamento | 6, 7 e 10 |
+| 5. Resultados Técnicos | quanta água o sistema entrega | 6 |
+| 6. Resultados Econômicos | em quanto se paga | 10 |
+| 7. Resultados Ambientais & ESG | carbono e certificações | 11 |
+| 8. Decisão Multicritério | qual volume escolher | 12 |
+| 9. Relatórios PDF | o documento do estudo | 13 |
+| 10. Exportação | planilhas, desenho e dados | guia 22 |
+| 11. Documentação | o método dentro do próprio programa | — |
+| 12. Gestor de Tarifas | a tarifa do seu município | guia 16 |
 
-Salve o projeto antes de cada etapa nova. Os 103 parâmetros são gravados e relidos,
-e o arquivo é a evidência do estudo.
+Salve o projeto antes de cada etapa nova. Os 103 parâmetros são gravados e relidos, e
+o arquivo é a evidência do estudo.
 
 ---
 

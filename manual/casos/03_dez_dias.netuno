@@ -5,13 +5,13 @@
   },
   "version": "5.0.8",
   "metadata": {
-    "project_id": "N5-20260910-182928-3F998FE4",
-    "name": "Manual, capitulo 13 - dez dias resolvidos",
-    "created_at": "10/09/2026 18:29",
-    "saved_at": "10/09/2026 18:29:28"
+    "project_id": "N5-20260911-013457-B7A639B3",
+    "name": "Manual, capitulo 23 - dez dias resolvidos",
+    "created_at": "11/09/2026 01:34",
+    "saved_at": "11/09/2026 01:34:57"
   },
   "rainfall": {
-    "source_mode": "national_db",
+    "source_mode": "custom_file",
     "climate_city_uf": "SC",
     "climate_city_name": "Florianópolis",
     "climate_model": "INM-CM4",
@@ -20,8 +20,19 @@
     "climate_end_date": "31/12/2013",
     "file_name": "",
     "start_date": "01/01/2020",
-    "total_days": 0,
-    "precipitation_mm": []
+    "total_days": 10,
+    "precipitation_mm": [
+      0.0,
+      12.4,
+      1.6,
+      0.0,
+      0.0,
+      28.0,
+      5.2,
+      0.0,
+      41.0,
+      0.0
+    ]
   },
   "inputs": {
     "building_and_demand": {
@@ -36,6 +47,16 @@
       "use_variable": false,
       "rainwater_share": 0.4
     },
+    "demand_modulation": {
+      "demand_mode": "constant",
+      "weekly_demands": [],
+      "weekly_residents": [],
+      "weekly_shares": [],
+      "monthly_shares": [],
+      "daily_demands": [],
+      "daily_residents": [],
+      "daily_shares": []
+    },
     "rainfall_discard": {
       "discard_mm": 2.0,
       "discard_mode": 1,
@@ -47,25 +68,25 @@
       "lower_tank_step_l": 250.0,
       "lower_tank_mode": 0,
       "delta_ideal_pct": 5.0,
-      "upper_tank_vol_l": 500.0,
+      "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
-      "pumping_threshold_l": 50.0,
+      "pumping_threshold_l": 0.0,
       "pump": {
-        "count": 2,
+        "count": 0,
         "power_str": "1/2",
         "power_kw": 0.36775,
         "flow_rate_l_h": 0.0,
         "efficiency_pct": 0.0,
         "startup_time_h": 0.03,
         "motor_efficiency": 0.0,
-        "unit_cost": 300.0,
+        "unit_cost": 0.0,
         "manometric_head_m": 0.0
       }
     },
     "financial_and_economic": {
       "analysis_period_years": 20,
-      "tma_monthly_pct": 2.0,
-      "inflation_monthly_pct": 0.2,
+      "tma_monthly_pct": 0.5,
+      "inflation_monthly_pct": 0.35,
       "sewage_mode": 1,
       "sewage_rate_pct": 100.0,
       "water_tax_fixed": 0.0,
@@ -106,10 +127,10 @@
       "tariff_city_name": "Florianópolis",
       "elec_city_uf": "SC",
       "elec_city_name": "Florianópolis",
-      "tariff_escalation_months": 12.0,
+      "tariff_escalation_months": 12,
       "water_tariff_escalation_pct": 5.0,
       "sewage_tariff_escalation_pct": 5.0,
-      "elec_tariff": 0.6957,
+      "elec_tariff": 0.69568,
       "elec_tax_fixed": 0.0,
       "elec_tax_var_pct": 0.0,
       "elec_tariff_escalation_pct": 5.0
@@ -152,11 +173,11 @@
       "edge_base_case_l_person_day": 0.0
     },
     "capex_and_opex": {
-      "cost_lower_tank": 0.0,
+      "cost_lower_tank": 1139.9,
       "cost_upper_tank": 0.0,
-      "cost_labor": 0.0,
-      "cost_piping": 0.0,
-      "cost_accessories": 0.0,
+      "cost_labor": 3500.0,
+      "cost_piping": 1200.0,
+      "cost_accessories": 1800.0,
       "operational_costs": [
         [
           "Inspeção e limpeza de calhas/pré-filtro",

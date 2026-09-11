@@ -23,8 +23,8 @@ coordenado internacionalmente que alimenta os relatórios do IPCC. Cada modelo �
 modelo climático global de um centro de pesquisa diferente.
 
 > **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
-> trinta e sete mil arquivos. Sem ela instalada, a aba de Projeto oferece apenas o
-> carregamento de arquivo próprio, e as abas dependentes avisam. O capítulo 2 explica
+> trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
+> carregamento de arquivo próprio, e as etapas dependentes avisam. O capítulo 2 explica
 > como obtê-la.
 
 ---

@@ -93,9 +93,9 @@ Feita a comparação com descarte zero, repita com o descarte real para medir a
 diferença total. Os dois números juntos separam o que é mudança de método do que é
 mudança de implementação.
 
-> O protocolo de verificação do repositório menciona uma opção de linha de comando
-> para emular a regra antiga. **Essa opção não está implementada.** Use o caminho do
-> descarte zero.
+> O protocolo de verificação interno menciona uma opção para emular a regra antiga
+> de descarte automaticamente. **Essa opção não está implementada.** Use o caminho do
+> descarte zero, que dá o mesmo resultado com mais trabalho e nenhuma surpresa.
 
 ---
 
@@ -109,6 +109,7 @@ Uma lista de conferência:
 4. **classe de qualidade** e desinfecção;
 5. **regime tarifário** do município — o Netuno 4 não o distinguia;
 6. **rendimento do motor** da bomba, campo novo da versão 5.0.8;
-7. rode `validate` pela linha de comando antes de confiar.
+7. **rode o projeto e confira o potencial** contra o resultado antigo antes de
+   confiar no arquivo importado.
 
 E guarde o arquivo original. Ele é a evidência do estudo antigo.

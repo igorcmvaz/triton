@@ -99,5 +99,6 @@ e uma fração alta demais infla tudo.
 **O payback saiu absurdo.** Confira o regime tarifário do município. É a causa mais
 comum, e o guia 16 traz o teste que a identifica.
 
-E rode `validate` pela linha de comando: ele confere a estrutura e as premissas do
-projeto antes de simular.
+E percorra as etapas de entrada antes de acreditar no resultado. A barra lateral
+marca as que ainda têm pendência, e é mais rápido conferir as quatro telas de entrada
+do que descobrir o engano no relatório.

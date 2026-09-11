@@ -619,6 +619,18 @@ class MainWindow(QMainWindow):
             cfg.runoff_coeff = b_cfg.get('runoff', COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             cfg.demand_monthly = b_cfg.get('monthly_demands') or []
             cfg.residents_monthly = b_cfg.get('monthly_residents') or []
+            # O modo de demanda e as listas de calendario vinham da tela e
+            # paravam aqui: sem estas sete linhas o arquivo gravava sempre
+            # "constant", e as duas listas mensais acima eram ignoradas na
+            # releitura por causa do modo.
+            cfg.demand_mode = b_cfg.get('demand_mode') or 'constant'
+            cfg.weekly_demands = b_cfg.get('weekly_demands') or []
+            cfg.weekly_residents = b_cfg.get('weekly_residents') or []
+            cfg.weekly_shares = b_cfg.get('weekly_shares') or []
+            cfg.monthly_shares = b_cfg.get('monthly_shares') or []
+            cfg.daily_demands = b_cfg.get('daily_demands') or []
+            cfg.daily_residents = b_cfg.get('daily_residents') or []
+            cfg.daily_shares = b_cfg.get('daily_shares') or []
 
             if hasattr(self, 'tab_project'):
                 cfg.discard_mode = self.tab_project.get_discard_mode()

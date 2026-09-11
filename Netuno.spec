@@ -13,6 +13,11 @@ datas = [
     (str(base_dir / 'netuno' / 'data'), 'netuno/data'),
     (str(base_dir / 'additional_material'), 'additional_material'),
     (str(base_dir / 'integrations'), 'integrations'),
+    # O manual e os projetos que ele manda abrir. Sem estes dois, o capitulo 2
+    # manda o usuario abrir arquivos que a instalacao nao tem.
+    (str(base_dir / 'manual' / 'casos'), 'casos'),
+    (str(base_dir / 'examples'), 'exemplos'),
+    (str(base_dir / 'manual' / 'Manual-Netuno-5.pdf'), '.'),
 ]
 
 # Filtra apenas diretórios existentes para evitar avisos

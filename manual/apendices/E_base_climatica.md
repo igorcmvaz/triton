@@ -44,7 +44,7 @@ As *Shared Socioeconomic Pathways* do CMIP6:
 ## E.4. As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, em `data/rainfall/`:
+instalação, na pasta `dataainfall` do programa:
 
 | Cidade | Arquivos |
 | :--- | ---: |

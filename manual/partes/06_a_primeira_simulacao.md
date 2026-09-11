@@ -10,7 +10,7 @@ Falta um dado para simular: o volume do reservatório. Vamos chutar.
 cabe no orçamento e é o que um projetista proporia sem pensar muito. O capítulo 7
 vai perguntar se é o volume certo. Aqui só queremos ver o programa rodar.
 
-Na aba **Simulação**, escolha volume fixo, informe 3.000 L, deixe o reservatório
+Na etapa **4. Reservatório & Custos**, escolha volume fixo, informe 3.000 L, deixe o reservatório
 superior desmarcado, e rode.
 
 ---
