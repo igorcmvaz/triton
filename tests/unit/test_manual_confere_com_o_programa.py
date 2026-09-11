@@ -825,7 +825,7 @@ def test_o_manual_nao_cita_arquivos_de_codigo():
 # Figuras
 # ══════════════════════════════════════════════════════════════════════════════
 
-FIGURAS_ESPERADAS = 7
+FIGURAS_ESPERADAS = 9
 
 
 def test_as_figuras_estao_numeradas_na_ordem_da_leitura():

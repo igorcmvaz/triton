@@ -215,12 +215,127 @@ def figura_materiais():
     _salvar(fig, "fig04_materiais.png")
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Figura: como a conta responde à economia, nos cinco regimes
+# ══════════════════════════════════════════════════════════════════════════════
+
+def figura_regimes():
+    """A conta de água contra o consumo, em três regimes de mínimo.
+
+    É o conceito que mais decide a viabilidade de um sistema pluvial no Brasil,
+    e o mais difícil de transmitir em prosa: o que muda não é o preço, é o
+    formato da curva.
+    """
+    from netuno.core.economic import calculate_water_bill
+
+    # As três estruturas são reais: Florianópolis pratica disponibilidade e
+    # Floriano pratica franquia no mínimo. A terceira é a mesma de Floriano sem
+    # a franquia, para isolar o efeito dela.
+    disponibilidade = [(0.0, 0.0, 46.34, -1), (0.0, 10.0, 3.08, 1),
+                       (10.0, 25.0, 14.31, 1), (25.0, 50.0, 19.14, 1),
+                       (50.0, 999999.0, 24.08, 1)]
+    franquia = [(0.0, 0.0, 52.89, -1), (0.0, 10.0, 0.0, 1),
+                (10.0, 15.0, 9.815, 1), (15.0, 20.0, 10.917, 1),
+                (20.0, 999999.0, 12.8, 1)]
+    sem_minimo = [(0.0, 10.0, 5.29, 1), (10.0, 15.0, 9.815, 1),
+                  (15.0, 20.0, 10.917, 1), (20.0, 999999.0, 12.8, 1)]
+
+    consumos = np.arange(0.0, 25.5, 0.5)
+    curvas = [
+        ("disponibilidade", disponibilidade, AZUL),
+        ("franquia no mínimo", franquia, LARANJA),
+        ("sem mínimo", sem_minimo, VERDE),
+    ]
+
+    fig, ax = plt.subplots(figsize=(7.2, 4.0))
+    fig.patch.set_facecolor(SUPERFICIE)
+    ax.set_facecolor(SUPERFICIE)
+
+    for rotulo, tarifa, cor in curvas:
+        contas = [calculate_water_bill(c * 1000.0, tarifa, 1, 0.0, 0.0, 0.0)
+                  for c in consumos]
+        ax.plot(consumos, contas, color=cor, linewidth=2.2, zorder=3,
+                label=rotulo)
+
+    # A faixa em que a economia não desconta nada, no regime de franquia.
+    ax.axvspan(0, 10, color=LARANJA, alpha=0.07, zorder=1)
+    # O rótulo fica acima das três curvas no trecho da franquia, que é a faixa
+    # de consumo entre zero e dez metros cúbicos.
+    ax.text(5.0, 100.0, "abaixo da franquia,\neconomizar não desconta",
+            ha="center", va="bottom", fontsize=8.0, color=LARANJA)
+
+    _eixos(ax, "A mesma economia, três respostas da conta",
+           "consumo mensal (m³)", "conta de água e esgoto (R$)")
+    ax.legend(frameon=False, fontsize=8.5, loc="upper left")
+    ax.set_xlim(0, 25)
+    ax.set_ylim(0, 260)
+
+    fig.tight_layout()
+    _salvar(fig, "fig05_regimes.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Figura: o retorno de carbono ao longo da vida útil
+# ══════════════════════════════════════════════════════════════════════════════
+
+def figura_carbono_no_tempo():
+    """O saldo de carbono acumulado, ano a ano, por material da cisterna."""
+    from netuno.core.environmental import (
+        EnvironmentalConfig, calculate_lca)
+
+    serie = _serie()
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+                              **_config_tutorial())
+    m3 = r.annual_pluvial_consumed_m3
+
+    materiais = [("PEAD", "Polietileno", VERDE),
+                 ("CONCRETO", "Concreto", LARANJA)]
+    anos = np.arange(0, 21)
+
+    fig, ax = plt.subplots(figsize=(7.2, 4.0))
+    fig.patch.set_facecolor(SUPERFICIE)
+    ax.set_facecolor(SUPERFICIE)
+
+    for chave, rotulo, cor in materiais:
+        cfg = EnvironmentalConfig()
+        cfg.lower_material_key = chave
+        lca = calculate_lca(5000.0, m3, cfg)
+        saldo = [lca.net_annual_avoided_co2_kg * a - lca.total_embodied_co2_kg
+                 for a in anos]
+        ax.plot(anos, saldo, color=cor, linewidth=2.4, zorder=3, label=rotulo)
+        # O ponto em que a curva cruza o zero é o retorno ambiental.
+        if lca.net_annual_avoided_co2_kg > 0:
+            cruzamento = lca.total_embodied_co2_kg / lca.net_annual_avoided_co2_kg
+            if cruzamento <= 20:
+                ax.plot([cruzamento], [0], "o", color=cor, markersize=7,
+                        zorder=4)
+                ax.annotate(f"{cruzamento:.1f} anos".replace(".", ","),
+                            xy=(cruzamento, 0), xytext=(cruzamento + 0.6, 120),
+                            fontsize=8.5, color=cor,
+                            arrowprops=dict(arrowstyle="-", color=cor,
+                                            linewidth=0.9))
+
+    ax.axhline(0.0, color=TINTA, linewidth=1.2, zorder=2)
+    ax.text(0.4, 60.0, "acima da linha, a dívida de carbono já foi paga",
+            ha="left", va="bottom", fontsize=8.0, color=TINTA2)
+
+    _eixos(ax, "O retorno de carbono depende do material",
+           "anos de operação", "saldo acumulado (kg CO₂e)")
+    ax.legend(frameon=False, fontsize=8.5, loc="lower right")
+    ax.set_xlim(0, 20)
+
+    fig.tight_layout()
+    _salvar(fig, "fig06_carbono_no_tempo.png")
+
+
 def main():
     print("figuras do manual:")
     figura_dez_dias()
     figura_curva()
     figura_cidades()
     figura_materiais()
+    figura_regimes()
+    figura_carbono_no_tempo()
 
 
 if __name__ == "__main__":

@@ -144,6 +144,14 @@ Em Florianópolis, cada metro cúbico desconta até o primeiro.
 > não existe. Trezentos e vinte e nove dos 652 municípios da base estão no regime de
 > franquia. É a maioria, e é o cenário mais comum do país.
 
+A figura abaixo mostra as três respostas lado a lado. O que distingue os regimes não é
+o preço praticado, e sim o formato da curva: ==onde a curva é horizontal, economizar água
+não reduz a fatura em nada.==
+
+![A conta de água contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
+
+*Figura 5 — Em regime de disponibilidade e sem mínimo, cada metro cúbico economizado desce a conta desde o primeiro. Em regime de franquia, o trecho horizontal marca a faixa de consumo em que a economia de água não produz economia alguma de dinheiro.*
+
 ---
 
 ## Quando o mínimo é diluído na tarifa

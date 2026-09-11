@@ -71,6 +71,10 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 <!-- inclui: _tabelas/cap11_materiais.md -->
 
+![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
+
+*Figura 6 — O saldo parte negativo, no valor do carbono incorporado na fabricação, e sobe ano a ano com o crédito da água substituída. O polietileno cruza o zero aos 10,9 anos; o concreto não chega a cruzá-lo dentro dos vinte anos de vida útil adotados.*
+
 ![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
 *Figura 4 — Verde é saldo positivo, laranja é negativo. Dois dos quatro materiais fecham a vida útil devendo carbono.*
