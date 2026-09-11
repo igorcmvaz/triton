@@ -89,7 +89,7 @@ Os números do capítulo 23, os do tutorial inteiro, cada linha da tabela dos de
 e a exigência de que certos capítulos declarem certas ressalvas. Quando o programa
 muda, o teste falha e aponta a página.
 
-É o que impede um manual de quatrocentas páginas de envelhecer em silêncio.
+É o que impede um manual inteiro de envelhecer em silêncio.
 
 ---
 

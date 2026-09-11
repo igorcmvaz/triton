@@ -1,6 +1,6 @@
 """Os números impressos no manual são os números que o programa produz.
 
-Um manual de quatrocentas páginas envelhece em silêncio. A correção da energia de
+Um manual separado do código envelhece em silêncio. A correção da energia de
 bombeamento desta versão mudou o consumo da motobomba em 65%: num manual separado do
 código, esse número ficaria errado por anos, e ninguém saberia.
 

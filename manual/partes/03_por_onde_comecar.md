@@ -1,6 +1,7 @@
 # 3. Por onde começar, conforme o seu objetivo
 
-Este manual tem quatrocentas páginas e não foi feito para ser lido do começo ao fim.
+Este manual tem trinta e sete capítulos e não foi feito para ser lido do começo ao
+fim.
 Este capítulo diz por onde entrar.
 
 ---
