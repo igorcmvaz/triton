@@ -63,6 +63,27 @@ def _numeros_da_tabela():
     return dias, texto
 
 
+def _capitulo(arquivo):
+    """Texto do capítulo com as tabelas geradas já incluídas.
+
+    O capítulo pede a tabela por `<!-- inclui: ... -->`, e é o manual montado que o
+    leitor vê. Testar só o fonte do capítulo deixaria passar número errado na tabela.
+    """
+    caminho = os.path.join(MANUAL, "partes", arquivo)
+    if not os.path.exists(caminho):
+        pytest.skip(f"{arquivo} ainda não escrito")
+    saida = []
+    for linha in open(caminho, encoding="utf-8").read().split(chr(10)):
+        m = re.match(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$", linha)
+        if m:
+            alvo = os.path.join(MANUAL, "partes", m.group(1))
+            if os.path.exists(alvo):
+                saida.append(open(alvo, encoding="utf-8").read())
+                continue
+        saida.append(linha)
+    return chr(10).join(saida)
+
+
 # ────────────────────── o caso resolvido do capítulo 23 ───────────────────────
 
 def test_o_potencial_do_caso_resolvido(caso):
@@ -311,9 +332,204 @@ def test_os_capitulos_do_tutorial_citam_os_numeros_do_programa():
         "07_escolher_o_volume.md": ("5.000 L", "37,46%", "92,9%", "39,98%"),
     }
     for arquivo, termos in esperados.items():
-        caminho = os.path.join(MANUAL, "partes", arquivo)
-        if not os.path.exists(caminho):
-            pytest.skip(f"{arquivo} ainda não escrito")
-        texto = open(caminho, encoding="utf-8").read()
+        texto = _capitulo(arquivo)
         for termo in termos:
             assert termo in texto, f"{arquivo} não cita {termo}"
+
+# ── tutorial, capítulos 8 a 13 ────────────────────────────────────────────────
+
+def _economico(serie, volume, material):
+    """Monta a análise econômica do tutorial, como os capítulos 10 e 12 fazem."""
+    from netuno.core.cost_estimates import estimate_tank_price
+    from netuno.core.economic import run_economic_analysis
+    from netuno.core.parser import NetunoConfig
+
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=float(volume), **TUTORIAL)
+    cfg = NetunoConfig()
+    cfg.water_tariffs = [(0.0, 0.0, 46.34, -1), (0.0, 10.0, 3.08, 1),
+                         (10.0, 25.0, 14.31, 1), (25.0, 50.0, 19.14, 1),
+                         (50.0, 999999.0, 24.08, 1)]
+    cfg.sewage_mode, cfg.sewage_rate = 1, 100.0
+    cfg.cost_lower_tank = estimate_tank_price(float(volume), material)
+    cfg.cost_upper_tank, cfg.pump_unit_cost, cfg.pump_count = 0.0, 0.0, 0
+    cfg.cost_labor, cfg.cost_piping, cfg.cost_accessories = 3500.0, 1200.0, 1800.0
+    cfg.upper_tank_used = False
+    cfg.elec_tariff, cfg.tma, cfg.inflation = 0.69568, 0.5, 0.35
+    cfg.analysis_period_years, cfg.tariff_escalation = 20, 12
+    return r, run_economic_analysis(cfg, r)
+
+
+def test_a_caixa_superior_nao_aumenta_a_economia(serie_tutorial):
+    """Impresso no capítulo 8: com o mesmo armazenamento, o arranjo duplo perde."""
+    unico = run_single_simulation(
+        precip_data=serie_tutorial, lower_tank_vol=6000.0, **TUTORIAL)
+    duplo = run_single_simulation(
+        precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        upper_tank_used=True, pumping_threshold=100.0, **TUTORIAL)
+    assert duplo.potential_potable_savings_pct < unico.potential_potable_savings_pct
+    assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct \
+        == pytest.approx(0.33, abs=0.05)
+
+
+def test_a_energia_do_recalque_do_capitulo_8(serie_tutorial):
+    """Impresso: 10,7 kWh/ano e 96 acionamentos."""
+    from netuno.core.parser import NetunoConfig
+    from netuno.core.pump_energy import compute_annual_pump_energy
+
+    duplo = run_single_simulation(
+        precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        upper_tank_used=True, pumping_threshold=100.0, **TUTORIAL)
+    cfg = NetunoConfig()
+    cfg.upper_tank_used = True
+    cfg.pump_power_kw, cfg.pump_efficiency, cfg.pump_flow_rate = 0.37, 0.0, 0.0
+    cfg.pump_manometric_head_m, cfg.pump_startup_time_h = 12.0, 0.03
+    e = compute_annual_pump_energy(cfg, duplo)
+    assert e.annual_kwh == pytest.approx(10.7, abs=0.3)
+    assert e.annual_cycles == pytest.approx(96, abs=3)
+
+
+def test_o_limiar_de_acionamento_troca_potencial_por_desgaste(serie_tutorial):
+    """Impresso no capítulo 8: limiar maior, mais potencial e mais acionamentos."""
+    anterior = None
+    for limiar in (0, 100, 300, 500):
+        r = run_single_simulation(
+            precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+            upper_tank_used=True, pumping_threshold=float(limiar), **TUTORIAL)
+        ciclos = r.total_pump_cycles / (r.total_days / 365.25)
+        if anterior is not None:
+            assert ciclos >= anterior
+        anterior = ciclos
+
+
+def test_a_classe_alvo_sozinha_nao_muda_o_custo_da_etap():
+    """Impresso no capítulo 9: sem polimento, as quatro classes custam o mesmo."""
+    from netuno.core.water_quality import WATER_QUALITY_CLASSES, size_etap
+    custos = {
+        cid: size_etap(target_class_id=cid, annual_pluvial_consumed_m3=82.1,
+                       roof_area_m2=150.0, include_polishing_filter=False
+                       ).total_etap_capex
+        for cid in WATER_QUALITY_CLASSES
+    }
+    assert len(set(round(c, 2) for c in custos.values())) == 1
+
+
+def test_a_recusa_do_polimento_fica_registrada():
+    """Impresso: quem recusa o que a classe recomenda tem a recusa documentada."""
+    from netuno.core.water_quality import size_etap
+    r2 = size_etap(target_class_id="classe_2", annual_pluvial_consumed_m3=82.1,
+                   roof_area_m2=150.0, include_polishing_filter=False)
+    r1 = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+                   roof_area_m2=150.0, include_polishing_filter=False)
+    assert r2.polishing_recommended_but_declined is True
+    assert r1.polishing_recommended_but_declined is False
+
+
+def test_uv_e_ozonio_somam_a_cloracao_em_vez_de_substitui_la():
+    """Impresso no capítulo 9: são barreiras adicionais, sem residual próprio."""
+    from netuno.core.water_quality import size_etap
+    cloro = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+                      roof_area_m2=150.0, disinfection_choice="cloro")
+    uv = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+                   roof_area_m2=150.0, disinfection_choice="uv")
+    assert uv.total_etap_capex > cloro.total_etap_capex
+    assert len(uv.disinfection_stages) == 2
+
+
+def test_o_resultado_economico_do_capitulo_10(serie_tutorial):
+    """Impresso: R$ 2.349/ano, VPL R$ 15.295, payback 8,7 anos, em concreto."""
+    _, e = _economico(serie_tutorial, 5000, "CONCRETO")
+    assert e.capex_total == pytest.approx(13379.79, abs=1.0)
+    assert e.annual_water_savings_brl == pytest.approx(2349.21, abs=5.0)
+    assert e.vpl == pytest.approx(15295.0, abs=50.0)
+    assert e.payback_years == pytest.approx(8.7, abs=0.2)
+
+
+def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
+    """Impresso no capítulo 11: mais barato, melhor VPL e carbono positivo."""
+    from netuno.core.environmental import EnvironmentalConfig, calculate_lca
+
+    r_c, e_c = _economico(serie_tutorial, 5000, "CONCRETO")
+    r_p, e_p = _economico(serie_tutorial, 5000, "PEAD")
+    assert e_p.capex_total < e_c.capex_total
+    assert e_p.vpl > e_c.vpl
+    assert e_p.payback_years < e_c.payback_years
+
+    saldos = {}
+    for k, r in (("CONCRETO", r_c), ("PEAD", r_p)):
+        cfg = EnvironmentalConfig()
+        cfg.lower_material_key = k
+        saldos[k] = calculate_lca(5000.0, r.annual_pluvial_consumed_m3, cfg)
+    assert saldos["PEAD"].lifetime_net_co2_saved_kg > 0
+    assert saldos["CONCRETO"].lifetime_net_co2_saved_kg < 0
+    assert saldos["CONCRETO"].environmental_payback_years > 20.0
+    assert saldos["PEAD"].environmental_payback_years == pytest.approx(10.9, abs=0.3)
+
+
+def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
+    """Impresso: cada metro cúbico de concreto acrescenta mais dívida que crédito."""
+    from netuno.core.environmental import EnvironmentalConfig, calculate_lca
+    anterior = None
+    for v in (2000, 3000, 5000, 8000):
+        r = run_single_simulation(
+            precip_data=serie_tutorial, lower_tank_vol=float(v), **TUTORIAL)
+        cfg = EnvironmentalConfig()
+        cfg.lower_material_key = "CONCRETO"
+        saldo = calculate_lca(float(v), r.annual_pluvial_consumed_m3,
+                              cfg).lifetime_net_co2_saved_kg
+        if anterior is not None:
+            assert saldo < anterior, f"{v} L não piorou"
+        anterior = saldo
+
+
+def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
+    """Impresso: técnico diz 12.000, financeiro 5.000, ambiental 3.000."""
+    from netuno.core.environmental import EnvironmentalConfig, calculate_lca
+    from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
+
+    cands = []
+    for v in (1000, 2000, 3000, 5000, 8000, 12000):
+        r, e = _economico(serie_tutorial, v, "PEAD")
+        amb = EnvironmentalConfig()
+        amb.lower_material_key = "PEAD"
+        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
+        cands.append(TopsisCandidate(
+            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
+            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
+            capex_brl=e.capex_total,
+            potential_savings_pct=r.potential_potable_savings_pct,
+            overflow_m3_yr=r.annual_spill_m3,
+            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
+            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+
+    res = calculate_topsis_scores(cands)
+    assert cands[res.technical_best_index].lower_tank_vol == 12000.0
+    assert cands[res.financial_best_index].lower_tank_vol == 5000.0
+    assert cands[res.environmental_best_index].lower_tank_vol == 3000.0
+    assert cands[res.best_index].lower_tank_vol == 5000.0
+
+
+def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
+    esperados = {
+        "08_reservatorio_superior.md": ("10,7 kWh", "0,33 ponto", "6.000 L"),
+        "09_qualidade_que_o_uso_exige.md": ("R$ 930", "R$ 2.130", "R$ 4.430", "R$ 580"),
+        "10_quanto_custa.md": ("R$ 195,77", "R$ 15.295", "8,7 anos", "R$ 28,62"),
+        "11_quanto_carbono_evita.md": ("962 kg", "35,1 anos", "10,9 anos", "248 kg"),
+        "12_qual_volume_escolher.md": ("5.000 L", "12.000 L", "3.000 L", "37,46%"),
+        "13_o_relatorio_e_o_artigo.md": ("5.0.8", "2,3 a 2,7", "1 %/m"),
+    }
+    for arquivo, termos in esperados.items():
+        texto = _capitulo(arquivo)
+        for termo in termos:
+            assert termo in texto, f"{arquivo} não cita {termo}"
+
+
+def test_o_capitulo_13_traz_a_lista_de_declaracao():
+    """O capítulo que não existe em manual nenhum, e é o que torna um estudo
+    reproduzível."""
+    caminho = os.path.join(MANUAL, "partes", "13_o_relatorio_e_o_artigo.md")
+    if not os.path.exists(caminho):
+        pytest.skip("capítulo 13 ainda não escrito")
+    texto = open(caminho, encoding="utf-8").read()
+    for exigido in ("Versão do Netuno", "fronteira", "regime", "pesos",
+                    "limiar", "rótulo de triagem"):
+        assert exigido in texto, f"a lista de declaração não cobre {exigido}"

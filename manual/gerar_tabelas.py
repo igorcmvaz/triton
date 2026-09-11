@@ -300,6 +300,252 @@ def tabela_limiar_e_custo():
     return NL.join(linhas_limiar) + NL + NL.join(linhas_custo)
 
 
+# ── a tarifa e os custos do tutorial, declarados uma vez ─────────────────────
+TARIFA_CASAN = [
+    (0.0, 0.0, 46.34, -1),        # disponibilidade, soma por cima
+    (0.0, 10.0, 3.08, 1),
+    (10.0, 25.0, 14.31, 1),
+    (25.0, 50.0, 19.14, 1),
+    (50.0, 999999.0, 24.08, 1),
+]
+CUSTOS_TUTORIAL = dict(
+    cost_labor=3500.0, cost_piping=1200.0, cost_accessories=1800.0,
+    elec_tariff=0.69568, tma=0.5, inflation=0.35,
+    analysis_period_years=20, tariff_escalation=12,
+)
+
+
+def _config_economica(volume_l, material="CONCRETO"):
+    from netuno.core.cost_estimates import estimate_tank_price
+    from netuno.core.parser import NetunoConfig
+    cfg = NetunoConfig()
+    cfg.water_tariffs = list(TARIFA_CASAN)
+    cfg.sewage_mode, cfg.sewage_rate = 1, 100.0
+    cfg.cost_lower_tank = estimate_tank_price(float(volume_l), material)
+    cfg.cost_upper_tank = 0.0
+    cfg.pump_unit_cost, cfg.pump_count = 0.0, 0
+    cfg.upper_tank_used = False
+    for k, v in CUSTOS_TUTORIAL.items():
+        setattr(cfg, k, v)
+    return cfg
+
+
+def tabela_reservatorio_superior():
+    """Capítulo 8: a comparação justa, com o mesmo armazenamento total."""
+    from netuno.core.parser import NetunoConfig
+    from netuno.core.pump_energy import compute_annual_pump_energy
+
+    serie = _serie()
+    cfg = _config_tutorial()
+    unico = run_single_simulation(precip_data=serie, lower_tank_vol=6000.0, **cfg)
+    duplo = run_single_simulation(
+        precip_data=serie, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        upper_tank_used=True, pumping_threshold=100.0, **cfg)
+
+    bomba = NetunoConfig()
+    bomba.upper_tank_used = True
+    bomba.pump_power_kw, bomba.pump_efficiency, bomba.pump_flow_rate = 0.37, 0.0, 0.0
+    bomba.pump_manometric_head_m, bomba.pump_startup_time_h = 12.0, 0.03
+    e = compute_annual_pump_energy(bomba, duplo)
+    anos = duplo.total_days / 365.25
+
+    L = [
+        "| Mesmo armazenamento de 6.000 L | Um tanque só | 5.000 embaixo + 1.000 em cima |",
+        "| :--- | ---: | ---: |",
+        f"| potencial de economia | {br(unico.potential_potable_savings_pct, 2)}% "
+        f"| {br(duplo.potential_potable_savings_pct, 2)}% |",
+        f"| dias de atendimento pleno | {br(unico.pct_days_full_satisfaction, 1)}% "
+        f"| {br(duplo.pct_days_full_satisfaction, 1)}% |",
+        f"| volume recalcado | — | {br(duplo.total_pumped_liters / anos / 1000, 1)} m³/ano |",
+        f"| acionamentos da bomba | — | {br(duplo.total_pump_cycles / anos, 0)} por ano |",
+        f"| horas de bomba | — | {br(e.pump_hours_year, 1)} h/ano |",
+        f"| energia | — | {br(e.annual_kwh, 1)} kWh/ano |",
+        f"| custo da energia | — | R$ {br(e.annual_kwh * 0.69568, 2)}/ano |",
+        f"| **diferença de potencial** | | **{br(duplo.potential_potable_savings_pct - unico.potential_potable_savings_pct, 2)} pontos** |",
+    ]
+    return NL.join(L)
+
+
+def tabela_limiar_de_acionamento():
+    """Capítulo 8: o limiar troca potencial por desgaste da bomba."""
+    serie = _serie()
+    cfg = _config_tutorial()
+    L = ["| Limiar de acionamento | Potencial | Acionamentos por ano |",
+         "| ---: | ---: | ---: |"]
+    for lim in (0, 100, 300, 500):
+        r = run_single_simulation(
+            precip_data=serie, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+            upper_tank_used=True, pumping_threshold=float(lim), **cfg)
+        anos = r.total_days / 365.25
+        L.append(f"| {br(lim, 0)} L | {br(r.potential_potable_savings_pct, 2)}% "
+                 f"| {br(r.total_pump_cycles / anos, 0)} |")
+    return NL.join(L)
+
+
+def tabela_etap():
+    """Capítulo 9: a classe recomenda, o projetista decide."""
+    from netuno.core.water_quality import WATER_QUALITY_CLASSES, size_etap
+
+    serie = _serie()
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+                              **_config_tutorial())
+    m3 = r.annual_pluvial_consumed_m3
+
+    L = ["| Desinfecção | CAPEX | Custeio anual | CO₂e anual |",
+         "| :--- | ---: | ---: | ---: |"]
+    nomes = {"cloro": "Cloração por pastilhas",
+             "uv": "Cloração + ultravioleta",
+             "ozonio": "Cloração + ozonização"}
+    for des in ("cloro", "uv", "ozonio"):
+        e = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=m3,
+                      roof_area_m2=150.0, disinfection_choice=des)
+        L.append(f"| {nomes[des]} | R$ {br(e.total_etap_capex, 0)} "
+                 f"| R$ {br(e.total_etap_annual_opex, 0)} "
+                 f"| {br(e.total_etap_co2e_kg_yr, 1)} kg |")
+
+    L += ["", "| Classe alvo | Recomenda filtração fina? | CAPEX sem | CAPEX com |",
+          "| :--- | :---: | ---: | ---: |"]
+    for cid, c in WATER_QUALITY_CLASSES.items():
+        sem = size_etap(target_class_id=cid, annual_pluvial_consumed_m3=m3,
+                        roof_area_m2=150.0, include_polishing_filter=False)
+        com = size_etap(target_class_id=cid, annual_pluvial_consumed_m3=m3,
+                        roof_area_m2=150.0, include_polishing_filter=True)
+        L.append(f"| {cid.replace('_', ' ')} | {'sim' if c.exige_filtracao_fina else 'não'} "
+                 f"| R$ {br(sem.total_etap_capex, 0)} | R$ {br(com.total_etap_capex, 0)} |")
+    return NL.join(L)
+
+
+def tabela_economica():
+    """Capítulo 10: a conta da CASAN, com e sem o sistema."""
+    from netuno.core.economic import calculate_water_bill, run_economic_analysis
+
+    serie = _serie()
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+                              **_config_tutorial())
+    dias_mes = 30.4375
+    tot_m3 = (r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day) * dias_mes / 1000.0
+    pot_m3 = r.avg_potable_consumed_l_day * dias_mes / 1000.0
+    sem = calculate_water_bill(tot_m3 * 1000, TARIFA_CASAN, 1, 100.0, 0.0, 0.0)
+    com = calculate_water_bill(pot_m3 * 1000, TARIFA_CASAN, 1, 100.0, 0.0, 0.0)
+
+    cfg = _config_economica(5000.0, "CONCRETO")
+    e = run_economic_analysis(cfg, r)
+
+    L = [
+        "| A conta da CASAN | Consumo | Valor |",
+        "| :--- | ---: | ---: |",
+        f"| sem o sistema | {br(tot_m3, 2)} m³/mês | R$ {br(sem, 2)} |",
+        f"| com o sistema | {br(pot_m3, 2)} m³/mês | R$ {br(com, 2)} |",
+        f"| **economia** | {br(tot_m3 - pot_m3, 2)} m³/mês | **R$ {br(sem - com, 2)}** |",
+        "",
+        "| Análise de 20 anos | Valor |",
+        "| :--- | ---: |",
+        f"| investimento inicial | R$ {br(e.capex_total, 2)} |",
+        f"| economia anual com água | R$ {br(e.annual_water_savings_brl, 2)} |",
+        f"| custeio anual | R$ {br(e.annual_opex_brl, 2)} |",
+        f"| valor presente líquido | R$ {br(e.vpl, 2)} |",
+        f"| taxa interna de retorno | {br(e.tir_annual_pct or 0.0, 2)}% ao ano |",
+        f"| payback descontado | {br(e.payback_years or 0.0, 1)} anos |",
+    ]
+    return NL.join(L)
+
+
+def tabela_materiais():
+    """Capítulo 11: o material decide o sinal do resultado ambiental."""
+    from netuno.core.cost_estimates import estimate_tank_price
+    from netuno.core.environmental import MATERIAL_PRESETS, EnvironmentalConfig, calculate_lca
+
+    serie = _serie()
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+                              **_config_tutorial())
+    m3 = r.annual_pluvial_consumed_m3
+    L = ["| Material da cisterna | Massa | Carbono incorporado | Payback de carbono "
+         "| Saldo em 20 anos | Preço |",
+         "| :--- | ---: | ---: | ---: | ---: | ---: |"]
+    nomes = {"PEAD": "Polietileno (PEAD)", "CONCRETO": "Concreto armado",
+             "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inoxidável"}
+    for k in MATERIAL_PRESETS:
+        cfg = EnvironmentalConfig()
+        cfg.lower_material_key = k
+        l = calculate_lca(5000.0, m3, cfg)
+        try:
+            preco = f"R$ {br(estimate_tank_price(5000.0, k), 0)}"
+        except Exception:
+            preco = "—"
+        L.append(f"| {nomes.get(k, k)} | {br(l.lower_tank_mass_kg, 0)} kg "
+                 f"| {br(l.total_embodied_co2_kg, 0)} kg CO₂e "
+                 f"| {br(l.environmental_payback_years, 1)} anos "
+                 f"| {br(l.lifetime_net_co2_saved_kg, 0)} kg | {preco} |")
+
+    L += ["", "| Volume em concreto | Payback de carbono | Saldo em 20 anos |",
+          "| ---: | ---: | ---: |"]
+    for v in (2000, 3000, 5000, 8000):
+        rr = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
+                                   **_config_tutorial())
+        cfg = EnvironmentalConfig()
+        cfg.lower_material_key = "CONCRETO"
+        l = calculate_lca(float(v), rr.annual_pluvial_consumed_m3, cfg)
+        L.append(f"| {br(v, 0)} L | {br(l.environmental_payback_years, 1)} anos "
+                 f"| {br(l.lifetime_net_co2_saved_kg, 0)} kg CO₂e |")
+    return NL.join(L)
+
+
+def tabela_multicriterio():
+    """Capítulo 12: três critérios, três respostas."""
+    from netuno.core.economic import run_economic_analysis
+    from netuno.core.environmental import EnvironmentalConfig, calculate_lca
+    from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
+
+    serie = _serie()
+    cfg_sim = _config_tutorial()
+    cands, linhas = [], [
+        "| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for v in (1000, 2000, 3000, 5000, 8000, 12000):
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
+        e = run_economic_analysis(_config_economica(v, "PEAD"), r)
+        amb = EnvironmentalConfig()
+        amb.lower_material_key = "PEAD"
+        l = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
+        linhas.append(
+            f"| {br(v, 0)} L | {br(r.potential_potable_savings_pct, 2)}% "
+            f"| R$ {br(e.vpl, 0)} | {br(e.payback_years or 0.0, 1)} anos "
+            f"| {br(l.lifetime_net_co2_saved_kg, 0)} kg | R$ {br(e.capex_total, 0)} |")
+        cands.append(TopsisCandidate(
+            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
+            vpl_brl=e.vpl, co2_saved_kg_lifetime=l.lifetime_net_co2_saved_kg,
+            capex_brl=e.capex_total,
+            potential_savings_pct=r.potential_potable_savings_pct,
+            overflow_m3_yr=r.annual_spill_m3,
+            discounted_payback_years=e.payback_years,
+            irr_pct=e.tir_annual_pct,
+            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+
+    res = calculate_topsis_scores(cands)
+    linhas += [
+        "",
+        "| Critério isolado | Volume que vence |",
+        "| :--- | ---: |",
+        f"| maior potencial de economia | {br(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
+        f"| melhor resultado financeiro | {br(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
+        f"| melhor resultado ambiental | {br(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
+        f"| **compromisso, pesos iguais** | **{br(cands[res.best_index].lower_tank_vol, 0)} L** |",
+        "",
+        "| Peso dominante | Volume escolhido |",
+        "| :--- | ---: |",
+    ]
+    for rot, pesos in (
+        ("pesos iguais", None),
+        ("técnico, 60%", [0.30, 0.30, 0.0667, 0.0667, 0.0667, 0.10, 0.10]),
+        ("econômico, 60%", [0.10, 0.10, 0.20, 0.20, 0.20, 0.10, 0.10]),
+        ("ambiental, 60%", [0.10, 0.10, 0.0667, 0.0667, 0.0667, 0.30, 0.30]),
+    ):
+        rr = calculate_topsis_scores(cands, pesos)
+        linhas.append(f"| {rot} | {br(cands[rr.best_index].lower_tank_vol, 0)} L |")
+    return NL.join(linhas)
+
+
 def main():
     tabela, r = tabela_dez_dias()
 
@@ -340,6 +586,19 @@ def main():
     with open(caminho, "w", encoding="utf-8") as f:
         f.write(tabela_limiar_e_custo() + NL)
     print(f"  {os.path.relpath(caminho, AQUI)}")
+
+    for nome, fn in (
+        ("cap08_reservatorio_superior.md", tabela_reservatorio_superior),
+        ("cap08_limiar.md", tabela_limiar_de_acionamento),
+        ("cap09_etap.md", tabela_etap),
+        ("cap10_economico.md", tabela_economica),
+        ("cap11_materiais.md", tabela_materiais),
+        ("cap12_multicriterio.md", tabela_multicriterio),
+    ):
+        caminho = os.path.join(SAIDA, nome)
+        with open(caminho, "w", encoding="utf-8") as f:
+            f.write(fn() + NL)
+        print(f"  {os.path.relpath(caminho, AQUI)}")
 
     return r
 
