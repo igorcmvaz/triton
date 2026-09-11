@@ -27,9 +27,15 @@ fixo de caixa, tubo ou bomba.
 
 ## O carbono incorporado
 
+```equacao:emissao_componente
+E_comp = m_comp × FE_mat
 ```
-emissão_do_componente = massa × fator do material
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_comp` | emissão incorporada do componente | kg CO₂e |
+| `m_comp` | massa do componente | kg |
+| `FE_mat` | fator de emissão do material, do berço ao portão | kg CO₂e/kg |
 
 A massa da cisterna vem do volume e da densidade de massa por metro cúbico útil de
 cada material:
@@ -43,7 +49,7 @@ cada material:
 
 > **Massa é carbono.** Concreto armado é o material mais massivo da lista por
 > larga margem, e é por isso que ele domina o inventário quando escolhido. O
-> seção {{n:11}} do tutorial mostra a consequência: com concreto, o sistema do tutorial
+> seção {{n:11}} mostra a consequência: com concreto, o sistema do tutorial
 > não paga a dívida de carbono dentro da vida útil.
 
 ---
@@ -52,9 +58,15 @@ cada material:
 
 **Bombeamento:**
 
+```equacao:emissao_energia
+E_ener = C_ano × FE_rede
 ```
-emissão_anual = kWh anuais × fator da rede elétrica
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
+| `C_ano` | consumo anual de energia da motobomba | kWh/ano |
+| `FE_rede` | fator de emissão da rede elétrica, por região e ano | kg CO₂e/kWh |
 
 Os kWh vêm da seção {{n:28}} e o fator da rede vem da base do programa, por região e
 por ano.
@@ -86,23 +98,43 @@ fronteira de cada uma.
 
 **Saldo líquido anual:**
 
+```equacao:saldo_liquido
+E_liq = E_evit − E_ener − E_trat
 ```
-líquido = evitada − bombeamento − tratamento
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
+| `E_evit` | emissão evitada pela água da concessionária que deixou de ser consumida | kg CO₂e/ano |
+| `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
+| `E_trat` | emissão anual dos insumos de tratamento | kg CO₂e/ano |
 
 **Payback de carbono:**
 
+```equacao:payback_carbono
+PB_amb = E_inc ÷ E_liq
 ```
-payback = carbono incorporado ÷ saldo líquido anual        [anos]
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `PB_amb` | tempo de retorno ambiental do sistema | ano |
+| `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
+| `E_liq` | saldo líquido anual de emissões, da Equação {{eq:saldo_liquido}} | kg CO₂e/ano |
 
 Sem saldo líquido positivo, o programa devolve 999 anos, em vez de infinito.
 
 **Saldo no fim da vida:**
 
+```equacao:saldo_vida
+S_vida = ( E_liq × n_anos ) − E_inc
 ```
-saldo = líquido anual × vida útil − carbono incorporado
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
+| `E_liq` | saldo líquido anual de emissões, da Equação {{eq:saldo_liquido}} | kg CO₂e/ano |
+| `n_anos` | vida útil adotada para o sistema | ano |
+| `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
 
 Negativo significa que o sistema **emitiu mais do que evitou** ao longo da vida
 adotada. Não é hipótese teórica: acontece com cisterna de concreto e vida útil de

@@ -10,9 +10,16 @@
 O programa **não** multiplica o volume poupado por uma tarifa. Ele monta duas contas
 completas para cada mês da projeção e subtrai:
 
+```equacao:economia_mensal
+E_mês = F(V_tot) − F(V_pot)
 ```
-economia_mês = conta(volume total) − conta(volume potável)
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_mês` | economia obtida no mês | R$ |
+| `F(·)` | função que calcula a fatura de água e esgoto para um volume | R$ |
+| `V_tot` | volume mensal que a edificação consumiria sem o sistema pluvial | m³ |
+| `V_pot` | volume mensal de água potável efetivamente comprado da rede | m³ |
 
 A razão é a progressividade. O metro cúbico que se deixa de consumir é o **último**,
 o mais caro, e não o médio. Num município com faixa inicial de R$ 3,08/m³ e segunda
@@ -51,9 +58,15 @@ superestimada.
 
 ### O esgoto
 
+```equacao:esgoto
+T_esg = T_agua × s
 ```
-parcela de esgoto = tarifa de água × percentual
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `T_esg` | parcela de esgoto da fatura | R$ |
+| `T_agua` | parcela de água da fatura, já calculada pelas faixas progressivas | R$ |
+| `s` | percentual de esgoto praticado pela concessionária | adimensional |
 
 O percentual incide sobre a **tarifa de água**, e não sobre a fatura. Cem por cento
 significa que a parcela de esgoto iguala a de água, e portanto o esgoto é **metade
@@ -80,11 +93,21 @@ prática: em regime de franquia, economizar abaixo da franquia não desconta nad
 
 ## O investimento
 
+```equacao:capex
+CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 ```
-CAPEX = cisterna + caixa superior + mão de obra + tubulação
-        + acessórios + (custo unitário da bomba × número de bombas)
-        + CAPEX incremental da ETAP
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CAPEX` | investimento inicial total do sistema | R$ |
+| `C_cist` | custo do reservatório inferior | R$ |
+| `C_sup` | custo do reservatório superior, quando houver | R$ |
+| `C_mo` | custo de mão de obra de instalação | R$ |
+| `C_tub` | custo da tubulação | R$ |
+| `C_ace` | custo de acessórios, filtros e dispositivo de descarte | R$ |
+| `C_bomba` | custo unitário da motobomba | R$ |
+| `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
+| `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
 
 O último termo segue a regra incremental da seção {{n:27}}.
 
@@ -114,9 +137,15 @@ Para cada mês `m` do período de análise:
 
 **A inflação incide só sobre o custeio:**
 
+```equacao:inflacao
+f_inf = ( 1 + i )^( m − 1 )
 ```
-fator_inflação = (1 + i)^(m−1)
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
+| `i` | taxa de inflação mensal declarada | adimensional |
+| `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
 
 **Os reajustes tarifários incidem só sobre a conta, em degraus:**
 

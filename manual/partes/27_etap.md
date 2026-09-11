@@ -52,9 +52,19 @@ Por isso as duas opções **somam** o custo do cloro, e a escolha nunca reduz cu
 
 ### A massa de cloro
 
+```equacao:massa_cloro
+m_prod = ( C_Cl ÷ 1000 ) ÷ p
 ```
-massa de produto por m³ = (dose em mg Cl₂/L ÷ 1000) ÷ pureza
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `m_prod` | massa de produto comercial consumida por metro cúbico tratado | kg/m³ |
+| `C_Cl` | dose de cloro ativo aplicada à água | mg Cl₂/L |
+| `1000` | conversão de miligramas por litro para quilogramas por metro cúbico | — |
+| `p` | pureza do produto, em massa de cloro ativo por massa de produto | adimensional |
+
+A divisão pela pureza na Equação {{eq:massa_cloro}} é o que distingue a massa de
+produto da massa de cloro ativo, e a distinção tem consequência financeira direta.
 
 > **O que se compra é o produto, e não o cloro puro.** Pastilha de hipoclorito de
 > cálcio tem cerca de 65% de cloro ativo, e o preço em reais por quilograma é do
@@ -98,9 +108,19 @@ tratamento dentro da rubrica «Acessórios». Somar a linha detalhada por cima d
 contaria o tratamento duas vezes. O programa desconta a verba genérica e soma apenas
 o **incremento**:
 
+```equacao:capex_etap
+CAPEX_inc = CAPEX_linha − V_gen
 ```
-CAPEX_ETAP_incremental = CAPEX_da_linha − verba_genérica_de_tratamento
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
+| `CAPEX_linha` | investimento total dos equipamentos da linha dimensionada | R$ |
+| `V_gen` | verba genérica de tratamento já incluída na rubrica de acessórios | R$ |
+
+A subtração da Equação {{eq:capex_etap}} evita a dupla contagem: a rubrica de acessórios
+do orçamento já reserva uma verba genérica para tratamento, e somar a linha inteira por
+cima dela cobraria duas vezes pelo mesmo equipamento.
 
 **No custeio.** A cloração já é paga na linha de insumos químicos do fluxo de caixa.
 O custeio incremental da ETAP desconta essa parcela, de modo que o hipoclorito seja

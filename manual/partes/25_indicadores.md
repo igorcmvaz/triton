@@ -10,45 +10,67 @@ frequentemente confundidos na literatura.
 
 ## Potencial de economia de água potável
 
+O potencial de economia de água potável é o indicador central do programa e aquele que
+figura no resumo de qualquer estudo. Ele expressa a fração do consumo **total** da
+edificação que a água pluvial conseguiu substituir ao longo de toda a série simulada, e
+não apenas da parcela que a chuva poderia atender.
+
+```equacao:potencial
+Epot = ( Σ V_con,t ÷ Σ D_t ) × 100
 ```
-Epot = ( Σ V_con,t ) ÷ ( Σ D_t ) × 100      [%]
-```
 
-Soma do volume pluvial consumido dividida pela soma da demanda **total** da
-edificação, ao longo de toda a série.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Epot` | potencial de economia de água potável | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_t` | demanda total da edificação no dia `t` | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
 
-**O que mede:** a fração da conta de água que deixa de ser paga à concessionária.
-
-**O que não mede:** o quanto o sistema atende ao que se propôs. Para isso, o
-indicador seguinte.
-
-**Teto:** a fração atendível por água pluvial. Um sistema com fração de 40% jamais
-passa de 40%, por maior que seja o reservatório.
+O denominador da Equação {{eq:potencial}} é a demanda **total**, e essa escolha é a
+origem da confusão mais comum na leitura de resultados. Um sistema que atendesse
+integralmente toda a demanda que lhe cabe, sem falhar um único dia, ainda assim
+apresentaria potencial de economia igual à fração atendível declarada, e não a cem por
+cento. O teto, portanto, não é uma limitação do sistema: é uma consequência aritmética
+da definição do indicador.
 
 ---
 
 ## Confiabilidade volumétrica
 
-```
-Rv = ( Σ V_con,t ) ÷ ( Σ D_pl,t ) × 100     [%]
-```
+A confiabilidade volumétrica responde a uma pergunta diferente, e complementar: da água
+que o sistema **deveria** fornecer, quanto ele de fato forneceu? O denominador aqui é a
+demanda pluvial, e não a demanda total.
 
-Mesmo numerador, **denominador diferente**: a demanda **pluvial**, e não a total.
-
-**O que mede:** a fração da demanda pluvial que o sistema efetivamente atendeu.
-
-A relação entre os dois é direta:
-
-```
-Epot = Rv × fração atendível
+```equacao:confiabilidade
+Rv = ( Σ V_con,t ÷ Σ D_pl,t ) × 100
 ```
 
-No projeto do tutorial, 37,46% de potencial com fração de 40% significam
-confiabilidade volumétrica de 93,7%.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Rv` | confiabilidade volumétrica do sistema | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t`, isto é, a parcela atendível por chuva | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
 
-> **A confusão mais comum da literatura.** «Economia de 37%» e «atendimento de 94%»
-> descrevem o mesmo sistema. Artigos que reportam um e chamam de outro existem, e
-> tornam a comparação entre estudos impossível. **Declare qual está usando.**
+As Equações {{eq:potencial}} e {{eq:confiabilidade}} diferem apenas no denominador, e
+essa diferença basta para que se relacionem por uma identidade exata, útil como
+conferência rápida de qualquer resultado.
+
+```equacao:relacao_indicadores
+Epot = Rv × f
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Epot` | potencial de economia de água potável | % |
+| `Rv` | confiabilidade volumétrica | % |
+| `f` | fração da demanda total atendível por água pluvial | adimensional |
+
+==Um sistema com 94% de confiabilidade e 40% de fração atendível economiza 37,5% do
+consumo total, e os três números dizem a mesma coisa de três maneiras.== Relatar apenas
+um deles, sem declarar a fração atendível adotada, torna o resultado impossível de
+comparar com o de outro estudo — e é a causa mais frequente de comparações indevidas na
+literatura da área.
 
 ---
 

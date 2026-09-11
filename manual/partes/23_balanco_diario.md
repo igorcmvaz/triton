@@ -302,7 +302,7 @@ limiar maior que a caixa não faz o programa recusar, faz ele adotar a caixa che
 
 > **O reservatório superior não aumenta a economia de água.** Ele muda **quando** a
 > água é entregue, não **quanta**. O que ele acrescenta é custo: o investimento na
-> caixa e na bomba, a energia do recalque e a emissão associada. A seção {{n:8}} do tutorial
+> caixa e na bomba, a energia do recalque e a emissão associada. A seção {{n:8}}
 > mostra isso com números.
 
 O número de ciclos e o volume recalcado saem daqui e alimentam o cálculo de energia

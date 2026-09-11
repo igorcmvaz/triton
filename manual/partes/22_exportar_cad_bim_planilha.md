@@ -18,7 +18,10 @@
 
 ## Planilha
 
-O caminho de quem vai fazer análise própria.
+A exportação para planilha é o caminho de quem pretende fazer análise própria sobre os
+resultados, seja para construir um gráfico que o programa não oferece, seja para
+combinar os números do Netuno com dados de outra origem. Dois conjuntos de dados estão
+disponíveis, e eles respondem a perguntas diferentes.
 
 **Série diária.** Uma linha por dia da simulação, com chuva, chuva efetiva,
 captação, demanda, consumo pluvial, consumo de rede, extravasamento, volume nos dois
@@ -40,9 +43,11 @@ O programa gera o esquema hidráulico do sistema dimensionado: cisterna, filtro,
 descarte, bomba quando houver, reservatório superior, e a tubulação com os diâmetros
 adotados.
 
-É um **esquema**, não um projeto executivo. Ele traz os componentes e as
-conexões lógicas, e serve de base para o projetista desenhar em planta, com as
-cotas e o traçado reais.
+O que o programa produz é um **esquema**, e não um projeto executivo. Ele representa os
+componentes do sistema e as conexões lógicas entre eles, com os diâmetros adotados, e
+serve de base para que o projetista desenhe a instalação em planta, com as cotas, o
+traçado e as interferências reais da edificação. ==Um esquema não substitui projeto
+hidráulico, e entregá-lo como tal seria erro de responsabilidade técnica.==
 
 O que o programa **não** dimensiona:
 

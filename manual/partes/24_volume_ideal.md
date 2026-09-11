@@ -30,38 +30,64 @@ sistema, contra o qual os demais se comparam.
 
 ## O ganho marginal
 
-Para cada volume da grade a partir do segundo, o programa calcula:
+A curva de potencial de economia contra volume é monotônica e côncava: cada metro
+cúbico acrescentado ao reservatório rende menos que o anterior, e o rendimento tende a
+zero à medida que o sistema se aproxima do teto imposto pela fração atendível. O
+programa quantifica esse rendimento decrescente pela derivada discreta da curva,
+calculada para cada volume da grade a partir do segundo.
 
-```
+```equacao:ganho_marginal
 Δ(V_i) = [ Epot(V_i) − Epot(V_i−1) ] ÷ [ (V_i − V_i−1) ÷ 1000 ]
 ```
 
-em que `Epot` é o potencial de economia de água potável em percentual e o
-denominador converte a diferença de volume para metros cúbicos. A unidade de `Δ` é
-**por cento por metro cúbico acrescentado**.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Δ(V_i)` | ganho marginal do volume `V_i` em relação ao anterior | %/m³ |
+| `Epot(V_i)` | potencial de economia de água potável obtido com o volume `V_i` | % |
+| `Epot(V_i−1)` | potencial de economia obtido com o volume imediatamente menor | % |
+| `V_i` | volume do reservatório na posição `i` da grade | L |
+| `V_i−1` | volume imediatamente menor da grade | L |
+| `1000` | conversão de litros para metros cúbicos | L/m³ |
 
-É uma derivada discreta, e por isso depende do passo: uma grade mais fina dá um
-`Δ` mais local; uma grade grossa dá a média de um intervalo maior.
+A divisão por mil no denominador da Equação {{eq:ganho_marginal}} existe para que o
+resultado saia em pontos percentuais por metro cúbico acrescentado, que é a unidade em
+que a decisão é tomada — reservatórios são comprados e orçados em metros cúbicos, não
+em litros.
+
+==Por ser uma derivada discreta, o ganho marginal depende do passo da grade.== Uma
+grade fina produz um valor mais local, próximo da derivada verdadeira naquele ponto;
+uma grade grossa produz a média do rendimento ao longo de um intervalo maior. A
+subseção sobre sensibilidade ao passo, adiante, mede o tamanho desse efeito.
 
 ---
 
 ## O critério de volume ideal
 
+O volume ideal é definido como o menor volume positivo da grade cujo ganho marginal já
+tenha caído abaixo de um limiar declarado pelo usuário.
+
+```equacao:volume_ideal
+V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
 ```
-V_ideal = menor V_i > 0 tal que Δ(V_i) ≤ limiar
-```
 
-O limiar é declarado pelo usuário. O padrão é 1 %/m³.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_ideal` | volume ideal pelo critério de ganho marginal | L |
+| `V_i` | volume do reservatório na posição `i` da grade | L |
+| `Δ(V_i)` | ganho marginal do volume `V_i`, da Equação {{eq:ganho_marginal}} | %/m³ |
+| `Δ_lim` | limiar de ganho marginal declarado pelo usuário; o padrão é 1,0 | %/m³ |
 
-Se nenhum volume da grade satisfizer a condição — porque a faixa varrida terminou
-antes de a curva achatar — o programa adota o **maior volume da grade** e assim o
-reporta. A seção {{n:7}} do Manual do Netuno 4 trata o mesmo caso, e a conduta aqui é a
-mesma.
+Quando nenhum volume da grade satisfaz a condição da Equação {{eq:volume_ideal}} —
+situação que ocorre quando a faixa varrida termina antes de a curva achatar — o
+programa adota o maior volume da grade e registra essa circunstância no relatório, de
+modo que o leitor saiba que o ótimo encontrado é um limite da busca e não um ponto de
+inflexão da curva. O capítulo 7 do Manual do Netuno 4 trata o mesmo caso, e a conduta
+adotada aqui é a mesma.
 
-> **O critério é hidráulico e só hidráulico.** Ele ignora custo, tarifa e carbono.
-> Um volume ideal por este critério não é uma recomendação de projeto; é o ponto em
-> que a curva de aproveitamento deixa de compensar **em água**. A seção {{n:32}} trata
-> da escolha com os demais critérios.
+> **O critério é hidráulico e só hidráulico.** Ele ignora custo, tarifa e carbono. Um
+> volume ideal por este critério não é uma recomendação de projeto; é o ponto em que a
+> curva de aproveitamento deixa de compensar **em água**. A seção {{n:32}} trata da
+> escolha com os demais critérios, que frequentemente apontam para volumes diferentes.
 
 ---
 

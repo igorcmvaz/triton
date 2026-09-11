@@ -11,7 +11,7 @@ Este capítulo diz por onde entrar.
 | Você quer | Leia |
 | :--- | :--- |
 | **aprender a usar** o programa | capítulo {{c:2}} inteira, seções {{n:4}} a {{n:13}}, na ordem |
-| **resolver um caso** hoje | item 3.2 abaixo, depois o guia do capítulo {{c:3}} que couber |
+| **resolver um caso** hoje | as três perguntas abaixo, e depois o guia do capítulo {{c:3}} que couber |
 | **publicar** um estudo | capítulo {{c:4}}, o método; e a seção {{n:13}}, a lista de declaração |
 | **revisar** um estudo alheio | capítulo {{c:6}}, e as seções {{n:A}} e {{n:B}} |
 | **migrar** do Netuno 4 | seção {{n:21}}, e a seção {{n:35}} |

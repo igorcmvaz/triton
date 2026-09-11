@@ -34,12 +34,21 @@ vindos das seções {{n:23}}, 29 e 30.
    de cada critério;
 5. ordena pela proximidade relativa ao ideal:
 
-```
-C_i = d_i⁻ ÷ (d_i⁺ + d_i⁻)
+```equacao:topsis
+C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-com `d_i⁺` a distância euclidiana ao ideal e `d_i⁻` a distância à anti-ideal. `C_i`
-fica entre 0 e 1, e maior é melhor.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
+| `d_i⁺` | distância euclidiana da alternativa `i` à solução ideal | adimensional |
+| `d_i⁻` | distância euclidiana da alternativa `i` à solução anti-ideal | adimensional |
+
+O coeficiente da Equação {{eq:topsis}} vale 1 para uma alternativa que coincidisse com a
+solução ideal em todos os critérios, e 0 para uma que coincidisse com a anti-ideal.
+Como nenhuma alternativa real ocupa esses extremos, o que interessa é a ordenação: o
+maior coeficiente indica a alternativa mais próxima do ideal e mais distante do pior
+caso, considerados simultaneamente todos os critérios com os pesos declarados.
 
 ---
 

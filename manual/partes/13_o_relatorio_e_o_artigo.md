@@ -8,35 +8,50 @@
 
 ## Os três relatórios
 
-O programa emite três, e eles têm públicos diferentes.
+O programa emite três relatórios distintos, e a distinção não é de extensão, mas de
+público e de finalidade. Escolher o relatório errado para o destinatário certo é a
+forma mais comum de produzir um documento que ninguém lê: um cliente não percorre um
+inventário de ciclo de vida item a item, e um avaliador de certificação não se satisfaz
+com uma conclusão de quatro páginas.
 
-**Executivo.** Quatro a seis páginas. Resultado técnico, investimento, retorno e
-uma conclusão. É o que se entrega ao cliente.
+O **relatório executivo** ocupa de quatro a seis páginas e reúne o resultado técnico, o
+investimento, o retorno e uma conclusão objetiva. É o documento de entrega ao cliente, e
+sua virtude é a de caber numa leitura única, sem exigir que o leitor conheça o método.
 
-**Ambiental e ESG.** Inventário de ciclo de vida item a item, saldo de carbono, e o
-enquadramento nas certificações: LEED, AQUA-HQE, Selo Casa Azul, EDGE e GRI 303.
-É o que se anexa a processo de certificação.
+O **relatório ambiental e ESG** apresenta o inventário de ciclo de vida discriminado por
+componente, o saldo de carbono ao longo da vida útil e o enquadramento do projeto nos
+cinco referenciais tratados na seção {{n:31}} — LEED, AQUA-HQE, Selo Casa Azul, EDGE e
+GRI 303. É o documento que se anexa a um processo de certificação, e a discriminação por
+componente existe justamente porque um avaliador confere item a item.
 
-**Científico.** Método completo, premissas declaradas, série utilizada, e os
-resultados com a precisão que um artigo exige. É a base para publicação.
+O **relatório científico** traz o método completo, as premissas declaradas, a série
+utilizada e os resultados com a precisão que um artigo exige. É a base sobre a qual se
+redige uma publicação, e é o único dos três que inclui as figuras analíticas.
 
-Além deles, a etapa **10. Exportação** gera desenho em DXF, modelo em IFC e planilhas com a
-série diária e a varredura completa.
+Além dos três, a etapa **10. Exportação** gera o desenho esquemático em DXF, o modelo em
+IFC e planilhas com a série diária completa e com a varredura de volumes, conforme a
+seção {{n:22}} detalha.
 
 ---
 
 ## O que o relatório não decide por você
 
-O relatório traz os números. Não traz o **contexto** que torna os números
-reproduzíveis. Esse contexto é seu, e é o assunto do resto do capítulo.
+==O relatório traz os números; o contexto que os torna reproduzíveis é seu.== Nenhum
+documento gerado automaticamente pode declarar por que aquela série de precipitação foi
+escolhida, se o consumo per capita adotado foi medido ou tomado da literatura, ou qual
+a justificativa da vida útil considerada na avaliação ambiental. São essas informações
+que permitem a um terceiro repetir o estudo e chegar ao mesmo resultado, e é delas que
+trata o restante desta seção.
 
 ---
 
 ## A lista de declaração
 
-Um estudo feito com o Netuno que não declare os itens abaixo não é reproduzível, e
-não é comparável com outro estudo do mesmo programa. Copie a lista no método do seu
-artigo.
+Um estudo conduzido no Netuno que deixe de declarar qualquer dos itens abaixo não é
+reproduzível por terceiros e, o que costuma ser pior, não é comparável com outro estudo
+feito no mesmo programa — porque duas simulações com premissas diferentes produzem
+números que parecem comparáveis e não são. A lista está organizada na ordem em que as
+decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação do método.
 
 ### Programa e versão
 
@@ -121,17 +136,21 @@ Para o nosso projeto, o método ficaria assim:
 > anos. A avaliação de ciclo de vida adotou fronteira de água entregue, reservatório
 > em polietileno e vida útil de 20 anos.
 
-Duzentas e cinquenta palavras. É o que separa um estudo reproduzível de um número
-solto.
+São cerca de duzentas e cinquenta palavras, e elas são a diferença entre um estudo que
+outro pesquisador consegue repetir e um número solto que ninguém pode verificar. A
+extensão é modesta diante do que se ganha: um método assim redigido responde
+antecipadamente à maior parte das perguntas que um parecerista faria.
 
 ---
 
 ## O fim do tutorial
 
-Dez capítulos, um projeto, e um estudo completo. A tabela da seção {{n:12}} é o
-resultado.
+Dez seções, um único projeto acompanhado do início ao fim, e um estudo completo: partiu
+de uma residência sem sistema e chegou a uma recomendação de volume, material, classe de
+qualidade e viabilidade econômica e ambiental, com cada decisão justificada pelo número
+que a sustentou. A tabela da seção {{n:12}} reúne o resultado consolidado.
 
-O que fazer agora depende do que você quer:
+O caminho a seguir depende do que você pretende fazer em seguida:
 
 - **Resolver um caso diferente do tutorial** — o capítulo {{c:3}}, os guias de tarefa.
 - **Entender de onde vem cada número** — o capítulo {{c:4}}, o método.

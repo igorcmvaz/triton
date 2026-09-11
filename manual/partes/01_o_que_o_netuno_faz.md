@@ -5,8 +5,11 @@ regime de chuva de um lugar, a cobertura de um edifício e o consumo de quem o o
 ele responde **quanto de água potável o sistema substitui**, e a que custo, com que
 qualidade e com que impacto de carbono.
 
-Este capítulo começa do começo. Se você já projeta sistemas prediais de água, os itens
-1.1 e 1.2 vão parecer básicos — pule para o 1.3, que é onde o programa aparece.
+Esta seção começa do começo, e por isso as duas subseções iniciais tratam do próprio
+objeto antes de tratarem do programa. Quem já projeta sistemas prediais de água as
+achará elementares e pode ir direto às seis dimensões de análise, que é onde o Netuno
+aparece; quem está chegando agora ao assunto encontrará ali o vocabulário que o
+restante do manual usa sem explicar de novo.
 
 ---
 

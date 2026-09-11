@@ -8,8 +8,11 @@
 
 ## Três critérios, três respostas
 
-Os capítulos anteriores fizeram três perguntas diferentes e receberam três respostas
-diferentes.
+As seções anteriores deste tutorial formularam três perguntas distintas ao mesmo projeto
+— quanta água ele entrega, quanto dinheiro ele rende e quanto carbono ele evita — e
+receberam três respostas que não coincidem. Essa discordância não é defeito da análise
+nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
+diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
 
 <!-- inclui: _tabelas/cap12_multicriterio.md -->
 
@@ -23,7 +26,11 @@ A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 - O **carbono** sobe e cai bem antes: máximo em 3.000 L. Depois disso, cada metro
   cúbico de polietileno acrescenta mais dívida do que crédito.
 
-Não existe volume que vença nos três. Escolher exige declarar o que importa mais.
+==Não existe volume que vença nos três critérios simultaneamente.== Cada um deles tem
+ótimo em posição distinta da curva, e a escolha entre eles não é uma questão técnica que
+admita resposta única: é uma questão de prioridade, que precisa ser declarada por quem
+decide e não pode ser descoberta pelo programa. É exatamente essa a lacuna que os
+métodos multicritério vêm preencher.
 
 ---
 
@@ -41,11 +48,17 @@ O programa usa TOPSIS sobre **sete critérios**:
 | CO₂e no fim da vida | minimizar |
 | consumo de água potável | minimizar |
 
-O método normaliza a matriz de decisão, aplica os pesos, calcula a distância de cada
-alternativa à solução ideal e à anti-ideal, e ordena pela proximidade relativa ao
-ideal.
+O método opera em quatro etapas encadeadas. Primeiro normaliza a matriz de decisão, de
+modo que critérios medidos em unidades incomparáveis — pontos percentuais, reais,
+quilogramas de dióxido de carbono equivalente e anos — passem a ocupar a mesma escala.
+Em seguida aplica os pesos declarados. Calcula então, para cada alternativa de volume, a
+distância euclidiana até a solução ideal, composta pelos melhores valores de cada
+critério, e até a solução anti-ideal, composta pelos piores. Ordena, por fim, as
+alternativas pela proximidade relativa ao ideal, conforme a formulação apresentada na
+seção {{n:32}}.
 
-Com **pesos iguais**, o vencedor é **5.000 L**.
+Aplicado ao projeto do tutorial com pesos iguais entre os sete critérios, o método
+indica o volume de 5.000 L.
 
 > **Três declarações que um estudo publicado precisa fazer.**
 >
@@ -73,12 +86,16 @@ A segunda tabela mostra o que acontece ao deslocar o peso.
 | econômico, 60% | 5.000 L |
 | ambiental, 60% | 5.000 L |
 
-Privilegiar o critério técnico empurra para 8.000 L. Os outros dois convergem em
-5.000 L.
+Privilegiar o critério técnico desloca a recomendação para 8.000 L, o que era
+esperado: o potencial de economia cresce monotonicamente com o volume, e um peso
+dominante nessa dimensão empurra a escolha para o extremo superior da faixa varrida. Os
+critérios econômico e ambiental, por sua vez, convergem ambos para 5.000 L.
 
-Essa convergência não é regra geral: aqui ela acontece porque 5.000 L está numa
-região plana do VPL e ainda com saldo de carbono confortável. Em outro município,
-com tarifa mais baixa, o ponto econômico cairia e a divergência apareceria.
+Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
+generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 5.000 L
+se situa numa região plana da curva de valor presente líquido e ainda conserva saldo de
+carbono confortável. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 > **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
 > impossível de reproduzir. Dois artigos com pesos diferentes chegam a volumes
@@ -88,18 +105,22 @@ com tarifa mais baixa, o ponto econômico cairia e a divergência apareceria.
 
 ## A recomendação do tutorial
 
-**5.000 L, em polietileno.**
+A recomendação do tutorial é o reservatório de **5.000 L em polietileno**, e a razão de
+adotá-la não é apenas o fato de ele vencer sob pesos iguais. Ele vence também sob peso
+econômico dominante e sob peso ambiental dominante, e fica em segundo lugar por margem
+estreita sob peso técnico dominante. ==Uma recomendação que sobrevive a quatro
+ponderações diferentes é robusta precisamente porque não depende de nenhuma delas.==
 
-Ele vence com pesos iguais, vence com peso econômico, vence com peso ambiental, e
-fica em segundo por pouco com peso técnico. É uma escolha robusta: não depende de
-uma ponderação específica para se sustentar.
+Vale registrar ainda que esse é o mesmo volume que o critério hidráulico da seção
+{{n:7}} havia indicado, com limiar de ganho marginal de 1 %/m³. Duas rotas
+metodologicamente independentes — uma que olha apenas para a curva de aproveitamento e
+outra que pondera sete critérios de três dimensões — chegaram ao mesmo resultado, e essa
+concordância aumenta a confiança na recomendação.
 
-E vale reparar que **é o mesmo volume que o critério hidráulico da seção {{n:7}} já
-tinha indicado**, com o limiar de 1 %/m³. As duas rotas chegaram ao mesmo lugar por
-caminhos independentes, o que aumenta a confiança na resposta.
-
-Isso não é coincidência garantida. É por isso que o tutorial fez o caminho longo:
-para saber que as rotas concordam **neste caso**, e não supor que concordam sempre.
+A concordância, porém, não é garantida em nenhum outro caso, e é por isso que o tutorial
+percorreu o caminho longo em vez de parar na seção {{n:7}}. O propósito não era chegar
+mais depressa ao volume, e sim saber que as duas rotas concordam **neste** projeto, em
+vez de supor que concordem sempre.
 
 ---
 
@@ -126,4 +147,6 @@ para saber que as rotas concordam **neste caso**, e não supor que concordam sem
 | **saldo de carbono em 20 anos** | **+248 kg CO₂e** |
 | payback de carbono | 10,9 anos |
 
-Falta uma coisa: contar isso a alguém.
+Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
+verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto
+da seção seguinte.

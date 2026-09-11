@@ -26,13 +26,24 @@ Com `P_i` a precipitação do dia `i`, e «dia úmido» definido como `P_i ≥ 1
 
 O índice de sazonalidade:
 
-```
-SI = (1/R) · Σ |X_m − R/12|      para m = 1..12
+```equacao:sazonalidade
+SI = (1 ÷ R) × Σ | X_m − R ÷ 12 |
 ```
 
-em que `X_m` é o total do mês `m` e `R` o total anual. Vale zero quando a chuva é
-perfeitamente uniforme ao longo do ano e tende a 1,83 quando toda a chuva cai num
-mês só.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `SI` | índice de sazonalidade de Walsh e Lawler | adimensional |
+| `R` | precipitação total do ano | mm |
+| `X_m` | precipitação total do mês `m`, com `m` de 1 a 12 | mm |
+| `R ÷ 12` | precipitação mensal que haveria se a chuva fosse uniforme | mm |
+| `Σ` | somatório sobre os doze meses do ano | — |
+
+O índice da Equação {{eq:sazonalidade}} mede o afastamento entre a distribuição real da
+chuva ao longo do ano e a distribuição perfeitamente uniforme. ==Ele vale zero quando
+todos os meses recebem a mesma lâmina e tende a 1,83 quando toda a chuva do ano cai num
+único mês.== Entre esses extremos, a leitura usual classifica valores abaixo de 0,40
+como regime equatorial, de 0,40 a 0,79 como estações úmida e seca pouco marcadas, e
+acima de 1,20 como regime de estação seca longa.
 
 O SI é o índice que mais importa para aproveitamento pluvial, e a seção {{n:14}} mostra
 por quê: é a distribuição, e não o total, que decide o rendimento do sistema.

@@ -30,39 +30,74 @@ O programa pede os dois, em campos separados.
 
 **Energia específica do recalque**, por metro cúbico elevado:
 
-```
-e = ρ · g · H ÷ (η_b · η_m)          [kWh/m³]
+```equacao:energia_especifica
+e = ( ρ × g × H ) ÷ ( η_b × η_m )
 ```
 
-com `ρ` = 1.000 kg/m³, `g` = 9,81 m/s² e `H` a altura manométrica em metros de
-coluna d'água. Não depende da vazão nem da potência: elevar um metro cúbico a uma
-dada altura custa a mesma energia, com bomba grande ou pequena. O que muda com a
-potência é o **tempo**, não o consumo específico.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
+| `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
+| `H` | altura manométrica total do recalque | m.c.a. |
+| `η_b` | rendimento hidráulico da bomba | adimensional |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+==A Equação {{eq:energia_especifica}} não depende da vazão nem da potência instalada.==
+Elevar um metro cúbico de água a uma dada altura custa a mesma energia com bomba grande
+ou pequena, porque o trabalho realizado é o mesmo; o que muda com a potência é o tempo
+gasto para realizá-lo, e não o consumo específico.
 
 **Quando a vazão de operação é declarada**, a forma equivalente:
 
-```
-e = P ÷ (Q · η_m)                    [kWh/m³]
+```equacao:energia_por_vazao
+e = P ÷ ( Q × η_m )
 ```
 
-com `P` em kW e `Q` em m³/h. O rendimento da bomba já está embutido no fato de um
-motor de `P` kW no eixo fazer a bomba entregar `Q` m³/h naquela altura; dividir por
-ele outra vez contaria a perda hidráulica duas vezes.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `Q` | vazão de recalque informada ou deduzida | m³/h |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+O rendimento hidráulico da bomba não comparece na Equação {{eq:energia_por_vazao}}, e a
+ausência é proposital: ele já está embutido no fato de um motor de `P` quilowatts no
+eixo fazer a bomba entregar `Q` metros cúbicos por hora naquela altura. Dividir por ele
+outra vez contabilizaria a perda hidráulica duas vezes.
 
 **Vazão, quando não declarada:**
 
+```equacao:vazao_deduzida
+Q = ( P × η_b ) ÷ ( ρ × g × H )
 ```
-Q = P · η_b ÷ (ρ · g · H)
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Q` | vazão de recalque deduzida | m³/h |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `η_b` | rendimento hidráulico da bomba | adimensional |
+| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
+| `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
+| `H` | altura manométrica total do recalque | m.c.a. |
 
 **Energia das partidas:**
 
-```
-E_part = P · t_part ÷ η_m            [kWh]
+```equacao:energia_partida
+E_part = ( P × t_part ) ÷ η_m
 ```
 
-Sem `η_b`, porque na partida não há vazão útil e portanto não há perda hidráulica a
-descontar. O motor puxa da tomada, e é só isso que o medidor registra.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_part` | energia consumida no conjunto das partidas do período | kWh |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `t_part` | tempo total de partida acumulado no período | h |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+O rendimento da bomba está ausente da Equação {{eq:energia_partida}} pela razão física
+que a distingue das anteriores: durante a partida não há vazão útil, e portanto não há
+perda hidráulica a descontar. O motor puxa energia da tomada, e é apenas isso que o
+medidor da concessionária registra.
 
 **Total anual:**
 
