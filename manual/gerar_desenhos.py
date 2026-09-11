@@ -215,7 +215,7 @@ def desenho_destino():
     p.nota(1, 7,
            "A ordem importa: o transbordamento é calculado antes do consumo do "
            "dia." + NL + "Sem essa ordem o modelo aceitaria água que já tinha "
-           "transbordado. O capítulo 23 volta a isso.")
+           "transbordado. A seção do balanço diário volta a isso.")
     p.salvar("fig00b_destino.png")
 
 

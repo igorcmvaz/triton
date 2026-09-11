@@ -1,6 +1,6 @@
 # O balanço hídrico diário
 
-> Ao terminar este capítulo você saberá refazer, numa planilha, exatamente o que o
+> Ao terminar esta seção você saberá refazer, numa planilha, exatamente o que o
 > Netuno faz em cada dia da série, e saberá dizer por que o programa chegou ao
 > número que chegou.
 
@@ -11,7 +11,7 @@
 
 Este é o capítulo do qual todos os outros dependem. O potencial de economia, o fluxo
 de caixa, a emissão evitada e a ordenação multicritério saem, todos, dos números que
-o balanço diário produz. Quem entende este capítulo entende o programa.
+o balanço diário produz. Quem entende esta seção entende o programa.
 
 O Netuno usa um **modelo comportamental de base diária**: para cada dia da série de
 precipitação, o programa resolve o que entra no reservatório, o que sai, o que
@@ -330,7 +330,7 @@ A seção {{n:36}} reúne estas e as demais limitações conhecidas.
 
 ## Para conferir
 
-O caso resolvido deste capítulo está no arquivo `03_dez_dias.netuno`, na pasta de
+O caso resolvido desta seção está no arquivo `03_dez_dias.netuno`, na pasta de
 casos que acompanha o programa. Abra, rode, e compare com a tabela impressa.
 
 Se algum número divergir, é o manual que está desatualizado em relação ao programa. E

@@ -1,6 +1,6 @@
 # Volume ideal e a varredura
 
-> Este capítulo formaliza o que a seção {{n:7}} fez na prática: como o programa monta a
+> Esta seção formaliza o que a seção {{n:7}} fez na prática: como o programa monta a
 > grade de volumes e como aplica o critério de volume ideal.
 
 ---

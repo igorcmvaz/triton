@@ -1,6 +1,6 @@
 # Decisão multicritério
 
-> Este capítulo formaliza os dois métodos de ordenação, e declara três desvios em
+> Esta seção formaliza os dois métodos de ordenação, e declara três desvios em
 > relação à formulação canônica que um estudo publicado precisa citar.
 
 ---

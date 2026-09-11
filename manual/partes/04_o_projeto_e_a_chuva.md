@@ -1,6 +1,6 @@
 # O projeto e a chuva
 
-> Ao terminar este capítulo você terá um projeto criado, uma série de precipitação
+> Ao terminar esta seção você terá um projeto criado, uma série de precipitação
 > carregada e a captação definida. E saberá por que cada um desses três números
 > importa mais do que parece.
 

@@ -3,8 +3,9 @@
 > **Pergunta que este guia responde:** como comparar dezenas de alternativas sem
 > refazer o projeto inteiro a cada uma?
 
-O programa foi feito para isso. A chave é entender que existem **três** formas de
-comparar muitos casos, e que elas respondem a perguntas diferentes.
+O programa foi construído para comparar alternativas, e oferece três formas distintas de
+fazê-lo. A escolha entre elas não é questão de preferência: cada forma responde a uma
+pergunta diferente, e usar a errada custa tempo sem produzir a informação desejada.
 
 ---
 
@@ -25,12 +26,14 @@ A primeira é automática, a segunda também, e a terceira exige organização.
 Na etapa **4. Reservatório & Custos**, escolha o modo **varredura** e informe o volume
 máximo e o passo. O programa simula todos os volumes da grade e desenha a curva.
 
-É o caminho normal, e não uma função avançada: a varredura é quase sempre a resposta
-certa, porque a pergunta «qual volume?» é a pergunta do projeto. A seção {{n:7}} percorre
-uma varredura completa, e o 24 explica como a grade é montada.
+A varredura é o caminho normal de trabalho, e não uma função avançada reservada a casos
+especiais: ela é quase sempre a resposta certa, porque «qual volume adotar?» é a pergunta
+central de todo projeto de aproveitamento pluvial. A seção {{n:7}} percorre uma varredura
+completa passo a passo, e a seção {{n:24}} formaliza como a grade de volumes é montada.
 
-Uma varredura de 0 a 20.000 L com passo de 1.000 L são vinte e uma simulações de
-trinta anos, e leva poucos segundos.
+O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20.000 L
+com passo de 1.000 L corresponde a vinte e uma simulações de trinta anos cada, e é
+concluída em poucos segundos numa máquina comum.
 
 ---
 
@@ -51,10 +54,11 @@ dimensões e reordena a tabela na hora. A seção {{n:32}} explica os métodos p
 
 ## Quando muda outra coisa que não o volume
 
-Cidade, tarifa, demanda, material, tipologia: para variar qualquer uma delas, o
-caminho é **um projeto salvo por caso**.
-
-O procedimento, que parece burocrático e economiza horas:
+Cidade, tarifa, demanda, material do reservatório e tipologia da edificação são
+parâmetros que a varredura não percorre, e para variar qualquer um deles o caminho é
+manter um projeto salvo por caso. O procedimento abaixo parece burocrático à primeira
+vista e economiza horas de retrabalho, sobretudo quando o estudo é retomado semanas
+depois.
 
 1. Monte o projeto completo uma vez, com todo o detalhe.
 2. Salve com um nome que descreva o caso: `escola_florianopolis_5000.netuno`.
@@ -100,12 +104,14 @@ grava as tabelas em `.xlsx`, e é lá que a comparação entre casos é montada.
 
 ## Quantos casos cabem
 
-Não há limite no programa. Há limite de paciência: cada simulação de trinta anos leva
-frações de segundo, mas montar e conferir cada projeto leva minutos.
+O programa não impõe limite ao número de casos comparados, e o limite real é de paciência
+do analista: cada simulação de trinta anos leva frações de segundo, mas montar e conferir
+cada projeto leva minutos, e é a conferência que consome o tempo.
 
-Na prática, um estudo comparativo bem conduzido tem entre cinco e vinte casos. Mais do
-que isso, costuma ser sinal de que a pergunta não foi bem formulada — ou de que o
-trabalho é um estudo de larga escala, que é outra coisa.
+Na prática, um estudo comparativo bem conduzido reúne entre cinco e vinte casos. Quando o
+número cresce muito além disso, costuma ser sinal de que a pergunta de pesquisa não foi
+suficientemente delimitada — ou de que o trabalho é um estudo de larga escala, que exige
+outro instrumental.
 
 > **Aprofundamento: estudos de larga escala.** O grupo de pesquisa executa séries de
 > milhares de simulações para trabalhos publicados — matrizes fatoriais de cidade,

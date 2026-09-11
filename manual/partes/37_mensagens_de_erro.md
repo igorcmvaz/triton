@@ -2,15 +2,19 @@
 
 > O que cada mensagem significa, o que a disparou, e como resolver.
 
-O programa prefere **recusar** uma entrada impossível a corrigi-la em silêncio. Área
-negativa é erro de digitação, e quem digitou precisa ver.
+O programa adota uma política deliberada diante de entradas impossíveis: ele as recusa
+em vez de corrigi-las silenciosamente. A razão é que uma área de captação negativa não é
+uma preferência do usuário a ser acomodada, e sim um erro de digitação que precisa ser
+visto por quem o cometeu. ==Corrigir em silêncio produziria um resultado plausível a
+partir de uma entrada errada, que é a pior combinação possível num programa de
+simulação.==
 
 ---
 
 ## Validação física da entrada
 
-Estas são levantadas antes de qualquer cálculo, e nomeiam o campo e o valor
-recebido.
+As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
+nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
 
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
@@ -35,9 +39,11 @@ recebido.
 | «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
 | «O passo de varredura deve ser finito e maior que zero» | passo zero ou vazio | informe o passo; ele será arredondado para o múltiplo de 250 L |
 
-Um aviso que **não** é erro: quando o passo é ajustado para o múltiplo de 250 L ou
-pelo limite de 40 volumes, o programa registra o ajuste e segue. Declare o passo
-efetivo no seu estudo, e não o pedido.
+Há ainda um aviso que não constitui erro e convém não confundir com um: quando o passo
+de varredura é ajustado para o múltiplo de 250 L, ou quando o limite de quarenta volumes
+obriga a alargá-lo, o programa registra o ajuste e prossegue normalmente. O que esse
+aviso exige do usuário é apenas que ele declare no estudo o passo efetivamente utilizado,
+e não o passo originalmente pedido.
 
 ---
 
@@ -72,8 +78,10 @@ efetivo no seu estudo, e não o pedido.
 
 ## Avisos que não interrompem
 
-Estes não impedem o cálculo. São observações que o programa faz e que **precisam ir
-para o estudo**.
+Os avisos reunidos nesta tabela não impedem o cálculo e não indicam defeito: são
+observações que o programa faz sobre as condições em que o resultado foi produzido. Todas
+elas precisam ser transportadas para o texto do estudo, porque todas afetam a
+interpretação do número e nenhuma delas fica evidente no resultado isolado.
 
 | Aviso | O que significa |
 | :--- | :--- |
@@ -88,16 +96,23 @@ para o estudo**.
 
 ## Quando o resultado parece errado
 
-Antes de suspeitar do programa, três conferências que resolvem a maioria dos casos:
+Antes de suspeitar de defeito no programa, três conferências resolvem a maior parte dos
+casos em que o resultado surpreende, e cada uma delas corresponde a um erro de entrada
+com assinatura própria.
 
-**O potencial saiu maior que o esperado.** Confira a fração atendível: ela é o teto,
-e uma fração alta demais infla tudo.
+Quando o **potencial sai maior que o esperado**, o suspeito imediato é a fração
+atendível: ela é o teto de todo o resultado, e uma fração generosa demais infla tudo o
+que vem depois sem que nada no relatório denuncie a origem.
 
-**O potencial saiu muito menor.** Confira a lâmina de descarte, e lembre da seção {{n:33.3}}: o campo quer **milímetros**, não litros.
+Quando o **potencial sai muito menor**, confira a lâmina de descarte. O engano
+correspondente está descrito na seção {{n:33.3}}, e consiste em informar o descarte em
+litros quando o campo pede milímetros — o que descarta, tipicamente, a chuva inteira de
+todos os dias.
 
-**O payback saiu absurdo.** Confira o regime tarifário do município. É a causa mais
-comum, e a seção {{n:16}} traz o teste que a identifica.
+Quando o **retorno do investimento sai absurdo**, em qualquer das duas direções, confira
+o regime tarifário do município. É a causa mais frequente de resultado econômico
+implausível, e a seção {{n:16}} traz o teste que a identifica em dois minutos.
 
-E percorra as etapas de entrada antes de acreditar no resultado. A barra lateral
-marca as que ainda têm pendência, e é mais rápido conferir as quatro telas de entrada
-do que descobrir o engano no relatório.
+Vale ainda percorrer as quatro etapas de entrada antes de aceitar qualquer resultado. A
+barra lateral assinala as que permanecem com pendência, e conferir quatro telas custa
+menos tempo que descobrir o engano depois de o relatório estar emitido.

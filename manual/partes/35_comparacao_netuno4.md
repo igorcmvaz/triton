@@ -1,6 +1,6 @@
 # Comparação com o Netuno 4
 
-> Este capítulo traz a medição contra 4.050 casos de referência e, mais importante,
+> Esta seção traz a medição contra 4.050 casos de referência e, mais importante,
 > a **decomposição** da diferença por causa.
 
 ---
@@ -19,7 +19,10 @@ mas incapazes de detectar um erro sistemático que as respeitasse todas.
 
 ## Os dados de referência
 
-Quatro mil e cinquenta casos exportados do Netuno 4 e preservados desde então:
+A comparação entre as duas versões apoia-se em quatro mil e cinquenta casos exportados do
+Netuno 4 e preservados desde então, byte a byte, justamente para que a referência não se
+alterasse ao longo do desenvolvimento. Eles se distribuem por três conjuntos, com
+cidades e faixas de parâmetros distintas.
 
 | Conjunto | Casos | Cidades |
 | :--- | ---: | :--- |

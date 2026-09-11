@@ -3,35 +3,42 @@
 > **Pergunta que este guia responde:** qual premissa mais move o meu resultado, e o
 > quanto ele aguenta?
 
-Todo estudo pluvial repousa sobre premissas incertas. A tarifa vai mesmo subir 5% ao
-ano? A demanda é mesmo 150 litros por pessoa? A cisterna custa mesmo isso?
+Todo estudo de aproveitamento pluvial repousa sobre premissas incertas, e as três mais
+influentes costumam ser justamente as menos verificáveis: a tarifa realmente subirá 5% ao
+ano durante vinte anos? A demanda é de fato 150 litros por pessoa e dia? A cisterna
+custará o que o orçamento prevê?
 
-A análise de sensibilidade mede quanto dessas dúvidas chega ao resultado. Ela não
-elimina a incerteza; ela mostra o tamanho dela, que é o que um leitor precisa saber
-para confiar no número.
+A análise de sensibilidade mede quanto dessas dúvidas chega ao resultado final. ==Ela não
+elimina a incerteza, e não se propõe a isso; ela mede o tamanho da incerteza,== que é
+exatamente a informação de que o leitor precisa para decidir o quanto confiar no número
+apresentado.
 
 ---
 
 ## O procedimento, em três passos
 
-Não é preciso nenhuma ferramenta especial. O método é o mesmo que se usa em qualquer
-análise de engenharia:
+O procedimento não exige ferramenta especializada, e é o mesmo que se emprega em qualquer
+análise de engenharia diante de um parâmetro mal conhecido: varia-se uma coisa de cada
+vez e observa-se o efeito.
 
 1. **Escolha a premissa** que você suspeita ser a mais influente.
 2. **Rode o projeto três vezes**: com o valor provável, com um valor baixo e com um
    alto.
 3. **Anote o resultado das três** e compare.
 
-Repita para cada premissa duvidosa. Ao fim, você sabe quais delas movem o resultado e
-quais não movem — e essa é a informação que vale.
-
-A seção {{n:19}} mostra como organizar os arquivos para que isso não vire confusão.
+Repita o procedimento para cada premissa duvidosa. Ao final, você terá identificado
+quais delas efetivamente movem o resultado e quais são irrelevantes — e essa separação
+vale mais que qualquer refinamento do valor central, porque orienta onde investir esforço
+de levantamento de dados. A seção {{n:19}} mostra como organizar os arquivos para que o
+conjunto de rodadas não se transforme em confusão.
 
 ---
 
 ## Que faixa adotar para cada premissa
 
-A faixa não é palpite: ela vem do que você sabe sobre a origem do dado.
+A faixa de variação a adotar para cada premissa não é matéria de palpite: ela decorre do
+que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que
+um dado tomado da literatura.
 
 | Premissa | Variação plausível | Por quê |
 | :--- | ---: | :--- |
@@ -50,12 +57,13 @@ A faixa não é palpite: ela vem do que você sabe sobre a origem do dado.
 
 ## A premissa que quase sempre domina
 
-Em estudos econômicos de aproveitamento pluvial, quem mais move o resultado costuma
-ser o **reajuste tarifário**.
-
-Cinco por cento ao ano durante vinte anos multiplica a tarifa por 2,65. Três por cento
-multiplica por 1,81; sete por cento, por 3,87. O valor presente líquido acompanha,
-quase proporcionalmente.
+Em estudos econômicos de aproveitamento pluvial, a premissa que mais move o resultado
+costuma ser o **reajuste tarifário**, e a razão é que ela atua de forma composta ao longo
+de todo o horizonte de análise. Um reajuste de cinco por cento ao ano durante vinte anos
+multiplica a tarifa por 2,65; três por cento a multiplicam por 1,81, e sete por cento,
+por 3,87. O valor presente líquido acompanha essa variação de modo quase proporcional, de
+maneira que a escolha de uma taxa de reajuste decide, sozinha, boa parte da conclusão
+econômica do estudo.
 
 Faça o teste no seu caso: na etapa **6. Resultados Econômicos**, mude o reajuste anual
 para 3%, anote o VPL, repita com 5% e com 7%. Três rodadas, três minutos, e uma faixa
@@ -69,8 +77,9 @@ em vez de um número.
 
 ## A sensibilidade que o programa faz sozinho
 
-Há um caso em que não é preciso rodar três vezes: a **escolha do volume pelos pesos**
-do multicritério.
+Há um caso em que a análise de sensibilidade já vem pronta e não exige rodadas
+adicionais, e ele diz respeito à decisão final do estudo: a escolha do volume em função
+dos pesos atribuídos aos critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** já é uma
 análise de sensibilidade pronta. Ela responde: se os pesos das dimensões fossem
@@ -84,8 +93,10 @@ Leia assim:
 | entre 40 e 70% | recomendação razoável, e vale declarar a segunda opção |
 | abaixo de 40% | a escolha depende dos pesos, e o texto precisa dizer isso |
 
-Um volume que vence em 80% dos sorteios é uma recomendação; um que vence em 30% é uma
-preferência. A seção {{n:32}} explica o método.
+A distinção que essa coluna permite é de natureza epistemológica, e não apenas
+estatística: um volume que vence em 80% dos sorteios de pesos constitui uma recomendação,
+ao passo que um volume que vence em 30% constitui uma preferência do analista, legítima
+desde que apresentada como tal. A seção {{n:32}} expõe o método que produz esse número.
 
 ---
 

@@ -1,9 +1,10 @@
 # Limitações conhecidas
 
-> Onde o programa não serve, e por quê. Um programa que declara seus limites é mais
-> confiável que um que finge servir para tudo.
+> Onde o programa não serve, e por quê. Um programa que declara os próprios limites é
+> mais confiável que um que aparenta servir para tudo, porque o segundo transfere ao
+> usuário a tarefa de descobri-los por conta própria.
 
-Este capítulo é derivado do registro de pendências que o grupo de pesquisa mantém, e
+Esta seção é derivado do registro de pendências que o grupo de pesquisa mantém, e
 reflete o estado da versão 5.0.8. Uma limitação sai desta lista quando é resolvida, e
 não quando deixa de ser mencionada.
 

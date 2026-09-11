@@ -1,6 +1,6 @@
 # Qual volume escolher, afinal
 
-> Ao terminar este capítulo você terá um volume recomendado, e saberá que ele
+> Ao terminar esta seção você terá um volume recomendado, e saberá que ele
 > depende de pesos que **você** declarou — não de uma verdade que o programa
 > descobriu.
 

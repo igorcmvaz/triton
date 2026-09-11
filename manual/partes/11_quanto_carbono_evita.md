@@ -1,6 +1,6 @@
 # Quanto carbono evita
 
-> Ao terminar este capítulo você terá o balanço de carbono do sistema e uma
+> Ao terminar esta seção você terá o balanço de carbono do sistema e uma
 > surpresa: com a cisterna que escolhemos, o projeto **emite mais do que evita** ao
 > longo da vida útil.
 
@@ -8,13 +8,17 @@
 
 ## A conta
 
-Um sistema de aproveitamento pluvial evita carbono porque a água que ele entrega
-deixa de ser captada, tratada e bombeada pela concessionária. Também **emite**
-carbono, em três frentes: a fabricação dos componentes, a energia de bombeamento e
-os insumos de tratamento.
+Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico que ele
+entrega deixa de ser captado, tratado e bombeado pela concessionária, e essas três
+operações consomem energia. O mesmo sistema, porém, emite carbono em três frentes
+próprias: a fabricação dos seus componentes, a energia consumida no bombeamento interno e
+os insumos de tratamento aplicados à água.
 
-O saldo é a diferença, e a pergunta é em quantos anos o crédito anual paga a dívida
-inicial. É o **payback de carbono**.
+O saldo ambiental do sistema é a diferença entre o que ele evita e o que ele emite, e a
+pergunta que organiza esta seção é em quantos anos o crédito anual líquido amortiza a
+dívida contraída na fabricação. Esse prazo é o **payback de carbono**, e ele desempenha
+na dimensão ambiental o mesmo papel que o tempo de retorno desempenha na dimensão
+econômica.
 
 Para o nosso projeto, cisterna de concreto de 5.000 L:
 
@@ -27,23 +31,29 @@ Para o nosso projeto, cisterna de concreto de 5.000 L:
 | **payback de carbono** | **35,1 anos** |
 | saldo ao fim de 20 anos | **−414 kg CO₂e** |
 
-Trinta e cinco anos para pagar a dívida de carbono, contra vinte anos de vida útil
-adotada. **O sistema não chega a se pagar.** Ao ser desativado, terá emitido 414 kg
-CO₂e a mais do que evitou.
+São trinta e cinco anos para amortizar a dívida de carbono, contra uma vida útil adotada
+de vinte anos. ==O sistema, portanto, não chega a se pagar ambientalmente:== ao ser
+desativado, terá emitido 414 kg CO₂e a mais do que evitou ao longo de toda a sua
+operação.
 
-Isso com um projeto que, financeiramente, é excelente.
+E esse é o resultado de um projeto que, do ponto de vista financeiro, é excelente — o
+que ilustra com clareza incômoda por que as dimensões de análise precisam ser mantidas
+separadas até o momento da decisão.
 
 ---
 
 ## Por que a economia de carbono é tão pequena
 
-Vinte e oito quilos de CO₂e por ano parecem pouco para 82 metros cúbicos de água
-poupada. São mesmo: dá 0,35 kg CO₂e por metro cúbico.
+Vinte e oito quilogramas de CO₂e por ano parecem pouco para 82 metros cúbicos de água
+poupada, e de fato são: o resultado equivale a 0,35 kg CO₂e por metro cúbico
+substituído.
 
-Água tratada não é um produto intensivo em carbono. Captar, tratar e distribuir um
-metro cúbico custa, no Brasil, alguma coisa entre 0,24 e 0,46 kg CO₂e conforme a
-região e a matriz elétrica local. Comparado com concreto, aço ou combustível, é
-muito pouco.
+A explicação está na natureza do produto substituído. Água tratada não é um bem
+intensivo em carbono. Captar, tratar e distribuir um metro cúbico custa, no Brasil,
+entre 0,24 e 0,46 kg CO₂e conforme a região e a composição da matriz elétrica local, e
+essa faixa é modesta quando comparada à de concreto, aço ou combustíveis. Substituir um
+produto de baixa intensidade de carbono por outro que exige fabricação de reservatório
+não produz, portanto, o ganho ambiental que a intuição sugere.
 
 > **A fronteira importa.** O fator do programa é por metro cúbico **entregue** na
 > edificação, e não por metro cúbico produzido na estação. As perdas de distribuição

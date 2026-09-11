@@ -1,6 +1,6 @@
 # Instalação e primeira execução
 
-> Ao terminar este capítulo você terá o programa instalado, aberto, e uma simulação
+> Ao terminar esta seção você terá o programa instalado, aberto, e uma simulação
 > concluída com um resultado que dá para conferir contra este manual.
 
 ---
@@ -14,8 +14,11 @@
 | memória | 4 GB bastam; 8 GB deixam a varredura mais confortável |
 | privilégios | de administrador, só para instalar |
 
-Não é preciso instalar mais nada. O programa é distribuído já montado: tudo o que ele
-usa para calcular vem dentro dele.
+Nada além disso precisa ser instalado. O programa é distribuído já montado, com todos os
+componentes de que depende para calcular, e não requer instalação prévia de
+interpretadores, bibliotecas ou pacotes auxiliares. Também não requer conexão com a
+internet para funcionar: tudo o que ele consulta durante uma simulação está no próprio
+computador.
 
 ---
 
@@ -50,10 +53,11 @@ relatório ou uma exportação, ele pergunta a pasta.
 | resultados | `.xlsx`, `.csv` | as tabelas, para planilha |
 | esquema | `.dxf` | o desenho esquemático, para CAD |
 
-O formato `.netuno` é o que importa guardar. Ele é **autocontido**: leva a série de
-chuva dentro dele, e por isso abre em qualquer outro computador, mesmo sem os
-arquivos originais. É também o arquivo que você anexa a um artigo para que outra
-pessoa reproduza o seu estudo.
+Entre esses formatos, o `.netuno` é o que realmente importa guardar. Ele é autocontido:
+leva a série de chuva inteira dentro de si, e por isso abre em qualquer outro computador
+mesmo na ausência dos arquivos que lhe deram origem. ==É também o arquivo que se anexa a
+um artigo para que outra pessoa reproduza o estudo,== e essa propriedade é o que separa
+um trabalho verificável de um trabalho apenas relatado.
 
 ---
 
@@ -87,9 +91,10 @@ aqui.
 Eles ficam na pasta do programa. A seção {{n:J}} lista os nove casos do manual, com o
 capítulo de cada um e o resultado que produzem.
 
-**Comece pelo caso de dez dias.** Abra, rode, e compare com a tabela da seção {{n:23}}.
-Se algum número divergir, é o manual que está desatualizado em relação ao programa — e
-não o contrário.
+Convém começar pelo caso de dez dias. Abra-o, execute a simulação e compare o resultado
+com a tabela impressa na seção {{n:23}}. A coincidência entre os dois confirma que a
+instalação corresponde exatamente a este manual; a divergência indica que manual e
+programa são de versões diferentes, e a seção {{n:38}} explica como proceder nesse caso.
 
 ---
 

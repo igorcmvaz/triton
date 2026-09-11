@@ -1,9 +1,9 @@
 # Indicadores de eficiência
 
-> Este capítulo define formalmente cada indicador que o programa reporta, com
+> Esta seção define formalmente cada indicador que o programa reporta, com
 > unidade, e diz **o que cada um não mede**.
 
-Um indicador mal interpretado é pior que nenhum. Os dois primeiros deste capítulo são
+Um indicador mal interpretado é pior que nenhum. Os dois primeiros desta seção são
 frequentemente confundidos na literatura.
 
 ---

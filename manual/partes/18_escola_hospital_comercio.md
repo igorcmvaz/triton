@@ -3,7 +3,9 @@
 > **Pergunta que este guia responde:** o programa serve para edificação não
 > residencial?
 
-Serve, com uma ressalva grande que precisa ser lida antes, e não depois.
+Serve, e serve bem para a parte hídrica. Há, porém, uma ressalva de peso relativa à
+parte econômica, e ela precisa ser conhecida antes de o estudo começar, e não depois de
+ele estar concluído.
 
 ---
 
@@ -29,8 +31,11 @@ sentido do erro:
 > modo personalizado do diálogo de tarifas. A seção {{n:16}} ensina. Sem isso, o resultado
 > técnico é válido e o **econômico não é publicável**.
 
-A boa notícia é que o erro é conservador: o projeto real rende **mais** do que o
-programa mostra, e não menos.
+Há um consolo nessa limitação, e ele é metodológico: ==o erro tem sentido conhecido e é
+conservador.== As categorias não residenciais são mais caras que a residencial, de modo
+que o projeto real rende mais do que o programa indica, e nunca menos. Um estudo que
+declare a limitação apresenta, portanto, um piso de viabilidade — o que é uma posição
+defensável, ao contrário do inverso.
 
 ---
 
@@ -51,10 +56,13 @@ programa mostra, e não menos.
 
 ## O que muda em cada tipologia
 
-**Escola.** O caso mais favorável do Brasil. A fração não potável é alta, porque
-bacia sanitária domina o consumo e não há chuveiro nem cozinha em muitas unidades.
-A demanda é modulada por calendário — use a seção {{n:17}} — e o fechamento nas férias
-costuma coincidir com a estiagem no Sul e Sudeste, o que enche a cisterna de graça.
+**Escola.** É provavelmente o caso mais favorável ao aproveitamento pluvial no Brasil,
+por três razões que se somam. A fração não potável do consumo é alta, porque a bacia
+sanitária domina o uso e muitas unidades não têm chuveiro nem cozinha. A demanda é
+fortemente modulada por calendário, e a seção {{n:17}} mostra como representá-la. E o
+fechamento das férias escolares coincide, no Sul e no Sudeste, com o período de menor
+precipitação, de modo que a cisterna atravessa a estiagem sem ser solicitada e chega
+cheia ao reinício das aulas.
 
 **Hospital.** O caso mais delicado. Consumo alto e contínuo, sem sazonalidade
 relevante, o que é bom para o aproveitamento. Mas a **exigência de qualidade** é

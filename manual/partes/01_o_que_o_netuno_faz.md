@@ -100,14 +100,14 @@ edificação que a chuva conseguiu substituir.
 Quanta água o sistema entrega é a primeira pergunta, não a única. O programa responde
 seis, e elas costumam apontar para volumes diferentes.
 
-| Dimensão | Pergunta que responde | Capítulos |
+| Dimensão | Pergunta que responde | Onde se trata |
 | :--- | :--- | :--- |
-| **técnica** | quanta água o sistema entrega, e com que confiabilidade | 23 a 26 |
-| **qualidade** | que tratamento o uso exige, e quanto custa | 27 |
-| **econômica** | em quanto tempo se paga, e quanto rende | 29 |
-| **ambiental** | quanto carbono evita, e em quanto tempo | 30 |
-| **certificação** | onde o projeto se enquadra em cinco referenciais | 31 |
-| **decisão** | qual volume escolher, entre critérios que discordam | 32 |
+| **técnica** | quanta água o sistema entrega, e com que confiabilidade | seções {{n:23}} a {{n:26}} |
+| **qualidade** | que tratamento o uso exige, e quanto custa | seção {{n:27}} |
+| **econômica** | em quanto tempo se paga, e quanto rende | seção {{n:29}} |
+| **ambiental** | quanto carbono evita, e em quanto tempo | seção {{n:30}} |
+| **certificação** | onde o projeto se enquadra em cinco referenciais | seção {{n:31}} |
+| **decisão** | qual volume escolher, entre critérios que discordam | seção {{n:32}} |
 
 A última é a que distingue o programa de uma planilha. As outras cinco produzem
 respostas que **discordam entre si** — a maior economia de água quase nunca é o melhor
@@ -160,9 +160,10 @@ cada uma.
 | **pesquisador** | o método do capítulo {{c:4}}, com procedência de cada número |
 | **revisor** | o capítulo {{c:6}}, verificação e limites declarados |
 
-Se você está começando agora, o caminho é o capítulo {{c:2}} inteira, na ordem. Ela constrói um
-projeto do zero e o acompanha até a decisão final, e cada capítulo termina mostrando
-onde o projeto chegou.
+Quem está começando agora deve percorrer o capítulo {{c:2}} inteiro, na ordem em que
+está escrito. Ele constrói um projeto do zero e o acompanha até a decisão final, e cada
+seção encerra mostrando onde o projeto chegou, de modo que o leitor veja o estudo se
+formando em vez de recebê-lo concluído.
 
 ---
 

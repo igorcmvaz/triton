@@ -1,6 +1,6 @@
 # Energia de bombeamento
 
-> Este capítulo traz a cadeia completa do eixo à tomada, e explica por que a
+> Esta seção traz a cadeia completa do eixo à tomada, e explica por que a
 > potência de placa **não** é o que o medidor registra.
 
 Três versões desta conta já existiram no programa, e as duas primeiras estavam

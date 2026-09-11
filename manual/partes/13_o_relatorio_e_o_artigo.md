@@ -1,6 +1,6 @@
 # O relatório, e o que declarar num artigo
 
-> Ao terminar este capítulo você terá o relatório emitido e, se pretende publicar, a
+> Ao terminar esta seção você terá o relatório emitido e, se pretende publicar, a
 > lista do que precisa constar no método do artigo. Essa lista é o capítulo mais
 > curto e o mais importante do manual.
 

@@ -1,10 +1,13 @@
 # Que qualidade o uso exige
 
-> Ao terminar este capítulo o projeto terá uma linha de tratamento definida, e você
+> Ao terminar esta seção o projeto terá uma linha de tratamento definida, e você
 > saberá distinguir o que a norma exige do que o programa recomenda.
 
-Até aqui tratamos a água pluvial como um volume. Ela também é uma **qualidade**, e a
-qualidade tem custo.
+Até este ponto o tutorial tratou a água pluvial exclusivamente como volume: quanto se
+capta, quanto se armazena, quanto se consome. A água, porém, é também uma qualidade, e a
+qualidade custa dinheiro — em equipamento na instalação e em insumo todos os meses. Esta
+seção define a classe de qualidade do projeto e dimensiona a linha de tratamento
+correspondente.
 
 ---
 

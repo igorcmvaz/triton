@@ -1,6 +1,6 @@
 # Avaliação de ciclo de vida
 
-> Este capítulo traz as sete etapas do inventário, a fronteira adotada, e declara o
+> Esta seção traz as sete etapas do inventário, a fronteira adotada, e declara o
 > que é medido e o que é premissa de triagem.
 
 A avaliação do Netuno é de **triagem**. Ela ordena alternativas e identifica o que
@@ -68,8 +68,10 @@ E_ener = C_ano × FE_rede
 | `C_ano` | consumo anual de energia da motobomba | kWh/ano |
 | `FE_rede` | fator de emissão da rede elétrica, por região e ano | kg CO₂e/kWh |
 
-Os kWh vêm da seção {{n:28}} e o fator da rede vem da base do programa, por região e
-por ano.
+O consumo anual de energia provém do cálculo apresentado na seção {{n:28}}, e o fator de
+emissão da rede elétrica provém da base do programa, discriminado por região e por ano de
+referência. A discriminação regional importa no Brasil mais do que importaria em outros
+países, porque a composição da matriz elétrica varia substancialmente entre subsistemas.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção {{n:27}}, e existe para o hipoclorito não ser contado duas

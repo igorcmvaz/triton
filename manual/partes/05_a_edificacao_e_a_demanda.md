@@ -1,6 +1,6 @@
 # A edificação e a demanda
 
-> Ao terminar este capítulo o programa saberá **quanta água sai** e, mais importante,
+> Ao terminar esta seção o programa saberá **quanta água sai** e, mais importante,
 > **qual parte dela a chuva pode atender**. Essa fração é o teto de tudo o que vem
 > depois.
 
@@ -50,7 +50,7 @@ qualquer edificação com sazonalidade.
 
 ## A fração que a chuva pode atender
 
-**40%.** É o número mais importante deste capítulo.
+**40%.** É o número mais importante desta seção.
 
 Água de chuva não vai para o chuveiro, para a pia da cozinha nem para beber. Vai
 para bacia sanitária, máquina de lavar roupa, lavagem de piso, rega de jardim e

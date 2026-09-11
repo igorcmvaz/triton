@@ -1,6 +1,6 @@
 # Quanto custa e em quanto se paga
 
-> Ao terminar este capítulo você terá o fluxo de caixa de vinte anos, e saberá por
+> Ao terminar esta seção você terá o fluxo de caixa de vinte anos, e saberá por
 > que o **regime tarifário do seu município** decide a viabilidade mais do que
 > qualquer parâmetro do projeto.
 

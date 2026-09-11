@@ -1,9 +1,10 @@
 # Índices pluviométricos
 
-> Este capítulo traz a equação de cada um dos nove índices que o programa calcula, e
+> Esta seção traz a equação de cada um dos nove índices que o programa calcula, e
 > declara três divergências em relação ao padrão ETCCDI.
 
-Os índices não entram no balanço hídrico. Servem para **caracterizar a série** — e
+Os índices pluviométricos não participam do balanço hídrico e não alteram nenhum
+resultado de simulação. Sua função é caracterizar a série de precipitação — e
 uma caracterização honesta é o que permite comparar estudos de cidades diferentes.
 
 ---

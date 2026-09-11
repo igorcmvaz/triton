@@ -1,13 +1,15 @@
 # Escolher o volume
 
-> Ao terminar este capítulo você terá a curva de retorno do reservatório, saberá
+> Ao terminar esta seção você terá a curva de retorno do reservatório, saberá
 > onde ela deixa de compensar, e entenderá por que **não existe** um volume ótimo
 > absoluto — existe um volume ótimo para um critério declarado.
 
-A seção {{n:6}} chutou 3.000 L e viu 303 L/dia transbordando. A pergunta agora é
-direta: **quanto reservatório vale a pena?**
-
-O Netuno responde rodando a mesma simulação para muitos volumes. É a **varredura**.
+A seção {{n:6}} adotou 3.000 L como primeiro palpite e encontrou 303 L/dia
+transbordando, o que equivale a metade de tudo o que a cobertura capta. Diante de um
+desperdício dessa ordem, a pergunta que se impõe é quanto reservatório vale a pena
+acrescentar, e ela não se responde por tentativa isolada: responde-se simulando o mesmo
+projeto para muitos volumes e observando como o resultado evolui. É o que o programa
+chama de **varredura**.
 
 ---
 
@@ -17,19 +19,21 @@ Na etapa **4. Reservatório & Custos**, escolha o modo varredura e informe o
 volume máximo e o passo. Para o nosso projeto:
 máximo de 20.000 L, passo de 1.000 L.
 
-Duas coisas acontecem que convém saber:
+Duas particularidades da montagem da grade convêm ser conhecidas antes de interpretar o
+resultado. A primeira é que o passo informado é arredondado para cima até o múltiplo de
+250 L, valor que corresponde ao quantum comercial de reservatórios — não se compra
+cisterna de 1.300 L, e um ótimo apontado nesse volume seria inexequível. Quando o passo
+pedido não é múltiplo de 250, o programa o ajusta e registra o ajuste, de modo que o
+relatório possa declarar o passo efetivamente utilizado.
 
-**O passo é arredondado para cima**, até o múltiplo de 250 L. É o quantum comercial
-de reservatório: não se compra cisterna de 1.300 L. Se você pedir um passo que não
-seja múltiplo de 250, o programa ajusta e **registra que ajustou**.
+A segunda é que a grade se limita a quarenta volumes positivos. Uma varredura de 0 a
+50.000 L com passo de 100 L exigiria quinhentas simulações de trinta anos cada, e o ganho
+de informação não compensa o tempo de máquina, porque a curva é suave e quarenta pontos
+já a descrevem com folga. O volume máximo informado é sempre preservado como último
+ponto da grade, de modo que apenas o último intervalo pode ser menor que o passo efetivo.
 
-**A grade é limitada a 40 volumes positivos.** Uma varredura de 0 a 50.000 L com
-passo de 100 L seriam 500 simulações de trinta anos cada, e o ganho de informação
-não paga o tempo. O volume máximo informado é sempre preservado como último ponto,
-de modo que só o último intervalo pode ser menor que o passo.
-
-O volume **zero** entra na grade como referência: é o cenário sem sistema, contra o
-qual tudo se compara.
+O volume zero integra a grade como alternativa de referência: ele representa o cenário
+sem sistema, contra o qual todos os demais se comparam.
 
 ---
 
@@ -41,8 +45,10 @@ qual tudo se compara.
 
 *Figura 2 — À esquerda, o potencial se aproximando do teto de 40% e nunca o cruzando. À direita, o ganho marginal em escala logarítmica: três ordens de grandeza entre o primeiro metro cúbico e o vigésimo.*
 
-Leia a coluna **ganho por m³ acrescentado**. Ela é a derivada da curva, e é onde
-está a decisão.
+A coluna decisiva da tabela é a de **ganho por metro cúbico acrescentado**, que é a
+derivada discreta da curva de potencial e expressa quanto cada metro cúbico adicional de
+reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o
+padrão que ela revela é o argumento central desta seção.
 
 | De → para | Ganho por m³ |
 | :--- | ---: |
@@ -54,24 +60,30 @@ está a decisão.
 | 10.000 → 12.000 L | 0,15 %/m³ |
 | 16.000 → 20.000 L | 0,02 %/m³ |
 
-O primeiro metro cúbico entrega 25 pontos percentuais. O décimo sexto entrega dois
-centésimos. **Mil vezes menos**, pelo mesmo metro cúbico de concreto e pela mesma
-escavação.
+==O primeiro metro cúbico de reservatório entrega 25 pontos percentuais de economia; o
+décimo sexto entrega dois centésimos de ponto.== A diferença é de três ordens de
+grandeza, e os dois metros cúbicos custam o mesmo concreto, a mesma escavação e a mesma
+mão de obra.
 
-Isso não é peculiaridade de Florianópolis. É a forma de toda curva de
-aproveitamento pluvial, e vem de dois fatos: os primeiros litros de armazenamento
-capturam os eventos pequenos, que são a maioria; e o teto de 40% da fração
-atendível puxa a curva para a horizontal.
+Esse comportamento não é peculiaridade do regime de chuva de Florianópolis. É a forma
+característica de toda curva de aproveitamento pluvial, e decorre de dois fatos que
+atuam em conjunto. Os primeiros litros de armazenamento capturam os eventos pequenos e
+frequentes, que constituem a maioria das chuvas em qualquer regime; e o teto imposto pela
+fração atendível, de 40% neste projeto, puxa a curva para a horizontal à medida que o
+sistema dele se aproxima, de modo que o espaço restante para ganho vai se esgotando.
 
 ---
 
 ## O volume ideal
 
-O Netuno adota o critério do **ganho marginal**: o volume ideal é o **menor** volume
-cujo ganho por metro cúbico acrescentado cai abaixo de um limiar que você define.
+Diante de uma curva cujo rendimento decai dessa forma, a pergunta «qual o volume ideal?»
+só admite resposta depois que se estabeleça o que significa deixar de compensar. O
+Netuno adota para isso o critério do ganho marginal: o volume ideal é o menor volume cujo
+ganho por metro cúbico acrescentado já tenha caído abaixo de um limiar declarado pelo
+usuário, conforme a formulação da seção {{n:24}}.
 
-O limiar padrão é **1 %/m³**. Na nossa varredura, o primeiro volume a cair abaixo
-disso é o de **5.000 L**, com 0,93 %/m³.
+O limiar padrão do programa é de 1 %/m³. Na varredura deste projeto, o primeiro volume a
+cair abaixo dele é o de 5.000 L, com ganho marginal de 0,93 %/m³.
 
 | | |
 | :--- | ---: |
@@ -80,12 +92,16 @@ disso é o de **5.000 L**, com 0,93 %/m³.
 | de um teto de | 40% |
 | dias de atendimento pleno | 92,9% |
 
-**O limiar é uma escolha sua, e ela decide o resultado:**
+O limiar, contudo, é uma escolha do analista, e ela decide o resultado tanto quanto os
+dados de entrada. A tabela abaixo mostra o volume ideal que cada limiar plausível
+produziria para este mesmo projeto.
 
 <!-- inclui: _tabelas/cap07_limiar_e_custo.md -->
 
-O programa não tem opinião sobre qual limiar é o certo — ele aplica o que você
-declarar.
+O programa não emite opinião sobre qual limiar seria o correto, e não poderia fazê-lo:
+a escolha depende do custo do reservatório, do valor da água no município e da
+disponibilidade de espaço no terreno, nenhum dos quais é dado hidrológico. O que o
+programa faz é aplicar fielmente o limiar declarado e registrá-lo no relatório.
 
 > **Num estudo publicado, declare o limiar.** Dois artigos com «volume ideal» de
 > limiares diferentes não são comparáveis, e a diferença aqui é de 3.000 L e dois
@@ -95,11 +111,11 @@ declarar.
 
 ## Por que o critério do ganho marginal não basta
 
-O critério de 7.3 é puramente **hidráulico**. Ele não sabe quanto custa o
-reservatório, quanto vale o metro cúbico de água na sua cidade, nem quanto carbono
-o concreto carrega.
-
-Repare no que ele ignora:
+O critério do ganho marginal é puramente hidráulico: ele observa a curva de
+aproveitamento e nada mais. Desconhece quanto custa o reservatório, quanto vale o metro
+cúbico de água no município em questão e quanto carbono o material escolhido carrega
+consigo. Três consequências decorrem dessa cegueira, e cada uma delas pode deslocar a
+recomendação em sentido diferente.
 
 - Se a água for muito cara, o ganho de 0,64 %/m³ do sexto metro cúbico pode se pagar
   bem, e o volume econômico será **maior** que o hidráulico.
@@ -109,11 +125,11 @@ Repare no que ele ignora:
   uma tonelada na de 5 m³. O ganho ambiental de 0,02 %/m³ do último metro cúbico não
   chega perto de compensar a diferença.
 
-Três critérios, três respostas diferentes para a mesma pergunta.
-
-É por isso que o tutorial não para aqui. As seções {{n:10}} e 11 acrescentam o dinheiro
-e o carbono, e a seção {{n:12}} põe os três na mesma mesa, com pesos declarados, para
-escolher um volume de compromisso.
+São três critérios e três respostas distintas para a mesma pergunta, e nenhuma delas é
+mais legítima que as outras em abstrato. É por essa razão que o tutorial não se encerra
+aqui: as seções {{n:10}} e {{n:11}} acrescentam respectivamente o dinheiro e o carbono à
+análise, e a seção {{n:12}} põe as três dimensões na mesma mesa, com pesos declarados,
+para chegar a um volume de compromisso que se possa defender.
 
 > **O engano mais comum, e está na seção {{n:33}}.** Publicar o volume de maior economia
 > de água como se fosse o volume recomendado. Pela tabela, 20.000 L dão o maior
@@ -125,24 +141,27 @@ escolher um volume de compromisso.
 
 ## Duas leituras a mais da tabela
 
-**O extravasamento nunca zera.** De 513 L/dia sem reservatório, cai para 272 L/dia
-com 20 m³ e para por aí. Mais da metade da água que cai na cobertura vai continuar
-indo para a drenagem, porque a demanda simplesmente não a consome. Sistemas de
-aproveitamento pluvial não retêm água da chuva por retê-la — quem quer amortecimento
-de cheia precisa de um reservatório de detenção, que é outro projeto.
+**O extravasamento nunca chega a zero.** Ele parte de 513 L/dia na ausência de
+reservatório, cai para 272 L/dia com vinte metros cúbicos e estaciona nesse patamar. Mais
+da metade da água que cai sobre a cobertura continuará indo para a drenagem, por uma
+razão que nenhum aumento de reservatório resolve: a demanda simplesmente não a consome.
+Sistemas de aproveitamento pluvial não retêm água por retê-la, e quem busca amortecimento
+de cheia precisa de reservatório de detenção, que é outro projeto, com outro critério de
+dimensionamento.
 
-**A confiabilidade sobe mais depressa que o potencial.** De 3.000 para 5.000 L o
-potencial ganha 2,5 pontos, mas os dias plenos vão de 85,7% para 92,9%. Se o
-critério do projeto for conforto de uso e não economia de conta, a leitura da tabela
-muda.
+**A confiabilidade cresce mais depressa que o potencial.** Ao passar de 3.000 para
+5.000 L, o potencial de economia ganha 2,5 pontos percentuais, ao passo que os dias de
+atendimento pleno saltam de 85,7% para 92,9%. Quando o critério de projeto é o conforto
+de uso — não faltar água pluvial nos pontos que a utilizam — e não a economia na conta,
+a leitura da mesma tabela conduz a outra escolha.
 
 ---
 
 ## O que temos até aqui
 
-Adote **5.000 L** e siga. É o volume ideal pelo critério hidráulico padrão, e é o
-que o tutorial carrega até a seção {{n:12}} — onde ele será questionado de novo, agora
-com dinheiro e carbono na conta.
+O tutorial adota 5.000 L e segue. Trata-se do volume ideal pelo critério hidráulico com
+o limiar padrão, e é o valor que o projeto carrega até a seção {{n:12}}, onde será
+questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
 
 | Projeto até aqui | |
 | :--- | ---: |
@@ -154,5 +173,6 @@ com dinheiro e carbono na conta.
 | potencial de economia | 37,46% |
 | dias de atendimento pleno | 92,9% |
 
-Falta decidir uma coisa antes de falar de dinheiro: essa água precisa subir para
-uma caixa d'água? É a seção {{n:8}}.
+Resta uma decisão hidráulica antes que se possa falar de dinheiro: essa água precisa
+subir para uma caixa elevada, ou pode ser pressurizada diretamente da cisterna? É o
+assunto da seção {{n:8}}.

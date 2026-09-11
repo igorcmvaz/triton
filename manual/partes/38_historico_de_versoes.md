@@ -7,7 +7,7 @@ de cálculo pode deslocar cada número de um trabalho já submetido. Quem public
 Netuno precisa saber em que categoria cada alteração se encaixa, e é por isso que o
 histórico abaixo separa as duas coisas de forma explícita.
 
-==A regra que orienta todo este capítulo é simples: correção de cálculo obriga a
+==A regra que orienta toda esta seção é simples: correção de cálculo obriga a
 declarar a versão usada; correção de interface, não.==
 
 ---

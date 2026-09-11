@@ -1,6 +1,6 @@
 # A primeira simulação
 
-> Ao terminar este capítulo você terá o primeiro resultado na tela e saberá **ler**
+> Ao terminar esta seção você terá o primeiro resultado na tela e saberá **ler**
 > os quatro números que importam. Ler é a parte difícil: o programa entrega muitos
 > números, e três deles respondem perguntas diferentes.
 
@@ -19,28 +19,28 @@ superior desmarcado, e rode.
 
 <!-- inclui: _tabelas/cap06_primeira_simulacao.md -->
 
-Quatro números merecem atenção, e cada um responde uma pergunta diferente.
+A tela devolve várias dezenas de valores, e quatro deles bastam para julgar o projeto
+nesta etapa. Cada um responde a uma pergunta distinta, e é precisamente por responderem
+a perguntas distintas que eles não se substituem: um projeto pode ser bom pelo primeiro
+e ruim pelo terceiro, e a leitura conjunta é o que evita conclusão apressada.
 
 ---
 
 ## O potencial de economia: 34,92%
 
-**Responde: quanto da conta de água deixo de pagar?**
+Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da
+conta de água se deixa de pagar. É o valor central produzido pelo programa e o que
+figura no resumo de qualquer estudo, e corresponde à razão entre a água pluvial
+consumida e a demanda total da edificação ao longo de toda a série, conforme a Equação
+{{eq:potencial}}.
 
-É o indicador central do Netuno, e o que vai para o resumo de qualquer estudo. Ele é
-a razão entre a água pluvial consumida e a demanda **total** da edificação, ao longo
-de toda a série:
+O denominador merece atenção, porque dele decorre todo o resto: trata-se da demanda
+**total**, e não da demanda pluvial. É essa escolha que fixa o teto do indicador em 40%,
+que é a fração atendível definida na seção {{n:5}}, e não em cem por cento.
 
-```
-potencial = água pluvial consumida ÷ demanda total × 100
-```
-
-Repare no denominador: **demanda total**, e não demanda pluvial. Por isso o teto é
-40%, a fração atendível definida na seção {{n:5}}.
-
-O sistema atingiu 34,92% de um teto de 40%. Dito de outro modo, ele entrega
-**87% do que pretendia entregar**. Os 13% que faltam são os dias em que a cisterna
-não tinha água suficiente.
+O sistema alcançou 34,92% contra um teto de 40%, o que significa que ele entrega 87% do
+que se propunha a entregar. Os 13% restantes correspondem aos dias em que a cisterna não
+dispunha de água suficiente para atender à demanda pluvial daquele dia.
 
 > **Não confunda os dois percentuais.** «Economia de 35%» e «atendimento de 87% da
 > demanda pluvial» descrevem o mesmo sistema e são números diferentes. Estudos
@@ -52,11 +52,13 @@ não tinha água suficiente.
 
 **Responde: o reservatório é grande o bastante?**
 
-Trezentos e três litros por dia, em média, transbordam da cisterna e vão para a
-rede de drenagem. É **mais** do que os 240 L/dia que o sistema pretende consumir.
+Trezentos e três litros por dia, em média ao longo dos trinta anos, transbordam da
+cisterna e seguem para a rede de drenagem. ==O volume desperdiçado supera os 240 L/dia
+que o sistema pretende consumir,== o que significa que o reservatório escolhido deixa
+passar mais água do que aproveita.
 
-Esse número é o argumento mais forte a favor de aumentar o reservatório, e é
-exatamente o que a seção {{n:7}} vai fazer. Guarde-o.
+Esse é o argumento mais forte a favor de aumentar o reservatório, e é exatamente o que a
+seção {{n:7}} fará em seguida, de modo sistemático.
 
 > Um extravasamento alto não é defeito do programa nem do projeto. É a assinatura do
 > descasamento entre a chuva, que chega concentrada em poucos dias, e a demanda, que
@@ -69,8 +71,10 @@ exatamente o que a seção {{n:7}} vai fazer. Guarde-o.
 
 **Responde: com que frequência posso contar com o sistema?**
 
-É a confiabilidade **temporal**, e ela responde uma pergunta que o potencial não
-responde.
+Trata-se da confiabilidade **temporal** do sistema, e ela responde a uma pergunta que o
+potencial de economia não alcança: com que frequência se pode contar com a água pluvial.
+Cada dia da simulação recebe uma de três classificações, segundo o grau de atendimento
+alcançado.
 
 | Classe | O que significa |
 | :--- | :--- |
@@ -78,13 +82,12 @@ responde.
 | parcial | atendeu parte, e a rede completou |
 | nulo | a cisterna estava vazia; tudo veio da rede |
 
-Em 85,7% dos dias o sistema deu conta sozinho. Nos outros 14,3%, a rede entrou —
-integral ou parcialmente.
-
-A distinção importa para o projeto hidráulico: um sistema com muitos dias nulos
-precisa de alimentação automática de reserva bem dimensionada, e o usuário vai
-perceber a alternância. Um sistema com 99% de dias plenos é, na prática,
-independente.
+Em 85,7% dos dias o sistema deu conta sozinho da demanda pluvial, e nos 14,3% restantes
+a rede pública entrou, integral ou parcialmente. A distinção tem consequência direta
+sobre o projeto hidráulico: um sistema com muitos dias de atendimento nulo exige
+alimentação automática de reserva bem dimensionada, e o usuário percebe a alternância
+entre as duas fontes ao longo do ano. Um sistema com 99% de dias plenos é, na prática,
+independente da rede para os usos que atende.
 
 > **Potencial e confiabilidade não andam juntos.** É possível ter potencial alto com
 > confiabilidade baixa: um reservatório que se enche na estação chuvosa e seca na
@@ -97,25 +100,29 @@ independente.
 
 **Responde: quanto vale isso em dinheiro e em carbono?**
 
-É o número que atravessa para as seções {{n:10}} e {{n:11}}. A economia da conta de água sai
-dele, e a emissão evitada também.
-
-Repare que ele é bem menor que os 187 m³/ano disponíveis depois do descarte. A
-diferença toda virou extravasamento.
+Este é o valor que atravessa para as seções {{n:10}} e {{n:11}}, porque tanto a economia
+na conta de água quanto a emissão de carbono evitada são calculadas a partir dele. Ele
+é sensivelmente menor que os 187 m³/ano que a cobertura disponibiliza depois do
+descarte, e a diferença inteira corresponde ao que extravasou.
 
 ---
 
 ## Por que não chegamos aos 40%
 
-A seção {{n:5}} terminou com um confronto: 187 m³ de oferta contra 88 m³ de demanda.
-Água sobrando. Ainda assim o sistema entrega 87% do pretendido, e não 100%.
+A seção {{n:5}} encerrou com um confronto aparentemente favorável: 187 m³ anuais de
+oferta contra 88 m³ de demanda pluvial, isto é, mais que o dobro do necessário. Diante
+desse excedente, seria razoável esperar atendimento integral, e ainda assim o sistema
+entrega 87% do pretendido.
 
-A resposta está no **tempo**. A água não sobra quando é preciso. Ela chega toda de
-uma vez, enche a cisterna de 3.000 L em um único dia de chuva forte, transborda, e
-depois faz falta duas semanas mais tarde.
+A explicação está inteiramente no **tempo**. A água não sobra no momento em que é
+necessária: ela chega concentrada, enche a cisterna de 3.000 L num único dia de chuva
+forte, transborda no mesmo dia, e faz falta duas semanas depois. O excedente anual e o
+atendimento diário são grandezas que não se comunicam, e é justamente essa
+incomunicabilidade que torna a simulação diária indispensável.
 
-Os 3.000 L guardam **12 dias e meio** de demanda pluvial. Toda estiagem mais longa
-que isso esvazia a cisterna, e o sistema passa a depender da rede.
+O reservatório de 3.000 L armazena o equivalente a doze dias e meio de demanda pluvial.
+Qualquer estiagem mais longa que isso o esvazia, e a partir daí o sistema passa a
+depender integralmente da rede até a chuva seguinte.
 
 É por isso que aumentar o reservatório funciona — e é por isso que aumentar tem
 limite. A seção {{n:7}} mede exatamente onde fica esse limite.

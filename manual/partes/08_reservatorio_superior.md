@@ -1,6 +1,6 @@
 # Precisa de reservatório superior?
 
-> Ao terminar este capítulo você saberá responder a pergunta com número, e não com
+> Ao terminar esta seção você saberá responder a pergunta com número, e não com
 > hábito. A resposta costuma surpreender.
 
 O arranjo clássico do aproveitamento pluvial brasileiro tem dois reservatórios: uma

@@ -3,9 +3,12 @@
 > **Pergunta que este guia responde:** o sistema que dimensiono hoje ainda serve em
 > 2060?
 
-Um reservatório dura trinta anos ou mais. A chuva de 2060 não será a de hoje. O
-Netuno traz uma base de projeções climáticas para que o dimensionamento possa
-considerar isso.
+Um reservatório de água pluvial dura trinta anos ou mais, e a chuva que cairá sobre a
+edificação ao longo desse período não será a mesma que caiu no passado recente. Dimensionar
+um sistema de vida longa exclusivamente sobre a série histórica supõe, implicitamente, um
+clima estacionário — suposição que as projeções disponíveis não sustentam. O Netuno traz
+uma base de projeções climáticas justamente para que o dimensionamento possa incorporar
+essa questão de forma explícita.
 
 ---
 
@@ -31,8 +34,10 @@ modelo climático global de um centro de pesquisa diferente.
 
 ## Escolher modelo, cenário e janela
 
-**O cenário** é a trajetória de emissões. Os três seguem as *Shared Socioeconomic
-Pathways*:
+O **cenário** representa a trajetória futura de emissões de gases de efeito estufa, e os
+três disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC. Eles não
+são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
+longo do século.
 
 | Cenário | Trajetória |
 | :--- | :--- |
@@ -40,16 +45,22 @@ Pathways*:
 | SSP2-4.5 | trajetória intermediária, próxima das políticas atuais |
 | SSP5-8.5 | emissões altas, sem mitigação efetiva |
 
-**A janela** é o período de trinta anos projetado: próximo, médio e distante.
+A **janela temporal** define o período de trinta anos sobre o qual a projeção é tomada,
+e as três disponíveis correspondem a futuro próximo, médio e distante. A escolha da
+janela deve guardar relação com a vida útil pretendida do sistema: projetar um
+reservatório de vinte anos contra a janela distante avalia um período em que ele já terá
+sido substituído.
 
-**O modelo** é a parte difícil, e o item 15.4 trata dela.
+A escolha do **modelo climático** é a decisão mais delicada das três, e a ela se dedica
+uma subseção própria adiante.
 
 ---
 
 ## Como conduzir o estudo
 
-Rode **o mesmo projeto** em cada combinação que interessar, e compare. O
-procedimento:
+O procedimento correto consiste em executar o mesmo projeto em cada combinação de
+interesse e comparar os resultados entre si, em vez de dimensionar diretamente sobre a
+série projetada. Quatro passos o resumem.
 
 1. Feche o dimensionamento com a série **histórica**. É a referência.
 2. Mantenha todos os demais parâmetros e troque só a série.
@@ -66,11 +77,15 @@ procedimento:
 
 ## A escolha do modelo, e por que ela importa tanto
 
-Dezenove modelos projetam dezenove futuros diferentes para a mesma cidade e o mesmo
-cenário. A dispersão entre modelos costuma ser **maior** que a diferença entre
-cenários de emissão nas janelas próxima e média.
+Dezenove modelos climáticos projetam dezenove futuros distintos para a mesma cidade sob
+o mesmo cenário de emissões, e essa dispersão não é ruído a ser eliminado: ela é a
+expressão honesta da incerteza física do problema. ==Nas janelas próxima e média, a
+dispersão entre modelos costuma superar a diferença entre cenários de emissão,== o que
+significa que a escolha do modelo pesa mais sobre o resultado do que a escolha do futuro
+socioeconômico.
 
-Três condutas defensáveis, em ordem de rigor:
+Três condutas são defensáveis diante dessa dispersão, apresentadas aqui em ordem
+decrescente de rigor.
 
 **Ensemble.** Rode todos os modelos disponíveis e reporte a faixa de resultados, com
 mediana. É o mais rigoroso e o mais caro em tempo de máquina. A seção {{n:19}} mostra como
@@ -105,9 +120,12 @@ programa.
 
 ## Uma ressalva de método
 
-Projeções climáticas trazem duas incertezas empilhadas: a do cenário, que é
-socioeconômica, e a do modelo, que é física. Nenhuma das duas é reduzida rodando
-mais simulações.
+Projeções climáticas carregam duas incertezas empilhadas, de naturezas distintas: a do
+cenário, que é socioeconômica e diz respeito a escolhas humanas futuras, e a do modelo,
+que é física e diz respeito à representação do sistema climático. Nenhuma das duas se
+reduz executando mais simulações com o mesmo material, porque não se trata de incerteza
+amostral.
 
-Um estudo honesto apresenta o resultado como **faixa**, não como número, e evita
-conclusões que dependam da terceira casa decimal de uma projeção para 2060.
+Um estudo conduzido com honestidade apresenta o resultado como faixa, e não como número
+único, e evita conclusões que dependam da terceira casa decimal de uma projeção para
+2060.
