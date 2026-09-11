@@ -144,9 +144,15 @@ vinte anos, como a seção {{n:11}} demonstra.
 
 **Emissão específica evitada:**
 
+```equacao:emissao_especifica
+E_esp = S_vida ÷ V_vida
 ```
-específica = saldo no fim da vida ÷ volume total entregue na vida   [g CO₂e/L]
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
+| `S_vida` | saldo de carbono ao fim da vida útil, da Equação {{eq:saldo_vida}} | kg CO₂e |
+| `V_vida` | volume total de água pluvial entregue ao longo da vida útil | m³ |
 
 ---
 

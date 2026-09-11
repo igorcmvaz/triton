@@ -55,9 +55,9 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 ### Programa e versão
 
-- **Versão do Netuno**, incluindo o número de revisão. Correções entre versões mudam
-  resultados: a correção da energia de bombeamento da 5.0.8 mudou o consumo da
-  motobomba em 65%.
+- **Versão do Netuno**, com o número completo. Correções de cálculo entre versões
+  deslocam resultados, e sem a versão declarada não há como saber qual conta produziu o
+  número publicado.
 
 ### Série de precipitação
 
@@ -118,7 +118,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Netuno 5.0.8, com modelo comportamental de base
+> A simulação foi conduzida no Netuno 5.0.0, com modelo comportamental de base
 > diária (YAS, extravasamento anterior à retirada da demanda), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
 > Adotou-se área de captação de 150 m² em projeção horizontal, coeficiente de

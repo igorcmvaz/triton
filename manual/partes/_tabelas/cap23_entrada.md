@@ -1,3 +1,4 @@
+<!-- tabela: Dados de entrada do caso resolvido de dez dias -->
 | Dado de entrada | Valor |
 | :--- | ---: |
 | área de captação | 100 m² |

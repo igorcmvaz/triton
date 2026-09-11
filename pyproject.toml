@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "netuno"
-version = "5.0.8"
+version = "5.0.0"
 description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
 readme = "README.md"
 requires-python = ">=3.10"

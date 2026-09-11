@@ -51,7 +51,7 @@ Quando a classe recomenda e você recusa, o programa registra a recusa no
 relatório, em vez de impor o equipamento em silêncio ou de deixar passar sem nota.
 É a conduta certa: quem assina o projeto decide, e a decisão fica documentada.
 
-> **Isso mudou na versão 5.0.8.** Antes, a classe sobrepunha a escolha: desmarcar o
+> **Isso mudou na versão 5.0.0.** Antes, a classe sobrepunha a escolha: desmarcar o
 > filtro de polimento não surtia efeito nenhum nas classes 2 a 4. O usuário via a
 > caixa desmarcada e pagava o filtro assim mesmo.
 
@@ -126,6 +126,7 @@ A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1
 a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de
 R$ 580 sobre a verba já prevista, e R$ 4,74 por ano de pastilha.
 
+<!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L |

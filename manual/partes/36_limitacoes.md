@@ -5,7 +5,7 @@
 > usuário a tarefa de descobri-los por conta própria.
 
 Esta seção é derivado do registro de pendências que o grupo de pesquisa mantém, e
-reflete o estado da versão 5.0.8. Uma limitação sai desta lista quando é resolvida, e
+reflete o estado da versão 5.0.0. Uma limitação sai desta lista quando é resolvida, e
 não quando deixa de ser mencionada.
 
 ---
@@ -33,16 +33,12 @@ de autolimpeza exige dimensionamento à parte.
 
 ## Limitações dos dados tarifários
 
-**A categoria tarifária é residencial, e só ela.** Os 652 municípios da base trazem
-a estrutura residencial. Escola, hospital, comércio e indústria são faturados em
-categorias mais caras, e o programa avisa que o resultado econômico está
-**subestimado** quando a tipologia não é residencial. É a maior lacuna de dado do
-programa.
-
-**Quatro municípios sem tarifa de excedente.** Sete Lagoas, Bebedouro, Pirassununga e
-São José do Rio Pardo têm a tabela truncada na base, o que produz conta que não se
-move acima de certo consumo. Aguardam as resoluções dos respectivos serviços
-autônomos.
+**O catálogo tarifário cobre apenas a categoria residencial.** Os 652 municípios da
+base trazem a estrutura residencial, e as categorias comercial, industrial e pública —
+que existem em toda concessionária e custam tipicamente o dobro — precisam ser lançadas
+à mão pelo usuário, conforme a seção {{n:16}} descreve. Enquanto não forem, um estudo de
+escola, comércio ou indústria calcula a economia com a tarifa residencial, e portanto a
+**subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
 
 **Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
 subestima a conta no primeiro bloco.

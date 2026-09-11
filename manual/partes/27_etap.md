@@ -34,11 +34,10 @@ equipamentos correntes no mercado brasileiro.
 | até 500 m² | vórtex autolimpante DN 150 | 400 µm |
 | acima de 500 m² | cesto ou ciclônico DN 200 | 500 µm |
 
-> Os limites de faixa acompanham a área que o próprio produto declara atender. Até a
-> versão 5.0.7 eles eram de 150 e 400 m², contra rótulos comerciais de «até 200 m²» e
-> «até 500 m²», de modo que um telhado de 180 m² recebia o filtro da faixa seguinte,
-> mais caro, embora o equipamento da primeira faixa fosse declarado suficiente pelo
-> fabricante.
+> Os limites de faixa acompanham a área que o próprio produto declara atender, e não
+> uma folga arbitrada sobre ela. É a razão de um telhado de 180 m² receber o filtro de
+> DN 100: o equipamento é declarado suficiente pelo fabricante para até 200 m², e impor
+> o da faixa seguinte encareceria a instalação sem fundamento técnico.
 
 ---
 
@@ -80,9 +79,9 @@ m_prod = ( C_Cl ÷ 1000 ) ÷ p
 
 > **O que se compra é o produto, e não o cloro puro.** A pastilha de hipoclorito de
 > cálcio contém cerca de 65% de cloro ativo, e o preço em reais por quilograma refere-se
-> ao produto comercial, não ao princípio ativo. Até a versão 5.0.7 o cálculo utilizava a
-> massa de cloro ativo, o que subestimava o custo pelo inverso da pureza, isto é, em
-> cerca de 35%.
+> ao produto comercial, não ao princípio ativo. Calcular o custo pela massa de cloro
+> ativo o subestimaria pelo inverso da pureza, isto é, em cerca de 35% — e é um engano
+> comum em planilhas de orçamento.
 
 ---
 
@@ -106,10 +105,6 @@ A recomendação, contudo, não é imposição: o filtro só entra no dimensiona
 usuário efetivamente o marcar. Quando a classe o recomenda e o usuário o recusa, o
 programa registra a recusa em campo próprio e o relatório a exibe, de modo que a decisão
 fique documentada em vez de desaparecer.
-
-> Até a versão 5.0.8 a condição de inclusão era «marcado **ou** a classe exige», e a
-> classe sobrepunha a escolha do usuário em silêncio: desmarcar a caixa não surtia
-> efeito algum nas classes 2 a 4.
 
 > **As classes 2 a 4 são adaptações do programa, e não da NBR 15527.** A matriz de
 > parâmetros por uso final é característica da versão de 2007 da norma e não sobreviveu
@@ -149,18 +144,19 @@ cloração em vez de somar-se a ele, e a diferença de tratamento entre o fluxo 
 o inventário de emissões decorre de os dois contabilizarem grandezas distintas.
 
 > A regra vive num módulo único, consumido pelos **dois** motores econômicos do
-> programa. Duas cópias divergiriam com o tempo, e foi exatamente assim que a cloração
-> chegou a ter cinco convenções diferentes numa versão anterior.
+> programa. Duas cópias da mesma regra divergem com o tempo, e a divergência entre elas
+> é invisível no resultado: cada motor responde de forma coerente consigo mesmo.
 
 ---
 
 ## Desligar a ETAP
 
 O dimensionamento da linha de tratamento pode ser inteiramente desativado, e nesse caso
-o programa reproduz o comportamento da versão 5.0.7, em que o tratamento não entrava nem
-no investimento nem no custeio. A finalidade dessa chave é dupla: permite reproduzir
-estudos anteriores para efeito de comparação entre versões, e permite testar a hipótese
-de investimento nulo em tratamento, ainda que ela não corresponda a projeto executável.
+nem o investimento nem o custeio de tratamento entram na análise econômica. A finalidade
+da chave é permitir o estudo da hipótese de tratamento já existente na edificação — caso
+em que o custo não deve ser atribuído ao sistema pluvial — e comparar cenários com e sem
+a linha. ==Desligá-la não significa que a água dispense tratamento:== significa que o
+tratamento não está sendo orçado aqui.
 
 ---
 

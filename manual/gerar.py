@@ -317,7 +317,7 @@ def frontmatter(sumario_linhas, palavras):
         "Grupo de Pesquisa Gestão do Espaço Sustentável",
         "Universidade Federal de Santa Catarina",
         "",
-        f"Versão 5.0.8 · Florianópolis, {date.today().strftime('%d/%m/%Y')}",
+        f"Versão 5.0.0 (beta) · Florianópolis, {date.today().strftime('%d/%m/%Y')}",
         "",
         "---",
         "",
@@ -360,6 +360,166 @@ def frontmatter(sumario_linhas, palavras):
     ])
 
 
+def legendar_tabelas(corpo):
+    """Numera as tabelas, escreve a legenda de cada uma e devolve a lista.
+
+    A legenda declarada na seção prevalece. Na falta dela, a montagem compõe
+    uma a partir do contexto: o título da subseção em que a tabela está, e,
+    quando a tabela declara as variáveis de uma equação, a equação que ela
+    acompanha.
+    """
+    linhas = corpo.split(NL)
+    saida, lista = [], []
+    numero = 0
+    titulo_corrente = ""
+    secao_corrente = ""
+    equacao_corrente = ""
+    legenda_declarada = None
+
+    for i, linha in enumerate(linhas):
+        m_sec = re.match(r"^##\s+[\d.]+\.\s+(.*)$", linha)
+        if m_sec:
+            secao_corrente = m_sec.group(1).strip()
+            titulo_corrente = secao_corrente
+            # A equação corrente não atravessa a fronteira da seção: uma tabela
+            # de variáveis no começo de uma seção não pertence à última equação
+            # da seção anterior.
+            equacao_corrente = ""
+        m_tit = re.match(r"^#{3,4}\s+[\d.]+\.\s+(.*)$", linha)
+        if m_tit:
+            titulo_corrente = m_tit.group(1).strip()
+
+        m_eq = re.match(r"^```equacao:[^:]+:(\d+)\s*$", linha)
+        if m_eq:
+            equacao_corrente = m_eq.group(1)
+
+        m_leg = re.match(r"^<!--\s*tabela:\s*(.+?)\s*-->\s*$", linha)
+        if m_leg:
+            legenda_declarada = m_leg.group(1)
+            continue
+
+        cabecalho_de_tabela = (
+            linha.startswith("|")
+            and i + 1 < len(linhas)
+            and re.match(r"^\|[\s:\-|]+\|$", linhas[i + 1].rstrip())
+        )
+        if cabecalho_de_tabela:
+            numero += 1
+            if legenda_declarada:
+                texto = legenda_declarada
+            elif linha.startswith("| Símbolo | Significado | Unidade |"):
+                texto = ("Variáveis da Equação " + equacao_corrente
+                         if equacao_corrente else "Variáveis da equação")
+            else:
+                cabecas = [c.strip(" *") for c in linha.strip("|").split("|")]
+                cabecas = [c for c in cabecas if c]
+                # Cabeçalho genérico não descreve tabela nenhuma: nesse caso a
+                # legenda se apoia na seção e na subseção em que a tabela está.
+                genericos = {"valor", "valores", "parâmetro", "padrão",
+                             "unidade", "o que significa", "o que é",
+                             "descrição", "item", "quanto"}
+                uteis = [c for c in cabecas if c.lower() not in genericos]
+                if len(uteis) >= 2 and titulo_corrente:
+                    texto = titulo_corrente + ": " + ", ".join(uteis[:3])
+                elif titulo_corrente and secao_corrente:
+                    texto = secao_corrente + ": " + titulo_corrente.lower()
+                elif titulo_corrente:
+                    texto = titulo_corrente
+                else:
+                    texto = ", ".join(cabecas[:3])
+            legenda_declarada = None
+            lista.append((numero, texto))
+            saida.append("<!-- tabela: **Tabela " + str(numero) + "** — "
+                         + texto + " -->")
+        saida.append(linha)
+
+    return NL.join(saida), lista
+
+
+def listar_figuras(corpo):
+    """Devolve [(número, legenda)] das figuras, na ordem de leitura."""
+    lista = []
+    for m in re.finditer(r"^\*Figura (\d+) — (.+?)\*\s*$", corpo, flags=re.M):
+        texto = m.group(2).strip()
+        # A legenda da figura é longa por desígnio; a lista inicial leva só a
+        # primeira oração, que é o que identifica a figura.
+        curta = re.split(r"(?<=[a-z0-9çãé])\. ", texto)[0].rstrip(".")
+        lista.append((int(m.group(1)), curta))
+    return lista
+
+
+def listar_equacoes(corpo):
+    """Devolve [(número, nome legível)] das equações, na ordem de leitura."""
+    nomes = {
+        "volume_captado": "Volume captado no dia",
+        "disponivel": "Volume disponível antes do consumo",
+        "extravasado": "Volume extravasado",
+        "armazenado": "Volume armazenado antes do consumo",
+        "consumido": "Volume de água pluvial consumido",
+        "sobra": "Volume remanescente para o dia seguinte",
+        "potavel": "Complemento de água potável da rede",
+        "classificacao": "Classificação do dia quanto ao atendimento",
+        "fechamento": "Fechamento do balanço de massa",
+        "demanda_tres": "As três parcelas da demanda diária",
+        "ganho_marginal": "Ganho marginal por metro cúbico acrescentado",
+        "volume_ideal": "Volume ideal pelo critério de ganho marginal",
+        "potencial": "Potencial de economia de água potável",
+        "confiabilidade": "Confiabilidade volumétrica",
+        "relacao_indicadores": "Relação entre potencial e confiabilidade",
+        "extravasamento_medio": "Extravasamento médio diário",
+        "volume_poupado": "Volume anual de água potável poupado",
+        "nao_atendida": "Demanda média diária não atendida",
+        "prcptot": "Precipitação total anual, PRCPTOT",
+        "r95p": "Precipitação em dias muito úmidos, R95p",
+        "rx1day": "Máxima precipitação em um dia, RX1day",
+        "rx5day": "Máxima precipitação em cinco dias, RX5day",
+        "sdii": "Índice simples de intensidade diária, SDII",
+        "r20mm": "Dias de precipitação intensa, R20mm",
+        "cdd": "Dias secos consecutivos, CDD",
+        "cwd": "Dias úmidos consecutivos, CWD",
+        "sazonalidade": "Índice de sazonalidade, SI",
+        "massa_cloro": "Massa de produto clorado por metro cúbico",
+        "capex_etap": "Investimento incremental da linha de tratamento",
+        "energia_especifica": "Consumo específico de energia de recalque",
+        "energia_por_vazao": "Consumo específico a partir da vazão",
+        "vazao_deduzida": "Vazão de recalque deduzida da potência",
+        "energia_partida": "Energia consumida nas partidas",
+        "energia_anual": "Energia anual da motobomba",
+        "economia_mensal": "Economia mensal na fatura",
+        "esgoto": "Parcela de esgoto da fatura",
+        "capex": "Investimento inicial total",
+        "inflacao": "Fator acumulado de inflação",
+        "degraus": "Número de reajustes aplicados",
+        "reajuste": "Fator acumulado de reajuste tarifário",
+        "vpl": "Valor presente líquido",
+        "emissao_componente": "Emissão incorporada de um componente",
+        "emissao_energia": "Emissão anual da energia de bombeamento",
+        "saldo_liquido": "Saldo líquido anual de emissões",
+        "payback_carbono": "Tempo de retorno ambiental",
+        "saldo_vida": "Saldo de carbono ao fim da vida útil",
+        "emissao_especifica": "Emissão específica por litro entregue",
+        "topsis": "Coeficiente de proximidade do TOPSIS",
+        "emulacao": "Transformação da série para emular o Netuno 4",
+    }
+    lista = []
+    for m in re.finditer(r"^```equacao:([^:\n]+):(\d+)\s*$", corpo, flags=re.M):
+        chave = m.group(1).strip()
+        lista.append((int(m.group(2)), nomes.get(chave, chave)))
+    return lista
+
+
+def bloco_de_lista(titulo, itens, rotulo):
+    if not itens:
+        return []
+    linhas = ["## " + titulo, ""]
+    for numero, texto in itens:
+        linhas.append(f"{rotulo} {numero} — {texto}")
+        linhas.append("")
+    linhas.append("---")
+    linhas.append("")
+    return linhas
+
+
 def main():
     corpo_partes, faltando, escritos = [], [], []
     sumario = []
@@ -386,13 +546,24 @@ def main():
     corpo = resolver_marcas(corpo)
     corpo = numerar_figuras(corpo)
     corpo = numerar_equacoes(corpo)
+    corpo, tabelas = legendar_tabelas(corpo)
+    figuras = listar_figuras(corpo)
+    equacoes = listar_equacoes(corpo)
+
+    listas = []
+    listas += bloco_de_lista("Lista de figuras", figuras, "Figura")
+    listas += bloco_de_lista("Lista de tabelas", tabelas, "Tabela")
+    listas += bloco_de_lista("Lista de equações", equacoes, "Equação")
+
     palavras = len(corpo.split())
-    corpo = frontmatter(sumario, palavras) + corpo
+    corpo = frontmatter(sumario + [""] + listas, palavras) + corpo
     open(destino, "w", encoding="utf-8").write(corpo)
 
     print(f"montado: {os.path.relpath(destino, AQUI)}")
     print(f"  {len(escritos)} de {len(faltando) + len(escritos)} seções escritas")
     print(f"  {palavras:,} palavras, cerca de {palavras // 450} páginas".replace(",", "."))
+    print(f"  {len(figuras)} figuras, {len(tabelas)} tabelas, "
+          f"{len(equacoes)} equações")
     if faltando:
         print(f"  por escrever: {', '.join(str(f) for f in faltando)}")
     return len(escritos), len(faltando)

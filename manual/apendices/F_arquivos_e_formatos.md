@@ -104,8 +104,8 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 | projeto do Netuno 4 em CSV | abre com aviso; confira o que a seção {{n:21}} lista |
 | arquivo JSON de outro programa | **recusado**, com mensagem própria |
 
-A última linha merece explicação. Até a versão 5.0.8, um arquivo JSON que não fosse um
-projeto do Netuno era aceito em silêncio, e o programa abria um projeto inteiramente
-padrão com o nome daquele arquivo — o usuário simulava 100 m² achando que simulava os
-180 m² do arquivo. Agora a abertura é interrompida com mensagem, o que é chato e é
-correto.
+A última linha merece explicação. Um arquivo JSON que não seja um projeto do Netuno
+poderia, em princípio, ser aceito e preenchido com valores padrão — e o usuário
+simularia 100 m² acreditando simular os 180 m² que o arquivo descreve. O programa
+prefere interromper a abertura com mensagem própria, o que é incômodo e é correto: um
+projeto aberto errado produz um estudo inteiro errado.

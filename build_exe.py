@@ -92,7 +92,7 @@ def build_manual(base_dir: Path) -> bool:
 def build_pyinstaller(args, base_dir: Path) -> bool:
     """Executa a compilação do executável com PyInstaller."""
     print("\n=======================================================")
-    print("  Iniciando Compilação PyInstaller — Netuno 5.0.8")
+    print("  Iniciando Compilação PyInstaller — Netuno 5.0.0")
     print("=======================================================")
 
     try:
@@ -215,7 +215,7 @@ def build_inno_setup(base_dir: Path) -> bool:
     print(f"[+] Utilizando script: {iss_script.relative_to(base_dir)}")
     res = subprocess.run([str(iscc), str(iss_script)], cwd=base_dir)
     if res.returncode == 0:
-        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_8.exe")
+        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_0.exe")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")

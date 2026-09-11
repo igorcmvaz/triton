@@ -11,12 +11,17 @@ ele estar concluído.
 
 ## A ressalva: a categoria tarifária
 
-O catálogo de 652 municípios traz a **categoria residencial**, e só ela.
+As concessionárias brasileiras cobram tarifas distintas conforme a categoria do
+consumidor — residencial, comercial, industrial e pública —, e as categorias não
+residenciais costumam custar o dobro ou mais da residencial. Na tabela da CASAN vigente
+em abril de 2026, por exemplo, a primeira faixa custa R$ 3,08/m³ para uma residência e
+R$ 6,81/m³ para um estabelecimento comercial.
 
-Concessionárias brasileiras cobram categorias diferentes de residência, comércio,
-indústria e poder público, com tarifas que costumam ser **o dobro ou mais**. Na
-tabela da CASAN de abril de 2026, a primeira faixa custa R$ 3,08/m³ no residencial e
-R$ 6,81/m³ no comercial.
+==Essas tabelas existem e são públicas:== estão nas resoluções das agências reguladoras e
+nos sítios das próprias concessionárias. O que o catálogo do programa registra, para os
+652 municípios, é a categoria residencial de cada um, porque levantar as quatro
+categorias de cada prestador seria um trabalho de outra ordem de grandeza. ==A tarifa não
+residencial não falta ao programa: ela falta ao catálogo, e você pode lançá-la.==
 
 Quando você escolhe uma tipologia não residencial, o programa **avisa** e diz o
 sentido do erro:
@@ -27,9 +32,12 @@ sentido do erro:
 > conhecido: as categorias não residenciais são mais caras, e portanto a economia e
 > o retorno estão **subestimados**.
 
-> **O que fazer.** Lance a estrutura da categoria correta da sua concessionária no
-> modo personalizado do diálogo de tarifas. A seção {{n:16}} ensina. Sem isso, o resultado
-> técnico é válido e o **econômico não é publicável**.
+> **O que fazer, em cinco minutos.** Procure a resolução tarifária vigente da sua
+> concessionária, que costuma estar no sítio dela sob «tarifas» ou «estrutura tarifária».
+> Localize a tabela da categoria que interessa. Lance as faixas no modo personalizado da
+> etapa **12. Gestor de Tarifas**, com o regime de mínimo correspondente. A seção
+> {{n:16}} descreve cada campo. Feito isso, o resultado econômico passa a ser o do seu
+> caso, e não uma aproximação residencial.
 
 Há um consolo nessa limitação, e ele é metodológico: ==o erro tem sentido conhecido e é
 conservador.== As categorias não residenciais são mais caras que a residencial, de modo

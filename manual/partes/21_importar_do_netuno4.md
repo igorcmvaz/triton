@@ -119,7 +119,7 @@ seguintes.
 4. **Classe de qualidade** da água e tecnologia de desinfecção.
 5. **Regime tarifário** do município — o Netuno 4 não distinguia os regimes, e a
    seção {{n:16}} mostra o que isso muda.
-6. **Rendimento do motor** da motobomba, campo introduzido na versão 5.0.8.
+6. **Rendimento do motor** da motobomba, que o Netuno 4 não tinha.
 7. **Rode o projeto e confira o potencial** contra o resultado antigo antes de confiar
    no arquivo importado.
 

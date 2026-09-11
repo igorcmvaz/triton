@@ -173,12 +173,25 @@ f_inf = ( 1 + i )^( m − 1 )
 
 **Os reajustes tarifários incidem só sobre a conta, em degraus:**
 
+```equacao:degraus
+k = ⌊ ( m − 1 ) ÷ I ⌋
 ```
-degraus = (m − 1) ÷ intervalo_de_reajuste          (divisão inteira)
-fator_água   = (1 + r_água)^degraus
-fator_esgoto = (1 + r_esgoto)^degraus
-fator_energia = (1 + r_energia)^degraus
+
+```equacao:reajuste
+f_j = ( 1 + r_j )^k
 ```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `k` | número de reajustes já aplicados até o mês `m` | adimensional |
+| `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
+| `I` | intervalo entre reajustes, tipicamente 12 | mês |
+| `⌊ ⌋` | parte inteira da divisão | — |
+| `f_j` | fator acumulado de reajuste da parcela `j` | adimensional |
+| `r_j` | taxa de reajuste da parcela `j`, que pode ser água, esgoto ou energia | adimensional |
+
+A Equação {{eq:reajuste}} é aplicada separadamente a cada uma das três parcelas, com
+taxas próprias, e é dessa separação que trata a observação seguinte.
 
 > **Água e esgoto são reajustados por índices separados**, e não por um índice único
 > sobre a conta agregada. As duas parcelas são objeto de atos distintos da
@@ -196,9 +209,17 @@ degrau que nada tem a ver com o desempenho do sistema.
 
 **Valor presente líquido:**
 
+```equacao:vpl
+VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 ```
-VPL = −CAPEX + Σ [ fluxo_m ÷ (1 + TMA)^m ]
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `VPL` | valor presente líquido do investimento | R$ |
+| `CAPEX` | investimento inicial total, da Equação {{eq:capex}} | R$ |
+| `FC_m` | fluxo de caixa líquido do mês `m` | R$ |
+| `TMA` | taxa mínima de atratividade mensal | adimensional |
+| `m` | mês do fluxo de caixa, de 1 até o fim do período de análise | mês |
 
 **Taxa interna de retorno:** a taxa que zera o VPL. Quando não há raiz real — o que
 acontece quando o fluxo nunca se torna positivo — o programa devolve nulo, em vez de

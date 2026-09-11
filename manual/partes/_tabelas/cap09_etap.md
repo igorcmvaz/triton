@@ -1,3 +1,4 @@
+<!-- tabela: Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
 | Desinfecção | CAPEX | Custeio anual | CO₂e anual |
 | :--- | ---: | ---: | ---: |
 | Cloração por pastilhas | R$ 930 | R$ 7 | 0,4 kg |

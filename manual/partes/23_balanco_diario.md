@@ -124,10 +124,20 @@ pergunta que a varredura de volumes da seção {{n:24}} responde.
 
 A última linha da tabela e o quadro de verificação mostram o fechamento:
 
+```equacao:fechamento
+V_cap = V_ext + V_con + V_res
 ```
-captado = extravasado + consumido + o que ficou no reservatório
-6.681 L = 4.121 L     + 720 L     + 1.840 L
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_cap` | volume total captado no período | L |
+| `V_ext` | volume total extravasado no período | L |
+| `V_con` | volume total de água pluvial consumido no período | L |
+| `V_res` | volume remanescente no reservatório ao fim do período | L |
+
+Nos dez dias do caso resolvido, a Equação {{eq:fechamento}} se verifica com os valores
+6.681 L de captação, 4.121 L de extravasamento, 720 L de consumo e 1.840 L
+remanescentes.
 
 Resíduo zero. O programa não cria nem perde água, e essa verificação é feita
 automaticamente pela suíte de testes a cada alteração do código, sobre séries de dez
@@ -274,9 +284,16 @@ classificaria como parcial um dia que foi plenamente atendido.
 
 A demanda total de um dia se reparte em três, e não em duas:
 
-```
+```equacao:demanda_tres
 D_t = V_con,t + V_pot,t + V_nao,t
 ```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `D_t` | demanda total da edificação no dia `t` | L |
+| `V_con,t` | parcela atendida com água pluvial | L |
+| `V_pot,t` | parcela comprada da rede pública | L |
+| `V_nao,t` | parcela que ninguém forneceu, isto é, demanda não atendida | L |
 
 consumo de chuva, consumo de rede e **demanda não atendida**. A terceira é zero na
 configuração padrão, em que a rede socorre a irrigação nos dias secos. Ela deixa de

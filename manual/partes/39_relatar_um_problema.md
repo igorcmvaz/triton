@@ -1,11 +1,11 @@
 # Como relatar um problema
 
-Programas de simulação têm defeitos, e o Netuno não é exceção. A revisão que originou
-a versão 5.0.8 encontrou doze defeitos de cálculo que estavam em produção havia anos,
-nenhum deles acompanhado de mensagem de erro, e a maioria descoberta não por leitura do
-código mas por comparação entre dois pontos do próprio programa que deveriam concordar
-e não concordavam. A lição prática disso é que o usuário atento é a melhor fonte de
-detecção que um programa científico tem, e é por isso que esta seção existe.
+Programas de simulação têm defeitos, e o Netuno não é exceção. A revisão conduzida antes
+desta publicação encontrou uma dúzia de defeitos de cálculo, nenhum deles acompanhado de
+mensagem de erro, e a maioria descoberta não por leitura do código mas por comparação
+entre dois pontos do próprio programa que deveriam concordar e não concordavam. A lição
+prática é que o usuário atento constitui a melhor fonte de detecção de que um programa
+científico dispõe, e é por essa razão que esta seção existe.
 
 ==Um relato bem feito é aquele que permite reproduzir o problema sem a sua presença.==
 Tudo o que se pede abaixo serve a esse único objetivo.
@@ -58,11 +58,12 @@ lâmina de descarte informada em litros em vez de milímetros, e o regime tarif�
 município tratado como consumo mínimo quando é taxa de disponibilidade — ou o inverso.
 
 Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
-{{n:36}} relaciona o que o programa reconhecidamente não faz, e algumas dessas
-limitações produzem exatamente a impressão de defeito. O caso mais frequente é a
-categoria tarifária: o catálogo de 652 municípios traz apenas a categoria residencial,
-de modo que um estudo de escola ou de comércio é calculado com a tarifa errada, e o
-programa avisa disso em vez de corrigir sozinho.
+{{n:36}} relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
+produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
+lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
+própria, porque a tabela certa é pública e específica de cada concessionária.
 
 ---
 

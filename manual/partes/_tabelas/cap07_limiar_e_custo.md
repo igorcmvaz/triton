@@ -1,3 +1,4 @@
+<!-- tabela: Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
 | Limiar declarado | Volume ideal | Potencial |
 | ---: | ---: | ---: |
 | 3,0 %/m³ | 4 000 L | 36,52% |

@@ -99,11 +99,21 @@ que a distingue das anteriores: durante a partida não há vazão útil, e porta
 perda hidráulica a descontar. O motor puxa energia da tomada, e é apenas isso que o
 medidor da concessionária registra.
 
-**Total anual:**
+A energia anual da motobomba é a soma das duas parcelas: a do recalque efetivo, que
+depende do volume elevado, e a das partidas, que depende do número de acionamentos.
 
+```equacao:energia_anual
+E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 ```
-E = e · V_recalcado + P · t_part ÷ η_m
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_ano` | energia elétrica consumida pela motobomba no ano | kWh/ano |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `V_rec` | volume recalcado no ano | m³/ano |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `t_part` | tempo total de partida acumulado no ano | h/ano |
+| `η_m` | rendimento do motor elétrico | adimensional |
 
 ---
 
@@ -131,20 +141,18 @@ abaixo.
 
 ---
 
-## As três versões desta conta
+## Por que a cadeia completa importa
 
-| Versão | Recalque | Partidas | O erro |
-| :--- | :--- | :--- | :--- |
-| até 5.0.7 | `P × horas ÷ η_b` | `P × t ÷ η_b` | descontava a perda hidráulica duas vezes **e** ignorava o motor |
-| 5.0.8 | `ρgH ÷ η_b` | `P × t ÷ η_b` | corrigiu o recalque e deixou as partidas |
-| atual | `ρgH ÷ (η_b · η_m)` | `P × t ÷ η_m` | — |
+O consumo específico do caso de referência — meio cavalo, 12 m.c.a. de altura
+manométrica, 82 m³ recalcados e 98 acionamentos por ano — é de 0,1080 kWh/m³.
+==Ignorar o rendimento do motor, ou descontar o rendimento da bomba duas vezes,
+altera esse número em dezenas de pontos percentuais,== e esses são precisamente os dois
+enganos mais frequentes em planilhas de dimensionamento.
 
-No caso de referência — meio CV, 12 m.c.a., 82 m³ recalcados, 98 acionamentos por
-ano — o consumo específico passou de 0,0654 para 0,1080 kWh/m³ entre a 5.0.8 e a
-atual.
-
-> **Quem cita um estudo feito em versão anterior precisa saber disso.** A diferença
-> não é de arredondamento.
+O primeiro engano consiste em tratar a potência de placa como potência consumida na
+tomada; o segundo, em aplicar o rendimento hidráulico numa conta que já parte da vazão
+efetivamente entregue, o que o contabiliza duas vezes. A cadeia apresentada nesta seção
+é explícita justamente para tornar ambos visíveis.
 
 ---
 

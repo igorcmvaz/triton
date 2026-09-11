@@ -97,9 +97,15 @@ baixo se a demanda pluvial for pequena, e o contrário também acontece.
 
 ## Extravasamento
 
+```equacao:extravasamento_medio
+V_ext,med = ( Σ V_ext,t ) ÷ n
 ```
-Vext = média diária do volume que transbordou     [L/dia]
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_ext,med` | extravasamento médio diário | L/dia |
+| `V_ext,t` | volume extravasado no dia `t` | L |
+| `n` | número de dias da série simulada | dia |
 
 **O que mede:** o quanto a cisterna é pequena em relação aos eventos de chuva.
 
@@ -116,9 +122,16 @@ oportunidade não aproveitada.
 
 ## Volume anual poupado
 
+```equacao:volume_poupado
+V_poup = ( V_con,med × 365,25 ) ÷ 1000
 ```
-Vpoup = média diária consumida de pluvial × 365,25 ÷ 1000     [m³/ano]
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_poup` | volume de água potável poupado por ano | m³/ano |
+| `V_con,med` | consumo médio diário de água pluvial | L/dia |
+| `365,25` | duração do ano médio, incluindo os bissextos | dia/ano |
+| `1000` | conversão de litros para metros cúbicos | L/m³ |
 
 **O que mede:** a base de cálculo do econômico e da avaliação de ciclo de vida.
 
@@ -130,9 +143,8 @@ Vpoup = média diária consumida de pluvial × 365,25 ÷ 1000     [m³/ano]
 
 ## Ganho marginal
 
-```
-Δ = variação do potencial ÷ variação de volume     [%/m³]
-```
+A definição formal do ganho marginal, com a grade de volumes explicitada, está na
+Equação {{eq:ganho_marginal}}, na seção {{n:24}}.
 
 Definido na seção {{n:24}}. É o indicador que decide o volume ideal, e **só existe numa
 varredura** — uma simulação de volume único não o produz.
@@ -141,11 +153,17 @@ varredura** — uma simulação de volume único não o produz.
 
 ## Demanda não atendida
 
-```
-Vnao = média diária da demanda que ninguém forneceu     [L/dia]
+```equacao:nao_atendida
+V_nao,med = ( Σ V_nao,t ) ÷ n
 ```
 
-Terceira parcela do balanço de demanda, introduzida na versão 5.0.8. É zero na
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_nao,med` | demanda média diária não atendida por nenhuma fonte | L/dia |
+| `V_nao,t` | demanda não atendida no dia `t` | L |
+| `n` | número de dias da série simulada | dia |
+
+Terceira parcela do balanço de demanda. É zero na
 configuração padrão e deixa de ser zero quando o suprimento de reserva da irrigação
 está desligado.
 

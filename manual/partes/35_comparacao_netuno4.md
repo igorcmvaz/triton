@@ -102,10 +102,15 @@ Responde por 41% da divergência.
 A emulação da regra do Netuno 4 é feita **transformando a série de entrada**, e não
 tocando no código do balanço:
 
+```equacao:emulacao
+P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
-P′ = P + d_f    quando P ≥ d_f
-P′ = 0          caso contrário
-```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `P′` | precipitação transformada, a ser fornecida ao Netuno 5 | mm |
+| `P` | precipitação observada no dia | mm |
+| `d_f` | lâmina de descarte de primeiras águas | mm |
 
 Aplicada essa transformação, o cálculo `P_ef = max(0, P′ − d_f)` do Netuno 5
 reproduz exatamente a semântica de limiar. A medição não corre o risco de validar

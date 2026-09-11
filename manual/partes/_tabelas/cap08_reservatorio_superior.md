@@ -1,3 +1,4 @@
+<!-- tabela: Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
 | Mesmo armazenamento de 6.000 L | Um tanque só | 5.000 embaixo + 1.000 em cima |
 | :--- | ---: | ---: |
 | potencial de economia | 38,09% | 37,76% |

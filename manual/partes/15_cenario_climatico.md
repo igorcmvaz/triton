@@ -16,6 +16,7 @@ essa questão de forma explícita.
 
 | | |
 | :--- | ---: |
+<!-- tabela: Conteúdo da base climática nacional distribuída com o programa -->
 | cidades brasileiras | 652 |
 | modelos climáticos do CMIP6 | 19 |
 | cenários de emissão | 3 |

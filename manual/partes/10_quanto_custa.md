@@ -124,6 +124,7 @@ adotado e mostra a sensibilidade — a seção {{n:20}} ensina como.
 
 ## O que temos até aqui
 
+<!-- tabela: Estado do projeto do tutorial após a análise econômica -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L, concreto |

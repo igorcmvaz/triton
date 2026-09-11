@@ -30,9 +30,9 @@ história do programa.
 
 ---
 
-## O que mudou na versão 5.0.8
+## O que mudou na versão 5.0.0
 
-A versão 5.0.8 foi o resultado de uma revisão sistemática do programa, conduzida com
+A versão 5.0.0 foi o resultado de uma revisão sistemática do programa, conduzida com
 um objetivo específico: encontrar valores que fossem calculados corretamente em um
 módulo e descartados antes de chegarem ao módulo seguinte. Essa classe de defeito é
 particularmente perigosa porque não produz erro visível — o programa responde, o
@@ -44,7 +44,7 @@ gravação e da releitura de um projeto.
 
 ### Correções que alteram resultados
 
-As alterações reunidas nesta tabela mudam números. Um estudo refeito na versão 5.0.8
+As alterações reunidas nesta tabela mudam números. Um estudo refeito na versão 5.0.0
 não reproduzirá exatamente os valores obtidos em versões anteriores, e a diferença tem
 sentido conhecido em cada caso.
 

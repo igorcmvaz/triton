@@ -3,9 +3,55 @@
 > **Pergunta que este guia responde:** a tarifa do meu município está na base, e está
 > certa?
 
-Este é o guia que mais muda resultado. O regime tarifário decide a viabilidade
-econômica mais do que qualquer parâmetro de projeto, e é o dado que mais
-frequentemente está errado nos estudos publicados.
+Este é o guia que mais altera resultados. A estrutura tarifária decide a viabilidade
+econômica de um sistema pluvial mais do que qualquer parâmetro de projeto, e é também o
+dado que mais frequentemente aparece errado nos estudos publicados sobre o tema.
+
+---
+
+## Como funciona a conta de água no Brasil
+
+Antes de conferir a tarifa do município, convém entender o que se está conferindo. A
+fatura de água no Brasil não é o produto do consumo por um preço único, e cinco
+características a distinguem da conta de energia, que é a referência mais familiar para
+a maioria dos leitores.
+
+**A prestação é local, e o preço também.** Cada município é atendido por uma companhia
+estadual, por uma autarquia municipal ou por uma concessionária privada, e cada prestador
+tem tabela própria, homologada por uma agência reguladora — estadual, municipal ou
+intermunicipal. Não existe tarifa nacional de água, e a diferença entre dois municípios
+vizinhos pode ultrapassar o dobro.
+
+**A tarifa é progressiva por faixas de consumo.** O metro cúbico não custa o mesmo em
+qualquer quantidade: o consumo é dividido em faixas, e cada faixa tem preço próprio,
+crescente. Na tabela da CASAN vigente em Florianópolis, os primeiros dez metros cúbicos
+custam R$ 3,08 cada e os quinze seguintes custam R$ 14,31 cada. ==A progressividade é o
+que torna a economia de água mais valiosa do que parece:== o metro cúbico que se deixa de
+consumir é sempre o último da conta, que é o mais caro.
+
+**Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
+mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
+para outro. É o assunto da subseção sobre os cinco regimes, adiante, e é o ponto que mais
+decide se um sistema pluvial se paga.
+
+**O esgoto é cobrado como percentual da água.** A maior parte dos prestadores fatura o
+esgoto aplicando um percentual sobre a parcela de água, comumente de 80% ou 100%, sob o
+argumento de que o volume esgotado é proporcional ao consumido. Quando esse percentual é
+de 100%, a parcela de esgoto iguala a de água, e o esgoto responde por metade da fatura —
+o que significa que cada metro cúbico economizado vale o dobro do preço da água.
+
+**Há categorias distintas de consumidor.** Toda concessionária publica tabelas separadas
+para as categorias residencial, comercial, industrial e pública, com preços que
+frequentemente são o dobro ou mais da residencial. Na tabela da CASAN, a primeira faixa
+custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial.
+
+> **O que o programa traz, e o que você precisa lançar.** O catálogo de 652 municípios do
+> programa registra a **categoria residencial** de cada um deles. As demais categorias
+> existem, são públicas e estão nas resoluções das agências reguladoras — o que não há é
+> um catálogo nacional delas, que seria um levantamento de porte próprio. Para estudar
+> uma escola, um comércio ou uma indústria, lance a estrutura da categoria correta no
+> modo personalizado desta mesma tela: o programa aceita qualquer tabela de faixas, com
+> qualquer regime de mínimo, e a seção {{n:18}} mostra o procedimento.
 
 ---
 

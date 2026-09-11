@@ -170,6 +170,9 @@ E = {
                       leading=15.0, alignment=TA_CENTER, spaceAfter=0),
     "eq_numero": estilo("eq_numero", fontSize=10.0, leading=15.0,
                         alignment=TA_RIGHT, spaceAfter=0),
+    "legenda_tabela": estilo("legenda_tabela", fontName=F["titulo_r"],
+                             fontSize=8.6, leading=11.4, textColor=TINTA2,
+                             spaceAfter=1),
     "legenda": estilo("legenda", fontName=F["texto_i"], fontSize=8.8,
                       leading=11.5, textColor=TINTA2, alignment=TA_CENTER,
                       spaceBefore=4, spaceAfter=12),
@@ -266,14 +269,23 @@ def montar_tabela(linhas):
         # A celula que e so codigo sai em monoespacada, que e mais larga que a
         # fonte do texto: medir com a fonte errada espreme a coluna e quebra o
         # simbolo no meio.
-        so_codigo = all(t.strip().startswith("`") for t in textos if t.strip())
+        # O cabeçalho fica de fora: ele é palavra («Símbolo»), e a coluna é de
+        # código quando as **células** são código.
+        celulas_col = [t for t in textos[1:] if t.strip()]
+        so_codigo = bool(celulas_col) and all(
+            t.strip().startswith("`") for t in celulas_col)
         fonte_col = F["mono"] if so_codigo else F["titulo"]
         corpo_col = 8.8 if so_codigo else 8.6
-        palavra = max((p for t in limpos for p in t.split()),
-                      key=lambda p: pdfmetrics.stringWidth(
-                          _sem_unicode(p), fonte_col, corpo_col), default="")
+        # Numa coluna de código, a célula inteira é um símbolo só: `V_cap,t`
+        # não pode quebrar na vírgula. Fora dela, o mínimo é a maior palavra.
+        if so_codigo:
+            trechos = [t.strip() for t in limpos]
+        else:
+            trechos = [p for t in limpos for p in t.split()]
+        maior_trecho = max(trechos, key=lambda p: pdfmetrics.stringWidth(
+            _sem_unicode(p), fonte_col, corpo_col), default="")
         minimos.append(pdfmetrics.stringWidth(
-            _sem_unicode(palavra), fonte_col, corpo_col) + 11.0)
+            _sem_unicode(maior_trecho), fonte_col, corpo_col) + 11.0)
 
     total = float(sum(pesos)) or 1.0
     larguras = [UTIL * p / total for p in pesos]
@@ -368,7 +380,7 @@ def moldura(canvas, doc, com_furniture=True):
         if titulo:
             canvas.drawString(MARGEM_E, ALTURA - MARGEM_S + 8 * mm, titulo[:78])
         canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - MARGEM_S + 8 * mm,
-                               "Manual do Netuno 5.0.8")
+                               "Manual do Netuno 5.0.0")
         canvas.setStrokeColor(REGUA)
         canvas.setLineWidth(0.4)
         canvas.line(MARGEM_E, ALTURA - MARGEM_S + 6 * mm,
@@ -384,6 +396,27 @@ def capa(canvas, doc):
 
 
 # ── a travessia do Markdown ──────────────────────────────────────────────────
+def _com_o_proximo(paragrafo):
+    """Marca o parágrafo para não se separar do que vem abaixo.
+
+    O reportlab honra `keepWithNext` no estilo, e não no objeto; a cópia do
+    estilo evita que a marca vaze para todos os títulos do mesmo nível.
+    """
+    estilo = ParagraphStyle(paragrafo.style.name + "-junto",
+                            parent=paragrafo.style)
+    estilo.keepWithNext = 1
+    paragrafo.style = estilo
+    return paragrafo
+
+
+#: As imagens das equações, compostas por manual/gerar_equacoes.py.
+EQUACOES = {}
+
+#: Quantas tabelas já receberam número. Fica fora da função porque a legenda é
+#: emitida num ponto e a lista inicial é montada noutro.
+contador_tabelas = [0]
+
+
 def converter(texto):
     """Percorre o Markdown montado e devolve a lista de elementos do PDF."""
     linhas = texto.split(NL)
@@ -397,6 +430,7 @@ def converter(texto):
             acumulado.clear()
 
     acumulado = []
+    legenda_pendente = []
     while i < len(linhas):
         linha = linhas[i]
         cru = linha.rstrip()
@@ -411,8 +445,21 @@ def converter(texto):
                 linhas_eq.append(linhas[i].rstrip())
                 i += 1
             i += 1
-            corpo_eq = Paragraph(
-                inline(NL.join(linhas_eq)).replace(NL, "<br/>"), E["equacao"])
+            nome_eq = m_eq.group(1).strip()
+            imagem_eq = EQUACOES.get(nome_eq)
+            if imagem_eq and os.path.exists(imagem_eq):
+                from reportlab.lib.utils import ImageReader
+                lx, ly = ImageReader(imagem_eq).getSize()
+                # A imagem e composta a 320 dpi; 72 pontos por polegada dao a
+                # medida em pontos, e o teto evita que uma equacao longa
+                # invada a margem.
+                largura_eq = min(lx * 72.0 / 320.0, UTIL - 2.6 * cm)
+                corpo_eq = Image(imagem_eq, width=largura_eq,
+                                 height=largura_eq * ly / float(lx),
+                                 hAlign="CENTER")
+            else:
+                corpo_eq = Paragraph(
+                    inline(NL.join(linhas_eq)).replace(NL, "<br/>"), E["equacao"])
             numero_eq = Paragraph("(" + m_eq.group(2) + ")", E["eq_numero"])
             tabela_eq = Table([[corpo_eq, numero_eq]],
                               colWidths=[UTIL - 2.2 * cm, 2.2 * cm])
@@ -444,6 +491,14 @@ def converter(texto):
             fluxo.append(bloco)
             continue
 
+        # legenda de tabela, que vem antes dela
+        m_leg = re.match(r"^<!--\s*tabela:\s*(.+?)\s*-->\s*$", cru)
+        if m_leg:
+            fecha_paragrafo(acumulado)
+            legenda_pendente.append(m_leg.group(1))
+            i += 1
+            continue
+
         # tabela
         if cru.startswith("|") and i + 1 < len(linhas) and re.match(
                 r"^\|[\s:\-|]+\|$", linhas[i + 1].rstrip()):
@@ -455,7 +510,18 @@ def converter(texto):
                 i += 1
             tabela = montar_tabela(bloco)
             if tabela is not None:
-                fluxo += [Spacer(1, 3), tabela, Spacer(1, 9)]
+                if legenda_pendente:
+                    # A legenda ja vem numerada da montagem, que e quem conhece
+                    # a ordem de leitura do manual inteiro. Ela viaja junto com
+                    # a tabela: legenda no pe de uma pagina e tabela na
+                    # seguinte nao identifica coisa nenhuma.
+                    legenda = Paragraph(inline(legenda_pendente.pop(0)),
+                                        E["legenda_tabela"])
+                    fluxo += [Spacer(1, 6),
+                              KeepTogether([legenda, Spacer(1, 2), tabela]),
+                              Spacer(1, 10)]
+                else:
+                    fluxo += [Spacer(1, 2), tabela, Spacer(1, 10)]
             continue
 
         # citação
@@ -539,14 +605,18 @@ def converter(texto):
                 fluxo.append(Paragraph(inline(titulo), E["cap"]))
             i += 1
             continue
+        # O titulo de subsecao nao fica sozinho no pe da pagina: ele e
+        # marcado para descer junto com o que vier abaixo dele.
         if cru.startswith("### ") and not cru.startswith("#### "):
             fecha_paragrafo(acumulado)
-            fluxo.append(Paragraph(inline(cru[4:].strip()), E["h2"]))
+            fluxo.append(_com_o_proximo(Paragraph(inline(cru[4:].strip()),
+                                                  E["h2"])))
             i += 1
             continue
         if cru.startswith("#### "):
             fecha_paragrafo(acumulado)
-            fluxo.append(Paragraph(inline(cru[5:].strip()), E["h3"]))
+            fluxo.append(_com_o_proximo(Paragraph(inline(cru[5:].strip()),
+                                                  E["h3"])))
             i += 1
             continue
 
@@ -612,15 +682,28 @@ def converter(texto):
     return enxuto
 
 
+#: A marca do programa, na folha de rosto.
+LOGO = os.path.join(os.path.dirname(AQUI), "icons", "Netuno2.png")
+
+
 def folha_de_rosto():
-    return [
-        Spacer(1, 5.0 * cm),
+    capa = [Spacer(1, 3.0 * cm)]
+    if os.path.exists(LOGO):
+        from reportlab.lib.utils import ImageReader
+        lx, ly = ImageReader(LOGO).getSize()
+        largura = 4.6 * cm
+        capa += [Image(LOGO, width=largura, height=largura * ly / float(lx),
+                       hAlign="LEFT"),
+                 Spacer(1, 1.2 * cm)]
+    else:
+        capa += [Spacer(1, 2.0 * cm)]
+    return capa + [
         Paragraph("Manual do Netuno", E["capa_titulo"]),
-        Paragraph("Versão 5.0.8", E["capa_sub"]),
+        Paragraph("Versão 5.0.0 — beta", E["capa_sub"]),
         Spacer(1, 0.8 * cm),
         Paragraph("Simulação de sistemas de aproveitamento de água pluvial "
                   "em edificações", E["capa_sub"]),
-        Spacer(1, 5.5 * cm),
+        Spacer(1, 4.2 * cm),
         Paragraph("Igor Catão Martins Vaz &amp; Enedir Ghisi", E["capa_sub"]),
         Spacer(1, 0.5 * cm),
         Paragraph("Grupo de Pesquisa Gestão do Espaço Sustentável",
@@ -635,6 +718,17 @@ def main():
         print("manual ainda não montado; rode manual/gerar.py")
         return 1
     texto = open(ENTRADA, encoding="utf-8").read()
+
+    # As equacoes sao compostas em tipografia matematica antes de o documento
+    # ser montado; sem elas, o bloco cai no texto monoespacado.
+    try:
+        import sys as _sys
+        _sys.path.insert(0, AQUI)
+        from gerar_equacoes import compor_do_manual
+        EQUACOES.update(compor_do_manual(ENTRADA))
+        print(f"  {len(EQUACOES)} equações compostas")
+    except Exception as erro:
+        print(f"  equações em texto simples: {erro}")
 
     # A folha de rosto do Markdown é substituída pela do PDF, que ocupa a
     # página inteira; o sumário gerado permanece.
@@ -653,7 +747,7 @@ def main():
     doc = Manual(provisorio, pagesize=A4,
                  leftMargin=MARGEM_E, rightMargin=MARGEM_D,
                  topMargin=MARGEM_S, bottomMargin=MARGEM_I,
-                 title="Manual do Netuno 5.0.8",
+                 title="Manual do Netuno 5.0.0",
                  author="Igor Catão Martins Vaz; Enedir Ghisi",
                  subject="Aproveitamento de água pluvial em edificações")
     quadro = Frame(MARGEM_E, MARGEM_I, UTIL,

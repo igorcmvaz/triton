@@ -1,3 +1,4 @@
+<!-- tabela: Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento -->
 | Dia | Chuva | Descarte | Chuva efetiva | Captado | Demanda pluvial | Consumido | Extravasado | No reservatório | Atendimento |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
 | | mm | mm | mm | L | L | L | L | L | |

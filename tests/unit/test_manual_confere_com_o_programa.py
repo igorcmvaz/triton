@@ -515,7 +515,7 @@ def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
         "10_quanto_custa.md": ("R$ 195,77", "R$ 15.295", "8,7 anos", "R$ 28,62"),
         "11_quanto_carbono_evita.md": ("962 kg", "35,1 anos", "10,9 anos", "248 kg"),
         "12_qual_volume_escolher.md": ("5.000 L", "12.000 L", "3.000 L", "37,46%"),
-        "13_o_relatorio_e_o_artigo.md": ("5.0.8", "2,3 a 2,7", "1 %/m"),
+        "13_o_relatorio_e_o_artigo.md": ("5.0.0", "2,3 a 2,7", "1 %/m"),
     }
     for arquivo, termos in esperados.items():
         texto = _capitulo(arquivo)

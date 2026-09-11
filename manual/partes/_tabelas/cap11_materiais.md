@@ -1,3 +1,4 @@
+<!-- tabela: Saldo de carbono do projeto do tutorial conforme o material do reservatório -->
 | Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Saldo em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polietileno (PEAD) | 110 kg | 299 kg CO₂e | 10,9 anos | 248 kg | R$ 3 000 |

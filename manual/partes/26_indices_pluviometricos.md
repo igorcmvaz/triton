@@ -11,24 +11,147 @@ uma caracterização honesta é o que permite comparar estudos de cidades difere
 
 ## Os nove índices
 
-Com `P_i` a precipitação do dia `i`, e «dia úmido» definido como `P_i ≥ 1 mm`:
+Os índices são calculados **ano a ano** sobre a série carregada, e o programa reporta a
+média e a dispersão do conjunto de anos. Em toda esta seção, `P_i` designa a precipitação
+do dia `i` do ano, e um **dia úmido** é aquele em que `P_i ≥ 1 mm` — convenção do ETCCDI,
+adotada porque lâminas abaixo de um milímetro são da ordem do erro de medição dos
+pluviômetros convencionais.
 
-| # | Índice | Definição | Unidade |
-| :-- | :--- | :--- | :--- |
-| 1 | **PRCPTOT** | `Σ P_i` sobre os dias úmidos do ano | mm |
-| 2 | **R95p** | `Σ P_i` para `P_i > q95` | mm |
-| 3 | **RX1day** | `max(P_i)` no ano | mm |
-| 4 | **RX5day** | máximo da soma móvel de cinco dias | mm |
-| 5 | **SDII** | `PRCPTOT ÷ número de dias úmidos` | mm/dia |
-| 6 | **R20mm** | contagem de dias com `P_i ≥ 20 mm` | dias |
-| 7 | **CDD** | maior sequência consecutiva de dias secos | dias |
-| 8 | **CWD** | maior sequência consecutiva de dias úmidos | dias |
-| 9 | **SI** | índice de sazonalidade de Walsh e Lawler | adimensional |
+### Precipitação total anual, PRCPTOT
 
-O índice de sazonalidade:
+Soma da precipitação de todos os dias úmidos do ano. Difere do total anual bruto por
+excluir os dias de lâmina desprezível, o que evita que ruído de instrumento se acumule
+no total.
+
+```equacao:prcptot
+PRCPTOT = Σ P_i , para P_i ≥ 1 mm
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `PRCPTOT` | precipitação total dos dias úmidos do ano | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `Σ` | somatório sobre os dias do ano que satisfazem a condição | — |
+
+### Precipitação em dias muito úmidos, R95p
+
+Soma da precipitação dos dias cuja lâmina supera o percentil 95 dos dias úmidos. Mede
+quanto do total anual chega nos eventos extremos, e é o índice mais diretamente ligado ao
+extravasamento de cisternas.
+
+```equacao:r95p
+R95p = Σ P_i , para P_i > q_95
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `R95p` | precipitação acumulada nos dias muito úmidos | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `q_95` | percentil 95 da precipitação dos dias úmidos da série | mm |
+
+### Máxima precipitação em um dia, RX1day
+
+O maior valor diário registrado no ano. É o índice que dimensiona o extravasor e a
+calha, e não o reservatório.
+
+```equacao:rx1day
+RX1day = max ( P_i )
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `RX1day` | maior precipitação diária do ano | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `max` | valor máximo sobre todos os dias do ano | — |
+
+### Máxima precipitação em cinco dias, RX5day
+
+O maior acumulado de cinco dias consecutivos no ano. Importa ao aproveitamento pluvial
+mais que o RX1day, porque um reservatório enche ao longo de um evento prolongado e não
+apenas no pico diário.
+
+```equacao:rx5day
+RX5day = max ( Σ P_j ) , para j de i a i + 4
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `RX5day` | maior acumulado de cinco dias consecutivos no ano | mm |
+| `P_j` | precipitação do dia `j` da janela | mm |
+| `i` | primeiro dia de cada janela de cinco dias | — |
+| `max` | valor máximo sobre todas as janelas do ano | — |
+
+### Índice simples de intensidade diária, SDII
+
+Precipitação média dos dias úmidos. Separa dois regimes que o total anual confunde: muita
+chuva em poucos dias e pouca chuva em muitos dias podem produzir o mesmo PRCPTOT e SDII
+bem diferentes.
+
+```equacao:sdii
+SDII = PRCPTOT ÷ n_úmidos
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `SDII` | intensidade média dos dias úmidos | mm/dia |
+| `PRCPTOT` | precipitação total dos dias úmidos, da Equação {{eq:prcptot}} | mm |
+| `n_úmidos` | número de dias úmidos do ano | dia |
+
+### Dias de precipitação intensa, R20mm
+
+Contagem dos dias em que a lâmina atinge ou supera vinte milímetros. Num sistema de
+aproveitamento pluvial, esses são tipicamente os dias de extravasamento.
+
+```equacao:r20mm
+R20mm = # { i : P_i ≥ 20 mm }
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `R20mm` | número de dias com precipitação intensa no ano | dia |
+| `P_i` | precipitação do dia `i` | mm |
+| `# { }` | contagem dos dias que satisfazem a condição | — |
+
+### Dias secos consecutivos, CDD
+
+Maior sequência de dias consecutivos com precipitação abaixo de um milímetro. ==É o
+índice que melhor prevê o desempenho de um sistema pluvial,== porque a estiagem mais
+longa é o que esvazia a cisterna.
+
+```equacao:cdd
+CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CDD` | maior sequência de dias secos consecutivos no ano | dia |
+| `L` | comprimento de uma sequência de dias secos consecutivos | dia |
+| `P_i` | precipitação do dia `i` | mm |
+
+### Dias úmidos consecutivos, CWD
+
+Maior sequência de dias consecutivos com precipitação igual ou superior a um milímetro.
+Caracteriza a persistência da chuva, e sequências longas favorecem o enchimento completo
+do reservatório.
+
+```equacao:cwd
+CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CWD` | maior sequência de dias úmidos consecutivos no ano | dia |
+| `L` | comprimento de uma sequência de dias úmidos consecutivos | dia |
+| `P_i` | precipitação do dia `i` | mm |
+
+### Índice de sazonalidade, SI
+
+Mede o afastamento entre a distribuição mensal real da chuva e a distribuição
+perfeitamente uniforme ao longo do ano. Diferentemente dos oito anteriores, não pertence
+ao conjunto ETCCDI: foi proposto por Walsh e Lawler em 1981.
 
 ```equacao:sazonalidade
-SI = (1 ÷ R) × Σ | X_m − R ÷ 12 |
+SI = ( 1 ÷ R ) × Σ | X_m − R ÷ 12 |
 ```
 
 | Símbolo | Significado | Unidade |
@@ -38,16 +161,17 @@ SI = (1 ÷ R) × Σ | X_m − R ÷ 12 |
 | `X_m` | precipitação total do mês `m`, com `m` de 1 a 12 | mm |
 | `R ÷ 12` | precipitação mensal que haveria se a chuva fosse uniforme | mm |
 | `Σ` | somatório sobre os doze meses do ano | — |
+| `\| \|` | valor absoluto da diferença | — |
 
-O índice da Equação {{eq:sazonalidade}} mede o afastamento entre a distribuição real da
-chuva ao longo do ano e a distribuição perfeitamente uniforme. ==Ele vale zero quando
-todos os meses recebem a mesma lâmina e tende a 1,83 quando toda a chuva do ano cai num
-único mês.== Entre esses extremos, a leitura usual classifica valores abaixo de 0,40
-como regime equatorial, de 0,40 a 0,79 como estações úmida e seca pouco marcadas, e
-acima de 1,20 como regime de estação seca longa.
+O índice da Equação {{eq:sazonalidade}} vale zero quando todos os meses recebem a mesma
+lâmina e tende a 1,83 quando toda a chuva do ano cai num único mês. Entre esses extremos,
+a leitura usual classifica valores abaixo de 0,40 como regime equatorial, de 0,40 a 0,79
+como estações úmida e seca pouco marcadas, e acima de 1,20 como regime de estação seca
+longa.
 
-O SI é o índice que mais importa para aproveitamento pluvial, e a seção {{n:14}} mostra
-por quê: é a distribuição, e não o total, que decide o rendimento do sistema.
+O índice de sazonalidade é o que mais importa ao aproveitamento pluvial, e a seção
+{{n:14}} mostra por quê: é a distribuição da chuva ao longo do ano, e não o total
+precipitado, que decide o rendimento do sistema.
 
 ---
 

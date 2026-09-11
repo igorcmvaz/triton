@@ -1,3 +1,4 @@
+<!-- tabela: Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
 | Resultado com 3 000 L | Valor |
 | :--- | ---: |
 | potencial de economia de água potável | **34,92%** |

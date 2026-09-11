@@ -2,7 +2,7 @@
 ; Grupo de Pesquisa Gestão Espaço Sustentável (UFSC)
 
 #define MyAppName "Netuno 5"
-#define MyAppVersion "5.0.8"
+#define MyAppVersion "5.0.0"
 #define MyAppPublisher "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"
 #define MyAppExeName "Netuno.exe"
@@ -34,7 +34,7 @@ InfoAfterFile=infos_licenses\info_after.txt
 
 ; Configurações de Compilação e Visual
 OutputDir=dist
-OutputBaseFilename=Netuno_Setup_5_0_8
+OutputBaseFilename=Netuno_Setup_5_0_0
 SetupIconFile={#MyAppIcon}
 SolidCompression=yes
 Compression=lzma2/ultra64

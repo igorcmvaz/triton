@@ -128,6 +128,7 @@ A troca melhora as três dimensões ao mesmo tempo, o que é raro:
 | payback de carbono | 35,1 anos | 10,9 anos |
 | saldo de carbono em 20 anos | −414 kg | +248 kg |
 
+<!-- tabela: Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L |

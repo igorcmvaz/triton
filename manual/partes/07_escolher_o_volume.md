@@ -50,6 +50,7 @@ derivada discreta da curva de potencial e expressa quanto cada metro cúbico adi
 reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o
 padrão que ela revela é o argumento central desta seção.
 
+<!-- tabela: Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
 | De → para | Ganho por m³ |
 | :--- | ---: |
 | 0 → 1.000 L | 25,32 %/m³ |
@@ -87,6 +88,7 @@ cair abaixo dele é o de 5.000 L, com ganho marginal de 0,93 %/m³.
 
 | | |
 | :--- | ---: |
+<!-- tabela: Indicadores do volume ideal obtido com o limiar padrão de 1 %/m³ -->
 | volume ideal, limiar de 1 %/m³ | 5.000 L |
 | potencial nesse volume | 37,46% |
 | de um teto de | 40% |
@@ -163,6 +165,7 @@ O tutorial adota 5.000 L e segue. Trata-se do volume ideal pelo critério hidrá
 o limiar padrão, e é o valor que o projeto carrega até a seção {{n:12}}, onde será
 questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
 
+<!-- tabela: Estado do projeto do tutorial após a escolha do volume -->
 | Projeto até aqui | |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |

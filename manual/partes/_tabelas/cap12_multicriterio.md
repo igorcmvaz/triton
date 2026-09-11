@@ -1,3 +1,4 @@
+<!-- tabela: Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
 | Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 000 L | 25,32% | R$ 7 862 | 8,8 anos | 213 kg | R$ 7 540 |

@@ -80,6 +80,7 @@ dos anteriores, ele não se limita a reconhecer o desempenho: a graduação obti
 elegibilidade a condições diferenciadas de financiamento, o que faz dele o referencial
 com consequência econômica mais direta entre os cinco tratados aqui.
 
+<!-- tabela: Graduações do Selo Casa Azul CAIXA e a bonificação correspondente -->
 | Graduação | Substituição | Bonificação |
 | :--- | ---: | ---: |
 | Prata | ≥ 10% | +2 pontos |

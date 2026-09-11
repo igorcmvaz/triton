@@ -114,6 +114,7 @@ acrescentaria investimento e energia sem contrapartida hídrica.
 Num sobrado, ou num prédio, a resposta mudaria — não por causa da água, mas por
 causa da pressão.
 
+<!-- tabela: Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume do reservatório | 5.000 L |

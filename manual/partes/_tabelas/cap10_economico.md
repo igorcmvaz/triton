@@ -1,3 +1,4 @@
+<!-- tabela: Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
 | A conta da CASAN | Consumo | Valor |
 | :--- | ---: | ---: |
 | sem o sistema | 18,26 m³/mês | R$ 390,75 |
