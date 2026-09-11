@@ -3,8 +3,18 @@
 > Esta seção traz as sete etapas do inventário, a fronteira adotada, e declara o
 > que é medido e o que é premissa de triagem.
 
-A avaliação do Netuno é de **triagem**. Ela ordena alternativas e identifica o que
-domina o resultado; não substitui um inventário completo conforme a ISO 14040.
+Avaliação de ciclo de vida é o método que contabiliza os impactos ambientais de um
+produto ao longo de toda a sua existência, da extração das matérias-primas ao descarte
+final. Aplicada a um sistema de aproveitamento pluvial, ela responde se o carbono emitido
+para fabricar o reservatório, a tubulação e a motobomba compensa o carbono que se deixa
+de emitir ao não consumir água da concessionária.
+
+==A avaliação do Netuno é de triagem, e não um inventário completo.== A distinção é
+importante e a norma a reconhece: uma avaliação de triagem ordena alternativas e
+identifica o que domina o resultado, ao passo que um inventário conforme a ISO 14040
+documenta cada fluxo elementar com procedência rastreável e submete-se a revisão crítica
+externa. O primeiro serve para decidir entre polietileno e concreto; o segundo, para
+declarar publicamente um desempenho ambiental.
 
 ---
 
@@ -20,8 +30,15 @@ domina o resultado; não substitui um inventário completo conforme a ISO 14040.
 | 6 | operação: tratamento | operacional |
 | 7 | **água potável evitada** | crédito |
 
-Volume zero **sem** volume pluvial é o cenário sem sistema, e não recebe impacto
-fixo de caixa, tubo ou bomba.
+As quatro primeiras etapas contabilizam o **carbono incorporado**, isto é, as emissões
+ocorridas na fabricação dos componentes, antes que o sistema entre em operação. As duas
+seguintes contabilizam as emissões operacionais, que se repetem a cada ano de uso. E a
+sétima é o **crédito**: a emissão que a concessionária deixou de gerar porque aquela água
+não precisou ser captada, tratada e distribuída.
+
+O volume zero sem consumo pluvial representa o cenário sem sistema e, por construção, não
+recebe o impacto fixo de reservatório, tubulação ou motobomba — é a referência contra a
+qual todas as demais alternativas se comparam.
 
 ---
 
@@ -37,8 +54,10 @@ E_comp = m_comp × FE_mat
 | `m_comp` | massa do componente | kg |
 | `FE_mat` | fator de emissão do material, do berço ao portão | kg CO₂e/kg |
 
-A massa da cisterna vem do volume e da densidade de massa por metro cúbico útil de
-cada material:
+A massa de cada componente decorre do seu dimensionamento. No caso do reservatório, ela
+é obtida do volume útil multiplicado pela densidade de massa característica do material,
+que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
+dessa variação que decorre boa parte do resultado ambiental do projeto.
 
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
@@ -123,7 +142,11 @@ PB_amb = E_inc ÷ E_liq
 | `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
 | `E_liq` | saldo líquido anual de emissões, da Equação {{eq:saldo_liquido}} | kg CO₂e/ano |
 
-Sem saldo líquido positivo, o programa devolve 999 anos, em vez de infinito.
+Quando o saldo líquido anual não é positivo — situação real, e não hipotética, em
+sistemas com reservatório de concreto de grande volume — o retorno ambiental não existe,
+porque a dívida nunca é amortizada. O programa devolve 999 anos nesse caso, em vez de
+infinito, para que o valor continue ordenável nas comparações; o significado, contudo, é
+que o sistema termina a vida útil devendo carbono.
 
 **Saldo no fim da vida:**
 

@@ -61,16 +61,16 @@ descartados por inteiro, e o item 4.3 explica por quê.
 
 ## A área de captação
 
-**150 m²**, e este é o primeiro lugar onde se erra.
+O projeto do tutorial adota 150 m² de área de captação, e este é o primeiro campo em que
+se erra com frequência.
 
-A área de captação é a **projeção horizontal** da cobertura, e não a área
-inclinada do telhado. Um telhado de 30% de inclinação sobre uma planta de 150 m²
-tem cerca de 157 m² de superfície, mas capta os mesmos 150 m². A chuva cai na
-vertical, e o que ela vê é a sombra da cobertura no chão.
-
-A definição vem da NBR 10844: a soma das áreas das superfícies que, interceptando
-chuva, conduzem as águas para determinado ponto da instalação, representada pela
-projeção horizontal.
+A área de captação é a **projeção horizontal** da cobertura, e não a área inclinada do
+telhado. Um telhado com 30% de inclinação sobre uma planta de 150 m² tem cerca de 157 m²
+de superfície de telha, e ainda assim capta os mesmos 150 m² de chuva: a precipitação cai
+na vertical, e o que ela encontra é a sombra da cobertura projetada no chão. A definição
+consta da ABNT NBR 10844, que trata a área de contribuição como a soma das superfícies
+que, interceptando a chuva, conduzem as águas a determinado ponto da instalação,
+representada pela sua projeção horizontal.
 
 > **Atenção.** Usar a área inclinada superestima a captação na razão
 > `1/cos(inclinação)`. Num telhado de 30% dá 4,4% a mais de água que não existe. Em
@@ -80,11 +80,13 @@ projeção horizontal.
 
 ## O coeficiente de escoamento
 
-**0,85**, para telha cerâmica.
+O tutorial adota coeficiente de escoamento de 0,85, valor usual para telha cerâmica.
 
-O coeficiente representa a fração da chuva que efetivamente chega à cisterna.
-Perde-se água por absorção do material, por evaporação na superfície quente, por
-respingo e pelo molhamento inicial da telha a cada evento.
+O coeficiente de escoamento superficial representa a fração da chuva incidente que
+efetivamente chega à cisterna, e a diferença até a unidade corresponde ao que se perde no
+caminho. As perdas têm quatro origens: a absorção pelo material da cobertura, a
+evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento
+inicial da telha a cada novo evento de chuva.
 
 | Cobertura | Coeficiente usual |
 | :--- | ---: |
@@ -94,22 +96,27 @@ respingo e pelo molhamento inicial da telha a cada evento.
 | laje impermeabilizada | 0,80 a 0,85 |
 | telhado verde | 0,20 a 0,50 |
 
-O programa aceita valores entre 0 e 1, e recusa fora disso nomeando o campo. A aba
-Documentação traz a tabela completa por material, inclusive coberturas mistas.
+O programa aceita qualquer valor entre zero e um, e recusa valores fora desse intervalo
+nomeando o campo — um coeficiente maior que a unidade significaria que a cobertura entrega
+mais água do que a chuva lhe traz. A etapa **11. Documentação** traz a tabela completa por
+material, incluindo coberturas mistas, em que o coeficiente é a média ponderada pelas
+áreas.
 
 ---
 
 ## O descarte de primeiras águas
 
-**2,0 mm, em todo evento de chuva.**
+O tutorial descarta 2,0 mm em todo evento de chuva.
 
-A primeira água que lava o telhado carrega poeira, folhas, fezes de aves e o que
-mais tiver se depositado desde a última chuva. Descartá-la é a medida de qualidade
-mais barata e mais eficaz de um sistema pluvial.
+A primeira água que lava a cobertura carrega poeira, folhas, fezes de aves e tudo o mais
+que tenha se depositado desde a chuva anterior. Descartá-la, em vez de conduzi-la à
+cisterna, é a medida de qualidade mais barata e mais eficaz de que um sistema pluvial
+dispõe, e por isso é praticamente universal em projetos bem conduzidos. A ABNT NBR 15527
+recomenda o descarte de 2 mm quando não houver dado local que justifique outro valor, e é
+esse o valor adotado aqui.
 
-A NBR 15527 recomenda 2 mm quando não há dado local. É o valor deste tutorial.
-
-O programa oferece **três modos**:
+O programa oferece três modos de aplicação do descarte, que correspondem a três tipos de
+dispositivo de autolimpeza.
 
 | Modo | Quando descarta | Quando usar |
 | :--- | :--- | :--- |
@@ -124,8 +131,10 @@ O programa oferece **três modos**:
 > Na série de Florianópolis, isso atinge 7% dos dias. Em climas de garoa frequente,
 > como o litoral sul no inverno, pode passar de 20%.
 
-A razão é física: o dispositivo de autolimpeza precisa encher antes de a água chegar
-à cisterna. Se a chuva não o enche, nada passa adiante.
+A razão desse comportamento é física, e não convencional: o dispositivo de autolimpeza
+precisa encher-se por completo antes que qualquer água siga para a cisterna. Quando a
+chuva do dia não basta para enchê-lo, nada passa adiante, e o volume retido é perdido
+para a drenagem junto com a sujeira que ele lavou.
 
 > **A lâmina não é o dispositivo.** `d_f` é uma lâmina em milímetros. O volume
 > hidráulico do reservatório de autolimpeza é `A × d_f`, que no nosso projeto dá

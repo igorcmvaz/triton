@@ -4,9 +4,16 @@
 > mais confiável que um que aparenta servir para tudo, porque o segundo transfere ao
 > usuário a tarefa de descobri-los por conta própria.
 
-Esta seção é derivado do registro de pendências que o grupo de pesquisa mantém, e
-reflete o estado da versão 5.0.0. Uma limitação sai desta lista quando é resolvida, e
-não quando deixa de ser mencionada.
+Esta seção deriva do registro de pendências que o grupo de pesquisa mantém, e reflete o
+estado da versão 5.0.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação de
+programas científicos frequentemente não observa.
+
+As limitações estão agrupadas por origem, porque a providência que cada grupo admite é
+diferente. As do modelo decorrem de escolhas de representação e só mudam com uma revisão
+do próprio modelo. As dos dados dependem de levantamento, e podem ser supridas pelo
+usuário. As metodológicas são desvios declarados em relação a uma formulação de
+referência. E as de implementação são trabalho pendente, sem obstáculo conceitual.
 
 ---
 
@@ -119,11 +126,16 @@ existe.**
 
 ## O que fazer com esta lista
 
-Num estudo publicado, **cite as limitações que afetam o seu caso**. Não todas: as
-que afetam.
+Num trabalho publicado, cite as limitações que afetam o seu caso — não todas, que
+transformaria a seção de método numa lista defensiva, mas as que efetivamente incidem
+sobre as conclusões apresentadas. ==Uma limitação declarada é uma ressalva; uma limitação
+omitida, quando descoberta, é um erro.==
 
-Um estudo em escola precisa citar a categoria tarifária. Um estudo ambiental precisa
-citar a categoria única de impacto e o fator da motobomba. Um estudo em habitação de
-interesse social precisa citar a ausência de tarifa social.
+Três exemplos orientam a seleção. Um estudo conduzido em escola precisa citar a questão da
+categoria tarifária, porque ela desloca todo o resultado econômico. Um estudo de
+desempenho ambiental precisa citar a categoria única de impacto e a extrapolação do fator
+de emissão da motobomba. E um estudo em habitação de interesse social precisa citar a
+ausência de tarifa social, que nesse contexto pode inverter a conclusão.
 
-Um revisor que encontre uma dessas limitações não declarada tem razão em cobrá-la.
+Um parecerista que encontre uma dessas limitações silenciada tem inteira razão em
+cobrá-la, e a cobrança costuma custar mais tempo do que a declaração teria custado.

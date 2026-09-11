@@ -57,26 +57,34 @@ custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial.
 
 ## Comece conferindo o que já está na base
 
-O programa traz **652 municípios** com estrutura tarifária, percentual de esgoto,
-regime de mínimo, data de vigência e a fonte de onde o dado veio.
+O programa acompanha um catálogo de 652 municípios brasileiros, e cada registro traz a
+estrutura tarifária completa, o percentual de esgoto praticado, o regime de mínimo
+adotado, a data de vigência da tabela e a fonte documental de onde o dado foi extraído.
+O catálogo cobre a categoria residencial, conforme a subseção anterior esclarece.
 
-Na etapa **12. Gestor de Tarifas**, escolha o estado e o município. O programa mostra a estrutura e o
-**grau de confiança** do registro. Confira três coisas contra a resolução da sua
-concessionária:
+Na etapa **12. Gestor de Tarifas**, escolha o estado e o município. Além da estrutura, o
+programa exibe o **grau de confiança** atribuído ao registro, que sintetiza a qualidade da
+fonte e a data do levantamento. Três itens merecem conferência contra a resolução vigente
+da sua concessionária, e a ordem importa porque o primeiro invalida os demais.
 
 1. **a data de vigência** — tarifas são reajustadas anualmente;
 2. **os valores das faixas**;
 3. **o regime de mínimo**, que é o item 16.3.
 
-Se algo divergir, edite. O que você editar vale para o seu projeto e fica gravado no
-arquivo.
+Havendo divergência em qualquer dos três, edite o registro. A edição vale para o seu
+projeto, não altera o catálogo dos demais usuários, e fica gravada dentro do arquivo
+`.netuno` — o que significa que quem receber o seu projeto reproduzirá a mesma conta, com
+a mesma tabela.
 
 ---
 
 ## Como a tabela é montada
 
-Cada linha da tabela é uma **quádrupla**: volume mínimo, volume máximo, valor, e um
-código que diz o que aquele valor significa.
+Cada linha da estrutura tarifária é representada no programa por uma quádrupla de
+valores: o volume mínimo da faixa, o volume máximo, um valor monetário e um código. O
+código é o elemento decisivo, porque é ele que informa o que aquele valor significa — e
+estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
+cada linha.
 
 | Código | O que é | Como entra na conta |
 | ---: | :--- | :--- |
@@ -85,7 +93,8 @@ código que diz o que aquele valor significa.
 | −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
 | −3 | piso de pagamento | a conta **não desce** abaixo deste valor |
 
-Florianópolis, por exemplo:
+A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
+disponibilidade e quatro faixas progressivas.
 
 ```
 (0,00 ; 0,00 ; 46,34 ; -1)     disponibilidade, soma sempre

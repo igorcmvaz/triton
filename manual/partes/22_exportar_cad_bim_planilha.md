@@ -23,13 +23,16 @@ resultados, seja para construir um gráfico que o programa não oferece, seja pa
 combinar os números do Netuno com dados de outra origem. Dois conjuntos de dados estão
 disponíveis, e eles respondem a perguntas diferentes.
 
-**Série diária.** Uma linha por dia da simulação, com chuva, chuva efetiva,
-captação, demanda, consumo pluvial, consumo de rede, extravasamento, volume nos dois
-reservatórios, recalque e classe de atendimento. É a base de qualquer gráfico ou
-estatística que o programa não ofereça.
+A **série diária** traz uma linha por dia simulado, com a chuva registrada, a chuva
+efetiva depois do descarte, o volume captado, a demanda do dia, o consumo pluvial, o
+consumo de rede, o extravasamento, o volume armazenado nos dois reservatórios, o volume
+recalcado e a classe de atendimento. É a base de qualquer gráfico ou estatística que o
+programa não ofereça pronta, e é o que se usa quando a análise pretendida difere da que o
+programa faz.
 
-**Varredura.** Uma linha por volume simulado, com todos os indicadores. É a base da
-curva de retorno da seção {{n:7}}.
+A **varredura** traz uma linha por volume simulado, com todos os indicadores calculados
+para cada um. É a base da curva de retorno decrescente apresentada na seção {{n:7}}, e o
+formato adequado para quem queira redesenhá-la com outra apresentação.
 
 > **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
 > simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta

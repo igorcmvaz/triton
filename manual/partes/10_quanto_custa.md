@@ -8,19 +8,23 @@
 
 ## A economia é a diferença entre duas contas
 
-O erro mais comum da análise econômica de sistemas pluviais é multiplicar o volume
-poupado por uma tarifa média. Isso quase nunca dá o número certo, porque as tarifas
-brasileiras são **progressivas por faixa**: o metro cúbico que você deixa de
-consumir é o **último**, o mais caro, e não o médio.
+O erro mais comum na análise econômica de sistemas pluviais consiste em multiplicar o
+volume poupado por uma tarifa média. O resultado quase nunca é correto, e a razão está na
+estrutura das tarifas brasileiras, que são progressivas por faixa de consumo, conforme a
+seção {{n:16}} detalha: ==o metro cúbico que se deixa de consumir é o último da conta,
+que é o mais caro, e não o médio.==
 
-O Netuno calcula duas contas completas e subtrai.
+O Netuno evita o problema calculando duas faturas completas — a que a edificação pagaria
+sem o sistema e a que ela paga com ele — e tomando a diferença entre as duas.
 
 <!-- inclui: _tabelas/cap10_economico.md -->
 
-Repare no que aconteceu. O sistema poupa 6,84 m³ por mês, e a conta cai R$ 195,77.
-Isso dá **R$ 28,62 por metro cúbico** poupado — bem acima dos R$ 14,31 da faixa em
-que o consumo caiu, porque a conta inclui o esgoto, que em Florianópolis é 100% do
-valor da água.
+O resultado merece atenção. O sistema poupa 6,84 m³ por mês e a fatura cai R$ 195,77, o
+que equivale a R$ 28,62 por metro cúbico economizado — valor bem acima dos R$ 14,31 da
+faixa em que o consumo se situava. A diferença tem duas origens que atuam juntas: a
+progressividade, que faz o metro cúbico economizado valer o preço da faixa mais alta, e o
+esgoto, que em Florianópolis é cobrado a 100% da tarifa de água e portanto dobra o valor
+de cada metro cúbico poupado.
 
 > **O esgoto é percentual da tarifa de água, não da fatura.** Cem por cento da água
 > significa que a parcela de esgoto iguala a de água, e portanto o esgoto é metade
@@ -31,16 +35,17 @@ valor da água.
 
 ## O regime tarifário da CASAN
 
-Florianópolis tem regime de **disponibilidade**: R$ 46,34 por mês de taxa fixa, que
-soma por cima do consumo medido, mais as faixas progressivas a partir do primeiro
-metro cúbico.
+Florianópolis pratica o regime de disponibilidade, no qual a concessionária cobra uma
+taxa fixa mensal de R$ 46,34 que se soma ao consumo medido, e tarifa as faixas
+progressivas a partir do primeiro metro cúbico consumido.
 
-Isso é a melhor notícia possível para um projeto pluvial: **cada metro cúbico
-economizado gera desconto desde o primeiro**. A taxa fixa continua sendo paga, mas
-não impede a economia.
+Para um projeto de aproveitamento pluvial, essa é a configuração mais favorável que
+existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a taxa fixa
+é cobrada por disponibilizar a rede, e não por um volume incluído. Ela continua sendo
+paga, e não impede a economia sobre o consumo.
 
-Nem todo município é assim. O programa reconhece **cinco regimes**, e a diferença
-entre eles decide projetos:
+Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
+projetos inteiros. O programa distingue cinco.
 
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |

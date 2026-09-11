@@ -7,13 +7,17 @@
 
 ## O papel da comparação
 
-O Netuno 4 **não é alvo de fidelidade**. O Netuno 5 adota decisões de modelagem
-distintas, deliberadas e documentadas, e espera-se que os resultados difiram.
+Convém começar esclarecendo o que esta comparação **não** é. ==O Netuno 4 não constitui
+alvo de fidelidade para o Netuno 5.== A versão atual adota decisões de modelagem distintas,
+deliberadas e documentadas, e seria motivo de preocupação, e não de satisfação, se os
+resultados coincidissem exatamente.
 
-O que o Netuno 4 oferece é algo mais valioso: um conjunto **independente** de
-resultados, produzido por outra implementação do mesmo modelo conceitual. Sem essa
-referência externa, a verificação se limitaria a propriedades internas — necessárias,
-mas incapazes de detectar um erro sistemático que as respeitasse todas.
+O valor do Netuno 4 nesta verificação é outro, e é maior: ele oferece um conjunto
+independente de resultados, produzido por outra implementação do mesmo modelo conceitual,
+por outras mãos e em outra linguagem. Sem uma referência externa dessa natureza, a
+verificação se limitaria a propriedades internas do programa — necessárias, conforme a
+seção {{n:34}} descreve, e incapazes de detectar um erro sistemático que as respeitasse
+todas.
 
 ---
 
@@ -38,16 +42,18 @@ cidades e faixas de parâmetros distintas.
 | Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
 | Manaus/São Paulo | 2,71 pp | −2,71 pp | 10,60 pp | 88,6% |
 
-O viés é sistematicamente negativo: o Netuno 5 estima **menos** economia. Isso é
-esperado, e a próxima seção diz por quê.
+O viés é sistematicamente negativo nos dois conjuntos, isto é, o Netuno 5 estima menos
+economia que o Netuno 4 em praticamente todos os casos. O resultado é esperado, e a
+subseção seguinte decompõe a diferença em suas causas atribuíveis.
 
 ---
 
 ## A decomposição, que é o número que importa
 
-Comparar o ótimo de um programa com o do outro mistura três diferenças. A
-decomposição as separa, comparando em três configurações sucessivamente mais
-controladas, sobre os 2.583 casos de Manaus e São Paulo:
+Comparar diretamente o volume ótimo de um programa com o do outro mistura três
+diferenças de naturezas distintas, e o número resultante não informa qual delas responde
+pelo quê. A decomposição as separa comparando os dois programas em três configurações
+sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
 | Configuração | Erro médio | ≤ 5 pp |
 | :--- | ---: | ---: |
@@ -77,30 +83,33 @@ A atribuição resultante:
 
 ### O descarte
 
-O Netuno 4 trata `d_f` como **limiar do evento**: abaixo dele nada é captado, acima
-dele capta-se a chuva **inteira**. O manual do Netuno 4, seção 3.1, é explícito:
-«caso a precipitação em um dado dia esteja abaixo desse valor, o Netuno considerará
-que não houve precipitação».
+O Netuno 4 trata a lâmina de descarte como limiar do evento: quando a precipitação do dia
+fica abaixo dela, nada é captado; quando a ultrapassa, capta-se a chuva inteira, sem
+subtração alguma. O manual do Netuno 4 é explícito a respeito, ao afirmar que uma
+precipitação diária abaixo desse valor faz o programa considerar que não houve
+precipitação.
 
-O Netuno 5 **subtrai** a lâmina. A mudança é fisicamente mais fiel: a água desviada
-para o dispositivo de autolimpeza não chega à cisterna.
-
-Responde por metade da divergência.
+O Netuno 5 subtrai a lâmina da precipitação do dia, tratamento fisicamente mais fiel
+porque a água desviada para o dispositivo de autolimpeza efetivamente não chega à
+cisterna. A mudança responde por metade da divergência total medida entre as duas
+versões.
 
 ### O critério de volume ótimo
 
-Os dois programas escolhem o volume ideal por critérios de ganho marginal, mas com
-implementações e grades diferentes. Avaliando os dois no **mesmo** volume, a
-divergência cai de 2,81 para 1,60 pp.
-
-Responde por 41% da divergência.
+Ambos os programas escolhem o volume ideal por critérios de ganho marginal, mas as
+implementações e as grades de busca diferem entre si, de modo que cada um elege um volume
+distinto e a comparação passa a incluir essa diferença de escolha. Avaliando os dois
+programas no mesmo volume — o que o Netuno 4 declarou ótimo — a divergência cai de 2,81
+para 1,60 ponto percentual, o que atribui 41% da diferença total ao critério de escolha.
 
 ---
 
 ## Como medir a diferença sem alterar o motor
 
-A emulação da regra do Netuno 4 é feita **transformando a série de entrada**, e não
-tocando no código do balanço:
+A emulação da regra antiga é feita transformando a série de precipitação de entrada, e
+não alterando o código do balanço hídrico. A distinção metodológica é essencial: medir a
+divergência com um código modificado validaria um programa que não é o distribuído ao
+usuário, o que anularia o propósito da verificação.
 
 ```equacao:emulacao
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário

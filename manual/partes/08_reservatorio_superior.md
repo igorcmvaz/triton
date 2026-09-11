@@ -3,52 +3,60 @@
 > Ao terminar esta seção você saberá responder a pergunta com número, e não com
 > hábito. A resposta costuma surpreender.
 
-O arranjo clássico do aproveitamento pluvial brasileiro tem dois reservatórios: uma
-cisterna enterrada que recebe a chuva, e uma caixa d'água elevada que alimenta os
-pontos de consumo por gravidade. Entre as duas, uma motobomba.
-
-Quase todo projeto adota esse arranjo sem perguntar por quê. Vamos perguntar.
+O arranjo clássico do aproveitamento pluvial brasileiro emprega dois reservatórios: uma
+cisterna enterrada, que recebe a água da cobertura, e uma caixa d'água elevada, que
+alimenta os pontos de consumo por gravidade; entre as duas, uma motobomba faz o recalque.
+O arranjo é tão difundido que quase todo projeto o adota sem examinar a razão, e esta
+seção examina.
 
 ---
 
 ## Para que serve a caixa superior
 
-**Não serve para guardar mais água.** Serve para **entregar** água.
+==A caixa superior não serve para guardar mais água; serve para entregá-la.== A distinção
+parece sutil e decide a análise inteira, porque tudo o que se segue depende de não
+confundir capacidade de armazenamento com capacidade de distribuição.
 
-A cisterna está enterrada. Os pontos de consumo — bacia sanitária, tanque, torneira
-de jardim — estão acima dela. Alguém precisa levar a água até lá, e há duas
-maneiras:
+A cisterna fica enterrada, e os pontos de consumo — bacia sanitária, tanque, torneira de
+jardim — situam-se acima dela. Alguma coisa precisa vencer esse desnível, e há duas
+maneiras de fazê-lo.
 
 - **Pressurização direta.** Uma bomba pequena com pressostato liga sempre que se
   abre um ponto. Não há caixa superior.
 - **Recalque para caixa elevada.** A bomba enche a caixa de tempos em tempos, e a
   gravidade faz o resto.
 
-O segundo arranjo tem vantagens práticas: a bomba liga poucas vezes por dia em vez
-de dezenas, a pressão nos pontos é constante, e há reserva para falta de energia.
-Nada disso é economia de água.
+O segundo arranjo tem três vantagens práticas reais. A motobomba liga poucas vezes por
+dia, em vez de dezenas, o que prolonga a vida do equipamento; a pressão nos pontos de
+consumo é constante, porque decorre da altura da coluna d'água e não do funcionamento da
+bomba; e existe reserva disponível durante uma falta de energia. ==Nenhuma dessas três
+vantagens é economia de água,== e é justamente essa a confusão que a seção desfaz.
 
 ---
 
 ## A comparação justa
 
-Comparar «5.000 L sem caixa» com «5.000 L mais 1.000 L de caixa» é armadilha: o
-segundo tem mais armazenamento. Para isolar o efeito do **arranjo**, compare o mesmo
-armazenamento total.
+Comparar um sistema de 5.000 L sem caixa elevada com outro de 5.000 L mais 1.000 L de
+caixa é uma armadilha metodológica, porque o segundo dispõe de mais armazenamento total e
+venceria por essa razão, e não pelo arranjo. Para isolar o efeito do arranjo é preciso
+manter constante o armazenamento: comparam-se, portanto, 6.000 L num único reservatório
+contra 5.000 L embaixo mais 1.000 L em cima.
 
 <!-- inclui: _tabelas/cap08_reservatorio_superior.md -->
 
-O arranjo com caixa elevada entrega **0,33 ponto percentual a menos** que o mesmo
-volume num tanque só. Não é erro de arredondamento, e tem duas causas.
+Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega 0,33 ponto percentual
+a menos de economia que o reservatório único. A diferença não é erro de arredondamento, e
+decorre de duas causas que se somam.
 
-**O limiar de acionamento imobiliza água.** Os 100 L de reserva na caixa superior
-não são consumidos: existem para a bomba não ligar a cada litro. São 100 L a menos
-de armazenamento útil.
+A primeira é que **o limiar de acionamento imobiliza água**. Os 100 L de reserva mantidos
+na caixa superior nunca são consumidos: existem para que a motobomba não acione a cada
+litro retirado. Na prática, são 100 L subtraídos do armazenamento útil do sistema.
 
-**A sequência de atendimento perde oportunidades.** O programa consome primeiro da
-caixa superior, depois recalca, depois consome de novo. Num dia de demanda alta com
-a cisterna cheia, o ciclo pode não completar, e sobra demanda não atendida que um
-tanque único teria coberto.
+A segunda é que **a sequência de atendimento perde oportunidades**. O programa consome
+primeiro o que há na caixa superior, depois aciona o recalque, e então consome de novo.
+Num dia de demanda elevada com a cisterna cheia, o ciclo pode não se completar dentro do
+dia, e resta demanda não atendida que um reservatório único teria coberto sem
+intermediação.
 
 > **A caixa superior não aumenta a economia de água. Ela custa.** No nosso projeto,
 > custa a caixa, custa a bomba, custa 10,7 kWh por ano de energia, e custa 0,33

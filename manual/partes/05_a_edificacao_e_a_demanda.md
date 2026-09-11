@@ -88,43 +88,50 @@ defensável para residência unifamiliar sem jardim grande.
 
 ## Discretizar os usos, ou não
 
-O programa aceita dois níveis de detalhe.
+O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
+depende do que o estudo pretende responder.
 
-**Modo simplificado.** Você informa a fração única de 40%, e o programa trata tudo
-como um bloco. É o modo do tutorial, e é suficiente para a maioria dos estudos.
+No **modo simplificado**, informa-se uma fração única — os 40% deste tutorial — e o
+programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
+é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
+como as parcelas se distribuem internamente.
 
-**Modo discretizado.** Você separa a demanda em três parcelas: potável interna,
-não potável interna e irrigação. O programa passa a atender com prioridade o uso
-interno não potável e só depois a irrigação, e a distinguir as duas nos créditos de
-certificação — o LEED separa uso interno de uso externo em créditos diferentes, como
-a seção {{n:31}} mostra.
+No **modo discretizado**, a demanda é separada em três parcelas: a potável interna, que a
+chuva nunca atende; a não potável interna, que é a prioridade do sistema; e a irrigação,
+atendida por último. A separação muda duas coisas. Altera a ordem de atendimento nos dias
+de escassez, em que o uso interno tem precedência sobre o jardim; e permite distinguir uso
+interno de uso externo nos créditos de certificação, distinção que o LEED exige em
+créditos separados, conforme a seção {{n:31}} descreve.
 
-Vale discretizar quando há jardim relevante, quando a certificação está no
-horizonte, ou quando a irrigação pode ser suprimida em dias de chuva.
+Vale discretizar quando há jardim de área relevante, quando a certificação está no
+horizonte do projeto, ou quando a irrigação pode ser suprimida em dias de chuva — situação
+que o item seguinte trata.
 
 ---
 
 ## A irrigação e a supressão por chuva
 
-Se você declarar um volume de irrigação, aparece um limiar de supressão: nos dias em
-que a chuva superar esse limiar, o programa **não rega o jardim**. É o
-comportamento de qualquer controlador com sensor de chuva, e ignorá-lo superestima
-a demanda externa.
-
-O limiar padrão é 2 mm por dia.
+Declarado um volume de irrigação, o programa oferece um limiar de supressão por chuva:
+nos dias em que a precipitação supera esse limiar, o jardim não é regado. O comportamento
+reproduz o de qualquer controlador de irrigação dotado de sensor de chuva, equipamento
+corrente e barato, e ignorá-lo superestimaria a demanda externa ao longo do ano inteiro. O
+limiar adotado por padrão é de 2 mm diários.
 
 > **A série de chuva é lida duas vezes.** Uma leitura vira volume captado, depois do
 > descarte. A outra decide se o jardim é regado. As duas são independentes: um dia
 > pode suprimir a irrigação **e** render captação.
 
-Há ainda uma escolha que merece atenção: **o suprimento de reserva**. Ligado, a rede
-pública rega o jardim nos dias secos em que a cisterna não dá conta. Desligado, o
-jardim simplesmente não é regado, e a edificação **não compra** essa água — o
-volume aparece como *demanda não atendida*, a terceira parcela do balanço.
+Resta uma escolha que merece atenção particular, porque altera o resultado econômico e
+não é neutra: o **suprimento de reserva** da irrigação. Com ele ligado, a rede pública
+rega o jardim nos dias secos em que a cisterna não dá conta, e esse volume entra na conta
+de água como consumo potável. Com ele desligado, o jardim simplesmente não é regado
+naquele dia, a edificação não compra essa água, e o volume correspondente aparece no
+balanço como *demanda não atendida* — a terceira parcela tratada na seção {{n:23}}.
 
-A escolha muda o resultado econômico, e não é neutra. Um jardim que precisa ser
-regado todo dia é uma demanda; um jardim que aceita não ser regado num dia seco é
-uma conveniência.
+==A distinção entre as duas configurações é conceitual antes de ser numérica.== Um jardim
+que precisa ser regado todos os dias representa uma demanda real, que alguém pagará; um
+jardim que aceita não ser regado num dia seco representa uma conveniência, e tratá-lo como
+demanda infla tanto o consumo quanto a economia aparente do sistema.
 
 ---
 
