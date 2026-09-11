@@ -47,6 +47,7 @@ paga, e não impede a economia sobre o consumo.
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
 projetos inteiros. O programa distingue cinco.
 
+<!-- tabela: Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | disponibilidade | cada m³ economizado desconta | 156 |
@@ -70,6 +71,7 @@ projetos inteiros. O programa distingue cinco.
 
 R$ 13.379,79, assim distribuídos:
 
+<!-- tabela: Composição do investimento inicial do projeto do tutorial -->
 | Rubrica | Valor |
 | :--- | ---: |
 | cisterna de concreto de 5.000 L | R$ 6.300 |
@@ -87,6 +89,7 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 
 ## O resultado
 
+<!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos -->
 | | |
 | :--- | ---: |
 | valor presente líquido | R$ 15.295 |
@@ -107,6 +110,7 @@ da seção {{n:8}}.
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
+<!-- tabela: Premissas da projeção econômica e o peso de cada uma no resultado -->
 | Premissa | Valor adotado | Onde ela pesa |
 | :--- | ---: | :--- |
 | taxa mínima de atratividade | 0,5% ao mês | desconta o fluxo; quanto maior, pior o VPL |

@@ -38,6 +38,7 @@ métodos multicritério vêm preencher.
 
 O programa usa TOPSIS sobre **sete critérios**:
 
+<!-- tabela: Os sete critérios do multicritério e a direção de preferência de cada um -->
 | Critério | Direção |
 | :--- | :--- |
 | potencial de economia | maximizar |
@@ -79,6 +80,7 @@ indica o volume de 5.000 L.
 
 A segunda tabela mostra o que acontece ao deslocar o peso.
 
+<!-- tabela: Volume escolhido conforme a dimensão que recebe peso dominante -->
 | Peso dominante | Volume |
 | :--- | ---: |
 | pesos iguais | 5.000 L |
@@ -126,6 +128,7 @@ vez de supor que concordem sempre.
 
 ## O projeto, fechado
 
+<!-- tabela: Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Netuno 5 · residência unifamiliar em Florianópolis | |
 | :--- | ---: |
 | série de precipitação | Florianópolis, 30 anos, 1.795 mm/ano |

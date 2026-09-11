@@ -8,6 +8,7 @@
 | 8 000 L | 38,85% | R$ 18 621 | 6,9 anos | 162 kg | R$ 11 580 |
 | 12 000 L | 39,62% | R$ 17 886 | 7,8 anos | 32 kg | R$ 13 154 |
 
+<!-- tabela: Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume que vence |
 | :--- | ---: |
 | maior potencial de economia | 12 000 L |
@@ -15,6 +16,7 @@
 | melhor resultado ambiental | 3 000 L |
 | **compromisso, pesos iguais** | **5 000 L** |
 
+<!-- tabela: Volume escolhido conforme a dimensão que recebe peso dominante -->
 | Peso dominante | Volume escolhido |
 | :--- | ---: |
 | pesos iguais | 5 000 L |

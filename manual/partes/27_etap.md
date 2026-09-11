@@ -28,6 +28,7 @@ produz — grandeza que independe do destino final da água. As três faixas ado
 programa correspondem às capacidades que os próprios fabricantes declaram para os
 equipamentos correntes no mercado brasileiro.
 
+<!-- tabela: Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Equipamento | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
@@ -48,6 +49,7 @@ residual. Entre as três tecnologias disponíveis, apenas a cloração deixa na 
 agente desinfetante que permanece ativo depois do tratamento; a radiação ultravioleta e
 a ozonização atuam no instante da passagem e nada deixam atrás de si.
 
+<!-- tabela: As três tecnologias de desinfecção e a permanência do efeito de cada uma -->
 | Opção | Residual | O que entra no custeio |
 | :--- | :---: | :--- |
 | cloração por pastilhas | **sim** | massa anual de produto |
@@ -94,6 +96,7 @@ tipo de meio filtrante: a lavagem de roupas, por envolver contato com tecido e p
 exige carvão ativado em bloco, ao passo que os demais usos se satisfazem com filtro de
 areia ou cartucho de vinte micrômetros.
 
+<!-- tabela: Recomendação de filtro de polimento por classe de qualidade alvo -->
 | Classe | Recomenda polimento? | Equipamento quando marcado |
 | :--- | :---: | :--- |
 | 1 — NBR 15527:2019 | não | filtro de areia ou cartucho de 20 µm |

@@ -5,6 +5,7 @@
 | com o sistema | 11,42 m³/mês | R$ 194,99 |
 | **economia** | 6,84 m³/mês | **R$ 195,77** |
 
+<!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
 | Análise de 20 anos | Valor |
 | :--- | ---: |
 | investimento inicial | R$ 13 379,79 |

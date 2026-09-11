@@ -8,6 +8,7 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`:
 
+<!-- tabela: Os códigos de faixa tarifária e o significado de cada um -->
 | Código | Significado |
 | ---: | :--- |
 | 1 ou 0 | faixa progressiva, cobra só o volume dentro dela |
@@ -17,6 +18,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 
 ## Os cinco regimes
 
+<!-- tabela: Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado desconta na conta. |
@@ -30,6 +32,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 
 ## Distribuição por unidade da federação
 
+<!-- tabela: Distribuição dos municípios do catálogo por unidade da federação -->
 | UF | Municípios |
 | :--- | ---: |
 | AC | 2 |
@@ -64,6 +67,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 
 Cada registro traz o grau de confiança da coleta:
 
+<!-- tabela: Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |

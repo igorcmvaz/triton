@@ -48,6 +48,7 @@ As alterações reunidas nesta tabela mudam números. Um estudo refeito na vers�
 não reproduzirá exatamente os valores obtidos em versões anteriores, e a diferença tem
 sentido conhecido em cada caso.
 
+<!-- tabela: Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -62,6 +63,7 @@ As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum 
 calculado. Um estudo anterior continua válido; apenas ficou mais difícil produzir um
 estudo errado.
 
+<!-- tabela: Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |

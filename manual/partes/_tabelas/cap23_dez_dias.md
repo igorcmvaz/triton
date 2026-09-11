@@ -14,6 +14,7 @@
 | 10 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 1 840 | pleno |
 | **soma** | | | | **6 681** | | **720** | **4 121** | 1 840 | |
 
+<!-- tabela: Verificação do fechamento do balanço de massa nos dez dias -->
 | Verificação do fechamento | Litros |
 | :--- | ---: |
 | captado no período | 6 681 |
@@ -22,6 +23,7 @@
 | menos o que ficou no reservatório | −1 840 |
 | **resíduo** | **0** |
 
+<!-- tabela: Indicadores resultantes do caso resolvido de dez dias -->
 | Indicador dos dez dias | Valor |
 | :--- | ---: |
 | potencial de economia de água potável | 36,0% |

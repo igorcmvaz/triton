@@ -11,6 +11,7 @@
 
 A série de chuva dos dez dias, em milímetros:
 
+<!-- tabela: Série de precipitação dos dez dias do caso resolvido -->
 | Dia | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |

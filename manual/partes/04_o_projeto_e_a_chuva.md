@@ -14,9 +14,11 @@ Uma residência unifamiliar em Florianópolis. Quatro moradores, cobertura de
 150 m² em telha cerâmica, cisterna enterrada no quintal. É o caso mais comum do
 Brasil, e o mais estudado.
 
-A escolha de Florianópolis não é sentimental: a série é longa, a estrutura tarifária
-da CASAN é pública e auditável, e o regime de chuva é bem distribuído ao longo do
-ano — o que, como a seção {{n:7}} vai mostrar, muda tudo na hora de escolher o volume.
+A escolha de Florianópolis não é sentimental. A série de precipitação disponível é
+longa; a estrutura tarifária da CASAN, a concessionária de água e esgoto de Santa
+Catarina, é pública e auditável; e o regime de chuva local é bem distribuído ao longo do
+ano, o que — como a seção {{n:7}} demonstrará — altera profundamente a escolha do
+volume.
 
 ---
 
@@ -88,6 +90,7 @@ caminho. As perdas têm quatro origens: a absorção pelo material da cobertura,
 evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento
 inicial da telha a cada novo evento de chuva.
 
+<!-- tabela: Coeficiente de escoamento superficial usual por tipo de cobertura -->
 | Cobertura | Coeficiente usual |
 | :--- | ---: |
 | telha metálica | 0,90 a 0,95 |
@@ -118,6 +121,7 @@ esse o valor adotado aqui.
 O programa oferece três modos de aplicação do descarte, que correspondem a três tipos de
 dispositivo de autolimpeza.
 
+<!-- tabela: Os três modos de aplicação do descarte de primeiras águas -->
 | Modo | Quando descarta | Quando usar |
 | :--- | :--- | :--- |
 | 1 | em todo evento de chuva | o padrão, e o mais conservador |
@@ -145,6 +149,7 @@ para a drenagem junto com a sujeira que ele lavou.
 
 ## O que temos até aqui
 
+<!-- tabela: Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
 | Dado | Valor |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |

@@ -5,6 +5,7 @@
 | Cloração + ultravioleta | R$ 2 130 | R$ 223 | 6,5 kg |
 | Cloração + ozonização | R$ 4 430 | R$ 207 | 15,4 kg |
 
+<!-- tabela: Recomendação de filtração fina e custo da linha por classe de qualidade -->
 | Classe alvo | Recomenda filtração fina? | CAPEX sem | CAPEX com |
 | :--- | :---: | ---: | ---: |
 | classe 1 | não | R$ 930 | R$ 1 310 |

@@ -26,6 +26,7 @@ potáveis.
 O programa, por sua vez, oferece quatro classes, e a razão é prática: lavar roupa e regar
 jardim não impõem a mesma exigência à água, ainda que a norma não os distinga.
 
+<!-- tabela: As quatro classes de qualidade do programa e a situação normativa de cada uma -->
 | Classe | Uso | Situação |
 | :--- | :--- | :--- |
 | 1 | parâmetros mínimos da NBR 15527:2019 | **normativa** |
@@ -100,6 +101,7 @@ pela área de cobertura, e não pela classe de qualidade pretendida, porque o qu
 filtro precisa vencer é a vazão de pico da cobertura — grandeza que independe do destino
 final da água.
 
+<!-- tabela: Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Filtro | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |

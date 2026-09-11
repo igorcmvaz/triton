@@ -5,6 +5,7 @@
 | 1,0 %/m³ | 5 000 L | 37,46% |
 | 0,5 %/m³ | 7 000 L | 38,54% |
 
+<!-- tabela: Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
 | | 5.000 L | 20.000 L |
 | :--- | ---: | ---: |
 | potencial de economia | 37,46% | 39,98% |

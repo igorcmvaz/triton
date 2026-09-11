@@ -14,6 +14,7 @@ gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.
 
 3 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -24,6 +25,7 @@ gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.
 
 9 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -44,6 +46,7 @@ Observações do fonte:
 
 6 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | 1 | mm | Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | Automação, CAD e BIM, Cenários, Planilhas, Relatórios |
@@ -66,6 +69,7 @@ Observações do fonte:
 
 2 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
@@ -79,6 +83,7 @@ Observações do fonte:
 
 17 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -111,6 +116,7 @@ Observações do fonte:
 
 4 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
@@ -129,6 +135,7 @@ Observações do fonte:
 
 9 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -152,6 +159,7 @@ Observações do fonte:
 
 12 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econ. integrado, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -183,6 +191,7 @@ Observações do fonte:
 
 10 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -210,6 +219,7 @@ Observações do fonte:
 
 1 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econ. integrado, Tarifas e custos | ACV |
@@ -218,6 +228,7 @@ Observações do fonte:
 
 3 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
@@ -228,6 +239,7 @@ Observações do fonte:
 
 1 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico |
@@ -236,6 +248,7 @@ Observações do fonte:
 
 14 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
@@ -269,6 +282,7 @@ Observações do fonte:
 
 4 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -285,6 +299,7 @@ Observações do fonte:
 
 3 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econ. integrado, Otimizador | Econômico |
@@ -300,6 +315,7 @@ Observações do fonte:
 
 4 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | %/mês | Documentação, Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -317,6 +333,7 @@ Observações do fonte:
 
 1 parâmetros.
 
+<!-- tabela: Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |

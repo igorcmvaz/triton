@@ -43,6 +43,7 @@ que Florianópolis e rende quase a metade, com 20,80%.
 A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
 cidade, que mede o quanto a chuva se concentra ao longo do ano.
 
+<!-- tabela: Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
 | Cidade | Razão | O que significa |
 | :--- | ---: | :--- |
 | Florianópolis | 3,2× | chove o ano inteiro, com estação mais úmida |

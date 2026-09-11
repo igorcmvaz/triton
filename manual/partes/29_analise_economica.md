@@ -39,6 +39,7 @@ faixas, e cada faixa é uma quádrupla composta pelo volume mínimo, pelo volume
 um valor e por um código. O código é o elemento que dá sentido ao valor, porque
 estruturas aparentemente semelhantes cobram de maneiras muito distintas.
 
+<!-- tabela: Os quatro códigos de faixa e o efeito de cada um no cálculo da fatura -->
 | Código | Regime | Efeito na conta |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa progressiva | cobra o valor por m³ do volume **dentro** da faixa |
@@ -91,6 +92,7 @@ responde por metade da fatura total.
 
 ## Os cinco regimes na base
 
+<!-- tabela: Distribuição dos 652 municípios do catálogo pelos cinco regimes de mínimo -->
 | Regime | Municípios |
 | :--- | ---: |
 | franquia no mínimo | 329 |
@@ -141,6 +143,7 @@ critério não é satisfeito, em vez de extrapolar em silêncio.
 
 ## O custeio anual
 
+<!-- tabela: Parcelas do custeio anual e a origem de cada uma -->
 | Parcela | Origem |
 | :--- | :--- |
 | energia de bombeamento | seção {{n:28}}, com a bandeira tarifária aplicada |

@@ -17,6 +17,7 @@ Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O progr
 tipologias, cada uma com o consumo per capita de referência e a repartição usual dos
 usos finais:
 
+<!-- tabela: Consumo per capita de referência por tipologia de edificação -->
 | Tipologia | Per capita usual |
 | :--- | ---: |
 | residencial unifamiliar | 120 a 200 L/hab·dia |
@@ -59,6 +60,7 @@ de economia**.
 
 Repartição usual numa residência brasileira:
 
+<!-- tabela: Repartição do consumo residencial por uso final e atendimento por água pluvial -->
 | Uso final | Fração do consumo | Atende com chuva? |
 | :--- | ---: | :---: |
 | chuveiro | 25 a 35% | não |
@@ -137,6 +139,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 
 ## O que temos até aqui
 
+<!-- tabela: Estado do projeto do tutorial ao fim da definição da demanda -->
 | Dado | Valor |
 | :--- | ---: |
 | tipologia | residencial unifamiliar |
@@ -149,6 +152,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 O programa agora sabe a oferta e a demanda. Antes de simular, um confronto que vale
 guardar:
 
+<!-- tabela: Confronto entre a oferta anual de água pluvial e a demanda atendível -->
 | | m³/ano |
 | :--- | ---: |
 | água bruta que cai na cobertura | 229 |

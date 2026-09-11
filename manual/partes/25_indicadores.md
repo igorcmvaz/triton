@@ -78,6 +78,7 @@ literatura da área.
 
 Os três percentuais de dias, que somam 100%:
 
+<!-- tabela: As três classes de atendimento diário e a definição de cada uma -->
 | Classe | Definição |
 | :--- | :--- |
 | **pleno** | `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L |
@@ -174,6 +175,7 @@ toda a demanda que a chuva não atendeu. A seção {{n:23}} detalha.
 
 ## Quadro-resumo
 
+<!-- tabela: Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
 | Indicador | Unidade | Denominador | Responde |
 | :--- | :--- | :--- | :--- |
 | potencial de economia | % | demanda total | quanto da conta cai |

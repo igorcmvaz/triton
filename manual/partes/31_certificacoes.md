@@ -30,6 +30,7 @@ integral; um que reduza esse uso pela metade obtém um ponto; e um projeto que n
 demanda externa cadastrada não pontua, situação em que o programa registra explicitamente
 a razão, para que o usuário não interprete o zero como falha de desempenho.
 
+<!-- tabela: Pontuação do crédito LEED WEc1 conforme a redução do uso externo -->
 | Redução na irrigação | Pontos |
 | :--- | ---: |
 | ≥ 50% | 1 |
@@ -41,6 +42,7 @@ escala de cinco em cinco pontos percentuais a partir de 25% de economia. Anteced
 pré-requisito, o WEp, que exige 20% de redução interna e é obrigatório: sem ele o
 empreendimento não é elegível à certificação, e ele próprio não confere pontuação alguma.
 
+<!-- tabela: Pontuação do crédito LEED WEc2 conforme a redução do uso interno -->
 | Economia interna | Pontos |
 | ---: | ---: |
 | ≥ 25% | 1 |
@@ -64,6 +66,7 @@ francês HQE, e trata a gestão da água em sua categoria 4. A avaliação não 
 escala contínua, e sim classificada em três perfis de desempenho, definidos pelo
 percentual de substituição de água potável que o sistema alcança.
 
+<!-- tabela: Perfis de desempenho da categoria 4 do processo AQUA-HQE -->
 | Perfil | Critério |
 | :--- | :--- |
 | Base | ≥ 10% de substituição |
@@ -98,6 +101,7 @@ dimensões independentes — energia, água e energia incorporada nos materiais 
 que **cada uma** delas cruze o limiar estabelecido. Não há compensação entre dimensões:
 um desempenho hídrico excepcional não supre uma deficiência em energia.
 
+<!-- tabela: Os três níveis de certificação EDGE e a exigência de cada um -->
 | Nível | Exigência |
 | :--- | :--- |
 | EDGE Certified | ≥ 20% em energia, água **e** energia incorporada nos materiais |

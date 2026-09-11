@@ -20,6 +20,7 @@ declarar publicamente um desempenho ambiental.
 
 ## As sete etapas
 
+<!-- tabela: As sete etapas do inventário de ciclo de vida e a natureza de cada uma -->
 | # | Etapa | Natureza |
 | :-- | :--- | :--- |
 | 1 | cisterna inferior | incorporado |
@@ -59,6 +60,7 @@ A massa de cada componente decorre do seu dimensionamento. No caso do reservató
 que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
 dessa variação que decorre boa parte do resultado ambiental do projeto.
 
+<!-- tabela: Massa por metro cúbico útil de cada material de reservatório -->
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
 | polietileno | 22 kg/m³ | 110 kg |

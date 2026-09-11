@@ -28,6 +28,7 @@ Netuno 4 e preservados desde então, byte a byte, justamente para que a referên
 alterasse ao longo do desenvolvimento. Eles se distribuem por três conjuntos, com
 cidades e faixas de parâmetros distintas.
 
+<!-- tabela: Os conjuntos de casos de referência exportados do Netuno 4 -->
 | Conjunto | Casos | Cidades |
 | :--- | ---: | :--- |
 | Floripa/Brasília | 1.458 | Florianópolis, Brasília |
@@ -37,6 +38,7 @@ cidades e faixas de parâmetros distintas.
 
 ## A divergência total
 
+<!-- tabela: Divergência medida entre as duas versões, por conjunto de casos -->
 | Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
 | :--- | ---: | ---: | ---: | ---: |
 | Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
@@ -55,6 +57,7 @@ diferenças de naturezas distintas, e o número resultante não informa qual del
 pelo quê. A decomposição as separa comparando os dois programas em três configurações
 sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
+<!-- tabela: Divergência em três configurações sucessivamente mais controladas -->
 | Configuração | Erro médio | ≤ 5 pp |
 | :--- | ---: | ---: |
 | 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | 88,6% |
@@ -63,6 +66,7 @@ sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
 A atribuição resultante:
 
+<!-- tabela: Atribuição da divergência às suas três fontes -->
 | Fonte da divergência | Contribuição | Natureza |
 | :--- | ---: | :--- |
 | critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |

@@ -17,6 +17,7 @@ placa for a potência mecânica **no eixo**.
 
 Daí a cadeia ter dois rendimentos, e não um:
 
+<!-- tabela: Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
 | Rendimento | O que converte |
 | :--- | :--- |
 | **da bomba**, `η_b` | potência de eixo em potência hidráulica entregue à água |
@@ -122,6 +123,7 @@ E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é
 o que são as motobombas residenciais, a 3.450 rpm:
 
+<!-- tabela: Rendimento de motores de indução conforme a Tabela 13 da ABNT NBR 17094-2 -->
 | Potência | Rendimento IR1 | Rendimento IR2 |
 | :--- | ---: | ---: |
 | 1/4 CV, 0,18 kW | 50,0% | 64,0% |
@@ -160,6 +162,7 @@ efetivamente entregue, o que o contabiliza duas vezes. A cadeia apresentada nest
 
 Usados quando o projeto não declara:
 
+<!-- tabela: Valores de recurso adotados quando o projeto não os declara -->
 | Parâmetro | Valor | Origem |
 | :--- | ---: | :--- |
 | altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico mais ~30% de perda de carga |

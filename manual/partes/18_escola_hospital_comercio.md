@@ -49,6 +49,7 @@ defensável, ao contrário do inverso.
 
 ## As tipologias disponíveis
 
+<!-- tabela: Tipologias de edificação, categoria tarifária correspondente e unidade de consumo -->
 | Tipologia | Categoria que a concessionária cobra | Unidade de consumo |
 | :--- | :--- | :--- |
 | residencial unifamiliar | residencial | L/hab·dia |

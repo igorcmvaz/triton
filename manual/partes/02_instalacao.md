@@ -7,6 +7,7 @@
 
 ## O que você precisa
 
+<!-- tabela: Requisitos de sistema para instalar e executar o programa -->
 | Requisito | O que é preciso |
 | :--- | :--- |
 | sistema | Windows 10 ou 11, 64 bits |
@@ -46,6 +47,7 @@ use *Aplicativos e recursos* do Windows, como em qualquer programa.
 O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
 relatório ou uma exportação, ele pergunta a pasta.
 
+<!-- tabela: Formatos de arquivo que o programa grava e o conteúdo de cada um -->
 | O que você grava | Extensão | Contém |
 | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os dados de entrada **e a série de chuva** |
@@ -81,6 +83,7 @@ A seção {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cen�
 O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
 aqui.
 
+<!-- tabela: Arquivos de exemplo distribuídos com o programa -->
 | Arquivo | Para que serve |
 | :--- | :--- |
 | `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo {{c:2}} constrói, pronto |

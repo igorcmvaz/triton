@@ -12,6 +12,7 @@ existe justamente para indicar esse ponto de entrada.
 A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
 percurso de leitura correspondente a cada um deles.
 
+<!-- tabela: Percurso de leitura recomendado conforme o objetivo do leitor -->
 | Você quer | Leia |
 | :--- | :--- |
 | **aprender a usar** o programa | o capítulo {{c:2}} inteiro, seções {{n:4}} a {{n:13}}, na ordem |
@@ -42,6 +43,7 @@ maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de pr
 altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra
 coisa.
 
+<!-- tabela: Fração de demanda atendível por água pluvial conforme os usos previstos -->
 | Se os usos são | Fração típica | Onde se trata |
 | :--- | ---: | :--- |
 | bacia sanitária apenas | 20 a 30% | seção {{n:5}} |
@@ -54,6 +56,7 @@ coisa.
 A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
 modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
 
+<!-- tabela: Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
 | Se você quer | Use | Onde se trata |
 | :--- | :--- | :--- |
 | avaliar uma cisterna que já existe | volume fixo | seção {{n:6}} |
@@ -69,6 +72,7 @@ de que qualquer estudo pode dispor ao justificar um volume.
 A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
 pressão exigida nos pontos de consumo.
 
+<!-- tabela: Critérios hidráulicos para decidir sobre o reservatório superior -->
 | Se a edificação | Então | Onde se trata |
 | :--- | :--- | :--- |
 | é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção {{n:8}} |
@@ -87,6 +91,7 @@ A barra lateral do programa está numerada, e a numeração corresponde à ordem
 trabalha. As quatro primeiras etapas são de entrada de dados, as cinco seguintes
 apresentam resultados, e as três últimas reúnem ferramentas auxiliares.
 
+<!-- tabela: As doze etapas do programa, na ordem de trabalho, e onde cada uma é tratada -->
 | Etapa | O que se faz nela | Onde se trata |
 | :--- | :--- | :--- |
 | 1. Projeto e Chuva | a série de precipitação e a captação | seção {{n:4}} |

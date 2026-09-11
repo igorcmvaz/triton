@@ -5,6 +5,19 @@ literatura.
 
 ---
 
+**ABNT**. Associação Brasileira de Normas Técnicas, o organismo que publica as normas
+brasileiras. Uma norma é identificada pela sigla NBR seguida do número e do ano da
+edição, como em ABNT NBR 15527:2019.
+
+**ACV** (*life cycle assessment*). Avaliação de ciclo de vida. Método que contabiliza os
+impactos ambientais de um produto ao longo de toda a sua existência, da extração das
+matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
+conforme a ISO 14040.
+
+**AQUA-HQE**. Referencial de certificação ambiental de edificações, adaptação brasileira
+do francês HQE conduzida pela Fundação Vanzolini. Trata a gestão da água em sua
+categoria 4.
+
 **Área de captação** (*catchment area*). Projeção **horizontal** da cobertura que
 conduz água para o sistema, conforme a NBR 10844. Não é a área inclinada do telhado.
 
@@ -12,10 +25,25 @@ conduz água para o sistema, conforme a NBR 10844. Não é a área inclinada do 
 conforme as condições de geração. Verde, amarela, vermelha 1, vermelha 2, e a
 modalidade branca.
 
+**BIM** (*building information modeling*). Modelagem da informação da construção.
+Representação digital da edificação em que cada componente carrega propriedades além da
+geometria, o que permite compatibilizar projetos de disciplinas diferentes.
+
+**CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
+esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
+
 **CAPEX** (*capital expenditure*). Investimento inicial.
+
+**CASAN**. Companhia Catarinense de Águas e Saneamento, a concessionária de água e esgoto
+de Florianópolis e de boa parte de Santa Catarina. A estrutura tarifária dela é a adotada
+no tutorial deste manual.
 
 **CDD** (*consecutive dry days*). Maior sequência de dias consecutivos com chuva
 abaixo de 1 mm.
+
+**CMIP6**. Sexta fase do *Coupled Model Intercomparison Project*, o exercício
+internacional coordenado que produz as projeções climáticas usadas pelos relatórios do
+IPCC. A base climática do programa deriva dele.
 
 **Coeficiente de escoamento** (*runoff coefficient*). Fração da chuva que
 efetivamente chega ao reservatório, descontadas perdas por absorção, evaporação e
@@ -27,6 +55,13 @@ parcialmente ou não atendeu a demanda pluvial.
 **Confiabilidade volumétrica**. Fração da demanda **pluvial** que o sistema atendeu.
 Não confundir com o potencial de economia, que tem denominador diferente.
 
+**CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
+registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
+vírgula. É o formato das séries de precipitação.
+
+**CV**. Cavalo-vapor, unidade de potência equivalente a 0,7355 kW, corrente no comércio
+de motobombas no Brasil. Uma motobomba de meio CV tem 0,37 kW de potência de eixo.
+
 **CWD** (*consecutive wet days*). Maior sequência de dias consecutivos com chuva
 igual ou superior a 1 mm.
 
@@ -37,8 +72,27 @@ da chuva do dia; no Netuno 4 era tratada como limiar do evento.
 **Disponibilidade**. Regime tarifário em que um valor fixo **soma** por cima do
 consumo medido. Cada metro cúbico economizado desconta.
 
+**DN** (*diâmetro nominal*). Designação comercial do diâmetro de um tubo ou conexão, em
+milímetros. Não corresponde exatamente ao diâmetro interno nem ao externo: é um número de
+referência do qual decorrem as dimensões reais, tabeladas por norma.
+
+**DXF** (*drawing exchange format*). Formato de intercâmbio de desenhos técnicos, lido
+por praticamente todos os programas de CAD.
+
+**EDGE** (*excellence in design for greater efficiencies*). Referencial de certificação
+da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
+um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
+
+**ESG** (*environmental, social and governance*). Conjunto de critérios ambientais,
+sociais e de governança usado na avaliação de empresas e de empreendimentos. O programa
+alimenta indicadores ambientais desse conjunto.
+
 **ETAP**. Estação de tratamento de água pluvial. No programa, o conjunto de filtro
 de entrada, desinfecção e filtro de polimento.
+
+**ETCCDI** (*Expert Team on Climate Change Detection and Indices*). Grupo de trabalho
+internacional que padronizou os índices de extremos climáticos, dos quais o programa
+calcula oito.
 
 **Extravasamento** (*spillage*, *overflow*). Volume que transborda do reservatório
 quando ele já está cheio.
@@ -52,13 +106,51 @@ consumo. Economizar **abaixo** da franquia não reduz a conta.
 **Ganho marginal**. Variação do potencial de economia por metro cúbico acrescentado
 ao reservatório, em %/m³. Critério de escolha do volume ideal.
 
+**GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
+de desempenho socioambiental. Sua série 303 trata de água e efluentes.
+
+**IFC**. A sigla designa duas coisas distintas neste manual. Em certificação, é a
+*International Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. Em
+exportação de modelos, é o *Industry Foundation Classes*, formato aberto de intercâmbio
+BIM.
+
+**IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
+sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
+avaliação a que as projeções climáticas se referem.
+
+**IPTU verde**. Desconto no imposto predial concedido por alguns municípios a edificações
+que adotam medidas de sustentabilidade, entre elas o aproveitamento de água pluvial. O
+percentual e as condições variam por legislação municipal.
+
+**ISO 14040**. Norma internacional que estabelece os princípios e a estrutura da
+avaliação de ciclo de vida. Um inventário conforme a ISO 14040 exige rastreabilidade de
+cada fluxo e revisão crítica externa, requisitos que uma avaliação de triagem não cumpre.
+
+**JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
+por pessoas e por programas. É o formato interno do arquivo `.netuno`.
+
+**LEED** (*leadership in energy and environmental design*). Referencial de certificação
+ambiental de edificações do *U.S. Green Building Council*, o mais difundido
+internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*.
+
+**m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
+coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
+prediais.
+
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
+
+**NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
+15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
+pluviais, e a NBR 17094-2, de motores de indução.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
+comuns no mercado brasileiro.
 
 **Piso de pagamento**. Regime tarifário em que a conta **não desce** abaixo de um
 valor. Diferente de disponibilidade: o piso limita por baixo, a disponibilidade soma
@@ -68,7 +160,13 @@ por cima.
 Fração da demanda **total** da edificação suprida por água pluvial. É o indicador
 central do programa.
 
+**pp**. Pontos percentuais. Usado para exprimir a diferença entre dois percentuais: de
+35% para 37% vão dois pontos percentuais, e não dois por cento.
+
 **PRCPTOT**. Precipitação total anual em dias úmidos.
+
+**PRFV**. Plástico reforçado com fibra de vidro, material de reservatórios de médio e
+grande porte. Aparece no programa sob a designação «fibra».
 
 **R95p**. Soma da precipitação dos dias acima do percentil 95 dos dias úmidos.
 
@@ -89,6 +187,18 @@ chuva é uniforme ao longo do ano.
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
 pesos e devolve a probabilidade de cada alternativa vencer.
 
+**SNIS**. Sistema Nacional de Informações sobre Saneamento, base oficial brasileira de
+indicadores do setor, mantida pelo governo federal. É a origem dos indicadores de
+consumo energético do saneamento usados na avaliação ambiental.
+
+**SSP** (*shared socioeconomic pathways*). Trajetórias socioeconômicas compartilhadas,
+que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
+Combinam-se com os modelos climáticos para produzir projeções.
+
+**TFDI**. Tarifa fixa de disponibilidade da infraestrutura, nome que algumas
+concessionárias dão à parcela da fatura cobrada independentemente do consumo. Ver
+*Disponibilidade*.
+
 **TIR**. Taxa interna de retorno. A taxa de desconto que zera o valor presente
 líquido.
 
@@ -97,10 +207,17 @@ líquido.
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
 Método de ordenação multicritério de Hwang e Yoon.
 
-**VPL**. Valor presente líquido.
+**UV**. Radiação ultravioleta, empregada na desinfecção de água por inativação de
+microrganismos. Atua apenas no instante da passagem pelo reator e não deixa residual, ao
+contrário da cloração.
 
-**YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+**VIKOR**. Método de decisão multicritério proposto por Opricovic, que busca uma solução
+de compromisso entre critérios conflitantes. Ver também *SMAA*.
+
+**VPL**. Valor presente líquido.
 
 **WEM**. Codificação das medidas de eficiência hídrica do EDGE. A WEM14 é o sistema
 de aproveitamento de água pluvial.
+
+**YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
+calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.

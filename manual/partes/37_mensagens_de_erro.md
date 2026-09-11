@@ -16,6 +16,7 @@ simulação.==
 As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
 nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
 
+<!-- tabela: Mensagens de validação física da entrada e a providência de cada uma -->
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
 | «Volume do reservatório inferior negativo» | volume menor que zero | corrija; **zero é válido** e representa o cenário sem sistema |
@@ -34,6 +35,7 @@ nomeiam o campo responsável e o valor recebido, de modo que a correção não e
 
 ## Varredura
 
+<!-- tabela: Mensagens de erro da varredura de volumes -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
@@ -49,6 +51,7 @@ e não o passo originalmente pedido.
 
 ## Cloração
 
+<!-- tabela: Mensagens de erro dos parâmetros de cloração -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
@@ -58,6 +61,7 @@ e não o passo originalmente pedido.
 
 ## Motobomba
 
+<!-- tabela: Mensagens de erro dos parâmetros da motobomba -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» | rendimento como percentual no núcleo | use 0,55 para 55% |
@@ -67,6 +71,7 @@ e não o passo originalmente pedido.
 
 ## Arquivos
 
+<!-- tabela: Situações de erro na leitura e na gravação de arquivos -->
 | Situação | O que acontece | O que fazer |
 | :--- | :--- | :--- |
 | série de chuva ilegível | a leitura é interrompida com mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
@@ -83,6 +88,7 @@ observações que o programa faz sobre as condições em que o resultado foi pro
 elas precisam ser transportadas para o texto do estudo, porque todas afetam a
 interpretação do número e nenhuma delas fica evidente no resultado isolado.
 
+<!-- tabela: Avisos que não interrompem o cálculo e precisam constar do estudo -->
 | Aviso | O que significa |
 | :--- | :--- |
 | tipologia não residencial com tarifa residencial | o resultado econômico está **subestimado**; veja a seção {{n:18}} |

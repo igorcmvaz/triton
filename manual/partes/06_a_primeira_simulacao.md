@@ -132,6 +132,7 @@ limite. A seção {{n:7}} mede exatamente onde fica esse limite.
 
 ## O que temos até aqui
 
+<!-- tabela: Estado do projeto do tutorial após a primeira simulação -->
 | Resultado com 3.000 L | |
 | :--- | ---: |
 | potencial de economia | 34,92% |

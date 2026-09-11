@@ -27,6 +27,7 @@ enganos. Capítulo 36, as limitações que afetam o seu caso.
 
 ## Ficha 2 — As armadilhas, em uma linha cada
 
+<!-- tabela: Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 33.1 |
@@ -44,6 +45,7 @@ enganos. Capítulo 36, as limitações que afetam o seu caso.
 
 ## Ficha 3 — Os cinco regimes tarifários
 
+<!-- tabela: Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -59,6 +61,7 @@ compare com uma conta real. Se só um bater, o regime está errado.
 
 ## Ficha 4 — Os indicadores, e o que cada um responde
 
+<!-- tabela: Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto da conta cai |

@@ -22,6 +22,7 @@ O programa avalia cada volume da varredura segundo sete critérios, agrupados em
 dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
 outros, menos.
 
+<!-- tabela: Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
 | 1 | potencial de economia | maximizar | técnico |

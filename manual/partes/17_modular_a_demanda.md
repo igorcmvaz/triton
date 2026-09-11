@@ -13,6 +13,7 @@ consumo e a chuva disponível naquele dia.==
 
 ## Os quatro modos
 
+<!-- tabela: Os quatro modos de modulação de demanda e quando usar cada um -->
 | Modo | Você informa | Quando usar |
 | :--- | :--- | :--- |
 | **constante** | um valor | residência, e o padrão |

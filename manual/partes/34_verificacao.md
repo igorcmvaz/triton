@@ -20,6 +20,7 @@ complementam. A separação não é meramente organizacional: cada família capt
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
+<!-- tabela: As cinco famílias da suíte de verificação e o que cada uma testa -->
 | Família | Arquivos | O que guarda |
 | :--- | ---: | :--- |
 | unitários | 63 | o comportamento de cada módulo isolado |

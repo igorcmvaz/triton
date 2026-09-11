@@ -86,6 +86,7 @@ usuário, conforme a formulação da seção {{n:24}}.
 O limiar padrão do programa é de 1 %/m³. Na varredura deste projeto, o primeiro volume a
 cair abaixo dele é o de 5.000 L, com ganho marginal de 0,93 %/m³.
 
+<!-- tabela: Indicadores do volume ideal obtido com o limiar padrão de 1 %/m³ -->
 | | |
 | :--- | ---: |
 <!-- tabela: Indicadores do volume ideal obtido com o limiar padrão de 1 %/m³ -->

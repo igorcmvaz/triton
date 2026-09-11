@@ -894,3 +894,90 @@ def test_as_etapas_citadas_pelo_manual_sao_as_da_barra_lateral():
     desconhecidas = [c for c in citadas
                      if not any(c.startswith(e) or e.endswith(c) for e in ETAPAS)]
     assert not desconhecidas, desconhecidas
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Legenda de tabela e vocabulário
+# ══════════════════════════════════════════════════════════════════════════════
+
+def test_toda_tabela_tem_legenda():
+    """Tabela sem legenda não se cita no texto nem se acha na lista inicial."""
+    # Os elementos pré-textuais — a folha de rosto e o «como usar» — ficam de
+    # fora: a ABNT não os numera, e uma tabela numerada antes da lista de
+    # tabelas apontaria para trás dela.
+    texto = _manual_montado().split("# 1. ", 1)[-1]
+    linhas = texto.split(chr(10))
+    sem_legenda = []
+    for i, linha in enumerate(linhas[:-1]):
+        if not linha.startswith("|"):
+            continue
+        if not re.match(r"^\|[\s:\-|]+\|$", linhas[i + 1].rstrip()):
+            continue
+        anterior = linhas[i - 1].strip() if i else ""
+        if not anterior.startswith("<!-- tabela:"):
+            sem_legenda.append(linha[:60])
+    assert not sem_legenda, sem_legenda[:5]
+
+
+def test_nenhuma_legenda_repete_os_cabecalhos():
+    """A legenda descreve a tabela; repetir o cabeçalho não descreve nada.
+
+    A montagem sabe compor uma legenda a partir do título da subseção e dos
+    cabeçalhos, e essa composição é o último recurso. Este teste exige que ela
+    não seja usada: toda tabela do manual tem legenda escrita à mão, ou é uma
+    tabela de variáveis de equação.
+    """
+    texto = _manual_montado()
+    mecanicas = []
+    for numero, legenda in re.findall(
+            r"<!-- tabela: \*\*Tabela (\d+)\*\* — (.+?) -->", texto):
+        if legenda.startswith("Variáveis da Equação"):
+            continue
+        if re.search(r": .+, .+", legenda):
+            mecanicas.append(f"Tabela {numero}: {legenda}")
+    assert not mecanicas, mecanicas[:5]
+
+
+def test_as_listas_iniciais_cobrem_tudo():
+    """Lista de figuras, de tabelas e de equações, com todos os itens."""
+    texto = _manual_montado()
+    cabeca = texto.split("# 1. ")[0]
+    for titulo in ("Lista de figuras", "Lista de tabelas", "Lista de equações"):
+        assert titulo in cabeca, titulo
+
+    figuras = len(re.findall(r"^\*Figura \d+ — ", texto, flags=re.M))
+    tabelas = len(re.findall(r"<!-- tabela: \*\*Tabela \d+\*\*", texto))
+    equacoes = len(re.findall(r"^```equacao:", texto, flags=re.M))
+    assert cabeca.count("Figura ") >= figuras
+    assert cabeca.count("Tabela ") >= tabelas
+    assert cabeca.count("Equação ") >= equacoes
+
+
+SIGLAS_DISPENSADAS = {
+    # Siglas de uso corrente fora da engenharia, ou identificadores internos do
+    # próprio manual, que não precisam de verbete.
+    "PDF", "HTML", "GB", "SC", "PI", "AM", "DF", "SP", "UF", "CAIXA", "CNPJ",
+    "GPL", "UFSC", "IBGE", "YAS", "SMAA-VIKOR",
+}
+
+
+def test_toda_sigla_recorrente_esta_no_glossario():
+    """Sigla usada três vezes ou mais é vocabulário, e precisa de verbete."""
+    texto = _manual_montado()
+    caminho = os.path.join(MANUAL, "apendices", "G_glossario.md")
+    if not os.path.exists(caminho):
+        pytest.skip("glossário ausente")
+    # «IPTU verde» e «ISO 14040» são verbetes; a sigla nua também conta como
+    # coberta, porque o leitor que procura «ISO» acha «ISO 14040».
+    nomes = re.findall(r"^\*\*(.+?)\*\*",
+                       open(caminho, encoding="utf-8").read(), flags=re.M)
+    verbetes = {v.lower() for v in nomes}
+    verbetes |= {v.split()[0].lower() for v in nomes if " " in v}
+
+    from collections import Counter
+    contagem = Counter(re.findall(r"\b([A-Z]{2,}(?:-[A-Z0-9]+)?)\b", texto))
+    faltando = [
+        s for s, n in contagem.items()
+        if n >= 3 and s.lower() not in verbetes
+        and s not in SIGLAS_DISPENSADAS and not s.startswith("PROC-")
+    ]
+    assert not faltando, sorted(faltando)

@@ -22,6 +22,7 @@ econômica.
 
 Para o nosso projeto, cisterna de concreto de 5.000 L:
 
+<!-- tabela: Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | | |
 | :--- | ---: |
 | carbono incorporado no sistema | 962 kg CO₂e |
@@ -119,6 +120,7 @@ honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errad
 
 A troca melhora as três dimensões ao mesmo tempo, o que é raro:
 
+<!-- tabela: Efeito da troca de concreto por polietileno nas três dimensões de análise -->
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 6.300 | R$ 3.000 |

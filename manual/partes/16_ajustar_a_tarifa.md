@@ -86,6 +86,7 @@ código é o elemento decisivo, porque é ele que informa o que aquele valor sig
 estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
 cada linha.
 
+<!-- tabela: Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
 | Código | O que é | Como entra na conta |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa progressiva | cobra o valor por m³ **só** do volume dentro da faixa |
@@ -111,6 +112,7 @@ disponibilidade e quatro faixas progressivas.
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
 coisas **diferentes** em cada um. O programa distingue cinco regimes:
 
+<!-- tabela: Os cinco regimes de mínimo e o que acontece ao economizar em cada um -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | **sem mínimo** | cada m³ economizado desconta | 165 |
@@ -122,6 +124,7 @@ coisas **diferentes** em cada um. O programa distingue cinco regimes:
 **O caso que derruba estudo.** Compare duas estruturas reais da base, lado a lado,
 para o mesmo consumo:
 
+<!-- tabela: Efeito da economia de água na fatura em dois regimes tarifários opostos -->
 | Consumo | Floriano (PI), franquia no mínimo | Florianópolis (SC), disponibilidade |
 | ---: | ---: | ---: |
 | 14 m³ | R$ 92,15 | R$ 134,38 |

@@ -4,6 +4,7 @@
 
 ## O que a base contém
 
+<!-- tabela: Conteúdo da base climática nacional -->
 | | |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -33,6 +34,7 @@ programa continua inteiramente funcional com séries do usuário.
 
 As *Shared Socioeconomic Pathways* do CMIP6:
 
+<!-- tabela: Os três cenários de emissão da base climática e a trajetória de cada um -->
 | Cenário | Trajetória |
 | :--- | :--- |
 | SSP1-2.6 | emissões caem rápido; aquecimento contido perto de 2 °C |
@@ -47,6 +49,7 @@ Independentes da base CMIP6, quatro séries históricas longas acompanham a
 instalação, na pasta `data
 ainfall` do programa:
 
+<!-- tabela: Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |

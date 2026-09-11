@@ -7,6 +7,7 @@
 
 ## O que cada formato leva
 
+<!-- tabela: Formatos de exportação e finalidade de cada um -->
 | Formato | Extensão | O que leva | Para quê |
 | :--- | :--- | :--- | :--- |
 | relatório | HTML, PDF | resultado completo e premissas | entregar |

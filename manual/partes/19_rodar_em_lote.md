@@ -11,6 +11,7 @@ pergunta diferente, e usar a errada custa tempo sem produzir a informação dese
 
 ## As três formas
 
+<!-- tabela: As três formas de comparar alternativas conforme o que varia entre elas -->
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
 | **só o volume da cisterna** | a varredura | Reservatório e Custos |

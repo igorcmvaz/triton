@@ -100,6 +100,7 @@ edificação que a chuva conseguiu substituir.
 Quanta água o sistema entrega é a primeira pergunta, não a única. O programa responde
 seis, e elas costumam apontar para volumes diferentes.
 
+<!-- tabela: As seis dimensões de análise do programa e a pergunta que cada uma responde -->
 | Dimensão | Pergunta que responde | Onde se trata |
 | :--- | :--- | :--- |
 | **técnica** | quanta água o sistema entrega, e com que confiabilidade | seções {{n:23}} a {{n:26}} |
@@ -153,6 +154,7 @@ cada uma.
 
 ## Para quem serve
 
+<!-- tabela: Os quatro perfis de leitor do manual e o percurso de leitura de cada um -->
 | Quem | O que encontra aqui |
 | :--- | :--- |
 | **estudante** | o tutorial do capítulo {{c:2}}, um estudo do começo ao fim |

@@ -8,6 +8,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ## Materiais de reservatório
 
+<!-- tabela: Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -32,6 +33,7 @@ Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial
 **A fronteira é por metro cúbico entregue na edificação**, e não por metro cúbico
 produzido na estação. A conversão usa as perdas de distribuição:
 
+<!-- tabela: Perdas de distribuição por macrorregião e volume entregue por metro cúbico produzido -->
 | Macrorregião | Perdas | 1 m³ produzido entrega |
 | :--- | ---: | ---: |
 | Sudeste | 33,9% | 0,66 m³ |
@@ -55,6 +57,7 @@ foi usada.
 
 ## Insumos de tratamento
 
+<!-- tabela: Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio, produto | conforme cadeia única de cloração |
@@ -71,6 +74,7 @@ ativo.
 Nem todo fator tem fonte primária. Os que não têm são marcados, e o relatório exibe a
 marca.
 
+<!-- tabela: Fatores que carregam rótulo de triagem, por ausência de fonte primária -->
 | Fator | Situação |
 | :--- | :--- |
 | **emissão de fabricação da motobomba** | quatro dos seis valores são extrapolação aritmética a partir do valor de meio CV |

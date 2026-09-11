@@ -14,6 +14,7 @@ essa questão de forma explícita.
 
 ## O que a base tem
 
+<!-- tabela: Os três cenários de emissão disponíveis e a trajetória de cada um -->
 | | |
 | :--- | ---: |
 <!-- tabela: Conteúdo da base climática nacional distribuída com o programa -->
@@ -40,6 +41,7 @@ três disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC.
 são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
 longo do século.
 
+<!-- tabela: Os três cenários de emissão disponíveis e a trajetória de cada um -->
 | Cenário | Trajetória |
 | :--- | :--- |
 | SSP1-2.6 | emissões caem rápido; aquecimento contido perto de 2 °C |

@@ -40,6 +40,7 @@ A faixa de variação a adotar para cada premissa não é matéria de palpite: e
 que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que
 um dado tomado da literatura.
 
+<!-- tabela: Faixa de variação plausível de cada premissa e a origem da incerteza -->
 | Premissa | Variação plausível | Por quê |
 | :--- | ---: | :--- |
 | área de captação | 2 a 5% | é medida em projeto; o erro é de leitura |
@@ -87,6 +88,7 @@ sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro
 
 Leia assim:
 
+<!-- tabela: Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
 | Aceitabilidade do volume vencedor | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |

@@ -6,6 +6,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ## O que o programa lê
 
+<!-- tabela: Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -29,6 +30,7 @@ não enviesar os totais anuais.
 
 ## O que o programa escreve
 
+<!-- tabela: Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -57,6 +59,7 @@ programa.
 
 Ele tem sete seções:
 
+<!-- tabela: As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -79,6 +82,7 @@ A seção {{n:A}} lista os 103 parâmetros, com o nome exato de cada campo.
 
 ## Onde ficam as coisas
 
+<!-- tabela: Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -97,6 +101,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ## Compatibilidade entre versões
 
+<!-- tabela: Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |

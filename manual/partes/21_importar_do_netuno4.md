@@ -26,6 +26,7 @@ Praticamente todo o núcleo de entrada do Netuno 4 tem correspondente direto na 
 atual, e é convertido sem intervenção do usuário. A tabela abaixo relaciona o que a
 importação recupera.
 
+<!-- tabela: Dados do Netuno 4 recuperados pela importação -->
 | Dado | Vem? |
 | :--- | :---: |
 | arquivo e data inicial da chuva | sim |

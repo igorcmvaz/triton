@@ -8,6 +8,7 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ## Os nove casos do manual
 
+<!-- tabela: Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Capítulo | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.netuno` | 4 a 13 | o projeto do tutorial, com a cisterna escolhida na seção {{n:12}} |
@@ -27,6 +28,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
+<!-- tabela: Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.netuno` | volume fixo | 5 000 L | 37,46% | 224,7 L/dia |
