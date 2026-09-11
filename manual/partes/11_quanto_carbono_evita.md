@@ -60,6 +60,10 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 <!-- inclui: _tabelas/cap11_materiais.md -->
 
+![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
+
+*Figura 4 — Verde é saldo positivo, laranja é negativo. Dois dos quatro materiais fecham a vida útil devendo carbono.*
+
 **A escolha do material inverte o resultado.**
 
 Polietileno paga a dívida em 10,9 anos e termina os vinte anos com saldo positivo de

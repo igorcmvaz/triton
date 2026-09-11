@@ -81,7 +81,7 @@ descarte merece atenção no capítulo 4.
 > evento**: abaixo dele nada é captado, acima dele capta-se a chuva **inteira**, sem
 > subtrair. O Netuno 5 subtrai a lâmina. A diferença é deliberada e está quantificada
 > no capítulo 35: o Netuno 5 estima, em média, de 2,3 a 2,7 pontos percentuais menos
-> economia sobre 4.050 casos de referência, e cerca de 46% dessa diferença vem daqui.
+> economia sobre 4.050 casos de referência, e **metade** dessa diferença vem daqui.
 > Estudos que comparem as duas versões precisam declarar isso.
 
 ### O dia 6: o extravasamento vem antes do consumo
@@ -110,6 +110,10 @@ pluvial.
 É o retrato do descasamento entre a chuva, que chega concentrada, e a demanda, que é
 constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a
 pergunta que a varredura de volumes do capítulo 24 responde.
+
+![Captação, extravasamento e nível do reservatório ao longo dos dez dias](../figuras/fig01_dez_dias.png)
+
+*Figura 1 — Os dez dias do caso resolvido. Em cima, o captado em azul e o extravasado em laranja: repare no dia 9, em que o extravasado quase iguala o captado. Embaixo, o nível do reservatório, que encosta na capacidade três vezes.*
 
 ### A soma: o balanço fecha
 

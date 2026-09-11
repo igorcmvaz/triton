@@ -27,6 +27,10 @@ levado a quatro capitais:
 
 ---
 
+![Chuva anual e potencial de economia nas quatro capitais](../figuras/fig03_cidades.png)
+
+*Figura 3 — As barras azuis são a chuva anual; as laranjas, o potencial de economia. Manaus tem a maior barra azul e não tem a maior laranja.*
+
 ## 14.3. A lição: regime manda mais que lâmina
 
 Leia as colunas de chuva anual e de potencial lado a lado. Elas **não** andam

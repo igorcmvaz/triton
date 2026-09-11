@@ -284,6 +284,146 @@ def _limpa(t):
     return t
 
 
+def apendice_d():
+    """Regimes tarifários e a base dos 652 municípios, lidos da própria base."""
+    import json
+    from collections import Counter
+
+    caminho = os.path.join(PKG, "data", "brazil_cities_tariffs.json")
+    if not os.path.exists(caminho):
+        return None, 0
+    base = json.load(open(caminho, encoding="utf-8"))
+    cidades = base["cities"]
+    regimes = Counter(c.get("regime_tarifario") for c in cidades.values())
+
+    NOMES = {
+        "sem_minimo": ("Sem mínimo",
+                       "Cada m³ economizado desconta na conta."),
+        "disponibilidade": ("Disponibilidade",
+                            "Valor fixo que **soma** por cima do consumo medido. "
+                            "Cada m³ economizado desconta."),
+        "franquia_no_minimo": ("Franquia no mínimo",
+                               "O valor fixo já inclui um volume. Economizar **abaixo** "
+                               "da franquia não desconta nada."),
+        "franquia_retroativa": ("Franquia retroativa",
+                                "Até a franquia paga-se o fixo; passando dela, "
+                                "tarifa-se **tudo desde zero**."),
+        "piso_de_pagamento": ("Piso de pagamento",
+                              "A conta **não desce** abaixo do piso. Não soma: limita."),
+    }
+    CODIGOS = {
+        "1 ou 0": "faixa progressiva, cobra só o volume dentro dela",
+        "−1": "custo de disponibilidade, soma por cima",
+        "−2": "franquia retroativa",
+        "−3": "piso de pagamento",
+    }
+
+    L = [
+        "# Apêndice D — Regimes tarifários",
+        "",
+        f"A base traz **{len(cidades)} municípios** com estrutura tarifária, percentual",
+        "de esgoto, regime de mínimo, data de vigência e fonte. Este apêndice é gerado",
+        "da própria base por `manual/gerar_apendices.py`.",
+        "",
+        "## D.1. Os códigos de faixa",
+        "",
+        "Cada linha da tabela tarifária é uma quádrupla "
+        "`(mínimo, máximo, valor, código)`:",
+        "",
+        "| Código | Significado |",
+        "| ---: | :--- |",
+    ]
+    for cod, desc in CODIGOS.items():
+        L.append(f"| {cod} | {desc} |")
+
+    L += ["", "## D.2. Os cinco regimes", "",
+          "| Regime | Municípios | O que acontece ao economizar |",
+          "| :--- | ---: | :--- |"]
+    for chave, (nome, desc) in NOMES.items():
+        L.append(f"| **{nome}** | {regimes.get(chave, 0)} | {desc} |")
+
+    L += ["",
+          "> O piso de pagamento está implementado e nenhum município da base foi",
+          "> classificado nele até esta versão.",
+          "",
+          "## D.3. Distribuição por unidade da federação", "",
+          "| UF | Municípios |", "| :--- | ---: |"]
+    por_uf = Counter(c.get("uf") for c in cidades.values())
+    for uf in sorted(x for x in por_uf if x):
+        L.append(f"| {uf} | {por_uf[uf]} |")
+
+    L += ["", "## D.4. Grau de confiança", "",
+          "Cada registro traz o grau de confiança da coleta:", "",
+          "| Grau | Registros |", "| :--- | ---: |"]
+    conf = Counter(c.get("confianca_grau", "não informado") for c in cidades.values())
+    for grau, n in conf.most_common():
+        L.append(f"| {grau} | {n} |")
+
+    L += ["",
+          "> **Confira sempre a data de vigência** do registro do seu município contra a",
+          "> resolução da concessionária. Tarifas são reajustadas anualmente, e o guia 16",
+          "> ensina o teste que identifica estrutura errada.", ""]
+    return NL.join(L), len(cidades)
+
+
+def apendice_f():
+    """Referência da linha de comando, lida do próprio argparse."""
+    import subprocess
+    import sys as _sys
+
+    raiz = os.path.dirname(AQUI)
+    cli = os.path.join(PKG, "cli.py")
+    if not os.path.exists(cli):
+        return None, 0
+
+    def ajuda(*args):
+        try:
+            r = subprocess.run(
+                [_sys.executable, "-m", "netuno.cli", *args, "--help"],
+                capture_output=True, text=True, cwd=raiz, timeout=120,
+                env=dict(os.environ, PYTHONPATH=raiz, PYTHONIOENCODING="utf-8"))
+            return (r.stdout or "").strip()
+        except Exception:
+            return ""
+
+    geral = ajuda()
+    if not geral:
+        return None, 0
+
+    subcomandos = [
+        ("run", "Simula um projeto"),
+        ("analyze", "Executa a cadeia completa de análises"),
+        ("validate", "Confere a estrutura e as premissas de um projeto"),
+        ("init", "Cria um modelo .netuno editável"),
+        ("matrix", "Combina premissas de edificação com catálogo climático"),
+        ("matrix-projects", "Executa vários projetos de uma lista ou pasta"),
+        ("batch", "Executa cenários de uma planilha"),
+        ("uncertainty", "Propaga incertezas por Monte Carlo"),
+    ]
+
+    L = [
+        "# Apêndice F — Referência da linha de comando",
+        "",
+        "Gerado do próprio `argparse` do programa por `manual/gerar_apendices.py`.",
+        "O guia 19 ensina a usar; este apêndice lista as opções.",
+        "",
+        "## F.1. Uso geral",
+        "",
+        "```",
+        geral,
+        "```",
+        "",
+    ]
+    n = 1
+    for nome, desc in subcomandos:
+        texto = ajuda(nome)
+        if not texto:
+            continue
+        n += 1
+        L += [f"## F.{n}. `{nome}` — {desc}", "", "```", texto, "```", ""]
+    return NL.join(L), n
+
+
 def main():
     texto, n = apendice_a()
     p = os.path.join(SAIDA, "A_parametros.md")
@@ -293,10 +433,26 @@ def main():
     texto, n = apendice_b()
     if texto is None:
         print("  B_processos.md — pulado: falta manual/processos.py")
-        return
-    p = os.path.join(SAIDA, "B_processos.md")
-    open(p, "w", encoding="utf-8").write(texto + NL)
-    print(f"  B_processos.md — {n} processos")
+    else:
+        p = os.path.join(SAIDA, "B_processos.md")
+        open(p, "w", encoding="utf-8").write(texto + NL)
+        print(f"  B_processos.md — {n} processos")
+
+    texto, n = apendice_d()
+    if texto is None:
+        print("  D_regimes_tarifarios.md — pulado: base não encontrada")
+    else:
+        p = os.path.join(SAIDA, "D_regimes_tarifarios.md")
+        open(p, "w", encoding="utf-8").write(texto + NL)
+        print(f"  D_regimes_tarifarios.md — {n} municípios")
+
+    texto, n = apendice_f()
+    if texto is None:
+        print("  F_linha_de_comando.md — pulado: CLI não respondeu")
+    else:
+        p = os.path.join(SAIDA, "F_linha_de_comando.md")
+        open(p, "w", encoding="utf-8").write(texto + NL)
+        print(f"  F_linha_de_comando.md — {n} seções")
 
 
 if __name__ == "__main__":

@@ -36,6 +36,10 @@ qual tudo se compara.
 
 <!-- inclui: _tabelas/cap07_varredura.md -->
 
+![Curva de potencial e curva de ganho marginal](../figuras/fig02_curva_de_retorno.png)
+
+*Figura 2 — À esquerda, o potencial se aproximando do teto de 40% e nunca o cruzando. À direita, o ganho marginal em escala logarítmica: três ordens de grandeza entre o primeiro metro cúbico e o vigésimo.*
+
 Leia a coluna **ganho por m³ acrescentado**. Ela é a derivada da curva, e é onde
 está a decisão.
 

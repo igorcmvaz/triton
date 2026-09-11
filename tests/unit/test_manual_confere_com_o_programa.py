@@ -533,3 +533,186 @@ def test_o_capitulo_13_traz_a_lista_de_declaracao():
     for exigido in ("Versão do Netuno", "fronteira", "regime", "pesos",
                     "limiar", "rótulo de triagem"):
         assert exigido in texto, f"a lista de declaração não cobre {exigido}"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Integridade do manual montado
+# ══════════════════════════════════════════════════════════════════════════════
+
+CAPITULOS = 37
+APENDICES = 9
+
+
+def _manual_montado():
+    caminho = os.path.join(MANUAL, "Manual-Netuno-5.md")
+    if not os.path.exists(caminho):
+        pytest.skip("manual ainda não montado; rode manual/gerar.py")
+    return open(caminho, encoding="utf-8").read()
+
+
+def test_todos_os_capitulos_e_apendices_estao_escritos():
+    """Nenhuma seção pode sair como esqueleto no manual montado."""
+    texto = _manual_montado()
+    assert "Capítulo por escrever" not in texto
+    assert "Apêndice por escrever" not in texto
+
+
+def test_o_manual_tem_todos_os_arquivos_de_capitulo():
+    partes = os.path.join(MANUAL, "partes")
+    escritos = [f for f in os.listdir(partes) if f.endswith(".md")]
+    assert len(escritos) == CAPITULOS, sorted(escritos)
+
+
+def test_o_manual_tem_todos_os_apendices():
+    apend = os.path.join(MANUAL, "apendices")
+    escritos = [f for f in os.listdir(apend) if f.endswith(".md")]
+    assert len(escritos) == APENDICES, sorted(escritos)
+
+
+def test_nenhuma_inclusao_de_tabela_ficou_por_resolver():
+    """Se uma tabela gerada faltar, o número some do manual sem aviso."""
+    texto = _manual_montado()
+    assert "<!-- inclui:" not in texto
+
+
+def test_as_figuras_referidas_existem():
+    partes = os.path.join(MANUAL, "partes")
+    faltando = []
+    for arquivo in sorted(os.listdir(partes)):
+        if not arquivo.endswith(".md"):
+            continue
+        texto = open(os.path.join(partes, arquivo), encoding="utf-8").read()
+        for ref in re.findall(r"!\[[^\]]*\]\((\.\./figuras/[^)]+)\)", texto):
+            alvo = os.path.normpath(os.path.join(partes, ref))
+            if not os.path.exists(alvo):
+                faltando.append(f"{arquivo}: {ref}")
+    assert not faltando, faltando
+
+
+def test_o_sumario_lista_todos_os_capitulos():
+    texto = _manual_montado()
+    cabeca = texto.split("# Parte 1")[0]
+    for num in range(1, CAPITULOS + 1):
+        assert f"{num}. " in cabeca, f"o sumário não lista o capítulo {num}"
+
+
+def test_o_manual_declara_que_os_numeros_sao_calculados():
+    """A promessa que dá autoridade ao documento inteiro."""
+    texto = _manual_montado()
+    assert "Todo número impresso neste manual é calculado pelo programa" in texto
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Os guias e o método
+# ══════════════════════════════════════════════════════════════════════════════
+
+def test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D():
+    """Impresso: 329 de franquia, 165 sem mínimo, 156 de disponibilidade."""
+    import json
+    from collections import Counter
+
+    caminho = os.path.join(RAIZ, "netuno", "data", "brazil_cities_tariffs.json")
+    base = json.load(open(caminho, encoding="utf-8"))
+    regimes = Counter(c.get("regime_tarifario") for c in base["cities"].values())
+    assert len(base["cities"]) == 652
+    assert regimes["franquia_no_minimo"] == 329
+    assert regimes["sem_minimo"] == 165
+    assert regimes["disponibilidade"] == 156
+
+
+def test_a_franquia_para_de_descontar_como_o_guia_16_mostra():
+    """Impresso: em Floriano, poupar 4 ou poupar 7 economiza o mesmo."""
+    from netuno.core.economic import calculate_water_bill
+
+    FLORIANO = [(0.0, 0.0, 52.89, -1), (0.0, 10.0, 0.0, 1),
+                (10.0, 15.0, 9.815, 1), (15.0, 20.0, 10.917, 1),
+                (20.0, 999999.0, 12.8, 1)]
+    conta = lambda m3: calculate_water_bill(m3 * 1000, FLORIANO, 1, 0.0, 0.0, 0.0)
+    assert conta(12.0) == pytest.approx(72.52, abs=0.05)
+    assert conta(8.0) == pytest.approx(52.89, abs=0.05)
+    assert conta(5.0) == pytest.approx(52.89, abs=0.05)
+    assert conta(12.0) - conta(8.0) == pytest.approx(conta(12.0) - conta(5.0), abs=0.01)
+
+
+def test_as_cidades_do_guia_14(serie_tutorial):
+    """Impresso: Manaus chove mais que Florianópolis e rende menos."""
+    from netuno.core.parser import load_precipitation
+
+    resultados = {}
+    for chave in ("Florianopolis1", "Manaus1", "Brasilia1"):
+        caminho = os.path.join(RAIZ, "data", "rainfall", f"{chave}.csv")
+        if not os.path.exists(caminho):
+            pytest.skip(f"série {chave} não instalada")
+        serie = load_precipitation(caminho)[: 30 * 365]
+        anos = len(serie) / 365.25
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **TUTORIAL)
+        resultados[chave] = (serie.sum() / anos, r.potential_potable_savings_pct)
+
+    chuva_flo, pot_flo = resultados["Florianopolis1"]
+    chuva_man, pot_man = resultados["Manaus1"]
+    chuva_bsb, pot_bsb = resultados["Brasilia1"]
+
+    assert chuva_man > chuva_flo and pot_man < pot_flo
+    assert chuva_bsb < chuva_flo and pot_bsb < pot_flo / 1.5
+    assert pot_man == pytest.approx(27.92, abs=0.05)
+    assert pot_bsb == pytest.approx(20.80, abs=0.05)
+
+
+def test_o_rendimento_do_motor_do_capitulo_28():
+    """Impresso: a Tabela 13 da ABNT NBR 17094-2, dois polos, linha IR1."""
+    from netuno.core.pump_hydraulics import rendimento_do_motor
+    esperado = {0.18: 0.500, 0.25: 0.555, 0.37: 0.605,
+                0.55: 0.640, 0.75: 0.693, 1.10: 0.715, 1.50: 0.724}
+    for kw, eta in esperado.items():
+        assert rendimento_do_motor(kw) == pytest.approx(eta), f"{kw} kW"
+
+
+def test_as_densidades_do_apendice_C():
+    """Impresso: massa por m³ útil de cada material."""
+    from netuno.core.environmental import MATERIAL_PRESETS
+    esperado = {"PEAD": 22.0, "CONCRETO": 1200.0, "FIBRA": 15.0, "ACO_INOX": 38.0}
+    for k, densidade in esperado.items():
+        assert MATERIAL_PRESETS[k].material_density_kg_per_m3_tank \
+            == pytest.approx(densidade)
+
+
+def test_a_decomposicao_da_divergencia_e_coerente_entre_documentos():
+    """`metodologia.md` e `verificacao_e_validacao.md` diziam 46% e 50%.
+
+    A decomposição é 1,36 pp de 2,71 pp, ou seja 50%. O documento de metodologia
+    trazia 46%, e os dois passaram anos discordando sobre o mesmo número.
+    """
+    met = os.path.join(RAIZ, "docs", "metodologia.md")
+    ver = os.path.join(RAIZ, "docs", "verificacao_e_validacao.md")
+    for caminho in (met, ver):
+        if not os.path.exists(caminho):
+            pytest.skip("documentação de referência ausente")
+    texto_met = open(met, encoding="utf-8").read()
+    texto_ver = open(ver, encoding="utf-8").read()
+    assert "1,36 pp (50%)" in texto_ver
+    assert "46%" not in texto_met
+    assert "50%" in texto_met
+    assert 1.36 / 2.71 == pytest.approx(0.50, abs=0.01)
+
+
+def test_os_capitulos_finais_citam_o_que_precisam_citar():
+    esperados = {
+        "01_o_que_o_netuno_faz.md": ("dimensiona a instalação hidráulica", "triagem", "0,25"),
+        "03_por_onde_comecar.md": ("fração atendível", "varredura"),
+        "24_volume_ideal.md": ("250", "limitado a 40", "%/m"),
+        "25_indicadores.md": ("365,25", "demanda pluvial", "demanda total"),
+        "26_indices_pluviometricos.md": ("R10mm", "1961", "Walsh"),
+        "27_etap.md": ("incremental", "65%", "substitui"),
+        "28_energia_de_bombeamento.md": ("17094", "60,5%", "eixo"),
+        "29_analise_economica.md": ("329", "diferença entre duas contas"),
+        "30_acv.md": ("entregue", "33,9%", "triagem"),
+        "31_certificacoes.md": ("WEM14", "barra de água", "não pontua"),
+        "32_multicriterio.md": ("Opricovic", "variante", "SMAA"),
+        "33_dez_enganos.md": ("projeção horizontal", "milímetros", "franquia"),
+        "35_comparacao_netuno4.md": ("0,25 pp", "4.050", "1,36 pp"),
+        "36_limitacoes.md": ("residencial", "triagem", "108 s"),
+        "37_mensagens_de_erro.md": ("negativ", "0,4 para 40%"),
+    }
+    for arquivo, termos in esperados.items():
+        texto = _capitulo(arquivo)
+        for termo in termos:
+            assert termo in texto, f"{arquivo} não cita {termo}"

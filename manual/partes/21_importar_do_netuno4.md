@@ -73,8 +73,9 @@ evento**: abaixo dela nada é captado, acima dela capta-se a chuva inteira. O Ne
 dispositivo de autolimpeza não chega à cisterna.
 
 Sobre 4.050 casos de referência, o Netuno 5 estima, em média, de **2,3 a 2,7 pontos
-percentuais menos** economia de água potável que o Netuno 4. Cerca de 46% dessa
-diferença vem daqui.
+percentuais menos** economia de água potável que o Netuno 4. Metade dessa
+diferença vem daqui: 1,36 ponto percentual dos 2,71 do conjunto de Manaus e São
+Paulo.
 
 **As demais causas** estão decompostas no capítulo 35.
 

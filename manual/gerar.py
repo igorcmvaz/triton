@@ -120,8 +120,70 @@ def esqueleto(num, titulo):
     ])
 
 
+def frontmatter(sumario_linhas, palavras):
+    """Folha de rosto e sumário, gerados do próprio sumário do manual."""
+    from datetime import date
+    return NL.join([
+        "# Netuno 5",
+        "",
+        "## Manual do Usuário",
+        "",
+        "Universidade Federal de Santa Catarina",
+        "Departamento de Engenharia Civil",
+        "Grupo de Pesquisa Gestão do Espaço Sustentável",
+        "",
+        f"Versão 5.0.8 · Florianópolis, {date.today().strftime('%d/%m/%Y')}",
+        "",
+        "---",
+        "",
+        "### Como usar este manual",
+        "",
+        "Ele não foi feito para ser lido do começo ao fim. O **capítulo 3** diz por",
+        "onde entrar conforme o que você quer fazer.",
+        "",
+        "| Você quer | Leia |",
+        "| :--- | :--- |",
+        "| aprender a usar | Parte 2, o tutorial |",
+        "| resolver um caso | Parte 3, os guias de tarefa |",
+        "| publicar um estudo | Parte 4, o método; e o capítulo 13 |",
+        "| revisar um estudo | Parte 6, e os apêndices A e B |",
+        "| não errar | capítulo 33 |",
+        "",
+        "> **Todo número impresso neste manual é calculado pelo programa.** As tabelas",
+        "> e as figuras são geradas por `manual/gerar_tabelas.py` e",
+        "> `manual/gerar_figuras.py`, e cada valor publicado tem asserção",
+        "> correspondente na suíte de testes. Quando o programa muda, o teste falha e",
+        "> aponta a página.",
+        "",
+        "---",
+        "",
+        "## Sumário",
+        "",
+    ] + sumario_linhas + [
+        "",
+        "---",
+        "",
+    ])
+
+
 def main():
     partes, faltando, escritos = [], [], []
+    sumario = []
+    for nome_parte, capitulos in SUMARIO:
+        sumario.append(f"**{nome_parte}**" + NL)
+        for num, _ in capitulos:
+            sumario.append(f"{num}. {TITULOS[num]}")
+        sumario.append("")
+    sumario.append("**Apêndices**" + NL)
+    APEND_TITULOS = {
+        "A": "Os parâmetros do projeto", "B": "Os processos do programa",
+        "C": "Fatores de emissão", "D": "Regimes tarifários",
+        "E": "Base climática", "F": "Referência da linha de comando",
+        "G": "Glossário", "H": "Referências", "I": "Fichas de uma página",
+    }
+    for letra, _ in APENDICES:
+        sumario.append(f"{letra}. {APEND_TITULOS.get(letra, '')}")
+
     for nome_parte, capitulos in SUMARIO:
         partes.append(f"# {nome_parte}" + NL)
         for num, arquivo in capitulos:
@@ -147,9 +209,10 @@ def main():
 
     destino = os.path.join(AQUI, "Manual-Netuno-5.md")
     corpo = (NL + "---" + NL + NL).join(partes)
+    palavras = len(corpo.split())
+    corpo = frontmatter(sumario, palavras) + corpo
     open(destino, "w", encoding="utf-8").write(corpo)
 
-    palavras = len(corpo.split())
     print(f"montado: {os.path.relpath(destino, AQUI)}")
     print(f"  {len(escritos)} de {len(faltando) + len(escritos)} seções escritas")
     print(f"  {palavras:,} palavras, cerca de {palavras // 450} páginas".replace(",", "."))
