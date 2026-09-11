@@ -1,4 +1,4 @@
-# Apêndice C — Fatores de emissão
+# Fatores de emissão
 
 Todo fator usado pela avaliação de ciclo de vida, com procedência, fronteira e grau
 de confiança. O detalhamento completo, com as fontes item a item, está em
@@ -6,7 +6,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ---
 
-## C.1. Materiais de reservatório
+## Materiais de reservatório
 
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
@@ -19,13 +19,13 @@ A massa por metro cúbico útil é a que converte volume de reservatório em mas
 material. É ela, e não o fator, que faz o concreto dominar o inventário: 1.200 kg
 por metro cúbico contra 22 do polietileno.
 
-> **Consequência prática, demonstrada no capítulo 11:** o material decide o **sinal**
+> **Consequência prática, demonstrada na seção {{n:11}}:** o material decide o **sinal**
 > do resultado ambiental. Com concreto e vida útil de vinte anos, o sistema do
 > tutorial não paga a dívida de carbono.
 
 ---
 
-## C.2. Água potável de rede
+## Água potável de rede
 
 Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial.
 
@@ -45,7 +45,7 @@ em até um terço.
 
 ---
 
-## C.3. Rede elétrica
+## Rede elétrica
 
 O fator da matriz elétrica brasileira muda **todo ano**, e um estudo sem o ano
 declarado é irreprodutível. O programa traz cinco bases de referência e registra qual
@@ -53,7 +53,7 @@ foi usada.
 
 ---
 
-## C.4. Insumos de tratamento
+## Insumos de tratamento
 
 | Insumo | Fator |
 | :--- | ---: |
@@ -66,7 +66,7 @@ ativo.
 
 ---
 
-## C.5. Fatores com rótulo de triagem
+## Fatores com rótulo de triagem
 
 Nem todo fator tem fonte primária. Os que não têm são marcados, e o relatório exibe a
 marca.
@@ -81,7 +81,7 @@ marca.
 
 ---
 
-## C.6. O que consultar antes de publicar
+## O que consultar antes de publicar
 
 1. `docs/procedencia_fatores_co2.md`, para a fonte item a item;
 2. a aba de Documentação, capítulo de avaliação de ciclo de vida, para as

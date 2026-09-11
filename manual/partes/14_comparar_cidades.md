@@ -1,4 +1,4 @@
-# 14. Comparar cidades
+# Comparar cidades
 
 > **Pergunta que este guia responde:** o mesmo projeto renderia o mesmo em outra
 > cidade?
@@ -7,18 +7,18 @@ Não. E a diferença não é a que a intuição sugere.
 
 ---
 
-## 14.1. Como fazer
+## Como fazer
 
 Mantenha todos os parâmetros do projeto e troque só a série de precipitação. Na aba
 **Projeto**, escolha outra cidade da base nacional ou carregue outro arquivo, e rode
 de novo.
 
 Para comparar várias cidades sem refazer o projeto a cada uma, salve um arquivo por
-cidade. O guia 19 mostra como organizar isso.
+cidade. A seção {{n:19}} mostra como organizar isso.
 
 ---
 
-## 14.2. O resultado
+## O resultado
 
 O projeto do tutorial — 150 m², 600 L/dia, 40% de fração atendível, 5.000 L —
 levado a quatro capitais:
@@ -31,7 +31,7 @@ levado a quatro capitais:
 
 *Figura 3 — As barras azuis são a chuva anual; as laranjas, o potencial de economia. Manaus tem a maior barra azul e não tem a maior laranja.*
 
-## 14.3. A lição: regime manda mais que lâmina
+## A lição: regime manda mais que lâmina
 
 Leia as colunas de chuva anual e de potencial lado a lado. Elas **não** andam
 juntas.
@@ -65,15 +65,14 @@ isso, e por isso o sistema fica ocioso um trimestre por ano.
 
 ---
 
-## 14.4. O que mais muda entre cidades
+## O que mais muda entre cidades
 
 A chuva não é a única coisa que muda, e as outras duas podem inverter a conclusão
 econômica.
 
 **A tarifa.** O metro cúbico custa muito diferente pelo país, e o **regime de
 mínimo** mais ainda. Um potencial de 20% em município de tarifa alta e regime de
-disponibilidade pode render mais dinheiro que 37% em município de franquia. O guia
-16 trata disso.
+disponibilidade pode render mais dinheiro que 37% em município de franquia. A seção {{n:16}} trata disso.
 
 **O fator de emissão da rede elétrica.** Muda a emissão evitada por metro cúbico e o
 custo do bombeamento. O programa traz o fator por região.
@@ -85,7 +84,7 @@ custo do bombeamento. O programa traz o fator por região.
 
 ---
 
-## 14.5. O volume ideal também muda
+## O volume ideal também muda
 
 Repare na última coluna: o volume ideal vai de 5.000 a 6.000 L entre as quatro
 cidades, uma variação pequena.

@@ -753,11 +753,11 @@ class MainWindow(QMainWindow):
                 "<p>Esta funcionalidade permite simular dezenas ou centenas de combinações de projetos "
                 "de água de chuva (variando área de captação, demanda, volume de cisterna, custos e coeficientes de escoamento) "
                 "de forma automatizada a partir de uma planilha Excel (<code>.xlsx</code>).</p>"
-                "<p>💡 <b>Recomendação para Lotes Grandes (Pesquisa e Automação):</b><br>"
-                "Para processar grandes matrizes de cenários com séries históricas extensas, é recomendado utilizar o "
-                "<b>modo linha de comando em Python (CLI)</b> diretamente pelo terminal, permitindo paralelização e scripts customizados.<br>"
-                "O código-fonte e exemplos de automação estão disponíveis no repositório:<br>"
-                "<a href='https://github.com/labeee-ufsc/netuno'>https://github.com/labeee-ufsc/netuno</a></p>"
+                "<p>💡 <b>Para matrizes muito grandes:</b><br>"
+                "Estudos com milhares de cenários e séries longas são executados pela interface de "
+                "automação que acompanha a distribuição de código-fonte, usada nos trabalhos do "
+                "Grupo de Pesquisa Gestão do Espaço Sustentável. Para um estudo de projeto, a planilha "
+                "de cenários desta tela responde a mesma pergunta.</p>"
                 "<p>Deseja salvar a planilha modelo de cenários (<code>.xlsx</code>) para preenchimento agora?</p>"
             )
         )

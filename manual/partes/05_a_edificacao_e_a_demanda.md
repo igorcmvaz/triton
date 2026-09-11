@@ -1,17 +1,17 @@
-# 5. A edificação e a demanda
+# A edificação e a demanda
 
 > Ao terminar este capítulo o programa saberá **quanta água sai** e, mais importante,
 > **qual parte dela a chuva pode atender**. Essa fração é o teto de tudo o que vem
 > depois.
 
-O capítulo 4 definiu a oferta. Este define a demanda. E há uma assimetria que
+A seção {{n:4}} definiu a oferta. Este define a demanda. E há uma assimetria que
 convém entender desde já: **a chuva não pode atender toda a demanda**, por mais
 água que haja. Existe um teto, ele é definido aqui, e nenhum reservatório o
 ultrapassa.
 
 ---
 
-## 5.1. A tipologia
+## A tipologia
 
 Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
 tipologias, cada uma com o consumo per capita de referência e a repartição usual dos
@@ -29,11 +29,11 @@ usos finais:
 | comércio | 8 a 20 L/pessoa·dia |
 
 A tipologia serve de ponto de partida, não de imposição: o valor continua editável.
-O guia 18 trata dos casos não residenciais, que têm uma armadilha própria na tarifa.
+A seção {{n:18}} trata dos casos não residenciais, que têm uma armadilha própria na tarifa.
 
 ---
 
-## 5.2. Os moradores e o consumo
+## Os moradores e o consumo
 
 **Quatro moradores, 150 L/hab·dia.** Total de **600 L/dia**.
 
@@ -43,12 +43,12 @@ consumo mensal em litros por trinta e pelo número de moradores. O número medid
 mais que qualquer referência.
 
 O programa aceita demanda **constante** ou modulada por semana, mês ou dia. O
-tutorial usa constante; o guia 17 mostra a modulação, que importa em escola, hotel e
+tutorial usa constante; a seção {{n:17}} mostra a modulação, que importa em escola, hotel e
 qualquer edificação com sazonalidade.
 
 ---
 
-## 5.3. A fração que a chuva pode atender
+## A fração que a chuva pode atender
 
 **40%.** É o número mais importante deste capítulo.
 
@@ -77,7 +77,7 @@ defensável para residência unifamiliar sem jardim grande.
 
 > **Este número é o teto.** Com 40% de fração atendível, o potencial de economia
 > **jamais** passa de 40%, por maior que seja o reservatório e por mais que chova.
-> A tabela do capítulo 7 mostra a curva se aproximando exatamente desse limite e
+> A tabela da seção {{n:7}} mostra a curva se aproximando exatamente desse limite e
 > nunca o cruzando.
 >
 > Quem quer passar de 40% precisa mudar o **uso**, não o reservatório: acrescentar a
@@ -86,7 +86,7 @@ defensável para residência unifamiliar sem jardim grande.
 
 ---
 
-## 5.4. Discretizar os usos, ou não
+## Discretizar os usos, ou não
 
 O programa aceita dois níveis de detalhe.
 
@@ -97,14 +97,14 @@ como um bloco. É o modo do tutorial, e é suficiente para a maioria dos estudos
 não potável interna e irrigação. O programa passa a atender com prioridade o uso
 interno não potável e só depois a irrigação, e a distinguir as duas nos créditos de
 certificação — o LEED separa uso interno de uso externo em créditos diferentes, como
-o capítulo 31 mostra.
+a seção {{n:31}} mostra.
 
 Vale discretizar quando há jardim relevante, quando a certificação está no
 horizonte, ou quando a irrigação pode ser suprimida em dias de chuva.
 
 ---
 
-## 5.5. A irrigação e a supressão por chuva
+## A irrigação e a supressão por chuva
 
 Se você declarar um volume de irrigação, aparece um limiar de supressão: nos dias em
 que a chuva superar esse limiar, o programa **não rega o jardim**. É o
@@ -128,7 +128,7 @@ uma conveniência.
 
 ---
 
-## 5.6. O que temos até aqui
+## O que temos até aqui
 
 | Dado | Valor |
 | :--- | ---: |
@@ -151,4 +151,4 @@ guardar:
 Sobra água. Sobra **o dobro** da que se pretende usar. Se o único limite fosse a
 oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 40% de teto.
 
-Ele não chega, e o capítulo 6 mostra por quê.
+Ele não chega, e a seção {{n:6}} mostra por quê.

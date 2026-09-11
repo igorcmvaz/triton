@@ -1,11 +1,11 @@
-# 23. O balanço hídrico diário
+# O balanço hídrico diário
 
 > Ao terminar este capítulo você saberá refazer, numa planilha, exatamente o que o
 > Netuno faz em cada dia da série, e saberá dizer por que o programa chegou ao
 > número que chegou.
 
-> **Antes de começar.** A Parte 4 é a camada técnica do manual: ela mostra as contas
-> por dentro. Você não precisa dela para usar o programa — a Parte 2 basta — mas
+> **Antes de começar.** O capítulo {{c:4}} é a camada técnica do manual: ela mostra as contas
+> por dentro. Você não precisa dela para usar o programa — o capítulo {{c:2}} basta — mas
 > precisa dela para **defender** um resultado, seja numa banca, numa revisão ou
 > diante de um cliente que perguntou de onde saiu o número.
 
@@ -20,7 +20,7 @@ anual. Há a série, dia após dia, e a mesma conta repetida.
 
 ---
 
-## 23.1. A ordem das operações
+## A ordem das operações
 
 O programa executa, para cada dia `t`, sempre nesta ordem:
 
@@ -37,7 +37,7 @@ isso.
 
 ---
 
-## 23.2. O caso resolvido
+## O caso resolvido
 
 Dez dias, uma residência, sem reservatório superior. Os números foram escolhidos
 para caber numa planilha.
@@ -53,7 +53,7 @@ A demanda pluvial diária é a demanda total vezes a fração atendível:
 
 ---
 
-## 23.3. Lendo a tabela
+## Lendo a tabela
 
 Cinco coisas acontecem nesses dez dias, e cada uma ensina uma regra do programa.
 
@@ -80,12 +80,12 @@ zero: ele **descarta o dia inteiro**.
 A razão é física: o dispositivo de descarte precisa encher antes de a água chegar à
 cisterna. Se a chuva não enche o dispositivo, nada passa. Em climas de chuva fraca e
 frequente, isso pesa muito mais do que a intuição sugere, e é por isso que o modo de
-descarte merece atenção no capítulo 4.
+descarte merece atenção na seção {{n:4}}.
 
 > **Diferença em relação ao Netuno 4.** O Netuno 4 trata `d_f` como **limiar do
 > evento**: abaixo dele nada é captado, acima dele capta-se a chuva **inteira**, sem
 > subtrair. O Netuno 5 subtrai a lâmina. A diferença é deliberada e está quantificada
-> no capítulo 35: o Netuno 5 estima, em média, de 2,3 a 2,7 pontos percentuais menos
+> na seção {{n:35}}: o Netuno 5 estima, em média, de 2,3 a 2,7 pontos percentuais menos
 > economia sobre 4.050 casos de referência, e **metade** dessa diferença vem daqui.
 > Estudos que comparem as duas versões precisam declarar isso.
 
@@ -114,7 +114,7 @@ Num único dia, o sistema jogou fora o equivalente a trinta e nove dias de deman
 pluvial.
 É o retrato do descasamento entre a chuva, que chega concentrada, e a demanda, que é
 constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a
-pergunta que a varredura de volumes do capítulo 24 responde.
+pergunta que a varredura de volumes da seção {{n:24}} responde.
 
 ![Captação, extravasamento e nível do reservatório ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
@@ -135,59 +135,142 @@ anos, com resíduo da ordem de 10⁻¹⁴ por cento do captado.
 
 ---
 
-## 23.4. As equações
+## As equações
 
-Com a notação do capítulo 4 para a captação:
+O balanço diário se escreve em cinco equações encadeadas, que o programa resolve
+nesta ordem para cada dia da série. A notação segue a da seção {{n:4}} para a parcela
+de captação, e o índice `t` designa sempre o dia corrente da simulação, de modo que
+`t−1` é o dia imediatamente anterior.
 
-**Volume captado no dia `t`:**
+### O volume captado
 
-```
+A conversão da lâmina precipitada em volume é a primeira operação do dia, e a mais
+simples de todas: multiplica-se a chuva efetiva pela área de captação e pelo
+coeficiente de escoamento superficial.
+
+```equacao:volume_captado
 V_cap,t = P_ef,t × A × C
 ```
 
-em que `P_ef,t` é a chuva efetiva em milímetros, `A` a área de captação em metros
-quadrados e `C` o coeficiente de escoamento. O resultado sai em litros, porque
-1 mm sobre 1 m² é 1 litro.
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_cap,t` | volume captado no dia `t` | L |
+| `P_ef,t` | chuva efetiva no dia `t`, já descontada a lâmina de descarte | mm |
+| `A` | área de captação, em projeção horizontal | m² |
+| `C` | coeficiente de escoamento superficial da cobertura | adimensional |
 
-**Extravasamento e armazenamento, na ordem YAS:**
+O resultado da Equação {{eq:volume_captado}} sai diretamente em litros, sem fator de
+conversão, porque um milímetro de lâmina sobre um metro quadrado de superfície
+corresponde exatamente a um litro de água. É a única simplificação dimensional do
+modelo, e ela é exata.
 
-```
-D_t  = V_res,t−1 + V_cap,t                  disponível antes do consumo
-V_ext,t = max(0, D_t − V_max)               extravasado
-V_arm,t = min(D_t, V_max)                   armazenado antes do consumo
-```
+### O extravasamento e o armazenamento
 
-**Atendimento:**
+O volume disponível antes de qualquer consumo é a soma do que sobrou no reservatório
+no fim do dia anterior com o que foi captado hoje, conforme a Equação
+{{eq:disponivel}}. Dessa soma decorrem duas parcelas, calculadas nesta ordem: o
+excedente que não cabe no reservatório e por isso extravasa, e o volume que fica
+efetivamente armazenado.
 
-```
-V_con,t = min(D_pl,t, V_arm,t)              consumido de água pluvial
-V_res,t = V_arm,t − V_con,t                 sobra para amanhã
-```
-
-em que `D_pl,t` é a demanda pluvial do dia, montada no capítulo 5.
-
-**Complemento de rede:**
-
-```
-V_pot,t = D_pot,t + déficit interno + déficit de irrigação*
+```equacao:disponivel
+D_t = V_res,t−1 + V_cap,t
 ```
 
-O asterisco importa: o déficit de irrigação só vira consumo de rede se o
-**suprimento de reserva** estiver ligado. Desligado, o jardim não é regado no dia
-seco, a edificação não compra essa água, e o volume aparece como **demanda não
-atendida** — a terceira parcela do balanço. Veja o capítulo 5.
-
-**Classificação do dia:**
-
-```
-pleno    se V_con,t = D_pl,t        (com tolerância de 10⁻⁵ L)
-parcial  se 0 < V_con,t < D_pl,t
-nulo     se V_con,t = 0
+```equacao:extravasado
+V_ext,t = max(0 ; D_t − V_max)
 ```
 
----
+```equacao:armazenado
+V_arm,t = min(D_t ; V_max)
+```
 
-## 23.5. O balanço de demanda tem três parcelas
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `D_t` | volume disponível no dia `t`, antes do consumo | L |
+| `V_res,t−1` | volume que sobrou no reservatório ao fim do dia anterior | L |
+| `V_cap,t` | volume captado no dia `t`, da Equação {{eq:volume_captado}} | L |
+| `V_ext,t` | volume extravasado no dia `t` | L |
+| `V_arm,t` | volume armazenado no dia `t`, antes do consumo | L |
+| `V_max` | capacidade útil do reservatório inferior | L |
+
+==A ordem em que as Equações {{eq:extravasado}} e {{eq:armazenado}} aparecem define o
+modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
+convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
+é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
+aceitar, na forma de consumo, água que fisicamente já teria transbordado, e
+superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
+mais pesam no total anual.
+
+### O atendimento da demanda
+
+Estabelecido quanto há no reservatório, o programa retira dele o menor valor entre a
+demanda pluvial do dia e o volume disponível, e devolve ao dia seguinte o que restar.
+
+```equacao:consumido
+V_con,t = min(D_pl,t ; V_arm,t)
+```
+
+```equacao:sobra
+V_res,t = V_arm,t − V_con,t
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t`, montada conforme a seção {{n:5}} | L |
+| `V_arm,t` | volume armazenado no dia `t`, da Equação {{eq:armazenado}} | L |
+| `V_res,t` | volume remanescente, transferido ao dia seguinte | L |
+
+A Equação {{eq:sobra}} é o que torna a simulação diária necessária e insubstituível:
+ela liga cada dia ao seguinte e faz do reservatório uma memória do que aconteceu antes.
+Nenhum cálculo baseado em médias mensais ou anuais consegue representar esse
+encadeamento, e é dele que decorre todo o descasamento entre a oferta concentrada e a
+demanda distribuída.
+
+### O complemento da rede pública
+
+O que a chuva não atendeu é comprado da concessionária, e essa parcela reúne três
+origens distintas.
+
+```equacao:potavel
+V_pot,t = D_pot,t + ΔD_int,t + ΔD_irr,t
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_pot,t` | volume de água potável consumido da rede no dia `t` | L |
+| `D_pot,t` | demanda que exige água potável por natureza do uso | L |
+| `ΔD_int,t` | déficit do uso interno não potável, não atendido pela chuva | L |
+| `ΔD_irr,t` | déficit da irrigação, **somente** se o suprimento de reserva estiver ligado | L |
+
+A terceira parcela da Equação {{eq:potavel}} merece atenção porque depende de uma
+escolha do usuário. Com o suprimento de reserva ligado, a rede socorre a irrigação nos
+dias em que a cisterna seca, e o déficit vira consumo potável; com ele desligado, o
+jardim simplesmente não é regado, a edificação não compra essa água, e o volume
+correspondente é contabilizado como **demanda não atendida**, que é a terceira parcela
+do balanço de demanda tratada adiante nesta seção.
+
+### A classificação do dia
+
+Por fim, cada dia recebe uma classificação segundo o grau de atendimento alcançado, e é
+a partir dessa classificação que se calculam os percentuais de dias de atendimento
+pleno, parcial e nulo relatados na seção {{n:25}}.
+
+```equacao:classificacao
+pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t` | L |
+
+A comparação da Equação {{eq:classificacao}} é feita com tolerância de 10⁻⁵ L, e não
+por igualdade exata. A razão é aritmética e não conceitual: o balanço trabalha com
+números de ponto flutuante, e uma diferença da ordem do erro de arredondamento
+classificaria como parcial um dia que foi plenamente atendido.
+
+## O balanço de demanda tem três parcelas
 
 A demanda total de um dia se reparte em três, e não em duas:
 
@@ -202,7 +285,7 @@ sem ela, o balanço fecharia por construção, escondendo a água que ninguém f
 
 ---
 
-## 23.6. Com reservatório superior
+## Com reservatório superior
 
 Quando o projeto tem caixa d'água superior, o passo 4 muda. Em vez de consumir
 direto do reservatório inferior, o programa:
@@ -219,15 +302,15 @@ limiar maior que a caixa não faz o programa recusar, faz ele adotar a caixa che
 
 > **O reservatório superior não aumenta a economia de água.** Ele muda **quando** a
 > água é entregue, não **quanta**. O que ele acrescenta é custo: o investimento na
-> caixa e na bomba, a energia do recalque e a emissão associada. O capítulo 8 do tutorial
+> caixa e na bomba, a energia do recalque e a emissão associada. A seção {{n:8}} do tutorial
 > mostra isso com números.
 
 O número de ciclos e o volume recalcado saem daqui e alimentam o cálculo de energia
-do capítulo 28.
+da seção {{n:28}}.
 
 ---
 
-## 23.7. O que o modelo não representa
+## O que o modelo não representa
 
 - **Não há sub-passo horário.** Uma chuva de 40 mm concentrada em duas horas e a
   mesma lâmina distribuída em vinte e quatro horas produzem o mesmo resultado. Para
@@ -241,15 +324,15 @@ do capítulo 28.
 - **O descarte é uma lâmina, não um dispositivo.** O volume hidráulico do reservatório
   de autolimpeza, `A × d_f`, exige dimensionamento à parte.
 
-O capítulo 36 reúne estas e as demais limitações conhecidas.
+A seção {{n:36}} reúne estas e as demais limitações conhecidas.
 
 ---
 
-## 23.8. Para conferir
+## Para conferir
 
 O caso resolvido deste capítulo está no arquivo `03_dez_dias.netuno`, na pasta de
 casos que acompanha o programa. Abra, rode, e compare com a tabela impressa.
 
 Se algum número divergir, é o manual que está desatualizado em relação ao programa. E
 nesse caso a verificação automática já terá avisado, porque cada número desta tabela
-tem uma asserção correspondente na suíte de testes descrita no capítulo 34.
+tem uma asserção correspondente na suíte de testes descrita na seção {{n:34}}.

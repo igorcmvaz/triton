@@ -1,4 +1,4 @@
-# 15. Usar cenário climático futuro
+# Usar cenário climático futuro
 
 > **Pergunta que este guia responde:** o sistema que dimensiono hoje ainda serve em
 > 2060?
@@ -9,7 +9,7 @@ considerar isso.
 
 ---
 
-## 15.1. O que a base tem
+## O que a base tem
 
 | | |
 | :--- | ---: |
@@ -24,12 +24,12 @@ modelo climático global de um centro de pesquisa diferente.
 
 > **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
 > trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
-> carregamento de arquivo próprio, e as etapas dependentes avisam. O capítulo 2 explica
+> carregamento de arquivo próprio, e as etapas dependentes avisam. A seção {{n:2}} explica
 > como obtê-la.
 
 ---
 
-## 15.2. Escolher modelo, cenário e janela
+## Escolher modelo, cenário e janela
 
 **O cenário** é a trajetória de emissões. Os três seguem as *Shared Socioeconomic
 Pathways*:
@@ -46,7 +46,7 @@ Pathways*:
 
 ---
 
-## 15.3. Como conduzir o estudo
+## Como conduzir o estudo
 
 Rode **o mesmo projeto** em cada combinação que interessar, e compare. O
 procedimento:
@@ -64,7 +64,7 @@ procedimento:
 
 ---
 
-## 15.4. A escolha do modelo, e por que ela importa tanto
+## A escolha do modelo, e por que ela importa tanto
 
 Dezenove modelos projetam dezenove futuros diferentes para a mesma cidade e o mesmo
 cenário. A dispersão entre modelos costuma ser **maior** que a diferença entre
@@ -73,7 +73,7 @@ cenários de emissão nas janelas próxima e média.
 Três condutas defensáveis, em ordem de rigor:
 
 **Ensemble.** Rode todos os modelos disponíveis e reporte a faixa de resultados, com
-mediana. É o mais rigoroso e o mais caro em tempo de máquina. O guia 19 mostra como
+mediana. É o mais rigoroso e o mais caro em tempo de máquina. A seção {{n:19}} mostra como
 fazer em lote.
 
 **Subconjunto justificado.** Escolha três a cinco modelos com bom desempenho
@@ -87,7 +87,7 @@ que o texto não apresente o resultado como projeção robusta.
 
 ---
 
-## 15.5. O que declarar
+## O que declarar
 
 Um estudo com cenário climático precisa trazer, no método:
 
@@ -98,12 +98,12 @@ Um estudo com cenário climático precisa trazer, no método:
 - se houve *downscaling* ou correção de viés, e qual;
 - a **procedência da base**, com versão.
 
-Sem isso, o resultado não é reproduzível. O apêndice E traz a procedência da base do
+Sem isso, o resultado não é reproduzível. A seção {{n:E}} traz a procedência da base do
 programa.
 
 ---
 
-## 15.6. Uma ressalva de método
+## Uma ressalva de método
 
 Projeções climáticas trazem duas incertezas empilhadas: a do cenário, que é
 socioeconômica, e a do modelo, que é física. Nenhuma das duas é reduzida rodando

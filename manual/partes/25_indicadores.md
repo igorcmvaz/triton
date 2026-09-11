@@ -1,4 +1,4 @@
-# 25. Indicadores de eficiência
+# Indicadores de eficiência
 
 > Este capítulo define formalmente cada indicador que o programa reporta, com
 > unidade, e diz **o que cada um não mede**.
@@ -8,7 +8,7 @@ frequentemente confundidos na literatura.
 
 ---
 
-## 25.1. Potencial de economia de água potável
+## Potencial de economia de água potável
 
 ```
 Epot = ( Σ V_con,t ) ÷ ( Σ D_t ) × 100      [%]
@@ -27,7 +27,7 @@ passa de 40%, por maior que seja o reservatório.
 
 ---
 
-## 25.2. Confiabilidade volumétrica
+## Confiabilidade volumétrica
 
 ```
 Rv = ( Σ V_con,t ) ÷ ( Σ D_pl,t ) × 100     [%]
@@ -52,7 +52,7 @@ confiabilidade volumétrica de 93,7%.
 
 ---
 
-## 25.3. Confiabilidade temporal
+## Confiabilidade temporal
 
 Os três percentuais de dias, que somam 100%:
 
@@ -73,7 +73,7 @@ baixo se a demanda pluvial for pequena, e o contrário também acontece.
 
 ---
 
-## 25.4. Extravasamento
+## Extravasamento
 
 ```
 Vext = média diária do volume que transbordou     [L/dia]
@@ -92,7 +92,7 @@ oportunidade não aproveitada.
 
 ---
 
-## 25.5. Volume anual poupado
+## Volume anual poupado
 
 ```
 Vpoup = média diária consumida de pluvial × 365,25 ÷ 1000     [m³/ano]
@@ -106,18 +106,18 @@ Vpoup = média diária consumida de pluvial × 365,25 ÷ 1000     [m³/ano]
 
 ---
 
-## 25.6. Ganho marginal
+## Ganho marginal
 
 ```
 Δ = variação do potencial ÷ variação de volume     [%/m³]
 ```
 
-Definido no capítulo 24. É o indicador que decide o volume ideal, e **só existe numa
+Definido na seção {{n:24}}. É o indicador que decide o volume ideal, e **só existe numa
 varredura** — uma simulação de volume único não o produz.
 
 ---
 
-## 25.7. Demanda não atendida
+## Demanda não atendida
 
 ```
 Vnao = média diária da demanda que ninguém forneceu     [L/dia]
@@ -128,11 +128,11 @@ configuração padrão e deixa de ser zero quando o suprimento de reserva da irr
 está desligado.
 
 **Por que existe:** sem ela, o balanço fecharia por construção, atribuindo à rede
-toda a demanda que a chuva não atendeu. O capítulo 23 detalha.
+toda a demanda que a chuva não atendeu. A seção {{n:23}} detalha.
 
 ---
 
-## 25.8. Quadro-resumo
+## Quadro-resumo
 
 | Indicador | Unidade | Denominador | Responde |
 | :--- | :--- | :--- | :--- |

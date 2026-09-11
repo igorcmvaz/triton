@@ -1,4 +1,4 @@
-# 26. Índices pluviométricos
+# Índices pluviométricos
 
 > Este capítulo traz a equação de cada um dos nove índices que o programa calcula, e
 > declara três divergências em relação ao padrão ETCCDI.
@@ -8,7 +8,7 @@ uma caracterização honesta é o que permite comparar estudos de cidades difere
 
 ---
 
-## 26.1. Os nove índices
+## Os nove índices
 
 Com `P_i` a precipitação do dia `i`, e «dia úmido» definido como `P_i ≥ 1 mm`:
 
@@ -34,12 +34,12 @@ em que `X_m` é o total do mês `m` e `R` o total anual. Vale zero quando a chuv
 perfeitamente uniforme ao longo do ano e tende a 1,83 quando toda a chuva cai num
 mês só.
 
-O SI é o índice que mais importa para aproveitamento pluvial, e o guia 14 mostra
+O SI é o índice que mais importa para aproveitamento pluvial, e a seção {{n:14}} mostra
 por quê: é a distribuição, e não o total, que decide o rendimento do sistema.
 
 ---
 
-## 26.2. Três divergências que precisam ser declaradas
+## Três divergências que precisam ser declaradas
 
 O programa chama o conjunto de «ETCCDI mais sazonalidade», e a precisão da expressão
 importa.
@@ -68,13 +68,13 @@ primeiros dias do ano.
 
 ---
 
-## 26.3. Para que servem no estudo
+## Para que servem no estudo
 
 **Caracterizar a série** no método do artigo. PRCPTOT, SDII e SI descrevem o regime
 melhor que a média anual sozinha.
 
 **Explicar o resultado.** Um CDD alto explica um sistema de baixo desempenho apesar
-de chuva abundante — é o caso de Brasília no guia 14.
+de chuva abundante — é o caso de Brasília na seção {{n:14}}.
 
 **Comparar cenários climáticos.** Entre a série histórica e a projetada, o que
 costuma mudar primeiro é o SDII e o CDD, e não o PRCPTOT. Reportar só o total anual
@@ -82,7 +82,7 @@ esconde a mudança que mais afeta o sistema.
 
 ---
 
-## 26.4. O que os índices não fazem
+## O que os índices não fazem
 
 Não entram no balanço. Não alteram o dimensionamento. Não substituem a simulação
 diária — que é justamente o argumento do programa contra os métodos por valores

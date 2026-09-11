@@ -1,11 +1,11 @@
-# 2. Instalação e primeira execução
+# Instalação e primeira execução
 
 > Ao terminar este capítulo você terá o programa instalado, aberto, e uma simulação
 > concluída com um resultado que dá para conferir contra este manual.
 
 ---
 
-## 2.1. O que você precisa
+## O que você precisa
 
 | Requisito | O que é preciso |
 | :--- | :--- |
@@ -19,7 +19,7 @@ usa para calcular vem dentro dele.
 
 ---
 
-## 2.2. A instalação
+## A instalação
 
 1. Execute **`Netuno_Setup_5_0_8.exe`**.
 2. Escolha o idioma da instalação. Português e inglês vêm sempre; espanhol e chinês
@@ -38,7 +38,7 @@ use *Aplicativos e recursos* do Windows, como em qualquer programa.
 
 ---
 
-## 2.3. Onde ficam os seus arquivos
+## Onde ficam os seus arquivos
 
 O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
 relatório ou uma exportação, ele pergunta a pasta.
@@ -57,7 +57,7 @@ pessoa reproduza o seu estudo.
 
 ---
 
-## 2.4. A base climática
+## A base climática
 
 O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
@@ -68,32 +68,32 @@ justamente por causa do tamanho. Instalada, ela aparece na primeira tela como um
 lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próprio, e
 todo o resto do programa funciona igual.
 
-O apêndice E descreve a base, e o guia 15 mostra como usar um cenário futuro.
+A seção {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cenário futuro.
 
 ---
 
-## 2.5. Os arquivos de exemplo
+## Os arquivos de exemplo
 
 O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
 aqui.
 
 | Arquivo | Para que serve |
 | :--- | :--- |
-| `casos\01_tutorial_florianopolis.netuno` | o projeto que a Parte 2 constrói, pronto |
-| `casos\03_dez_dias.netuno` | o caso didático de dez dias do capítulo 23 |
+| `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo {{c:2}} constrói, pronto |
+| `casos\03_dez_dias.netuno` | o caso didático de dez dias da seção {{n:23}} |
 | `casos\05_manaus.netuno` e os seguintes | o mesmo projeto em outras capitais |
 | `exemplos\*.netuno` | três estudos completos: residência, escritório e escola |
 
-Eles ficam na pasta do programa. O apêndice J lista os nove casos do manual, com o
+Eles ficam na pasta do programa. A seção {{n:J}} lista os nove casos do manual, com o
 capítulo de cada um e o resultado que produzem.
 
-**Comece pelo caso de dez dias.** Abra, rode, e compare com a tabela do capítulo 23.
+**Comece pelo caso de dez dias.** Abra, rode, e compare com a tabela da seção {{n:23}}.
 Se algum número divergir, é o manual que está desatualizado em relação ao programa — e
 não o contrário.
 
 ---
 
-## 2.6. A primeira simulação, em cinco minutos
+## A primeira simulação, em cinco minutos
 
 O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
 trabalha. Para a primeira simulação bastam quatro delas.
@@ -108,24 +108,23 @@ trabalha. Para a primeira simulação bastam quatro delas.
 
 Você deve obter potencial de economia próximo de **37%**.
 
-O capítulo 6 explica o que esse número significa, e o capítulo 7 faz a pergunta
+A seção {{n:6}} explica o que esse número significa, e a seção {{n:7}} faz a pergunta
 seguinte: 5.000 L é o volume certo?
 
 ---
 
-## 2.7. Se alguma coisa der errado
+## Se alguma coisa der errado
 
 **O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
 programa.
 
 **A lista de cidades está vazia.** A base climática nacional não está instalada. Use
-um arquivo de chuva próprio, ou instale a base — o apêndice E diz como.
+um arquivo de chuva próprio, ou instale a base — a seção {{n:E}} diz como.
 
 **O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
 carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração
-atendível. Uma divergência de resultado quase sempre é uma divergência de entrada, e o
-capítulo 33 lista os enganos mais comuns.
+atendível. Uma divergência de resultado quase sempre é uma divergência de entrada, e a seção {{n:33}} lista os enganos mais comuns.
 
-**Uma mensagem de erro apareceu.** O capítulo 37 traz as mensagens do programa, o que
+**Uma mensagem de erro apareceu.** A seção {{n:37}} traz as mensagens do programa, o que
 cada uma significa e o que fazer.

@@ -1,11 +1,11 @@
-# 35. Comparação com o Netuno 4
+# Comparação com o Netuno 4
 
 > Este capítulo traz a medição contra 4.050 casos de referência e, mais importante,
 > a **decomposição** da diferença por causa.
 
 ---
 
-## 35.1. O papel da comparação
+## O papel da comparação
 
 O Netuno 4 **não é alvo de fidelidade**. O Netuno 5 adota decisões de modelagem
 distintas, deliberadas e documentadas, e espera-se que os resultados difiram.
@@ -17,7 +17,7 @@ mas incapazes de detectar um erro sistemático que as respeitasse todas.
 
 ---
 
-## 35.2. Os dados de referência
+## Os dados de referência
 
 Quatro mil e cinquenta casos exportados do Netuno 4 e preservados desde então:
 
@@ -28,7 +28,7 @@ Quatro mil e cinquenta casos exportados do Netuno 4 e preservados desde então:
 
 ---
 
-## 35.3. A divergência total
+## A divergência total
 
 | Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
 | :--- | ---: | ---: | ---: | ---: |
@@ -40,7 +40,7 @@ esperado, e a próxima seção diz por quê.
 
 ---
 
-## 35.4. A decomposição, que é o número que importa
+## A decomposição, que é o número que importa
 
 Comparar o ótimo de um programa com o do outro mistura três diferenças. A
 decomposição as separa, comparando em três configurações sucessivamente mais
@@ -70,7 +70,7 @@ A atribuição resultante:
 
 ---
 
-## 35.5. As duas diferenças, em detalhe
+## As duas diferenças, em detalhe
 
 ### O descarte
 
@@ -94,7 +94,7 @@ Responde por 41% da divergência.
 
 ---
 
-## 35.6. Como medir a diferença sem alterar o motor
+## Como medir a diferença sem alterar o motor
 
 A emulação da regra do Netuno 4 é feita **transformando a série de entrada**, e não
 tocando no código do balanço:
@@ -115,7 +115,7 @@ código que não é o distribuído.
 
 ---
 
-## 35.7. Os casos de referência nula
+## Os casos de referência nula
 
 Em parte das linhas, o Netuno 4 exportou zero enquanto o Netuno 5 calcula valor
 positivo. A incidência difere muito entre conjuntos: 0,35% em Manaus e São Paulo
@@ -128,7 +128,7 @@ não as dominar.
 
 ---
 
-## 35.8. O que declarar num estudo comparativo
+## O que declarar num estudo comparativo
 
 - os **dois números**: a divergência total e o resíduo depois da decomposição;
 - as duas diferenças deliberadas, nomeadas;

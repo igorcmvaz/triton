@@ -1,4 +1,4 @@
-# 28. Energia de bombeamento
+# Energia de bombeamento
 
 > Este capítulo traz a cadeia completa do eixo à tomada, e explica por que a
 > potência de placa **não** é o que o medidor registra.
@@ -9,7 +9,7 @@ versão antiga precisa saber.
 
 ---
 
-## 28.1. A potência de placa é de eixo
+## A potência de placa é de eixo
 
 A ABNT NBR 17094-2:2016 manda marcar o **rendimento** na placa de identificação do
 motor, como grandeza separada da potência. Isso só faz sentido se a potência de
@@ -26,7 +26,7 @@ O programa pede os dois, em campos separados.
 
 ---
 
-## 28.2. As equações
+## As equações
 
 **Energia específica do recalque**, por metro cúbico elevado:
 
@@ -72,7 +72,7 @@ E = e · V_recalcado + P · t_part ÷ η_m
 
 ---
 
-## 28.3. O rendimento do motor, quando não informado
+## O rendimento do motor, quando não informado
 
 Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é
 o que são as motobombas residenciais, a 3.450 rpm:
@@ -96,7 +96,7 @@ abaixo.
 
 ---
 
-## 28.4. As três versões desta conta
+## As três versões desta conta
 
 | Versão | Recalque | Partidas | O erro |
 | :--- | :--- | :--- | :--- |
@@ -113,7 +113,7 @@ atual.
 
 ---
 
-## 28.5. Os valores de recurso
+## Os valores de recurso
 
 Usados quando o projeto não declara:
 
@@ -135,7 +135,7 @@ Usados quando o projeto não declara:
 
 ---
 
-## 28.6. Por que a energia é pequena
+## Por que a energia é pequena
 
 Elevar um metro cúbico a doze metros custa cerca de 0,033 kWh de energia hidráulica.
 Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue.

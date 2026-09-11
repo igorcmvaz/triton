@@ -1,11 +1,11 @@
-# 27. Dimensionamento da ETAP
+# Dimensionamento da ETAP
 
 > Este capítulo formaliza como o programa dimensiona a linha de tratamento, e
 > explica a **regra incremental** que impede o tratamento de ser contado duas vezes.
 
 ---
 
-## 27.1. O que a ETAP compreende
+## O que a ETAP compreende
 
 Três estágios, em série:
 
@@ -14,12 +14,11 @@ Três estágios, em série:
 3. **filtro de polimento**, opcional.
 
 O dimensionamento consome três entradas: a **classe de qualidade alvo**, a **área de
-cobertura** e o **volume pluvial anual consumido**, que vem do balanço do
-capítulo 23.
+cobertura** e o **volume pluvial anual consumido**, que vem do balanço da seção {{n:23}}.
 
 ---
 
-## 27.2. O filtro de entrada
+## O filtro de entrada
 
 Dimensionado pela **área de cobertura**, e não pela classe:
 
@@ -36,7 +35,7 @@ Dimensionado pela **área de cobertura**, e não pela classe:
 
 ---
 
-## 27.3. A desinfecção
+## A desinfecção
 
 | Opção | Residual | O que entra no custeio |
 | :--- | :---: | :--- |
@@ -64,7 +63,7 @@ massa de produto por m³ = (dose em mg Cl₂/L ÷ 1000) ÷ pureza
 
 ---
 
-## 27.4. O filtro de polimento
+## O filtro de polimento
 
 Opcional, e é o único ponto em que a **classe alvo** interfere no dimensionamento.
 
@@ -90,7 +89,7 @@ classe recomenda e o usuário recusa, o programa registra a recusa no campo
 
 ---
 
-## 27.5. A regra incremental
+## A regra incremental
 
 É a parte que mais erra quem implementa este cálculo por conta própria.
 
@@ -116,7 +115,7 @@ cloração, em vez de somar a ele.
 
 ---
 
-## 27.6. Desligar a ETAP
+## Desligar a ETAP
 
 Com `etap_enabled` falso, o dimensionamento não roda e o programa reproduz
 exatamente o comportamento da versão 5.0.7. É a chave de compatibilidade para
@@ -124,7 +123,7 @@ comparar resultados entre versões.
 
 ---
 
-## 27.7. O que o programa não dimensiona
+## O que o programa não dimensiona
 
 - **o reservatório de autolimpeza** do descarte, cujo volume é `A × d_f`;
 - a **tubulação** e a perda de carga da linha de tratamento;

@@ -1,10 +1,10 @@
-# Apêndice F — Arquivos, pastas e formatos
+# Arquivos, pastas e formatos
 
 Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ---
 
-## F.1. O que o programa lê
+## O que o programa lê
 
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
@@ -23,11 +23,11 @@ não enviesar os totais anuais.
 > **Projeto legado em CSV.** O formato antigo não guarda tudo o que a versão atual
 > usa: modulação de demanda, materiais, pesos do multicritério e a série de chuva
 > ficam de fora. Ao abrir um arquivo desses, o programa avisa e adota os valores
-> padrão para o que falta. O guia 21 mostra o que conferir depois de importar.
+> padrão para o que falta. A seção {{n:21}} mostra o que conferir depois de importar.
 
 ---
 
-## F.2. O que o programa escreve
+## O que o programa escreve
 
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
@@ -45,11 +45,11 @@ abrir tudo numa coluna só.
 
 O desenho sai em três apresentações: **prancha técnica A3**, **esquemático simples** e
 **biblioteca de blocos**, esta última acompanhada de um arquivo JSON com as
-propriedades dos componentes, para compatibilização BIM. O guia 22 trata de todos.
+propriedades dos componentes, para compatibilização BIM. A seção {{n:22}} trata de todos.
 
 ---
 
-## F.3. O arquivo de projeto, por dentro
+## O arquivo de projeto, por dentro
 
 O `.netuno` é um arquivo de texto no formato JSON. Pode ser aberto em qualquer editor
 de texto, e isso é deliberado: um estudo publicado precisa ser inspecionável sem o
@@ -67,7 +67,7 @@ Ele tem sete seções:
 | `water_quality_and_etap` | classe-alvo, desinfecção e tratamento |
 | `financial_and_economic` | tarifas, impostos, reajustes e prazo |
 
-O apêndice A lista os 103 parâmetros, com o nome exato de cada campo.
+A seção {{n:A}} lista os 103 parâmetros, com o nome exato de cada campo.
 
 > **A série de chuva vai dentro do arquivo.** É o que torna o projeto reproduzível:
 > quem receber o arquivo obtém exatamente os seus números, mesmo sem ter a base
@@ -77,7 +77,7 @@ O apêndice A lista os 103 parâmetros, com o nome exato de cada campo.
 
 ---
 
-## F.4. Onde ficam as coisas
+## Onde ficam as coisas
 
 | O que | Onde |
 | :--- | :--- |
@@ -95,13 +95,13 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ---
 
-## F.5. Compatibilidade entre versões
+## Compatibilidade entre versões
 
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
 | projeto desta versão em versão anterior | pode não abrir, ou perder campos |
-| projeto do Netuno 4 em CSV | abre com aviso; confira o que o guia 21 lista |
+| projeto do Netuno 4 em CSV | abre com aviso; confira o que a seção {{n:21}} lista |
 | arquivo JSON de outro programa | **recusado**, com mensagem própria |
 
 A última linha merece explicação. Até a versão 5.0.8, um arquivo JSON que não fosse um

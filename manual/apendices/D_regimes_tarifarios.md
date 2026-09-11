@@ -1,10 +1,10 @@
-# Apêndice D — Regimes tarifários
+# Regimes tarifários
 
 A base traz **652 municípios** com estrutura tarifária, percentual
 de esgoto, regime de mínimo, data de vigência e fonte. Esta lista é extraída
 da própria base do programa, e não transcrita.
 
-## D.1. Os códigos de faixa
+## Os códigos de faixa
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`:
 
@@ -15,7 +15,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 | −2 | franquia retroativa |
 | −3 | piso de pagamento |
 
-## D.2. Os cinco regimes
+## Os cinco regimes
 
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
@@ -28,7 +28,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 > O piso de pagamento está implementado e nenhum município da base foi
 > classificado nele até esta versão.
 
-## D.3. Distribuição por unidade da federação
+## Distribuição por unidade da federação
 
 | UF | Municípios |
 | :--- | ---: |
@@ -60,7 +60,7 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 | SP | 137 |
 | TO | 5 |
 
-## D.4. Grau de confiança
+## Grau de confiança
 
 Cada registro traz o grau de confiança da coleta:
 
@@ -72,6 +72,6 @@ Cada registro traz o grau de confiança da coleta:
 | D — estrutura incompleta | 4 |
 
 > **Confira sempre a data de vigência** do registro do seu município contra a
-> resolução da concessionária. Tarifas são reajustadas anualmente, e o guia 16
+> resolução da concessionária. Tarifas são reajustadas anualmente, e a seção {{n:16}}
 > ensina o teste que identifica estrutura errada.
 

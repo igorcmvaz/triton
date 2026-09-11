@@ -1,4 +1,4 @@
-# 33. Dez enganos que o programa não impede
+# Dez enganos que o programa não impede
 
 > Estes não são defeitos do programa. São erros de **engenharia** que ele aceita sem
 > reclamar, porque não tem como saber. Cada um traz o engano, por que ele é
@@ -6,7 +6,7 @@
 
 ---
 
-## 33.1. Usar a área inclinada do telhado
+## Usar a área inclinada do telhado
 
 **O engano.** Informar a área da superfície do telhado em vez da projeção horizontal.
 
@@ -22,7 +22,7 @@ a área inclinada, multiplique por `cos(inclinação)`.
 
 ---
 
-## 33.2. Dimensionar pela chuva média mensal
+## Dimensionar pela chuva média mensal
 
 **O engano.** Usar a média mensal de precipitação num cálculo de planilha, em vez da
 série diária.
@@ -35,12 +35,12 @@ chuva chega concentrada: um mês com 200 mm distribuídos em cinco eventos enche
 transborda a cisterna cinco vezes, enquanto o cálculo médio supõe um fluxo contínuo
 que a cisterna absorveria inteiro.
 
-**Como evitar.** É a razão de existir deste programa. O capítulo 23 mostra o
+**Como evitar.** É a razão de existir deste programa. A seção {{n:23}} mostra o
 extravasamento acontecendo dia a dia; o cálculo por médias não o enxerga.
 
 ---
 
-## 33.3. Confundir a lâmina de descarte com o volume do dispositivo
+## Confundir a lâmina de descarte com o volume do dispositivo
 
 **O engano.** Informar no campo de descarte o volume do reservatório de autolimpeza,
 em litros.
@@ -58,7 +58,7 @@ unidades, e o programa quer a primeira.
 
 ---
 
-## 33.4. Ignorar o regime de mínimo tarifário
+## Ignorar o regime de mínimo tarifário
 
 **O engano.** Montar a tabela tarifária com as faixas progressivas e esquecer como a
 concessionária trata o consumo mínimo.
@@ -70,12 +70,12 @@ mínimo está numa nota de rodapé, quando está.
 652 da base, economizar abaixo da franquia **não desconta nada**. Um estudo que
 suponha desconto linear produz um payback que não existe.
 
-**Como evitar.** O guia 16. E o teste prático: simule dois consumos, um dentro e um
+**Como evitar.** A seção {{n:16}}. E o teste prático: simule dois consumos, um dentro e um
 fora da faixa mínima, e compare com uma conta real da edificação.
 
 ---
 
-## 33.5. Simular escola ou hospital com tarifa residencial
+## Simular escola ou hospital com tarifa residencial
 
 **O engano.** Usar a tarifa do catálogo — que é residencial — para edificação não
 residencial.
@@ -88,12 +88,11 @@ mais caras: na CASAN de abril de 2026, a primeira faixa custa R$ 6,81/m³ no
 comercial contra R$ 3,08/m³ no residencial.
 
 **Como evitar.** O programa **avisa** quando a tipologia não é residencial, e diz o
-sentido do erro. Lance a estrutura da categoria correta no modo personalizado. O
-guia 18 trata do assunto.
+sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A seção {{n:18}} trata do assunto.
 
 ---
 
-## 33.6. Esperar que o reservatório superior aumente a economia
+## Esperar que o reservatório superior aumente a economia
 
 **O engano.** Adotar a caixa elevada esperando mais água.
 
@@ -106,11 +105,11 @@ atendimento perde oportunidades. No tutorial, 0,33 ponto percentual a menos, mai
 10,7 kWh por ano de energia.
 
 **Como evitar.** Decida a caixa por critério **hidráulico** — pressão por gravidade,
-reserva contra falta de energia — e não hídrico. O capítulo 8 faz a comparação justa.
+reserva contra falta de energia — e não hídrico. A seção {{n:8}} faz a comparação justa.
 
 ---
 
-## 33.7. Adotar série curta demais
+## Adotar série curta demais
 
 **O engano.** Simular com dois ou três anos de série.
 
@@ -126,7 +125,7 @@ declare a limitação e mostre o resultado como faixa.
 
 ---
 
-## 33.8. Escolher a classe de qualidade pelo custo
+## Escolher a classe de qualidade pelo custo
 
 **O engano.** Adotar a classe 1 porque é a mais barata, para um uso que exigiria
 mais.
@@ -144,7 +143,7 @@ não como norma.
 
 ---
 
-## 33.9. Comparar com o Netuno 4 sem declarar a divergência
+## Comparar com o Netuno 4 sem declarar a divergência
 
 **O engano.** Apresentar resultados das duas versões lado a lado como se fossem
 comparáveis.
@@ -157,11 +156,11 @@ de **metade** dessa diferença vem do tratamento do descarte, que mudou
 deliberadamente.
 
 **Como evitar.** Declare a divergência, e compare com descarte igual a zero, em que
-as duas regras coincidem. Os capítulos 21 e 35 detalham.
+as duas regras coincidem. As seções {{n:21}} e 35 detalham.
 
 ---
 
-## 33.10. Publicar o volume de maior economia como recomendado
+## Publicar o volume de maior economia como recomendado
 
 **O engano.** Escolher da varredura o volume de maior potencial.
 
@@ -179,7 +178,7 @@ isolado, porque a divergência entre eles **é** o resultado.
 
 ---
 
-## 33.11. O engano de fundo
+## O engano de fundo
 
 Os dez acima têm uma raiz comum: **tratar o programa como uma calculadora em vez de
 um modelo**.
@@ -189,6 +188,5 @@ devolve consequências dessas premissas. Todo resultado do Netuno é condicional
 foi declarado, e a qualidade do estudo está na qualidade e na explicitação dessas
 declarações.
 
-É por isso que o capítulo 13 traz a lista do que declarar, e é por isso que o
-capítulo 36 traz as limitações conhecidas. Um estudo que não declara premissas não é
+É por isso que a seção {{n:13}} traz a lista do que declarar, e é por isso que a seção {{n:36}} traz as limitações conhecidas. Um estudo que não declara premissas não é
 reproduzível, por mais correto que o cálculo esteja.

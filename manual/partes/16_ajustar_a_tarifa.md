@@ -1,4 +1,4 @@
-# 16. Ajustar a tarifa do seu município
+# Ajustar a tarifa do seu município
 
 > **Pergunta que este guia responde:** a tarifa do meu município está na base, e está
 > certa?
@@ -9,7 +9,7 @@ frequentemente está errado nos estudos publicados.
 
 ---
 
-## 16.1. Comece conferindo o que já está na base
+## Comece conferindo o que já está na base
 
 O programa traz **652 municípios** com estrutura tarifária, percentual de esgoto,
 regime de mínimo, data de vigência e a fonte de onde o dado veio.
@@ -27,7 +27,7 @@ arquivo.
 
 ---
 
-## 16.2. Como a tabela é montada
+## Como a tabela é montada
 
 Cada linha da tabela é uma **quádrupla**: volume mínimo, volume máximo, valor, e um
 código que diz o que aquele valor significa.
@@ -51,7 +51,7 @@ Florianópolis, por exemplo:
 
 ---
 
-## 16.3. Os cinco regimes, e por que isso decide projetos
+## Os cinco regimes, e por que isso decide projetos
 
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
 coisas **diferentes** em cada um. O programa distingue cinco regimes:
@@ -88,7 +88,7 @@ Em Florianópolis, cada metro cúbico desconta até o primeiro.
 
 ---
 
-## 16.4. Quando o mínimo é diluído na tarifa
+## Quando o mínimo é diluído na tarifa
 
 Um erro frequente nas bases públicas: a concessionária informa «tarifa mínima de
 R$ 52,89 para 10 m³», e quem cadastra grava isso como R$ 5,289 por m³ até 10 m³.
@@ -102,7 +102,7 @@ registro da correção. Se você cadastrar um município novo, **verifique isso*
 
 ---
 
-## 16.5. O esgoto
+## O esgoto
 
 O percentual de esgoto incide sobre a **tarifa de água**, e não sobre a fatura.
 
@@ -116,7 +116,7 @@ limitação.
 
 ---
 
-## 16.6. Onde encontrar o dado
+## Onde encontrar o dado
 
 Em ordem de confiabilidade:
 
@@ -133,7 +133,7 @@ Em ordem de confiabilidade:
 
 ---
 
-## 16.7. Confira antes de confiar
+## Confira antes de confiar
 
 Depois de montar a tabela, faça o teste que o item 16.6 sugere: simule dois
 consumos, um dentro e um fora da faixa mínima, e compare com a conta real ou com o

@@ -1,12 +1,22 @@
 # -*- coding: utf-8 -*-
-"""Monta o manual inteiro num arquivo só, resolvendo as inclusões de tabela.
+"""Monta o manual inteiro num arquivo só, com a numeração da ABNT NBR 6024.
 
-Um capítulo pede uma tabela gerada assim:
+A estrutura do manual está declarada **uma única vez**, em `ESTRUTURA`, e tudo o
+mais é derivado dela: a numeração dos capítulos e das seções, o sumário, as
+referências cruzadas do texto e a numeração das figuras e das equações.
 
-    <!-- inclui: _tabelas/cap13_dez_dias.md -->
+Foi assim que a numeração parou de poder divergir. Antes, cada arquivo trazia o
+próprio número no título e as referências cruzadas eram escritas à mão; bastava
+reordenar o manual para que 160 referências apontassem para o lugar errado, e
+nada avisava. Agora o arquivo guarda só o título, o texto refere as seções por
+marca, e a montagem resolve as marcas contra a estrutura declarada.
 
-e este script troca a linha pelo conteúdo do arquivo. Se o arquivo não existir, o
-manual não é montado: número faltando é pior que erro visível.
+As marcas que o texto usa:
+
+    {{n:23}}    o número da seção que veio do antigo capítulo 23
+    {{n:D}}     o número da seção que veio do antigo apêndice D
+    {{c:2}}     o número do capítulo que veio da antiga Parte 2
+    {{eq:nome}} o número de uma equação, resolvido na ordem de leitura
 
 Uso:
     python manual/gerar_tabelas.py
@@ -24,71 +34,151 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 NL = chr(10)
 INCLUI = re.compile(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$")
 
-#: A ordem do manual. Capítulo sem arquivo entra como esqueleto marcado.
-SUMARIO = [
-    ("Parte 1 — Comece aqui", [
-        (1, "o_que_o_netuno_faz"), (2, "instalacao"), (3, "por_onde_comecar"),
+#: A estrutura do manual: os capítulos, e as seções de cada um, na ordem de
+#: leitura. A chave de cada seção é o nome do arquivo sem extensão, e é por ela
+#: que as marcas do texto se referem à seção.
+ESTRUTURA = [
+    ("Comece aqui", "partes", [
+        "01_o_que_o_netuno_faz",
+        "02_instalacao",
+        "03_por_onde_comecar",
     ]),
-    ("Parte 2 — Tutorial: um estudo do começo ao fim", [
-        (4, "o_projeto_e_a_chuva"), (5, "a_edificacao_e_a_demanda"),
-        (6, "a_primeira_simulacao"), (7, "escolher_o_volume"),
-        (8, "reservatorio_superior"), (9, "qualidade_que_o_uso_exige"),
-        (10, "quanto_custa"), (11, "quanto_carbono_evita"),
-        (12, "qual_volume_escolher"), (13, "o_relatorio_e_o_artigo"),
+    ("O método", "partes", [
+        "23_balanco_diario",
+        "24_volume_ideal",
+        "25_indicadores",
+        "26_indices_pluviometricos",
+        "27_etap",
+        "28_energia_de_bombeamento",
+        "29_analise_economica",
+        "30_acv",
+        "31_certificacoes",
+        "32_multicriterio",
     ]),
-    ("Parte 3 — Guias de tarefa", [
-        (14, "comparar_cidades"), (15, "cenario_climatico"),
-        (16, "ajustar_a_tarifa"), (17, "modular_a_demanda"),
-        (18, "escola_hospital_comercio"), (19, "rodar_em_lote"),
-        (20, "sensibilidade"), (21, "importar_do_netuno4"),
-        (22, "exportar_cad_bim_planilha"),
+    ("Guias disponíveis no programa", "partes", [
+        "14_comparar_cidades",
+        "15_cenario_climatico",
+        "16_ajustar_a_tarifa",
+        "17_modular_a_demanda",
+        "18_escola_hospital_comercio",
+        "19_rodar_em_lote",
+        "20_sensibilidade",
+        "21_importar_do_netuno4",
+        "22_exportar_cad_bim_planilha",
     ]),
-    ("Parte 4 — O método", [
-        (23, "balanco_diario"), (24, "volume_ideal"), (25, "indicadores"),
-        (26, "indices_pluviometricos"), (27, "etap"),
-        (28, "energia_de_bombeamento"), (29, "analise_economica"),
-        (30, "acv"), (31, "certificacoes"), (32, "multicriterio"),
+    ("Tutorial: um exemplo do começo ao fim", "partes", [
+        "04_o_projeto_e_a_chuva",
+        "05_a_edificacao_e_a_demanda",
+        "06_a_primeira_simulacao",
+        "07_escolher_o_volume",
+        "08_reservatorio_superior",
+        "09_qualidade_que_o_uso_exige",
+        "10_quanto_custa",
+        "11_quanto_carbono_evita",
+        "12_qual_volume_escolher",
+        "13_o_relatorio_e_o_artigo",
     ]),
-    ("Parte 5 — Enganos comuns de projeto", [
-        (33, "dez_enganos"),
+    ("Enganos, limitações e confiabilidade", "partes", [
+        "33_dez_enganos",
+        "36_limitacoes",
+        "34_verificacao",
     ]),
-    ("Parte 6 — Confiabilidade", [
-        (34, "verificacao"), (35, "comparacao_netuno4"), (36, "limitacoes"),
-        (37, "mensagens_de_erro"),
+    ("Correções, bugs e versionamento", "partes", [
+        "35_comparacao_netuno4",
+        "37_mensagens_de_erro",
+        "38_historico_de_versoes",
+        "39_relatar_um_problema",
+    ]),
+    ("Apêndices", "apendices", [
+        "A_parametros",
+        "B_processos",
+        "C_fatores_de_emissao",
+        "D_regimes_tarifarios",
+        "E_base_climatica",
+        "F_arquivos_e_formatos",
+        "G_glossario",
+        "H_referencias",
+        "I_fichas",
+        "J_arquivos_de_exemplo",
     ]),
 ]
 
-APENDICES = [
-    ("A", "A_parametros"), ("B", "B_processos"), ("C", "C_fatores_de_emissao"),
-    ("D", "D_regimes_tarifarios"), ("E", "E_base_climatica"),
-    ("F", "F_arquivos_e_formatos"), ("G", "G_glossario"), ("H", "H_referencias"),
-    ("I", "I_fichas"), ("J", "J_arquivos_de_exemplo"),
-]
-
+#: O título de cada seção, para o sumário e para o esqueleto de seção por
+#: escrever. A chave é a mesma do arquivo.
 TITULOS = {
-    1: "O que o Netuno faz, e o que ele não faz",
-    2: "Instalação e primeira execução",
-    3: "Por onde começar, conforme o seu objetivo",
-    4: "O projeto e a chuva", 5: "A edificação e a demanda",
-    6: "A primeira simulação", 7: "Escolher o volume",
-    8: "Precisa de reservatório superior?", 9: "Que qualidade o uso exige",
-    10: "Quanto custa e em quanto se paga", 11: "Quanto carbono evita",
-    12: "Qual volume escolher, afinal", 13: "O relatório, e o que declarar num artigo",
-    14: "Comparar cidades", 15: "Usar cenário climático futuro",
-    16: "Ajustar a tarifa do seu município", 17: "Modular a demanda por calendário",
-    18: "Simular escola, hospital e comércio", 19: "Comparar muitos casos de uma vez",
-    20: "Análise de sensibilidade", 21: "Importar um projeto do Netuno 4",
-    22: "Exportar para CAD, BIM e planilha",
-    23: "O balanço hídrico diário", 24: "Volume ideal e a varredura",
-    25: "Indicadores de eficiência", 26: "Índices pluviométricos",
-    27: "Dimensionamento da ETAP", 28: "Energia de bombeamento",
-    29: "Análise econômica e os regimes tarifários",
-    30: "Avaliação de ciclo de vida", 31: "Certificações",
-    32: "Decisão multicritério",
-    33: "Dez enganos que o programa não impede",
-    34: "Como o programa é verificado", 35: "Comparação com o Netuno 4",
-    36: "Limitações conhecidas", 37: "Mensagens de erro e o que fazer",
+    "01_o_que_o_netuno_faz": "O que o Netuno faz, e o que ele não faz",
+    "02_instalacao": "Instalação e primeira execução",
+    "03_por_onde_comecar": "Por onde começar, conforme o seu objetivo",
+    "04_o_projeto_e_a_chuva": "O projeto e a chuva",
+    "05_a_edificacao_e_a_demanda": "A edificação e a demanda",
+    "06_a_primeira_simulacao": "A primeira simulação",
+    "07_escolher_o_volume": "Escolher o volume",
+    "08_reservatorio_superior": "Precisa de reservatório superior?",
+    "09_qualidade_que_o_uso_exige": "Que qualidade o uso exige",
+    "10_quanto_custa": "Quanto custa e em quanto se paga",
+    "11_quanto_carbono_evita": "Quanto carbono evita",
+    "12_qual_volume_escolher": "Qual volume escolher, afinal",
+    "13_o_relatorio_e_o_artigo": "O relatório, e o que declarar num artigo",
+    "14_comparar_cidades": "Comparar cidades",
+    "15_cenario_climatico": "Usar cenário climático futuro",
+    "16_ajustar_a_tarifa": "Ajustar a tarifa do seu município",
+    "17_modular_a_demanda": "Modular a demanda por calendário",
+    "18_escola_hospital_comercio": "Simular escola, hospital e comércio",
+    "19_rodar_em_lote": "Comparar muitos casos de uma vez",
+    "20_sensibilidade": "Análise de sensibilidade",
+    "21_importar_do_netuno4": "Importar um projeto do Netuno 4",
+    "22_exportar_cad_bim_planilha": "Exportar para CAD, BIM e planilha",
+    "23_balanco_diario": "O balanço hídrico diário",
+    "24_volume_ideal": "Volume ideal e a varredura",
+    "25_indicadores": "Indicadores de eficiência",
+    "26_indices_pluviometricos": "Índices pluviométricos",
+    "27_etap": "Dimensionamento da ETAP",
+    "28_energia_de_bombeamento": "Energia de bombeamento",
+    "29_analise_economica": "Análise econômica e os regimes tarifários",
+    "30_acv": "Avaliação de ciclo de vida",
+    "31_certificacoes": "Certificações",
+    "32_multicriterio": "Decisão multicritério",
+    "33_dez_enganos": "Dez enganos que o programa não impede",
+    "34_verificacao": "Como o programa é verificado",
+    "35_comparacao_netuno4": "Comparação com o Netuno 4",
+    "36_limitacoes": "Limitações conhecidas",
+    "37_mensagens_de_erro": "Mensagens de erro e o que fazer",
+    "38_historico_de_versoes": "Histórico de versões e o que mudou",
+    "39_relatar_um_problema": "Como relatar um problema",
+    "A_parametros": "Os parâmetros do projeto",
+    "B_processos": "Os processos do programa",
+    "C_fatores_de_emissao": "Fatores de emissão",
+    "D_regimes_tarifarios": "Regimes tarifários",
+    "E_base_climatica": "Base climática",
+    "F_arquivos_e_formatos": "Arquivos, pastas e formatos",
+    "G_glossario": "Glossário",
+    "H_referencias": "Referências",
+    "I_fichas": "Fichas de uma página",
+    "J_arquivos_de_exemplo": "Arquivos de exemplo",
 }
+
+#: Da antiga «Parte N» para o capítulo que a sucedeu.
+PARTE_PARA_CAPITULO = {"1": 1, "2": 4, "3": 3, "4": 2, "5": 5, "6": 5}
+
+
+def indice_das_secoes():
+    """Devolve {chave da seção: "2.1"}, a partir da estrutura declarada."""
+    indice = {}
+    for i, (_, _, secoes) in enumerate(ESTRUTURA, start=1):
+        for j, chave in enumerate(secoes, start=1):
+            indice[chave] = f"{i}.{j}"
+    return indice
+
+
+def indice_das_marcas():
+    """Devolve {marca: número}, com a marca como o texto a escreve."""
+    marcas = {}
+    for chave, numero in indice_das_secoes().items():
+        prefixo = chave.split("_")[0]
+        marcas[prefixo] = numero                      # "23" ou "A"
+        marcas[prefixo.lstrip("0") or "0"] = numero   # "23" sem zero à esquerda
+        marcas[chave] = numero                        # a chave inteira também
+    return marcas
 
 
 def resolver(texto, origem):
@@ -109,28 +199,123 @@ def resolver(texto, origem):
     return NL.join(saida)
 
 
-def esqueleto(num, titulo):
-    return NL.join([
-        f"# {num}. {titulo}",
-        "",
-        "> **Capítulo por escrever.** O plano editorial, com o que este capítulo deve",
-        "> cobrir e o que já existe escrito no repositório, está em",
-        "> `docs/plano_do_manual.md`.",
-        "",
-    ])
+def numerar_titulos(texto, capitulo, secao):
+    """Numera os títulos da seção conforme a NBR 6024.
+
+    O arquivo traz `# Título` para a seção, `## Título` para a subseção e
+    `### Título` para o item. Sai `## 2.1. Título`, `### 2.1.1. Título` e
+    `#### 2.1.1.1. Título`: o nível desce um degrau porque o capítulo passou a
+    ocupar o primeiro.
+    """
+    saida = []
+    sub = item = 0
+    for linha in texto.split(NL):
+        if linha.startswith("### ") and not linha.startswith("#### "):
+            item += 1
+            saida.append(f"#### {capitulo}.{secao}.{sub}.{item}. {linha[4:].strip()}")
+        elif linha.startswith("## ") and not linha.startswith("### "):
+            sub += 1
+            item = 0
+            saida.append(f"### {capitulo}.{secao}.{sub}. {linha[3:].strip()}")
+        elif linha.startswith("# ") and not linha.startswith("## "):
+            saida.append(f"## {capitulo}.{secao}. {linha[2:].strip()}")
+        else:
+            saida.append(linha)
+    return NL.join(saida)
+
+
+def numerar_figuras(corpo):
+    """Renumera as legendas na ordem em que o leitor as encontra."""
+    contador = [0]
+
+    def proxima(m):
+        contador[0] += 1
+        return "*Figura " + str(contador[0]) + " —"
+
+    return re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
+
+
+def numerar_equacoes(corpo):
+    """Numera as equações na ordem de leitura e resolve as citações.
+
+    A seção escreve a equação num bloco ```equacao:nome``` e a cita no texto por
+    `{{eq:nome}}`. A numeração é sequencial no manual inteiro, como a ABNT pede,
+    e o número sai entre parênteses à direita da equação.
+    """
+    nomes = []
+
+    def registrar(m):
+        nome = m.group(1).strip()
+        if nome not in nomes:
+            nomes.append(nome)
+        return m.group(0)
+
+    re.sub(r"^```equacao:([^\s`:]+)\s*$", registrar, corpo, flags=re.M)
+    numeros = {nome: i for i, nome in enumerate(nomes, start=1)}
+
+    def rotular(m):
+        return "```equacao:" + m.group(1) + ":" + str(numeros[m.group(1).strip()])
+
+    corpo = re.sub(r"^```equacao:([^\s`:]+)\s*$", rotular, corpo, flags=re.M)
+
+    def citar(m):
+        nome = m.group(1).strip()
+        if nome not in numeros:
+            raise KeyError(f"equação citada e não escrita: {nome}")
+        return str(numeros[nome])
+
+    return re.sub(r"\{\{eq:([^}]+)\}\}", citar, corpo)
+
+
+def resolver_marcas(corpo):
+    """Troca as marcas de referência cruzada pelos números desta montagem."""
+    marcas = indice_das_marcas()
+    faltando = []
+
+    def secao(m):
+        chave = m.group(1).strip()
+        if chave in marcas:
+            return marcas[chave]
+        # «{{n:33.3}}» aponta para a subseção 3 da antiga seção 33: o número
+        # da seção resolve normalmente e o sufixo vai atrás.
+        if "." in chave:
+            base, _, sufixo = chave.partition(".")
+            if base in marcas:
+                return marcas[base] + "." + sufixo
+        faltando.append(chave)
+        return "??"
+
+    corpo = re.sub(r"\{\{n:([^}]+)\}\}", secao, corpo)
+
+    def capitulo(m):
+        chave = m.group(1).strip()
+        if chave not in PARTE_PARA_CAPITULO:
+            faltando.append("c:" + chave)
+            return "??"
+        return str(PARTE_PARA_CAPITULO[chave])
+
+    corpo = re.sub(r"\{\{c:([^}]+)\}\}", capitulo, corpo)
+    if faltando:
+        raise KeyError("marcas sem destino: " + ", ".join(sorted(set(faltando))))
+    return corpo
+
+
+def esqueleto(titulo):
+    return NL.join([f"# {titulo}", "", "> **Seção por escrever.**", ""])
 
 
 def frontmatter(sumario_linhas, palavras):
-    """Folha de rosto e sumário, gerados do próprio sumário do manual."""
+    """Folha de rosto e sumário, gerados da própria estrutura do manual."""
     from datetime import date
     return NL.join([
         "# Netuno 5",
         "",
         "## Manual do Usuário",
         "",
-        "Universidade Federal de Santa Catarina",
-        "Departamento de Engenharia Civil",
+        "Igor Catão Martins Vaz e Enedir Ghisi",
+        "",
         "Grupo de Pesquisa Gestão do Espaço Sustentável",
+        "Universidade Federal de Santa Catarina",
         "",
         f"Versão 5.0.8 · Florianópolis, {date.today().strftime('%d/%m/%Y')}",
         "",
@@ -138,20 +323,20 @@ def frontmatter(sumario_linhas, palavras):
         "",
         "### Como usar este manual",
         "",
-        "Ele não foi feito para ser lido do começo ao fim. O **capítulo 3** diz por",
-        "onde entrar conforme o que você quer fazer.",
+        "Ele não foi feito para ser lido do começo ao fim. A seção 1.3 diz por onde",
+        "entrar conforme o que você quer fazer.",
         "",
         "| Você quer | Leia |",
         "| :--- | :--- |",
-        "| aprender a usar | Parte 2, o tutorial |",
-        "| resolver um caso | Parte 3, os guias de tarefa |",
-        "| publicar um estudo | Parte 4, o método; e o capítulo 13 |",
-        "| revisar um estudo | Parte 6, e os apêndices A e B |",
-        "| não errar | capítulo 33 |",
+        "| aprender a usar | o capítulo 4, o tutorial |",
+        "| resolver um caso | o capítulo 3, os guias |",
+        "| publicar um estudo | o capítulo 2, o método; e a seção 4.10 |",
+        "| revisar um estudo | o capítulo 5, e as seções 7.1 e 7.2 |",
+        "| não errar | a seção 5.1 |",
         "",
         "O manual supõe um leitor de engenharia que ainda não conhece o assunto: os",
-        "conceitos são apresentados antes de serem usados, e o vocabulário está no",
-        "apêndice G. Duas caixas aparecem ao longo do texto, e elas se distinguem:",
+        "conceitos são apresentados antes de serem usados, e o vocabulário está na",
+        "seção 7.7. Duas caixas aparecem ao longo do texto, e elas se distinguem:",
         "",
         "| A caixa | Quando aparece |",
         "| :--- | :--- |",
@@ -160,9 +345,9 @@ def frontmatter(sumario_linhas, palavras):
         "",
         "> **Todo número impresso neste manual é calculado pelo programa.** As tabelas",
         "> e as figuras não foram digitadas: são produzidas rodando o Netuno com os",
-        "> dados de entrada que cada capítulo declara. Cada valor publicado tem uma",
+        "> dados de entrada que cada seção declara. Cada valor publicado tem uma",
         "> verificação automática correspondente, de modo que uma correção no programa",
-        "> não possa deixar o manual mentindo. O capítulo 34 explica como isso é feito.",
+        "> não possa deixar o manual mentindo. A seção 5.3 explica como isso é feito.",
         "",
         "---",
         "",
@@ -175,68 +360,32 @@ def frontmatter(sumario_linhas, palavras):
     ])
 
 
-def numerar_figuras(corpo):
-    """Renumera as legendas na ordem em que o leitor as encontra.
-
-    As figuras foram escritas na ordem em que foram produzidas, e não na ordem
-    dos capítulos: a legenda «Figura 1» aparecia no capítulo 23, depois da
-    «Figura 2» do capítulo 7. Numerar na montagem tira a numeração das mãos de
-    quem escreve o capítulo, e a legenda deixa de poder divergir.
-    """
-    contador = [0]
-
-    def proxima(m):
-        contador[0] += 1
-        return "*Figura " + str(contador[0]) + " —"
-
-    return re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
-
-
 def main():
-    partes, faltando, escritos = [], [], []
+    corpo_partes, faltando, escritos = [], [], []
     sumario = []
-    for nome_parte, capitulos in SUMARIO:
-        sumario.append(f"**{nome_parte}**" + NL)
-        for num, _ in capitulos:
-            sumario.append(f"{num}. {TITULOS[num]}")
-        sumario.append("")
-    sumario.append("**Apêndices**" + NL)
-    APEND_TITULOS = {
-        "A": "Os parâmetros do projeto", "B": "Os processos do programa",
-        "C": "Fatores de emissão", "D": "Regimes tarifários",
-        "E": "Base climática", "F": "Arquivos, pastas e formatos",
-        "G": "Glossário", "H": "Referências", "I": "Fichas de uma página",
-        "J": "Arquivos de exemplo",
-    }
-    for letra, _ in APENDICES:
-        sumario.append(f"{letra}. {APEND_TITULOS.get(letra, '')}")
 
-    for nome_parte, capitulos in SUMARIO:
-        partes.append(f"# {nome_parte}" + NL)
-        for num, arquivo in capitulos:
-            caminho = os.path.join(AQUI, "partes", f"{num:02d}_{arquivo}.md")
+    for i, (titulo_cap, pasta, secoes) in enumerate(ESTRUTURA, start=1):
+        sumario.append(f"**{i} {titulo_cap}**" + NL)
+        for j, chave in enumerate(secoes, start=1):
+            sumario.append(f"{i}.{j} {TITULOS.get(chave, chave)}")
+        sumario.append("")
+
+        corpo_partes.append(f"# {i}. {titulo_cap}" + NL)
+        for j, chave in enumerate(secoes, start=1):
+            caminho = os.path.join(AQUI, pasta, f"{chave}.md")
             if os.path.exists(caminho):
                 texto = resolver(open(caminho, encoding="utf-8").read(), caminho)
-                escritos.append(num)
+                escritos.append(chave)
             else:
-                texto = esqueleto(num, TITULOS[num])
-                faltando.append(num)
-            partes.append(texto.rstrip(NL) + NL)
-
-    partes.append("# Apêndices" + NL)
-    for letra, arquivo in APENDICES:
-        caminho = os.path.join(AQUI, "apendices", f"{arquivo}.md")
-        if os.path.exists(caminho):
-            partes.append(open(caminho, encoding="utf-8").read().rstrip(NL) + NL)
-            escritos.append(letra)
-        else:
-            partes.append(f"# Apêndice {letra}" + NL + NL
-                          + "> **Apêndice por escrever.**" + NL)
-            faltando.append(letra)
+                texto = esqueleto(TITULOS.get(chave, chave))
+                faltando.append(chave)
+            corpo_partes.append(numerar_titulos(texto, i, j).rstrip(NL) + NL)
 
     destino = os.path.join(AQUI, "Manual-Netuno-5.md")
-    corpo = (NL + "---" + NL + NL).join(partes)
+    corpo = (NL + "---" + NL + NL).join(corpo_partes)
+    corpo = resolver_marcas(corpo)
     corpo = numerar_figuras(corpo)
+    corpo = numerar_equacoes(corpo)
     palavras = len(corpo.split())
     corpo = frontmatter(sumario, palavras) + corpo
     open(destino, "w", encoding="utf-8").write(corpo)

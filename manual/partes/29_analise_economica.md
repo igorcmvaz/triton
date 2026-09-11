@@ -1,11 +1,11 @@
-# 29. Análise econômica e os regimes tarifários
+# Análise econômica e os regimes tarifários
 
 > Este capítulo formaliza o fluxo de caixa e detalha os cinco regimes de mínimo
 > tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
 
-## 29.1. A economia é a diferença entre duas contas
+## A economia é a diferença entre duas contas
 
 O programa **não** multiplica o volume poupado por uma tarifa. Ele monta duas contas
 completas para cada mês da projeção e subtrai:
@@ -20,7 +20,7 @@ faixa de R$ 14,31/m³, usar a tarifa média subestima a economia em mais da meta
 
 ---
 
-## 29.2. A conta de água
+## A conta de água
 
 Cada faixa da tabela é uma quádrupla `(mínimo, máximo, valor, código)`. O código diz
 o que o valor significa:
@@ -61,7 +61,7 @@ da fatura**.
 
 ---
 
-## 29.3. Os cinco regimes na base
+## Os cinco regimes na base
 
 | Regime | Municípios |
 | :--- | ---: |
@@ -73,12 +73,12 @@ da fatura**.
 
 O piso está implementado e nenhum município da base foi classificado nele até agora.
 
-O guia 16 traz o exemplo numérico comparando Floriano e Florianópolis, e a lição
+A seção {{n:16}} traz o exemplo numérico comparando Floriano e Florianópolis, e a lição
 prática: em regime de franquia, economizar abaixo da franquia não desconta nada.
 
 ---
 
-## 29.4. O investimento
+## O investimento
 
 ```
 CAPEX = cisterna + caixa superior + mão de obra + tubulação
@@ -86,7 +86,7 @@ CAPEX = cisterna + caixa superior + mão de obra + tubulação
         + CAPEX incremental da ETAP
 ```
 
-O último termo segue a regra incremental do capítulo 27.
+O último termo segue a regra incremental da seção {{n:27}}.
 
 Os preços de reservatório vêm da base do programa, com procedência declarada. Para
 volumes fora da tabela, o programa interpola linearmente; para extrapolar além da
@@ -94,11 +94,11 @@ tabela, só o faz se a regressão tiver **R² acima de 0,90**, e avisa quando n�
 
 ---
 
-## 29.5. O custeio anual
+## O custeio anual
 
 | Parcela | Origem |
 | :--- | :--- |
-| energia de bombeamento | capítulo 28, com a bandeira tarifária aplicada |
+| energia de bombeamento | seção {{n:28}}, com a bandeira tarifária aplicada |
 | cloração | massa de **produto**, não de cloro ativo |
 | ETAP | custeio incremental, sem contar a cloração duas vezes |
 | custos operacionais declarados | lista livre do usuário |
@@ -108,7 +108,7 @@ desconto fora de ponta na branca.
 
 ---
 
-## 29.6. A projeção mês a mês
+## A projeção mês a mês
 
 Para cada mês `m` do período de análise:
 
@@ -135,7 +135,7 @@ O IPTU verde, quando habilitado, entra como economia anual dividida por doze.
 
 ---
 
-## 29.7. Os indicadores
+## Os indicadores
 
 **Valor presente líquido:**
 
@@ -151,9 +151,9 @@ um número inventado.
 
 ---
 
-## 29.8. As premissas frágeis
+## As premissas frágeis
 
-Duas merecem sensibilidade, e o guia 20 mostra como.
+Duas merecem sensibilidade, e a seção {{n:20}} mostra como.
 
 **O reajuste tarifário.** Cinco por cento ao ano por vinte anos multiplica a tarifa
 por 2,65; três por cento, por 1,81; sete por cento, por 3,87. O VPL varia
@@ -161,4 +161,4 @@ proporcionalmente. É a premissa que mais move o resultado, e a mais incerta.
 
 **A vida útil.** Vinte anos é a adoção padrão. Cisterna de concreto dura mais;
 componentes de polietileno expostos ao sol duram menos. A vida útil entra tanto no
-período de análise quanto no payback de carbono do capítulo 30.
+período de análise quanto no payback de carbono da seção {{n:30}}.

@@ -1,4 +1,4 @@
-# 13. O relatório, e o que declarar num artigo
+# O relatório, e o que declarar num artigo
 
 > Ao terminar este capítulo você terá o relatório emitido e, se pretende publicar, a
 > lista do que precisa constar no método do artigo. Essa lista é o capítulo mais
@@ -6,7 +6,7 @@
 
 ---
 
-## 13.1. Os três relatórios
+## Os três relatórios
 
 O programa emite três, e eles têm públicos diferentes.
 
@@ -25,14 +25,14 @@ série diária e a varredura completa.
 
 ---
 
-## 13.2. O que o relatório não decide por você
+## O que o relatório não decide por você
 
 O relatório traz os números. Não traz o **contexto** que torna os números
 reproduzíveis. Esse contexto é seu, e é o assunto do resto do capítulo.
 
 ---
 
-## 13.3. A lista de declaração
+## A lista de declaração
 
 Um estudo feito com o Netuno que não declare os itens abaixo não é reproduzível, e
 não é comparável com outro estudo do mesmo programa. Copie a lista no método do seu
@@ -86,7 +86,7 @@ artigo.
 
 - **Fronteira**: água entregue, e não produzida.
 - **Vida útil** adotada e sua justificativa.
-- **Material** do reservatório. Ele inverte o sinal do resultado, como o capítulo 11
+- **Material** do reservatório. Ele inverte o sinal do resultado, como a seção {{n:11}}
   mostra.
 - Base do fator de emissão da rede elétrica, **com o ano**.
 - Quais fatores carregam **rótulo de triagem**.
@@ -99,7 +99,7 @@ artigo.
 
 ---
 
-## 13.4. O parágrafo pronto
+## O parágrafo pronto
 
 Para o nosso projeto, o método ficaria assim:
 
@@ -126,14 +126,14 @@ solto.
 
 ---
 
-## 13.5. O fim do tutorial
+## O fim do tutorial
 
-Dez capítulos, um projeto, e um estudo completo. A tabela do capítulo 12 é o
+Dez capítulos, um projeto, e um estudo completo. A tabela da seção {{n:12}} é o
 resultado.
 
 O que fazer agora depende do que você quer:
 
-- **Resolver um caso diferente do tutorial** — a Parte 3, os guias de tarefa.
-- **Entender de onde vem cada número** — a Parte 4, o método.
-- **Não cometer os erros que o programa não impede** — o capítulo 33.
-- **Defender o estudo diante de um revisor** — a Parte 6.
+- **Resolver um caso diferente do tutorial** — o capítulo {{c:3}}, os guias de tarefa.
+- **Entender de onde vem cada número** — o capítulo {{c:4}}, o método.
+- **Não cometer os erros que o programa não impede** — a seção {{n:33}}.
+- **Defender o estudo diante de um revisor** — o capítulo {{c:6}}.

@@ -1,11 +1,11 @@
-# 32. Decisão multicritério
+# Decisão multicritério
 
 > Este capítulo formaliza os dois métodos de ordenação, e declara três desvios em
 > relação à formulação canônica que um estudo publicado precisa citar.
 
 ---
 
-## 32.1. Os sete critérios
+## Os sete critérios
 
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
@@ -18,11 +18,11 @@
 | 7 | consumo de água potável | minimizar | ambiental |
 
 As alternativas são os **volumes** da varredura. Cada uma traz os sete valores,
-vindos dos capítulos 23, 29 e 30.
+vindos das seções {{n:23}}, 29 e 30.
 
 ---
 
-## 32.2. TOPSIS
+## TOPSIS
 
 *Technique for Order of Preference by Similarity to Ideal Solution*, de Hwang e Yoon
 (1981). Cinco passos:
@@ -43,7 +43,7 @@ fica entre 0 e 1, e maior é melhor.
 
 ---
 
-## 32.3. Três desvios a declarar
+## Três desvios a declarar
 
 **Primeiro: a normalização é uma variante.** A formulação canônica usa normalização
 vetorial, que exige valores não negativos. O valor presente líquido pode ser
@@ -68,7 +68,7 @@ Hwang e Yoon num caso de valores todos positivos, em que a translação é inóc
 
 ---
 
-## 32.4. SMAA-VIKOR
+## SMAA-VIKOR
 
 *Stochastic Multicriteria Acceptability Analysis*. Existe para responder a pergunta
 que o TOPSIS não responde: **e se os pesos fossem outros?**
@@ -84,7 +84,7 @@ como se fosse consensual.
 
 ---
 
-## 32.5. Os pesos
+## Os pesos
 
 O programa aceita pesos por critério. Com pesos iguais, cada critério vale 1/7.
 
@@ -100,7 +100,7 @@ Três condutas defensáveis:
 
 ---
 
-## 32.6. Os melhores por critério isolado
+## Os melhores por critério isolado
 
 Além da ordenação ponderada, o programa identifica o vencedor de cada grupo:
 técnico, financeiro e ambiental. São três números que valem ser reportados juntos.
@@ -111,7 +111,7 @@ comum, e o do tutorial — a divergência **é** o resultado, e escondê-la atr�
 
 ---
 
-## 32.7. O que o método não faz
+## O que o método não faz
 
 - **não escolhe os pesos.** Isso é do analista, e é uma decisão de valor.
 - **não valida os critérios.** Se o VPL estiver errado porque o regime tarifário

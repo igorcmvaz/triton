@@ -1,4 +1,4 @@
-# Apêndice B — Os processos do programa
+# Os processos do programa
 
 São **24 processos**, do arquivo de chuva ao relatório. Cada
 um declara o que o dispara, o que recebe, as regras com suas ramificações, o
@@ -8,8 +8,7 @@ que produz e o que acontece quando falha.
 estudo feito com o programa e precisa saber exatamente que conta foi feita, e
 quem encontrou um resultado estranho e quer saber por onde o número passou.
 
-Os nomes em `código` são os campos do arquivo de projeto, listados no
-apêndice A.
+Os nomes em `código` são os campos do arquivo de projeto, listados na seção {{n:A}}.
 
 ## PROC-01 — Carregar a série de precipitação
 

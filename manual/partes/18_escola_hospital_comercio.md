@@ -1,4 +1,4 @@
-# 18. Simular escola, hospital e comércio
+# Simular escola, hospital e comércio
 
 > **Pergunta que este guia responde:** o programa serve para edificação não
 > residencial?
@@ -7,7 +7,7 @@ Serve, com uma ressalva grande que precisa ser lida antes, e não depois.
 
 ---
 
-## 18.1. A ressalva: a categoria tarifária
+## A ressalva: a categoria tarifária
 
 O catálogo de 652 municípios traz a **categoria residencial**, e só ela.
 
@@ -26,7 +26,7 @@ sentido do erro:
 > o retorno estão **subestimados**.
 
 > **O que fazer.** Lance a estrutura da categoria correta da sua concessionária no
-> modo personalizado do diálogo de tarifas. O guia 16 ensina. Sem isso, o resultado
+> modo personalizado do diálogo de tarifas. A seção {{n:16}} ensina. Sem isso, o resultado
 > técnico é válido e o **econômico não é publicável**.
 
 A boa notícia é que o erro é conservador: o projeto real rende **mais** do que o
@@ -34,7 +34,7 @@ programa mostra, e não menos.
 
 ---
 
-## 18.2. As tipologias disponíveis
+## As tipologias disponíveis
 
 | Tipologia | Categoria que a concessionária cobra | Unidade de consumo |
 | :--- | :--- | :--- |
@@ -49,11 +49,11 @@ programa mostra, e não menos.
 
 ---
 
-## 18.3. O que muda em cada tipologia
+## O que muda em cada tipologia
 
 **Escola.** O caso mais favorável do Brasil. A fração não potável é alta, porque
 bacia sanitária domina o consumo e não há chuveiro nem cozinha em muitas unidades.
-A demanda é modulada por calendário — use o guia 17 — e o fechamento nas férias
+A demanda é modulada por calendário — use a seção {{n:17}} — e o fechamento nas férias
 costuma coincidir com a estiagem no Sul e Sudeste, o que enche a cisterna de graça.
 
 **Hospital.** O caso mais delicado. Consumo alto e contínuo, sem sazonalidade
@@ -68,11 +68,11 @@ Module por semana. A fração não potável é altíssima, muitas vezes acima de
 porque quase todo o consumo é bacia sanitária e limpeza.
 
 **Hotel.** Sazonalidade forte, e é o caso em que modular por mês mais importa. Veja
-a advertência do guia 17 sobre demanda em contrafase com a chuva.
+a advertência da seção {{n:17}} sobre demanda em contrafase com a chuva.
 
 ---
 
-## 18.4. Micromedição e o número de economias
+## Micromedição e o número de economias
 
 Em edifício multifamiliar com medição individualizada, informe o **número de
 economias**. O programa avalia o consumo no patamar de **uma** unidade e multiplica
@@ -85,9 +85,9 @@ superestimaria a economia de forma grosseira.
 
 ---
 
-## 18.5. O que declarar
+## O que declarar
 
-Além do que o capítulo 13 já pede:
+Além do que a seção {{n:13}} já pede:
 
 - a **tipologia** e a unidade de consumo adotada;
 - a **origem** do consumo per capita — medição, referência ou norma;

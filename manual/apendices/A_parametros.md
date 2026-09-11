@@ -1,4 +1,4 @@
-# Apêndice A — Os parâmetros do projeto
+# Os parâmetros do projeto
 
 São **103 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
@@ -8,9 +8,9 @@ versão, e por isso não pode divergir dele.
 
 A coluna **onde se informa** diz em que tela o campo aparece; a coluna
 **quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo
-gravado no arquivo e nunca lido, e está listado no capítulo 34.
+gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.
 
-## A.1. Identificação
+## Identificação
 
 3 parâmetros.
 
@@ -20,7 +20,7 @@ gravado no arquivo e nunca lido, e está listado no capítulo 34.
 | `project_id` | — | — | Janela principal, Relatórios | Automação |
 | `created_at` | — | — | Janela principal | — |
 
-## A.2. Chuva
+## Chuva
 
 9 parâmetros.
 
@@ -40,7 +40,7 @@ Observações do fonte:
 
 - `climate_source_mode`: "national_db" ou "custom_file"
 
-## A.3. Captação
+## Captação
 
 6 parâmetros.
 
@@ -62,7 +62,7 @@ Observações do fonte:
 - `irrigation_garden_area_m2`: Área de jardim em m² para o assistente de dimensionamento
 - `runoff_coeff`: ver hydrology_defaults
 
-## A.4. Edificação
+## Edificação
 
 2 parâmetros.
 
@@ -75,7 +75,7 @@ Observações do fonte:
 
 - `num_economias`: Número de economias / apartamentos com micromedição individual
 
-## A.5. Demanda
+## Demanda
 
 17 parâmetros.
 
@@ -107,7 +107,7 @@ Observações do fonte:
 - `non_potable_indoor_share`: Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
 - `rainwater_share`: fraction 0..1 (e.g. 0.4 = 40%)
 
-## A.6. Irrigação
+## Irrigação
 
 4 parâmetros.
 
@@ -125,7 +125,7 @@ Observações do fonte:
 - `irrigation_potable_backup`: Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
 - `irrigation_rate_l_m2_day`: Taxa diária de rega (L/m²/dia)
 
-## A.7. Qualidade da água
+## Qualidade da água
 
 9 parâmetros.
 
@@ -148,7 +148,7 @@ Observações do fonte:
 - `chlorine_product_purity`: kg Cl2 ativo por kg de produto
 - `chlorine_cost_per_kg`: R$ por kg de PRODUTO comercial
 
-## A.8. Reservatórios
+## Reservatórios
 
 12 parâmetros.
 
@@ -179,7 +179,7 @@ Observações do fonte:
 - `lower_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
 - `upper_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
 
-## A.9. Motobomba
+## Motobomba
 
 10 parâmetros.
 
@@ -206,7 +206,7 @@ Observações do fonte:
 - `pump_motor_efficiency`: %
 - `pump_unit_cost`: R$, referência de mercado para motobomba periférica 1/2 CV
 
-## A.10. Tubulação
+## Tubulação
 
 1 parâmetros.
 
@@ -214,7 +214,7 @@ Observações do fonte:
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econ. integrado, Tarifas e custos | ACV |
 
-## A.11. Investimento
+## Investimento
 
 3 parâmetros.
 
@@ -224,7 +224,7 @@ Observações do fonte:
 | `cost_piping` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
 | `cost_accessories` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, ETAP, Econômico |
 
-## A.12. Operação
+## Operação
 
 1 parâmetros.
 
@@ -232,7 +232,7 @@ Observações do fonte:
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Econômico |
 
-## A.13. Tarifas
+## Tarifas
 
 14 parâmetros.
 
@@ -265,7 +265,7 @@ Observações do fonte:
 - `tariff_flag`: "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
 - `elec_tariff`: R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)
 
-## A.14. Energia
+## Energia
 
 4 parâmetros.
 
@@ -281,7 +281,7 @@ Observações do fonte:
 - `elec_tax_fixed`: R$
 - `elec_tax_var`: %
 
-## A.15. Incentivos
+## Incentivos
 
 3 parâmetros.
 
@@ -296,7 +296,7 @@ Observações do fonte:
 - `iptu_annual_value`: Valor venal do IPTU anual da edificação (R$/ano)
 - `iptu_discount_pct`: Desconto municipal do IPTU Verde (%)
 
-## A.16. Financeiro
+## Financeiro
 
 4 parâmetros.
 
@@ -313,7 +313,7 @@ Observações do fonte:
 - `analysis_period_years`: years
 - `tma`: % monthly discount rate
 
-## A.17. Certificações
+## Certificações
 
 1 parâmetros.
 

@@ -1,11 +1,11 @@
-# 31. Certificações
+# Certificações
 
 > Este capítulo traz as regras de enquadramento de cinco referenciais, e distingue o
 > que é requisito normativo do que é critério adotado pelo programa.
 
 ---
 
-## 31.1. LEED v4 — categoria Water Efficiency
+## LEED v4 — categoria Water Efficiency
 
 Dois créditos, oito pontos no total.
 
@@ -32,12 +32,12 @@ Há ainda o pré-requisito WEp, de 20% de redução interna, que é obrigatório
 pontua.
 
 > A separação entre uso interno e externo depende da **discretização da demanda**
-> do capítulo 5. Sem ela, o programa faz a partição normativa de referência e
+> da seção {{n:5}}. Sem ela, o programa faz a partição normativa de referência e
 > registra que fez.
 
 ---
 
-## 31.2. Processo AQUA-HQE — Categoria 4
+## Processo AQUA-HQE — Categoria 4
 
 | Perfil | Critério |
 | :--- | :--- |
@@ -49,7 +49,7 @@ Adaptado pela Fundação Vanzolini às normas brasileiras.
 
 ---
 
-## 31.3. Selo Casa Azul CAIXA — Critério 2.1
+## Selo Casa Azul CAIXA — Critério 2.1
 
 | Graduação | Substituição | Bonificação |
 | :--- | ---: | ---: |
@@ -62,7 +62,7 @@ diferenciadas de financiamento.
 
 ---
 
-## 31.4. EDGE — o único que não pontua
+## EDGE — o único que não pontua
 
 O EDGE, do IFC, mede **percentual de economia contra um caso-base local** em três
 barras independentes, e exige que cada uma cruze o limiar:
@@ -93,7 +93,7 @@ foram conferidos contra relatório de avaliação EDGE v3.0.0 de projeto certifi
 
 ---
 
-## 31.5. GRI 303
+## GRI 303
 
 Indicadores de divulgação corporativa:
 
@@ -102,7 +102,7 @@ Indicadores de divulgação corporativa:
 
 ---
 
-## 31.6. O que declarar
+## O que declarar
 
 - que as **classes 2 a 4** de qualidade da água são adaptações do programa, e não da
   NBR 15527;

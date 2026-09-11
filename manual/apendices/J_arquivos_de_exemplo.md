@@ -1,4 +1,4 @@
-# Apêndice J — Arquivos de exemplo
+# Arquivos de exemplo
 
 O manual imprime resultados; estes arquivos são o que se abre para
 reproduzi-los. Ficam em `manual/casos/`, e cada um traz a série de chuva
@@ -6,21 +6,21 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ---
 
-## J.1. Os nove casos do manual
+## Os nove casos do manual
 
 | Arquivo | Capítulo | O que demonstra |
 | :--- | :--- | :--- |
-| `01_tutorial_florianopolis.netuno` | 4 a 13 | o projeto do tutorial, com a cisterna escolhida no capítulo 12 |
+| `01_tutorial_florianopolis.netuno` | 4 a 13 | o projeto do tutorial, com a cisterna escolhida na seção {{n:12}} |
 | `02_tutorial_varredura.netuno` | 7 e 24 | o mesmo projeto em modo varredura, de 0 a 20.000 L, passo de 1.000 L |
 | `03_dez_dias.netuno` | 23 | o caso didático de dez dias, que cabe numa planilha |
-| `04_reservatorio_superior.netuno` | 8 | 5.000 L embaixo mais 1.000 em cima, a comparação do capítulo 8 contra os 6.000 L de um tanque só |
+| `04_reservatorio_superior.netuno` | 8 | 5.000 L embaixo mais 1.000 em cima, a comparação da seção {{n:8}} contra os 6.000 L de um tanque só |
 | `05_manaus.netuno` | 14 | o projeto do tutorial levado a Manaus, que chove mais e rende menos |
 | `06_brasilia.netuno` | 14 | o projeto do tutorial levado a Brasília, de estação seca marcada |
 | `07_saopaulo.netuno` | 14 | o projeto do tutorial levado a São Paulo |
 | `08_escola_semanal.netuno` | 17 e 18 | escola de 300 alunos com demanda modulada por dia da semana |
 | `09_hotel_mensal.netuno` | 17 | hotel de litoral com ocupação mensal em fase com a chuva |
 
-## J.2. O que cada um produz
+## O que cada um produz
 
 Os valores abaixo são obtidos **relendo o arquivo gravado** e simulando o
 que foi relido, e não a configuração que o gerou. É a diferença que
@@ -41,7 +41,7 @@ número errado, em vez de passar despercebido.
 
 ---
 
-## J.3. Como rodar
+## Como rodar
 
 **Arquivo, Abrir projeto**, escolha o arquivo, e o programa carrega tudo: a
 chuva, a edificação, os custos e a configuração das análises. Percorra as
@@ -53,7 +53,7 @@ original continua reproduzindo o número impresso no manual.
 
 ---
 
-## J.4. Os três estudos de `examples/`
+## Os três estudos de `examples/`
 
 Além dos casos do manual, o programa traz três estudos de referência em
 `examples/`: residência unifamiliar em Florianópolis, edifício
@@ -69,10 +69,10 @@ reais.
 
 ---
 
-## J.5. O que estes arquivos não são
+## O que estes arquivos não são
 
 Não são gabarito de projeto. São **casos de demonstração**: os custos são
 os do tutorial, a tarifa é a da CASAN e a categoria é residencial em
-todos, inclusive na escola e no hotel, pela limitação que o capítulo 36
+todos, inclusive na escola e no hotel, pela limitação que a seção {{n:36}}
 descreve. Para um estudo real, troque tarifa, custos e série de chuva
 pelos do seu caso.

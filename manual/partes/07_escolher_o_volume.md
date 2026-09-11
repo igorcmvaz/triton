@@ -1,17 +1,17 @@
-# 7. Escolher o volume
+# Escolher o volume
 
 > Ao terminar este capítulo você terá a curva de retorno do reservatório, saberá
 > onde ela deixa de compensar, e entenderá por que **não existe** um volume ótimo
 > absoluto — existe um volume ótimo para um critério declarado.
 
-O capítulo 6 chutou 3.000 L e viu 303 L/dia transbordando. A pergunta agora é
+A seção {{n:6}} chutou 3.000 L e viu 303 L/dia transbordando. A pergunta agora é
 direta: **quanto reservatório vale a pena?**
 
 O Netuno responde rodando a mesma simulação para muitos volumes. É a **varredura**.
 
 ---
 
-## 7.1. Rodar a varredura
+## Rodar a varredura
 
 Na etapa **4. Reservatório & Custos**, escolha o modo varredura e informe o
 volume máximo e o passo. Para o nosso projeto:
@@ -33,7 +33,7 @@ qual tudo se compara.
 
 ---
 
-## 7.2. A curva
+## A curva
 
 <!-- inclui: _tabelas/cap07_varredura.md -->
 
@@ -65,7 +65,7 @@ atendível puxa a curva para a horizontal.
 
 ---
 
-## 7.3. O volume ideal
+## O volume ideal
 
 O Netuno adota o critério do **ganho marginal**: o volume ideal é o **menor** volume
 cujo ganho por metro cúbico acrescentado cai abaixo de um limiar que você define.
@@ -93,7 +93,7 @@ declarar.
 
 ---
 
-## 7.4. Por que o critério do ganho marginal não basta
+## Por que o critério do ganho marginal não basta
 
 O critério de 7.3 é puramente **hidráulico**. Ele não sabe quanto custa o
 reservatório, quanto vale o metro cúbico de água na sua cidade, nem quanto carbono
@@ -111,11 +111,11 @@ Repare no que ele ignora:
 
 Três critérios, três respostas diferentes para a mesma pergunta.
 
-É por isso que o tutorial não para aqui. Os capítulos 10 e 11 acrescentam o dinheiro
-e o carbono, e o capítulo 12 põe os três na mesma mesa, com pesos declarados, para
+É por isso que o tutorial não para aqui. As seções {{n:10}} e 11 acrescentam o dinheiro
+e o carbono, e a seção {{n:12}} põe os três na mesma mesa, com pesos declarados, para
 escolher um volume de compromisso.
 
-> **O engano mais comum, e está no capítulo 33.** Publicar o volume de maior economia
+> **O engano mais comum, e está na seção {{n:33}}.** Publicar o volume de maior economia
 > de água como se fosse o volume recomendado. Pela tabela, 20.000 L dão o maior
 > potencial, 39,98%. Também custam **3,3 vezes mais** que os 5.000 L, e carregam
 > **3,6 vezes mais carbono incorporado**, para entregar 2,53 pontos percentuais a
@@ -123,7 +123,7 @@ escolher um volume de compromisso.
 
 ---
 
-## 7.5. Duas leituras a mais da tabela
+## Duas leituras a mais da tabela
 
 **O extravasamento nunca zera.** De 513 L/dia sem reservatório, cai para 272 L/dia
 com 20 m³ e para por aí. Mais da metade da água que cai na cobertura vai continuar
@@ -138,10 +138,10 @@ muda.
 
 ---
 
-## 7.6. O que temos até aqui
+## O que temos até aqui
 
 Adote **5.000 L** e siga. É o volume ideal pelo critério hidráulico padrão, e é o
-que o tutorial carrega até o capítulo 12 — onde ele será questionado de novo, agora
+que o tutorial carrega até a seção {{n:12}} — onde ele será questionado de novo, agora
 com dinheiro e carbono na conta.
 
 | Projeto até aqui | |
@@ -155,4 +155,4 @@ com dinheiro e carbono na conta.
 | dias de atendimento pleno | 92,9% |
 
 Falta decidir uma coisa antes de falar de dinheiro: essa água precisa subir para
-uma caixa d'água? É o capítulo 8.
+uma caixa d'água? É a seção {{n:8}}.

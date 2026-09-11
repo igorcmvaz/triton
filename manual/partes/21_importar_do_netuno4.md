@@ -1,4 +1,4 @@
-# 21. Importar um projeto do Netuno 4
+# Importar um projeto do Netuno 4
 
 > **Pergunta que este guia responde:** meus estudos antigos abrem no Netuno 5?
 
@@ -6,7 +6,7 @@ Abrem. Mas nem tudo atravessa, e o que não atravessa não avisa.
 
 ---
 
-## 21.1. Como importar
+## Como importar
 
 Abra o arquivo `.netuno` antigo pelo menu de abertura. O programa reconhece o
 formato legado — texto separado por ponto e vírgula — e converte para a estrutura
@@ -17,7 +17,7 @@ Salve em seguida. O arquivo passa a ser gravado no formato JSON do Netuno 5, com
 
 ---
 
-## 21.2. O que vem
+## O que vem
 
 | Dado | Vem? |
 | :--- | :---: |
@@ -38,7 +38,7 @@ Salve em seguida. O arquivo passa a ser gravado no formato JSON do Netuno 5, com
 
 ---
 
-## 21.3. O que **não** vem
+## O que **não** vem
 
 > **Atenção, e confira sempre.** O leitor de arquivos antigos **não reconhece
 > nenhuma chave de demanda variável**. Um projeto do Netuno 4 com demanda mensal ou
@@ -62,7 +62,7 @@ Todos assumem o padrão da versão 5, e vale revisá-los.
 
 ---
 
-## 21.4. Por que o resultado muda
+## Por que o resultado muda
 
 Mesmo com a importação perfeita, o número **não** será idêntico. A diferença é
 deliberada e está quantificada.
@@ -77,11 +77,11 @@ percentuais menos** economia de água potável que o Netuno 4. Metade dessa
 diferença vem daqui: 1,36 ponto percentual dos 2,71 do conjunto de Manaus e São
 Paulo.
 
-**As demais causas** estão decompostas no capítulo 35.
+**As demais causas** estão decompostas na seção {{n:35}}.
 
 ---
 
-## 21.5. Comparar as duas versões corretamente
+## Comparar as duas versões corretamente
 
 Se o seu estudo compara as versões, há um procedimento que isola o balanço hídrico
 da divergência deliberada:
@@ -99,7 +99,7 @@ mudança de implementação.
 
 ---
 
-## 21.6. Depois de importar
+## Depois de importar
 
 Uma lista de conferência:
 

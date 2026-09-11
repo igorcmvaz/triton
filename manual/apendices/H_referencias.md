@@ -1,4 +1,4 @@
-# Apêndice H — Referências
+# Referências
 
 Normas, publicações e bases que sustentam as decisões do programa. A lista completa,
 com a proveniência de cada citação, está no módulo de bibliografia do programa e na
@@ -6,7 +6,7 @@ aba de Documentação.
 
 ---
 
-## H.1. Normas técnicas brasileiras
+## Normas técnicas brasileiras
 
 **ABNT NBR 15527** — Água de chuva: aproveitamento de coberturas em áreas urbanas
 para fins não potáveis. Requisitos. Estabelece os parâmetros de qualidade, o
@@ -19,7 +19,7 @@ captação como a projeção horizontal da cobertura.
 
 **ABNT NBR 5626** — Sistemas prediais de água fria e água quente.
 
-**ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. Parte 2: motores de indução
+**ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. capítulo {{c:2}}: motores de indução
 monofásicos. Requisitos. A Tabela 13 traz o rendimento nominal mínimo a plena carga
 da linha IR1, e a Tabela 14 o da linha IR2. A norma manda marcar o rendimento na
 placa de identificação, o que estabelece que a potência de placa é a mecânica no
@@ -30,7 +30,7 @@ eixo.
 
 ---
 
-## H.2. Referenciais de certificação
+## Referenciais de certificação
 
 **LEED v4 / v4.1 BD+C** — USGBC. Categoria *Water Efficiency*, créditos WEc1 e WEc2.
 
@@ -46,7 +46,7 @@ WEM das medidas de eficiência hídrica. Administrado pelo GBCI em mais de 120 p
 
 ---
 
-## H.3. Métodos
+## Métodos
 
 **Hwang, C.-L.; Yoon, K.** (1981). *Multiple Attribute Decision Making: Methods and
 Applications*. A formulação original do TOPSIS.
@@ -64,18 +64,18 @@ aceitável e estabilidade.
 
 ---
 
-## H.4. O programa antecessor
+## O programa antecessor
 
 **Ghisi, E.; Cordova, M. M.** (2014). *Netuno 4 — Manual do Usuário*. Universidade
 Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de
 Eficiência Energética em Edificações. Florianópolis, junho de 2014.
 
-O capítulo 35 traz a comparação quantitativa entre as duas versões e a decomposição
+A seção {{n:35}} traz a comparação quantitativa entre as duas versões e a decomposição
 das diferenças.
 
 ---
 
-## H.5. Bases de dados
+## Bases de dados
 
 **CMIP6** — *Coupled Model Intercomparison Project*, fase 6. Projeções climáticas
 que alimentam os relatórios do IPCC.
@@ -91,9 +91,9 @@ distribuição por macrorregião.
 
 ---
 
-## H.6. Como citar o programa
+## Como citar o programa
 
 Ao publicar um estudo feito com o Netuno 5, cite o programa **com a versão**, e
-declare os itens do capítulo 13. Um estudo que cita «Netuno» sem versão não é
-reproduzível: correções entre versões mudam resultados, e o capítulo 28 traz o
+declare os itens da seção {{n:13}}. Um estudo que cita «Netuno» sem versão não é
+reproduzível: correções entre versões mudam resultados, e a seção {{n:28}} traz o
 exemplo do consumo da motobomba, que mudou 65% entre duas versões consecutivas.

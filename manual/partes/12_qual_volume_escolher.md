@@ -1,4 +1,4 @@
-# 12. Qual volume escolher, afinal
+# Qual volume escolher, afinal
 
 > Ao terminar este capítulo você terá um volume recomendado, e saberá que ele
 > depende de pesos que **você** declarou — não de uma verdade que o programa
@@ -6,7 +6,7 @@
 
 ---
 
-## 12.1. Três critérios, três respostas
+## Três critérios, três respostas
 
 Os capítulos anteriores fizeram três perguntas diferentes e receberam três respostas
 diferentes.
@@ -27,7 +27,7 @@ Não existe volume que vença nos três. Escolher exige declarar o que importa m
 
 ---
 
-## 12.2. Como o TOPSIS resolve
+## Como o TOPSIS resolve
 
 O programa usa TOPSIS sobre **sete critérios**:
 
@@ -58,11 +58,11 @@ Com **pesos iguais**, o vencedor é **5.000 L**.
 > pesos.
 >
 > As condições C1 e C2 de Opricovic, de vantagem aceitável e de estabilidade, **não
-> estão implementadas**. O capítulo 32 detalha.
+> estão implementadas**. A seção {{n:32}} detalha.
 
 ---
 
-## 12.3. O peso muda a resposta
+## O peso muda a resposta
 
 A segunda tabela mostra o que acontece ao deslocar o peso.
 
@@ -86,7 +86,7 @@ com tarifa mais baixa, o ponto econômico cairia e a divergência apareceria.
 
 ---
 
-## 12.4. A recomendação do tutorial
+## A recomendação do tutorial
 
 **5.000 L, em polietileno.**
 
@@ -94,7 +94,7 @@ Ele vence com pesos iguais, vence com peso econômico, vence com peso ambiental,
 fica em segundo por pouco com peso técnico. É uma escolha robusta: não depende de
 uma ponderação específica para se sustentar.
 
-E vale reparar que **é o mesmo volume que o critério hidráulico do capítulo 7 já
+E vale reparar que **é o mesmo volume que o critério hidráulico da seção {{n:7}} já
 tinha indicado**, com o limiar de 1 %/m³. As duas rotas chegaram ao mesmo lugar por
 caminhos independentes, o que aumenta a confiança na resposta.
 
@@ -103,7 +103,7 @@ para saber que as rotas concordam **neste caso**, e não supor que concordam sem
 
 ---
 
-## 12.5. O projeto, fechado
+## O projeto, fechado
 
 | Netuno 5 · residência unifamiliar em Florianópolis | |
 | :--- | ---: |

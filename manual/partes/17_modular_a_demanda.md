@@ -1,4 +1,4 @@
-# 17. Modular a demanda por calendário
+# Modular a demanda por calendário
 
 > **Pergunta que este guia responde:** e quando o consumo não é o mesmo todo dia?
 
@@ -8,7 +8,7 @@ sentidos ao mesmo tempo.
 
 ---
 
-## 17.1. Os quatro modos
+## Os quatro modos
 
 | Modo | Você informa | Quando usar |
 | :--- | :--- | :--- |
@@ -26,7 +26,7 @@ férias não é o aluno que bebe menos água, é que não há aluno.
 
 ---
 
-## 17.2. Como preencher
+## Como preencher
 
 Na etapa **2. Edificação Consumo**, escolha o modo. Abre-se a tabela do período.
 
@@ -39,7 +39,7 @@ Na etapa **2. Edificação Consumo**, escolha o modo. Abre-se a tabela do perío
 
 ---
 
-## 17.3. Por que isso muda o resultado
+## Por que isso muda o resultado
 
 Modular não muda só o total anual. Muda o **casamento** entre oferta e demanda, que
 é o que o sistema pluvial resolve.
@@ -60,7 +60,7 @@ resto do ano ela fica ociosa. O sistema rende **menos**.
 
 ---
 
-## 17.4. A fração atendível também pode variar
+## A fração atendível também pode variar
 
 Menos óbvio e às vezes mais importante. Numa escola, o percentual de uso não potável
 muda entre período letivo e férias: em férias sobra lavagem de piso e rega de
@@ -71,7 +71,7 @@ período de baixa ocupação.
 
 ---
 
-## 17.5. Cuidados
+## Cuidados
 
 **Não module o que você não mediu.** Uma modulação inventada acrescenta precisão
 aparente e nenhuma informação. Na dúvida, demanda constante declarada é mais honesta
@@ -85,7 +85,7 @@ diária resultante. Se ela divergir do que você esperava, há erro na tabela.
 
 ---
 
-## 17.6. O caminho mais simples, quando existe
+## O caminho mais simples, quando existe
 
 Se você tem **doze contas de água** da edificação, tem o perfil mensal medido,
 que é a melhor fonte possível. Divida o consumo de cada mês pelo número de dias e

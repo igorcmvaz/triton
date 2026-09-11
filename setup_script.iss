@@ -3,7 +3,7 @@
 
 #define MyAppName "Netuno 5"
 #define MyAppVersion "5.0.8"
-#define MyAppPublisher "Grupo de Pesquisa Gestão Espaço Sustentável (UFSC)"
+#define MyAppPublisher "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"
 #define MyAppExeName "Netuno.exe"
 #define MyAppIcon "icons\icon.ico"

@@ -1,4 +1,4 @@
-# 10. Quanto custa e em quanto se paga
+# Quanto custa e em quanto se paga
 
 > Ao terminar este capítulo você terá o fluxo de caixa de vinte anos, e saberá por
 > que o **regime tarifário do seu município** decide a viabilidade mais do que
@@ -6,7 +6,7 @@
 
 ---
 
-## 10.1. A economia é a diferença entre duas contas
+## A economia é a diferença entre duas contas
 
 O erro mais comum da análise econômica de sistemas pluviais é multiplicar o volume
 poupado por uma tarifa média. Isso quase nunca dá o número certo, porque as tarifas
@@ -29,7 +29,7 @@ valor da água.
 
 ---
 
-## 10.2. O regime tarifário da CASAN
+## O regime tarifário da CASAN
 
 Florianópolis tem regime de **disponibilidade**: R$ 46,34 por mês de taxa fixa, que
 soma por cima do consumo medido, mais as faixas progressivas a partir do primeiro
@@ -57,11 +57,11 @@ entre eles decide projetos:
 > água e não economiza dinheiro.
 >
 > Rodar esse caso com a tarifa de Florianópolis produziria um payback que não existe.
-> O guia 16 ensina a montar a estrutura do seu município corretamente.
+> A seção {{n:16}} ensina a montar a estrutura do seu município corretamente.
 
 ---
 
-## 10.3. O investimento
+## O investimento
 
 R$ 13.379,79, assim distribuídos:
 
@@ -80,7 +80,7 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 
 ---
 
-## 10.4. O resultado
+## O resultado
 
 | | |
 | :--- | ---: |
@@ -94,11 +94,11 @@ Florianópolis, que é alta, e do esgoto a 100%.
 
 **O custeio é irrisório:** R$ 4,74 por ano, só de pastilha de cloro. Sem caixa
 superior não há bomba, e portanto não há energia. É a vantagem escondida da decisão
-do capítulo 8.
+da seção {{n:8}}.
 
 ---
 
-## 10.5. O que a projeção assume
+## O que a projeção assume
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
@@ -118,11 +118,11 @@ Vinte anos são muito tempo, e a projeção depende de premissas que convém dec
 O reajuste tarifário é a premissa mais frágil da lista. Cinco por cento ao ano por
 vinte anos multiplica a tarifa por 2,65. Se a tarifa real subir mais que isso, o
 projeto rende mais; se subir menos, rende menos. Um estudo sério declara o valor
-adotado e mostra a sensibilidade — o guia 20 ensina como.
+adotado e mostra a sensibilidade — a seção {{n:20}} ensina como.
 
 ---
 
-## 10.6. O que temos até aqui
+## O que temos até aqui
 
 | Projeto até aqui | |
 | :--- | ---: |

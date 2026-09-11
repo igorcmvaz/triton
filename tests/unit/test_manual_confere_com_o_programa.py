@@ -538,7 +538,10 @@ def test_o_capitulo_13_traz_a_lista_de_declaracao():
 # Integridade do manual montado
 # ══════════════════════════════════════════════════════════════════════════════
 
-CAPITULOS = 37
+#: A estrutura da ABNT: sete capítulos, e as seções de cada um. A contagem sai
+#: da própria declaração do montador, para que reordenar o manual não exija
+#: reescrever este teste — foi assim que a numeração parou de divergir.
+SECOES_EM_PARTES = 39
 APENDICES = 10
 
 
@@ -556,10 +559,10 @@ def test_todos_os_capitulos_e_apendices_estao_escritos():
     assert "Apêndice por escrever" not in texto
 
 
-def test_o_manual_tem_todos_os_arquivos_de_capitulo():
+def test_o_manual_tem_todos_os_arquivos_de_secao():
     partes = os.path.join(MANUAL, "partes")
     escritos = [f for f in os.listdir(partes) if f.endswith(".md")]
-    assert len(escritos) == CAPITULOS, sorted(escritos)
+    assert len(escritos) == SECOES_EM_PARTES, sorted(escritos)
 
 
 def test_o_manual_tem_todos_os_apendices():
@@ -588,11 +591,67 @@ def test_as_figuras_referidas_existem():
     assert not faltando, faltando
 
 
-def test_o_sumario_lista_todos_os_capitulos():
+def test_o_sumario_lista_todas_as_secoes():
+    """O sumário sai da estrutura declarada, e precisa cobri-la inteira."""
+    import sys
+    sys.path.insert(0, MANUAL)
+    from gerar import ESTRUTURA, TITULOS
+
     texto = _manual_montado()
-    cabeca = texto.split("# Parte 1")[0]
-    for num in range(1, CAPITULOS + 1):
-        assert f"{num}. " in cabeca, f"o sumário não lista o capítulo {num}"
+    cabeca = texto.split("# 1. ")[0]
+    for i, (titulo_cap, _, secoes) in enumerate(ESTRUTURA, start=1):
+        assert f"{i} {titulo_cap}" in cabeca, f"falta o capítulo {i}"
+        for j, chave in enumerate(secoes, start=1):
+            linha = f"{i}.{j} {TITULOS[chave]}"
+            assert linha in cabeca, f"o sumário não lista «{linha}»"
+
+
+def test_a_numeracao_das_secoes_segue_a_ordem_da_estrutura():
+    """Cada título numerado do corpo confere com a posição declarada."""
+    import sys
+    sys.path.insert(0, MANUAL)
+    from gerar import ESTRUTURA, TITULOS
+
+    texto = _manual_montado()
+    for i, (_, _, secoes) in enumerate(ESTRUTURA, start=1):
+        for j, chave in enumerate(secoes, start=1):
+            assert f"## {i}.{j}. {TITULOS[chave]}" in texto, f"{i}.{j} {chave}"
+
+
+def test_nenhuma_marca_de_referencia_sobrou_por_resolver():
+    """Marca não resolvida é referência cruzada apontando para lugar nenhum."""
+    texto = _manual_montado()
+    assert "{{" not in texto, texto[texto.index("{{"):texto.index("{{") + 60]
+    assert "??" not in texto
+
+
+def test_as_equacoes_estao_numeradas_em_sequencia():
+    """A ABNT numera as equações em sequência, e cada citação tem destino."""
+    texto = _manual_montado()
+    numeros = [int(n) for n in re.findall(r"^```equacao:[^:]+:(\d+)$", texto,
+                                          flags=re.M)]
+    assert numeros == list(range(1, len(numeros) + 1)), numeros
+    assert len(numeros) >= 8
+
+
+def test_toda_equacao_declara_as_variaveis_e_as_unidades():
+    """Equação sem a tabela de variáveis é equação que o leitor não consegue usar.
+
+    A tabela pode vir depois de uma sequência de equações encadeadas; o que o
+    teste exige é que nenhuma equação fique órfã de declaração até o próximo
+    título.
+    """
+    texto = _manual_montado()
+    for m in re.finditer(r"^```equacao:([^:]+):\d+$", texto, flags=re.M):
+        # Do início da equação até o próximo título: é a janela em que a
+        # declaração das variáveis precisa aparecer. Equações encadeadas podem
+        # dividir uma tabela só, e por isso a janela não para na equação
+        # seguinte.
+        resto = texto[m.end():]
+        fim = re.search(r"^#{2,4} ", resto, flags=re.M)
+        janela = resto[: fim.start()] if fim else resto
+        assert "| Símbolo | Significado | Unidade |" in janela, (
+            "equação sem tabela de variáveis: " + m.group(1))
 
 
 def test_o_manual_declara_que_os_numeros_sao_calculados():

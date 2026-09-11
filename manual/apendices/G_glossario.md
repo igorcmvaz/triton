@@ -1,4 +1,4 @@
-# Apêndice G — Glossário
+# Glossário
 
 Termos técnicos e siglas, com o equivalente em inglês quando ele é usado na
 literatura.

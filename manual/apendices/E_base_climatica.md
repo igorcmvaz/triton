@@ -1,8 +1,8 @@
-# Apêndice E — Base climática
+# Base climática
 
 ---
 
-## E.1. O que a base contém
+## O que a base contém
 
 | | |
 | :--- | ---: |
@@ -18,7 +18,7 @@ de cidade, modelo, cenário e janela.
 
 ---
 
-## E.2. Por que é distribuída à parte
+## Por que é distribuída à parte
 
 Seis vírgula cinco gigabytes não cabem numa distribuição de programa. A base é
 obtida separadamente e instalada no diretório que o programa indica.
@@ -29,7 +29,7 @@ programa continua inteiramente funcional com séries do usuário.
 
 ---
 
-## E.3. Os cenários
+## Os cenários
 
 As *Shared Socioeconomic Pathways* do CMIP6:
 
@@ -41,10 +41,11 @@ As *Shared Socioeconomic Pathways* do CMIP6:
 
 ---
 
-## E.4. As séries históricas que acompanham o programa
+## As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `dataainfall` do programa:
+instalação, na pasta `data
+ainfall` do programa:
 
 | Cidade | Arquivos |
 | :--- | ---: |
@@ -58,7 +59,7 @@ somam 1.795 mm anuais médios, com chuva em 46% dos dias.
 
 ---
 
-## E.5. O que declarar num estudo
+## O que declarar num estudo
 
 - **modelo ou modelos**, pelo nome, e o critério de seleção;
 - **cenário** SSP;
@@ -67,5 +68,5 @@ somam 1.795 mm anuais médios, com chuva em 46% dos dias.
 - se houve *downscaling* ou correção de viés, e qual;
 - a **procedência e a versão** da base.
 
-O guia 15 trata da condução do estudo com cenários futuros, e alerta para o erro de
+A seção {{n:15}} trata da condução do estudo com cenários futuros, e alerta para o erro de
 escolher o modelo pelo resultado.

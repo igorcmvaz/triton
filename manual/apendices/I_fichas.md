@@ -1,4 +1,4 @@
-# Apêndice I — Fichas de uma página
+# Fichas de uma página
 
 Resumos destacáveis. Cada ficha cabe numa página e serve de consulta rápida ao lado
 do computador.
@@ -20,7 +20,7 @@ do computador.
 10. Relatório .............. saídas e lista de declaração            cap. 13
 ```
 
-**Antes de publicar:** capítulo 13, a lista de declaração. Capítulo 33, os dez
+**Antes de publicar:** seção {{n:13}}, a lista de declaração. Capítulo 33, os dez
 enganos. Capítulo 36, as limitações que afetam o seu caso.
 
 ---

@@ -1,4 +1,4 @@
-# 8. Precisa de reservatório superior?
+# Precisa de reservatório superior?
 
 > Ao terminar este capítulo você saberá responder a pergunta com número, e não com
 > hábito. A resposta costuma surpreender.
@@ -11,7 +11,7 @@ Quase todo projeto adota esse arranjo sem perguntar por quê. Vamos perguntar.
 
 ---
 
-## 8.1. Para que serve a caixa superior
+## Para que serve a caixa superior
 
 **Não serve para guardar mais água.** Serve para **entregar** água.
 
@@ -30,7 +30,7 @@ Nada disso é economia de água.
 
 ---
 
-## 8.2. A comparação justa
+## A comparação justa
 
 Comparar «5.000 L sem caixa» com «5.000 L mais 1.000 L de caixa» é armadilha: o
 segundo tem mais armazenamento. Para isolar o efeito do **arranjo**, compare o mesmo
@@ -60,7 +60,7 @@ tanque único teria coberto.
 
 ---
 
-## 8.3. O limiar de acionamento
+## O limiar de acionamento
 
 Se você adotar a caixa, há um parâmetro a ajustar: o volume de reserva que não se
 consome, abaixo do qual a bomba é acionada.
@@ -81,7 +81,7 @@ cada dois dias, e nenhum dos valores da tabela chega perto de ser problema.
 
 ---
 
-## 8.4. A energia, e por que ela é pequena
+## A energia, e por que ela é pequena
 
 Dez vírgula sete quilowatt-hora por ano. Dez reais.
 
@@ -99,11 +99,11 @@ economiza» não se sustenta em edificação de pequeno porte.
 > rendimento **do motor** separadamente. A potência de placa é a potência mecânica
 > no eixo, e o rendimento do motor é o que separa o que o eixo entrega do que o
 > medidor registra. Em branco, o programa adota a Tabela 13 da ABNT NBR 17094-2:
-> 60,5% para meio CV. O capítulo 28 detalha.
+> 60,5% para meio CV. A seção {{n:28}} detalha.
 
 ---
 
-## 8.5. A decisão do tutorial
+## A decisão do tutorial
 
 **Seguimos sem caixa superior.**
 

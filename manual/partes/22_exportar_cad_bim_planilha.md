@@ -1,11 +1,11 @@
-# 22. Exportar para CAD, BIM e planilha
+# Exportar para CAD, BIM e planilha
 
 > **Pergunta que este guia responde:** como levar o resultado para o projeto
 > executivo e para a análise própria?
 
 ---
 
-## 22.1. O que cada formato leva
+## O que cada formato leva
 
 | Formato | Extensão | O que leva | Para quê |
 | :--- | :--- | :--- | :--- |
@@ -16,7 +16,7 @@
 
 ---
 
-## 22.2. Planilha
+## Planilha
 
 O caminho de quem vai fazer análise própria.
 
@@ -26,7 +26,7 @@ reservatórios, recalque e classe de atendimento. É a base de qualquer gráfico
 estatística que o programa não ofereça.
 
 **Varredura.** Uma linha por volume simulado, com todos os indicadores. É a base da
-curva de retorno do capítulo 7.
+curva de retorno da seção {{n:7}}.
 
 > **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
 > simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta
@@ -34,7 +34,7 @@ curva de retorno do capítulo 7.
 
 ---
 
-## 22.3. Desenho em DXF
+## Desenho em DXF
 
 O programa gera o esquema hidráulico do sistema dimensionado: cisterna, filtro,
 descarte, bomba quando houver, reservatório superior, e a tubulação com os diâmetros
@@ -54,7 +54,7 @@ O que o programa **não** dimensiona:
 
 ---
 
-## 22.4. Modelo em IFC
+## Modelo em IFC
 
 Para compatibilização com o modelo BIM da edificação. Os componentes saem com
 propriedades: volume, material, e os parâmetros do dimensionamento.
@@ -64,9 +64,9 @@ hidráulica, que é do projetista.
 
 ---
 
-## 22.5. Relatórios
+## Relatórios
 
-Os três do capítulo 13: executivo, ambiental com ESG, e científico. Em HTML para
+Os três da seção {{n:13}}: executivo, ambiental com ESG, e científico. Em HTML para
 consulta e em PDF para entrega.
 
 > O programa tem dois geradores de PDF e usa o mais completo que a máquina permitir.
@@ -75,7 +75,7 @@ consulta e em PDF para entrega.
 
 ---
 
-## 22.6. Um conselho de arquivo
+## Um conselho de arquivo
 
 Ao fechar um estudo, guarde junto, na mesma pasta:
 

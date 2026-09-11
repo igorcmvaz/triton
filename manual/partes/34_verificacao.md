@@ -1,4 +1,4 @@
-# 34. Como o programa é verificado
+# Como o programa é verificado
 
 > Este capítulo descreve a suíte de verificação, para que um revisor possa julgar o
 > grau de confiança de um resultado produzido pelo programa.
@@ -8,7 +8,7 @@ capítulo é a evidência.
 
 ---
 
-## 34.1. A suíte
+## A suíte
 
 Novecentas asserções em noventa arquivos, organizadas em cinco famílias:
 
@@ -25,7 +25,7 @@ teste vermelho.
 
 ---
 
-## 34.2. As invariantes
+## As invariantes
 
 São a família mais importante, porque testam **propriedades**, e não valores.
 
@@ -51,7 +51,7 @@ aumenta.
 
 ---
 
-## 34.3. Casos analíticos
+## Casos analíticos
 
 Um conjunto de casos com **solução fechada**, em que o resultado correto é conhecido
 sem simular: chuva constante, demanda constante, reservatório infinito, reservatório
@@ -60,7 +60,7 @@ produzido pelo próprio programa.
 
 ---
 
-## 34.4. Testes de percurso
+## Testes de percurso
 
 A família que nasceu do defeito mais persistente deste programa: **um valor
 calculado corretamente que não chega a quem deveria consumi-lo**.
@@ -81,11 +81,11 @@ Exemplos de defeitos que esta família encontrou e hoje guarda:
 
 ---
 
-## 34.5. Os números do manual
+## Os números do manual
 
 Uma família própria, criada com este manual: **cada valor impresso tem asserção**.
 
-Os números do capítulo 23, os do tutorial inteiro, cada linha da tabela dos dez dias,
+Os números da seção {{n:23}}, os do tutorial inteiro, cada linha da tabela dos dez dias,
 e a exigência de que certos capítulos declarem certas ressalvas. Quando o programa
 muda, o teste falha e aponta a página.
 
@@ -93,14 +93,14 @@ muda, o teste falha e aponta a página.
 
 ---
 
-## 34.6. Verificação contra o Netuno 4
+## Verificação contra o Netuno 4
 
 Quatro mil e cinquenta casos de referência, com a decomposição da diferença por
-causa. O capítulo 35 trata.
+causa. A seção {{n:35}} trata.
 
 ---
 
-## 34.7. O que a verificação **não** prova
+## O que a verificação **não** prova
 
 Distinção que um revisor cobra, e com razão.
 
@@ -116,7 +116,7 @@ do programa como medição estaria errado.
 
 ---
 
-## 34.8. Quem roda a suíte, e quando
+## Quem roda a suíte, e quando
 
 A suíte acompanha o **código-fonte** do programa, e não a instalação: ela é executada
 pelo grupo de pesquisa a cada alteração, antes de qualquer versão ser publicada.
@@ -129,5 +129,5 @@ conferem cada número impresso neste manual.
 > licença GPL v3, e a suíte roda com um único comando no ambiente de
 > desenvolvimento. Um revisor que queira conferir as invariantes — fechamento de
 > massa, monotonicidade, paridade entre os dois motores de cálculo — encontra no
-> repositório os arquivos de teste organizados por tema, e o apêndice B liga cada
+> repositório os arquivos de teste organizados por tema, e a seção {{n:B}} liga cada
 > processo do programa ao que o verifica.

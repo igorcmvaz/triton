@@ -1,4 +1,4 @@
-# 20. Análise de sensibilidade
+# Análise de sensibilidade
 
 > **Pergunta que este guia responde:** qual premissa mais move o meu resultado, e o
 > quanto ele aguenta?
@@ -12,7 +12,7 @@ para confiar no número.
 
 ---
 
-## 20.1. O procedimento, em três passos
+## O procedimento, em três passos
 
 Não é preciso nenhuma ferramenta especial. O método é o mesmo que se usa em qualquer
 análise de engenharia:
@@ -25,11 +25,11 @@ análise de engenharia:
 Repita para cada premissa duvidosa. Ao fim, você sabe quais delas movem o resultado e
 quais não movem — e essa é a informação que vale.
 
-O guia 19 mostra como organizar os arquivos para que isso não vire confusão.
+A seção {{n:19}} mostra como organizar os arquivos para que isso não vire confusão.
 
 ---
 
-## 20.2. Que faixa adotar para cada premissa
+## Que faixa adotar para cada premissa
 
 A faixa não é palpite: ela vem do que você sabe sobre a origem do dado.
 
@@ -48,7 +48,7 @@ A faixa não é palpite: ela vem do que você sabe sobre a origem do dado.
 
 ---
 
-## 20.3. A premissa que quase sempre domina
+## A premissa que quase sempre domina
 
 Em estudos econômicos de aproveitamento pluvial, quem mais move o resultado costuma
 ser o **reajuste tarifário**.
@@ -67,7 +67,7 @@ em vez de um número.
 
 ---
 
-## 20.4. A sensibilidade que o programa faz sozinho
+## A sensibilidade que o programa faz sozinho
 
 Há um caso em que não é preciso rodar três vezes: a **escolha do volume pelos pesos**
 do multicritério.
@@ -85,11 +85,11 @@ Leia assim:
 | abaixo de 40% | a escolha depende dos pesos, e o texto precisa dizer isso |
 
 Um volume que vence em 80% dos sorteios é uma recomendação; um que vence em 30% é uma
-preferência. O capítulo 32 explica o método.
+preferência. A seção {{n:32}} explica o método.
 
 ---
 
-## 20.5. Como apresentar
+## Como apresentar
 
 Três formas, da mais simples à mais completa:
 
@@ -113,7 +113,7 @@ juntas. Exige declarar as distribuições adotadas, e não só as faixas.
 
 ---
 
-## 20.6. O que declarar
+## O que declarar
 
 - as **faixas** adotadas e a origem de cada uma;
 - quantas rodadas foram feitas, e com que valores;

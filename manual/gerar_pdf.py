@@ -44,6 +44,8 @@ REGUA = colors.HexColor("#d7d9dc")
 FUNDO = colors.HexColor("#f2f4f6")
 DESTAQUE = colors.HexColor("#c2521f")     # o laranja das figuras, escurecido para texto
 FUNDO_APROF = colors.HexColor("#fdf4ef")
+#: O realce de frase. Amarelo palido, que imprime bem em preto e branco.
+REALCE = "#fdf0b5"
 
 
 # ── tipografia ───────────────────────────────────────────────────────────────
@@ -164,6 +166,10 @@ E = {
                              fontSize=7.4, leading=9.5, textColor=DESTAQUE,
                              spaceAfter=3),
     "item": estilo("item", alignment=TA_JUSTIFY, spaceAfter=3),
+    "equacao": estilo("equacao", fontName=F["mono"], fontSize=10.0,
+                      leading=15.0, alignment=TA_CENTER, spaceAfter=0),
+    "eq_numero": estilo("eq_numero", fontSize=10.0, leading=15.0,
+                        alignment=TA_RIGHT, spaceAfter=0),
     "legenda": estilo("legenda", fontName=F["texto_i"], fontSize=8.8,
                       leading=11.5, textColor=TINTA2, alignment=TA_CENTER,
                       spaceBefore=4, spaceAfter=12),
@@ -200,6 +206,10 @@ def inline(texto):
 
     t = re.sub(r"`([^`]+)`", guardar, t)
     t = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", t)
+    # ==frase== sai com fundo tingido, para a frase que carrega o ponto do
+    # paragrafo. O reportlab aceita backColor dentro da marcacao de fonte.
+    t = re.sub(r"==([^=]+)==",
+               r'<font backColor="' + REALCE + r'">\1</font>', t)
     t = re.sub(r"(?<![\w*])\*([^*]+)\*(?![\w*])", r"<i>\1</i>", t)
     t = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1", t)      # o PDF não navega
 
@@ -253,11 +263,17 @@ def montar_tabela(linhas):
         # Nenhuma coluna pode ficar mais estreita que a maior palavra que ela
         # contem: abaixo disso o reportlab quebra a palavra no meio, e a
         # tabela sai com "Extravasad o" no cabecalho.
+        # A celula que e so codigo sai em monoespacada, que e mais larga que a
+        # fonte do texto: medir com a fonte errada espreme a coluna e quebra o
+        # simbolo no meio.
+        so_codigo = all(t.strip().startswith("`") for t in textos if t.strip())
+        fonte_col = F["mono"] if so_codigo else F["titulo"]
+        corpo_col = 8.8 if so_codigo else 8.6
         palavra = max((p for t in limpos for p in t.split()),
                       key=lambda p: pdfmetrics.stringWidth(
-                          _sem_unicode(p), F["titulo"], 8.6), default="")
+                          _sem_unicode(p), fonte_col, corpo_col), default="")
         minimos.append(pdfmetrics.stringWidth(
-            _sem_unicode(palavra), F["titulo"], 8.6) + 11.0)
+            _sem_unicode(palavra), fonte_col, corpo_col) + 11.0)
 
     total = float(sum(pesos)) or 1.0
     larguras = [UTIL * p / total for p in pesos]
@@ -339,7 +355,7 @@ class Manual(BaseDocTemplate):
         self.corrente = ""
 
     def afterFlowable(self, flowable):
-        if isinstance(flowable, Paragraph) and flowable.style.name in ("cap", "parte"):
+        if isinstance(flowable, Paragraph) and flowable.style.name in ("cap", "parte"):  # noqa: E501
             self.corrente = re.sub(r"<[^>]+>", "", flowable.getPlainText())
 
 
@@ -384,6 +400,31 @@ def converter(texto):
     while i < len(linhas):
         linha = linhas[i]
         cru = linha.rstrip()
+
+        # equação numerada: o número sai entre parênteses, à direita
+        m_eq = re.match(r"^```equacao:([^:`]+):(\d+)\s*$", cru)
+        if m_eq:
+            fecha_paragrafo(acumulado)
+            i += 1
+            linhas_eq = []
+            while i < len(linhas) and not linhas[i].startswith("```"):
+                linhas_eq.append(linhas[i].rstrip())
+                i += 1
+            i += 1
+            corpo_eq = Paragraph(
+                inline(NL.join(linhas_eq)).replace(NL, "<br/>"), E["equacao"])
+            numero_eq = Paragraph("(" + m_eq.group(2) + ")", E["eq_numero"])
+            tabela_eq = Table([[corpo_eq, numero_eq]],
+                              colWidths=[UTIL - 2.2 * cm, 2.2 * cm])
+            tabela_eq.setStyle(TableStyle([
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+            ]))
+            fluxo += [Spacer(1, 6), tabela_eq, Spacer(1, 6)]
+            continue
 
         # bloco de código
         if cru.startswith("```"):
@@ -476,32 +517,36 @@ def converter(texto):
             continue
 
         # títulos
-        if cru.startswith("# "):
+        # O capítulo abre em folha própria; a seção, em página nova. A folha
+        # de abertura não leva a quebra de baixo: a da seção seguinte é a
+        # mesma, e duas produziriam uma folha em branco no meio.
+        if cru.startswith("# ") and not cru.startswith("## "):
             fecha_paragrafo(acumulado)
             titulo = cru[2:].strip()
-            if titulo.lower().startswith("parte "):
-                # A folha de abertura de parte fica sozinha: a quebra de baixo
-                # e a do capitulo seguinte sao a mesma, e duas produziriam uma
-                # folha em branco no meio.
-                primeira_parte = False
-                fluxo += [PageBreak(), Spacer(1, 3.2 * cm),
-                          Paragraph(inline(titulo), E["parte"])]
+            primeira_parte = False
+            fluxo += [PageBreak(), Spacer(1, 3.2 * cm),
+                      Paragraph(inline(titulo), E["parte"])]
+            i += 1
+            continue
+        if cru.startswith("## ") and not cru.startswith("### "):
+            fecha_paragrafo(acumulado)
+            titulo = cru[3:].strip()
+            if titulo.lower().startswith("sumário"):
+                fluxo += [PageBreak(), Paragraph(inline(titulo), E["h2"])]
             else:
                 if fluxo:
                     fluxo.append(PageBreak())
                 fluxo.append(Paragraph(inline(titulo), E["cap"]))
             i += 1
             continue
-        if cru.startswith("## "):
+        if cru.startswith("### ") and not cru.startswith("#### "):
             fecha_paragrafo(acumulado)
-            if cru[3:].strip().lower().startswith("sumário"):
-                fluxo.append(PageBreak())
-            fluxo.append(Paragraph(inline(cru[3:].strip()), E["h2"]))
+            fluxo.append(Paragraph(inline(cru[4:].strip()), E["h2"]))
             i += 1
             continue
-        if cru.startswith("### "):
+        if cru.startswith("#### "):
             fecha_paragrafo(acumulado)
-            fluxo.append(Paragraph(inline(cru[4:].strip()), E["h3"]))
+            fluxo.append(Paragraph(inline(cru[5:].strip()), E["h3"]))
             i += 1
             continue
 
@@ -520,8 +565,12 @@ def converter(texto):
             i += 1
             continue
 
-        # listas
+        # listas. Um paragrafo aberto tem prioridade: a linha que comeca com
+        # «2.» depois de «conforme a Equacao» e continuacao do paragrafo, e nao
+        # o segundo item de uma lista.
         m = re.match(r"^(\s*)([-*]|\d+\.|[A-J]\.)\s+(.*)$", cru)
+        if m and acumulado and m.group(2) not in ("-", "*"):
+            m = None
         if m:
             fecha_paragrafo(acumulado)
             recuo = len(m.group(1))
@@ -572,9 +621,11 @@ def folha_de_rosto():
         Paragraph("Simulação de sistemas de aproveitamento de água pluvial "
                   "em edificações", E["capa_sub"]),
         Spacer(1, 5.5 * cm),
-        Paragraph("Universidade Federal de Santa Catarina", E["capa_sub"]),
-        Paragraph("Laboratório de Eficiência Energética em Edificações",
+        Paragraph("Igor Catão Martins Vaz &amp; Enedir Ghisi", E["capa_sub"]),
+        Spacer(1, 0.5 * cm),
+        Paragraph("Grupo de Pesquisa Gestão do Espaço Sustentável",
                   E["capa_sub"]),
+        Paragraph("Universidade Federal de Santa Catarina", E["capa_sub"]),
         PageBreak(),
     ]
 
@@ -603,7 +654,8 @@ def main():
                  leftMargin=MARGEM_E, rightMargin=MARGEM_D,
                  topMargin=MARGEM_S, bottomMargin=MARGEM_I,
                  title="Manual do Netuno 5.0.8",
-                 author="UFSC — LabEEE", subject="Aproveitamento de água pluvial")
+                 author="Igor Catão Martins Vaz; Enedir Ghisi",
+                 subject="Aproveitamento de água pluvial em edificações")
     quadro = Frame(MARGEM_E, MARGEM_I, UTIL,
                    ALTURA - MARGEM_S - MARGEM_I, id="corpo",
                    leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)

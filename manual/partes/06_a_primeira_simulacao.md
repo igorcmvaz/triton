@@ -1,4 +1,4 @@
-# 6. A primeira simulação
+# A primeira simulação
 
 > Ao terminar este capítulo você terá o primeiro resultado na tela e saberá **ler**
 > os quatro números que importam. Ler é a parte difícil: o programa entrega muitos
@@ -7,7 +7,7 @@
 Falta um dado para simular: o volume do reservatório. Vamos chutar.
 
 **3.000 litros.** Uma cisterna de concreto de 3 m³ é um tamanho comum de quintal,
-cabe no orçamento e é o que um projetista proporia sem pensar muito. O capítulo 7
+cabe no orçamento e é o que um projetista proporia sem pensar muito. A seção {{n:7}}
 vai perguntar se é o volume certo. Aqui só queremos ver o programa rodar.
 
 Na etapa **4. Reservatório & Custos**, escolha volume fixo, informe 3.000 L, deixe o reservatório
@@ -15,7 +15,7 @@ superior desmarcado, e rode.
 
 ---
 
-## 6.1. O resultado
+## O resultado
 
 <!-- inclui: _tabelas/cap06_primeira_simulacao.md -->
 
@@ -23,7 +23,7 @@ Quatro números merecem atenção, e cada um responde uma pergunta diferente.
 
 ---
 
-## 6.2. O potencial de economia: 34,92%
+## O potencial de economia: 34,92%
 
 **Responde: quanto da conta de água deixo de pagar?**
 
@@ -36,7 +36,7 @@ potencial = água pluvial consumida ÷ demanda total × 100
 ```
 
 Repare no denominador: **demanda total**, e não demanda pluvial. Por isso o teto é
-40%, a fração atendível definida no capítulo 5.
+40%, a fração atendível definida na seção {{n:5}}.
 
 O sistema atingiu 34,92% de um teto de 40%. Dito de outro modo, ele entrega
 **87% do que pretendia entregar**. Os 13% que faltam são os dias em que a cisterna
@@ -48,7 +48,7 @@ não tinha água suficiente.
 
 ---
 
-## 6.3. O extravasamento: 303 L/dia
+## O extravasamento: 303 L/dia
 
 **Responde: o reservatório é grande o bastante?**
 
@@ -56,7 +56,7 @@ Trezentos e três litros por dia, em média, transbordam da cisterna e vão para
 rede de drenagem. É **mais** do que os 240 L/dia que o sistema pretende consumir.
 
 Esse número é o argumento mais forte a favor de aumentar o reservatório, e é
-exatamente o que o capítulo 7 vai fazer. Guarde-o.
+exatamente o que a seção {{n:7}} vai fazer. Guarde-o.
 
 > Um extravasamento alto não é defeito do programa nem do projeto. É a assinatura do
 > descasamento entre a chuva, que chega concentrada em poucos dias, e a demanda, que
@@ -65,7 +65,7 @@ exatamente o que o capítulo 7 vai fazer. Guarde-o.
 
 ---
 
-## 6.4. Os dias de atendimento: 85,7% plenos
+## Os dias de atendimento: 85,7% plenos
 
 **Responde: com que frequência posso contar com o sistema?**
 
@@ -89,15 +89,15 @@ independente.
 > **Potencial e confiabilidade não andam juntos.** É possível ter potencial alto com
 > confiabilidade baixa: um reservatório que se enche na estação chuvosa e seca na
 > estiagem entrega muito volume no ano e falha metade dos dias. A tabela do
-> capítulo 7 mostra as duas colunas divergindo.
+> seção {{n:7}} mostra as duas colunas divergindo.
 
 ---
 
-## 6.5. O volume anual poupado
+## O volume anual poupado
 
 **Responde: quanto vale isso em dinheiro e em carbono?**
 
-É o número que atravessa para os capítulos 10 e 11. A economia da conta de água sai
+É o número que atravessa para as seções {{n:10}} e {{n:11}}. A economia da conta de água sai
 dele, e a emissão evitada também.
 
 Repare que ele é bem menor que os 187 m³/ano disponíveis depois do descarte. A
@@ -105,9 +105,9 @@ diferença toda virou extravasamento.
 
 ---
 
-## 6.6. Por que não chegamos aos 40%
+## Por que não chegamos aos 40%
 
-O capítulo 5 terminou com um confronto: 187 m³ de oferta contra 88 m³ de demanda.
+A seção {{n:5}} terminou com um confronto: 187 m³ de oferta contra 88 m³ de demanda.
 Água sobrando. Ainda assim o sistema entrega 87% do pretendido, e não 100%.
 
 A resposta está no **tempo**. A água não sobra quando é preciso. Ela chega toda de
@@ -118,11 +118,11 @@ Os 3.000 L guardam **12 dias e meio** de demanda pluvial. Toda estiagem mais lon
 que isso esvazia a cisterna, e o sistema passa a depender da rede.
 
 É por isso que aumentar o reservatório funciona — e é por isso que aumentar tem
-limite. O capítulo 7 mede exatamente onde fica esse limite.
+limite. A seção {{n:7}} mede exatamente onde fica esse limite.
 
 ---
 
-## 6.7. O que temos até aqui
+## O que temos até aqui
 
 | Resultado com 3.000 L | |
 | :--- | ---: |

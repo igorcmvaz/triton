@@ -1,4 +1,4 @@
-# 4. O projeto e a chuva
+# O projeto e a chuva
 
 > Ao terminar este capítulo você terá um projeto criado, uma série de precipitação
 > carregada e a captação definida. E saberá por que cada um desses três números
@@ -6,7 +6,7 @@
 
 Os dez capítulos desta parte constroem **um projeto só**, do começo ao fim. A cada
 capítulo o estudo ganha uma camada, e o resultado muda. Guarde o arquivo: ele é o
-mesmo até o capítulo 13.
+mesmo até a seção {{n:13}}.
 
 ## O projeto
 
@@ -16,11 +16,11 @@ Brasil, e o mais estudado.
 
 A escolha de Florianópolis não é sentimental: a série é longa, a estrutura tarifária
 da CASAN é pública e auditável, e o regime de chuva é bem distribuído ao longo do
-ano — o que, como o capítulo 7 vai mostrar, muda tudo na hora de escolher o volume.
+ano — o que, como a seção {{n:7}} vai mostrar, muda tudo na hora de escolher o volume.
 
 ---
 
-## 4.1. A série de precipitação
+## A série de precipitação
 
 Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 
@@ -29,7 +29,7 @@ coluna única. É o caminho de quem tem dados de uma estação específica, do I
 da Agência Nacional de Águas.
 
 **Base nacional.** 652 cidades brasileiras, 19 modelos climáticos do CMIP6 e três
-cenários de emissão. É o caminho deste tutorial, e o guia 15 mostra como usar os
+cenários de emissão. É o caminho deste tutorial, e a seção {{n:15}} mostra como usar os
 cenários futuros.
 
 Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
@@ -46,7 +46,7 @@ oferta de água, e sim a demanda e o tamanho do reservatório.
 
 **Chove em 46% dos dias.** Chuva frequente e bem distribuída favorece
 reservatórios pequenos: a cisterna se enche muitas vezes ao ano em vez de precisar
-atravessar uma estiagem longa. Compare com Brasília, no guia 14, onde a mesma
+atravessar uma estiagem longa. Compare com Brasília, na seção {{n:14}}, onde a mesma
 lâmina anual cai concentrada em seis meses e exige o dobro do volume.
 
 **Sete por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão
@@ -54,12 +54,12 @@ descartados por inteiro, e o item 4.3 explica por quê.
 
 > **Quantos anos de série usar.** Trinta é confortável. Abaixo de dez, o resultado
 > começa a depender do trecho escolhido; abaixo de cinco, o viés do reservatório
-> vazio no início da simulação passa a pesar de forma sensível. O capítulo 33 trata
+> vazio no início da simulação passa a pesar de forma sensível. A seção {{n:33}} trata
 > este engano em detalhe.
 
 ---
 
-## 4.2. A área de captação
+## A área de captação
 
 **150 m²**, e este é o primeiro lugar onde se erra.
 
@@ -78,7 +78,7 @@ projeção horizontal.
 
 ---
 
-## 4.3. O coeficiente de escoamento
+## O coeficiente de escoamento
 
 **0,85**, para telha cerâmica.
 
@@ -99,7 +99,7 @@ Documentação traz a tabela completa por material, inclusive coberturas mistas.
 
 ---
 
-## 4.4. O descarte de primeiras águas
+## O descarte de primeiras águas
 
 **2,0 mm, em todo evento de chuva.**
 
@@ -134,7 +134,7 @@ A razão é física: o dispositivo de autolimpeza precisa encher antes de a águ
 
 ---
 
-## 4.5. O que temos até aqui
+## O que temos até aqui
 
 | Dado | Valor |
 | :--- | ---: |
@@ -143,10 +143,9 @@ A razão é física: o dispositivo de autolimpeza precisa encher antes de a águ
 | coeficiente de escoamento | 0,85 |
 | lâmina de descarte | 2,0 mm, todo evento |
 
-Com isso o programa já sabe **quanta água entra**. Falta dizer quanta sai, que é o
-capítulo 5.
+Com isso o programa já sabe **quanta água entra**. Falta dizer quanta sai, que é a seção {{n:5}}.
 
 Um cálculo de guardanapo, para calibrar a expectativa: 1.795 mm por ano sobre 150 m²
 a 0,85 de coeficiente dão cerca de 229 m³ por ano de água bruta, antes do descarte.
-O capítulo 6 mostra quanto disso vira economia de verdade — e a diferença entre os
+A seção {{n:6}} mostra quanto disso vira economia de verdade — e a diferença entre os
 dois números é a lição mais importante do tutorial.

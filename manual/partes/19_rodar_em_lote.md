@@ -1,4 +1,4 @@
-# 19. Comparar muitos casos de uma vez
+# Comparar muitos casos de uma vez
 
 > **Pergunta que este guia responde:** como comparar dezenas de alternativas sem
 > refazer o projeto inteiro a cada uma?
@@ -8,7 +8,7 @@ comparar muitos casos, e que elas respondem a perguntas diferentes.
 
 ---
 
-## 19.1. As três formas
+## As três formas
 
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
@@ -20,13 +20,13 @@ A primeira é automática, a segunda também, e a terceira exige organização.
 
 ---
 
-## 19.2. A varredura: dezenas de volumes numa passada
+## A varredura: dezenas de volumes numa passada
 
 Na etapa **4. Reservatório & Custos**, escolha o modo **varredura** e informe o volume
 máximo e o passo. O programa simula todos os volumes da grade e desenha a curva.
 
 É o caminho normal, e não uma função avançada: a varredura é quase sempre a resposta
-certa, porque a pergunta «qual volume?» é a pergunta do projeto. O capítulo 7 percorre
+certa, porque a pergunta «qual volume?» é a pergunta do projeto. A seção {{n:7}} percorre
 uma varredura completa, e o 24 explica como a grade é montada.
 
 Uma varredura de 0 a 20.000 L com passo de 1.000 L são vinte e uma simulações de
@@ -34,7 +34,7 @@ trinta anos, e leva poucos segundos.
 
 ---
 
-## 19.3. A tabela multicritério: todos os volumes, todas as dimensões
+## A tabela multicritério: todos os volumes, todas as dimensões
 
 A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da varredura com:
 
@@ -45,11 +45,11 @@ A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da v
 
 É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de
 resposta para cada linha de volume. O **perfil de decisão** troca os pesos das
-dimensões e reordena a tabela na hora. O capítulo 32 explica os métodos por trás.
+dimensões e reordena a tabela na hora. A seção {{n:32}} explica os métodos por trás.
 
 ---
 
-## 19.4. Quando muda outra coisa que não o volume
+## Quando muda outra coisa que não o volume
 
 Cidade, tarifa, demanda, material, tipologia: para variar qualquer uma delas, o
 caminho é **um projeto salvo por caso**.
@@ -63,7 +63,7 @@ O procedimento, que parece burocrático e economiza horas:
 
 Os arquivos de exemplo do manual foram feitos assim: `05_manaus.netuno`,
 `06_brasilia.netuno` e `07_saopaulo.netuno` são o mesmo projeto, com a série de chuva
-trocada. É o que o guia 14 compara.
+trocada. É o que a seção {{n:14}} compara.
 
 > **Mude uma coisa de cada vez.** Se você trocar a cidade e a tarifa juntas, o
 > resultado muda e não há como saber qual das duas o moveu. Parece óbvio, e é o erro
@@ -71,7 +71,7 @@ trocada. É o que o guia 14 compara.
 
 ---
 
-## 19.5. Como organizar os arquivos
+## Como organizar os arquivos
 
 Uma convenção de nomes poupa mais tempo do que parece:
 
@@ -98,7 +98,7 @@ grava as tabelas em `.xlsx`, e é lá que a comparação entre casos é montada.
 
 ---
 
-## 19.6. Quantos casos cabem
+## Quantos casos cabem
 
 Não há limite no programa. Há limite de paciência: cada simulação de trinta anos leva
 frações de segundo, mas montar e conferir cada projeto leva minutos.
@@ -113,4 +113,4 @@ trabalho é um estudo de larga escala, que é outra coisa.
 > por uma interface de automação que acompanha a distribuição de código-fonte do
 > programa, e não pela janela. Se o seu trabalho chegou a essa escala, o caminho é
 > entrar em contato com o grupo: a interface existe, é a mesma usada para verificar o
-> programa, e o capítulo 34 descreve o que ela verifica.
+> programa, e a seção {{n:34}} descreve o que ela verifica.

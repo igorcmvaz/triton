@@ -1,4 +1,4 @@
-# 11. Quanto carbono evita
+# Quanto carbono evita
 
 > Ao terminar este capítulo você terá o balanço de carbono do sistema e uma
 > surpresa: com a cisterna que escolhemos, o projeto **emite mais do que evita** ao
@@ -6,7 +6,7 @@
 
 ---
 
-## 11.1. A conta
+## A conta
 
 Um sistema de aproveitamento pluvial evita carbono porque a água que ele entrega
 deixa de ser captada, tratada e bombeada pela concessionária. Também **emite**
@@ -35,7 +35,7 @@ Isso com um projeto que, financeiramente, é excelente.
 
 ---
 
-## 11.2. Por que a economia de carbono é tão pequena
+## Por que a economia de carbono é tão pequena
 
 Vinte e oito quilos de CO₂e por ano parecem pouco para 82 metros cúbicos de água
 poupada. São mesmo: dá 0,35 kg CO₂e por metro cúbico.
@@ -49,11 +49,11 @@ muito pouco.
 > edificação, e não por metro cúbico produzido na estação. As perdas de distribuição
 > no Brasil vão de 33,9% no Sudeste a 46,9% no Norte: produzir um metro cúbico
 > entrega entre 0,53 e 0,66. Usar o fator de saída de estação subestimaria a
-> emissão evitada em até um terço. O capítulo 30 detalha.
+> emissão evitada em até um terço. A seção {{n:30}} detalha.
 
 ---
 
-## 11.3. O material decide o sinal
+## O material decide o sinal
 
 A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pesar
 110 kg ou 6.000 kg, conforme o material.
@@ -84,7 +84,7 @@ rende cada vez menos água.
 
 ---
 
-## 11.4. Quando o concreto ainda faz sentido
+## Quando o concreto ainda faz sentido
 
 A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
@@ -100,7 +100,7 @@ A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
 ---
 
-## 11.5. A decisão do tutorial
+## A decisão do tutorial
 
 **Trocamos para polietileno.**
 
@@ -129,7 +129,7 @@ A troca melhora as três dimensões ao mesmo tempo, o que é raro:
 
 ---
 
-## 11.6. O que declarar
+## O que declarar
 
 A avaliação de ciclo de vida do Netuno é de **triagem**, não de inventário completo.
 Alguns fatores têm fonte primária declarada; outros carregam rótulo de triagem, que
@@ -140,7 +140,7 @@ o programa exibe. Num estudo publicado:
 - declare quais fatores estão com rótulo de triagem;
 - declare a **base da rede elétrica** e o ano.
 
-O apêndice C traz a procedência de cada fator, e o capítulo 30 explica as sete
+A seção {{n:C}} traz a procedência de cada fator, e a seção {{n:30}} explica as sete
 etapas do inventário.
 
 Temos três respostas agora. O potencial diz um volume, o dinheiro diz outro, o

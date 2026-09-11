@@ -1,4 +1,4 @@
-# 36. Limitações conhecidas
+# Limitações conhecidas
 
 > Onde o programa não serve, e por quê. Um programa que declara seus limites é mais
 > confiável que um que finge servir para tudo.
@@ -9,7 +9,7 @@ não quando deixa de ser mencionada.
 
 ---
 
-## 36.1. Limitações do modelo
+## Limitações do modelo
 
 **Não há sub-passo horário.** Uma chuva de 40 mm concentrada em duas horas e a mesma
 lâmina distribuída em vinte e quatro horas produzem o mesmo resultado. Para
@@ -30,7 +30,7 @@ de autolimpeza exige dimensionamento à parte.
 
 ---
 
-## 36.2. Limitações dos dados tarifários
+## Limitações dos dados tarifários
 
 **A categoria tarifária é residencial, e só ela.** Os 652 municípios da base trazem
 a estrutura residencial. Escola, hospital, comércio e indústria são faturados em
@@ -56,7 +56,7 @@ habitação de interesse social.
 
 ---
 
-## 36.3. Limitações da avaliação de ciclo de vida
+## Limitações da avaliação de ciclo de vida
 
 **É uma avaliação de triagem**, e não um inventário conforme a ISO 14040.
 
@@ -73,7 +73,7 @@ sem fonte primária, e carrega rótulo de triagem.
 
 ---
 
-## 36.4. Limitações da qualidade da água
+## Limitações da qualidade da água
 
 **As classes 2 a 4 são adaptações do programa**, não da NBR 15527. A matriz de
 parâmetros por uso é característica da versão de 2007 da norma e não sobreviveu à
@@ -85,7 +85,7 @@ laboratorial.
 
 ---
 
-## 36.5. Limitações metodológicas declaradas
+## Limitações metodológicas declaradas
 
 **O percentil do R95p é calculado sobre a série inteira**, e não sobre a base fixa
 1961–1990 do ETCCDI. Séries de comprimentos diferentes não são diretamente
@@ -103,13 +103,13 @@ econômico.
 
 ---
 
-## 36.6. Limitações de implementação
+## Limitações de implementação
 
 **Seis campos são gravados no arquivo e nunca lidos.** Entre eles o **mês de
 instalação**, de modo que o fluxo de caixa começa sempre no mês 1.
 
 **A importação de projeto do Netuno 4 não reconhece demanda variável**, e a degrada
-para constante em silêncio. O guia 21 ensina a conferir.
+para constante em silêncio. A seção {{n:21}} ensina a conferir.
 
 **O tempo de partida da motobomba, de 108 s por acionamento**, representa o tempo de
 escorva de uma bomba cuja linha de sucção drenou, e é aplicado a **toda** partida. No
@@ -120,7 +120,7 @@ existe.**
 
 ---
 
-## 36.7. O que fazer com esta lista
+## O que fazer com esta lista
 
 Num estudo publicado, **cite as limitações que afetam o seu caso**. Não todas: as
 que afetam.

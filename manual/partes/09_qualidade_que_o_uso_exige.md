@@ -1,4 +1,4 @@
-# 9. Que qualidade o uso exige
+# Que qualidade o uso exige
 
 > Ao terminar este capítulo o projeto terá uma linha de tratamento definida, e você
 > saberá distinguir o que a norma exige do que o programa recomenda.
@@ -8,7 +8,7 @@ qualidade tem custo.
 
 ---
 
-## 9.1. O que a norma diz, e o que ela não diz
+## O que a norma diz, e o que ela não diz
 
 A ABNT NBR 15527 estabelece parâmetros para o aproveitamento de água de chuva em
 usos não potáveis. Ela fixa limites para turbidez, cor aparente, coliformes
@@ -33,7 +33,7 @@ O Netuno oferece quatro classes:
 
 ---
 
-## 9.2. A classe recomenda, você decide
+## A classe recomenda, você decide
 
 Escolher uma classe **não** impõe equipamento. A classe expressa uma recomendação, e
 a decisão continua sua.
@@ -54,7 +54,7 @@ relatório, em vez de impor o equipamento em silêncio ou de deixar passar sem n
 
 ---
 
-## 9.3. A desinfecção
+## A desinfecção
 
 Três opções, e a diferença entre elas é grande.
 
@@ -83,7 +83,7 @@ ozônio.
 
 ---
 
-## 9.4. O filtro de entrada
+## O filtro de entrada
 
 Antes de qualquer desinfecção vem o filtro mecânico, que retira folhas e sólidos
 grosseiros. O programa o dimensiona pela **área de cobertura**, não pela classe:
@@ -98,7 +98,7 @@ Nossa cobertura de 150 m² fica na primeira faixa.
 
 ---
 
-## 9.5. A regra incremental do custo
+## A regra incremental do custo
 
 O investimento da linha de tratamento **não** é somado por inteiro ao CAPEX.
 
@@ -111,11 +111,11 @@ fluxo de caixa, e a linha de tratamento desconta essa parcela para não cobrar o
 hipoclorito duas vezes.
 
 E na avaliação de ciclo de vida, a linha de tratamento **substitui** o termo de
-cloração em vez de somar a ele. O capítulo 27 detalha a regra.
+cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
 
 ---
 
-## 9.6. A decisão do tutorial
+## A decisão do tutorial
 
 **Classe 1, cloração por pastilhas, sem filtro de polimento.**
 
