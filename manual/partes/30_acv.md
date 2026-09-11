@@ -1,0 +1,144 @@
+# 30. Avaliação de ciclo de vida
+
+> Este capítulo traz as sete etapas do inventário, a fronteira adotada, e declara o
+> que é medido e o que é premissa de triagem.
+
+A avaliação do Netuno é de **triagem**. Ela ordena alternativas e identifica o que
+domina o resultado; não substitui um inventário completo conforme a ISO 14040.
+
+---
+
+## 30.1. As sete etapas
+
+| # | Etapa | Natureza |
+| :-- | :--- | :--- |
+| 1 | cisterna inferior | incorporado |
+| 2 | reservatório superior | incorporado |
+| 3 | tubulação | incorporado |
+| 4 | motobomba | incorporado |
+| 5 | operação: bombeamento | operacional |
+| 6 | operação: tratamento | operacional |
+| 7 | **água potável evitada** | crédito |
+
+Volume zero **sem** volume pluvial é o cenário sem sistema, e não recebe impacto
+fixo de caixa, tubo ou bomba.
+
+---
+
+## 30.2. O carbono incorporado
+
+```
+emissão_do_componente = massa × fator do material
+```
+
+A massa da cisterna vem do volume e da densidade de massa por metro cúbico útil de
+cada material:
+
+| Material | Massa por m³ útil | O que isso significa em 5 m³ |
+| :--- | ---: | ---: |
+| polietileno | 22 kg/m³ | 110 kg |
+| fibra de vidro | 15 kg/m³ | 75 kg |
+| aço inoxidável | 38 kg/m³ | 190 kg |
+| concreto armado | 1.200 kg/m³ | 6.000 kg |
+
+> **Massa é carbono.** Concreto armado é o material mais massivo da lista por
+> larga margem, e é por isso que ele domina o inventário quando escolhido. O
+> capítulo 11 do tutorial mostra a consequência: com concreto, o sistema do tutorial
+> não paga a dívida de carbono dentro da vida útil.
+
+---
+
+## 30.3. A operação
+
+**Bombeamento:**
+
+```
+emissão_anual = kWh anuais × fator da rede elétrica
+```
+
+Os kWh vêm do capítulo 28 e o fator da rede vem da base do programa, por região e
+por ano.
+
+**Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
+ele. É a mesma regra do capítulo 27, e existe para o hipoclorito não ser contado duas
+vezes.
+
+---
+
+## 30.4. A fronteira: água entregue, não produzida
+
+O fator de emissão da água potável é por metro cúbico **entregue na edificação**, e
+não por metro cúbico produzido na estação de tratamento.
+
+A diferença são as perdas de distribuição, que no Brasil vão de **33,9% no Sudeste a
+46,9% no Norte**. Produzir um metro cúbico entrega entre 0,53 e 0,66.
+
+Um fator publicado de saída de estação, aplicado ao volume entregue, **subestima a
+emissão evitada em até um terço**. O programa faz a conversão e declara a
+macrorregião adotada.
+
+O apêndice C traz as 19 rotas de produção de água disponíveis, com procedência e
+fronteira de cada uma.
+
+---
+
+## 30.5. Os indicadores
+
+**Saldo líquido anual:**
+
+```
+líquido = evitada − bombeamento − tratamento
+```
+
+**Payback de carbono:**
+
+```
+payback = carbono incorporado ÷ saldo líquido anual        [anos]
+```
+
+Sem saldo líquido positivo, o programa devolve 999 anos, em vez de infinito.
+
+**Saldo no fim da vida:**
+
+```
+saldo = líquido anual × vida útil − carbono incorporado
+```
+
+Negativo significa que o sistema **emitiu mais do que evitou** ao longo da vida
+adotada. Não é hipótese teórica: acontece com cisterna de concreto e vida útil de
+vinte anos, como o capítulo 11 demonstra.
+
+**Emissão específica evitada:**
+
+```
+específica = saldo no fim da vida ÷ volume total entregue na vida   [g CO₂e/L]
+```
+
+---
+
+## 30.6. O que carrega rótulo de triagem
+
+Nem todo fator do inventário tem fonte primária. O programa marca os que não têm, e
+o relatório exibe a marca.
+
+O caso mais relevante é a **emissão de fabricação da motobomba**, em que quatro dos
+seis valores são extrapolação aritmética a partir do valor de meio CV. Está
+registrado como pendência aberta.
+
+> **Num estudo publicado, declare quais fatores estão com rótulo de triagem.** Um
+> inventário que apresenta todos os fatores com o mesmo grau de confiança esconde
+> onde está a fragilidade.
+
+---
+
+## 30.7. O que a avaliação não cobre
+
+- **fim de vida.** Não há crédito por reciclagem nem ônus por disposição. A fronteira
+  é do berço ao portão mais a operação.
+- **escavação e obra civil.** O movimento de terra da cisterna enterrada não entra.
+- **manutenção.** Trocas de componente ao longo da vida útil não entram.
+- **impactos além do carbono.** Não há eutrofização, acidificação, uso do solo nem
+  toxicidade. É uma avaliação de **uma** categoria de impacto.
+
+O último ponto é o mais importante. Um sistema com bom desempenho de carbono pode ter
+desempenho ruim em outra categoria, e esta avaliação não o veria.

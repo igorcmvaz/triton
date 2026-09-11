@@ -546,6 +546,50 @@ def tabela_multicriterio():
     return NL.join(linhas)
 
 
+CIDADES_GUIA14 = ("Florianopolis1", "SaoPaulo1", "Brasilia1", "Manaus1")
+NOMES_CIDADES = {
+    "Florianopolis1": "Florianópolis", "SaoPaulo1": "São Paulo",
+    "Brasilia1": "Brasília", "Manaus1": "Manaus",
+}
+
+
+def tabela_cidades():
+    """Guia 14: o regime de chuva manda mais que a lâmina anual."""
+    from datetime import datetime, timedelta
+
+    import numpy as np
+
+    from netuno.core.parser import load_precipitation
+    from netuno.core.simulation import run_sweep_simulation
+
+    cfg = _config_tutorial()
+    L = ["| Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos "
+         "chuvoso | Potencial com 5.000 L | Volume ideal |",
+         "| :--- | ---: | ---: | ---: | ---: | ---: |"]
+    for chave in CIDADES_GUIA14:
+        caminho = os.path.join(os.path.dirname(AQUI), "data", "rainfall", chave + ".csv")
+        if not os.path.exists(caminho):
+            continue
+        serie = load_precipitation(caminho)[: ANOS_TUTORIAL * 365]
+        anos = len(serie) / 365.25
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **cfg)
+        sw = run_sweep_simulation(
+            precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
+            delta_ideal_threshold=1.0, **cfg)
+        d0 = datetime(1980, 1, 1)
+        meses = np.zeros(12)
+        for i, v in enumerate(serie):
+            meses[(d0 + timedelta(days=int(i))).month - 1] += float(v)
+        meses /= ANOS_TUTORIAL
+        razao = meses.max() / max(meses.min(), 0.1)
+        L.append(
+            f"| {NOMES_CIDADES.get(chave, chave)} | {br(serie.sum() / anos, 0)} mm "
+            f"| {br((serie > 0.1).mean() * 100, 0)}% | {br(razao, 1)}× "
+            f"| {br(r.potential_potable_savings_pct, 2)}% "
+            f"| {br(sw.optimal_lower_tank_vol, 0)} L |")
+    return NL.join(L)
+
+
 def main():
     tabela, r = tabela_dez_dias()
 
@@ -594,6 +638,7 @@ def main():
         ("cap10_economico.md", tabela_economica),
         ("cap11_materiais.md", tabela_materiais),
         ("cap12_multicriterio.md", tabela_multicriterio),
+        ("cap14_cidades.md", tabela_cidades),
     ):
         caminho = os.path.join(SAIDA, nome)
         with open(caminho, "w", encoding="utf-8") as f:
