@@ -1,4 +1,4 @@
-# TECHNICAL AND COMPUTATIONAL VERIFICATION REPORT — NETUNO 5.0.7
+# TECHNICAL AND COMPUTATIONAL VERIFICATION REPORT — NETUNO 5
 
 **Sustainable Space Management Research Group**  
 *Faithful Replication and Engineering Validation of Netuno*  
@@ -8,7 +8,7 @@
 
 ## 1. EXECUTIVE SUMMARY
 
-This report describes automated **internal verification** evidence for Netuno 5.0.7. It is not external validation: the tests exercise the software's own equations and regressions but do not replace independent comparison with measurements, certification, detailed design, or professional review of local assumptions.
+This report describes automated **internal verification** evidence for Netuno 5. It is not external validation: the tests exercise the software's own equations and regressions but do not replace independent comparison with measurements, certification, detailed design, or professional review of local assumptions.
 
 | Evidence | Automated case | Acceptance criterion | Scope |
 | :--- | :--- | :--- | :--- |
@@ -25,10 +25,10 @@ This report describes automated **internal verification** evidence for Netuno 5.
 The invariant test uses a reproducible 100-day synthetic series and checks non-negativity, reservoir bounds and equality between inputs and outputs on every day. The three-model study adds long working rainfall series and one audited day per climate. The legacy-spreadsheet regression runs only when its external dataset is present; it samples up to 20 rows and uses the criterion declared by the test itself.
 
 ### Key Mass Conservation Equations:
-1. **Effective rainfall and daily capturable volume** (Netuno 4-compatible threshold rule):
-   $$P_{\text{eff},t}=0\;\text{when the rule applies and}\;P_t<d_f;\quad P_{\text{eff},t}=P_t\;\text{otherwise}$$
+1. **Effective rainfall and daily capturable volume** (the first-flush depth is subtracted):
+   $$P_{\text{eff},t}=\max(0,\,P_t-d_f)\;\text{when the rule applies};\quad P_{\text{eff},t}=P_t\;\text{otherwise}$$
    $$V_{\text{harvested},t}=P_{\text{eff},t}\,C_{\text{runoff}}\,A_{\text{catchment}}$$
-   The engine does not subtract $d_f$ from rainfall that reaches the threshold.
+   The engine subtracts $d_f$ from the rainfall of each day on which the rule applies, so a day with rainfall at or below $d_f$ yields no capture. This differs deliberately from Netuno 4, which treated $d_f$ as an event threshold.
 2. **YAS lower-reservoir balance**:
    $$I_t=\min(V_{\text{inf,max}},S_{t-1}+V_{\text{harvested},t});\quad O_t=\max(0,S_{t-1}+V_{\text{harvested},t}-V_{\text{inf,max}})$$
    $$Y_t=\min(D_{\text{rainwater},t},I_t);\quad S_t=I_t-Y_t$$

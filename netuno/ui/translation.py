@@ -614,7 +614,7 @@ _DICTIONARY = {
     "Relatório HTML salvo em:": "HTML Report saved to:",
     "Relatório PDF salvo em:": "PDF Report saved to:",
     "Relatório de Verificação Técnica e Computacional...": "Technical and Computational Verification Report...",
-    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.7": "Technical and Computational Verification Report — Netuno 5.0.7",
+    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.0": "Technical and Computational Verification Report — Netuno 5.0.0",
     "Evidências de Verificação e Rastreabilidade": "Verification Evidence and Traceability",
     "Status:": "Status:",
     "Relatório de validação gerado e certificado com sucesso.": "Validation report generated and certified successfully.",
@@ -785,7 +785,7 @@ _DICTIONARY = {
     "dias": "days",
     "dias/ano": "days/year",
     "em uso no sistema": "in use",
-    "ex: 0,85": "e.g., 0.85",
+    "ex: 0,75": "e.g., 0.75",
     "fixo": "fixed",
     "hab": "res",
     "kWh/ano": "kWh/year",
@@ -996,15 +996,15 @@ _DICTIONARY = {
     "🏆 Conclusão da Otimização de Trade-Off": "🏆 Trade-Off Optimization Conclusion",
     "Maior Retorno Financeiro (Maior VPL Líquido): --": "Highest Financial Return (Highest Net NPV): --",
     "Comparação de Trade-off: --": "Trade-off Comparison: --",
-    "Netuno 5.0.7 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.7 — Rainwater Harvesting Design & Simulation",
-    "Manual do Usuário — Netuno 5.0.7": "User Manual — Netuno 5.0.7",
-    "Sobre o Netuno 5.0.7": "About Netuno 5.0.7",
+    "Netuno 5.0.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.0 — Rainwater Harvesting Design & Simulation",
+    "Manual do Usuário — Netuno 5.0.0": "User Manual — Netuno 5.0.0",
+    "Sobre o Netuno 5.0.0": "About Netuno 5.0.0",
     "Versão": "Version",
     "Autores": "Authors",
-    "Grupo de Pesquisa Gestão do Espaço Sustentável": "Sustainable Built Environment Research Group",
+    "Grupo de Pesquisa Gestão do Espaço Sustentável": "Sustainable Space Management Research Group",
     "Programa computacional para simulação de aproveitamento de água de chuva": "Computer program for rainwater harvesting simulation",
     "Plataforma para Aproveitamento de Água de Chuva em Edificações.": "Platform for Rainwater Harvesting in Buildings.",
-    "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Developed by the Sustainable Built Environment Research Group (UFSC).",
+    "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Developed by the Sustainable Space Management Research Group (UFSC).",
     "Versão com descarte inicial por período, exportação em Kebab-Case e laudo gerencial oficial.": "Release with periodic first-flush disposal, timestamped Kebab-Case exports, and an official management report.",
     "Documento gerado automaticamente": "Automatically generated document",
     "Motor de Simulação": "Simulation Engine",
@@ -1403,7 +1403,7 @@ _EXTRA_SPANISH = {
     "Execute a simulação na Etapa 3": "Ejecute la simulación en la etapa 3", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "Ejecute la simulación en la etapa 3 para ver la curva de VAN por volumen",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "Ejecute la simulación en la etapa 3 para ver el balance ambiental", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "Ejecute la simulación en la etapa 3 para ver la comparación de CO2",
     "Execute a varredura para gerar o grafico": "Ejecute el barrido para generar el gráfico", "Execute o recálculo para gerar a otimização TOPSIS": "Vuelva a calcular para generar la optimización TOPSIS",
-    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC",
+    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC", "Grupo de Pesquisa Gestão do Espaço Sustentável": "Grupo de Investigación Gestión del Espacio Sostenible", "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Desarrollado en el Grupo de Investigación Gestión del Espacio Sostenible (UFSC).",
     "Imagem PNG": "Imagen PNG", "Impactos (+kg)": "Impactos (+kg)", "Indicador Hídrico": "Indicador hídrico", "Investimento CAPEX": "Inversión CAPEX",
     "Limiar Acionamento (Recalque)": "Umbral de activación (bombeo)", "Limiar Recalque": "Umbral de bombeo", "Limiar Threshold": "Umbral", "Limiar de acionamento": "Umbral de activación",
     "Materiais": "Materiales", "Materiais & Equipamentos (+kg)": "Materiales y equipos (+kg)", "Novo Cenário": "Nuevo escenario", "Não aplicável": "No aplicable", "Não utilizado": "No utilizado",
@@ -1483,7 +1483,7 @@ _EXTRA_CHINESE = {
     "Execute a simulação na Etapa 3": "请在第 3 步运行模拟", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "请在第 3 步运行模拟以查看净现值-容积曲线",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "请在第 3 步运行模拟以查看环境平衡", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "请在第 3 步运行模拟以查看 CO2 对比",
     "Execute a varredura para gerar o grafico": "请运行扫描以生成图表", "Execute o recálculo para gerar a otimização TOPSIS": "请重新计算以生成 TOPSIS 优化结果",
-    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "可持续空间管理研究组 | UFSC",
+    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "可持续空间管理研究组 | UFSC", "Grupo de Pesquisa Gestão do Espaço Sustentável": "可持续空间管理研究组", "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "由可持续空间管理研究组（UFSC）开发。",
     "Imagem PNG": "PNG 图片", "Impactos (+kg)": "影响（+kg）", "Indicador Hídrico": "水资源指标", "Investimento CAPEX": "CAPEX 投资",
     "Limiar Acionamento (Recalque)": "启动阈值（泵送）", "Limiar Recalque": "泵送阈值", "Limiar Threshold": "阈值", "Limiar de acionamento": "启动阈值",
     "Materiais": "材料", "Materiais & Equipamentos (+kg)": "材料和设备（+kg）", "Novo Cenário": "新情景", "Não aplicável": "不适用", "Não utilizado": "未使用",
@@ -1640,7 +1640,7 @@ _CHINESE_DICTIONARY.update({
     "Relatórios e Exportação em PDF / HTML": "报告与 PDF / HTML 导出", "Idioma do Relatório:": "报告语言：", "Modelo do Relatório:": "报告模板：", "Pré-visualização do Relatório (Resumo Estruturado)": "报告预览（结构化摘要）",
 })
 
-# Netuno 5.0.7: scientifically explicit screening assumptions and TOPSIS gaps.
+# Netuno 5.0.0: scientifically explicit screening assumptions and TOPSIS gaps.
 _DICTIONARY.update({
     "Conservador — 5,0 %/m3": "Conservative — 5.0 %/m3",
     "Equilibrado — 2,5 %/m3": "Balanced — 2.5 %/m3",
@@ -2099,3 +2099,32 @@ _CHINESE_DICTIONARY.update({
     "Varredura Completa Concluída": "完整扫描已完成",
 })
 
+
+# Unidades: fração atendível e taxas financeiras (2026-09-15).
+_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': 'As a percentage, from 0 to 100: 40 means 40%.',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': 'As a percentage, from 0 to 100: 40 means 40%. Separate multiple values with commas.',
+    'Simular mesmo assim?': 'Simulate anyway?',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': 'Inflation as a percentage (%). The button beside it sets the unit: % per month (p.m.) or % per year (p.a.); when switched, the value is converted by compound interest, (1 + i)^12 − 1, not multiplied by 12. It applies only to additional O&M costs; it does not adjust water, sewage or electricity.',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': 'Minimum attractive rate of return, as a percentage (%). The button beside it sets the unit: % per month (p.m.) or % per year (p.a.); when switched, the value is converted by compound interest: 1% p.m. equals 12.68% p.a. The project stores the rate in % per month.',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Water and sewage tariff adjustment, as a percentage (%) per adjustment period. The period length, in months, is in the «Tariff adjustment period» field: with 12 months, the value is % per year.',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Electricity tariff adjustment, as a percentage (%) per adjustment period. The period length, in months, is in the «Tariff adjustment period» field: with 12 months, the value is % per year.',
+})
+_SPANISH_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': 'En porcentaje, de 0 a 100: 40 significa 40%.',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': 'En porcentaje, de 0 a 100: 40 significa 40%. Separe varios valores con comas.',
+    'Simular mesmo assim?': '¿Simular de todos modos?',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': 'Inflación en porcentaje (%). El botón de al lado define la unidad: % al mes o % al año; al cambiar, el valor se convierte por interés compuesto, (1 + i)^12 − 1, y no se multiplica por 12. Se aplica solo a los costos adicionales de O&M; no reajusta agua, alcantarillado ni energía.',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': 'Tasa mínima de atractividad, en porcentaje (%). El botón de al lado define la unidad: % al mes o % al año; al cambiar, el valor se convierte por interés compuesto: 1% al mes equivale a 12,68% al año. El proyecto guarda la tasa en % al mes.',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Reajuste de las tarifas de agua y alcantarillado, en porcentaje (%) por período de reajuste. La duración del período, en meses, está en el campo «Período de reajuste de tarifas»: con 12 meses, el valor es % al año.',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Reajuste de la tarifa de energía, en porcentaje (%) por período de reajuste. La duración del período, en meses, está en el campo «Período de reajuste de tarifas»: con 12 meses, el valor es % al año.',
+})
+_CHINESE_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': '以百分比表示，0 至 100：40 表示 40%。',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': '以百分比表示，0 至 100：40 表示 40%。多个数值请用逗号分隔。',
+    'Simular mesmo assim?': '仍要模拟吗？',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': '通货膨胀率，以百分比（%）表示。旁边的按钮设置单位：每月 % 或每年 %；切换时按复利换算，(1 + i)^12 − 1，而不是乘以 12。仅适用于额外的运维成本；不调整水费、污水费或电费。',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': '最低期望收益率，以百分比（%）表示。旁边的按钮设置单位：每月 % 或每年 %；切换时按复利换算：每月 1% 相当于每年 12.68%。项目以每月 % 保存该利率。',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '水费和污水费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '电费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
+})

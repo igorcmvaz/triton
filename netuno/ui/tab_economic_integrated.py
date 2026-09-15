@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal, QLocale
 from PySide6.QtGui import QFont, QColor
 
+from netuno.core.taxas import mensal_pct_para_anual_fracao, mensal_pct_para_anual_pct
 from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
 from netuno.core.economic import (
     run_robust_economic_analysis, EconomicAnalysisResult, calculate_effective_tariff,
@@ -22,6 +23,7 @@ from netuno.core.tariff_category import incompatibilidade_de_categoria
 from netuno.core.etap_integration import (
     capex_incremental_da_etap,
     opex_anual_incremental_da_etap,
+    dimensionar_etap_do_projeto,
 )
 from netuno.core.cost_estimates import (
     estimate_preliminary_capex, default_maintenance_items,
@@ -425,7 +427,7 @@ class TabEconomicIntegrated(QWidget):
                 if sw_tech:
                     opt_tech_vol = getattr(sw_tech, "optimal_lower_tank_vol", None)
             cfg = getattr(main_win, "config", None) if main_win else None
-            tma_r = cfg.tma if cfg else 8.0
+            tma_r = mensal_pct_para_anual_pct(cfg.tma) if cfg else 8.0
             self.chart_vpl_volume.update_chart(
                 self.last_sweep_econ_results,
                 metric=metric,
@@ -452,8 +454,11 @@ class TabEconomicIntegrated(QWidget):
         if main_win and hasattr(main_win, "tab_tanks_simulation"):
             ts = main_win.tab_tanks_simulation
             try:
-                cfg.tma       = ts.get_tma_annual_pct()
-                cfg.inflation = ts.get_inflation_annual_pct()
+                # O projeto grava a TMA e a inflação em % ao mês. Gravar aqui a
+                # taxa anual fazia o arquivo salvo guardar um valor anual sob a
+                # chave «tma_monthly_pct».
+                cfg.tma       = ts.get_tma_monthly_pct()
+                cfg.inflation = ts.get_inflation_monthly_pct()
                 cfg.analysis_period_years = int(parse_float(ts.txt_period.text(), 20.0))
                 cfg.tariff_escalation         = parse_float(ts.txt_readj_period.text(), 12.0)
                 cfg.water_tariff_escalation   = parse_float(ts.txt_readj_water.text(), 5.0)
@@ -767,8 +772,8 @@ class TabEconomicIntegrated(QWidget):
         water_t, sewage_t = calculate_effective_tariff(
             cfg, annual_saved_m3, annual_total_demand_m3=annual_total_demand_m3
         )
-        tma_annual = cfg.tma / 100.0 if cfg.tma > 1.0 else cfg.tma
-        inf_annual = cfg.inflation / 100.0 if cfg.inflation > 1.0 else cfg.inflation
+        tma_annual = mensal_pct_para_anual_fracao(cfg.tma)
+        inf_annual = mensal_pct_para_anual_fracao(cfg.inflation)
 
         n_readj_per_year = 12.0 / max(1.0, cfg.tariff_escalation)
         w_esc_annual = (1.0 + cfg.water_tariff_escalation / 100.0) ** n_readj_per_year - 1.0
@@ -1078,7 +1083,7 @@ class TabEconomicIntegrated(QWidget):
                     metric=cur_metric or "payback_discounted",
                     currency_symbol=curr_sym,
                     optimal_tech_vol=opt_tech_v,
-                    tma_rate=cfg.tma
+                    tma_rate=mensal_pct_para_anual_pct(cfg.tma)
                 )
 
                 if best_opt_idx >= 0:
@@ -1178,6 +1183,21 @@ class TabEconomicIntegrated(QWidget):
                 (tr("Motobomba de Recalque"), f"{pump_cv:.2f} CV ({cfg.pump_count}x)", f"{cfg.pump_flow_rate:,.0f} L/h" if upper_used else "-", cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0, ann_pump_cost),
                 (tr("Cloração / Desinfecção"), f"Cloro Ativo ({cfg.chlorine_dose_mg_l:.1f} mg/L)" if cfg.chlorine_treatment_enabled else tr("Inativo"), f"{ann_cl2_kg:.2f} kg/ano", 0.0, ann_cl2_cost),
             ]
+
+            if getattr(cfg, 'etap_enabled', True):
+                etap_p = dimensionar_etap_do_projeto(cfg)
+                etap_c_inc = capex_incremental_da_etap(cfg)
+                etap_o_inc = opex_anual_incremental_da_etap(cfg)
+                ff_info = ""
+                if etap_p.resultado.first_flush and etap_p.resultado.first_flush.diverter_volume_liters > 0:
+                    ff_info = f" + Descarte {etap_p.resultado.first_flush.diverter_volume_liters:.0f} L"
+                fixed_rows.append((
+                    tr("Linha de Tratamento (ETAP) & Descarte"),
+                    f"{tr(etap_p.resultado.target_quality_class)}{ff_info}",
+                    f"{etap_p.resultado.disinfection_method.upper()}",
+                    etap_c_inc,
+                    etap_o_inc,
+                ))
 
             # As 3 manutenções de referência (ou todas as configuradas pelo usuário)
             maint_rows = []

@@ -768,6 +768,52 @@ REFERENCIAS: Dict[str, Referencia] = dict(
             ),
         ),
         _r(
+            chave="grundfos_epd_2025",
+            autores="GRUNDFOS HOLDING A/S",
+            ano=2025,
+            titulo="Environmental Product Declaration: ALPHA1 25,32-40 130,180; ALPHA1 GO 15,20,25,32-40 130,180",
+            veiculo="Institut Bauen und Umwelt e.V. (IBU), Berlim",
+            tipo="relatorio",
+            detalhe="EPD-GRU-20250340-CBA1-EN, emitida em 09/07/2025, válida até 08/07/2030; EN 15804+A2",
+            url="https://ibudata.lca-data.com/resource/processes/c97a8776-b554-4aab-8e96-f875382ece1c/epd?version=00.02.000",
+            acessado_em=date(2026, 9, 15),
+            recuperado_por="editor",
+            nota_pt=(
+                "Fonte da intensidade de carbono das motobombas. Módulos A1-A3: GWP-total de "
+                "**10,4 kg CO₂e** por unidade, massa de referência de 2,179 kg com embalagem, ou "
+                "4,77 kg CO₂e por kg. É circulador europeu com eletrônica embarcada: serve como "
+                "aproximação por quilo para bomba elétrica pequena, e não como inventário de "
+                "centrífuga brasileira."
+            ),
+            nota_en=(
+                "Source of the carbon intensity of pumps. Modules A1-A3: GWP-total of **10.4 kg "
+                "CO₂e** per unit, reference mass 2.179 kg including packaging, or 4.77 kg CO₂e per "
+                "kg. It is a European circulator with on-board electronics: a per-kilogram "
+                "approximation for small electric pumps, not an inventory of a Brazilian "
+                "centrifugal pump."
+            ),
+        ),
+        _r(
+            chave="dancor_catalogo_60hz",
+            autores="DANCOR S.A. INDÚSTRIA MECÂNICA",
+            ano=2021,
+            titulo="Catálogo geral 60 Hz: Série CAM W-4C e CAM W-10, centrífugas de aplicação múltipla",
+            veiculo="Dancor, Rio de Janeiro",
+            tipo="relatorio",
+            detalhe="tabelas de dados dimensionais, coluna «Peso (kg)»",
+            url="https://www.dancor.com.br/wp-content/uploads/2021/11/cam-w10-pbe_cat-1.pdf",
+            acessado_em=date(2026, 9, 15),
+            recuperado_por="editor",
+            nota_pt=(
+                "Fonte das massas das motobombas monofásicas: 6,1 kg (1/4 CV), 6,4 kg (1/2 CV), "
+                "13,5 kg (3/4 CV), 15,3 kg (1 CV), 17,5 kg (1 1/2 CV) e 20,7 kg (2 CV)."
+            ),
+            nota_en=(
+                "Source of the single-phase pump masses: 6.1 kg (1/4 hp), 6.4 kg (1/2 hp), "
+                "13.5 kg (3/4 hp), 15.3 kg (1 hp), 17.5 kg (1 1/2 hp) and 20.7 kg (2 hp)."
+            ),
+        ),
+        _r(
             chave="mcti_sirene_fe",
             autores="BRASIL. Ministério da Ciência, Tecnologia e Inovação (MCTI). SIRENE",
             ano=2026,
@@ -1091,6 +1137,8 @@ REFERENCIAS_POR_SECAO: Dict[str, Tuple[str, ...]] = {
         "sidac_concreto",
         "composites_uk_2026",
         "worldstainless_2024",
+        "grundfos_epd_2025",
+        "dancor_catalogo_60hz",
         "snis_2023",
         "alsabri_2020",
         "du_2013",

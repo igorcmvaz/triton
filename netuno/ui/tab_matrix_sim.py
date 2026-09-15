@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QThread, Signal
 
 from netuno.core.scenarios import run_multi_scenario_matrix
+from netuno.core.fracao_atendivel import percentual_para_fracao
 
 
 class MatrixWorkerThread(QThread):
@@ -86,7 +87,7 @@ class TabMatrixSimulation(QWidget):
         self.input_residents = QLineEdit("1, 2, 4")
         grid.addWidget(self.input_residents, 2, 1)
 
-        grid.addWidget(QLabel("% Pluvial [sep vírgula]:"), 3, 0)
+        grid.addWidget(QLabel("% Pluvial, 40 = 40% [sep vírgula]:"), 3, 0)
         self.input_shares = QLineEdit("50, 60, 70")
         grid.addWidget(self.input_shares, 3, 1)
 
@@ -200,7 +201,12 @@ class TabMatrixSimulation(QWidget):
         areas = self.parse_list_float(self.input_areas.text(), [100.0])
         demands = self.parse_list_float(self.input_demands.text(), [100.0])
         residents = self.parse_list_int(self.input_residents.text(), [1])
-        shares = self.parse_list_float(self.input_shares.text(), [50.0])
+        try:
+            shares = [percentual_para_fracao("% Pluvial", s)
+                      for s in self.parse_list_float(self.input_shares.text(), [50.0])]
+        except ValueError as erro:
+            QMessageBox.warning(self, "Aviso", str(erro))
+            return
         runoffs = self.parse_list_float(self.input_runoffs.text(), [0.9])
         discard = self.spin_discard.value()
         max_vol = self.spin_max_vol.value()

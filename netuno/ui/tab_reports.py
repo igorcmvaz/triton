@@ -548,7 +548,9 @@ class TabReportsExport(QWidget):
                             payback_d = payback_s
 
 
-        share_pct = share * 100 if share <= 1.0 else share
+        # `share` vem da configuração do projeto, em fração.
+        from netuno.core.fracao_atendivel import fracao_para_percentual
+        share_pct = fracao_para_percentual("A fração atendível", share)
         pluvial_demand = demand * residents * share_pct / 100.0
         cfg = getattr(mw, 'config', None) if mw else None
         upper_used = bool(getattr(cfg, 'upper_tank_used', 0))

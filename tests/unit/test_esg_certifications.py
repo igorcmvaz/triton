@@ -20,7 +20,9 @@ def test_calculate_esg_certifications():
     assert isinstance(res, EsgConsolidatedReport)
     assert isinstance(res.leed, LeedWaterCredits)
     assert res.leed.indoor_water_points >= 3
-    assert res.leed.total_leed_we_points >= 5
+    # Sem a economia externa calculada, WEc1 não é estimado: só WEc2 pontua.
+    assert res.leed.outdoor_water_points == 0
+    assert res.leed.total_leed_we_points == res.leed.indoor_water_points
     assert isinstance(res.aqua, AquaHqeRating)
     assert res.aqua.stars >= 2
     assert isinstance(res.casa_azul, CasaAzulRating)
@@ -38,10 +40,12 @@ def test_esg_simplified_mode():
         project_lifetime_years=20,
         is_simplified_mode=True
     )
-    assert res.indoor_savings_pct > 0.0
-    assert res.outdoor_savings_pct > 0.0
+    # O modo simplificado deixou de inventar a partição 85/15 e os 35%.
+    assert res.indoor_savings_pct == pytest.approx(40.0)
+    assert res.outdoor_savings_pct == 0.0
     assert res.leed.indoor_water_points >= 2
-    assert res.leed.outdoor_water_points >= 1
+    assert res.leed.outdoor_water_points == 0
+    assert res.credit_details[0].status.startswith("Não avaliado")
     # Conta pelo conteúdo, não pelo tamanho: a matriz cresce quando entra uma
     # certificação nova, e contar linhas quebra o teste sem indicar defeito.
     codigos = {d.credit_code for d in res.credit_details}
@@ -151,3 +155,38 @@ def test_environmental_tab_opens_with_environmental_optimum(qapp):
     assert cur_selected != 2000.0
 
 
+def test_certificacoes_usam_so_a_economia_total():
+    """AQUA-HQE e Casa Azul não sobem de nível por atalho do uso interno."""
+    res = calculate_esg_certifications(
+        potable_savings_pct=12.0,
+        annual_pluvial_consumed_m3=60.0,
+        annual_potable_consumed_m3=440.0,
+        net_co2e_saved_kg_lifetime=500.0,
+        indoor_savings_pct=36.0,
+        outdoor_savings_pct=60.0,
+    )
+    assert res.aqua.performance_level == "Base"
+    assert res.casa_azul.category == "Prata"
+
+
+@pytest.mark.parametrize("externa, pontos", [(49.9, 0), (50.0, 1), (96.0, 1), (100.0, 2)])
+def test_wec1_segue_os_limiares_do_leed(externa, pontos):
+    res = calculate_esg_certifications(
+        potable_savings_pct=30.0,
+        annual_pluvial_consumed_m3=100.0,
+        annual_potable_consumed_m3=233.0,
+        net_co2e_saved_kg_lifetime=500.0,
+        has_irrigation_demand=True,
+        outdoor_demand_m3=20.0,
+        indoor_savings_pct=30.0,
+        outdoor_savings_pct=externa,
+    )
+    assert res.leed.outdoor_water_points == pontos
+
+
+def test_irrigacao_atendida_sai_do_resultado_do_balanco():
+    from types import SimpleNamespace
+    from netuno.core.esg_certifications import irrigacao_atendida_m3
+    assert irrigacao_atendida_m3(None) is None
+    r = SimpleNamespace(avg_pluvial_irrigation_consumed_l_day=100.0)
+    assert irrigacao_atendida_m3(r) == pytest.approx(36.525)

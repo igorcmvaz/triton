@@ -8,6 +8,8 @@ Os campos de instituição e responsabilidade técnica são dados do projeto; o
 exportador não atribui autoria ou responsabilidade automaticamente.
 """
 
+from netuno.core.fracao_atendivel import fracao_para_percentual
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import os
 import math
 from html import escape
@@ -341,14 +343,12 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     area = _safe_float(project_data.get("area"), 150.0)
-    runoff = _safe_float(project_data.get("runoff"), 0.85)
+    runoff = _safe_float(project_data.get("runoff"), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard_mm = _safe_float(project_data.get("discard"), 2.0)
     vol_lower = _safe_float(project_data.get("lower_vol"), 5000.0)
     upper_vol = _extract_upper_vol(project_data, 500.0)
     tot_demand = _safe_float(project_data.get("tot_demand"), 1000.0)
-    share_pct = _safe_float(project_data.get("share"), 40.0)
-    if 0.0 <= share_pct <= 1.0:
-        share_pct *= 100.0
+    share_pct = fracao_para_percentual("A fração atendível", _safe_float(project_data.get("share"), 0.40))
     potential_pct = _safe_float(project_data.get("potential_pct"), 42.5)
 
     vol_discard = area * discard_mm
@@ -706,7 +706,7 @@ def _generate_simple_ezdxf(project_data: Dict[str, Any], output_path: str):
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     area = _safe_float(project_data.get("area"), 150.0)
-    runoff = _safe_float(project_data.get("runoff"), 0.85)
+    runoff = _safe_float(project_data.get("runoff"), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard_mm = _safe_float(project_data.get("discard"), 2.0)
     vol_lower = _safe_float(project_data.get("lower_vol"), 5000.0)
     upper_vol = _extract_upper_vol(project_data, 500.0)
@@ -792,14 +792,12 @@ def _generate_technical_a3_svg(project_data: Dict[str, Any]) -> str:
     city_uf = escape(str(city_uf))
 
     area = _safe_float(project_data.get("area"), 150.0)
-    runoff = _safe_float(project_data.get("runoff"), 0.85)
+    runoff = _safe_float(project_data.get("runoff"), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard_mm = _safe_float(project_data.get("discard"), 2.0)
     vol_lower = _safe_float(project_data.get("lower_vol"), 5000.0)
     upper_vol = _extract_upper_vol(project_data, 500.0)
     tot_demand = _safe_float(project_data.get("tot_demand"), 1000.0)
-    share_pct = _safe_float(project_data.get("share"), 40.0)
-    if 0.0 <= share_pct <= 1.0:
-        share_pct *= 100.0
+    share_pct = fracao_para_percentual("A fração atendível", _safe_float(project_data.get("share"), 0.40))
     potential_pct = _safe_float(project_data.get("potential_pct"), 42.5)
 
     vol_discard = area * discard_mm
@@ -1115,7 +1113,7 @@ def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
     ref_code = escape(str(ref_code))
 
     area = _safe_float(project_data.get("area"), 150.0)
-    runoff = _safe_float(project_data.get("runoff"), 0.85)
+    runoff = _safe_float(project_data.get("runoff"), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard_mm = _safe_float(project_data.get("discard"), 2.0)
     vol_lower = _safe_float(project_data.get("lower_vol"), 5000.0)
     upper_vol = _extract_upper_vol(project_data, 500.0)

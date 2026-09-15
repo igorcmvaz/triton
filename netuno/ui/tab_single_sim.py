@@ -173,7 +173,7 @@ class TabSingleSimulation(QWidget):
 
         self.txt_custom_runoff = QLineEdit("0,75")
         self.txt_custom_runoff.setFixedWidth(80)
-        self.txt_custom_runoff.setPlaceholderText("ex: 0,85")
+        self.txt_custom_runoff.setPlaceholderText("ex: 0,75")
         self.txt_custom_runoff.hide()
 
         self.combo_runoff.currentIndexChanged.connect(self.on_single_sim_runoff_changed)

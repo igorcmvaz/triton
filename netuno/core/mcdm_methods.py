@@ -40,8 +40,8 @@ class VikorResult:
 class SmaaResult:
     """Resultado da análise de aceitabilidade estocástica SMAA-2 / SMAA-VIKOR."""
     candidates: List[TopsisCandidate]
-    rank_acceptabilities: np.ndarray  # Matriz (n_alternativas x n_posições) com probabilidades (0 a 100%)
-    first_rank_probs: np.ndarray      # Probabilidade de cada alternativa ficar em 1º lugar (b_i^1)
+    rank_acceptabilities: np.ndarray  # Matriz (n_alternativas x n_posições), em percentual de 0 a 100
+    first_rank_probs: np.ndarray      # Aceitabilidade de 1º lugar (b_i^1), em percentual de 0 a 100
     central_weights: np.ndarray       # Vetores centrais de pesos que elegem cada alternativa (n_alt x n_crit)
     most_acceptable_index: int        # Alternativa com maior probabilidade de 1º lugar
     num_samples: int = 5000
@@ -59,7 +59,13 @@ class SmaaResult:
 
     @property
     def first_rank_acceptabilities(self) -> np.ndarray:
-        return self.first_rank_probs / 100.0 if np.max(self.first_rank_probs) > 1.0 else self.first_rank_probs
+        """A mesma aceitabilidade de 1º lugar, em fração de 0 a 1.
+
+        O motor grava `first_rank_probs` sempre em percentual. A conversão é fixa:
+        a versão anterior adivinhava a unidade pelo máximo, e um resultado em que
+        nenhuma alternativa passasse de 1% seria devolvido cem vezes maior.
+        """
+        return np.asarray(self.first_rank_probs, dtype=float) / 100.0
 
     @property
     def ranks(self) -> np.ndarray:

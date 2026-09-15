@@ -462,7 +462,9 @@ def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
     assert saldos["PEAD"].lifetime_net_co2_saved_kg > 0
     assert saldos["CONCRETO"].lifetime_net_co2_saved_kg < 0
     assert saldos["CONCRETO"].environmental_payback_years > 20.0
-    assert saldos["PEAD"].environmental_payback_years == pytest.approx(10.9, abs=0.3)
+    # 11,8 anos desde 2026-09-15: a emissão de fabricação da motobomba passou a vir de
+    # massa de catálogo x intensidade de EPD (30,5 kg CO2e a 1/2 CV, antes 18,0).
+    assert saldos["PEAD"].environmental_payback_years == pytest.approx(11.8, abs=0.3)
 
 
 def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
@@ -513,7 +515,7 @@ def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
         "08_reservatorio_superior.md": ("10,7 kWh", "0,33 ponto", "6.000 L"),
         "09_qualidade_que_o_uso_exige.md": ("R$ 930", "R$ 2.130", "R$ 4.430", "R$ 580"),
         "10_quanto_custa.md": ("R$ 195,77", "R$ 15.295", "8,7 anos", "R$ 28,62"),
-        "11_quanto_carbono_evita.md": ("962 kg", "35,1 anos", "10,9 anos", "248 kg"),
+        "11_quanto_carbono_evita.md": ("987 kg", "36,1 anos", "11,8 anos", "223 kg"),
         "12_qual_volume_escolher.md": ("5.000 L", "12.000 L", "3.000 L", "37,46%"),
         "13_o_relatorio_e_o_artigo.md": ("5.0.0", "2,3 a 2,7", "1 %/m"),
     }
@@ -825,7 +827,7 @@ def test_o_manual_nao_cita_arquivos_de_codigo():
 # Figuras
 # ══════════════════════════════════════════════════════════════════════════════
 
-FIGURAS_ESPERADAS = 9
+FIGURAS_ESPERADAS = 69
 
 
 def test_as_figuras_estao_numeradas_na_ordem_da_leitura():
@@ -843,7 +845,10 @@ def test_as_figuras_estao_numeradas_na_ordem_da_leitura():
 def test_os_desenhos_explicativos_existem():
     """Os três desenhos que explicam o sistema a quem chega agora."""
     pasta = os.path.join(MANUAL, "figuras")
-    for nome in ("fig00_sistema.png", "fig00b_destino.png", "fig00c_fracao.png"):
+    for nome in ("fig00_sistema.png", "fig00b_destino.png", "fig00c_fracao.png",
+                 "fig00d_corte.png", "fig00e_balanco_do_dia.png",
+                 "fig00f_yas.png", "fig00g_indicadores.png",
+                 "fig00h_fronteira.png"):
         caminho = os.path.join(pasta, nome)
         assert os.path.exists(caminho), nome
         assert os.path.getsize(caminho) > 20_000, nome
@@ -854,7 +859,7 @@ def test_o_capitulo_1_apresenta_o_sistema_antes_de_falar_do_programa():
     texto = _capitulo("01_o_que_o_netuno_faz.md")
     assert "O que é um sistema de aproveitamento de água pluvial" in texto
     for termo in ("calhas", "cisterna", "primeira chuva", "projeção horizontal",
-                  "fig00_sistema.png", "fig00b_destino.png"):
+                  "fig00_sistema.png", "fig00d_corte.png", "fig00b_destino.png"):
         assert termo in texto, termo
     # A ordem importa: o desenho do sistema vem antes do desenho do dia.
     assert texto.index("fig00_sistema.png") < texto.index("fig00b_destino.png")
@@ -981,3 +986,73 @@ def test_toda_sigla_recorrente_esta_no_glossario():
         and s not in SIGLAS_DISPENSADAS and not s.startswith("PROC-")
     ]
     assert not faltando, sorted(faltando)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Referências cruzadas e imagens
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _titulos_numerados(texto):
+    """Todo número de título do manual montado, seções e apêndices."""
+    numeros = set(re.findall(r"^#{1,4} +([0-9]+(?:\.[0-9]+)*)\.? ", texto,
+                             flags=re.M))
+    numeros |= set(re.findall(r"^#{1,4} +Ap[êe]ndice +([A-J])", texto, flags=re.M))
+    return numeros
+
+
+def test_toda_referencia_a_secao_aponta_para_uma_secao_que_existe():
+    """«A seção 35» é uma referência morta se a última seção é a 6.4.
+
+    A renumeração para capítulos e seções da ABNT invalidou os números escritos à
+    mão. As marcas {{n:...}} acompanham a renumeração; os números literais, não.
+    """
+    texto = _manual_montado()
+    titulos = _titulos_numerados(texto)
+    padrao = re.compile(
+        r"(?:[Ss]eç(?:ão|ões)|[Cc]apítulos?|[Aa]pêndices?)\s+"
+        r"((?:[0-9]+)(?:\.[0-9]+)*|[A-J])\b")
+    mortas = []
+    for m in padrao.finditer(texto):
+        if m.group(1) not in titulos:
+            inicio = max(0, m.start() - 60)
+            mortas.append(texto[inicio:m.end()].replace(chr(10), " "))
+    assert not mortas, mortas[:5]
+
+
+def test_nenhum_numero_de_secao_antigo_sobrou_no_texto():
+    """As antigas partes iam até 39; o manual agora tem seis capítulos.
+
+    Um «33.4» solto numa célula de tabela é o resto de uma numeração que não
+    existe mais, e não há como o leitor saber para onde ele aponta.
+    """
+    texto = _manual_montado()
+    titulos = _titulos_numerados(texto)
+    suspeitos = []
+    for m in re.finditer(r"(?<![0-9,.])([1-9][0-9])\.([0-9]{1,2})(?![0-9,%])",
+                         texto):
+        if m.group(0) in titulos:
+            continue
+        contexto = texto[max(0, m.start() - 40):m.end() + 10]
+        if "NBR" in contexto or "ISO" in contexto or "R$" in contexto:
+            continue
+        suspeitos.append(contexto.replace(chr(10), " "))
+    assert not suspeitos, suspeitos[:5]
+
+
+def test_toda_imagem_citada_existe_no_disco():
+    """Uma figura ausente vira um retângulo vazio no PDF, sem aviso."""
+    texto = _manual_montado()
+    faltando = []
+    for caminho in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", texto):
+        nome = os.path.basename(caminho)
+        if not os.path.exists(os.path.join(MANUAL, "figuras", nome)):
+            faltando.append(nome)
+    assert not faltando, sorted(set(faltando))
+
+
+def test_toda_figura_do_disco_esta_no_manual():
+    """Figura gerada e não citada é trabalho perdido, e some na próxima limpeza."""
+    texto = _manual_montado()
+    pasta = os.path.join(MANUAL, "figuras")
+    orfas = [n for n in sorted(os.listdir(pasta))
+             if n.endswith(".png") and n not in texto]
+    assert not orfas, orfas

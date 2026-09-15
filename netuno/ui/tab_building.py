@@ -18,7 +18,8 @@ from PySide6.QtGui import QColor, QFont
 import numpy as np
 
 from netuno.core.parser import parse_float, parse_int, format_ptbr
-from netuno.ui.translation import tr, get_current_theme
+from netuno.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
 
 
 # Catálogo oficial unificado de tipologias de edificação (NBR 5626 / ANA / NBR 15527 / ANVISA)
@@ -279,7 +280,7 @@ class TabBuilding(QWidget):
 
         self.txt_custom_runoff = QLineEdit("")
         self.txt_custom_runoff.setFixedWidth(80)
-        self.txt_custom_runoff.setPlaceholderText("ex: 0,85")
+        self.txt_custom_runoff.setPlaceholderText("ex: 0,75")
         self.txt_custom_runoff.hide()
         self.txt_custom_runoff.textChanged.connect(lambda: self.building_updated.emit())
 
@@ -867,14 +868,55 @@ class TabBuilding(QWidget):
         self._update_discretized_balance_label()
         self.update_tot_pluvial_label()
 
+    #: Campos que a tela pede em percentual. Cada um ganha a nota da unidade na
+    #: dica, e fica laranja quando recebe um valor entre 0 e 1, que costuma ser
+    #: a fração digitada no lugar do percentual.
+    _CAMPOS_PERCENTUAIS = ("txt_share", "txt_potable_indoor_share_simple",
+                           "txt_non_potable_indoor_share_simple",
+                           "txt_potable_indoor_share", "txt_non_potable_indoor_share")
+
+    def _assinalar_percentual(self, line_edit, val):
+        """Nota da unidade na dica; devolve o aviso, se o valor parecer fração."""
+        if not any(getattr(self, nome, None) is line_edit for nome in self._CAMPOS_PERCENTUAIS):
+            return None
+        dica = line_edit.property("dica_percentual")
+        if dica is None:
+            base = line_edit.toolTip()
+            nota = tr("Em percentual, de 0 a 100: 40 significa 40%.")
+            dica = f"{base}\n{nota}" if base else nota
+            line_edit.setProperty("dica_percentual", dica)
+        aviso = aviso_percentual_pequeno(parse_float(val, None), get_current_lang()) if val else None
+        line_edit.setToolTip(dica + (f"\n⚠ {aviso}" if aviso else ""))
+        return aviso
+
+    def _assinalar_celula_percentual(self, tabela, row):
+        """A mesma marcação na coluna de percentual das tabelas de calendário."""
+        item = tabela.item(row, 3)
+        if item is None:
+            return
+        aviso = aviso_percentual_pequeno(parse_float(item.text(), None), get_current_lang())
+        tabela.blockSignals(True)
+        try:
+            item.setToolTip(tr("Em percentual, de 0 a 100: 40 significa 40%.") + (f"\n⚠ {aviso}" if aviso else ""))
+            item.setBackground(QColor("#fed7aa") if aviso else QColor(0, 0, 0, 0))
+        finally:
+            tabela.blockSignals(False)
+
     def check_input_highlight(self, line_edit):
         val = line_edit.text().strip()
         is_dark = get_current_theme() == "dark"
+        aviso = self._assinalar_percentual(line_edit, val)
         if not val or val == "-" or not self.is_valid_number(val):
             line_edit.setStyleSheet(
                 "QLineEdit { background-color: #713f12; border: 1.5px solid #eab308; color: #fef9c3; }"
                 if is_dark else
                 "QLineEdit { background-color: #fef08a; border: 1.5px solid #eab308; color: #1e293b; }"
+            )
+        elif aviso:
+            line_edit.setStyleSheet(
+                "QLineEdit { background-color: #7c2d12; border: 1.5px solid #fb923c; color: #ffedd5; }"
+                if is_dark else
+                "QLineEdit { background-color: #ffedd5; border: 1.5px solid #f97316; color: #1e293b; }"
             )
         else:
             line_edit.setStyleSheet(
@@ -1321,6 +1363,7 @@ class TabBuilding(QWidget):
                 r = float(self.table_weekly.item(row, 2).text().replace(',', '.'))
                 s = float(self.table_weekly.item(row, 3).text().replace(',', '.')) / 100.0
                 tot = d * r * s
+                self._assinalar_celula_percentual(self.table_weekly, row)
                 self.table_weekly.blockSignals(True)
                 self.table_weekly.setItem(row, 4, QTableWidgetItem(f"{tot:.1f}"))
                 self.table_weekly.blockSignals(False)
@@ -1356,6 +1399,7 @@ class TabBuilding(QWidget):
                 r = float(self.table_monthly.item(row, 2).text().replace(',', '.'))
                 s = float(self.table_monthly.item(row, 3).text().replace(',', '.')) / 100.0
                 tot = d * r * s
+                self._assinalar_celula_percentual(self.table_monthly, row)
                 self.table_monthly.blockSignals(True)
                 self.table_monthly.setItem(row, 4, QTableWidgetItem(f"{tot:.1f}"))
                 self.table_monthly.blockSignals(False)
@@ -1682,7 +1726,7 @@ class TabBuilding(QWidget):
             if "demand" in cfg:
                 self.txt_demand.setText(str(cfg["demand"]))
             if "share" in cfg:
-                sh_pct = float(cfg["share"]) * 100.0 if float(cfg["share"]) <= 1.0 else float(cfg["share"])
+                sh_pct = fracao_para_percentual("A fração atendível", cfg["share"])
                 self.txt_share.setText(f"{sh_pct:.1f}".replace('.0', ''))
             if "num_economias" in cfg:
                 self.txt_economias.setText(str(cfg["num_economias"]))

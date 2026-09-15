@@ -765,11 +765,25 @@ def run_robust_economic_analysis(
         "annual_chlorine_cost": annual_chlorine_cost,
         "annual_iptu_savings": annual_iptu_savings,
     }
+    rotulos = {
+        "initial_investment": "O investimento inicial",
+        "annual_water_saved_m3": "O volume anual de água economizada",
+        "water_tariff_per_m3": "A tarifa de água",
+        "sewage_tariff_per_m3": "A tarifa de esgoto",
+        "annual_om_cost_base": "O custo anual de operação e manutenção",
+        "pump_power_kw": "A potência da motobomba",
+        "pump_hours_year": "O tempo anual de funcionamento da motobomba",
+        "elec_tariff_kwh": "A tarifa de energia elétrica",
+        "annual_chlorine_cost": "O custo anual de cloração",
+        "annual_iptu_savings": "O desconto anual de IPTU",
+    }
     for name, value in numeric_inputs.items():
         if not math.isfinite(float(value)) or float(value) < 0:
-            raise ValueError(f"{name} deve ser finito e não negativo.")
+            raise ValueError(f"{rotulos.get(name, name)} deve ser um número finito "
+                             f"e não negativo; recebido {value!r}.")
     if int(analysis_period_years) != analysis_period_years or analysis_period_years <= 0:
-        raise ValueError("analysis_period_years deve ser um inteiro positivo.")
+        raise ValueError("O período de análise deve ser um número inteiro de anos, "
+                         f"maior que zero; recebido {analysis_period_years!r}.")
     if initial_investment <= 0 and annual_water_saved_m3 <= 0 and annual_iptu_savings <= 0:
         cfs_zero = [
             AnnualCashFlowItem(
@@ -825,17 +839,16 @@ def run_robust_economic_analysis(
     s_esc = tariff_escalation_rate if tariff_escalation_rate is not None else sewage_tariff_escalation_rate
     e_esc = tariff_escalation_rate if tariff_escalation_rate is not None else elec_tariff_escalation_rate
 
-    # Normalização de taxas (5.0% -> 0.05) se fornecidas como percentual inteiro/decimal em vez de fracionário
-    w_esc = w_esc / 100.0 if abs(w_esc) > 0.5 else w_esc
-    s_esc = s_esc / 100.0 if abs(s_esc) > 0.5 else s_esc
-    e_esc = e_esc / 100.0 if abs(e_esc) > 0.5 else e_esc
-    inf_r = inflation_rate / 100.0 if abs(inflation_rate) > 0.5 else inflation_rate
-    disc_r = discount_rate / 100.0 if abs(discount_rate) > 0.5 else discount_rate
-    for name, rate in (("reajuste de água", w_esc), ("reajuste de esgoto", s_esc),
-                       ("reajuste de energia", e_esc), ("inflação", inf_r),
-                       ("taxa de desconto", disc_r)):
-        if not math.isfinite(rate) or rate <= -1.0:
-            raise ValueError(f"A {name} deve ser finita e maior que -100%.")
+    # As taxas chegam como fração decimal ao ano, sempre. Antes a função
+    # adivinhava a unidade: módulo até 0,5 era fração, acima disso percentual.
+    # Uma TMA de 0,5% ao mês chegava como 0,5 e era lida como 50% ao ano. A
+    # convenção está em netuno/core/taxas.py.
+    from netuno.core.taxas import validar_fracao_anual
+    w_esc = validar_fracao_anual("O reajuste da tarifa de água", w_esc)
+    s_esc = validar_fracao_anual("O reajuste da tarifa de esgoto", s_esc)
+    e_esc = validar_fracao_anual("O reajuste da tarifa de energia", e_esc)
+    inf_r = validar_fracao_anual("A inflação", inflation_rate)
+    disc_r = validar_fracao_anual("A taxa de desconto", discount_rate)
 
     # Ano 0
     cash_flows.append(AnnualCashFlowItem(

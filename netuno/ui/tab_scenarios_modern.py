@@ -12,7 +12,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QBrush, QColor
 
-from netuno.ui.translation import tr, get_current_theme
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
+from netuno.core.fracao_atendivel import percentual_para_fracao, fracao_para_percentual, aviso_percentual_pequeno
 from netuno.core.simulation import run_sweep_simulation
 from netuno.ui.charts import MultiScenarioSweepChart
 
@@ -104,6 +105,9 @@ class TabScenariosModern(QWidget):
         self.table_input.horizontalHeader().setSectionResizeMode(6, QHeaderView.ResizeToContents)
         self.table_input.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeToContents)
 
+        _cab = self.table_input.horizontalHeaderItem(3)
+        if _cab is not None:
+            _cab.setToolTip(tr("Em percentual, de 0 a 100: 40 significa 40%."))
         self.table_input.setFixedHeight(210)
         self.table_input.itemChanged.connect(self.on_item_changed)
         lay_ed.addWidget(self.table_input)
@@ -170,9 +174,17 @@ class TabScenariosModern(QWidget):
 
         val = item.text().strip()
         is_dark = get_current_theme() == "dark"
+        aviso = None
+        if col == 3:
+            from netuno.core.parser import parse_float
+            aviso = aviso_percentual_pequeno(parse_float(val, None), get_current_lang())
+            item.setToolTip((tr("Em percentual, de 0 a 100: 40 significa 40%.") + (f"\n⚠ {aviso}" if aviso else "")))
         if not val or val == "-" or not self.is_valid_number(val):
             item.setBackground(QBrush(QColor("#fef08a" if not is_dark else "#78350f")))
             item.setForeground(QBrush(QColor("#1e293b" if not is_dark else "#fef08a")))
+        elif aviso:
+            item.setBackground(QBrush(QColor("#ffedd5" if not is_dark else "#7c2d12")))
+            item.setForeground(QBrush(QColor("#1e293b" if not is_dark else "#ffedd5")))
         else:
             if is_dark:
                 item.setBackground(QBrush(QColor("#1c1c1f")))
@@ -248,8 +260,10 @@ class TabScenariosModern(QWidget):
             base["area"] = b_cfg.get("area", 100.0)
             base["residents"] = b_cfg.get("residents", 4)
             base["demand"] = b_cfg.get("demand", 150.0)
-            base["share"] = b_cfg.get("share", 40.0)
-            base["runoff"] = b_cfg.get("runoff_coeff", 0.75)
+            # A edificação guarda fração; a tabela desta aba mostra percentual.
+            # Lida sem conversão, a fração 0,4 virava 5%, o piso da variação.
+            base["share"] = fracao_para_percentual("A fração atendível", b_cfg.get("share", 0.40))
+            base["runoff"] = b_cfg.get("runoff", 0.75)
 
         if mw and hasattr(mw, 'tab_project'):
             try:
@@ -396,7 +410,7 @@ class TabScenariosModern(QWidget):
                 discard_v = parse_float(self.table_input.item(r, 7).text() if self.table_input.item(r, 7) else "", 2.0)
 
                 tot_demand = demand_v * res_v
-                r_share = share_v / 100.0 if share_v > 1.0 else share_v
+                r_share = percentual_para_fracao(f"{tr('Subst. Pluvial (%)')} ({scen_name})", share_v)
 
                 sweep_res = run_sweep_simulation(
                     precip_data=precip_data,

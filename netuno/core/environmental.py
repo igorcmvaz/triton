@@ -94,7 +94,13 @@ MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
         material_density_kg_per_m3_tank=1200.0, # ~0.5 m³ concreto armado (~1200 kg) por m³ útil
         co2_factor_kg_per_kg=0.14,              # 0.14 kg CO2e / kg concreto (Cimento CP-II + Armadura)
         co2_factor_kg_per_m3_tank=168.0,        # 1200 * 0.14 = 168 kg CO2e / m³ útil
-        source_reference="Cenário de triagem geométrico; calibrar estrutura e EPD do concreto/aço",
+        source_reference=(
+            "Fator corroborado pelo SIDAC (inventário brasileiro da construção): concreto "
+            "dosado em central de cerca de 310 kg CO2/m³ a 20 MPa a 480 kg CO2/m³ a 40 MPa; "
+            "0,14 kg CO2e/kg x 2.400 kg/m³ = 336 kg/m³, dentro da faixa de 25 a 30 MPa. A massa "
+            "por m³ útil (1.200 kg) segue sendo cenário geométrico interno; para a obra, use a "
+            "EPD do concreto e o quantitativo de aço do projeto."
+        ),
         description="Estrutura de concreto armado de alta durabilidade (50+ anos) e maior pegada inicial."
     ),
     "FIBRA": MaterialPreset(
@@ -194,36 +200,51 @@ PIPE_EMISSION_FACTORS_PER_METER: Dict[int, float] = {
     for dn, massa in PIPE_LINEAR_MASS_KG_PER_M.items()
 }
 
-# Emissão incorporada de motobomba, por potência.
+# Emissão incorporada de motobomba, por potência: massa do produto x
+# intensidade de carbono por quilo de bomba.
 #
-# **Estes seis valores continuam sem fonte publicada.** A busca foi feita e o
-# resultado está registrado para que não se repita: nem o catálogo Schneider,
-# nem a tabela de seleção, nem os catálogos Fortlev e Bakof publicam massa por
-# modelo, e a literatura de ACV de bombas trata de equipamentos industriais,
-# cuja fase de operação responde por mais de 99% do impacto — proporção que não
-# se transfere para uma bomba residencial de meio CV, ligada poucas horas por
-# ano, em que o incorporado chega a um quarto do total.
+# Não há Declaração Ambiental de Produto de motobomba residencial brasileira. O
+# valor é composto por duas fontes recuperadas e lidas:
 #
-# Apenas dois dos seis vieram de estimativa própria de massa: os de 1/4 e 1/2
-# CV. Os outros quatro são **extrapolação aritmética** a partir do de 1/2 CV,
-# como PUMP_EMBEDDED_CO2_SOURCE registra. É a maior lacuna de procedência que
-# resta no módulo, embora seja termo pequeno no resultado.
+# 1. **Intensidade**: EPD da Grundfos para a bomba ALPHA1 GO 25-40 180,
+#    EPD-GRU-20250340-CBA1-EN (IBU, emitida em 09/07/2025, válida até 2030,
+#    EN 15804+A2). Módulos A1-A3, GWP-total de 10,4 kg CO2e por unidade, com
+#    massa de referência de 2,179 kg: 4,77 kg CO2e por kg de bomba. É bomba
+#    elétrica pequena de ferro fundido, aço, alumínio, cobre e eletrônica.
+# 2. **Massa**: catálogo geral 60 Hz da Dancor, linha monofásica de aplicação
+#    múltipla com carcaça em liga de alumínio-silício — CAM W-4C (1/4 a 1/2 CV)
+#    e CAM W-10 (3/4 a 2 CV), coluna «Peso (kg)».
+#
+# Ressalvas que acompanham o número: a EPD é europeia, de um circulador com
+# eletrônica embarcada (3% da massa), e a massa de referência inclui a
+# embalagem. A intensidade por quilo é, portanto, aproximação de ordem de
+# grandeza para uma centrífuga brasileira, e não inventário do produto.
+#
+# Até a versão 5.0.0 beta os valores eram 12, 18, 24, 30, 42 e 55 kg CO2e, dos
+# quais quatro eram extrapolação aritmética do de 1/2 CV. Ficavam de 1,7 a 2,7
+# vezes abaixo destes.
+PUMP_EPD_KG_CO2E_POR_UNIDADE = 10.4       # EPD-GRU-20250340-CBA1-EN, A1-A3, GWP-total
+PUMP_EPD_MASSA_REFERENCIA_KG = 2.179      # mesma EPD, «mass reference», com embalagem
+PUMP_KG_CO2E_POR_KG = PUMP_EPD_KG_CO2E_POR_UNIDADE / PUMP_EPD_MASSA_REFERENCIA_KG
+
+PUMP_MASS_KG: Dict[float, float] = {
+    0.25: 6.1,    # Dancor CAM W-4C 1/4 CV monofásica
+    0.50: 6.4,    # Dancor CAM W-4C 1/2 CV monofásica
+    0.75: 13.5,   # Dancor CAM W-10 3/4 CV monofásica
+    1.00: 15.3,   # Dancor CAM W-10 1 CV monofásica
+    1.50: 17.5,   # Dancor CAM W-10 1 1/2 CV monofásica
+    2.00: 20.7,   # Dancor CAM W-10 2 CV monofásica
+}
+
 PUMP_EMBEDDED_CO2: Dict[float, float] = {
-    0.25: 12.0,
-    0.50: 18.0,
-    0.75: 24.0,
-    1.00: 30.0,
-    1.50: 42.0,
-    2.00: 55.0,
+    cv: round(massa * PUMP_KG_CO2E_POR_KG, 1) for cv, massa in PUMP_MASS_KG.items()
 }
 
 PUMP_EMBEDDED_CO2_SOURCE: Dict[float, str] = {
-    0.25: "estimativa interna de massa e composição; sem fonte publicada",
-    0.50: "estimativa interna de massa e composição; sem fonte publicada",
-    0.75: "extrapolação aritmética do valor de 0,5 CV (x1,33)",
-    1.00: "extrapolação aritmética do valor de 0,5 CV (x1,67)",
-    1.50: "extrapolação aritmética do valor de 1,0 CV (x1,40)",
-    2.00: "extrapolação aritmética do valor de 1,5 CV (x1,31)",
+    cv: (f"massa {str(massa).replace('.', ',')} kg (catálogo Dancor, linha CAM W) x "
+         f"{PUMP_KG_CO2E_POR_KG:.2f}".replace(".", ",")
+         + " kg CO2e/kg (EPD Grundfos EPD-GRU-20250340-CBA1-EN, A1-A3)")
+    for cv, massa in PUMP_MASS_KG.items()
 }
 
 
@@ -423,6 +444,9 @@ class EnvironmentalConfig:
     water_quality_disinfection: str = "cloro"    # "cloro", "uv", "ozonio"
     water_quality_polishing: bool = False
     roof_area_m2: float = AREA_DE_RECURSO_M2     # dimensiona o filtro de entrada
+    # Dimensionamento do subsistema físico de descarte de primeiras águas
+    first_flush_system_enabled: bool = False
+    discard: float = 1.0                         # lâmina de descarte em mm
     # Desligar devolve o comportamento da 5.0.7, em que o tratamento era só a
     # cloração. Serve para reproduzir estudos anteriores, não para uso corrente.
     etap_enabled: bool = True
@@ -607,7 +631,27 @@ def calculate_lca(
         source_reference="Cenário de triagem; substituir por EPD/inventário da motobomba"
     ))
 
-    total_embodied = lower_embodied + upper_embodied + total_pipes_embodied + pump_emb
+    # 4.1 Subsistema de Descarte de Primeiras Águas (Filtro de Folhas e Reservatório de Descarte)
+    ff_embodied = 0.0
+    if getattr(config, 'first_flush_system_enabled', False) and getattr(config, 'discard', 0.0) > 0:
+        from netuno.core.water_quality import size_first_flush_system
+        ff_res = size_first_flush_system(
+            discard_mm=float(getattr(config, 'discard', 1.0)),
+            roof_area_m2=float(getattr(config, 'roof_area_m2', AREA_DE_RECURSO_M2)),
+            regional_factor=1.0,
+        )
+        if ff_res.diverter_volume_liters > 0:
+            ff_embodied = ff_res.first_flush_embodied_co2_kg
+            items.append(LCAItemBreakdown(
+                category=f"Sistema de Descarte de 1ª Água (Filtro Folhas + Res. {ff_res.diverter_volume_liters:.0f} L)",
+                quantity_str=f"{ff_res.diverter_volume_liters:.0f} L ({ff_res.diverter_mass_kg + ff_res.leaf_filter_mass_kg:.1f} kg material)",
+                embodied_co2_kg=ff_embodied,
+                annual_op_co2_kg=0.0,
+                lifetime_net_co2_kg=ff_embodied,
+                source_reference="ABNT NBR 15527:2019 (Descarte inicial) / Inventário de Polímeros & Inox"
+            ))
+
+    total_embodied = lower_embodied + upper_embodied + total_pipes_embodied + pump_emb + ff_embodied
 
     # 5. Operação Anual (Bombeamento Elétrico — Sincronizado 100% com a simulação técnica)
     if config.annual_pump_kwh > 0:

@@ -104,22 +104,32 @@ def load_precipitation(file_path: str) -> np.ndarray:
     if not target_path:
         raise FileNotFoundError(f"Could not find precipitation file: {file_path} (or {base_name})")
             
-    precip = []
+    import math
+
+    # Falha de registro vira NaN, e nao 0 mm. Antes, linha vazia ou texto no
+    # meio da serie viravam dia seco em silencio, o que subestima a chuva sem
+    # aviso; e um cabecalho como "Data;Precipitacao" encerrava a leitura na
+    # primeira linha e devolvia serie vazia. Agora o cabecalho e pulado, a falha
+    # e preservada, e a simulacao recusa NaN e valor negativo dizendo onde estao.
+    nan = float("nan")
+    lidos = []  # (valor, linha_tinha_conteudo)
+    iniciou = False
     with open(target_path, 'r', encoding='utf-8', errors='ignore') as f:
         for line in f:
             line_str = line.strip()
-            if not line_str:
-                precip.append(0.0)
-                continue
-            # If line contains text or config header, stop reading rainfall
-            if ';' in line_str or 'Descarte' in line_str or 'Data' in line_str or 'Área' in line_str or 'Demanda' in line_str:
-                break
-            try:
-                val = parse_float(line_str)
-                precip.append(val)
-            except Exception:
-                precip.append(0.0)
-    return np.array(precip, dtype=np.float64)
+            valor = parse_float(line_str, nan) if line_str else nan
+            if not iniciou:
+                if math.isnan(valor):
+                    continue  # cabecalho ou linhas vazias antes dos dados
+                iniciou = True
+            elif (';' in line_str or 'Descarte' in line_str or 'Data' in line_str
+                  or 'Área' in line_str or 'Demanda' in line_str):
+                break  # bloco de configuracao do Netuno 4, depois dos dados
+            lidos.append((valor, bool(line_str)))
+    # Linhas vazias no fim do arquivo sao formatacao, e nao falha de registro.
+    while lidos and math.isnan(lidos[-1][0]) and not lidos[-1][1]:
+        lidos.pop()
+    return np.array([v for v, _ in lidos], dtype=np.float64)
 
 
 
@@ -223,13 +233,13 @@ class NetunoConfig:
     sewage_mode: int = 1  # 0 = fixed R$, 1 = % of water bill
     water_tax_fixed: float = 0.0  # R$
     water_tax_var: float = 0.0  # %
-    inflation: float = 0.2  # % monthly
-    tariff_escalation: float = 12.0  # months period
-    water_tariff_escalation: float = 5.0  # % escalation per period (annual)
-    sewage_tariff_escalation: float = 5.0  # % escalation per period (annual)
-    elec_tariff_escalation: float = 5.0  # % escalation per period (annual)
+    inflation: float = 0.2  # % ao mês; inflação dos custos de O&M
+    tariff_escalation: float = 12.0  # meses; comprimento do período de reajuste
+    water_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
+    sewage_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
+    elec_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
     analysis_period_years: int = 20  # years
-    tma: float = 2.0  # % monthly discount rate
+    tma: float = 2.0  # % ao mês; taxa mínima de atratividade
     install_month: int = 0
     
     # Materials & Components Selection
@@ -257,6 +267,8 @@ class NetunoConfig:
     water_quality_target_class: str = "classe_1"
     water_quality_disinfection: str = "cloro"   # "cloro", "uv", "ozonio", "nenhum"
     water_quality_polishing: bool = False
+    # Dimensionamento físico e orçamentário do subsistema de descarte de primeiras águas
+    first_flush_system_enabled: bool = False
     # Desligar devolve o comportamento da 5.0.7, em que a linha de tratamento
     # nao entrava no investimento nem no custeio. Serve para reproduzir estudos
     # anteriores, e para hipoteses de CAPEX nulo.
@@ -507,7 +519,16 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
                 config.residents_type = parse_int(parts[1], 0)
                 config.residents_count = parse_int(parts[3] if len(parts) > 3 else parts[2], 3)
             elif key.startswith("Percentual de gua potvel") or key.startswith("Percentual de água potável"):
-                config.rainwater_share = parse_float(parts[1], 0.4)
+                # A linha é percentual, de 0 a 100, como o rótulo diz. Um valor entre
+                # 0 e 1 costuma vir de arquivo gravado por versão anterior, que
+                # gravava fração; é lido como percentual e assinalado.
+                from netuno.core.fracao_atendivel import aviso_percentual_pequeno, percentual_para_fracao
+                _pct = parse_float(parts[1], 40.0)
+                config.rainwater_share = percentual_para_fracao("Percentual de água potável a ser substituída", _pct)
+                _aviso = aviso_percentual_pequeno(_pct)
+                if _aviso:
+                    import warnings
+                    warnings.warn(f"Arquivo de parâmetros: {_aviso}", stacklevel=2)
             elif key.startswith("Coeficiente de escoamento"):
                 config.runoff_coeff = parse_float(parts[1], COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             elif key.startswith("Reservatrio superior") or key.startswith("Reservatório superior"):
@@ -655,7 +676,9 @@ def export_netuno_csv(
     lines.append(f"Demanda de água total;{config.demand_type};1;{format_netuno_float(config.demand_value)};")
     lines.append(f"Número de moradores;{config.residents_type};1;{config.residents_count};")
     
-    rain_share_pct = config.rainwater_share if config.rainwater_share <= 1.0 else config.rainwater_share / 100.0
+    # A linha herdada do Netuno 4 diz «percentual», e grava percentual, de 0 a 100.
+    from netuno.core.fracao_atendivel import fracao_para_percentual
+    rain_share_pct = fracao_para_percentual("rainwater_share", config.rainwater_share)
     lines.append(f"Percentual de água potável a ser substituída por pluvial;{format_netuno_float(rain_share_pct)}")
     lines.append(f"Coeficiente de escoamento superficial;{format_netuno_float(config.runoff_coeff)}")
     
@@ -860,6 +883,7 @@ def export_netuno_json(
                 "target_class": getattr(config, "water_quality_target_class", "classe_1"),
                 "disinfection": getattr(config, "water_quality_disinfection", "cloro"),
                 "polishing_filter": bool(getattr(config, "water_quality_polishing", False)),
+                "first_flush_system_enabled": bool(getattr(config, "first_flush_system_enabled", False)),
                 "etap_enabled": bool(getattr(config, "etap_enabled", True)),
                 "chlorine_treatment_enabled": bool(getattr(config, "chlorine_treatment_enabled", True)),
                 "chlorine_dose_mg_l": getattr(config, "chlorine_dose_mg_l", 1.5),
@@ -1076,6 +1100,7 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.water_quality_target_class = wq.get("target_class", "classe_1")
             cfg.water_quality_disinfection = wq.get("disinfection", "cloro")
             cfg.water_quality_polishing = bool(wq.get("polishing_filter", False))
+            cfg.first_flush_system_enabled = bool(wq.get("first_flush_system_enabled", False))
             cfg.etap_enabled = bool(wq.get("etap_enabled", True))
             cfg.chlorine_treatment_enabled = bool(wq.get("chlorine_treatment_enabled", True))
             cfg.chlorine_dose_mg_l = wq.get("chlorine_dose_mg_l", cfg.chlorine_dose_mg_l)

@@ -669,10 +669,14 @@ class TOPSISComparisonChart(NetunoBaseChart):
 
         is_smaa = hasattr(res, "first_rank_probs") or method == "smaa_vikor"
         if is_smaa:
-            # Em porcentagem (0 a 100%)
-            raw_scores = getattr(res, "first_rank_acceptabilities", getattr(res, "first_rank_probs", None))
+            # `first_rank_acceptabilities` é fração de 0 a 1, e o gráfico mostra
+            # percentual. A conversão é fixa: multiplicar só o que fosse <= 1
+            # misturava as duas unidades na mesma série de barras.
+            raw_scores = getattr(res, "first_rank_acceptabilities", None)
             if raw_scores is not None:
-                scores = [float(s) * 100.0 if float(s) <= 1.0 else float(s) for s in raw_scores]
+                scores = [float(s) * 100.0 for s in raw_scores]
+            elif getattr(res, "first_rank_probs", None) is not None:
+                scores = [float(s) for s in res.first_rank_probs]  # já em percentual
             else:
                 scores = [0.0] * n_bars
             y_label = tr("Aceitabilidade de 1º Lugar — SMAA-VIKOR (%)")
@@ -1252,7 +1256,10 @@ class PrcptotAnnualChart(NetunoBaseChart):
         ax = self.figure.add_subplot(111)
         ax.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         prcp = df_indices['PRCPTOT'].values
         mean_prcp = np.mean(prcp)
 
@@ -1297,7 +1304,10 @@ class SdiiVsR95pChart(NetunoBaseChart):
         ax2 = ax1.twinx()
         ax1.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         sdii = df_indices['SDII'].values
         r95p = df_indices['R95p'].values
 
@@ -1349,7 +1359,10 @@ class CddCwdAnnualChart(NetunoBaseChart):
         ax = self.figure.add_subplot(111)
         ax.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         cdd = df_indices['CDD'].values
         cwd = df_indices['CWD'].values
 

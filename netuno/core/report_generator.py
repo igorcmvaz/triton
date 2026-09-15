@@ -7,6 +7,7 @@ Suporta dois modelos principais de exportação:
 """
 
 import os
+from netuno.core.fracao_atendivel import fracao_para_percentual
 from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import base64
 from html import escape
@@ -51,7 +52,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     demand = project_data.get("demand", 200.0)
     raw_share = project_data.get("share", 0.40)
     if isinstance(raw_share, (int, float)):
-        share = raw_share * 100.0 if raw_share <= 1.0 else raw_share
+        share = fracao_para_percentual("A fração atendível", raw_share)
     else:
         share = "-"
     
@@ -390,7 +391,7 @@ def generate_environmental_html_report(
     demand = project_data.get("demand", 200.0)
     raw_share = project_data.get("share", 0.40)
     if isinstance(raw_share, (int, float)):
-        share = raw_share * 100.0 if raw_share <= 1.0 else raw_share
+        share = fracao_para_percentual("A fração atendível", raw_share)
     else:
         share = "-"
 
@@ -998,9 +999,7 @@ def generate_research_html_report(
     potential_pct = number(project_data.get("potential_pct"))
     sat_full = number(project_data.get("sat_full"))
     sat_null = number(project_data.get("sat_null"))
-    share = number(project_data.get("share"))
-    if 0.0 < share <= 1.0:
-        share *= 100.0
+    share = fracao_para_percentual("A fração atendível", number(project_data.get("share")))
     annual_pluvial_m3 = pluv_day * 365.0 / 1000.0
     annual_spill_m3 = spill_day * 365.0 / 1000.0
     annual_potable_m3 = potable_day * 365.0 / 1000.0
@@ -1049,9 +1048,7 @@ def generate_research_html_report(
     potential_pct = number(project_data.get("potential_pct"))
     sat_full = number(project_data.get("sat_full"))
     sat_null = number(project_data.get("sat_null"))
-    share = number(project_data.get("share"))
-    if 0.0 < share <= 1.0:
-        share *= 100.0
+    share = fracao_para_percentual("A fração atendível", number(project_data.get("share")))
     annual_pluvial_m3 = pluv_day * 365.0 / 1000.0
     annual_spill_m3 = spill_day * 365.0 / 1000.0
     annual_potable_m3 = potable_day * 365.0 / 1000.0
@@ -2300,7 +2297,7 @@ li {{ margin-bottom: 2px; }}
 
     <div class='footer-sig'>
         <div>
-            <b>Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)</b><br/>
+            <b>{"Grupo de Pesquisa Gestão do Espaço Sustentável" if not is_en else "Sustainable Space Management Research Group"} (UFSC)</b><br/>
             {APP_VERSION_LABEL} Engine — {t('prepared')}
         </div>
         <div style='text-align: right;'>

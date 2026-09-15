@@ -37,7 +37,8 @@ def run_full_validation():
             areas=sorted(list(df1.iloc[:, 3].unique())),
             residents_list=sorted(list(df1.iloc[:, 5].unique())),
             demands_per_capita=sorted(list(df1.iloc[:, 4].unique())),
-            rainwater_shares=sorted(list(df1.iloc[:, 6].unique())),
+            # A planilha do Netuno 4 traz a substituição em percentual.
+            rainwater_shares=[float(s) / 100.0 for s in sorted(df1.iloc[:, 6].unique())],
             lower_tanks=[5000.0],
             runoff_coeffs=sorted(list(df1.iloc[:, 7].unique())),
             upper_tank_vol=0.0,
@@ -62,7 +63,7 @@ def run_full_validation():
             areas=sorted(list(df2.iloc[:, 3].unique())),
             residents_list=sorted(list(df2.iloc[:, 5].unique())),
             demands_per_capita=sorted(list(df2.iloc[:, 4].unique())),
-            rainwater_shares=sorted(list(df2.iloc[:, 6].unique())),
+            rainwater_shares=[float(s) / 100.0 for s in sorted(df2.iloc[:, 6].unique())],
             lower_tanks=[10000.0],
             runoff_coeffs=sorted(list(df2.iloc[:, 7].unique())),
             upper_tank_vol=0.0,

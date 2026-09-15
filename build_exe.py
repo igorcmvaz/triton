@@ -204,10 +204,9 @@ def build_inno_setup(base_dir: Path) -> bool:
 
     print(f"[+] Compilador Inno Setup localizado: {iscc}")
 
+    # Cópia única na raiz. Havia uma segunda em infos_licenses/, defasada (nome do
+    # grupo errado, exclusões antigas), usada só quando a da raiz faltava.
     iss_script = base_dir / "setup_script.iss"
-    if not iss_script.exists():
-        iss_script = base_dir / "infos_licenses" / "setup_script.iss"
-
     if not iss_script.exists():
         print(f"[ERRO] Script de instalação 'setup_script.iss' não encontrado.")
         return False

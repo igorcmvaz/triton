@@ -717,8 +717,12 @@ class TabReportsPdf(QWidget):
                                         else float(val.replace(',', '.'))
                         except Exception:
                             pass
+            # O campo da tela é percentual; o que segue para relatório e desenho é fração.
+            if isinstance(data["share"], float):
+                from netuno.core.fracao_atendivel import percentual_para_fracao
+                data["share"] = percentual_para_fracao(tr("Substituição por Água de Chuva (%):"), data["share"])
             if hasattr(tb, 'get_building_config'):
-                data["runoff"] = tb.get_building_config().get("runoff_coeff", 0.75)
+                data["runoff"] = tb.get_building_config().get("runoff", 0.75)
 
         rep_type = self.combo_report_type.currentData() or "economic" if hasattr(self, "combo_report_type") else "economic"
         chosen_vol = self.get_selected_volume()
@@ -1105,9 +1109,12 @@ class TabReportsPdf(QWidget):
                 has_irr = (outdoor_dem_m3 > 0.001)
                 if has_irr and outdoor_dem_m3 > 0:
                     indoor_dem_m3 = max(0.0, tot_dem - outdoor_dem_m3)
-                    pluv_to_outdoor = min(annual_pluvial_m3, outdoor_dem_m3)
-                    pluv_to_indoor = max(0.0, annual_pluvial_m3 - pluv_to_outdoor)
-                    outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                    # Parcela externa só se o balanço a calculou; sem ela, o
+                    # crédito externo fica como não avaliado, e não estimado.
+                    irr_d = self._project_data.get("pluv_irrigation_day")
+                    pluv_to_outdoor = (self._safe_float(irr_d, 0.0) * 365.25 / 1000.0) if irr_d is not None else None
+                    pluv_to_indoor = max(0.0, annual_pluvial_m3 - (pluv_to_outdoor or 0.0))
+                    outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                     indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potential_pct
                 else:
                     outdoor_dem_m3 = 0.0

@@ -324,7 +324,7 @@ def test_separate_tariff_escalations_and_pump_metrics():
 
 
 def test_robust_sensitivity_rate_normalization():
-    """Valida se run_robust_economic_analysis e run_sensitivity_analysis tratam taxas percentuais de 5.0 como 0.05 e não 500% ao ano."""
+    """Taxas anuais entram como fração decimal; um valor percentual é recusado, e não reinterpretado."""
     from netuno.core.economic import run_robust_economic_analysis, run_sensitivity_analysis
 
     base_params = {
@@ -333,14 +333,17 @@ def test_robust_sensitivity_rate_normalization():
         'water_tariff_per_m3': 6.50,
         'sewage_tariff_per_m3': 5.20,
         'sewage_mode': 1,
-        'water_tariff_escalation_rate': 5.0,  # 5.0% a.a.
-        'sewage_tariff_escalation_rate': 5.0,
-        'elec_tariff_escalation_rate': 5.0,
-        'inflation_rate': 4.0,  # 4.0% a.a.
-        'discount_rate': 8.0,   # 8.0% a.a.
+        'water_tariff_escalation_rate': 0.05,  # 5% a.a.
+        'sewage_tariff_escalation_rate': 0.05,
+        'elec_tariff_escalation_rate': 0.05,
+        'inflation_rate': 0.04,  # 4% a.a.
+        'discount_rate': 0.08,   # 8% a.a.
         'annual_om_cost_base': 150.0,
         'analysis_period_years': 20
     }
+
+    with pytest.raises(ValueError, match="parece estar em percentual"):
+        run_robust_economic_analysis(**{**base_params, 'water_tariff_escalation_rate': 5.0})
 
     res_base = run_robust_economic_analysis(**base_params)
     
@@ -385,15 +388,16 @@ def test_step5_and_step7_exact_parity():
     window.config.cost_piping = 1200.0
     window.config.cost_accessories = 500.0
     window.config.cost_labor = 1000.0
-    window.config.tma = 15.0
-    window.config.inflation = 5.0
+    # Taxas em % ao mês, a unidade gravada no projeto
+    window.config.tma = 1.0
+    window.config.inflation = 0.4
     window.tab_economic._internal_config = window.config
 
 
     # Configura parâmetros financeiros e diálogos verificados antes de rodar a simulação
-    window.tab_tanks_simulation.txt_inflation.setText("5.0")
+    window.tab_tanks_simulation.txt_inflation.setText("0.4")
     window.tab_tanks_simulation.txt_period.setText("20")
-    window.tab_tanks_simulation.txt_tma.setText("15.0")
+    window.tab_tanks_simulation.txt_tma.setText("1.0")
     window.tab_tanks_simulation.txt_readj_period.setText("12")
     window.tab_tanks_simulation.txt_readj_water.setText("5.0")
     window.tab_tanks_simulation.txt_readj_elec.setText("5.0")

@@ -107,6 +107,9 @@ class EtapDoProjeto:
     volume_pluvial_m3: float
     custo_anual_do_cloro: float
     co2e_anual_do_cloro: float
+    first_flush_capex: float = 0.0
+    first_flush_volume_l: float = 0.0
+    first_flush_embodied_co2_kg: float = 0.0
 
     @property
     def metodo(self) -> str:
@@ -137,6 +140,8 @@ def dimensionar_etap_do_projeto(
     classe = str(getattr(config, "water_quality_target_class", "classe_1") or "classe_1")
     metodo = str(getattr(config, "water_quality_disinfection", "cloro") or "cloro")
     polimento = bool(getattr(config, "water_quality_polishing", False))
+    discard = float(getattr(config, "discard", 0.0) or 0.0)
+    include_ff = bool(getattr(config, "first_flush_system_enabled", False))
 
     dose = float(getattr(config, "chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO) or DOSE_PADRAO_MG_POR_LITRO)
     pureza = float(getattr(config, "chlorine_product_purity", PUREZA_PADRAO) or PUREZA_PADRAO)
@@ -159,6 +164,8 @@ def dimensionar_etap_do_projeto(
         chlorine_co2_kg_per_kg=fator_cloro,
         regional_factor=regional_factor,
         grid_co2_factor_kg_kwh=float(fator_rede) if fator_rede else None,
+        discard_mm=discard,
+        include_first_flush=include_ff,
     )
 
     # A parcela da cloração, que os dois módulos já contabilizam por si.
@@ -180,6 +187,9 @@ def dimensionar_etap_do_projeto(
         volume_pluvial_m3=volume,
         custo_anual_do_cloro=custo_cloro,
         co2e_anual_do_cloro=co2e_cloro,
+        first_flush_capex=resultado.first_flush_capex,
+        first_flush_volume_l=resultado.first_flush_diverter_vol_l,
+        first_flush_embodied_co2_kg=resultado.first_flush_embodied_co2_kg,
     )
 
 

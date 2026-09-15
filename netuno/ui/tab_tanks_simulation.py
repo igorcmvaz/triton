@@ -9,6 +9,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal, Qt, QTimer
 from PySide6.QtGui import QFont
+from netuno.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
+from netuno.core.fracao_atendivel import validar_fracao
 from netuno.ui.translation import tr, get_current_theme
 
 from netuno.core.simulation import (
@@ -218,7 +220,7 @@ class TabTanksSimulation(QWidget):
         row_inf = QHBoxLayout()
         self.txt_inflation = QLineEdit("-")
         self.txt_inflation.setFixedWidth(80)
-        self.txt_inflation.setToolTip(tr("Taxa aplicada somente aos custos adicionais de O&M; nao reajusta agua, esgoto ou energia."))
+        self.txt_inflation.setToolTip(tr("Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia."))
         self.txt_inflation.textChanged.connect(lambda: self.check_econ_highlight(self.txt_inflation))
         self.txt_inflation.textChanged.connect(lambda: self._mark_preset_custom("combo_inflation_profile"))
         row_inf.addWidget(self.txt_inflation)
@@ -250,7 +252,7 @@ class TabTanksSimulation(QWidget):
         row_tma = QHBoxLayout()
         self.txt_tma = QLineEdit("-")
         self.txt_tma.setFixedWidth(80)
-        self.txt_tma.setToolTip(tr("Taxa Minima de Atratividade."))
+        self.txt_tma.setToolTip(tr("Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês."))
         self.txt_tma.textChanged.connect(lambda: self.check_econ_highlight(self.txt_tma))
         self.txt_tma.textChanged.connect(lambda: self._mark_preset_custom("combo_tma_profile"))
         row_tma.addWidget(self.txt_tma)
@@ -300,14 +302,14 @@ class TabTanksSimulation(QWidget):
         # Linha 3: Reajuste agua | Reajuste energia
         grid_fin.addWidget(QLabel(tr("Reajuste agua/esgoto (% por periodo):")), 3, 0)
         self.txt_readj_water = QLineEdit("-")
-        self.txt_readj_water.setToolTip(tr("Reajuste independente das tarifas de agua e esgoto; altera as economias calculadas no periodo configurado."))
+        self.txt_readj_water.setToolTip(tr("Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano."))
         self.txt_readj_water.textChanged.connect(lambda: self.check_econ_highlight(self.txt_readj_water))
         self.txt_readj_water.textChanged.connect(lambda: self._mark_preset_custom("combo_tariff_profile"))
         grid_fin.addWidget(self.txt_readj_water, 3, 1)
 
         grid_fin.addWidget(QLabel(tr("Reajuste energia eletrica (% por periodo):")), 3, 2)
         self.txt_readj_elec = QLineEdit("-")
-        self.txt_readj_elec.setToolTip(tr("Reajuste independente da tarifa de energia; altera o custo de bombeamento no periodo configurado."))
+        self.txt_readj_elec.setToolTip(tr("Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano."))
         self.txt_readj_elec.textChanged.connect(lambda: self.check_econ_highlight(self.txt_readj_elec))
         self.txt_readj_elec.textChanged.connect(lambda: self._mark_preset_custom("combo_tariff_profile"))
         grid_fin.addWidget(self.txt_readj_elec, 3, 3)
@@ -558,16 +560,31 @@ class TabTanksSimulation(QWidget):
         self._set_preset_guidance(tr("Perfil tarifário aplicado como referência; inflação e tarifas continuam sendo premissas independentes."))
 
     def get_tma_annual_pct(self):
-        val = parse_float(self.txt_tma.text(), 12.0)
+        # Campo vazio: o padrão é 12% ao ano, qualquer que seja o botão. Antes o
+        # padrão era lido na unidade do botão, e com «% a.m.» virava 12% ao mês.
+        val = parse_float(self.txt_tma.text(), None)
+        if val is None:
+            return 12.0
         if getattr(self, "_tma_mode", "year") == "month":
-            return ((1 + val / 100.0) ** 12 - 1) * 100.0
+            return mensal_pct_para_anual_pct(val)
         return val
 
     def get_inflation_annual_pct(self):
-        val = parse_float(self.txt_inflation.text(), 4.5)
+        # Campo vazio: o padrão é 4,5% ao ano, qualquer que seja o botão.
+        val = parse_float(self.txt_inflation.text(), None)
+        if val is None:
+            return 4.5
         if getattr(self, "_inf_mode", "year") == "month":
-            return ((1 + val / 100.0) ** 12 - 1) * 100.0
+            return mensal_pct_para_anual_pct(val)
         return val
+
+    def get_tma_monthly_pct(self):
+        """TMA em % ao mês, a unidade em que o projeto a grava."""
+        return anual_pct_para_mensal_pct(self.get_tma_annual_pct())
+
+    def get_inflation_monthly_pct(self):
+        """Inflação em % ao mês, a unidade em que o projeto a grava."""
+        return anual_pct_para_mensal_pct(self.get_inflation_annual_pct())
 
     def get_currency_symbol(self):
         if not hasattr(self, "combo_currency"):
@@ -850,39 +867,42 @@ class TabTanksSimulation(QWidget):
     def _calculate_suggested_sweep(self, building: dict, sdii_mm_day: float):
         """Calcula de forma consistente o volume máximo de varredura e passo."""
         tot_demand = building.get("demand", 200.0) * building.get("residents", 4.0)
-        share = building.get("share", 0.40)
-        share_dec = (share / 100.0) if share > 1.0 else share
-        pluvial_demand_day = tot_demand * max(0.0, min(1.0, share_dec))
+        # O dicionário da edificação guarda frações de 0 a 1.
+        pluvial_demand_day = tot_demand * validar_fracao("A fração atendível", building.get("share", 0.40))
 
         if building.get("demand_mode") == "weekly" and building.get("weekly_demands"):
             w_d = building["weekly_demands"]
             w_r = building.get("weekly_residents", [4.0]*7)
-            w_s = [((s/100.0) if s > 1.0 else s) for s in building.get("weekly_shares", [0.4]*7)]
+            w_s = [validar_fracao("A fração semanal", s) for s in building.get("weekly_shares", [0.4]*7)]
             pluvial_demand_day = sum(w_d[i] * w_r[i] * w_s[i] for i in range(len(w_d))) / len(w_d)
         elif building.get("demand_mode") == "monthly" and building.get("monthly_demands"):
             m_d = building["monthly_demands"]
             m_r = building.get("monthly_residents", [4.0]*12)
-            m_s = [((s/100.0) if s > 1.0 else s) for s in building.get("monthly_shares", [0.4]*12)]
+            m_s = [validar_fracao("A fração mensal", s) for s in building.get("monthly_shares", [0.4]*12)]
             pluvial_demand_day = sum(m_d[i] * m_r[i] * m_s[i] for i in range(len(m_d))) / len(m_d)
 
-        # Autonomia em dias modulada pelo SDII:
-        autonomy_days = 15.0 + min(20.0, 1.0 * sdii_mm_day)
+        # Autonomia em dias modulada pelo SDII (calibrada para 8 a 14 dias de projeto,
+        # evitando o sobredimensionamento excessivo de reservatórios em grandes demandas):
+        autonomy_days = 8.0 + min(6.0, 0.4 * sdii_mm_day)
         sweep_from_demand = pluvial_demand_day * autonomy_days
 
         # Oferta pluvial captável por ciclo de eventos de chuva
-        sweep_from_catchment = min(8.0, 3.0 + 0.3 * sdii_mm_day) * sdii_mm_day * building.get("area", 100.0) * building.get("runoff", 0.8)
+        sweep_from_catchment = min(5.0, 2.0 + 0.2 * sdii_mm_day) * sdii_mm_day * building.get("area", 100.0) * building.get("runoff", 0.8)
 
         # Se houver reservatório superior configurado
         try:
             upper_vol = float(self.txt_upper_vol.text().replace(',', '.'))
         except Exception:
             upper_vol = 0.0
-        sweep_from_upper = upper_vol * 10.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0
+        sweep_from_upper = upper_vol * 5.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0
 
         if pluvial_demand_day > 0:
-            raw_sweep_max_l = max(sweep_from_demand, min(sweep_from_catchment, sweep_from_demand * 1.8), sweep_from_upper)
+            # O volume de varredura ideal cobre a demanda útil sem inflar além da capacidade
+            # de abastecimento da área de cobertura:
+            base_sweep = min(sweep_from_demand, max(sweep_from_catchment, sweep_from_demand * 0.75))
+            raw_sweep_max_l = max(base_sweep, sweep_from_upper, 3000.0)
         else:
-            raw_sweep_max_l = max(sweep_from_catchment, 5000.0)
+            raw_sweep_max_l = max(sweep_from_catchment, 3000.0)
 
         sweep_max_l = max(SWEEP_STEP_QUANTUM_L, int(round(raw_sweep_max_l / SWEEP_STEP_QUANTUM_L)) * SWEEP_STEP_QUANTUM_L)
         grid_plan = build_sweep_volume_grid(sweep_max_l, SWEEP_STEP_QUANTUM_L)

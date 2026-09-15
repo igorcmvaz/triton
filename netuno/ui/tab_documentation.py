@@ -331,8 +331,8 @@ class TabDocumentation(QWidget):
             <p>This page describes the calculation chain used by Netuno. Values are calculated from the historical daily series; therefore, results are not based on monthly averages.</p>
             <h3 style='color:#0369a1;'>Steps 1–2 — Rainfall, catchment and demand</h3>
             <p>For each day <i>t</i>, the programme calculates the usable captured volume.</p>
-            <p><code>Vcap,t = A × C × Peff,t</code>, with <code>Peff,t = 0</code> when the applicable event is below the configured threshold; otherwise <code>Peff,t = Pt</code>.</p>
-            <p>This threshold rule reproduces Netuno 4 and does not subtract <code>df</code> from accepted rainfall. Since 1 mm over 1 m² equals 1 L, no additional conversion is required. Daily non-potable demand is calculated as follows.</p>
+            <p><code>Peff,t = max(0, Pt − df)</code> on days when the first-flush rule applies, and <code>Peff,t = Pt</code> otherwise; <code>Vcap,t = A × C × Peff,t</code>.</p>
+            <p>The first-flush depth <code>df</code> is subtracted from the day's rainfall, so a day with rainfall at or below <code>df</code> yields no capture. This differs deliberately from Netuno 4, which treated <code>df</code> as an event threshold. Since 1 mm over 1 m² equals 1 L, no additional conversion is required. Daily non-potable demand is calculated as follows.</p>
             <p><code>Dpl,t = N × q × s</code></p>
             <h3 style='color:#0369a1;'>Step 3 — Reservoir sweep and daily balance</h3>
             <p>Each candidate lower-reservoir volume is simulated over every day in the input series using yield after spillage (YAS):</p>
@@ -1850,7 +1850,7 @@ class TabDocumentation(QWidget):
             <h3 style='color: #0369a1;'>2. Why use continuous daily simulation?</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Captures Real Dry Spells (CDD):</b> Accounts for the exact sequence of consecutive dry days.</li>
-                <li><b>First-flush threshold:</b> Applies the configured legacy rule: applicable rainfall below <i>df</i> is zero; at or above <i>df</i>, full daily rainfall is accepted.</li>
+                <li><b>First-flush depth:</b> Subtracts <i>df</i> from the rainfall of each day on which the rule applies; a day with rainfall at or below <i>df</i> yields no capture.</li>
                 <li><b>Sequence-dependent overflow:</b> Computes overflow under the stated daily YAS assumptions when the cistern reaches capacity.</li>
                 <li><b>Dynamic Consumption & Pumping:</b> Simulates the daily interaction between lower cistern, upper tank, and pump cycles.</li>
             </ul>
@@ -1880,7 +1880,7 @@ class TabDocumentation(QWidget):
             <h3 style='color: #0369a1;'>2. Por que usar a simulação diária contínua?</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Captura da Estiagem Real (CDD):</b> Considera a sequência exata de dias secos consecutivos.</li>
-                <li><b>Limiar de first flush:</b> Aplica a regra legada configurada: chuva aplicável abaixo de <i>df</i> é zerada; ao atingir <i>df</i>, a chuva diária integral é aceita.</li>
+                <li><b>Lâmina de descarte:</b> Subtrai <i>df</i> da chuva de cada dia em que a regra se aplica; um dia com chuva igual ou menor que <i>df</i> não produz captação.</li>
                 <li><b>Extravasamento dependente da sequência:</b> Calcula a perda sob as premissas diárias do YAS quando a cisterna atinge a capacidade.</li>
                 <li><b>Dinâmica de Consumo e Recalque:</b> Avalia a interação diária entre o reservatório inferior, o reservatório superior e o acionamento da motobomba.</li>
             </ul>

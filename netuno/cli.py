@@ -5,6 +5,9 @@ formato ``.netuno`` é autocontido quando incorpora a série de chuva e também
 guarda premissas ambientais e pesos TOPSIS usados pela linha de comando.
 """
 
+from netuno.core.taxas import anual_pct_para_mensal_pct
+from netuno.core.fracao_atendivel import percentual_para_fracao
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import argparse
 import copy
 import csv
@@ -630,7 +633,7 @@ def _template_analysis() -> Dict[str, Any]:
 
 def _create_template(path: str, rainfall_file: str, embed_rainfall: bool) -> Path:
     cfg = NetunoConfig(precip_file=rainfall_file, area=100.0, demand_value=120.0, residents_count=4,
-                       rainwater_share=0.40, runoff_coeff=0.85, lower_tank_max=10000.0,
+                       rainwater_share=0.40, runoff_coeff=COEFICIENTE_DE_ESCOAMENTO_PADRAO, lower_tank_max=10000.0,
                        lower_tank_step=500.0, upper_tank_vol=500.0, upper_tank_used=1)
     precipitation = load_precipitation(rainfall_file) if embed_rainfall else None
     target = Path(path)
@@ -651,7 +654,7 @@ def _create_catalog(kind: str, path: str) -> Path:
             "premises": [{
                 "id": "residencia-base", "name": "Residência base",
                 "config": {"area": 100.0, "demand_value": 120.0, "residents_count": 4,
-                           "rainwater_share": 0.40, "runoff_coeff": 0.85, "discard": 1.0,
+                           "rainwater_share": 0.40, "runoff_coeff": COEFICIENTE_DE_ESCOAMENTO_PADRAO, "discard": 1.0,
                            "lower_tank_mode": 1, "lower_tank_max": 10000.0, "lower_tank_step": 500.0,
                            "upper_tank_used": 1, "upper_tank_vol": 500.0, "pumping_threshold": 250.0,
                            "analysis_period_years": 20},
@@ -697,6 +700,9 @@ def _run_batch(args: argparse.Namespace) -> None:
     scenarios = parse_excel_scenarios(args.file)
     if not scenarios:
         raise ValueError("Nenhum cenário válido foi encontrado no arquivo.")
+    for scenario in scenarios:
+        for aviso in scenario.get("avisos", []):
+            print(f"aviso: {aviso}", file=sys.stderr)
     base_bundle = _load_bundle(args.base) if args.base else {"config": NetunoConfig(), "analysis": {}}
     base_cfg = base_bundle["config"]
     base_analysis = base_bundle.get("analysis", {}) or {}
@@ -1279,7 +1285,7 @@ def _run_compare_mass(args: argparse.Namespace) -> None:
         t0 = time.time()
 
         tasks = [
-            (fpath, sup_vol, inf_vol, args.area, args.residents, args.demand, args.share / 100.0 if args.share > 1.0 else args.share, args.runoff, args.discard, 0.0)
+            (fpath, sup_vol, inf_vol, args.area, args.residents, args.demand, percentual_para_fracao("--share", args.share), args.runoff, args.discard, 0.0)
             for fpath in climate_files
         ]
 
@@ -1599,8 +1605,10 @@ def _worker_vaz_study_file(file_path: str) -> List[Dict[str, Any]]:
                     cfg.upper_tank_used = True
                     cfg.upper_tank_vol = 0.5 * pluvial_demand
                     cfg.lower_tank_fixed = float(v_low)
-                    cfg.tma = 0.12
-                    cfg.inflation = 0.045
+                    # O projeto guarda % ao mês. O valor 0,12 aqui significava
+                    # 0,12% ao mês, e não os 12% ao ano pretendidos.
+                    cfg.tma = anual_pct_para_mensal_pct(12.0)
+                    cfg.inflation = anual_pct_para_mensal_pct(4.5)
                     cfg.analysis_period_years = 30
 
                     sim_res = run_single_simulation(
@@ -2012,7 +2020,7 @@ def main() -> None:
     compare_mass_parser.add_argument("--area", type=float, default=60.0, help="Área de captação em m² (padrão Tabela 2: 60)")
     compare_mass_parser.add_argument("--residents", type=int, default=4, help="Número de moradores (padrão Tabela 2: 4)")
     compare_mass_parser.add_argument("--demand", type=float, default=150.0, help="Demanda diária per capita L/hab/dia (padrão Tabela 2: 150)")
-    compare_mass_parser.add_argument("--share", type=float, default=30.0, help="Percentual não potável (padrão Tabela 2: 30%%)")
+    compare_mass_parser.add_argument("--share", type=float, default=30.0, help="Percentual não potável, de 0 a 100: 30 é 30%% (padrão Tabela 2: 30)")
     compare_mass_parser.add_argument("--runoff", type=float, default=0.80, help="Coeficiente de escoamento (padrão Tabela 2: 0.80)")
     compare_mass_parser.add_argument("--discard", type=float, default=2.0, help="Descarte inicial first-flush em mm (padrão Tabela 2: 2.0)")
     compare_mass_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")

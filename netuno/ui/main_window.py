@@ -794,6 +794,12 @@ class MainWindow(QMainWindow):
                 if not scenarios:
                     QMessageBox.warning(self, "Aviso", "Nenhum cenário válido encontrado na planilha.")
                     return
+                avisos = [a for sc in scenarios for a in sc.get("avisos", [])]
+                if avisos and QMessageBox.question(
+                        self, "Confira a substituição pluvial",
+                        "A coluna de substituição está em percentual (40 = 40%).\n\n"
+                        + "\n".join(avisos) + "\n\nSimular mesmo assim?") != QMessageBox.Yes:
+                    return
                 results = run_parsed_scenarios(scenarios)
                 def_out = self.get_kebab_filename("netuno-resultados-cenarios", "xlsx")
                 out_path, _ = QFileDialog.getSaveFileName(self, "Salvar Resultados dos Cenários", def_out, "Planilha Excel (*.xlsx)")

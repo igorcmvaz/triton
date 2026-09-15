@@ -11,17 +11,41 @@ Aqui existe um valor só, com a razão de ser dele escrita ao lado.
 
 from __future__ import annotations
 
-# ABNT NBR 15527:2019, item 4.1.6, dá a disponibilidade anual, mensal ou diária
-# por ``V_disp = P x A x C x eta``, e recomenda **eta = 0,85** na falta de dados,
-# sendo eta a eficiência do sistema de captação.
+# O valor de recurso é o da telha cerâmica, 0,75, o material mais comum nas
+# coberturas residenciais brasileiras e o primeiro da lista de materiais. É o
+# mesmo que a interface pré-seleciona: um valor só, para que o projeto aberto
+# por arquivo, por planilha ou pela tela renda a mesma captação.
 #
-# Este programa trabalha com um coeficiente único, que absorve tanto o
-# escoamento superficial da cobertura (C) quanto a eficiência de captação
-# (eta). Quando o usuário escolhe o material do telhado, o coeficiente vem da
-# tabela de materiais; este valor é o de recurso, para quando não há escolha.
-COEFICIENTE_DE_ESCOAMENTO_PADRAO = 0.85
+# A ABNT NBR 15527:2019, item 4.1.6, recomenda outro número, eta = 0,85, para a
+# eficiência do sistema de captação na falta de dados. O manual o usa no
+# tutorial, digitado como valor personalizado, e declara a diferença.
+COEFICIENTE_DE_ESCOAMENTO_PADRAO = 0.75
 
 FONTE_DO_COEFICIENTE = (
-    "ABNT NBR 15527:2019, item 4.1.6: na falta de dados, recomenda-se o fator "
-    "de captação de 0,85."
+    "Telha cerâmica, 0,75: ESTUDO sobre materiais para coberturas utilizadas em "
+    "sistemas de aproveitamento de água pluvial residenciais. MIX Sustentável, "
+    "v. 6, n. 2, p. 53-66, 2020."
+)
+
+# Coeficientes por material da cobertura, na ordem em que a interface os lista.
+# Sao os valores do estudo de materiais de cobertura publicado na revista MIX
+# Sustentavel (2020), que a aba de Documentacao cita. A interface, a documentacao
+# embutida e o manual precisam trazer exatamente estes numeros, e um teste
+# confere: antes o manual mostrava faixas sem fonte (ceramica de 0,80 a 0,90)
+# enquanto a lista do programa aplicava 0,75.
+COEFICIENTES_POR_MATERIAL = (
+    ("Telha Cerâmica", 0.75),
+    ("Telha Metálica", 0.88),
+    ("Telha de Cimento / Fibrocimento", 0.73),
+    ("Telhados verdes", 0.24),
+    ("Alumínio", 0.70),
+    ("Plástico / Policarbonato", 0.94),
+    ("Concreto Asfáltico", 0.90),
+    ("Aço Galvanizado", 0.92),
+)
+
+FONTE_DOS_COEFICIENTES_POR_MATERIAL = (
+    "ESTUDO sobre materiais para coberturas utilizadas em sistemas de "
+    "aproveitamento de água pluvial residenciais. MIX Sustentável, v. 6, n. 2, "
+    "p. 53-66, 2020. DOI 10.29183/2447-3073.MIX2020.v6.n2.53-66."
 )

@@ -4,6 +4,7 @@ Integra o modelo físico de lavagem de primeira chuva (wash-off), diretrizes da 
 dimensionamento paramétrico de filtros autolimpantes, dosagem de cloro, reatores UV e filtros de polimento.
 """
 
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
     QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea,
@@ -15,7 +16,8 @@ from PySide6.QtGui import QFont, QColor
 from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
 from netuno.core.water_quality import (
-    calculate_first_flush_washoff, size_etap, WATER_QUALITY_CLASSES, FirstFlushAnalysis
+    calculate_first_flush_washoff, size_etap, size_first_flush_system,
+    WATER_QUALITY_CLASSES, FirstFlushAnalysis, FirstFlushSizingResult
 )
 from netuno.core.etap_integration import volume_pluvial_anual_m3
 
@@ -120,6 +122,97 @@ class TabWaterQuality(QWidget):
         lay_ff.addWidget(self.frame_ff_diag)
 
         lay.addWidget(gb_ff)
+
+        # ── SEÇÃO A.1: DIMENSIONAMENTO E ORÇAMENTO DO SISTEMA DE DESCARTE E GRADEAMENTO ──
+        gb_ff_sys = QGroupBox(tr("🌧️ A.1. Dimensionamento e Orçamento do Sistema Físico de Descarte (First Flush)"))
+        gb_ff_sys.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
+        lay_ff_sys = QVBoxLayout(gb_ff_sys)
+        lay_ff_sys.setSpacing(10)
+
+        row_chk = QHBoxLayout()
+        self.chk_ff_enabled = QCheckBox(tr("Dimensionar e orçar sistema físico de descarte (Filtro de Folhas/Gradeamento + Reservatório de Descarte)"))
+        # Por padrão na interface da ETAP, o dimensionamento físico do descarte vem habilitado
+        self.chk_ff_enabled.setChecked(True)
+        self.config.first_flush_system_enabled = True
+        self.chk_ff_enabled.toggled.connect(self.on_first_flush_toggled)
+        self.chk_ff_enabled.setStyleSheet("font-size: 12px; font-weight: bold; color: #0284c7;")
+        row_chk.addWidget(self.chk_ff_enabled)
+        row_chk.addStretch()
+        lay_ff_sys.addLayout(row_chk)
+
+        self.frame_ff_details = QFrame()
+        self.frame_ff_details.setStyleSheet(f"""
+            QFrame {{
+                background-color: {card_bg};
+                border: 1px solid {card_border};
+                border-radius: 8px;
+                padding: 10px;
+            }}
+        """)
+        grid_ff = QGridLayout(self.frame_ff_details)
+        grid_ff.setSpacing(8)
+
+        # 1. Filtro de Folhas e Gradeamento
+        grid_ff.addWidget(QLabel(f"<b>{tr('1. Filtro de Folhas e Gradeamento:')}</b>"), 0, 0)
+        self.lbl_ff_filter_desc = QLabel("--")
+        self.lbl_ff_filter_desc.setWordWrap(True)
+        self.lbl_ff_filter_cost = QLabel("--")
+        self.lbl_ff_filter_cost.setStyleSheet("font-weight: bold; color: #0284c7; font-size: 13px;")
+        grid_ff.addWidget(self.lbl_ff_filter_desc, 0, 1)
+        grid_ff.addWidget(self.lbl_ff_filter_cost, 0, 2)
+
+        # 2. Reservatório de Descarte
+        grid_ff.addWidget(QLabel(f"<b>{tr('2. Reservatório de Descarte (V = d × A):')}</b>"), 1, 0)
+        self.lbl_ff_tank_desc = QLabel("--")
+        self.lbl_ff_tank_desc.setWordWrap(True)
+        self.lbl_ff_tank_cost = QLabel("--")
+        self.lbl_ff_tank_cost.setStyleSheet("font-weight: bold; color: #0284c7; font-size: 13px;")
+        grid_ff.addWidget(self.lbl_ff_tank_desc, 1, 1)
+        grid_ff.addWidget(self.lbl_ff_tank_cost, 1, 2)
+
+        # 3. Purga Automática
+        grid_ff.addWidget(QLabel(f"<b>{tr('3. Purga Automática Lenta:')}</b>"), 2, 0)
+        self.lbl_ff_purge_desc = QLabel("--")
+        self.lbl_ff_purge_desc.setWordWrap(True)
+        self.lbl_ff_purge_desc.setStyleSheet(f"font-size: 11px; color: {sub_text_color};")
+        grid_ff.addWidget(self.lbl_ff_purge_desc, 2, 1, 1, 2)
+
+        # 4. Materiais e Pegada ACV
+        grid_ff.addWidget(QLabel(f"<b>{tr('4. Materiais e Fabricação (ACV):')}</b>"), 3, 0)
+        self.lbl_ff_materials = QLabel("--")
+        self.lbl_ff_materials.setStyleSheet(f"font-size: 11px; color: {sub_text_color};")
+        grid_ff.addWidget(self.lbl_ff_materials, 3, 1, 1, 2)
+
+        # 5. Custo Total Descarte
+        grid_ff.addWidget(QLabel(f"<b>{tr('Investimento Total do Descarte (CAPEX):')}</b>"), 4, 0)
+        self.lbl_ff_total_capex = QLabel("--")
+        self.lbl_ff_total_capex.setStyleSheet(f"""
+            font-size: 14px; font-weight: bold; color: {'#38bdf8' if is_dark else '#0369a1'};
+            background-color: {'#1e293b' if is_dark else '#e0f2fe'};
+            padding: 4px 12px; border-radius: 6px;
+        """)
+        grid_ff.addWidget(self.lbl_ff_total_capex, 4, 1)
+
+        # 6. Banner de Integração
+        lbl_ff_integ = QLabel(tr(
+            "💡 <b>Integração Multidimensional Automática:</b> O investimento (CAPEX) e a pegada de carbono incorporada deste reservatório "
+            "de descarte são somados em todas as etapas do Netuno: Análise Econômica (VPL, Payback, TIR, LCOW), Análise de Ciclo de Vida (ACV) "
+            "e Decisão Multicritério (TOPSIS / VIKOR)."
+        ))
+        lbl_ff_integ.setWordWrap(True)
+        lbl_ff_integ.setStyleSheet(f"""
+            font-size: 11px;
+            color: {'#86efac' if is_dark else '#166534'};
+            background-color: {'#14532d' if is_dark else '#f0fdf4'};
+            border: 1px solid {'#166534' if is_dark else '#bbf7d0'};
+            border-radius: 6px;
+            padding: 8px;
+            margin-top: 4px;
+        """)
+        grid_ff.addWidget(lbl_ff_integ, 5, 0, 1, 3)
+
+        lay_ff_sys.addWidget(self.frame_ff_details)
+        lay.addWidget(gb_ff_sys)
 
         # ── SEÇÃO B: USOS FINAIS & LIMITES NORMATIVOS NBR 15527 ──
         gb_uses = QGroupBox(tr("📋 B. Classe de Uso Final e Parâmetros da Qualidade (ABNT NBR 15527)"))
@@ -254,10 +347,12 @@ class TabWaterQuality(QWidget):
         lay_sum = QHBoxLayout(gb_summary)
         lay_sum.setSpacing(12)
 
-        self.card_etap_capex = self._create_metric_card(tr("Investimento ETAP (CAPEX)"), "R$ --", "#0284c7")
+        self.card_ff_capex = self._create_metric_card(tr("Descarte 1ª Água (CAPEX)"), "R$ --", "#0284c7")
+        self.card_etap_capex = self._create_metric_card(tr("Investimento Total ETAP"), "R$ --", "#0d9488")
         self.card_etap_opex = self._create_metric_card(tr("Insumos Anuais (OPEX)"), "R$ --/ano", "#e11d48")
         self.card_etap_co2 = self._create_metric_card(tr("Emissões Anuais Insumos"), "-- kg CO2e/ano", "#059669")
 
+        lay_sum.addWidget(self.card_ff_capex)
         lay_sum.addWidget(self.card_etap_capex)
         lay_sum.addWidget(self.card_etap_opex)
         lay_sum.addWidget(self.card_etap_co2)
@@ -269,6 +364,14 @@ class TabWaterQuality(QWidget):
         self.on_class_changed()
         self.on_disinfection_changed()
         self.recalculate_all()
+
+    def on_first_flush_toggled(self):
+        enabled = self.chk_ff_enabled.isChecked() if hasattr(self, 'chk_ff_enabled') else True
+        self.config.first_flush_system_enabled = enabled
+        if hasattr(self, 'frame_ff_details'):
+            self.frame_ff_details.setVisible(enabled)
+        self.recalculate_all()
+        self.water_quality_updated.emit()
 
     def _create_metric_card(self, title: str, initial_value: str, color_hex: str) -> QFrame:
         is_dark = get_current_theme() == "dark"
@@ -442,7 +545,7 @@ class TabWaterQuality(QWidget):
             discard_mm=discard_val,
             roof_area_m2=roof_area,
             annual_precipitation_mm=precip_anual,
-            roof_runoff_coeff=getattr(self.config, 'runoff_coeff', 0.85),
+            roof_runoff_coeff=getattr(self.config, 'runoff_coeff', COEFICIENTE_DE_ESCOAMENTO_PADRAO),
         )
 
         self._set_card_value(self.card_vol_disc, f"{ff_res.annual_discard_volume_m3:.1f} m³/ano")
@@ -469,6 +572,9 @@ class TabWaterQuality(QWidget):
         # Consumo anual de água pluvial, medido pela simulação quando existe.
         sim_pluv_m3 = volume_pluvial_anual_m3(self.config, sim_result)
 
+        include_ff = self.chk_ff_enabled.isChecked() if hasattr(self, 'chk_ff_enabled') else True
+        self.config.first_flush_system_enabled = include_ff
+
         etap_res = size_etap(
             target_class_id=class_id,
             annual_pluvial_consumed_m3=sim_pluv_m3,
@@ -483,9 +589,30 @@ class TabWaterQuality(QWidget):
             chlorine_product_purity=getattr(self.config, 'chlorine_product_purity', 0.65),
             chlorine_co2_kg_per_kg=getattr(self.config, 'chlorine_co2_kg_per_kg', 1.85),
             regional_factor=1.0,
+            discard_mm=discard_val,
+            include_first_flush=include_ff,
         )
 
         self.lbl_filter_type.setText(f"{etap_res.pre_filter_type} (Malha {etap_res.pre_filter_mesh_microns} µm)")
+
+        # Atualiza subsistema de descarte físico
+        if hasattr(self, 'lbl_ff_filter_desc') and etap_res.first_flush:
+            ff = etap_res.first_flush
+            self.lbl_ff_filter_desc.setText(ff.leaf_filter_type)
+            self.lbl_ff_filter_cost.setText(f"R$ {ff.leaf_filter_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
+            self.lbl_ff_tank_desc.setText(f"{ff.diverter_tank_type} (Volume = {ff.diverter_volume_liters:.0f} L)")
+            self.lbl_ff_tank_cost.setText(f"R$ {ff.diverter_tank_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
+            self.lbl_ff_purge_desc.setText(ff.purge_drain_description)
+            self.lbl_ff_materials.setText(
+                f"{ff.material_description} — Massa total: {ff.diverter_mass_kg + ff.leaf_filter_mass_kg:.1f} kg "
+                f"| Carbono de Fabricação: ~{ff.first_flush_embodied_co2_kg:.1f} kg CO2e"
+            )
+            self.lbl_ff_total_capex.setText(f"R$ {ff.first_flush_total_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
+            if hasattr(self, 'card_ff_capex'):
+                self._set_card_value(self.card_ff_capex, f"R$ {ff.first_flush_total_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
+        elif hasattr(self, 'card_ff_capex'):
+            self._set_card_value(self.card_ff_capex, "R$ 0,00")
+
         self._set_card_value(self.card_etap_capex, f"R$ {etap_res.total_etap_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
         self._set_card_value(self.card_etap_opex, f"R$ {etap_res.total_etap_annual_opex:,.2f}/ano".replace(',', 'X').replace('.', ',').replace('X', '.'))
         self._set_card_value(self.card_etap_co2, f"{etap_res.total_etap_co2e_kg_yr:.1f} kg CO2e/ano")

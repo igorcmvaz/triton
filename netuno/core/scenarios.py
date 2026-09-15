@@ -1,6 +1,7 @@
 import os
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Tuple, Optional, Union, Callable
+from netuno.core.fracao_atendivel import validar_fracao
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
@@ -127,6 +128,8 @@ def run_multi_scenario_matrix(
 ) -> MultiScenarioMatrixResult:
     """
     Executa simulação de matriz fatorial multi-cenários usando o motor oficial netuno.core.simulation.
+
+    `rainwater_shares` são frações de 0 a 1; quem recebe percentual da tela converte antes.
     Suporta computação paralela multi-core para alta performance e notificação de progresso via callback.
     """
     precip_cache: Dict[str, np.ndarray] = {}
@@ -153,7 +156,7 @@ def run_multi_scenario_matrix(
                             scen_counter += 1
                             scen_id = f"SCEN_{scen_counter:04d}"
                             tot_demand = d_cap * res
-                            r_share_val = r_share / 100.0 if r_share > 1.0 else r_share
+                            r_share_val = validar_fracao("A fração atendível do cenário", r_share)
                             
                             tasks.append((
                                 scen_id, city_label, p_path, p_data, area, res, d_cap, tot_demand, r_share_val, runoff,

@@ -137,6 +137,35 @@ def pytest_report_header(config):
     return f"netuno: kernel {kernel} | {interface} | {clima}"
 
 
+@pytest.fixture(autouse=True)
+def idioma_portugues_isolado():
+    """Cada teste começa em português e não deixa idioma trocado para o seguinte.
+
+    `set_current_lang` grava o idioma no registro do usuário (QSettings). Um teste
+    que troca para inglês e falha antes de voltar deixaria os testes seguintes, e o
+    próprio programa instalado, em inglês.
+    """
+    if not TEM_INTERFACE_GRAFICA:
+        yield
+        return
+    from PySide6.QtCore import QSettings
+    from netuno.ui import translation
+
+    gravado = QSettings("UFSC", "Netuno5").value("language")
+    em_uso = translation._runtime_language
+    translation._runtime_language = "pt"
+    try:
+        yield
+    finally:
+        translation._runtime_language = em_uso
+        settings = QSettings("UFSC", "Netuno5")
+        if gravado is None:
+            settings.remove("language")
+        else:
+            settings.setValue("language", gravado)
+        settings.sync()
+
+
 @pytest.fixture(scope="session", autouse=True)
 def qapp():
     """Instância única de QApplication para os testes de interface.

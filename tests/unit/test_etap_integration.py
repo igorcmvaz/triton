@@ -252,3 +252,42 @@ def test_a_dose_relatada_vale_para_qualquer_metodo():
         etap = dimensionar_etap_do_projeto(cfg, annual_pluvial_m3=VOLUME_M3)
         assert etap.resultado.chlorine_dose_mg_l > 0.0, metodo
         assert etap.resultado.annual_chlorine_kg > 0.0, metodo
+
+
+def test_descarte_primeiras_aguas_soma_no_capex_da_etap_e_economico():
+    cfg = NetunoConfig()
+    cfg.discard = 2.0
+    cfg.area = 100.0
+    cfg.first_flush_system_enabled = False
+    etap_sem = dimensionar_etap_do_projeto(cfg, annual_pluvial_m3=VOLUME_M3)
+
+    cfg.first_flush_system_enabled = True
+    etap_com = dimensionar_etap_do_projeto(cfg, annual_pluvial_m3=VOLUME_M3)
+
+    assert etap_com.first_flush_volume_l == 200.0  # 2.0 mm * 100 m² = 200 L
+    assert etap_com.first_flush_capex > 0.0
+    assert etap_com.capex == pytest.approx(etap_sem.capex + etap_com.first_flush_capex)
+
+
+def test_descarte_primeiras_aguas_soma_no_inventario_da_acv():
+    cfg_env_sem = EnvironmentalConfig(
+        annual_water_saved_m3=VOLUME_M3,
+        discard=2.0,
+        roof_area_m2=100.0,
+        first_flush_system_enabled=False,
+    )
+    lca_sem = calculate_lca(5000.0, VOLUME_M3, cfg_env_sem)
+
+    cfg_env_com = EnvironmentalConfig(
+        annual_water_saved_m3=VOLUME_M3,
+        discard=2.0,
+        roof_area_m2=100.0,
+        first_flush_system_enabled=True,
+    )
+    lca_com = calculate_lca(5000.0, VOLUME_M3, cfg_env_com)
+
+    # O carbono incorporado de fabricação do descarte aumenta o total_embodied_co2_kg
+    assert lca_com.total_embodied_co2_kg > lca_sem.total_embodied_co2_kg
+    categorias = [item.category for item in lca_com.inventory_items]
+    assert any("Descarte" in cat for cat in categorias)
+

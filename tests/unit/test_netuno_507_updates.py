@@ -78,7 +78,7 @@ def test_monthly_precision_payback_discounted():
         sewage_tariff_per_m3=0.0,
         sewage_mode=0,
         water_tariff_escalation_rate=0.0,
-        discount_rate=10.0,  # 10% a.a.
+        discount_rate=0.10,  # 10% a.a., como fração
         annual_om_cost_base=0.0,
         pump_power_kw=0.0,
         analysis_period_years=10,

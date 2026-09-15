@@ -16,9 +16,10 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QFont, QColor
-from netuno.ui.translation import tr, get_current_theme
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
 
 from netuno.core.parser import load_precipitation, parse_float, parse_int
+from netuno.core.fracao_atendivel import percentual_para_fracao, aviso_percentual_pequeno
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation
 from netuno.core.excel_scenarios import export_scenarios_to_excel_bytes
 
@@ -202,6 +203,10 @@ class DialogScenarioSimulation(QDialog):
             self.table.setItem(r, 0, item_p)
 
             item_v = QTableWidgetItem(d_val)
+            if r == 5:
+                dica = tr("Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.")
+                item_p.setToolTip(dica)
+                item_v.setToolTip(dica)
             self.table.setItem(r, 1, item_v)
 
         # Evento de clique para linha 0 (Arquivos de precipitação)
@@ -327,7 +332,16 @@ class DialogScenarioSimulation(QDialog):
         residents = self.parse_list_int(self.table.item(4, 1).text() if self.table.item(4, 1) else "", [3])
         
         raw_shares = self.parse_list_float(self.table.item(5, 1).text() if self.table.item(5, 1) else "", [40.0])
-        shares = [s / 100.0 if s > 1.0 else s for s in raw_shares]
+        # A linha é percentual, de 0 a 100; nada é adivinhado.
+        try:
+            shares = [percentual_para_fracao(tr("Percentuais de substituição (%)"), s) for s in raw_shares]
+        except ValueError as erro:
+            QMessageBox.warning(self, tr("Aviso"), str(erro))
+            return
+        avisos = [a for a in (aviso_percentual_pequeno(s, get_current_lang()) for s in raw_shares) if a]
+        if avisos and QMessageBox.question(
+                self, tr("Aviso"), "\n".join(avisos) + "\n\n" + tr("Simular mesmo assim?")) != QMessageBox.Yes:
+            return
         
         discards = self.parse_list_float(self.table.item(6, 1).text() if self.table.item(6, 1) else "", [1.0])
         runoffs = self.parse_list_float(self.table.item(7, 1).text() if self.table.item(7, 1) else "", [0.9])

@@ -29,6 +29,19 @@ LEED_WEC2_MAX_PONTOS = 6   # reducao do uso interno
 LEED_WE_MAX_PONTOS = LEED_WEC1_MAX_PONTOS + LEED_WEC2_MAX_PONTOS
 
 
+def irrigacao_atendida_m3(resultado) -> Optional[float]:
+    """Água de chuva que o balanço diário destinou ao uso externo, em m³/ano.
+
+    O balanço atende primeiro o uso interno e só depois a irrigação. As telas de
+    certificação faziam o contrário — atribuíam a chuva primeiro ao uso externo —
+    e o crédito WEc1 saía de uma repartição que o motor não calculou. Devolve
+    None quando não há resultado de simulação de onde tirar a parcela.
+    """
+    if resultado is None or not hasattr(resultado, "avg_pluvial_irrigation_consumed_l_day"):
+        return None
+    return float(resultado.avg_pluvial_irrigation_consumed_l_day) * 365.25 / 1000.0
+
+
 @dataclass
 class EsgCreditDetail:
     certification: str             # "LEED v4 / v4.1", "Processo AQUA-HQE", "Selo Casa Azul CAIXA", "GRI 303"
@@ -114,56 +127,51 @@ def calculate_esg_certifications(
     tot_demand_m3 = annual_saved_m3 + annual_potable_m3
 
     # ── PARTIÇÃO DE USOS INTERNOS E EXTERNOS ──
-    # Determina se há de fato demanda externa cadastrada / ativa
-    has_real_outdoor = has_irrigation_demand
+    # Só a repartição que o balanço diário calcula entra na conta. Esta função
+    # inventava uma quando não a recebia: 85% da demanda como interna e 15% como
+    # externa, 35% da chuva para o uso externo, ou economia externa de 100% a
+    # partir de 25% de economia total. Nenhum desses números tinha fonte.
+    has_real_outdoor = bool(has_irrigation_demand)
     if outdoor_demand_m3 is not None and outdoor_demand_m3 <= 0.001:
         has_real_outdoor = False
-    elif not has_irrigation_demand:
-        has_real_outdoor = False
 
-    if not has_real_outdoor:
-        out_demand = 0.0
-        pluv_to_outdoor = 0.0
-        calc_out_pct = 0.0
+    # O crédito externo só é avaliado com a economia externa calculada.
+    outdoor_avaliavel = has_real_outdoor and outdoor_savings_pct is not None
+    calc_out_pct = max(0.0, min(100.0, float(outdoor_savings_pct))) if outdoor_avaliavel else 0.0
+
+    if indoor_savings_pct is not None:
+        calc_in_pct = max(0.0, min(100.0, float(indoor_savings_pct)))
+    elif not has_real_outdoor:
+        # Sem uso externo, toda a água de chuva vai para o uso interno.
         in_demand = indoor_demand_m3 if (indoor_demand_m3 is not None and indoor_demand_m3 > 0) else tot_demand_m3
-        pluv_to_indoor = annual_saved_m3
-        calc_in_pct = (pluv_to_indoor / in_demand * 100.0) if in_demand > 0 else savings_pct
-    elif is_simplified_mode:
-        # Modo Simplificado com uso externo ativo: partição normativa de referência (85% interno / 15% externo)
-        out_demand = outdoor_demand_m3 if (outdoor_demand_m3 is not None and outdoor_demand_m3 > 0) else (tot_demand_m3 * 0.15)
-        in_demand = indoor_demand_m3 if (indoor_demand_m3 is not None and indoor_demand_m3 > 0) else max(0.0, tot_demand_m3 - out_demand)
-        
-        pluv_to_outdoor = min(annual_saved_m3 * 0.35, out_demand) if out_demand > 0 else 0.0
-        pluv_to_indoor = max(0.0, annual_saved_m3 - pluv_to_outdoor)
-        
-        calc_out_pct = (pluv_to_outdoor / out_demand * 100.0) if out_demand > 0 else 0.0
-        calc_in_pct = (pluv_to_indoor / in_demand * 100.0) if in_demand > 0 else savings_pct
+        calc_in_pct = (annual_saved_m3 / in_demand * 100.0) if in_demand > 0 else savings_pct
     else:
-        # Modo Avançado com demanda externa
-        if indoor_savings_pct is not None:
-            calc_in_pct = max(0.0, min(100.0, float(indoor_savings_pct)))
-        else:
-            calc_in_pct = savings_pct
-
-        if outdoor_savings_pct is not None:
-            calc_out_pct = max(0.0, min(100.0, float(outdoor_savings_pct)))
-        else:
-            calc_out_pct = 100.0 if savings_pct >= 25.0 else min(100.0, savings_pct * 4.0)
+        # Há uso externo e a repartição não veio: a economia interna é tomada
+        # igual à total, que é a leitura conservadora.
+        calc_in_pct = savings_pct
 
     # 1. LEED v4 / v4.1 WE (Water Efficiency)
     # WEc1: Redução do uso externo (Outdoor Water Use Reduction)
     # Requer demanda de irrigação/externa para ser atendida pelo sistema pluvial.
     # Sem demanda externa no projeto, não pontua em WEc1 (0 pts) e indica explicitamente como não aplicável.
-    if has_real_outdoor and calc_out_pct >= 95.0:
+    # O LEED concede os dois pontos com 100% de redução do uso externo de água
+    # potável; o programa concedia a partir de 95%.
+    if outdoor_avaliavel and calc_out_pct >= 100.0 - 1e-6:
         outdoor_pts = 2
         outdoor_status = "Elegível (Máximo)"
         outdoor_perf = f"Economia externa: {calc_out_pct:.1f}%"
         outdoor_notes = "Dispensa potável em irrigação e torneiras de jardim via água pluvial filtrada."
-    elif has_real_outdoor and calc_out_pct >= 50.0:
+    elif outdoor_avaliavel and calc_out_pct >= 50.0:
         outdoor_pts = 1
         outdoor_status = "Elegível (1 pt)"
         outdoor_perf = f"Economia externa: {calc_out_pct:.1f}%"
         outdoor_notes = "Redução mínima de 50% no uso de água potável para irrigação alcançada."
+    elif has_real_outdoor and not outdoor_avaliavel:
+        outdoor_pts = 0
+        outdoor_status = "Não avaliado (economia externa não calculada)"
+        outdoor_perf = "Economia externa não calculada"
+        outdoor_notes = ("Há demanda externa, mas a água de chuva destinada a ela não foi "
+                         "calculada pelo balanço diário; o crédito WEc1 não é estimado sem essa repartição.")
     elif has_real_outdoor:
         outdoor_pts = 0
         outdoor_status = "Abaixo do limiar (50%)"
@@ -204,9 +212,11 @@ def calculate_esg_certifications(
     else:
         leed_badge = "Abaixo do limiar LEED (Mín. 25%)"
 
-    mode_text = " (estimado via Modo Simplificado)" if (is_simplified_mode and has_real_outdoor) else ""
-    if not has_real_outdoor or calc_out_pct <= 0:
+    mode_text = ""
+    if not has_real_outdoor:
         outdoor_desc = "sem demanda externa cadastrada no projeto (0 de 2 pontos no crédito WEc1)"
+    elif not outdoor_avaliavel:
+        outdoor_desc = "sem a economia externa calculada pelo balanço (crédito WEc1 não avaliado)"
     else:
         outdoor_desc = (f"a economia externa de {calc_out_pct:.1f}% garante {outdoor_pts} de "
                         f"{LEED_WEC1_MAX_PONTOS} pontos possíveis no crédito WEc1 (Uso Externo)")
@@ -233,15 +243,17 @@ def calculate_esg_certifications(
     )
 
     # 2. Processo AQUA-HQE (Categoria 4 - Gestão da Água do Empreendimento)
-    if savings_pct >= 40.0 or (calc_in_pct >= 35.0 and calc_out_pct >= 50.0):
+    # Perfis pela economia total, como o referencial os define. O programa
+    # admitia atalhos pelo uso interno e externo sem fonte, e foram retirados.
+    if savings_pct >= 40.0:
         aqua_level = "Excelente"
         aqua_stars = 3
         aqua_desc = "Perfil Excelente na Categoria 4 (Gestão da Água e fontes alternativas)."
-    elif savings_pct >= 25.0 or calc_in_pct >= 25.0:
+    elif savings_pct >= 25.0:
         aqua_level = "Boas Práticas"
         aqua_stars = 2
         aqua_desc = "Perfil de Boas Práticas (nível intermediário de eficiência hídrica)."
-    elif savings_pct >= 10.0 or calc_in_pct >= 15.0:
+    elif savings_pct >= 10.0:
         aqua_level = "Base"
         aqua_stars = 1
         aqua_desc = "Atendimento ao nível Base normativo AQUA-HQE."
@@ -257,17 +269,18 @@ def calculate_esg_certifications(
     )
 
     # 3. Selo Casa Azul CAIXA (Critério 2.1 - Conservação de Água por Fontes Alternativas)
-    if savings_pct >= 30.0 or (calc_in_pct >= 30.0 and calc_out_pct >= 50.0):
+    # Graduações pela economia total, sem os atalhos pelo uso interno.
+    if savings_pct >= 30.0:
         casa_cat = "Diamante"
         casa_pts = 5
         casa_met = True
         casa_desc = "Atende com folga ao critério de fontes alternativas em graduação Diamante."
-    elif savings_pct >= 20.0 or calc_in_pct >= 20.0:
+    elif savings_pct >= 20.0:
         casa_cat = "Ouro"
         casa_pts = 3
         casa_met = True
         casa_desc = "Atende ao critério de aproveitamento pluvial em graduação Ouro."
-    elif savings_pct >= 10.0 or calc_in_pct >= 10.0:
+    elif savings_pct >= 10.0:
         casa_cat = "Prata"
         casa_pts = 2
         casa_met = True

@@ -38,7 +38,7 @@ from netuno.core.environmental import pump_embodied_co2_is_extrapolated
 from dataclasses import replace
 from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
-from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
+from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport, irrigacao_atendida_m3
 from netuno.core.edge_certification import consumo_base_anual_m3
 from netuno.ui.charts import (
     NetunoBaseChart, CO2ComparisonChart, EnvironmentalBalanceSummaryChart,
@@ -1430,6 +1430,8 @@ class TabEnvironmental(QWidget):
             water_quality_disinfection=str(getattr(proj_cfg, 'water_quality_disinfection', 'cloro')),
             water_quality_polishing=bool(getattr(proj_cfg, 'water_quality_polishing', False)),
             roof_area_m2=float(getattr(proj_cfg, 'area', AREA_DE_RECURSO_M2) or AREA_DE_RECURSO_M2),
+            first_flush_system_enabled=bool(getattr(proj_cfg, 'first_flush_system_enabled', False)),
+            discard=float(getattr(proj_cfg, 'discard', 1.0) or 1.0),
             etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )
 
@@ -1594,6 +1596,8 @@ class TabEnvironmental(QWidget):
             potable_savings_pct = (ann_m3 / tot_demand_m3 * 100.0)
 
         potable_ann_m3 = max(0.0, tot_demand_m3 - ann_m3)
+        # O resultado de simulação de onde sai a repartição interno/externo.
+        res_ref = matching[0] if (sw_res_tech and matching) else single_res
 
         # Contexto do edifício: modo simplificado vs avançado, e demandas interna / externa
         mw = self.window()
@@ -1618,9 +1622,11 @@ class TabEnvironmental(QWidget):
 
                     if has_irr and outdoor_dem_m3 > 0:
                         indoor_dem_m3 = max(0.0, tot_demand_m3 - outdoor_dem_m3)
-                        pluv_to_outdoor = min(ann_m3, outdoor_dem_m3)
-                        pluv_to_indoor = max(0.0, ann_m3 - pluv_to_outdoor)
-                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                        # Parcela externa atendida pelo balanço, que serve o uso
+                        # interno primeiro; antes a tela servia o externo primeiro.
+                        pluv_to_outdoor = irrigacao_atendida_m3(res_ref)
+                        pluv_to_indoor = max(0.0, ann_m3 - (pluv_to_outdoor or 0.0))
+                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                         indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potable_savings_pct
                     else:
                         outdoor_dem_m3 = 0.0
@@ -1639,9 +1645,11 @@ class TabEnvironmental(QWidget):
 
                     if has_irr and outdoor_dem_m3 > 0:
                         indoor_dem_m3 = max(0.0, tot_demand_m3 - outdoor_dem_m3)
-                        pluv_to_outdoor = min(ann_m3, outdoor_dem_m3)
-                        pluv_to_indoor = max(0.0, ann_m3 - pluv_to_outdoor)
-                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                        # Parcela externa atendida pelo balanço, que serve o uso
+                        # interno primeiro; antes a tela servia o externo primeiro.
+                        pluv_to_outdoor = irrigacao_atendida_m3(res_ref)
+                        pluv_to_indoor = max(0.0, ann_m3 - (pluv_to_outdoor or 0.0))
+                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                         indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potable_savings_pct
                     else:
                         outdoor_dem_m3 = 0.0

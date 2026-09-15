@@ -48,15 +48,21 @@ def test_a_motobomba_tem_justificativa_nas_seis_potencias_comerciais():
         assert get_pump_justification(cv) is not None, cv
 
 
-def test_a_extrapolacao_da_motobomba_e_sinalizavel():
-    """Quatro dos seis valores são escalonamento aritmético do de meio cavalo.
+def test_a_motobomba_nao_tem_mais_valor_extrapolado():
+    """Quatro dos seis valores eram escalonamento aritmético do de meio cavalo.
 
-    A função existia para que a interface pudesse distinguir os dois estatutos,
-    e a interface não distinguia. Agora distingue, e o teste guarda o contrato:
-    o valor medido não é marcado, e os extrapolados são.
+    Agora cada potência é massa de catálogo vezes a intensidade por quilo de uma
+    EPD, e nenhuma é extrapolada. A função continua existindo para que a
+    interface volte a sinalizar se uma potência sem fonte for acrescentada.
     """
-    assert not pump_embodied_co2_is_extrapolated(0.5)
-    assert any(pump_embodied_co2_is_extrapolated(cv) for cv in (0.75, 1.0, 1.5, 2.0))
+    from netuno.core.environmental import PUMP_EMBEDDED_CO2, PUMP_MASS_KG, PUMP_KG_CO2E_POR_KG
+    assert PUMP_KG_CO2E_POR_KG == pytest.approx(10.4 / 2.179)
+    for cv, massa in PUMP_MASS_KG.items():
+        assert not pump_embodied_co2_is_extrapolated(cv), cv
+        assert PUMP_EMBEDDED_CO2[cv] == pytest.approx(massa * PUMP_KG_CO2E_POR_KG, abs=0.05)
+    # A massa, e portanto a emissão, cresce com a potência.
+    valores = [PUMP_EMBEDDED_CO2[cv] for cv in sorted(PUMP_EMBEDDED_CO2)]
+    assert valores == sorted(valores)
 
 
 def test_a_pureza_tem_justificativa_propria():
@@ -210,19 +216,20 @@ def test_a_justificativa_do_tubo_aparece_no_campo(dialogo):
         assert campo.justification is not None, dn
 
 
-def test_a_justificativa_da_bomba_aparece_e_avisa_da_extrapolacao(dialogo):
-    """O método era um `pass`: existia só para não quebrar os signals."""
-    dialogo.txt_pump_cv.setText("0,5")
-    dialogo._update_pump_co2_justification()
-    medida = dialogo.txt_pump_co2.justification
-    assert medida is not None
-    assert "EXTRAPOLADO" not in medida.detailed_explanation
+def test_a_justificativa_da_bomba_aparece_com_a_fonte(dialogo):
+    """O método era um `pass`: existia só para não quebrar os signals.
 
-    dialogo.txt_pump_cv.setText("2,0")
-    dialogo._update_pump_co2_justification()
-    extrapolada = dialogo.txt_pump_co2.justification
-    assert extrapolada is not None
-    assert "EXTRAPOLADO" in extrapolada.detailed_explanation
+    Até a 5.0.0 beta a potência de 2 CV era extrapolada e o diálogo avisava. Agora
+    todas as potências têm massa de catálogo e intensidade de EPD, e a justificativa
+    mostra as duas fontes em vez do aviso.
+    """
+    for cv in ("0,5", "2,0"):
+        dialogo.txt_pump_cv.setText(cv)
+        dialogo._update_pump_co2_justification()
+        just = dialogo.txt_pump_co2.justification
+        assert just is not None, cv
+        assert "EXTRAPOLADO" not in just.detailed_explanation, cv
+        assert "EPD" in just.source_reference and "Dancor" in just.source_reference, cv
 
 
 def test_salvar_devolve_a_pureza_e_a_base_para_a_aba(dialogo, aba):

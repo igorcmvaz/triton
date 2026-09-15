@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont, QColor
 
+from netuno.core.taxas import mensal_pct_para_anual_fracao
 from netuno.core.parser import NetunoConfig, format_ptbr, parse_float
 from netuno.core.simulation import run_single_simulation
 from netuno.core.economic import run_robust_economic_analysis, calculate_effective_tariff
@@ -612,8 +613,8 @@ class TabEconomicGlobalOptimizer(QWidget):
         min_pb = float("inf")
         best_vpl_for_pb = -float("inf")
 
-        tma_annual = cfg.tma / 100.0 if cfg.tma > 1.0 else cfg.tma
-        inf_annual = cfg.inflation / 100.0 if cfg.inflation > 1.0 else cfg.inflation
+        tma_annual = mensal_pct_para_anual_fracao(cfg.tma)
+        inf_annual = mensal_pct_para_anual_fracao(cfg.inflation)
         n_readj_per_year = 12.0 / max(1.0, cfg.tariff_escalation)
         w_esc_annual = (1.0 + getattr(cfg, 'water_tariff_escalation', 5.0) / 100.0) ** n_readj_per_year - 1.0
         s_esc_annual = (1.0 + getattr(cfg, 'sewage_tariff_escalation', 5.0) / 100.0) ** n_readj_per_year - 1.0
@@ -645,10 +646,14 @@ class TabEconomicGlobalOptimizer(QWidget):
                 up_mat = getattr(cfg, "upper_tank_material", "PEAD")
                 est_v = estimate_preliminary_capex(v_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used, cfg.pump_power_kw, cfg.pump_count, lower_material=low_mat, upper_material=up_mat)
                 c_low = est_v["lower"]
+                etap_c_inc = 0.0
+                if getattr(cfg, 'etap_enabled', True):
+                    from netuno.core.etap_integration import capex_incremental_da_etap
+                    etap_c_inc = capex_incremental_da_etap(cfg, annual_m3_val)
                 capex_tot = 0.0 if v_vol <= 0 else (
                     c_low + cfg.upper_tank_unit_cost +
                     (cfg.pump_unit_cost * getattr(cfg, "pump_count", 1) if upper_used else 0.0) +
-                    cfg.filters_pipes_cost + cfg.labor_installation_cost
+                    cfg.filters_pipes_cost + cfg.labor_installation_cost + etap_c_inc
                 )
                 tw_v, ts_v = calculate_effective_tariff(
                     cfg, annual_m3_val if v_vol > 0 else 0.0,
