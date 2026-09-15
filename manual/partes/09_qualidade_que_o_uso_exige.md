@@ -26,13 +26,10 @@ potáveis.
 O programa, por sua vez, oferece quatro classes, e a razão é prática: lavar roupa e regar
 jardim não impõem a mesma exigência à água, ainda que a norma não os distinga.
 
-<!-- tabela: As quatro classes de qualidade do programa e a situação normativa de cada uma -->
-| Classe | Uso | Situação |
-| :--- | :--- | :--- |
-| 1 | parâmetros mínimos da NBR 15527:2019 | **normativa** |
-| 2 | irrigação de jardins, lavagem de pisos e veículos | adaptada |
-| 3 | torres de resfriamento e caldeiras | adaptada |
-| 4 | lavagem de roupas e usos nobres não potáveis | adaptada |
+![As quatro classes de qualidade do programa](../figuras/fig36_classes.png)
+
+*Figura 99 — As quatro classes de qualidade e a situação normativa de cada uma. Apenas a classe 1 corresponde a exigência da ABNT NBR 15527; as outras três são adaptações do programa, úteis para comparar tratamentos e impróprias para serem apresentadas como requisito normativo.*
+
 
 > **As classes 2 a 4 são adaptações do programa, e não da norma.** O próprio Netuno
 > declara isso na tela e no relatório. Num estudo publicado, não as apresente como

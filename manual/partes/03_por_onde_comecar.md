@@ -43,13 +43,12 @@ maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de pr
 altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra
 coisa.
 
-<!-- tabela: Fração de demanda atendível por água pluvial conforme os usos previstos -->
-| Se os usos são | Fração típica | Onde se trata |
-| :--- | ---: | :--- |
-| bacia sanitária apenas | 20 a 30% | seção {{n:5}} |
-| bacia, máquina de lavar e área externa | 35 a 45% | seção {{n:5}} |
-| tudo menos chuveiro, cozinha e beber | 45 a 60% | seção {{n:5}} |
-| edificação comercial, quase só bacia e limpeza | 70 a 85% | seção {{n:18}} |
+![A fração atendível conforme os usos previstos](../figuras/fig46_atendivel.png)
+
+*Figura 99 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração.*
+
+Os três primeiros casos são tratados na seção {{n:5}}, e o caso comercial na seção {{n:18}}.
+
 
 ### Vai comparar volumes ou avaliar um só?
 
@@ -91,23 +90,14 @@ A barra lateral do programa está numerada, e a numeração corresponde à ordem
 trabalha. As quatro primeiras etapas são de entrada de dados, as cinco seguintes
 apresentam resultados, e as três últimas reúnem ferramentas auxiliares.
 
-<!-- tabela: As doze etapas do programa, na ordem de trabalho, e onde cada uma é tratada -->
-| Etapa | O que se faz nela | Onde se trata |
-| :--- | :--- | :--- |
-| 1. Projeto e Chuva | a série de precipitação e a captação | seção {{n:4}} |
-| 2. Edificação Consumo | quem ocupa, quanto consome, que parte a chuva atende | seção {{n:5}} |
-| 3. Qualidade & ETAP | a classe de água e o tratamento | seção {{n:9}} |
-| 4. Reservatório & Custos | o volume, ou a varredura, e o orçamento | seções {{n:6}}, {{n:7}} e {{n:10}} |
-| 5. Resultados Técnicos | quanta água o sistema entrega | seção {{n:6}} |
-| 6. Resultados Econômicos | em quanto tempo se paga | seção {{n:10}} |
-| 7. Resultados Ambientais & ESG | carbono e certificações | seção {{n:11}} |
-| 8. Decisão Multicritério | qual volume escolher | seção {{n:12}} |
-| 9. Relatórios PDF | o documento do estudo | seção {{n:13}} |
-| 10. Exportação | planilhas, desenho e dados | seção {{n:22}} |
-| 11. Documentação | o método dentro do próprio programa | — |
-| 12. Gestor de Tarifas | a tarifa do seu município | seção {{n:16}} |
+![As doze etapas do programa, na ordem de trabalho](../figuras/fig28_etapas.png)
 
-Convém salvar o projeto ao concluir cada etapa. Os 103 parâmetros são gravados e
+*Figura 99 — As doze etapas do programa, agrupadas por natureza. As quatro primeiras são de entrada e precisam ser preenchidas em ordem, porque cada uma consome o que a anterior definiu; as quatro seguintes são leitura de resultados; as últimas quatro produzem saídas ou dão apoio, e podem ser acionadas a qualquer momento.*
+
+Onde este manual trata cada uma: a etapa 1 na seção {{n:4}}, a 2 na {{n:5}}, a 3 na {{n:9}}, a 4 nas seções {{n:6}}, {{n:7}} e {{n:10}}, a 5 na {{n:6}}, a 6 na {{n:10}}, a 7 na {{n:11}}, a 8 na {{n:12}}, a 9 na {{n:13}}, a 10 na {{n:22}} e a 12 na {{n:16}}. A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
+
+
+Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
 relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
 para quem o refará no futuro quanto para quem o avaliará.
 

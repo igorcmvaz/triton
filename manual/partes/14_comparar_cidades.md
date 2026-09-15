@@ -66,6 +66,12 @@ ociosidade.
 
 ---
 
+![O regime mensal das quatro capitais](../figuras/fig18_capitais.png)
+
+*Figura 35 — A lâmina média de cada mês nas quatro capitais, na mesma escala. A linha tracejada é a média mensal de cada uma. Manaus e Brasília recebem chuva comparável no total do ano e a distribuem de maneiras opostas, e é essa distribuição que decide o tamanho do reservatório.*
+
+---
+
 ## O que mais muda entre cidades
 
 A precipitação não é a única grandeza que varia entre municípios, e as outras duas podem

@@ -90,7 +90,7 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 ## O resultado
 
 <!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos -->
-| | |
+| Indicador | Valor |
 | :--- | ---: |
 | valor presente líquido | R$ 15.295 |
 | taxa interna de retorno | 15,12% ao ano |
@@ -106,6 +106,13 @@ da seção {{n:8}}.
 
 ---
 
+O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica repete a conta para todos os volumes da varredura e traça a curva, e é nela que se vê se o ótimo técnico e o ótimo econômico caem no mesmo lugar.
+
+![O valor presente líquido contra o volume do reservatório](../figuras/fig49_programa_vpl.png)
+
+*Figura 99 — O gráfico da aba econômica: o valor presente líquido de cada volume da varredura, com cisterna de concreto, com o máximo econômico e o ótimo técnico marcados. Quando os dois coincidem, o programa os marca com um único símbolo. Figura gerada pelo próprio programa.*
+
+---
 ## O que a projeção assume
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:

@@ -5,7 +5,7 @@
 ## O que a base contém
 
 <!-- tabela: Conteúdo da base climática nacional -->
-| | |
+| O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
 | modelos climáticos do CMIP6 | 19 |
@@ -34,12 +34,8 @@ programa continua inteiramente funcional com séries do usuário.
 
 As *Shared Socioeconomic Pathways* do CMIP6:
 
-<!-- tabela: Os três cenários de emissão da base climática e a trajetória de cada um -->
-| Cenário | Trajetória |
-| :--- | :--- |
-| SSP1-2.6 | emissões caem rápido; aquecimento contido perto de 2 °C |
-| SSP2-4.5 | trajetória intermediária, próxima das políticas atuais |
-| SSP5-8.5 | emissões altas, sem mitigação efetiva |
+As três trajetórias estão desenhadas na seção {{n:15}}: o SSP1-2.6 supõe emissões em queda rápida, o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação.
+
 
 ---
 

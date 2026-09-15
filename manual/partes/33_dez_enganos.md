@@ -22,6 +22,12 @@ a área inclinada, multiplique por `cos(inclinação)`.
 
 ---
 
+![A chuva cai na vertical, e a área que capta é a projeção do telhado](../figuras/fig00i_projecao.png)
+
+*Figura 26 — Por que a área de captação é a projeção horizontal. A chuva cai na vertical, de modo que o volume interceptado depende da sombra do telhado no chão, e não do comprimento da sua rampa. Num telhado de 30% de inclinação a diferença entre as duas áreas é de 4%, e ela se repete em todos os dias da série.*
+
+---
+
 ## Dimensionar pela chuva média mensal
 
 **O engano.** Usar a média mensal de precipitação num cálculo de planilha, em vez da
@@ -156,7 +162,7 @@ de **metade** dessa diferença vem do tratamento do descarte, que mudou
 deliberadamente.
 
 **Como evitar.** Declare a divergência, e compare com descarte igual a zero, em que
-as duas regras coincidem. As seções {{n:21}} e 35 detalham.
+as duas regras coincidem. As seções {{n:21}} e {{n:35}} detalham o assunto.
 
 ---
 

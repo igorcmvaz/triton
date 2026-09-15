@@ -43,7 +43,7 @@ sem sistema, contra o qual todos os demais se comparam.
 
 ![Curva de potencial e curva de ganho marginal](../figuras/fig02_curva_de_retorno.png)
 
-*Figura 2 — À esquerda, o potencial se aproximando do teto de 40% e nunca o cruzando. À direita, o ganho marginal em escala logarítmica: três ordens de grandeza entre o primeiro metro cúbico e o vigésimo.*
+*Figura 2 — Em cima, o potencial se aproximando do teto de 40% e nunca o cruzando. Embaixo, o ganho marginal em escala logarítmica: três ordens de grandeza entre o primeiro metro cúbico e o vigésimo.*
 
 A coluna decisiva da tabela é a de **ganho por metro cúbico acrescentado**, que é a
 derivada discreta da curva de potencial e expressa quanto cada metro cúbico adicional de
@@ -75,6 +75,31 @@ sistema dele se aproxima, de modo que o espaço restante para ganho vai se esgot
 
 ---
 
+### Os quatro gráficos que a tela mostra
+
+A varredura não devolve apenas a curva de potencial. A aba de resultados traz quatro
+gráficos que respondem a perguntas diferentes sobre o mesmo conjunto de simulações, e as
+figuras a seguir são exatamente esses gráficos, gerados pelo programa com os dados deste
+tutorial.
+
+![O potencial de economia contra o volume, na tela do programa](../figuras/fig10_programa_potencial.png)
+
+*Figura 28 — O primeiro gráfico da aba de resultados: o potencial de economia de água potável em função do volume do reservatório inferior. A estrela marca o volume selecionado. Figura gerada pelo próprio programa, com os dados do tutorial.*
+
+![O ganho marginal contra o volume, na tela do programa](../figuras/fig11_programa_delta.png)
+
+*Figura 29 — O segundo gráfico: o ganho marginal, em pontos percentuais por metro cúbico acrescentado. É a derivada da curva anterior, e é sobre ela que o critério de volume ideal opera. Figura gerada pelo próprio programa.*
+
+![Extravasamento e consumo pluvial contra o volume](../figuras/fig12_programa_extravasamento.png)
+
+*Figura 30 — O terceiro gráfico: o volume extravasado e o volume pluvial consumido, ambos anuais, na mesma escala. As duas curvas explicam uma à outra, porque toda água que deixa de extravasar passa a ser consumida. Figura gerada pelo próprio programa.*
+
+![O atendimento dos dias contra o volume](../figuras/fig13_programa_dias.png)
+
+*Figura 31 — O quarto gráfico: a repartição dos dias do período em atendidos por inteiro, atendidos em parte e não atendidos. É a leitura temporal da mesma varredura, e a única que responde com que frequência se pode contar com o sistema. Figura gerada pelo próprio programa.*
+
+---
+
 ## O volume ideal
 
 Diante de uma curva cujo rendimento decai dessa forma, a pergunta «qual o volume ideal?»
@@ -83,13 +108,15 @@ Netuno adota para isso o critério do ganho marginal: o volume ideal é o menor 
 ganho por metro cúbico acrescentado já tenha caído abaixo de um limiar declarado pelo
 usuário, conforme a formulação da seção {{n:24}}.
 
-O limiar padrão do programa é de 1 %/m³. Na varredura deste projeto, o primeiro volume a
-cair abaixo dele é o de 5.000 L, com ganho marginal de 0,93 %/m³.
+O programa abre com limiar de 5 %/m³, e o tutorial adota um mais exigente, de 1 %/m³.
+A diferença não é detalhe: com o padrão, o volume ideal deste projeto seria de 3.000 L;
+com o limiar do tutorial, o primeiro volume a cair abaixo dele é o de 5.000 L, com
+ganho marginal de 0,93 %/m³. Quem refizer o tutorial precisa, portanto, alterar o limiar
+no programa antes de rodar a varredura.
 
-<!-- tabela: Indicadores do volume ideal obtido com o limiar padrão de 1 %/m³ -->
-| | |
+<!-- tabela: Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
+| Indicador | Valor |
 | :--- | ---: |
-<!-- tabela: Indicadores do volume ideal obtido com o limiar padrão de 1 %/m³ -->
 | volume ideal, limiar de 1 %/m³ | 5.000 L |
 | potencial nesse volume | 37,46% |
 | de um teto de | 40% |
@@ -142,6 +169,13 @@ para chegar a um volume de compromisso que se possa defender.
 
 ---
 
+A varredura traz ainda uma leitura que a tabela não mostra bem: quanto do reservatório fica de fato ocupado. Um reservatório de vinte metros cúbicos não guarda vinte metros cúbicos em média; guarda uma fração deles, e essa fração cai à medida que a capacidade cresce.
+
+![O volume médio armazenado contra o volume do reservatório](../figuras/fig47_programa_armazenado.png)
+
+*Figura 99 — O quinto gráfico da aba de resultados: o volume médio efetivamente armazenado em função da capacidade instalada. A distância crescente entre as duas curvas é a capacidade que se compra e não se usa, e é a leitura mais direta do retorno decrescente. Figura gerada pelo próprio programa.*
+
+---
 ## Duas leituras a mais da tabela
 
 **O extravasamento nunca chega a zero.** Ele parte de 513 L/dia na ausência de
@@ -163,7 +197,7 @@ a leitura da mesma tabela conduz a outra escolha.
 ## O que temos até aqui
 
 O tutorial adota 5.000 L e segue. Trata-se do volume ideal pelo critério hidráulico com
-o limiar padrão, e é o valor que o projeto carrega até a seção {{n:12}}, onde será
+o limiar de 1 %/m³, e é o valor que o projeto carrega até a seção {{n:12}}, onde será
 questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
 
 <!-- tabela: Estado do projeto do tutorial após a escolha do volume -->

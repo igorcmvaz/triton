@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import ast
 import os
+
+from escrita_segura import gravar  # não desfaz revisão feita à mão
 import re
 import sys
 
@@ -93,6 +95,7 @@ SECOES = [
     ("building_template_id", "Edificação"), ("num_economias", "Edificação"),
     ("climate", "Chuva"), ("precip", "Chuva"), ("start_date", "Chuva"),
     ("area", "Captação"), ("runoff", "Captação"), ("discard", "Captação"),
+    ("first_flush", "Captação"),
     ("irrigation", "Irrigação"),
     ("chlorine", "Qualidade da água"), ("water_quality", "Qualidade da água"),
     ("etap", "Qualidade da água"),
@@ -131,14 +134,14 @@ UNIDADES = {
     "irrigation_rate_l_m2_day": "L/m²·dia", "irrigation_liters_per_day": "L/dia",
     "irrigation_rain_threshold_mm": "mm/dia", "chlorine_dose_mg_l": "mg Cl₂/L",
     "chlorine_product_purity": "kg/kg", "chlorine_cost_per_kg": "R$/kg",
-    "chlorine_co2_kg_per_kg": "kg CO₂e/kg", "tma": "%/mês", "inflation": "%/mês",
+    "chlorine_co2_kg_per_kg": "kg CO₂e/kg", "tma": "% ao mês", "inflation": "% ao mês",
     "analysis_period_years": "anos", "sewage_rate": "% da água",
     "water_tax_fixed": "R$/mês", "water_tax_var": "%", "elec_tariff": "R$/kWh",
     "elec_tax_fixed": "R$/mês", "elec_tax_var": "%", "iptu_annual_value": "R$/ano",
     "iptu_discount_pct": "%", "cost_lower_tank": "R$", "cost_upper_tank": "R$",
     "cost_labor": "R$", "cost_piping": "R$", "cost_accessories": "R$",
-    "water_tariff_escalation": "%/ano", "sewage_tariff_escalation": "%/ano",
-    "elec_tariff_escalation": "%/ano", "tariff_escalation": "meses",
+    "water_tariff_escalation": "% por período", "sewage_tariff_escalation": "% por período",
+    "elec_tariff_escalation": "% por período", "tariff_escalation": "meses",
     "install_month": "mês", "edge_base_case_l_person_day": "L/pessoa·dia",
     "discard_mode": "código", "demand_type": "código", "residents_type": "código",
     "upper_tank_used": "código", "lower_tank_mode": "código", "sewage_mode": "código",
@@ -218,7 +221,7 @@ def apendice_a():
         por_sec.setdefault(c["sec"], []).append(c)
 
     L = [
-        "# Apêndice A — Os parâmetros do projeto",
+        "# Os parâmetros do projeto",
         "",
         f"São **{len(campos)} parâmetros**. É a lista completa do que um projeto",
         "guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.",
@@ -228,15 +231,16 @@ def apendice_a():
         "",
         "A coluna **onde se informa** diz em que tela o campo aparece; a coluna",
         "**quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo",
-        "gravado no arquivo e nunca lido, e está listado no capítulo 34.",
+        "gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.",
         "",
     ]
     for sec in ORDEM:
         if sec not in por_sec:
             continue
         grupo = por_sec[sec]
-        L += [f"## A.{ORDEM.index(sec) + 1}. {sec}", "",
-              f"{len(grupo)} parâmetros.", "",
+        L += [f"## {sec}", "",
+              f"{len(grupo)} parâmetro{'s' if len(grupo) != 1 else ''}.", "",
+              f"<!-- tabela: Parâmetros do projeto: {sec.lower()} -->",
               "| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |",
               "| :--- | ---: | :--- | :--- | :--- |"]
         for c in grupo:
@@ -263,7 +267,7 @@ def apendice_b():
     FAMILIAS = espaco["FAMILIAS"]
 
     L = [
-        "# Apêndice B — Os processos do programa",
+        "# Os processos do programa",
         "",
         f"São **{len(PROCESSOS)} processos**, do arquivo de chuva ao relatório. Cada",
         "um declara o que o dispara, o que recebe, as regras com suas ramificações, o",
@@ -273,8 +277,7 @@ def apendice_b():
         "estudo feito com o programa e precisa saber exatamente que conta foi feita, e",
         "quem encontrou um resultado estranho e quer saber por onde o número passou.",
         "",
-        "Os nomes em `código` são os campos do arquivo de projeto, listados no",
-        "apêndice A.",
+        "Os nomes em `código` são os campos do arquivo de projeto, listados na seção {{n:A}}.",
         "",
     ]
     for pid, nome, fam, gatilho, entradas, regras, fns, saidas, excecao in PROCESSOS:
@@ -336,24 +339,24 @@ def apendice_d():
     }
 
     L = [
-        "# Apêndice D — Regimes tarifários",
+        "# Regimes tarifários",
         "",
         f"A base traz **{len(cidades)} municípios** com estrutura tarifária, percentual",
         "de esgoto, regime de mínimo, data de vigência e fonte. Esta lista é extraída",
         "da própria base do programa, e não transcrita.",
         "",
-        "## D.1. Os códigos de faixa",
+        "## Os códigos de faixa",
         "",
         "Cada linha da tabela tarifária é uma quádrupla "
         "`(mínimo, máximo, valor, código)`:",
         "",
-        "| Código | Significado |",
-        "| ---: | :--- |",
+        "Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados "
+        "na seção {{n:29}}, e não se repetem aqui.",
+        "",
     ]
-    for cod, desc in CODIGOS.items():
-        L.append(f"| {cod} | {desc} |")
 
-    L += ["", "## D.2. Os cinco regimes", "",
+    L += ["", "## Os cinco regimes", "",
+          "<!-- tabela: Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->",
           "| Regime | Municípios | O que acontece ao economizar |",
           "| :--- | ---: | :--- |"]
     for chave, (nome, desc) in NOMES.items():
@@ -363,14 +366,17 @@ def apendice_d():
           "> O piso de pagamento está implementado e nenhum município da base foi",
           "> classificado nele até esta versão.",
           "",
-          "## D.3. Distribuição por unidade da federação", "",
-          "| UF | Municípios |", "| :--- | ---: |"]
-    por_uf = Counter(c.get("uf") for c in cidades.values())
-    for uf in sorted(x for x in por_uf if x):
-        L.append(f"| {uf} | {por_uf[uf]} |")
+          "## Distribuição por unidade da federação", "",
+          "![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)",
+          "",
+          f"*Figura 99 — A distribuição dos {len(cidades)} municípios catalogados pelas "
+          "unidades da federação, com as cores identificando a macrorregião. São Paulo "
+          "e Minas Gerais respondem sozinhos por quase um terço do catálogo.*",
+          ""]
 
-    L += ["", "## D.4. Grau de confiança", "",
+    L += ["", "## Grau de confiança", "",
           "Cada registro traz o grau de confiança da coleta:", "",
+          "<!-- tabela: Grau de confiança dos registros tarifários do catálogo -->",
           "| Grau | Registros |", "| :--- | ---: |"]
     conf = Counter(c.get("confianca_grau", "não informado") for c in cidades.values())
     for grau, n in conf.most_common():
@@ -378,7 +384,7 @@ def apendice_d():
 
     L += ["",
           "> **Confira sempre a data de vigência** do registro do seu município contra a",
-          "> resolução da concessionária. Tarifas são reajustadas anualmente, e o guia 16",
+          "> resolução da concessionária. Tarifas são reajustadas anualmente, e a seção {{n:16}}",
           "> ensina o teste que identifica estrutura errada.", ""]
     return NL.join(L), len(cidades)
 
@@ -386,7 +392,7 @@ def apendice_d():
 def main():
     texto, n = apendice_a()
     p = os.path.join(SAIDA, "A_parametros.md")
-    open(p, "w", encoding="utf-8").write(texto + NL)
+    gravar(p, texto + NL)
     print(f"  A_parametros.md — {n} parâmetros")
 
     texto, n = apendice_b()
@@ -394,7 +400,7 @@ def main():
         print("  B_processos.md — pulado: falta manual/processos.py")
     else:
         p = os.path.join(SAIDA, "B_processos.md")
-        open(p, "w", encoding="utf-8").write(texto + NL)
+        gravar(p, texto + NL)
         print(f"  B_processos.md — {n} processos")
 
     texto, n = apendice_d()
@@ -402,7 +408,7 @@ def main():
         print("  D_regimes_tarifarios.md — pulado: base não encontrada")
     else:
         p = os.path.join(SAIDA, "D_regimes_tarifarios.md")
-        open(p, "w", encoding="utf-8").write(texto + NL)
+        gravar(p, texto + NL)
         print(f"  D_regimes_tarifarios.md — {n} municípios")
 
     # O apêndice F é escrito à mão: descreve arquivos, pastas e formatos do

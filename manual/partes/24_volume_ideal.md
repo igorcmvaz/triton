@@ -28,6 +28,17 @@ sistema, contra o qual os demais se comparam.
 
 ---
 
+A consequência prática aparece melhor num gráfico. Com passo fino, a curva mostra o
+joelho onde o retorno começa a decair; com passo grosseiro, o joelho cai entre dois
+pontos da grade e o critério elege o primeiro volume tabulado depois dele, que pode estar
+vários metros cúbicos adiante do volume que de fato interessa.
+
+![A mesma curva vista por duas grades de varredura](../figuras/fig14_grade.png)
+
+*Figura 32 — A curva de potencial da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa não erra nenhum dos pontos que calcula; ela simplesmente não calcula o ponto que importa.*
+
+---
+
 ## O ganho marginal
 
 A curva de potencial de economia contra volume é monotônica e côncava: cada metro
@@ -75,7 +86,7 @@ V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
 | `V_ideal` | volume ideal pelo critério de ganho marginal | L |
 | `V_i` | volume do reservatório na posição `i` da grade | L |
 | `Δ(V_i)` | ganho marginal do volume `V_i`, da Equação {{eq:ganho_marginal}} | %/m³ |
-| `Δ_lim` | limiar de ganho marginal declarado pelo usuário; o padrão é 1,0 | %/m³ |
+| `Δ_lim` | limiar de ganho marginal declarado pelo usuário; o programa abre com 5,0, e o tutorial adota 1,0 | %/m³ |
 
 Quando nenhum volume da grade satisfaz a condição da Equação {{eq:volume_ideal}} —
 situação que ocorre quando a faixa varrida termina antes de a curva achatar — o
@@ -88,6 +99,20 @@ adotada aqui é a mesma.
 > volume ideal por este critério não é uma recomendação de projeto; é o ponto em que a
 > curva de aproveitamento deixa de compensar **em água**. A seção {{n:32}} trata da
 > escolha com os demais critérios, que frequentemente apontam para volumes diferentes.
+
+---
+
+Este é um critério entre outros igualmente defensáveis, e convém deixar isso
+explícito. Um projetista que queira o máximo desempenho hídrico escolherá o maior volume
+da varredura; um que responda por um orçamento escolherá o volume de maior valor
+presente líquido; o critério de ganho marginal fica entre os dois, por ser o que identifica
+onde a curva deixa de compensar. Os três leem a mesma varredura e não precisam coincidir:
+neste projeto o técnico e o econômico apontam o mesmo volume, e o de máximo desempenho
+aponta outro. Nenhum dos três está errado — errado é não dizer qual deles foi usado.
+
+![A mesma varredura lida por três critérios](../figuras/fig09_criterios.png)
+
+*Figura 13 — A varredura do projeto do tutorial lida por três critérios legítimos. O painel superior traz o potencial de economia e o inferior, o valor presente líquido do mesmo conjunto de volumes; cada linha tracejada marca o volume que um dos critérios elege.*
 
 ---
 

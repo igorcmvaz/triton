@@ -61,6 +61,18 @@ descartados por inteiro, e o item 4.3 explica por quê.
 
 ---
 
+Vale a pena olhar uma série inteira antes de usá-la. Trinta anos de Florianópolis
+não são trinta anos parecidos: o ano mais seco fica quase um terço abaixo do mais
+chuvoso, e é essa variação entre anos que uma média anual apaga. A distribuição diária
+diz o resto da história — a maior parte dos dias não tem chuva alguma, e o volume anual
+é entregue por um número pequeno de dias intensos.
+
+![Trinta anos de série, e a distribuição dos dias de chuva](../figuras/fig15_serie.png)
+
+*Figura 27 — A série de Florianópolis usada em todo o tutorial. Em cima, o total de cada ano contra a média dos trinta; embaixo, a distribuição dos dias em que houve chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes.*
+
+---
+
 ## A área de captação
 
 O projeto do tutorial adota 150 m² de área de captação, e este é o primeiro campo em que
@@ -80,9 +92,31 @@ representada pela sua projeção horizontal.
 
 ---
 
+Carregada a série, o programa já mostra o regime que ela descreve. Vale conferir esse desenho antes de seguir: uma série trocada de cidade, ou com unidade errada, costuma aparecer aqui antes de aparecer em qualquer resultado.
+
+![O ciclo sazonal médio da série carregada](../figuras/fig55_programa_sazonal.png)
+
+*Figura 99 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Florianópolis, julho recebe cerca de um terço do que recebe novembro, e é essa diferença que o reservatório tem de atravessar. Figura gerada pelo próprio programa.*
+
+---
 ## O coeficiente de escoamento
 
-O tutorial adota coeficiente de escoamento de 0,85, valor usual para telha cerâmica.
+O tutorial digita 0,85 no campo do coeficiente. O programa, por sua vez, abre com a telha
+cerâmica selecionada e aplica 0,75, o valor que a lista de materiais atribui a ela, que é
+também o valor que ele assume quando nenhum material é informado. ==Atenção ao reproduzir
+o tutorial: para chegar aos números deste manual, escolha «Outro / Personalizado» e digite
+0,85.==
+
+A origem do 0,85 merece precisão, porque ele é citado com frequência como coeficiente de
+escoamento e não é. A ABNT NBR 15527:2019, no item 4.1.6, escreve o volume disponível como
+produto de quatro termos — precipitação, área, coeficiente de escoamento superficial C e
+eficiência do sistema de captação η — e recomenda 0,85 **para η**, na falta de dados do
+fabricante. Esse η já leva em conta o dispositivo de descarte de sólidos e o desvio do
+escoamento inicial. O Netuno tem um campo só para a fração da chuva que chega à cisterna e
+modela o descarte à parte, em milímetros. Digitar ali o η da norma e aplicar também o
+descarte de 2 mm conta a perda do escoamento inicial duas vezes, de modo que o tutorial é
+conservador. Num estudo, declare o valor adotado no campo, a sua origem e o descarte, e não
+atribua à norma um coeficiente de escoamento que ela não fixa.
 
 O coeficiente de escoamento superficial representa a fração da chuva incidente que
 efetivamente chega à cisterna, e a diferença até a unidade corresponde ao que se perde no
@@ -90,20 +124,16 @@ caminho. As perdas têm quatro origens: a absorção pelo material da cobertura,
 evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento
 inicial da telha a cada novo evento de chuva.
 
-<!-- tabela: Coeficiente de escoamento superficial usual por tipo de cobertura -->
-| Cobertura | Coeficiente usual |
-| :--- | ---: |
-| telha metálica | 0,90 a 0,95 |
-| telha cerâmica | 0,80 a 0,90 |
-| telha de fibrocimento | 0,80 a 0,90 |
-| laje impermeabilizada | 0,80 a 0,85 |
-| telhado verde | 0,20 a 0,50 |
+![O coeficiente de escoamento por tipo de cobertura](../figuras/fig35_escoamento.png)
+
+*Figura 99 — O coeficiente de escoamento que o programa atribui a cada material da cobertura, com os valores do estudo de materiais publicado na revista MIX Sustentável (2020). A linha tracejada marca 0,85, o fator de captação da ABNT NBR 15527 adotado no tutorial. O telhado verde é o único que se afasta do grupo, porque retém parte da chuva no substrato.*
+
 
 O programa aceita qualquer valor entre zero e um, e recusa valores fora desse intervalo
 nomeando o campo — um coeficiente maior que a unidade significaria que a cobertura entrega
-mais água do que a chuva lhe traz. A etapa **11. Documentação** traz a tabela completa por
-material, incluindo coberturas mistas, em que o coeficiente é a média ponderada pelas
-áreas.
+mais água do que a chuva lhe traz. A etapa **11. Documentação** traz a mesma tabela, com a
+fonte dos valores. Para uma cobertura mista, o coeficiente a digitar é a média dos
+coeficientes de cada material ponderada pelas respectivas áreas.
 
 ---
 

@@ -52,6 +52,8 @@ class Prancha:
         self.ax.axis("off")
         self.caixas = {}
         self.ligacoes = []
+        self.confinados = []
+        self.notas = []
 
     def caixa(self, nome, x, y, w, h, rotulo, cor=AZUL, fundo="#ffffff",
               tinta=TINTA, tamanho=8.2, tracejada=False, peso="normal"):
@@ -59,11 +61,55 @@ class Prancha:
             (x, y), w, h, boxstyle="round,pad=0.0,rounding_size=1.2",
             linewidth=1.4, edgecolor=cor, facecolor=fundo, zorder=3,
             linestyle="--" if tracejada else "-"))
-        self.ax.text(x + w / 2.0, y + h / 2.0, rotulo, ha="center", va="center",
-                     fontsize=tamanho, color=tinta, zorder=4, linespacing=1.35,
-                     fontweight=peso)
+        artista = self.ax.text(
+            x + w / 2.0, y + h / 2.0, rotulo, ha="center", va="center",
+            fontsize=tamanho, color=tinta, zorder=4, linespacing=1.35,
+            fontweight=peso)
+        # O rótulo não pode sair da caixa. Medir depois de desenhado é a única
+        # forma exata: estimar pela contagem de caracteres erra nos acentos e
+        # nas palavras longas, que são justamente as que vazam.
+        self.confinados.append((artista, (x, y, x + w, y + h)))
         self.caixas[nome] = (x, y, w, h)
         return nome
+
+    def _ajustar_rotulos(self):
+        """Encolhe o rótulo que não couber, e uniformiza o que sobrou.
+
+        Encolher só a caixa que vaza deixaria letra menor ao lado de letra
+        maior; por isso todos os rótulos que partiram do mesmo corpo terminam
+        no menor corpo a que algum deles precisou descer.
+        """
+        if not self.confinados:
+            return
+        self.fig.canvas.draw()
+        desenho = self.fig.canvas.get_renderer()
+        originais = [a.get_fontsize() for a, _ in self.confinados]
+        apertados = []
+        for artista, (x0, y0, x1, y1) in self.confinados:
+            while True:
+                caixa = artista.get_window_extent(renderer=desenho)
+                (ex0, ey0), (ex1, ey1) =                     self.ax.transData.inverted().transform(caixa)
+                if (ex0 >= x0 + 0.8 and ex1 <= x1 - 0.8
+                        and ey0 >= y0 + 0.3 and ey1 <= y1 - 0.3):
+                    break
+                corpo = artista.get_fontsize() * 0.94
+                if corpo < 5.6:
+                    apertados.append(
+                        artista.get_text().replace(NL, " ")[:40])
+                    break
+                artista.set_fontsize(corpo)
+                self.fig.canvas.draw()
+                desenho = self.fig.canvas.get_renderer()
+        if apertados:
+            raise AssertionError(
+                "rótulo que não cabe na caixa: " + "; ".join(apertados))
+        menor = {}
+        for (artista, _), original in zip(self.confinados, originais):
+            chave = round(original, 2)
+            menor[chave] = min(menor.get(chave, original),
+                               artista.get_fontsize())
+        for (artista, _), original in zip(self.confinados, originais):
+            artista.set_fontsize(menor[round(original, 2)])
 
     def _ancora(self, nome, lado):
         x, y, w, h = self.caixas[nome]
@@ -96,8 +142,38 @@ class Prancha:
         self.ligacoes.append((de, para))
 
     def nota(self, x, y, texto, cor=TINTA2, tamanho=7.6):
-        self.ax.text(x, y, texto, ha="left", va="top", fontsize=tamanho,
-                     color=cor, linespacing=1.45, zorder=4)
+        """Uma nota que não passa da largura da prancha.
+
+        As quebras de linha escritas à mão envelhecem: basta trocar uma palavra
+        para a linha passar da borda. A nota é remontada num parágrafo só e
+        requebrada até caber, medida no renderizador.
+        """
+        artista = self.ax.text(x, y, texto, ha="left", va="top",
+                               fontsize=tamanho, color=cor, linespacing=1.45,
+                               zorder=4)
+        self.notas.append((artista, x))
+        return artista
+
+    def _ajustar_notas(self):
+        import textwrap
+
+        if not self.notas:
+            return
+        _, limite = self.ax.get_xlim()
+        self.fig.canvas.draw()
+        desenho = self.fig.canvas.get_renderer()
+        for artista, x in self.notas:
+            paragrafo = " ".join(artista.get_text().split())
+            largura = max(len(l) for l in artista.get_text().split(NL))
+            while True:
+                caixa = artista.get_window_extent(renderer=desenho)
+                (_, _), (direita, _) =                     self.ax.transData.inverted().transform(caixa)
+                if direita <= limite - 1.0 or largura <= 30:
+                    break
+                largura = int(largura * 0.93)
+                artista.set_text(NL.join(textwrap.wrap(paragrafo, largura)))
+                self.fig.canvas.draw()
+                desenho = self.fig.canvas.get_renderer()
 
     def titulo(self, texto):
         self.ax.set_title(texto, color=TINTA, fontsize=10.5, loc="left", pad=10)
@@ -111,6 +187,8 @@ class Prancha:
 
     def salvar(self, nome):
         self.conferir()
+        self._ajustar_rotulos()
+        self._ajustar_notas()
         self.fig.savefig(FIGURAS / nome, dpi=170, bbox_inches="tight",
                          facecolor=SUPERFICIE)
         plt.close(self.fig)

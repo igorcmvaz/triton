@@ -32,7 +32,7 @@ O programa executa, para cada dia `t`, sempre nesta ordem:
 6. **completa com água da rede** o que a chuva não atendeu;
 7. **classifica** o dia como de atendimento pleno, parcial ou nulo.
 
-A ordem não é arbitrária, e trocar dois passos muda o resultado. O item 23.4 volta a
+A ordem não é arbitrária, e trocar dois passos muda o resultado. O item {{n:23.4}} volta a
 isso.
 
 ---
@@ -210,6 +210,18 @@ convenção tem nome na literatura: é a regra YAS, do inglês *yield after spil
 aceitar, na forma de consumo, água que fisicamente já teria transbordado, e
 superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
 mais pesam no total anual.
+
+A diferença entre as duas ordens é invisível na maior parte dos dias e decisiva
+nos poucos que importam. Enquanto o reservatório não enche, extravasar antes ou depois
+de consumir dá exatamente o mesmo resultado, porque não há extravasamento algum; nos
+dias de chuva intensa, em que o reservatório atinge a capacidade, a ordem determina se
+uma parcela de água é contabilizada como consumida ou como perdida. São justamente
+esses dias os que mais pesam no total anual, e por isso uma escolha que parece
+formalidade desloca o resultado inteiro.
+
+![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
+
+*Figura 12 — A regra YAS, adotada pelo programa, contra a ordem invertida. As duas sequências só divergem no dia em que o reservatório enche, e é nesse dia que a ordem invertida contabiliza como consumo uma água que fisicamente já teria transbordado.*
 
 ### O atendimento da demanda
 

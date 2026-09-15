@@ -25,11 +25,43 @@ nomeiam o campo responsável e o valor recebido, de modo que a correção não e
 | «Coeficiente de escoamento fora de [0, 1]» | coeficiente negativo ou acima de 1 | acima de 1 a cobertura entregaria mais água do que a chuva traz; telhados usuais ficam entre 0,80 e 0,95 |
 | «Lâmina de descarte negativa» | descarte menor que zero | o descarte retira água da captação, não acrescenta |
 | «Demanda diária negativa» | demanda menor que zero | corrija |
-| «Fração atendível fora de [0, 1]» | fração maior que 1 | informe 0,4 para 40%, e não 40 |
+| «Fração atendível por água pluvial fora de [0, 1]» | fração maior que 1 | informe 0,4 para 40%, e não 40 |
+| «… não é um número finito» | campo que chegou ao cálculo vazio, como texto ou infinito | preencha o campo nomeado com um número |
+| «Modo de descarte desconhecido» | modo diferente de 1, 2 ou 3 | escolha um dos três modos; para não descartar, informe lâmina zero |
+| «Intervalo de descarte inválido» | modo 3 com intervalo menor que 1 dia | informe o intervalo em dias inteiros |
+| «Nível de acionamento da motobomba negativo» | nível menor que zero | corrija; zero significa acionar com a caixa vazia |
 
-> A última é a mais frequente. O campo aceita fração **ou** percentual em alguns
-> pontos da interface e só fração no núcleo; quando a mensagem aparecer, é porque o
-> valor chegou como 40 em vez de 0,4.
+> A fração atendível é a mensagem mais frequente, e a regra que a evita é uma só: onde se
+> digita, percentual de 0 a 100; onde se guarda, fração de 0 a 1. A seção {{n:5}}
+> justifica a divisão. Quando a mensagem aparecer, o valor chegou como 40 num lugar que
+> guarda 0,4 — tipicamente um arquivo de parâmetros editado à mão ou uma chamada de
+> automação.
+
+<!-- tabela: Mensagens da fração atendível e a providência de cada uma -->
+| Mensagem | O que a disparou | O que fazer |
+| :--- | :--- | :--- |
+| «… parece estar em percentual» | fração entre 1 e 100 no arquivo, no vetor semanal, mensal ou diário, ou na automação | informe 0,4 para 40% |
+| «… fora de [0, 100]» | percentual negativo ou acima de 100 na tela, na tabela de cenários, na planilha ou em `--share` | corrija; 40 significa 40% |
+| campo laranja, ou pergunta «Simular mesmo assim?» | percentual entre 0 e 1 | se quis 40%, digite 40; se quis mesmo menos de 1%, confirme |
+
+---
+
+## Série de precipitação
+
+O programa não distingue um dia seco de um dia sem registro, e por isso não adivinha: uma
+falha na série interrompe o cálculo com a indicação de onde ela está. Preencher a falha,
+ou recortar a série para um período sem falhas, é decisão de quem conduz o estudo, e a
+decisão precisa constar do estudo.
+
+<!-- tabela: Mensagens de erro da série de precipitação e a providência de cada uma -->
+| Mensagem | Causa | O que fazer |
+| :--- | :--- | :--- |
+| «A série de precipitação está vazia» | arquivo sem nenhuma linha numérica | confira se o arquivo tem uma coluna de valores diários, um por linha |
+| «… dia(s) sem valor numérico, o primeiro no dia N» | falha de registro: linha vazia ou texto no meio da série | preencha as falhas ou recorte a série, e declare o tratamento |
+| «… valor(es) negativo(s), o primeiro de X mm no dia N» | sentinela de falha, como −999 | trate como falha: preencha ou recorte |
+
+Uma linha de cabeçalho antes dos dados, como «Data;Precipitação», não é erro: ela é
+ignorada e a leitura começa na primeira linha numérica.
 
 ---
 
@@ -55,7 +87,41 @@ e não o passo originalmente pedido.
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
-| «Dose negativa» | dose menor que zero | corrija |
+| «A dose não pode ser negativa» | dose menor que zero | corrija |
+| «O fator de emissão não pode ser negativo» | fator de emissão do produto menor que zero | corrija; o fator é por quilo de produto comercial |
+
+---
+
+## Análise econômica
+
+<!-- tabela: Mensagens de erro da análise econômica e a providência de cada uma -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior que zero |
+| «O período de análise deve ser um número inteiro de anos» | período fracionário, zero ou negativo | informe o período em anos inteiros |
+| «… deve ser um número finito e maior que -100%» | reajuste, inflação ou taxa de desconto de −100% ou menos | confira o sinal da taxa |
+| «… parece estar em percentual» | taxa anual informada como 5 numa função que espera fração decimal | informe 0,05 para 5% |
+
+> **Unidade das taxas.** Na interface e no arquivo de projeto, toda taxa é informada em
+> percentual, com a unidade ao lado do campo: a TMA e a inflação em % ao mês (a.m.) ou em
+> % ao ano (a.a.), conforme o botão ao lado, e os reajustes tarifários em % por período
+> de reajuste, cujo comprimento em meses fica no campo vizinho. O projeto grava a TMA e a
+> inflação em % ao mês. A conversão entre mês e ano é composta, (1 + i)^12 − 1, e não uma
+> multiplicação por doze: 1% ao mês equivale a 12,68% ao ano. Na automação, as funções de
+> cálculo anual recebem as taxas como fração decimal, 0,05 para 5%, e recusam um valor que
+> pareça percentual em vez de reinterpretá-lo.
+
+---
+
+## Decisão multicritério
+
+<!-- tabela: Mensagens de erro da decisão multicritério e a providência de cada uma -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
+| «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
+| «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
+| «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
 
 ---
 

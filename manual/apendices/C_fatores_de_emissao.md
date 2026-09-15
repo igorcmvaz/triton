@@ -33,14 +33,10 @@ Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial
 **A fronteira é por metro cúbico entregue na edificação**, e não por metro cúbico
 produzido na estação. A conversão usa as perdas de distribuição:
 
-<!-- tabela: Perdas de distribuição por macrorregião e volume entregue por metro cúbico produzido -->
-| Macrorregião | Perdas | 1 m³ produzido entrega |
-| :--- | ---: | ---: |
-| Sudeste | 33,9% | 0,66 m³ |
-| Sul | ~35% | ~0,65 m³ |
-| Centro-Oeste | ~40% | ~0,60 m³ |
-| Nordeste | ~45% | ~0,55 m³ |
-| Norte | 46,9% | 0,53 m³ |
+![As perdas de distribuição por macrorregião](../figuras/fig43_perdas.png)
+
+*Figura 99 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião. É essa fração que converte um fator de emissão de saída de estação em fator por metro cúbico entregue, e ignorá-la subestima a emissão evitada em até um terço.*
+
 
 Um fator de saída de estação aplicado ao volume entregue subestima a emissão evitada
 em até um terço.
@@ -69,6 +65,31 @@ ativo.
 
 ---
 
+## Motobomba
+
+Não existe Declaração Ambiental de Produto de motobomba residencial brasileira. O
+programa compõe o valor com duas fontes lidas: a massa de cada potência, do catálogo da
+Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
+EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
+
+<!-- tabela: Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+| Potência | Massa | Emissão de fabricação |
+| ---: | ---: | ---: |
+| 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
+| 1/2 CV | 6,4 kg | 30,5 kg CO₂e |
+| 3/4 CV | 13,5 kg | 64,4 kg CO₂e |
+| 1 CV | 15,3 kg | 73,0 kg CO₂e |
+| 1 1/2 CV | 17,5 kg | 83,5 kg CO₂e |
+| 2 CV | 20,7 kg | 98,8 kg CO₂e |
+
+> **Declare no estudo.** A EPD é de um circulador europeu com eletrônica embarcada, e a
+> massa de referência inclui a embalagem. A intensidade por quilo é aproximação de ordem
+> de grandeza, e não inventário da bomba instalada; havendo EPD do fabricante empregado,
+> ela prevalece. Os valores anteriores, de 12 a 55 kg CO₂e, ficavam de 1,7 a 2,7 vezes
+> abaixo destes, e quatro deles eram extrapolação aritmética.
+
+---
+
 ## Fatores com rótulo de triagem
 
 Nem todo fator tem fonte primária. Os que não têm são marcados, e o relatório exibe a
@@ -77,7 +98,7 @@ marca.
 <!-- tabela: Fatores que carregam rótulo de triagem, por ausência de fonte primária -->
 | Fator | Situação |
 | :--- | :--- |
-| **emissão de fabricação da motobomba** | quatro dos seis valores são extrapolação aritmética a partir do valor de meio CV |
+| **hipoclorito, por quilo de produto** | citado como Ecoinvent v3.8 sem o processo nem o identificador; nenhum artigo de acesso aberto publica o fator por quilo |
 
 > **Num estudo publicado, declare quais fatores carregam rótulo de triagem.** Um
 > inventário que apresenta todos os fatores com o mesmo grau de confiança esconde

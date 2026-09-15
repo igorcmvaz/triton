@@ -108,6 +108,13 @@ descarte, e a diferença inteira corresponde ao que extravasou.
 
 ---
 
+Antes de discutir por que o potencial não chega aos 40%, convém ver o reservatório trabalhando. A aba de resultados traz a série diária do nível da cisterna, e é nela que se enxergam de uma vez os dois regimes que limitam o aproveitamento: o transbordamento e a falta.
+
+![O nível da cisterna, dia a dia, ao longo de um ano](../figuras/fig48_programa_serie_diaria.png)
+
+*Figura 99 — O nível da cisterna ao longo do primeiro ano da série, com a chuva diária ao fundo. Os platôs no alto são os dias em que o reservatório está cheio e extravasa; os vales no zero são os dias em que ele secou e a rede atendeu tudo. Figura gerada pelo próprio programa.*
+
+---
 ## Por que não chegamos aos 40%
 
 A seção {{n:5}} encerrou com um confronto aparentemente favorável: 187 m³ anuais de

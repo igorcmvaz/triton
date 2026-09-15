@@ -175,6 +175,25 @@ precipitado, que decide o rendimento do sistema.
 
 ---
 
+Os nove índices ficam abstratos enquanto permanecem em forma de tabela. Postos sobre
+um ano real de série, cada um passa a apontar um trecho identificável do registro: o dia
+mais intenso, os dias acima do limiar, a maior estiagem, o total acumulado.
+
+![Os índices marcados sobre um ano de série](../figuras/fig16_indices.png)
+
+*Figura 33 — Quatro dos nove índices marcados sobre o ano de 1995 em Florianópolis. A faixa sombreada é a maior sequência de dias secos do ano; os pontos na base marcam os dias com 20 mm ou mais; a seta aponta o maior dia.*
+
+A sazonalidade é o índice que menos se parece com os demais, porque não descreve
+intensidade nem frequência: descreve o quanto a chuva do ano se concentra em parte dele.
+É também o índice que mais separa as capitais brasileiras entre si, e o que melhor
+prevê se um reservatório precisará atravessar uma estiagem longa.
+
+![O índice de sazonalidade nas quatro capitais](../figuras/fig17_sazonalidade.png)
+
+*Figura 34 — O índice de sazonalidade de Walsh e Lawler nas quatro capitais do guia, com as faixas de classificação ao fundo e a lâmina anual escrita dentro de cada barra. Chover muito e chover o ano inteiro são propriedades independentes.*
+
+---
+
 ## Três divergências que precisam ser declaradas
 
 O programa chama o conjunto de «ETCCDI mais sazonalidade», e a precisão da expressão
@@ -204,6 +223,16 @@ primeiros dias do ano.
 
 ---
 
+![A precipitação total anual, ano a ano, na tela do programa](../figuras/fig53_programa_prcptot.png)
+
+*Figura 99 — A aba de índices traz a série de cada indicador ano a ano. Aqui, a precipitação total anual da série de Florianópolis, com a média do período em linha tracejada. Figura gerada pelo próprio programa.*
+
+---
+![As estiagens e as sequências chuvosas, ano a ano](../figuras/fig54_programa_cdd_cwd.png)
+
+*Figura 99 — O mesmo tratamento aplicado à maior estiagem e à maior sequência chuvosa de cada ano. São os dois índices que mais dizem sobre o tamanho de reservatório que a cidade exige. Figura gerada pelo próprio programa.*
+
+---
 ## Para que servem no estudo
 
 **Caracterizar a série** no método do artigo. PRCPTOT, SDII e SI descrevem o regime

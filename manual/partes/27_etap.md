@@ -20,6 +20,16 @@ aparência ou a ausência de resíduo dissolvido importa.
 
 ---
 
+A linha de tratamento é uma sequência, e a ordem dos estágios não é arbitrária: cada
+um remove aquilo que tornaria o seguinte ineficaz. Convém ter o encadeamento inteiro à
+vista antes de discutir cada peça.
+
+![A sequência de estágios da linha de tratamento](../figuras/fig00j_etap.png)
+
+*Figura 43 — Os quatro estágios da linha de tratamento e o caminho do resíduo retido. A desinfecção vem por último porque o seu reagente seria consumido pela matéria orgânica em suspensão, que os estágios anteriores removem.*
+
+---
+
 ## O filtro de entrada
 
 O filtro de entrada é dimensionado pela área de cobertura, e não pela classe de
@@ -49,12 +59,10 @@ residual. Entre as três tecnologias disponíveis, apenas a cloração deixa na 
 agente desinfetante que permanece ativo depois do tratamento; a radiação ultravioleta e
 a ozonização atuam no instante da passagem e nada deixam atrás de si.
 
-<!-- tabela: As três tecnologias de desinfecção e a permanência do efeito de cada uma -->
-| Opção | Residual | O que entra no custeio |
-| :--- | :---: | :--- |
-| cloração por pastilhas | **sim** | massa anual de produto |
-| ultravioleta | não | lâmpada e energia |
-| ozonização | não | gerador e energia |
+![As três tecnologias de desinfecção disponíveis](../figuras/fig30_desinfeccao.png)
+
+*Figura 99 — As três tecnologias de desinfecção, o residual de cada uma e o que cada uma leva para o custeio anual. O residual é a propriedade que separa a cloração das demais.*
+
 
 ==Ultravioleta e ozônio entram como barreira adicional à cloração, e não como
 substitutas dela.== Sem residual, a água tratada volta a se contaminar ao longo do

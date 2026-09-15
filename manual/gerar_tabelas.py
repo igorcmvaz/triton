@@ -11,6 +11,8 @@ Saída: manual/partes/_tabelas/*.md, incluídos pelos capítulos.
 from __future__ import annotations
 
 import os
+
+from escrita_segura import gravar  # não desfaz revisão feita à mão
 import sys
 
 import numpy as np
@@ -593,55 +595,83 @@ def tabela_cidades():
 #: A legenda de cada tabela gerada. Fica aqui, e não no capítulo, porque é aqui
 #: que a tabela nasce; a montagem só lhe acrescenta o número.
 LEGENDAS = {
-    "cap23_entrada.md": "Dados de entrada do caso resolvido de dez dias",
-    "cap23_dez_dias.md": "Balanço hídrico diário do caso resolvido, dia a dia, "
-                         "com as parcelas de captação, consumo, extravasamento "
-                         "e armazenamento",
-    "cap04_serie.md": "Caracterização da série de precipitação de Florianópolis "
-                      "adotada no tutorial",
-    "cap06_primeira_simulacao.md": "Resultado da primeira simulação do tutorial, "
-                                   "com reservatório de 3.000 L",
-    "cap07_varredura.md": "Varredura de volumes do projeto do tutorial, com o "
-                          "ganho marginal de cada metro cúbico acrescentado",
-    "cap07_limiar_e_custo.md": "Volume ideal obtido com cada limiar de ganho "
-                               "marginal, para o mesmo projeto",
-    "cap08_reservatorio_superior.md": "Comparação entre reservatório único e "
-                                      "reservatório duplo, mantido o mesmo "
-                                      "armazenamento total",
-    "cap08_limiar.md": "Efeito do limiar de acionamento da motobomba sobre o "
-                       "potencial de economia e sobre o número de acionamentos",
-    "cap09_etap.md": "Custo da linha de tratamento conforme a tecnologia de "
-                     "desinfecção adotada",
-    "cap10_economico.md": "Composição da fatura de água e esgoto antes e depois "
-                          "do sistema pluvial",
-    "cap11_materiais.md": "Saldo de carbono do projeto do tutorial conforme o "
-                          "material do reservatório",
-    "cap12_multicriterio.md": "Matriz de decisão multicritério: cada volume da "
-                              "varredura avaliado nas três dimensões de análise",
-    "cap14_cidades.md": "O mesmo projeto do tutorial simulado em quatro capitais "
-                        "brasileiras",
+    # Uma legenda por tabela, na ordem em que aparecem no arquivo. Antes só a
+    # primeira tabela recebia legenda, e regenerar apagava as demais.
+    'cap23_entrada.md': [
+        'Dados de entrada do caso resolvido de dez dias',
+        'Série de precipitação dos dez dias do caso resolvido',
+    ],
+    'cap23_dez_dias.md': [
+        'Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento',
+        'Verificação do fechamento do balanço de massa nos dez dias',
+        'Indicadores resultantes do caso resolvido de dez dias',
+    ],
+    'cap04_serie.md': [
+        'Caracterização da série de precipitação de Florianópolis adotada no tutorial',
+    ],
+    'cap06_primeira_simulacao.md': [
+        'Resultado da primeira simulação do tutorial, com reservatório de 3.000 L',
+    ],
+    'cap07_varredura.md': [
+        'Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado',
+    ],
+    'cap07_limiar_e_custo.md': [
+        'Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto',
+        'Custo e desempenho comparados entre o volume ideal e o volume máximo varrido',
+    ],
+    'cap08_reservatorio_superior.md': [
+        'Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total',
+    ],
+    'cap08_limiar.md': [
+        'Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos',
+    ],
+    'cap09_etap.md': [
+        'Custo da linha de tratamento conforme a tecnologia de desinfecção adotada',
+        'Recomendação de filtração fina e custo da linha por classe de qualidade',
+    ],
+    'cap10_economico.md': [
+        'Composição da fatura de água e esgoto antes e depois do sistema pluvial',
+        'Indicadores econômicos do projeto do tutorial em vinte anos de análise',
+    ],
+    'cap11_materiais.md': [
+        'Saldo de carbono do projeto do tutorial conforme o material do reservatório',
+        'Efeito do volume da cisterna de concreto sobre o saldo de carbono',
+    ],
+    'cap12_multicriterio.md': [
+        'Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise',
+        'Volume vencedor segundo cada critério isolado',
+        'Volume escolhido conforme a dimensão que recebe peso dominante',
+    ],
+    'cap14_cidades.md': [
+        'O mesmo projeto do tutorial simulado em quatro capitais brasileiras',
+    ],
 }
 
 
 def com_legenda(nome, conteudo):
-    """Põe a legenda declarada acima da primeira tabela do arquivo."""
-    legenda = LEGENDAS.get(nome)
-    if not legenda:
+    """Põe a legenda declarada acima de cada tabela do arquivo, na ordem."""
+    fila = list(LEGENDAS.get(nome) or [])
+    if not fila:
         return conteudo
-    return "<!-- tabela: " + legenda + " -->" + NL + conteudo
+    saida, anterior = [], ""
+    for linha in conteudo.split(NL):
+        if (linha.startswith("|") and not anterior.startswith("|")
+                and not anterior.startswith("<!-- tabela:") and fila):
+            saida.append("<!-- tabela: " + fila.pop(0) + " -->")
+        saida.append(linha)
+        anterior = linha
+    return NL.join(saida)
 
 
 def main():
     tabela, r = tabela_dez_dias()
 
     caminho = os.path.join(SAIDA, "cap23_entrada.md")
-    with open(caminho, "w", encoding="utf-8") as f:
-        f.write(com_legenda(os.path.basename(caminho), entrada_dez_dias()) + NL)
+    gravar(caminho, com_legenda(os.path.basename(caminho), entrada_dez_dias()) + NL)
     print(f"  {os.path.relpath(caminho, AQUI)}")
 
     caminho = os.path.join(SAIDA, "cap23_dez_dias.md")
-    with open(caminho, "w", encoding="utf-8") as f:
-        f.write(com_legenda(os.path.basename(caminho), tabela) + NL)
+    gravar(caminho, com_legenda(os.path.basename(caminho), tabela) + NL)
     print(f"  {os.path.relpath(caminho, AQUI)}")
 
     print(f"  potencial dos dez dias: {r.potential_potable_savings_pct:.2f}%")
@@ -651,25 +681,21 @@ def main():
         ("cap04_serie.md", tabela_serie()),
     ):
         caminho = os.path.join(SAIDA, nome)
-        with open(caminho, "w", encoding="utf-8") as f:
-            f.write(com_legenda(os.path.basename(caminho), conteudo) + NL)
+        gravar(caminho, com_legenda(os.path.basename(caminho), conteudo) + NL)
         print(f"  {os.path.relpath(caminho, AQUI)}")
 
     tabela_p, r6 = tabela_primeira_simulacao()
     caminho = os.path.join(SAIDA, "cap06_primeira_simulacao.md")
-    with open(caminho, "w", encoding="utf-8") as f:
-        f.write(com_legenda(os.path.basename(caminho), tabela_p) + NL)
+    gravar(caminho, com_legenda(os.path.basename(caminho), tabela_p) + NL)
     print(f"  {os.path.relpath(caminho, AQUI)} — {r6.potential_potable_savings_pct:.2f}%")
 
     tabela_v, dados = tabela_varredura()
     caminho = os.path.join(SAIDA, "cap07_varredura.md")
-    with open(caminho, "w", encoding="utf-8") as f:
-        f.write(com_legenda(os.path.basename(caminho), tabela_v) + NL)
+    gravar(caminho, com_legenda(os.path.basename(caminho), tabela_v) + NL)
     print(f"  {os.path.relpath(caminho, AQUI)} — {len(dados)} volumes")
 
     caminho = os.path.join(SAIDA, "cap07_limiar_e_custo.md")
-    with open(caminho, "w", encoding="utf-8") as f:
-        f.write(com_legenda(os.path.basename(caminho), tabela_limiar_e_custo()) + NL)
+    gravar(caminho, com_legenda(os.path.basename(caminho), tabela_limiar_e_custo()) + NL)
     print(f"  {os.path.relpath(caminho, AQUI)}")
 
     for nome, fn in (
@@ -682,8 +708,7 @@ def main():
         ("cap14_cidades.md", tabela_cidades),
     ):
         caminho = os.path.join(SAIDA, nome)
-        with open(caminho, "w", encoding="utf-8") as f:
-            f.write(com_legenda(os.path.basename(caminho), fn()) + NL)
+        gravar(caminho, com_legenda(os.path.basename(caminho), fn()) + NL)
         print(f"  {os.path.relpath(caminho, AQUI)}")
 
     return r

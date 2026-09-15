@@ -14,6 +14,12 @@ referenciais a partir dos resultados da simulação, e o faz sempre com a mesma 
 certificação é decidida pelo organismo certificador, com a documentação completa do
 empreendimento, da qual o desempenho hídrico é apenas uma peça.
 
+Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia.
+
+![Os limiares dos quatro referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
+
+*Figura 99 — Os limiares de economia total com que o programa enquadra o projeto em quatro dos cinco referenciais, postos na mesma escala. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
+
 ---
 
 ## LEED v4, categoria Water Efficiency
@@ -24,38 +30,23 @@ créditos. A distinção fundamental que ele impõe é entre uso interno e uso e
 água, e é dessa separação que decorre toda a pontuação.
 
 O crédito WEc1 trata da redução do uso externo, isto é, da irrigação e das demais
-demandas de área descoberta, e vale até dois pontos conforme a tabela abaixo. Um projeto
-que elimine completamente o uso de água potável em área externa obtém a pontuação
-integral; um que reduza esse uso pela metade obtém um ponto; e um projeto que não tenha
+demandas de área descoberta, e vale até dois pontos. O programa concede os dois pontos
+com 100% de redução do uso externo de água potável e um ponto a partir de 50%, tomando a
+água de chuva destinada à irrigação do próprio balanço diário; e um projeto que não tenha
 demanda externa cadastrada não pontua, situação em que o programa registra explicitamente
 a razão, para que o usuário não interprete o zero como falha de desempenho.
-
-<!-- tabela: Pontuação do crédito LEED WEc1 conforme a redução do uso externo -->
-| Redução na irrigação | Pontos |
-| :--- | ---: |
-| ≥ 50% | 1 |
-| 100%, sem água potável externa | 2 |
-| sem demanda externa cadastrada | 0, e o programa diz por quê |
 
 O crédito WEc2 trata da redução do uso interno e vale até seis pontos, distribuídos numa
 escala de cinco em cinco pontos percentuais a partir de 25% de economia. Antecede-o um
 pré-requisito, o WEp, que exige 20% de redução interna e é obrigatório: sem ele o
 empreendimento não é elegível à certificação, e ele próprio não confere pontuação alguma.
 
-<!-- tabela: Pontuação do crédito LEED WEc2 conforme a redução do uso interno -->
-| Economia interna | Pontos |
-| ---: | ---: |
-| ≥ 25% | 1 |
-| ≥ 30% | 2 |
-| ≥ 35% | 3 |
-| ≥ 40% | 4 |
-| ≥ 45% | 5 |
-| ≥ 50% | 6 |
 
 > A separação entre uso interno e externo depende inteiramente da **discretização da
-> demanda** descrita na seção {{n:5}}. Quando o projeto não a informa, o programa
-> aplica a partição normativa de referência e registra no relatório que a partição foi
-> estimada, e não medida — distinção que um avaliador de certificação cobra.
+> demanda** descrita na seção {{n:5}}. O programa não inventa essa separação: usa a água
+> de chuva que o balanço diário destinou à irrigação, que é atendida depois do uso
+> interno. Sem demanda externa discretizada, o crédito WEc1 aparece como não avaliado, e a
+> economia interna é tomada, conservadoramente, igual à economia total.
 
 ---
 
@@ -64,14 +55,10 @@ empreendimento não é elegível à certificação, e ele próprio não confere 
 O AQUA-HQE é a adaptação brasileira, conduzida pela Fundação Vanzolini, do referencial
 francês HQE, e trata a gestão da água em sua categoria 4. A avaliação não é pontuada em
 escala contínua, e sim classificada em três perfis de desempenho, definidos pelo
-percentual de substituição de água potável que o sistema alcança.
+percentual de substituição de água potável que o sistema alcança. O programa atribui o
+perfil Base a partir de 10%, Boas Práticas a partir de 25% e Excelente a partir de 40% de
+economia total, e só pela economia total.
 
-<!-- tabela: Perfis de desempenho da categoria 4 do processo AQUA-HQE -->
-| Perfil | Critério |
-| :--- | :--- |
-| Base | ≥ 10% de substituição |
-| Boas Práticas | ≥ 25% |
-| Excelente | ≥ 40% |
 
 ---
 
@@ -81,14 +68,12 @@ O Selo Casa Azul é o referencial da Caixa Econômica Federal para habitação, 
 critério 2.1 trata especificamente do aproveitamento de águas pluviais. Diferentemente
 dos anteriores, ele não se limita a reconhecer o desempenho: a graduação obtida gera
 elegibilidade a condições diferenciadas de financiamento, o que faz dele o referencial
-com consequência econômica mais direta entre os cinco tratados aqui.
+com consequência econômica mais direta entre os cinco tratados aqui. O programa gradua
+Prata a partir de 10%, Ouro a partir de 20% e Diamante a partir de 30% de economia total.
 
-<!-- tabela: Graduações do Selo Casa Azul CAIXA e a bonificação correspondente -->
-| Graduação | Substituição | Bonificação |
-| :--- | ---: | ---: |
-| Prata | ≥ 10% | +2 pontos |
-| Ouro | ≥ 20% | +3 pontos |
-| Diamante | ≥ 30% | +5 pontos |
+> **Declare no estudo.** O enquadramento só é defensável com a regra vigente do
+> referencial em mãos, e o programa não substitui essa conferência.
+
 
 ---
 
@@ -101,12 +86,7 @@ dimensões independentes — energia, água e energia incorporada nos materiais 
 que **cada uma** delas cruze o limiar estabelecido. Não há compensação entre dimensões:
 um desempenho hídrico excepcional não supre uma deficiência em energia.
 
-<!-- tabela: Os três níveis de certificação EDGE e a exigência de cada um -->
-| Nível | Exigência |
-| :--- | :--- |
-| EDGE Certified | ≥ 20% em energia, água **e** energia incorporada nos materiais |
-| EDGE Advanced | o anterior, mais ≥ 40% de economia de energia no local |
-| Zero Carbon | o anterior, mais 100% de renovável ou compensação |
+O EDGE tem ainda dois níveis acima do primeiro. O **EDGE Advanced** exige, além dos 20% nas três dimensões, economia de energia de pelo menos 40% no local; o **Zero Carbon** exige o anterior mais 100% de energia renovável ou compensação integral das emissões remanescentes.
 
 Vale notar qual barra o nível avançado eleva. ==O EDGE Advanced sobe a exigência de
 energia, e não a de água.== A consequência prática para quem projeta sistemas pluviais é

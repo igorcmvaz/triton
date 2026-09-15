@@ -14,10 +14,9 @@ essa questão de forma explícita.
 
 ## O que a base tem
 
-<!-- tabela: Os três cenários de emissão disponíveis e a trajetória de cada um -->
-| | |
-| :--- | ---: |
 <!-- tabela: Conteúdo da base climática nacional distribuída com o programa -->
+| O que a base traz | Quantidade |
+| :--- | ---: |
 | cidades brasileiras | 652 |
 | modelos climáticos do CMIP6 | 19 |
 | cenários de emissão | 3 |
@@ -41,12 +40,10 @@ três disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC.
 são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
 longo do século.
 
-<!-- tabela: Os três cenários de emissão disponíveis e a trajetória de cada um -->
-| Cenário | Trajetória |
-| :--- | :--- |
-| SSP1-2.6 | emissões caem rápido; aquecimento contido perto de 2 °C |
-| SSP2-4.5 | trajetória intermediária, próxima das políticas atuais |
-| SSP5-8.5 | emissões altas, sem mitigação efetiva |
+![As três trajetórias de emissão disponíveis na base](../figuras/fig44_cenarios.png)
+
+*Figura 99 — A forma das três trajetórias de emissão disponíveis. O SSP1-2.6 supõe queda rápida e aquecimento contido perto de 2 °C; o SSP2-4.5 é a trajetória intermediária, próxima das políticas atuais; e o SSP5-8.5 supõe emissões altas sem mitigação efetiva. A figura mostra o formato de cada uma, e não valores projetados.*
+
 
 A **janela temporal** define o período de trinta anos sobre o qual a projeção é tomada,
 e as três disponíveis correspondem a futuro próximo, médio e distante. A escolha da

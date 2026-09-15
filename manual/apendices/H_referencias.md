@@ -19,7 +19,7 @@ captação como a projeção horizontal da cobertura.
 
 **ABNT NBR 5626** — Sistemas prediais de água fria e água quente.
 
-**ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. capítulo {{c:2}}: motores de indução
+**ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. Parte 2: motores de indução
 monofásicos. Requisitos. A Tabela 13 traz o rendimento nominal mínimo a plena carga
 da linha IR1, e a Tabela 14 o da linha IR2. A norma manda marcar o rendimento na
 placa de identificação, o que estabelece que a potência de placa é a mecânica no

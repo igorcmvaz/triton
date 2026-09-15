@@ -87,6 +87,11 @@ um caso-base local em três dimensões independentes e exige que cada uma cruze 
 sociais e de governança usado na avaliação de empresas e de empreendimentos. O programa
 alimenta indicadores ambientais desse conjunto.
 
+**EPD** (*Environmental Product Declaration*). Declaração ambiental de produto: documento
+verificado por terceiros, conforme a ISO 14025 e, na construção, a EN 15804, que publica
+os impactos do ciclo de vida de um produto por unidade declarada. É a fonte preferida para
+fatores de emissão de materiais e equipamentos.
+
 **ETAP**. Estação de tratamento de água pluvial. No programa, o conjunto de filtro
 de entrada, desinfecção e filtro de polimento.
 

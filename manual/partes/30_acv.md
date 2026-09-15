@@ -20,16 +20,10 @@ declarar publicamente um desempenho ambiental.
 
 ## As sete etapas
 
-<!-- tabela: As sete etapas do inventário de ciclo de vida e a natureza de cada uma -->
-| # | Etapa | Natureza |
-| :-- | :--- | :--- |
-| 1 | cisterna inferior | incorporado |
-| 2 | reservatório superior | incorporado |
-| 3 | tubulação | incorporado |
-| 4 | motobomba | incorporado |
-| 5 | operação: bombeamento | operacional |
-| 6 | operação: tratamento | operacional |
-| 7 | **água potável evitada** | crédito |
+![As sete etapas do inventário de ciclo de vida](../figuras/fig34_inventario.png)
+
+*Figura 99 — As sete etapas do inventário, agrupadas pela natureza da emissão. As quatro primeiras são incorporadas e ocorrem uma única vez; a quinta e a sexta são operacionais e se repetem todo ano; a sétima é o crédito, e é a única que entra com sinal negativo.*
+
 
 As quatro primeiras etapas contabilizam o **carbono incorporado**, isto é, as emissões
 ocorridas na fabricação dos componentes, antes que o sistema entre em operação. As duas
@@ -97,6 +91,20 @@ países, porque a composição da matriz elétrica varia substancialmente entre 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção {{n:27}}, e existe para o hipoclorito não ser contado duas
 vezes.
+
+---
+
+## O que a fronteira inclui, e o que ela deixa de fora
+
+Antes de discutir qualquer fator de emissão, convém fixar o recorte. A avaliação do
+programa é de **triagem**: serve para ordenar alternativas entre si, e não para
+substituir um inventário de ciclo de vida conforme a ISO 14040. O que entra na conta e o
+que fica de fora está declarado, porque um saldo ambiental sem fronteira declarada não
+se pode nem conferir nem contestar.
+
+![O que a avaliação ambiental inclui e o que ela deixa de fora](../figuras/fig00h_fronteira.png)
+
+*Figura 21 — A fronteira da avaliação ambiental do programa. Ficam de fora a obra civil, a manutenção, o fim de vida e toda categoria de impacto além do carbono, e é esta última exclusão a que mais limita a leitura do resultado.*
 
 ---
 

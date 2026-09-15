@@ -53,6 +53,17 @@ caixa elevada, e aí a água sobe uma vez e desce por gravidade.
 piso e de carro, rega de jardim. Quando a chuva não basta, a **rede pública** completa
 — o sistema nunca deixa a edificação sem água.
 
+O diagrama acima mostra o encadeamento das peças, que é o que interessa para
+acompanhar o cálculo. Falta a ele, porém, a informação que decide metade das
+dúvidas de projeto: onde cada peça fica em relação às outras, e a que altura. O
+corte a seguir repõe essa geometria, porque desnível é o que determina se a água
+desce por gravidade ou precisa de bomba, e porque a posição da cisterna em
+relação ao terreno é uma decisão de obra, não de cálculo.
+
+![O sistema em corte, com as peças na altura em que de fato ficam](../figuras/fig00d_corte.png)
+
+*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, e não a área inclinada do telhado. A caixa elevada recebe a água recalcada da cisterna e a devolve aos pontos de uso por gravidade; a rede pública entra por ela, completando o que a chuva não atendeu.*
+
 > **Vocabulário que o manual usa o tempo todo.** *Cisterna* e *reservatório inferior*
 > são a mesma coisa. *Extravasar* e *transbordar* também. *Demanda pluvial* é a parte
 > do consumo que a água de chuva pode atender; *demanda total* é o consumo inteiro da
@@ -81,6 +92,15 @@ Lendo o desenho:
 5. **O que sobra fica para amanhã** — e é essa memória entre um dia e o seguinte que
    torna a simulação diária necessária.
 
+Os cinco passos formam um ciclo, e não uma lista: o volume que sobra ao fim do
+quinto passo é exatamente o volume de que o terceiro passo parte no dia seguinte. Essa
+ligação entre um dia e o outro é a única coisa que uma conta feita sobre a média anual
+não consegue reproduzir, e é a razão de a simulação ser diária.
+
+![A ordem das operações de um dia, e a memória que liga um dia ao seguinte](../figuras/fig00e_balanco_do_dia.png)
+
+*Figura 3 — Os cinco passos do balanço diário, na ordem em que o programa os executa. A ligação em roxo, que contorna o desenho, é a memória entre um dia e o seguinte: o volume que sobra ao fim de um dia é o volume inicial do próximo.*
+
 > **Aprofundamento: por que não basta a média anual.** É tentador dividir a chuva
 > anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e às vezes
 > muito. A razão é que a chuva chega **concentrada**: enche a cisterna num dia,
@@ -100,15 +120,12 @@ edificação que a chuva conseguiu substituir.
 Quanta água o sistema entrega é a primeira pergunta, não a única. O programa responde
 seis, e elas costumam apontar para volumes diferentes.
 
-<!-- tabela: As seis dimensões de análise do programa e a pergunta que cada uma responde -->
-| Dimensão | Pergunta que responde | Onde se trata |
-| :--- | :--- | :--- |
-| **técnica** | quanta água o sistema entrega, e com que confiabilidade | seções {{n:23}} a {{n:26}} |
-| **qualidade** | que tratamento o uso exige, e quanto custa | seção {{n:27}} |
-| **econômica** | em quanto tempo se paga, e quanto rende | seção {{n:29}} |
-| **ambiental** | quanto carbono evita, e em quanto tempo | seção {{n:30}} |
-| **certificação** | onde o projeto se enquadra em cinco referenciais | seção {{n:31}} |
-| **decisão** | qual volume escolher, entre critérios que discordam | seção {{n:32}} |
+![As seis dimensões de análise do programa](../figuras/fig26_dimensoes.png)
+
+*Figura 99 — As seis dimensões de análise e a pergunta que cada uma responde. O programa percorre as seis na mesma ordem em que aparecem, e cada uma tem uma seção própria no capítulo do método.*
+
+Cada dimensão tem tratamento próprio no capítulo do método: a técnica nas seções {{n:23}} a {{n:26}}, a qualidade na {{n:27}}, a econômica na {{n:29}}, a ambiental na {{n:30}}, a certificação na {{n:31}} e a decisão na {{n:32}}.
+
 
 A última é a que distingue o programa de uma planilha. As outras cinco produzem
 respostas que **discordam entre si** — a maior economia de água quase nunca é o melhor
@@ -154,13 +171,12 @@ cada uma.
 
 ## Para quem serve
 
-<!-- tabela: Os quatro perfis de leitor do manual e o percurso de leitura de cada um -->
-| Quem | O que encontra aqui |
-| :--- | :--- |
-| **estudante** | o tutorial do capítulo {{c:2}}, um estudo do começo ao fim |
-| **projetista** | os guias do capítulo {{c:3}}, e o roteiro da seção {{n:3}} |
-| **pesquisador** | o método do capítulo {{c:4}}, com procedência de cada número |
-| **revisor** | o capítulo {{c:6}}, verificação e limites declarados |
+![Os quatro perfis de leitor e o percurso de cada um](../figuras/fig27_leitores.png)
+
+*Figura 99 — Quatro percursos de leitura possíveis. Nenhum deles exige os demais, e o manual foi montado para que cada um possa ser feito isoladamente.*
+
+Em números de seção: o estudante segue o capítulo {{c:2}}, que é o tutorial do começo ao fim; o projetista usa os guias do capítulo {{c:3}} e o roteiro da seção {{n:3}}; o pesquisador vai ao método do capítulo {{c:4}}; e o revisor encontra no capítulo {{c:6}} a verificação e os limites declarados.
+
 
 Quem está começando agora deve percorrer o capítulo {{c:2}} inteiro, na ordem em que
 está escrito. Ele constrói um projeto do zero e o acompanha até a decisão final, e cada

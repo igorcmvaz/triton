@@ -118,21 +118,31 @@ E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 
 ---
 
+![A cadeia de rendimentos entre a tomada e a água elevada](../figuras/fig00k_energia.png)
+
+*Figura 44 — A cadeia de energia do bombeamento. A potência de placa está no meio da cadeia, e não no seu início: entre ela e o medidor de energia existe o rendimento do motor, e entre ela e a água existe o rendimento hidráulico da bomba.*
+
+![A altura manométrica decomposta em desnível e perdas](../figuras/fig00l_manometrica.png)
+
+*Figura 45 — A altura manométrica de um recalque predial. O desnível entre as duas lâminas d'água é o piso da conta; as perdas de carga na tubulação e nas conexões acrescentam de 10% a 30% a ele, e é a soma que a bomba precisa vencer.*
+
+---
+
 ## O rendimento do motor, quando não informado
 
 Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é
 o que são as motobombas residenciais, a 3.450 rpm:
 
-<!-- tabela: Rendimento de motores de indução conforme a Tabela 13 da ABNT NBR 17094-2 -->
-| Potência | Rendimento IR1 | Rendimento IR2 |
-| :--- | ---: | ---: |
-| 1/4 CV, 0,18 kW | 50,0% | 64,0% |
-| 1/3 CV, 0,25 kW | 55,5% | 68,0% |
-| **1/2 CV, 0,37 kW** | **60,5%** | 72,0% |
-| 3/4 CV, 0,55 kW | 64,0% | 74,0% |
-| 1 CV, 0,75 kW | 69,3% | 75,5% |
-| 1,5 CV, 1,10 kW | 71,5% | 82,5% |
-| 2 CV, 1,50 kW | 72,4% | 84,0% |
+![O rendimento de motores de indução por potência e classe](../figuras/fig31_motores.png)
+
+*Figura 99 — Rendimento mínimo de motores de indução monofásicos de dois polos, conforme a Tabela 13 da ABNT NBR 17094-2:2016. O programa adota a classe IR1 quando o projeto não informa o rendimento, por ser a de menor exigência e, portanto, a hipótese conservadora.*
+
+
+Os dois valores que mais aparecem em instalação predial são o de meio CV, com
+**60,5%** de rendimento na classe IR1, e o de um CV, com **69,3%**. A diferença entre
+eles é de quase nove pontos percentuais, e ela se propaga inteira para o custeio de
+energia, porque é o rendimento que separa a potência de eixo da potência efetivamente
+puxada da rede.
 
 Adota-se a **IR1** por ser o piso normativo e o que se encontra em motobomba de
 prateleira. Quem tem motor de alto rendimento informa o valor marcado na placa.

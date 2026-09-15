@@ -20,18 +20,25 @@ complementam. A separação não é meramente organizacional: cada família capt
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
-<!-- tabela: As cinco famílias da suíte de verificação e o que cada uma testa -->
-| Família | Arquivos | O que guarda |
-| :--- | ---: | :--- |
-| unitários | 63 | o comportamento de cada módulo isolado |
-| invariantes | 11 | propriedades que **não podem** ser violadas |
-| integração | 8 | o percurso da informação entre módulos |
-| interface | 4 | que o controle da tela chega ao cálculo |
-| desempenho | 4 | que o núcleo compilado não regride |
+![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
+
+*Figura 99 — As cinco famílias de teste, o número de arquivos de cada uma e o que cada família guarda. A desproporção é deliberada: testes unitários são baratos e detectam o erro perto de onde ele nasce.*
+
 
 A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
 incorporada enquanto houver um teste falhando. Essa disciplina é o que permite afirmar
 que um defeito corrigido não retorna: a correção acompanha o teste que a vigia.
+
+---
+
+As camadas de verificação do programa formam uma hierarquia, e cada uma responde por
+um tipo de erro que as demais não alcançariam. Um teste de unidade não detecta um erro de
+modelo, porque confere a função contra o que dela se espera; e uma conferência manual,
+que detectaria esse erro, não cobre mil combinações de entrada.
+
+![As camadas da verificação do programa](../figuras/fig00m_verificacao.png)
+
+*Figura 46 — As cinco camadas de verificação, das muitas de erro pequeno às poucas de erro grave. Nenhuma substitui a anterior: é a superposição das cinco que sustenta o número publicado.*
 
 ---
 

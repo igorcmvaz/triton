@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import json
 import os
+
+from escrita_segura import gravar  # não desfaz revisão feita à mão
 import sys
 
 import numpy as np
@@ -121,7 +123,7 @@ def caso_tutorial_varredura():
 
 def caso_dez_dias():
     c = CASO_23
-    cfg = base("Manual, capitulo 23 - dez dias resolvidos", "Florianópolis")
+    cfg = base(f"Manual, secao {sec('23')} - dez dias resolvidos", "Florianópolis")
     cfg.area = c["area"]
     cfg.runoff_coeff = c["runoff_coeff"]
     cfg.discard = c["discard_mm"]
@@ -139,7 +141,7 @@ def caso_dez_dias():
 
 def caso_reservatorio_superior():
     cfg, chuva = caso_tutorial()
-    cfg.project_name = "Manual, capitulo 8 - com reservatorio superior"
+    cfg.project_name = f"Manual, secao {sec('08')} - com reservatorio superior"
     cfg.lower_tank_fixed = 5000.0
     cfg.upper_tank_used = 1
     cfg.upper_tank_vol = 1000.0
@@ -154,7 +156,7 @@ def caso_reservatorio_superior():
 
 
 def caso_cidade(chave, nome, uf):
-    cfg = com_tutorial(base(f"Manual, guia 14 - o mesmo projeto em {nome}",
+    cfg = com_tutorial(base(f"Manual, secao {sec('14')} - o mesmo projeto em {nome}",
                             nome, uf))
     cfg.lower_tank_fixed = 5000.0
     com_custo(cfg, 5000.0, "PEAD")
@@ -162,8 +164,8 @@ def caso_cidade(chave, nome, uf):
 
 
 def caso_escola():
-    """Guia 17 e 18: demanda semanal, escola que fecha no fim de semana."""
-    cfg = base("Manual, guia 18 - escola com demanda semanal", "Florianópolis")
+    """Escola com demanda semanal, que fecha no fim de semana."""
+    cfg = base(f"Manual, secao {sec('18')} - escola com demanda semanal", "Florianópolis")
     cfg.building_template_id = "escola"
     cfg.area = 1200.0
     cfg.runoff_coeff = 0.90           # laje impermeabilizada
@@ -183,8 +185,8 @@ def caso_escola():
 
 
 def caso_hotel():
-    """Guia 17: demanda mensal em fase com a chuva, o caso que rende menos."""
-    cfg = base("Manual, guia 17 - hotel com demanda mensal", "Florianópolis")
+    """Hotel com demanda mensal em fase com a chuva, o caso que rende menos."""
+    cfg = base(f"Manual, secao {sec('17')} - hotel com demanda mensal", "Florianópolis")
     cfg.building_template_id = "hotel"
     cfg.area = 800.0
     cfg.runoff_coeff = 0.90
@@ -206,33 +208,44 @@ def caso_hotel():
     return cfg, serie("Florianopolis1")
 
 
-# (arquivo, capítulo do manual, o que demonstra, construtor)
+# Os números de seção vêm da estrutura do manual, e não são escritos à mão: a
+# primeira versão desta lista trazia os números das antigas partes (capítulo 23,
+# guia 14), que deixaram de existir na renumeração da ABNT.
+from gerar import indice_das_marcas  # noqa: E402
+_MARCAS = indice_das_marcas()
+
+
+def sec(marca):
+    return _MARCAS[marca]
+
+
+# (arquivo, seção do manual, o que demonstra, construtor)
 LISTA = [
-    ("01_tutorial_florianopolis.netuno", "4 a 13",
-     "o projeto do tutorial, com a cisterna escolhida no capítulo 12",
+    ("01_tutorial_florianopolis.netuno", f"{sec('04')} a {sec('13')}",
+     f"o projeto do tutorial, com a cisterna escolhida na seção {sec('12')}",
      caso_tutorial),
-    ("02_tutorial_varredura.netuno", "7 e 24",
+    ("02_tutorial_varredura.netuno", f"{sec('07')} e {sec('24')}",
      "o mesmo projeto em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
      caso_tutorial_varredura),
-    ("03_dez_dias.netuno", "23",
+    ("03_dez_dias.netuno", sec("23"),
      "o caso didático de dez dias, que cabe numa planilha",
      caso_dez_dias),
-    ("04_reservatorio_superior.netuno", "8",
-     "5.000 L embaixo mais 1.000 em cima, a comparação do capítulo 8 contra os 6.000 L de um tanque só",
+    ("04_reservatorio_superior.netuno", sec("08"),
+     f"5.000 L embaixo mais 1.000 em cima, a comparação da seção {sec('08')} contra os 6.000 L de um tanque só",
      caso_reservatorio_superior),
-    ("05_manaus.netuno", "14",
+    ("05_manaus.netuno", sec("14"),
      "o projeto do tutorial levado a Manaus, que chove mais e rende menos",
      lambda: caso_cidade("Manaus1", "Manaus", "AM")),
-    ("06_brasilia.netuno", "14",
+    ("06_brasilia.netuno", sec("14"),
      "o projeto do tutorial levado a Brasília, de estação seca marcada",
      lambda: caso_cidade("Brasilia1", "Brasília", "DF")),
-    ("07_saopaulo.netuno", "14",
+    ("07_saopaulo.netuno", sec("14"),
      "o projeto do tutorial levado a São Paulo",
      lambda: caso_cidade("SaoPaulo1", "São Paulo", "SP")),
-    ("08_escola_semanal.netuno", "17 e 18",
+    ("08_escola_semanal.netuno", f"{sec('17')} e {sec('18')}",
      "escola de 300 alunos com demanda modulada por dia da semana",
      caso_escola),
-    ("09_hotel_mensal.netuno", "17",
+    ("09_hotel_mensal.netuno", sec("17"),
      "hotel de litoral com ocupação mensal em fase com a chuva",
      caso_hotel),
 ]
@@ -387,7 +400,7 @@ def converter_exemplos():
 # ──────────────────────────────────────────────────────────────────────────────
 
 def br(v, casas=2):
-    return f"{v:,.{casas}f}".replace(",", " ").replace(".", ",")
+    return f"{v:,.{casas}f}".replace(",", "#").replace(".", ",").replace("#", ".")
 
 
 def escrever_readme(resultados):
@@ -400,7 +413,7 @@ def escrever_readme(resultados):
         "A série de chuva está **dentro** do arquivo: ele abre sem o CSV original,",
         "em qualquer máquina.",
         "",
-        "| Arquivo | Capítulo | O que demonstra | Resultado |",
+        "| Arquivo | Seção | O que demonstra | Resultado |",
         "| :--- | :--- | :--- | ---: |",
     ]
     for arquivo, _, _, _ in LISTA:
@@ -420,13 +433,13 @@ def escrever_readme(resultados):
 
     ]
     caminho = os.path.join(CASOS, "README.md")
-    open(caminho, "w", encoding="utf-8").write(NL.join(linhas))
+    gravar(caminho, NL.join(linhas))
     return caminho
 
 
 def escrever_apendice(resultados):
     linhas = [
-        "# Apêndice J — Arquivos de exemplo",
+        "# Arquivos de exemplo",
         "",
         "O manual imprime resultados; estes arquivos são o que se abre para",
         "reproduzi-los. Ficam em `manual/casos/`, e cada um traz a série de chuva",
@@ -434,9 +447,10 @@ def escrever_apendice(resultados):
         "",
         "---",
         "",
-        "## J.1. Os nove casos do manual",
+        "## Os nove casos do manual",
         "",
-        "| Arquivo | Capítulo | O que demonstra |",
+        "<!-- tabela: Os nove casos de exemplo e o que cada um demonstra -->",
+        "| Arquivo | Seção | O que demonstra |",
         "| :--- | :--- | :--- |",
     ]
     for arquivo, _, _, _ in LISTA:
@@ -445,13 +459,14 @@ def escrever_apendice(resultados):
 
     linhas += [
         "",
-        "## J.2. O que cada um produz",
+        "## O que cada um produz",
         "",
         "Os valores abaixo são obtidos **relendo o arquivo gravado** e simulando o",
         "que foi relido, e não a configuração que o gerou. É a diferença que",
         "importa: um parâmetro que não sobreviva à gravação aparece aqui como",
         "número errado, em vez de passar despercebido.",
         "",
+        "<!-- tabela: Resultado que cada caso de exemplo produz ao ser relido e simulado -->",
         "| Arquivo | Modo | Volume | Potencial | Pluvial consumida |",
         "| :--- | :--- | ---: | ---: | ---: |",
     ]
@@ -470,7 +485,7 @@ def escrever_apendice(resultados):
         "",
         "---",
         "",
-        "## J.3. Como rodar",
+        "## Como rodar",
         "",
         "**Arquivo, Abrir projeto**, escolha o arquivo, e o programa carrega tudo: a",
         "chuva, a edificação, os custos e a configuração das análises. Percorra as",
@@ -482,7 +497,7 @@ def escrever_apendice(resultados):
         "",
         "---",
         "",
-        "## J.4. Os três estudos de `examples/`",
+        "## Os três estudos de `examples/`",
         "",
         "Além dos casos do manual, o programa traz três estudos de referência em",
         "`examples/`: residência unifamiliar em Florianópolis, edifício",
@@ -498,17 +513,17 @@ def escrever_apendice(resultados):
         "",
         "---",
         "",
-        "## J.5. O que estes arquivos não são",
+        "## O que estes arquivos não são",
         "",
         "Não são gabarito de projeto. São **casos de demonstração**: os custos são",
         "os do tutorial, a tarifa é a da CASAN e a categoria é residencial em",
-        "todos, inclusive na escola e no hotel, pela limitação que o capítulo 36",
+        "todos, inclusive na escola e no hotel, pela limitação que a seção {{n:36}}",
         "descreve. Para um estudo real, troque tarifa, custos e série de chuva",
         "pelos do seu caso.",
         "",
     ]
     caminho = os.path.join(AQUI, "apendices", "J_arquivos_de_exemplo.md")
-    open(caminho, "w", encoding="utf-8").write(NL.join(linhas))
+    gravar(caminho, NL.join(linhas))
     return caminho
 
 

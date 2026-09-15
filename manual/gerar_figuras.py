@@ -114,7 +114,9 @@ def figura_curva():
         (pots[i] - pots[i - 1]) / (vols[i] - vols[i - 1]) for i in range(1, len(vols))
     ]
 
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(9.2, 3.6))
+    # Empilhados, e não lado a lado: uma folha de 9 polegadas reduzida à
+    # largura da página encolhe junto a fonte dos eixos.
+    fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 5.6), sharex=True)
     fig.patch.set_facecolor(SUPERFICIE)
     for ax in (a1, a2):
         ax.set_facecolor(SUPERFICIE)
@@ -125,7 +127,7 @@ def figura_curva():
             va="bottom")
     a1.axvline(5.0, color=VERDE, linestyle=":", linewidth=1.4, zorder=2)
     a1.text(5.3, 8.0, "volume ideal", color=VERDE, fontsize=8.5)
-    _eixos(a1, "Potencial de economia", "volume do reservatório (m³)", "%")
+    _eixos(a1, "Potencial de economia", "", "%")
     a1.set_ylim(0, 46)
 
     a2.plot(vols[1:], marg[1:], color=LARANJA, linewidth=2.2, marker="o",

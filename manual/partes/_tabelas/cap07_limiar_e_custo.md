@@ -11,6 +11,6 @@
 | potencial de economia | 37,46% | 39,98% |
 | preço da cisterna de concreto | R$ 6 300 | R$ 20 607 |
 | massa de concreto | 6 000 kg | 24 000 kg |
-| carbono incorporado do sistema | 962 kg CO₂e | 3 482 kg CO₂e |
+| carbono incorporado do sistema | 987 kg CO₂e | 3 507 kg CO₂e |
 | **razão de preço** | | **3,3×** |
 | **ganho de potencial** | | **+2,53 pontos** |

@@ -17,17 +17,10 @@ Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O progr
 tipologias, cada uma com o consumo per capita de referência e a repartição usual dos
 usos finais:
 
-<!-- tabela: Consumo per capita de referência por tipologia de edificação -->
-| Tipologia | Per capita usual |
-| :--- | ---: |
-| residencial unifamiliar | 120 a 200 L/hab·dia |
-| residencial multifamiliar | 100 a 180 L/hab·dia |
-| escola | 10 a 50 L/aluno·dia |
-| escritório | 50 a 80 L/pessoa·dia |
-| hospital | 250 a 600 L/leito·dia |
-| hotel | 100 a 300 L/hóspede·dia |
-| indústria | conforme processo |
-| comércio | 8 a 20 L/pessoa·dia |
+![O consumo per capita de referência por tipologia](../figuras/fig38_per_capita.png)
+
+*Figura 99 — As faixas usuais de consumo per capita por tipologia de edificação. A amplitude de cada faixa é grande de propósito: são valores de referência para quem ainda não mediu, e a medição, quando existe, sempre prevalece.*
+
 
 A tipologia serve de ponto de partida, não de imposição: o valor continua editável.
 A seção {{n:18}} trata dos casos não residenciais, que têm uma armadilha própria na tarifa.
@@ -58,17 +51,12 @@ para bacia sanitária, máquina de lavar roupa, lavagem de piso, rega de jardim 
 lavagem de veículo. A fração desses usos no consumo total é o **teto do potencial
 de economia**.
 
-Repartição usual numa residência brasileira:
+A repartição usual numa residência brasileira está desenhada logo adiante, com a
+marcação dos usos que a chuva atende. Bacia sanitária, máquina de lavar roupa e usos
+externos somam de 35% a 60% do consumo, e são eles que definem o teto do que qualquer
+sistema pluvial pode alcançar; chuveiro, pia de cozinha e lavatório, que respondem pelo
+restante, exigem água potável e ficam fora do alcance do sistema.
 
-<!-- tabela: Repartição do consumo residencial por uso final e atendimento por água pluvial -->
-| Uso final | Fração do consumo | Atende com chuva? |
-| :--- | ---: | :---: |
-| chuveiro | 25 a 35% | não |
-| bacia sanitária | 20 a 30% | **sim** |
-| máquina de lavar roupa | 10 a 15% | **sim** |
-| pia da cozinha | 10 a 15% | não |
-| lavatório | 5 a 10% | não |
-| usos externos | 5 a 15% | **sim** |
 
 Somando os três que a chuva atende, chega-se aos 40% do tutorial. É um valor
 defensável para residência unifamiliar sem jardim grande.
@@ -85,6 +73,36 @@ defensável para residência unifamiliar sem jardim grande.
 > Quem quer passar de 40% precisa mudar o **uso**, não o reservatório: acrescentar a
 > lavagem de piso, tratar a água a uma classe superior, ou reduzir o consumo
 > potável.
+
+### Percentual na tela, fração no arquivo
+
+A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
+que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
+cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
+atendível é um **percentual, de 0 a 100**: 40 significa 40%. No arquivo de projeto, no
+arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,40.
+
+A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
+projetistas, normas e contas de água, e é a forma que menos se erra ao digitar. A
+fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
+(seção {{n:25}}), e é a forma que não exige conversão a quem lê o arquivo com outro
+programa.
+
+O que não se admite é a mistura. Até esta versão, doze pontos do programa aceitavam as
+duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
+nos valores pequenos, onde o erro não se vê: 1 virava 100%, e não 1%; 0,5 digitado numa
+coluna em percentual virava 50%. ==Agora a unidade é fixada pelo lugar, e nunca
+adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração acima de 1 é
+recusada com a indicação de que parece percentual.
+
+![O campo em percentual e o marcador de valor suspeito](../figuras/fig46b_percentual.png)
+
+*Figura 99 — Na tela, o campo em percentual traz a unidade na dica e fica laranja quando recebe um valor entre 0 e 1, que costuma ser a fração digitada no lugar do percentual. O cálculo não é bloqueado: 0,5% é possível, apenas raro.*
+
+> **O marcador laranja.** Um valor entre 0 e 1 num campo em percentual é aceito, porque
+> menos de 1% de substituição é possível, mas o campo fica laranja e a dica explica o
+> que foi entendido. Nas tabelas de cenários e na planilha de lote, o programa pergunta
+> antes de simular.
 
 ---
 

@@ -3,8 +3,17 @@
 > Esta seção define formalmente cada indicador que o programa reporta, com
 > unidade, e diz **o que cada um não mede**.
 
-Um indicador mal interpretado é pior que nenhum. Os dois primeiros desta seção são
-frequentemente confundidos na literatura.
+Um indicador mal interpretado é pior que nenhum, e os desta seção são confundidos com
+frequência na literatura. Os dois primeiros partem do mesmo numerador — a água de
+chuva efetivamente consumida — e diferem apenas no denominador: uma diferença
+aritmética pequena e uma diferença de significado grande, porque cada denominador
+formula uma pergunta distinta. O terceiro não é uma razão entre volumes, e sim uma
+contagem de dias, e responde a uma pergunta que nenhum dos outros dois alcança:
+com que frequência se pode contar com o sistema.
+
+![Os três indicadores e o denominador de cada um](../figuras/fig00g_indicadores.png)
+
+*Figura 14 — Os três indicadores de eficiência e o que cada um conta. Os dois volumétricos compartilham o numerador e diferem no denominador, e por isso o mesmo projeto recebe notas diferentes sem que nenhuma esteja errada; a confiabilidade temporal conta dias, e não litros.*
 
 ---
 
@@ -78,12 +87,12 @@ literatura da área.
 
 Os três percentuais de dias, que somam 100%:
 
-<!-- tabela: As três classes de atendimento diário e a definição de cada uma -->
-| Classe | Definição |
-| :--- | :--- |
-| **pleno** | `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L |
-| **parcial** | `0 < V_con,t < D_pl,t` |
-| **nulo** | `V_con,t = 0` |
+![As três classes de atendimento de um dia](../figuras/fig29_atendimento.png)
+
+*Figura 99 — As três classes em que cada dia da simulação é enquadrado. A altura preenchida representa a parcela da demanda pluvial do dia que a água de chuva atendeu.*
+
+Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L; **parcial** quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
+
 
 **O que mede:** com que frequência o usuário pode contar com o sistema.
 

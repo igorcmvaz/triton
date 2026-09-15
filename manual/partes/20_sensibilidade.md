@@ -40,15 +40,10 @@ A faixa de variação a adotar para cada premissa não é matéria de palpite: e
 que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que
 um dado tomado da literatura.
 
-<!-- tabela: Faixa de variação plausível de cada premissa e a origem da incerteza -->
-| Premissa | Variação plausível | Por quê |
-| :--- | ---: | :--- |
-| área de captação | 2 a 5% | é medida em projeto; o erro é de leitura |
-| demanda, se medida | 5 a 10% | variação real entre meses |
-| demanda, se de referência | 15 a 25% | a dispersão da literatura é grande |
-| chuva | 10 a 20% | variabilidade entre anos |
-| investimento | 15 a 30% | dispersão de orçamento é notória |
-| reajuste da tarifa | 3 a 7% ao ano | depende da concessionária e do período |
+![A faixa de variação plausível de cada premissa](../figuras/fig41_premissas.png)
+
+*Figura 99 — Quanto vale a pena variar cada premissa numa análise de sensibilidade, e de onde vem a incerteza em cada caso. As faixas maiores são as das premissas que o projeto não mede, e sim adota de referência.*
+
 
 > **Não perturbe o que você conhece.** Se a área foi medida em levantamento, a faixa é
 > estreita; alargá-la produz uma incerteza artificial que dilui o resultado e esconde
@@ -99,6 +94,17 @@ A distinção que essa coluna permite é de natureza epistemológica, e não ape
 estatística: um volume que vence em 80% dos sorteios de pesos constitui uma recomendação,
 ao passo que um volume que vence em 30% constitui uma preferência do analista, legítima
 desde que apresentada como tal. A seção {{n:32}} expõe o método que produz esse número.
+
+---
+
+O gráfico de tornado é a forma consagrada de apresentar esse conjunto: uma barra por
+premissa, ordenada pela amplitude, com as duas variações em cores distintas. Lido de
+cima para baixo, ele responde à pergunta que o revisor fará primeiro, que é de qual
+premissa o resultado depende.
+
+![O tornado de sensibilidade do projeto do tutorial](../figuras/fig24_tornado.png)
+
+*Figura 41 — A variação do valor presente líquido quando cada premissa é alterada em 30% para mais e para menos, mantidas as demais. A cor identifica a variação aplicada, e não o sinal do efeito: é o que permite ver que elevar a taxa mínima de atratividade reduz o valor presente, ao passo que elevar a tarifa o aumenta.*
 
 ---
 

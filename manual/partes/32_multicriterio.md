@@ -73,6 +73,18 @@ absoluto do coeficiente, e sim a ordenação que ele produz.
 
 ---
 
+O que o método faz se enxerga num plano, ainda que ele trabalhe em sete dimensões.
+Cada alternativa é um ponto; o ideal e o anti-ideal são dois pontos construídos com o
+melhor e o pior valor de cada critério, e nenhum dos dois corresponde a um projeto
+existente. A pontuação de cada alternativa é a razão entre a sua distância ao anti-ideal
+e a soma das duas distâncias.
+
+![As alternativas, o ideal e o anti-ideal num plano de dois critérios](../figuras/fig22_topsis.png)
+
+*Figura 39 — Seis volumes candidatos no plano formado por dois dos sete critérios. A estrela é a solução ideal, que combina o melhor de cada critério e não existe como projeto; o «x» é o anti-ideal. As duas linhas tracejadas são as distâncias que decidem a pontuação da alternativa vencedora.*
+
+---
+
 ## Três desvios a declarar
 
 A implementação do programa se afasta da formulação canônica em três pontos, todos
@@ -117,6 +129,18 @@ em vez de apresentar o vencedor como se fosse consensual.
 > É a ferramenta certa quando não há consenso sobre os pesos — que é o caso normal em
 > projetos reais, nos quais o cliente, o projetista e o órgão ambiental costumam
 > valorizar dimensões diferentes.
+
+---
+
+A leitura mais útil da análise estocástica não é o vencedor, e sim a margem com que
+ele vence. Um volume que fica em primeiro lugar em três quartos dos sorteios de pesos é
+uma escolha estável, que sobrevive a uma mudança de prioridade do decisor; dois volumes
+tecnicamente empatados indicam o contrário, e nesse caso declarar o peso adotado deixa
+de ser formalidade e passa a ser a única informação que sustenta a recomendação.
+
+![A aceitabilidade de primeiro lugar de cada volume](../figuras/fig23_smaa.png)
+
+*Figura 40 — A aceitabilidade de primeiro lugar de cada volume candidato, obtida sorteando cinco mil vetores de pesos no simplex. O volume destacado vence na maioria dos sorteios, e os demais repartem o restante.*
 
 ---
 

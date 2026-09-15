@@ -76,6 +76,11 @@ indica o volume de 5.000 L.
 
 ---
 
+![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
+
+*Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+
+---
 ## O peso muda a resposta
 
 A segunda tabela mostra o que acontece ao deslocar o peso.
@@ -105,6 +110,13 @@ para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 ---
 
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles.
+
+![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
+
+*Figura 99 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
+
+---
 ## A recomendação do tutorial
 
 A recomendação do tutorial é o reservatório de **5.000 L em polietileno**, e a razão de
@@ -147,8 +159,8 @@ vez de supor que concordem sempre.
 | investimento | R$ 10.080 |
 | **valor presente líquido em 20 anos** | **R$ 18.595** |
 | payback descontado | 6,5 anos |
-| **saldo de carbono em 20 anos** | **+248 kg CO₂e** |
-| payback de carbono | 10,9 anos |
+| **saldo de carbono em 20 anos** | **+223 kg CO₂e** |
+| payback de carbono | 11,8 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
 verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto

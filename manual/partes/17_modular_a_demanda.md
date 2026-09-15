@@ -13,13 +13,10 @@ consumo e a chuva disponível naquele dia.==
 
 ## Os quatro modos
 
-<!-- tabela: Os quatro modos de modulação de demanda e quando usar cada um -->
-| Modo | Você informa | Quando usar |
-| :--- | :--- | :--- |
-| **constante** | um valor | residência, e o padrão |
-| **semanal** | sete valores, segunda a domingo | escritório, comércio, escola |
-| **mensal** | doze valores | hotel, sazonalidade climática |
-| **diário** | a série inteira | quando há medição real, dia a dia |
+![Os quatro modos de modulação da demanda](../figuras/fig40_modos.png)
+
+*Figura 99 — Os quatro modos de modulação, o que cada um pede ao usuário e a situação em que cada um se justifica. O modo diário só faz sentido quando existe medição real, porque inventar uma série diária acrescenta precisão aparente sem acrescentar informação.*
+
 
 Em qualquer um deles você pode modular três coisas de forma independente: a
 **demanda per capita**, o **número de ocupantes** e a **fração atendível por água
@@ -58,9 +55,31 @@ agosto. O sistema rende **mais** do que a média anual sugeriria.
 litoral sul. Parece bom, mas a demanda concentrada esvazia a cisterna em dias, e o
 resto do ano ela fica ociosa. O sistema rende **menos**.
 
-> **A regra geral:** demanda em fase com a chuva rende mais; demanda em
-> contrafase rende menos. E o efeito é invisível no cálculo por médias anuais, que é
-> justamente por que o Netuno simula dia a dia.
+Os dois casos parecem opostos e não o são, e convém enunciar a regra com cuidado,
+porque a formulação intuitiva — «demanda em fase com a chuva rende mais» — não
+sobrevive ao segundo exemplo. O hotel tem demanda **em fase** com a chuva, já que
+ambas culminam no verão, e ainda assim rende menos. O que separa os dois casos não é a
+fase, é a **concentração**.
+
+==Uma demanda distribuída ao longo do ano aproveita melhor um mesmo reservatório;
+uma demanda concentrada em poucos meses o esvazia em dias e o deixa ocioso no resto do
+ano, ainda que esses meses sejam os mais chuvosos.== A escola se beneficia porque o seu
+período ocioso coincide com a estiagem, e não porque esteja em fase com a chuva.
+
+Rodadas com a série de Florianópolis, o mesmo consumo anual e o mesmo reservatório de
+5.000 L, as três hipóteses se separam: demanda constante rende 37,5%, o perfil escolar
+rende 37,7% e o perfil de hotel de praia rende 34,5%. A diferença de três pontos
+percentuais é grande para uma mudança que não altera um único litro do consumo anual, e
+é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por
+que o Netuno simula dia a dia.
+
+![Três perfis de demanda com o mesmo consumo anual](../figuras/fig19_modulacao.png)
+
+*Figura 36 — Os três perfis de demanda usados na comparação, expressos como a razão entre a demanda do mês e a demanda média. Os três têm exatamente o mesmo consumo anual; o que muda é a distribuição dele ao longo dos doze meses.*
+
+![A demanda contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
+
+*Figura 37 — Em cima, os dois perfis modulados sobre a chuva média mensal de Florianópolis; embaixo, o potencial de economia que cada um alcança com o mesmo reservatório de 5.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa três pontos percentuais.*
 
 ---
 
@@ -72,6 +91,10 @@ jardim, que são usos **integralmente** atendíveis por chuva.
 
 Modular a fração captura isso. Manter fração constante subestima o aproveitamento no
 período de baixa ocupação.
+
+Na tabela, a coluna «Não-Potável Interno (%)» é percentual, como todo campo digitado:
+40 significa 40%. No arquivo de projeto, a mesma coluna é gravada como fração, 0,40,
+e a seção {{n:5}} explica por quê. Uma célula com valor entre 0 e 1 fica laranja.
 
 ---
 

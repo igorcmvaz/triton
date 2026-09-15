@@ -247,12 +247,13 @@ PROCESSOS = [
   "recomendaria e o usuário recusa, isso fica registrado em "
   "<code>polishing_recommended_but_declined</code> em vez de ser imposto.",
   "O que se compra é o <b>produto</b> — pastilha a 65% de cloro ativo — e não o cloro puro. "
-  "Calcular pela massa de cloro ativo subestimaria o custo em cerca de 35%.",
+  "Faturar a massa de cloro ativo, e não a do produto, subestima o custo em cerca de 35%.",
   "<b>Regra incremental</b>: o CAPEX da linha desconta a verba genérica de tratamento já "
   "embutida em «Acessórios», e o custeio desconta a cloração, que o fluxo de caixa já paga. "
   "A regra vive num lugar só, consumida pelos <b>dois</b> motores econômicos.",
   "Na ACV, a linha de tratamento <b>substitui</b> o termo de cloração; nunca soma a ele.",
-  "Com <code>etap_enabled = False</code>, o tratamento não entra no investimento nem no custeio."],
+  "Com <code>etap_enabled = False</code>, a linha de tratamento não entra em conta alguma: "
+  "nem no CAPEX, nem no custeio, nem na avaliação ambiental."],
  [("water_quality.py", "size_etap"), ("etap_integration.py", "dimensionar_etap_do_projeto"),
   ("etap_integration.py", "capex_incremental_da_etap"),
   ("etap_integration.py", "opex_anual_incremental_da_etap"),

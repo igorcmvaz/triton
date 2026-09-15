@@ -49,17 +49,10 @@ defensável, ao contrário do inverso.
 
 ## As tipologias disponíveis
 
-<!-- tabela: Tipologias de edificação, categoria tarifária correspondente e unidade de consumo -->
-| Tipologia | Categoria que a concessionária cobra | Unidade de consumo |
-| :--- | :--- | :--- |
-| residencial unifamiliar | residencial | L/hab·dia |
-| residencial multifamiliar | residencial | L/hab·dia |
-| escola | pública | L/aluno·dia |
-| hospital | pública | L/leito·dia |
-| escritório | comercial | L/pessoa·dia |
-| hotel | comercial | L/hóspede·dia |
-| comércio | comercial | L/pessoa·dia |
-| indústria | industrial | conforme processo |
+![As tipologias, a categoria tarifária e a unidade de consumo de cada uma](../figuras/fig39_tipologias.png)
+
+*Figura 99 — As oito tipologias disponíveis, agrupadas pela categoria tarifária que a concessionária cobra. A unidade de consumo muda com a tipologia, e é ela que dá sentido ao valor per capita informado.*
+
 
 ---
 
@@ -85,7 +78,9 @@ Module por semana. A fração não potável é altíssima, muitas vezes acima de
 porque quase todo o consumo é bacia sanitária e limpeza.
 
 **Hotel.** Sazonalidade forte, e é o caso em que modular por mês mais importa. Veja
-a advertência da seção {{n:17}} sobre demanda em contrafase com a chuva.
+a advertência da seção {{n:17}} sobre demanda concentrada: um hotel de litoral lota
+justamente nos meses mais chuvosos e ainda assim rende menos que a demanda constante,
+porque esvazia o reservatório em poucos dias e o deixa ocioso no resto do ano.
 
 ---
 

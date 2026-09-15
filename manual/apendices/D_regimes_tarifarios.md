@@ -8,13 +8,8 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`:
 
-<!-- tabela: Os códigos de faixa tarifária e o significado de cada um -->
-| Código | Significado |
-| ---: | :--- |
-| 1 ou 0 | faixa progressiva, cobra só o volume dentro dela |
-| −1 | custo de disponibilidade, soma por cima |
-| −2 | franquia retroativa |
-| −3 | piso de pagamento |
+Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção {{n:29}}, e não se repetem aqui.
+
 
 ## Os cinco regimes
 
@@ -32,36 +27,10 @@ Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, có
 
 ## Distribuição por unidade da federação
 
-<!-- tabela: Distribuição dos municípios do catálogo por unidade da federação -->
-| UF | Municípios |
-| :--- | ---: |
-| AC | 2 |
-| AL | 10 |
-| AM | 12 |
-| AP | 2 |
-| BA | 41 |
-| CE | 37 |
-| DF | 1 |
-| ES | 10 |
-| GO | 24 |
-| MA | 22 |
-| MG | 71 |
-| MS | 6 |
-| MT | 13 |
-| PA | 42 |
-| PB | 10 |
-| PE | 33 |
-| PI | 5 |
-| PR | 34 |
-| RJ | 37 |
-| RN | 8 |
-| RO | 7 |
-| RR | 1 |
-| RS | 43 |
-| SC | 32 |
-| SE | 7 |
-| SP | 137 |
-| TO | 5 |
+![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)
+
+*Figura 99 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião. São Paulo e Minas Gerais respondem sozinhos por quase um terço do catálogo.*
+
 
 ## Grau de confiança
 

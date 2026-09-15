@@ -39,13 +39,21 @@ faixas, e cada faixa é uma quádrupla composta pelo volume mínimo, pelo volume
 um valor e por um código. O código é o elemento que dá sentido ao valor, porque
 estruturas aparentemente semelhantes cobram de maneiras muito distintas.
 
-<!-- tabela: Os quatro códigos de faixa e o efeito de cada um no cálculo da fatura -->
-| Código | Regime | Efeito na conta |
-| ---: | :--- | :--- |
-| 1 ou 0 | faixa progressiva | cobra o valor por m³ do volume **dentro** da faixa |
-| −1 | disponibilidade | valor fixo que **soma** por cima do consumo medido |
-| −2 | franquia retroativa | até a franquia, paga-se o fixo; passando dela, tarifa-se **tudo desde zero** |
-| −3 | piso de pagamento | a conta **não desce** abaixo do valor |
+Antes dos códigos, convém ver de que a fatura é feita. A conta de um mês é a soma
+de parcelas com comportamentos distintos: uma parcela fixa, que não responde ao consumo;
+uma ou mais faixas de consumo, cobradas a preços crescentes; e o esgoto, que em boa parte
+do Brasil é um percentual da conta de água e portanto acompanha tudo o que ela faz. A
+economia de água atinge cada uma dessas parcelas de um jeito diferente, e é essa
+assimetria que a figura a seguir mostra.
+
+![A fatura aberta em parcelas, com e sem o sistema](../figuras/fig07_fatura.png)
+
+*Figura 24 — A fatura mensal do projeto do tutorial, aberta em parcelas, antes e depois do sistema. A parcela fixa de disponibilidade é idêntica nos dois casos; a economia sai inteira das faixas superiores, que são as mais caras, e arrasta o esgoto junto por ser ele um percentual da conta de água.*
+
+![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
+
+*Figura 99 — Os quatro códigos de faixa e o efeito de cada um sobre a fatura. O código é o que dá sentido ao valor: duas tarifas com os mesmos números cobram de maneiras inteiramente distintas conforme o código que as acompanha.*
+
 
 Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
 opostos sobre a viabilidade de um sistema pluvial. Vale examiná-los com números.
@@ -92,14 +100,15 @@ responde por metade da fatura total.
 
 ## Os cinco regimes na base
 
-<!-- tabela: Distribuição dos 652 municípios do catálogo pelos cinco regimes de mínimo -->
-| Regime | Municípios |
-| :--- | ---: |
-| franquia no mínimo | 329 |
-| sem mínimo | 165 |
-| disponibilidade | 156 |
-| franquia retroativa | 2 |
-| piso de pagamento | 0 |
+O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
+regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
+seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a
+franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum.
+
+![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
+
+*Figura 99 — A distribuição dos 652 municípios do catálogo pelos cinco regimes de mínimo. Metade deles pratica franquia no mínimo, que é justamente o regime em que economizar abaixo da franquia não reduz a conta.*
+
 
 O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi
 até agora classificado nele, situação que se registra aqui por transparência: a ausência
@@ -141,6 +150,19 @@ critério não é satisfeito, em vez de extrapolar em silêncio.
 
 ---
 
+A composição do investimento surpreende quem chega ao assunto esperando que o
+reservatório domine a conta. Em volumes residenciais ele é a menor das quatro rubricas, e
+só passa a dominar quando o volume cresce o bastante para que o preço do tanque supere a
+soma fixa da instalação. A consequência de projeto é direta: dobrar o reservatório não
+dobra o investimento, e essa não linearidade é parte do motivo de a curva de valor
+presente líquido ter máximo interior.
+
+![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
+
+*Figura 38 — O investimento inicial aberto em quatro rubricas, para três volumes de reservatório de polietileno. Mão de obra, tubulação e acessórios praticamente não variam com o volume; só o reservatório varia, e é por isso que o custo por metro cúbico armazenado cai à medida que o tanque cresce.*
+
+---
+
 ## O custeio anual
 
 <!-- tabela: Parcelas do custeio anual e a origem de cada uma -->
@@ -162,6 +184,14 @@ fora de ponta.
 
 Para cada mês `m` do período de análise:
 
+O resultado dessa projeção é uma série mensal de saldos, e o que interessa nela é
+o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o tempo de
+retorno, e vê-se melhor num gráfico do que numa tabela de duzentos e quarenta linhas.
+
+![O saldo descontado acumulado ao longo de vinte anos](../figuras/fig08_fluxo_de_caixa.png)
+
+*Figura 25 — O saldo descontado acumulado do projeto do tutorial, mês a mês, ao longo dos vinte anos de análise. O investimento inicial coloca a curva abaixo de zero; o tempo de retorno é o instante único em que ela cruza a linha, e o serrilhado corresponde ao reajuste anual da tarifa.*
+
 **A inflação incide só sobre o custeio:**
 
 ```equacao:inflacao
@@ -171,7 +201,7 @@ f_inf = ( 1 + i )^( m − 1 )
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
-| `i` | taxa de inflação mensal declarada | adimensional |
+| `i` | taxa de inflação mensal declarada, como fração: 0,35% ao mês entra como 0,0035 | adimensional |
 | `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
 
 **Os reajustes tarifários incidem só sobre a conta, em degraus:**
@@ -221,7 +251,7 @@ VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 | `VPL` | valor presente líquido do investimento | R$ |
 | `CAPEX` | investimento inicial total, da Equação {{eq:capex}} | R$ |
 | `FC_m` | fluxo de caixa líquido do mês `m` | R$ |
-| `TMA` | taxa mínima de atratividade mensal | adimensional |
+| `TMA` | taxa mínima de atratividade mensal, como fração: 0,5% ao mês entra como 0,005 | adimensional |
 | `m` | mês do fluxo de caixa, de 1 até o fim do período de análise | mês |
 
 **Taxa interna de retorno:** a taxa que zera o VPL. Quando não há raiz real — o que

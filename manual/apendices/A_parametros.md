@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **103 parâmetros**. É a lista completa do que um projeto
+São **104 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -44,17 +44,18 @@ Observações do fonte:
 
 ## Captação
 
-6 parâmetros.
+7 parâmetros.
 
 <!-- tabela: Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `discard` | 1 | mm | Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | Automação, CAD e BIM, Cenários, Planilhas, Relatórios |
+| `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `discard_mode` | 1 | código | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `discard_days_interval` | 7 | dias | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `area` | 100 | m² | Ambiental, Documentação, Edificação, Gráficos, Janela principal, Qualidade, Relatórios, Varredura | ACV, Automação, Balanço diário, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `irrigation_garden_area_m2` | 0 | m² | — | — |
 | `runoff_coeff` | — | — | Janela principal, Qualidade, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, ETAP |
 
 Observações do fonte:
 
@@ -141,7 +142,7 @@ Observações do fonte:
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
-| `etap_enabled` | sim | — | Ambiental | ACV, Automação, ETAP |
+| `etap_enabled` | sim | — | Ambiental, Econ. integrado, Otimizador | ACV, Automação, ETAP |
 | `chlorine_treatment_enabled` | sim | — | Econ. integrado, Otimizador, Qualidade | Econômico |
 | `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econ. integrado, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
 | `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
@@ -217,7 +218,7 @@ Observações do fonte:
 
 ## Tubulação
 
-1 parâmetros.
+1 parâmetro.
 
 <!-- tabela: Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
@@ -237,7 +238,7 @@ Observações do fonte:
 
 ## Operação
 
-1 parâmetros.
+1 parâmetro.
 
 <!-- tabela: Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
@@ -260,9 +261,9 @@ Observações do fonte:
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
 | `water_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
 | `tariff_escalation` | 12 | meses | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
-| `water_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
-| `sewage_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador | Automação, Econômico |
-| `elec_tariff_escalation` | 5 | %/ano | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
+| `water_tariff_escalation` | 5 | % por período | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
+| `sewage_tariff_escalation` | 5 | % por período | Econ. integrado, Otimizador | Automação, Econômico |
+| `elec_tariff_escalation` | 5 | % por período | Econ. integrado, Otimizador, Varredura | Automação, Econômico |
 | `tariff_flag` | verde | — | Econ. integrado | Econômico |
 | `elec_tariff` | 0,6957 | R$/kWh | Econ. integrado, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
 
@@ -271,10 +272,10 @@ Observações do fonte:
 - `sewage_mode`: 0 = fixed R$, 1 = % of water bill
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
-- `tariff_escalation`: months period
-- `water_tariff_escalation`: % escalation per period (annual)
-- `sewage_tariff_escalation`: % escalation per period (annual)
-- `elec_tariff_escalation`: % escalation per period (annual)
+- `tariff_escalation`: meses; comprimento do período de reajuste
+- `water_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
+- `sewage_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
+- `elec_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
 - `tariff_flag`: "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
 - `elec_tariff`: R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)
 
@@ -318,20 +319,20 @@ Observações do fonte:
 <!-- tabela: Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `inflation` | 0,2 | %/mês | Documentação, Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
+| `inflation` | 0,2 | % ao mês | Documentação, Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 | `analysis_period_years` | 20 | anos | Econ. integrado, Econômico, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Econômico, Relatórios |
-| `tma` | 2 | %/mês | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Planilhas |
+| `tma` | 2 | % ao mês | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Planilhas |
 | `install_month` | 0 | mês | — | — |
 
 Observações do fonte:
 
-- `inflation`: % monthly
+- `inflation`: % ao mês; inflação dos custos de O&M
 - `analysis_period_years`: years
-- `tma`: % monthly discount rate
+- `tma`: % ao mês; taxa mínima de atratividade
 
 ## Certificações
 
-1 parâmetros.
+1 parâmetro.
 
 <!-- tabela: Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |

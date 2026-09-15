@@ -122,7 +122,8 @@ Para o nosso projeto, o método ficaria assim:
 > diária (YAS, extravasamento anterior à retirada da demanda), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
 > Adotou-se área de captação de 150 m² em projeção horizontal, coeficiente de
-> escoamento de 0,85 (telha cerâmica) e descarte de primeiras águas de 2,0 mm em
+> escoamento de 0,85, adotado a partir da eficiência de captação η que a ABNT NBR 15527:2019
+> recomenda no item 4.1.6, e descarte de primeiras águas de 2,0 mm em
 > todo evento, subtraído da lâmina diária — divergência deliberada em relação ao
 > Netuno 4, que trata o valor como limiar do evento. A demanda total adotada foi de
 > 600 L/dia (4 moradores, 150 L/hab·dia), com fração atendível por água pluvial de

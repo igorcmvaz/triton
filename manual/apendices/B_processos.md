@@ -390,10 +390,10 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 1. A classe alvo define as etapas obrigatórias; a desinfecção escolhida define o equipamento e o custeio.
 2. O filtro de polimento é aplicado **se e somente se** marcado; quando a classe o recomendaria e o usuário recusa, isso fica registrado em `polishing_recommended_but_declined` em vez de ser imposto.
-3. O que se compra é o **produto** — pastilha a 65% de cloro ativo — e não o cloro puro. Até a 5.0.7 a conta usava a massa de cloro ativo e subestimava o custo em cerca de 35%.
+3. O que se compra é o **produto** — pastilha a 65% de cloro ativo — e não o cloro puro. Faturar a massa de cloro ativo, e não a do produto, subestima o custo em cerca de 35%.
 4. **Regra incremental**: o CAPEX da linha desconta a verba genérica de tratamento já embutida em «Acessórios», e o custeio desconta a cloração, que o fluxo de caixa já paga. A regra vive num lugar só, consumida pelos **dois** motores econômicos.
 5. Na ACV, a linha de tratamento **substitui** o termo de cloração; nunca soma a ele.
-6. Com `etap_enabled = False`, o resultado reproduz a versão 5.0.7 exatamente.
+6. Com `etap_enabled = False`, a linha de tratamento não entra em conta alguma: nem no CAPEX, nem no custeio, nem na avaliação ambiental.
 
 **Saídas**
 

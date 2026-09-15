@@ -3,12 +3,12 @@
     "name": "netuno-project",
     "version": 2
   },
-  "version": "5.0.8",
+  "version": "5.0.0",
   "metadata": {
-    "project_id": "N5-20260911-013458-F1A033FE",
-    "name": "Manual, guia 17 - hotel com demanda mensal",
-    "created_at": "11/09/2026 01:34",
-    "saved_at": "11/09/2026 01:34:58"
+    "project_id": "N5-20260914-201824-A4DF8374",
+    "name": "Manual, secao 3.4 - hotel com demanda mensal",
+    "created_at": "14/09/2026 20:18",
+    "saved_at": "14/09/2026 20:18:24"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11118,6 +11118,7 @@
       "target_class": "classe_1",
       "disinfection": "cloro",
       "polishing_filter": false,
+      "first_flush_system_enabled": false,
       "etap_enabled": true,
       "chlorine_treatment_enabled": true,
       "chlorine_dose_mg_l": 1.5,

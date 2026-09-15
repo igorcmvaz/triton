@@ -7,21 +7,22 @@ do computador.
 
 ## Ficha 1 — O fluxo de um estudo completo
 
-```
-1. Projeto e chuva ......... série, área, coeficiente, descarte      cap. 4
-2. Edificação .............. tipologia, demanda, fração atendível    cap. 5
-3. Primeira simulação ...... um volume de palpite, para ver          cap. 6
-4. Varredura ............... curva de retorno, volume ideal          cap. 7
-5. Arranjo ................. precisa de caixa superior?              cap. 8
-6. Qualidade ............... classe, desinfecção, filtros            cap. 9
-7. Economia ................ tarifa real, CAPEX, fluxo de caixa      cap. 10
-8. Carbono ................. inventário, material, payback           cap. 11
-9. Decisão ................. sete critérios, pesos declarados        cap. 12
-10. Relatório .............. saídas e lista de declaração            cap. 13
-```
+<!-- tabela: Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+| # | Passo | O que se decide nele | Seção |
+| ---: | :--- | :--- | ---: |
+| 1 | Projeto e chuva | série, área, coeficiente, descarte | {{n:4}} |
+| 2 | Edificação | tipologia, demanda, fração atendível | {{n:5}} |
+| 3 | Primeira simulação | um volume de palpite, para ver | {{n:6}} |
+| 4 | Varredura | curva de retorno, volume ideal | {{n:7}} |
+| 5 | Arranjo | precisa de caixa superior? | {{n:8}} |
+| 6 | Qualidade | classe, desinfecção, filtros | {{n:9}} |
+| 7 | Economia | tarifa real, CAPEX, fluxo de caixa | {{n:10}} |
+| 8 | Carbono | inventário, material, payback | {{n:11}} |
+| 9 | Decisão | sete critérios, pesos declarados | {{n:12}} |
+| 10 | Relatório | saídas e lista de declaração | {{n:13}} |
 
-**Antes de publicar:** seção {{n:13}}, a lista de declaração. Capítulo 33, os dez
-enganos. Capítulo 36, as limitações que afetam o seu caso.
+**Antes de publicar:** seção {{n:13}}, a lista de declaração. Seção {{n:33}}, os dez
+enganos. Seção {{n:36}}, as limitações que afetam o seu caso.
 
 ---
 
@@ -30,16 +31,16 @@ enganos. Capítulo 36, as limitações que afetam o seu caso.
 <!-- tabela: Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
-| área **inclinada** em vez da projeção horizontal | 33.1 |
-| chuva **média mensal** em vez da série diária | 33.2 |
-| descarte em **litros** quando o campo quer milímetros | 33.3 |
-| **regime de mínimo** tarifário ignorado | 33.4 |
-| escola ou hospital com **tarifa residencial** | 33.5 |
-| esperar mais **água** da caixa superior | 33.6 |
-| **série curta** demais | 33.7 |
-| classe de qualidade escolhida pelo **custo** | 33.8 |
-| comparar com o **Netuno 4** sem declarar a divergência | 33.9 |
-| publicar o volume de **maior economia** como recomendado | 33.10 |
+| área **inclinada** em vez da projeção horizontal | {{n:33.1}} |
+| chuva **média mensal** em vez da série diária | {{n:33.2}} |
+| descarte em **litros** quando o campo quer milímetros | {{n:33.3}} |
+| **regime de mínimo** tarifário ignorado | {{n:33.4}} |
+| escola ou hospital com **tarifa residencial** | {{n:33.5}} |
+| esperar mais **água** da caixa superior | {{n:33.6}} |
+| **série curta** demais | {{n:33.7}} |
+| classe de qualidade escolhida pelo **custo** | {{n:33.8}} |
+| comparar com o **Netuno 4** sem declarar a divergência | {{n:33.9}} |
+| publicar o volume de **maior economia** como recomendado | {{n:33.10}} |
 
 ---
 

@@ -139,6 +139,9 @@ MARGEM_D = 2.0 * cm
 MARGEM_S = 2.0 * cm
 MARGEM_I = 1.8 * cm
 UTIL = LARGURA - MARGEM_E - MARGEM_D
+# Uma figura pode ocupar metade da mancha; passando disso, ela empurra sozinha
+# para a página seguinte o parágrafo que a apresenta.
+ALTURA_MAX_FIGURA = 0.52 * (ALTURA - MARGEM_S - MARGEM_I)
 
 
 def estilo(nome, **kw):
@@ -576,9 +579,16 @@ def converter(texto):
             if os.path.exists(caminho):
                 from reportlab.lib.utils import ImageReader
                 lx, ly = ImageReader(caminho).getSize()
-                largura = min(UTIL, 15.0 * cm)
-                fluxo.append(Image(caminho, width=largura,
-                                   height=largura * ly / float(lx)))
+                # A figura ocupa toda a largura útil: reduzi-la a 15 cm
+                # encolhia junto os rótulos, que já são pequenos no desenho.
+                # A altura é limitada para que uma figura alta não expulse da
+                # página o texto que a explica.
+                largura = UTIL
+                altura = largura * ly / float(lx)
+                if altura > ALTURA_MAX_FIGURA:
+                    largura *= ALTURA_MAX_FIGURA / altura
+                    altura = ALTURA_MAX_FIGURA
+                fluxo.append(Image(caminho, width=largura, height=altura))
             i += 1
             continue
 
@@ -624,7 +634,13 @@ def converter(texto):
         if re.match(r"^\*[^*].*\*$", cru) and fluxo and isinstance(
                 fluxo[-1], Image):
             fecha_paragrafo(acumulado)
-            fluxo.append(Paragraph(inline(cru.strip("*")), E["legenda"]))
+            # A legenda não se separa da figura: imagem no pé de uma página e
+            # legenda no alto da seguinte obriga o leitor a folhear para saber
+            # o que acabou de ver.
+            imagem = fluxo.pop()
+            fluxo.append(KeepTogether([
+                imagem, Spacer(1, 2),
+                Paragraph(inline(cru.strip("*")), E["legenda"])]))
             i += 1
             continue
 
@@ -709,6 +725,8 @@ def folha_de_rosto():
         Paragraph("Grupo de Pesquisa Gestão do Espaço Sustentável",
                   E["capa_sub"]),
         Paragraph("Universidade Federal de Santa Catarina", E["capa_sub"]),
+        Spacer(1, 1.2 * cm),
+        Paragraph("Florianópolis, 2026", E["capa_sub"]),
         PageBreak(),
     ]
 
