@@ -393,12 +393,47 @@ nem na emissão.
 | Grupo | Valores | Situação |
 | :--- | ---: | :--- |
 | Rede elétrica | 1 | ✅ resolvido — base de CO₂e declarada; série do MCTI mantida à parte, rotulada como CO₂ |
-| Materiais de reservatório | 8 | 🟡 parcial — PEAD (ACC 2020) e concreto (SIDAC) resolvidos; massa do PRFV do catálogo Fortlev; fator do PRFV e o inox pendentes |
+| Materiais de reservatório | 8 | 🟡 parcial — fatores resolvidos: PEAD (ACC 2020), concreto (SIDAC), PRFV (Composites UK 2026, 3,25) e inox (worldstainless 2024, 3,70 a 50% de sucata); massa do PRFV do catálogo Fortlev; massas por m³ útil do PEAD, do concreto e do inox seguem como cenário geométrico |
 | Tubulações | 12 | ✅ resolvido — fator da EPD Australasia S-P-05503; massas lineares de peso de produto (Amanco Wavin) e das NBR 5648 e 5688 |
-| Motobombas | 6 | ⬜ pendente — quatro dos seis são extrapolação aritmética; a granularidade por CV pode não existir na literatura |
+| Motobombas | 6 | 🟡 resolvido por composição (2026-09-15) — massa do catálogo Dancor (CAM W-4C e CAM W-10) × 4,77 kg CO₂e/kg da EPD Grundfos EPD-GRU-20250340-CBA1-EN (A1–A3); ver §Motobombas |
 | Água potável evitada | 1 | 🟡 corroborado por Garfí et al. (2016); falta inventário da concessionária |
 | Cloro e hipoclorito | 3 | 🟡 cadeia unificada e fator implausível removido; falta o processo exato do Ecoinvent |
 | Vida útil e energia específica | 2 | ⬜ pendente — ver nota abaixo |
+
+### Motobombas — composição de duas fontes (2026-09-15)
+
+Não há EPD de motobomba residencial brasileira. O valor passa a ser massa × intensidade:
+
+| Potência | Massa (Dancor) | × 4,77 kg CO₂e/kg | Antes | Variação |
+| ---: | ---: | ---: | ---: | ---: |
+| 1/4 CV | 6,1 kg | 29,1 | 12,0 | ×2,4 |
+| 1/2 CV | 6,4 kg | 30,5 | 18,0 | ×1,7 |
+| 3/4 CV | 13,5 kg | 64,4 | 24,0 | ×2,7 |
+| 1 CV | 15,3 kg | 73,0 | 30,0 | ×2,4 |
+| 1 1/2 CV | 17,5 kg | 83,5 | 42,0 | ×2,0 |
+| 2 CV | 20,7 kg | 98,8 | 55,0 | ×1,8 |
+
+**Intensidade.** Grundfos, EPD-GRU-20250340-CBA1-EN (IBU, 09/07/2025, EN 15804+A2),
+ALPHA1 GO 25-40 180: GWP-total A1–A3 de 10,4 kg CO₂e por unidade, massa de referência
+2,179 kg com embalagem. Composição: ferro fundido 48%, aço carbono 12%, alumínio 8%,
+polímeros 8%, papelão 6%, inox 6%, cobre 4%, eletrônica 3%.
+
+**Massas.** Catálogo geral 60 Hz da Dancor, séries CAM W-4C e CAM W-10 (carcaça em liga
+de alumínio-silício, motor monofásico de 2 polos), coluna «Peso (kg)».
+
+**Ressalvas.** Circulador europeu com eletrônica, não centrífuga brasileira; massa de
+referência com embalagem; matriz elétrica europeia na fabricação. Ordem de grandeza, e
+não inventário. O termo continua pequeno no resultado de um sistema residencial.
+
+### Energia do abastecimento: SINISA substitui o SNIS
+
+O SINISA (primeira coleta em 2024, ano de referência 2023) herdou o indicador do SNIS com
+outro código: **IAG2023**, «Consumo médio de energia elétrica no serviço de abastecimento
+de água», em kWh/m³, calculado como GTA1301 / (GTA1001 + GTA1009) — energia total sobre
+volume **produzido mais importado**, correspondente ao IN058 (glossário «Indicadores do
+Módulo Água», SINISA, 24/02/2025). O valor nacional de 2023 está na planilha
+`SINISA_Resultados_Ref2023.zip`, ainda não baixada. O programa segue com o IN058 de 2022
+(0,67 kWh/m³) até a conferência.
 
 ### Nota: energia específica de bombeamento (0,40 kWh/m³)
 

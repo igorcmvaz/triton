@@ -3,14 +3,14 @@ title: "Netuno 5"
 message: "Se este software for usado em trabalho acadêmico, por favor cite-o conforme abaixo."
 type: software
 authors:
+  - family-names: Vaz
+    given-names: "Igor Catão Martins"
+    affiliation: "Universidade Federal de Santa Catarina"
   - family-names: Ghisi
     given-names: Enedir
     affiliation: "Universidade Federal de Santa Catarina"
-  - family-names: Cordova
-    given-names: "Marcelo Marcel"
-    affiliation: "Universidade Federal de Santa Catarina"
-version: "5.0.7"
-date-released: "2026-09-07"
+version: "5.0.0"
+date-released: "2026-09-11"
 license: GPL-3.0-or-later
 abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
@@ -29,3 +29,17 @@ keywords:
   - topsis
   - engineering-economics
 repository-code: "https://github.com/igorcmvaz/netuno"
+references:
+  - type: manual
+    title: "Netuno 5: manual do usuário"
+    authors:
+      - family-names: Vaz
+        given-names: "Igor Catão Martins"
+      - family-names: Ghisi
+        given-names: Enedir
+    version: "5.0.0"
+    year: 2026
+    publisher:
+      name: "Universidade Federal de Santa Catarina"
+      city: "Florianópolis"
+      country: BR

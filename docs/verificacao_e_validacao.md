@@ -1,4 +1,4 @@
-# Relatório de Verificação e Validação — Netuno 5.0.7
+# Relatório de Verificação e Validação — Netuno 5
 
 **Data da apuração:** 7–8 de setembro de 2026
 **Escopo:** núcleo de cálculo (`netuno.core`), com ênfase no motor de balanço hídrico diário

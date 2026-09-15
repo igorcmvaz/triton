@@ -1,4 +1,4 @@
-# Documentação do Netuno 5.0.7
+# Documentação do Netuno 5
 
 Ponto de entrada único da documentação. Antes desta versão os documentos estavam
 distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.

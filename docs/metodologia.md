@@ -1,4 +1,4 @@
-# Metodologia, equações e fronteiras do modelo — Netuno 5.0.7
+# Metodologia, equações e fronteiras do modelo — Netuno 5
 
 Este documento descreve o que o motor do Netuno efetivamente calcula: as equações
 implementadas, as premissas que as sustentam e os limites além dos quais os resultados

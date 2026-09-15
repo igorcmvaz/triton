@@ -1,4 +1,4 @@
-# Netuno 5.0.7
+# Netuno 5
 
 > Plataforma para dimensionamento de sistemas prediais de aproveitamento de água de chuva, com simulação diária, análise econômico-financeira, ACV simplificada e apoio à decisão multicritério.
 
@@ -27,7 +27,7 @@ O Netuno é uma aplicação desktop voltada a estudos de viabilidade e apoio ao 
 
 ### Escopo atual do produto
 
-| Componente | Situação na versão 5.0.7 | Observação |
+| Componente | Situação na versão atual | Observação |
 | --- | --- | --- |
 | Aplicação desktop PySide6 | suportada | é a interface gráfica oficial e executa localmente |
 | CLI | suportada | adequada a automação, rastreabilidade e estudos em lote |
@@ -114,7 +114,7 @@ Dossiê em PDF/HTML com premissas, tabelas de varredura, indicadores hidráulico
 
 ## Requisitos
 
-- Python 3.9 ou superior; Python 3.11 é recomendado.
+- Python 3.10 ou superior; Python 3.11 é recomendado.
 - Windows, Linux ou macOS com suporte ao Qt.
 - Dependências Python: `PySide6`, `numpy`, `pandas`, `matplotlib`, `openpyxl`, `reportlab`, `numpy-financial` e `pytest`.
 
@@ -268,15 +268,16 @@ NetunoReplicacao/
 
 ## Citação
 
-> GHISI, E.; CORDOVA, M. M. Netuno 5.0.7: Programa computacional para simulação de aproveitamento de água de chuva. Florianópolis: Grupo de Pesquisa Gestão do Espaço Sustentável, UFSC, 2026. Software de computador, versão 5.0.7.
+> VAZ, I. C. M.; GHISI, E. Netuno 5.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações. Florianópolis: Universidade Federal de Santa Catarina, Grupo de Pesquisa Gestão do Espaço Sustentável, 2026. Software de computador, versão 5.0.0.
 
 ```bibtex
-@software{netuno_5_0_7,
-  author  = {Ghisi, Enedir and Cordova, Marcelo Marcel},
-  title   = {Netuno 5.0.7},
+@software{netuno_5_0_0,
+  author  = {Vaz, Igor Catão Martins and Ghisi, Enedir},
+  title   = {Netuno 5.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações},
   year    = {2026},
-  publisher = {UFSC},
-  version = {5.0.7}
+  publisher = {Universidade Federal de Santa Catarina},
+  address = {Florianópolis},
+  version = {5.0.0}
 }
 ```
 
