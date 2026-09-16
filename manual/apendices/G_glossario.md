@@ -15,8 +15,9 @@ matérias-primas ao descarte. A do programa é de **triagem**, e não um invent�
 conforme a ISO 14040.
 
 **AQUA-HQE**. Referencial de certificação ambiental de edificações, adaptação brasileira
-do francês HQE conduzida pela Fundação Vanzolini. Trata a gestão da água em sua
-categoria 4.
+do francês HQE conduzida pela Fundação Vanzolini. No referencial residencial de 2024, a
+água é tratada no tema «Consumo de água», em itens classificados nos níveis PR, HQE,
+HQE 2 e HQE 3.
 
 **Área de captação** (*catchment area*). Projeção **horizontal** da cobertura que
 conduz água para o sistema, conforme a NBR 10844. Não é a área inclinada do telhado.
@@ -79,6 +80,10 @@ referência do qual decorrem as dimensões reais, tabeladas por norma.
 **DXF** (*drawing exchange format*). Formato de intercâmbio de desenhos técnicos, lido
 por praticamente todos os programas de CAD.
 
+**EAU**. Prefixo dos itens do tema «Consumo de água» no referencial AQUA-HQE, do francês
+*eau*, água. Os itens ligados ao aproveitamento pluvial são o EAU.1.2, o EAU.1.3 e o
+EAU.1.5.
+
 **EDGE** (*excellence in design for greater efficiencies*). Referencial de certificação
 da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
@@ -99,7 +104,7 @@ de entrada, desinfecção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
-**Extravasamento** (*spillage*, *overflow*). Volume que transborda do reservatório
+**Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório e é conduzido pelo extravasor
 quando ele já está cheio.
 
 **Fração atendível por água pluvial**. Percentual da demanda total que pode ser
@@ -113,6 +118,10 @@ ao reservatório, em %/m³. Critério de escolha do volume ideal.
 
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
+
+**HQE** (*Haute Qualité Environnementale*). Referencial francês de alta qualidade
+ambiental, base do AQUA-HQE. Designa também os níveis dos itens do referencial: HQE,
+HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
 
 **IFC**. A sigla designa duas coisas distintas neste manual. Em certificação, é a
 *International Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. Em
@@ -167,6 +176,9 @@ central do programa.
 
 **pp**. Pontos percentuais. Usado para exprimir a diferença entre dois percentuais: de
 35% para 37% vão dois pontos percentuais, e não dois por cento.
+
+**PR**. Pré-requisito: no AQUA-HQE, o nível de item de atendimento obrigatório, abaixo
+dos níveis HQE, HQE 2 e HQE 3.
 
 **PRCPTOT**. Precipitação total anual em dias úmidos.
 

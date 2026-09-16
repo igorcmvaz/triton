@@ -16,9 +16,9 @@ empreendimento, da qual o desempenho hídrico é apenas uma peça.
 
 Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia.
 
-![Os limiares dos quatro referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
+![Os limiares de economia dos referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
 
-*Figura 99 — Os limiares de economia total com que o programa enquadra o projeto em quatro dos cinco referenciais, postos na mesma escala. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
+*Figura 99 — Os limiares de economia de água com que o programa enquadra o projeto em três dos cinco referenciais, postos na mesma escala. O Selo Casa Azul não entra na régua, porque o seu critério pontua a existência do sistema e a abrangência do uso, e não um percentual. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
 
 ---
 
@@ -50,28 +50,60 @@ empreendimento não é elegível à certificação, e ele próprio não confere 
 
 ---
 
-## Processo AQUA-HQE, categoria 4
+## AQUA-HQE Residencial, tema consumo de água
 
-O AQUA-HQE é a adaptação brasileira, conduzida pela Fundação Vanzolini, do referencial
-francês HQE, e trata a gestão da água em sua categoria 4. A avaliação não é pontuada em
-escala contínua, e sim classificada em três perfis de desempenho, definidos pelo
-percentual de substituição de água potável que o sistema alcança. O programa atribui o
-perfil Base a partir de 10%, Boas Práticas a partir de 25% e Excelente a partir de 40% de
-economia total, e só pela economia total.
+O AQUA-HQE é a adaptação brasileira, conduzida pela Fundação Vanzolini com a CERQUAL
+Qualitel, do referencial francês HQE. No referencial de edifícios residenciais vigente,
+versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de água», por
+itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
+Três itens dizem respeito ao aproveitamento pluvial:
 
+<!-- tabela: Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+| Item | Nível | Exigência |
+| :--- | :--- | :--- |
+| EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
+| EAU.1.3 | HQE 3 | economia de 40% de água potável no empreendimento |
+| EAU.1.5 | HQE 3 | sistema de recuperação de águas pluviais, conforme as ABNT NBR 15527 e 16783 |
+
+O programa compara a economia de água potável simulada com os limiares de 20% e 40%, e
+registra o item EAU.1.5 sempre que há sistema. ==O percentual do programa é indicativo:==
+o referencial mede a economia contra um cenário de referência de vazões e usos por
+dispositivo, calculado na planilha auxiliar da Fundação Vanzolini, que soma o efeito dos
+aparelhos economizadores ao da água não potável.
+
+> **Correção desta versão.** Até a revisão de setembro de 2026 o programa enquadrava o
+> projeto em perfis «Base», «Boas Práticas» e «Excelente», a 10, 25 e 40% de economia.
+> O referencial de 2024 não tem esses perfis, e o enquadramento foi refeito pelos itens.
 
 ---
 
-## Selo Casa Azul CAIXA, critério 2.1
+## Selo Casa Azul + CAIXA, critério 3.6
 
-O Selo Casa Azul é o referencial da Caixa Econômica Federal para habitação, e seu
-critério 2.1 trata especificamente do aproveitamento de águas pluviais. Diferentemente
-dos anteriores, ele não se limita a reconhecer o desempenho: a graduação obtida gera
-elegibilidade a condições diferenciadas de financiamento, o que faz dele o referencial
-com consequência econômica mais direta entre os cinco tratados aqui. O programa gradua
-Prata a partir de 10%, Ouro a partir de 20% e Diamante a partir de 30% de economia total.
+O Selo Casa Azul é o referencial da Caixa Econômica Federal para habitação. No guia
+vigente, versão V023 de 29 de abril de 2026, o aproveitamento pluvial é o critério 3.6,
+da categoria «Gestão eficiente da água», e o seu indicador não é um percentual: é a
+**existência** de sistema de aproveitamento, com captação, tratamento, reservação e
+pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
 
-> **Declare no estudo.** O enquadramento só é defensável com a regra vigente do
+<!-- tabela: Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+| Abrangência do uso da água pluvial | Pontos |
+| :--- | ---: |
+| áreas comuns do empreendimento | 2 |
+| casas em loteamento, com a preparação exigida | 2 |
+| unidades habitacionais | 4 |
+| unidades habitacionais e áreas comuns | 5 |
+
+O critério é de livre escolha para os níveis Cristal/Bronze, Topázio/Prata e Safira/Ouro,
+e obrigatório para o Diamante. Para a unidade isolada vale o Selo Casa Azul Uni, versão
+V001 de dezembro de 2025, em que o critério 7, «Aproveitamento de águas pluviais», vale
+1 ponto e é obrigatório para o Selo Ouro. O programa registra o critério como atendido
+quando há sistema, e atribui os pontos só quando a abrangência é informada.
+
+> **Correção desta versão.** Até a revisão de setembro de 2026 o programa graduava o
+> projeto em «Prata», «Ouro» e «Diamante» a 10, 20 e 30% de economia. O guia não liga o
+> critério a percentual, e o enquadramento foi refeito pela existência e pela abrangência.
+
+> **Declare no estudo.** O enquadramento só é defensável com a versão vigente do
 > referencial em mãos, e o programa não substitui essa conferência.
 
 

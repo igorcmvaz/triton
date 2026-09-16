@@ -33,7 +33,7 @@ from gerar_desenhos import (                                      # noqa: E402
 
 def desenho_balanco_do_dia():
     p = Prancha(100, 70, tamanho=(7.4, 5.0))
-    p.titulo("A ordem das operações de um dia, e a memória que sobra para o seguinte")
+    p.titulo("Sequência de operações do balanço diário e transferência ao dia seguinte")
 
     p.caixa("chuva", 2, 47, 21, 11, "Chuva do dia" + NL + "P (mm)", cor=AZUL,
             peso="bold")
@@ -43,13 +43,13 @@ def desenho_balanco_do_dia():
             cor=AZUL)
     p.caixa("soma", 78, 47, 20, 11, "3. Soma-se ao" + NL + "que havia", cor=AZUL)
 
-    p.caixa("extravasa", 78, 28, 20, 10, "Extravasa" + NL + "o que não coube",
+    p.caixa("extravasa", 78, 28, 20, 10, "Extravasamento" + NL + "do excedente",
             cor=LARANJA, fundo="#fdf0ea")
     p.caixa("consumo", 45, 28, 26, 10, "4. Retira-se o" + NL + "consumo do dia",
             cor=VERDE)
-    p.caixa("resto", 45, 8, 26, 11, "5. O que sobra é o" + NL +
-            "volume de amanhã", cor=ROXO, peso="bold")
-    p.caixa("rede", 8, 28, 28, 10, "A rede completa" + NL + "o que faltou",
+    p.caixa("resto", 45, 8, 26, 11, "5. Volume remanescente" + NL +
+            "para o dia seguinte", cor=ROXO, peso="bold")
+    p.caixa("rede", 8, 28, 28, 10, "Suprimento pela" + NL + "rede pública",
             cor=CINZA, fundo="#f4f3f0")
 
     p.seta("chuva", "d", "descarte", "e", cor=AZUL)
@@ -57,9 +57,9 @@ def desenho_balanco_do_dia():
     p.seta("volume", "d", "soma", "e", cor=AZUL)
     p.seta("soma", "b", "extravasa", "c", cor=LARANJA)
     p.seta("extravasa", "e", "consumo", "d", cor=AZUL,
-           rotulo="o que coube", rotulo_em=(74, 36))
+           rotulo="volume armazenado", rotulo_em=(74, 36))
     p.seta("consumo", "e", "rede", "d", cor=CINZA, tracejada=True,
-           rotulo="se faltou", rotulo_em=(40, 36))
+           rotulo="déficit", rotulo_em=(40, 36))
     p.seta("consumo", "b", "resto", "c", cor=ROXO)
     # A memória entre um dia e o seguinte, contornando o desenho por fora: é a
     # única ligação que não pertence ao dia corrente, e por isso não cruza nada.
@@ -70,7 +70,7 @@ def desenho_balanco_do_dia():
     p.ax.add_patch(FancyArrowPatch((88, 64), (88, 58.6), arrowstyle="-|>",
                                    mutation_scale=11, linewidth=1.3, color=ROXO,
                                    zorder=2))
-    p.ax.text(46, 65.4, "o volume que sobra é o volume inicial do dia seguinte",
+    p.ax.text(46, 65.4, "o volume remanescente é o volume inicial do dia seguinte",
               ha="left", va="bottom", fontsize=7.4, color=ROXO, zorder=5)
 
     p.nota(2, 5,

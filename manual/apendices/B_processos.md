@@ -157,7 +157,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
 2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
-3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria transbordado, superestimando o aproveitamento.
+3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
 
 **Saídas**
 
@@ -180,7 +180,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 **Regras**
 
 1. `v_c = min(demanda pluvial, volume no reservatório)`.
-2. O que sobra permanece para o dia seguinte: `v_lower = v_in_tank − v_c`.
+2. O volume remanescente permanece para o dia seguinte: `v_lower = v_in_tank − v_c`.
 
 **Saídas**
 
@@ -545,8 +545,8 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 **Regras**
 
 1. **LEED v4**: WEc1 até 2 pontos pelo uso externo, WEc2 até 6 pontos pelo uso interno, pela escala oficial. Sem demanda externa cadastrada, WEc1 é zero e diz por quê.
-2. **AQUA-HQE**: Base, Boas Práticas ou Excelente, por faixas.
-3. **Casa Azul**: Prata, Ouro ou Diamante, com bonificação.
+2. **AQUA-HQE Residencial** (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).
+3. **Casa Azul + CAIXA** (guia V023, 29/04/2026): critério 3.6 atendido pela existência do sistema; 2, 4 ou 5 pontos conforme a abrangência do uso, só quando informada.
 4. **EDGE**: **não pontua**. Mede percentual contra um caso-base local e compara com 20%, em três barras independentes. O nível avançado sobe a barra de *energia* para 40%, e não a de água. O programa avalia só a barra de água, pela medida WEM14, e diz que as outras duas estão fora do seu alcance.
 5. Sem caso-base declarado, o EDGE usa a demanda modelada e avisa que o número é **piso**.
 6. **GRI 303**: captação evitada e taxa de circularidade.

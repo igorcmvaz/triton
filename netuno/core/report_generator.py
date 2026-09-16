@@ -830,14 +830,15 @@ def generate_environmental_html_report(
                 <p style="margin-top: 3px;">WEc1 (Ext.): {esg_result.leed.outdoor_water_points}/2 pts | WEc2 (Int.): {esg_result.leed.indoor_water_points}/6 pts</p>
             </div>
             <div class="esg-card">
-                <h4>🌿 Processo AQUA-HQE</h4>
-                <p><b>{'Nível' if not is_en else 'Level'}: {esg_result.aqua.performance_level}</b> {aqua_stars}</p>
+                <h4>🌿 AQUA-HQE Residencial</h4>
+                <p><b>{'Nível' if not is_en else 'Level'}: {esg_result.aqua.performance_level}</b></p>
+                <p style="margin-top: 3px;">{'; '.join(esg_result.aqua.itens_atendidos) or ('Nenhum item atendido' if not is_en else 'No item met')}</p>
                 <p style="margin-top: 3px;">{esg_result.aqua.description}</p>
             </div>
             <div class="esg-card">
-                <h4>🏠 Selo Casa Azul CAIXA</h4>
-                <p><b>{'Graduação' if not is_en else 'Rating'}: {esg_result.casa_azul.category}</b></p>
-                <div class="esg-badge">+{esg_result.casa_azul.points_awarded} {'pontos CAIXA' if not is_en else 'points'}</div>
+                <h4>🏠 Selo Casa Azul + CAIXA</h4>
+                <p><b>{esg_result.casa_azul.category}</b></p>
+                <div class="esg-badge">{(str(esg_result.casa_azul.points_awarded) + (' pontos' if not is_en else ' points')) if esg_result.casa_azul.points_awarded else (esg_result.casa_azul.pontuacao_faixa if esg_result.casa_azul.criterion_met else '0')}</div>
                 <p style="margin-top: 3px;">{esg_result.casa_azul.description}</p>
             </div>
             <div class="esg-card">

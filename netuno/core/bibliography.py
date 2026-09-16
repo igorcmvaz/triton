@@ -757,7 +757,9 @@ REFERENCIAS: Dict[str, Referencia] = dict(
                 "na média nacional de 2022, variando de 0,61 a 0,78 entre macrorregiões e de 0,64 a "
                 "0,73 conforme a natureza do prestador. O esgotamento consome 0,29 kWh/m³ à parte, "
                 "que **não** é evitado quando se usa água pluvial em bacia sanitária, porque a água "
-                "vai para o esgoto do mesmo jeito."
+                "vai para o esgoto do mesmo jeito. O SINISA de 2023 (indicador IAG2023) foi "
+                "conferido em 16/09/2026: a mediana municipal, 0,74 kWh/m³, corrobora este valor, "
+                "mas o total nacional publicado (18,02) é distorcido por erros de unidade."
             ),
             nota_en=(
                 "The only Brazilian source for the energy intensity of water supply: **0.67 kWh/m³** "

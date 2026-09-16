@@ -616,42 +616,32 @@ class TabDocumentation(QWidget):
                 <b>Total LEED WE Potential:</b> Rainwater harvesting can unlock up to <b>8 direct points</b> in the Water Efficiency category (2 pts outdoor + 6 pts indoor), decisive for Silver (50 pts), Gold (60 pts), or Platinum (80+ pts) certifications.
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Category 4: Water Management</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. AQUA-HQE Residential (Fundação Vanzolini / CERQUAL) — Water Consumption theme</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Based on the French HQE (Haute Qualité Environnementale) system and adapted to Brazilian standards (<b>ABNT NBR 15527</b> and <b>NBR 16783</b>), Category 4 assesses integrated urban water cycle management:
+                In the residential reference framework, version 00 of 22 November 2024, water is assessed item by item, each classified as prerequisite (PR), HQE, HQE 2 or HQE 3. Three items concern rainwater harvesting:
             </p>
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; font-size: 12px; margin-top: 8px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='center' width='20%'>Performance Level</th>
-                    <th align='center' width='18%'>Potable Water Savings</th>
-                    <th align='left'>Technical Prerequisites & Standards</th>
+                    <th align='center' width='16%'>Item</th>
+                    <th align='center' width='14%'>Level</th>
+                    <th align='left'>Requirement</th>
                 </tr>
-                <tr>
-                    <td align='center'><b>Base (⭐)</b></td>
-                    <td align='center'>≥ 10%</td>
-                    <td>Compliance with NBR 15527: self-cleaning pre-filter, calming inlet, overflow with rodent barrier, and dual plumbing network.</td>
-                </tr>
-                <tr style='background-color: #f8fafc;'>
-                    <td align='center'><b>Boas Práticas (⭐⭐)</b></td>
-                    <td align='center'>≥ 25%</td>
-                    <td>Calibrated first-flush diversion, in-line chlorination with free residual chlorine control, and automated supply to non-potable points.</td>
-                </tr>
-                <tr>
-                    <td align='center'><b>Excelente (⭐⭐⭐)</b></td>
-                    <td align='center'>≥ 40%</td>
-                    <td>Advanced retention to dampen stormwater peak runoff, independent water sub-metering, and Class 1/2 quality assurance.</td>
-                </tr>
+                <tr><td align='center'><b>EAU.1.2</b></td><td align='center'>HQE</td><td>At least 20% reduction in potable water consumption against the reference consumption.</td></tr>
+                <tr style='background-color: #f8fafc;'><td align='center'><b>EAU.1.3</b></td><td align='center'>HQE 3</td><td>40% potable water saving in the development.</td></tr>
+                <tr><td align='center'><b>EAU.1.5</b></td><td align='center'>HQE 3</td><td>Rainwater recovery system complying with ABNT NBR 15527 and NBR 16783.</td></tr>
             </table>
+            <p style='font-size: 12px; color: #64748b;'>The framework measures savings against the reference scenario of the Fundação Vanzolini auxiliary spreadsheet, which also counts water-saving fixtures: Netuno's percentage is indicative. Earlier versions of Netuno used "Base / Boas Práticas / Excelente" profiles at 10, 25 and 40%, which the 2024 framework does not contain.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul CAIXA — Criterion 2.1: Alternative Water Sources</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul + CAIXA — Criterion 3.6: Rainwater Harvesting</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Created by Caixa Econômica Federal to classify sustainable housing and residential condominiums, granting direct bonuses in interest rates:
+                In the guide version V023 of 29 April 2026, the indicator is the <b>existence</b> of a rainwater harvesting system (catchment, treatment, storage and points of use), not a savings percentage. Points depend on the scope of use:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6;'>
-                <li><b>Prata (+2 CAIXA Points):</b> Minimum potable water reduction of <b>10%</b> using rainwater.</li>
-                <li><b>Ouro (+3 CAIXA Points):</b> Reduction of <b>≥ 20%</b>, validated through daily simulation and automated pumping control.</li>
-                <li><b>Diamante (+5 CAIXA Points):</b> Reduction of <b>≥ 30%</b>, with active disinfection, quality testing, and emergency backup supply.</li>
+                <li><b>Common areas:</b> 2 points (houses in subdivisions with the required provisions: 2 points).</li>
+                <li><b>Housing units:</b> 4 points.</li>
+                <li><b>Housing units and common areas:</b> 5 points. Mandatory for the Diamante level.</li>
             </ul>
+            <p style='font-size: 12px; color: #64748b;'>For single houses, the Selo Casa Azul Uni guide (V001, December 2025) awards 1 point under criterion 7, mandatory for the Ouro seal. Earlier versions of Netuno graded "Prata / Ouro / Diamante" at 10, 20 and 30% savings, which the guide does not contain.</p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Water Circularity</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
@@ -723,42 +713,32 @@ class TabDocumentation(QWidget):
                 <b>Potencial Total LEED WE:</b> O sistema pluvial habilita até <b>8 pontos diretos</b> na categoria de Eficiência Hídrica (2 pts externos + 6 pts internos), determinantes para a obtenção dos níveis Prata (50 pts), Ouro (60 pts) ou Platina (80+ pts).
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Categoria 4: Gestão da Água</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Adaptado pela Fundação Vanzolini à realidade e normas brasileiras (<b>ABNT NBR 15527:2019</b> e <b>NBR 16783:2019</b>), avalia a gestão integrada do ciclo da água na edificação:
+                No referencial de edifícios residenciais, versão 00 de 22 de novembro de 2024, a água é avaliada por itens, cada um classificado como pré-requisito (PR), HQE, HQE 2 ou HQE 3. Três itens tratam do aproveitamento pluvial:
             </p>
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; font-size: 12px; margin-top: 8px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='center' width='20%'>Perfil de Desempenho</th>
-                    <th align='center' width='20%'>Economia de Potável</th>
-                    <th align='left'>Requisitos Técnicos e Normativos</th>
+                    <th align='center' width='16%'>Item</th>
+                    <th align='center' width='14%'>Nível</th>
+                    <th align='left'>Exigência</th>
                 </tr>
-                <tr>
-                    <td align='center'><b>Base (⭐)</b></td>
-                    <td align='center'>≥ 10%</td>
-                    <td>Atendimento aos itens normativos da NBR 15527: pré-filtro autolimpante, freio d'água na entrada, extravasor protegido e tubulação claramente identificada na cor roxa/lilás.</td>
-                </tr>
-                <tr style='background-color: #f8fafc;'>
-                    <td align='center'><b>Boas Práticas (⭐⭐)</b></td>
-                    <td align='center'>≥ 25%</td>
-                    <td>Descarte de primeira chuva (first flush) calibrado, desinfecção por cloração com residual livre controlado e alimentação prioritária de pontos não potáveis.</td>
-                </tr>
-                <tr>
-                    <td align='center'><b>Excelente (⭐⭐⭐)</b></td>
-                    <td align='center'>≥ 40%</td>
-                    <td>Retenção e retardo do escoamento pluvial no lote para controle de cheias urbanas, medição individualizada de vazão e qualidade classe 1 ou 2.</td>
-                </tr>
+                <tr><td align='center'><b>EAU.1.2</b></td><td align='center'>HQE</td><td>Redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência.</td></tr>
+                <tr style='background-color: #f8fafc;'><td align='center'><b>EAU.1.3</b></td><td align='center'>HQE 3</td><td>Economia de 40% de água potável no empreendimento.</td></tr>
+                <tr><td align='center'><b>EAU.1.5</b></td><td align='center'>HQE 3</td><td>Sistema de recuperação de águas pluviais conforme as ABNT NBR 15527 e NBR 16783.</td></tr>
             </table>
+            <p style='font-size: 12px; color: #64748b;'>O referencial mede a economia contra o cenário de referência da planilha auxiliar da Fundação Vanzolini, que soma também os dispositivos economizadores: o percentual do Netuno é indicativo. Versões anteriores do programa usavam perfis «Base / Boas Práticas / Excelente» a 10, 25 e 40%, que o referencial de 2024 não contém.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul CAIXA — Critério 2.1: Conservação de Água e Fontes Alternativas</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul + CAIXA — Critério 3.6: Aproveitamento de Águas Pluviais</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Criado pela Caixa Econômica Federal para incentivar e certificar empreendimentos habitacionais sustentáveis financiados pelo banco. Concede bonificação direta de pontos que habilitam a taxas de juros reduzidas no crédito imobiliário:
+                No guia versão V023, de 29 de abril de 2026, o indicador é a <b>existência</b> de sistema de aproveitamento de águas pluviais (captação, tratamento, reservação e pontos de uso), e não um percentual de economia. A pontuação depende da abrangência do uso:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6;'>
-                <li><b>Graduação Prata (+2 pontos CAIXA):</b> Redução de pelo menos <b>10%</b> no consumo de água potável da edificação via água de chuva.</li>
-                <li><b>Graduação Ouro (+3 pontos CAIXA):</b> Redução de <b>≥ 20%</b>, demonstrada por simulação computacional contínua e sistema de recalque automatizado.</li>
-                <li><b>Graduação Diamante (+5 pontos CAIXA):</b> Redução de <b>≥ 30%</b>, com cloração de desinfecção ativa, monitoramento contínuo da qualidade e reserva técnica de emergência.</li>
+                <li><b>Áreas comuns:</b> 2 pontos (casas em loteamento com a preparação exigida: 2 pontos).</li>
+                <li><b>Unidades habitacionais:</b> 4 pontos.</li>
+                <li><b>Unidades habitacionais e áreas comuns:</b> 5 pontos. Obrigatório para o nível Diamante.</li>
             </ul>
+            <p style='font-size: 12px; color: #64748b;'>Para a unidade isolada, o guia Selo Casa Azul Uni (V001, dezembro de 2025) atribui 1 ponto no critério 7, obrigatório para o Selo Ouro. Versões anteriores do programa graduavam «Prata / Ouro / Diamante» a 10, 20 e 30% de economia, que o guia não contém.</p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>

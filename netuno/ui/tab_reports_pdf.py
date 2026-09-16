@@ -1234,8 +1234,9 @@ class TabReportsPdf(QWidget):
                 "",
                 f"  3. {tr('MATRIZ DE CERTIFICAÇÕES VERDES & ENQUADRAMENTO ESG')}",
                 f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
-                f"     {tr('Processo AQUA-HQE')}            : {tr(esg.aqua.performance_level)} ({'⭐'*esg.aqua.stars}) — {tr(esg.aqua.description)}",
-                f"     {tr('Selo Casa Azul CAIXA')}         : {tr(esg.casa_azul.category)} (+{esg.casa_azul.points_awarded} pts) — {esg.casa_azul.criterion_met and tr('Critério 2.1 Conforme')}",
+                f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
+                f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
+                f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",
                 f"     {tr('EDGE (IFC) — barra de água')} : {br(esg.edge.economia_de_agua_pct,1)}% "
                 f"({tr('atende ao padrão') if esg.edge.atende_o_padrao_de_agua else tr('abaixo do limiar de 20%')})"
                 f" — {tr('WEM14, área de captação')} {br(esg.edge.area_de_captacao_m2,0)} m²",

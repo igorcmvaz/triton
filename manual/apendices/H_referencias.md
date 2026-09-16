@@ -34,9 +34,15 @@ eixo.
 
 **LEED v4 / v4.1 BD+C** — USGBC. Categoria *Water Efficiency*, créditos WEc1 e WEc2.
 
-**Processo AQUA-HQE** — Fundação Vanzolini. Categoria 4, gestão da água.
+**AQUA-HQE Residencial** — FUNDAÇÃO VANZOLINI; CERQUAL QUALITEL. *Referencial de avaliação
+do desempenho de edifícios residenciais em construção e renovação*. Versão 00. São Paulo:
+Fundação Vanzolini, 22 nov. 2024. Tema «Consumo de água», itens EAU.1.2, EAU.1.3 e EAU.1.5.
 
-**Selo Casa Azul CAIXA** — Critério 2.1, conservação de água por fontes alternativas.
+**Selo Casa Azul + CAIXA** — CAIXA ECONÔMICA FEDERAL. *Guia Selo Casa Azul + CAIXA*. V023.
+Brasília: CAIXA, 29 abr. 2026. Critério 3.6, aproveitamento de águas pluviais.
+
+**Selo Casa Azul Uni** — CAIXA ECONÔMICA FEDERAL. *Guia Selo Casa Azul Uni*. V001. Brasília:
+CAIXA, dez. 2025. Critério 7, aproveitamento de águas pluviais.
 
 **EDGE** — IFC, Grupo Banco Mundial. *EDGE Certification Process*, e a codificação
 WEM das medidas de eficiência hídrica. Administrado pelo GBCI em mais de 120 países.

@@ -68,19 +68,41 @@ class LeedWaterCredits:
     description: str = ""
 
 
+#: Referenciais conferidos contra os documentos originais em 2026-09-16.
+AQUA_REFERENCIAL = "Referencial AQUA-HQE Residencial, versão 00 de 22/11/2024 (Fundação Vanzolini / CERQUAL)"
+CASA_AZUL_REFERENCIAL = "Guia Selo Casa Azul + CAIXA, V023 de 29/04/2026"
+CASA_AZUL_UNI_REFERENCIAL = "Guia Selo Casa Azul Uni, V001 de dezembro de 2025"
+
+#: Critério 3.6 do Selo Casa Azul + CAIXA: pontos conforme a abrangência do uso.
+CASA_AZUL_PONTOS_POR_ABRANGENCIA = {
+    "areas_comuns": 2,               # uso da água nas áreas comuns do empreendimento
+    "loteamento": 2,                 # casas em loteamento com a preparação exigida
+    "unidades": 4,                   # uso da água nas unidades habitacionais
+    "unidades_e_areas_comuns": 5,    # nas unidades e nas áreas comuns
+}
+
+#: Limiares de economia de água potável dos itens do tema «Consumo de água».
+AQUA_EAU_1_2_PCT = 20.0   # nível HQE
+AQUA_EAU_1_3_PCT = 40.0   # nível HQE 3
+
+
 @dataclass
 class AquaHqeRating:
-    performance_level: str         # "Excelente", "Boas Práticas", "Base", "Insuficiente"
-    stars: int                     # 0 a 3 estrelas
+    performance_level: str         # "HQE 3 (EAU.1.3)", "HQE (EAU.1.2)", "Abaixo de EAU.1.2"
+    stars: int                     # 3 para HQE 3, 1 para HQE, 0 abaixo
     description: str
+    itens_atendidos: List[str] = field(default_factory=list)
+    referencial: str = AQUA_REFERENCIAL
 
 
 @dataclass
 class CasaAzulRating:
-    category: str                  # "Diamante", "Ouro", "Prata", "Não Elegível"
-    points_awarded: int
+    category: str                  # "Critério 3.6 atendido" ou "Critério 3.6 não atendido"
+    points_awarded: int            # 0 quando a abrangência não foi informada
     criterion_met: bool
     description: str
+    pontuacao_faixa: str = "2 a 5 pontos"
+    referencial: str = CASA_AZUL_REFERENCIAL
 
 
 @dataclass
@@ -114,6 +136,7 @@ def calculate_esg_certifications(
     outdoor_demand_m3: Optional[float] = None,
     catchment_area_m2: float = 0.0,
     edge_base_case_annual_m3: Optional[float] = None,
+    casa_azul_abrangencia: Optional[str] = None,
 ) -> EsgConsolidatedReport:
     """
     Consolida as pontuações e relatórios ESG do sistema pluvial.
@@ -242,55 +265,65 @@ def calculate_esg_certifications(
         description=leed_desc,
     )
 
-    # 2. Processo AQUA-HQE (Categoria 4 - Gestão da Água do Empreendimento)
-    # Perfis pela economia total, como o referencial os define. O programa
-    # admitia atalhos pelo uso interno e externo sem fonte, e foram retirados.
-    if savings_pct >= 40.0:
-        aqua_level = "Excelente"
-        aqua_stars = 3
-        aqua_desc = "Perfil Excelente na Categoria 4 (Gestão da Água e fontes alternativas)."
-    elif savings_pct >= 25.0:
-        aqua_level = "Boas Práticas"
-        aqua_stars = 2
-        aqua_desc = "Perfil de Boas Práticas (nível intermediário de eficiência hídrica)."
-    elif savings_pct >= 10.0:
-        aqua_level = "Base"
-        aqua_stars = 1
-        aqua_desc = "Atendimento ao nível Base normativo AQUA-HQE."
-    else:
-        aqua_level = "Insuficiente"
-        aqua_stars = 0
-        aqua_desc = "Economia inferior a 10%, insuficiente para perfil de destaque AQUA."
+    tem_sistema = annual_saved_m3 > 0.0
 
+    # 2. AQUA-HQE Residencial, tema «Consumo de água» (EAU), conferido contra o
+    # referencial de 22/11/2024. Até 2026-09-15 o programa usava perfis «Base,
+    # Boas Práticas, Excelente» a 10, 25 e 40%, que o referencial não tem.
+    #   EAU.1.2 (HQE):   redução de pelo menos 20% do consumo de água potável;
+    #   EAU.1.3 (HQE 3): economia de 40% de água potável;
+    #   EAU.1.5 (HQE 3): sistema de recuperação de águas pluviais, conforme as
+    #                    NBR 15527 e 16783.
+    # O referencial compara com um cenário de referência de vazões da sua planilha
+    # auxiliar, e não com a demanda modelada: o percentual aqui é indicativo.
+    aqua_itens = []
+    if tem_sistema:
+        aqua_itens.append("EAU.1.5 (HQE 3): sistema de recuperação de águas pluviais")
+    if savings_pct >= AQUA_EAU_1_2_PCT:
+        aqua_itens.append("EAU.1.2 (HQE): redução de pelo menos 20% da água potável")
+    if savings_pct >= AQUA_EAU_1_3_PCT:
+        aqua_itens.append("EAU.1.3 (HQE 3): economia de 40% da água potável")
+    if savings_pct >= AQUA_EAU_1_3_PCT:
+        aqua_level, aqua_stars = "HQE 3 (EAU.1.3)", 3
+    elif savings_pct >= AQUA_EAU_1_2_PCT:
+        aqua_level, aqua_stars = "HQE (EAU.1.2)", 1
+    else:
+        aqua_level, aqua_stars = "Abaixo de EAU.1.2", 0
+    aqua_desc = (
+        f"Economia de {savings_pct:.1f}% de água potável. "
+        + ("O sistema atende ao item EAU.1.5 (HQE 3) se seguir as NBR 15527 e 16783. " if tem_sistema else "")
+        + "O referencial mede a economia contra o cenário de referência da planilha auxiliar "
+        "da Fundação Vanzolini, que soma também os dispositivos economizadores: confira ali."
+    )
     aqua_result = AquaHqeRating(
         performance_level=aqua_level,
         stars=aqua_stars,
         description=aqua_desc,
+        itens_atendidos=aqua_itens,
     )
 
-    # 3. Selo Casa Azul CAIXA (Critério 2.1 - Conservação de Água por Fontes Alternativas)
-    # Graduações pela economia total, sem os atalhos pelo uso interno.
-    if savings_pct >= 30.0:
-        casa_cat = "Diamante"
-        casa_pts = 5
+    # 3. Selo Casa Azul + CAIXA, critério 3.6 «Aproveitamento de águas pluviais»,
+    # conferido contra o guia V023 de 29/04/2026. O indicador é a EXISTÊNCIA do
+    # sistema (captação, tratamento e reservação), e os pontos dependem da
+    # abrangência do uso, não do percentual de economia. Até 2026-09-15 o programa
+    # usava «Prata, Ouro, Diamante» a 10, 20 e 30%, que o guia não tem.
+    casa_pts = CASA_AZUL_PONTOS_POR_ABRANGENCIA.get(casa_azul_abrangencia, 0) if tem_sistema else 0
+    if tem_sistema:
+        casa_cat = "Critério 3.6 atendido"
         casa_met = True
-        casa_desc = "Atende com folga ao critério de fontes alternativas em graduação Diamante."
-    elif savings_pct >= 20.0:
-        casa_cat = "Ouro"
-        casa_pts = 3
-        casa_met = True
-        casa_desc = "Atende ao critério de aproveitamento pluvial em graduação Ouro."
-    elif savings_pct >= 10.0:
-        casa_cat = "Prata"
-        casa_pts = 2
-        casa_met = True
-        casa_desc = "Atende aos requisitos básicos da graduação Prata."
+        casa_desc = (
+            "O indicador é a existência de sistema de aproveitamento de águas pluviais, com "
+            "captação, tratamento, reservação e pontos de uso indicados. Pontuação pela "
+            "abrangência: áreas comuns 2, unidades habitacionais 4, unidades e áreas comuns 5 "
+            "(casas em loteamento com preparação, 2). Obrigatório para o nível Diamante. "
+            "No Selo Casa Azul Uni, o critério equivalente (7) vale 1 ponto."
+        )
+        if casa_azul_abrangencia not in CASA_AZUL_PONTOS_POR_ABRANGENCIA:
+            casa_desc += " Abrangência não informada: pontuação não atribuída."
     else:
-        casa_cat = "Não Elegível"
-        casa_pts = 0
+        casa_cat = "Critério 3.6 não atendido"
         casa_met = False
-        casa_desc = "Economia insuficiente para pontuação Casa Azul."
-
+        casa_desc = "Sem água pluvial aproveitada, não há sistema a enquadrar no critério 3.6."
     casa_azul_result = CasaAzulRating(
         category=casa_cat,
         points_awarded=casa_pts,
@@ -319,7 +352,7 @@ def calculate_esg_certifications(
         f"({lifetime_saved_m3:,.0f} m³ acumulados em {project_lifetime_years} anos). "
         f"No Selo LEED v4 WE (máximo de {LEED_WE_MAX_PONTOS} pontos possíveis), o projeto tirou "
         f"{tot_leed} de {LEED_WE_MAX_PONTOS} pontos "
-        f"e qualificou-se com perfil '{aqua_level}' no Processo AQUA-HQE. "
+        f"e, no AQUA-HQE Residencial, alcança {aqua_level}. "
         f"Na certificação EDGE, que não pontua e sim mede percentual contra um "
         f"caso-base, a barra de água chega a {edge_result.economia_de_agua_pct:.1f}% — "
         f"{'acima' if edge_result.atende_o_padrao_de_agua else 'abaixo'} do limiar de "
@@ -351,26 +384,33 @@ def calculate_esg_certifications(
             notes=f"Teto máximo de 6 pontos no crédito WEc2 (tirou {indoor_pts} de 6 pts). Suprimento a bacias sanitárias e lavanderia com água de chuva conforme ABNT NBR 15527."
         ),
         EsgCreditDetail(
-            certification="Processo AQUA-HQE",
-            credit_code="Categoria 4",
-            credit_name="Gestão da Água",
-            focus="Consumo Global do Lote",
-            requirement_rule="Base: ≥ 10% (⭐) | Boas Práticas: ≥ 25% (⭐⭐) | Excelente: ≥ 40% (⭐⭐⭐)",
-            achieved_performance=f"Substituição global: {savings_pct:.1f}%",
-            points_or_level=f"{aqua_level} ({'⭐'*aqua_stars if aqua_stars > 0 else '—'})",
-            status=f"Conforme Perfil {aqua_level}",
-            notes="Avalia retenção hidrológica no lote, redução da pegada hídrica e NBR 16783."
+            certification="AQUA-HQE Residencial",
+            credit_code="EAU.1.2 / EAU.1.3 / EAU.1.5",
+            credit_name="Consumo de água",
+            focus="Empreendimento (unidades e áreas comuns)",
+            requirement_rule="EAU.1.2 (HQE): ≥ 20% | EAU.1.3 (HQE 3): ≥ 40% | EAU.1.5 (HQE 3): sistema pluvial",
+            achieved_performance=f"Economia de potável: {savings_pct:.1f}%",
+            points_or_level=aqua_level,
+            status="; ".join(i.split(":")[0] for i in aqua_itens) or "Nenhum item atendido",
+            notes=(
+                f"{AQUA_REFERENCIAL}. A economia do referencial é medida contra o cenário de "
+                "referência da planilha auxiliar da Fundação Vanzolini; o percentual aqui é indicativo."
+            ),
         ),
         EsgCreditDetail(
-            certification="Selo Casa Azul CAIXA",
-            credit_code="Critério 2.1",
-            credit_name="Fontes Alternativas & Reúso",
-            focus="Edificação Habitacional",
-            requirement_rule="Prata: ≥ 10% (+2 pts) | Ouro: ≥ 20% (+3 pts) | Diamante: ≥ 30% (+5 pts)",
-            achieved_performance=f"Substituição de potável: {savings_pct:.1f}%",
-            points_or_level=f"Nível {casa_cat} (+{casa_pts} pts)",
-            status="Critério Atingido" if casa_met else "Economia insuficiente (< 10%)",
-            notes="Gera bonificação e elegibilidade a juros reduzidos em financiamentos habitacionais CAIXA."
+            certification="Selo Casa Azul + CAIXA",
+            credit_code="Critério 3.6",
+            credit_name="Aproveitamento de águas pluviais",
+            focus="Empreendimento habitacional",
+            requirement_rule="Existência do sistema; áreas comuns 2 | unidades 4 | unidades e áreas comuns 5 pts",
+            achieved_performance="Sistema de aproveitamento presente" if casa_met else "Sem sistema",
+            points_or_level=(f"{casa_pts} pts" if casa_pts else "2 a 5 pts, conforme a abrangência")
+            if casa_met else "0 pts",
+            status="Critério atendido" if casa_met else "Critério não atendido",
+            notes=(
+                f"{CASA_AZUL_REFERENCIAL}. Obrigatório para o nível Diamante. {CASA_AZUL_UNI_REFERENCIAL}: "
+                "critério 7, 1 ponto, obrigatório para o Selo Ouro."
+            ),
         ),
         EsgCreditDetail(
             certification="EDGE (IFC / Banco Mundial)",

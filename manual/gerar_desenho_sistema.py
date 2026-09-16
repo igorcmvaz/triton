@@ -81,7 +81,7 @@ def desenhar():
                 zorder=6)
     # Em duas linhas e afastado da seta: numa linha só, colado nela, o rótulo
     # parecia escrito em cima da cota.
-    rotulo(8, 56.6, "captação:" + NL + "projeção horizontal",
+    rotulo(8, 56.6, "área de captação:" + NL + "projeção horizontal",
            AZUL, 7.0, ha="left", va="top")
 
     # ── caixa elevada, sobre o telhado ───────────────────────────────────────
@@ -102,50 +102,53 @@ def desenhar():
                            edgecolor=AZUL, linewidth=1.1, zorder=5))
     rotulo(66.5, 36.5, "condutor", TINTA2, 7.4)
 
-    # ── descarte de primeiras águas ──────────────────────────────────────────
-    ax.add_patch(Rectangle((56.5, 24.0), 17.0, 8.5, facecolor="#fdf0ea",
+    # ── dispositivo de descarte do escoamento inicial ────────────────────────
+    ax.add_patch(Rectangle((54.5, 24.0), 22.0, 8.5, facecolor="#fdf0ea",
                            edgecolor=LARANJA, linewidth=1.3, zorder=5))
-    rotulo(65, 29.4, "descarte da", LARANJA, 7.0, ha="center")
-    rotulo(65, 26.8, "primeira chuva", LARANJA, 7.0, ha="center")
+    rotulo(65.5, 29.4, "descarte do", LARANJA, 7.0, ha="center")
+    rotulo(65.5, 26.8, "escoamento inicial", LARANJA, 7.0, ha="center")
 
     # ── cisterna enterrada ───────────────────────────────────────────────────
-    ax.add_patch(Rectangle((78, 2), 30, 16, facecolor="#ffffff",
+    # Deslocada para a direita: com a motobomba ao lado dela, a linha vertical
+    # de recalque passava sobre o dispositivo de descarte, que ocupa até x = 73,5.
+    ax.add_patch(Rectangle((85, 2), 29, 16, facecolor="#ffffff",
                            edgecolor=AZUL, linewidth=1.6, zorder=5))
-    ax.add_patch(Rectangle((78.4, 2.4), 29.2, 9.6, facecolor=AGUA,
+    ax.add_patch(Rectangle((85.4, 2.4), 28.2, 9.6, facecolor=AGUA,
                            edgecolor="none", zorder=6))
-    rotulo(93, 15.0, "cisterna", TINTA, 8.4, ha="center", negrito=True)
-    rotulo(93, 6.8, "reservatório inferior", TINTA2, 7.2, ha="center")
+    rotulo(99.5, 15.0, "cisterna", TINTA, 8.4, ha="center", negrito=True)
+    rotulo(99.5, 6.8, "reservatório inferior", TINTA2, 7.2, ha="center")
 
     # do descarte para a cisterna
-    ax.add_patch(FancyArrowPatch((73.5, 27.0), (84, 18.4), arrowstyle="-|>",
+    ax.add_patch(FancyArrowPatch((76.5, 27.0), (92, 18.4), arrowstyle="-|>",
                                  mutation_scale=12, linewidth=1.5, color=AZUL,
                                  zorder=8, connectionstyle="arc3,rad=-0.25"))
-    rotulo(86, 27.0, "o resto da chuva", AZUL, 7.0, ha="left")
+    rotulo(81.5, 31.5, "água pluvial" + NL + "após o descarte", AZUL, 7.0, ha="left",
+           va="bottom")
 
     # extravasor
-    ax.add_patch(FancyArrowPatch((108, 16.0), (117, 16.0), arrowstyle="-|>",
+    ax.add_patch(FancyArrowPatch((114, 13.0), (119.5, 13.0), arrowstyle="-|>",
                                  mutation_scale=12, linewidth=1.5,
                                  color=LARANJA, zorder=6))
-    rotulo(112.5, 18.0, "extravasa", LARANJA, 7.2, ha="center", va="bottom")
+    rotulo(119.5, 20.5, "extravasor: para a" + NL + "rede de drenagem", LARANJA, 7.0,
+           ha="right", va="bottom")
 
     # ── motobomba e recalque ─────────────────────────────────────────────────
-    ax.add_patch(Circle((72, 8), 3.0, facecolor="#f1ecf8", edgecolor=ROXO,
+    ax.add_patch(Circle((79, 8), 3.0, facecolor="#f1ecf8", edgecolor=ROXO,
                         linewidth=1.5, zorder=7))
-    ax.text(72, 8, "M", ha="center", va="center", fontsize=8.4, color=ROXO,
+    ax.text(79, 8, "M", ha="center", va="center", fontsize=8.4, color=ROXO,
             fontweight="bold", zorder=8)
-    rotulo(68, 3.2, "motobomba", ROXO, 7.2, ha="center", va="top")
+    rotulo(79, 3.2, "motobomba", ROXO, 7.2, ha="center", va="top")
     # O recalque passa atrás de tudo: acima só do terreno, para continuar
-    # visível no trecho enterrado, e abaixo da casa, das caixas e dos rótulos,
-    # que ele antes atravessava.
+    # visível no trecho enterrado, e abaixo da casa, das caixas e dos rótulos.
     ATRAS = 1.5
-    ax.plot([78, 75], [8, 8], color=ROXO, linewidth=1.7, zorder=ATRAS)
+    ax.plot([85, 82], [8, 8], color=ROXO, linewidth=1.7, zorder=ATRAS)
 
-    ax.plot([72, 72], [11, 66], color=ROXO, linewidth=1.7, zorder=ATRAS)
-    ax.plot([72, 45], [66, 66], color=ROXO, linewidth=1.7, zorder=ATRAS)
+    ax.plot([79, 79], [11, 66], color=ROXO, linewidth=1.7, zorder=ATRAS)
+    ax.plot([79, 45], [66, 66], color=ROXO, linewidth=1.7, zorder=ATRAS)
     ax.add_patch(FancyArrowPatch((46, 66), (43.2, 66), arrowstyle="-|>",
                                  mutation_scale=12, linewidth=1.7, color=ROXO,
                                  zorder=ATRAS))
-    rotulo(74, 44, "recalque", ROXO, 7.4)
+    rotulo(80.5, 44, "tubulação" + NL + "de recalque", ROXO, 7.2)
 
     # ── pontos de consumo, dentro da casa ────────────────────────────────────
     ax.plot([34, 34], [62, 31], color=VERDE, linewidth=1.6, zorder=5)
@@ -170,7 +173,8 @@ def desenhar():
                                  mutation_scale=12, linewidth=1.9, color=CINZA,
                                  zorder=5))
     rotulo(1, 9.5, "rede pública", TINTA2, 7.4)
-    rotulo(36.5, 74.0, "completa o que a chuva não atendeu", TINTA2, 7.0)
+    rotulo(36.5, 74.0, "suprimento complementar de água potável," + NL +
+           "com separação atmosférica (NBR 15527, 4.4.8)", TINTA2, 7.0)
 
     # ── nota ─────────────────────────────────────────────────────────────────
     ax.text(0, -4.5,

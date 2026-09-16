@@ -38,7 +38,7 @@ climatológicas, e a planilha cabe numa página.
 
 **O que faz ao resultado.** Superestima sistematicamente. A média esconde que a
 chuva chega concentrada: um mês com 200 mm distribuídos em cinco eventos enche e
-transborda a cisterna cinco vezes, enquanto o cálculo médio supõe um fluxo contínuo
+faz a cisterna extravasar cinco vezes, enquanto o cálculo médio supõe um fluxo contínuo
 que a cisterna absorveria inteiro.
 
 **Como evitar.** É a razão de existir deste programa. A seção {{n:23}} mostra o

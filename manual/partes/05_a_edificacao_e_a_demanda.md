@@ -137,8 +137,8 @@ reproduz o de qualquer controlador de irrigação dotado de sensor de chuva, equ
 corrente e barato, e ignorá-lo superestimaria a demanda externa ao longo do ano inteiro. O
 limiar adotado por padrão é de 2 mm diários.
 
-> **A série de chuva é lida duas vezes.** Uma leitura vira volume captado, depois do
-> descarte. A outra decide se o jardim é regado. As duas são independentes: um dia
+> **A série de chuva é lida duas vezes.** Uma leitura é convertida em volume captado,
+> após o descarte. A outra decide se o jardim é regado. As duas são independentes: um dia
 > pode suprimir a irrigação **e** render captação.
 
 Resta uma escolha que merece atenção particular, porque altera o resultado econômico e
@@ -173,11 +173,11 @@ guardar:
 <!-- tabela: Confronto entre a oferta anual de água pluvial e a demanda atendível -->
 | | m³/ano |
 | :--- | ---: |
-| água bruta que cai na cobertura | 229 |
-| o que sobra depois do descarte | 187 |
+| precipitação incidente na área de captação | 229 |
+| volume remanescente após o descarte | 187 |
 | **demanda pluvial do ano** | **88** |
 
-Sobra água. Sobra **o dobro** da que se pretende usar. Se o único limite fosse a
-oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 40% de teto.
+A oferta excede a demanda: o volume disponível é **o dobro** do que se pretende usar. Se
+o único limite fosse a oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 40% de teto.
 
 Ele não chega, e a seção {{n:6}} mostra por quê.

@@ -5,7 +5,7 @@
 > absoluto — existe um volume ótimo para um critério declarado.
 
 A seção {{n:6}} adotou 3.000 L como primeiro palpite e encontrou 303 L/dia
-transbordando, o que equivale a metade de tudo o que a cobertura capta. Diante de um
+extravasando, o que equivale a metade de tudo o que a cobertura capta. Diante de um
 desperdício dessa ordem, a pergunta que se impõe é quanto reservatório vale a pena
 acrescentar, e ela não se responde por tentativa isolada: responde-se simulando o mesmo
 projeto para muitos volumes e observando como o resultado evolui. É o que o programa

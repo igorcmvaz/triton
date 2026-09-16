@@ -432,8 +432,22 @@ outro código: **IAG2023**, «Consumo médio de energia elétrica no serviço de
 de água», em kWh/m³, calculado como GTA1301 / (GTA1001 + GTA1009) — energia total sobre
 volume **produzido mais importado**, correspondente ao IN058 (glossário «Indicadores do
 Módulo Água», SINISA, 24/02/2025). O valor nacional de 2023 está na planilha
-`SINISA_Resultados_Ref2023.zip`, ainda não baixada. O programa segue com o IN058 de 2022
-(0,67 kWh/m³) até a conferência.
+`SINISA_Resultados_Ref2023.zip` (gerada em 12/03/2025), **conferida em 2026-09-16**, e não
+é utilizável:
+
+| Recorte | IAG2023 (kWh/m³) |
+| :--- | ---: |
+| total nacional publicado | 18,02 |
+| agregado das 4.970 bases municipais (energia ÷ volume) | 1,02 |
+| mesmo agregado, excluídos os 4,9% de municípios acima de 5 kWh/m³ | 0,04 |
+| mediana municipal (quartis 0,48 e 1,14) | 0,74 |
+
+O total nacional e o agregado são dominados por erros de unidade na declaração municipal:
+há município com 52.422 kWh/m³, e excluir 5% dos registros derruba o agregado ponderado
+em 25 vezes, o que só acontece quando grandes prestadores declaram energia em unidade
+errada. A mediana, 0,74 kWh/m³, é coerente com o IN058 do SNIS e o **corrobora**, mas
+não é ponderada por volume e não o substitui. O programa segue com o IN058 de 2022,
+0,67 kWh/m³, até uma revisão da base do SINISA.
 
 ### Nota: energia específica de bombeamento (0,40 kWh/m³)
 

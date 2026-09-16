@@ -52,8 +52,8 @@ dispunha de água suficiente para atender à demanda pluvial daquele dia.
 
 **Responde: o reservatório é grande o bastante?**
 
-Trezentos e três litros por dia, em média ao longo dos trinta anos, transbordam da
-cisterna e seguem para a rede de drenagem. ==O volume desperdiçado supera os 240 L/dia
+Trezentos e três litros por dia, em média ao longo dos trinta anos, extravasam da
+cisterna e seguem para a rede de drenagem. ==O volume extravasado supera os 240 L/dia
 que o sistema pretende consumir,== o que significa que o reservatório escolhido deixa
 passar mais água do que aproveita.
 
@@ -122,9 +122,9 @@ oferta contra 88 m³ de demanda pluvial, isto é, mais que o dobro do necessári
 desse excedente, seria razoável esperar atendimento integral, e ainda assim o sistema
 entrega 87% do pretendido.
 
-A explicação está inteiramente no **tempo**. A água não sobra no momento em que é
-necessária: ela chega concentrada, enche a cisterna de 3.000 L num único dia de chuva
-forte, transborda no mesmo dia, e faz falta duas semanas depois. O excedente anual e o
+A explicação está inteiramente no **tempo**. O excedente não ocorre no momento em que a água é
+necessária: a precipitação chega concentrada, enche a cisterna de 3.000 L num único dia
+de chuva intensa, extravasa no mesmo dia, e falta duas semanas depois. O excedente anual e o
 atendimento diário são grandezas que não se comunicam, e é justamente essa
 incomunicabilidade que torna a simulação diária indispensável.
 

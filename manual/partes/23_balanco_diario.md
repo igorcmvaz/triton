@@ -15,7 +15,7 @@ o balanço diário produz. Quem entende esta seção entende o programa.
 
 O Netuno usa um **modelo comportamental de base diária**: para cada dia da série de
 precipitação, o programa resolve o que entra no reservatório, o que sai, o que
-transborda e o que sobra. Não há distribuição de probabilidade nem valor médio
+extravasa e o que permanece armazenado. Não há distribuição de probabilidade nem valor médio
 anual. Há a série, dia após dia, e a mesma conta repetida.
 
 ---
@@ -91,7 +91,7 @@ descarte merece atenção na seção {{n:4}}.
 
 ### O dia 6: o extravasamento vem antes do consumo
 
-Choveu 28 mm. Descontados os 2 mm de descarte, sobram 26 mm efetivos, que sobre
+Choveu 28 mm. Descontados os 2 mm de descarte, restam 26 mm efetivos, que sobre
 100 m² a 0,85 de coeficiente dão 2.210 L captados.
 
 O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, então
@@ -102,7 +102,7 @@ O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, e
 > spillage*. O extravasamento é calculado **antes** da retirada da demanda.
 >
 > Se a ordem fosse invertida, o reservatório aceitaria água que fisicamente já teria
-> transbordado, e o programa superestimaria o aproveitamento. A diferença aparece
+> extravasado, e o programa superestimaria o aproveitamento. A diferença aparece
 > justamente nos dias de chuva forte, que são os que mais pesam no total anual.
 
 ### O dia 9: o reservatório pequeno demais para o evento
@@ -116,9 +116,9 @@ pluvial.
 constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a
 pergunta que a varredura de volumes da seção {{n:24}} responde.
 
-![Captação, extravasamento e nível do reservatório ao longo dos dez dias](../figuras/fig01_dez_dias.png)
+![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
-*Figura 1 — Os dez dias do caso resolvido. Em cima, o captado em azul e o extravasado em laranja: repare no dia 9, em que o extravasado quase iguala o captado. Embaixo, o nível do reservatório, que encosta na capacidade três vezes.*
+*Figura 1 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, com a capacidade de 2.000 L em tracejado, atingida em três dias.*
 
 ### A soma: o balanço fecha
 
@@ -207,7 +207,7 @@ V_arm,t = min(D_t ; V_max)
 modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
 convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
 é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
-aceitar, na forma de consumo, água que fisicamente já teria transbordado, e
+aceitar, na forma de consumo, água que fisicamente já teria extravasado, e
 superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
 mais pesam no total anual.
 
@@ -221,7 +221,7 @@ formalidade desloca o resultado inteiro.
 
 ![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
 
-*Figura 12 — A regra YAS, adotada pelo programa, contra a ordem invertida. As duas sequências só divergem no dia em que o reservatório enche, e é nesse dia que a ordem invertida contabiliza como consumo uma água que fisicamente já teria transbordado.*
+*Figura 12 — A regra YAS, adotada pelo programa, contra a ordem invertida. As duas sequências só divergem no dia em que o reservatório enche, e é nesse dia que a ordem invertida contabiliza como consumo uma água que fisicamente já teria extravasado.*
 
 ### O atendimento da demanda
 
@@ -267,7 +267,7 @@ V_pot,t = D_pot,t + ΔD_int,t + ΔD_irr,t
 
 A terceira parcela da Equação {{eq:potavel}} merece atenção porque depende de uma
 escolha do usuário. Com o suprimento de reserva ligado, a rede socorre a irrigação nos
-dias em que a cisterna seca, e o déficit vira consumo potável; com ele desligado, o
+dias em que a cisterna seca, e o déficit é suprido com água potável; com ele desligado, o
 jardim simplesmente não é regado, a edificação não compra essa água, e o volume
 correspondente é contabilizado como **demanda não atendida**, que é a terceira parcela
 do balanço de demanda tratada adiante nesta seção.

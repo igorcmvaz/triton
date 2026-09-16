@@ -85,15 +85,24 @@ def figura_dez_dias():
     for ax in (a1, a2):
         ax.set_facecolor(SUPERFICIE)
 
-    a1.bar(dias, captado, color=AZUL, width=0.62, zorder=3, label="captado")
-    a1.bar(dias, extrav, color=LARANJA, width=0.62, zorder=4, label="extravasado")
-    _eixos(a1, "Captação e extravasamento, dia a dia", "", "litros")
+    # Sem títulos soltos sobre os painéis: a identificação é (a) e (b), e o que
+    # cada painel mostra fica na legenda da figura, como pede a ABNT.
+    def _teto_500(valor):
+        return 500.0 * int(np.ceil((float(valor) + 1e-9) / 500.0))
+
+    a1.bar(dias, captado, color=AZUL, width=0.62, zorder=3, label="volume captado")
+    a1.bar(dias, extrav, color=LARANJA, width=0.62, zorder=4, label="volume extravasado")
+    _eixos(a1, "", "", "volume (L)")
+    a1.set_ylim(0, _teto_500(max(captado)))
     a1.legend(frameon=False, fontsize=8.5, loc="upper left")
+    a1.set_title("(a)", color=TINTA, fontsize=10, fontweight="bold", loc="left", pad=6)
 
     a2.plot(dias, nivel, color=ROXO, linewidth=2.0, marker="o", markersize=4.5, zorder=3)
     a2.axhline(2000.0, color=EIXO, linestyle="--", linewidth=1.0, zorder=2)
     a2.text(10.1, 2000.0, "capacidade", color=TINTA2, fontsize=8, va="center")
-    _eixos(a2, "Volume armazenado ao fim de cada dia", "dia", "litros")
+    _eixos(a2, "", "dia", "volume armazenado (L)")
+    a2.set_ylim(0, _teto_500(max(max(nivel), 2000.0) + 1.0))
+    a2.set_title("(b)", color=TINTA, fontsize=10, fontweight="bold", loc="left", pad=6)
     a2.set_xticks(dias)
 
     fig.tight_layout()

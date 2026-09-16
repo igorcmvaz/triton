@@ -201,22 +201,22 @@ class Prancha:
 
 def desenho_sistema():
     p = Prancha(100, 78, tamanho=(7.4, 5.8))
-    p.titulo("Por onde a água passa, da chuva à torneira")
+    p.titulo("Fluxo da água pluvial, da captação ao ponto de consumo")
 
     # Fileira de cima: a captação.
-    p.caixa("chuva", 1, 65, 26, 11, "Chuva" + NL + "sobre a cobertura",
+    p.caixa("chuva", 1, 65, 26, 11, "Precipitação sobre" + NL + "a área de captação",
             cor=AZUL, peso="bold")
     p.caixa("calha", 38, 65, 22, 11, "Calhas e" + NL + "condutores", cor=AZUL)
     p.caixa("descarte", 71, 65, 28, 11,
-            "Descarte da" + NL + "primeira chuva", cor=LARANJA)
-    p.caixa("perdido", 71, 50, 28, 9, "Vai embora", cor=CINZA, tinta=TINTA2,
+            "Descarte do" + NL + "escoamento inicial", cor=LARANJA)
+    p.caixa("perdido", 71, 50, 28, 9, "Rede de drenagem", cor=CINZA, tinta=TINTA2,
             tracejada=True)
 
     # Meio: o armazenamento.
     p.caixa("cisterna", 16, 34, 34, 13,
             "Cisterna" + NL + "(reservatório inferior)", cor=AZUL, peso="bold")
     p.caixa("extravasor", 64, 35, 35, 11,
-            "Extravasa para a" + NL + "drenagem", cor=LARANJA)
+            "Extravasor para a" + NL + "rede de drenagem", cor=LARANJA)
 
     # Fileira de baixo: a distribuição.
     p.caixa("bomba", 1, 14, 20, 10, "Motobomba", cor=ROXO)
@@ -226,28 +226,28 @@ def desenho_sistema():
             peso="bold")
     p.caixa("rede", 68, 0, 31, 9, "Rede pública", cor=CINZA, tinta=TINTA2)
 
-    p.seta("chuva", "d", "calha", "e", "escoa")
-    p.seta("calha", "d", "descarte", "e", "conduz")
-    p.seta("descarte", "b", "perdido", "c", "os primeiros mm", cor=LARANJA,
+    p.seta("chuva", "d", "calha", "e", "escoamento")
+    p.seta("calha", "d", "descarte", "e", "condução")
+    p.seta("descarte", "b", "perdido", "c", "primeiros milímetros", cor=LARANJA,
            rotulo_em=(85, 62))
     # A seta sai por baixo do descarte, e não pelo lado: saindo pelo lado ela
     # passaria por trás da caixa das calhas e pareceria vir de lá.
-    p.seta("descarte", "be", "cisterna", "cd", "o resto da chuva", curva=0.22,
+    p.seta("descarte", "be", "cisterna", "cd", "água aproveitável", curva=0.22,
            rotulo_em=(52, 53))
-    p.seta("cisterna", "d", "extravasor", "e", "quando enche", cor=LARANJA,
+    p.seta("cisterna", "d", "extravasor", "e", "excedente", cor=LARANJA,
            rotulo_em=(57, 44))
     p.seta("cisterna", "be", "bomba", "c", "")
     p.seta("bomba", "d", "superior", "e", "recalque", cor=ROXO,
            rotulo_em=(26, 22))
     p.seta("superior", "d", "usos", "e", "por gravidade", cor=VERDE,
            rotulo_em=(62, 22))
-    p.seta("rede", "c", "usos", "b", "completa o que faltou", cor=CINZA,
+    p.seta("rede", "c", "usos", "b", "suprimento complementar", cor=CINZA,
            rotulo_em=(83, 10.5), tamanho=7.0)
 
     p.nota(1, 9,
-           "O reservatório superior é opcional: em casa térrea a bomba" + NL +
-           "pode alimentar os pontos de uso diretamente. O que ele muda" + NL +
-           "é quando a água chega, e não quanta chega.")
+           "O reservatório superior é opcional: em edificação térrea, a" + NL +
+           "motobomba pode pressurizar os pontos de uso. Ele altera o" + NL +
+           "momento da oferta de água, e não o volume disponível.")
     p.salvar("fig00_sistema.png")
 
 
@@ -257,43 +257,43 @@ def desenho_sistema():
 
 def desenho_destino():
     p = Prancha(100, 64, tamanho=(7.4, 4.8))
-    p.titulo("O destino da chuva de um dia")
+    p.titulo("Destino da precipitação de um dia")
 
-    p.caixa("chuva", 1, 51, 24, 11, "Chuva do dia" + NL + "P, em milímetros",
+    p.caixa("chuva", 1, 51, 24, 11, "Precipitação diária" + NL + "P (mm)",
             cor=AZUL, peso="bold")
     p.caixa("descartada", 36, 51, 26, 11,
-            "Descarte" + NL + "os primeiros mm", cor=LARANJA)
-    p.caixa("efetiva", 72, 51, 27, 11, "Chuva efetiva" + NL + "o que sobra",
+            "Descarte do" + NL + "escoamento inicial", cor=LARANJA)
+    p.caixa("efetiva", 72, 51, 27, 11, "Precipitação efetiva" + NL + "após o descarte",
             cor=AZUL, peso="bold")
 
-    p.caixa("perdas", 1, 32, 24, 11, "Perdas do" + NL + "telhado", cor=CINZA,
+    p.caixa("perdas", 1, 32, 24, 11, "Perdas na" + NL + "cobertura", cor=CINZA,
             tinta=TINTA2, tracejada=True)
     p.caixa("captado", 36, 32, 34, 11,
             "Volume captado" + NL + "chuva × área × coeficiente", cor=AZUL,
             peso="bold", tamanho=7.8)
 
     p.caixa("transborda", 1, 10, 27, 12,
-            "Transborda" + NL + "se não cabe", cor=LARANJA)
+            "Extravasamento" + NL + "do excedente", cor=LARANJA)
     p.caixa("consumido", 36, 10, 30, 12,
-            "Consumido hoje" + NL + "até a demanda do dia", cor=VERDE,
+            "Consumo do dia" + NL + "limitado à demanda", cor=VERDE,
             peso="bold", tamanho=7.8)
     p.caixa("guardado", 73, 10, 26, 12,
-            "Guardado" + NL + "para amanhã", cor=ROXO)
+            "Volume armazenado" + NL + "para o dia seguinte", cor=ROXO)
 
-    p.seta("chuva", "d", "descartada", "e", "primeiro", cor=LARANJA)
-    p.seta("descartada", "d", "efetiva", "e", "sobra")
-    p.seta("efetiva", "b", "captado", "cd", "vira volume", curva=0.22,
+    p.seta("chuva", "d", "descartada", "e", "1º", cor=LARANJA)
+    p.seta("descartada", "d", "efetiva", "e", "2º")
+    p.seta("efetiva", "b", "captado", "cd", "conversão em volume", curva=0.22,
            rotulo_em=(78, 45))
-    p.seta("captado", "e", "perdas", "d", "o que não escoa", cor=CINZA,
+    p.seta("captado", "e", "perdas", "d", "parcela não escoada", cor=CINZA,
            rotulo_em=(30.5, 46.5))
     p.seta("captado", "be", "transborda", "c", "", cor=LARANJA, curva=0.12)
     p.seta("captado", "b", "consumido", "c", "")
     p.seta("captado", "bd", "guardado", "c", "", cor=ROXO, curva=-0.12)
 
     p.nota(1, 7,
-           "A ordem importa: o transbordamento é calculado antes do consumo do "
-           "dia." + NL + "Sem essa ordem o modelo aceitaria água que já tinha "
-           "transbordado. A seção do balanço diário volta a isso.")
+           "A ordem importa: o extravasamento é calculado antes do consumo do "
+           "dia." + NL + "Na ordem inversa, o modelo contabilizaria como consumo "
+           "um volume já extravasado. A seção do balanço diário detalha a regra.")
     p.salvar("fig00b_destino.png")
 
 

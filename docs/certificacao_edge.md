@@ -7,8 +7,8 @@ porque o aplicativo é gratuito e o limiar de entrada é único e explícito.
 
 ## O que o distingue das outras três já implementadas
 
-O EDGE **não pontua**. O LEED soma pontos por crédito, o AQUA-HQE atribui
-perfis, o Selo Casa Azul concede bonificação. O EDGE mede **percentual de
+O EDGE **não pontua**. O LEED soma pontos por crédito, o AQUA-HQE classifica
+itens em níveis (PR, HQE, HQE 2, HQE 3), o Selo Casa Azul pontua critérios. O EDGE mede **percentual de
 economia contra um caso-base local** em três barras independentes, e exige que
 cada uma cruze o seu limiar.
 

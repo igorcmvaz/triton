@@ -191,5 +191,5 @@ Com isso o programa já sabe **quanta água entra**. Falta dizer quanta sai, que
 
 Um cálculo de guardanapo, para calibrar a expectativa: 1.795 mm por ano sobre 150 m²
 a 0,85 de coeficiente dão cerca de 229 m³ por ano de água bruta, antes do descarte.
-A seção {{n:6}} mostra quanto disso vira economia de verdade — e a diferença entre os
+A seção {{n:6}} mostra quanto desse volume se converte em economia efetiva — e a diferença entre os
 dois números é a lição mais importante do tutorial.

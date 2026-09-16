@@ -103,7 +103,7 @@ PROCESSOS = [
   "<code>disponível = v_lower + v_ac</code>. Se passar da capacidade, o excedente extravasa "
   "e o reservatório fica cheio.",
   "A ordem importa: retirar a demanda antes faria o reservatório aceitar água que "
-  "fisicamente já teria transbordado, superestimando o aproveitamento."],
+  "fisicamente já teria extravasado, superestimando o aproveitamento."],
  [("simulation.py", "run_single_simulation")],
  ["<code>v_spill_today</code>, somado em <code>avg_spilled_l_day</code>, que vira "
   "critério de extravasamento no multicritério",
@@ -115,7 +115,7 @@ PROCESSOS = [
  "Todo dia, quando não há reservatório superior.",
  ["<code>v_in_tank</code>", "<code>pluvial_demand_per_day</code> de PROC-02"],
  ["<code>v_c = min(demanda pluvial, volume no reservatório)</code>.",
-  "O que sobra permanece para o dia seguinte: <code>v_lower = v_in_tank − v_c</code>."],
+  "O volume remanescente permanece para o dia seguinte: <code>v_lower = v_in_tank − v_c</code>."],
  [("simulation.py", "run_single_simulation")],
  ["<code>v_c</code>: volume pluvial consumido no dia"],
  "Nenhuma: o mínimo já trata reservatório vazio e demanda nula.",
@@ -369,8 +369,10 @@ PROCESSOS = [
   "caso-base do EDGE, quando declarado"],
  ["<b>LEED v4</b>: WEc1 até 2 pontos pelo uso externo, WEc2 até 6 pontos pelo uso interno, "
   "pela escala oficial. Sem demanda externa cadastrada, WEc1 é zero e diz por quê.",
-  "<b>AQUA-HQE</b>: Base, Boas Práticas ou Excelente, por faixas.",
-  "<b>Casa Azul</b>: Prata, Ouro ou Diamante, com bonificação.",
+  "<b>AQUA-HQE Residencial</b> (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de "
+  "economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).",
+  "<b>Casa Azul + CAIXA</b> (guia V023, 29/04/2026): critério 3.6 atendido pela existência "
+  "do sistema; 2, 4 ou 5 pontos conforme a abrangência do uso, só quando informada.",
   "<b>EDGE</b>: <b>não pontua</b>. Mede percentual contra um caso-base local e compara com "
   "20%, em três barras independentes. O nível avançado sobe a barra de <i>energia</i> para "
   "40%, e não a de água. O programa avalia só a barra de água, pela medida WEM14, e diz "

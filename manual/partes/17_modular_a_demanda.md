@@ -86,7 +86,7 @@ que o Netuno simula dia a dia.
 ## A fração atendível também pode variar
 
 Menos óbvio e às vezes mais importante. Numa escola, o percentual de uso não potável
-muda entre período letivo e férias: em férias sobra lavagem de piso e rega de
+muda entre período letivo e férias: em férias permanecem a lavagem de piso e a rega de
 jardim, que são usos **integralmente** atendíveis por chuva.
 
 Modular a fração captura isso. Manter fração constante subestima o aproveitamento no

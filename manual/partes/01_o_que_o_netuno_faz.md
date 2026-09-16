@@ -35,23 +35,24 @@ primeiro dos dez enganos da seção {{n:33}}.
 **As calhas e os condutores** levam a água até a cisterna. O programa não os
 dimensiona; isso é projeto hidráulico, e segue a ABNT NBR 10844.
 
-**O dispositivo de descarte da primeira chuva** joga fora os primeiros milímetros de
-cada evento, que são os que lavam a poeira, as folhas e os dejetos de pássaros
-acumulados no telhado. É a medida de qualidade mais barata que existe, e a seção {{n:9}}
+**O dispositivo de descarte da primeira chuva** desvia os primeiros milímetros de
+cada evento, que carreiam a poeira, as folhas e os excrementos de aves acumulados
+na cobertura. É a medida de controle de qualidade de menor custo, e a seção {{n:9}}
 mostra o quanto ela muda a água que chega ao reservatório.
 
-**A cisterna**, ou reservatório inferior, é onde a água fica guardada. Quando chove
-mais do que ela comporta, o excedente **extravasa** para a drenagem. Esse
+**A cisterna**, ou reservatório inferior, armazena a água captada. Quando o volume
+afluente excede a capacidade, o excedente **extravasa** para a rede de drenagem. Esse
 extravasamento não é desperdício por descuido: é a consequência inevitável de guardar
 um recurso que chega concentrado.
 
-**A motobomba e o reservatório superior** distribuem a água. Numa casa térrea, a bomba
-pode alimentar os pontos de uso diretamente. Num sobrado ou num prédio, é preciso uma
-caixa elevada, e aí a água sobe uma vez e desce por gravidade.
+**A motobomba e o reservatório superior** distribuem a água. Em edificação térrea, a
+motobomba pode pressurizar diretamente os pontos de uso. Em edificações de dois ou mais
+pavimentos, adota-se usualmente reservatório elevado: a água é recalcada até ele e
+distribuída por gravidade.
 
 **Os usos não potáveis** são o destino: bacia sanitária, máquina de lavar, lavagem de
-piso e de carro, rega de jardim. Quando a chuva não basta, a **rede pública** completa
-— o sistema nunca deixa a edificação sem água.
+piso e de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
+**rede pública** supre o complemento, e o abastecimento não é interrompido.
 
 O diagrama acima mostra o encadeamento das peças, que é o que interessa para
 acompanhar o cálculo. Falta a ele, porém, a informação que decide metade das
@@ -62,10 +63,11 @@ relação ao terreno é uma decisão de obra, não de cálculo.
 
 ![O sistema em corte, com as peças na altura em que de fato ficam](../figuras/fig00d_corte.png)
 
-*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, e não a área inclinada do telhado. A caixa elevada recebe a água recalcada da cisterna e a devolve aos pontos de uso por gravidade; a rede pública entra por ela, completando o que a chuva não atendeu.*
+*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, e não a área inclinada do telhado. A caixa elevada recebe a água recalcada da cisterna e a devolve aos pontos de uso por gravidade; a rede pública a alimenta, com separação atmosférica, suprindo o volume que a água pluvial não atende. O extravasor da cisterna conduz o excedente à rede de drenagem.*
 
 > **Vocabulário que o manual usa o tempo todo.** *Cisterna* e *reservatório inferior*
-> são a mesma coisa. *Extravasar* e *transbordar* também. *Demanda pluvial* é a parte
+> designam o mesmo componente. *Extravasamento* é o volume excedente que o extravasor
+> conduz à rede de drenagem. *Demanda pluvial* é a parte
 > do consumo que a água de chuva pode atender; *demanda total* é o consumo inteiro da
 > edificação. A seção {{n:G}} traz o glossário completo.
 
@@ -78,34 +80,35 @@ chuva. A conta é esta:
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 2 — A chuva de um dia até o seu destino final. Cada caixa é uma parcela do balanço, e a soma das três de baixo é igual ao volume captado.*
+*Figura 2 — O destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma das três de baixo é igual ao volume captado.*
 
 Lendo o desenho:
 
-1. **Desconta-se o descarte.** Se choveu 12 mm e o descarte é de 2 mm, sobram 10 mm.
+1. **Desconta-se o descarte.** Com precipitação de 12 mm e descarte de 2 mm, restam 10 mm de precipitação efetiva.
 2. **Converte-se em volume.** Dez milímetros sobre 100 m² de telhado, com coeficiente
    de escoamento de 0,85, dão 850 litros. A conta é `mm × m² × coeficiente`, e sai
    direto em litros, porque um milímetro sobre um metro quadrado é exatamente um
    litro.
-3. **Soma-se ao que havia na cisterna**, e o que não couber **transborda**.
+3. **Soma-se ao volume armazenado na cisterna**, e o excedente à capacidade **extravasa**
+   para a rede de drenagem.
 4. **Retira-se o consumo do dia**, até o limite da demanda pluvial.
-5. **O que sobra fica para amanhã** — e é essa memória entre um dia e o seguinte que
-   torna a simulação diária necessária.
+5. **O volume remanescente é transferido ao dia seguinte** — e é essa dependência entre
+   dias consecutivos que torna necessária a simulação diária.
 
-Os cinco passos formam um ciclo, e não uma lista: o volume que sobra ao fim do
+Os cinco passos formam um ciclo, e não uma lista: o volume remanescente ao fim do
 quinto passo é exatamente o volume de que o terceiro passo parte no dia seguinte. Essa
 ligação entre um dia e o outro é a única coisa que uma conta feita sobre a média anual
 não consegue reproduzir, e é a razão de a simulação ser diária.
 
 ![A ordem das operações de um dia, e a memória que liga um dia ao seguinte](../figuras/fig00e_balanco_do_dia.png)
 
-*Figura 3 — Os cinco passos do balanço diário, na ordem em que o programa os executa. A ligação em roxo, que contorna o desenho, é a memória entre um dia e o seguinte: o volume que sobra ao fim de um dia é o volume inicial do próximo.*
+*Figura 3 — Os cinco passos do balanço diário, na ordem em que o programa os executa. A ligação em roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente ao fim de um dia é o volume inicial do dia seguinte.*
 
 > **Aprofundamento: por que não basta a média anual.** É tentador dividir a chuva
 > anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e às vezes
 > muito. A razão é que a chuva chega **concentrada**: enche a cisterna num dia,
-> transborda, e depois falta por duas semanas. A média não enxerga nem o
-> transbordamento nem a falta, e as duas reduzem o aproveitamento. A seção {{n:23}}
+> extravasa, e depois falta por duas semanas. A média não representa nem o
+> extravasamento nem o déficit, e ambos reduzem o aproveitamento. A seção {{n:23}}
 > mostra isso acontecendo numa tabela de dez dias que você pode refazer na planilha,
 > e a seção {{n:7}} mostra o tamanho do erro.
 
@@ -117,20 +120,22 @@ edificação que a chuva conseguiu substituir.
 
 ## As seis dimensões
 
-Quanta água o sistema entrega é a primeira pergunta, não a única. O programa responde
-seis, e elas costumam apontar para volumes diferentes.
+O volume de água fornecido é a primeira questão de um projeto, mas não a única. O
+programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos
+distintos.
 
 ![As seis dimensões de análise do programa](../figuras/fig26_dimensoes.png)
 
-*Figura 99 — As seis dimensões de análise e a pergunta que cada uma responde. O programa percorre as seis na mesma ordem em que aparecem, e cada uma tem uma seção própria no capítulo do método.*
+*Figura 99 — As seis dimensões de análise e a questão avaliada em cada uma. O programa as percorre nessa ordem, e cada uma é tratada numa seção própria do capítulo do método.*
 
 Cada dimensão tem tratamento próprio no capítulo do método: a técnica nas seções {{n:23}} a {{n:26}}, a qualidade na {{n:27}}, a econômica na {{n:29}}, a ambiental na {{n:30}}, a certificação na {{n:31}} e a decisão na {{n:32}}.
 
 
-A última é a que distingue o programa de uma planilha. As outras cinco produzem
-respostas que **discordam entre si** — a maior economia de água quase nunca é o melhor
-negócio, e nenhuma das duas costuma ser a melhor escolha ambiental. A sexta dimensão
-existe para escolher com os pesos declarados, em vez de escondidos.
+A sexta dimensão é a que distingue o programa de uma planilha de cálculo. As cinco
+primeiras produzem resultados **divergentes**: o volume de maior economia de água
+raramente é o de maior retorno financeiro, e nenhum dos dois costuma ser o de melhor
+desempenho ambiental. A decisão multicritério torna explícitos os pesos atribuídos a
+cada critério.
 
 ---
 
@@ -173,7 +178,7 @@ cada uma.
 
 ![Os quatro perfis de leitor e o percurso de cada um](../figuras/fig27_leitores.png)
 
-*Figura 99 — Quatro percursos de leitura possíveis. Nenhum deles exige os demais, e o manual foi montado para que cada um possa ser feito isoladamente.*
+*Figura 99 — Os quatro percursos de leitura do manual. São independentes entre si, e o manual foi organizado para que cada um possa ser seguido isoladamente.*
 
 Em números de seção: o estudante segue o capítulo {{c:2}}, que é o tutorial do começo ao fim; o projetista usa os guias do capítulo {{c:3}} e o roteiro da seção {{n:3}}; o pesquisador vai ao método do capítulo {{c:4}}; e o revisor encontra no capítulo {{c:6}} a verificação e os limites declarados.
 

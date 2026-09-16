@@ -1700,7 +1700,9 @@ class TabEnvironmental(QWidget):
             stars_str = "⭐" * esg_res.aqua.stars if esg_res.aqua.stars > 0 else ""
             self._update_kpi(self.card_aqua, f"{esg_res.aqua.performance_level} {stars_str}".strip())
         if hasattr(self, 'card_casa_azul'):
-            self._update_kpi(self.card_casa_azul, f"Nível {esg_res.casa_azul.category} (+{esg_res.casa_azul.points_awarded} pts)")
+            pts = (f"{esg_res.casa_azul.points_awarded} pts" if esg_res.casa_azul.points_awarded
+                   else esg_res.casa_azul.pontuacao_faixa if esg_res.casa_azul.criterion_met else "0 pts")
+            self._update_kpi(self.card_casa_azul, f"{tr(esg_res.casa_azul.category)} ({pts})")
         if hasattr(self, 'card_gri'):
             self._update_kpi(self.card_gri, f"{format_ptbr(esg_res.annual_potable_saved_m3, 0)} m³/ano")
         if hasattr(self, 'card_edge'):

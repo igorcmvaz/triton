@@ -185,20 +185,20 @@ def _eixos(ax, titulo, x, y):
 
 def info_dimensoes():
     fig, ax = _tela(100, 46, (7.4, 3.5),
-                    "As seis dimensões de análise, e a pergunta de cada uma")
+                    "As seis dimensões de análise e a questão avaliada em cada uma")
     itens = [
-        ("técnica", "quanta água o sistema" + NL + "entrega, e com que" + NL +
+        ("técnica", "volume fornecido" + NL + "pelo sistema e" + NL +
          "confiabilidade", AZUL),
-        ("qualidade", "que tratamento o uso" + NL + "exige, e quanto" + NL +
-         "custa", VERDE),
-        ("econômica", "em quanto tempo se" + NL + "paga, e quanto" + NL +
-         "rende", LARANJA),
-        ("ambiental", "quanto carbono evita," + NL + "e em quanto" + NL +
-         "tempo", VERDE),
-        ("certificação", "onde o projeto se" + NL + "enquadra em cinco" + NL +
-         "referenciais", ROXO),
-        ("decisão", "qual volume escolher," + NL + "entre critérios que" + NL +
-         "discordam", ROXO),
+        ("qualidade", "tratamento exigido" + NL + "pelo uso previsto" + NL +
+         "e seu custo", VERDE),
+        ("econômica", "viabilidade: prazo" + NL + "de retorno, VPL" + NL +
+         "e TIR", LARANJA),
+        ("ambiental", "emissões evitadas" + NL + "e prazo de retorno" + NL +
+         "de carbono", VERDE),
+        ("certificação", "enquadramento em" + NL + "cinco referenciais" + NL +
+         "de certificação", ROXO),
+        ("decisão", "seleção do volume" + NL + "entre critérios" + NL +
+         "concorrentes", ROXO),
     ]
     for i, (titulo, corpo, cor) in enumerate(itens):
         x = 1 + (i % 3) * 33
@@ -213,13 +213,13 @@ def info_dimensoes():
 
 def info_leitores():
     fig, ax = _tela(100, 26, (7.4, 2.2),
-                    "Quatro maneiras de ler este manual")
+                    "Percursos de leitura do manual")
     itens = [
-        ("estudante", "o tutorial, um estudo" + NL + "do começo ao fim", AZUL),
-        ("projetista", "os guias, e o roteiro" + NL + "por objetivo", VERDE),
-        ("pesquisador", "o método, com procedência" + NL + "de cada número",
+        ("estudante", "tutorial: um estudo" + NL + "completo, em sequência", AZUL),
+        ("projetista", "guias práticos e" + NL + "roteiro por objetivo", VERDE),
+        ("pesquisador", "método, com a" + NL + "procedência dos dados",
          LARANJA),
-        ("revisor", "a verificação e os" + NL + "limites declarados", ROXO),
+        ("revisor", "verificação e" + NL + "limitações declaradas", ROXO),
     ]
     for i, (titulo, corpo, cor) in enumerate(itens):
         _cartao(ax, 1 + i * 25, 1, 23, 23, cor, titulo, corpo,
@@ -624,11 +624,11 @@ def info_certificacoes():
         ("LEED v4  ·  WEc2" + NL + "economia interna", AZUL,
          [(25, "1 pt"), (30, "2 pt"), (35, "3 pt"), (40, "4 pt"),
           (45, "5 pt"), (50, "6 pt")]),
-        ("AQUA-HQE" + NL + "categoria 4", ROXO,
-         [(10, "Base"), (25, "Boas" + NL + "Práticas"), (40, "Excelente")]),
-        ("Selo Casa Azul" + NL + "critério 2.1", VERDE,
-         [(10, "Prata" + NL + "+2 pt"), (20, "Ouro" + NL + "+3 pt"),
-          (30, "Diamante" + NL + "+5 pt")]),
+        # Referencial AQUA-HQE Residencial v00 (22/11/2024). O Selo Casa Azul
+        # saiu da régua: o critério 3.6 pontua a existência do sistema e a
+        # abrangência do uso, e não um percentual de economia.
+        ("AQUA-HQE Resid." + NL + "consumo de água", ROXO,
+         [(20, "EAU.1.2" + NL + "HQE"), (40, "EAU.1.3" + NL + "HQE 3")]),
         ("EDGE" + NL + "três dimensões", LARANJA,
          [(20, "Certified")]),
     ]

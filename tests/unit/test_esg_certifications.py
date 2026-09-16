@@ -24,9 +24,9 @@ def test_calculate_esg_certifications():
     assert res.leed.outdoor_water_points == 0
     assert res.leed.total_leed_we_points == res.leed.indoor_water_points
     assert isinstance(res.aqua, AquaHqeRating)
-    assert res.aqua.stars >= 2
+    assert res.aqua.performance_level == "HQE (EAU.1.2)"   # 38%: acima de 20, abaixo de 40
     assert isinstance(res.casa_azul, CasaAzulRating)
-    assert res.casa_azul.category in ["Diamante", "Ouro", "Prata"]
+    assert res.casa_azul.criterion_met
     assert res.water_positive_ratio > 0
     assert len(res.esg_summary_text) > 20
 
@@ -49,7 +49,7 @@ def test_esg_simplified_mode():
     # Conta pelo conteúdo, não pelo tamanho: a matriz cresce quando entra uma
     # certificação nova, e contar linhas quebra o teste sem indicar defeito.
     codigos = {d.credit_code for d in res.credit_details}
-    assert {"WEc1", "WEc2", "Categoria 4", "Critério 2.1", "WEM14"} <= codigos
+    assert {"WEc1", "WEc2", "EAU.1.2 / EAU.1.3 / EAU.1.5", "Critério 3.6", "WEM14"} <= codigos
     # Focus field should be populated
     assert any(d.focus for d in res.credit_details)
 
@@ -156,7 +156,7 @@ def test_environmental_tab_opens_with_environmental_optimum(qapp):
 
 
 def test_certificacoes_usam_so_a_economia_total():
-    """AQUA-HQE e Casa Azul não sobem de nível por atalho do uso interno."""
+    """AQUA-HQE não sobe de nível por atalho do uso interno."""
     res = calculate_esg_certifications(
         potable_savings_pct=12.0,
         annual_pluvial_consumed_m3=60.0,
@@ -165,8 +165,39 @@ def test_certificacoes_usam_so_a_economia_total():
         indoor_savings_pct=36.0,
         outdoor_savings_pct=60.0,
     )
-    assert res.aqua.performance_level == "Base"
-    assert res.casa_azul.category == "Prata"
+    assert res.aqua.performance_level == "Abaixo de EAU.1.2"
+    assert any(i.startswith("EAU.1.5") for i in res.aqua.itens_atendidos)
+
+
+@pytest.mark.parametrize("economia, nivel", [(19.9, "Abaixo de EAU.1.2"), (20.0, "HQE (EAU.1.2)"),
+                                             (39.9, "HQE (EAU.1.2)"), (40.0, "HQE 3 (EAU.1.3)")])
+def test_aqua_segue_os_itens_do_referencial_de_2024(economia, nivel):
+    """Referencial AQUA-HQE Residencial v00 (22/11/2024): EAU.1.2 a 20%, EAU.1.3 a 40%.
+
+    Os perfis «Base, Boas Práticas, Excelente» a 10, 25 e 40% não existem no referencial.
+    """
+    res = calculate_esg_certifications(
+        potable_savings_pct=economia, annual_pluvial_consumed_m3=100.0,
+        annual_potable_consumed_m3=300.0, net_co2e_saved_kg_lifetime=500.0)
+    assert res.aqua.performance_level == nivel
+
+
+@pytest.mark.parametrize("abrangencia, pontos", [(None, 0), ("areas_comuns", 2), ("loteamento", 2),
+                                                 ("unidades", 4), ("unidades_e_areas_comuns", 5)])
+def test_casa_azul_pontua_pela_abrangencia_e_nao_pelo_percentual(abrangencia, pontos):
+    """Guia Casa Azul + CAIXA V023 (29/04/2026), critério 3.6: o indicador é a existência."""
+    for economia in (5.0, 35.0):
+        res = calculate_esg_certifications(
+            potable_savings_pct=economia, annual_pluvial_consumed_m3=50.0,
+            annual_potable_consumed_m3=400.0, net_co2e_saved_kg_lifetime=100.0,
+            casa_azul_abrangencia=abrangencia)
+        assert res.casa_azul.criterion_met
+        assert res.casa_azul.points_awarded == pontos
+    sem_sistema = calculate_esg_certifications(
+        potable_savings_pct=0.0, annual_pluvial_consumed_m3=0.0,
+        annual_potable_consumed_m3=400.0, net_co2e_saved_kg_lifetime=0.0,
+        casa_azul_abrangencia=abrangencia)
+    assert not sem_sistema.casa_azul.criterion_met and sem_sistema.casa_azul.points_awarded == 0
 
 
 @pytest.mark.parametrize("externa, pontos", [(49.9, 0), (50.0, 1), (96.0, 1), (100.0, 2)])
