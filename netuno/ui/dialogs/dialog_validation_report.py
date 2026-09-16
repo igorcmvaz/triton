@@ -9,6 +9,24 @@ from netuno.ui.translation import tr, get_current_lang, get_current_theme
 from netuno import __version__
 
 
+def caminho_do_relatorio(sufixo: str = ""):
+    """O relatório de verificação que o diálogo mostra, ou None.
+
+    O diálogo procurava `docs/relatorio_validacao.md`, nome que não existe no
+    repositório, e abria sempre com o aviso de relatório ausente. O documento
+    real é `docs/verificacao_e_validacao.md`; a versão traduzida, quando
+    houver, leva o sufixo do idioma.
+    """
+    raiz = Path(__file__).resolve().parents[3]
+    nomes = [f"verificacao_e_validacao{sufixo}.md", "verificacao_e_validacao.md"]
+    for pasta in (raiz / "netuno" / "docs", raiz / "docs"):
+        for nome in nomes:
+            caminho = pasta / nome
+            if caminho.exists():
+                return caminho
+    return None
+
+
 class DialogValidationReport(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -45,12 +63,9 @@ class DialogValidationReport(QDialog):
         lang = get_current_lang()
         suffix = "_en" if lang != "pt" else ""
         
-        base_dir = Path(__file__).resolve().parent.parent
-        report_path = base_dir / "docs" / f"relatorio_validacao{suffix}.md"
-        if not report_path.exists():
-            report_path = base_dir.parent / "docs" / f"relatorio_validacao{suffix}.md"
+        report_path = caminho_do_relatorio(suffix)
 
-        if report_path.exists():
+        if report_path is not None:
             with open(report_path, "r", encoding="utf-8") as f:
                 md_text = f.read()
             self.browser.setMarkdown(md_text)

@@ -79,13 +79,24 @@ def _candidatos():
 def figura_investimento():
     """O CAPEX aberto por rubrica, em três volumes de reservatório."""
     from netuno.core.cost_estimates import estimate_tank_price
+    from netuno.core.water_quality import size_first_flush_system
+
+    from gerar_tabelas import TUTORIAL
+
+    # O descarte inicial não depende do volume da cisterna, e sim da lâmina de
+    # descarte e da área de captação: V = d × A. Entra como rubrica própria
+    # porque o programa o orça à parte, na linha de tratamento.
+    descarte = size_first_flush_system(discard_mm=TUTORIAL["discard_mm"],
+                                       roof_area_m2=TUTORIAL["area"])
 
     volumes = (2000, 5000, 12000)
     rubricas = [
-        ("reservatório", AZUL),
+        ("reservatório inferior", AZUL),
         ("mão de obra", LARANJA),
         ("tubulação", VERDE),
         ("acessórios", ROXO),
+        (f"descarte inicial ({descarte.diverter_volume_liters:.0f} L "
+         "e separador de folhas)", "#8a8880"),
     ]
 
     fig, ax = plt.subplots(figsize=(7.2, 4.0))
@@ -99,6 +110,7 @@ def figura_investimento():
             CUSTOS_TUTORIAL["cost_labor"],
             CUSTOS_TUTORIAL["cost_piping"],
             CUSTOS_TUTORIAL["cost_accessories"],
+            descarte.first_flush_total_capex,
         ]
         base = 0.0
         for (nome, cor), valor in zip(rubricas, valores):
@@ -115,79 +127,25 @@ def figura_investimento():
         rotulos.append(f"{v / 1000.0:.0f} m³".replace(".", ",") + "\n" +
                        ("R$ " + f"{total:,.0f}").replace(",", "."))
 
-    _eixos(ax, "O reservatório só domina o investimento nos volumes grandes", "",
-           "investimento inicial (R$)")
+    _eixos(ax, "", "", "investimento inicial (R$)")
     ax.set_xticks(range(len(volumes)))
     ax.set_xticklabels(rotulos, fontsize=9.0)
-    ax.set_xlim(-0.6, len(volumes) - 0.2)
-    ax.set_ylim(0, max(totais) * 1.15)
-    ax.legend(frameon=False, fontsize=8.5, loc="upper left")
+    ax.set_xlim(-0.6, len(volumes) - 0.4)
+    teto = 2000.0 * np.ceil(max(totais) * 1.04 / 2000.0)
+    ax.set_ylim(0, teto)
+    ax.set_yticks(np.arange(0, teto + 1, 2000))
+    ax.set_yticklabels([f"{v:,.0f}".replace(",", ".")
+                        for v in np.arange(0, teto + 1, 2000)])
+    ax.legend(frameon=False, fontsize=8.2, loc="upper center",
+              bbox_to_anchor=(0.5, -0.2), ncol=2)
 
     fig.tight_layout()
     _salvar(fig, "fig21_investimento.png")
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# O TOPSIS, no plano de dois critérios
-# ══════════════════════════════════════════════════════════════════════════════
-
-def figura_topsis():
-    """As alternativas no plano, com o ideal e o anti-ideal marcados.
-
-    O método trabalha em sete dimensões; duas bastam para mostrar o que ele faz,
-    que é medir distância até dois pontos de referência que não existem.
-    """
-    from netuno.core.topsis import calculate_topsis_scores
-
-    cands = _candidatos()
-    res = calculate_topsis_scores(cands)
-
-    pot = np.asarray([c.potential_savings_pct for c in cands])
-    vpl = np.asarray([c.vpl_brl for c in cands])
-
-    fig, ax = plt.subplots(figsize=(7.2, 4.4))
-    fig.patch.set_facecolor(SUPERFICIE)
-    ax.set_facecolor(SUPERFICIE)
-
-    ideal = (pot.max(), vpl.max())
-    anti = (pot.min(), vpl.min())
-
-    ax.plot(*ideal, "*", color=VERDE, markersize=17, zorder=5)
-    ax.text(ideal[0], ideal[1] * 1.03, "solução ideal\n(não existe)",
-            ha="right", va="bottom", fontsize=8.2, color=VERDE)
-    ax.plot(*anti, "X", color=LARANJA, markersize=11, zorder=5)
-    ax.text(anti[0], anti[1] * 1.03, "anti-ideal", ha="left", va="bottom",
-            fontsize=8.2, color=LARANJA)
-
-    escolhido = int(res.best_index)
-    for i, c in enumerate(cands):
-        cor = ROXO if i == escolhido else AZUL
-        ax.plot(pot[i], vpl[i], "o", color=cor,
-                markersize=11 if i == escolhido else 7.5, zorder=4)
-        ax.annotate(f"{c.lower_tank_vol / 1000.0:.0f} m³".replace(".", ","),
-                    xy=(pot[i], vpl[i]), xytext=(0, -14),
-                    textcoords="offset points", ha="center", fontsize=8.0,
-                    color=cor)
-        if i == escolhido:
-            # As duas distâncias que decidem o método, só para a alternativa
-            # vencedora: traçá-las para todas encobriria a figura.
-            ax.plot([pot[i], ideal[0]], [vpl[i], ideal[1]], color=VERDE,
-                    linewidth=1.4, linestyle="--", zorder=2)
-            ax.plot([pot[i], anti[0]], [vpl[i], anti[1]], color=LARANJA,
-                    linewidth=1.4, linestyle="--", zorder=2)
-
-    # A explicação sai da nuvem e vai para baixo do eixo: dentro do gráfico
-    # não há vazio que a comporte sem cobrir o rótulo de algum volume.
-    ax.text(0.0, -0.19,
-            "O compromisso, em roxo, é o ponto mais próximo do ideal e mais "
-            "longe do anti-ideal.",
-            transform=ax.transAxes, fontsize=8.4, color=ROXO, va="top")
-
-    _eixos(ax, "O que o TOPSIS mede: distância até dois pontos de referência",
-           "potencial de economia (%)", "valor presente líquido (R$)")
-
-    fig.tight_layout()
-    _salvar(fig, "fig22_topsis.png")
+# O esquema do TOPSIS no plano de dois critérios saiu a pedido do professor: a
+# seção do método mostra o gráfico que o próprio programa desenha, gerado em
+# `gerar_figuras_do_programa.py` com o mesmo nome de arquivo.
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -216,15 +174,10 @@ def figura_smaa():
             ax.text(i, p + max(probs) * 0.03, f"{p:.0f}%", ha="center",
                     fontsize=8.6, color=TINTA)
 
-    _eixos(ax, "Sorteando cinco mil conjuntos de pesos, quantas vezes cada volume vence",
-           "volume do reservatório", "aceitabilidade de primeiro lugar (%)")
-    ax.set_ylim(0, max(100.0, float(probs.max()) * 1.18))
-    ax.text(0.02, 0.96,
-            "Um volume que vence em quase todos os sorteios é uma escolha "
-            "robusta;\ndois volumes empatados significam que a decisão depende "
-            "do peso,\ne o peso é do projetista, não do programa.",
-            transform=ax.transAxes, ha="left", va="top", fontsize=8.0,
-            color=TINTA2, linespacing=1.4)
+    _eixos(ax, "", "volume do reservatório",
+           "aceitabilidade de primeiro lugar b¹ (%)")
+    ax.set_ylim(0, 100)
+    ax.set_yticks(range(0, 101, 20))
 
     fig.tight_layout()
     _salvar(fig, "fig23_smaa.png")
@@ -283,11 +236,15 @@ def figura_tornado():
 
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.0)
-    _eixos(ax, "O que move o valor presente líquido, a 30% para mais e para menos",
-           "variação do VPL em relação ao caso-base (R$)", "")
-    ax.text(0.02, 0.04,
-            "verde: a variável 30% maior   ·   laranja: 30% menor",
-            transform=ax.transAxes, ha="left", fontsize=8.4, color=TINTA2)
+    _eixos(ax, "", "variação do VPL em relação ao caso-base (R$)", "")
+    from matplotlib.patches import Patch
+    ax.legend(handles=[Patch(facecolor=VERDE, label="premissa +30%"),
+                       Patch(facecolor=LARANJA, label="premissa −30%")],
+              frameon=False, fontsize=8.4, loc="lower right")
+    marcas = ax.get_xticks()
+    ax.set_xticks(marcas)
+    ax.set_xticklabels([f"{v:,.0f}".replace(",", ".").replace("-", "−")
+                        for v in marcas])
 
     fig.tight_layout()
     _salvar(fig, "fig24_tornado.png")
@@ -330,9 +287,11 @@ def figura_cascata():
 
     ax.set_xticks(range(len(passos)))
     ax.set_xticklabels([p[0] for p in passos], fontsize=8.4)
-    _eixos(ax, "A divergência com o Netuno 4, explicada até o resíduo", "",
-           "erro médio absoluto (pontos percentuais)")
-    ax.set_ylim(0, 3.3)
+    _eixos(ax, "", "", "erro médio absoluto (pontos percentuais)")
+    ax.set_ylim(0, 3.5)
+    ax.set_yticks(np.arange(0, 3.51, 0.5))
+    ax.set_yticklabels([f"{v:.1f}".replace(".", ",")
+                        for v in np.arange(0, 3.51, 0.5)])
     # A leitura dos passos fica na legenda da figura: dentro do desenho,
     # qualquer bloco de texto encobre uma das barras.
     fig.tight_layout()
@@ -342,7 +301,6 @@ def figura_cascata():
 def main():
     print("figuras da decisão:")
     figura_investimento()
-    figura_topsis()
     figura_smaa()
     figura_tornado()
     figura_cascata()

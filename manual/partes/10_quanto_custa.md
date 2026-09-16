@@ -6,7 +6,7 @@
 
 ---
 
-## A economia é a diferença entre duas contas
+## A economia é a diferença entre duas faturas
 
 O erro mais comum na análise econômica de sistemas pluviais consiste em multiplicar o
 volume poupado por uma tarifa média. O resultado quase nunca é correto, e a razão está na
@@ -54,12 +54,12 @@ projetos inteiros. O programa distingue cinco.
 | sem mínimo | idem | 165 |
 | franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
 | franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |
-| piso de pagamento | a conta não cai abaixo do piso | 0 |
+| piso de pagamento | a fatura não fica abaixo do piso | 0 |
 
 > **Atenção, e é o ponto que mais derruba estudo.** Em município com **franquia no
 > mínimo** — a maioria da base, 329 dos 652 — a concessionária cobra um valor fixo
 > que já inclui, digamos, 10 m³. Uma residência que consome 12 m³ e economiza 3
-> desce para 9, entra na franquia, e **a conta para de cair**. O sistema economiza
+> desce para 9, entra na franquia, e **a fatura para de cair**. O sistema economiza
 > água e não economiza dinheiro.
 >
 > Rodar esse caso com a tarifa de Florianópolis produziria um payback que não existe.
@@ -85,6 +85,8 @@ material, com procedência declarada. Para volumes fora da tabela, o programa
 interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima de
 0,90, e avisa quando não tem.
 
+**O reservatório de descarte inicial.** A tabela trata o descarte de primeiras águas apenas como lâmina subtraída da chuva. Com o dimensionamento físico do descarte habilitado na etapa **3. Qualidade & ETAP**, que é a condição padrão da interface, o programa acrescenta ao investimento o reservatório de descarte e o separador de folhas. No tutorial, a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, e o subsistema custa R$ 616,90 de investimento e R$ 40 por ano de custeio. O investimento passa a R$ 13.996,69, o valor presente líquido a R$ 14.009, a taxa interna de retorno a 14,10% ao ano e o payback descontado a 9,4 anos. A seção {{n:27}} detalha o dimensionamento.
+
 ---
 
 ## O resultado
@@ -106,7 +108,7 @@ da seção {{n:8}}.
 
 ---
 
-O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica repete a conta para todos os volumes da varredura e traça a curva, e é nela que se vê se o ótimo técnico e o ótimo econômico caem no mesmo lugar.
+O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica repete a conta para todos os volumes da varredura e traça a curva, e é nela que se vê se o ótimo técnico e o ótimo econômico caem no mesmo lugar ({{fig:fig49_programa_vpl}}).
 
 ![O valor presente líquido contra o volume do reservatório](../figuras/fig49_programa_vpl.png)
 
@@ -128,7 +130,7 @@ Vinte anos são muito tempo, e a projeção depende de premissas que convém dec
 | período de análise | 20 anos | vida útil adotada |
 
 > **Os reajustes de água e de esgoto são separados**, e não um índice único sobre a
-> conta agregada. As duas parcelas são reajustadas por atos diferentes da
+> fatura agregada. As duas parcelas são reajustadas por atos diferentes da
 > concessionária, e tratá-las juntas indexa metade da conta pelo índice errado.
 
 O reajuste tarifário é a premissa mais frágil da lista. Cinco por cento ao ano por

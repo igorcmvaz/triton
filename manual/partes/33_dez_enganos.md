@@ -17,14 +17,13 @@ pedreiro conhece.
 Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 
 **Como evitar.** A NBR 10844 define a área de captação como a projeção horizontal.
-A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem
-a área inclinada, multiplique por `cos(inclinação)`.
+A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na {{fig:fig00i_projecao}}.
 
 ---
 
 ![A chuva cai na vertical, e a área que capta é a projeção do telhado](../figuras/fig00i_projecao.png)
 
-*Figura 26 — Por que a área de captação é a projeção horizontal. A chuva cai na vertical, de modo que o volume interceptado depende da sombra do telhado no chão, e não do comprimento da sua rampa. Num telhado de 30% de inclinação a diferença entre as duas áreas é de 4%, e ela se repete em todos os dias da série.*
+*Figura 99 — Área de captação como projeção horizontal da cobertura, conforme a ABNT NBR 10844. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
 
 ---
 
@@ -77,7 +76,7 @@ mínimo está numa nota de rodapé, quando está.
 suponha desconto linear produz um payback que não existe.
 
 **Como evitar.** A seção {{n:16}}. E o teste prático: simule dois consumos, um dentro e um
-fora da faixa mínima, e compare com uma conta real da edificação.
+fora da faixa mínima, e compare com uma fatura real da edificação.
 
 ---
 

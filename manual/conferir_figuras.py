@@ -46,6 +46,10 @@ TOLERANCIA_ABAIXO = 0.32
 TOLERANCIA_LATERAL = 0.06
 TOLERANCIA_ACIMA = 0.10
 
+#: Um rótulo com mais palavras do que isto já é frase, e frase vai no texto ou
+#: na legenda da figura, não dentro dela.
+PALAVRAS_POR_ROTULO = 12
+
 #: Abaixo destas frações, dois textos apenas se encostam.
 CORTE_HORIZONTAL = 0.06
 CORTE_VERTICAL = 0.30
@@ -105,11 +109,36 @@ def _sobrepostos(fig):
     return achados
 
 
+def _frases(fig):
+    """Títulos e frases escritos dentro da figura.
+
+    O título da figura é a legenda, abaixo dela; por cima do gráfico só cabe o
+    rótulo de painel, «(a)», «(b)». E explicação em frase pertence ao texto.
+    """
+    import re
+
+    achados = []
+    if fig._suptitle is not None and fig._suptitle.get_text().strip():
+        achados.append("título geral: " + fig._suptitle.get_text()[:44])
+    for ax in fig.axes:
+        for lado in ("left", "center", "right"):
+            titulo = ax.get_title(loc=lado).strip()
+            if titulo and not re.fullmatch(r"\([a-z]\)( [^.;:]{1,40})?", titulo):
+                achados.append("título: " + titulo[:44])
+        for artista in ax.texts:
+            texto = " ".join(artista.get_text().split())
+            if len(texto.split()) > PALAVRAS_POR_ROTULO:
+                achados.append("frase: " + texto[:60])
+    return achados
+
+
 def conferir():
     """Roda cada gerador com a gravação interceptada, e mede antes de salvar."""
-    problemas, encobertos = [], []
+    problemas, encobertos, frases = [], [], []
 
     def examinar(fig, nome):
+        for achado in _frases(fig):
+            frases.append((nome, achado))
         for achado in _fora(fig):
             problemas.append((nome, achado))
         for a, b in _sobrepostos(fig):
@@ -143,11 +172,11 @@ def conferir():
         print(nome_modulo + ":")
         modulo.main()
 
-    return problemas, encobertos
+    return problemas, encobertos, frases
 
 
 def main():
-    problemas, encobertos = conferir()
+    problemas, encobertos, frases = conferir()
     print()
     if problemas:
         print(f"{len(problemas)} texto(s) fora da prancha:")
@@ -159,8 +188,12 @@ def main():
         print(f"{len(encobertos)} par(es) de texto sobrepostos:")
         for nome, a, b in encobertos:
             print(f"  {nome}: «{a}»  sobre  «{b}»")
-    if not problemas and not encobertos:
-        print("nenhum texto fora da prancha, nenhum texto sobreposto.")
+    if frases:
+        print(f"{len(frases)} título(s) ou frase(s) dentro de figura:")
+        for nome, achado in frases:
+            print(f"  {nome}: {achado}")
+    if not problemas and not encobertos and not frases:
+        print("nenhum texto fora da prancha, sobreposto ou em frase.")
         return 0
     return 1
 

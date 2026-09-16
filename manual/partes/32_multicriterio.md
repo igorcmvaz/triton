@@ -73,15 +73,11 @@ absoluto do coeficiente, e sim a ordenação que ele produz.
 
 ---
 
-O que o método faz se enxerga num plano, ainda que ele trabalhe em sete dimensões.
-Cada alternativa é um ponto; o ideal e o anti-ideal são dois pontos construídos com o
-melhor e o pior valor de cada critério, e nenhum dos dois corresponde a um projeto
-existente. A pontuação de cada alternativa é a razão entre a sua distância ao anti-ideal
-e a soma das duas distâncias.
+Geometricamente, cada alternativa é um ponto no espaço dos sete critérios; o ideal e o anti-ideal são pontos construídos com o melhor e o pior valor de cada critério, e nenhum dos dois corresponde a um projeto existente. O escore de cada alternativa é a razão entre a sua distância ao anti-ideal e a soma das duas distâncias. Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e pesos iguais, o escore cresce até um máximo interior e decresce nos volumes maiores, em que o investimento e o carbono incorporado passam a pesar mais que o ganho de água ({{fig:fig22_topsis}}). O máximo, em 7 m³, difere dos 5 m³ obtidos na seção {{n:12}} com seis candidatos, porque o ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*).
 
-![As alternativas, o ideal e o anti-ideal num plano de dois critérios](../figuras/fig22_topsis.png)
+![O escore TOPSIS ao longo da varredura completa](../figuras/fig22_topsis.png)
 
-*Figura 39 — Seis volumes candidatos no plano formado por dois dos sete critérios. A estrela é a solução ideal, que combina o melhor de cada critério e não existe como projeto; o «x» é o anti-ideal. As duas linhas tracejadas são as distâncias que decidem a pontuação da alternativa vencedora.*
+*Figura 99 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno e pesos iguais entre os sete critérios; a estrela marca o volume de maior escore. Figura gerada pelo próprio programa.*
 
 ---
 
@@ -136,11 +132,11 @@ A leitura mais útil da análise estocástica não é o vencedor, e sim a margem
 ele vence. Um volume que fica em primeiro lugar em três quartos dos sorteios de pesos é
 uma escolha estável, que sobrevive a uma mudança de prioridade do decisor; dois volumes
 tecnicamente empatados indicam o contrário, e nesse caso declarar o peso adotado deixa
-de ser formalidade e passa a ser a única informação que sustenta a recomendação.
+de ser formalidade e passa a ser a única informação que sustenta a recomendação ({{fig:fig23_smaa}}).
 
 ![A aceitabilidade de primeiro lugar de cada volume](../figuras/fig23_smaa.png)
 
-*Figura 40 — A aceitabilidade de primeiro lugar de cada volume candidato, obtida sorteando cinco mil vetores de pesos no simplex. O volume destacado vence na maioria dos sorteios, e os demais repartem o restante.*
+*Figura 99 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex. O volume destacado vence na maioria dos sorteios, e os demais repartem o restante.*
 
 ---
 

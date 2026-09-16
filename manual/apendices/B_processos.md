@@ -431,7 +431,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Exceção.** Sem caixa superior, ou com potência zero, a energia é zero e o processo não roda.
 
-## PROC-17 — Calcular a conta de água
+## PROC-17 — Calcular a fatura de água e esgoto
 
 *Econômico*
 
@@ -457,7 +457,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Saídas**
 
-- Valor da conta em R$/mês, para a projeção de PROC-18
+- Valor da fatura de água e esgoto em R$/mês, para a projeção de PROC-18
 
 **Exceção.** Tabela vazia cai para a estrutura da CASAN. Estrutura incompleta é sinalizada pela porta de validação, que separa erro de aviso.
 
@@ -478,8 +478,8 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Regras**
 
-1. Água e esgoto são reajustados por índices **separados**, e não pela conta agregada.
-2. A inflação incide só sobre o custeio; os reajustes tarifários incidem só sobre a conta.
+1. Água e esgoto são reajustados por índices **separados**, e não pela fatura agregada.
+2. A inflação incide só sobre o custeio; os reajustes tarifários incidem só sobre a fatura.
 3. O reajuste é aplicado a cada `tariff_escalation` meses, em degraus.
 4. A bandeira tarifária ajusta a tarifa de energia: amarela, vermelha 1, vermelha 2, ou desconto fora de ponta na branca.
 5. O IPTU verde entra como economia anual dividida por doze.

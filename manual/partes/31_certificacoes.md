@@ -14,7 +14,7 @@ referenciais a partir dos resultados da simulação, e o faz sempre com a mesma 
 certificação é decidida pelo organismo certificador, com a documentação completa do
 empreendimento, da qual o desempenho hídrico é apenas uma peça.
 
-Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia.
+Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia ({{fig:fig37_certificacoes}}). O LEED v4 pontua separadamente a redução do uso externo (WEc1: 1 ponto a partir de 50% e 2 pontos com 100%) e a do uso interno (WEc2: de 1 a 6 pontos entre 25% e 50%); o AQUA-HQE Residencial atribui o item EAU.1.2 a partir de 20% e o EAU.1.3 a partir de 40%; e o EDGE exige redução mínima de 20% simultaneamente em água, energia e energia incorporada nos materiais, sem pontuação.
 
 ![Os limiares de economia dos referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
 

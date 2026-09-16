@@ -20,11 +20,11 @@ rede**, nos usos que não precisam de água potável.
 
 A ideia é velha e simples. O que ela tem de difícil é uma coisa só: a chuva não cai
 quando você precisa dela. Por isso o sistema precisa de um reservatório, e por isso o
-tamanho desse reservatório é a pergunta central de todo projeto — e deste manual.
+tamanho desse reservatório é a pergunta central de todo projeto — e deste manual. A {{fig:fig00_sistema}} apresenta os componentes do sistema e o percurso da água, da captação ao ponto de consumo.
 
 ![O caminho da água, da cobertura ao ponto de uso](../figuras/fig00_sistema.png)
 
-*Figura 1 — Os componentes de um sistema predial de aproveitamento de água pluvial. O reservatório superior e a motobomba aparecem tracejados porque são opcionais: dependem da altura da edificação e da pressão exigida nos pontos de uso.*
+*Figura 99 — Componentes de um sistema predial de aproveitamento de água pluvial e percurso da água, da captação ao ponto de consumo. O reservatório superior aparece tracejado porque é opcional: em edificação térrea, a motobomba pode pressurizar diretamente os pontos de uso, e o reservatório superior altera o momento da oferta de água, e não o volume disponível.*
 
 Seguindo o desenho, da esquerda para a direita:
 
@@ -54,10 +54,9 @@ distribuída por gravidade.
 piso e de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
 **rede pública** supre o complemento, e o abastecimento não é interrompido.
 
-O diagrama acima mostra o encadeamento das peças, que é o que interessa para
+O diagrama da {{fig:fig00_sistema}} mostra o encadeamento das peças, que é o que interessa para
 acompanhar o cálculo. Falta a ele, porém, a informação que decide metade das
-dúvidas de projeto: onde cada peça fica em relação às outras, e a que altura. O
-corte a seguir repõe essa geometria, porque desnível é o que determina se a água
+dúvidas de projeto: onde cada peça fica em relação às outras, e a que altura. O corte da {{fig:fig00d_corte}} repõe essa geometria, porque desnível é o que determina se a água
 desce por gravidade ou precisa de bomba, e porque a posição da cisterna em
 relação ao terreno é uma decisão de obra, não de cálculo.
 
@@ -76,11 +75,11 @@ relação ao terreno é uma decisão de obra, não de cálculo.
 ## O que o programa calcula, em um dia
 
 O programa faz uma conta de entrada e saída, todo dia, para cada dia da série de
-chuva. A conta é esta:
+chuva. A {{fig:fig00b_destino}} mostra como a precipitação de um dia se reparte, e a conta é esta:
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 2 — O destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma das três de baixo é igual ao volume captado.*
+*Figura 99 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
 
 Lendo o desenho:
 
@@ -98,11 +97,11 @@ Lendo o desenho:
 Os cinco passos formam um ciclo, e não uma lista: o volume remanescente ao fim do
 quinto passo é exatamente o volume de que o terceiro passo parte no dia seguinte. Essa
 ligação entre um dia e o outro é a única coisa que uma conta feita sobre a média anual
-não consegue reproduzir, e é a razão de a simulação ser diária.
+não consegue reproduzir, e é a razão de a simulação ser diária. A {{fig:fig00e_balanco_do_dia}} representa essa sequência na notação das equações do balanço diário.
 
 ![A ordem das operações de um dia, e a memória que liga um dia ao seguinte](../figuras/fig00e_balanco_do_dia.png)
 
-*Figura 3 — Os cinco passos do balanço diário, na ordem em que o programa os executa. A ligação em roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente ao fim de um dia é o volume inicial do dia seguinte.*
+*Figura 99 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da seção do balanço diário. A ligação em roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente V_res,t é o volume inicial do dia seguinte.*
 
 > **Aprofundamento: por que não basta a média anual.** É tentador dividir a chuva
 > anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e às vezes
@@ -121,8 +120,7 @@ edificação que a chuva conseguiu substituir.
 ## As seis dimensões
 
 O volume de água fornecido é a primeira questão de um projeto, mas não a única. O
-programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos
-distintos.
+programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos distintos ({{fig:fig26_dimensoes}}).
 
 ![As seis dimensões de análise do programa](../figuras/fig26_dimensoes.png)
 
@@ -175,6 +173,10 @@ cada uma.
 ---
 
 ## Para quem serve
+
+O manual atende a quatro perfis de leitor, com percursos de leitura independentes entre si ({{fig:fig27_leitores}}).
+
+
 
 ![Os quatro perfis de leitor e o percurso de cada um](../figuras/fig27_leitores.png)
 

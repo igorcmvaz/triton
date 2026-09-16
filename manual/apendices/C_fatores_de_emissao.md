@@ -31,7 +31,7 @@ por metro cúbico contra 22 do polietileno.
 Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial.
 
 **A fronteira é por metro cúbico entregue na edificação**, e não por metro cúbico
-produzido na estação. A conversão usa as perdas de distribuição:
+produzido na estação. A conversão usa as perdas de distribuição de cada macrorregião ({{fig:fig43_perdas}}):
 
 ![As perdas de distribuição por macrorregião](../figuras/fig43_perdas.png)
 

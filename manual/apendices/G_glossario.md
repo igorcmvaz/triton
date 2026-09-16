@@ -111,7 +111,7 @@ quando ele já está cheio.
 suprido por água de chuva. É o **teto** do potencial de economia.
 
 **Franquia no mínimo**. Regime tarifário em que o valor fixo já inclui um volume de
-consumo. Economizar **abaixo** da franquia não reduz a conta.
+consumo. Economizar **abaixo** da franquia não reduz a fatura.
 
 **Ganho marginal**. Variação do potencial de economia por metro cúbico acrescentado
 ao reservatório, em %/m³. Critério de escolha do volume ideal.
@@ -166,7 +166,7 @@ carbono incorporado na fabricação do sistema.
 **PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
 comuns no mercado brasileiro.
 
-**Piso de pagamento**. Regime tarifário em que a conta **não desce** abaixo de um
+**Piso de pagamento**. Regime tarifário em que a fatura **não fica** abaixo de um
 valor. Diferente de disponibilidade: o piso limita por baixo, a disponibilidade soma
 por cima.
 
@@ -184,6 +184,8 @@ dos níveis HQE, HQE 2 e HQE 3.
 
 **PRFV**. Plástico reforçado com fibra de vidro, material de reservatórios de médio e
 grande porte. Aparece no programa sob a designação «fibra».
+
+**PVC**. Policloreto de vinila, material das tubulações prediais de água fria e das colunas de desvio do descarte inicial. As dimensões dos tubos soldáveis seguem a ABNT NBR 5648.
 
 **R95p**. Soma da precipitação dos dias acima do percentil 95 dos dias úmidos.
 
@@ -236,5 +238,9 @@ de compromisso entre critérios conflitantes. Ver também *SMAA*.
 **WEM**. Codificação das medidas de eficiência hídrica do EDGE. A WEM14 é o sistema
 de aproveitamento de água pluvial.
 
+**XLSX**. Formato de pasta de trabalho do Microsoft Excel, baseado em XML compactado. É um dos formatos de exportação de planilhas e de resultados da linha de comando.
+
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
 calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+
+**YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes** do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o aproveitamento; não é o modelo adotado pelo programa.

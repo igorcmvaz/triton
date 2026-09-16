@@ -64,12 +64,11 @@ descartados por inteiro, e o item 4.3 explica por quê.
 Vale a pena olhar uma série inteira antes de usá-la. Trinta anos de Florianópolis
 não são trinta anos parecidos: o ano mais seco fica quase um terço abaixo do mais
 chuvoso, e é essa variação entre anos que uma média anual apaga. A distribuição diária
-diz o resto da história — a maior parte dos dias não tem chuva alguma, e o volume anual
-é entregue por um número pequeno de dias intensos.
+diz o resto da história — a maior parte dos dias não tem chuva alguma, e o volume anual é entregue por um número pequeno de dias intensos ({{fig:fig15_serie}}).
 
 ![Trinta anos de série, e a distribuição dos dias de chuva](../figuras/fig15_serie.png)
 
-*Figura 27 — A série de Florianópolis usada em todo o tutorial. Em cima, o total de cada ano contra a média dos trinta; embaixo, a distribuição dos dias em que houve chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes.*
+*Figura 99 — Série de precipitação de Florianópolis usada em todo o tutorial: (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média em azul e abaixo dela em laranja; (b) distribuição de frequência da precipitação diária nos dias úmidos, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes.*
 
 ---
 
@@ -92,7 +91,7 @@ representada pela sua projeção horizontal.
 
 ---
 
-Carregada a série, o programa já mostra o regime que ela descreve. Vale conferir esse desenho antes de seguir: uma série trocada de cidade, ou com unidade errada, costuma aparecer aqui antes de aparecer em qualquer resultado.
+Carregada a série, o programa já mostra o regime que ela descreve. Vale conferir esse desenho antes de seguir: uma série trocada de cidade, ou com unidade errada, costuma aparecer no ciclo sazonal da {{fig:fig55_programa_sazonal}} antes de aparecer em qualquer resultado.
 
 ![O ciclo sazonal médio da série carregada](../figuras/fig55_programa_sazonal.png)
 
@@ -121,8 +120,7 @@ atribua à norma um coeficiente de escoamento que ela não fixa.
 O coeficiente de escoamento superficial representa a fração da chuva incidente que
 efetivamente chega à cisterna, e a diferença até a unidade corresponde ao que se perde no
 caminho. As perdas têm quatro origens: a absorção pelo material da cobertura, a
-evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento
-inicial da telha a cada novo evento de chuva.
+evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento inicial da telha a cada novo evento de chuva. A {{fig:fig35_escoamento}} traz o coeficiente que o programa atribui a cada material de cobertura.
 
 ![O coeficiente de escoamento por tipo de cobertura](../figuras/fig35_escoamento.png)
 

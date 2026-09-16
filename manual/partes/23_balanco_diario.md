@@ -113,8 +113,7 @@ Choveu 41 mm, e o sistema captou 3.315 L. O reservatório estava com 1.840 L e g
 Num único dia, o sistema jogou fora o equivalente a trinta e nove dias de demanda
 pluvial.
 É o retrato do descasamento entre a chuva, que chega concentrada, e a demanda, que é
-constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a
-pergunta que a varredura de volumes da seção {{n:24}} responde.
+constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a pergunta que a varredura de volumes da seção {{n:24}} responde. A {{fig:fig01_dez_dias}} resume os dez dias.
 
 ![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
@@ -216,12 +215,11 @@ nos poucos que importam. Enquanto o reservatório não enche, extravasar antes o
 de consumir dá exatamente o mesmo resultado, porque não há extravasamento algum; nos
 dias de chuva intensa, em que o reservatório atinge a capacidade, a ordem determina se
 uma parcela de água é contabilizada como consumida ou como perdida. São justamente
-esses dias os que mais pesam no total anual, e por isso uma escolha que parece
-formalidade desloca o resultado inteiro.
+esses dias os que mais pesam no total anual, e por isso uma escolha que parece formalidade desloca o resultado inteiro. A {{fig:fig00f_yas}} compara as duas sequências na notação das equações desta seção.
 
 ![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
 
-*Figura 12 — A regra YAS, adotada pelo programa, contra a ordem invertida. As duas sequências só divergem no dia em que o reservatório enche, e é nesse dia que a ordem invertida contabiliza como consumo uma água que fisicamente já teria extravasado.*
+*Figura 99 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
 
 ### O atendimento da demanda
 

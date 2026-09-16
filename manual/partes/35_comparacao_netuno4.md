@@ -83,6 +83,8 @@ A atribuição resultante:
 
 ---
 
+A {{fig:fig25_cascata}} decompõe a divergência total nas três fontes da tabela.
+
 ![A divergência decomposta até o resíduo](../figuras/fig25_cascata.png)
 
 *Figura 42 — A divergência média em relação ao Netuno 4, decomposta. A primeira barra é o total observado; as duas alaranjadas são diferenças de método declaradas, uma de critério de projeto e outra de tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que efetivamente verifica o motor.*

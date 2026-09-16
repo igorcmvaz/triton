@@ -8,12 +8,11 @@ frequência na literatura. Os dois primeiros partem do mesmo numerador — a ág
 chuva efetivamente consumida — e diferem apenas no denominador: uma diferença
 aritmética pequena e uma diferença de significado grande, porque cada denominador
 formula uma pergunta distinta. O terceiro não é uma razão entre volumes, e sim uma
-contagem de dias, e responde a uma pergunta que nenhum dos outros dois alcança:
-com que frequência se pode contar com o sistema.
+contagem de dias, e responde a uma pergunta que nenhum dos outros dois alcança: com que frequência se pode contar com o sistema ({{fig:fig00g_indicadores}}).
 
 ![Os três indicadores e o denominador de cada um](../figuras/fig00g_indicadores.png)
 
-*Figura 14 — Os três indicadores de eficiência e o que cada um conta. Os dois volumétricos compartilham o numerador e diferem no denominador, e por isso o mesmo projeto recebe notas diferentes sem que nenhuma esteja errada; a confiabilidade temporal conta dias, e não litros.*
+*Figura 99 — Os três indicadores de eficiência e o que cada um conta. O potencial de economia e a confiabilidade volumétrica compartilham o numerador e se relacionam pela identidade Epot = Rv × f, em que f é a fração atendível; a confiabilidade temporal conta dias, e não litros.*
 
 ---
 
@@ -85,11 +84,11 @@ literatura da área.
 
 ## Confiabilidade temporal
 
-Os três percentuais de dias, que somam 100%:
+A confiabilidade temporal classifica cada dia da série em uma de três classes mutuamente exclusivas, conforme a relação entre o volume pluvial consumido e a demanda pluvial do dia, definida na Equação {{eq:classificacao}}. O dia é **pleno** quando a água de chuva atende integralmente a demanda pluvial; **parcial**, quando atende parte dela e a rede pública supre o restante; e **nulo**, quando o reservatório está vazio e a rede supre toda a demanda ({{fig:fig29_atendimento}}). Os três percentuais somam 100%. A classificação conta dias, e não volume: um dia em que faltou um litro para atender a demanda é parcial, e não quase pleno, e por isso a confiabilidade temporal não se converte diretamente em volume economizado.
 
 ![As três classes de atendimento de um dia](../figuras/fig29_atendimento.png)
 
-*Figura 99 — As três classes em que cada dia da simulação é enquadrado. A altura preenchida representa a parcela da demanda pluvial do dia que a água de chuva atendeu.*
+*Figura 99 — Classes de atendimento diário: pleno (V_con,t = D_pl,t), parcial (0 < V_con,t < D_pl,t) e nulo (V_con,t = 0). A altura preenchida representa a fração da demanda pluvial do dia atendida por água pluvial.*
 
 Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L; **parcial** quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
 

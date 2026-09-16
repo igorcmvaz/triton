@@ -13,6 +13,10 @@ consumo e a chuva disponível naquele dia.==
 
 ## Os quatro modos
 
+O programa oferece quatro modos de modulação da demanda, que diferem no número de valores que o usuário informa e na situação em que cada um se justifica ({{fig:fig40_modos}}).
+
+
+
 ![Os quatro modos de modulação da demanda](../figuras/fig40_modos.png)
 
 *Figura 99 — Os quatro modos de modulação, o que cada um pede ao usuário e a situação em que cada um se justifica. O modo diário só faz sentido quando existe medição real, porque inventar uma série diária acrescenta precisão aparente sem acrescentar informação.*
@@ -70,8 +74,7 @@ Rodadas com a série de Florianópolis, o mesmo consumo anual e o mesmo reservat
 5.000 L, as três hipóteses se separam: demanda constante rende 37,5%, o perfil escolar
 rende 37,7% e o perfil de hotel de praia rende 34,5%. A diferença de três pontos
 percentuais é grande para uma mudança que não altera um único litro do consumo anual, e
-é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por
-que o Netuno simula dia a dia.
+é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por que o Netuno simula dia a dia. Os três perfis estão na {{fig:fig19_modulacao}}, e o rendimento de cada um, na {{fig:fig20_tipologias}}.
 
 ![Três perfis de demanda com o mesmo consumo anual](../figuras/fig19_modulacao.png)
 
@@ -79,7 +82,7 @@ que o Netuno simula dia a dia.
 
 ![A demanda contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
 
-*Figura 37 — Em cima, os dois perfis modulados sobre a chuva média mensal de Florianópolis; embaixo, o potencial de economia que cada um alcança com o mesmo reservatório de 5.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa três pontos percentuais.*
+*Figura 99 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 5.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa três pontos percentuais.*
 
 ---
 
@@ -105,7 +108,7 @@ aparente sem acrescentar informação alguma, e transfere ao leitor a impressão
 que o dado não tem. Na dúvida, demanda constante explicitamente declarada é mais honesta
 que um perfil mensal arbitrado.
 
-**Declare a origem do perfil.** Ele pode vir de medição própria, de doze contas de água
+**Declare a origem do perfil.** Ele pode vir de medição própria, de doze faturas de água e esgoto
 mensais, de referência bibliográfica ou de estimativa, e essas quatro origens não têm o
 mesmo peso probatório num estudo publicado.
 
@@ -117,8 +120,8 @@ indicador mais rápido de erro de preenchimento da tabela.
 
 ## O caminho mais simples, quando existe
 
-Se você tem **doze contas de água** da edificação, tem o perfil mensal medido,
+Se você tem **doze faturas de água e esgoto** da edificação, tem o perfil mensal medido,
 que é a melhor fonte possível. Divida o consumo de cada mês pelo número de dias e
 pelo número de ocupantes, e use o modo mensal.
 
-Doze contas valem mais que qualquer referência de literatura.
+Doze faturas valem mais que qualquer referência de literatura.

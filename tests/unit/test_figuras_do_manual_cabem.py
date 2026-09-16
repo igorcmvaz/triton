@@ -36,11 +36,22 @@ def conferencia():
 
 def test_nenhum_texto_sai_da_prancha(conferencia):
     """Rótulo que passa da borda aparece cortado, ou alarga a figura."""
-    problemas, _ = conferencia
+    problemas, _, _ = conferencia
     assert not problemas, [(n, a[0]) for n, a in problemas[:5]]
 
 
 def test_nenhum_texto_cobre_outro(conferencia):
     """Dois rótulos sobrepostos são tão ilegíveis quanto um rótulo cortado."""
-    _, encobertos = conferencia
+    _, encobertos, _ = conferencia
     assert not encobertos, encobertos[:5]
+
+
+def test_nenhuma_frase_ou_titulo_dentro_da_figura(conferencia):
+    """O título é a legenda, e a explicação é o texto.
+
+    O professor pediu, lendo o PDF, que as frases e os títulos saíssem de dentro
+    das figuras: num manual de engenharia a figura mostra, a legenda identifica,
+    e o parágrafo que a chama explica. Por cima do gráfico só o rótulo de painel.
+    """
+    _, _, frases = conferencia
+    assert not frases, frases[:8]

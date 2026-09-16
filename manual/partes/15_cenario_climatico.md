@@ -37,8 +37,7 @@ modelo climático global de um centro de pesquisa diferente.
 
 O **cenário** representa a trajetória futura de emissões de gases de efeito estufa, e os
 três disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC. Eles não
-são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
-longo do século.
+são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao longo do século ({{fig:fig44_cenarios}}).
 
 ![As três trajetórias de emissão disponíveis na base](../figuras/fig44_cenarios.png)
 

@@ -48,7 +48,7 @@ escola, comércio ou indústria calcula a economia com a tarifa residencial, e p
 **subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
 
 **Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
-subestima a conta no primeiro bloco.
+subestima a fatura no primeiro bloco.
 
 **Quatorze municípios com esgoto por faixas próprias**, representados por percentual
 único. É aproximação declarada.

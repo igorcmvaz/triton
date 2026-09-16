@@ -20,6 +20,10 @@ declarar publicamente um desempenho ambiental.
 
 ## As sete etapas
 
+O inventário é organizado em sete etapas, agrupadas pela natureza da emissão ({{fig:fig34_inventario}}). O saldo de carbono é a soma das emissões das seis primeiras menos o crédito da sétima, único termo com sinal negativo, e é esse crédito que decide se o sistema compensa o carbono incorporado na sua construção.
+
+
+
 ![As sete etapas do inventário de ciclo de vida](../figuras/fig34_inventario.png)
 
 *Figura 99 — As sete etapas do inventário, agrupadas pela natureza da emissão. As quatro primeiras são incorporadas e ocorrem uma única vez; a quinta e a sexta são operacionais e se repetem todo ano; a sétima é o crédito, e é a única que entra com sinal negativo.*
@@ -99,12 +103,11 @@ vezes.
 Antes de discutir qualquer fator de emissão, convém fixar o recorte. A avaliação do
 programa é de **triagem**: serve para ordenar alternativas entre si, e não para
 substituir um inventário de ciclo de vida conforme a ISO 14040. O que entra na conta e o
-que fica de fora está declarado, porque um saldo ambiental sem fronteira declarada não
-se pode nem conferir nem contestar.
+que fica de fora está declarado, porque um saldo ambiental sem fronteira declarada não se pode nem conferir nem contestar ({{fig:fig00h_fronteira}}). A exclusão mais limitante é a das categorias de impacto além do aquecimento global: um sistema com bom desempenho de carbono pode ter desempenho desfavorável em outra categoria, e a avaliação não o registra.
 
 ![O que a avaliação ambiental inclui e o que ela deixa de fora](../figuras/fig00h_fronteira.png)
 
-*Figura 21 — A fronteira da avaliação ambiental do programa. Ficam de fora a obra civil, a manutenção, o fim de vida e toda categoria de impacto além do carbono, e é esta última exclusão a que mais limita a leitura do resultado.*
+*Figura 99 — Fronteira da avaliação ambiental do programa: (a) processos incluídos — carbono incorporado dos reservatórios, da tubulação e da motobomba, emissões operacionais de recalque e de insumos da ETAP, e crédito da água potável evitada; (b) processos excluídos — obra civil, manutenção e reposição, fim de vida e categorias de impacto além do aquecimento global.*
 
 ---
 

@@ -28,7 +28,7 @@ sentido do erro:
 
 > A tipologia escolhida é «Escola», que a concessionária fatura na categoria
 > Pública. O catálogo do programa tem apenas a categoria Residencial, de modo que a
-> conta de água está sendo calculada com a tarifa errada. O erro tem sentido
+> fatura de água e esgoto está sendo calculada com a tarifa errada. O erro tem sentido
 > conhecido: as categorias não residenciais são mais caras, e portanto a economia e
 > o retorno estão **subestimados**.
 
@@ -48,6 +48,10 @@ defensável, ao contrário do inverso.
 ---
 
 ## As tipologias disponíveis
+
+As oito tipologias do programa agrupam-se pela categoria tarifária em que a concessionária as enquadra, e cada uma tem unidade de consumo própria ({{fig:fig39_tipologias}}). A unidade de consumo muda o significado do per capita informado, e a categoria decide a estrutura de faixas da fatura: simular uma escola com tarifa residencial é um dos enganos descritos na seção {{n:33}}.
+
+
 
 ![As tipologias, a categoria tarifária e a unidade de consumo de cada uma](../figuras/fig39_tipologias.png)
 
@@ -91,7 +95,7 @@ economias**. O programa avalia o consumo no patamar de **uma** unidade e multipl
 pelo número de economias.
 
 Isso importa por causa das faixas progressivas: um prédio de vinte apartamentos com
-medição individual paga vinte contas da primeira faixa, e não uma conta que soma
+medição individual paga vinte faturas na primeira faixa, e não uma fatura que soma
 todo o consumo e cai na faixa mais cara. Tratar o prédio como uma unidade só
 superestimaria a economia de forma grosseira.
 

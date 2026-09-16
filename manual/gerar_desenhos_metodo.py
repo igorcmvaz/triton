@@ -32,23 +32,22 @@ from gerar_desenhos import (                                      # noqa: E402
 # ══════════════════════════════════════════════════════════════════════════════
 
 def desenho_balanco_do_dia():
-    p = Prancha(100, 70, tamanho=(7.4, 5.0))
-    p.titulo("Sequência de operações do balanço diário e transferência ao dia seguinte")
+    p = Prancha(100, 68, tamanho=(7.4, 4.9))
 
-    p.caixa("chuva", 2, 47, 21, 11, "Chuva do dia" + NL + "P (mm)", cor=AZUL,
+    p.caixa("chuva", 2, 47, 21, 11, "Precipitação" + NL + "P_t (mm)", cor=AZUL,
             peso="bold")
-    p.caixa("descarte", 28, 47, 21, 11, "1. Desconta-se" + NL + "o descarte",
+    p.caixa("descarte", 28, 47, 21, 11, "1. Descarte" + NL + "P_ef,t = P_t − d",
             cor=LARANJA)
-    p.caixa("volume", 54, 47, 21, 11, "2. Converte-se" + NL + "em litros",
+    p.caixa("volume", 54, 47, 21, 11, "2. Captação" + NL + "P_ef,t × A × C",
             cor=AZUL)
-    p.caixa("soma", 78, 47, 20, 11, "3. Soma-se ao" + NL + "que havia", cor=AZUL)
+    p.caixa("soma", 78, 47, 20, 11, "3. Disponível" + NL + "D_t", cor=AZUL)
 
-    p.caixa("extravasa", 78, 28, 20, 10, "Extravasamento" + NL + "do excedente",
+    p.caixa("extravasa", 78, 28, 20, 10, "Extravasamento" + NL + "V_ext,t",
             cor=LARANJA, fundo="#fdf0ea")
-    p.caixa("consumo", 45, 28, 26, 10, "4. Retira-se o" + NL + "consumo do dia",
+    p.caixa("consumo", 45, 28, 26, 10, "4. Consumo pluvial" + NL + "V_con,t",
             cor=VERDE)
-    p.caixa("resto", 45, 8, 26, 11, "5. Volume remanescente" + NL +
-            "para o dia seguinte", cor=ROXO, peso="bold")
+    p.caixa("resto", 45, 8, 26, 11, "5. Volume remanescente" + NL + "V_res,t",
+            cor=ROXO, peso="bold")
     p.caixa("rede", 8, 28, 28, 10, "Suprimento pela" + NL + "rede pública",
             cor=CINZA, fundo="#f4f3f0")
 
@@ -57,7 +56,7 @@ def desenho_balanco_do_dia():
     p.seta("volume", "d", "soma", "e", cor=AZUL)
     p.seta("soma", "b", "extravasa", "c", cor=LARANJA)
     p.seta("extravasa", "e", "consumo", "d", cor=AZUL,
-           rotulo="volume armazenado", rotulo_em=(74, 36))
+           rotulo="V_arm,t", rotulo_em=(74.5, 40.2))
     p.seta("consumo", "e", "rede", "d", cor=CINZA, tracejada=True,
            rotulo="déficit", rotulo_em=(40, 36))
     p.seta("consumo", "b", "resto", "c", cor=ROXO)
@@ -70,14 +69,8 @@ def desenho_balanco_do_dia():
     p.ax.add_patch(FancyArrowPatch((88, 64), (88, 58.6), arrowstyle="-|>",
                                    mutation_scale=11, linewidth=1.3, color=ROXO,
                                    zorder=2))
-    p.ax.text(46, 65.4, "o volume remanescente é o volume inicial do dia seguinte",
-              ha="left", va="bottom", fontsize=7.4, color=ROXO, zorder=5)
-
-    p.nota(2, 5,
-           "A seta roxa que volta é a razão de a simulação ser diária: o dia de "
-           "hoje começa onde o de ontem parou." + NL +
-           "Nenhuma média anual carrega essa memória, e é por isso que ela "
-           "superestima o aproveitamento.")
+    p.ax.text(46, 65.4, "V_res,t transferido ao dia t + 1",
+              ha="left", va="bottom", fontsize=7.6, color=ROXO, zorder=5)
     p.salvar("fig00e_balanco_do_dia.png")
 
 
@@ -86,37 +79,37 @@ def desenho_balanco_do_dia():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def desenho_yas():
-    p = Prancha(100, 58, tamanho=(7.4, 4.3))
-    p.titulo("A mesma chuva, duas ordens: por que o Netuno extravasa antes de consumir")
-
-    p.nota(2, 48, "YAS — o que o programa faz", AZUL, 8.6)
-    p.caixa("a1", 2, 36, 21, 9, "Soma a chuva" + NL + "ao reservatório", cor=AZUL)
-    p.caixa("a2", 27, 36, 21, 9, "Extravasa" + NL + "o excedente", cor=AZUL)
-    p.caixa("a3", 52, 36, 21, 9, "Só então" + NL + "retira o consumo", cor=AZUL)
-    p.caixa("a4", 77, 36, 21, 9, "Rende menos" + NL + "no dia de cheia",
-            cor=AZUL, fundo="#eaf2fd", peso="bold")
-    p.seta("a1", "d", "a2", "e", cor=AZUL)
-    p.seta("a2", "d", "a3", "e", cor=AZUL)
-    p.seta("a3", "d", "a4", "e", cor=AZUL)
-
-    p.nota(2, 22, "YBS — a ordem invertida", LARANJA, 8.6)
-    p.caixa("b1", 2, 10, 21, 9, "Soma a chuva" + NL + "ao reservatório",
-            cor=LARANJA)
-    p.caixa("b2", 27, 10, 21, 9, "Retira o consumo" + NL + "primeiro",
-            cor=LARANJA)
-    p.caixa("b3", 52, 10, 21, 9, "Extravasa" + NL + "o que ainda sobrou",
-            cor=LARANJA)
-    p.caixa("b4", 77, 10, 21, 9, "Rende mais," + NL + "e engana", cor=LARANJA,
-            fundo="#fdf0ea", peso="bold")
-    p.seta("b1", "d", "b2", "e", cor=LARANJA)
-    p.seta("b2", "d", "b3", "e", cor=LARANJA)
-    p.seta("b3", "d", "b4", "e", cor=LARANJA)
-
-    p.nota(2, 6,
-           "A diferença só aparece no dia em que o reservatório enche. O YAS "
-           "supõe que o consumo ocorre antes da chuva do dia," + NL +
-           "e é a hipótese conservadora consagrada na literatura; o YBS supõe o "
-           "contrário e superestima o aproveitamento.")
+    # As duas sequências na notação das equações da seção do balanço diário. A
+    # primeira versão tinha espaço vazio entre os dois ramos e uma frase de
+    # rodapé; a explicação está no texto, e a prancha só mostra a ordem.
+    p = Prancha(107, 38, tamanho=(7.4, 2.75))
+    ramos = [
+        (AZUL, "#eaf2fd", 21.5, 37.6, "(a) YAS — extravasamento antes do consumo", [
+            ("Disponível", "D_t =", "V_res,t−1 + V_cap,t"),
+            ("Extravasamento", "V_ext,t =", "max(0 ; D_t − V_max)"),
+            ("Consumo", "V_con,t =", "min(D_pl,t ; V_arm,t)"),
+            ("Remanescente", "V_res,t =", "V_arm,t − V_con,t"),
+        ]),
+        (LARANJA, "#fdf0ea", 1.0, 17.1, "(b) YBS — consumo antes do extravasamento", [
+            ("Disponível", "D_t =", "V_res,t−1 + V_cap,t"),
+            ("Consumo", "V_con,t =", "min(D_pl,t ; D_t)"),
+            ("Extravasamento", "V_ext,t =", "max(0 ; D_t − V_con,t − V_max)"),
+            ("Remanescente", "V_res,t =", "min(D_t − V_con,t ; V_max)"),
+        ]),
+    ]
+    larguras = [22, 25, 28, 24]
+    for cor, fundo, y, y_rotulo, rotulo, passos in ramos:
+        p.nota(1, y_rotulo, rotulo, cor, 8.4)
+        x = 0.5
+        nomes = []
+        for k, ((nome, lado, expressao), w) in enumerate(zip(passos, larguras)):
+            chave = rotulo[1] + str(k)
+            p.caixa(chave, x, y, w, 12.5, nome + NL + lado + NL + expressao,
+                    cor=cor, fundo=fundo if k == 3 else "#ffffff", tamanho=7.2)
+            nomes.append(chave)
+            x += w + 2.2
+        for de, para in zip(nomes, nomes[1:]):
+            p.seta(de, "d", para, "e", cor=cor)
     p.salvar("fig00f_yas.png")
 
 
@@ -129,33 +122,25 @@ def desenho_indicadores():
     # verdade para os dois volumétricos e falso para o temporal: este não divide
     # litros, conta dias. A seção 2.3 define assim, e o desenho passa a dizer o
     # mesmo que ela.
-    p = Prancha(100, 62, tamanho=(7.4, 4.6))
-    p.titulo("Três indicadores: dois contam litros, um conta dias")
+    p = Prancha(100, 36, tamanho=(7.4, 2.7))
 
-    p.caixa("agua", 2, 48, 60, 9, "Água de chuva consumida, em litros",
+    p.caixa("agua", 2, 26, 60, 9, "Água pluvial consumida  Σ V_con,t",
             cor=AZUL, fundo="#eaf2fd", peso="bold")
-    p.caixa("pot", 2, 25, 28, 14,
-            "Potencial de economia" + NL + "÷ demanda TOTAL", cor=AZUL)
-    p.caixa("conf", 34, 25, 28, 14,
-            "Confiabilidade" + NL + "volumétrica" + NL + "÷ demanda PLUVIAL",
+    p.caixa("pot", 2, 2, 28, 15,
+            "Potencial de economia" + NL + "Epot = Σ V_con,t ÷ Σ D_t",
+            cor=AZUL)
+    p.caixa("conf", 34, 2, 28, 15,
+            "Confiabilidade volumétrica" + NL + "Rv = Σ V_con,t ÷ Σ D_pl,t",
             cor=VERDE)
     p.seta("agua", "be", "pot", "c", cor=AZUL)
     p.seta("agua", "bd", "conf", "c", cor=VERDE)
 
-    p.caixa("dias", 68, 48, 30, 9, "Cada dia da série",
+    p.caixa("dias", 68, 26, 30, 9, "Dias da série  N",
             cor=ROXO, fundo="#f1ecf8", peso="bold")
-    p.caixa("temp", 68, 25, 30, 14,
-            "Confiabilidade temporal" + NL + "% de dias plenos," + NL +
-            "parciais e nulos", cor=ROXO)
+    p.caixa("temp", 68, 2, 30, 15,
+            "Confiabilidade temporal" + NL + "dias plenos, parciais" + NL +
+            "e nulos ÷ N", cor=ROXO)
     p.seta("dias", "b", "temp", "c", cor=ROXO)
-
-    p.caixa("aviso", 2, 5, 96, 13,
-            "Os dois volumétricos têm o mesmo numerador e se ligam por uma "
-            "identidade exata: Epot = Rv × f," + NL +
-            "em que f é a fração atendível. A confiabilidade temporal fica fora "
-            "dessa conta: não mede volume," + NL +
-            "e responde com que frequência se pode contar com o sistema.",
-            cor=CINZA, fundo="#f4f3f0", tinta=TINTA2, tamanho=7.2)
 
     p.salvar("fig00g_indicadores.png")
 
@@ -165,44 +150,37 @@ def desenho_indicadores():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def desenho_fronteira():
-    p = Prancha(100, 66, tamanho=(7.4, 4.8))
-    p.titulo("Até onde vai a avaliação ambiental do programa, e onde ela para")
+    p = Prancha(100, 50, tamanho=(7.4, 3.7))
 
-    p.caixa("dentro", 1, 22, 66, 40, "", cor=VERDE, fundo="#f2fbf2",
+    p.caixa("dentro", 1, 2, 66, 40, "", cor=VERDE, fundo="#f2fbf2",
             tracejada=True)
-    p.nota(3, 61, "DENTRO da fronteira — o que o programa contabiliza", VERDE, 8.2)
+    p.nota(1, 49, "(a) Incluído na fronteira do sistema", VERDE, 8.4)
 
     # O que entra e o que fica de fora segue, item por item, as sete etapas e a
     # lista «O que a avaliação não cobre» da seção 2.8. A primeira versão tinha
     # «transporte», que o texto não menciona, e omitia os impactos além do
     # carbono, que o texto chama de a exclusão mais importante.
-    p.caixa("mat", 5, 45, 27, 10, "Reservatórios" + NL +
-            "e tubulação", cor=VERDE, tamanho=7.6)
-    p.caixa("bomba", 36, 45, 27, 10, "Fabricação" + NL + "da motobomba",
-            cor=VERDE, tamanho=7.6)
-    p.caixa("energia", 5, 27, 27, 10, "Bombeamento e" + NL +
-            "insumos de tratamento", cor=VERDE, tamanho=7.6)
-    p.caixa("evitada", 36, 27, 27, 10, "Água potável evitada" + NL +
-            "(o crédito)", cor=VERDE, tamanho=7.6)
+    p.caixa("mat", 5, 24, 27, 13, "Carbono incorporado" + NL +
+            "reservatórios e" + NL + "tubulação", cor=VERDE, tamanho=7.6)
+    p.caixa("bomba", 36, 24, 27, 13, "Carbono incorporado" + NL +
+            "motobomba", cor=VERDE, tamanho=7.6)
+    p.caixa("energia", 5, 6, 27, 13, "Emissão operacional" + NL +
+            "energia de recalque" + NL + "e insumos da ETAP", cor=VERDE,
+            tamanho=7.6)
+    p.caixa("evitada", 36, 6, 27, 13, "Crédito" + NL +
+            "água potável evitada", cor=VERDE, tamanho=7.6)
 
-    p.caixa("fora", 71, 22, 28, 40, "", cor=LARANJA, fundo="#fdf3ee",
+    p.caixa("fora", 71, 2, 28, 40, "", cor=LARANJA, fundo="#fdf3ee",
             tracejada=True)
-    p.nota(73, 61, "FORA — e declarado", LARANJA, 8.2)
-    p.caixa("obra", 74, 51.5, 22, 7.4, "Obra civil" + NL + "e escavação",
+    p.nota(71, 49, "(b) Excluído", LARANJA, 8.4)
+    p.caixa("obra", 74, 32, 22, 7.4, "Obra civil" + NL + "e escavação",
             cor=LARANJA, tamanho=7.2)
-    p.caixa("manut", 74, 42.5, 22, 7.4, "Manutenção e" + NL + "reposição",
+    p.caixa("manut", 74, 23, 22, 7.4, "Manutenção e" + NL + "reposição",
             cor=LARANJA, tamanho=7.2)
-    p.caixa("fim", 74, 33.5, 22, 7.4, "Fim de vida" + NL + "(reciclagem, descarte)",
+    p.caixa("fim", 74, 14, 22, 7.4, "Fim de vida" + NL + "(módulos C e D)",
             cor=LARANJA, tamanho=7.2)
-    p.caixa("impactos", 74, 24.5, 22, 7.4, "Impactos além" + NL + "do carbono",
+    p.caixa("impactos", 74, 5, 22, 7.4, "Categorias além do" + NL + "aquecimento global",
             cor=LARANJA, tamanho=7.2)
-
-    p.nota(1, 18,
-           "A avaliação é de TRIAGEM: compara alternativas entre si e não "
-           "substitui um inventário completo conforme a ISO 14040. Os itens de "
-           "fora são recorte declarado, e não esquecimento. O mais limitante é o "
-           "último: um sistema com bom desempenho de carbono pode ter desempenho "
-           "ruim em outra categoria de impacto, e esta avaliação não o veria.")
     p.salvar("fig00h_fronteira.png")
 
 

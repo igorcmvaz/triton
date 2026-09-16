@@ -177,16 +177,6 @@ def desenhar():
            "com separação atmosférica (NBR 15527, 4.4.8)", TINTA2, 7.0)
 
     # ── nota ─────────────────────────────────────────────────────────────────
-    ax.text(0, -4.5,
-            "A caixa elevada e a motobomba são opcionais: em edificação térrea a "
-            "bomba pode pressurizar os pontos de uso" + NL +
-            "diretamente. A cisterna pode ser enterrada, apoiada ou elevada, "
-            "conforme o terreno e o espaço disponível.",
-            ha="left", va="top", fontsize=7.2, color=TINTA2, linespacing=1.5)
-
-    ax.set_title("O sistema predial de aproveitamento de água pluvial, em corte",
-                 color=TINTA, fontsize=10.5, loc="left", pad=12)
-
     caminho = FIGURAS / "fig00d_corte.png"
     fig.savefig(caminho, dpi=170, bbox_inches="tight", facecolor=SUPERFICIE)
     plt.close(fig)

@@ -13,7 +13,7 @@
 | relatório | HTML, PDF | resultado completo e premissas | entregar |
 | planilha | XLSX | série diária e varredura | reanalisar |
 | desenho | DXF | esquema hidráulico dimensionado | projeto executivo |
-| modelo | IFC | componentes com propriedades | compatibilização BIM |
+| manifesto BIM | JSON | componentes com tipo, posição, nível e parâmetros | importação no Revit |
 
 ---
 
@@ -63,13 +63,13 @@ O que o programa **não** dimensiona:
 
 ---
 
-## Modelo em IFC
+## Biblioteca de blocos e manifesto BIM
 
-Para compatibilização com o modelo BIM da edificação. Os componentes saem com
-propriedades: volume, material, e os parâmetros do dimensionamento.
+Na etapa **10. Exportação**, o modo *Biblioteca de Blocos para Plantas + BIM JSON* grava os blocos DXF dos componentes em escala 1:1, em milímetros, e, ao lado deles, o arquivo `*_netuno-bim.json`. O programa não exporta IFC. O manifesto JSON é o contrato entre o dimensionamento e o modelo: cada instância declara o tipo do componente, o nível, a posição local em milímetros, a rotação e os parâmetros dimensionados, como a capacidade e o diâmetro, e a estrutura é validada antes da gravação.
 
-Vale para coordenação e para quantitativos. Não substitui a modelagem da instalação
-hidráulica, que é do projetista.
+A integração com o Autodesk Revit é feita por um importador distribuído com o programa, executado no motor CPython 3 do pyRevit, com um documento aberto no Revit 2022 ou posterior, e insere as instâncias do manifesto usando as famílias indicadas em `family_mapping.json`, que associa cada tipo do programa — cisterna, reservatório superior, filtro, descarte inicial, motobomba, registros, válvula de retenção, separação atmosférica, extravasor e ponto de consumo não potável — a uma família e a um tipo do escritório.
+
+O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
 
 ---
 

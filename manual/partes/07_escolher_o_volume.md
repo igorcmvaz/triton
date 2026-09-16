@@ -41,9 +41,11 @@ sem sistema, contra o qual todos os demais se comparam.
 
 <!-- inclui: _tabelas/cap07_varredura.md -->
 
+A {{fig:fig02_curva_de_retorno}} traça os resultados da tabela: o potencial de economia converge para a fração atendível, e o ganho marginal decresce em três ordens de grandeza ao longo da varredura.
+
 ![Curva de potencial e curva de ganho marginal](../figuras/fig02_curva_de_retorno.png)
 
-*Figura 2 — Em cima, o potencial se aproximando do teto de 40% e nunca o cruzando. Embaixo, o ganho marginal em escala logarítmica: três ordens de grandeza entre o primeiro metro cúbico e o vigésimo.*
+*Figura 99 — (a) Potencial de economia em função do volume do reservatório, que se aproxima do teto de 40% sem cruzá-lo, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial.*
 
 A coluna decisiva da tabela é a de **ganho por metro cúbico acrescentado**, que é a
 derivada discreta da curva de potencial e expressa quanto cada metro cúbico adicional de
@@ -78,9 +80,7 @@ sistema dele se aproxima, de modo que o espaço restante para ganho vai se esgot
 ### Os quatro gráficos que a tela mostra
 
 A varredura não devolve apenas a curva de potencial. A aba de resultados traz quatro
-gráficos que respondem a perguntas diferentes sobre o mesmo conjunto de simulações, e as
-figuras a seguir são exatamente esses gráficos, gerados pelo programa com os dados deste
-tutorial.
+gráficos que respondem a perguntas diferentes sobre o mesmo conjunto de simulações, reproduzidos a seguir com os dados deste tutorial: o potencial de economia ({{fig:fig10_programa_potencial}}), o ganho marginal ({{fig:fig11_programa_delta}}), os volumes extravasado e consumido ({{fig:fig12_programa_extravasamento}}) e a classificação dos dias ({{fig:fig13_programa_dias}}).
 
 ![O potencial de economia contra o volume, na tela do programa](../figuras/fig10_programa_potencial.png)
 
@@ -169,11 +169,11 @@ para chegar a um volume de compromisso que se possa defender.
 
 ---
 
-A varredura traz ainda uma leitura que a tabela não mostra bem: quanto do reservatório fica de fato ocupado. Um reservatório de vinte metros cúbicos não guarda vinte metros cúbicos em média; guarda uma fração deles, e essa fração cai à medida que a capacidade cresce.
+A varredura traz ainda uma leitura que nem a tabela nem as médias mostram: por quanto tempo o reservatório permanece vazio, em nível intermediário ou cheio. A {{fig:fig47_permanencia}} apresenta a curva de permanência do nível ao fim de cada dia, já descontado o consumo, e a fração de dias em que o reservatório termina o dia vazio ou cheio. A cisterna de 2 m³ termina vazia em cerca de um quarto dos dias e nunca chega cheia ao fim do dia, porque o consumo do próprio dia a esvazia em parte. A de 20 m³ quase nunca esvazia, mas permanece acima de 80% da capacidade em quatro quintos do tempo: os 16 m³ inferiores só são mobilizados em cerca de um quinto dos dias, e é essa capacidade raramente utilizada que o investimento adicional compra.
 
-![O volume médio armazenado contra o volume do reservatório](../figuras/fig47_programa_armazenado.png)
+![A permanência do nível do reservatório](../figuras/fig47_permanencia.png)
 
-*Figura 99 — O quinto gráfico da aba de resultados: o volume médio efetivamente armazenado em função da capacidade instalada. A distância crescente entre as duas curvas é a capacidade que se compra e não se usa, e é a leitura mais direta do retorno decrescente. Figura gerada pelo próprio programa.*
+*Figura 99 — Permanência do nível do reservatório inferior no projeto do tutorial, com o nível medido ao fim de cada dia, após o consumo: (a) curvas de permanência para 2, 5, 10 e 20 m³; (b) fração dos dias da série com reservatório vazio (até 5% da capacidade), em nível intermediário e cheio (a partir de 95%), de 1 a 20 m³.*
 
 ---
 ## Duas leituras a mais da tabela

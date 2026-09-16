@@ -57,15 +57,11 @@ def info_per_capita():
 
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.6)
-    _eixos(ax, "O consumo per capita de referência, por tipologia", "", "")
-    ax.set_xlabel("litros por unidade de ocupação, por dia", color=TINTA2,
-                  fontsize=9)
-    ax.set_xlim(0, 780)
-    ax.text(0.99, 0.06,
-            "A indústria não aparece: o consumo depende do processo, e não da\n"
-            "ocupação. Nesse caso o valor tem de vir de medição.",
-            transform=ax.transAxes, ha="right", fontsize=8.0, color=TINTA2,
-            linespacing=1.4)
+    _eixos(ax, "", "", "")
+    ax.set_xlabel("consumo per capita de referência (L por unidade de "
+                  "ocupação por dia)", color=TINTA2, fontsize=9)
+    ax.set_xlim(0, 800)
+    ax.set_xticks(range(0, 601, 100))
 
     fig.tight_layout()
     _gravar(fig, "fig38_per_capita.png")
@@ -76,9 +72,9 @@ def info_per_capita():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_tipologias():
-    fig, ax = _tela(100, 46, (7.4, 3.6),
-                    "Cada tipologia, a categoria que a concessionária cobra e a "
-                    "unidade de consumo")
+    # Mais alta que a primeira versão: as linhas de cada grupo tinham 6,6
+    # unidades para dois rótulos e se encostavam no título do grupo.
+    fig, ax = _tela(100, 46, (7.4, 3.6), "")
     grupos = [
         ("RESIDENCIAL", AZUL, [
             ("unifamiliar", "L/hab·dia"),
@@ -101,35 +97,29 @@ def info_tipologias():
     for rotulo, cor, linhas in grupos:
         largura = 23.5
         ax.add_patch(FancyBboxPatch(
-            (x, 12), largura, 30, boxstyle="round,pad=0.0,rounding_size=1.0",
+            (x, 1), largura, 44, boxstyle="round,pad=0.0,rounding_size=1.0",
             linewidth=1.4, edgecolor=cor, facecolor=CLARO[cor], zorder=3))
-        _confinar(ax.text(x + largura / 2.0, 38.5, rotulo, ha="center",
+        _confinar(ax.text(x + largura / 2.0, 41.6, rotulo, ha="center",
                           va="center", fontsize=8.4, color=cor,
                           fontweight="bold", zorder=5),
-                  (x, 36.6, x + largura, 40.5))
-        ax.text(x + largura / 2.0, 35.2, "categoria tarifária", ha="center",
-                va="center", fontsize=6.6, color=TINTA2, zorder=5)
+                  (x, 39.4, x + largura, 44.2))
+        ax.text(x + largura / 2.0, 37.6, "categoria tarifária", ha="center",
+                va="center", fontsize=6.8, color=TINTA2, zorder=5)
         for i, (nome, unidade) in enumerate(linhas):
-            yy = 28.0 - i * 7.6
+            yy = 25.0 - i * 11.0
             ax.add_patch(FancyBboxPatch(
-                (x + 1.5, yy), largura - 3, 6.6,
+                (x + 1.5, yy), largura - 3, 9.0,
                 boxstyle="round,pad=0.0,rounding_size=0.6", linewidth=1.0,
                 edgecolor=cor, facecolor="#ffffff", zorder=4))
-            _confinar(ax.text(x + largura / 2.0, yy + 4.4, nome,
-                              ha="center", va="center", fontsize=7.2,
+            _confinar(ax.text(x + largura / 2.0, yy + 6.0, nome,
+                              ha="center", va="center", fontsize=7.4,
                               color=TINTA, zorder=5),
-                      (x + 1.5, yy + 3.0, x + largura - 1.5, yy + 6.6))
-            _confinar(ax.text(x + largura / 2.0, yy + 1.9, unidade,
-                              ha="center", va="center", fontsize=6.8,
+                      (x + 1.5, yy + 4.5, x + largura - 1.5, yy + 9.0))
+            _confinar(ax.text(x + largura / 2.0, yy + 2.4, unidade,
+                              ha="center", va="center", fontsize=7.0,
                               color=cor, zorder=5),
-                      (x + 1.5, yy, x + largura - 1.5, yy + 3.2))
+                      (x + 1.5, yy, x + largura - 1.5, yy + 4.5))
         x += largura + 1.5
-    ax.text(0, 9.0,
-            "A unidade de consumo muda com a tipologia, e com ela muda o "
-            "significado do per capita informado. Simular uma escola" + NL +
-            "com tarifa residencial é o quinto dos dez enganos, porque a "
-            "categoria decide a estrutura de faixas da conta.",
-            fontsize=7.2, color=TINTA2, va="top", linespacing=1.45)
     _gravar(fig, "fig39_tipologias.png")
 
 
@@ -178,15 +168,13 @@ def info_premissas():
     ax.set_facecolor(SUPERFICIE)
 
     itens = [
-        ("investimento", 15, 30, "dispersão de orçamento é notória", LARANJA),
-        ("demanda, de referência", 15, 25, "a dispersão da literatura é grande",
-         LARANJA),
-        ("chuva", 10, 20, "variabilidade entre anos", AZUL),
-        ("demanda, se medida", 5, 10, "variação real entre meses", VERDE),
-        ("reajuste da tarifa", 3, 7, "depende da concessionária e do período",
+        ("investimento (CAPEX)", 15, 30, "dispersão entre orçamentos", LARANJA),
+        ("demanda de referência", 15, 25, "dispersão na literatura", LARANJA),
+        ("precipitação", 10, 20, "variabilidade interanual", AZUL),
+        ("demanda medida", 5, 10, "variação sazonal medida", VERDE),
+        ("reajuste tarifário (% a.a.)", 3, 7, "histórico da concessionária",
          ROXO),
-        ("área de captação", 2, 5, "é medida em projeto; o erro é de leitura",
-         VERDE),
+        ("área de captação", 2, 5, "erro de levantamento", VERDE),
     ]
     y = np.arange(len(itens))[::-1]
     for i, (nome, a, b, porque, cor) in enumerate(itens):
@@ -200,16 +188,19 @@ def info_premissas():
 
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.4)
-    _eixos(ax, "Quanto vale a pena variar cada premissa, e por quê", "", "")
+    _eixos(ax, "", "", "")
     ax.set_xlabel("variação plausível em torno do valor adotado (%)",
                   color=TINTA2, fontsize=9)
-    ax.set_xlim(0, 86)
+    ax.set_xlim(0, 70)
     ax.set_xticks([0, 10, 20, 30])
-    ax.set_ylim(-1.1, len(itens) - 0.4)
-    ax.text(78, -1.0,
-            "O reajuste da tarifa é ao ano; os demais são sobre o valor "
-            "adotado.",
-            ha="right", va="bottom", fontsize=7.8, color=TINTA2)
+    ax.set_ylim(-0.6, len(itens) - 0.4)
+    # A régua vai só até 30%: à direita dela fica a coluna da origem da
+    # incerteza, e não uma escala.
+    ax.spines["bottom"].set_bounds(0, 30)
+    ax.grid(axis="x", visible=False)
+    for v in (10, 20, 30):
+        ax.plot([v, v], [-0.6, len(itens) - 0.4], color=GRADE, linewidth=0.7,
+                zorder=0)
 
     fig.tight_layout()
     _gravar(fig, "fig41_premissas.png")
@@ -267,21 +258,14 @@ def info_uf():
 
     ax.set_xticks(x)
     ax.set_xticklabels(nomes, fontsize=7.6)
-    _eixos(ax, f"Os {sum(quantos)} municípios do catálogo, por unidade da federação", "",
-           "municípios")
-    ax.set_ylim(0, 155)
+    _eixos(ax, "", "", "número de municípios")
+    ax.set_ylim(0, 160)
+    ax.set_yticks(range(0, 161, 20))
 
     from matplotlib.patches import Patch
     ax.legend(handles=[Patch(facecolor=COR_REGIAO[r], label=r)
                        for r in REGIAO],
-              frameon=False, fontsize=8.0, loc="upper right", ncol=2)
-    ax.text(0.99, 0.56,
-            "A cobertura acompanha a população, e não o território: as "
-            "capitais e as\nregiões metropolitanas estão quase todas "
-            "cadastradas, e o interior do\nNorte e do Centro-Oeste é onde "
-            "mais falta município.",
-            transform=ax.transAxes, ha="right", va="top", fontsize=7.8,
-            color=TINTA2, linespacing=1.4)
+              frameon=False, fontsize=8.0, loc="upper right", ncol=1)
 
     fig.tight_layout()
     _gravar(fig, "fig42_uf.png")
@@ -313,8 +297,7 @@ def info_perdas():
 
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.8)
-    _eixos(ax, "De cada metro cúbico produzido, quanto chega à edificação", "",
-           "")
+    _eixos(ax, "", "", "")
     ax.set_xlabel("% do volume produzido", color=TINTA2, fontsize=9)
     ax.set_xlim(0, 100)
     ax.grid(axis="y", visible=False)
@@ -358,16 +341,10 @@ def info_cenarios():
     ax.axhline(0.0, color=TINTA2, linewidth=1.0, zorder=2)
     ax.text(2021, 2.0, "emissões líquidas nulas", fontsize=7.6, color=TINTA2)
 
-    _eixos(ax, "As três trajetórias de emissão disponíveis na base", "",
-           "emissões globais (esquemático)")
+    _eixos(ax, "", "", "emissões globais de CO₂ (esquemático)")
     ax.set_xlim(2020, 2115)
+    ax.set_xticks(range(2020, 2101, 20))
     ax.set_yticks([])
-    ax.text(0.01, 0.96,
-            "A figura mostra a forma de cada trajetória, e não valores: os "
-            "cenários não são previsões,\ne sim hipóteses coerentes sobre o "
-            "comportamento socioeconômico global.",
-            transform=ax.transAxes, ha="left", va="top", fontsize=7.8,
-            color=TINTA2, linespacing=1.4)
 
     fig.tight_layout()
     _gravar(fig, "fig44_cenarios.png")
@@ -377,42 +354,43 @@ def info_cenarios():
 # As cinco famílias da suíte de verificação
 # ══════════════════════════════════════════════════════════════════════════════
 
+#: Coleta do pytest nesta versão (pytest --collect-only), por pasta de tests/.
+#: Atualizar junto com a seção de verificação quando a suíte mudar.
+SUITE = [
+    ("unitários", "unit", 69, 804, VERDE),
+    ("invariantes", "invariants", 11, 194, AZUL),
+    ("integração", "integration", 8, 49, AZUL),
+    ("interface gráfica", "ui", 4, 8, ROXO),
+    ("replicação do Netuno 4", "benchmarking", 1, 2, LARANJA),
+]
+
+
 def info_suite():
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
+    fig, ax = plt.subplots(figsize=(7.2, 3.2))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
-    itens = [
-        ("unitários", 63, "o comportamento de cada módulo isolado", VERDE),
-        ("invariantes", 11, "propriedades que não podem ser violadas", AZUL),
-        ("integração", 8, "o percurso da informação entre módulos", AZUL),
-        ("interface", 4, "que o controle da tela chega ao cálculo", ROXO),
-        ("desempenho", 4, "que o núcleo compilado não regride", LARANJA),
-    ]
-    y = np.arange(len(itens))[::-1]
-    for i, (nome, n, o_que, cor) in enumerate(itens):
-        ax.barh(y[i], n, height=0.55, color=cor, zorder=3)
-        # A contagem entra dentro da barra quando ela é longa: fora dela, a
-        # barra dos unitários empurrava o rótulo para cima da descrição.
-        if n >= 20:
-            ax.text(n / 2.0, y[i], f"{n} arquivos", va="center", ha="center",
+    y = np.arange(len(SUITE))[::-1]
+    for i, (nome, pasta, arquivos, testes, cor) in enumerate(SUITE):
+        ax.barh(y[i], testes, height=0.55, color=cor, zorder=3)
+        rotulo = (f"{testes:,}".replace(",", ".") + " testes · "
+                  + f"{arquivos} arquivo" + ("s" if arquivos > 1 else ""))
+        # A barra longa leva o rótulo por dentro; as curtas, por fora.
+        if testes > 500:
+            ax.text(testes - 12, y[i], rotulo, va="center", ha="right",
                     fontsize=8.2, color="#ffffff")
         else:
-            ax.text(n + 1.5, y[i], f"{n} arquivos", va="center", fontsize=8.2,
+            ax.text(testes + 12, y[i], rotulo, va="center", fontsize=8.2,
                     color=TINTA)
-        # A descrição começa numa coluna fixa, depois do maior rótulo de
-        # contagem: acompanhando a barra, ela batia no próprio número.
-        ax.text(74, y[i], o_que, va="center", fontsize=7.4, color=TINTA2)
 
     ax.set_yticks(y)
-    ax.set_yticklabels([t[0] for t in itens], fontsize=8.8)
-    _eixos(ax, "As cinco famílias da suíte de verificação", "",
-           "")
-    ax.set_xlabel("arquivos de teste", color=TINTA2, fontsize=9)
-    # A prancha vai além da maior barra: as descrições ficam à direita delas,
-    # e um limite justo empurrava a primeira para fora do desenho.
-    ax.set_xlim(0, 132)
-    ax.set_xticks([0, 20, 40, 60])
+    ax.set_yticklabels([f"{nome}  (tests/{pasta})" for nome, pasta, *_ in SUITE],
+                       fontsize=8.2)
+    _eixos(ax, "", "", "")
+    ax.set_xlabel("casos de teste coletados", color=TINTA2, fontsize=9)
+    ax.set_xlim(0, 1100)
+    ax.set_xticks(range(0, 1001, 200))
+    ax.set_xticklabels([f"{v:,}".replace(",", ".") for v in range(0, 1001, 200)])
     ax.grid(axis="y", visible=False)
 
     fig.tight_layout()
@@ -443,8 +421,7 @@ def info_atendivel():
 
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.0)
-    _eixos(ax, "Que parte do consumo a chuva pode atender, conforme os usos "
-                "previstos", "", "")
+    _eixos(ax, "", "", "")
     ax.set_xlabel("fração da demanda total atendível por água pluvial (%)",
                   color=TINTA2, fontsize=9)
     ax.set_xlim(0, 100)

@@ -40,8 +40,7 @@ implicar refazer trabalho.
 A resposta define a **fração atendível**, e a fração atendível é o teto de todo o resto:
 um sistema cuja fração é de 40% jamais economizará mais que 40% do consumo total, por
 maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de projeto
-altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra
-coisa.
+altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra coisa. A {{fig:fig46_atendivel}} reúne as faixas usuais da fração atendível conforme os usos previstos.
 
 ![A fração atendível conforme os usos previstos](../figuras/fig46_atendivel.png)
 
@@ -87,8 +86,7 @@ pressão exigida nos pontos de consumo.
 ## A ordem de trabalho no programa
 
 A barra lateral do programa está numerada, e a numeração corresponde à ordem em que se
-trabalha. As quatro primeiras etapas são de entrada de dados, as cinco seguintes
-apresentam resultados, e as três últimas reúnem ferramentas auxiliares.
+trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguintes apresentam resultados, e as quatro últimas produzem saídas ou dão apoio ao estudo ({{fig:fig28_etapas}}).
 
 ![As doze etapas do programa, na ordem de trabalho](../figuras/fig28_etapas.png)
 

@@ -9,11 +9,11 @@ dado que mais frequentemente aparece errado nos estudos publicados sobre o tema.
 
 ---
 
-## Como funciona a conta de água no Brasil
+## Como é composta a fatura de água e esgoto no Brasil
 
 Antes de conferir a tarifa do município, convém entender o que se está conferindo. A
 fatura de água no Brasil não é o produto do consumo por um preço único, e cinco
-características a distinguem da conta de energia, que é a referência mais familiar para
+características a distinguem da fatura de energia elétrica, que é a referência mais familiar para
 a maioria dos leitores.
 
 **A prestação é local, e o preço também.** Cada município é atendido por uma companhia
@@ -27,7 +27,7 @@ qualquer quantidade: o consumo é dividido em faixas, e cada faixa tem preço pr
 crescente. Na tabela da CASAN vigente em Florianópolis, os primeiros dez metros cúbicos
 custam R$ 3,08 cada e os quinze seguintes custam R$ 14,31 cada. ==A progressividade é o
 que torna a economia de água mais valiosa do que parece:== o metro cúbico que se deixa de
-consumir é sempre o último da conta, que é o mais caro.
+consumir é sempre o da faixa mais alta da fatura, que é o mais caro.
 
 **Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
 mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
@@ -87,12 +87,12 @@ estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o 
 cada linha.
 
 <!-- tabela: Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
-| Código | O que é | Como entra na conta |
+| Código | O que é | Como entra na fatura |
 | ---: | :--- | :--- |
-| 1 ou 0 | faixa progressiva | cobra o valor por m³ **só** do volume dentro da faixa |
-| −1 | custo de disponibilidade | valor fixo que **soma** por cima do consumo |
+| 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
+| −1 | tarifa de disponibilidade | valor fixo **somado** à parcela de consumo |
 | −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
-| −3 | piso de pagamento | a conta **não desce** abaixo deste valor |
+| −3 | piso de pagamento | a fatura **não fica** abaixo deste valor |
 
 A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
 disponibilidade e quatro faixas progressivas.
@@ -119,7 +119,7 @@ coisas **diferentes** em cada um. O programa distingue cinco regimes:
 | **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 156 |
 | **franquia no mínimo** | abaixo da franquia, economizar **não desconta nada** | 329 |
 | **franquia retroativa** | passando da franquia, tarifa-se tudo desde zero | 2 |
-| **piso de pagamento** | a conta não desce abaixo do piso | 0 |
+| **piso de pagamento** | a fatura não fica abaixo do piso | 0 |
 
 **O caso que derruba estudo.** Compare duas estruturas reais da base, lado a lado,
 para o mesmo consumo:
@@ -133,7 +133,7 @@ para o mesmo consumo:
 | 8 m³ | **R$ 52,89** | R$ 70,98 |
 | 5 m³ | **R$ 52,89** | R$ 61,74 |
 
-Em Floriano, a conta **para de cair em 10 m³**. Uma residência que consome 12 m³ e
+Em Floriano, a fatura **para de cair em 10 m³**. Uma residência que consome 12 m³ e
 instala um sistema que poupa 4 desce para 8, e economiza R$ 19,63 — não os R$ 30
 que a tarifa média sugeriria. Se poupasse 7, desceria para 5 e economizaria os
 **mesmos** R$ 19,63: os três metros cúbicos adicionais não valem nada.
@@ -144,13 +144,13 @@ Em Florianópolis, cada metro cúbico desconta até o primeiro.
 > não existe. Trezentos e vinte e nove dos 652 municípios da base estão no regime de
 > franquia. É a maioria, e é o cenário mais comum do país.
 
-A figura abaixo mostra as três respostas lado a lado. O que distingue os regimes não é
+A {{fig:fig05_regimes}} mostra as três respostas lado a lado. O que distingue os regimes não é
 o preço praticado, e sim o formato da curva: ==onde a curva é horizontal, economizar água
 não reduz a fatura em nada.==
 
-![A conta de água contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
+![A fatura de água e esgoto contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
 
-*Figura 5 — Em regime de disponibilidade e sem mínimo, cada metro cúbico economizado desce a conta desde o primeiro. Em regime de franquia, o trecho horizontal marca a faixa de consumo em que a economia de água não produz economia alguma de dinheiro.*
+*Figura 99 — Fatura mensal de água e esgoto em função do consumo, em três regimes de valor mínimo. Na tarifa de disponibilidade e sem valor mínimo, cada metro cúbico economizado reduz a fatura desde o primeiro; na franquia no mínimo, o trecho horizontal marca a faixa de consumo em que a economia de água não reduz a fatura.*
 
 ---
 
@@ -189,9 +189,9 @@ Em ordem de confiabilidade:
 1. **Resolução tarifária** da agência reguladora estadual ou municipal. É o documento
    oficial, e traz a data de vigência.
 2. **Tabela publicada pela concessionária**, geralmente em «tarifas» no sítio.
-3. **Simulador de conta** da concessionária, quando existir. Bom para conferir:
+3. **Simulador de fatura** da concessionária, quando existir. Bom para conferir:
    simule dois consumos e veja se a sua tabela reproduz os dois valores.
-4. **Conta de água real**, do próprio imóvel. É a melhor evidência, e permite
+4. **Fatura de água e esgoto real**, do próprio imóvel. É a melhor evidência, e permite
    conferir a estrutura inteira.
 
 > **Sempre registre a data de vigência e a fonte.** Um estudo que não diz de quando
@@ -202,7 +202,7 @@ Em ordem de confiabilidade:
 ## Confira antes de confiar
 
 Depois de montar a tabela, faça o teste que o item {{n:16.6}} sugere: simule dois
-consumos, um dentro e um fora da faixa mínima, e compare com a conta real ou com o
+consumos, um dentro e um fora da faixa mínima, e compare com a fatura real ou com o
 simulador da concessionária.
 
 Se os dois baterem, a estrutura está certa. Se só um bater, o regime de mínimo está

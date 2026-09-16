@@ -164,10 +164,7 @@ SI = ( 1 ÷ R ) × Σ | X_m − R ÷ 12 |
 | `\| \|` | valor absoluto da diferença | — |
 
 O índice da Equação {{eq:sazonalidade}} vale zero quando todos os meses recebem a mesma
-lâmina e tende a 1,83 quando toda a chuva do ano cai num único mês. Entre esses extremos,
-a leitura usual classifica valores abaixo de 0,40 como regime equatorial, de 0,40 a 0,79
-como estações úmida e seca pouco marcadas, e acima de 1,20 como regime de estação seca
-longa.
+lâmina e tende a 1,83 quando toda a chuva do ano cai num único mês. Entre esses extremos, Walsh e Lawler (1981) classificam o regime em muito uniforme (abaixo de 0,20), uniforme com estação úmida definida (0,20 a 0,39), sazonal com estação seca curta (0,40 a 0,59), sazonal (0,60 a 0,79), marcadamente sazonal com estação seca longa (0,80 a 0,99), com a maior parte da chuva em até três meses (1,00 a 1,19) e extremo (1,20 ou mais).
 
 O índice de sazonalidade é o que mais importa ao aproveitamento pluvial, e a seção
 {{n:14}} mostra por quê: é a distribuição da chuva ao longo do ano, e não o total
@@ -175,22 +172,21 @@ precipitado, que decide o rendimento do sistema.
 
 ---
 
-Os nove índices ficam abstratos enquanto permanecem em forma de tabela. Postos sobre
+Os nove índices ficam abstratos enquanto permanecem em forma de tabela, e a {{fig:fig16_indices}} os posiciona sobre um ano da série. Postos sobre
 um ano real de série, cada um passa a apontar um trecho identificável do registro: o dia
 mais intenso, os dias acima do limiar, a maior estiagem, o total acumulado.
 
 ![Os índices marcados sobre um ano de série](../figuras/fig16_indices.png)
 
-*Figura 33 — Quatro dos nove índices marcados sobre o ano de 1995 em Florianópolis. A faixa sombreada é a maior sequência de dias secos do ano; os pontos na base marcam os dias com 20 mm ou mais; a seta aponta o maior dia.*
+*Figura 99 — Quatro dos nove índices marcados sobre o ano de 1995 em Florianópolis: PRCPTOT e SDII, no alto; RX1day, o maior valor diário do ano; CDD, a maior sequência de dias secos, na faixa sombreada; e R20mm, os dias com 20 mm ou mais, marcados na base.*
 
 A sazonalidade é o índice que menos se parece com os demais, porque não descreve
 intensidade nem frequência: descreve o quanto a chuva do ano se concentra em parte dele.
-É também o índice que mais separa as capitais brasileiras entre si, e o que melhor
-prevê se um reservatório precisará atravessar uma estiagem longa.
+É também o índice que mais separa as capitais brasileiras entre si, e o que melhor prevê se um reservatório precisará atravessar uma estiagem longa ({{fig:fig17_sazonalidade}}).
 
 ![O índice de sazonalidade nas quatro capitais](../figuras/fig17_sazonalidade.png)
 
-*Figura 34 — O índice de sazonalidade de Walsh e Lawler nas quatro capitais do guia, com as faixas de classificação ao fundo e a lâmina anual escrita dentro de cada barra. Chover muito e chover o ano inteiro são propriedades independentes.*
+*Figura 99 — Índice de sazonalidade de Walsh e Lawler (1981) nas quatro capitais do guia, com as classes do índice ao fundo e a precipitação média anual sob o nome de cada cidade. Precipitação anual elevada e distribuição uniforme ao longo do ano são propriedades independentes.*
 
 ---
 
@@ -223,14 +219,16 @@ primeiros dias do ano.
 
 ---
 
+A aba de índices do programa apresenta cada indicador ano a ano: a precipitação total anual ({{fig:fig53_programa_prcptot}}) e as maiores sequências de dias secos e chuvosos ({{fig:fig54_programa_cdd_cwd}}).
+
 ![A precipitação total anual, ano a ano, na tela do programa](../figuras/fig53_programa_prcptot.png)
 
-*Figura 99 — A aba de índices traz a série de cada indicador ano a ano. Aqui, a precipitação total anual da série de Florianópolis, com a média do período em linha tracejada. Figura gerada pelo próprio programa.*
+*Figura 99 — Precipitação total anual (PRCPTOT) da série de Florianópolis, com a média do período em linha tracejada, na aba de índices. Figura gerada pelo próprio programa.*
 
 ---
 ![As estiagens e as sequências chuvosas, ano a ano](../figuras/fig54_programa_cdd_cwd.png)
 
-*Figura 99 — O mesmo tratamento aplicado à maior estiagem e à maior sequência chuvosa de cada ano. São os dois índices que mais dizem sobre o tamanho de reservatório que a cidade exige. Figura gerada pelo próprio programa.*
+*Figura 99 — Maior sequência anual de dias secos (CDD) e de dias chuvosos (CWD) da série de Florianópolis, na aba de índices. São os dois índices mais diretamente ligados ao volume de reservatório que o regime de chuva exige. Figura gerada pelo próprio programa.*
 
 ---
 ## Para que servem no estudo

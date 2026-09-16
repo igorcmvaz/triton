@@ -697,7 +697,8 @@ class TOPSISComparisonChart(NetunoBaseChart):
             val_fmt = lambda s: f"{s:.2f}"
             annot_best_label = tr("Ótimo TOPSIS")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.2f})"
-            max_y = 1.30
+            # O escore vai de 0 a 1; a folga até 1,2 abriga a anotação do ótimo.
+            max_y = 1.20
 
         if n_bars <= 15:
             # Gráfico de barras discreto para poucas alternativas
@@ -749,6 +750,11 @@ class TOPSISComparisonChart(NetunoBaseChart):
             )
 
         ax.set_ylim(0, max_y)
+        if n_bars > 15:
+            ax.set_xlim(0.0, _upper_multiple(vols, 1000.0))
+        if not is_smaa:
+            import matplotlib.ticker as ticker
+            ax.yaxis.set_major_locator(ticker.MultipleLocator(0.2))
         if is_smaa:
             import matplotlib.ticker as ticker
             step_ticks = 20.0 if max_y >= 40.0 else 10.0
@@ -1270,7 +1276,13 @@ class PrcptotAnnualChart(NetunoBaseChart):
         ax.set_ylabel(tr("Precipitação Anual (mm)"), color=text_color, fontsize=8, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=7.5)
         ax.grid(True, axis='y', linestyle=':', alpha=0.6, color=grid_color)
-        ax.legend(fontsize=7.5, loc='upper right', facecolor=bg_color, edgecolor=grid_color, labelcolor=text_color)
+        # O eixo começa em zero e termina num múltiplo de 500 mm, e a legenda
+        # fica acima da área do gráfico: dentro dela cobria as barras mais altas.
+        from matplotlib.ticker import MultipleLocator
+        ax.set_ylim(0.0, _upper_multiple([float(v) * 1.04 for v in prcp], 500.0))
+        ax.yaxis.set_major_locator(MultipleLocator(500.0))
+        ax.legend(fontsize=7.5, loc='lower right', bbox_to_anchor=(1.0, 1.0), ncol=2,
+                  frameon=False, labelcolor=text_color)
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)
@@ -1373,7 +1385,15 @@ class CddCwdAnnualChart(NetunoBaseChart):
         ax.set_ylabel(tr("Duração Contínua (Dias)"), color=text_color, fontsize=8, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=7.5)
         ax.grid(True, linestyle=':', alpha=0.6, color=grid_color)
-        ax.legend(fontsize=7.5, loc='upper right', facecolor=bg_color, edgecolor=grid_color, labelcolor=text_color)
+        # O eixo começa em zero e termina num múltiplo de 2,5 dias; acima de
+        # 30 dias as marcas passam a 5, que continua múltiplo de 2,5. A legenda
+        # fica acima do gráfico, fora das linhas.
+        from matplotlib.ticker import MultipleLocator
+        teto = _upper_multiple([float(v) * 1.04 for v in list(cdd) + list(cwd)], 2.5)
+        ax.set_ylim(0.0, teto)
+        ax.yaxis.set_major_locator(MultipleLocator(2.5 if teto <= 30.0 else 5.0))
+        ax.legend(fontsize=7.5, loc='lower right', bbox_to_anchor=(1.0, 1.0), ncol=2,
+                  frameon=False, labelcolor=text_color)
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)

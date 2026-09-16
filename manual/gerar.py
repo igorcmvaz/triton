@@ -225,14 +225,44 @@ def numerar_titulos(texto, capitulo, secao):
 
 
 def numerar_figuras(corpo):
-    """Renumera as legendas na ordem em que o leitor as encontra."""
+    """Renumera as legendas na ordem de leitura e resolve as chamadas no texto.
+
+    A seção chama a figura por `{{fig:nome}}`, em que `nome` é o arquivo da imagem
+    sem extensão (por exemplo `{{fig:fig00f_yas}}`), e a marca vira «Figura N».
+    Toda figura precisa ser chamada no texto, como a ABNT pede: uma chamada a
+    figura inexistente interrompe a montagem, e uma figura sem chamada é listada.
+    """
     contador = [0]
 
     def proxima(m):
         contador[0] += 1
         return "*Figura " + str(contador[0]) + " —"
 
-    return re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
+    corpo = re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
+
+    numeros = {}
+    imagem = None
+    for linha in corpo.split(NL):
+        m = re.match(r"^!\[[^\]]*\]\((?:\.\./)?figuras/([^)]+?)\.png\)", linha.strip())
+        if m:
+            imagem = m.group(1)
+            continue
+        m = re.match(r"^\*Figura (\d+) —", linha)
+        if m and imagem:
+            numeros.setdefault(imagem, int(m.group(1)))
+            imagem = None
+
+    chamadas = set(re.findall(r"\{\{fig:([^}]+)\}\}", corpo))
+    inexistentes = sorted(c for c in chamadas if c.strip() not in numeros)
+    if inexistentes:
+        raise SystemExit("chamada a figura inexistente: " + ", ".join(inexistentes))
+    corpo = re.sub(r"\{\{fig:([^}]+)\}\}",
+                   lambda m: "Figura " + str(numeros[m.group(1).strip()]), corpo)
+    sem_chamada = sorted((n, nome) for nome, n in numeros.items() if nome not in chamadas)
+    if sem_chamada:
+        print(f"  {len(sem_chamada)} figura(s) sem chamada no texto: "
+              + ", ".join(f"{n} ({nome})" for n, nome in sem_chamada))
+    return corpo
 
 
 def numerar_equacoes(corpo):

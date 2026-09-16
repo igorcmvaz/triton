@@ -764,7 +764,7 @@ def test_os_capitulos_finais_citam_o_que_precisam_citar():
         "26_indices_pluviometricos.md": ("R10mm", "1961", "Walsh"),
         "27_etap.md": ("incremental", "65%", "substitui"),
         "28_energia_de_bombeamento.md": ("17094", "60,5%", "eixo"),
-        "29_analise_economica.md": ("329", "diferença entre duas contas"),
+        "29_analise_economica.md": ("329", "diferença entre duas faturas"),
         "30_acv.md": ("entregue", "33,9%", "triagem"),
         "31_certificacoes.md": ("WEM14", "barra de água", "não pontua"),
         "32_multicriterio.md": ("Opricovic", "variante", "SMAA"),
@@ -840,6 +840,26 @@ def test_as_figuras_estao_numeradas_na_ordem_da_leitura():
     numeros = [int(n) for n in re.findall(r"\*Figura (\d+) —", texto)]
     assert numeros == list(range(1, len(numeros) + 1)), numeros
     assert len(numeros) == FIGURAS_ESPERADAS
+
+
+def test_toda_figura_e_chamada_no_texto_antes_da_legenda():
+    """O professor pediu, lendo o PDF: toda figura tem de ser chamada.
+
+    A chamada é escrita nas partes como «{{fig:nome_do_arquivo}}» e vira
+    «Figura N» na montagem. O teste lê o manual montado e exige, para cada
+    legenda, que o número apareça antes dela no corpo do texto, fora de outra
+    legenda: figura que aparece sem ser evocada é figura solta.
+    """
+    texto = _manual_montado()
+    assert "{{fig:" not in texto
+    sem_chamada = []
+    for m in re.finditer(r"^\*Figura (\d+) —", texto, re.M):
+        n = m.group(1)
+        anterior = texto[:m.start()]
+        corpo = re.sub(r"^\*Figura \d+ —.*$", "", anterior, flags=re.M)
+        if not re.search(r"Figura " + n + r"(?!\d)", corpo):
+            sem_chamada.append(int(n))
+    assert not sem_chamada, sem_chamada
 
 
 def test_os_desenhos_explicativos_existem():

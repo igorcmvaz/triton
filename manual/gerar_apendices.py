@@ -318,7 +318,7 @@ def apendice_d():
 
     NOMES = {
         "sem_minimo": ("Sem mínimo",
-                       "Cada m³ economizado desconta na conta."),
+                       "Cada m³ economizado reduz a fatura."),
         "disponibilidade": ("Disponibilidade",
                             "Valor fixo que **soma** por cima do consumo medido. "
                             "Cada m³ economizado desconta."),
@@ -329,7 +329,7 @@ def apendice_d():
                                 "Até a franquia paga-se o fixo; passando dela, "
                                 "tarifa-se **tudo desde zero**."),
         "piso_de_pagamento": ("Piso de pagamento",
-                              "A conta **não desce** abaixo do piso. Não soma: limita."),
+                              "A fatura **não fica** abaixo do piso. Não soma: limita."),
     }
     CODIGOS = {
         "1 ou 0": "faixa progressiva, cobra só o volume dentro dela",

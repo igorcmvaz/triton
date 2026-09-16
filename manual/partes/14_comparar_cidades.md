@@ -26,9 +26,11 @@ abaixo.
 
 <!-- inclui: _tabelas/cap14_cidades.md -->
 
+A {{fig:fig03_cidades}} separa as duas grandezas, cada uma na sua escala.
+
 ![Chuva anual e potencial de economia nas quatro capitais](../figuras/fig03_cidades.png)
 
-*Figura 3 — As barras azuis são a chuva anual; as laranjas, o potencial de economia. Manaus tem a maior barra azul e não tem a maior laranja.*
+*Figura 99 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 40% e cisterna de 5.000 L, em quatro capitais. Manaus tem a maior precipitação anual e não tem o maior potencial de economia.*
 
 ---
 
@@ -66,9 +68,11 @@ ociosidade.
 
 ---
 
+A {{fig:fig18_capitais}} apresenta o regime mensal das quatro capitais na mesma escala.
+
 ![O regime mensal das quatro capitais](../figuras/fig18_capitais.png)
 
-*Figura 35 — A lâmina média de cada mês nas quatro capitais, na mesma escala. A linha tracejada é a média mensal de cada uma. Manaus e Brasília recebem chuva comparável no total do ano e a distribuem de maneiras opostas, e é essa distribuição que decide o tamanho do reservatório.*
+*Figura 99 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série. Manaus e Brasília recebem precipitação anual comparável e a distribuem de maneiras opostas, e é essa distribuição que decide o volume do reservatório.*
 
 ---
 

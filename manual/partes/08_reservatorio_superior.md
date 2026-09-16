@@ -99,7 +99,7 @@ o do motor, chega a 0,13 kWh por metro cúbico entregue. Oitenta e dois metros
 cúbicos por ano dão dez quilowatt-hora.
 
 Água é pesada, mas doze metros é pouco. É por isso que o custo energético do
-aproveitamento pluvial é desprezível diante da economia da conta de água — e é por
+aproveitamento pluvial é desprezível diante da economia na fatura de água e esgoto — e é por
 isso também que o argumento de que «bombear água gasta mais energia do que
 economiza» não se sustenta em edificação de pequeno porte.
 

@@ -85,7 +85,8 @@ def _gravar(widget, nome, proporcao=9.0 / 16.0):
     print("  figuras/" + nome)
 
 
-def _candidatos(serie, material=MATERIAL):
+def _candidatos(serie, material=MATERIAL,
+                volumes=(1000, 2000, 3000, 5000, 8000, 12000)):
     from gerar_tabelas import _config_economica, _config_tutorial
     from netuno.core.economic import run_economic_analysis
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
@@ -94,7 +95,7 @@ def _candidatos(serie, material=MATERIAL):
 
     cfg_sim = _config_tutorial()
     cands, economico = [], []
-    for v in (1000, 2000, 3000, 5000, 8000, 12000):
+    for v in volumes:
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                   **cfg_sim)
         e = run_economic_analysis(_config_economica(v, material), r)
@@ -130,7 +131,7 @@ def main():
         DaysSatisfactionVsVolumeChart, DeltaVsVolumeChart,
         EnvironmentalBalanceSummaryChart, PotentialVsVolumeChart,
         PrcptotAnnualChart, SeasonalPrecipChart,
-        SpillAndConsumptionVsVolumeChart, StoredVolumeVsTankVolumeChart,
+        SpillAndConsumptionVsVolumeChart,
         TOPSISComparisonChart, TOPSISProximityChart, VplVsVolumeChart,
     )
 
@@ -158,9 +159,9 @@ def main():
     g.update_chart(sweep_results=resultados, single_result=unica)
     _gravar(g, "fig13_programa_dias.png")
 
-    g = StoredVolumeVsTankVolumeChart()
-    g.update_chart(sweep_results=resultados, single_result=unica)
-    _gravar(g, "fig47_programa_armazenado.png")
+    # O gráfico do volume médio armazenado saiu do manual a pedido do
+    # professor: a leitura dele era óbvia. Em seu lugar entrou a curva de
+    # permanência do nível, desenhada em `gerar_figuras_extra.py`.
 
     # ── a série diária, na aba da simulação única ────────────────────────────
     from gerar_tabelas import _config_tutorial
@@ -198,6 +199,15 @@ def main():
     g = TOPSISComparisonChart()
     g.update_chart(topsis_result=topsis, method="topsis")
     _gravar(g, "fig51_programa_topsis.png")
+
+    # A seção do método mostra o mesmo gráfico sobre a varredura inteira, de
+    # 1 a 20 m³, em que o programa troca as barras pela curva do escore.
+    cands_varredura, _ = _candidatos(
+        serie, volumes=tuple(range(1000, 20001, 1000)))
+    g = TOPSISComparisonChart()
+    g.update_chart(topsis_result=calculate_topsis_scores(cands_varredura),
+                   method="topsis")
+    _gravar(g, "fig22_topsis.png")
 
     g = TOPSISProximityChart()
     g.update_chart(topsis_result=topsis,

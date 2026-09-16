@@ -114,10 +114,41 @@ número cresce muito além disso, costuma ser sinal de que a pergunta de pesquis
 suficientemente delimitada — ou de que o trabalho é um estudo de larga escala, que exige
 outro instrumental.
 
-> **Aprofundamento: estudos de larga escala.** O grupo de pesquisa executa séries de
-> milhares de simulações para trabalhos publicados — matrizes fatoriais de cidade,
-> área, demanda e volume, com propagação de incerteza por Monte Carlo. Isso é feito
-> por uma interface de automação que acompanha a distribuição de código-fonte do
-> programa, e não pela janela. Se o seu trabalho chegou a essa escala, o caminho é
-> entrar em contato com o grupo: a interface existe, é a mesma usada para verificar o
-> programa, e a seção {{n:34}} descreve o que ela verifica.
+Para estudos de larga escala — matrizes fatoriais de cidade, área, demanda e volume, ou propagação de incerteza — o programa oferece uma interface de linha de comando, descrita a seguir.
+
+---
+
+## A linha de comando
+
+A instalação do programa como pacote Python registra o comando `netuno`, que executa as mesmas rotinas de cálculo da interface gráfica sem abrir a janela; o instalador de Windows com interface gráfica não o inclui. A linha de comando lê arquivos `.netuno`, projetos em JSON estruturado e o formato CSV do Netuno 4, e grava os resultados em texto, JSON, CSV, HTML ou XLSX. É a interface indicada para estudos reprodutíveis, porque o próprio comando documenta as premissas alteradas.
+
+<!-- tabela: Subcomandos da linha de comando e finalidade de cada um -->
+| Subcomando | Finalidade |
+| :--- | :--- |
+| `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
+| `run` | simula o projeto; por padrão, apenas a análise técnica |
+| `analyze` | executa a cadeia completa: técnica, econômica, ambiental e TOPSIS |
+| `econ` | executa a análise econômica |
+| `init` | cria um projeto `.netuno` modelo, editável, com a série de chuva referenciada ou incorporada |
+| `init-catalog` | cria um catálogo JSON modelo de premissas de edificação ou de climas |
+| `matrix` | combina um catálogo de premissas com um catálogo de climas e simula todas as combinações |
+| `matrix-projects` | executa uma lista de projetos, uma pasta de séries de chuva ou a matriz fatorial declarada no projeto |
+| `batch` | executa os cenários de uma planilha CSV ou XLSX, a partir de um projeto-base |
+| `uncertainty` | propaga incertezas por Monte Carlo para um volume de reservatório |
+
+Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os pesos técnico, econômico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
+
+Aplicados ao projeto do tutorial, `validate` e `run` produzem:
+
+```
+netuno validate 01_tutorial_florianopolis.netuno
+Projeto válido: estrutura, chuva e premissas essenciais verificadas.
+
+netuno run 01_tutorial_florianopolis.netuno --volume 5000 --format json --output r.json
+```
+
+O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 5.000 L, o potencial de economia de 37,46%, o volume pluvial consumido de 82,1 m³/ano, o extravasamento de 105,2 m³/ano e a classificação dos dias em 92,9% plenos, 1,4% parciais e 5,7% nulos.
+
+O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a demanda e o investimento com distribuição de coeficiente de variação declarado — por padrão, 10% para a precipitação, 0% para a área, 10% para a demanda e 15% para o investimento, em 200 amostras — e informa os percentis de 5%, 50% e 95% do potencial de economia e do valor presente líquido, com a probabilidade de o valor presente líquido ser positivo. No tutorial, com 50 amostras e 5.000 L, o potencial de economia fica entre 36,1% e 38,6%, com mediana de 37,4%.
+
+> Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de pesquisa do grupo sobre bases climáticas de dezenas de milhares de séries, e exigem os arquivos dessas bases; não fazem parte do uso corrente do programa.

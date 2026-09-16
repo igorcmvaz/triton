@@ -37,12 +37,11 @@ conjunto de rodadas não se transforme em confusão.
 ## Que faixa adotar para cada premissa
 
 A faixa de variação a adotar para cada premissa não é matéria de palpite: ela decorre do
-que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que
-um dado tomado da literatura.
+que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que um dado tomado da literatura ({{fig:fig41_premissas}}). O reajuste tarifário é expresso em pontos percentuais ao ano; as demais faixas, em percentual do valor adotado.
 
 ![A faixa de variação plausível de cada premissa](../figuras/fig41_premissas.png)
 
-*Figura 99 — Quanto vale a pena variar cada premissa numa análise de sensibilidade, e de onde vem a incerteza em cada caso. As faixas maiores são as das premissas que o projeto não mede, e sim adota de referência.*
+*Figura 99 — Faixa de variação plausível de cada premissa numa análise de sensibilidade, com a origem da incerteza. As faixas maiores correspondem às premissas adotadas de referência, e não medidas no projeto.*
 
 
 > **Não perturbe o que você conhece.** Se a área foi medida em levantamento, a faixa é
@@ -97,7 +96,7 @@ desde que apresentada como tal. A seção {{n:32}} expõe o método que produz e
 
 ---
 
-O gráfico de tornado é a forma consagrada de apresentar esse conjunto: uma barra por
+O gráfico de tornado ({{fig:fig24_tornado}}) é a forma consagrada de apresentar esse conjunto: uma barra por
 premissa, ordenada pela amplitude, com as duas variações em cores distintas. Lido de
 cima para baixo, ele responde à pergunta que o revisor fará primeiro, que é de qual
 premissa o resultado depende.

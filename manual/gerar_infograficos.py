@@ -28,6 +28,8 @@ import matplotlib.pyplot as plt                                   # noqa: E402
 import numpy as np                                                # noqa: E402
 from matplotlib.patches import FancyBboxPatch, Rectangle          # noqa: E402
 
+from gerar_desenhos import rotulo_de_painel                       # noqa: E402
+
 FIGURAS = AQUI / "figuras"
 FIGURAS.mkdir(exist_ok=True)
 
@@ -54,7 +56,7 @@ def _tela(largura, altura, tamanho, titulo):
     ax.set_xlim(0, largura)
     ax.set_ylim(0, altura)
     ax.axis("off")
-    ax.set_title(titulo, color=TINTA, fontsize=10.5, loc="left", pad=10)
+    rotulo_de_painel(ax, titulo)
     _CONFINADOS.clear()
     return fig, ax
 
@@ -167,7 +169,7 @@ def _gravar(fig, nome):
 
 
 def _eixos(ax, titulo, x, y):
-    ax.set_title(titulo, color=TINTA, fontsize=10.5, loc="left", pad=12)
+    rotulo_de_painel(ax, titulo)
     ax.set_xlabel(x, color=TINTA2, fontsize=9)
     ax.set_ylabel(y, color=TINTA2, fontsize=9)
     ax.grid(True, color=GRADE, linewidth=0.7, zorder=0)
@@ -273,39 +275,29 @@ def info_etapas():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_atendimento():
-    fig, ax = _tela(100, 42, (7.4, 3.3),
-                    "As três classes de atendimento de um dia")
+    fig, ax = _tela(100, 33, (7.4, 2.45), "")
     casos = [
-        ("pleno", VERDE, 1.0, "a chuva atendeu toda" + NL +
-         "a demanda pluvial do dia"),
-        ("parcial", LARANJA, 0.45, "atendeu parte; a rede" + NL +
-         "completou o restante"),
-        ("nulo", CINZA, 0.0, "o reservatório estava" + NL +
-         "vazio; a rede atendeu tudo"),
+        ("pleno", VERDE, 1.0, "V_con,t = D_pl,t"),
+        ("parcial", LARANJA, 0.45, "0 < V_con,t < D_pl,t"),
+        ("nulo", CINZA, 0.0, "V_con,t = 0"),
     ]
     # O rótulo vai abaixo da barra, e não ao lado: ao lado ele dispunha de
     # meia coluna e saía por cima do caso seguinte.
-    for i, (nome, cor, fracao, texto) in enumerate(casos):
+    for i, (nome, cor, fracao, criterio) in enumerate(casos):
         x = 2 + i * 32
         cx = x + 15.5
-        ax.add_patch(Rectangle((cx - 6, 20), 12, 16, facecolor="#ffffff",
+        ax.add_patch(Rectangle((cx - 6, 12), 12, 16, facecolor="#ffffff",
                                edgecolor=CINZA, linewidth=1.3, zorder=3))
         if fracao > 0:
-            ax.add_patch(Rectangle((cx - 5.7, 20.3), 11.4, 15.4 * fracao,
+            ax.add_patch(Rectangle((cx - 5.7, 12.3), 11.4, 15.4 * fracao,
                                    facecolor=cor, edgecolor="none", zorder=4))
-        ax.text(cx, 37.4, nome, ha="center", va="bottom", fontsize=9.4,
+        ax.text(cx, 29.4, nome, ha="center", va="bottom", fontsize=9.4,
                 color=cor, fontweight="bold")
-        ax.text(cx, 18.6, "demanda pluvial do dia", ha="center", va="top",
-                fontsize=6.8, color=TINTA2)
-        _confinar(ax.text(cx, 13.0, texto, ha="center", va="center",
-                          fontsize=7.6, color=TINTA2, linespacing=1.4),
-                  (x, 9.0, x + 31, 17.0))
-    ax.text(0, 6.0,
-            "A parte preenchida é o que a água de chuva atendeu. A "
-            "confiabilidade temporal conta os dias plenos," + NL +
-            "e não o volume: um dia que ficou a um litro de fechar conta "
-            "como parcial, e não como quase pleno.",
-            fontsize=7.2, color=TINTA2, va="top", linespacing=1.45)
+        ax.text(cx + 6.8, 26.5, "D_pl,t", ha="left", va="center",
+                fontsize=7.2, color=TINTA2)
+        _confinar(ax.text(cx, 6.0, criterio, ha="center", va="center",
+                          fontsize=8.0, color=TINTA, linespacing=1.4),
+                  (x, 1.0, x + 31, 10.5))
     _gravar(fig, "fig29_atendimento.png")
 
 
@@ -314,37 +306,32 @@ def info_atendimento():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_desinfeccao():
-    fig, ax = _tela(100, 40, (7.4, 3.1),
-                    "As três tecnologias de desinfecção, e o que distingue uma da outra")
+    fig, ax = _tela(100, 30, (7.4, 2.3), "")
     itens = [
-        ("cloração" + NL + "por pastilhas", VERDE, "sim",
-         "massa anual" + NL + "de produto"),
-        ("ultravioleta", AZUL, "não", "lâmpada" + NL + "e energia"),
-        ("ozonização", ROXO, "não", "gerador" + NL + "e energia"),
+        ("cloração" + NL + "(hipoclorito em pastilhas)", VERDE, "sim",
+         "reposição de pastilhas" + NL + "(kg/ano)"),
+        ("radiação ultravioleta", AZUL, "não", "energia elétrica e" + NL +
+         "troca de lâmpada"),
+        ("ozonização", ROXO, "não", "energia elétrica e" + NL +
+         "manutenção do gerador"),
     ]
     for i, (nome, cor, residual, custeio) in enumerate(itens):
         x = 2 + i * 32.5
         ax.add_patch(FancyBboxPatch(
-            (x, 6), 30, 28, boxstyle="round,pad=0.0,rounding_size=1.0",
+            (x, 1), 30, 28, boxstyle="round,pad=0.0,rounding_size=1.0",
             linewidth=1.4, edgecolor=cor, facecolor=CLARO[cor], zorder=3))
-        _confinar(ax.text(x + 15, 29, nome, ha="center", va="center",
+        _confinar(ax.text(x + 15, 24, nome, ha="center", va="center",
                           fontsize=8.8, color=TINTA, fontweight="bold",
-                          zorder=5, linespacing=1.3), (x, 24, x + 30, 34))
+                          zorder=5, linespacing=1.3), (x, 19, x + 30, 29))
         marca = "●" if residual == "sim" else "○"
         cor_marca = VERDE if residual == "sim" else CINZA
-        _confinar(ax.text(x + 15, 21.5, marca + "  residual " + residual,
-                          ha="center", va="center", fontsize=8.6,
+        _confinar(ax.text(x + 15, 16.5, marca + "  efeito residual: " + residual,
+                          ha="center", va="center", fontsize=8.4,
                           color=cor_marca, zorder=5, fontweight="bold"),
-                  (x, 18, x + 30, 25))
-        _confinar(ax.text(x + 15, 13.0, "no custeio:" + NL + custeio,
+                  (x, 13, x + 30, 20))
+        _confinar(ax.text(x + 15, 8.0, "OPEX: " + custeio,
                           ha="center", va="center", fontsize=7.4, color=TINTA2,
-                          zorder=5, linespacing=1.4), (x, 6, x + 30, 19))
-    ax.text(0, 3.2,
-            "Residual é o efeito que permanece na água depois do tratamento. "
-            "Só a cloração o tem, e é por isso que ela" + NL +
-            "protege a água armazenada, enquanto ultravioleta e ozônio "
-            "desinfetam apenas o que passa pelo equipamento.",
-            fontsize=7.2, color=TINTA2, va="top", linespacing=1.45)
+                          zorder=5, linespacing=1.4), (x, 1, x + 30, 14))
     _gravar(fig, "fig30_desinfeccao.png")
 
 
@@ -395,18 +382,18 @@ def info_motores():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_codigos():
-    fig, ax = _tela(100, 50, (7.4, 3.9),
-                    "Os quatro códigos de faixa, e o que cada um faz com a conta")
+    fig, ax = _tela(100, 50, (7.4, 3.9), "")
     itens = [
-        ("1  ou  0", "faixa progressiva", AZUL,
-         "cobra o preço por m³ do volume" + NL + "que cai DENTRO da faixa"),
-        ("−1", "disponibilidade", LARANJA,
-         "valor fixo que SOMA por cima" + NL + "do consumo medido"),
+        ("1  ou  0", "faixa de consumo", AZUL,
+         "preço por m³ do volume alocado" + NL +
+         "em cada faixa de consumo"),
+        ("−1", "tarifa de disponibilidade", LARANJA,
+         "valor fixo somado à parcela" + NL + "do consumo medido"),
         ("−2", "franquia retroativa", ROXO,
-         "até a franquia paga-se o fixo;" + NL +
-         "passando dela, tarifa-se tudo desde zero"),
+         "valor fixo até a franquia;" + NL +
+         "acima dela, faturamento desde 0 m³"),
         ("−3", "piso de pagamento", VERDE,
-         "a conta NÃO DESCE abaixo" + NL + "do valor declarado"),
+         "valor mínimo da fatura:" + NL + "limite inferior, sem soma"),
     ]
     for i, (codigo, nome, cor, efeito) in enumerate(itens):
         y = 38 - i * 12.4
@@ -433,7 +420,7 @@ def info_regimes_base():
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
-    regimes = ["franquia no mínimo", "sem mínimo", "disponibilidade",
+    regimes = ["franquia no mínimo", "sem valor mínimo", "tarifa de disponibilidade",
                "franquia retroativa", "piso de pagamento"]
     quantos = [329, 165, 156, 2, 0]
     cores = [LARANJA, VERDE, AZUL, ROXO, CINZA]
@@ -447,14 +434,9 @@ def info_regimes_base():
 
     ax.set_yticks(y)
     ax.set_yticklabels(regimes, fontsize=8.6)
-    _eixos(ax, f"Os {total} municípios do catálogo, pelo regime de mínimo que praticam",
-           "municípios", "")
+    _eixos(ax, "", "número de municípios", "")
     ax.set_xlim(0, 400)
-    ax.text(0.98, 0.12,
-            "Metade do catálogo cobra franquia no mínimo, que é o regime\n"
-            "em que economizar abaixo da franquia não desconta nada.",
-            transform=ax.transAxes, ha="right", fontsize=8.0, color=TINTA2,
-            linespacing=1.4)
+    ax.set_xticks(range(0, 401, 50))
 
     fig.tight_layout()
     _gravar(fig, "fig33_regimes_base.png")
@@ -465,18 +447,17 @@ def info_regimes_base():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_inventario():
-    fig, ax = _tela(100, 46, (7.4, 3.6),
-                    "As sete etapas do inventário, e a natureza de cada uma")
+    fig, ax = _tela(100, 39, (7.4, 2.6), "")
+    ax.set_ylim(5, 39)
     grupos = [
         # O subtítulo de cada grupo vai em duas linhas: numa só ele passava da
         # largura da coluna e saía por cima da coluna vizinha.
-        ("INCORPORADO", LARANJA, "emitido uma vez," + NL + "na fabricação",
+        ("INCORPORADO", LARANJA, "emissão única" + NL + "(fabricação)",
          ["1. cisterna inferior", "2. reservatório superior",
           "3. tubulação", "4. motobomba"]),
-        ("OPERACIONAL", AZUL, "emitido todo ano," + NL + "enquanto opera",
+        ("OPERACIONAL", AZUL, "emissão anual" + NL + "(operação)",
          ["5. bombeamento", "6. tratamento"]),
-        ("CRÉDITO", VERDE, "evitado todo ano, e entra" + NL +
-         "com sinal contrário",
+        ("CRÉDITO", VERDE, "emissão evitada" + NL + "(sinal negativo)",
          ["7. água potável evitada"]),
     ]
     # As colunas dividem a prancha proporcionalmente ao que cada uma guarda, e
@@ -509,12 +490,6 @@ def info_inventario():
                       (x + 2, 22.4 - i * 5.2, x + largura - 2,
                        26.8 - i * 5.2))
         x += largura + vao
-    ax.text(0, 3.0,
-            "O saldo é a soma das seis primeiras menos a sétima. Só a sétima "
-            "tem sinal negativo, e é ela que decide" + NL +
-            "se o sistema paga a dívida de carbono que contraiu ao ser "
-            "construído.",
-            fontsize=7.2, color=TINTA2, va="top", linespacing=1.45)
     _gravar(fig, "fig34_inventario.png")
 
 
@@ -573,39 +548,32 @@ def info_escoamento():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_classes():
-    fig, ax = _tela(100, 40, (7.4, 3.1),
-                    "As quatro classes de qualidade, e o que sustenta cada uma")
+    fig, ax = _tela(100, 30, (7.4, 2.3), "")
     itens = [
-        ("1", VERDE, "NORMATIVA", "parâmetros mínimos" + NL +
-         "da ABNT NBR 15527"),
-        ("2", LARANJA, "adaptada", "irrigação, lavagem de" + NL +
+        ("1", VERDE, "ABNT NBR 15527:2019", "Tabela 1 da norma" + NL +
+         "(usos não potáveis)"),
+        ("2", LARANJA, "adaptação do programa", "irrigação, lavagem de" + NL +
          "pisos e de veículos"),
-        ("3", LARANJA, "adaptada", "torres de resfriamento" + NL +
+        ("3", LARANJA, "adaptação do programa", "torres de resfriamento" + NL +
          "e caldeiras"),
-        ("4", LARANJA, "adaptada", "lavagem de roupas e" + NL +
-         "usos nobres não potáveis"),
+        ("4", LARANJA, "adaptação do programa", "lavagem de roupas e" + NL +
+         "demais usos não potáveis"),
     ]
     for i, (classe, cor, situacao, uso) in enumerate(itens):
         x = 1 + i * 24.7
         ax.add_patch(FancyBboxPatch(
-            (x, 6), 23, 28, boxstyle="round,pad=0.0,rounding_size=1.0",
+            (x, 1), 23, 28, boxstyle="round,pad=0.0,rounding_size=1.0",
             linewidth=1.6 if cor == VERDE else 1.2, edgecolor=cor,
             facecolor=CLARO[cor], zorder=3))
-        _confinar(ax.text(x + 11.5, 29.5, "classe " + classe, ha="center",
+        _confinar(ax.text(x + 11.5, 24.5, "classe " + classe, ha="center",
                           va="center", fontsize=9.4, color=TINTA,
-                          fontweight="bold", zorder=5), (x, 27, x + 23, 33))
-        _confinar(ax.text(x + 11.5, 24.0, situacao, ha="center",
-                          va="center", fontsize=7.8, color=cor,
-                          fontweight="bold", zorder=5), (x, 21, x + 23, 27))
-        _confinar(ax.text(x + 11.5, 14.5, uso, ha="center", va="center",
+                          fontweight="bold", zorder=5), (x, 22, x + 23, 28))
+        _confinar(ax.text(x + 11.5, 19.0, situacao, ha="center",
+                          va="center", fontsize=7.6, color=cor,
+                          fontweight="bold", zorder=5), (x, 16, x + 23, 22))
+        _confinar(ax.text(x + 11.5, 9.5, uso, ha="center", va="center",
                           fontsize=7.4, color=TINTA2, zorder=5,
-                          linespacing=1.4), (x, 6, x + 23, 21))
-    ax.text(0, 3.2,
-            "Só a classe 1 corresponde a exigência de norma. As outras três "
-            "são construções do programa, úteis para" + NL +
-            "comparar tratamentos, e não podem ser apresentadas num estudo "
-            "como se fossem requisito normativo.",
-            fontsize=7.2, color=TINTA2, va="top", linespacing=1.45)
+                          linespacing=1.4), (x, 1, x + 23, 16))
     _gravar(fig, "fig36_classes.png")
 
 
@@ -621,7 +589,9 @@ def info_certificacoes():
     # Cada referencial declara os seus limiares em percentual de economia; postos
     # na mesma régua, vê-se de imediato qual exige mais e onde um projeto cai.
     trilhas = [
-        ("LEED v4  ·  WEc2" + NL + "economia interna", AZUL,
+        ("LEED v4  ·  WEc1" + NL + "uso externo", AZUL,
+         [(50, "1 pt"), (100, "2 pt")]),
+        ("LEED v4  ·  WEc2" + NL + "uso interno", AZUL,
          [(25, "1 pt"), (30, "2 pt"), (35, "3 pt"), (40, "4 pt"),
           (45, "5 pt"), (50, "6 pt")]),
         # Referencial AQUA-HQE Residencial v00 (22/11/2024). O Selo Casa Azul
@@ -629,13 +599,13 @@ def info_certificacoes():
         # abrangência do uso, e não um percentual de economia.
         ("AQUA-HQE Resid." + NL + "consumo de água", ROXO,
          [(20, "EAU.1.2" + NL + "HQE"), (40, "EAU.1.3" + NL + "HQE 3")]),
-        ("EDGE" + NL + "três dimensões", LARANJA,
-         [(20, "Certified")]),
+        ("EDGE  ·  água," + NL + "energia e materiais", LARANJA,
+         [(20, "EDGE" + NL + "Certified")]),
     ]
 
     for i, (nome, cor, marcos) in enumerate(trilhas):
         y = len(trilhas) - 1 - i
-        ax.plot([0, 55], [y, y], color=GRADE, linewidth=6.0,
+        ax.plot([0, 100], [y, y], color=GRADE, linewidth=6.0,
                 solid_capstyle="round", zorder=2)
         for valor, rotulo in marcos:
             ax.plot([valor], [y], "o", color=cor, markersize=9, zorder=4)
@@ -646,19 +616,13 @@ def info_certificacoes():
 
     ax.set_yticks(range(len(trilhas)))
     ax.set_yticklabels([t[0] for t in trilhas][::-1], fontsize=8.2)
-    _eixos(ax, "Os limiares dos referenciais, na mesma régua de economia", "", "")
-    ax.set_xlabel("economia de água potável exigida (%)", color=TINTA2,
-                  fontsize=9)
-    ax.set_xlim(0, 58)
-    ax.set_ylim(-1.35, len(trilhas) - 0.25)
+    _eixos(ax, "", "", "")
+    ax.set_xlabel("redução do consumo de água potável exigida (%)",
+                  color=TINTA2, fontsize=9)
+    ax.set_xlim(-3, 106)
+    ax.set_xticks(range(0, 101, 10))
+    ax.set_ylim(-0.6, len(trilhas) - 0.25)
     ax.grid(axis="y", visible=False)
-
-    ax.text(57, -0.95,
-            "O EDGE é o único que não pontua: exige 20% em água, em energia e "
-            "em energia\nincorporada nos materiais, e reprova o projeto que "
-            "falhe em qualquer uma das três.",
-            ha="right", va="top", fontsize=7.8, color=TINTA2,
-            linespacing=1.4)
 
     fig.tight_layout()
     _gravar(fig, "fig37_certificacoes.png")
@@ -676,8 +640,7 @@ def info_percentual():
         sys.path.insert(0, raiz)
     from netuno.core.fracao_atendivel import aviso_percentual_pequeno
 
-    fig, ax = _tela(100, 46, (7.4, 3.5),
-                    "O mesmo campo em três estados: a unidade é percentual")
+    fig, ax = _tela(100, 46, (7.4, 3.3), "")
     estados = [
         ("40", AZUL, "#ffffff", "aceito", "40% da demanda"),
         ("0,4", LARANJA, CLARO[LARANJA], "aceito, e assinalado",
@@ -702,12 +665,6 @@ def info_percentual():
                   (x, 7, x + 31, 18))
     aviso = aviso_percentual_pequeno(0.4)
     assert aviso and "digite 40" in aviso, aviso
-    ax.text(0, 4.2,
-            "Onde se digita, percentual de 0 a 100. Onde se guarda (arquivo de "
-            "projeto, parâmetros, rainwater_share), fração de 0 a 1." + NL +
-            "Um valor entre 0 e 1 no campo em percentual não bloqueia o cálculo, "
-            "porque 0,4% é possível; ele só é raro.",
-            fontsize=7.0, color=TINTA2, va="top", linespacing=1.45)
     _gravar(fig, "fig46b_percentual.png")
 
 

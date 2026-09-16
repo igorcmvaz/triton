@@ -287,7 +287,7 @@ PROCESSOS = [
  "Sem caixa superior, ou com potência zero, a energia é zero e o processo não roda.",
 ),
 (
- "PROC-17", "Calcular a conta de água", "economico",
+ "PROC-17", "Calcular a fatura de água e esgoto", "economico",
  "Duas vezes por mês de projeção: com e sem aproveitamento.",
  ["volume mensal em litros", "<code>water_tariffs</code>: quádruplas "
   "(mínimo, máximo, valor, código)", "<code>sewage_mode</code> e <code>sewage_rate</code>",
@@ -306,7 +306,7 @@ PROCESSOS = [
   "Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios."],
  [("economic.py", "calculate_water_bill"), ("tariff_regimes.py", "resumo_do_regime"),
   ("tariff_regimes.py", "validar_estrutura"), ("tariffs_structure.py", "CODIGOS_VALIDOS")],
- ["Valor da conta em R$/mês, para a projeção de PROC-18"],
+ ["Valor da fatura de água e esgoto em R$/mês, para a projeção de PROC-18"],
  "Tabela vazia cai para a estrutura da CASAN. Estrutura incompleta é sinalizada pela "
  "porta de validação, que separa erro de aviso.",
 ),
@@ -319,8 +319,8 @@ PROCESSOS = [
   "<code>tma</code>, <code>inflation</code>, <code>analysis_period_years</code>",
   "reajustes separados de água, esgoto e energia, e o intervalo entre reajustes",
   "IPTU verde, quando habilitado"],
- ["Água e esgoto são reajustados por índices <b>separados</b>, e não pela conta agregada.",
-  "A inflação incide só sobre o custeio; os reajustes tarifários incidem só sobre a conta.",
+ ["Água e esgoto são reajustados por índices <b>separados</b>, e não pela fatura agregada.",
+  "A inflação incide só sobre o custeio; os reajustes tarifários incidem só sobre a fatura.",
   "O reajuste é aplicado a cada <code>tariff_escalation</code> meses, em degraus.",
   "A bandeira tarifária ajusta a tarifa de energia: amarela, vermelha 1, vermelha 2, ou "
   "desconto fora de ponta na branca.",

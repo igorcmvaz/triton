@@ -30,7 +30,7 @@ import numpy as np                                                # noqa: E402
 
 from gerar_figuras import (                                       # noqa: E402
     AZUL, EIXO, LARANJA, ROXO, SUPERFICIE, TINTA, TINTA2, VERDE,
-    _eixos, _salvar,
+    _eixos, _salvar, teto_multiplo,
 )
 from gerar_tabelas import (                                       # noqa: E402
     ANOS_TUTORIAL, CIDADES_GUIA14, NOMES_CIDADES, SERIE_TUTORIAL,
@@ -97,16 +97,12 @@ def figura_grade():
         ax.plot([x, x], [0, y], color=LARANJA, linewidth=0.7, linestyle=":",
                 zorder=2)
 
-    ax.annotate("o joelho da curva cai\nentre dois pontos da grade grossa",
-                xy=(1.5, float(np.interp(1.5, vf, pf))), xytext=(5.0, 18.0),
-                fontsize=8.2, color=LARANJA,
-                arrowprops=dict(arrowstyle="->", color=LARANJA, linewidth=1.0))
-
-    _eixos(ax, "A varredura só enxerga os volumes que estão na grade",
-           "volume do reservatório (m³)", "potencial de economia (%)")
+    _eixos(ax, "", "volume do reservatório (m³)", "potencial de economia (%)")
     ax.legend(frameon=False, fontsize=8.5, loc="lower right")
     ax.set_xlim(0, 20)
-    ax.set_ylim(0, 45)
+    ax.set_xticks(range(0, 21, 2))
+    ax.set_ylim(0, 50)
+    ax.set_yticks(range(0, 51, 10))
 
     fig.tight_layout()
     _salvar(fig, "fig14_grade.png")
@@ -137,14 +133,22 @@ def figura_serie():
     a1.axhline(media, color=TINTA, linewidth=1.2, zorder=4)
     a1.text(anos[0], media + 40, f"média: {media:,.0f} mm".replace(",", "."),
             fontsize=8.2, color=TINTA)
-    _eixos(a1, "Trinta anos de Florianópolis, ano a ano", "", "mm por ano")
+    _eixos(a1, "(a)", "", "precipitação anual (mm)")
     a1.set_xlim(anos[0] - 1, anos[-1] + 1)
+    teto = teto_multiplo(max(totais) * 1.04, 500.0)
+    a1.set_ylim(0, teto)
+    a1.set_yticks(np.arange(0, teto + 1, 500))
+    a1.set_yticklabels([f"{v:,.0f}".replace(",", ".")
+                        for v in np.arange(0, teto + 1, 500)])
 
     diarios = np.asarray([float(v) for v in serie])
     umidos = diarios[diarios >= 1.0]
     a2.hist(umidos, bins=np.arange(0, 120, 4), color=AZUL, zorder=3)
     a2.set_yscale("log")
-    _eixos(a2, "A chuva diária, quando chove", "mm no dia", "dias (escala log)")
+    _eixos(a2, "(b)", "precipitação diária em dias úmidos (mm)",
+           "número de dias (escala log)")
+    a2.set_xlim(0, 120)
+    a2.set_xticks(range(0, 121, 20))
     a2.text(0.96, 0.92,
             f"{len(umidos) / len(diarios) * 100:.0f}% dos dias com chuva\n"
             f"máximo: {diarios.max():.0f} mm",
@@ -176,7 +180,8 @@ def figura_indices():
     # RX1day — o maior dia do ano
     i_max = int(np.argmax(y))
     ax.annotate(f"RX1day = {y[i_max]:.0f} mm".replace(".", ","),
-                xy=(i_max, y[i_max]), xytext=(i_max - 60, y.max() * 0.92),
+                xy=(i_max, y[i_max]), xytext=(i_max - 14, y[i_max] * 0.96), ha="right",
+                va="center",
                 fontsize=8.4, color=ROXO,
                 arrowprops=dict(arrowstyle="->", color=ROXO, linewidth=1.0))
 
@@ -184,9 +189,8 @@ def figura_indices():
     acima = x[y >= 20.0]
     ax.plot(acima, np.full(len(acima), -2.5), "o", color=LARANJA,
             markersize=3.2, zorder=4)
-    ax.text(0.015, 0.82,
-            f"R20mm = {len(acima)} dias com 20 mm ou mais (pontos alaranjados)",
-            transform=ax.transAxes, fontsize=8.2, color=LARANJA, va="top")
+    ax.text(0.015, 0.82, f"R20mm = {len(acima)} dias",
+            transform=ax.transAxes, fontsize=8.4, color=LARANJA, va="top")
 
     # CDD — a maior sequência seca
     melhor, atual, fim = 0, 0, 0
@@ -196,7 +200,7 @@ def figura_indices():
             melhor, fim = atual, i
     ax.axvspan(fim - melhor + 1, fim, color=LARANJA, alpha=0.16, zorder=1)
     ax.text((fim - melhor / 2.0), y.max() * 0.55,
-            f"CDD = {melhor} dias\nsem chuva", ha="center", fontsize=8.4,
+            f"CDD = {melhor} dias", ha="center", fontsize=8.4,
             color=LARANJA)
 
     # PRCPTOT — a soma dos dias úmidos
@@ -205,10 +209,12 @@ def figura_indices():
             f"   ·   SDII = {y[y >= 1.0].mean():.1f} mm/dia".replace(".", ","),
             transform=ax.transAxes, fontsize=8.6, color=TINTA, va="top")
 
-    _eixos(ax, f"Os índices pluviométricos sobre um ano real: Florianópolis, {ano}",
-           "dia do ano", "chuva diária (mm)")
+    _eixos(ax, "", "dia do ano", "precipitação diária (mm)")
     ax.set_xlim(0, len(x))
-    ax.set_ylim(-12, y.max() * 1.12)
+    teto = teto_multiplo(y.max() * 1.12, 20.0)
+    ax.set_ylim(-teto * 0.08, teto)
+    ax.set_yticks(np.arange(0, teto + 1, 20))
+    ax.set_xticks([0, 60, 120, 180, 240, 300, 365])
 
     fig.tight_layout()
     _salvar(fig, "fig16_indices.png")
@@ -231,28 +237,43 @@ def figura_sazonalidade():
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
+    # As classes de Walsh e Lawler (1981). Os rótulos ficam à direita das
+    # barras, numa margem própria: à esquerda, a primeira barra os cobria.
     faixas = [
-        (0.00, 0.19, "muito regular", "#eef6ee"),
-        (0.19, 0.40, "regular", "#e7f1fb"),
-        (0.40, 0.60, "estação seca curta", "#fdf1e8"),
-        (0.60, 1.20, "estação seca marcada", "#fbe7e0"),
+        (0.00, 0.20, "muito uniforme", "#eef6ee"),
+        (0.20, 0.40, "uniforme, com estação úmida", "#e7f1fb"),
+        (0.40, 0.60, "sazonal, estação seca curta", "#fdf6e8"),
+        (0.60, 0.80, "sazonal", "#fdf1e8"),
+        (0.80, 1.00, "marcadamente sazonal", "#fbe7e0"),
+        (1.00, 1.20, "chuva em até 3 meses", "#f8ddd4"),
     ]
+    maximo = max(d[2] for d in dados)
+    teto = teto_multiplo(maximo * 1.12, 0.2)
     for ini, fim, nome, cor in faixas:
-        ax.axhspan(ini, fim, color=cor, zorder=1)
-        ax.text(0.02, (ini + min(fim, 1.0)) / 2.0, nome, fontsize=7.6,
-                color=TINTA2, va="center", transform=ax.get_yaxis_transform())
+        if ini >= teto:
+            continue
+        ax.axhspan(ini, min(fim, teto), color=cor, zorder=1)
+        ax.text(3.45, (ini + min(fim, teto)) / 2.0, nome, fontsize=7.4,
+                color=TINTA2, va="center", ha="left")
 
     nomes = [d[0] for d in dados]
-    ax.bar(nomes, [d[2] for d in dados], color=AZUL, width=0.5, zorder=3)
+    ax.bar(range(len(nomes)), [d[2] for d in dados], color=AZUL, width=0.5,
+           zorder=3)
     for i, (nome, total, si) in enumerate(dados):
         ax.text(i, si + 0.015, f"{si:.2f}".replace(".", ","), ha="center",
                 fontsize=8.6, color=TINTA)
-        ax.text(i, 0.03, f"{total:,.0f} mm/ano".replace(",", "."), ha="center",
-                fontsize=8.0, color="#ffffff")
 
-    _eixos(ax, "O índice de sazonalidade de Walsh e Lawler, nas quatro capitais",
-           "", "índice de sazonalidade (adimensional)")
-    ax.set_ylim(0, max(d[2] for d in dados) * 1.35)
+    _eixos(ax, "", "", "índice de sazonalidade SI (adimensional)")
+    ax.set_xticks(range(len(nomes)))
+    ax.set_xticklabels([f"{d[0]}\n{d[1]:,.0f} mm/ano".replace(",", ".")
+                        for d in dados], fontsize=8.2)
+    ax.set_xlim(-0.5, 5.3)
+    ax.spines["bottom"].set_bounds(-0.5, 3.5)
+    ax.set_ylim(0, teto)
+    marcas = np.arange(0, teto + 1e-9, 0.2)
+    ax.set_yticks(marcas)
+    ax.set_yticklabels([f"{v:.1f}".replace(".", ",") for v in marcas])
+    ax.grid(axis="x", visible=False)
 
     fig.tight_layout()
     _salvar(fig, "fig17_sazonalidade.png")
@@ -274,22 +295,24 @@ def figura_capitais():
         series.append((NOMES_CIDADES[chave], mensal))
         maximo = max(maximo, mensal.max())
 
-    for ax, (nome, mensal) in zip(eixos.ravel(), series):
+    for k, (ax, (nome, mensal)) in enumerate(zip(eixos.ravel(), series)):
         ax.set_facecolor(SUPERFICIE)
-        cor = AZUL if mensal.min() / mensal.max() > 0.35 else LARANJA
+        cor = AZUL
         ax.bar(MESES, mensal, color=cor, width=0.68, zorder=3)
         ax.axhline(mensal.mean(), color=TINTA2, linewidth=1.0, linestyle="--",
                    zorder=4)
-        _eixos(ax, nome, "", "")
+        _eixos(ax, "(" + "abcd"[k] + ") " + nome, "", "")
         ax.tick_params(labelsize=7.0)
-        ax.set_ylim(0, maximo * 1.12)
+        teto = teto_multiplo(maximo * 1.05, 50.0)
+        ax.set_ylim(0, teto)
+        ax.set_yticks(np.arange(0, teto + 1, 50))
 
-    eixos[0][0].set_ylabel("mm por mês", color=TINTA2, fontsize=9)
-    eixos[1][0].set_ylabel("mm por mês", color=TINTA2, fontsize=9)
-    fig.suptitle("O mesmo país, quatro regimes de chuva", color=TINTA,
-                 fontsize=11, x=0.01, ha="left")
+    eixos[0][0].set_ylabel("precipitação média (mm/mês)", color=TINTA2,
+                           fontsize=8.6)
+    eixos[1][0].set_ylabel("precipitação média (mm/mês)", color=TINTA2,
+                           fontsize=8.6)
 
-    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    fig.tight_layout()
     _salvar(fig, "fig18_capitais.png")
 
 
@@ -331,10 +354,12 @@ def figura_modulacao():
                 markersize=4.5, zorder=3, label=nome)
 
     ax.axhline(1.0, color=EIXO, linewidth=1.0, zorder=2)
-    _eixos(ax, "Três perfis de demanda com o mesmo consumo anual", "",
-           "demanda do mês ÷ demanda média")
+    _eixos(ax, "", "", "demanda do mês ÷ demanda média anual")
     ax.legend(frameon=False, fontsize=8.5, loc="upper right")
-    ax.set_ylim(0, 3.4)
+    ax.set_ylim(0, 3.5)
+    ax.set_yticks(np.arange(0, 3.51, 0.5))
+    ax.set_yticklabels([f"{v:.1f}".replace(".", ",")
+                        for v in np.arange(0, 3.51, 0.5)])
 
     fig.tight_layout()
     _salvar(fig, "fig19_modulacao.png")
@@ -356,7 +381,7 @@ def figura_tipologias():
         ax.set_facecolor(SUPERFICIE)
 
     a1.bar(MESES, mensal_chuva, color="#d6e6fa", width=0.72, zorder=2,
-           label="chuva média do mês (mm)")
+           label="precipitação média")
     eixo_d = a1.twinx()
     eixo_d.set_facecolor("none")
     for nome, cor in (("escola", VERDE), ("hotel de praia", LARANJA)):
@@ -364,24 +389,34 @@ def figura_tipologias():
                     marker="o", markersize=4.5, zorder=4, label=nome)
     eixo_d.set_ylabel("demanda do mês (L/dia)", color=TINTA2, fontsize=9)
     eixo_d.tick_params(colors=TINTA2, labelsize=8.5)
-    eixo_d.set_ylim(0, max(max(v) for v in perfis_l.values()) * 1.25)
+    # As duas escalas com o mesmo número de divisões, para que a grade de uma
+    # sirva à outra.
+    eixo_d.set_ylim(0, 2500)
+    eixo_d.set_yticks(range(0, 2501, 500))
+    eixo_d.set_yticklabels([f"{v:,}".replace(",", ".") for v in range(0, 2501, 500)])
     for lado in ("top", "left"):
         eixo_d.spines[lado].set_visible(False)
     eixo_d.spines["right"].set_color(EIXO)
 
-    _eixos(a1, "A demanda contra a chuva, mês a mês", "", "chuva média (mm)")
+    _eixos(a1, "(a)", "", "precipitação média (mm/mês)")
+    a1.set_ylim(0, 250)
+    a1.set_yticks(range(0, 251, 50))
     linhas, rotulos = eixo_d.get_legend_handles_labels()
-    a1.legend(linhas, rotulos, frameon=False, fontsize=8.5, loc="upper center")
+    barras, nomes_barras = a1.get_legend_handles_labels()
+    linhas, rotulos = barras + linhas, nomes_barras + rotulos
+    a1.legend(linhas, rotulos, frameon=False, fontsize=8.5, loc="lower center",
+              bbox_to_anchor=(0.5, 1.0), ncol=3)
 
     nomes = list(PERFIS)
     pots = [resultados[n].potential_potable_savings_pct for n in nomes]
     cores = [TINTA2, VERDE, LARANJA]
     a2.bar(nomes, pots, color=cores, width=0.55, zorder=3)
     for i, p in enumerate(pots):
-        a2.text(i, p + 0.6, f"{p:.1f}%".replace(".", ","), ha="center",
+        a2.text(i, p + 1.5, f"{p:.1f}%".replace(".", ","), ha="center",
                 fontsize=9.0, color=TINTA)
-    _eixos(a2, "O que cada perfil rende", "", "potencial de economia (%)")
-    a2.set_ylim(0, max(pots) * 1.18)
+    _eixos(a2, "(b)", "", "potencial de economia (%)")
+    a2.set_ylim(0, 50)
+    a2.set_yticks(range(0, 51, 10))
     a2.tick_params(axis="x", labelsize=8.0)
 
     fig.tight_layout()

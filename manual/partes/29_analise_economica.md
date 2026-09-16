@@ -5,7 +5,7 @@
 
 ---
 
-## A economia é a diferença entre duas contas
+## A economia é a diferença entre duas faturas
 
 O programa não calcula a economia multiplicando o volume poupado por uma tarifa média,
 e a distinção não é de refinamento: é de ordem de grandeza. Para cada mês da projeção
@@ -32,34 +32,32 @@ mais da metade, e o erro cresce com o consumo da edificação.
 
 ---
 
-## A conta de água
+## A fatura de água e esgoto
 
 A estrutura tarifária de cada município é representada no programa por uma sequência de
 faixas, e cada faixa é uma quádrupla composta pelo volume mínimo, pelo volume máximo, por
 um valor e por um código. O código é o elemento que dá sentido ao valor, porque
 estruturas aparentemente semelhantes cobram de maneiras muito distintas.
 
-Antes dos códigos, convém ver de que a fatura é feita. A conta de um mês é a soma
-de parcelas com comportamentos distintos: uma parcela fixa, que não responde ao consumo;
-uma ou mais faixas de consumo, cobradas a preços crescentes; e o esgoto, que em boa parte
-do Brasil é um percentual da conta de água e portanto acompanha tudo o que ela faz. A
-economia de água atinge cada uma dessas parcelas de um jeito diferente, e é essa
-assimetria que a figura a seguir mostra.
+Antes dos códigos, convém ver de que a fatura é feita. A fatura mensal de água e esgoto é a soma de parcelas com comportamentos distintos: uma parcela fixa, que não responde ao consumo; uma ou mais faixas de consumo, em que é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; e o esgoto, que em boa parte do Brasil é um percentual do valor da água e portanto acompanha tudo o que ele faz. A
+economia de água atinge cada uma dessas parcelas de um jeito diferente, e é essa assimetria que a {{fig:fig07_fatura}} mostra.
 
 ![A fatura aberta em parcelas, com e sem o sistema](../figuras/fig07_fatura.png)
 
-*Figura 24 — A fatura mensal do projeto do tutorial, aberta em parcelas, antes e depois do sistema. A parcela fixa de disponibilidade é idêntica nos dois casos; a economia sai inteira das faixas superiores, que são as mais caras, e arrasta o esgoto junto por ser ele um percentual da conta de água.*
+*Figura 99 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema. A tarifa de disponibilidade é idêntica nos dois casos; a redução ocorre nas faixas de consumo superiores, que têm o maior preço por metro cúbico, e se estende ao esgoto, cobrado como percentual do valor da água.*
+
+O código de cada faixa define como o seu valor é aplicado ({{fig:fig32_codigos}}). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; e no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura.
 
 ![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
 
-*Figura 99 — Os quatro códigos de faixa e o efeito de cada um sobre a fatura. O código é o que dá sentido ao valor: duas tarifas com os mesmos números cobram de maneiras inteiramente distintas conforme o código que as acompanha.*
+*Figura 99 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
 
 
 Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
 opostos sobre a viabilidade de um sistema pluvial. Vale examiná-los com números.
 
-- **Disponibilidade soma.** Conta de R$ 55 mais R$ 46 de disponibilidade dá R$ 101,
-  e economizar R$ 15 de consumo deixa a conta em R$ 86.
+- **Disponibilidade soma.** Parcela de consumo de R$ 55 mais R$ 46 de disponibilidade dá fatura de R$ 101,
+  e economizar R$ 15 de consumo deixa a fatura em R$ 86.
 - **Piso limita por baixo.** Com piso de R$ 40 e consumo tarifado de R$ 55,
   economizar até R$ 15 **não reduz nada**.
 
@@ -102,12 +100,20 @@ responde por metade da fatura total.
 
 O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
-seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a
-franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum.
+seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum ({{fig:fig33_regimes_base}}). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
+
+<!-- tabela: Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+| Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
+| :--- | :--- | :--- | :--- |
+| sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
+| tarifa de disponibilidade | valor fixo (−1) e faixas de consumo a partir de 0 m³, com preço positivo | valor fixo somado à parcela de consumo, faturada desde o primeiro m³ | toda redução de consumo reduz a fatura; o valor fixo permanece |
+| franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
+| franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
+| piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
 
 ![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
 
-*Figura 99 — A distribuição dos 652 municípios do catálogo pelos cinco regimes de mínimo. Metade deles pratica franquia no mínimo, que é justamente o regime em que economizar abaixo da franquia não reduz a conta.*
+*Figura 99 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
 
 
 O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi
@@ -137,9 +143,9 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `C_ace` | custo de acessórios, filtros e dispositivo de descarte | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
 | `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
-| `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
+| `CAPEX_inc` | investimento incremental da linha de tratamento, incluído o descarte inicial quando dimensionado | R$ |
 
-O último termo segue a regra incremental da seção {{n:27}}.
+O último termo segue a regra incremental da seção {{n:27}} e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 
 Os preços de reservatório provêm da base de custos do programa, com procedência
 declarada para cada material. Quando o volume pedido não consta da tabela, o programa
@@ -151,15 +157,13 @@ critério não é satisfeito, em vez de extrapolar em silêncio.
 ---
 
 A composição do investimento surpreende quem chega ao assunto esperando que o
-reservatório domine a conta. Em volumes residenciais ele é a menor das quatro rubricas, e
-só passa a dominar quando o volume cresce o bastante para que o preço do tanque supere a
+reservatório domine a conta. Em volumes residenciais pequenos ele pesa menos que a mão de obra e a tubulação, e só passa a dominar quando o volume cresce o bastante para que o preço do tanque supere a
 soma fixa da instalação. A consequência de projeto é direta: dobrar o reservatório não
-dobra o investimento, e essa não linearidade é parte do motivo de a curva de valor
-presente líquido ter máximo interior.
+dobra o investimento, e essa não linearidade é parte do motivo de a curva de valor presente líquido ter máximo interior ({{fig:fig21_investimento}}).
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
 
-*Figura 38 — O investimento inicial aberto em quatro rubricas, para três volumes de reservatório de polietileno. Mão de obra, tubulação e acessórios praticamente não variam com o volume; só o reservatório varia, e é por isso que o custo por metro cúbico armazenado cai à medida que o tanque cresce.*
+*Figura 99 — Investimento inicial aberto em cinco rubricas, para três volumes de reservatório de polietileno. Mão de obra, tubulação, acessórios e descarte inicial não variam com o volume da cisterna; o descarte inicial depende da lâmina de descarte e da área de captação, e no tutorial corresponde a 300 L para 2 mm sobre 150 m².*
 
 ---
 
@@ -182,15 +186,14 @@ fora de ponta.
 
 ## A projeção mês a mês
 
-Para cada mês `m` do período de análise:
+A projeção é feita mês a mês ao longo de todo o período de análise, e aplica a cada parcela os fatores de inflação e de reajuste definidos a seguir.
 
 O resultado dessa projeção é uma série mensal de saldos, e o que interessa nela é
-o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o tempo de
-retorno, e vê-se melhor num gráfico do que numa tabela de duzentos e quarenta linhas.
+o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o tempo de retorno. A {{fig:fig08_fluxo_de_caixa}} agrega a projeção por ano: em colunas, a economia na fatura de água e esgoto e os custos, com o investimento no ano zero; em linha, o saldo acumulado descontado, que cruza o zero no tempo de retorno.
 
 ![O saldo descontado acumulado ao longo de vinte anos](../figuras/fig08_fluxo_de_caixa.png)
 
-*Figura 25 — O saldo descontado acumulado do projeto do tutorial, mês a mês, ao longo dos vinte anos de análise. O investimento inicial coloca a curva abaixo de zero; o tempo de retorno é o instante único em que ela cruza a linha, e o serrilhado corresponde ao reajuste anual da tarifa.*
+*Figura 99 — Fluxo de caixa do projeto do tutorial em vinte anos: economia anual na fatura de água e esgoto e custos anuais, com o investimento inicial no ano zero, em valores nominais; e saldo acumulado descontado à taxa mínima de atratividade, que cruza o zero no tempo de retorno de 8,7 anos.*
 
 **A inflação incide só sobre o custeio:**
 
@@ -204,7 +207,7 @@ f_inf = ( 1 + i )^( m − 1 )
 | `i` | taxa de inflação mensal declarada, como fração: 0,35% ao mês entra como 0,0035 | adimensional |
 | `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
 
-**Os reajustes tarifários incidem só sobre a conta, em degraus:**
+**Os reajustes tarifários incidem só sobre a fatura, em degraus:**
 
 ```equacao:degraus
 k = ⌊ ( m − 1 ) ÷ I ⌋
@@ -227,7 +230,7 @@ A Equação {{eq:reajuste}} é aplicada separadamente a cada uma das três parce
 taxas próprias, e é dessa separação que trata a observação seguinte.
 
 > **Água e esgoto são reajustados por índices separados**, e não por um índice único
-> sobre a conta agregada. As duas parcelas são objeto de atos distintos da
+> sobre a fatura agregada. As duas parcelas são objeto de atos distintos da
 > concessionária, e tratá-las juntas indexa metade da conta pelo índice errado.
 
 O incentivo de IPTU verde, quando o município o oferece e o usuário o habilita, entra no

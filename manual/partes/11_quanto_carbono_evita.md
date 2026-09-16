@@ -64,6 +64,8 @@ não produz, portanto, o ganho ambiental que a intuição sugere.
 
 ---
 
+A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de emissão e o crédito da água evitada separados ({{fig:fig50_programa_balanco_ambiental}}).
+
 ![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
 
 *Figura 99 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. Atenção ao sinal, que o gráfico inverte em relação à tabela acima: nele as emissões são positivas e a água evitada é negativa, de modo que a mesma dívida de carbono da tabela aparece aqui acima de zero. Figura gerada pelo próprio programa.*
@@ -72,17 +74,17 @@ não produz, portanto, o ganho ambiental que a intuição sugere.
 ## O material decide o sinal
 
 A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pesar
-110 kg ou 6.000 kg, conforme o material.
+110 kg ou 6.000 kg, conforme o material. A tabela a seguir e a {{fig:fig06_carbono_no_tempo}} mostram a trajetória do saldo ao longo da vida útil, e a {{fig:fig04_materiais}}, o saldo final de cada material.
 
 <!-- inclui: _tabelas/cap11_materiais.md -->
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 6 — O saldo parte negativo, no valor do carbono incorporado na fabricação, e sobe ano a ano com o crédito da água substituída. O polietileno cruza o zero aos 11,8 anos; o concreto não chega a cruzá-lo dentro dos vinte anos de vida útil adotados.*
+*Figura 99 — Saldo de carbono acumulado da cisterna de 5.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 11,8 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
 
 ![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 4 — Verde é saldo positivo, laranja é negativo. Dois dos quatro materiais fecham a vida útil devendo carbono.*
+*Figura 99 — Saldo de carbono em vinte anos da cisterna de 5.000 L, por material. Em verde, saldo positivo; em laranja, negativo: dois dos quatro materiais encerram a vida útil com emissão líquida.*
 
 **A escolha do material inverte o resultado.**
 

@@ -118,20 +118,23 @@ E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 
 ---
 
+A potência de placa de uma motobomba é a potência mecânica no eixo, e não a potência elétrica registrada pelo medidor ({{fig:fig00k_energia}}). Uma motobomba de 0,5 CV (0,37 kW) com motor de rendimento 60,5% absorve da rede cerca de 0,61 kW: calcular a energia com a potência de placa subestimaria o consumo em cerca de 40%, e o custeio de energia é justamente a parcela que reduz a economia do sistema.
+
 ![A cadeia de rendimentos entre a tomada e a água elevada](../figuras/fig00k_energia.png)
 
-*Figura 44 — A cadeia de energia do bombeamento. A potência de placa está no meio da cadeia, e não no seu início: entre ela e o medidor de energia existe o rendimento do motor, e entre ela e a água existe o rendimento hidráulico da bomba.*
+*Figura 99 — Cadeia de energia do bombeamento. A potência de placa é a potência no eixo, no meio da cadeia: entre ela e o medidor de energia está o rendimento do motor, η_m, e entre ela e a potência hidráulica entregue à água está o rendimento da bomba, η_b.*
+
+A potência hidráulica depende da altura manométrica, que soma ao desnível geométrico entre as lâminas d'água as perdas de carga do escoamento ({{fig:fig00l_manometrica}}). A perda de carga é a energia dissipada por unidade de peso do fluido e tem duas parcelas: a perda contínua, ao longo da tubulação, dada pela equação de Darcy-Weisbach, `h_f = f · (L/D) · v²/2g`, em que `f` é o fator de atrito, `L` o comprimento, `D` o diâmetro interno e `v` a velocidade média; e as perdas localizadas em conexões, registros e válvulas, `h_loc = K · v²/2g`, em que `K` é o coeficiente da singularidade. Em recalques prediais curtos, as perdas somam tipicamente de 10% a 30% do desnível geométrico.
 
 ![A altura manométrica decomposta em desnível e perdas](../figuras/fig00l_manometrica.png)
 
-*Figura 45 — A altura manométrica de um recalque predial. O desnível entre as duas lâminas d'água é o piso da conta; as perdas de carga na tubulação e nas conexões acrescentam de 10% a 30% a ele, e é a soma que a bomba precisa vencer.*
+*Figura 99 — (a) Altura manométrica de um recalque predial: desnível geométrico entre as lâminas d'água da cisterna e do reservatório superior, somado às perdas de carga; (b) linha de energia ao longo de um trecho de tubulação, com a perda contínua por atrito (h_f) e as perdas localizadas em registro e cotovelo (h_loc).*
 
 ---
 
 ## O rendimento do motor, quando não informado
 
-Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é
-o que são as motobombas residenciais, a 3.450 rpm:
+Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é o que são as motobombas residenciais, a 3.450 rpm ({{fig:fig31_motores}}):
 
 ![O rendimento de motores de indução por potência e classe](../figuras/fig31_motores.png)
 
@@ -168,6 +171,21 @@ efetivamente entregue, o que o contabiliza duas vezes. A cadeia apresentada nest
 
 ---
 
+## O assistente de dimensionamento da motobomba
+
+Quando a potência, a vazão e a altura manométrica da motobomba não são conhecidas, o botão *Assistente de Dimensionamento de Motobomba*, na etapa **4. Reservatório & Custos** e no diálogo econômico, estima os três valores e seleciona um modelo comercial. O assistente segue a sequência usual de dimensionamento de um recalque predial:
+
+1. **Vazão de recalque.** `Q = V_sup ÷ t_ench`, com o volume do reservatório superior e o tempo de enchimento desejado, de 45 minutos por padrão.
+2. **Diâmetro econômico.** Pela fórmula de Forchheimer, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q`, com `D` em metros, `Q` em m³/s e `t_op` o tempo diário de funcionamento, de 2 h por padrão. O diâmetro adotado é o menor tubo comercial de PVC soldável cujo diâmetro interno atende ao valor calculado, e nunca inferior ao bocal da motobomba selecionada; a sucção recebe uma bitola comercial acima do recalque.
+3. **Velocidade.** `v = Q ÷ (π · D_i² ÷ 4)`, destacada quando fica fora do intervalo de 0,6 m/s a 2,5 m/s.
+4. **Perda de carga.** Pela fórmula de Hazen-Williams, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, com `C = 140` para PVC, multiplicada pelo comprimento da tubulação e acrescida de 30% para as perdas localizadas.
+5. **Altura manométrica e potência.** `H_man = H_geo + h_f` e `P = ρ · g · Q · H_man ÷ η`, com rendimento de conjunto de 55% por padrão.
+6. **Seleção.** O primeiro modelo do catálogo interno cuja vazão, altura máxima e potência atendem ao ponto de operação, com a curva da bomba traçada contra o ponto calculado.
+
+A altura manométrica e a perda de carga calculadas retornam ao projeto e passam a alimentar o cálculo de energia desta seção, no lugar do valor de recurso.
+
+---
+
 ## Os valores de recurso
 
 Usados quando o projeto não declara:
@@ -197,7 +215,7 @@ Elevar um metro cúbico a doze metros custa cerca de 0,033 kWh de energia hidrá
 Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue.
 
 Água é pesada, mas doze metros é pouco. Por isso o custo energético do aproveitamento
-pluvial é desprezível diante da economia da conta de água em edificação de pequeno
+pluvial é desprezível diante da economia na fatura de água e esgoto em edificação de pequeno
 porte — e por isso o argumento de que «bombear gasta mais do que economiza» não se
 sustenta nessa escala.
 

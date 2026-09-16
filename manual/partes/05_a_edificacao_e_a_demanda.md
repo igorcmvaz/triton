@@ -14,8 +14,7 @@ ultrapassa.
 ## A tipologia
 
 Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
-tipologias, cada uma com o consumo per capita de referência e a repartição usual dos
-usos finais:
+tipologias, cada uma com o consumo per capita de referência ({{fig:fig38_per_capita}}) e a repartição usual dos usos finais. A indústria não tem faixa de referência, porque o consumo depende do processo produtivo, e não da ocupação: nesse caso, o valor deve vir de medição.
 
 ![O consumo per capita de referência por tipologia](../figuras/fig38_per_capita.png)
 
@@ -32,7 +31,7 @@ A seção {{n:18}} trata dos casos não residenciais, que têm uma armadilha pr�
 **Quatro moradores, 150 L/hab·dia.** Total de **600 L/dia**.
 
 O valor de 150 L/hab·dia é o consumo de uma residência de classe média com
-abastecimento regular. Se você tem a conta de água da edificação, use-a: divida o
+abastecimento regular. Se você tem a fatura de água e esgoto da edificação, use-a: divida o
 consumo mensal em litros por trinta e pelo número de moradores. O número medido vale
 mais que qualquer referência.
 
@@ -51,7 +50,7 @@ para bacia sanitária, máquina de lavar roupa, lavagem de piso, rega de jardim 
 lavagem de veículo. A fração desses usos no consumo total é o **teto do potencial
 de economia**.
 
-A repartição usual numa residência brasileira está desenhada logo adiante, com a
+A repartição usual numa residência brasileira está representada na {{fig:fig00c_fracao}}, com a
 marcação dos usos que a chuva atende. Bacia sanitária, máquina de lavar roupa e usos
 externos somam de 35% a 60% do consumo, e são eles que definem o teto do que qualquer
 sistema pluvial pode alcançar; chuveiro, pia de cozinha e lavatório, que respondem pelo
@@ -63,7 +62,7 @@ defensável para residência unifamiliar sem jardim grande.
 
 ![A repartição do consumo numa residência, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
 
-*Figura 3 — Em cinza, os usos que exigem água potável; em verde, os que não exigem. A soma dos verdes é a fração atendível, e é o teto do potencial de economia.*
+*Figura 99 — Repartição típica do consumo de uma residência por uso final. Em cinza, os usos que exigem água potável; em verde, os de possível uso de água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, economiza mais do que essa fração.*
 
 > **Este número é o teto.** Com 40% de fração atendível, o potencial de economia
 > **jamais** passa de 40%, por maior que seja o reservatório e por mais que chova.
@@ -83,7 +82,7 @@ atendível é um **percentual, de 0 a 100**: 40 significa 40%. No arquivo de pro
 arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,40.
 
 A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
-projetistas, normas e contas de água, e é a forma que menos se erra ao digitar. A
+projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
 fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
 (seção {{n:25}}), e é a forma que não exige conversão a quem lê o arquivo com outro
 programa.
@@ -92,12 +91,11 @@ O que não se admite é a mistura. Até esta versão, doze pontos do programa ac
 duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
 nos valores pequenos, onde o erro não se vê: 1 virava 100%, e não 1%; 0,5 digitado numa
 coluna em percentual virava 50%. ==Agora a unidade é fixada pelo lugar, e nunca
-adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração acima de 1 é
-recusada com a indicação de que parece percentual.
+adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração acima de 1 é recusada com a indicação de que parece percentual. A {{fig:fig46b_percentual}} mostra os três estados do campo na interface.
 
 ![O campo em percentual e o marcador de valor suspeito](../figuras/fig46b_percentual.png)
 
-*Figura 99 — Na tela, o campo em percentual traz a unidade na dica e fica laranja quando recebe um valor entre 0 e 1, que costuma ser a fração digitada no lugar do percentual. O cálculo não é bloqueado: 0,5% é possível, apenas raro.*
+*Figura 99 — Estados do campo de fração atendível na interface. O campo recebe percentual de 0 a 100; no arquivo de projeto e nos parâmetros de cálculo a grandeza é armazenada como fração de 0 a 1. Um valor entre 0 e 1 digitado no campo fica assinalado em laranja, sem bloquear o cálculo, porque 0,4% é possível, embora raro.*
 
 > **O marcador laranja.** Um valor entre 0 e 1 num campo em percentual é aceito, porque
 > menos de 1% de substituição é possível, mas o campo fica laranja e a dica explica o

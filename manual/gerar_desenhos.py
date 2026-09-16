@@ -15,6 +15,7 @@ Saída: manual/figuras/fig00*.png
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import matplotlib
@@ -37,6 +38,17 @@ SUPERFICIE = "#fcfcfb"
 CINZA = "#8a8880"
 
 NL = chr(10)
+
+
+def rotulo_de_painel(ax, titulo):
+    """Só o rótulo de painel, «(a)», «(b)», entra na figura.
+
+    O título da figura é a legenda abaixo dela, à maneira da ABNT; uma frase
+    escrita por cima do gráfico repete a legenda ou, pior, a contradiz.
+    """
+    if re.fullmatch(r"\([a-z]\)( [^.;:]{1,40})?", (titulo or "").strip()):
+        ax.set_title(titulo.strip(), color=TINTA, fontsize=10,
+                     fontweight="bold", loc="left", pad=6)
 
 
 class Prancha:
@@ -176,7 +188,8 @@ class Prancha:
                 desenho = self.fig.canvas.get_renderer()
 
     def titulo(self, texto):
-        self.ax.set_title(texto, color=TINTA, fontsize=10.5, loc="left", pad=10)
+        # O título vai na legenda da figura; na prancha só o rótulo de painel.
+        rotulo_de_painel(self.ax, texto)
 
     def conferir(self):
         """Toda seta precisa sair de uma caixa e chegar noutra caixa."""
@@ -201,7 +214,6 @@ class Prancha:
 
 def desenho_sistema():
     p = Prancha(100, 78, tamanho=(7.4, 5.8))
-    p.titulo("Fluxo da água pluvial, da captação ao ponto de consumo")
 
     # Fileira de cima: a captação.
     p.caixa("chuva", 1, 65, 26, 11, "Precipitação sobre" + NL + "a área de captação",
@@ -244,10 +256,6 @@ def desenho_sistema():
     p.seta("rede", "c", "usos", "b", "suprimento complementar", cor=CINZA,
            rotulo_em=(83, 10.5), tamanho=7.0)
 
-    p.nota(1, 9,
-           "O reservatório superior é opcional: em edificação térrea, a" + NL +
-           "motobomba pode pressurizar os pontos de uso. Ele altera o" + NL +
-           "momento da oferta de água, e não o volume disponível.")
     p.salvar("fig00_sistema.png")
 
 
@@ -257,7 +265,6 @@ def desenho_sistema():
 
 def desenho_destino():
     p = Prancha(100, 64, tamanho=(7.4, 4.8))
-    p.titulo("Destino da precipitação de um dia")
 
     p.caixa("chuva", 1, 51, 24, 11, "Precipitação diária" + NL + "P (mm)",
             cor=AZUL, peso="bold")
@@ -290,10 +297,6 @@ def desenho_destino():
     p.seta("captado", "b", "consumido", "c", "")
     p.seta("captado", "bd", "guardado", "c", "", cor=ROXO, curva=-0.12)
 
-    p.nota(1, 7,
-           "A ordem importa: o extravasamento é calculado antes do consumo do "
-           "dia." + NL + "Na ordem inversa, o modelo contabilizaria como consumo "
-           "um volume já extravasado. A seção do balanço diário detalha a regra.")
     p.salvar("fig00b_destino.png")
 
 
@@ -302,7 +305,7 @@ def desenho_destino():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def desenho_fracao():
-    fig, ax = plt.subplots(figsize=(7.4, 3.1))
+    fig, ax = plt.subplots(figsize=(7.4, 2.1))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
@@ -328,24 +331,16 @@ def desenho_fracao():
 
     ax.annotate("", xy=(0.3, 0.46), xytext=(59.7, 0.46),
                 arrowprops=dict(arrowstyle="<->", color=CINZA, linewidth=1.2))
-    ax.text(30, 0.56, "exige água potável: 60%", ha="center", va="bottom",
+    ax.text(30, 0.56, "uso de água potável: 60%", ha="center", va="bottom",
             fontsize=8.4, color=TINTA2)
     ax.annotate("", xy=(60.3, 0.46), xytext=(99.7, 0.46),
                 arrowprops=dict(arrowstyle="<->", color=VERDE, linewidth=1.3))
-    ax.text(80, 0.56, "pode ser água de chuva: 40%", ha="center", va="bottom",
+    ax.text(80, 0.56, "possível uso de água da chuva: 40%", ha="center", va="bottom",
             fontsize=8.4, color=VERDE, fontweight="bold")
 
     ax.set_xlim(0, 100)
-    ax.set_ylim(-1.15, 0.95)
+    ax.set_ylim(-0.8, 0.8)
     ax.axis("off")
-    ax.set_title("Onde a água da chuva pode entrar, numa residência",
-                 color=TINTA, fontsize=10.5, loc="left", pad=12)
-    ax.text(0, -0.72,
-            "Os usos em verde não exigem água potável. A soma deles é a fração "
-            "atendível, e ela é o teto de tudo" + NL + "o que vem depois: "
-            "nenhum reservatório, por maior que seja, economiza mais do que "
-            "essa fração.",
-            ha="left", va="top", fontsize=7.6, color=TINTA2, linespacing=1.45)
 
     fig.savefig(FIGURAS / "fig00c_fracao.png", dpi=170, bbox_inches="tight",
                 facecolor=SUPERFICIE)

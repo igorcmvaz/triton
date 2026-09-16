@@ -76,6 +76,8 @@ indica o volume de 5.000 L.
 
 ---
 
+A aba de decisão apresenta o escore de cada volume candidato ({{fig:fig51_programa_topsis}}).
+
 ![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
 *Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
@@ -110,7 +112,7 @@ para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 ---
 
-Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles.
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles ({{fig:fig52_programa_proximidade}}).
 
 ![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 

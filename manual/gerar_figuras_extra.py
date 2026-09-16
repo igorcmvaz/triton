@@ -89,19 +89,21 @@ def figura_fatura():
 
     largura = 0.5
     cores = [LARANJA, AZUL, "#7fb0ea", VERDE]
-    nomes = ["disponibilidade (fixa)", "faixa 0 a 10 m³",
-             "faixa 10 a 25 m³", "esgoto (100% da água)"]
+    nomes = ["tarifa de disponibilidade (valor fixo)",
+             "faixa de consumo 0 a 10 m³", "faixa de consumo 10 a 25 m³",
+             "esgoto (100% do valor da água)"]
     vistos = set()
     legendas_x = []
     alturas_totais = []
 
     for i, (rotulo, consumo) in enumerate(casos):
         disp, faixas, agua = _parcelas_da_conta(consumo)
-        parcelas = [("disponibilidade (fixa)", disp)]
+        parcelas = [(nomes[0], disp)]
         for j, (inicio, fim, valor) in enumerate(faixas):
             parcelas.append((nomes[1 + j] if 1 + j < 3 else
-                             f"faixa {inicio:.0f} a {fim:.0f} m³", valor))
-        parcelas.append(("esgoto (100% da água)", agua))
+                             f"faixa de consumo {inicio:.0f} a {fim:.0f} m³",
+                             valor))
+        parcelas.append((nomes[3], agua))
 
         base = 0.0
         for nome, valor in parcelas:
@@ -120,13 +122,14 @@ def figura_fatura():
             ("R$ " + f"{base:,.0f}").replace(",", "."))
         alturas_totais.append(base)
 
-    _eixos(ax, "A economia sai da faixa mais cara; a parcela fixa não se mexe", "",
-           "conta mensal (R$)")
+    _eixos(ax, "", "", "fatura mensal de água e esgoto (R$)")
     ax.set_xticks([0, 1])
     ax.set_xticklabels(legendas_x, fontsize=9.0)
-    ax.set_xlim(-0.6, 1.9)
-    ax.set_ylim(0, max(alturas_totais) * 1.14)
-    ax.legend(frameon=False, fontsize=8.5, loc="upper right")
+    ax.set_xlim(-0.6, 2.3)
+    teto = 50.0 * np.ceil(max(alturas_totais) * 1.05 / 50.0)
+    ax.set_ylim(0, teto)
+    ax.set_yticks(np.arange(0, teto + 1, 50))
+    ax.legend(frameon=False, fontsize=8.2, loc="upper right")
 
     fig.tight_layout()
     _salvar(fig, "fig07_fatura.png")
@@ -137,7 +140,13 @@ def figura_fatura():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def figura_fluxo_de_caixa():
-    """O saldo descontado acumulado, mês a mês, ao longo de vinte anos."""
+    """Custos e economias de cada ano, em colunas, e o saldo acumulado.
+
+    A primeira versão mostrava só a curva do saldo descontado, mês a mês, e o
+    leitor não via de que ela era feita. Em colunas anuais aparecem as duas
+    parcelas que a formam, o investimento no ano zero, e a linha acumulada
+    cruza o zero no tempo de retorno.
+    """
     from netuno.core.economic import run_economic_analysis
 
     r, _, _ = _consumos_do_tutorial()
@@ -145,37 +154,53 @@ def figura_fluxo_de_caixa():
     e = run_economic_analysis(cfg, r)
 
     fluxos = e.monthly_cash_flows
-    anos = np.array([f.month / 12.0 for f in fluxos])
-    saldo = np.array([f.cumulative_discounted for f in fluxos])
+    n_anos = int(np.ceil(len(fluxos) / 12.0))
+    anos = np.arange(0, n_anos + 1)
+    economias = np.zeros(n_anos + 1)
+    custos = np.zeros(n_anos + 1)
+    custos[0] = e.capex_total
+    acumulado = np.zeros(n_anos + 1)
+    acumulado[0] = -e.capex_total
+    for f in fluxos:
+        ano = (f.month - 1) // 12 + 1
+        economias[ano] += f.water_savings + f.iptu_savings
+        custos[ano] += f.pump_cost + f.om_cost + f.chlorine_cost
+        acumulado[ano] = f.cumulative_discounted
 
-    fig, ax = plt.subplots(figsize=(7.2, 4.0))
+    fig, ax = plt.subplots(figsize=(7.2, 4.2))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
-    ax.fill_between(anos, saldo, 0.0, where=(saldo < 0), color=LARANJA,
-                    alpha=0.13, zorder=2)
-    ax.fill_between(anos, saldo, 0.0, where=(saldo >= 0), color=VERDE,
-                    alpha=0.13, zorder=2)
-    ax.plot(anos, saldo, color=ROXO, linewidth=2.4, zorder=4)
-    ax.axhline(0.0, color=TINTA, linewidth=1.1, zorder=3)
+    largura = 0.38
+    ax.bar(anos - largura / 2.0, economias, largura, color=VERDE, zorder=3,
+           label="economia na fatura de água e esgoto")
+    ax.bar(anos + largura / 2.0, -custos, largura, color=LARANJA, zorder=3,
+           label="investimento (ano 0) e custeio anual")
+    ax.plot(anos, acumulado, color=ROXO, linewidth=2.2, marker="o",
+            markersize=4.0, zorder=5, label="saldo acumulado descontado")
+    ax.axhline(0.0, color=TINTA, linewidth=1.0, zorder=4)
 
     if e.payback_years:
-        ax.plot([e.payback_years], [0.0], "o", color=ROXO, markersize=8,
-                zorder=5)
-        ax.annotate("retorno em " + f"{e.payback_years:.1f}".replace(".", ",") +
-                    " anos",
-                    xy=(e.payback_years, 0.0),
-                    xytext=(e.payback_years + 1.2, saldo.max() * 0.42),
-                    fontsize=9.0, color=ROXO,
-                    arrowprops=dict(arrowstyle="-", color=ROXO, linewidth=0.9))
+        ax.axvline(e.payback_years, color=ROXO, linewidth=1.0, linestyle=":",
+                   zorder=2)
+        ax.text(e.payback_years + 0.25, acumulado.max() * 0.92,
+                "tempo de retorno: " +
+                f"{e.payback_years:.1f}".replace(".", ",") + " anos",
+                fontsize=8.4, color=ROXO, va="top")
 
-    ax.text(max(anos) * 0.60, -abs(e.capex_total) * 0.62,
-            "investimento inicial\n" + ("R$ " + f"{e.capex_total:,.0f}").replace(",", "."),
-            fontsize=8.4, color=TINTA2, va="center")
-
-    _eixos(ax, "O saldo descontado atravessa o zero uma única vez",
-           "anos de operação", "saldo acumulado e descontado (R$)")
-    ax.set_xlim(0, max(anos))
+    _eixos(ax, "", "ano de operação", "valor (R$)")
+    ax.set_xlim(-0.7, n_anos + 0.7)
+    ax.set_xticks(range(0, n_anos + 1, 2))
+    passo = 2500.0
+    baixo = -passo * np.ceil(max(custos.max(), -acumulado.min()) / passo)
+    alto = passo * np.ceil(max(acumulado.max(), economias.max()) * 1.05 / passo)
+    ax.set_ylim(baixo, alto)
+    marcas = np.arange(baixo, alto + 1, passo)
+    ax.set_yticks(marcas)
+    ax.set_yticklabels([f"{v:,.0f}".replace(",", ".").replace("-", "−")
+                        for v in marcas])
+    ax.legend(frameon=False, fontsize=8.2, loc="upper center",
+              bbox_to_anchor=(0.5, -0.14), ncol=2)
 
     fig.tight_layout()
     _salvar(fig, "fig08_fluxo_de_caixa.png")
@@ -222,7 +247,7 @@ def figura_criterios():
     # Critério 3 — o maior potencial de economia da varredura.
     i_max = int(np.argmax(pots))
 
-    fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 5.6), sharex=True,
+    fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 6.2), sharex=True,
                                  gridspec_kw={"height_ratios": [1.15, 1]})
     fig.patch.set_facecolor(SUPERFICIE)
     for ax in (a1, a2):
@@ -230,47 +255,133 @@ def figura_criterios():
 
     a1.plot(vols, pots, color=AZUL, linewidth=2.4, zorder=3)
     a2.plot(vols, vpls, color=TINTA2, linewidth=2.0, zorder=3)
+    # Os critérios que coincidem no mesmo volume ficam distinguíveis pelo traço,
+    # e a identificação vai na legenda, e não em frases sobre o gráfico.
     marcas = [
-        (i_ideal, ROXO, "1. ganho marginal\nabaixo de 1 %/m³\n(o do tutorial)"),
-        (i_vpl, VERDE, "2. maior valor\npresente líquido"),
-        (i_max, LARANJA, "3. maior potencial\nda varredura"),
+        (i_ideal, ROXO, (0, (5, 3)), "critério 1: ganho marginal ≤ 1 %/m³"),
+        (i_vpl, VERDE, (0, (1, 2)), "critério 2: VPL máximo"),
+        (i_max, LARANJA, (0, (5, 3)), "critério 3: potencial máximo"),
     ]
-    alturas = (0.42, 0.24, 0.06)
-    for (i, cor, texto), altura in zip(marcas, alturas):
+    from matplotlib.lines import Line2D
+    alcas = []
+    for i, cor, traco, texto in marcas:
         for ax, serie_y in ((a1, pots), (a2, vpls)):
-            ax.axvline(vols[i], color=cor, linewidth=1.3, linestyle="--",
+            ax.axvline(vols[i], color=cor, linewidth=1.6, linestyle=traco,
                        zorder=2)
-            ax.plot([vols[i]], [serie_y[i]], "o", color=cor, markersize=7.5,
+            ax.plot([vols[i]], [serie_y[i]], "o", color=cor, markersize=7.0,
                     zorder=4)
-        # O rótulo fica do lado em que há espaço: à direita da linha, e à
-        # esquerda quando a linha está na metade direita do gráfico.
-        direita = vols[i] > vols.max() * 0.55
-        a1.text(vols[i] + (-0.5 if direita else 0.4),
-                pots.max() * altura + pots.max() * 0.18, texto,
-                fontsize=8.0, color=cor, va="center", linespacing=1.35,
-                ha="right" if direita else "left")
+        alcas.append(Line2D([0], [0], color=cor, linewidth=1.6, linestyle=traco,
+                            marker="o", markersize=6.0,
+                            label=texto + f" ({vols[i]:.0f} m³)"))
 
-    rotulados = set()
-    for i, cor, _texto in marcas:
-        # Dois critérios que elegem o mesmo volume ganham um rótulo só: com
-        # dois, o número saía escrito duas vezes no mesmo lugar.
-        if i in rotulados:
-            continue
-        rotulados.add(i)
-        direita = vols[i] > vols.max() * 0.55
-        a2.annotate(f"{vols[i]:.0f} m³", xy=(vols[i], 0.0),
-                    xytext=(vols[i] + (-0.45 if direita else 0.35),
-                            vpls.max() * 0.08),
-                    fontsize=8.5, color=cor,
-                    ha="right" if direita else "left")
-
-    _eixos(a1, "Três critérios, dois volumes: o técnico e o econômico coincidem",
-           "", "potencial de economia (%)")
-    _eixos(a2, "", "volume do reservatório (m³)", "valor presente líquido (R$)")
-    a2.axhline(0.0, color=EIXO, linewidth=1.0, zorder=2)
+    passo_x = 2
+    teto_x = passo_x * np.ceil(vols.max() / passo_x)
+    _eixos(a1, "(a)", "", "potencial de economia (%)")
+    a1.set_ylim(0, 50)
+    a1.set_yticks(range(0, 51, 10))
+    _eixos(a2, "(b)", "volume do reservatório (m³)",
+           "valor presente líquido (R$)")
+    passo_vpl = 2500.0
+    teto_vpl = passo_vpl * np.ceil(vpls.max() * 1.02 / passo_vpl)
+    piso_vpl = min(0.0, passo_vpl * np.floor(vpls.min() / passo_vpl))
+    a2.set_ylim(piso_vpl, teto_vpl)
+    marcas_vpl = np.arange(piso_vpl, teto_vpl + 1, passo_vpl)
+    a2.set_yticks(marcas_vpl)
+    a2.set_yticklabels([f"{v:,.0f}".replace(",", ".") for v in marcas_vpl])
+    for ax in (a1, a2):
+        ax.set_xlim(0, teto_x)
+        ax.set_xticks(np.arange(0, teto_x + 1, passo_x))
+    a2.set_xticklabels([f"{v:.0f}" for v in np.arange(0, teto_x + 1, passo_x)])
+    a2.legend(handles=alcas, frameon=False, fontsize=8.2, loc="upper center",
+              bbox_to_anchor=(0.5, -0.22), ncol=1)
 
     fig.tight_layout()
     _salvar(fig, "fig09_criterios.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# A permanência do nível: quanto tempo o reservatório passa vazio ou cheio
+# ══════════════════════════════════════════════════════════════════════════════
+
+#: Os volumes da curva de permanência, em litros.
+VOLUMES_PERMANENCIA = (2000, 5000, 10000, 20000)
+#: Os volumes das barras de estado, em litros.
+VOLUMES_ESTADOS = (1000, 2000, 3000, 5000, 8000, 12000, 20000)
+#: Abaixo desta fração da capacidade o reservatório conta como vazio; acima
+#: da complementar, como cheio.
+FOLGA_DE_NIVEL = 0.05
+
+
+def _niveis_relativos(volume_l):
+    """O nível ao fim de cada dia, como fração da capacidade."""
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=float(volume_l),
+                              store_daily_details=True, **_config_tutorial())
+    return np.asarray([d.lower_tank_end_liters for d in r.daily_results],
+                      dtype=float) / float(volume_l)
+
+
+def figura_permanencia():
+    """A curva de permanência do nível e a fração de dias vazio e cheio.
+
+    Substitui o gráfico do volume médio armazenado, cuja leitura era óbvia. A
+    permanência mostra o que a média esconde: um reservatório grande não fica
+    «meio cheio»; passa longos períodos vazio na estiagem e raramente enche.
+    """
+    fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 6.4),
+                                 gridspec_kw={"height_ratios": [1.15, 1]})
+    fig.patch.set_facecolor(SUPERFICIE)
+    for ax in (a1, a2):
+        ax.set_facecolor(SUPERFICIE)
+
+    cores = [VERDE, AZUL, ROXO, LARANJA]
+    for volume, cor in zip(VOLUMES_PERMANENCIA, cores):
+        nivel = np.sort(_niveis_relativos(volume))[::-1] * 100.0
+        permanencia = np.arange(1, len(nivel) + 1) / len(nivel) * 100.0
+        a1.plot(permanencia, nivel, color=cor, linewidth=2.0, zorder=3,
+                label=f"{volume / 1000.0:.0f} m³")
+    _eixos(a1, "(a)", "permanência: tempo em que o nível é igualado ou "
+           "superado (%)", "nível do reservatório (% da capacidade)")
+    a1.set_xlim(0, 100)
+    a1.set_ylim(0, 100)
+    a1.set_xticks(range(0, 101, 10))
+    a1.set_yticks(range(0, 101, 20))
+    a1.legend(frameon=False, fontsize=8.4, loc="upper right",
+              title="capacidade", title_fontsize=8.4)
+
+    vazio, meio, cheio = [], [], []
+    for volume in VOLUMES_ESTADOS:
+        n = _niveis_relativos(volume)
+        v = float(np.mean(n <= FOLGA_DE_NIVEL)) * 100.0
+        c = float(np.mean(n >= 1.0 - FOLGA_DE_NIVEL)) * 100.0
+        vazio.append(v)
+        cheio.append(c)
+        meio.append(100.0 - v - c)
+    x = np.arange(len(VOLUMES_ESTADOS))
+    a2.bar(x, vazio, 0.6, color=LARANJA, zorder=3, edgecolor=SUPERFICIE,
+           linewidth=1.5, label=f"vazio (≤ {FOLGA_DE_NIVEL * 100:.0f}%)")
+    a2.bar(x, meio, 0.6, bottom=vazio, color="#bcd6f5", zorder=3,
+           edgecolor=SUPERFICIE, linewidth=1.5, label="nível intermediário")
+    a2.bar(x, cheio, 0.6, bottom=np.add(vazio, meio), color=AZUL, zorder=3,
+           edgecolor=SUPERFICIE, linewidth=1.5,
+           label=f"cheio (≥ {100 - FOLGA_DE_NIVEL * 100:.0f}%)")
+    for i in range(len(x)):
+        if vazio[i] >= 6:
+            a2.text(i, vazio[i] / 2.0, f"{vazio[i]:.0f}%", ha="center",
+                    va="center", fontsize=7.8, color="#ffffff")
+        if cheio[i] >= 6:
+            a2.text(i, 100.0 - cheio[i] / 2.0, f"{cheio[i]:.0f}%",
+                    ha="center", va="center", fontsize=7.8, color="#ffffff")
+    _eixos(a2, "(b)", "capacidade do reservatório (m³)", "dias da série (%)")
+    a2.set_xticks(x)
+    a2.set_xticklabels([f"{v / 1000.0:.0f}" for v in VOLUMES_ESTADOS])
+    a2.set_ylim(0, 100)
+    a2.set_yticks(range(0, 101, 20))
+    a2.grid(axis="x", visible=False)
+    a2.legend(frameon=False, fontsize=8.2, loc="upper center",
+              bbox_to_anchor=(0.5, -0.22), ncol=3)
+
+    fig.tight_layout()
+    _salvar(fig, "fig47_permanencia.png")
 
 
 def main():
@@ -278,6 +389,7 @@ def main():
     figura_fatura()
     figura_fluxo_de_caixa()
     figura_criterios()
+    figura_permanencia()
 
 
 if __name__ == "__main__":

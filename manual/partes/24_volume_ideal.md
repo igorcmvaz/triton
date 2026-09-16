@@ -28,14 +28,14 @@ sistema, contra o qual os demais se comparam.
 
 ---
 
-A consequência prática aparece melhor num gráfico. Com passo fino, a curva mostra o
+A consequência prática aparece na {{fig:fig14_grade}}. Com passo fino, a curva mostra o
 joelho onde o retorno começa a decair; com passo grosseiro, o joelho cai entre dois
 pontos da grade e o critério elege o primeiro volume tabulado depois dele, que pode estar
 vários metros cúbicos adiante do volume que de fato interessa.
 
 ![A mesma curva vista por duas grades de varredura](../figuras/fig14_grade.png)
 
-*Figura 32 — A curva de potencial da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa não erra nenhum dos pontos que calcula; ela simplesmente não calcula o ponto que importa.*
+*Figura 99 — Curva de potencial de economia da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa calcula corretamente cada ponto que contém, mas não contém o trecho de maior curvatura, entre 1 e 5 m³.*
 
 ---
 
@@ -108,11 +108,11 @@ da varredura; um que responda por um orçamento escolherá o volume de maior val
 presente líquido; o critério de ganho marginal fica entre os dois, por ser o que identifica
 onde a curva deixa de compensar. Os três leem a mesma varredura e não precisam coincidir:
 neste projeto o técnico e o econômico apontam o mesmo volume, e o de máximo desempenho
-aponta outro. Nenhum dos três está errado — errado é não dizer qual deles foi usado.
+aponta outro. Nenhum dos três está errado — errado é não dizer qual deles foi usado. A {{fig:fig09_criterios}} marca o volume eleito por cada critério.
 
 ![A mesma varredura lida por três critérios](../figuras/fig09_criterios.png)
 
-*Figura 13 — A varredura do projeto do tutorial lida por três critérios legítimos. O painel superior traz o potencial de economia e o inferior, o valor presente líquido do mesmo conjunto de volumes; cada linha tracejada marca o volume que um dos critérios elege.*
+*Figura 99 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes. As linhas verticais marcam o volume eleito pelo ganho marginal abaixo de 1 %/m³ e pelo VPL máximo, ambos em 5 m³, e pelo potencial máximo, em 20 m³.*
 
 ---
 

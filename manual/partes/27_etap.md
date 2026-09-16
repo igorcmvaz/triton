@@ -21,12 +21,11 @@ aparência ou a ausência de resíduo dissolvido importa.
 ---
 
 A linha de tratamento é uma sequência, e a ordem dos estágios não é arbitrária: cada
-um remove aquilo que tornaria o seguinte ineficaz. Convém ter o encadeamento inteiro à
-vista antes de discutir cada peça.
+um remove aquilo que tornaria o seguinte ineficaz. Convém ter o encadeamento inteiro à vista antes de discutir cada peça ({{fig:fig00j_etap}}). A ordem não é intercambiável: desinfetar antes de filtrar consome o reagente na matéria orgânica em suspensão e deixa microrganismos protegidos nas partículas. A turbidez é, por isso, condição de eficácia da desinfecção, e não apenas parâmetro estético.
 
 ![A sequência de estágios da linha de tratamento](../figuras/fig00j_etap.png)
 
-*Figura 43 — Os quatro estágios da linha de tratamento e o caminho do resíduo retido. A desinfecção vem por último porque o seu reagente seria consumido pela matéria orgânica em suspensão, que os estágios anteriores removem.*
+*Figura 99 — Estágios de uma linha de tratamento de água pluvial e destino do material retido. A desinfecção é o último estágio porque o reagente seria consumido pela matéria orgânica em suspensão que os estágios anteriores removem.*
 
 ---
 
@@ -56,12 +55,11 @@ equipamentos correntes no mercado brasileiro.
 
 A desinfecção é o estágio que o programa nunca dispensa, e a razão está no conceito de
 residual. Entre as três tecnologias disponíveis, apenas a cloração deixa na água um
-agente desinfetante que permanece ativo depois do tratamento; a radiação ultravioleta e
-a ozonização atuam no instante da passagem e nada deixam atrás de si.
+agente desinfetante que permanece ativo depois do tratamento; a radiação ultravioleta e a ozonização atuam no instante da passagem e nada deixam atrás de si ({{fig:fig30_desinfeccao}}).
 
 ![As três tecnologias de desinfecção disponíveis](../figuras/fig30_desinfeccao.png)
 
-*Figura 99 — As três tecnologias de desinfecção, o residual de cada uma e o que cada uma leva para o custeio anual. O residual é a propriedade que separa a cloração das demais.*
+*Figura 99 — As três tecnologias de desinfecção, o efeito residual de cada uma e a composição do custeio anual (OPEX). O efeito residual distingue a cloração das demais: protege a água armazenada, enquanto a radiação ultravioleta e o ozônio atuam apenas sobre a água que atravessa o equipamento.*
 
 
 ==Ultravioleta e ozônio entram como barreira adicional à cloração, e não como
@@ -121,6 +119,27 @@ fique documentada em vez de desaparecer.
 > parâmetros por uso final é característica da versão de 2007 da norma e não sobreviveu
 > à revisão de 2019. Num estudo publicado, apresente-as como critério adotado pelo
 > autor, e nunca como requisito normativo.
+
+---
+
+## O descarte de primeiras águas
+
+O descarte de primeiras águas entra no programa de duas formas. No balanço hídrico, é a lâmina subtraída da precipitação de cada dia, descrita na seção {{n:23}}. No orçamento, quando o dimensionamento físico do descarte está habilitado na etapa **3. Qualidade & ETAP** — condição padrão da interface —, é um subsistema com investimento, custeio e carbono incorporado próprios, composto pelo separador de folhas e pelo reservatório de descarte.
+
+O volume do reservatório de descarte é o produto da lâmina de descarte pela área de captação, `V_desc = d × A`, em litros, com `d` em milímetros e `A` em metros quadrados. Até 250 L, o programa orça uma coluna vertical de desvio em PVC, a R$ 2,20 por litro acrescidos de R$ 120 em conexões e válvula de purga lenta; acima de 250 L, um reservatório de polietileno rotomoldado, com preço interpolado na base de custos e acréscimo de R$ 150 em boia de vedação e dispositivo de purga. O separador de folhas custa R$ 220 para até 200 m² de captação, R$ 440 para até 500 m² e R$ 220 por unidade, a cada 250 m², acima disso. O custeio anual do subsistema é de R$ 40, e todos os valores são multiplicados pelo fator regional.
+
+<!-- tabela: Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
+| Item | Valor |
+| :--- | ---: |
+| lâmina de descarte | 2 mm |
+| área de captação | 150 m² |
+| volume do reservatório de descarte | 300 L |
+| reservatório de descarte em polietileno | R$ 396,90 |
+| separador de folhas DN 100 | R$ 220,00 |
+| investimento do subsistema | R$ 616,90 |
+| custeio anual | R$ 40,00 |
+
+O investimento do subsistema integra o investimento da linha de tratamento e, por isso, entra no fluxo de caixa pela regra incremental a seguir.
 
 ---
 

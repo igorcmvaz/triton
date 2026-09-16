@@ -29,7 +29,7 @@ e ruim pelo terceiro, e a leitura conjunta é o que evita conclusão apressada.
 ## O potencial de economia: 34,92%
 
 Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da
-conta de água se deixa de pagar. É o valor central produzido pelo programa e o que
+fatura de água e esgoto se deixa de pagar. É o valor central produzido pelo programa e o que
 figura no resumo de qualquer estudo, e corresponde à razão entre a água pluvial
 consumida e a demanda total da edificação ao longo de toda a série, conforme a Equação
 {{eq:potencial}}.
@@ -108,7 +108,7 @@ descarte, e a diferença inteira corresponde ao que extravasou.
 
 ---
 
-Antes de discutir por que o potencial não chega aos 40%, convém ver o reservatório trabalhando. A aba de resultados traz a série diária do nível da cisterna, e é nela que se enxergam de uma vez os dois regimes que limitam o aproveitamento: o transbordamento e a falta.
+Antes de discutir por que o potencial não chega aos 40%, convém ver o reservatório trabalhando. A aba de resultados traz a série diária do nível da cisterna, e é nela que se enxergam de uma vez os dois regimes que limitam o aproveitamento: o extravasamento e a falta ({{fig:fig48_programa_serie_diaria}}).
 
 ![O nível da cisterna, dia a dia, ao longo de um ano](../figuras/fig48_programa_serie_diaria.png)
 

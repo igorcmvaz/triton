@@ -53,10 +53,10 @@ enganos. Seção {{n:36}}, as limitações que afetam o seu caso.
 | disponibilidade | cada m³ desconta; o fixo continua | 156 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
-| piso de pagamento | a conta não desce abaixo do piso | 0 |
+| piso de pagamento | a fatura não fica abaixo do piso | 0 |
 
 **Teste rápido:** simule dois consumos, um dentro e um fora da faixa mínima, e
-compare com uma conta real. Se só um bater, o regime está errado.
+compare com uma fatura real. Se só um bater, o regime está errado.
 
 ---
 
