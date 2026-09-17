@@ -5,7 +5,7 @@
 > absoluto — existe um volume ótimo para um critério declarado.
 
 A seção {{n:6}} adotou 3.000 L como primeiro palpite e encontrou 303 L/dia
-extravasando, o que equivale a metade de tudo o que a cobertura capta. Diante de um
+extravasando, o que equivale a mais da metade de tudo o que a cobertura capta. Diante de um
 desperdício dessa ordem, a pergunta que se impõe é quanto reservatório vale a pena
 acrescentar, e ela não se responde por tentativa isolada: responde-se simulando o mesmo
 projeto para muitos volumes e observando como o resultado evolui. É o que o programa
@@ -63,8 +63,8 @@ padrão que ela revela é o argumento central desta seção.
 | 10.000 → 12.000 L | 0,15 %/m³ |
 | 16.000 → 20.000 L | 0,02 %/m³ |
 
-==O primeiro metro cúbico de reservatório entrega 25 pontos percentuais de economia; o
-décimo sexto entrega dois centésimos de ponto.== A diferença é de três ordens de
+==O primeiro metro cúbico de reservatório entrega 25 pontos percentuais de economia; os
+quatro últimos, de 16 para 20 m³, entregam dois centésimos de ponto cada um.== A diferença é de três ordens de
 grandeza, e os dois metros cúbicos custam o mesmo concreto, a mesma escavação e a mesma
 mão de obra.
 
@@ -151,7 +151,7 @@ recomendação em sentido diferente.
   bem, e o volume econômico será **maior** que o hidráulico.
 - Se a cisterna for cara ou o espaço for escasso, o inverso.
 - Uma cisterna de concreto de 20 m³ pesa vinte e quatro toneladas e carrega, com o
-  resto do sistema, cerca de **3,5 toneladas de CO₂e** incorporado, contra menos de
+  resto do sistema, cerca de **3,5 toneladas de CO₂e** incorporado, contra cerca de
   uma tonelada na de 5 m³. O ganho ambiental de 0,02 %/m³ do último metro cúbico não
   chega perto de compensar a diferença.
 
@@ -164,16 +164,18 @@ para chegar a um volume de compromisso que se possa defender.
 > **O engano mais comum, e está na seção {{n:33}}.** Publicar o volume de maior economia
 > de água como se fosse o volume recomendado. Pela tabela, 20.000 L dão o maior
 > potencial, 39,98%. Também custam **3,3 vezes mais** que os 5.000 L, e carregam
-> **3,6 vezes mais carbono incorporado**, para entregar 2,53 pontos percentuais a
+> **3,5 vezes mais carbono incorporado**, para entregar 2,53 pontos percentuais a
 > mais.
 
 ---
 
-A varredura traz ainda uma leitura que nem a tabela nem as médias mostram: por quanto tempo o reservatório permanece vazio, em nível intermediário ou cheio. A {{fig:fig47_permanencia}} apresenta a curva de permanência do nível ao fim de cada dia, já descontado o consumo, e a fração de dias em que o reservatório termina o dia vazio ou cheio. A cisterna de 2 m³ termina vazia em cerca de um quarto dos dias e nunca chega cheia ao fim do dia, porque o consumo do próprio dia a esvazia em parte. A de 20 m³ quase nunca esvazia, mas permanece acima de 80% da capacidade em quatro quintos do tempo: os 16 m³ inferiores só são mobilizados em cerca de um quinto dos dias, e é essa capacidade raramente utilizada que o investimento adicional compra.
+A varredura traz ainda uma leitura que a tabela não mostra: quanto da capacidade o consumo de fato utiliza. Medir o reservatório pelo nível engana, porque a cisterna grande parece sempre cheia justamente por guardar água que a demanda não chega a retirar. A {{fig:fig47_permanencia}} mede a capacidade pelo consumo, de duas maneiras. A primeira é a **autonomia armazenada**, o volume ao fim de cada dia dividido pela demanda pluvial diária de 240 L, apresentada como curva de permanência. A segunda é o número de **renovações por ano**, a razão entre o consumo pluvial anual e a capacidade, que diz quantas vezes o volume da cisterna é efetivamente consumido e reposto.
+
+A cisterna de 2 m³ renova o seu volume 35 vezes por ano e termina o dia vazia em 26% dos dias: a capacidade é inteiramente utilizada, e falta água. A de 5 m³ renova 16 vezes e esvazia em 9% dos dias. A de 20 m³ renova apenas 4 vezes por ano e praticamente nunca esvazia, mas guarda em metade dos dias mais de 77 dias de demanda, muito além da estiagem que a série registra. Essa reserva que o consumo não chega a mobilizar é o que o investimento adicional compra, e é a leitura física do retorno decrescente da curva de potencial.
 
 ![A permanência do nível do reservatório](../figuras/fig47_permanencia.png)
 
-*Figura 99 — Permanência do nível do reservatório inferior no projeto do tutorial, com o nível medido ao fim de cada dia, após o consumo: (a) curvas de permanência para 2, 5, 10 e 20 m³; (b) fração dos dias da série com reservatório vazio (até 5% da capacidade), em nível intermediário e cheio (a partir de 95%), de 1 a 20 m³.*
+*Figura 99 — Uso da capacidade do reservatório inferior no projeto do tutorial, com demanda pluvial de 240 L/dia: (a) curvas de permanência da autonomia armazenada ao fim de cada dia, em dias de demanda pluvial, para 2, 5, 10 e 20 m³; (b) renovações anuais do volume, dadas pela razão entre o consumo pluvial anual e a capacidade, com a fração de dias em que o reservatório termina vazio (até 5% da capacidade) indicada sob cada volume.*
 
 ---
 ## Duas leituras a mais da tabela
@@ -189,7 +191,7 @@ dimensionamento.
 **A confiabilidade cresce mais depressa que o potencial.** Ao passar de 3.000 para
 5.000 L, o potencial de economia ganha 2,5 pontos percentuais, ao passo que os dias de
 atendimento pleno saltam de 85,7% para 92,9%. Quando o critério de projeto é o conforto
-de uso — não faltar água pluvial nos pontos que a utilizam — e não a economia na conta,
+de uso — não faltar água pluvial nos pontos que a utilizam — e não a economia na fatura,
 a leitura da mesma tabela conduz a outra escolha.
 
 ---

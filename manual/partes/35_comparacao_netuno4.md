@@ -25,7 +25,7 @@ todas.
 
 A comparação entre as duas versões apoia-se em quatro mil e cinquenta casos exportados do
 Netuno 4 e preservados desde então, byte a byte, justamente para que a referência não se
-alterasse ao longo do desenvolvimento. Eles se distribuem por três conjuntos, com
+alterasse ao longo do desenvolvimento. Eles se distribuem por dois conjuntos, com
 cidades e faixas de parâmetros distintas.
 
 <!-- tabela: Os conjuntos de casos de referência exportados do Netuno 4 -->
@@ -52,17 +52,20 @@ subseção seguinte decompõe a diferença em suas causas atribuíveis.
 
 ## A decomposição, que é o número que importa
 
-Comparar diretamente o volume ótimo de um programa com o do outro mistura três
+Comparar diretamente o potencial no volume ótimo de um programa com o do outro mistura três
 diferenças de naturezas distintas, e o número resultante não informa qual delas responde
 pelo quê. A decomposição as separa comparando os dois programas em três configurações
 sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
 <!-- tabela: Divergência em três configurações sucessivamente mais controladas -->
-| Configuração | Erro médio | ≤ 5 pp |
-| :--- | ---: | ---: |
-| 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | 88,6% |
-| 2. avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | 96,4% |
-| 3. idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **100,0%** |
+| Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
+| :--- | ---: | ---: | ---: |
+| 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | −2,71 pp | 88,6% |
+| 2. avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
+| 3. idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
+
+A atribuição é feita sobre o viés, que se decompõe por diferença entre configurações
+sucessivas.
 
 A atribuição resultante:
 
@@ -78,7 +81,7 @@ A atribuição resultante:
 > de 5 pontos.**
 >
 > O resíduo é compatível com a precisão de duas casas decimais da própria planilha de
-> referência. É **este** número que verifica o motor. A divergência total de 2,81 pp
+> referência. É **este** número que verifica o motor. O viés total de 2,71 pp
 > não mede erro: mede a soma de duas decisões de projeto, ambas deliberadas.
 
 ---
@@ -111,7 +114,7 @@ versões.
 Ambos os programas escolhem o volume ideal por critérios de ganho marginal, mas as
 implementações e as grades de busca diferem entre si, de modo que cada um elege um volume
 distinto e a comparação passa a incluir essa diferença de escolha. Avaliando os dois
-programas no mesmo volume — o que o Netuno 4 declarou ótimo — a divergência cai de 2,81
+programas no mesmo volume — o que o Netuno 4 declarou ótimo — o viés cai de 2,71
 para 1,60 ponto percentual, o que atribui 41% da diferença total ao critério de escolha.
 
 ---

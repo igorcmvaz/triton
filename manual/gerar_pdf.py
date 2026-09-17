@@ -420,6 +420,81 @@ EQUACOES = {}
 contador_tabelas = [0]
 
 
+def _titulo_amarrado(elemento):
+    estilo = getattr(elemento, "style", None)
+    return isinstance(elemento, Paragraph) and bool(getattr(estilo, "keepWithNext", 0))
+
+
+def amarrar_titulos(fluxo):
+    """Nenhum título termina a página sem o conteúdo que ele abre.
+
+    O `keepWithNext` do reportlab liga o título ao elemento seguinte, e esse
+    elemento costuma ser um espaçador: o título ficava no pé da página e a
+    tabela descia sozinha (o professor apontou a subseção «A curva» isolada
+    assim). Agrupar título e conteúdo num bloco indivisível resolvia, mas
+    empurrava blocos grandes inteiros e abria páginas quase vazias. Aqui, antes
+    de cada título, uma quebra condicional mede o título e o primeiro conteúdo
+    real, e só muda de página quando essa altura não cabe no espaço restante.
+    Uma equação é medida junto com a tabela de variáveis que a segue.
+    """
+    import io
+    from reportlab.pdfgen.canvas import Canvas
+    from reportlab.platypus import CondPageBreak
+    from reportlab.platypus import Spacer as _Spacer
+    # Os blocos só se medem sobre uma tela; sem ela a medida falhava em
+    # silêncio e valia zero.
+    tela = Canvas(io.BytesIO())
+    altura_util = ALTURA - MARGEM_S - MARGEM_I
+
+    def medir(elemento):
+        if isinstance(elemento, KeepTogether):
+            # O KeepTogether devolve altura infinita quando o conteúdo passa do
+            # espaço oferecido; a soma das partes é a medida real.
+            return sum(medir(c) for c in elemento._content)
+        try:
+            return elemento.wrapOn(tela, UTIL, altura_util)[1]
+        except Exception:
+            return 0.0
+
+    saida = []
+    i = 0
+    while i < len(fluxo):
+        elemento = fluxo[i]
+        if not _titulo_amarrado(elemento) or (saida and _titulo_amarrado(saida[-1])):
+            saida.append(elemento)
+            i += 1
+            continue
+        necessario = 0.0
+        k = i
+        while k < len(fluxo) and (_titulo_amarrado(fluxo[k]) or isinstance(fluxo[k], _Spacer)):
+            necessario += medir(fluxo[k])
+            k += 1
+        if k < len(fluxo) and not isinstance(fluxo[k], PageBreak):
+            primeiro = fluxo[k]
+            if isinstance(primeiro, Paragraph):
+                # O parágrafo se divide: basta caber o começo dele.
+                h = min(medir(primeiro), 3.2 * primeiro.style.leading)
+            else:
+                h = medir(primeiro)
+                # A equação desce com a tabela de variáveis logo abaixo dela.
+                if isinstance(primeiro, Table):
+                    m = k + 1
+                    while m < len(fluxo) and isinstance(fluxo[m], _Spacer):
+                        h += medir(fluxo[m])
+                        m += 1
+                    if m < len(fluxo) and isinstance(fluxo[m], KeepTogether):
+                        h += medir(fluxo[m])
+                if h > altura_util:
+                    # Bloco maior que a página se divide de qualquer modo.
+                    h = 0.25 * altura_util
+            necessario += h
+        # Folga para o espaçamento que o reportlab acrescenta entre os blocos.
+        saida.append(CondPageBreak(necessario * 1.08 + 14))
+        saida.append(elemento)
+        i += 1
+    return saida
+
+
 def converter(texto):
     """Percorre o Markdown montado e devolve a lista de elementos do PDF."""
     linhas = texto.split(NL)
@@ -731,6 +806,31 @@ def folha_de_rosto():
     ]
 
 
+def titulos_no_pe_da_pagina(caminho):
+    """Páginas cujo último bloco de texto é um título numerado.
+
+    Um título sozinho no pé da página, com o conteúdo na folha seguinte, é o
+    defeito que o professor pediu para nunca aparecer. A conferência lê o PDF
+    pronto, porque só a paginação final mostra onde cada título caiu.
+    """
+    try:
+        import fitz
+    except ImportError:
+        return []
+    achados = []
+    with fitz.open(caminho) as pdf:
+        for numero, pagina in enumerate(pdf, 1):
+            altura = pagina.rect.height
+            blocos = [b for b in pagina.get_text("blocks")
+                      if b[6] == 0 and b[4].strip() and 60 < b[1] < altura - 60]
+            if not blocos:
+                continue
+            ultimo = " ".join(max(blocos, key=lambda b: b[3])[4].split())
+            if re.match(r"^\d+(\.\d+)+\.\s+\S", ultimo) and len(ultimo) < 120:
+                achados.append((numero, ultimo))
+    return achados
+
+
 def main():
     if not os.path.exists(ENTRADA):
         print("manual ainda não montado; rode manual/gerar.py")
@@ -776,8 +876,13 @@ def main():
         PageTemplate(id="miolo", frames=[quadro], onPage=moldura),
     ])
 
-    fluxo = folha_de_rosto() + [NextPageTemplate("miolo")] + converter(corpo)
+    fluxo = folha_de_rosto() + [NextPageTemplate("miolo")] + amarrar_titulos(converter(corpo))
     doc.build(fluxo)
+    orfaos = titulos_no_pe_da_pagina(provisorio)
+    if orfaos:
+        print(f"  AVISO: {len(orfaos)} título(s) no pé da página, sem conteúdo abaixo:")
+        for pagina, titulo in orfaos:
+            print(f"    página {pagina}: {titulo}")
 
     try:
         os.replace(provisorio, SAIDA)

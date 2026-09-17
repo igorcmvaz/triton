@@ -70,7 +70,16 @@ def build_manual(base_dir: Path) -> bool:
     etapas = [
         ("tabelas", "manual/gerar_tabelas.py"),
         ("figuras", "manual/gerar_figuras.py"),
+        ("figuras extras", "manual/gerar_figuras_extra.py"),
+        ("figuras da chuva", "manual/gerar_figuras_chuva.py"),
+        ("figuras da decisão", "manual/gerar_figuras_decisao.py"),
+        ("figuras do programa", "manual/gerar_figuras_do_programa.py"),
         ("desenhos", "manual/gerar_desenhos.py"),
+        ("desenho do sistema", "manual/gerar_desenho_sistema.py"),
+        ("desenhos do método", "manual/gerar_desenhos_metodo.py"),
+        ("esquemas", "manual/gerar_desenhos_esquemas.py"),
+        ("infográficos", "manual/gerar_infograficos.py"),
+        ("infográficos 2", "manual/gerar_infograficos2.py"),
         ("apêndices", "manual/gerar_apendices.py"),
         ("casos", "manual/gerar_casos.py"),
         ("montagem", "manual/gerar.py"),
@@ -137,6 +146,13 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         ("icons", "icons"),
         ("netuno/data", "netuno/data"),
         ("additional_material", "additional_material"),
+        # O manual promete os casos e os estudos de exemplo na pasta do
+        # programa, e o menu Ajuda abre o PDF e o relatório de verificação:
+        # nenhum dos quatro entrava no executável.
+        ("manual/casos", "casos"),
+        ("examples", "exemplos"),
+        ("docs", "docs"),
+        ("manual/Manual-Netuno-5.pdf", "manual"),
     ]
 
     for src_rel, dst_rel in data_folders:

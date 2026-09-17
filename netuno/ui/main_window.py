@@ -267,7 +267,7 @@ class MainWindow(QMainWindow):
 
         # 12 Etapas em 3 Blocos (Dados de Entrada -> Resultados -> Ferramentas)
         self.stack.addWidget(self.tab_project)           # 0. Projeto e Chuva (Input)
-        self.stack.addWidget(self.tab_building)          # 1. Edificação Consumo (Input)
+        self.stack.addWidget(self.tab_building)          # 2. Edificação e Consumo (Input)
         self.stack.addWidget(self.tab_water_quality)     # 2. Qualidade & ETAP (Input)
         self.stack.addWidget(self.tab_tanks_simulation)  # 3. Reservatório & Custos (Input)
         self.stack.addWidget(self.tab_charts)            # 4. Resultados Técnicos (Output)
@@ -696,6 +696,15 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, tr("Erro ao Salvar"), f"{tr('Falha ao salvar projeto')}:\n{str(e)}\n\n{traceback.format_exc()}")
 
     def on_show_manual(self):
+        # O menu mostrava só autores e versão; agora abre o PDF do manual, que
+        # acompanha o programa, e só cai na mensagem quando ele não existe.
+        from PySide6.QtCore import QUrl
+        from PySide6.QtGui import QDesktopServices
+        for relativo in (os.path.join("manual", "Manual-Netuno-5.pdf"),):
+            caminho = get_resource_path(relativo)
+            if os.path.isfile(caminho):
+                QDesktopServices.openUrl(QUrl.fromLocalFile(caminho))
+                return
         QMessageBox.information(
             self,
             tr(f"Manual do Usuário — Netuno {__version__}"),

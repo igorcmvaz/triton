@@ -32,9 +32,7 @@ programa continua inteiramente funcional com séries do usuário.
 
 ## Os cenários
 
-As *Shared Socioeconomic Pathways* do CMIP6:
-
-As três trajetórias estão desenhadas na seção {{n:15}}: o SSP1-2.6 supõe emissões em queda rápida, o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação.
+As três trajetórias socioeconômicas compartilhadas do CMIP6, as *Shared Socioeconomic Pathways*, estão desenhadas na seção {{n:15}}: o SSP1-2.6 supõe emissões em queda rápida, o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação.
 
 
 ---
@@ -42,8 +40,7 @@ As três trajetórias estão desenhadas na seção {{n:15}}: o SSP1-2.6 supõe e
 ## As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data
-ainfall` do programa:
+instalação, na pasta `dataainfall` do programa:
 
 <!-- tabela: Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |

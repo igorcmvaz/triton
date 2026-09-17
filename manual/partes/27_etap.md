@@ -12,11 +12,7 @@ de três entradas: a classe de qualidade que o uso exige, a área de cobertura e
 pluvial anual efetivamente consumido, este último resultado do balanço diário
 apresentado na seção {{n:23}}.
 
-A linha de tratamento compreende três estágios dispostos em série. O **filtro mecânico
-de entrada** retira folhas e sólidos grosseiros antes que cheguem ao reservatório; a
-**desinfecção** é o estágio obrigatório, do qual depende a segurança microbiológica da
-água armazenada; e o **filtro de polimento** é opcional, e se destina aos usos em que a
-aparência ou a ausência de resíduo dissolvido importa.
+A linha de tratamento dimensionada pelo programa tem quatro componentes em série. O **descarte inicial** desvia a primeira lâmina de cada chuva, que carreia a sujeira acumulada na cobertura; o **filtro mecânico de entrada** retira folhas e sólidos grosseiros antes que cheguem ao reservatório; a **desinfecção** é o estágio obrigatório, do qual depende a segurança microbiológica da água armazenada; e o **filtro de polimento** é opcional, e se destina aos usos em que a aparência ou a ausência de resíduo dissolvido importa.
 
 ---
 
@@ -25,7 +21,7 @@ um remove aquilo que tornaria o seguinte ineficaz. Convém ter o encadeamento in
 
 ![A sequência de estágios da linha de tratamento](../figuras/fig00j_etap.png)
 
-*Figura 99 — Estágios de uma linha de tratamento de água pluvial e destino do material retido. A desinfecção é o último estágio porque o reagente seria consumido pela matéria orgânica em suspensão que os estágios anteriores removem.*
+*Figura 99 — Componentes da linha de tratamento dimensionada pelo programa, na ordem do escoamento, e destino do material retido. O descarte inicial e o filtro de entrada atuam antes da cisterna; a desinfecção atua depois deles porque o reagente seria consumido pela matéria orgânica em suspensão que os estágios anteriores removem; o filtro de polimento é opcional.*
 
 ---
 
@@ -192,10 +188,7 @@ tratamento não está sendo orçado aqui.
 
 ## O que o programa não dimensiona
 
-O escopo do dimensionamento termina nos equipamentos da linha, e quatro itens
-correlatos permanecem a cargo do projetista. O **reservatório de autolimpeza** do
-descarte de primeiras águas, cujo volume é o produto da área de captação pela lâmina
-descartada, exige dimensionamento hidráulico próprio. A **tubulação** da linha de
+O escopo do dimensionamento termina nos equipamentos da linha, e quatro itens correlatos permanecem a cargo do projetista. O **arranjo hidráulico do descarte inicial** — conexões, dispositivo de purga e ligação à drenagem — não é projetado: o programa calcula apenas o volume do reservatório de descarte e o seu custo. A **tubulação** da linha de
 tratamento e a perda de carga que ela impõe também não são calculadas. O **regime de
 manutenção** — troca de elemento filtrante, limpeza do vórtex, reposição de pastilhas —
 não é planejado pelo programa, embora determine boa parte do custeio real. E o

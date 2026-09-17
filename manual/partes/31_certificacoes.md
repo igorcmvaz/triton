@@ -14,19 +14,17 @@ referenciais a partir dos resultados da simulação, e o faz sempre com a mesma 
 certificação é decidida pelo organismo certificador, com a documentação completa do
 empreendimento, da qual o desempenho hídrico é apenas uma peça.
 
-Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia ({{fig:fig37_certificacoes}}). O LEED v4 pontua separadamente a redução do uso externo (WEc1: 1 ponto a partir de 50% e 2 pontos com 100%) e a do uso interno (WEc2: de 1 a 6 pontos entre 25% e 50%); o AQUA-HQE Residencial atribui o item EAU.1.2 a partir de 20% e o EAU.1.3 a partir de 40%; e o EDGE exige redução mínima de 20% simultaneamente em água, energia e energia incorporada nos materiais, sem pontuação.
+Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia ({{fig:fig37_certificacoes}}). O LEED v4 pontua separadamente a redução do uso externo (WEc1: 1 ponto a partir de 50% e 2 pontos com 100%) e a do uso interno (WEc2: de 1 a 6 pontos entre 25% e 50%); o LEED v5 reúne a categoria no crédito WEc2, em que a redução em louças e metais vale de 1 a 3 pontos entre 30% e 40% e a redução do projeto inteiro, de 1 a 8 pontos entre 30% e 65%; o AQUA-HQE Residencial atribui o item EAU.1.2 a partir de 20% e o EAU.1.3 a partir de 40%; e o EDGE exige redução mínima de 20% simultaneamente em água, energia e energia incorporada nos materiais, sem pontuação.
 
 ![Os limiares de economia dos referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
 
-*Figura 99 — Os limiares de economia de água com que o programa enquadra o projeto em três dos cinco referenciais, postos na mesma escala. O Selo Casa Azul não entra na régua, porque o seu critério pontua a existência do sistema e a abrangência do uso, e não um percentual. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
+*Figura 99 — Os limiares de redução do consumo de água potável com que o programa enquadra o projeto no LEED v4 (créditos WEc1 e WEc2), no LEED v5 (crédito WEc2, opções 1, 2 e 4), no AQUA-HQE Residencial e no EDGE, na mesma escala. O Selo Casa Azul não entra na régua, porque o seu critério pontua a existência do sistema e a abrangência do uso, e não um percentual. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
 
 ---
 
-## LEED v4, categoria Water Efficiency
+## LEED v4 e v4.1, categoria Water Efficiency
 
-O LEED é o referencial norte-americano mais difundido internacionalmente, e trata a
-eficiência hídrica em uma categoria própria que vale oito pontos distribuídos em dois
-créditos. A distinção fundamental que ele impõe é entre uso interno e uso externo da
+O LEED é o referencial norte-americano mais difundido internacionalmente. A versão 5, lançada em abril de 2025 para edificações comerciais, convive com as versões 4 e 4.1, que aceitam registro de novos projetos comerciais até 30 de junho de 2027 e certificação até 30 de junho de 2033; o programa enquadra o projeto nas duas. Nas versões 4 e 4.1, a eficiência hídrica ocupa uma categoria própria que vale oito pontos distribuídos em dois créditos. A distinção fundamental que ele impõe é entre uso interno e uso externo da
 água, e é dessa separação que decorre toda a pontuação.
 
 O crédito WEc1 trata da redução do uso externo, isto é, da irrigação e das demais
@@ -47,6 +45,42 @@ empreendimento não é elegível à certificação, e ele próprio não confere 
 > de chuva que o balanço diário destinou à irrigação, que é atendida depois do uso
 > interno. Sem demanda externa discretizada, o crédito WEc1 aparece como não avaliado, e a
 > economia interna é tomada, conservadoramente, igual à economia total.
+
+> O rótulo da pontuação informa apenas os pontos da categoria de água. O nível do LEED —
+> Certified, Silver, Gold ou Platinum — resulta da soma de todas as categorias, e a água
+> sozinha não o define.
+
+---
+
+## LEED v5, crédito WEc2 Enhanced Water Efficiency
+
+Na versão 5, conferida contra o *LEED v5 BD+C Rating System* de novembro de 2025, os
+créditos de uso interno e externo foram reunidos no crédito WEc2, *Enhanced Water
+Efficiency*, que vale até oito pontos em construção nova. O pré-requisito WEp2 exige,
+entre outras condições, redução de 20% no consumo de louças e metais em relação à linha
+de base do referencial. O projeto pontua por um de dois caminhos: a Opção 1, que mede a
+redução do uso de água do projeto inteiro, ou a soma das Opções 2 a 6, que tratam cada
+parcela separadamente.
+
+<!-- tabela: Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+| Opção | O que mede | Pontuação |
+| :--- | :--- | :--- |
+| 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; +1 ponto com fonte alternativa de água, até 8 |
+| 2. Louças e metais | redução calculada além do pré-requisito | 30% 1 ponto, 35% 2 pontos, 40% 3 pontos |
+| 4. Uso externo | redução do requisito teórico de irrigação | 50% 1 ponto, 100% 2 pontos |
+| 6. Reúso | fonte alternativa de água no próprio lote, caminho 2 | 2 pontos |
+
+O programa calcula as duas vias e adota a de maior pontuação: a Opção 1 com a economia
+total, e a soma das Opções 2, 4 e 6 com a economia interna, a economia externa e a
+existência do sistema. O teto de oito pontos vale para as duas. Como no LEED v4, as
+reduções do referencial são medidas contra uma linha de base de vazões de aparelhos e de
+irrigação, e não contra a demanda modelada, de modo que o enquadramento é indicativo.
+
+O aproveitamento pluvial também pode contribuir para o crédito SSc3, *Rainwater
+Management*, que concede de 1 a 3 pontos pela retenção no lote do volume correspondente
+ao percentil 80, 85 ou 90 das chuvas, e 1 ponto adicional quando parte desse volume é
+reusada. O programa não avalia esse crédito, porque ele depende do escoamento de todo o
+terreno, e não só da cobertura; a matriz de critérios o registra como não avaliado.
 
 ---
 
@@ -161,8 +195,6 @@ explicitar quatro pontos, e a omissão de qualquer um deles compromete a verific
 do resultado. O primeiro é que as classes 2 a 4 de qualidade da água adotadas pelo
 programa são adaptações internas, e não classes da ABNT NBR 15527. O segundo diz respeito
 ao EDGE, e consiste em declarar que apenas a barra de água foi avaliada, identificando o
-caso-base utilizado. O terceiro aplica-se ao LEED, e consiste em informar se a partição
-entre uso interno e externo foi discretizada a partir de dados do projeto ou estimada
-pela partição normativa de referência. O quarto, finalmente, é a ressalva geral: o
+caso-base utilizado. O terceiro aplica-se ao LEED, e consiste em declarar a versão do referencial adotada e informar se a partição entre uso interno e externo foi discretizada a partir de dados do projeto ou se, na falta dela, a economia interna foi tomada igual à economia total. O quarto, finalmente, é a ressalva geral: o
 enquadramento produzido pelo programa é indicativo, e a certificação é decidida pelo
 organismo certificador à luz da documentação completa do empreendimento.

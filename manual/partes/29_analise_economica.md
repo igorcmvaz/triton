@@ -140,7 +140,7 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `C_sup` | custo do reservatório superior, quando houver | R$ |
 | `C_mo` | custo de mão de obra de instalação | R$ |
 | `C_tub` | custo da tubulação | R$ |
-| `C_ace` | custo de acessórios, filtros e dispositivo de descarte | R$ |
+| `C_ace` | custo de acessórios, incluída a verba genérica de filtragem | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
 | `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
 | `CAPEX_inc` | investimento incremental da linha de tratamento, incluído o descarte inicial quando dimensionado | R$ |
@@ -175,6 +175,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 | energia de bombeamento | seção {{n:28}}, com a bandeira tarifária aplicada |
 | cloração | massa de **produto**, não de cloro ativo |
 | ETAP | custeio incremental, sem contar a cloração duas vezes |
+| descarte inicial | manutenção anual do reservatório de descarte e do separador de folhas, quando dimensionados |
 | custos operacionais declarados | lista livre do usuário |
 
 A bandeira tarifária ajusta a tarifa de energia conforme a condição de operação do
@@ -193,7 +194,7 @@ o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o te
 
 ![O saldo descontado acumulado ao longo de vinte anos](../figuras/fig08_fluxo_de_caixa.png)
 
-*Figura 99 — Fluxo de caixa do projeto do tutorial em vinte anos: economia anual na fatura de água e esgoto e custos anuais, com o investimento inicial no ano zero, em valores nominais; e saldo acumulado descontado à taxa mínima de atratividade, que cruza o zero no tempo de retorno de 8,7 anos.*
+*Figura 99 — Fluxo de caixa do projeto do tutorial em vinte anos: economia anual na fatura de água e esgoto e custos anuais, com o investimento inicial no ano zero, em valores nominais; e saldo acumulado descontado à taxa mínima de atratividade, que cruza o zero no tempo de retorno de 9,4 anos.*
 
 **A inflação incide só sobre o custeio:**
 
@@ -269,9 +270,7 @@ um número inventado.
 
 Duas merecem sensibilidade, e a seção {{n:20}} mostra como.
 
-**O reajuste tarifário.** Cinco por cento ao ano por vinte anos multiplica a tarifa
-por 2,65; três por cento, por 1,81; sete por cento, por 3,87. O VPL varia
-proporcionalmente. É a premissa que mais move o resultado, e a mais incerta.
+**O reajuste tarifário.** Cinco por cento ao ano por vinte anos multiplica a tarifa por 2,65; três por cento, por 1,81; sete por cento, por 3,87. A economia dos últimos anos cresce na mesma proporção, e é por isso que o reajuste está entre as premissas que mais movem o valor presente líquido, como mostra o tornado da seção {{n:20}}; é também uma das mais incertas.
 
 **A vida útil.** Vinte anos é a adoção padrão. Cisterna de concreto dura mais;
 componentes de polietileno expostos ao sol duram menos. A vida útil entra tanto no

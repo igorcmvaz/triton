@@ -73,7 +73,7 @@ absoluto do coeficiente, e sim a ordenação que ele produz.
 
 ---
 
-Geometricamente, cada alternativa é um ponto no espaço dos sete critérios; o ideal e o anti-ideal são pontos construídos com o melhor e o pior valor de cada critério, e nenhum dos dois corresponde a um projeto existente. O escore de cada alternativa é a razão entre a sua distância ao anti-ideal e a soma das duas distâncias. Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e pesos iguais, o escore cresce até um máximo interior e decresce nos volumes maiores, em que o investimento e o carbono incorporado passam a pesar mais que o ganho de água ({{fig:fig22_topsis}}). O máximo, em 7 m³, difere dos 5 m³ obtidos na seção {{n:12}} com seis candidatos, porque o ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*).
+Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e pesos iguais, o escore cresce até um máximo interior e decresce nos volumes maiores, em que o investimento e o carbono incorporado passam a pesar mais que o ganho de água ({{fig:fig22_topsis}}). O máximo, em 7 m³, difere dos 5 m³ obtidos na seção {{n:12}} com seis candidatos, porque o ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*).
 
 ![O escore TOPSIS ao longo da varredura completa](../figuras/fig22_topsis.png)
 

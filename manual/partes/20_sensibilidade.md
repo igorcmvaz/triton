@@ -50,15 +50,9 @@ que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais est
 
 ---
 
-## A premissa que quase sempre domina
+## As premissas que dominam o resultado econômico
 
-Em estudos econômicos de aproveitamento pluvial, a premissa que mais move o resultado
-costuma ser o **reajuste tarifário**, e a razão é que ela atua de forma composta ao longo
-de todo o horizonte de análise. Um reajuste de cinco por cento ao ano durante vinte anos
-multiplica a tarifa por 2,65; três por cento a multiplicam por 1,81, e sete por cento,
-por 3,87. O valor presente líquido acompanha essa variação de modo quase proporcional, de
-maneira que a escolha de uma taxa de reajuste decide, sozinha, boa parte da conclusão
-econômica do estudo.
+Em estudos econômicos de aproveitamento pluvial, as premissas que mais movem o resultado são as que atuam ao longo de todo o horizonte de análise: o próprio período de análise, o volume de água pluvial efetivamente consumido, a taxa mínima de atratividade e o **reajuste tarifário**. O reajuste merece atenção particular porque é o menos verificável e atua de forma composta: cinco por cento ao ano durante vinte anos multiplicam a tarifa por 2,65; três por cento, por 1,81; e sete por cento, por 3,87. A economia dos últimos anos acompanha esse fator, e a escolha da taxa de reajuste pode decidir boa parte da conclusão econômica do estudo.
 
 Faça o teste no seu caso: na etapa **6. Resultados Econômicos**, mude o reajuste anual
 para 3%, anote o VPL, repita com 5% e com 7%. Três rodadas, três minutos, e uma faixa
@@ -121,10 +115,7 @@ informativa por área de página.
 **Distribuição.** A faixa completa do resultado, quando todas as premissas variam
 juntas. Exige declarar as distribuições adotadas, e não só as faixas.
 
-> **Aprofundamento: propagação por Monte Carlo.** A terceira forma é feita sorteando
-> milhares de combinações de premissas e acumulando a distribuição do resultado. O
-> programa tem essa capacidade na interface de automação que acompanha a distribuição
-> de código-fonte, usada nos trabalhos do grupo de pesquisa. Para um estudo de curso
+> **Aprofundamento: propagação por Monte Carlo.** A terceira forma é feita sorteando milhares de combinações de premissas e acumulando a distribuição do resultado. O programa faz essa propagação pelo subcomando `uncertainty` da linha de comando, descrito na seção {{n:19}}. Para um estudo de curso
 > ou de projeto, a tabela de cenários do primeiro item responde a mesma pergunta com
 > uma fração do esforço — e é mais fácil de defender, porque cada cenário tem
 > premissas que se pode ler.

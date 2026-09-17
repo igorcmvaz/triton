@@ -3,9 +3,7 @@
 > Esta seção traz a cadeia completa do eixo à tomada, e explica por que a
 > potência de placa **não** é o que o medidor registra.
 
-Três versões desta conta já existiram no programa, e as duas primeiras estavam
-erradas. O capítulo diz quais eram e por quê, porque quem lê um estudo feito numa
-versão antiga precisa saber.
+Três versões desta conta já existiram no programa, e as duas primeiras cometiam os enganos descritos no item «Por que a cadeia completa importa»: tratar a potência de placa como potência elétrica e descontar o rendimento da bomba duas vezes. Quem lê um estudo feito numa versão antiga precisa saber disso.
 
 ---
 
@@ -193,7 +191,7 @@ Usados quando o projeto não declara:
 <!-- tabela: Valores de recurso adotados quando o projeto não os declara -->
 | Parâmetro | Valor | Origem |
 | :--- | ---: | :--- |
-| altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico mais ~30% de perda de carga |
+| altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico e ~30% de perda de carga dão de 10 a 12 m; adota-se o extremo conservador |
 | rendimento da bomba | 55% | motobombas residenciais de meio a um CV ficam entre 40% e 60% no ponto de operação |
 | tempo de partida | 108 s | ver a ressalva abaixo |
 

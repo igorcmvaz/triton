@@ -25,16 +25,16 @@ Para o nosso projeto, cisterna de concreto de 5.000 L:
 <!-- tabela: Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | Parcela | Valor |
 | :--- | ---: |
-| carbono incorporado no sistema | 987 kg CO₂e |
+| carbono incorporado no sistema | 1.008 kg CO₂e |
 | emissão evitada por ano | 28,7 kg CO₂e |
-| emissão do bombeamento e tratamento | 1,3 kg CO₂e |
+| emissão anual de operação (tratamento da água) | 1,3 kg CO₂e |
 | saldo líquido anual | 27,4 kg CO₂e |
-| **payback de carbono** | **36,1 anos** |
-| saldo ao fim de 20 anos | **−439 kg CO₂e** |
+| **payback de carbono** | **36,8 anos** |
+| saldo ao fim de 20 anos | **−460 kg CO₂e** |
 
-São trinta e seis anos para amortizar a dívida de carbono, contra uma vida útil adotada
+São quase trinta e sete anos para amortizar a dívida de carbono, contra uma vida útil adotada
 de vinte anos. ==O sistema, portanto, não chega a se pagar ambientalmente:== ao ser
-desativado, terá emitido 439 kg CO₂e a mais do que evitou ao longo de toda a sua
+desativado, terá emitido 460 kg CO₂e a mais do que evitou ao longo de toda a sua
 operação.
 
 E esse é o resultado de um projeto que, do ponto de vista financeiro, é excelente — o
@@ -50,8 +50,8 @@ poupada, e de fato são: o resultado equivale a 0,35 kg CO₂e por metro cúbico
 substituído.
 
 A explicação está na natureza do produto substituído. Água tratada não é um bem
-intensivo em carbono. Captar, tratar e distribuir um metro cúbico custa, no Brasil,
-entre 0,24 e 0,46 kg CO₂e conforme a região e a composição da matriz elétrica local, e
+intensivo em carbono. Captar, tratar e distribuir a água custa, no Brasil,
+entre 0,34 e 0,46 kg CO₂e por metro cúbico entregue, conforme a região e a composição da matriz elétrica local, e
 essa faixa é modesta quando comparada à de concreto, aço ou combustíveis. Substituir um
 produto de baixa intensidade de carbono por outro que exige fabricação de reservatório
 não produz, portanto, o ganho ambiental que a intuição sugere.
@@ -80,7 +80,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 99 — Saldo de carbono acumulado da cisterna de 5.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 11,8 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+*Figura 99 — Saldo de carbono acumulado da cisterna de 5.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 12,6 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
 
 ![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
@@ -88,18 +88,16 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 **A escolha do material inverte o resultado.**
 
-Polietileno paga a dívida em 11,8 anos e termina os vinte anos com saldo positivo de
-223 kg. Concreto leva 36,1 anos e termina negativo em 439 kg. Aço inoxidável,
-pior ainda.
+Polietileno paga a dívida em 12,6 anos e termina os vinte anos com saldo positivo de 202 kg. Concreto leva 36,8 anos e termina negativo em 460 kg. Aço inoxidável também termina negativo, em 323 kg.
 
 E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
 cisterna, pior o carbono**. A de 2.000 L quase empata em vinte anos; a de 8.000 L
-fecha 923 kg no vermelho. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
+fecha 944 kg no vermelho. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
 rende cada vez menos água.
 
 > **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 3.000
-> contra R$ 6.300 do concreto, pesa cinquenta e cinco vezes menos, e é o único
-> material da tabela que fecha os vinte anos com folga positiva.
+> contra R$ 6.300 do concreto, pesa cinquenta e cinco vezes menos, e é o
+> material da tabela que fecha os vinte anos com a maior folga positiva.
 >
 > Isso não é sorte. Massa é carbono, e concreto armado é o material mais massivo da
 > lista por larga margem.
@@ -111,8 +109,7 @@ rende cada vez menos água.
 A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
 - **Vida útil maior.** O programa adota 20 anos para todos os materiais. Uma cisterna
-  de concreto bem executada dura 40 ou 50 anos, e nesse horizonte o payback de 36
-  anos é pago com folga. Se você adotar vida útil diferente, **declare**.
+  de concreto bem executada dura 40 ou 50 anos, e nesse horizonte o payback de 37 anos é pago com folga. Se você adotar vida útil diferente, **declare**.
 - **Volumes grandes.** Acima de 20 m³, polietileno deixa de ser prático e o concreto
   moldado no local passa a ser a única opção viável.
 - **Restrição de espaço.** Cisterna enterrada de concreto se conforma ao terreno; a
@@ -129,27 +126,27 @@ A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 É o que um projetista faria diante desta tabela, e é o que faz este tutorial ser
 honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errado.
 
-A troca melhora as três dimensões ao mesmo tempo, o que é raro:
+A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
 
 <!-- tabela: Efeito da troca de concreto por polietileno nas três dimensões de análise -->
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 6.300 | R$ 3.000 |
-| investimento total | R$ 13.380 | R$ 10.080 |
-| payback financeiro | 8,7 anos | 6,5 anos |
-| VPL em 20 anos | R$ 15.295 | R$ 18.595 |
-| payback de carbono | 36,1 anos | 11,8 anos |
-| saldo de carbono em 20 anos | −439 kg | +223 kg |
+| investimento total | R$ 13.997 | R$ 10.697 |
+| payback financeiro | 9,4 anos | 6,9 anos |
+| VPL em 20 anos | R$ 14.009 | R$ 17.309 |
+| payback de carbono | 36,8 anos | 12,6 anos |
+| saldo de carbono em 20 anos | −460 kg | +202 kg |
 
 <!-- tabela: Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L |
 | **material** | **polietileno** |
-| investimento | R$ 10.080 |
-| VPL | R$ 18.595 |
-| payback financeiro | 6,5 anos |
-| payback de carbono | 11,8 anos |
+| investimento | R$ 10.697 |
+| VPL | R$ 17.309 |
+| payback financeiro | 6,9 anos |
+| payback de carbono | 12,6 anos |
 
 ---
 

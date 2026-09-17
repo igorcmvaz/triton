@@ -54,8 +54,8 @@ em litros.
 número.
 
 **O que faz ao resultado.** O campo espera **milímetros**. Informar 300, pensando nos
-300 litros do dispositivo, produz um descarte de 300 mm — maior que qualquer chuva
-diária registrada no Brasil. O sistema capta **zero**.
+300 litros do dispositivo, produz um descarte de 300 mm — maior que quase toda chuva
+diária já registrada no Brasil. O sistema capta **praticamente zero**.
 
 **Como evitar.** `d_f` é uma lâmina. O volume do dispositivo é `A × d_f`: no projeto
 do tutorial, 150 m² × 2 mm = 300 litros. São a mesma decisão expressa em duas
@@ -106,7 +106,7 @@ como «mais água».
 
 **O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com caixa
 elevada entrega **menos**: o limiar de acionamento imobiliza água e a sequência de
-atendimento perde oportunidades. No tutorial, 0,33 ponto percentual a menos, mais
+atendimento perde oportunidades. No tutorial, cerca de um terço de ponto percentual a menos, mais
 10,7 kWh por ano de energia.
 
 **Como evitar.** Decida a caixa por critério **hidráulico** — pressão por gravidade,
@@ -173,7 +173,7 @@ as duas regras coincidem. As seções {{n:21}} e {{n:35}} detalham o assunto.
 mais é melhor.
 
 **O que faz ao resultado.** No tutorial, 20.000 L dão o maior potencial. Também
-custam **3,3 vezes mais** que os 5.000 L e carregam **3,6 vezes mais carbono
+custam **3,3 vezes mais** que os 5.000 L e carregam **3,5 vezes mais carbono
 incorporado**, para entregar 2,53 pontos percentuais a mais. E, em concreto, o
 volume maior é ambientalmente **pior** em termos absolutos.
 

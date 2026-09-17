@@ -316,11 +316,10 @@ def test_o_volume_maior_custa_muito_mais_por_pouco_ganho(serie_tutorial):
     p20 = estimate_tank_price(20000.0, "CONCRETO")
     assert p20 / p5 == pytest.approx(3.3, abs=0.1)
 
-    cfg = EnvironmentalConfig()
-    cfg.lower_material_key = "CONCRETO"
+    cfg = _ambiental("CONCRETO")
     c5 = calculate_lca(5000.0, r5.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
     c20 = calculate_lca(20000.0, r20.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
-    assert c20 / c5 == pytest.approx(3.6, abs=0.1)
+    assert c20 / c5 == pytest.approx(3.5, abs=0.1)
 
 
 def test_os_capitulos_do_tutorial_citam_os_numeros_do_programa():
@@ -356,7 +355,18 @@ def _economico(serie, volume, material):
     cfg.upper_tank_used = False
     cfg.elec_tariff, cfg.tma, cfg.inflation = 0.69568, 0.5, 0.35
     cfg.analysis_period_years, cfg.tariff_escalation = 20, 12
+    # O descarte físico entra como na interface: 2 mm sobre 150 m².
+    cfg.area, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
     return r, run_economic_analysis(cfg, r)
+
+
+def _ambiental(material):
+    """A configuração ambiental do tutorial, com o descarte físico."""
+    from netuno.core.environmental import EnvironmentalConfig
+    cfg = EnvironmentalConfig()
+    cfg.lower_material_key = material
+    cfg.roof_area_m2, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
+    return cfg
 
 
 def test_a_caixa_superior_nao_aumenta_a_economia(serie_tutorial):
@@ -436,12 +446,17 @@ def test_uv_e_ozonio_somam_a_cloracao_em_vez_de_substitui_la():
 
 
 def test_o_resultado_economico_do_capitulo_10(serie_tutorial):
-    """Impresso: R$ 2.349/ano, VPL R$ 15.295, payback 8,7 anos, em concreto."""
+    """Impresso: R$ 2.349/ano, VPL R$ 14.009, payback 9,4 anos, em concreto.
+
+    Com o descarte físico da etapa 3, que a interface inclui por padrão: sem ele
+    o investimento era R$ 13.379,79 e o VPL R$ 15.295, valores que o capítulo
+    cita como comparação.
+    """
     _, e = _economico(serie_tutorial, 5000, "CONCRETO")
-    assert e.capex_total == pytest.approx(13379.79, abs=1.0)
+    assert e.capex_total == pytest.approx(13996.69, abs=1.0)
     assert e.annual_water_savings_brl == pytest.approx(2349.21, abs=5.0)
-    assert e.vpl == pytest.approx(15295.0, abs=50.0)
-    assert e.payback_years == pytest.approx(8.7, abs=0.2)
+    assert e.vpl == pytest.approx(14009.0, abs=50.0)
+    assert e.payback_years == pytest.approx(9.4, abs=0.2)
 
 
 def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
@@ -456,15 +471,15 @@ def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
 
     saldos = {}
     for k, r in (("CONCRETO", r_c), ("PEAD", r_p)):
-        cfg = EnvironmentalConfig()
-        cfg.lower_material_key = k
+        cfg = _ambiental(k)
         saldos[k] = calculate_lca(5000.0, r.annual_pluvial_consumed_m3, cfg)
     assert saldos["PEAD"].lifetime_net_co2_saved_kg > 0
     assert saldos["CONCRETO"].lifetime_net_co2_saved_kg < 0
     assert saldos["CONCRETO"].environmental_payback_years > 20.0
     # 11,8 anos desde 2026-09-15: a emissão de fabricação da motobomba passou a vir de
     # massa de catálogo x intensidade de EPD (30,5 kg CO2e a 1/2 CV, antes 18,0).
-    assert saldos["PEAD"].environmental_payback_years == pytest.approx(11.8, abs=0.3)
+    # 12,6 anos com o descarte físico (reservatório de 300 L e separador de folhas).
+    assert saldos["PEAD"].environmental_payback_years == pytest.approx(12.6, abs=0.3)
 
 
 def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
@@ -474,8 +489,7 @@ def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
     for v in (2000, 3000, 5000, 8000):
         r = run_single_simulation(
             precip_data=serie_tutorial, lower_tank_vol=float(v), **TUTORIAL)
-        cfg = EnvironmentalConfig()
-        cfg.lower_material_key = "CONCRETO"
+        cfg = _ambiental("CONCRETO")
         saldo = calculate_lca(float(v), r.annual_pluvial_consumed_m3,
                               cfg).lifetime_net_co2_saved_kg
         if anterior is not None:
@@ -491,8 +505,7 @@ def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
     cands = []
     for v in (1000, 2000, 3000, 5000, 8000, 12000):
         r, e = _economico(serie_tutorial, v, "PEAD")
-        amb = EnvironmentalConfig()
-        amb.lower_material_key = "PEAD"
+        amb = _ambiental("PEAD")
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         cands.append(TopsisCandidate(
             lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
@@ -512,10 +525,10 @@ def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
 
 def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
     esperados = {
-        "08_reservatorio_superior.md": ("10,7 kWh", "0,33 ponto", "6.000 L"),
-        "09_qualidade_que_o_uso_exige.md": ("R$ 930", "R$ 2.130", "R$ 4.430", "R$ 580"),
-        "10_quanto_custa.md": ("R$ 195,77", "R$ 15.295", "8,7 anos", "R$ 28,62"),
-        "11_quanto_carbono_evita.md": ("987 kg", "36,1 anos", "11,8 anos", "223 kg"),
+        "08_reservatorio_superior.md": ("10,7 kWh", "um terço de ponto", "6.000 L"),
+        "09_qualidade_que_o_uso_exige.md": ("R$ 1.547", "R$ 2.747", "R$ 5.047", "R$ 1.197"),
+        "10_quanto_custa.md": ("R$ 195,77", "R$ 14.009", "9,4 anos", "R$ 28,62"),
+        "11_quanto_carbono_evita.md": ("1.008 kg", "36,8 anos", "12,6 anos", "202 kg"),
         "12_qual_volume_escolher.md": ("5.000 L", "12.000 L", "3.000 L", "37,46%"),
         "13_o_relatorio_e_o_artigo.md": ("5.0.0", "2,3 a 2,7", "1 %/m"),
     }
@@ -897,7 +910,7 @@ def test_o_manual_explica_as_duas_caixas():
 # ══════════════════════════════════════════════════════════════════════════════
 
 ETAPAS = (
-    "1. Projeto e Chuva", "2. Edificação Consumo", "3. Qualidade & ETAP",
+    "1. Projeto e Chuva", "2. Edificação e Consumo", "3. Qualidade & ETAP",
     "4. Reservatório & Custos", "5. Resultados Técnicos",
     "6. Resultados Econômicos", "7. Resultados Ambientais & ESG",
     "8. Decisão Multicritério", "9. Relatórios PDF", "10. Exportação",
@@ -997,6 +1010,8 @@ def test_toda_sigla_recorrente_esta_no_glossario():
                        open(caminho, encoding="utf-8").read(), flags=re.M)
     verbetes = {v.lower() for v in nomes}
     verbetes |= {v.split()[0].lower() for v in nomes if " " in v}
+    # «BD+C» cobre a sigla nua «BD», pelo mesmo motivo.
+    verbetes |= {v.split("+")[0].lower() for v in nomes if "+" in v}
 
     from collections import Counter
     contagem = Counter(re.findall(r"\b([A-Z]{2,}(?:-[A-Z0-9]+)?)\b", texto))

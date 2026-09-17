@@ -1,7 +1,7 @@
 # Arquivos de exemplo
 
 O manual imprime resultados; estes arquivos são o que se abre para
-reproduzi-los. Ficam em `manual/casos/`, e cada um traz a série de chuva
+reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva
 incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ---
@@ -55,10 +55,10 @@ original continua reproduzindo o número impresso no manual.
 
 ---
 
-## Os três estudos de `examples/`
+## Os três estudos de `exemplos`
 
 Além dos casos do manual, o programa traz três estudos de referência em
-`examples/`: residência unifamiliar em Florianópolis, edifício
+`exemplos`: residência unifamiliar em Florianópolis, edifício
 corporativo em Brasília e escola pública em Manaus. São maiores e menos
 didáticos que os do manual, e servem de ponto de partida para projetos
 reais.

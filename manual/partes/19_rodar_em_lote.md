@@ -14,8 +14,8 @@ pergunta diferente, e usar a errada custa tempo sem produzir a informação dese
 <!-- tabela: As três formas de comparar alternativas conforme o que varia entre elas -->
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
-| **só o volume da cisterna** | a varredura | Reservatório e Custos |
-| **o volume, e você quer decidir** | a tabela multicritério | Multi-Critério |
+| **só o volume da cisterna** | a varredura | etapa 4. Reservatório & Custos |
+| **o volume, e você quer decidir** | a tabela multicritério | etapa 8. Decisão Multicritério |
 | **qualquer outra premissa** | projetos salvos, um por caso | arquivo `.netuno` |
 
 A primeira é automática, a segunda também, e a terceira exige organização.

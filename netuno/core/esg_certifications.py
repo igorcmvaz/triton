@@ -1,7 +1,8 @@
 """
 Módulo Core de Avaliação ESG e Pontuação de Certificações Ambientais.
 Calcula a elegibilidade de créditos para certificações sustentáveis de edificações:
-- LEED v4 / v4.1 (Water Efficiency - WEc1 e WEc2);
+- LEED v4 / v4.1 (Water Efficiency - WEc1 e WEc2), com registro aberto até 30/06/2027;
+- LEED v5 BD+C (WEc2 Enhanced Water Efficiency e o ponto de reúso do SSc3);
 - Processo AQUA-HQE (Categoria 4 - Gestão da Água);
 - Selo Casa Azul CAIXA (Critérios de Conservação de Água);
 - EDGE (IFC / Banco Mundial), barra de água — medida WEM14;
@@ -28,6 +29,31 @@ LEED_WEC1_MAX_PONTOS = 2   # reducao do uso externo
 LEED_WEC2_MAX_PONTOS = 6   # reducao do uso interno
 LEED_WE_MAX_PONTOS = LEED_WEC1_MAX_PONTOS + LEED_WEC2_MAX_PONTOS
 
+#: LEED v5 BD+C, conferido contra o «LEED v5 BD+C Rating System», edição de
+#: novembro de 2025 (USGBC). O v4 e o v4.1 aceitam registro de projetos
+#: comerciais até 30/06/2027, com certificação até 30/06/2033.
+LEED_V5_REFERENCIAL = "LEED v5 BD+C Rating System, edição de novembro de 2025 (USGBC)"
+LEED_V4_REGISTRO_ATE = "30/06/2027"
+#: WEc2 Enhanced Water Efficiency, New Construction: até 8 pontos, pela Opção 1
+#: (projeto inteiro) ou pela soma das Opções 2 a 6.
+LEED_V5_WEC2_MAX_PONTOS = 8
+#: Opção 1: redução do uso de água do projeto inteiro contra a linha de base.
+LEED_V5_OPCAO1_FAIXAS = ((65.0, 8), (60.0, 7), (55.0, 6), (50.0, 5), (45.0, 4),
+                         (40.0, 3), (35.0, 2), (30.0, 1))
+#: Opção 2: redução calculada em louças e metais, além do pré-requisito WEp2.
+LEED_V5_OPCAO2_FAIXAS = ((40.0, 3), (35.0, 2), (30.0, 1))
+#: Opção 4, caminho 2: redução do requisito teórico de irrigação.
+LEED_V5_OPCAO4_FAIXAS = ((100.0, 2), (50.0, 1))
+#: Opção 6, caminho 2: fonte alternativa de água no próprio lote.
+LEED_V5_OPCAO6_PONTOS = 2
+
+
+def _pontos_por_faixa(pct: float, faixas) -> int:
+    for limiar, pontos in faixas:
+        if pct >= limiar - 1e-9:
+            return pontos
+    return 0
+
 
 def irrigacao_atendida_m3(resultado) -> Optional[float]:
     """Água de chuva que o balanço diário destinou ao uso externo, em m³/ano.
@@ -53,6 +79,20 @@ class EsgCreditDetail:
     status: str                    # Status de elegibilidade
     notes: str                     # Detalhes técnicos e normativos
     focus: str = ""                # "Uso Externo", "Uso Interno", "Gestão Global", etc.
+
+
+@dataclass
+class LeedV5WaterCredits:
+    """Enquadramento indicativo no WEc2 do LEED v5 BD+C (New Construction)."""
+    opcao1_pts: int                # projeto inteiro, com o ponto da fonte alternativa
+    opcao2_pts: int                # louças e metais
+    opcao4_pts: int                # uso externo
+    opcao6_pts: int                # reúso: fonte alternativa no lote
+    total_pts: int                 # máximo entre a Opção 1 e a soma das Opções 2, 4 e 6
+    caminho: str                   # "Opção 1" ou "Opções 2 a 6"
+    max_possible_points: int = LEED_V5_WEC2_MAX_PONTOS
+    description: str = ""
+    referencial: str = LEED_V5_REFERENCIAL
 
 
 @dataclass
@@ -120,6 +160,7 @@ class EsgConsolidatedReport:
     indoor_savings_pct: float = 0.0
     outdoor_savings_pct: float = 0.0
     credit_details: List[EsgCreditDetail] = field(default_factory=list)
+    leed_v5: Optional[LeedV5WaterCredits] = None
 
 
 def calculate_esg_certifications(
@@ -226,12 +267,11 @@ def calculate_esg_certifications(
         indoor_pts = 0
 
     tot_leed = outdoor_pts + indoor_pts
-    if tot_leed >= 6:
-        leed_badge = "Alta Pontuação (Ouro/Platina)"
-    elif tot_leed >= 3:
-        leed_badge = "Média Pontuação (Prata)"
-    elif tot_leed >= 1:
-        leed_badge = "Pontuação Inicial (Certificado)"
+    # O nível do LEED (Certified, Silver, Gold, Platinum) soma todas as
+    # categorias; a de água sozinha não o define. O rótulo antigo dizia
+    # «Ouro/Platina» a partir de 6 pontos de água, o que o referencial não diz.
+    if tot_leed >= 1:
+        leed_badge = f"{tot_leed} de {LEED_WE_MAX_PONTOS} pontos na categoria de água"
     else:
         leed_badge = "Abaixo do limiar LEED (Mín. 25%)"
 
@@ -266,6 +306,38 @@ def calculate_esg_certifications(
     )
 
     tem_sistema = annual_saved_m3 > 0.0
+
+    # 1b. LEED v5 BD+C, WEc2 «Enhanced Water Efficiency». O projeto escolhe a
+    # Opção 1 (projeto inteiro) ou soma as Opções 2 a 6. A água pluvial
+    # contribui pela redução do uso interno (Opção 2), do uso externo
+    # (Opção 4) e, por existir, pela Opção 6, caminho 2 (fonte alternativa no
+    # lote). As reduções do LEED são medidas contra a linha de base de louças,
+    # metais e irrigação do referencial, e não contra a demanda modelada: o
+    # enquadramento é indicativo.
+    v5_op1 = _pontos_por_faixa(savings_pct, LEED_V5_OPCAO1_FAIXAS)
+    if v5_op1 and tem_sistema:
+        v5_op1 = min(LEED_V5_WEC2_MAX_PONTOS, v5_op1 + 1)
+    v5_op2 = _pontos_por_faixa(calc_in_pct, LEED_V5_OPCAO2_FAIXAS)
+    v5_op4 = _pontos_por_faixa(calc_out_pct, LEED_V5_OPCAO4_FAIXAS) if outdoor_avaliavel else 0
+    v5_op6 = LEED_V5_OPCAO6_PONTOS if tem_sistema else 0
+    v5_soma = min(LEED_V5_WEC2_MAX_PONTOS, v5_op2 + v5_op4 + v5_op6)
+    if v5_op1 > v5_soma:
+        v5_total, v5_caminho = v5_op1, "Opção 1"
+    else:
+        v5_total, v5_caminho = v5_soma, "Opções 2 a 6"
+    leed_v5 = LeedV5WaterCredits(
+        opcao1_pts=v5_op1, opcao2_pts=v5_op2, opcao4_pts=v5_op4, opcao6_pts=v5_op6,
+        total_pts=v5_total, caminho=v5_caminho,
+        description=(
+            f"LEED v5 BD+C, WEc2 Enhanced Water Efficiency: {v5_total} de "
+            f"{LEED_V5_WEC2_MAX_PONTOS} pontos pelo caminho «{v5_caminho}» "
+            f"(Opção 2, louças e metais: {v5_op2}; Opção 4, uso externo: {v5_op4}; "
+            f"Opção 6, fonte alternativa: {v5_op6}; Opção 1, projeto inteiro: {v5_op1}). "
+            "No SSc3 Rainwater Management, reter e reusar o volume do percentil de "
+            "chuva exigido acrescenta 1 ponto, que o programa não avalia porque depende "
+            "do escoamento de todo o terreno."
+        ),
+    )
 
     # 2. AQUA-HQE Residencial, tema «Consumo de água» (EAU), conferido contra o
     # referencial de 22/11/2024. Até 2026-09-15 o programa usava perfis «Base,
@@ -451,7 +523,39 @@ def calculate_esg_certifications(
         ),
     ]
 
+    credit_details[2:2] = [
+        EsgCreditDetail(
+            certification="LEED v5 BD+C",
+            credit_code="WEc2",
+            credit_name="Enhanced Water Efficiency",
+            focus="Louças, metais, irrigação e reúso",
+            requirement_rule=("Máx. 8 pts. Opção 1 (projeto inteiro): 30% 1 pt a 65% 8 pts, +1 com fonte "
+                              "alternativa | Opção 2 (louças e metais): 30% 1, 35% 2, 40% 3 | "
+                              "Opção 4 (externo): 50% 1, 100% 2 | Opção 6 (fonte alternativa no lote): 2"),
+            achieved_performance=(f"Interno: {calc_in_pct:.1f}% | Externo: {calc_out_pct:.1f}% | "
+                                  f"Total: {savings_pct:.1f}%"),
+            points_or_level=f"{v5_total} / {LEED_V5_WEC2_MAX_PONTOS} pts ({v5_caminho})",
+            status="Elegível" if v5_total > 0 else "Abaixo dos limiares",
+            notes=(f"{LEED_V5_REFERENCIAL}. As reduções são medidas contra a linha de base do "
+                   "referencial; o enquadramento é indicativo. O LEED v4/v4.1 aceita registro até "
+                   f"{LEED_V4_REGISTRO_ATE}."),
+        ),
+        EsgCreditDetail(
+            certification="LEED v5 BD+C",
+            credit_code="SSc3",
+            credit_name="Rainwater Management",
+            focus="Terreno",
+            requirement_rule=("Reter no lote o volume do percentil 80, 85 ou 90 das chuvas: 1 a 3 pts; "
+                              "+1 pt quando parte desse volume é reusada"),
+            achieved_performance="Não avaliado: depende do escoamento de todo o terreno",
+            points_or_level="—",
+            status="Não avaliado",
+            notes="O sistema pluvial pode contribuir com o ponto de reúso, se o volume retido atender ao percentil.",
+        ),
+    ]
+
     return EsgConsolidatedReport(
+        leed_v5=leed_v5,
         leed=leed_result,
         aqua=aqua_result,
         casa_azul=casa_azul_result,

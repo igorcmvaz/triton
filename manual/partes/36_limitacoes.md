@@ -33,8 +33,8 @@ penaliza o resultado de forma sensível.
 chuva nem com o tempo desde o último evento, quando na realidade o primeiro evento
 após uma estiagem tem coeficiente menor.
 
-**O descarte é uma lâmina, não um dispositivo.** O volume hidráulico do reservatório
-de autolimpeza exige dimensionamento à parte.
+**O descarte é uma lâmina, não um dispositivo.** O programa calcula o volume e o custo
+do dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige projeto à parte.
 
 ---
 
@@ -67,9 +67,15 @@ habitação de interesse social.
 **Uma única categoria de impacto.** Só carbono. Não há eutrofização, acidificação,
 uso do solo nem toxicidade.
 
-**A emissão de fabricação da motobomba é extrapolada.** Quatro dos seis valores são
-extrapolação aritmética a partir do valor de meio CV. É o único fator do inventário
-sem fonte primária, e carrega rótulo de triagem.
+**A emissão de fabricação da motobomba é aproximação por massa.** O programa multiplica
+a massa de catálogo de cada potência pela intensidade por quilo de uma declaração
+ambiental de produto de bomba de outra classe. A ordem de grandeza é defensável; o valor
+de cada potência não é medição.
+
+**A energia de pressurização direta não é calculada.** O programa só conta energia de
+bombeamento quando há reservatório superior. Se os pontos de uso forem abastecidos por
+pressurizador a partir da cisterna, essa energia existe e fica fora do custeio e do
+balanço de carbono.
 
 **Não há fim de vida.** Nem crédito por reciclagem, nem ônus por disposição.
 
@@ -119,8 +125,9 @@ para constante em silêncio. A seção {{n:21}} ensina a conferir.
 escorva de uma bomba cuja linha de sucção drenou, e é aplicado a **toda** partida. No
 caso de referência responde por 19% do consumo anual da bomba. É conservador.
 
-**A opção `--descarte-como-limiar`, citada no protocolo de verificação, não
-existe.**
+**Não há opção para tratar o descarte como limiar do evento**, como fazia o Netuno 4,
+embora o protocolo de verificação a mencione. Para comparar as duas versões, use
+descarte igual a zero, em que as duas regras coincidem.
 
 ---
 
@@ -133,8 +140,8 @@ omitida, quando descoberta, é um erro.==
 
 Três exemplos orientam a seleção. Um estudo conduzido em escola precisa citar a questão da
 categoria tarifária, porque ela desloca todo o resultado econômico. Um estudo de
-desempenho ambiental precisa citar a categoria única de impacto e a extrapolação do fator
-de emissão da motobomba. E um estudo em habitação de interesse social precisa citar a
+desempenho ambiental precisa citar a categoria única de impacto e a aproximação por massa do
+fator de emissão da motobomba. E um estudo em habitação de interesse social precisa citar a
 ausência de tarifa social, que nesse contexto pode inverter a conclusão.
 
 Um parecerista que encontre uma dessas limitações silenciada tem inteira razão em

@@ -72,7 +72,7 @@ A {{fig:fig18_capitais}} apresenta o regime mensal das quatro capitais na mesma 
 
 ![O regime mensal das quatro capitais](../figuras/fig18_capitais.png)
 
-*Figura 99 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série. Manaus e Brasília recebem precipitação anual comparável e a distribuem de maneiras opostas, e é essa distribuição que decide o volume do reservatório.*
+*Figura 99 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série. Florianópolis e São Paulo distribuem a chuva ao longo de todo o ano; Manaus tem estação seca curta, de julho a outubro; e Brasília praticamente não recebe chuva de maio a setembro. É essa distribuição, e não o total anual, que decide o desempenho do reservatório.*
 
 ---
 

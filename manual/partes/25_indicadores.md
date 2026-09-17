@@ -186,7 +186,7 @@ toda a demanda que a chuva não atendeu. A seção {{n:23}} detalha.
 <!-- tabela: Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
 | Indicador | Unidade | Denominador | Responde |
 | :--- | :--- | :--- | :--- |
-| potencial de economia | % | demanda total | quanto da conta cai |
+| potencial de economia | % | demanda total | quanto do consumo de água potável cai |
 | confiabilidade volumétrica | % | demanda pluvial | quanto do pretendido se atendeu |
 | dias plenos, parciais, nulos | % | dias da série | com que frequência se pode contar |
 | extravasamento | L/dia | — | o reservatório é pequeno? |

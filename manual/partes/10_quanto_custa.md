@@ -11,7 +11,7 @@
 O erro mais comum na análise econômica de sistemas pluviais consiste em multiplicar o
 volume poupado por uma tarifa média. O resultado quase nunca é correto, e a razão está na
 estrutura das tarifas brasileiras, que são progressivas por faixa de consumo, conforme a
-seção {{n:16}} detalha: ==o metro cúbico que se deixa de consumir é o último da conta,
+seção {{n:16}} detalha: ==o metro cúbico que se deixa de consumir é o último da fatura,
 que é o mais caro, e não o médio.==
 
 O Netuno evita o problema calculando duas faturas completas — a que a edificação pagaria
@@ -23,10 +23,10 @@ O resultado merece atenção. O sistema poupa 6,84 m³ por mês e a fatura cai R
 que equivale a R$ 28,62 por metro cúbico economizado — valor bem acima dos R$ 14,31 da
 faixa em que o consumo se situava. A diferença tem duas origens que atuam juntas: a
 progressividade, que faz o metro cúbico economizado valer o preço da faixa mais alta, e o
-esgoto, que em Florianópolis é cobrado a 100% da tarifa de água e portanto dobra o valor
+esgoto, que em Florianópolis é cobrado a 100% do valor da água e portanto dobra o valor
 de cada metro cúbico poupado.
 
-> **O esgoto é percentual da tarifa de água, não da fatura.** Cem por cento da água
+> **O esgoto é percentual da parcela de água, não da fatura total.** Cem por cento da água
 > significa que a parcela de esgoto iguala a de água, e portanto o esgoto é metade
 > da fatura. Economizar água economiza as duas parcelas, e é por isso que o valor
 > efetivo do metro cúbico poupado quase dobra.
@@ -69,7 +69,7 @@ projetos inteiros. O programa distingue cinco.
 
 ## O investimento
 
-R$ 13.379,79, assim distribuídos:
+R$ 13.996,69, assim distribuídos:
 
 <!-- tabela: Composição do investimento inicial do projeto do tutorial -->
 | Rubrica | Valor |
@@ -79,13 +79,14 @@ R$ 13.379,79, assim distribuídos:
 | tubulação | R$ 1.200 |
 | acessórios | R$ 1.800 |
 | linha de tratamento, incremento | R$ 580 |
+| descarte inicial: reservatório de 300 L e separador de folhas | R$ 617 |
 
 Os preços de reservatório vêm da base do programa, que traz valores por volume e por
 material, com procedência declarada. Para volumes fora da tabela, o programa
 interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima de
 0,90, e avisa quando não tem.
 
-**O reservatório de descarte inicial.** A tabela trata o descarte de primeiras águas apenas como lâmina subtraída da chuva. Com o dimensionamento físico do descarte habilitado na etapa **3. Qualidade & ETAP**, que é a condição padrão da interface, o programa acrescenta ao investimento o reservatório de descarte e o separador de folhas. No tutorial, a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, e o subsistema custa R$ 616,90 de investimento e R$ 40 por ano de custeio. O investimento passa a R$ 13.996,69, o valor presente líquido a R$ 14.009, a taxa interna de retorno a 14,10% ao ano e o payback descontado a 9,4 anos. A seção {{n:27}} detalha o dimensionamento.
+**O reservatório de descarte inicial.** O descarte de primeiras águas não é só a lâmina subtraída da chuva: é um componente físico, com custo. A etapa **3. Qualidade & ETAP** o dimensiona por padrão, e no tutorial a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, que com o separador de folhas custa R$ 616,90 de investimento e R$ 40 por ano de custeio. Sem ele, o investimento seria de R$ 13.379,79, o valor presente líquido de R$ 15.295 e o payback descontado de 8,7 anos: omitir o descarte adianta o retorno em nove meses. A seção {{n:27}} detalha o dimensionamento.
 
 ---
 
@@ -94,17 +95,14 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 <!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos -->
 | Indicador | Valor |
 | :--- | ---: |
-| valor presente líquido | R$ 15.295 |
-| taxa interna de retorno | 15,12% ao ano |
-| payback descontado | 8,7 anos |
+| valor presente líquido | R$ 14.009 |
+| taxa interna de retorno | 14,10% ao ano |
+| payback descontado | 9,4 anos |
 
-Um projeto que devolve o investimento em menos de nove anos e rende 15% ao ano acima
-da taxa mínima é, financeiramente, muito bom. Boa parte disso vem da tarifa de
+Um projeto que devolve o investimento em menos de dez anos e rende 14% ao ano, bem acima da taxa mínima, é, financeiramente, muito bom. Boa parte disso vem da tarifa de
 Florianópolis, que é alta, e do esgoto a 100%.
 
-**O custeio é irrisório:** R$ 4,74 por ano, só de pastilha de cloro. Sem caixa
-superior não há bomba, e portanto não há energia. É a vantagem escondida da decisão
-da seção {{n:8}}.
+**O custeio é pequeno:** R$ 44,74 por ano, dos quais R$ 4,74 de pastilha de cloro e R$ 40 de manutenção do descarte. Sem caixa superior, o programa não calcula energia de bombeamento. É uma limitação a declarar: se os pontos de uso forem abastecidos por pressurizador, a energia dele existe e não entra no custeio; com a vazão do tutorial, a ordem de grandeza é a da seção {{n:8}}, cerca de R$ 7 a R$ 10 por ano, e não altera a conclusão.
 
 ---
 
@@ -146,10 +144,10 @@ adotado e mostra a sensibilidade — a seção {{n:20}} ensina como.
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L, concreto |
-| investimento | R$ 13.380 |
+| investimento | R$ 13.997 |
 | economia anual | R$ 2.349 |
-| VPL em 20 anos | R$ 15.295 |
-| payback | 8,7 anos |
+| VPL em 20 anos | R$ 14.009 |
+| payback | 9,4 anos |
 
 O dinheiro diz sim, com folga.
 

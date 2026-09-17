@@ -88,6 +88,9 @@ def com_tutorial(cfg):
     cfg.residents_count = t["moradores"]
     cfg.demand_value = t["per_capita"]
     cfg.rainwater_share = t["rainwater_share"]
+    # O descarte físico dimensionado na etapa 3, como a interface faz por
+    # padrão e como os capítulos do tutorial calculam.
+    cfg.first_flush_system_enabled = True
     return cfg
 
 
@@ -442,7 +445,7 @@ def escrever_apendice(resultados):
         "# Arquivos de exemplo",
         "",
         "O manual imprime resultados; estes arquivos são o que se abre para",
-        "reproduzi-los. Ficam em `manual/casos/`, e cada um traz a série de chuva",
+        "reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva",
         "incorporada: abrem sem o CSV de origem, em qualquer máquina.",
         "",
         "---",
@@ -497,10 +500,10 @@ def escrever_apendice(resultados):
         "",
         "---",
         "",
-        "## Os três estudos de `examples/`",
+        "## Os três estudos de `exemplos`",
         "",
         "Além dos casos do manual, o programa traz três estudos de referência em",
-        "`examples/`: residência unifamiliar em Florianópolis, edifício",
+        "`exemplos`: residência unifamiliar em Florianópolis, edifício",
         "corporativo em Brasília e escola pública em Manaus. São maiores e menos",
         "didáticos que os do manual, e servem de ponto de partida para projetos",
         "reais.",

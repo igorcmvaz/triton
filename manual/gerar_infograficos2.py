@@ -357,7 +357,7 @@ def info_cenarios():
 #: Coleta do pytest nesta versão (pytest --collect-only), por pasta de tests/.
 #: Atualizar junto com a seção de verificação quando a suíte mudar.
 SUITE = [
-    ("unitários", "unit", 69, 804, VERDE),
+    ("unitários", "unit", 70, 819, VERDE),
     ("invariantes", "invariants", 11, 194, AZUL),
     ("integração", "integration", 8, 49, AZUL),
     ("interface gráfica", "ui", 4, 8, ROXO),

@@ -9,7 +9,7 @@
 > precisa dela para **defender** um resultado, seja numa banca, numa revisão ou
 > diante de um cliente que perguntou de onde saiu o número.
 
-Este é o capítulo do qual todos os outros dependem. O potencial de economia, o fluxo
+Esta é a seção da qual todas as outras dependem. O potencial de economia, o fluxo
 de caixa, a emissão evitada e a ordenação multicritério saem, todos, dos números que
 o balanço diário produz. Quem entende esta seção entende o programa.
 
@@ -117,7 +117,7 @@ constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a
 
 ![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
-*Figura 1 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, com a capacidade de 2.000 L em tracejado, atingida em três dias.*
+*Figura 1 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, após o consumo, com a capacidade de 2.000 L em tracejado; nos dias 6, 7 e 9 o reservatório atinge a capacidade, extravasa e termina o dia com 1.920 L.*
 
 ### A soma: o balanço fecha
 
@@ -305,7 +305,7 @@ D_t = V_con,t + V_pot,t + V_nao,t
 | `V_pot,t` | parcela comprada da rede pública | L |
 | `V_nao,t` | parcela que ninguém forneceu, isto é, demanda não atendida | L |
 
-consumo de chuva, consumo de rede e **demanda não atendida**. A terceira é zero na
+As três parcelas são o consumo de água pluvial, o consumo da rede pública e a **demanda não atendida**. A terceira é zero na
 configuração padrão, em que a rede socorre a irrigação nos dias secos. Ela deixa de
 ser zero quando o usuário desliga esse socorro, e aí o programa precisa mostrá-la:
 sem ela, o balanço fecharia por construção, escondendo a água que ninguém forneceu.
@@ -348,8 +348,7 @@ da seção {{n:28}}.
   penaliza o resultado de forma sensível.
 - **O coeficiente de escoamento é único e constante.** Não varia com a intensidade da
   chuva nem com o tempo desde o último evento.
-- **O descarte é uma lâmina, não um dispositivo.** O volume hidráulico do reservatório
-  de autolimpeza, `A × d_f`, exige dimensionamento à parte.
+- **No balanço, o descarte é uma lâmina, e não um dispositivo com dinâmica própria.** O reservatório de descarte é dimensionado e orçado pelo volume `A × d_f` (seção {{n:27}}), mas o seu esvaziamento entre eventos não é simulado: a lâmina é aplicada conforme o modo de descarte escolhido.
 
 A seção {{n:36}} reúne estas e as demais limitações conhecidas.
 

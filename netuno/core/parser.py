@@ -141,7 +141,7 @@ class NetunoConfig:
     created_at: str = field(default_factory=lambda: datetime.now().strftime("%d/%m/%Y %H:%M"))
 
     precip_file: str = ""
-    climate_source_mode: str = "national_db"  # "national_db" ou "custom_file"
+    climate_source_mode: str = "national_db"  # "national_db" (base nacional) ou "custom_file" (arquivo próprio)
     climate_city_uf: str = "SC"
     climate_city_name: str = "Florianópolis"
     climate_model: str = "INM-CM4"
@@ -154,12 +154,11 @@ class NetunoConfig:
     discard_mode: int = 1  # 1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias
     discard_days_interval: int = 7  # intervalo para modo 3
     start_date: str = "01/01/1980"
-    area: float = 100.0  # m2
-    
+    area: float = 100.0  # m²
     # Total water demand mode: 0 = fixed total demand per capita or total
     demand_type: int = 0
     demand_mode: str = "constant"  # "constant", "weekly", "monthly", "daily"
-    demand_value: float = 200.0  # liters/day per capita or total
+    demand_value: float = 200.0  # L/dia, por habitante ou total
     demand_monthly: List[float] = field(default_factory=list)
     
     # Resident count mode: 0 = fixed number of residents
@@ -177,7 +176,7 @@ class NetunoConfig:
     irrigation_garden_area_m2: float = 0.0  # Área de jardim em m² para o assistente de dimensionamento
     irrigation_rate_l_m2_day: float = 3.0  # Taxa diária de rega (L/m²/dia)
     
-    rainwater_share: float = 0.4  # fraction 0..1 (e.g. 0.4 = 40%)
+    rainwater_share: float = 0.4  # fração de 0 a 1 (0,4 = 40%)
     
     # Weekly modulation (7 days: Mon to Sun)
     weekly_demands: List[float] = field(default_factory=list)
@@ -195,17 +194,17 @@ class NetunoConfig:
     runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO  # ver hydrology_defaults
     
     # Upper Reservoir
-    upper_tank_vol: float = 500.0  # liters
-    upper_tank_used: int = 1  # 0 = not used, 1 = used (default used in system)
-    pumping_threshold: float = 50.0  # liters (recalque trigger level)
+    upper_tank_vol: float = 500.0  # L
+    upper_tank_used: int = 1  # 0 = sem caixa superior, 1 = com caixa superior
+    pumping_threshold: float = 50.0  # L, nível de acionamento do recalque
     
     # Lower Reservoir
-    lower_tank_max: float = 10000.0  # liters
-    lower_tank_step: float = 250.0  # liters
-    lower_tank_mode: int = 1  # 0 = fixed volume, 1 = sweep range
-    lower_tank_fixed: float = 2000.0  # if fixed mode
+    lower_tank_max: float = 10000.0  # L
+    lower_tank_step: float = 250.0  # L
+    lower_tank_mode: int = 1  # 0 = volume fixo, 1 = varredura
+    lower_tank_fixed: float = 2000.0  # usado no modo de volume fixo
     
-    delta_ideal: float = 5.0  # %/m3 threshold for optimal tank size
+    delta_ideal: float = 5.0  # limiar de ganho marginal para o volume ideal, em %/m³
 
     # Economic Parameters
     econ_lower_tank_vol: float = 2000.0
@@ -230,7 +229,7 @@ class NetunoConfig:
     # metade da fatura total. Confundir os dois denominadores dobra ou divide
     # pela metade a conta de esgoto.
     sewage_rate: float = 100.0
-    sewage_mode: int = 1  # 0 = fixed R$, 1 = % of water bill
+    sewage_mode: int = 1  # 0 = valor fixo em R$, 1 = percentual da parcela de água
     water_tax_fixed: float = 0.0  # R$
     water_tax_var: float = 0.0  # %
     inflation: float = 0.2  # % ao mês; inflação dos custos de O&M
@@ -238,7 +237,7 @@ class NetunoConfig:
     water_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
     sewage_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
     elec_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
-    analysis_period_years: int = 20  # years
+    analysis_period_years: int = 20  # anos
     tma: float = 2.0  # % ao mês; taxa mínima de atratividade
     install_month: int = 0
     
@@ -341,7 +340,7 @@ class NetunoConfig:
     # Pump Parameters
     pump_count: int = 2  # principal + reserva como configuração inicial recomendada
     pump_power_str: str = "1/2"
-    pump_power_kw: float = 0.36775  # kW (1 CV ~ 0.7355 kW -> 1/2 CV ~ 0.36775 kW)
+    pump_power_kw: float = 0.36775  # kW (1 CV = 0,7355 kW; 1/2 CV = 0,36775 kW)
 
     # Altura manométrica total: desnível geométrico entre a sucção e a entrada
     # do reservatório superior, mais as perdas de carga. É o parâmetro que mais
@@ -361,7 +360,7 @@ class NetunoConfig:
     # equação da bomba. Antes era 2.280 fixo, e não acompanhava a potência: uma
     # bomba de 2 CV recalcava tão devagar quanto uma de 1/4.
     pump_flow_rate: float = 0.0
-    pump_startup_time_h: float = 0.03  # hours
+    pump_startup_time_h: float = 0.03  # h
     # Rendimento do MOTOR, em %. A potencia de placa e a mecanica no eixo, e o
     # rendimento do motor e o que separa a energia de eixo da energia que o
     # medidor registra. Zero significa nao informado: vale entao a Tabela 13 da

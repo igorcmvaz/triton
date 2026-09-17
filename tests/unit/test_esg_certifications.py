@@ -221,3 +221,50 @@ def test_irrigacao_atendida_sai_do_resultado_do_balanco():
     assert irrigacao_atendida_m3(None) is None
     r = SimpleNamespace(avg_pluvial_irrigation_consumed_l_day=100.0)
     assert irrigacao_atendida_m3(r) == pytest.approx(36.525)
+
+
+# ── LEED v5 BD+C, conferido contra o Rating System de novembro de 2025 ───────
+
+def _v5(**kw):
+    base = dict(potable_savings_pct=37.5, annual_pluvial_consumed_m3=82.0,
+                annual_potable_consumed_m3=137.0, net_co2e_saved_kg_lifetime=200.0,
+                has_irrigation_demand=False, indoor_savings_pct=37.5)
+    base.update(kw)
+    return calculate_esg_certifications(**base).leed_v5
+
+
+def test_leed_v5_soma_as_opcoes_2_a_6():
+    """37,5% interno dá 2 pontos na Opção 2, e o sistema pluvial 2 na Opção 6."""
+    r = _v5()
+    assert r.opcao2_pts == 2
+    assert r.opcao6_pts == 2
+    assert r.opcao4_pts == 0
+    assert r.total_pts == 4
+    assert r.caminho == "Opções 2 a 6"
+
+
+@pytest.mark.parametrize("pct, pontos", [(29.9, 0), (30.0, 1), (35.0, 2), (40.0, 3), (60.0, 3)])
+def test_leed_v5_opcao_2_faixas(pct, pontos):
+    assert _v5(indoor_savings_pct=pct, potable_savings_pct=pct).opcao2_pts == pontos
+
+
+@pytest.mark.parametrize("pct, pontos", [(30.0, 2), (45.0, 5), (65.0, 8), (80.0, 8)])
+def test_leed_v5_opcao_1_com_fonte_alternativa(pct, pontos):
+    """Tabela 1 do WEc2: 30% vale 1 ponto, e a fonte alternativa acrescenta 1, até 8."""
+    assert _v5(potable_savings_pct=pct, indoor_savings_pct=pct).opcao1_pts == pontos
+
+
+def test_leed_v5_sem_sistema_nao_pontua_a_opcao_6():
+    r = _v5(annual_pluvial_consumed_m3=0.0, potable_savings_pct=0.0, indoor_savings_pct=0.0)
+    assert r.opcao6_pts == 0
+    assert r.total_pts == 0
+
+
+def test_leed_v5_aparece_na_matriz_de_criterios():
+    res = calculate_esg_certifications(
+        potable_savings_pct=37.5, annual_pluvial_consumed_m3=82.0,
+        annual_potable_consumed_m3=137.0, net_co2e_saved_kg_lifetime=200.0,
+        has_irrigation_demand=False, indoor_savings_pct=37.5)
+    pares = {(d.certification, d.credit_code) for d in res.credit_details}
+    assert ("LEED v5 BD+C", "WEc2") in pares
+    assert ("LEED v5 BD+C", "SSc3") in pares

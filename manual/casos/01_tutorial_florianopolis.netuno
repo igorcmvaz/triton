@@ -5,10 +5,10 @@
   },
   "version": "5.0.0",
   "metadata": {
-    "project_id": "N5-20260914-201822-B6F8ADA6",
+    "project_id": "N5-20260917-002204-EC57BCE0",
     "name": "Manual, tutorial - residencia em Florianopolis",
-    "created_at": "14/09/2026 20:18",
-    "saved_at": "14/09/2026 20:18:22"
+    "created_at": "17/09/2026 00:22",
+    "saved_at": "17/09/2026 00:22:04"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11079,7 +11079,7 @@
       "target_class": "classe_1",
       "disinfection": "cloro",
       "polishing_filter": false,
-      "first_flush_system_enabled": false,
+      "first_flush_system_enabled": true,
       "etap_enabled": true,
       "chlorine_treatment_enabled": true,
       "chlorine_dose_mg_l": 1.5,

@@ -1694,7 +1694,12 @@ class TabEnvironmental(QWidget):
                 f"Pontuação obtida pelo projeto: tirou {leed_tot} de 8 pontos.\n\n"
                 f"• WEc1 (Uso Externo): tirou {esg_res.leed.outdoor_water_points} de 2 pontos (máx: 2 pts)\n"
                 f"• WEc2 (Uso Interno): tirou {esg_res.leed.indoor_water_points} de 6 pontos (máx: 6 pts)\n"
-                f"Classificação: {esg_res.leed.badge_label}"
+                f"Classificação: {esg_res.leed.badge_label}\n\n"
+                f"LEED v5 BD+C, WEc2 Enhanced Water Efficiency: {esg_res.leed_v5.total_pts} de 8 pontos "
+                f"({esg_res.leed_v5.caminho})\n"
+                f"• Opção 2 (louças e metais): {esg_res.leed_v5.opcao2_pts} | Opção 4 (externo): "
+                f"{esg_res.leed_v5.opcao4_pts} | Opção 6 (fonte alternativa): {esg_res.leed_v5.opcao6_pts}\n"
+                f"O LEED v4/v4.1 aceita registro até 30/06/2027."
             )
         if hasattr(self, 'card_aqua'):
             stars_str = "⭐" * esg_res.aqua.stars if esg_res.aqua.stars > 0 else ""

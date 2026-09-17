@@ -830,6 +830,12 @@ def generate_environmental_html_report(
                 <p style="margin-top: 3px;">WEc1 (Ext.): {esg_result.leed.outdoor_water_points}/2 pts | WEc2 (Int.): {esg_result.leed.indoor_water_points}/6 pts</p>
             </div>
             <div class="esg-card">
+                <h4>🏛️ LEED v5 BD+C (WEc2)</h4>
+                <p><b>{esg_result.leed_v5.total_pts} de 8 {'pontos' if not is_en else 'points'}</b></p>
+                <div class="esg-badge">{esg_result.leed_v5.caminho}</div>
+                <p style="margin-top: 3px;">{'Opção' if not is_en else 'Option'} 2: {esg_result.leed_v5.opcao2_pts} | 4: {esg_result.leed_v5.opcao4_pts} | 6: {esg_result.leed_v5.opcao6_pts} | 1: {esg_result.leed_v5.opcao1_pts}</p>
+            </div>
+            <div class="esg-card">
                 <h4>🌿 AQUA-HQE Residencial</h4>
                 <p><b>{'Nível' if not is_en else 'Level'}: {esg_result.aqua.performance_level}</b></p>
                 <p style="margin-top: 3px;">{'; '.join(esg_result.aqua.itens_atendidos) or ('Nenhum item atendido' if not is_en else 'No item met')}</p>

@@ -12,9 +12,9 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
 | projeto antigo | `.json` | projeto de versão anterior, mesmo conteúdo | Abrir projeto |
 | projeto legado | `.csv` | projeto do Netuno 4 ou da série 5.0 inicial | Abrir projeto |
-| série de chuva | `.csv` | uma coluna de milímetros por dia | Projeto e Chuva |
-| demanda diária | `.csv` | consumo medido, dia a dia | Edificação e Consumo |
-| cenários | `.xlsx` | uma linha por cenário | Multi-Critério |
+| série de chuva | `.csv` | uma coluna de milímetros por dia | etapa 1. Projeto e Chuva |
+| demanda diária | `.csv` | consumo medido, dia a dia | etapa 2. Edificação e Consumo |
+| cenários | `.xlsx` | uma linha por cenário | menu Cenários & Ferramentas |
 
 **A série de chuva em CSV** é o formato mais simples possível: uma linha por dia, com
 a lâmina em milímetros. O programa aceita ponto ou vírgula como separador decimal, e
@@ -34,12 +34,12 @@ não enviesar os totais anuais.
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
-| relatório | `.pdf` | o estudo completo, pronto para entregar | Relatórios PDF |
-| planilha | `.xlsx` | série diária, varredura e indicadores | Central de Exportação |
-| tabela | `.csv` | os mesmos dados, em texto delimitado | Central de Exportação |
-| dados | `.json` | os resultados, para reprocessar | Central de Exportação |
-| desenho | `.dxf` | o esquema hidráulico, para CAD | Central de Exportação |
-| desenho | `.svg` | o mesmo esquema, como imagem vetorial | Central de Exportação |
+| relatório | `.pdf` | o estudo completo, pronto para entregar | etapa 9. Relatórios PDF |
+| planilha | `.xlsx` | série diária, varredura e indicadores | etapa 10. Exportação |
+| tabela | `.csv` | os mesmos dados, em texto delimitado | etapa 10. Exportação |
+| dados | `.json` | os resultados, para reprocessar | etapa 10. Exportação |
+| desenho | `.dxf` | o esquema hidráulico, para CAD | etapa 10. Exportação |
+| desenho | `.svg` | o mesmo esquema, como imagem vetorial | etapa 10. Exportação |
 
 Na exportação em CSV você escolhe o separador: **ponto e vírgula** para abrir no Excel
 em português, **vírgula** para o padrão internacional. Escolher errado faz a planilha

@@ -4,8 +4,7 @@
 > carregada e a captação definida. E saberá por que cada um desses três números
 > importa mais do que parece.
 
-Os dez capítulos desta parte constroem **um projeto só**, do começo ao fim. A cada
-capítulo o estudo ganha uma camada, e o resultado muda. Guarde o arquivo: ele é o
+As dez seções deste capítulo constroem **um projeto só**, do começo ao fim. A cada seção o estudo ganha uma camada, e o resultado muda. Guarde o arquivo: ele é o
 mesmo até a seção {{n:13}}.
 
 ## O projeto
@@ -31,8 +30,7 @@ coluna única. É o caminho de quem tem dados de uma estação específica, do I
 da Agência Nacional de Águas.
 
 **Base nacional.** 652 cidades brasileiras, 19 modelos climáticos do CMIP6 e três
-cenários de emissão. É o caminho deste tutorial, e a seção {{n:15}} mostra como usar os
-cenários futuros.
+cenários de emissão. É o caminho de quem estuda outras cidades ou cenários futuros, e a seção {{n:15}} mostra como usá-la.
 
 Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
 os **30 primeiros anos**.
@@ -48,11 +46,10 @@ oferta de água, e sim a demanda e o tamanho do reservatório.
 
 **Chove em 46% dos dias.** Chuva frequente e bem distribuída favorece
 reservatórios pequenos: a cisterna se enche muitas vezes ao ano em vez de precisar
-atravessar uma estiagem longa. Compare com Brasília, na seção {{n:14}}, onde a mesma
-lâmina anual cai concentrada em seis meses e exige o dobro do volume.
+atravessar uma estiagem longa. Compare com Brasília, na seção {{n:14}}, onde a chuva se concentra de outubro a abril e o mesmo reservatório rende pouco mais da metade.
 
 **Sete por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão
-descartados por inteiro, e o item 4.3 explica por quê.
+descartados por inteiro, e o item sobre o descarte de primeiras águas, adiante, explica por quê.
 
 > **Quantos anos de série usar.** Trinta é confortável. Abaixo de dez, o resultado
 > começa a depender do trecho escolhido; abaixo de cinco, o viés do reservatório
@@ -170,8 +167,8 @@ para a drenagem junto com a sujeira que ele lavou.
 
 > **A lâmina não é o dispositivo.** `d_f` é uma lâmina em milímetros. O volume
 > hidráulico do reservatório de autolimpeza é `A × d_f`, que no nosso projeto dá
-> 150 × 2 = **300 litros**. Esse reservatório exige dimensionamento próprio, e o
-> programa não o faz.
+> 150 × 2 = **300 litros**. A etapa **3. Qualidade & ETAP** dimensiona e orça esse
+> reservatório (seção {{n:27}}), e a seção {{n:10}} mostra o seu custo no investimento.
 
 ---
 

@@ -1234,6 +1234,7 @@ class TabReportsPdf(QWidget):
                 "",
                 f"  3. {tr('MATRIZ DE CERTIFICAÇÕES VERDES & ENQUADRAMENTO ESG')}",
                 f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
+                f"     {tr('LEED v5 BD+C, WEc2')}           : {esg.leed_v5.total_pts} / 8 pts ({esg.leed_v5.caminho})",
                 f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
                 f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
                 f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",

@@ -17,9 +17,14 @@ def caminho_do_relatorio(sufixo: str = ""):
     real é `docs/verificacao_e_validacao.md`; a versão traduzida, quando
     houver, leva o sufixo do idioma.
     """
+    import sys
     raiz = Path(__file__).resolve().parents[3]
     nomes = [f"verificacao_e_validacao{sufixo}.md", "verificacao_e_validacao.md"]
-    for pasta in (raiz / "netuno" / "docs", raiz / "docs"):
+    pastas = [raiz / "docs"]
+    if hasattr(sys, "_MEIPASS"):
+        # No executável, os dados ficam na pasta temporária do PyInstaller.
+        pastas.insert(0, Path(sys._MEIPASS) / "docs")
+    for pasta in pastas:
         for nome in nomes:
             caminho = pasta / nome
             if caminho.exists():

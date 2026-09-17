@@ -65,15 +65,13 @@ quanto em comportamento, e o critério que as separa não é a eficácia de desi
 três desinfetam — e sim a permanência do efeito.
 
 **Cloração por pastilhas.** Um dosador com pastilhas de hipoclorito de cálcio na
-linha. É a opção padrão, custa R$ 930 de investimento e R$ 7 por ano de pastilha
-para os 82 m³ do nosso projeto. Deixa **residual** na água, o que protege o
+linha. É a opção padrão. Para os 82 m³ do nosso projeto, a linha de tratamento com cloração custa R$ 1.547 de investimento e R$ 47 por ano de custeio, valores que incluem o descarte inicial dimensionado na mesma etapa — R$ 617 de investimento e R$ 40 por ano, como detalha a seção {{n:27}} — e as pastilhas. Deixa **residual** na água, o que protege o
 reservatório e a rede interna contra recontaminação.
 
-**Ultravioleta.** Um reator com lâmpada UV. Investimento de R$ 2.130 e custeio de
-R$ 223 por ano, entre lâmpada e energia. **Não deixa residual**: desinfeta o que
+**Ultravioleta.** Um reator com lâmpada UV. A linha passa a R$ 2.747 de investimento e R$ 263 por ano de custeio, com a lâmpada e a energia do reator. **Não deixa residual**: desinfeta o que
 passa por ele, e nada protege a água depois.
 
-**Ozonização.** Investimento de R$ 4.430 e custeio de R$ 207 por ano. Também sem
+**Ozonização.** A linha passa a R$ 5.047 de investimento e R$ 247 por ano de custeio. Também sem
 residual.
 
 > **Atenção.** No programa, ultravioleta e ozônio entram como barreira **adicional**
@@ -132,8 +130,7 @@ cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
 **Classe 1, cloração por pastilhas, sem filtro de polimento.**
 
 A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1 atende,
-a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de
-R$ 580 sobre a verba já prevista, e R$ 4,74 por ano de pastilha.
+a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,74 por ano de custeio: R$ 4,74 de pastilha e R$ 40 de manutenção do descarte.
 
 <!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |
@@ -142,7 +139,7 @@ R$ 580 sobre a verba já prevista, e R$ 4,74 por ano de pastilha.
 | classe de qualidade | 1, normativa |
 | desinfecção | cloração por pastilhas |
 | filtro de polimento | não |
-| investimento incremental do tratamento | R$ 580 |
+| investimento incremental do tratamento, com o descarte inicial | R$ 1.197 |
 
 Temos volume, arranjo e qualidade. Agora a pergunta que decide se o projeto sai do
 papel.

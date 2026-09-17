@@ -6,7 +6,7 @@ da própria base do programa, e não transcrita.
 
 ## Os códigos de faixa
 
-Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`:
+Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
 
 Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção {{n:29}}, e não se repetem aqui.
 
@@ -28,8 +28,6 @@ Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na se�
 ## Distribuição por unidade da federação
 
 A cobertura do catálogo acompanha a população, e não o território: as capitais e as regiões metropolitanas estão quase todas cadastradas, e o interior das regiões Norte e Centro-Oeste concentra os municípios ainda ausentes ({{fig:fig42_uf}}).
-
-
 
 ![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)
 

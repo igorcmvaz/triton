@@ -65,7 +65,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 <!-- tabela: Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
-| potencial de economia | demanda **total** | quanto da conta cai |
+| potencial de economia | demanda **total** | quanto do consumo de água potável cai |
 | confiabilidade volumétrica | demanda **pluvial** | quanto do pretendido se atendeu |
 | dias plenos, parciais, nulos | dias da série | com que frequência se pode contar |
 | extravasamento | — | o reservatório é pequeno? |
@@ -107,5 +107,5 @@ percentual de esgoto, TMA, inflação, reajustes e período.
 **Carbono:** fronteira (água entregue), vida útil, material do reservatório, base da
 rede com o ano, fatores com **rótulo de triagem**.
 
-**Certificação:** que as classes 2 a 4 são adaptações do programa; no EDGE, que só a
+**Certificação:** que as classes 2 a 4 são adaptações do programa; no LEED, a versão; no EDGE, que só a
 barra de água foi avaliada.

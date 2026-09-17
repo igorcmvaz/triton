@@ -54,7 +54,7 @@ sentido conhecido em cada caso.
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
 | a energia de partida dividia a potência de placa pelo rendimento da bomba, embora não haja vazão na partida | parcela de partidas corrigida, cerca de 14% da energia anual |
 | a demanda de irrigação atendida pela rede não aparecia no resumo | demanda não atendida deixou de ser subestimada em 10,85 L/dia no caso de referência |
-| quatro campos de imposto eram zerados a cada confirmação do diálogo econômico | conta de água e de energia passou a incluir os tributos declarados |
+| quatro campos de imposto eram zerados a cada confirmação do diálogo econômico | as faturas de água e de energia passaram a incluir os tributos declarados |
 | a cloração, o ultravioleta e o ozônio eram tratados como mutuamente exclusivos | linha de tratamento passou a compor estágios, conforme o item 4.6.5 da ABNT NBR 15527:2019 |
 
 ### Correções que não alteram resultados
@@ -69,7 +69,7 @@ estudo errado.
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
 | arquivo JSON de esquema desconhecido era aceito e abria um projeto inteiramente padrão | a abertura é interrompida com mensagem própria |
 | a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
-| seis campos eram gravados no arquivo e nunca lidos de volta | a seção {{n:34}} lista os que permanecem nessa condição |
+| seis campos eram gravados no arquivo e nunca lidos de volta | a seção {{n:36}} lista os que permanecem nessa condição |
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa

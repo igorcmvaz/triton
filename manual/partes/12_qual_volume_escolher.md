@@ -155,14 +155,15 @@ vez de supor que concordem sempre.
 | reservatório inferior | 5.000 L, polietileno |
 | reservatório superior | não |
 | classe de qualidade | 1, cloração por pastilhas |
+| descarte inicial | reservatório de 300 L |
 | **potencial de economia de água potável** | **37,46%** |
 | dias de atendimento pleno | 92,9% |
 | água poupada | 82,1 m³/ano |
-| investimento | R$ 10.080 |
-| **valor presente líquido em 20 anos** | **R$ 18.595** |
-| payback descontado | 6,5 anos |
-| **saldo de carbono em 20 anos** | **+223 kg CO₂e** |
-| payback de carbono | 11,8 anos |
+| investimento | R$ 10.697 |
+| **valor presente líquido em 20 anos** | **R$ 17.309** |
+| payback descontado | 6,9 anos |
+| **saldo de carbono em 20 anos** | **+202 kg CO₂e** |
+| payback de carbono | 12,6 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
 verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto

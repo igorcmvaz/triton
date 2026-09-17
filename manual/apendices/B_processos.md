@@ -106,7 +106,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 1. **Modo 1**: descarta em todo evento de chuva.
 2. **Modo 2**: descarta apenas no primeiro evento após estiagem, definida como véspera com menos de 1 mm.
 3. **Modo 3**: descarta quando passaram `discard_days_interval` dias desde o último descarte.
-4. Quando o descarte se aplica: `p_eff = p − discard_mm` se `p > discard_mm`, senão **zero** — o dia inteiro é descartado, não a diferença.
+4. Quando o descarte se aplica: `p_eff = p − discard_mm` se `p > discard_mm`, senão **zero**: toda a chuva do dia vai para o descarte.
 5. Quando não se aplica: `p_eff = p`, a chuva inteira é aproveitável.
 
 **Saídas**
@@ -330,7 +330,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 - `lower_tank_max`
 - `lower_tank_step`
-- `delta_ideal_threshold` (%/m³)
+- `delta_ideal` (%/m³)
 
 **Regras**
 
@@ -385,6 +385,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 - `annual_pluvial_m3` de PROC-12
 - `area`
 - dose, pureza, preço e fator de CO₂ do cloro
+- `discard` e `first_flush_system_enabled`, para o descarte inicial
 
 **Regras**
 
@@ -392,8 +393,9 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 2. O filtro de polimento é aplicado **se e somente se** marcado; quando a classe o recomendaria e o usuário recusa, isso fica registrado em `polishing_recommended_but_declined` em vez de ser imposto.
 3. O que se compra é o **produto** — pastilha a 65% de cloro ativo — e não o cloro puro. Faturar a massa de cloro ativo, e não a do produto, subestima o custo em cerca de 35%.
 4. **Regra incremental**: o CAPEX da linha desconta a verba genérica de tratamento já embutida em «Acessórios», e o custeio desconta a cloração, que o fluxo de caixa já paga. A regra vive num lugar só, consumida pelos **dois** motores econômicos.
-5. Na ACV, a linha de tratamento **substitui** o termo de cloração; nunca soma a ele.
-6. Com `etap_enabled = False`, a linha de tratamento não entra em conta alguma: nem no CAPEX, nem no custeio, nem na avaliação ambiental.
+5. Com `first_flush_system_enabled`, o dispositivo de descarte inicial, de volume `discard × area`, entra no CAPEX e no custeio da linha.
+6. Na ACV, a linha de tratamento **substitui** o termo de cloração; nunca soma a ele.
+7. Com `etap_enabled = False`, a linha de tratamento não entra em conta alguma: nem no CAPEX, nem no custeio, nem na avaliação ambiental.
 
 **Saídas**
 
@@ -419,8 +421,8 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Regras**
 
-1. Energia específica `e = ρgH/η` por m³ recalcado, ou `P/Q` quando a vazão é declarada.
-2. A potência de placa **já embute** o rendimento; por isso `P × horas / η` conta o rendimento duas vezes. Quatro cópias dessa fórmula antiga sobreviviam no programa e superestimavam o consumo em 1,68 vez — a pior delas ordenava volumes no multicritério.
+1. Energia específica `e = ρgH/(η_bomba·η_motor)` por m³ recalcado, ou `P/(Q·η_motor)` quando a vazão é declarada.
+2. A potência de placa é potência de eixo e **já embute** o rendimento da bomba; por isso `P × horas / η_bomba` conta esse rendimento duas vezes, e o que falta é dividir pelo rendimento do motor, da ABNT NBR 17094-2. Quatro cópias dessa fórmula antiga sobreviviam no programa e superestimavam o consumo em 1,68 vez — a pior delas ordenava volumes no multicritério.
 3. A energia de partida entra à parte, pelo número de ciclos.
 4. Vazão e rendimento não informados caem para valores típicos **da potência escolhida**, e não para constantes fixas.
 
@@ -452,7 +454,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 3. Código **−1**, disponibilidade: valor fixo que **soma** por cima do consumo medido.
 4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
 5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
-6. O esgoto é percentual da **tarifa de água**, não da fatura. Em Florianópolis são 100% da água, que é metade da fatura.
+6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
 7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
 
 **Saídas**
@@ -545,11 +547,12 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 **Regras**
 
 1. **LEED v4**: WEc1 até 2 pontos pelo uso externo, WEc2 até 6 pontos pelo uso interno, pela escala oficial. Sem demanda externa cadastrada, WEc1 é zero e diz por quê.
-2. **AQUA-HQE Residencial** (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).
-3. **Casa Azul + CAIXA** (guia V023, 29/04/2026): critério 3.6 atendido pela existência do sistema; 2, 4 ou 5 pontos conforme a abrangência do uso, só quando informada.
-4. **EDGE**: **não pontua**. Mede percentual contra um caso-base local e compara com 20%, em três barras independentes. O nível avançado sobe a barra de *energia* para 40%, e não a de água. O programa avalia só a barra de água, pela medida WEM14, e diz que as outras duas estão fora do seu alcance.
-5. Sem caso-base declarado, o EDGE usa a demanda modelada e avisa que o número é **piso**.
-6. **GRI 303**: captação evitada e taxa de circularidade.
+2. **LEED v5 BD+C** (rating system de novembro de 2025): WEc2 até 8 pontos, pela Opção 1 (projeto inteiro, 30% a 65%, +1 com fonte alternativa) ou pela soma das Opções 2 (louças e metais, 30% a 40%), 4 (externo, 50% e 100%) e 6 (fonte alternativa, 2 pontos). SSc3 registrado como não avaliado.
+3. **AQUA-HQE Residencial** (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).
+4. **Casa Azul + CAIXA** (guia V023, 29/04/2026): critério 3.6 atendido pela existência do sistema; 2, 4 ou 5 pontos conforme a abrangência do uso, só quando informada.
+5. **EDGE**: **não pontua**. Mede percentual contra um caso-base local e compara com 20%, em três barras independentes. O nível avançado sobe a barra de *energia* para 40%, e não a de água. O programa avalia só a barra de água, pela medida WEM14, e diz que as outras duas estão fora do seu alcance.
+6. Sem caso-base declarado, o EDGE usa a demanda modelada e avisa que o número é **piso**.
+7. **GRI 303**: captação evitada e taxa de circularidade.
 
 **Saídas**
 
@@ -591,7 +594,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Entradas**
 
-- `NetunoConfig` inteiro, 102 campos
+- `NetunoConfig` inteiro, com os campos da seção {{n:A}}
 - estado da interface
 - análise corrente
 
@@ -628,7 +631,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Saídas**
 
-- HTML, PDF, DXF, IFC e XLSX
+- HTML, PDF, DXF, JSON para BIM e XLSX
 
 **Exceção.** A conversão para PDF tenta o motor do Qt e cai para o gerador alternativo quando ele não está disponível.
 
@@ -636,7 +639,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 *Automação*
 
-**Gatilho.** Interface de automação, que acompanha a distribuição de código-fonte e não o programa instalado.
+**Gatilho.** Linha de comando `netuno`, descrita na seção {{n:19}}; acompanha a instalação como pacote Python, e não o instalador de Windows.
 
 **Entradas**
 
@@ -646,7 +649,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 **Regras**
 
 1. Chama o **mesmo** núcleo de cálculo da janela, sem tela.
-2. 55 dos 103 parâmetros são alcançáveis por ela; os demais só existem na interface, e o caminho é montar o projeto na janela e variar por automação só o que muda entre os casos.
+2. Só parte dos parâmetros é alcançável por ela; os demais só existem na interface, e o caminho é montar o projeto na janela e variar por automação só o que muda entre os casos.
 3. Serve a matrizes fatoriais de milhares de casos e à propagação de incerteza por sorteio, que são o instrumental dos trabalhos publicados pelo grupo.
 
 **Saídas**

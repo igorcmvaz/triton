@@ -78,8 +78,7 @@ legionela. Trate a classe de qualidade com cuidado, e não use as classes adapta
 2 a 4 como se fossem requisito normativo.
 
 **Escritório e comércio.** Demanda concentrada em dias úteis, cinco dias em sete.
-Module por semana. A fração não potável é altíssima, muitas vezes acima de 80%,
-porque quase todo o consumo é bacia sanitária e limpeza.
+Module por semana. A fração não potável é alta, tipicamente de 70% a 85%, porque quase todo o consumo é bacia sanitária e limpeza.
 
 **Hotel.** Sazonalidade forte, e é o caso em que modular por mês mais importa. Veja
 a advertência da seção {{n:17}} sobre demanda concentrada: um hotel de litoral lota

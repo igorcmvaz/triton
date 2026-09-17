@@ -142,13 +142,9 @@ cada critério.
 Começar pelos limites é incomum, e é deliberado. Poupa o tempo de quem abriu o
 programa esperando outra coisa.
 
-**Não dimensiona a instalação hidráulica.** Não calcula traçado, diâmetro por trecho,
-perda de carga nem declividade. O esquema exportado em DXF é um esquema, e o projeto
-executivo é do projetista.
+**Não dimensiona a instalação hidráulica.** Não calcula traçado, diâmetro por trecho nem declividade da rede. O assistente de motobomba estima o diâmetro e a perda de carga do recalque para selecionar o equipamento, mas não substitui o projeto da instalação; o esquema exportado em DXF é um esquema, e o projeto executivo é do projetista.
 
-**Não dimensiona o dispositivo de descarte.** A lâmina de descarte é um parâmetro do
-balanço; o reservatório de autolimpeza que a materializa, de volume igual à área vezes
-a lâmina, exige dimensionamento hidráulico à parte.
+**Não detalha o dispositivo de descarte.** O programa calcula o volume do reservatório de descarte, igual à área de captação vezes a lâmina, e o orça com o separador de folhas; o arranjo das conexões, a purga e a ligação à drenagem são projeto hidráulico à parte.
 
 **Não substitui ensaio de qualidade de água.** Ele dimensiona equipamento de
 tratamento a partir de premissas. As constantes do modelo de lavagem da cobertura não
@@ -222,7 +218,7 @@ descobre verdades; ele calcula consequências.
 
 Por isso o manual insiste tanto em declaração. A seção {{n:13}} traz a lista do que
 precisa constar num artigo, a seção {{n:33}} traz os dez enganos que o programa não
-impede, e o 36 traz o que ele não cobre.
+impede, e a seção {{n:36}} traz o que ele não cobre.
 
 Um estudo que declara suas premissas e seus limites é mais útil — e mais defensável —
 que um que apresenta um número sozinho.

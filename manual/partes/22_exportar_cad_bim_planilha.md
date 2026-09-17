@@ -57,7 +57,7 @@ O que o programa **não** dimensiona:
 
 - traçado e declividade da tubulação;
 - perda de carga real da instalação;
-- reservatório de autolimpeza do descarte, cujo volume é `A × d_f`;
+- arranjo hidráulico do dispositivo de descarte, do qual o programa calcula apenas o volume, `A × d_f`, e o custo;
 - extravasor e ligação à drenagem;
 - fundação e impermeabilização da cisterna.
 

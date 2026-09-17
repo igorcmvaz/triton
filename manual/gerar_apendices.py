@@ -231,7 +231,7 @@ def apendice_a():
         "",
         "A coluna **onde se informa** diz em que tela o campo aparece; a coluna",
         "**quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo",
-        "gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.",
+        "gravado no arquivo e nunca lido, e está listado na seção {{n:36}}.",
         "",
     ]
     for sec in ORDEM:
@@ -249,7 +249,7 @@ def apendice_a():
             L.append(f"| `{c['n']}` | {c['p']} | {c['u'] or '—'} | {telas} | {mods} |")
         notas = [c for c in grupo if c["nota"]]
         if notas:
-            L += ["", "Observações do fonte:", ""]
+            L += ["", "Observações do código:", ""]
             for c in notas:
                 L.append(f"- `{c['n']}`: {c['nota']}")
         L.append("")
@@ -348,7 +348,7 @@ def apendice_d():
         "## Os códigos de faixa",
         "",
         "Cada linha da tabela tarifária é uma quádrupla "
-        "`(mínimo, máximo, valor, código)`:",
+        "`(mínimo, máximo, valor, código)`.",
         "",
         "Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados "
         "na seção {{n:29}}, e não se repetem aqui.",
@@ -367,12 +367,35 @@ def apendice_d():
           "> classificado nele até esta versão.",
           "",
           "## Distribuição por unidade da federação", "",
+          "A cobertura do catálogo acompanha a população, e não o território: as capitais e "
+          "as regiões metropolitanas estão quase todas cadastradas, e o interior das regiões "
+          "Norte e Centro-Oeste concentra os municípios ainda ausentes ({{fig:fig42_uf}}).", "",
           "![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)",
           "",
           f"*Figura 99 — A distribuição dos {len(cidades)} municípios catalogados pelas "
           "unidades da federação, com as cores identificando a macrorregião. São Paulo "
           "e Minas Gerais respondem sozinhos por quase um terço do catálogo.*",
           ""]
+
+    L += ["", "## Atualização e auditoria da base", "",
+          "A base tarifária é mantida pelo grupo com uma rotina de atualização executada fora "
+          "da interface, antes de cada versão. A rotina tem três componentes.", "",
+          "**Energia elétrica.** As tarifas residenciais do subgrupo B1 são lidas da base aberta "
+          "de tarifas homologadas das distribuidoras, publicada pela Agência Nacional de Energia "
+          "Elétrica (ANEEL), e associadas à distribuidora de cada município do catálogo.", "",
+          "**Água e esgoto.** Um registro de evidências primárias associa cada prestador à agência "
+          "reguladora, à página oficial de tarifas e ao tipo de ato que as publica. Os prestadores "
+          "com portal padronizado têm leitura automática; os demais são marcados para conferência "
+          "manual do decreto ou da resolução, e a estrutura resultante é submetida à mesma "
+          "validação de regime descrita neste apêndice.", "",
+          "**Detecção de alterações.** Cada página oficial monitorada é registrada com a assinatura "
+          "SHA-256 do conteúdo e os cabeçalhos `ETag` e `Last-Modified`. Uma nova verificação "
+          "compara as assinaturas e aponta as páginas alteradas desde a última coleta, que são as "
+          "candidatas a revisão tarifária.", "",
+          "A rotina pode simular a atualização sem gravar a base, executar apenas a detecção de "
+          "alterações, restringir-se a uma unidade da federação ou a um município e separar "
+          "energia de saneamento. Cada execução grava um relatório de auditoria em Markdown e um "
+          "painel HTML com a situação de cada município."]
 
     L += ["", "## Grau de confiança", "",
           "Cada registro traz o grau de confiança da coleta:", "",

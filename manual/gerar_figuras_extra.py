@@ -29,6 +29,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt                                   # noqa: E402
 import numpy as np                                                # noqa: E402
 
+from gerar_figuras import teto_multiplo  # noqa: E402
 from gerar_figuras import (                                       # noqa: E402
     AZUL, EIXO, GRADE, LARANJA, ROXO, SUPERFICIE, TINTA, TINTA2, VERDE,
     _eixos, _salvar,
@@ -300,32 +301,29 @@ def figura_criterios():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# A permanência do nível: quanto tempo o reservatório passa vazio ou cheio
+# O uso da capacidade: autonomia armazenada e renovação pelo consumo
 # ══════════════════════════════════════════════════════════════════════════════
 
 #: Os volumes da curva de permanência, em litros.
 VOLUMES_PERMANENCIA = (2000, 5000, 10000, 20000)
-#: Os volumes das barras de estado, em litros.
+#: Os volumes das barras de renovação, em litros.
 VOLUMES_ESTADOS = (1000, 2000, 3000, 5000, 8000, 12000, 20000)
-#: Abaixo desta fração da capacidade o reservatório conta como vazio; acima
-#: da complementar, como cheio.
+#: Abaixo desta fração da capacidade o reservatório conta como vazio.
 FOLGA_DE_NIVEL = 0.05
 
 
-def _niveis_relativos(volume_l):
-    """O nível ao fim de cada dia, como fração da capacidade."""
-    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=float(volume_l),
-                              store_daily_details=True, **_config_tutorial())
-    return np.asarray([d.lower_tank_end_liters for d in r.daily_results],
-                      dtype=float) / float(volume_l)
+def _simulacao_diaria(volume_l):
+    return run_single_simulation(precip_data=_serie(), lower_tank_vol=float(volume_l),
+                                 store_daily_details=True, **_config_tutorial())
 
 
 def figura_permanencia():
-    """A curva de permanência do nível e a fração de dias vazio e cheio.
+    """A capacidade medida pelo consumo, e não pelo nível.
 
-    Substitui o gráfico do volume médio armazenado, cuja leitura era óbvia. A
-    permanência mostra o que a média esconde: um reservatório grande não fica
-    «meio cheio»; passa longos períodos vazio na estiagem e raramente enche.
+    A primeira versão mostrava o nível relativo ao fim do dia, e a cisterna
+    grande parecia «mais cheia»: estava, porque guarda água que o consumo não
+    chega a usar. Em dias de demanda pluvial armazenados e em renovações por ano,
+    a mesma simulação mostra o que a capacidade adicional compra.
     """
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 6.4),
                                  gridspec_kw={"height_ratios": [1.15, 1]})
@@ -334,51 +332,47 @@ def figura_permanencia():
         ax.set_facecolor(SUPERFICIE)
 
     cores = [VERDE, AZUL, ROXO, LARANJA]
+    maior_autonomia = 0.0
     for volume, cor in zip(VOLUMES_PERMANENCIA, cores):
-        nivel = np.sort(_niveis_relativos(volume))[::-1] * 100.0
-        permanencia = np.arange(1, len(nivel) + 1) / len(nivel) * 100.0
-        a1.plot(permanencia, nivel, color=cor, linewidth=2.0, zorder=3,
+        r = _simulacao_diaria(volume)
+        demanda = r.daily_results[0].pluvial_demand_liters
+        autonomia = np.sort([d.lower_tank_end_liters / demanda
+                             for d in r.daily_results])[::-1]
+        permanencia = np.arange(1, len(autonomia) + 1) / len(autonomia) * 100.0
+        a1.plot(permanencia, autonomia, color=cor, linewidth=2.0, zorder=3,
                 label=f"{volume / 1000.0:.0f} m³")
-    _eixos(a1, "(a)", "permanência: tempo em que o nível é igualado ou "
-           "superado (%)", "nível do reservatório (% da capacidade)")
+        maior_autonomia = max(maior_autonomia, float(autonomia.max()))
+    _eixos(a1, "(a)", "permanência: tempo em que a autonomia é igualada ou "
+           "superada (%)", "autonomia (dias de demanda pluvial)")
     a1.set_xlim(0, 100)
-    a1.set_ylim(0, 100)
     a1.set_xticks(range(0, 101, 10))
-    a1.set_yticks(range(0, 101, 20))
+    teto = teto_multiplo(maior_autonomia * 1.02, 10.0)
+    a1.set_ylim(0, teto)
+    a1.set_yticks(np.arange(0, teto + 1, 10))
     a1.legend(frameon=False, fontsize=8.4, loc="upper right",
               title="capacidade", title_fontsize=8.4)
 
-    vazio, meio, cheio = [], [], []
+    renovacoes, vazios = [], []
     for volume in VOLUMES_ESTADOS:
-        n = _niveis_relativos(volume)
-        v = float(np.mean(n <= FOLGA_DE_NIVEL)) * 100.0
-        c = float(np.mean(n >= 1.0 - FOLGA_DE_NIVEL)) * 100.0
-        vazio.append(v)
-        cheio.append(c)
-        meio.append(100.0 - v - c)
+        r = _simulacao_diaria(volume)
+        consumo_anual_l = r.avg_pluvial_consumed_l_day * 365.25
+        renovacoes.append(consumo_anual_l / float(volume))
+        niveis = np.asarray([d.lower_tank_end_liters for d in r.daily_results]) / float(volume)
+        vazios.append(float(np.mean(niveis <= FOLGA_DE_NIVEL)) * 100.0)
     x = np.arange(len(VOLUMES_ESTADOS))
-    a2.bar(x, vazio, 0.6, color=LARANJA, zorder=3, edgecolor=SUPERFICIE,
-           linewidth=1.5, label=f"vazio (≤ {FOLGA_DE_NIVEL * 100:.0f}%)")
-    a2.bar(x, meio, 0.6, bottom=vazio, color="#bcd6f5", zorder=3,
-           edgecolor=SUPERFICIE, linewidth=1.5, label="nível intermediário")
-    a2.bar(x, cheio, 0.6, bottom=np.add(vazio, meio), color=AZUL, zorder=3,
-           edgecolor=SUPERFICIE, linewidth=1.5,
-           label=f"cheio (≥ {100 - FOLGA_DE_NIVEL * 100:.0f}%)")
-    for i in range(len(x)):
-        if vazio[i] >= 6:
-            a2.text(i, vazio[i] / 2.0, f"{vazio[i]:.0f}%", ha="center",
-                    va="center", fontsize=7.8, color="#ffffff")
-        if cheio[i] >= 6:
-            a2.text(i, 100.0 - cheio[i] / 2.0, f"{cheio[i]:.0f}%",
-                    ha="center", va="center", fontsize=7.8, color="#ffffff")
-    _eixos(a2, "(b)", "capacidade do reservatório (m³)", "dias da série (%)")
+    a2.bar(x, renovacoes, 0.6, color=AZUL, zorder=3)
+    for i, (n, v) in enumerate(zip(renovacoes, vazios)):
+        a2.text(i, n + 1.2, f"{n:.0f}×", ha="center", va="bottom", fontsize=8.2,
+                color=TINTA)
+    _eixos(a2, "(b)", "capacidade do reservatório (m³)",
+           "renovações por ano")
     a2.set_xticks(x)
-    a2.set_xticklabels([f"{v / 1000.0:.0f}" for v in VOLUMES_ESTADOS])
-    a2.set_ylim(0, 100)
-    a2.set_yticks(range(0, 101, 20))
+    a2.set_xticklabels([f"{v / 1000.0:.0f}\n{d:.0f}% vazio" for v, d in
+                        zip(VOLUMES_ESTADOS, vazios)], fontsize=8.0)
+    teto2 = teto_multiplo(max(renovacoes) * 1.15, 20.0)
+    a2.set_ylim(0, teto2)
+    a2.set_yticks(np.arange(0, teto2 + 1, 20))
     a2.grid(axis="x", visible=False)
-    a2.legend(frameon=False, fontsize=8.2, loc="upper center",
-              bbox_to_anchor=(0.5, -0.22), ncol=3)
 
     fig.tight_layout()
     _salvar(fig, "fig47_permanencia.png")

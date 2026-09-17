@@ -611,13 +611,20 @@ def calculate_lca(
             embodied_co2_kg=pipe_co2,
             annual_op_co2_kg=0.0,
             lifetime_net_co2_kg=pipe_co2,
-            source_reference="Cenário de triagem; substituir pela massa linear e EPD/inventário do tubo"
+            # A massa linear e o fator do tubo têm fonte declarada; só o diâmetro
+            # fora da tabela, ou o fator digitado pelo usuário, fica sem ela.
+            source_reference=(
+                "Fator informado pelo usuário" if (pipe.custom_co2_per_m and pipe.custom_co2_per_m > 0)
+                else f"{PIPE_LINEAR_MASS_SOURCE[dn]} × 2,36 kg CO2e/kg (EPD S-P-05503, RXP PVC Pipes, A1-A3)"
+                if dn in PIPE_LINEAR_MASS_SOURCE
+                else "Cenário de triagem: diâmetro fora da tabela de massas lineares"
+            )
         ))
 
     # 4. Motobomba de Recalque (Fabricação e Reserva/Backup)
     pump = config.pump
     pump_count = getattr(config, 'pump_count', 1)
-    pump_unit_emb = pump.custom_embodied_co2 if (pump.custom_embodied_co2 and pump.custom_embodied_co2 > 0) else PUMP_EMBEDDED_CO2.get(pump.power_cv, 18.0)
+    pump_unit_emb = pump.custom_embodied_co2 if (pump.custom_embodied_co2 and pump.custom_embodied_co2 > 0) else PUMP_EMBEDDED_CO2.get(pump.power_cv, PUMP_EMBEDDED_CO2[min(PUMP_EMBEDDED_CO2, key=lambda cv: abs(cv - pump.power_cv))])
     pump_emb = pump_unit_emb * pump_count
     mat_desc = getattr(config, 'pump_material', getattr(pump, 'material', "Ferro Fundido, Cobre & Alumínio"))
 
@@ -628,7 +635,9 @@ def calculate_lca(
         embodied_co2_kg=pump_emb,
         annual_op_co2_kg=0.0,
         lifetime_net_co2_kg=pump_emb,
-        source_reference="Cenário de triagem; substituir por EPD/inventário da motobomba"
+        source_reference=("Massa de catálogo Dancor (60 Hz) × 4,77 kg CO2e/kg da EPD Grundfos "
+                          "EPD-GRU-20250340-CBA1-EN (A1-A3): aproximação de ordem de grandeza; "
+                          "a EPD do fabricante empregado prevalece")
     ))
 
     # 4.1 Subsistema de Descarte de Primeiras Águas (Filtro de Folhas e Reservatório de Descarte)

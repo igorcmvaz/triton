@@ -44,7 +44,7 @@ contra 5.000 L embaixo mais 1.000 L em cima.
 
 <!-- inclui: _tabelas/cap08_reservatorio_superior.md -->
 
-Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega 0,33 ponto percentual
+Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega cerca de um terço de ponto percentual
 a menos de economia que o reservatório único. A diferença não é erro de arredondamento, e
 decorre de duas causas que se somam.
 
@@ -91,12 +91,12 @@ cada dois dias, e nenhum dos valores da tabela chega perto de ser problema.
 
 ## A energia, e por que ela é pequena
 
-Dez vírgula sete quilowatt-hora por ano. Dez reais.
+Dez vírgula sete quilowatt-hora por ano. Sete reais e quarenta e cinco centavos.
 
 Parece pouco demais, e vale entender por quê. Elevar um metro cúbico de água a doze
 metros custa, em energia hidráulica, cerca de 0,033 kWh. Com o rendimento da bomba e
-o do motor, chega a 0,13 kWh por metro cúbico entregue. Oitenta e dois metros
-cúbicos por ano dão dez quilowatt-hora.
+o do motor, e somadas as partidas da bomba, chega a cerca de 0,13 kWh por metro cúbico recalcado. Oitenta e três metros
+cúbicos por ano dão os 10,7 quilowatt-hora da tabela.
 
 Água é pesada, mas doze metros é pouco. É por isso que o custo energético do
 aproveitamento pluvial é desprezível diante da economia na fatura de água e esgoto — e é por

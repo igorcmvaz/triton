@@ -25,7 +25,7 @@ computador.
 
 ## A instalação
 
-1. Execute **`Netuno_Setup_5_0_8.exe`**.
+1. Execute **`Netuno_Setup_5_0_0.exe`**.
 2. Escolha o idioma da instalação. Português e inglês vêm sempre; espanhol e chinês
    são pacotes opcionais, que você marca na instalação personalizada.
 3. Aceite o diretório sugerido, `C:\Program Files\Netuno 5`, ou escolha outro.
@@ -111,7 +111,7 @@ trabalha. Para a primeira simulação bastam quatro delas.
    150 m², o coeficiente de escoamento de 0,85 e o descarte de 2,0 mm.
 2. **Edificação e Consumo.** Escolha residencial unifamiliar, 4 moradores, 150 litros
    por habitante e dia, e fração atendível de 40%.
-3. **Reservatório e Custos.** Informe volume fixo de 5.000 L.
+3. **Reservatório & Custos.** Informe volume fixo de 5.000 L.
 4. Rode, e vá a **Resultados Técnicos**.
 
 Você deve obter potencial de economia próximo de **37%**.

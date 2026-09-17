@@ -69,7 +69,7 @@ da sua concessionária, e a ordem importa porque o primeiro invalida os demais.
 
 1. **a data de vigência** — tarifas são reajustadas anualmente;
 2. **os valores das faixas**;
-3. **o regime de mínimo**, que é o item {{n:16.3}}.
+3. **o regime de mínimo**, que é o item {{n:16.4}}.
 
 Havendo divergência em qualquer dos três, edite o registro. A edição vale para o seu
 projeto, não altera o catálogo dos demais usuários, e fica gravada dentro do arquivo
@@ -134,11 +134,10 @@ para o mesmo consumo:
 | 5 m³ | **R$ 52,89** | R$ 61,74 |
 
 Em Floriano, a fatura **para de cair em 10 m³**. Uma residência que consome 12 m³ e
-instala um sistema que poupa 4 desce para 8, e economiza R$ 19,63 — não os R$ 30
-que a tarifa média sugeriria. Se poupasse 7, desceria para 5 e economizaria os
+instala um sistema que poupa 4 desce para 8, e economiza R$ 19,63 — e não os R$ 24,17 que a tarifa média de R$ 6,04/m³ sugeriria. Se poupasse 7, desceria para 5 e economizaria os
 **mesmos** R$ 19,63: os três metros cúbicos adicionais não valem nada.
 
-Em Florianópolis, cada metro cúbico desconta até o primeiro.
+Em Florianópolis, cada metro cúbico economizado reduz a fatura, até o primeiro.
 
 > Rodar o caso de Floriano com a estrutura de Florianópolis produz um payback que
 > não existe. Trezentos e vinte e nove dos 652 municípios da base estão no regime de
@@ -170,7 +169,7 @@ registro da correção. Se você cadastrar um município novo, **verifique isso*
 
 ## O esgoto
 
-O percentual de esgoto incide sobre a **tarifa de água**, e não sobre a fatura.
+O percentual de esgoto incide sobre a **parcela de água** da fatura, e não sobre a fatura total.
 
 Cem por cento, como em Florianópolis, significa que a parcela de esgoto iguala a de
 água — e portanto o esgoto é **metade da fatura**. Economizar água economiza as duas
@@ -201,7 +200,7 @@ Em ordem de confiabilidade:
 
 ## Confira antes de confiar
 
-Depois de montar a tabela, faça o teste que o item {{n:16.6}} sugere: simule dois
+Depois de montar a tabela, faça o teste que o item {{n:16.7}} sugere: simule dois
 consumos, um dentro e um fora da faixa mínima, e compare com a fatura real ou com o
 simulador da concessionária.
 

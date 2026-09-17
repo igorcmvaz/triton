@@ -1,7 +1,7 @@
 # O relatório, e o que declarar num artigo
 
 > Ao terminar esta seção você terá o relatório emitido e, se pretende publicar, a
-> lista do que precisa constar no método do artigo. Essa lista é o capítulo mais
+> lista do que precisa constar no método do artigo. Essa lista é a parte mais
 > curto e o mais importante do manual.
 
 ---
@@ -28,8 +28,8 @@ O **relatório científico** traz o método completo, as premissas declaradas, a
 utilizada e os resultados com a precisão que um artigo exige. É a base sobre a qual se
 redige uma publicação, e é o único dos três que inclui as figuras analíticas.
 
-Além dos três, a etapa **10. Exportação** gera o desenho esquemático em DXF, o modelo em
-IFC e planilhas com a série diária completa e com a varredura de volumes, conforme a
+Além dos três, a etapa **10. Exportação** gera o desenho esquemático em DXF, o modelo
+BIM em JSON e planilhas com a série diária completa e com a varredura de volumes, conforme a
 seção {{n:22}} detalha.
 
 ---
@@ -93,7 +93,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 - **Município e concessionária**, com a data de vigência da tabela tarifária.
 - **Regime de mínimo** entre os cinco. É o que mais muda resultado entre municípios.
-- Percentual de esgoto, e que ele incide sobre a **tarifa de água**.
+- Percentual de esgoto, e que ele incide sobre a **parcela de água** da fatura.
 - Taxa mínima de atratividade, inflação, período de análise.
 - **Reajustes tarifários** de água, esgoto e energia, com o intervalo.
 
@@ -109,6 +109,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 ### Certificações
 
 - Que as classes 2 a 4 de qualidade são **adaptações do programa**, não da NBR 15527.
+- No caso do LEED, a **versão** do referencial: v4/v4.1 ou v5.
 - No caso do EDGE, que o programa avalia **apenas a barra de água**, e que o
   caso-base usado é o declarado ou a demanda modelada.
 
@@ -132,7 +133,7 @@ Para o nosso projeto, o método ficaria assim:
 > confirmado por análise multicritério TOPSIS com pesos iguais sobre sete critérios,
 > com normalização em variante de Hwang e Yoon translada por x − min(x). A análise
 > econômica utilizou a estrutura tarifária da CASAN vigente desde 01/04/2026, regime
-> de disponibilidade, esgoto a 100% da tarifa de água, TMA de 0,5% ao mês, inflação
+> de disponibilidade, esgoto a 100% do valor da água, TMA de 0,5% ao mês, inflação
 > de 0,35% ao mês, reajustes de 5% ao ano em intervalos de 12 meses e período de 20
 > anos. A avaliação de ciclo de vida adotou fronteira de água entregue, reservatório
 > em polietileno e vida útil de 20 anos.

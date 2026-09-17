@@ -29,8 +29,7 @@ O inventário é organizado em sete etapas, agrupadas pela natureza da emissão 
 *Figura 99 — As sete etapas do inventário, agrupadas pela natureza da emissão. As quatro primeiras são incorporadas e ocorrem uma única vez; a quinta e a sexta são operacionais e se repetem todo ano; a sétima é o crédito, e é a única que entra com sinal negativo.*
 
 
-As quatro primeiras etapas contabilizam o **carbono incorporado**, isto é, as emissões
-ocorridas na fabricação dos componentes, antes que o sistema entre em operação. As duas
+As quatro primeiras etapas contabilizam o **carbono incorporado**, isto é, as emissões ocorridas na fabricação dos componentes, antes que o sistema entre em operação; quando o descarte físico está dimensionado, o reservatório de descarte e o separador de folhas somam-se a elas. As duas
 seguintes contabilizam as emissões operacionais, que se repetem a cada ano de uso. E a
 sétima é o **crédito**: a emissão que a concessionária deixou de gerar porque aquela água
 não precisou ser captada, tratada e distribuída.
@@ -67,7 +66,7 @@ dessa variação que decorre boa parte do resultado ambiental do projeto.
 | concreto armado | 1.200 kg/m³ | 6.000 kg |
 
 > **Massa é carbono.** Concreto armado é o material mais massivo da lista por
-> larga margem, e é por isso que ele domina o inventário quando escolhido. O
+> larga margem, e é por isso que ele domina o inventário quando escolhido. A
 > seção {{n:11}} mostra a consequência: com concreto, o sistema do tutorial
 > não paga a dívida de carbono dentro da vida útil.
 
@@ -197,9 +196,7 @@ E_esp = S_vida ÷ V_vida
 Nem todo fator do inventário tem fonte primária. O programa marca os que não têm, e
 o relatório exibe a marca.
 
-O caso mais relevante é a **emissão de fabricação da motobomba**, em que quatro dos
-seis valores são extrapolação aritmética a partir do valor de meio CV. Está
-registrado como pendência aberta.
+O único fator que ainda o carrega é o do **hipoclorito**, por quilo de produto, citado de uma base comercial sem o processo nem o identificador. A emissão de fabricação da motobomba, que até a revisão de setembro de 2026 era extrapolação aritmética em quatro das seis potências, passou a combinar a massa de catálogo com a intensidade de uma declaração ambiental de produto; é aproximação de ordem de grandeza, e a seção {{n:C}} declara a ressalva.
 
 > **Num estudo publicado, declare quais fatores estão com rótulo de triagem.** Um
 > inventário que apresenta todos os fatores com o mesmo grau de confiança esconde

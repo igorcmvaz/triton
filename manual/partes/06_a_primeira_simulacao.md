@@ -92,8 +92,7 @@ independente da rede para os usos que atende.
 
 > **Potencial e confiabilidade não andam juntos.** É possível ter potencial alto com
 > confiabilidade baixa: um reservatório que se enche na estação chuvosa e seca na
-> estiagem entrega muito volume no ano e falha metade dos dias. A tabela do
-> seção {{n:7}} mostra as duas colunas divergindo.
+> estiagem entrega muito volume no ano e falha metade dos dias. A tabela da seção {{n:7}} mostra as duas colunas divergindo.
 
 ---
 
@@ -101,8 +100,7 @@ independente da rede para os usos que atende.
 
 **Responde: quanto vale isso em dinheiro e em carbono?**
 
-Este é o valor que atravessa para as seções {{n:10}} e {{n:11}}, porque tanto a economia
-na conta de água quanto a emissão de carbono evitada são calculadas a partir dele. Ele
+Este é o valor que atravessa para as seções {{n:10}} e {{n:11}}, porque tanto a economia na fatura de água e esgoto quanto a emissão de carbono evitada são calculadas a partir dele. Ele
 é sensivelmente menor que os 187 m³/ano que a cobertura disponibiliza depois do
 descarte, e a diferença inteira corresponde ao que extravasou.
 

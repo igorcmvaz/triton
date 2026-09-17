@@ -85,7 +85,7 @@ class Sidebar(QWidget):
         steps_sections = [
             (tr("DADOS DE ENTRADA"), "inputs", [
                 (f"🌧️ {tr('1. Projeto e Chuva')}", 0),
-                (f"🏠 {tr('2. Edificação Consumo')}", 1),
+                (f"🏠 {tr('2. Edificação e Consumo')}", 1),
                 (f"🧪 {tr('3. Qualidade & ETAP')}", 2),
                 (f"🚰 {tr('4. Reservatório & Custos')}", 3),
             ]),

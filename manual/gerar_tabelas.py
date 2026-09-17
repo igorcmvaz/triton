@@ -285,7 +285,7 @@ def tabela_limiar_e_custo():
     for v in (5000, 20000):
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg)
         preco = estimate_tank_price(float(v), "CONCRETO")
-        amb = EnvironmentalConfig()
+        amb = _config_ambiental()
         amb.lower_material_key = "CONCRETO"
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         vals[v] = (r.potential_potable_savings_pct, preco,
@@ -329,6 +329,27 @@ def _config_economica(volume_l, material="CONCRETO"):
     cfg.upper_tank_used = False
     for k, v in CUSTOS_TUTORIAL.items():
         setattr(cfg, k, v)
+    # A área, a lâmina de descarte e o descarte físico são os do tutorial e os
+    # da interface. Antes a configuração econômica herdava a área de 100 m² e
+    # a lâmina de 1 mm do padrão, e deixava o reservatório de descarte fora do
+    # investimento, que a etapa 3 inclui por padrão.
+    cfg.area = TUTORIAL["area"]
+    cfg.discard = TUTORIAL["discard_mm"]
+    cfg.first_flush_system_enabled = True
+    return cfg
+
+
+def _config_ambiental():
+    """A configuração ambiental do tutorial, coerente com a econômica.
+
+    O descarte físico entra com o carbono incorporado do reservatório de
+    descarte e do separador de folhas, como na etapa 7 da interface.
+    """
+    from netuno.core.environmental import EnvironmentalConfig
+    cfg = EnvironmentalConfig()
+    cfg.roof_area_m2 = TUTORIAL["area"]
+    cfg.discard = TUTORIAL["discard_mm"]
+    cfg.first_flush_system_enabled = True
     return cfg
 
 
@@ -400,7 +421,8 @@ def tabela_etap():
              "ozonio": "Cloração + ozonização"}
     for des in ("cloro", "uv", "ozonio"):
         e = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=m3,
-                      roof_area_m2=150.0, disinfection_choice=des)
+                      roof_area_m2=150.0, disinfection_choice=des,
+                      discard_mm=2.0, include_first_flush=True)
         L.append(f"| {nomes[des]} | R$ {br(e.total_etap_capex, 0)} "
                  f"| R$ {br(e.total_etap_annual_opex, 0)} "
                  f"| {br(e.total_etap_co2e_kg_yr, 1)} kg |")
@@ -409,9 +431,11 @@ def tabela_etap():
           "| :--- | :---: | ---: | ---: |"]
     for cid, c in WATER_QUALITY_CLASSES.items():
         sem = size_etap(target_class_id=cid, annual_pluvial_consumed_m3=m3,
-                        roof_area_m2=150.0, include_polishing_filter=False)
+                        roof_area_m2=150.0, include_polishing_filter=False,
+                        discard_mm=2.0, include_first_flush=True)
         com = size_etap(target_class_id=cid, annual_pluvial_consumed_m3=m3,
-                        roof_area_m2=150.0, include_polishing_filter=True)
+                        roof_area_m2=150.0, include_polishing_filter=True,
+                        discard_mm=2.0, include_first_flush=True)
         L.append(f"| {cid.replace('_', ' ')} | {'sim' if c.exige_filtracao_fina else 'não'} "
                  f"| R$ {br(sem.total_etap_capex, 0)} | R$ {br(com.total_etap_capex, 0)} |")
     return NL.join(L)
@@ -434,7 +458,7 @@ def tabela_economica():
     e = run_economic_analysis(cfg, r)
 
     L = [
-        "| A conta da CASAN | Consumo | Valor |",
+        "| A fatura da CASAN | Consumo | Valor |",
         "| :--- | ---: | ---: |",
         f"| sem o sistema | {br(tot_m3, 2)} m³/mês | R$ {br(sem, 2)} |",
         f"| com o sistema | {br(pot_m3, 2)} m³/mês | R$ {br(com, 2)} |",
@@ -467,7 +491,7 @@ def tabela_materiais():
     nomes = {"PEAD": "Polietileno (PEAD)", "CONCRETO": "Concreto armado",
              "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inoxidável"}
     for k in MATERIAL_PRESETS:
-        cfg = EnvironmentalConfig()
+        cfg = _config_ambiental()
         cfg.lower_material_key = k
         l = calculate_lca(5000.0, m3, cfg)
         try:
@@ -484,7 +508,7 @@ def tabela_materiais():
     for v in (2000, 3000, 5000, 8000):
         rr = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                    **_config_tutorial())
-        cfg = EnvironmentalConfig()
+        cfg = _config_ambiental()
         cfg.lower_material_key = "CONCRETO"
         l = calculate_lca(float(v), rr.annual_pluvial_consumed_m3, cfg)
         L.append(f"| {br(v, 0)} L | {br(l.environmental_payback_years, 1)} anos "
@@ -507,7 +531,7 @@ def tabela_multicriterio():
     for v in (1000, 2000, 3000, 5000, 8000, 12000):
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
         e = run_economic_analysis(_config_economica(v, "PEAD"), r)
-        amb = EnvironmentalConfig()
+        amb = _config_ambiental()
         amb.lower_material_key = "PEAD"
         l = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         linhas.append(
@@ -530,21 +554,10 @@ def tabela_multicriterio():
         "| Critério isolado | Volume que vence |",
         "| :--- | ---: |",
         f"| maior potencial de economia | {br(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
-        f"| melhor resultado financeiro | {br(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
-        f"| melhor resultado ambiental | {br(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
+        f"| menor payback descontado, desempate pelo VPL | {br(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
+        f"| maior saldo de carbono | {br(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
         f"| **compromisso, pesos iguais** | **{br(cands[res.best_index].lower_tank_vol, 0)} L** |",
-        "",
-        "| Peso dominante | Volume escolhido |",
-        "| :--- | ---: |",
     ]
-    for rot, pesos in (
-        ("pesos iguais", None),
-        ("técnico, 60%", [0.30, 0.30, 0.0667, 0.0667, 0.0667, 0.10, 0.10]),
-        ("econômico, 60%", [0.10, 0.10, 0.20, 0.20, 0.20, 0.10, 0.10]),
-        ("ambiental, 60%", [0.10, 0.10, 0.0667, 0.0667, 0.0667, 0.30, 0.30]),
-    ):
-        rr = calculate_topsis_scores(cands, pesos)
-        linhas.append(f"| {rot} | {br(cands[rr.best_index].lower_tank_vol, 0)} L |")
     return NL.join(linhas)
 
 
@@ -640,7 +653,6 @@ LEGENDAS = {
     'cap12_multicriterio.md': [
         'Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise',
         'Volume vencedor segundo cada critério isolado',
-        'Volume escolhido conforme a dimensão que recebe peso dominante',
     ],
     'cap14_cidades.md': [
         'O mesmo projeto do tutorial simulado em quatro capitais brasileiras',

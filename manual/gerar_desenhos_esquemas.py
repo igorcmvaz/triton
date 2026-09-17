@@ -115,31 +115,37 @@ def desenho_projecao():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def desenho_etap():
-    p = Prancha(100, 36, tamanho=(7.4, 2.7))
+    # Os componentes que o programa dimensiona, na ordem do escoamento. A
+    # primeira versão mostrava gradeamento, sedimentação e filtração, estágios
+    # de estação convencional que o programa não orça.
+    p = Prancha(100, 38, tamanho=(7.4, 2.8))
 
-    p.caixa("bruta", 1, 22, 17, 12, "Água bruta" + NL + "(cisterna)", cor=AZUL,
-            peso="bold", tamanho=7.6)
-    p.caixa("grade", 21, 22, 17, 12, "1. Gradeamento" + NL + "sólidos" + NL +
-            "grosseiros", cor=VERDE, tamanho=7.2)
-    p.caixa("sedim", 41, 22, 17, 12, "2. Sedimentação" + NL + "sólidos" + NL +
-            "sedimentáveis", cor=VERDE, tamanho=7.2)
-    p.caixa("filtro", 61, 22, 17, 12, "3. Filtração" + NL + "turbidez e" + NL +
-            "cor aparente", cor=VERDE, tamanho=7.2)
-    p.caixa("desinf", 81, 22, 18, 12, "4. Desinfecção" + NL + "cloração" + NL +
-            "ou UV", cor=ROXO, tamanho=7.2)
-    p.caixa("tratada", 61, 2, 17, 11, "Água tratada" + NL + "ao ponto de uso",
-            cor=AZUL, peso="bold", tamanho=7.6)
-    p.caixa("lodo", 31, 2, 24, 11, "Material retido" + NL +
-            "(remoção na manutenção)", cor=LARANJA, fundo="#fdf0ea",
-            tamanho=7.2)
+    p.caixa("bruta", 1, 23, 15, 12, "Água da" + NL + "cobertura", cor=AZUL,
+            peso="bold", tamanho=7.4)
+    p.caixa("descarte", 19, 23, 17, 12, "1. Descarte" + NL + "inicial" + NL +
+            "V = d × A", cor=LARANJA, tamanho=7.2)
+    p.caixa("filtro", 39, 23, 17, 12, "2. Filtro de" + NL + "entrada" + NL +
+            "(vórtex)", cor=VERDE, tamanho=7.2)
+    p.caixa("cisterna", 59, 23, 13, 12, "Cisterna", cor=AZUL, peso="bold",
+            tamanho=7.4)
+    p.caixa("desinf", 75, 23, 24, 12, "3. Desinfecção" + NL + "cloração" + NL +
+            "(+ UV ou ozônio)", cor=ROXO, tamanho=7.2)
+    p.caixa("polim", 75, 3, 24, 11, "4. Filtro de polimento" + NL +
+            "(opcional)", cor=VERDE, tracejada=True, tamanho=7.2)
+    p.caixa("uso", 50, 3, 20, 11, "Pontos de uso" + NL + "não potável",
+            cor=AZUL, peso="bold", tamanho=7.2)
+    p.caixa("drenagem", 19, 3, 26, 11, "Rede de drenagem" + NL +
+            "(primeira lâmina e retido)", cor=CINZA, fundo="#f4f3f0",
+            tinta=TINTA2, tamanho=7.0)
 
-    p.seta("bruta", "d", "grade", "e", cor=AZUL)
-    p.seta("grade", "d", "sedim", "e", cor=AZUL)
-    p.seta("sedim", "d", "filtro", "e", cor=AZUL)
-    p.seta("filtro", "d", "desinf", "e", cor=AZUL)
-    p.seta("desinf", "b", "tratada", "d", cor=AZUL, curva=0.25)
-    p.seta("sedim", "b", "lodo", "c", cor=LARANJA)
-    p.seta("grade", "b", "lodo", "ce", cor=LARANJA, curva=-0.2)
+    p.seta("bruta", "d", "descarte", "e", cor=AZUL)
+    p.seta("descarte", "d", "filtro", "e", cor=AZUL)
+    p.seta("filtro", "d", "cisterna", "e", cor=AZUL)
+    p.seta("cisterna", "d", "desinf", "e", cor=AZUL)
+    p.seta("desinf", "b", "polim", "c", cor=AZUL)
+    p.seta("polim", "e", "uso", "d", cor=AZUL)
+    p.seta("descarte", "b", "drenagem", "ce", cor=LARANJA)
+    p.seta("filtro", "b", "drenagem", "cd", cor=LARANJA)
     p.salvar("fig00j_etap.png")
 
 

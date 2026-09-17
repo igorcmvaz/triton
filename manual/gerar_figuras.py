@@ -225,7 +225,8 @@ def figura_materiais():
              "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inox"}
     rot, saldo = [], []
     for k in MATERIAL_PRESETS:
-        cfg = EnvironmentalConfig()
+        from gerar_tabelas import _config_ambiental
+        cfg = _config_ambiental()
         cfg.lower_material_key = k
         rot.append(nomes.get(k, k))
         saldo.append(calculate_lca(5000.0, m3, cfg).lifetime_net_co2_saved_kg)
@@ -327,7 +328,8 @@ def figura_carbono_no_tempo():
     ax.set_facecolor(SUPERFICIE)
 
     for chave, rotulo, cor in materiais:
-        cfg = EnvironmentalConfig()
+        from gerar_tabelas import _config_ambiental
+        cfg = _config_ambiental()
         cfg.lower_material_key = chave
         lca = calculate_lca(5000.0, m3, cfg)
         saldo = [lca.net_annual_avoided_co2_kg * a - lca.total_embodied_co2_kg

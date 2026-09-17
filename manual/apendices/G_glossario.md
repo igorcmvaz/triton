@@ -26,6 +26,10 @@ conduz água para o sistema, conforme a NBR 10844. Não é a área inclinada do 
 conforme as condições de geração. Verde, amarela, vermelha 1, vermelha 2, e a
 modalidade branca.
 
+**BD+C** (*Building Design and Construction*). Família de referenciais do LEED
+para projeto e construção de edificações novas ou em grande reforma. É a família
+tratada neste manual, nas versões 4, 4.1 e 5.
+
 **BIM** (*building information modeling*). Modelagem da informação da construção.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
@@ -123,10 +127,10 @@ de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 ambiental, base do AQUA-HQE. Designa também os níveis dos itens do referencial: HQE,
 HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
 
-**IFC**. A sigla designa duas coisas distintas neste manual. Em certificação, é a
-*International Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. Em
-exportação de modelos, é o *Industry Foundation Classes*, formato aberto de intercâmbio
-BIM.
+**IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
+Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
+*Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
+exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
 
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
@@ -145,7 +149,7 @@ por pessoas e por programas. É o formato interno do arquivo `.netuno`.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
-internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*.
+internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4, pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
 
 **m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações

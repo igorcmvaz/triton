@@ -8,7 +8,7 @@ versão, e por isso não pode divergir dele.
 
 A coluna **onde se informa** diz em que tela o campo aparece; a coluna
 **quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo
-gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.
+gravado no arquivo e nunca lido, e está listado na seção {{n:36}}.
 
 ## Identificação
 
@@ -38,9 +38,9 @@ gravado no arquivo e nunca lido, e está listado na seção {{n:34}}.
 | `climate_end_date` | 31/12/2013 | — | Projeto, Relatórios | — |
 | `start_date` | 01/01/1980 | — | Janela principal, Projeto, Tarifas e custos | Automação, Clima |
 
-Observações do fonte:
+Observações do código:
 
-- `climate_source_mode`: "national_db" ou "custom_file"
+- `climate_source_mode`: "national_db" (base nacional) ou "custom_file" (arquivo próprio)
 
 ## Captação
 
@@ -57,12 +57,12 @@ Observações do fonte:
 | `runoff_coeff` | — | — | Janela principal, Qualidade, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, ETAP |
 
-Observações do fonte:
+Observações do código:
 
 - `discard`: mm
 - `discard_mode`: 1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias
 - `discard_days_interval`: intervalo para modo 3
-- `area`: m2
+- `area`: m²
 - `irrigation_garden_area_m2`: Área de jardim em m² para o assistente de dimensionamento
 - `runoff_coeff`: ver hydrology_defaults
 
@@ -76,7 +76,7 @@ Observações do fonte:
 | `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
 | `building_template_id` | res_medio | — | Edificação | Tarifas |
 
-Observações do fonte:
+Observações do código:
 
 - `num_economias`: Número de economias / apartamentos com micromedição individual
 
@@ -105,13 +105,13 @@ Observações do fonte:
 | `daily_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
 | `daily_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
 
-Observações do fonte:
+Observações do código:
 
 - `demand_mode`: "constant", "weekly", "monthly", "daily"
-- `demand_value`: liters/day per capita or total
+- `demand_value`: L/dia, por habitante ou total
 - `potable_indoor_share`: Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
 - `non_potable_indoor_share`: Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
-- `rainwater_share`: fraction 0..1 (e.g. 0.4 = 40%)
+- `rainwater_share`: fração de 0 a 1 (0,4 = 40%)
 
 ## Irrigação
 
@@ -125,7 +125,7 @@ Observações do fonte:
 | `irrigation_potable_backup` | sim | — | Edificação | Balanço diário |
 | `irrigation_rate_l_m2_day` | 3 | L/m²·dia | — | — |
 
-Observações do fonte:
+Observações do código:
 
 - `irrigation_liters_per_day`: Volume diário fixo de irrigação/usos externos (L/dia)
 - `irrigation_rain_threshold_mm`: Limiar diário de precipitação para supressão da irrigação (mm/dia)
@@ -149,7 +149,7 @@ Observações do fonte:
 | `chlorine_cost_per_kg` | 25 | R$/kg | Econ. integrado, Otimizador, Qualidade | ETAP, Econômico, Preços |
 | `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, Automação, ETAP |
 
-Observações do fonte:
+Observações do código:
 
 - `water_quality_disinfection`: "cloro", "uv", "ozonio", "nenhum"
 - `chlorine_dose_mg_l`: mg de Cl2 ativo por litro
@@ -176,15 +176,15 @@ Observações do fonte:
 | `cost_lower_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
 | `cost_upper_tank` | 0 | R$ | Econ. integrado, Tarifas e custos, Varredura | Automação, Econômico |
 
-Observações do fonte:
+Observações do código:
 
-- `upper_tank_vol`: liters
-- `upper_tank_used`: 0 = not used, 1 = used (default used in system)
-- `lower_tank_max`: liters
-- `lower_tank_step`: liters
-- `lower_tank_mode`: 0 = fixed volume, 1 = sweep range
-- `lower_tank_fixed`: if fixed mode
-- `delta_ideal`: %/m3 threshold for optimal tank size
+- `upper_tank_vol`: L
+- `upper_tank_used`: 0 = sem caixa superior, 1 = com caixa superior
+- `lower_tank_max`: L
+- `lower_tank_step`: L
+- `lower_tank_mode`: 0 = volume fixo, 1 = varredura
+- `lower_tank_fixed`: usado no modo de volume fixo
+- `delta_ideal`: limiar de ganho marginal para o volume ideal, em %/m³
 - `lower_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
 - `upper_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
 
@@ -206,13 +206,13 @@ Observações do fonte:
 | `pump_motor_efficiency` | 0 | % | Tarifas e custos | Econômico, Motobomba |
 | `pump_unit_cost` | 300 | R$ | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
 
-Observações do fonte:
+Observações do código:
 
-- `pumping_threshold`: liters (recalque trigger level)
+- `pumping_threshold`: L, nível de acionamento do recalque
 - `pump_count`: principal + reserva como configuração inicial recomendada
-- `pump_power_kw`: kW (1 CV ~ 0.7355 kW -> 1/2 CV ~ 0.36775 kW)
+- `pump_power_kw`: kW (1 CV = 0,7355 kW; 1/2 CV = 0,36775 kW)
 - `pump_efficiency`: %, 0 = deduzir do porte
-- `pump_startup_time_h`: hours
+- `pump_startup_time_h`: h
 - `pump_motor_efficiency`: %
 - `pump_unit_cost`: R$, referência de mercado para motobomba periférica 1/2 CV
 
@@ -267,9 +267,9 @@ Observações do fonte:
 | `tariff_flag` | verde | — | Econ. integrado | Econômico |
 | `elec_tariff` | 0,6957 | R$/kWh | Econ. integrado, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
 
-Observações do fonte:
+Observações do código:
 
-- `sewage_mode`: 0 = fixed R$, 1 = % of water bill
+- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
 - `tariff_escalation`: meses; comprimento do período de reajuste
@@ -291,7 +291,7 @@ Observações do fonte:
 | `elec_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
 | `elec_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
 
-Observações do fonte:
+Observações do código:
 
 - `elec_tax_fixed`: R$
 - `elec_tax_var`: %
@@ -307,7 +307,7 @@ Observações do fonte:
 | `iptu_annual_value` | 4000 | R$/ano | Econ. integrado, Otimizador | Econômico |
 | `iptu_discount_pct` | 5 | % | Econ. integrado, Otimizador | Econômico |
 
-Observações do fonte:
+Observações do código:
 
 - `iptu_annual_value`: Valor venal do IPTU anual da edificação (R$/ano)
 - `iptu_discount_pct`: Desconto municipal do IPTU Verde (%)
@@ -324,10 +324,10 @@ Observações do fonte:
 | `tma` | 2 | % ao mês | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Planilhas |
 | `install_month` | 0 | mês | — | — |
 
-Observações do fonte:
+Observações do código:
 
 - `inflation`: % ao mês; inflação dos custos de O&M
-- `analysis_period_years`: years
+- `analysis_period_years`: anos
 - `tma`: % ao mês; taxa mínima de atratividade
 
 ## Certificações

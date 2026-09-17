@@ -4,7 +4,7 @@
 > **qual parte dela a chuva pode atender**. Essa fração é o teto de tudo o que vem
 > depois.
 
-A seção {{n:4}} definiu a oferta. Este define a demanda. E há uma assimetria que
+A seção {{n:4}} definiu a oferta. Esta define a demanda. E há uma assimetria que
 convém entender desde já: **a chuva não pode atender toda a demanda**, por mais
 água que haja. Existe um teto, ele é definido aqui, e nenhum reservatório o
 ultrapassa.
@@ -13,7 +13,7 @@ ultrapassa.
 
 ## A tipologia
 
-Na etapa **2. Edificação Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
+Na etapa **2. Edificação e Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
 tipologias, cada uma com o consumo per capita de referência ({{fig:fig38_per_capita}}) e a repartição usual dos usos finais. A indústria não tem faixa de referência, porque o consumo depende do processo produtivo, e não da ocupação: nesse caso, o valor deve vir de medição.
 
 ![O consumo per capita de referência por tipologia](../figuras/fig38_per_capita.png)
@@ -141,8 +141,7 @@ limiar adotado por padrão é de 2 mm diários.
 
 Resta uma escolha que merece atenção particular, porque altera o resultado econômico e
 não é neutra: o **suprimento de reserva** da irrigação. Com ele ligado, a rede pública
-rega o jardim nos dias secos em que a cisterna não dá conta, e esse volume entra na conta
-de água como consumo potável. Com ele desligado, o jardim simplesmente não é regado
+rega o jardim nos dias secos em que a cisterna não dá conta, e esse volume entra na fatura de água e esgoto como consumo potável. Com ele desligado, o jardim simplesmente não é regado
 naquele dia, a edificação não compra essa água, e o volume correspondente aparece no
 balanço como *demanda não atendida* — a terceira parcela tratada na seção {{n:23}}.
 

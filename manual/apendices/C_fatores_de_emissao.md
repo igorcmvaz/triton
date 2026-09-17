@@ -38,9 +38,6 @@ produzido na estação. A conversão usa as perdas de distribuição de cada mac
 *Figura 99 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião. É essa fração que converte um fator de emissão de saída de estação em fator por metro cúbico entregue, e ignorá-la subestima a emissão evitada em até um terço.*
 
 
-Um fator de saída de estação aplicado ao volume entregue subestima a emissão evitada
-em até um terço.
-
 ---
 
 ## Rede elétrica

@@ -597,6 +597,10 @@ def info_certificacoes():
         # Referencial AQUA-HQE Residencial v00 (22/11/2024). O Selo Casa Azul
         # saiu da régua: o critério 3.6 pontua a existência do sistema e a
         # abrangência do uso, e não um percentual de economia.
+        ("LEED v5  ·  WEc2" + NL + "opção 2: louças e metais", AZUL,
+         [(30, "1 pt"), (35, "2 pt"), (40, "3 pt")]),
+        ("LEED v5  ·  WEc2" + NL + "opção 1: projeto inteiro", AZUL,
+         [(30, "1"), (35, "2"), (40, "3"), (45, "4"), (50, "5"), (55, "6"), (60, "7"), (65, "8 pt")]),
         ("AQUA-HQE Resid." + NL + "consumo de água", ROXO,
          [(20, "EAU.1.2" + NL + "HQE"), (40, "EAU.1.3" + NL + "HQE 3")]),
         ("EDGE  ·  água," + NL + "energia e materiais", LARANJA,

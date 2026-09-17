@@ -99,7 +99,8 @@ def _candidatos(serie, material=MATERIAL,
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                   **cfg_sim)
         e = run_economic_analysis(_config_economica(v, material), r)
-        amb = EnvironmentalConfig()
+        from gerar_tabelas import _config_ambiental
+        amb = _config_ambiental()
         amb.lower_material_key = material
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         cands.append(TopsisCandidate(
@@ -186,7 +187,8 @@ def main():
 
     # ── a aba ambiental ──────────────────────────────────────────────────────
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
-    amb = EnvironmentalConfig()
+    from gerar_tabelas import _config_ambiental
+    amb = _config_ambiental()
     amb.lower_material_key = "CONCRETO"
     lca = calculate_lca(VOLUME_TUTORIAL, unica.annual_pluvial_consumed_m3, amb)
     g = EnvironmentalBalanceSummaryChart()

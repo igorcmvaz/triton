@@ -14,7 +14,7 @@ decidir se confia neles.
 
 ## A suíte
 
-A verificação do programa consiste em 1.057 testes automatizados, distribuídos por 93 arquivos e organizados em cinco famílias que se complementam ({{fig:fig45_suite}}): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam ({{fig:fig45_suite}}): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
@@ -154,7 +154,7 @@ O menu **Ajuda → Relatório de Verificação Técnica e Computacional** abre, 
 A suíte acompanha o código-fonte do programa, e não a instalação: ela é executada pelo
 grupo de pesquisa a cada alteração, antes que qualquer versão seja publicada. O que isso
 significa para quem usa o programa instalado é que a versão presente na sua máquina
-passou pelos 1.057 testes aqui descritos, incluindo as que conferem cada número
+passou pelos 1.072 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
