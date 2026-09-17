@@ -347,7 +347,7 @@ configurações sucessivamente mais controladas sobre os 2.583 casos de Manaus/S
 
 | Configuração | MAE | Viés | ≤ 5 pp |
 | :--- | ---: | ---: | ---: |
-| 1. Ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | −2,71 pp | 88,6% |
+| 1. Ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
 | 2. Avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
 | 3. Idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
 
@@ -365,7 +365,7 @@ O resíduo é compatível com a precisão de duas casas decimais da própria pla
 referência, o que significa que o balanço hídrico diário calcula, dentro do que os dados
 permitem distinguir, o mesmo que uma implementação independente do modelo.
 
-**É este número que verifica o motor.** A divergência total de 2,81 pp da configuração 1
+**É este número que verifica o motor.** A divergência total de 2,71 pp da configuração 1
 não mede erro: mede a soma de duas decisões de projeto do Netuno 5, ambas deliberadas e
 documentadas.
 

@@ -36,7 +36,7 @@ a razão, para que o usuário não interprete o zero como falha de desempenho.
 
 O crédito WEc2 trata da redução do uso interno e vale até seis pontos, distribuídos numa
 escala de cinco em cinco pontos percentuais a partir de 25% de economia. Antecede-o um
-pré-requisito, o WEp, que exige 20% de redução interna e é obrigatório: sem ele o
+pré-requisito, o WEp2, que exige 20% de redução interna e é obrigatório: sem ele o
 empreendimento não é elegível à certificação, e ele próprio não confere pontuação alguma.
 
 
@@ -56,30 +56,39 @@ empreendimento não é elegível à certificação, e ele próprio não confere 
 
 Na versão 5, conferida contra o *LEED v5 BD+C Rating System* de novembro de 2025, os
 créditos de uso interno e externo foram reunidos no crédito WEc2, *Enhanced Water
-Efficiency*, que vale até oito pontos em construção nova. O pré-requisito WEp2 exige,
+Efficiency*, que vale até oito pontos em construção nova e até sete em *Core and Shell*;
+o programa avalia só a construção nova. O código WEc1 passou a designar outro crédito,
+*Water Metering and Leak Detection*, de medição setorizada e detecção de vazamentos, e
+não deve ser confundido com o WEc1 de uso externo do LEED v4. O pré-requisito WEp2 exige,
 entre outras condições, redução de 20% no consumo de louças e metais em relação à linha
-de base do referencial. O projeto pontua por um de dois caminhos: a Opção 1, que mede a
-redução do uso de água do projeto inteiro, ou a soma das Opções 2 a 6, que tratam cada
-parcela separadamente.
+de base do referencial, e o pré-requisito WEp1 exige que a fonte alternativa de água, como
+a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O projeto pontua
+por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
+ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
 
 <!-- tabela: Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
 | Opção | O que mede | Pontuação |
 | :--- | :--- | :--- |
-| 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; +1 ponto com fonte alternativa de água, até 8 |
-| 2. Louças e metais | redução calculada além do pré-requisito | 30% 1 ponto, 35% 2 pontos, 40% 3 pontos |
-| 4. Uso externo | redução do requisito teórico de irrigação | 50% 1 ponto, 100% 2 pontos |
-| 6. Reúso | fonte alternativa de água no próprio lote, caminho 2 | 2 pontos |
+| 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
+| 2. Louças e metais | redução calculada contra a linha de base do WEp2, que pode incluir fonte alternativa | 30% 1 ponto, 35% 2 pontos, 40% 3 pontos |
+| 4. Uso externo, caminho 2 | redução do requisito teórico de irrigação | 50% 1 ponto, 100% 2 pontos |
+| 6. Reúso, caminho 2 | sistema de reúso no lote que atenda a irrigação, descargas, reposição ou processo | 2 pontos |
 
 O programa calcula as duas vias e adota a de maior pontuação: a Opção 1 com a economia
 total, e a soma das Opções 2, 4 e 6 com a economia interna, a economia externa e a
-existência do sistema. O teto de oito pontos vale para as duas. Como no LEED v4, as
+existência do sistema, que o programa trata como o sistema de reúso da Opção 6. O teto de
+oito pontos vale para as duas. As Opções 3 e 5, de equipamentos e de água de processo, e o
+caminho 1 da Opção 4, de paisagismo sem irrigação, não dependem do aproveitamento pluvial e
+ficam fora da conta. Como no LEED v4, as
 reduções do referencial são medidas contra uma linha de base de vazões de aparelhos e de
 irrigação, e não contra a demanda modelada, de modo que o enquadramento é indicativo.
 
 O aproveitamento pluvial também pode contribuir para o crédito SSc3, *Rainwater
-Management*, que concede de 1 a 3 pontos pela retenção no lote do volume correspondente
-ao percentil 80, 85 ou 90 das chuvas, e 1 ponto adicional quando parte desse volume é
-reusada. O programa não avalia esse crédito, porque ele depende do escoamento de todo o
+Management*. Pela Opção 1, ele concede 1, 2 ou 3 pontos pela retenção no lote do volume
+correspondente ao percentil 80, 85 ou 90 das chuvas locais (70, 75 ou 80 em lote sem
+recuo), e 1 ponto adicional quando parte desse volume é reusada, sem ultrapassar o teto de
+3 pontos; pela Opção 2, concede 3 pontos a quem retém o acréscimo de escoamento em relação
+à cobertura natural do terreno. O programa não avalia esse crédito, porque ele depende do escoamento de todo o
 terreno, e não só da cobertura; a matriz de critérios o registra como não avaliado.
 
 ---

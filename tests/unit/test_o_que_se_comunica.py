@@ -256,32 +256,13 @@ def test_nenhum_ponto_adivinha_a_unidade_da_fracao_atendivel():
                 ("netuno", "core", "parser.py"), ("netuno", "core", "excel_scenarios.py"),
                 ("netuno", "core", "report_generator.py"), ("netuno", "core", "cad_exporter.py"),
                 ("netuno", "cli.py"), ("netuno", "ui", "tab_tanks_simulation.py"),
-                ("netuno", "ui", "tab_scenarios_modern.py"), ("netuno", "ui", "tab_building.py"),
-                ("netuno", "ui", "tab_reports.py"), ("netuno", "ui", "tab_matrix_sim.py"),
-                ("netuno", "ui", "dialogs", "dialog_scenario_simulation.py")]
+                ("netuno", "ui", "tab_building.py"), ("netuno", "ui", "tab_reports.py")]
     padrao = re.compile(r"/\s*100(\.0)?\s+if\s+[\w\[\]\"'().]+\s*>\s*1(\.0)?\s+else"
                         r"|\*\s*100(\.0)?\s+if\s+[\w\[\]\"'().]+\s*<=\s*1(\.0)?\s+else"
                         r"|if\s+0\.0\s*<=?\s*share\w*\s*<=\s*1\.0")
     for arquivo in arquivos:
         achados = padrao.findall(_ler(*arquivo))
         assert not achados, (arquivo, achados)
-
-
-def test_aba_de_cenarios_le_a_fracao_da_edificacao_como_fracao(qapp):
-    """A fração 0,4 da edificação era lida como 0,4% e subia ao piso de 5%."""
-    from netuno.ui.tab_scenarios_modern import TabScenariosModern
-
-    class Edificacao:
-        def get_building_config(self):
-            return {"area": 150.0, "residents": 4, "demand": 150.0, "share": 0.40, "runoff": 0.85}
-
-    class AbaFalsa:
-        def window(self):
-            return type("Janela", (), {"tab_building": Edificacao()})()
-
-    base = TabScenariosModern.get_base_project_config(AbaFalsa())
-    assert base["share"] == pytest.approx(40.0)
-    assert base["runoff"] == pytest.approx(0.85)
 
 
 def test_campo_em_percentual_fica_laranja_com_valor_de_fracao(qapp):

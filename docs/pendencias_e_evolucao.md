@@ -495,32 +495,13 @@ passa de 0,0654 para 0,1080 kWh/m³, e o consumo anual da motobomba de 6,81 para
 11,26 kWh. O valor de recurso usado quando não há simulação passa de 0,0874 para
 0,1446 kWh/m³.
 
-## 18. Quatro telas existem no pacote e a janela nunca as abre
+## 18. Telas que a janela nunca abre
 
-`tab_single_sim.py` (870 linhas), `tab_matrix_sim.py` (265),
-`tab_scenarios_modern.py` (441) e `dialog_scenario_simulation.py` não são
-instanciados pela janela principal. `TabScenariosModern` chega a ser importado e
-nunca é usado; o diálogo de cenários só é aberto pela tela de matriz, que também
-é inalcançável.
-
-São cerca de 1.600 linhas de interface que ninguém vê, e duas delas — a matriz
-fatorial e a simulação de cenários — implementam funcionalidade que **não existe
-para o usuário**, embora a matriz fatorial seja exatamente o que o guia 19 diria
-para usar se ela estivesse ligada.
-
-Três saídas, e a escolha é sua:
-
-1. **Ligar a matriz fatorial** à barra lateral, como 13ª etapa. É a de maior
-   valor para o usuário, e a que mais mexe na interface.
-2. **Remover as quatro**, encolhendo o pacote e o instalador.
-3. **Deixar como está**, e registrar no cabeçalho de cada arquivo que a tela não
-   é alcançável, para que ninguém gaste tempo mantendo-a.
-
-Enquanto não houver decisão, o apêndice A do manual exclui essas telas da coluna
-«onde se informa»: citá-las mandaria o leitor procurar tela que não existe. A
-exclusão é verificada por asserção no gerador.
-
----
+`tab_matrix_sim.py`, `tab_scenarios_modern.py` e `dialog_scenario_simulation.py`
+foram removidos em 17/09/2026: não eram instanciados pela janela principal, e a
+importação de cenários em lote continua disponível pelo menu Cenários &
+Ferramentas. Resta `tab_single_sim.py` (870 linhas), que também não é aberta pela
+janela principal.
 
 ## 19. A linha de comando não acompanha o executável
 

@@ -48,7 +48,7 @@ if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 
 from netuno.core.parser import load_precipitation  # noqa: E402
-from netuno.core.simulation import run_single_simulation  # noqa: E402
+from netuno.core.simulation import run_single_simulation, run_sweep_simulation  # noqa: E402
 
 
 @lru_cache(maxsize=32)
@@ -114,7 +114,11 @@ def decompor(caminho_da_planilha: Path = PLANILHA_PADRAO,
     if limite_de_casos > 0:
         planilha = planilha.head(limite_de_casos)
 
-    erros: Dict[str, List[float]] = {"volume_do_netuno4": [], "volume_e_descarte_do_netuno4": []}
+    # As três configurações usam o MESMO conjunto de casos. Antes, a primeira vinha
+    # do comparador ingênuo, que inclui os casos de referência nula, e dava 2,81 pp
+    # contra 2,71 pp sobre os casos comuns.
+    erros: Dict[str, List[float]] = {"otimo_contra_otimo": [], "volume_do_netuno4": [],
+                                     "volume_e_descarte_do_netuno4": []}
 
     for _, linha in planilha.iterrows():
         try:
@@ -139,6 +143,15 @@ def decompor(caminho_da_planilha: Path = PLANILHA_PADRAO,
                 rainwater_share=float(linha.iloc[6]) / 100.0,
             )
 
+            varredura = run_sweep_simulation(
+                precip_data=chuva, lower_tank_max=10000.0, lower_tank_step=500.0,
+                upper_tank_vol=0.0, upper_tank_used=False, pumping_threshold=0.0,
+                delta_ideal_threshold=2.0, store_daily_details=False,
+                **{k: v for k, v in parametros.items() if k != "lower_tank_vol"})
+            erros["otimo_contra_otimo"].append(
+                (varredura.optimal_potential_pct or 0.0) - potencial_oficial
+            )
+
             com_subtracao = run_single_simulation(precip_data=chuva, **parametros)
             erros["volume_do_netuno4"].append(
                 com_subtracao.potential_potable_savings_pct - potencial_oficial
@@ -159,17 +172,12 @@ def decompor(caminho_da_planilha: Path = PLANILHA_PADRAO,
 
 
 def main() -> int:
-    from tests.benchmarking.compare_netuno4_netuno5 import run_benchmark_comparison
-
     print("DECOMPOSIÇÃO DA DIVERGÊNCIA NETUNO 5 vs NETUNO 4")
     print("=" * 74)
 
-    ingenua = run_benchmark_comparison(str(PLANILHA_PADRAO))
-    print(f"\n1. Ótimo do N5 contra ótimo do N4 (comparação ingênua)")
-    print(f"   MAE {ingenua['mae_pct']:.3f} pp | RMSE {ingenua['rmse_pct']:.3f} pp "
-          f"| {ingenua['total_compared']} casos")
-
     resultados = decompor()
+    print(f"\n1. Ótimo do N5 contra ótimo do N4")
+    print(f"   {resultados['otimo_contra_otimo']}")
     print(f"\n2. Avaliado no volume ótimo declarado pelo Netuno 4")
     print(f"   {resultados['volume_do_netuno4']}")
     print(f"\n3. Idem, com o descarte por limiar do Netuno 4")

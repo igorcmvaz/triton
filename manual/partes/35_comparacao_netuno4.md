@@ -60,12 +60,13 @@ sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 <!-- tabela: Divergência em três configurações sucessivamente mais controladas -->
 | Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
 | :--- | ---: | ---: | ---: |
-| 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | −2,71 pp | 88,6% |
+| 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
 | 2. avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
 | 3. idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
 
-A atribuição é feita sobre o viés, que se decompõe por diferença entre configurações
-sucessivas.
+As três configurações usam os mesmos casos, excluídos os nove de referência nula
+tratados adiante. Em cada uma, o Netuno 5 estima menos que o Netuno 4 em quase todos
+os casos, e por isso o erro médio absoluto praticamente coincide com o viés.
 
 A atribuição resultante:
 

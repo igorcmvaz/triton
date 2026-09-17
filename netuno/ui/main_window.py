@@ -24,7 +24,6 @@ from netuno.ui.tab_water_quality import TabWaterQuality
 from netuno.ui.tab_tanks_simulation import TabTanksSimulation
 from netuno.ui.tab_charts_netuno import TabChartsNetuno
 from netuno.ui.tab_economic_integrated import TabEconomicIntegrated
-from netuno.ui.tab_scenarios_modern import TabScenariosModern
 from netuno.ui.tab_environmental import TabEnvironmental
 from netuno.ui.tab_reports_pdf import TabReportsPdf
 from netuno.ui.tab_export import TabExport

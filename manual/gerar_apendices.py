@@ -62,11 +62,9 @@ PAPEL = {
 }
 
 #: Telas que a janela principal nunca abre. Existem no pacote, e o usuário não
-#: chega a elas: `tab_single_sim.py`, `tab_matrix_sim.py` e
-#: `tab_scenarios_modern.py`. Ficam fora do apêndice para que ele não cite tela
+#: chega a elas: `tab_single_sim.py`. Ficam fora do apêndice para que ele não cite tela
 #: inexistente; o capítulo 36 registra a pendência.
-TELAS_ORFAS = ("tab_single_sim.py", "tab_matrix_sim.py",
-               "tab_scenarios_modern.py", "dialog_scenario_simulation.py")
+TELAS_ORFAS = ("tab_single_sim.py",)
 
 TELAS = {
     "tab_project.py": "Projeto", "tab_building.py": "Edificação",

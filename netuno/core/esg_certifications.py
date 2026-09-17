@@ -35,16 +35,22 @@ LEED_WE_MAX_PONTOS = LEED_WEC1_MAX_PONTOS + LEED_WEC2_MAX_PONTOS
 LEED_V5_REFERENCIAL = "LEED v5 BD+C Rating System, edição de novembro de 2025 (USGBC)"
 LEED_V4_REGISTRO_ATE = "30/06/2027"
 #: WEc2 Enhanced Water Efficiency, New Construction: até 8 pontos, pela Opção 1
-#: (projeto inteiro) ou pela soma das Opções 2 a 6.
+#: (projeto inteiro) ou pela soma das Opções 2 a 6 (Rating System, p. 62-68). O
+#: Core and Shell tem teto de 7 e faixas próprias, que o programa não avalia.
 LEED_V5_WEC2_MAX_PONTOS = 8
-#: Opção 1: redução do uso de água do projeto inteiro contra a linha de base.
+#: Opção 1: redução do uso de água do projeto inteiro contra a linha de base
+#: (Tabela 1). Com fonte alternativa, cada faixa vale 1 ponto a mais, até 8; a 65%
+#: com fonte alternativa, o referencial fala em desempenho exemplar, que não é
+#: ponto deste crédito.
 LEED_V5_OPCAO1_FAIXAS = ((65.0, 8), (60.0, 7), (55.0, 6), (50.0, 5), (45.0, 4),
                          (40.0, 3), (35.0, 2), (30.0, 1))
 #: Opção 2: redução calculada em louças e metais, além do pré-requisito WEp2.
 LEED_V5_OPCAO2_FAIXAS = ((40.0, 3), (35.0, 2), (30.0, 1))
 #: Opção 4, caminho 2: redução do requisito teórico de irrigação.
 LEED_V5_OPCAO4_FAIXAS = ((100.0, 2), (50.0, 1))
-#: Opção 6, caminho 2: fonte alternativa de água no próprio lote.
+#: Opção 6, caminho 2: sistema de reúso no próprio lote que atenda a um ou mais
+#: usos finais (irrigação, descargas, reposição ou processo). O programa trata o
+#: aproveitamento de água de chuva como esse sistema.
 LEED_V5_OPCAO6_PONTOS = 2
 
 
@@ -333,9 +339,9 @@ def calculate_esg_certifications(
             f"{LEED_V5_WEC2_MAX_PONTOS} pontos pelo caminho «{v5_caminho}» "
             f"(Opção 2, louças e metais: {v5_op2}; Opção 4, uso externo: {v5_op4}; "
             f"Opção 6, fonte alternativa: {v5_op6}; Opção 1, projeto inteiro: {v5_op1}). "
-            "No SSc3 Rainwater Management, reter e reusar o volume do percentil de "
-            "chuva exigido acrescenta 1 ponto, que o programa não avalia porque depende "
-            "do escoamento de todo o terreno."
+            "No SSc3 Rainwater Management, reusar parte do volume retido acrescenta 1 ponto, "
+            "até o teto de 3; o programa não avalia esse crédito porque ele depende do "
+            "escoamento de todo o terreno."
         ),
     )
 
@@ -531,7 +537,8 @@ def calculate_esg_certifications(
             focus="Louças, metais, irrigação e reúso",
             requirement_rule=("Máx. 8 pts. Opção 1 (projeto inteiro): 30% 1 pt a 65% 8 pts, +1 com fonte "
                               "alternativa | Opção 2 (louças e metais): 30% 1, 35% 2, 40% 3 | "
-                              "Opção 4 (externo): 50% 1, 100% 2 | Opção 6 (fonte alternativa no lote): 2"),
+                              "Opção 4 (externo): 50% 1, 100% 2 | Opção 6 (fonte alternativa no lote): 2 | "
+                              "Opção 1 ou soma das Opções 2 a 6; New Construction (Core and Shell: máx. 7)"),
             achieved_performance=(f"Interno: {calc_in_pct:.1f}% | Externo: {calc_out_pct:.1f}% | "
                                   f"Total: {savings_pct:.1f}%"),
             points_or_level=f"{v5_total} / {LEED_V5_WEC2_MAX_PONTOS} pts ({v5_caminho})",
@@ -545,8 +552,10 @@ def calculate_esg_certifications(
             credit_code="SSc3",
             credit_name="Rainwater Management",
             focus="Terreno",
-            requirement_rule=("Reter no lote o volume do percentil 80, 85 ou 90 das chuvas: 1 a 3 pts; "
-                              "+1 pt quando parte desse volume é reusada"),
+            requirement_rule=("Opção 1: reter no lote o volume do percentil 80, 85 ou 90 das chuvas "
+                              "(70, 75 ou 80 em lote sem recuo): 1, 2 ou 3 pts; reusar parte desse "
+                              "volume dá +1 pt, até 3 | Opção 2: reter o acréscimo de escoamento "
+                              "sobre a cobertura natural: 3 pts"),
             achieved_performance="Não avaliado: depende do escoamento de todo o terreno",
             points_or_level="—",
             status="Não avaliado",

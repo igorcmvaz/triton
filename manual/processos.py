@@ -153,7 +153,7 @@ PROCESSOS = [
  ["<code>potable_consumed_liters</code> do dia",
   "<code>avg_pluvial_indoor_consumed_l_day</code> e "
   "<code>avg_pluvial_irrigation_consumed_l_day</code>, que separam o uso interno do externo "
-  "para os créditos WEc1 e WEc2 do LEED"],
+  "para os créditos WEc1 e WEc2 do LEED v4 e as Opções 2 e 4 do WEc2 do LEED v5"],
  "Nenhuma: todas as parcelas são mínimos e máximos com zero.",
 ),
 (
@@ -375,8 +375,8 @@ PROCESSOS = [
   "pela escala oficial. Sem demanda externa cadastrada, WEc1 é zero e diz por quê.",
   "<b>LEED v5 BD+C</b> (rating system de novembro de 2025): WEc2 até 8 pontos, pela Opção 1 "
   "(projeto inteiro, 30% a 65%, +1 com fonte alternativa) ou pela soma das Opções 2 (louças e "
-  "metais, 30% a 40%), 4 (externo, 50% e 100%) e 6 (fonte alternativa, 2 pontos). SSc3 registrado "
-  "como não avaliado.",
+  "metais, 30% a 40%), 4 (externo, 50% e 100%) e 6 (reúso no lote, 2 pontos), só em construção "
+  "nova. SSc3 registrado como não avaliado; o ponto de reúso dele não ultrapassa o teto de 3.",
   "<b>AQUA-HQE Residencial</b> (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de "
   "economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).",
   "<b>Casa Azul + CAIXA</b> (guia V023, 29/04/2026): critério 3.6 atendido pela existência "
