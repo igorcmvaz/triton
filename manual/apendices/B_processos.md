@@ -414,24 +414,27 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Entradas**
 
+- `supply_arrangement`: recalque, pressurização direta ou gravidade
 - `total_pumped_liters` e `total_pump_cycles` de PROC-08
+- `pressurizer_pressure_m`, `pressurizer_starts_per_person_day`, `residents_count`
 - `pump_power_kw`, `pump_efficiency`, `pump_flow_rate`
 - `pump_manometric_head_m`
 - `pump_startup_time_h`
 
 **Regras**
 
-1. Energia específica `e = ρgH/(η_bomba·η_motor)` por m³ recalcado, ou `P/(Q·η_motor)` quando a vazão é declarada.
-2. A potência de placa é potência de eixo e **já embute** o rendimento da bomba; por isso `P × horas / η_bomba` conta esse rendimento duas vezes, e o que falta é dividir pelo rendimento do motor, da ABNT NBR 17094-2. Quatro cópias dessa fórmula antiga sobreviviam no programa e superestimavam o consumo em 1,68 vez — a pior delas ordenava volumes no multicritério.
-3. A energia de partida entra à parte, pelo número de ciclos.
-4. Vazão e rendimento não informados caem para valores típicos **da potência escolhida**, e não para constantes fixas.
+1. O arranjo decide o que se bombeia. **Recalque**: o volume enviado à caixa superior. **Pressurização direta**: todo o volume pluvial consumido, com a pressão de trabalho no lugar da altura e sem energia de partida. **Gravidade**: nada. É a única fonte de kWh do econômico e da ACV.
+2. Energia específica `e = ρgH/(η_bomba·η_motor)` por m³ recalcado, ou `P/(Q·η_motor)` quando a vazão é declarada.
+3. A potência de placa é potência de eixo e **já embute** o rendimento da bomba; por isso `P × horas / η_bomba` conta esse rendimento duas vezes, e o que falta é dividir pelo rendimento do motor, da ABNT NBR 17094-2. Quatro cópias dessa fórmula antiga sobreviviam no programa e superestimavam o consumo em 1,68 vez — a pior delas ordenava volumes no multicritério.
+4. A energia de partida entra à parte, pelo número de ciclos.
+5. Vazão e rendimento não informados caem para valores típicos **da potência escolhida**, e não para constantes fixas.
 
 **Saídas**
 
 - `annual_kwh`, que vira custo no econômico e emissão na ACV
 - `pump_hours_year`, `annual_cycles`
 
-**Exceção.** Sem caixa superior, ou com potência zero, a energia é zero e o processo não roda.
+**Exceção.** Arranjo por gravidade, arranjo não informado num projeto antigo, ou potência zero: a energia é zero.
 
 ## PROC-17 — Calcular a fatura de água e esgoto
 
@@ -516,9 +519,10 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 1. Sete etapas: cisterna inferior, caixa superior, tubulação, motobomba, operação de bombeamento, operação de tratamento e potável evitada.
 2. Volume zero **sem** volume pluvial é o cenário sem sistema, e não recebe impacto fixo de caixa, tubo ou bomba.
-3. A linha de tratamento **substitui** o termo de cloração; não soma a ele.
-4. A água evitada é a **entregue**, não a produzida: as perdas de distribuição no Brasil vão de 33,9% no Sudeste a 46,9% no Norte, de modo que produzir 1 m³ entrega de 0,53 a 0,66 m³. O fator publicado de 0,236 kg CO₂e/m³ é de saída de estação; por m³ entregue vira de 0,336 a 0,461 conforme a macrorregião.
-5. O payback de carbono é o carbono incorporado dividido pela economia anual líquida; sem economia líquida positiva, devolve 999 anos em vez de infinito.
+3. A linha de tratamento **substitui** o termo de cloração; não soma a ele. A cloração acompanha o tratamento, e não a caixa superior.
+4. Caixa superior só no arranjo de recalque; motobombas em todo arranjo com bomba; energia de PROC-16.
+5. A água evitada é a **entregue**, não a produzida: as perdas de distribuição no Brasil vão de 33,9% no Sudeste a 46,9% no Norte, de modo que produzir 1 m³ entrega de 0,53 a 0,66 m³. O fator publicado de 0,236 kg CO₂e/m³ é de saída de estação; por m³ entregue vira de 0,336 a 0,461 conforme a macrorregião.
+6. O payback de carbono é o carbono incorporado dividido pela economia anual líquida; sem economia líquida positiva, devolve 999 anos em vez de infinito.
 
 **Saídas**
 

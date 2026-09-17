@@ -1464,7 +1464,7 @@ class TabDocumentation(QWidget):
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Chemical Disinfection (Chlorination)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>In-line erosion tablet feeder using Calcium Hypochlorite (65% active chlorine)</td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosage: 0.5 to 2.0 mg/L active Cl<sub>2</sub> (NBR 15527:2019, clause 4.6.5; permitted maximum 5 mg/L). Always present: it is the only barrier leaving a free residual, which ultraviolet and ozone do not.</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>BRL 280 feeder; chemical cost: BRL 38.00/kg; LCA: 1.85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>BRL 280 feeder; chemical cost: BRL 38.00/kg; LCA: 1.72 kg CO<sub>2</sub>e/kg of tablet (Ecoinvent 3.8, sodium hypochlorite as proxy, active-chlorine basis)</td>
                     </tr>
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>3. Physical Disinfection (Ultraviolet UV)</b></td>
@@ -1615,7 +1615,7 @@ class TabDocumentation(QWidget):
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Desinfecção Química (Cloração)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador de passagem por erosão com pastilhas de Hipoclorito de Cálcio (65% cloro ativo)</td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosagem: 0,5 a 2,0 mg/L de Cl<sub>2</sub> ativo (NBR 15527:2019, item 4.6.5; máximo permitido de 5 mg/L). Sempre presente: é a única barreira que deixa residual livre, o que ultravioleta e ozônio não fazem.</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador R$ 280; Químico: R$ 38,00/kg; Fator ACV: 1,85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador R$ 280; Químico: R$ 38,00/kg; Fator ACV: 1,72 kg CO<sub>2</sub>e/kg de pastilha (Ecoinvent 3.8, hipoclorito de sódio como aproximação, na base de cloro ativo)</td>
                     </tr>
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>3. Desinfecção Física (Radiação UV)</b></td>

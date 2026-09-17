@@ -118,9 +118,48 @@ class TabTanksSimulation(QWidget):
         self.lbl_sweep_guidance.setStyleSheet("color: #475569; font-size: 11px; padding: 2px 0;")
         lay_t.addWidget(self.lbl_sweep_guidance)
 
+        # Arranjo de abastecimento: a pergunta única que o econômico, a ACV e os
+        # relatórios leem. Ver netuno/core/supply_arrangement.py.
+        lbl_arr = QLabel(tr("Como a agua chega aos pontos de uso?"))
+        lbl_arr.setStyleSheet("font-weight: bold; margin-top: 6px;")
+        lay_t.addWidget(lbl_arr)
+        self.combo_supply = QComboBox()
+        self.combo_supply.addItem(tr("Recalque para caixa superior"), "recalque")
+        self.combo_supply.addItem(tr("Pressurizacao direta a partir da cisterna"), "pressurizacao")
+        self.combo_supply.addItem(tr("Gravidade, sem bomba (cisterna acima dos pontos de uso)"), "gravidade")
+        self.combo_supply.currentIndexChanged.connect(self._on_supply_changed)
+        lay_t.addWidget(self.combo_supply)
+        self.lbl_supply_warning = QLabel(tr(
+            "Projeto antigo sem caixa superior: escolha o arranjo. Ate la, nenhuma energia de bombeamento e calculada."))
+        self.lbl_supply_warning.setWordWrap(True)
+        self.lbl_supply_warning.setStyleSheet("color: #b45309; font-size: 11px; padding: 2px 0;")
+        self.lbl_supply_warning.setVisible(False)
+        lay_t.addWidget(self.lbl_supply_warning)
+
+        self.box_pressurizer = QWidget()
+        grid_pr = QGridLayout(self.box_pressurizer)
+        grid_pr.setContentsMargins(0, 0, 0, 0)
+        grid_pr.addWidget(QLabel(tr("Pressao de trabalho (m.c.a.):")), 0, 0)
+        self.txt_pressurizer_pressure = QLineEdit("18")
+        self.txt_pressurizer_pressure.setToolTip(tr(
+            "Media da faixa do pressostato: o Komeco TP 820 liga a 12 e desliga a 24 m.c.a. "
+            "O limite de pressao estatica da ABNT NBR 5626 e 40 m.c.a."))
+        self.txt_pressurizer_pressure.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_pressure, 0, 1)
+        grid_pr.addWidget(QLabel(tr("Acionamentos por pessoa por dia:")), 1, 0)
+        self.txt_pressurizer_starts = QLineEdit("5,42")
+        self.txt_pressurizer_starts.setToolTip(tr(
+            "5,05 descargas e 0,37 ciclos de maquina de lavar por pessoa por dia "
+            "(Mayer, DeOreo et al., 1999). Multiplicado pelos moradores."))
+        self.txt_pressurizer_starts.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_starts, 1, 1)
+        self.box_pressurizer.setVisible(False)
+        lay_t.addWidget(self.box_pressurizer)
+
         lbl_sup = QLabel(tr("Reservatorio Superior (Elevado / Motobomba):"))
         lbl_sup.setStyleSheet("font-weight: bold; margin-top: 6px;")
         lay_t.addWidget(lbl_sup)
+        self.lbl_upper_section = lbl_sup
 
         self.combo_upper_mode = QComboBox()
         self.combo_upper_mode.addItem(tr("Igual a Demanda Diaria Pluvial"), 0)
@@ -681,6 +720,7 @@ class TabTanksSimulation(QWidget):
                 evaluated_volumes = [self.last_single_result.lower_tank_vol]
         up_mode = self.combo_upper_mode.currentIndex()
         cfg.upper_tank_used = 1 if up_mode != 2 else 0
+        self.write_supply_to_config(cfg)
         try:
             cfg.upper_tank_vol = float(self.txt_upper_vol.text().replace(",", "."))
         except ValueError:
@@ -770,6 +810,20 @@ class TabTanksSimulation(QWidget):
         text("sweep_max", self.txt_sweep_max, "")
         text("sweep_step", self.txt_sweep_step, "")
         text("delta_ideal", self.txt_delta_ideal, "")
+        from netuno.core.supply_arrangement import arranjo_de, ARRANJOS
+        arranjo = arranjo_de(config) if config is not None else "recalque"
+        self.combo_supply.blockSignals(True)
+        self.combo_supply.setCurrentIndex(max(0, self.combo_supply.findData(arranjo if arranjo in ARRANJOS else "recalque")))
+        self.combo_supply.blockSignals(False)
+        self._supply_undeclared = arranjo not in ARRANJOS
+        self.lbl_supply_warning.setVisible(self._supply_undeclared)
+        if config is not None:
+            for widget, valor in ((self.txt_pressurizer_pressure, getattr(config, "pressurizer_pressure_m", 18.0)),
+                                  (self.txt_pressurizer_starts, getattr(config, "pressurizer_starts_per_person_day", 5.42))):
+                widget.blockSignals(True)
+                widget.setText(format_ptbr(float(valor), 2, thousands=False).rstrip("0").rstrip(","))
+                widget.blockSignals(False)
+        self.box_pressurizer.setVisible(arranjo == "pressurizacao")
         mode = state.get("upper_mode", 2 if not getattr(config, "upper_tank_used", True) else 1)
         self.combo_upper_mode.blockSignals(True)
         self.combo_upper_mode.setCurrentIndex(max(0, min(int(mode), self.combo_upper_mode.count() - 1)))
@@ -815,6 +869,39 @@ class TabTanksSimulation(QWidget):
     def set_precip_data(self, precip_data):
         self.precip_data = precip_data
         self.auto_fill_sweep_range()
+
+    def supply_arrangement(self) -> str:
+        """Arranjo escolhido na tela; «não informado» enquanto o aviso estiver ativo."""
+        if getattr(self, "_supply_undeclared", False):
+            return "nao_informado"
+        return self.combo_supply.currentData() or "recalque"
+
+    def _on_supply_changed(self, *_args):
+        """Mantém caixa superior, campos do pressurizador e projeto coerentes."""
+        if self.sender() is self.combo_supply:
+            self._supply_undeclared = False
+            self.lbl_supply_warning.setVisible(False)
+        arranjo = self.supply_arrangement()
+        recalque = arranjo == "recalque"
+        self.box_pressurizer.setVisible(arranjo == "pressurizacao")
+        self.combo_upper_mode.blockSignals(True)
+        if not recalque:
+            self.combo_upper_mode.setCurrentIndex(2)
+        elif self.combo_upper_mode.currentIndex() == 2:
+            self.combo_upper_mode.setCurrentIndex(0)
+        self.combo_upper_mode.blockSignals(False)
+        for w in (self.combo_upper_mode, self.txt_upper_vol, self.txt_pump_thresh_pct, self.combo_pump_profile):
+            w.setEnabled(recalque)
+        cfg = self._get_config()
+        self.write_supply_to_config(cfg)
+        self.on_param_changed()
+        self._queue_hydraulic_refresh()
+
+    def write_supply_to_config(self, cfg):
+        arranjo = self.supply_arrangement()
+        cfg.supply_arrangement = "" if arranjo == "nao_informado" else arranjo
+        cfg.pressurizer_pressure_m = parse_float(self.txt_pressurizer_pressure.text(), 18.0)
+        cfg.pressurizer_starts_per_person_day = parse_float(self.txt_pressurizer_starts.text(), 5.42)
 
     def on_param_changed(self):
         """Atualiza a parametrização do reservatório superior e sincroniza varredura."""

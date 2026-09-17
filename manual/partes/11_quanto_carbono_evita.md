@@ -20,21 +20,22 @@ dívida contraída na fabricação. Esse prazo é o **payback de carbono**, e el
 na dimensão ambiental o mesmo papel que o tempo de retorno desempenha na dimensão
 econômica.
 
-Para o nosso projeto, cisterna de concreto de 5.000 L:
+Para o nosso projeto, cisterna de concreto de 5.000 L com recalque para a caixa superior
+de 1.000 L:
 
 <!-- tabela: Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | Parcela | Valor |
 | :--- | ---: |
-| carbono incorporado no sistema | 1.008 kg CO₂e |
-| emissão evitada por ano | 28,7 kg CO₂e |
-| emissão anual de operação (tratamento da água) | 1,3 kg CO₂e |
-| saldo líquido anual | 27,4 kg CO₂e |
-| **payback de carbono** | **36,8 anos** |
-| saldo ao fim de 20 anos | **−460 kg CO₂e** |
+| carbono incorporado no sistema | 1.026 kg CO₂e |
+| emissão evitada por ano | 29,0 kg CO₂e |
+| emissão anual de bombeamento e tratamento | 1,2 kg CO₂e |
+| saldo líquido anual | 27,7 kg CO₂e |
+| **payback de carbono** | **37,0 anos** |
+| saldo ao fim de 20 anos | **−471 kg CO₂e** |
 
-São quase trinta e sete anos para amortizar a dívida de carbono, contra uma vida útil adotada
+São trinta e sete anos para amortizar a dívida de carbono, contra uma vida útil adotada
 de vinte anos. ==O sistema, portanto, não chega a se pagar ambientalmente:== ao ser
-desativado, terá emitido 460 kg CO₂e a mais do que evitou ao longo de toda a sua
+desativado, terá emitido 471 kg CO₂e a mais do que evitou ao longo de toda a sua
 operação.
 
 E esse é o resultado de um projeto que, do ponto de vista financeiro, é excelente — o
@@ -45,7 +46,7 @@ separadas até o momento da decisão.
 
 ## Por que a economia de carbono é tão pequena
 
-Vinte e oito quilogramas de CO₂e por ano parecem pouco para 82 metros cúbicos de água
+Vinte e nove quilogramas de CO₂e por ano parecem pouco para 83 metros cúbicos de água
 poupada, e de fato são: o resultado equivale a 0,35 kg CO₂e por metro cúbico
 substituído.
 
@@ -80,7 +81,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 99 — Saldo de carbono acumulado da cisterna de 5.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 12,6 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+*Figura 99 — Saldo de carbono acumulado da cisterna de 5.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 13,1 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
 
 ![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
@@ -88,11 +89,11 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 5.000 L pode pe
 
 **A escolha do material inverte o resultado.**
 
-Polietileno paga a dívida em 12,6 anos e termina os vinte anos com saldo positivo de 202 kg. Concreto leva 36,8 anos e termina negativo em 460 kg. Aço inoxidável também termina negativo, em 323 kg.
+Polietileno paga a dívida em 13,1 anos e termina os vinte anos com saldo positivo de 192 kg. Concreto leva 37,0 anos e termina negativo em 471 kg. Aço inoxidável também termina negativo, em 334 kg.
 
 E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
 cisterna, pior o carbono**. A de 2.000 L quase empata em vinte anos; a de 8.000 L
-fecha 944 kg no vermelho. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
+fecha 957 kg no vermelho. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
 rende cada vez menos água.
 
 > **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 3.000
@@ -132,33 +133,34 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 6.300 | R$ 3.000 |
-| investimento total | R$ 13.997 | R$ 10.697 |
-| payback financeiro | 9,4 anos | 6,9 anos |
-| VPL em 20 anos | R$ 14.009 | R$ 17.309 |
-| payback de carbono | 36,8 anos | 12,6 anos |
-| saldo de carbono em 20 anos | −460 kg | +202 kg |
+| investimento total | R$ 15.057 | R$ 11.757 |
+| payback financeiro | 9,9 anos | 7,7 anos |
+| VPL em 20 anos | R$ 13.147 | R$ 16.447 |
+| payback de carbono | 37,0 anos | 13,1 anos |
+| saldo de carbono em 20 anos | −471 kg | +192 kg |
 
 <!-- tabela: Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L |
 | **material** | **polietileno** |
-| investimento | R$ 10.697 |
-| VPL | R$ 17.309 |
-| payback financeiro | 6,9 anos |
-| payback de carbono | 12,6 anos |
+| investimento | R$ 11.757 |
+| VPL | R$ 16.447 |
+| payback financeiro | 7,7 anos |
+| payback de carbono | 13,1 anos |
 
 ---
 
 ## O que declarar
 
 A avaliação de ciclo de vida do Netuno é de **triagem**, não de inventário completo.
-Alguns fatores têm fonte primária declarada; outros carregam rótulo de triagem, que
-o programa exibe. Num estudo publicado:
+Todos os fatores padrão têm procedência declarada, mas alguns são aproximações, como o
+da motobomba e o do hipoclorito, e um fator digitado sem fonte recebe rótulo de
+triagem, que o programa exibe. Num estudo publicado:
 
 - declare a **fronteira** adotada, água entregue e não produzida;
 - declare a **vida útil** e a justifique;
-- declare quais fatores estão com rótulo de triagem;
+- declare quais fatores são aproximações e quais foram informados sem fonte;
 - declare a **base da rede elétrica** e o ano.
 
 A seção {{n:C}} traz a procedência de cada fator, e a seção {{n:30}} explica as sete

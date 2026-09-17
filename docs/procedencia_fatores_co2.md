@@ -84,7 +84,7 @@ Formato: cada valor recebe origem completa ou permanece rotulado como triagem.
 | ~~0,085~~ → **0,0461** | kg CO₂/kWh (rede BR) | `environmental.py` | MCTI/SIRENE, fator médio anual 2025 | geração do SIN, CO₂ apenas | ✅ **resolvido** — ver §Rede elétrica |
 | 0,35 | kg CO₂e/m³ água potável | `environmental.py:167` | — | — | **pendente** |
 | 25,0 | kg CO₂e/kg Cl₂ | `environmental.py:171` | — | — | **pendente** |
-| 1,85 | kg CO₂e/kg hipoclorito | `water_quality.py:253` | «Ecoinvent v3.8» sem processo nem UUID | — | **pendente** |
+| ~~1,85~~ → **1,72** | kg CO₂e/kg de pastilha a 65% | `chlorination.py` | Ecoinvent 3.8 cutoff, «sodium hypochlorite production, product in 15% solution state», EF 3.1 Climate change = 2,522 kg CO₂e/kg NaOCl; ÷ 0,9525 kg Cl₂/kg NaOCl × 0,65 | berço ao portão | 🟡 **resolvido por aproximação** (sem hipoclorito de cálcio no Ecoinvent 3.8; geografia do processo a registrar) |
 | 0,40 | kWh/m³ (bomba) | `environmental.py:130` | — | — | **pendente** |
 | 20 | anos (vida útil) | `environmental.py:175` | — | — | **pendente** |
 
@@ -397,7 +397,7 @@ nem na emissão.
 | Tubulações | 12 | ✅ resolvido — fator da EPD Australasia S-P-05503; massas lineares de peso de produto (Amanco Wavin) e das NBR 5648 e 5688 |
 | Motobombas | 6 | 🟡 resolvido por composição (2026-09-15) — massa do catálogo Dancor (CAM W-4C e CAM W-10) × 4,77 kg CO₂e/kg da EPD Grundfos EPD-GRU-20250340-CBA1-EN (A1–A3); ver §Motobombas |
 | Água potável evitada | 1 | 🟡 corroborado por Garfí et al. (2016); falta inventário da concessionária |
-| Cloro e hipoclorito | 3 | 🟡 cadeia unificada e fator implausível removido; falta o processo exato do Ecoinvent |
+| Cloro e hipoclorito | 3 | 🟡 cadeia unificada; fator do Ecoinvent 3.8 (NaOCl como aproximação do hipoclorito de cálcio, na base de cloro ativo) |
 | Vida útil e energia específica | 2 | ⬜ pendente — ver nota abaixo |
 
 ### Motobombas — composição de duas fontes (2026-09-15)

@@ -18,6 +18,16 @@ from netuno.core.pump_hydraulics import (
     vazao_l_por_h,
 )
 from netuno.core.simulation import SingleTankSimulationResult
+from netuno.core.supply_arrangement import (
+    ACIONAMENTOS_POR_PESSOA_DIA,
+    NAO_INFORMADO,
+    PRESSAO_DE_TRABALHO_PADRAO_M,
+    PRESSURIZACAO,
+    RECALQUE,
+    arranjo_de,
+    usa_bomba,
+    usa_caixa_superior,
+)
 
 CV_TO_KW = 0.735499
 
@@ -31,42 +41,10 @@ class PumpEnergyResult:
     pump_hours_year: float = 0.0
     pump_power_cv: float = 0.0
     upper_tank_used: bool = False
+    arrangement: str = NAO_INFORMADO
 
 
-def compute_annual_pump_energy(
-    config: NetunoConfig,
-    sim_result: Optional[SingleTankSimulationResult],
-    upper_tank_used: Optional[bool] = None,
-) -> PumpEnergyResult:
-    """
-    Estima kWh/ano da motobomba com base nos resultados da simulação.
-
-    O recalque custa ``e = ρ·g·H/η`` por m³ elevado, ou ``P/Q`` quando a vazão
-    de operação é declarada. As partidas somam ``P × t``: a potência de placa
-    já é o que o motor consome, e dividi-la por η contaria a perda duas vezes.
-
-    A fórmula antiga, ``E = P × (t_recalque + t_partida) / η``, superestimava
-    o consumo em 1/η e sobrevivia aqui no termo das partidas.
-    """
-    result = PumpEnergyResult(
-        pump_power_cv=config.pump_power_kw / CV_TO_KW if config.pump_power_kw > 0 else 0.0,
-        upper_tank_used=upper_tank_used if upper_tank_used is not None else bool(config.upper_tank_used),
-    )
-
-    if sim_result is None:
-        return result
-
-    num_years = max(1.0, sim_result.total_days / 365.25)
-    result.annual_pumped_m3 = (sim_result.total_pumped_liters / num_years) / 1000.0
-    result.annual_cycles = int(round(sim_result.total_pump_cycles / num_years))
-
-    if not result.upper_tank_used:
-        return result
-
-    # Rendimento e vazão vêm da potência e da altura quando não forem
-    # informados. Fixá-los desacoplava a bomba da própria escolha do usuário.
-    altura_informada = float(getattr(config, "pump_manometric_head_m", 0.0) or 0.0)
-    altura = altura_informada if altura_informada > 0 else ALTURA_MANOMETRICA_PADRAO_M
+def _rendimentos(config: NetunoConfig, altura: float):
     eta = (
         max(0.01, config.pump_efficiency / 100.0)
         if config.pump_efficiency > 0
@@ -85,23 +63,88 @@ def compute_annual_pump_energy(
         if config.pump_flow_rate > 0
         else vazao_l_por_h(config.pump_power_kw, altura, eta)
     )
+    return eta, eta_motor, vazao
+
+
+def compute_annual_pump_energy(
+    config: NetunoConfig,
+    sim_result: Optional[SingleTankSimulationResult],
+    upper_tank_used: Optional[bool] = None,
+    arrangement: Optional[str] = None,
+) -> PumpEnergyResult:
+    """
+    Energia anual de abastecimento, conforme o arranjo do projeto.
+
+    É a única fonte de kWh do programa: o econômico, a ACV e os relatórios a
+    leem daqui, e por isso não podem divergir.
+
+    - **Recalque**: ``e = ρ·g·H/(η_bomba·η_motor)`` por m³ elevado à caixa, ou
+      ``P/(Q·η_motor)`` com vazão declarada, mais as partidas por ``P·t/η_motor``.
+    - **Pressurização direta**: a mesma ``e``, com a pressão de trabalho no lugar
+      da altura, aplicada a **todo** o volume pluvial consumido. Não se soma
+      energia de partida: o pressostato liga quando o uso começa, e a bomba
+      entrega vazão útil desde então.
+    - **Gravidade** e **não informado**: zero.
+
+    ``upper_tank_used`` existe para chamadas antigas: sem arranjo declarado,
+    ``False`` equivale a «não informado».
+    """
+    if arrangement is None:
+        arrangement = arranjo_de(config)
+        if upper_tank_used is not None and not str(getattr(config, "supply_arrangement", "") or ""):
+            arrangement = RECALQUE if upper_tank_used else NAO_INFORMADO
+
+    result = PumpEnergyResult(
+        pump_power_cv=config.pump_power_kw / CV_TO_KW if config.pump_power_kw > 0 else 0.0,
+        upper_tank_used=usa_caixa_superior(arrangement),
+        arrangement=arrangement,
+    )
+
+    if sim_result is None or not usa_bomba(arrangement) or config.pump_power_kw <= 0:
+        return result
+
+    # Anos pela média diária, sem piso de um ano: com o piso, uma série de 30 dias
+    # dividia o recalque de um mês por um ano inteiro.
+    num_years = max(1, sim_result.total_days) / 365.25
+
+    if arrangement == PRESSURIZACAO:
+        pressao = float(getattr(config, "pressurizer_pressure_m", 0.0) or 0.0)
+        if pressao <= 0:
+            pressao = PRESSAO_DE_TRABALHO_PADRAO_M
+        eta, eta_motor, vazao = _rendimentos(config, pressao)
+        result.annual_pumped_m3 = float(sim_result.annual_pluvial_consumed_m3)
+        acionamentos = float(getattr(config, "pressurizer_starts_per_person_day",
+                                     ACIONAMENTOS_POR_PESSOA_DIA))
+        result.annual_cycles = int(round(
+            max(0, int(getattr(config, "residents_count", 0) or 0)) * acionamentos * 365.25))
+        if vazao > 0:
+            result.pump_hours_year = result.annual_pumped_m3 * 1000.0 / vazao
+        especifica = energia_especifica_kwh_por_m3(pressao, eta, eta_motor)
+        result.annual_kwh = especifica * result.annual_pumped_m3
+        result.specific_kwh_per_m3 = especifica if result.annual_pumped_m3 > 0 else 0.0
+        return result
+
+    result.annual_pumped_m3 = (sim_result.total_pumped_liters / num_years) / 1000.0
+    ciclos_por_ano = sim_result.total_pump_cycles / num_years
+    result.annual_cycles = int(round(ciclos_por_ano))
+
+    # Rendimento e vazão vêm da potência e da altura quando não forem
+    # informados. Fixá-los desacoplava a bomba da própria escolha do usuário.
+    altura_informada = float(getattr(config, "pump_manometric_head_m", 0.0) or 0.0)
+    altura = altura_informada if altura_informada > 0 else ALTURA_MANOMETRICA_PADRAO_M
+    eta, eta_motor, vazao = _rendimentos(config, altura)
     if vazao <= 0:
         return result
 
     t_rec = (sim_result.total_pumped_liters / num_years) / vazao
-    t_part = result.annual_cycles * config.pump_startup_time_h
+    # Ciclos sem arredondar: o econômico somava assim, e os dois têm de coincidir.
+    t_part = ciclos_por_ano * config.pump_startup_time_h
 
     result.pump_hours_year = t_rec + t_part
-    # O recalque custa ρ·g·H/η por m³, e as partidas somam energia sem entregar
-    # vazão útil. Antes tudo saía de potência × horas, o que embutia a altura
-    # nos números fixos de vazão e rendimento.
     # Com vazão informada, a energia por m³ é P/Q, direto. Sem vazão informada,
-    # ela vem de ρ·g·H/η. As duas formas coincidem quando a vazão é a que a
-    # bomba entrega naquela altura, e é a primeira que vale quando o usuário
-    # declara o ponto de operação.
+    # ela vem de ρ·g·H/η. Quando o assistente determinou o desnível, é ele que
+    # manda: a vazão do catálogo é o valor nominal do modelo.
     if altura_informada > 0:
-        # O assistente determinou o desnível: é ele que manda. A vazão do
-        # catálogo é o valor nominal do modelo, não a vazão contra esta altura.
         especifica = energia_especifica_kwh_por_m3(altura_informada, eta, eta_motor)
     elif config.pump_flow_rate > 0:
         especifica = energia_especifica_a_partir_da_vazao(
@@ -109,10 +152,8 @@ def compute_annual_pump_energy(
     else:
         especifica = energia_especifica_kwh_por_m3(altura, eta, eta_motor)
     energia_recalque = especifica * result.annual_pumped_m3
-    # Na partida a bomba nao entrega vazao util, mas o motor puxa da tomada.
-    # A placa e de eixo, entao o que o medidor registra e placa / rendimento do
-    # MOTOR. Nao se divide pelo rendimento da bomba: a perda hidraulica nao
-    # existe quando nao ha vazao.
+    # Na partida a bomba nao entrega vazao util, mas o motor puxa da tomada:
+    # placa / rendimento do MOTOR, sem o rendimento da bomba.
     energia_partidas = (config.pump_power_kw * t_part) / eta_motor
     result.annual_kwh = energia_recalque + energia_partidas
 

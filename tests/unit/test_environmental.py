@@ -13,6 +13,9 @@ from netuno.core.chlorination import Cloracao
 def test_calculate_lca_basic():
     config = EnvironmentalConfig(
         lower_material_key="PEAD",
+        # Sem caixa superior e com bomba: pressurização direta, declarada. Sem
+        # o arranjo, o programa não presume bombeamento.
+        supply_arrangement="pressurizacao",
         upper_tank_used=False,
         pipes=[
             PipeInput(diameter_mm=100, length_m=10.0),

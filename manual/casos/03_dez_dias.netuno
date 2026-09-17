@@ -5,10 +5,10 @@
   },
   "version": "5.0.0",
   "metadata": {
-    "project_id": "N5-20260917-002205-5A106D1B",
+    "project_id": "N5-20260917-121145-2C8D6984",
     "name": "Manual, secao 2.1 - dez dias resolvidos",
-    "created_at": "17/09/2026 00:22",
-    "saved_at": "17/09/2026 00:22:05"
+    "created_at": "17/09/2026 12:11",
+    "saved_at": "17/09/2026 12:11:45"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -71,15 +71,18 @@
       "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
       "pumping_threshold_l": 0.0,
+      "supply_arrangement": "pressurizacao",
+      "pressurizer_pressure_m": 18.0,
+      "pressurizer_starts_per_person_day": 5.42,
       "pump": {
-        "count": 0,
+        "count": 1,
         "power_str": "1/2",
         "power_kw": 0.36775,
         "flow_rate_l_h": 0.0,
         "efficiency_pct": 0.0,
         "startup_time_h": 0.03,
         "motor_efficiency": 0.0,
-        "unit_cost": 0.0,
+        "unit_cost": 300.0,
         "manometric_head_m": 0.0
       }
     },
@@ -145,7 +148,7 @@
       "chlorine_dose_mg_l": 1.5,
       "chlorine_product_purity": 0.65,
       "chlorine_cost_per_kg": 25.0,
-      "chlorine_co2_kg_per_kg": 1.85
+      "chlorine_co2_kg_per_kg": 1.72
     },
     "materials_and_typology": {
       "building_template_id": "res_medio",

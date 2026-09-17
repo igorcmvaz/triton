@@ -11,8 +11,8 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 <!-- tabela: Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
-| `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto do tutorial, com a cisterna escolhida na seção 4.9 |
-| `02_tutorial_varredura.netuno` | 4.4 e 2.2 | o mesmo projeto em modo varredura, de 0 a 20.000 L, passo de 1.000 L |
+| `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 5.000 L em polietileno e recalque para caixa superior de 1.000 L |
+| `02_tutorial_varredura.netuno` | 4.4 e 2.2 | o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L |
 | `03_dez_dias.netuno` | 2.1 | o caso didático de dez dias, que cabe numa planilha |
 | `04_reservatorio_superior.netuno` | 4.5 | 5.000 L embaixo mais 1.000 em cima, a comparação da seção 4.5 contra os 6.000 L de um tanque só |
 | `05_manaus.netuno` | 3.1 | o projeto do tutorial levado a Manaus, que chove mais e rende menos |
@@ -31,7 +31,7 @@ número errado, em vez de passar despercebido.
 <!-- tabela: Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
-| `01_tutorial_florianopolis.netuno` | volume fixo | 5.000 L | 37,46% | 224,7 L/dia |
+| `01_tutorial_florianopolis.netuno` | volume fixo | 5.000 L | 37,76% | 226,5 L/dia |
 | `02_tutorial_varredura.netuno` | varredura | ideal: 5.000 L | 37,46% | 21 volumes |
 | `03_dez_dias.netuno` | volume fixo | 2.000 L | 36,00% | 72,0 L/dia |
 | `04_reservatorio_superior.netuno` | volume fixo | 5.000 L | 37,76% | 226,5 L/dia |

@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **104 parâmetros**. É a lista completa do que um projeto
+São **107 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -92,7 +92,7 @@ Observações do código:
 | `demand_value` | 200 | L/dia | Documentação, Econ. integrado, Janela principal, Relatórios | Automação, Balanço diário |
 | `demand_monthly` | — | — | Janela principal | Automação |
 | `residents_type` | 0 | código | — | — |
-| `residents_count` | 4 | hab | Ambiental, Econ. integrado, Janela principal, Relatórios | Automação, Balanço diário |
+| `residents_count` | 4 | hab | Ambiental, Econ. integrado, Janela principal, Relatórios | Automação, Balanço diário, Motobomba |
 | `residents_monthly` | — | — | Janela principal | Automação |
 | `potable_indoor_share` | 0,65 | fração | Edificação | — |
 | `non_potable_indoor_share` | 0,35 | fração | Edificação | Balanço diário |
@@ -143,7 +143,7 @@ Observações do código:
 | `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `etap_enabled` | sim | — | Ambiental, Econ. integrado, Otimizador | ACV, Automação, ETAP |
-| `chlorine_treatment_enabled` | sim | — | Econ. integrado, Otimizador, Qualidade | Econômico |
+| `chlorine_treatment_enabled` | sim | — | Econ. integrado, Otimizador, Qualidade | ACV, Econômico |
 | `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econ. integrado, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
 | `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
 | `chlorine_cost_per_kg` | 25 | R$/kg | Econ. integrado, Otimizador, Qualidade | ETAP, Econômico, Preços |
@@ -164,7 +164,7 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econ. integrado, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
-| `upper_tank_used` | 1 | código | Ambiental, Econ. integrado, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Econômico, Motobomba, Planilhas |
+| `upper_tank_used` | 1 | código | Ambiental, Econ. integrado, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Motobomba, Planilhas |
 | `lower_tank_max` | 10000 | L | Janela principal, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `lower_tank_step` | 250 | L | Janela principal, Relatórios, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `lower_tank_mode` | 1 | código | Janela principal, Relatórios | Automação |
@@ -199,11 +199,11 @@ Observações do código:
 | `pump_count` | 2 | un | Ambiental, Econ. integrado, Otimizador, Relatórios, Tarifas e custos | ACV, Automação, Econômico, Preços, Relatórios |
 | `pump_power_str` | 1/2 | — | Relatórios | — |
 | `pump_power_kw` | 0,36775 | kW | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, CAD e BIM, Econômico, Motobomba, Preços, Relatórios |
-| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Econômico, Motobomba |
-| `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Econômico, Motobomba |
-| `pump_flow_rate` | 0 | L/h | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Econômico, Motobomba |
-| `pump_startup_time_h` | 0,03 | h | Econ. integrado, Gráficos, Otimizador, Tarifas e custos | Automação, Econômico, Motobomba |
-| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Econômico, Motobomba |
+| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Motobomba |
+| `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Motobomba |
+| `pump_flow_rate` | 0 | L/h | Econ. integrado, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Motobomba |
+| `pump_startup_time_h` | 0,03 | h | Econ. integrado, Gráficos, Otimizador, Tarifas e custos | Automação, Motobomba |
+| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Motobomba |
 | `pump_unit_cost` | 300 | R$ | Econ. integrado, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
 
 Observações do código:
@@ -338,4 +338,15 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
+
+## Outros
+
+3 parâmetros.
+
+<!-- tabela: Parâmetros do projeto: outros -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `supply_arrangement` | — | — | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `pressurizer_pressure_m` | 18 | — | Varredura | Motobomba |
+| `pressurizer_starts_per_person_day` | 5,42 | — | Varredura | Motobomba |
 

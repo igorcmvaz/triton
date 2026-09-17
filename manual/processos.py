@@ -270,10 +270,17 @@ PROCESSOS = [
 (
  "PROC-16", "Calcular a energia de bombeamento", "bomba",
  "Econômico e ACV, a partir do mesmo resultado de simulação.",
- ["<code>total_pumped_liters</code> e <code>total_pump_cycles</code> de PROC-08",
+ ["<code>supply_arrangement</code>: recalque, pressurização direta ou gravidade",
+  "<code>total_pumped_liters</code> e <code>total_pump_cycles</code> de PROC-08",
+  "<code>pressurizer_pressure_m</code>, <code>pressurizer_starts_per_person_day</code>, "
+  "<code>residents_count</code>",
   "<code>pump_power_kw</code>, <code>pump_efficiency</code>, <code>pump_flow_rate</code>",
   "<code>pump_manometric_head_m</code>", "<code>pump_startup_time_h</code>"],
- ["Energia específica <code>e = ρgH/(η_bomba·η_motor)</code> por m³ recalcado, ou "
+ ["O arranjo decide o que se bombeia. <b>Recalque</b>: o volume enviado à caixa superior. "
+  "<b>Pressurização direta</b>: todo o volume pluvial consumido, com a pressão de trabalho no "
+  "lugar da altura e sem energia de partida. <b>Gravidade</b>: nada. É a única fonte de kWh "
+  "do econômico e da ACV.",
+  "Energia específica <code>e = ρgH/(η_bomba·η_motor)</code> por m³ recalcado, ou "
   "<code>P/(Q·η_motor)</code> quando a vazão é declarada.",
   "A potência de placa é potência de eixo e <b>já embute</b> o rendimento da bomba; por isso "
   "<code>P × horas / η_bomba</code> conta esse rendimento duas vezes, e o que falta é dividir "
@@ -288,7 +295,8 @@ PROCESSOS = [
   ("pump_hydraulics.py", "vazao_l_por_h"), ("pump_hydraulics.py", "rendimento_tipico")],
  ["<code>annual_kwh</code>, que vira custo no econômico e emissão na ACV",
   "<code>pump_hours_year</code>, <code>annual_cycles</code>"],
- "Sem caixa superior, ou com potência zero, a energia é zero e o processo não roda.",
+ "Arranjo por gravidade, arranjo não informado num projeto antigo, ou potência zero: a "
+ "energia é zero.",
 ),
 (
  "PROC-17", "Calcular a fatura de água e esgoto", "economico",
@@ -349,7 +357,10 @@ PROCESSOS = [
   "bombeamento, operação de tratamento e potável evitada.",
   "Volume zero <b>sem</b> volume pluvial é o cenário sem sistema, e não recebe impacto "
   "fixo de caixa, tubo ou bomba.",
-  "A linha de tratamento <b>substitui</b> o termo de cloração; não soma a ele.",
+  "A linha de tratamento <b>substitui</b> o termo de cloração; não soma a ele. A cloração "
+  "acompanha o tratamento, e não a caixa superior.",
+  "Caixa superior só no arranjo de recalque; motobombas em todo arranjo com bomba; energia "
+  "de PROC-16.",
   "A água evitada é a <b>entregue</b>, não a produzida: as perdas de distribuição no Brasil "
   "vão de 33,9% no Sudeste a 46,9% no Norte, de modo que produzir 1 m³ entrega de 0,53 a "
   "0,66 m³. O fator publicado de 0,236 kg CO₂e/m³ é de saída de estação; por m³ entregue "

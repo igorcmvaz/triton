@@ -36,7 +36,7 @@ from gerar_figuras import (                                       # noqa: E402
 )
 from gerar_tabelas import (                                       # noqa: E402
     TARIFA_CASAN, VOLUMES_VARREDURA, _config_economica,
-    _config_tutorial, _serie,
+    _config_projeto, _config_tutorial, _serie,
 )
 
 from netuno.core.simulation import run_single_simulation          # noqa: E402
@@ -49,7 +49,7 @@ def _consumos_do_tutorial():
     """Os dois consumos mensais do projeto do tutorial, em m³."""
     r = run_single_simulation(precip_data=_serie(),
                               lower_tank_vol=VOLUME_TUTORIAL,
-                              **_config_tutorial())
+                              **_config_projeto())
     total = ((r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day)
              * DIAS_MES / 1000.0)
     potavel = r.avg_potable_consumed_l_day * DIAS_MES / 1000.0
@@ -220,7 +220,7 @@ def figura_criterios():
     from netuno.core.economic import run_economic_analysis
 
     serie = _serie()
-    cfg_sim = _config_tutorial()
+    cfg_sim = _config_projeto()
     vols, pots, vpls = [], [], []
     for v in VOLUMES_VARREDURA:
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),

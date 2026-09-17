@@ -19,14 +19,32 @@ confundir capacidade de armazenamento com capacidade de distribuição.
 
 A cisterna fica enterrada, e os pontos de consumo — bacia sanitária, tanque, torneira de
 jardim — situam-se acima dela. Alguma coisa precisa vencer esse desnível, e há duas
-maneiras de fazê-lo.
+maneiras de fazê-lo com bomba.
 
 - **Pressurização direta.** Uma bomba pequena com pressostato liga sempre que se
   abre um ponto. Não há caixa superior.
 - **Recalque para caixa elevada.** A bomba enche a caixa de tempos em tempos, e a
   gravidade faz o resto.
 
-O segundo arranjo tem três vantagens práticas reais. A motobomba liga poucas vezes por
+Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: **gravidade**,
+sem bomba. A etapa **4. Reservatório & Custos** pergunta qual dos três arranjos o projeto
+adota, e é essa resposta que define a energia e as motobombas no custo e no carbono.
+
+<!-- tabela: Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
+| Arranjo | Energia calculada | Caixa superior e motobombas |
+| :--- | :--- | :--- |
+| recalque para caixa superior | volume recalcado, pela altura manométrica, mais as partidas | entram no custo e no carbono |
+| pressurização direta | todo o volume pluvial consumido, pela pressão de trabalho | só as motobombas |
+| gravidade | nenhuma | nenhuma |
+
+Na pressurização direta, a pressão de trabalho padrão é de 18 m.c.a., a média da faixa
+do pressostato de um pressurizador residencial de 1/4 CV, que liga a 12 e desliga a
+24 m.c.a. Os acionamentos por dia saem dos moradores: 5,05 descargas e 0,37 ciclos de
+máquina de lavar por pessoa por dia, segundo o levantamento de usos finais de Mayer et
+al. (1999). Não se soma energia de partida, porque o pressostato liga quando o uso começa
+e a bomba já entrega vazão útil.
+
+O recalque para caixa elevada tem três vantagens práticas reais. A motobomba liga poucas vezes por
 dia, em vez de dezenas, o que prolonga a vida do equipamento; a pressão nos pontos de
 consumo é constante, porque decorre da altura da coluna d'água e não do funcionamento da
 bomba; e existe reserva disponível durante uma falta de energia. ==Nenhuma dessas três
@@ -44,23 +62,25 @@ contra 5.000 L embaixo mais 1.000 L em cima.
 
 <!-- inclui: _tabelas/cap08_reservatorio_superior.md -->
 
-Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega cerca de um terço de ponto percentual
-a menos de economia que o reservatório único. A diferença não é erro de arredondamento, e
-decorre de duas causas que se somam.
+Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega cerca de um terço de
+ponto percentual a menos de economia que o reservatório único. A diferença não é erro de
+arredondamento, e tem uma causa: **a cisterna extravasa enquanto a caixa superior ainda
+tem espaço**.
 
-A primeira é que **o limiar de acionamento imobiliza água**. Os 100 L de reserva mantidos
-na caixa superior nunca são consumidos: existem para que a motobomba não acione a cada
-litro retirado. Na prática, são 100 L subtraídos do armazenamento útil do sistema.
+A chuva entra só pela cisterna, e o extravasamento é calculado nela antes do consumo do
+dia. O recalque, porém, só acontece quando há consumo e a caixa superior desce abaixo do
+limiar de acionamento. Assim, num dia chuvoso com a cisterna cheia, a água que excede os
+5.000 L de baixo é perdida mesmo que a caixa de cima tenha centenas de litros livres. Um
+reservatório único de 6.000 L guardaria essa água.
 
-A segunda é que **a sequência de atendimento perde oportunidades**. O programa consome
-primeiro o que há na caixa superior, depois aciona o recalque, e então consome de novo.
-Num dia de demanda elevada com a cisterna cheia, o ciclo pode não se completar dentro do
-dia, e resta demanda não atendida que um reservatório único teria coberto sem
-intermediação.
+É também por isso que o limiar de acionamento maior rende mais: com ele, a bomba enche a
+caixa mais cedo, a cisterna fica mais vazia quando a chuva chega, e extravasa menos. A
+reserva abaixo do limiar não é imobilizada, porque é consumida logo depois de cada
+recalque e quando a cisterna seca.
 
 > **A caixa superior não aumenta a economia de água. Ela custa.** No nosso projeto,
-> custa a caixa, custa a bomba, custa 10,7 kWh por ano de energia, e custa 0,33
-> ponto de potencial.
+> custa a caixa, custa a bomba, custa 10,7 kWh por ano de energia, e custa um terço
+> de ponto de potencial em relação a um tanque único do mesmo volume total.
 >
 > Isso não a torna errada. Torna a decisão **hidráulica**, e não hídrica: adote-a se
 > o projeto precisa de pressão por gravidade ou de reserva contra falta de energia,
@@ -75,7 +95,7 @@ consome, abaixo do qual a bomba é acionada.
 
 <!-- inclui: _tabelas/cap08_limiar.md -->
 
-Limiar maior significa **mais potencial e mais acionamentos**. De 0 para 500 L, o
+Limiar maior significa **mais potencial e mais acionamentos**, pela razão acima. De 0 para 500 L, o
 potencial sobe 0,19 ponto e os acionamentos quase dobram, de 87 para 167 por ano.
 
 A troca é entre um ganho hídrico marginal e o desgaste da motobomba. Motobombas
@@ -113,20 +133,24 @@ economiza» não se sustenta em edificação de pequeno porte.
 
 ## A decisão do tutorial
 
-**Seguimos sem caixa superior.**
+**Adotamos recalque para uma caixa superior de 1.000 L, com limiar de 100 L.**
 
-A residência do tutorial é térrea, os pontos de consumo não pluviais ficam a menos
-de dois metros acima da cisterna, e a pressurização direta resolve. Adotar a caixa
-acrescentaria investimento e energia sem contrapartida hídrica.
+A decisão é hidráulica, e não hídrica. A caixa elevada dá pressão constante nos pontos
+de uso sem depender da bomba a cada descarga, mantém água disponível durante uma falta de
+energia e faz a motobomba partir 96 vezes por ano, em vez das cerca de oito mil partidas de um
+pressurizador acionado a cada uso por quatro moradores. O preço é o que a tabela mostra: a caixa, as bombas,
+10,7 kWh por ano e um terço de ponto de potencial frente a um tanque único de 6.000 L.
 
-Num sobrado, ou num prédio, a resposta mudaria — não por causa da água, mas por
-causa da pressão.
+Em relação à cisterna sozinha de 5.000 L, o potencial sobe de 37,46% para 37,76%,
+porque a caixa acrescenta 1.000 L de armazenamento. Daqui em diante, o custo, o carbono
+e a decisão do tutorial incluem a caixa, as duas motobombas e a energia do recalque.
 
 <!-- tabela: Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
 | Projeto até aqui | |
 | :--- | ---: |
-| volume do reservatório | 5.000 L |
-| reservatório superior | não |
-| potencial de economia | 37,46% |
+| volume do reservatório inferior | 5.000 L |
+| arranjo | recalque para caixa superior |
+| reservatório superior | 1.000 L, limiar de 100 L |
+| potencial de economia | 37,76% |
 
 Agora sabemos quanta água o sistema entrega. Falta saber **que água** é essa.

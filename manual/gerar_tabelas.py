@@ -164,6 +164,10 @@ TUTORIAL = {
     "per_capita": 150.0,       # L/hab·dia
     "rainwater_share": 0.40,   # bacias, máquina de lavar e área externa
     "volume_inicial": 3000.0,  # o primeiro palpite, do capítulo 6
+    # A partir da seção do reservatório superior, o projeto adota recalque para
+    # caixa elevada: é a comparação daquela seção, com o limiar de 100 L.
+    "caixa_superior_l": 1000.0,
+    "limiar_recalque_l": 100.0,
 }
 
 VOLUMES_VARREDURA = [0, 1000, 2000, 3000, 4000, 5000, 6000, 8000,
@@ -176,14 +180,28 @@ def _serie():
     return p[: ANOS_TUTORIAL * 365]
 
 
-def _config_tutorial():
+def _config_tutorial(caixa=False):
+    """Parâmetros de simulação do tutorial.
+
+    ``caixa=True`` acrescenta o arranjo adotado na seção do reservatório
+    superior; as seções anteriores estudam a cisterna sozinha.
+    """
     t = TUTORIAL
-    return dict(
+    cfg = dict(
         area=t["area"], runoff_coeff=t["runoff_coeff"],
         discard_mm=t["discard_mm"], discard_mode=t["discard_mode"],
         total_demand_per_day=t["moradores"] * t["per_capita"],
         rainwater_share=t["rainwater_share"],
     )
+    if caixa:
+        cfg.update(upper_tank_vol=t["caixa_superior_l"], upper_tank_used=True,
+                   pumping_threshold=t["limiar_recalque_l"])
+    return cfg
+
+
+def _config_projeto():
+    """O projeto do tutorial depois da decisão pelo recalque para caixa superior."""
+    return _config_tutorial(caixa=True)
 
 
 def tabela_serie():
@@ -324,9 +342,14 @@ def _config_economica(volume_l, material="CONCRETO"):
     cfg.water_tariffs = list(TARIFA_CASAN)
     cfg.sewage_mode, cfg.sewage_rate = 1, 100.0
     cfg.cost_lower_tank = estimate_tank_price(float(volume_l), material)
-    cfg.cost_upper_tank = 0.0
-    cfg.pump_unit_cost, cfg.pump_count = 0.0, 0
-    cfg.upper_tank_used = False
+    # Recalque para caixa superior de 1.000 L em polietileno, com as duas
+    # motobombas (principal e reserva) e o preço padrão do programa.
+    cfg.supply_arrangement = "recalque"
+    cfg.upper_tank_used = True
+    cfg.upper_tank_vol = TUTORIAL["caixa_superior_l"]
+    cfg.pumping_threshold = TUTORIAL["limiar_recalque_l"]
+    cfg.cost_upper_tank = estimate_tank_price(TUTORIAL["caixa_superior_l"], "PEAD")
+    cfg.residents_count = TUTORIAL["moradores"]
     for k, v in CUSTOS_TUTORIAL.items():
         setattr(cfg, k, v)
     # A área, a lâmina de descarte e o descarte físico são os do tutorial e os
@@ -339,17 +362,24 @@ def _config_economica(volume_l, material="CONCRETO"):
     return cfg
 
 
-def _config_ambiental():
+def _config_ambiental(sim=None):
     """A configuração ambiental do tutorial, coerente com a econômica.
 
     O descarte físico entra com o carbono incorporado do reservatório de
-    descarte e do separador de folhas, como na etapa 7 da interface.
+    descarte e do separador de folhas, como na etapa 7 da interface. Com o
+    resultado da simulação, a energia vem da mesma função que o econômico usa.
     """
     from netuno.core.environmental import EnvironmentalConfig
+    from netuno.core.pump_energy import compute_annual_pump_energy
     cfg = EnvironmentalConfig()
     cfg.roof_area_m2 = TUTORIAL["area"]
     cfg.discard = TUTORIAL["discard_mm"]
     cfg.first_flush_system_enabled = True
+    cfg.supply_arrangement = "recalque"
+    cfg.upper_tank_used = True
+    cfg.upper_tank_vol_liters = TUTORIAL["caixa_superior_l"]
+    if sim is not None:
+        cfg.annual_pump_kwh = compute_annual_pump_energy(_config_economica(5000.0), sim).annual_kwh
     return cfg
 
 
@@ -411,7 +441,7 @@ def tabela_etap():
 
     serie = _serie()
     r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
 
     L = ["| Desinfecção | CAPEX | Custeio anual | CO₂e anual |",
@@ -447,7 +477,7 @@ def tabela_economica():
 
     serie = _serie()
     r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     dias_mes = 30.4375
     tot_m3 = (r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day) * dias_mes / 1000.0
     pot_m3 = r.avg_potable_consumed_l_day * dias_mes / 1000.0
@@ -483,7 +513,7 @@ def tabela_materiais():
 
     serie = _serie()
     r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
     L = ["| Material da cisterna | Massa | Carbono incorporado | Payback de carbono "
          "| Saldo em 20 anos | Preço |",
@@ -491,7 +521,7 @@ def tabela_materiais():
     nomes = {"PEAD": "Polietileno (PEAD)", "CONCRETO": "Concreto armado",
              "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inoxidável"}
     for k in MATERIAL_PRESETS:
-        cfg = _config_ambiental()
+        cfg = _config_ambiental(r)
         cfg.lower_material_key = k
         l = calculate_lca(5000.0, m3, cfg)
         try:
@@ -507,8 +537,8 @@ def tabela_materiais():
           "| ---: | ---: | ---: |"]
     for v in (2000, 3000, 5000, 8000):
         rr = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
-                                   **_config_tutorial())
-        cfg = _config_ambiental()
+                                   **_config_projeto())
+        cfg = _config_ambiental(rr)
         cfg.lower_material_key = "CONCRETO"
         l = calculate_lca(float(v), rr.annual_pluvial_consumed_m3, cfg)
         L.append(f"| {br(v, 0)} L | {br(l.environmental_payback_years, 1)} anos "
@@ -523,7 +553,7 @@ def tabela_multicriterio():
     from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
 
     serie = _serie()
-    cfg_sim = _config_tutorial()
+    cfg_sim = _config_projeto()
     cands, linhas = [], [
         "| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |",
         "| ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -531,7 +561,7 @@ def tabela_multicriterio():
     for v in (1000, 2000, 3000, 5000, 8000, 12000):
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
         e = run_economic_analysis(_config_economica(v, "PEAD"), r)
-        amb = _config_ambiental()
+        amb = _config_ambiental(r)
         amb.lower_material_key = "PEAD"
         l = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         linhas.append(

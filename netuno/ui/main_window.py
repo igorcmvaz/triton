@@ -652,6 +652,7 @@ class MainWindow(QMainWindow):
                 cfg.lower_tank_mode = 1
                 cfg.delta_ideal = parse_float(ts.txt_delta_ideal.text(), cfg.delta_ideal)
                 cfg.upper_tank_used = 1 if ts.combo_upper_mode.currentIndex() != 2 else 0
+                ts.write_supply_to_config(cfg)
                 cfg.upper_tank_vol = parse_float(ts.txt_upper_vol.text(), cfg.upper_tank_vol)
                 pump_pct = parse_float(ts.txt_pump_thresh_pct.text(), 10.0)
                 cfg.pumping_threshold = cfg.upper_tank_vol * pump_pct / 100.0 if cfg.upper_tank_used else 0.0

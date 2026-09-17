@@ -15,6 +15,7 @@ from PySide6.QtGui import QFont, QColor
 
 from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
+from netuno.core.chlorination import FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from netuno.core.water_quality import (
     calculate_first_flush_washoff, size_etap, size_first_flush_system,
     WATER_QUALITY_CLASSES, FirstFlushAnalysis, FirstFlushSizingResult
@@ -587,7 +588,7 @@ class TabWaterQuality(QWidget):
             # dois valores diferentes no mesmo projeto.
             chlorine_kg_price_brl=getattr(self.config, 'chlorine_cost_per_kg', 25.0),
             chlorine_product_purity=getattr(self.config, 'chlorine_product_purity', 0.65),
-            chlorine_co2_kg_per_kg=getattr(self.config, 'chlorine_co2_kg_per_kg', 1.85),
+            chlorine_co2_kg_per_kg=getattr(self.config, 'chlorine_co2_kg_per_kg', FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
             regional_factor=1.0,
             discard_mm=discard_val,
             include_first_flush=include_ff,

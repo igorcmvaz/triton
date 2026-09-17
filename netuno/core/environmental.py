@@ -16,6 +16,7 @@ from typing import Dict, List, Any, Optional, Tuple
 
 from netuno.core.grid_emission_factors import BASE_PADRAO as BASE_PADRAO_DA_REDE
 from netuno.core.grid_emission_factors import fator_co2eq as _fator_co2eq_da_rede
+from netuno.core.supply_arrangement import GRAVIDADE, PRESSURIZACAO, arranjo_de, usa_bomba, usa_caixa_superior
 from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
 from netuno.core.water_supply_routes import ROTA_PADRAO as ROTA_PADRAO_DA_AGUA
@@ -392,6 +393,10 @@ class EnvironmentalConfig:
     custom_lower_density_kg_m3: Optional[float] = None
     custom_lower_co2_per_kg: Optional[float] = None
 
+    # Arranjo de abastecimento ("recalque", "pressurizacao", "gravidade"). Vazio:
+    # deduzido de upper_tank_used, como em netuno/core/supply_arrangement.py.
+    supply_arrangement: str = ""
+
     # Reservatório Superior (Caixa d'Água)
     upper_tank_used: bool = True
     upper_tank_vol_liters: float = 500.0
@@ -574,10 +579,12 @@ def calculate_lca(
         source_reference=preset_lower.source_reference
     ))
 
+    arranjo = arranjo_de(config)
+
     # 2. Reservatório Superior (Caixa d'Água)
     upper_mass = 0.0
     upper_embodied = 0.0
-    if config.upper_tank_used and config.upper_tank_vol_liters > 0:
+    if usa_caixa_superior(arranjo) and config.upper_tank_vol_liters > 0:
         vol_up_m3 = config.upper_tank_vol_liters / 1000.0
         preset_upper = MATERIAL_PRESETS.get(config.upper_material_key, MATERIAL_PRESETS["PEAD"])
         den_upper = config.custom_upper_density_kg_m3 if (config.custom_upper_density_kg_m3 and config.custom_upper_density_kg_m3 > 0) else preset_upper.material_density_kg_per_m3_tank
@@ -625,20 +632,23 @@ def calculate_lca(
     pump = config.pump
     pump_count = getattr(config, 'pump_count', 1)
     pump_unit_emb = pump.custom_embodied_co2 if (pump.custom_embodied_co2 and pump.custom_embodied_co2 > 0) else PUMP_EMBEDDED_CO2.get(pump.power_cv, PUMP_EMBEDDED_CO2[min(PUMP_EMBEDDED_CO2, key=lambda cv: abs(cv - pump.power_cv))])
-    pump_emb = pump_unit_emb * pump_count
+    # Sem bomba no arranjo, não há motobomba a fabricar. «Não informado» mantém
+    # as bombas, como o investimento do econômico.
+    pump_emb = pump_unit_emb * pump_count if arranjo != GRAVIDADE else 0.0
     mat_desc = getattr(config, 'pump_material', getattr(pump, 'material', "Ferro Fundido, Cobre & Alumínio"))
 
     count_str = f"{pump_count} un. (1 Principal + 1 Reserva/Backup)" if pump_count > 1 else "1 un. (Principal)"
-    items.append(LCAItemBreakdown(
-        category=f"Motobomba de Recalque ({pump.power_cv:.2f} CV - {mat_desc})",
-        quantity_str=f"{count_str} — {pump.power_cv:.2f} CV",
-        embodied_co2_kg=pump_emb,
-        annual_op_co2_kg=0.0,
-        lifetime_net_co2_kg=pump_emb,
-        source_reference=("Massa de catálogo Dancor (60 Hz) × 4,77 kg CO2e/kg da EPD Grundfos "
-                          "EPD-GRU-20250340-CBA1-EN (A1-A3): aproximação de ordem de grandeza; "
-                          "a EPD do fabricante empregado prevalece")
-    ))
+    if pump_emb > 0:
+        items.append(LCAItemBreakdown(
+            category=f"Motobomba de {'Pressurização' if arranjo == PRESSURIZACAO else 'Recalque'} ({pump.power_cv:.2f} CV - {mat_desc})",
+            quantity_str=f"{count_str} — {pump.power_cv:.2f} CV",
+            embodied_co2_kg=pump_emb,
+            annual_op_co2_kg=0.0,
+            lifetime_net_co2_kg=pump_emb,
+            source_reference=("Massa de catálogo Dancor (60 Hz) × 4,77 kg CO2e/kg da EPD Grundfos "
+                              "EPD-GRU-20250340-CBA1-EN (A1-A3): aproximação de ordem de grandeza; "
+                              "a EPD do fabricante empregado prevalece")
+        ))
 
     # 4.1 Subsistema de Descarte de Primeiras Águas (Filtro de Folhas e Reservatório de Descarte)
     ff_embodied = 0.0
@@ -663,10 +673,15 @@ def calculate_lca(
     total_embodied = lower_embodied + upper_embodied + total_pipes_embodied + pump_emb + ff_embodied
 
     # 5. Operação Anual (Bombeamento Elétrico — Sincronizado 100% com a simulação técnica)
+    # A energia vem de netuno/core/pump_energy.py pelo campo annual_pump_kwh.
+    # Sem ele, só os arranjos com bomba recebem a estimativa por volume; antes
+    # ela valia também sem caixa superior, quando o econômico não cobrava nada.
     if config.annual_pump_kwh > 0:
         annual_pumping_kwh = config.annual_pump_kwh
-    else:
+    elif usa_bomba(arranjo):
         annual_pumping_kwh = annual_pluvial_m3 * pump.specific_kwh_per_m3
+    else:
+        annual_pumping_kwh = 0.0
 
     annual_pumping_co2 = annual_pumping_kwh * config.grid_co2_factor_kg_kwh
     items.append(LCAItemBreakdown(
@@ -684,7 +699,9 @@ def calculate_lca(
     etap_capex = 0.0
     etap_stages: List[str] = []
     pluvial_cl2_base = 0.0
-    if config.upper_tank_used:
+    # A cloração acompanha o tratamento, e não a caixa superior. Antes, ao
+    # desmarcar a caixa, o cloro sumia do carbono e continuava no custo.
+    if getattr(config, 'etap_enabled', True) or getattr(config, 'chlorine_treatment_enabled', True):
         chlorine_dose_mg_l = max(0.0, float(config.chlorine_dose_mg_l))
         chlorine_co2_kg_per_kg = max(0.0, float(config.chlorine_co2_kg_per_kg))
         ref_saved_m3 = float(getattr(config, 'annual_water_saved_m3', 0.0))

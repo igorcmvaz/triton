@@ -130,7 +130,7 @@ cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
 **Classe 1, cloração por pastilhas, sem filtro de polimento.**
 
 A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1 atende,
-a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,74 por ano de custeio: R$ 4,74 de pastilha e R$ 40 de manutenção do descarte.
+a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,77 por ano de custeio: R$ 4,77 de pastilha e R$ 40 de manutenção do descarte.
 
 <!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |

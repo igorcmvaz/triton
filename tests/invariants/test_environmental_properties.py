@@ -157,11 +157,16 @@ def test_inventario_detalhado_reconstitui_o_saldo_operacional():
     )
 
 
-def test_sem_reservatorio_superior_nao_ha_cloracao():
-    """A8 — A dosagem de cloro está vinculada ao reservatório superior."""
-    resultado = calculate_lca(5000.0, 150.0, _config(upper_tank_used=False))
-    assert resultado.annual_chlorine_kg == 0.0
-    assert resultado.annual_treatment_co2_kg == 0.0
+def test_a_cloracao_nao_depende_do_reservatorio_superior():
+    """A8 — A cloração acompanha o tratamento, e não a caixa superior.
+
+    Até setembro de 2026 esta propriedade dizia o contrário, e a ACV perdia o
+    cloro ao desmarcar a caixa enquanto o econômico continuava a pagá-lo.
+    """
+    com = calculate_lca(5000.0, 150.0, _config(upper_tank_used=True))
+    sem = calculate_lca(5000.0, 150.0, _config(upper_tank_used=False))
+    assert sem.annual_chlorine_kg > 0.0
+    assert sem.annual_chlorine_kg == com.annual_chlorine_kg
 
 
 def test_payback_ambiental_nao_e_negativo():

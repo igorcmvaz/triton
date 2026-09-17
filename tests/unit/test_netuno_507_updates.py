@@ -126,13 +126,13 @@ def test_upper_tank_chlorination_uniform_in_environmental_sweep():
     assert cl_masses[0] > 0.0
 
 
-def test_calculate_lca_without_upper_tank_has_no_chlorination():
-    """Valida se sistema sem reservatório superior não possui impacto de cloração."""
+def test_calculate_lca_without_upper_tank_keeps_chlorination():
+    """Sem caixa superior, a cloração continua no inventário: ela acompanha o tratamento."""
     cfg = EnvironmentalConfig(
         upper_tank_used=False,
         chlorine_dose_mg_l=2.0,
         chlorine_co2_kg_per_kg=25.0
     )
     lca = calculate_lca(5000.0, 100.0, cfg)
-    assert lca.annual_chlorine_kg == 0.0
-    assert lca.annual_treatment_co2_kg == 0.0
+    assert lca.annual_chlorine_kg > 0.0
+    assert lca.annual_treatment_co2_kg > 0.0

@@ -4,6 +4,8 @@ from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.pump_energy import compute_annual_pump_energy
+from netuno.core.supply_arrangement import GRAVIDADE, arranjo_de
 from netuno.core.pump_hydraulics import (
     ALTURA_MANOMETRICA_PADRAO_M,
     energia_especifica_a_partir_da_vazao,
@@ -317,7 +319,8 @@ def run_economic_analysis(
         config.cost_labor +
         config.cost_piping +
         config.cost_accessories +
-        (config.pump_unit_cost * config.pump_count)
+        # Arranjo por gravidade não tem motobomba a comprar.
+        (0.0 if arranjo_de(config) == GRAVIDADE else config.pump_unit_cost * config.pump_count)
     )
     
     # Average monthly consumption volumes
@@ -354,56 +357,14 @@ def run_economic_analysis(
     monthly_pump_cost_base = 0.0
     monthly_pump_kwh_base = 0.0
     
-    if config.upper_tank_used and config.pump_power_kw > 0:
-        # Pump runtime based on total simulated days
-        tot_days = max(1, sim_result.total_days)
-        avg_daily_pumped = sim_result.total_pumped_liters / tot_days
-        avg_daily_cycles = sim_result.total_pump_cycles / tot_days
+    # A energia vem da função única de netuno/core/pump_energy.py, conforme o
+    # arranjo de abastecimento. Até setembro de 2026 esta conta era uma cópia
+    # que só existia com caixa superior, enquanto a ACV cobrava bombeamento em
+    # qualquer arranjo.
+    energia_de_abastecimento = compute_annual_pump_energy(config, sim_result)
+    if energia_de_abastecimento.annual_kwh > 0:
+        monthly_pump_kwh_base = energia_de_abastecimento.annual_kwh / 12.0
 
-        # Mesma hidráulica do módulo ambiental, em netuno/core/pump_hydraulics.py.
-        # Até a versão 5.0.8 esta conta usava vazão e rendimento fixos, que não
-        # acompanhavam a potência escolhida, e o custo da energia divergia da
-        # emissão calculada para a mesma bomba.
-        altura_informada = float(getattr(config, "pump_manometric_head_m", 0.0) or 0.0)
-        altura = altura_informada if altura_informada > 0 else ALTURA_MANOMETRICA_PADRAO_M
-        eta = (
-            (config.pump_efficiency / 100.0)
-            if config.pump_efficiency > 0
-            else rendimento_tipico(config.pump_power_kw)
-        )
-        vazao = (
-            config.pump_flow_rate
-            if config.pump_flow_rate > 0
-            else vazao_l_por_h(config.pump_power_kw, altura, eta)
-        )
-        # A placa e de eixo: o rendimento do motor separa a energia de eixo da
-        # energia faturada. Mesma cadeia de netuno/core/pump_hydraulics.py.
-        eta_motor_pct = float(getattr(config, "pump_motor_efficiency", 0.0) or 0.0)
-        eta_motor = (
-            max(0.01, min(1.0, eta_motor_pct / 100.0))
-            if eta_motor_pct > 0
-            else rendimento_do_motor(config.pump_power_kw)
-        )
-
-        t_rec_hours_month = (avg_daily_pumped * days_in_month) / max(1e-6, vazao)
-        t_part_hours_month = avg_daily_cycles * days_in_month * config.pump_startup_time_h
-        t_total_hours_month = t_rec_hours_month + t_part_hours_month
-
-        volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
-        if altura_informada > 0:
-            especifica = energia_especifica_kwh_por_m3(altura_informada, eta, eta_motor)
-        elif config.pump_flow_rate > 0:
-            especifica = energia_especifica_a_partir_da_vazao(
-                config.pump_power_kw, vazao, eta_motor)
-        else:
-            especifica = energia_especifica_kwh_por_m3(altura, eta, eta_motor)
-        # Na partida nao ha vazao util, mas o motor puxa: placa / rendimento do
-        # MOTOR, sem o rendimento da bomba. Mesma convencao de pump_energy.py.
-        monthly_pump_kwh_base = (
-            especifica * volume_mensal_m3
-            + (config.pump_power_kw * t_part_hours_month) / eta_motor
-        )
-        
         # Ajuste por bandeira tarifária ANEEL ou Tarifa Branca
         tariff_flag = getattr(config, 'tariff_flag', 'verde')
         flag_add = 0.0

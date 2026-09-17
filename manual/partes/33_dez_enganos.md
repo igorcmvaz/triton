@@ -105,8 +105,8 @@ sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A
 como «mais água».
 
 **O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com caixa
-elevada entrega **menos**: o limiar de acionamento imobiliza água e a sequência de
-atendimento perde oportunidades. No tutorial, cerca de um terço de ponto percentual a menos, mais
+elevada entrega **menos**: a cisterna extravasa enquanto a caixa de cima ainda tem
+espaço, porque o recalque só acontece quando há consumo. No tutorial, cerca de um terço de ponto percentual a menos, mais
 10,7 kWh por ano de energia.
 
 **Como evitar.** Decida a caixa por critério **hidráulico** — pressão por gravidade,

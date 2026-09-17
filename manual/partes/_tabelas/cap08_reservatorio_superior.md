@@ -7,5 +7,5 @@
 | acionamentos da bomba | — | 96 por ano |
 | horas de bomba | — | 17,5 h/ano |
 | energia | — | 10,7 kWh/ano |
-| custo da energia | — | R$ 7,45/ano |
+| custo da energia | — | R$ 7,44/ano |
 | **diferença de potencial** | | **-0,34 pontos** |

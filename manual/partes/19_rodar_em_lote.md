@@ -147,7 +147,7 @@ Projeto válido: estrutura, chuva e premissas essenciais verificadas.
 netuno run 01_tutorial_florianopolis.netuno --volume 5000 --format json --output r.json
 ```
 
-O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 5.000 L, o potencial de economia de 37,46%, o volume pluvial consumido de 82,1 m³/ano, o extravasamento de 105,2 m³/ano e a classificação dos dias em 92,9% plenos, 1,4% parciais e 5,7% nulos.
+O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 5.000 L, o potencial de economia de 37,76%, o volume pluvial consumido de 82,7 m³/ano, o extravasamento de 104,6 m³/ano e a classificação dos dias em 93,8% plenos, 1,1% parciais e 5,1% nulos.
 
 O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a demanda e o investimento com distribuição de coeficiente de variação declarado — por padrão, 10% para a precipitação, 0% para a área, 10% para a demanda e 15% para o investimento, em 200 amostras — e informa os percentis de 5%, 50% e 95% do potencial de economia e do valor presente líquido, com a probabilidade de o valor presente líquido ser positivo. No tutorial, com 50 amostras e 5.000 L, o potencial de economia fica entre 36,1% e 38,6%, com mediana de 37,4%.
 

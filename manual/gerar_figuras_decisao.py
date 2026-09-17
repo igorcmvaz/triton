@@ -33,7 +33,7 @@ from gerar_figuras import (                                       # noqa: E402
     _eixos, _salvar,
 )
 from gerar_tabelas import (                                       # noqa: E402
-    CUSTOS_TUTORIAL, TARIFA_CASAN, _config_economica, _config_tutorial,
+    CUSTOS_TUTORIAL, TARIFA_CASAN, _config_economica, _config_projeto, _config_tutorial,
     _serie,
 )
 
@@ -50,14 +50,14 @@ def _candidatos():
     from netuno.core.topsis import TopsisCandidate
 
     serie = _serie()
-    cfg_sim = _config_tutorial()
+    cfg_sim = _config_projeto()
     cands = []
     for v in VOLUMES:
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                   **cfg_sim)
         e = run_economic_analysis(_config_economica(v, MATERIAL), r)
         from gerar_tabelas import _config_ambiental
-        amb = _config_ambiental()
+        amb = _config_ambiental(r)
         amb.lower_material_key = MATERIAL
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         cands.append(TopsisCandidate(
@@ -195,14 +195,16 @@ def figura_tornado():
     from netuno.core.etap_integration import (
         capex_incremental_da_etap, opex_anual_incremental_da_etap,
     )
+    from netuno.core.pump_energy import compute_annual_pump_energy
 
     r = run_single_simulation(precip_data=_serie(), lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     cfg = _config_economica(5000.0, "CONCRETO")
     base = dict(
         # O investimento e o custeio incluem a linha de tratamento com o
         # descarte físico, como a análise econômica completa do tutorial.
-        initial_investment=(cfg.cost_lower_tank + cfg.cost_labor +
+        initial_investment=(cfg.cost_lower_tank + cfg.cost_upper_tank + cfg.cost_labor +
+                            cfg.pump_unit_cost * cfg.pump_count +
                             cfg.cost_piping + cfg.cost_accessories +
                             capex_incremental_da_etap(cfg, None, r)),
         annual_water_saved_m3=r.annual_pluvial_consumed_m3,
@@ -217,6 +219,11 @@ def figura_tornado():
         inflation_rate=(1.0 + CUSTOS_TUTORIAL["inflation"] / 100.0) ** 12 - 1.0,
         discount_rate=(1.0 + CUSTOS_TUTORIAL["tma"] / 100.0) ** 12 - 1.0,
         annual_om_cost_base=120.0 + opex_anual_incremental_da_etap(cfg, None, r),
+        # A energia do recalque, pela mesma função do econômico. Sem estes três
+        # campos valiam os padrões da função, 0,75 kW por 150 h a R$ 1/kWh.
+        pump_power_kw=compute_annual_pump_energy(cfg, r).annual_kwh,
+        pump_hours_year=1.0,
+        elec_tariff_kwh=cfg.elec_tariff,
         analysis_period_years=20,
     )
     vpl_base = run_robust_economic_analysis(**base).vpl

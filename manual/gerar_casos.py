@@ -70,11 +70,13 @@ def base(nome_do_projeto, cidade, uf="SC"):
     for k, v in CUSTOS_TUTORIAL.items():
         setattr(cfg, k, v)
     cfg.lower_tank_mode = 0          # volume fixo, salvo quando o caso diz outra coisa
+    # Sem caixa superior, os casos declaram pressurização direta com uma bomba:
+    # o arranjo precisa estar dito, ou o arquivo abre pedindo a escolha.
+    cfg.supply_arrangement = "pressurizacao"
     cfg.upper_tank_used = 0
     cfg.upper_tank_vol = 0.0
     cfg.pumping_threshold = 0.0
-    cfg.pump_count = 0
-    cfg.pump_unit_cost = 0.0
+    cfg.pump_count = 1
     return cfg
 
 
@@ -107,16 +109,25 @@ def com_custo(cfg, volume_l, material="PEAD"):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def caso_tutorial():
+    """O projeto fechado do tutorial: cisterna de 5.000 L e recalque para caixa superior."""
     cfg = com_tutorial(base("Manual, tutorial - residencia em Florianopolis",
                             "Florianópolis"))
     cfg.lower_tank_fixed = 5000.0
     com_custo(cfg, 5000.0, "PEAD")
+    cfg.supply_arrangement = "recalque"
+    cfg.upper_tank_used = 1
+    cfg.upper_tank_vol = TUTORIAL["caixa_superior_l"]
+    cfg.pumping_threshold = TUTORIAL["limiar_recalque_l"]
+    cfg.cost_upper_tank = estimate_tank_price(TUTORIAL["caixa_superior_l"], "PEAD")
+    cfg.pump_count = NetunoConfig().pump_count
     return cfg, serie("Florianopolis1")
 
 
 def caso_tutorial_varredura():
-    cfg, chuva = caso_tutorial()
-    cfg.project_name = "Manual, tutorial - varredura de volumes"
+    """A varredura da seção de escolha do volume, antes da decisão pela caixa superior."""
+    cfg = com_tutorial(base("Manual, tutorial - varredura de volumes", "Florianópolis"))
+    com_custo(cfg, 5000.0, "PEAD")
+    chuva = serie("Florianopolis1")
     cfg.lower_tank_mode = 1
     cfg.lower_tank_max = 20000.0
     cfg.lower_tank_step = 1000.0
@@ -149,6 +160,7 @@ def caso_reservatorio_superior():
     cfg.upper_tank_used = 1
     cfg.upper_tank_vol = 1000.0
     cfg.pumping_threshold = 100.0     # 10% do superior, o padrão da tela
+    cfg.supply_arrangement = "recalque"
     cfg.pump_count = 1
     cfg.pump_power_str = "1/2 CV"
     cfg.pump_power_kw = 0.37
@@ -225,10 +237,10 @@ def sec(marca):
 # (arquivo, seção do manual, o que demonstra, construtor)
 LISTA = [
     ("01_tutorial_florianopolis.netuno", f"{sec('04')} a {sec('13')}",
-     f"o projeto do tutorial, com a cisterna escolhida na seção {sec('12')}",
+     f"o projeto fechado do tutorial: cisterna de 5.000 L em polietileno e recalque para caixa superior de 1.000 L",
      caso_tutorial),
     ("02_tutorial_varredura.netuno", f"{sec('07')} e {sec('24')}",
-     "o mesmo projeto em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
+     "o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
      caso_tutorial_varredura),
     ("03_dez_dias.netuno", sec("23"),
      "o caso didático de dez dias, que cabe numa planilha",

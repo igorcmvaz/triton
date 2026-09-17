@@ -72,10 +72,11 @@ a massa de catálogo de cada potência pela intensidade por quilo de uma declara
 ambiental de produto de bomba de outra classe. A ordem de grandeza é defensável; o valor
 de cada potência não é medição.
 
-**A energia de pressurização direta não é calculada.** O programa só conta energia de
-bombeamento quando há reservatório superior. Se os pontos de uso forem abastecidos por
-pressurizador a partir da cisterna, essa energia existe e fica fora do custeio e do
-balanço de carbono.
+**A pressurização direta é modelada por valores médios.** A energia usa uma pressão de
+trabalho única, a média da faixa do pressostato, e não o ciclo liga-desliga de cada uso;
+e não se soma energia de partida nem consumo em espera, que um pressurizador com inversor
+de frequência teria. Projetos antigos sem caixa superior abrem com o arranjo «não
+informado» e não recebem energia até que ele seja escolhido.
 
 **Não há fim de vida.** Nem crédito por reciclagem, nem ônus por disposição.
 

@@ -65,8 +65,10 @@ def test_a_energia_nao_divide_pelo_rendimento_uma_segunda_vez():
     cfg, sim = _config(), _sim()
     correta = compute_annual_pump_energy(cfg, sim, upper_tank_used=True).annual_kwh
 
-    horas_recalque = sim.total_pumped_liters / cfg.pump_flow_rate
-    horas_partida = sim.total_pump_cycles * cfg.pump_startup_time_h
+    # Anos pela média diária, como o econômico: 365 dias são 365/365,25 anos.
+    anos = sim.total_days / 365.25
+    horas_recalque = sim.total_pumped_liters / anos / cfg.pump_flow_rate
+    horas_partida = sim.total_pump_cycles / anos * cfg.pump_startup_time_h
     antiga = cfg.pump_power_kw * (horas_recalque + horas_partida) / (cfg.pump_efficiency / 100.0)
 
     # A conta antiga dividia pelo rendimento da BOMBA. A correta divide pelo

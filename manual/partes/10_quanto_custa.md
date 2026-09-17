@@ -19,8 +19,8 @@ sem o sistema e a que ela paga com ele — e tomando a diferença entre as duas.
 
 <!-- inclui: _tabelas/cap10_economico.md -->
 
-O resultado merece atenção. O sistema poupa 6,84 m³ por mês e a fatura cai R$ 195,77, o
-que equivale a R$ 28,62 por metro cúbico economizado — valor bem acima dos R$ 14,31 da
+O resultado merece atenção. O sistema poupa 6,90 m³ por mês e a fatura cai R$ 197,34, o
+que equivale a R$ 28,60 por metro cúbico economizado — valor bem acima dos R$ 14,31 da
 faixa em que o consumo se situava. A diferença tem duas origens que atuam juntas: a
 progressividade, que faz o metro cúbico economizado valer o preço da faixa mais alta, e o
 esgoto, que em Florianópolis é cobrado a 100% do valor da água e portanto dobra o valor
@@ -69,12 +69,14 @@ projetos inteiros. O programa distingue cinco.
 
 ## O investimento
 
-R$ 13.996,69, assim distribuídos:
+R$ 15.056,59, assim distribuídos:
 
 <!-- tabela: Composição do investimento inicial do projeto do tutorial -->
 | Rubrica | Valor |
 | :--- | ---: |
 | cisterna de concreto de 5.000 L | R$ 6.300 |
+| caixa superior de 1.000 L em polietileno | R$ 460 |
+| duas motobombas de meio CV, principal e reserva | R$ 600 |
 | mão de obra e escavação | R$ 3.500 |
 | tubulação | R$ 1.200 |
 | acessórios | R$ 1.800 |
@@ -86,7 +88,7 @@ material, com procedência declarada. Para volumes fora da tabela, o programa
 interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima de
 0,90, e avisa quando não tem.
 
-**O reservatório de descarte inicial.** O descarte de primeiras águas não é só a lâmina subtraída da chuva: é um componente físico, com custo. A etapa **3. Qualidade & ETAP** o dimensiona por padrão, e no tutorial a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, que com o separador de folhas custa R$ 616,90 de investimento e R$ 40 por ano de custeio. Sem ele, o investimento seria de R$ 13.379,79, o valor presente líquido de R$ 15.295 e o payback descontado de 8,7 anos: omitir o descarte adianta o retorno em nove meses. A seção {{n:27}} detalha o dimensionamento.
+**O reservatório de descarte inicial.** O descarte de primeiras águas não é só a lâmina subtraída da chuva: é um componente físico, com custo. A etapa **3. Qualidade & ETAP** o dimensiona por padrão, e no tutorial a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, que com o separador de folhas custa R$ 616,90 de investimento e R$ 40 por ano de custeio. Sem ele, o investimento seria de R$ 14.439,69, o valor presente líquido de R$ 14.434 e o payback descontado de 9,4 anos: omitir o descarte adianta o retorno em seis meses. A seção {{n:27}} detalha o dimensionamento.
 
 ---
 
@@ -95,14 +97,14 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 <!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos -->
 | Indicador | Valor |
 | :--- | ---: |
-| valor presente líquido | R$ 14.009 |
-| taxa interna de retorno | 14,10% ao ano |
-| payback descontado | 9,4 anos |
+| valor presente líquido | R$ 13.147 |
+| taxa interna de retorno | 13,17% ao ano |
+| payback descontado | 9,9 anos |
 
-Um projeto que devolve o investimento em menos de dez anos e rende 14% ao ano, bem acima da taxa mínima, é, financeiramente, muito bom. Boa parte disso vem da tarifa de
+Um projeto que devolve o investimento em menos de dez anos e rende 13% ao ano, bem acima da taxa mínima, é, financeiramente, muito bom. Boa parte disso vem da tarifa de
 Florianópolis, que é alta, e do esgoto a 100%.
 
-**O custeio é pequeno:** R$ 44,74 por ano, dos quais R$ 4,74 de pastilha de cloro e R$ 40 de manutenção do descarte. Sem caixa superior, o programa não calcula energia de bombeamento. É uma limitação a declarar: se os pontos de uso forem abastecidos por pressurizador, a energia dele existe e não entra no custeio; com a vazão do tutorial, a ordem de grandeza é a da seção {{n:8}}, cerca de R$ 7 a R$ 10 por ano, e não altera a conclusão.
+**O custeio é pequeno:** R$ 52,21 por ano, dos quais R$ 4,77 de pastilha de cloro, R$ 40 de manutenção do descarte e R$ 7,44 de energia do recalque, os 10,7 kWh por ano da seção {{n:8}}. A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo declarado na etapa **4. Reservatório & Custos**: recalque, pressurização direta ou gravidade.
 
 ---
 
@@ -144,10 +146,11 @@ adotado e mostra a sensibilidade — a seção {{n:20}} ensina como.
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 5.000 L, concreto |
-| investimento | R$ 13.997 |
-| economia anual | R$ 2.349 |
-| VPL em 20 anos | R$ 14.009 |
-| payback | 9,4 anos |
+| arranjo | recalque para caixa superior de 1.000 L |
+| investimento | R$ 15.057 |
+| economia anual | R$ 2.368 |
+| VPL em 20 anos | R$ 13.147 |
+| payback | 9,9 anos |
 
 O dinheiro diz sim, com folga.
 

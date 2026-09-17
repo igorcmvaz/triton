@@ -105,7 +105,7 @@ multicritério.
 percentual de esgoto, TMA, inflação, reajustes e período.
 
 **Carbono:** fronteira (água entregue), vida útil, material do reservatório, base da
-rede com o ano, fatores com **rótulo de triagem**.
+rede com o ano, fatores **aproximados** ou com **rótulo de triagem**.
 
 **Certificação:** que as classes 2 a 4 são adaptações do programa; no LEED, a versão; no EDGE, que só a
 barra de água foi avaliada.

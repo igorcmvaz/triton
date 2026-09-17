@@ -45,13 +45,26 @@ DOSE_PADRAO_MG_POR_LITRO = 1.5
 # Hipoclorito de cálcio em pastilha, teor comercial corrente de cloro ativo.
 PUREZA_PADRAO = 0.65
 
-# kg CO₂e por kg de **produto** (pastilha), não por kg de cloro ativo.
-FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO = 1.85
+# Ecoinvent 3.8, modelo de sistema cutoff, processo «sodium hypochlorite
+# production, product in 15% solution state», produto «sodium hypochlorite,
+# without water, in 15% solution state», avaliado no openLCA com o método EF 3.1
+# (openLCA LCIA Methods 2.4.3), categoria Climate change: 2,522233 kg CO₂e por kg
+# de NaOCl puro. O Ecoinvent 3.8 não traz hipoclorito de cálcio; o NaOCl é usado
+# como aproximação na base de cloro ativo, que é a que desinfeta.
+FATOR_NAOCL_KG_CO2E_POR_KG = 2.522233
+# 1 mol de NaOCl (74,44 g) libera o equivalente a 1 mol de Cl₂ (70,90 g).
+CLORO_ATIVO_KG_POR_KG_NAOCL = 70.906 / 74.442
+FATOR_KG_CO2E_POR_KG_CLORO_ATIVO = FATOR_NAOCL_KG_CO2E_POR_KG / CLORO_ATIVO_KG_POR_KG_NAOCL
+
+# kg CO₂e por kg de **produto** (pastilha a 65%), não por kg de cloro ativo:
+# 2,648 kg CO₂e/kg de cloro ativo × 0,65 = 1,72. Era 1,85, sem processo declarado.
+FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO = round(FATOR_KG_CO2E_POR_KG_CLORO_ATIVO * 0.65, 2)
 
 FONTE_DO_FATOR = (
-    "Hipoclorito de cálcio, inventário Ecoinvent v3.8. O processo e a versão "
-    "exata ainda precisam ser registrados: a atribuição herdada do módulo de "
-    "qualidade nomeia a base mas não o dataset."
+    "Ecoinvent 3.8 (cutoff), «sodium hypochlorite production, product in 15% solution "
+    "state», método EF 3.1, Climate change: 2,52 kg CO₂e/kg de NaOCl, convertido para "
+    "2,65 kg CO₂e/kg de cloro ativo e aplicado à pastilha a 65% (1,72 kg CO₂e/kg). "
+    "Aproximação: o Ecoinvent 3.8 não tem hipoclorito de cálcio."
 )
 
 

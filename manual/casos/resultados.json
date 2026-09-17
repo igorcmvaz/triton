@@ -2,12 +2,12 @@
   "01_tutorial_florianopolis.netuno": {
     "modo": "volume fixo",
     "volume_l": 5000.0,
-    "potencial_pct": 37.46,
-    "pluvial_l_dia": 224.7,
-    "extravasado_l_dia": 288.1,
-    "atendimento_pleno_pct": 92.9,
+    "potencial_pct": 37.76,
+    "pluvial_l_dia": 226.5,
+    "extravasado_l_dia": 286.3,
+    "atendimento_pleno_pct": 93.8,
     "capitulo": "4.1 a 4.10",
-    "demonstra": "o projeto do tutorial, com a cisterna escolhida na seção 4.9",
+    "demonstra": "o projeto fechado do tutorial: cisterna de 5.000 L em polietileno e recalque para caixa superior de 1.000 L",
     "projeto": "Manual, tutorial - residencia em Florianopolis",
     "dias_de_chuva": 10950
   },
@@ -17,7 +17,7 @@
     "potencial_pct": 37.46,
     "volumes_simulados": 21,
     "capitulo": "4.4 e 2.2",
-    "demonstra": "o mesmo projeto em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
+    "demonstra": "o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
     "projeto": "Manual, tutorial - varredura de volumes",
     "dias_de_chuva": 10950
   },

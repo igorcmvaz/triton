@@ -196,7 +196,7 @@ E_esp = S_vida ÷ V_vida
 Nem todo fator do inventário tem fonte primária. O programa marca os que não têm, e
 o relatório exibe a marca.
 
-O único fator que ainda o carrega é o do **hipoclorito**, por quilo de produto, citado de uma base comercial sem o processo nem o identificador. A emissão de fabricação da motobomba, que até a revisão de setembro de 2026 era extrapolação aritmética em quatro das seis potências, passou a combinar a massa de catálogo com a intensidade de uma declaração ambiental de produto; é aproximação de ordem de grandeza, e a seção {{n:C}} declara a ressalva.
+Carregam o rótulo as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidável, que ainda são cenários geométricos, e qualquer fator digitado sem fonte. Os fatores de emissão padrão têm procedência declarada; o último a recebê-la foi o do **hipoclorito**, que agora vem do Ecoinvent 3.8: como a base não tem hipoclorito de cálcio, o programa usa o de sódio na base de cloro ativo, 2,65 kg CO₂e por kg, o que dá 1,72 kg CO₂e por kg de pastilha a 65%. A emissão de fabricação da motobomba, que até a revisão de setembro de 2026 era extrapolação aritmética em quatro das seis potências, passou a combinar a massa de catálogo com a intensidade de uma declaração ambiental de produto; é aproximação de ordem de grandeza, e a seção {{n:C}} declara a ressalva.
 
 > **Num estudo publicado, declare quais fatores estão com rótulo de triagem.** Um
 > inventário que apresenta todos os fatores com o mesmo grau de confiança esconde

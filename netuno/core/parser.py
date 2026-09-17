@@ -1,5 +1,6 @@
 import os
 import re
+from netuno.core.supply_arrangement import arranjo_de
 from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from netuno.core.pump_hydraulics import ALTURA_MANOMETRICA_PADRAO_M
 from netuno.core.chlorination import (
@@ -197,6 +198,15 @@ class NetunoConfig:
     upper_tank_vol: float = 500.0  # L
     upper_tank_used: int = 1  # 0 = sem caixa superior, 1 = com caixa superior
     pumping_threshold: float = 50.0  # L, nível de acionamento do recalque
+
+    # Como a água chega aos pontos de uso: "recalque", "pressurizacao" ou
+    # "gravidade". Vazio num arquivo antigo: deduzido de upper_tank_used, em
+    # netuno/core/supply_arrangement.py.
+    supply_arrangement: str = ""
+    # Pressurização direta: pressão de trabalho (m.c.a.) e acionamentos por
+    # pessoa por dia. Padrões e fontes em supply_arrangement.py.
+    pressurizer_pressure_m: float = 18.0
+    pressurizer_starts_per_person_day: float = 5.42
     
     # Lower Reservoir
     lower_tank_max: float = 10000.0  # L
@@ -839,6 +849,10 @@ def export_netuno_json(
                 "upper_tank_vol_l": config.upper_tank_vol,
                 "upper_tank_used": bool(config.upper_tank_used),
                 "pumping_threshold_l": config.pumping_threshold,
+                "supply_arrangement": arranjo_de(config),
+                "pressurizer_pressure_m": getattr(config, "pressurizer_pressure_m", 18.0),
+                "pressurizer_starts_per_person_day": getattr(
+                    config, "pressurizer_starts_per_person_day", 5.42),
                 "pump": {
                     "count": config.pump_count,
                     "power_str": config.pump_power_str,
@@ -888,7 +902,7 @@ def export_netuno_json(
                 "chlorine_dose_mg_l": getattr(config, "chlorine_dose_mg_l", 1.5),
                 "chlorine_product_purity": getattr(config, "chlorine_product_purity", 0.65),
                 "chlorine_cost_per_kg": getattr(config, "chlorine_cost_per_kg", 25.0),
-                "chlorine_co2_kg_per_kg": getattr(config, "chlorine_co2_kg_per_kg", 1.85),
+                "chlorine_co2_kg_per_kg": getattr(config, "chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
             },
             "materials_and_typology": {
                 "building_template_id": getattr(config, "building_template_id", "res_medio"),
@@ -1046,6 +1060,10 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.upper_tank_vol = rp.get("upper_tank_vol_l", 500.0)
             cfg.upper_tank_used = 1 if rp.get("upper_tank_used", True) else 0
             cfg.pumping_threshold = rp.get("pumping_threshold_l", 375.0)
+            cfg.supply_arrangement = rp.get("supply_arrangement", "")
+            cfg.pressurizer_pressure_m = rp.get("pressurizer_pressure_m", cfg.pressurizer_pressure_m)
+            cfg.pressurizer_starts_per_person_day = rp.get(
+                "pressurizer_starts_per_person_day", cfg.pressurizer_starts_per_person_day)
 
             pump = rp.get("pump", {})
             cfg.pump_count = pump.get("count", 2)

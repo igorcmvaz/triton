@@ -423,6 +423,7 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
     return EnvironmentalConfig(
         lower_tank_vol=result.lower_tank_vol, annual_water_saved_m3=result.annual_pluvial_consumed_m3,
         annual_pump_kwh=annual_pump_kwh, upper_tank_used=bool(cfg.upper_tank_used),
+        supply_arrangement=str(getattr(cfg, "supply_arrangement", "") or ""),
         upper_tank_vol_liters=cfg.upper_tank_vol,
         # A escolha da linha de tratamento tem de atravessar TAMBEM pela linha de
         # comando. `run_economic_analysis` recebe o NetunoConfig inteiro e ja a

@@ -4,6 +4,7 @@ Fornece justificativas detalhadas, referências bibliográficas e explicações
 para cada definição de parâmetro ambiental, integrado com o sistema de tooltips da UI.
 """
 
+from netuno.core.chlorination import FONTE_DO_FATOR
 from dataclasses import dataclass, replace
 from typing import Dict, Optional
 
@@ -291,7 +292,7 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
             "A conversão é direta: 1 mg/L equivale a 0,001 kg/m³; portanto, a massa anual de cloro é exibida em kg Cl2/ano.\n\n"
             "Esta entrada é uma premissa do inventário ambiental. Ela não dimensiona nem valida o tratamento da água."
         ),
-        source_reference="Premissa editável do projeto; validar tratamento conforme norma e responsável técnico",
+        source_reference="ABNT NBR 15527:2019, item 4.6.5: cloro residual livre de 0,5 a 2,0 mg/L; o programa adota 1,5 mg/L",
         calculation_basis="m_Cl2 = V_pluvial (m³/ano) × dose (mg/L) / 1000",
         notes="Use a dosagem adotada pelo projeto de tratamento ou uma análise de sensibilidade."
     ),
@@ -317,29 +318,40 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
         notes="Confira o teor no rotulo do produto adotado antes de editar."
     ),
     "chlorine_co2": ParameterJustification(
-        title="Fator de emissão do cloro",
-        short_description="CO2e anual = massa anual de cloro × fator (kg CO2e/kg Cl2)",
+        title="Fator de emissão do produto clorado",
+        short_description="CO2e anual = massa anual de produto × fator (kg CO2e/kg de produto)",
         detailed_explanation=(
-            "O fator converte a massa anual de cloro equivalente em emissão de ciclo de vida. "
-            "O Netuno apresenta separadamente dose, massa calculada, fator e CO2e anual para permitir auditoria."
+            "O fator é por quilo de PRODUTO comercial, e não de cloro ativo: a pureza converte "
+            "a dose em massa de produto antes da multiplicação.\n\n"
+            "O padrão de 1,72 kg CO2e/kg vem do Ecoinvent 3.8 (cutoff), processo «sodium "
+            "hypochlorite production, product in 15% solution state», método EF 3.1, "
+            "Climate change: 2,52 kg CO2e/kg de NaOCl puro. Como o Ecoinvent 3.8 não tem "
+            "hipoclorito de cálcio, o valor foi levado à base de cloro ativo (0,9525 kg de Cl2 "
+            "por kg de NaOCl, logo 2,65 kg CO2e/kg de cloro ativo) e multiplicado pela pureza "
+            "da pastilha, 0,65."
         ),
-        source_reference="Fator editável do inventário de ACV do projeto",
-        calculation_basis="CO2_cloro = m_Cl2 × f_Cl2",
-        notes="Substitua pelo fator da cadeia de fornecimento ou inventário adotado no estudo."
+        source_reference=FONTE_DO_FATOR,
+        calculation_basis="CO2_cloro = V_pluvial × dose / 1000 / pureza × f_produto",
+        notes="Aproximação: declare-a no estudo. Um fator digitado pelo usuário substitui este."
     ),
     "grid_co2": ParameterJustification(
         title="Fator de Emissão da Matriz Elétrica Brasileira",
-        short_description="Padrão de triagem: 0,085 kg CO2e/kWh; entrada editável",
+        short_description="Padrão adotado: 0,085 kg CO2e/kWh; cinco bases selecionáveis",
         detailed_explanation=(
-            "O fator converte a energia de recalque calculada para cada volume em kg CO2e. "
-            "Ele varia no tempo e conforme o escopo do inventário. O valor 0,085 é somente "
-            "uma hipótese inicial e não é rotulado como fator oficial de um ano específico."
+            "O fator converte a energia de bombeamento em kg CO2e, e precisa ser de "
+            "CO2-equivalente: a série anual do MCTI/SIRENE é de CO2 apenas e cobre só a geração.\n\n"
+            "O padrão de 0,085 é uma escolha declarada, e não a transcrição de uma fonte única: "
+            "fica entre o SIDAC (0,070), o CaDI (0,074) e o percentil 5 do indicador fóssil da "
+            "matriz de 2022 em Vaz, Scolaro e Ghisi (2025), 0,075. O mesmo artigo dá 0,104 "
+            "(fóssil) e 0,151 (total) como valores centrais, que o programa oferece como bases "
+            "alternativas para a análise de sensibilidade."
         ),
-        source_reference="MCTI/SIRENE — selecionar e arquivar o fator correspondente ao período do estudo",
+        source_reference=(
+            "Vaz, Scolaro & Ghisi (2025), doi:10.1016/j.scitotenv.2025.179774; SIDAC; CaDI (2025). "
+            "Base registrada no relatório"
+        ),
         calculation_basis="CO2_bomba = energia anual (kWh) × fator da rede (kg CO2e/kWh)",
-        notes=(
-            "Registre arquivo, versão, período, data de acesso e natureza média/marginal do fator escolhido."
-        )
+        notes="Declare a base escolhida e o ano da matriz a que ela se refere."
     ),
     "treatment_co2": ParameterJustification(
         title="Fator agregado legado de tratamento",
@@ -355,18 +367,22 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
     ),
     "potable_co2": ParameterJustification(
         title="Fator de Emissão de Água Potável Evitada",
-        short_description="Padrão de triagem: 0,35 kg CO2e por m³ evitado",
+        short_description="Padrão: 0,35 kg CO2e por m³ entregue; 19 rotas por macrorregião e manancial",
         detailed_explanation=(
-            "O fator representa o crédito de cenário por água potável que deixa de ser fornecida. "
-            "Sua fronteira deve declarar se inclui apenas abastecimento ou também esgotamento. "
-            "O padrão 0,35 é uma hipótese editável, não um valor nacional universal."
+            "O fator é por metro cúbico ENTREGUE na edificação, e não produzido na estação: as "
+            "perdas de distribuição do SNIS, de 33,9% no Sudeste a 46,9% no Norte, fazem cada m³ "
+            "entregue exigir de 1,5 a 1,9 m³ produzidos.\n\n"
+            "O padrão de 0,35 fica logo abaixo das faixas publicadas para tratamento convencional "
+            "(corroborado por Garfí et al., 2016), o que subestima o benefício do sistema pluvial: "
+            "é o erro conservador. As 19 rotas do programa trazem fonte e fronteira próprias."
         ),
-        source_reference="Inventário local da concessionária ou literatura compatível com a fronteira do estudo",
-        calculation_basis="CO2_água_evitado = volume pluvial consumido × fator da água",
-        notes=(
-            "Faça sensibilidade e evite dupla contagem de esgoto ou energia já incluída em outro módulo."
-        )
-    )
+        source_reference=(
+            "Rotas de abastecimento do programa, com procedência por rota; Garfí et al. (2016), "
+            "doi:10.1016/j.jclepro.2016.07.218; SNIS, perdas na distribuição"
+        ),
+        calculation_basis="CO2_água_evitado = volume pluvial consumido × fator por m³ entregue",
+        notes="Prefira o inventário da concessionária, quando existir, e declare a rota adotada."
+    ),
 }
 
 
@@ -401,6 +417,18 @@ def get_operational_justification(param_name: str) -> Optional[ParameterJustific
     return _mark_as_screening(OPERATIONAL_JUSTIFICATIONS.get(param_name))
 
 
+#: Começos de referência que indicam cenário interno ou orientação, e não fonte.
+_SEM_FONTE = ("cenário", "premissa", "fator editável", "inventário local")
+
+
+def tem_fonte_declarada(justification: Optional[ParameterJustification]) -> bool:
+    """Diz se a justificativa cita uma fonte, em vez de um cenário interno."""
+    if justification is None:
+        return False
+    referencia = (justification.source_reference or "").strip().lower()
+    return bool(referencia) and not referencia.startswith(_SEM_FONTE)
+
+
 def _mark_as_screening(justification: Optional[ParameterJustification]) -> Optional[ParameterJustification]:
     """Impede que o racional histórico seja apresentado como dado primário auditado.
 
@@ -408,8 +436,10 @@ def _mark_as_screening(justification: Optional[ParameterJustification]) -> Optio
     a interface deixa explícito que o usuário precisa fornecer uma fonte
     rastreável para uso científico.
     """
-    if justification is None:
-        return None
+    # Só o que não tem fonte recebe o carimbo. Antes ele era aplicado a tudo, e
+    # sobrescrevia com «cenário interno» até a referência de uma EPD.
+    if justification is None or tem_fonte_declarada(justification):
+        return justification
     return replace(
         justification,
         detailed_explanation=(

@@ -26,7 +26,8 @@ import numpy as np                # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gerar_desenhos import rotulo_de_painel  # noqa: E402
-from gerar_tabelas import (       # noqa: E402
+from gerar_tabelas import (
+    _config_projeto,
     CHUVA_23, CIDADES_GUIA14, NOMES_CIDADES, VOLUMES_VARREDURA,
     _config_tutorial, _serie,
 )
@@ -219,14 +220,14 @@ def figura_materiais():
 
     serie = _serie()
     r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
     nomes = {"PEAD": "Polietileno", "CONCRETO": "Concreto",
              "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inox"}
     rot, saldo = [], []
     for k in MATERIAL_PRESETS:
         from gerar_tabelas import _config_ambiental
-        cfg = _config_ambiental()
+        cfg = _config_ambiental(r)
         cfg.lower_material_key = k
         rot.append(nomes.get(k, k))
         saldo.append(calculate_lca(5000.0, m3, cfg).lifetime_net_co2_saved_kg)
@@ -316,7 +317,7 @@ def figura_carbono_no_tempo():
 
     serie = _serie()
     r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
-                              **_config_tutorial())
+                              **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
 
     materiais = [("PEAD", "Polietileno", VERDE),
@@ -329,7 +330,7 @@ def figura_carbono_no_tempo():
 
     for chave, rotulo, cor in materiais:
         from gerar_tabelas import _config_ambiental
-        cfg = _config_ambiental()
+        cfg = _config_ambiental(r)
         cfg.lower_material_key = chave
         lca = calculate_lca(5000.0, m3, cfg)
         saldo = [lca.net_annual_avoided_co2_kg * a - lca.total_embodied_co2_kg

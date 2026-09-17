@@ -87,20 +87,20 @@ def _gravar(widget, nome, proporcao=9.0 / 16.0):
 
 def _candidatos(serie, material=MATERIAL,
                 volumes=(1000, 2000, 3000, 5000, 8000, 12000)):
-    from gerar_tabelas import _config_economica, _config_tutorial
+    from gerar_tabelas import _config_economica, _config_projeto
     from netuno.core.economic import run_economic_analysis
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
     from netuno.core.simulation import run_single_simulation
     from netuno.core.topsis import TopsisCandidate
 
-    cfg_sim = _config_tutorial()
+    cfg_sim = _config_projeto()
     cands, economico = [], []
     for v in volumes:
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                   **cfg_sim)
         e = run_economic_analysis(_config_economica(v, material), r)
         from gerar_tabelas import _config_ambiental
-        amb = _config_ambiental()
+        amb = _config_ambiental(r)
         amb.lower_material_key = material
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         cands.append(TopsisCandidate(
@@ -188,9 +188,12 @@ def main():
     # ── a aba ambiental ──────────────────────────────────────────────────────
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
     from gerar_tabelas import _config_ambiental
-    amb = _config_ambiental()
+    from gerar_tabelas import _config_projeto
+    projeto = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME_TUTORIAL,
+                                    **_config_projeto())
+    amb = _config_ambiental(projeto)
     amb.lower_material_key = "CONCRETO"
-    lca = calculate_lca(VOLUME_TUTORIAL, unica.annual_pluvial_consumed_m3, amb)
+    lca = calculate_lca(VOLUME_TUTORIAL, projeto.annual_pluvial_consumed_m3, amb)
     g = EnvironmentalBalanceSummaryChart()
     g.update_chart(lca_result=lca, lifespan_years=VIDA_UTIL)
     _gravar(g, "fig50_programa_balanco_ambiental.png")

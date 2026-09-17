@@ -20,11 +20,12 @@ A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
 - O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água.
   Máximo em 12.000 L.
-- O **VPL** sobe, achata e começa a cair: máximo em 8.000 L, praticamente empatado
-  com 5.000 L, e caindo em 12.000 L, porque o investimento adicional deixa de se
+- O **VPL** sobe, achata e começa a cair: máximo em 5.000 L, praticamente empatado
+  com 8.000 L, e caindo em 12.000 L, porque o investimento adicional deixa de se
   pagar.
-- O **carbono** sobe e cai bem antes: máximo em 3.000 L. Depois disso, cada metro
-  cúbico de polietileno acrescenta mais dívida do que crédito.
+- O **carbono** sobe e cai bem antes: máximo em 2.000 L, praticamente empatado com
+  3.000 L. Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do
+  que crédito.
 
 ==Não existe volume que vença nos três critérios simultaneamente.== Cada um deles tem
 ótimo em posição distinta da curva, e a escolha entre eles não é uma questão técnica que
@@ -85,7 +86,7 @@ A aba de decisão apresenta o escore de cada volume candidato ({{fig:fig51_progr
 ---
 ## O peso muda a resposta
 
-A segunda tabela mostra o que acontece ao deslocar o peso.
+A tabela a seguir mostra o que acontece ao deslocar o peso.
 
 <!-- tabela: Volume escolhido conforme a dimensão que recebe peso dominante -->
 | Peso dominante | Volume |
@@ -153,17 +154,19 @@ vez de supor que concordem sempre.
 | demanda total | 600 L/dia |
 | fração atendível por chuva | 40% |
 | reservatório inferior | 5.000 L, polietileno |
-| reservatório superior | não |
+| arranjo de abastecimento | recalque para caixa superior |
+| reservatório superior | 1.000 L, limiar de acionamento de 100 L |
 | classe de qualidade | 1, cloração por pastilhas |
 | descarte inicial | reservatório de 300 L |
-| **potencial de economia de água potável** | **37,46%** |
-| dias de atendimento pleno | 92,9% |
-| água poupada | 82,1 m³/ano |
-| investimento | R$ 10.697 |
-| **valor presente líquido em 20 anos** | **R$ 17.309** |
-| payback descontado | 6,9 anos |
-| **saldo de carbono em 20 anos** | **+202 kg CO₂e** |
-| payback de carbono | 12,6 anos |
+| **potencial de economia de água potável** | **37,76%** |
+| dias de atendimento pleno | 93,8% |
+| água poupada | 82,7 m³/ano |
+| energia do recalque | 10,7 kWh/ano |
+| investimento | R$ 11.757 |
+| **valor presente líquido em 20 anos** | **R$ 16.447** |
+| payback descontado | 7,7 anos |
+| **saldo de carbono em 20 anos** | **+192 kg CO₂e** |
+| payback de carbono | 13,1 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
 verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto

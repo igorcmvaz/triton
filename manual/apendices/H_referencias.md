@@ -72,6 +72,15 @@ aceitável e estabilidade.
 
 ---
 
+**Mayer, P. W.; DeOreo, W. B. et al.** (1999). *Residential End Uses of Water*.
+Denver: AWWA Research Foundation. Frequência de uso dos aparelhos: 5,05 descargas e
+0,37 ciclos de máquina de lavar por pessoa por dia, base dos acionamentos da
+pressurização direta.
+
+**Komeco.** *Pressurizador de água TP 820T e TP 825T: manual de uso*. Ficha técnica
+com a faixa do pressostato, 12 a 24 m.c.a. no TP 820T, base da pressão de trabalho
+padrão da pressurização direta.
+
 ## O programa antecessor
 
 **Ghisi, E.; Cordova, M. M.** (2014). *Netuno 4 — Manual do Usuário*. Universidade

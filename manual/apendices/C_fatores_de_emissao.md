@@ -53,7 +53,7 @@ foi usada.
 <!-- tabela: Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
-| hipoclorito de cálcio, produto | conforme cadeia única de cloração |
+| hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
 | lâmpada ultravioleta | energia da rede |
 | gerador de ozônio | energia da rede |
 
@@ -89,17 +89,25 @@ EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
 ## Fatores com rótulo de triagem
 
-Nem todo fator tem fonte primária. Os que não têm são marcados, e o relatório exibe a
-marca.
+Nem todo parâmetro tem fonte primária, e os que não têm são marcados no relatório: hoje,
+as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidável, que são
+cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
+o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: Fatores que carregam rótulo de triagem, por ausência de fonte primária -->
-| Fator | Situação |
+<!-- tabela: Procedência do fator de emissão do hipoclorito -->
+| Etapa | Valor |
 | :--- | :--- |
-| **hipoclorito, por quilo de produto** | citado como Ecoinvent v3.8 sem o processo nem o identificador; nenhum artigo de acesso aberto publica o fator por quilo |
+| base e modelo | Ecoinvent 3.8, *cutoff* |
+| processo | *sodium hypochlorite production, product in 15% solution state* |
+| método | EF 3.1, categoria *Climate change* |
+| resultado | 2,522 kg CO₂e por kg de NaOCl puro |
+| conversão | 0,9525 kg de cloro ativo por kg de NaOCl, logo 2,65 kg CO₂e por kg de cloro ativo |
+| fator adotado | 2,65 × 0,65 = **1,72 kg CO₂e por kg de pastilha** |
 
-> **Num estudo publicado, declare quais fatores carregam rótulo de triagem.** Um
-> inventário que apresenta todos os fatores com o mesmo grau de confiança esconde
-> onde está a fragilidade.
+> **Declare a aproximação.** O Ecoinvent 3.8 não tem hipoclorito de cálcio, e o fator é
+> o do hipoclorito de sódio levado à base de cloro ativo. Fatores informados pelo usuário
+> sem fonte continuam recebendo o rótulo de triagem, e um inventário que apresenta todos
+> os fatores com o mesmo grau de confiança esconde onde está a fragilidade.
 
 ---
 

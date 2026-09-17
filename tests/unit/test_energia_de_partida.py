@@ -72,7 +72,8 @@ def test_a_energia_e_recalque_mais_partidas_pelo_rendimento_do_motor(sim):
     eta = rendimento_tipico(cfg.pump_power_kw)
     eta_motor = rendimento_do_motor(cfg.pump_power_kw)
     especifica = energia_especifica_kwh_por_m3(cfg.pump_manometric_head_m, eta, eta_motor)
-    t_part = r.annual_cycles * cfg.pump_startup_time_h
+    # Ciclos por ano sem arredondar, como o econômico soma.
+    t_part = sim.total_pump_cycles / (sim.total_days / 365.25) * cfg.pump_startup_time_h
     esperado = especifica * r.annual_pumped_m3 + (cfg.pump_power_kw * t_part) / eta_motor
 
     assert r.annual_kwh == pytest.approx(esperado, rel=1e-9)

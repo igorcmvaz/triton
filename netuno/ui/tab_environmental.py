@@ -1408,6 +1408,7 @@ class TabEnvironmental(QWidget):
             custom_upper_co2_per_kg=preset_or_none(upper_key, upper_co2, "co2_factor_kg_per_kg"),
             upper_tank_vol_liters=parse_f(self.txt_upper_vol.text(), 500.0),
             upper_tank_used=self.chk_upper_used.isChecked(),
+            supply_arrangement=str(getattr(cfg, "supply_arrangement", "") or "") if cfg is not None else "",
             pipes=pipes,
             pump=pump,
             pump_count=pump_count,

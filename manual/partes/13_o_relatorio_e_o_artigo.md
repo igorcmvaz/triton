@@ -74,6 +74,13 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 - **Fração atendível por água pluvial** e os usos finais que a compõem. É o teto do
   resultado, e sem ele o potencial não se interpreta.
 
+### Arranjo de abastecimento
+
+- **Arranjo**: recalque para caixa superior, pressurização direta ou gravidade. Ele
+  define a energia e as motobombas no custo e no carbono.
+- No recalque: volume da caixa, limiar de acionamento e altura manométrica.
+- Na pressurização direta: pressão de trabalho e acionamentos por pessoa por dia.
+
 ### Descarte de primeiras águas
 
 - Lâmina adotada e **modo** entre os três.
@@ -104,7 +111,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 - **Material** do reservatório. Ele inverte o sinal do resultado, como a seção {{n:11}}
   mostra.
 - Base do fator de emissão da rede elétrica, **com o ano**.
-- Quais fatores carregam **rótulo de triagem**.
+- Quais fatores são **aproximações** e quais carregam **rótulo de triagem**.
 
 ### Certificações
 
@@ -131,7 +138,10 @@ Para o nosso projeto, o método ficaria assim:
 > 40%, correspondente a bacia sanitária, máquina de lavar e usos externos. O volume
 > de 5.000 L resultou do critério de ganho marginal com limiar de 1 %/m³ e foi
 > confirmado por análise multicritério TOPSIS com pesos iguais sobre sete critérios,
-> com normalização em variante de Hwang e Yoon translada por x − min(x). A análise
+> com normalização em variante de Hwang e Yoon translada por x − min(x). O
+> abastecimento dos pontos de uso é feito por recalque para caixa superior de 1.000 L,
+> com limiar de acionamento de 100 L, motobomba de 0,5 CV, altura manométrica de 12 m e
+> rendimento de motor da Tabela 13 da ABNT NBR 17094-2. A análise
 > econômica utilizou a estrutura tarifária da CASAN vigente desde 01/04/2026, regime
 > de disponibilidade, esgoto a 100% do valor da água, TMA de 0,5% ao mês, inflação
 > de 0,35% ao mês, reajustes de 5% ao ano em intervalos de 12 meses e período de 20
