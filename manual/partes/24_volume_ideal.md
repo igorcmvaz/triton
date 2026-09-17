@@ -95,6 +95,20 @@ modo que o leitor saiba que o ótimo encontrado é um limite da busca e não um 
 inflexão da curva. O capítulo 7 do Manual do Netuno 4 trata o mesmo caso, e a conduta
 adotada aqui é a mesma.
 
+### Um exemplo, passo a passo
+
+A tabela da varredura do tutorial, na seção {{n:7}}, permite refazer a conta à mão.
+Entre 4.000 L e 5.000 L o potencial sobe de 36,52% para 37,46%, isto é, 0,93 ponto
+percentual por um metro cúbico a mais, depois do arredondamento das duas casas. Como
+0,93 é menor que o limiar de 1,0 %/m³, e o ganho anterior, entre 3.000 L e 4.000 L, foi
+de 1,61 %/m³, o primeiro volume a cruzar o limiar é 5.000 L, e é ele o volume ideal.
+
+Repare no que acontece logo depois. Entre 6.000 L e 8.000 L o potencial sobe 0,76
+ponto, mais do que os 0,64 do intervalo anterior, e no entanto o ganho **por metro
+cúbico** cai de 0,64 para 0,38 %/m³, porque o intervalo tem dois metros cúbicos. É por
+isso que o critério usa o ganho por metro cúbico, e não o ganho entre pontos
+consecutivos da grade: o segundo depende do passo, e o primeiro, muito menos.
+
 > **O critério é hidráulico e só hidráulico.** Ele ignora custo, tarifa e carbono. Um
 > volume ideal por este critério não é uma recomendação de projeto; é o ponto em que a
 > curva de aproveitamento deixa de compensar **em água**. A seção {{n:32}} trata da
@@ -113,6 +127,124 @@ aponta outro. Nenhum dos três está errado — errado é não dizer qual deles 
 ![A mesma varredura lida por três critérios](../figuras/fig09_criterios.png)
 
 *Figura 99 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes. As linhas verticais marcam o volume eleito pelo ganho marginal abaixo de 1 %/m³ e pelo VPL máximo, ambos em 5 m³, e pelo potencial máximo, em 20 m³.*
+
+---
+
+## Por que o programa simula: os métodos empíricos da norma
+
+A primeira edição da norma brasileira de aproveitamento de água de chuva, a ABNT NBR
+15527:2007, trazia no Anexo A, de caráter informativo, seis métodos para dimensionar o
+reservatório: o de Rippl, o da simulação, o de Azevedo Neto e três métodos práticos, o
+alemão, o inglês e o australiano. Eles continuam em uso corrente em projetos e em
+trabalhos acadêmicos, e convém entender o que cada um responde antes de compará-los
+com a varredura do programa.
+
+**O método de Rippl** é o diagrama de massas aplicado ao reservatório: acumula, período
+a período, a diferença entre a demanda e a chuva aproveitável, e adota como volume o
+maior déficit acumulado da série. O volume resultante é o que atenderia **toda** a
+demanda mesmo na pior estiagem registrada, e por isso cresce com o comprimento da série
+e com a resolução dela: com dados diários, as sequências secas aparecem inteiras; com
+dados mensais, parte delas se dilui na média do mês.
+
+**O método de Azevedo Neto** multiplica a precipitação média anual `P`, em milímetros, a
+área de coleta `A`, em metros quadrados, e o número de meses de pouca chuva `T` pelo
+coeficiente 0,042, e dá o volume em litros. O resultado depende inteiramente de `T`, e
+em cidades sem estação seca definida, como Florianópolis, a escolha de `T` é arbitrária.
+
+**Os métodos práticos** são regras de bolso. O alemão toma 6% do menor valor entre a
+chuva aproveitável anual e a demanda anual; o inglês toma 5% do produto `P × A`; o
+australiano faz um balanço mensal por tentativas até alcançar a confiança desejada.
+Nenhum dos dois primeiros usa a distribuição da chuva no tempo, e o inglês não usa
+sequer a demanda.
+
+A tabela a seguir aplica cinco desses métodos ao projeto do tutorial, arredonda cada
+volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele produz.
+
+<!-- inclui: _tabelas/cap24_metodos.md -->
+
+A primeira tabela mostra o que a curva côncava da seção {{n:7}} já anunciava. Os métodos
+que dimensionam para a pior estiagem, como Rippl com série diária, e os que ignoram a
+demanda, como o inglês, levam a reservatórios de 12 a 14 m³, que entregam cerca de dois
+pontos percentuais a mais que os 5.000 L da simulação ao custo de mais que o dobro do
+volume. O método alemão acerta a ordem de grandeza neste caso, mas por coincidência: ele
+não tem como saber que a chuva de Florianópolis é bem distribuída, e daria o mesmo
+volume para uma cidade com seis meses secos.
+
+==A diferença essencial é que os métodos empíricos respondem a uma pergunta fixa, e a
+simulação responde à pergunta que o projetista declara.== Rippl pergunta qual volume
+nunca falha; o método inglês pergunta que fração da chuva guardar; a varredura com ganho
+marginal pergunta a partir de qual volume o metro cúbico seguinte deixa de compensar.
+Ghisi (2010) mostrou, para três cidades do estado de São Paulo, que o volume adequado
+varia muito com a chuva local, a área de cobertura, o número de moradores e as
+demandas, e concluiu que dimensionar reservatórios pela tradição local, sem simulação,
+pode levar a sistemas de baixa eficiência.
+
+---
+
+## O passo de tempo e a fração de armazenamento
+
+O programa simula dia a dia, e essa escolha tem uma faixa de validade conhecida. Fewkes
+e Butler (2000) compararam modelos comportamentais com passos de um minuto, uma hora, um
+dia e um mês, tomaram como referência o modelo horário com a regra YAS, descrita na
+seção {{n:23}}, e mostraram que o passo adequado depende de uma grandeza adimensional,
+a **fração de armazenamento**.
+
+```equacao:fracao_de_armazenamento
+F_S = S ÷ (A × R)
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `F_S` | fração de armazenamento | adimensional |
+| `S` | capacidade do reservatório | m³ |
+| `A` | área de captação em projeção horizontal | m² |
+| `R` | precipitação média anual | m |
+
+Pelos resultados daqueles autores, o modelo horário é o indicado para frações de até
+0,01; o diário, para frações entre 0,01 e 0,125; e o mensal, só acima de 0,125. A razão
+física é simples: quanto menor o reservatório em relação à chuva que recebe, mais ele
+enche e extravasa **dentro** de um mesmo dia chuvoso, enquanto a demanda é retirada ao
+longo das horas; um passo diário soma numa entrada só o que, hora a hora, teria entrado
+e saído aos poucos.
+
+A segunda tabela calcula a fração para os volumes da varredura do tutorial. A cisterna
+escolhida, de 5.000 L, tem fração de 0,019, dentro da faixa do modelo diário; os
+reservatórios de 1.000 e 2.000 L ficam abaixo de 0,01, e para eles o resultado diário
+deve ser lido como aproximação. Campisano e Modica (2015), que simularam um sistema
+residencial com passos diários e subdiários a partir de descargas medidas, chegaram a
+uma conclusão complementar: o passo diário é confiável para estimar a **economia de
+água**, mas passos de no máximo uma hora são necessários quando o objetivo é a
+**retenção de águas pluviais**, sobretudo em reservatórios pequenos e com demanda alta.
+
+> **Na prática.** Para economia de água potável em edificações, o passo diário do
+> programa é adequado na faixa usual de projeto. Se a fração de armazenamento do seu
+> estudo ficar abaixo de 0,01, declare a limitação; e se o objetivo for amortecer vazões
+> de pico na drenagem urbana, o programa não é a ferramenta adequada.
+
+---
+
+## O que a literatura diz sobre o volume ideal
+
+Não há definição única de volume ideal, e a revisão sistemática de Semaan et al. (2020)
+ajuda a situar o critério do programa. Examinando estudos de otimização de sistemas
+domésticos, os autores observaram que o dimensionamento do reservatório é o objetivo de
+otimização mais importante, mas que o custo é o critério mais usado; que o
+subdimensionamento produz sistemas incapazes de fornecer volume confiável; e que o
+superdimensionamento eleva o investimento com benefício marginal pequeno e ainda pode
+comprometer a qualidade da água, que fica armazenada por mais tempo.
+
+Campisano et al. (2017), numa revisão ampla sobre sistemas urbanos de aproveitamento
+pluvial, reúnem critérios de três famílias: os de **eficiência hídrica**, como o potencial
+de economia e a confiabilidade; os **econômicos**, como o valor presente líquido e o tempo
+de retorno; e os de **desempenho na drenagem**, como a retenção. O programa cobre as duas
+primeiras famílias e declara não cobrir a terceira.
+
+O critério de ganho marginal pertence à primeira família e tem uma vantagem sobre a
+confiabilidade fixa, como a de Rippl: não exige que o projetista escolha um nível de
+falha aceitável, que raramente tem justificativa técnica, e sim um nível de retorno
+decrescente, que se lê diretamente em metros cúbicos de reservatório. A desvantagem é
+simétrica: o limiar de 1 %/m³, ou de 5 %/m³, também é uma escolha, e precisa ser
+declarado.
 
 ---
 
@@ -153,3 +285,6 @@ nunca o cruza — invariante que a suíte de testes verifica até volumes de 100
   varredura já ajuda ao trabalhar em múltiplos de 250 L.
 - **Se o sistema vale a pena.** Isso é a seção {{n:29}}.
 - **Se o volume cabe no terreno.** O programa não conhece o sítio.
+- **Quanto a cisterna amortece a drenagem.** O passo diário não representa as vazões de
+  pico, e a retenção exige passo horário ou menor, como mostram Campisano e Modica
+  (2015).

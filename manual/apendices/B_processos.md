@@ -18,7 +18,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Entradas**
 
-- Arquivo CSV diário, ou cidade da base CMIP6 (652 cidades, 19 modelos, 3 cenários)
+- Arquivo CSV diário, ou cidade da base CMIP6 (652 cidades, 19 modelos, histórico mais SSP2-4.5 e SSP5-8.5)
 - `climate_start_date` e `climate_end_date`, que recortam a série
 - `start_date`, data do primeiro dia da série
 

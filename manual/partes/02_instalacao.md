@@ -69,7 +69,7 @@ O programa traz quatro séries históricas longas prontas para uso — Florianó
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
 
 Existe além disso uma **base climática nacional**, com 652 cidades, 19 modelos
-climáticos do CMIP6 e 3 cenários futuros. São cerca de 6,5 GB, distribuídos à parte
+climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto CLIMBra. São cerca de 6,5 GB, distribuídos à parte
 justamente por causa do tamanho. Instalada, ela aparece na primeira tela como uma
 lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próprio, e
 todo o resto do programa funciona igual.

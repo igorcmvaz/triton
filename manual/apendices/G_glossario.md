@@ -96,6 +96,10 @@ um caso-base local em três dimensões independentes e exige que cada uma cruze 
 sociais e de governança usado na avaliação de empresas e de empreendimentos. O programa
 alimenta indicadores ambientais desse conjunto.
 
+**EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
+Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
+edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
+
 **EPD** (*Environmental Product Declaration*). Declaração ambiental de produto: documento
 verificado por terceiros, conforme a ISO 14025 e, na construção, a EN 15804, que publica
 os impactos do ciclo de vida de um produto por unidade declarada. É a fonte preferida para

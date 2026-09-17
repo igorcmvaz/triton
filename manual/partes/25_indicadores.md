@@ -75,10 +75,18 @@ Epot = Rv × f
 | `f` | fração da demanda total atendível por água pluvial | adimensional |
 
 ==Um sistema com 94% de confiabilidade e 40% de fração atendível economiza 37,5% do
-consumo total, e os três números dizem a mesma coisa de três maneiras.== Relatar apenas
+consumo total, e os três números dizem a mesma coisa de três maneiras.== É exatamente o
+caso da cisterna de 5.000 L do tutorial, antes da caixa superior: a confiabilidade
+volumétrica é de 93,64%, e 93,64% × 0,40 = 37,46%, o potencial impresso na seção {{n:7}}. Relatar apenas
 um deles, sem declarar a fração atendível adotada, torna o resultado impossível de
 comparar com o de outro estudo — e é a causa mais frequente de comparações indevidas na
 literatura da área.
+
+A literatura usa nomes diferentes para a mesma razão. Fewkes e Butler (2000) chamam de
+**eficiência de economia de água** o quociente entre o volume pluvial fornecido e a
+demanda que o sistema deveria atender, que é a confiabilidade volumétrica desta seção.
+Outros autores chamam de eficiência o que aqui é potencial de economia. Ao comparar com
+outro trabalho, confira o denominador, e não o nome.
 
 ---
 
@@ -92,6 +100,13 @@ A confiabilidade temporal classifica cada dia da série em uma de três classes 
 
 Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L; **parcial** quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
 
+
+No tutorial, a cisterna de 5.000 L tem 92,9% de dias plenos, 1,4% de dias parciais e
+5,7% de dias nulos. Repare que a confiabilidade temporal, 92,9%, é menor que a
+volumétrica, 93,64%. Não há contradição: os dias parciais não contam como plenos, mas
+contribuem com volume, e é essa água que a confiabilidade volumétrica soma e a temporal
+não. A diferença entre as duas é, por isso, uma medida indireta de quanto os dias de
+falha são falhas parciais.
 
 **O que mede:** com que frequência o usuário pode contar com o sistema.
 
@@ -126,6 +141,58 @@ oportunidade não aproveitada.
 > diferença entre o que a cobertura capta e o que a demanda consome, e no tutorial
 > esse piso é mais da metade da água captada. Quem quer retenção de cheia precisa de
 > um reservatório de detenção, que é outro projeto com outra lógica.
+
+---
+
+## Eficiência de uso da captação
+
+O programa não imprime este indicador, mas ele sai diretamente dos anteriores e ajuda a
+entender o extravasamento. É a fração da água que chegou à cisterna, já descontado o
+descarte de primeiras águas, que acabou consumida.
+
+```equacao:uso_da_captacao
+η_cap = ( Σ V_con,t ÷ Σ V_cap,t ) × 100
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `η_cap` | eficiência de uso da água captada | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `V_cap,t` | volume captado no dia `t`, depois do descarte | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
+
+Na cisterna de 5.000 L do tutorial, a cobertura entrega 187,4 m³ por ano à cisterna; o
+sistema consome 82,1 m³ e extravasa 105,2 m³, e as duas parcelas fecham o balanço de
+massa. A eficiência de uso da captação é, portanto, de 43,8%. O número explica por que
+aumentar a cisterna rende tão pouco a partir de certo ponto: a água não falta na
+cobertura, falta **demanda** para consumi-la. Quando a oferta supera largamente a demanda
+pluvial, como em Florianópolis, a eficiência de uso da captação é necessariamente baixa,
+qualquer que seja o volume.
+
+---
+
+## Duração e intensidade das falhas
+
+Os indicadores anteriores dizem quanto e com que frequência o sistema falha, mas não
+**como** falha. Hashimoto, Stedinger e Loucks (1982) propuseram, para sistemas de
+recursos hídricos em geral, três critérios complementares que hoje são usados também em
+aproveitamento pluvial: a **confiabilidade**, que é a probabilidade de o sistema estar em
+estado satisfatório; a **resiliência**, que mede a rapidez com que ele se recupera de uma
+falha; e a **vulnerabilidade**, que mede a gravidade das falhas quando elas ocorrem.
+
+O programa reporta a primeira e não reporta as outras duas, mas ambas podem ser calculadas
+a partir da série diária detalhada, exportada em planilha. Para a cisterna de 5.000 L do
+tutorial, em trinta anos:
+
+- houve 119 sequências de dias não plenos, com duração média de 6,5 dias e máxima de 26
+  dias. A resiliência, tomada como o inverso da duração média de uma falha, é de 0,15 por
+  dia;
+- nos dias de falha, faltaram em média 215 L de uma demanda pluvial de 240 L, isto é,
+  cerca de 90%. A falha típica, portanto, não é um pequeno déficit: é a cisterna vazia.
+
+A leitura de projeto é direta. Falhas longas e quase totais significam que a alimentação
+de reserva pela rede pública precisa ser automática e dimensionada para a vazão total
+dos pontos de uso pluviais, e não apenas para complementar pequenas faltas.
 
 ---
 

@@ -11,7 +11,7 @@ PROCESSOS = [
 (
  "PROC-01", "Carregar a série de precipitação", "chuva",
  "Aba Projeto: escolher cidade na base nacional ou abrir arquivo CSV.",
- ["Arquivo CSV diário, ou cidade da base CMIP6 (652 cidades, 19 modelos, 3 cenários)",
+ ["Arquivo CSV diário, ou cidade da base CMIP6 (652 cidades, 19 modelos, histórico mais SSP2-4.5 e SSP5-8.5)",
   "<code>climate_start_date</code> e <code>climate_end_date</code>, que recortam a série",
   "<code>start_date</code>, data do primeiro dia da série"],
  ["A série vira um vetor <code>numpy</code> de milímetros por dia; o índice do vetor "

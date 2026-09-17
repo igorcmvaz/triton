@@ -62,13 +62,21 @@ As oito tipologias do programa agrupam-se pela categoria tarifária em que a con
 
 ## O que muda em cada tipologia
 
-**Escola.** É provavelmente o caso mais favorável ao aproveitamento pluvial no Brasil,
-por três razões que se somam. A fração não potável do consumo é alta, porque a bacia
-sanitária domina o uso e muitas unidades não têm chuveiro nem cozinha. A demanda é
-fortemente modulada por calendário, e a seção {{n:17}} mostra como representá-la. E o
-fechamento das férias escolares coincide, no Sul e no Sudeste, com o período de menor
-precipitação, de modo que a cisterna atravessa a estiagem sem ser solicitada e chega
-cheia ao reinício das aulas.
+**Escola.** É um dos casos mais favoráveis ao aproveitamento pluvial no Brasil, por
+duas razões que se somam. A fração não potável do consumo é alta, porque a bacia
+sanitária domina o uso e muitas unidades não têm chuveiro nem cozinha. E a área de
+cobertura por aluno costuma ser grande, de modo que a oferta raramente é o fator
+limitante.
+
+A modulação por calendário, porém, tem um efeito que depende da região, e convém
+simulá-la em vez de supor o resultado. No Sudeste e no Centro-Oeste, as chuvas se
+concentram de outubro a março e a estiagem vai de junho a agosto. O recesso de julho
+coincide com a estiagem, e a cisterna atravessa o período seco sem ser solicitada; as
+férias longas de dezembro a fevereiro, ao contrário, coincidem com o auge das chuvas, e
+nesse período a cisterna enche e extravasa sem uso. No Sul, onde a chuva é mais bem
+distribuída ao longo do ano, o calendário escolar pesa menos. A seção {{n:17}} mostra
+como representar os dias letivos, e a seção {{n:14}} mostra como a distribuição da chuva
+muda de uma capital para outra.
 
 **Hospital.** O caso mais delicado. Consumo alto e contínuo, sem sazonalidade
 relevante, o que é bom para o aproveitamento. Mas a **exigência de qualidade** é
@@ -78,12 +86,47 @@ legionela. Trate a classe de qualidade com cuidado, e não use as classes adapta
 2 a 4 como se fossem requisito normativo.
 
 **Escritório e comércio.** Demanda concentrada em dias úteis, cinco dias em sete.
-Module por semana. A fração não potável é alta, tipicamente de 70% a 85%, porque quase todo o consumo é bacia sanitária e limpeza.
+Module por semana. A fração não potável é alta porque quase todo o consumo é bacia
+sanitária, mictório e limpeza: Proença e Ghisi (2010), que estimaram os usos finais de
+dez edifícios de escritórios em Florianópolis por entrevistas com os ocupantes e medição
+de vazões, encontraram de 56% a 86% do consumo em usos não potáveis, e concluíram que a
+bacia sanitária deve ser o primeiro alvo de qualquer programa de economia nesses
+edifícios. A amplitude da faixa é ela própria uma advertência: dois escritórios da mesma
+cidade podem diferir em trinta pontos percentuais, e a fração atendível de um estudo
+deve vir do edifício estudado sempre que possível.
 
 **Hotel.** Sazonalidade forte, e é o caso em que modular por mês mais importa. Veja
 a advertência da seção {{n:17}} sobre demanda concentrada: um hotel de litoral lota
 justamente nos meses mais chuvosos e ainda assim rende menos que a demanda constante,
 porque esvazia o reservatório em poucos dias e o deixa ocioso no resto do ano.
+
+---
+
+## De onde tirar a fração não potável
+
+A fração atendível é o teto do potencial de economia, como a seção {{n:25}} mostra, e é
+por isso o parâmetro que mais pesa no resultado de uma tipologia não residencial. Há três
+caminhos para obtê-la, em ordem decrescente de confiabilidade.
+
+**Medição dos usos finais.** Hidrômetros setoriais ou registradores de vazão nos ramais,
+durante algumas semanas representativas. É o único caminho que produz um número do
+edifício, e não de uma média.
+
+**Levantamento por entrevista e vazão.** O método de Proença e Ghisi (2010): perguntar aos
+ocupantes a frequência e a duração de cada uso e multiplicar pelas vazões medidas dos
+aparelhos. Custa pouco e captura o comportamento real do edifício, mas depende da
+memória dos entrevistados.
+
+**Valor de referência da literatura.** Aceitável em estudo preliminar, desde que a
+referência seja da mesma tipologia, do mesmo país e, idealmente, da mesma região. Evite
+transpor frações residenciais para outras tipologias, e mesmo entre residências a
+variação é grande: num edifício residencial multifamiliar de Florianópolis, Maykot e
+Ghisi (2020) encontraram a bacia sanitária com apenas 9,2% do consumo e a máquina de
+lavar com 21,3%, muito abaixo das frações de escritórios e escolas.
+
+> **Declare o caminho.** «Fração atendível de 60%, medida» e «fração atendível de 60%,
+> de referência» são estudos diferentes, e o leitor precisa saber qual dos dois está
+> lendo.
 
 ---
 

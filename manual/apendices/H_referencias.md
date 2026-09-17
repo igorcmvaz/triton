@@ -81,6 +81,115 @@ pressurização direta.
 com a faixa do pressostato, 12 a 24 m.c.a. no TP 820T, base da pressão de trabalho
 padrão da pressurização direta.
 
+## Normas de avaliação de ciclo de vida
+
+**ABNT NBR ISO 14040** — Gestão ambiental: avaliação do ciclo de vida, princípios e
+estrutura. Correspondente à ISO 14040:2006. As quatro fases da avaliação.
+
+**ABNT NBR ISO 14044** — Gestão ambiental: avaliação do ciclo de vida, requisitos e
+orientações. Correspondente à ISO 14044:2006.
+
+**EN 15978:2011** — Sustainability of construction works: assessment of environmental
+performance of buildings, calculation method. Os módulos A a D do ciclo de vida da
+edificação.
+
+**EN 15804:2012+A2:2019** — Sustainability of construction works: environmental product
+declarations, core rules for the product category of construction products.
+
+**ABNT NBR 15527:2007** — Água de chuva: aproveitamento de coberturas em áreas urbanas
+para fins não potáveis. Anexo A, informativo: métodos de Rippl, da simulação, de Azevedo
+Neto e práticos alemão, inglês e australiano.
+
+---
+
+## Dimensionamento e desempenho de sistemas de aproveitamento pluvial
+
+**CAMPISANO, A. et al.** (2017). Urban rainwater harvesting systems: research,
+implementation and future perspectives. *Water Research*, v. 115.
+doi:10.1016/j.watres.2017.02.056.
+
+**CAMPISANO, A.; MODICA, C.** (2015). Appropriate resolution timescale to evaluate water
+saving and retention potential of rainwater harvesting for toilet flushing in single
+houses. *Journal of Hydroinformatics*, v. 17, n. 3. doi:10.2166/hydro.2015.022.
+
+**FEWKES, A.; BUTLER, D.** (2000). Simulating the performance of rainwater collection and
+reuse systems using behavioural models. *Building Services Engineering Research and
+Technology*, v. 21, n. 2, p. 99-106. doi:10.1177/014362440002100204.
+
+**GHISI, E.** (2010). Parameters influencing the sizing of rainwater tanks for use in
+houses. *Water Resources Management*, v. 24, n. 10, p. 2381-2403.
+doi:10.1007/s11269-009-9557-4.
+
+**HASHIMOTO, T.; STEDINGER, J. R.; LOUCKS, D. P.** (1982). Reliability, resiliency, and
+vulnerability criteria for water resource system performance evaluation. *Water
+Resources Research*, v. 18, n. 1, p. 14-20. doi:10.1029/WR018i001p00014.
+
+**MAYKOT, J. K.; GHISI, E.** (2020). Assessment of a rainwater harvesting system in a
+multi-storey residential building in Brazil. *Water*, v. 12, n. 2, 546.
+doi:10.3390/w12020546.
+
+**PROENÇA, L. C.; GHISI, E.** (2010). Water end-uses in Brazilian office buildings.
+*Resources, Conservation and Recycling*, v. 54, n. 8, p. 489-500.
+doi:10.1016/j.resconrec.2009.10.005.
+
+**SEMAAN, M. et al.** (2020). Optimal sizing of rainwater harvesting systems for domestic
+water usages: a systematic literature review. *Resources, Conservation & Recycling: X*,
+v. 6, 100033. doi:10.1016/j.rcrx.2020.100033.
+
+---
+
+## Clima futuro
+
+**BALLARIN, A. S. et al.** (2023). CLIMBra: Climate Change Dataset for Brazil.
+*Scientific Data*, v. 10. doi:10.1038/s41597-023-01956-z. A origem da base climática do
+programa.
+
+**HAWKINS, E.; SUTTON, R.** (2011). The potential to narrow uncertainty in projections of
+regional precipitation change. *Climate Dynamics*, v. 37, p. 407-418.
+doi:10.1007/s00382-010-0810-6.
+
+**KISAKYE, V.; VAN DER BRUGGEN, B.** (2018). Effects of climate change on
+water savings and water security from rainwater harvesting systems. *Resources,
+Conservation and Recycling*. doi:10.1016/j.resconrec.2018.07.009.
+
+**LASH, D. et al.** (2014). Robust rainwater harvesting: probabilistic tank sizing for
+climate change adaptation. *Journal of Water and Climate Change*.
+doi:10.2166/wcc.2014.080.
+
+**MARAUN, D.** (2016). Bias correcting climate change simulations: a critical review.
+*Current Climate Change Reports*, v. 2, n. 4, p. 211-220.
+doi:10.1007/s40641-016-0050-x.
+
+**XAVIER, A. C.; KING, C. W.; SCANLON, B. R.** (2016). Daily gridded meteorological
+variables in Brazil (1980-2013). *International Journal of Climatology*, v. 36,
+p. 2644-2659. doi:10.1002/joc.4518.
+
+---
+
+## Ciclo de vida e energia de sistemas pluviais
+
+**GHIMIRE, S. R. et al.** (2014). Life cycle assessment of domestic and agricultural
+rainwater harvesting systems. *Environmental Science & Technology*, v. 48.
+doi:10.1021/es500189f.
+
+**GHIMIRE, S. R. et al.** (2017). Life cycle assessment of a commercial rainwater
+harvesting system compared with a municipal water supply system. *Journal of Cleaner
+Production*. doi:10.1016/j.jclepro.2017.02.025.
+
+**MARINOSKI, A. K.; GHISI, E.** (2018). Avaliação de viabilidade ambiental e econômica
+de sistemas de aproveitamento de água pluvial em habitação de baixo padrão: estudo de
+caso em Florianópolis, SC. *Ambiente Construído*, v. 18, n. 1, p. 423-443.
+doi:10.1590/s1678-86212018000100230.
+
+**VAZ, I. C. M. et al.** (2023). Sustainable rainwater management and life cycle
+assessment: challenges and perspectives. *Sustainability*, v. 15, n. 16, 12133.
+doi:10.3390/su151612133.
+
+**VIEIRA, A. S. et al.** (2014). Energy intensity of rainwater harvesting systems: a
+review. *Renewable and Sustainable Energy Reviews*. doi:10.1016/j.rser.2014.03.012.
+
+---
+
 ## O programa antecessor
 
 **Ghisi, E.; Cordova, M. M.** (2014). *Netuno 4 — Manual do Usuário*. Universidade

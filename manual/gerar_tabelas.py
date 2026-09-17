@@ -638,6 +638,13 @@ def tabela_cidades():
 #: A legenda de cada tabela gerada. Fica aqui, e não no capítulo, porque é aqui
 #: que a tabela nasce; a montagem só lhe acrescenta o número.
 LEGENDAS = {
+    'cap30_inventario.md': [
+        'Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito',
+    ],
+    'cap24_metodos.md': [
+        'Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária',
+        'Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa',
+    ],
     # Uma legenda por tabela, na ordem em que aparecem no arquivo. Antes só a
     # primeira tabela recebia legenda, e regenerar apagava as demais.
     'cap23_entrada.md': [
@@ -688,6 +695,100 @@ LEGENDAS = {
         'O mesmo projeto do tutorial simulado em quatro capitais brasileiras',
     ],
 }
+
+
+def _rippl(deficits):
+    """Maior deficit acumulado: o volume que o método de Rippl exige."""
+    acumulado, maximo = 0.0, 0.0
+    for d in deficits:
+        acumulado = max(0.0, acumulado + d)
+        maximo = max(maximo, acumulado)
+    return maximo
+
+
+def tabela_metodos_empiricos():
+    """Seção do volume ideal: os métodos do Anexo A da NBR 15527:2007 contra a simulação."""
+    import numpy as np
+    t = TUTORIAL
+    serie = _serie()
+    anos = len(serie) / 365.25
+    P = serie.sum() / anos
+    A, C = t["area"], t["runoff_coeff"]
+    demanda = t["moradores"] * t["per_capita"] * t["rainwater_share"]
+    oferta_anual_l = P * A * C
+    demanda_anual_l = demanda * 365.25
+
+    rippl_diario = _rippl(demanda - serie * A * C)
+    mensal = []
+    for a in range(len(serie) // 365):
+        ano = serie[a * 365:(a + 1) * 365]
+        limites = np.linspace(0, 365, 13).astype(int)
+        for k in range(12):
+            trecho = ano[limites[k]:limites[k + 1]]
+            mensal.append(demanda * len(trecho) - trecho.sum() * A * C)
+    rippl_mensal = _rippl(mensal)
+
+    metodos = [
+        ("prático alemão", "6% do menor entre oferta e demanda anuais",
+         0.06 * min(oferta_anual_l, demanda_anual_l)),
+        ("Rippl, série mensal", "maior déficit acumulado, meses", rippl_mensal),
+        ("Azevedo Neto, T = 1 mês", "0,042 × P × A × T", 0.042 * P * A * 1),
+        ("Rippl, série diária", "maior déficit acumulado, dias", rippl_diario),
+        ("prático inglês", "0,05 × P × A", 0.05 * P * A),
+    ]
+    L = ["| Método | Regra | Volume | Potencial simulado |",
+         "| :--- | :--- | ---: | ---: |"]
+    for nome, regra, volume in metodos:
+        v = round(volume / 250.0) * 250.0
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=v, **_config_tutorial())
+        L.append(f"| {nome} | {regra} | {br(v, 0)} L | {br(r.potential_potable_savings_pct, 2)}% |")
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **_config_tutorial())
+    L.append(f"| **simulação diária, ganho marginal de 1 %/m³** | varredura | **5 000 L** "
+             f"| **{br(r.potential_potable_savings_pct, 2)}%** |")
+
+    F = ["", "| Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |",
+         "| ---: | ---: | :--- |"]
+    for v in (1, 2, 3, 5, 8, 12, 20):
+        fr = v / (A * P / 1000.0)
+        passo = "horário" if fr <= 0.01 else ("diário" if fr <= 0.125 else "mensal")
+        F.append(f"| {br(v * 1000, 0)} L | {br(fr, 4)} | {passo} |")
+    return NL.join(L + F)
+
+
+def tabela_inventario():
+    """Seção de ciclo de vida: o inventário do projeto fechado, item a item."""
+    from netuno.core.environmental import calculate_lca
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=5000.0, **_config_projeto())
+    cfg = _config_ambiental(r)
+    cfg.lower_material_key = "PEAD"
+    lca = calculate_lca(5000.0, r.annual_pluvial_consumed_m3, cfg)
+    nomes = {
+        "Cisterna Inferior": "cisterna de 5.000 L, polietileno",
+        "Caixa d'Água Superior": "caixa superior de 1.000 L, polietileno",
+        "Motobomba": "duas motobombas de meio CV",
+        "Sistema de Descarte": "descarte inicial: reservatório de 300 L e separador de folhas",
+        "Consumo Elétrico": "energia do recalque",
+        "Linha de Tratamento": "cloração por pastilhas",
+        "Água Potável Evitada": "água potável evitada",
+    }
+    def nome(categoria):
+        for chave, rotulo in nomes.items():
+            if categoria.startswith(chave):
+                return rotulo
+        if categoria.startswith("Tubulação"):
+            return "tubulação de PVC, DN " + categoria.split("DN ")[1].split(" ")[0] + " mm"
+        return categoria
+    total = lca.total_embodied_co2_kg
+    L = ["| Item | Incorporado | Parcela do incorporado | Anual |",
+         "| :--- | ---: | ---: | ---: |"]
+    for it in lca.inventory_items:
+        inc = f"{br(it.embodied_co2_kg, 1)} kg" if it.embodied_co2_kg else "—"
+        parcela = f"{br(it.embodied_co2_kg / total * 100, 1)}%" if it.embodied_co2_kg else "—"
+        anual = f"{br(it.annual_op_co2_kg, 2)} kg/ano" if it.annual_op_co2_kg else "—"
+        L.append(f"| {nome(it.category)} | {inc} | {parcela} | {anual} |")
+    L.append(f"| **total** | **{br(total, 1)} kg** | **100%** "
+             f"| **{br(-lca.net_annual_avoided_co2_kg, 2)} kg/ano** |")
+    return NL.join(L)
 
 
 def com_legenda(nome, conteudo):
@@ -748,6 +849,8 @@ def main():
         ("cap11_materiais.md", tabela_materiais),
         ("cap12_multicriterio.md", tabela_multicriterio),
         ("cap14_cidades.md", tabela_cidades),
+        ("cap24_metodos.md", tabela_metodos_empiricos),
+        ("cap30_inventario.md", tabela_inventario),
     ):
         caminho = os.path.join(SAIDA, nome)
         gravar(caminho, com_legenda(os.path.basename(caminho), fn()) + NL)

@@ -19,12 +19,46 @@ essa questão de forma explícita.
 | :--- | ---: |
 | cidades brasileiras | 652 |
 | modelos climáticos do CMIP6 | 19 |
-| cenários de emissão | 3 |
-| janelas temporais | 3 |
+| cenários de emissão | 2, SSP2-4.5 e SSP5-8.5 |
+| simulação histórica | 1980 a 2013 |
+| simulação futura | 2015 a 2100 |
 
 O CMIP6 é a sexta fase do *Coupled Model Intercomparison Project*, o exercício
 coordenado internacionalmente que alimenta os relatórios do IPCC. Cada modelo é um
 modelo climático global de um centro de pesquisa diferente.
+
+## De onde vêm as séries
+
+A base do programa é extraída do **CLIMBra**, conjunto de dados publicado por Ballarin
+et al. (2023) na revista *Scientific Data*. Três características dele definem o que as
+séries representam, e convém conhecê-las antes de usá-las.
+
+**São projeções corrigidas de viés.** Modelos globais têm resolução de dezenas a
+centenas de quilômetros e reproduzem mal a chuva local: costumam errar a frequência de
+dias chuvosos, a intensidade e os extremos. O CLIMBra corrigiu as séries diárias dos 19
+modelos pelo método *Quantile Delta Mapping*, que ajusta a distribuição simulada à
+observada e, ao mesmo tempo, preserva as variações relativas dos quantis entre o período
+histórico e o futuro. A referência observada foi a grade diária de Xavier, King e
+Scanlon (2016), construída com milhares de pluviômetros e estações do Brasil, com
+resolução de 0,25°, isto é, cerca de 28 km.
+
+**São células de grade, e não estações.** A série de uma cidade é a da célula de 0,25°
+que a contém. Ela representa a chuva média de uma área da ordem de 700 km², e não a de
+um pluviômetro. Em relevo acidentado ou no litoral, a diferença entre a chuva da célula e
+a do lote pode ser grande.
+
+**O histórico da base é simulado.** A série de 1980 a 2013 não é a chuva observada, e sim
+a simulação de cada modelo para aquele período, corrigida para ter a mesma **estatística**
+da observação. A cronologia não coincide: um dia chuvoso na série do modelo não
+corresponde a um dia chuvoso real. Por isso, a comparação correta de um cenário futuro é
+com o **histórico do mesmo modelo**, e não com a série observada que acompanha o
+programa. Misturar as duas atribuiria ao clima futuro a diferença entre observação e
+modelo.
+
+Maraun (2016), numa revisão crítica sobre correção de viés, alerta para o limite do
+procedimento: ele pressupõe que o modelo representa de forma plausível os processos e a
+mudança do clima, e não consegue corrigir uma tendência implausível. A correção melhora a
+estatística; não transforma um modelo ruim num modelo bom.
 
 > **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
 > trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
@@ -36,19 +70,24 @@ modelo climático global de um centro de pesquisa diferente.
 ## Escolher modelo, cenário e janela
 
 O **cenário** representa a trajetória futura de emissões de gases de efeito estufa, e os
-três disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC. Eles não
-são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao longo do século ({{fig:fig44_cenarios}}).
+dois disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC. Eles não
+são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
+longo do século ({{fig:fig44_cenarios}}). O nome combina a trajetória socioeconômica, de 1
+a 5, com o forçamento radiativo aproximado em 2100, em watts por metro quadrado: o
+SSP2-4.5 é o caminho intermediário, com forçamento de 4,5 W/m², e o SSP5-8.5 é o de
+desenvolvimento intensivo em combustíveis fósseis, com 8,5 W/m². Os cenários de mitigação
+forte, como o SSP1-2.6, não fazem parte do CLIMBra.
 
-![As três trajetórias de emissão disponíveis na base](../figuras/fig44_cenarios.png)
+![As duas trajetórias de emissão disponíveis na base](../figuras/fig44_cenarios.png)
 
-*Figura 99 — A forma das três trajetórias de emissão disponíveis. O SSP1-2.6 supõe queda rápida e aquecimento contido perto de 2 °C; o SSP2-4.5 é a trajetória intermediária, próxima das políticas atuais; e o SSP5-8.5 supõe emissões altas sem mitigação efetiva. A figura mostra o formato de cada uma, e não valores projetados.*
+*Figura 99 — A forma das duas trajetórias de emissão disponíveis na base. O SSP2-4.5 é a trajetória intermediária, com emissões que se estabilizam e depois caem; o SSP5-8.5 supõe emissões altas e crescentes, sem mitigação efetiva. A figura mostra o formato de cada uma, e não valores projetados.*
 
-
-A **janela temporal** define o período de trinta anos sobre o qual a projeção é tomada,
-e as três disponíveis correspondem a futuro próximo, médio e distante. A escolha da
-janela deve guardar relação com a vida útil pretendida do sistema: projetar um
-reservatório de vinte anos contra a janela distante avalia um período em que ele já terá
-sido substituído.
+A **janela temporal** é o recorte da série futura, de 2015 a 2100, sobre o qual o estudo
+é feito. O programa permite recortar qualquer período, e a convenção mais usada é tomar
+janelas de trinta anos, a mesma duração das normais climatológicas: um futuro próximo,
+um médio e um distante. A escolha da janela deve guardar relação com a vida útil
+pretendida do sistema: avaliar um reservatório de vinte anos, instalado agora, contra o
+fim do século avalia um período em que ele já terá sido substituído.
 
 A escolha do **modelo climático** é a decisão mais delicada das três, e a ela se dedica
 uma subseção própria adiante.
@@ -62,11 +101,17 @@ interesse e comparar os resultados entre si, em vez de dimensionar diretamente s
 série projetada. Quatro passos o resumem.
 
 1. Feche o dimensionamento com a série **histórica**. É a referência.
-2. Mantenha todos os demais parâmetros e troque só a série.
-3. Rode para cada cenário e janela.
-4. Compare **potencial de economia** e **dias de atendimento pleno**. O segundo
-   costuma se degradar mais que o primeiro, porque o que muda primeiro é a
-   distribuição, não o total.
+2. Rode o mesmo projeto na série **histórica simulada** de cada modelo que for usar, de
+   1980 a 2013. É contra ela, e não contra a observada, que o futuro se compara.
+3. Mantenha todos os demais parâmetros e troque só a série, para cada cenário e janela.
+4. Compare **potencial de economia** e **dias de atendimento pleno**, sempre como
+   diferença entre o futuro e o histórico do mesmo modelo. O segundo costuma se degradar
+   mais que o primeiro, porque o que muda primeiro é a distribuição, não o total.
+
+> **Um exemplo de leitura.** Suponha que, com um modelo, o potencial seja de 36% no
+> histórico simulado e de 33% no SSP5-8.5 de 2041 a 2070, e que a série observada dê 37%.
+> A mudança atribuível ao clima é de três pontos, e não de quatro: o ponto restante é a
+> diferença entre o modelo e a observação, que existe também no passado.
 
 > **O que não fazer.** Dimensionar direto na série futura e apresentar o resultado
 > como projeto. A série futura é uma projeção com incerteza grande; ela serve para
@@ -78,10 +123,17 @@ série projetada. Quatro passos o resumem.
 
 Dezenove modelos climáticos projetam dezenove futuros distintos para a mesma cidade sob
 o mesmo cenário de emissões, e essa dispersão não é ruído a ser eliminado: ela é a
-expressão honesta da incerteza física do problema. ==Nas janelas próxima e média, a
-dispersão entre modelos costuma superar a diferença entre cenários de emissão,== o que
-significa que a escolha do modelo pesa mais sobre o resultado do que a escolha do futuro
-socioeconômico.
+expressão honesta da incerteza física do problema. ==Para a chuva, a dispersão entre
+modelos costuma superar a diferença entre cenários de emissão,== o que significa que a
+escolha do modelo pesa mais sobre o resultado do que a escolha do futuro socioeconômico.
+
+Hawkins e Sutton (2011) decompuseram a incerteza das projeções de precipitação regional
+em três fontes: a variabilidade interna do clima, a diferença entre modelos e a
+diferença entre cenários. Para a precipitação, ao contrário da temperatura, a incerteza
+de cenário é a menor das três em boa parte do século, a variabilidade interna pesa muito
+nas primeiras décadas, e a incerteza entre modelos domina a maior parte do horizonte. A
+consequência para o projeto é direta: rodar os dois cenários com um só modelo informa
+menos do que rodar um cenário com vários modelos.
 
 Três condutas são defensáveis diante dessa dispersão, apresentadas aqui em ordem
 decrescente de rigor.
@@ -101,6 +153,26 @@ que o texto não apresente o resultado como projeção robusta.
 
 ---
 
+## O que a literatura mostra sobre o reservatório no clima futuro
+
+Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas
+convergem num ponto: a mudança no total anual de chuva importa menos que a mudança na
+**distribuição**. Kisakye et al. (2018), com seis modelos para um distrito de Uganda,
+encontraram projeções conflitantes entre modelos, mas concordância quanto à estação: a
+economia e a segurança hídrica cairiam nas estações que já eram secas e subiriam nas
+chuvosas, com redução de mais de 50% numa das estações no fim do século. Lash et al.
+(2014), ao dimensionar um reservatório para um edifício universitário no Reino Unido com
+3.000 séries de chuva equiprováveis das projeções climáticas britânicas, concluíram que,
+para ser provável atender em 2080 a mesma demanda de hoje, o reservatório precisaria ser
+112% maior, e 225% maior para que isso fosse muito provável.
+
+Os dois estudos ilustram o que a seção {{n:14}} mostrou para cidades brasileiras de hoje:
+cidades com estação seca marcada exigem reservatórios muito maiores para o mesmo
+desempenho. Um clima futuro com estiagens mais longas se comporta, para o reservatório,
+como uma mudança de cidade.
+
+---
+
 ## O que declarar
 
 Um estudo com cenário climático precisa trazer, no método:
@@ -109,8 +181,10 @@ Um estudo com cenário climático precisa trazer, no método:
 - **cenário** SSP;
 - **janela temporal**, com os anos;
 - a **série histórica** usada como referência;
-- se houve *downscaling* ou correção de viés, e qual;
-- a **procedência da base**, com versão.
+- se houve *downscaling* ou correção de viés, e qual; na base do programa, a do CLIMBra,
+  por *Quantile Delta Mapping* contra a grade de Xavier et al. (2016);
+- a **procedência da base**, com versão: Ballarin et al. (2023);
+- que o futuro foi comparado com o **histórico simulado do mesmo modelo**.
 
 Sem isso, o resultado não é reproduzível. A seção {{n:E}} traz a procedência da base do
 programa.

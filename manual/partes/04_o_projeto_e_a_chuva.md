@@ -29,8 +29,8 @@ Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 coluna única. É o caminho de quem tem dados de uma estação específica, do INMET ou
 da Agência Nacional de Águas.
 
-**Base nacional.** 652 cidades brasileiras, 19 modelos climáticos do CMIP6 e três
-cenários de emissão. É o caminho de quem estuda outras cidades ou cenários futuros, e a seção {{n:15}} mostra como usá-la.
+**Base nacional.** 652 cidades brasileiras, 19 modelos climáticos do CMIP6 e dois
+cenários de emissão, com a simulação histórica de cada modelo. É o caminho de quem estuda outras cidades ou cenários futuros, e a seção {{n:15}} mostra como usá-la.
 
 Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
 os **30 primeiros anos**.

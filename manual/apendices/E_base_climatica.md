@@ -9,13 +9,17 @@
 | :--- | ---: |
 | cidades brasileiras | 652 |
 | modelos climáticos do CMIP6 | 19 |
-| cenários de emissão | 3 |
-| janelas temporais | 3 |
+| cenários de emissão | 2, SSP2-4.5 e SSP5-8.5 |
+| simulações por cidade e modelo | 3: histórica, SSP2-4.5 e SSP5-8.5 |
 | tamanho aproximado | 6,5 GB |
 | arquivos | cerca de 37 mil |
 
-Cada arquivo é uma série diária de precipitação, em milímetros, para uma combinação
-de cidade, modelo, cenário e janela.
+Cada arquivo é uma série diária de precipitação, em milímetros, para uma combinação de
+cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão os 37.164
+arquivos. As séries vêm do CLIMBra (Ballarin et al., 2023), corrigidas de viés por
+*Quantile Delta Mapping* contra a grade diária de Xavier, King e Scanlon (2016), com
+resolução de 0,25°. A histórica cobre de 1980 a 2013 e as futuras, de 2015 a 2100; as
+janelas de estudo são recortes dessas séries.
 
 ---
 
@@ -32,7 +36,7 @@ programa continua inteiramente funcional com séries do usuário.
 
 ## Os cenários
 
-As três trajetórias socioeconômicas compartilhadas do CMIP6, as *Shared Socioeconomic Pathways*, estão desenhadas na seção {{n:15}}: o SSP1-2.6 supõe emissões em queda rápida, o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação.
+As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na base, as *Shared Socioeconomic Pathways*, estão desenhadas na seção {{n:15}}: o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação. O CLIMBra não inclui cenários de mitigação forte, como o SSP1-2.6.
 
 
 ---
@@ -40,7 +44,8 @@ As três trajetórias socioeconômicas compartilhadas do CMIP6, as *Shared Socio
 ## As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `dataainfall` do programa:
+instalação, na pasta `data
+ainfall` do programa:
 
 <!-- tabela: Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |

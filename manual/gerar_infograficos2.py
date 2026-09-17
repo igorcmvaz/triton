@@ -313,7 +313,7 @@ def info_perdas():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Os três cenários de emissão
+# Os dois cenários de emissão da base
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_cenarios():
@@ -325,8 +325,7 @@ def info_cenarios():
     # Trajetórias esquemáticas, e não projeções: a figura mostra a forma de cada
     # cenário, que é o que distingue um do outro na hora de escolher.
     curvas = [
-        ("SSP1-2.6", VERDE, 40 - 42 * (anos - 2020) / 80.0,
-         "emissões caem rápido;" + NL + "aquecimento contido perto de 2 °C"),
+
         ("SSP2-4.5", AZUL,
          40 + 8 * np.sin((anos - 2020) / 80.0 * np.pi) - 18 * (anos - 2020) / 80.0,
          "trajetória intermediária," + NL + "próxima das políticas atuais"),

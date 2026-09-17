@@ -18,6 +18,61 @@ declarar publicamente um desempenho ambiental.
 
 ---
 
+## As quatro fases da norma, e onde o programa se situa
+
+As normas ISO 14040 e ISO 14044, publicadas no Brasil como ABNT NBR ISO 14040 e ABNT NBR
+ISO 14044, organizam toda avaliação de ciclo de vida em quatro fases que se retroalimentam.
+Vale percorrê-las, porque cada uma corresponde a uma decisão que o programa já tomou por
+você, e que um estudo publicado precisa declarar.
+
+**1. Objetivo e escopo.** Define para que serve o estudo, a **unidade funcional** e a
+fronteira do sistema. A unidade funcional é a quantidade de serviço que se compara, e é
+ela que torna comparáveis alternativas diferentes. No programa, a unidade implícita é o
+**sistema de aproveitamento de um projeto ao longo da vida útil adotada**, e a
+comparação se faz contra o fornecimento, pela concessionária, do mesmo volume de água.
+Quem quiser comparar com a literatura pode convertê-la para a unidade mais usada, o
+metro cúbico de água entregue, dividindo o saldo pelo volume da vida útil, como faz a
+Equação {{eq:emissao_especifica}}.
+
+**2. Inventário.** Levanta os fluxos de entrada e saída de cada processo: massas de
+material, energia, insumos. No programa, o inventário são as massas dos componentes, a
+energia do recalque, a massa de produto clorado e o volume de água substituído.
+
+**3. Avaliação de impacto.** Converte os fluxos em indicadores de categoria por fatores
+de caracterização. O programa avalia **uma** categoria, a mudança climática, em quilos
+de dióxido de carbono equivalente, com os fatores de emissão da seção {{n:C}}.
+
+**4. Interpretação.** Identifica o que domina o resultado, testa a sensibilidade às
+premissas e tira conclusões dentro dos limites do escopo. É o que as seções {{n:11}} e
+{{n:20}} fazem com o material do reservatório e com as demais premissas.
+
+---
+
+## Os módulos da construção
+
+Para edificações, a norma europeia EN 15978 subdivide o ciclo de vida em módulos, e a
+mesma nomenclatura é usada nas declarações ambientais de produto conforme a EN 15804.
+Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
+fronteira, e é o que um avaliador espera encontrar.
+
+<!-- tabela: Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+| Módulo | Etapa | Coberto pelo programa |
+| :--- | :--- | :--- |
+| A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas e descarte inicial |
+| A4 e A5 | construção: transporte até a obra e instalação | não; a escavação da cisterna enterrada fica de fora |
+| B1 a B5 | uso, manutenção, reparo, substituição e reforma | não; trocas de bomba e de componentes não entram |
+| B6 | energia operacional | sim, a energia de bombeamento |
+| B7 | água operacional | sim, na forma do crédito da água potável evitada e dos insumos de tratamento |
+| C1 a C4 | fim de vida: demolição, transporte, tratamento e disposição | não |
+| D | benefícios e cargas além da fronteira, como a reciclagem | não |
+
+A leitura da tabela é que o programa faz uma avaliação **do berço ao portão, mais a
+operação**. É a fronteira mais comum nos estudos de aproveitamento pluvial em edificações,
+mas não é a única, e comparar o saldo do programa com o de um estudo que inclui fim de
+vida ou substituições exige ajustar as fronteiras antes de comparar os números.
+
+---
+
 ## As sete etapas
 
 O inventário é organizado em sete etapas, agrupadas pela natureza da emissão ({{fig:fig34_inventario}}). O saldo de carbono é a soma das emissões das seis primeiras menos o crédito da sétima, único termo com sinal negativo, e é esse crédito que decide se o sistema compensa o carbono incorporado na sua construção.
@@ -70,6 +125,22 @@ dessa variação que decorre boa parte do resultado ambiental do projeto.
 > seção {{n:11}} mostra a consequência: com concreto, o sistema do tutorial
 > não paga a dívida de carbono dentro da vida útil.
 
+### O inventário do projeto do tutorial, item a item
+
+A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 5.000 L em
+polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
+inicial.
+
+<!-- inclui: _tabelas/cap30_inventario.md -->
+
+Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
+quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
+simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
+crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
+cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
+
 ---
 
 ## A operação
@@ -86,10 +157,32 @@ E_ener = C_ano × FE_rede
 | `C_ano` | consumo anual de energia da motobomba | kWh/ano |
 | `FE_rede` | fator de emissão da rede elétrica, por região e ano | kg CO₂e/kWh |
 
-O consumo anual de energia provém do cálculo apresentado na seção {{n:28}}, e o fator de
-emissão da rede elétrica provém da base do programa, discriminado por região e por ano de
-referência. A discriminação regional importa no Brasil mais do que importaria em outros
-países, porque a composição da matriz elétrica varia substancialmente entre subsistemas.
+O consumo anual de energia provém do cálculo apresentado na seção {{n:28}}, conforme o
+arranjo de abastecimento declarado, e o fator de emissão da rede elétrica provém de uma
+das bases do programa. A base padrão, de 0,085 kg CO₂e/kWh, é uma escolha declarada entre
+os valores publicados para a matriz brasileira: fica próxima do valor do SIDAC e do CaDI,
+e acima da série anual do MCTI, que cobre só o dióxido de carbono da geração. As bases
+alternativas incluem os valores de Vaz, Scolaro e Ghisi (2025) para a matriz de 2022,
+0,104 kg CO₂e/kWh no indicador fóssil e 0,151 no indicador total, úteis para a análise
+de sensibilidade.
+
+A energia é pequena no programa, mas convém saber que ela tende a ser maior na prática.
+Vieira et al. (2014), numa revisão sobre a intensidade energética de sistemas de
+aproveitamento pluvial, encontraram mediana de 0,20 kWh/m³ nos estudos teóricos e de
+1,40 kWh/m³ nos estudos empíricos, e atribuíram parte da diferença a partidas, ao
+consumo em espera e a rendimentos reais piores que os de catálogo. O tutorial, com
+0,13 kWh/m³, está na faixa dos estudos teóricos. Ghimire et al. (2014, 2017) chegaram a
+conclusão convergente pela avaliação de ciclo de vida: nos sistemas que analisaram, a
+motobomba e a energia de bombeamento foram os componentes que mais pesaram na maior
+parte das categorias de impacto, e a versão sem bomba superou o abastecimento público em
+quase todas elas.
+
+> **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
+> energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
+> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
+> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
+> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
+> inverter o resultado.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção {{n:27}}, e existe para o hipoclorito não ser contado duas
@@ -201,6 +294,31 @@ Carregam o rótulo as massas por metro cúbico útil do polietileno, do concreto
 > **Num estudo publicado, declare quais fatores estão com rótulo de triagem.** Um
 > inventário que apresenta todos os fatores com o mesmo grau de confiança esconde
 > onde está a fragilidade.
+
+---
+
+## O que a literatura mostra
+
+A avaliação de ciclo de vida de sistemas de aproveitamento pluvial é um campo ativo e sem
+método único. Vaz et al. (2023), numa revisão integrativa conduzida pelo protocolo
+PRISMA, concluíram que as edificações residenciais são o caso mais estudado, mas que
+falta consenso sobre um arcabouço analítico uniforme; que vários benefícios da água de
+chuva, como a redução do escoamento, raramente entram na avaliação; e que a integração
+com o custo de ciclo de vida é um caminho promissor para mostrar os benefícios de forma
+mais direta.
+
+Para o caso brasileiro, Marinoski e Ghisi (2018) avaliaram uma habitação de interesse
+social em Florianópolis e compararam reservatórios de fibra de vidro, polietileno de alta
+densidade e concreto armado. Os de fibra de vidro foram os mais favoráveis do ponto de
+vista ambiental, e os de concreto, do ponto de vista do investimento. O resultado
+converge com o da seção {{n:11}} no essencial: o material do reservatório pesa no
+carbono, e as dimensões ambiental e econômica podem apontar em direções diferentes.
+
+Ghimire et al. (2017), ao comparar um sistema comercial com o abastecimento municipal em
+onze categorias de impacto, mostraram outra coisa que esta avaliação não alcança: o
+sistema pluvial superou o municipal em dez das onze categorias, mas não em todas, e o
+resultado de cada categoria dependia da intensidade energética do bombeamento. É o
+argumento mais forte para declarar que a avaliação do programa cobre uma categoria só.
 
 ---
 

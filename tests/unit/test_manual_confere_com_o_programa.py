@@ -1013,6 +1013,7 @@ SIGLAS_DISPENSADAS = {
     "PDF", "HTML", "GB", "SC", "PI", "AM", "DF", "SP", "UF", "CAIXA", "CNPJ",
     "GPL", "UFSC", "IBGE", "YAS", "SMAA-VIKOR",
     "TP",  # modelo de pressurizador citado (Komeco TP 820), não sigla
+    "GHISI",  # sobrenome em caixa alta nas referências, não sigla
 }
 
 
