@@ -59,6 +59,14 @@ def main():
             window.windowHandle().setScreen(primary_screen)
     window.showMaximized()
 
+    # Aberto por um arquivo de projeto (duplo clique num .netuno, associação
+    # criada pelo instalador): carrega-o assim que a janela estiver pronta.
+    projeto = next((a for a in sys.argv[1:]
+                    if a.lower().endswith((".netuno", ".json")) and os.path.isfile(a)), None)
+    if projeto:
+        from PySide6.QtCore import QTimer
+        QTimer.singleShot(0, lambda: window.on_load_simulation(projeto))
+
     sys.exit(app.exec())
 
 

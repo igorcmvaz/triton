@@ -45,7 +45,7 @@ DOSE_PADRAO_MG_POR_LITRO = 1.5
 # Hipoclorito de cálcio em pastilha, teor comercial corrente de cloro ativo.
 PUREZA_PADRAO = 0.65
 
-# Ecoinvent 3.8, modelo de sistema cutoff, processo «sodium hypochlorite
+# Ecoinvent 3.8, modelo de sistema cutoff, geografia RoW, processo «sodium hypochlorite
 # production, product in 15% solution state», produto «sodium hypochlorite,
 # without water, in 15% solution state», avaliado no openLCA com o método EF 3.1
 # (openLCA LCIA Methods 2.4.3), categoria Climate change: 2,522233 kg CO₂e por kg
@@ -62,7 +62,7 @@ FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO = round(FATOR_KG_CO2E_POR_KG_CLORO_ATIVO * 0
 
 FONTE_DO_FATOR = (
     "Ecoinvent 3.8 (cutoff), «sodium hypochlorite production, product in 15% solution "
-    "state», método EF 3.1, Climate change: 2,52 kg CO₂e/kg de NaOCl, convertido para "
+    "state», geografia RoW (resto do mundo), método EF 3.1, Climate change: 2,52 kg CO₂e/kg de NaOCl, convertido para "
     "2,65 kg CO₂e/kg de cloro ativo e aplicado à pastilha a 65% (1,72 kg CO₂e/kg). "
     "Aproximação: o Ecoinvent 3.8 não tem hipoclorito de cálcio."
 )

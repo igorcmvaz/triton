@@ -84,7 +84,7 @@ Formato: cada valor recebe origem completa ou permanece rotulado como triagem.
 | ~~0,085~~ → **0,0461** | kg CO₂/kWh (rede BR) | `environmental.py` | MCTI/SIRENE, fator médio anual 2025 | geração do SIN, CO₂ apenas | ✅ **resolvido** — ver §Rede elétrica |
 | 0,35 | kg CO₂e/m³ água potável | `environmental.py:167` | — | — | **pendente** |
 | 25,0 | kg CO₂e/kg Cl₂ | `environmental.py:171` | — | — | **pendente** |
-| ~~1,85~~ → **1,72** | kg CO₂e/kg de pastilha a 65% | `chlorination.py` | Ecoinvent 3.8 cutoff, «sodium hypochlorite production, product in 15% solution state», EF 3.1 Climate change = 2,522 kg CO₂e/kg NaOCl; ÷ 0,9525 kg Cl₂/kg NaOCl × 0,65 | berço ao portão | 🟡 **resolvido por aproximação** (sem hipoclorito de cálcio no Ecoinvent 3.8; geografia do processo a registrar) |
+| ~~1,85~~ → **1,72** | kg CO₂e/kg de pastilha a 65% | `chlorination.py` | Ecoinvent 3.8 cutoff, «sodium hypochlorite production, product in 15% solution state», RoW, EF 3.1 Climate change = 2,522 kg CO₂e/kg NaOCl; ÷ 0,9525 kg Cl₂/kg NaOCl × 0,65 | berço ao portão | 🟡 **resolvido por aproximação** (sem hipoclorito de cálcio no Ecoinvent 3.8; geografia RoW) |
 | 0,40 | kWh/m³ (bomba) | `environmental.py:130` | — | — | **pendente** |
 | 20 | anos (vida útil) | `environmental.py:175` | — | — | **pendente** |
 

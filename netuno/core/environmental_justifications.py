@@ -323,7 +323,7 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
         detailed_explanation=(
             "O fator é por quilo de PRODUTO comercial, e não de cloro ativo: a pureza converte "
             "a dose em massa de produto antes da multiplicação.\n\n"
-            "O padrão de 1,72 kg CO2e/kg vem do Ecoinvent 3.8 (cutoff), processo «sodium "
+            "O padrão de 1,72 kg CO2e/kg vem do Ecoinvent 3.8 (cutoff), geografia RoW, processo «sodium "
             "hypochlorite production, product in 15% solution state», método EF 3.1, "
             "Climate change: 2,52 kg CO2e/kg de NaOCl puro. Como o Ecoinvent 3.8 não tem "
             "hipoclorito de cálcio, o valor foi levado à base de cloro ativo (0,9525 kg de Cl2 "

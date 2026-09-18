@@ -19,7 +19,9 @@ cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão o
 arquivos. As séries vêm do CLIMBra (Ballarin et al., 2023), corrigidas de viés por
 *Quantile Delta Mapping* contra a grade diária de Xavier, King e Scanlon (2016), com
 resolução de 0,25°. A histórica cobre de 1980 a 2013 e as futuras, de 2015 a 2100; as
-janelas de estudo são recortes dessas séries.
+janelas de estudo são recortes livres dessas séries. Todas estão em calendário
+gregoriano. Os modelos HadGEM3-GC31-LL, KACE e UKESM1-0-LL, que usam originalmente anos
+de 360 dias, têm um dia a menos no fim de cada série, o que não afeta o recorte.
 
 ---
 

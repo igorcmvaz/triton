@@ -65,8 +65,7 @@ def build_manual(base_dir: Path) -> bool:
     o manual embarcado no instalador corresponde à versão empacotada, em vez de
     ser um arquivo antigo que alguém esqueceu de atualizar.
     """
-    print("
-[*] Montando o manual...")
+    print("\n[*] Montando o manual...")
     etapas = [
         ("tabelas", "manual/gerar_tabelas.py"),
         ("figuras", "manual/gerar_figuras.py"),
@@ -228,13 +227,50 @@ def build_inno_setup(base_dir: Path) -> bool:
         return False
 
     print(f"[+] Utilizando script: {iss_script.relative_to(base_dir)}")
-    res = subprocess.run([str(iscc), str(iss_script)], cwd=base_dir)
+
+    faltando = verificar_pasta_para_instalador(base_dir)
+    if faltando:
+        print("[ERRO] A compilação em dist/Netuno está incompleta. Faltam:")
+        for item in faltando:
+            print(f"        - {item}")
+        print("        Rode primeiro: python build_exe.py")
+        return False
+
+    versao = versao_do_programa(base_dir)
+    print(f"[+] Versão do programa: {versao}")
+    res = subprocess.run([str(iscc), f"/DMyAppVersion={versao}", str(iss_script)], cwd=base_dir)
     if res.returncode == 0:
-        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_0.exe")
+        nome = f"Netuno_Setup_{versao.replace('.', '_')}.exe"
+        print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
+        print("          Para instalar também a base climática, copie a pasta")
+        print("          'Netuno future files for 652 cities' para o lado do instalador.")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")
         return False
+
+
+def versao_do_programa(base_dir: Path) -> str:
+    """Lê __version__ de netuno/__init__.py, sem importar o pacote."""
+    import re
+    texto = (base_dir / "netuno" / "__init__.py").read_text(encoding="utf-8")
+    achado = re.search(r'__version__\s*=\s*["\']([^"\']+)["\']', texto)
+    return achado.group(1) if achado else "5.0.0"
+
+
+def verificar_pasta_para_instalador(base_dir: Path) -> list:
+    """Arquivos que o setup_script.iss espera encontrar; devolve os ausentes."""
+    esperados = [
+        Path("dist/Netuno/Netuno.exe"),
+        Path("dist/Netuno/_internal/data/languages/es.json"),
+        Path("dist/Netuno/_internal/data/languages/zh.json"),
+        Path("dist/Netuno/_internal/manual/Manual-Netuno-5.pdf"),
+        Path("LICENSE"),
+        Path("icons/icon.ico"),
+        Path("infos_licenses/info_before.txt"),
+        Path("infos_licenses/info_after.txt"),
+    ]
+    return [str(p) for p in esperados if not (base_dir / p).exists()]
 
 
 def main():

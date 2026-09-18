@@ -1,7 +1,17 @@
 """
 Módulo de Acesso e Gerenciamento da Base Climatológica Nacional (CMIP6 / Netuno).
-Indexa 86.716 séries temporais diárias para 652 municípios brasileiros em 19 modelos GCMs
-e cenários de emissões (Histórico 1980–2014, SSP2-4.5 e SSP5-8.5 nos horizontes Near, Middle e Far).
+
+A base é extraída do CLIMBra (Ballarin et al., 2023, Scientific Data,
+doi:10.1038/s41597-023-01956-z): 19 modelos CMIP6 corrigidos de viés por
+Quantile Delta Mapping, em grade de 0,25°. São 37.164 arquivos, um por cidade,
+modelo e simulação: 652 cidades × 19 modelos × (histórica 1980–2013, SSP2-4.5 e
+SSP5-8.5 de 2015 a 2100). Todos em calendário gregoriano; HadGEM3-GC31-LL, KACE
+e UKESM1-0-LL, de calendário nativo de 360 dias, têm um dia a menos no fim.
+
+Não há janelas fixas: versões antigas separavam futuro próximo, médio e
+distante em arquivos próprios. O usuário recorta o período que quiser, e
+`RECORTES_SUGERIDOS` oferece atalhos de trinta anos, a duração das normais
+climatológicas.
 """
 
 import os
@@ -45,7 +55,7 @@ CLIMATE_SCENARIOS: Dict[str, Dict[str, Any]] = {
         "default_years": 34,
     },
     "SSP245": {
-        "label": "SSP2-4.5 — Cenário Intermediário / Otimista (01/01/2015 a 31/12/2100)",
+        "label": "SSP2-4.5 — Cenário Intermediário (01/01/2015 a 31/12/2100)",
         "file_suffix": "SSP245.csv",
         "start_date": "01/01/2015",
         "end_date": "31/12/2100",
@@ -59,6 +69,26 @@ CLIMATE_SCENARIOS: Dict[str, Dict[str, Any]] = {
         "default_years": 86,
     },
 }
+
+#: Atalhos de recorte por simulação, em (rótulo, data inicial, data final). São
+#: sugestões: o recorte é livre. Trinta anos é a duração das normais
+#: climatológicas da OMM; abaixo de dez, o resultado depende do trecho sorteado.
+RECORTES_SUGERIDOS: Dict[str, List[Tuple[str, str, str]]] = {
+    "HIST": [
+        ("Série completa, 1980–2013", "01/01/1980", "31/12/2013"),
+        ("Trinta anos, 1981–2010", "01/01/1981", "31/12/2010"),
+    ],
+    "SSP245": [
+        ("Série completa, 2015–2100", "01/01/2015", "31/12/2100"),
+        ("Futuro próximo, 2021–2050", "01/01/2021", "31/12/2050"),
+        ("Meados do século, 2041–2070", "01/01/2041", "31/12/2070"),
+        ("Fim do século, 2071–2100", "01/01/2071", "31/12/2100"),
+    ],
+}
+RECORTES_SUGERIDOS["SSP585"] = list(RECORTES_SUGERIDOS["SSP245"])
+
+#: Abaixo deste número de anos, a interface avisa que o recorte é curto.
+ANOS_MINIMOS_RECOMENDADOS = 10.0
 
 _BASE_DIR_CACHE: Optional[str] = None
 _CITY_FILENAME_MAP: Optional[Dict[str, str]] = None
@@ -89,8 +119,14 @@ def get_climate_database_dir() -> str:
     # A variável de ambiente NETUNO_CLIMATE_DATA_DIR tem precedência sobre todas,
     # para instalações que guardem os ~6,5 GB fora da árvore do programa.
     raiz_do_programa = os.path.join(os.path.dirname(__file__), "..", "..")
+    # No programa instalado, o código fica em _internal\netuno; a base é
+    # instalada ao lado do executável, na pasta do programa.
+    import sys
+    pasta_do_executavel = (os.path.dirname(sys.executable)
+                           if getattr(sys, "frozen", False) else "")
     candidates = [
         os.environ.get("NETUNO_CLIMATE_DATA_DIR", ""),
+        os.path.join(pasta_do_executavel, "Netuno future files for 652 cities") if pasta_do_executavel else "",
         os.path.join(raiz_do_programa, "Netuno future files for 652 cities"),
         os.path.join(os.getcwd(), "Netuno future files for 652 cities"),
         os.path.join(raiz_do_programa, "data", "Netuno future files for 652 cities"),

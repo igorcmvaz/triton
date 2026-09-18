@@ -60,6 +60,17 @@ restante, exigem água potável e ficam fora do alcance do sistema.
 Somando os três que a chuva atende, chega-se aos 40% do tutorial. É um valor
 defensável para residência unifamiliar sem jardim grande.
 
+> **A máquina de lavar roupa não está na lista da norma.** A ABNT NBR 15527:2019, no item
+> 4.1.7, admite sete usos não potáveis para a água de chuva: sistemas de resfriamento,
+> descarga de bacias sanitárias e mictórios, lavagem de veículos, lavagem de pisos,
+> reserva técnica de incêndio, uso ornamental e irrigação paisagística. A ABNT NBR
+> 16783:2019, que trata das fontes alternativas em geral, também não inclui a lavagem de
+> roupa no item 4.2.1. Para qualquer outro uso, o item 4.1.8 da NBR 15527 exige que o
+> profissional responsável estude os parâmetros de qualidade e o tratamento específicos.
+> O uso na máquina de lavar é comum na literatura e na prática, e o tutorial o adota; mas
+> um projeto que o inclua precisa declarar que ele está fora da lista normativa e qual
+> critério de qualidade foi adotado para ele.
+
 ![A repartição do consumo numa residência, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
 
 *Figura 99 — Repartição típica do consumo de uma residência por uso final. Em cinza, os usos que exigem água potável; em verde, os de possível uso de água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, economiza mais do que essa fração.*

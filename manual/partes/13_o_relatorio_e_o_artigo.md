@@ -73,6 +73,8 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 - Consumo per capita e se é **medido ou de referência**.
 - **Fração atendível por água pluvial** e os usos finais que a compõem. É o teto do
   resultado, e sem ele o potencial não se interpreta.
+- Se algum uso está fora da lista do item 4.1.7 da ABNT NBR 15527:2019, como a máquina
+  de lavar roupa, e qual critério de qualidade foi adotado para ele.
 
 ### Arranjo de abastecimento
 

@@ -129,8 +129,13 @@ cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
 
 **Classe 1, cloração por pastilhas, sem filtro de polimento.**
 
-A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1 atende,
-a cloração deixa residual, e o custo é o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,77 por ano de custeio: R$ 4,77 de pastilha e R$ 40 de manutenção do descarte.
+A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1, que
+reproduz a Tabela 1 da ABNT NBR 15527:2019 (*E. coli* abaixo de 200 por 100 mL,
+turbidez abaixo de 5,0 uT e pH entre 6,0 e 9,0), atende a bacia sanitária e os usos
+externos, que estão na lista do item 4.1.7 da norma; a máquina de lavar roupa não está,
+e o item 4.1.8 pede que o responsável pelo projeto defina e declare o critério de
+qualidade para ela, como a seção {{n:5}} registra. A cloração deixa residual, e o custo é
+o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,77 por ano de custeio: R$ 4,77 de pastilha e R$ 40 de manutenção do descarte.
 
 <!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |

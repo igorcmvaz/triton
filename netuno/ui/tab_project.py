@@ -23,6 +23,7 @@ from netuno.core.calculator import IndicesCalculator
 from netuno.core.tariffs_database import get_available_ufs, get_cities_by_uf, get_city_data
 from netuno.core.climate_database import (
     CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path,
+    RECORTES_SUGERIDOS, ANOS_MINIMOS_RECOMENDADOS,
     get_available_climate_cities
 )
 from netuno.ui.translation import tr, get_current_theme
@@ -192,7 +193,7 @@ class TabProject(QWidget):
         self.combo_climate_model.setCurrentText("INM-CM4")
         grid_nat.addWidget(self.combo_climate_model, 1, 1)
 
-        grid_nat.addWidget(QLabel(f"<b>{tr('Cenário & Horizonte:')}</b>"), 1, 2)
+        grid_nat.addWidget(QLabel(f"<b>{tr('Simulação / Cenário:')}</b>"), 1, 2)
         self.combo_climate_scenario = QComboBox()
         for k, sc_data in CLIMATE_SCENARIOS.items():
             self.combo_climate_scenario.addItem(tr(sc_data["label"]), k)
@@ -214,6 +215,15 @@ class TabProject(QWidget):
         self.btn_apply_date_filter.clicked.connect(self.on_apply_date_filter)
         row_end.addWidget(self.btn_apply_date_filter)
         grid_nat.addLayout(row_end, 2, 3)
+
+        # Linha 3: atalhos de recorte. O recorte continua livre nas datas acima.
+        grid_nat.addWidget(QLabel(f"<b>{tr('Atalho de recorte:')}</b>"), 3, 0)
+        self.combo_recorte = QComboBox()
+        self.combo_recorte.setToolTip(tr(
+            "Preenche as datas com um período de trinta anos, a duração das normais "
+            "climatológicas. As datas continuam editáveis."))
+        self.combo_recorte.activated.connect(self.on_recorte_sugerido)
+        grid_nat.addWidget(self.combo_recorte, 3, 1, 1, 3)
 
         lay_pnat.addLayout(grid_nat)
 
@@ -529,6 +539,7 @@ class TabProject(QWidget):
         self.combo_climate_city.currentIndexChanged.connect(self.on_climate_city_changed)
         self.combo_climate_model.currentIndexChanged.connect(self.on_climate_model_changed)
         self.combo_climate_scenario.currentIndexChanged.connect(self.on_climate_scenario_changed)
+        self.populate_recortes()
 
         # Carrega a série inicial
         self.load_active_national_series()
@@ -604,9 +615,32 @@ class TabProject(QWidget):
         self.txt_start_date.setText(sc_info["start_date"])
         self.txt_start_date.blockSignals(False)
         self.txt_end_date.setText(sc_info.get("end_date", ""))
+        self.populate_recortes()
         self.load_active_national_series()
 
     def on_apply_date_filter(self):
+        self.load_active_national_series()
+
+    def populate_recortes(self):
+        """Atalhos de recorte da simulação escolhida; o primeiro item não altera nada."""
+        sc_key = self.combo_climate_scenario.currentData() or "HIST"
+        self.combo_recorte.blockSignals(True)
+        self.combo_recorte.clear()
+        self.combo_recorte.addItem(tr("Personalizado — datas acima"), None)
+        for rotulo, ini, fim in RECORTES_SUGERIDOS.get(sc_key, []):
+            self.combo_recorte.addItem(tr(rotulo), (ini, fim))
+        self.combo_recorte.setCurrentIndex(0)
+        self.combo_recorte.blockSignals(False)
+
+    def on_recorte_sugerido(self, *_args):
+        periodo = self.combo_recorte.currentData()
+        if not periodo:
+            return
+        ini, fim = periodo
+        self.txt_start_date.blockSignals(True)
+        self.txt_start_date.setText(ini)
+        self.txt_start_date.blockSignals(False)
+        self.txt_end_date.setText(fim)
         self.load_active_national_series()
 
     def load_active_national_series(self):
@@ -639,9 +673,13 @@ class TabProject(QWidget):
             years_sel = sel_days / 365.25 if sel_days > 0 else 1.0
             years_tot = tot_days / 365.25 if tot_days > 0 else 1.0
 
+            aviso = ""
+            if years_sel < ANOS_MINIMOS_RECOMENDADOS:
+                aviso = (f"<br/>⚠️ {tr('Recorte com menos de dez anos: o resultado passa a depender do trecho escolhido. Declare a limitação ou amplie o período.')}")
             self.lbl_date_range_info.setText(
                 f"ℹ️ {tr('Série Completa')}: {years_tot:.0f} {tr('anos')} ({tot_days:,} {tr('dias')}) | "
                 f"{tr('Período Selecionado para Simulação')}: <b>{years_sel:.1f} {tr('anos')} ({sel_days:,} {tr('dias de')} {eff_start} {tr('a')} {eff_end})</b>".replace(',', '.')
+                + aviso
             )
 
             # Sincroniza tarifas automaticamente com a cidade selecionada

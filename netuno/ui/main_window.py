@@ -518,13 +518,17 @@ class MainWindow(QMainWindow):
                     widget.setChecked(bool(checked))
             environmental._params_customized = bool(env_state.get("params_customized", True))
 
-    def on_load_simulation(self):
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            tr("Carregar Projeto Netuno"),
-            "",
-            f"{tr('Todos os Projetos Aceitos')} (*.netuno *.json *.csv);;{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;{tr('Arquivos CSV')} (*.csv)"
-        )
+    def on_load_simulation(self, file_path=None):
+        # Recebe o caminho quando o programa é aberto por um arquivo .netuno
+        # (associação criada pelo instalador); o menu passa um bool, e então
+        # o diálogo de abertura é mostrado.
+        if not isinstance(file_path, str) or not file_path:
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                tr("Carregar Projeto Netuno"),
+                "",
+                f"{tr('Todos os Projetos Aceitos')} (*.netuno *.json *.csv);;{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;{tr('Arquivos CSV')} (*.csv)"
+            )
         if not file_path:
             return
 

@@ -13,7 +13,8 @@
 | sistema | Windows 10 ou 11, 64 bits |
 | espaço em disco | cerca de 600 MB para o programa |
 | memória | 4 GB bastam; 8 GB deixam a varredura mais confortável |
-| privilégios | de administrador, só para instalar |
+| privilégios | de administrador para instalar para todos os usuários; sem eles, a instalação vai para a pasta do usuário |
+| base climática, opcional | mais cerca de 6,5 GB |
 
 Nada além disso precisa ser instalado. O programa é distribuído já montado, com todos os
 componentes de que depende para calcular, e não requer instalação prévia de
@@ -25,15 +26,22 @@ computador.
 
 ## A instalação
 
-1. Execute **`Netuno_Setup_5_0_0.exe`**.
-2. Escolha o idioma da instalação. Português e inglês vêm sempre; espanhol e chinês
-   são pacotes opcionais, que você marca na instalação personalizada.
-3. Aceite o diretório sugerido, `C:\Program Files\Netuno 5`, ou escolha outro.
-4. Marque **criar ícone na área de trabalho** se quiser.
-5. Ao terminar, o instalador oferece abrir o programa.
+1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
+   todos os usuários, o que exige administrador, ou só para você.
+2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
+   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
+   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
+   adiante). A **personalizada** permite marcar cada um.
+4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
+5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
+   .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
+   diretamente no programa.
+6. Ao terminar, o instalador oferece abrir o programa.
 
-Depois disso, o Netuno aparece no menu Iniciar como **Netuno 5**. Para desinstalar,
-use *Aplicativos e recursos* do Windows, como em qualquer programa.
+Depois disso, o menu Iniciar traz dois atalhos: **Netuno 5**, o programa, e **Manual do
+Netuno 5**, este documento em PDF. Para desinstalar, use *Aplicativos e recursos* do
+Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
 
 > **O que o instalador coloca no computador.** O programa, as quatro séries
 > históricas de chuva que acompanham a instalação, a base de tarifas dos 652
@@ -73,6 +81,13 @@ climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do co
 justamente por causa do tamanho. Instalada, ela aparece na primeira tela como uma
 lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próprio, e
 todo o resto do programa funciona igual.
+
+Há duas maneiras de instalá-la. A mais simples é pelo próprio instalador: copie a pasta
+`Netuno future files for 652 cities` para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
+e escolha a instalação completa, ou marque o componente da base na personalizada; o
+instalador a copia para a pasta do programa. A outra é copiá-la à mão para a pasta do
+programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho
+na variável de ambiente `NETUNO_CLIMATE_DATA_DIR`.
 
 A seção {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cenário futuro.
 

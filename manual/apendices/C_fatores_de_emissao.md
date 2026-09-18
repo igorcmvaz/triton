@@ -98,7 +98,7 @@ o último fator de emissão padrão sem procedência, o do hipoclorito, passou a
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
-| processo | *sodium hypochlorite production, product in 15% solution state* |
+| processo | *sodium hypochlorite production, product in 15% solution state*, geografia RoW (resto do mundo) |
 | método | EF 3.1, categoria *Climate change* |
 | resultado | 2,522 kg CO₂e por kg de NaOCl puro |
 | conversão | 0,9525 kg de cloro ativo por kg de NaOCl, logo 2,65 kg CO₂e por kg de cloro ativo |

@@ -83,9 +83,12 @@ forte, como o SSP1-2.6, não fazem parte do CLIMBra.
 *Figura 99 — A forma das duas trajetórias de emissão disponíveis na base. O SSP2-4.5 é a trajetória intermediária, com emissões que se estabilizam e depois caem; o SSP5-8.5 supõe emissões altas e crescentes, sem mitigação efetiva. A figura mostra o formato de cada uma, e não valores projetados.*
 
 A **janela temporal** é o recorte da série futura, de 2015 a 2100, sobre o qual o estudo
-é feito. O programa permite recortar qualquer período, e a convenção mais usada é tomar
-janelas de trinta anos, a mesma duração das normais climatológicas: um futuro próximo,
-um médio e um distante. A escolha da janela deve guardar relação com a vida útil
+é feito. O programa permite recortar qualquer período, nas datas inicial e final da
+etapa **1. Projeto e Chuva**. A convenção mais usada é tomar janelas de trinta anos, a
+mesma duração das normais climatológicas, e o campo **Atalho de recorte** preenche as
+datas com três delas: 2021–2050, 2041–2070 e 2071–2100, além da série completa. O atalho
+só preenche as datas, que continuam editáveis, e a etapa avisa quando o recorte tem menos
+de dez anos. A escolha da janela deve guardar relação com a vida útil
 pretendida do sistema: avaliar um reservatório de vinte anos, instalado agora, contra o
 fim do século avalia um período em que ele já terá sido substituído.
 
