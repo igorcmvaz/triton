@@ -115,7 +115,7 @@ def _preparar(md, equacoes):
     # figuras: imagem seguida da legenda em itálico
     def fig(m):
         arquivo, numero, legenda = m.group(1), m.group(2), m.group(3)
-        return (f'\n<figure class="fig" id="fig-{numero}"><a href="figuras/{arquivo}" '
+        return (f'\n<figure class="fig" id="fig-{numero}" data-arquivo="{arquivo}"><a href="figuras/{arquivo}" '
                 f'target="_blank" rel="noopener"><img src="figuras/{arquivo}" alt="Figura {numero}" '
                 f'loading="lazy"></a><figcaption><b>Figura {numero}</b> — '
                 f'{_inline(legenda)}</figcaption></figure>\n')
@@ -320,7 +320,21 @@ def main():
         "secoes": sum(len(c["secoes"]) for c in capitulos),
         "figuras": len(re.findall(r'class="fig"', json.dumps(capitulos))),
     }
+    # As figuras interativas: os dados, e a seção e o número de cada uma.
+    from gerar_figuras_interativas import dados as dados_interativos
+    dados["interativas"] = dados_interativos()
+    # A curva de retorno reaproveita a grade da página inicial.
+    dados["interativas"]["fig02_curva_de_retorno.png"] = {"usa": "curva"}
+    dados["onde_interativas"] = {}
+    for c in capitulos:
+        for s in c["secoes"]:
+            for m in re.finditer(r'id="fig-(\d+)" data-arquivo="([^"]+)"', s["html"]):
+                if m.group(2) in dados["interativas"]:
+                    dados["onde_interativas"][m.group(2)] = {
+                        "secao": s["id"], "titulo": s["titulo"], "numero": int(m.group(1))}
     modelo = open(os.path.join(AQUI, "site_modelo.html"), encoding="utf-8").read()
+    modelo = modelo.replace("/*__INTERATIVAS__*/",
+                            open(os.path.join(AQUI, "site_interativas.js"), encoding="utf-8").read())
     pagina = modelo.replace("/*__DADOS__*/null",
                             json.dumps(dados, ensure_ascii=False).replace("</", "<\\/"))
     # A página publicada como Artifact recebe o esqueleto do próprio publicador;
