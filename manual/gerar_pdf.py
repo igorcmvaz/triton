@@ -394,8 +394,90 @@ def moldura(canvas, doc, com_furniture=True):
     canvas.restoreState()
 
 
+MARINHO = colors.HexColor("#0b2545")
+PAINEL = 0.62            # fração da altura da folha ocupada pelo painel
+
+
 def capa(canvas, doc):
-    moldura(canvas, doc, com_furniture=False)
+    """A capa desenhada: painel com o desenho do volume, título e créditos.
+
+    Sem `doc.capa`, fica a folha de rosto antiga, só com texto.
+    """
+    info = getattr(doc, "capa", None)
+    if not info:
+        moldura(canvas, doc, com_furniture=False)
+        return
+    from reportlab.lib.utils import simpleSplit
+    cor = colors.HexColor(info["cor"])
+    base = ALTURA * (1 - PAINEL)
+    canvas.saveState()
+
+    # o painel, de ponta a ponta
+    canvas.setFillColor(MARINHO)
+    canvas.rect(0, base, LARGURA, ALTURA - base, stroke=0, fill=1)
+    if os.path.exists(info.get("painel", "")):
+        canvas.drawImage(info["painel"], 0, base, width=LARGURA, height=ALTURA - base)
+
+    # cabeçalho do painel
+    canvas.setFillColor(colors.white)
+    canvas.setFont(F["titulo"], 10)
+    canvas.drawString(MARGEM_E, ALTURA - 18 * mm, "NETUNO 5")
+    canvas.setFont(F["titulo_r"], 10)
+    canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - 18 * mm, "MANUAL DO USUÁRIO")
+    canvas.setStrokeColor(colors.Color(1, 1, 1, alpha=0.35))
+    canvas.setLineWidth(0.5)
+    canvas.line(MARGEM_E, ALTURA - 21 * mm, LARGURA - MARGEM_D, ALTURA - 21 * mm)
+
+    # o número do volume, grande, no pé do painel
+    if info.get("numero"):
+        canvas.setFillColor(cor)
+        canvas.setFont(F["titulo"], 132)
+        canvas.drawString(MARGEM_E - 4, base + 12 * mm, info["numero"])
+        largura_num = canvas.stringWidth(info["numero"], F["titulo"], 132)
+        canvas.setFillColor(colors.white)
+        canvas.setFont(F["titulo_r"], 12)
+        canvas.drawString(MARGEM_E + largura_num + 6, base + 16 * mm, info.get("de", ""))
+
+    # faixa na cor do volume, na divisa entre o painel e a folha
+    canvas.setFillColor(cor)
+    canvas.rect(0, base - 2.2 * mm, LARGURA, 2.2 * mm, stroke=0, fill=1)
+
+    # título, frase e conteúdo
+    y = base - 20 * mm
+    canvas.setFillColor(MARINHO)
+    for linha in simpleSplit(info["titulo"], F["titulo"], 32, UTIL):
+        canvas.setFont(F["titulo"], 32)
+        canvas.drawString(MARGEM_E, y, linha)
+        y -= 36
+    y -= 4
+    canvas.setFillColor(TINTA2)
+    for linha in simpleSplit(info.get("frase", ""), F["texto_i"], 13, UTIL):
+        canvas.setFont(F["texto_i"], 13)
+        canvas.drawString(MARGEM_E, y, linha)
+        y -= 17
+    if info.get("conteudo"):
+        y -= 8
+        canvas.setFont(F["titulo_r"], 9.5)
+        for linha in simpleSplit(info["conteudo"].upper(), F["titulo_r"], 9.5, UTIL):
+            canvas.drawString(MARGEM_E, y, linha)
+            y -= 13
+
+    # créditos no pé da folha
+    canvas.setFillColor(TINTA)
+    canvas.setFont(F["titulo"], 10.5)
+    canvas.drawString(MARGEM_E, 30 * mm, "Igor Catão Martins Vaz & Enedir Ghisi")
+    canvas.setFillColor(TINTA2)
+    canvas.setFont(F["titulo_r"], 9.5)
+    canvas.drawString(MARGEM_E, 25 * mm, "Grupo de Pesquisa Gestão do Espaço Sustentável")
+    canvas.drawString(MARGEM_E, 20.5 * mm, "Universidade Federal de Santa Catarina")
+    canvas.drawString(MARGEM_E, 16 * mm, "Florianópolis · 2026 · Versão 5.0.0 (beta)")
+    if os.path.exists(LOGO):
+        from reportlab.lib.utils import ImageReader
+        lx, ly = ImageReader(LOGO).getSize()
+        largura = 2.4 * cm
+        canvas.drawImage(LOGO, LARGURA - MARGEM_D - largura, 15 * mm, width=largura,
+                         height=largura * ly / float(lx), mask="auto")
+    canvas.restoreState()
 
 
 # ── a travessia do Markdown ──────────────────────────────────────────────────
@@ -832,12 +914,22 @@ def titulos_no_pe_da_pagina(caminho):
     return achados
 
 
+#: A capa do manual completo; a de cada volume está em gerar_mini_manuais.py.
+CAPA_COMPLETA = dict(
+    painel=os.path.join(AQUI, "figuras", "capas", "capa_completo.png"),
+    cor="#8ecae6", numero=None, titulo="Manual do Netuno",
+    frase="Simulação de sistemas de aproveitamento de água pluvial em edificações: "
+          "o método, o tutorial, os guias e as referências, num volume só.",
+    conteudo="Edição completa · seis capítulos e dez apêndices",
+)
+
+
 def main():
-    return compor_pdf(ENTRADA, SAIDA)
+    return compor_pdf(ENTRADA, SAIDA, capa_info=CAPA_COMPLETA)
 
 
 def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
-               cabecalho="Manual do Netuno 5.0.0"):
+               cabecalho="Manual do Netuno 5.0.0", capa_info=None):
     """Compõe o PDF de um manual montado: o completo ou um mini manual."""
     ENTRADA, SAIDA = entrada, saida
     if not os.path.exists(ENTRADA):
@@ -886,8 +978,9 @@ def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
     ])
 
     doc.cabecalho = cabecalho
-    fluxo = (folha_de_rosto(titulo, volume) + [NextPageTemplate("miolo")]
-             + amarrar_titulos(converter(corpo)))
+    doc.capa = capa_info
+    rosto = [Spacer(1, 1), PageBreak()] if capa_info else folha_de_rosto(titulo, volume)
+    fluxo = rosto + [NextPageTemplate("miolo")] + amarrar_titulos(converter(corpo))
     doc.build(fluxo)
     orfaos = titulos_no_pe_da_pagina(provisorio)
     if orfaos:

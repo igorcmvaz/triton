@@ -51,6 +51,47 @@ VOLUMES = [
 ]
 
 
+#: A frase de capa de cada volume: o que o leitor encontra nele.
+FRASES = {
+    "1-comece-aqui": "O que o programa faz, como instalá-lo e por onde entrar conforme o "
+                     "seu objetivo.",
+    "2-metodo": "As equações, os critérios e as fontes por trás de cada número que o "
+                "programa publica.",
+    "3-guias": "Casos de uso: outras cidades, clima futuro, tarifas, demanda variável, "
+               "lote, sensibilidade e exportação.",
+    "4-tutorial": "Um projeto de residência em Florianópolis, do primeiro dado ao volume "
+                  "recomendado.",
+    "5-confiabilidade": "Os enganos mais comuns, os limites do modelo e como o programa é "
+                        "verificado.",
+    "6-versoes": "O que mudou desde o Netuno 4, as mensagens de erro e como relatar um "
+                 "problema.",
+    "7-apendices": "Parâmetros, processos, fatores de emissão, tarifas, base climática, "
+                   "formatos, glossário e referências.",
+}
+
+
+def _linha_de_conteudo(capitulos, apendices):
+    """«Capítulo 2 · apêndices A, B e H», curta, para a capa."""
+    partes = ["Todos os apêndices" if g.ESTRUTURA[c - 1][1] == "apendices" else f"Capítulo {c}"
+              for c in capitulos]
+    letras = [a.split("_")[0] for a in apendices]
+    if letras:
+        lista = letras[0] if len(letras) == 1 else ", ".join(letras[:-1]) + " e " + letras[-1]
+        partes.append(("apêndice " if len(letras) == 1 else "apêndices ") + lista)
+    return " · ".join(partes)
+
+
+def capa_do_volume(arquivo, titulo, capitulos, apendices):
+    from gerar_capas import CORES
+    numero = VOLUMES.index(next(v for v in VOLUMES if v[0] == arquivo)) + 1
+    return dict(
+        painel=os.path.join(AQUI, "figuras", "capas", f"capa_{arquivo}.png"),
+        cor=CORES[arquivo], numero=f"{numero:02d}", de=f"de {len(VOLUMES):02d}",
+        titulo=titulo, frase=FRASES[arquivo],
+        conteudo=_linha_de_conteudo(capitulos, apendices),
+    )
+
+
 def _chaves_do_volume(capitulos, apendices):
     chaves = []
     for i, (_, _, secoes) in enumerate(g.ESTRUTURA, start=1):
@@ -257,7 +298,8 @@ def main(argv=None):
         print(f"  {os.path.basename(destino)}: {palavras:,} palavras".replace(",", "."))
         if com_pdf:
             compor_pdf(destino, destino[:-3] + ".pdf", titulo="Manual do Netuno",
-                       volume=titulo, cabecalho=f"Manual do Netuno 5.0.0 — {titulo}")
+                       volume=titulo, cabecalho=f"Manual do Netuno 5.0.0 — {titulo}",
+                       capa_info=capa_do_volume(arquivo, titulo, capitulos, apendices))
     return 0
 
 
