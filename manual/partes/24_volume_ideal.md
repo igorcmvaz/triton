@@ -92,7 +92,7 @@ Quando nenhum volume da grade satisfaz a condição da Equação {{eq:volume_ide
 situação que ocorre quando a faixa varrida termina antes de a curva achatar — o
 programa adota o maior volume da grade e registra essa circunstância no relatório, de
 modo que o leitor saiba que o ótimo encontrado é um limite da busca e não um ponto de
-inflexão da curva. O capítulo 7 do Manual do Netuno 4 trata o mesmo caso, e a conduta
+inflexão da curva. O Manual do Netuno 4 trata o mesmo caso no sétimo capítulo, e a conduta
 adotada aqui é a mesma.
 
 ### Um exemplo, passo a passo

@@ -166,7 +166,7 @@ triagem, que o programa exibe. Num estudo publicado:
 - declare quais fatores são aproximações e quais foram informados sem fonte;
 - declare a **base da rede elétrica** e o ano.
 
-A seção {{n:C}} traz a procedência de cada fator, e a seção {{n:30}} explica as sete
+O apêndice {{n:C}} traz a procedência de cada fator, e a seção {{n:30}} explica as sete
 etapas do inventário.
 
 Temos três respostas agora. O potencial diz um volume, o dinheiro diz outro, o

@@ -194,7 +194,7 @@ Um estudo com cenário climático precisa trazer, no método:
 - a **procedência da base**, com versão: Ballarin et al. (2023);
 - que o futuro foi comparado com o **histórico simulado do mesmo modelo**.
 
-Sem isso, o resultado não é reproduzível. A seção {{n:E}} traz a procedência da base do
+Sem isso, o resultado não é reproduzível. O apêndice {{n:E}} traz a procedência da base do
 programa.
 
 ---

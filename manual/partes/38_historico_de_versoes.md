@@ -88,7 +88,7 @@ estudo errado.
 ## Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
-exemplo que acompanham o programa, descritos na seção {{n:J}}, rode-o, e compare o
+exemplo que acompanham o programa, descritos no apêndice {{n:J}}, rode-o, e compare o
 resultado obtido com o valor impresso neste manual. Cada caso de exemplo foi gerado
 pela mesma versão do programa que gerou este manual, e cada número publicado tem
 verificação automática correspondente, conforme a seção {{n:34}} descreve. Uma

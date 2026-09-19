@@ -279,7 +279,7 @@ def apendice_b():
         "estudo feito com o programa e precisa saber exatamente que conta foi feita, e",
         "quem encontrou um resultado estranho e quer saber por onde o número passou.",
         "",
-        "Os nomes em `código` são os campos do arquivo de projeto, listados na seção {{n:A}}.",
+        "Os nomes em `código` são os campos do arquivo de projeto, listados no apêndice {{n:A}}.",
         "",
     ]
     for pid, nome, fam, gatilho, entradas, regras, fns, saidas, excecao in PROCESSOS:

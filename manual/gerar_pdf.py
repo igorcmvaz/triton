@@ -908,8 +908,17 @@ def titulos_no_pe_da_pagina(caminho):
                       if b[6] == 0 and b[4].strip() and 60 < b[1] < altura - 60]
             if not blocos:
                 continue
-            ultimo = " ".join(max(blocos, key=lambda b: b[3])[4].split())
-            if re.match(r"^\d+(\.\d+)+\.\s+\S", ultimo) and len(ultimo) < 120:
+            bloco = max(blocos, key=lambda b: b[3])
+            ultimo = " ".join(bloco[4].split())
+            # Só é título o que tem corpo de título: as entradas do sumário, como
+            # «Apêndice J — Arquivos de exemplo», saem no corpo do texto.
+            tamanhos = [sp["size"] for b in pagina.get_text("dict")["blocks"]
+                        if b.get("type") == 0 and abs(b["bbox"][3] - bloco[3]) < 1
+                        for ln in b["lines"] for sp in ln["spans"]]
+            if tamanhos and max(tamanhos) < 10.5:
+                continue
+            if (re.match(r"^(\d+|[A-J])(\.\d+)+\.\s+\S", ultimo)
+                    or re.match(r"^Apêndice [A-J] —", ultimo)) and len(ultimo) < 120:
                 achados.append((numero, ultimo))
     return achados
 

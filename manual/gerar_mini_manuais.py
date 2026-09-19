@@ -260,14 +260,14 @@ def montar(arquivo, titulo, capitulos, apendices):
         desta = [c for c in secoes if c in incluidas]
         if not desta:
             continue
-        sumario.append(f"**{i} {titulo_cap}**" + NL)
-        partes.append(f"# {i}. {titulo_cap}" + NL)
+        sumario.append(g.sumario_do_capitulo(i, titulo_cap, pasta) + NL)
+        partes.append(g.titulo_do_capitulo(i, titulo_cap, pasta) + NL)
         for chave in desta:
-            _, j = numeros[chave].split(".")
-            sumario.append(f"{numeros[chave]} {g.TITULOS.get(chave, chave)}" + NL)
+            j = secoes.index(chave) + 1
+            sumario.append(g.entrada_do_sumario(chave, pasta) + NL)
             caminho = os.path.join(AQUI, pasta, f"{chave}.md")
             texto = g.resolver(open(caminho, encoding="utf-8").read(), caminho)
-            partes.append(g.numerar_titulos(texto, i, int(j)).rstrip(NL) + NL)
+            partes.append(g.numerar_secao(texto, i, j, chave, pasta).rstrip(NL) + NL)
         sumario.append("")
 
     corpo = (NL + "---" + NL + NL).join(partes)

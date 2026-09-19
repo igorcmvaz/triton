@@ -18,7 +18,7 @@ percurso de leitura correspondente a cada um deles.
 | **aprender a usar** o programa | o capítulo {{c:2}} inteiro, seções {{n:4}} a {{n:13}}, na ordem |
 | **resolver um caso** hoje | as três perguntas abaixo, e depois o guia do capítulo {{c:3}} que couber |
 | **publicar** um estudo | o capítulo {{c:4}}, que traz o método, e a seção {{n:13}}, com a lista de declaração |
-| **revisar** um estudo alheio | o capítulo {{c:6}}, e as seções {{n:A}} e {{n:B}} |
+| **revisar** um estudo alheio | o capítulo {{c:6}}, e os apêndices {{n:A}} e {{n:B}} |
 | **migrar** do Netuno 4 | as seções {{n:21}} e {{n:35}} |
 | **não errar** | a seção {{n:33}}, com os dez enganos mais comuns |
 
@@ -109,4 +109,4 @@ parágrafo de método pronto para adaptação. A seção {{n:33}} reúne os dez 
 projeto que o programa não tem como impedir. E a seção {{n:36}} relaciona as limitações
 conhecidas — das quais interessa ler não todas, mas as que afetam o caso em mãos.
 
-A seção {{n:I}} condensa as três em fichas de uma página, para consulta rápida.
+O apêndice {{n:I}} condensa as três em fichas de uma página, para consulta rápida.

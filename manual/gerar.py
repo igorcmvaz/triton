@@ -161,13 +161,47 @@ TITULOS = {
 PARTE_PARA_CAPITULO = {"1": 1, "2": 4, "3": 3, "4": 2, "5": 5, "6": 5}
 
 
+PASTA_DOS_APENDICES = "apendices"
+
+
+def eh_apendice(pasta):
+    """Os apêndices se identificam por letra, como pede a ABNT NBR 14724."""
+    return pasta == PASTA_DOS_APENDICES
+
+
+def letra_do_apendice(chave):
+    return chave.split("_")[0]
+
+
 def indice_das_secoes():
-    """Devolve {chave da seção: "2.1"}, a partir da estrutura declarada."""
+    """Devolve {chave da seção: "2.1"} — ou "C", para o apêndice C."""
     indice = {}
-    for i, (_, _, secoes) in enumerate(ESTRUTURA, start=1):
+    for i, (_, pasta, secoes) in enumerate(ESTRUTURA, start=1):
         for j, chave in enumerate(secoes, start=1):
-            indice[chave] = f"{i}.{j}"
+            indice[chave] = letra_do_apendice(chave) if eh_apendice(pasta) else f"{i}.{j}"
     return indice
+
+
+def titulo_do_capitulo(i, titulo, pasta):
+    """«# 2. O método»; os apêndices não recebem número de capítulo."""
+    return f"# {titulo}" if eh_apendice(pasta) else f"# {i}. {titulo}"
+
+
+def sumario_do_capitulo(i, titulo, pasta):
+    return f"**{titulo}**" if eh_apendice(pasta) else f"**{i} {titulo}**"
+
+
+def entrada_do_sumario(chave, pasta):
+    numero = indice_das_secoes()[chave]
+    rotulo = f"Apêndice {numero} —" if eh_apendice(pasta) else numero
+    return f"{rotulo} {TITULOS.get(chave, chave)}"
+
+
+def numerar_secao(texto, i, j, chave, pasta):
+    """Numera a seção: 2.1, 2.1.1 no corpo; Apêndice A, A.1, A.1.1 nos apêndices."""
+    if eh_apendice(pasta):
+        return numerar_titulos(texto, i, j, letra=letra_do_apendice(chave))
+    return numerar_titulos(texto, i, j)
 
 
 def indice_das_marcas():
@@ -199,7 +233,7 @@ def resolver(texto, origem):
     return NL.join(saida)
 
 
-def numerar_titulos(texto, capitulo, secao):
+def numerar_titulos(texto, capitulo, secao, letra=None):
     """Numera os títulos da seção conforme a NBR 6024.
 
     O arquivo traz `# Título` para a seção, `## Título` para a subseção e
@@ -209,16 +243,20 @@ def numerar_titulos(texto, capitulo, secao):
     """
     saida = []
     sub = item = 0
+    base = letra if letra else f"{capitulo}.{secao}"
     for linha in texto.split(NL):
         if linha.startswith("### ") and not linha.startswith("#### "):
             item += 1
-            saida.append(f"#### {capitulo}.{secao}.{sub}.{item}. {linha[4:].strip()}")
+            saida.append(f"#### {base}.{sub}.{item}. {linha[4:].strip()}")
         elif linha.startswith("## ") and not linha.startswith("### "):
             sub += 1
             item = 0
-            saida.append(f"### {capitulo}.{secao}.{sub}. {linha[3:].strip()}")
+            saida.append(f"### {base}.{sub}. {linha[3:].strip()}")
         elif linha.startswith("# ") and not linha.startswith("## "):
-            saida.append(f"## {capitulo}.{secao}. {linha[2:].strip()}")
+            if letra:
+                saida.append(f"## Apêndice {letra} — {linha[2:].strip()}")
+            else:
+                saida.append(f"## {base}. {linha[2:].strip()}")
         else:
             saida.append(linha)
     return NL.join(saida)
@@ -408,12 +446,12 @@ def frontmatter(sumario_linhas, palavras):
         "| aprender a usar | o capítulo {{c:2}}, o tutorial |",
         "| resolver um caso | o capítulo {{c:3}}, os guias |",
         "| publicar um estudo | o capítulo {{c:4}}, o método; e a seção {{n:13}} |",
-        "| revisar um estudo | o capítulo {{c:6}}, e as seções {{n:A}} e {{n:B}} |",
+        "| revisar um estudo | o capítulo {{c:6}}, e os apêndices {{n:A}} e {{n:B}} |",
         "| não errar | a seção {{n:33}} |",
         "",
         "O manual supõe um leitor de engenharia que ainda não conhece o assunto: os",
-        "conceitos são apresentados antes de serem usados, e o vocabulário está na",
-        "seção {{n:G}}. Duas caixas aparecem ao longo do texto, e elas se distinguem:",
+        "conceitos são apresentados antes de serem usados, e o vocabulário está no",
+        "apêndice {{n:G}}. Duas caixas aparecem ao longo do texto, e elas se distinguem:",
         "",
         "| A caixa | Quando aparece |",
         "| :--- | :--- |",
@@ -602,13 +640,13 @@ def main():
     sumario = []
 
     for i, (titulo_cap, pasta, secoes) in enumerate(ESTRUTURA, start=1):
-        sumario.append(f"**{i} {titulo_cap}**" + NL)
+        sumario.append(sumario_do_capitulo(i, titulo_cap, pasta) + NL)
         for j, chave in enumerate(secoes, start=1):
             # Uma entrada por parágrafo: em linhas seguidas, o PDF as juntava num bloco corrido.
-            sumario.append(f"{i}.{j} {TITULOS.get(chave, chave)}" + NL)
+            sumario.append(entrada_do_sumario(chave, pasta) + NL)
         sumario.append("")
 
-        corpo_partes.append(f"# {i}. {titulo_cap}" + NL)
+        corpo_partes.append(titulo_do_capitulo(i, titulo_cap, pasta) + NL)
         for j, chave in enumerate(secoes, start=1):
             caminho = os.path.join(AQUI, pasta, f"{chave}.md")
             if os.path.exists(caminho):
@@ -617,7 +655,7 @@ def main():
             else:
                 texto = esqueleto(TITULOS.get(chave, chave))
                 faltando.append(chave)
-            corpo_partes.append(numerar_titulos(texto, i, j).rstrip(NL) + NL)
+            corpo_partes.append(numerar_secao(texto, i, j, chave, pasta).rstrip(NL) + NL)
 
     destino = os.path.join(AQUI, "Manual-Netuno-5.md")
     corpo = (NL + "---" + NL + NL).join(corpo_partes)

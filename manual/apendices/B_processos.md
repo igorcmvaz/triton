@@ -8,7 +8,7 @@ que produz e o que acontece quando falha.
 estudo feito com o programa e precisa saber exatamente que conta foi feita, e
 quem encontrou um resultado estranho e quer saber por onde o número passou.
 
-Os nomes em `código` são os campos do arquivo de projeto, listados na seção {{n:A}}.
+Os nomes em `código` são os campos do arquivo de projeto, listados no apêndice {{n:A}}.
 
 ## PROC-01 — Carregar a série de precipitação
 
@@ -598,7 +598,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados na seção 
 
 **Entradas**
 
-- `NetunoConfig` inteiro, com os campos da seção {{n:A}}
+- `NetunoConfig` inteiro, com os campos do apêndice {{n:A}}
 - estado da interface
 - análise corrente
 

@@ -69,7 +69,7 @@ relação ao terreno é uma decisão de obra, não de cálculo.
 > designam o mesmo componente. *Extravasamento* é o volume excedente que o extravasor
 > conduz à rede de drenagem. *Demanda pluvial* é a parte
 > do consumo que a água de chuva pode atender; *demanda total* é o consumo inteiro da
-> edificação. A seção {{n:G}} traz o glossário completo.
+> edificação. O apêndice {{n:G}} traz o glossário completo.
 
 ---
 

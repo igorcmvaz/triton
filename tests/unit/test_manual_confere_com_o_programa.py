@@ -634,14 +634,14 @@ def test_o_sumario_lista_todas_as_secoes():
     """O sumário sai da estrutura declarada, e precisa cobri-la inteira."""
     import sys
     sys.path.insert(0, MANUAL)
-    from gerar import ESTRUTURA, TITULOS
+    from gerar import ESTRUTURA, entrada_do_sumario, sumario_do_capitulo
 
     texto = _manual_montado()
     cabeca = texto.split("# 1. ")[0]
-    for i, (titulo_cap, _, secoes) in enumerate(ESTRUTURA, start=1):
-        assert f"{i} {titulo_cap}" in cabeca, f"falta o capítulo {i}"
-        for j, chave in enumerate(secoes, start=1):
-            linha = f"{i}.{j} {TITULOS[chave]}"
+    for i, (titulo_cap, pasta, secoes) in enumerate(ESTRUTURA, start=1):
+        assert sumario_do_capitulo(i, titulo_cap, pasta) in cabeca, f"falta o capítulo {i}"
+        for chave in secoes:
+            linha = entrada_do_sumario(chave, pasta)
             assert linha in cabeca, f"o sumário não lista «{linha}»"
 
 
@@ -652,9 +652,14 @@ def test_a_numeracao_das_secoes_segue_a_ordem_da_estrutura():
     from gerar import ESTRUTURA, TITULOS
 
     texto = _manual_montado()
-    for i, (_, _, secoes) in enumerate(ESTRUTURA, start=1):
+    for i, (_, pasta, secoes) in enumerate(ESTRUTURA, start=1):
         for j, chave in enumerate(secoes, start=1):
-            assert f"## {i}.{j}. {TITULOS[chave]}" in texto, f"{i}.{j} {chave}"
+            if pasta == "apendices":
+                # Apêndices por letra, como pede a ABNT NBR 14724.
+                letra = chave.split("_")[0]
+                assert f"## Apêndice {letra} — {TITULOS[chave]}" in texto, chave
+            else:
+                assert f"## {i}.{j}. {TITULOS[chave]}" in texto, f"{i}.{j} {chave}"
 
 
 def test_nenhuma_marca_de_referencia_sobrou_por_resolver():

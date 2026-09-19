@@ -89,7 +89,7 @@ instalador a copia para a pasta do programa. A outra é copiá-la à mão para a
 programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho
 na variável de ambiente `NETUNO_CLIMATE_DATA_DIR`.
 
-A seção {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cenário futuro.
+O apêndice {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cenário futuro.
 
 ---
 
@@ -106,7 +106,7 @@ aqui.
 | `casos\05_manaus.netuno` e os seguintes | o mesmo projeto em outras capitais |
 | `exemplos\*.netuno` | três estudos completos: residência, escritório e escola |
 
-Eles ficam na pasta do programa. A seção {{n:J}} lista os nove casos do manual, com o
+Eles ficam na pasta do programa. O apêndice {{n:J}} lista os nove casos do manual, com o
 capítulo de cada um e o resultado que produzem.
 
 Convém começar pelo caso de dez dias. Abra-o, execute a simulação e compare o resultado
@@ -143,7 +143,7 @@ cima; a reinstalação preserva os seus arquivos, porque eles não ficam na past
 programa.
 
 **A lista de cidades está vazia.** A base climática nacional não está instalada. Use
-um arquivo de chuva próprio, ou instale a base — a seção {{n:E}} diz como.
+um arquivo de chuva próprio, ou instale a base — o apêndice {{n:E}} diz como.
 
 **O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
 carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração

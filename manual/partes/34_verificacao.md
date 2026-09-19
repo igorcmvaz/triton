@@ -161,4 +161,4 @@ impresso neste manual.
 > GPL v3, e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
 > revisor que queira conferir as invariantes — fechamento de massa, monotonicidade,
 > paridade entre os dois motores de cálculo — encontra os arquivos de teste organizados
-> por tema, e a seção {{n:B}} liga cada processo do programa ao que o verifica.
+> por tema, e o apêndice {{n:B}} liga cada processo do programa ao que o verifica.

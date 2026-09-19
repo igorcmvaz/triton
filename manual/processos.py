@@ -426,7 +426,7 @@ PROCESSOS = [
 (
  "PROC-22", "Gravar e reabrir o projeto", "arquivo",
  "Menu de salvar e de abrir.",
- ["<code>NetunoConfig</code> inteiro, com os campos da seção {{n:A}}", "estado da interface", "análise corrente"],
+ ["<code>NetunoConfig</code> inteiro, com os campos do apêndice {{n:A}}", "estado da interface", "análise corrente"],
  ["Formato JSON, em seções nomeadas.",
   "A leitura usa valor-padrão campo a campo, de modo que arquivo antigo continua abrindo.",
   "<code>created_at</code> e <code>precip_file</code> descrevem o ato de salvar, e não o "
