@@ -47,3 +47,17 @@ def test_remissao_para_outro_volume_diz_qual(volumes):
     tutorial = volumes["Tutorial"]
     assert re.search(r"seção \d+\.\d+ \(volume O método\)", tutorial)
     assert "(volume Tutorial)" not in tutorial
+
+
+def test_a_capa_nao_se_repete_na_segunda_pagina():
+    """A capa desenhada vale só para a página 1; na 2 ela saía por baixo do texto."""
+    fitz = pytest.importorskip("fitz")
+    pdfs = [os.path.join(RAIZ, "manual", "Manual-Netuno-5.pdf")] + [
+        os.path.join(mini.PASTA, f"Manual-Netuno-5-{arquivo}.pdf") for arquivo, *_ in mini.VOLUMES]
+    existentes = [p for p in pdfs if os.path.exists(p)]
+    if not existentes:
+        pytest.skip("PDFs ainda não gerados")
+    for caminho in existentes:
+        with fitz.open(caminho) as pdf:
+            assert pdf[0].get_images(), f"{os.path.basename(caminho)}: capa sem o painel"
+            assert not pdf[1].get_images(), f"{os.path.basename(caminho)}: capa repetida na pág. 2"

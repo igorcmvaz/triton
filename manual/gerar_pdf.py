@@ -979,8 +979,11 @@ def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
 
     doc.cabecalho = cabecalho
     doc.capa = capa_info
-    rosto = [Spacer(1, 1), PageBreak()] if capa_info else folha_de_rosto(titulo, volume)
-    fluxo = rosto + [NextPageTemplate("miolo")] + amarrar_titulos(converter(corpo))
+    # A troca de modelo vem antes da quebra: depois dela, só valeria a partir da
+    # página 3, e a página 2 redesenhava a capa por baixo do texto.
+    rosto = ([Spacer(1, 1), NextPageTemplate("miolo"), PageBreak()] if capa_info
+             else folha_de_rosto(titulo, volume)[:-1] + [NextPageTemplate("miolo"), PageBreak()])
+    fluxo = rosto + amarrar_titulos(converter(corpo))
     doc.build(fluxo)
     orfaos = titulos_no_pe_da_pagina(provisorio)
     if orfaos:
