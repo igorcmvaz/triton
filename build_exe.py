@@ -85,6 +85,7 @@ def build_manual(base_dir: Path) -> bool:
         ("capas", "manual/gerar_capas.py"),
         ("PDF", "manual/gerar_pdf.py"),
         ("mini manuais", "manual/gerar_mini_manuais.py"),
+        ("site de documentação", "manual/gerar_site.py"),
     ]
     for rotulo, script in etapas:
         caminho = base_dir / script
