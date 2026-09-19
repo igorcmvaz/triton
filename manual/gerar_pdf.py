@@ -383,7 +383,7 @@ def moldura(canvas, doc, com_furniture=True):
         if titulo:
             canvas.drawString(MARGEM_E, ALTURA - MARGEM_S + 8 * mm, titulo[:78])
         canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - MARGEM_S + 8 * mm,
-                               "Manual do Netuno 5.0.0")
+                               getattr(doc, "cabecalho", "Manual do Netuno 5.0.0"))
         canvas.setStrokeColor(REGUA)
         canvas.setLineWidth(0.4)
         canvas.line(MARGEM_E, ALTURA - MARGEM_S + 6 * mm,
@@ -777,7 +777,7 @@ def converter(texto):
 LOGO = os.path.join(os.path.dirname(AQUI), "icons", "Netuno2.png")
 
 
-def folha_de_rosto():
+def folha_de_rosto(titulo="Manual do Netuno", volume=None):
     capa = [Spacer(1, 3.0 * cm)]
     if os.path.exists(LOGO):
         from reportlab.lib.utils import ImageReader
@@ -789,7 +789,8 @@ def folha_de_rosto():
     else:
         capa += [Spacer(1, 2.0 * cm)]
     return capa + [
-        Paragraph("Manual do Netuno", E["capa_titulo"]),
+        Paragraph(titulo, E["capa_titulo"]),
+    ] + ([Paragraph(volume, E["capa_sub"])] if volume else []) + [
         Paragraph("Versão 5.0.0 — beta", E["capa_sub"]),
         Spacer(1, 0.8 * cm),
         Paragraph("Simulação de sistemas de aproveitamento de água pluvial "
@@ -832,10 +833,18 @@ def titulos_no_pe_da_pagina(caminho):
 
 
 def main():
+    return compor_pdf(ENTRADA, SAIDA)
+
+
+def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
+               cabecalho="Manual do Netuno 5.0.0"):
+    """Compõe o PDF de um manual montado: o completo ou um mini manual."""
+    ENTRADA, SAIDA = entrada, saida
     if not os.path.exists(ENTRADA):
         print("manual ainda não montado; rode manual/gerar.py")
         return 1
     texto = open(ENTRADA, encoding="utf-8").read()
+    EQUACOES.clear()
 
     # As equacoes sao compostas em tipografia matematica antes de o documento
     # ser montado; sem elas, o bloco cai no texto monoespacado.
@@ -865,7 +874,7 @@ def main():
     doc = Manual(provisorio, pagesize=A4,
                  leftMargin=MARGEM_E, rightMargin=MARGEM_D,
                  topMargin=MARGEM_S, bottomMargin=MARGEM_I,
-                 title="Manual do Netuno 5.0.0",
+                 title=cabecalho,
                  author="Igor Catão Martins Vaz; Enedir Ghisi",
                  subject="Aproveitamento de água pluvial em edificações")
     quadro = Frame(MARGEM_E, MARGEM_I, UTIL,
@@ -876,7 +885,9 @@ def main():
         PageTemplate(id="miolo", frames=[quadro], onPage=moldura),
     ])
 
-    fluxo = folha_de_rosto() + [NextPageTemplate("miolo")] + amarrar_titulos(converter(corpo))
+    doc.cabecalho = cabecalho
+    fluxo = (folha_de_rosto(titulo, volume) + [NextPageTemplate("miolo")]
+             + amarrar_titulos(converter(corpo)))
     doc.build(fluxo)
     orfaos = titulos_no_pe_da_pagina(provisorio)
     if orfaos:

@@ -399,7 +399,9 @@ def frontmatter(sumario_linhas, palavras):
         "### Como usar este manual",
         "",
         "Ele não foi feito para ser lido do começo ao fim. A seção {{n:03}} diz por onde",
-        "entrar conforme o que você quer fazer.",
+        "entrar conforme o que você quer fazer. Para mandar só uma parte, o manual também",
+        "sai em sete volumes avulsos, um por capítulo, na pasta `manual/mini` da",
+        "instalação; a numeração das seções é a mesma nos volumes e aqui.",
         "",
         "| Você quer | Leia |",
         "| :--- | :--- |",
@@ -602,7 +604,8 @@ def main():
     for i, (titulo_cap, pasta, secoes) in enumerate(ESTRUTURA, start=1):
         sumario.append(f"**{i} {titulo_cap}**" + NL)
         for j, chave in enumerate(secoes, start=1):
-            sumario.append(f"{i}.{j} {TITULOS.get(chave, chave)}")
+            # Uma entrada por parágrafo: em linhas seguidas, o PDF as juntava num bloco corrido.
+            sumario.append(f"{i}.{j} {TITULOS.get(chave, chave)}" + NL)
         sumario.append("")
 
         corpo_partes.append(f"# {i}. {titulo_cap}" + NL)

@@ -83,6 +83,7 @@ def build_manual(base_dir: Path) -> bool:
         ("casos", "manual/gerar_casos.py"),
         ("montagem", "manual/gerar.py"),
         ("PDF", "manual/gerar_pdf.py"),
+        ("mini manuais", "manual/gerar_mini_manuais.py"),
     ]
     for rotulo, script in etapas:
         caminho = base_dir / script
@@ -152,6 +153,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         ("examples", "exemplos"),
         ("docs", "docs"),
         ("manual/Manual-Netuno-5.pdf", "manual"),
+        # Os sete volumes avulsos, para mandar só uma parte do manual.
+        ("manual/mini", "manual/mini"),
     ]
 
     for src_rel, dst_rel in data_folders:
