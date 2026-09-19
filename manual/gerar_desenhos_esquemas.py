@@ -90,7 +90,7 @@ def desenho_projecao():
     ax.plot([14, 62], [8, 8], color=AZUL, linewidth=2.0, zorder=5)
     ax.annotate("", xy=(14, 5), xytext=(62, 5),
                 arrowprops=dict(arrowstyle="<->", color=AZUL, linewidth=1.2))
-    rot(38, 2.6, "projeção horizontal A_h (NBR 10844)", AZUL, 7.6,
+    rot(38, 2.6, "projeção horizontal A_h (NBR 15527)", AZUL, 7.6,
         ha="center", va="top")
     for x in (14, 62):
         ax.plot([x, x], [5, base_y + (2 if x == 14 else 22)], color=AZUL,

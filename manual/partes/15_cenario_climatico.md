@@ -130,11 +130,16 @@ expressão honesta da incerteza física do problema. ==Para a chuva, a dispersã
 modelos costuma superar a diferença entre cenários de emissão,== o que significa que a
 escolha do modelo pesa mais sobre o resultado do que a escolha do futuro socioeconômico.
 
-Hawkins e Sutton (2011) decompuseram a incerteza das projeções de precipitação regional
-em três fontes: a variabilidade interna do clima, a diferença entre modelos e a
-diferença entre cenários. Para a precipitação, ao contrário da temperatura, a incerteza
-de cenário é a menor das três em boa parte do século, a variabilidade interna pesa muito
-nas primeiras décadas, e a incerteza entre modelos domina a maior parte do horizonte. A
+Hawkins e Sutton (2011) decompuseram a incerteza das projeções de precipitação para
+regiões da ordem de 2.500 km, com os modelos da fase anterior do exercício, o CMIP3, em
+três fontes: a variabilidade interna do clima, a diferença entre modelos e a diferença
+entre cenários. Para a precipitação, ao contrário da temperatura, a variabilidade interna
+responde por 50% a 90% da incerteza na primeira década e continua dominante, em muitas
+regiões, até a terceira; a incerteza entre modelos passa a dominar nos horizontes mais
+longos; e a incerteza de cenário é pequena ou desprezível em todas as regiões e
+horizontes, salvo perto dos polos no fim do século. Os autores mostram ainda que a razão
+entre o sinal da mudança e o ruído é menor que um em quase todo o planeta, e concluem que
+as decisões de adaptação terão de ser tomadas com incerteza alta sobre a chuva regional. A
 consequência para o projeto é direta: rodar os dois cenários com um só modelo informa
 menos do que rodar um cenário com vários modelos.
 

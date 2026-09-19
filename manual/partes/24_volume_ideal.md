@@ -98,14 +98,15 @@ adotada aqui é a mesma.
 ### Um exemplo, passo a passo
 
 A tabela da varredura do tutorial, na seção {{n:7}}, permite refazer a conta à mão.
-Entre 4.000 L e 5.000 L o potencial sobe de 36,52% para 37,46%, isto é, 0,93 ponto
-percentual por um metro cúbico a mais, depois do arredondamento das duas casas. Como
-0,93 é menor que o limiar de 1,0 %/m³, e o ganho anterior, entre 3.000 L e 4.000 L, foi
-de 1,61 %/m³, o primeiro volume a cruzar o limiar é 5.000 L, e é ele o volume ideal.
+Entre 3.000 L e 4.000 L o potencial sobe de 26,48% para 27,12%, isto é, 0,64 ponto
+percentual por um metro cúbico a mais. Como 0,64 é menor que o limiar de 1,0 %/m³, e o
+ganho anterior, entre 2.000 L e 3.000 L, foi de 1,45 %/m³, o primeiro volume a cruzar o
+limiar é 4.000 L, e é ele o volume ideal.
 
-Repare no que acontece logo depois. Entre 6.000 L e 8.000 L o potencial sobe 0,76
-ponto, mais do que os 0,64 do intervalo anterior, e no entanto o ganho **por metro
-cúbico** cai de 0,64 para 0,38 %/m³, porque o intervalo tem dois metros cúbicos. É por
+Repare no que acontece logo depois. Entre 6.000 L e 8.000 L o potencial sobe 0,23
+ponto, o mesmo que no intervalo anterior, de 5.000 para 6.000 L, e no entanto o ganho
+**por metro cúbico** cai à metade, de 0,23 para 0,11 %/m³, porque o intervalo tem dois
+metros cúbicos. É por
 isso que o critério usa o ganho por metro cúbico, e não o ganho entre pontos
 consecutivos da grade: o segundo depende do passo, e o primeiro, muito menos.
 
@@ -164,9 +165,10 @@ volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele
 
 A primeira tabela mostra o que a curva côncava da seção {{n:7}} já anunciava. Os métodos
 que dimensionam para a pior estiagem, como Rippl com série diária, e os que ignoram a
-demanda, como o inglês, levam a reservatórios de 12 a 14 m³, que entregam cerca de dois
-pontos percentuais a mais que os 5.000 L da simulação ao custo de mais que o dobro do
-volume. O método alemão acerta a ordem de grandeza neste caso, mas por coincidência: ele
+demanda, como o inglês, levam a reservatórios de 7 a 14 m³, que entregam menos de um
+ponto percentual a mais que os 4.000 L da simulação ao custo de duas a três vezes o
+volume. O método alemão e o de Rippl com série mensal acertam a ordem de grandeza neste
+caso, mas por coincidência: ele
 não tem como saber que a chuva de Florianópolis é bem distribuída, e daria o mesmo
 volume para uma cidade com seis meses secos.
 
@@ -208,7 +210,7 @@ longo das horas; um passo diário soma numa entrada só o que, hora a hora, teri
 e saído aos poucos.
 
 A segunda tabela calcula a fração para os volumes da varredura do tutorial. A cisterna
-escolhida, de 5.000 L, tem fração de 0,019, dentro da faixa do modelo diário; os
+escolhida, de 4.000 L, tem fração de 0,015, dentro da faixa do modelo diário; os
 reservatórios de 1.000 e 2.000 L ficam abaixo de 0,01, e para eles o resultado diário
 deve ser lido como aproximação. Campisano e Modica (2015), que simularam um sistema
 residencial com passos diários e subdiários a partir de descargas medidas, chegaram a

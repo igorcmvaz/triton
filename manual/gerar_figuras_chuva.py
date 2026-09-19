@@ -34,7 +34,7 @@ from gerar_figuras import (                                       # noqa: E402
 )
 from gerar_tabelas import (                                       # noqa: E402
     ANOS_TUTORIAL, CIDADES_GUIA14, NOMES_CIDADES, SERIE_TUTORIAL,
-    _config_tutorial, _serie,
+    VOLUME, _config_tutorial, _serie,
 )
 
 from netuno.core.parser import load_precipitation                 # noqa: E402
@@ -336,7 +336,7 @@ def _simular_perfil(multiplicadores):
     m = np.asarray(multiplicadores, dtype=float)
     m = m / m.mean()
     return run_single_simulation(
-        precip_data=serie, lower_tank_vol=5000.0, total_demand_per_day=base,
+        precip_data=serie, lower_tank_vol=VOLUME, total_demand_per_day=base,
         monthly_demands=[base * v for v in m], demand_mode="monthly",
         start_date_str="01/01/1980", **cfg), base * m
 

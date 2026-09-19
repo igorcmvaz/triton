@@ -127,7 +127,7 @@ dessa variação que decorre boa parte do resultado ambiental do projeto.
 
 ### O inventário do projeto do tutorial, item a item
 
-A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 5.000 L em
+A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.000 L em
 polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
 inicial.
 

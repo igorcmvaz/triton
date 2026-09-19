@@ -27,7 +27,7 @@ import numpy as np                # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from gerar_desenhos import rotulo_de_painel  # noqa: E402
 from gerar_tabelas import (
-    _config_projeto,
+    VOLUME, _config_projeto,
     CHUVA_23, CIDADES_GUIA14, NOMES_CIDADES, VOLUMES_VARREDURA,
     _config_tutorial, _serie,
 )
@@ -176,7 +176,7 @@ def figura_cidades():
             continue
         serie = load_precipitation(str(caminho))[: 30 * 365]
         anos = len(serie) / 365.25
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **cfg)
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME, **cfg)
         nomes.append(NOMES_CIDADES.get(chave, chave))
         lamina.append(serie.sum() / anos)
         potencial.append(r.potential_potable_savings_pct)
@@ -219,7 +219,7 @@ def figura_materiais():
         MATERIAL_PRESETS, EnvironmentalConfig, calculate_lca)
 
     serie = _serie()
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
     nomes = {"PEAD": "Polietileno", "CONCRETO": "Concreto",
@@ -230,7 +230,7 @@ def figura_materiais():
         cfg = _config_ambiental(r)
         cfg.lower_material_key = k
         rot.append(nomes.get(k, k))
-        saldo.append(calculate_lca(5000.0, m3, cfg).lifetime_net_co2_saved_kg)
+        saldo.append(calculate_lca(VOLUME, m3, cfg).lifetime_net_co2_saved_kg)
 
     cores = [VERDE if s > 0 else LARANJA for s in saldo]
     fig, ax = plt.subplots(figsize=(7.2, 3.4))
@@ -316,7 +316,7 @@ def figura_carbono_no_tempo():
         EnvironmentalConfig, calculate_lca)
 
     serie = _serie()
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
 
@@ -332,7 +332,7 @@ def figura_carbono_no_tempo():
         from gerar_tabelas import _config_ambiental
         cfg = _config_ambiental(r)
         cfg.lower_material_key = chave
-        lca = calculate_lca(5000.0, m3, cfg)
+        lca = calculate_lca(VOLUME, m3, cfg)
         saldo = [lca.net_annual_avoided_co2_kg * a - lca.total_embodied_co2_kg
                  for a in anos]
         ax.plot(anos, saldo, color=cor, linewidth=2.4, zorder=3, label=rotulo)

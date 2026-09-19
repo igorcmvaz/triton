@@ -78,9 +78,17 @@ A área de captação é a **projeção horizontal** da cobertura, e não a áre
 telhado. Um telhado com 30% de inclinação sobre uma planta de 150 m² tem cerca de 157 m²
 de superfície de telha, e ainda assim capta os mesmos 150 m² de chuva: a precipitação cai
 na vertical, e o que ela encontra é a sombra da cobertura projetada no chão. A definição
-consta da ABNT NBR 10844, que trata a área de contribuição como a soma das superfícies
-que, interceptando a chuva, conduzem as águas a determinado ponto da instalação,
-representada pela sua projeção horizontal.
+é a do item 3.6 da ABNT NBR 15527:2019: área de captação é a «área projetada na
+horizontal da superfície impermeável da cobertura onde a água é captada», e é essa a
+área `A` da equação de disponibilidade do item 4.1.6.
+
+> **Área de captação não é área de contribuição.** A ABNT NBR 10844:1989 usa outra
+> área, com outro fim. Para dimensionar calhas e condutores pela vazão de pico, o item
+> 5.2.1 manda somar à projeção os incrementos da inclinação da cobertura, `(a + h/2)·b`
+> na Figura 2, e as paredes que interceptam chuva inclinada pelo vento. Essa área serve à
+> vazão de projeto de uma chuva de cinco minutos (item 5.3.1), e superestima o volume
+> que a cobertura capta ao longo do ano. No Netuno, informe a projeção horizontal; a
+> área de contribuição fica para o projeto das calhas, que o programa não faz.
 
 > **Atenção.** Usar a área inclinada superestima a captação na razão
 > `1/cos(inclinação)`. Num telhado de 30% dá 4,4% a mais de água que não existe. Em

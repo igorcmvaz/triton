@@ -19,8 +19,10 @@ do francês HQE conduzida pela Fundação Vanzolini. No referencial residencial 
 água é tratada no tema «Consumo de água», em itens classificados nos níveis PR, HQE,
 HQE 2 e HQE 3.
 
-**Área de captação** (*catchment area*). Projeção **horizontal** da cobertura que
-conduz água para o sistema, conforme a NBR 10844. Não é a área inclinada do telhado.
+**Área de captação** (*catchment area*). Área projetada na **horizontal** da superfície
+impermeável da cobertura onde a água é captada, conforme o item 3.6 da NBR 15527:2019.
+Não é a área inclinada do telhado, nem a área de contribuição da NBR 10844, que serve
+ao dimensionamento de calhas.
 
 **Bandeira tarifária**. Acréscimo ou desconto sobre a tarifa de energia elétrica,
 conforme as condições de geração. Verde, amarela, vermelha 1, vermelha 2, e a
@@ -164,7 +166,8 @@ multifamiliar. Informada ao programa como número de economias.
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
-pluviais, e a NBR 17094-2, de motores de indução.
+pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
+motores de indução.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.

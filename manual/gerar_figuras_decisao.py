@@ -33,13 +33,13 @@ from gerar_figuras import (                                       # noqa: E402
     _eixos, _salvar,
 )
 from gerar_tabelas import (                                       # noqa: E402
-    CUSTOS_TUTORIAL, TARIFA_CASAN, _config_economica, _config_projeto, _config_tutorial,
+    CUSTOS_TUTORIAL, TARIFA_CASAN, VOLUME, _config_economica, _config_projeto, _config_tutorial,
     _serie,
 )
 
 from netuno.core.simulation import run_single_simulation          # noqa: E402
 
-VOLUMES = (1000, 2000, 3000, 5000, 8000, 12000)
+VOLUMES = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
 MATERIAL = "PEAD"
 
 
@@ -90,7 +90,7 @@ def figura_investimento():
     descarte = size_first_flush_system(discard_mm=TUTORIAL["discard_mm"],
                                        roof_area_m2=TUTORIAL["area"])
 
-    volumes = (2000, 5000, 12000)
+    volumes = (2000, int(VOLUME), 12000)
     rubricas = [
         ("reservatório inferior", AZUL),
         ("mão de obra", LARANJA),
@@ -197,9 +197,9 @@ def figura_tornado():
     )
     from netuno.core.pump_energy import compute_annual_pump_energy
 
-    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME,
                               **_config_projeto())
-    cfg = _config_economica(5000.0, "CONCRETO")
+    cfg = _config_economica(VOLUME, "CONCRETO")
     base = dict(
         # O investimento e o custeio incluem a linha de tratamento com o
         # descarte físico, como a análise econômica completa do tutorial.

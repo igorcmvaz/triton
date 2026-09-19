@@ -467,7 +467,7 @@ class TabEconomicGlobalOptimizer(QWidget):
             samples = self.get_smaa_num_simulations()
             v_val = self.get_vikor_v_param()
             self.lbl_weight_validation.setText(
-                f"✓ {samples:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={v_val:.2f}".replace(",", ".")
+                tr('✓ {0:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val).replace(",", ".")
             )
             self.lbl_weight_validation.setStyleSheet(
                 "font-size: 10px; font-weight: bold; color: #047857;"
@@ -860,8 +860,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         if smaa_res:
             best_sma = smaa_res.best_candidate
             self.lbl_best_vikor.setText(
-                f"🎲 {tr('Ótimo VIKOR / SMAA')}: {best_sma.lower_tank_vol:.0f} L "
-                f"({smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100:.1f}% em {smaa_samples:,} simulações)".replace(",", ".")
+                tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples).replace(",", ".")
             )
 
         if topsis_res:
@@ -880,11 +879,11 @@ class TabEconomicGlobalOptimizer(QWidget):
             best_f = topsis_candidates[topsis_res.financial_best_index]
             best_e = topsis_candidates[topsis_res.environmental_best_index]
 
-            self.lbl_best_tech.setText(f"💧 {tr('Ótimo Técnico')}: {best_t.lower_tank_vol:.0f} L ({best_t.water_saved_m3_yr:.1f} m³/ano)")
+            self.lbl_best_tech.setText(tr('💧 {0}: {1:.0f} L ({2:.1f} m³/ano)').format(tr('Ótimo Técnico'), best_t.lower_tank_vol, best_t.water_saved_m3_yr))
             pb_f = best_f.discounted_payback_years
             pb_f_str = f" | Payback: {format_ptbr(pb_f, 1)}a" if (pb_f is not None and pb_f > 0) else ""
             self.lbl_best_vpl.setText(f"💵 {tr('Ótimo Econômico (Menor Payback)')}: {best_f.lower_tank_vol:.0f} L ({curr_sym} {format_ptbr(best_f.vpl_brl, 2)}{pb_f_str})")
-            self.lbl_best_env.setText(f"🍃 {tr('Ótimo Ambiental')}: {best_e.lower_tank_vol:.0f} L ({best_e.lifecycle_co2_kg:.0f} kg CO2e líquidos)")
+            self.lbl_best_env.setText(tr('🍃 {0}: {1:.0f} L ({2:.0f} kg CO2e líquidos)').format(tr('Ótimo Ambiental'), best_e.lower_tank_vol, best_e.lifecycle_co2_kg))
 
         target_econ_row = topsis_res.financial_best_index if topsis_res else best_econ_row
         for row in range(self.table.rowCount()):

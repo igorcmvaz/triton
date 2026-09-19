@@ -313,10 +313,11 @@ def desenho_fracao():
     # dos percentuais de uso final está no capítulo 5.
     usos = [
         ("Banho", 28, False), ("Cozinha\ne beber", 18, False),
-        ("Higiene", 14, False),
-        ("Bacia\nsanitária", 20, True), ("Máquina\nde lavar", 12, True),
-        ("Limpeza\ne rega", 8, True),
+        ("Higiene", 14, False), ("Máquina\nde lavar", 12, False),
+        ("Bacia\nsanitária", 20, True), ("Limpeza\ne rega", 8, True),
     ]
+    # A máquina de lavar roupa fica do lado potável: não está entre os usos do
+    # item 4.1.7 da ABNT NBR 15527:2019.
     esquerda = 0.0
     for nome, pct, atendivel in usos:
         cor = VERDE if atendivel else CINZA
@@ -329,13 +330,13 @@ def desenho_fracao():
                 fontsize=7.2, color=TINTA2, zorder=4, linespacing=1.3)
         esquerda += pct
 
-    ax.annotate("", xy=(0.3, 0.46), xytext=(59.7, 0.46),
+    ax.annotate("", xy=(0.3, 0.46), xytext=(71.7, 0.46),
                 arrowprops=dict(arrowstyle="<->", color=CINZA, linewidth=1.2))
-    ax.text(30, 0.56, "uso de água potável: 60%", ha="center", va="bottom",
+    ax.text(36, 0.56, "uso de água potável: 72%", ha="center", va="bottom",
             fontsize=8.4, color=TINTA2)
-    ax.annotate("", xy=(60.3, 0.46), xytext=(99.7, 0.46),
+    ax.annotate("", xy=(72.3, 0.46), xytext=(99.7, 0.46),
                 arrowprops=dict(arrowstyle="<->", color=VERDE, linewidth=1.3))
-    ax.text(80, 0.56, "possível uso de água da chuva: 40%", ha="center", va="bottom",
+    ax.text(86, 0.56, "água da chuva: 28%", ha="center", va="bottom",
             fontsize=8.4, color=VERDE, fontweight="bold")
 
     ax.set_xlim(0, 100)

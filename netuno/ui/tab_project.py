@@ -1072,10 +1072,7 @@ class TabProject(QWidget):
             avg_eff_annual = (sum_p - total_discard) / years
             disc_pct = (total_discard / sum_p * 100.0) if sum_p > 0 else 0.0
             self.lbl_stats.setText(
-                f"{tr('Registros')}: {total_days:,} {tr('dias')} ({years:.1f} {tr('anos')}) | "
-                f"{tr('Chuva Bruta')}: {avg_annual:.1f} mm/ano | "
-                f"{tr('Descarte')}: {avg_discard_annual:.1f} mm/ano ({disc_pct:.1f}%) | "
-                f"{tr('Chuva Efetiva')}: {avg_eff_annual:.1f} mm/ano".replace(',', '.')
+                tr('{0}: {1:,} {2} ({3:.1f} {4}) | {5}: {6:.1f} mm/ano | {7}: {8:.1f} mm/ano ({9:.1f}%) | {10}: {11:.1f} mm/ano').format(tr('Registros'), total_days, tr('dias'), years, tr('anos'), tr('Chuva Bruta'), avg_annual, tr('Descarte'), avg_discard_annual, disc_pct, tr('Chuva Efetiva'), avg_eff_annual).replace(',', '.')
             )
         else:
             self.lbl_stats.setText(

@@ -29,7 +29,8 @@ tamanho desse reservatório é a pergunta central de todo projeto — e deste ma
 Seguindo o desenho, da esquerda para a direita:
 
 **A cobertura** é a área de captação. Vale a **projeção horizontal** do telhado, e não
-a área inclinada — é a sombra do telhado no chão que recebe a chuva. Errar isso é o
+a área inclinada, como define o item 3.6 da ABNT NBR 15527:2019 — é a sombra do telhado
+no chão que recebe a chuva. Errar isso é o
 primeiro dos dez enganos da seção {{n:33}}.
 
 **As calhas e os condutores** levam a água até a cisterna. O programa não os
@@ -50,8 +51,8 @@ motobomba pode pressurizar diretamente os pontos de uso. Em edificações de doi
 pavimentos, adota-se usualmente reservatório elevado: a água é recalcada até ele e
 distribuída por gravidade.
 
-**Os usos não potáveis** são o destino: bacia sanitária, máquina de lavar, lavagem de
-piso e de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
+**Os usos não potáveis** são o destino: bacia sanitária e mictório, lavagem de piso e
+de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
 **rede pública** supre o complemento, e o abastecimento não é interrompido.
 
 O diagrama da {{fig:fig00_sistema}} mostra o encadeamento das peças, que é o que interessa para

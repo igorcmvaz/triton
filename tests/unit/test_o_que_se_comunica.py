@@ -69,7 +69,7 @@ def _tabela_do_nucleo():
     return {nome: valor for nome, valor in COEFICIENTES_POR_MATERIAL}
 
 
-@pytest.mark.parametrize("arquivo", ["tab_building.py", "tab_single_sim.py"])
+@pytest.mark.parametrize("arquivo", ["tab_building.py"])
 def test_listas_da_interface_usam_a_tabela_do_nucleo(arquivo):
     texto = _ler("netuno", "ui", arquivo)
     itens = re.findall(
@@ -256,7 +256,7 @@ def test_nenhum_ponto_adivinha_a_unidade_da_fracao_atendivel():
                 ("netuno", "core", "parser.py"), ("netuno", "core", "excel_scenarios.py"),
                 ("netuno", "core", "report_generator.py"), ("netuno", "core", "cad_exporter.py"),
                 ("netuno", "cli.py"), ("netuno", "ui", "tab_tanks_simulation.py"),
-                ("netuno", "ui", "tab_building.py"), ("netuno", "ui", "tab_reports.py")]
+                ("netuno", "ui", "tab_building.py"), ("netuno", "ui", "tab_reports_pdf.py")]
     padrao = re.compile(r"/\s*100(\.0)?\s+if\s+[\w\[\]\"'().]+\s*>\s*1(\.0)?\s+else"
                         r"|\*\s*100(\.0)?\s+if\s+[\w\[\]\"'().]+\s*<=\s*1(\.0)?\s+else"
                         r"|if\s+0\.0\s*<=?\s*share\w*\s*<=\s*1\.0")

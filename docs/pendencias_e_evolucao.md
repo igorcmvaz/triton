@@ -500,8 +500,10 @@ passa de 0,0654 para 0,1080 kWh/m³, e o consumo anual da motobomba de 6,81 para
 `tab_matrix_sim.py`, `tab_scenarios_modern.py` e `dialog_scenario_simulation.py`
 foram removidos em 17/09/2026: não eram instanciados pela janela principal, e a
 importação de cenários em lote continua disponível pelo menu Cenários &
-Ferramentas. Resta `tab_single_sim.py` (870 linhas), que também não é aberta pela
-janela principal.
+Ferramentas. Em 18/09/2026 saíram as três últimas: `tab_single_sim.py` (870 linhas),
+`tab_economic.py` (150) e `tab_reports.py` (1.069), substituídas na janela por
+`tab_tanks_simulation.py`, `tab_economic_integrated.py` e `tab_reports_pdf.py`. Nenhum
+módulo as importava; a pendência está encerrada.
 
 ## 19. A linha de comando não acompanha o executável
 

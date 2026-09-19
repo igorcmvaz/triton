@@ -71,9 +71,9 @@ ano, ainda que esses meses sejam os mais chuvosos.== A escola se beneficia porqu
 período ocioso coincide com a estiagem, e não porque esteja em fase com a chuva.
 
 Rodadas com a série de Florianópolis, o mesmo consumo anual e o mesmo reservatório de
-5.000 L, as três hipóteses se separam: demanda constante rende 37,5%, o perfil escolar
-rende 37,7% e o perfil de hotel de praia rende 34,5%. A diferença de três pontos
-percentuais é grande para uma mudança que não altera um único litro do consumo anual, e
+4.000 L, as três hipóteses se separam: demanda constante rende 27,1%, o perfil escolar
+rende 27,3% e o perfil de hotel de praia rende 25,7%. A diferença de quase um ponto e
+meio percentual, num teto de 28%, é grande para uma mudança que não altera um único litro do consumo anual, e
 é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por que o Netuno simula dia a dia. Os três perfis estão na {{fig:fig19_modulacao}}, e o rendimento de cada um, na {{fig:fig20_tipologias}}.
 
 ![Três perfis de demanda com o mesmo consumo anual](../figuras/fig19_modulacao.png)
@@ -82,7 +82,7 @@ percentuais é grande para uma mudança que não altera um único litro do consu
 
 ![A demanda contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
 
-*Figura 99 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 5.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa três pontos percentuais.*
+*Figura 99 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 4.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa quase um ponto e meio percentual.*
 
 ---
 
@@ -96,7 +96,7 @@ Modular a fração captura isso. Manter fração constante subestima o aproveita
 período de baixa ocupação.
 
 Na tabela, a coluna «Não-Potável Interno (%)» é percentual, como todo campo digitado:
-40 significa 40%. No arquivo de projeto, a mesma coluna é gravada como fração, 0,40,
+28 significa 28%. No arquivo de projeto, a mesma coluna é gravada como fração, 0,28,
 e a seção {{n:5}} explica por quê. Uma célula com valor entre 0 e 1 fica laranja.
 
 ---

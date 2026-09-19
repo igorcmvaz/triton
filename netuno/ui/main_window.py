@@ -596,7 +596,7 @@ class MainWindow(QMainWindow):
             self,
             tr("Salvar Projeto Completo"),
             def_name,
-            f"{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;CSV legado — não preserva todas as etapas (*.csv)"
+            tr('{0} (*.netuno);;{1} (*.json);;CSV legado — não preserva todas as etapas (*.csv)').format(tr('Projeto Netuno'), tr('Projeto JSON'))
         )
         if not file_path:
             return
@@ -669,10 +669,8 @@ class MainWindow(QMainWindow):
             if file_path.lower().endswith('.csv'):
                 QMessageBox.warning(
                     self,
-                    "Legacy format" if is_en else "Formato legado",
-                    "CSV is retained only for compatibility and does not preserve every control, LCA input or TOPSIS weight. Use .netuno to save a complete self-contained project."
-                    if is_en else
-                    "CSV é mantido somente para compatibilidade e não preserva todos os controles, a ACV ou os pesos TOPSIS. Para salvar um projeto completo e autocontido, use o formato .netuno.",
+                    tr("Formato legado"),
+                    tr("CSV é mantido somente para compatibilidade e não preserva todos os controles, a ACV ou os pesos TOPSIS. Para salvar um projeto completo e autocontido, use o formato .netuno."),
                 )
                 sweep_res = getattr(self.tab_tanks_simulation, 'last_sweep_result', None)
                 results = sweep_res.results_by_volume if (sweep_res and sweep_res.results_by_volume) else []
@@ -691,9 +689,7 @@ class MainWindow(QMainWindow):
                 self,
                 tr("Sucesso"),
                 f"{tr('Projeto salvo com sucesso (incluindo chuva, edificação, custos e otimizador) em:')}\n{file_path}\n\n"
-                + (".netuno/.json files include the daily rainfall series in the project itself and can be reopened without the original CSV."
-                   if is_en else
-                   "Arquivos .netuno/.json incluem a série diária de chuva no próprio projeto e podem ser reabertos sem o CSV original.")
+                + tr("Arquivos .netuno/.json incluem a série diária de chuva no próprio projeto e podem ser reabertos sem o CSV original.")
             )
         except Exception as e:
             import traceback
@@ -712,9 +708,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             tr(f"Manual do Usuário — Netuno {__version__}"),
-            f"{APP_VERSION_LABEL} — {tr('Manual do Usuário')}\n"
-            f"{tr('Autores')}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n"
-            f"{tr('Grupo de Pesquisa Gestão do Espaço Sustentável')} (UFSC)"
+            tr('{0} — {1}\n{2}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n{3} (UFSC)').format(APP_VERSION_LABEL, tr('Manual do Usuário'), tr('Autores'), tr('Grupo de Pesquisa Gestão do Espaço Sustentável'))
         )
 
     def on_show_citation(self):
@@ -749,11 +743,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             tr(f"Sobre o Netuno {__version__}"),
-            f"<b>{APP_VERSION_LABEL}</b><br><br>"
-            f"{tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.')}<br>"
-            f"<b>{tr('Autores')}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>"
-            f"{tr('Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).')}<br><br>"
-            f"<i>{tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.')}</i>"
+            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.'))
         )
 
     def on_download_excel_sample(self):
@@ -799,27 +789,27 @@ class MainWindow(QMainWindow):
         return self.on_download_excel_sample()
 
     def on_import_excel_scenarios(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Selecionar Arquivo de Cenários Excel", "", "Planilhas (*.xlsx *.xls *.csv)")
+        file_path, _ = QFileDialog.getOpenFileName(self, tr("Selecionar Arquivo de Cenários Excel"), "", "Planilhas (*.xlsx *.xls *.csv)")
         if file_path:
             from netuno.core.excel_scenarios import parse_excel_scenarios, run_parsed_scenarios, export_scenarios_to_excel_bytes
             try:
                 scenarios = parse_excel_scenarios(file_path)
                 if not scenarios:
-                    QMessageBox.warning(self, "Aviso", "Nenhum cenário válido encontrado na planilha.")
+                    QMessageBox.warning(self, tr("Aviso"), tr("Nenhum cenário válido encontrado na planilha."))
                     return
                 avisos = [a for sc in scenarios for a in sc.get("avisos", [])]
                 if avisos and QMessageBox.question(
-                        self, "Confira a substituição pluvial",
-                        "A coluna de substituição está em percentual (40 = 40%).\n\n"
-                        + "\n".join(avisos) + "\n\nSimular mesmo assim?") != QMessageBox.Yes:
+                        self, tr("Confira a substituição pluvial"),
+                        tr("A coluna de substituição está em percentual (40 = 40%).") + "\n\n"
+                        + "\n".join(avisos) + "\n\n" + tr("Simular mesmo assim?")) != QMessageBox.Yes:
                     return
                 results = run_parsed_scenarios(scenarios)
                 def_out = self.get_kebab_filename("netuno-resultados-cenarios", "xlsx")
-                out_path, _ = QFileDialog.getSaveFileName(self, "Salvar Resultados dos Cenários", def_out, "Planilha Excel (*.xlsx)")
+                out_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Resultados dos Cenários"), def_out, "Planilha Excel (*.xlsx)")
                 if out_path:
                     excel_bytes = export_scenarios_to_excel_bytes(results)
                     with open(out_path, "wb") as f:
                         f.write(excel_bytes)
-                    QMessageBox.information(self, "Simulação Concluída", f"Simulação de {len(scenarios)} cenários realizada com sucesso!\nResultados salvos em:\n{out_path}")
+                    QMessageBox.information(self, tr("Simulação Concluída"), tr('Simulação de {0} cenários realizada com sucesso!\nResultados salvos em:\n{1}').format(len(scenarios), out_path))
             except Exception as e:
-                QMessageBox.critical(self, "Erro na Simulação", f"Erro ao processar arquivo:\n{str(e)}")
+                QMessageBox.critical(self, tr("Erro na Simulação"), tr('Erro ao processar arquivo:\n{0}').format(str(e)))

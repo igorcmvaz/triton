@@ -20,11 +20,11 @@ A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
 - O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água.
   Máximo em 12.000 L.
-- O **VPL** sobe, achata e começa a cair: máximo em 5.000 L, praticamente empatado
-  com 8.000 L, e caindo em 12.000 L, porque o investimento adicional deixa de se
-  pagar.
+- O **VPL** sobe, achata e começa a cair: máximo em 4.000 L, praticamente empatado
+  com 2.000 e 3.000 L, e caindo desde 5.000 L, porque o investimento adicional deixa de
+  se pagar.
 - O **carbono** sobe e cai bem antes: máximo em 2.000 L, praticamente empatado com
-  3.000 L. Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do
+  1.000 L. Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do
   que crédito.
 
 ==Não existe volume que vença nos três critérios simultaneamente.== Cada um deles tem
@@ -59,8 +59,8 @@ critério, e até a solução anti-ideal, composta pelos piores. Ordena, por fim
 alternativas pela proximidade relativa ao ideal, conforme a formulação apresentada na
 seção {{n:32}}.
 
-Aplicado ao projeto do tutorial com pesos iguais entre os sete critérios, o método
-indica o volume de 5.000 L.
+Aplicado ao projeto do tutorial com pesos iguais entre as três dimensões, repartidos
+igualmente entre os critérios de cada uma, o método indica o volume de 4.000 L.
 
 > **Três declarações que um estudo publicado precisa fazer.**
 >
@@ -88,23 +88,18 @@ A aba de decisão apresenta o escore de cada volume candidato ({{fig:fig51_progr
 
 A tabela a seguir mostra o que acontece ao deslocar o peso.
 
-<!-- tabela: Volume escolhido conforme a dimensão que recebe peso dominante -->
-| Peso dominante | Volume |
-| :--- | ---: |
-| pesos iguais | 5.000 L |
-| técnico, 60% | 8.000 L |
-| econômico, 60% | 5.000 L |
-| ambiental, 60% | 5.000 L |
+<!-- inclui: _tabelas/cap12_pesos.md -->
 
-Privilegiar o critério técnico desloca a recomendação para 8.000 L, o que era
+Privilegiar o critério técnico desloca a recomendação para 5.000 L, o que era
 esperado: o potencial de economia cresce monotonicamente com o volume, e um peso
-dominante nessa dimensão empurra a escolha para o extremo superior da faixa varrida. Os
-critérios econômico e ambiental, por sua vez, convergem ambos para 5.000 L.
+dominante nessa dimensão empurra a escolha para cima. O deslocamento é pequeno porque o
+potencial já está perto do teto, e o metro cúbico a mais rende pouco. Os critérios
+econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
 
 Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
-generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 5.000 L
-se situa numa região plana da curva de valor presente líquido e ainda conserva saldo de
-carbono confortável. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
+está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda conserva
+saldo de carbono positivo. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
 para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 > **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
@@ -122,7 +117,7 @@ Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O pr
 ---
 ## A recomendação do tutorial
 
-A recomendação do tutorial é o reservatório de **5.000 L em polietileno**, e a razão de
+A recomendação do tutorial é o reservatório de **4.000 L em polietileno**, e a razão de
 adotá-la não é apenas o fato de ele vencer sob pesos iguais. Ele vence também sob peso
 econômico dominante e sob peso ambiental dominante, e fica em segundo lugar por margem
 estreita sob peso técnico dominante. ==Uma recomendação que sobrevive a quatro
@@ -152,21 +147,21 @@ vez de supor que concordem sempre.
 | descarte de primeiras águas | 2,0 mm, todo evento |
 | moradores | 4 |
 | demanda total | 600 L/dia |
-| fração atendível por chuva | 40% |
-| reservatório inferior | 5.000 L, polietileno |
+| fração atendível por chuva | 28% |
+| reservatório inferior | 4.000 L, polietileno |
 | arranjo de abastecimento | recalque para caixa superior |
 | reservatório superior | 1.000 L, limiar de acionamento de 100 L |
 | classe de qualidade | 1, cloração por pastilhas |
 | descarte inicial | reservatório de 300 L |
-| **potencial de economia de água potável** | **37,76%** |
-| dias de atendimento pleno | 93,8% |
-| água poupada | 82,7 m³/ano |
-| energia do recalque | 10,7 kWh/ano |
-| investimento | R$ 11.757 |
-| **valor presente líquido em 20 anos** | **R$ 16.447** |
-| payback descontado | 7,7 anos |
-| **saldo de carbono em 20 anos** | **+192 kg CO₂e** |
-| payback de carbono | 13,1 anos |
+| **potencial de economia de água potável** | **27,30%** |
+| dias de atendimento pleno | 97,3% |
+| água poupada | 59,8 m³/ano |
+| energia do recalque | 7,7 kWh/ano |
+| investimento | R$ 11.283 |
+| **valor presente líquido em 20 anos** | **R$ 5.524** |
+| payback descontado | 12,8 anos |
+| **saldo de carbono em 20 anos** | **+74 kg CO₂e** |
+| payback de carbono | 16,3 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
 verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto

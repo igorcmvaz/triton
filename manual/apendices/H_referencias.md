@@ -12,12 +12,21 @@ aba de Documentação.
 para fins não potáveis. Requisitos. Estabelece os parâmetros de qualidade, o
 descarte de primeiras águas e a manutenção.
 
-**ABNT NBR 10844** — Instalações prediais de águas pluviais. Define a área de
-captação como a projeção horizontal da cobertura.
+**ABNT NBR 10844:1989** — Instalações prediais de águas pluviais. Procedimento.
+Define a área de contribuição (item 3.2 e Figura 2), com os incrementos da inclinação e
+das paredes, para a vazão de projeto de calhas e condutores; não é a área de captação do
+balanço hídrico, que segue a NBR 15527:2019, item 3.6.
 
 **ABNT NBR 16783** — Uso de fontes alternativas de água não potável em edificações.
 
-**ABNT NBR 5626** — Sistemas prediais de água fria e água quente.
+**ABNT NBR 5626:2020** — Sistemas prediais de água fria e água quente. Projeto,
+execução, operação e manutenção. Segunda edição, versão corrigida de 30/09/2020.
+
+**ABNT NBR 15575-1:2025** — Edificações habitacionais. Desempenho. Parte 1: Requisitos
+gerais. Sétima edição, 05/12/2025.
+
+**ABNT NBR 15575-6:2021** — Edificações habitacionais. Desempenho. Parte 6: Requisitos
+para os sistemas hidrossanitários. Quinta edição, 29/09/2021.
 
 **ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. Parte 2: motores de indução
 monofásicos. Requisitos. A Tabela 13 traz o rendimento nominal mínimo a plena carga
@@ -74,12 +83,26 @@ aceitável e estabilidade.
 
 **Mayer, P. W.; DeOreo, W. B. et al.** (1999). *Residential End Uses of Water*.
 Denver: AWWA Research Foundation. Frequência de uso dos aparelhos: 5,05 descargas e
-0,37 ciclos de máquina de lavar por pessoa por dia, base dos acionamentos da
-pressurização direta.
+0,37 ciclos de máquina de lavar por pessoa por dia; as descargas são a base dos
+acionamentos da pressurização direta.
 
-**Komeco.** *Pressurizador de água TP 820T e TP 825T: manual de uso*. Ficha técnica
-com a faixa do pressostato, 12 a 24 m.c.a. no TP 820T, base da pressão de trabalho
-padrão da pressurização direta.
+**Komeco.** *Pressurizador de água TP 820T e TP 825T G2: manual do usuário*. Versão de
+15/05/2007. Ficha técnica e gráfico vazão × pressão; a faixa do pressostato do TP 820T, 12
+a 24 m.c.a., é a base da pressão de trabalho padrão.
+
+**Cardal.** *Pressurizador Potenza: manual de instruções*. IM 311. Especificações
+técnicas e curva vazão × pressão (figura 8).
+
+**Jacuzzi.** *Pressurizador residencial AcquaHouse: manual de instruções*. Março de 2017.
+Curvas vazão × pressão ensaiadas no Laboratório de Etiquetagem de Bombas da
+Universidade Federal de Itajubá.
+
+**Syllent (Eberle).** *Pressurizador para água quente, linha Impulse Press: manual de
+instalação e operação*. Des. 3I4743. Tabela vazão × altura manométrica e retardo de
+desligamento de 10 s do controle eletrônico.
+
+**Rowa.** *Pressurizadores Max Press E: manual de instalação*, e ficha técnica do Max
+Press 20E: pressão máxima de 20 m.c.a. e 5.000 L/h a 7 m.c.a.
 
 ## Normas de avaliação de ciclo de vida
 
@@ -103,6 +126,17 @@ Neto e práticos alemão, inglês e australiano.
 ---
 
 ## Dimensionamento e desempenho de sistemas de aproveitamento pluvial
+
+**GHISI, E.; SOUZA, E. L.** (2012). Potable water savings by using rainwater for
+non-potable uses in houses. *Water*, v. 4, n. 3, p. 607-628. doi:10.3390/w4030607.
+
+**GHISI, E.; LOPES, A. C.; RUPP, R. F.** (2016). Assessment of the potential for potable
+water savings by using rainwater in houses in southern Brazil. *Water Science and
+Technology: Water Supply*, v. 16, n. 2, p. 533-541. doi:10.2166/ws.2015.166.
+
+**GHISI, E.; CUSTÓDIO, D. A.** (2019). Assessing the potential for potable water savings
+in the residential sector of a city: a case study of Joinville city. *Water*, v. 11,
+n. 10, 2074. doi:10.3390/w11102074.
 
 **CAMPISANO, A. et al.** (2017). Urban rainwater harvesting systems: research,
 implementation and future perspectives. *Water Research*, v. 115.
@@ -186,7 +220,12 @@ assessment: challenges and perspectives. *Sustainability*, v. 15, n. 16, 12133.
 doi:10.3390/su151612133.
 
 **VIEIRA, A. S. et al.** (2014). Energy intensity of rainwater harvesting systems: a
-review. *Renewable and Sustainable Energy Reviews*. doi:10.1016/j.rser.2014.03.012.
+review. *Renewable and Sustainable Energy Reviews*, v. 34, p. 225-242.
+doi:10.1016/j.rser.2014.03.012.
+
+**WARD, S.; BUTLER, D.; MEMON, F. A.** (2012). Benchmarking energy consumption and CO2
+emissions from rainwater-harvesting systems: an improved method by proxy. *Water and
+Environment Journal*, v. 26, n. 2, p. 184-190. doi:10.1111/j.1747-6593.2011.00279.x.
 
 ---
 

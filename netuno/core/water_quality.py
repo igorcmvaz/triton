@@ -411,7 +411,9 @@ def size_etap(
     disinfection_choice: str = "cloro",
     include_polishing_filter: bool = False,
     chlorine_dose_mg_l: float = 1.5,
-    chlorine_kg_price_brl: float = 38.0,
+    # O mesmo padrão de NetunoConfig.chlorine_cost_per_kg: com 38, a linha de
+    # tratamento chamada sem o preço cobrava a pastilha mais caro que o fluxo de caixa.
+    chlorine_kg_price_brl: float = 25.0,
     regional_factor: float = 1.0,
     grid_co2_factor_kg_kwh: Optional[float] = None,
     chlorine_product_purity: float = PUREZA_PADRAO,

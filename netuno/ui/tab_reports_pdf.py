@@ -153,7 +153,7 @@ class TabReportsPdf(QWidget):
         row_controls.addWidget(lbl_lang)
 
         self.combo_report_lang = QComboBox()
-        self.combo_report_lang.addItem("🇧🇷 Português (Brasil)", "pt")
+        self.combo_report_lang.addItem(tr("🇧🇷 Português (Brasil)"), "pt")
         self.combo_report_lang.addItem("🇺🇸 English (US)", "en")
         self.combo_report_lang.addItem("🇪🇸 Español", "es")
         self.combo_report_lang.addItem("🇨🇳 中文（简体）", "zh")

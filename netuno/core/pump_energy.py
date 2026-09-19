@@ -17,6 +17,12 @@ from netuno.core.pump_hydraulics import (
     rendimento_tipico,
     vazao_l_por_h,
 )
+from netuno.core.pressurizer_catalog import (
+    POR_CHAVE,
+    VAZAO_DO_PONTO_PADRAO_L_MIN,
+    energia,
+    energia_personalizada,
+)
 from netuno.core.simulation import SingleTankSimulationResult
 from netuno.core.supply_arrangement import (
     ACIONAMENTOS_POR_PESSOA_DIA,
@@ -80,10 +86,12 @@ def compute_annual_pump_energy(
 
     - **Recalque**: ``e = ρ·g·H/(η_bomba·η_motor)`` por m³ elevado à caixa, ou
       ``P/(Q·η_motor)`` com vazão declarada, mais as partidas por ``P·t/η_motor``.
-    - **Pressurização direta**: a mesma ``e``, com a pressão de trabalho no lugar
-      da altura, aplicada a **todo** o volume pluvial consumido. Não se soma
-      energia de partida: o pressostato liga quando o uso começa, e a bomba
-      entrega vazão útil desde então.
+    - **Pressurização direta**: tempo ligado vezes potência elétrica, com o
+      modelo escolhido em ``pressurizer_catalog``. O pressurizador fica ligado
+      enquanto o ponto de uso consome, e a vazão efetiva é a menor entre a da
+      curva do modelo na pressão de trabalho e a do ponto; somam-se os retardos
+      de desligamento dos controles eletrônicos. Todo o volume pluvial consumido
+      passa pela bomba.
     - **Gravidade** e **não informado**: zero.
 
     ``upper_tank_used`` existe para chamadas antigas: sem arranjo declarado,
@@ -100,7 +108,9 @@ def compute_annual_pump_energy(
         arrangement=arrangement,
     )
 
-    if sim_result is None or not usa_bomba(arrangement) or config.pump_power_kw <= 0:
+    if sim_result is None or not usa_bomba(arrangement):
+        return result
+    if arrangement != PRESSURIZACAO and config.pump_power_kw <= 0:
         return result
 
     # Anos pela média diária, sem piso de um ano: com o piso, uma série de 30 dias
@@ -108,20 +118,13 @@ def compute_annual_pump_energy(
     num_years = max(1, sim_result.total_days) / 365.25
 
     if arrangement == PRESSURIZACAO:
-        pressao = float(getattr(config, "pressurizer_pressure_m", 0.0) or 0.0)
-        if pressao <= 0:
-            pressao = PRESSAO_DE_TRABALHO_PADRAO_M
-        eta, eta_motor, vazao = _rendimentos(config, pressao)
+        e = energia_do_pressurizador(config, float(sim_result.annual_pluvial_consumed_m3))
         result.annual_pumped_m3 = float(sim_result.annual_pluvial_consumed_m3)
-        acionamentos = float(getattr(config, "pressurizer_starts_per_person_day",
-                                     ACIONAMENTOS_POR_PESSOA_DIA))
-        result.annual_cycles = int(round(
-            max(0, int(getattr(config, "residents_count", 0) or 0)) * acionamentos * 365.25))
-        if vazao > 0:
-            result.pump_hours_year = result.annual_pumped_m3 * 1000.0 / vazao
-        especifica = energia_especifica_kwh_por_m3(pressao, eta, eta_motor)
-        result.annual_kwh = especifica * result.annual_pumped_m3
-        result.specific_kwh_per_m3 = especifica if result.annual_pumped_m3 > 0 else 0.0
+        result.annual_cycles = int(round(e.partidas_ano))
+        result.pump_hours_year = e.horas_ano
+        result.annual_kwh = e.kwh_ano
+        result.specific_kwh_per_m3 = e.kwh_por_m3
+        result.pump_power_cv = _potencia_do_pressurizador_cv(config)
         return result
 
     result.annual_pumped_m3 = (sim_result.total_pumped_liters / num_years) / 1000.0
@@ -161,6 +164,41 @@ def compute_annual_pump_energy(
         result.specific_kwh_per_m3 = result.annual_kwh / result.annual_pumped_m3
 
     return result
+
+
+def _partidas_ano(config) -> float:
+    acionamentos = float(getattr(config, "pressurizer_starts_per_person_day",
+                                 ACIONAMENTOS_POR_PESSOA_DIA) or 0.0)
+    moradores = max(0, int(getattr(config, "residents_count", 0) or 0))
+    return moradores * acionamentos * 365.25
+
+
+def _potencia_do_pressurizador_cv(config) -> float:
+    modelo = POR_CHAVE.get(str(getattr(config, "pressurizer_model", "") or ""))
+    if modelo is not None:
+        return modelo.potencia_cv
+    return float(getattr(config, "pressurizer_power_kw", 0.0) or 0.0) / CV_TO_KW
+
+
+def energia_do_pressurizador(config, volume_m3_ano: float):
+    """Energia anual do pressurizador do projeto, pelo catálogo ou pelos dados digitados."""
+    pressao = float(getattr(config, "pressurizer_pressure_m", 0.0) or 0.0)
+    if pressao <= 0:
+        pressao = PRESSAO_DE_TRABALHO_PADRAO_M
+    q_ponto = float(getattr(config, "pressurizer_point_flow_l_min", 0.0) or 0.0)
+    if q_ponto <= 0:
+        q_ponto = VAZAO_DO_PONTO_PADRAO_L_MIN
+    partidas = _partidas_ano(config)
+    modelo = POR_CHAVE.get(str(getattr(config, "pressurizer_model", "") or ""))
+    if modelo is not None:
+        return energia(modelo, volume_m3_ano, pressao, partidas, q_ponto)
+    potencia = float(getattr(config, "pressurizer_power_kw", 0.0) or 0.0)
+    vazao = float(getattr(config, "pressurizer_flow_l_min", 0.0) or 0.0)
+    vazao = min(vazao, q_ponto) if vazao > 0 else q_ponto
+    eta_motor = float(getattr(config, "pump_motor_efficiency", 0.0) or 0.0) / 100.0
+    return energia_personalizada(
+        potencia, vazao, float(getattr(config, "pressurizer_post_run_s", 0.0) or 0.0),
+        volume_m3_ano, partidas, eta_motor or None)
 
 
 def nearest_pump_cv(power_cv: float) -> float:

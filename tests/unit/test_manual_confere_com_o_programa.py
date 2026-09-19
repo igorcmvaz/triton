@@ -220,8 +220,11 @@ def test_o_capitulo_declara_o_que_o_modelo_nao_representa():
 SERIE_TUTORIAL = os.path.join(RAIZ, "data", "rainfall", "Florianopolis1.csv")
 TUTORIAL = dict(
     area=150.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
-    total_demand_per_day=600.0, rainwater_share=0.40,
+    # Bacia sanitária e usos externos: desde 2026-09-18 a máquina de lavar roupa
+    # fica fora, como no item 4.1.7 da ABNT NBR 15527:2019.
+    total_demand_per_day=600.0, rainwater_share=0.28,
 )
+VOLUME = 4000.0
 
 
 @pytest.fixture(scope="module")
@@ -251,33 +254,34 @@ def test_o_descarte_atinge_sete_por_cento_dos_dias(serie_tutorial):
     assert abaixo == pytest.approx(7.0, abs=1.0)
 
 
-def test_a_agua_bruta_e_o_dobro_da_demanda(serie_tutorial):
-    """Impresso no capítulo 5: 229 m³ de oferta bruta contra 88 m³ de demanda."""
+def test_a_agua_bruta_e_o_triplo_da_demanda(serie_tutorial):
+    """Impresso no capítulo 5: 229 m³ de oferta bruta contra 61 m³ de demanda."""
     anos = len(serie_tutorial) / 365.25
     bruta = serie_tutorial.sum() / anos * TUTORIAL["area"] * TUTORIAL["runoff_coeff"] / 1000.0
     demanda = TUTORIAL["total_demand_per_day"] * TUTORIAL["rainwater_share"] * 365.25 / 1000.0
     assert bruta == pytest.approx(229.0, abs=2.0)
-    assert demanda == pytest.approx(88.0, abs=1.0)
-    assert bruta > 2 * demanda
+    assert demanda == pytest.approx(61.0, abs=1.0)
+    assert bruta > 3 * demanda
 
 
 def test_a_primeira_simulacao_do_capitulo_6(serie_tutorial):
-    """Impresso: 34,92% com 3.000 L, 303 L/dia extravasados, 85,7% de dias plenos."""
+    """Impresso: 26,48% com 3.000 L, 354 L/dia extravasados, 93,9% de dias plenos."""
     r = _tutorial(serie_tutorial, 3000)
-    assert r.potential_potable_savings_pct == pytest.approx(34.92, abs=0.05)
-    assert r.avg_spilled_l_day == pytest.approx(303.0, abs=1.0)
-    assert r.pct_days_full_satisfaction == pytest.approx(85.7, abs=0.1)
+    assert r.potential_potable_savings_pct == pytest.approx(26.48, abs=0.05)
+    assert r.avg_spilled_l_day == pytest.approx(354.0, abs=1.0)
+    assert r.pct_days_full_satisfaction == pytest.approx(93.9, abs=0.1)
+    assert r.annual_pluvial_consumed_m3 == pytest.approx(58.0, abs=0.1)
 
 
 def test_o_extravasamento_supera_o_consumo_pretendido(serie_tutorial):
-    """Impresso no capítulo 6: extravasa mais do que os 240 L/dia pretendidos."""
+    """Impresso no capítulo 6: extravasa mais que o dobro dos 168 L/dia pretendidos."""
     r = _tutorial(serie_tutorial, 3000)
-    assert r.avg_spilled_l_day > 240.0
+    assert r.avg_spilled_l_day > 2 * 168.0
 
 
 @pytest.mark.parametrize(("volume", "potencial"), [
-    (1000, 25.32), (2000, 31.91), (3000, 34.92), (5000, 37.46),
-    (8000, 38.85), (12000, 39.62), (20000, 39.98),
+    (1000, 21.03), (2000, 25.03), (3000, 26.48), (4000, 27.12), (5000, 27.47),
+    (8000, 27.92), (12000, 28.00), (20000, 28.00),
 ])
 def test_a_curva_de_varredura_do_capitulo_7(serie_tutorial, volume, potencial):
     """Cada linha da tabela impressa no capítulo 7."""
@@ -288,11 +292,11 @@ def test_a_curva_de_varredura_do_capitulo_7(serie_tutorial, volume, potencial):
 def test_o_potencial_nunca_passa_da_fracao_atendivel(serie_tutorial):
     """A lição central do capítulo 5: a fração é o teto, e nada a ultrapassa."""
     teto = TUTORIAL["rainwater_share"] * 100.0
-    for v in (1000, 5000, 20000, 100000):
-        assert _tutorial(serie_tutorial, v).potential_potable_savings_pct <= teto
+    for v in (1000, 4000, 20000, 100000):
+        assert _tutorial(serie_tutorial, v).potential_potable_savings_pct <= teto + 1e-9
 
 
-@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 4000), (1.0, 5000), (0.5, 7000)])
+@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 3000), (1.0, 4000), (0.5, 5000)])
 def test_o_limiar_decide_o_volume_ideal(serie_tutorial, limiar, ideal):
     """Impresso no capítulo 7: o limiar é escolha do autor, e muda a resposta."""
     from netuno.core.simulation import run_sweep_simulation
@@ -303,32 +307,32 @@ def test_o_limiar_decide_o_volume_ideal(serie_tutorial, limiar, ideal):
 
 
 def test_o_volume_maior_custa_muito_mais_por_pouco_ganho(serie_tutorial):
-    """Impresso no capítulo 7: 3,3× o preço e 3,6× o carbono por 2,53 pontos."""
+    """Impresso no capítulo 7: 3,9× o preço e 4,1× o carbono por 0,88 ponto."""
     from netuno.core.cost_estimates import estimate_tank_price
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
 
-    r5 = _tutorial(serie_tutorial, 5000)
+    r4 = _tutorial(serie_tutorial, VOLUME)
     r20 = _tutorial(serie_tutorial, 20000)
-    assert r20.potential_potable_savings_pct - r5.potential_potable_savings_pct \
-        == pytest.approx(2.53, abs=0.05)
+    assert r20.potential_potable_savings_pct - r4.potential_potable_savings_pct \
+        == pytest.approx(0.88, abs=0.05)
 
-    p5 = estimate_tank_price(5000.0, "CONCRETO")
+    p4 = estimate_tank_price(VOLUME, "CONCRETO")
     p20 = estimate_tank_price(20000.0, "CONCRETO")
-    assert p20 / p5 == pytest.approx(3.3, abs=0.1)
+    assert p20 / p4 == pytest.approx(3.9, abs=0.1)
 
     cfg = _ambiental("CONCRETO")
-    c5 = calculate_lca(5000.0, r5.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
+    c4 = calculate_lca(VOLUME, r4.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
     c20 = calculate_lca(20000.0, r20.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
-    assert c20 / c5 == pytest.approx(3.5, abs=0.1)
+    assert c20 / c4 == pytest.approx(4.1, abs=0.1)
 
 
 def test_os_capitulos_do_tutorial_citam_os_numeros_do_programa():
     """Os valores escritos no corpo dos capítulos 4 a 7."""
     esperados = {
         "04_o_projeto_e_a_chuva.md": ("150 m²", "0,85", "2,0 mm", "229 m³"),
-        "05_a_edificacao_e_a_demanda.md": ("600 L/dia", "240 L/dia", "40%", "88"),
-        "06_a_primeira_simulacao.md": ("34,92%", "303 L/dia", "85,7%", "3.000"),
-        "07_escolher_o_volume.md": ("5.000 L", "37,46%", "92,9%", "39,98%"),
+        "05_a_edificacao_e_a_demanda.md": ("600 L/dia", "168 L/dia", "28%", "61"),
+        "06_a_primeira_simulacao.md": ("26,48%", "354 L/dia", "93,9%", "3.000"),
+        "07_escolher_o_volume.md": ("4.000 L", "27,12%", "96,6%", "28,00%"),
     }
     for arquivo, termos in esperados.items():
         texto = _capitulo(arquivo)
@@ -387,30 +391,30 @@ def _ambiental(material, resultado=None):
 def test_a_caixa_superior_nao_aumenta_a_economia(serie_tutorial):
     """Impresso no capítulo 8: com o mesmo armazenamento, o arranjo duplo perde."""
     unico = run_single_simulation(
-        precip_data=serie_tutorial, lower_tank_vol=6000.0, **TUTORIAL)
+        precip_data=serie_tutorial, lower_tank_vol=VOLUME + 1000.0, **TUTORIAL)
     duplo = run_single_simulation(
-        precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        precip_data=serie_tutorial, lower_tank_vol=VOLUME, upper_tank_vol=1000.0,
         upper_tank_used=True, pumping_threshold=100.0, **TUTORIAL)
     assert duplo.potential_potable_savings_pct < unico.potential_potable_savings_pct
     assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct \
-        == pytest.approx(0.33, abs=0.05)
+        == pytest.approx(0.17, abs=0.05)
 
 
 def test_a_energia_do_recalque_do_capitulo_8(serie_tutorial):
-    """Impresso: 10,7 kWh/ano e 96 acionamentos."""
+    """Impresso: 7,7 kWh/ano e 68 acionamentos."""
     from netuno.core.parser import NetunoConfig
     from netuno.core.pump_energy import compute_annual_pump_energy
 
     duplo = run_single_simulation(
-        precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        precip_data=serie_tutorial, lower_tank_vol=VOLUME, upper_tank_vol=1000.0,
         upper_tank_used=True, pumping_threshold=100.0, **TUTORIAL)
     cfg = NetunoConfig()
     cfg.upper_tank_used = True
     cfg.pump_power_kw, cfg.pump_efficiency, cfg.pump_flow_rate = 0.37, 0.0, 0.0
     cfg.pump_manometric_head_m, cfg.pump_startup_time_h = 12.0, 0.03
     e = compute_annual_pump_energy(cfg, duplo)
-    assert e.annual_kwh == pytest.approx(10.7, abs=0.3)
-    assert e.annual_cycles == pytest.approx(96, abs=3)
+    assert e.annual_kwh == pytest.approx(7.7, abs=0.3)
+    assert e.annual_cycles == pytest.approx(68, abs=3)
 
 
 def test_o_limiar_de_acionamento_troca_potencial_por_desgaste(serie_tutorial):
@@ -418,7 +422,7 @@ def test_o_limiar_de_acionamento_troca_potencial_por_desgaste(serie_tutorial):
     anterior = None
     for limiar in (0, 100, 300, 500):
         r = run_single_simulation(
-            precip_data=serie_tutorial, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+            precip_data=serie_tutorial, lower_tank_vol=VOLUME, upper_tank_vol=1000.0,
             upper_tank_used=True, pumping_threshold=float(limiar), **TUTORIAL)
         ciclos = r.total_pump_cycles / (r.total_days / 365.25)
         if anterior is not None:
@@ -430,7 +434,7 @@ def test_a_classe_alvo_sozinha_nao_muda_o_custo_da_etap():
     """Impresso no capítulo 9: sem polimento, as quatro classes custam o mesmo."""
     from netuno.core.water_quality import WATER_QUALITY_CLASSES, size_etap
     custos = {
-        cid: size_etap(target_class_id=cid, annual_pluvial_consumed_m3=82.1,
+        cid: size_etap(target_class_id=cid, annual_pluvial_consumed_m3=59.8,
                        roof_area_m2=150.0, include_polishing_filter=False
                        ).total_etap_capex
         for cid in WATER_QUALITY_CLASSES
@@ -441,9 +445,9 @@ def test_a_classe_alvo_sozinha_nao_muda_o_custo_da_etap():
 def test_a_recusa_do_polimento_fica_registrada():
     """Impresso: quem recusa o que a classe recomenda tem a recusa documentada."""
     from netuno.core.water_quality import size_etap
-    r2 = size_etap(target_class_id="classe_2", annual_pluvial_consumed_m3=82.1,
+    r2 = size_etap(target_class_id="classe_2", annual_pluvial_consumed_m3=59.8,
                    roof_area_m2=150.0, include_polishing_filter=False)
-    r1 = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+    r1 = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=59.8,
                    roof_area_m2=150.0, include_polishing_filter=False)
     assert r2.polishing_recommended_but_declined is True
     assert r1.polishing_recommended_but_declined is False
@@ -452,35 +456,36 @@ def test_a_recusa_do_polimento_fica_registrada():
 def test_uv_e_ozonio_somam_a_cloracao_em_vez_de_substitui_la():
     """Impresso no capítulo 9: são barreiras adicionais, sem residual próprio."""
     from netuno.core.water_quality import size_etap
-    cloro = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+    cloro = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=59.8,
                       roof_area_m2=150.0, disinfection_choice="cloro")
-    uv = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=82.1,
+    uv = size_etap(target_class_id="classe_1", annual_pluvial_consumed_m3=59.8,
                    roof_area_m2=150.0, disinfection_choice="uv")
     assert uv.total_etap_capex > cloro.total_etap_capex
     assert len(uv.disinfection_stages) == 2
 
 
 def test_o_resultado_economico_do_capitulo_10(serie_tutorial):
-    """Impresso: R$ 2.368/ano, VPL R$ 13.147, payback 9,9 anos, em concreto.
+    """Impresso: R$ 1.712/ano, VPL R$ 2.745, payback 16,3 anos, em concreto.
 
     Com o descarte físico da etapa 3 e o recalque para a caixa superior: sem o
-    descarte o investimento era R$ 14.439,69 e o VPL R$ 14.434, valores que o
+    descarte o investimento seria R$ 13.444,29 e o VPL R$ 4.032, valores que o
     capítulo cita como comparação.
     """
-    _, e = _economico(serie_tutorial, 5000, "CONCRETO")
-    assert e.capex_total == pytest.approx(15056.59, abs=1.0)
-    assert e.annual_water_savings_brl == pytest.approx(2368.03, abs=5.0)
-    assert e.vpl == pytest.approx(13147.0, abs=50.0)
-    assert e.payback_years == pytest.approx(9.9, abs=0.2)
-    assert e.annual_pump_cost_brl == pytest.approx(7.44, abs=0.05)
+    _, e = _economico(serie_tutorial, VOLUME, "CONCRETO")
+    assert e.capex_total == pytest.approx(14061.19, abs=1.0)
+    assert e.annual_water_savings_brl == pytest.approx(1712.26, abs=5.0)
+    assert e.vpl == pytest.approx(2745.0, abs=50.0)
+    assert e.payback_years == pytest.approx(16.3, abs=0.2)
+    assert e.annual_pump_cost_brl == pytest.approx(5.36, abs=0.05)
+    assert e.annual_opex_brl == pytest.approx(48.82, abs=0.05)
 
 
 def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
     """Impresso no capítulo 11: mais barato, melhor VPL e carbono positivo."""
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
 
-    r_c, e_c = _economico(serie_tutorial, 5000, "CONCRETO")
-    r_p, e_p = _economico(serie_tutorial, 5000, "PEAD")
+    r_c, e_c = _economico(serie_tutorial, VOLUME, "CONCRETO")
+    r_p, e_p = _economico(serie_tutorial, VOLUME, "PEAD")
     assert e_p.capex_total < e_c.capex_total
     assert e_p.vpl > e_c.vpl
     assert e_p.payback_years < e_c.payback_years
@@ -488,7 +493,7 @@ def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
     saldos = {}
     for k, r in (("CONCRETO", r_c), ("PEAD", r_p)):
         cfg = _ambiental(k, r)
-        saldos[k] = calculate_lca(5000.0, r.annual_pluvial_consumed_m3, cfg)
+        saldos[k] = calculate_lca(VOLUME, r.annual_pluvial_consumed_m3, cfg)
     assert saldos["PEAD"].lifetime_net_co2_saved_kg > 0
     assert saldos["CONCRETO"].lifetime_net_co2_saved_kg < 0
     assert saldos["CONCRETO"].environmental_payback_years > 20.0
@@ -496,14 +501,16 @@ def test_a_troca_para_polietileno_melhora_as_tres_dimensoes(serie_tutorial):
     # massa de catálogo x intensidade de EPD (30,5 kg CO2e a 1/2 CV, antes 18,0).
     # 12,6 anos com o descarte físico (reservatório de 300 L e separador de folhas).
     # 13,1 anos com a caixa superior de 1.000 L e a energia do recalque.
-    assert saldos["PEAD"].environmental_payback_years == pytest.approx(13.1, abs=0.3)
+    # 16,3 anos com 28% de fração atendível e 4.000 L, desde 2026-09-18.
+    assert saldos["PEAD"].environmental_payback_years == pytest.approx(16.3, abs=0.3)
+    assert saldos["CONCRETO"].environmental_payback_years == pytest.approx(42.8, abs=0.5)
 
 
 def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
     """Impresso: cada metro cúbico de concreto acrescenta mais dívida que crédito."""
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
     anterior = None
-    for v in (2000, 3000, 5000, 8000):
+    for v in (2000, 3000, 4000, 8000):
         r = run_single_simulation(
             precip_data=serie_tutorial, lower_tank_vol=float(v), **TUTORIAL)
         cfg = _ambiental("CONCRETO")
@@ -515,12 +522,12 @@ def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
 
 
 def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
-    """Impresso: técnico diz 12.000, financeiro 5.000, ambiental 2.000."""
+    """Impresso: técnico diz 12.000, financeiro 2.000, ambiental 2.000, compromisso 4.000."""
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca
     from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
 
     cands = []
-    for v in (1000, 2000, 3000, 5000, 8000, 12000):
+    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
         r, e = _economico(serie_tutorial, v, "PEAD")
         amb = _ambiental("PEAD", r)
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
@@ -535,18 +542,18 @@ def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
 
     res = calculate_topsis_scores(cands)
     assert cands[res.technical_best_index].lower_tank_vol == 12000.0
-    assert cands[res.financial_best_index].lower_tank_vol == 5000.0
+    assert cands[res.financial_best_index].lower_tank_vol == 2000.0
     assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
-    assert cands[res.best_index].lower_tank_vol == 5000.0
+    assert cands[res.best_index].lower_tank_vol == VOLUME
 
 
 def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
     esperados = {
-        "08_reservatorio_superior.md": ("10,7 kWh", "um terço de ponto", "6.000 L"),
+        "08_reservatorio_superior.md": ("7,7 kWh", "um sexto de ponto", "5.000 L"),
         "09_qualidade_que_o_uso_exige.md": ("R$ 1.547", "R$ 2.747", "R$ 5.047", "R$ 1.197"),
-        "10_quanto_custa.md": ("R$ 197,34", "R$ 13.147", "9,9 anos", "R$ 28,60", "R$ 7,44"),
-        "11_quanto_carbono_evita.md": ("1.026 kg", "37,0 anos", "13,1 anos", "192 kg"),
-        "12_qual_volume_escolher.md": ("5.000 L", "12.000 L", "2.000 L", "37,76%"),
+        "10_quanto_custa.md": ("R$ 142,69", "R$ 2.745", "16,3 anos", "R$ 28,60", "R$ 5,36"),
+        "11_quanto_carbono_evita.md": ("858 kg", "42,8 anos", "16,3 anos", "74 kg"),
+        "12_qual_volume_escolher.md": ("4.000 L", "12.000 L", "2.000 L", "27,30%"),
         "13_o_relatorio_e_o_artigo.md": ("5.0.0", "2,3 a 2,7", "1 %/m"),
     }
     for arquivo, termos in esperados.items():
@@ -735,7 +742,7 @@ def test_as_cidades_do_guia_14(serie_tutorial):
             pytest.skip(f"série {chave} não instalada")
         serie = load_precipitation(caminho)[: 30 * 365]
         anos = len(serie) / 365.25
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **TUTORIAL)
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME, **TUTORIAL)
         resultados[chave] = (serie.sum() / anos, r.potential_potable_savings_pct)
 
     chuva_flo, pot_flo = resultados["Florianopolis1"]
@@ -744,8 +751,8 @@ def test_as_cidades_do_guia_14(serie_tutorial):
 
     assert chuva_man > chuva_flo and pot_man < pot_flo
     assert chuva_bsb < chuva_flo and pot_bsb < pot_flo / 1.5
-    assert pot_man == pytest.approx(27.92, abs=0.05)
-    assert pot_bsb == pytest.approx(20.80, abs=0.05)
+    assert pot_man == pytest.approx(20.96, abs=0.05)
+    assert pot_bsb == pytest.approx(15.45, abs=0.05)
 
 
 def test_o_rendimento_do_motor_do_capitulo_28():

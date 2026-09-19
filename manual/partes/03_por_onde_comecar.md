@@ -38,7 +38,7 @@ implicar refazer trabalho.
 ### Que usos a água pluvial vai atender?
 
 A resposta define a **fração atendível**, e a fração atendível é o teto de todo o resto:
-um sistema cuja fração é de 40% jamais economizará mais que 40% do consumo total, por
+um sistema cuja fração é de 28% jamais economizará mais que 28% do consumo total, por
 maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de projeto
 altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra coisa. A {{fig:fig46_atendivel}} reúne as faixas usuais da fração atendível conforme os usos previstos.
 
@@ -46,7 +46,7 @@ altera esse limite, razão pela qual ele merece ser estabelecido antes de qualqu
 
 *Figura 99 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração.*
 
-Os três primeiros casos são tratados na seção {{n:5}}, e o caso comercial na seção {{n:18}}.
+Os casos residenciais são tratados na seção {{n:5}}, e o caso comercial na seção {{n:18}}. A linha tracejada marca os 28% do tutorial, que ficam nos usos que o item 4.1.7 da ABNT NBR 15527:2019 admite.
 
 
 ### Vai comparar volumes ou avaliar um só?

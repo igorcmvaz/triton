@@ -141,7 +141,7 @@ class TabTariffsManager(QWidget):
         inst_layout.addLayout(row_inst1)
 
         row_inst2 = QHBoxLayout()
-        self.lbl_agencia = QLabel("📋 Regulação: -")
+        self.lbl_agencia = QLabel(tr("📋 Regulação: -"))
         self.lbl_agencia.setStyleSheet("font-size: 11.5px; color: #475569;")
         row_inst2.addWidget(self.lbl_agencia, stretch=1)
 
@@ -151,7 +151,7 @@ class TabTariffsManager(QWidget):
         row_inst2.addWidget(self.btn_open_url)
         inst_layout.addLayout(row_inst2)
 
-        self.lbl_disp_callout = QLabel("🏷️ Custo de Disponibilidade: -")
+        self.lbl_disp_callout = QLabel(tr("🏷️ Custo de Disponibilidade: -"))
         self.lbl_disp_callout.setStyleSheet("font-size: 11px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 6px;")
         inst_layout.addWidget(self.lbl_disp_callout)
 
@@ -297,11 +297,11 @@ class TabTariffsManager(QWidget):
         """)
         self.spin_sim_vol.valueChanged.connect(self.on_spin_vol_changed)
         sim_head.addWidget(self.spin_sim_vol)
-        sim_head.addWidget(QLabel("m³/mês"))
+        sim_head.addWidget(QLabel(tr("m³/mês")))
         sim_layout.addLayout(sim_head)
 
         # Demonstrativo de Fatura
-        self.lbl_sim_result = QLabel("🏷️ Fixa: R$ 0,00 | 💧 Água: R$ 0,00 | 🚽 Esgoto: R$ 0,00 | <b>Total: R$ 0,00 / mês</b>")
+        self.lbl_sim_result = QLabel(tr("🏷️ Fixa: R$ 0,00 | 💧 Água: R$ 0,00 | 🚽 Esgoto: R$ 0,00 | <b>Total: R$ 0,00 / mês</b>"))
         self.lbl_sim_result.setStyleSheet("font-size: 12px; color: #0369a1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 8px;")
         sim_layout.addWidget(self.lbl_sim_result)
 
@@ -387,11 +387,11 @@ class TabTariffsManager(QWidget):
         self.active_tariffs_data = data
 
         self.lbl_prestador.setText(f"🏢 <b>Prestador:</b> {data.get('prestador_saneamento', '-')}")
-        self.lbl_agencia.setText(f"📋 <b>Regulação:</b> {data.get('agencia_reguladora', 'Municipal')}")
+        self.lbl_agencia.setText(tr('📋 <b>Regulação:</b> {0}').format(data.get('agencia_reguladora', 'Municipal')))
         
         status_glob = data.get("status_global", "AUTO_OR_VERIFIED")
         if status_glob == "MANUAL_REVIEW_NEEDED":
-            self.lbl_status_badge.setText("🟡 Revisão Decreto")
+            self.lbl_status_badge.setText(tr("🟡 Revisão Decreto"))
             self.lbl_status_badge.setStyleSheet("background: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold;")
         else:
             self.lbl_status_badge.setText("🟢 Homologado")
@@ -412,13 +412,13 @@ class TabTariffsManager(QWidget):
         tem_minima = any(t[3] in (-1, -2) for t in faixas)
         if tem_franquia:
             f_vol = next((t[1] for t in faixas if t[3] == -2 or (t[3] == -1 and t[1] > 0)), 6.0)
-            self.lbl_disp_callout.setText(f"🏷️ <b>Consumo Mínimo (Franquia):</b> R$ {t_fixa:.2f}/mês cobrindo até {f_vol:.0f} m³.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Consumo Mínimo (Franquia):</b> R$ {0:.2f}/mês cobrindo até {1:.0f} m³.').format(t_fixa, f_vol))
         elif t_fixa > 0 and tem_minima:
-            self.lbl_disp_callout.setText(f"🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {t_fixa:.2f}/mês somado a cada m³ medido.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {0:.2f}/mês somado a cada m³ medido.').format(t_fixa))
         elif t_fixa > 0:
-            self.lbl_disp_callout.setText(f"🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {t_fixa:.2f}/mês somado a cada m³ medido.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {0:.2f}/mês somado a cada m³ medido.').format(t_fixa))
         else:
-            self.lbl_disp_callout.setText("🏷️ <b>Cobrança Linear:</b> Sem parcela fixa, cobrança proporcional ao consumo.")
+            self.lbl_disp_callout.setText(tr("🏷️ <b>Cobrança Linear:</b> Sem parcela fixa, cobrança proporcional ao consumo."))
 
         # Energia
         self.lbl_distribuidora.setText(f"Distr: {data.get('distribuidora_energia', '-')}")
@@ -643,9 +643,7 @@ class TabTariffsManager(QWidget):
         eff_rate = (total_val / vol) if vol > 0 else 0.0
 
         self.lbl_sim_result.setText(
-            f"🏷️ Fixa/Disp: <b>R$ {valor_fixo:.2f}</b> | 💧 Água Medida: <b>R$ {medido_val:.2f}</b> | "
-            f"🚽 Esgoto ({esgoto_pct:.0f}%): <b>R$ {esgoto_val:.2f}</b> | "
-            f"💰 <b>Total: R$ {total_val:.2f}/mês</b> (Média: R$ {eff_rate:.2f}/m³)"
+            tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2:.0f}%): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, esgoto_pct, esgoto_val, total_val, eff_rate)
         )
 
         # Atualiza Gráficos Matplotlib
@@ -680,7 +678,7 @@ class TabTariffsManager(QWidget):
 
         self.ax1.set_xlim(0, max_plot_vol)
         self.ax1.set_ylabel("R$/m³", fontsize=9, fontweight="bold", color="#334155")
-        self.ax1.set_title("Estrutura de Faixas (Tarifa Marginal R$/m³)", fontsize=10, fontweight="bold", color="#0f172a", pad=4)
+        self.ax1.set_title(tr("Estrutura de Faixas (Tarifa Marginal R$/m³)"), fontsize=10, fontweight="bold", color="#0f172a", pad=4)
         self.ax1.grid(True, linestyle=":", alpha=0.5)
         self.ax1.tick_params(labelsize=8)
         self.ax1.legend(loc="upper left", fontsize=7.5, framealpha=0.8)
@@ -699,7 +697,7 @@ class TabTariffsManager(QWidget):
         self.ax2.set_xlim(0, max_plot_vol)
         self.ax2.set_xlabel("Volume Consumido Mensal (m³)", fontsize=9, fontweight="bold", color="#334155")
         self.ax2.set_ylabel("Fatura (R$)", fontsize=9, fontweight="bold", color="#334155")
-        self.ax2.set_title("Evolução da Conta Mensal de Água & Esgoto", fontsize=10, fontweight="bold", color="#0f172a", pad=4)
+        self.ax2.set_title(tr("Evolução da Conta Mensal de Água & Esgoto"), fontsize=10, fontweight="bold", color="#0f172a", pad=4)
         self.ax2.grid(True, linestyle=":", alpha=0.5)
         self.ax2.tick_params(labelsize=8)
         self.ax2.legend(loc="upper left", fontsize=7.5, framealpha=0.8)

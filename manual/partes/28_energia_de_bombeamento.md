@@ -207,14 +207,101 @@ Usados quando o projeto não declara:
 
 ---
 
-## Por que a energia é pequena
+## A pressurização direta: a energia é tempo ligado
+
+Tudo o que se disse até aqui vale para o recalque, em que a bomba enche a caixa
+superior de uma vez, na vazão dela, e desliga. O pressurizador trabalha de outro
+modo. Ele liga a cada descarga e fica ligado enquanto a caixa acoplada enche, e quem
+decide a vazão é a boia da caixa, e não a bomba. Uma bomba maior não enche a caixa mais
+depressa: fica o mesmo tempo ligada, puxando mais potência.
+
+Por isso o programa não calcula a energia do pressurizador pela energia específica
+`ρ·g·H/(η_b·η_m)`, que pressupõe a bomba no ponto de melhor rendimento. Calcula pelo
+tempo ligado:
+
+```equacao:energia_pressurizador
+E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E` | energia anual do pressurizador | kWh/ano |
+| `P` | potência de placa, no eixo | kW |
+| `η_m` | rendimento do motor, da Tabela 13 da ABNT NBR 17094-2 | adimensional |
+| `V` | volume pluvial consumido | m³/ano |
+| `Q_b(H)` | vazão da curva do modelo na pressão de trabalho `H` | m³/h |
+| `Q_p` | vazão do ponto de uso | m³/h |
+| `N` | acionamentos por ano: moradores × 5,05 descargas × 365,25 | 1/ano |
+| `t_r` | retardo de desligamento do controle eletrônico | h |
+
+É a forma do «método simples» que Ward, Butler e Memon (2012) descrevem, potência vezes
+duração de operação, com duas correções: a vazão efetiva é a menor entre a da bomba e
+a do ponto, e o retardo dos controles eletrônicos entra a cada partida. A potência de
+placa é a do ponto nominal, e em vazão baixa o motor puxa um pouco menos; a estimativa
+tende a superestimar a energia, mas ordena os modelos entre si.
+
+A vazão do ponto padrão é de 0,15 L/s, isto é, 9 L/min: a vazão de projeto da bacia com
+caixa de descarga na Tabela A.1 da ABNT NBR 5626:1998. A edição de 2020 retirou a tabela
+e passou ao projeto a tarefa de explicitar as vazões nos pontos de utilização (item
+6.7.1); quem tiver o dado do fabricante da bacia deve usá-lo.
+
+### O catálogo
+
+A etapa **4. Reservatório & Custos** traz seis pressurizadores residenciais de cinco
+fabricantes, cada um com a curva vazão × pressão do manual, guardado nos documentos
+consultados: Komeco TP 820T e TP 825T, Cardal Potenza, Jacuzzi AcquaHouse, com curva
+ensaiada no Laboratório de Etiquetagem de Bombas da UNIFEI, Syllent Impulse Press e Rowa
+Max Press 20E. Para outro modelo, a opção «Personalizado» pede a potência de placa, a
+vazão lida na curva do fabricante na pressão de trabalho e o retardo de desligamento.
+
+A tabela aplica o catálogo à pressurização direta do tutorial: a cisterna de 4.000 L sem
+caixa superior, quatro moradores e a vazão da bacia de 9 L/min.
+
+<!-- inclui: _tabelas/cap28_pressurizadores.md -->
+
+A 18 m.c.a., cinco dos seis modelos entregam mais que os 9 L/min da bacia, e todos
+ficam as mesmas 110 horas por ano ligados. O que os separa é a potência: o de 1/4 CV
+gasta 40 kWh, os de 1/2 CV, 67. O sexto, com pouco mais de 7 L/min a 18 m.c.a., opera
+quase no fim da curva, fica mais tempo ligado e ainda soma dez segundos de retardo a
+cada uma das 7.373 partidas do ano.
+
+A 24 m.c.a. a ordem se inverte. O modelo de 1/4 CV chega a 4,4 L/min, e o tempo ligado
+dobra; três modelos nem alcançam a pressão. O melhor passa a ser um de 1/2 CV. ==A
+regra que a tabela ensina é escolher o menor modelo que entrega a vazão do ponto na
+pressão de trabalho,== e é o que o item 6.5.11.12 da ABNT NBR 5626:2020 pede: que o
+consumo de energia das bombas de recalque e de pressurização seja minimizado pela escolha
+da bomba, entre as alternativas consideradas. A tela aponta esse modelo e mostra a
+energia de todos os outros ao lado.
+
+> **Duas bombas, e não uma.** O item 6.5.11.2 da mesma norma exige no mínimo duas bombas,
+> de funcionamento independente, nos sistemas de recalque e de pressurização. O tutorial
+> segue a norma, e o investimento conta a principal e a reserva.
+
+---
+
+## Por que a energia do recalque é pequena, e a do pressurizador não
 
 Elevar um metro cúbico a doze metros custa cerca de 0,033 kWh de energia hidráulica.
-Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue.
+Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue, e o recalque do
+tutorial, com as partidas, a 0,13 kWh/m³.
 
-Água é pesada, mas doze metros é pouco. Por isso o custo energético do aproveitamento
-pluvial é desprezível diante da economia na fatura de água e esgoto em edificação de pequeno
-porte — e por isso o argumento de que «bombear gasta mais do que economiza» não se
-sustenta nessa escala.
+A pressurização direta do mesmo projeto gasta de 0,68 a 1,66 kWh/m³, conforme o modelo:
+cinco a treze vezes mais. Os números reproduzem uma diferença que a literatura já
+tinha medido. Na revisão de Vieira et al. (2014), a mediana dos estudos teóricos foi de
+0,20 kWh/m³, e a dos empíricos, de 1,40 kWh/m³, porque os primeiros ignoravam as partidas,
+o modo de espera e o rendimento real de motor e bomba. A mesma revisão relata 1,70 kWh/m³
+para abastecer uma caixa acoplada diretamente com uma bomba de 450 W, e 1,52 kWh/m³ em
+média em dezenove residências australianas com alimentação direta.
+
+O recalque do tutorial fica perto da mediana teórica porque trabalha como os estudos
+teóricos supõem: poucas partidas por ano, na vazão da própria bomba. O pressurizador fica
+na faixa empírica porque trabalha como as casas medidas: uma partida por uso, na vazão
+do ponto.
+
+Mesmo assim, a energia é pequena diante da economia na fatura. Os 40 kWh do menor
+pressurizador custam menos de trinta reais por ano na tarifa do tutorial. O argumento de
+que «bombear gasta mais do que economiza» não se sustenta em edificação de pequeno porte,
+mas a escolha do arranjo e do modelo pode multiplicar por dez a parcela de energia, e é
+ela que pesa no carbono da seção {{n:30}}.
 
 Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.

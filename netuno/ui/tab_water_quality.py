@@ -114,7 +114,7 @@ class TabWaterQuality(QWidget):
         """)
         lay_diag = QVBoxLayout(self.frame_ff_diag)
         lay_diag.setSpacing(4)
-        self.lbl_diag_class = QLabel("<b>Classificação:</b> --")
+        self.lbl_diag_class = QLabel(tr("<b>Classificação:</b> --"))
         self.lbl_diag_text = QLabel("--")
         self.lbl_diag_text.setWordWrap(True)
         self.lbl_diag_text.setStyleSheet(f"font-size: 11px; color: {sub_text_color};")
@@ -554,8 +554,7 @@ class TabWaterQuality(QWidget):
         self._set_card_value(self.card_rem_turb, f"{ff_res.removal_turbidity_pct:.1f} %")
         self._set_card_value(self.card_rem_bact, f"{ff_res.removal_bacteria_pct:.1f} %")
 
-        self.lbl_diag_class.setText(f"<b>{tr('Classificação:')}</b> {ff_res.cleanliness_classification} "
-                                   f"(Turbidez Bruta Pós-Descarte Estimada: ~{ff_res.estimated_post_discard_turbidity_ntu:.1f} NTU)")
+        self.lbl_diag_class.setText(tr('<b>{0}</b> {1} (Turbidez Bruta Pós-Descarte Estimada: ~{2:.1f} NTU)').format(tr('Classificação:'), ff_res.cleanliness_classification, ff_res.estimated_post_discard_turbidity_ntu))
         self.lbl_diag_text.setText(ff_res.recommendation_text)
 
         # 2. Dimensionamento ETAP
@@ -601,12 +600,11 @@ class TabWaterQuality(QWidget):
             ff = etap_res.first_flush
             self.lbl_ff_filter_desc.setText(ff.leaf_filter_type)
             self.lbl_ff_filter_cost.setText(f"R$ {ff.leaf_filter_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
-            self.lbl_ff_tank_desc.setText(f"{ff.diverter_tank_type} (Volume = {ff.diverter_volume_liters:.0f} L)")
+            self.lbl_ff_tank_desc.setText(tr('{0} (Volume = {1:.0f} L)').format(ff.diverter_tank_type, ff.diverter_volume_liters))
             self.lbl_ff_tank_cost.setText(f"R$ {ff.diverter_tank_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
             self.lbl_ff_purge_desc.setText(ff.purge_drain_description)
             self.lbl_ff_materials.setText(
-                f"{ff.material_description} — Massa total: {ff.diverter_mass_kg + ff.leaf_filter_mass_kg:.1f} kg "
-                f"| Carbono de Fabricação: ~{ff.first_flush_embodied_co2_kg:.1f} kg CO2e"
+                tr('{0} — Massa total: {1:.1f} kg | Carbono de Fabricação: ~{2:.1f} kg CO2e').format(ff.material_description, ff.diverter_mass_kg + ff.leaf_filter_mass_kg, ff.first_flush_embodied_co2_kg)
             )
             self.lbl_ff_total_capex.setText(f"R$ {ff.first_flush_total_capex:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.'))
             if hasattr(self, 'card_ff_capex'):
@@ -626,23 +624,27 @@ class TabWaterQuality(QWidget):
                 vol_pluv_m3 = sim_pluv_m3
                 vol_pluv_l_dia = (vol_pluv_m3 * 1000.0) / 365.25
                 active_kg_yr = (vol_pluv_m3 * dose_cl) / 1000.0
-                comm_kg_yr = active_kg_yr / 0.65 if dose_cl > 0 else 0.0
+                pureza = float(getattr(self.config, 'chlorine_product_purity', 0.65) or 0.65)
+                preco_kg = float(getattr(self.config, 'chlorine_cost_per_kg', 25.0) or 25.0)
+                comm_kg_yr = active_kg_yr / pureza if dose_cl > 0 else 0.0
                 daily_g_day = (vol_pluv_l_dia * dose_cl) / 1000.0
-                cost_yr = comm_kg_yr * 38.0
+                # O mesmo preço e a mesma pureza do fluxo de caixa: até 18/09/2026 esta
+                # memória usava R$ 38,00/kg e 65% fixos, e divergia do custeio.
+                cost_yr = comm_kg_yr * preco_kg
 
-                self.lbl_cl_calc_demand.setText(f"{vol_pluv_m3:,.1f} m³/ano ({vol_pluv_l_dia:,.0f} L/dia)".replace(',', 'X').replace('.', ',').replace('X', '.'))
-                self.lbl_cl_calc_dose.setText(f"{dose_cl:.2f} mg/L (ou g/m³ de Cl₂ ativo)")
-                self.lbl_cl_calc_active.setText(f"{active_kg_yr:.3f} kg Cl₂ ativo/ano")
-                self.lbl_cl_calc_commercial.setText(f"{comm_kg_yr:.2f} kg pastilhas/ano ({comm_kg_yr*1000/12:.0f} g/mês)")
-                self.lbl_cl_calc_daily.setText(f"{daily_g_day:.2f} g Cl₂ ativo/dia")
-                self.lbl_cl_calc_cost.setText(f"R$ {cost_yr:,.2f}/ano (base R$ 38,00/kg)".replace(',', 'X').replace('.', ',').replace('X', '.'))
+                self.lbl_cl_calc_demand.setText(tr('{0:,.1f} m³/ano ({1:,.0f} L/dia)').format(vol_pluv_m3, vol_pluv_l_dia).replace(',', 'X').replace('.', ',').replace('X', '.'))
+                self.lbl_cl_calc_dose.setText(tr('{0:.2f} mg/L (ou g/m³ de Cl₂ ativo)').format(dose_cl))
+                self.lbl_cl_calc_active.setText(tr('{0:.3f} kg Cl₂ ativo/ano').format(active_kg_yr))
+                self.lbl_cl_calc_commercial.setText(tr('{0:.2f} kg pastilhas/ano ({1:.0f} g/mês)').format(comm_kg_yr, comm_kg_yr*1000/12))
+                self.lbl_cl_calc_daily.setText(tr('{0:.2f} g Cl₂ ativo/dia').format(daily_g_day))
+                self.lbl_cl_calc_cost.setText(tr('R$ {0:,.2f}/ano (base R$ {1:,.2f}/kg)').format(cost_yr, preco_kg).replace(',', 'X').replace('.', ',').replace('X', '.'))
                 
                 if dose_cl < 0.5:
-                    self.lbl_cl_calc_norm.setText(f"<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>")
+                    self.lbl_cl_calc_norm.setText(tr("<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>").format())
                 elif dose_cl <= 2.0:
                     self.lbl_cl_calc_norm.setText(f"<span style='color: #16a34a;'>✅ Atende plenamente à NBR 15527 / NBR 16783 (Residual livre esperado: 0,5 a 2,0 mg/L).</span>")
                 else:
-                    self.lbl_cl_calc_norm.setText(f"<span style='color: #0284c7;'>ℹ️ Hipercloração (> 2,0 mg/L). Recomendado para desinfecção de choque ou águas com alta matéria orgânica.</span>")
+                    self.lbl_cl_calc_norm.setText(tr("<span style='color: #0284c7;'>ℹ️ Hipercloração (> 2,0 mg/L). Recomendado para desinfecção de choque ou águas com alta matéria orgânica.</span>").format())
 
         # Atualiza parâmetros na config
         self.config.chlorine_dose_mg_l = dose_cl

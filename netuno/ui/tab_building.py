@@ -1081,11 +1081,11 @@ class TabBuilding(QWidget):
 
         # Atualiza subtotais nos cards
         if hasattr(self, "lbl_subtot_potable"):
-            self.lbl_subtot_potable.setText(f"🚿 {tr('Subtotal Potável:')} {v_pot_in:.1f} L/{unit}/dia")
+            self.lbl_subtot_potable.setText(tr('🚿 {0} {1:.1f} L/{2}/dia').format(tr('Subtotal Potável:'), v_pot_in, unit))
         if hasattr(self, "lbl_subtot_non_potable"):
-            self.lbl_subtot_non_potable.setText(f"🚽 {tr('Subtotal Não-Potável:')} {v_non_pot_in:.1f} L/{unit}/dia")
+            self.lbl_subtot_non_potable.setText(tr('🚽 {0} {1:.1f} L/{2}/dia').format(tr('Subtotal Não-Potável:'), v_non_pot_in, unit))
         if hasattr(self, "lbl_subtot_outdoor"):
-            self.lbl_subtot_outdoor.setText(f"🌿 {tr('Subtotal Externo:')} {irr_l:.1f} L/dia")
+            self.lbl_subtot_outdoor.setText(tr('🌿 {0} {1:.1f} L/dia').format(tr('Subtotal Externo:'), irr_l))
 
         # Sincroniza com as variáveis base da edificação
         if sync_to_base and not self._updating_shares:
@@ -1262,15 +1262,15 @@ class TabBuilding(QWidget):
                     f"💧 {tr('Demanda:')} {tot_combined:,.0f} L/d ({tot_indoor:,.0f} int + {ext_l:,.0f} ext)".replace(',', '.')
                 )
                 self.lbl_simple_month_vol.setText(
-                    f"📦 {tr('Consumo Mensal:')} {month_tot_m3:.1f} m³/mês (🔵 {pot_pct:.0f}% pot / 🟢 {non_pot_pct:.0f}% não-pot)"
+                    tr('📦 {0} {1:.1f} m³/mês (🔵 {2:.0f}% pot / 🟢 {3:.0f}% não-pot)').format(tr('Consumo Mensal:'), month_tot_m3, pot_pct, non_pot_pct)
                 )
                 self.lbl_simple_pluvial_demand.setText(
                     f"🌧️ {tr('Alvo Pluvial:')} {pluvial_target:,.0f} L/d ({global_share_pct:.0f}%)".replace(',', '.')
                 )
             else:
-                self.lbl_simple_tot_demand.setText(f"💧 {tr('Demanda Total:')} -- L/dia")
-                self.lbl_simple_month_vol.setText(f"📦 {tr('Consumo Mensal:')} -- m³/mês")
-                self.lbl_simple_pluvial_demand.setText(f"🌧️ {tr('Alvo Pluvial:')} -- L/dia")
+                self.lbl_simple_tot_demand.setText(tr('💧 {0} -- L/dia').format(tr('Demanda Total:')))
+                self.lbl_simple_month_vol.setText(tr('📦 {0} -- m³/mês').format(tr('Consumo Mensal:')))
+                self.lbl_simple_pluvial_demand.setText(tr('🌧️ {0} -- L/dia').format(tr('Alvo Pluvial:')))
 
         # ── 2. Modo Avançado (Detalhamento de Usos) ──
         pot_pct = parse_float(self.txt_potable_indoor_share.text(), 0.0)
@@ -1509,18 +1509,18 @@ class TabBuilding(QWidget):
             non_pot_pct = parse_float(self.txt_non_potable_indoor_share_simple.text(), 35.0) if hasattr(self, "txt_non_potable_indoor_share_simple") else parse_float(self.txt_share.text(), 40.0)
             if d > 0 and r > 0:
                 tot = (d * r * (non_pot_pct / 100.0)) + ext_l
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} {tot:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
             else:
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} -- L/dia")
+                self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 1:  # Avançado
             d = parse_float(self.txt_demand.text(), 0.0)
             r = parse_float(self.txt_residents.text(), 0.0)
             s = parse_float(self.txt_share.text(), 0.0) / 100.0
             if d > 0 and r > 0:
                 tot = d * r * s
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} {tot:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
             else:
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} -- L/dia")
+                self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 2:  # Semanal
             tots = []
             for row in range(7):
@@ -1532,7 +1532,7 @@ class TabBuilding(QWidget):
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Semanal:')} {avg:,.1f} L/dia".replace(',', '.'))
+            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Semanal:'), avg).replace(',', '.'))
         elif idx == 3:  # Mensal
             tots = []
             for row in range(12):
@@ -1544,11 +1544,11 @@ class TabBuilding(QWidget):
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Mensal:')} {avg:,.1f} L/dia".replace(',', '.'))
+            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Mensal:'), avg).replace(',', '.'))
         elif idx == 4:  # Diária
             if self.daily_custom_series:
                 avg = sum(r[4] for r in self.daily_custom_series) / len(self.daily_custom_series)
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Diária:')} {avg:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Diária:'), avg).replace(',', '.'))
             else:
                 self.lbl_tot_pluvial.setText(tr("Demanda Pluvial: -- L/dia"))
 

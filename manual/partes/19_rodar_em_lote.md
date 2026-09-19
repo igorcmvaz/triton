@@ -144,11 +144,11 @@ Aplicados ao projeto do tutorial, `validate` e `run` produzem:
 netuno validate 01_tutorial_florianopolis.netuno
 Projeto válido: estrutura, chuva e premissas essenciais verificadas.
 
-netuno run 01_tutorial_florianopolis.netuno --volume 5000 --format json --output r.json
+netuno run 01_tutorial_florianopolis.netuno --volume 4000 --format json --output r.json
 ```
 
-O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 5.000 L, o potencial de economia de 37,76%, o volume pluvial consumido de 82,7 m³/ano, o extravasamento de 104,6 m³/ano e a classificação dos dias em 93,8% plenos, 1,1% parciais e 5,1% nulos.
+O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 4.000 L, o potencial de economia de 27,30%, o volume pluvial consumido de 59,8 m³/ano, o extravasamento de 127,5 m³/ano e a classificação dos dias em 97,3% plenos, 0,5% parciais e 2,2% nulos.
 
-O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a demanda e o investimento com distribuição de coeficiente de variação declarado — por padrão, 10% para a precipitação, 0% para a área, 10% para a demanda e 15% para o investimento, em 200 amostras — e informa os percentis de 5%, 50% e 95% do potencial de economia e do valor presente líquido, com a probabilidade de o valor presente líquido ser positivo. No tutorial, com 50 amostras e 5.000 L, o potencial de economia fica entre 36,1% e 38,6%, com mediana de 37,4%.
+O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a demanda e o investimento com distribuição de coeficiente de variação declarado — por padrão, 10% para a precipitação, 0% para a área, 10% para a demanda e 15% para o investimento, em 200 amostras — e informa os percentis de 5%, 50% e 95% do potencial de economia e do valor presente líquido, com a probabilidade de o valor presente líquido ser positivo. No tutorial, com 50 amostras e 4.000 L, o potencial de economia fica entre 26,8% e 27,6%, com mediana de 27,3%. A faixa é estreita porque o sistema já opera perto do teto de 28%: uma variação de 10% na chuva ou na demanda pouco muda um reservatório que quase nunca seca.
 
 > Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de pesquisa do grupo sobre bases climáticas de dezenas de milhares de séries, e exigem os arquivos dessas bases; não fazem parte do uso corrente do programa.

@@ -32,15 +32,17 @@ ROTULOS = {
 #: Pressão de trabalho do pressurizador, em m.c.a.: a média da faixa do
 #: pressostato do Komeco TP 820 (1/4 CV), que liga a 12 e desliga a 24 m.c.a.
 #: (manual do fabricante, ficha técnica). Abaixo do limite de 40 m.c.a. de
-#: pressão estática da ABNT NBR 5626.
+#: pressão estática nos pontos de utilização da ABNT NBR 5626:2020, item 6.9.4.
 PRESSAO_DE_TRABALHO_PADRAO_M = 18.0
 
 #: Usos por pessoa por dia que acionam o pressurizador nos usos não potáveis:
 #: 5,05 descargas e 0,37 ciclos de máquina de lavar (Mayer, DeOreo et al., 1999,
-#: Residential End Uses of Water, AWWARF, seção «Fixture Utilization»).
+#: Residential End Uses of Water, AWWARF, seção «Fixture Utilization»). O padrão
+#: conta só as descargas: a lavagem de roupa está fora dos usos do item 4.1.7 da
+#: ABNT NBR 15527:2019. Quem a incluir soma os 0,37 ciclos.
 DESCARGAS_POR_PESSOA_DIA = 5.05
 CICLOS_DE_LAVADORA_POR_PESSOA_DIA = 0.37
-ACIONAMENTOS_POR_PESSOA_DIA = DESCARGAS_POR_PESSOA_DIA + CICLOS_DE_LAVADORA_POR_PESSOA_DIA
+ACIONAMENTOS_POR_PESSOA_DIA = DESCARGAS_POR_PESSOA_DIA
 
 
 def arranjo_de(config) -> str:

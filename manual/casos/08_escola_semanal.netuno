@@ -5,10 +5,10 @@
   },
   "version": "5.0.0",
   "metadata": {
-    "project_id": "N5-20260917-121145-41285A5B",
+    "project_id": "N5-20260918-224535-3BAAFF9A",
     "name": "Manual, secao 3.5 - escola com demanda semanal",
-    "created_at": "17/09/2026 12:11",
-    "saved_at": "17/09/2026 12:11:45"
+    "created_at": "18/09/2026 22:45",
+    "saved_at": "18/09/2026 22:45:35"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11037,7 +11037,12 @@
       "pumping_threshold_l": 0.0,
       "supply_arrangement": "pressurizacao",
       "pressurizer_pressure_m": 18.0,
-      "pressurizer_starts_per_person_day": 5.42,
+      "pressurizer_starts_per_person_day": 5.05,
+      "pressurizer_model": "komeco_tp820t",
+      "pressurizer_point_flow_l_min": 9.0,
+      "pressurizer_power_kw": 0.18,
+      "pressurizer_flow_l_min": 13.3,
+      "pressurizer_post_run_s": 0.0,
       "pump": {
         "count": 1,
         "power_str": "1/2",

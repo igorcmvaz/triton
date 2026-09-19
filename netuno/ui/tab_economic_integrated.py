@@ -1049,7 +1049,7 @@ class TabEconomicIntegrated(QWidget):
                     self.table_vpl_volumes.setItem(row, 3, QTableWidgetItem(f"{format_ptbr(vol_m3_val, 1)}"))
                     self.table_vpl_volumes.setItem(row, 4, QTableWidgetItem(f"{curr_sym} {format_ptbr(econ_v.vpl, 2)}"))
                     self.table_vpl_volumes.setItem(row, 5, QTableWidgetItem(f"{format_ptbr(econ_v.tir_pct, 1)}%"))
-                    self.table_vpl_volumes.setItem(row, 6, QTableWidgetItem(f"{format_ptbr(pb_v, 1)}" if pb_v else "Sem Retorno"))
+                    self.table_vpl_volumes.setItem(row, 6, QTableWidgetItem(f"{format_ptbr(pb_v, 1)}" if pb_v else tr("Sem Retorno")))
 
                 # O default de referência ótima econômica é o payback mais curto
                 best_opt_idx = best_pb_idx if best_pb_idx >= 0 else best_vpl_idx

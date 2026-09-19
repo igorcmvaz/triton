@@ -162,13 +162,26 @@ TUTORIAL = {
     "discard_mode": 1,         # todo evento de chuva
     "moradores": 4,
     "per_capita": 150.0,       # L/hab·dia
-    "rainwater_share": 0.40,   # bacias, máquina de lavar e área externa
+    # Bacia sanitária e usos externos. A máquina de lavar roupa saiu em
+    # 2026-09-18: está fora dos usos do item 4.1.7 da ABNT NBR 15527:2019.
+    "rainwater_share": 0.28,
     "volume_inicial": 3000.0,  # o primeiro palpite, do capítulo 6
     # A partir da seção do reservatório superior, o projeto adota recalque para
     # caixa elevada: é a comparação daquela seção, com o limiar de 100 L.
     "caixa_superior_l": 1000.0,
     "limiar_recalque_l": 100.0,
+    # O volume que o tutorial escolhe: ideal pelo ganho marginal de 1 %/m³ e
+    # vencedor do multicritério com pesos iguais.
+    "volume": 4000.0,
 }
+
+VOLUME = TUTORIAL["volume"]
+
+
+def vol_br(v=None):
+    """Volume em litros com separador de milhar: 4.000 L."""
+    v = VOLUME if v is None else v
+    return f"{int(round(v)):,}".replace(",", ".") + " L"
 
 VOLUMES_VARREDURA = [0, 1000, 2000, 3000, 4000, 5000, 6000, 8000,
                      10000, 12000, 16000, 20000]
@@ -296,11 +309,11 @@ def tabela_limiar_e_custo():
 
     linhas_custo = [
         "",
-        "| | 5.000 L | 20.000 L |",
+        f"| | {vol_br()} | 20.000 L |",
         "| :--- | ---: | ---: |",
     ]
     vals = {}
-    for v in (5000, 20000):
+    for v in (VOLUME, 20000):
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg)
         preco = estimate_tank_price(float(v), "CONCRETO")
         amb = _config_ambiental()
@@ -308,7 +321,7 @@ def tabela_limiar_e_custo():
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
         vals[v] = (r.potential_potable_savings_pct, preco,
                    lca.lower_tank_mass_kg, lca.total_embodied_co2_kg)
-    a, b = vals[5000], vals[20000]
+    a, b = vals[VOLUME], vals[20000]
     linhas_custo += [
         f"| potencial de economia | {br(a[0], 2)}% | {br(b[0], 2)}% |",
         f"| preço da cisterna de concreto | R$ {br(a[1], 0)} | R$ {br(b[1], 0)} |",
@@ -379,7 +392,7 @@ def _config_ambiental(sim=None):
     cfg.upper_tank_used = True
     cfg.upper_tank_vol_liters = TUTORIAL["caixa_superior_l"]
     if sim is not None:
-        cfg.annual_pump_kwh = compute_annual_pump_energy(_config_economica(5000.0), sim).annual_kwh
+        cfg.annual_pump_kwh = compute_annual_pump_energy(_config_economica(VOLUME), sim).annual_kwh
     return cfg
 
 
@@ -390,9 +403,9 @@ def tabela_reservatorio_superior():
 
     serie = _serie()
     cfg = _config_tutorial()
-    unico = run_single_simulation(precip_data=serie, lower_tank_vol=6000.0, **cfg)
+    unico = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME + 1000.0, **cfg)
     duplo = run_single_simulation(
-        precip_data=serie, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+        precip_data=serie, lower_tank_vol=VOLUME, upper_tank_vol=1000.0,
         upper_tank_used=True, pumping_threshold=100.0, **cfg)
 
     bomba = NetunoConfig()
@@ -403,7 +416,7 @@ def tabela_reservatorio_superior():
     anos = duplo.total_days / 365.25
 
     L = [
-        "| Mesmo armazenamento de 6.000 L | Um tanque só | 5.000 embaixo + 1.000 em cima |",
+        f"| Mesmo armazenamento de {vol_br(VOLUME + 1000)} | Um tanque só | {vol_br()[:-2]} embaixo + 1.000 em cima |",
         "| :--- | ---: | ---: |",
         f"| potencial de economia | {br(unico.potential_potable_savings_pct, 2)}% "
         f"| {br(duplo.potential_potable_savings_pct, 2)}% |",
@@ -427,7 +440,7 @@ def tabela_limiar_de_acionamento():
          "| ---: | ---: | ---: |"]
     for lim in (0, 100, 300, 500):
         r = run_single_simulation(
-            precip_data=serie, lower_tank_vol=5000.0, upper_tank_vol=1000.0,
+            precip_data=serie, lower_tank_vol=VOLUME, upper_tank_vol=1000.0,
             upper_tank_used=True, pumping_threshold=float(lim), **cfg)
         anos = r.total_days / 365.25
         L.append(f"| {br(lim, 0)} L | {br(r.potential_potable_savings_pct, 2)}% "
@@ -440,7 +453,7 @@ def tabela_etap():
     from netuno.core.water_quality import WATER_QUALITY_CLASSES, size_etap
 
     serie = _serie()
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
 
@@ -476,7 +489,7 @@ def tabela_economica():
     from netuno.core.economic import calculate_water_bill, run_economic_analysis
 
     serie = _serie()
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     dias_mes = 30.4375
     tot_m3 = (r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day) * dias_mes / 1000.0
@@ -484,7 +497,7 @@ def tabela_economica():
     sem = calculate_water_bill(tot_m3 * 1000, TARIFA_CASAN, 1, 100.0, 0.0, 0.0)
     com = calculate_water_bill(pot_m3 * 1000, TARIFA_CASAN, 1, 100.0, 0.0, 0.0)
 
-    cfg = _config_economica(5000.0, "CONCRETO")
+    cfg = _config_economica(VOLUME, "CONCRETO")
     e = run_economic_analysis(cfg, r)
 
     L = [
@@ -512,7 +525,7 @@ def tabela_materiais():
     from netuno.core.environmental import MATERIAL_PRESETS, EnvironmentalConfig, calculate_lca
 
     serie = _serie()
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0,
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
     L = ["| Material da cisterna | Massa | Carbono incorporado | Payback de carbono "
@@ -523,9 +536,9 @@ def tabela_materiais():
     for k in MATERIAL_PRESETS:
         cfg = _config_ambiental(r)
         cfg.lower_material_key = k
-        l = calculate_lca(5000.0, m3, cfg)
+        l = calculate_lca(VOLUME, m3, cfg)
         try:
-            preco = f"R$ {br(estimate_tank_price(5000.0, k), 0)}"
+            preco = f"R$ {br(estimate_tank_price(VOLUME, k), 0)}"
         except Exception:
             preco = "—"
         L.append(f"| {nomes.get(k, k)} | {br(l.lower_tank_mass_kg, 0)} kg "
@@ -535,7 +548,7 @@ def tabela_materiais():
 
     L += ["", "| Volume em concreto | Payback de carbono | Saldo em 20 anos |",
           "| ---: | ---: | ---: |"]
-    for v in (2000, 3000, 5000, 8000):
+    for v in (2000, 3000, VOLUME, 8000):
         rr = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
                                    **_config_projeto())
         cfg = _config_ambiental(rr)
@@ -558,7 +571,7 @@ def tabela_multicriterio():
         "| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |",
         "| ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for v in (1000, 2000, 3000, 5000, 8000, 12000):
+    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
         e = run_economic_analysis(_config_economica(v, "PEAD"), r)
         amb = _config_ambiental(r)
@@ -579,6 +592,8 @@ def tabela_multicriterio():
             potable_consumed_m3_yr=r.annual_potable_consumed_m3))
 
     res = calculate_topsis_scores(cands)
+    global _CANDIDATOS_MULTICRITERIO
+    _CANDIDATOS_MULTICRITERIO = cands
     linhas += [
         "",
         "| Critério isolado | Volume que vence |",
@@ -589,6 +604,130 @@ def tabela_multicriterio():
         f"| **compromisso, pesos iguais** | **{br(cands[res.best_index].lower_tank_vol, 0)} L** |",
     ]
     return NL.join(linhas)
+
+
+_CANDIDATOS_MULTICRITERIO = None
+
+#: Pesos por dimensão (técnica, econômica, ambiental) da tabela de sensibilidade.
+PESOS_SENSIBILIDADE = (
+    ("pesos iguais", (1 / 3, 1 / 3, 1 / 3)),
+    ("técnico, 60%", (0.6, 0.2, 0.2)),
+    ("econômico, 60%", (0.2, 0.6, 0.2)),
+    ("ambiental, 60%", (0.2, 0.2, 0.6)),
+)
+
+
+def tabela_pesos():
+    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o peso dominante."""
+    from netuno.core.topsis import calculate_topsis_scores
+
+    if _CANDIDATOS_MULTICRITERIO is None:
+        tabela_multicriterio()
+    cands = _CANDIDATOS_MULTICRITERIO
+    L = ["| Peso dominante | Volume | Segundo colocado |", "| :--- | ---: | ---: |"]
+    for rotulo, pesos in PESOS_SENSIBILIDADE:
+        res = calculate_topsis_scores(cands, weights=pesos)
+        ordem = sorted(range(len(cands)), key=lambda i: -res.scores[i])
+        L.append(f"| {rotulo} | {br(cands[ordem[0]].lower_tank_vol, 0)} L "
+                 f"| {br(cands[ordem[1]].lower_tank_vol, 0)} L |")
+    return NL.join(L)
+
+
+#: Pressão de trabalho da comparação de pressurizadores, e a de uma casa mais alta.
+PRESSOES_PRESSURIZADOR = (18.0, 24.0)
+
+
+def tabela_pressurizadores():
+    """Seção 28: seis pressurizadores de catálogo no projeto do tutorial."""
+    from netuno.core.pressurizer_catalog import (
+        CATALOGO, ELETRONICO, FLUXOSTATO, PRESSOSTATO, VAZAO_DO_PONTO_PADRAO_L_MIN, energia)
+    from netuno.core.supply_arrangement import DESCARGAS_POR_PESSOA_DIA
+
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_tutorial())
+    v = r.annual_pluvial_consumed_m3
+    partidas = TUTORIAL["moradores"] * DESCARGAS_POR_PESSOA_DIA * 365.25
+    controle = {PRESSOSTATO: "pressostato", ELETRONICO: "eletrônico", FLUXOSTATO: "fluxostato"}
+    h1, h2 = PRESSOES_PRESSURIZADOR
+    L = [f"| Modelo | Controle | Vazão da curva a {br(h1, 0)} m.c.a. | Horas por ano "
+         f"| kWh por ano | kWh/m³ | kWh por ano a {br(h2, 0)} m.c.a. |",
+         "| :--- | :--- | ---: | ---: | ---: | ---: | ---: |"]
+    linhas = []
+    for p in CATALOGO:
+        e1 = energia(p, v, h1, partidas, VAZAO_DO_PONTO_PADRAO_L_MIN)
+        e2 = energia(p, v, h2, partidas, VAZAO_DO_PONTO_PADRAO_L_MIN)
+        linhas.append((e1.kwh_ano, p, e1, e2))
+    for _, p, e1, e2 in sorted(linhas, key=lambda x: x[0]):
+        a24 = br(e2.kwh_ano, 1) if e2.atende else "não alcança"
+        L.append(f"| {p.rotulo} | {controle[p.controle]} | {br(e1.vazao_da_bomba_l_min, 1)} L/min "
+                 f"| {br(e1.horas_ano, 0)} | {br(e1.kwh_ano, 1)} | {br(e1.kwh_por_m3, 2)} | {a24} |")
+    return NL.join(L), v, partidas
+
+
+#: Premissas perturbadas na tabela da seção 20: (rótulo, unidade, baixo, provável, alto).
+PREMISSAS_SENSIBILIDADE = (
+    ("reajuste das tarifas de água e esgoto", "% ao ano", 3.0, 5.0, 7.0),
+    ("taxa mínima de atratividade", "% ao mês", 0.3, 0.5, 0.7),
+    ("consumo per capita", "L/hab·dia", 120.0, 150.0, 180.0),
+    ("fração atendível", "%", 20.0, 28.0, 40.0),
+    ("preço da cisterna", "% do orçamento", 70.0, 100.0, 130.0),
+)
+
+
+def _projeto_fechado(ajuste=None):
+    """Potencial, VPL e retorno do projeto fechado do tutorial, com uma premissa mudada."""
+    from netuno.core.economic import run_economic_analysis
+    cfg_sim = _config_projeto()
+    cfg_eco = _config_economica(VOLUME, "PEAD")
+    nome, valor = ajuste if ajuste else (None, None)
+    if nome == "consumo per capita":
+        cfg_sim["total_demand_per_day"] = TUTORIAL["moradores"] * valor
+    elif nome == "fração atendível":
+        cfg_sim["rainwater_share"] = valor / 100.0
+    elif nome == "reajuste das tarifas de água e esgoto":
+        cfg_eco.water_tariff_escalation = cfg_eco.sewage_tariff_escalation = valor
+    elif nome == "taxa mínima de atratividade":
+        cfg_eco.tma = valor
+    elif nome == "preço da cisterna":
+        cfg_eco.cost_lower_tank *= valor / 100.0
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **cfg_sim)
+    e = run_economic_analysis(cfg_eco, r)
+    return r.potential_potable_savings_pct, e.vpl, e.payback_years
+
+
+def tabela_sensibilidade():
+    """Seção 20: cada premissa variada sozinha, no projeto fechado do tutorial."""
+    L = ["| Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |",
+         "| :--- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for rotulo, unidade, baixo, provavel, alto in PREMISSAS_SENSIBILIDADE:
+        res = [_projeto_fechado((rotulo, v)) for v in (baixo, alto)]
+        def pb(x):
+            return br(x, 1) + " anos" if x else "não retorna"
+        L.append(
+            f"| {rotulo}, {unidade} | {br(baixo, 1)} | {br(provavel, 1)} | {br(alto, 1)} "
+            f"| {br(res[0][0], 2)}% a {br(res[1][0], 2)}% "
+            f"| R$ {br(res[0][1], 0)} a R$ {br(res[1][1], 0)} "
+            f"| {pb(res[0][2])} a {pb(res[1][2])} |")
+    return NL.join(L)
+
+
+def tabela_decisao():
+    """Seção 32: escore TOPSIS e aceitabilidade SMAA de cada volume do tutorial."""
+    from netuno.core.mcdm_methods import run_smaa_analysis
+    from netuno.core.topsis import calculate_topsis_scores
+
+    if _CANDIDATOS_MULTICRITERIO is None:
+        tabela_multicriterio()
+    cands = _CANDIDATOS_MULTICRITERIO
+    topsis = calculate_topsis_scores(cands)
+    smaa = run_smaa_analysis(cands, num_samples=5000, random_seed=42)
+    ordem = sorted(range(len(cands)), key=lambda i: -topsis.scores[i])
+    posicao = {i: k + 1 for k, i in enumerate(ordem)}
+    L = ["| Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |",
+         "| ---: | ---: | ---: | ---: |"]
+    for i, c in enumerate(cands):
+        L.append(f"| {br(c.lower_tank_vol, 0)} L | {br(topsis.scores[i], 3)} | {posicao[i]}º "
+                 f"| {br(float(smaa.first_rank_probs[i]), 1)}% |")
+    return NL.join(L)
 
 
 CIDADES_GUIA14 = ("Florianopolis1", "SaoPaulo1", "Brasilia1", "Manaus1")
@@ -609,7 +748,7 @@ def tabela_cidades():
 
     cfg = _config_tutorial()
     L = ["| Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos "
-         "chuvoso | Potencial com 5.000 L | Volume ideal |",
+         f"chuvoso | Potencial com {vol_br()} | Volume ideal |",
          "| :--- | ---: | ---: | ---: | ---: | ---: |"]
     for chave in CIDADES_GUIA14:
         caminho = os.path.join(os.path.dirname(AQUI), "data", "rainfall", chave + ".csv")
@@ -617,7 +756,7 @@ def tabela_cidades():
             continue
         serie = load_precipitation(caminho)[: ANOS_TUTORIAL * 365]
         anos = len(serie) / 365.25
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **cfg)
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME, **cfg)
         sw = run_sweep_simulation(
             precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
             delta_ideal_threshold=1.0, **cfg)
@@ -687,6 +826,18 @@ LEGENDAS = {
         'Saldo de carbono do projeto do tutorial conforme o material do reservatório',
         'Efeito do volume da cisterna de concreto sobre o saldo de carbono',
     ],
+    'cap32_decisao.md': [
+        'Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial',
+    ],
+    'cap20_sensibilidade.md': [
+        'Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto',
+    ],
+    'cap28_pressurizadores.md': [
+        'Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba',
+    ],
+    'cap12_pesos.md': [
+        'Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado',
+    ],
     'cap12_multicriterio.md': [
         'Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise',
         'Volume vencedor segundo cada critério isolado',
@@ -742,13 +893,13 @@ def tabela_metodos_empiricos():
         v = round(volume / 250.0) * 250.0
         r = run_single_simulation(precip_data=serie, lower_tank_vol=v, **_config_tutorial())
         L.append(f"| {nome} | {regra} | {br(v, 0)} L | {br(r.potential_potable_savings_pct, 2)}% |")
-    r = run_single_simulation(precip_data=serie, lower_tank_vol=5000.0, **_config_tutorial())
-    L.append(f"| **simulação diária, ganho marginal de 1 %/m³** | varredura | **5 000 L** "
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME, **_config_tutorial())
+    L.append(f"| **simulação diária, ganho marginal de 1 %/m³** | varredura | **{br(VOLUME, 0)} L** "
              f"| **{br(r.potential_potable_savings_pct, 2)}%** |")
 
     F = ["", "| Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |",
          "| ---: | ---: | :--- |"]
-    for v in (1, 2, 3, 5, 8, 12, 20):
+    for v in (1, 2, 3, 4, 8, 12, 20):
         fr = v / (A * P / 1000.0)
         passo = "horário" if fr <= 0.01 else ("diário" if fr <= 0.125 else "mensal")
         F.append(f"| {br(v * 1000, 0)} L | {br(fr, 4)} | {passo} |")
@@ -758,12 +909,12 @@ def tabela_metodos_empiricos():
 def tabela_inventario():
     """Seção de ciclo de vida: o inventário do projeto fechado, item a item."""
     from netuno.core.environmental import calculate_lca
-    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=5000.0, **_config_projeto())
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_projeto())
     cfg = _config_ambiental(r)
     cfg.lower_material_key = "PEAD"
-    lca = calculate_lca(5000.0, r.annual_pluvial_consumed_m3, cfg)
+    lca = calculate_lca(VOLUME, r.annual_pluvial_consumed_m3, cfg)
     nomes = {
-        "Cisterna Inferior": "cisterna de 5.000 L, polietileno",
+        "Cisterna Inferior": f"cisterna de {vol_br()}, polietileno",
         "Caixa d'Água Superior": "caixa superior de 1.000 L, polietileno",
         "Motobomba": "duas motobombas de meio CV",
         "Sistema de Descarte": "descarte inicial: reservatório de 300 L e separador de folhas",
@@ -848,6 +999,10 @@ def main():
         ("cap10_economico.md", tabela_economica),
         ("cap11_materiais.md", tabela_materiais),
         ("cap12_multicriterio.md", tabela_multicriterio),
+        ("cap12_pesos.md", tabela_pesos),
+        ("cap28_pressurizadores.md", lambda: tabela_pressurizadores()[0]),
+        ("cap20_sensibilidade.md", tabela_sensibilidade),
+        ("cap32_decisao.md", tabela_decisao),
         ("cap14_cidades.md", tabela_cidades),
         ("cap24_metodos.md", tabela_metodos_empiricos),
         ("cap30_inventario.md", tabela_inventario),

@@ -55,7 +55,7 @@ class Sidebar(QWidget):
             color: #ffffff;
             letter-spacing: 2.2px;
         """)
-        lbl_sub = QLabel("UFSC · ENGENHARIA HÍDRICA")
+        lbl_sub = QLabel(tr("UFSC · ENGENHARIA HÍDRICA"))
         lbl_sub.setStyleSheet("""
             font-family: 'Segoe UI', 'Inter', sans-serif;
             font-size: 9.5px;
@@ -243,7 +243,7 @@ class Sidebar(QWidget):
         self.lbl_beta_disclaimer = QLabel(f"UFSC • {tr('Versão')} {APP_VERSION_LABEL.split()[-1]}")
         self.lbl_beta_disclaimer.setAlignment(Qt.AlignCenter)
         self.lbl_beta_disclaimer.setWordWrap(True)
-        self.lbl_beta_disclaimer.setText(f"Motor científico compartilhado · {APP_VERSION_LABEL.split()[-1]}")
+        self.lbl_beta_disclaimer.setText(tr('Motor científico compartilhado · {0}').format(APP_VERSION_LABEL.split()[-1]))
         self.lbl_beta_disclaimer.setStyleSheet("font-size: 8.5px; color: #789f95; margin-top: 4px; font-weight: 500;")
         layout.addWidget(self.lbl_beta_disclaimer)
 

@@ -136,23 +136,81 @@ class TabTanksSimulation(QWidget):
         self.lbl_supply_warning.setVisible(False)
         lay_t.addWidget(self.lbl_supply_warning)
 
+        # Pressurizador: modelo de catálogo ou dados próprios. A energia vem do
+        # tempo ligado, que o ponto de uso dita, e não da pressão sozinha.
+        # Ver netuno/core/pressurizer_catalog.py.
+        from netuno.core.pressurizer_catalog import CATALOGO, PERSONALIZADO
         self.box_pressurizer = QWidget()
         grid_pr = QGridLayout(self.box_pressurizer)
         grid_pr.setContentsMargins(0, 0, 0, 0)
-        grid_pr.addWidget(QLabel(tr("Pressao de trabalho (m.c.a.):")), 0, 0)
+        grid_pr.addWidget(QLabel(tr("Modelo do pressurizador:")), 0, 0)
+        self.combo_pressurizer_model = QComboBox()
+        for modelo in CATALOGO:
+            self.combo_pressurizer_model.addItem(modelo.rotulo, modelo.chave)
+        self.combo_pressurizer_model.addItem(tr("Personalizado — dados do fabricante"), PERSONALIZADO)
+        self.combo_pressurizer_model.setToolTip(tr(
+            "Modelos com curva de catálogo publicada pelo fabricante. A energia é o tempo "
+            "ligado vezes a potência elétrica: a potência de placa dividida pelo rendimento "
+            "do motor da ABNT NBR 17094-2."))
+        self.combo_pressurizer_model.currentIndexChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.combo_pressurizer_model, 0, 1)
+        grid_pr.addWidget(QLabel(tr("Pressao de trabalho (m.c.a.):")), 1, 0)
         self.txt_pressurizer_pressure = QLineEdit("18")
         self.txt_pressurizer_pressure.setToolTip(tr(
-            "Media da faixa do pressostato: o Komeco TP 820 liga a 12 e desliga a 24 m.c.a. "
-            "O limite de pressao estatica da ABNT NBR 5626 e 40 m.c.a."))
+            "Pressão que a bomba precisa manter: desnível até o ponto mais alto, perdas e a "
+            "pressão dinâmica do ponto, de no mínimo 1 m.c.a. (ABNT NBR 5626:2020, 6.9.2). "
+            "O padrão de 18 m.c.a. é a média da faixa do pressostato do Komeco TP 820T, "
+            "que liga a 12 e desliga a 24. A pressão estática nos pontos não pode passar de "
+            "40 m.c.a. (6.9.4)."))
         self.txt_pressurizer_pressure.textChanged.connect(self._on_supply_changed)
-        grid_pr.addWidget(self.txt_pressurizer_pressure, 0, 1)
-        grid_pr.addWidget(QLabel(tr("Acionamentos por pessoa por dia:")), 1, 0)
-        self.txt_pressurizer_starts = QLineEdit("5,42")
+        grid_pr.addWidget(self.txt_pressurizer_pressure, 1, 1)
+        grid_pr.addWidget(QLabel(tr("Vazão do ponto de uso (L/min):")), 2, 0)
+        self.txt_pressurizer_point_flow = QLineEdit("9")
+        self.txt_pressurizer_point_flow.setToolTip(tr(
+            "A vazão que o ponto aceita limita a da bomba: a boia de uma caixa acoplada "
+            "enche no ritmo dela, e bomba maior não a enche mais depressa. O padrão de "
+            "9 L/min (0,15 L/s) é a vazão de projeto da bacia com caixa de descarga da "
+            "ABNT NBR 5626:1998; a edição de 2020 (6.7.1) deixa ao projeto explicitá-la."))
+        self.txt_pressurizer_point_flow.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_point_flow, 2, 1)
+        grid_pr.addWidget(QLabel(tr("Acionamentos por pessoa por dia:")), 3, 0)
+        self.txt_pressurizer_starts = QLineEdit("5,05")
         self.txt_pressurizer_starts.setToolTip(tr(
-            "5,05 descargas e 0,37 ciclos de maquina de lavar por pessoa por dia "
-            "(Mayer, DeOreo et al., 1999). Multiplicado pelos moradores."))
+            "5,05 descargas por pessoa por dia (Mayer, DeOreo et al., 1999), multiplicadas "
+            "pelos moradores. Some 0,37 se a máquina de lavar roupa usar água de chuva. "
+            "Nos controles eletrônicos, cada acionamento soma o retardo de desligamento."))
         self.txt_pressurizer_starts.textChanged.connect(self._on_supply_changed)
-        grid_pr.addWidget(self.txt_pressurizer_starts, 1, 1)
+        grid_pr.addWidget(self.txt_pressurizer_starts, 3, 1)
+        self.lbl_pr_power = QLabel(tr("Potência de placa (kW):"))
+        grid_pr.addWidget(self.lbl_pr_power, 4, 0)
+        self.txt_pressurizer_power = QLineEdit("0,18")
+        self.txt_pressurizer_power.setToolTip(tr(
+            "Potência de placa, que é mecânica, no eixo. O programa a divide pelo rendimento "
+            "do motor da ABNT NBR 17094-2 para chegar à potência elétrica."))
+        self.txt_pressurizer_power.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_power, 4, 1)
+        self.lbl_pr_flow = QLabel(tr("Vazão na pressão de trabalho (L/min):"))
+        grid_pr.addWidget(self.lbl_pr_flow, 5, 0)
+        self.txt_pressurizer_flow = QLineEdit("13,3")
+        self.txt_pressurizer_flow.setToolTip(tr(
+            "Leia na curva vazão × pressão do fabricante, na pressão de trabalho informada acima."))
+        self.txt_pressurizer_flow.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_flow, 5, 1)
+        self.lbl_pr_delay = QLabel(tr("Retardo de desligamento (s):"))
+        grid_pr.addWidget(self.lbl_pr_delay, 6, 0)
+        self.txt_pressurizer_delay = QLineEdit("0")
+        self.txt_pressurizer_delay.setToolTip(tr(
+            "Segundos que a bomba segue ligada depois de fechado o último ponto. Zero nos "
+            "pressostatos mecânicos; 10 s na Syllent Impulse Press, segundo o manual."))
+        self.txt_pressurizer_delay.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_delay, 6, 1)
+        self.lbl_pressurizer_info = QLabel("")
+        self.lbl_pressurizer_info.setWordWrap(True)
+        self.lbl_pressurizer_info.setTextFormat(Qt.RichText)
+        self.lbl_pressurizer_info.setStyleSheet(
+            "color: #334155; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; "
+            "border-radius: 4px; padding: 6px;")
+        grid_pr.addWidget(self.lbl_pressurizer_info, 7, 0, 1, 2)
         self.box_pressurizer.setVisible(False)
         lay_t.addWidget(self.box_pressurizer)
 
@@ -818,11 +876,25 @@ class TabTanksSimulation(QWidget):
         self._supply_undeclared = arranjo not in ARRANJOS
         self.lbl_supply_warning.setVisible(self._supply_undeclared)
         if config is not None:
-            for widget, valor in ((self.txt_pressurizer_pressure, getattr(config, "pressurizer_pressure_m", 18.0)),
-                                  (self.txt_pressurizer_starts, getattr(config, "pressurizer_starts_per_person_day", 5.42))):
+            for widget, valor in (
+                    (self.txt_pressurizer_pressure, getattr(config, "pressurizer_pressure_m", 18.0)),
+                    (self.txt_pressurizer_starts, getattr(config, "pressurizer_starts_per_person_day", 5.05)),
+                    (self.txt_pressurizer_point_flow, getattr(config, "pressurizer_point_flow_l_min", 9.0)),
+                    (self.txt_pressurizer_power, getattr(config, "pressurizer_power_kw", 0.18)),
+                    (self.txt_pressurizer_flow, getattr(config, "pressurizer_flow_l_min", 13.3)),
+                    (self.txt_pressurizer_delay, getattr(config, "pressurizer_post_run_s", 0.0))):
                 widget.blockSignals(True)
-                widget.setText(format_ptbr(float(valor), 2, thousands=False).rstrip("0").rstrip(","))
+                texto = format_ptbr(float(valor), 2, thousands=False)
+                if "," in texto:
+                    texto = texto.rstrip("0").rstrip(",")
+                widget.setText(texto)
                 widget.blockSignals(False)
+            self.combo_pressurizer_model.blockSignals(True)
+            indice = self.combo_pressurizer_model.findData(
+                getattr(config, "pressurizer_model", "komeco_tp820t"))
+            self.combo_pressurizer_model.setCurrentIndex(max(0, indice))
+            self.combo_pressurizer_model.blockSignals(False)
+            self._refresh_pressurizer_info()
         self.box_pressurizer.setVisible(arranjo == "pressurizacao")
         mode = state.get("upper_mode", 2 if not getattr(config, "upper_tank_used", True) else 1)
         self.combo_upper_mode.blockSignals(True)
@@ -884,6 +956,7 @@ class TabTanksSimulation(QWidget):
         arranjo = self.supply_arrangement()
         recalque = arranjo == "recalque"
         self.box_pressurizer.setVisible(arranjo == "pressurizacao")
+        self._refresh_pressurizer_info()
         self.combo_upper_mode.blockSignals(True)
         if not recalque:
             self.combo_upper_mode.setCurrentIndex(2)
@@ -901,7 +974,107 @@ class TabTanksSimulation(QWidget):
         arranjo = self.supply_arrangement()
         cfg.supply_arrangement = "" if arranjo == "nao_informado" else arranjo
         cfg.pressurizer_pressure_m = parse_float(self.txt_pressurizer_pressure.text(), 18.0)
-        cfg.pressurizer_starts_per_person_day = parse_float(self.txt_pressurizer_starts.text(), 5.42)
+        cfg.pressurizer_starts_per_person_day = parse_float(self.txt_pressurizer_starts.text(), 5.05)
+        cfg.pressurizer_model = self.combo_pressurizer_model.currentData() or "komeco_tp820t"
+        cfg.pressurizer_point_flow_l_min = parse_float(self.txt_pressurizer_point_flow.text(), 9.0)
+        cfg.pressurizer_power_kw = parse_float(self.txt_pressurizer_power.text(), 0.18)
+        cfg.pressurizer_flow_l_min = parse_float(self.txt_pressurizer_flow.text(), 13.3)
+        cfg.pressurizer_post_run_s = parse_float(self.txt_pressurizer_delay.text(), 0.0)
+
+    def _pressurizer_volume_and_residents(self):
+        """Volume pluvial anual e moradores para a estimativa da tela.
+
+        Com simulação, o volume consumido; sem ela, a demanda pluvial do ano, que é
+        o teto do que o sistema consome.
+        """
+        moradores, volume = 4.0, 0.0
+        main_win = self.window()
+        if main_win and hasattr(main_win, "tab_building"):
+            try:
+                b_cfg = main_win.tab_building.get_building_config()
+                moradores = float(b_cfg.get("residents", 4.0) or 4.0)
+                volume = (b_cfg.get("demand", 150.0) * moradores * b_cfg.get("share", 0.28)
+                          * 365.25 / 1000.0)
+            except Exception:
+                pass
+        res = getattr(self, "last_sweep_result", None)
+        consumido = None
+        lista = list(getattr(res, "results_by_volume", None) or []) if res is not None else []
+        if lista:
+            alvo = getattr(res, "optimal_lower_tank_vol", None)
+            escolhido = next((r for r in lista if alvo is not None
+                              and abs(r.lower_tank_vol - alvo) < 1e-6), lista[-1])
+            consumido = getattr(escolhido, "annual_pluvial_consumed_m3", None)
+        return (float(consumido) if consumido else volume), moradores, bool(consumido)
+
+    def _refresh_pressurizer_info(self):
+        """Quadro com a energia do modelo escolhido e a de cada modelo do catálogo."""
+        if not hasattr(self, "lbl_pressurizer_info"):
+            return
+        from netuno.core.pressurizer_catalog import (
+            PERSONALIZADO, comparar, energia_personalizada, menor_que_atende)
+        personalizado = self.combo_pressurizer_model.currentData() == PERSONALIZADO
+        for w in (self.lbl_pr_power, self.txt_pressurizer_power, self.lbl_pr_flow,
+                  self.txt_pressurizer_flow, self.lbl_pr_delay, self.txt_pressurizer_delay):
+            w.setVisible(personalizado)
+        pressao = parse_float(self.txt_pressurizer_pressure.text(), 18.0) or 18.0
+        q_ponto = parse_float(self.txt_pressurizer_point_flow.text(), 9.0) or 9.0
+        acion = parse_float(self.txt_pressurizer_starts.text(), 5.05)
+        volume, moradores, simulado = self._pressurizer_volume_and_residents()
+        partidas = moradores * acion * 365.25
+        linhas = comparar(volume, pressao, partidas, q_ponto)
+        escolhido = self.combo_pressurizer_model.currentData()
+        if personalizado:
+            q = parse_float(self.txt_pressurizer_flow.text(), 0.0)
+            atual = energia_personalizada(
+                parse_float(self.txt_pressurizer_power.text(), 0.0), min(q, q_ponto) if q > 0 else q_ponto,
+                parse_float(self.txt_pressurizer_delay.text(), 0.0), volume, partidas)
+        else:
+            atual = next(e for e in linhas if e.chave == escolhido)
+        base = tr("consumo simulado") if simulado else tr("demanda pluvial do ano")
+        partes = []
+        sem_volume = volume <= 0
+        if sem_volume:
+            partes.append(tr(
+                "Preencha a edificação na etapa 2 para estimar a energia anual. A tabela mostra "
+                "a vazão que cada modelo entrega na pressão de trabalho."))
+        elif not atual.atende:
+            partes.append("<b style='color:#b91c1c;'>" + tr(
+                "Este modelo não alcança {0} m.c.a.: escolha outro ou reduza a pressão.").format(
+                format_ptbr(pressao, 1)) + "</b>")
+        else:
+            partes.append(tr(
+                "<b>{0}</b>: {1} L/min efetivos, {2} h e <b>{3} kWh por ano</b> ({4} kWh/m³), "
+                "sobre {5} m³ de {6}.").format(
+                atual.rotulo if not personalizado else tr("Personalizado"),
+                format_ptbr(atual.vazao_l_min, 1), format_ptbr(atual.horas_ano, 0),
+                format_ptbr(atual.kwh_ano, 1), format_ptbr(atual.kwh_por_m3, 2),
+                format_ptbr(volume, 1), base))
+        menor = menor_que_atende(pressao, q_ponto)
+        if menor is None:
+            partes.append(tr("Nenhum modelo do catálogo entrega {0} L/min a {1} m.c.a.").format(
+                format_ptbr(q_ponto, 1), format_ptbr(pressao, 1)))
+        elif not personalizado and menor.chave != escolhido:
+            partes.append(tr(
+                "O menor modelo que atende é o <b>{0}</b>. Um modelo maior não enche a caixa mais "
+                "depressa: gasta mais no mesmo tempo (ABNT NBR 5626:2020, 6.5.11.12).").format(menor.rotulo))
+        tabela = ["<table cellspacing='0' cellpadding='2'>",
+                  "<tr><td><b>" + tr("Modelo") + "</b></td><td align='right'><b>L/min</b></td>"
+                  "<td align='right'><b>kWh/" + tr("ano") + "</b></td></tr>"]
+        for e in linhas:
+            if e.atende and sem_volume:
+                valor = "—"
+            elif e.atende:
+                valor = format_ptbr(e.kwh_ano, 1)
+            else:
+                valor = tr("não atende")
+            estilo = " style='font-weight:bold;'" if e.chave == escolhido else ""
+            tabela.append(f"<tr{estilo}><td>{e.rotulo}</td>"
+                          f"<td align='right'>{format_ptbr(e.vazao_da_bomba_l_min, 1)}</td>"
+                          f"<td align='right'>{valor}</td></tr>")
+        tabela.append("</table>")
+        partes.append(tr("Vazão da curva de cada modelo na pressão de trabalho, e a energia anual:"))
+        self.lbl_pressurizer_info.setText("<br>".join(partes) + "".join(tabela))
 
     def on_param_changed(self):
         """Atualiza a parametrização do reservatório superior e sincroniza varredura."""
@@ -1362,12 +1535,12 @@ class TabTanksSimulation(QWidget):
         )
         if self.selected_volume_mode == "sweep":
             self.lbl_selected_vol_status.setText(
-                f"\u2713 {len(self.last_sweep_result.results_by_volume) if self.last_sweep_result else 0} volumes disponíveis para avaliação; decisão final no TOPSIS."
+                tr('✓ {0} volumes disponíveis para avaliação; decisão final no TOPSIS.').format(len(self.last_sweep_result.results_by_volume) if self.last_sweep_result else 0)
             )
             self.lbl_selected_vol_status.setStyleSheet("font-size: 12px; font-weight: bold; color: #059669;")
         else:
             self.lbl_selected_vol_status.setText(
-                f"\u2713 Volume: {format_ptbr(target_vol, 0)} L ({tr('Volume Fixo Personalizado')})"
+                tr('✓ Volume: {0} L ({1})').format(format_ptbr(target_vol, 0), tr('Volume Fixo Personalizado'))
             )
             self.lbl_selected_vol_status.setStyleSheet(
                 f"font-size: 12px; font-weight: bold; color: {'#ffffff' if is_dark else '#0284c7'};"

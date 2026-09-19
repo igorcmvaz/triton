@@ -14,17 +14,28 @@ correspondente.
 ## O que a norma diz, e o que ela não diz
 
 A ABNT NBR 15527 é a norma brasileira que trata do aproveitamento de água de chuva em
-usos não potáveis. Ela fixa limites para quatro parâmetros — turbidez, cor aparente,
-coliformes totais e cloro residual livre — e disciplina o descarte de primeiras águas e o
-regime de manutenção do sistema.
+usos não potáveis. Na edição de 2019, a Tabela 1 fixa três parâmetros mínimos: *E. coli*
+abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e pH entre 6,0 e 9,0 (item 4.6.3). A
+desinfecção fica a critério do projetista (4.6.4); se for por cloro, a norma recomenda
+residual livre entre 0,5 e 2,0 mg/L, com máximo de 5 mg/L (4.6.5), e pede monitoramento
+no mínimo semestral (4.6.7). Cor aparente e coliformes totais, que a edição de 2007
+limitava, saíram da tabela.
 
 O que a norma vigente **não** faz é dividir os usos não potáveis em classes com exigências
 distintas entre si. Essa divisão existiu na versão de 2007 e não sobreviveu à revisão de
 2019, que optou por um conjunto único de parâmetros aplicável a todos os usos não
 potáveis.
 
-O programa, por sua vez, oferece quatro classes, e a razão é prática: lavar roupa e regar
-jardim não impõem a mesma exigência à água, ainda que a norma não os distinga ({{fig:fig36_classes}}).
+O programa, por sua vez, oferece quatro classes, e a razão é prática: descarga de bacia
+e rega de jardim não expõem o usuário da mesma forma, ainda que a norma não os distinga
+({{fig:fig36_classes}}).
+
+> **Reúso não é aproveitamento.** A ABNT NBR 15575-1:2025, na Tabela 26 do item 18.4.2,
+> traz parâmetros bem mais restritivos para usos não potáveis — ausência de coliformes
+> totais e termotolerantes, cloro residual de 0,5 a 3,0 mg/L, turbidez abaixo de 2,0 uT
+> e cor abaixo de 15 uH —, mas eles valem para o **reúso** de águas servidas. A água de
+> chuva não é reúso: a NBR 15527:2019 distingue os dois termos (itens 3.5 e 3.18), e é a
+> Tabela 1 dela que vale para o aproveitamento pluvial.
 
 ![As quatro classes de qualidade do programa](../figuras/fig36_classes.png)
 
@@ -129,18 +140,18 @@ cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
 
 **Classe 1, cloração por pastilhas, sem filtro de polimento.**
 
-A água vai para bacia sanitária, máquina de lavar e área externa. A classe 1, que
-reproduz a Tabela 1 da ABNT NBR 15527:2019 (*E. coli* abaixo de 200 por 100 mL,
-turbidez abaixo de 5,0 uT e pH entre 6,0 e 9,0), atende a bacia sanitária e os usos
-externos, que estão na lista do item 4.1.7 da norma; a máquina de lavar roupa não está,
-e o item 4.1.8 pede que o responsável pelo projeto defina e declare o critério de
-qualidade para ela, como a seção {{n:5}} registra. A cloração deixa residual, e o custo é
-o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 44,77 por ano de custeio: R$ 4,77 de pastilha e R$ 40 de manutenção do descarte.
+A água vai para a bacia sanitária e a área externa. A classe 1, que reproduz a Tabela 1
+da ABNT NBR 15527:2019 (*E. coli* abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e
+pH entre 6,0 e 9,0), atende os dois, que estão na lista do item 4.1.7 da norma. Um
+projeto que acrescente a máquina de lavar roupa sai dessa lista, e o item 4.1.8 pede que
+o responsável defina e declare o critério de qualidade para ela, como a seção {{n:5}}
+registra. A cloração deixa residual, e o custo é
+o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 43,45 por ano de custeio: R$ 3,45 de pastilha e R$ 40 de manutenção do descarte.
 
 <!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |
 | :--- | ---: |
-| volume | 5.000 L |
+| volume | 4.000 L |
 | classe de qualidade | 1, normativa |
 | desinfecção | cloração por pastilhas |
 | filtro de polimento | não |

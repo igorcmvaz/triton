@@ -43,22 +43,20 @@ qualquer edificação com sazonalidade.
 
 ## A fração que a chuva pode atender
 
-**40%.** É o número mais importante desta seção.
+**28%.** É o número mais importante desta seção.
 
-Água de chuva não vai para o chuveiro, para a pia da cozinha nem para beber. Vai
-para bacia sanitária, máquina de lavar roupa, lavagem de piso, rega de jardim e
-lavagem de veículo. A fração desses usos no consumo total é o **teto do potencial
-de economia**.
+Água de chuva não vai para o chuveiro, para a pia da cozinha nem para beber. Numa
+residência, vai para a bacia sanitária, a lavagem de piso, a rega de jardim e a lavagem
+de veículo. A fração desses usos no consumo total é o **teto do potencial de economia**.
 
-A repartição usual numa residência brasileira está representada na {{fig:fig00c_fracao}}, com a
-marcação dos usos que a chuva atende. Bacia sanitária, máquina de lavar roupa e usos
-externos somam de 35% a 60% do consumo, e são eles que definem o teto do que qualquer
-sistema pluvial pode alcançar; chuveiro, pia de cozinha e lavatório, que respondem pelo
-restante, exigem água potável e ficam fora do alcance do sistema.
+A repartição adotada no tutorial está representada na {{fig:fig00c_fracao}}, com a
+marcação dos usos que a chuva atende. A bacia sanitária responde por 20% do consumo e a
+limpeza e a rega por 8%; chuveiro, pia de cozinha, lavatório e máquina de lavar roupa,
+que respondem pelo restante, ficam com a água potável.
 
-
-Somando os três que a chuva atende, chega-se aos 40% do tutorial. É um valor
-defensável para residência unifamiliar sem jardim grande.
+Somando os dois que a chuva atende, chega-se aos 28% do tutorial. É um valor
+conservador para residência unifamiliar sem jardim grande, e é conservador de
+propósito: ele se limita aos usos que a norma admite.
 
 > **A máquina de lavar roupa não está na lista da norma.** A ABNT NBR 15527:2019, no item
 > 4.1.7, admite sete usos não potáveis para a água de chuva: sistemas de resfriamento,
@@ -67,30 +65,34 @@ defensável para residência unifamiliar sem jardim grande.
 > 16783:2019, que trata das fontes alternativas em geral, também não inclui a lavagem de
 > roupa no item 4.2.1. Para qualquer outro uso, o item 4.1.8 da NBR 15527 exige que o
 > profissional responsável estude os parâmetros de qualidade e o tratamento específicos.
-> O uso na máquina de lavar é comum na literatura e na prática, e o tutorial o adota; mas
-> um projeto que o inclua precisa declarar que ele está fora da lista normativa e qual
-> critério de qualidade foi adotado para ele.
+> O uso na máquina de lavar é comum na literatura e na prática, e por isso muitos
+> estudos trabalham com frações atendíveis maiores que a deste tutorial. Em Joinville,
+> Ghisi e Custódio (2019) obtiveram potencial médio de 18,5% com água de chuva só nas
+> bacias sanitárias, e de 40,8% com as bacias e a máquina de lavar. O tutorial **não** o adota: a máquina fica com
+> a água potável, e a fração atendível cai para os 28% da bacia sanitária e dos usos
+> externos. Um projeto que inclua a lavagem de roupa precisa declarar que ela está fora
+> da lista normativa e qual critério de qualidade foi adotado para ela.
 
 ![A repartição do consumo numa residência, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
 
 *Figura 99 — Repartição típica do consumo de uma residência por uso final. Em cinza, os usos que exigem água potável; em verde, os de possível uso de água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, economiza mais do que essa fração.*
 
-> **Este número é o teto.** Com 40% de fração atendível, o potencial de economia
-> **jamais** passa de 40%, por maior que seja o reservatório e por mais que chova.
+> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia
+> **jamais** passa de 28%, por maior que seja o reservatório e por mais que chova.
 > A tabela da seção {{n:7}} mostra a curva se aproximando exatamente desse limite e
 > nunca o cruzando.
 >
-> Quem quer passar de 40% precisa mudar o **uso**, não o reservatório: acrescentar a
-> lavagem de piso, tratar a água a uma classe superior, ou reduzir o consumo
-> potável.
+> Quem quer passar de 28% precisa mudar o **uso**, não o reservatório: acrescentar um
+> uso, como a lavagem de roupa, com o critério de qualidade declarado que o item 4.1.8 da
+> norma exige, ou reduzir o consumo potável.
 
 ### Percentual na tela, fração no arquivo
 
 A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
 que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
 cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
-atendível é um **percentual, de 0 a 100**: 40 significa 40%. No arquivo de projeto, no
-arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,40.
+atendível é um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no
+arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,28.
 
 A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
 projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
@@ -120,7 +122,7 @@ adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração ac
 O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
 depende do que o estudo pretende responder.
 
-No **modo simplificado**, informa-se uma fração única — os 40% deste tutorial — e o
+No **modo simplificado**, informa-se uma fração única — os 28% deste tutorial — e o
 programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
 é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
 como as parcelas se distribuem internamente.
@@ -172,8 +174,8 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 | moradores | 4 |
 | consumo per capita | 150 L/hab·dia |
 | demanda total | 600 L/dia |
-| fração atendível por chuva | 40% |
-| **demanda pluvial** | **240 L/dia** |
+| fração atendível por chuva | 28% |
+| **demanda pluvial** | **168 L/dia** |
 
 O programa agora sabe a oferta e a demanda. Antes de simular, um confronto que vale
 guardar:
@@ -183,9 +185,9 @@ guardar:
 | :--- | ---: |
 | precipitação incidente na área de captação | 229 |
 | volume remanescente após o descarte | 187 |
-| **demanda pluvial do ano** | **88** |
+| **demanda pluvial do ano** | **61** |
 
-A oferta excede a demanda: o volume disponível é **o dobro** do que se pretende usar. Se
-o único limite fosse a oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 40% de teto.
+A oferta excede a demanda: o volume disponível é **o triplo** do que se pretende usar. Se
+o único limite fosse a oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 28% de teto.
 
 Ele não chega, e a seção {{n:6}} mostra por quê.

@@ -621,7 +621,7 @@ class PumpSelectionWizardDialog(QDialog):
         current_suc_pipe = next((p for p in COMMERCIAL_PIPES if p["dn"] == selected_suc_dn), COMMERCIAL_PIPES[2])
 
         self.lbl_economic_diam.setText(
-            f"{d_forch_mm:.1f} mm (Teórico) → Regido pela Bomba: {current_rec_pipe['label']}"
+            tr('{0:.1f} mm (Teórico) → Regido pela Bomba: {1}').format(d_forch_mm, current_rec_pipe['label'])
         )
         self.lbl_suction_dn.setText(f"{current_suc_pipe['label']}")
 
@@ -705,7 +705,7 @@ class PumpSelectionWizardDialog(QDialog):
         upper_v = self.spin_upper_vol.value()
         self.lbl_pump_power.setText(f"{p_data['kw']:.3f} kW ({p_data['cv']} CV)")
         self.lbl_pump_flow.setText(f"{p_data['flow_lh']:,.0f} L/h".replace(',', '.'))
-        self.lbl_pump_threads.setText(f"Sucção {p_data.get('bocal_suc', '--')}  ×  Recalque {p_data.get('bocal_rec', '--')}")
+        self.lbl_pump_threads.setText(tr('Sucção {0}  ×  Recalque {1}').format(p_data.get('bocal_suc', '--'), p_data.get('bocal_rec', '--')))
         self.lbl_pump_cost.setText(f"R$ {p_data['cost']:.2f}")
         self.lbl_pump_maxh.setText(f"{p_data['max_h']:.1f} mca")
 
@@ -787,13 +787,10 @@ class PumpSelectionWizardDialog(QDialog):
 
         # 1. Atualiza cabeçalho explicativo da aba de curva
         self.lbl_curve_model_title.setText(
-            f"📌 Modelo de Referência Comercial: {p_data['label']}"
+            tr('📌 Modelo de Referência Comercial: {0}').format(p_data['label'])
         )
         self.lbl_curve_model_desc.setText(
-            f"A curva azul contínua representa o ensaio de bancada do fabricante para o modelo "
-            f"<b>{p_data['brand']} ({p_data['cv']} CV / {p_data['kw']} kW)</b> com bocal de recalque {p_data.get('bocal_rec', '')}. "
-            f"O ponto vermelho indica a solicitação calculada para a sua instalação ({q_rec_lh:,.0f} L/h @ {h_man:.1f} mca). "
-            f"Você pode ajustar livremente a vazão, altura geométrica, rendimento e tubulações de acordo com qualquer modelo comercial."
+            tr('A curva azul contínua representa o ensaio de bancada do fabricante para o modelo <b>{0} ({1} CV / {2} kW)</b> com bocal de recalque {3}. O ponto vermelho indica a solicitação calculada para a sua instalação ({4:,.0f} L/h @ {5:.1f} mca). Você pode ajustar livremente a vazão, altura geométrica, rendimento e tubulações de acordo com qualquer modelo comercial.').format(p_data['brand'], p_data['cv'], p_data['kw'], p_data.get('bocal_rec', ''), q_rec_lh, h_man)
         )
 
         # 2. Configura visual (tema dark / light)

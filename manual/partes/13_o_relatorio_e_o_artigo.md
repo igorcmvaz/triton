@@ -137,9 +137,10 @@ Para o nosso projeto, o método ficaria assim:
 > todo evento, subtraído da lâmina diária — divergência deliberada em relação ao
 > Netuno 4, que trata o valor como limiar do evento. A demanda total adotada foi de
 > 600 L/dia (4 moradores, 150 L/hab·dia), com fração atendível por água pluvial de
-> 40%, correspondente a bacia sanitária, máquina de lavar e usos externos. O volume
-> de 5.000 L resultou do critério de ganho marginal com limiar de 1 %/m³ e foi
-> confirmado por análise multicritério TOPSIS com pesos iguais sobre sete critérios,
+> 28%, correspondente à bacia sanitária e aos usos externos, dentro da lista do item
+> 4.1.7 da ABNT NBR 15527:2019. O volume de 4.000 L resultou do critério de ganho
+> marginal com limiar de 1 %/m³ e foi confirmado por análise multicritério TOPSIS com
+> sete critérios e pesos iguais entre as dimensões técnica, econômica e ambiental,
 > com normalização em variante de Hwang e Yoon translada por x − min(x). O
 > abastecimento dos pontos de uso é feito por recalque para caixa superior de 1.000 L,
 > com limiar de acionamento de 100 L, motobomba de 0,5 CV, altura manométrica de 12 m e

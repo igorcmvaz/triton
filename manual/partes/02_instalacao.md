@@ -125,14 +125,14 @@ trabalha. Para a primeira simulação bastam quatro delas.
    `Florianopolis1.csv` que acompanha o programa. Informe a área de captação de
    150 m², o coeficiente de escoamento de 0,85 e o descarte de 2,0 mm.
 2. **Edificação e Consumo.** Escolha residencial unifamiliar, 4 moradores, 150 litros
-   por habitante e dia, e fração atendível de 40%.
-3. **Reservatório & Custos.** Informe volume fixo de 5.000 L.
+   por habitante e dia, e fração atendível de 28%.
+3. **Reservatório & Custos.** Informe volume fixo de 4.000 L.
 4. Rode, e vá a **Resultados Técnicos**.
 
-Você deve obter potencial de economia próximo de **37%**.
+Você deve obter potencial de economia próximo de **27%**.
 
 A seção {{n:6}} explica o que esse número significa, e a seção {{n:7}} faz a pergunta
-seguinte: 5.000 L é o volume certo?
+seguinte: 4.000 L é o volume certo?
 
 ---
 

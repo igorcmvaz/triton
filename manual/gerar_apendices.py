@@ -61,19 +61,19 @@ PAPEL = {
     "cli.py": "Automação",
 }
 
-#: Telas que a janela principal nunca abre. Existem no pacote, e o usuário não
-#: chega a elas: `tab_single_sim.py`. Ficam fora do apêndice para que ele não cite tela
-#: inexistente; o capítulo 36 registra a pendência.
-TELAS_ORFAS = ("tab_single_sim.py",)
+#: Telas que a janela principal nunca abre. Ficam fora do apêndice para que ele não
+#: cite tela inexistente. As últimas, `tab_single_sim.py`, `tab_economic.py` e
+#: `tab_reports.py`, foram removidas em 18/09/2026; a tupla fica para a asserção abaixo.
+TELAS_ORFAS = ()
 
 TELAS = {
     "tab_project.py": "Projeto", "tab_building.py": "Edificação",
     "tab_water_quality.py": "Qualidade",
     "tab_tanks_simulation.py": "Varredura",
-    "tab_economic.py": "Econômico", "tab_economic_integrated.py": "Econ. integrado",
+    "tab_economic_integrated.py": "Econômico",
     "tab_economic_global_optimizer.py": "Otimizador", "tab_environmental.py": "Ambiental",
     "tab_tariffs_manager.py": "Tarifas",
-    "tab_reports.py": "Relatórios", "tab_reports_pdf.py": "Relatórios",
+    "tab_reports_pdf.py": "Relatórios",
     "tab_charts_netuno.py": "Gráficos", "tab_export.py": "Exportação",
     "tab_documentation.py": "Documentação", "main_window.py": "Janela principal",
     "dialog_economic.py": "Tarifas e custos", "dialog_monthly_values.py": "Valores mensais",
@@ -97,7 +97,7 @@ SECOES = [
     ("irrigation", "Irrigação"),
     ("chlorine", "Qualidade da água"), ("water_quality", "Qualidade da água"),
     ("etap", "Qualidade da água"),
-    ("pump", "Motobomba"),
+    ("pump", "Motobomba"), ("pressurizer", "Motobomba"), ("supply_arrangement", "Motobomba"),
     ("lower_tank", "Reservatórios"), ("upper_tank", "Reservatórios"),
     ("pumping", "Reservatórios"), ("delta_ideal", "Reservatórios"),
     ("pipe", "Tubulação"),
@@ -120,6 +120,10 @@ ORDEM = ["Identificação", "Chuva", "Captação", "Edificação", "Demanda", "I
          "Financeiro", "Certificações", "Outros"]
 
 UNIDADES = {
+    "pressurizer_pressure_m": "m.c.a.", "pressurizer_starts_per_person_day": "1/pessoa·dia",
+    "pressurizer_model": "código", "pressurizer_point_flow_l_min": "L/min",
+    "pressurizer_power_kw": "kW", "pressurizer_flow_l_min": "L/min",
+    "pressurizer_post_run_s": "s", "supply_arrangement": "código",
     "area": "m²", "runoff_coeff": "—", "discard": "mm", "discard_days_interval": "dias",
     "delta_ideal": "%/m³", "lower_tank_fixed": "L", "lower_tank_max": "L",
     "lower_tank_step": "L", "upper_tank_vol": "L", "pumping_threshold": "L",

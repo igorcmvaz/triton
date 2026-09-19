@@ -1187,7 +1187,7 @@ class TabDocumentation(QWidget):
             
             <h3 style='color: #0369a1;'>Catchment / Roof Area ($A$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                The horizontal projection area of the catchment surface (roof or slab) in square meters (m²).
+                The area of the impervious roof surface where water is collected, projected on the horizontal plane, in square metres (m²), as defined in item 3.6 of ABNT NBR 15527:2019. It is neither the sloped roof area nor the contributing area of ABNT NBR 10844, which adds the roof slope and walls to size gutters.
             </p>
 
             <h3 style='color: #0369a1;'>Total Per Capita Demand ($D_{hab}$)</h3>
@@ -1209,7 +1209,7 @@ class TabDocumentation(QWidget):
             
             <h3 style='color: #0369a1;'>Área de Captação / Cobertura ($A$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Área em projeção horizontal da superfície de captação (telhado ou laje) em metros quadrados (m²).
+                Área projetada na horizontal da superfície impermeável da cobertura onde a água é captada, em metros quadrados (m²), conforme o item 3.6 da ABNT NBR 15527:2019. Não é a área inclinada do telhado, nem a área de contribuição da ABNT NBR 10844, que soma a inclinação e as paredes para dimensionar calhas.
             </p>
 
             <h3 style='color: #0369a1;'>Demanda Total Per Capita ($D_{hab}$)</h3>

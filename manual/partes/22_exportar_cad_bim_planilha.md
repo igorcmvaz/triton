@@ -14,6 +14,18 @@
 | planilha | XLSX | série diária e varredura | reanalisar |
 | desenho | DXF | esquema hidráulico dimensionado | projeto executivo |
 | manifesto BIM | JSON | componentes com tipo, posição, nível e parâmetros | importação no Revit |
+| projeto | NETUNO | todas as etapas e a série de chuva | reabrir e auditar |
+
+---
+
+## O arquivo de projeto
+
+O formato `.netuno` é o único que guarda o estudo inteiro: as nove etapas, os pesos do
+multicritério, as rotas de ACV e a **série diária de chuva**, incorporada ao próprio
+arquivo. Um `.netuno` reabre em outra máquina sem o CSV de origem e reproduz o mesmo
+número; é com ele que os casos do apêndice {{n:J}} são distribuídos. O CSV do Netuno 4 continua
+disponível na exportação, marcado como legado, porque não preserva as etapas acrescentadas
+desde então.
 
 ---
 
@@ -35,6 +47,19 @@ A **varredura** traz uma linha por volume simulado, com todos os indicadores cal
 para cada um. É a base da curva de retorno decrescente apresentada na seção {{n:7}}, e o
 formato adequado para quem queira redesenhá-la com outra apresentação.
 
+A etapa **10. Exportação** monta a planilha a partir de seis conjuntos, que se marcam
+um a um: o resumo executivo com os metadados do projeto, o balanço hídrico diário, a
+curva da varredura com a confiabilidade, o fluxo de caixa ano a ano, o inventário de
+ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a exportação:
+
+<!-- tabela: Opções da exportação de planilha e quando usar cada uma -->
+| Opção | Escolhas | Quando usar |
+| :--- | :--- | :--- |
+| formato | XLSX, CSV ou JSON | XLSX para abrir no Excel; CSV para R, Python ou outro programa; JSON para integração |
+| separador do CSV | ponto e vírgula ou vírgula | ponto e vírgula no Excel em português; vírgula no R e na maior parte das ferramentas internacionais |
+| filtro temporal | primeiro ano típico ou série completa | o ano para ilustrar; a série completa para qualquer estatística |
+| horizonte econômico | 10, 20, 25 ou 30 anos | 20 anos, a vida útil de projeto mínima do sistema hidrossanitário (ABNT NBR 15575-1:2025, Tabela 25), salvo justificativa |
+
 > **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
 > simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta
 > mil linhas. Exporte a série detalhada só do volume que interessa.
@@ -52,6 +77,22 @@ componentes do sistema e as conexões lógicas entre eles, com os diâmetros ado
 serve de base para que o projetista desenhe a instalação em planta, com as cotas, o
 traçado e as interferências reais da edificação. ==Um esquema não substitui projeto
 hidráulico, e entregá-lo como tal seria erro de responsabilidade técnica.==
+
+O esquema também não carrega, e o projeto executivo precisa acrescentar, os requisitos
+de instalação predial da ABNT NBR 15527:2019 para água não potável:
+
+- tubulação de água de chuva pintada ou identificada em **roxo** (Munsell 2.5RP 3/10 ou
+  similar), com a inscrição «ÁGUA NÃO POTÁVEL» a cada 3 m nas aparentes (item 4.5.5);
+- sistema de distribuição independente do de água potável, sem conexão cruzada
+  (4.5.8), com separação atmosférica na alimentação de reserva pela rede, conforme a
+  ABNT NBR 5626:2020 (6.15.2);
+- pontos de consumo de uso restrito, como a torneira de jardim, com placa «ÁGUA NÃO
+  POTÁVEL» (4.5.9);
+- reservatórios de água potável e não potável separados, com no mínimo 60 cm entre as
+  faces externas quando lado a lado, e o não potável embaixo quando sobrepostos (4.5.10
+  e 4.5.11);
+- bombeamento conforme a ABNT NBR 5626 (4.5.2), o que inclui as duas bombas do item
+  6.5.11.2 daquela norma.
 
 O que o programa **não** dimensiona:
 

@@ -136,14 +136,32 @@ de ser formalidade e passa a ser a única informação que sustenta a recomenda�
 
 ![A aceitabilidade de primeiro lugar de cada volume](../figuras/fig23_smaa.png)
 
-*Figura 99 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex. O volume destacado vence na maioria dos sorteios, e os demais repartem o restante.*
+*Figura 99 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex. O volume destacado é o que mais vezes fica em primeiro lugar, e os demais repartem o restante.*
+
+### O tutorial, pelos dois métodos
+
+A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimensões, e a
+aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
+sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
+
+<!-- inclui: _tabelas/cap32_decisao.md -->
+
+Os dois métodos concordam no vencedor, 4.000 L, e discordam na margem. O TOPSIS separa o
+primeiro do segundo colocado por sete milésimos de escore, diferença que nenhum dado de
+entrada sustenta. O SMAA mede essa fragilidade: 4.000 L vence em 45% dos sorteios e
+5.000 L em 35%, e os dois juntos somam quatro de cada cinco sorteios. Pela régua da seção
+{{n:20}}, a recomendação é razoável, e o estudo deve declarar os 5.000 L como segunda
+opção. Os extremos, 1.000 L e 12.000 L, não vencem em sorteio nenhum: nenhuma ponderação
+plausível os recomenda, e isso também é resultado.
 
 ---
 
 ## Os pesos
 
-O programa aceita um peso por critério, e com pesos iguais cada um dos sete vale um
-sétimo do total. A escolha, contudo, não é técnica: é uma declaração de valor, e por isso
+O programa aceita um peso por dimensão, técnica, econômica e ambiental, ou um peso por
+critério. Com pesos iguais entre as dimensões, cada uma vale um terço, repartido
+igualmente entre os seus critérios: os dois técnicos e os dois ambientais valem um sexto
+cada, e os três econômicos, um nono cada. A escolha, contudo, não é técnica: é uma declaração de valor, e por isso
 precisa aparecer no texto do estudo. ==A afirmação «volume ótimo pelo TOPSIS», sem os
 pesos, é impossível de reproduzir,== e dois estudos com pesos diferentes chegam a volumes
 diferentes sem que nenhum dos dois esteja errado.

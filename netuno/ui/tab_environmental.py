@@ -135,15 +135,15 @@ class LCAParametersDialog(QDialog):
         leg_box = QHBoxLayout()
         leg_box.setSpacing(15)
 
-        lbl_leg_pre = QLabel("🟡 Campo Pré-estimado (Catálogo/Engenharia)")
+        lbl_leg_pre = QLabel(tr("🟡 Campo Pré-estimado (Catálogo/Engenharia)"))
         lbl_leg_pre.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; color: #854d0e; padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: bold;")
         leg_box.addWidget(lbl_leg_pre)
 
-        lbl_leg_cred = QLabel("🟢 Crédito / Abatimento de CO2")
+        lbl_leg_cred = QLabel(tr("🟢 Crédito / Abatimento de CO2"))
         lbl_leg_cred.setStyleSheet("background-color: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: bold;")
         leg_box.addWidget(lbl_leg_cred)
 
-        lbl_leg_usr = QLabel("⚪ Quantidade / Entrada do Projetista")
+        lbl_leg_usr = QLabel(tr("⚪ Quantidade / Entrada do Projetista"))
         lbl_leg_usr.setStyleSheet("background-color: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 3px 8px; border-radius: 4px; font-size: 10.5px;")
         leg_box.addWidget(lbl_leg_usr)
 
@@ -1690,17 +1690,7 @@ class TabEnvironmental(QWidget):
                 f"Tirou {leed_tot} de 8 pontos (Máx: 8 pts)"
             )
             self.card_leed.setToolTip(
-                f"Selo LEED v4 WE (Water Efficiency):\n"
-                f"Teto máximo normativo: 8 pontos possíveis.\n"
-                f"Pontuação obtida pelo projeto: tirou {leed_tot} de 8 pontos.\n\n"
-                f"• WEc1 (Uso Externo): tirou {esg_res.leed.outdoor_water_points} de 2 pontos (máx: 2 pts)\n"
-                f"• WEc2 (Uso Interno): tirou {esg_res.leed.indoor_water_points} de 6 pontos (máx: 6 pts)\n"
-                f"Classificação: {esg_res.leed.badge_label}\n\n"
-                f"LEED v5 BD+C, WEc2 Enhanced Water Efficiency: {esg_res.leed_v5.total_pts} de 8 pontos "
-                f"({esg_res.leed_v5.caminho})\n"
-                f"• Opção 2 (louças e metais): {esg_res.leed_v5.opcao2_pts} | Opção 4 (externo): "
-                f"{esg_res.leed_v5.opcao4_pts} | Opção 6 (fonte alternativa): {esg_res.leed_v5.opcao6_pts}\n"
-                f"O LEED v4/v4.1 aceita registro até 30/06/2027."
+                tr('Selo LEED v4 WE (Water Efficiency):\nTeto máximo normativo: 8 pontos possíveis.\nPontuação obtida pelo projeto: tirou {0} de 8 pontos.\n\n• WEc1 (Uso Externo): tirou {1} de 2 pontos (máx: 2 pts)\n• WEc2 (Uso Interno): tirou {2} de 6 pontos (máx: 6 pts)\nClassificação: {3}\n\nLEED v5 BD+C, WEc2 Enhanced Water Efficiency: {4} de 8 pontos ({5})\n• Opção 2 (louças e metais): {6} | Opção 4 (externo): {7} | Opção 6 (fonte alternativa): {8}\nO LEED v4/v4.1 aceita registro até 30/06/2027.').format(leed_tot, esg_res.leed.outdoor_water_points, esg_res.leed.indoor_water_points, esg_res.leed.badge_label, esg_res.leed_v5.total_pts, esg_res.leed_v5.caminho, esg_res.leed_v5.opcao2_pts, esg_res.leed_v5.opcao4_pts, esg_res.leed_v5.opcao6_pts)
             )
         if hasattr(self, 'card_aqua'):
             stars_str = "⭐" * esg_res.aqua.stars if esg_res.aqua.stars > 0 else ""
@@ -1720,9 +1710,7 @@ class TabEnvironmental(QWidget):
                  else f"Faltam {format_ptbr(abs(e.margem_pct), 1)} pontos percentuais"),
             )
             self.card_edge.setToolTip(
-                f"{e.descricao}\n\n{e.ressalva}\n\n"
-                f"Área de captação a declarar no campo da medida WEM14: "
-                f"{format_ptbr(e.area_de_captacao_m2, 0)} m²."
+                tr('{0}\n\n{1}\n\nÁrea de captação a declarar no campo da medida WEM14: {2} m².').format(e.descricao, e.ressalva, format_ptbr(e.area_de_captacao_m2, 0))
             )
         if hasattr(self, 'lbl_esg_summary_box'):
             self.lbl_esg_summary_box.setText(f"🌿 <b>{tr('Síntese Executiva ESG & Certificações:')}</b> {esg_res.esg_summary_text}")
@@ -1750,7 +1738,7 @@ class TabEnvironmental(QWidget):
                 # 4: Pontos / Status
                 pts_text = f"{d.points_or_level} — {d.status}" if d.status else d.points_or_level
                 it_p = QTableWidgetItem(pts_text)
-                it_p.setToolTip(f"{d.requirement_rule}\n\nNota técnica: {d.notes}")
+                it_p.setToolTip(tr('{0}\n\nNota técnica: {1}').format(d.requirement_rule, d.notes))
                 self.table_esg_breakdown.setItem(row, 4, it_p)
 
         self.environmental_updated.emit()

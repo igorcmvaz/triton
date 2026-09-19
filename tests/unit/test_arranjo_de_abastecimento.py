@@ -77,13 +77,56 @@ def test_pressurizacao_bombeia_todo_o_volume_pluvial():
     assert energia.annual_cycles == round(4 * ACIONAMENTOS_POR_PESSOA_DIA * 365.25)
 
 
-def test_pressurizacao_cresce_com_a_pressao_de_trabalho():
-    baixa, alta = _projeto(PRESSURIZACAO), _projeto(PRESSURIZACAO)
-    baixa.pressurizer_pressure_m, alta.pressurizer_pressure_m = 12.0, 24.0
-    sim = _simular(baixa)
-    e_baixa = compute_annual_pump_energy(baixa, sim).annual_kwh
-    e_alta = compute_annual_pump_energy(alta, sim).annual_kwh
-    assert e_alta == pytest.approx(2.0 * e_baixa, rel=1e-9)
+def test_a_pressao_so_pesa_quando_a_curva_limita_a_vazao():
+    """Enquanto o modelo entrega mais que o ponto de uso, quem dita o tempo ligado
+    é o ponto; acima disso, a curva estrangula a vazão e a bomba fica mais tempo ligada."""
+    cfgs = {h: _projeto(PRESSURIZACAO) for h in (12.0, 18.0, 24.0)}
+    for h, cfg in cfgs.items():
+        cfg.pressurizer_pressure_m = h
+    sim = _simular(cfgs[12.0])
+    e = {h: compute_annual_pump_energy(cfg, sim).annual_kwh for h, cfg in cfgs.items()}
+    # Komeco TP 820T: 22 L/min a 12 m.c.a. e 13 L/min a 18, acima dos 9 L/min da bacia
+    assert e[12.0] == pytest.approx(e[18.0], rel=1e-9)
+    # a 24 m.c.a. a curva dá 4,4 L/min, menos que o ponto pede
+    assert e[24.0] == pytest.approx(e[12.0] * 9.0 / (40.0 * 3.0 / 27.0), rel=1e-6)
+
+
+def test_o_modelo_maior_gasta_mais_quando_o_ponto_limita_a_vazao():
+    """ABNT NBR 5626:2020, 6.5.11.12: a escolha da bomba é que minimiza a energia."""
+    pequeno, grande = _projeto(PRESSURIZACAO), _projeto(PRESSURIZACAO)
+    grande.pressurizer_model = "komeco_tp825t"
+    sim = _simular(pequeno)
+    e_p = compute_annual_pump_energy(pequeno, sim)
+    e_g = compute_annual_pump_energy(grande, sim)
+    assert e_g.pump_hours_year == pytest.approx(e_p.pump_hours_year)
+    assert e_g.annual_kwh > e_p.annual_kwh
+
+
+def test_o_retardo_eletronico_soma_tempo_a_cada_partida():
+    from netuno.core.pressurizer_catalog import POR_CHAVE, energia
+    syllent = POR_CHAVE["syllent_impulse"]
+    sem = energia(syllent, 60.0, 12.0, 0.0)
+    com = energia(syllent, 60.0, 12.0, 7373.0)
+    assert com.horas_ano - sem.horas_ano == pytest.approx(7373.0 * 10.0 / 3600.0)
+
+
+def test_personalizado_usa_os_dados_digitados():
+    cfg = _projeto(PRESSURIZACAO)
+    cfg.pressurizer_model = "personalizado"
+    cfg.pressurizer_power_kw, cfg.pressurizer_flow_l_min = 0.37, 20.0
+    cfg.pressurizer_point_flow_l_min, cfg.pressurizer_post_run_s = 10.0, 0.0
+    sim = _simular(cfg)
+    e = compute_annual_pump_energy(cfg, sim)
+    horas = sim.annual_pluvial_consumed_m3 * 1000.0 / 10.0 / 60.0
+    assert e.pump_hours_year == pytest.approx(horas)
+    assert e.annual_kwh == pytest.approx(0.37 / 0.605 * horas)
+
+
+def test_o_menor_modelo_que_atende():
+    from netuno.core.pressurizer_catalog import menor_que_atende
+    assert menor_que_atende(18.0).chave == "komeco_tp820t"
+    assert menor_que_atende(24.0).chave == "komeco_tp825t"
+    assert menor_que_atende(50.0) is None
 
 
 def test_gravidade_nao_compra_nem_fabrica_motobomba():

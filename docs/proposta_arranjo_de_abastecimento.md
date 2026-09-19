@@ -99,11 +99,17 @@ o manual acusam cada número deslocado.
 2. **Pressão de trabalho padrão**: 18 m.c.a., média da faixa do pressostato do Komeco
    TP 820 (liga a 12, desliga a 24 m.c.a.), manual do fabricante em
    `Material_Referencia/Documentos_Consultados/04_EPD_e_Fabricantes`.
-3. **Acionamentos**: moradores × 5,42 por pessoa por dia, isto é, 5,05 descargas e 0,37
-   ciclos de lavadora (Mayer, DeOreo et al., 1999, AWWARF).
-4. **Partida e espera**: não somadas. O pressostato liga quando o uso começa e a bomba
-   entrega vazão útil desde então; o pressostato mecânico não consome em espera. A
-   limitação está declarada no manual, para pressurizadores com inversor.
+3. **Acionamentos**: moradores × 5,05 descargas por pessoa por dia (Mayer, DeOreo et
+   al., 1999, AWWARF). Até 18/09/2026 somavam-se 0,37 ciclos de lavadora; a lavagem de
+   roupa está fora do item 4.1.7 da ABNT NBR 15527:2019 e saiu do padrão.
+4. **Energia (revisão de 18/09/2026)**: não é mais `ρ·g·H/η` sobre o volume. É o tempo
+   ligado vezes a potência elétrica de um modelo de catálogo
+   (`netuno/core/pressurizer_catalog.py`, seis modelos de cinco fabricantes, com a curva
+   vazão × pressão do manual). A vazão efetiva é a menor entre a da curva na pressão de
+   trabalho e a do ponto de uso, 9 L/min por padrão; os controles eletrônicos somam o
+   retardo de desligamento a cada partida. A espera do pressostato mecânico continua sem
+   consumo. A escolha do menor modelo que atende segue o item 6.5.11.12 da ABNT NBR
+   5626:2020.
 
 ## 7. Correções que vieram junto
 

@@ -62,6 +62,36 @@ em vez de um número.
 > reajuste de 5% ao ano e apresentado sem sensibilidade, sugere uma precisão que a
 > premissa não tem.
 
+### O tutorial, premissa por premissa
+
+A tabela a seguir aplica o procedimento ao projeto fechado do tutorial — 4.000 L em
+polietileno, recalque para caixa de 1.000 L, VPL provável de R$ 5.524 — e varia cinco
+premissas, uma de cada vez, entre um valor baixo e um alto.
+
+<!-- inclui: _tabelas/cap20_sensibilidade.md -->
+
+A leitura separa as premissas em três grupos.
+
+**A que decide o projeto é a fração atendível.** De 20% a 40%, o VPL vai de negativo a
+quase o triplo do provável, e o retorno de «não retorna» a menos de oito anos. É a
+premissa que a seção {{n:5}} fixou e que depende da decisão de uso, e não de medição:
+incluir ou não a máquina de lavar roupa, com o critério de qualidade que o item 4.1.8 da
+NBR 15527:2019 exige, move o resultado mais que qualquer parâmetro econômico.
+
+**As que o mercado decide pesam em seguida.** O reajuste tarifário e a taxa mínima de
+atratividade deslocam o VPL em milhares de reais cada um, mas não mexem no potencial. O
+consumo per capita move os dois: com menos consumo, a fração atendível pesa sobre uma
+demanda menor, a cisterna quase nunca falta, e o potencial sobe um pouco enquanto a
+economia em reais cai.
+
+**A que parecia importante quase não pesa.** Trinta por cento a mais ou a menos no preço
+da cisterna mudam o VPL em R$ 760 e o retorno em um ano. A cisterna de polietileno é uma
+parcela pequena do investimento, e a mão de obra, a tubulação e os acessórios, que não
+variam com o volume, dominam a conta.
+
+O resultado inverte a intuição de quem orça antes de simular: gastar tempo cotando a
+cisterna vale menos que gastar tempo definindo os usos.
+
 ---
 
 ## A sensibilidade que o programa faz sozinho

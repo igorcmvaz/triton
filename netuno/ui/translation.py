@@ -2128,3 +2128,13 @@ _CHINESE_DICTIONARY.update({
     'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '水费和污水费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
     'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '电费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
 })
+
+
+# Complemento de 18/09/2026: os textos que a varredura das chamadas tr() achou
+# sem tradução. Só preenche lacunas; nada do que está acima é sobrescrito.
+from netuno.ui.translation_complement import COMPLEMENTO as _COMPLEMENTO  # noqa: E402
+
+for _fonte, (_en, _es, _zh) in _COMPLEMENTO.items():
+    _DICTIONARY.setdefault(_fonte, _en)
+    _SPANISH_DICTIONARY.setdefault(_fonte, _es)
+    _CHINESE_DICTIONARY.setdefault(_fonte, _zh)

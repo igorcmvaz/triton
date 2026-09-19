@@ -20,8 +20,8 @@ cidade, conforme a seção {{n:19}} recomenda.
 
 ## O resultado
 
-O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 40% de fração
-atendível e cisterna de 5.000 L — levado a quatro capitais brasileiras produz a tabela
+O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 28% de fração
+atendível e cisterna de 4.000 L — levado a quatro capitais brasileiras produz a tabela
 abaixo.
 
 <!-- inclui: _tabelas/cap14_cidades.md -->
@@ -30,7 +30,7 @@ A {{fig:fig03_cidades}} separa as duas grandezas, cada uma na sua escala.
 
 ![Chuva anual e potencial de economia nas quatro capitais](../figuras/fig03_cidades.png)
 
-*Figura 99 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 40% e cisterna de 5.000 L, em quatro capitais. Manaus tem a maior precipitação anual e não tem o maior potencial de economia.*
+*Figura 99 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 28% e cisterna de 4.000 L, em quatro capitais. Manaus tem a maior precipitação anual e não tem o maior potencial de economia.*
 
 ---
 
@@ -38,9 +38,9 @@ A {{fig:fig03_cidades}} separa as duas grandezas, cada uma na sua escala.
 
 Lidas lado a lado, as colunas de chuva anual e de potencial de economia não andam
 juntas, e os dois casos extremos da tabela mostram por quê. Manaus recebe 20% mais chuva
-que Florianópolis — 2.155 mm anuais contra 1.795 mm — e ainda assim rende 25% menos:
-27,92% contra 37,46% de potencial. Brasília, no extremo oposto, recebe 23% menos chuva
-que Florianópolis e rende quase a metade, com 20,80%.
+que Florianópolis — 2.155 mm anuais contra 1.795 mm — e ainda assim rende 23% menos:
+20,96% contra 27,12% de potencial. Brasília, no extremo oposto, recebe 23% menos chuva
+que Florianópolis e rende pouco mais da metade, com 15,45%.
 
 A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
 cidade, que mede o quanto a chuva se concentra ao longo do ano.
@@ -55,7 +55,7 @@ cidade, que mede o quanto a chuva se concentra ao longo do ano.
 
 Em Brasília, os meses de junho, julho e agosto praticamente não registram chuva. Um
 reservatório dimensionado para atravessar noventa dias de estiagem precisaria armazenar
-noventa dias de demanda pluvial, o que neste projeto corresponderia a 21.600 litros —
+noventa dias de demanda pluvial, o que neste projeto corresponderia a 15.120 litros —
 volume que nenhuma cisterna residencial comporta. A consequência é que o sistema
 permanece ocioso durante um trimestre inteiro por ano, e o potencial anual reflete essa
 ociosidade.
@@ -76,14 +76,43 @@ A {{fig:fig18_capitais}} apresenta o regime mensal das quatro capitais na mesma 
 
 ---
 
+## O que a literatura já tinha encontrado
+
+O resultado das quatro capitais não é peculiaridade deste tutorial. Ghisi e Souza (2012)
+simularam casas em treze cidades de países diferentes, com o próprio Netuno, e chegaram à
+mesma conclusão por outro caminho: o maior potencial de economia aparece onde a chuva é
+constante, o que nem sempre coincide com a maior lâmina anual, e as cidades com
+estiagem bem definida exigem reservatórios maiores para o mesmo desempenho.
+
+No Brasil, dois levantamentos mostram a amplitude da variação dentro de um só estado ou
+de uma só cidade. Ghisi, Lopes e Rupp (2016) fizeram 2.700 simulações para casas em 60
+cidades de Santa Catarina, com séries diárias longas, e obtiveram reservatórios ideais de
+1.000 a 16.000 L e economias médias de 75 a 461 litros por dia por casa. Ghisi e Custódio
+(2019), com 33.720 cenários para o setor residencial de Joinville, encontraram potencial
+médio de 18,5% com água de chuva só nas bacias sanitárias, e de 40,8% quando a máquina de
+lavar roupa também a recebe — a mesma escolha de uso que a seção {{n:5}} discute.
+
+A lição para quem compara cidades é a mesma dos dois estudos: a série local decide, e um
+volume ou um potencial trazido de outra cidade, mesmo vizinha, não substitui a simulação.
+
+### Muitas cidades de uma vez
+
+Para comparar mais de três ou quatro cidades, trocar a série à mão deixa de ser prático.
+A base climática nacional traz séries para 652 municípios, e a planilha de cenários da
+seção {{n:19}} roda o mesmo projeto contra várias delas numa única execução, gravando um
+resultado por linha. Mantenha na planilha os mesmos parâmetros de edificação e de
+reservatório em todas as linhas, e varie só a cidade: é o que isola o efeito do clima.
+
+---
+
 ## O que mais muda entre cidades
 
 A precipitação não é a única grandeza que varia entre municípios, e as outras duas podem
 inverter a conclusão econômica de um estudo comparativo.
 
 A primeira é a **tarifa**. O preço do metro cúbico varia consideravelmente pelo país, e o
-regime de mínimo varia ainda mais. Um potencial de 20% em município de tarifa elevada e
-regime de disponibilidade pode render mais dinheiro que um potencial de 37% em município
+regime de mínimo varia ainda mais. Um potencial de 15% em município de tarifa elevada e
+regime de disponibilidade pode render mais dinheiro que um potencial de 27% em município
 que pratique franquia sobre o consumo mínimo, e a seção {{n:16}} trata dessa mecânica em
 detalhe.
 
@@ -101,7 +130,7 @@ O programa traz o fator discriminado por região.
 
 ## O volume ideal também muda, mas pouco
 
-A última coluna da tabela reserva uma surpresa: o volume ideal varia de 5.000 a 6.000 L
+A última coluna da tabela reserva uma surpresa: o volume ideal varia de 4.000 a 5.000 L
 entre as quatro capitais, uma amplitude modesta diante da diferença de regime que as
 separa.
 

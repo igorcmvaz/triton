@@ -42,7 +42,7 @@ from gerar_tabelas import (                                       # noqa: E402
 from netuno.core.simulation import run_single_simulation          # noqa: E402
 
 DIAS_MES = 30.4375
-VOLUME_TUTORIAL = 5000.0
+VOLUME_TUTORIAL = 4000.0  # gerar_tabelas.TUTORIAL["volume"]
 
 
 def _consumos_do_tutorial():
@@ -184,10 +184,14 @@ def figura_fluxo_de_caixa():
     if e.payback_years:
         ax.axvline(e.payback_years, color=ROXO, linewidth=1.0, linestyle=":",
                    zorder=2)
-        ax.text(e.payback_years + 0.25, acumulado.max() * 0.92,
+        # O rótulo vai do lado que tem espaço: à esquerda da linha e embaixo,
+        # longe das colunas, quando o retorno cai na segunda metade do período.
+        a_esquerda = e.payback_years > n_anos / 2.0
+        altura = acumulado.min() * 0.7 if a_esquerda else acumulado.max() * 0.92
+        ax.text(e.payback_years + (-0.25 if a_esquerda else 0.25), altura,
                 "tempo de retorno: " +
                 f"{e.payback_years:.1f}".replace(".", ",") + " anos",
-                fontsize=8.4, color=ROXO, va="top")
+                fontsize=8.4, color=ROXO, va="top", ha="right" if a_esquerda else "left")
 
     _eixos(ax, "", "ano de operação", "valor (R$)")
     ax.set_xlim(-0.7, n_anos + 0.7)
@@ -305,9 +309,9 @@ def figura_criterios():
 # ══════════════════════════════════════════════════════════════════════════════
 
 #: Os volumes da curva de permanência, em litros.
-VOLUMES_PERMANENCIA = (2000, 5000, 10000, 20000)
+VOLUMES_PERMANENCIA = (2000, 4000, 10000, 20000)
 #: Os volumes das barras de renovação, em litros.
-VOLUMES_ESTADOS = (1000, 2000, 3000, 5000, 8000, 12000, 20000)
+VOLUMES_ESTADOS = (1000, 2000, 3000, 4000, 8000, 12000, 20000)
 #: Abaixo desta fração da capacidade o reservatório conta como vazio.
 FOLGA_DE_NIVEL = 0.05
 

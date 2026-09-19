@@ -16,14 +16,16 @@ pedreiro conhece.
 **O que faz ao resultado.** Superestima a captação na razão `1 ÷ cos(inclinação)`.
 Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 
-**Como evitar.** A NBR 10844 define a área de captação como a projeção horizontal.
+**Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
+projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
+altura do telhado e as paredes para dimensionar calhas.
 A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na {{fig:fig00i_projecao}}.
 
 ---
 
 ![A chuva cai na vertical, e a área que capta é a projeção do telhado](../figuras/fig00i_projecao.png)
 
-*Figura 99 — Área de captação como projeção horizontal da cobertura, conforme a ABNT NBR 10844. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
+*Figura 99 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
 
 ---
 
@@ -106,8 +108,8 @@ como «mais água».
 
 **O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com caixa
 elevada entrega **menos**: a cisterna extravasa enquanto a caixa de cima ainda tem
-espaço, porque o recalque só acontece quando há consumo. No tutorial, cerca de um terço de ponto percentual a menos, mais
-10,7 kWh por ano de energia.
+espaço, porque o recalque só acontece quando há consumo. No tutorial, cerca de um sexto de ponto percentual a menos, mais
+7,7 kWh por ano de energia.
 
 **Como evitar.** Decida a caixa por critério **hidráulico** — pressão por gravidade,
 reserva contra falta de energia — e não hídrico. A seção {{n:8}} faz a comparação justa.
@@ -172,9 +174,9 @@ as duas regras coincidem. As seções {{n:21}} e {{n:35}} detalham o assunto.
 **Por que é tentador.** É a coluna que o estudo de aproveitamento pluvial reporta, e
 mais é melhor.
 
-**O que faz ao resultado.** No tutorial, 20.000 L dão o maior potencial. Também
-custam **3,3 vezes mais** que os 5.000 L e carregam **3,5 vezes mais carbono
-incorporado**, para entregar 2,53 pontos percentuais a mais. E, em concreto, o
+**O que faz ao resultado.** No tutorial, 20.000 L dão o maior potencial, o mesmo que
+12.000 L já davam. Também custam **3,9 vezes mais** que os 4.000 L e carregam **4,1
+vezes mais carbono incorporado**, para entregar 0,88 ponto percentual a mais. E, em concreto, o
 volume maior é ambientalmente **pior** em termos absolutos.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho

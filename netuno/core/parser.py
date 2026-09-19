@@ -206,7 +206,15 @@ class NetunoConfig:
     # Pressurização direta: pressão de trabalho (m.c.a.) e acionamentos por
     # pessoa por dia. Padrões e fontes em supply_arrangement.py.
     pressurizer_pressure_m: float = 18.0
-    pressurizer_starts_per_person_day: float = 5.42
+    pressurizer_starts_per_person_day: float = 5.05
+    # Modelo do pressurizador (netuno/core/pressurizer_catalog.py) e vazão do
+    # ponto de uso, que limita a vazão efetiva. Em «personalizado», valem a
+    # potência de placa, a vazão na pressão de trabalho e o retardo digitados.
+    pressurizer_model: str = "komeco_tp820t"
+    pressurizer_point_flow_l_min: float = 9.0
+    pressurizer_power_kw: float = 0.18
+    pressurizer_flow_l_min: float = 13.3
+    pressurizer_post_run_s: float = 0.0
     
     # Lower Reservoir
     lower_tank_max: float = 10000.0  # L
@@ -852,7 +860,12 @@ def export_netuno_json(
                 "supply_arrangement": arranjo_de(config),
                 "pressurizer_pressure_m": getattr(config, "pressurizer_pressure_m", 18.0),
                 "pressurizer_starts_per_person_day": getattr(
-                    config, "pressurizer_starts_per_person_day", 5.42),
+                    config, "pressurizer_starts_per_person_day", 5.05),
+                "pressurizer_model": getattr(config, "pressurizer_model", "komeco_tp820t"),
+                "pressurizer_point_flow_l_min": getattr(config, "pressurizer_point_flow_l_min", 9.0),
+                "pressurizer_power_kw": getattr(config, "pressurizer_power_kw", 0.18),
+                "pressurizer_flow_l_min": getattr(config, "pressurizer_flow_l_min", 13.3),
+                "pressurizer_post_run_s": getattr(config, "pressurizer_post_run_s", 0.0),
                 "pump": {
                     "count": config.pump_count,
                     "power_str": config.pump_power_str,
@@ -1064,6 +1077,10 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.pressurizer_pressure_m = rp.get("pressurizer_pressure_m", cfg.pressurizer_pressure_m)
             cfg.pressurizer_starts_per_person_day = rp.get(
                 "pressurizer_starts_per_person_day", cfg.pressurizer_starts_per_person_day)
+            for campo in ("pressurizer_model", "pressurizer_point_flow_l_min",
+                          "pressurizer_power_kw", "pressurizer_flow_l_min",
+                          "pressurizer_post_run_s"):
+                setattr(cfg, campo, rp.get(campo, getattr(cfg, campo)))
 
             pump = rp.get("pump", {})
             cfg.pump_count = pump.get("count", 2)

@@ -40,7 +40,7 @@ if str(AQUI) not in sys.path:
 FIGURAS = AQUI / "figuras"
 FIGURAS.mkdir(exist_ok=True)
 
-VOLUME_TUTORIAL = 5000.0
+VOLUME_TUTORIAL = 4000.0  # gerar_tabelas.TUTORIAL["volume"]
 PASSO = 1000.0
 VOLUME_MAXIMO = 20000.0
 VIDA_UTIL = 20.0
@@ -86,7 +86,7 @@ def _gravar(widget, nome, proporcao=9.0 / 16.0):
 
 
 def _candidatos(serie, material=MATERIAL,
-                volumes=(1000, 2000, 3000, 5000, 8000, 12000)):
+                volumes=(1000, 2000, 3000, 4000, 5000, 8000, 12000)):
     from gerar_tabelas import _config_economica, _config_projeto
     from netuno.core.economic import run_economic_analysis
     from netuno.core.environmental import EnvironmentalConfig, calculate_lca

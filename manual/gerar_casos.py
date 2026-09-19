@@ -109,11 +109,11 @@ def com_custo(cfg, volume_l, material="PEAD"):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def caso_tutorial():
-    """O projeto fechado do tutorial: cisterna de 5.000 L e recalque para caixa superior."""
+    """O projeto fechado do tutorial: cisterna de 4.000 L e recalque para caixa superior."""
     cfg = com_tutorial(base("Manual, tutorial - residencia em Florianopolis",
                             "Florianópolis"))
-    cfg.lower_tank_fixed = 5000.0
-    com_custo(cfg, 5000.0, "PEAD")
+    cfg.lower_tank_fixed = TUTORIAL["volume"]
+    com_custo(cfg, TUTORIAL["volume"], "PEAD")
     cfg.supply_arrangement = "recalque"
     cfg.upper_tank_used = 1
     cfg.upper_tank_vol = TUTORIAL["caixa_superior_l"]
@@ -126,7 +126,7 @@ def caso_tutorial():
 def caso_tutorial_varredura():
     """A varredura da seção de escolha do volume, antes da decisão pela caixa superior."""
     cfg = com_tutorial(base("Manual, tutorial - varredura de volumes", "Florianópolis"))
-    com_custo(cfg, 5000.0, "PEAD")
+    com_custo(cfg, TUTORIAL["volume"], "PEAD")
     chuva = serie("Florianopolis1")
     cfg.lower_tank_mode = 1
     cfg.lower_tank_max = 20000.0
@@ -156,7 +156,7 @@ def caso_dez_dias():
 def caso_reservatorio_superior():
     cfg, chuva = caso_tutorial()
     cfg.project_name = f"Manual, secao {sec('08')} - com reservatorio superior"
-    cfg.lower_tank_fixed = 5000.0
+    cfg.lower_tank_fixed = TUTORIAL["volume"]
     cfg.upper_tank_used = 1
     cfg.upper_tank_vol = 1000.0
     cfg.pumping_threshold = 100.0     # 10% do superior, o padrão da tela
@@ -166,15 +166,15 @@ def caso_reservatorio_superior():
     cfg.pump_power_kw = 0.37
     cfg.pump_flow_rate = 3000.0
     cfg.pump_manometric_head_m = 12.0
-    com_custo(cfg, 5000.0, "PEAD")
+    com_custo(cfg, TUTORIAL["volume"], "PEAD")
     return cfg, chuva
 
 
 def caso_cidade(chave, nome, uf):
     cfg = com_tutorial(base(f"Manual, secao {sec('14')} - o mesmo projeto em {nome}",
                             nome, uf))
-    cfg.lower_tank_fixed = 5000.0
-    com_custo(cfg, 5000.0, "PEAD")
+    cfg.lower_tank_fixed = TUTORIAL["volume"]
+    com_custo(cfg, TUTORIAL["volume"], "PEAD")
     return cfg, serie(chave)
 
 
@@ -237,7 +237,7 @@ def sec(marca):
 # (arquivo, seção do manual, o que demonstra, construtor)
 LISTA = [
     ("01_tutorial_florianopolis.netuno", f"{sec('04')} a {sec('13')}",
-     f"o projeto fechado do tutorial: cisterna de 5.000 L em polietileno e recalque para caixa superior de 1.000 L",
+     f"o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L",
      caso_tutorial),
     ("02_tutorial_varredura.netuno", f"{sec('07')} e {sec('24')}",
      "o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
@@ -246,7 +246,7 @@ LISTA = [
      "o caso didático de dez dias, que cabe numa planilha",
      caso_dez_dias),
     ("04_reservatorio_superior.netuno", sec("08"),
-     f"5.000 L embaixo mais 1.000 em cima, a comparação da seção {sec('08')} contra os 6.000 L de um tanque só",
+     f"4.000 L embaixo mais 1.000 em cima, a comparação da seção {sec('08')} contra os 5.000 L de um tanque só",
      caso_reservatorio_superior),
     ("05_manaus.netuno", sec("14"),
      "o projeto do tutorial levado a Manaus, que chove mais e rende menos",

@@ -401,15 +401,16 @@ def info_suite():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_atendivel():
-    fig, ax = plt.subplots(figsize=(7.4, 3.4))
+    fig, ax = plt.subplots(figsize=(7.4, 3.8))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
     itens = [
         ("edificação comercial:" + NL + "quase só bacia e limpeza", 70, 85,
          ROXO),
-        ("tudo menos chuveiro," + NL + "cozinha e água de beber", 45, 60, VERDE),
-        ("bacia, máquina de lavar" + NL + "e área externa", 35, 45, AZUL),
+        ("tudo menos chuveiro," + NL + "cozinha e água de beber", 45, 60, CINZA),
+        ("com máquina de lavar:" + NL + "fora do item 4.1.7", 35, 45, AZUL),
+        ("bacia e área externa:" + NL + "usos do item 4.1.7", 25, 35, VERDE),
         ("bacia sanitária apenas", 20, 30, LARANJA),
     ]
     y = np.arange(len(itens))
@@ -418,8 +419,14 @@ def info_atendivel():
         ax.text(b + 1.5, y[i], f"{a} a {b}%", va="center", fontsize=8.6,
                 color=TINTA)
 
+    # O valor do tutorial: bacia sanitária e usos externos, sem a máquina de lavar
+    ax.axvline(28, color=TINTA2, lw=1.0, ls="--", zorder=4)
+    ax.text(27, len(itens) - 0.45, "tutorial, 28%", ha="right", va="bottom",
+            fontsize=8.0, color=TINTA2)
+
     ax.set_yticks(y)
     ax.set_yticklabels([t[0] for t in itens], fontsize=8.0)
+    ax.set_ylim(-0.6, len(itens) - 0.1)
     _eixos(ax, "", "", "")
     ax.set_xlabel("fração da demanda total atendível por água pluvial (%)",
                   color=TINTA2, fontsize=9)
