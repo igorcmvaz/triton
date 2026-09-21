@@ -43,8 +43,35 @@ com os dezenove modelos, no cenário S2:
 O resultado reproduz o sentido do artigo: queda no Norte e no Centro-Oeste, maior
 sob SSP5-8.5 e no futuro distante; no Sul, potencial estável ou em alta, com a
 maior divergência entre modelos (13,45% a 17,39% em Florianópolis) e aumento
-claro do extravasamento. A replicação em escala nacional é questão de tempo de
-máquina, não de dado que falte.
+claro do extravasamento.
+
+**A replicação nacional, aliás, já existe.** Está em
+`Estudos/replicacao_projected`, com os quatro cenários de reservatório
+consolidados por cidade, modelo e cenário. Comparando-a com o motor do Netuno 5,
+modelo a modelo, aparece uma diferença de cerca de 2,7 pontos percentuais — e ela
+é inteiramente explicada pelo tratamento do descarte, que é a diferença de método
+declarada na seção de comparação com o Netuno 4 do manual: o Netuno 4 usa a
+lâmina como **limiar do evento** (abaixo dela não capta nada, acima capta a chuva
+inteira), e o Netuno 5 **subtrai** a lâmina de todo dia de chuva.
+
+Emulando a regra de limiar, e incluindo a caixa superior do cenário, os dois
+programas passam a concordar:
+
+| Cidade · modelo (histórico) | Rodada nacional | Netuno 5, subtraindo 2 mm | Netuno 5, com a regra do Netuno 4 |
+| :--- | ---: | ---: | ---: |
+| Florianópolis · ACCESS-CM2 | 17,46% | 14,26% | 17,35% |
+| Manaus · ACCESS-CM2 | 17,64% | 14,98% | 17,58% |
+| Brasília · MIROC6 | 12,15% | 10,40% | 12,15% |
+| Fortaleza · MIROC6 | 8,74% | 7,24% | 8,78% |
+
+O erro máximo nos oito pares conferidos é de 0,11 ponto percentual, e sem viés de
+sinal — indistinguível de arredondamento. Duas observações ficam do exercício: a
+concordância é melhor com coeficiente de escoamento de 0,85 do que com os 0,80
+declarados no texto do artigo (com 0,80 o Netuno 5 fica sistematicamente 0,1 a
+0,3 ponto abaixo), e a diferença de descarte, que o manual mede em 1,36 ponto na
+média dos casos de referência, chega a 2,7 pontos neste arquétipo — cobertura
+pequena, cisterna pequena e chuva frequente, que é onde a regra do descarte mais
+pesa.
 
 **Os estudos de comprimento de série.** Três artigos do grupo — Geraldi e Ghisi
 (2017, 2018, 2019) — perguntam quantos anos de chuva são necessários para que a
