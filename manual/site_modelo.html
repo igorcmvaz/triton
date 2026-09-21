@@ -87,7 +87,14 @@ table { font-size: inherit; }
 .resultados b { display: block; font-size: 13.5px; }
 .resultados span { display: block; color: var(--ink2); font-size: 12.5px; font-family: var(--serif); }
 .resultados mark { background: var(--mark); color: inherit; }
-.resultados .vazio { padding: 10px; color: var(--ink2); font-size: 13px; }
+.resultados .vazio { padding: 10px; color: var(--ink2); font-size: 13px; line-height: 1.45; }
+.resultados .dica-busca { padding: 8px 10px 6px; color: var(--ink3); font-size: 12.5px; line-height: 1.4; }
+.resultados .sugestao { all: unset; cursor: pointer; display: block; padding: 7px 10px; border-radius: 7px; font-size: 13.5px; color: var(--link); }
+.resultados .sugestao:hover { background: var(--accent-soft); }
+.selo { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; margin-right: 7px; vertical-align: 1px; background: var(--accent-soft); color: var(--accent); }
+.selo.t-figura, .selo.t-tabela { background: var(--grid); color: var(--ink2); }
+.selo.t-interativa { background: var(--s4); color: #fff; }
+.selo.t-sub { background: transparent; color: var(--ink3); padding-left: 0; }
 .tema { background: none; border: 1px solid var(--line); color: var(--ink2); border-radius: 7px; padding: 6px 9px; font: inherit; font-size: 13px; cursor: pointer; }
 .menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 7px; padding: 6px 10px; font: inherit; font-size: 13px; }
 
@@ -312,16 +319,17 @@ table { font-size: inherit; }
 .dica .d-l { display: flex; justify-content: space-between; gap: 14px; color: var(--ink2); }
 .dica .d-l i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
 .dica .d-l b { color: var(--ink); font-weight: 600; }
-.galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
-.gcard { display: grid; grid-template-rows: 150px auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--ink); transition: transform 0.15s, box-shadow 0.15s; }
-.gcard:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.gimg { background: #fff; border-bottom: 1px solid var(--line); overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 8px; }
-.gimg img { max-height: 134px; width: auto; object-fit: contain; }
-.gtxt { padding: 12px 16px 16px; }
-.gtxt small { color: var(--accent); font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; }
-.gtxt h3 { margin: 4px 0 6px; font-size: 16px; line-height: 1.3; text-wrap: balance; }
-.gtxt p { margin: 0; color: var(--ink2); font-size: 13px; }
-.gtxt p span { color: var(--ink3); }
+.perguntas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4px 28px; margin: 0; padding: 0; list-style: none; max-width: 1000px; }
+.perguntas li { border-bottom: 1px solid var(--line); }
+.perguntas a { display: flex; gap: 10px; align-items: baseline; padding: 11px 2px; text-decoration: none; color: var(--ink); }
+.perguntas a:hover { color: var(--link); }
+.perguntas a b { font-weight: 600; font-size: 15.5px; flex: 1; }
+.perguntas a small { color: var(--ink3); font-size: 12.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.perguntas a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.depois { color: var(--ink2); font-size: 14px; margin: 16px 0 0; }
+.marca-i { display: inline-block; margin-left: 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--s4); border: 1px solid var(--s4); border-radius: 4px; padding: 0 4px; vertical-align: 1px; }
+.nesta-i { margin: 10px 0 0; font-size: 13.5px; color: var(--ink2); line-height: 1.7; }
+.nesta-i a { margin-right: 12px; }
 .alvo { animation: piscar 1.6s ease-out; }
 @keyframes piscar { from { background: var(--mark); } to { background: transparent; } }
 .passos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 44px; max-width: 74ch; }
@@ -380,7 +388,7 @@ const POR_ID = Object.fromEntries(SECOES.map(s => [s.id, s]));
 const corDe = c => CORES[c.n] || "#4ea8de";
 
 /* navegação principal */
-const NAV = [["Início", "#/"], ["Comece aqui", "#/1.1"], ["Tutorial", "#/4.1"], ["Método", "#/2.1"], ["Guias", "#/3.1"], ["Apêndices", "#/A"], ["Figuras interativas", "#/interativas"]];
+const NAV = [["Início", "#/"], ["Comece aqui", "#/1.1"], ["Tutorial", "#/4.1"], ["Método", "#/2.1"], ["Guias", "#/3.1"], ["Apêndices", "#/A"]];
 $("#nav").innerHTML = NAV.map(([t, h]) => `<a href="${h}" data-h="${h}">${t}</a>`).join("");
 
 /* tema */
@@ -400,47 +408,95 @@ $("#nav").innerHTML = NAV.map(([t, h]) => `<a href="${h}" data-h="${h}">${t}</a>
 
 $("#menu-btn").addEventListener("click", () => { const l = $(".lateral"); if (l) l.classList.toggle("aberta"); });
 
-/* busca */
-const INDICE = SECOES.map(s => ({s, t: (s.rotulo + " " + s.titulo).toLowerCase(), x: s.texto.toLowerCase()}));
-const semAcento = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "");
-INDICE.forEach(i => { i.tn = semAcento(i.t); i.xn = semAcento(i.x); });
+/* busca: seções, subseções, figuras, tabelas e as figuras interativas */
+const semAcento = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const TIPOS = {
+  secao: ["seção", "t-secao"], sub: ["nesta seção", "t-sub"], figura: ["figura", "t-figura"],
+  interativa: ["figura interativa", "t-interativa"], tabela: ["tabela", "t-tabela"],
+};
+const INDICE = (DADOS.busca || []).map(i => {
+  // Só a seção tem texto corrido, e ele é o da própria seção, sem cópia.
+  const x = i.t === "secao" ? ((POR_ID[i.id] || {}).texto || "") : "";
+  return Object.assign({}, i, {x, nn: semAcento((i.r + " " + i.n).toLowerCase()),
+                               xn: semAcento(x.toLowerCase())});
+});
+const PESO = {interativa: 8, secao: 6, figura: 4, tabela: 4, sub: 3};
+const SUGESTOES = [
+  ["Quanta água a minha cobertura capta?", "captação cobertura"],
+  ["Que volume de cisterna escolher?", "volume ideal"],
+  ["Quando o investimento se paga?", "tempo de retorno"],
+  ["A economia de água reduz a fatura?", "regime de mínimo"],
+  ["Quanto carbono o sistema evita?", "carbono ciclo de vida"],
+  ["Que qualidade o uso exige?", "classes de qualidade"],
+];
 let selecionado = -1;
+
+function destino(i) { return "#/" + i.id + (i.a ? "/" + i.a : ""); }
+
+function sugerir() {
+  const caixa = $("#resultados");
+  caixa.innerHTML = `<div class="dica-busca">Procure por assunto, por nome de figura ou por «Tabela 83». Ou comece por uma destas:</div>` +
+    SUGESTOES.map(([pergunta, termo]) =>
+      `<button type="button" class="sugestao" data-q="${esc(termo)}">${esc(pergunta)}</button>`).join("");
+  caixa.hidden = false;
+  caixa.querySelectorAll(".sugestao").forEach(b => b.addEventListener("click", () => {
+    $("#busca").value = b.dataset.q;
+    buscar(b.dataset.q);
+    $("#busca").focus();
+  }));
+}
+
 function buscar(q) {
   const caixa = $("#resultados");
   const termos = semAcento(q.toLowerCase()).split(/\s+/).filter(t => t.length > 1);
-  if (!termos.length) { caixa.hidden = true; return; }
+  if (!termos.length) { sugerir(); return; }
   const achados = [];
   INDICE.forEach(i => {
     let pontos = 0;
     for (const t of termos) {
-      const noTitulo = i.tn.includes(t), noTexto = i.xn.split(t).length - 1;
-      if (!noTitulo && !noTexto) { pontos = 0; break; }
-      pontos += (noTitulo ? 20 : 0) + Math.min(noTexto, 12);
+      const noNome = i.nn.includes(t), noTexto = i.xn.split(t).length - 1;
+      if (!noNome && !noTexto) { pontos = 0; break; }
+      pontos += (noNome ? 18 + (PESO[i.t] || 3) : 0) + Math.min(noTexto, 10);
     }
     if (pontos) achados.push([pontos, i]);
   });
-  achados.sort((a, b) => b[0] - a[0]);
+  achados.sort((a, b) => b[0] - a[0] || (PESO[b[1].t] || 0) - (PESO[a[1].t] || 0));
   selecionado = -1;
-  if (!achados.length) { caixa.innerHTML = `<div class="vazio">Nada encontrado para «${esc(q)}».</div>`; caixa.hidden = false; return; }
-  caixa.innerHTML = achados.slice(0, 9).map(([, i]) => {
-    const pos = i.xn.indexOf(termos[0]);
-    let trecho = pos >= 0 ? i.s.texto.slice(Math.max(0, pos - 60), pos + 120) : i.s.texto.slice(0, 160);
+  if (!achados.length) {
+    caixa.innerHTML = `<div class="vazio">Nada encontrado para «${esc(q)}». A busca cobre o texto das seções, os títulos internos, as figuras e as tabelas.</div>`;
+    caixa.hidden = false;
+    return;
+  }
+  caixa.innerHTML = achados.slice(0, 10).map(([, i]) => {
+    const [rotulo, classe] = TIPOS[i.t] || TIPOS.secao;
+    let trecho = "";
+    if (i.x) {
+      const pos = i.xn.indexOf(termos[0]);
+      trecho = pos >= 0 ? i.x.slice(Math.max(0, pos - 60), pos + 120) : i.x.slice(0, 150);
+    } else {
+      trecho = i.n;
+    }
     trecho = esc(trecho);
     termos.forEach(t => {
       const re = new RegExp("(" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
       trecho = trecho.replace(re, "<mark>$1</mark>");
     });
-    return `<a href="#/${i.s.id}"><b>${esc(i.s.rotulo)} · ${esc(i.s.titulo)}</b><span>…${trecho}…</span></a>`;
+    const secao = POR_ID[i.id];
+    return `<a href="${destino(i)}"><b><span class="selo ${classe}">${rotulo}</span>${esc(i.r)} · ${esc(i.n)}</b>` +
+      `<span>${i.x ? "…" + trecho + "…" : (secao ? "em " + esc(secao.rotulo) + " " + esc(secao.titulo) : "")}</span></a>`;
   }).join("");
   caixa.hidden = false;
 }
 $("#busca").addEventListener("input", e => buscar(e.target.value));
+$("#busca").addEventListener("focus", e => { if (!e.target.value.trim()) sugerir(); });
 $("#busca").addEventListener("keydown", e => {
   const itens = [...$("#resultados").querySelectorAll("a")];
   if (e.key === "ArrowDown" || e.key === "ArrowUp") {
     e.preventDefault();
+    if (!itens.length) return;
     selecionado = (selecionado + (e.key === "ArrowDown" ? 1 : -1) + itens.length) % itens.length;
     itens.forEach((a, k) => a.classList.toggle("sel", k === selecionado));
+    itens[selecionado].scrollIntoView({block: "nearest"});
   } else if (e.key === "Enter" && itens.length) {
     location.hash = itens[Math.max(0, selecionado)].getAttribute("href");
     fecharBusca();
@@ -519,7 +575,7 @@ function inicio() {
     </div>
   </section>
 
-  ${galeriaInterativas()}
+  ${bulletsInterativas()}
 
   <section class="faixa">
     <h2>Como o programa calcula</h2>
@@ -627,8 +683,11 @@ function secao(id, ancora) {
   const cap = s.cap, cor = corDe(cap);
   const idx = SECOES.indexOf(s), ant = SECOES[idx - 1], prox = SECOES[idx + 1];
   const vol = DADOS.volumes.find(v => v.capitulo === cap.n);
-  const lateral = DADOS.capitulos.map(c => `<div class="cap" style="--c:${corDe(c)}"><button type="button" aria-expanded="${c === cap}"><i></i>${c.apendice ? "" : c.n + " · "}${esc(c.titulo)}</button><ul${c === cap ? "" : " hidden"}>${c.secoes.map(x => `<li><a href="#/${x.id}" class="${x === s ? "ativo" : ""}">${esc(x.rotulo)} ${esc(x.titulo)}</a></li>`).join("")}</ul></div>`).join("");
-  const nesta = s.toc.length ? `<nav class="nesta" aria-label="Nesta página"><b>Nesta página</b><ol>${s.toc.map(t => `<li><a href="#/${id}/${t.id}">${esc(t.titulo)}</a></li>`).join("")}</ol></nav>` : "";
+  const lateral = DADOS.capitulos.map(c => `<div class="cap" style="--c:${corDe(c)}"><button type="button" aria-expanded="${c === cap}"><i></i>${c.apendice ? "" : c.n + " · "}${esc(c.titulo)}</button><ul${c === cap ? "" : " hidden"}>${c.secoes.map(x => `<li><a href="#/${x.id}" class="${x === s ? "ativo" : ""}">${esc(x.rotulo)} ${esc(x.titulo)}${INTERATIVAS_DA_SECAO[x.id] ? `<b class="marca-i" title="${INTERATIVAS_DA_SECAO[x.id].length} figura(s) interativa(s) nesta seção">interativa</b>` : ""}</a></li>`).join("")}</ul></div>`).join("");
+  const daSecao = INTERATIVAS_DA_SECAO[id] || [];
+  const atalhos = daSecao.length ? `<p class="nesta-i"><b>Para experimentar:</b> ${daSecao.map(o =>
+    `<a href="#/${id}/fig-${o.numero}">${esc((FI[o.arquivo] || {}).pergunta || ("Figura " + o.numero))}</a>`).join(" ")}</p>` : "";
+  const nesta = (s.toc.length || daSecao.length) ? `<nav class="nesta" aria-label="Nesta página">${s.toc.length ? `<b>Nesta página</b><ol>${s.toc.map(t => `<li><a href="#/${id}/${t.id}">${esc(t.titulo)}</a></li>`).join("")}</ol>` : ""}${atalhos}</nav>` : "";
   const tabelas = s.html.replace(/<table>/g, '<div class="tabela"><table>').replace(/<\/table>/g, "</table></div>");
   $("#app").innerHTML = `<div class="doc" style="--c:${cor}">
     <aside class="lateral" aria-label="Sumário">${lateral}</aside>

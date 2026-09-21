@@ -287,6 +287,41 @@ def _copiar_arquivos():
             shutil.copy2(origem, pdf)
 
 
+def indice_de_busca(capitulos, onde_interativas):
+    """O que a busca encontra: seções, subseções, figuras, tabelas e equações.
+
+    Quem procura raramente sabe em que seção a resposta está; sabe o nome da
+    coisa — «tornado», «Tabela 83», «coeficiente de escoamento». Por isso o
+    índice não se limita ao texto das seções.
+    """
+    interativas = {o["numero"] for o in onde_interativas.values()}
+    itens = []
+    for c in capitulos:
+        for s in c["secoes"]:
+            # O texto da seção não se repete aqui: a página o lê de POR_ID.
+            itens.append({"t": "secao", "id": s["id"], "a": "",
+                          "r": s["rotulo"], "n": s["titulo"]})
+            for entrada in s["toc"]:
+                itens.append({"t": "sub", "id": s["id"], "a": entrada["id"],
+                              "r": s["rotulo"], "n": entrada["titulo"], "x": ""})
+            # A legenda pode ter virado link pelas remissões, e por isso o
+            # rótulo não é casado literalmente.
+            for m in re.finditer(
+                    r'<figure class="fig" id="fig-(\d+)"[^>]*>.*?<figcaption>.*?'
+                    r'Figura \d+.*?— (.*?)</figcaption>', s["html"], flags=re.S):
+                numero = int(m.group(1))
+                itens.append({"t": "interativa" if numero in interativas else "figura",
+                              "id": s["id"], "a": f"fig-{numero}",
+                              "r": f"Figura {numero}",
+                              "n": re.sub(r"<[^>]+>", "", m.group(2)).strip(), "x": ""})
+            for m in re.finditer(r'<p class="tab-cap" id="tab-(\d+)">.*?Tabela \d+.*?</b>(.*?)</p>',
+                                 s["html"], flags=re.S):
+                itens.append({"t": "tabela", "id": s["id"], "a": f"tab-{m.group(1)}",
+                              "r": f"Tabela {m.group(1)}",
+                              "n": re.sub(r"<[^>]+>", "", m.group(2)).strip(" —"), "x": ""})
+    return itens
+
+
 def _quantos_testes():
     try:
         saida = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q"],
@@ -333,6 +368,7 @@ def main():
                 if m.group(2) in dados["interativas"]:
                     dados["onde_interativas"][m.group(2)] = {
                         "secao": s["id"], "titulo": s["titulo"], "numero": int(m.group(1))}
+    dados["busca"] = indice_de_busca(capitulos, dados["onde_interativas"])
     modelo = open(os.path.join(AQUI, "site_modelo.html"), encoding="utf-8").read()
     modelo = modelo.replace("/*__INTERATIVAS__*/",
                             open(os.path.join(AQUI, "site_interativas.js"), encoding="utf-8").read())

@@ -1215,6 +1215,285 @@ FI["fig24_tornado.png"] = {
   }
 };
 
+/* ─── quanto a cobertura capta ─────────────────────────────────────────── */
+FI["fig35_escoamento.png"] = {
+  curto: "A captação da cobertura",
+  pergunta: "Quanta água a sua cobertura capta por mês?",
+  controles: "cidade · material · área · descarte",
+  experimente: "Troque a telha cerâmica pelo telhado verde: o coeficiente cai de 0,75 para 0,24 e a captação despenca a um terço. Suba o descarte de 0 para 3 mm e veja quanto some — em Florianópolis, um quarto da chuva do ano.",
+  fonte: "Chuva diária de 30 anos da série de cada capital, com o descarte aplicado a cada evento como no programa, e o coeficiente de escoamento do material da cobertura. A captação é V = P × A × C, a mesma conta da NBR 15527:2019 e do motor de simulação.",
+  montar(p, D, id) {
+    let cidade = D.padrao[0], desc = D.padrao[1], area = D.padrao[2], material = D.padrao[3];
+    const W = 640;
+    const coefDe = () => (D.materiais.find(m => m[0] === material) || D.materiais[0])[1];
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "c", "Cidade", D.cidades.map(c => [c.chave, c.nome]), cidade)}
+      <div class="fi-ctl largo"><label class="fi-rot" for="${id}m">Material da cobertura <output id="${id}m-o"></output></label>
+      <select id="${id}m">${D.materiais.map(([n, c]) => `<option value="${esc(n)}"${n === material ? " selected" : ""}>${esc(n)} — coeficiente ${fmt(c, 2)}</option>`).join("")}</select></div>
+      ${ctlFaixa(id + "a", "Área de cobertura (projeção horizontal)", D.areas.length, D.areas.indexOf(area))}
+      ${ctlSeg(id + "d", "Descarte de primeiras águas", D.descartes.map(d => [d, fmt(d) + " mm"]), desc)}
+    </div>
+    <div class="fi-corpo"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 300" role="img" aria-label="Volume captado em cada mês do ano, em média"></svg>
+      ${legenda([[S(1), "captação do mês"], [S(2), "parte retida pelo descarte"], ["var(--ink3)", "demanda pluvial do tutorial", "trac"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const c = D.cidades.find(x => x.chave === cidade), coef = coefDe();
+      const litros = mm => mm * area * coef;                     // 1 mm em 1 m² = 1 L
+      const mensal = c.mensal[String(desc)].map(litros);
+      const bruto = c.mensal["0"].map(litros);
+      const demandaMes = D.demanda_pluvial_tutorial * 30.4375;
+      const ey = escala(0, Math.max(...bruto, demandaMes) * 1.1, 4);
+      const A = plano({W, H: 300, l: 66, r: 14, t: 34, b: 44, x: [0.4, 12.6], y: [0, ey.max], ym: ey.marcas,
+        yf: v => fmt(v / 1000, 1), yr: "volume captado no mês (m³)",
+        xm: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], xf: m => MESES[m - 1]});
+      let s = A.s;
+      const bw = (A.X(2) - A.X(1)) * 0.62;
+      mensal.forEach((v, m) => {
+        const x = A.X(m + 1) - bw / 2;
+        if (bruto[m] > v) s += `<rect x="${x}" y="${A.Y(bruto[m])}" width="${bw}" height="${Math.max(0, A.Y(v) - A.Y(bruto[m]) - 1)}" rx="2" style="fill:${S(2)};opacity:0.55"/>`;
+        s += `<rect x="${x}" y="${A.Y(v)}" width="${bw}" height="${Math.max(0, A.Y(0) - A.Y(v))}" rx="2" style="fill:${S(1)}"/>`;
+      });
+      s += `<line class="g-ref" x1="${A.X(0.4)}" x2="${A.X(12.6)}" y1="${A.Y(demandaMes)}" y2="${A.Y(demandaMes)}"/>`;
+      s += `<text class="g-t" x="${A.X(12.6)}" y="${A.Y(demandaMes) - 6}" text-anchor="end">demanda pluvial do tutorial: ${fmt(demandaMes / 1000, 1)} m³/mês</text>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, mensal.map((_, m) => A.X(m + 1)),
+        m => dicaHTML(`${MESES[m]} · média de 30 anos`, [
+          [S(1), "captado", fmt(mensal[m] / 1000, 2) + " m³"],
+          [S(2), "retido no descarte", fmt((bruto[m] - mensal[m]) / 1000, 2) + " m³"],
+          ["", "lâmina aproveitável", fmt(c.mensal[String(desc)][m], 1) + " mm"]]));
+      p.querySelector(`#${id}a-o`).textContent = fmt(area) + " m²";
+      p.querySelector(`#${id}m-o`).textContent = "C = " + fmt(coef, 2);
+      const anual = c.anual[String(desc)] * area * coef, anualBruto = c.anual["0"] * area * coef;
+      const cobertos = mensal.filter(v => v >= demandaMes).length;
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${esc(c.nome)}, ${fmt(area)} m² de ${esc(material).toLowerCase()}</p>
+        <div class="fi-n">${cartao("Captação média anual", fmt(anual / 1000, 1) + " m³")}
+        ${cartao("Média diária", fmt(anual / 365.25) + " L/dia")}
+        ${cartao("Lâmina aproveitável", fmt(c.anual[String(desc)]) + " mm/ano", `chuva de ${fmt(c.anual["0"])} mm`)}
+        ${cartao("Retido pelo descarte", fmt(100 * (1 - anual / anualBruto), 1) + "%", `com ${fmt(desc)} mm por evento`)}
+        ${cartao("Meses que cobrem a demanda", cobertos, "de 12, no tutorial")}
+        ${cartao("Coeficiente de escoamento", fmt(coefDe(), 2), esc(material))}</div>
+        <p class="fi-nota">Esta é a oferta bruta da cobertura, antes da cisterna: o que o reservatório consegue guardar depende do volume e do consumo, e é o que as figuras do balanço diário mostram. Coeficientes de ${esc(D.fonte_coeficientes)}</p>`;
+    };
+    ligarSeg(p, id + "c", x => { cidade = x; desenha(); });
+    ligarSeg(p, id + "d", x => { desc = +x; desenha(); });
+    p.querySelector(`#${id}m`).addEventListener("change", e => { material = e.target.value; desenha(); });
+    p.querySelector(`#${id}a`).addEventListener("input", e => { area = D.areas[+e.target.value]; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── qual pressurizador gasta menos ───────────────────────────────────── */
+FI["fig00k_energia.png"] = {
+  curto: "A escolha do pressurizador",
+  pergunta: "Qual motobomba gasta menos para pressurizar a água de chuva?",
+  controles: "pressão · volume recalcado · partidas",
+  experimente: "Suba a pressão de trabalho: acima de 20 m.c.a. os modelos de menor potência deixam de entregar a vazão do ponto e saem da disputa. Repare que o modelo mais potente não é o que gasta mais por metro cúbico — o que decide é o tempo ligado.",
+  fonte: "Catálogo de seis pressurizadores do programa, com curva de vazão × pressão de cada fabricante. A energia é a potência elétrica multiplicada pelo tempo ligado, e a vazão efetiva é a menor entre a curva da bomba e a vazão do ponto de uso de 9 L/min.",
+  montar(p, D, id) {
+    let pi = D.pressoes.indexOf(D.padrao[0]), vol = D.padrao[1], part = D.padrao[2], sel = 0;
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlFaixa(id + "p", "Pressão de trabalho", D.pressoes.length, pi)}
+      ${ctlSeg(id + "v", "Volume recalcado por ano", D.volumes.map(v => [v, fmt(v) + " m³"]), vol)}
+      ${ctlSeg(id + "n", "Partidas por ano", D.partidas.map(n => [n, fmt(n)]), part)}
+    </div>
+    <div class="fi-corpo emp"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 260" role="img" aria-label="Energia anual de cada modelo do catálogo"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 260" role="img" aria-label="Curva de vazão contra pressão de cada modelo"></svg>
+      ${legenda([[S(4), "modelo que menos gasta"], [S(1), "modelo em destaque"], [S(2), "não entrega a vazão do ponto"], ["var(--ink3)", "vazão do ponto de uso", "trac"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const pressao = D.pressoes[pi];
+      const lista = D.casos[`${pressao}|${vol}|${part}`];
+      const meta = c => D.modelos.find(m => m.chave === c);
+      const atendem = lista.filter(x => x.atende);
+      const melhor = atendem.length ? atendem[0].chave : null;
+      if (sel >= lista.length) sel = 0;
+      const ey = escala(0, Math.max(...lista.map(x => x.kwh)) * 1.12, 4);
+      const A = plano({W, H: 260, l: 210, r: 70, t: 34, b: 44, x: [0, ey.max], y: [lista.length - 0.4, -0.6],
+        xm: ey.marcas, xf: v => fmt(v), xr: "energia elétrica por ano (kWh)"});
+      let s = A.s;
+      const h = 20;
+      lista.forEach((x, i) => {
+        const y = A.Y(i), cor = !x.atende ? S(2) : x.chave === melhor ? S(4) : S(1);
+        s += `<rect x="${A.X(0)}" y="${y - h / 2}" width="${Math.max(1, A.X(x.kwh) - A.X(0))}" height="${h}" rx="2" style="fill:${cor};opacity:${i === sel ? 1 : 0.6}"/>`;
+        s += `<text class="g-t" x="${A.X(0) - 8}" y="${y + 4}" text-anchor="end" style="${i === sel ? "font-weight:600" : ""}">${esc(meta(x.chave).rotulo)}</text>`;
+        s += `<text class="g-t" x="${A.X(x.kwh) + 8}" y="${y + 4}">${x.atende ? fmt(x.kwh) + " kWh" : "não atende"}</text>`;
+      });
+      p.querySelector(`#${id}g`).innerHTML = s;
+      const svg = p.querySelector(`#${id}g`);
+      const linhaDoPonteiro = e => {
+        const r = svg.getBoundingClientRect(), y = (e.clientY - r.top) / r.height * 260;
+        let k = 0, d = Infinity;
+        lista.forEach((_, i) => { const q = Math.abs(A.Y(i) - y); if (q < d) { d = q; k = i; } });
+        return k;
+      };
+      svg.onclick = e => { sel = linhaDoPonteiro(e); desenha(); };
+      svg.style.cursor = "pointer";
+      svg.onpointermove = null; svg.onpointerleave = null;
+
+      const qmax = Math.max(...D.modelos.flatMap(m => m.curva.map(c => c[0])));
+      const hmax = Math.max(...D.modelos.flatMap(m => m.curva.map(c => c[1])));
+      const ex = escala(0, qmax * 1.02, 5), eh = escala(0, hmax * 1.05, 4);
+      const B = plano({W, H: 260, l: 66, r: 120, t: 34, b: 44, x: [0, ex.max], y: [0, eh.max], ym: eh.marcas,
+        yf: v => fmt(v), yr: "pressão (m.c.a.)", xm: ex.marcas, xf: v => fmt(v), xr: "vazão (L/min)"});
+      let t = B.s;
+      const rot = [];
+      lista.forEach((x, i) => {
+        const m = meta(x.chave), pontos = m.curva.slice().sort((a, b) => a[0] - b[0]);
+        const cor = i === sel ? S(1) : "var(--ink3)";
+        t += `<polyline points="${pontos.map(([q, hh]) => `${B.X(q)},${B.Y(hh)}`).join(" ")}" style="fill:none;stroke:${cor};stroke-width:${i === sel ? 2.6 : 1.2};opacity:${i === sel ? 1 : 0.5}"/>`;
+        if (i === sel) rot.push({y: B.Y(pontos[pontos.length - 1][1]), t: m.rotulo.split(",")[0], c: S(1)});
+      });
+      t += `<line class="g-ref" x1="${B.X(D.vazao_do_ponto)}" x2="${B.X(D.vazao_do_ponto)}" y1="${B.Y(eh.max)}" y2="${B.Y(0)}"/>`;
+      t += `<text class="g-t" x="${B.X(D.vazao_do_ponto) + 6}" y="${B.Y(eh.max) + 12}">vazão do ponto: ${fmt(D.vazao_do_ponto)} L/min</text>`;
+      t += `<line x1="${B.X(0)}" x2="${B.X(ex.max)}" y1="${B.Y(pressao)}" y2="${B.Y(pressao)}" style="stroke:${S(4)};stroke-dasharray:4 4"/>`;
+      t += `<text class="g-t" x="${B.X(ex.max)}" y="${B.Y(pressao) - 6}" text-anchor="end" style="fill:${S(4)}">pressão de trabalho: ${fmt(pressao, 1)} m.c.a.</text>`;
+      t += rotulosNaPonta(rot, B.X(ex.max) + 8, B.Y(eh.max), B.Y(0));
+      p.querySelector(`#${id}h`).innerHTML = t;
+
+      p.querySelector(`#${id}p-o`).textContent = fmt(pressao, 1) + " m.c.a.";
+      const x = lista[sel], m = meta(x.chave);
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${melhor ? "Menor consumo: " + esc(meta(melhor).rotulo) : "Nenhum modelo entrega a vazão do ponto nesta pressão"}</p>
+        <div class="fi-n">${cartao("Energia do modelo em destaque", x.atende ? fmt(x.kwh) + " kWh/ano" : "—", esc(m.rotulo))}
+        ${cartao("Consumo específico", x.atende ? fmt(x.kwh_m3, 3) + " kWh/m³" : "—")}
+        ${cartao("Custo anual de energia", x.atende ? reais(x.kwh * D.tarifa) : "—", `tarifa de ${reais(D.tarifa, 5)}/kWh`)}
+        ${cartao("Tempo ligado", x.atende ? fmt(x.horas) + " h/ano" : "—", `${fmt(part)} partidas`)}</div>
+        <p class="fi-sub">Todos os modelos nesta condição</p>
+        <table class="fi-tabela"><thead><tr><th>Modelo</th><th class="n">Vazão</th><th class="n">kWh/ano</th><th class="n">kWh/m³</th></tr></thead><tbody>
+        ${lista.map((y, i) => {
+          const mm = meta(y.chave);
+          return `<tr${i === sel ? ' class="atual"' : ""}><td>${esc(mm.rotulo)}<small>${esc({eletronico: "eletrônico"}[mm.controle] || mm.controle)} · ${fmt(mm.kw_eletrico, 3)} kW elétricos</small></td>
+            <td class="n">${y.atende ? fmt(y.vazao, 1) + " L/min" : "não atende"}</td><td class="n">${y.atende ? fmt(y.kwh) : "—"}</td><td class="n">${y.atende ? fmt(y.kwh_m3, 3) : "—"}</td></tr>`;
+        }).join("")}</tbody></table>
+        <p class="fi-nota">A vazão efetiva é a menor entre a curva da bomba e a vazão do ponto de uso: uma bomba que entrega 40 L/min não enche mais depressa uma bacia que pede 9 L/min, apenas fica ligada o mesmo tempo com mais potência. Fonte da curva: ${esc(m.fonte)}.</p>`;
+    };
+    p.querySelector(`#${id}p`).addEventListener("input", e => { pi = +e.target.value; desenha(); });
+    ligarSeg(p, id + "v", x => { vol = +x; desenha(); });
+    ligarSeg(p, id + "n", x => { part = +x; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── as classes de qualidade da água ──────────────────────────────────── */
+FI["fig36_classes.png"] = {
+  curto: "As classes de qualidade",
+  pergunta: "Que qualidade cada uso exige, e o que é norma e o que é adaptação?",
+  controles: "classe de qualidade",
+  experimente: "Compare a classe 1, que é a da norma, com a classe 4: a turbidez cai de 5 para 2 uT e a cor de 15 para 5 uH. Repare no selo de cada uma — só a primeira pode ser apresentada como requisito normativo.",
+  fonte: "As quatro classes como o programa as define (netuno/core/water_quality.py). A classe 1 reproduz a Tabela 1 e o item 4.6.5 da ABNT NBR 15527:2019; as classes 2 a 4 são adaptação do programa, coerente com a edição de 2007 da norma, e assim são declaradas na tela e no relatório.",
+  montar(p, D, id) {
+    let sel = D.padrao;
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "c", "Classe de qualidade", D.classes.map(c => [c.chave, c.nome.split(":")[0].replace(" (adaptada, não normativa)", "")]), sel)}
+    </div>
+    <div class="fi-corpo emp"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 300" role="img" aria-label="Limite de cada parâmetro nas quatro classes"></svg>
+      ${legenda([[S(1), "classe em destaque"], ["var(--grid)", "demais classes"], [S(4), "classe normativa (NBR 15527:2019)"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const c = D.classes.find(x => x.chave === sel);
+      let s = "";
+      D.parametros.forEach((param, k) => {
+        const valores = D.classes.map(x => x[param.chave]);
+        const topo = 34 + k * 92;
+        const ey = escala(0, Math.max(...valores, 1) * 1.2, 3);
+        const A = plano({W, H: topo + 62, l: 66, r: 14, t: topo, b: 20, x: [-0.6, D.classes.length - 0.4], y: [0, ey.max],
+          ym: ey.marcas, yf: v => fmt(v, param.casas), yr: `${param.nome} (${param.unidade})`,
+          xm: D.classes.map((_, i) => i), xf: i => "classe " + (i + 1)});
+        s += A.s;
+        const bw = (A.X(1) - A.X(0)) * 0.5;
+        valores.forEach((v, i) => {
+          const cor = D.classes[i].chave === sel ? S(1) : D.classes[i].normativa ? S(4) : "var(--grid)";
+          s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(v)}" width="${bw}" height="${Math.max(1, A.Y(0) - A.Y(v))}" rx="2" style="fill:${cor}"/>`;
+          s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(v) - 5}" text-anchor="middle">${fmt(v, param.casas)}</text>`;
+        });
+      });
+      p.querySelector(`#${id}g`).innerHTML = s;
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${esc(c.nome.split(":")[0])}
+        <span class="pill ${c.normativa ? "pleno" : "parcial"}">${c.normativa ? "✓ parâmetros da norma" : "◐ adaptação do programa"}</span></p>
+        <table class="fi-tabela"><tbody>
+        <tr><td>Turbidez</td><td class="n">até ${fmt(c.turbidez, 1)} uT</td></tr>
+        <tr><td>Cor aparente</td><td class="n">até ${fmt(c.cor, 1)} uH</td></tr>
+        <tr><td>pH</td><td class="n">${fmt(c.ph[0], 1)} a ${fmt(c.ph[1], 1)}</td></tr>
+        <tr><td>Cloro residual livre</td><td class="n">${fmt(c.cloro[0], 2)} a ${fmt(c.cloro[1], 2)} mg/L</td></tr>
+        <tr><td>Coliformes termotolerantes</td><td class="n">${c.coliformes > 0 ? "até " + fmt(c.coliformes) + " UFC/100 mL" : "ausentes"}</td></tr>
+        <tr><td>Desinfecção</td><td class="n">${c.desinfeccao ? "exigida" : "dispensada"}</td></tr>
+        <tr><td>Filtração fina</td><td class="n">${c.filtracao ? "exigida" : "dispensada"}</td></tr>
+        </tbody></table>
+        <p class="fi-nota">${esc(c.descricao)}</p>
+        ${D.parametros.map(x => `<p class="fi-nota"><b>${x.nome}.</b> ${x.texto}</p>`).join("")}`;
+    };
+    ligarSeg(p, id + "c", x => { sel = x; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── o valor presente líquido contra o volume ─────────────────────────── */
+FI["fig49_programa_vpl.png"] = {
+  curto: "O VPL contra o volume",
+  pergunta: "Que volume dá o melhor retorno financeiro?",
+  controles: "material da cisterna",
+  experimente: "O máximo do valor presente líquido não cai no mesmo volume do critério hidráulico: em concreto ele fica em 2 m³, contra os 4 m³ do ganho marginal. Troque o material e veja o máximo se deslocar — é o preço por litro que o move.",
+  fonte: "Uma rodada da análise econômica por volume e material, com o projeto do tutorial, a tarifa da CASAN e horizonte de 20 anos. O volume de VPL máximo é lido da própria curva.",
+  montar(p, D, id) {
+    let mat = D.padrao, sel = D.volumes.indexOf(4000);
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "m", "Material da cisterna", D.materiais, mat)}
+    </div>
+    <div class="fi-corpo"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 320" role="img" aria-label="Valor presente líquido em função do volume da cisterna, por material"></svg>
+      ${legenda(D.materiais.map(([k, t], i) => [S(i + 1), t, "linha"]).concat([["var(--ink2)", "volume em destaque", "trac"]]))}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const todos = D.materiais.flatMap(([k]) => D.casos[k].map(x => x[0]));
+      const ey = escala(Math.min(...todos, 0), Math.max(...todos) * 1.08, 5);
+      const A = plano({W, H: 320, l: 74, r: 120, t: 34, b: 46, x: [0, 20000], y: [ey.min, ey.max], ym: ey.marcas,
+        yf: v => menos(v), yr: "valor presente líquido em 20 anos (R$)",
+        xm: [0, 5000, 10000, 15000, 20000], xf: v => fmt(v / 1000) + " m³", xr: "volume da cisterna"});
+      let s = A.s;
+      const rot = [];
+      D.materiais.forEach(([k, t], i) => {
+        const linha = D.casos[k], cor = S(i + 1), atual = k === mat;
+        s += `<polyline points="${linha.map((x, j) => `${A.X(D.volumes[j])},${A.Y(x[0])}`).join(" ")}" style="fill:none;stroke:${cor};stroke-width:${atual ? 2.6 : 1.4};opacity:${atual ? 1 : 0.45}"/>`;
+        const melhor = linha.reduce((a, x, j) => x[0] > linha[a][0] ? j : a, 0);
+        if (atual) {
+          s += `<circle cx="${A.X(D.volumes[melhor])}" cy="${A.Y(linha[melhor][0])}" r="6" style="fill:${cor};stroke:var(--surface);stroke-width:2"/>`;
+          s += `<text class="g-rot" x="${A.X(D.volumes[melhor])}" y="${A.Y(linha[melhor][0]) - 12}" text-anchor="middle" style="fill:${cor}">máximo: ${fmt(D.volumes[melhor])} L</text>`;
+        }
+        rot.push({y: A.Y(linha[linha.length - 1][0]), t: t.split(" (")[0], c: cor});
+      });
+      s += rotulosNaPonta(rot, A.X(20000) + 8, A.Y(ey.max), A.Y(ey.min));
+      s += `<line class="g-ref" x1="${A.X(D.volumes[sel])}" x2="${A.X(D.volumes[sel])}" y1="${A.Y(ey.max)}" y2="${A.Y(ey.min)}" style="stroke:var(--ink2)"/>`;
+      s += `<line class="g-guia" x1="0" x2="0" y1="${A.Y(ey.max)}" y2="${A.Y(ey.min)}" style="display:none"/>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, D.volumes.map(v => A.X(v)),
+        j => dicaHTML(`${fmt(D.volumes[j])} L`, D.materiais.map(([k, t], i) => [S(i + 1), t.split(" (")[0], reais(D.casos[k][j][0])])),
+        j => { sel = j; desenha(); });
+      const linha = D.casos[mat], melhor = linha.reduce((a, x, j) => x[0] > linha[a][0] ? j : a, 0);
+      const x = linha[sel];
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${esc(D.materiais.find(m => m[0] === mat)[1])}</p>
+        <div class="fi-n">${cartao("Volume de VPL máximo", fmt(D.volumes[melhor]) + " L", reais(linha[melhor][0]))}
+        ${cartao("Volume em destaque", fmt(D.volumes[sel]) + " L", "clique no gráfico para trocar")}
+        ${cartao("VPL", reais(x[0]), x[0] >= 0 ? "✓ positivo" : "✕ negativo")}
+        ${cartao("Tempo de retorno", x[1] ? fmt(x[1], 1) + " anos" : "mais de 20 anos")}
+        ${cartao("Potencial de economia", fmt(x[2], 2) + "%")}
+        ${cartao("Diferença para o máximo", reais(x[0] - linha[melhor][0]))}</div>
+        <p class="fi-sub">O melhor volume de cada material</p>
+        <table class="fi-tabela"><tbody>${D.materiais.map(([k, t], i) => {
+          const l = D.casos[k], m = l.reduce((a, y, j) => y[0] > l[a][0] ? j : a, 0);
+          return `<tr${k === mat ? ' class="atual"' : ""}><td><i style="--c:${S(i + 1)}"></i>${t}</td><td class="n">${fmt(D.volumes[m])} L</td><td class="n">${reais(l[m][0])}</td></tr>`;
+        }).join("")}</tbody></table>
+        <p class="fi-nota">A curva tem máximo interior porque o investimento cresce com o volume enquanto a economia de água satura. Um volume à direita do máximo continua economizando mais água, e rendendo menos dinheiro.</p>`;
+    };
+    ligarSeg(p, id + "m", x => { mat = x; desenha(); });
+    desenha();
+  }
+};
+
 /* ─── montagem nas páginas ─────────────────────────────────────────────── */
 function montarInterativas(raiz) {
   raiz.querySelectorAll("figure.fig[data-arquivo]").forEach(fig => {
@@ -1247,17 +1526,48 @@ function montarInterativas(raiz) {
   });
 }
 
-/* a galeria da página inicial */
-function galeriaInterativas() {
-  const itens = Object.keys(FI).filter(a => FI_ONDE[a] && FI_D[a]).sort((a, b) => FI_ONDE[a].numero - FI_ONDE[b].numero);
-  if (!itens.length) return "";
+/* Onde cada figura interativa está, por seção, na ordem do manual. */
+const INTERATIVAS_DA_SECAO = {};
+Object.keys(FI_ONDE).forEach(arquivo => {
+  if (!FI_D[arquivo]) return;
+  const o = FI_ONDE[arquivo];
+  (INTERATIVAS_DA_SECAO[o.secao] = INTERATIVAS_DA_SECAO[o.secao] || []).push({arquivo, numero: o.numero});
+});
+Object.values(INTERATIVAS_DA_SECAO).forEach(lista => lista.sort((a, b) => a.numero - b.numero));
+
+/* A página inicial não abre figura nenhuma: aponta para onde cada uma está. */
+const EM_DESTAQUE = ["fig01_dez_dias.png", "fig08_fluxo_de_caixa.png", "fig35_escoamento.png",
+                     "fig02_curva_de_retorno.png", "fig06_carbono_no_tempo.png",
+                     "fig51_programa_topsis.png"];
+
+function bulletsInterativas() {
+  const todas = Object.keys(FI_ONDE).filter(a => FI_D[a] && FI[a]);
+  if (!todas.length) return "";
+  const ordem = a => {
+    const partes = String(FI_ONDE[a].secao).split(".");
+    return (parseFloat(partes[0]) || 99) * 100 + (parseFloat(partes[1]) || 0);
+  };
+  const destaque = EM_DESTAQUE.filter(a => todas.includes(a)).sort((a, b) => ordem(a) - ordem(b));
   return `<section class="faixa" id="interativas">
-    <h2>Figuras para explorar</h2>
-    <p class="sub">${itens.length} figuras do manual têm versão interativa: você muda a capacidade, o material, a cidade ou o consumo e vê o resultado que o programa calculou para aquele caso. Cada uma abre na seção onde está, com a figura original a um clique.</p>
-    <div class="galeria">${itens.map(a => {
-      const o = FI_ONDE[a], f = FI[a];
-      return `<a class="gcard" href="#/${o.secao}/fig-${o.numero}"><div class="gimg"><img src="figuras/${a}" alt="" loading="lazy"></div>
-        <div class="gtxt"><small>Figura ${o.numero} · seção ${esc(o.secao)}</small><h3>${f.pergunta}</h3><p>${f.curto} <span>· ${f.controles}</span></p></div></a>`;
-    }).join("")}</div>
+    <h2>Perguntas que você responde mexendo</h2>
+    <p class="sub">Estas figuras do manual têm versão interativa. Elas não abrem aqui: cada uma vive na seção onde o assunto entra, para o texto e o gráfico serem lidos juntos.</p>
+    <ul class="perguntas">${destaque.map(a => {
+      const o = FI_ONDE[a];
+      return `<li><a href="#/${o.secao}/fig-${o.numero}"><b>${esc(FI[a].pergunta)}</b><small>seção ${esc(o.secao)} · figura ${o.numero}</small></a></li>`;
+    }).join("")}</ul>
+    <p class="depois">São ${fmt(todas.length)} ao todo, distribuídas pelo manual. No sumário de cada página elas vêm marcadas como <b class="marca-i">interativa</b>, e a busca as encontra pelo nome.</p>
   </section>`;
 }
+
+/* A busca encontra a pergunta que cada figura interativa responde, e não só a
+   legenda da figura estática: é assim que o leitor chega pelo que quer saber. */
+Object.keys(FI_ONDE).forEach(arquivo => {
+  const o = FI_ONDE[arquivo], def = FI[arquivo];
+  if (!def || !FI_D[arquivo] || typeof INDICE === "undefined") return;
+  const item = INDICE.find(i => i.t === "interativa" && i.id === o.secao && i.a === "fig-" + o.numero);
+  if (!item) return;
+  item.x = item.n + " " + def.curto + " · controles: " + def.controles;
+  item.n = def.pergunta;
+  item.nn = semAcento((item.r + " " + item.n + " " + item.x).toLowerCase());
+  item.xn = semAcento(item.x.toLowerCase());
+});

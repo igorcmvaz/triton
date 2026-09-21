@@ -122,12 +122,12 @@ explícito. Um projetista que queira o máximo desempenho hídrico escolherá o 
 da varredura; um que responda por um orçamento escolherá o volume de maior valor
 presente líquido; o critério de ganho marginal fica entre os dois, por ser o que identifica
 onde a curva deixa de compensar. Os três leem a mesma varredura e não precisam coincidir:
-neste projeto o técnico e o econômico apontam o mesmo volume, e o de máximo desempenho
-aponta outro. Nenhum dos três está errado — errado é não dizer qual deles foi usado. A {{fig:fig09_criterios}} marca o volume eleito por cada critério.
+neste projeto eles apontam três volumes diferentes, e o de máximo desempenho é o maior
+dos três. Nenhum dos três está errado — errado é não dizer qual deles foi usado. A {{fig:fig09_criterios}} marca o volume eleito por cada critério, com o valor anotado na legenda do gráfico.
 
 ![A mesma varredura lida por três critérios](../figuras/fig09_criterios.png)
 
-*Figura 99 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes. As linhas verticais marcam o volume eleito pelo ganho marginal abaixo de 1 %/m³ e pelo VPL máximo, ambos em 5 m³, e pelo potencial máximo, em 20 m³.*
+*Figura 99 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes. As linhas verticais marcam o volume eleito pelo ganho marginal abaixo de 1 %/m³, pelo VPL máximo e pelo potencial máximo; o volume de cada um vai anotado na legenda, porque depende da grade varrida e das premissas econômicas em vigor.*
 
 ---
 

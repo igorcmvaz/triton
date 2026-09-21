@@ -443,6 +443,126 @@ def sensibilidade():
             "anos": base["analysis_period_years"]}
 
 
+# ── quanto a cobertura capta ──────────────────────────────────────────────────
+
+def captacao():
+    """Chuva aproveitável por metro quadrado, mês a mês, nas quatro capitais.
+
+    Guarda a lâmina por m² com coeficiente unitário; a página multiplica pela
+    área e pelo coeficiente do material, que é como o programa calcula a
+    captação (V = P × A × C, com a lâmina já descontada do descarte).
+    """
+    from netuno.core.hydrology_defaults import (
+        COEFICIENTES_POR_MATERIAL, FONTE_DOS_COEFICIENTES_POR_MATERIAL)
+    descartes = [0.0, 1.0, 2.0, 3.0]
+    cidades = []
+    for chave in CIDADES_GUIA14:
+        caminho = RAIZ / "data" / "rainfall" / f"{chave}.csv"
+        if not caminho.exists():
+            continue
+        serie = load_precipitation(str(caminho))[: 30 * 365]
+        anos = len(serie) / 365.25
+        meses = {}
+        for d in descartes:
+            soma = np.zeros(12)
+            for i, x in enumerate(serie):
+                # Descarte por evento de chuva, como no modo 1 do programa.
+                efetiva = max(0.0, float(x) - d) if float(x) > 0 else 0.0
+                soma[(INICIO + timedelta(days=i)).month - 1] += efetiva
+            meses[f"{d:g}"] = [_r(v / anos, 1) for v in soma]
+        cidades.append({"chave": chave, "nome": NOMES_CIDADES.get(chave, chave),
+                        "mensal": meses,
+                        "anual": {k: _r(sum(v), 1) for k, v in meses.items()}})
+    return {"cidades": cidades, "descartes": descartes,
+            "materiais": [[n, c] for n, c in COEFICIENTES_POR_MATERIAL],
+            "fonte_coeficientes": FONTE_DOS_COEFICIENTES_POR_MATERIAL,
+            "padrao": ["Florianopolis1", 2.0, 150, "Telha Cerâmica"],
+            "areas": list(range(20, 601, 10)),
+            "demanda_pluvial_tutorial": _r(TUTORIAL["moradores"] * TUTORIAL["per_capita"]
+                                           * TUTORIAL["rainwater_share"])}
+
+
+# ── qual pressurizador gasta menos ────────────────────────────────────────────
+
+def pressurizadores():
+    """O catálogo do programa comparado em pressão, volume e partidas."""
+    from netuno.core.pressurizer_catalog import (
+        CATALOGO, VAZAO_DO_PONTO_PADRAO_L_MIN, comparar)
+    pressoes = [round(5 + 2.5 * i, 1) for i in range(15)]      # 5 a 40 m.c.a.
+    volumes = [50, 100, 150, 200, 300, 400]                    # m³/ano recalcados
+    partidas = [500, 1200, 2500, 5000]
+    casos = {}
+    for p in pressoes:
+        for v in volumes:
+            for n in partidas:
+                casos[f"{p:g}|{v}|{n}"] = [
+                    {"chave": e.chave, "atende": bool(e.atende),
+                     "vazao": _r(e.vazao_l_min, 1), "vazao_bomba": _r(e.vazao_da_bomba_l_min, 1),
+                     "horas": _r(e.horas_ano), "kwh": _r(e.kwh_ano, 1),
+                     "kwh_m3": _r(e.kwh_por_m3, 3)}
+                    for e in comparar(float(v), float(p), float(n))]
+    return {"pressoes": pressoes, "volumes": volumes, "partidas": partidas,
+            "padrao": [15, 150, 1200], "casos": casos,
+            "vazao_do_ponto": VAZAO_DO_PONTO_PADRAO_L_MIN,
+            "modelos": [{"chave": p.chave, "rotulo": p.rotulo, "cv": _r(p.potencia_cv, 3),
+                         "controle": p.controle, "kw": _r(p.potencia_kw, 3),
+                         "kw_eletrico": _r(p.potencia_eletrica_kw, 3),
+                         "pressao_maxima": _r(p.pressao_maxima_m, 1),
+                         "retardo": _r(p.retardo_s, 1), "fonte": p.fonte,
+                         "curva": [[_r(q, 2), _r(h, 2)] for q, h in p.curva]}
+                        for p in CATALOGO],
+            "tarifa": 0.69568}
+
+
+# ── as classes de qualidade ───────────────────────────────────────────────────
+
+def classes_de_qualidade():
+    """Os parâmetros de cada classe, como o programa os define."""
+    from netuno.core.water_quality import WATER_QUALITY_CLASSES
+    classes = []
+    for chave, c in WATER_QUALITY_CLASSES.items():
+        classes.append({
+            "chave": chave, "nome": c.nome, "descricao": c.descricao,
+            "normativa": chave == "classe_1",
+            "turbidez": _r(c.turbidez_max_ntu, 1), "cor": _r(c.cor_aparente_max_uh, 1),
+            "ph": [_r(c.ph_min, 1), _r(c.ph_max, 1)],
+            "cloro": [_r(c.cloro_residual_min_mg_l, 2), _r(c.cloro_residual_max_mg_l, 2)],
+            "coliformes": _r(c.coliformes_termo_max_ufc_100ml, 1),
+            "desinfeccao": bool(c.exige_desinfeccao),
+            "filtracao": bool(c.exige_filtracao_fina)})
+    return {"classes": classes, "padrao": "classe_1",
+            "parametros": [
+                {"chave": "turbidez", "nome": "Turbidez", "unidade": "uT", "casas": 1,
+                 "texto": "Mede a água turva. Serve de indicador da eficiência da desinfecção: partícula em suspensão abriga microrganismo e consome cloro."},
+                {"chave": "cor", "nome": "Cor aparente", "unidade": "uH", "casas": 1,
+                 "texto": "Parâmetro de aceitação do usuário. A NBR 15527:2019 não o define; nas classes do programa ele é acréscimo de projeto."},
+                {"chave": "coliformes", "nome": "Coliformes termotolerantes", "unidade": "UFC/100 mL", "casas": 0,
+                 "texto": "Indicador de contaminação fecal. A norma fala em Escherichia coli, subconjunto destes, de modo que o limite aqui é mais restritivo que o normativo."}]}
+
+
+# ── o valor presente líquido contra o volume ──────────────────────────────────
+
+def vpl_por_volume():
+    """A curva de VPL da varredura, por material, com o máximo marcado."""
+    from netuno.core.economic import run_economic_analysis
+    serie = _serie()
+    volumes = [0, 1000, 2000, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 16000, 20000]
+    casos = {}
+    for chave, _ in MATERIAIS:
+        linha = []
+        for v in volumes:
+            if v == 0:
+                linha.append([0.0, None, 0.0])
+                continue
+            r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **_config_projeto())
+            e = run_economic_analysis(_config_economica(v, chave), r)
+            linha.append([_r(e.vpl), _r(e.payback_years, 1) if e.payback_years else None,
+                          _r(r.potential_potable_savings_pct, 2)])
+        casos[chave] = linha
+    return {"volumes": volumes, "materiais": MATERIAIS, "casos": casos,
+            "padrao": "CONCRETO", "anos": 20}
+
+
 def dados():
     etapas = [("fig01_dez_dias.png", dez_dias),
               ("fig48_programa_serie_diaria.png", serie_diaria),
@@ -456,7 +576,11 @@ def dados():
               ("fig16_indices.png", indices_pluviometricos),
               ("fig21_investimento.png", investimento),
               ("fig07_fatura.png", fatura),
-              ("fig24_tornado.png", sensibilidade)]
+              ("fig24_tornado.png", sensibilidade),
+              ("fig35_escoamento.png", captacao),
+              ("fig00k_energia.png", pressurizadores),
+              ("fig36_classes.png", classes_de_qualidade),
+              ("fig49_programa_vpl.png", vpl_por_volume)]
     saida = {}
     for nome, f in etapas:
         print(f"  figura interativa: {nome}")

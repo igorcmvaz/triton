@@ -245,6 +245,93 @@ def test_o_topsis_do_site_reproduz_o_do_programa(tmp_path):
                 assert a == pytest.approx(b, abs=1e-4)
 
 
+def test_a_captacao_e_a_lamina_da_serie_com_o_descarte_do_programa():
+    from datetime import timedelta
+    from netuno.core.hydrology_defaults import COEFICIENTES_POR_MATERIAL
+    from netuno.core.parser import load_precipitation
+    d = gi.captacao()
+    assert [list(x) for x in COEFICIENTES_POR_MATERIAL] == d["materiais"]
+    cidade = d["cidades"][0]
+    serie_cidade = load_precipitation(
+        os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv"))[: 30 * 365]
+    anos = len(serie_cidade) / 365.25
+    for descarte in ("0", "2"):
+        meses = np.zeros(12)
+        for i, x in enumerate(serie_cidade):
+            efetiva = max(0.0, float(x) - float(descarte)) if float(x) > 0 else 0.0
+            meses[(gi.INICIO + timedelta(days=i)).month - 1] += efetiva
+        for guardado, esperado in zip(cidade["mensal"][descarte], meses / anos):
+            assert guardado == pytest.approx(esperado, abs=0.051)
+
+
+def test_os_pressurizadores_sao_os_do_catalogo_do_programa():
+    from netuno.core.pressurizer_catalog import CATALOGO, comparar
+    d = gi.pressurizadores()
+    assert [m["chave"] for m in d["modelos"]] == [p.chave for p in CATALOGO]
+    for pressao, volume, partidas in ((5, 50, 500), (15, 150, 1200), (40, 400, 5000)):
+        esperado = comparar(float(volume), float(pressao), float(partidas))
+        guardado = d["casos"][f"{pressao:g}|{volume}|{partidas}"]
+        assert [x["chave"] for x in guardado] == [e.chave for e in esperado]
+        for x, e in zip(guardado, esperado):
+            assert x["atende"] == bool(e.atende)
+            assert x["kwh"] == pytest.approx(e.kwh_ano, abs=0.051)
+            assert x["kwh_m3"] == pytest.approx(e.kwh_por_m3, abs=0.0006)
+
+
+def test_as_classes_de_qualidade_sao_as_do_programa():
+    from netuno.core.water_quality import WATER_QUALITY_CLASSES
+    d = gi.classes_de_qualidade()
+    assert [c["chave"] for c in d["classes"]] == list(WATER_QUALITY_CLASSES)
+    for c in d["classes"]:
+        original = WATER_QUALITY_CLASSES[c["chave"]]
+        assert c["turbidez"] == pytest.approx(original.turbidez_max_ntu)
+        assert c["cor"] == pytest.approx(original.cor_aparente_max_uh)
+        assert c["coliformes"] == pytest.approx(original.coliformes_termo_max_ufc_100ml)
+        assert c["desinfeccao"] == original.exige_desinfeccao
+        assert c["filtracao"] == original.exige_filtracao_fina
+    # Só a classe 1 pode ser apresentada como requisito normativo.
+    assert [c["chave"] for c in d["classes"] if c["normativa"]] == ["classe_1"]
+
+
+def test_a_curva_de_vpl_e_a_da_analise_economica(serie):
+    from netuno.core.economic import run_economic_analysis
+    d = gi.vpl_por_volume()
+    for material in ("CONCRETO", "PEAD"):
+        for k in (1, 4, len(d["volumes"]) - 1):
+            volume = d["volumes"][k]
+            r = run_single_simulation(precip_data=serie, lower_tank_vol=float(volume),
+                                      **_config_projeto())
+            e = run_economic_analysis(_config_economica(volume, material), r)
+            assert d["casos"][material][k][0] == pytest.approx(e.vpl, **APROX)
+            assert d["casos"][material][k][2] == pytest.approx(
+                r.potential_potable_savings_pct, abs=0.005)
+
+
+def test_os_tres_criterios_do_manual_continuam_apontando_volumes_diferentes(serie):
+    """A prosa da seção do volume ideal afirma isso; se mudar, o texto mente."""
+    from netuno.core.economic import run_economic_analysis
+    from gerar_tabelas import VOLUMES_VARREDURA
+    vols, pots, vpls = [], [], []
+    for v in VOLUMES_VARREDURA:
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **_config_projeto())
+        vols.append(v / 1000.0)
+        pots.append(r.potential_potable_savings_pct)
+        vpls.append(0.0 if v == 0 else
+                    run_economic_analysis(_config_economica(float(v), "CONCRETO"), r).vpl)
+    vols, pots, vpls = np.array(vols), np.array(pots), np.array(vpls)
+    marginal = np.zeros_like(pots)
+    marginal[1:] = np.diff(pots) / np.diff(vols)
+    ideais = np.where((vols > 0) & (marginal <= 1.0))[0]
+    i_ideal = int(ideais[0]) if len(ideais) else len(vols) - 1
+    escolhas = {i_ideal, int(np.argmax(vpls)), int(np.argmax(pots))}
+    assert len(escolhas) == 3, f"os três critérios coincidiram em {escolhas}"
+    assert vols[int(np.argmax(pots))] == max(vols[i] for i in escolhas)
+    texto = open(os.path.join(MANUAL, "partes", "24_volume_ideal.md"), encoding="utf-8").read()
+    assert "eles apontam três volumes diferentes" in texto
+    # A legenda não repete números que dependem da grade e das premissas.
+    assert "ambos em 5 m³" not in texto
+
+
 def test_nenhum_painel_ficou_sem_figura_no_manual():
     texto = open(os.path.join(MANUAL, "Manual-Netuno-5.md"), encoding="utf-8").read()
     js = open(os.path.join(MANUAL, "site_interativas.js"), encoding="utf-8").read()
