@@ -31,6 +31,11 @@ import re
 import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.path.dirname(AQUI)
+if RAIZ not in sys.path:
+    sys.path.insert(0, RAIZ)
+from netuno import __version__ as VERSAO  # noqa: E402
+
 NL = chr(10)
 INCLUI = re.compile(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$")
 
@@ -387,7 +392,7 @@ def frontmatter(sumario_linhas, palavras):
         "",
         "Florianópolis, 2026",
         "",
-        f"Versão 5.0.0 (beta) · revisão de {date.today().strftime('%d/%m/%Y')}",
+        f"Versão {VERSAO} · revisão de {date.today().strftime('%d/%m/%Y')}",
         "",
         "---",
         "",
@@ -397,7 +402,7 @@ def frontmatter(sumario_linhas, palavras):
         "| :--- | :--- |",
         "| **Título** | Netuno 5: manual do usuário |",
         "| **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |",
-        "| **Edição** | Versão 5.0.0 (beta) |",
+        f"| **Edição** | Versão {VERSAO} |",
         "| **Local** | Florianópolis, SC, Brasil |",
         "| **Editora** | Universidade Federal de Santa Catarina |",
         "| **Grupo de pesquisa** | Gestão do Espaço Sustentável |",
@@ -409,12 +414,12 @@ def frontmatter(sumario_linhas, palavras):
         "**ABNT NBR 6023:2018**",
         "",
         "> VAZ, Igor Catão Martins; GHISI, Enedir. **Netuno 5: manual do usuário**.",
-        "> Versão 5.0.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.",
+        f"> Versão {VERSAO}. Florianópolis: Universidade Federal de Santa Catarina, 2026.",
         "",
         "**Estilo autor-data**",
         "",
         "> Vaz, I. C. M., & Ghisi, E. (2026). *Netuno 5: manual do usuário*",
-        "> (Versão 5.0.0). Universidade Federal de Santa Catarina.",
+        f"> (Versão {VERSAO}). Universidade Federal de Santa Catarina.",
         "",
         "**BibTeX**",
         "",
@@ -422,7 +427,7 @@ def frontmatter(sumario_linhas, palavras):
         "@manual{netuno5manual2026,",
         "  title     = {Netuno 5: manual do usuário},",
         "  author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},",
-        "  edition   = {Versão 5.0.0},",
+        f"  edition   = {{Versão {VERSAO}}},",
         "  address   = {Florianópolis},",
         "  publisher = {Universidade Federal de Santa Catarina},",
         "  year      = {2026}",

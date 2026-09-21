@@ -511,7 +511,7 @@ function inicio() {
   const v = DADOS.volumes;
   const interativas = Object.keys(DADOS.onde_interativas || {}).length;
   const fatos = [
-    ["Versão", "5.0.0 beta"], ["Base climática", "652 cidades"],
+    ["Versão", DADOS.versao], ["Base climática", "652 cidades"],
     ["Seções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
     ["Figuras interativas", fmt(interativas)],
     ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
@@ -610,7 +610,7 @@ function inicio() {
 }
 
 function rodape() {
-  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa Gestão do Espaço Sustentável · Universidade Federal de Santa Catarina</span><span>Netuno 5.0.0 (beta) · licença GPL v3 · revisão de ${DADOS.revisao}</span></footer>`;
+  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa Gestão do Espaço Sustentável · Universidade Federal de Santa Catarina</span><span>Netuno ${DADOS.versao} · licença GPL v3 · revisão de ${DADOS.revisao}</span></footer>`;
 }
 
 /* a curva */
@@ -694,7 +694,7 @@ function secao(id, ancora) {
     <article class="conteudo">
       <div class="trilha"><a href="#/">Documentação</a> / ${esc(cap.apendice ? cap.titulo : cap.n + ". " + cap.titulo)}</div>
       <h1><span class="num">${esc(s.rotulo)}</span>${esc(s.titulo)}</h1>
-      <div class="chips">${vol ? `<span class="chip vol">Volume ${esc(vol.titulo)}</span>` : ""}<span class="chip">Netuno 5.0.0</span><span class="chip">Revisão de ${DADOS.revisao}</span></div>
+      <div class="chips">${vol ? `<span class="chip vol">Volume ${esc(vol.titulo)}</span>` : ""}<span class="chip">Netuno ${DADOS.versao}</span><span class="chip">Revisão de ${DADOS.revisao}</span></div>
       ${nesta}
       <div class="texto">${tabelas}</div>
       <div class="passos">${ant ? `<a href="#/${ant.id}"><small>Anterior</small>${esc(ant.rotulo)} ${esc(ant.titulo)}</a>` : ""}${prox ? `<a class="prox" href="#/${prox.id}"><small>Próxima</small>${esc(prox.rotulo)} ${esc(prox.titulo)}</a>` : ""}</div>

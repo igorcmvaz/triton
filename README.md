@@ -91,7 +91,7 @@ Netuno5_0_0/
 ├── infos_licenses/             # Licença, textos do instalador e README distribuído
 ├── LegadoWeb/                  # Arquivo histórico da versão web descontinuada (.tar.xz)
 ├── .github/workflows/          # Integração contínua: núcleo com e sem numba, replicação do Netuno 4
-├── pyproject.toml              # Metadados do pacote (PEP 621); o estado Beta é declarado aqui
+├── pyproject.toml              # Metadados do pacote (PEP 621); o estado de lançamento é declarado aqui
 ├── requirements.txt            # Dependências de produção
 ├── requirements-dev.txt        # Dependências de desenvolvimento e testes
 ├── build_exe.py                # Compilação do executável (PyInstaller) e do instalador

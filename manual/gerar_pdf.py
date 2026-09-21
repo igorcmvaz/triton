@@ -31,6 +31,10 @@ from reportlab.platypus import (
 )
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.path.dirname(AQUI)
+if RAIZ not in sys.path:
+    sys.path.insert(0, RAIZ)
+from netuno import __version__ as VERSAO  # noqa: E402
 ENTRADA = os.path.join(AQUI, "Manual-Netuno-5.md")
 SAIDA = os.path.join(AQUI, "Manual-Netuno-5.pdf")
 
@@ -383,7 +387,7 @@ def moldura(canvas, doc, com_furniture=True):
         if titulo:
             canvas.drawString(MARGEM_E, ALTURA - MARGEM_S + 8 * mm, titulo[:78])
         canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - MARGEM_S + 8 * mm,
-                               getattr(doc, "cabecalho", "Manual do Netuno 5.0.0"))
+                               getattr(doc, "cabecalho", f"Manual do Netuno {VERSAO}"))
         canvas.setStrokeColor(REGUA)
         canvas.setLineWidth(0.4)
         canvas.line(MARGEM_E, ALTURA - MARGEM_S + 6 * mm,
@@ -470,7 +474,7 @@ def capa(canvas, doc):
     canvas.setFont(F["titulo_r"], 9.5)
     canvas.drawString(MARGEM_E, 25 * mm, "Grupo de Pesquisa Gestão do Espaço Sustentável")
     canvas.drawString(MARGEM_E, 20.5 * mm, "Universidade Federal de Santa Catarina")
-    canvas.drawString(MARGEM_E, 16 * mm, "Florianópolis · 2026 · Versão 5.0.0 (beta)")
+    canvas.drawString(MARGEM_E, 16 * mm, f"Florianópolis · 2026 · Versão {VERSAO}")
     if os.path.exists(LOGO):
         from reportlab.lib.utils import ImageReader
         lx, ly = ImageReader(LOGO).getSize()
@@ -873,7 +877,7 @@ def folha_de_rosto(titulo="Manual do Netuno", volume=None):
     return capa + [
         Paragraph(titulo, E["capa_titulo"]),
     ] + ([Paragraph(volume, E["capa_sub"])] if volume else []) + [
-        Paragraph("Versão 5.0.0 — beta", E["capa_sub"]),
+        Paragraph(f"Versão {VERSAO}", E["capa_sub"]),
         Spacer(1, 0.8 * cm),
         Paragraph("Simulação de sistemas de aproveitamento de água pluvial "
                   "em edificações", E["capa_sub"]),
@@ -938,7 +942,7 @@ def main():
 
 
 def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
-               cabecalho="Manual do Netuno 5.0.0", capa_info=None):
+               cabecalho=f"Manual do Netuno {VERSAO}", capa_info=None):
     """Compõe o PDF de um manual montado: o completo ou um mini manual."""
     ENTRADA, SAIDA = entrada, saida
     if not os.path.exists(ENTRADA):

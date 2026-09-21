@@ -33,6 +33,7 @@ sys.path.insert(0, AQUI)
 sys.path.insert(0, RAIZ)
 
 import gerar as g  # noqa: E402
+from netuno import __version__ as VERSAO  # noqa: E402
 
 SITE = os.path.join(AQUI, "site")
 MANUAL = os.path.join(AQUI, "Manual-Netuno-5.md")
@@ -351,6 +352,7 @@ def main():
         "volumes": volumes,
         "curva": dados_da_curva(),
         "revisao": date.today().strftime("%d/%m/%Y"),
+        "versao": VERSAO,
         "testes": _quantos_testes(),
         "secoes": sum(len(c["secoes"]) for c in capitulos),
         "figuras": sum(len(re.findall(r'<figure class="fig"', s["html"]))

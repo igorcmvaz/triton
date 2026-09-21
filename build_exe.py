@@ -82,6 +82,7 @@ def build_manual(base_dir: Path) -> bool:
         ("apêndices", "manual/gerar_apendices.py"),
         ("casos", "manual/gerar_casos.py"),
         ("montagem", "manual/gerar.py"),
+        ("changelog", "manual/gerar_changelog.py"),
         ("capas", "manual/gerar_capas.py"),
         ("PDF", "manual/gerar_pdf.py"),
         ("mini manuais", "manual/gerar_mini_manuais.py"),

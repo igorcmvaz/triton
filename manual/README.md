@@ -50,12 +50,33 @@ Depois de mexer no texto, no código ou numa figura, regere tudo na ordem:
 
 ```bash
 python manual/gerar.py                # o manual em Markdown
+python manual/gerar_changelog.py      # o CHANGELOG.md da raiz
 python manual/gerar_pdf.py            # o PDF completo
 python manual/gerar_mini_manuais.py   # os sete volumes
 python manual/gerar_site.py           # o site
 ```
 
 `build_exe.py` roda a mesma sequência antes de empacotar o instalador.
+
+## Como lançar uma versão
+
+O número da versão vive num lugar só, `netuno/__init__.py`, e todo o resto o lê de
+lá: o pacote, o instalador, a capa do manual, o rodapé do PDF e o site.
+
+1. Escreva a entrada da versão no capítulo de histórico,
+   `partes/38_historico_de_versoes.md`, no formato `## Versão X.Y.Z — data`, com as
+   duas listas: o que altera resultados e o que não altera. A entrada nova vem
+   primeiro.
+2. Troque `__version__` em `netuno/__init__.py`.
+3. Regere tudo na ordem acima. O `CHANGELOG.md` da raiz sai do capítulo, e não se
+   escreve à mão.
+4. Rode a suíte. `tests/unit/test_changelog.py` recusa lançar sem entrada, sem data
+   ou com o changelog fora de dia; `tests/unit/test_o_que_se_comunica.py` recusa
+   documento distribuído que cite outra versão.
+
+Enquanto `pyproject.toml` declarar `Development Status :: 4 - Beta`, o manual escreve
+«(beta)» junto da versão e a regra de citar só a versão atual fica suspensa. O
+lançamento da 5.0.0 saiu desse estado.
 
 ## O que não está aqui
 

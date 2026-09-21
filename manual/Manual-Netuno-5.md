@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 5.0.0 (beta) · revisão de 20/09/2026
+Versão 5.0.0 · revisão de 21/09/2026
 
 ---
 
@@ -19,7 +19,7 @@ Versão 5.0.0 (beta) · revisão de 20/09/2026
 | :--- | :--- |
 | **Título** | Netuno 5: manual do usuário |
 | **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |
-| **Edição** | Versão 5.0.0 (beta) |
+| **Edição** | Versão 5.0.0 |
 | **Local** | Florianópolis, SC, Brasil |
 | **Editora** | Universidade Federal de Santa Catarina |
 | **Grupo de pesquisa** | Gestão do Espaço Sustentável |
@@ -8547,11 +8547,29 @@ indica correções e ajustes que não alteram a arquitetura. A passagem do Netun
 o Netuno 5, tratada na seção 6.1, é o único caso de troca do primeiro número na
 história do programa.
 
+A versão 5.0.0 é o primeiro lançamento público do Netuno 5. Os números anteriores a
+ela foram de desenvolvimento, e nunca chegaram a circular; nenhum estudo foi feito com
+eles.
+
 ---
 
-### 6.3.2. O que mudou na versão 5.0.0
+### 6.3.2. Como este histórico é mantido
 
-A versão 5.0.0 foi o resultado de uma revisão sistemática do programa, conduzida com
+Daqui em diante, cada versão publicada ganha uma entrada própria nesta seção, com a
+data do lançamento e o que mudou, sempre separado em duas listas: ==o que altera
+resultados de estudos já feitos e o que não altera.== A entrada mais recente vem
+primeiro.
+
+A mesma lista é distribuída com o código, no arquivo `CHANGELOG.md` da raiz do
+repositório. Ela não é escrita duas vezes: o arquivo é gerado desta seção, e uma
+verificação automática recusa a montagem se os dois textos divergirem. Quem acompanha
+o programa pelo repositório e quem o acompanha pelo manual leem o mesmo registro.
+
+---
+
+### 6.3.3. Versão 5.0.0 — 21 de setembro de 2026
+
+Primeiro lançamento público do Netuno 5. A versão foi o resultado de uma revisão sistemática do programa, conduzida com
 um objetivo específico: encontrar valores que fossem calculados corretamente em um
 módulo e descartados antes de chegarem ao módulo seguinte. Essa classe de defeito é
 particularmente perigosa porque não produz erro visível — o programa responde, o
@@ -8561,11 +8579,27 @@ módulo, da tela para o núcleo de cálculo, entre a interface e a automação, 
 definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
 gravação e da releitura de um projeto.
 
-#### 6.3.2.1. Correções que alteram resultados
+#### 6.3.3.1. O que o Netuno 5 traz
 
-As alterações reunidas nesta tabela mudam números. Um estudo refeito na versão 5.0.0
-não reproduzirá exatamente os valores obtidos em versões anteriores, e a diferença tem
-sentido conhecido em cada caso.
+O programa foi reescrito em Python, com o motor de simulação separado da interface, e
+ganhou o que o Netuno 4 não tinha: avaliação de ciclo de vida do carbono, linha de
+tratamento dimensionada, decisão multicritério com análise de aceitabilidade
+estocástica, base tarifária de 652 municípios, interface em quatro idiomas e
+exportação para CAD, BIM e planilha. A seção 6.1 compara os dois programas número
+a número, e a seção 5.3 descreve a suíte de verificação que sustenta a
+comparação.
+
+A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
+manual completo, sete volumes avulsos e um site de documentação com figuras
+interativas, em que o leitor muda os parâmetros e vê o resultado que o programa
+calculou.
+
+#### 6.3.3.2. Correções que alteram resultados
+
+As alterações reunidas nesta tabela mudam números em relação ao que o programa
+calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento público, nenhum
+estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
+a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
 <!-- tabela: **Tabela 145** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
@@ -8578,10 +8612,10 @@ sentido conhecido em cada caso.
 | o econômico só cobrava energia com caixa superior, e a avaliação ambiental cobrava bombeamento em qualquer arranjo e perdia a cloração sem caixa | o arranjo de abastecimento passou a ser declarado na etapa 4, e custo e carbono leem a mesma energia; projetos sem caixa superior deixam de ter bombeamento implícito no carbono e passam a ter cloração |
 | o fator de emissão do hipoclorito era 1,85 kg CO₂e/kg, sem processo declarado | passou a 1,72 kg CO₂e/kg, do Ecoinvent 3.8 na base de cloro ativo |
 
-#### 6.3.2.2. Correções que não alteram resultados
+#### 6.3.3.3. Correções que não alteram resultados
 
 As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum valor
-calculado. Um estudo anterior continua válido; apenas ficou mais difícil produzir um
+calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
 <!-- tabela: **Tabela 146** — Correções de comportamento que não alteram resultado calculado -->
@@ -8604,7 +8638,7 @@ estudo errado.
 
 ---
 
-### 6.3.3. Como saber se a sua versão tem uma correção
+### 6.3.4. Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
 exemplo que acompanham o programa, descritos no apêndice J, rode-o, e compare o
@@ -8619,7 +8653,7 @@ uma diferença de versão que precisa ser identificada antes de qualquer estudo.
 
 ---
 
-### 6.3.4. O que declarar num trabalho publicado
+### 6.3.5. O que declarar num trabalho publicado
 
 A boa prática de reprodutibilidade computacional exige que um trabalho identifique de
 modo inequívoco o programa que produziu os resultados. No caso do Netuno, quatro
