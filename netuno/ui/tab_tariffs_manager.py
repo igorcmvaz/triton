@@ -97,7 +97,8 @@ class TabTariffsManager(QWidget):
 
         # SELETOR UF, CIDADE & CATEGORIA
         sel_card = QFrame()
-        sel_card.setStyleSheet("background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        sel_card.setObjectName("selCard")
+        sel_card.setStyleSheet("#selCard { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         sel_layout = QGridLayout(sel_card)
         sel_layout.setContentsMargins(0, 0, 0, 0)
         sel_layout.setSpacing(6)
@@ -125,7 +126,8 @@ class TabTariffsManager(QWidget):
 
         # CARTÃO INSTITUCIONAL & EVIDÊNCIA
         inst_card = QFrame()
-        inst_card.setStyleSheet("background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        inst_card.setObjectName("instCard")
+        inst_card.setStyleSheet("#instCard { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         inst_layout = QVBoxLayout(inst_card)
         inst_layout.setContentsMargins(0, 0, 0, 0)
         inst_layout.setSpacing(4)
@@ -159,7 +161,8 @@ class TabTariffsManager(QWidget):
 
         # PARÂMETROS NUMÉRICOS COMPACTOS
         params_card = QFrame()
-        params_card.setStyleSheet("background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        params_card.setObjectName("paramsCard")
+        params_card.setStyleSheet("#paramsCard { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         p_layout = QGridLayout(params_card)
         p_layout.setContentsMargins(0, 0, 0, 0)
         p_layout.setSpacing(6)
