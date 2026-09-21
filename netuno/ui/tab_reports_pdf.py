@@ -121,14 +121,20 @@ class TabReportsPdf(QWidget):
 
         lbl_type = QLabel(tr("Modelo:"))
         lbl_type.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        lbl_type.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(lbl_type)
 
         self.combo_report_type = QComboBox()
         self.combo_report_type.addItem(tr("📊 Relatório Econômico Executivo (Clientes)"), "economic")
         self.combo_report_type.addItem(tr("🌱 Relatório Ambiental ESG & ACV"), "environmental")
         self.combo_report_type.addItem(tr("🔬 Relatório de Pesquisa & Dossiê Técnico"), "research")
-        self.combo_report_type.setMinimumWidth(280)
+        # Piso baixo de propósito: com a janela estreita, uma largura mínima
+        # grande não encolhe, estoura a linha e o rótulo «Idioma:» acaba por
+        # cima da caixa. Assim o nome do modelo é reticenciado, e os dois campos
+        # continuam separados em qualquer largura.
+        self.combo_report_type.setMinimumWidth(170)
         self.combo_report_type.setMaximumWidth(420)
+        self.combo_report_type.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.combo_report_type.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.combo_report_type.setStyleSheet(f"""
             QComboBox {{
@@ -144,12 +150,17 @@ class TabReportsPdf(QWidget):
             }}
         """)
         self.combo_report_type.currentIndexChanged.connect(self._on_report_type_changed)
+        # Em janela estreita o nome do modelo é cortado; a dica mostra o inteiro.
+        self.combo_report_type.currentIndexChanged.connect(
+            lambda: self.combo_report_type.setToolTip(self.combo_report_type.currentText()))
+        self.combo_report_type.setToolTip(self.combo_report_type.currentText())
         row_controls.addWidget(self.combo_report_type)
 
         row_controls.addSpacing(10)
 
         lbl_lang = QLabel(tr("Idioma:"))
         lbl_lang.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        lbl_lang.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(lbl_lang)
 
         self.combo_report_lang = QComboBox()
@@ -157,7 +168,7 @@ class TabReportsPdf(QWidget):
         self.combo_report_lang.addItem("🇺🇸 English (US)", "en")
         self.combo_report_lang.addItem("🇪🇸 Español", "es")
         self.combo_report_lang.addItem("🇨🇳 中文（简体）", "zh")
-        self.combo_report_lang.setMinimumWidth(150)
+        self.combo_report_lang.setMinimumWidth(130)
         self.combo_report_lang.setMaximumWidth(180)
         self.combo_report_lang.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.combo_report_lang.setStyleSheet(f"""
@@ -182,11 +193,12 @@ class TabReportsPdf(QWidget):
 
         self.lbl_volume = QLabel(tr("Volume:"))
         self.lbl_volume.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        self.lbl_volume.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(self.lbl_volume)
 
         self.combo_volume = QComboBox()
         self.combo_volume.setEditable(False)
-        self.combo_volume.setMinimumWidth(210)
+        self.combo_volume.setMinimumWidth(140)
         self.combo_volume.setMaximumWidth(310)
         self.combo_volume.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.combo_volume.setStyleSheet(f"""

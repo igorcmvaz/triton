@@ -267,7 +267,14 @@ class TabTariffsManager(QWidget):
 
         # BOX DO SIMULADOR DE FATURA
         sim_box = QFrame()
-        sim_box.setStyleSheet("background: #f8fafc; border: 1px solid #bae6fd; border-radius: 8px; padding: 10px 12px;")
+        # A folha de estilo é presa ao quadro pelo nome. Sem seletor, o Qt a
+        # propaga aos filhos: o `padding` caía também sobre a barra deslizante,
+        # que passava a ser desenhada acima do centro da linha, desalinhada do
+        # texto ao lado.
+        sim_box.setObjectName("simBox")
+        sim_box.setStyleSheet(
+            "#simBox { background: #f8fafc; border: 1px solid #bae6fd; "
+            "border-radius: 8px; padding: 10px 12px; }")
         sim_layout = QVBoxLayout(sim_box)
         sim_layout.setContentsMargins(0, 0, 0, 0)
         sim_layout.setSpacing(6)
@@ -276,6 +283,15 @@ class TabTariffsManager(QWidget):
         sim_head.addWidget(QLabel(tr("🧮 <b>Simulador em Tempo Real:</b>")))
         
         self.slider_sim = QSlider(Qt.Horizontal)
+        # Estilo próprio, e não o que vazava do quadro: trilho fino centrado na
+        # linha, percorrido em vermelho até o volume escolhido.
+        self.slider_sim.setStyleSheet("""
+            QSlider::groove:horizontal { height: 6px; border-radius: 3px; background: #e2e8f0; }
+            QSlider::sub-page:horizontal { height: 6px; border-radius: 3px; background: #ef4444; }
+            QSlider::handle:horizontal { width: 16px; height: 16px; margin: -5px 0;
+                border-radius: 8px; background: #1f2937; border: 2px solid #ffffff; }
+            QSlider::handle:horizontal:hover { background: #087f6b; }
+        """)
         self.slider_sim.setRange(0, 50)
         self.slider_sim.setValue(15)
         self.slider_sim.valueChanged.connect(self.on_slider_changed)
