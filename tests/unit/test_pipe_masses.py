@@ -1,6 +1,6 @@
 """Verificação das massas lineares de tubo.
 
-Até a versão 5.0.7 elas eram cenário interno. O erro não era pequeno nem
+Elas já foram cenário interno. O erro não era pequeno nem
 sistemático: o DN 110 ficava 47% abaixo do peso real e o DN 20, 36% acima, de
 modo que nem a ordem de grandeza se salvava para os diâmetros grandes — que são
 justamente os da linha de captação.

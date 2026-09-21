@@ -1,6 +1,6 @@
 name: Verificação
 
-# A suíte numérica roda sem a stack gráfica desde a 5.0.7 (ver tests/conftest.py),
+# A suíte numérica roda sem a stack gráfica (ver tests/conftest.py),
 # o que permite verificá-la num contêiner mínimo. A matriz com e sem `numba` existe
 # porque o programa alterna entre dois kernels de balanço hídrico conforme a
 # biblioteca esteja instalada: sem essa matriz, a paridade entre eles só seria

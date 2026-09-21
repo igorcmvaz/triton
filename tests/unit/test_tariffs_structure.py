@@ -89,7 +89,7 @@ def test_catalogo_cobre_as_652_cidades():
 
 
 def test_existe_uma_unica_copia_do_banco_tarifario():
-    """Trava a causa raiz do maior defeito de dados encontrado na 5.0.7.
+    """Trava a causa raiz do maior defeito de dados encontrado na revisão.
 
     Havia duas cópias de `brazil_cities_tariffs.json`, ambas empacotadas no executável,
     e o carregador preferia a de `data/tarifas/`. Elas divergiram em 465 das 652 cidades

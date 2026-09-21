@@ -33,7 +33,7 @@ _DEFAULT_REGIONAL_FACTORS: Dict[str, float] = {
 
 # Valores padrão de fallback caso o arquivo JSON não seja encontrado ou contenha erro
 # Tabela de recurso, usada quando o banco de custos em JSON nao esta legivel.
-# Tem de espelhar `lower_tank_pead_prices` do JSON: ate a 5.0.8 ela guardava a
+# Tem de espelhar `lower_tank_pead_prices` do JSON: antes desta revisao ela guardava a
 # versao antiga, com 1.750 L a R$ 1.399 e 2.000 L a R$ 1.299 - um reservatorio
 # maior custando menos. Bastava o arquivo faltar para o defeito voltar sem aviso.
 #
@@ -417,7 +417,7 @@ def estimate_annual_chlorination_cost(
     A massa devolvida e de **produto comercial**, ja corrigida pela pureza, que
     e o que se compra e sobre o que incide o preco em R$/kg.
 
-    Ate a versao 5.0.8 esta funcao calculava a massa de cloro ATIVO e a
+    Esta funcao ja calculou a massa de cloro ATIVO e a
     multiplicava pelo preco do produto, subestimando o custo em 1/pureza -
     cerca de 35%. Era a quarta convencao de cloro do programa, e alimentava a
     interface enquanto o modulo economico ja usava a corrigida, de modo que os

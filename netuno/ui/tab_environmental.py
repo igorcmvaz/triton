@@ -1071,7 +1071,7 @@ class TabEnvironmental(QWidget):
         default_cv = 0.5
         self.txt_pump_cv = QLineEdit(f"{default_cv:.2f}")
         self.txt_pump_co2 = QLineEdit(f"{PUMP_EMBEDDED_CO2.get(default_cv, 18.0):.1f}")
-        # Até a versão 5.0.7 este campo nascia com 0,085 — o fator da rede
+        # Este campo já nasceu com 0,085 — o fator da rede
         # elétrica, copiado da linha seguinte. São grandezas diferentes, e o
         # padrão do modelo vem da física do bombeamento: a interface partia de um
         # valor várias vezes menor que o do motor.

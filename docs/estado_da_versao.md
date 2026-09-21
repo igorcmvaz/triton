@@ -1,10 +1,10 @@
-# Netuno 5.0.8 — o que mudou e o que precisa da sua decisão
+# Netuno 5.0.0 — o que mudou e o que precisa da sua decisão
 
 Documento de leitura, escrito ao fim da revisão. O detalhe valor a valor está em
 [`procedencia_fatores_co2.md`](procedencia_fatores_co2.md).
 
-**527 testes passando.** Trabalho em `versao-5.0.8-procedencia`, dez commits,
-nada mesclado ao `main`.
+O registro do que mudou em cada versão está em [`CHANGELOG.md`](../CHANGELOG.md);
+aqui ficam as decisões que dependem do autor.
 
 ---
 

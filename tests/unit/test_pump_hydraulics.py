@@ -1,6 +1,6 @@
 """Verificação da hidráulica do recalque.
 
-Até a versão 5.0.8 a bomba era um número solto: vazão de 2.280 L/h e rendimento
+A bomba já foi um número solto: vazão de 2.280 L/h e rendimento
 de 55%, fixos, qualquer que fosse a potência escolhida. Disso decorriam quatro
 defeitos, e estes testes fixam a correção de cada um.
 

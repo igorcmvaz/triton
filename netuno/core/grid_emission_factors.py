@@ -1,6 +1,6 @@
 """Fatores de emissão da rede elétrica brasileira (MCTI/SIRENE).
 
-Até a versão 5.0.7 o programa usava um único número — 0,085 kg CO₂/kWh — anotado
+O programa já usou um único número — 0,085 kg CO₂/kWh — anotado
 no código como «hipótese editável; selecionar série MCTI/SIRENE do período». A
 instrução nunca foi cumprida: o valor não correspondia a ano nenhum.
 

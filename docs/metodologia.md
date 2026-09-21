@@ -104,7 +104,7 @@ custo_anual = n × [custo_fixo_por_ocorrência
                    + coeficiente_por_m³ × (consumo_pluvial_anual / 12)]
 ```
 
-O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. A versão 5.0.7 não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
+O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. O programa não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
 
 ## 5. Bombeamento e cloração
 
@@ -129,7 +129,7 @@ A **pureza** está na conta porque a dose é prescrita em cloro ativo e o que se
 compra, transporta e fabrica é a pastilha, com 65% de cloro ativo. Somar uma
 dose de cloro ativo a um fator por quilo de pastilha subestima em 35%, e foi
 metade da divergência que separava o módulo ambiental do de qualidade até a
-versão 5.0.7. A cadeia está em `netuno/core/chlorination.py`, e os três módulos
+revisão que precedeu o lançamento. A cadeia está em `netuno/core/chlorination.py`, e os três módulos
 — ambiental, econômico e de qualidade — partem dela.
 
 Essa conta estima **massa aplicada em cloro equivalente**, não a demanda de cloro da água. Demanda de cloro é a diferença entre dose aplicada e residual após tempo de contato, e exige ensaio com a água da fonte, definição do residual-alvo, pH, turbidez, matéria orgânica, tempo de contato e protocolo sanitário aplicável. Portanto, a dose padrão serve apenas para cenário econômico/ambiental e não prescreve tratamento.
@@ -156,7 +156,7 @@ CO2líquido,vida = anos × (CO2água_evitado,anual
                   − CO2incorporado
 ```
 
-A partir da versão 5.0.8 os fatores têm fonte declarada, e não são mais hipóteses
+Os fatores têm fonte declarada, e não são mais hipóteses
 internas. O detalhe valor a valor está em
 [`procedencia_fatores_co2.md`](procedencia_fatores_co2.md):
 
@@ -192,7 +192,7 @@ São **sete** os critérios avaliados, quatro de benefício e três de custo:
 | CO₂ de ciclo de vida | custo |
 | Água potável consumida | custo |
 
-> Até a versão 5.0.7 esta seção descrevia **três** critérios — água pluvial consumida,
+> Esta seção já descreveu **três** critérios — água pluvial consumida,
 > VPL e CO₂e líquido evitado. O motor (`netuno/core/topsis.py`) já usava sete; a
 > documentação é que estava defasada.
 
@@ -202,7 +202,7 @@ Para permitir valores negativos sem uma correção condicional, cada coluna é t
 
 O VIKOR implementado em `netuno/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por Dirichlet simétrica; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
 
-Além do escore agregado, a versão 5.0.7 calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
+Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 
 ```text
 gapij = [max(xj) − xij] / [max(xj) − min(xj)]

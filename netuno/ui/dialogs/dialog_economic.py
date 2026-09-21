@@ -859,7 +859,7 @@ class DialogTariffs(QDialog):
             self.config.water_tariffs = tariffs
             self.config.sewage_mode = 0 if self.radio_esg_fix.isChecked() else 1
             self.config.sewage_rate = float(self.txt_esg_val.text().replace(',', '.'))
-            # Ate 5.0.8 estes dois eram zerados aqui, apagando o que o arquivo
+            # Estes dois ja foram zerados aqui, apagando o que o arquivo
             # do projeto ou a linha de comando tivessem declarado.
             def _num(campo, padrao=0.0):
                 t = campo.text().strip().replace(".", "").replace(",", ".")

@@ -1,6 +1,6 @@
 """A linha de tratamento deixa de ser uma ilha.
 
-Até a versão 5.0.7 a estação de tratamento de água pluvial era dimensionada
+A estação de tratamento de água pluvial já foi dimensionada
 apenas pela aba de Qualidade da Água, que exibia investimento, custo
 operacional e emissão — e não os entregava a ninguém. Três campos de
 configuração existiam para isso, eram escritos pela interface e não eram lidos

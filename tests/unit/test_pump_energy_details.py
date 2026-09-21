@@ -99,8 +99,8 @@ def test_pump_energy_exact_physics_formula():
     # 2. o rendimento DO MOTOR ainda falta, e e o que separa a energia de eixo
     #    da energia que o medidor registra.
     #
-    # Ate a 5.0.7 a conta fazia P x horas / eta_bomba, que errava nos dois
-    # sentidos ao mesmo tempo. A 5.0.8 corrigiu o recalque e deixou as partidas.
+    # A conta ja fez P x horas / eta_bomba, que errava nos dois
+    # sentidos ao mesmo tempo. A correcao arrumou o recalque e deixou as partidas.
     eta_motor = rendimento_do_motor(0.7355)
     volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
     energia_recalque = (0.7355 / 3.0) / eta_motor * volume_mensal_m3

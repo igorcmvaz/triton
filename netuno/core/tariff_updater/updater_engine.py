@@ -145,9 +145,9 @@ class TariffUpdateEngine:
 
             # PORTA DE VALIDACAO ESTRUTURAL
             #
-            # O motor raspa fontes das concessionarias, e ate a 5.0.8 gravava o
+            # O motor raspa fontes das concessionarias, e antes desta revisao gravava o
             # que raspasse sem conferir a ESTRUTURA. Isso reintroduzia, a cada
-            # rodada, os defeitos que a versao 5.0.8 corrigiu: minimo diluido em
+            # rodada, os defeitos que esta revisao corrigiu: minimo diluido em
             # tarifa unitaria, tabela truncada, lacuna entre faixas. Automatico e
             # periodico, e portanto pior que o defeito original.
             #

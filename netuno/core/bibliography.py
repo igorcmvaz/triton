@@ -1,6 +1,6 @@
 """Bibliografia única do Netuno 5.
 
-Até a versão 5.0.7 as citações viviam soltas dentro das strings HTML da aba de
+As citações já viveram soltas dentro das strings HTML da aba de
 Documentação, duplicadas em português e inglês. Sete das dezesseis seções não
 tinham citação nenhuma, e as que tinham escreviam a referência à mão nos dois
 idiomas — de modo que uma correção precisava ser feita duas vezes, e nada

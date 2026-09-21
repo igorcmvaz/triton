@@ -3,7 +3,7 @@
 Arquivo histórico da tentativa de usar o **Chrome/Chromium como interface do Netuno**, em
 paralelo à interface desktop nativa. Essa linha de desenvolvimento foi **descontinuada**.
 
-**A partir da versão 5.0.7, o Netuno é exclusivamente desktop (PySide6/Qt).**
+**O Netuno 5 é exclusivamente desktop (PySide6/Qt).**
 
 ## Conteúdo
 

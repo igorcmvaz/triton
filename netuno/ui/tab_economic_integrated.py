@@ -697,7 +697,7 @@ class TabEconomicIntegrated(QWidget):
             cfg.pump_power_kw, cfg.pump_count,
             lower_material=low_mat, upper_material=up_mat
         )
-        # A linha de tratamento entra no investimento. Ate a 5.0.8 esta soma a
+        # A linha de tratamento entra no investimento. Antes desta revisao esta soma a
         # ignorava, e marcar a filtracao fina nao mexia no valor exibido.
         # A regra incremental - descontar a verba generica ja embutida em
         # «Acessorios» - vive em netuno/core/etap_integration.py, e e a mesma

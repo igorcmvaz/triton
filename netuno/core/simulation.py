@@ -620,7 +620,7 @@ def validar_parametros_fisicos(
 ) -> None:
     """Rejeita entrada fisicamente impossivel, antes de simular.
 
-    Ate a versao 5.0.8 area negativa, coeficiente negativo e volume negativo
+    Antes desta revisao area negativa, coeficiente negativo e volume negativo
     passavam sem erro e produziam potencial de economia NEGATIVO - de -166% no
     caso do volume. Um percentual assim nao significa nada e atravessa o
     programa inteiro: vira economia de agua no economico, emissao evitada na
@@ -868,7 +868,7 @@ def run_single_simulation(
         irr_vol_nominal = float(building_config.get("irrigation_liters_per_day", 0.0)) if building_config else 0.0
         vol_supp = days_supp * irr_vol_nominal
 
-        # Valores exatos, acumulados dia a dia dentro do kernel. Até a versão 5.0.7
+        # Valores exatos, acumulados dia a dia dentro do kernel. Antes desta revisão
         # estes eram estimados a partir dos totais anuais, o que superestimava o uso
         # interno e subestimava a irrigação em até 26%.
         pluv_in_est = pluv_indoor
@@ -1078,7 +1078,7 @@ def run_single_simulation(
     
     avg_pluvial = total_pluvial_consumed / n_days
     # Vem do acumulador dia a dia, que respeita o suprimento de reserva. Ate a
-    # versao 5.0.8 era recalculado por diferenca, o que atribuia ao potavel toda
+    # revisao era recalculado por diferenca, o que atribuia ao potavel toda
     # a demanda nao atendida pela chuva - inclusive a irrigacao que a regra manda
     # nao fazer. Com a reserva ligada, que e o padrao, as duas formulas coincidem.
     avg_potable = total_potable_consumed / n_days

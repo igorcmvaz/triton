@@ -48,7 +48,7 @@ O acoplamento **não é uma soma simples**, e é aí que estava o risco:
 | A ETAP **substitui** o termo de cloração da ACV | O total da ETAP já contém o hipoclorito. Somar contaria o cloro duas vezes. |
 | Só a parcela **sem cloro** entra no custeio | O econômico já custeava o hipoclorito pela linha de cloração. |
 | O CAPEX da ETAP é **incremental** sobre «Acessórios» | O estimador já embute uma verba de filtração e tratamento — R$ 350 na casa unifamiliar térrea, R$ 2.100 na tipologia industrial. |
-| `etap_enabled=False` devolve o resultado da 5.0.7 | Estudos já rodados usaram só a cloração, e têm de continuar reproduzíveis. |
+| `etap_enabled=False` devolve o resultado anterior | Estudos já rodados usaram só a cloração, e têm de continuar reproduzíveis. |
 
 Efeito medido, para o mesmo sistema: escolher ultravioleta multiplica por treze a
 emissão anual de tratamento, aumenta o investimento e reduz o valor presente

@@ -382,7 +382,7 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
     chlorine_dose = float(raw.get("chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO))
 
     # A sobreposicao legada de intensidade de tratamento vale SO quando o projeto
-    # a declara. Ate a 5.0.8 ela era aplicada sempre que o projeto nao trazia
+    # a declara. Antes desta revisao ela era aplicada sempre que o projeto nao trazia
     # parametros de cloro - a maioria - e, com a linha de tratamento ligada, isso
     # passou a ter efeito novo: o campo legado tem precedencia sobre a ETAP e a
     # DESLIGAVA. Escolher ozonio cobrava o ozonizador no fluxo de caixa e nao

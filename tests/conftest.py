@@ -8,7 +8,7 @@ gráfica instalada.
 Por que a degradação importa
 ----------------------------
 Os testes de invariantes e propriedades científicas não dependem de interface, mas
-até a versão 5.0.7 o `conftest` importava PySide6 no topo e instalava um
+o `conftest` já importou PySide6 no topo e instalava um
 `QApplication` com `autouse=True`. Consequência: *todo* teste, inclusive os
 puramente numéricos, exigia Qt instalado. Isso impedia rodar a verificação em
 contêineres mínimos de integração contínua e obrigava `--noconftest` para exercitar

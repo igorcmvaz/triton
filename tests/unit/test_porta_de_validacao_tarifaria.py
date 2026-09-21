@@ -1,7 +1,7 @@
 """O atualizador automático não pode reintroduzir defeito de estrutura.
 
 O motor de atualização raspa fontes das concessionárias e grava o banco das 652
-cidades. Até a versão 5.0.8 gravava o que raspasse sem conferir a **estrutura**,
+cidades. Ele já gravou o que raspasse sem conferir a **estrutura**,
 de modo que um mínimo diluído em tarifa unitária ou uma tabela truncada voltavam
 a cada rodada.
 

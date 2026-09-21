@@ -1,4 +1,4 @@
-# Detalhamento completo dos três modelos — Netuno 5.0.7
+# Detalhamento completo dos três modelos — Netuno 5.0.0
 
 > Documento gerado por `python scripts/generate_reference_case_studies.py`. Entradas e resultados vêm dos mesmos objetos usados no estudo de verificação; não edite as tabelas à mão.
 

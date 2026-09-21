@@ -286,7 +286,7 @@ class NetunoConfig:
     water_quality_polishing: bool = False
     # Dimensionamento físico e orçamentário do subsistema de descarte de primeiras águas
     first_flush_system_enabled: bool = False
-    # Desligar devolve o comportamento da 5.0.7, em que a linha de tratamento
+    # Desligar devolve o comportamento anterior, em que a linha de tratamento
     # nao entrava no investimento nem no custeio. Serve para reproduzir estudos
     # anteriores, e para hipoteses de CAPEX nulo.
     etap_enabled: bool = True
@@ -362,7 +362,7 @@ class NetunoConfig:
 
     # Altura manométrica total: desnível geométrico entre a sucção e a entrada
     # do reservatório superior, mais as perdas de carga. É o parâmetro que mais
-    # pesa no consumo de bombeamento, e até a versão 5.0.8 não existia: estava
+    # pesa no consumo de bombeamento, e antes desta revisão não existia: estava
     # embutido na vazão e no rendimento fixos, que juntos implicavam 67 m —
     # altura de edifício alto, não de casa.
     # Zero significa «não informada»: o assistente de motobomba a calcula a
@@ -828,7 +828,7 @@ def export_netuno_json(
                 "use_variable": b_data.get("use_variable", False),
                 "rainwater_share": b_data.get("share", config.rainwater_share)
             },
-            # A modulacao por calendario. Ate a 5.0.8 estas sete listas
+            # A modulacao por calendario. Antes desta revisao estas sete listas
             # existiam na configuracao e nenhuma era gravada: um projeto
             # semanal ou diario reabria como constante, sem aviso. A lista
             # mensal de demanda fica na secao acima, por compatibilidade com
@@ -901,7 +901,7 @@ def export_netuno_json(
                 "elec_tax_var_pct": config.elec_tax_var,
                 "elec_tariff_escalation_pct": getattr(config, 'elec_tariff_escalation', 5.0)
             },
-            # Secoes que faltavam. Ate a 5.0.8 o arquivo gravava seis secoes e
+            # Secoes que faltavam. Antes desta revisao o arquivo gravava seis secoes e
             # trinta campos ficavam de fora, voltando ao padrao em silencio ao
             # reabrir: quem salvasse um estudo com ozonio, 30 m de desnivel e
             # cisterna de concreto reabria outro, com cloracao, altura zero e PEAD.
@@ -1005,7 +1005,7 @@ def load_netuno_project(file_path: str) -> dict:
             inputs = data.get("inputs", {})
 
             # Um JSON que nao traz nenhuma das secoes do projeto nao e um
-            # projeto do Netuno. Ate a 5.0.8 ele era aceito e devolvia a
+            # projeto do Netuno. Antes desta revisao ele era aceito e devolvia a
             # configuracao padrao inteira, de modo que o estudo aberto nao era
             # o estudo do arquivo — e nada avisava.
             if not inputs and not rainfall and "schema" not in data:
@@ -1127,7 +1127,7 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.cost_piping = co.get("cost_piping", 950.0)
             cfg.cost_accessories = co.get("cost_accessories", 500.0)
 
-            # Secoes acrescentadas na 5.0.8. `get` com o padrao mantem os arquivos
+            # Secoes acrescentadas nesta revisao. `get` com o padrao mantem os arquivos
             # anteriores legiveis: o que nao existir no arquivo cai no padrao, que
             # e o comportamento que eles ja tinham.
             wq = inputs.get("water_quality_and_etap", {})

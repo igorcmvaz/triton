@@ -10,9 +10,9 @@ faz sentido se a potência for a de eixo. Daí a cadeia completa:
 
 Três versões desta conta já existiram no programa:
 
-  5.0.7   P × horas / η_bomba, nos dois termos. Errava nos dois sentidos ao mesmo
+  antes   P × horas / η_bomba, nos dois termos. Errava nos dois sentidos ao mesmo
           tempo: descontava a perda hidráulica duas vezes e ignorava o motor.
-  5.0.8   corrigiu o recalque e deixou as partidas com o η_bomba.
+  depois  corrigiu o recalque e deixou as partidas com o η_bomba.
   agora   os dois termos, com o rendimento do motor no lugar certo.
 
 Conferência que sustenta a leitura de eixo: a Dancor CP-4R de 1/2 CV dá 8,4 m³/h a

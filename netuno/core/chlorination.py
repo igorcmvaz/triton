@@ -1,6 +1,6 @@
 """Cadeia única da cloração: dose, produto e emissão.
 
-Até a versão 5.0.7 o programa tinha **duas** contas de cloro, em bases
+O programa já teve **duas** contas de cloro, em bases
 diferentes, que nunca poderiam concordar:
 
 | | `environmental.py` | `water_quality.py` |

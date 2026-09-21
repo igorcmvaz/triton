@@ -394,7 +394,7 @@ def run_economic_analysis(
     cost_per_kg_cl2 = getattr(config, 'chlorine_cost_per_kg', 25.0)
 
     # O que se compra e o PRODUTO (pastilha a 65% de cloro ativo), nao o cloro
-    # puro, e o preco em R$/kg e do produto. Ate a 5.0.7 esta conta usava a massa
+    # puro, e o preco em R$/kg e do produto. Antes desta revisao a conta usava a massa
     # de cloro ativo, subestimando o custo em 1/0,65 - cerca de 35%. A conversao
     # vem da cadeia unica em netuno/core/chlorination.py.
     _cloracao = Cloracao(

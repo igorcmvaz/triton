@@ -1,4 +1,4 @@
-# Pendências, melhorias e evolução — Netuno 5.0.8
+# Pendências, melhorias e evolução — Netuno 5.0.0
 
 Levantamento de **toda a estrutura** do projeto: 47.212 linhas em `netuno/`,
 12.682 em `tests/`, 687 testes verdes. O que segue é o que **não** está resolvido,

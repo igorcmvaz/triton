@@ -160,7 +160,7 @@ MATERIAL_PRESETS: Dict[str, MaterialPreset] = {
 # consistente entre eles (1,504 a 1,516). Ela é maior que a densidade do PVC-U
 # puro porque incorpora a massa da bolsa, que o tubo comercial traz.
 #
-# Até a versão 5.0.7 estas massas eram cenário interno. O erro não era pequeno
+# Estas massas já foram cenário interno. O erro não era pequeno
 # nem sistemático: o DN 110 estava 47% abaixo do real e o DN 20, 36% acima.
 PIPE_LINEAR_MASS_KG_PER_M: Dict[int, float] = {
     20:  0.132,
@@ -430,7 +430,7 @@ class EnvironmentalConfig:
     # o fator e por kg de PRODUTO comercial, e a pureza faz a ponte.
     chlorine_dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO   # mg de Cl2 ativo por litro
     chlorine_product_purity: float = PUREZA_PADRAO         # kg Cl2 ativo por kg de produto
-    # Ate a 5.0.7 este campo valia 25,0 e era descrito como kg CO2e/kg de Cl2.
+    # Este campo ja valeu 25,0 e foi descrito como kg CO2e/kg de Cl2.
     # O numero nao tinha fonte e era identico ao custo (25,00 R$/kg) no
     # costs_database.json. Substituido pelo fator do hipoclorito de calcio,
     # por kg de PRODUTO, que o modulo de qualidade ja usava.
@@ -441,7 +441,7 @@ class EnvironmentalConfig:
     system_lifespan_years: float = 20.0          # Vida útil considerada (anos)
 
     # Linha de tratamento (ETAP). Estes três campos são a escolha feita na aba
-    # de Qualidade da Água. Até a versão 5.0.7 eles existiam apenas em
+    # de Qualidade da Água. Antes desta revisão eles existiam apenas em
     # `NetunoConfig`, eram escritos pela interface e não eram lidos por ninguém:
     # optar por ultravioleta não alterava emissão nem custo. Ver
     # `netuno/core/etap_integration.py`.
@@ -452,7 +452,7 @@ class EnvironmentalConfig:
     # Dimensionamento do subsistema físico de descarte de primeiras águas
     first_flush_system_enabled: bool = False
     discard: float = 1.0                         # lâmina de descarte em mm
-    # Desligar devolve o comportamento da 5.0.7, em que o tratamento era só a
+    # Desligar devolve o comportamento anterior, em que o tratamento era só a
     # cloração. Serve para reproduzir estudos anteriores, não para uso corrente.
     etap_enabled: bool = True
 

@@ -1,6 +1,6 @@
 """A linha de tratamento deixa de ser uma ilha.
 
-Até a versão 5.0.7 a estação de tratamento de água pluvial (ETAP) era
+A estação de tratamento de água pluvial (ETAP) já foi
 dimensionada apenas pela aba de Qualidade da Água, que exibia investimento,
 custo operacional e emissão — e não os entregava a ninguém. Escolher
 ultravioleta na interface não alterava payback, valor presente líquido nem

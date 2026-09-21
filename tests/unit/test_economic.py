@@ -239,7 +239,7 @@ def test_economic_vpl_and_payback_favorable():
     
     econ = run_economic_analysis(config, sim_res)
     
-    # O CAPEX passou a conter a linha de tratamento, que ate a 5.0.7 era
+    # O CAPEX passou a conter a linha de tratamento, que antes era
     # dimensionada e descartada. A soma dos seis campos de custo continua sendo
     # a base; a ETAP e a parcela nova, e o teste a nomeia em vez de congelar o
     # total, para que trocar o filtro de entrada nao quebre o caso.
@@ -457,7 +457,7 @@ def test_material_cost_multipliers_and_tank_pricing():
 
     # Cloração: a massa devolvida é de PRODUTO comercial, já corrigida pela
     # pureza, porque é o produto que se compra e sobre ele que incide o preço.
-    # Até a versão 5.0.8 esta conta devolvia a massa de cloro ATIVO e a
+    # Esta conta já devolveu a massa de cloro ATIVO e a
     # multiplicava pelo preço do produto, subestimando o custo em 1/pureza.
     from netuno.core.chlorination import PUREZA_PADRAO
 

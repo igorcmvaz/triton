@@ -1,5 +1,5 @@
 """
-Testes de verificação introduzidos na versão 5.0.7:
+Testes de verificação acrescentados na revisão que precedeu o lançamento:
 1. Coerência da versão declarada
 2. Paybacks simples e descontados calculados com precisão mensal
 3. Cloração uniforme do reservatório superior nas varreduras

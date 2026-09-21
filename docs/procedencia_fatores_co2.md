@@ -203,7 +203,7 @@ Duas observações sobre a escolha:
 | Economia líquida em 20 anos | 187,4 kg | 355,3 kg | **+89,6%** |
 
 Os sistemas pluviais saem substancialmente melhores na ACV do que a versão
-anterior indicava. Estudos ambientais feitos com o Netuno até a 5.0.7
+anterior indicava. Estudos ambientais feitos antes desta revisão
 **subestimavam** o benefício de carbono, e a diferença não é marginal.
 
 **Ressalva de escopo, que precisa acompanhar qualquer publicação.** As duas
@@ -276,7 +276,7 @@ local)».
 
 ---
 
-## Versão 5.0.8 — tubulações e reservatórios com dados de fabricante
+## Tubulações e reservatórios com dados de fabricante
 
 ### Massa linear dos tubos
 

@@ -96,7 +96,7 @@ def calculate_forchheimer_pumping_diameters(
     q_m3_h = float(pump_flow_rate_m3_h or 0.0)
     if q_m3_h <= 0.05:
         # A vazao vem da equacao da bomba, e nao de uma tabela propria deste
-        # modulo. Ate a versao 5.0.8 havia aqui uma segunda tabela - 2,4 m3/h
+        # modulo. Antes desta revisao havia aqui uma segunda tabela - 2,4 m3/h
         # para meio CV - que discordava dos 2.280 L/h usados no calculo de
         # energia para a mesma bomba.
         potencias_cv = [

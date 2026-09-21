@@ -192,7 +192,7 @@ def test_os_tributos_e_as_fracoes_sobrevivem(ciclo, campo):
 # ────────── compatibilidade com arquivos anteriores ──────────
 
 def test_um_arquivo_sem_as_secoes_novas_continua_legivel():
-    """Projetos gravados antes da 5.0.8 não têm as quatro seções acrescentadas.
+    """Projetos gravados antes desta revisão não têm as quatro seções acrescentadas.
 
     Eles têm de continuar abrindo, com os campos ausentes caindo no padrão —
     que é o comportamento que já tinham.

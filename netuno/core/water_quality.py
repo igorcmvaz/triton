@@ -449,7 +449,7 @@ def size_etap(
     # 1. Filtro mecânico de entrada (vórtex ou cesto autolimpante)
     #
     # Os limites de faixa acompanham a área que o próprio produto declara
-    # atender. Até a versão 5.0.7 eles eram 150 e 400 m², contra rótulos de
+    # atender. Antes desta revisão eles eram 150 e 400 m², contra rótulos de
     # "até 200 m²" e "até 500 m²": um telhado de 180 m² recebia o filtro da
     # faixa seguinte, mais caro em R$ 600, embora o da primeira faixa fosse
     # declarado suficiente. O separador de folhas da Bakof Tec, por exemplo,
@@ -536,7 +536,7 @@ def size_etap(
     polishing_opex = 0.0
     polishing_type = "Nenhum (Qualidade padrão atendida)"
 
-    # A escolha do usuario manda. Ate a 5.0.8 a condicao era
+    # A escolha do usuario manda. Antes desta revisao a condicao era
     # `include_polishing_filter or target_class.exige_filtracao_fina`, e a classe
     # sobrepunha a escolha em silencio: desmarcar a caixa nao surtia efeito
     # nenhum nas classes 2 a 4.

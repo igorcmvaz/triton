@@ -42,7 +42,7 @@ def test_parse_netuno_project_csv():
     O Netuno 4 grava so a tabela de varredura: volume contra resultado, sem
     parametro nenhum no corpo. Toda a configuracao fica no nome, por convencao.
 
-    Ate a versao 5.0.7 este parser ignorava o nome e devolvia a configuracao
+    Este parser ja ignorou o nome e devolvia a configuracao
     padrao inteira. O retorno parecia leitura bem-sucedida, e este teste fixava
     exatamente esses padroes - area 100 e residentes 4 batiam por coincidencia,
     e os outros cinco estavam simplesmente errados. Quem montasse uma comparacao

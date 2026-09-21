@@ -232,7 +232,7 @@ def consumo_especifico_padrao_kwh_por_m3() -> float:
     recurso de 12 m, o rendimento de bomba de meio CV e o rendimento de motor da
     Tabela 13 da ABNT NBR 17094-2, dá cerca de 0,11 kWh/m³.
 
-    Até a versão 5.0.8 este valor era 0,40 e depois 0,333, ambos derivados de uma
+    Este valor já foi 0,40 e depois 0,333, ambos derivados de uma
     vazão e um rendimento fixos que, juntos, implicavam 67 m de altura
     manométrica — cerca de cinco vezes o desnível de uma casa com cisterna
     enterrada.

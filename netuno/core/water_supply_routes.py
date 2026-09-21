@@ -1,6 +1,6 @@
 """Rotas de produção da água que o sistema pluvial substitui.
 
-Até a versão 5.0.7 a emissão evitada por metro cúbico era um número só, 0,35 kg
+A emissão evitada por metro cúbico já foi um número só, 0,35 kg
 CO₂e/m³, tratado como se fosse propriedade do sistema pluvial. Não é: **é
 propriedade da água que se deixa de consumir**. Substituir água dessalinizada e
 substituir água de manancial tratada por gravidade são coisas diferentes por uma

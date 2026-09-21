@@ -1,6 +1,6 @@
 """Hidráulica do recalque: altura manométrica, vazão e energia específica.
 
-Até a versão 5.0.8 a energia de bombeamento saía de dois números fixos — vazão
+A energia de bombeamento já saiu de dois números fixos — vazão
 de 2.280 L/h e rendimento de 55% — que não mudavam com a potência escolhida.
 Três consequências seguiam disso, e as três estão corrigidas aqui.
 

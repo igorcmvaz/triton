@@ -426,7 +426,7 @@ def test_estado_beta_e_o_mesmo_no_pacote_e_no_manual():
 
 @pytest.mark.parametrize("relativo", DISTRIBUIDOS)
 def test_documento_distribuido_so_cita_a_versao_atual(relativo):
-    """O instalador de 5.0.0 não pode entregar um README que diz 5.0.7.
+    """O instalador de uma versão não pode entregar um README que cite outra.
 
     Durante o beta, o histórico de versões anteriores fica nos documentos por
     decisão do autor (2026-09-15). O teste volta a valer sozinho no lançamento:
@@ -449,7 +449,7 @@ def test_citacoes_creditam_os_autores_do_netuno_5():
     """Toda citação do programa credita Vaz e Ghisi.
 
     O README distribuído com o instalador ainda citava «GHISI; CORDOVA, Netuno
-    5.0.7». Cordova é coautor do Netuno 4, e continua citado como tal nas
+    5». Cordova é coautor do Netuno 4, e continua citado como tal nas
     referências do manual; a citação do Netuno 5 é outra.
     """
     fontes = {
