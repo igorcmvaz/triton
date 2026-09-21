@@ -87,10 +87,15 @@ desktop.ini
 # Log de avisos do Qt, gerado em tempo de execucao
 avisos_qt.log
 
-# O manual montado e o PDF sao derivados: build_exe.py os regera antes
-# de empacotar, e manual/gerar.py + manual/gerar_pdf.py a qualquer momento.
-manual/Manual-Netuno-5.md
-manual/Manual-Netuno-5.pdf
-manual/mini/
-manual/site/
+# O manual montado, os mini manuais e o site sao gerados, mas VAO para o
+# controle de versao: sao o que se manda para alguem ler, e quem clona o
+# repositorio nao precisa montar nada para chegar ao texto. Regerar:
+#   python manual/gerar.py && python manual/gerar_pdf.py
+#   python manual/gerar_mini_manuais.py && python manual/gerar_site.py
 manual/Manual-Netuno-5.pdf.novo
+
+# ---------------------------------------------------------------------------
+# Material de terceiros: usado para escrever o manual, nao redistribuido.
+# Os arquivos continuam na maquina de quem escreve; fora do repositorio.
+# ---------------------------------------------------------------------------
+additional_material/documentation/*.pdf

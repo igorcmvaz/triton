@@ -29,6 +29,41 @@ manual/
   gerar_tabelas.py           gera as tabelas numéricas dos capítulos
 ```
 
+## O que já vem pronto no repositório
+
+Estes arquivos são gerados pelos scripts acima, e mesmo assim vão para o controle de
+versão: são o que se manda para alguém ler, e quem clona o repositório chega ao texto
+sem montar nada.
+
+```
+manual/
+  Manual-Netuno-5.md         o manual inteiro, em Markdown
+  Manual-Netuno-5.pdf        o manual inteiro, 260 páginas
+  mini/                      os sete volumes avulsos, em Markdown e PDF
+  site/                      o site de documentação, pronto para hospedar
+```
+
+O site abre direto do disco, em `manual/site/index.html`, sem servidor. Para hospedar,
+basta servir a pasta inteira: ela é autocontida, com as figuras, as capas e os PDFs.
+
+Depois de mexer no texto, no código ou numa figura, regere tudo na ordem:
+
+```bash
+python manual/gerar.py                # o manual em Markdown
+python manual/gerar_pdf.py            # o PDF completo
+python manual/gerar_mini_manuais.py   # os sete volumes
+python manual/gerar_site.py           # o site
+```
+
+`build_exe.py` roda a mesma sequência antes de empacotar o instalador.
+
+## O que não está aqui
+
+O material de terceiros consultado para escrever o manual — dissertações, artigos,
+manuais de outros programas e o texto das normas — **não é redistribuído neste
+repositório**. As referências completas estão no apêndice de bibliografia, e cada
+número publicado declara a fonte no ponto em que aparece.
+
 ## Como montar
 
 ```bash

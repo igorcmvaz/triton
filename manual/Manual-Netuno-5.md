@@ -1,0 +1,10859 @@
+# Netuno 5
+
+## Manual do Usuário
+
+Igor Catão Martins Vaz e Enedir Ghisi
+
+Grupo de Pesquisa Gestão do Espaço Sustentável
+Universidade Federal de Santa Catarina
+
+Florianópolis, 2026
+
+Versão 5.0.0 (beta) · revisão de 20/09/2026
+
+---
+
+### Ficha de publicação
+
+| Elemento | Conteúdo |
+| :--- | :--- |
+| **Título** | Netuno 5: manual do usuário |
+| **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |
+| **Edição** | Versão 5.0.0 (beta) |
+| **Local** | Florianópolis, SC, Brasil |
+| **Editora** | Universidade Federal de Santa Catarina |
+| **Grupo de pesquisa** | Gestão do Espaço Sustentável |
+| **Ano de publicação** | 2026 |
+| **Licença** | GNU General Public License v3.0 |
+
+### Como citar
+
+**ABNT NBR 6023:2018**
+
+> VAZ, Igor Catão Martins; GHISI, Enedir. **Netuno 5: manual do usuário**.
+> Versão 5.0.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.
+
+**Estilo autor-data**
+
+> Vaz, I. C. M., & Ghisi, E. (2026). *Netuno 5: manual do usuário*
+> (Versão 5.0.0). Universidade Federal de Santa Catarina.
+
+**BibTeX**
+
+```
+@manual{netuno5manual2026,
+  title     = {Netuno 5: manual do usuário},
+  author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
+  edition   = {Versão 5.0.0},
+  address   = {Florianópolis},
+  publisher = {Universidade Federal de Santa Catarina},
+  year      = {2026}
+}
+```
+
+Ao citar resultados obtidos com o programa, declare também a versão usada e a
+origem da série de precipitação, conforme a lista da seção 4.10.
+
+---
+
+### Como usar este manual
+
+Ele não foi feito para ser lido do começo ao fim. A seção 1.3 diz por onde
+entrar conforme o que você quer fazer. Para mandar só uma parte, o manual também
+sai em sete volumes avulsos, um por capítulo, na pasta `manual/mini` da
+instalação; a numeração das seções é a mesma nos volumes e aqui.
+
+| Você quer | Leia |
+| :--- | :--- |
+| aprender a usar | o capítulo 4, o tutorial |
+| resolver um caso | o capítulo 3, os guias |
+| publicar um estudo | o capítulo 2, o método; e a seção 4.10 |
+| revisar um estudo | o capítulo 5, e os apêndices A e B |
+| não errar | a seção 5.1 |
+
+O manual supõe um leitor de engenharia que ainda não conhece o assunto: os
+conceitos são apresentados antes de serem usados, e o vocabulário está no
+apêndice G. Duas caixas aparecem ao longo do texto, e elas se distinguem:
+
+| A caixa | Quando aparece |
+| :--- | :--- |
+| de régua **azul** | aviso ou observação que muda o que você faz |
+| de régua **laranja**, marcada *Aprofundamento* | o detalhe técnico por trás; pode ser pulada numa primeira leitura |
+
+> **Todo número impresso neste manual é calculado pelo programa.** As tabelas
+> e as figuras não foram digitadas: são produzidas rodando o Netuno com os
+> dados de entrada que cada seção declara. Cada valor publicado tem uma
+> verificação automática correspondente, de modo que uma correção no programa
+> não possa deixar o manual mentindo. A seção 5.3 explica como isso é feito.
+
+---
+
+## Sumário
+
+**1 Comece aqui**
+
+1.1 O que o Netuno faz, e o que ele não faz
+
+1.2 Instalação e primeira execução
+
+1.3 Por onde começar, conforme o seu objetivo
+
+
+**2 O método**
+
+2.1 O balanço hídrico diário
+
+2.2 Volume ideal e a varredura
+
+2.3 Indicadores de eficiência
+
+2.4 Índices pluviométricos
+
+2.5 Dimensionamento da ETAP
+
+2.6 Energia de bombeamento
+
+2.7 Análise econômica e os regimes tarifários
+
+2.8 Avaliação de ciclo de vida
+
+2.9 Certificações
+
+2.10 Decisão multicritério
+
+
+**3 Guias disponíveis no programa**
+
+3.1 Comparar cidades
+
+3.2 Usar cenário climático futuro
+
+3.3 Ajustar a tarifa do seu município
+
+3.4 Modular a demanda por calendário
+
+3.5 Simular escola, hospital e comércio
+
+3.6 Comparar muitos casos de uma vez
+
+3.7 Análise de sensibilidade
+
+3.8 Importar um projeto do Netuno 4
+
+3.9 Exportar para CAD, BIM e planilha
+
+
+**4 Tutorial: um exemplo do começo ao fim**
+
+4.1 O projeto e a chuva
+
+4.2 A edificação e a demanda
+
+4.3 A primeira simulação
+
+4.4 Escolher o volume
+
+4.5 Precisa de reservatório superior?
+
+4.6 Que qualidade o uso exige
+
+4.7 Quanto custa e em quanto se paga
+
+4.8 Quanto carbono evita
+
+4.9 Qual volume escolher, afinal
+
+4.10 O relatório, e o que declarar num artigo
+
+
+**5 Enganos, limitações e confiabilidade**
+
+5.1 Dez enganos que o programa não impede
+
+5.2 Limitações conhecidas
+
+5.3 Como o programa é verificado
+
+
+**6 Correções, bugs e versionamento**
+
+6.1 Comparação com o Netuno 4
+
+6.2 Mensagens de erro e o que fazer
+
+6.3 Histórico de versões e o que mudou
+
+6.4 Como relatar um problema
+
+
+**Apêndices**
+
+Apêndice A — Os parâmetros do projeto
+
+Apêndice B — Os processos do programa
+
+Apêndice C — Fatores de emissão
+
+Apêndice D — Regimes tarifários
+
+Apêndice E — Base climática
+
+Apêndice F — Arquivos, pastas e formatos
+
+Apêndice G — Glossário
+
+Apêndice H — Referências
+
+Apêndice I — Fichas de uma página
+
+Apêndice J — Arquivos de exemplo
+
+
+
+## Lista de figuras
+
+Figura 1 — Componentes de um sistema predial de aproveitamento de água pluvial e percurso da água, da captação ao ponto de consumo
+
+Figura 2 — O mesmo sistema visto em corte
+
+Figura 3 — Destino da precipitação de um dia
+
+Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da seção do balanço diário
+
+Figura 5 — As seis dimensões de análise e a questão avaliada em cada uma
+
+Figura 6 — Os quatro percursos de leitura do manual
+
+Figura 7 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração
+
+Figura 8 — As doze etapas do programa, agrupadas por natureza
+
+Figura 9 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, após o consumo, com a capacidade de 2.000 L em tracejado; nos dias 6, 7 e 9 o reservatório atinge a capacidade, extravasa e termina o dia com 1.920 L
+
+Figura 10 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento
+
+Figura 11 — Curva de potencial de economia da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa calcula corretamente cada ponto que contém, mas não contém o trecho de maior curvatura, entre 1 e 5 m³
+
+Figura 12 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes
+
+Figura 13 — Os três indicadores de eficiência e o que cada um conta
+
+Figura 14 — Classes de atendimento diário: pleno (V_con,t = D_pl,t), parcial (0 < V_con,t < D_pl,t) e nulo (V_con,t = 0). A altura preenchida representa a fração da demanda pluvial do dia atendida por água pluvial
+
+Figura 15 — Quatro dos nove índices marcados sobre o ano de 1995 em Florianópolis: PRCPTOT e SDII, no alto; RX1day, o maior valor diário do ano; CDD, a maior sequência de dias secos, na faixa sombreada; e R20mm, os dias com 20 mm ou mais, marcados na base
+
+Figura 16 — Índice de sazonalidade de Walsh e Lawler (1981) nas quatro capitais do guia, com as classes do índice ao fundo e a precipitação média anual sob o nome de cada cidade
+
+Figura 17 — Precipitação total anual (PRCPTOT) da série de Florianópolis, com a média do período em linha tracejada, na aba de índices
+
+Figura 18 — Maior sequência anual de dias secos (CDD) e de dias chuvosos (CWD) da série de Florianópolis, na aba de índices
+
+Figura 19 — Componentes da linha de tratamento dimensionada pelo programa, na ordem do escoamento, e destino do material retido
+
+Figura 20 — As três tecnologias de desinfecção, o efeito residual de cada uma e a composição do custeio anual (OPEX). O efeito residual distingue a cloração das demais: protege a água armazenada, enquanto a radiação ultravioleta e o ozônio atuam apenas sobre a água que atravessa o equipamento
+
+Figura 21 — Cadeia de energia do bombeamento
+
+Figura 22 — (a) Altura manométrica de um recalque predial: desnível geométrico entre as lâminas d'água da cisterna e do reservatório superior, somado às perdas de carga; (b) linha de energia ao longo de um trecho de tubulação, com a perda contínua por atrito (h_f) e as perdas localizadas em registro e cotovelo (h_loc)
+
+Figura 23 — Rendimento mínimo de motores de indução monofásicos de dois polos, conforme a Tabela 13 da ABNT NBR 17094-2:2016
+
+Figura 24 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema
+
+Figura 25 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto
+
+Figura 26 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo
+
+Figura 27 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno
+
+Figura 28 — Fluxo de caixa do projeto do tutorial em vinte anos: economia anual na fatura de água e esgoto e custos anuais, com o investimento inicial no ano zero, em valores nominais; e saldo acumulado descontado à taxa mínima de atratividade, que cruza o zero no tempo de retorno de 16,3 anos
+
+Figura 29 — As sete etapas do inventário, agrupadas pela natureza da emissão
+
+Figura 30 — Fronteira da avaliação ambiental do programa: (a) processos incluídos — carbono incorporado dos reservatórios, da tubulação e da motobomba, emissões operacionais de recalque e de insumos da ETAP, e crédito da água potável evitada; (b) processos excluídos — obra civil, manutenção e reposição, fim de vida e categorias de impacto além do aquecimento global
+
+Figura 31 — Os limiares de redução do consumo de água potável com que o programa enquadra o projeto no LEED v4 (créditos WEc1 e WEc2), no LEED v5 (crédito WEc2, opções 1, 2 e 4), no AQUA-HQE Residencial e no EDGE, na mesma escala
+
+Figura 32 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno e pesos iguais entre os sete critérios; a estrela marca o volume de maior escore
+
+Figura 33 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex
+
+Figura 34 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 28% e cisterna de 4.000 L, em quatro capitais
+
+Figura 35 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série
+
+Figura 36 — A forma das duas trajetórias de emissão disponíveis na base
+
+Figura 37 — Parcela de água da fatura mensal em função do consumo, em três regimes de valor mínimo
+
+Figura 38 — Os quatro modos de modulação, o que cada um pede ao usuário e a situação em que cada um se justifica
+
+Figura 39 — Os três perfis de demanda usados na comparação, expressos como a razão entre a demanda do mês e a demanda média
+
+Figura 40 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 4.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa quase um ponto e meio percentual
+
+Figura 41 — As oito tipologias disponíveis, agrupadas pela categoria tarifária que a concessionária cobra
+
+Figura 42 — Faixa de variação plausível de cada premissa numa análise de sensibilidade, com a origem da incerteza
+
+Figura 43 — A variação do valor presente líquido quando cada premissa é alterada em 30% para mais e para menos, mantidas as demais
+
+Figura 44 — Série de precipitação de Florianópolis usada em todo o tutorial: (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média em azul e abaixo dela em laranja; (b) distribuição de frequência da precipitação diária nos dias úmidos, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes
+
+Figura 45 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada
+
+Figura 46 — O coeficiente de escoamento que o programa atribui a cada material da cobertura, com os valores do estudo de materiais publicado na revista MIX Sustentável (2020). A linha tracejada marca 0,85, o fator de captação da ABNT NBR 15527 adotado no tutorial
+
+Figura 47 — As faixas usuais de consumo per capita por tipologia de edificação
+
+Figura 48 — Repartição típica do consumo de uma residência por uso final
+
+Figura 49 — Estados do campo de fração atendível na interface
+
+Figura 50 — O nível da cisterna ao longo do primeiro ano da série, com a chuva diária ao fundo
+
+Figura 51 — (a) Potencial de economia em função do volume do reservatório, que se aproxima do teto de 28% sem cruzá-lo, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial
+
+Figura 52 — O primeiro gráfico da aba de resultados: o potencial de economia de água potável em função do volume do reservatório inferior
+
+Figura 53 — O segundo gráfico: o ganho marginal, em pontos percentuais por metro cúbico acrescentado
+
+Figura 54 — O terceiro gráfico: o volume extravasado e o volume pluvial consumido, ambos anuais, na mesma escala
+
+Figura 55 — O quarto gráfico: a repartição dos dias do período em atendidos por inteiro, atendidos em parte e não atendidos
+
+Figura 56 — Uso da capacidade do reservatório inferior no projeto do tutorial, com demanda pluvial de 168 L/dia: (a) curvas de permanência da autonomia armazenada ao fim de cada dia, em dias de demanda pluvial, para 2, 4, 10 e 20 m³; (b) renovações anuais do volume, dadas pela razão entre o consumo pluvial anual e a capacidade, com a fração de dias em que o reservatório termina vazio (até 5% da capacidade) indicada sob cada volume
+
+Figura 57 — As quatro classes de qualidade do programa e a situação normativa de cada uma
+
+Figura 58 — O gráfico da aba econômica: o valor presente líquido de cada volume da varredura, com cisterna de concreto, com o máximo econômico e o ótimo técnico marcados
+
+Figura 59 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos
+
+Figura 60 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto
+
+Figura 61 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material
+
+Figura 62 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado
+
+Figura 63 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios
+
+Figura 64 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019
+
+Figura 65 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão
+
+Figura 66 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo
+
+Figura 67 — A divergência média em relação ao Netuno 4, decomposta
+
+Figura 68 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião
+
+Figura 69 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião
+
+---
+
+## Lista de tabelas
+
+Tabela 1 — Requisitos de sistema para instalar e executar o programa
+
+Tabela 2 — Formatos de arquivo que o programa grava e o conteúdo de cada um
+
+Tabela 3 — Arquivos de exemplo distribuídos com o programa
+
+Tabela 4 — Percurso de leitura recomendado conforme o objetivo do leitor
+
+Tabela 5 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
+
+Tabela 6 — Critérios hidráulicos para decidir sobre o reservatório superior
+
+Tabela 7 — Dados de entrada do caso resolvido de dez dias
+
+Tabela 8 — Série de precipitação dos dez dias do caso resolvido
+
+Tabela 9 — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento
+
+Tabela 10 — Verificação do fechamento do balanço de massa nos dez dias
+
+Tabela 11 — Indicadores resultantes do caso resolvido de dez dias
+
+Tabela 12 — Variáveis da Equação 1
+
+Tabela 13 — Variáveis da Equação 2
+
+Tabela 14 — Variáveis da Equação 5
+
+Tabela 15 — Variáveis da Equação 7
+
+Tabela 16 — Variáveis da Equação 8
+
+Tabela 17 — Variáveis da Equação 9
+
+Tabela 18 — Variáveis da Equação 10
+
+Tabela 19 — Variáveis da Equação 11
+
+Tabela 20 — Variáveis da Equação 12
+
+Tabela 21 — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária
+
+Tabela 22 — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa
+
+Tabela 23 — Variáveis da Equação 13
+
+Tabela 24 — Variáveis da Equação 14
+
+Tabela 25 — Variáveis da Equação 15
+
+Tabela 26 — Variáveis da Equação 16
+
+Tabela 27 — Variáveis da Equação 17
+
+Tabela 28 — Variáveis da Equação 18
+
+Tabela 29 — Variáveis da Equação 19
+
+Tabela 30 — Variáveis da Equação 20
+
+Tabela 31 — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde
+
+Tabela 32 — Variáveis da Equação 21
+
+Tabela 33 — Variáveis da Equação 22
+
+Tabela 34 — Variáveis da Equação 23
+
+Tabela 35 — Variáveis da Equação 24
+
+Tabela 36 — Variáveis da Equação 25
+
+Tabela 37 — Variáveis da Equação 26
+
+Tabela 38 — Variáveis da Equação 27
+
+Tabela 39 — Variáveis da Equação 28
+
+Tabela 40 — Variáveis da Equação 29
+
+Tabela 41 — Filtro mecânico de entrada dimensionado pela área de cobertura
+
+Tabela 42 — Variáveis da Equação 30
+
+Tabela 43 — Recomendação de filtro de polimento por classe de qualidade alvo
+
+Tabela 44 — Dimensionamento e orçamento do descarte inicial no projeto do tutorial
+
+Tabela 45 — Variáveis da Equação 31
+
+Tabela 46 — Os dois rendimentos da cadeia de bombeamento e o que cada um converte
+
+Tabela 47 — Variáveis da Equação 32
+
+Tabela 48 — Variáveis da Equação 33
+
+Tabela 49 — Variáveis da Equação 34
+
+Tabela 50 — Variáveis da Equação 35
+
+Tabela 51 — Variáveis da Equação 36
+
+Tabela 52 — Valores de recurso adotados quando o projeto não os declara
+
+Tabela 53 — Variáveis da Equação 37
+
+Tabela 54 — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba
+
+Tabela 55 — Variáveis da Equação 38
+
+Tabela 56 — Variáveis da Equação 39
+
+Tabela 57 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
+
+Tabela 58 — Variáveis da Equação 40
+
+Tabela 59 — Parcelas do custeio anual e a origem de cada uma
+
+Tabela 60 — Variáveis da Equação 41
+
+Tabela 61 — Variáveis da Equação 43
+
+Tabela 62 — Variáveis da Equação 44
+
+Tabela 63 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
+
+Tabela 64 — Variáveis da Equação 45
+
+Tabela 65 — Massa por metro cúbico útil de cada material de reservatório
+
+Tabela 66 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
+
+Tabela 67 — Variáveis da Equação 46
+
+Tabela 68 — Variáveis da Equação 47
+
+Tabela 69 — Variáveis da Equação 48
+
+Tabela 70 — Variáveis da Equação 49
+
+Tabela 71 — Variáveis da Equação 50
+
+Tabela 72 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
+
+Tabela 73 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
+
+Tabela 74 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
+
+Tabela 75 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+
+Tabela 76 — Variáveis da Equação 51
+
+Tabela 77 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+
+Tabela 78 — O mesmo projeto do tutorial simulado em quatro capitais brasileiras
+
+Tabela 79 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais
+
+Tabela 80 — Conteúdo da base climática nacional distribuída com o programa
+
+Tabela 81 — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura
+
+Tabela 82 — Os cinco regimes de mínimo e o que acontece ao economizar em cada um
+
+Tabela 83 — Efeito da economia de água na fatura em dois regimes tarifários opostos
+
+Tabela 84 — As três formas de comparar alternativas conforme o que varia entre elas
+
+Tabela 85 — Subcomandos da linha de comando e finalidade de cada um
+
+Tabela 86 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
+
+Tabela 87 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
+
+Tabela 88 — Dados do Netuno 4 recuperados pela importação
+
+Tabela 89 — Formatos de exportação e finalidade de cada um
+
+Tabela 90 — Opções da exportação de planilha e quando usar cada uma
+
+Tabela 91 — Caracterização da série de precipitação de Florianópolis adotada no tutorial
+
+Tabela 92 — Os três modos de aplicação do descarte de primeiras águas
+
+Tabela 93 — Estado do projeto do tutorial ao fim da definição da chuva e da captação
+
+Tabela 94 — Estado do projeto do tutorial ao fim da definição da demanda
+
+Tabela 95 — Confronto entre a oferta anual de água pluvial e a demanda atendível
+
+Tabela 96 — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L
+
+Tabela 97 — Classificação de cada dia da simulação quanto ao grau de atendimento
+
+Tabela 98 — Estado do projeto do tutorial após a primeira simulação
+
+Tabela 99 — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado
+
+Tabela 100 — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório
+
+Tabela 101 — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial
+
+Tabela 102 — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto
+
+Tabela 103 — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido
+
+Tabela 104 — Estado do projeto do tutorial após a escolha do volume
+
+Tabela 105 — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto
+
+Tabela 106 — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total
+
+Tabela 107 — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos
+
+Tabela 108 — Estado do projeto do tutorial após a decisão sobre o reservatório superior
+
+Tabela 109 — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada
+
+Tabela 110 — Recomendação de filtração fina e custo da linha por classe de qualidade
+
+Tabela 111 — Filtro mecânico de entrada dimensionado pela área de cobertura
+
+Tabela 112 — Estado do projeto do tutorial após a definição da classe de qualidade
+
+Tabela 113 — Composição da fatura de água e esgoto antes e depois do sistema pluvial
+
+Tabela 114 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
+
+Tabela 115 — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia
+
+Tabela 116 — Composição do investimento inicial do projeto do tutorial
+
+Tabela 117 — Indicadores econômicos do projeto do tutorial em vinte anos
+
+Tabela 118 — Premissas da projeção econômica e o peso de cada uma no resultado
+
+Tabela 119 — Estado do projeto do tutorial após a análise econômica
+
+Tabela 120 — Balanço de carbono do projeto do tutorial com cisterna de concreto
+
+Tabela 121 — Saldo de carbono do projeto do tutorial conforme o material do reservatório
+
+Tabela 122 — Efeito do volume da cisterna de concreto sobre o saldo de carbono
+
+Tabela 123 — Efeito da troca de concreto por polietileno nas três dimensões de análise
+
+Tabela 124 — Estado do projeto do tutorial após a análise ambiental
+
+Tabela 125 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
+
+Tabela 126 — Volume vencedor segundo cada critério isolado
+
+Tabela 127 — Os sete critérios do multicritério e a direção de preferência de cada um
+
+Tabela 128 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
+
+Tabela 129 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+
+Tabela 130 — Os conjuntos de casos de referência exportados do Netuno 4
+
+Tabela 131 — Divergência medida entre as duas versões, por conjunto de casos
+
+Tabela 132 — Divergência em três configurações sucessivamente mais controladas
+
+Tabela 133 — Atribuição da divergência às suas três fontes
+
+Tabela 134 — Variáveis da Equação 52
+
+Tabela 135 — Mensagens de validação física da entrada e a providência de cada uma
+
+Tabela 136 — Mensagens da fração atendível e a providência de cada uma
+
+Tabela 137 — Mensagens de erro da série de precipitação e a providência de cada uma
+
+Tabela 138 — Mensagens de erro da varredura de volumes
+
+Tabela 139 — Mensagens de erro dos parâmetros de cloração
+
+Tabela 140 — Mensagens de erro da análise econômica e a providência de cada uma
+
+Tabela 141 — Mensagens de erro da decisão multicritério e a providência de cada uma
+
+Tabela 142 — Mensagens de erro dos parâmetros da motobomba
+
+Tabela 143 — Situações de erro na leitura e na gravação de arquivos
+
+Tabela 144 — Avisos que não interrompem o cálculo e precisam constar do estudo
+
+Tabela 145 — Correções que alteram resultados de estudos feitos em versão anterior
+
+Tabela 146 — Correções de comportamento que não alteram resultado calculado
+
+Tabela 147 — Parâmetros do projeto: identificação
+
+Tabela 148 — Parâmetros do projeto: chuva
+
+Tabela 149 — Parâmetros do projeto: captação
+
+Tabela 150 — Parâmetros do projeto: edificação
+
+Tabela 151 — Parâmetros do projeto: demanda
+
+Tabela 152 — Parâmetros do projeto: irrigação
+
+Tabela 153 — Parâmetros do projeto: qualidade da água
+
+Tabela 154 — Parâmetros do projeto: reservatórios
+
+Tabela 155 — Parâmetros do projeto: motobomba
+
+Tabela 156 — Parâmetros do projeto: tubulação
+
+Tabela 157 — Parâmetros do projeto: investimento
+
+Tabela 158 — Parâmetros do projeto: operação
+
+Tabela 159 — Parâmetros do projeto: tarifas
+
+Tabela 160 — Parâmetros do projeto: energia
+
+Tabela 161 — Parâmetros do projeto: incentivos
+
+Tabela 162 — Parâmetros do projeto: financeiro
+
+Tabela 163 — Parâmetros do projeto: certificações
+
+Tabela 164 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+
+Tabela 165 — Fatores de emissão dos insumos de tratamento
+
+Tabela 166 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+
+Tabela 167 — Procedência do fator de emissão do hipoclorito
+
+Tabela 168 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
+
+Tabela 169 — Grau de confiança dos registros tarifários do catálogo
+
+Tabela 170 — Conteúdo da base climática nacional
+
+Tabela 171 — Séries históricas de precipitação distribuídas com o programa
+
+Tabela 172 — Formatos que o programa lê e onde cada um é carregado
+
+Tabela 173 — Formatos que o programa escreve e onde cada um é gerado
+
+Tabela 174 — As sete seções do arquivo de projeto e o que cada uma guarda
+
+Tabela 175 — Localização dos arquivos do programa e dos arquivos do usuário
+
+Tabela 176 — Compatibilidade entre versões do arquivo de projeto
+
+Tabela 177 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+
+Tabela 178 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+
+Tabela 179 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+
+Tabela 180 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 181 — Os nove casos de exemplo e o que cada um demonstra
+
+Tabela 182 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+
+---
+
+## Lista de equações
+
+Equação 1 — Fechamento do balanço de massa
+
+Equação 2 — Volume captado no dia
+
+Equação 3 — Volume disponível antes do consumo
+
+Equação 4 — Volume extravasado
+
+Equação 5 — Volume armazenado antes do consumo
+
+Equação 6 — Volume de água pluvial consumido
+
+Equação 7 — Volume remanescente para o dia seguinte
+
+Equação 8 — Complemento de água potável da rede
+
+Equação 9 — Classificação do dia quanto ao atendimento
+
+Equação 10 — As três parcelas da demanda diária
+
+Equação 11 — Ganho marginal por metro cúbico acrescentado
+
+Equação 12 — Volume ideal pelo critério de ganho marginal
+
+Equação 13 — fracao_de_armazenamento
+
+Equação 14 — Potencial de economia de água potável
+
+Equação 15 — Confiabilidade volumétrica
+
+Equação 16 — Relação entre potencial e confiabilidade
+
+Equação 17 — Extravasamento médio diário
+
+Equação 18 — uso_da_captacao
+
+Equação 19 — Volume anual de água potável poupado
+
+Equação 20 — Demanda média diária não atendida
+
+Equação 21 — Precipitação total anual, PRCPTOT
+
+Equação 22 — Precipitação em dias muito úmidos, R95p
+
+Equação 23 — Máxima precipitação em um dia, RX1day
+
+Equação 24 — Máxima precipitação em cinco dias, RX5day
+
+Equação 25 — Índice simples de intensidade diária, SDII
+
+Equação 26 — Dias de precipitação intensa, R20mm
+
+Equação 27 — Dias secos consecutivos, CDD
+
+Equação 28 — Dias úmidos consecutivos, CWD
+
+Equação 29 — Índice de sazonalidade, SI
+
+Equação 30 — Massa de produto clorado por metro cúbico
+
+Equação 31 — Investimento incremental da linha de tratamento
+
+Equação 32 — Consumo específico de energia de recalque
+
+Equação 33 — Consumo específico a partir da vazão
+
+Equação 34 — Vazão de recalque deduzida da potência
+
+Equação 35 — Energia consumida nas partidas
+
+Equação 36 — Energia anual da motobomba
+
+Equação 37 — energia_pressurizador
+
+Equação 38 — Economia mensal na fatura
+
+Equação 39 — Parcela de esgoto da fatura
+
+Equação 40 — Investimento inicial total
+
+Equação 41 — Fator acumulado de inflação
+
+Equação 42 — Número de reajustes aplicados
+
+Equação 43 — Fator acumulado de reajuste tarifário
+
+Equação 44 — Valor presente líquido
+
+Equação 45 — Emissão incorporada de um componente
+
+Equação 46 — Emissão anual da energia de bombeamento
+
+Equação 47 — Saldo líquido anual de emissões
+
+Equação 48 — Tempo de retorno ambiental
+
+Equação 49 — Saldo de carbono ao fim da vida útil
+
+Equação 50 — Emissão específica por litro entregue
+
+Equação 51 — Coeficiente de proximidade do TOPSIS
+
+Equação 52 — Transformação da série para emular o Netuno 4
+
+---
+
+
+---
+# 1. Comece aqui
+
+---
+
+## 1.1. O que o Netuno faz, e o que ele não faz
+
+O Netuno simula sistemas de aproveitamento de água pluvial em edificações. Dado o
+regime de chuva de um lugar, a cobertura de um edifício e o consumo de quem o ocupa,
+ele responde **quanto de água potável o sistema substitui**, e a que custo, com que
+qualidade e com que impacto de carbono.
+
+Esta seção começa do começo, e por isso as duas subseções iniciais tratam do próprio
+objeto antes de tratarem do programa. Quem já projeta sistemas prediais de água as
+achará elementares e pode ir direto às seis dimensões de análise, que é onde o Netuno
+aparece; quem está chegando agora ao assunto encontrará ali o vocabulário que o
+restante do manual usa sem explicar de novo.
+
+---
+
+### 1.1.1. O que é um sistema de aproveitamento de água pluvial
+
+É um sistema que **coleta a chuva que cai no telhado e a usa no lugar da água da
+rede**, nos usos que não precisam de água potável.
+
+A ideia é velha e simples. O que ela tem de difícil é uma coisa só: a chuva não cai
+quando você precisa dela. Por isso o sistema precisa de um reservatório, e por isso o
+tamanho desse reservatório é a pergunta central de todo projeto — e deste manual. A Figura 1 apresenta os componentes do sistema e o percurso da água, da captação ao ponto de consumo.
+
+![O caminho da água, da cobertura ao ponto de uso](../figuras/fig00_sistema.png)
+
+*Figura 1 — Componentes de um sistema predial de aproveitamento de água pluvial e percurso da água, da captação ao ponto de consumo. O reservatório superior aparece tracejado porque é opcional: em edificação térrea, a motobomba pode pressurizar diretamente os pontos de uso, e o reservatório superior altera o momento da oferta de água, e não o volume disponível.*
+
+Seguindo o desenho, da esquerda para a direita:
+
+**A cobertura** é a área de captação. Vale a **projeção horizontal** do telhado, e não
+a área inclinada, como define o item 3.6 da ABNT NBR 15527:2019 — é a sombra do telhado
+no chão que recebe a chuva. Errar isso é o
+primeiro dos dez enganos da seção 5.1.
+
+**As calhas e os condutores** levam a água até a cisterna. O programa não os
+dimensiona; isso é projeto hidráulico, e segue a ABNT NBR 10844.
+
+**O dispositivo de descarte da primeira chuva** desvia os primeiros milímetros de
+cada evento, que carreiam a poeira, as folhas e os excrementos de aves acumulados
+na cobertura. É a medida de controle de qualidade de menor custo, e a seção 4.6
+mostra o quanto ela muda a água que chega ao reservatório.
+
+**A cisterna**, ou reservatório inferior, armazena a água captada. Quando o volume
+afluente excede a capacidade, o excedente **extravasa** para a rede de drenagem. Esse
+extravasamento não é desperdício por descuido: é a consequência inevitável de guardar
+um recurso que chega concentrado.
+
+**A motobomba e o reservatório superior** distribuem a água. Em edificação térrea, a
+motobomba pode pressurizar diretamente os pontos de uso. Em edificações de dois ou mais
+pavimentos, adota-se usualmente reservatório elevado: a água é recalcada até ele e
+distribuída por gravidade.
+
+**Os usos não potáveis** são o destino: bacia sanitária e mictório, lavagem de piso e
+de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
+**rede pública** supre o complemento, e o abastecimento não é interrompido.
+
+O diagrama da Figura 1 mostra o encadeamento das peças, que é o que interessa para
+acompanhar o cálculo. Falta a ele, porém, a informação que decide metade das
+dúvidas de projeto: onde cada peça fica em relação às outras, e a que altura. O corte da Figura 2 repõe essa geometria, porque desnível é o que determina se a água
+desce por gravidade ou precisa de bomba, e porque a posição da cisterna em
+relação ao terreno é uma decisão de obra, não de cálculo.
+
+![O sistema em corte, com as peças na altura em que de fato ficam](../figuras/fig00d_corte.png)
+
+*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, e não a área inclinada do telhado. A caixa elevada recebe a água recalcada da cisterna e a devolve aos pontos de uso por gravidade; a rede pública a alimenta, com separação atmosférica, suprindo o volume que a água pluvial não atende. O extravasor da cisterna conduz o excedente à rede de drenagem.*
+
+> **Vocabulário que o manual usa o tempo todo.** *Cisterna* e *reservatório inferior*
+> designam o mesmo componente. *Extravasamento* é o volume excedente que o extravasor
+> conduz à rede de drenagem. *Demanda pluvial* é a parte
+> do consumo que a água de chuva pode atender; *demanda total* é o consumo inteiro da
+> edificação. O apêndice G traz o glossário completo.
+
+---
+
+### 1.1.2. O que o programa calcula, em um dia
+
+O programa faz uma conta de entrada e saída, todo dia, para cada dia da série de
+chuva. A Figura 3 mostra como a precipitação de um dia se reparte, e a conta é esta:
+
+![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
+
+*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
+
+Lendo o desenho:
+
+1. **Desconta-se o descarte.** Com precipitação de 12 mm e descarte de 2 mm, restam 10 mm de precipitação efetiva.
+2. **Converte-se em volume.** Dez milímetros sobre 100 m² de telhado, com coeficiente
+   de escoamento de 0,85, dão 850 litros. A conta é `mm × m² × coeficiente`, e sai
+   direto em litros, porque um milímetro sobre um metro quadrado é exatamente um
+   litro.
+3. **Soma-se ao volume armazenado na cisterna**, e o excedente à capacidade **extravasa**
+   para a rede de drenagem.
+4. **Retira-se o consumo do dia**, até o limite da demanda pluvial.
+5. **O volume remanescente é transferido ao dia seguinte** — e é essa dependência entre
+   dias consecutivos que torna necessária a simulação diária.
+
+Os cinco passos formam um ciclo, e não uma lista: o volume remanescente ao fim do
+quinto passo é exatamente o volume de que o terceiro passo parte no dia seguinte. Essa
+ligação entre um dia e o outro é a única coisa que uma conta feita sobre a média anual
+não consegue reproduzir, e é a razão de a simulação ser diária. A Figura 4 representa essa sequência na notação das equações do balanço diário.
+
+![A ordem das operações de um dia, e a memória que liga um dia ao seguinte](../figuras/fig00e_balanco_do_dia.png)
+
+*Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da seção do balanço diário. A ligação em roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente V_res,t é o volume inicial do dia seguinte.*
+
+> **Aprofundamento: por que não basta a média anual.** É tentador dividir a chuva
+> anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e às vezes
+> muito. A razão é que a chuva chega **concentrada**: enche a cisterna num dia,
+> extravasa, e depois falta por duas semanas. A média não representa nem o
+> extravasamento nem o déficit, e ambos reduzem o aproveitamento. A seção 2.1
+> mostra isso acontecendo numa tabela de dez dias que você pode refazer na planilha,
+> e a seção 4.4 mostra o tamanho do erro.
+
+Repetida ao longo de trinta anos de série, essa conta produz a resposta central do
+programa: o **potencial de economia de água potável**, a fração do consumo total da
+edificação que a chuva conseguiu substituir.
+
+---
+
+### 1.1.3. As seis dimensões
+
+O volume de água fornecido é a primeira questão de um projeto, mas não a única. O
+programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos distintos (Figura 5).
+
+![As seis dimensões de análise do programa](../figuras/fig26_dimensoes.png)
+
+*Figura 5 — As seis dimensões de análise e a questão avaliada em cada uma. O programa as percorre nessa ordem, e cada uma é tratada numa seção própria do capítulo do método.*
+
+Cada dimensão tem tratamento próprio no capítulo do método: a técnica nas seções 2.1 a 2.4, a qualidade na 2.5, a econômica na 2.7, a ambiental na 2.8, a certificação na 2.9 e a decisão na 2.10.
+
+
+A sexta dimensão é a que distingue o programa de uma planilha de cálculo. As cinco
+primeiras produzem resultados **divergentes**: o volume de maior economia de água
+raramente é o de maior retorno financeiro, e nenhum dos dois costuma ser o de melhor
+desempenho ambiental. A decisão multicritério torna explícitos os pesos atribuídos a
+cada critério.
+
+---
+
+### 1.1.4. O que o programa **não** faz
+
+Começar pelos limites é incomum, e é deliberado. Poupa o tempo de quem abriu o
+programa esperando outra coisa.
+
+**Não dimensiona a instalação hidráulica.** Não calcula traçado, diâmetro por trecho nem declividade da rede. O assistente de motobomba estima o diâmetro e a perda de carga do recalque para selecionar o equipamento, mas não substitui o projeto da instalação; o esquema exportado em DXF é um esquema, e o projeto executivo é do projetista.
+
+**Não detalha o dispositivo de descarte.** O programa calcula o volume do reservatório de descarte, igual à área de captação vezes a lâmina, e o orça com o separador de folhas; o arranjo das conexões, a purga e a ligação à drenagem são projeto hidráulico à parte.
+
+**Não substitui ensaio de qualidade de água.** Ele dimensiona equipamento de
+tratamento a partir de premissas. As constantes do modelo de lavagem da cobertura não
+são calibradas contra medição, e a qualidade resultante é premissa, não resultado.
+
+**Não modela sub-passo horário.** Uma chuva de 40 mm em duas horas e a mesma lâmina
+em vinte e quatro horas dão o mesmo resultado.
+
+**Não faz inventário completo de ciclo de vida.** A avaliação é de **triagem**, numa
+única categoria de impacto — carbono. Não há eutrofização, acidificação, uso do solo
+nem toxicidade.
+
+**Não certifica.** Ele mostra onde o projeto se enquadraria. A certificação é
+decidida pelo organismo certificador, com a documentação completa do empreendimento.
+
+**Não conhece o sítio.** Não sabe se o volume cabe no terreno, se há lençol freático
+alto, nem se a estrutura suporta a caixa elevada.
+
+A seção 5.2 traz a lista completa de limitações conhecidas, com as consequências de
+cada uma.
+
+---
+
+### 1.1.5. Para quem serve
+
+O manual atende a quatro perfis de leitor, com percursos de leitura independentes entre si (Figura 6).
+
+
+
+![Os quatro perfis de leitor e o percurso de cada um](../figuras/fig27_leitores.png)
+
+*Figura 6 — Os quatro percursos de leitura do manual. São independentes entre si, e o manual foi organizado para que cada um possa ser seguido isoladamente.*
+
+Em números de seção: o estudante segue o capítulo 4, que é o tutorial do começo ao fim; o projetista usa os guias do capítulo 3 e o roteiro da seção 1.3; o pesquisador vai ao método do capítulo 2; e o revisor encontra no capítulo 5 a verificação e os limites declarados.
+
+
+Quem está começando agora deve percorrer o capítulo 4 inteiro, na ordem em que
+está escrito. Ele constrói um projeto do zero e o acompanha até a decisão final, e cada
+seção encerra mostrando onde o projeto chegou, de modo que o leitor veja o estudo se
+formando em vez de recebê-lo concluído.
+
+---
+
+### 1.1.6. O que mudou do Netuno 4
+
+O Netuno 4 é o antecessor, publicado em 2014 pelo mesmo grupo. O Netuno 5 mantém o
+modelo conceitual — balanço comportamental diário — e acrescenta seis dimensões de
+análise que não existiam.
+
+> **Aprofundamento: as duas diferenças deliberadas de método.** Quem comparar
+> resultados das duas versões precisa declará-las.
+>
+> **O tratamento do descarte.** O Netuno 4 trata a lâmina como **limiar do evento**:
+> abaixo dela nada é captado, acima dela capta-se a chuva inteira. O Netuno 5
+> **subtrai** a lâmina, o que é fisicamente mais fiel.
+>
+> **O critério de volume ótimo.** As implementações e as grades de busca diferem.
+>
+> Juntas, as duas respondem por 91% da divergência medida entre os programas. Sobre
+> 4.050 casos de referência, o Netuno 5 estima de 2,3 a 2,7 pontos percentuais menos
+> economia. **Neutralizadas as duas, o motor reproduz o Netuno 4 com erro médio de
+> 0,25 ponto percentual e 100% dos casos dentro de 5 pontos.** A seção 6.1 traz a
+> decomposição completa.
+
+---
+
+### 1.1.7. Uma palavra sobre resultados
+
+Todo número que o programa produz é **condicional às premissas declaradas**. Ele não
+descobre verdades; ele calcula consequências.
+
+Por isso o manual insiste tanto em declaração. A seção 4.10 traz a lista do que
+precisa constar num artigo, a seção 5.1 traz os dez enganos que o programa não
+impede, e a seção 5.2 traz o que ele não cobre.
+
+Um estudo que declara suas premissas e seus limites é mais útil — e mais defensável —
+que um que apresenta um número sozinho.
+
+---
+
+## 1.2. Instalação e primeira execução
+
+> Ao terminar esta seção você terá o programa instalado, aberto, e uma simulação
+> concluída com um resultado que dá para conferir contra este manual.
+
+---
+
+### 1.2.1. O que você precisa
+
+<!-- tabela: **Tabela 1** — Requisitos de sistema para instalar e executar o programa -->
+| Requisito | O que é preciso |
+| :--- | :--- |
+| sistema | Windows 10 ou 11, 64 bits |
+| espaço em disco | cerca de 600 MB para o programa |
+| memória | 4 GB bastam; 8 GB deixam a varredura mais confortável |
+| privilégios | de administrador para instalar para todos os usuários; sem eles, a instalação vai para a pasta do usuário |
+| base climática, opcional | mais cerca de 6,5 GB |
+
+Nada além disso precisa ser instalado. O programa é distribuído já montado, com todos os
+componentes de que depende para calcular, e não requer instalação prévia de
+interpretadores, bibliotecas ou pacotes auxiliares. Também não requer conexão com a
+internet para funcionar: tudo o que ele consulta durante uma simulação está no próprio
+computador.
+
+---
+
+### 1.2.2. A instalação
+
+1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
+   todos os usuários, o que exige administrador, ou só para você.
+2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
+   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
+   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
+   adiante). A **personalizada** permite marcar cada um.
+4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
+5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
+   .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
+   diretamente no programa.
+6. Ao terminar, o instalador oferece abrir o programa.
+
+Depois disso, o menu Iniciar traz dois atalhos: **Netuno 5**, o programa, e **Manual do
+Netuno 5**, este documento em PDF. Para desinstalar, use *Aplicativos e recursos* do
+Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
+
+> **O que o instalador coloca no computador.** O programa, as quatro séries
+> históricas de chuva que acompanham a instalação, a base de tarifas dos 652
+> municípios e os arquivos de exemplo. Nada é baixado durante o uso: o Netuno
+> funciona sem conexão com a internet.
+
+---
+
+### 1.2.3. Onde ficam os seus arquivos
+
+O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
+relatório ou uma exportação, ele pergunta a pasta.
+
+<!-- tabela: **Tabela 2** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
+| O que você grava | Extensão | Contém |
+| :--- | :--- | :--- |
+| projeto | `.netuno` | todos os dados de entrada **e a série de chuva** |
+| relatório | `.pdf` | o documento completo do estudo |
+| resultados | `.xlsx`, `.csv` | as tabelas, para planilha |
+| esquema | `.dxf` | o desenho esquemático, para CAD |
+
+Entre esses formatos, o `.netuno` é o que realmente importa guardar. Ele é autocontido:
+leva a série de chuva inteira dentro de si, e por isso abre em qualquer outro computador
+mesmo na ausência dos arquivos que lhe deram origem. ==É também o arquivo que se anexa a
+um artigo para que outra pessoa reproduza o estudo,== e essa propriedade é o que separa
+um trabalho verificável de um trabalho apenas relatado.
+
+---
+
+### 1.2.4. A base climática
+
+O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
+Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
+
+Existe além disso uma **base climática nacional**, com 652 cidades, 19 modelos
+climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto CLIMBra. São cerca de 6,5 GB, distribuídos à parte
+justamente por causa do tamanho. Instalada, ela aparece na primeira tela como uma
+lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próprio, e
+todo o resto do programa funciona igual.
+
+Há duas maneiras de instalá-la. A mais simples é pelo próprio instalador: copie a pasta
+`Netuno future files for 652 cities` para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
+e escolha a instalação completa, ou marque o componente da base na personalizada; o
+instalador a copia para a pasta do programa. A outra é copiá-la à mão para a pasta do
+programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho
+na variável de ambiente `NETUNO_CLIMATE_DATA_DIR`.
+
+O apêndice E descreve a base, e a seção 3.2 mostra como usar um cenário futuro.
+
+---
+
+### 1.2.5. Os arquivos de exemplo
+
+O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
+aqui.
+
+<!-- tabela: **Tabela 3** — Arquivos de exemplo distribuídos com o programa -->
+| Arquivo | Para que serve |
+| :--- | :--- |
+| `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo 4 constrói, pronto |
+| `casos\03_dez_dias.netuno` | o caso didático de dez dias da seção 2.1 |
+| `casos\05_manaus.netuno` e os seguintes | o mesmo projeto em outras capitais |
+| `exemplos\*.netuno` | três estudos completos: residência, escritório e escola |
+
+Eles ficam na pasta do programa. O apêndice J lista os nove casos do manual, com o
+capítulo de cada um e o resultado que produzem.
+
+Convém começar pelo caso de dez dias. Abra-o, execute a simulação e compare o resultado
+com a tabela impressa na seção 2.1. A coincidência entre os dois confirma que a
+instalação corresponde exatamente a este manual; a divergência indica que manual e
+programa são de versões diferentes, e a seção 6.3 explica como proceder nesse caso.
+
+---
+
+### 1.2.6. A primeira simulação, em cinco minutos
+
+O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
+trabalha. Para a primeira simulação bastam quatro delas.
+
+1. **Projeto e Chuva.** Escolha a cidade na base climática, ou carregue o arquivo
+   `Florianopolis1.csv` que acompanha o programa. Informe a área de captação de
+   150 m², o coeficiente de escoamento de 0,85 e o descarte de 2,0 mm.
+2. **Edificação e Consumo.** Escolha residencial unifamiliar, 4 moradores, 150 litros
+   por habitante e dia, e fração atendível de 28%.
+3. **Reservatório & Custos.** Informe volume fixo de 4.000 L.
+4. Rode, e vá a **Resultados Técnicos**.
+
+Você deve obter potencial de economia próximo de **27%**.
+
+A seção 4.3 explica o que esse número significa, e a seção 4.4 faz a pergunta
+seguinte: 4.000 L é o volume certo?
+
+---
+
+### 1.2.7. Se alguma coisa der errado
+
+**O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
+cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
+programa.
+
+**A lista de cidades está vazia.** A base climática nacional não está instalada. Use
+um arquivo de chuva próprio, ou instale a base — o apêndice E diz como.
+
+**O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
+carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração
+atendível. Uma divergência de resultado quase sempre é uma divergência de entrada, e a seção 5.1 lista os enganos mais comuns.
+
+**Uma mensagem de erro apareceu.** A seção 6.2 traz as mensagens do programa, o que
+cada uma significa e o que fazer.
+
+---
+
+## 1.3. Por onde começar, conforme o seu objetivo
+
+Este manual reúne quarenta e nove seções distribuídas em sete capítulos, e não foi
+concebido para ser lido do começo ao fim. Ele funciona melhor como obra de consulta, em
+que cada leitor entra pelo ponto que corresponde ao que precisa fazer, e esta seção
+existe justamente para indicar esse ponto de entrada.
+
+---
+
+### 1.3.1. Roteiro por objetivo
+
+A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
+percurso de leitura correspondente a cada um deles.
+
+<!-- tabela: **Tabela 4** — Percurso de leitura recomendado conforme o objetivo do leitor -->
+| Você quer | Leia |
+| :--- | :--- |
+| **aprender a usar** o programa | o capítulo 4 inteiro, seções 4.1 a 4.10, na ordem |
+| **resolver um caso** hoje | as três perguntas abaixo, e depois o guia do capítulo 3 que couber |
+| **publicar** um estudo | o capítulo 2, que traz o método, e a seção 4.10, com a lista de declaração |
+| **revisar** um estudo alheio | o capítulo 5, e os apêndices A e B |
+| **migrar** do Netuno 4 | as seções 3.8 e 6.1 |
+| **não errar** | a seção 5.1, com os dez enganos mais comuns |
+
+Quem dispõe de uma hora e nenhuma familiaridade prévia deve ler o tutorial do capítulo
+4. Ele constrói um estudo completo em torno de um único projeto, e cada seção
+encerra mostrando onde esse projeto chegou, de modo que o leitor acompanha a construção
+em vez de receber o resultado pronto.
+
+---
+
+### 1.3.2. As três perguntas que definem um estudo
+
+Antes mesmo de abrir o programa, convém responder a três perguntas, porque elas
+determinam boa parte das decisões subsequentes e porque respondê-las depois costuma
+implicar refazer trabalho.
+
+#### 1.3.2.1. Que usos a água pluvial vai atender?
+
+A resposta define a **fração atendível**, e a fração atendível é o teto de todo o resto:
+um sistema cuja fração é de 28% jamais economizará mais que 28% do consumo total, por
+maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de projeto
+altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra coisa. A Figura 7 reúne as faixas usuais da fração atendível conforme os usos previstos.
+
+![A fração atendível conforme os usos previstos](../figuras/fig46_atendivel.png)
+
+*Figura 7 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração.*
+
+Os casos residenciais são tratados na seção 4.2, e o caso comercial na seção 3.5. A linha tracejada marca os 28% do tutorial, que ficam nos usos que o item 4.1.7 da ABNT NBR 15527:2019 admite.
+
+
+#### 1.3.2.2. Vai comparar volumes ou avaliar um só?
+
+A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
+modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
+
+<!-- tabela: **Tabela 5** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
+| Se você quer | Use | Onde se trata |
+| :--- | :--- | :--- |
+| avaliar uma cisterna que já existe | volume fixo | seção 4.3 |
+| descobrir o volume a comprar | **varredura** | seções 4.4 e 2.2 |
+| escolher entre critérios que discordam | varredura e multicritério | seções 4.9 e 2.10 |
+
+==A varredura é quase sempre a resposta certa.== Ela custa mais tempo de máquina, na
+ordem de segundos, e produz a curva de retorno decrescente, que é o argumento mais forte
+de que qualquer estudo pode dispor ao justificar um volume.
+
+#### 1.3.2.3. Precisa de reservatório superior?
+
+A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
+pressão exigida nos pontos de consumo.
+
+<!-- tabela: **Tabela 6** — Critérios hidráulicos para decidir sobre o reservatório superior -->
+| Se a edificação | Então | Onde se trata |
+| :--- | :--- | :--- |
+| é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção 4.5 |
+| é sobrado ou prédio | caixa elevada, por **pressão** | seção 4.5 |
+| precisa de reserva contra falta de energia | caixa elevada | seção 4.5 |
+
+> A caixa elevada **não aumenta** a economia de água. Mantido o mesmo armazenamento
+> total, ela entrega ligeiramente menos e consome energia de recalque. A decisão de
+> adotá-la deve ser hidráulica, e nunca fundada na expectativa de maior aproveitamento.
+
+---
+
+### 1.3.3. A ordem de trabalho no programa
+
+A barra lateral do programa está numerada, e a numeração corresponde à ordem em que se
+trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguintes apresentam resultados, e as quatro últimas produzem saídas ou dão apoio ao estudo (Figura 8).
+
+![As doze etapas do programa, na ordem de trabalho](../figuras/fig28_etapas.png)
+
+*Figura 8 — As doze etapas do programa, agrupadas por natureza. As quatro primeiras são de entrada e precisam ser preenchidas em ordem, porque cada uma consome o que a anterior definiu; as quatro seguintes são leitura de resultados; as últimas quatro produzem saídas ou dão apoio, e podem ser acionadas a qualquer momento.*
+
+Onde este manual trata cada uma: a etapa 1 na seção 4.1, a 2 na 4.2, a 3 na 4.6, a 4 nas seções 4.3, 4.4 e 4.7, a 5 na 4.3, a 6 na 4.7, a 7 na 4.8, a 8 na 4.9, a 9 na 4.10, a 10 na 3.9 e a 12 na 3.3. A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
+
+
+Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
+relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
+para quem o refará no futuro quanto para quem o avaliará.
+
+---
+
+### 1.3.4. Antes de publicar
+
+Três leituras são obrigatórias para quem pretende publicar resultados, e nenhuma delas é
+longa. A seção 4.10 traz a lista do que declarar num artigo, acompanhada de um
+parágrafo de método pronto para adaptação. A seção 5.1 reúne os dez enganos de
+projeto que o programa não tem como impedir. E a seção 5.2 relaciona as limitações
+conhecidas — das quais interessa ler não todas, mas as que afetam o caso em mãos.
+
+O apêndice I condensa as três em fichas de uma página, para consulta rápida.
+
+---
+
+# 2. O método
+
+---
+
+## 2.1. O balanço hídrico diário
+
+> Ao terminar esta seção você saberá refazer, numa planilha, exatamente o que o
+> Netuno faz em cada dia da série, e saberá dizer por que o programa chegou ao
+> número que chegou.
+
+> **Antes de começar.** O capítulo 2 é a camada técnica do manual: ela mostra as contas
+> por dentro. Você não precisa dela para usar o programa — o capítulo 4 basta — mas
+> precisa dela para **defender** um resultado, seja numa banca, numa revisão ou
+> diante de um cliente que perguntou de onde saiu o número.
+
+Esta é a seção da qual todas as outras dependem. O potencial de economia, o fluxo
+de caixa, a emissão evitada e a ordenação multicritério saem, todos, dos números que
+o balanço diário produz. Quem entende esta seção entende o programa.
+
+O Netuno usa um **modelo comportamental de base diária**: para cada dia da série de
+precipitação, o programa resolve o que entra no reservatório, o que sai, o que
+extravasa e o que permanece armazenado. Não há distribuição de probabilidade nem valor médio
+anual. Há a série, dia após dia, e a mesma conta repetida.
+
+---
+
+### 2.1.1. A ordem das operações
+
+O programa executa, para cada dia `t`, sempre nesta ordem:
+
+1. **decide se descarta** a primeira chuva, conforme o modo escolhido;
+2. **converte a lâmina em volume** captado, com a área e o coeficiente;
+3. **soma ao que sobrou de ontem** e verifica o extravasamento;
+4. **atende a demanda pluvial** com o que está armazenado;
+5. **reparte** o atendimento entre uso interno e irrigação;
+6. **completa com água da rede** o que a chuva não atendeu;
+7. **classifica** o dia como de atendimento pleno, parcial ou nulo.
+
+A ordem não é arbitrária, e trocar dois passos muda o resultado. O item 2.1.4 volta a
+isso.
+
+---
+
+### 2.1.2. O caso resolvido
+
+Dez dias, uma residência, sem reservatório superior. Os números foram escolhidos
+para caber numa planilha.
+
+<!-- tabela: **Tabela 7** — Dados de entrada do caso resolvido de dez dias -->
+| Dado de entrada | Valor |
+| :--- | ---: |
+| área de captação | 100 m² |
+| coeficiente de escoamento | 0,85 |
+| lâmina de descarte | 2,0 mm, em todo evento |
+| demanda total | 200 L/dia |
+| fração atendível por água pluvial | 40% = 80 L/dia |
+| volume do reservatório inferior | 2 000 L |
+| reservatório superior | não há |
+
+A série de chuva dos dez dias, em milímetros:
+
+<!-- tabela: **Tabela 8** — Série de precipitação dos dez dias do caso resolvido -->
+| Dia | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |
+
+A demanda pluvial diária é a demanda total vezes a fração atendível:
+200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
+
+#### 2.1.2.1. A tabela, dia a dia
+
+<!-- tabela: **Tabela 9** — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento -->
+| Dia | Chuva | Descarte | Chuva efetiva | Captado | Demanda pluvial | Consumido | Extravasado | No reservatório | Atendimento |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
+| | mm | mm | mm | L | L | L | L | L | |
+| 1 | 0,0 | 0,0 | 0,0 | 0 | 80 | 0 | 0 | 0 | nulo |
+| 2 | 12,4 | 2,0 | 10,4 | 884 | 80 | 80 | 0 | 804 | pleno |
+| 3 | 1,6 | 1,6 | 0,0 | 0 | 80 | 80 | 0 | 724 | pleno |
+| 4 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 644 | pleno |
+| 5 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 564 | pleno |
+| 6 | 28,0 | 2,0 | 26,0 | 2 210 | 80 | 80 | 774 | 1 920 | pleno |
+| 7 | 5,2 | 2,0 | 3,2 | 272 | 80 | 80 | 192 | 1 920 | pleno |
+| 8 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 1 840 | pleno |
+| 9 | 41,0 | 2,0 | 39,0 | 3 315 | 80 | 80 | 3 155 | 1 920 | pleno |
+| 10 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 1 840 | pleno |
+| **soma** | | | | **6 681** | | **720** | **4 121** | 1 840 | |
+
+<!-- tabela: **Tabela 10** — Verificação do fechamento do balanço de massa nos dez dias -->
+| Verificação do fechamento | Litros |
+| :--- | ---: |
+| captado no período | 6 681 |
+| menos o extravasado | −4 121 |
+| menos o consumido | −720 |
+| menos o que ficou no reservatório | −1 840 |
+| **resíduo** | **0** |
+
+<!-- tabela: **Tabela 11** — Indicadores resultantes do caso resolvido de dez dias -->
+| Indicador dos dez dias | Valor |
+| :--- | ---: |
+| potencial de economia de água potável | 36,0% |
+| média diária de pluvial consumida | 72,0 L/dia |
+| média diária de potável consumida | 128,0 L/dia |
+| média diária extravasada | 412,1 L/dia |
+| dias de atendimento pleno | 90% |
+| dias de atendimento parcial | 0% |
+| dias de atendimento nulo | 10% |
+
+---
+
+### 2.1.3. Lendo a tabela
+
+Cinco coisas acontecem nesses dez dias, e cada uma ensina uma regra do programa.
+
+#### 2.1.3.1. O dia 1: reservatório vazio
+
+A simulação começa com o reservatório **vazio**. Não há chuva no dia 1, não há nada
+armazenado, e a demanda pluvial de 80 L não é atendida por gota nenhuma: o dia é de
+atendimento **nulo**, e os 200 L do dia inteiro vêm da rede.
+
+Isso não é um defeito da série escolhida. É a condição inicial do modelo, e ela
+importa: em séries curtas, os primeiros dias penalizam o resultado. Com dez anos de
+série o efeito desaparece; com dez dias, ele responde por todo o desvio entre o
+potencial obtido, 36,0%, e a fração atendível de 40%.
+
+#### 2.1.3.2. O dia 3: a chuva que se perde inteira
+
+Choveu 1,6 mm. A lâmina de descarte é 2,0 mm. O programa não desconta 1,6 e capta
+zero: ele **descarta o dia inteiro**.
+
+> **Atenção.** Quando a regra de descarte se aplica e a chuva do dia não supera a
+> lâmina, perde-se o dia **inteiro**, e não a diferença. A conta é
+> `P_ef = P − d_f` quando `P > d_f`, e **zero** caso contrário.
+
+A razão é física: o dispositivo de descarte precisa encher antes de a água chegar à
+cisterna. Se a chuva não enche o dispositivo, nada passa. Em climas de chuva fraca e
+frequente, isso pesa muito mais do que a intuição sugere, e é por isso que o modo de
+descarte merece atenção na seção 4.1.
+
+> **Diferença em relação ao Netuno 4.** O Netuno 4 trata `d_f` como **limiar do
+> evento**: abaixo dele nada é captado, acima dele capta-se a chuva **inteira**, sem
+> subtrair. O Netuno 5 subtrai a lâmina. A diferença é deliberada e está quantificada
+> na seção 6.1: o Netuno 5 estima, em média, de 2,3 a 2,7 pontos percentuais menos
+> economia sobre 4.050 casos de referência, e **metade** dessa diferença vem daqui.
+> Estudos que comparem as duas versões precisam declarar isso.
+
+#### 2.1.3.3. O dia 6: o extravasamento vem antes do consumo
+
+Choveu 28 mm. Descontados os 2 mm de descarte, restam 26 mm efetivos, que sobre
+100 m² a 0,85 de coeficiente dão 2.210 L captados.
+
+O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, então
+**774 L extravasam**. Só depois disso o programa retira os 80 L da demanda, deixando
+1.920 L para o dia seguinte.
+
+> **Atenção.** Esta ordem define o modelo, e tem nome: **YAS**, de *yield after
+> spillage*. O extravasamento é calculado **antes** da retirada da demanda.
+>
+> Se a ordem fosse invertida, o reservatório aceitaria água que fisicamente já teria
+> extravasado, e o programa superestimaria o aproveitamento. A diferença aparece
+> justamente nos dias de chuva forte, que são os que mais pesam no total anual.
+
+#### 2.1.3.4. O dia 9: o reservatório pequeno demais para o evento
+
+Choveu 41 mm, e o sistema captou 3.315 L. O reservatório estava com 1.840 L e guarda
+2.000. **Extravasaram 3.155 L** — mais do que o reservatório inteiro comporta.
+
+Num único dia, o sistema jogou fora o equivalente a trinta e nove dias de demanda
+pluvial.
+É o retrato do descasamento entre a chuva, que chega concentrada, e a demanda, que é
+constante. Aumentar o reservatório recupera parte disso, e é exatamente essa a pergunta que a varredura de volumes da seção 2.2 responde. A Figura 9 resume os dez dias.
+
+![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
+
+*Figura 9 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, após o consumo, com a capacidade de 2.000 L em tracejado; nos dias 6, 7 e 9 o reservatório atinge a capacidade, extravasa e termina o dia com 1.920 L.*
+
+#### 2.1.3.5. A soma: o balanço fecha
+
+A última linha da tabela e o quadro de verificação mostram o fechamento:
+
+```equacao:fechamento:1
+V_cap = V_ext + V_con + V_res
+```
+
+<!-- tabela: **Tabela 12** — Variáveis da Equação 1 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_cap` | volume total captado no período | L |
+| `V_ext` | volume total extravasado no período | L |
+| `V_con` | volume total de água pluvial consumido no período | L |
+| `V_res` | volume remanescente no reservatório ao fim do período | L |
+
+Nos dez dias do caso resolvido, a Equação 1 se verifica com os valores
+6.681 L de captação, 4.121 L de extravasamento, 720 L de consumo e 1.840 L
+remanescentes.
+
+Resíduo zero. O programa não cria nem perde água, e essa verificação é feita
+automaticamente pela suíte de testes a cada alteração do código, sobre séries de dez
+anos, com resíduo da ordem de 10⁻¹⁴ por cento do captado.
+
+---
+
+### 2.1.4. As equações
+
+O balanço diário se escreve em cinco equações encadeadas, que o programa resolve
+nesta ordem para cada dia da série. A notação segue a da seção 4.1 para a parcela
+de captação, e o índice `t` designa sempre o dia corrente da simulação, de modo que
+`t−1` é o dia imediatamente anterior.
+
+#### 2.1.4.1. O volume captado
+
+A conversão da lâmina precipitada em volume é a primeira operação do dia, e a mais
+simples de todas: multiplica-se a chuva efetiva pela área de captação e pelo
+coeficiente de escoamento superficial.
+
+```equacao:volume_captado:2
+V_cap,t = P_ef,t × A × C
+```
+
+<!-- tabela: **Tabela 13** — Variáveis da Equação 2 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_cap,t` | volume captado no dia `t` | L |
+| `P_ef,t` | chuva efetiva no dia `t`, já descontada a lâmina de descarte | mm |
+| `A` | área de captação, em projeção horizontal | m² |
+| `C` | coeficiente de escoamento superficial da cobertura | adimensional |
+
+O resultado da Equação 2 sai diretamente em litros, sem fator de
+conversão, porque um milímetro de lâmina sobre um metro quadrado de superfície
+corresponde exatamente a um litro de água. É a única simplificação dimensional do
+modelo, e ela é exata.
+
+#### 2.1.4.2. O extravasamento e o armazenamento
+
+O volume disponível antes de qualquer consumo é a soma do que sobrou no reservatório
+no fim do dia anterior com o que foi captado hoje, conforme a Equação
+3. Dessa soma decorrem duas parcelas, calculadas nesta ordem: o
+excedente que não cabe no reservatório e por isso extravasa, e o volume que fica
+efetivamente armazenado.
+
+```equacao:disponivel:3
+D_t = V_res,t−1 + V_cap,t
+```
+
+```equacao:extravasado:4
+V_ext,t = max(0 ; D_t − V_max)
+```
+
+```equacao:armazenado:5
+V_arm,t = min(D_t ; V_max)
+```
+
+<!-- tabela: **Tabela 14** — Variáveis da Equação 5 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `D_t` | volume disponível no dia `t`, antes do consumo | L |
+| `V_res,t−1` | volume que sobrou no reservatório ao fim do dia anterior | L |
+| `V_cap,t` | volume captado no dia `t`, da Equação 2 | L |
+| `V_ext,t` | volume extravasado no dia `t` | L |
+| `V_arm,t` | volume armazenado no dia `t`, antes do consumo | L |
+| `V_max` | capacidade útil do reservatório inferior | L |
+
+==A ordem em que as Equações 4 e 5 aparecem define o
+modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
+convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
+é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
+aceitar, na forma de consumo, água que fisicamente já teria extravasado, e
+superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
+mais pesam no total anual.
+
+A diferença entre as duas ordens é invisível na maior parte dos dias e decisiva
+nos poucos que importam. Enquanto o reservatório não enche, extravasar antes ou depois
+de consumir dá exatamente o mesmo resultado, porque não há extravasamento algum; nos
+dias de chuva intensa, em que o reservatório atinge a capacidade, a ordem determina se
+uma parcela de água é contabilizada como consumida ou como perdida. São justamente
+esses dias os que mais pesam no total anual, e por isso uma escolha que parece formalidade desloca o resultado inteiro. A Figura 10 compara as duas sequências na notação das equações desta seção.
+
+![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
+
+*Figura 10 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
+
+#### 2.1.4.3. O atendimento da demanda
+
+Estabelecido quanto há no reservatório, o programa retira dele o menor valor entre a
+demanda pluvial do dia e o volume disponível, e devolve ao dia seguinte o que restar.
+
+```equacao:consumido:6
+V_con,t = min(D_pl,t ; V_arm,t)
+```
+
+```equacao:sobra:7
+V_res,t = V_arm,t − V_con,t
+```
+
+<!-- tabela: **Tabela 15** — Variáveis da Equação 7 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t`, montada conforme a seção 4.2 | L |
+| `V_arm,t` | volume armazenado no dia `t`, da Equação 5 | L |
+| `V_res,t` | volume remanescente, transferido ao dia seguinte | L |
+
+A Equação 7 é o que torna a simulação diária necessária e insubstituível:
+ela liga cada dia ao seguinte e faz do reservatório uma memória do que aconteceu antes.
+Nenhum cálculo baseado em médias mensais ou anuais consegue representar esse
+encadeamento, e é dele que decorre todo o descasamento entre a oferta concentrada e a
+demanda distribuída.
+
+#### 2.1.4.4. O complemento da rede pública
+
+O que a chuva não atendeu é comprado da concessionária, e essa parcela reúne três
+origens distintas.
+
+```equacao:potavel:8
+V_pot,t = D_pot,t + ΔD_int,t + ΔD_irr,t
+```
+
+<!-- tabela: **Tabela 16** — Variáveis da Equação 8 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_pot,t` | volume de água potável consumido da rede no dia `t` | L |
+| `D_pot,t` | demanda que exige água potável por natureza do uso | L |
+| `ΔD_int,t` | déficit do uso interno não potável, não atendido pela chuva | L |
+| `ΔD_irr,t` | déficit da irrigação, **somente** se o suprimento de reserva estiver ligado | L |
+
+A terceira parcela da Equação 8 merece atenção porque depende de uma
+escolha do usuário. Com o suprimento de reserva ligado, a rede socorre a irrigação nos
+dias em que a cisterna seca, e o déficit é suprido com água potável; com ele desligado, o
+jardim simplesmente não é regado, a edificação não compra essa água, e o volume
+correspondente é contabilizado como **demanda não atendida**, que é a terceira parcela
+do balanço de demanda tratada adiante nesta seção.
+
+#### 2.1.4.5. A classificação do dia
+
+Por fim, cada dia recebe uma classificação segundo o grau de atendimento alcançado, e é
+a partir dessa classificação que se calculam os percentuais de dias de atendimento
+pleno, parcial e nulo relatados na seção 2.3.
+
+```equacao:classificacao:9
+pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
+```
+
+<!-- tabela: **Tabela 17** — Variáveis da Equação 9 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t` | L |
+
+A comparação da Equação 9 é feita com tolerância de 10⁻⁵ L, e não
+por igualdade exata. A razão é aritmética e não conceitual: o balanço trabalha com
+números de ponto flutuante, e uma diferença da ordem do erro de arredondamento
+classificaria como parcial um dia que foi plenamente atendido.
+
+### 2.1.5. O balanço de demanda tem três parcelas
+
+A demanda total de um dia se reparte em três, e não em duas:
+
+```equacao:demanda_tres:10
+D_t = V_con,t + V_pot,t + V_nao,t
+```
+
+<!-- tabela: **Tabela 18** — Variáveis da Equação 10 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `D_t` | demanda total da edificação no dia `t` | L |
+| `V_con,t` | parcela atendida com água pluvial | L |
+| `V_pot,t` | parcela comprada da rede pública | L |
+| `V_nao,t` | parcela que ninguém forneceu, isto é, demanda não atendida | L |
+
+As três parcelas são o consumo de água pluvial, o consumo da rede pública e a **demanda não atendida**. A terceira é zero na
+configuração padrão, em que a rede socorre a irrigação nos dias secos. Ela deixa de
+ser zero quando o usuário desliga esse socorro, e aí o programa precisa mostrá-la:
+sem ela, o balanço fecharia por construção, escondendo a água que ninguém forneceu.
+
+---
+
+### 2.1.6. Com reservatório superior
+
+Quando o projeto tem caixa d'água superior, o passo 4 muda. Em vez de consumir
+direto do reservatório inferior, o programa:
+
+1. consome da caixa superior o que estiver **acima do limiar de acionamento**;
+2. se ainda falta e há água embaixo, **aciona a motobomba**: transfere o menor valor
+   entre o que há no inferior e o espaço livre em cima, e conta **um ciclo**;
+3. consome de novo do que acabou de chegar;
+4. repete até atender a demanda ou acabar a água.
+
+O limiar de acionamento é o volume de reserva que não se consome, e serve para a
+bomba não ligar a cada litro. Ele é limitado ao volume da caixa superior: informar um
+limiar maior que a caixa não faz o programa recusar, faz ele adotar a caixa cheia.
+
+> **O reservatório superior não aumenta a economia de água.** Ele muda **quando** a
+> água é entregue, não **quanta**. O que ele acrescenta é custo: o investimento na
+> caixa e na bomba, a energia do recalque e a emissão associada. A seção 4.5
+> mostra isso com números.
+
+O número de ciclos e o volume recalcado saem daqui e alimentam o cálculo de energia
+da seção 2.6.
+
+---
+
+### 2.1.7. O que o modelo não representa
+
+- **Não há sub-passo horário.** Uma chuva de 40 mm concentrada em duas horas e a
+  mesma lâmina distribuída em vinte e quatro horas produzem o mesmo resultado. Para
+  reservatórios muito pequenos em relação à área de captação, isso subestima o
+  extravasamento.
+- **Não há perda por evaporação ou vazamento** no reservatório.
+- **A condição inicial é reservatório vazio.** Em séries de menos de um ano, isso
+  penaliza o resultado de forma sensível.
+- **O coeficiente de escoamento é único e constante.** Não varia com a intensidade da
+  chuva nem com o tempo desde o último evento.
+- **No balanço, o descarte é uma lâmina, e não um dispositivo com dinâmica própria.** O reservatório de descarte é dimensionado e orçado pelo volume `A × d_f` (seção 2.5), mas o seu esvaziamento entre eventos não é simulado: a lâmina é aplicada conforme o modo de descarte escolhido.
+
+A seção 5.2 reúne estas e as demais limitações conhecidas.
+
+---
+
+### 2.1.8. Para conferir
+
+O caso resolvido desta seção está no arquivo `03_dez_dias.netuno`, na pasta de
+casos que acompanha o programa. Abra, rode, e compare com a tabela impressa.
+
+Se algum número divergir, é o manual que está desatualizado em relação ao programa. E
+nesse caso a verificação automática já terá avisado, porque cada número desta tabela
+tem uma asserção correspondente na suíte de testes descrita na seção 5.3.
+
+---
+
+## 2.2. Volume ideal e a varredura
+
+> Esta seção formaliza o que a seção 4.4 fez na prática: como o programa monta a
+> grade de volumes e como aplica o critério de volume ideal.
+
+---
+
+### 2.2.1. A grade discreta
+
+A varredura simula um conjunto **finito** de volumes, e a montagem desse conjunto
+tem três regras.
+
+**O passo é arredondado para cima até o múltiplo de 250 litros.** É o quantum
+comercial: reservatórios são vendidos em volumes padronizados, e um ótimo em 1.300 L
+não é comprável. Quando o passo pedido não é múltiplo de 250, o programa ajusta e
+registra o ajuste em `step_adjusted`, de modo que o relatório possa declarar o passo
+efetivo.
+
+**O número de volumes positivos é limitado a 40.** Uma varredura de 0 a 50.000 L com
+passo de 100 L seriam 500 simulações de trinta anos, e o ganho de informação não paga
+o custo. Quando o limite é atingido, o passo efetivo cresce.
+
+**O volume máximo informado é sempre preservado** como último ponto da grade. Só o
+último intervalo pode, portanto, ser menor que o passo efetivo.
+
+O volume **zero** entra na grade como alternativa de referência: é o cenário sem
+sistema, contra o qual os demais se comparam.
+
+---
+
+A consequência prática aparece na Figura 11. Com passo fino, a curva mostra o
+joelho onde o retorno começa a decair; com passo grosseiro, o joelho cai entre dois
+pontos da grade e o critério elege o primeiro volume tabulado depois dele, que pode estar
+vários metros cúbicos adiante do volume que de fato interessa.
+
+![A mesma curva vista por duas grades de varredura](../figuras/fig14_grade.png)
+
+*Figura 11 — Curva de potencial de economia da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa calcula corretamente cada ponto que contém, mas não contém o trecho de maior curvatura, entre 1 e 5 m³.*
+
+---
+
+### 2.2.2. O ganho marginal
+
+A curva de potencial de economia contra volume é monotônica e côncava: cada metro
+cúbico acrescentado ao reservatório rende menos que o anterior, e o rendimento tende a
+zero à medida que o sistema se aproxima do teto imposto pela fração atendível. O
+programa quantifica esse rendimento decrescente pela derivada discreta da curva,
+calculada para cada volume da grade a partir do segundo.
+
+```equacao:ganho_marginal:11
+Δ(V_i) = [ Epot(V_i) − Epot(V_i−1) ] ÷ [ (V_i − V_i−1) ÷ 1000 ]
+```
+
+<!-- tabela: **Tabela 19** — Variáveis da Equação 11 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Δ(V_i)` | ganho marginal do volume `V_i` em relação ao anterior | %/m³ |
+| `Epot(V_i)` | potencial de economia de água potável obtido com o volume `V_i` | % |
+| `Epot(V_i−1)` | potencial de economia obtido com o volume imediatamente menor | % |
+| `V_i` | volume do reservatório na posição `i` da grade | L |
+| `V_i−1` | volume imediatamente menor da grade | L |
+| `1000` | conversão de litros para metros cúbicos | L/m³ |
+
+A divisão por mil no denominador da Equação 11 existe para que o
+resultado saia em pontos percentuais por metro cúbico acrescentado, que é a unidade em
+que a decisão é tomada — reservatórios são comprados e orçados em metros cúbicos, não
+em litros.
+
+==Por ser uma derivada discreta, o ganho marginal depende do passo da grade.== Uma
+grade fina produz um valor mais local, próximo da derivada verdadeira naquele ponto;
+uma grade grossa produz a média do rendimento ao longo de um intervalo maior. A
+subseção sobre sensibilidade ao passo, adiante, mede o tamanho desse efeito.
+
+---
+
+### 2.2.3. O critério de volume ideal
+
+O volume ideal é definido como o menor volume positivo da grade cujo ganho marginal já
+tenha caído abaixo de um limiar declarado pelo usuário.
+
+```equacao:volume_ideal:12
+V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
+```
+
+<!-- tabela: **Tabela 20** — Variáveis da Equação 12 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_ideal` | volume ideal pelo critério de ganho marginal | L |
+| `V_i` | volume do reservatório na posição `i` da grade | L |
+| `Δ(V_i)` | ganho marginal do volume `V_i`, da Equação 11 | %/m³ |
+| `Δ_lim` | limiar de ganho marginal declarado pelo usuário; o programa abre com 5,0, e o tutorial adota 1,0 | %/m³ |
+
+Quando nenhum volume da grade satisfaz a condição da Equação 12 —
+situação que ocorre quando a faixa varrida termina antes de a curva achatar — o
+programa adota o maior volume da grade e registra essa circunstância no relatório, de
+modo que o leitor saiba que o ótimo encontrado é um limite da busca e não um ponto de
+inflexão da curva. O Manual do Netuno 4 trata o mesmo caso no sétimo capítulo, e a conduta
+adotada aqui é a mesma.
+
+#### 2.2.3.1. Um exemplo, passo a passo
+
+A tabela da varredura do tutorial, na seção 4.4, permite refazer a conta à mão.
+Entre 3.000 L e 4.000 L o potencial sobe de 26,48% para 27,12%, isto é, 0,64 ponto
+percentual por um metro cúbico a mais. Como 0,64 é menor que o limiar de 1,0 %/m³, e o
+ganho anterior, entre 2.000 L e 3.000 L, foi de 1,45 %/m³, o primeiro volume a cruzar o
+limiar é 4.000 L, e é ele o volume ideal.
+
+Repare no que acontece logo depois. Entre 6.000 L e 8.000 L o potencial sobe 0,23
+ponto, o mesmo que no intervalo anterior, de 5.000 para 6.000 L, e no entanto o ganho
+**por metro cúbico** cai à metade, de 0,23 para 0,11 %/m³, porque o intervalo tem dois
+metros cúbicos. É por
+isso que o critério usa o ganho por metro cúbico, e não o ganho entre pontos
+consecutivos da grade: o segundo depende do passo, e o primeiro, muito menos.
+
+> **O critério é hidráulico e só hidráulico.** Ele ignora custo, tarifa e carbono. Um
+> volume ideal por este critério não é uma recomendação de projeto; é o ponto em que a
+> curva de aproveitamento deixa de compensar **em água**. A seção 2.10 trata da
+> escolha com os demais critérios, que frequentemente apontam para volumes diferentes.
+
+---
+
+Este é um critério entre outros igualmente defensáveis, e convém deixar isso
+explícito. Um projetista que queira o máximo desempenho hídrico escolherá o maior volume
+da varredura; um que responda por um orçamento escolherá o volume de maior valor
+presente líquido; o critério de ganho marginal fica entre os dois, por ser o que identifica
+onde a curva deixa de compensar. Os três leem a mesma varredura e não precisam coincidir:
+neste projeto eles apontam três volumes diferentes, e o de máximo desempenho é o maior
+dos três. Nenhum dos três está errado — errado é não dizer qual deles foi usado. A Figura 12 marca o volume eleito por cada critério, com o valor anotado na legenda do gráfico.
+
+![A mesma varredura lida por três critérios](../figuras/fig09_criterios.png)
+
+*Figura 12 — Varredura do projeto do tutorial lida por três critérios: (a) potencial de economia e (b) valor presente líquido do mesmo conjunto de volumes. As linhas verticais marcam o volume eleito pelo ganho marginal abaixo de 1 %/m³, pelo VPL máximo e pelo potencial máximo; o volume de cada um vai anotado na legenda, porque depende da grade varrida e das premissas econômicas em vigor.*
+
+---
+
+### 2.2.4. Por que o programa simula: os métodos empíricos da norma
+
+A primeira edição da norma brasileira de aproveitamento de água de chuva, a ABNT NBR
+15527:2007, trazia no Anexo A, de caráter informativo, seis métodos para dimensionar o
+reservatório: o de Rippl, o da simulação, o de Azevedo Neto e três métodos práticos, o
+alemão, o inglês e o australiano. Eles continuam em uso corrente em projetos e em
+trabalhos acadêmicos, e convém entender o que cada um responde antes de compará-los
+com a varredura do programa.
+
+**O método de Rippl** é o diagrama de massas aplicado ao reservatório: acumula, período
+a período, a diferença entre a demanda e a chuva aproveitável, e adota como volume o
+maior déficit acumulado da série. O volume resultante é o que atenderia **toda** a
+demanda mesmo na pior estiagem registrada, e por isso cresce com o comprimento da série
+e com a resolução dela: com dados diários, as sequências secas aparecem inteiras; com
+dados mensais, parte delas se dilui na média do mês.
+
+**O método de Azevedo Neto** multiplica a precipitação média anual `P`, em milímetros, a
+área de coleta `A`, em metros quadrados, e o número de meses de pouca chuva `T` pelo
+coeficiente 0,042, e dá o volume em litros. O resultado depende inteiramente de `T`, e
+em cidades sem estação seca definida, como Florianópolis, a escolha de `T` é arbitrária.
+
+**Os métodos práticos** são regras de bolso. O alemão toma 6% do menor valor entre a
+chuva aproveitável anual e a demanda anual; o inglês toma 5% do produto `P × A`; o
+australiano faz um balanço mensal por tentativas até alcançar a confiança desejada.
+Nenhum dos dois primeiros usa a distribuição da chuva no tempo, e o inglês não usa
+sequer a demanda.
+
+A tabela a seguir aplica cinco desses métodos ao projeto do tutorial, arredonda cada
+volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele produz.
+
+<!-- tabela: **Tabela 21** — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
+| Método | Regra | Volume | Potencial simulado |
+| :--- | :--- | ---: | ---: |
+| prático alemão | 6% do menor entre oferta e demanda anuais | 3 750 L | 27,00% |
+| Rippl, série mensal | maior déficit acumulado, meses | 4 500 L | 27,32% |
+| Azevedo Neto, T = 1 mês | 0,042 × P × A × T | 11 250 L | 28,00% |
+| Rippl, série diária | maior déficit acumulado, dias | 7 000 L | 27,83% |
+| prático inglês | 0,05 × P × A | 13 500 L | 28,00% |
+| **simulação diária, ganho marginal de 1 %/m³** | varredura | **4 000 L** | **27,12%** |
+
+<!-- tabela: **Tabela 22** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
+| Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |
+| ---: | ---: | :--- |
+| 1 000 L | 0,0037 | horário |
+| 2 000 L | 0,0074 | horário |
+| 3 000 L | 0,0111 | diário |
+| 4 000 L | 0,0149 | diário |
+| 8 000 L | 0,0297 | diário |
+| 12 000 L | 0,0446 | diário |
+| 20 000 L | 0,0743 | diário |
+
+A primeira tabela mostra o que a curva côncava da seção 4.4 já anunciava. Os métodos
+que dimensionam para a pior estiagem, como Rippl com série diária, e os que ignoram a
+demanda, como o inglês, levam a reservatórios de 7 a 14 m³, que entregam menos de um
+ponto percentual a mais que os 4.000 L da simulação ao custo de duas a três vezes o
+volume. O método alemão e o de Rippl com série mensal acertam a ordem de grandeza neste
+caso, mas por coincidência: ele
+não tem como saber que a chuva de Florianópolis é bem distribuída, e daria o mesmo
+volume para uma cidade com seis meses secos.
+
+==A diferença essencial é que os métodos empíricos respondem a uma pergunta fixa, e a
+simulação responde à pergunta que o projetista declara.== Rippl pergunta qual volume
+nunca falha; o método inglês pergunta que fração da chuva guardar; a varredura com ganho
+marginal pergunta a partir de qual volume o metro cúbico seguinte deixa de compensar.
+Ghisi (2010) mostrou, para três cidades do estado de São Paulo, que o volume adequado
+varia muito com a chuva local, a área de cobertura, o número de moradores e as
+demandas, e concluiu que dimensionar reservatórios pela tradição local, sem simulação,
+pode levar a sistemas de baixa eficiência.
+
+---
+
+### 2.2.5. O passo de tempo e a fração de armazenamento
+
+O programa simula dia a dia, e essa escolha tem uma faixa de validade conhecida. Fewkes
+e Butler (2000) compararam modelos comportamentais com passos de um minuto, uma hora, um
+dia e um mês, tomaram como referência o modelo horário com a regra YAS, descrita na
+seção 2.1, e mostraram que o passo adequado depende de uma grandeza adimensional,
+a **fração de armazenamento**.
+
+```equacao:fracao_de_armazenamento:13
+F_S = S ÷ (A × R)
+```
+
+<!-- tabela: **Tabela 23** — Variáveis da Equação 13 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `F_S` | fração de armazenamento | adimensional |
+| `S` | capacidade do reservatório | m³ |
+| `A` | área de captação em projeção horizontal | m² |
+| `R` | precipitação média anual | m |
+
+Pelos resultados daqueles autores, o modelo horário é o indicado para frações de até
+0,01; o diário, para frações entre 0,01 e 0,125; e o mensal, só acima de 0,125. A razão
+física é simples: quanto menor o reservatório em relação à chuva que recebe, mais ele
+enche e extravasa **dentro** de um mesmo dia chuvoso, enquanto a demanda é retirada ao
+longo das horas; um passo diário soma numa entrada só o que, hora a hora, teria entrado
+e saído aos poucos.
+
+A segunda tabela calcula a fração para os volumes da varredura do tutorial. A cisterna
+escolhida, de 4.000 L, tem fração de 0,015, dentro da faixa do modelo diário; os
+reservatórios de 1.000 e 2.000 L ficam abaixo de 0,01, e para eles o resultado diário
+deve ser lido como aproximação. Campisano e Modica (2015), que simularam um sistema
+residencial com passos diários e subdiários a partir de descargas medidas, chegaram a
+uma conclusão complementar: o passo diário é confiável para estimar a **economia de
+água**, mas passos de no máximo uma hora são necessários quando o objetivo é a
+**retenção de águas pluviais**, sobretudo em reservatórios pequenos e com demanda alta.
+
+> **Na prática.** Para economia de água potável em edificações, o passo diário do
+> programa é adequado na faixa usual de projeto. Se a fração de armazenamento do seu
+> estudo ficar abaixo de 0,01, declare a limitação; e se o objetivo for amortecer vazões
+> de pico na drenagem urbana, o programa não é a ferramenta adequada.
+
+---
+
+### 2.2.6. O que a literatura diz sobre o volume ideal
+
+Não há definição única de volume ideal, e a revisão sistemática de Semaan et al. (2020)
+ajuda a situar o critério do programa. Examinando estudos de otimização de sistemas
+domésticos, os autores observaram que o dimensionamento do reservatório é o objetivo de
+otimização mais importante, mas que o custo é o critério mais usado; que o
+subdimensionamento produz sistemas incapazes de fornecer volume confiável; e que o
+superdimensionamento eleva o investimento com benefício marginal pequeno e ainda pode
+comprometer a qualidade da água, que fica armazenada por mais tempo.
+
+Campisano et al. (2017), numa revisão ampla sobre sistemas urbanos de aproveitamento
+pluvial, reúnem critérios de três famílias: os de **eficiência hídrica**, como o potencial
+de economia e a confiabilidade; os **econômicos**, como o valor presente líquido e o tempo
+de retorno; e os de **desempenho na drenagem**, como a retenção. O programa cobre as duas
+primeiras famílias e declara não cobrir a terceira.
+
+O critério de ganho marginal pertence à primeira família e tem uma vantagem sobre a
+confiabilidade fixa, como a de Rippl: não exige que o projetista escolha um nível de
+falha aceitável, que raramente tem justificativa técnica, e sim um nível de retorno
+decrescente, que se lê diretamente em metros cúbicos de reservatório. A desvantagem é
+simétrica: o limiar de 1 %/m³, ou de 5 %/m³, também é uma escolha, e precisa ser
+declarado.
+
+---
+
+### 2.2.7. A sensibilidade ao passo
+
+O volume ideal depende do passo da varredura, e convém saber quanto.
+
+Um passo grosso salta o joelho da curva: com passo de 5.000 L, o primeiro ponto
+avaliado após o zero já tem ganho marginal médio de todo o intervalo, que é alto, e
+o segundo pode já estar abaixo do limiar. O ideal sai deslocado para cima.
+
+Um passo fino resolve melhor o joelho, ao custo de tempo.
+
+**Recomendação prática:** passo entre 500 e 1.000 L para reservatórios residenciais,
+e entre 2.000 e 5.000 L para edificações de grande porte, sempre declarando o passo
+adotado junto do volume ideal.
+
+---
+
+### 2.2.8. Por que a curva tem esta forma
+
+A curva de aproveitamento pluvial é côncava e assintótica, sempre. Duas razões:
+
+**Os eventos pequenos são a maioria.** Os primeiros litros de armazenamento capturam
+as chuvas frequentes e pequenas, que respondem pela maior parte dos dias. Os últimos
+litros só servem para os poucos eventos extremos.
+
+**A fração atendível é um teto.** O potencial não pode ultrapassar a fração da
+demanda que a chuva atende, definida na seção 4.2. A curva se aproxima desse teto e
+nunca o cruza — invariante que a suíte de testes verifica até volumes de 100 m³.
+
+---
+
+### 2.2.9. O que a varredura não responde
+
+- **Qual volume comprar.** Reservatórios existem em volumes comerciais; o ideal
+  calculado deve ser arredondado para o volume disponível mais próximo, e a
+  varredura já ajuda ao trabalhar em múltiplos de 250 L.
+- **Se o sistema vale a pena.** Isso é a seção 2.7.
+- **Se o volume cabe no terreno.** O programa não conhece o sítio.
+- **Quanto a cisterna amortece a drenagem.** O passo diário não representa as vazões de
+  pico, e a retenção exige passo horário ou menor, como mostram Campisano e Modica
+  (2015).
+
+---
+
+## 2.3. Indicadores de eficiência
+
+> Esta seção define formalmente cada indicador que o programa reporta, com
+> unidade, e diz **o que cada um não mede**.
+
+Um indicador mal interpretado é pior que nenhum, e os desta seção são confundidos com
+frequência na literatura. Os dois primeiros partem do mesmo numerador — a água de
+chuva efetivamente consumida — e diferem apenas no denominador: uma diferença
+aritmética pequena e uma diferença de significado grande, porque cada denominador
+formula uma pergunta distinta. O terceiro não é uma razão entre volumes, e sim uma
+contagem de dias, e responde a uma pergunta que nenhum dos outros dois alcança: com que frequência se pode contar com o sistema (Figura 13).
+
+![Os três indicadores e o denominador de cada um](../figuras/fig00g_indicadores.png)
+
+*Figura 13 — Os três indicadores de eficiência e o que cada um conta. O potencial de economia e a confiabilidade volumétrica compartilham o numerador e se relacionam pela identidade Epot = Rv × f, em que f é a fração atendível; a confiabilidade temporal conta dias, e não litros.*
+
+---
+
+### 2.3.1. Potencial de economia de água potável
+
+O potencial de economia de água potável é o indicador central do programa e aquele que
+figura no resumo de qualquer estudo. Ele expressa a fração do consumo **total** da
+edificação que a água pluvial conseguiu substituir ao longo de toda a série simulada, e
+não apenas da parcela que a chuva poderia atender.
+
+```equacao:potencial:14
+Epot = ( Σ V_con,t ÷ Σ D_t ) × 100
+```
+
+<!-- tabela: **Tabela 24** — Variáveis da Equação 14 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Epot` | potencial de economia de água potável | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_t` | demanda total da edificação no dia `t` | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
+
+O denominador da Equação 14 é a demanda **total**, e essa escolha é a
+origem da confusão mais comum na leitura de resultados. Um sistema que atendesse
+integralmente toda a demanda que lhe cabe, sem falhar um único dia, ainda assim
+apresentaria potencial de economia igual à fração atendível declarada, e não a cem por
+cento. O teto, portanto, não é uma limitação do sistema: é uma consequência aritmética
+da definição do indicador.
+
+---
+
+### 2.3.2. Confiabilidade volumétrica
+
+A confiabilidade volumétrica responde a uma pergunta diferente, e complementar: da água
+que o sistema **deveria** fornecer, quanto ele de fato forneceu? O denominador aqui é a
+demanda pluvial, e não a demanda total.
+
+```equacao:confiabilidade:15
+Rv = ( Σ V_con,t ÷ Σ D_pl,t ) × 100
+```
+
+<!-- tabela: **Tabela 25** — Variáveis da Equação 15 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Rv` | confiabilidade volumétrica do sistema | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `D_pl,t` | demanda pluvial do dia `t`, isto é, a parcela atendível por chuva | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
+
+As Equações 14 e 15 diferem apenas no denominador, e
+essa diferença basta para que se relacionem por uma identidade exata, útil como
+conferência rápida de qualquer resultado.
+
+```equacao:relacao_indicadores:16
+Epot = Rv × f
+```
+
+<!-- tabela: **Tabela 26** — Variáveis da Equação 16 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Epot` | potencial de economia de água potável | % |
+| `Rv` | confiabilidade volumétrica | % |
+| `f` | fração da demanda total atendível por água pluvial | adimensional |
+
+==Um sistema com 97% de confiabilidade e 28% de fração atendível economiza 27,1% do
+consumo total, e os três números dizem a mesma coisa de três maneiras.== É exatamente o
+caso da cisterna de 4.000 L do tutorial, antes da caixa superior: a confiabilidade
+volumétrica é de 96,86%, e 96,86% × 0,28 = 27,12%, o potencial impresso na seção 4.4. Relatar apenas
+um deles, sem declarar a fração atendível adotada, torna o resultado impossível de
+comparar com o de outro estudo — e é a causa mais frequente de comparações indevidas na
+literatura da área.
+
+A literatura usa nomes diferentes para a mesma razão. Fewkes e Butler (2000) chamam de
+**eficiência de economia de água** o quociente entre o volume pluvial fornecido e a
+demanda que o sistema deveria atender, que é a confiabilidade volumétrica desta seção.
+Outros autores chamam de eficiência o que aqui é potencial de economia. Ao comparar com
+outro trabalho, confira o denominador, e não o nome.
+
+---
+
+### 2.3.3. Confiabilidade temporal
+
+A confiabilidade temporal classifica cada dia da série em uma de três classes mutuamente exclusivas, conforme a relação entre o volume pluvial consumido e a demanda pluvial do dia, definida na Equação 9. O dia é **pleno** quando a água de chuva atende integralmente a demanda pluvial; **parcial**, quando atende parte dela e a rede pública supre o restante; e **nulo**, quando o reservatório está vazio e a rede supre toda a demanda (Figura 14). Os três percentuais somam 100%. A classificação conta dias, e não volume: um dia em que faltou um litro para atender a demanda é parcial, e não quase pleno, e por isso a confiabilidade temporal não se converte diretamente em volume economizado.
+
+![As três classes de atendimento de um dia](../figuras/fig29_atendimento.png)
+
+*Figura 14 — Classes de atendimento diário: pleno (V_con,t = D_pl,t), parcial (0 < V_con,t < D_pl,t) e nulo (V_con,t = 0). A altura preenchida representa a fração da demanda pluvial do dia atendida por água pluvial.*
+
+Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10⁻⁵ L; **parcial** quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
+
+
+No tutorial, a cisterna de 4.000 L tem 96,6% de dias plenos, 0,6% de dias parciais e
+2,8% de dias nulos. Repare que a confiabilidade temporal, 96,6%, é menor que a
+volumétrica, 96,86%. Não há contradição: os dias parciais não contam como plenos, mas
+contribuem com volume, e é essa água que a confiabilidade volumétrica soma e a temporal
+não. A diferença entre as duas é, por isso, uma medida indireta de quanto os dias de
+falha são falhas parciais.
+
+**O que mede:** com que frequência o usuário pode contar com o sistema.
+
+**O que não mede:** o volume. Um sistema pode ter 95% de dias plenos e potencial
+baixo se a demanda pluvial for pequena, e o contrário também acontece.
+
+> A confiabilidade temporal é o indicador que mais importa para o **projeto
+> hidráulico**. Muitos dias nulos exigem alimentação automática de reserva bem
+> dimensionada, e o usuário percebe a alternância entre as duas fontes.
+
+---
+
+### 2.3.4. Extravasamento
+
+```equacao:extravasamento_medio:17
+V_ext,med = ( Σ V_ext,t ) ÷ n
+```
+
+<!-- tabela: **Tabela 27** — Variáveis da Equação 17 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_ext,med` | extravasamento médio diário | L/dia |
+| `V_ext,t` | volume extravasado no dia `t` | L |
+| `n` | número de dias da série simulada | dia |
+
+**O que mede:** o quanto a cisterna é pequena em relação aos eventos de chuva.
+
+**O que não mede:** desperdício. A água que extravasa vai para a drenagem urbana,
+como iria sem o sistema. Não há perda em relação ao cenário sem sistema — há apenas
+oportunidade não aproveitada.
+
+> O extravasamento **nunca zera** num sistema real. Ele tende a um piso que é a
+> diferença entre o que a cobertura capta e o que a demanda consome, e no tutorial
+> esse piso é mais da metade da água captada. Quem quer retenção de cheia precisa de
+> um reservatório de detenção, que é outro projeto com outra lógica.
+
+---
+
+### 2.3.5. Eficiência de uso da captação
+
+O programa não imprime este indicador, mas ele sai diretamente dos anteriores e ajuda a
+entender o extravasamento. É a fração da água que chegou à cisterna, já descontado o
+descarte de primeiras águas, que acabou consumida.
+
+```equacao:uso_da_captacao:18
+η_cap = ( Σ V_con,t ÷ Σ V_cap,t ) × 100
+```
+
+<!-- tabela: **Tabela 28** — Variáveis da Equação 18 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `η_cap` | eficiência de uso da água captada | % |
+| `V_con,t` | volume de água pluvial consumido no dia `t` | L |
+| `V_cap,t` | volume captado no dia `t`, depois do descarte | L |
+| `Σ` | somatório sobre todos os dias da série simulada | — |
+
+Na cisterna de 4.000 L do tutorial, a cobertura entrega 187,4 m³ por ano à cisterna; o
+sistema consome 59,4 m³ e extravasa 127,9 m³, e as duas parcelas fecham o balanço de
+massa. A eficiência de uso da captação é, portanto, de 31,7%. O número explica por que
+aumentar a cisterna rende tão pouco a partir de certo ponto: a água não falta na
+cobertura, falta **demanda** para consumi-la. Quando a oferta supera largamente a demanda
+pluvial, como em Florianópolis, a eficiência de uso da captação é necessariamente baixa,
+qualquer que seja o volume.
+
+---
+
+### 2.3.6. Duração e intensidade das falhas
+
+Os indicadores anteriores dizem quanto e com que frequência o sistema falha, mas não
+**como** falha. Hashimoto, Stedinger e Loucks (1982) propuseram, para sistemas de
+recursos hídricos em geral, três critérios complementares que hoje são usados também em
+aproveitamento pluvial: a **confiabilidade**, que é a probabilidade de o sistema estar em
+estado satisfatório; a **resiliência**, que mede a rapidez com que ele se recupera de uma
+falha; e a **vulnerabilidade**, que mede a gravidade das falhas quando elas ocorrem.
+
+O programa reporta a primeira e não reporta as outras duas, mas ambas podem ser calculadas
+a partir da série diária detalhada, exportada em planilha. Para a cisterna de 4.000 L do
+tutorial, em trinta anos:
+
+- houve 60 sequências de dias não plenos, com duração média de 6,3 dias e máxima de 23
+  dias. A resiliência, tomada como o inverso da duração média de uma falha, é de 0,16 por
+  dia;
+- nos dias de falha, faltaram em média 153 L de uma demanda pluvial de 168 L, isto é,
+  cerca de 90%. A falha típica, portanto, não é um pequeno déficit: é a cisterna vazia.
+
+A leitura de projeto é direta. Falhas longas e quase totais significam que a alimentação
+de reserva pela rede pública precisa ser automática e dimensionada para a vazão total
+dos pontos de uso pluviais, e não apenas para complementar pequenas faltas.
+
+---
+
+### 2.3.7. Volume anual poupado
+
+```equacao:volume_poupado:19
+V_poup = ( V_con,med × 365,25 ) ÷ 1000
+```
+
+<!-- tabela: **Tabela 29** — Variáveis da Equação 19 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_poup` | volume de água potável poupado por ano | m³/ano |
+| `V_con,med` | consumo médio diário de água pluvial | L/dia |
+| `365,25` | duração do ano médio, incluindo os bissextos | dia/ano |
+| `1000` | conversão de litros para metros cúbicos | L/m³ |
+
+**O que mede:** a base de cálculo do econômico e da avaliação de ciclo de vida.
+
+> **Aprofundamento: o 365,25 não é descuido.** A conversão usa o ano médio, incluindo bissextos,
+> porque séries longas os contêm. Usar 365 introduziria um viés sistemático de
+> 0,07% — pequeno, mas gratuito.
+
+---
+
+### 2.3.8. Ganho marginal
+
+A definição formal do ganho marginal, com a grade de volumes explicitada, está na
+Equação 11, na seção 2.2.
+
+Definido na seção 2.2. É o indicador que decide o volume ideal, e **só existe numa
+varredura** — uma simulação de volume único não o produz.
+
+---
+
+### 2.3.9. Demanda não atendida
+
+```equacao:nao_atendida:20
+V_nao,med = ( Σ V_nao,t ) ÷ n
+```
+
+<!-- tabela: **Tabela 30** — Variáveis da Equação 20 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `V_nao,med` | demanda média diária não atendida por nenhuma fonte | L/dia |
+| `V_nao,t` | demanda não atendida no dia `t` | L |
+| `n` | número de dias da série simulada | dia |
+
+Terceira parcela do balanço de demanda. É zero na
+configuração padrão e deixa de ser zero quando o suprimento de reserva da irrigação
+está desligado.
+
+**Por que existe:** sem ela, o balanço fecharia por construção, atribuindo à rede
+toda a demanda que a chuva não atendeu. A seção 2.1 detalha.
+
+---
+
+### 2.3.10. Quadro-resumo
+
+<!-- tabela: **Tabela 31** — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
+| Indicador | Unidade | Denominador | Responde |
+| :--- | :--- | :--- | :--- |
+| potencial de economia | % | demanda total | quanto do consumo de água potável cai |
+| confiabilidade volumétrica | % | demanda pluvial | quanto do pretendido se atendeu |
+| dias plenos, parciais, nulos | % | dias da série | com que frequência se pode contar |
+| extravasamento | L/dia | — | o reservatório é pequeno? |
+| volume poupado | m³/ano | — | base do dinheiro e do carbono |
+| ganho marginal | %/m³ | — | vale ampliar? |
+| demanda não atendida | L/dia | — | o que ninguém forneceu |
+
+---
+
+## 2.4. Índices pluviométricos
+
+> Esta seção traz a equação de cada um dos nove índices que o programa calcula, e
+> declara três divergências em relação ao padrão ETCCDI.
+
+Os índices pluviométricos não participam do balanço hídrico e não alteram nenhum
+resultado de simulação. Sua função é caracterizar a série de precipitação — e
+uma caracterização honesta é o que permite comparar estudos de cidades diferentes.
+
+---
+
+### 2.4.1. Os nove índices
+
+Os índices são calculados **ano a ano** sobre a série carregada, e o programa reporta a
+média e a dispersão do conjunto de anos. Em toda esta seção, `P_i` designa a precipitação
+do dia `i` do ano, e um **dia úmido** é aquele em que `P_i ≥ 1 mm` — convenção do ETCCDI,
+adotada porque lâminas abaixo de um milímetro são da ordem do erro de medição dos
+pluviômetros convencionais.
+
+#### 2.4.1.1. Precipitação total anual, PRCPTOT
+
+Soma da precipitação de todos os dias úmidos do ano. Difere do total anual bruto por
+excluir os dias de lâmina desprezível, o que evita que ruído de instrumento se acumule
+no total.
+
+```equacao:prcptot:21
+PRCPTOT = Σ P_i , para P_i ≥ 1 mm
+```
+
+<!-- tabela: **Tabela 32** — Variáveis da Equação 21 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `PRCPTOT` | precipitação total dos dias úmidos do ano | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `Σ` | somatório sobre os dias do ano que satisfazem a condição | — |
+
+#### 2.4.1.2. Precipitação em dias muito úmidos, R95p
+
+Soma da precipitação dos dias cuja lâmina supera o percentil 95 dos dias úmidos. Mede
+quanto do total anual chega nos eventos extremos, e é o índice mais diretamente ligado ao
+extravasamento de cisternas.
+
+```equacao:r95p:22
+R95p = Σ P_i , para P_i > q_95
+```
+
+<!-- tabela: **Tabela 33** — Variáveis da Equação 22 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `R95p` | precipitação acumulada nos dias muito úmidos | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `q_95` | percentil 95 da precipitação dos dias úmidos da série | mm |
+
+#### 2.4.1.3. Máxima precipitação em um dia, RX1day
+
+O maior valor diário registrado no ano. É o índice que dimensiona o extravasor e a
+calha, e não o reservatório.
+
+```equacao:rx1day:23
+RX1day = max ( P_i )
+```
+
+<!-- tabela: **Tabela 34** — Variáveis da Equação 23 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `RX1day` | maior precipitação diária do ano | mm |
+| `P_i` | precipitação do dia `i` | mm |
+| `max` | valor máximo sobre todos os dias do ano | — |
+
+#### 2.4.1.4. Máxima precipitação em cinco dias, RX5day
+
+O maior acumulado de cinco dias consecutivos no ano. Importa ao aproveitamento pluvial
+mais que o RX1day, porque um reservatório enche ao longo de um evento prolongado e não
+apenas no pico diário.
+
+```equacao:rx5day:24
+RX5day = max ( Σ P_j ) , para j de i a i + 4
+```
+
+<!-- tabela: **Tabela 35** — Variáveis da Equação 24 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `RX5day` | maior acumulado de cinco dias consecutivos no ano | mm |
+| `P_j` | precipitação do dia `j` da janela | mm |
+| `i` | primeiro dia de cada janela de cinco dias | — |
+| `max` | valor máximo sobre todas as janelas do ano | — |
+
+#### 2.4.1.5. Índice simples de intensidade diária, SDII
+
+Precipitação média dos dias úmidos. Separa dois regimes que o total anual confunde: muita
+chuva em poucos dias e pouca chuva em muitos dias podem produzir o mesmo PRCPTOT e SDII
+bem diferentes.
+
+```equacao:sdii:25
+SDII = PRCPTOT ÷ n_úmidos
+```
+
+<!-- tabela: **Tabela 36** — Variáveis da Equação 25 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `SDII` | intensidade média dos dias úmidos | mm/dia |
+| `PRCPTOT` | precipitação total dos dias úmidos, da Equação 21 | mm |
+| `n_úmidos` | número de dias úmidos do ano | dia |
+
+#### 2.4.1.6. Dias de precipitação intensa, R20mm
+
+Contagem dos dias em que a lâmina atinge ou supera vinte milímetros. Num sistema de
+aproveitamento pluvial, esses são tipicamente os dias de extravasamento.
+
+```equacao:r20mm:26
+R20mm = # { i : P_i ≥ 20 mm }
+```
+
+<!-- tabela: **Tabela 37** — Variáveis da Equação 26 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `R20mm` | número de dias com precipitação intensa no ano | dia |
+| `P_i` | precipitação do dia `i` | mm |
+| `# { }` | contagem dos dias que satisfazem a condição | — |
+
+#### 2.4.1.7. Dias secos consecutivos, CDD
+
+Maior sequência de dias consecutivos com precipitação abaixo de um milímetro. ==É o
+índice que melhor prevê o desempenho de um sistema pluvial,== porque a estiagem mais
+longa é o que esvazia a cisterna.
+
+```equacao:cdd:27
+CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
+```
+
+<!-- tabela: **Tabela 38** — Variáveis da Equação 27 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CDD` | maior sequência de dias secos consecutivos no ano | dia |
+| `L` | comprimento de uma sequência de dias secos consecutivos | dia |
+| `P_i` | precipitação do dia `i` | mm |
+
+#### 2.4.1.8. Dias úmidos consecutivos, CWD
+
+Maior sequência de dias consecutivos com precipitação igual ou superior a um milímetro.
+Caracteriza a persistência da chuva, e sequências longas favorecem o enchimento completo
+do reservatório.
+
+```equacao:cwd:28
+CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
+```
+
+<!-- tabela: **Tabela 39** — Variáveis da Equação 28 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CWD` | maior sequência de dias úmidos consecutivos no ano | dia |
+| `L` | comprimento de uma sequência de dias úmidos consecutivos | dia |
+| `P_i` | precipitação do dia `i` | mm |
+
+#### 2.4.1.9. Índice de sazonalidade, SI
+
+Mede o afastamento entre a distribuição mensal real da chuva e a distribuição
+perfeitamente uniforme ao longo do ano. Diferentemente dos oito anteriores, não pertence
+ao conjunto ETCCDI: foi proposto por Walsh e Lawler em 1981.
+
+```equacao:sazonalidade:29
+SI = ( 1 ÷ R ) × Σ | X_m − R ÷ 12 |
+```
+
+<!-- tabela: **Tabela 40** — Variáveis da Equação 29 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `SI` | índice de sazonalidade de Walsh e Lawler | adimensional |
+| `R` | precipitação total do ano | mm |
+| `X_m` | precipitação total do mês `m`, com `m` de 1 a 12 | mm |
+| `R ÷ 12` | precipitação mensal que haveria se a chuva fosse uniforme | mm |
+| `Σ` | somatório sobre os doze meses do ano | — |
+| `\| \|` | valor absoluto da diferença | — |
+
+O índice da Equação 29 vale zero quando todos os meses recebem a mesma
+lâmina e tende a 1,83 quando toda a chuva do ano cai num único mês. Entre esses extremos, Walsh e Lawler (1981) classificam o regime em muito uniforme (abaixo de 0,20), uniforme com estação úmida definida (0,20 a 0,39), sazonal com estação seca curta (0,40 a 0,59), sazonal (0,60 a 0,79), marcadamente sazonal com estação seca longa (0,80 a 0,99), com a maior parte da chuva em até três meses (1,00 a 1,19) e extremo (1,20 ou mais).
+
+O índice de sazonalidade é o que mais importa ao aproveitamento pluvial, e a seção
+3.1 mostra por quê: é a distribuição da chuva ao longo do ano, e não o total
+precipitado, que decide o rendimento do sistema.
+
+---
+
+Os nove índices ficam abstratos enquanto permanecem em forma de tabela, e a Figura 15 os posiciona sobre um ano da série. Postos sobre
+um ano real de série, cada um passa a apontar um trecho identificável do registro: o dia
+mais intenso, os dias acima do limiar, a maior estiagem, o total acumulado.
+
+![Os índices marcados sobre um ano de série](../figuras/fig16_indices.png)
+
+*Figura 15 — Quatro dos nove índices marcados sobre o ano de 1995 em Florianópolis: PRCPTOT e SDII, no alto; RX1day, o maior valor diário do ano; CDD, a maior sequência de dias secos, na faixa sombreada; e R20mm, os dias com 20 mm ou mais, marcados na base.*
+
+A sazonalidade é o índice que menos se parece com os demais, porque não descreve
+intensidade nem frequência: descreve o quanto a chuva do ano se concentra em parte dele.
+É também o índice que mais separa as capitais brasileiras entre si, e o que melhor prevê se um reservatório precisará atravessar uma estiagem longa (Figura 16).
+
+![O índice de sazonalidade nas quatro capitais](../figuras/fig17_sazonalidade.png)
+
+*Figura 16 — Índice de sazonalidade de Walsh e Lawler (1981) nas quatro capitais do guia, com as classes do índice ao fundo e a precipitação média anual sob o nome de cada cidade. Precipitação anual elevada e distribuição uniforme ao longo do ano são propriedades independentes.*
+
+---
+
+### 2.4.2. Três divergências que precisam ser declaradas
+
+O programa chama o conjunto de «ETCCDI mais sazonalidade», e a precisão da expressão
+importa.
+
+**Primeira: o conjunto não é ETCCDI puro.** O índice de sazonalidade é de Walsh e
+Lawler, e não pertence ao conjunto do *Expert Team on Climate Change Detection and
+Indices*. Em compensação, o **R10mm**, que é ETCCDI, **não** está implementado.
+
+Oito dos nove índices são ETCCDI; o nono não é; e falta um que seria.
+
+**Segunda: o período-base do percentil.** O R95p exige um percentil 95 dos dias
+úmidos. O ETCCDI define o período-base fixo de 1961 a 1990. O programa calcula o
+percentil sobre **toda a série carregada**.
+
+A consequência é que o R95p de duas séries de comprimentos diferentes **não é
+diretamente comparável**, porque o limiar de cada uma é próprio. Para comparação
+estrita com literatura ETCCDI, recorte a série no período-base.
+
+O programa calcula o percentil **apenas sobre os dias úmidos**, o que está correto:
+incluir dias secos deslocaria o percentil para baixo em séries sazonais.
+
+**Terceira: as janelas incompletas do RX5day.** A soma móvel de cinco dias usa
+janelas parciais no início de cada ano, de modo que as primeiras janelas têm de um a
+quatro dias. O efeito é pequeno e sempre no sentido de subestimar o RX5day dos
+primeiros dias do ano.
+
+---
+
+A aba de índices do programa apresenta cada indicador ano a ano: a precipitação total anual (Figura 17) e as maiores sequências de dias secos e chuvosos (Figura 18).
+
+![A precipitação total anual, ano a ano, na tela do programa](../figuras/fig53_programa_prcptot.png)
+
+*Figura 17 — Precipitação total anual (PRCPTOT) da série de Florianópolis, com a média do período em linha tracejada, na aba de índices. Figura gerada pelo próprio programa.*
+
+---
+![As estiagens e as sequências chuvosas, ano a ano](../figuras/fig54_programa_cdd_cwd.png)
+
+*Figura 18 — Maior sequência anual de dias secos (CDD) e de dias chuvosos (CWD) da série de Florianópolis, na aba de índices. São os dois índices mais diretamente ligados ao volume de reservatório que o regime de chuva exige. Figura gerada pelo próprio programa.*
+
+---
+### 2.4.3. Para que servem no estudo
+
+**Caracterizar a série** no método do artigo. PRCPTOT, SDII e SI descrevem o regime
+melhor que a média anual sozinha.
+
+**Explicar o resultado.** Um CDD alto explica um sistema de baixo desempenho apesar
+de chuva abundante — é o caso de Brasília na seção 3.1.
+
+**Comparar cenários climáticos.** Entre a série histórica e a projetada, o que
+costuma mudar primeiro é o SDII e o CDD, e não o PRCPTOT. Reportar só o total anual
+esconde a mudança que mais afeta o sistema.
+
+---
+
+### 2.4.4. O que os índices não fazem
+
+Não entram no balanço. Não alteram o dimensionamento. Não substituem a simulação
+diária — que é justamente o argumento do programa contra os métodos por valores
+médios.
+
+Um índice é um resumo. O balanço usa a série inteira.
+
+---
+
+## 2.5. Dimensionamento da ETAP
+
+> Esta seção formaliza como o programa dimensiona a estação de tratamento de água
+> pluvial e explica a **regra incremental**, que impede o tratamento de ser contado
+> duas vezes no orçamento e no fluxo de caixa.
+
+A água que escoa de uma cobertura carrega poeira, folhas, fuligem e dejetos de aves, e
+nenhum uso — nem mesmo a descarga sanitária — admite que ela chegue ao ponto de consumo
+como saiu do telhado. A estação de tratamento de água pluvial, abreviada como ETAP, é o
+conjunto de equipamentos que realiza essa adequação, e o programa a dimensiona a partir
+de três entradas: a classe de qualidade que o uso exige, a área de cobertura e o volume
+pluvial anual efetivamente consumido, este último resultado do balanço diário
+apresentado na seção 2.1.
+
+A linha de tratamento dimensionada pelo programa tem quatro componentes em série. O **descarte inicial** desvia a primeira lâmina de cada chuva, que carreia a sujeira acumulada na cobertura; o **filtro mecânico de entrada** retira folhas e sólidos grosseiros antes que cheguem ao reservatório; a **desinfecção** é o estágio obrigatório, do qual depende a segurança microbiológica da água armazenada; e o **filtro de polimento** é opcional, e se destina aos usos em que a aparência ou a ausência de resíduo dissolvido importa.
+
+---
+
+A linha de tratamento é uma sequência, e a ordem dos estágios não é arbitrária: cada
+um remove aquilo que tornaria o seguinte ineficaz. Convém ter o encadeamento inteiro à vista antes de discutir cada peça (Figura 19). A ordem não é intercambiável: desinfetar antes de filtrar consome o reagente na matéria orgânica em suspensão e deixa microrganismos protegidos nas partículas. A turbidez é, por isso, condição de eficácia da desinfecção, e não apenas parâmetro estético.
+
+![A sequência de estágios da linha de tratamento](../figuras/fig00j_etap.png)
+
+*Figura 19 — Componentes da linha de tratamento dimensionada pelo programa, na ordem do escoamento, e destino do material retido. O descarte inicial e o filtro de entrada atuam antes da cisterna; a desinfecção atua depois deles porque o reagente seria consumido pela matéria orgânica em suspensão que os estágios anteriores removem; o filtro de polimento é opcional.*
+
+---
+
+### 2.5.1. O filtro de entrada
+
+O filtro de entrada é dimensionado pela área de cobertura, e não pela classe de
+qualidade pretendida, porque o que ele precisa vencer é a vazão de pico que a cobertura
+produz — grandeza que independe do destino final da água. As três faixas adotadas pelo
+programa correspondem às capacidades que os próprios fabricantes declaram para os
+equipamentos correntes no mercado brasileiro.
+
+<!-- tabela: **Tabela 41** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+| Cobertura | Equipamento | Malha |
+| :--- | :--- | ---: |
+| até 200 m² | vórtex autolimpante DN 100 | 350 µm |
+| até 500 m² | vórtex autolimpante DN 150 | 400 µm |
+| acima de 500 m² | cesto ou ciclônico DN 200 | 500 µm |
+
+> Os limites de faixa acompanham a área que o próprio produto declara atender, e não
+> uma folga arbitrada sobre ela. É a razão de um telhado de 180 m² receber o filtro de
+> DN 100: o equipamento é declarado suficiente pelo fabricante para até 200 m², e impor
+> o da faixa seguinte encareceria a instalação sem fundamento técnico.
+
+---
+
+### 2.5.2. A desinfecção
+
+A desinfecção é o estágio que o programa nunca dispensa, e a razão está no conceito de
+residual. Entre as três tecnologias disponíveis, apenas a cloração deixa na água um
+agente desinfetante que permanece ativo depois do tratamento; a radiação ultravioleta e a ozonização atuam no instante da passagem e nada deixam atrás de si (Figura 20).
+
+![As três tecnologias de desinfecção disponíveis](../figuras/fig30_desinfeccao.png)
+
+*Figura 20 — As três tecnologias de desinfecção, o efeito residual de cada uma e a composição do custeio anual (OPEX). O efeito residual distingue a cloração das demais: protege a água armazenada, enquanto a radiação ultravioleta e o ozônio atuam apenas sobre a água que atravessa o equipamento.*
+
+
+==Ultravioleta e ozônio entram como barreira adicional à cloração, e não como
+substitutas dela.== Sem residual, a água tratada volta a se contaminar ao longo do
+percurso até o ponto de uso, e a prática correta — alinhada ao item 4.6.5 da ABNT NBR
+15527:2019, que trabalha com cloro residual livre — mantém a cloração para proteger o
+reservatório e a rede interna. A consequência econômica é direta: as duas opções somam
+o custo do cloro ao seu próprio, e escolher qualquer uma delas jamais reduz o custeio.
+
+#### 2.5.2.1. A massa de cloro
+
+O insumo de cloração é dimensionado pela massa de produto comercial consumida por metro
+cúbico tratado, que decorre da dose aplicada e da pureza do produto adquirido.
+
+```equacao:massa_cloro:30
+m_prod = ( C_Cl ÷ 1000 ) ÷ p
+```
+
+<!-- tabela: **Tabela 42** — Variáveis da Equação 30 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `m_prod` | massa de produto comercial consumida por metro cúbico tratado | kg/m³ |
+| `C_Cl` | dose de cloro ativo aplicada à água | mg Cl₂/L |
+| `1000` | conversão de miligramas por litro para quilogramas por metro cúbico | — |
+| `p` | pureza do produto, em massa de cloro ativo por massa de produto | adimensional |
+
+> **O que se compra é o produto, e não o cloro puro.** A pastilha de hipoclorito de
+> cálcio contém cerca de 65% de cloro ativo, e o preço em reais por quilograma refere-se
+> ao produto comercial, não ao princípio ativo. Calcular o custo pela massa de cloro
+> ativo o subestimaria pelo inverso da pureza, isto é, em cerca de 35% — e é um engano
+> comum em planilhas de orçamento.
+
+---
+
+### 2.5.3. O filtro de polimento
+
+O filtro de polimento é opcional e constitui o único ponto do dimensionamento em que a
+classe de qualidade alvo interfere na escolha do equipamento. Para as classes mais
+exigentes, o programa recomenda sua inclusão, e a recomendação varia também quanto ao
+tipo de meio filtrante: a lavagem de roupas, por envolver contato com tecido e pele,
+exige carvão ativado em bloco, ao passo que os demais usos se satisfazem com filtro de
+areia ou cartucho de vinte micrômetros.
+
+<!-- tabela: **Tabela 43** — Recomendação de filtro de polimento por classe de qualidade alvo -->
+| Classe | Recomenda polimento? | Equipamento quando marcado |
+| :--- | :---: | :--- |
+| 1 — NBR 15527:2019 | não | filtro de areia ou cartucho de 20 µm |
+| 2 — irrigação e lavagem | sim | idem |
+| 3 — torres e caldeiras | sim | idem |
+| 4 — lavagem de roupas | sim | **carvão ativado em bloco** |
+
+A recomendação, contudo, não é imposição: o filtro só entra no dimensionamento se o
+usuário efetivamente o marcar. Quando a classe o recomenda e o usuário o recusa, o
+programa registra a recusa em campo próprio e o relatório a exibe, de modo que a decisão
+fique documentada em vez de desaparecer.
+
+> **As classes 2 a 4 são adaptações do programa, e não da NBR 15527.** A matriz de
+> parâmetros por uso final é característica da versão de 2007 da norma e não sobreviveu
+> à revisão de 2019. Num estudo publicado, apresente-as como critério adotado pelo
+> autor, e nunca como requisito normativo.
+
+---
+
+### 2.5.4. O descarte de primeiras águas
+
+O descarte de primeiras águas entra no programa de duas formas. No balanço hídrico, é a lâmina subtraída da precipitação de cada dia, descrita na seção 2.1. No orçamento, quando o dimensionamento físico do descarte está habilitado na etapa **3. Qualidade & ETAP** — condição padrão da interface —, é um subsistema com investimento, custeio e carbono incorporado próprios, composto pelo separador de folhas e pelo reservatório de descarte.
+
+O volume do reservatório de descarte é o produto da lâmina de descarte pela área de captação, `V_desc = d × A`, em litros, com `d` em milímetros e `A` em metros quadrados. Até 250 L, o programa orça uma coluna vertical de desvio em PVC, a R$ 2,20 por litro acrescidos de R$ 120 em conexões e válvula de purga lenta; acima de 250 L, um reservatório de polietileno rotomoldado, com preço interpolado na base de custos e acréscimo de R$ 150 em boia de vedação e dispositivo de purga. O separador de folhas custa R$ 220 para até 200 m² de captação, R$ 440 para até 500 m² e R$ 220 por unidade, a cada 250 m², acima disso. O custeio anual do subsistema é de R$ 40, e todos os valores são multiplicados pelo fator regional.
+
+<!-- tabela: **Tabela 44** — Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
+| Item | Valor |
+| :--- | ---: |
+| lâmina de descarte | 2 mm |
+| área de captação | 150 m² |
+| volume do reservatório de descarte | 300 L |
+| reservatório de descarte em polietileno | R$ 396,90 |
+| separador de folhas DN 100 | R$ 220,00 |
+| investimento do subsistema | R$ 616,90 |
+| custeio anual | R$ 40,00 |
+
+O investimento do subsistema integra o investimento da linha de tratamento e, por isso, entra no fluxo de caixa pela regra incremental a seguir.
+
+---
+
+### 2.5.5. A regra incremental
+
+A regra incremental é a parte do cálculo que mais frequentemente se erra em
+implementações próprias, e o erro é sempre o mesmo: contar o tratamento duas vezes. Ela
+se aplica em três frentes distintas, e em cada uma delas assume forma própria.
+
+**No investimento.** O orçamento de um sistema de aproveitamento pluvial já reserva uma
+verba genérica de tratamento dentro da rubrica de acessórios, porque nenhum projetista
+orça um sistema sem prever alguma forma de filtragem. Somar a linha detalhada por cima
+dessa verba cobraria o tratamento duas vezes, e por isso o programa desconta a verba
+genérica e soma apenas o incremento.
+
+```equacao:capex_etap:31
+CAPEX_inc = CAPEX_linha − V_gen
+```
+
+<!-- tabela: **Tabela 45** — Variáveis da Equação 31 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
+| `CAPEX_linha` | investimento total dos equipamentos da linha dimensionada | R$ |
+| `V_gen` | verba genérica de tratamento já incluída na rubrica de acessórios | R$ |
+
+**No custeio.** A cloração já é paga na linha de insumos químicos do fluxo de caixa, de
+modo que o custeio incremental da ETAP desconta essa parcela e o hipoclorito é pago uma
+vez só, e não duas.
+
+**Na avaliação de ciclo de vida.** A linha de tratamento **substitui** o termo de
+cloração em vez de somar-se a ele, e a diferença de tratamento entre o fluxo de caixa e
+o inventário de emissões decorre de os dois contabilizarem grandezas distintas.
+
+> A regra vive num módulo único, consumido pelos **dois** motores econômicos do
+> programa. Duas cópias da mesma regra divergem com o tempo, e a divergência entre elas
+> é invisível no resultado: cada motor responde de forma coerente consigo mesmo.
+
+---
+
+### 2.5.6. Desligar a ETAP
+
+O dimensionamento da linha de tratamento pode ser inteiramente desativado, e nesse caso
+nem o investimento nem o custeio de tratamento entram na análise econômica. A finalidade
+da chave é permitir o estudo da hipótese de tratamento já existente na edificação — caso
+em que o custo não deve ser atribuído ao sistema pluvial — e comparar cenários com e sem
+a linha. ==Desligá-la não significa que a água dispense tratamento:== significa que o
+tratamento não está sendo orçado aqui.
+
+---
+
+### 2.5.7. O que o programa não dimensiona
+
+O escopo do dimensionamento termina nos equipamentos da linha, e quatro itens correlatos permanecem a cargo do projetista. O **arranjo hidráulico do descarte inicial** — conexões, dispositivo de purga e ligação à drenagem — não é projetado: o programa calcula apenas o volume do reservatório de descarte e o seu custo. A **tubulação** da linha de
+tratamento e a perda de carga que ela impõe também não são calculadas. O **regime de
+manutenção** — troca de elemento filtrante, limpeza do vórtex, reposição de pastilhas —
+não é planejado pelo programa, embora determine boa parte do custeio real. E o
+**controle de qualidade** permanece integralmente fora do escopo: o programa dimensiona
+equipamento a partir de premissas, e não substitui ensaio laboratorial.
+
+A ABNT NBR 15527 trata do controle e da manutenção, e o plano correspondente é
+responsabilidade do projetista.
+
+---
+
+## 2.6. Energia de bombeamento
+
+> Esta seção traz a cadeia completa do eixo à tomada, e explica por que a
+> potência de placa **não** é o que o medidor registra.
+
+Três versões desta conta já existiram no programa, e as duas primeiras cometiam os enganos descritos no item «Por que a cadeia completa importa»: tratar a potência de placa como potência elétrica e descontar o rendimento da bomba duas vezes. Quem lê um estudo feito numa versão antiga precisa saber disso.
+
+---
+
+### 2.6.1. A potência de placa é de eixo
+
+A ABNT NBR 17094-2:2016 manda marcar o **rendimento** na placa de identificação do
+motor, como grandeza separada da potência. Isso só faz sentido se a potência de
+placa for a potência mecânica **no eixo**.
+
+Daí a cadeia ter dois rendimentos, e não um:
+
+<!-- tabela: **Tabela 46** — Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
+| Rendimento | O que converte |
+| :--- | :--- |
+| **da bomba**, `η_b` | potência de eixo em potência hidráulica entregue à água |
+| **do motor**, `η_m` | potência elétrica da tomada em potência mecânica no eixo |
+
+O programa pede os dois, em campos separados.
+
+---
+
+### 2.6.2. As equações
+
+**Energia específica do recalque**, por metro cúbico elevado:
+
+```equacao:energia_especifica:32
+e = ( ρ × g × H ) ÷ ( η_b × η_m )
+```
+
+<!-- tabela: **Tabela 47** — Variáveis da Equação 32 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
+| `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
+| `H` | altura manométrica total do recalque | m.c.a. |
+| `η_b` | rendimento hidráulico da bomba | adimensional |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+==A Equação 32 não depende da vazão nem da potência instalada.==
+Elevar um metro cúbico de água a uma dada altura custa a mesma energia com bomba grande
+ou pequena, porque o trabalho realizado é o mesmo; o que muda com a potência é o tempo
+gasto para realizá-lo, e não o consumo específico.
+
+**Quando a vazão de operação é declarada**, a forma equivalente:
+
+```equacao:energia_por_vazao:33
+e = P ÷ ( Q × η_m )
+```
+
+<!-- tabela: **Tabela 48** — Variáveis da Equação 33 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `Q` | vazão de recalque informada ou deduzida | m³/h |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+O rendimento hidráulico da bomba não comparece na Equação 33, e a
+ausência é proposital: ele já está embutido no fato de um motor de `P` quilowatts no
+eixo fazer a bomba entregar `Q` metros cúbicos por hora naquela altura. Dividir por ele
+outra vez contabilizaria a perda hidráulica duas vezes.
+
+**Vazão, quando não declarada:**
+
+```equacao:vazao_deduzida:34
+Q = ( P × η_b ) ÷ ( ρ × g × H )
+```
+
+<!-- tabela: **Tabela 49** — Variáveis da Equação 34 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `Q` | vazão de recalque deduzida | m³/h |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `η_b` | rendimento hidráulico da bomba | adimensional |
+| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
+| `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
+| `H` | altura manométrica total do recalque | m.c.a. |
+
+**Energia das partidas:**
+
+```equacao:energia_partida:35
+E_part = ( P × t_part ) ÷ η_m
+```
+
+<!-- tabela: **Tabela 50** — Variáveis da Equação 35 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_part` | energia consumida no conjunto das partidas do período | kWh |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `t_part` | tempo total de partida acumulado no período | h |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+O rendimento da bomba está ausente da Equação 35 pela razão física
+que a distingue das anteriores: durante a partida não há vazão útil, e portanto não há
+perda hidráulica a descontar. O motor puxa energia da tomada, e é apenas isso que o
+medidor da concessionária registra.
+
+A energia anual da motobomba é a soma das duas parcelas: a do recalque efetivo, que
+depende do volume elevado, e a das partidas, que depende do número de acionamentos.
+
+```equacao:energia_anual:36
+E_ano = e × V_rec + ( P × t_part ) ÷ η_m
+```
+
+<!-- tabela: **Tabela 51** — Variáveis da Equação 36 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_ano` | energia elétrica consumida pela motobomba no ano | kWh/ano |
+| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
+| `V_rec` | volume recalcado no ano | m³/ano |
+| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `t_part` | tempo total de partida acumulado no ano | h/ano |
+| `η_m` | rendimento do motor elétrico | adimensional |
+
+---
+
+A potência de placa de uma motobomba é a potência mecânica no eixo, e não a potência elétrica registrada pelo medidor (Figura 21). Uma motobomba de 0,5 CV (0,37 kW) com motor de rendimento 60,5% absorve da rede cerca de 0,61 kW: calcular a energia com a potência de placa subestimaria o consumo em cerca de 40%, e o custeio de energia é justamente a parcela que reduz a economia do sistema.
+
+![A cadeia de rendimentos entre a tomada e a água elevada](../figuras/fig00k_energia.png)
+
+*Figura 21 — Cadeia de energia do bombeamento. A potência de placa é a potência no eixo, no meio da cadeia: entre ela e o medidor de energia está o rendimento do motor, η_m, e entre ela e a potência hidráulica entregue à água está o rendimento da bomba, η_b.*
+
+A potência hidráulica depende da altura manométrica, que soma ao desnível geométrico entre as lâminas d'água as perdas de carga do escoamento (Figura 22). A perda de carga é a energia dissipada por unidade de peso do fluido e tem duas parcelas: a perda contínua, ao longo da tubulação, dada pela equação de Darcy-Weisbach, `h_f = f · (L/D) · v²/2g`, em que `f` é o fator de atrito, `L` o comprimento, `D` o diâmetro interno e `v` a velocidade média; e as perdas localizadas em conexões, registros e válvulas, `h_loc = K · v²/2g`, em que `K` é o coeficiente da singularidade. Em recalques prediais curtos, as perdas somam tipicamente de 10% a 30% do desnível geométrico.
+
+![A altura manométrica decomposta em desnível e perdas](../figuras/fig00l_manometrica.png)
+
+*Figura 22 — (a) Altura manométrica de um recalque predial: desnível geométrico entre as lâminas d'água da cisterna e do reservatório superior, somado às perdas de carga; (b) linha de energia ao longo de um trecho de tubulação, com a perda contínua por atrito (h_f) e as perdas localizadas em registro e cotovelo (h_loc).*
+
+---
+
+### 2.6.3. O rendimento do motor, quando não informado
+
+Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é o que são as motobombas residenciais, a 3.450 rpm (Figura 23):
+
+![O rendimento de motores de indução por potência e classe](../figuras/fig31_motores.png)
+
+*Figura 23 — Rendimento mínimo de motores de indução monofásicos de dois polos, conforme a Tabela 13 da ABNT NBR 17094-2:2016. O programa adota a classe IR1 quando o projeto não informa o rendimento, por ser a de menor exigência e, portanto, a hipótese conservadora.*
+
+
+Os dois valores que mais aparecem em instalação predial são o de meio CV, com
+**60,5%** de rendimento na classe IR1, e o de um CV, com **69,3%**. A diferença entre
+eles é de quase nove pontos percentuais, e ela se propaga inteira para o custeio de
+energia, porque é o rendimento que separa a potência de eixo da potência efetivamente
+puxada da rede.
+
+Adota-se a **IR1** por ser o piso normativo e o que se encontra em motobomba de
+prateleira. Quem tem motor de alto rendimento informa o valor marcado na placa.
+
+Para potências fora da tabela, a norma manda adotar o maior dos dois rendimentos
+vizinhos quando a potência estiver no ponto médio ou acima, e o menor quando estiver
+abaixo.
+
+---
+
+### 2.6.4. Por que a cadeia completa importa
+
+O consumo específico do caso de referência — meio cavalo, 12 m.c.a. de altura
+manométrica, 82 m³ recalcados e 98 acionamentos por ano — é de 0,1080 kWh/m³.
+==Ignorar o rendimento do motor, ou descontar o rendimento da bomba duas vezes,
+altera esse número em dezenas de pontos percentuais,== e esses são precisamente os dois
+enganos mais frequentes em planilhas de dimensionamento.
+
+O primeiro engano consiste em tratar a potência de placa como potência consumida na
+tomada; o segundo, em aplicar o rendimento hidráulico numa conta que já parte da vazão
+efetivamente entregue, o que o contabiliza duas vezes. A cadeia apresentada nesta seção
+é explícita justamente para tornar ambos visíveis.
+
+---
+
+### 2.6.5. O assistente de dimensionamento da motobomba
+
+Quando a potência, a vazão e a altura manométrica da motobomba não são conhecidas, o botão *Assistente de Dimensionamento de Motobomba*, na etapa **4. Reservatório & Custos** e no diálogo econômico, estima os três valores e seleciona um modelo comercial. O assistente segue a sequência usual de dimensionamento de um recalque predial:
+
+1. **Vazão de recalque.** `Q = V_sup ÷ t_ench`, com o volume do reservatório superior e o tempo de enchimento desejado, de 45 minutos por padrão.
+2. **Diâmetro econômico.** Pela fórmula de Forchheimer, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q`, com `D` em metros, `Q` em m³/s e `t_op` o tempo diário de funcionamento, de 2 h por padrão. O diâmetro adotado é o menor tubo comercial de PVC soldável cujo diâmetro interno atende ao valor calculado, e nunca inferior ao bocal da motobomba selecionada; a sucção recebe uma bitola comercial acima do recalque.
+3. **Velocidade.** `v = Q ÷ (π · D_i² ÷ 4)`, destacada quando fica fora do intervalo de 0,6 m/s a 2,5 m/s.
+4. **Perda de carga.** Pela fórmula de Hazen-Williams, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, com `C = 140` para PVC, multiplicada pelo comprimento da tubulação e acrescida de 30% para as perdas localizadas.
+5. **Altura manométrica e potência.** `H_man = H_geo + h_f` e `P = ρ · g · Q · H_man ÷ η`, com rendimento de conjunto de 55% por padrão.
+6. **Seleção.** O primeiro modelo do catálogo interno cuja vazão, altura máxima e potência atendem ao ponto de operação, com a curva da bomba traçada contra o ponto calculado.
+
+A altura manométrica e a perda de carga calculadas retornam ao projeto e passam a alimentar o cálculo de energia desta seção, no lugar do valor de recurso.
+
+---
+
+### 2.6.6. Os valores de recurso
+
+Usados quando o projeto não declara:
+
+<!-- tabela: **Tabela 52** — Valores de recurso adotados quando o projeto não os declara -->
+| Parâmetro | Valor | Origem |
+| :--- | ---: | :--- |
+| altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico e ~30% de perda de carga dão de 10 a 12 m; adota-se o extremo conservador |
+| rendimento da bomba | 55% | motobombas residenciais de meio a um CV ficam entre 40% e 60% no ponto de operação |
+| tempo de partida | 108 s | ver a ressalva abaixo |
+
+> **Aprofundamento: a altura manométrica é o parâmetro que mais pesa.** Quem conhece o
+> desnível do projeto deve informá-lo. Dobrar a altura dobra a energia.
+
+> **Aprofundamento: o tempo de partida de 108 s.** Ele representa o tempo de escorva
+> de uma bomba autoaspirante cuja linha de sucção drenou. Numa instalação com válvula
+> de pé em ordem, a linha permanece escorvada e as partidas seguintes são imediatas.
+> No caso de referência, as partidas respondem por 19% do consumo anual; com um
+> transitório de 3 s, responderiam por 0,5%. O valor é conservador e está registrado
+> como pendência aberta do programa.
+
+---
+
+### 2.6.7. A pressurização direta: a energia é tempo ligado
+
+Tudo o que se disse até aqui vale para o recalque, em que a bomba enche a caixa
+superior de uma vez, na vazão dela, e desliga. O pressurizador trabalha de outro
+modo. Ele liga a cada descarga e fica ligado enquanto a caixa acoplada enche, e quem
+decide a vazão é a boia da caixa, e não a bomba. Uma bomba maior não enche a caixa mais
+depressa: fica o mesmo tempo ligada, puxando mais potência.
+
+Por isso o programa não calcula a energia do pressurizador pela energia específica
+`ρ·g·H/(η_b·η_m)`, que pressupõe a bomba no ponto de melhor rendimento. Calcula pelo
+tempo ligado:
+
+```equacao:energia_pressurizador:37
+E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
+```
+
+<!-- tabela: **Tabela 53** — Variáveis da Equação 37 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E` | energia anual do pressurizador | kWh/ano |
+| `P` | potência de placa, no eixo | kW |
+| `η_m` | rendimento do motor, da Tabela 13 da ABNT NBR 17094-2 | adimensional |
+| `V` | volume pluvial consumido | m³/ano |
+| `Q_b(H)` | vazão da curva do modelo na pressão de trabalho `H` | m³/h |
+| `Q_p` | vazão do ponto de uso | m³/h |
+| `N` | acionamentos por ano: moradores × 5,05 descargas × 365,25 | 1/ano |
+| `t_r` | retardo de desligamento do controle eletrônico | h |
+
+É a forma do «método simples» que Ward, Butler e Memon (2012) descrevem, potência vezes
+duração de operação, com duas correções: a vazão efetiva é a menor entre a da bomba e
+a do ponto, e o retardo dos controles eletrônicos entra a cada partida. A potência de
+placa é a do ponto nominal, e em vazão baixa o motor puxa um pouco menos; a estimativa
+tende a superestimar a energia, mas ordena os modelos entre si.
+
+A vazão do ponto padrão é de 0,15 L/s, isto é, 9 L/min: a vazão de projeto da bacia com
+caixa de descarga na Tabela A.1 da ABNT NBR 5626:1998. A edição de 2020 retirou a tabela
+e passou ao projeto a tarefa de explicitar as vazões nos pontos de utilização (item
+6.7.1); quem tiver o dado do fabricante da bacia deve usá-lo.
+
+#### 2.6.7.1. O catálogo
+
+A etapa **4. Reservatório & Custos** traz seis pressurizadores residenciais de cinco
+fabricantes, cada um com a curva vazão × pressão do manual, guardado nos documentos
+consultados: Komeco TP 820T e TP 825T, Cardal Potenza, Jacuzzi AcquaHouse, com curva
+ensaiada no Laboratório de Etiquetagem de Bombas da UNIFEI, Syllent Impulse Press e Rowa
+Max Press 20E. Para outro modelo, a opção «Personalizado» pede a potência de placa, a
+vazão lida na curva do fabricante na pressão de trabalho e o retardo de desligamento.
+
+A tabela aplica o catálogo à pressurização direta do tutorial: a cisterna de 4.000 L sem
+caixa superior, quatro moradores e a vazão da bacia de 9 L/min.
+
+<!-- tabela: **Tabela 54** — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba -->
+| Modelo | Controle | Vazão da curva a 18 m.c.a. | Horas por ano | kWh por ano | kWh/m³ | kWh por ano a 24 m.c.a. |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: |
+| Komeco TP 820T, 1/4 CV | pressostato | 13,3 L/min | 110 | 40,5 | 0,68 | 82,0 |
+| Cardal Potenza, 1/3 CV | fluxostato | 18,8 L/min | 110 | 48,6 | 0,82 | não alcança |
+| Komeco TP 825T, 1/2 CV | pressostato | 29,1 L/min | 110 | 66,9 | 1,13 | 66,9 |
+| Jacuzzi AcquaHouse 5AQH1, 1/2 CV | pressostato | 27,4 L/min | 110 | 66,9 | 1,13 | 66,9 |
+| Rowa Max Press 20E, 1/2 CV | eletrônico | 12,8 L/min | 110 | 66,9 | 1,13 | não alcança |
+| Syllent Impulse Press, 1/2 CV | eletrônico | 7,0 L/min | 162 | 98,5 | 1,66 | não alcança |
+
+A 18 m.c.a., cinco dos seis modelos entregam mais que os 9 L/min da bacia, e todos
+ficam as mesmas 110 horas por ano ligados. O que os separa é a potência: o de 1/4 CV
+gasta 40 kWh, os de 1/2 CV, 67. O sexto, com pouco mais de 7 L/min a 18 m.c.a., opera
+quase no fim da curva, fica mais tempo ligado e ainda soma dez segundos de retardo a
+cada uma das 7.373 partidas do ano.
+
+A 24 m.c.a. a ordem se inverte. O modelo de 1/4 CV chega a 4,4 L/min, e o tempo ligado
+dobra; três modelos nem alcançam a pressão. O melhor passa a ser um de 1/2 CV. ==A
+regra que a tabela ensina é escolher o menor modelo que entrega a vazão do ponto na
+pressão de trabalho,== e é o que o item 6.5.11.12 da ABNT NBR 5626:2020 pede: que o
+consumo de energia das bombas de recalque e de pressurização seja minimizado pela escolha
+da bomba, entre as alternativas consideradas. A tela aponta esse modelo e mostra a
+energia de todos os outros ao lado.
+
+> **Duas bombas, e não uma.** O item 6.5.11.2 da mesma norma exige no mínimo duas bombas,
+> de funcionamento independente, nos sistemas de recalque e de pressurização. O tutorial
+> segue a norma, e o investimento conta a principal e a reserva.
+
+---
+
+### 2.6.8. Por que a energia do recalque é pequena, e a do pressurizador não
+
+Elevar um metro cúbico a doze metros custa cerca de 0,033 kWh de energia hidráulica.
+Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue, e o recalque do
+tutorial, com as partidas, a 0,13 kWh/m³.
+
+A pressurização direta do mesmo projeto gasta de 0,68 a 1,66 kWh/m³, conforme o modelo:
+cinco a treze vezes mais. Os números reproduzem uma diferença que a literatura já
+tinha medido. Na revisão de Vieira et al. (2014), a mediana dos estudos teóricos foi de
+0,20 kWh/m³, e a dos empíricos, de 1,40 kWh/m³, porque os primeiros ignoravam as partidas,
+o modo de espera e o rendimento real de motor e bomba. A mesma revisão relata 1,70 kWh/m³
+para abastecer uma caixa acoplada diretamente com uma bomba de 450 W, e 1,52 kWh/m³ em
+média em dezenove residências australianas com alimentação direta.
+
+O recalque do tutorial fica perto da mediana teórica porque trabalha como os estudos
+teóricos supõem: poucas partidas por ano, na vazão da própria bomba. O pressurizador fica
+na faixa empírica porque trabalha como as casas medidas: uma partida por uso, na vazão
+do ponto.
+
+Mesmo assim, a energia é pequena diante da economia na fatura. Os 40 kWh do menor
+pressurizador custam menos de trinta reais por ano na tarifa do tutorial. O argumento de
+que «bombear gasta mais do que economiza» não se sustenta em edificação de pequeno porte,
+mas a escolha do arranjo e do modelo pode multiplicar por dez a parcela de energia, e é
+ela que pesa no carbono da seção 2.8.
+
+Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
+
+---
+
+## 2.7. Análise econômica e os regimes tarifários
+
+> Esta seção formaliza o fluxo de caixa e detalha os cinco regimes de mínimo
+> tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
+
+---
+
+### 2.7.1. A economia é a diferença entre duas faturas
+
+O programa não calcula a economia multiplicando o volume poupado por uma tarifa média,
+e a distinção não é de refinamento: é de ordem de grandeza. Para cada mês da projeção
+ele monta duas faturas completas, uma com o consumo que a edificação teria sem o sistema
+pluvial e outra com o consumo de água potável efetivamente comprado, e toma a diferença
+entre elas.
+
+```equacao:economia_mensal:38
+E_mês = F(V_tot) − F(V_pot)
+```
+
+<!-- tabela: **Tabela 55** — Variáveis da Equação 38 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_mês` | economia obtida no mês | R$ |
+| `F(·)` | função que calcula a fatura de água e esgoto para um volume | R$ |
+| `V_tot` | volume mensal que a edificação consumiria sem o sistema pluvial | m³ |
+| `V_pot` | volume mensal de água potável efetivamente comprado da rede | m³ |
+
+A razão de proceder assim está na progressividade das estruturas tarifárias brasileiras.
+==O metro cúbico que se deixa de consumir é sempre o último da fatura, que é o mais
+caro, e nunca o médio.== Num município cuja primeira faixa custa R$ 3,08/m³ e cuja
+segunda faixa custa R$ 14,31/m³, calcular a economia pela tarifa média a subestima em
+mais da metade, e o erro cresce com o consumo da edificação.
+
+---
+
+### 2.7.2. A fatura de água e esgoto
+
+A estrutura tarifária de cada município é representada no programa por uma sequência de
+faixas, e cada faixa é uma quádrupla composta pelo volume mínimo, pelo volume máximo, por
+um valor e por um código. O código é o elemento que dá sentido ao valor, porque
+estruturas aparentemente semelhantes cobram de maneiras muito distintas.
+
+Antes dos códigos, convém ver de que a fatura é feita. A fatura mensal de água e esgoto é a soma de parcelas com comportamentos distintos: uma parcela fixa, que não responde ao consumo; uma ou mais faixas de consumo, em que é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; e o esgoto, que em boa parte do Brasil é um percentual do valor da água e portanto acompanha tudo o que ele faz. A
+economia de água atinge cada uma dessas parcelas de um jeito diferente, e é essa assimetria que a Figura 24 mostra.
+
+![A fatura aberta em parcelas, com e sem o sistema](../figuras/fig07_fatura.png)
+
+*Figura 24 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema. A tarifa de disponibilidade é idêntica nos dois casos; a redução ocorre nas faixas de consumo superiores, que têm o maior preço por metro cúbico, e se estende ao esgoto, cobrado como percentual do valor da água.*
+
+O código de cada faixa define como o seu valor é aplicado (Figura 25). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; e no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura.
+
+![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
+
+*Figura 25 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
+
+
+Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
+opostos sobre a viabilidade de um sistema pluvial. Vale examiná-los com números.
+
+- **Disponibilidade soma.** Parcela de consumo de R$ 55 mais R$ 46 de disponibilidade dá fatura de R$ 101,
+  e economizar R$ 15 de consumo deixa a fatura em R$ 86.
+- **Piso limita por baixo.** Com piso de R$ 40 e consumo tarifado de R$ 55,
+  economizar até R$ 15 **não reduz nada**.
+
+A diferença entre os dois regimes decide se cada metro cúbico economizado gera desconto
+desde o primeiro ou se a economia só começa a valer depois de vencido um patamar, e um
+estudo de viabilidade que os confunda chega a conclusões invertidas. É por essa razão que
+o programa codifica o regime de forma explícita, em vez de tratá-lo como detalhe da
+tabela.
+
+#### 2.7.2.1. Micromedição
+
+Em edificações multifamiliares com medição individualizada, o consumo é avaliado no
+patamar de uma única unidade habitacional e o resultado é multiplicado pelo número de
+economias. O tratamento importa por causa da progressividade: um prédio de vinte
+apartamentos tratado como consumidor único cairia inteiro na faixa mais cara da tabela, e
+a economia resultante sairia grosseiramente superestimada, porque cada metro cúbico
+poupado seria valorado a uma tarifa que nenhuma das vinte unidades efetivamente paga.
+
+#### 2.7.2.2. O esgoto
+
+```equacao:esgoto:39
+T_esg = T_agua × s
+```
+
+<!-- tabela: **Tabela 56** — Variáveis da Equação 39 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `T_esg` | parcela de esgoto da fatura | R$ |
+| `T_agua` | parcela de água da fatura, já calculada pelas faixas progressivas | R$ |
+| `s` | percentual de esgoto praticado pela concessionária | adimensional |
+
+O percentual de esgoto incide sobre a parcela de água da fatura, e não sobre a fatura
+total, e a confusão entre os dois denominadores dobra ou divide pela metade a parcela
+calculada. Cem por cento, que é o valor praticado por boa parte das concessionárias
+brasileiras, significa que a parcela de esgoto iguala a de água, e portanto que o esgoto
+responde por metade da fatura total.
+
+---
+
+### 2.7.3. Os cinco regimes na base
+
+O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
+regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
+seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 26). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
+
+<!-- tabela: **Tabela 57** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+| Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
+| :--- | :--- | :--- | :--- |
+| sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
+| tarifa de disponibilidade | valor fixo (−1) e faixas de consumo a partir de 0 m³, com preço positivo | valor fixo somado à parcela de consumo, faturada desde o primeiro m³ | toda redução de consumo reduz a fatura; o valor fixo permanece |
+| franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
+| franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
+| piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
+
+![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
+
+*Figura 26 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
+
+
+O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi
+até agora classificado nele, situação que se registra aqui por transparência: a ausência
+de ocorrências não significa que o regime não exista no país, e sim que o levantamento
+não o encontrou entre os 652 municípios catalogados.
+
+A seção 3.3 apresenta o exemplo numérico que compara Floriano e Florianópolis, do
+qual decorre a lição prática mais importante desta seção: em regime de franquia,
+economizar água abaixo do volume de franquia não produz desconto algum na fatura.
+
+---
+
+### 2.7.4. O investimento
+
+```equacao:capex:40
+CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
+```
+
+<!-- tabela: **Tabela 58** — Variáveis da Equação 40 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `CAPEX` | investimento inicial total do sistema | R$ |
+| `C_cist` | custo do reservatório inferior | R$ |
+| `C_sup` | custo do reservatório superior, quando houver | R$ |
+| `C_mo` | custo de mão de obra de instalação | R$ |
+| `C_tub` | custo da tubulação | R$ |
+| `C_ace` | custo de acessórios, incluída a verba genérica de filtragem | R$ |
+| `C_bomba` | custo unitário da motobomba | R$ |
+| `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
+| `CAPEX_inc` | investimento incremental da linha de tratamento, incluído o descarte inicial quando dimensionado | R$ |
+
+O último termo segue a regra incremental da seção 2.5 e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
+
+Os preços de reservatório provêm da base de custos do programa, com procedência
+declarada para cada material. Quando o volume pedido não consta da tabela, o programa
+interpola linearmente entre os pontos vizinhos; quando o volume excede o maior valor
+tabelado, a extrapolação só é realizada se a regressão sobre os pontos conhecidos
+apresentar coeficiente de determinação acima de 0,90, e o programa adverte quando esse
+critério não é satisfeito, em vez de extrapolar em silêncio.
+
+---
+
+A composição do investimento surpreende quem chega ao assunto esperando que o
+reservatório domine a conta. Em volumes residenciais pequenos ele pesa menos que a mão de obra e a tubulação, e só passa a dominar quando o volume cresce o bastante para que o preço do tanque supere a
+soma fixa da instalação. A consequência de projeto é direta: dobrar o reservatório não
+dobra o investimento, e essa não linearidade é parte do motivo de a curva de valor presente líquido ter máximo interior (Figura 27).
+
+![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
+
+*Figura 27 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes.*
+
+---
+
+### 2.7.5. O custeio anual
+
+<!-- tabela: **Tabela 59** — Parcelas do custeio anual e a origem de cada uma -->
+| Parcela | Origem |
+| :--- | :--- |
+| energia de bombeamento | seção 2.6, com a bandeira tarifária aplicada |
+| cloração | massa de **produto**, não de cloro ativo |
+| ETAP | custeio incremental, sem contar a cloração duas vezes |
+| descarte inicial | manutenção anual do reservatório de descarte e do separador de folhas, quando dimensionados |
+| custos operacionais declarados | lista livre do usuário |
+
+A bandeira tarifária ajusta a tarifa de energia conforme a condição de operação do
+sistema elétrico nacional, e o programa aceita as quatro modalidades vigentes: amarela,
+vermelha patamar 1, vermelha patamar 2 e branca, esta última com desconto nos períodos
+fora de ponta.
+
+---
+
+### 2.7.6. A projeção mês a mês
+
+A projeção é feita mês a mês ao longo de todo o período de análise, e aplica a cada parcela os fatores de inflação e de reajuste definidos a seguir.
+
+O resultado dessa projeção é uma série mensal de saldos, e o que interessa nela é
+o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o tempo de retorno. A Figura 28 agrega a projeção por ano: em colunas, a economia na fatura de água e esgoto e os custos, com o investimento no ano zero; em linha, o saldo acumulado descontado, que cruza o zero no tempo de retorno.
+
+![O saldo descontado acumulado ao longo de vinte anos](../figuras/fig08_fluxo_de_caixa.png)
+
+*Figura 28 — Fluxo de caixa do projeto do tutorial em vinte anos: economia anual na fatura de água e esgoto e custos anuais, com o investimento inicial no ano zero, em valores nominais; e saldo acumulado descontado à taxa mínima de atratividade, que cruza o zero no tempo de retorno de 16,3 anos. Cisterna de concreto de 4.000 L com caixa superior, como na seção 4.7.*
+
+**A inflação incide só sobre o custeio:**
+
+```equacao:inflacao:41
+f_inf = ( 1 + i )^( m − 1 )
+```
+
+<!-- tabela: **Tabela 60** — Variáveis da Equação 41 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
+| `i` | taxa de inflação mensal declarada, como fração: 0,35% ao mês entra como 0,0035 | adimensional |
+| `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
+
+**Os reajustes tarifários incidem só sobre a fatura, em degraus:**
+
+```equacao:degraus:42
+k = ⌊ ( m − 1 ) ÷ I ⌋
+```
+
+```equacao:reajuste:43
+f_j = ( 1 + r_j )^k
+```
+
+<!-- tabela: **Tabela 61** — Variáveis da Equação 43 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `k` | número de reajustes já aplicados até o mês `m` | adimensional |
+| `m` | mês do fluxo de caixa, contado a partir de 1 | mês |
+| `I` | intervalo entre reajustes, tipicamente 12 | mês |
+| `⌊ ⌋` | parte inteira da divisão | — |
+| `f_j` | fator acumulado de reajuste da parcela `j` | adimensional |
+| `r_j` | taxa de reajuste da parcela `j`, que pode ser água, esgoto ou energia | adimensional |
+
+A Equação 43 é aplicada separadamente a cada uma das três parcelas, com
+taxas próprias, e é dessa separação que trata a observação seguinte.
+
+> **Água e esgoto são reajustados por índices separados**, e não por um índice único
+> sobre a fatura agregada. As duas parcelas são objeto de atos distintos da
+> concessionária, e tratá-las juntas indexa metade da conta pelo índice errado.
+
+O incentivo de IPTU verde, quando o município o oferece e o usuário o habilita, entra no
+fluxo de caixa como economia anual dividida por doze, o que o distribui uniformemente
+pelos meses do ano. A simplificação é deliberada: o desconto é concedido de uma vez, no
+lançamento anual do tributo, mas distribuí-lo evita que o fluxo de caixa apresente um
+degrau que nada tem a ver com o desempenho do sistema.
+
+---
+
+### 2.7.7. Os indicadores
+
+**Valor presente líquido:**
+
+```equacao:vpl:44
+VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
+```
+
+<!-- tabela: **Tabela 62** — Variáveis da Equação 44 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `VPL` | valor presente líquido do investimento | R$ |
+| `CAPEX` | investimento inicial total, da Equação 40 | R$ |
+| `FC_m` | fluxo de caixa líquido do mês `m` | R$ |
+| `TMA` | taxa mínima de atratividade mensal, como fração: 0,5% ao mês entra como 0,005 | adimensional |
+| `m` | mês do fluxo de caixa, de 1 até o fim do período de análise | mês |
+
+**Taxa interna de retorno:** a taxa que zera o VPL. Quando não há raiz real — o que
+acontece quando o fluxo nunca se torna positivo — o programa devolve nulo, em vez de
+um número inventado.
+
+**Payback descontado:** o primeiro mês em que o acumulado descontado cruza zero.
+
+---
+
+### 2.7.8. As premissas frágeis
+
+Duas merecem sensibilidade, e a seção 3.7 mostra como.
+
+**O reajuste tarifário.** Cinco por cento ao ano por vinte anos multiplica a tarifa por 2,65; três por cento, por 1,81; sete por cento, por 3,87. A economia dos últimos anos cresce na mesma proporção, e é por isso que o reajuste está entre as premissas que mais movem o valor presente líquido, como mostra o tornado da seção 3.7; é também uma das mais incertas.
+
+**A vida útil.** Vinte anos é a adoção padrão. Cisterna de concreto dura mais;
+componentes de polietileno expostos ao sol duram menos. A vida útil entra tanto no
+período de análise quanto no payback de carbono da seção 2.8.
+
+---
+
+## 2.8. Avaliação de ciclo de vida
+
+> Esta seção traz as sete etapas do inventário, a fronteira adotada, e declara o
+> que é medido e o que é premissa de triagem.
+
+Avaliação de ciclo de vida é o método que contabiliza os impactos ambientais de um
+produto ao longo de toda a sua existência, da extração das matérias-primas ao descarte
+final. Aplicada a um sistema de aproveitamento pluvial, ela responde se o carbono emitido
+para fabricar o reservatório, a tubulação e a motobomba compensa o carbono que se deixa
+de emitir ao não consumir água da concessionária.
+
+==A avaliação do Netuno é de triagem, e não um inventário completo.== A distinção é
+importante e a norma a reconhece: uma avaliação de triagem ordena alternativas e
+identifica o que domina o resultado, ao passo que um inventário conforme a ISO 14040
+documenta cada fluxo elementar com procedência rastreável e submete-se a revisão crítica
+externa. O primeiro serve para decidir entre polietileno e concreto; o segundo, para
+declarar publicamente um desempenho ambiental.
+
+---
+
+### 2.8.1. As quatro fases da norma, e onde o programa se situa
+
+As normas ISO 14040 e ISO 14044, publicadas no Brasil como ABNT NBR ISO 14040 e ABNT NBR
+ISO 14044, organizam toda avaliação de ciclo de vida em quatro fases que se retroalimentam.
+Vale percorrê-las, porque cada uma corresponde a uma decisão que o programa já tomou por
+você, e que um estudo publicado precisa declarar.
+
+**1. Objetivo e escopo.** Define para que serve o estudo, a **unidade funcional** e a
+fronteira do sistema. A unidade funcional é a quantidade de serviço que se compara, e é
+ela que torna comparáveis alternativas diferentes. No programa, a unidade implícita é o
+**sistema de aproveitamento de um projeto ao longo da vida útil adotada**, e a
+comparação se faz contra o fornecimento, pela concessionária, do mesmo volume de água.
+Quem quiser comparar com a literatura pode convertê-la para a unidade mais usada, o
+metro cúbico de água entregue, dividindo o saldo pelo volume da vida útil, como faz a
+Equação 50.
+
+**2. Inventário.** Levanta os fluxos de entrada e saída de cada processo: massas de
+material, energia, insumos. No programa, o inventário são as massas dos componentes, a
+energia do recalque, a massa de produto clorado e o volume de água substituído.
+
+**3. Avaliação de impacto.** Converte os fluxos em indicadores de categoria por fatores
+de caracterização. O programa avalia **uma** categoria, a mudança climática, em quilos
+de dióxido de carbono equivalente, com os fatores de emissão do apêndice C.
+
+**4. Interpretação.** Identifica o que domina o resultado, testa a sensibilidade às
+premissas e tira conclusões dentro dos limites do escopo. É o que as seções 4.8 e
+3.7 fazem com o material do reservatório e com as demais premissas.
+
+---
+
+### 2.8.2. Os módulos da construção
+
+Para edificações, a norma europeia EN 15978 subdivide o ciclo de vida em módulos, e a
+mesma nomenclatura é usada nas declarações ambientais de produto conforme a EN 15804.
+Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
+fronteira, e é o que um avaliador espera encontrar.
+
+<!-- tabela: **Tabela 63** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+| Módulo | Etapa | Coberto pelo programa |
+| :--- | :--- | :--- |
+| A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas e descarte inicial |
+| A4 e A5 | construção: transporte até a obra e instalação | não; a escavação da cisterna enterrada fica de fora |
+| B1 a B5 | uso, manutenção, reparo, substituição e reforma | não; trocas de bomba e de componentes não entram |
+| B6 | energia operacional | sim, a energia de bombeamento |
+| B7 | água operacional | sim, na forma do crédito da água potável evitada e dos insumos de tratamento |
+| C1 a C4 | fim de vida: demolição, transporte, tratamento e disposição | não |
+| D | benefícios e cargas além da fronteira, como a reciclagem | não |
+
+A leitura da tabela é que o programa faz uma avaliação **do berço ao portão, mais a
+operação**. É a fronteira mais comum nos estudos de aproveitamento pluvial em edificações,
+mas não é a única, e comparar o saldo do programa com o de um estudo que inclui fim de
+vida ou substituições exige ajustar as fronteiras antes de comparar os números.
+
+---
+
+### 2.8.3. As sete etapas
+
+O inventário é organizado em sete etapas, agrupadas pela natureza da emissão (Figura 29). O saldo de carbono é a soma das emissões das seis primeiras menos o crédito da sétima, único termo com sinal negativo, e é esse crédito que decide se o sistema compensa o carbono incorporado na sua construção.
+
+
+
+![As sete etapas do inventário de ciclo de vida](../figuras/fig34_inventario.png)
+
+*Figura 29 — As sete etapas do inventário, agrupadas pela natureza da emissão. As quatro primeiras são incorporadas e ocorrem uma única vez; a quinta e a sexta são operacionais e se repetem todo ano; a sétima é o crédito, e é a única que entra com sinal negativo.*
+
+
+As quatro primeiras etapas contabilizam o **carbono incorporado**, isto é, as emissões ocorridas na fabricação dos componentes, antes que o sistema entre em operação; quando o descarte físico está dimensionado, o reservatório de descarte e o separador de folhas somam-se a elas. As duas
+seguintes contabilizam as emissões operacionais, que se repetem a cada ano de uso. E a
+sétima é o **crédito**: a emissão que a concessionária deixou de gerar porque aquela água
+não precisou ser captada, tratada e distribuída.
+
+O volume zero sem consumo pluvial representa o cenário sem sistema e, por construção, não
+recebe o impacto fixo de reservatório, tubulação ou motobomba — é a referência contra a
+qual todas as demais alternativas se comparam.
+
+---
+
+### 2.8.4. O carbono incorporado
+
+```equacao:emissao_componente:45
+E_comp = m_comp × FE_mat
+```
+
+<!-- tabela: **Tabela 64** — Variáveis da Equação 45 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_comp` | emissão incorporada do componente | kg CO₂e |
+| `m_comp` | massa do componente | kg |
+| `FE_mat` | fator de emissão do material, do berço ao portão | kg CO₂e/kg |
+
+A massa de cada componente decorre do seu dimensionamento. No caso do reservatório, ela
+é obtida do volume útil multiplicado pela densidade de massa característica do material,
+que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
+dessa variação que decorre boa parte do resultado ambiental do projeto.
+
+<!-- tabela: **Tabela 65** — Massa por metro cúbico útil de cada material de reservatório -->
+| Material | Massa por m³ útil | O que isso significa em 5 m³ |
+| :--- | ---: | ---: |
+| polietileno | 22 kg/m³ | 110 kg |
+| fibra de vidro | 15 kg/m³ | 75 kg |
+| aço inoxidável | 38 kg/m³ | 190 kg |
+| concreto armado | 1.200 kg/m³ | 6.000 kg |
+
+> **Massa é carbono.** Concreto armado é o material mais massivo da lista por
+> larga margem, e é por isso que ele domina o inventário quando escolhido. A
+> seção 4.8 mostra a consequência: com concreto, o sistema do tutorial
+> não paga a dívida de carbono dentro da vida útil.
+
+#### 2.8.4.1. O inventário do projeto do tutorial, item a item
+
+A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.000 L em
+polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
+inicial.
+
+<!-- tabela: **Tabela 66** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
+| Item | Incorporado | Parcela do incorporado | Anual |
+| :--- | ---: | ---: | ---: |
+| cisterna de 4.000 L, polietileno | 141,9 kg | 43,3% | — |
+| caixa superior de 1.000 L, polietileno | 35,5 kg | 10,8% | — |
+| tubulação de PVC, DN 100 mm | 55,5 kg | 17,0% | — |
+| tubulação de PVC, DN 32 mm | 3,5 kg | 1,1% | — |
+| tubulação de PVC, DN 25 mm | 8,9 kg | 2,7% | — |
+| duas motobombas de meio CV | 61,0 kg | 18,6% | — |
+| descarte inicial: reservatório de 300 L e separador de folhas | 21,1 kg | 6,5% | — |
+| energia do recalque | — | — | 0,66 kg/ano |
+| cloração por pastilhas | — | — | 0,24 kg/ano |
+| água potável evitada | — | — | -20,94 kg/ano |
+| **total** | **327,4 kg** | **100%** | **-20,05 kg/ano** |
+
+Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
+quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
+simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
+crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
+cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
+
+---
+
+### 2.8.5. A operação
+
+**Bombeamento:**
+
+```equacao:emissao_energia:46
+E_ener = C_ano × FE_rede
+```
+
+<!-- tabela: **Tabela 67** — Variáveis da Equação 46 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
+| `C_ano` | consumo anual de energia da motobomba | kWh/ano |
+| `FE_rede` | fator de emissão da rede elétrica, por região e ano | kg CO₂e/kWh |
+
+O consumo anual de energia provém do cálculo apresentado na seção 2.6, conforme o
+arranjo de abastecimento declarado, e o fator de emissão da rede elétrica provém de uma
+das bases do programa. A base padrão, de 0,085 kg CO₂e/kWh, é uma escolha declarada entre
+os valores publicados para a matriz brasileira: fica próxima do valor do SIDAC e do CaDI,
+e acima da série anual do MCTI, que cobre só o dióxido de carbono da geração. As bases
+alternativas incluem os valores de Vaz, Scolaro e Ghisi (2025) para a matriz de 2022,
+0,104 kg CO₂e/kWh no indicador fóssil e 0,151 no indicador total, úteis para a análise
+de sensibilidade.
+
+A energia é pequena no programa, mas convém saber que ela tende a ser maior na prática.
+Vieira et al. (2014), numa revisão sobre a intensidade energética de sistemas de
+aproveitamento pluvial, encontraram mediana de 0,20 kWh/m³ nos estudos teóricos e de
+1,40 kWh/m³ nos estudos empíricos, e atribuíram parte da diferença a partidas, ao
+consumo em espera e a rendimentos reais piores que os de catálogo. O tutorial, com
+0,13 kWh/m³, está na faixa dos estudos teóricos. Ghimire et al. (2014, 2017) chegaram a
+conclusão convergente pela avaliação de ciclo de vida: nos sistemas que analisaram, a
+motobomba e a energia de bombeamento foram os componentes que mais pesaram na maior
+parte das categorias de impacto, e a versão sem bomba superou o abastecimento público em
+quase todas elas.
+
+> **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
+> energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
+> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
+> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
+> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
+> inverter o resultado.
+
+**Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
+ele. É a mesma regra da seção 2.5, e existe para o hipoclorito não ser contado duas
+vezes.
+
+---
+
+### 2.8.6. O que a fronteira inclui, e o que ela deixa de fora
+
+Antes de discutir qualquer fator de emissão, convém fixar o recorte. A avaliação do
+programa é de **triagem**: serve para ordenar alternativas entre si, e não para
+substituir um inventário de ciclo de vida conforme a ISO 14040. O que entra na conta e o
+que fica de fora está declarado, porque um saldo ambiental sem fronteira declarada não se pode nem conferir nem contestar (Figura 30). A exclusão mais limitante é a das categorias de impacto além do aquecimento global: um sistema com bom desempenho de carbono pode ter desempenho desfavorável em outra categoria, e a avaliação não o registra.
+
+![O que a avaliação ambiental inclui e o que ela deixa de fora](../figuras/fig00h_fronteira.png)
+
+*Figura 30 — Fronteira da avaliação ambiental do programa: (a) processos incluídos — carbono incorporado dos reservatórios, da tubulação e da motobomba, emissões operacionais de recalque e de insumos da ETAP, e crédito da água potável evitada; (b) processos excluídos — obra civil, manutenção e reposição, fim de vida e categorias de impacto além do aquecimento global.*
+
+---
+
+### 2.8.7. A fronteira: água entregue, não produzida
+
+O fator de emissão da água potável é por metro cúbico **entregue na edificação**, e
+não por metro cúbico produzido na estação de tratamento.
+
+A diferença são as perdas de distribuição, que no Brasil vão de **33,9% no Sudeste a
+46,9% no Norte**. Produzir um metro cúbico entrega entre 0,53 e 0,66.
+
+Um fator publicado de saída de estação, aplicado ao volume entregue, **subestima a
+emissão evitada em até um terço**. O programa faz a conversão e declara a
+macrorregião adotada.
+
+O apêndice C traz as 19 rotas de produção de água disponíveis, com procedência e
+fronteira de cada uma.
+
+---
+
+### 2.8.8. Os indicadores
+
+**Saldo líquido anual:**
+
+```equacao:saldo_liquido:47
+E_liq = E_evit − E_ener − E_trat
+```
+
+<!-- tabela: **Tabela 68** — Variáveis da Equação 47 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
+| `E_evit` | emissão evitada pela água da concessionária que deixou de ser consumida | kg CO₂e/ano |
+| `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
+| `E_trat` | emissão anual dos insumos de tratamento | kg CO₂e/ano |
+
+**Payback de carbono:**
+
+```equacao:payback_carbono:48
+PB_amb = E_inc ÷ E_liq
+```
+
+<!-- tabela: **Tabela 69** — Variáveis da Equação 48 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `PB_amb` | tempo de retorno ambiental do sistema | ano |
+| `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
+| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+
+Quando o saldo líquido anual não é positivo — situação real, e não hipotética, em
+sistemas com reservatório de concreto de grande volume — o retorno ambiental não existe,
+porque a dívida nunca é amortizada. O programa devolve 999 anos nesse caso, em vez de
+infinito, para que o valor continue ordenável nas comparações; o significado, contudo, é
+que o sistema termina a vida útil devendo carbono.
+
+**Saldo no fim da vida:**
+
+```equacao:saldo_vida:49
+S_vida = ( E_liq × n_anos ) − E_inc
+```
+
+<!-- tabela: **Tabela 70** — Variáveis da Equação 49 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
+| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+| `n_anos` | vida útil adotada para o sistema | ano |
+| `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
+
+Negativo significa que o sistema **emitiu mais do que evitou** ao longo da vida
+adotada. Não é hipótese teórica: acontece com cisterna de concreto e vida útil de
+vinte anos, como a seção 4.8 demonstra.
+
+**Emissão específica evitada:**
+
+```equacao:emissao_especifica:50
+E_esp = S_vida ÷ V_vida
+```
+
+<!-- tabela: **Tabela 71** — Variáveis da Equação 50 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
+| `S_vida` | saldo de carbono ao fim da vida útil, da Equação 49 | kg CO₂e |
+| `V_vida` | volume total de água pluvial entregue ao longo da vida útil | m³ |
+
+---
+
+### 2.8.9. O que carrega rótulo de triagem
+
+Nem todo fator do inventário tem fonte primária. O programa marca os que não têm, e
+o relatório exibe a marca.
+
+Carregam o rótulo as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidável, que ainda são cenários geométricos, e qualquer fator digitado sem fonte. Os fatores de emissão padrão têm procedência declarada; o último a recebê-la foi o do **hipoclorito**, que agora vem do Ecoinvent 3.8: como a base não tem hipoclorito de cálcio, o programa usa o de sódio na base de cloro ativo, 2,65 kg CO₂e por kg, o que dá 1,72 kg CO₂e por kg de pastilha a 65%. A emissão de fabricação da motobomba, que até a revisão de setembro de 2026 era extrapolação aritmética em quatro das seis potências, passou a combinar a massa de catálogo com a intensidade de uma declaração ambiental de produto; é aproximação de ordem de grandeza, e o apêndice C declara a ressalva.
+
+> **Num estudo publicado, declare quais fatores estão com rótulo de triagem.** Um
+> inventário que apresenta todos os fatores com o mesmo grau de confiança esconde
+> onde está a fragilidade.
+
+---
+
+### 2.8.10. O que a literatura mostra
+
+A avaliação de ciclo de vida de sistemas de aproveitamento pluvial é um campo ativo e sem
+método único. Vaz et al. (2023), numa revisão integrativa conduzida pelo protocolo
+PRISMA, concluíram que as edificações residenciais são o caso mais estudado, mas que
+falta consenso sobre um arcabouço analítico uniforme; que vários benefícios da água de
+chuva, como a redução do escoamento, raramente entram na avaliação; e que a integração
+com o custo de ciclo de vida é um caminho promissor para mostrar os benefícios de forma
+mais direta.
+
+Para o caso brasileiro, Marinoski e Ghisi (2018) avaliaram uma habitação de interesse
+social em Florianópolis e compararam reservatórios de fibra de vidro, polietileno de alta
+densidade e concreto armado. Os de fibra de vidro foram os mais favoráveis do ponto de
+vista ambiental, e os de concreto, do ponto de vista do investimento. O resultado
+converge com o da seção 4.8 no essencial: o material do reservatório pesa no
+carbono, e as dimensões ambiental e econômica podem apontar em direções diferentes.
+
+Ghimire et al. (2017), ao comparar um sistema comercial com o abastecimento municipal em
+onze categorias de impacto, mostraram outra coisa que esta avaliação não alcança: o
+sistema pluvial superou o municipal em dez das onze categorias, mas não em todas, e o
+resultado de cada categoria dependia da intensidade energética do bombeamento. É o
+argumento mais forte para declarar que a avaliação do programa cobre uma categoria só.
+
+---
+
+### 2.8.11. O que a avaliação não cobre
+
+- **fim de vida.** Não há crédito por reciclagem nem ônus por disposição. A fronteira
+  é do berço ao portão mais a operação.
+- **escavação e obra civil.** O movimento de terra da cisterna enterrada não entra.
+- **manutenção.** Trocas de componente ao longo da vida útil não entram.
+- **impactos além do carbono.** Não há eutrofização, acidificação, uso do solo nem
+  toxicidade. É uma avaliação de **uma** categoria de impacto.
+
+O último ponto é o mais importante. Um sistema com bom desempenho de carbono pode ter
+desempenho ruim em outra categoria, e esta avaliação não o veria.
+
+---
+
+## 2.9. Certificações
+
+> Esta seção reúne as regras de enquadramento de cinco referenciais de sustentabilidade
+> e distingue, em cada um deles, o que é requisito normativo do que é critério adotado
+> pelo programa.
+
+Sistemas de aproveitamento de água pluvial aparecem em praticamente todos os
+referenciais de certificação ambiental de edificações, e em cada um deles com uma
+métrica própria. Uns medem a economia contra o consumo total da edificação, outros
+contra um caso-base de referência, e outros ainda exigem a comparação em mais de uma
+dimensão simultaneamente. O programa calcula o enquadramento em cinco desses
+referenciais a partir dos resultados da simulação, e o faz sempre com a mesma ressalva:
+==o programa mostra onde o projeto se enquadraria, e não certifica coisa alguma.== A
+certificação é decidida pelo organismo certificador, com a documentação completa do
+empreendimento, da qual o desempenho hídrico é apenas uma peça.
+
+Antes de entrar num a um, convém vê-los lado a lado. Os limiares de cada referencial estão em escalas que parecem incomparáveis enquanto ficam em tabelas separadas, e passam a ser comparáveis quando postos sobre a mesma régua de economia (Figura 31). O LEED v4 pontua separadamente a redução do uso externo (WEc1: 1 ponto a partir de 50% e 2 pontos com 100%) e a do uso interno (WEc2: de 1 a 6 pontos entre 25% e 50%); o LEED v5 reúne a categoria no crédito WEc2, em que a redução em louças e metais vale de 1 a 3 pontos entre 30% e 40% e a redução do projeto inteiro, de 1 a 8 pontos entre 30% e 65%; o AQUA-HQE Residencial atribui o item EAU.1.2 a partir de 20% e o EAU.1.3 a partir de 40%; e o EDGE exige redução mínima de 20% simultaneamente em água, energia e energia incorporada nos materiais, sem pontuação.
+
+![Os limiares de economia dos referenciais, na mesma régua](../figuras/fig37_certificacoes.png)
+
+*Figura 31 — Os limiares de redução do consumo de água potável com que o programa enquadra o projeto no LEED v4 (créditos WEc1 e WEc2), no LEED v5 (crédito WEc2, opções 1, 2 e 4), no AQUA-HQE Residencial e no EDGE, na mesma escala. O Selo Casa Azul não entra na régua, porque o seu critério pontua a existência do sistema e a abrangência do uso, e não um percentual. Um mesmo projeto cruza referenciais diferentes em pontos diferentes, e é por isso que declarar a economia obtida vale mais do que declarar a certificação pretendida.*
+
+---
+
+### 2.9.1. LEED v4 e v4.1, categoria Water Efficiency
+
+O LEED é o referencial norte-americano mais difundido internacionalmente. A versão 5, lançada em abril de 2025 para edificações comerciais, convive com as versões 4 e 4.1, que aceitam registro de novos projetos comerciais até 30 de junho de 2027 e certificação até 30 de junho de 2033; o programa enquadra o projeto nas duas. Nas versões 4 e 4.1, a eficiência hídrica ocupa uma categoria própria que vale oito pontos distribuídos em dois créditos. A distinção fundamental que ele impõe é entre uso interno e uso externo da
+água, e é dessa separação que decorre toda a pontuação.
+
+O crédito WEc1 trata da redução do uso externo, isto é, da irrigação e das demais
+demandas de área descoberta, e vale até dois pontos. O programa concede os dois pontos
+com 100% de redução do uso externo de água potável e um ponto a partir de 50%, tomando a
+água de chuva destinada à irrigação do próprio balanço diário; e um projeto que não tenha
+demanda externa cadastrada não pontua, situação em que o programa registra explicitamente
+a razão, para que o usuário não interprete o zero como falha de desempenho.
+
+O crédito WEc2 trata da redução do uso interno e vale até seis pontos, distribuídos numa
+escala de cinco em cinco pontos percentuais a partir de 25% de economia. Antecede-o um
+pré-requisito, o WEp2, que exige 20% de redução interna e é obrigatório: sem ele o
+empreendimento não é elegível à certificação, e ele próprio não confere pontuação alguma.
+
+
+> A separação entre uso interno e externo depende inteiramente da **discretização da
+> demanda** descrita na seção 4.2. O programa não inventa essa separação: usa a água
+> de chuva que o balanço diário destinou à irrigação, que é atendida depois do uso
+> interno. Sem demanda externa discretizada, o crédito WEc1 aparece como não avaliado, e a
+> economia interna é tomada, conservadoramente, igual à economia total.
+
+> O rótulo da pontuação informa apenas os pontos da categoria de água. O nível do LEED —
+> Certified, Silver, Gold ou Platinum — resulta da soma de todas as categorias, e a água
+> sozinha não o define.
+
+---
+
+### 2.9.2. LEED v5, crédito WEc2 Enhanced Water Efficiency
+
+Na versão 5, conferida contra o *LEED v5 BD+C Rating System* de novembro de 2025, os
+créditos de uso interno e externo foram reunidos no crédito WEc2, *Enhanced Water
+Efficiency*, que vale até oito pontos em construção nova e até sete em *Core and Shell*;
+o programa avalia só a construção nova. O código WEc1 passou a designar outro crédito,
+*Water Metering and Leak Detection*, de medição setorizada e detecção de vazamentos, e
+não deve ser confundido com o WEc1 de uso externo do LEED v4. O pré-requisito WEp2 exige,
+entre outras condições, redução de 20% no consumo de louças e metais em relação à linha
+de base do referencial, e o pré-requisito WEp1 exige que a fonte alternativa de água, como
+a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O projeto pontua
+por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
+ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
+
+<!-- tabela: **Tabela 72** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+| Opção | O que mede | Pontuação |
+| :--- | :--- | :--- |
+| 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
+| 2. Louças e metais | redução calculada contra a linha de base do WEp2, que pode incluir fonte alternativa | 30% 1 ponto, 35% 2 pontos, 40% 3 pontos |
+| 4. Uso externo, caminho 2 | redução do requisito teórico de irrigação | 50% 1 ponto, 100% 2 pontos |
+| 6. Reúso, caminho 2 | sistema de reúso no lote que atenda a irrigação, descargas, reposição ou processo | 2 pontos |
+
+O programa calcula as duas vias e adota a de maior pontuação: a Opção 1 com a economia
+total, e a soma das Opções 2, 4 e 6 com a economia interna, a economia externa e a
+existência do sistema, que o programa trata como o sistema de reúso da Opção 6. O teto de
+oito pontos vale para as duas. As Opções 3 e 5, de equipamentos e de água de processo, e o
+caminho 1 da Opção 4, de paisagismo sem irrigação, não dependem do aproveitamento pluvial e
+ficam fora da conta. Como no LEED v4, as
+reduções do referencial são medidas contra uma linha de base de vazões de aparelhos e de
+irrigação, e não contra a demanda modelada, de modo que o enquadramento é indicativo.
+
+O aproveitamento pluvial também pode contribuir para o crédito SSc3, *Rainwater
+Management*. Pela Opção 1, ele concede 1, 2 ou 3 pontos pela retenção no lote do volume
+correspondente ao percentil 80, 85 ou 90 das chuvas locais (70, 75 ou 80 em lote sem
+recuo), e 1 ponto adicional quando parte desse volume é reusada, sem ultrapassar o teto de
+3 pontos; pela Opção 2, concede 3 pontos a quem retém o acréscimo de escoamento em relação
+à cobertura natural do terreno. O programa não avalia esse crédito, porque ele depende do escoamento de todo o
+terreno, e não só da cobertura; a matriz de critérios o registra como não avaliado.
+
+---
+
+### 2.9.3. AQUA-HQE Residencial, tema consumo de água
+
+O AQUA-HQE é a adaptação brasileira, conduzida pela Fundação Vanzolini com a CERQUAL
+Qualitel, do referencial francês HQE. No referencial de edifícios residenciais vigente,
+versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de água», por
+itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
+Três itens dizem respeito ao aproveitamento pluvial:
+
+<!-- tabela: **Tabela 73** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+| Item | Nível | Exigência |
+| :--- | :--- | :--- |
+| EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
+| EAU.1.3 | HQE 3 | economia de 40% de água potável no empreendimento |
+| EAU.1.5 | HQE 3 | sistema de recuperação de águas pluviais, conforme as ABNT NBR 15527 e 16783 |
+
+O programa compara a economia de água potável simulada com os limiares de 20% e 40%, e
+registra o item EAU.1.5 sempre que há sistema. ==O percentual do programa é indicativo:==
+o referencial mede a economia contra um cenário de referência de vazões e usos por
+dispositivo, calculado na planilha auxiliar da Fundação Vanzolini, que soma o efeito dos
+aparelhos economizadores ao da água não potável.
+
+> **Correção desta versão.** Até a revisão de setembro de 2026 o programa enquadrava o
+> projeto em perfis «Base», «Boas Práticas» e «Excelente», a 10, 25 e 40% de economia.
+> O referencial de 2024 não tem esses perfis, e o enquadramento foi refeito pelos itens.
+
+---
+
+### 2.9.4. Selo Casa Azul + CAIXA, critério 3.6
+
+O Selo Casa Azul é o referencial da Caixa Econômica Federal para habitação. No guia
+vigente, versão V023 de 29 de abril de 2026, o aproveitamento pluvial é o critério 3.6,
+da categoria «Gestão eficiente da água», e o seu indicador não é um percentual: é a
+**existência** de sistema de aproveitamento, com captação, tratamento, reservação e
+pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
+
+<!-- tabela: **Tabela 74** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+| Abrangência do uso da água pluvial | Pontos |
+| :--- | ---: |
+| áreas comuns do empreendimento | 2 |
+| casas em loteamento, com a preparação exigida | 2 |
+| unidades habitacionais | 4 |
+| unidades habitacionais e áreas comuns | 5 |
+
+O critério é de livre escolha para os níveis Cristal/Bronze, Topázio/Prata e Safira/Ouro,
+e obrigatório para o Diamante. Para a unidade isolada vale o Selo Casa Azul Uni, versão
+V001 de dezembro de 2025, em que o critério 7, «Aproveitamento de águas pluviais», vale
+1 ponto e é obrigatório para o Selo Ouro. O programa registra o critério como atendido
+quando há sistema, e atribui os pontos só quando a abrangência é informada.
+
+> **Correção desta versão.** Até a revisão de setembro de 2026 o programa graduava o
+> projeto em «Prata», «Ouro» e «Diamante» a 10, 20 e 30% de economia. O guia não liga o
+> critério a percentual, e o enquadramento foi refeito pela existência e pela abrangência.
+
+> **Declare no estudo.** O enquadramento só é defensável com a versão vigente do
+> referencial em mãos, e o programa não substitui essa conferência.
+
+
+---
+
+### 2.9.5. EDGE, o único que não pontua
+
+O EDGE, desenvolvido pela International Finance Corporation do Banco Mundial, adota uma
+lógica distinta de todos os anteriores. Em vez de atribuir pontos a desempenhos
+crescentes, ele mede o percentual de economia contra um caso-base local em três
+dimensões independentes — energia, água e energia incorporada nos materiais — e exige
+que **cada uma** delas cruze o limiar estabelecido. Não há compensação entre dimensões:
+um desempenho hídrico excepcional não supre uma deficiência em energia.
+
+O EDGE tem ainda dois níveis acima do primeiro. O **EDGE Advanced** exige, além dos 20% nas três dimensões, economia de energia de pelo menos 40% no local; o **Zero Carbon** exige o anterior mais 100% de energia renovável ou compensação integral das emissões remanescentes.
+
+Vale notar qual barra o nível avançado eleva. ==O EDGE Advanced sobe a exigência de
+energia, e não a de água.== A consequência prática para quem projeta sistemas pluviais é
+que o sistema garante a barra hídrica com relativa folga, ao passo que o nível de
+certificação alcançado se decide inteiramente fora do escopo do projeto de água. O
+programa avalia apenas a barra de água, pela medida WEM14, cuja entrada no aplicativo do
+IFC é a área de captação em metros quadrados.
+
+> **O limite honesto está no denominador.** O caso-base do EDGE é local, varia conforme
+> o país e a tipologia, e é fixado pelo próprio aplicativo do IFC. O programa aceita o
+> caso-base declarado pelo usuário; na ausência dele, adota a demanda modelada do
+> projeto e adverte que o percentual resultante é um **piso**, e não o valor que a
+> certificação reconhecerá.
+>
+> As barras de energia e de energia incorporada nos materiais estão fora do alcance do
+> programa, que declara essa limitação no relatório. Afirmar que um projeto é EDGE
+> Certified dispondo de um terço da evidência necessária seria irresponsável.
+
+Os limiares acima foram extraídos do documento *EDGE Certification Process*, do IFC, e
+os códigos das medidas de água foram conferidos contra um relatório de avaliação EDGE
+v3.0.0 de projeto já certificado.
+
+---
+
+### 2.9.6. GRI 303
+
+A Global Reporting Initiative não é um referencial de certificação de edificações, e sim
+um padrão de divulgação corporativa de desempenho socioambiental. Sua série 303 trata de
+água e efluentes, e dois de seus indicadores são alimentados diretamente pelos resultados
+do programa: o GRI 303-3, que reporta a captação evitada em metros cúbicos por ano e
+acumulada ao longo do período, e o GRI 303-5, que expressa a taxa de circularidade
+hídrica do empreendimento.
+
+---
+
+### 2.9.7. O que declarar
+
+Qualquer estudo que reporte enquadramento em referenciais de certificação precisa
+explicitar quatro pontos, e a omissão de qualquer um deles compromete a verificabilidade
+do resultado. O primeiro é que as classes 2 a 4 de qualidade da água adotadas pelo
+programa são adaptações internas, e não classes da ABNT NBR 15527. O segundo diz respeito
+ao EDGE, e consiste em declarar que apenas a barra de água foi avaliada, identificando o
+caso-base utilizado. O terceiro aplica-se ao LEED, e consiste em declarar a versão do referencial adotada e informar se a partição entre uso interno e externo foi discretizada a partir de dados do projeto ou se, na falta dela, a economia interna foi tomada igual à economia total. O quarto, finalmente, é a ressalva geral: o
+enquadramento produzido pelo programa é indicativo, e a certificação é decidida pelo
+organismo certificador à luz da documentação completa do empreendimento.
+
+---
+
+## 2.10. Decisão multicritério
+
+> Esta seção formaliza os dois métodos de ordenação que o programa oferece e declara
+> três desvios em relação à formulação canônica que um estudo publicado precisa citar.
+
+Análise multicritério é o ramo da pesquisa operacional que trata de escolher entre
+alternativas quando os critérios de avaliação discordam entre si e não podem ser
+reduzidos a um único número sem que alguém declare o que vale mais. É exatamente a
+situação de um projeto de aproveitamento pluvial: o volume que entrega mais água não é o
+que rende mais dinheiro, e nenhum dos dois costuma ser o de menor impacto de carbono.
+
+O que os métodos desta seção fazem não é descobrir a resposta certa. ==Eles tornam
+explícita a ponderação que, de outro modo, ficaria implícita na escolha de quem
+decide.== Essa é toda a diferença entre um estudo que declara os seus valores e um que
+os esconde atrás de um resultado aparentemente objetivo.
+
+---
+
+### 2.10.1. Os sete critérios
+
+O programa avalia cada volume da varredura segundo sete critérios, agrupados em três
+dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
+outros, menos.
+
+<!-- tabela: **Tabela 75** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
+| # | Critério | Direção | Grupo |
+| :-- | :--- | :--- | :--- |
+| 1 | potencial de economia | maximizar | técnico |
+| 2 | extravasamento | minimizar | técnico |
+| 3 | valor presente líquido | maximizar | econômico |
+| 4 | payback descontado | minimizar | econômico |
+| 5 | taxa interna de retorno | maximizar | econômico |
+| 6 | CO₂e no fim da vida | minimizar | ambiental |
+| 7 | consumo de água potável | minimizar | ambiental |
+
+As alternativas submetidas à ordenação são os volumes simulados na varredura, e cada uma
+delas comparece com os sete valores acima, calculados nas seções 2.1, 2.7 e
+2.8. Não há critério inventado nesta etapa: o método apenas ordena o que as
+dimensões anteriores já produziram.
+
+---
+
+### 2.10.2. TOPSIS
+
+O TOPSIS — *Technique for Order of Preference by Similarity to Ideal Solution*, proposto
+por Hwang e Yoon em 1981 — parte de uma ideia geométrica simples. Se cada alternativa é
+um ponto num espaço de sete dimensões, uma por critério, então existem dois pontos de
+referência: a **solução ideal**, composta pelo melhor valor de cada critério, e a
+**solução anti-ideal**, composta pelos piores. Nenhuma alternativa real ocupa qualquer
+um dos dois, porque nenhuma vence em tudo nem perde em tudo, e a melhor alternativa é a
+que está simultaneamente mais perto do ideal e mais longe do pior caso.
+
+O método executa cinco passos. Monta a matriz de decisão, com as alternativas nas linhas
+e os critérios nas colunas; normaliza essa matriz, para que critérios medidos em reais,
+em pontos percentuais e em quilogramas passem a ocupar escalas comparáveis; aplica os
+pesos declarados; identifica as soluções ideal e anti-ideal; e ordena as alternativas
+pela proximidade relativa ao ideal.
+
+```equacao:topsis:51
+C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
+```
+
+<!-- tabela: **Tabela 76** — Variáveis da Equação 51 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
+| `d_i⁺` | distância euclidiana da alternativa `i` à solução ideal | adimensional |
+| `d_i⁻` | distância euclidiana da alternativa `i` à solução anti-ideal | adimensional |
+
+O coeficiente da Equação 51 valeria 1 para uma alternativa que coincidisse com
+a solução ideal em todos os critérios, e 0 para uma que coincidisse com a anti-ideal.
+Como nenhuma alternativa real ocupa esses extremos, o que interessa não é o valor
+absoluto do coeficiente, e sim a ordenação que ele produz.
+
+---
+
+Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e pesos iguais, o escore cresce até um máximo interior e decresce nos volumes maiores, em que o investimento e o carbono incorporado passam a pesar mais que o ganho de água (Figura 32). O máximo, em 7 m³, difere dos 5 m³ obtidos na seção 4.9 com seis candidatos, porque o ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*).
+
+![O escore TOPSIS ao longo da varredura completa](../figuras/fig22_topsis.png)
+
+*Figura 32 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno e pesos iguais entre os sete critérios; a estrela marca o volume de maior escore. Figura gerada pelo próprio programa.*
+
+---
+
+### 2.10.3. Três desvios a declarar
+
+A implementação do programa se afasta da formulação canônica em três pontos, todos
+deliberados, e um estudo publicado precisa declará-los para não atribuir aos métodos
+originais um comportamento que é do programa.
+
+**A normalização é uma variante.** A formulação canônica de Hwang e Yoon emprega
+normalização vetorial, que pressupõe valores não negativos em todos os critérios. O valor
+presente líquido, porém, é negativo com frequência nos volumes pequenos, em que o
+investimento não se paga. O programa contorna a restrição transladando cada critério por
+`x − min(x)` antes de normalizar. A escolha é necessária e deliberada, mas apresentar o
+resultado como TOPSIS canônico seria incorreto: declare a variante.
+
+**As condições de Opricovic não estão implementadas.** O método VIKOR, na formulação de
+Opricovic, exige duas verificações sobre a solução de compromisso encontrada — a de
+vantagem aceitável e a de estabilidade aceitável — e, quando qualquer uma delas falha,
+devolve um **conjunto** de soluções equivalentes em vez de um único vencedor. O programa
+devolve sempre a melhor alternativa, sem realizar o teste. Na prática, isso significa que
+a solução de compromisso do VIKOR deve ser lida ao lado da análise de sensibilidade de
+pesos, e nunca sozinha.
+
+**A atribuição do código.** A implementação do VIKOR e do SMAA-VIKOR foi escrita de forma
+independente e verificada contra a biblioteca `crispyn`, de Aleksandra Bączkiewicz. O
+TOPSIS foi verificado contra a formulação original de Hwang e Yoon num caso de valores
+todos positivos, em que a translação descrita acima é inócua e as duas formulações
+precisam coincidir.
+
+---
+
+### 2.10.4. SMAA-VIKOR
+
+O SMAA — *Stochastic Multicriteria Acceptability Analysis* — existe para responder à
+pergunta que o TOPSIS não responde: e se os pesos fossem outros? Em vez de exigir um
+conjunto de pesos definido de antemão, o método sorteia milhares de combinações de pesos
+e devolve, para cada alternativa, a probabilidade de ela ocupar cada posição do ranking.
+
+A leitura do resultado é direta e informativa. Um volume que vence em 80% dos sorteios é
+uma recomendação robusta, que não depende de uma ponderação específica para se sustentar.
+Um volume que vence em 30% é uma recomendação frágil, e o texto do estudo precisa dizê-lo
+em vez de apresentar o vencedor como se fosse consensual.
+
+> É a ferramenta certa quando não há consenso sobre os pesos — que é o caso normal em
+> projetos reais, nos quais o cliente, o projetista e o órgão ambiental costumam
+> valorizar dimensões diferentes.
+
+---
+
+A leitura mais útil da análise estocástica não é o vencedor, e sim a margem com que
+ele vence. Um volume que fica em primeiro lugar em três quartos dos sorteios de pesos é
+uma escolha estável, que sobrevive a uma mudança de prioridade do decisor; dois volumes
+tecnicamente empatados indicam o contrário, e nesse caso declarar o peso adotado deixa
+de ser formalidade e passa a ser a única informação que sustenta a recomendação (Figura 33).
+
+![A aceitabilidade de primeiro lugar de cada volume](../figuras/fig23_smaa.png)
+
+*Figura 33 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex. O volume destacado é o que mais vezes fica em primeiro lugar, e os demais repartem o restante.*
+
+#### 2.10.4.1. O tutorial, pelos dois métodos
+
+A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimensões, e a
+aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
+sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
+
+<!-- tabela: **Tabela 77** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+| Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
+| ---: | ---: | ---: | ---: |
+| 1 000 L | 0,401 | 7º | 0,0% |
+| 2 000 L | 0,688 | 5º | 5,0% |
+| 3 000 L | 0,800 | 3º | 14,2% |
+| 4 000 L | 0,854 | 1º | 45,4% |
+| 5 000 L | 0,847 | 2º | 34,5% |
+| 8 000 L | 0,693 | 4º | 1,0% |
+| 12 000 L | 0,542 | 6º | 0,0% |
+
+Os dois métodos concordam no vencedor, 4.000 L, e discordam na margem. O TOPSIS separa o
+primeiro do segundo colocado por sete milésimos de escore, diferença que nenhum dado de
+entrada sustenta. O SMAA mede essa fragilidade: 4.000 L vence em 45% dos sorteios e
+5.000 L em 35%, e os dois juntos somam quatro de cada cinco sorteios. Pela régua da seção
+3.7, a recomendação é razoável, e o estudo deve declarar os 5.000 L como segunda
+opção. Os extremos, 1.000 L e 12.000 L, não vencem em sorteio nenhum: nenhuma ponderação
+plausível os recomenda, e isso também é resultado.
+
+---
+
+### 2.10.5. Os pesos
+
+O programa aceita um peso por dimensão, técnica, econômica e ambiental, ou um peso por
+critério. Com pesos iguais entre as dimensões, cada uma vale um terço, repartido
+igualmente entre os seus critérios: os dois técnicos e os dois ambientais valem um sexto
+cada, e os três econômicos, um nono cada. A escolha, contudo, não é técnica: é uma declaração de valor, e por isso
+precisa aparecer no texto do estudo. ==A afirmação «volume ótimo pelo TOPSIS», sem os
+pesos, é impossível de reproduzir,== e dois estudos com pesos diferentes chegam a volumes
+diferentes sem que nenhum dos dois esteja errado.
+
+Três condutas são defensáveis, e a escolha entre elas depende de quanto se sabe sobre as
+prioridades de quem decide. Pesos iguais, declarados explicitamente como ausência de
+preferência, constituem a posição neutra. Pesos justificados, com a razão de cada um,
+são preferíveis quando as prioridades são conhecidas. E o SMAA, reportando a faixa de
+resultados em vez de um vencedor único, é a conduta mais completa quando não há consenso.
+
+---
+
+### 2.10.6. Os melhores por critério isolado
+
+Além da ordenação ponderada, o programa identifica o vencedor de cada grupo de critérios
+— técnico, financeiro e ambiental — e reporta os três separadamente. São números que
+valem ser publicados em conjunto, porque cada um responde a uma pergunta legítima e
+diferente.
+
+Quando os três coincidem, a recomendação é forte e a decisão dispensa ponderação. Quando
+divergem, que é o caso comum e é o do tutorial, ==a divergência **é** o resultado:==
+escondê-la atrás de um único número ponderado empobrece o estudo e transfere ao leitor
+uma conclusão que ele não tem como avaliar.
+
+---
+
+### 2.10.7. O que o método não faz
+
+Convém encerrar pelos limites, porque métodos multicritério são frequentemente
+apresentados com uma autoridade que não têm.
+
+**Não escolhem os pesos.** A ponderação é do analista, e é uma decisão de valor, não de
+técnica. Nenhum procedimento estatístico a substitui.
+
+**Não validam os critérios.** Se o valor presente líquido estiver errado porque o regime
+tarifário do município foi mal informado, o TOPSIS ordenará o erro com precisão
+impecável. O método ordena o que recebe.
+
+**Não incorporam restrições.** Espaço disponível no terreno, orçamento máximo, exigência
+normativa: tudo isso é filtro anterior à ordenação, aplicado pelo projetista ao decidir
+quais volumes sequer entram na comparação.
+
+---
+
+# 3. Guias disponíveis no programa
+
+---
+
+## 3.1. Comparar cidades
+
+> **Pergunta que este guia responde:** o mesmo projeto renderia o mesmo em outra cidade?
+
+Não renderia, e a diferença não segue a direção que a intuição sugere. A expectativa
+corrente é a de que mais chuva implique mais aproveitamento, e essa expectativa está
+errada com frequência suficiente para merecer uma seção inteira.
+
+---
+
+### 3.1.1. Como fazer a comparação
+
+O procedimento é simples e consiste em manter todos os parâmetros do projeto e trocar
+apenas a série de precipitação. Na etapa **1. Projeto e Chuva**, escolha outra cidade da
+base climática nacional ou carregue um arquivo próprio, e execute novamente a simulação.
+Para comparar várias cidades sem refazer o projeto a cada uma, salve um arquivo por
+cidade, conforme a seção 3.6 recomenda.
+
+---
+
+### 3.1.2. O resultado
+
+O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 28% de fração
+atendível e cisterna de 4.000 L — levado a quatro capitais brasileiras produz a tabela
+abaixo.
+
+<!-- tabela: **Tabela 78** — O mesmo projeto do tutorial simulado em quatro capitais brasileiras -->
+| Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos chuvoso | Potencial com 4.000 L | Volume ideal |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Florianópolis | 1 795 mm | 46% | 3,2× | 27,12% | 4 000 L |
+| São Paulo | 1 624 mm | 42% | 4,0× | 25,74% | 5 000 L |
+| Brasília | 1 376 mm | 35% | 1 191,7× | 15,45% | 4 000 L |
+| Manaus | 2 155 mm | 51% | 17,3× | 20,96% | 5 000 L |
+
+A Figura 34 separa as duas grandezas, cada uma na sua escala.
+
+![Chuva anual e potencial de economia nas quatro capitais](../figuras/fig03_cidades.png)
+
+*Figura 34 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 28% e cisterna de 4.000 L, em quatro capitais. Manaus tem a maior precipitação anual e não tem o maior potencial de economia.*
+
+---
+
+### 3.1.3. O regime manda mais que a lâmina
+
+Lidas lado a lado, as colunas de chuva anual e de potencial de economia não andam
+juntas, e os dois casos extremos da tabela mostram por quê. Manaus recebe 20% mais chuva
+que Florianópolis — 2.155 mm anuais contra 1.795 mm — e ainda assim rende 23% menos:
+20,96% contra 27,12% de potencial. Brasília, no extremo oposto, recebe 23% menos chuva
+que Florianópolis e rende pouco mais da metade, com 15,45%.
+
+A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
+cidade, que mede o quanto a chuva se concentra ao longo do ano.
+
+<!-- tabela: **Tabela 79** — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
+| Cidade | Razão | O que significa |
+| :--- | ---: | :--- |
+| Florianópolis | 3,2× | chove o ano inteiro, com estação mais úmida |
+| São Paulo | 4,0× | idem, um pouco mais marcado |
+| Manaus | 17,3× | seca amazônica curta mas real |
+| Brasília | 1.192× | **o mês mais seco é seco de verdade** |
+
+Em Brasília, os meses de junho, julho e agosto praticamente não registram chuva. Um
+reservatório dimensionado para atravessar noventa dias de estiagem precisaria armazenar
+noventa dias de demanda pluvial, o que neste projeto corresponderia a 15.120 litros —
+volume que nenhuma cisterna residencial comporta. A consequência é que o sistema
+permanece ocioso durante um trimestre inteiro por ano, e o potencial anual reflete essa
+ociosidade.
+
+> **A conclusão prática.** ==O aproveitamento pluvial rende mais onde a chuva é
+> frequente do que onde ela é abundante.== Cidades de clima subtropical úmido com chuva
+> bem distribuída constituem o melhor caso brasileiro; cidades de clima tropical com
+> estação seca marcada constituem o pior, por mais intensa que seja a chuva da estação
+> úmida.
+
+---
+
+A Figura 35 apresenta o regime mensal das quatro capitais na mesma escala.
+
+![O regime mensal das quatro capitais](../figuras/fig18_capitais.png)
+
+*Figura 35 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série. Florianópolis e São Paulo distribuem a chuva ao longo de todo o ano; Manaus tem estação seca curta, de julho a outubro; e Brasília praticamente não recebe chuva de maio a setembro. É essa distribuição, e não o total anual, que decide o desempenho do reservatório.*
+
+---
+
+### 3.1.4. O que a literatura já tinha encontrado
+
+O resultado das quatro capitais não é peculiaridade deste tutorial. Ghisi e Souza (2012)
+simularam casas em treze cidades de países diferentes, com o próprio Netuno, e chegaram à
+mesma conclusão por outro caminho: o maior potencial de economia aparece onde a chuva é
+constante, o que nem sempre coincide com a maior lâmina anual, e as cidades com
+estiagem bem definida exigem reservatórios maiores para o mesmo desempenho.
+
+No Brasil, dois levantamentos mostram a amplitude da variação dentro de um só estado ou
+de uma só cidade. Ghisi, Lopes e Rupp (2016) fizeram 2.700 simulações para casas em 60
+cidades de Santa Catarina, com séries diárias longas, e obtiveram reservatórios ideais de
+1.000 a 16.000 L e economias médias de 75 a 461 litros por dia por casa. Ghisi e Custódio
+(2019), com 33.720 cenários para o setor residencial de Joinville, encontraram potencial
+médio de 18,5% com água de chuva só nas bacias sanitárias, e de 40,8% quando a máquina de
+lavar roupa também a recebe — a mesma escolha de uso que a seção 4.2 discute.
+
+A lição para quem compara cidades é a mesma dos dois estudos: a série local decide, e um
+volume ou um potencial trazido de outra cidade, mesmo vizinha, não substitui a simulação.
+
+#### 3.1.4.1. Muitas cidades de uma vez
+
+Para comparar mais de três ou quatro cidades, trocar a série à mão deixa de ser prático.
+A base climática nacional traz séries para 652 municípios, e a planilha de cenários da
+seção 3.6 roda o mesmo projeto contra várias delas numa única execução, gravando um
+resultado por linha. Mantenha na planilha os mesmos parâmetros de edificação e de
+reservatório em todas as linhas, e varie só a cidade: é o que isola o efeito do clima.
+
+---
+
+### 3.1.5. O que mais muda entre cidades
+
+A precipitação não é a única grandeza que varia entre municípios, e as outras duas podem
+inverter a conclusão econômica de um estudo comparativo.
+
+A primeira é a **tarifa**. O preço do metro cúbico varia consideravelmente pelo país, e o
+regime de mínimo varia ainda mais. Um potencial de 15% em município de tarifa elevada e
+regime de disponibilidade pode render mais dinheiro que um potencial de 27% em município
+que pratique franquia sobre o consumo mínimo, e a seção 3.3 trata dessa mecânica em
+detalhe.
+
+A segunda é o **fator de emissão da rede elétrica**, que altera simultaneamente a
+emissão evitada por metro cúbico de água substituída e o custo ambiental do bombeamento.
+O programa traz o fator discriminado por região.
+
+> **Ao comparar cidades num estudo, deixe claro o que variou.** Comparar apenas a
+> precipitação, mantendo tarifa e fator de emissão fixos, isola o efeito climático e
+> constitui comparação legítima, desde que declarada como tal. Variar todas as grandezas
+> simultaneamente produz um número que não se consegue explicar, porque nele se somam
+> efeitos de sinais possivelmente opostos.
+
+---
+
+### 3.1.6. O volume ideal também muda, mas pouco
+
+A última coluna da tabela reserva uma surpresa: o volume ideal varia de 4.000 a 5.000 L
+entre as quatro capitais, uma amplitude modesta diante da diferença de regime que as
+separa.
+
+A explicação está na natureza do critério. O volume ideal pelo ganho marginal localiza o
+joelho da curva de aproveitamento, e a posição desse joelho é governada pelo **tamanho
+típico dos eventos de chuva**, que é razoavelmente parecido entre as quatro cidades. O
+que varia fortemente é o **patamar** que a curva atinge depois do joelho, e não o ponto
+em que ela dobra.
+
+Dito de outro modo: em Brasília acerta-se o mesmo volume que em Florianópolis e colhe-se
+consideravelmente menos água com ele.
+
+---
+
+## 3.2. Usar cenário climático futuro
+
+> **Pergunta que este guia responde:** o sistema que dimensiono hoje ainda serve em
+> 2060?
+
+Um reservatório de água pluvial dura trinta anos ou mais, e a chuva que cairá sobre a
+edificação ao longo desse período não será a mesma que caiu no passado recente. Dimensionar
+um sistema de vida longa exclusivamente sobre a série histórica supõe, implicitamente, um
+clima estacionário — suposição que as projeções disponíveis não sustentam. O Netuno traz
+uma base de projeções climáticas justamente para que o dimensionamento possa incorporar
+essa questão de forma explícita.
+
+---
+
+### 3.2.1. O que a base tem
+
+<!-- tabela: **Tabela 80** — Conteúdo da base climática nacional distribuída com o programa -->
+| O que a base traz | Quantidade |
+| :--- | ---: |
+| cidades brasileiras | 652 |
+| modelos climáticos do CMIP6 | 19 |
+| cenários de emissão | 2, SSP2-4.5 e SSP5-8.5 |
+| simulação histórica | 1980 a 2013 |
+| simulação futura | 2015 a 2100 |
+
+O CMIP6 é a sexta fase do *Coupled Model Intercomparison Project*, o exercício
+coordenado internacionalmente que alimenta os relatórios do IPCC. Cada modelo é um
+modelo climático global de um centro de pesquisa diferente.
+
+### 3.2.2. De onde vêm as séries
+
+A base do programa é extraída do **CLIMBra**, conjunto de dados publicado por Ballarin
+et al. (2023) na revista *Scientific Data*. Três características dele definem o que as
+séries representam, e convém conhecê-las antes de usá-las.
+
+**São projeções corrigidas de viés.** Modelos globais têm resolução de dezenas a
+centenas de quilômetros e reproduzem mal a chuva local: costumam errar a frequência de
+dias chuvosos, a intensidade e os extremos. O CLIMBra corrigiu as séries diárias dos 19
+modelos pelo método *Quantile Delta Mapping*, que ajusta a distribuição simulada à
+observada e, ao mesmo tempo, preserva as variações relativas dos quantis entre o período
+histórico e o futuro. A referência observada foi a grade diária de Xavier, King e
+Scanlon (2016), construída com milhares de pluviômetros e estações do Brasil, com
+resolução de 0,25°, isto é, cerca de 28 km.
+
+**São células de grade, e não estações.** A série de uma cidade é a da célula de 0,25°
+que a contém. Ela representa a chuva média de uma área da ordem de 700 km², e não a de
+um pluviômetro. Em relevo acidentado ou no litoral, a diferença entre a chuva da célula e
+a do lote pode ser grande.
+
+**O histórico da base é simulado.** A série de 1980 a 2013 não é a chuva observada, e sim
+a simulação de cada modelo para aquele período, corrigida para ter a mesma **estatística**
+da observação. A cronologia não coincide: um dia chuvoso na série do modelo não
+corresponde a um dia chuvoso real. Por isso, a comparação correta de um cenário futuro é
+com o **histórico do mesmo modelo**, e não com a série observada que acompanha o
+programa. Misturar as duas atribuiria ao clima futuro a diferença entre observação e
+modelo.
+
+Maraun (2016), numa revisão crítica sobre correção de viés, alerta para o limite do
+procedimento: ele pressupõe que o modelo representa de forma plausível os processos e a
+mudança do clima, e não consegue corrigir uma tendência implausível. A correção melhora a
+estatística; não transforma um modelo ruim num modelo bom.
+
+> **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
+> trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
+> carregamento de arquivo próprio, e as etapas dependentes avisam. A seção 1.2 explica
+> como obtê-la.
+
+---
+
+### 3.2.3. Escolher modelo, cenário e janela
+
+O **cenário** representa a trajetória futura de emissões de gases de efeito estufa, e os
+dois disponíveis seguem as *Shared Socioeconomic Pathways* adotadas pelo IPCC. Eles não
+são previsões, e sim hipóteses coerentes sobre o comportamento socioeconômico global ao
+longo do século (Figura 36). O nome combina a trajetória socioeconômica, de 1
+a 5, com o forçamento radiativo aproximado em 2100, em watts por metro quadrado: o
+SSP2-4.5 é o caminho intermediário, com forçamento de 4,5 W/m², e o SSP5-8.5 é o de
+desenvolvimento intensivo em combustíveis fósseis, com 8,5 W/m². Os cenários de mitigação
+forte, como o SSP1-2.6, não fazem parte do CLIMBra.
+
+![As duas trajetórias de emissão disponíveis na base](../figuras/fig44_cenarios.png)
+
+*Figura 36 — A forma das duas trajetórias de emissão disponíveis na base. O SSP2-4.5 é a trajetória intermediária, com emissões que se estabilizam e depois caem; o SSP5-8.5 supõe emissões altas e crescentes, sem mitigação efetiva. A figura mostra o formato de cada uma, e não valores projetados.*
+
+A **janela temporal** é o recorte da série futura, de 2015 a 2100, sobre o qual o estudo
+é feito. O programa permite recortar qualquer período, nas datas inicial e final da
+etapa **1. Projeto e Chuva**. A convenção mais usada é tomar janelas de trinta anos, a
+mesma duração das normais climatológicas, e o campo **Atalho de recorte** preenche as
+datas com três delas: 2021–2050, 2041–2070 e 2071–2100, além da série completa. O atalho
+só preenche as datas, que continuam editáveis, e a etapa avisa quando o recorte tem menos
+de dez anos. A escolha da janela deve guardar relação com a vida útil
+pretendida do sistema: avaliar um reservatório de vinte anos, instalado agora, contra o
+fim do século avalia um período em que ele já terá sido substituído.
+
+A escolha do **modelo climático** é a decisão mais delicada das três, e a ela se dedica
+uma subseção própria adiante.
+
+---
+
+### 3.2.4. Como conduzir o estudo
+
+O procedimento correto consiste em executar o mesmo projeto em cada combinação de
+interesse e comparar os resultados entre si, em vez de dimensionar diretamente sobre a
+série projetada. Quatro passos o resumem.
+
+1. Feche o dimensionamento com a série **histórica**. É a referência.
+2. Rode o mesmo projeto na série **histórica simulada** de cada modelo que for usar, de
+   1980 a 2013. É contra ela, e não contra a observada, que o futuro se compara.
+3. Mantenha todos os demais parâmetros e troque só a série, para cada cenário e janela.
+4. Compare **potencial de economia** e **dias de atendimento pleno**, sempre como
+   diferença entre o futuro e o histórico do mesmo modelo. O segundo costuma se degradar
+   mais que o primeiro, porque o que muda primeiro é a distribuição, não o total.
+
+> **Um exemplo de leitura.** Suponha que, com um modelo, o potencial seja de 36% no
+> histórico simulado e de 33% no SSP5-8.5 de 2041 a 2070, e que a série observada dê 37%.
+> A mudança atribuível ao clima é de três pontos, e não de quatro: o ponto restante é a
+> diferença entre o modelo e a observação, que existe também no passado.
+
+> **O que não fazer.** Dimensionar direto na série futura e apresentar o resultado
+> como projeto. A série futura é uma projeção com incerteza grande; ela serve para
+> testar a **robustez** de um dimensionamento feito no histórico, não para substituí-lo.
+
+---
+
+### 3.2.5. A escolha do modelo, e por que ela importa tanto
+
+Dezenove modelos climáticos projetam dezenove futuros distintos para a mesma cidade sob
+o mesmo cenário de emissões, e essa dispersão não é ruído a ser eliminado: ela é a
+expressão honesta da incerteza física do problema. ==Para a chuva, a dispersão entre
+modelos costuma superar a diferença entre cenários de emissão,== o que significa que a
+escolha do modelo pesa mais sobre o resultado do que a escolha do futuro socioeconômico.
+
+Hawkins e Sutton (2011) decompuseram a incerteza das projeções de precipitação para
+regiões da ordem de 2.500 km, com os modelos da fase anterior do exercício, o CMIP3, em
+três fontes: a variabilidade interna do clima, a diferença entre modelos e a diferença
+entre cenários. Para a precipitação, ao contrário da temperatura, a variabilidade interna
+responde por 50% a 90% da incerteza na primeira década e continua dominante, em muitas
+regiões, até a terceira; a incerteza entre modelos passa a dominar nos horizontes mais
+longos; e a incerteza de cenário é pequena ou desprezível em todas as regiões e
+horizontes, salvo perto dos polos no fim do século. Os autores mostram ainda que a razão
+entre o sinal da mudança e o ruído é menor que um em quase todo o planeta, e concluem que
+as decisões de adaptação terão de ser tomadas com incerteza alta sobre a chuva regional. A
+consequência para o projeto é direta: rodar os dois cenários com um só modelo informa
+menos do que rodar um cenário com vários modelos.
+
+Três condutas são defensáveis diante dessa dispersão, apresentadas aqui em ordem
+decrescente de rigor.
+
+**Ensemble.** Rode todos os modelos disponíveis e reporte a faixa de resultados, com
+mediana. É o mais rigoroso e o mais caro em tempo de máquina. A seção 3.6 mostra como
+fazer em lote.
+
+**Subconjunto justificado.** Escolha três a cinco modelos com bom desempenho
+documentado para a América do Sul, e declare o critério de escolha e a fonte.
+
+**Modelo único, declarado como tal.** Aceitável para uma análise exploratória, desde
+que o texto não apresente o resultado como projeção robusta.
+
+> **O que jamais fazer:** rodar vários modelos, escolher o que dá o resultado mais
+> conveniente, e reportar só ele.
+
+---
+
+### 3.2.6. O que a literatura mostra sobre o reservatório no clima futuro
+
+Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas
+convergem num ponto: a mudança no total anual de chuva importa menos que a mudança na
+**distribuição**. Kisakye et al. (2018), com seis modelos para um distrito de Uganda,
+encontraram projeções conflitantes entre modelos, mas concordância quanto à estação: a
+economia e a segurança hídrica cairiam nas estações que já eram secas e subiriam nas
+chuvosas, com redução de mais de 50% numa das estações no fim do século. Lash et al.
+(2014), ao dimensionar um reservatório para um edifício universitário no Reino Unido com
+3.000 séries de chuva equiprováveis das projeções climáticas britânicas, concluíram que,
+para ser provável atender em 2080 a mesma demanda de hoje, o reservatório precisaria ser
+112% maior, e 225% maior para que isso fosse muito provável.
+
+Os dois estudos ilustram o que a seção 3.1 mostrou para cidades brasileiras de hoje:
+cidades com estação seca marcada exigem reservatórios muito maiores para o mesmo
+desempenho. Um clima futuro com estiagens mais longas se comporta, para o reservatório,
+como uma mudança de cidade.
+
+---
+
+### 3.2.7. O que declarar
+
+Um estudo com cenário climático precisa trazer, no método:
+
+- **modelo ou modelos**, pelo nome, e o critério de seleção;
+- **cenário** SSP;
+- **janela temporal**, com os anos;
+- a **série histórica** usada como referência;
+- se houve *downscaling* ou correção de viés, e qual; na base do programa, a do CLIMBra,
+  por *Quantile Delta Mapping* contra a grade de Xavier et al. (2016);
+- a **procedência da base**, com versão: Ballarin et al. (2023);
+- que o futuro foi comparado com o **histórico simulado do mesmo modelo**.
+
+Sem isso, o resultado não é reproduzível. O apêndice E traz a procedência da base do
+programa.
+
+---
+
+### 3.2.8. Uma ressalva de método
+
+Projeções climáticas carregam duas incertezas empilhadas, de naturezas distintas: a do
+cenário, que é socioeconômica e diz respeito a escolhas humanas futuras, e a do modelo,
+que é física e diz respeito à representação do sistema climático. Nenhuma das duas se
+reduz executando mais simulações com o mesmo material, porque não se trata de incerteza
+amostral.
+
+Um estudo conduzido com honestidade apresenta o resultado como faixa, e não como número
+único, e evita conclusões que dependam da terceira casa decimal de uma projeção para
+2060.
+
+---
+
+## 3.3. Ajustar a tarifa do seu município
+
+> **Pergunta que este guia responde:** a tarifa do meu município está na base, e está
+> certa?
+
+Este é o guia que mais altera resultados. A estrutura tarifária decide a viabilidade
+econômica de um sistema pluvial mais do que qualquer parâmetro de projeto, e é também o
+dado que mais frequentemente aparece errado nos estudos publicados sobre o tema.
+
+---
+
+### 3.3.1. Como é composta a fatura de água e esgoto no Brasil
+
+Antes de conferir a tarifa do município, convém entender o que se está conferindo. A
+fatura de água no Brasil não é o produto do consumo por um preço único, e cinco
+características a distinguem da fatura de energia elétrica, que é a referência mais familiar para
+a maioria dos leitores.
+
+**A prestação é local, e o preço também.** Cada município é atendido por uma companhia
+estadual, por uma autarquia municipal ou por uma concessionária privada, e cada prestador
+tem tabela própria, homologada por uma agência reguladora — estadual, municipal ou
+intermunicipal. Não existe tarifa nacional de água, e a diferença entre dois municípios
+vizinhos pode ultrapassar o dobro.
+
+**A tarifa é progressiva por faixas de consumo.** O metro cúbico não custa o mesmo em
+qualquer quantidade: o consumo é dividido em faixas, e cada faixa tem preço próprio,
+crescente. Na tabela da CASAN vigente em Florianópolis, os primeiros dez metros cúbicos
+custam R$ 3,08 cada e os quinze seguintes custam R$ 14,31 cada. ==A progressividade é o
+que torna a economia de água mais valiosa do que parece:== o metro cúbico que se deixa de
+consumir é sempre o da faixa mais alta da fatura, que é o mais caro.
+
+**Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
+mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
+para outro. É o assunto da subseção sobre os cinco regimes, adiante, e é o ponto que mais
+decide se um sistema pluvial se paga.
+
+**O esgoto é cobrado como percentual da água.** A maior parte dos prestadores fatura o
+esgoto aplicando um percentual sobre a parcela de água, comumente de 80% ou 100%, sob o
+argumento de que o volume esgotado é proporcional ao consumido. Quando esse percentual é
+de 100%, a parcela de esgoto iguala a de água, e o esgoto responde por metade da fatura —
+o que significa que cada metro cúbico economizado vale o dobro do preço da água.
+
+**Há categorias distintas de consumidor.** Toda concessionária publica tabelas separadas
+para as categorias residencial, comercial, industrial e pública, com preços que
+frequentemente são o dobro ou mais da residencial. Na tabela da CASAN, a primeira faixa
+custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial.
+
+> **O que o programa traz, e o que você precisa lançar.** O catálogo de 652 municípios do
+> programa registra a **categoria residencial** de cada um deles. As demais categorias
+> existem, são públicas e estão nas resoluções das agências reguladoras — o que não há é
+> um catálogo nacional delas, que seria um levantamento de porte próprio. Para estudar
+> uma escola, um comércio ou uma indústria, lance a estrutura da categoria correta no
+> modo personalizado desta mesma tela: o programa aceita qualquer tabela de faixas, com
+> qualquer regime de mínimo, e a seção 3.5 mostra o procedimento.
+
+---
+
+### 3.3.2. Comece conferindo o que já está na base
+
+O programa acompanha um catálogo de 652 municípios brasileiros, e cada registro traz a
+estrutura tarifária completa, o percentual de esgoto praticado, o regime de mínimo
+adotado, a data de vigência da tabela e a fonte documental de onde o dado foi extraído.
+O catálogo cobre a categoria residencial, conforme a subseção anterior esclarece.
+
+Na etapa **12. Gestor de Tarifas**, escolha o estado e o município. Além da estrutura, o
+programa exibe o **grau de confiança** atribuído ao registro, que sintetiza a qualidade da
+fonte e a data do levantamento. Três itens merecem conferência contra a resolução vigente
+da sua concessionária, e a ordem importa porque o primeiro invalida os demais.
+
+1. **a data de vigência** — tarifas são reajustadas anualmente;
+2. **os valores das faixas**;
+3. **o regime de mínimo**, que é o item 3.3.4.
+
+Havendo divergência em qualquer dos três, edite o registro. A edição vale para o seu
+projeto, não altera o catálogo dos demais usuários, e fica gravada dentro do arquivo
+`.netuno` — o que significa que quem receber o seu projeto reproduzirá a mesma conta, com
+a mesma tabela.
+
+---
+
+### 3.3.3. Como a tabela é montada
+
+Cada linha da estrutura tarifária é representada no programa por uma quádrupla de
+valores: o volume mínimo da faixa, o volume máximo, um valor monetário e um código. O
+código é o elemento decisivo, porque é ele que informa o que aquele valor significa — e
+estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
+cada linha.
+
+<!-- tabela: **Tabela 81** — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
+| Código | O que é | Como entra na fatura |
+| ---: | :--- | :--- |
+| 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
+| −1 | tarifa de disponibilidade | valor fixo **somado** à parcela de consumo |
+| −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
+| −3 | piso de pagamento | a fatura **não fica** abaixo deste valor |
+
+A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
+disponibilidade e quatro faixas progressivas.
+
+```
+(0,00 ; 0,00 ; 46,34 ; -1)     disponibilidade, soma sempre
+(0,00 ; 10,00 ;  3,08 ;  1)    primeira faixa
+(10,00 ; 25,00 ; 14,31 ; 1)    segunda faixa
+(25,00 ; 50,00 ; 19,14 ; 1)    terceira
+(50,00 ; 999999 ; 24,08 ; 1)   última
+```
+
+---
+
+### 3.3.4. Os cinco regimes, e por que isso decide projetos
+
+O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
+coisas **diferentes** em cada um. O programa distingue cinco regimes:
+
+<!-- tabela: **Tabela 82** — Os cinco regimes de mínimo e o que acontece ao economizar em cada um -->
+| Regime | O que acontece ao economizar | Municípios na base |
+| :--- | :--- | ---: |
+| **sem mínimo** | cada m³ economizado desconta | 165 |
+| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 156 |
+| **franquia no mínimo** | abaixo da franquia, economizar **não desconta nada** | 329 |
+| **franquia retroativa** | passando da franquia, tarifa-se tudo desde zero | 2 |
+| **piso de pagamento** | a fatura não fica abaixo do piso | 0 |
+
+**O caso que derruba estudo.** Compare duas estruturas reais da base, lado a lado,
+para o mesmo consumo:
+
+<!-- tabela: **Tabela 83** — Efeito da economia de água na fatura em dois regimes tarifários opostos -->
+| Consumo | Floriano (PI), franquia no mínimo | Florianópolis (SC), disponibilidade |
+| ---: | ---: | ---: |
+| 14 m³ | R$ 92,15 | R$ 134,38 |
+| 12 m³ | R$ 72,52 | R$ 105,76 |
+| 10 m³ | R$ 52,89 | R$ 77,14 |
+| 8 m³ | **R$ 52,89** | R$ 70,98 |
+| 5 m³ | **R$ 52,89** | R$ 61,74 |
+
+Em Floriano, a fatura **para de cair em 10 m³**. Uma residência que consome 12 m³ e
+instala um sistema que poupa 4 desce para 8, e economiza R$ 19,63 — e não os R$ 24,17 que a tarifa média de R$ 6,04/m³ sugeriria. Se poupasse 7, desceria para 5 e economizaria os
+**mesmos** R$ 19,63: os três metros cúbicos adicionais não valem nada.
+
+Em Florianópolis, cada metro cúbico economizado reduz a fatura, até o primeiro.
+
+> Rodar o caso de Floriano com a estrutura de Florianópolis produz um payback que
+> não existe. Trezentos e vinte e nove dos 652 municípios da base estão no regime de
+> franquia. É a maioria, e é o cenário mais comum do país.
+
+A Figura 37 mostra as três respostas lado a lado. O que distingue os regimes não é
+o preço praticado, e sim o formato da curva: ==onde a curva é horizontal, economizar água
+não reduz a fatura em nada.==
+
+![A parcela de água da fatura contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
+
+*Figura 37 — Parcela de água da fatura mensal em função do consumo, em três regimes de valor mínimo. O esgoto não entra no gráfico porque é cobrado como percentual desta parcela e apenas multiplica a curva, sem mudar-lhe o formato. Na tarifa de disponibilidade e sem valor mínimo, cada metro cúbico economizado reduz a fatura desde o primeiro; na franquia no mínimo, o trecho horizontal marca a faixa de consumo em que a economia de água não reduz a fatura.*
+
+---
+
+### 3.3.5. Quando o mínimo é diluído na tarifa
+
+Um erro frequente nas bases públicas: a concessionária informa «tarifa mínima de
+R$ 52,89 para 10 m³», e quem cadastra grava isso como R$ 5,289 por m³ até 10 m³.
+
+A diferença é enorme. Na primeira leitura, quem consome 4 m³ paga R$ 52,89; na
+segunda, paga R$ 21,16. E, pior para um estudo pluvial, na segunda leitura
+economizar abaixo de 10 m³ **desconta**, quando na realidade não desconta.
+
+O programa audita a base atrás desse padrão e recodifica os casos encontrados, com o
+registro da correção. Se você cadastrar um município novo, **verifique isso**.
+
+---
+
+### 3.3.6. O esgoto
+
+O percentual de esgoto incide sobre a **parcela de água** da fatura, e não sobre a fatura total.
+
+Cem por cento, como em Florianópolis, significa que a parcela de esgoto iguala a de
+água — e portanto o esgoto é **metade da fatura**. Economizar água economiza as duas
+parcelas, e é por isso que o valor efetivo do metro cúbico poupado quase dobra.
+
+Alguns municípios cobram esgoto por faixas próprias, e não por percentual único.
+Nesses casos o percentual único é uma aproximação, e o programa registra a
+limitação.
+
+---
+
+### 3.3.7. Onde encontrar o dado
+
+Em ordem de confiabilidade:
+
+1. **Resolução tarifária** da agência reguladora estadual ou municipal. É o documento
+   oficial, e traz a data de vigência.
+2. **Tabela publicada pela concessionária**, geralmente em «tarifas» no sítio.
+3. **Simulador de fatura** da concessionária, quando existir. Bom para conferir:
+   simule dois consumos e veja se a sua tabela reproduz os dois valores.
+4. **Fatura de água e esgoto real**, do próprio imóvel. É a melhor evidência, e permite
+   conferir a estrutura inteira.
+
+> **Sempre registre a data de vigência e a fonte.** Um estudo que não diz de quando
+> é a tarifa não pode ser reproduzido daqui a dois anos.
+
+---
+
+### 3.3.8. Confira antes de confiar
+
+Depois de montar a tabela, faça o teste que o item 3.3.7 sugere: simule dois
+consumos, um dentro e um fora da faixa mínima, e compare com a fatura real ou com o
+simulador da concessionária.
+
+Se os dois baterem, a estrutura está certa. Se só um bater, o regime de mínimo está
+errado — e é exatamente esse o erro que mais compromete estudo pluvial.
+
+---
+
+## 3.4. Modular a demanda por calendário
+
+> **Pergunta que este guia responde:** e quando o consumo não é o mesmo todo dia?
+
+Escolas fecham em janeiro e julho, hotéis de praia enchem no verão e escritórios esvaziam
+nos fins de semana. Tratar qualquer uma dessas edificações como se tivesse consumo
+uniforme erra nos dois sentidos simultaneamente: superestima a demanda nos períodos
+vazios e a subestima nos períodos de pico. ==O erro não se compensa ao longo do ano,
+porque o que importa ao sistema pluvial não é o total consumido e sim o encontro entre o
+consumo e a chuva disponível naquele dia.==
+
+---
+
+### 3.4.1. Os quatro modos
+
+O programa oferece quatro modos de modulação da demanda, que diferem no número de valores que o usuário informa e na situação em que cada um se justifica (Figura 38).
+
+
+
+![Os quatro modos de modulação da demanda](../figuras/fig40_modos.png)
+
+*Figura 38 — Os quatro modos de modulação, o que cada um pede ao usuário e a situação em que cada um se justifica. O modo diário só faz sentido quando existe medição real, porque inventar uma série diária acrescenta precisão aparente sem acrescentar informação.*
+
+
+Em qualquer um deles você pode modular três coisas de forma independente: a
+**demanda per capita**, o **número de ocupantes** e a **fração atendível por água
+pluvial**.
+
+Modular a ocupação costuma ser mais fiel que modular a demanda: numa escola em
+férias não é o aluno que bebe menos água, é que não há aluno.
+
+---
+
+### 3.4.2. Como preencher
+
+Na etapa **2. Edificação e Consumo**, escolha o modo. Abre-se a tabela do período.
+
+- Célula vazia ou zerada **cai para o valor constante**. Isso é deliberado: permite
+  modular só os meses que interessam e deixar o resto no padrão.
+- Os valores podem ser digitados ou carregados de CSV.
+- No modo diário, o primeiro dia da série de demanda alinha com o primeiro dia da
+  **série de chuva**. Se as duas tiverem tamanhos diferentes, a de demanda é
+  reciclada ciclicamente.
+
+---
+
+### 3.4.3. Por que isso muda o resultado
+
+Modular a demanda não altera apenas o total anual consumido; altera o casamento temporal
+entre oferta e demanda, que é precisamente o problema que o reservatório existe para
+resolver. Dois casos opostos ilustram o alcance desse efeito, e ambos são comuns no
+Brasil.
+
+**A favor.** Uma escola que fecha em julho, no sul do país, fecha justamente quando
+chove menos. A cisterna atravessa a estiagem sem ser solicitada e chega cheia em
+agosto. O sistema rende **mais** do que a média anual sugeriria.
+
+**Contra.** Um hotel de praia enche em janeiro e fevereiro, quando chove mais no
+litoral sul. Parece bom, mas a demanda concentrada esvazia a cisterna em dias, e o
+resto do ano ela fica ociosa. O sistema rende **menos**.
+
+Os dois casos parecem opostos e não o são, e convém enunciar a regra com cuidado,
+porque a formulação intuitiva — «demanda em fase com a chuva rende mais» — não
+sobrevive ao segundo exemplo. O hotel tem demanda **em fase** com a chuva, já que
+ambas culminam no verão, e ainda assim rende menos. O que separa os dois casos não é a
+fase, é a **concentração**.
+
+==Uma demanda distribuída ao longo do ano aproveita melhor um mesmo reservatório;
+uma demanda concentrada em poucos meses o esvazia em dias e o deixa ocioso no resto do
+ano, ainda que esses meses sejam os mais chuvosos.== A escola se beneficia porque o seu
+período ocioso coincide com a estiagem, e não porque esteja em fase com a chuva.
+
+Rodadas com a série de Florianópolis, o mesmo consumo anual e o mesmo reservatório de
+4.000 L, as três hipóteses se separam: demanda constante rende 27,1%, o perfil escolar
+rende 27,3% e o perfil de hotel de praia rende 25,7%. A diferença de quase um ponto e
+meio percentual, num teto de 28%, é grande para uma mudança que não altera um único litro do consumo anual, e
+é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por que o Netuno simula dia a dia. Os três perfis estão na Figura 39, e o rendimento de cada um, na Figura 40.
+
+![Três perfis de demanda com o mesmo consumo anual](../figuras/fig19_modulacao.png)
+
+*Figura 39 — Os três perfis de demanda usados na comparação, expressos como a razão entre a demanda do mês e a demanda média. Os três têm exatamente o mesmo consumo anual; o que muda é a distribuição dele ao longo dos doze meses.*
+
+![A demanda contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
+
+*Figura 40 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 4.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa quase um ponto e meio percentual.*
+
+---
+
+### 3.4.4. A fração atendível também pode variar
+
+Menos óbvio e às vezes mais importante. Numa escola, o percentual de uso não potável
+muda entre período letivo e férias: em férias permanecem a lavagem de piso e a rega de
+jardim, que são usos **integralmente** atendíveis por chuva.
+
+Modular a fração captura isso. Manter fração constante subestima o aproveitamento no
+período de baixa ocupação.
+
+Na tabela, a coluna «Não-Potável Interno (%)» é percentual, como todo campo digitado:
+28 significa 28%. No arquivo de projeto, a mesma coluna é gravada como fração, 0,28,
+e a seção 4.2 explica por quê. Uma célula com valor entre 0 e 1 fica laranja.
+
+---
+
+### 3.4.5. Cuidados
+
+**Não module o que você não mediu.** Uma modulação inventada acrescenta precisão
+aparente sem acrescentar informação alguma, e transfere ao leitor a impressão de um rigor
+que o dado não tem. Na dúvida, demanda constante explicitamente declarada é mais honesta
+que um perfil mensal arbitrado.
+
+**Declare a origem do perfil.** Ele pode vir de medição própria, de doze faturas de água e esgoto
+mensais, de referência bibliográfica ou de estimativa, e essas quatro origens não têm o
+mesmo peso probatório num estudo publicado.
+
+**Confira o total anual depois de modular.** O programa exibe a demanda média diária
+resultante da modulação, e a divergência entre esse valor e o que se esperava é o
+indicador mais rápido de erro de preenchimento da tabela.
+
+---
+
+### 3.4.6. O caminho mais simples, quando existe
+
+Se você tem **doze faturas de água e esgoto** da edificação, tem o perfil mensal medido,
+que é a melhor fonte possível. Divida o consumo de cada mês pelo número de dias e
+pelo número de ocupantes, e use o modo mensal.
+
+Doze faturas valem mais que qualquer referência de literatura.
+
+---
+
+## 3.5. Simular escola, hospital e comércio
+
+> **Pergunta que este guia responde:** o programa serve para edificação não
+> residencial?
+
+Serve, e serve bem para a parte hídrica. Há, porém, uma ressalva de peso relativa à
+parte econômica, e ela precisa ser conhecida antes de o estudo começar, e não depois de
+ele estar concluído.
+
+---
+
+### 3.5.1. A ressalva: a categoria tarifária
+
+As concessionárias brasileiras cobram tarifas distintas conforme a categoria do
+consumidor — residencial, comercial, industrial e pública —, e as categorias não
+residenciais costumam custar o dobro ou mais da residencial. Na tabela da CASAN vigente
+em abril de 2026, por exemplo, a primeira faixa custa R$ 3,08/m³ para uma residência e
+R$ 6,81/m³ para um estabelecimento comercial.
+
+==Essas tabelas existem e são públicas:== estão nas resoluções das agências reguladoras e
+nos sítios das próprias concessionárias. O que o catálogo do programa registra, para os
+652 municípios, é a categoria residencial de cada um, porque levantar as quatro
+categorias de cada prestador seria um trabalho de outra ordem de grandeza. ==A tarifa não
+residencial não falta ao programa: ela falta ao catálogo, e você pode lançá-la.==
+
+Quando você escolhe uma tipologia não residencial, o programa **avisa** e diz o
+sentido do erro:
+
+> A tipologia escolhida é «Escola», que a concessionária fatura na categoria
+> Pública. O catálogo do programa tem apenas a categoria Residencial, de modo que a
+> fatura de água e esgoto está sendo calculada com a tarifa errada. O erro tem sentido
+> conhecido: as categorias não residenciais são mais caras, e portanto a economia e
+> o retorno estão **subestimados**.
+
+> **O que fazer, em cinco minutos.** Procure a resolução tarifária vigente da sua
+> concessionária, que costuma estar no sítio dela sob «tarifas» ou «estrutura tarifária».
+> Localize a tabela da categoria que interessa. Lance as faixas no modo personalizado da
+> etapa **12. Gestor de Tarifas**, com o regime de mínimo correspondente. A seção
+> 3.3 descreve cada campo. Feito isso, o resultado econômico passa a ser o do seu
+> caso, e não uma aproximação residencial.
+
+Há um consolo nessa limitação, e ele é metodológico: ==o erro tem sentido conhecido e é
+conservador.== As categorias não residenciais são mais caras que a residencial, de modo
+que o projeto real rende mais do que o programa indica, e nunca menos. Um estudo que
+declare a limitação apresenta, portanto, um piso de viabilidade — o que é uma posição
+defensável, ao contrário do inverso.
+
+---
+
+### 3.5.2. As tipologias disponíveis
+
+As oito tipologias do programa agrupam-se pela categoria tarifária em que a concessionária as enquadra, e cada uma tem unidade de consumo própria (Figura 41). A unidade de consumo muda o significado do per capita informado, e a categoria decide a estrutura de faixas da fatura: simular uma escola com tarifa residencial é um dos enganos descritos na seção 5.1.
+
+
+
+![As tipologias, a categoria tarifária e a unidade de consumo de cada uma](../figuras/fig39_tipologias.png)
+
+*Figura 41 — As oito tipologias disponíveis, agrupadas pela categoria tarifária que a concessionária cobra. A unidade de consumo muda com a tipologia, e é ela que dá sentido ao valor per capita informado.*
+
+
+---
+
+### 3.5.3. O que muda em cada tipologia
+
+**Escola.** É um dos casos mais favoráveis ao aproveitamento pluvial no Brasil, por
+duas razões que se somam. A fração não potável do consumo é alta, porque a bacia
+sanitária domina o uso e muitas unidades não têm chuveiro nem cozinha. E a área de
+cobertura por aluno costuma ser grande, de modo que a oferta raramente é o fator
+limitante.
+
+A modulação por calendário, porém, tem um efeito que depende da região, e convém
+simulá-la em vez de supor o resultado. No Sudeste e no Centro-Oeste, as chuvas se
+concentram de outubro a março e a estiagem vai de junho a agosto. O recesso de julho
+coincide com a estiagem, e a cisterna atravessa o período seco sem ser solicitada; as
+férias longas de dezembro a fevereiro, ao contrário, coincidem com o auge das chuvas, e
+nesse período a cisterna enche e extravasa sem uso. No Sul, onde a chuva é mais bem
+distribuída ao longo do ano, o calendário escolar pesa menos. A seção 3.4 mostra
+como representar os dias letivos, e a seção 3.1 mostra como a distribuição da chuva
+muda de uma capital para outra.
+
+**Hospital.** O caso mais delicado. Consumo alto e contínuo, sem sazonalidade
+relevante, o que é bom para o aproveitamento. Mas a **exigência de qualidade** é
+outra: há usos que não admitem água pluvial em hipótese alguma, e a torre de
+resfriamento, que seria um uso ideal, exige controle microbiológico contra
+legionela. Trate a classe de qualidade com cuidado, e não use as classes adaptadas
+2 a 4 como se fossem requisito normativo.
+
+**Escritório e comércio.** Demanda concentrada em dias úteis, cinco dias em sete.
+Module por semana. A fração não potável é alta porque quase todo o consumo é bacia
+sanitária, mictório e limpeza: Proença e Ghisi (2010), que estimaram os usos finais de
+dez edifícios de escritórios em Florianópolis por entrevistas com os ocupantes e medição
+de vazões, encontraram de 56% a 86% do consumo em usos não potáveis, e concluíram que a
+bacia sanitária deve ser o primeiro alvo de qualquer programa de economia nesses
+edifícios. A amplitude da faixa é ela própria uma advertência: dois escritórios da mesma
+cidade podem diferir em trinta pontos percentuais, e a fração atendível de um estudo
+deve vir do edifício estudado sempre que possível.
+
+**Hotel.** Sazonalidade forte, e é o caso em que modular por mês mais importa. Veja
+a advertência da seção 3.4 sobre demanda concentrada: um hotel de litoral lota
+justamente nos meses mais chuvosos e ainda assim rende menos que a demanda constante,
+porque esvazia o reservatório em poucos dias e o deixa ocioso no resto do ano.
+
+---
+
+### 3.5.4. De onde tirar a fração não potável
+
+A fração atendível é o teto do potencial de economia, como a seção 2.3 mostra, e é
+por isso o parâmetro que mais pesa no resultado de uma tipologia não residencial. Há três
+caminhos para obtê-la, em ordem decrescente de confiabilidade.
+
+**Medição dos usos finais.** Hidrômetros setoriais ou registradores de vazão nos ramais,
+durante algumas semanas representativas. É o único caminho que produz um número do
+edifício, e não de uma média.
+
+**Levantamento por entrevista e vazão.** O método de Proença e Ghisi (2010): perguntar aos
+ocupantes a frequência e a duração de cada uso e multiplicar pelas vazões medidas dos
+aparelhos. Custa pouco e captura o comportamento real do edifício, mas depende da
+memória dos entrevistados.
+
+**Valor de referência da literatura.** Aceitável em estudo preliminar, desde que a
+referência seja da mesma tipologia, do mesmo país e, idealmente, da mesma região. Evite
+transpor frações residenciais para outras tipologias, e mesmo entre residências a
+variação é grande: num edifício residencial multifamiliar de Florianópolis, Maykot e
+Ghisi (2020) encontraram a bacia sanitária com apenas 9,2% do consumo e a máquina de
+lavar com 21,3%, muito abaixo das frações de escritórios e escolas.
+
+> **Declare o caminho.** «Fração atendível de 60%, medida» e «fração atendível de 60%,
+> de referência» são estudos diferentes, e o leitor precisa saber qual dos dois está
+> lendo.
+
+---
+
+### 3.5.5. Micromedição e o número de economias
+
+Em edifício multifamiliar com medição individualizada, informe o **número de
+economias**. O programa avalia o consumo no patamar de **uma** unidade e multiplica
+pelo número de economias.
+
+Isso importa por causa das faixas progressivas: um prédio de vinte apartamentos com
+medição individual paga vinte faturas na primeira faixa, e não uma fatura que soma
+todo o consumo e cai na faixa mais cara. Tratar o prédio como uma unidade só
+superestimaria a economia de forma grosseira.
+
+---
+
+### 3.5.6. O que declarar
+
+Além do que a seção 4.10 já pede:
+
+- a **tipologia** e a unidade de consumo adotada;
+- a **origem** do consumo per capita — medição, referência ou norma;
+- se a **categoria tarifária** foi corrigida ou se ficou a residencial do catálogo,
+  e neste caso que o resultado econômico está subestimado;
+- o **perfil de modulação** e sua origem;
+- para hospital, a classe de qualidade adotada e o que ela cobre.
+
+---
+
+## 3.6. Comparar muitos casos de uma vez
+
+> **Pergunta que este guia responde:** como comparar dezenas de alternativas sem
+> refazer o projeto inteiro a cada uma?
+
+O programa foi construído para comparar alternativas, e oferece três formas distintas de
+fazê-lo. A escolha entre elas não é questão de preferência: cada forma responde a uma
+pergunta diferente, e usar a errada custa tempo sem produzir a informação desejada.
+
+---
+
+### 3.6.1. As três formas
+
+<!-- tabela: **Tabela 84** — As três formas de comparar alternativas conforme o que varia entre elas -->
+| Se o que muda é | Use | Onde |
+| :--- | :--- | :--- |
+| **só o volume da cisterna** | a varredura | etapa 4. Reservatório & Custos |
+| **o volume, e você quer decidir** | a tabela multicritério | etapa 8. Decisão Multicritério |
+| **qualquer outra premissa** | projetos salvos, um por caso | arquivo `.netuno` |
+
+A primeira é automática, a segunda também, e a terceira exige organização.
+
+---
+
+### 3.6.2. A varredura: dezenas de volumes numa passada
+
+Na etapa **4. Reservatório & Custos**, escolha o modo **varredura** e informe o volume
+máximo e o passo. O programa simula todos os volumes da grade e desenha a curva.
+
+A varredura é o caminho normal de trabalho, e não uma função avançada reservada a casos
+especiais: ela é quase sempre a resposta certa, porque «qual volume adotar?» é a pergunta
+central de todo projeto de aproveitamento pluvial. A seção 4.4 percorre uma varredura
+completa passo a passo, e a seção 2.2 formaliza como a grade de volumes é montada.
+
+O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20.000 L
+com passo de 1.000 L corresponde a vinte e uma simulações de trinta anos cada, e é
+concluída em poucos segundos numa máquina comum.
+
+---
+
+### 3.6.3. A tabela multicritério: todos os volumes, todas as dimensões
+
+A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da varredura com:
+
+- a economia de água e os dias de atendimento;
+- o valor presente líquido, o retorno descontado e a taxa interna de retorno;
+- o carbono líquido ao fim da vida útil e o retorno ambiental;
+- a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
+
+É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de
+resposta para cada linha de volume. O **perfil de decisão** troca os pesos das
+dimensões e reordena a tabela na hora. A seção 2.10 explica os métodos por trás.
+
+---
+
+### 3.6.4. Quando muda outra coisa que não o volume
+
+Cidade, tarifa, demanda, material do reservatório e tipologia da edificação são
+parâmetros que a varredura não percorre, e para variar qualquer um deles o caminho é
+manter um projeto salvo por caso. O procedimento abaixo parece burocrático à primeira
+vista e economiza horas de retrabalho, sobretudo quando o estudo é retomado semanas
+depois.
+
+1. Monte o projeto completo uma vez, com todo o detalhe.
+2. Salve com um nome que descreva o caso: `escola_florianopolis_5000.netuno`.
+3. Mude **uma** coisa, e salve com outro nome.
+4. Rode cada um, e anote o resultado numa planilha sua.
+
+Os arquivos de exemplo do manual foram feitos assim: `05_manaus.netuno`,
+`06_brasilia.netuno` e `07_saopaulo.netuno` são o mesmo projeto, com a série de chuva
+trocada. É o que a seção 3.1 compara.
+
+> **Mude uma coisa de cada vez.** Se você trocar a cidade e a tarifa juntas, o
+> resultado muda e não há como saber qual das duas o moveu. Parece óbvio, e é o erro
+> mais comum em estudos comparativos.
+
+---
+
+### 3.6.5. Como organizar os arquivos
+
+Uma convenção de nomes poupa mais tempo do que parece:
+
+```
+estudo_escola/
+   base.netuno
+   cidade_florianopolis.netuno
+   cidade_manaus.netuno
+   tarifa_comercial.netuno
+   demanda_medida.netuno
+   resultados.xlsx
+```
+
+E três hábitos que evitam retrabalho:
+
+**Guarde o projeto, não só o resultado.** O `.netuno` tem a chuva dentro dele e
+reproduz o estudo inteiro; a planilha de resultados, não.
+
+**Anote o que muda no nome do arquivo.** Seis meses depois, `teste3.netuno` não
+significa nada.
+
+**Exporte para planilha ao fim de cada rodada.** A etapa **10. Exportação**
+grava as tabelas em `.xlsx`, e é lá que a comparação entre casos é montada.
+
+---
+
+### 3.6.6. Quantos casos cabem
+
+O programa não impõe limite ao número de casos comparados, e o limite real é de paciência
+do analista: cada simulação de trinta anos leva frações de segundo, mas montar e conferir
+cada projeto leva minutos, e é a conferência que consome o tempo.
+
+Na prática, um estudo comparativo bem conduzido reúne entre cinco e vinte casos. Quando o
+número cresce muito além disso, costuma ser sinal de que a pergunta de pesquisa não foi
+suficientemente delimitada — ou de que o trabalho é um estudo de larga escala, que exige
+outro instrumental.
+
+Para estudos de larga escala — matrizes fatoriais de cidade, área, demanda e volume, ou propagação de incerteza — o programa oferece uma interface de linha de comando, descrita a seguir.
+
+---
+
+### 3.6.7. A linha de comando
+
+A instalação do programa como pacote Python registra o comando `netuno`, que executa as mesmas rotinas de cálculo da interface gráfica sem abrir a janela; o instalador de Windows com interface gráfica não o inclui. A linha de comando lê arquivos `.netuno`, projetos em JSON estruturado e o formato CSV do Netuno 4, e grava os resultados em texto, JSON, CSV, HTML ou XLSX. É a interface indicada para estudos reprodutíveis, porque o próprio comando documenta as premissas alteradas.
+
+<!-- tabela: **Tabela 85** — Subcomandos da linha de comando e finalidade de cada um -->
+| Subcomando | Finalidade |
+| :--- | :--- |
+| `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
+| `run` | simula o projeto; por padrão, apenas a análise técnica |
+| `analyze` | executa a cadeia completa: técnica, econômica, ambiental e TOPSIS |
+| `econ` | executa a análise econômica |
+| `init` | cria um projeto `.netuno` modelo, editável, com a série de chuva referenciada ou incorporada |
+| `init-catalog` | cria um catálogo JSON modelo de premissas de edificação ou de climas |
+| `matrix` | combina um catálogo de premissas com um catálogo de climas e simula todas as combinações |
+| `matrix-projects` | executa uma lista de projetos, uma pasta de séries de chuva ou a matriz fatorial declarada no projeto |
+| `batch` | executa os cenários de uma planilha CSV ou XLSX, a partir de um projeto-base |
+| `uncertainty` | propaga incertezas por Monte Carlo para um volume de reservatório |
+
+Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os pesos técnico, econômico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
+
+Aplicados ao projeto do tutorial, `validate` e `run` produzem:
+
+```
+netuno validate 01_tutorial_florianopolis.netuno
+Projeto válido: estrutura, chuva e premissas essenciais verificadas.
+
+netuno run 01_tutorial_florianopolis.netuno --volume 4000 --format json --output r.json
+```
+
+O arquivo `r.json` registra a procedência — projeto de origem, número de dias da série e data inicial — e, para o volume de 4.000 L, o potencial de economia de 27,30%, o volume pluvial consumido de 59,8 m³/ano, o extravasamento de 127,5 m³/ano e a classificação dos dias em 97,3% plenos, 0,5% parciais e 2,2% nulos.
+
+O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a demanda e o investimento com distribuição de coeficiente de variação declarado — por padrão, 10% para a precipitação, 0% para a área, 10% para a demanda e 15% para o investimento, em 200 amostras — e informa os percentis de 5%, 50% e 95% do potencial de economia e do valor presente líquido, com a probabilidade de o valor presente líquido ser positivo. No tutorial, com 50 amostras e 4.000 L, o potencial de economia fica entre 26,8% e 27,6%, com mediana de 27,3%. A faixa é estreita porque o sistema já opera perto do teto de 28%: uma variação de 10% na chuva ou na demanda pouco muda um reservatório que quase nunca seca.
+
+> Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de pesquisa do grupo sobre bases climáticas de dezenas de milhares de séries, e exigem os arquivos dessas bases; não fazem parte do uso corrente do programa.
+
+---
+
+## 3.7. Análise de sensibilidade
+
+> **Pergunta que este guia responde:** qual premissa mais move o meu resultado, e o
+> quanto ele aguenta?
+
+Todo estudo de aproveitamento pluvial repousa sobre premissas incertas, e as três mais
+influentes costumam ser justamente as menos verificáveis: a tarifa realmente subirá 5% ao
+ano durante vinte anos? A demanda é de fato 150 litros por pessoa e dia? A cisterna
+custará o que o orçamento prevê?
+
+A análise de sensibilidade mede quanto dessas dúvidas chega ao resultado final. ==Ela não
+elimina a incerteza, e não se propõe a isso; ela mede o tamanho da incerteza,== que é
+exatamente a informação de que o leitor precisa para decidir o quanto confiar no número
+apresentado.
+
+---
+
+### 3.7.1. O procedimento, em três passos
+
+O procedimento não exige ferramenta especializada, e é o mesmo que se emprega em qualquer
+análise de engenharia diante de um parâmetro mal conhecido: varia-se uma coisa de cada
+vez e observa-se o efeito.
+
+1. **Escolha a premissa** que você suspeita ser a mais influente.
+2. **Rode o projeto três vezes**: com o valor provável, com um valor baixo e com um
+   alto.
+3. **Anote o resultado das três** e compare.
+
+Repita o procedimento para cada premissa duvidosa. Ao final, você terá identificado
+quais delas efetivamente movem o resultado e quais são irrelevantes — e essa separação
+vale mais que qualquer refinamento do valor central, porque orienta onde investir esforço
+de levantamento de dados. A seção 3.6 mostra como organizar os arquivos para que o
+conjunto de rodadas não se transforme em confusão.
+
+---
+
+### 3.7.2. Que faixa adotar para cada premissa
+
+A faixa de variação a adotar para cada premissa não é matéria de palpite: ela decorre do
+que se sabe sobre a origem do dado, e um dado medido admite faixa muito mais estreita que um dado tomado da literatura (Figura 42). O reajuste tarifário é expresso em pontos percentuais ao ano; as demais faixas, em percentual do valor adotado.
+
+![A faixa de variação plausível de cada premissa](../figuras/fig41_premissas.png)
+
+*Figura 42 — Faixa de variação plausível de cada premissa numa análise de sensibilidade, com a origem da incerteza. As faixas maiores correspondem às premissas adotadas de referência, e não medidas no projeto.*
+
+
+> **Não perturbe o que você conhece.** Se a área foi medida em levantamento, a faixa é
+> estreita; alargá-la produz uma incerteza artificial que dilui o resultado e esconde
+> a premissa que realmente importa.
+
+---
+
+### 3.7.3. As premissas que dominam o resultado econômico
+
+Em estudos econômicos de aproveitamento pluvial, as premissas que mais movem o resultado são as que atuam ao longo de todo o horizonte de análise: o próprio período de análise, o volume de água pluvial efetivamente consumido, a taxa mínima de atratividade e o **reajuste tarifário**. O reajuste merece atenção particular porque é o menos verificável e atua de forma composta: cinco por cento ao ano durante vinte anos multiplicam a tarifa por 2,65; três por cento, por 1,81; e sete por cento, por 3,87. A economia dos últimos anos acompanha esse fator, e a escolha da taxa de reajuste pode decidir boa parte da conclusão econômica do estudo.
+
+Faça o teste no seu caso: na etapa **6. Resultados Econômicos**, mude o reajuste anual
+para 3%, anote o VPL, repita com 5% e com 7%. Três rodadas, três minutos, e uma faixa
+em vez de um número.
+
+> **Num artigo, mostre essa faixa.** Um valor presente líquido único, calculado com
+> reajuste de 5% ao ano e apresentado sem sensibilidade, sugere uma precisão que a
+> premissa não tem.
+
+#### 3.7.3.1. O tutorial, premissa por premissa
+
+A tabela a seguir aplica o procedimento ao projeto fechado do tutorial — 4.000 L em
+polietileno, recalque para caixa de 1.000 L, VPL provável de R$ 5.524 — e varia cinco
+premissas, uma de cada vez, entre um valor baixo e um alto.
+
+<!-- tabela: **Tabela 86** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
+| Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| reajuste das tarifas de água e esgoto, % ao ano | 3,0 | 5,0 | 7,0 | 27,30% a 27,30% | R$ 860 a R$ 11 360 | 16,8 anos a 10,8 anos |
+| taxa mínima de atratividade, % ao mês | 0,3 | 0,5 | 0,7 | 27,30% a 27,30% | R$ 10 014 a R$ 2 241 | 10,9 anos a 15,5 anos |
+| consumo per capita, L/hab·dia | 120,0 | 150,0 | 180,0 | 27,73% a 26,72% | R$ -51 a R$ 10 723 | 19,6 anos a 9,6 anos |
+| fração atendível, % | 20,0 | 28,0 | 40,0 | 19,91% a 36,96% | R$ -2 532 a R$ 16 058 | não retorna a 7,7 anos |
+| preço da cisterna, % do orçamento | 70,0 | 100,0 | 130,0 | 27,30% a 27,30% | R$ 6 282 a R$ 4 766 | 11,8 anos a 13,7 anos |
+
+A leitura separa as premissas em três grupos.
+
+**A que decide o projeto é a fração atendível.** De 20% a 40%, o VPL vai de negativo a
+quase o triplo do provável, e o retorno de «não retorna» a menos de oito anos. É a
+premissa que a seção 4.2 fixou e que depende da decisão de uso, e não de medição:
+incluir ou não a máquina de lavar roupa, com o critério de qualidade que o item 4.1.8 da
+NBR 15527:2019 exige, move o resultado mais que qualquer parâmetro econômico.
+
+**As que o mercado decide pesam em seguida.** O reajuste tarifário e a taxa mínima de
+atratividade deslocam o VPL em milhares de reais cada um, mas não mexem no potencial. O
+consumo per capita move os dois: com menos consumo, a fração atendível pesa sobre uma
+demanda menor, a cisterna quase nunca falta, e o potencial sobe um pouco enquanto a
+economia em reais cai.
+
+**A que parecia importante quase não pesa.** Trinta por cento a mais ou a menos no preço
+da cisterna mudam o VPL em R$ 760 e o retorno em um ano. A cisterna de polietileno é uma
+parcela pequena do investimento, e a mão de obra, a tubulação e os acessórios, que não
+variam com o volume, dominam a conta.
+
+O resultado inverte a intuição de quem orça antes de simular: gastar tempo cotando a
+cisterna vale menos que gastar tempo definindo os usos.
+
+---
+
+### 3.7.4. A sensibilidade que o programa faz sozinho
+
+Há um caso em que a análise de sensibilidade já vem pronta e não exige rodadas
+adicionais, e ele diz respeito à decisão final do estudo: a escolha do volume em função
+dos pesos atribuídos aos critérios.
+
+Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** já é uma
+análise de sensibilidade pronta. Ela responde: se os pesos das dimensões fossem
+sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro lugar?
+
+Leia assim:
+
+<!-- tabela: **Tabela 87** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
+| Aceitabilidade do volume vencedor | O que significa |
+| :--- | :--- |
+| acima de 70% | recomendação robusta; os pesos quase não importam |
+| entre 40 e 70% | recomendação razoável, e vale declarar a segunda opção |
+| abaixo de 40% | a escolha depende dos pesos, e o texto precisa dizer isso |
+
+A distinção que essa coluna permite é de natureza epistemológica, e não apenas
+estatística: um volume que vence em 80% dos sorteios de pesos constitui uma recomendação,
+ao passo que um volume que vence em 30% constitui uma preferência do analista, legítima
+desde que apresentada como tal. A seção 2.10 expõe o método que produz esse número.
+
+---
+
+O gráfico de tornado (Figura 43) é a forma consagrada de apresentar esse conjunto: uma barra por
+premissa, ordenada pela amplitude, com as duas variações em cores distintas. Lido de
+cima para baixo, ele responde à pergunta que o revisor fará primeiro, que é de qual
+premissa o resultado depende.
+
+![O tornado de sensibilidade do projeto do tutorial](../figuras/fig24_tornado.png)
+
+*Figura 43 — A variação do valor presente líquido quando cada premissa é alterada em 30% para mais e para menos, mantidas as demais. A cor identifica a variação aplicada, e não o sinal do efeito: é o que permite ver que elevar a taxa mínima de atratividade reduz o valor presente, ao passo que elevar a tarifa o aumenta. O caso-base desta figura sai do modelo econômico simplificado do programa, que desconta um fluxo anual com tarifa marginal única e reajuste declarado; por isso o valor presente do caso-base não coincide com o do fluxo de caixa mensal do tutorial. O que o tornado mede é a sensibilidade relativa, e não o valor absoluto.*
+
+---
+
+### 3.7.5. Como apresentar
+
+Três formas, da mais simples à mais completa:
+
+**Tabela de cenários.** Pessimista, provável e otimista, com as premissas de cada um
+declaradas. Simples, honesta e suficiente para a maior parte dos trabalhos.
+
+**Gráfico de tornado.** Uma barra por premissa, mostrando o quanto o resultado varia
+quando ela varia sozinha. Ordena as premissas por importância e é a apresentação mais
+informativa por área de página.
+
+**Distribuição.** A faixa completa do resultado, quando todas as premissas variam
+juntas. Exige declarar as distribuições adotadas, e não só as faixas.
+
+> **Aprofundamento: propagação por Monte Carlo.** A terceira forma é feita sorteando milhares de combinações de premissas e acumulando a distribuição do resultado. O programa faz essa propagação pelo subcomando `uncertainty` da linha de comando, descrito na seção 3.6. Para um estudo de curso
+> ou de projeto, a tabela de cenários do primeiro item responde a mesma pergunta com
+> uma fração do esforço — e é mais fácil de defender, porque cada cenário tem
+> premissas que se pode ler.
+
+---
+
+### 3.7.6. O que declarar
+
+- as **faixas** adotadas e a origem de cada uma;
+- quantas rodadas foram feitas, e com que valores;
+- para a escolha do volume, a **aceitabilidade** do vencedor;
+- **quais premissas não foram perturbadas**, e por quê.
+
+A última é a que mais se esquece, e a que um revisor mais cobra.
+
+---
+
+## 3.8. Importar um projeto do Netuno 4
+
+> **Pergunta que este guia responde:** meus estudos antigos abrem no Netuno 5?
+
+Abrem, e a maior parte dos dados atravessa a conversão sem perda. O cuidado que esta
+seção pede decorre de dois fatos que convivem mal: alguns campos não atravessam, e a
+importação não avisa quais foram. Um estudo reaproveitado sem conferência pode, por isso,
+continuar parecendo o estudo original enquanto simula outra coisa.
+
+---
+
+### 3.8.1. Como importar
+
+Basta abrir o arquivo antigo pelo menu de abertura de projetos. O programa reconhece o
+formato legado, que é texto separado por ponto e vírgula, e o converte para a estrutura
+interna da versão atual. Feita a conversão, salve o projeto: ele passa a ser gravado no
+formato JSON do Netuno 5, com os 104 campos descritos no apêndice A, e o arquivo
+original permanece intacto no disco, o que convém preservar como evidência do estudo
+anterior.
+
+---
+
+### 3.8.2. O que vem na conversão
+
+Praticamente todo o núcleo de entrada do Netuno 4 tem correspondente direto na versão
+atual, e é convertido sem intervenção do usuário. A tabela abaixo relaciona o que a
+importação recupera.
+
+<!-- tabela: **Tabela 88** — Dados do Netuno 4 recuperados pela importação -->
+| Dado | Vem? |
+| :--- | :---: |
+| arquivo e data inicial da chuva | sim |
+| área de captação, coeficiente de escoamento | sim |
+| descarte de primeiras águas e modo | sim |
+| demanda total e número de moradores | sim |
+| percentual atendível por água pluvial | sim |
+| reservatório superior, limiar de recalque | sim |
+| reservatório inferior, faixa e passo | sim |
+| diferença entre potenciais | sim |
+| tarifas de água e esgoto, impostos | sim |
+| custos iniciais: mão de obra, tubulação, acessórios | sim |
+| motobomba: potência, rendimento, vazão, tempo de partida, custo | sim |
+| tarifa de energia e impostos | sim |
+| inflação, reajuste, período de análise, TMA | sim |
+| custos operacionais | sim |
+
+---
+
+### 3.8.3. O que não vem
+
+> **Atenção, e confira sempre.** O leitor de arquivos antigos **não reconhece nenhuma
+> chave de demanda variável**. Um projeto do Netuno 4 que utilizasse demanda mensal ou
+> diária é importado como demanda **constante**, sem aviso algum.
+
+A consequência dessa limitação merece ser explicitada, porque ela altera resultados sem
+alterar a aparência do projeto. Se o estudo original modulava a demanda por calendário —
+uma escola em férias, um hotel de temporada — a importação o degrada a consumo uniforme,
+e o descasamento entre oferta e demanda que a modulação representava desaparece do
+cálculo. Confira o modo de demanda logo após importar, e relance o perfil manualmente se
+ele estiver em «constante» quando não deveria estar. A seção 3.4 mostra como.
+
+Há ainda um conjunto de parâmetros que não vêm por razão diversa: eles simplesmente não
+existiam no Netuno 4. São a irrigação e a supressão de rega por chuva, a classe de
+qualidade da água e a linha de tratamento, os materiais dos reservatórios e os
+comprimentos de tubulação por diâmetro, os parâmetros de avaliação de ciclo de vida, os
+incentivos fiscais de IPTU verde, a tipologia da edificação e o número de economias.
+Todos assumem o valor padrão da versão 5, e todos merecem revisão antes que o projeto
+importado seja considerado pronto.
+
+---
+
+### 3.8.4. Por que o resultado muda
+
+Ainda que a importação recupere perfeitamente todos os dados de entrada, o resultado da
+simulação não será idêntico ao da versão anterior. A diferença é deliberada, tem causa
+conhecida e está quantificada.
+
+A causa principal está no **tratamento do descarte de primeiras águas**. O Netuno 4 trata
+a lâmina de descarte como limiar do evento: quando a chuva do dia não atinge a lâmina,
+nada é captado; quando a ultrapassa, capta-se a chuva inteira, sem subtração. O Netuno 5
+subtrai a lâmina da precipitação do dia, o que é fisicamente mais fiel, porque a água
+desviada para o dispositivo de autolimpeza efetivamente não chega à cisterna.
+
+Sobre 4.050 casos de referência, o Netuno 5 estima em média de **2,3 a 2,7 pontos
+percentuais menos** economia de água potável que o Netuno 4. ==Metade dessa divergência
+vem do tratamento do descarte:== 1,36 ponto percentual dos 2,71 medidos no conjunto de
+Manaus e São Paulo. As demais causas estão decompostas na seção 6.1.
+
+---
+
+### 3.8.5. Comparar as duas versões corretamente
+
+Quando o trabalho compara explicitamente as duas versões, existe um procedimento simples
+que isola o comportamento do balanço hídrico da divergência metodológica deliberada, e
+ele não exige recurso algum do programa: **rode ambas as versões com descarte igual a
+zero**. Sem descarte, as duas regras coincidem por construção, e qualquer diferença
+remanescente é atribuível à implementação, e não ao método.
+
+Feita essa comparação, repita-a com o descarte real do projeto para medir a diferença
+total. Os dois números tomados em conjunto separam o que é mudança deliberada de método
+do que seria eventual divergência de implementação, e essa separação é justamente o que
+um revisor pede.
+
+> O protocolo de verificação interno menciona uma opção para emular automaticamente a
+> regra antiga de descarte. **Essa opção não está implementada.** Use o caminho do
+> descarte zero, que produz o mesmo resultado com um pouco mais de trabalho e nenhuma
+> surpresa.
+
+---
+
+### 3.8.6. Depois de importar
+
+Sete conferências bastam para transformar um projeto importado num projeto confiável, e
+elas devem ser feitas na ordem abaixo, porque as primeiras afetam o resultado das
+seguintes.
+
+1. **Modo de demanda** — foi degradado para constante?
+2. **Tipologia** da edificação — está na correta?
+3. **Materiais** dos reservatórios — o padrão adotado é polietileno.
+4. **Classe de qualidade** da água e tecnologia de desinfecção.
+5. **Regime tarifário** do município — o Netuno 4 não distinguia os regimes, e a
+   seção 3.3 mostra o que isso muda.
+6. **Rendimento do motor** da motobomba, que o Netuno 4 não tinha.
+7. **Rode o projeto e confira o potencial** contra o resultado antigo antes de confiar
+   no arquivo importado.
+
+E guarde o arquivo original: ele é a evidência documental do estudo anterior, e nenhuma
+conversão o substitui.
+
+---
+
+## 3.9. Exportar para CAD, BIM e planilha
+
+> **Pergunta que este guia responde:** como levar o resultado para o projeto
+> executivo e para a análise própria?
+
+---
+
+### 3.9.1. O que cada formato leva
+
+<!-- tabela: **Tabela 89** — Formatos de exportação e finalidade de cada um -->
+| Formato | Extensão | O que leva | Para quê |
+| :--- | :--- | :--- | :--- |
+| relatório | HTML, PDF | resultado completo e premissas | entregar |
+| planilha | XLSX | série diária e varredura | reanalisar |
+| desenho | DXF | esquema hidráulico dimensionado | projeto executivo |
+| manifesto BIM | JSON | componentes com tipo, posição, nível e parâmetros | importação no Revit |
+| projeto | NETUNO | todas as etapas e a série de chuva | reabrir e auditar |
+
+---
+
+### 3.9.2. O arquivo de projeto
+
+O formato `.netuno` é o único que guarda o estudo inteiro: as nove etapas, os pesos do
+multicritério, as rotas de ACV e a **série diária de chuva**, incorporada ao próprio
+arquivo. Um `.netuno` reabre em outra máquina sem o CSV de origem e reproduz o mesmo
+número; é com ele que os casos do apêndice J são distribuídos. O CSV do Netuno 4 continua
+disponível na exportação, marcado como legado, porque não preserva as etapas acrescentadas
+desde então.
+
+---
+
+### 3.9.3. Planilha
+
+A exportação para planilha é o caminho de quem pretende fazer análise própria sobre os
+resultados, seja para construir um gráfico que o programa não oferece, seja para
+combinar os números do Netuno com dados de outra origem. Dois conjuntos de dados estão
+disponíveis, e eles respondem a perguntas diferentes.
+
+A **série diária** traz uma linha por dia simulado, com a chuva registrada, a chuva
+efetiva depois do descarte, o volume captado, a demanda do dia, o consumo pluvial, o
+consumo de rede, o extravasamento, o volume armazenado nos dois reservatórios, o volume
+recalcado e a classe de atendimento. É a base de qualquer gráfico ou estatística que o
+programa não ofereça pronta, e é o que se usa quando a análise pretendida difere da que o
+programa faz.
+
+A **varredura** traz uma linha por volume simulado, com todos os indicadores calculados
+para cada um. É a base da curva de retorno decrescente apresentada na seção 4.4, e o
+formato adequado para quem queira redesenhá-la com outra apresentação.
+
+A etapa **10. Exportação** monta a planilha a partir de seis conjuntos, que se marcam
+um a um: o resumo executivo com os metadados do projeto, o balanço hídrico diário, a
+curva da varredura com a confiabilidade, o fluxo de caixa ano a ano, o inventário de
+ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a exportação:
+
+<!-- tabela: **Tabela 90** — Opções da exportação de planilha e quando usar cada uma -->
+| Opção | Escolhas | Quando usar |
+| :--- | :--- | :--- |
+| formato | XLSX, CSV ou JSON | XLSX para abrir no Excel; CSV para R, Python ou outro programa; JSON para integração |
+| separador do CSV | ponto e vírgula ou vírgula | ponto e vírgula no Excel em português; vírgula no R e na maior parte das ferramentas internacionais |
+| filtro temporal | primeiro ano típico ou série completa | o ano para ilustrar; a série completa para qualquer estatística |
+| horizonte econômico | 10, 20, 25 ou 30 anos | 20 anos, a vida útil de projeto mínima do sistema hidrossanitário (ABNT NBR 15575-1:2025, Tabela 25), salvo justificativa |
+
+> **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
+> simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta
+> mil linhas. Exporte a série detalhada só do volume que interessa.
+
+---
+
+### 3.9.4. Desenho em DXF
+
+O programa gera o esquema hidráulico do sistema dimensionado: cisterna, filtro,
+descarte, bomba quando houver, reservatório superior, e a tubulação com os diâmetros
+adotados.
+
+O que o programa produz é um **esquema**, e não um projeto executivo. Ele representa os
+componentes do sistema e as conexões lógicas entre eles, com os diâmetros adotados, e
+serve de base para que o projetista desenhe a instalação em planta, com as cotas, o
+traçado e as interferências reais da edificação. ==Um esquema não substitui projeto
+hidráulico, e entregá-lo como tal seria erro de responsabilidade técnica.==
+
+O esquema também não carrega, e o projeto executivo precisa acrescentar, os requisitos
+de instalação predial da ABNT NBR 15527:2019 para água não potável:
+
+- tubulação de água de chuva pintada ou identificada em **roxo** (Munsell 2.5RP 3/10 ou
+  similar), com a inscrição «ÁGUA NÃO POTÁVEL» a cada 3 m nas aparentes (item 4.5.5);
+- sistema de distribuição independente do de água potável, sem conexão cruzada
+  (4.5.8), com separação atmosférica na alimentação de reserva pela rede, conforme a
+  ABNT NBR 5626:2020 (6.15.2);
+- pontos de consumo de uso restrito, como a torneira de jardim, com placa «ÁGUA NÃO
+  POTÁVEL» (4.5.9);
+- reservatórios de água potável e não potável separados, com no mínimo 60 cm entre as
+  faces externas quando lado a lado, e o não potável embaixo quando sobrepostos (4.5.10
+  e 4.5.11);
+- bombeamento conforme a ABNT NBR 5626 (4.5.2), o que inclui as duas bombas do item
+  6.5.11.2 daquela norma.
+
+O que o programa **não** dimensiona:
+
+- traçado e declividade da tubulação;
+- perda de carga real da instalação;
+- arranjo hidráulico do dispositivo de descarte, do qual o programa calcula apenas o volume, `A × d_f`, e o custo;
+- extravasor e ligação à drenagem;
+- fundação e impermeabilização da cisterna.
+
+---
+
+### 3.9.5. Biblioteca de blocos e manifesto BIM
+
+Na etapa **10. Exportação**, o modo *Biblioteca de Blocos para Plantas + BIM JSON* grava os blocos DXF dos componentes em escala 1:1, em milímetros, e, ao lado deles, o arquivo `*_netuno-bim.json`. O programa não exporta IFC. O manifesto JSON é o contrato entre o dimensionamento e o modelo: cada instância declara o tipo do componente, o nível, a posição local em milímetros, a rotação e os parâmetros dimensionados, como a capacidade e o diâmetro, e a estrutura é validada antes da gravação.
+
+A integração com o Autodesk Revit é feita por um importador distribuído com o programa, executado no motor CPython 3 do pyRevit, com um documento aberto no Revit 2022 ou posterior, e insere as instâncias do manifesto usando as famílias indicadas em `family_mapping.json`, que associa cada tipo do programa — cisterna, reservatório superior, filtro, descarte inicial, motobomba, registros, válvula de retenção, separação atmosférica, extravasor e ponto de consumo não potável — a uma família e a um tipo do escritório.
+
+O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
+
+---
+
+### 3.9.6. Relatórios
+
+Os três da seção 4.10: executivo, ambiental com ESG, e científico. Em HTML para
+consulta e em PDF para entrega.
+
+> O programa tem dois geradores de PDF e usa o mais completo que a máquina permitir.
+> Quando cai para o alternativo, o documento sai mais simples, com o mesmo conteúdo e
+> os mesmos números.
+
+---
+
+### 3.9.7. Um conselho de arquivo
+
+Ao fechar um estudo, guarde junto, na mesma pasta:
+
+1. o arquivo `.netuno`;
+2. a **série de chuva** usada, ou sua identificação exata na base;
+3. o relatório científico em PDF;
+4. a planilha da varredura;
+5. se houve lote, o **script** com os comandos;
+6. um arquivo de texto com a **versão do programa**.
+
+São seis itens que tornam o estudo reproduzível daqui a cinco anos. Sem eles, o
+relatório em PDF é só uma afirmação.
+
+---
+
+# 4. Tutorial: um exemplo do começo ao fim
+
+---
+
+## 4.1. O projeto e a chuva
+
+> Ao terminar esta seção você terá um projeto criado, uma série de precipitação
+> carregada e a captação definida. E saberá por que cada um desses três números
+> importa mais do que parece.
+
+As dez seções deste capítulo constroem **um projeto só**, do começo ao fim. A cada seção o estudo ganha uma camada, e o resultado muda. Guarde o arquivo: ele é o
+mesmo até a seção 4.10.
+
+### 4.1.1. O projeto
+
+Uma residência unifamiliar em Florianópolis. Quatro moradores, cobertura de
+150 m² em telha cerâmica, cisterna enterrada no quintal. É o caso mais comum do
+Brasil, e o mais estudado.
+
+A escolha de Florianópolis não é sentimental. A série de precipitação disponível é
+longa; a estrutura tarifária da CASAN, a concessionária de água e esgoto de Santa
+Catarina, é pública e auditável; e o regime de chuva local é bem distribuído ao longo do
+ano, o que — como a seção 4.4 demonstrará — altera profundamente a escolha do
+volume.
+
+---
+
+### 4.1.2. A série de precipitação
+
+Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
+
+**Arquivo próprio.** Um CSV com uma leitura diária por linha, em milímetros, em
+coluna única. É o caminho de quem tem dados de uma estação específica, do INMET ou
+da Agência Nacional de Águas.
+
+**Base nacional.** 652 cidades brasileiras, 19 modelos climáticos do CMIP6 e dois
+cenários de emissão, com a simulação histórica de cada modelo. É o caminho de quem estuda outras cidades ou cenários futuros, e a seção 3.2 mostra como usá-la.
+
+Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
+os **30 primeiros anos**.
+
+<!-- tabela: **Tabela 91** — Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
+| A série de Florianópolis | Valor |
+| :--- | ---: |
+| dias na série | 10 950 |
+| anos | 30,0 |
+| precipitação média anual | 1 795 mm |
+| dias com chuva | 46% |
+| chuva média nos dias chuvosos | 10,6 mm |
+| maior chuva diária | 128,1 mm |
+| dias abaixo da lâmina de descarte | 7% |
+
+Três números dessa tabela decidem o projeto, e vale olhar para eles antes de
+qualquer simulação.
+
+**1.795 mm por ano** é muita chuva. Florianópolis está entre as capitais mais
+chuvosas do país, e isso significa que o fator limitante do sistema não será a
+oferta de água, e sim a demanda e o tamanho do reservatório.
+
+**Chove em 46% dos dias.** Chuva frequente e bem distribuída favorece
+reservatórios pequenos: a cisterna se enche muitas vezes ao ano em vez de precisar
+atravessar uma estiagem longa. Compare com Brasília, na seção 3.1, onde a chuva se concentra de outubro a abril e o mesmo reservatório rende pouco mais da metade.
+
+**Sete por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão
+descartados por inteiro, e o item sobre o descarte de primeiras águas, adiante, explica por quê.
+
+> **Quantos anos de série usar.** Trinta é confortável. Abaixo de dez, o resultado
+> começa a depender do trecho escolhido; abaixo de cinco, o viés do reservatório
+> vazio no início da simulação passa a pesar de forma sensível. A seção 5.1 trata
+> este engano em detalhe.
+
+---
+
+Vale a pena olhar uma série inteira antes de usá-la. Trinta anos de Florianópolis
+não são trinta anos parecidos: o ano mais seco fica quase um terço abaixo do mais
+chuvoso, e é essa variação entre anos que uma média anual apaga. A distribuição diária
+diz o resto da história — a maior parte dos dias não tem chuva alguma, e o volume anual é entregue por um número pequeno de dias intensos (Figura 44).
+
+![Trinta anos de série, e a distribuição dos dias de chuva](../figuras/fig15_serie.png)
+
+*Figura 44 — Série de precipitação de Florianópolis usada em todo o tutorial: (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média em azul e abaixo dela em laranja; (b) distribuição de frequência da precipitação diária nos dias úmidos, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes.*
+
+---
+
+### 4.1.3. A área de captação
+
+O projeto do tutorial adota 150 m² de área de captação, e este é o primeiro campo em que
+se erra com frequência.
+
+A área de captação é a **projeção horizontal** da cobertura, e não a área inclinada do
+telhado. Um telhado com 30% de inclinação sobre uma planta de 150 m² tem cerca de 157 m²
+de superfície de telha, e ainda assim capta os mesmos 150 m² de chuva: a precipitação cai
+na vertical, e o que ela encontra é a sombra da cobertura projetada no chão. A definição
+é a do item 3.6 da ABNT NBR 15527:2019: área de captação é a «área projetada na
+horizontal da superfície impermeável da cobertura onde a água é captada», e é essa a
+área `A` da equação de disponibilidade do item 4.1.6.
+
+> **Área de captação não é área de contribuição.** A ABNT NBR 10844:1989 usa outra
+> área, com outro fim. Para dimensionar calhas e condutores pela vazão de pico, o item
+> 5.2.1 manda somar à projeção os incrementos da inclinação da cobertura, `(a + h/2)·b`
+> na Figura 2, e as paredes que interceptam chuva inclinada pelo vento. Essa área serve à
+> vazão de projeto de uma chuva de cinco minutos (item 5.3.1), e superestima o volume
+> que a cobertura capta ao longo do ano. No Netuno, informe a projeção horizontal; a
+> área de contribuição fica para o projeto das calhas, que o programa não faz.
+
+> **Atenção.** Usar a área inclinada superestima a captação na razão
+> `1/cos(inclinação)`. Num telhado de 30% dá 4,4% a mais de água que não existe. Em
+> telhados de maior caimento o erro cresce depressa.
+
+---
+
+Carregada a série, o programa já mostra o regime que ela descreve. Vale conferir esse desenho antes de seguir: uma série trocada de cidade, ou com unidade errada, costuma aparecer no ciclo sazonal da Figura 45 antes de aparecer em qualquer resultado.
+
+![O ciclo sazonal médio da série carregada](../figuras/fig55_programa_sazonal.png)
+
+*Figura 45 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Florianópolis, julho recebe cerca de um terço do que recebe novembro, e é essa diferença que o reservatório tem de atravessar. Figura gerada pelo próprio programa.*
+
+---
+### 4.1.4. O coeficiente de escoamento
+
+O tutorial digita 0,85 no campo do coeficiente. O programa, por sua vez, abre com a telha
+cerâmica selecionada e aplica 0,75, o valor que a lista de materiais atribui a ela, que é
+também o valor que ele assume quando nenhum material é informado. ==Atenção ao reproduzir
+o tutorial: para chegar aos números deste manual, escolha «Outro / Personalizado» e digite
+0,85.==
+
+A origem do 0,85 merece precisão, porque ele é citado com frequência como coeficiente de
+escoamento e não é. A ABNT NBR 15527:2019, no item 4.1.6, escreve o volume disponível como
+produto de quatro termos — precipitação, área, coeficiente de escoamento superficial C e
+eficiência do sistema de captação η — e recomenda 0,85 **para η**, na falta de dados do
+fabricante. Esse η já leva em conta o dispositivo de descarte de sólidos e o desvio do
+escoamento inicial. O Netuno tem um campo só para a fração da chuva que chega à cisterna e
+modela o descarte à parte, em milímetros. Digitar ali o η da norma e aplicar também o
+descarte de 2 mm conta a perda do escoamento inicial duas vezes, de modo que o tutorial é
+conservador. Num estudo, declare o valor adotado no campo, a sua origem e o descarte, e não
+atribua à norma um coeficiente de escoamento que ela não fixa.
+
+O coeficiente de escoamento superficial representa a fração da chuva incidente que
+efetivamente chega à cisterna, e a diferença até a unidade corresponde ao que se perde no
+caminho. As perdas têm quatro origens: a absorção pelo material da cobertura, a
+evaporação sobre a superfície aquecida, o respingo para fora da calha e o molhamento inicial da telha a cada novo evento de chuva. A Figura 46 traz o coeficiente que o programa atribui a cada material de cobertura.
+
+![O coeficiente de escoamento por tipo de cobertura](../figuras/fig35_escoamento.png)
+
+*Figura 46 — O coeficiente de escoamento que o programa atribui a cada material da cobertura, com os valores do estudo de materiais publicado na revista MIX Sustentável (2020). A linha tracejada marca 0,85, o fator de captação da ABNT NBR 15527 adotado no tutorial. O telhado verde é o único que se afasta do grupo, porque retém parte da chuva no substrato.*
+
+
+O programa aceita qualquer valor entre zero e um, e recusa valores fora desse intervalo
+nomeando o campo — um coeficiente maior que a unidade significaria que a cobertura entrega
+mais água do que a chuva lhe traz. A etapa **11. Documentação** traz a mesma tabela, com a
+fonte dos valores. Para uma cobertura mista, o coeficiente a digitar é a média dos
+coeficientes de cada material ponderada pelas respectivas áreas.
+
+---
+
+### 4.1.5. O descarte de primeiras águas
+
+O tutorial descarta 2,0 mm em todo evento de chuva.
+
+A primeira água que lava a cobertura carrega poeira, folhas, fezes de aves e tudo o mais
+que tenha se depositado desde a chuva anterior. Descartá-la, em vez de conduzi-la à
+cisterna, é a medida de qualidade mais barata e mais eficaz de que um sistema pluvial
+dispõe, e por isso é praticamente universal em projetos bem conduzidos. A ABNT NBR 15527
+recomenda o descarte de 2 mm quando não houver dado local que justifique outro valor, e é
+esse o valor adotado aqui.
+
+O programa oferece três modos de aplicação do descarte, que correspondem a três tipos de
+dispositivo de autolimpeza.
+
+<!-- tabela: **Tabela 92** — Os três modos de aplicação do descarte de primeiras águas -->
+| Modo | Quando descarta | Quando usar |
+| :--- | :--- | :--- |
+| 1 | em todo evento de chuva | o padrão, e o mais conservador |
+| 2 | só no primeiro evento após estiagem | dispositivo que não se esvazia sozinho entre chuvas próximas |
+| 3 | a cada X dias | dispositivo com esvaziamento programado |
+
+> **Atenção, e este é o ponto que mais surpreende.** Quando o descarte se aplica e a
+> chuva do dia **não supera** a lâmina, perde-se o dia **inteiro**, e não a
+> diferença. Um dia de 1,6 mm com descarte de 2,0 mm capta **zero**.
+>
+> Na série de Florianópolis, isso atinge 7% dos dias. Em climas de garoa frequente,
+> como o litoral sul no inverno, pode passar de 20%.
+
+A razão desse comportamento é física, e não convencional: o dispositivo de autolimpeza
+precisa encher-se por completo antes que qualquer água siga para a cisterna. Quando a
+chuva do dia não basta para enchê-lo, nada passa adiante, e o volume retido é perdido
+para a drenagem junto com a sujeira que ele lavou.
+
+> **A lâmina não é o dispositivo.** `d_f` é uma lâmina em milímetros. O volume
+> hidráulico do reservatório de autolimpeza é `A × d_f`, que no nosso projeto dá
+> 150 × 2 = **300 litros**. A etapa **3. Qualidade & ETAP** dimensiona e orça esse
+> reservatório (seção 2.5), e a seção 4.7 mostra o seu custo no investimento.
+
+---
+
+### 4.1.6. O que temos até aqui
+
+<!-- tabela: **Tabela 93** — Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
+| Dado | Valor |
+| :--- | ---: |
+| série | Florianópolis, 30 anos |
+| área de captação | 150 m² |
+| coeficiente de escoamento | 0,85 |
+| lâmina de descarte | 2,0 mm, todo evento |
+
+Com isso o programa já sabe **quanta água entra**. Falta dizer quanta sai, que é a seção 4.2.
+
+Um cálculo de guardanapo, para calibrar a expectativa: 1.795 mm por ano sobre 150 m²
+a 0,85 de coeficiente dão cerca de 229 m³ por ano de água bruta, antes do descarte.
+A seção 4.3 mostra quanto desse volume se converte em economia efetiva — e a diferença entre os
+dois números é a lição mais importante do tutorial.
+
+---
+
+## 4.2. A edificação e a demanda
+
+> Ao terminar esta seção o programa saberá **quanta água sai** e, mais importante,
+> **qual parte dela a chuva pode atender**. Essa fração é o teto de tudo o que vem
+> depois.
+
+A seção 4.1 definiu a oferta. Esta define a demanda. E há uma assimetria que
+convém entender desde já: **a chuva não pode atender toda a demanda**, por mais
+água que haja. Existe um teto, ele é definido aqui, e nenhum reservatório o
+ultrapassa.
+
+---
+
+### 4.2.1. A tipologia
+
+Na etapa **2. Edificação e Consumo**, escolha *Residencial unifamiliar*. O programa traz oito
+tipologias, cada uma com o consumo per capita de referência (Figura 47) e a repartição usual dos usos finais. A indústria não tem faixa de referência, porque o consumo depende do processo produtivo, e não da ocupação: nesse caso, o valor deve vir de medição.
+
+![O consumo per capita de referência por tipologia](../figuras/fig38_per_capita.png)
+
+*Figura 47 — As faixas usuais de consumo per capita por tipologia de edificação. A amplitude de cada faixa é grande de propósito: são valores de referência para quem ainda não mediu, e a medição, quando existe, sempre prevalece.*
+
+
+A tipologia serve de ponto de partida, não de imposição: o valor continua editável.
+A seção 3.5 trata dos casos não residenciais, que têm uma armadilha própria na tarifa.
+
+---
+
+### 4.2.2. Os moradores e o consumo
+
+**Quatro moradores, 150 L/hab·dia.** Total de **600 L/dia**.
+
+O valor de 150 L/hab·dia é o consumo de uma residência de classe média com
+abastecimento regular. Se você tem a fatura de água e esgoto da edificação, use-a: divida o
+consumo mensal em litros por trinta e pelo número de moradores. O número medido vale
+mais que qualquer referência.
+
+O programa aceita demanda **constante** ou modulada por semana, mês ou dia. O
+tutorial usa constante; a seção 3.4 mostra a modulação, que importa em escola, hotel e
+qualquer edificação com sazonalidade.
+
+---
+
+### 4.2.3. A fração que a chuva pode atender
+
+**28%.** É o número mais importante desta seção.
+
+Água de chuva não vai para o chuveiro, para a pia da cozinha nem para beber. Numa
+residência, vai para a bacia sanitária, a lavagem de piso, a rega de jardim e a lavagem
+de veículo. A fração desses usos no consumo total é o **teto do potencial de economia**.
+
+A repartição adotada no tutorial está representada na Figura 48, com a
+marcação dos usos que a chuva atende. A bacia sanitária responde por 20% do consumo e a
+limpeza e a rega por 8%; chuveiro, pia de cozinha, lavatório e máquina de lavar roupa,
+que respondem pelo restante, ficam com a água potável.
+
+Somando os dois que a chuva atende, chega-se aos 28% do tutorial. É um valor
+conservador para residência unifamiliar sem jardim grande, e é conservador de
+propósito: ele se limita aos usos que a norma admite.
+
+> **A máquina de lavar roupa não está na lista da norma.** A ABNT NBR 15527:2019, no item
+> 4.1.7, admite sete usos não potáveis para a água de chuva: sistemas de resfriamento,
+> descarga de bacias sanitárias e mictórios, lavagem de veículos, lavagem de pisos,
+> reserva técnica de incêndio, uso ornamental e irrigação paisagística. A ABNT NBR
+> 16783:2019, que trata das fontes alternativas em geral, também não inclui a lavagem de
+> roupa no item 4.2.1. Para qualquer outro uso, o item 4.1.8 da NBR 15527 exige que o
+> profissional responsável estude os parâmetros de qualidade e o tratamento específicos.
+> O uso na máquina de lavar é comum na literatura e na prática, e por isso muitos
+> estudos trabalham com frações atendíveis maiores que a deste tutorial. Em Joinville,
+> Ghisi e Custódio (2019) obtiveram potencial médio de 18,5% com água de chuva só nas
+> bacias sanitárias, e de 40,8% com as bacias e a máquina de lavar. O tutorial **não** o adota: a máquina fica com
+> a água potável, e a fração atendível cai para os 28% da bacia sanitária e dos usos
+> externos. Um projeto que inclua a lavagem de roupa precisa declarar que ela está fora
+> da lista normativa e qual critério de qualidade foi adotado para ela.
+
+![A repartição do consumo numa residência, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
+
+*Figura 48 — Repartição típica do consumo de uma residência por uso final. Em cinza, os usos que exigem água potável; em verde, os de possível uso de água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, economiza mais do que essa fração.*
+
+> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia
+> **jamais** passa de 28%, por maior que seja o reservatório e por mais que chova.
+> A tabela da seção 4.4 mostra a curva se aproximando exatamente desse limite e
+> nunca o cruzando.
+>
+> Quem quer passar de 28% precisa mudar o **uso**, não o reservatório: acrescentar um
+> uso, como a lavagem de roupa, com o critério de qualidade declarado que o item 4.1.8 da
+> norma exige, ou reduzir o consumo potável.
+
+#### 4.2.3.1. Percentual na tela, fração no arquivo
+
+A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
+que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
+cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
+atendível é um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no
+arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,28.
+
+A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
+projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
+fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
+(seção 2.3), e é a forma que não exige conversão a quem lê o arquivo com outro
+programa.
+
+O que não se admite é a mistura. Até esta versão, doze pontos do programa aceitavam as
+duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
+nos valores pequenos, onde o erro não se vê: 1 virava 100%, e não 1%; 0,5 digitado numa
+coluna em percentual virava 50%. ==Agora a unidade é fixada pelo lugar, e nunca
+adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração acima de 1 é recusada com a indicação de que parece percentual. A Figura 49 mostra os três estados do campo na interface.
+
+![O campo em percentual e o marcador de valor suspeito](../figuras/fig46b_percentual.png)
+
+*Figura 49 — Estados do campo de fração atendível na interface. O campo recebe percentual de 0 a 100; no arquivo de projeto e nos parâmetros de cálculo a grandeza é armazenada como fração de 0 a 1. Um valor entre 0 e 1 digitado no campo fica assinalado em laranja, sem bloquear o cálculo, porque 0,4% é possível, embora raro.*
+
+> **O marcador laranja.** Um valor entre 0 e 1 num campo em percentual é aceito, porque
+> menos de 1% de substituição é possível, mas o campo fica laranja e a dica explica o
+> que foi entendido. Nas tabelas de cenários e na planilha de lote, o programa pergunta
+> antes de simular.
+
+---
+
+### 4.2.4. Discretizar os usos, ou não
+
+O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
+depende do que o estudo pretende responder.
+
+No **modo simplificado**, informa-se uma fração única — os 28% deste tutorial — e o
+programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
+é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
+como as parcelas se distribuem internamente.
+
+No **modo discretizado**, a demanda é separada em três parcelas: a potável interna, que a
+chuva nunca atende; a não potável interna, que é a prioridade do sistema; e a irrigação,
+atendida por último. A separação muda duas coisas. Altera a ordem de atendimento nos dias
+de escassez, em que o uso interno tem precedência sobre o jardim; e permite distinguir uso
+interno de uso externo nos créditos de certificação, distinção que o LEED exige em
+créditos separados, conforme a seção 2.9 descreve.
+
+Vale discretizar quando há jardim de área relevante, quando a certificação está no
+horizonte do projeto, ou quando a irrigação pode ser suprimida em dias de chuva — situação
+que o item seguinte trata.
+
+---
+
+### 4.2.5. A irrigação e a supressão por chuva
+
+Declarado um volume de irrigação, o programa oferece um limiar de supressão por chuva:
+nos dias em que a precipitação supera esse limiar, o jardim não é regado. O comportamento
+reproduz o de qualquer controlador de irrigação dotado de sensor de chuva, equipamento
+corrente e barato, e ignorá-lo superestimaria a demanda externa ao longo do ano inteiro. O
+limiar adotado por padrão é de 2 mm diários.
+
+> **A série de chuva é lida duas vezes.** Uma leitura é convertida em volume captado,
+> após o descarte. A outra decide se o jardim é regado. As duas são independentes: um dia
+> pode suprimir a irrigação **e** render captação.
+
+Resta uma escolha que merece atenção particular, porque altera o resultado econômico e
+não é neutra: o **suprimento de reserva** da irrigação. Com ele ligado, a rede pública
+rega o jardim nos dias secos em que a cisterna não dá conta, e esse volume entra na fatura de água e esgoto como consumo potável. Com ele desligado, o jardim simplesmente não é regado
+naquele dia, a edificação não compra essa água, e o volume correspondente aparece no
+balanço como *demanda não atendida* — a terceira parcela tratada na seção 2.1.
+
+==A distinção entre as duas configurações é conceitual antes de ser numérica.== Um jardim
+que precisa ser regado todos os dias representa uma demanda real, que alguém pagará; um
+jardim que aceita não ser regado num dia seco representa uma conveniência, e tratá-lo como
+demanda infla tanto o consumo quanto a economia aparente do sistema.
+
+---
+
+### 4.2.6. O que temos até aqui
+
+<!-- tabela: **Tabela 94** — Estado do projeto do tutorial ao fim da definição da demanda -->
+| Dado | Valor |
+| :--- | ---: |
+| tipologia | residencial unifamiliar |
+| moradores | 4 |
+| consumo per capita | 150 L/hab·dia |
+| demanda total | 600 L/dia |
+| fração atendível por chuva | 28% |
+| **demanda pluvial** | **168 L/dia** |
+
+O programa agora sabe a oferta e a demanda. Antes de simular, um confronto que vale
+guardar:
+
+<!-- tabela: **Tabela 95** — Confronto entre a oferta anual de água pluvial e a demanda atendível -->
+| | m³/ano |
+| :--- | ---: |
+| precipitação incidente na área de captação | 229 |
+| volume remanescente após o descarte | 187 |
+| **demanda pluvial do ano** | **61** |
+
+A oferta excede a demanda: o volume disponível é **o triplo** do que se pretende usar. Se
+o único limite fosse a oferta, o sistema atenderia 100% da demanda pluvial e chegaria aos 28% de teto.
+
+Ele não chega, e a seção 4.3 mostra por quê.
+
+---
+
+## 4.3. A primeira simulação
+
+> Ao terminar esta seção você terá o primeiro resultado na tela e saberá **ler**
+> os quatro números que importam. Ler é a parte difícil: o programa entrega muitos
+> números, e três deles respondem perguntas diferentes.
+
+Falta um dado para simular: o volume do reservatório. Vamos chutar.
+
+**3.000 litros.** Uma cisterna de concreto de 3 m³ é um tamanho comum de quintal,
+cabe no orçamento e é o que um projetista proporia sem pensar muito. A seção 4.4
+vai perguntar se é o volume certo. Aqui só queremos ver o programa rodar.
+
+Na etapa **4. Reservatório & Custos**, escolha volume fixo, informe 3.000 L, deixe o reservatório
+superior desmarcado, e rode.
+
+---
+
+### 4.3.1. O resultado
+
+<!-- tabela: **Tabela 96** — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
+| Resultado com 3 000 L | Valor |
+| :--- | ---: |
+| potencial de economia de água potável | **26,48%** |
+| água pluvial consumida | 158,9 L/dia |
+| água da rede consumida | 441,1 L/dia |
+| água extravasada | 354,1 L/dia |
+| dias de atendimento pleno | 93,9% |
+| dias de atendimento parcial | 1,3% |
+| dias de atendimento nulo | 4,9% |
+| demanda pluvial pretendida | 168 L/dia |
+| volume anual poupado | 58,0 m³/ano |
+
+A tela devolve várias dezenas de valores, e quatro deles bastam para julgar o projeto
+nesta etapa. Cada um responde a uma pergunta distinta, e é precisamente por responderem
+a perguntas distintas que eles não se substituem: um projeto pode ser bom pelo primeiro
+e ruim pelo terceiro, e a leitura conjunta é o que evita conclusão apressada.
+
+---
+
+### 4.3.2. O potencial de economia: 26,48%
+
+Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da
+fatura de água e esgoto se deixa de pagar. É o valor central produzido pelo programa e o que
+figura no resumo de qualquer estudo, e corresponde à razão entre a água pluvial
+consumida e a demanda total da edificação ao longo de toda a série, conforme a Equação
+14.
+
+O denominador merece atenção, porque dele decorre todo o resto: trata-se da demanda
+**total**, e não da demanda pluvial. É essa escolha que fixa o teto do indicador em 28%,
+que é a fração atendível definida na seção 4.2, e não em cem por cento.
+
+O sistema alcançou 26,48% contra um teto de 28%, o que significa que ele entrega 95% do
+que se propunha a entregar. Os 5% restantes correspondem aos dias em que a cisterna não
+dispunha de água suficiente para atender à demanda pluvial daquele dia.
+
+> **Não confunda os dois percentuais.** «Economia de 26%» e «atendimento de 95% da
+> demanda pluvial» descrevem o mesmo sistema e são números diferentes. Estudos
+> publicados às vezes trocam um pelo outro. Declare qual está usando.
+
+---
+
+### 4.3.3. O extravasamento: 354 L/dia
+
+**Responde: o reservatório é grande o bastante?**
+
+Trezentos e cinquenta e quatro litros por dia, em média ao longo dos trinta anos,
+extravasam da cisterna e seguem para a rede de drenagem. ==O volume extravasado é mais
+que o dobro dos 168 L/dia que o sistema pretende consumir,== e o reservatório deixa
+passar mais água do que aproveita.
+
+Parece o argumento definitivo a favor de aumentar o reservatório, e não é. A cobertura
+oferece o triplo do que a casa consome (seção 4.2), e boa parte desse excedente
+extravasaria de qualquer cisterna: a seção 4.4 mostra que nem 20.000 L o reduzem
+abaixo de 340 L/dia. O extravasamento só diz algo sobre o volume quando comparado ao de
+outros volumes, e é essa comparação que a seção 4.4 faz.
+
+> Um extravasamento alto não é defeito do programa nem do projeto. É a assinatura do
+> descasamento entre a chuva, que chega concentrada em poucos dias, e a demanda, que
+> é constante. O reservatório existe para amortecer isso, e todo reservatório
+> finito falha em algum evento.
+
+---
+
+### 4.3.4. Os dias de atendimento: 93,9% plenos
+
+**Responde: com que frequência posso contar com o sistema?**
+
+Trata-se da confiabilidade **temporal** do sistema, e ela responde a uma pergunta que o
+potencial de economia não alcança: com que frequência se pode contar com a água pluvial.
+Cada dia da simulação recebe uma de três classificações, segundo o grau de atendimento
+alcançado.
+
+<!-- tabela: **Tabela 97** — Classificação de cada dia da simulação quanto ao grau de atendimento -->
+| Classe | O que significa |
+| :--- | :--- |
+| pleno | a chuva atendeu **toda** a demanda pluvial do dia |
+| parcial | atendeu parte, e a rede completou |
+| nulo | a cisterna estava vazia; tudo veio da rede |
+
+Em 93,9% dos dias o sistema deu conta sozinho da demanda pluvial, e nos 6,1% restantes
+a rede pública entrou, integral ou parcialmente. A distinção tem consequência direta
+sobre o projeto hidráulico: um sistema com muitos dias de atendimento nulo exige
+alimentação automática de reserva bem dimensionada, e o usuário percebe a alternância
+entre as duas fontes ao longo do ano. Um sistema com 99% de dias plenos é, na prática,
+independente da rede para os usos que atende.
+
+> **Potencial e confiabilidade não andam juntos.** É possível ter potencial alto com
+> confiabilidade baixa: um reservatório que se enche na estação chuvosa e seca na
+> estiagem entrega muito volume no ano e falha metade dos dias. A tabela da seção 4.4 mostra as duas colunas divergindo.
+
+---
+
+### 4.3.5. O volume anual poupado
+
+**Responde: quanto vale isso em dinheiro e em carbono?**
+
+Este é o valor que atravessa para as seções 4.7 e 4.8, porque tanto a economia na fatura de água e esgoto quanto a emissão de carbono evitada são calculadas a partir dele. Ele
+vale 58,0 m³/ano, menos de um terço dos 187 m³/ano que a cobertura disponibiliza depois
+do descarte, e a diferença inteira corresponde ao que extravasou.
+
+---
+
+Antes de discutir por que o potencial não chega aos 28%, convém ver o reservatório trabalhando. A aba de resultados traz a série diária do nível da cisterna, e é nela que se enxergam de uma vez os dois regimes que limitam o aproveitamento: o extravasamento e a falta (Figura 50).
+
+![O nível da cisterna, dia a dia, ao longo de um ano](../figuras/fig48_programa_serie_diaria.png)
+
+*Figura 50 — O nível da cisterna ao longo do primeiro ano da série, com a chuva diária ao fundo. Os platôs no alto são os dias em que o reservatório está cheio e extravasa; os vales no zero são os dias em que ele secou e a rede atendeu tudo. Figura gerada pelo próprio programa.*
+
+---
+### 4.3.6. Por que não chegamos aos 28%
+
+A seção 4.2 encerrou com um confronto aparentemente favorável: 187 m³ anuais de
+oferta contra 61 m³ de demanda pluvial, isto é, o triplo do necessário. Diante desse
+excedente, seria razoável esperar atendimento integral, e ainda assim o sistema entrega
+95% do pretendido.
+
+A explicação está inteiramente no **tempo**. O excedente não ocorre no momento em que a água é
+necessária: a precipitação chega concentrada, enche a cisterna de 3.000 L num único dia
+de chuva intensa, extravasa no mesmo dia, e falta duas semanas depois. O excedente anual e o
+atendimento diário são grandezas que não se comunicam, e é justamente essa
+incomunicabilidade que torna a simulação diária indispensável.
+
+O reservatório de 3.000 L armazena o equivalente a dezoito dias de demanda pluvial.
+Qualquer estiagem mais longa que isso o esvazia, e a partir daí o sistema passa a
+depender integralmente da rede até a chuva seguinte.
+
+É por isso que aumentar o reservatório funciona — e é por isso que aumentar tem
+limite. A seção 4.4 mede exatamente onde fica esse limite.
+
+---
+
+### 4.3.7. O que temos até aqui
+
+<!-- tabela: **Tabela 98** — Estado do projeto do tutorial após a primeira simulação -->
+| Resultado com 3.000 L | |
+| :--- | ---: |
+| potencial de economia | 26,48% |
+| de um teto de | 28% |
+| extravasamento | 354 L/dia |
+| dias de atendimento pleno | 93,9% |
+
+Um resultado defensável, e já perto do teto. Mas escolhemos 3.000 L por palpite: pode
+ser pouco, e pode ser demais.
+
+Quanto seria o certo?
+
+---
+
+## 4.4. Escolher o volume
+
+> Ao terminar esta seção você terá a curva de retorno do reservatório, saberá
+> onde ela deixa de compensar, e entenderá por que **não existe** um volume ótimo
+> absoluto — existe um volume ótimo para um critério declarado.
+
+A seção 4.3 adotou 3.000 L como primeiro palpite e encontrou 354 L/dia
+extravasando, mais de dois terços de tudo o que a cobertura capta, e um atendimento já
+perto do teto. As duas leituras puxam em sentidos opostos, e a pergunta que se impõe é
+quanto reservatório vale a pena ter, e ela não se responde por tentativa isolada: responde-se simulando o mesmo
+projeto para muitos volumes e observando como o resultado evolui. É o que o programa
+chama de **varredura**.
+
+---
+
+### 4.4.1. Rodar a varredura
+
+Na etapa **4. Reservatório & Custos**, escolha o modo varredura e informe o
+volume máximo e o passo. Para o nosso projeto:
+máximo de 20.000 L, passo de 1.000 L.
+
+Duas particularidades da montagem da grade convêm ser conhecidas antes de interpretar o
+resultado. A primeira é que o passo informado é arredondado para cima até o múltiplo de
+250 L, valor que corresponde ao quantum comercial de reservatórios — não se compra
+cisterna de 1.300 L, e um ótimo apontado nesse volume seria inexequível. Quando o passo
+pedido não é múltiplo de 250, o programa o ajusta e registra o ajuste, de modo que o
+relatório possa declarar o passo efetivamente utilizado.
+
+A segunda é que a grade se limita a quarenta volumes positivos. Uma varredura de 0 a
+50.000 L com passo de 100 L exigiria quinhentas simulações de trinta anos cada, e o ganho
+de informação não compensa o tempo de máquina, porque a curva é suave e quarenta pontos
+já a descrevem com folga. O volume máximo informado é sempre preservado como último
+ponto da grade, de modo que apenas o último intervalo pode ser menor que o passo efetivo.
+
+O volume zero integra a grade como alternativa de referência: ele representa o cenário
+sem sistema, contra o qual todos os demais se comparam.
+
+---
+
+### 4.4.2. A curva
+
+<!-- tabela: **Tabela 99** — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado -->
+| Volume | Potencial | Ganho sobre o anterior | Ganho por m³ acrescentado | Extravasado | Dias plenos |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| L | % | pontos percentuais | %/m³ | L/dia | % |
+| 0 | 0,00 | — | — | 513 | 0,0 |
+| 1 000 | 21,03 | 21,03 | 21,03 | 387 | 70,3 |
+| 2 000 | 25,03 | 3,99 | 3,99 | 363 | 87,9 |
+| 3 000 | 26,48 | 1,45 | 1,45 | 354 | 93,9 |
+| 4 000 | 27,12 | 0,64 | 0,64 | 350 | 96,6 |
+| 5 000 | 27,47 | 0,35 | 0,35 | 348 | 97,9 |
+| 6 000 | 27,70 | 0,23 | 0,23 | 346 | 98,8 |
+| 8 000 | 27,92 | 0,23 | 0,11 | 345 | 99,7 |
+| 10 000 | 27,99 | 0,06 | 0,03 | 344 | 99,9 |
+| 12 000 | 28,00 | 0,01 | 0,01 | 344 | 100,0 |
+| 16 000 | 28,00 | 0,00 | 0,00 | 344 | 100,0 |
+| 20 000 | 28,00 | 0,00 | 0,00 | 343 | 100,0 |
+
+A Figura 51 traça os resultados da tabela: o potencial de economia converge para a fração atendível, e o ganho marginal decresce em três ordens de grandeza ao longo da varredura.
+
+![Curva de potencial e curva de ganho marginal](../figuras/fig02_curva_de_retorno.png)
+
+*Figura 51 — (a) Potencial de economia em função do volume do reservatório, que se aproxima do teto de 28% sem cruzá-lo, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial.*
+
+A coluna decisiva da tabela é a de **ganho por metro cúbico acrescentado**, que é a
+derivada discreta da curva de potencial e expressa quanto cada metro cúbico adicional de
+reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o
+padrão que ela revela é o argumento central desta seção.
+
+<!-- tabela: **Tabela 100** — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
+| De → para | Ganho por m³ |
+| :--- | ---: |
+| 0 → 1.000 L | 21,03 %/m³ |
+| 1.000 → 2.000 L | 3,99 %/m³ |
+| 2.000 → 3.000 L | 1,45 %/m³ |
+| 3.000 → 4.000 L | 0,64 %/m³ |
+| 4.000 → 5.000 L | 0,35 %/m³ |
+| 10.000 → 12.000 L | 0,005 %/m³ |
+| 16.000 → 20.000 L | 0 |
+
+==O primeiro metro cúbico de reservatório entrega 21 pontos percentuais de economia; os
+de 10 para 12 m³ entregam cinco milésimos de ponto cada um, e os de 12 para 20 m³, nada.==
+A diferença é de quatro ordens de grandeza, e os metros cúbicos custam o mesmo concreto, a
+mesma escavação e a mesma mão de obra. A partir de 12 m³ o sistema atende a todos os dias
+da série, e nenhum volume a mais tem o que acrescentar.
+
+Esse comportamento não é peculiaridade do regime de chuva de Florianópolis. É a forma
+característica de toda curva de aproveitamento pluvial, e decorre de dois fatos que
+atuam em conjunto. Os primeiros litros de armazenamento capturam os eventos pequenos e
+frequentes, que constituem a maioria das chuvas em qualquer regime; e o teto imposto pela
+fração atendível, de 28% neste projeto, puxa a curva para a horizontal à medida que o
+sistema dele se aproxima, de modo que o espaço restante para ganho vai se esgotando.
+
+---
+
+#### 4.4.2.1. Os quatro gráficos que a tela mostra
+
+A varredura não devolve apenas a curva de potencial. A aba de resultados traz quatro
+gráficos que respondem a perguntas diferentes sobre o mesmo conjunto de simulações, reproduzidos a seguir com os dados deste tutorial: o potencial de economia (Figura 52), o ganho marginal (Figura 53), os volumes extravasado e consumido (Figura 54) e a classificação dos dias (Figura 55).
+
+![O potencial de economia contra o volume, na tela do programa](../figuras/fig10_programa_potencial.png)
+
+*Figura 52 — O primeiro gráfico da aba de resultados: o potencial de economia de água potável em função do volume do reservatório inferior. A estrela marca o volume selecionado. Figura gerada pelo próprio programa, com os dados do tutorial.*
+
+![O ganho marginal contra o volume, na tela do programa](../figuras/fig11_programa_delta.png)
+
+*Figura 53 — O segundo gráfico: o ganho marginal, em pontos percentuais por metro cúbico acrescentado. É a derivada da curva anterior, e é sobre ela que o critério de volume ideal opera. Figura gerada pelo próprio programa.*
+
+![Extravasamento e consumo pluvial contra o volume](../figuras/fig12_programa_extravasamento.png)
+
+*Figura 54 — O terceiro gráfico: o volume extravasado e o volume pluvial consumido, ambos anuais, na mesma escala. As duas curvas explicam uma à outra, porque toda água que deixa de extravasar passa a ser consumida. Figura gerada pelo próprio programa.*
+
+![O atendimento dos dias contra o volume](../figuras/fig13_programa_dias.png)
+
+*Figura 55 — O quarto gráfico: a repartição dos dias do período em atendidos por inteiro, atendidos em parte e não atendidos. É a leitura temporal da mesma varredura, e a única que responde com que frequência se pode contar com o sistema. Figura gerada pelo próprio programa.*
+
+---
+
+### 4.4.3. O volume ideal
+
+Diante de uma curva cujo rendimento decai dessa forma, a pergunta «qual o volume ideal?»
+só admite resposta depois que se estabeleça o que significa deixar de compensar. O
+Netuno adota para isso o critério do ganho marginal: o volume ideal é o menor volume cujo
+ganho por metro cúbico acrescentado já tenha caído abaixo de um limiar declarado pelo
+usuário, conforme a formulação da seção 2.2.
+
+O programa abre com limiar de 5 %/m³, e o tutorial adota um mais exigente, de 1 %/m³.
+A diferença não é detalhe: com o padrão, o volume ideal deste projeto seria de 2.000 L;
+com o limiar do tutorial, o primeiro volume a cair abaixo dele é o de 4.000 L, com
+ganho marginal de 0,64 %/m³. Quem refizer o tutorial precisa, portanto, alterar o limiar
+no programa antes de rodar a varredura.
+
+<!-- tabela: **Tabela 101** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
+| Indicador | Valor |
+| :--- | ---: |
+| volume ideal, limiar de 1 %/m³ | 4.000 L |
+| potencial nesse volume | 27,12% |
+| de um teto de | 28% |
+| dias de atendimento pleno | 96,6% |
+
+O limiar, contudo, é uma escolha do analista, e ela decide o resultado tanto quanto os
+dados de entrada. A tabela abaixo mostra o volume ideal que cada limiar plausível
+produziria para este mesmo projeto.
+
+<!-- tabela: **Tabela 102** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
+| Limiar declarado | Volume ideal | Potencial |
+| ---: | ---: | ---: |
+| 3,0 %/m³ | 3 000 L | 26,48% |
+| 1,0 %/m³ | 4 000 L | 27,12% |
+| 0,5 %/m³ | 5 000 L | 27,47% |
+
+<!-- tabela: **Tabela 103** — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
+| | 4.000 L | 20.000 L |
+| :--- | ---: | ---: |
+| potencial de economia | 27,12% | 28,00% |
+| preço da cisterna de concreto | R$ 5 304 | R$ 20 607 |
+| massa de concreto | 4 800 kg | 24 000 kg |
+| carbono incorporado do sistema | 858 kg CO₂e | 3 546 kg CO₂e |
+| **razão de preço** | | **3,9×** |
+| **ganho de potencial** | | **+0,88 pontos** |
+
+O programa não emite opinião sobre qual limiar seria o correto, e não poderia fazê-lo:
+a escolha depende do custo do reservatório, do valor da água no município e da
+disponibilidade de espaço no terreno, nenhum dos quais é dado hidrológico. O que o
+programa faz é aplicar fielmente o limiar declarado e registrá-lo no relatório.
+
+> **Num estudo publicado, declare o limiar.** Dois artigos com «volume ideal» de
+> limiares diferentes não são comparáveis. Entre os limiares da tabela, a diferença
+> é de 2.000 L, e o volume de 5.000 L custa um terço a mais que o de 3.000 L para
+> entregar um ponto percentual.
+
+---
+
+### 4.4.4. Por que o critério do ganho marginal não basta
+
+O critério do ganho marginal é puramente hidráulico: ele observa a curva de
+aproveitamento e nada mais. Desconhece quanto custa o reservatório, quanto vale o metro
+cúbico de água no município em questão e quanto carbono o material escolhido carrega
+consigo. Três consequências decorrem dessa cegueira, e cada uma delas pode deslocar a
+recomendação em sentido diferente.
+
+- Se a água for muito cara, o ganho de 0,35 %/m³ do quinto metro cúbico pode se pagar
+  bem, e o volume econômico será **maior** que o hidráulico.
+- Se a cisterna for cara ou o espaço for escasso, o inverso.
+- Uma cisterna de concreto de 20 m³ pesa vinte e quatro toneladas e carrega, com o
+  resto do sistema, cerca de **3,5 toneladas de CO₂e** incorporado, contra menos de
+  uma tonelada na de 4 m³. O último metro cúbico não acrescenta economia alguma, e não
+  tem como compensar a diferença.
+
+São três critérios e três respostas distintas para a mesma pergunta, e nenhuma delas é
+mais legítima que as outras em abstrato. É por essa razão que o tutorial não se encerra
+aqui: as seções 4.7 e 4.8 acrescentam respectivamente o dinheiro e o carbono à
+análise, e a seção 4.9 põe as três dimensões na mesma mesa, com pesos declarados,
+para chegar a um volume de compromisso que se possa defender.
+
+> **O engano mais comum, e está na seção 5.1.** Publicar o volume de maior economia
+> de água como se fosse o volume recomendado. Pela tabela, 20.000 L dão o maior
+> potencial, 28,00%, o mesmo que 12.000 L já davam. Também custam **3,9 vezes mais**
+> que os 4.000 L, e carregam **4,1 vezes mais carbono incorporado**, para entregar
+> 0,88 ponto percentual a mais.
+
+---
+
+A varredura traz ainda uma leitura que a tabela não mostra: quanto da capacidade o consumo de fato utiliza. Medir o reservatório pelo nível engana, porque a cisterna grande parece sempre cheia justamente por guardar água que a demanda não chega a retirar. A Figura 56 mede a capacidade pelo consumo, de duas maneiras. A primeira é a **autonomia armazenada**, o volume ao fim de cada dia dividido pela demanda pluvial diária de 168 L, apresentada como curva de permanência. A segunda é o número de **renovações por ano**, a razão entre o consumo pluvial anual e a capacidade, que diz quantas vezes o volume da cisterna é efetivamente consumido e reposto.
+
+A cisterna de 2 m³ renova o seu volume 27 vezes por ano e termina o dia vazia em 13% dos dias: a capacidade é inteiramente utilizada, e falta água. A de 4 m³ renova 15 vezes e esvazia em 4% dos dias. A de 20 m³ renova apenas 3 vezes por ano e nunca esvazia, mas guarda em metade dos dias mais de 110 dias de demanda, muito além da estiagem que a série registra. Essa reserva que o consumo não chega a mobilizar é o que o investimento adicional compra, e é a leitura física do retorno decrescente da curva de potencial.
+
+![A permanência do nível do reservatório](../figuras/fig47_permanencia.png)
+
+*Figura 56 — Uso da capacidade do reservatório inferior no projeto do tutorial, com demanda pluvial de 168 L/dia: (a) curvas de permanência da autonomia armazenada ao fim de cada dia, em dias de demanda pluvial, para 2, 4, 10 e 20 m³; (b) renovações anuais do volume, dadas pela razão entre o consumo pluvial anual e a capacidade, com a fração de dias em que o reservatório termina vazio (até 5% da capacidade) indicada sob cada volume.*
+
+---
+### 4.4.5. Duas leituras a mais da tabela
+
+**O extravasamento nunca chega a zero.** Ele parte de 513 L/dia na ausência de
+reservatório, cai para 343 L/dia com vinte metros cúbicos e estaciona nesse patamar. Dois
+terços da água que a cobertura capta continuarão indo para a drenagem, por uma
+razão que nenhum aumento de reservatório resolve: a demanda simplesmente não a consome.
+Sistemas de aproveitamento pluvial não retêm água por retê-la, e quem busca amortecimento
+de cheia precisa de reservatório de detenção, que é outro projeto, com outro critério de
+dimensionamento.
+
+**A confiabilidade cresce mais depressa que o potencial.** Ao passar de 3.000 para
+4.000 L, o potencial de economia ganha 0,64 ponto percentual, ao passo que os dias de
+atendimento pleno sobem de 93,9% para 96,6%, e os dias de falta caem quase pela metade. Quando o critério de projeto é o conforto
+de uso — não faltar água pluvial nos pontos que a utilizam — e não a economia na fatura,
+a leitura da mesma tabela conduz a outra escolha.
+
+---
+
+### 4.4.6. O que temos até aqui
+
+O tutorial adota 4.000 L e segue. Trata-se do volume ideal pelo critério hidráulico com
+o limiar de 1 %/m³, e é o valor que o projeto carrega até a seção 4.9, onde será
+questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
+
+<!-- tabela: **Tabela 104** — Estado do projeto do tutorial após a escolha do volume -->
+| Projeto até aqui | |
+| :--- | ---: |
+| série | Florianópolis, 30 anos |
+| área de captação | 150 m² |
+| demanda total | 600 L/dia |
+| fração atendível | 28% |
+| **volume do reservatório** | **4.000 L** |
+| potencial de economia | 27,12% |
+| dias de atendimento pleno | 96,6% |
+
+Resta uma decisão hidráulica antes que se possa falar de dinheiro: essa água precisa
+subir para uma caixa elevada, ou pode ser pressurizada diretamente da cisterna? É o
+assunto da seção 4.5.
+
+---
+
+## 4.5. Precisa de reservatório superior?
+
+> Ao terminar esta seção você saberá responder a pergunta com número, e não com
+> hábito. A resposta costuma surpreender.
+
+O arranjo clássico do aproveitamento pluvial brasileiro emprega dois reservatórios: uma
+cisterna enterrada, que recebe a água da cobertura, e uma caixa d'água elevada, que
+alimenta os pontos de consumo por gravidade; entre as duas, uma motobomba faz o recalque.
+O arranjo é tão difundido que quase todo projeto o adota sem examinar a razão, e esta
+seção examina.
+
+---
+
+### 4.5.1. Para que serve a caixa superior
+
+==A caixa superior não serve para guardar mais água; serve para entregá-la.== A distinção
+parece sutil e decide a análise inteira, porque tudo o que se segue depende de não
+confundir capacidade de armazenamento com capacidade de distribuição.
+
+A cisterna fica enterrada, e os pontos de consumo — bacia sanitária, tanque, torneira de
+jardim — situam-se acima dela. Alguma coisa precisa vencer esse desnível, e há duas
+maneiras de fazê-lo com bomba.
+
+- **Pressurização direta.** Uma bomba pequena com pressostato liga sempre que se
+  abre um ponto. Não há caixa superior.
+- **Recalque para caixa elevada.** A bomba enche a caixa de tempos em tempos, e a
+  gravidade faz o resto.
+
+Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: **gravidade**,
+sem bomba. A etapa **4. Reservatório & Custos** pergunta qual dos três arranjos o projeto
+adota, e é essa resposta que define a energia e as motobombas no custo e no carbono.
+
+<!-- tabela: **Tabela 105** — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
+| Arranjo | Energia calculada | Caixa superior e motobombas |
+| :--- | :--- | :--- |
+| recalque para caixa superior | volume recalcado, pela altura manométrica, mais as partidas | entram no custo e no carbono |
+| pressurização direta | todo o volume pluvial consumido, pela pressão de trabalho | só as motobombas |
+| gravidade | nenhuma | nenhuma |
+
+Na pressurização direta, a etapa 4 pede o modelo do pressurizador, escolhido num
+catálogo de seis modelos com curva vazão × pressão do fabricante, a pressão de trabalho
+e a vazão do ponto de uso. O pressurizador liga a cada descarga, 5,05 por pessoa por dia
+segundo o levantamento de usos finais de Mayer et al. (1999), e fica ligado enquanto a
+caixa acoplada enche, no ritmo da boia. A energia é esse tempo vezes a potência
+elétrica. No tutorial, o menor modelo do catálogo gastaria 40,5 kWh por ano, cinco vezes
+os 7,7 kWh do recalque; a seção 2.6 explica por quê, e mostra que o modelo escolhido
+pesa mais que a pressão.
+
+O recalque para caixa elevada tem três vantagens práticas reais. A motobomba liga poucas vezes por
+dia, em vez de dezenas, o que prolonga a vida do equipamento; a pressão nos pontos de
+consumo é constante, porque decorre da altura da coluna d'água e não do funcionamento da
+bomba; e existe reserva disponível durante uma falta de energia. ==Nenhuma dessas três
+vantagens é economia de água,== e é justamente essa a confusão que a seção desfaz.
+
+---
+
+### 4.5.2. A comparação justa
+
+Comparar um sistema de 4.000 L sem caixa elevada com outro de 4.000 L mais 1.000 L de
+caixa é uma armadilha metodológica, porque o segundo dispõe de mais armazenamento total e
+venceria por essa razão, e não pelo arranjo. Para isolar o efeito do arranjo é preciso
+manter constante o armazenamento: comparam-se, portanto, 5.000 L num único reservatório
+contra 4.000 L embaixo mais 1.000 L em cima.
+
+<!-- tabela: **Tabela 106** — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
+| Mesmo armazenamento de 5.000 L | Um tanque só | 4.000 embaixo + 1.000 em cima |
+| :--- | ---: | ---: |
+| potencial de economia | 27,47% | 27,30% |
+| dias de atendimento pleno | 97,9% | 97,3% |
+| volume recalcado | — | 59,8 m³/ano |
+| acionamentos da bomba | — | 68 por ano |
+| horas de bomba | — | 12,6 h/ano |
+| energia | — | 7,7 kWh/ano |
+| custo da energia | — | R$ 5,37/ano |
+| **diferença de potencial** | | **-0,17 pontos** |
+
+Mantido o mesmo armazenamento, o arranjo com caixa elevada entrega cerca de um sexto de
+ponto percentual a menos de economia que o reservatório único. A diferença não é erro de
+arredondamento, e tem uma causa: **a cisterna extravasa enquanto a caixa superior ainda
+tem espaço**.
+
+A chuva entra só pela cisterna, e o extravasamento é calculado nela antes do consumo do
+dia. O recalque, porém, só acontece quando há consumo e a caixa superior desce abaixo do
+limiar de acionamento. Assim, num dia chuvoso com a cisterna cheia, a água que excede os
+4.000 L de baixo é perdida mesmo que a caixa de cima tenha centenas de litros livres. Um
+reservatório único de 5.000 L guardaria essa água.
+
+É também por isso que o limiar de acionamento maior rende mais: com ele, a bomba enche a
+caixa mais cedo, a cisterna fica mais vazia quando a chuva chega, e extravasa menos. A
+reserva abaixo do limiar não é imobilizada, porque é consumida logo depois de cada
+recalque e quando a cisterna seca.
+
+> **A caixa superior não aumenta a economia de água. Ela custa.** No nosso projeto,
+> custa a caixa, custa a bomba, custa 7,7 kWh por ano de energia, e custa um sexto
+> de ponto de potencial em relação a um tanque único do mesmo volume total.
+>
+> Isso não a torna errada. Torna a decisão **hidráulica**, e não hídrica: adote-a se
+> o projeto precisa de pressão por gravidade ou de reserva contra falta de energia,
+> e não esperando que ela renda mais água.
+
+---
+
+### 4.5.3. O limiar de acionamento
+
+Se você adotar a caixa, há um parâmetro a ajustar: o volume de reserva que não se
+consome, abaixo do qual a bomba é acionada.
+
+<!-- tabela: **Tabela 107** — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos -->
+| Limiar de acionamento | Potencial | Acionamentos por ano |
+| ---: | ---: | ---: |
+| 0 L | 27,24% | 62 |
+| 100 L | 27,30% | 68 |
+| 300 L | 27,33% | 87 |
+| 500 L | 27,39% | 121 |
+
+Limiar maior significa **mais potencial e mais acionamentos**, pela razão acima. De 0 para 500 L, o
+potencial sobe 0,15 ponto e os acionamentos quase dobram, de 62 para 121 por ano.
+
+A troca é entre um ganho hídrico marginal e o desgaste da motobomba. Motobombas
+residenciais suportam bem alguns acionamentos por dia; o que as mata é o
+liga-desliga contínuo. Cento e vinte e um acionamentos por ano é um a cada três
+dias, e nenhum dos valores da tabela chega perto de ser problema.
+
+> **Onde o limiar importa de verdade** é em edificações com demanda concentrada, em
+> que a caixa esvazia rápido. Aí ele pode passar de mil acionamentos por ano, e
+> convém dimensionar a caixa em vez de mexer no limiar.
+
+---
+
+### 4.5.4. A energia, e por que ela é pequena
+
+Sete vírgula sete quilowatt-hora por ano. Cinco reais e trinta e sete centavos.
+
+Parece pouco demais, e vale entender por quê. Elevar um metro cúbico de água a doze
+metros custa, em energia hidráulica, cerca de 0,033 kWh. Com o rendimento da bomba e
+o do motor, e somadas as partidas da bomba, chega a cerca de 0,13 kWh por metro cúbico recalcado. Sessenta metros cúbicos por
+ano dão os 7,7 quilowatt-hora da tabela.
+
+Água é pesada, mas doze metros é pouco. É por isso que o custo energético do
+aproveitamento pluvial é desprezível diante da economia na fatura de água e esgoto — e é por
+isso também que o argumento de que «bombear água gasta mais energia do que
+economiza» não se sustenta em edificação de pequeno porte.
+
+> **Atenção à potência de placa.** O programa pede o rendimento **da bomba** e o
+> rendimento **do motor** separadamente. A potência de placa é a potência mecânica
+> no eixo, e o rendimento do motor é o que separa o que o eixo entrega do que o
+> medidor registra. Em branco, o programa adota a Tabela 13 da ABNT NBR 17094-2:
+> 60,5% para meio CV. A seção 2.6 detalha.
+
+---
+
+### 4.5.5. A decisão do tutorial
+
+**Adotamos recalque para uma caixa superior de 1.000 L, com limiar de 100 L.**
+
+A decisão é hidráulica, e não hídrica. A caixa elevada dá pressão constante nos pontos
+de uso sem depender da bomba a cada descarga, mantém água disponível durante uma falta de
+energia e faz a motobomba partir 68 vezes por ano, em vez das mais de sete mil partidas de um
+pressurizador acionado a cada descarga por quatro moradores, que gastaria de 40 a 99 kWh
+por ano conforme o modelo. O preço é o que a tabela mostra: a caixa, as bombas,
+7,7 kWh por ano e um sexto de ponto de potencial frente a um tanque único de 5.000 L.
+As bombas são duas, a principal e a reserva, como exige o item 6.5.11.2 da ABNT NBR
+5626:2020 para sistemas de recalque e de pressurização.
+
+Em relação à cisterna sozinha de 4.000 L, o potencial sobe de 27,12% para 27,30%,
+porque a caixa acrescenta 1.000 L de armazenamento. Daqui em diante, o custo, o carbono
+e a decisão do tutorial incluem a caixa, as duas motobombas e a energia do recalque.
+
+<!-- tabela: **Tabela 108** — Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
+| Projeto até aqui | |
+| :--- | ---: |
+| volume do reservatório inferior | 4.000 L |
+| arranjo | recalque para caixa superior |
+| reservatório superior | 1.000 L, limiar de 100 L |
+| potencial de economia | 27,30% |
+
+Agora sabemos quanta água o sistema entrega. Falta saber **que água** é essa.
+
+---
+
+## 4.6. Que qualidade o uso exige
+
+> Ao terminar esta seção o projeto terá uma linha de tratamento definida, e você
+> saberá distinguir o que a norma exige do que o programa recomenda.
+
+Até este ponto o tutorial tratou a água pluvial exclusivamente como volume: quanto se
+capta, quanto se armazena, quanto se consome. A água, porém, é também uma qualidade, e a
+qualidade custa dinheiro — em equipamento na instalação e em insumo todos os meses. Esta
+seção define a classe de qualidade do projeto e dimensiona a linha de tratamento
+correspondente.
+
+---
+
+### 4.6.1. O que a norma diz, e o que ela não diz
+
+A ABNT NBR 15527 é a norma brasileira que trata do aproveitamento de água de chuva em
+usos não potáveis. Na edição de 2019, a Tabela 1 fixa três parâmetros mínimos: *E. coli*
+abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e pH entre 6,0 e 9,0 (item 4.6.3). A
+desinfecção fica a critério do projetista (4.6.4); se for por cloro, a norma recomenda
+residual livre entre 0,5 e 2,0 mg/L, com máximo de 5 mg/L (4.6.5), e pede monitoramento
+no mínimo semestral (4.6.7). Cor aparente e coliformes totais, que a edição de 2007
+limitava, saíram da tabela.
+
+O que a norma vigente **não** faz é dividir os usos não potáveis em classes com exigências
+distintas entre si. Essa divisão existiu na versão de 2007 e não sobreviveu à revisão de
+2019, que optou por um conjunto único de parâmetros aplicável a todos os usos não
+potáveis.
+
+O programa, por sua vez, oferece quatro classes, e a razão é prática: descarga de bacia
+e rega de jardim não expõem o usuário da mesma forma, ainda que a norma não os distinga
+(Figura 57).
+
+> **Reúso não é aproveitamento.** A ABNT NBR 15575-1:2025, na Tabela 26 do item 18.4.2,
+> traz parâmetros bem mais restritivos para usos não potáveis — ausência de coliformes
+> totais e termotolerantes, cloro residual de 0,5 a 3,0 mg/L, turbidez abaixo de 2,0 uT
+> e cor abaixo de 15 uH —, mas eles valem para o **reúso** de águas servidas. A água de
+> chuva não é reúso: a NBR 15527:2019 distingue os dois termos (itens 3.5 e 3.18), e é a
+> Tabela 1 dela que vale para o aproveitamento pluvial.
+
+![As quatro classes de qualidade do programa](../figuras/fig36_classes.png)
+
+*Figura 57 — As quatro classes de qualidade do programa e a situação normativa de cada uma. Apenas a classe 1 corresponde aos parâmetros da ABNT NBR 15527:2019; as classes 2 a 4 são adaptações do programa, adequadas à comparação de tratamentos e impróprias para apresentação como requisito normativo.*
+
+
+> **As classes 2 a 4 são adaptações do programa, e não da norma.** O próprio Netuno
+> declara isso na tela e no relatório. Num estudo publicado, não as apresente como
+> requisito normativo: apresente-as como critério adotado, e cite a origem.
+
+---
+
+### 4.6.2. A classe recomenda, você decide
+
+Escolher uma classe não impõe equipamento algum ao projeto. A classe expressa uma
+recomendação do programa, fundada na exigência típica do uso pretendido, e a decisão sobre
+adotá-la ou não permanece com quem assina o projeto.
+
+<!-- tabela: **Tabela 109** — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
+| Desinfecção | CAPEX | Custeio anual | CO₂e anual |
+| :--- | ---: | ---: | ---: |
+| Cloração por pastilhas | R$ 1 547 | R$ 43 | 0,2 kg |
+| Cloração + ultravioleta | R$ 2 747 | R$ 259 | 6,4 kg |
+| Cloração + ozonização | R$ 5 047 | R$ 243 | 15,2 kg |
+
+<!-- tabela: **Tabela 110** — Recomendação de filtração fina e custo da linha por classe de qualidade -->
+| Classe alvo | Recomenda filtração fina? | CAPEX sem | CAPEX com |
+| :--- | :---: | ---: | ---: |
+| classe 1 | não | R$ 1 547 | R$ 1 927 |
+| classe 2 | sim | R$ 1 547 | R$ 1 927 |
+| classe 3 | sim | R$ 1 547 | R$ 1 927 |
+| classe 4 | sim | R$ 1 547 | R$ 2 097 |
+
+A segunda tabela revela o ponto: sem o filtro de polimento, as quatro classes custam
+exatamente o mesmo. A classe alvo altera uma única coisa, que é se o programa recomenda ou
+não a filtração fina, e o filtro correspondente só entra no orçamento quando o usuário o
+marca explicitamente.
+
+Quando a classe recomenda o polimento e o usuário o recusa, o programa registra a recusa
+no relatório, em vez de impor o equipamento em silêncio ou de deixar a decisão passar sem
+registro. ==É a conduta correta em qualquer programa de projeto: quem assina decide, e a
+decisão fica documentada para quem vier depois.==
+
+---
+
+### 4.6.3. A desinfecção
+
+A desinfecção é o estágio de que depende a segurança microbiológica da água armazenada, e
+o programa oferece três tecnologias. A diferença entre elas é grande, tanto em custo
+quanto em comportamento, e o critério que as separa não é a eficácia de desinfecção — as
+três desinfetam — e sim a permanência do efeito.
+
+**Cloração por pastilhas.** Um dosador com pastilhas de hipoclorito de cálcio na
+linha. É a opção padrão. Para os 82 m³ do nosso projeto, a linha de tratamento com cloração custa R$ 1.547 de investimento e R$ 47 por ano de custeio, valores que incluem o descarte inicial dimensionado na mesma etapa — R$ 617 de investimento e R$ 40 por ano, como detalha a seção 2.5 — e as pastilhas. Deixa **residual** na água, o que protege o
+reservatório e a rede interna contra recontaminação.
+
+**Ultravioleta.** Um reator com lâmpada UV. A linha passa a R$ 2.747 de investimento e R$ 263 por ano de custeio, com a lâmpada e a energia do reator. **Não deixa residual**: desinfeta o que
+passa por ele, e nada protege a água depois.
+
+**Ozonização.** A linha passa a R$ 5.047 de investimento e R$ 247 por ano de custeio. Também sem
+residual.
+
+> **Atenção.** No programa, ultravioleta e ozônio entram como barreira **adicional**
+> à cloração, e não como substitutas. É a prática correta: sem residual, a água
+> tratada volta a se contaminar no percurso até o ponto de uso.
+>
+> Por isso as linhas de UV e ozônio somam o custo do cloro. Quem esperava que trocar
+> cloro por UV **reduzisse** custo verá o contrário.
+
+O impacto de carbono acompanha a mesma ordem: 0,4 kg CO₂e por ano com cloração, 6,5 com
+ultravioleta e 15,4 com ozonização, para o volume tratado neste projeto. A diferença
+inteira está na energia elétrica consumida pela lâmpada e pelo gerador de ozônio, já que o
+insumo químico da cloração tem emissão de fabricação modesta frente a isso.
+
+---
+
+### 4.6.4. O filtro de entrada
+
+Antes de qualquer desinfecção vem o filtro mecânico de entrada, que retira folhas e
+sólidos grosseiros da água antes que ela alcance o reservatório. O programa o dimensiona
+pela área de cobertura, e não pela classe de qualidade pretendida, porque o que esse
+filtro precisa vencer é a vazão de pico da cobertura — grandeza que independe do destino
+final da água.
+
+<!-- tabela: **Tabela 111** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+| Cobertura | Filtro | Malha |
+| :--- | :--- | ---: |
+| até 200 m² | vórtex autolimpante DN 100 | 350 µm |
+| até 500 m² | vórtex autolimpante DN 150 | 400 µm |
+| acima | cesto ou ciclônico DN 200 | 500 µm |
+
+Nossa cobertura de 150 m² fica na primeira faixa.
+
+---
+
+### 4.6.5. A regra incremental do custo
+
+O investimento da linha de tratamento não é somado por inteiro ao investimento total do
+sistema, e a razão é evitar dupla contagem. O orçamento de um sistema pluvial já reserva
+uma verba genérica de tratamento dentro da rubrica de acessórios, porque nenhum projetista
+orça um sistema sem prever alguma filtragem; somar a linha detalhada por cima dessa verba
+cobraria o tratamento duas vezes. O programa desconta a verba genérica e soma apenas o
+incremento, conforme a Equação 31 formaliza na seção 2.5.
+
+O mesmo vale para o custeio: a cloração já é paga na linha de insumos químicos do
+fluxo de caixa, e a linha de tratamento desconta essa parcela para não cobrar o
+hipoclorito duas vezes.
+
+E na avaliação de ciclo de vida, a linha de tratamento **substitui** o termo de
+cloração em vez de somar a ele. A seção 2.5 detalha a regra.
+
+---
+
+### 4.6.6. A decisão do tutorial
+
+**Classe 1, cloração por pastilhas, sem filtro de polimento.**
+
+A água vai para a bacia sanitária e a área externa. A classe 1, que reproduz a Tabela 1
+da ABNT NBR 15527:2019 (*E. coli* abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e
+pH entre 6,0 e 9,0), atende os dois, que estão na lista do item 4.1.7 da norma. Um
+projeto que acrescente a máquina de lavar roupa sai dessa lista, e o item 4.1.8 pede que
+o responsável defina e declare o critério de qualidade para ela, como a seção 4.2
+registra. A cloração deixa residual, e o custo é
+o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 43,45 por ano de custeio: R$ 3,45 de pastilha e R$ 40 de manutenção do descarte.
+
+<!-- tabela: **Tabela 112** — Estado do projeto do tutorial após a definição da classe de qualidade -->
+| Projeto até aqui | |
+| :--- | ---: |
+| volume | 4.000 L |
+| classe de qualidade | 1, normativa |
+| desinfecção | cloração por pastilhas |
+| filtro de polimento | não |
+| investimento incremental do tratamento, com o descarte inicial | R$ 1.197 |
+
+Temos volume, arranjo e qualidade. Agora a pergunta que decide se o projeto sai do
+papel.
+
+---
+
+## 4.7. Quanto custa e em quanto se paga
+
+> Ao terminar esta seção você terá o fluxo de caixa de vinte anos, e saberá por
+> que o **regime tarifário do seu município** decide a viabilidade mais do que
+> qualquer parâmetro do projeto.
+
+---
+
+### 4.7.1. A economia é a diferença entre duas faturas
+
+O erro mais comum na análise econômica de sistemas pluviais consiste em multiplicar o
+volume poupado por uma tarifa média. O resultado quase nunca é correto, e a razão está na
+estrutura das tarifas brasileiras, que são progressivas por faixa de consumo, conforme a
+seção 3.3 detalha: ==o metro cúbico que se deixa de consumir é o último da fatura,
+que é o mais caro, e não o médio.==
+
+O Netuno evita o problema calculando duas faturas completas — a que a edificação pagaria
+sem o sistema e a que ela paga com ele — e tomando a diferença entre as duas.
+
+<!-- tabela: **Tabela 113** — Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
+| A fatura da CASAN | Consumo | Valor |
+| :--- | ---: | ---: |
+| sem o sistema | 18,26 m³/mês | R$ 390,75 |
+| com o sistema | 13,28 m³/mês | R$ 248,06 |
+| **economia** | 4,99 m³/mês | **R$ 142,69** |
+
+<!-- tabela: **Tabela 114** — Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
+| Análise de 20 anos | Valor |
+| :--- | ---: |
+| investimento inicial | R$ 14 061,19 |
+| economia anual com água | R$ 1 712,26 |
+| custeio anual | R$ 48,82 |
+| valor presente líquido | R$ 2 745,40 |
+| taxa interna de retorno | 7,54% ao ano |
+| payback descontado | 16,3 anos |
+
+O resultado merece atenção. O sistema poupa 4,99 m³ por mês e a fatura cai R$ 142,69, o
+que equivale a R$ 28,60 por metro cúbico economizado — valor bem acima dos R$ 14,31 da
+faixa em que o consumo se situava. A diferença tem duas origens que atuam juntas: a
+progressividade, que faz o metro cúbico economizado valer o preço da faixa mais alta, e o
+esgoto, que em Florianópolis é cobrado a 100% do valor da água e portanto dobra o valor
+de cada metro cúbico poupado.
+
+> **O esgoto é percentual da parcela de água, não da fatura total.** Cem por cento da água
+> significa que a parcela de esgoto iguala a de água, e portanto o esgoto é metade
+> da fatura. Economizar água economiza as duas parcelas, e é por isso que o valor
+> efetivo do metro cúbico poupado quase dobra.
+
+---
+
+### 4.7.2. O regime tarifário da CASAN
+
+Florianópolis pratica o regime de disponibilidade, no qual a concessionária cobra uma
+taxa fixa mensal de R$ 46,34 que se soma ao consumo medido, e tarifa as faixas
+progressivas a partir do primeiro metro cúbico consumido.
+
+Para um projeto de aproveitamento pluvial, essa é a configuração mais favorável que
+existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a taxa fixa
+é cobrada por disponibilizar a rede, e não por um volume incluído. Ela continua sendo
+paga, e não impede a economia sobre o consumo.
+
+Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
+projetos inteiros. O programa distingue cinco.
+
+<!-- tabela: **Tabela 115** — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
+| Regime | O que acontece ao economizar | Municípios na base |
+| :--- | :--- | ---: |
+| disponibilidade | cada m³ economizado desconta | 156 |
+| sem mínimo | idem | 165 |
+| franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
+| franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |
+| piso de pagamento | a fatura não fica abaixo do piso | 0 |
+
+> **Atenção, e é o ponto que mais derruba estudo.** Em município com **franquia no
+> mínimo** — a maioria da base, 329 dos 652 — a concessionária cobra um valor fixo
+> que já inclui, digamos, 10 m³. Uma residência que consome 12 m³ e economiza 3
+> desce para 9, entra na franquia, e **a fatura para de cair**. O sistema economiza
+> água e não economiza dinheiro.
+>
+> Rodar esse caso com a tarifa de Florianópolis produziria um payback que não existe.
+> A seção 3.3 ensina a montar a estrutura do seu município corretamente.
+
+---
+
+### 4.7.3. O investimento
+
+R$ 14.061,19, assim distribuídos:
+
+<!-- tabela: **Tabela 116** — Composição do investimento inicial do projeto do tutorial -->
+| Rubrica | Valor |
+| :--- | ---: |
+| cisterna de concreto de 4.000 L | R$ 5.304 |
+| caixa superior de 1.000 L em polietileno | R$ 460 |
+| duas motobombas de meio CV, principal e reserva | R$ 600 |
+| mão de obra e escavação | R$ 3.500 |
+| tubulação | R$ 1.200 |
+| acessórios | R$ 1.800 |
+| linha de tratamento, incremento | R$ 580 |
+| descarte inicial: reservatório de 300 L e separador de folhas | R$ 617 |
+
+Os preços de reservatório vêm da base do programa, que traz valores por volume e por
+material, com procedência declarada. Para volumes fora da tabela, o programa
+interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima de
+0,90, e avisa quando não tem.
+
+**O reservatório de descarte inicial.** O descarte de primeiras águas não é só a lâmina subtraída da chuva: é um componente físico, com custo. A etapa **3. Qualidade & ETAP** o dimensiona por padrão, e no tutorial a lâmina de 2 mm sobre 150 m² exige reservatório de 300 L, que com o separador de folhas custa R$ 616,90 de investimento e R$ 40 por ano de custeio. Sem ele, o investimento seria de R$ 13.444,29, o valor presente líquido de R$ 4.032 e o payback descontado de 14,8 anos: omitir o descarte adianta o retorno em um ano e meio, e é por isso que um estudo que o omite parece mais viável do que o sistema que se constrói. A seção 2.5 detalha o dimensionamento.
+
+---
+
+### 4.7.4. O resultado
+
+<!-- tabela: **Tabela 117** — Indicadores econômicos do projeto do tutorial em vinte anos -->
+| Indicador | Valor |
+| :--- | ---: |
+| valor presente líquido | R$ 2.745 |
+| taxa interna de retorno | 7,54% ao ano |
+| payback descontado | 16,3 anos |
+
+O projeto se paga, mas por pouco. Rende 7,5% ao ano contra uma taxa mínima de 6,2%, e
+devolve o investimento no décimo sétimo ano de vinte. O que o sustenta é a tarifa de
+Florianópolis, que é alta, e o esgoto a 100%; o que o aperta é a fração de 28%, que
+limita a economia a menos de cinco metros cúbicos por mês, e a cisterna de concreto,
+que é a mais cara por litro depois do aço inoxidável. A seção 4.8 mostra que a troca
+do material muda a conta.
+
+**O custeio é pequeno:** R$ 48,82 por ano, dos quais R$ 3,45 de pastilha de cloro, R$ 40 de manutenção do descarte e R$ 5,36 de energia do recalque, os 7,7 kWh por ano da seção 4.5. A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo declarado na etapa **4. Reservatório & Custos**: recalque, pressurização direta ou gravidade.
+
+---
+
+O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica repete a conta para todos os volumes da varredura e traça a curva, e é nela que se vê se o ótimo técnico e o ótimo econômico caem no mesmo lugar (Figura 58).
+
+![O valor presente líquido contra o volume do reservatório](../figuras/fig49_programa_vpl.png)
+
+*Figura 58 — O gráfico da aba econômica: o valor presente líquido de cada volume da varredura, com cisterna de concreto, com o máximo econômico e o ótimo técnico marcados. Quando os dois coincidem, o programa os marca com um único símbolo. Figura gerada pelo próprio programa.*
+
+---
+### 4.7.5. O que a projeção assume
+
+Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
+
+<!-- tabela: **Tabela 118** — Premissas da projeção econômica e o peso de cada uma no resultado -->
+| Premissa | Valor adotado | Onde ela pesa |
+| :--- | ---: | :--- |
+| taxa mínima de atratividade | 0,5% ao mês | desconta o fluxo; quanto maior, pior o VPL |
+| inflação dos custos | 0,35% ao mês | incide só sobre o custeio |
+| reajuste da tarifa de água | 5% ao ano | incide sobre a economia |
+| reajuste da tarifa de esgoto | 5% ao ano | idem, e é indexado à parte |
+| intervalo de reajuste | 12 meses | em degraus, não continuamente |
+| período de análise | 20 anos | vida útil de projeto mínima do sistema hidrossanitário, Tabela 25 da ABNT NBR 15575-1:2025 |
+
+> **Os reajustes de água e de esgoto são separados**, e não um índice único sobre a
+> fatura agregada. As duas parcelas são reajustadas por atos diferentes da
+> concessionária, e tratá-las juntas indexa metade da conta pelo índice errado.
+
+O reajuste tarifário é a premissa mais frágil da lista. Cinco por cento ao ano por
+vinte anos multiplica a tarifa por 2,65. Se a tarifa real subir mais que isso, o
+projeto rende mais; se subir menos, rende menos. Um estudo sério declara o valor
+adotado e mostra a sensibilidade — a seção 3.7 ensina como.
+
+---
+
+### 4.7.6. O que temos até aqui
+
+<!-- tabela: **Tabela 119** — Estado do projeto do tutorial após a análise econômica -->
+| Projeto até aqui | |
+| :--- | ---: |
+| volume | 4.000 L, concreto |
+| arranjo | recalque para caixa superior de 1.000 L |
+| investimento | R$ 14.061 |
+| economia anual | R$ 1.712 |
+| VPL em 20 anos | R$ 2.745 |
+| payback | 16,3 anos |
+
+O dinheiro diz sim, sem folga.
+
+Falta ouvir o carbono. E ele vai discordar.
+
+---
+
+## 4.8. Quanto carbono evita
+
+> Ao terminar esta seção você terá o balanço de carbono do sistema e uma
+> surpresa: com a cisterna que escolhemos, o projeto **emite mais do que evita** ao
+> longo da vida útil.
+
+---
+
+### 4.8.1. A conta
+
+Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico que ele
+entrega deixa de ser captado, tratado e bombeado pela concessionária, e essas três
+operações consomem energia. O mesmo sistema, porém, emite carbono em três frentes
+próprias: a fabricação dos seus componentes, a energia consumida no bombeamento interno e
+os insumos de tratamento aplicados à água.
+
+O saldo ambiental do sistema é a diferença entre o que ele evita e o que ele emite, e a
+pergunta que organiza esta seção é em quantos anos o crédito anual líquido amortiza a
+dívida contraída na fabricação. Esse prazo é o **payback de carbono**, e ele desempenha
+na dimensão ambiental o mesmo papel que o tempo de retorno desempenha na dimensão
+econômica.
+
+Para o nosso projeto, cisterna de concreto de 4.000 L com recalque para a caixa superior
+de 1.000 L:
+
+<!-- tabela: **Tabela 120** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
+| Parcela | Valor |
+| :--- | ---: |
+| carbono incorporado no sistema | 858 kg CO₂e |
+| emissão evitada por ano | 20,9 kg CO₂e |
+| emissão anual de bombeamento e tratamento | 0,9 kg CO₂e |
+| saldo líquido anual | 20,0 kg CO₂e |
+| **payback de carbono** | **42,8 anos** |
+| saldo ao fim de 20 anos | **−457 kg CO₂e** |
+
+São quase quarenta e três anos para amortizar a dívida de carbono, contra uma vida útil adotada
+de vinte anos. ==O sistema, portanto, não chega a se pagar ambientalmente:== ao ser
+desativado, terá emitido 457 kg CO₂e a mais do que evitou ao longo de toda a sua
+operação.
+
+E esse é o resultado de um projeto que, do ponto de vista financeiro, se paga — o que
+ilustra com clareza incômoda por que as dimensões de análise precisam ser mantidas
+separadas até o momento da decisão.
+
+---
+
+### 4.8.2. Por que a economia de carbono é tão pequena
+
+Vinte e um quilogramas de CO₂e por ano parecem pouco para 60 metros cúbicos de água
+poupada, e de fato são: o resultado equivale a 0,35 kg CO₂e por metro cúbico
+substituído.
+
+A explicação está na natureza do produto substituído. Água tratada não é um bem
+intensivo em carbono. Captar, tratar e distribuir a água custa, no Brasil,
+entre 0,34 e 0,46 kg CO₂e por metro cúbico entregue, conforme a região e a composição da matriz elétrica local, e
+essa faixa é modesta quando comparada à de concreto, aço ou combustíveis. Substituir um
+produto de baixa intensidade de carbono por outro que exige fabricação de reservatório
+não produz, portanto, o ganho ambiental que a intuição sugere.
+
+> **A fronteira importa.** O fator do programa é por metro cúbico **entregue** na
+> edificação, e não por metro cúbico produzido na estação. As perdas de distribuição
+> no Brasil vão de 33,9% no Sudeste a 46,9% no Norte: produzir um metro cúbico
+> entrega entre 0,53 e 0,66. Usar o fator de saída de estação subestimaria a
+> emissão evitada em até um terço. A seção 2.8 detalha.
+
+---
+
+A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de emissão e o crédito da água evitada separados (Figura 59).
+
+![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
+
+*Figura 59 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. Atenção ao sinal, que o gráfico inverte em relação à tabela acima: nele as emissões são positivas e a água evitada é negativa, de modo que a mesma dívida de carbono da tabela aparece aqui acima de zero. Figura gerada pelo próprio programa.*
+
+---
+### 4.8.3. O material decide o sinal
+
+A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pesar
+88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a Figura 60 mostram a trajetória do saldo ao longo da vida útil, e a Figura 61, o saldo final de cada material.
+
+<!-- tabela: **Tabela 121** — Saldo de carbono do projeto do tutorial conforme o material do reservatório -->
+| Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Saldo em 20 anos | Preço |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | 74 kg | R$ 2 526 |
+| Concreto armado | 4 800 kg | 858 kg CO₂e | 42,8 anos | -457 kg | R$ 5 304 |
+| Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | 30 kg | R$ 3 410 |
+| Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | -347 kg | R$ 9 093 |
+
+<!-- tabela: **Tabela 122** — Efeito do volume da cisterna de concreto sobre o saldo de carbono -->
+| Volume em concreto | Payback de carbono | Saldo em 20 anos |
+| ---: | ---: | ---: |
+| 2 000 L | 27,4 anos | -141 kg CO₂e |
+| 3 000 L | 35,0 anos | -296 kg CO₂e |
+| 4 000 L | 42,8 anos | -457 kg CO₂e |
+| 8 000 L | 74,6 anos | -1 119 kg CO₂e |
+
+![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
+
+*Figura 60 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+
+![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
+
+*Figura 61 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material. Em verde, saldo positivo; em laranja, negativo: dois dos quatro materiais encerram a vida útil com emissão líquida.*
+
+**A escolha do material inverte o resultado.**
+
+Polietileno paga a dívida em 16,3 anos e termina os vinte anos com saldo positivo de 74 kg. Concreto leva 42,8 anos e termina negativo em 457 kg. Aço inoxidável também termina negativo, em 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
+
+E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
+cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos 141 kg no vermelho; a de
+8.000 L, 1.119 kg. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
+rende cada vez menos água.
+
+> **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 2.526
+> contra R$ 5.304 do concreto, pesa cinquenta e cinco vezes menos, e é o
+> material da tabela que fecha os vinte anos com a maior folga positiva.
+>
+> Isso não é sorte. Massa é carbono, e concreto armado é o material mais massivo da
+> lista por larga margem.
+
+---
+
+### 4.8.4. Quando o concreto ainda faz sentido
+
+A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
+
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais, a vida útil de
+  projeto mínima que a Tabela 25 da ABNT NBR 15575-1:2025 fixa para o sistema
+  hidrossanitário. É um piso, e não uma previsão: a norma admite valores maiores, desde
+  que explicitados no projeto (item 14.2.2 da NBR 15575-1). Uma cisterna
+  de concreto bem executada dura 40 ou 50 anos; num horizonte de 50 anos, o payback de 43 anos é pago, ainda que sem folga. Se você adotar vida útil diferente, **declare**.
+- **Volumes grandes.** Acima de 20 m³, polietileno deixa de ser prático e o concreto
+  moldado no local passa a ser a única opção viável.
+- **Restrição de espaço.** Cisterna enterrada de concreto se conforma ao terreno; a
+  de polietileno vem em formatos fixos.
+- **Estrutura já existente.** Reservatório de concreto aproveitado de outra
+  finalidade tem carbono incorporado **zero** para efeito deste projeto.
+
+---
+
+### 4.8.5. A decisão do tutorial
+
+**Trocamos para polietileno.**
+
+É o que um projetista faria diante desta tabela, e é o que faz este tutorial ser
+honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errado.
+
+A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
+
+<!-- tabela: **Tabela 123** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
+| | Concreto | Polietileno |
+| :--- | ---: | ---: |
+| preço da cisterna | R$ 5.304 | R$ 2.526 |
+| investimento total | R$ 14.061 | R$ 11.283 |
+| payback financeiro | 16,3 anos | 12,8 anos |
+| VPL em 20 anos | R$ 2.745 | R$ 5.524 |
+| payback de carbono | 42,8 anos | 16,3 anos |
+| saldo de carbono em 20 anos | −457 kg | +74 kg |
+
+<!-- tabela: **Tabela 124** — Estado do projeto do tutorial após a análise ambiental -->
+| Projeto até aqui | |
+| :--- | ---: |
+| volume | 4.000 L |
+| **material** | **polietileno** |
+| investimento | R$ 11.283 |
+| VPL | R$ 5.524 |
+| payback financeiro | 12,8 anos |
+| payback de carbono | 16,3 anos |
+
+---
+
+### 4.8.6. O que declarar
+
+A avaliação de ciclo de vida do Netuno é de **triagem**, não de inventário completo.
+Todos os fatores padrão têm procedência declarada, mas alguns são aproximações, como o
+da motobomba e o do hipoclorito, e um fator digitado sem fonte recebe rótulo de
+triagem, que o programa exibe. Num estudo publicado:
+
+- declare a **fronteira** adotada, água entregue e não produzida;
+- declare a **vida útil** e a justifique;
+- declare quais fatores são aproximações e quais foram informados sem fonte;
+- declare a **base da rede elétrica** e o ano.
+
+O apêndice C traz a procedência de cada fator, e a seção 2.8 explica as sete
+etapas do inventário.
+
+Temos três respostas agora. O potencial diz um volume, o dinheiro diz outro, o
+carbono diz um terceiro. É hora de escolher.
+
+---
+
+## 4.9. Qual volume escolher, afinal
+
+> Ao terminar esta seção você terá um volume recomendado, e saberá que ele
+> depende de pesos que **você** declarou — não de uma verdade que o programa
+> descobriu.
+
+---
+
+### 4.9.1. Três critérios, três respostas
+
+As seções anteriores deste tutorial formularam três perguntas distintas ao mesmo projeto
+— quanta água ele entrega, quanto dinheiro ele rende e quanto carbono ele evita — e
+receberam três respostas que não coincidem. Essa discordância não é defeito da análise
+nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
+diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
+
+<!-- tabela: **Tabela 125** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
+| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
+| 2 000 L | 25,89% | R$ 5 374 | 12,4 anos | 124 kg | R$ 9 897 |
+| 3 000 L | 26,80% | R$ 5 453 | 12,7 anos | 102 kg | R$ 10 809 |
+| 4 000 L | 27,30% | R$ 5 524 | 12,8 anos | 74 kg | R$ 11 283 |
+| 5 000 L | 27,58% | R$ 5 354 | 12,9 anos | 42 kg | R$ 11 757 |
+| 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
+| 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
+
+<!-- tabela: **Tabela 126** — Volume vencedor segundo cada critério isolado -->
+| Critério isolado | Volume que vence |
+| :--- | ---: |
+| maior potencial de economia | 12 000 L |
+| menor payback descontado, desempate pelo VPL | 2 000 L |
+| maior saldo de carbono | 2 000 L |
+| **compromisso, pesos iguais** | **4 000 L** |
+
+A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
+
+- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água.
+  Máximo em 12.000 L.
+- O **VPL** sobe, achata e começa a cair: máximo em 4.000 L, praticamente empatado
+  com 2.000 e 3.000 L, e caindo desde 5.000 L, porque o investimento adicional deixa de
+  se pagar.
+- O **carbono** sobe e cai bem antes: máximo em 2.000 L, praticamente empatado com
+  1.000 L. Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do
+  que crédito.
+
+==Não existe volume que vença nos três critérios simultaneamente.== Cada um deles tem
+ótimo em posição distinta da curva, e a escolha entre eles não é uma questão técnica que
+admita resposta única: é uma questão de prioridade, que precisa ser declarada por quem
+decide e não pode ser descoberta pelo programa. É exatamente essa a lacuna que os
+métodos multicritério vêm preencher.
+
+---
+
+### 4.9.2. Como o TOPSIS resolve
+
+O programa usa TOPSIS sobre **sete critérios**:
+
+<!-- tabela: **Tabela 127** — Os sete critérios do multicritério e a direção de preferência de cada um -->
+| Critério | Direção |
+| :--- | :--- |
+| potencial de economia | maximizar |
+| extravasamento | minimizar |
+| valor presente líquido | maximizar |
+| payback descontado | minimizar |
+| taxa interna de retorno | maximizar |
+| CO₂e no fim da vida | minimizar |
+| consumo de água potável | minimizar |
+
+O método opera em quatro etapas encadeadas. Primeiro normaliza a matriz de decisão, de
+modo que critérios medidos em unidades incomparáveis — pontos percentuais, reais,
+quilogramas de dióxido de carbono equivalente e anos — passem a ocupar a mesma escala.
+Em seguida aplica os pesos declarados. Calcula então, para cada alternativa de volume, a
+distância euclidiana até a solução ideal, composta pelos melhores valores de cada
+critério, e até a solução anti-ideal, composta pelos piores. Ordena, por fim, as
+alternativas pela proximidade relativa ao ideal, conforme a formulação apresentada na
+seção 2.10.
+
+Aplicado ao projeto do tutorial com pesos iguais entre as três dimensões, repartidos
+igualmente entre os critérios de cada uma, o método indica o volume de 4.000 L.
+
+> **Três declarações que um estudo publicado precisa fazer.**
+>
+> A normalização do programa é uma **variante** de Hwang e Yoon: ela translada por
+> `x − min(x)` antes da normalização vetorial, para admitir VPL negativo. É uma
+> escolha deliberada, e apresentá-la como TOPSIS canônico seria incorreto.
+>
+> O SMAA-VIKOR, disponível ao lado, sorteia pesos e devolve a probabilidade de cada
+> volume ocupar cada posição. É a resposta certa quando não há consenso sobre os
+> pesos.
+>
+> As condições C1 e C2 de Opricovic, de vantagem aceitável e de estabilidade, **não
+> estão implementadas**. A seção 2.10 detalha.
+
+---
+
+A aba de decisão apresenta o escore de cada volume candidato (Figura 62).
+
+![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
+
+*Figura 62 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+
+---
+### 4.9.3. O peso muda a resposta
+
+A tabela a seguir mostra o que acontece ao deslocar o peso.
+
+<!-- tabela: **Tabela 128** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
+| Peso dominante | Volume | Segundo colocado |
+| :--- | ---: | ---: |
+| pesos iguais | 4 000 L | 5 000 L |
+| técnico, 60% | 5 000 L | 4 000 L |
+| econômico, 60% | 4 000 L | 3 000 L |
+| ambiental, 60% | 4 000 L | 5 000 L |
+
+Privilegiar o critério técnico desloca a recomendação para 5.000 L, o que era
+esperado: o potencial de economia cresce monotonicamente com o volume, e um peso
+dominante nessa dimensão empurra a escolha para cima. O deslocamento é pequeno porque o
+potencial já está perto do teto, e o metro cúbico a mais rende pouco. Os critérios
+econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
+
+Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
+generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
+está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda conserva
+saldo de carbono positivo. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+para baixo e a divergência entre os dois critérios apareceria com clareza.
+
+> **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
+> impossível de reproduzir. Dois artigos com pesos diferentes chegam a volumes
+> diferentes e ambos estão certos.
+
+---
+
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles (Figura 63).
+
+![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
+
+*Figura 63 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
+
+---
+### 4.9.4. A recomendação do tutorial
+
+A recomendação do tutorial é o reservatório de **4.000 L em polietileno**, e a razão de
+adotá-la não é apenas o fato de ele vencer sob pesos iguais. Ele vence também sob peso
+econômico dominante e sob peso ambiental dominante, e fica em segundo lugar por margem
+estreita sob peso técnico dominante. ==Uma recomendação que sobrevive a quatro
+ponderações diferentes é robusta precisamente porque não depende de nenhuma delas.==
+
+Vale registrar ainda que esse é o mesmo volume que o critério hidráulico da seção
+4.4 havia indicado, com limiar de ganho marginal de 1 %/m³. Duas rotas
+metodologicamente independentes — uma que olha apenas para a curva de aproveitamento e
+outra que pondera sete critérios de três dimensões — chegaram ao mesmo resultado, e essa
+concordância aumenta a confiança na recomendação.
+
+A concordância, porém, não é garantida em nenhum outro caso, e é por isso que o tutorial
+percorreu o caminho longo em vez de parar na seção 4.4. O propósito não era chegar
+mais depressa ao volume, e sim saber que as duas rotas concordam **neste** projeto, em
+vez de supor que concordem sempre.
+
+---
+
+### 4.9.5. O projeto, fechado
+
+<!-- tabela: **Tabela 129** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
+| Netuno 5 · residência unifamiliar em Florianópolis | |
+| :--- | ---: |
+| série de precipitação | Florianópolis, 30 anos, 1.795 mm/ano |
+| área de captação | 150 m² |
+| coeficiente de escoamento | 0,85 |
+| descarte de primeiras águas | 2,0 mm, todo evento |
+| moradores | 4 |
+| demanda total | 600 L/dia |
+| fração atendível por chuva | 28% |
+| reservatório inferior | 4.000 L, polietileno |
+| arranjo de abastecimento | recalque para caixa superior |
+| reservatório superior | 1.000 L, limiar de acionamento de 100 L |
+| classe de qualidade | 1, cloração por pastilhas |
+| descarte inicial | reservatório de 300 L |
+| **potencial de economia de água potável** | **27,30%** |
+| dias de atendimento pleno | 97,3% |
+| água poupada | 59,8 m³/ano |
+| energia do recalque | 7,7 kWh/ano |
+| investimento | R$ 11.283 |
+| **valor presente líquido em 20 anos** | **R$ 5.524** |
+| payback descontado | 12,8 anos |
+| **saldo de carbono em 20 anos** | **+74 kg CO₂e** |
+| payback de carbono | 16,3 anos |
+
+Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
+verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto
+da seção seguinte.
+
+---
+
+## 4.10. O relatório, e o que declarar num artigo
+
+> Ao terminar esta seção você terá o relatório emitido e, se pretende publicar, a
+> lista do que precisa constar no método do artigo. Essa lista é a parte mais
+> curto e o mais importante do manual.
+
+---
+
+### 4.10.1. Os três relatórios
+
+O programa emite três relatórios distintos, e a distinção não é de extensão, mas de
+público e de finalidade. Escolher o relatório errado para o destinatário certo é a
+forma mais comum de produzir um documento que ninguém lê: um cliente não percorre um
+inventário de ciclo de vida item a item, e um avaliador de certificação não se satisfaz
+com uma conclusão de quatro páginas.
+
+O **relatório executivo** ocupa de quatro a seis páginas e reúne o resultado técnico, o
+investimento, o retorno e uma conclusão objetiva. É o documento de entrega ao cliente, e
+sua virtude é a de caber numa leitura única, sem exigir que o leitor conheça o método.
+
+O **relatório ambiental e ESG** apresenta o inventário de ciclo de vida discriminado por
+componente, o saldo de carbono ao longo da vida útil e o enquadramento do projeto nos
+cinco referenciais tratados na seção 2.9 — LEED, AQUA-HQE, Selo Casa Azul, EDGE e
+GRI 303. É o documento que se anexa a um processo de certificação, e a discriminação por
+componente existe justamente porque um avaliador confere item a item.
+
+O **relatório científico** traz o método completo, as premissas declaradas, a série
+utilizada e os resultados com a precisão que um artigo exige. É a base sobre a qual se
+redige uma publicação, e é o único dos três que inclui as figuras analíticas.
+
+Além dos três, a etapa **10. Exportação** gera o desenho esquemático em DXF, o modelo
+BIM em JSON e planilhas com a série diária completa e com a varredura de volumes, conforme a
+seção 3.9 detalha.
+
+---
+
+### 4.10.2. O que o relatório não decide por você
+
+==O relatório traz os números; o contexto que os torna reproduzíveis é seu.== Nenhum
+documento gerado automaticamente pode declarar por que aquela série de precipitação foi
+escolhida, se o consumo per capita adotado foi medido ou tomado da literatura, ou qual
+a justificativa da vida útil considerada na avaliação ambiental. São essas informações
+que permitem a um terceiro repetir o estudo e chegar ao mesmo resultado, e é delas que
+trata o restante desta seção.
+
+---
+
+### 4.10.3. A lista de declaração
+
+Um estudo conduzido no Netuno que deixe de declarar qualquer dos itens abaixo não é
+reproduzível por terceiros e, o que costuma ser pior, não é comparável com outro estudo
+feito no mesmo programa — porque duas simulações com premissas diferentes produzem
+números que parecem comparáveis e não são. A lista está organizada na ordem em que as
+decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação do método.
+
+#### 4.10.3.1. Programa e versão
+
+- **Versão do Netuno**, com o número completo. Correções de cálculo entre versões
+  deslocam resultados, e sem a versão declarada não há como saber qual conta produziu o
+  número publicado.
+
+#### 4.10.3.2. Série de precipitação
+
+- **Origem**: estação, base nacional, ou modelo climático.
+- Se for base nacional: **modelo, cenário e janela temporal**.
+- **Recorte**: datas de início e fim, e número de anos.
+- **Tratamento de falhas** e critério de descarte de ano incompleto.
+
+#### 4.10.3.3. Edificação e demanda
+
+- Área de captação e **como foi obtida** — projeção horizontal.
+- Coeficiente de escoamento e sua origem.
+- Consumo per capita e se é **medido ou de referência**.
+- **Fração atendível por água pluvial** e os usos finais que a compõem. É o teto do
+  resultado, e sem ele o potencial não se interpreta.
+- Se algum uso está fora da lista do item 4.1.7 da ABNT NBR 15527:2019, como a máquina
+  de lavar roupa, e qual critério de qualidade foi adotado para ele.
+
+#### 4.10.3.4. Arranjo de abastecimento
+
+- **Arranjo**: recalque para caixa superior, pressurização direta ou gravidade. Ele
+  define a energia e as motobombas no custo e no carbono.
+- No recalque: volume da caixa, limiar de acionamento e altura manométrica.
+- Na pressurização direta: pressão de trabalho e acionamentos por pessoa por dia.
+
+#### 4.10.3.5. Descarte de primeiras águas
+
+- Lâmina adotada e **modo** entre os três.
+- **A divergência em relação ao Netuno 4**, se o estudo comparar as versões: o
+  Netuno 4 trata a lâmina como limiar do evento, o Netuno 5 a subtrai, e a diferença
+  vale de 2,3 a 2,7 pontos percentuais de economia sobre 4.050 casos de referência.
+
+#### 4.10.3.6. Volume e critério de escolha
+
+- Se veio de varredura: **limiar de ganho marginal adotado**. Sem ele, «volume
+  ideal» não significa nada.
+- Se veio de multicritério: **os pesos dos sete critérios** e o método, TOPSIS ou
+  SMAA-VIKOR.
+- Que a normalização do TOPSIS é uma **variante** com translação por `x − min(x)`.
+
+#### 4.10.3.7. Análise econômica
+
+- **Município e concessionária**, com a data de vigência da tabela tarifária.
+- **Regime de mínimo** entre os cinco. É o que mais muda resultado entre municípios.
+- Percentual de esgoto, e que ele incide sobre a **parcela de água** da fatura.
+- Taxa mínima de atratividade, inflação, período de análise.
+- **Reajustes tarifários** de água, esgoto e energia, com o intervalo.
+
+#### 4.10.3.8. Avaliação de ciclo de vida
+
+- **Fronteira**: água entregue, e não produzida.
+- **Vida útil** adotada e sua justificativa.
+- **Material** do reservatório. Ele inverte o sinal do resultado, como a seção 4.8
+  mostra.
+- Base do fator de emissão da rede elétrica, **com o ano**.
+- Quais fatores são **aproximações** e quais carregam **rótulo de triagem**.
+
+#### 4.10.3.9. Certificações
+
+- Que as classes 2 a 4 de qualidade são **adaptações do programa**, não da NBR 15527.
+- No caso do LEED, a **versão** do referencial: v4/v4.1 ou v5.
+- No caso do EDGE, que o programa avalia **apenas a barra de água**, e que o
+  caso-base usado é o declarado ou a demanda modelada.
+
+---
+
+### 4.10.4. O parágrafo pronto
+
+Para o nosso projeto, o método ficaria assim:
+
+> A simulação foi conduzida no Netuno 5.0.0, com modelo comportamental de base
+> diária (YAS, extravasamento anterior à retirada da demanda), sobre série de
+> precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
+> Adotou-se área de captação de 150 m² em projeção horizontal, coeficiente de
+> escoamento de 0,85, adotado a partir da eficiência de captação η que a ABNT NBR 15527:2019
+> recomenda no item 4.1.6, e descarte de primeiras águas de 2,0 mm em
+> todo evento, subtraído da lâmina diária — divergência deliberada em relação ao
+> Netuno 4, que trata o valor como limiar do evento. A demanda total adotada foi de
+> 600 L/dia (4 moradores, 150 L/hab·dia), com fração atendível por água pluvial de
+> 28%, correspondente à bacia sanitária e aos usos externos, dentro da lista do item
+> 4.1.7 da ABNT NBR 15527:2019. O volume de 4.000 L resultou do critério de ganho
+> marginal com limiar de 1 %/m³ e foi confirmado por análise multicritério TOPSIS com
+> sete critérios e pesos iguais entre as dimensões técnica, econômica e ambiental,
+> com normalização em variante de Hwang e Yoon translada por x − min(x). O
+> abastecimento dos pontos de uso é feito por recalque para caixa superior de 1.000 L,
+> com limiar de acionamento de 100 L, motobomba de 0,5 CV, altura manométrica de 12 m e
+> rendimento de motor da Tabela 13 da ABNT NBR 17094-2. A análise
+> econômica utilizou a estrutura tarifária da CASAN vigente desde 01/04/2026, regime
+> de disponibilidade, esgoto a 100% do valor da água, TMA de 0,5% ao mês, inflação
+> de 0,35% ao mês, reajustes de 5% ao ano em intervalos de 12 meses e período de 20
+> anos. A avaliação de ciclo de vida adotou fronteira de água entregue, reservatório
+> em polietileno e vida útil de 20 anos.
+
+São cerca de duzentas e cinquenta palavras, e elas são a diferença entre um estudo que
+outro pesquisador consegue repetir e um número solto que ninguém pode verificar. A
+extensão é modesta diante do que se ganha: um método assim redigido responde
+antecipadamente à maior parte das perguntas que um parecerista faria.
+
+---
+
+### 4.10.5. O fim do tutorial
+
+Dez seções, um único projeto acompanhado do início ao fim, e um estudo completo: partiu
+de uma residência sem sistema e chegou a uma recomendação de volume, material, classe de
+qualidade e viabilidade econômica e ambiental, com cada decisão justificada pelo número
+que a sustentou. A tabela da seção 4.9 reúne o resultado consolidado.
+
+O caminho a seguir depende do que você pretende fazer em seguida:
+
+- **Resolver um caso diferente do tutorial** — o capítulo 3, os guias de tarefa.
+- **Entender de onde vem cada número** — o capítulo 2, o método.
+- **Não cometer os erros que o programa não impede** — a seção 5.1.
+- **Defender o estudo diante de um revisor** — o capítulo 5.
+
+---
+
+# 5. Enganos, limitações e confiabilidade
+
+---
+
+## 5.1. Dez enganos que o programa não impede
+
+> Estes não são defeitos do programa. São erros de **engenharia** que ele aceita sem
+> reclamar, porque não tem como saber. Cada um traz o engano, por que ele é
+> tentador, o que faz ao resultado, e como evitar.
+
+---
+
+### 5.1.1. Usar a área inclinada do telhado
+
+**O engano.** Informar a área da superfície do telhado em vez da projeção horizontal.
+
+**Por que é tentador.** É a área que aparece no quantitativo de telhas, e é a que o
+pedreiro conhece.
+
+**O que faz ao resultado.** Superestima a captação na razão `1 ÷ cos(inclinação)`.
+Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
+
+**Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
+projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
+altura do telhado e as paredes para dimensionar calhas.
+A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na Figura 64.
+
+---
+
+![A chuva cai na vertical, e a área que capta é a projeção do telhado](../figuras/fig00i_projecao.png)
+
+*Figura 64 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
+
+---
+
+### 5.1.2. Dimensionar pela chuva média mensal
+
+**O engano.** Usar a média mensal de precipitação num cálculo de planilha, em vez da
+série diária.
+
+**Por que é tentador.** A média mensal é o dado publicado nas normais
+climatológicas, e a planilha cabe numa página.
+
+**O que faz ao resultado.** Superestima sistematicamente. A média esconde que a
+chuva chega concentrada: um mês com 200 mm distribuídos em cinco eventos enche e
+faz a cisterna extravasar cinco vezes, enquanto o cálculo médio supõe um fluxo contínuo
+que a cisterna absorveria inteiro.
+
+**Como evitar.** É a razão de existir deste programa. A seção 2.1 mostra o
+extravasamento acontecendo dia a dia; o cálculo por médias não o enxerga.
+
+---
+
+### 5.1.3. Confundir a lâmina de descarte com o volume do dispositivo
+
+**O engano.** Informar no campo de descarte o volume do reservatório de autolimpeza,
+em litros.
+
+**Por que é tentador.** O dispositivo é dimensionado em litros, e o campo pede um
+número.
+
+**O que faz ao resultado.** O campo espera **milímetros**. Informar 300, pensando nos
+300 litros do dispositivo, produz um descarte de 300 mm — maior que quase toda chuva
+diária já registrada no Brasil. O sistema capta **praticamente zero**.
+
+**Como evitar.** `d_f` é uma lâmina. O volume do dispositivo é `A × d_f`: no projeto
+do tutorial, 150 m² × 2 mm = 300 litros. São a mesma decisão expressa em duas
+unidades, e o programa quer a primeira.
+
+---
+
+### 5.1.4. Ignorar o regime de mínimo tarifário
+
+**O engano.** Montar a tabela tarifária com as faixas progressivas e esquecer como a
+concessionária trata o consumo mínimo.
+
+**Por que é tentador.** As faixas são o que está publicado em destaque. O regime de
+mínimo está numa nota de rodapé, quando está.
+
+**O que faz ao resultado.** Em município de **franquia no mínimo**, que são 329 dos
+652 da base, economizar abaixo da franquia **não desconta nada**. Um estudo que
+suponha desconto linear produz um payback que não existe.
+
+**Como evitar.** A seção 3.3. E o teste prático: simule dois consumos, um dentro e um
+fora da faixa mínima, e compare com uma fatura real da edificação.
+
+---
+
+### 5.1.5. Simular escola ou hospital com tarifa residencial
+
+**O engano.** Usar a tarifa do catálogo — que é residencial — para edificação não
+residencial.
+
+**Por que é tentador.** O catálogo traz 652 municípios prontos, e o programa não
+impede.
+
+**O que faz ao resultado.** Subestima a economia. As categorias não residenciais são
+mais caras: na CASAN de abril de 2026, a primeira faixa custa R$ 6,81/m³ no
+comercial contra R$ 3,08/m³ no residencial.
+
+**Como evitar.** O programa **avisa** quando a tipologia não é residencial, e diz o
+sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A seção 3.5 trata do assunto.
+
+---
+
+### 5.1.6. Esperar que o reservatório superior aumente a economia
+
+**O engano.** Adotar a caixa elevada esperando mais água.
+
+**Por que é tentador.** É o arranjo clássico brasileiro, e «mais reservatório» soa
+como «mais água».
+
+**O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com caixa
+elevada entrega **menos**: a cisterna extravasa enquanto a caixa de cima ainda tem
+espaço, porque o recalque só acontece quando há consumo. No tutorial, cerca de um sexto de ponto percentual a menos, mais
+7,7 kWh por ano de energia.
+
+**Como evitar.** Decida a caixa por critério **hidráulico** — pressão por gravidade,
+reserva contra falta de energia — e não hídrico. A seção 4.5 faz a comparação justa.
+
+---
+
+### 5.1.7. Adotar série curta demais
+
+**O engano.** Simular com dois ou três anos de série.
+
+**Por que é tentador.** É o que se consegue rápido de uma estação próxima.
+
+**O que faz ao resultado.** Dois efeitos somados. O **viés do reservatório vazio**,
+porque a simulação começa com a cisterna seca e os primeiros meses penalizam o
+resultado; e a **dependência do trecho**, porque uma série curta pode cair num
+período atipicamente seco ou chuvoso.
+
+**Como evitar.** Trinta anos é confortável, dez é o mínimo defensável. Abaixo disso,
+declare a limitação e mostre o resultado como faixa.
+
+---
+
+### 5.1.8. Escolher a classe de qualidade pelo custo
+
+**O engano.** Adotar a classe 1 porque é a mais barata, para um uso que exigiria
+mais.
+
+**Por que é tentador.** O programa deixa, e a diferença de custo é visível
+imediatamente.
+
+**O que faz ao resultado.** Não muda o número; muda a **validade** do projeto. Um
+sistema que alimenta máquina de lavar roupas com água tratada ao mínimo normativo é
+uma decisão de qualidade, não de orçamento.
+
+**Como evitar.** Escolha pela **exigência do uso**. E lembre que as classes 2 a 4 são
+adaptações do programa, não requisitos da NBR 15527: use-as como critério declarado, e
+não como norma.
+
+---
+
+### 5.1.9. Comparar com o Netuno 4 sem declarar a divergência
+
+**O engano.** Apresentar resultados das duas versões lado a lado como se fossem
+comparáveis.
+
+**Por que é tentador.** São o mesmo programa, em versões diferentes.
+
+**O que faz ao resultado.** O Netuno 5 estima, em média, de **2,3 a 2,7 pontos
+percentuais menos** economia que o Netuno 4 sobre 4.050 casos de referência, e cerca
+de **metade** dessa diferença vem do tratamento do descarte, que mudou
+deliberadamente.
+
+**Como evitar.** Declare a divergência, e compare com descarte igual a zero, em que
+as duas regras coincidem. As seções 3.8 e 6.1 detalham o assunto.
+
+---
+
+### 5.1.10. Publicar o volume de maior economia como recomendado
+
+**O engano.** Escolher da varredura o volume de maior potencial.
+
+**Por que é tentador.** É a coluna que o estudo de aproveitamento pluvial reporta, e
+mais é melhor.
+
+**O que faz ao resultado.** No tutorial, 20.000 L dão o maior potencial, o mesmo que
+12.000 L já davam. Também custam **3,9 vezes mais** que os 4.000 L e carregam **4,1
+vezes mais carbono incorporado**, para entregar 0,88 ponto percentual a mais. E, em concreto, o
+volume maior é ambientalmente **pior** em termos absolutos.
+
+**Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho
+marginal; se for multicritério, os pesos. E reporte os vencedores de cada critério
+isolado, porque a divergência entre eles **é** o resultado.
+
+---
+
+### 5.1.11. O engano de fundo
+
+Os dez acima têm uma raiz comum: **tratar o programa como uma calculadora em vez de
+um modelo**.
+
+Uma calculadora recebe números e devolve números. Um modelo recebe premissas e
+devolve consequências dessas premissas. Todo resultado do Netuno é condicional ao que
+foi declarado, e a qualidade do estudo está na qualidade e na explicitação dessas
+declarações.
+
+É por isso que a seção 4.10 traz a lista do que declarar, e é por isso que a seção 5.2 traz as limitações conhecidas. Um estudo que não declara premissas não é
+reproduzível, por mais correto que o cálculo esteja.
+
+---
+
+## 5.2. Limitações conhecidas
+
+> Onde o programa não serve, e por quê. Um programa que declara os próprios limites é
+> mais confiável que um que aparenta servir para tudo, porque o segundo transfere ao
+> usuário a tarefa de descobri-los por conta própria.
+
+Esta seção deriva do registro de pendências que o grupo de pesquisa mantém, e reflete o
+estado da versão 5.0.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação de
+programas científicos frequentemente não observa.
+
+As limitações estão agrupadas por origem, porque a providência que cada grupo admite é
+diferente. As do modelo decorrem de escolhas de representação e só mudam com uma revisão
+do próprio modelo. As dos dados dependem de levantamento, e podem ser supridas pelo
+usuário. As metodológicas são desvios declarados em relação a uma formulação de
+referência. E as de implementação são trabalho pendente, sem obstáculo conceitual.
+
+---
+
+### 5.2.1. Limitações do modelo
+
+**Não há sub-passo horário.** Uma chuva de 40 mm concentrada em duas horas e a mesma
+lâmina distribuída em vinte e quatro horas produzem o mesmo resultado. Para
+reservatórios muito pequenos em relação à área de captação, isso subestima o
+extravasamento.
+
+**Não há perdas no reservatório.** Evaporação e vazamento não são modelados.
+
+**A condição inicial é reservatório vazio.** Em séries de menos de um ano, isso
+penaliza o resultado de forma sensível.
+
+**O coeficiente de escoamento é único e constante.** Não varia com a intensidade da
+chuva nem com o tempo desde o último evento, quando na realidade o primeiro evento
+após uma estiagem tem coeficiente menor.
+
+**O descarte é uma lâmina, não um dispositivo.** O programa calcula o volume e o custo
+do dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige projeto à parte.
+
+---
+
+### 5.2.2. Limitações dos dados tarifários
+
+**O catálogo tarifário cobre apenas a categoria residencial.** Os 652 municípios da
+base trazem a estrutura residencial, e as categorias comercial, industrial e pública —
+que existem em toda concessionária e custam tipicamente o dobro — precisam ser lançadas
+à mão pelo usuário, conforme a seção 3.3 descreve. Enquanto não forem, um estudo de
+escola, comércio ou indústria calcula a economia com a tarifa residencial, e portanto a
+**subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
+
+**Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
+subestima a fatura no primeiro bloco.
+
+**Quatorze municípios com esgoto por faixas próprias**, representados por percentual
+único. É aproximação declarada.
+
+**Sem tarifa social nem bandeiras de água.** A classe de baixa renda é mal
+representada. Na CASAN, a tarifa social é de R$ 8,63 contra R$ 46,34 da
+disponibilidade comum — diferença que inverteria a conclusão de um estudo em
+habitação de interesse social.
+
+---
+
+### 5.2.3. Limitações da avaliação de ciclo de vida
+
+**É uma avaliação de triagem**, e não um inventário conforme a ISO 14040.
+
+**Uma única categoria de impacto.** Só carbono. Não há eutrofização, acidificação,
+uso do solo nem toxicidade.
+
+**A emissão de fabricação da motobomba é aproximação por massa.** O programa multiplica
+a massa de catálogo de cada potência pela intensidade por quilo de uma declaração
+ambiental de produto de bomba de outra classe. A ordem de grandeza é defensável; o valor
+de cada potência não é medição.
+
+**A pressurização direta é modelada por valores médios.** A energia usa uma pressão de
+trabalho única, a média da faixa do pressostato, e não o ciclo liga-desliga de cada uso;
+e não se soma energia de partida nem consumo em espera, que um pressurizador com inversor
+de frequência teria. Projetos antigos sem caixa superior abrem com o arranjo «não
+informado» e não recebem energia até que ele seja escolhido.
+
+**Não há fim de vida.** Nem crédito por reciclagem, nem ônus por disposição.
+
+**Não há manutenção.** Trocas de componente ao longo da vida útil não entram.
+
+---
+
+### 5.2.4. Limitações da qualidade da água
+
+**As classes 2 a 4 são adaptações do programa**, não da NBR 15527. A matriz de
+parâmetros por uso é característica da versão de 2007 da norma e não sobreviveu à
+revisão de 2019.
+
+**As constantes do modelo de lavagem da cobertura não são calibradas.** A qualidade
+da água resultante é **premissa**, e não medição. O programa não substitui ensaio
+laboratorial.
+
+---
+
+### 5.2.5. Limitações metodológicas declaradas
+
+**O percentil do R95p é calculado sobre a série inteira**, e não sobre a base fixa
+1961–1990 do ETCCDI. Séries de comprimentos diferentes não são diretamente
+comparáveis nesse índice.
+
+**As condições C1 e C2 de Opricovic não estão implementadas** no VIKOR. A solução de
+compromisso deve ser lida com a análise de sensibilidade de pesos ao lado.
+
+**A normalização do TOPSIS é uma variante** com translação por `x − min(x)`, para
+admitir valor presente líquido negativo.
+
+**O reajuste tarifário é percentual único** ao longo de todo o período de análise, o
+que torna frágil a projeção de vinte anos. É a premissa que mais move o resultado
+econômico.
+
+---
+
+### 5.2.6. Limitações de implementação
+
+**Seis campos são gravados no arquivo e nunca lidos.** Entre eles o **mês de
+instalação**, de modo que o fluxo de caixa começa sempre no mês 1.
+
+**A importação de projeto do Netuno 4 não reconhece demanda variável**, e a degrada
+para constante em silêncio. A seção 3.8 ensina a conferir.
+
+**O tempo de partida da motobomba, de 108 s por acionamento**, representa o tempo de
+escorva de uma bomba cuja linha de sucção drenou, e é aplicado a **toda** partida. No
+caso de referência responde por 19% do consumo anual da bomba. É conservador.
+
+**Não há opção para tratar o descarte como limiar do evento**, como fazia o Netuno 4,
+embora o protocolo de verificação a mencione. Para comparar as duas versões, use
+descarte igual a zero, em que as duas regras coincidem.
+
+---
+
+### 5.2.7. O que fazer com esta lista
+
+Num trabalho publicado, cite as limitações que afetam o seu caso — não todas, que
+transformaria a seção de método numa lista defensiva, mas as que efetivamente incidem
+sobre as conclusões apresentadas. ==Uma limitação declarada é uma ressalva; uma limitação
+omitida, quando descoberta, é um erro.==
+
+Três exemplos orientam a seleção. Um estudo conduzido em escola precisa citar a questão da
+categoria tarifária, porque ela desloca todo o resultado econômico. Um estudo de
+desempenho ambiental precisa citar a categoria única de impacto e a aproximação por massa do
+fator de emissão da motobomba. E um estudo em habitação de interesse social precisa citar a
+ausência de tarifa social, que nesse contexto pode inverter a conclusão.
+
+Um parecerista que encontre uma dessas limitações silenciada tem inteira razão em
+cobrá-la, e a cobrança costuma custar mais tempo do que a declaração teria custado.
+
+---
+
+## 5.3. Como o programa é verificado
+
+> Esta seção descreve a suíte de verificação do Netuno, para que um revisor disponha
+> dos elementos necessários para julgar o grau de confiança de um resultado produzido
+> pelo programa.
+
+Um programa científico cuja verificação não é declarada equivale a uma afirmação sem
+evidência: pode estar correto, mas quem o utiliza não tem como saber, e quem avalia um
+trabalho feito com ele não tem como julgar. Esta seção é a evidência que sustenta os
+números apresentados no restante do manual, e foi escrita para ser lida por quem precisa
+decidir se confia neles.
+
+---
+
+### 5.3.1. A suíte
+
+A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam (Figura 65): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
+descoberto.
+
+![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
+
+*Figura 65 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
+
+
+A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
+incorporada enquanto houver um teste falhando. Essa disciplina é o que permite afirmar
+que um defeito corrigido não retorna: a correção acompanha o teste que a vigia.
+
+---
+
+As camadas de verificação do programa formam uma hierarquia, e cada uma responde por
+um tipo de erro que as demais não alcançariam. Um teste de unidade não detecta um erro de
+modelo, porque confere a função contra o que dela se espera; e uma conferência manual,
+que detectaria esse erro, não cobre mil combinações de entrada (Figura 66).
+
+![As camadas da verificação do programa](../figuras/fig00m_verificacao.png)
+
+*Figura 66 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo. Nenhuma camada substitui outra: é a superposição das cinco que sustenta o resultado publicado.*
+
+---
+
+### 5.3.2. As invariantes
+
+As invariantes constituem a família mais importante da suíte, e a razão está na natureza
+do que verificam. Um teste de valor confere se o programa produz um número específico
+diante de uma entrada específica; uma invariante confere se uma **propriedade** vale para
+qualquer entrada admissível. A primeira detecta que uma conta mudou; a segunda detecta
+que o modelo deixou de ser fisicamente consistente.
+
+A **conservação de massa** exige que, sobre séries de dez anos, o volume captado iguale
+a soma do extravasado, do consumido e do que permaneceu armazenado. O resíduo medido é
+da ordem de 10⁻¹⁴ por cento do captado, isto é, o próprio erro de arredondamento da
+aritmética de ponto flutuante. O **fechamento do balanço de demanda** faz o mesmo pelo
+lado do consumo: a demanda total precisa ser exatamente a soma de três parcelas, que são
+o pluvial consumido, o potável comprado e a demanda não atendida.
+
+A **faixa do potencial** verifica que o potencial de economia permaneça entre zero e cem
+por cento para toda combinação de volume, coeficiente de escoamento e área, o que é
+conferido sobre sessenta combinações. O **teto da fração atendível** é mais específico e
+mais revelador: o potencial nunca pode ultrapassar a fração da demanda atendível por
+chuva, e a verificação se estende até volumes de cem metros cúbicos, muito além de
+qualquer aplicação predial plausível.
+
+A **paridade entre motores** compara o núcleo compilado com o laço de referência e exige
+que ambos devolvam o mesmo número, para reservatório único e duplo, com e sem suprimento
+de reserva da irrigação, dentro de tolerância de 10⁻⁹. A **monotonicidade**, por fim,
+exige que mais volume nunca reduza o potencial e que mais demanda nunca o aumente — duas
+propriedades que qualquer implementação correta satisfaz e que uma implementação
+defeituosa viola de modo evidente.
+
+---
+
+### 5.3.3. Casos analíticos
+
+Um conjunto à parte reúne casos de **solução fechada**, isto é, situações em que o
+resultado correto é conhecido por dedução, sem necessidade de simular: chuva constante,
+demanda constante, reservatório de capacidade infinita e reservatório de capacidade
+nula. ==São o teste mais forte de que se dispõe, porque não dependem de nenhum valor de
+referência produzido pelo próprio programa.== Um teste que compara a saída atual com a
+saída de ontem detecta regressão, mas perpetua um erro que já existisse em ambas; um
+caso analítico não tem como fazê-lo.
+
+---
+
+### 5.3.4. Testes de percurso
+
+Esta família nasceu do defeito mais persistente que este programa apresentou ao longo de
+sua história: um valor calculado corretamente que não chega a quem deveria consumi-lo.
+Trata-se de uma classe de erro que escapa inteiramente aos testes de fórmula, porque cada
+parte isolada está correta — a origem calcula bem, o destino calcularia bem se recebesse,
+e o que falha é o trecho entre os dois. Apenas um teste de percurso o captura: alterar a
+entrada na tela e verificar que o resultado final efetivamente se move.
+
+Cinco defeitos reais encontrados por essa família, e hoje vigiados por ela, ilustram o
+padrão: a escolha de tecnologia de desinfecção não chegava à avaliação de ciclo de vida;
+desmarcar o filtro de polimento não surtia efeito nas classes 2 a 4; os quatro campos de
+imposto eram zerados pela própria tela ao ser fechada; a opção de suprimento de reserva
+da irrigação não alcançava os núcleos compilados; e trinta dos oitenta e sete campos de
+então não sobreviviam a salvar e reabrir o projeto.
+
+---
+
+### 5.3.5. Os números do manual
+
+Com a redação deste manual criou-se uma família própria de verificação, destinada a
+impedir que o documento e o programa divirjam: **cada valor impresso tem asserção
+correspondente**. Estão cobertos os números da seção 2.1, os do tutorial inteiro,
+cada linha da tabela dos dez dias e ainda a exigência de que determinadas seções
+declarem determinadas ressalvas. Quando o programa muda, o teste falha e aponta qual
+página corrigir.
+
+É o mecanismo que impede um manual inteiro de envelhecer em silêncio, que é o destino
+usual da documentação de programas científicos.
+
+---
+
+### 5.3.6. Verificação contra o Netuno 4
+
+A verificação se estende à comparação com a versão anterior do programa, sobre quatro mil
+e cinquenta casos de referência, com decomposição da diferença por causa atribuível. A
+seção 6.1 apresenta o resultado dessa comparação e as duas divergências
+metodológicas deliberadas que a explicam.
+
+---
+
+### 5.3.7. O que a verificação **não** prova
+
+A distinção entre verificação e validação é cobrada por qualquer revisor competente, e
+com inteira razão, porque as duas respondem a perguntas diferentes e apenas uma delas
+está ao alcance de uma suíte de testes.
+
+A **verificação** responde se o programa resolve corretamente as equações que implementa,
+e é exatamente isso que a suíte descrita nesta seção testa. A **validação** responde se
+as equações implementadas representam adequadamente a realidade física, e isso exige
+medição em campo: sistemas instalados, monitorados ao longo do tempo e comparados com o
+que a simulação previu.
+
+O Netuno é verificado. A validação do modelo comportamental de base diária apoia-se na
+literatura da área, e não em medição própria conduzida por este grupo. ==Um estudo que
+apresentasse resultados do programa como se fossem medição estaria incorrendo em erro de
+método.==
+
+---
+
+### 5.3.8. O relatório de verificação na interface
+
+O menu **Ajuda → Relatório de Verificação Técnica e Computacional** abre, dentro do programa, o relatório de verificação da versão: a distinção entre verificação e validação, os kernels exercitados, as invariantes, os casos analíticos e a comparação com o Netuno 4. É a referência a citar quando um estudo precisa declarar como o programa foi verificado.
+
+---
+
+### 5.3.9. Quem roda a suíte, e quando
+
+A suíte acompanha o código-fonte do programa, e não a instalação: ela é executada pelo
+grupo de pesquisa a cada alteração, antes que qualquer versão seja publicada. O que isso
+significa para quem usa o programa instalado é que a versão presente na sua máquina
+passou pelos 1.072 testes aqui descritos, incluindo as que conferem cada número
+impresso neste manual.
+
+> **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
+> GPL v3, e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
+> revisor que queira conferir as invariantes — fechamento de massa, monotonicidade,
+> paridade entre os dois motores de cálculo — encontra os arquivos de teste organizados
+> por tema, e o apêndice B liga cada processo do programa ao que o verifica.
+
+---
+
+# 6. Correções, bugs e versionamento
+
+---
+
+## 6.1. Comparação com o Netuno 4
+
+> Esta seção traz a medição contra 4.050 casos de referência e, mais importante,
+> a **decomposição** da diferença por causa.
+
+---
+
+### 6.1.1. O papel da comparação
+
+Convém começar esclarecendo o que esta comparação **não** é. ==O Netuno 4 não constitui
+alvo de fidelidade para o Netuno 5.== A versão atual adota decisões de modelagem distintas,
+deliberadas e documentadas, e seria motivo de preocupação, e não de satisfação, se os
+resultados coincidissem exatamente.
+
+O valor do Netuno 4 nesta verificação é outro, e é maior: ele oferece um conjunto
+independente de resultados, produzido por outra implementação do mesmo modelo conceitual,
+por outras mãos e em outra linguagem. Sem uma referência externa dessa natureza, a
+verificação se limitaria a propriedades internas do programa — necessárias, conforme a
+seção 5.3 descreve, e incapazes de detectar um erro sistemático que as respeitasse
+todas.
+
+---
+
+### 6.1.2. Os dados de referência
+
+A comparação entre as duas versões apoia-se em quatro mil e cinquenta casos exportados do
+Netuno 4 e preservados desde então, byte a byte, justamente para que a referência não se
+alterasse ao longo do desenvolvimento. Eles se distribuem por dois conjuntos, com
+cidades e faixas de parâmetros distintas.
+
+<!-- tabela: **Tabela 130** — Os conjuntos de casos de referência exportados do Netuno 4 -->
+| Conjunto | Casos | Cidades |
+| :--- | ---: | :--- |
+| Floripa/Brasília | 1.458 | Florianópolis, Brasília |
+| Manaus/São Paulo | 2.592 | Manaus, São Paulo |
+
+---
+
+### 6.1.3. A divergência total
+
+<!-- tabela: **Tabela 131** — Divergência medida entre as duas versões, por conjunto de casos -->
+| Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
+| :--- | ---: | ---: | ---: | ---: |
+| Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
+| Manaus/São Paulo | 2,71 pp | −2,71 pp | 10,60 pp | 88,6% |
+
+O viés é sistematicamente negativo nos dois conjuntos, isto é, o Netuno 5 estima menos
+economia que o Netuno 4 em praticamente todos os casos. O resultado é esperado, e a
+subseção seguinte decompõe a diferença em suas causas atribuíveis.
+
+---
+
+### 6.1.4. A decomposição, que é o número que importa
+
+Comparar diretamente o potencial no volume ótimo de um programa com o do outro mistura três
+diferenças de naturezas distintas, e o número resultante não informa qual delas responde
+pelo quê. A decomposição as separa comparando os dois programas em três configurações
+sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
+
+<!-- tabela: **Tabela 132** — Divergência em três configurações sucessivamente mais controladas -->
+| Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
+| :--- | ---: | ---: | ---: |
+| 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
+| 2. avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
+| 3. idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
+
+As três configurações usam os mesmos casos, excluídos os nove de referência nula
+tratados adiante. Em cada uma, o Netuno 5 estima menos que o Netuno 4 em quase todos
+os casos, e por isso o erro médio absoluto praticamente coincide com o viés.
+
+A atribuição resultante:
+
+<!-- tabela: **Tabela 133** — Atribuição da divergência às suas três fontes -->
+| Fonte da divergência | Contribuição | Natureza |
+| :--- | ---: | :--- |
+| critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |
+| tratamento do descarte de primeira chuva | 1,36 pp (50%) | diferença metodológica deliberada |
+| **resíduo do balanço hídrico** | **0,25 pp (9%)** | — |
+
+> **Neutralizadas as duas diferenças conhecidas, o motor do Netuno 5 reproduz o
+> Netuno 4 com erro médio absoluto de 0,25 ponto percentual e 100% dos casos dentro
+> de 5 pontos.**
+>
+> O resíduo é compatível com a precisão de duas casas decimais da própria planilha de
+> referência. É **este** número que verifica o motor. O viés total de 2,71 pp
+> não mede erro: mede a soma de duas decisões de projeto, ambas deliberadas.
+
+---
+
+A Figura 67 decompõe a divergência total nas três fontes da tabela.
+
+![A divergência decomposta até o resíduo](../figuras/fig25_cascata.png)
+
+*Figura 67 — A divergência média em relação ao Netuno 4, decomposta. A primeira barra é o total observado; as duas alaranjadas são diferenças de método declaradas, uma de critério de projeto e outra de tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que efetivamente verifica o motor.*
+
+---
+
+### 6.1.5. As duas diferenças, em detalhe
+
+#### 6.1.5.1. O descarte
+
+O Netuno 4 trata a lâmina de descarte como limiar do evento: quando a precipitação do dia
+fica abaixo dela, nada é captado; quando a ultrapassa, capta-se a chuva inteira, sem
+subtração alguma. O manual do Netuno 4 é explícito a respeito, ao afirmar que uma
+precipitação diária abaixo desse valor faz o programa considerar que não houve
+precipitação.
+
+O Netuno 5 subtrai a lâmina da precipitação do dia, tratamento fisicamente mais fiel
+porque a água desviada para o dispositivo de autolimpeza efetivamente não chega à
+cisterna. A mudança responde por metade da divergência total medida entre as duas
+versões.
+
+#### 6.1.5.2. O critério de volume ótimo
+
+Ambos os programas escolhem o volume ideal por critérios de ganho marginal, mas as
+implementações e as grades de busca diferem entre si, de modo que cada um elege um volume
+distinto e a comparação passa a incluir essa diferença de escolha. Avaliando os dois
+programas no mesmo volume — o que o Netuno 4 declarou ótimo — o viés cai de 2,71
+para 1,60 ponto percentual, o que atribui 41% da diferença total ao critério de escolha.
+
+---
+
+### 6.1.6. Como medir a diferença sem alterar o motor
+
+A emulação da regra antiga é feita transformando a série de precipitação de entrada, e
+não alterando o código do balanço hídrico. A distinção metodológica é essencial: medir a
+divergência com um código modificado validaria um programa que não é o distribuído ao
+usuário, o que anularia o propósito da verificação.
+
+```equacao:emulacao:52
+P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
+```
+
+<!-- tabela: **Tabela 134** — Variáveis da Equação 52 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `P′` | precipitação transformada, a ser fornecida ao Netuno 5 | mm |
+| `P` | precipitação observada no dia | mm |
+| `d_f` | lâmina de descarte de primeiras águas | mm |
+
+Aplicada essa transformação, o cálculo `P_ef = max(0, P′ − d_f)` do Netuno 5
+reproduz exatamente a semântica de limiar. A medição não corre o risco de validar
+código que não é o distribuído.
+
+> **Uma ressalva de documentação.** O protocolo de verificação interno instrui a
+> usar uma opção automática para essa emulação. Essa opção **não está
+> implementada**. Use a transformação da série, ou compare com descarte igual a zero,
+> em que as duas regras coincidem.
+
+---
+
+### 6.1.7. Os casos de referência nula
+
+Em parte das linhas, o Netuno 4 exportou zero enquanto o Netuno 5 calcula valor
+positivo. A incidência difere muito entre conjuntos: 0,35% em Manaus e São Paulo
+contra 34,98% em Floripa e Brasília.
+
+A disparidade aponta para característica dos **dados de referência** — provavelmente
+o Netuno 4 não encontrou volume ótimo sob o seu próprio critério — e não para erro do
+Netuno 5, que nunca devolve zero nesses casos. São segregados das estatísticas para
+não as dominar.
+
+---
+
+### 6.1.8. O que declarar num estudo comparativo
+
+- os **dois números**: a divergência total e o resíduo depois da decomposição;
+- as duas diferenças deliberadas, nomeadas;
+- se a comparação foi feita com descarte zero, com emulação de limiar, ou sem
+  neutralização;
+- a versão de cada programa.
+
+Apresentar apenas a divergência total, sem decompor, sugere um erro de motor que não
+existe.
+
+---
+
+## 6.2. Mensagens de erro e o que fazer
+
+> O que cada mensagem significa, o que a disparou, e como resolver.
+
+O programa adota uma política deliberada diante de entradas impossíveis: ele as recusa
+em vez de corrigi-las silenciosamente. A razão é que uma área de captação negativa não é
+uma preferência do usuário a ser acomodada, e sim um erro de digitação que precisa ser
+visto por quem o cometeu. ==Corrigir em silêncio produziria um resultado plausível a
+partir de uma entrada errada, que é a pior combinação possível num programa de
+simulação.==
+
+---
+
+### 6.2.1. Validação física da entrada
+
+As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
+nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
+
+<!-- tabela: **Tabela 135** — Mensagens de validação física da entrada e a providência de cada uma -->
+| Mensagem | O que a disparou | O que fazer |
+| :--- | :--- | :--- |
+| «Volume do reservatório inferior negativo» | volume menor que zero | corrija; **zero é válido** e representa o cenário sem sistema |
+| «Volume do reservatório superior negativo» | idem, na caixa elevada | corrija; zero significa sem caixa |
+| «Área de captação negativa» | área menor que zero | corrija; use a projeção horizontal em m² |
+| «Coeficiente de escoamento fora de [0, 1]» | coeficiente negativo ou acima de 1 | acima de 1 a cobertura entregaria mais água do que a chuva traz; telhados usuais ficam entre 0,80 e 0,95 |
+| «Lâmina de descarte negativa» | descarte menor que zero | o descarte retira água da captação, não acrescenta |
+| «Demanda diária negativa» | demanda menor que zero | corrija |
+| «Fração atendível por água pluvial fora de [0, 1]» | fração maior que 1 | informe 0,4 para 40%, e não 40 |
+| «… não é um número finito» | campo que chegou ao cálculo vazio, como texto ou infinito | preencha o campo nomeado com um número |
+| «Modo de descarte desconhecido» | modo diferente de 1, 2 ou 3 | escolha um dos três modos; para não descartar, informe lâmina zero |
+| «Intervalo de descarte inválido» | modo 3 com intervalo menor que 1 dia | informe o intervalo em dias inteiros |
+| «Nível de acionamento da motobomba negativo» | nível menor que zero | corrija; zero significa acionar com a caixa vazia |
+
+> A fração atendível é a mensagem mais frequente, e a regra que a evita é uma só: onde se
+> digita, percentual de 0 a 100; onde se guarda, fração de 0 a 1. A seção 4.2
+> justifica a divisão. Quando a mensagem aparecer, o valor chegou como 40 num lugar que
+> guarda 0,4 — tipicamente um arquivo de parâmetros editado à mão ou uma chamada de
+> automação.
+
+<!-- tabela: **Tabela 136** — Mensagens da fração atendível e a providência de cada uma -->
+| Mensagem | O que a disparou | O que fazer |
+| :--- | :--- | :--- |
+| «… parece estar em percentual» | fração entre 1 e 100 no arquivo, no vetor semanal, mensal ou diário, ou na automação | informe 0,4 para 40% |
+| «… fora de [0, 100]» | percentual negativo ou acima de 100 na tela, na tabela de cenários, na planilha ou em `--share` | corrija; 40 significa 40% |
+| campo laranja, ou pergunta «Simular mesmo assim?» | percentual entre 0 e 1 | se quis 40%, digite 40; se quis mesmo menos de 1%, confirme |
+
+---
+
+### 6.2.2. Série de precipitação
+
+O programa não distingue um dia seco de um dia sem registro, e por isso não adivinha: uma
+falha na série interrompe o cálculo com a indicação de onde ela está. Preencher a falha,
+ou recortar a série para um período sem falhas, é decisão de quem conduz o estudo, e a
+decisão precisa constar do estudo.
+
+<!-- tabela: **Tabela 137** — Mensagens de erro da série de precipitação e a providência de cada uma -->
+| Mensagem | Causa | O que fazer |
+| :--- | :--- | :--- |
+| «A série de precipitação está vazia» | arquivo sem nenhuma linha numérica | confira se o arquivo tem uma coluna de valores diários, um por linha |
+| «… dia(s) sem valor numérico, o primeiro no dia N» | falha de registro: linha vazia ou texto no meio da série | preencha as falhas ou recorte a série, e declare o tratamento |
+| «… valor(es) negativo(s), o primeiro de X mm no dia N» | sentinela de falha, como −999 | trate como falha: preencha ou recorte |
+
+Uma linha de cabeçalho antes dos dados, como «Data;Precipitação», não é erro: ela é
+ignorada e a leitura começa na primeira linha numérica.
+
+---
+
+### 6.2.3. Varredura
+
+<!-- tabela: **Tabela 138** — Mensagens de erro da varredura de volumes -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
+| «O passo de varredura deve ser finito e maior que zero» | passo zero ou vazio | informe o passo; ele será arredondado para o múltiplo de 250 L |
+
+Há ainda um aviso que não constitui erro e convém não confundir com um: quando o passo
+de varredura é ajustado para o múltiplo de 250 L, ou quando o limite de quarenta volumes
+obriga a alargá-lo, o programa registra o ajuste e prossegue normalmente. O que esse
+aviso exige do usuário é apenas que ele declare no estudo o passo efetivamente utilizado,
+e não o passo originalmente pedido.
+
+---
+
+### 6.2.4. Cloração
+
+<!-- tabela: **Tabela 139** — Mensagens de erro dos parâmetros de cloração -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
+| «A dose não pode ser negativa» | dose menor que zero | corrija |
+| «O fator de emissão não pode ser negativo» | fator de emissão do produto menor que zero | corrija; o fator é por quilo de produto comercial |
+
+---
+
+### 6.2.5. Análise econômica
+
+<!-- tabela: **Tabela 140** — Mensagens de erro da análise econômica e a providência de cada uma -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior que zero |
+| «O período de análise deve ser um número inteiro de anos» | período fracionário, zero ou negativo | informe o período em anos inteiros |
+| «… deve ser um número finito e maior que -100%» | reajuste, inflação ou taxa de desconto de −100% ou menos | confira o sinal da taxa |
+| «… parece estar em percentual» | taxa anual informada como 5 numa função que espera fração decimal | informe 0,05 para 5% |
+
+> **Unidade das taxas.** Na interface e no arquivo de projeto, toda taxa é informada em
+> percentual, com a unidade ao lado do campo: a TMA e a inflação em % ao mês (a.m.) ou em
+> % ao ano (a.a.), conforme o botão ao lado, e os reajustes tarifários em % por período
+> de reajuste, cujo comprimento em meses fica no campo vizinho. O projeto grava a TMA e a
+> inflação em % ao mês. A conversão entre mês e ano é composta, (1 + i)^12 − 1, e não uma
+> multiplicação por doze: 1% ao mês equivale a 12,68% ao ano. Na automação, as funções de
+> cálculo anual recebem as taxas como fração decimal, 0,05 para 5%, e recusam um valor que
+> pareça percentual em vez de reinterpretá-lo.
+
+---
+
+### 6.2.6. Decisão multicritério
+
+<!-- tabela: **Tabela 141** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
+| «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
+| «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
+| «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
+
+---
+
+### 6.2.7. Motobomba
+
+<!-- tabela: **Tabela 142** — Mensagens de erro dos parâmetros da motobomba -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «Rendimento deve ficar em (0, 1]» | rendimento como percentual no núcleo | use 0,55 para 55% |
+| «Rendimento do motor deve ficar em (0, 1]» | idem, no campo do motor | deixe em branco para o programa adotar a tabela da NBR 17094-2 |
+
+---
+
+### 6.2.8. Arquivos
+
+<!-- tabela: **Tabela 143** — Situações de erro na leitura e na gravação de arquivos -->
+| Situação | O que acontece | O que fazer |
+| :--- | :--- | :--- |
+| série de chuva ilegível | a leitura é interrompida com mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
+| arquivo `.netuno` com JSON inválido | a abertura é interrompida | o arquivo pode estar truncado; recorra à cópia de segurança |
+| seção ausente no arquivo | os campos caem no padrão da classe | esperado ao abrir arquivo de versão anterior; revise a aba correspondente |
+| base climática não instalada | a aba oferece só arquivo próprio | veja a seção 1.2 |
+
+---
+
+### 6.2.9. Avisos que não interrompem
+
+Os avisos reunidos nesta tabela não impedem o cálculo e não indicam defeito: são
+observações que o programa faz sobre as condições em que o resultado foi produzido. Todas
+elas precisam ser transportadas para o texto do estudo, porque todas afetam a
+interpretação do número e nenhuma delas fica evidente no resultado isolado.
+
+<!-- tabela: **Tabela 144** — Avisos que não interrompem o cálculo e precisam constar do estudo -->
+| Aviso | O que significa |
+| :--- | :--- |
+| tipologia não residencial com tarifa residencial | o resultado econômico está **subestimado**; veja a seção 3.5 |
+| a classe alvo recomenda filtração fina e ela foi dispensada | decisão registrada no relatório |
+| fator de emissão com rótulo de triagem | o fator não tem fonte primária; declare-o |
+| estrutura tarifária incompleta | a tabela do município tem lacuna; confira contra a resolução |
+| passo de varredura ajustado | o passo efetivo difere do pedido |
+| extrapolação de preço com R² baixo | o volume está fora da tabela de preços e a regressão não é confiável |
+
+---
+
+### 6.2.10. Quando o resultado parece errado
+
+Antes de suspeitar de defeito no programa, três conferências resolvem a maior parte dos
+casos em que o resultado surpreende, e cada uma delas corresponde a um erro de entrada
+com assinatura própria.
+
+Quando o **potencial sai maior que o esperado**, o suspeito imediato é a fração
+atendível: ela é o teto de todo o resultado, e uma fração generosa demais infla tudo o
+que vem depois sem que nada no relatório denuncie a origem.
+
+Quando o **potencial sai muito menor**, confira a lâmina de descarte. O engano
+correspondente está descrito na seção 5.1.3, e consiste em informar o descarte em
+litros quando o campo pede milímetros — o que descarta, tipicamente, a chuva inteira de
+todos os dias.
+
+Quando o **retorno do investimento sai absurdo**, em qualquer das duas direções, confira
+o regime tarifário do município. É a causa mais frequente de resultado econômico
+implausível, e a seção 3.3 traz o teste que a identifica em dois minutos.
+
+Vale ainda percorrer as quatro etapas de entrada antes de aceitar qualquer resultado. A
+barra lateral assinala as que permanecem com pendência, e conferir quatro telas custa
+menos tempo que descobrir o engano depois de o relatório estar emitido.
+
+---
+
+## 6.3. Histórico de versões e o que mudou
+
+Esta seção registra o que mudou entre as versões do programa e, sobretudo, **quais
+mudanças alteram resultados já publicados**. A distinção importa mais do que parece:
+uma correção de interface não afeta nenhum estudo anterior, ao passo que uma correção
+de cálculo pode deslocar cada número de um trabalho já submetido. Quem publicou com o
+Netuno precisa saber em que categoria cada alteração se encaixa, e é por isso que o
+histórico abaixo separa as duas coisas de forma explícita.
+
+==A regra que orienta toda esta seção é simples: correção de cálculo obriga a
+declarar a versão usada; correção de interface, não.==
+
+---
+
+### 6.3.1. A versão que você está usando
+
+O número da versão aparece na barra lateral, no rodapé, e no menu **Sobre o Netuno**.
+Ele também é gravado dentro de cada arquivo de projeto e impresso em cada relatório,
+de modo que um estudo antigo sempre carrega consigo a identificação do programa que o
+produziu. Essa redundância é deliberada: relatórios circulam separados dos arquivos, e
+a pergunta «com que versão isto foi feito?» costuma aparecer meses depois, quando
+ninguém lembra.
+
+O esquema de numeração segue a convenção corrente em engenharia de software. O
+primeiro número indica a geração do programa, e sua troca significa reformulação do
+modelo conceitual; o segundo indica um conjunto de funcionalidades novas; e o terceiro
+indica correções e ajustes que não alteram a arquitetura. A passagem do Netuno 4 para
+o Netuno 5, tratada na seção 6.1, é o único caso de troca do primeiro número na
+história do programa.
+
+---
+
+### 6.3.2. O que mudou na versão 5.0.0
+
+A versão 5.0.0 foi o resultado de uma revisão sistemática do programa, conduzida com
+um objetivo específico: encontrar valores que fossem calculados corretamente em um
+módulo e descartados antes de chegarem ao módulo seguinte. Essa classe de defeito é
+particularmente perigosa porque não produz erro visível — o programa responde, o
+número parece plausível, e apenas a comparação entre dois pontos do próprio programa
+revela a inconsistência. A revisão percorreu cinco eixos de propagação: de módulo para
+módulo, da tela para o núcleo de cálculo, entre a interface e a automação, entre
+definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
+gravação e da releitura de um projeto.
+
+#### 6.3.2.1. Correções que alteram resultados
+
+As alterações reunidas nesta tabela mudam números. Um estudo refeito na versão 5.0.0
+não reproduzirá exatamente os valores obtidos em versões anteriores, e a diferença tem
+sentido conhecido em cada caso.
+
+<!-- tabela: **Tabela 145** — Correções que alteram resultados de estudos feitos em versão anterior -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
+| a energia de partida dividia a potência de placa pelo rendimento da bomba, embora não haja vazão na partida | parcela de partidas corrigida, cerca de 14% da energia anual |
+| a demanda de irrigação atendida pela rede não aparecia no resumo | demanda não atendida deixou de ser subestimada em 10,85 L/dia no caso de referência |
+| quatro campos de imposto eram zerados a cada confirmação do diálogo econômico | as faturas de água e de energia passaram a incluir os tributos declarados |
+| a cloração, o ultravioleta e o ozônio eram tratados como mutuamente exclusivos | linha de tratamento passou a compor estágios, conforme o item 4.6.5 da ABNT NBR 15527:2019 |
+| o econômico só cobrava energia com caixa superior, e a avaliação ambiental cobrava bombeamento em qualquer arranjo e perdia a cloração sem caixa | o arranjo de abastecimento passou a ser declarado na etapa 4, e custo e carbono leem a mesma energia; projetos sem caixa superior deixam de ter bombeamento implícito no carbono e passam a ter cloração |
+| o fator de emissão do hipoclorito era 1,85 kg CO₂e/kg, sem processo declarado | passou a 1,72 kg CO₂e/kg, do Ecoinvent 3.8 na base de cloro ativo |
+
+#### 6.3.2.2. Correções que não alteram resultados
+
+As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum valor
+calculado. Um estudo anterior continua válido; apenas ficou mais difícil produzir um
+estudo errado.
+
+<!-- tabela: **Tabela 146** — Correções de comportamento que não alteram resultado calculado -->
+| O que foi corrigido | O que muda para você |
+| :--- | :--- |
+| a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
+| arquivo JSON de esquema desconhecido era aceito e abria um projeto inteiramente padrão | a abertura é interrompida com mensagem própria |
+| a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
+| seis campos eram gravados no arquivo e nunca lidos de volta | a seção 5.2 lista os que permanecem nessa condição |
+
+> **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
+> 17094-2:2016 determina que o rendimento do motor seja marcado na placa
+> **separadamente** da potência, o que significa que a potência de placa é a potência
+> disponível no eixo, e não a potência consumida na tomada. Tratar uma pela outra
+> subestima o consumo por um fator igual ao rendimento do motor, que para uma máquina
+> de meio cavalo com dois polos é de 60,5%. O efeito é grande em termos relativos,
+> ainda que pequeno em termos absolutos, porque a energia de bombeamento de um sistema
+> predial de aproveitamento pluvial é modesta frente ao restante do balanço econômico.
+> A seção 2.6 desenvolve a cadeia completa.
+
+---
+
+### 6.3.3. Como saber se a sua versão tem uma correção
+
+O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
+exemplo que acompanham o programa, descritos no apêndice J, rode-o, e compare o
+resultado obtido com o valor impresso neste manual. Cada caso de exemplo foi gerado
+pela mesma versão do programa que gerou este manual, e cada número publicado tem
+verificação automática correspondente, conforme a seção 5.3 descreve. Uma
+divergência, portanto, indica que o programa instalado não é o da versão deste manual.
+
+==Se os números baterem, a sua instalação corresponde exatamente ao manual que você
+tem em mãos.== Se não baterem, a diferença não é um defeito da sua instalação, e sim
+uma diferença de versão que precisa ser identificada antes de qualquer estudo.
+
+---
+
+### 6.3.4. O que declarar num trabalho publicado
+
+A boa prática de reprodutibilidade computacional exige que um trabalho identifique de
+modo inequívoco o programa que produziu os resultados. No caso do Netuno, quatro
+informações bastam, e todas estão disponíveis sem esforço: a versão do programa, que
+aparece no relatório; a origem da série de precipitação, com o período utilizado; a
+estrutura tarifária adotada, com a data de vigência; e a declaração de quais parâmetros
+foram alterados em relação aos valores padrão. A seção 4.10 traz a lista completa,
+com um parágrafo de método pronto para ser adaptado.
+
+Anexar o arquivo `.netuno` ao material suplementar resolve as quatro de uma vez, porque
+o arquivo é autocontido e traz a série de chuva dentro dele. É a forma mais econômica
+de tornar um estudo verificável por terceiros, e custa um anexo de cerca de 160 kB.
+
+---
+
+## 6.4. Como relatar um problema
+
+Programas de simulação têm defeitos, e o Netuno não é exceção. A revisão conduzida antes
+desta publicação encontrou uma dúzia de defeitos de cálculo, nenhum deles acompanhado de
+mensagem de erro, e a maioria descoberta não por leitura do código mas por comparação
+entre dois pontos do próprio programa que deveriam concordar e não concordavam. A lição
+prática é que o usuário atento constitui a melhor fonte de detecção de que um programa
+científico dispõe, e é por essa razão que esta seção existe.
+
+==Um relato bem feito é aquele que permite reproduzir o problema sem a sua presença.==
+Tudo o que se pede abaixo serve a esse único objetivo.
+
+---
+
+### 6.4.1. O que enviar
+
+Um relato útil tem quatro componentes, e a ausência de qualquer um deles costuma
+transformar a investigação numa troca de mensagens que consome mais tempo de todos do
+que o próprio conserto.
+
+**O arquivo do projeto.** É o item mais importante, e sozinho substitui páginas de
+descrição. O `.netuno` é autocontido: traz os 104 parâmetros e a série de chuva inteira
+dentro dele, de modo que quem o receber reproduz exatamente a sua simulação, na mesma
+máquina ou em outra qualquer. Sem ele, a investigação começa por tentar adivinhar as
+entradas, e adivinhar entradas é a forma mais eficiente de não encontrar um defeito.
+
+**O que você esperava e o que obteve.** Esta é a parte que só você pode fornecer.
+Descreva o número que apareceu e o número que deveria ter aparecido, com a justificativa
+do segundo — seja ela uma conta feita à mão, um resultado de versão anterior, um valor
+da literatura ou simplesmente a ordem de grandeza que a experiência sugere. Um relato
+que diz apenas «o resultado está errado» transfere ao destinatário a tarefa de descobrir
+qual dos quarenta números da tela é o errado.
+
+**A versão do programa.** Aparece na barra lateral, no rodapé e no menu **Sobre o
+Netuno**, e já está gravada dentro do arquivo de projeto e de qualquer relatório
+exportado. Informe-a mesmo assim, porque é o primeiro filtro da investigação: metade dos
+problemas relatados em programas científicos são defeitos já corrigidos numa versão
+posterior à que o usuário tem instalada.
+
+**A mensagem de erro, se houver.** Copie o texto integral, e não um resumo. A seção
+6.2 lista as mensagens que o programa emite deliberadamente, com o significado e a
+providência de cada uma; se a sua mensagem estiver lá, o problema provavelmente é de
+entrada e tem solução imediata.
+
+---
+
+### 6.4.2. O que conferir antes de relatar
+
+Uma parte considerável dos resultados que parecem errados são resultados corretos de
+entradas erradas, e a conferência abaixo leva poucos minutos. Ela não existe para
+desencorajar o relato, e sim para que o seu tempo e o de quem investiga sejam gastos com
+o que de fato é defeito.
+
+Comece pela seção 5.1, que reúne os dez enganos de projeto que o programa não tem
+como impedir. Três deles respondem pela maioria dos resultados inesperados: a área de
+captação informada como área inclinada do telhado em vez da projeção horizontal, a
+lâmina de descarte informada em litros em vez de milímetros, e o regime tarifário do
+município tratado como consumo mínimo quando é taxa de disponibilidade — ou o inverso.
+
+Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
+5.2 relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
+produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
+lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
+própria, porque a tabela certa é pública e específica de cada concessionária.
+
+---
+
+### 6.4.3. Para onde enviar
+
+O Netuno é desenvolvido pelo Grupo de Pesquisa Gestão do Espaço Sustentável, no
+Departamento de Engenharia Civil da Universidade Federal de Santa Catarina. O contato
+do grupo é o canal de relato, e vale tanto para defeitos quanto para sugestões de
+funcionalidade e para pedidos de esclarecimento sobre o método.
+
+Relatos que vêm acompanhados do arquivo de projeto entram diretamente na suíte de
+verificação descrita na seção 5.3: um caso que reproduz um defeito vira um teste, e
+o teste passa a impedir que aquele defeito volte. É a razão pela qual o arquivo importa
+tanto, e é também a resposta mais completa que se pode dar a quem relatou — o problema
+não apenas foi corrigido, como passou a ser vigiado.
+
+> **Aprofundamento: o que torna um defeito difícil de encontrar.** Os defeitos que
+> sobrevivem por anos num programa científico têm todos a mesma assinatura: produzem
+> números plausíveis. Um erro que gera um valor negativo, ou mil vezes maior que o
+> esperado, é encontrado na primeira execução. Já um fator de rendimento aplicado duas
+> vezes, ou uma unidade convertida uma vez a mais que o necessário, produz um número
+> que passa em qualquer inspeção visual e atravessa anos de uso. É por isso que a
+> verificação do programa se apoia em invariantes — o balanço de massa que precisa
+> fechar, a monotonicidade que precisa valer, o teto que a curva não pode cruzar — e não
+> apenas em valores esperados. Quando você suspeitar de um número, o caminho mais rápido
+> de confirmar a suspeita é procurar uma dessas identidades que ele viola.
+
+---
+
+# Apêndices
+
+---
+
+## Apêndice A — Os parâmetros do projeto
+
+São **112 parâmetros**. É a lista completa do que um projeto
+guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
+
+A lista não foi transcrita à mão: é extraída do próprio programa a cada
+versão, e por isso não pode divergir dele.
+
+A coluna **onde se informa** diz em que tela o campo aparece; a coluna
+**quem consome** diz que cálculo o usa. Campo sem nenhuma das duas é campo
+gravado no arquivo e nunca lido, e está listado na seção 5.2.
+
+### A.1. Identificação
+
+3 parâmetros.
+
+<!-- tabela: **Tabela 147** — Parâmetros do projeto: identificação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
+| `project_id` | — | — | Janela principal, Relatórios | Automação |
+| `created_at` | — | — | Janela principal | — |
+
+### A.2. Chuva
+
+9 parâmetros.
+
+<!-- tabela: **Tabela 148** — Parâmetros do projeto: chuva -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
+| `climate_source_mode` | national_db | — | — | — |
+| `climate_city_uf` | SC | — | Projeto, Relatórios | — |
+| `climate_city_name` | Florianópolis | — | Projeto, Relatórios | — |
+| `climate_model` | INM-CM4 | — | Projeto, Relatórios | — |
+| `climate_scenario` | HIST | — | Projeto, Relatórios | — |
+| `climate_start_date` | 01/01/1980 | — | Relatórios | — |
+| `climate_end_date` | 31/12/2013 | — | Projeto, Relatórios | — |
+| `start_date` | 01/01/1980 | — | Janela principal, Projeto, Tarifas e custos | Automação, Clima |
+
+Observações do código:
+
+- `climate_source_mode`: "national_db" (base nacional) ou "custom_file" (arquivo próprio)
+
+### A.3. Captação
+
+7 parâmetros.
+
+<!-- tabela: **Tabela 149** — Parâmetros do projeto: captação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
+| `discard_mode` | 1 | código | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
+| `discard_days_interval` | 7 | dias | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
+| `area` | 100 | m² | Ambiental, Documentação, Edificação, Gráficos, Janela principal, Qualidade, Relatórios, Varredura | ACV, Automação, Balanço diário, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
+| `irrigation_garden_area_m2` | 0 | m² | — | — |
+| `runoff_coeff` | — | — | Janela principal, Qualidade, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, ETAP |
+
+Observações do código:
+
+- `discard`: mm
+- `discard_mode`: 1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias
+- `discard_days_interval`: intervalo para modo 3
+- `area`: m²
+- `irrigation_garden_area_m2`: Área de jardim em m² para o assistente de dimensionamento
+- `runoff_coeff`: ver hydrology_defaults
+
+### A.4. Edificação
+
+2 parâmetros.
+
+<!-- tabela: **Tabela 150** — Parâmetros do projeto: edificação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
+| `building_template_id` | res_medio | — | Edificação | Tarifas |
+
+Observações do código:
+
+- `num_economias`: Número de economias / apartamentos com micromedição individual
+
+### A.5. Demanda
+
+17 parâmetros.
+
+<!-- tabela: **Tabela 151** — Parâmetros do projeto: demanda -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `demand_type` | 0 | código | — | — |
+| `demand_mode` | constant | — | Ambiental, Edificação, Janela principal, Relatórios, Varredura | Automação, Balanço diário |
+| `demand_value` | 200 | L/dia | Documentação, Econômico, Janela principal | Automação, Balanço diário |
+| `demand_monthly` | — | — | Janela principal | Automação |
+| `residents_type` | 0 | código | — | — |
+| `residents_count` | 4 | hab | Ambiental, Econômico, Janela principal | Automação, Balanço diário, Motobomba |
+| `residents_monthly` | — | — | Janela principal | Automação |
+| `potable_indoor_share` | 0,65 | fração | Edificação | — |
+| `non_potable_indoor_share` | 0,35 | fração | Edificação | Balanço diário |
+| `rainwater_share` | 0,4 | fração | Documentação, Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `weekly_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `weekly_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `weekly_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `monthly_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+| `daily_shares` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
+
+Observações do código:
+
+- `demand_mode`: "constant", "weekly", "monthly", "daily"
+- `demand_value`: L/dia, por habitante ou total
+- `potable_indoor_share`: Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
+- `non_potable_indoor_share`: Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
+- `rainwater_share`: fração de 0 a 1 (0,4 = 40%)
+
+### A.6. Irrigação
+
+4 parâmetros.
+
+<!-- tabela: **Tabela 152** — Parâmetros do projeto: irrigação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
+| `irrigation_rain_threshold_mm` | 2 | mm/dia | Edificação | Balanço diário |
+| `irrigation_potable_backup` | sim | — | Edificação | Balanço diário |
+| `irrigation_rate_l_m2_day` | 3 | L/m²·dia | — | — |
+
+Observações do código:
+
+- `irrigation_liters_per_day`: Volume diário fixo de irrigação/usos externos (L/dia)
+- `irrigation_rain_threshold_mm`: Limiar diário de precipitação para supressão da irrigação (mm/dia)
+- `irrigation_potable_backup`: Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
+- `irrigation_rate_l_m2_day`: Taxa diária de rega (L/m²/dia)
+
+### A.7. Qualidade da água
+
+9 parâmetros.
+
+<!-- tabela: **Tabela 153** — Parâmetros do projeto: qualidade da água -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
+| `etap_enabled` | sim | — | Ambiental, Econômico, Otimizador | ACV, Automação, ETAP |
+| `chlorine_treatment_enabled` | sim | — | Econômico, Otimizador, Qualidade | ACV, Econômico |
+| `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econômico, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
+| `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
+| `chlorine_cost_per_kg` | 25 | R$/kg | Econômico, Otimizador, Qualidade | ETAP, Econômico, Preços |
+| `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, Automação, ETAP |
+
+Observações do código:
+
+- `water_quality_disinfection`: "cloro", "uv", "ozonio", "nenhum"
+- `chlorine_dose_mg_l`: mg de Cl2 ativo por litro
+- `chlorine_product_purity`: kg Cl2 ativo por kg de produto
+- `chlorine_cost_per_kg`: R$ por kg de PRODUTO comercial
+
+### A.8. Reservatórios
+
+12 parâmetros.
+
+<!-- tabela: **Tabela 154** — Parâmetros do projeto: reservatórios -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
+| `upper_tank_used` | 1 | código | Ambiental, Econômico, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Motobomba, Planilhas |
+| `lower_tank_max` | 10000 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `lower_tank_step` | 250 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `lower_tank_mode` | 1 | código | Janela principal | Automação |
+| `lower_tank_fixed` | 2000 | L | Tarifas e custos | Automação |
+| `delta_ideal` | 5 | %/m³ | Janela principal, Otimizador, Varredura | Automação, Cenários |
+| `econ_lower_tank_vol` | 2000 | L | Ambiental, Econômico, Tarifas e custos, Varredura | Automação |
+| `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
+| `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
+| `cost_lower_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_upper_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
+
+Observações do código:
+
+- `upper_tank_vol`: L
+- `upper_tank_used`: 0 = sem caixa superior, 1 = com caixa superior
+- `lower_tank_max`: L
+- `lower_tank_step`: L
+- `lower_tank_mode`: 0 = volume fixo, 1 = varredura
+- `lower_tank_fixed`: usado no modo de volume fixo
+- `delta_ideal`: limiar de ganho marginal para o volume ideal, em %/m³
+- `lower_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
+- `upper_tank_material`: "PEAD", "CONCRETO", "FIBRA" (PRFV), "ACO_INOX"
+
+### A.9. Motobomba
+
+18 parâmetros.
+
+<!-- tabela: **Tabela 155** — Parâmetros do projeto: motobomba -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `supply_arrangement` | — | código | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `pressurizer_pressure_m` | 18 | m.c.a. | Varredura | Motobomba |
+| `pressurizer_starts_per_person_day` | 5,05 | 1/pessoa·dia | Varredura | Motobomba |
+| `pressurizer_model` | komeco_tp820t | código | Varredura | Motobomba |
+| `pressurizer_point_flow_l_min` | 9 | L/min | Varredura | Motobomba |
+| `pressurizer_power_kw` | 0,18 | kW | Varredura | Motobomba |
+| `pressurizer_flow_l_min` | 13,3 | L/min | Varredura | Motobomba |
+| `pressurizer_post_run_s` | 0 | s | Varredura | Motobomba |
+| `pump_count` | 2 | un | Ambiental, Econômico, Otimizador, Relatórios, Tarifas e custos | ACV, Automação, Econômico, Preços, Relatórios |
+| `pump_power_str` | 1/2 | — | Relatórios | — |
+| `pump_power_kw` | 0,36775 | kW | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, CAD e BIM, Econômico, Motobomba, Preços, Relatórios |
+| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Motobomba |
+| `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Motobomba |
+| `pump_flow_rate` | 0 | L/h | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Motobomba |
+| `pump_startup_time_h` | 0,03 | h | Econômico, Gráficos, Otimizador, Tarifas e custos | Automação, Motobomba |
+| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Motobomba |
+| `pump_unit_cost` | 300 | R$ | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
+
+Observações do código:
+
+- `pumping_threshold`: L, nível de acionamento do recalque
+- `pump_count`: principal + reserva como configuração inicial recomendada
+- `pump_power_kw`: kW (1 CV = 0,7355 kW; 1/2 CV = 0,36775 kW)
+- `pump_efficiency`: %, 0 = deduzir do porte
+- `pump_startup_time_h`: h
+- `pump_motor_efficiency`: %
+- `pump_unit_cost`: R$, referência de mercado para motobomba periférica 1/2 CV
+
+### A.10. Tubulação
+
+1 parâmetro.
+
+<!-- tabela: **Tabela 156** — Parâmetros do projeto: tubulação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
+
+### A.11. Investimento
+
+3 parâmetros.
+
+<!-- tabela: **Tabela 157** — Parâmetros do projeto: investimento -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_piping` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
+| `cost_accessories` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, ETAP, Econômico |
+
+### A.12. Operação
+
+1 parâmetro.
+
+<!-- tabela: **Tabela 158** — Parâmetros do projeto: operação -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
+
+### A.13. Tarifas
+
+14 parâmetros.
+
+<!-- tabela: **Tabela 159** — Parâmetros do projeto: tarifas -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `tariff_customized` | não | — | Projeto | — |
+| `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
+| `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
+| `water_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
+| `tariff_escalation` | 12 | meses | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
+| `water_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
+| `sewage_tariff_escalation` | 5 | % por período | Econômico, Otimizador | Automação, Econômico |
+| `elec_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
+| `tariff_flag` | verde | — | Econômico | Econômico |
+| `elec_tariff` | 0,6957 | R$/kWh | Econômico, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
+
+Observações do código:
+
+- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água
+- `water_tax_fixed`: R$
+- `water_tax_var`: %
+- `tariff_escalation`: meses; comprimento do período de reajuste
+- `water_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
+- `sewage_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
+- `elec_tariff_escalation`: % por período de reajuste; com 12 meses, % ao ano
+- `tariff_flag`: "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
+- `elec_tariff`: R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)
+
+### A.14. Energia
+
+4 parâmetros.
+
+<!-- tabela: **Tabela 160** — Parâmetros do projeto: energia -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
+| `elec_city_name` | Florianópolis | — | Janela principal, Projeto, Tarifas e custos | — |
+| `elec_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
+| `elec_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
+
+Observações do código:
+
+- `elec_tax_fixed`: R$
+- `elec_tax_var`: %
+
+### A.15. Incentivos
+
+3 parâmetros.
+
+<!-- tabela: **Tabela 161** — Parâmetros do projeto: incentivos -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
+| `iptu_annual_value` | 4000 | R$/ano | Econômico, Otimizador | Econômico |
+| `iptu_discount_pct` | 5 | % | Econômico, Otimizador | Econômico |
+
+Observações do código:
+
+- `iptu_annual_value`: Valor venal do IPTU anual da edificação (R$/ano)
+- `iptu_discount_pct`: Desconto municipal do IPTU Verde (%)
+
+### A.16. Financeiro
+
+4 parâmetros.
+
+<!-- tabela: **Tabela 162** — Parâmetros do projeto: financeiro -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
+| `analysis_period_years` | 20 | anos | Econômico, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Econômico, Relatórios |
+| `tma` | 2 | % ao mês | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Planilhas |
+| `install_month` | 0 | mês | — | — |
+
+Observações do código:
+
+- `inflation`: % ao mês; inflação dos custos de O&M
+- `analysis_period_years`: anos
+- `tma`: % ao mês; taxa mínima de atratividade
+
+### A.17. Certificações
+
+1 parâmetro.
+
+<!-- tabela: **Tabela 163** — Parâmetros do projeto: certificações -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
+
+---
+
+## Apêndice B — Os processos do programa
+
+São **24 processos**, do arquivo de chuva ao relatório. Cada
+um declara o que o dispara, o que recebe, as regras com suas ramificações, o
+que produz e o que acontece quando falha.
+
+É o apêndice mais técnico do manual, e serve a duas pessoas: quem revisa um
+estudo feito com o programa e precisa saber exatamente que conta foi feita, e
+quem encontrou um resultado estranho e quer saber por onde o número passou.
+
+Os nomes em `código` são os campos do arquivo de projeto, listados no apêndice A.
+
+### B.1. PROC-01 — Carregar a série de precipitação
+
+*Chuva*
+
+**Gatilho.** Aba Projeto: escolher cidade na base nacional ou abrir arquivo CSV.
+
+**Entradas**
+
+- Arquivo CSV diário, ou cidade da base CMIP6 (652 cidades, 19 modelos, histórico mais SSP2-4.5 e SSP5-8.5)
+- `climate_start_date` e `climate_end_date`, que recortam a série
+- `start_date`, data do primeiro dia da série
+
+**Regras**
+
+1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
+2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
+3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+
+**Saídas**
+
+- `precip_data`: vetor de mm/dia, que é a entrada de **dois** processos distintos — PROC-04 (descarte e captação) e PROC-03 (supressão de irrigação)
+
+**Exceção.** Arquivo ilegível ou sem coluna de chuva interrompe o carregamento com mensagem; a simulação não roda com série vazia.
+
+### B.2. PROC-02 — Compor a demanda diária
+
+*Demanda*
+
+**Gatilho.** Início da simulação, uma vez por execução.
+
+**Entradas**
+
+- `demand_mode`: constante, semanal, mensal ou diária
+- `demand_value` (L/dia por pessoa), `residents_count`
+- `rainwater_share` ou `non_potable_indoor_share`
+- vetores `weekly_*`, `monthly_*`, `daily_*` quando o modo os usa
+
+**Regras**
+
+1. Demanda-base do dia = `demand_value × residents_count`, com o multiplicador do dia da semana, do mês ou do dia, conforme o modo.
+2. A fração não potável separa a demanda em duas: interna potável e interna não potável.
+3. Quando o modo é semanal, mensal ou diário, a fração vem do próprio vetor do período; fora disso, vale `non_potable_indoor_share`, e só então `rainwater_share`.
+4. Valor nulo ou zero em qualquer posição do vetor cai para o valor constante.
+
+**Saídas**
+
+- `tot_arr`: demanda total do dia
+- `pot_in_arr`: potável interna, que a chuva nunca atende
+- `non_pot_in_arr`: não potável interna, prioridade 1 da chuva
+- `pluv_arr` = não potável interna + irrigação ativa
+
+**Exceção.** Data inicial ilegível cai para 01/01/1980 em vez de interromper, porque só afeta o dia da semana.
+
+### B.3. PROC-03 — Suprimir a irrigação nos dias de chuva
+
+*Demanda*
+
+**Gatilho.** Composição da demanda, um teste por dia da série.
+
+**Entradas**
+
+- `irrigation_liters_per_day`
+- `irrigation_rain_threshold_mm` (padrão 2 mm/dia)
+- `precip_data`, o **mesmo** vetor que alimenta a captação
+
+**Regras**
+
+1. Se a chuva do dia ≥ limiar, a irrigação do dia é **zero** e o dia entra na contagem de dias suprimidos.
+2. Caso contrário, a irrigação do dia é o volume nominal.
+3. É a segunda leitura do arquivo de chuva, e independente da primeira: um dia pode suprimir a irrigação e ainda assim render captação.
+
+**Saídas**
+
+- `irr_arr`: irrigação do dia
+- `irr_suppressed_mask`: dias suprimidos, que viram `total_irrigation_days_suppressed` no resultado
+
+**Exceção.** Sem volume de irrigação cadastrado, o vetor é zero e a máscara é falsa em todos os dias.
+
+### B.4. PROC-04 — Descartar as primeiras águas
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia com chuva, dentro do laço diário.
+
+**Entradas**
+
+- `precip_mm` do dia
+- `discard_mm`
+- `discard_mode` (1, 2 ou 3)
+- `discard_days_interval`
+
+**Regras**
+
+1. **Modo 1**: descarta em todo evento de chuva.
+2. **Modo 2**: descarta apenas no primeiro evento após estiagem, definida como véspera com menos de 1 mm.
+3. **Modo 3**: descarta quando passaram `discard_days_interval` dias desde o último descarte.
+4. Quando o descarte se aplica: `p_eff = p − discard_mm` se `p > discard_mm`, senão **zero**: toda a chuva do dia vai para o descarte.
+5. Quando não se aplica: `p_eff = p`, a chuva inteira é aproveitável.
+
+**Saídas**
+
+- `p_eff`: lâmina efetiva do dia, em mm, que segue **só** para PROC-05
+- `eff_precip_mm` na série diária detalhada, quando ela é guardada
+
+**Exceção.** Lâmina de descarte negativa é rejeitada na porta de validação, antes do laço.
+
+### B.5. PROC-05 — Converter lâmina em volume captado
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, depois do descarte.
+
+**Entradas**
+
+- `p_eff` de PROC-04
+- `area` (m²)
+- `runoff_coeff`
+
+**Regras**
+
+1. `v_ac = p_eff × area × runoff_coeff`, em litros.
+2. É aqui que o arquivo de chuva vira volume, e é o único ponto onde isso acontece.
+3. O coeficiente é adimensional e fica em [0, 1]; fora disso a simulação nem começa.
+
+**Saídas**
+
+- `v_ac`: volume captado do dia, que segue para PROC-06
+- `harvested_liters` na série diária
+
+**Exceção.** Área negativa ou coeficiente fora de [0, 1] levantam `ValueError` nomeando o campo, em PROC-11.
+
+### B.6. PROC-06 — Armazenar e extravasar
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, depois da captação.
+
+**Entradas**
+
+- `v_ac`
+- volume remanescente do dia anterior
+- `lower_tank_vol`
+
+**Regras**
+
+1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
+2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
+3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
+
+**Saídas**
+
+- `v_spill_today`, somado em `avg_spilled_l_day`, que vira critério de extravasamento no multicritério
+- `v_in_tank`, o volume disponível para atendimento
+
+**Exceção.** Volume zero é válido e representa o cenário sem sistema; negativo é rejeitado.
+
+### B.7. PROC-07 — Atender com reservatório único
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, quando não há reservatório superior.
+
+**Entradas**
+
+- `v_in_tank`
+- `pluvial_demand_per_day` de PROC-02
+
+**Regras**
+
+1. `v_c = min(demanda pluvial, volume no reservatório)`.
+2. O volume remanescente permanece para o dia seguinte: `v_lower = v_in_tank − v_c`.
+
+**Saídas**
+
+- `v_c`: volume pluvial consumido no dia
+
+**Exceção.** Nenhuma: o mínimo já trata reservatório vazio e demanda nula.
+
+### B.8. PROC-08 — Atender com recalque para caixa superior
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, quando `upper_tank_used` e o volume superior é positivo.
+
+**Entradas**
+
+- `v_lower`, `v_upper`
+- `upper_tank_vol`
+- `pumping_threshold`, o volume de reserva que não se consome
+
+**Regras**
+
+1. Laço até a demanda ser atendida ou a água acabar.
+2. Primeiro consome da caixa superior o que estiver **acima** do limiar de acionamento.
+3. Se ainda falta e há água embaixo, aciona a bomba: transfere `min(v_lower, espaço livre em cima)`, conta **um ciclo** e registra a batelada.
+4. Depois do recalque, consome de novo.
+5. O limiar é limitado ao volume da caixa superior na entrada do processo.
+
+**Saídas**
+
+- `v_c`
+- `v_rec_today`, somado em `total_pumped_liters`
+- `cycles_today`, somado em `total_pump_cycles`
+- `max_pump_batch_liters`
+
+**Exceção.** Volume superior negativo é rejeitado na validação. O laço tem saída garantida: se não há água embaixo nem em cima, interrompe.
+
+### B.9. PROC-09 — Repartir o atendimento e completar com potável
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, depois do atendimento.
+
+**Entradas**
+
+- `v_c`
+- `non_pot_in_day`
+- `irr_day`
+- `pot_in_day`
+- `irrigation_potable_backup`
+
+**Regras**
+
+1. **Prioridade 1**, uso interno não potável: `c_pluv_in = min(v_c, não potável interna)`.
+2. **Prioridade 2**, irrigação: `c_pluv_irr = min(v_c − c_pluv_in, irrigação do dia)`.
+3. O potável consumido é a soma de três parcelas: o potável interno, o déficit do não potável interno e — só se o suprimento de reserva estiver ligado — o déficit da irrigação.
+4. Com o suprimento de reserva desligado, o jardim simplesmente não é regado no dia seco, e a rede não é acionada.
+
+**Saídas**
+
+- `potable_consumed_liters` do dia
+- `avg_pluvial_indoor_consumed_l_day` e `avg_pluvial_irrigation_consumed_l_day`, que separam o uso interno do externo para os créditos WEc1 e WEc2 do LEED v4 e as Opções 2 e 4 do WEc2 do LEED v5
+
+**Exceção.** Nenhuma: todas as parcelas são mínimos e máximos com zero.
+
+### B.10. PROC-10 — Classificar o atendimento do dia
+
+*Balanço hídrico*
+
+**Gatilho.** Todo dia, ao fim do atendimento.
+
+**Entradas**
+
+- `v_c`
+- `pluvial_demand_per_day`
+
+**Regras**
+
+1. **Pleno** quando o consumido iguala a demanda pluvial, com tolerância de 10⁻⁵ L.
+2. **Parcial** quando consumiu algo, mas menos que a demanda.
+3. **Nulo** quando não consumiu nada.
+
+**Saídas**
+
+- `pct_days_full_satisfaction`, `pct_days_partial_satisfaction` e `pct_days_null_satisfaction`, que são a confiabilidade temporal do sistema
+
+**Exceção.** Nenhuma.
+
+### B.11. PROC-11 — Validar a entrada física
+
+*Balanço hídrico*
+
+**Gatilho.** Primeira linha de `run_single_simulation`, antes de qualquer conta.
+
+**Entradas**
+
+- volume inferior e superior
+- área
+- coeficiente de escoamento
+- lâmina de descarte
+- demanda diária
+- fração pluvial
+
+**Regras**
+
+1. Volume negativo, área negativa, descarte negativo e demanda negativa são recusados.
+2. Coeficiente de escoamento e fração pluvial têm de ficar em [0, 1].
+3. **Volume zero continua válido**: é a referência «sem sistema» da varredura.
+4. A mensagem nomeia o campo e o valor recebido, em vez de corrigir por baixo dos panos.
+
+**Saídas**
+
+- Nenhuma saída: ou passa, ou levanta `ValueError`
+
+**Exceção.** É o próprio tratamento. Antes desta porta, volume de −1.000 L devolvia −166,67% de economia, e o número seguia para o econômico, para a ACV e para o relatório.
+
+### B.12. PROC-12 — Agregar o período e calcular os indicadores
+
+*Balanço hídrico*
+
+**Gatilho.** Fim do laço diário.
+
+**Entradas**
+
+- acumuladores do laço
+- `n_days`
+
+**Regras**
+
+1. **Potencial de economia** = pluvial consumido no período ÷ demanda total do período × 100.
+2. As médias diárias dividem os acumulados pelo número de dias simulados.
+3. As conversões para o ano usam **365,25** dias, e não 365, para absorver os bissextos da série.
+4. O potencial fica sempre em [0, 100] — invariante que a porta de validação existe para garantir.
+
+**Saídas**
+
+- `SingleTankSimulationResult`, com 21 campos, que é o objeto que **todos** os módulos a jusante consomem
+
+**Exceção.** Demanda total nula devolve potencial zero em vez de dividir por zero.
+
+### B.13. PROC-13 — Varrer volumes e achar o volume ideal
+
+*Balanço hídrico*
+
+**Gatilho.** Aba Varredura: botão de simular.
+
+**Entradas**
+
+- `lower_tank_max`
+- `lower_tank_step`
+- `delta_ideal` (%/m³)
+
+**Regras**
+
+1. A grade discreta arredonda o passo **para cima** até o múltiplo de 250 L, que é o quantum comercial de reservatório, e limita a 40 volumes positivos.
+2. O volume máximo informado é sempre preservado como último ponto, de modo que só o último intervalo pode ser menor que o passo.
+3. Zero entra na grade como alternativa de referência.
+4. Roda PROC-04 a PROC-12 uma vez por volume.
+5. O **volume ideal** é o primeiro cujo ganho marginal `Δpotencial/Δm³` cai abaixo do limiar: a partir dali, mais reservatório não compensa.
+
+**Saídas**
+
+- `SweepSimulationResult`: um resultado por volume, o volume ideal, e o registro de que o passo foi ajustado
+- A lista de volumes é a lista de **candidatos** do multicritério
+
+**Exceção.** Passo maior que o máximo devolve grade com um ponto. O ajuste do passo é registrado em `step_adjusted`, e não silenciado.
+
+### B.14. PROC-14 — Calcular os índices pluviométricos
+
+*Chuva*
+
+**Gatilho.** Aba Gráficos e relatório científico.
+
+**Entradas**
+
+- `precip_data`
+- datas da série
+
+**Regras**
+
+1. Nove índices: PRCPTOT, R95p, RX1day, RX5day, SDII, R20mm, CDD, CWD e o índice de sazonalidade de Walsh e Lawler.
+2. O conjunto **não** é ETCCDI puro: a sazonalidade não é do conjunto, e o R10mm, que é, está ausente.
+3. O percentil 95 é calculado sobre a **série inteira carregada**, e não sobre a base fixa 1961–1990 do ETCCDI.
+4. O RX5day usa `min_periods=1`, de modo que as primeiras janelas do ano têm de 1 a 4 dias.
+
+**Saídas**
+
+- Nove séries anuais, para gráfico e relatório
+
+**Exceção.** Série menor que um ano devolve os índices possíveis, sem interromper.
+
+### B.15. PROC-15 — Dimensionar a estação de tratamento
+
+*Qualidade e ETAP*
+
+**Gatilho.** Mudança na aba Qualidade da Água, ou início do econômico e da ACV.
+
+**Entradas**
+
+- `water_quality_target_class` (4 classes de uso)
+- `water_quality_disinfection`: cloro, ultravioleta ou ozônio
+- `water_quality_polishing`, filtro de polimento
+- `annual_pluvial_m3` de PROC-12
+- `area`
+- dose, pureza, preço e fator de CO₂ do cloro
+- `discard` e `first_flush_system_enabled`, para o descarte inicial
+
+**Regras**
+
+1. A classe alvo define as etapas obrigatórias; a desinfecção escolhida define o equipamento e o custeio.
+2. O filtro de polimento é aplicado **se e somente se** marcado; quando a classe o recomendaria e o usuário recusa, isso fica registrado em `polishing_recommended_but_declined` em vez de ser imposto.
+3. O que se compra é o **produto** — pastilha a 65% de cloro ativo — e não o cloro puro. Faturar a massa de cloro ativo, e não a do produto, subestima o custo em cerca de 35%.
+4. **Regra incremental**: o CAPEX da linha desconta a verba genérica de tratamento já embutida em «Acessórios», e o custeio desconta a cloração, que o fluxo de caixa já paga. A regra vive num lugar só, consumida pelos **dois** motores econômicos.
+5. Com `first_flush_system_enabled`, o dispositivo de descarte inicial, de volume `discard × area`, entra no CAPEX e no custeio da linha.
+6. Na ACV, a linha de tratamento **substitui** o termo de cloração; nunca soma a ele.
+7. Com `etap_enabled = False`, a linha de tratamento não entra em conta alguma: nem no CAPEX, nem no custeio, nem na avaliação ambiental.
+
+**Saídas**
+
+- `total_etap_capex`, que entra no CAPEX
+- `total_etap_annual_opex`, que entra no custeio
+- `total_etap_co2e_kg_yr`, que substitui a cloração na ACV
+- `disinfection_stages`, exibido no relatório
+
+**Exceção.** Pureza fora de (0, 1] é recusada pelo validador da cadeia de cloração.
+
+### B.16. PROC-16 — Calcular a energia de bombeamento
+
+*Motobomba*
+
+**Gatilho.** Econômico e ACV, a partir do mesmo resultado de simulação.
+
+**Entradas**
+
+- `supply_arrangement`: recalque, pressurização direta ou gravidade
+- `total_pumped_liters` e `total_pump_cycles` de PROC-08
+- `pressurizer_pressure_m`, `pressurizer_starts_per_person_day`, `residents_count`
+- `pump_power_kw`, `pump_efficiency`, `pump_flow_rate`
+- `pump_manometric_head_m`
+- `pump_startup_time_h`
+
+**Regras**
+
+1. O arranjo decide o que se bombeia. **Recalque**: o volume enviado à caixa superior. **Pressurização direta**: todo o volume pluvial consumido, com a pressão de trabalho no lugar da altura e sem energia de partida. **Gravidade**: nada. É a única fonte de kWh do econômico e da ACV.
+2. Energia específica `e = ρgH/(η_bomba·η_motor)` por m³ recalcado, ou `P/(Q·η_motor)` quando a vazão é declarada.
+3. A potência de placa é potência de eixo e **já embute** o rendimento da bomba; por isso `P × horas / η_bomba` conta esse rendimento duas vezes, e o que falta é dividir pelo rendimento do motor, da ABNT NBR 17094-2. Quatro cópias dessa fórmula antiga sobreviviam no programa e superestimavam o consumo em 1,68 vez — a pior delas ordenava volumes no multicritério.
+4. A energia de partida entra à parte, pelo número de ciclos.
+5. Vazão e rendimento não informados caem para valores típicos **da potência escolhida**, e não para constantes fixas.
+
+**Saídas**
+
+- `annual_kwh`, que vira custo no econômico e emissão na ACV
+- `pump_hours_year`, `annual_cycles`
+
+**Exceção.** Arranjo por gravidade, arranjo não informado num projeto antigo, ou potência zero: a energia é zero.
+
+### B.17. PROC-17 — Calcular a fatura de água e esgoto
+
+*Econômico*
+
+**Gatilho.** Duas vezes por mês de projeção: com e sem aproveitamento.
+
+**Entradas**
+
+- volume mensal em litros
+- `water_tariffs`: quádruplas (mínimo, máximo, valor, código)
+- `sewage_mode` e `sewage_rate`
+- impostos fixo e variável
+- `num_economias`
+
+**Regras**
+
+1. O consumo é avaliado **no patamar de uma economia** e multiplicado pelo número de economias, para não distorcer as faixas progressivas em prédio com micromedição.
+2. Código **1** ou **0**: faixa progressiva, cobrada só sobre o volume dentro dela.
+3. Código **−1**, disponibilidade: valor fixo que **soma** por cima do consumo medido.
+4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
+5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
+6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
+7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
+
+**Saídas**
+
+- Valor da fatura de água e esgoto em R$/mês, para a projeção de PROC-18
+
+**Exceção.** Tabela vazia cai para a estrutura da CASAN. Estrutura incompleta é sinalizada pela porta de validação, que separa erro de aviso.
+
+### B.18. PROC-18 — Projetar o fluxo de caixa
+
+*Econômico*
+
+**Gatilho.** Aba Econômico, após a simulação técnica.
+
+**Entradas**
+
+- CAPEX das cinco rubricas mais bomba e ETAP
+- economia mensal de água e esgoto de PROC-17
+- custeio: bombeamento, cloração, ETAP e custos operacionais declarados
+- `tma`, `inflation`, `analysis_period_years`
+- reajustes separados de água, esgoto e energia, e o intervalo entre reajustes
+- IPTU verde, quando habilitado
+
+**Regras**
+
+1. Água e esgoto são reajustados por índices **separados**, e não pela fatura agregada.
+2. A inflação incide só sobre o custeio; os reajustes tarifários incidem só sobre a fatura.
+3. O reajuste é aplicado a cada `tariff_escalation` meses, em degraus.
+4. A bandeira tarifária ajusta a tarifa de energia: amarela, vermelha 1, vermelha 2, ou desconto fora de ponta na branca.
+5. O IPTU verde entra como economia anual dividida por doze.
+6. O payback é o primeiro mês em que o acumulado descontado cruza zero.
+
+**Saídas**
+
+- `vpl`, `tir_monthly_pct`, `tir_annual_pct`, `payback_months`
+- `monthly_cash_flows`, série mês a mês
+- `annual_pump_kwh`, `annual_chlorine_kg`, `etap_capex_brl`
+
+**Exceção.** Economia mensal negativa é truncada em zero antes de entrar no fluxo. TIR sem raiz real devolve nulo em vez de um número inventado.
+
+### B.19. PROC-19 — Avaliar o ciclo de vida
+
+*ACV*
+
+**Gatilho.** Aba Ambiental, após a simulação técnica.
+
+**Entradas**
+
+- `tank_vol_liters`
+- `annual_pluvial_m3` de PROC-12
+- materiais e massas dos dois reservatórios
+- comprimentos por diâmetro de tubo
+- `pump_count`
+- fator da rede elétrica
+- rota de produção da água potável
+- resultado da ETAP de PROC-15
+
+**Regras**
+
+1. Sete etapas: cisterna inferior, caixa superior, tubulação, motobomba, operação de bombeamento, operação de tratamento e potável evitada.
+2. Volume zero **sem** volume pluvial é o cenário sem sistema, e não recebe impacto fixo de caixa, tubo ou bomba.
+3. A linha de tratamento **substitui** o termo de cloração; não soma a ele. A cloração acompanha o tratamento, e não a caixa superior.
+4. Caixa superior só no arranjo de recalque; motobombas em todo arranjo com bomba; energia de PROC-16.
+5. A água evitada é a **entregue**, não a produzida: as perdas de distribuição no Brasil vão de 33,9% no Sudeste a 46,9% no Norte, de modo que produzir 1 m³ entrega de 0,53 a 0,66 m³. O fator publicado de 0,236 kg CO₂e/m³ é de saída de estação; por m³ entregue vira de 0,336 a 0,461 conforme a macrorregião.
+6. O payback de carbono é o carbono incorporado dividido pela economia anual líquida; sem economia líquida positiva, devolve 999 anos em vez de infinito.
+
+**Saídas**
+
+- `total_embodied_co2_kg`, `net_annual_avoided_co2_kg`
+- `lifetime_net_co2_saved_kg`, que é critério do multicritério
+- `environmental_payback_years`
+- `inventory_items`, o inventário item a item
+
+**Exceção.** Fator sem procedência primária recebe rótulo de triagem, e o rótulo é exibido — a lacuna é declarada, não escondida.
+
+### B.20. PROC-20 — Enquadrar nas certificações
+
+*ESG e certificações*
+
+**Gatilho.** Aba Ambiental e relatórios.
+
+**Entradas**
+
+- `potential_potable_savings_pct`
+- volume pluvial e potável anuais
+- repartição interno/externo de PROC-09
+- CO₂ evitado no ciclo de vida
+- `area`, para a área de captação da WEM14
+- caso-base do EDGE, quando declarado
+
+**Regras**
+
+1. **LEED v4**: WEc1 até 2 pontos pelo uso externo, WEc2 até 6 pontos pelo uso interno, pela escala oficial. Sem demanda externa cadastrada, WEc1 é zero e diz por quê.
+2. **LEED v5 BD+C** (rating system de novembro de 2025): WEc2 até 8 pontos, pela Opção 1 (projeto inteiro, 30% a 65%, +1 com fonte alternativa) ou pela soma das Opções 2 (louças e metais, 30% a 40%), 4 (externo, 50% e 100%) e 6 (reúso no lote, 2 pontos), só em construção nova. SSc3 registrado como não avaliado; o ponto de reúso dele não ultrapassa o teto de 3.
+3. **AQUA-HQE Residencial** (referencial de 22/11/2024): itens EAU.1.2 (HQE, 20% de economia), EAU.1.3 (HQE 3, 40%) e EAU.1.5 (HQE 3, existência de sistema pluvial).
+4. **Casa Azul + CAIXA** (guia V023, 29/04/2026): critério 3.6 atendido pela existência do sistema; 2, 4 ou 5 pontos conforme a abrangência do uso, só quando informada.
+5. **EDGE**: **não pontua**. Mede percentual contra um caso-base local e compara com 20%, em três barras independentes. O nível avançado sobe a barra de *energia* para 40%, e não a de água. O programa avalia só a barra de água, pela medida WEM14, e diz que as outras duas estão fora do seu alcance.
+6. Sem caso-base declarado, o EDGE usa a demanda modelada e avisa que o número é **piso**.
+7. **GRI 303**: captação evitada e taxa de circularidade.
+
+**Saídas**
+
+- `credit_details`: a matriz de créditos que alimenta a tabela da tela e os relatórios
+- `esg_summary_text`
+- cartões de LEED, AQUA, Casa Azul, EDGE e GRI
+
+**Exceção.** Demanda total nula devolve zero por cento sem dividir por zero.
+
+### B.21. PROC-21 — Ordenar volumes por múltiplos critérios
+
+*Multicritério*
+
+**Gatilho.** Aba Otimizador, com a varredura pronta.
+
+**Entradas**
+
+- um candidato por volume da varredura, cada um com potencial, extravasamento, VPL, payback descontado, TIR, CO₂ de ciclo de vida e consumo de potável
+- pesos dos sete critérios
+
+**Regras**
+
+1. Sete critérios: **maximizar** potencial, VPL e TIR; **minimizar** extravasamento, payback, CO₂ e consumo de potável.
+2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
+3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
+4. As condições C1 e C2 de Opricovic não estão implementadas.
+
+**Saídas**
+
+- Ordenação dos volumes, distância ao ideal por critério, volume de compromisso
+
+**Exceção.** Candidato único devolve ordenação trivial. Critério constante entre candidatos não contribui para a distância.
+
+### B.22. PROC-22 — Gravar e reabrir o projeto
+
+*Arquivo do projeto*
+
+**Gatilho.** Menu de salvar e de abrir.
+
+**Entradas**
+
+- `NetunoConfig` inteiro, com os campos do apêndice A
+- estado da interface
+- análise corrente
+
+**Regras**
+
+1. Formato JSON, em seções nomeadas.
+2. A leitura usa valor-padrão campo a campo, de modo que arquivo antigo continua abrindo.
+3. `created_at` e `precip_file` descrevem o ato de salvar, e não o projeto: por isso não voltam.
+4. É a quinta travessia do programa — a que atravessa o **tempo** em vez dos módulos. Trinta dos 87 campos de então não sobreviviam ao ciclo, inclusive a escolha inteira da ETAP, a altura manométrica, os materiais dos reservatórios, a irrigação e o IPTU.
+
+**Saídas**
+
+- Arquivo `.netuno`
+- `NetunoConfig` reconstruída
+
+**Exceção.** Seção ausente no arquivo cai para os padrões da classe. JSON inválido interrompe a abertura com mensagem.
+
+### B.23. PROC-23 — Emitir relatórios e exportações
+
+*Relatórios*
+
+**Gatilho.** Aba Relatórios; aba Exportação.
+
+**Entradas**
+
+- resultados de PROC-12, PROC-18, PROC-19, PROC-20 e PROC-21
+- dados do projeto
+
+**Regras**
+
+1. Três relatórios: executivo, ambiental com ESG, e científico.
+2. Exportação para CAD e BIM a partir do dimensionamento.
+3. Planilhas com a série diária e a varredura.
+
+**Saídas**
+
+- HTML, PDF, DXF, JSON para BIM e XLSX
+
+**Exceção.** A conversão para PDF tenta o motor do Qt e cai para o gerador alternativo quando ele não está disponível.
+
+### B.24. PROC-24 — Automação para estudos de larga escala
+
+*Automação*
+
+**Gatilho.** Linha de comando `netuno`, descrita na seção 3.6; acompanha a instalação como pacote Python, e não o instalador de Windows.
+
+**Entradas**
+
+- arquivo de projeto
+- arquivo de chuva
+
+**Regras**
+
+1. Chama o **mesmo** núcleo de cálculo da janela, sem tela.
+2. Só parte dos parâmetros é alcançável por ela; os demais só existem na interface, e o caminho é montar o projeto na janela e variar por automação só o que muda entre os casos.
+3. Serve a matrizes fatoriais de milhares de casos e à propagação de incerteza por sorteio, que são o instrumental dos trabalhos publicados pelo grupo.
+
+**Saídas**
+
+- JSON e CSV com os resultados
+
+**Exceção.** Parâmetro fora de faixa é recusado antes de simular, com a mesma porta de validação da interface.
+
+---
+
+## Apêndice C — Fatores de emissão
+
+Todo fator usado pela avaliação de ciclo de vida, com procedência, fronteira e grau
+de confiança. O detalhamento completo, com as fontes item a item, está em
+`docs/procedencia_fatores_co2.md`.
+
+---
+
+### C.1. Materiais de reservatório
+
+<!-- tabela: **Tabela 164** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+| Material | Massa por m³ útil | Fator | Fronteira |
+| :--- | ---: | ---: | :--- |
+| polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
+| concreto armado | 1.200 kg/m³ | 0,140 kg CO₂e/kg | berço ao portão |
+| fibra de vidro | 15 kg/m³ | 3,250 kg CO₂e/kg | berço ao portão |
+| aço inoxidável AISI 304 | 38 kg/m³ | 3,700 kg CO₂e/kg | berço ao portão |
+
+A massa por metro cúbico útil é a que converte volume de reservatório em massa de
+material. É ela, e não o fator, que faz o concreto dominar o inventário: 1.200 kg
+por metro cúbico contra 22 do polietileno.
+
+> **Consequência prática, demonstrada na seção 4.8:** o material decide o **sinal**
+> do resultado ambiental. Com concreto e vida útil de vinte anos, o sistema do
+> tutorial não paga a dívida de carbono.
+
+---
+
+### C.2. Água potável de rede
+
+Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial.
+
+**A fronteira é por metro cúbico entregue na edificação**, e não por metro cúbico
+produzido na estação. A conversão usa as perdas de distribuição de cada macrorregião (Figura 68):
+
+![As perdas de distribuição por macrorregião](../figuras/fig43_perdas.png)
+
+*Figura 68 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião. É essa fração que converte um fator de emissão de saída de estação em fator por metro cúbico entregue, e ignorá-la subestima a emissão evitada em até um terço.*
+
+
+---
+
+### C.3. Rede elétrica
+
+O fator da matriz elétrica brasileira muda **todo ano**, e um estudo sem o ano
+declarado é irreprodutível. O programa traz cinco bases de referência e registra qual
+foi usada.
+
+---
+
+### C.4. Insumos de tratamento
+
+<!-- tabela: **Tabela 165** — Fatores de emissão dos insumos de tratamento -->
+| Insumo | Fator |
+| :--- | ---: |
+| hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
+| lâmpada ultravioleta | energia da rede |
+| gerador de ozônio | energia da rede |
+
+A massa é de **produto**, e não de cloro ativo. Pastilhas têm cerca de 65% de cloro
+ativo.
+
+---
+
+### C.5. Motobomba
+
+Não existe Declaração Ambiental de Produto de motobomba residencial brasileira. O
+programa compõe o valor com duas fontes lidas: a massa de cada potência, do catálogo da
+Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
+EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
+
+<!-- tabela: **Tabela 166** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+| Potência | Massa | Emissão de fabricação |
+| ---: | ---: | ---: |
+| 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
+| 1/2 CV | 6,4 kg | 30,5 kg CO₂e |
+| 3/4 CV | 13,5 kg | 64,4 kg CO₂e |
+| 1 CV | 15,3 kg | 73,0 kg CO₂e |
+| 1 1/2 CV | 17,5 kg | 83,5 kg CO₂e |
+| 2 CV | 20,7 kg | 98,8 kg CO₂e |
+
+> **Declare no estudo.** A EPD é de um circulador europeu com eletrônica embarcada, e a
+> massa de referência inclui a embalagem. A intensidade por quilo é aproximação de ordem
+> de grandeza, e não inventário da bomba instalada; havendo EPD do fabricante empregado,
+> ela prevalece. Os valores anteriores, de 12 a 55 kg CO₂e, ficavam de 1,7 a 2,7 vezes
+> abaixo destes, e quatro deles eram extrapolação aritmética.
+
+---
+
+### C.6. Fatores com rótulo de triagem
+
+Nem todo parâmetro tem fonte primária, e os que não têm são marcados no relatório: hoje,
+as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidável, que são
+cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
+o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
+
+<!-- tabela: **Tabela 167** — Procedência do fator de emissão do hipoclorito -->
+| Etapa | Valor |
+| :--- | :--- |
+| base e modelo | Ecoinvent 3.8, *cutoff* |
+| processo | *sodium hypochlorite production, product in 15% solution state*, geografia RoW (resto do mundo) |
+| método | EF 3.1, categoria *Climate change* |
+| resultado | 2,522 kg CO₂e por kg de NaOCl puro |
+| conversão | 0,9525 kg de cloro ativo por kg de NaOCl, logo 2,65 kg CO₂e por kg de cloro ativo |
+| fator adotado | 2,65 × 0,65 = **1,72 kg CO₂e por kg de pastilha** |
+
+> **Declare a aproximação.** O Ecoinvent 3.8 não tem hipoclorito de cálcio, e o fator é
+> o do hipoclorito de sódio levado à base de cloro ativo. Fatores informados pelo usuário
+> sem fonte continuam recebendo o rótulo de triagem, e um inventário que apresenta todos
+> os fatores com o mesmo grau de confiança esconde onde está a fragilidade.
+
+---
+
+### C.7. O que consultar antes de publicar
+
+1. `docs/procedencia_fatores_co2.md`, para a fonte item a item;
+2. a aba de Documentação, capítulo de avaliação de ciclo de vida, para as
+   justificativas exibidas ao usuário;
+3. o inventário do relatório ambiental, que lista cada item com o fator aplicado.
+
+---
+
+## Apêndice D — Regimes tarifários
+
+A base traz **652 municípios** com estrutura tarifária, percentual
+de esgoto, regime de mínimo, data de vigência e fonte. Esta lista é extraída
+da própria base do programa, e não transcrita.
+
+### D.1. Os códigos de faixa
+
+Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
+
+Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7, e não se repetem aqui.
+
+
+### D.2. Os cinco regimes
+
+<!-- tabela: **Tabela 168** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+| Regime | Municípios | O que acontece ao economizar |
+| :--- | ---: | :--- |
+| **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
+| **Disponibilidade** | 156 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
+| **Franquia no mínimo** | 329 | O valor fixo já inclui um volume. Economizar **abaixo** da franquia não desconta nada. |
+| **Franquia retroativa** | 2 | Até a franquia paga-se o fixo; passando dela, tarifa-se **tudo desde zero**. |
+| **Piso de pagamento** | 0 | A fatura **não fica** abaixo do piso. Não soma: limita. |
+
+> O piso de pagamento está implementado e nenhum município da base foi
+> classificado nele até esta versão.
+
+### D.3. Distribuição por unidade da federação
+
+A cobertura do catálogo acompanha a população, e não o território: as capitais e as regiões metropolitanas estão quase todas cadastradas, e o interior das regiões Norte e Centro-Oeste concentra os municípios ainda ausentes (Figura 69).
+
+![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)
+
+*Figura 69 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião. São Paulo e Minas Gerais respondem sozinhos por quase um terço do catálogo.*
+
+
+### D.4. Atualização e auditoria da base
+
+A base tarifária é mantida pelo grupo com uma rotina de atualização executada fora da interface, antes de cada versão. A rotina tem três componentes.
+
+**Energia elétrica.** As tarifas residenciais do subgrupo B1 são lidas da base aberta de tarifas homologadas das distribuidoras, publicada pela Agência Nacional de Energia Elétrica (ANEEL), e associadas à distribuidora de cada município do catálogo.
+
+**Água e esgoto.** Um registro de evidências primárias associa cada prestador à agência reguladora, à página oficial de tarifas e ao tipo de ato que as publica. Os prestadores com portal padronizado têm leitura automática; os demais são marcados para conferência manual do decreto ou da resolução, e a estrutura resultante é submetida à mesma validação de regime descrita neste apêndice.
+
+**Detecção de alterações.** Cada página oficial monitorada é registrada com a assinatura SHA-256 do conteúdo e os cabeçalhos `ETag` e `Last-Modified`. Uma nova verificação compara as assinaturas e aponta as páginas alteradas desde a última coleta, que são as candidatas a revisão tarifária.
+
+A rotina pode simular a atualização sem gravar a base, executar apenas a detecção de alterações, restringir-se a uma unidade da federação ou a um município e separar energia de saneamento. Cada execução grava um relatório de auditoria em Markdown e um painel HTML com a situação de cada município.
+
+### D.5. Grau de confiança
+
+Cada registro traz o grau de confiança da coleta:
+
+<!-- tabela: **Tabela 169** — Grau de confiança dos registros tarifários do catálogo -->
+| Grau | Registros |
+| :--- | ---: |
+| A — alta | 580 |
+| B — boa | 63 |
+| C — estrutura a conferir | 5 |
+| D — estrutura incompleta | 4 |
+
+> **Confira sempre a data de vigência** do registro do seu município contra a
+> resolução da concessionária. Tarifas são reajustadas anualmente, e a seção 3.3
+> ensina o teste que identifica estrutura errada.
+
+---
+
+## Apêndice E — Base climática
+
+---
+
+### E.1. O que a base contém
+
+<!-- tabela: **Tabela 170** — Conteúdo da base climática nacional -->
+| O que a base traz | Quantidade |
+| :--- | ---: |
+| cidades brasileiras | 652 |
+| modelos climáticos do CMIP6 | 19 |
+| cenários de emissão | 2, SSP2-4.5 e SSP5-8.5 |
+| simulações por cidade e modelo | 3: histórica, SSP2-4.5 e SSP5-8.5 |
+| tamanho aproximado | 6,5 GB |
+| arquivos | cerca de 37 mil |
+
+Cada arquivo é uma série diária de precipitação, em milímetros, para uma combinação de
+cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão os 37.164
+arquivos. As séries vêm do CLIMBra (Ballarin et al., 2023), corrigidas de viés por
+*Quantile Delta Mapping* contra a grade diária de Xavier, King e Scanlon (2016), com
+resolução de 0,25°. A histórica cobre de 1980 a 2013 e as futuras, de 2015 a 2100; as
+janelas de estudo são recortes livres dessas séries. Todas estão em calendário
+gregoriano. Os modelos HadGEM3-GC31-LL, KACE e UKESM1-0-LL, que usam originalmente anos
+de 360 dias, têm um dia a menos no fim de cada série, o que não afeta o recorte.
+
+---
+
+### E.2. Por que é distribuída à parte
+
+Seis vírgula cinco gigabytes não cabem numa distribuição de programa. A base é
+obtida separadamente e instalada no diretório que o programa indica.
+
+**Sem ela**, a aba de Projeto oferece apenas o carregamento de arquivo próprio, as
+abas dependentes avisam, e os testes que a exigem são pulados em vez de falharem. O
+programa continua inteiramente funcional com séries do usuário.
+
+---
+
+### E.3. Os cenários
+
+As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na base, as *Shared Socioeconomic Pathways*, estão desenhadas na seção 3.2: o SSP2-4.5 é a trajetória intermediária e o SSP5-8.5 supõe emissões altas sem mitigação. O CLIMBra não inclui cenários de mitigação forte, como o SSP1-2.6.
+
+
+---
+
+### E.4. As séries históricas que acompanham o programa
+
+Independentes da base CMIP6, quatro séries históricas longas acompanham a
+instalação, na pasta `data
+ainfall` do programa:
+
+<!-- tabela: **Tabela 171** — Séries históricas de precipitação distribuídas com o programa -->
+| Cidade | Arquivos |
+| :--- | ---: |
+| Florianópolis | 3 |
+| Brasília | 3 |
+| Manaus | 3 |
+| São Paulo | 3 |
+
+A série de Florianópolis usada no tutorial tem 86 anos; os trinta primeiros anos
+somam 1.795 mm anuais médios, com chuva em 46% dos dias.
+
+---
+
+### E.5. O que declarar num estudo
+
+- **modelo ou modelos**, pelo nome, e o critério de seleção;
+- **cenário** SSP;
+- **janela temporal**, com os anos;
+- a **série histórica** usada como referência;
+- se houve *downscaling* ou correção de viés, e qual;
+- a **procedência e a versão** da base.
+
+A seção 3.2 trata da condução do estudo com cenários futuros, e alerta para o erro de
+escolher o modelo pelo resultado.
+
+---
+
+## Apêndice F — Arquivos, pastas e formatos
+
+Tudo o que o programa lê e escreve, e onde cada coisa fica.
+
+---
+
+### F.1. O que o programa lê
+
+<!-- tabela: **Tabela 172** — Formatos que o programa lê e onde cada um é carregado -->
+| Formato | Extensão | O que é | Onde se carrega |
+| :--- | :--- | :--- | :--- |
+| projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
+| projeto antigo | `.json` | projeto de versão anterior, mesmo conteúdo | Abrir projeto |
+| projeto legado | `.csv` | projeto do Netuno 4 ou da série 5.0 inicial | Abrir projeto |
+| série de chuva | `.csv` | uma coluna de milímetros por dia | etapa 1. Projeto e Chuva |
+| demanda diária | `.csv` | consumo medido, dia a dia | etapa 2. Edificação e Consumo |
+| cenários | `.xlsx` | uma linha por cenário | menu Cenários & Ferramentas |
+
+**A série de chuva em CSV** é o formato mais simples possível: uma linha por dia, com
+a lâmina em milímetros. O programa aceita ponto ou vírgula como separador decimal, e
+ignora uma linha de cabeçalho se houver. Ano incompleto é descartado na leitura, para
+não enviesar os totais anuais.
+
+> **Projeto legado em CSV.** O formato antigo não guarda tudo o que a versão atual
+> usa: modulação de demanda, materiais, pesos do multicritério e a série de chuva
+> ficam de fora. Ao abrir um arquivo desses, o programa avisa e adota os valores
+> padrão para o que falta. A seção 3.8 mostra o que conferir depois de importar.
+
+---
+
+### F.2. O que o programa escreve
+
+<!-- tabela: **Tabela 173** — Formatos que o programa escreve e onde cada um é gerado -->
+| Formato | Extensão | O que leva | Onde se gera |
+| :--- | :--- | :--- | :--- |
+| projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
+| relatório | `.pdf` | o estudo completo, pronto para entregar | etapa 9. Relatórios PDF |
+| planilha | `.xlsx` | série diária, varredura e indicadores | etapa 10. Exportação |
+| tabela | `.csv` | os mesmos dados, em texto delimitado | etapa 10. Exportação |
+| dados | `.json` | os resultados, para reprocessar | etapa 10. Exportação |
+| desenho | `.dxf` | o esquema hidráulico, para CAD | etapa 10. Exportação |
+| desenho | `.svg` | o mesmo esquema, como imagem vetorial | etapa 10. Exportação |
+
+Na exportação em CSV você escolhe o separador: **ponto e vírgula** para abrir no Excel
+em português, **vírgula** para o padrão internacional. Escolher errado faz a planilha
+abrir tudo numa coluna só.
+
+O desenho sai em três apresentações: **prancha técnica A3**, **esquemático simples** e
+**biblioteca de blocos**, esta última acompanhada de um arquivo JSON com as
+propriedades dos componentes, para compatibilização BIM. A seção 3.9 trata de todos.
+
+---
+
+### F.3. O arquivo de projeto, por dentro
+
+O `.netuno` é um arquivo de texto no formato JSON. Pode ser aberto em qualquer editor
+de texto, e isso é deliberado: um estudo publicado precisa ser inspecionável sem o
+programa.
+
+Ele tem sete seções:
+
+<!-- tabela: **Tabela 174** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+| Seção | O que guarda |
+| :--- | :--- |
+| `metadata` | nome do projeto, identificador e datas |
+| `rainfall` | a cidade, o período e a **série diária inteira** |
+| `building_and_demand` | área, coeficiente, ocupantes, consumo e fração |
+| `demand_modulation` | os perfis semanal, mensal e diário, quando houver |
+| `reservoirs_and_pumping` | volumes, limiares e a motobomba |
+| `water_quality_and_etap` | classe-alvo, desinfecção e tratamento |
+| `financial_and_economic` | tarifas, impostos, reajustes e prazo |
+
+O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
+
+> **A série de chuva vai dentro do arquivo.** É o que torna o projeto reproduzível:
+> quem receber o arquivo obtém exatamente os seus números, mesmo sem ter a base
+> climática instalada. Em compensação, um projeto com trinta anos de série ocupa
+> cerca de 160 kB — o que é pouco para um arquivo e muito para um anexo de e-mail com
+> vinte deles.
+
+---
+
+### F.4. Onde ficam as coisas
+
+<!-- tabela: **Tabela 175** — Localização dos arquivos do programa e dos arquivos do usuário -->
+| O que | Onde |
+| :--- | :--- |
+| o programa | `C:\Program Files\Netuno 5` |
+| as séries de chuva que acompanham | na pasta do programa, em `data\rainfall` |
+| a base de tarifas dos 652 municípios | dentro do programa |
+| os casos do manual | na pasta do programa, em `casos` |
+| os três estudos de referência | na pasta do programa, em `exemplos` |
+| a base climática nacional, se instalada | onde o instalador dela indicar |
+| **os seus projetos e relatórios** | **onde você escolher ao salvar** |
+
+O programa não cria pasta de trabalho nem guarda arquivos escondidos. Cada gravação
+pergunta o destino, e nada do que você produz fica dentro da pasta de instalação — o
+que significa que reinstalar ou atualizar o programa não apaga nada seu.
+
+---
+
+### F.5. Compatibilidade entre versões
+
+<!-- tabela: **Tabela 176** — Compatibilidade entre versões do arquivo de projeto -->
+| Situação | O que acontece |
+| :--- | :--- |
+| projeto de versão anterior | abre; campos novos assumem o padrão |
+| projeto desta versão em versão anterior | pode não abrir, ou perder campos |
+| projeto do Netuno 4 em CSV | abre com aviso; confira o que a seção 3.8 lista |
+| arquivo JSON de outro programa | **recusado**, com mensagem própria |
+
+A última linha merece explicação. Um arquivo JSON que não seja um projeto do Netuno
+poderia, em princípio, ser aceito e preenchido com valores padrão — e o usuário
+simularia 100 m² acreditando simular os 180 m² que o arquivo descreve. O programa
+prefere interromper a abertura com mensagem própria, o que é incômodo e é correto: um
+projeto aberto errado produz um estudo inteiro errado.
+
+---
+
+## Apêndice G — Glossário
+
+Termos técnicos e siglas, com o equivalente em inglês quando ele é usado na
+literatura.
+
+---
+
+**ABNT**. Associação Brasileira de Normas Técnicas, o organismo que publica as normas
+brasileiras. Uma norma é identificada pela sigla NBR seguida do número e do ano da
+edição, como em ABNT NBR 15527:2019.
+
+**ACV** (*life cycle assessment*). Avaliação de ciclo de vida. Método que contabiliza os
+impactos ambientais de um produto ao longo de toda a sua existência, da extração das
+matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
+conforme a ISO 14040.
+
+**AQUA-HQE**. Referencial de certificação ambiental de edificações, adaptação brasileira
+do francês HQE conduzida pela Fundação Vanzolini. No referencial residencial de 2024, a
+água é tratada no tema «Consumo de água», em itens classificados nos níveis PR, HQE,
+HQE 2 e HQE 3.
+
+**Área de captação** (*catchment area*). Área projetada na **horizontal** da superfície
+impermeável da cobertura onde a água é captada, conforme o item 3.6 da NBR 15527:2019.
+Não é a área inclinada do telhado, nem a área de contribuição da NBR 10844, que serve
+ao dimensionamento de calhas.
+
+**Bandeira tarifária**. Acréscimo ou desconto sobre a tarifa de energia elétrica,
+conforme as condições de geração. Verde, amarela, vermelha 1, vermelha 2, e a
+modalidade branca.
+
+**BD+C** (*Building Design and Construction*). Família de referenciais do LEED
+para projeto e construção de edificações novas ou em grande reforma. É a família
+tratada neste manual, nas versões 4, 4.1 e 5.
+
+**BIM** (*building information modeling*). Modelagem da informação da construção.
+Representação digital da edificação em que cada componente carrega propriedades além da
+geometria, o que permite compatibilizar projetos de disciplinas diferentes.
+
+**CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
+esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
+
+**CAPEX** (*capital expenditure*). Investimento inicial.
+
+**CASAN**. Companhia Catarinense de Águas e Saneamento, a concessionária de água e esgoto
+de Florianópolis e de boa parte de Santa Catarina. A estrutura tarifária dela é a adotada
+no tutorial deste manual.
+
+**CDD** (*consecutive dry days*). Maior sequência de dias consecutivos com chuva
+abaixo de 1 mm.
+
+**CMIP6**. Sexta fase do *Coupled Model Intercomparison Project*, o exercício
+internacional coordenado que produz as projeções climáticas usadas pelos relatórios do
+IPCC. A base climática do programa deriva dele.
+
+**Coeficiente de escoamento** (*runoff coefficient*). Fração da chuva que
+efetivamente chega ao reservatório, descontadas perdas por absorção, evaporação e
+molhamento inicial da cobertura.
+
+**Confiabilidade temporal**. Percentual de dias em que o sistema atendeu plenamente,
+parcialmente ou não atendeu a demanda pluvial.
+
+**Confiabilidade volumétrica**. Fração da demanda **pluvial** que o sistema atendeu.
+Não confundir com o potencial de economia, que tem denominador diferente.
+
+**CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
+registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
+vírgula. É o formato das séries de precipitação.
+
+**CV**. Cavalo-vapor, unidade de potência equivalente a 0,7355 kW, corrente no comércio
+de motobombas no Brasil. Uma motobomba de meio CV tem 0,37 kW de potência de eixo.
+
+**CWD** (*consecutive wet days*). Maior sequência de dias consecutivos com chuva
+igual ou superior a 1 mm.
+
+**Descarte de primeiras águas** (*first flush*). Lâmina inicial de chuva desviada do
+sistema, que carrega a sujeira depositada na cobertura. No Netuno 5 é **subtraída**
+da chuva do dia; no Netuno 4 era tratada como limiar do evento.
+
+**Disponibilidade**. Regime tarifário em que um valor fixo **soma** por cima do
+consumo medido. Cada metro cúbico economizado desconta.
+
+**DN** (*diâmetro nominal*). Designação comercial do diâmetro de um tubo ou conexão, em
+milímetros. Não corresponde exatamente ao diâmetro interno nem ao externo: é um número de
+referência do qual decorrem as dimensões reais, tabeladas por norma.
+
+**DXF** (*drawing exchange format*). Formato de intercâmbio de desenhos técnicos, lido
+por praticamente todos os programas de CAD.
+
+**EAU**. Prefixo dos itens do tema «Consumo de água» no referencial AQUA-HQE, do francês
+*eau*, água. Os itens ligados ao aproveitamento pluvial são o EAU.1.2, o EAU.1.3 e o
+EAU.1.5.
+
+**EDGE** (*excellence in design for greater efficiencies*). Referencial de certificação
+da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
+um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
+
+**ESG** (*environmental, social and governance*). Conjunto de critérios ambientais,
+sociais e de governança usado na avaliação de empresas e de empreendimentos. O programa
+alimenta indicadores ambientais desse conjunto.
+
+**EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
+Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
+edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
+
+**EPD** (*Environmental Product Declaration*). Declaração ambiental de produto: documento
+verificado por terceiros, conforme a ISO 14025 e, na construção, a EN 15804, que publica
+os impactos do ciclo de vida de um produto por unidade declarada. É a fonte preferida para
+fatores de emissão de materiais e equipamentos.
+
+**ETAP**. Estação de tratamento de água pluvial. No programa, o conjunto de filtro
+de entrada, desinfecção e filtro de polimento.
+
+**ETCCDI** (*Expert Team on Climate Change Detection and Indices*). Grupo de trabalho
+internacional que padronizou os índices de extremos climáticos, dos quais o programa
+calcula oito.
+
+**Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório e é conduzido pelo extravasor
+quando ele já está cheio.
+
+**Fração atendível por água pluvial**. Percentual da demanda total que pode ser
+suprido por água de chuva. É o **teto** do potencial de economia.
+
+**Franquia no mínimo**. Regime tarifário em que o valor fixo já inclui um volume de
+consumo. Economizar **abaixo** da franquia não reduz a fatura.
+
+**Ganho marginal**. Variação do potencial de economia por metro cúbico acrescentado
+ao reservatório, em %/m³. Critério de escolha do volume ideal.
+
+**GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
+de desempenho socioambiental. Sua série 303 trata de água e efluentes.
+
+**HQE** (*Haute Qualité Environnementale*). Referencial francês de alta qualidade
+ambiental, base do AQUA-HQE. Designa também os níveis dos itens do referencial: HQE,
+HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
+
+**IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
+Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
+*Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
+exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
+
+**IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
+sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
+avaliação a que as projeções climáticas se referem.
+
+**IPTU verde**. Desconto no imposto predial concedido por alguns municípios a edificações
+que adotam medidas de sustentabilidade, entre elas o aproveitamento de água pluvial. O
+percentual e as condições variam por legislação municipal.
+
+**ISO 14040**. Norma internacional que estabelece os princípios e a estrutura da
+avaliação de ciclo de vida. Um inventário conforme a ISO 14040 exige rastreabilidade de
+cada fluxo e revisão crítica externa, requisitos que uma avaliação de triagem não cumpre.
+
+**JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
+por pessoas e por programas. É o formato interno do arquivo `.netuno`.
+
+**LEED** (*leadership in energy and environmental design*). Referencial de certificação
+ambiental de edificações do *U.S. Green Building Council*, o mais difundido
+internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4, pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
+
+**m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
+coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
+prediais.
+
+**Micromedição**. Medição individualizada por unidade habitacional em edifício
+multifamiliar. Informada ao programa como número de economias.
+
+**NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
+15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
+pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
+motores de indução.
+
+**Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
+carbono incorporado na fabricação do sistema.
+
+**Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
+comuns no mercado brasileiro.
+
+**Piso de pagamento**. Regime tarifário em que a fatura **não fica** abaixo de um
+valor. Diferente de disponibilidade: o piso limita por baixo, a disponibilidade soma
+por cima.
+
+**Potencial de economia de água potável** (*potable water saving potential*, `Epot`).
+Fração da demanda **total** da edificação suprida por água pluvial. É o indicador
+central do programa.
+
+**pp**. Pontos percentuais. Usado para exprimir a diferença entre dois percentuais: de
+35% para 37% vão dois pontos percentuais, e não dois por cento.
+
+**PR**. Pré-requisito: no AQUA-HQE, o nível de item de atendimento obrigatório, abaixo
+dos níveis HQE, HQE 2 e HQE 3.
+
+**PRCPTOT**. Precipitação total anual em dias úmidos.
+
+**PRFV**. Plástico reforçado com fibra de vidro, material de reservatórios de médio e
+grande porte. Aparece no programa sob a designação «fibra».
+
+**PVC**. Policloreto de vinila, material das tubulações prediais de água fria e das colunas de desvio do descarte inicial. As dimensões dos tubos soldáveis seguem a ABNT NBR 5648.
+
+**R95p**. Soma da precipitação dos dias acima do percentil 95 dos dias úmidos.
+
+**Rendimento da bomba**. Razão entre a potência hidráulica entregue à água e a
+potência mecânica no eixo. Não inclui o motor.
+
+**Rendimento do motor**. Razão entre a potência mecânica no eixo e a potência
+elétrica consumida da rede. A ABNT NBR 17094-2 manda marcá-lo na placa.
+
+**RX1day**, **RX5day**. Maior precipitação em um e em cinco dias consecutivos, no
+ano.
+
+**SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
+
+**SI** (*seasonality index*). Índice de sazonalidade de Walsh e Lawler. Zero quando a
+chuva é uniforme ao longo do ano.
+
+**SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
+pesos e devolve a probabilidade de cada alternativa vencer.
+
+**SNIS**. Sistema Nacional de Informações sobre Saneamento, base oficial brasileira de
+indicadores do setor, mantida pelo governo federal. É a origem dos indicadores de
+consumo energético do saneamento usados na avaliação ambiental.
+
+**SSP** (*shared socioeconomic pathways*). Trajetórias socioeconômicas compartilhadas,
+que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
+Combinam-se com os modelos climáticos para produzir projeções.
+
+**TFDI**. Tarifa fixa de disponibilidade da infraestrutura, nome que algumas
+concessionárias dão à parcela da fatura cobrada independentemente do consumo. Ver
+*Disponibilidade*.
+
+**TIR**. Taxa interna de retorno. A taxa de desconto que zera o valor presente
+líquido.
+
+**TMA**. Taxa mínima de atratividade. A taxa de desconto adotada.
+
+**TOPSIS** (*technique for order of preference by similarity to ideal solution*).
+Método de ordenação multicritério de Hwang e Yoon.
+
+**UV**. Radiação ultravioleta, empregada na desinfecção de água por inativação de
+microrganismos. Atua apenas no instante da passagem pelo reator e não deixa residual, ao
+contrário da cloração.
+
+**VIKOR**. Método de decisão multicritério proposto por Opricovic, que busca uma solução
+de compromisso entre critérios conflitantes. Ver também *SMAA*.
+
+**VPL**. Valor presente líquido.
+
+**WEM**. Codificação das medidas de eficiência hídrica do EDGE. A WEM14 é o sistema
+de aproveitamento de água pluvial.
+
+**XLSX**. Formato de pasta de trabalho do Microsoft Excel, baseado em XML compactado. É um dos formatos de exportação de planilhas e de resultados da linha de comando.
+
+**YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
+calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+
+**YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes** do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o aproveitamento; não é o modelo adotado pelo programa.
+
+---
+
+## Apêndice H — Referências
+
+Normas, publicações e bases que sustentam as decisões do programa. A lista completa,
+com a proveniência de cada citação, está no módulo de bibliografia do programa e na
+aba de Documentação.
+
+---
+
+### H.1. Normas técnicas brasileiras
+
+**ABNT NBR 15527** — Água de chuva: aproveitamento de coberturas em áreas urbanas
+para fins não potáveis. Requisitos. Estabelece os parâmetros de qualidade, o
+descarte de primeiras águas e a manutenção.
+
+**ABNT NBR 10844:1989** — Instalações prediais de águas pluviais. Procedimento.
+Define a área de contribuição (item 3.2 e Figura 2), com os incrementos da inclinação e
+das paredes, para a vazão de projeto de calhas e condutores; não é a área de captação do
+balanço hídrico, que segue a NBR 15527:2019, item 3.6.
+
+**ABNT NBR 16783** — Uso de fontes alternativas de água não potável em edificações.
+
+**ABNT NBR 5626:2020** — Sistemas prediais de água fria e água quente. Projeto,
+execução, operação e manutenção. Segunda edição, versão corrigida de 30/09/2020.
+
+**ABNT NBR 15575-1:2025** — Edificações habitacionais. Desempenho. Parte 1: Requisitos
+gerais. Sétima edição, 05/12/2025.
+
+**ABNT NBR 15575-6:2021** — Edificações habitacionais. Desempenho. Parte 6: Requisitos
+para os sistemas hidrossanitários. Quinta edição, 29/09/2021.
+
+**ABNT NBR 17094-2:2016** — Máquinas elétricas girantes. Parte 2: motores de indução
+monofásicos. Requisitos. A Tabela 13 traz o rendimento nominal mínimo a plena carga
+da linha IR1, e a Tabela 14 o da linha IR2. A norma manda marcar o rendimento na
+placa de identificação, o que estabelece que a potência de placa é a mecânica no
+eixo.
+
+**Portaria GM/MS 888/2021** — Procedimentos de controle e vigilância da qualidade da
+água para consumo humano. Rege cloro residual e coliformes.
+
+---
+
+### H.2. Referenciais de certificação
+
+**LEED v4 / v4.1 BD+C** — USGBC. Categoria *Water Efficiency*, créditos WEc1 e WEc2. Registro de projetos comerciais até 30 jun. 2027.
+
+**LEED v5 BD+C** — U.S. GREEN BUILDING COUNCIL. *LEED v5 Building Design and Construction: rating system*. Washington, DC: USGBC, nov. 2025. Pré-requisitos WEp1 (*Water Metering and Reporting*) e WEp2 (*Minimum Water Efficiency*), créditos WEc2 (*Enhanced Water Efficiency*) e SSc3 (*Rainwater Management*).
+
+**AQUA-HQE Residencial** — FUNDAÇÃO VANZOLINI; CERQUAL QUALITEL. *Referencial de avaliação
+do desempenho de edifícios residenciais em construção e renovação*. Versão 00. São Paulo:
+Fundação Vanzolini, 22 nov. 2024. Tema «Consumo de água», itens EAU.1.2, EAU.1.3 e EAU.1.5.
+
+**Selo Casa Azul + CAIXA** — CAIXA ECONÔMICA FEDERAL. *Guia Selo Casa Azul + CAIXA*. V023.
+Brasília: CAIXA, 29 abr. 2026. Critério 3.6, aproveitamento de águas pluviais.
+
+**Selo Casa Azul Uni** — CAIXA ECONÔMICA FEDERAL. *Guia Selo Casa Azul Uni*. V001. Brasília:
+CAIXA, dez. 2025. Critério 7, aproveitamento de águas pluviais.
+
+**EDGE** — IFC, Grupo Banco Mundial. *EDGE Certification Process*, e a codificação
+WEM das medidas de eficiência hídrica. Administrado pelo GBCI em mais de 120 países.
+
+**GRI 303** — Global Reporting Initiative. Água e efluentes, indicadores 303-3 e
+303-5.
+
+---
+
+### H.3. Métodos
+
+**Hwang, C.-L.; Yoon, K.** (1981). *Multiple Attribute Decision Making: Methods and
+Applications*. A formulação original do TOPSIS.
+
+**Opricovic, S.; Tzeng, G.-H.** O método VIKOR e as condições C1 e C2 de vantagem
+aceitável e estabilidade.
+
+**Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.**
+(2008). SMAA e SMAA-2.
+
+**Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
+
+**ETCCDI** — *Expert Team on Climate Change Detection and Indices*, da OMM. Os
+índices de extremos climáticos.
+
+---
+
+**Mayer, P. W.; DeOreo, W. B. et al.** (1999). *Residential End Uses of Water*.
+Denver: AWWA Research Foundation. Frequência de uso dos aparelhos: 5,05 descargas e
+0,37 ciclos de máquina de lavar por pessoa por dia; as descargas são a base dos
+acionamentos da pressurização direta.
+
+**Komeco.** *Pressurizador de água TP 820T e TP 825T G2: manual do usuário*. Versão de
+15/05/2007. Ficha técnica e gráfico vazão × pressão; a faixa do pressostato do TP 820T, 12
+a 24 m.c.a., é a base da pressão de trabalho padrão.
+
+**Cardal.** *Pressurizador Potenza: manual de instruções*. IM 311. Especificações
+técnicas e curva vazão × pressão (figura 8).
+
+**Jacuzzi.** *Pressurizador residencial AcquaHouse: manual de instruções*. Março de 2017.
+Curvas vazão × pressão ensaiadas no Laboratório de Etiquetagem de Bombas da
+Universidade Federal de Itajubá.
+
+**Syllent (Eberle).** *Pressurizador para água quente, linha Impulse Press: manual de
+instalação e operação*. Des. 3I4743. Tabela vazão × altura manométrica e retardo de
+desligamento de 10 s do controle eletrônico.
+
+**Rowa.** *Pressurizadores Max Press E: manual de instalação*, e ficha técnica do Max
+Press 20E: pressão máxima de 20 m.c.a. e 5.000 L/h a 7 m.c.a.
+
+### H.4. Normas de avaliação de ciclo de vida
+
+**ABNT NBR ISO 14040** — Gestão ambiental: avaliação do ciclo de vida, princípios e
+estrutura. Correspondente à ISO 14040:2006. As quatro fases da avaliação.
+
+**ABNT NBR ISO 14044** — Gestão ambiental: avaliação do ciclo de vida, requisitos e
+orientações. Correspondente à ISO 14044:2006.
+
+**EN 15978:2011** — Sustainability of construction works: assessment of environmental
+performance of buildings, calculation method. Os módulos A a D do ciclo de vida da
+edificação.
+
+**EN 15804:2012+A2:2019** — Sustainability of construction works: environmental product
+declarations, core rules for the product category of construction products.
+
+**ABNT NBR 15527:2007** — Água de chuva: aproveitamento de coberturas em áreas urbanas
+para fins não potáveis. Anexo A, informativo: métodos de Rippl, da simulação, de Azevedo
+Neto e práticos alemão, inglês e australiano.
+
+---
+
+### H.5. Dimensionamento e desempenho de sistemas de aproveitamento pluvial
+
+**GHISI, E.; SOUZA, E. L.** (2012). Potable water savings by using rainwater for
+non-potable uses in houses. *Water*, v. 4, n. 3, p. 607-628. doi:10.3390/w4030607.
+
+**GHISI, E.; LOPES, A. C.; RUPP, R. F.** (2016). Assessment of the potential for potable
+water savings by using rainwater in houses in southern Brazil. *Water Science and
+Technology: Water Supply*, v. 16, n. 2, p. 533-541. doi:10.2166/ws.2015.166.
+
+**GHISI, E.; CUSTÓDIO, D. A.** (2019). Assessing the potential for potable water savings
+in the residential sector of a city: a case study of Joinville city. *Water*, v. 11,
+n. 10, 2074. doi:10.3390/w11102074.
+
+**CAMPISANO, A. et al.** (2017). Urban rainwater harvesting systems: research,
+implementation and future perspectives. *Water Research*, v. 115.
+doi:10.1016/j.watres.2017.02.056.
+
+**CAMPISANO, A.; MODICA, C.** (2015). Appropriate resolution timescale to evaluate water
+saving and retention potential of rainwater harvesting for toilet flushing in single
+houses. *Journal of Hydroinformatics*, v. 17, n. 3. doi:10.2166/hydro.2015.022.
+
+**FEWKES, A.; BUTLER, D.** (2000). Simulating the performance of rainwater collection and
+reuse systems using behavioural models. *Building Services Engineering Research and
+Technology*, v. 21, n. 2, p. 99-106. doi:10.1177/014362440002100204.
+
+**GHISI, E.** (2010). Parameters influencing the sizing of rainwater tanks for use in
+houses. *Water Resources Management*, v. 24, n. 10, p. 2381-2403.
+doi:10.1007/s11269-009-9557-4.
+
+**HASHIMOTO, T.; STEDINGER, J. R.; LOUCKS, D. P.** (1982). Reliability, resiliency, and
+vulnerability criteria for water resource system performance evaluation. *Water
+Resources Research*, v. 18, n. 1, p. 14-20. doi:10.1029/WR018i001p00014.
+
+**MAYKOT, J. K.; GHISI, E.** (2020). Assessment of a rainwater harvesting system in a
+multi-storey residential building in Brazil. *Water*, v. 12, n. 2, 546.
+doi:10.3390/w12020546.
+
+**PROENÇA, L. C.; GHISI, E.** (2010). Water end-uses in Brazilian office buildings.
+*Resources, Conservation and Recycling*, v. 54, n. 8, p. 489-500.
+doi:10.1016/j.resconrec.2009.10.005.
+
+**SEMAAN, M. et al.** (2020). Optimal sizing of rainwater harvesting systems for domestic
+water usages: a systematic literature review. *Resources, Conservation & Recycling: X*,
+v. 6, 100033. doi:10.1016/j.rcrx.2020.100033.
+
+---
+
+### H.6. Clima futuro
+
+**BALLARIN, A. S. et al.** (2023). CLIMBra: Climate Change Dataset for Brazil.
+*Scientific Data*, v. 10. doi:10.1038/s41597-023-01956-z. A origem da base climática do
+programa.
+
+**HAWKINS, E.; SUTTON, R.** (2011). The potential to narrow uncertainty in projections of
+regional precipitation change. *Climate Dynamics*, v. 37, p. 407-418.
+doi:10.1007/s00382-010-0810-6.
+
+**KISAKYE, V.; VAN DER BRUGGEN, B.** (2018). Effects of climate change on
+water savings and water security from rainwater harvesting systems. *Resources,
+Conservation and Recycling*. doi:10.1016/j.resconrec.2018.07.009.
+
+**LASH, D. et al.** (2014). Robust rainwater harvesting: probabilistic tank sizing for
+climate change adaptation. *Journal of Water and Climate Change*.
+doi:10.2166/wcc.2014.080.
+
+**MARAUN, D.** (2016). Bias correcting climate change simulations: a critical review.
+*Current Climate Change Reports*, v. 2, n. 4, p. 211-220.
+doi:10.1007/s40641-016-0050-x.
+
+**XAVIER, A. C.; KING, C. W.; SCANLON, B. R.** (2016). Daily gridded meteorological
+variables in Brazil (1980-2013). *International Journal of Climatology*, v. 36,
+p. 2644-2659. doi:10.1002/joc.4518.
+
+---
+
+### H.7. Ciclo de vida e energia de sistemas pluviais
+
+**GHIMIRE, S. R. et al.** (2014). Life cycle assessment of domestic and agricultural
+rainwater harvesting systems. *Environmental Science & Technology*, v. 48.
+doi:10.1021/es500189f.
+
+**GHIMIRE, S. R. et al.** (2017). Life cycle assessment of a commercial rainwater
+harvesting system compared with a municipal water supply system. *Journal of Cleaner
+Production*. doi:10.1016/j.jclepro.2017.02.025.
+
+**MARINOSKI, A. K.; GHISI, E.** (2018). Avaliação de viabilidade ambiental e econômica
+de sistemas de aproveitamento de água pluvial em habitação de baixo padrão: estudo de
+caso em Florianópolis, SC. *Ambiente Construído*, v. 18, n. 1, p. 423-443.
+doi:10.1590/s1678-86212018000100230.
+
+**VAZ, I. C. M. et al.** (2023). Sustainable rainwater management and life cycle
+assessment: challenges and perspectives. *Sustainability*, v. 15, n. 16, 12133.
+doi:10.3390/su151612133.
+
+**VIEIRA, A. S. et al.** (2014). Energy intensity of rainwater harvesting systems: a
+review. *Renewable and Sustainable Energy Reviews*, v. 34, p. 225-242.
+doi:10.1016/j.rser.2014.03.012.
+
+**WARD, S.; BUTLER, D.; MEMON, F. A.** (2012). Benchmarking energy consumption and CO2
+emissions from rainwater-harvesting systems: an improved method by proxy. *Water and
+Environment Journal*, v. 26, n. 2, p. 184-190. doi:10.1111/j.1747-6593.2011.00279.x.
+
+---
+
+### H.8. O programa antecessor
+
+**Ghisi, E.; Cordova, M. M.** (2014). *Netuno 4 — Manual do Usuário*. Universidade
+Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de
+Eficiência Energética em Edificações. Florianópolis, junho de 2014.
+
+A seção 6.1 traz a comparação quantitativa entre as duas versões e a decomposição
+das diferenças.
+
+---
+
+### H.9. Bases de dados
+
+**CMIP6** — *Coupled Model Intercomparison Project*, fase 6. Projeções climáticas
+que alimentam os relatórios do IPCC.
+
+**ANEEL** — Dados abertos de tarifas homologadas de distribuidoras de energia
+elétrica.
+
+**Agências reguladoras estaduais e municipais de saneamento** — resoluções
+tarifárias, uma por município da base.
+
+**SNIS** — Sistema Nacional de Informações sobre Saneamento. Índices de perdas na
+distribuição por macrorregião.
+
+---
+
+### H.10. Como citar o programa
+
+Ao publicar um estudo feito com o Netuno 5, cite o programa **com a versão**, e
+declare os itens da seção 4.10. Um estudo que cita «Netuno» sem versão não é
+reproduzível: correções entre versões mudam resultados, e a seção 2.6 traz o
+exemplo do consumo da motobomba, que mudou 65% entre duas versões consecutivas.
+
+---
+
+## Apêndice I — Fichas de uma página
+
+Resumos destacáveis. Cada ficha cabe numa página e serve de consulta rápida ao lado
+do computador.
+
+---
+
+### I.1. Ficha 1 — O fluxo de um estudo completo
+
+<!-- tabela: **Tabela 177** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+| # | Passo | O que se decide nele | Seção |
+| ---: | :--- | :--- | ---: |
+| 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
+| 2 | Edificação | tipologia, demanda, fração atendível | 4.2 |
+| 3 | Primeira simulação | um volume de palpite, para ver | 4.3 |
+| 4 | Varredura | curva de retorno, volume ideal | 4.4 |
+| 5 | Arranjo | precisa de caixa superior? | 4.5 |
+| 6 | Qualidade | classe, desinfecção, filtros | 4.6 |
+| 7 | Economia | tarifa real, CAPEX, fluxo de caixa | 4.7 |
+| 8 | Carbono | inventário, material, payback | 4.8 |
+| 9 | Decisão | sete critérios, pesos declarados | 4.9 |
+| 10 | Relatório | saídas e lista de declaração | 4.10 |
+
+**Antes de publicar:** seção 4.10, a lista de declaração. Seção 5.1, os dez
+enganos. Seção 5.2, as limitações que afetam o seu caso.
+
+---
+
+### I.2. Ficha 2 — As armadilhas, em uma linha cada
+
+<!-- tabela: **Tabela 178** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+| Armadilha | Onde |
+| :--- | :--- |
+| área **inclinada** em vez da projeção horizontal | 5.1.1 |
+| chuva **média mensal** em vez da série diária | 5.1.2 |
+| descarte em **litros** quando o campo quer milímetros | 5.1.3 |
+| **regime de mínimo** tarifário ignorado | 5.1.4 |
+| escola ou hospital com **tarifa residencial** | 5.1.5 |
+| esperar mais **água** da caixa superior | 5.1.6 |
+| **série curta** demais | 5.1.7 |
+| classe de qualidade escolhida pelo **custo** | 5.1.8 |
+| comparar com o **Netuno 4** sem declarar a divergência | 5.1.9 |
+| publicar o volume de **maior economia** como recomendado | 5.1.10 |
+
+---
+
+### I.3. Ficha 3 — Os cinco regimes tarifários
+
+<!-- tabela: **Tabela 179** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+| Regime | Ao economizar | Municípios |
+| :--- | :--- | ---: |
+| sem mínimo | cada m³ desconta | 165 |
+| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
+| franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
+| piso de pagamento | a fatura não fica abaixo do piso | 0 |
+
+**Teste rápido:** simule dois consumos, um dentro e um fora da faixa mínima, e
+compare com uma fatura real. Se só um bater, o regime está errado.
+
+---
+
+### I.4. Ficha 4 — Os indicadores, e o que cada um responde
+
+<!-- tabela: **Tabela 180** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+| Indicador | Denominador | Responde |
+| :--- | :--- | :--- |
+| potencial de economia | demanda **total** | quanto do consumo de água potável cai |
+| confiabilidade volumétrica | demanda **pluvial** | quanto do pretendido se atendeu |
+| dias plenos, parciais, nulos | dias da série | com que frequência se pode contar |
+| extravasamento | — | o reservatório é pequeno? |
+| ganho marginal | — | vale ampliar? |
+
+`Epot = confiabilidade volumétrica × fração atendível`
+
+---
+
+### I.5. Ficha 5 — A cadeia de energia da motobomba
+
+```
+recalque:  e = ρ · g · H ÷ (η_bomba · η_motor)      kWh/m³
+partidas:  E = placa × tempo ÷ η_motor              kWh
+```
+
+A placa é a potência **no eixo**. O rendimento do motor separa o eixo da tomada. Em
+branco, vale a Tabela 13 da NBR 17094-2: 60,5% em meio CV, 69,3% em um CV.
+
+---
+
+### I.6. Ficha 6 — A lista de declaração, resumida
+
+**Programa:** versão, com revisão.
+
+**Chuva:** origem, recorte, anos; se projeção, modelo, cenário e janela.
+
+**Edificação:** área e como foi obtida, coeficiente, per capita e origem, **fração
+atendível** e os usos que a compõem.
+
+**Descarte:** lâmina e modo; a divergência contra o Netuno 4, se comparar versões.
+
+**Volume:** critério de escolha — limiar de ganho marginal, ou pesos do
+multicritério.
+
+**Economia:** município, concessionária, vigência da tabela, **regime de mínimo**,
+percentual de esgoto, TMA, inflação, reajustes e período.
+
+**Carbono:** fronteira (água entregue), vida útil, material do reservatório, base da
+rede com o ano, fatores **aproximados** ou com **rótulo de triagem**.
+
+**Certificação:** que as classes 2 a 4 são adaptações do programa; no LEED, a versão; no EDGE, que só a
+barra de água foi avaliada.
+
+---
+
+## Apêndice J — Arquivos de exemplo
+
+O manual imprime resultados; estes arquivos são o que se abre para
+reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva
+incorporada: abrem sem o CSV de origem, em qualquer máquina.
+
+---
+
+### J.1. Os nove casos do manual
+
+<!-- tabela: **Tabela 181** — Os nove casos de exemplo e o que cada um demonstra -->
+| Arquivo | Seção | O que demonstra |
+| :--- | :--- | :--- |
+| `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
+| `02_tutorial_varredura.netuno` | 4.4 e 2.2 | o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L |
+| `03_dez_dias.netuno` | 2.1 | o caso didático de dez dias, que cabe numa planilha |
+| `04_reservatorio_superior.netuno` | 4.5 | 4.000 L embaixo mais 1.000 em cima, a comparação da seção 4.5 contra os 5.000 L de um tanque só |
+| `05_manaus.netuno` | 3.1 | o projeto do tutorial levado a Manaus, que chove mais e rende menos |
+| `06_brasilia.netuno` | 3.1 | o projeto do tutorial levado a Brasília, de estação seca marcada |
+| `07_saopaulo.netuno` | 3.1 | o projeto do tutorial levado a São Paulo |
+| `08_escola_semanal.netuno` | 3.4 e 3.5 | escola de 300 alunos com demanda modulada por dia da semana |
+| `09_hotel_mensal.netuno` | 3.4 | hotel de litoral com ocupação mensal em fase com a chuva |
+
+### J.2. O que cada um produz
+
+Os valores abaixo são obtidos **relendo o arquivo gravado** e simulando o
+que foi relido, e não a configuração que o gerou. É a diferença que
+importa: um parâmetro que não sobreviva à gravação aparece aqui como
+número errado, em vez de passar despercebido.
+
+<!-- tabela: **Tabela 182** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+| Arquivo | Modo | Volume | Potencial | Pluvial consumida |
+| :--- | :--- | ---: | ---: | ---: |
+| `01_tutorial_florianopolis.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
+| `02_tutorial_varredura.netuno` | varredura | ideal: 4.000 L | 27,12% | 21 volumes |
+| `03_dez_dias.netuno` | volume fixo | 2.000 L | 36,00% | 72,0 L/dia |
+| `04_reservatorio_superior.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
+| `05_manaus.netuno` | volume fixo | 4.000 L | 20,96% | 125,8 L/dia |
+| `06_brasilia.netuno` | volume fixo | 4.000 L | 15,45% | 92,7 L/dia |
+| `07_saopaulo.netuno` | volume fixo | 4.000 L | 25,74% | 154,4 L/dia |
+| `08_escola_semanal.netuno` | volume fixo | 30.000 L | 34,34% | 3.095,8 L/dia |
+| `09_hotel_mensal.netuno` | volume fixo | 25.000 L | 32,11% | 1.854,9 L/dia |
+
+---
+
+### J.3. Como rodar
+
+**Arquivo, Abrir projeto**, escolha o arquivo, e o programa carrega tudo: a
+chuva, a edificação, os custos e a configuração das análises. Percorra as
+etapas de resultado na barra lateral para ver cada dimensão.
+
+Os arquivos ficam na pasta `casos`, dentro da pasta de instalação do
+programa. Se quiser modificá-los, **salve com outro nome**: assim o caso
+original continua reproduzindo o número impresso no manual.
+
+---
+
+### J.4. Os três estudos de `exemplos`
+
+Além dos casos do manual, o programa traz três estudos de referência em
+`exemplos`: residência unifamiliar em Florianópolis, edifício
+corporativo em Brasília e escola pública em Manaus. São maiores e menos
+didáticos que os do manual, e servem de ponto de partida para projetos
+reais.
+
+> **Eles foram regravados nesta versão.** Estavam num esquema plano
+> anterior, que o programa lia sem reconhecer: abriam como projeto
+> padrão, com 100 m² e três moradores, e nada avisava. A abertura agora
+> recusa formato desconhecido com mensagem própria, e os três foram
+> convertidos para o esquema corrente, com a chuva incorporada.
+
+---
+
+### J.5. O que estes arquivos não são
+
+Não são gabarito de projeto. São **casos de demonstração**: os custos são
+os do tutorial, a tarifa é a da CASAN e a categoria é residencial em
+todos, inclusive na escola e no hotel, pela limitação que a seção 5.2
+descreve. Para um estudo real, troque tarifa, custos e série de chuva
+pelos do seu caso.
