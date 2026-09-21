@@ -280,6 +280,47 @@ nunca o cruza — invariante que a suíte de testes verifica até volumes de 100
 
 ---
 
+## A série é longa o bastante?
+
+Todo resultado desta seção depende da série de chuva carregada, e a pergunta que
+o revisor faz primeiro é se ela basta. Geraldi e Ghisi responderam-na em três
+artigos: extraem-se subséries de uma série longa, simula-se cada uma e conta-se
+com que frequência elas reproduzem o resultado da série inteira. O comprimento
+representativo é o menor que reproduz o resultado na maior parte das janelas, e
+que **continua reproduzindo** nos comprimentos maiores — um acerto isolado numa
+subsérie curta não vale recomendação.
+
+O programa traz essa análise na etapa de varredura, no botão «a série de chuva é
+longa o bastante?». Ele usa a mesma grade de volumes e o mesmo limiar de ganho
+marginal que a varredura, porque a resposta depende deles, e devolve o veredito
+em uma frase, com a tabela de frequência por comprimento.
+
+==A resposta é deste projeto, e não da cidade.== É o ponto que os artigos não
+isolam e que a análise deixa visível: a série necessária cresce com a fração
+atendível. Nas quatro séries de trinta anos que acompanham o programa, com
+cobertura de 100 m², quatro moradores e 150 L por pessoa ao dia:
+
+<!-- tabela: **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível -->
+| Fração atendível | Florianópolis | São Paulo | Brasília | Manaus |
+| :--- | ---: | ---: | ---: | ---: |
+| 20% | 2 | 8 | 9 | 16 |
+| 30% | 8 | 18 | 14 | 20 |
+| 40% | 9 | 9 | 20 | 30 |
+| 50% | 24 | 25 | 29 | 30 |
+
+Com 20% da demanda atendida por chuva, dois anos de série bastam em
+Florianópolis; com 50%, são precisos 24. A razão é direta: quanto maior a parcela
+que se quer cobrir, mais a cisterna depende das estiagens raras, e mais longa
+precisa ser a série que as contém. Uma série curta não erra o potencial médio —
+erra o volume, que é o que se compra.
+
+> **Atenção: série curta não vira série longa por média.** Se a análise disser que o
+> projeto precisa de mais anos do que a série tem, o volume ideal calculado é
+> provisório, e é isso que se declara no trabalho. Repetir a simulação com outra
+> janela dos mesmos dados não resolve: o que falta é registro, não processamento.
+
+---
+
 ## O que a varredura não responde
 
 - **Qual volume comprar.** Reservatórios existem em volumes comerciais; o ideal

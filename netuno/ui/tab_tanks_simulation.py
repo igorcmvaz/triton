@@ -5,7 +5,8 @@ Todos os inputs: varredura, reservatorios, parametros financeiros, CAPEX, OPEX e
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea, QInputDialog
+    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea, QInputDialog,
+    QApplication
 )
 from PySide6.QtCore import Signal, Qt, QTimer
 from PySide6.QtGui import QFont
@@ -117,6 +118,16 @@ class TabTanksSimulation(QWidget):
         self.lbl_sweep_guidance.setWordWrap(True)
         self.lbl_sweep_guidance.setStyleSheet("color: #475569; font-size: 11px; padding: 2px 0;")
         lay_t.addWidget(self.lbl_sweep_guidance)
+
+        # A pergunta que o revisor faz: a serie de chuva carregada basta para
+        # este projeto? Ver netuno/core/comprimento_de_serie.py.
+        self.btn_serie_representativa = QPushButton(tr("A serie de chuva e longa o bastante?"))
+        self.btn_serie_representativa.setStyleSheet(
+            "font-size: 11px; font-weight: bold; color: #0284c7; padding: 4px 10px;")
+        self.btn_serie_representativa.setToolTip(tr(
+            "Testa subseries da serie carregada e responde de quantos anos este projeto precisa."))
+        self.btn_serie_representativa.clicked.connect(self.on_analisar_comprimento_da_serie)
+        lay_t.addWidget(self.btn_serie_representativa)
 
         # Arranjo de abastecimento: a pergunta única que o econômico, a ACV e os
         # relatórios leem. Ver netuno/core/supply_arrangement.py.
@@ -1242,6 +1253,58 @@ class TabTanksSimulation(QWidget):
     def _on_sweep_step_changed(self):
         if not self._setting_auto_sweep:
             self._auto_sweep_step_value = None
+
+    def on_analisar_comprimento_da_serie(self):
+        """Responde se a serie carregada basta para o projeto desta tela.
+
+        Usa a mesma grade da varredura e o mesmo limiar de ganho marginal, porque
+        a resposta depende deles: quanto maior a fracao atendivel, mais longa a
+        serie precisa ser.
+        """
+        from netuno.core.comprimento_de_serie import DIAS_NO_ANO, analisar
+        from netuno.ui.dialogs.dialog_comprimento_de_serie import DialogComprimentoDeSerie
+
+        if self.precip_data is None or len(self.precip_data) < 2 * DIAS_NO_ANO:
+            QMessageBox.warning(self, tr("Serie insuficiente"), tr(
+                "Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1."))
+            return
+
+        b_cfg = {"area": 100.0, "demand": 200.0, "residents": 4, "runoff": 0.75, "share": 0.4}
+        discard_mm, discard_mode, discard_days = 2.0, 1, 7
+        main_win = self.window()
+        if main_win and hasattr(main_win, "tab_building"):
+            b_cfg = main_win.tab_building.get_building_config()
+        if main_win and hasattr(main_win, "tab_project"):
+            discard_mm = parse_float(main_win.tab_project.txt_discard.text(), 2.0)
+            discard_mode = main_win.tab_project.get_discard_mode()
+            discard_days = main_win.tab_project.get_discard_days()
+
+        parametros = dict(
+            area=b_cfg["area"], runoff_coeff=b_cfg["runoff"], discard_mm=discard_mm,
+            discard_mode=discard_mode, discard_days_interval=discard_days,
+            total_demand_per_day=b_cfg["demand"] * b_cfg["residents"],
+            rainwater_share=b_cfg["share"],
+        )
+        passo = max(250.0, parse_float(self.txt_sweep_step.text(), 250.0))
+        maximo = max(passo * 4, parse_float(self.txt_sweep_max.text(), 10000.0))
+        limiar = parse_float(self.txt_delta_ideal.text(), 5.0)
+
+        # Janelas sorteadas, e nao todas: a tela responde em segundos, e a
+        # analise exaustiva fica na linha de comando (netuno series-length).
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            resultado = analisar(
+                self.precip_data, parametros, volume_maximo_l=maximo, passo_l=passo,
+                limiar_ganho_pct_m3=limiar, amostra_por_comprimento=8, semente=42)
+        except ValueError as erro:
+            QApplication.restoreOverrideCursor()
+            QMessageBox.warning(self, tr("Nao foi possivel analisar"), str(erro))
+            return
+        finally:
+            if QApplication.overrideCursor() is not None:
+                QApplication.restoreOverrideCursor()
+
+        DialogComprimentoDeSerie(resultado, self).exec()
 
     def _apply_sweep_grid_policy(self, announce=True):
         """Normalize the editable grid without turning a valid edit into an error."""

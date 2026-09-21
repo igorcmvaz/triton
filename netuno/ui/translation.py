@@ -149,6 +149,21 @@ LANGUAGES = {
 
 # Catálogo inglês completo para os rótulos já existentes.
 _DICTIONARY = {
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': 'Is the rainfall series long enough?',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': 'Tests sub-series of the loaded record and answers how many years this project needs.',
+    'Serie insuficiente': 'Series too short',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': 'Load a rainfall series with at least two years in Step 1.',
+    'Nao foi possivel analisar': 'Analysis not possible',
+    'Comprimento representativo da série': 'Representative length of the series',
+    'Todas as janelas possíveis foram testadas.': 'All possible windows were tested.',
+    'Anos de série': 'Years of series',
+    'Janelas testadas': 'Windows tested',
+    'Resultados semelhantes': 'Similar results',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': 'The method is that of Geraldi and Ghisi; the answer belongs to this project, and changes with the rainwater share and with the demand.',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': 'Ideal tank capacity with the whole series: {volume} L, with {potencial}% of savings. A window counts as similar when it selects the same ideal capacity and stays within {tolerancia} percentage points of the potential; the representative length is the shortest one that reaches {confianca}% of similar windows and holds for the longer lengths.',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': 'Windows drawn per length: {n}, with seed {s}.',
+
     "🌱 Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)": "🌱 Environmental & ESG Sustainability Report (LCA)",
     "Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)": "Environmental & ESG Sustainability Report (LCA)",
     "INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG": "KEY ENVIRONMENTAL MITIGATION & ESG INDICATORS",
@@ -1248,6 +1263,21 @@ _DICTIONARY = {
 # recorrentes. Textos técnicos ainda não traduzidos usam o catálogo inglês como
 # fallback em vez de produzir uma interface parcialmente corrompida.
 _SPANISH_DICTIONARY = {
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': '¿La serie de lluvia es lo bastante larga?',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': 'Prueba subseries del registro cargado y responde cuántos años necesita este proyecto.',
+    'Serie insuficiente': 'Serie insuficiente',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': 'Cargue una serie de precipitación con al menos dos años en la Etapa 1.',
+    'Nao foi possivel analisar': 'No fue posible analizar',
+    'Comprimento representativo da série': 'Longitud representativa de la serie',
+    'Todas as janelas possíveis foram testadas.': 'Se probaron todas las ventanas posibles.',
+    'Anos de série': 'Años de serie',
+    'Janelas testadas': 'Ventanas probadas',
+    'Resultados semelhantes': 'Resultados similares',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': 'El método es el de Geraldi y Ghisi; la respuesta es de este proyecto y cambia con la fracción atendible y con la demanda.',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': 'Volumen ideal con la serie completa: {volume} L, con {potencial}% de ahorro. Una ventana cuenta como similar cuando elige el mismo volumen ideal y queda a hasta {tolerancia} puntos porcentuales del potencial; la longitud representativa es la menor que alcanza {confianca}% de ventanas similares y se mantiene en las longitudes mayores.',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': 'Ventanas sorteadas por longitud: {n}, con semilla {s}.',
+
     "Arquivo": "Archivo", "Novo Projeto": "Nuevo proyecto", "Carregar Projeto CSV...": "Abrir proyecto CSV...",
     "Salvar Projeto...": "Guardar proyecto...", "Sair": "Salir", "Cenários && Ferramentas": "Escenarios y herramientas",
     "Opções": "Opciones", "Tema": "Tema", "Modo Claro": "Modo claro", "Modo Escuro": "Modo oscuro",
@@ -1268,6 +1298,21 @@ _SPANISH_DICTIONARY = {
 }
 
 _CHINESE_DICTIONARY = {
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': '降雨序列足够长吗？',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': '对已载入序列的子序列进行检验，回答本项目需要多少年数据。',
+    'Serie insuficiente': '序列过短',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': '请在步骤 1 载入至少两年的降雨序列。',
+    'Nao foi possivel analisar': '无法分析',
+    'Comprimento representativo da série': '序列的代表性长度',
+    'Todas as janelas possíveis foram testadas.': '已检验全部可能的窗口。',
+    'Anos de série': '序列年数',
+    'Janelas testadas': '检验的窗口数',
+    'Resultados semelhantes': '结果相近的比例',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': '方法来自 Geraldi 与 Ghisi；答案属于本项目，并随可由雨水满足的比例和需求而变化。',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': '使用完整序列得到的理想容积为 {volume} L，节水潜力为 {potencial}%。当某一窗口选出相同的理想容积、且潜力相差不超过 {tolerancia} 个百分点时，计为相近；代表性长度是达到 {confianca}% 相近窗口并在更长长度上保持的最小长度。',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': '每种长度抽取的窗口数：{n}，随机种子 {s}。',
+
     "Arquivo": "文件", "Novo Projeto": "新建项目", "Carregar Projeto CSV...": "打开 CSV 项目...",
     "Salvar Projeto...": "保存项目...", "Sair": "退出", "Cenários && Ferramentas": "情景与工具",
     "Opções": "选项", "Tema": "主题", "Modo Claro": "浅色模式", "Modo Escuro": "深色模式",
