@@ -7,6 +7,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from netuno.core.parser import load_precipitation
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 @dataclass
 class ScenarioItem:
@@ -117,7 +118,7 @@ def run_multi_scenario_matrix(
     upper_tank_vol: float = 500.0,
     upper_tank_used: bool = False,
     pumping_threshold: float = 375.0,
-    discard_mm: float = 1.0,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
     discard_mode: int = 1,
     discard_days_interval: int = 7,
     delta_ideal: float = 2.0,

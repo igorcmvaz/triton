@@ -4,7 +4,7 @@ Integra o modelo físico de lavagem de primeira chuva (wash-off), diretrizes da 
 dimensionamento paramétrico de filtros autolimpantes, dosagem de cloro, reatores UV e filtros de polimento.
 """
 
-from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
     QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea,
@@ -517,7 +517,7 @@ class TabWaterQuality(QWidget):
 
     def recalculate_all(self):
         # Sincroniza com a Etapa 1 (Projeto e Chuva)
-        discard_val = getattr(self.config, 'discard', 1.0)
+        discard_val = getattr(self.config, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM)
         if self.main_window and hasattr(self.main_window, 'tab_project') and hasattr(self.main_window.tab_project, 'txt_discard'):
             try:
                 discard_val = parse_float(self.main_window.tab_project.txt_discard.text().replace(',', '.'), discard_val)

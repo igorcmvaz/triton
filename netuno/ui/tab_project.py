@@ -29,6 +29,7 @@ from netuno.core.climate_database import (
 from netuno.ui.translation import tr, get_current_theme
 from netuno.ui.date_picker import DatePickerLineEdit
 from netuno.ui.charts import PrcptotAnnualChart, SdiiVsR95pChart, CddCwdAnnualChart, SeasonalPrecipChart
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 
 class ClimateKpiCard(QFrame):
@@ -334,8 +335,11 @@ class TabProject(QWidget):
         grid_p.setSpacing(10)
 
         grid_p.addWidget(QLabel(tr("Descarte do Escoamento Inicial (mm):")), 0, 0)
-        self.txt_discard = QLineEdit("")
-        self.txt_discard.setPlaceholderText(tr("Ex: 2,0"))
+        # O campo abre preenchido com a lâmina da NBR 15527:2019, a mesma que o
+        # motor assume quando o dado falta. Em branco, a prévia desta tela lia
+        # zero enquanto a simulação descartava a lâmina da norma.
+        self.txt_discard = QLineEdit(f"{LAMINA_DE_DESCARTE_PADRAO_MM:.1f}".replace(".", ","))
+        self.txt_discard.setPlaceholderText(tr("2,0 mm, da ABNT NBR 15527"))
         self.txt_discard.textChanged.connect(self.on_discard_changed)
         grid_p.addWidget(self.txt_discard, 0, 1)
 

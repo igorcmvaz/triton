@@ -1,11 +1,12 @@
 """
 Testes unitários para TabProject garantindo o modelo padrão INM-CM4,
-recorte temporal inicial até 31/12/2013 e descarte inicial sem valor (-).
+recorte temporal inicial até 31/12/2013 e a lâmina de descarte da norma.
 """
 
 import sys
 import pytest
 from PySide6.QtWidgets import QApplication
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 from netuno.ui.tab_project import TabProject
 
 
@@ -28,8 +29,10 @@ def test_tab_project_defaults(qapp):
     assert tab.txt_start_date.text() == "01/01/1980"
     assert tab.txt_end_date.text() == "31/12/2013"
 
-    # Descarte inicial deve vir sem valor para forçar o preenchimento pelo usuário
-    assert tab.txt_discard.text() in ["-", ""]
+    # O descarte inicial abre com a lâmina da ABNT NBR 15527:2019, a mesma que o
+    # motor assume quando o dado falta. Antes o campo abria vazio, e a prévia
+    # desta tela lia zero enquanto a simulação descontava a lâmina da norma.
+    assert tab.txt_discard.text().replace(",", ".") == f"{LAMINA_DE_DESCARTE_PADRAO_MM:.1f}"
     assert tab.txt_discard.placeholderText() != ""
 
     # Dados de chuva carregados (1980 a 2013 = 34 anos cheios = 12419 dias)

@@ -34,7 +34,7 @@ falta de dados (4.1.6); lista sete usos nao potaveis admitidos (4.1.7); e exige
 monitoramento com frequencia minima semestral (4.6.7).
 """
 
-from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 import math
 from dataclasses import dataclass, field
 
@@ -266,7 +266,7 @@ def _interp_pead_tank_price(volume_l: float) -> float:
 
 
 def size_first_flush_system(
-    discard_mm: float = 1.0,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
     roof_area_m2: float = 100.0,
     regional_factor: float = 1.0,
 ) -> FirstFlushSizingResult:

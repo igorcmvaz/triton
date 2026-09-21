@@ -52,6 +52,7 @@ from netuno.core.environmental_justifications import (
     get_pipe_justification, get_pump_justification
 )
 import numpy as np
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 
 def adapt_dialog_size(dlg, target_w=1080, target_h=860, min_w=840, min_h=720):
@@ -1432,7 +1433,7 @@ class TabEnvironmental(QWidget):
             water_quality_polishing=bool(getattr(proj_cfg, 'water_quality_polishing', False)),
             roof_area_m2=float(getattr(proj_cfg, 'area', AREA_DE_RECURSO_M2) or AREA_DE_RECURSO_M2),
             first_flush_system_enabled=bool(getattr(proj_cfg, 'first_flush_system_enabled', False)),
-            discard=float(getattr(proj_cfg, 'discard', 1.0) or 1.0),
+            discard=float(getattr(proj_cfg, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
             etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )
 

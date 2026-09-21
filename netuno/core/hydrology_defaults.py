@@ -21,6 +21,21 @@ from __future__ import annotations
 # tutorial, digitado como valor personalizado, e declara a diferença.
 COEFICIENTE_DE_ESCOAMENTO_PADRAO = 0.75
 
+# A lâmina de descarte da primeira chuva tinha o mesmo defeito: 1,0 mm no
+# arquivo de projeto, na leitura de planilha e no motor, contra 2,0 mm no
+# exportador CAD, na linha de comando, no gerador de relatório e na dica do
+# próprio campo da tela. O mesmo projeto descartava o dobro conforme o caminho.
+#
+# Fica 2,0 mm, que é o que a ABNT NBR 15527:2019, item 4.1.5, recomenda na
+# ausência de dado local. Quem tem ensaio da própria cobertura digita o valor
+# medido; quem não tem recebe o da norma, e não um número sem procedência.
+LAMINA_DE_DESCARTE_PADRAO_MM = 2.0
+
+FONTE_DA_LAMINA_DE_DESCARTE = (
+    "ABNT NBR 15527:2019 — Aproveitamento de água de chuva de coberturas para "
+    "fins não potáveis: requisitos, item 4.1.5."
+)
+
 FONTE_DO_COEFICIENTE = (
     "Telha cerâmica, 0,75: ESTUDO sobre materiais para coberturas utilizadas em "
     "sistemas de aproveitamento de água pluvial residenciais. MIX Sustentável, "

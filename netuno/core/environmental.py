@@ -21,6 +21,7 @@ from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
 from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
 from netuno.core.water_supply_routes import ROTA_PADRAO as ROTA_PADRAO_DA_AGUA
 from netuno.core.water_supply_routes import co2_evitado_por_m3 as _co2_evitado_por_m3
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 from netuno.core.etap_integration import (
     AREA_DE_RECURSO_M2,
     dimensionar_etap_do_projeto,
@@ -451,7 +452,7 @@ class EnvironmentalConfig:
     roof_area_m2: float = AREA_DE_RECURSO_M2     # dimensiona o filtro de entrada
     # Dimensionamento do subsistema físico de descarte de primeiras águas
     first_flush_system_enabled: bool = False
-    discard: float = 1.0                         # lâmina de descarte em mm
+    discard: float = LAMINA_DE_DESCARTE_PADRAO_MM                         # lâmina de descarte em mm
     # Desligar devolve o comportamento anterior, em que o tratamento era só a
     # cloração. Serve para reproduzir estudos anteriores, não para uso corrente.
     etap_enabled: bool = True
@@ -655,7 +656,7 @@ def calculate_lca(
     if getattr(config, 'first_flush_system_enabled', False) and getattr(config, 'discard', 0.0) > 0:
         from netuno.core.water_quality import size_first_flush_system
         ff_res = size_first_flush_system(
-            discard_mm=float(getattr(config, 'discard', 1.0)),
+            discard_mm=float(getattr(config, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM)),
             roof_area_m2=float(getattr(config, 'roof_area_m2', AREA_DE_RECURSO_M2)),
             regional_factor=1.0,
         )

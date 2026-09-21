@@ -1,7 +1,7 @@
 import os
 import re
 from netuno.core.supply_arrangement import arranjo_de
-from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 from netuno.core.pump_hydraulics import ALTURA_MANOMETRICA_PADRAO_M
 from netuno.core.chlorination import (
     DOSE_PADRAO_MG_POR_LITRO,
@@ -151,7 +151,7 @@ class NetunoConfig:
     climate_end_date: str = "31/12/2013"
     tariff_customized: bool = False
 
-    discard: float = 1.0  # mm
+    discard: float = LAMINA_DE_DESCARTE_PADRAO_MM  # mm
     discard_mode: int = 1  # 1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias
     discard_days_interval: int = 7  # intervalo para modo 3
     start_date: str = "01/01/1980"
@@ -519,7 +519,7 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
             if key.startswith("Arquivo dados"):
                 config.precip_file = parts[1] if len(parts) > 1 else ""
             elif key.startswith("Descarte precipitao") or key.startswith("Descarte precipitação"):
-                config.discard = parse_float(parts[1], 1.0)
+                config.discard = parse_float(parts[1], LAMINA_DE_DESCARTE_PADRAO_MM)
             elif key.startswith("Modo de descarte"):
                 config.discard_mode = parse_int(parts[1], 1)
                 config.discard_days_interval = parse_int(parts[2] if len(parts) > 2 else "7", 7)
@@ -1059,7 +1059,7 @@ def load_netuno_project(file_path: str) -> dict:
 
             # Rainfall Discard
             rd = inputs.get("rainfall_discard", {})
-            cfg.discard = rd.get("discard_mm", 1.0)
+            cfg.discard = rd.get("discard_mm", LAMINA_DE_DESCARTE_PADRAO_MM)
             cfg.discard_mode = rd.get("discard_mode", 1)
             cfg.discard_days_interval = rd.get("discard_days_interval", 7)
 

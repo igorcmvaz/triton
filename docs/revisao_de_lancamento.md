@@ -51,17 +51,22 @@ seção 3 deste documento descreve o arranjo.
 
 ## 2. O que falta decidir antes de publicar
 
-### 2.1 Lâmina de descarte: o padrão são 1 mm, a tela sugere 2 mm
+### 2.1 Lâmina de descarte — **decidido: 2 mm** ✔
 
-`NetunoConfig.discard` vale 1,0 mm. O campo da aba Projeto abre vazio com a dica
-«Ex: 2,0», o gerador de relatório assume 2,0 quando o dado falta, e a ABNT NBR
-15527:2019 recomenda 2 mm na ausência de dado local. Quem não tocar no campo fica
-com 1 mm enquanto três lugares do próprio programa apontam 2.
+`NetunoConfig.discard` valia 1,0 mm, enquanto o campo da aba Projeto abria vazio
+com a dica «Ex: 2,0», o exportador CAD, a linha de comando e o gerador de
+relatório assumiam 2,0, e a ABNT NBR 15527:2019, item 4.1.5, recomenda 2 mm na
+ausência de dado local. O mesmo projeto descartava o dobro conforme o caminho por
+onde entrasse.
 
-**Decisão sua.** Mudar o padrão altera o resultado de todo estudo novo — é
-exatamente o tipo de mudança que a seção «correções que alteram resultados» do
-histórico existe para registrar. Se for para mudar, o lançamento é a hora: depois
-dele, a mudança passa a quebrar reprodutibilidade de estudos publicados.
+Resolvido antes do lançamento, que era a hora: depois dele, a mudança passaria a
+quebrar reprodutibilidade de estudo publicado. A lâmina passa a morar em
+`netuno/core/hydrology_defaults.py`, ao lado do coeficiente de escoamento, que
+já tinha tido o mesmo defeito; o campo da tela abre preenchido com 2,0, porque
+vazio a prévia lia zero enquanto a simulação descontava a lâmina; e
+`tests/unit/test_padroes_hidrologicos.py` recusa qualquer função que volte a
+escrever o número à mão. A correção está registrada na seção «correções que
+alteram resultados» da 5.0.0.
 
 ### 2.2 A linha de comando não acompanha o instalador
 
@@ -79,14 +84,14 @@ São 6,4 GB, e o instalador tem 200 MB. Hoje a base é um download à parte, e o
 manual explica onde pô-la. É a solução certa; fica registrado porque é a pergunta
 que o primeiro usuário vai fazer.
 
-### 2.4 Numeração desta rodada de funções novas
+### 2.4 Numeração desta rodada — **decidido: tudo é 5.0.0** ✔
 
-A análise de comprimento de série e a demanda sorteada foram escritas **depois**
-de a 5.0.0 ser fechada e etiquetada, e antes de o repositório ser publicado.
-Cabem das duas formas: incorporadas à 5.0.0, que ainda não circulou, ou como
-5.1.0, com entrada própria no histórico. A segunda é mais honesta se você quiser
-que a 5.0.0 seja exatamente o que o artigo descreve; a primeira evita lançar duas
-versões no mesmo dia.
+A análise de comprimento de série, a demanda sorteada e a correção da lâmina
+foram escritas depois de a 5.0.0 ser fechada e etiquetada, e antes de o
+repositório ser publicado. Ficam todas na 5.0.0, que ainda não circulou: a
+etiqueta `v5.0.0` foi remarcada no topo. A numeração por versão passa a valer
+quando o professor disser — daí em diante, cada lançamento ganha entrada própria
+e a etiqueta acompanha o commit que a fecha.
 
 ---
 
