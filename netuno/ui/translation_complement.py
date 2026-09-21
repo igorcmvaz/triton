@@ -445,7 +445,7 @@ COMPLEMENTO = {
     'Domingo': ('Sunday', 'Domingo', '星期日'),
     'Duplo Fluxo 3/6L (4,5 L)': ('Dual Flush 3/6 L (4.5 L)', 'Doble descarga 3/6 L (4,5 L)', '双档冲水 3/6 L（4.5 L）'),
     'Duração banho (min):': ('Shower duration (min):', 'Duración de la ducha (min):', '淋浴时长（分钟）：'),
-    'Economias / Unidades Habitacionais (Micromedição):': ('Dwelling Units (Individual Metering):', 'Unidades habitacionales (micromedición):', '住户单元（分户计量）：'),
+    'Economias (Micromedição):': ('Dwelling Units (Individual Metering):', 'Unidades habitacionales (micromedición):', '住户单元（分户计量）：'),
     'Edificação, ocupação e demanda de água': ('Building, occupancy and water demand', 'Edificación, ocupación y demanda de agua', '建筑、居住与用水需求'),
     'Ex: 1': ('E.g. 1', 'Ej.: 1', '例如：1'),
     'Ex: 100': ('E.g. 100', 'Ej.: 100', '例如：100'),

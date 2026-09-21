@@ -289,7 +289,7 @@ class TabBuilding(QWidget):
         row_runoff.addWidget(self.txt_custom_runoff, stretch=1)
         grid_r.addLayout(row_runoff, 0, 3)
 
-        grid_r.addWidget(QLabel(tr("Economias / Unidades Habitacionais (Micromedição):")), 1, 0)
+        grid_r.addWidget(QLabel(tr("Economias (Micromedição):")), 1, 0)
         self.txt_economias = QLineEdit("")
         self.txt_economias.setPlaceholderText(tr("Ex: 1"))
         self.txt_economias.textChanged.connect(lambda: self.building_updated.emit())
