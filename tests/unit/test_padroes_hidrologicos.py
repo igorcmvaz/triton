@@ -78,3 +78,14 @@ def test_nenhuma_funcao_escreve_a_lamina_a_mao():
 def test_o_coeficiente_de_escoamento_continua_num_lugar_so():
     """O defeito que o módulo dos padrões resolveu primeiro não pode voltar."""
     assert COEFICIENTE_DE_ESCOAMENTO_PADRAO == 0.75
+
+
+def test_o_exemplo_da_tela_e_a_lamina_que_vale_se_nada_for_dito():
+    """A dica do campo não pode sugerir um número e o motor assumir outro.
+
+    O texto é traduzido por frase inteira, e por isso o número está escrito nele.
+    Este teste é o que mantém os dois em acordo.
+    """
+    fonte = open(os.path.join(PACOTE, "ui", "tab_project.py"), encoding="utf-8").read()
+    esperado = f"{LAMINA_DE_DESCARTE_PADRAO_MM:.1f}".replace(".", ",")
+    assert f'setPlaceholderText(tr("Ex: {esperado}"))' in fonte

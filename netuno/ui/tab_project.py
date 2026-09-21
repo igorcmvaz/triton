@@ -335,11 +335,13 @@ class TabProject(QWidget):
         grid_p.setSpacing(10)
 
         grid_p.addWidget(QLabel(tr("Descarte do Escoamento Inicial (mm):")), 0, 0)
-        # O campo abre preenchido com a lâmina da NBR 15527:2019, a mesma que o
-        # motor assume quando o dado falta. Em branco, a prévia desta tela lia
-        # zero enquanto a simulação descartava a lâmina da norma.
-        self.txt_discard = QLineEdit(f"{LAMINA_DE_DESCARTE_PADRAO_MM:.1f}".replace(".", ","))
-        self.txt_discard.setPlaceholderText(tr("2,0 mm, da ABNT NBR 15527"))
+        # O campo abre vazio e em amarelo, para pedir a lâmina medida na própria
+        # cobertura. Quem não declarar nada recebe a da ABNT NBR 15527:2019 — o
+        # mesmo número do exemplo, e o mesmo que o motor assume.
+        self.txt_discard = QLineEdit("")
+        # Texto inteiro, e não concatenado: a tradução é por frase. Um teste
+        # confere que o exemplo é a lâmina da norma.
+        self.txt_discard.setPlaceholderText(tr("Ex: 2,0"))
         self.txt_discard.textChanged.connect(self.on_discard_changed)
         grid_p.addWidget(self.txt_discard, 0, 1)
 
@@ -1027,16 +1029,23 @@ class TabProject(QWidget):
             except Exception:
                 start_dt = datetime(1980, 1, 1)
 
-        discard_valid = False
-        discard_mm = 0.0
-        try:
-            val_txt = self.txt_discard.text().strip().replace(',', '.')
-            if val_txt and val_txt != "-":
-                discard_mm = float(val_txt)
-                if discard_mm >= 0:
-                    discard_valid = True
-        except ValueError:
-            discard_valid = False
+        # Campo vazio não é lâmina zero: é lâmina não declarada, e aí vale a da
+        # ABNT NBR 15527:2019 — a mesma que o motor assume. Antes esta prévia
+        # mostrava a chuva sem descarte nenhum enquanto a simulação descontava
+        # 2 mm, duas contas diferentes na mesma janela. O campo segue em amarelo
+        # até o usuário declarar a lâmina que mediu.
+        discard_valid = True
+        discard_mm = LAMINA_DE_DESCARTE_PADRAO_MM
+        val_txt = self.txt_discard.text().strip().replace(',', '.')
+        if val_txt and val_txt != "-":
+            try:
+                lida = float(val_txt)
+                if lida >= 0:
+                    discard_mm = lida
+                else:
+                    discard_valid = False
+            except ValueError:
+                discard_valid = False        # texto que não é número
 
         total_days = len(self.precip_data)
         show_count = min(total_days, 100)
