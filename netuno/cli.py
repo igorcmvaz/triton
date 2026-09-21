@@ -1058,6 +1058,143 @@ def _run_project_matrix(args: argparse.Namespace) -> None:
     _write_matrix_outputs(args.output_dir, summaries, alternatives, detailed)
 
 
+def _emit(texto: str, destino: Optional[str]) -> None:
+    """Imprime na tela, ou grava no arquivo pedido."""
+    if not destino:
+        print(texto)
+        return
+    alvo = Path(destino)
+    alvo.write_text(texto + "\n", encoding="utf-8")
+    print(f"Resultado salvo em: {alvo.resolve()}")
+
+
+def _parametros_de_simulacao(cfg) -> Dict[str, Any]:
+    """Os parâmetros hídricos do projeto, no formato que o motor pede."""
+    return dict(
+        area=float(cfg.area),
+        runoff_coeff=float(cfg.runoff_coeff),
+        discard_mm=float(getattr(cfg, "discard", 2.0)),
+        discard_mode=int(getattr(cfg, "discard_mode", 1)),
+        total_demand_per_day=float(cfg.demand_value) * float(getattr(cfg, "residents_count", 1) or 1),
+        rainwater_share=float(cfg.rainwater_share),
+    )
+
+
+def _run_series_length(args: argparse.Namespace) -> None:
+    """Responde de quantos anos de chuva este projeto precisa."""
+    from netuno.core.comprimento_de_serie import analisar
+
+    bundle = _load_bundle(args.file)
+    cfg = bundle["config"]
+    _apply_overrides(cfg, args.set_values)
+    precipitation = _get_precipitation(bundle)
+    errors = _validate_config(cfg, precipitation)
+    if errors:
+        raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
+
+    resultado = analisar(
+        precipitation, _parametros_de_simulacao(cfg),
+        volume_maximo_l=args.max_volume, passo_l=args.step,
+        limiar_ganho_pct_m3=args.threshold, tolerancia_pp=args.tolerance,
+        tolerancia_passos=args.tolerance_steps, confianca_pct=args.confidence,
+        amostra_por_comprimento=args.windows, semente=args.seed,
+    )
+    dados = {
+        "anos_da_serie": resultado.anos_da_serie,
+        "volume_ideal_l": resultado.volume_ideal_l,
+        "potencial_no_ideal_pct": resultado.potencial_no_ideal_pct,
+        "comprimento_representativo_anos": resultado.comprimento_representativo_anos,
+        "serie_e_representativa": resultado.serie_e_representativa,
+        "confianca_pct": resultado.confianca_pct,
+        "tolerancia_pp": resultado.tolerancia_pp,
+        "limiar_ganho_pct_m3": resultado.limiar_ganho_pct_m3,
+        "amostra_por_comprimento": resultado.amostra_por_comprimento,
+        "semente": resultado.semente,
+        "frequencia_por_comprimento": resultado.frequencia_por_comprimento,
+        "janelas_por_comprimento": resultado.janelas_por_comprimento,
+        "resumo": resultado.resumo(),
+    }
+    if args.format == "json":
+        texto = json.dumps(dados, ensure_ascii=False, indent=2)
+    elif args.format == "csv":
+        linhas = ["anos;frequencia_pct;janelas"]
+        linhas += [f"{a};{f};{resultado.janelas_por_comprimento[a]}"
+                   for a, f in sorted(resultado.frequencia_por_comprimento.items())]
+        texto = "\n".join(linhas)
+    else:
+        linhas = [resultado.resumo(), "",
+                  f"Volume ideal com a série inteira: {resultado.volume_ideal_l:,.0f} L".replace(",", "."),
+                  f"Potencial nesse volume: {resultado.potencial_no_ideal_pct:.2f}%",
+                  f"Critério: {resultado.confianca_pct:.0f}% das janelas com o mesmo volume ideal "
+                  f"e potencial dentro de {resultado.tolerancia_pp:.1f} pontos", ""]
+        linhas.append("anos  janelas  resultados semelhantes")
+        for anos_, freq in sorted(resultado.frequencia_por_comprimento.items()):
+            marca = " <-" if anos_ == resultado.comprimento_representativo_anos else ""
+            linhas.append(f"{anos_:>4}  {resultado.janelas_por_comprimento[anos_]:>7}  {freq:>6.1f}%{marca}")
+        texto = "\n".join(linhas)
+    _emit(texto, args.output)
+
+
+def _run_stochastic_demand(args: argparse.Namespace) -> None:
+    """Propaga a incerteza do consumo diário sobre o desempenho e sobre o volume."""
+    from netuno.core.demanda_estocastica import (
+        PerfilDeConsumo, simular, volume_ideal_por_realizacao)
+
+    bundle = _load_bundle(args.file)
+    cfg = bundle["config"]
+    _apply_overrides(cfg, args.set_values)
+    precipitation = _get_precipitation(bundle)
+    errors = _validate_config(cfg, precipitation)
+    if errors:
+        raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
+
+    parametros = _parametros_de_simulacao(cfg)
+    perfil = PerfilDeConsumo(
+        media_l_dia=parametros["total_demand_per_day"], cv_pct=args.daily_cv,
+        distribuicao=args.distribution,
+        probabilidade_de_ausencia_pct=args.absence,
+        incerteza_da_media_pct=args.level_uncertainty,
+    )
+    volume = args.volume
+    if volume is None:
+        baseline, summary = _run_technical(cfg, precipitation)
+        volume = summary.get("optimal_volume_l") or (baseline[-1].lower_tank_vol if baseline else 0.0)
+
+    dados = simular(precipitation, float(volume), perfil, parametros,
+                    realizacoes=args.samples, semente=args.seed)
+    if args.ideal_volume:
+        volumes = [float(v) for v in np.arange(args.step, args.max_volume + args.step / 2, args.step)]
+        dados["volume_ideal"] = volume_ideal_por_realizacao(
+            precipitation, perfil, parametros, volumes_l=volumes,
+            limiar_ganho_pct_m3=args.threshold,
+            realizacoes=min(args.samples, args.ideal_volume_samples), semente=args.seed)
+
+    if args.format == "json":
+        texto = json.dumps(dados, ensure_ascii=False, indent=2)
+    else:
+        p = dados["potencial_pct"]
+        linhas = [
+            f"Volume analisado: {dados['volume_l']:,.0f} L".replace(",", "."),
+            f"Demanda média: {perfil.media_l_dia:,.0f} L/dia".replace(",", "."),
+            f"Sorteio: {args.samples} realizações, {perfil.distribuicao}, "
+            f"CV diário de {perfil.cv_pct:.0f}%, incerteza da média de "
+            f"{perfil.incerteza_da_media_pct:.0f}%, ausência em {perfil.probabilidade_de_ausencia_pct:.0f}% dos dias",
+            "",
+            f"Potencial de economia   determinístico {dados['deterministico']['potencial_pct']:.2f}%"
+            f"   sorteado {p['p5']:.2f}% a {p['p95']:.2f}% (mediana {p['p50']:.2f}%)",
+            f"Dias plenamente atendidos  {dados['dias_plenos_pct']['p5']:.1f}% a {dados['dias_plenos_pct']['p95']:.1f}%",
+            f"Extravasamento médio       {dados['extravasado_l_dia']['p5']:.0f} a "
+            f"{dados['extravasado_l_dia']['p95']:.0f} L/dia",
+        ]
+        if "volume_ideal" in dados:
+            vi = dados["volume_ideal"]["volume_ideal_l"]
+            distintos = ", ".join(f"{v:,.0f}".replace(",", ".") for v in dados["volume_ideal"]["volumes_distintos"])
+            linhas += ["", f"Volume ideal por realização: {vi['p5']:,.0f} a {vi['p95']:,.0f} L".replace(",", "."),
+                       f"Volumes eleitos: {distintos} L"]
+        texto = "\n".join(linhas)
+    _emit(texto, args.output)
+
+
 def _run_uncertainty(args: argparse.Namespace) -> None:
     """Propaga incerteza independente nas premissas principais por Monte Carlo."""
     if any(value < 0 for value in (args.rainfall_cv, args.area_cv, args.demand_cv, args.capex_cv)):
@@ -2011,6 +2148,55 @@ def main() -> None:
     uncertainty_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
     uncertainty_parser.add_argument("--output")
 
+    series_parser = subparsers.add_parser(
+        "series-length",
+        help="Responde de quantos anos de chuva este projeto precisa (Geraldi e Ghisi)")
+    series_parser.add_argument("file", help="Projeto CSV, .netuno ou JSON")
+    series_parser.add_argument("--max-volume", type=float, default=20000.0,
+                               help="Maior volume da grade, em litros")
+    series_parser.add_argument("--step", type=float, default=1000.0, help="Passo da grade, em litros")
+    series_parser.add_argument("--threshold", type=float, default=1.0,
+                               help="Limiar de ganho marginal que define o volume ideal, em %%/m³")
+    series_parser.add_argument("--tolerance", type=float, default=2.0,
+                               help="Tolerância do potencial, em pontos percentuais")
+    series_parser.add_argument("--tolerance-steps", type=int, default=0,
+                               help="Tolerância do volume ideal, em passos da grade")
+    series_parser.add_argument("--confidence", type=float, default=90.0,
+                               help="Frequência mínima de resultados semelhantes, em %%")
+    series_parser.add_argument("--windows", type=_positive_int, default=None,
+                               help="Janelas sorteadas por comprimento; sem isto, usa todas")
+    series_parser.add_argument("--seed", type=int, default=42)
+    series_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
+    series_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
+    series_parser.add_argument("--output")
+
+    stochastic_parser = subparsers.add_parser(
+        "stochastic-demand",
+        help="Sorteia o consumo diário e devolve o desempenho como faixa (Silva e Ghisi)")
+    stochastic_parser.add_argument("file", help="Projeto CSV, .netuno ou JSON")
+    stochastic_parser.add_argument("--volume", type=float,
+                                   help="Volume analisado; padrão: ótimo técnico do caso-base")
+    stochastic_parser.add_argument("--samples", type=_positive_int, default=100)
+    stochastic_parser.add_argument("--daily-cv", type=float, default=20.0,
+                                   help="CV do consumo de um dia para o outro, em %%")
+    stochastic_parser.add_argument("--level-uncertainty", type=float, default=0.0,
+                                   help="Incerteza do nível médio do consumo, em %%; é o que move o resultado")
+    stochastic_parser.add_argument("--absence", type=float, default=0.0,
+                                   help="Probabilidade de dia sem consumo, em %%")
+    stochastic_parser.add_argument("--distribution",
+                                   choices=("normal", "lognormal", "uniforme", "triangular"),
+                                   default="lognormal")
+    stochastic_parser.add_argument("--ideal-volume", action="store_true",
+                                   help="Também apura o volume ideal de cada realização")
+    stochastic_parser.add_argument("--ideal-volume-samples", type=_positive_int, default=30)
+    stochastic_parser.add_argument("--max-volume", type=float, default=20000.0)
+    stochastic_parser.add_argument("--step", type=float, default=1000.0)
+    stochastic_parser.add_argument("--threshold", type=float, default=1.0)
+    stochastic_parser.add_argument("--seed", type=int, default=42)
+    stochastic_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
+    stochastic_parser.add_argument("--format", choices=("text", "json"), default="text")
+    stochastic_parser.add_argument("--output")
+
     compare_mass_parser = subparsers.add_parser(
         "compare-mass",
         help="Executa simulação paralela em massa dos 4 casos de reservatórios combinados e compara com TesteMassivo",
@@ -2059,6 +2245,10 @@ def main() -> None:
             _run_batch(args)
         elif args.command == "uncertainty":
             _run_uncertainty(args)
+        elif args.command == "series-length":
+            _run_series_length(args)
+        elif args.command == "stochastic-demand":
+            _run_stochastic_demand(args)
         elif args.command == "compare-mass":
             _run_compare_mass(args)
         elif args.command == "run-vaz-study":
