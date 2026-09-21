@@ -92,9 +92,11 @@ Tabela 14 — Situações de erro na leitura e na gravação de arquivos
 
 Tabela 15 — Avisos que não interrompem o cálculo e precisam constar do estudo
 
-Tabela 16 — Correções que alteram resultados de estudos feitos em versão anterior
+Tabela 16 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 17 — Correções de comportamento que não alteram resultado calculado
+Tabela 17 — Correções que alteram resultados de estudos feitos em versão anterior
+
+Tabela 18 — Correções de comportamento que não alteram resultado calculado
 
 ---
 
@@ -523,16 +525,31 @@ data do lançamento e o que mudou, sempre separado em duas listas: ==o que alter
 resultados de estudos já feitos e o que não altera.== A entrada mais recente vem
 primeiro.
 
+Cada entrada segue o mesmo modelo, para que duas versões possam ser comparadas sem
+releitura: uma frase de resumo, as novidades, as correções que alteram resultados, as
+que não alteram, e o que mudou na documentação. Seções sem conteúdo naquela versão
+simplesmente não aparecem.
+
 A mesma lista é distribuída com o código, no arquivo `CHANGELOG.md` da raiz do
-repositório. Ela não é escrita duas vezes: o arquivo é gerado desta seção, e uma
-verificação automática recusa a montagem se os dois textos divergirem. Quem acompanha
-o programa pelo repositório e quem o acompanha pelo manual leem o mesmo registro.
+repositório, e alimenta a página de versões do site de documentação. Ela não é escrita
+três vezes: os três saem desta seção, e uma verificação automática recusa a montagem se
+divergirem. Quem acompanha o programa pelo repositório, pelo site ou pelo manual lê o
+mesmo registro.
+
+<!-- tabela: **Tabela 16** — **Tabela 99** — Panorama das versões publicadas -->
+| Versão | Data | O que trouxe | Correções que alteram resultados |
+| :--- | :--- | :--- | ---: |
+| **5.0.0** | 21 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério e a documentação em três formatos. | 7 |
 
 ---
 
 ### 6.3.3. Versão 5.0.0 — 21 de setembro de 2026
 
-Primeiro lançamento público do Netuno 5. A versão foi o resultado de uma revisão sistemática do programa, conduzida com
+> **Em uma frase.** Primeiro lançamento público do Netuno 5: o motor de simulação
+> reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de
+> tratamento, decisão multicritério e a documentação em três formatos.
+
+A versão foi o resultado de uma revisão sistemática do programa, conduzida com
 um objetivo específico: encontrar valores que fossem calculados corretamente em um
 módulo e descartados antes de chegarem ao módulo seguinte. Essa classe de defeito é
 particularmente perigosa porque não produz erro visível — o programa responde, o
@@ -542,7 +559,7 @@ módulo, da tela para o núcleo de cálculo, entre a interface e a automação, 
 definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
 gravação e da releitura de um projeto.
 
-#### 6.3.3.1. O que o Netuno 5 traz
+#### 6.3.3.1. Novidades
 
 O programa foi reescrito em Python, com o motor de simulação separado da interface, e
 ganhou o que o Netuno 4 não tinha: avaliação de ciclo de vida do carbono, linha de
@@ -552,11 +569,6 @@ exportação para CAD, BIM e planilha. A seção 6.1 compara os dois programas n
 a número, e a seção 5.3 (volume Enganos, limitações e confiabilidade) descreve a suíte de verificação que sustenta a
 comparação.
 
-A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
-manual completo, sete volumes avulsos e um site de documentação com figuras
-interativas, em que o leitor muda os parâmetros e vê o resultado que o programa
-calculou.
-
 #### 6.3.3.2. Correções que alteram resultados
 
 As alterações reunidas nesta tabela mudam números em relação ao que o programa
@@ -564,7 +576,7 @@ calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento públ
 estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
 a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
-<!-- tabela: **Tabela 16** — Correções que alteram resultados de estudos feitos em versão anterior -->
+<!-- tabela: **Tabela 17** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -581,13 +593,21 @@ As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum 
 calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
-<!-- tabela: **Tabela 17** — Correções de comportamento que não alteram resultado calculado -->
+<!-- tabela: **Tabela 18** — Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
 | arquivo JSON de esquema desconhecido era aceito e abria um projeto inteiramente padrão | a abertura é interrompida com mensagem própria |
 | a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
 | seis campos eram gravados no arquivo e nunca lidos de volta | a seção 5.2 (volume Enganos, limitações e confiabilidade) lista os que permanecem nessa condição |
+
+#### 6.3.3.4. Documentação
+
+A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
+manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte, e um
+site de documentação com dezoito figuras interativas, em que o leitor muda os
+parâmetros e vê o resultado que o programa calculou. Os três, mais o `CHANGELOG.md`
+distribuído com o código, saem dos mesmos arquivos de texto.
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa
