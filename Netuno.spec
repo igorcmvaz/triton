@@ -36,6 +36,11 @@ hiddenimports = [
     'netuno.core.mcdm_methods',
     'netuno.core.environmental_sync',
     'netuno.core.esg_certifications',
+    'netuno.core.comprimento_de_serie',
+    'netuno.core.demanda_estocastica',
+    'netuno.ui.dialogs.dialog_comprimento_de_serie',
+    'netuno.core.excel_scenarios',
+    'netuno.ui.tab_economic_global_optimizer',
 ]
 
 a = Analysis(
