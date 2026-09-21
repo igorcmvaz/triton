@@ -163,7 +163,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
 
-*Figura 99 — Investimento inicial aberto em cinco rubricas, para três volumes de reservatório de polietileno. Mão de obra, tubulação, acessórios e descarte inicial não variam com o volume da cisterna; o descarte inicial depende da lâmina de descarte e da área de captação, e no tutorial corresponde a 300 L para 2 mm sobre 150 m².*
+*Figura 99 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes.*
 
 ---
 

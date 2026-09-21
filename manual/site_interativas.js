@@ -7,6 +7,8 @@ const FI = {};
 const FI_D = DADOS.interativas || {};
 const FI_ONDE = DADOS.onde_interativas || {};
 const S = n => `var(--s${n})`;
+/* Rampa de um tom só, para as parcelas de uma barra empilhada. */
+const R = n => `var(--r${n})`;
 const menos = (v, d = 0) => (v < 0 ? "−" : "") + fmt(Math.abs(v), d);
 const reais = (v, d = 0) => (v < 0 ? "−" : "") + "R$ " + fmt(Math.abs(v), d);
 const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -380,7 +382,7 @@ FI["fig05_regimes.png"] = {
   pergunta: "Quanto da água economizada vira economia na fatura?",
   controles: "consumo sem e com o sistema",
   experimente: "No regime de franquia, baixe o consumo com o sistema para menos de 10 m³: a fatura para de cair, porque os primeiros 10 m³ já estão pagos no valor mínimo. No regime de disponibilidade, a mesma economia rende mais.",
-  fonte: "Estruturas tarifárias reais: disponibilidade como na CASAN (Florianópolis), franquia como em Floriano (PI), e a de Floriano sem a franquia, para isolar o efeito dela. Fatura de água e esgoto calculada pela mesma função do programa. O ponto de partida é o consumo médio do tutorial.",
+  fonte: "Estruturas tarifárias reais: disponibilidade como na CASAN (Florianópolis), franquia como em Floriano (PI), e a de Floriano sem a franquia, para isolar o efeito dela. Parcela de água calculada pela mesma função do programa; o esgoto é cobrado como percentual dela e apenas multiplica as três curvas, sem mudar o formato — é o formato que distingue os regimes. A figura 28, na seção 2.7, abre a fatura inteira. O ponto de partida é o consumo médio do tutorial.",
   montar(p, D, id) {
     const passo = 0.25, n = Math.round(30 / passo) + 1;
     const idx = v => Math.round(v / passo);
@@ -401,7 +403,7 @@ FI["fig05_regimes.png"] = {
       const cs = D.consumos.slice(0, n);
       const ymax = Math.max(...D.curvas.map(c => c.fatura[n - 1]));
       const ey = escala(0, ymax, 5);
-      const A = plano({W, H, l: 58, r: 150, t: 34, b: 44, x: [0, 30], y: [0, ey.max], ym: ey.marcas, yf: v => "R$ " + fmt(v), yr: "fatura mensal de água e esgoto",
+      const A = plano({W, H, l: 58, r: 150, t: 34, b: 44, x: [0, 30], y: [0, ey.max], ym: ey.marcas, yf: v => "R$ " + fmt(v), yr: "parcela de água da fatura mensal",
         xm: [0, 5, 10, 15, 20, 25, 30], xf: v => v + " m³", xr: "consumo mensal de água potável"});
       let s = `<rect x="${A.X(cs[iCom])}" y="${A.Y(ey.max)}" width="${Math.max(0, A.X(cs[iSem]) - A.X(cs[iCom]))}" height="${A.Y(0) - A.Y(ey.max)}" style="fill:var(--accent-soft)"/>` + A.s;
       const rot = [];
@@ -417,7 +419,7 @@ FI["fig05_regimes.png"] = {
       });
       s += `<line class="g-guia" x1="0" x2="0" y1="${A.Y(ey.max)}" y2="${A.Y(0)}" style="display:none"/>`;
       svg.innerHTML = s;
-      pairar(svg, W, cs.map(x => A.X(x)), i => dicaHTML(`Consumo de ${fmt(cs[i], 2)} m³/mês`,
+      pairar(svg, W, cs.map(x => A.X(x)), i => dicaHTML(`Consumo de ${fmt(cs[i], 2)} m³/mês · parcela de água`,
         D.curvas.map((c, k) => [cores[k], c.nome, reais(c.fatura[i], 2)])));
       p.querySelector(`#${id}s-o`).textContent = fmt(cs[iSem], 2) + " m³/mês";
       p.querySelector(`#${id}c-o`).textContent = fmt(cs[iCom], 2) + " m³/mês";
@@ -714,6 +716,502 @@ FI["fig02_curva_de_retorno.png"] = {
     ligarSeg(p, id + "q", v => { lim = +v; desenhar(); });
     ligarSeg(p, id + "p", v => { passo = +v; desenhar(); });
     desenhar();
+  }
+};
+
+/* ─── o TOPSIS, com os pesos na mão do leitor ──────────────────────────── */
+
+/** O mesmo cálculo de netuno/core/topsis.py: desloca pela coluna, normaliza
+ *  pelo vetor, pondera, mede a distância ao ideal e ao anti-ideal. */
+function topsisEscores(matriz, pesos, beneficio, volumes) {
+  const n = matriz.length, m = pesos.length;
+  const total = pesos.reduce((a, b) => a + b, 0);
+  const w = pesos.map(x => x / total);
+  const min = [], max = [];
+  for (let j = 0; j < m; j++) {
+    const col = matriz.map(l => l[j]);
+    min.push(Math.min(...col)); max.push(Math.max(...col));
+  }
+  const norma = [];
+  for (let j = 0; j < m; j++) {
+    let s = 0;
+    for (let i = 0; i < n; i++) s += Math.pow(matriz[i][j] - min[j], 2);
+    norma.push(Math.sqrt(s) || 1);
+  }
+  const pond = matriz.map(l => l.map((x, j) => (x - min[j]) / norma[j] * w[j]));
+  const ideal = [], antiideal = [];
+  for (let j = 0; j < m; j++) {
+    const col = pond.map(l => l[j]);
+    ideal.push(beneficio[j] ? Math.max(...col) : Math.min(...col));
+    antiideal.push(beneficio[j] ? Math.min(...col) : Math.max(...col));
+  }
+  const escores = pond.map(l => {
+    const db = Math.sqrt(l.reduce((a, x, j) => a + Math.pow(x - ideal[j], 2), 0));
+    const dp = Math.sqrt(l.reduce((a, x, j) => a + Math.pow(x - antiideal[j], 2), 0));
+    return db + dp > 2.2e-16 ? dp / (db + dp) : 0.5;
+  });
+  if (n === 1) escores[0] = 1;
+  // Empate resolvido pelo menor volume, como no programa.
+  const ordem = escores.map((s, i) => i).sort((a, b) => escores[b] - escores[a] || volumes[a] - volumes[b]);
+  const postos = new Array(n);
+  ordem.forEach((i, k) => { postos[i] = k + 1; });
+  // Proximidade por critério: 1 é o ótimo observado na coluna.
+  const prox = matriz.map(l => l.map((x, j) => {
+    const faixa = max[j] - min[j];
+    if (faixa <= 0) return 1;
+    return 1 - (beneficio[j] ? (max[j] - x) / faixa : (x - min[j]) / faixa);
+  }));
+  return {escores, postos, proximidade: prox, pesos: w};
+}
+
+FI["fig51_programa_topsis.png"] = {
+  curto: "A decisão multicritério",
+  pergunta: "Que volume o multicritério elege, e com que pesos?",
+  controles: "peso técnico · econômico · ambiental",
+  experimente: "Com os três eixos iguais, como o programa abre, vence a cisterna de 4.000 L. Leve o peso ambiental ao máximo e veja a escolha subir de volume; leve o econômico e ela desce. O critério que muda a decisão fica visível nas barras de proximidade.",
+  fonte: "Os sete critérios do programa, calculados para sete volumes candidatos com o projeto do tutorial e cisterna de polietileno. O escore é calculado na página pela mesma conta de netuno/core/topsis.py, conferida contra o programa por teste automático.",
+  montar(p, D, id) {
+    let pesos = [1 / 3, 1 / 3, 1 / 3], sete = false, pc = null, sel = D.volumes.indexOf(4000);
+    const W = 640, EIXOS = D.eixos, benef = D.criterios.map(c => c.beneficio);
+    const desenha = () => {
+      const w7 = sete ? pc.slice() : [pesos[0] / 2, pesos[0] / 2, pesos[1] / 3, pesos[1] / 3, pesos[1] / 3, pesos[2] / 2, pesos[2] / 2];
+      const Res = topsisEscores(D.matriz, w7, benef, D.volumes);
+      const vencedor = Res.postos.indexOf(1);
+      const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
+      const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
+        yf: v => fmt(v, 2), yr: "escore TOPSIS (1 = ideal)", painel: "(a)",
+        xm: D.volumes.map((_, i) => i), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume candidato"});
+      let s = A.s;
+      const bw = (A.X(1) - A.X(0)) * 0.55;
+      Res.escores.forEach((x, i) => {
+        const cor = i === vencedor ? "var(--accent)" : "var(--grid)";
+        const contorno = i === sel ? ";stroke:var(--ink2);stroke-width:2" : "";
+        s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(x)}" width="${bw}" height="${A.Y(0) - A.Y(x)}" rx="3" style="fill:${cor}${contorno}"/>`;
+        s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(x) - 6}" text-anchor="middle">${fmt(x, 3)}</text>`;
+      });
+      s += `<text class="g-rot" x="${A.X(vencedor)}" y="${A.Y(ey.max) + 2}" text-anchor="middle" style="fill:var(--accent)">eleito</text>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
+        i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "escore", fmt(Res.escores[i], 4)], ["", "posição", `${Res.postos[i]}º`]]),
+        i => { sel = i; desenha(); });
+
+      const B = plano({W, H: 250, l: 268, r: 60, t: 34, b: 36, x: [0, 1], y: [D.criterios.length - 0.4, -0.6],
+        xm: [0, 0.25, 0.5, 0.75, 1], xf: v => fmt(v * 100) + "%", xr: "proximidade do ótimo observado", painel: "(b)"});
+      let t = B.s;
+      D.criterios.forEach((c, j) => {
+        const v = Res.proximidade[sel][j], y = B.Y(j), h = 16;
+        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${B.X(1) - B.X(0)}" height="${h}" rx="3" style="fill:var(--grid)"/>`;
+        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${Math.max(2, B.X(v) - B.X(0))}" height="${h}" rx="3" style="fill:${S(c.eixo === "technical" ? 3 : c.eixo === "economic" ? 2 : 4)}"/>`;
+        t += `<text class="g-t" x="${B.X(0) - 8}" y="${y + 4}" text-anchor="end">${c.rotulo} · peso ${fmt(Res.pesos[j] * 100, 1)}%</text>`;
+        t += `<text class="g-t" x="${B.X(1) + 8}" y="${y + 4}">${fmt(v * 100, 0)}%</text>`;
+      });
+      p.querySelector(`#${id}h`).innerHTML = t;
+
+      EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] * 100, 0) + "%"; });
+      if (sete) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(Res.pesos[j] * 100, 1) + "%"; });
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Eleito: ${fmt(D.volumes[vencedor])} L</p>
+        <div class="fi-n">${cartao("Escore do eleito", fmt(Res.escores[vencedor], 3))}
+        ${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `${Res.postos[sel]}º lugar, escore ${fmt(Res.escores[sel], 3)}`)}</div>
+        <p class="fi-sub">Os sete critérios do volume em destaque</p>
+        <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.beneficio ? "maior é melhor" : "menor é melhor"}</small></td>
+          <td class="n">${c.unidade === "R$" ? reais(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
+        <p class="fi-nota">O escore mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se pagam no horizonte recebem a penalidade de retorno que o programa aplica, e não ficam de fora da conta. " : ""}Pesos iguais nos três eixos reproduzem o resultado do programa.</p>`;
+    };
+    p.innerHTML = `<div class="fi-ctls">
+      ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, "Peso " + r.toLowerCase(), 101, Math.round(pesos[i] * 100))).join("")}
+      <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Pesos iguais</button><button type="button" class="bt" id="${id}sete">Abrir nos sete critérios</button></div></div>
+    </div><div class="fi-ctls" id="${id}s7" hidden></div>
+    <div class="fi-corpo"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Escore TOPSIS de cada volume candidato"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 250" role="img" aria-label="Proximidade do volume em destaque ao ótimo observado em cada critério"></svg>
+      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo econômico"], [S(4), "(b) eixo ambiental"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const ajustar = () => {
+      const soma = pesos.reduce((a, b) => a + b, 0);
+      if (soma <= 0) pesos = [1 / 3, 1 / 3, 1 / 3];
+      else pesos = pesos.map(x => x / soma);
+    };
+    EIXOS.forEach(([k], i) => p.querySelector(`#${id}${k}`).addEventListener("input", e => {
+      pesos = pesos.map((x, j) => j === i ? +e.target.value / 100 : x);
+      if (pesos.reduce((a, b) => a + b, 0) <= 0) pesos[i] = 0.01;
+      desenha();
+    }));
+    p.querySelector(`#${id}igual`).addEventListener("click", () => {
+      pesos = [1 / 3, 1 / 3, 1 / 3];
+      EIXOS.forEach(([k], i) => { p.querySelector(`#${id}${k}`).value = 33; });
+      if (sete) { pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6]; D.criterios.forEach((c, j) => { p.querySelector(`#${id}c${j}`).value = Math.round(pc[j] * 100); }); }
+      desenha();
+    });
+    p.querySelector(`#${id}sete`).addEventListener("click", e => {
+      sete = !sete;
+      const caixa = p.querySelector(`#${id}s7`);
+      if (sete && !pc) pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6];
+      if (sete) {
+        caixa.innerHTML = D.criterios.map((c, j) => ctlFaixa(id + "c" + j, c.rotulo, 101, Math.round(pc[j] * 100))).join("");
+        D.criterios.forEach((c, j) => p.querySelector(`#${id}c${j}`).addEventListener("input", ev => {
+          pc[j] = +ev.target.value / 100;
+          if (pc.reduce((a, b) => a + b, 0) <= 0) pc[j] = 0.01;
+          desenha();
+        }));
+      }
+      caixa.hidden = !sete;
+      e.target.textContent = sete ? "Voltar aos três eixos" : "Abrir nos sete critérios";
+      desenha();
+    });
+    ajustar();
+    desenha();
+  }
+};
+
+/* ─── a aceitabilidade estocástica (SMAA) ──────────────────────────────── */
+FI["fig23_smaa.png"] = {
+  curto: "A aceitabilidade estocástica",
+  pergunta: "E se ninguém souber dizer os pesos: que volume vence com mais frequência?",
+  controles: "método de ranqueamento · estratégia do VIKOR",
+  experimente: "Troque o VIKOR pelo TOPSIS e veja se o vencedor resiste à troca de método. Mova a estratégia do VIKOR do consenso (0,5) para o arrependimento mínimo (0) e observe qual volume ganha estabilidade.",
+  fonte: "SMAA do próprio programa: 5.000 sorteios de pesos numa distribuição de Dirichlet uniforme sobre os sete critérios, semente 42, com os mesmos sete candidatos da decisão multicritério.",
+  montar(p, D, id) {
+    let motor = D.padrao[0], v = D.padrao[1], sel = 3;
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "m", "Método de ranqueamento", [["vikor", "SMAA-VIKOR"], ["topsis", "SMAA-TOPSIS"]], motor)}
+      ${ctlSeg(id + "v", "Estratégia do VIKOR", [[0, "arrependimento (0)"], [0.5, "consenso (0,5)"], [1, "utilidade (1)"]], v)}
+    </div>
+    <div class="fi-corpo emp"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Aceitabilidade de primeiro lugar de cada volume; clique para escolher um volume"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 250" role="img" aria-label="Distribuição das posições de cada volume nos 5.000 sorteios"></svg>
+      ${legenda([[S(4), "1º lugar"], [S(1), "2º lugar; as posições seguintes vêm em tons cada vez mais claros"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const chave = motor === "topsis" ? "topsis|0.5" : `vikor|${v}`;
+      const C = D.casos[chave] || D.casos["vikor|0.5"];
+      const melhor = C.primeiro.indexOf(Math.max(...C.primeiro));
+      const ey = escala(0, Math.max(...C.primeiro) * 1.15, 4);
+      const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
+        yf: x => fmt(x) + "%", yr: "aceitabilidade de 1º lugar", painel: "(a)",
+        xm: D.volumes.map((_, i) => i), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume candidato"});
+      let s = A.s;
+      const bw = (A.X(1) - A.X(0)) * 0.55;
+      C.primeiro.forEach((x, i) => {
+        s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(x)}" width="${bw}" height="${Math.max(0, A.Y(0) - A.Y(x))}" rx="3" style="fill:${i === melhor ? S(4) : i === sel ? S(1) : "var(--grid)"}"/>`;
+        if (x > 0.5) s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(x) - 6}" text-anchor="middle">${fmt(x, 1)}%</text>`;
+      });
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
+        i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "vence em", fmt(C.primeiro[i], 2) + "% dos sorteios"]]),
+        i => { sel = i; desenha(); });
+
+      const B = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, 100], ym: [0, 25, 50, 75, 100],
+        yf: x => fmt(x) + "%", yr: "posições nos 5.000 sorteios", painel: "(b)",
+        xm: D.volumes.map((_, i) => i), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume candidato"});
+      let t = B.s;
+      C.aceitabilidade.forEach((linha, i) => {
+        let base = 0;
+        linha.forEach((x, pos) => {
+          if (x <= 0) return;
+          const alto = B.Y(base) - B.Y(base + x);
+          t += `<rect x="${B.X(i) - bw / 2}" y="${B.Y(base + x)}" width="${bw}" height="${Math.max(0, alto - 1)}" style="fill:${pos === 0 ? S(4) : S(1)};opacity:${pos === 0 ? 1 : Math.max(0.12, 0.62 - pos * 0.09)}"/>`;
+          base += x;
+        });
+      });
+      t += `<text class="g-t" x="${B.X(D.volumes.length - 1) + 4}" y="${B.Y(96)}">1º lugar em verde</text>`;
+      p.querySelector(`#${id}h`).innerHTML = t;
+      pairar(p.querySelector(`#${id}h`), W, D.volumes.map((_, i) => B.X(i)),
+        i => dicaHTML(`${fmt(D.volumes[i])} L`, C.aceitabilidade[i].map((x, pos) => [pos === 0 ? S(4) : S(1), `${pos + 1}º lugar`, fmt(x, 1) + "%"]).filter((_, pos) => C.aceitabilidade[i][pos] > 0)),
+        i => { sel = i; desenha(); });
+
+      const central = C.central[sel], soma = central.reduce((a, b) => a + b, 0);
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Mais aceito: ${fmt(D.volumes[melhor])} L, em ${fmt(C.primeiro[melhor], 1)}% dos sorteios</p>
+        <div class="fi-n">${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `vence em ${fmt(C.primeiro[sel], 2)}% dos sorteios`)}
+        ${cartao("Fator de confiança", C.confianca[sel] >= 1 ? "✓ confirma" : "✕ não confirma", "com o próprio vetor central")}</div>
+        ${soma > 0 ? `<p class="fi-sub">Vetor central de pesos que elege ${fmt(D.volumes[sel])} L</p>
+        <table class="fi-tabela"><tbody>${DADOS.interativas["fig51_programa_topsis.png"].criterios.map((c, j) =>
+          `<tr><td>${c.rotulo}</td><td class="n">${fmt(central[j] * 100, 1)}%</td></tr>`).join("")}</tbody></table>`
+        : `<p class="fi-nota">Este volume não venceu nenhum dos ${fmt(D.sorteios)} sorteios, e por isso não tem vetor central de pesos.</p>`}
+        <p class="fi-nota">Cada sorteio tira um vetor de pesos ao acaso e ranqueia os volumes. A aceitabilidade de primeiro lugar é a fração dos sorteios em que o volume venceu; o vetor central é a média dos pesos que o elegeram. É a pergunta invertida: em vez de «qual volume estes pesos elegem», «que pesos elegeriam este volume».</p>`;
+    };
+    ligarSeg(p, id + "m", x => { motor = x; desenha(); });
+    ligarSeg(p, id + "v", x => { v = +x; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── os índices pluviométricos ────────────────────────────────────────── */
+FI["fig16_indices.png"] = {
+  curto: "Os índices pluviométricos, ano a ano",
+  pergunta: "O que os nove índices dizem sobre a chuva de cada cidade?",
+  controles: "cidade · índice",
+  experimente: "Escolha «Maior estiagem» e compare Brasília com Florianópolis: a maior sequência seca de Brasília passa de 100 dias em vários anos, e é ela, não a chuva total, que obriga a cisterna maior. Depois veja o índice de sazonalidade das quatro cidades.",
+  fonte: "Índices calculados pelo próprio programa (netuno/core/calculator.py) sobre 30 anos da série de cada capital, com o mesmo período-base de percentil que o programa usa.",
+  montar(p, D, id) {
+    let cidade = D.padrao[0], indice = D.padrao[1];
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "c", "Cidade", D.cidades.map(c => [c.chave, c.nome]), cidade)}
+      <div class="fi-ctl largo"><label class="fi-rot" for="${id}i">Índice</label>
+      <select id="${id}i">${D.indices.map(x => `<option value="${x.chave}"${x.chave === indice ? " selected" : ""}>${x.nome} (${x.chave.replace("Seasonality_Index", "SI")})</option>`).join("")}</select></div>
+    </div>
+    <div class="fi-corpo emp"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 260" role="img" aria-label="Valor do índice em cada ano da série"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 190" role="img" aria-label="Média do índice nas quatro capitais"></svg>
+      ${legenda([[S(1), "valor do ano"], ["var(--ink3)", "média dos 30 anos", "trac"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const c = D.cidades.find(x => x.chave === cidade), meta = D.indices.find(x => x.chave === indice);
+      const vals = c.valores[indice], media = vals.reduce((a, b) => a + b, 0) / vals.length;
+      const ey = escala(0, Math.max(...vals) * 1.1, 4);
+      const A = plano({W, H: 260, l: 62, r: 14, t: 34, b: 44, x: [-0.6, vals.length - 0.4], y: [0, ey.max], ym: ey.marcas,
+        yf: x => fmt(x, meta.casas > 1 ? 2 : 0), yr: `${meta.nome} (${meta.unidade})`, painel: "(a)",
+        xm: c.anos.map((_, i) => i).filter(i => i % 5 === 0), xf: i => c.anos[i], xr: "ano"});
+      let s = A.s;
+      const bw = (A.X(1) - A.X(0)) * 0.7;
+      const maior = vals.indexOf(Math.max(...vals)), menor = vals.indexOf(Math.min(...vals));
+      vals.forEach((x, i) => {
+        s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(x)}" width="${bw}" height="${Math.max(0, A.Y(0) - A.Y(x))}" rx="2" style="fill:${S(1)};opacity:${i === maior || i === menor ? 1 : 0.72}"/>`;
+      });
+      s += `<line class="g-ref" x1="${A.X(-0.6)}" x2="${A.X(vals.length - 0.4)}" y1="${A.Y(media)}" y2="${A.Y(media)}"/>`;
+      s += `<text class="g-t" x="${A.X(-0.5)}" y="${A.Y(media) - 6}">média dos 30 anos: ${fmt(media, meta.casas)} ${meta.unidade === "—" ? "" : meta.unidade}</text>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, vals.map((_, i) => A.X(i)),
+        i => dicaHTML(`${c.nome}, ${c.anos[i]}`, [[S(1), meta.nome, fmt(vals[i], meta.casas) + " " + (meta.unidade === "—" ? "" : meta.unidade)]]));
+
+      const medias = D.cidades.map(x => x.valores[indice].reduce((a, b) => a + b, 0) / x.valores[indice].length);
+      const ry = escala(0, Math.max(...medias) * 1.15, 3);
+      const B = plano({W, H: 190, l: 62, r: 14, t: 34, b: 40, x: [-0.6, D.cidades.length - 0.4], y: [0, ry.max], ym: ry.marcas,
+        yf: x => fmt(x, meta.casas > 1 ? 2 : 0), yr: `média de 30 anos (${meta.unidade})`, painel: "(b)",
+        xm: D.cidades.map((_, i) => i), xf: i => D.cidades[i].nome});
+      let t = B.s;
+      const bw2 = (B.X(1) - B.X(0)) * 0.45;
+      medias.forEach((x, i) => {
+        t += `<rect x="${B.X(i) - bw2 / 2}" y="${B.Y(x)}" width="${bw2}" height="${Math.max(0, B.Y(0) - B.Y(x))}" rx="3" style="fill:${D.cidades[i].chave === cidade ? S(1) : "var(--grid)"}"/>`;
+        t += `<text class="g-t" x="${B.X(i)}" y="${B.Y(x) - 6}" text-anchor="middle">${fmt(x, meta.casas)}</text>`;
+      });
+      p.querySelector(`#${id}h`).innerHTML = t;
+
+      const ordenado = vals.slice().sort((a, b) => a - b);
+      const mediana = ordenado[Math.floor(vals.length / 2)];
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${meta.nome} em ${c.nome}</p>
+        <div class="fi-n">${cartao("Média dos 30 anos", fmt(media, meta.casas), meta.unidade === "—" ? "" : meta.unidade)}
+        ${cartao("Mediana", fmt(mediana, meta.casas), meta.unidade === "—" ? "" : meta.unidade)}
+        ${cartao("Maior valor", fmt(vals[maior], meta.casas), "em " + c.anos[maior])}
+        ${cartao("Menor valor", fmt(vals[menor], meta.casas), "em " + c.anos[menor])}</div>
+        <p class="fi-nota"><b>${meta.chave.replace("Seasonality_Index", "SI")}.</b> ${meta.texto}</p>`;
+    };
+    ligarSeg(p, id + "c", x => { cidade = x; desenha(); });
+    p.querySelector(`#${id}i`).addEventListener("change", e => { indice = e.target.value; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── o investimento aberto por rubrica ────────────────────────────────── */
+FI["fig21_investimento.png"] = {
+  curto: "De que é feito o investimento",
+  pergunta: "De que é feito o investimento inicial, e o que muda com o volume?",
+  controles: "volume · material",
+  experimente: "Dobre o volume de 4 para 8 m³: o investimento total sobe bem menos que o dobro, porque só o reservatório inferior cresce. Trocar o material mexe só nessa parcela, e é por isso que o concreto, mais caro por litro, pesa mais nas cisternas grandes.",
+  fonte: "As sete parcelas que o programa soma no investimento inicial, com os preços de referência dele e os custos declarados no tutorial. A soma reproduz, para cada volume e material, o mesmo investimento que a análise econômica usa no fluxo de caixa.",
+  montar(p, D, id) {
+    let vi = D.volumes.indexOf(D.padrao[0]), mat = D.padrao[1];
+    const W = 640, cores = [1, 2, 3, 4, 5, 6, 7].map(R);
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlFaixa(id + "v", "Volume da cisterna", D.volumes.length, vi)}
+      ${ctlSeg(id + "m", "Material da cisterna", D.materiais, mat)}
+    </div>
+    <div class="fi-corpo"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 300" role="img" aria-label="Investimento inicial aberto por rubrica, em cada volume"></svg>
+      ${legenda(D.rubricas.map((r, i) => [cores[i], r]))}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const v = D.volumes[vi];
+      const totais = D.volumes.map(x => D.casos[`${x}|${mat}`].reduce((a, b) => a + b, 0));
+      const ey = escala(0, Math.max(...totais) * 1.08, 5);
+      const A = plano({W, H: 300, l: 70, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
+        yf: x => fmt(x), yr: "investimento inicial (R$)",
+        xm: D.volumes.map((_, i) => i).filter(i => i % 2 === 0), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume da cisterna"});
+      let s = A.s;
+      const bw = (A.X(1) - A.X(0)) * 0.62;
+      D.volumes.forEach((x, i) => {
+        const partes = D.casos[`${x}|${mat}`];
+        let base = 0;
+        partes.forEach((valor, j) => {
+          const alto = A.Y(base) - A.Y(base + valor);
+          s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(base + valor)}" width="${bw}" height="${Math.max(0, alto - 1.5)}" style="fill:${cores[j]};opacity:${i === vi ? 1 : 0.38}"/>`;
+          base += valor;
+        });
+        if (i === vi) s += `<text class="g-rot" x="${A.X(i)}" y="${A.Y(base) - 8}" text-anchor="middle" style="fill:var(--ink)">${reais(base)}</text>`;
+      });
+      p.querySelector(`#${id}g`).innerHTML = s;
+      pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
+        i => dicaHTML(`${fmt(D.volumes[i])} L`, D.casos[`${D.volumes[i]}|${mat}`].map((x, j) => [cores[j], D.rubricas[j].split(" (")[0], reais(x)])
+          .concat([["", "total", reais(totais[i])]])),
+        i => { vi = i; p.querySelector(`#${id}v`).value = i; desenha(); });
+      p.querySelector(`#${id}v-o`).textContent = fmt(v) + " L";
+      const partes = D.casos[`${v}|${mat}`], total = partes.reduce((a, b) => a + b, 0);
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${fmt(v)} L em ${D.materiais.find(m => m[0] === mat)[1].toLowerCase()}</p>
+        <table class="fi-tabela"><tbody>${D.rubricas.map((r, j) => `<tr><td><i style="--c:${cores[j]}"></i>${r}</td><td class="n">${reais(partes[j])}</td><td class="n">${fmt(100 * partes[j] / total, 0)}%</td></tr>`).join("")}
+        <tr class="tot"><td>Total</td><td class="n">${reais(total)}</td><td class="n">100%</td></tr></tbody></table>
+        <div class="fi-n">${cartao("Custo por litro de cisterna", reais(partes[0] / v, 2), "só o reservatório")}
+        ${cartao("Parcela que não depende do volume", fmt(100 * (total - partes[0]) / total, 0) + "%")}</div>
+        <p class="fi-nota">A soma das sete rubricas é o investimento inicial que a análise econômica usa${D.fecha_com_o_capex ? ", conferido a cada montagem do site" : ""}. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para o filtro não ser contado duas vezes.</p>`;
+    };
+    p.querySelector(`#${id}v`).addEventListener("input", e => { vi = +e.target.value; desenha(); });
+    ligarSeg(p, id + "m", x => { mat = x; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── a fatura aberta em parcelas ──────────────────────────────────────── */
+FI["fig07_fatura.png"] = {
+  curto: "A fatura aberta em parcelas",
+  pergunta: "De que é feita a conta de água, e que parte o sistema pluvial consegue mexer?",
+  controles: "consumo sem e com o sistema · esgoto",
+  experimente: "Baixe o consumo com o sistema: a tarifa de disponibilidade não se move, e só a faixa mais cara encolhe. Zere o percentual de esgoto e veja a economia mensal cair pela metade — em Florianópolis o esgoto iguala a água, e é ele que torna o sistema viável.",
+  fonte: "Tarifa da CASAN vigente no tutorial, aberta nas parcelas que o programa calcula: disponibilidade, faixas de consumo e esgoto como percentual da parcela de água. O ponto de partida é o consumo médio do projeto do tutorial.",
+  montar(p, D, id) {
+    const n = D.consumos.length, idx = v => Math.round(v / 0.25);
+    let iSem = idx(D.padrao[0]), iCom = idx(D.padrao[1]), esgoto = 100;
+    const W = 560, cores = [S(2), R(3), R(5), R(6), R(7), S(4)];
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlFaixa(id + "s", "Consumo sem o sistema", n, iSem)}
+      ${ctlFaixa(id + "c", "Consumo com o sistema", n, iCom)}
+      ${ctlSeg(id + "e", "Esgoto", [[0, "sem esgoto"], [40, "40%"], [80, "80%"], [100, "100%"]], esgoto)}
+    </div>
+    <div class="fi-corpo"><div>
+      <svg id="${id}g" class="estreito" viewBox="0 0 ${W} 330" role="img" aria-label="A fatura mensal aberta em parcelas, sem e com o sistema pluvial"></svg>
+      <div class="fi-leg" id="${id}leg"></div>
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      if (iCom > iSem) { iCom = iSem; p.querySelector(`#${id}c`).value = iCom; }
+      const monta = i => {
+        const linha = D.parcelas[i].slice();
+        linha[linha.length - 1] = linha[linha.length - 1] * esgoto / 100;   // esgoto sobre a água
+        return linha;
+      };
+      const casos = [["sem o sistema", monta(iSem), D.consumos[iSem]], ["com o sistema", monta(iCom), D.consumos[iCom]]];
+      const totais = casos.map(([, l]) => l.reduce((a, b) => a + b, 0));
+      const ey = escala(0, Math.max(...totais) * 1.12, 5);
+      const A = plano({W, H: 330, l: 70, r: 14, t: 34, b: 52, x: [-0.6, 1.6], y: [0, ey.max], ym: ey.marcas,
+        yf: x => fmt(x), yr: "fatura mensal (R$)", xm: [0, 1], xf: i => casos[i][0]});
+      let s = A.s;
+      const bw = (A.X(1) - A.X(0)) * 0.46;
+      casos.forEach(([rot, linha, consumo], i) => {
+        let base = 0;
+        linha.forEach((valor, j) => {
+          if (valor <= 0) return;
+          const alto = A.Y(base) - A.Y(base + valor);
+          s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(base + valor)}" width="${bw}" height="${Math.max(0, alto - 1.5)}" style="fill:${cores[j]}"/>`;
+          if (alto > 18) s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(base + valor / 2) + 4}" text-anchor="middle" style="fill:${j === 0 || j === 5 || j <= 2 ? "#fff" : "var(--sobre-r7)"}">${reais(valor)}</text>`;
+          base += valor;
+        });
+        s += `<text class="g-rot" x="${A.X(i)}" y="${A.Y(base) - 8}" text-anchor="middle" style="fill:var(--ink)">${reais(base)}</text>`;
+        s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(0) + 32}" text-anchor="middle">${fmt(consumo, 2)} m³/mês</text>`;
+      });
+      const xs = A.X(1) + bw / 2 + 12, y1 = A.Y(totais[0]), y2 = A.Y(totais[1]);
+      s += `<line x1="${xs}" x2="${xs}" y1="${y1}" y2="${y2}" style="stroke:${S(4)};stroke-width:1.5"/>`;
+      s += `<text class="g-rot" x="${xs - 4}" y="${(y1 + y2) / 2 + 4}" text-anchor="end" style="fill:${S(4)}">−${reais(totais[0] - totais[1])}</text>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      p.querySelector(`#${id}leg`).innerHTML = D.rubricas.map((r, j) => casos[0][1][j] > 0 || casos[1][1][j] > 0
+        ? `<span><i style="--c:${cores[j]}"></i>${r}</span>` : "").join("");
+      p.querySelector(`#${id}s-o`).textContent = fmt(D.consumos[iSem], 2) + " m³/mês";
+      p.querySelector(`#${id}c-o`).textContent = fmt(D.consumos[iCom], 2) + " m³/mês";
+      const agua = D.consumos[iSem] - D.consumos[iCom], economia = totais[0] - totais[1];
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Água potável economizada: ${fmt(agua, 2)} m³/mês</p>
+        <table class="fi-tabela"><thead><tr><th>Parcela</th><th class="n">Sem</th><th class="n">Com</th><th class="n">Diferença</th></tr></thead><tbody>
+        ${D.rubricas.map((r, j) => {
+          const a = casos[0][1][j], b = casos[1][1][j];
+          if (a <= 0 && b <= 0) return "";
+          return `<tr><td><i style="--c:${cores[j]}"></i>${r}</td><td class="n">${reais(a)}</td><td class="n">${reais(b)}</td><td class="n">${a - b > 0.005 ? "−" + reais(a - b) : "—"}</td></tr>`;
+        }).join("")}
+        <tr class="tot"><td>Total</td><td class="n">${reais(totais[0])}</td><td class="n">${reais(totais[1])}</td><td class="n">−${reais(economia)}</td></tr></tbody></table>
+        <div class="fi-n">${cartao("Redução da fatura", fmt(100 * economia / totais[0], 1) + "%", `de ${fmt(100 * agua / (D.consumos[iSem] || 1), 1)}% do consumo`)}
+        ${cartao("Economia por m³ poupado", agua > 0 ? reais(economia / agua, 2) : "—", "R$/m³")}</div>
+        <p class="fi-nota">A tarifa de disponibilidade é a mesma nos dois casos: é o que se paga por estar ligado à rede. Por isso a fatura cai menos, em proporção, do que o consumo.</p>`;
+    };
+    p.querySelector(`#${id}s`).addEventListener("input", e => { iSem = +e.target.value; if (iCom > iSem) iCom = iSem; desenha(); });
+    p.querySelector(`#${id}c`).addEventListener("input", e => { iCom = Math.min(+e.target.value, iSem); desenha(); });
+    ligarSeg(p, id + "e", x => { esgoto = +x; desenha(); });
+    desenha();
+  }
+};
+
+/* ─── a sensibilidade: que premissa move o resultado ───────────────────── */
+FI["fig24_tornado.png"] = {
+  curto: "O tornado de sensibilidade",
+  pergunta: "Que premissa move mais o resultado do projeto?",
+  controles: "amplitude da variação",
+  experimente: "Com ±30%, nenhuma premissa sozinha derruba o projeto. Suba para ±50% e duas passam a zerar o valor presente líquido: o volume de água captada e o período de análise. São as duas que precisam de dado local — série de chuva medida e vida útil declarada — antes de o estudo ser publicado.",
+  fonte: "Análise de sensibilidade do próprio programa (run_sensitivity_analysis) sobre o caso-base do tutorial — cisterna de 4.000 L em concreto, 20 anos, tarifa da CASAN —, a mesma definição de caso-base que a figura do manual usa.",
+  montar(p, D, id) {
+    let amp = D.padrao, sel = null;
+    const W = 640;
+    p.innerHTML = `<div class="fi-ctls">
+      ${ctlSeg(id + "a", "Amplitude da variação de cada premissa", D.amplitudes.map(a => [a, "±" + a + "%"]), amp)}
+    </div>
+    <div class="fi-corpo emp"><div>
+      <svg id="${id}g" viewBox="0 0 ${W} 380" role="img" aria-label="Variação do valor presente líquido quando cada premissa sobe e desce"></svg>
+      ${legenda([[S(4), "premissa para cima"], [S(2), "premissa para baixo"], ["var(--ink3)", "VPL do caso-base", "trac"]])}
+    </div><div class="fi-leit" id="${id}l"></div></div>`;
+    const desenha = () => {
+      const C = D.casos[String(amp)];
+      const itens = Object.keys(C).map(k => ({nome: k, baixo: C[k][0], alto: C[k][1]}));
+      itens.forEach(x => { x.amplitude = Math.abs(x.alto - x.baixo); });
+      itens.sort((a, b) => b.amplitude - a.amplitude);
+      if (sel === null || !itens.some(x => x.nome === sel)) sel = itens[0].nome;
+      const todos = itens.flatMap(x => [x.baixo, x.alto, D.vpl_base]);
+      const ex = escala(Math.min(...todos), Math.max(...todos), 5);
+      const A = plano({W, H: 380, l: 240, r: 20, t: 34, b: 48, x: [ex.min, ex.max], y: [itens.length - 0.4, -0.6],
+        xm: ex.marcas, xf: v => menos(v), xr: "valor presente líquido em 20 anos (R$)"});
+      let s = A.s;
+      const h = 18, x0 = A.X(D.vpl_base);
+      itens.forEach((x, i) => {
+        const y = A.Y(i);
+        [[x.alto, S(4)], [x.baixo, S(2)]].forEach(([valor, cor]) => {
+          const xa = Math.min(x0, A.X(valor)), largura = Math.abs(A.X(valor) - x0);
+          s += `<rect x="${xa}" y="${y - h / 2}" width="${Math.max(1, largura)}" height="${h}" rx="2" style="fill:${cor};opacity:${x.nome === sel ? 1 : 0.55}"/>`;
+        });
+        s += `<text class="g-t" x="${A.X(ex.min) - 8}" y="${y + 4}" text-anchor="end" style="${x.nome === sel ? "font-weight:600" : ""}">${x.nome}</text>`;
+      });
+      s += `<line class="g-ref" x1="${x0}" x2="${x0}" y1="${A.Y(-0.6)}" y2="${A.Y(itens.length - 0.4)}"/>`;
+      s += `<text class="g-t" x="${x0}" y="${A.Y(-0.6) - 6}" text-anchor="middle">caso-base: ${reais(D.vpl_base)}</text>`;
+      p.querySelector(`#${id}g`).innerHTML = s;
+      const svg = p.querySelector(`#${id}g`);
+      svg.onpointermove = e => {
+        const r = svg.getBoundingClientRect();
+        const y = (e.clientY - r.top) / r.height * 380;
+        let k = 0, d = Infinity;
+        itens.forEach((x, i) => { const q = Math.abs(A.Y(i) - y); if (q < d) { d = q; k = i; } });
+        const x = itens[k], dica = $("#dica");
+        dica.innerHTML = dicaHTML(x.nome, [
+          [S(4), `+${amp}%`, reais(x.alto) + ` (${menos(x.alto - D.vpl_base)})`],
+          [S(2), `−${amp}%`, reais(x.baixo) + ` (${menos(x.baixo - D.vpl_base)})`]]);
+        dica.hidden = false;
+        const lim = document.documentElement.clientWidth - dica.offsetWidth - 8;
+        dica.style.left = Math.max(8, Math.min(e.pageX + 14, lim)) + "px";
+        dica.style.top = Math.max(window.scrollY + 64, e.pageY - dica.offsetHeight - 12) + "px";
+      };
+      svg.onpointerleave = () => { $("#dica").hidden = true; };
+      svg.onclick = e => {
+        const r = svg.getBoundingClientRect();
+        const y = (e.clientY - r.top) / r.height * 380;
+        let k = 0, d = Infinity;
+        itens.forEach((x, i) => { const q = Math.abs(A.Y(i) - y); if (q < d) { d = q; k = i; } });
+        sel = itens[k].nome; desenha();
+      };
+      const viram = itens.filter(x => Math.min(x.alto, x.baixo) < 0);
+      const s1 = itens.find(x => x.nome === sel);
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Caso-base: cisterna de ${fmt(D.volume)} L, VPL de ${reais(D.vpl_base)}</p>
+        <div class="fi-n">${cartao("Premissa que mais move o VPL", itens[0].nome.replace(/ \(.*/, ""), `faixa de ${reais(itens[0].amplitude)}`)}
+        ${cartao("Premissas que chegam a zerar o VPL", viram.length ? viram.length + " de " + itens.length : "nenhuma", viram.length ? viram.map(x => x.nome.replace(/ \(.*/, "")).join(", ") : `com ±${amp}%`)}</div>
+        <p class="fi-sub">Premissa em destaque: ${s1.nome}</p>
+        <table class="fi-tabela"><tbody>
+        <tr><td><i style="--c:${S(4)}"></i>Premissa ${amp}% maior</td><td class="n">${reais(s1.alto)}</td><td class="n">${reais(s1.alto - D.vpl_base)}</td></tr>
+        <tr><td>Caso-base</td><td class="n">${reais(D.vpl_base)}</td><td class="n">—</td></tr>
+        <tr><td><i style="--c:${S(2)}"></i>Premissa ${amp}% menor</td><td class="n">${reais(s1.baixo)}</td><td class="n">${reais(s1.baixo - D.vpl_base)}</td></tr>
+        </tbody></table>
+        <p class="fi-nota">O caso-base sai do modelo econômico simplificado do programa, que desconta um fluxo anual com tarifa marginal única; por isso o valor presente aqui não é o mesmo do fluxo de caixa mensal da figura 28. O que o tornado mede é a sensibilidade relativa. Cada barra move uma premissa de cada vez, mantendo as outras no caso-base. A ordem é a da amplitude: quem está no alto decide o resultado, e é onde vale gastar esforço para conseguir dado local. Uma premissa cuja barra cruza o zero pode, sozinha, tornar o projeto inviável.</p>`;
+    };
+    ligarSeg(p, id + "a", x => { amp = +x; desenha(); });
+    desenha();
   }
 };
 

@@ -20,6 +20,8 @@
   --mark: #fff0b3;
   --series: #1d6fb8;
   --s1: #1d6fb8; --s2: #d9622b; --s3: #7a52b8; --s4: #1f9a78;
+  --r1: #0d3b66; --r2: #17598f; --r3: #2b7ab5; --r4: #5b9dd2; --r5: #8dbde4; --r6: #b9d6ee; --r7: #dcebf8;
+  --sobre-r1: #ffffff; --sobre-r7: #13202e;
   --on-accent: #ffffff;
   --grid: #e6ecf1;
   --aprof: #fdf4ec;
@@ -37,6 +39,8 @@
     --line: #22344a; --navy: #061327; --navy-ink: #e8f0f8; --accent: #4f9bd8; --link: #7bb7ea;
     --accent-soft: #15304b; --mark: #5b4b12; --series: #4f9bd8; --grid: #1c2d42;
     --s1: #4f9bd8; --s2: #db7438; --s3: #9670d2; --s4: #2fa37f; --on-accent: #061327;
+    --r1: #9fcaf0; --r2: #7fb4e4; --r3: #5f9cd6; --r4: #4581bd; --r5: #33669b; --r6: #244c76; --r7: #1a3a5c;
+    --sobre-r1: #08182c; --sobre-r7: #e5ecf3;
     --aprof: #2a2118; --aprof-line: #c98b54; --nota-line: #4f9bd8;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.25);
     color-scheme: dark;
@@ -47,6 +51,8 @@
   --line: #22344a; --navy: #061327; --navy-ink: #e8f0f8; --accent: #4f9bd8; --link: #7bb7ea;
   --accent-soft: #15304b; --mark: #5b4b12; --series: #4f9bd8; --grid: #1c2d42;
     --s1: #4f9bd8; --s2: #db7438; --s3: #9670d2; --s4: #2fa37f; --on-accent: #061327;
+    --r1: #9fcaf0; --r2: #7fb4e4; --r3: #5f9cd6; --r4: #4581bd; --r5: #33669b; --r6: #244c76; --r7: #1a3a5c;
+    --sobre-r1: #08182c; --sobre-r7: #e5ecf3;
   --aprof: #2a2118; --aprof-line: #c98b54; --nota-line: #4f9bd8;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.25);
   color-scheme: dark;
@@ -252,6 +258,8 @@ table { font-size: inherit; }
   /* No telefone o gráfico mantém a escala de leitura e rola para o lado. */
   .fi-corpo > div:first-child { overflow-x: auto; overscroll-behavior-x: contain; }
   .fi-corpo > div:first-child svg { min-width: 600px; }
+  /* Gráficos de poucos elementos cabem na tela do telefone. */
+  .fi-corpo > div:first-child svg.estreito { min-width: 340px; }
   .fi-corpo > div:first-child .fi-leg { position: sticky; left: 0; max-width: calc(100vw - 58px); }
   .fi-tabela { display: block; overflow-x: auto; }
 }
@@ -445,9 +453,12 @@ document.addEventListener("keydown", e => { if (e.key === "/" && document.active
 /* página inicial */
 function inicio() {
   const v = DADOS.volumes;
+  const interativas = Object.keys(DADOS.onde_interativas || {}).length;
   const fatos = [
     ["Versão", "5.0.0 beta"], ["Base climática", "652 cidades"],
-    ["Seções no manual", fmt(DADOS.secoes)], ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
+    ["Seções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
+    ["Figuras interativas", fmt(interativas)],
+    ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
   ];
   const noFluxo = [
     ["Chuva diária", "série de 30 anos", "2.4", 20, 40],

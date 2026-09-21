@@ -147,9 +147,9 @@ A {{fig:fig05_regimes}} mostra as três respostas lado a lado. O que distingue o
 o preço praticado, e sim o formato da curva: ==onde a curva é horizontal, economizar água
 não reduz a fatura em nada.==
 
-![A fatura de água e esgoto contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
+![A parcela de água da fatura contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
 
-*Figura 99 — Fatura mensal de água e esgoto em função do consumo, em três regimes de valor mínimo. Na tarifa de disponibilidade e sem valor mínimo, cada metro cúbico economizado reduz a fatura desde o primeiro; na franquia no mínimo, o trecho horizontal marca a faixa de consumo em que a economia de água não reduz a fatura.*
+*Figura 99 — Parcela de água da fatura mensal em função do consumo, em três regimes de valor mínimo. O esgoto não entra no gráfico porque é cobrado como percentual desta parcela e apenas multiplica a curva, sem mudar-lhe o formato. Na tarifa de disponibilidade e sem valor mínimo, cada metro cúbico economizado reduz a fatura desde o primeiro; na franquia no mínimo, o trecho horizontal marca a faixa de consumo em que a economia de água não reduz a fatura.*
 
 ---
 

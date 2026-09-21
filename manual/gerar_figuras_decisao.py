@@ -77,27 +77,43 @@ def _candidatos():
 # De que é feito o investimento
 # ══════════════════════════════════════════════════════════════════════════════
 
+def rubricas_do_investimento(volume_l, material=MATERIAL):
+    """As parcelas do investimento inicial, na definição do próprio programa.
+
+    A soma fecha com ``capex_total`` da análise econômica: o CAPEX é a soma da
+    cisterna, da caixa superior, da mão de obra, da tubulação, dos acessórios,
+    das motobombas e do que a linha de tratamento acrescenta por cima da verba
+    de filtração já embutida nos acessórios (netuno/core/economic.py e
+    netuno/core/etap_integration.py). A versão anterior desta figura abria só
+    cinco rubricas e não fechava com o investimento do tutorial.
+    """
+    from netuno.core.etap_integration import capex_incremental_da_etap
+    from netuno.core.economic import run_economic_analysis
+
+    from gerar_tabelas import _config_economica, _config_projeto
+
+    cfg = _config_economica(volume_l, material)
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=float(volume_l),
+                              **_config_projeto())
+    etap = capex_incremental_da_etap(cfg, r.annual_pluvial_consumed_m3, r)
+    valores = [
+        cfg.cost_lower_tank, cfg.cost_upper_tank, cfg.cost_labor, cfg.cost_piping,
+        cfg.cost_accessories, cfg.pump_unit_cost * cfg.pump_count, etap,
+    ]
+    return valores, run_economic_analysis(cfg, r).capex_total
+
+
 def figura_investimento():
     """O CAPEX aberto por rubrica, em três volumes de reservatório."""
-    from netuno.core.cost_estimates import estimate_tank_price
-    from netuno.core.water_quality import size_first_flush_system
-
-    from gerar_tabelas import TUTORIAL
-
-    # O descarte inicial não depende do volume da cisterna, e sim da lâmina de
-    # descarte e da área de captação: V = d × A. Entra como rubrica própria
-    # porque o programa o orça à parte, na linha de tratamento.
-    descarte = size_first_flush_system(discard_mm=TUTORIAL["discard_mm"],
-                                       roof_area_m2=TUTORIAL["area"])
-
     volumes = (2000, int(VOLUME), 12000)
     rubricas = [
         ("reservatório inferior", AZUL),
+        ("caixa d'água superior", "#4a90c4"),
         ("mão de obra", LARANJA),
         ("tubulação", VERDE),
         ("acessórios", ROXO),
-        (f"descarte inicial ({descarte.diverter_volume_liters:.0f} L "
-         "e separador de folhas)", "#8a8880"),
+        ("motobombas (principal e reserva)", "#8a8880"),
+        ("linha de tratamento, além da verba dos acessórios", "#c2b59b"),
     ]
 
     fig, ax = plt.subplots(figsize=(7.2, 4.0))
@@ -106,13 +122,7 @@ def figura_investimento():
 
     rotulos, totais = [], []
     for i, v in enumerate(volumes):
-        valores = [
-            estimate_tank_price(float(v), MATERIAL),
-            CUSTOS_TUTORIAL["cost_labor"],
-            CUSTOS_TUTORIAL["cost_piping"],
-            CUSTOS_TUTORIAL["cost_accessories"],
-            descarte.first_flush_total_capex,
-        ]
+        valores, _ = rubricas_do_investimento(v)
         base = 0.0
         for (nome, cor), valor in zip(rubricas, valores):
             ax.bar(i, valor, 0.5, bottom=base, color=cor, zorder=3,
@@ -188,10 +198,13 @@ def figura_smaa():
 # O tornado: que variável move o resultado
 # ══════════════════════════════════════════════════════════════════════════════
 
-def figura_tornado():
-    from netuno.core.economic import (
-        run_robust_economic_analysis, run_sensitivity_analysis,
-    )
+def base_do_tornado():
+    """O caso-base da análise de sensibilidade, numa definição só.
+
+    A figura do manual e a figura interativa do site leem daqui, para não
+    divergirem numa premissa.
+    """
+    from netuno.core.economic import run_robust_economic_analysis
     from netuno.core.etap_integration import (
         capex_incremental_da_etap, opex_anual_incremental_da_etap,
     )
@@ -226,6 +239,13 @@ def figura_tornado():
         elec_tariff_kwh=cfg.elec_tariff,
         analysis_period_years=20,
     )
+    return base
+
+
+def figura_tornado():
+    from netuno.core.economic import run_robust_economic_analysis, run_sensitivity_analysis
+
+    base = base_do_tornado()
     vpl_base = run_robust_economic_analysis(**base).vpl
     curvas = run_sensitivity_analysis(base, variations_pct=[-30.0, 30.0])
 

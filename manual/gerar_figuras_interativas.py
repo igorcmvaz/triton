@@ -243,6 +243,206 @@ def cidades():
             "fracao": TUTORIAL["rainwater_share"], "padrao": 4000}
 
 
+# ── a decisão multicritério ───────────────────────────────────────────────────
+
+VOLUMES_MCDM = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
+MATERIAL_MCDM = "PEAD"
+
+
+def _candidatos_mcdm():
+    """Os mesmos candidatos da figura do programa, com os sete critérios."""
+    from netuno.core.economic import run_economic_analysis
+    from netuno.core.environmental import calculate_lca
+    from netuno.core.topsis import TopsisCandidate
+    serie = _serie()
+    cands = []
+    for v in VOLUMES_MCDM:
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **_config_projeto())
+        e = run_economic_analysis(_config_economica(v, MATERIAL_MCDM), r)
+        amb = _config_ambiental(r)
+        amb.lower_material_key = MATERIAL_MCDM
+        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
+        cands.append(TopsisCandidate(
+            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
+            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
+            capex_brl=e.capex_total,
+            potential_savings_pct=r.potential_potable_savings_pct,
+            overflow_m3_yr=r.annual_spill_m3,
+            discounted_payback_years=e.payback_years,
+            irr_pct=e.tir_annual_pct,
+            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    return cands
+
+
+def multicriterio():
+    """A matriz de decisão do TOPSIS; o escore sai do peso escolhido na página."""
+    from netuno.core.topsis import (
+        CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS, CRITERION_LABELS,
+        _decision_matrix, calculate_topsis_scores)
+    cands = _candidatos_mcdm()
+    matriz = _decision_matrix(cands)
+    # Com pesos iguais por eixo, o mesmo resultado que o programa mostra.
+    padrao = calculate_topsis_scores(cands, None)
+    return {
+        "volumes": [int(c.lower_tank_vol) for c in cands],
+        "criterios": [{"chave": k, "rotulo": r, "eixo": g, "beneficio": bool(b),
+                       "unidade": u, "casas": d}
+                      for k, r, g, b, u, d in zip(
+                          CRITERION_KEYS, CRITERION_LABELS, CRITERION_GROUPS,
+                          CRITERION_IS_BENEFIT,
+                          ["%", "m³/ano", "R$", "anos", "% a.a.", "kg CO₂e", "m³/ano"],
+                          [2, 1, 0, 1, 1, 0, 1])],
+        "matriz": [[_r(x, 4) for x in linha] for linha in matriz],
+        "eixos": [("technical", "Técnico"), ("economic", "Econômico"),
+                  ("environmental", "Ambiental")],
+        "capex": [_r(c.capex_brl) for c in cands],
+        "sem_retorno": [c.discounted_payback_years is None for c in cands],
+        "escores_padrao": [_r(x, 6) for x in padrao.scores],
+        "material": MATERIAL_MCDM,
+    }
+
+
+def smaa():
+    """Aceitabilidade estocástica: com que frequência cada volume vence."""
+    from netuno.core.mcdm_methods import run_smaa_analysis
+    cands = _candidatos_mcdm()
+    casos = {}
+    for motor, v in (("vikor", 0.0), ("vikor", 0.5), ("vikor", 1.0), ("topsis", 0.5)):
+        res = run_smaa_analysis(cands, num_samples=5000, random_seed=42,
+                                engine=motor, v_param=v)
+        casos[f"{motor}|{v:g}"] = {
+            "aceitabilidade": [[_r(x, 2) for x in linha] for linha in res.rank_acceptabilities],
+            "primeiro": [_r(x, 2) for x in res.first_rank_probs],
+            "central": [[_r(x, 4) for x in linha] for linha in res.central_weights],
+            "confianca": [_r(x, 2) for x in res.confidence_factors],
+        }
+    return {"volumes": [int(c.lower_tank_vol) for c in cands], "casos": casos,
+            "padrao": ["vikor", 0.5], "sorteios": 5000, "semente": 42}
+
+
+# ── os índices pluviométricos, ano a ano ──────────────────────────────────────
+
+INDICES = [
+    ("PRCPTOT", "Precipitação total anual", "mm", 0,
+     "Soma da chuva dos dias úmidos, isto é, dos dias com 1 mm ou mais."),
+    ("R95p", "Chuva dos dias muito úmidos", "mm", 0,
+     "Soma da chuva dos dias que passam do percentil 95 dos dias úmidos da série."),
+    ("RX1day", "Maior chuva em um dia", "mm", 1,
+     "A maior lâmina diária do ano."),
+    ("RX5day", "Maior chuva em cinco dias", "mm", 1,
+     "A maior soma de cinco dias consecutivos dentro do ano."),
+    ("SDII", "Intensidade média dos dias úmidos", "mm/dia", 1,
+     "Chuva do ano dividida pelo número de dias úmidos."),
+    ("R20mm", "Dias com 20 mm ou mais", "dias", 0,
+     "Quantos dias do ano tiveram lâmina de 20 mm ou mais."),
+    ("CDD", "Maior estiagem", "dias", 0,
+     "A maior sequência de dias seguidos com menos de 1 mm."),
+    ("CWD", "Maior sequência chuvosa", "dias", 0,
+     "A maior sequência de dias seguidos com 1 mm ou mais."),
+    ("Seasonality_Index", "Índice de sazonalidade", "—", 2,
+     "Concentração da chuva ao longo dos meses, de Walsh e Lawler (1981): "
+     "abaixo de 0,20 o regime é muito uniforme; 1,20 ou mais, extremo."),
+]
+
+
+def indices_pluviometricos():
+    """Os nove índices, ano a ano, nas quatro capitais do guia."""
+    import pandas as pd
+    from netuno.core.calculator import IndicesCalculator
+    saida = []
+    for chave in CIDADES_GUIA14:
+        caminho = RAIZ / "data" / "rainfall" / f"{chave}.csv"
+        if not caminho.exists():
+            continue
+        serie = load_precipitation(str(caminho))[: 30 * 365]
+        datas = [INICIO + timedelta(days=i) for i in range(len(serie))]
+        df = pd.DataFrame({"date": datas, "precipitation": [float(x) for x in serie]})
+        calc = IndicesCalculator(df, exclude_incomplete=False)
+        tabela = calc.compute_climate_indices()
+        saida.append({
+            "chave": chave, "nome": NOMES_CIDADES.get(chave, chave),
+            "anos": [int(a) for a in tabela["year"]],
+            "valores": {k: [_r(x, c) for x in tabela[k]] for k, _, _, c, _ in INDICES},
+        })
+    return {"cidades": saida,
+            "indices": [{"chave": k, "nome": n, "unidade": u, "casas": c, "texto": t}
+                        for k, n, u, c, t in INDICES],
+            "padrao": ["Florianopolis1", "PRCPTOT"]}
+
+
+# ── o investimento aberto por rubrica ─────────────────────────────────────────
+
+def investimento():
+    """O CAPEX por rubrica, na mesma definição do programa, por volume e material."""
+    from gerar_figuras_decisao import rubricas_do_investimento
+    volumes = [1000, 2000, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 16000, 20000]
+    casos, conferido = {}, True
+    for v in volumes:
+        for chave, _ in MATERIAIS:
+            valores, capex = rubricas_do_investimento(v, chave)
+            casos[f"{v}|{chave}"] = [_r(x) for x in valores]
+            conferido = conferido and abs(sum(valores) - capex) < 0.51
+    return {"volumes": volumes, "materiais": MATERIAIS, "padrao": [4000, "PEAD"],
+            "rubricas": ["Reservatório inferior (cisterna)",
+                         "Caixa d'água superior (1.000 L, PEAD)", "Mão de obra",
+                         "Tubulação", "Acessórios",
+                         "Motobombas (principal e reserva)",
+                         "Linha de tratamento, além da verba dos acessórios"],
+            "casos": casos, "fecha_com_o_capex": conferido,
+            "area": TUTORIAL["area"], "descarte": TUTORIAL["discard_mm"]}
+
+
+# ── a fatura aberta em parcelas ───────────────────────────────────────────────
+
+def fatura():
+    """A conta da CASAN aberta em disponibilidade, faixas de consumo e esgoto."""
+    consumos = [round(0.25 * i, 2) for i in range(0, 121)]
+    disponibilidade = sum(t[2] for t in TARIFA_CASAN if t[3] == -1)
+    faixas = [(i, f, p) for i, f, p, c in TARIFA_CASAN if c == 1]
+    linhas = []
+    for c in consumos:
+        parcelas = [disponibilidade]
+        for inicio, fim, preco in faixas:
+            parcelas.append(max(0.0, min(c, fim) - inicio) * preco)
+        agua = sum(parcelas)
+        parcelas.append(agua)                      # esgoto, 100% da água
+        linhas.append([_r(x, 2) for x in parcelas])
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=TUTORIAL["volume"],
+                              **_config_projeto())
+    antes = (r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day) * DIAS_MES / 1000.0
+    depois = r.avg_potable_consumed_l_day * DIAS_MES / 1000.0
+    return {"consumos": consumos, "parcelas": linhas,
+            "rubricas": ["Tarifa de disponibilidade (valor fixo)"] +
+                        [f"Faixa de consumo de {i:.0f} a {f:.0f} m³" if f < 999 else
+                         f"Faixa de consumo acima de {i:.0f} m³" for i, f, _ in faixas] +
+                        ["Esgoto (100% do valor da água)"],
+            "precos": [_r(p, 2) for _, _, p in faixas], "fixo": _r(disponibilidade, 2),
+            "padrao": [round(antes * 4) / 4, round(depois * 4) / 4]}
+
+
+# ── a sensibilidade: que premissa move o resultado ────────────────────────────
+
+def sensibilidade():
+    """O tornado do VPL, com a amplitude de variação nas mãos do leitor."""
+    from netuno.core.economic import run_robust_economic_analysis, run_sensitivity_analysis
+    from gerar_figuras_decisao import base_do_tornado
+    base = base_do_tornado()
+    vpl = run_robust_economic_analysis(**base).vpl
+    amplitudes = [10, 20, 30, 50]
+    casos = {}
+    for a in amplitudes:
+        curvas = run_sensitivity_analysis(base, variations_pct=[-float(a), float(a)])
+        por_premissa = {}
+        for rotulo, curva in curvas.items():
+            ponto = {round(pct): valor for pct, valor in curva}
+            por_premissa[rotulo] = [_r(ponto[-a]), _r(ponto[a])]
+        casos[str(a)] = por_premissa
+    return {"vpl_base": _r(vpl), "amplitudes": amplitudes, "padrao": 30, "casos": casos,
+            "premissas": sorted(casos["30"]),
+            "volume": int(TUTORIAL["volume"]), "material": "Concreto armado",
+            "anos": base["analysis_period_years"]}
+
+
 def dados():
     etapas = [("fig01_dez_dias.png", dez_dias),
               ("fig48_programa_serie_diaria.png", serie_diaria),
@@ -250,7 +450,13 @@ def dados():
               ("fig05_regimes.png", regimes),
               ("fig08_fluxo_de_caixa.png", fluxo_de_caixa),
               ("fig06_carbono_no_tempo.png", carbono),
-              ("fig03_cidades.png", cidades)]
+              ("fig03_cidades.png", cidades),
+              ("fig51_programa_topsis.png", multicriterio),
+              ("fig23_smaa.png", smaa),
+              ("fig16_indices.png", indices_pluviometricos),
+              ("fig21_investimento.png", investimento),
+              ("fig07_fatura.png", fatura),
+              ("fig24_tornado.png", sensibilidade)]
     saida = {}
     for nome, f in etapas:
         print(f"  figura interativa: {nome}")

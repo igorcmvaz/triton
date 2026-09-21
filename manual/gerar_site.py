@@ -318,7 +318,8 @@ def main():
         "revisao": date.today().strftime("%d/%m/%Y"),
         "testes": _quantos_testes(),
         "secoes": sum(len(c["secoes"]) for c in capitulos),
-        "figuras": len(re.findall(r'class="fig"', json.dumps(capitulos))),
+        "figuras": sum(len(re.findall(r'<figure class="fig"', s["html"]))
+                       for c in capitulos for s in c["secoes"]),
     }
     # As figuras interativas: os dados, e a seção e o número de cada uma.
     from gerar_figuras_interativas import dados as dados_interativos

@@ -295,8 +295,10 @@ def figura_regimes():
     ax.text(5.0, 100.0, "franquia\n(0 a 10 m³)",
             ha="center", va="bottom", fontsize=8.0, color=LARANJA)
 
+    # Só a parcela de água: o esgoto é percentual dela e multiplica a curva,
+    # sem mudar o formato, que é o que a figura tem a mostrar.
     _eixos(ax, "", "consumo mensal (m³)",
-           "fatura mensal de água e esgoto (R$)")
+           "parcela de água da fatura mensal (R$)")
     ax.legend(frameon=False, fontsize=8.5, loc="upper left")
     ax.set_xlim(0, 25)
     ax.set_ylim(0, 300)
