@@ -288,6 +288,27 @@ def _copiar_arquivos():
             shutil.copy2(origem, pdf)
 
 
+def historico_de_versoes():
+    """As versões publicadas, como dado, para a página de versões do site.
+
+    A fonte é o capítulo de histórico do manual, a mesma do CHANGELOG.md e do
+    panorama impresso: escrever num lugar e publicar em três.
+    """
+    from gerar_changelog import entradas_estruturadas
+    md = _markdown()
+    versoes = []
+    for entrada in entradas_estruturadas():
+        secoes = [{"titulo": titulo, "html": md.render(corpo)}
+                  for titulo, corpo in entrada["secoes"].items()]
+        versoes.append({
+            "versao": entrada["versao"], "data": entrada["data"],
+            "resumo": entrada["resumo"], "secoes": secoes,
+            "altera_resultados": entrada["altera_resultados"],
+            "nao_altera_resultados": entrada["nao_altera_resultados"],
+        })
+    return versoes
+
+
 def indice_de_busca(capitulos, onde_interativas):
     """O que a busca encontra: seções, subseções, figuras, tabelas e equações.
 
@@ -370,6 +391,7 @@ def main():
                 if m.group(2) in dados["interativas"]:
                     dados["onde_interativas"][m.group(2)] = {
                         "secao": s["id"], "titulo": s["titulo"], "numero": int(m.group(1))}
+    dados["versoes"] = historico_de_versoes()
     dados["busca"] = indice_de_busca(capitulos, dados["onde_interativas"])
     modelo = open(os.path.join(AQUI, "site_modelo.html"), encoding="utf-8").read()
     modelo = modelo.replace("/*__INTERATIVAS__*/",

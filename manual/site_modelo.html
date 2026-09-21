@@ -96,6 +96,29 @@ table { font-size: inherit; }
 .selo.t-interativa { background: var(--s4); color: #fff; }
 .selo.t-sub { background: transparent; color: var(--ink3); padding-left: 0; }
 .tema { background: none; border: 1px solid var(--line); color: var(--ink2); border-radius: 7px; padding: 6px 9px; font: inherit; font-size: 13px; cursor: pointer; }
+.selo-versao { font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 3px 10px; text-decoration: none; white-space: nowrap; }
+.selo-versao:hover { background: var(--accent); color: var(--on-accent); }
+@media (max-width: 900px) { .selo-versao { display: none; } }
+.doc.so-texto { grid-template-columns: minmax(0, 1fr); max-width: 1000px; }
+.versoes { max-width: 900px; }
+.versao { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 24px; margin-bottom: 18px; }
+.versao-topo { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 14px; }
+.versao-topo h3 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+.versao-topo .data { color: var(--ink3); font-size: 13.5px; }
+.versao-topo .atual { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--s4); border: 1px solid var(--s4); border-radius: 999px; padding: 1px 8px; }
+.versao .resumo { font-family: var(--serif); font-size: 17px; line-height: 1.55; margin: 0 0 14px; }
+.versao .contagem { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-bottom: 16px; }
+.versao .contagem span { font-size: 12.5px; color: var(--ink2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px; }
+.versao .contagem span b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.versao details { border-top: 1px solid var(--line); padding: 10px 0 2px; }
+.versao details summary { cursor: pointer; font-weight: 600; font-size: 14.5px; padding: 2px 0; }
+.versao details[open] summary { margin-bottom: 8px; }
+.versao details .corpo { font-family: var(--serif); font-size: 16px; line-height: 1.6; }
+.versao details .corpo table { border-collapse: collapse; font-family: var(--sans); font-size: 13.5px; width: 100%; margin: 8px 0; }
+.versao details .corpo th { text-align: left; background: var(--accent-soft); font-weight: 600; }
+.versao details .corpo th, .versao details .corpo td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.versao details .corpo p { margin: 0 0 10px; }
+.versao details .corpo blockquote { margin: 10px 0; padding: 8px 14px; border-left: 3px solid var(--nota-line); background: var(--bg); border-radius: 0 8px 8px 0; }
 .menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 7px; padding: 6px 10px; font: inherit; font-size: 13px; }
 
 /* página inicial */
@@ -363,6 +386,7 @@ table { font-size: inherit; }
 <header class="topo">
   <div class="topo-in">
     <a class="marca" href="#/"><img src="img/logo.png" alt=""><span><b>Netuno 5</b><small>Documentação do programa e do método</small></span></a>
+    <a class="selo-versao" id="selo-versao" href="#/versoes" title="O que mudou em cada versão"></a>
     <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir o sumário">Sumário</button>
     <nav class="nav" id="nav" aria-label="Principal"></nav>
     <div class="busca">
@@ -511,7 +535,7 @@ function inicio() {
   const v = DADOS.volumes;
   const interativas = Object.keys(DADOS.onde_interativas || {}).length;
   const fatos = [
-    ["Versão", DADOS.versao], ["Base climática", "652 cidades"],
+    ["Versão", `<a href="#/versoes" style="color:inherit">${DADOS.versao}</a>`], ["Base climática", "652 cidades"],
     ["Seções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
     ["Figuras interativas", fmt(interativas)],
     ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
@@ -610,7 +634,7 @@ function inicio() {
 }
 
 function rodape() {
-  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa Gestão do Espaço Sustentável · Universidade Federal de Santa Catarina</span><span>Netuno ${DADOS.versao} · licença GPL v3 · revisão de ${DADOS.revisao}</span></footer>`;
+  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa Gestão do Espaço Sustentável · Universidade Federal de Santa Catarina</span><span><a href="#/versoes">Netuno ${DADOS.versao}</a> · licença GPL v3 · revisão de ${DADOS.revisao}</span></footer>`;
 }
 
 /* a curva */
@@ -676,6 +700,43 @@ function desenharCurva() {
 
 /*__INTERATIVAS__*/
 
+/* página de versões */
+function paginaVersoes() {
+  const versoes = DADOS.versoes || [];
+  const secaoDoManual = SECOES.find(s => s.titulo.toLowerCase().startsWith("histórico de versões"));
+  const corpo = versoes.map((v, i) => `
+    <article class="versao">
+      <div class="versao-topo">
+        <h3>Versão ${esc(v.versao)}</h3>
+        <span class="data">${esc(v.data)}</span>
+        ${i === 0 ? '<span class="atual">versão atual</span>' : ""}
+      </div>
+      ${v.resumo ? `<p class="resumo">${esc(v.resumo)}</p>` : ""}
+      <div class="contagem">
+        <span><b>${fmt(v.altera_resultados)}</b> ${v.altera_resultados === 1 ? "correção que altera resultados" : "correções que alteram resultados"}</span>
+        <span><b>${fmt(v.nao_altera_resultados)}</b> ${v.nao_altera_resultados === 1 ? "correção sem efeito no resultado" : "correções sem efeito no resultado"}</span>
+      </div>
+      ${(v.secoes || []).map((sec, k) => `<details${k === 0 ? " open" : ""}><summary>${esc(sec.titulo)}</summary><div class="corpo">${sec.html}</div></details>`).join("")}
+    </article>`).join("");
+
+  $("#app").innerHTML = `<div class="doc so-texto" style="--c:var(--accent)">
+    <article class="conteudo">
+      <div class="trilha"><a href="#/">Documentação</a> / Versões</div>
+      <h1>O que mudou em cada versão</h1>
+      <div class="chips"><span class="chip">Netuno ${esc(DADOS.versao)}</span><span class="chip">${fmt(versoes.length)} ${versoes.length === 1 ? "versão publicada" : "versões publicadas"}</span></div>
+      <p class="sub" style="max-width:74ch">Cada versão traz as mesmas seções: o resumo, as novidades, as correções que
+      alteram resultados de estudos já feitos, as que não alteram e o que mudou na documentação.
+      ==A distinção entre os dois tipos de correção é a que decide se um estudo anterior precisa ser refeito.==
+      Este registro, o arquivo <code>CHANGELOG.md</code> distribuído com o código e o capítulo do manual saem do mesmo texto.</p>
+      <div class="versoes">${corpo || "<p>Nenhuma versão registrada.</p>"}</div>
+      ${secaoDoManual ? `<div class="passos"><a class="prox" href="#/${secaoDoManual.id}"><small>No manual</small>${esc(secaoDoManual.rotulo)} ${esc(secaoDoManual.titulo)}</a></div>` : ""}
+    </article>
+  </div>${rodape()}`;
+  $(".conteudo .sub").innerHTML = $(".conteudo .sub").innerHTML.replace(/==(.+?)==/g, "<mark>$1</mark>");
+  document.title = "Versões · Netuno";
+  window.scrollTo(0, 0);
+}
+
 /* página de seção */
 function secao(id, ancora) {
   const s = POR_ID[id];
@@ -723,6 +784,7 @@ function rota() {
     const s = POR_ID[id];
     a.classList.toggle("ativo", alvo === "" ? !id : alvo === "interativas" ? id === "interativas" : !!(s && POR_ID[alvo] && POR_ID[alvo].cap === s.cap));
   });
+  if (id === "versoes") { paginaVersoes(); return; }
   if (!id || id === "interativas") {
     document.title = "Documentação do Netuno"; inicio();
     const g = id && document.getElementById("interativas");
@@ -731,6 +793,10 @@ function rota() {
   }
   secao(decodeURIComponent(id), ancora);
 }
+(function () {
+  const selo = $("#selo-versao");
+  if (selo) selo.textContent = "v" + DADOS.versao;
+})();
 window.addEventListener("hashchange", rota);
 rota();
 </script>

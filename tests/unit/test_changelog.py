@@ -63,6 +63,38 @@ def test_as_versoes_vem_da_mais_nova_para_a_mais_antiga():
     assert numeros == sorted(numeros, reverse=True), numeros
 
 
+def test_cada_entrada_traz_o_resumo_em_uma_frase():
+    """O resumo é o que aparece no panorama do manual e na página de versões."""
+    for entrada in gc.entradas_estruturadas():
+        assert entrada["resumo"], f"a versão {entrada['versao']} está sem «Em uma frase»"
+        assert len(entrada["resumo"]) > 40, entrada["versao"]
+
+
+def test_as_secoes_da_entrada_saem_do_modelo_declarado():
+    for entrada in gc.entradas_estruturadas():
+        assert set(entrada["secoes"]) <= set(gc.SECOES), entrada["versao"]
+        assert "Correções que alteram resultados" in entrada["secoes"], entrada["versao"]
+
+
+def test_o_panorama_do_manual_esta_em_dia_e_conta_certo():
+    """Se falhar: rode python manual/gerar_changelog.py e comite o resultado."""
+    assert os.path.exists(gc.TABELA), "a tabela de panorama não existe"
+    assert open(gc.TABELA, encoding="utf-8").read() == gc.montar_panorama()
+    panorama = gc.montar_panorama()
+    for entrada in gc.entradas_estruturadas():
+        linha = [l for l in panorama.splitlines() if f"**{entrada['versao']}**" in l]
+        assert linha, entrada["versao"]
+        assert linha[0].rstrip().endswith(f"{entrada['altera_resultados']} |")
+
+
+def test_a_contagem_de_correcoes_e_a_das_tabelas_do_capitulo():
+    entrada = gc.entradas_estruturadas()[0]
+    corpo = entrada["secoes"]["Correções que alteram resultados"]
+    linhas = [l for l in corpo.splitlines() if l.strip().startswith("|")]
+    # cabeçalho e separador não contam como correção
+    assert entrada["altera_resultados"] == len(linhas) - 2
+
+
 def test_o_changelog_nao_leva_as_convencoes_do_manual():
     texto = open(gc.SAIDA, encoding="utf-8").read()
     assert "{{" not in texto, "marca de remissão não resolvida"

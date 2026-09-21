@@ -41,16 +41,28 @@ data do lançamento e o que mudou, sempre separado em duas listas: ==o que alter
 resultados de estudos já feitos e o que não altera.== A entrada mais recente vem
 primeiro.
 
+Cada entrada segue o mesmo modelo, para que duas versões possam ser comparadas sem
+releitura: uma frase de resumo, as novidades, as correções que alteram resultados, as
+que não alteram, e o que mudou na documentação. Seções sem conteúdo naquela versão
+simplesmente não aparecem.
+
 A mesma lista é distribuída com o código, no arquivo `CHANGELOG.md` da raiz do
-repositório. Ela não é escrita duas vezes: o arquivo é gerado desta seção, e uma
-verificação automática recusa a montagem se os dois textos divergirem. Quem acompanha
-o programa pelo repositório e quem o acompanha pelo manual leem o mesmo registro.
+repositório, e alimenta a página de versões do site de documentação. Ela não é escrita
+três vezes: os três saem desta seção, e uma verificação automática recusa a montagem se
+divergirem. Quem acompanha o programa pelo repositório, pelo site ou pelo manual lê o
+mesmo registro.
+
+<!-- inclui: _tabelas/cap38_versoes.md -->
 
 ---
 
 ## Versão 5.0.0 — 21 de setembro de 2026
 
-Primeiro lançamento público do Netuno 5. A versão foi o resultado de uma revisão sistemática do programa, conduzida com
+> **Em uma frase.** Primeiro lançamento público do Netuno 5: o motor de simulação
+> reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de
+> tratamento, decisão multicritério e a documentação em três formatos.
+
+A versão foi o resultado de uma revisão sistemática do programa, conduzida com
 um objetivo específico: encontrar valores que fossem calculados corretamente em um
 módulo e descartados antes de chegarem ao módulo seguinte. Essa classe de defeito é
 particularmente perigosa porque não produz erro visível — o programa responde, o
@@ -60,7 +72,7 @@ módulo, da tela para o núcleo de cálculo, entre a interface e a automação, 
 definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
 gravação e da releitura de um projeto.
 
-### O que o Netuno 5 traz
+### Novidades
 
 O programa foi reescrito em Python, com o motor de simulação separado da interface, e
 ganhou o que o Netuno 4 não tinha: avaliação de ciclo de vida do carbono, linha de
@@ -69,11 +81,6 @@ estocástica, base tarifária de 652 municípios, interface em quatro idiomas e
 exportação para CAD, BIM e planilha. A seção {{n:35}} compara os dois programas número
 a número, e a seção {{n:34}} descreve a suíte de verificação que sustenta a
 comparação.
-
-A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
-manual completo, sete volumes avulsos e um site de documentação com figuras
-interativas, em que o leitor muda os parâmetros e vê o resultado que o programa
-calculou.
 
 ### Correções que alteram resultados
 
@@ -106,6 +113,14 @@ estudo errado.
 | arquivo JSON de esquema desconhecido era aceito e abria um projeto inteiramente padrão | a abertura é interrompida com mensagem própria |
 | a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
 | seis campos eram gravados no arquivo e nunca lidos de volta | a seção {{n:36}} lista os que permanecem nessa condição |
+
+### Documentação
+
+A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
+manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte, e um
+site de documentação com dezoito figuras interativas, em que o leitor muda os
+parâmetros e vê o resultado que o programa calculou. Os três, mais o `CHANGELOG.md`
+distribuído com o código, saem dos mesmos arquivos de texto.
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa
