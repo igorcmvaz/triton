@@ -97,6 +97,28 @@ class TestTariffsMultiCategoryAndTab(unittest.TestCase):
         tab.update_bill_simulation()
         self.assertIn("Total: R$ 174.50/mês", tab.lbl_sim_result.text())
 
+    def test_slider_movement_preserves_chart_dimensions(self):
+        """Garante que a movimentação do botão/slider de consumo não altera as dimensões e proporções da imagem."""
+        tab = TabTariffsManager()
+        tab.resize(1100, 750)
+        tab.show()
+        app.processEvents()
+
+        p1_orig = tab.ax1.get_position().bounds
+        p2_orig = tab.ax2.get_position().bounds
+        c_w_orig = tab.canvas.width()
+        c_h_orig = tab.canvas.height()
+
+        for vol_val in [0, 5, 10, 15, 20, 30, 45, 50]:
+            tab.slider_sim.setValue(vol_val)
+            app.processEvents()
+            self.assertEqual(tab.ax1.get_position().bounds, p1_orig)
+            self.assertEqual(tab.ax2.get_position().bounds, p2_orig)
+            self.assertEqual(tab.canvas.width(), c_w_orig)
+            self.assertEqual(tab.canvas.height(), c_h_orig)
+
+        tab.deleteLater()
+
 
 if __name__ == "__main__":
     unittest.main()

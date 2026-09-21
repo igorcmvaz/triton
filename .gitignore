@@ -83,6 +83,7 @@ desktop.ini
 *~
 .idea/
 .vscode/
+.mcp.json
 
 # Log de avisos do Qt, gerado em tempo de execucao
 avisos_qt.log

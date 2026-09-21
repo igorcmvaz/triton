@@ -303,6 +303,7 @@ class TabTariffsManager(QWidget):
         # Demonstrativo de Fatura
         self.lbl_sim_result = QLabel(tr("🏷️ Fixa: R$ 0,00 | 💧 Água: R$ 0,00 | 🚽 Esgoto: R$ 0,00 | <b>Total: R$ 0,00 / mês</b>"))
         self.lbl_sim_result.setStyleSheet("font-size: 12px; color: #0369a1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 8px;")
+        self.lbl_sim_result.setWordWrap(True)
         sim_layout.addWidget(self.lbl_sim_result)
 
         right_layout.addWidget(sim_box)
@@ -310,6 +311,7 @@ class TabTariffsManager(QWidget):
         # CANVAS MATPLOTLIB EMBARCADO (2 SUBPLOTS: STEP CURVE + BILL CURVE)
         self.figure = Figure(figsize=(5.5, 3.8), dpi=95)
         self.figure.patch.set_facecolor("#ffffff")
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
         self.ax1 = self.figure.add_subplot(2, 1, 1)
         self.ax2 = self.figure.add_subplot(2, 1, 2)
         self.canvas = FigureCanvas(self.figure)
@@ -649,6 +651,24 @@ class TabTariffsManager(QWidget):
         # Atualiza Gráficos Matplotlib
         self.redraw_charts(faixas, fixed, esgoto_pct, vol, total_val)
 
+    def safe_draw(self):
+        """Atualização segura do canvas sem falhas de destruição de widgets ou timers pendentes."""
+        try:
+            if not hasattr(self, "canvas") or not self.canvas:
+                return
+            self.canvas.draw()
+        except Exception:
+            pass
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
+        self.safe_draw()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
+
     def redraw_charts(self, faixas: List[List[Any]], fixed: float, esgoto_pct: float, current_vol: float, current_bill: float):
         """Redesenha os dois subplots integrados (Step-curve + Curva de Fatura)."""
         if not hasattr(self, "ax1") or not hasattr(self, "ax2"):
@@ -658,7 +678,7 @@ class TabTariffsManager(QWidget):
         self.ax2.cla()
 
         # Subplot 1: Curva de Degraus (Tarifa Marginal R$/m³)
-        max_plot_vol = 40.0
+        max_plot_vol = 50.0
         v_steps = []
         r_steps = []
 
@@ -702,8 +722,5 @@ class TabTariffsManager(QWidget):
         self.ax2.tick_params(labelsize=8)
         self.ax2.legend(loc="upper left", fontsize=7.5, framealpha=0.8)
 
-        self.figure.tight_layout(pad=1.2)
-        try:
-            self.canvas.draw()
-        except Exception:
-            pass
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
+        self.safe_draw()

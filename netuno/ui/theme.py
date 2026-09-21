@@ -300,10 +300,10 @@ QToolTip {
     border-radius: 5px;
 }
 
-QScrollBar:vertical { background: #f2f6f3; width: 8px; margin: 2px; }
+QScrollBar:vertical { background: #f2f6f3; width: 14px; margin: 2px; }
 QScrollBar::handle:vertical { background: #9ec3b7; min-height: 28px; border-radius: 5px; }
 QScrollBar::handle:vertical:hover { background: #087f6b; }
-QScrollBar:horizontal { background: #f2f6f3; height: 8px; margin: 2px; }
+QScrollBar:horizontal { background: #f2f6f3; height: 14px; margin: 2px; }
 QScrollBar::handle:horizontal { background: #9ec3b7; min-width: 28px; border-radius: 5px; }
 QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 
@@ -743,10 +743,10 @@ QToolTip {
     border-radius: 5px;
 }
 
-QScrollBar:vertical { background: #0b1a17; width: 12px; margin: 2px; }
+QScrollBar:vertical { background: #0b1a17; width: 14px; margin: 2px; }
 QScrollBar::handle:vertical { background: #284d43; min-height: 28px; border-radius: 5px; }
 QScrollBar::handle:vertical:hover { background: #2bb99c; }
-QScrollBar:horizontal { background: #0b1a17; height: 12px; margin: 2px; }
+QScrollBar:horizontal { background: #0b1a17; height: 14px; margin: 2px; }
 QScrollBar::handle:horizontal { background: #284d43; min-width: 28px; border-radius: 5px; }
 QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 
