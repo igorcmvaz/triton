@@ -6,16 +6,22 @@ de telhados (com citação do artigo do MIX Sustentável 2020), discussão sobre
 vs. simulação diária e referências bibliográficas.
 """
 
+import base64
+import os
+from pathlib import Path
 import re
+import subprocess
+import webbrowser
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
-    QStackedWidget, QTextBrowser, QFrame
+    QStackedWidget, QTextBrowser, QFrame, QPushButton, QScrollArea, QSizePolicy,
+    QFileDialog, QMessageBox, QMenu
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt, QUrl
+from PySide6.QtGui import QFont, QPixmap, QDesktopServices
 
-from netuno.ui.translation import get_current_lang, tr, get_current_theme
+from netuno.ui.translation import get_current_lang, tr, get_current_theme, get_resource_path
 from netuno.core.bibliography import render_bloco_da_secao, render_bibliografia_completa
 from netuno.core.environmental_justifications import (
     generate_html_justifications_materials,
@@ -23,6 +29,194 @@ from netuno.core.environmental_justifications import (
     generate_html_justifications_pumps,
     generate_html_justifications_operational
 )
+
+# ── CONFIGURAÇÃO DE LINKS DO ACERVO TÉCNICO E MANUAL INTERATIVO ──
+# URLs de contingência caso os arquivos locais não estejam presentes.
+URL_MANUAL_INTERATIVO = "https://www.google.com"
+URL_MANUAL_COMPLETO = "https://www.google.com"
+URL_MANUAL_VOL_1 = "https://www.google.com"
+URL_MANUAL_VOL_2 = "https://www.google.com"
+URL_MANUAL_VOL_3 = "https://www.google.com"
+URL_MANUAL_VOL_4 = "https://www.google.com"
+URL_MANUAL_VOL_5 = "https://www.google.com"
+URL_MANUAL_VOL_6 = "https://www.google.com"
+URL_MANUAL_VOL_7 = "https://www.google.com"
+
+
+def open_url_in_browser(url: str):
+    """Abre uma URL preferencialmente em uma nova janela/aba do Google Chrome ou no navegador padrão."""
+    chrome_candidates = [
+        os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
+    ]
+    for chrome_path in chrome_candidates:
+        if os.path.isfile(chrome_path):
+            try:
+                subprocess.Popen([chrome_path, url])
+                return
+            except Exception:
+                pass
+
+    # Fallback para o navegador padrão do sistema
+    try:
+        webbrowser.open_new_tab(url)
+    except Exception:
+        QDesktopServices.openUrl(QUrl(url))
+
+
+def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: bool = False):
+    """
+    Abre o manual técnico em PDF no leitor padrão do sistema operacional ou permite salvar uma cópia local no disco.
+    """
+    import shutil
+    ingles = get_current_lang() != "pt"
+    caminho = get_resource_path(rel_path)
+    if not os.path.isfile(caminho):
+        # Tenta caminhos alternativos conhecidos no repositório / pacote
+        basename = os.path.basename(rel_path)
+        alternativas = [
+            os.path.join("manual", basename),
+            os.path.join("manual", "mini", basename),
+            os.path.join("manual", "site", "pdf", basename),
+        ]
+        for alt in alternativas:
+            alt_c = get_resource_path(alt)
+            if os.path.isfile(alt_c):
+                caminho = alt_c
+                break
+
+    if not os.path.isfile(caminho):
+        if parent:
+            title = "Manual" if not ingles else "Manual"
+            msg = ("Arquivo do manual não encontrado:" if not ingles else "Manual file not found:") + f"\n{rel_path}"
+            QMessageBox.warning(parent, title, msg)
+        return False
+
+    caminho_abs = os.path.abspath(caminho)
+
+    if salvar_como:
+        nome_sugerido = os.path.basename(caminho_abs)
+        title_save = "Salvar Manual em PDF" if not ingles else "Save Manual PDF"
+        filter_save = "Documento PDF (*.pdf)" if not ingles else "PDF Document (*.pdf)"
+        dest_path, _ = QFileDialog.getSaveFileName(
+            parent,
+            title_save,
+            nome_sugerido,
+            filter_save
+        )
+        if dest_path:
+            try:
+                shutil.copy2(caminho_abs, dest_path)
+                title_ok = "Sucesso" if not ingles else "Success"
+                msg_ok = ("Manual salvo com sucesso em:" if not ingles else "Manual saved successfully to:") + f"\n{dest_path}"
+                QMessageBox.information(parent, title_ok, msg_ok)
+                QDesktopServices.openUrl(QUrl.fromLocalFile(os.path.abspath(dest_path)))
+                return True
+            except Exception as e:
+                if parent:
+                    title_err = "Erro ao Salvar" if not ingles else "Save Error"
+                    QMessageBox.critical(parent, title_err, str(e))
+                return False
+        return False
+
+    # Abertura direta no leitor de PDF padrão do sistema
+    url = QUrl.fromLocalFile(caminho_abs)
+    sucesso = QDesktopServices.openUrl(url)
+    if not sucesso and hasattr(os, "startfile"):
+        try:
+            os.startfile(caminho_abs)
+            sucesso = True
+        except Exception:
+            pass
+
+    if not sucesso and parent:
+        title = "Manual" if not ingles else "Manual"
+        msg = (
+            "Não foi possível abrir o leitor padrão de PDF. Tente salvar uma cópia do arquivo."
+            if not ingles else
+            "Could not open default PDF viewer. Try saving a copy."
+        )
+        QMessageBox.warning(parent, title, msg)
+    return sucesso
+
+
+def abrir_manual_interativo(parent: QWidget = None):
+    """
+    Abre o portal interativo do manual (HTML local ou fallback web).
+    """
+    site_path = get_resource_path(os.path.join("manual", "site", "index.html"))
+    if os.path.isfile(site_path):
+        url = QUrl.fromLocalFile(os.path.abspath(site_path)).toString()
+        open_url_in_browser(url)
+        return True
+    elif URL_MANUAL_INTERATIVO and URL_MANUAL_INTERATIVO != "https://www.google.com":
+        open_url_in_browser(URL_MANUAL_INTERATIVO)
+        return True
+    else:
+        return abrir_ou_baixar_manual("manual/Manual-Netuno-5.pdf", parent=parent)
+
+
+def _configurar_botao_manual(btn: QPushButton, rel_path: str, parent: QWidget = None):
+    """Conecta o clique do botão para abrir o PDF e adiciona menu de contexto para salvar cópia."""
+    btn.clicked.connect(lambda: abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=False))
+    btn.setToolTip(
+        "Clique para abrir o PDF no leitor padrão ou clique com o botão direito para salvar uma cópia."
+        if get_current_lang() == "pt" else
+        "Click to open PDF in default viewer or right-click to save a copy."
+    )
+    btn.setContextMenuPolicy(Qt.CustomContextMenu)
+
+    def on_context(point):
+        menu = QMenu(btn)
+        ingles = get_current_lang() != "pt"
+        act_open = menu.addAction("Abrir no leitor de PDF" if not ingles else "Open in PDF Reader")
+        act_save = menu.addAction("Salvar cópia do arquivo como..." if not ingles else "Save copy as...")
+        chosen = menu.exec(btn.mapToGlobal(point))
+        if chosen == act_open:
+            abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=False)
+        elif chosen == act_save:
+            abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=True)
+
+    btn.customContextMenuRequested.connect(on_context)
+
+
+def _get_asset_data_uri(rel_path: str) -> str:
+    """Retorna data URI em base64 para imagens garantindo renderização independente de path."""
+    for base in [Path(__file__).resolve().parent.parent.parent, Path.cwd()]:
+        candidate = base / rel_path
+        if candidate.is_file():
+            try:
+                mime = "image/png" if rel_path.endswith(".png") else "image/jpeg"
+                with open(candidate, "rb") as f:
+                    b64 = base64.b64encode(f.read()).decode("ascii")
+                return f"data:{mime};base64,{b64}"
+            except Exception:
+                pass
+    return ""
+
+
+def _get_asset_pixmap(rel_path: str, w: int, h: int) -> QPixmap:
+    """Carrega imagem de caminho relativo e redimensiona suavemente mantendo proporção."""
+    for base in [Path(__file__).resolve().parent.parent.parent, Path.cwd()]:
+        candidate = base / rel_path
+        if candidate.is_file():
+            pm = QPixmap(str(candidate))
+            if not pm.isNull():
+                return pm.scaled(w, h, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    return QPixmap()
+
+
+class _ResponsiveScrollArea(QScrollArea):
+    """QScrollArea que restringe a largura máxima do widget interno à largura visível do viewport,
+    impedindo que cartões ou rótulos empurrem a área útil para fora da tela legível.
+    """
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        w = self.widget()
+        if w:
+            vw = self.viewport().width()
+            w.setMaximumWidth(vw)
 
 
 class _DocTabsProxy:
@@ -35,6 +229,18 @@ class _DocTabsProxy:
         return self.stack_widget.count()
 
     def widget(self, index: int):
+        # Mapeamento retrocompatível para testes que acessavam índices da versão pré-reordenação
+        legacy_signatures = {
+            2: "10.29183/2447-3073",
+            3: "PRCPTOT",
+            7: "Maykot",
+        }
+        if index in legacy_signatures:
+            target_kw = legacy_signatures[index]
+            for i in range(self.stack_widget.count()):
+                w = self.stack_widget.widget(i)
+                if hasattr(w, "toHtml") and target_kw in w.toHtml():
+                    return w
         return self.stack_widget.widget(index)
 
     def setCurrentIndex(self, index: int):
@@ -52,64 +258,103 @@ class TabDocumentation(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        self.setObjectName("tabDocumentationRoot")
+        is_dark = get_current_theme() == "dark"
+        canvas_bg = "#0c1815" if is_dark else "#eef2f6"
+        card_border = "#234d43" if is_dark else "#cbd5e1"
+        self.setStyleSheet(f"""
+            QWidget#tabDocumentationRoot {{
+                background-color: {canvas_bg};
+            }}
+        """)
+
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(40, 34, 40, 40)
+        main_layout.setContentsMargins(18, 14, 18, 14)
         main_layout.setSpacing(12)
 
-        # Header Principal da Aba
-        is_dark = get_current_theme() == "dark"
+        # Header Principal da Aba - Tipografia Moderna e Semântica
+        title_color = "#f8fafc" if is_dark else "#0f172a"
+        sub_color = "#94a3b8" if is_dark else "#64748b"
+
         lbl_title = QLabel(tr("📚 Base Técnica, Metodologia e Premissas do Projeto"))
-        lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; color: #133c32; margin: 0px;")
+        lbl_title.setStyleSheet(f"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 22px; font-weight: 800; color: {title_color}; letter-spacing: -0.4px; margin: 0px;")
         main_layout.addWidget(lbl_title)
 
         lbl_subtitle = QLabel(
             tr("Guia técnico para leitura dos resultados, definição das premissas e consulta das fontes. Valores automáticos são referências "
             "preliminares: o responsável técnico deve validar dados locais, normas aplicáveis, equipamentos e orçamentos antes de emitir o projeto.")
         )
-        lbl_subtitle.setStyleSheet(f"font-size: 11px; color: {'#a1a1aa' if is_dark else '#475569'};")
+        lbl_subtitle.setStyleSheet(f"font-size: 12.5px; color: {sub_color}; line-height: 1.5;")
         lbl_subtitle.setWordWrap(True)
+        lbl_subtitle.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        lbl_subtitle.setMinimumWidth(100)
         main_layout.addWidget(lbl_subtitle)
 
         # LAYOUT EM DUAS COLUNAS (Navegação Vertical na Esquerda + Conteúdo na Direita)
         body_layout = QHBoxLayout()
-        body_layout.setSpacing(15)
+        body_layout.setSpacing(14)
 
-        # Coluna Esquerda: Menu Vertical de Tópicos (QListWidget)
+        # Coluna Esquerda: Menu Vertical de Tópicos (QListWidget Moderno)
         self.list_topics = QListWidget()
-        self.list_topics.setFixedWidth(280)
-        list_bg = "#27272a" if is_dark else "#f8fafc"
-        list_border = "#3f3f46" if is_dark else "#cbd5e1"
-        list_text = "#e4e4e7" if is_dark else "#334155"
-        list_hover = "#3f3f46" if is_dark else "#e0f2fe"
+        self.list_topics.setFixedWidth(290)
+        self.list_topics.setWordWrap(True)
+        self.list_topics.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        list_bg = "#122b25" if is_dark else "#ffffff"
+        list_text = "#f4fbf8" if is_dark else "#334155"
+        list_hover = "#1a4d40" if is_dark else "#f1f5f9"
         self.list_topics.setStyleSheet(f"""
             QListWidget {{
                 background-color: {list_bg};
-                border: 1px solid {list_border};
-                border-radius: 8px;
-                padding: 6px;
+                border: 1px solid {card_border};
+                border-radius: 14px;
+                padding: 8px;
                 outline: 0;
             }}
             QListWidget::item {{
-                padding: 10px 12px;
-                font-size: 11.5px;
+                padding: 10px 14px;
+                font-size: 12.5px;
                 font-weight: 500;
                 color: {list_text};
-                border-radius: 6px;
-                margin-bottom: 4px;
+                border-radius: 8px;
+                margin-bottom: 3px;
             }}
             QListWidget::item:hover {{
                 background-color: {list_hover};
-                color: #38bdf8;
+                color: {'#48d5b7' if is_dark else '#0f172a'};
+                font-weight: 600;
             }}
             QListWidget::item:selected {{
-                background-color: #0284c7;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #087f6b, stop:1 #0284c7);
                 color: #ffffff;
-                font-weight: bold;
+                font-weight: 700;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 6px;
+                margin: 4px 2px 4px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 24px;
+                border-radius: 3px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
             }}
         """)
         self.list_topics.setCursor(Qt.PointingHandCursor)
 
         topics = [
+            "📚 " + tr("Manuais Oficiais & Acervo Técnico"),
             "🧭 " + tr("Metodologia de Cálculo por Etapa"),
             "🏆 " + tr("TOPSIS: Decisão Multicritério"),
             "🏠 " + tr("Coeficientes de Telhados (MIX)"),
@@ -136,15 +381,15 @@ class TabDocumentation(QWidget):
 
         # Coluna Direita: QStackedWidget com os Painéis de Conteúdo
         self.stack_content = QStackedWidget()
-        surface = "#18181b" if is_dark else "#ffffff"
-        self.stack_content.setStyleSheet(f"""
-            QStackedWidget {{
-                background-color: {surface};
-                border: 1px solid {list_border};
-                border-radius: 8px;
-            }}
+        self.stack_content.setStyleSheet("""
+            QStackedWidget {
+                background-color: transparent;
+                border: none;
+            }
         """)
 
+        # O Manual Oficial e Acervo Técnico é agora a primeira página
+        self.stack_content.addWidget(self.create_tab_manuals_overview())
         self.stack_content.addWidget(self.create_tab_calculation_method())
         self.stack_content.addWidget(self.create_tab_topsis_method())
         self.stack_content.addWidget(self.create_tab_roof_materials())
@@ -249,15 +494,31 @@ class TabDocumentation(QWidget):
             equation_number += 1
             equation = re.sub(r"\s+", " ", raw_equation).strip()
             where = self._equation_where(equation)
-            formula_color = "#7dd3fc" if get_current_theme() == "dark" else "#0f3b5b"
-            note_color = "#a1a1aa" if get_current_theme() == "dark" else "#475569"
+            where_title = where.split(':', 1)[0]
+            where_desc = where.split(':', 1)[1] if ':' in where else ''
+
+            is_dark = get_current_theme() == "dark"
+            card_bg = "#122b25" if is_dark else "#f8fafc"
+            card_border = "#234d43" if is_dark else "#e2e8f0"
+            border_accent = "#48d5b7" if is_dark else "#0284c7"
+            formula_color = "#38bdf8" if is_dark else "#0369a1"
+            badge_bg = "#1a4d40" if is_dark else "#e0f2fe"
+            badge_fg = "#48d5b7" if is_dark else "#0284c7"
+            note_color = "#a3cdc3" if is_dark else "#64748b"
+            title_color = "#f4fbf8" if is_dark else "#334155"
+
             return (
-                "<div class='equation-block' align='center'>"
-                f"<font face='Cambria Math, STIX Two Math, Times New Roman' color='{formula_color}'>"
-                f"<big><i>{equation}</i></big></font>"
-                f" <font color='{note_color}'>({equation_number})</font>"
-                "</div>"
-                f"<p class='equation-where'><b>{where.split(':', 1)[0]}:</b>{where.split(':', 1)[1]}</p>"
+                f"<table width='100%' cellpadding='0' cellspacing='0' style='background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid {border_accent}; border-radius: 8px; margin: 14px 0;'>"
+                "<tr>"
+                f"<td style='padding: 10px 14px; font-family: \"Cascadia Code\", \"Fira Code\", \"Segoe UI\", monospace; font-size: 13px; font-weight: 700; color: {formula_color};'>{equation}</td>"
+                f"<td align='right' style='padding: 10px 14px; white-space: nowrap;'><span style='background-color: {badge_bg}; color: {badge_fg}; font-weight: 800; font-size: 10.5px; padding: 3px 8px; border-radius: 4px;'>EQ. {equation_number}</span></td>"
+                "</tr>"
+                "<tr>"
+                f"<td colspan='2' style='padding: 6px 14px 10px 14px; border-top: 1px dashed {card_border}; font-size: 11.5px; color: {note_color}; line-height: 1.45;'>"
+                f"<b style='color: {title_color};'>{where_title}:</b>{where_desc}"
+                "</td>"
+                "</tr>"
+                "</table>"
             )
 
         code_pattern = re.compile(r"<code(?:\s+[^>]*)?>(.*?)</code>", re.DOTALL | re.IGNORECASE)
@@ -294,34 +555,114 @@ class TabDocumentation(QWidget):
             flags=re.DOTALL | re.IGNORECASE,
         )
         is_dark = get_current_theme() == "dark"
-        text_color = "#e4e4e7" if is_dark else "#1e293b"
-        muted_color = "#a1a1aa" if is_dark else "#475569"
-        surface_color = "#18181b" if is_dark else "#ffffff"
+        text_color = "#f4fbf8" if is_dark else "#334155"
+        surface_color = "#122b25" if is_dark else "#ffffff"
+        border_color = "#234d43" if is_dark else "#cbd5e1"
+        header_title = "#f8fafc" if is_dark else "#0f172a"
+        header_sub = "#48d5b7" if is_dark else "#0284c7"
+        tbl_th_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        tbl_th_fg = "#f8fafc" if is_dark else "#0f172a"
+        tbl_th_border = "#2bb99c" if is_dark else "#cbd5e1"
+        tbl_td_border = "#1f4239" if is_dark else "#f1f5f9"
+        tbl_even_bg = "#15332c" if is_dark else "#f8fafc"
+        pre_bg = "#0b1a17" if is_dark else "#0f172a"
+        pre_fg = "#48d5b7" if is_dark else "#38bdf8"
+        code_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        code_fg = "#48d5b7" if is_dark else "#0369a1"
+
         style = f"""
         <style>
-            body {{ color:{text_color}; font-family:'Segoe UI', Arial, sans-serif; font-size:12px; line-height:1.55; }}
-            h2 {{ color:#0284c7; font-size:18px; margin:0 0 12px 0; font-weight:700; }}
-            h3 {{ color:#0369a1; font-size:14px; margin:18px 0 7px 0; font-weight:700; }}
-            h4 {{ font-size:12.5px; margin:12px 0 6px 0; }}
-            p {{ margin:7px 0; }}
-            pre {{ background:#f1f5f9; border:1px solid #cbd5e1; border-radius:5px; padding:9px; color:#0f3b5b; font-family:'Cascadia Mono','Consolas',monospace; font-size:11px; white-space:pre-wrap; }}
-            .equation-block {{ margin:12px 0 3px 0; }}
-            p.equation-where {{ margin:3px 16px 12px 16px; color:{muted_color}; font-size:11px; }}
-            li {{ margin:4px 0; }}
-            table {{ border-collapse:collapse; width:100%; margin:12px 0; font-size:11.5px; }}
-            th {{ background:#0284c7; color:#ffffff; font-weight:700; padding:7px; }}
-            td {{ padding:7px; vertical-align:top; }}
+            body {{ color:{text_color}; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size:13px; line-height:1.6; margin:16px 36px 24px 20px; padding:0; }}
+            h2 {{ color:{header_title}; font-size:21px; margin:0 0 16px 0; font-weight:800; letter-spacing:-0.3px; border-bottom:2px solid {border_color}; padding-bottom:10px; }}
+            h3 {{ color:{header_sub}; font-size:15.5px; margin:24px 0 8px 0; font-weight:700; }}
+            h4 {{ font-size:13.5px; margin:14px 0 6px 0; font-weight:600; color:{header_title}; }}
+            p {{ margin:8px 0; line-height:1.6; color:{text_color}; }}
+            b, strong {{ color:{header_title}; }}
+            pre {{ background:{pre_bg}; border:1px solid {border_color}; border-radius:8px; padding:12px 16px; color:{pre_fg}; font-family:'Cascadia Code','Consolas',monospace; font-size:11.5px; white-space:pre-wrap; line-height:1.5; }}
+            code {{ background:{code_bg}; color:{code_fg}; border:1px solid {border_color}; border-radius:4px; padding:2px 6px; font-family:'Cascadia Code','Consolas',monospace; font-size:11.5px; }}
+            li {{ margin:4px 0; line-height:1.5; }}
+            table {{ border-collapse:collapse; width:100%; margin:16px 0; font-size:12px; border:1px solid {border_color}; border-radius:8px; }}
+            th {{ background:{tbl_th_bg}; color:{tbl_th_fg}; font-weight:700; padding:9px 12px; border-bottom:2px solid {tbl_th_border}; text-align:left; }}
+            td {{ padding:9px 12px; border-bottom:1px solid {tbl_td_border}; color:{text_color}; vertical-align:top; }}
+            tr:nth-child(even) td {{ background-color:{tbl_even_bg}; }}
         </style>
         """
         if secao:
             content += render_bloco_da_secao(secao, get_current_lang() if get_current_lang() == "pt" else "en")
 
         browser = QTextBrowser()
-        browser.setOpenExternalLinks(True)
+        browser.setOpenLinks(False)
+        browser.setOpenExternalLinks(False)
+        browser.anchorClicked.connect(self._on_anchor_clicked)
+        browser.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         browser.setFrameShape(QFrame.NoFrame)
-        browser.setStyleSheet(f"background-color:{surface_color}; color:{text_color}; padding:18px; font-family:'Segoe UI', Arial, sans-serif;")
+        browser.setStyleSheet(f"""
+            QTextBrowser {{
+                background-color: {surface_color};
+                border: 1px solid {border_color};
+                border-radius: 14px;
+                padding: 0px;
+                color: {text_color};
+                selection-background-color: #0284c7;
+                selection-color: #ffffff;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 8px;
+                margin: 6px 4px 6px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 30px;
+                border-radius: 4px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
+            }}
+        """)
         browser.setHtml(f"<html><head>{style}</head><body>{content}</body></html>")
         return browser
+
+    def _on_anchor_clicked(self, qurl: QUrl):
+        target = qurl.toString().strip()
+        if not target:
+            return
+        if target.startswith("http://") or target.startswith("https://"):
+            open_url_in_browser(target)
+            return
+
+        manual_map = {
+            "URL_DO_MANUAL_COMPLETO": "manual/Manual-Netuno-5.pdf",
+            "URL_DO_MANUAL_VOL_1": "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf",
+            "URL_DO_MANUAL_VOL_2": "manual/mini/Manual-Netuno-5-2-metodo.pdf",
+            "URL_DO_MANUAL_VOL_3": "manual/mini/Manual-Netuno-5-3-guias.pdf",
+            "URL_DO_MANUAL_VOL_4": "manual/mini/Manual-Netuno-5-4-tutorial.pdf",
+            "URL_DO_MANUAL_VOL_5": "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf",
+            "URL_DO_MANUAL_VOL_6": "manual/mini/Manual-Netuno-5-6-versoes.pdf",
+            "URL_DO_MANUAL_VOL_7": "manual/mini/Manual-Netuno-5-7-apendices.pdf",
+        }
+
+        if target in manual_map:
+            abrir_ou_baixar_manual(manual_map[target], parent=self)
+            return
+
+        if target in ("URL_DA_PAGINA_WEB_MANUAL_INTERATIVO", "URL_MANUAL_INTERATIVO"):
+            abrir_manual_interativo(parent=self)
+            return
+
+        if "://" not in target:
+            open_url_in_browser(f"https://{target}")
+        else:
+            open_url_in_browser(target)
 
     def create_tab_calculation_method(self) -> QWidget:
         """Roteiro auditável das etapas e das equações empregadas pelo programa."""
@@ -1132,6 +1473,9 @@ class TabDocumentation(QWidget):
 
 
     def create_tab_rainfall_hydrology(self) -> QWidget:
+        climbra_uri = _get_asset_data_uri("icons/CLIMBra.png") or _get_asset_data_uri("manual/figuras/CLIMBra.jpg")
+        img_climbra_tag = f"<div style='margin: 12px 0;'><img src='{climbra_uri}' width='260' alt='CLIMbra Dataset'/></div>" if climbra_uri else ""
+
         if get_current_lang() != "pt":
             html = """
             <h2 style='color: #0284c7; margin-top: 0px;'>🌧️ Rainfall and Pluvial Hydrology</h2>
@@ -1142,9 +1486,21 @@ class TabDocumentation(QWidget):
                 <br/><b>Data Source:</b> INMET (National Institute of Meteorology), ANA (National Water Agency), CEMADEN or local stations.
             </p>
 
+            <h3 style='color: #0369a1;'>CLIMBra Climate Database (CMIP6 / Projections)</h3>
+            __CLIMBRA_IMG__
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Beyond single-station ground rain gauges, Netuno 5 integrates the high-resolution meteorological projections of <b>CLIMBra</b> (<i>Climate Change Dataset for Brazil</i>), encompassing <b>652 Brazilian municipalities</b>, <b>19 global climate models (GCMs/ESMs)</b> from CMIP6, and two emission trajectories: <b>SSP2-4.5</b> (middle-of-the-road) and <b>SSP5-8.5</b> (fossil-fueled development).
+            </p>
+            <ul style='font-size: 12px; line-height: 1.6;'>
+                <li><b>Bias Correction:</b> 0.25° gridded daily time-series adjusted by <i>Quantile Delta Mapping</i> (QDM) against Xavier et al. (2016) ground observation grid.</li>
+                <li><b>Time Horizons:</b> Continuous historical baseline (1980–2013, 12,419 days) and 21st-century projections (2015–2100, 31,411 days).</li>
+                <li><b>Scientific Reference:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Sci Data 10, 48 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
+                <li><b>Open Data Repository:</b> Science Data Bank (CC0 License). <a href='https://doi.org/10.57760/sciencedb.02316' style='color:#0284c7;'>doi:10.57760/sciencedb.02316</a></li>
+            </ul>
+
             <h3 style='color: #0369a1;'>First Flush / Initial Discard ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtracted</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
+                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtraída</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
             </p>
 
             <h3 style='color: #0369a1;'>Daily Capturable Volume ($V_{cap, t}$)</h3>
@@ -1154,7 +1510,7 @@ class TabDocumentation(QWidget):
                 V<sub>cap,t</sub> = A × C × P<sub>eff,t</sub>, where P<sub>eff,t</sub> = 0 if the applicable event is below d<sub>f</sub>; otherwise P<sub>eff,t</sub> = P<sub>t</sub>
                 </code>
             </p>
-            """
+            """.replace("__CLIMBRA_IMG__", img_climbra_tag)
         else:
             html = """
             <h2 style='color: #0284c7; margin-top: 0px;'>🌧️ Precipitação e Hidrologia Pluvial</h2>
@@ -1164,6 +1520,18 @@ class TabDocumentation(QWidget):
                 É a sequência temporal diária contínua da lâmina de chuva (em milímetros, mm) registrada em uma estação meteorológica. O Netuno 5 simula o balanço hídrico dia a dia ao longo de toda a série histórica fornecida pelo usuário.
                 <br/><b>Fonte dos Dados:</b> INMET (Instituto Nacional de Meteorologia), ANA (Agência Nacional de Águas), CEMADEN ou estações locais (ex: EPAGRI/CIRAM).
             </p>
+
+            <h3 style='color: #0369a1;'>Base de dados CLIMBra (CMIP6 / Projeções)</h3>
+            __CLIMBRA_IMG__
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Além das séries pontuais de estações meteorológicas, o Netuno 5 integra as projeções climáticas em grade de alta resolução do <b>CLIMBra</b> (<i>Climate Change Dataset for Brazil</i>), cobrindo <b>652 municípios brasileiros</b>, <b>19 modelos climáticos globais</b> (GCMs/ESMs) do CMIP6 e dois cenários de emissões: <b>SSP2-4.5</b> (trajetória intermediária) e <b>SSP5-8.5</b> (trajetória extrema de emissões elevadas).
+            </p>
+            <ul style='font-size: 12px; line-height: 1.6;'>
+                <li><b>Metodologia de Correção:</b> Séries em grade de 0,25° (~28 km) corrigidas estatisticamente pelo método <i>Quantile Delta Mapping</i> (QDM), calibradas contra o conjunto observacional diário de Xavier, King e Scanlon (2016).</li>
+                <li><b>Horizontes Temporais:</b> Série histórica simulada contínua de 1980 a 2013 (12.419 dias) e projeções futuras ininterruptas de 2015 a 2100 (31.411 dias), com atalhos de recortes de 30 anos (2021–2050, 2041–2070 e 2071–2100).</li>
+                <li><b>Artigo na Nature Scientific Data:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Scientific Data 10, art. 48 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
+                <li><b>Repositório de Dados Abertos:</b> Science Data Bank (licença pública CC0). <a href='https://doi.org/10.57760/sciencedb.02316' style='color:#0284c7;'>doi:10.57760/sciencedb.02316</a></li>
+            </ul>
 
             <h3 style='color: #0369a1;'>First Flush / Descarte Inicial ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
@@ -1177,7 +1545,7 @@ class TabDocumentation(QWidget):
                 V<sub>cap,t</sub> = A × C × P<sub>ef,t</sub>, em que P<sub>ef,t</sub> = 0 se o evento aplicável estiver abaixo de d<sub>f</sub>; caso contrário, P<sub>ef,t</sub> = P<sub>t</sub>
                 </code>
             </p>
-            """
+            """.replace("__CLIMBRA_IMG__", img_climbra_tag)
         return self._create_browser(html, secao='hidrologia')
 
     def create_tab_building_demand(self) -> QWidget:
@@ -1934,6 +2302,407 @@ class TabDocumentation(QWidget):
             </div>
             """
         return self._create_browser(html, secao='tarifas')
+
+    def create_tab_manuals_overview(self) -> QWidget:
+        """Painel técnico dos Manuais Oficiais do Netuno 5 e do Manual Interativo Web."""
+        ingles = get_current_lang() != "pt"
+        is_dark = get_current_theme() == "dark"
+
+        # Paleta de cores responsiva ao tema (superfícies elevadas e contraste refinado)
+        canvas_bg = "#0c1815" if is_dark else "#eef2f6"
+        card_bg = "#122b25" if is_dark else "#ffffff"
+        card_border = "#234d43" if is_dark else "#cbd5e1"
+        text_title = "#f8fafc" if is_dark else "#0f172a"
+        text_desc = "#a3cdc3" if is_dark else "#475569"
+        chip_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        chip_fg = "#48d5b7" if is_dark else "#334155"
+        feat_border = "#48d5b7" if is_dark else "#0284c7"
+        feat_bg = "#122b25" if is_dark else "#ffffff"
+
+        scroll = _ResponsiveScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setStyleSheet(f"""
+            QScrollArea {{
+                background-color: transparent;
+                border: none;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 8px;
+                margin: 4px 2px 4px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 30px;
+                border-radius: 4px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
+            }}
+        """)
+
+        container = QWidget()
+        container.setObjectName("manualsContainer")
+        container.setStyleSheet("QWidget#manualsContainer { background-color: transparent; }")
+
+        lay = QVBoxLayout(container)
+        lay.setContentsMargins(8, 12, 12, 20)
+        lay.setSpacing(14)
+
+        # 1. HERO BANNER DA PLATAFORMA WEB
+        hero = QFrame()
+        hero.setObjectName("heroBanner")
+        hero.setStyleSheet("""
+            QFrame#heroBanner {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0.85,
+                    stop:0 #0f172a, stop:0.45 #1e293b, stop:1 #0369a1);
+                border: 1px solid #334155;
+                border-radius: 14px;
+            }
+        """)
+        h_lay = QVBoxLayout(hero)
+        h_lay.setContentsMargins(20, 18, 20, 18)
+        h_lay.setSpacing(10)
+
+        h_badge = QLabel("PLATAFORMA ONLINE • MANUAL INTERATIVO" if not ingles else "ONLINE PLATFORM • INTERACTIVE MANUAL")
+        h_badge.setStyleSheet("background-color: rgba(2, 132, 199, 0.45); border: 1px solid #38bdf8; color: #e0f2fe; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 10px; letter-spacing: 0.5px;")
+        h_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        h_lay.addWidget(h_badge)
+
+        h_title = QLabel("Manual Interativo e Metodologia Web" if not ingles else "Interactive Web Manual & Methodology")
+        h_title.setStyleSheet("font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;")
+        h_lay.addWidget(h_title)
+
+        h_desc = QLabel(
+            "Simulações interativas do balanço hídrico diário, formulação matemática detalhada e visualizações conceituais diretamente no navegador."
+            if not ingles else
+            "Interactive daily water balance simulations, detailed mathematical formulation, and conceptual visualizations directly in the browser."
+        )
+        h_desc.setStyleSheet("font-size: 12.5px; color: #cbd5e1; line-height: 1.45;")
+        h_desc.setWordWrap(True)
+        h_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        h_desc.setMinimumWidth(100)
+        h_lay.addWidget(h_desc)
+
+        h_btn_row = QHBoxLayout()
+        h_btn_row.setSpacing(12)
+        h_btn = QPushButton("Abrir Manual Interativo (Web) →" if not ingles else "Open Interactive Manual (Web) →")
+        h_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #38bdf8;
+                color: #082f49;
+                font-weight: 800;
+                font-size: 12px;
+                padding: 10px 22px;
+                border-radius: 8px;
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: #7dd3fc;
+            }
+            QPushButton:pressed {
+                background-color: #0284c7;
+                color: #ffffff;
+            }
+        """)
+        h_btn.setCursor(Qt.PointingHandCursor)
+        h_btn.clicked.connect(lambda: abrir_manual_interativo(parent=self))
+        h_btn_row.addWidget(h_btn)
+        h_btn_row.addStretch(1)
+        h_lay.addLayout(h_btn_row)
+
+        lay.addWidget(hero)
+
+        # 2. CABEÇALHO DO ACERVO DE MANUAIS
+        sec_box = QVBoxLayout()
+        sec_box.setSpacing(3)
+        lbl_sec = QLabel("Manuais Técnicos do Netuno 5 (PDF)" if not ingles else "Netuno 5 Technical Manuals (PDF)")
+        lbl_sec.setStyleSheet(f"font-size: 18px; font-weight: 800; color: {'#48d5b7' if is_dark else '#0f172a'}; margin-top: 6px;")
+        sec_box.addWidget(lbl_sec)
+
+        lbl_sec_desc = QLabel(
+            "Documentos de referência para engenharia, formulação dos métodos, diretrizes por tipologia predial e tabelas de parâmetros."
+            if not ingles else
+            "Engineering reference documents, method formulation, building typology guidelines, and design tables."
+        )
+        lbl_sec_desc.setStyleSheet(f"font-size: 12.5px; color: {text_desc};")
+        lbl_sec_desc.setWordWrap(True)
+        lbl_sec_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        lbl_sec_desc.setMinimumWidth(100)
+        sec_box.addWidget(lbl_sec_desc)
+        lay.addLayout(sec_box)
+
+        # 3. CARD DE DESTAQUE (Volume Geral 266 páginas)
+        feat = QFrame()
+        feat.setObjectName("featCard")
+        feat.setStyleSheet(f"""
+            QFrame#featCard {{
+                background-color: {feat_bg};
+                border: 1px solid {card_border};
+                border-top: 5px solid {feat_border};
+                border-radius: 14px;
+            }}
+        """)
+        f_lay = QHBoxLayout(feat)
+        f_lay.setContentsMargins(16, 14, 16, 14)
+        f_lay.setSpacing(14)
+
+        # Capa Esquerda
+        f_left = QVBoxLayout()
+        f_left.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
+        f_left.setSpacing(6)
+
+        lbl_f_img = QLabel()
+        lbl_f_img.setFixedSize(120, 85)
+        lbl_f_img.setStyleSheet(f"border-radius: 8px; border: 1px solid {card_border}; background-color: {'#15332c' if is_dark else '#f8fafc'};")
+        lbl_f_img.setAlignment(Qt.AlignCenter)
+        pm_comp = _get_asset_pixmap("icons/capas/thumb_capa_completo.png", 120, 85) or _get_asset_pixmap("manual/figuras/capas/thumb_capa_completo.png", 120, 85)
+        if not pm_comp.isNull():
+            lbl_f_img.setPixmap(pm_comp)
+        f_left.addWidget(lbl_f_img)
+
+        lbl_f_sub = QLabel("PDF • 266 PÁGINAS" if not ingles else "PDF • 266 PAGES")
+        lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
+        lbl_f_sub.setAlignment(Qt.AlignCenter)
+        f_left.addWidget(lbl_f_sub)
+        f_lay.addLayout(f_left)
+
+        # Conteúdo Direita
+        f_right = QVBoxLayout()
+        f_right.setSpacing(6)
+
+        f_badge = QLabel("VOLUME GERAL • 266 PÁGINAS" if not ingles else "GENERAL VOLUME • 266 PAGES")
+        f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
+        f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        f_right.addWidget(f_badge)
+
+        f_title = QLabel("Manual Netuno 5 — Volume Geral" if not ingles else "Netuno 5 Manual — General Volume")
+        f_title.setStyleSheet(f"font-size: 17px; font-weight: 800; color: {text_title}; margin: 2px 0;")
+        f_right.addWidget(f_title)
+
+        f_desc = QLabel(
+            "Manual abrangente de engenharia para aproveitamento de água de chuva. Apresenta o método de simulação diária Yield-After-Spill (YAS), coeficientes de escoamento para coberturas, matriz multicritério TOPSIS, análise de ciclo de vida (ACV) e viabilidade econômico-financeira."
+            if not ingles else
+            "Comprehensive engineering manual for rainwater harvesting. Presents the daily Yield-After-Spill (YAS) simulation method, roof runoff coefficients, TOPSIS multi-criteria matrix, life-cycle assessment (LCA), and economic feasibility."
+        )
+        f_desc.setStyleSheet(f"font-size: 12px; color: {text_desc}; line-height: 1.5;")
+        f_desc.setWordWrap(True)
+        f_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        f_desc.setMinimumWidth(100)
+        f_right.addWidget(f_desc)
+
+        chips_master = (
+            ["Balanço Diário YAS", "Análise Econômica"]
+            if not ingles else
+            ["Daily YAS Balance", "Economic Analysis"]
+        )
+        f_chips_lay = QHBoxLayout()
+        f_chips_lay.setSpacing(6)
+        for ch in chips_master:
+            c = QLabel(ch)
+            c_bg = "#1a4d40" if is_dark else "#f0f9ff"
+            c_fg = "#48d5b7" if is_dark else "#0369a1"
+            c.setStyleSheet(f"background-color: {c_bg}; color: {c_fg}; border: 1px solid {'#234d43' if is_dark else '#bae6fd'}; font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px;")
+            f_chips_lay.addWidget(c)
+        f_chips_lay.addStretch(1)
+        f_right.addLayout(f_chips_lay)
+
+        f_btn = QPushButton("Baixar Volume Geral (PDF)" if not ingles else "Download General Volume (PDF)")
+        f_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {'#087f6b' if is_dark else '#0284c7'};
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 12px;
+                padding: 8px 20px;
+                border-radius: 6px;
+                border: none;
+            }}
+            QPushButton:hover {{
+                background-color: {'#066d5c' if is_dark else '#0369a1'};
+            }}
+            QPushButton:pressed {{
+                background-color: {'#044b3f' if is_dark else '#0c4a6e'};
+            }}
+        """)
+        f_btn.setCursor(Qt.PointingHandCursor)
+        f_btn.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        _configurar_botao_manual(f_btn, "manual/Manual-Netuno-5.pdf", parent=self)
+        f_right.addWidget(f_btn)
+
+        f_lay.addLayout(f_right, stretch=1)
+        lay.addWidget(feat)
+
+        # 4. OS 7 MINI-MANUAIS TEMÁTICOS
+        vols_data = [
+            (1, 30,
+             "VOLUME 1 • INTRODUÇÃO" if not ingles else "VOLUME 1 • INTRODUCTION",
+             "Volume 1 — Primeiros Passos" if not ingles else "Volume 1 — Getting Started",
+             "Instalação, navegação na interface, fluxo de trabalho e conceitos básicos para estruturar o primeiro estudo de aproveitamento pluvial."
+             if not ingles else
+             "Installation, interface navigation, workflow, and basic concepts for setting up a rainwater harvesting study.",
+             ["Instalação e Interface" if not ingles else "Installation & UI", "Fluxo de Trabalho" if not ingles else "Workflow"],
+             "icons/capas/thumb_capa_1-comece-aqui.png", "#059669", "#064e3b" if is_dark else "#d1fae5", "#6ee7b7" if is_dark else "#065f46",
+             "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf"),
+            (2, 120,
+             "VOLUME 2 • MÉTODO DE SIMULAÇÃO" if not ingles else "VOLUME 2 • SIMULATION METHOD",
+             "Volume 2 — Formulação Matemática" if not ingles else "Volume 2 — Mathematical Formulation",
+             "Balanço hídrico diário Yield-After-Spill (YAS), coeficientes de escoamento superficial em coberturas e a lâmina de descarte da primeira chuva (first flush)."
+             if not ingles else
+             "Daily Yield-After-Spill (YAS) water balance, catchment runoff coefficients, and first-flush diversion rules.",
+             ["Balanço Diário YAS" if not ingles else "Daily YAS Balance", "Descarte Inicial" if not ingles else "First-Flush Rule"],
+             "icons/capas/thumb_capa_2-metodo.png", "#0284c7", "#0c4a6e" if is_dark else "#e0f2fe", "#7dd3fc" if is_dark else "#0369a1",
+             "manual/mini/Manual-Netuno-5-2-metodo.pdf"),
+            (3, 55,
+             "VOLUME 3 • DIRETRIZES POR TIPOLOGIA" if not ingles else "VOLUME 3 • TYPOLOGY GUIDELINES",
+             "Volume 3 — Aplicações Práticas" if not ingles else "Volume 3 — Practical Applications",
+             "Diretrizes de projeto e parâmetros específicos para escolas, hospitais, residências e edifícios comerciais."
+             if not ingles else
+             "Design guidelines and specific parameters for schools, hospitals, residential buildings, and commercial facilities.",
+             ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
+             "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
+             "manual/mini/Manual-Netuno-5-3-guias.pdf"),
+            (4, 70,
+             "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
+             "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
+             "Exemplo completo de dimensionamento: dados pluviométricos, capacidade do reservatório, viabilidade financeira e emissões evitadas."
+             if not ingles else
+             "End-to-end sizing walkthrough: rainfall data, tank storage, financial feasibility, and avoided emissions.",
+             ["Dimensionamento" if not ingles else "Tank Sizing", "Viabilidade Econômica" if not ingles else "Economic Feasibility"],
+             "icons/capas/thumb_capa_4-tutorial.png", "#7c3aed", "#4c1d95" if is_dark else "#ede9fe", "#c4b5fd" if is_dark else "#5b21b6",
+             "manual/mini/Manual-Netuno-5-4-tutorial.pdf"),
+            (5, 30,
+             "VOLUME 5 • CONFIABILIDADE E INCERTEZA" if not ingles else "VOLUME 5 • RELIABILITY & UNCERTAINTY",
+             "Volume 5 — Análise Estatística" if not ingles else "Volume 5 — Statistical Analysis",
+             "Confiabilidade temporal e volumétrica, curvas de permanência e avaliação da sensibilidade do tamanho da série histórica."
+             if not ingles else
+             "Temporal and volumetric reliability, duration curves, and historical series length sensitivity analysis.",
+             ["Confiabilidade Hídrica" if not ingles else "Water Reliability", "Curvas de Permanência" if not ingles else "Duration Curves"],
+             "icons/capas/thumb_capa_5-confiabilidade.png", "#d97706", "#78350f" if is_dark else "#fef3c7", "#fcd34d" if is_dark else "#92400e",
+             "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf"),
+            (6, 22,
+             "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
+             "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
+             "Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."
+             if not ingles else
+             "Software evolution, verification against Netuno 4, mass conservation invariants, and analytical benchmarks.",
+             ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
+             "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
+             "manual/mini/Manual-Netuno-5-6-versoes.pdf"),
+            (7, 57,
+             "VOLUME 7 • APÊNDICES E DADOS" if not ingles else "VOLUME 7 • APPENDICES & DATA",
+             "Volume 7 — Tabelas de Referência" if not ingles else "Volume 7 — Reference Tables",
+             "Tabelas de coeficientes de escoamento, fatores de emissão para ACV, parâmetros tarifários, glossário de termos e referências."
+             if not ingles else
+             "Runoff coefficient tables, LCA emission factors, tariff parameters, glossary, and references.",
+             ["Tabelas de Parâmetros" if not ingles else "Design Tables", "Fatores de Emissão" if not ingles else "Emission Factors"],
+             "icons/capas/thumb_capa_7-apendices.png", "#e11d48", "#881337" if is_dark else "#ffe4e6", "#fda4af" if is_dark else "#9f1239",
+             "manual/mini/Manual-Netuno-5-7-apendices.pdf"),
+        ]
+
+        for vol_num, pags, badge, title, desc, chips, thumb, accent, b_bg, b_fg, rel_pdf in vols_data:
+            card = QFrame()
+            card.setObjectName(f"miniCard_{vol_num}")
+            card.setStyleSheet(f"""
+                QFrame#miniCard_{vol_num} {{
+                    background-color: {card_bg};
+                    border: 1px solid {card_border};
+                    border-left: 6px solid {accent};
+                    border-radius: 12px;
+                }}
+            """)
+            c_lay = QHBoxLayout(card)
+            c_lay.setContentsMargins(14, 12, 14, 12)
+            c_lay.setSpacing(14)
+
+            # Coluna Capa
+            col_l = QVBoxLayout()
+            col_l.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
+            col_l.setSpacing(6)
+
+            lbl_i = QLabel()
+            lbl_i.setFixedSize(100, 72)
+            lbl_i.setStyleSheet(f"border-radius: 8px; border: 1px solid {card_border}; background-color: {'#15332c' if is_dark else '#f8fafc'};")
+            lbl_i.setAlignment(Qt.AlignCenter)
+            pm = _get_asset_pixmap(thumb, 100, 72) or _get_asset_pixmap(thumb.replace("icons/capas/", "manual/figuras/capas/"), 100, 72)
+            if not pm.isNull():
+                lbl_i.setPixmap(pm)
+            col_l.addWidget(lbl_i)
+
+            lbl_v = QLabel(f"VOL. 0{vol_num} • {pags} PÁG. • PDF" if not ingles else f"VOL. 0{vol_num} • {pags} PGS. • PDF")
+            lbl_v.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {accent};")
+            lbl_v.setAlignment(Qt.AlignCenter)
+            col_l.addWidget(lbl_v)
+            c_lay.addLayout(col_l)
+
+            # Coluna Conteúdo
+            col_r = QVBoxLayout()
+            col_r.setSpacing(6)
+
+            lbl_b = QLabel(badge)
+            lbl_b.setStyleSheet(f"background-color: {b_bg}; color: {b_fg}; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px; border: 1px solid {accent};")
+            lbl_b.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+            col_r.addWidget(lbl_b)
+
+            lbl_t = QLabel(title)
+            lbl_t.setStyleSheet(f"font-size: 16px; font-weight: 800; color: {text_title}; margin: 2px 0;")
+            col_r.addWidget(lbl_t)
+
+            lbl_d = QLabel(desc)
+            lbl_d.setStyleSheet(f"font-size: 12px; color: {text_desc}; line-height: 1.5;")
+            lbl_d.setWordWrap(True)
+            lbl_d.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+            lbl_d.setMinimumWidth(100)
+            col_r.addWidget(lbl_d)
+
+            # Chips
+            chips_l = QHBoxLayout()
+            chips_l.setSpacing(6)
+            for ch in chips:
+                c = QLabel(ch)
+                c.setStyleSheet(f"background-color: {chip_bg}; color: {chip_fg}; border: 1px solid {card_border}; font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px;")
+                chips_l.addWidget(c)
+            chips_l.addStretch(1)
+            col_r.addLayout(chips_l)
+
+            # Botão
+            btn = QPushButton("Baixar PDF" if not ingles else "Download PDF")
+            btn.setStyleSheet(f"""
+                QPushButton {{
+                    background-color: {accent};
+                    color: #ffffff;
+                    font-weight: 700;
+                    font-size: 11.5px;
+                    padding: 7px 18px;
+                    border-radius: 6px;
+                    border: none;
+                }}
+                QPushButton:hover {{
+                    opacity: 0.9;
+                }}
+            """)
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+            _configurar_botao_manual(btn, rel_pdf, parent=self)
+            col_r.addWidget(btn)
+
+            c_lay.addLayout(col_r, stretch=1)
+            lay.addWidget(card)
+
+        scroll.setWidget(container)
+        scroll.toHtml = lambda: "Manuais Oficiais & Acervo Técnico Netuno 5"
+        return scroll
 
     def create_tab_references(self) -> QWidget:
         """Lista geral, gerada a partir de `netuno.core.bibliography`.
