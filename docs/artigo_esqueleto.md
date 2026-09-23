@@ -282,10 +282,75 @@ viés por *Quantile Delta Mapping*.
   meteorological variables in Brazil (1980–2013)*. International Journal of
   Climatology 36(6), 2644–2659. DOI `10.1002/joc.4518`.
 
-❓ **Quantas cidades no artigo?** Quatro casos permitem discussão profunda de cada
-um; as 652 permitem generalização estatística. Minha recomendação: **quatro casos em
-profundidade no corpo, e a varredura nacional como uma figura de generalização** —
-é o desenho que sustenta os dois tipos de afirmação sem inchar o artigo.
+### 4.7 Unidade de análise: uma residência unifamiliar
+
+**Decidido:** o objeto é uma residência unifamiliar — não edifício multifamiliar,
+não comercial, não conjunto habitacional.
+
+**A consequência que importa para a publicação.** Uma casa numa cidade é base
+frágil para um periódico Q1: o revisor pergunta de imediato até onde o resultado
+vale, e um caso único não responde. Mas a saída não é acrescentar tipologias — é
+**manter uma tipologia e variar o clima**.
+
+| Desenho | Generalização | Risco |
+| :--- | :--- | :--- |
+| 1 casa, 1 cidade | nenhuma | recusa na triagem |
+| várias tipologias, 1 cidade | fraca: confunde tipologia com clima | crítica de confundimento |
+| **1 casa, muitas cidades** | **forte: a tipologia é constante e o clima é a variável** | nenhum relevante |
+
+Você tem a base de 652 municípios. **Fixar a residência e varrer o clima é o
+desenho mais forte disponível**, e é mais simples do que o que eu havia sugerido
+antes: a tipologia constante isola o efeito do regime pluviométrico, que é
+exatamente a variável de interesse.
+
+**Como eu estruturaria:**
+
+- **uma residência de referência**, com a geometria e a ocupação declaradas — área
+  de captação, número de moradores, consumo per capita, fração não potável, todos
+  com fonte;
+- **quatro cidades em profundidade** no corpo do texto, escolhidas por contraste de
+  regime pluviométrico e não por conveniência;
+- **a varredura nacional** como figura de generalização, mostrando como o volume
+  recomendado e a divergência entre os ótimos se distribuem pelo país.
+
+⚠️ **Declare a residência de referência com precisão de reprodução.** Área de
+telhado, coeficiente por material, número de moradores, consumo per capita, usos
+finais não potáveis e suas parcelas, arranjo de abastecimento (com ou sem caixa
+superior), e a tarifa adotada. Sem isso, nenhum dos seus números é reprodutível, e
+é a primeira coisa que um revisor de Q1 confere.
+
+### 4.8 Resultado preliminar que já existe — e que sustenta a tese
+
+Rodei o motor para uma residência unifamiliar em Florianópolis: telhado de 100 m²,
+quatro moradores, 150 L por pessoa por dia, 45% de fração não potável.
+
+| Volume | Carbono incorporado | Evitado por ano | Saldo em 20 anos | Payback ambiental |
+| ---: | ---: | ---: | ---: | ---: |
+| 1.000 L | 182 kg CO₂e | 17,5 kg | −152 kg | 10,9 anos |
+| 2.000 L | 218 kg CO₂e | 22,2 kg | **−206 kg** | 10,3 anos |
+| 3.000 L | 253 kg CO₂e | 24,5 kg | **−215 kg** | 10,8 anos |
+| 5.000 L | 324 kg CO₂e | 26,9 kg | −189 kg | 12,6 anos |
+
+O ótimo técnico, pelo limiar de ganho marginal, fica em **2.000 L**, com 29,0% de
+potencial de economia.
+
+**Dois achados, e o segundo é o melhor:**
+
+1. O ótimo de carbono (3.000 L) **não coincide** com o ótimo técnico (2.000 L). É a
+   divergência que a tese da tríade prevê — confirmada, portanto, ao menos num caso.
+2. **A curva de carbono tem ótimo interior.** A 5.000 L o saldo piora: o carbono
+   incorporado cresce mais rápido do que a água evitada. Mais reservatório não é
+   monotonicamente melhor para o clima, o que contraria a intuição corrente de que
+   armazenar mais é sempre ambientalmente preferível.
+
+⚠️ **Não exagere o primeiro achado.** A diferença de saldo entre 2.000 e 3.000 L é
+de 9 kg CO₂e em vinte anos — cerca de 4%. A curva é plana nessa faixa, e escolher o
+ótimo técnico custa pouco em carbono. **O achado forte é o ótimo interior**, não a
+distância entre os dois. Escrever o contrário convida o revisor a calcular a
+diferença e desconfiar do resto.
+
+⚠️ **Falta o terceiro ótimo.** O econômico ainda não foi rodado. Só com ele a
+tabela da tríade fecha.
 
 ---
 
@@ -311,6 +376,11 @@ entre eles é material.
 **Isto é o coração do artigo.** Se os três ótimos coincidirem, a tese da tríade
 perde força e o artigo vira uma descrição de ferramenta — publicável em SoftwareX,
 não em RCR. Se divergirem, você tem um achado que justifica sozinho um Q1.
+
+✅ **Confirmação parcial já obtida** (§4.8): na residência de referência em
+Florianópolis, o ótimo técnico fica em 2.000 L e o de carbono em 3.000 L. Falta o
+econômico, e falta repetir nas demais cidades — mas a hipótese sobreviveu ao
+primeiro teste, e o ótimo interior da curva de carbono é achado próprio.
 
 **Tabela 1** — por cidade: volume ótimo técnico, volume ótimo econômico, volume de
 menor carbono, e o volume eleito pelo TOPSIS com pesos iguais. Mais a penalidade de
@@ -507,9 +577,9 @@ importa.
 | Programa | Origem | Convenção | Por que serve de comparação | Evidência |
 | :--- | :--- | :--- | :--- | :--- |
 | **Netuno 4** | UFSC, Brasil | limiar de descarte | antecessor direto; base dos estudos do grupo | Maykot & Ghisi (2020); Silva, Teston, Vaz et al. (2025) |
-| **RainCycle** | Reino Unido | balanço diário com custeio de ciclo de vida | **o comparador mais próximo na dimensão econômica** — faz análise de custo de ciclo de vida, que é metade da sua tríade | Gao, Kim & Lee (2014), *J. Korean Housing Assoc.*, `10.6107/jkha.2014.25.3.053`; Doncaster et al. (2012), relatório de Bradford |
+| **RainCycle** | Reino Unido | balanço diário com custeio de ciclo de vida | **o comparador mais próximo na dimensão econômica** — faz análise de custo de ciclo de vida, que é metade da sua tríade. Aplicado a residências em Gao et al. | Gao, Kim & Lee (2014), *J. Korean Housing Assoc.*, `10.6107/jkha.2014.25.3.053`; Doncaster et al. (2012), relatório de Bradford |
 | **Tangki NAHRIM 2.0** | NAHRIM, Malásia | **YAS declarado** | aplicação web gratuita, YAS explícito, base própria de chuva; comparador metodologicamente alinhado | Mat Daud et al. (2021), `10.1088/1755-1315/920/1/012035`; Mat Daud et al. (2023), `10.17576/jkukm-2023-35(6)-21` |
-| **SS STORM (modificado)** | EUA | planilha de armazenamento, tratamento e extravasamento | usado com índice de sustentabilidade; comparador na dimensão de confiabilidade | Park & Um (2018), `10.3390/su10010280` |
+| **SS STORM (modificado)** | EUA | planilha de armazenamento, tratamento e extravasamento | comparador na dimensão de confiabilidade, mas aplicado em escala de cidade — use com ressalva | Park & Um (2018), `10.3390/su10010280` |
 
 **O filtro que vem antes de qualquer lista: a escala**
 
@@ -521,7 +591,9 @@ que respondem a perguntas diferentes:
 | **Predial** | de que tamanho é o reservatório deste edifício | Netuno, RainCycle, Tangki NAHRIM |
 | **Bacia ou bairro** | como o aproveitamento distribuído altera o balanço hídrico urbano | Aquacycle, UrbanBEATS, WaterMet2, SWITCH City Water Balance |
 
-**Só a primeira é comparável ao Netuno 5.** Um modelo de bacia não dimensiona
+**Só a primeira é comparável ao Netuno 5** — e, dentro dela, o recorte deste artigo
+é ainda mais estreito: **residência unifamiliar** (§4.7). Comparador validado só em
+edifício multifamiliar ou comercial entra com a ressalva declarada. Um modelo de bacia não dimensiona
 reservatório predial: ele agrega o efeito de muitos sistemas sobre escoamento,
 recarga e esgoto. Comparar os dois é comparar respostas a perguntas distintas, e o
 revisor de um Q1 nota isso na primeira leitura.
