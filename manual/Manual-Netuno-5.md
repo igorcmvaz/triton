@@ -8180,7 +8180,7 @@ método.==
 
 ### 5.3.8. O relatório de verificação na interface
 
-O menu **Ajuda → Relatório de Verificação Técnica e Computacional** abre, dentro do programa, o relatório de verificação da versão: a distinção entre verificação e validação, os kernels exercitados, as invariantes, os casos analíticos e a comparação com o Netuno 4. É a referência a citar quando um estudo precisa declarar como o programa foi verificado.
+O menu **Ajuda → Relatório de Verificação** abre, dentro do programa, o relatório de verificação da versão: a distinção entre verificação e validação, os kernels exercitados, as invariantes, os casos analíticos e a comparação com o Netuno 4. É a referência a citar quando um estudo precisa declarar como o programa foi verificado.
 
 ---
 

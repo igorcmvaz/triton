@@ -227,13 +227,20 @@ QCheckBox:hover {
     color: #087f6b;
 }
 
-/* Tabela de Precipitação */
+/* Tabela de Precipitação e Tabelas Gerais */
 QTableWidget {
     background-color: #ffffff;
     color: #17332c;
     gridline-color: #e2ede8;
     border: 1px solid #d7e3df;
     border-radius: 12px;
+    selection-background-color: #ffffff;
+    selection-color: #17332c;
+}
+
+QTableWidget::item:selected {
+    background-color: #ffffff;
+    color: #17332c;
 }
 
 QHeaderView::section {
@@ -665,13 +672,20 @@ QCheckBox:hover {
     color: #48d5b7;
 }
 
-/* Tabela de Precipitação */
+/* Tabela de Precipitação e Tabelas Gerais */
 QTableWidget {
     background-color: #122b25;
     color: #ffffff;
     gridline-color: #1f4239;
     border: 1px solid #1f4239;
     border-radius: 6px;
+    selection-background-color: #122b25;
+    selection-color: #ffffff;
+}
+
+QTableWidget::item:selected {
+    background-color: #122b25;
+    color: #ffffff;
 }
 
 QHeaderView::section {
@@ -730,7 +744,7 @@ QListView, QTreeView, QTableView, QAbstractItemView {
     selection-color: #ffffff;
 }
 
-QTableWidget::item:selected, QListView::item:selected, QTreeView::item:selected {
+QListView::item:selected, QTreeView::item:selected {
     background-color: #087f6b;
     color: #ffffff;
 }

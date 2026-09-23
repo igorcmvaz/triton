@@ -1,7 +1,7 @@
 """
 Etapa 1: Configuração do Projeto, Série Climatológica de Chuva & Tarifas (Netuno 5).
 Permite selecionar:
-1. 🇧🇷 Base Climatológica Nacional (652 Cidades - CMIP6 com 19 Modelos GCMs e Cenários Histórico/SSP2-4.5/SSP5-8.5).
+1. 🇧🇷 Base de dados CLIMBra (652 Cidades - CMIP6 com 19 Modelos GCMs e Cenários Histórico/SSP2-4.5/SSP5-8.5).
 2. 📁 Importar Arquivo CSV em formato Netuno (arquivo diário simples).
 Suporta recorte temporal por intervalo de datas e sincronização automática/inteligente com as tarifas municipais auditadas.
 """
@@ -131,7 +131,7 @@ class TabProject(QWidget):
         layout.addWidget(lbl_title)
 
         lbl_desc = QLabel(tr(
-            "Selecione uma das 652 cidades brasileiras da Base Climatológica Nacional (CMIP6 com modelos GCMs e projeções climáticas) "
+            "Selecione uma das 652 cidades brasileiras da Base de dados CLIMBra (CMIP6 com modelos GCMs e projeções climáticas) "
             "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores pluviométricos."
         ))
         lbl_desc.setWordWrap(True)
@@ -148,7 +148,7 @@ class TabProject(QWidget):
         row_modes = QHBoxLayout()
         self.btn_group_source = QButtonGroup(self)
         
-        self.rb_source_national = QRadioButton(tr("🇧🇷 Base Climatológica Nacional (652 Cidades - CMIP6)"))
+        self.rb_source_national = QRadioButton(tr("🇧🇷 Base de dados CLIMBra (652 Cidades - CMIP6)"))
         self.rb_source_national.setStyleSheet("font-weight: bold; font-size: 12px;")
         self.rb_source_national.setChecked(True)
         self.btn_group_source.addButton(self.rb_source_national, 0)
@@ -164,7 +164,7 @@ class TabProject(QWidget):
         row_modes.addStretch()
         lay_rain.addLayout(row_modes)
 
-        # ── PAINEL A: BASE CLIMATOLÓGICA NACIONAL ──
+        # ── PAINEL A: BASE DE DADOS CLIMBRA ──
         self.panel_national = QFrame()
         self.panel_national.setStyleSheet(f"QFrame {{ background-color: {card_bg}; border: 1px solid {card_border}; border-radius: 6px; padding: 6px; }}")
         lay_pnat = QVBoxLayout(self.panel_national)

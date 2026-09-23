@@ -1089,6 +1089,31 @@ REFERENCIAS: Dict[str, Referencia] = dict(
                 "indices: it measures how concentrated rainfall is across the months, which governs storage."
             ),
         ),
+        _r(
+            chave="ballarin_2023_climbra",
+            autores="BALLARIN, A. S.; SONE, J. S.; GESUALDO, G. C.; SCHWAMBACK, D.; REIS, A.; ALMAGRO, A.; WENDLAND, E.",
+            ano=2023,
+            titulo="CLIMBra - Climate Change Dataset for Brazil",
+            veiculo="Scientific Data",
+            detalhe="v. 10, art. 48",
+            doi="10.1038/s41597-023-01956-z",
+            recuperado_por="crossref",
+            nota_pt="Base climática nacional (CMIP6 / CLIMBra) com 19 modelos globais corrigidos por Quantile Delta Mapping para todo o Brasil.",
+            nota_en="National climate dataset (CMIP6 / CLIMBra) comprising 19 global climate models bias-corrected via Quantile Delta Mapping for Brazil.",
+        ),
+        _r(
+            chave="sciencedb_climbra_2023",
+            autores="BALLARIN, A. S.; SONE, J. S.; GESUALDO, G. C.; SCHWAMBACK, D.; REIS, A.; ALMAGRO, A.; WENDLAND, E.",
+            ano=2023,
+            titulo="CLIMBra - Climate Change Dataset for Brazil (Data Repository)",
+            veiculo="Science Data Bank",
+            tipo="base_de_dados",
+            doi="10.57760/sciencedb.02316",
+            acessado_em=date(2026, 9, 22),
+            recuperado_por="editor",
+            nota_pt="Repositório aberto de acesso público (CC0) contendo as séries diárias históricas (1980–2013) e futuras (2015–2100) sob SSP2-4.5 e SSP5-8.5.",
+            nota_en="Open access public data repository (CC0) hosting daily historical (1980–2013) and future projections (2015–2100) under SSP2-4.5 and SSP5-8.5.",
+        ),
     ]
 )
 
@@ -1118,7 +1143,15 @@ REFERENCIAS_POR_SECAO: Dict[str, Tuple[str, ...]] = {
     ),
     "telhados": ("marinoski_2020", "scolaro_ghisi_2025", "campisano_2017", "raimondi_2023"),
     "indices": ("zhang_2011", "walsh_lawler_1981", "inmet_bdmep", "kisakye_2018"),
-    "hidrologia": ("inmet_bdmep", "kisakye_2018", "campisano_2017", "souza_ghisi_2012", "semaan_2020"),
+    "hidrologia": (
+        "inmet_bdmep",
+        "kisakye_2018",
+        "campisano_2017",
+        "souza_ghisi_2012",
+        "semaan_2020",
+        "ballarin_2023_climbra",
+        "sciencedb_climbra_2023",
+    ),
     "demanda": ("maykot_ghisi_2020", "teston_2018", "belmeziti_2013"),
     "reservatorios": ("semaan_2020", "matos_2013", "vieira_2014", "freni_liuzzo_2019", "abnt_15527", "epd_pvc_rxp_2022", "abnt_5648", "abnt_5688", "amanco_wavin_2025", "fortlev_fibra"),
     "qualidade": ("maykot_vaz_ghisi_2025", "yaziz_1989", "rahman_2014", "raimondi_2023", "abnt_15527", "abnt_16783", "portaria_888_2021"),

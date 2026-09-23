@@ -1948,7 +1948,8 @@ class DialogElectricity(QDialog):
                     if hasattr(self, "txt_pipes"):
                         for dn_pipe, txt_p in self.txt_pipes.items():
                             txt_p.setText(f"{self.config.get_pipe_length(dn_pipe):.1f}".replace('.', ','))
-                    self._on_pipes_changed()
+                    if hasattr(self, "_on_pipes_changed"):
+                        self._on_pipes_changed()
 
 
 

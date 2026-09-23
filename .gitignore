@@ -51,6 +51,11 @@ outputs/
 # demais para controle de versão. Distribuída separadamente.
 # ---------------------------------------------------------------------------
 Netuno future files for 652 cities/
+
+# Base climatica compilada: 784 MB, gerada por scripts/compilar_base_climbra.py
+# a partir da pasta acima. O GitHub recusa arquivo com mais de 100 MB, e a base
+# e um download a parte, como a pasta de origem.
+data/climbra.db
 Netuno_future_files_split/
 
 # ---------------------------------------------------------------------------

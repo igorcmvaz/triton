@@ -16,6 +16,7 @@ from pathlib import Path
 def find_icon(base_dir: Path) -> Path | None:
     """Busca o ícone oficial da aplicação nos locais padrão."""
     candidates = [
+        base_dir / "icons" / "netuno5.ico",
         base_dir / "icons" / "icon.ico",
         base_dir / "icons" / "netuno.ico",
         base_dir / "icon.ico",
@@ -116,6 +117,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
     cmd = [
         sys.executable, "-m", "PyInstaller",
         "--clean",
+        "-y",
         f"--name={args.name}",
     ]
 
@@ -158,6 +160,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         ("manual/Manual-Netuno-5.pdf", "manual"),
         # Os sete volumes avulsos, para mandar só uma parte do manual.
         ("manual/mini", "manual/mini"),
+        # Manual interativo offline (HTML/JS/CSS)
+        ("manual/site", "manual/site"),
     ]
 
     for src_rel, dst_rel in data_folders:
@@ -177,6 +181,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "pandas",
         "openpyxl",
         "reportlab",
+        "ezdxf",
         "netuno.core.mcdm_methods",
         "netuno.core.environmental_sync",
         "netuno.core.esg_certifications",
@@ -201,10 +206,16 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
     # Pós-processamento de limpeza em dist/
     dist_dir = base_dir / "dist" / args.name
     if dist_dir.exists():
-        for base in [dist_dir, dist_dir / "_internal"]:
+        # As saidas de referencia do Netuno 4 sao 514 MB de insumo de teste, e
+        # nao servem a quem instala o programa. O PyInstaller as copia junto com
+        # a pasta `data`, e por isso elas param em `_internal/data`: a limpeza
+        # procurava so na raiz e em `_internal`, e nunca encontrava nada.
+        for base in [dist_dir, dist_dir / "_internal", dist_dir / "data",
+                     dist_dir / "_internal" / "data"]:
             sim_outputs = base / "simulation_outputs"
             if sim_outputs.exists():
                 shutil.rmtree(sim_outputs, ignore_errors=True)
+                print(f"[*] Removido do pacote: {sim_outputs.relative_to(base_dir)}")
             temp_dados = base / "data" / "Dados.txt"
             if temp_dados.exists():
                 try:

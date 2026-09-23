@@ -118,3 +118,44 @@ def test_a_configuracao_nasce_sem_altura_informada():
     from netuno.core.parser import NetunoConfig
 
     assert NetunoConfig().pump_manometric_head_m == 0.0
+
+
+def test_dialog_electricity_open_pump_wizard(qapp, monkeypatch):
+    """Garante que DialogElectricity._open_pump_wizard não falha com AttributeError."""
+    from netuno.core.parser import NetunoConfig
+    from netuno.ui.dialogs.dialog_economic import DialogElectricity
+
+    config = NetunoConfig()
+    dialog = DialogElectricity(config=config)
+
+    # Simula aceite no PumpSelectionWizardDialog com dados selecionados
+    class MockPumpWizard:
+        def __init__(self, *args, **kwargs):
+            self.selected_pump_data = {
+                "cv": 0.5,
+                "kw": 0.37,
+                "flow_lh": 2500,
+                "efficiency": 50.0,
+                "cost": 450.0,
+                "suction_dn": 32,
+                "recalque_dn": 25,
+                "suction_len": 5.0,
+                "recalque_len": 20.0,
+            }
+
+        def exec(self):
+            return True
+
+    monkeypatch.setattr(
+        "netuno.ui.dialogs.pump_wizard_dialog.PumpSelectionWizardDialog",
+        MockPumpWizard,
+    )
+
+    dialog._open_pump_wizard()
+
+    assert dialog.txt_power.text() == "0,50"
+    assert dialog.combo_power_unit.currentText() == "CV"
+    assert dialog.txt_flow.text() == "2500"
+    assert dialog.txt_eff.text() == "50,0"
+    assert dialog.txt_unit_cost.text() == "450,00"
+

@@ -114,7 +114,7 @@ class TabTanksSimulation(QWidget):
         grid_sw.addWidget(self.combo_threshold_profile, 3, 1)
         lay_t.addLayout(grid_sw)
 
-        self.lbl_sweep_guidance = QLabel(tr("Sugestao: limite = 8 × SDII × area × coeficiente de escoamento; passo-base de 250 L, dobrado automaticamente para manter no maximo 40 volumes positivos."))
+        self.lbl_sweep_guidance = QLabel(tr("Sugestão: limite baseado em 20–30 dias de demanda pluvial e captação (mín. 8.000 L); passo adaptativo de 250 L (≤5.000 L) ou 500 L (≤20.000 L)."))
         self.lbl_sweep_guidance.setWordWrap(True)
         self.lbl_sweep_guidance.setStyleSheet("color: #475569; font-size: 11px; padding: 2px 0;")
         lay_t.addWidget(self.lbl_sweep_guidance)
@@ -1152,31 +1152,41 @@ class TabTanksSimulation(QWidget):
             m_s = [validar_fracao("A fração mensal", s) for s in building.get("monthly_shares", [0.4]*12)]
             pluvial_demand_day = sum(m_d[i] * m_r[i] * m_s[i] for i in range(len(m_d))) / len(m_d)
 
-        # Autonomia em dias modulada pelo SDII (calibrada para 8 a 14 dias de projeto,
-        # evitando o sobredimensionamento excessivo de reservatórios em grandes demandas):
-        autonomy_days = 8.0 + min(6.0, 0.4 * sdii_mm_day)
+        # Autonomia em dias modulada pelo SDII (calibrada para 20 a 30 dias de projeto,
+        # cobrindo períodos secos e permitindo à curva de varredura explorar além da inflexão):
+        autonomy_days = 20.0 + min(12.0, 0.6 * max(1.0, sdii_mm_day))
         sweep_from_demand = pluvial_demand_day * autonomy_days
 
-        # Oferta pluvial captável por ciclo de eventos de chuva
-        sweep_from_catchment = min(5.0, 2.0 + 0.2 * sdii_mm_day) * sdii_mm_day * building.get("area", 100.0) * building.get("runoff", 0.8)
+        # Oferta pluvial captável por período de chuva representativo
+        rain_depth_ref_mm = max(60.0, min(140.0, 8.0 * max(1.0, sdii_mm_day)))
+        sweep_from_catchment = rain_depth_ref_mm * building.get("area", 100.0) * building.get("runoff", 0.8)
 
         # Se houver reservatório superior configurado
         try:
             upper_vol = float(self.txt_upper_vol.text().replace(',', '.'))
         except Exception:
             upper_vol = 0.0
-        sweep_from_upper = upper_vol * 5.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0
+        sweep_from_upper = upper_vol * 10.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0
 
+        # Piso mínimo de 8.000 L para abranger cisternas residenciais padrão de 5.000 a 8.000 L
         if pluvial_demand_day > 0:
-            # O volume de varredura ideal cobre a demanda útil sem inflar além da capacidade
-            # de abastecimento da área de cobertura:
-            base_sweep = min(sweep_from_demand, max(sweep_from_catchment, sweep_from_demand * 0.75))
-            raw_sweep_max_l = max(base_sweep, sweep_from_upper, 3000.0)
+            raw_sweep_max_l = max(sweep_from_demand, sweep_from_catchment, sweep_from_upper, 8000.0)
         else:
-            raw_sweep_max_l = max(sweep_from_catchment, 3000.0)
+            raw_sweep_max_l = max(sweep_from_catchment, 8000.0)
 
-        sweep_max_l = max(SWEEP_STEP_QUANTUM_L, int(round(raw_sweep_max_l / SWEEP_STEP_QUANTUM_L)) * SWEEP_STEP_QUANTUM_L)
-        grid_plan = build_sweep_volume_grid(sweep_max_l, SWEEP_STEP_QUANTUM_L)
+        # Passo adaptativo: 250 L para volumes pequenos (<= 5.000 L); 500 L para volumes médios (<= 20.000 L);
+        # 1.000 L para volumes grandes (<= 50.000 L); e 2.500 L acima.
+        if raw_sweep_max_l <= 5000.0:
+            suggested_step = 250.0
+        elif raw_sweep_max_l <= 20000.0:
+            suggested_step = 500.0
+        elif raw_sweep_max_l <= 50000.0:
+            suggested_step = 1000.0
+        else:
+            suggested_step = 2500.0
+
+        sweep_max_l = max(suggested_step, int(round(raw_sweep_max_l / suggested_step)) * int(suggested_step))
+        grid_plan = build_sweep_volume_grid(sweep_max_l, suggested_step)
         sweep_step_l = grid_plan.effective_step_l
 
         return {
@@ -1378,7 +1388,7 @@ class TabTanksSimulation(QWidget):
             return False
 
         active_max_l = max_l if max_blank or self._auto_sweep_max_value is not None else parse_float(self.txt_sweep_max.text(), max_l)
-        requested_step_l = SWEEP_STEP_QUANTUM_L if step_blank or self._auto_sweep_step_value is not None else parse_float(self.txt_sweep_step.text(), SWEEP_STEP_QUANTUM_L)
+        requested_step_l = step_l if step_blank or self._auto_sweep_step_value is not None else parse_float(self.txt_sweep_step.text(), step_l)
         grid_plan = build_sweep_volume_grid(active_max_l, requested_step_l)
         step_l = grid_plan.effective_step_l
 

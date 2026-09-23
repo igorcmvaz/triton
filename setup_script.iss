@@ -1,4 +1,4 @@
-﻿; Script de instalação do Netuno 5 para o Inno Setup 6
+; Script de instalação do Netuno 5 para o Inno Setup 6
 ; Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)
 ;
 ; Como gerar o instalador: veja docs/instalador.md. Em resumo,
@@ -7,11 +7,11 @@
 ; versão lida de netuno/__init__.py. Para compilar à mão:
 ;   ISCC /DMyAppVersion=5.0.0 setup_script.iss
 ;
-; Base climática (opcional, cerca de 6,5 GB): não vai dentro do instalador. Se a
-; pasta "Netuno future files for 652 cities" estiver AO LADO do Netuno_Setup_*.exe
-; no momento da instalação, o componente «Base climática nacional» a copia para a
-; pasta do programa. Sem ela, o componente é ignorado e o programa funciona com
-; séries próprias.
+; Base climática compilada (CLIMBra / SQLite): incorporada diretamente no executável
+; sob data/climbra.db (~1,1 GB), garantindo execução instantânea e portabilidade.
+; Se a pasta original de arquivos CSV soltos "Netuno future files for 652 cities"
+; estiver AO LADO do instalador no momento da instalação, o componente opcional
+; «Base climática nacional (CSV brutos)» pode copiá-la para a pasta do programa.
 
 #define MyAppName "Netuno 5"
 #ifndef MyAppVersion
@@ -78,10 +78,10 @@ Name: "full"; Description: "Instalação completa (todos os idiomas e a base cli
 Name: "custom"; Description: "Instalação personalizada"; Flags: iscustom
 
 [Components]
-Name: "core"; Description: "Aplicativo Netuno, manual, casos e exemplos (Português e English)"; Types: standard full custom; Flags: fixed
+Name: "core"; Description: "Aplicativo Netuno, base climática nacional compilada (CLIMBra), manual, casos e exemplos"; Types: standard full custom; Flags: fixed
 Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: full
 Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: full
-Name: "clima"; Description: "Base climática nacional CLIMBra (cerca de 6,5 GB; copiada da pasta ao lado do instalador, se existir)"; Types: full; ExtraDiskSpaceRequired: 6979321856
+Name: "clima"; Description: "Arquivos CSV brutos da base climática (opcional, cerca de 6,5 GB; copiada da pasta ao lado do instalador, se existir)"; Types: full; ExtraDiskSpaceRequired: 6979321856
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked

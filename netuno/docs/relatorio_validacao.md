@@ -1,4 +1,4 @@
-# RELATÓRIO DE VERIFICAÇÃO TÉCNICA E COMPUTACIONAL — NETUNO 5
+# RELATÓRIO DE VERIFICAÇÃO — NETUNO 5
 
 **Grupo de Pesquisa Gestão do Espaço Sustentável**  
 *Replicação Fiel e Validação da Engenharia do Netuno*  

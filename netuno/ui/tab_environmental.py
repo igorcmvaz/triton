@@ -921,7 +921,7 @@ class TabEnvironmental(QWidget):
         grid_esg = QGridLayout()
         grid_esg.setSpacing(10)
 
-        self.card_leed = self._create_kpi_card(tr("Selo LEED v4 WE (Máx: 8 pts)"), "--", tr("Máximo de 8 pontos possíveis"), "#16a34a", is_dark)
+        self.card_leed = self._create_kpi_card(tr("Selo LEED (v4 e v5 WE)"), "--", tr("Máximo de 8 pontos possíveis"), "#16a34a", is_dark)
         self.card_aqua = self._create_kpi_card(tr("Processo AQUA-HQE (Gestão da Água)"), "--", tr("Categoria 4 — Desempenho"), "#0284c7", is_dark)
         self.card_casa_azul = self._create_kpi_card(tr("Selo Casa Azul CAIXA"), "--", tr("Critério de Conservação"), "#0ea5e9", is_dark)
         self.card_gri = self._create_kpi_card(tr("GRI 303: Água Evitada da Rede"), "-- m³/ano", tr("Pegada Hídrica Preservada"), "#059669", is_dark)
@@ -1684,14 +1684,30 @@ class TabEnvironmental(QWidget):
         )
 
         if hasattr(self, 'card_leed'):
-            leed_tot = esg_res.leed.total_leed_we_points
+            leed_v4_tot = esg_res.leed.total_leed_we_points
+            leed_v5_tot = esg_res.leed_v5.total_pts
             self._update_kpi(
                 self.card_leed,
-                f"{leed_tot} de 8 pts",
-                f"Tirou {leed_tot} de 8 pontos (Máx: 8 pts)"
+                f"v4: {leed_v4_tot} | v5: {leed_v5_tot} de 8 pts",
+                f"LEED v4: {leed_v4_tot} pts · LEED v5: {leed_v5_tot} pts ({esg_res.leed_v5.caminho})"
             )
             self.card_leed.setToolTip(
-                tr('Selo LEED v4 WE (Water Efficiency):\nTeto máximo normativo: 8 pontos possíveis.\nPontuação obtida pelo projeto: tirou {0} de 8 pontos.\n\n• WEc1 (Uso Externo): tirou {1} de 2 pontos (máx: 2 pts)\n• WEc2 (Uso Interno): tirou {2} de 6 pontos (máx: 6 pts)\nClassificação: {3}\n\nLEED v5 BD+C, WEc2 Enhanced Water Efficiency: {4} de 8 pontos ({5})\n• Opção 2 (louças e metais): {6} | Opção 4 (externo): {7} | Opção 6 (fonte alternativa): {8}\nO LEED v4/v4.1 aceita registro até 30/06/2027.').format(leed_tot, esg_res.leed.outdoor_water_points, esg_res.leed.indoor_water_points, esg_res.leed.badge_label, esg_res.leed_v5.total_pts, esg_res.leed_v5.caminho, esg_res.leed_v5.opcao2_pts, esg_res.leed_v5.opcao4_pts, esg_res.leed_v5.opcao6_pts)
+                tr('Selo LEED v4 & v5 WE (Water Efficiency):\n'
+                   'Teto máximo normativo em ambas as versões: 8 pontos possíveis.\n\n'
+                   '• LEED v4 / v4.1 WE: tirou {0} de 8 pontos ({3})\n'
+                   '  - WEc1 (Uso Externo): tirou {1} de 2 pontos (máx: 2 pts)\n'
+                   '  - WEc2 (Uso Interno): tirou {2} de 6 pontos (máx: 6 pts)\n\n'
+                   '• LEED v5 BD+C WEc2 (Enhanced Water Efficiency): tirou {4} de 8 pontos ({5})\n'
+                   '  - Opção 2 (louças e metais): {6} de 3 pts\n'
+                   '  - Opção 4 (uso externo): {7} de 2 pts\n'
+                   '  - Opção 6 (fonte alternativa no lote): {8} de 2 pts\n'
+                   '  - Opção 1 (projeto inteiro): {9} de 8 pts\n\n'
+                   'O LEED v4/v4.1 aceita novos registros até 30/06/2027.').format(
+                    leed_v4_tot, esg_res.leed.outdoor_water_points, esg_res.leed.indoor_water_points,
+                    esg_res.leed.badge_label, leed_v5_tot, esg_res.leed_v5.caminho,
+                    esg_res.leed_v5.opcao2_pts, esg_res.leed_v5.opcao4_pts,
+                    esg_res.leed_v5.opcao6_pts, esg_res.leed_v5.opcao1_pts
+                )
             )
         if hasattr(self, 'card_aqua'):
             stars_str = "⭐" * esg_res.aqua.stars if esg_res.aqua.stars > 0 else ""
@@ -1758,59 +1774,90 @@ class TabEnvironmental(QWidget):
             <p style="margin-top: 0; font-size: 12.5px;">
                 O aproveitamento de água de chuva é um dos vetores de maior pontuação em certificações ambientais de edifícios. 
                 O <b>Netuno 5</b> processa a simulação contínua do balanço hídrico diário (modelo YAS) e converte automaticamente 
-                a taxa de economia e a conservação de recursos em pontuações auditáveis nos quatro principais referenciais:
+                a taxa de economia e a conservação de recursos em pontuações auditáveis nos principais referenciais nacionais e internacionais:
             </p>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #16a34a; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">1. LEED v4 / v4.1 BD+C & O+M (USGBC / GBC Brasil) — Categoria WE (Water Efficiency)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">1. LEED v4 / v4.1 BD+C (USGBC / GBC Brasil) — Categoria WE (Water Efficiency)</h4>
                 <p style="margin: 0 0 6px 0;">
-                    <b>Pontuação Máxima Possível: 8 pontos</b> no crédito de aproveitamento pluvial (de 110 pontos totais da certificação LEED). O Netuno calcula exatamente quantos pontos (X de 8 pontos) a edificação tirou:
+                    <b>Pontuação Máxima: 8 pontos</b> na categoria de eficiência hídrica. A pontuação é dividida rigidamente entre uso externo e uso interno:
                 </p>
                 <ul style="margin: 0 0 6px 0; padding-left: 18px;">
-                    <li><b>Crédito WEc1 — Redução do Uso Externo (Outdoor Water Use - Máx. 2 pontos):</b> Avalia a substituição de água potável na irrigação e torneiras de jardim. Requer demanda externa ativa; sem demanda externa no projeto, atribui-se 0 pontos (não aplicável). Havendo irrigação: ≥ 50% de redução = <b>1 ponto</b>; ≥ 95% = <b>2 pontos (máximo)</b>.</li>
-                    <li><b>Crédito WEc2 — Redução do Uso Interno (Indoor Water Use - Máx. 6 pontos):</b> Avalia a substituição de água potável em bacias sanitárias, mictórios e lavanderia por fontes alternativas não potáveis. Pontuação progressiva oficial do USGBC LEED v4 BD+C / O+M:
-                        <br/>&nbsp;&nbsp;• <b>25%</b>: <b>1 ponto</b> &nbsp;|&nbsp; <b>30%</b>: <b>2 pontos</b> &nbsp;|&nbsp; <b>35%</b>: <b>3 pontos</b>
-                        <br/>&nbsp;&nbsp;• <b>40%</b>: <b>4 pontos</b> &nbsp;|&nbsp; <b>45%</b>: <b>5 pontos</b> &nbsp;|&nbsp; <b>≥ 50%</b>: <b>6 pontos (máximo)</b>.
+                    <li><b>Crédito WEc1 — Redução do Uso Externo (Outdoor Water Use - Máx. 2 pontos):</b> Avalia a irrigação paisagística. Havendo demanda externa modelada: ≥ 50% de redução = <b>1 ponto</b>; ≥ 100% (ou sem irrigação potável) = <b>2 pontos</b>.</li>
+                    <li><b>Crédito WEc2 — Redução do Uso Interno (Indoor Water Use - Máx. 6 pontos):</b> Antecedido pelo pré-requisito WEp2 (redução obrigatória de 20%). Pontuação progressiva conforme a substituição não potável:
+                        <br/>&nbsp;&nbsp;• <b>25%</b>: 1 pt &nbsp;|&nbsp; <b>30%</b>: 2 pts &nbsp;|&nbsp; <b>35%</b>: 3 pts &nbsp;|&nbsp; <b>40%</b>: 4 pts &nbsp;|&nbsp; <b>45%</b>: 5 pts &nbsp;|&nbsp; <b>≥ 50%</b>: <b>6 pts (máximo)</b>.
                     </li>
                 </ul>
+                <p style="margin: 0; font-size: 11px; color: {sub_col};">
+                    <i>Transição: O LEED v4/v4.1 aceita novos registros de projetos até 30 de junho de 2027 e certificações até 2033.</i>
+                </p>
+            </div>
+
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #059669; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">2. LEED v5 BD+C (USGBC / GBC Brasil) — Crédito WEc2: Enhanced Water Efficiency</h4>
+                <p style="margin: 0 0 6px 0;">
+                    O referencial <b>LEED v5</b> (Rating System oficial) reformulou a categoria de Eficiência Hídrica para alinhamento direto à <b>Descarbonização</b> e à <b>Resiliência Hídrica</b>. O uso interno e o uso externo foram consolidados no crédito <b>WEc2 (Enhanced Water Efficiency)</b>, que vale até <b>8 pontos</b> em Novas Construções (BD+C New Construction):
+                </p>
+                <ul style="margin: 0 0 8px 0; padding-left: 18px;">
+                    <li><b>Pré-requisitos Mandatórios:</b> O <b>WEp1 (Water Metering and Reporting)</b> exige hidrometração setorizada obrigatória para fontes alternativas de água (como a cisterna pluvial). O <b>WEp2 (Minimum Water Efficiency)</b> exige redução inicial de 20% no consumo de louças e metais.</li>
+                    <li><b>Duas Vias de Pontuação no WEc2 (o Netuno avalia ambas e seleciona a mais vantajosa):</b>
+                        <ul style="margin-top: 4px; padding-left: 16px;">
+                            <li><b>Opção 1 — Projeto Inteiro (Whole-Project Water Use):</b> Avalia a redução total de água do empreendimento contra a linha de base (30% = 1 pt até 65% = 8 pts). <b>Destaque para o sistema pluvial:</b> A presença de fonte alternativa no lote confere um <b>bônus de +1 ponto adicional</b> em cada faixa percentual atingida (até o teto de 8 pontos).</li>
+                            <li><b>Soma das Opções 2 a 6 (Abordagem Fracionada por Componentes):</b>
+                                <br/>• <i>Opção 2 (Louças e Metais Internos):</i> 30% = 1 pt | 35% = 2 pts | ≥ 40% = 3 pts.
+                                <br/>• <i>Opção 4 (Uso Externo / Irrigação, Caminho 2):</i> 50% = 1 pt | 100% = 2 pts.
+                                <br/>• <i>Opção 6 (Reúso e Fonte Alternativa no Lote, Caminho 2):</i> Sistema pluvial ativo atendendo descargas, irrigação ou resfriamento confere <b>2 pontos diretos</b>.
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Crédito SSc3 — Rainwater Management (Gestão de Águas Pluviais):</b> Vale até 3 pontos pela retenção de eventos de chuva no terreno (percentis 80, 85 e 90), com bônus de +1 ponto quando a água retida é aproveitada na edificação. O Netuno identifica este crédito e o classifica como não avaliado diretamente, pois sua conformidade requer dados topográficos e de permeabilidade de todo o lote, e não apenas da área de telhado.</li>
+                </ul>
                 <span style="display: inline-block; background: {tag_bg}; color: {tag_col}; font-weight: bold; font-size: 11px; padding: 2px 8px; border-radius: 4px;">
-                    Teto Máximo em Eficiência Hídrica: Até 8 pontos diretos (Tirou X de 8 pontos possíveis)
+                    Consideração no Netuno: Simula simultaneamente a Opção 1 e a Soma das Opções 2 a 6, atribuindo a maior pontuação possível (até 8 pontos).
                 </span>
             </div>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #0284c7; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Categoria 4 (Gestão da Água)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">3. Processo AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Baseado no referencial internacional HQE e na <b>ABNT NBR 15527</b>, a Categoria 4 avalia a gestão sustentável das águas pluviais, retenção no lote e conservação de água potável:
+                    Conforme o <b>Referencial Vigente AQUA-HQE 2024</b>, a gestão hídrica e o aproveitamento pluvial são avaliados pelos itens normativos específicos da Categoria de Água:
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>Nível Base (⭐):</b> Substituição de água potável ≥ 10%. Atendimento às exigências construtivas mínimas (gradeamento, pré-filtro autolimpante, extravasor protegido e sifão anti-roedores).</li>
-                    <li><b>Nível Boas Práticas (⭐⭐):</b> Substituição de água potável ≥ 25%. Sistema integrado de descarte inicial calibrado (first flush), cloração com residual livre e abastecimento estável aos pontos de uso não potável.</li>
-                    <li><b>Nível Excelente (⭐⭐⭐):</b> Substituição de água potável ≥ 40%. Alta autossuficiência hídrica, retenção e amortecimento de vazões pluviais no terreno, medição setorizada de vazão e qualidade classe 1 ou 2.</li>
+                    <li><b>Item EAU.1.2 (Nível HQE):</b> Redução de pelo menos 20% no consumo de água potável em relação ao consumo de referência da planilha da Fundação Vanzolini.</li>
+                    <li><b>Item EAU.1.3 (Nível HQE 3):</b> Economia mínima de 40% de água potável no empreendimento.</li>
+                    <li><b>Item EAU.1.5 (Nível HQE 3):</b> Existência de sistema de captação e aproveitamento de águas pluviais dimensionado conforme as normas <b>ABNT NBR 15527</b> e <b>NBR 16783</b>.</li>
                 </ul>
             </div>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #0ea5e9; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">3. Selo Casa Azul CAIXA — Critério 2.1 (Conservação de Água e Fontes Alternativas)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">4. Selo Casa Azul + CAIXA — Critério 3.6 (Aproveitamento de Águas Pluviais)</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Criado pela Caixa Econômica Federal para classificar empreendimentos habitacionais sustentáveis financiados. Concede bonificação direta de pontos que habilitam a taxas de juros reduzidas no crédito imobiliário:
+                    Conforme o <b>Guia Selo Casa Azul + CAIXA (V023 de 2026)</b> e o Selo Casa Azul Uni, o critério pontua pela existência do sistema e pela abrangência do uso:
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>Graduação Prata (+2 pontos CAIXA):</b> Redução de pelo menos 10% no consumo de água potável da edificação via água de chuva.</li>
-                    <li><b>Graduação Ouro (+3 pontos CAIXA):</b> Redução ≥ 20%, com simulação hidrológica demonstrando regularidade e sistema de recalque automatizado.</li>
-                    <li><b>Graduação Diamante (+5 pontos CAIXA):</b> Redução ≥ 30%, com desinfecção ativa, dosagem de cloro, monitoramento contínuo e reserva técnica de emergência.</li>
+                    <li><b>Áreas Comuns do Empreendimento:</b> 2 pontos CAIXA.</li>
+                    <li><b>Unidades Habitacionais:</b> 4 pontos CAIXA.</li>
+                    <li><b>Unidades e Áreas Comuns:</b> 5 pontos CAIXA (obrigatório para o nível Diamante).</li>
+                    <li><b>Casas em Loteamento:</b> 2 pontos pela infraestrutura e preparação executada.</li>
                 </ul>
             </div>
 
-            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #059669; padding: 10px 14px; border-radius: 6px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">4. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h4>
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">5. Certificação EDGE (IFC / Banco Mundial) — Medida WEM14</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Padrão internacional para relatórios corporativos ESG, relatórios anuais de sustentabilidade e enquadramento em títulos verdes (green bonds):
+                    O EDGE não atribui pontos graduais: exige a superação de uma <b>barra mínima de 20% de economia</b> em três pilares (Energia, Água e Materiais). O aproveitamento pluvial pontua na <b>Medida WEM14 (Rainwater Harvesting System)</b>, comparando a produção da cisterna com o caso-base local auditado.
+                </p>
+            </div>
+
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #8b5cf6; padding: 10px 14px; border-radius: 6px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">6. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h4>
+                <p style="margin: 0 0 6px 0;">
+                    Padrão internacional para relatórios corporativos ESG e emissão de títulos verdes (Green Bonds):
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>GRI 303-3 (Captação de Água Evitada / Water Withdrawal Saved):</b> Volume total em m³/ano que o empreendimento deixa de extrair dos mananciais públicos e da concessionária.</li>
-                    <li><b>GRI 303-5 (Consumo e Circularidade Hídrica / Water Positive Ratio):</b> Razão entre o volume pluvial circular aproveitado e a demanda total de água:
-                        <br/><code>Water Positive Ratio = (Volume Pluvial Anual / Demanda Anual Total) × 100%</code>.
+                    <li><b>GRI 303-3 (Captação de Água Evitada / Water Withdrawal Saved):</b> Volume total em m³/ano que a edificação deixa de retirar dos mananciais públicos e da concessionária.</li>
+                    <li><b>GRI 303-5 (Taxa de Circularidade Hídrica / Water Positive Ratio):</b> Percentual da demanda total suprido por fonte pluvial circular:
+                        <br/><code>Water Positive Ratio = (Volume Pluvial Anual Consumido / Demanda Anual Total) × 100%</code>.
                     </li>
                 </ul>
             </div>

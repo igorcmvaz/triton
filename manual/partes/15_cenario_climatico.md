@@ -29,14 +29,16 @@ modelo climático global de um centro de pesquisa diferente.
 
 ## De onde vêm as séries
 
-A base do programa é extraída do **CLIMBra**, conjunto de dados publicado por Ballarin
-et al. (2023) na revista *Scientific Data*. Três características dele definem o que as
-séries representam, e convém conhecê-las antes de usá-las.
+![Logotipo do conjunto de dados CLIMBra](../figuras/CLIMBra.jpg)
+
+*Figura — Logotipo oficial do CLIMbra (Climate Change Dataset for Brazil), desenvolvido para estudos hidroclimáticos e impactos das mudanças climáticas no Brasil.*
+
+A base do programa é extraída do **CLIMBra** (*Climate Change Dataset for Brazil*), conjunto de dados de referência publicado por Ballarin et al. (2023) na revista [*Scientific Data* (Nature)](https://www.nature.com/articles/s41597-023-01956-z) ([doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z)), com dados públicos disponibilizados no [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316) ([doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)) sob licença aberta CC0. Três características definem o que as séries representam, e convém conhecê-las antes de usá-las:
 
 **São projeções corrigidas de viés.** Modelos globais têm resolução de dezenas a
 centenas de quilômetros e reproduzem mal a chuva local: costumam errar a frequência de
 dias chuvosos, a intensidade e os extremos. O CLIMBra corrigiu as séries diárias dos 19
-modelos pelo método *Quantile Delta Mapping*, que ajusta a distribuição simulada à
+modelos pelo método *Quantile Delta Mapping* (QDM), que ajusta a distribuição simulada à
 observada e, ao mesmo tempo, preserva as variações relativas dos quantis entre o período
 histórico e o futuro. A referência observada foi a grade diária de Xavier, King e
 Scanlon (2016), construída com milhares de pluviômetros e estações do Brasil, com
@@ -60,10 +62,13 @@ procedimento: ele pressupõe que o modelo representa de forma plausível os proc
 mudança do clima, e não consegue corrigir uma tendência implausível. A correção melhora a
 estatística; não transforma um modelo ruim num modelo bom.
 
-> **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
-> trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
-> carregamento de arquivo próprio, e as etapas dependentes avisam. A seção {{n:2}} explica
-> como obtê-la.
+> **Base compactada e embarcada no programa:** os 37.164 arquivos de texto do CLIMBra
+> (que originalmente ocupam cerca de 6,5 GB em formato CSV descompactado) foram consolidados
+> e comprimidos pelo Netuno 5 em um banco de dados SQLite binário de alta performance
+> (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
+> instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
+> sem a necessidade de downloads externos volumosos. Caso o usuário disponha da pasta com os
+> CSVs originais, o programa mantém total compatibilidade e suporte alternativo de carregamento.
 
 ---
 

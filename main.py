@@ -8,9 +8,18 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 
+# No Windows, define o AppId para que a Barra de Tarefas exiba o ícone correto do Netuno
+if sys.platform.startswith("win"):
+    import ctypes
+    try:
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ufsc.ges.netuno.5.0")
+    except Exception:
+        pass
+
 from PySide6.QtCore import Qt, QCoreApplication
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QProxyStyle, QStyle, QAbstractSpinBox
-from netuno.ui.translation import check_first_run_language
+from netuno.ui.translation import check_first_run_language, get_resource_path
 from netuno.ui.main_window import MainWindow
 from netuno.ui.qt_diagnostics import instalar_captura_de_avisos
 
@@ -33,6 +42,19 @@ def main():
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
 
     app = QApplication(sys.argv)
+
+    # Define o ícone oficial em nível de aplicativo (barra de tarefas, janelas, caixas de diálogo)
+    for icone_rel in (
+        os.path.join("icons", "netuno5.ico"),
+        os.path.join("icons", "icon.ico"),
+        os.path.join("icons", "netuno5.png"),
+        os.path.join("icons", "icon.png"),
+        os.path.join("icons", "Netuno2.png"),
+    ):
+        icone_path = get_resource_path(icone_rel)
+        if os.path.isfile(icone_path):
+            app.setWindowIcon(QIcon(icone_path))
+            break
 
     # Captura os avisos do Qt: cada aviso distinto aparece uma vez no console,
     # com a pilha Python gravada em avisos_qt.log. Era assim que o

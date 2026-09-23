@@ -40,9 +40,18 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(900, 600)
         self.config = NetunoConfig()
         
-        logo_path = get_resource_path("Netuno2.png")
-        if os.path.exists(logo_path):
-            self.setWindowIcon(QIcon(logo_path))
+        # Ícone da janela principal
+        for icone_rel in (
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "Netuno2.png"),
+        ):
+            logo_path = get_resource_path(icone_rel)
+            if os.path.isfile(logo_path):
+                self.setWindowIcon(QIcon(logo_path))
+                break
 
         self.setStyleSheet(NETUNO4_CLASSIC_QSS)
 
@@ -58,11 +67,11 @@ class MainWindow(QMainWindow):
         action_new = QAction(tr("Novo Projeto"), self)
         menu_file.addAction(action_new)
 
-        action_open = QAction(tr("Carregar Projeto CSV..."), self)
+        action_open = QAction(tr("Carregar Projeto CSV"), self)
         action_open.triggered.connect(self.on_load_simulation)
         menu_file.addAction(action_open)
 
-        action_save = QAction(tr("Salvar Projeto..."), self)
+        action_save = QAction(tr("Salvar Projeto"), self)
         action_save.triggered.connect(self.on_save_simulation)
         menu_file.addAction(action_save)
 
@@ -76,20 +85,20 @@ class MainWindow(QMainWindow):
         # projeto e as ações de análise claramente distintas.
         menu_sim = menu_bar.addMenu(tr("Cenários && Ferramentas"))
 
-        action_excel_sample = QAction(tr("Baixar Planilha Modelo Excel (.xlsx)..."), self)
+        action_excel_sample = QAction(tr("Baixar Planilha Modelo Excel (.xlsx)"), self)
         action_excel_sample.triggered.connect(self.on_download_excel_sample)
         menu_sim.addAction(action_excel_sample)
 
-        action_excel_import = QAction(tr("Importar e Simular Cenários em Lote (Excel)..."), self)
+        action_excel_import = QAction(tr("Importar e Simular Cenários em Lote (Excel)"), self)
         action_excel_import.triggered.connect(self.on_import_excel_scenarios)
         menu_sim.addAction(action_excel_import)
 
-        action_export_tab = QAction(tr("Central de Exportação (Planilhas, CAD e Projeto)..."), self)
+        action_export_tab = QAction(tr("Central de Exportação (Planilhas, CAD e Projeto)"), self)
         action_export_tab.triggered.connect(lambda: self.on_step_changed(9))
         menu_sim.addAction(action_export_tab)
 
         menu_sim.addSeparator()
-        action_tariffs_mgr = QAction(tr("Gestor Nacional de Tarifas & Auditoria (652 Cidades)..."), self)
+        action_tariffs_mgr = QAction(tr("Gestor Nacional de Tarifas & Auditoria (652 Cidades)"), self)
         action_tariffs_mgr.triggered.connect(lambda: self.on_step_changed(11))
         menu_sim.addAction(action_tariffs_mgr)
 
@@ -140,18 +149,13 @@ class MainWindow(QMainWindow):
         action_citacao.triggered.connect(self.on_show_citation)
         menu_ajuda.addAction(action_citacao)
 
-        action_val_report = QAction(tr("Relatório de Verificação Técnica e Computacional..."), self)
+        action_val_report = QAction(tr("Relatório de Verificação"), self)
         action_val_report.triggered.connect(self.on_show_validation_report)
         menu_ajuda.addAction(action_val_report)
 
-        action_doc = QAction(tr("Documentação das Variáveis e Fontes (MIX Sustentável)..."), self)
+        action_doc = QAction(tr("Documentação"), self)
         action_doc.triggered.connect(lambda: self.on_step_changed(10))
-
         menu_ajuda.addAction(action_doc)
-
-        action_sobre = QAction(tr(f"Sobre o Netuno {__version__}"), self)
-        action_sobre.triggered.connect(self.on_show_about)
-        menu_ajuda.addAction(action_sobre)
 
     def set_theme(self, theme):
         """Compatibilidade interna: a edição atual é exclusivamente clara."""

@@ -35,7 +35,7 @@ def caminho_do_relatorio(sufixo: str = ""):
 class DialogValidationReport(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle(tr(f"Relatório de Verificação Técnica e Computacional — Netuno {__version__}"))
+        self.setWindowTitle(tr("Relatório de Verificação"))
         self.resize(820, 600)
         self.init_ui()
 
