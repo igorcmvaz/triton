@@ -957,7 +957,40 @@ class TabDocumentation(QWidget):
                 <b>Total LEED WE Potential:</b> Rainwater harvesting can unlock up to <b>8 direct points</b> in the Water Efficiency category (2 pts outdoor + 6 pts indoor), decisive for Silver (50 pts), Gold (60 pts), or Platinum (80+ pts) certifications.
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. AQUA-HQE Residential (Fundação Vanzolini / CERQUAL) — Water Consumption theme</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. LEED v5 BD+C — WEc2 Enhanced Water Efficiency</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                LEED v5 reorganised water efficiency: the two separate v4 credits — outdoor and indoor use — became a single credit,
+                <b>WEc2 Enhanced Water Efficiency</b>, worth <b>1 to 8 points</b> in New Construction and 1 to 7 in Core and Shell. Projects may still register
+                under v4 and v4.1 until <b>30 June 2027</b>, which is why both versions appear on this page.
+            </p>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                The rule that most changes the calculation is this: a project either follows Option 1, which measures the whole project, <b>or</b> combines Options 2 to 6 — never both.
+                Netuno evaluates both paths and reports the better result, because the choice depends on data the programme does not hold, such as process water use.
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>Option 1 — Whole-project water use (1 to 8 points):</b> reduction measured against the project baseline.
+                    <br/>• 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3 &nbsp;|&nbsp; 45%: 4 &nbsp;|&nbsp; 50%: 5 &nbsp;|&nbsp; 55%: 6 &nbsp;|&nbsp; 60%: 7 &nbsp;|&nbsp; 65%: 8.
+                    <br/>• <b>With an alternative water source — which is what rainwater harvesting is — each band is worth one extra point</b>, capped at 8. The 65% band with an alternative
+                    source is treated by the rating system as exemplary performance rather than a point under this credit, and the programme does not count it.
+                </li>
+                <li><b>Option 2 — Fixtures and fittings, calculated reduction (1 to 3 points):</b> 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3, measured above the WEp2 prerequisite.</li>
+                <li><b>Option 4 — Outdoor water use (1 to 2 points):</b> Path 1 awards 2 points to a project with no permanent irrigation. Path 2 reduces the theoretical irrigation requirement (TIR):
+                    50%: 1 pt &nbsp;|&nbsp; 100%: 2 pts. This is where rainwater sent to irrigation in the daily balance enters.
+                </li>
+                <li><b>Option 6 — Water reuse (1 to 2 points):</b> Path 1 awards 1 point for a reuse-ready system; <b>Path 2 awards 2 points for an alternative-water system that actually serves
+                    one or more end uses</b> — irrigation, flushing, make-up or process. The programme treats the rainwater harvesting system as this path.
+                </li>
+            </ul>
+            <div style='background-color: #fffbeb; border-left: 4px solid #d97706; padding: 10px 14px; border-radius: 4px; margin: 10px 0;'>
+                <b>What the programme does not assess.</b> Options 3 and 5 cover appliances, cooling towers and process water, which sit outside Netuno's water balance.
+                Core and Shell has its own bands, not the ones used here. The score is a <b>screening estimate</b> derived from the daily simulation: credit documentation
+                requires the project baseline model, produced by the certification team.
+            </div>
+            <p style='font-size: 11.5px; line-height: 1.5; color: #64748b;'>
+                Source: <i>LEED v5 Reference Guide for Building Design and Construction</i>, November 2025 Edition (USGBC), credit WEc2, Tables 1, 2 and 7.
+            </p>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. AQUA-HQE Residential (Fundação Vanzolini / CERQUAL) — Water Consumption theme</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 In the residential reference framework, version 00 of 22 November 2024, water is assessed item by item, each classified as prerequisite (PR), HQE, HQE 2 or HQE 3. Three items concern rainwater harvesting:
             </p>
@@ -973,7 +1006,7 @@ class TabDocumentation(QWidget):
             </table>
             <p style='font-size: 12px; color: #64748b;'>The framework measures savings against the reference scenario of the Fundação Vanzolini auxiliary spreadsheet, which also counts water-saving fixtures: Netuno's percentage is indicative. Earlier versions of Netuno used "Base / Boas Práticas / Excelente" profiles at 10, 25 and 40%, which the 2024 framework does not contain.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul + CAIXA — Criterion 3.6: Rainwater Harvesting</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. Selo Casa Azul + CAIXA — Criterion 3.6: Rainwater Harvesting</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 In the guide version V023 of 29 April 2026, the indicator is the <b>existence</b> of a rainwater harvesting system (catchment, treatment, storage and points of use), not a savings percentage. Points depend on the scope of use:
             </p>
@@ -984,7 +1017,7 @@ class TabDocumentation(QWidget):
             </ul>
             <p style='font-size: 12px; color: #64748b;'>For single houses, the Selo Casa Azul Uni guide (V001, December 2025) awards 1 point under criterion 7, mandatory for the Ouro seal. Earlier versions of Netuno graded "Prata / Ouro / Diamante" at 10, 20 and 30% savings, which the guide does not contain.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Water Circularity</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. GRI Standard 303 (Global Reporting Initiative) & Water Circularity</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 Provides standardized corporate disclosure metrics for ESG and sustainability reports:
             </p>
@@ -995,7 +1028,7 @@ class TabDocumentation(QWidget):
                 </li>
             </ul>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. EDGE (IFC / World Bank Group) &mdash; the Water Bar</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>6. EDGE (IFC / World Bank Group) &mdash; the Water Bar</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 EDGE is the only standard on this list that <b>awards no points</b>. It measures the
                 percentage of savings against a <i>local base case</i> along three independent bars
@@ -1054,7 +1087,40 @@ class TabDocumentation(QWidget):
                 <b>Potencial Total LEED WE:</b> O sistema pluvial habilita até <b>8 pontos diretos</b> na categoria de Eficiência Hídrica (2 pts externos + 6 pts internos), determinantes para a obtenção dos níveis Prata (50 pts), Ouro (60 pts) ou Platina (80+ pts).
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. LEED v5 BD+C — WEc2 Enhanced Water Efficiency</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                O LEED v5 reorganizou a eficiência hídrica: os dois créditos separados do v4 — uso externo e uso interno — deram lugar a um crédito único,
+                <b>WEc2 Enhanced Water Efficiency</b>, de <b>1 a 8 pontos</b> em New Construction e de 1 a 7 em Core and Shell. O v4 e o v4.1 continuam aceitando
+                registro de projetos até <b>30/06/2027</b>, e por isso as duas versões convivem nesta aba.
+            </p>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                A regra que mais muda o cálculo é esta: o projeto <b>ou</b> segue a Opção 1, que mede o projeto inteiro, <b>ou</b> combina as Opções 2 a 6 — nunca as duas.
+                O Netuno avalia os dois caminhos e informa o melhor resultado, porque a escolha depende de dados que o programa não conhece, como o consumo de processo.
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>Opção 1 — Uso de água do projeto inteiro (1 a 8 pontos):</b> a redução é medida contra a linha de base do projeto.
+                    <br/>• 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3 &nbsp;|&nbsp; 45%: 4 &nbsp;|&nbsp; 50%: 5 &nbsp;|&nbsp; 55%: 6 &nbsp;|&nbsp; 60%: 7 &nbsp;|&nbsp; 65%: 8.
+                    <br/>• <b>Com fonte alternativa de água — que é o caso do aproveitamento pluvial — cada faixa vale um ponto a mais</b>, até o teto de 8. A faixa de 65% com fonte alternativa
+                    é tratada pelo referencial como desempenho exemplar, e não como ponto deste crédito; o programa não a contabiliza.
+                </li>
+                <li><b>Opção 2 — Louças e metais, redução calculada (1 a 3 pontos):</b> 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3, medidos acima do pré-requisito WEp2.</li>
+                <li><b>Opção 4 — Uso externo (1 a 2 pontos):</b> o Caminho 1 dá 2 pontos ao projeto sem irrigação permanente. O Caminho 2 reduz o requisito teórico de irrigação (TIR):
+                    50%: 1 pt &nbsp;|&nbsp; 100%: 2 pts. É por aqui que entra a água de chuva destinada à irrigação no balanço diário.
+                </li>
+                <li><b>Opção 6 — Reúso de água (1 a 2 pontos):</b> o Caminho 1 dá 1 ponto ao sistema preparado para reúso; o <b>Caminho 2 dá 2 pontos ao sistema de fontes alternativas
+                    que de fato atenda um ou mais usos finais</b> — irrigação, descargas, reposição ou processo. O programa trata o sistema de aproveitamento pluvial como esse caminho.
+                </li>
+            </ul>
+            <div style='background-color: #fffbeb; border-left: 4px solid #d97706; padding: 10px 14px; border-radius: 4px; margin: 10px 0;'>
+                <b>O que o programa não avalia.</b> As Opções 3 e 5 tratam de equipamentos, torres de resfriamento e água de processo, que estão fora do balanço hídrico do Netuno.
+                As faixas do Core and Shell são próprias e não são as usadas aqui. A pontuação é uma <b>estimativa de triagem</b> a partir da simulação diária: a documentação
+                do crédito exige a modelagem de linha de base do projeto, feita pela equipe de certificação.
+            </div>
+            <p style='font-size: 11.5px; line-height: 1.5; color: #64748b;'>
+                Referencial: <i>LEED v5 Reference Guide for Building Design and Construction</i>, edição de novembro de 2025 (USGBC), crédito WEc2, Tabelas 1, 2 e 7.
+            </p>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 No referencial de edifícios residenciais, versão 00 de 22 de novembro de 2024, a água é avaliada por itens, cada um classificado como pré-requisito (PR), HQE, HQE 2 ou HQE 3. Três itens tratam do aproveitamento pluvial:
             </p>
@@ -1070,7 +1136,7 @@ class TabDocumentation(QWidget):
             </table>
             <p style='font-size: 12px; color: #64748b;'>O referencial mede a economia contra o cenário de referência da planilha auxiliar da Fundação Vanzolini, que soma também os dispositivos economizadores: o percentual do Netuno é indicativo. Versões anteriores do programa usavam perfis «Base / Boas Práticas / Excelente» a 10, 25 e 40%, que o referencial de 2024 não contém.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul + CAIXA — Critério 3.6: Aproveitamento de Águas Pluviais</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. Selo Casa Azul + CAIXA — Critério 3.6: Aproveitamento de Águas Pluviais</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 No guia versão V023, de 29 de abril de 2026, o indicador é a <b>existência</b> de sistema de aproveitamento de águas pluviais (captação, tratamento, reservação e pontos de uso), e não um percentual de economia. A pontuação depende da abrangência do uso:
             </p>
@@ -1081,7 +1147,7 @@ class TabDocumentation(QWidget):
             </ul>
             <p style='font-size: 12px; color: #64748b;'>Para a unidade isolada, o guia Selo Casa Azul Uni (V001, dezembro de 2025) atribui 1 ponto no critério 7, obrigatório para o Selo Ouro. Versões anteriores do programa graduavam «Prata / Ouro / Diamante» a 10, 20 e 30% de economia, que o guia não contém.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 Padrão internacional de divulgação para relatórios corporativos ESG, demonstrações de sustentabilidade e emissão de green bonds (títulos verdes):
             </p>
@@ -1092,7 +1158,7 @@ class TabDocumentation(QWidget):
                 </li>
             </ul>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. EDGE (IFC / Grupo Banco Mundial) &mdash; a Barra de &Aacute;gua</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>6. EDGE (IFC / Grupo Banco Mundial) &mdash; a Barra de &Aacute;gua</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 O EDGE &eacute; o &uacute;nico desta lista que <b>n&atilde;o pontua</b>. Ele mede
                 percentual de economia contra um <i>caso-base local</i> em tr&ecirc;s barras
