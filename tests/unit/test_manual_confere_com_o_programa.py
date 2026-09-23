@@ -1026,6 +1026,7 @@ SIGLAS_DISPENSADAS = {
     "GPL", "UFSC", "IBGE", "YAS", "SMAA-VIKOR",
     "TP",  # modelo de pressurizador citado (Komeco TP 820), não sigla
     "GHISI",  # sobrenome em caixa alta nas referências, não sigla
+    "MIX",  # nome do periódico MIX Sustentável, não sigla a definir
 }
 
 
@@ -1108,10 +1109,14 @@ def test_toda_imagem_citada_existe_no_disco():
     """Uma figura ausente vira um retângulo vazio no PDF, sem aviso."""
     texto = _manual_montado()
     faltando = []
+    # As capas dos volumes moram em `figuras/capas/`: procurar só na raiz de
+    # `figuras/` dava por ausente a figura que está uma pasta abaixo.
+    no_disco = set()
+    for pasta, _, arquivos in os.walk(os.path.join(MANUAL, "figuras")):
+        no_disco.update(arquivos)
     for caminho in re.findall(r"!\[[^\]]*\]\(([^)]+)\)", texto):
-        nome = os.path.basename(caminho)
-        if not os.path.exists(os.path.join(MANUAL, "figuras", nome)):
-            faltando.append(nome)
+        if os.path.basename(caminho) not in no_disco:
+            faltando.append(os.path.basename(caminho))
     assert not faltando, sorted(set(faltando))
 
 
