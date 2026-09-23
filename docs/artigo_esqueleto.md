@@ -511,17 +511,50 @@ importa.
 | **Tangki NAHRIM 2.0** | NAHRIM, Malásia | **YAS declarado** | aplicação web gratuita, YAS explícito, base própria de chuva; comparador metodologicamente alinhado | Mat Daud et al. (2021), `10.1088/1755-1315/920/1/012035`; Mat Daud et al. (2023), `10.17576/jkukm-2023-35(6)-21` |
 | **SS STORM (modificado)** | EUA | planilha de armazenamento, tratamento e extravasamento | usado com índice de sustentabilidade; comparador na dimensão de confiabilidade | Park & Um (2018), `10.3390/su10010280` |
 
-**De memória, a verificar antes de citar ⚠️**
+**O filtro que vem antes de qualquer lista: a escala**
 
-Estes eu não recuperei em registro nesta sessão. Existem, mas **confirme a
-referência e a disponibilidade atual antes de incluir**: SimTanka (Índia),
-Aquacycle e UrbanBEATS (Austrália), Plugrisost (Espanha, acoplado a ACV), o módulo
-de aproveitamento do EPA SWMM, e as calculadoras normativas do BS 8515 (Reino
-Unido) e da DIN 1989 (Alemanha).
+A literatura chama de «modelagem de aproveitamento de água de chuva» duas coisas
+que respondem a perguntas diferentes:
+
+| Escala | Pergunta que responde | Exemplos |
+| :--- | :--- | :--- |
+| **Predial** | de que tamanho é o reservatório deste edifício | Netuno, RainCycle, Tangki NAHRIM |
+| **Bacia ou bairro** | como o aproveitamento distribuído altera o balanço hídrico urbano | Aquacycle, UrbanBEATS, WaterMet2, SWITCH City Water Balance |
+
+**Só a primeira é comparável ao Netuno 5.** Um modelo de bacia não dimensiona
+reservatório predial: ele agrega o efeito de muitos sistemas sobre escoamento,
+recarga e esgoto. Comparar os dois é comparar respostas a perguntas distintas, e o
+revisor de um Q1 nota isso na primeira leitura.
+
+⚠️ **Esta distinção merece uma frase no artigo.** Delimitar a escala logo na
+introdução evita que o leitor cobre do Netuno 5 o que ele não se propõe a fazer —
+e é uma delimitação que boa parte da literatura não faz explicitamente.
+
+**Escala de bacia — fora do escopo de comparação**
+
+O **Aquacycle** é modelo integrado do ciclo urbano da água em escala de bacia:
+Carvalho e Santos (2021) o aplicaram à bacia do Belém, em Curitiba, dividida em
+catorze Áreas de Similaridade Hidrológica, e a aplicação em Atenas dividiu a região
+em *clusters*. Ele simula a rede chuva-escoamento acoplada à de abastecimento e
+esgoto. O **UrbanBEATS**, o **WaterMet2** e o **SWITCH City Water Balance** estão na
+mesma família. Nenhum deles serve de comparador.
+
+**Escala predial — de memória, a verificar antes de citar ⚠️**
+
+Estes eu não recuperei em registro nesta sessão, e **a lista acima mostra que a
+minha memória erra a escala**. Confirme escala, referência e disponibilidade antes
+de incluir qualquer um: **SimTanka** (Índia), **Plugrisost** (Espanha, acoplado a
+ACV) e as calculadoras normativas do **BS 8515** (Reino Unido) e da **DIN 1989**
+(Alemanha).
+
+O **EPA SWMM** é caso de fronteira: é modelo de drenagem em escala de bacia, mas
+traz um módulo de barril de chuva entre os dispositivos de desenvolvimento de baixo
+impacto. Se entrar, entra por esse módulo e com a ressalva declarada — não como
+equivalente ao Netuno 5.
 
 ⚠️ **Cuidado com o Plugrisost em particular.** Se ele de fato acopla ACV ao
-dimensionamento, é o **concorrente mais direto da sua tese de lacuna** — e você
-precisa saber disso antes do revisor. Verifique-o primeiro.
+dimensionamento **em escala predial**, é o **concorrente mais direto da sua tese de
+lacuna** — e você precisa saber disso antes do revisor. Verifique-o primeiro.
 
 ### 10.4 O desenho de comparação que eu proporia
 
