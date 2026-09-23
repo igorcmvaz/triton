@@ -2509,7 +2509,7 @@ class TabDocumentation(QWidget):
         sec_box.addWidget(lbl_sec_desc)
         lay.addLayout(sec_box)
 
-        # 3. CARD DE DESTAQUE (Volume Geral 266 páginas)
+        # 3. CARD DE DESTAQUE (Volume Geral 268 páginas)
         feat = QFrame()
         feat.setObjectName("featCard")
         feat.setStyleSheet(f"""
@@ -2538,7 +2538,7 @@ class TabDocumentation(QWidget):
             lbl_f_img.setPixmap(pm_comp)
         f_left.addWidget(lbl_f_img)
 
-        lbl_f_sub = QLabel("PDF • 266 PÁGINAS" if not ingles else "PDF • 266 PAGES")
+        lbl_f_sub = QLabel("PDF • 268 PÁGINAS" if not ingles else "PDF • 268 PAGES")
         lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
         lbl_f_sub.setAlignment(Qt.AlignCenter)
         f_left.addWidget(lbl_f_sub)
@@ -2548,7 +2548,7 @@ class TabDocumentation(QWidget):
         f_right = QVBoxLayout()
         f_right.setSpacing(6)
 
-        f_badge = QLabel("VOLUME GERAL • 266 PÁGINAS" if not ingles else "GENERAL VOLUME • 266 PAGES")
+        f_badge = QLabel("VOLUME GERAL • 268 PÁGINAS" if not ingles else "GENERAL VOLUME • 268 PAGES")
         f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
         f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         f_right.addWidget(f_badge)
@@ -2612,7 +2612,7 @@ class TabDocumentation(QWidget):
 
         # 4. OS 7 MINI-MANUAIS TEMÁTICOS
         vols_data = [
-            (1, 30,
+            (1, 31,
              "VOLUME 1 • INTRODUÇÃO" if not ingles else "VOLUME 1 • INTRODUCTION",
              "Volume 1 — Primeiros Passos" if not ingles else "Volume 1 — Getting Started",
              "Instalação, navegação na interface, fluxo de trabalho e conceitos básicos para estruturar o primeiro estudo de aproveitamento pluvial."
@@ -2621,7 +2621,7 @@ class TabDocumentation(QWidget):
              ["Instalação e Interface" if not ingles else "Installation & UI", "Fluxo de Trabalho" if not ingles else "Workflow"],
              "icons/capas/thumb_capa_1-comece-aqui.png", "#059669", "#064e3b" if is_dark else "#d1fae5", "#6ee7b7" if is_dark else "#065f46",
              "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf"),
-            (2, 120,
+            (2, 121,
              "VOLUME 2 • MÉTODO DE SIMULAÇÃO" if not ingles else "VOLUME 2 • SIMULATION METHOD",
              "Volume 2 — Formulação Matemática" if not ingles else "Volume 2 — Mathematical Formulation",
              "Balanço hídrico diário Yield-After-Spill (YAS), coeficientes de escoamento superficial em coberturas e a lâmina de descarte da primeira chuva (first flush)."
@@ -2630,7 +2630,7 @@ class TabDocumentation(QWidget):
              ["Balanço Diário YAS" if not ingles else "Daily YAS Balance", "Descarte Inicial" if not ingles else "First-Flush Rule"],
              "icons/capas/thumb_capa_2-metodo.png", "#0284c7", "#0c4a6e" if is_dark else "#e0f2fe", "#7dd3fc" if is_dark else "#0369a1",
              "manual/mini/Manual-Netuno-5-2-metodo.pdf"),
-            (3, 55,
+            (3, 57,
              "VOLUME 3 • DIRETRIZES POR TIPOLOGIA" if not ingles else "VOLUME 3 • TYPOLOGY GUIDELINES",
              "Volume 3 — Aplicações Práticas" if not ingles else "Volume 3 — Practical Applications",
              "Diretrizes de projeto e parâmetros específicos para escolas, hospitais, residências e edifícios comerciais."
@@ -2639,7 +2639,7 @@ class TabDocumentation(QWidget):
              ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
              "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
              "manual/mini/Manual-Netuno-5-3-guias.pdf"),
-            (4, 70,
+            (4, 71,
              "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
              "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
              "Exemplo completo de dimensionamento: dados pluviométricos, capacidade do reservatório, viabilidade financeira e emissões evitadas."
@@ -2648,7 +2648,7 @@ class TabDocumentation(QWidget):
              ["Dimensionamento" if not ingles else "Tank Sizing", "Viabilidade Econômica" if not ingles else "Economic Feasibility"],
              "icons/capas/thumb_capa_4-tutorial.png", "#7c3aed", "#4c1d95" if is_dark else "#ede9fe", "#c4b5fd" if is_dark else "#5b21b6",
              "manual/mini/Manual-Netuno-5-4-tutorial.pdf"),
-            (5, 30,
+            (5, 31,
              "VOLUME 5 • CONFIABILIDADE E INCERTEZA" if not ingles else "VOLUME 5 • RELIABILITY & UNCERTAINTY",
              "Volume 5 — Análise Estatística" if not ingles else "Volume 5 — Statistical Analysis",
              "Confiabilidade temporal e volumétrica, curvas de permanência e avaliação da sensibilidade do tamanho da série histórica."
@@ -2666,7 +2666,7 @@ class TabDocumentation(QWidget):
              ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
              "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
              "manual/mini/Manual-Netuno-5-6-versoes.pdf"),
-            (7, 57,
+            (7, 58,
              "VOLUME 7 • APÊNDICES E DADOS" if not ingles else "VOLUME 7 • APPENDICES & DATA",
              "Volume 7 — Tabelas de Referência" if not ingles else "Volume 7 — Reference Tables",
              "Tabelas de coeficientes de escoamento, fatores de emissão para ACV, parâmetros tarifários, glossário de termos e referências."

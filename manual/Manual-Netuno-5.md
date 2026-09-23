@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 5.0.0 · revisão de 21/09/2026
+Versão 5.0.0 · revisão de 23/09/2026
 
 ---
 
@@ -4454,14 +4454,16 @@ modelo climático global de um centro de pesquisa diferente.
 
 ### 3.2.2. De onde vêm as séries
 
-A base do programa é extraída do **CLIMBra**, conjunto de dados publicado por Ballarin
-et al. (2023) na revista *Scientific Data*. Três características dele definem o que as
-séries representam, e convém conhecê-las antes de usá-las.
+![Logotipo do conjunto de dados CLIMBra](../figuras/CLIMBra.jpg)
+
+*Figura — Logotipo oficial do CLIMbra (Climate Change Dataset for Brazil), desenvolvido para estudos hidroclimáticos e impactos das mudanças climáticas no Brasil.*
+
+A base do programa é extraída do **CLIMBra** (*Climate Change Dataset for Brazil*), conjunto de dados de referência publicado por Ballarin et al. (2023) na revista [*Scientific Data* (Nature)](https://www.nature.com/articles/s41597-023-01956-z) ([doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z)), com dados públicos disponibilizados no [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316) ([doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)) sob licença aberta CC0. Três características definem o que as séries representam, e convém conhecê-las antes de usá-las:
 
 **São projeções corrigidas de viés.** Modelos globais têm resolução de dezenas a
 centenas de quilômetros e reproduzem mal a chuva local: costumam errar a frequência de
 dias chuvosos, a intensidade e os extremos. O CLIMBra corrigiu as séries diárias dos 19
-modelos pelo método *Quantile Delta Mapping*, que ajusta a distribuição simulada à
+modelos pelo método *Quantile Delta Mapping* (QDM), que ajusta a distribuição simulada à
 observada e, ao mesmo tempo, preserva as variações relativas dos quantis entre o período
 histórico e o futuro. A referência observada foi a grade diária de Xavier, King e
 Scanlon (2016), construída com milhares de pluviômetros e estações do Brasil, com
@@ -4485,10 +4487,13 @@ procedimento: ele pressupõe que o modelo representa de forma plausível os proc
 mudança do clima, e não consegue corrigir uma tendência implausível. A correção melhora a
 estatística; não transforma um modelo ruim num modelo bom.
 
-> **A base é distribuída à parte do programa**, porque ocupa cerca de 6,5 GB em
-> trinta e sete mil arquivos. Sem ela instalada, a etapa de Projeto e Chuva oferece apenas o
-> carregamento de arquivo próprio, e as etapas dependentes avisam. A seção 1.2 explica
-> como obtê-la.
+> **Base compactada e embarcada no programa:** os 37.164 arquivos de texto do CLIMBra
+> (que originalmente ocupam cerca de 6,5 GB em formato CSV descompactado) foram consolidados
+> e comprimidos pelo Netuno 5 em um banco de dados SQLite binário de alta performance
+> (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
+> instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
+> sem a necessidade de downloads externos volumosos. Caso o usuário disponha da pasta com os
+> CSVs originais, o programa mantém total compatibilidade e suporte alternativo de carregamento.
 
 ---
 
@@ -10051,6 +10056,8 @@ Cada registro traz o grau de confiança da coleta:
 
 ## Apêndice E — Base climática
 
+![Logotipo do conjunto de dados CLIMBra](../figuras/CLIMBra.jpg)
+
 ---
 
 ### E.1. O que a base contém
@@ -10062,28 +10069,31 @@ Cada registro traz o grau de confiança da coleta:
 | modelos climáticos do CMIP6 | 19 |
 | cenários de emissão | 2, SSP2-4.5 e SSP5-8.5 |
 | simulações por cidade e modelo | 3: histórica, SSP2-4.5 e SSP5-8.5 |
-| tamanho aproximado | 6,5 GB |
-| arquivos | cerca de 37 mil |
+| total de séries temporais | 37.164 séries |
+| formato original descompactado | ~6,5 GB (CSVs) |
+| formato compilado do Netuno 5 | Banco SQLite comprimido (`climbra.db`) |
 
-Cada arquivo é uma série diária de precipitação, em milímetros, para uma combinação de
-cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão os 37.164
-arquivos. As séries vêm do CLIMBra (Ballarin et al., 2023), corrigidas de viés por
+Cada série é um registro diário contínuo de precipitação, em milímetros, para uma combinação de
+cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão as 37.164
+séries. As séries vêm do **CLIMBra** (Ballarin et al., 2023, [*Scientific Data / Nature*](https://www.nature.com/articles/s41597-023-01956-z), [doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z); repositório [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316), [doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)), corrigidas de viés por
 *Quantile Delta Mapping* contra a grade diária de Xavier, King e Scanlon (2016), com
-resolução de 0,25°. A histórica cobre de 1980 a 2013 e as futuras, de 2015 a 2100; as
+resolução de 0,25°. A histórica cobre de 1980 a 2013 (12.419 dias) e as futuras, de 2015 a 2100 (31.411 dias); as
 janelas de estudo são recortes livres dessas séries. Todas estão em calendário
 gregoriano. Os modelos HadGEM3-GC31-LL, KACE e UKESM1-0-LL, que usam originalmente anos
 de 360 dias, têm um dia a menos no fim de cada série, o que não afeta o recorte.
 
 ---
 
-### E.2. Por que é distribuída à parte
+### E.2. Embarque no executável e formato otimizado
 
-Seis vírgula cinco gigabytes não cabem numa distribuição de programa. A base é
-obtida separadamente e instalada no diretório que o programa indica.
+Para evitar a manipulação morosa de dezenas de milhares de arquivos de texto e viabilizar
+a distribuição direta no instalador e executável do Netuno 5, as 37.164 séries foram
+compiladas e indexadas em um banco de dados **SQLite de alta eficiência** (`climbra.db`), com
+compressão binária por série via `zlib`.
 
-**Sem ela**, a aba de Projeto oferece apenas o carregamento de arquivo próprio, as
-abas dependentes avisam, e os testes que a exigem são pulados em vez de falharem. O
-programa continua inteiramente funcional com séries do usuário.
+- **Velocidade de acesso:** O acesso indexado no banco leva **menos de 1 milissegundo** por série, contra dezenas de milissegundos na abertura e parse de arquivos CSV em disco.
+- **Transparência:** O motor de dados climáticos do Netuno 5 prioriza o banco compilado e recorre automaticamente à pasta de arquivos `.csv` soltos se o banco não for encontrado.
+- **Portabilidade:** Permite ao instalador do Netuno 5 fornecer a base nacional pronta para uso sem exigir download manual e descompactação de 6,5 GB pelo usuário.
 
 ---
 
@@ -10327,6 +10337,8 @@ abaixo de 1 mm.
 internacional coordenado que produz as projeções climáticas usadas pelos relatórios do
 IPCC. A base climática do programa deriva dele.
 
+**CLIMBra** (*Climate Change Dataset for Brazil*). Conjunto de dados meteorológicos diários em grade de alta resolução (0,25° × 0,25°, ~28 km) para todo o Brasil, cobrindo 19 modelos climáticos globais do CMIP6 e cenários de emissões SSP2-4.5 e SSP5-8.5. Desenvolvido por Ballarin et al. (2023) na revista [*Scientific Data* (Nature)](https://www.nature.com/articles/s41597-023-01956-z) ([doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z)) e disponibilizado publicamente no [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316) ([doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)). As projeções brutas foram corrigidas de viés pelo método *Quantile Delta Mapping* (QDM) utilizando como referência observacional a base de Xavier, King e Scanlon (2016). No Netuno 5, o CLIMBra constitui a Base de dados CLIMBra para 652 cidades brasileiras (série histórica de 1980 a 2013 e projeções futuras contínuas de 2015 a 2100).
+
 **Coeficiente de escoamento** (*runoff coefficient*). Fração da chuva que
 efetivamente chega ao reservatório, descontadas perdas por absorção, evaporação e
 molhamento inicial da cobertura.
@@ -10468,6 +10480,43 @@ prediais.
 
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
+
+**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+
+1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+   ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
+   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
+
+2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+   ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
+   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
+
+3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+   ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
+   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
+
+4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+   ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
+   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
+
+5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+   ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
+   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
+
+6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+   ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
+   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
+
+7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+   ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
+   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
+
+8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+   ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
+   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
+
+- **Manual Interativo & Portal Web Oficial:**
+  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas

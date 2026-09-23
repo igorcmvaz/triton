@@ -2231,6 +2231,8 @@ abaixo de 1 mm.
 internacional coordenado que produz as projeções climáticas usadas pelos relatórios do
 IPCC. A base climática do programa deriva dele.
 
+**CLIMBra** (*Climate Change Dataset for Brazil*). Conjunto de dados meteorológicos diários em grade de alta resolução (0,25° × 0,25°, ~28 km) para todo o Brasil, cobrindo 19 modelos climáticos globais do CMIP6 e cenários de emissões SSP2-4.5 e SSP5-8.5. Desenvolvido por Ballarin et al. (2023) na revista [*Scientific Data* (Nature)](https://www.nature.com/articles/s41597-023-01956-z) ([doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z)) e disponibilizado publicamente no [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316) ([doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)). As projeções brutas foram corrigidas de viés pelo método *Quantile Delta Mapping* (QDM) utilizando como referência observacional a base de Xavier, King e Scanlon (2016). No Netuno 5, o CLIMBra constitui a Base de dados CLIMBra para 652 cidades brasileiras (série histórica de 1980 a 2013 e projeções futuras contínuas de 2015 a 2100).
+
 **Coeficiente de escoamento** (*runoff coefficient*). Fração da chuva que
 efetivamente chega ao reservatório, descontadas perdas por absorção, evaporação e
 molhamento inicial da cobertura.
@@ -2372,6 +2374,43 @@ prediais.
 
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
+
+**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+
+1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+   ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
+   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
+
+2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+   ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
+   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
+
+3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+   ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
+   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
+
+4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+   ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
+   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
+
+5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+   ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
+   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
+
+6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+   ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
+   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
+
+7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+   ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
+   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
+
+8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+   ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
+   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
+
+- **Manual Interativo & Portal Web Oficial:**
+  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
