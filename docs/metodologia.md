@@ -52,7 +52,15 @@ O parâmetro `df` é uma **lâmina** (mm), não o volume hidráulico do disposit
 
 ## 2. Demanda e balanço YAS
 
-A demanda total-base é `Dtot = N × q`, em que `N` é o número de usuários e `q` a demanda per capita. Se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A solicitação pluvial é `Dpl,t = ft × Dtot,t`, em que `ft` é a fração de usos não potáveis.
+A demanda tem duas parcelas. A interna é `Din,t = N × q`, em que `N` é o número de usuários e `q` a demanda per capita; se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A externa (rega, lavagem de áreas externas) é um volume diário `Qex`, suspenso nos dias em que a chuva atinge o limiar (2 mm por padrão): `Dex,t = Qex` se `Pt < Plim`, e zero nos demais. A demanda total é `Dtot,t = Din,t + Dex,t`.
+
+A solicitação pluvial é `Dpl,t = fin × Din,t + Dex,t`, em que `fin` é a fração não potável do consumo **interno**. A fração atendível **total**,
+
+```text
+f = (fin × Din + Qex) / (Din + Qex)
+```
+
+é derivada das duas e não é dado de entrada: a interface a mostra num campo que não se edita, e o arquivo a grava para leitura. Sem demanda externa, `f = fin`. Alterar `f` pela linha de comando (`--share`, `--set rainwater_share=…`) recalcula `fin`, mantida a externa; alterar `fin` ou `Qex` recalcula `f`; alterar as duas de forma incoerente é recusado. A regra fica em `netuno/core/fracao_atendivel.py`.
 
 No reservatório inferior, o modelo *Yield After Spillage* (YAS) limita o estoque e calcula o extravasamento **antes** de retirar a demanda:
 

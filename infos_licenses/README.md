@@ -268,16 +268,16 @@ NetunoReplicacao/
 
 ## Citação
 
-> VAZ, I. C. M.; GHISI, E. Netuno 5.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações. Florianópolis: Universidade Federal de Santa Catarina, Grupo de Pesquisa Gestão do Espaço Sustentável, 2026. Software de computador, versão 5.0.0.
+> VAZ, I. C. M.; GHISI, E. Netuno 5.0.1: programa computacional para simulação de aproveitamento de água de chuva em edificações. Florianópolis: Universidade Federal de Santa Catarina, Grupo de Pesquisa em Ambientes Sustentáveis, 2026. Software de computador, versão 5.0.1.
 
 ```bibtex
-@software{netuno_5_0_0,
+@software{netuno_5_0_1,
   author  = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  title   = {Netuno 5.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações},
+  title   = {Netuno 5.0.1: programa computacional para simulação de aproveitamento de água de chuva em edificações},
   year    = {2026},
   publisher = {Universidade Federal de Santa Catarina},
   address = {Florianópolis},
-  version = {5.0.0}
+  version = {5.0.1}
 }
 ```
 

@@ -5,7 +5,9 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
 
-O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa Gestão do Espaço Sustentável da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
+*English: [README.en.md](README.en.md) — resumo em inglês, com a documentação técnica em [`docs/en/`](docs/en/).*
+
+O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
 
 ---
 
@@ -69,7 +71,7 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 ## 📂 Estrutura do Repositório
 
 ```text
-Netuno5_0_0/
+netuno/
 ├── netuno/                     # Pacote Python: motor de cálculo, interface e linha de comando
 │   ├── core/                   # Hidrologia, economia, ACV, decisão multicritério, tarifas, unidades
 │   ├── ui/                     # Interface desktop PySide6 (abas, gráficos, diálogos, traduções)
@@ -89,7 +91,6 @@ Netuno5_0_0/
 ├── additional_material/        # Biblioteca CAD/BIM e documentos de referência
 ├── icons/                      # Ícones da aplicação
 ├── infos_licenses/             # Licença, textos do instalador e README distribuído
-├── LegadoWeb/                  # Arquivo histórico da versão web descontinuada (.tar.xz)
 ├── .github/workflows/          # Integração contínua: núcleo com e sem numba, replicação do Netuno 4
 ├── pyproject.toml              # Metadados do pacote (PEP 621); o estado de lançamento é declarado aqui
 ├── requirements.txt            # Dependências de produção
@@ -102,9 +103,9 @@ Netuno5_0_0/
 ```
 
 Fora do controle de versão, por tamanho ou por serem regeneráveis: a base climática
-CMIP6 (`Netuno future files for 652 cities/`, ~6,5 GB, distribuída à parte), as saídas de
+CMIP6 (`climbra_data/`, anteriormente `Netuno future files for 652 cities/`, ~6,5 GB, distribuída à parte), as saídas de
 simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de referência),
-`tmp/`, `outputs/`, `reports/`, o manual montado e o PDF.
+`tmp/`, os laudos gerados em `reports/` (exceto `reports/exemplos/`), o manual montado e o PDF.
 
 ---
 
@@ -116,7 +117,7 @@ simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de r
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash
 # Acesse a pasta raiz do programa
-cd Netuno5_0_0
+cd netuno
 
 # Instale o pacote e suas dependências
 pip install -e .
@@ -144,8 +145,7 @@ netuno --help
 ```
 
 > **Nota sobre a versão Web:** a interface web experimental (FastAPI + React, com o Chromium
-> como interface) foi **descontinuada**. O Netuno é exclusivamente
-> desktop. O código está preservado, comprimido, em [`LegadoWeb/`](LegadoWeb/README.md).
+> como interface) foi **descontinuada**. O Netuno é exclusivamente desktop.
 
 ---
 
@@ -164,7 +164,7 @@ python build_exe.py --clean --onefile
 python build_exe.py --clean --installer
 ```
 
-O instalador compilado será gerado em `dist/Netuno_Setup_5_0_0.exe`.
+O instalador compilado será gerado em `dist/Netuno_Setup_5_0_1.exe`.
 
 ---
 
@@ -184,5 +184,5 @@ pytest tests/unit/test_mcdm_methods.py tests/ui/ -v
 
 ## 📄 Licença e Créditos
 
-Desenvolvido pelo **Grupo de Pesquisa Gestão do Espaço Sustentável** — Universidade Federal de Santa Catarina (UFSC).  
+Desenvolvido pelo **Grupo de Pesquisa em Ambientes Sustentáveis** — Universidade Federal de Santa Catarina (UFSC).  
 Distribuído sob a **GNU General Public License v3.0 ou posterior**. Consulte o arquivo [`LICENSE`](LICENSE) para o texto integral.
