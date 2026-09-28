@@ -13,7 +13,7 @@
   "rainfall": {
     "source_mode": "custom_file",
     "climate_city_uf": "SC",
-    "climate_city_name": "Florianopolis1",
+    "climate_city_name": "Florianópolis",
     "climate_model": "INM-CM4",
     "climate_scenario": "HIST",
     "climate_start_date": "01/01/1980",
@@ -11094,7 +11094,7 @@
     "irrigation": {
       "garden_area_m2": 0.0,
       "rate_l_m2_day": 3.0,
-      "liters_per_day": 50.0,
+      "liters_per_day": 0.0,
       "rain_threshold_mm": 2.0,
       "potable_backup": true
     },
@@ -11105,8 +11105,8 @@
       "tariff_flag": "verde",
       "tariff_customized": false,
       "num_economias": 1,
-      "potable_indoor_share": 0.65,
-      "non_potable_indoor_share": 0.35,
+      "potable_indoor_share": 0.6,
+      "non_potable_indoor_share": 0.4,
       "install_month": 0,
       "econ_lower_tank_vol": 2000.0,
       "demand_mode": "constant",

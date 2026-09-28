@@ -12,8 +12,8 @@
   },
   "rainfall": {
     "source_mode": "custom_file",
-    "climate_city_uf": "SC",
-    "climate_city_name": "Brasilia2",
+    "climate_city_uf": "DF",
+    "climate_city_name": "Brasília",
     "climate_model": "INM-CM4",
     "climate_scenario": "HIST",
     "climate_start_date": "01/01/1980",
@@ -11034,37 +11034,55 @@
       "water_tariffs": [
         [
           0.0,
-          10.0,
-          7.8,
-          0
+          0.0,
+          21.497,
+          -1
         ],
         [
-          10.0,
-          25.0,
-          15.6,
-          0
+          0.0,
+          7.0,
+          7.955,
+          1
         ],
         [
-          25.0,
-          50.0,
-          22.4,
-          0
+          7.0,
+          13.0,
+          9.5275,
+          1
         ],
         [
-          50.0,
+          13.0,
+          20.0,
+          18.8885,
+          1
+        ],
+        [
+          20.0,
+          30.0,
+          27.3985,
+          1
+        ],
+        [
+          30.0,
+          45.0,
+          41.107,
+          1
+        ],
+        [
+          45.0,
           999999.0,
-          28.9,
-          0
+          53.428,
+          1
         ]
       ],
-      "tariff_city_uf": "SC",
-      "tariff_city_name": "Florianópolis",
-      "elec_city_uf": "SC",
-      "elec_city_name": "Florianópolis",
+      "tariff_city_uf": "DF",
+      "tariff_city_name": "Brasília",
+      "elec_city_uf": "DF",
+      "elec_city_name": "Brasília",
       "tariff_escalation_months": 12.0,
       "water_tariff_escalation_pct": 5.0,
       "sewage_tariff_escalation_pct": 5.0,
-      "elec_tariff": 1.05,
+      "elec_tariff": 0.90939,
       "elec_tax_fixed": 0.0,
       "elec_tax_var_pct": 0.0,
       "elec_tariff_escalation_pct": 5.0
@@ -11088,7 +11106,7 @@
     "irrigation": {
       "garden_area_m2": 0.0,
       "rate_l_m2_day": 3.0,
-      "liters_per_day": 50.0,
+      "liters_per_day": 0.0,
       "rain_threshold_mm": 2.0,
       "potable_backup": true
     },
@@ -11099,8 +11117,8 @@
       "tariff_flag": "verde",
       "tariff_customized": false,
       "num_economias": 1,
-      "potable_indoor_share": 0.65,
-      "non_potable_indoor_share": 0.35,
+      "potable_indoor_share": 0.35,
+      "non_potable_indoor_share": 0.65,
       "install_month": 0,
       "econ_lower_tank_vol": 2000.0,
       "demand_mode": "constant",
