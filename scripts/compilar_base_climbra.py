@@ -329,11 +329,17 @@ def verify_database(db_path: str, sample_csv_dir: Optional[str] = None) -> bool:
 
 
 if __name__ == "__main__":
+    _default_input = os.path.join(os.path.dirname(__file__), "..", "climbra_data")
+    if not os.path.isdir(_default_input):
+        _legacy_input = os.path.join(os.path.dirname(__file__), "..", "Netuno future files for 652 cities")
+        if os.path.isdir(_legacy_input):
+            _default_input = _legacy_input
+
     parser = argparse.ArgumentParser(description="Compilador da Base Climatológica CLIMBra para SQLite")
     parser.add_argument(
         "--input",
         "-i",
-        default=os.path.join(os.path.dirname(__file__), "..", "Netuno future files for 652 cities"),
+        default=_default_input,
         help="Diretório contendo os arquivos CSV brutos",
     )
     parser.add_argument(

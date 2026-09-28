@@ -32,7 +32,10 @@ dist/
 # ---------------------------------------------------------------------------
 # Saídas de QA e relatórios gerados
 # ---------------------------------------------------------------------------
-reports/
+reports/**
+!reports/
+!reports/exemplos/
+!reports/exemplos/**
 
 # ---------------------------------------------------------------------------
 # Cache de execução do programa
@@ -50,6 +53,7 @@ outputs/
 # Exigida em tempo de execução por netuno/core/climate_database.py, mas grande
 # demais para controle de versão. Distribuída separadamente.
 # ---------------------------------------------------------------------------
+climbra_data/
 Netuno future files for 652 cities/
 
 # Base climatica compilada: 784 MB, gerada por scripts/compilar_base_climbra.py
@@ -73,7 +77,7 @@ data/simulation_outputs/**
 !data/simulation_outputs/*_Descarte*_Area*.csv
 
 # ---------------------------------------------------------------------------
-# Node / PNPM (versão web descontinuada — ver LegadoWeb/)
+# Node / PNPM (versão web descontinuada)
 # ---------------------------------------------------------------------------
 .pnpm-store/
 node_modules/
@@ -105,3 +109,11 @@ manual/Manual-Netuno-5.pdf.novo
 # Os arquivos continuam na maquina de quem escreve; fora do repositorio.
 # ---------------------------------------------------------------------------
 additional_material/documentation/*.pdf
+
+# Apresentações ficam fora do repositório (decisão de 28/09/2026)
+apresentacoes/
+
+# Rascunhos de depuração locais
+scratch/
+scratch_*.py
+*.log

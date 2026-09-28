@@ -1,27 +1,28 @@
 ; Script de instalação do Netuno 5 para o Inno Setup 6
-; Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)
+; Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)
 ;
 ; Como gerar o instalador: veja docs/instalador.md. Em resumo,
 ;   python build_exe.py --installer
 ; compila o programa com o PyInstaller em dist\Netuno e chama o ISCC com a
 ; versão lida de netuno/__init__.py. Para compilar à mão:
-;   ISCC /DMyAppVersion=5.0.0 setup_script.iss
+;   ISCC /DMyAppVersion=5.0.1 setup_script.iss
 ;
 ; Base climática compilada (CLIMBra / SQLite): incorporada diretamente no executável
 ; sob data/climbra.db (~1,1 GB), garantindo execução instantânea e portabilidade.
-; Se a pasta original de arquivos CSV soltos "Netuno future files for 652 cities"
+; Se a pasta original de arquivos CSV soltos "climbra_data" (ou "Netuno future files for 652 cities")
 ; estiver AO LADO do instalador no momento da instalação, o componente opcional
 ; «Base climática nacional (CSV brutos)» pode copiá-la para a pasta do programa.
 
 #define MyAppName "Netuno 5"
 #ifndef MyAppVersion
-  #define MyAppVersion "5.0.0"
+  #define MyAppVersion "5.0.1"
 #endif
-#define MyAppPublisher "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)"
+#define MyAppPublisher "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"
 #define MyAppExeName "Netuno.exe"
-#define MyAppIcon "icons\icon.ico"
-#define ClimateFolder "Netuno future files for 652 cities"
+#define MyAppIcon "icons\netuno5.ico"
+#define ClimateFolder "climbra_data"
+#define ClimateFolderLegacy "Netuno future files for 652 cities"
 #define ProgId "Netuno.Projeto"
 
 [Setup]
@@ -43,7 +44,7 @@ VersionInfoCompany={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-UninstallDisplayIcon={app}\{#MyAppExeName}
+UninstallDisplayIcon={app}\icons\netuno5.ico
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=dialog commandline
@@ -73,14 +74,14 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Types]
-Name: "standard"; Description: "Instalação padrão (Português e English)"
+Name: "standard"; Description: "Instalação padrão (todos os idiomas)"
 Name: "full"; Description: "Instalação completa (todos os idiomas e a base climática, se disponível)"
 Name: "custom"; Description: "Instalação personalizada"; Flags: iscustom
 
 [Components]
 Name: "core"; Description: "Aplicativo Netuno, base climática nacional compilada (CLIMBra), manual, casos e exemplos"; Types: standard full custom; Flags: fixed
-Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: full
-Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: full
+Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: standard full custom
+Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: standard full custom
 Name: "clima"; Description: "Arquivos CSV brutos da base climática (opcional, cerca de 6,5 GB; copiada da pasta ao lado do instalador, se existir)"; Types: full; ExtraDiskSpaceRequired: 6979321856
 
 [Tasks]
@@ -95,12 +96,14 @@ Source: "dist\Netuno\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs c
 Source: "dist\Netuno\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
 Source: "dist\Netuno\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
 
-; Ícone para os atalhos
-Source: "icons\icon.ico"; DestDir: "{app}\icons"; Flags: ignoreversion
+; Ícones para os atalhos e sistema
+Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Base climática: copiada de fora do instalador, de {src}, e ignorada se ausente.
 ; O programa a procura ao lado do executável (netuno/core/climate_database.py).
 Source: "{src}\{#ClimateFolder}\*"; DestDir: "{app}\{#ClimateFolder}"; Components: clima; \
+  Flags: external recursesubdirs createallsubdirs skipifsourcedoesntexist ignoreversion
+Source: "{src}\{#ClimateFolderLegacy}\*"; DestDir: "{app}\{#ClimateFolderLegacy}"; Components: clima; \
   Flags: external recursesubdirs createallsubdirs skipifsourcedoesntexist ignoreversion
 
 [Registry]
@@ -109,15 +112,15 @@ Source: "{src}\{#ClimateFolder}\*"; DestDir: "{app}\{#ClimateFolder}"; Component
 Root: HKA; Subkey: "Software\Classes\.netuno"; ValueType: string; ValueName: ""; ValueData: "{#ProgId}"; Flags: uninsdeletevalue; Tasks: assocnetuno
 Root: HKA; Subkey: "Software\Classes\.netuno\OpenWithProgids"; ValueType: string; ValueName: "{#ProgId}"; ValueData: ""; Flags: uninsdeletevalue; Tasks: assocnetuno
 Root: HKA; Subkey: "Software\Classes\{#ProgId}"; ValueType: string; ValueName: ""; ValueData: "Projeto do Netuno"; Flags: uninsdeletekey; Tasks: assocnetuno
-Root: HKA; Subkey: "Software\Classes\{#ProgId}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\icons\icon.ico,0"; Tasks: assocnetuno
+Root: HKA; Subkey: "Software\Classes\{#ProgId}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\icons\netuno5.ico,0"; Tasks: assocnetuno
 Root: HKA; Subkey: "Software\Classes\{#ProgId}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""; Tasks: assocnetuno
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".netuno"; ValueData: ""; Tasks: assocnetuno
 
 [Icons]
 ; A pasta de trabalho é a do programa, onde ele também procura a base climática.
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\icon.ico"
-Name: "{autoprograms}\Manual do {#MyAppName}"; Filename: "{app}\_internal\manual\Manual-Netuno-5.pdf"; Check: FileExists(ExpandConstant('{app}\_internal\manual\Manual-Netuno-5.pdf'))
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\icon.ico"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\netuno5.ico"
+Name: "{autoprograms}\Manual do {#MyAppName}"; Filename: "{app}\_internal\manual\Manual-Netuno-5.pdf"; Check: FileExists(ExpandConstant('{app}\_internal\manual\Manual-Netuno-5.pdf')); IconFilename: "{app}\icons\netuno5.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\netuno5.ico"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent

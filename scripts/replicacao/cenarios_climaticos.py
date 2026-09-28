@@ -13,8 +13,12 @@ import re
 import statistics
 import sys
 
-RAIZ = "D:/AAAA_TEMPORARIO_AREATRABALHO/NetunoReplicacao/Netuno5_0_0"
-BASE = os.path.join(RAIZ, "Netuno future files for 652 cities")
+from pathlib import Path
+
+RAIZ = str(Path(__file__).resolve().parents[2])
+BASE = os.path.join(RAIZ, "climbra_data")
+if not os.path.isdir(BASE):
+    BASE = os.path.join(RAIZ, "Netuno future files for 652 cities")
 sys.path.insert(0, RAIZ)
 
 from netuno.core.parser import load_precipitation          # noqa: E402

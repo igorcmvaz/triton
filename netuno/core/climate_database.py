@@ -156,6 +156,13 @@ def get_climate_database_dir() -> str:
                            if getattr(sys, "frozen", False) else "")
     candidates = [
         os.environ.get("NETUNO_CLIMATE_DATA_DIR", ""),
+        # Localização padrão nova: climbra_data
+        os.path.join(pasta_do_executavel, "climbra_data") if pasta_do_executavel else "",
+        os.path.join(raiz_do_programa, "climbra_data"),
+        os.path.join(os.getcwd(), "climbra_data"),
+        os.path.join(raiz_do_programa, "data", "climbra_data"),
+        os.path.join(os.getcwd(), "data", "climbra_data"),
+        # Compatibilidade com instalações existentes da 5.0.0
         os.path.join(pasta_do_executavel, "Netuno future files for 652 cities") if pasta_do_executavel else "",
         os.path.join(raiz_do_programa, "Netuno future files for 652 cities"),
         os.path.join(os.getcwd(), "Netuno future files for 652 cities"),

@@ -50,7 +50,7 @@ Para compilar só o instalador, com `dist\Netuno` já pronto:
 A base CLIMBra ocupa cerca de 6,5 GB em 37.164 arquivos e **não vai dentro do
 instalador**. Para distribuí-la junto:
 
-1. Copie a pasta `Netuno future files for 652 cities` para o **mesmo diretório** do
+1. Copie a pasta `climbra_data` (ou o nome legado `Netuno future files for 652 cities`) para o **mesmo diretório** do
    `Netuno_Setup_*.exe` (um pendrive, uma pasta de rede, um disco).
 2. Na instalação, escolha «Instalação completa» ou marque o componente «Base climática
    nacional CLIMBra».
@@ -60,7 +60,7 @@ a pasta não estiver ao lado do instalador, o componente aparece como «não enc
 ignorado, e o programa funciona com séries próprias.
 
 A base também pode ficar fora da pasta do programa: basta definir a variável de ambiente
-`NETUNO_CLIMATE_DATA_DIR` com o caminho da pasta `Netuno future files for 652 cities`.
+`NETUNO_CLIMATE_DATA_DIR` com o caminho da pasta `climbra_data` (ou `Netuno future files for 652 cities`).
 
 ## Conferência depois de instalar
 

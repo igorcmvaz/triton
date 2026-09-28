@@ -23,7 +23,7 @@ os scripts estão em `scripts/replicacao/` e os resultados, ao lado deles.
 Harvesting in Brazilian Single-Family Houses* (Water, 2026, doi
 10.3390/w18070792) simulou 652 cidades com chuva diária da base CLIMBra,
 dezenove modelos do CMIP6 e dois cenários de emissão. Essa base está no disco, em
-`Netuno future files for 652 cities`, no formato
+`climbra_data` (anteriormente `Netuno future files for 652 cities`), no formato
 `(Netuno)Cidade_Modelo_Cenário.csv` — 61.940 arquivos, exatamente o conjunto do
 artigo. O arquétipo está publicado: 60 m² de cobertura, quatro moradores, 150
 L/pessoa·dia, 30% de uso não potável, coeficiente de escoamento 0,80, descarte de

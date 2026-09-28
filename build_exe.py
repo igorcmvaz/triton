@@ -105,7 +105,8 @@ def build_manual(base_dir: Path) -> bool:
 def build_pyinstaller(args, base_dir: Path) -> bool:
     """Executa a compilação do executável com PyInstaller."""
     print("\n=======================================================")
-    print("  Iniciando Compilação PyInstaller — Netuno 5.0.0")
+    from netuno import __version__
+    print(f"  Iniciando Compilação PyInstaller — Netuno {__version__}")
     print("=======================================================")
 
     try:
@@ -265,7 +266,7 @@ def build_inno_setup(base_dir: Path) -> bool:
         nome = f"Netuno_Setup_{versao.replace('.', '_')}.exe"
         print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
         print("          Para instalar também a base climática, copie a pasta")
-        print("          'Netuno future files for 652 cities' para o lado do instalador.")
+        print("          'climbra_data' (ou 'Netuno future files for 652 cities') para o lado do instalador.")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")
@@ -288,7 +289,7 @@ def verificar_pasta_para_instalador(base_dir: Path) -> list:
         Path("dist/Netuno/_internal/data/languages/zh.json"),
         Path("dist/Netuno/_internal/manual/Manual-Netuno-5.pdf"),
         Path("LICENSE"),
-        Path("icons/icon.ico"),
+        Path("icons/netuno5.ico"),
         Path("infos_licenses/info_before.txt"),
         Path("infos_licenses/info_after.txt"),
     ]

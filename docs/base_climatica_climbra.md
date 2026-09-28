@@ -114,7 +114,7 @@ O módulo [`netuno/core/climate_database.py`](../netuno/core/climate_database.py
    - `<pasta_do_executavel>/data/climbra.db` (em instalações via instalador / PyInstaller)
    - `<raiz_do_projeto>/data/climbra.db` (em ambiente de desenvolvimento)
 3. **Fallback para CSVs soltos:**
-   - `<raiz_do_projeto>/Netuno future files for 652 cities/`
+   - `<raiz_do_projeto>/climbra_data/` (ou `<raiz_do_projeto>/Netuno future files for 652 cities/`)
 
 Se o banco `climbra.db` estiver presente, o Netuno carrega tudo a partir dele instantaneamente. Caso contrário, ele recorre com total retrocompatibilidade aos arquivos CSV individuais.
 

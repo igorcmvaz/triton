@@ -19,21 +19,14 @@ Referenciadas pela documentação, pela integração contínua ou umas pelas out
 | `bench_kernels.py` | comparação de desempenho entre o kernel Python e o compilado |
 | `split_climates.py`, `split_climates_vaz.py` | fatiamento da base climática CMIP6 |
 | `run_mass_simulations.py` | simulações em massa |
-| `run_estudo_5_tipologias.py` | estudo das cinco tipologias residenciais |
-| `recalc_full_study_with_real_tariffs.py` | recálculo do estudo com as tarifas reais |
 | `generate_reference_case_studies.py` | casos de referência |
-| `generate_capitais_global_vpl.py`, `generate_uf_tariffs_breakdown.py` | recortes por capital e por unidade da federação |
+| `generate_uf_tariffs_breakdown.py` | recorte tarifário por unidade da federação |
 | `plot_tariff_tiers_summary.py` | figura-resumo das faixas tarifárias |
-| `analyze_vaz_parquet.py` | leitura dos resultados em parquet |
 | `build_tariff_workbook.mjs` | planilha tarifária (Node) |
+| `gerar_relatorios_exemplo.py` | regera os laudos de `reports/exemplos/` pela própria interface |
+| `replicacao/` | cenários climáticos e comprimento de série citados em `docs/replicacao_dos_artigos.md` |
 
-## `artigos/` — preparação de manuscrito
+## Estudos e artigos
 
-Geradores de texto e de figuras dos artigos. São artefatos de pesquisa, presos ao
-recorte de cada estudo, e não fazem parte do programa. Ficam agrupados aqui
-porque nenhum é referenciado por código, documentação ou integração contínua, e
-misturados à raiz escondiam as ferramentas de operação.
-
-## `estudos/` — execuções de lote de longa duração
-
-Pipelines completos e execuções noturnas, com a consolidação dos resultados.
+Os scripts que produzem os dados e as figuras dos artigos não ficam aqui. Estão na
+pasta `Estudos/`, ao lado deste repositório, junto dos dados de cada estudo.
