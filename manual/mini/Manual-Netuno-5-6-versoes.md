@@ -4,7 +4,7 @@
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
-Grupo de Pesquisa Gestão do Espaço Sustentável
+Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
@@ -94,9 +94,11 @@ Tabela 15 — Avisos que não interrompem o cálculo e precisam constar do estud
 
 Tabela 16 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 17 — Correções que alteram resultados de estudos feitos em versão anterior
+Tabela 17 — Correções que alteram resultados de estudos feitos na versão 5.0.0
 
-Tabela 18 — Correções de comportamento que não alteram resultado calculado
+Tabela 18 — Correções que alteram resultados de estudos feitos em versão anterior
+
+Tabela 19 — Correções de comportamento que não alteram resultado calculado
 
 ---
 
@@ -539,11 +541,54 @@ mesmo registro.
 <!-- tabela: **Tabela 16** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
+| **5.0.1** | 28 de setembro de 2026 | A interface e a linha de comando passam a dar o mesmo resultado para o mesmo projeto, e a fração atendível é separada em interna, externa e total. | 9 |
 | **5.0.0** | 21 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério e a documentação em três formatos. | 8 |
 
 ---
 
-### 6.3.3. Versão 5.0.0 — 21 de setembro de 2026
+### 6.3.3. Versão 5.0.1 — 28 de setembro de 2026
+
+> **Em uma frase.** A interface e a linha de comando passam a dar o mesmo resultado
+> para o mesmo projeto, e a fração atendível é separada em interna, externa e total.
+
+Uma camada nova de testes abre cada projeto distribuído nas duas pontas do programa e
+exige que concordem, volume a volume, no potencial, no VPL, no payback e no carbono, e
+nos cinco ótimos. Ela encontrou as divergências abaixo, e todas foram corrigidas.
+
+#### 6.3.3.1. Novidades
+
+A demanda passou a ter duas parcelas declaradas: a fração não potável do consumo
+interno e a demanda externa em litros por dia, suspensa nos dias de chuva. A fração
+atendível total é derivada das duas e aparece num campo que não se edita. A seção
+4.2 (volume Tutorial) descreve a regra.
+
+#### 6.3.3.2. Correções que alteram resultados
+
+<!-- tabela: **Tabela 17** — Correções que alteram resultados de estudos feitos na versão 5.0.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| a interface não restaurava a fração interna nem a demanda externa ao abrir um projeto, e simulava sempre com 35% e 0 L/dia | a interface simula com a fração do projeto; o tutorial, que declara 28%, dava 32,85% de potencial a 4.000 L na tela e passa a dar 27,12%, como o manual e a linha de comando |
+| a gravação pela interface escrevia 35% e 50 L/dia como fração interna e demanda externa, quaisquer que fossem os da tela | o arquivo grava as frações simuladas; arquivos antigos que discordam são abertos com a fração total que declaram, com aviso |
+| nos modos semanal, mensal e diário, a fração de reserva era a total, que já inclui a demanda externa | a fração de reserva é a interna, e a demanda externa deixa de ser contada duas vezes |
+| a interface ignorava o volume fixo declarado no projeto e simulava o ótimo técnico da varredura | no modo de volume fixo, a interface simula o volume declarado, como a linha de comando |
+| a aba ambiental da interface usava dose e fator de cloro próprios, e não os do projeto | a avaliação ambiental lê o cloro declarado na etapa de qualidade da água |
+| a linha de comando cobrava o mesmo preço de cisterna em toda a varredura | o preço acompanha o volume, como na interface; o VPL deixa de crescer indefinidamente com a capacidade |
+| a linha de comando omitia o dispositivo de descarte do carbono incorporado, convertia a potência da motobomba por outra regra e reconstruía a tubulação só com as bitolas de 50, 75, 100 e 150 mm | a avaliação ambiental da linha de comando lê o descarte, a motobomba e a tubulação do projeto, como a interface |
+| a linha de comando usava 5.000 sorteios no SMAA-VIKOR e pesos 0,33/0,33/0,34 no TOPSIS; a interface, 20.000 sorteios e 0,333/0,333/0,334 | as duas usam 20.000 sorteios e os mesmos pesos |
+| a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
+
+#### 6.3.3.3. Correções que não alteram resultados
+
+- Um único nome para o grupo de pesquisa: Sustainable Environments Research Group, em
+  português Grupo de Pesquisa em Ambientes Sustentáveis.
+- Os exemplos de Brasília e de Manaus passaram a usar as tarifas oficiais da cidade, em
+  vez das de Florianópolis.
+- Um exemplo novo, `examples/exemplo_quatro_criterios.netuno`, em que os ótimos técnico,
+  econômico, ambiental e TOPSIS caem em quatro volumes diferentes.
+
+---
+
+### 6.3.4. Versão 5.0.0 — 21 de setembro de 2026
 
 > **Em uma frase.** Primeiro lançamento público do Netuno 5: o motor de simulação
 > reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de
@@ -559,7 +604,7 @@ módulo, da tela para o núcleo de cálculo, entre a interface e a automação, 
 definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
 gravação e da releitura de um projeto.
 
-#### 6.3.3.1. Novidades
+#### 6.3.4.1. Novidades
 
 O programa foi reescrito em Python, com o motor de simulação separado da interface, e
 ganhou o que o Netuno 4 não tinha: avaliação de ciclo de vida do carbono, linha de
@@ -569,14 +614,14 @@ exportação para CAD, BIM e planilha. A seção 6.1 compara os dois programas n
 a número, e a seção 5.3 (volume Enganos, limitações e confiabilidade) descreve a suíte de verificação que sustenta a
 comparação.
 
-#### 6.3.3.2. Correções que alteram resultados
+#### 6.3.4.2. Correções que alteram resultados
 
 As alterações reunidas nesta tabela mudam números em relação ao que o programa
 calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento público, nenhum
 estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
 a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
-<!-- tabela: **Tabela 17** — Correções que alteram resultados de estudos feitos em versão anterior -->
+<!-- tabela: **Tabela 18** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -588,13 +633,13 @@ a calcular de outro modo, e porque é o formato que as versões seguintes vão u
 | o fator de emissão do hipoclorito era 1,85 kg CO₂e/kg, sem processo declarado | passou a 1,72 kg CO₂e/kg, do Ecoinvent 3.8 na base de cloro ativo |
 | a lâmina de descarte da primeira chuva valia 1,0 mm no arquivo de projeto, na leitura de planilha e no motor, e 2,0 mm no exportador CAD, na linha de comando e no relatório | o valor de recurso passou a ser 2,0 mm em todos os caminhos, conforme o item 4.1.5 da ABNT NBR 15527:2019; um projeto sem lâmina declarada descarta o dobro do que descartava, e a captação aproveitada cai na medida dos dias de chuva fraca |
 
-#### 6.3.3.3. Correções que não alteram resultados
+#### 6.3.4.3. Correções que não alteram resultados
 
 As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum valor
 calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
-<!-- tabela: **Tabela 18** — Correções de comportamento que não alteram resultado calculado -->
+<!-- tabela: **Tabela 19** — Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
@@ -602,7 +647,7 @@ estudo errado.
 | a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
 | seis campos eram gravados no arquivo e nunca lidos de volta | a seção 5.2 (volume Enganos, limitações e confiabilidade) lista os que permanecem nessa condição |
 
-#### 6.3.3.4. Documentação
+#### 6.3.4.4. Documentação
 
 A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
 manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte, e um
@@ -622,7 +667,7 @@ distribuído com o código, saem dos mesmos arquivos de texto.
 
 ---
 
-### 6.3.4. Como saber se a sua versão tem uma correção
+### 6.3.5. Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
 exemplo que acompanham o programa, descritos no apêndice J (volume Apêndices), rode-o, e compare o
@@ -637,7 +682,7 @@ uma diferença de versão que precisa ser identificada antes de qualquer estudo.
 
 ---
 
-### 6.3.5. O que declarar num trabalho publicado
+### 6.3.6. O que declarar num trabalho publicado
 
 A boa prática de reprodutibilidade computacional exige que um trabalho identifique de
 modo inequívoco o programa que produziu os resultados. No caso do Netuno, quatro
@@ -724,7 +769,7 @@ própria, porque a tabela certa é pública e específica de cada concessionári
 
 ### 6.4.3. Para onde enviar
 
-O Netuno é desenvolvido pelo Grupo de Pesquisa Gestão do Espaço Sustentável, no
+O Netuno é desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, no
 Departamento de Engenharia Civil da Universidade Federal de Santa Catarina. O contato
 do grupo é o canal de relato, e vale tanto para defeitos quanto para sugestões de
 funcionalidade e para pedidos de esclarecimento sobre o método.

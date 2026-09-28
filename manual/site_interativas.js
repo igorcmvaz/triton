@@ -510,7 +510,7 @@ FI["fig06_carbono_no_tempo.png"] = {
   pergunta: "Em quantos anos a cisterna devolve o carbono gasto para fabricá-la?",
   controles: "volume · material",
   experimente: "Com 4 m³, o polietileno e a fibra de vidro devolvem o carbono antes dos 20 anos; concreto e aço inoxidável, não. Diminua o volume: o carbono de fabricação cai, mas a água economizada também.",
-  fonte: TUTORIAL + " Carbono incorporado de todo o sistema (cisterna, caixa superior, tubulações, motobomba e descarte) e crédito anual da água potável evitada, descontados o bombeamento e o tratamento. Fatores de emissão da seção de avaliação de ciclo de vida.",
+  fonte: TUTORIAL + " Carbono incorporado de todo o sistema (cisterna, caixa superior, tubulações, motobomba e descarte) e crédito anual da água potável evitada, descontados o bombeamento e o tratamento. Positivo emite, negativo retira: a curva parte da dívida de fabricação e desce. Fatores de emissão da seção de avaliação de ciclo de vida.",
   montar(p, D, id) {
     let vi = D.volumes.indexOf(D.padrao), ativos = D.materiais.map(m => m[0]);
     const W = 640, H = 350;
@@ -527,16 +527,18 @@ FI["fig06_carbono_no_tempo.png"] = {
     const desenhar = () => {
       const v = D.volumes[vi], anos = D.anos;
       const casos = ativos.map(k => ({k, c: D.casos[`${v}|${k}`]}));
-      const lo = Math.min(...casos.map(x => -x.c[0])), hi = Math.max(0, ...casos.map(x => x.c[1] * anos - x.c[0]));
+      // Emissoes liquidas: positivo emite, negativo retira. A curva parte do
+      // carbono incorporado e desce com o credito anual da agua evitada.
+      const lo = Math.min(0, ...casos.map(x => x.c[0] - x.c[1] * anos)), hi = Math.max(...casos.map(x => x.c[0]));
       const ey = escala(lo, hi, 6);
-      const A = plano({W, H, l: 66, r: 130, t: 34, b: 44, x: [0, anos], y: [ey.min, ey.max], ym: ey.marcas, yr: "saldo de carbono acumulado (kg CO₂e)",
+      const A = plano({W, H, l: 66, r: 130, t: 34, b: 44, x: [0, anos], y: [ey.min, ey.max], ym: ey.marcas, yr: "emissões líquidas acumuladas (kg CO₂e)",
         xm: [0, 5, 10, 15, 20], xr: "anos de operação"});
       let s = A.s;
       const rot = [];
       let cruzou = 0;
       casos.forEach(({k, c}) => {
-        const cor = corDoMat(k), fim = c[1] * anos - c[0];
-        s += `<line x1="${A.X(0)}" y1="${A.Y(-c[0])}" x2="${A.X(anos)}" y2="${A.Y(fim)}" style="stroke:${cor};stroke-width:2.4"/>`;
+        const cor = corDoMat(k), fim = c[0] - c[1] * anos;
+        s += `<line x1="${A.X(0)}" y1="${A.Y(c[0])}" x2="${A.X(anos)}" y2="${A.Y(fim)}" style="stroke:${cor};stroke-width:2.4"/>`;
         if (c[4] !== null && c[4] <= anos) {
           const t = c[4], acima = cruzou++ % 2 === 0;
           s += `<circle cx="${A.X(t)}" cy="${A.Y(0)}" r="6" style="fill:${cor};stroke:var(--surface);stroke-width:2"/>`;

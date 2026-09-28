@@ -230,15 +230,17 @@ def figura_materiais():
         cfg = _config_ambiental(r)
         cfg.lower_material_key = k
         rot.append(nomes.get(k, k))
-        saldo.append(calculate_lca(VOLUME, m3, cfg).lifetime_net_co2_saved_kg)
+        # Emissoes liquidas: o negativo do saldo, pela convencao de que
+        # positivo emite.
+        saldo.append(-calculate_lca(VOLUME, m3, cfg).lifetime_net_co2_saved_kg)
 
-    cores = [VERDE if s > 0 else LARANJA for s in saldo]
+    cores = [VERDE if s < 0 else LARANJA for s in saldo]
     fig, ax = plt.subplots(figsize=(7.2, 3.4))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
     ax.bar(rot, saldo, color=cores, width=0.55, zorder=3)
     ax.axhline(0.0, color=TINTA, linewidth=1.2, zorder=4)
-    _eixos(ax, "", "", "saldo de carbono em 20 anos (kg CO₂e)")
+    _eixos(ax, "", "", "emissões líquidas em 20 anos (kg CO₂e)")
     for i, s in enumerate(saldo):
         ax.text(i, s + (40 if s > 0 else -80), f"{s:+,.0f}".replace(",", "."),
                 ha="center", color=TINTA2, fontsize=8.5)
@@ -335,9 +337,12 @@ def figura_carbono_no_tempo():
         cfg = _config_ambiental(r)
         cfg.lower_material_key = chave
         lca = calculate_lca(VOLUME, m3, cfg)
-        saldo = [lca.net_annual_avoided_co2_kg * a - lca.total_embodied_co2_kg
-                 for a in anos]
-        ax.plot(anos, saldo, color=cor, linewidth=2.4, zorder=3, label=rotulo)
+        # Emissoes liquidas acumuladas: positivo emite, negativo retira. E a
+        # mesma convencao do grafico de balanco da aba ambiental do programa,
+        # e a oposta da que esta figura usava ate a versao 5.0.0.
+        emissoes = [lca.total_embodied_co2_kg - lca.net_annual_avoided_co2_kg * a
+                    for a in anos]
+        ax.plot(anos, emissoes, color=cor, linewidth=2.4, zorder=3, label=rotulo)
         # O ponto em que a curva cruza o zero é o retorno ambiental.
         if lca.net_annual_avoided_co2_kg > 0:
             cruzamento = lca.total_embodied_co2_kg / lca.net_annual_avoided_co2_kg
@@ -345,18 +350,90 @@ def figura_carbono_no_tempo():
                 ax.plot([cruzamento], [0], "o", color=cor, markersize=7,
                         zorder=4)
                 ax.annotate(f"{cruzamento:.1f} anos".replace(".", ","),
-                            xy=(cruzamento, 0), xytext=(cruzamento + 0.6, 120),
+                            xy=(cruzamento, 0), xytext=(cruzamento + 0.6, -120),
                             fontsize=8.5, color=cor,
                             arrowprops=dict(arrowstyle="-", color=cor,
                                             linewidth=0.9))
 
     ax.axhline(0.0, color=TINTA, linewidth=1.2, zorder=2)
-    _eixos(ax, "", "anos de operação", "saldo de carbono acumulado (kg CO₂e)")
-    ax.legend(frameon=False, fontsize=8.5, loc="lower right")
+    _eixos(ax, "", "anos de operação",
+           "emissões líquidas acumuladas (kg CO₂e)")
+    ax.legend(frameon=False, fontsize=8.5, loc="upper right")
     ax.set_xlim(0, 20)
 
     fig.tight_layout()
     _salvar(fig, "fig06_carbono_no_tempo.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Figura: a curva de otimizacao ambiental
+# ══════════════════════════════════════════════════════════════════════════════
+
+def figura_otimizacao_ambiental():
+    """As emissoes liquidas em vinte anos contra o volume da cisterna.
+
+    A figura existe para mostrar o que a intuicao corrente nega: o carbono nao
+    melhora indefinidamente com mais reservacao. O carbono incorporado cresce de
+    forma quase afim com o volume, enquanto a agua evitada cresce com o
+    atendimento, que satura. A soma tem minimo interior.
+
+    Dois paineis porque as escalas diferem por uma ordem de grandeza: num unico
+    eixo, a curva do concreto achata justamente a inflexao do polietileno, que e
+    o que a figura precisa mostrar.
+    """
+    from netuno.core.environmental import calculate_lca
+    from gerar_tabelas import _config_ambiental
+
+    serie = _serie()
+    volumes = list(range(500, 12001, 500))
+    # O atendimento nao depende do material: simula uma vez por volume.
+    consumo = {}
+    resultados = {}
+    for vol in volumes:
+        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(vol),
+                                  **_config_projeto())
+        consumo[vol] = r.annual_pluvial_consumed_m3
+        resultados[vol] = r
+
+    fig, eixos = plt.subplots(1, 2, figsize=(7.2, 3.4))
+    fig.patch.set_facecolor(SUPERFICIE)
+
+    paineis = [("PEAD", "(a) polietileno", VERDE), ("CONCRETO", "(b) concreto", LARANJA)]
+    for ax, (chave, rotulo, cor) in zip(eixos, paineis):
+        ax.set_facecolor(SUPERFICIE)
+        emissoes = []
+        for vol in volumes:
+            cfg = _config_ambiental(resultados[vol])
+            cfg.lower_material_key = chave
+            lca = calculate_lca(float(vol), consumo[vol], cfg)
+            emissoes.append(-lca.lifetime_net_co2_saved_kg)
+        ax.plot([v / 1000 for v in volumes], emissoes, color=cor, linewidth=2.4,
+                zorder=3)
+        ax.axhline(0.0, color=TINTA, linewidth=1.0, zorder=2)
+
+        # So marca o minimo quando ele e interior: minimo na borda nao e otimo,
+        # e marca-lo sugeriria uma inflexao que nao existe.
+        k = min(range(len(emissoes)), key=lambda n: emissoes[n])
+        if 0 < k < len(emissoes) - 1:
+            ax.plot([volumes[k] / 1000], [emissoes[k]], "o", color=cor,
+                    markersize=7, zorder=5)
+            faixa = max(emissoes) - min(emissoes)
+            ax.annotate(f"mínimo em {volumes[k] / 1000:.1f} m³".replace(".", ","),
+                        xy=(volumes[k] / 1000, emissoes[k]),
+                        xytext=(volumes[k] / 1000 + 4.2,
+                                emissoes[k] - faixa * 0.02),
+                        fontsize=8.5, color=cor,
+                        arrowprops=dict(arrowstyle="-", color=cor, linewidth=0.9))
+
+        _eixos(ax, "", "volume da cisterna (m³)", "")
+        ax.set_xlim(0, 12)
+        ax.set_title(rotulo, fontsize=9, color=TINTA2, loc="left", pad=8)
+
+    eixos[0].set_ylabel("emissões líquidas em 20 anos (kg CO₂e)",
+                        fontsize=8.5, color=TINTA2)
+
+    fig.tight_layout()
+    _salvar(fig, "fig06b_otimizacao_ambiental.png")
 
 
 def main():
@@ -367,6 +444,7 @@ def main():
     figura_materiais()
     figura_regimes()
     figura_carbono_no_tempo()
+    figura_otimizacao_ambiental()
 
 
 if __name__ == "__main__":

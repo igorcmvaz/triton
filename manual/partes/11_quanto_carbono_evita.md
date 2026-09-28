@@ -69,32 +69,53 @@ A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de
 
 ![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
 
-*Figura 99 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. Atenção ao sinal, que o gráfico inverte em relação à tabela acima: nele as emissões são positivas e a água evitada é negativa, de modo que a mesma dívida de carbono da tabela aparece aqui acima de zero. Figura gerada pelo próprio programa.*
+*Figura 99 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. O sinal segue a convenção adotada em todo este capítulo: emissões positivas, água evitada negativa. Figura gerada pelo próprio programa.*
 
 ---
 ## O material decide o sinal
 
 A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pesar
-88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a {{fig:fig06_carbono_no_tempo}} mostram a trajetória do saldo ao longo da vida útil, e a {{fig:fig04_materiais}}, o saldo final de cada material.
+88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a {{fig:fig06_carbono_no_tempo}} mostram a trajetória das emissões líquidas ao longo da vida útil, e a {{fig:fig04_materiais}}, o resultado final de cada material.
+
+==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
 
 <!-- inclui: _tabelas/cap11_materiais.md -->
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 99 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+*Figura 99 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. A curva parte do carbono incorporado na fabricação, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos e encerra a vida útil retirando carbono, e o concreto não o cruza nos vinte anos adotados.*
 
-![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
+![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 99 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material. Em verde, saldo positivo; em laranja, negativo: dois dos quatro materiais encerram a vida útil com emissão líquida.*
+*Figura 99 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material. Em verde, valor negativo, isto é, retirada líquida; em laranja, positivo: dois dos quatro materiais encerram a vida útil emitindo mais do que evitaram.*
 
 **A escolha do material inverte o resultado.**
 
-Polietileno paga a dívida em 16,3 anos e termina os vinte anos com saldo positivo de 74 kg. Concreto leva 42,8 anos e termina negativo em 457 kg. Aço inoxidável também termina negativo, em 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
+Polietileno paga a dívida em 16,3 anos e termina os vinte anos tendo retirado 74 kg. Concreto leva 42,8 anos e termina emitindo 457 kg. Aço inoxidável também termina emitindo, 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
 
 E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
-cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos 141 kg no vermelho; a de
+cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos emitindo 141 kg; a de
 8.000 L, 1.119 kg. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
 rende cada vez menos água.
+
+---
+## Existe um volume ambientalmente ótimo
+
+A observação acima vale para o concreto, mas ela é um caso particular de algo mais
+geral. O carbono incorporado cresce de forma quase afim com o volume; a água
+evitada cresce com o atendimento, que satura. A soma das duas parcelas tem
+**mínimo interior**: existe um volume a partir do qual cada litro a mais de
+reservação emite mais do que evita. A {{fig:fig06b_otimizacao_ambiental}} mostra as
+duas curvas.
+
+![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
+
+*Figura 99 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial. Em polietileno a curva tem mínimo interior em 1,5 m³ e volta a cruzar o zero por volta de 6 m³: acima desse volume o sistema passa a emitir mais do que evita. Em concreto não há mínimo interior dentro da faixa, e a curva é positiva em toda ela.*
+
+==Mais reservatório não é monotonicamente melhor para o clima.== É o contrário do que
+a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do
+atendimento. O volume que minimiza as emissões não é o mesmo que maximiza a
+economia de água — e a seção {{n:12}} trata de como decidir entre os dois.
 
 > **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 2.526
 > contra R$ 5.304 do concreto, pesa cinquenta e cinco vezes menos, e é o
@@ -140,7 +161,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback financeiro | 16,3 anos | 12,8 anos |
 | VPL em 20 anos | R$ 2.745 | R$ 5.524 |
 | payback de carbono | 42,8 anos | 16,3 anos |
-| saldo de carbono em 20 anos | −457 kg | +74 kg |
+| emissões líquidas em 20 anos | +457 kg | −74 kg |
 
 <!-- tabela: Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |

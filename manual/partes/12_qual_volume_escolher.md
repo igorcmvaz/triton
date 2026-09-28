@@ -98,8 +98,8 @@ econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
 
 Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
 generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
-está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda conserva
-saldo de carbono positivo. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda encerra a
+vida útil retirando carbono. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
 para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 > **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
@@ -160,7 +160,7 @@ vez de supor que concordem sempre.
 | investimento | R$ 11.283 |
 | **valor presente líquido em 20 anos** | **R$ 5.524** |
 | payback descontado | 12,8 anos |
-| **saldo de carbono em 20 anos** | **+74 kg CO₂e** |
+| **emissões líquidas em 20 anos** | **−74 kg CO₂e** |
 | payback de carbono | 16,3 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo

@@ -69,7 +69,7 @@ própria, porque a tabela certa é pública e específica de cada concessionári
 
 ## Para onde enviar
 
-O Netuno é desenvolvido pelo Grupo de Pesquisa Gestão do Espaço Sustentável, no
+O Netuno é desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, no
 Departamento de Engenharia Civil da Universidade Federal de Santa Catarina. O contato
 do grupo é o canal de relato, e vale tanto para defeitos quanto para sugestões de
 funcionalidade e para pedidos de esclarecimento sobre o método.

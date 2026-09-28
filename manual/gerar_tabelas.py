@@ -528,8 +528,11 @@ def tabela_materiais():
     r = run_single_simulation(precip_data=serie, lower_tank_vol=VOLUME,
                               **_config_projeto())
     m3 = r.annual_pluvial_consumed_m3
+    # Emissoes liquidas, e nao saldo: positivo emite, negativo retira. E a
+    # convencao do grafico de balanco da aba ambiental do programa, e a mesma
+    # das figuras deste capitulo desde a inversao de sinal.
     L = ["| Material da cisterna | Massa | Carbono incorporado | Payback de carbono "
-         "| Saldo em 20 anos | Preço |",
+         "| Emissões líquidas em 20 anos | Preço |",
          "| :--- | ---: | ---: | ---: | ---: | ---: |"]
     nomes = {"PEAD": "Polietileno (PEAD)", "CONCRETO": "Concreto armado",
              "FIBRA": "Fibra de vidro", "ACO_INOX": "Aço inoxidável"}
@@ -544,9 +547,9 @@ def tabela_materiais():
         L.append(f"| {nomes.get(k, k)} | {br(l.lower_tank_mass_kg, 0)} kg "
                  f"| {br(l.total_embodied_co2_kg, 0)} kg CO₂e "
                  f"| {br(l.environmental_payback_years, 1)} anos "
-                 f"| {br(l.lifetime_net_co2_saved_kg, 0)} kg | {preco} |")
+                 f"| {br(-l.lifetime_net_co2_saved_kg, 0)} kg | {preco} |")
 
-    L += ["", "| Volume em concreto | Payback de carbono | Saldo em 20 anos |",
+    L += ["", "| Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |",
           "| ---: | ---: | ---: |"]
     for v in (2000, 3000, VOLUME, 8000):
         rr = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
@@ -555,7 +558,7 @@ def tabela_materiais():
         cfg.lower_material_key = "CONCRETO"
         l = calculate_lca(float(v), rr.annual_pluvial_consumed_m3, cfg)
         L.append(f"| {br(v, 0)} L | {br(l.environmental_payback_years, 1)} anos "
-                 f"| {br(l.lifetime_net_co2_saved_kg, 0)} kg CO₂e |")
+                 f"| {br(-l.lifetime_net_co2_saved_kg, 0)} kg CO₂e |")
     return NL.join(L)
 
 
@@ -823,8 +826,8 @@ LEGENDAS = {
         'Indicadores econômicos do projeto do tutorial em vinte anos de análise',
     ],
     'cap11_materiais.md': [
-        'Saldo de carbono do projeto do tutorial conforme o material do reservatório',
-        'Efeito do volume da cisterna de concreto sobre o saldo de carbono',
+        'Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório',
+        'Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono',
     ],
     'cap32_decisao.md': [
         'Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial',

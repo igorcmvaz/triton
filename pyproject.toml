@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "netuno"
-version = "5.0.0"
+version = "5.0.1"
 description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "GPL-3.0-or-later" }
 authors = [
-    { name = "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)", email = "sustainability@contato.ufsc.br" }
+    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "sustainability@contato.ufsc.br" }
 ]
 keywords = [
     "rainwater-harvesting",

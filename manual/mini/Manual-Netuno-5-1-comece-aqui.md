@@ -4,7 +4,7 @@
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
-Grupo de Pesquisa Gestão do Espaço Sustentável
+Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
@@ -416,7 +416,7 @@ lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próp
 todo o resto do programa funciona igual.
 
 Há duas maneiras de instalá-la. A mais simples é pelo próprio instalador: copie a pasta
-`Netuno future files for 652 cities` para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
+`climbra_data` (ou `Netuno future files for 652 cities`) para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
 e escolha a instalação completa, ou marque o componente da base na personalizada; o
 instalador a copia para a pasta do programa. A outra é copiá-la à mão para a pasta do
 programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho

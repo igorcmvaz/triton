@@ -44,8 +44,8 @@ para caber numa planilha.
 
 <!-- inclui: _tabelas/cap23_entrada.md -->
 
-A demanda pluvial diária é a demanda total vezes a fração atendível:
-200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
+Sem demanda externa, a demanda pluvial diária é a demanda interna vezes a fração não
+potável interna, que aqui coincide com a fração atendível total: 200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
 
 ### A tabela, dia a dia
 

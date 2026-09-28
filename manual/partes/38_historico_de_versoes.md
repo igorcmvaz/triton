@@ -56,6 +56,48 @@ mesmo registro.
 
 ---
 
+## Versão 5.0.1 — 28 de setembro de 2026
+
+> **Em uma frase.** A interface e a linha de comando passam a dar o mesmo resultado
+> para o mesmo projeto, e a fração atendível é separada em interna, externa e total.
+
+Uma camada nova de testes abre cada projeto distribuído nas duas pontas do programa e
+exige que concordem, volume a volume, no potencial, no VPL, no payback e no carbono, e
+nos cinco ótimos. Ela encontrou as divergências abaixo, e todas foram corrigidas.
+
+### Novidades
+
+A demanda passou a ter duas parcelas declaradas: a fração não potável do consumo
+interno e a demanda externa em litros por dia, suspensa nos dias de chuva. A fração
+atendível total é derivada das duas e aparece num campo que não se edita. A seção
+{{n:5}} descreve a regra.
+
+### Correções que alteram resultados
+
+<!-- tabela: Correções que alteram resultados de estudos feitos na versão 5.0.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| a interface não restaurava a fração interna nem a demanda externa ao abrir um projeto, e simulava sempre com 35% e 0 L/dia | a interface simula com a fração do projeto; o tutorial, que declara 28%, dava 32,85% de potencial a 4.000 L na tela e passa a dar 27,12%, como o manual e a linha de comando |
+| a gravação pela interface escrevia 35% e 50 L/dia como fração interna e demanda externa, quaisquer que fossem os da tela | o arquivo grava as frações simuladas; arquivos antigos que discordam são abertos com a fração total que declaram, com aviso |
+| nos modos semanal, mensal e diário, a fração de reserva era a total, que já inclui a demanda externa | a fração de reserva é a interna, e a demanda externa deixa de ser contada duas vezes |
+| a interface ignorava o volume fixo declarado no projeto e simulava o ótimo técnico da varredura | no modo de volume fixo, a interface simula o volume declarado, como a linha de comando |
+| a aba ambiental da interface usava dose e fator de cloro próprios, e não os do projeto | a avaliação ambiental lê o cloro declarado na etapa de qualidade da água |
+| a linha de comando cobrava o mesmo preço de cisterna em toda a varredura | o preço acompanha o volume, como na interface; o VPL deixa de crescer indefinidamente com a capacidade |
+| a linha de comando omitia o dispositivo de descarte do carbono incorporado, convertia a potência da motobomba por outra regra e reconstruía a tubulação só com as bitolas de 50, 75, 100 e 150 mm | a avaliação ambiental da linha de comando lê o descarte, a motobomba e a tubulação do projeto, como a interface |
+| a linha de comando usava 5.000 sorteios no SMAA-VIKOR e pesos 0,33/0,33/0,34 no TOPSIS; a interface, 20.000 sorteios e 0,333/0,333/0,334 | as duas usam 20.000 sorteios e os mesmos pesos |
+| a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
+
+### Correções que não alteram resultados
+
+- Um único nome para o grupo de pesquisa: Sustainable Environments Research Group, em
+  português Grupo de Pesquisa em Ambientes Sustentáveis.
+- Os exemplos de Brasília e de Manaus passaram a usar as tarifas oficiais da cidade, em
+  vez das de Florianópolis.
+- Um exemplo novo, `examples/exemplo_quatro_criterios.netuno`, em que os ótimos técnico,
+  econômico, ambiental e TOPSIS caem em quatro volumes diferentes.
+
+---
+
 ## Versão 5.0.0 — 21 de setembro de 2026
 
 > **Em uma frase.** Primeiro lançamento público do Netuno 5: o motor de simulação

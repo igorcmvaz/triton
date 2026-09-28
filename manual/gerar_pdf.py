@@ -472,7 +472,7 @@ def capa(canvas, doc):
     canvas.drawString(MARGEM_E, 30 * mm, "Igor Catão Martins Vaz & Enedir Ghisi")
     canvas.setFillColor(TINTA2)
     canvas.setFont(F["titulo_r"], 9.5)
-    canvas.drawString(MARGEM_E, 25 * mm, "Grupo de Pesquisa Gestão do Espaço Sustentável")
+    canvas.drawString(MARGEM_E, 25 * mm, "Grupo de Pesquisa em Ambientes Sustentáveis")
     canvas.drawString(MARGEM_E, 20.5 * mm, "Universidade Federal de Santa Catarina")
     canvas.drawString(MARGEM_E, 16 * mm, f"Florianópolis · 2026 · Versão {VERSAO}")
     if os.path.exists(LOGO):
@@ -884,7 +884,7 @@ def folha_de_rosto(titulo="Manual do Netuno", volume=None):
         Spacer(1, 4.2 * cm),
         Paragraph("Igor Catão Martins Vaz &amp; Enedir Ghisi", E["capa_sub"]),
         Spacer(1, 0.5 * cm),
-        Paragraph("Grupo de Pesquisa Gestão do Espaço Sustentável",
+        Paragraph("Grupo de Pesquisa em Ambientes Sustentáveis",
                   E["capa_sub"]),
         Paragraph("Universidade Federal de Santa Catarina", E["capa_sub"]),
         Spacer(1, 1.2 * cm),

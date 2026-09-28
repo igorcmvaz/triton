@@ -89,16 +89,17 @@ propósito: ele se limita aos usos que a norma admite.
 ### Percentual na tela, fração no arquivo
 
 A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
-que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
-cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
-atendível é um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no
-arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,28.
+que se digita — as frações da tela de edificação, as tabelas semanal e mensal, as tabelas
+de cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração é
+um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no arquivo de
+parâmetros e em `rainwater_share` e `non_potable_indoor_share`, ela é uma **fração, de 0
+a 1**: 0,28.
 
 A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
 projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
-fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
-(seção {{n:25}}), e é a forma que não exige conversão a quem lê o arquivo com outro
-programa.
+fração é a forma em que ela entra na equação do balanço, multiplicando a demanda
+interna (seção {{n:23}}), e é a forma que não exige conversão a quem lê o arquivo com
+outro programa.
 
 O que não se admite é a mistura. Até esta versão, doze pontos do programa aceitavam as
 duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
@@ -122,10 +123,24 @@ adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração ac
 O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
 depende do que o estudo pretende responder.
 
-No **modo simplificado**, informa-se uma fração única — os 28% deste tutorial — e o
-programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
-é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
-como as parcelas se distribuem internamente.
+No **modo simplificado**, informam-se duas coisas: a fração não potável do consumo
+interno — bacias sanitárias e lavagem de roupa — e, se houver, a demanda externa em litros
+por dia. A fração atendível **total** sai das duas,
+
+```text
+f = (fração interna × demanda interna + demanda externa) ÷ (demanda interna + demanda externa)
+```
+
+e aparece num campo que não se edita, porque é resultado e não dado. Sem demanda externa,
+a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
+suficiente para a maior parte dos estudos.
+
+> **Por que a total não se digita.** Até a versão 5.0.0 o campo da fração total era
+> editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
+> a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
+> que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é
+> calculada, e um arquivo antigo cujas frações discordem é aberto com a total que ele
+> declara, com um aviso.
 
 No **modo discretizado**, a demanda é separada em três parcelas: a potável interna, que a
 chuva nunca atende; a não potável interna, que é a prioridade do sistema; e a irrigação,

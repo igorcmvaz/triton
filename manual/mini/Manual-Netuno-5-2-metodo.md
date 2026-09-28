@@ -4,7 +4,7 @@
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
-Grupo de Pesquisa Gestão do Espaço Sustentável
+Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
@@ -509,8 +509,8 @@ A série de chuva dos dez dias, em milímetros:
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |
 
-A demanda pluvial diária é a demanda total vezes a fração atendível:
-200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
+Sem demanda externa, a demanda pluvial diária é a demanda interna vezes a fração não
+potável interna, que aqui coincide com a fração atendível total: 200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
 
 #### 2.1.2.1. A tabela, dia a dia
 

@@ -4,7 +4,7 @@
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
-Grupo de Pesquisa Gestão do Espaço Sustentável
+Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
@@ -109,13 +109,15 @@ Figura 15 — O gráfico da aba econômica: o valor presente líquido de cada vo
 
 Figura 16 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos
 
-Figura 17 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto
+Figura 17 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto
 
-Figura 18 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material
+Figura 18 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material
 
-Figura 19 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado
+Figura 19 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial
 
-Figura 20 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios
+Figura 20 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado
+
+Figura 21 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios
 
 ---
 
@@ -181,9 +183,9 @@ Tabela 29 — Estado do projeto do tutorial após a análise econômica
 
 Tabela 30 — Balanço de carbono do projeto do tutorial com cisterna de concreto
 
-Tabela 31 — Saldo de carbono do projeto do tutorial conforme o material do reservatório
+Tabela 31 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
 
-Tabela 32 — Efeito do volume da cisterna de concreto sobre o saldo de carbono
+Tabela 32 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
 
 Tabela 33 — Efeito da troca de concreto por polietileno nas três dimensões de análise
 
@@ -524,16 +526,17 @@ propósito: ele se limita aos usos que a norma admite.
 #### 4.2.3.1. Percentual na tela, fração no arquivo
 
 A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
-que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
-cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
-atendível é um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no
-arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,28.
+que se digita — as frações da tela de edificação, as tabelas semanal e mensal, as tabelas
+de cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração é
+um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no arquivo de
+parâmetros e em `rainwater_share` e `non_potable_indoor_share`, ela é uma **fração, de 0
+a 1**: 0,28.
 
 A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
 projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
-fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
-(seção 2.3 (volume O método)), e é a forma que não exige conversão a quem lê o arquivo com outro
-programa.
+fração é a forma em que ela entra na equação do balanço, multiplicando a demanda
+interna (seção 2.1 (volume O método)), e é a forma que não exige conversão a quem lê o arquivo com
+outro programa.
 
 O que não se admite é a mistura. Até esta versão, doze pontos do programa aceitavam as
 duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
@@ -557,10 +560,24 @@ adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração ac
 O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
 depende do que o estudo pretende responder.
 
-No **modo simplificado**, informa-se uma fração única — os 28% deste tutorial — e o
-programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
-é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
-como as parcelas se distribuem internamente.
+No **modo simplificado**, informam-se duas coisas: a fração não potável do consumo
+interno — bacias sanitárias e lavagem de roupa — e, se houver, a demanda externa em litros
+por dia. A fração atendível **total** sai das duas,
+
+```text
+f = (fração interna × demanda interna + demanda externa) ÷ (demanda interna + demanda externa)
+```
+
+e aparece num campo que não se edita, porque é resultado e não dado. Sem demanda externa,
+a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
+suficiente para a maior parte dos estudos.
+
+> **Por que a total não se digita.** Até a versão 5.0.0 o campo da fração total era
+> editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
+> a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
+> que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é
+> calculada, e um arquivo antigo cujas frações discordem é aberto com a total que ele
+> declara, com um aviso.
 
 No **modo discretizado**, a demanda é separada em três parcelas: a potável interna, que a
 chuva nunca atende; a não potável interna, que é a prioridade do sistema; e a irrigação,
@@ -1657,46 +1674,67 @@ A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de
 
 ![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
 
-*Figura 16 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. Atenção ao sinal, que o gráfico inverte em relação à tabela acima: nele as emissões são positivas e a água evitada é negativa, de modo que a mesma dívida de carbono da tabela aparece aqui acima de zero. Figura gerada pelo próprio programa.*
+*Figura 16 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. O sinal segue a convenção adotada em todo este capítulo: emissões positivas, água evitada negativa. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.8.3. O material decide o sinal
 
 A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pesar
-88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a Figura 17 mostram a trajetória do saldo ao longo da vida útil, e a Figura 18, o saldo final de cada material.
+88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a Figura 17 mostram a trajetória das emissões líquidas ao longo da vida útil, e a Figura 18, o resultado final de cada material.
 
-<!-- tabela: **Tabela 31** — Saldo de carbono do projeto do tutorial conforme o material do reservatório -->
-| Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Saldo em 20 anos | Preço |
+==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
+
+<!-- tabela: **Tabela 31** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
+| Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Emissões líquidas em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | 74 kg | R$ 2 526 |
-| Concreto armado | 4 800 kg | 858 kg CO₂e | 42,8 anos | -457 kg | R$ 5 304 |
-| Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | 30 kg | R$ 3 410 |
-| Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | -347 kg | R$ 9 093 |
+| Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | -74 kg | R$ 2 526 |
+| Concreto armado | 4 800 kg | 858 kg CO₂e | 42,8 anos | 457 kg | R$ 5 304 |
+| Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | -30 kg | R$ 3 410 |
+| Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | 347 kg | R$ 9 093 |
 
-<!-- tabela: **Tabela 32** — Efeito do volume da cisterna de concreto sobre o saldo de carbono -->
-| Volume em concreto | Payback de carbono | Saldo em 20 anos |
+<!-- tabela: **Tabela 32** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
+| Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
-| 2 000 L | 27,4 anos | -141 kg CO₂e |
-| 3 000 L | 35,0 anos | -296 kg CO₂e |
-| 4 000 L | 42,8 anos | -457 kg CO₂e |
-| 8 000 L | 74,6 anos | -1 119 kg CO₂e |
+| 2 000 L | 27,4 anos | 141 kg CO₂e |
+| 3 000 L | 35,0 anos | 296 kg CO₂e |
+| 4 000 L | 42,8 anos | 457 kg CO₂e |
+| 8 000 L | 74,6 anos | 1 119 kg CO₂e |
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 17 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+*Figura 17 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. A curva parte do carbono incorporado na fabricação, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos e encerra a vida útil retirando carbono, e o concreto não o cruza nos vinte anos adotados.*
 
-![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
+![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 18 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material. Em verde, saldo positivo; em laranja, negativo: dois dos quatro materiais encerram a vida útil com emissão líquida.*
+*Figura 18 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material. Em verde, valor negativo, isto é, retirada líquida; em laranja, positivo: dois dos quatro materiais encerram a vida útil emitindo mais do que evitaram.*
 
 **A escolha do material inverte o resultado.**
 
-Polietileno paga a dívida em 16,3 anos e termina os vinte anos com saldo positivo de 74 kg. Concreto leva 42,8 anos e termina negativo em 457 kg. Aço inoxidável também termina negativo, em 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
+Polietileno paga a dívida em 16,3 anos e termina os vinte anos tendo retirado 74 kg. Concreto leva 42,8 anos e termina emitindo 457 kg. Aço inoxidável também termina emitindo, 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
 
 E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
-cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos 141 kg no vermelho; a de
+cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos emitindo 141 kg; a de
 8.000 L, 1.119 kg. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
 rende cada vez menos água.
+
+---
+### 4.8.4. Existe um volume ambientalmente ótimo
+
+A observação acima vale para o concreto, mas ela é um caso particular de algo mais
+geral. O carbono incorporado cresce de forma quase afim com o volume; a água
+evitada cresce com o atendimento, que satura. A soma das duas parcelas tem
+**mínimo interior**: existe um volume a partir do qual cada litro a mais de
+reservação emite mais do que evita. A Figura 19 mostra as
+duas curvas.
+
+![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
+
+*Figura 19 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial. Em polietileno a curva tem mínimo interior em 1,5 m³ e volta a cruzar o zero por volta de 6 m³: acima desse volume o sistema passa a emitir mais do que evita. Em concreto não há mínimo interior dentro da faixa, e a curva é positiva em toda ela.*
+
+==Mais reservatório não é monotonicamente melhor para o clima.== É o contrário do que
+a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do
+atendimento. O volume que minimiza as emissões não é o mesmo que maximiza a
+economia de água — e a seção 4.9 trata de como decidir entre os dois.
 
 > **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 2.526
 > contra R$ 5.304 do concreto, pesa cinquenta e cinco vezes menos, e é o
@@ -1707,7 +1745,7 @@ rende cada vez menos água.
 
 ---
 
-### 4.8.4. Quando o concreto ainda faz sentido
+### 4.8.5. Quando o concreto ainda faz sentido
 
 A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
@@ -1725,7 +1763,7 @@ A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
 ---
 
-### 4.8.5. A decisão do tutorial
+### 4.8.6. A decisão do tutorial
 
 **Trocamos para polietileno.**
 
@@ -1742,7 +1780,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback financeiro | 16,3 anos | 12,8 anos |
 | VPL em 20 anos | R$ 2.745 | R$ 5.524 |
 | payback de carbono | 42,8 anos | 16,3 anos |
-| saldo de carbono em 20 anos | −457 kg | +74 kg |
+| emissões líquidas em 20 anos | +457 kg | −74 kg |
 
 <!-- tabela: **Tabela 34** — Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
@@ -1756,7 +1794,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 
 ---
 
-### 4.8.6. O que declarar
+### 4.8.7. O que declarar
 
 A avaliação de ciclo de vida do Netuno é de **triagem**, não de inventário completo.
 Todos os fatores padrão têm procedência declarada, mas alguns são aproximações, como o
@@ -1872,11 +1910,11 @@ igualmente entre os critérios de cada uma, o método indica o volume de 4.000 L
 
 ---
 
-A aba de decisão apresenta o escore de cada volume candidato (Figura 19).
+A aba de decisão apresenta o escore de cada volume candidato (Figura 20).
 
 ![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
-*Figura 19 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+*Figura 20 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.3. O peso muda a resposta
@@ -1899,8 +1937,8 @@ econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
 
 Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
 generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
-está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda conserva
-saldo de carbono positivo. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda encerra a
+vida útil retirando carbono. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
 para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 > **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
@@ -1909,11 +1947,11 @@ para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 ---
 
-Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles (Figura 20).
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles (Figura 21).
 
 ![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 
-*Figura 20 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
+*Figura 21 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.4. A recomendação do tutorial
@@ -1961,7 +1999,7 @@ vez de supor que concordem sempre.
 | investimento | R$ 11.283 |
 | **valor presente líquido em 20 anos** | **R$ 5.524** |
 | payback descontado | 12,8 anos |
-| **saldo de carbono em 20 anos** | **+74 kg CO₂e** |
+| **emissões líquidas em 20 anos** | **−74 kg CO₂e** |
 | payback de carbono | 16,3 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo

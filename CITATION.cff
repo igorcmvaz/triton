@@ -9,8 +9,8 @@ authors:
   - family-names: Ghisi
     given-names: Enedir
     affiliation: "Universidade Federal de Santa Catarina"
-version: "5.0.0"
-date-released: "2026-09-21"
+version: "5.0.1"
+date-released: "2026-09-28"
 license: GPL-3.0-or-later
 abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
@@ -18,7 +18,7 @@ abstract: >-
   Yield-After-Spill, análise econômico-financeira sobre base tarifária auditada
   de 652 municípios brasileiros, avaliação simplificada de ciclo de vida e
   tomada de decisão multicritério por TOPSIS e SMAA-VIKOR. Desenvolvida pelo
-  Grupo de Pesquisa Gestão do Espaço Sustentável da UFSC como evolução e
+  Grupo de Pesquisa em Ambientes Sustentáveis da UFSC como evolução e
   replicação do Netuno 4.
 keywords:
   - rainwater-harvesting
@@ -37,7 +37,7 @@ references:
         given-names: "Igor Catão Martins"
       - family-names: Ghisi
         given-names: Enedir
-    version: "5.0.0"
+    version: "5.0.1"
     year: 2026
     publisher:
       name: "Universidade Federal de Santa Catarina"

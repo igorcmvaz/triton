@@ -4,12 +4,12 @@
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
-Grupo de Pesquisa Gestão do Espaço Sustentável
+Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 5.0.0 · revisão de 23/09/2026
+Versão 5.0.1 · revisão de 28/09/2026
 
 ---
 
@@ -19,10 +19,10 @@ Versão 5.0.0 · revisão de 23/09/2026
 | :--- | :--- |
 | **Título** | Netuno 5: manual do usuário |
 | **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |
-| **Edição** | Versão 5.0.0 |
+| **Edição** | Versão 5.0.1 |
 | **Local** | Florianópolis, SC, Brasil |
 | **Editora** | Universidade Federal de Santa Catarina |
-| **Grupo de pesquisa** | Gestão do Espaço Sustentável |
+| **Grupo de pesquisa** | Ambientes Sustentáveis |
 | **Ano de publicação** | 2026 |
 | **Licença** | GNU General Public License v3.0 |
 
@@ -31,12 +31,12 @@ Versão 5.0.0 · revisão de 23/09/2026
 **ABNT NBR 6023:2018**
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Netuno 5: manual do usuário**.
-> Versão 5.0.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.
+> Versão 5.0.1. Florianópolis: Universidade Federal de Santa Catarina, 2026.
 
 **Estilo autor-data**
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Netuno 5: manual do usuário*
-> (Versão 5.0.0). Universidade Federal de Santa Catarina.
+> (Versão 5.0.1). Universidade Federal de Santa Catarina.
 
 **BibTeX**
 
@@ -44,7 +44,7 @@ Versão 5.0.0 · revisão de 23/09/2026
 @manual{netuno5manual2026,
   title     = {Netuno 5: manual do usuário},
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  edition   = {Versão 5.0.0},
+  edition   = {Versão 5.0.1},
   address   = {Florianópolis},
   publisher = {Universidade Federal de Santa Catarina},
   year      = {2026}
@@ -330,25 +330,27 @@ Figura 58 — O gráfico da aba econômica: o valor presente líquido de cada vo
 
 Figura 59 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos
 
-Figura 60 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto
+Figura 60 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto
 
-Figura 61 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material
+Figura 61 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material
 
-Figura 62 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado
+Figura 62 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial
 
-Figura 63 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios
+Figura 63 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado
 
-Figura 64 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019
+Figura 64 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios
 
-Figura 65 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão
+Figura 65 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019
 
-Figura 66 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo
+Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão
 
-Figura 67 — A divergência média em relação ao Netuno 4, decomposta
+Figura 67 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo
 
-Figura 68 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião
+Figura 68 — A divergência média em relação ao Netuno 4, decomposta
 
-Figura 69 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião
+Figura 69 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião
+
+Figura 70 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião
 
 ---
 
@@ -596,9 +598,9 @@ Tabela 120 — Estado do projeto do tutorial após a análise econômica
 
 Tabela 121 — Balanço de carbono do projeto do tutorial com cisterna de concreto
 
-Tabela 122 — Saldo de carbono do projeto do tutorial conforme o material do reservatório
+Tabela 122 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
 
-Tabela 123 — Efeito do volume da cisterna de concreto sobre o saldo de carbono
+Tabela 123 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
 
 Tabela 124 — Efeito da troca de concreto por polietileno nas três dimensões de análise
 
@@ -646,85 +648,87 @@ Tabela 145 — Avisos que não interrompem o cálculo e precisam constar do estu
 
 Tabela 146 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 147 — Correções que alteram resultados de estudos feitos em versão anterior
+Tabela 147 — Correções que alteram resultados de estudos feitos na versão 5.0.0
 
-Tabela 148 — Correções de comportamento que não alteram resultado calculado
+Tabela 148 — Correções que alteram resultados de estudos feitos em versão anterior
 
-Tabela 149 — Parâmetros do projeto: identificação
+Tabela 149 — Correções de comportamento que não alteram resultado calculado
 
-Tabela 150 — Parâmetros do projeto: chuva
+Tabela 150 — Parâmetros do projeto: identificação
 
-Tabela 151 — Parâmetros do projeto: captação
+Tabela 151 — Parâmetros do projeto: chuva
 
-Tabela 152 — Parâmetros do projeto: edificação
+Tabela 152 — Parâmetros do projeto: captação
 
-Tabela 153 — Parâmetros do projeto: demanda
+Tabela 153 — Parâmetros do projeto: edificação
 
-Tabela 154 — Parâmetros do projeto: irrigação
+Tabela 154 — Parâmetros do projeto: demanda
 
-Tabela 155 — Parâmetros do projeto: qualidade da água
+Tabela 155 — Parâmetros do projeto: irrigação
 
-Tabela 156 — Parâmetros do projeto: reservatórios
+Tabela 156 — Parâmetros do projeto: qualidade da água
 
-Tabela 157 — Parâmetros do projeto: motobomba
+Tabela 157 — Parâmetros do projeto: reservatórios
 
-Tabela 158 — Parâmetros do projeto: tubulação
+Tabela 158 — Parâmetros do projeto: motobomba
 
-Tabela 159 — Parâmetros do projeto: investimento
+Tabela 159 — Parâmetros do projeto: tubulação
 
-Tabela 160 — Parâmetros do projeto: operação
+Tabela 160 — Parâmetros do projeto: investimento
 
-Tabela 161 — Parâmetros do projeto: tarifas
+Tabela 161 — Parâmetros do projeto: operação
 
-Tabela 162 — Parâmetros do projeto: energia
+Tabela 162 — Parâmetros do projeto: tarifas
 
-Tabela 163 — Parâmetros do projeto: incentivos
+Tabela 163 — Parâmetros do projeto: energia
 
-Tabela 164 — Parâmetros do projeto: financeiro
+Tabela 164 — Parâmetros do projeto: incentivos
 
-Tabela 165 — Parâmetros do projeto: certificações
+Tabela 165 — Parâmetros do projeto: financeiro
 
-Tabela 166 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 166 — Parâmetros do projeto: certificações
 
-Tabela 167 — Fatores de emissão dos insumos de tratamento
+Tabela 167 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 168 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 168 — Fatores de emissão dos insumos de tratamento
 
-Tabela 169 — Procedência do fator de emissão do hipoclorito
+Tabela 169 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 170 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
+Tabela 170 — Procedência do fator de emissão do hipoclorito
 
-Tabela 171 — Grau de confiança dos registros tarifários do catálogo
+Tabela 171 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
 
-Tabela 172 — Conteúdo da base climática nacional
+Tabela 172 — Grau de confiança dos registros tarifários do catálogo
 
-Tabela 173 — Séries históricas de precipitação distribuídas com o programa
+Tabela 173 — Conteúdo da base climática nacional
 
-Tabela 174 — Formatos que o programa lê e onde cada um é carregado
+Tabela 174 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 175 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 175 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 176 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 176 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 177 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 177 — As sete seções do arquivo de projeto e o que cada uma guarda
 
-Tabela 178 — Compatibilidade entre versões do arquivo de projeto
+Tabela 178 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 179 — Padronização terminológica de água de chuva e água pluvial
+Tabela 179 — Compatibilidade entre versões do arquivo de projeto
 
-Tabela 180 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 180 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 181 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 181 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 182 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 182 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
 
-Tabela 183 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+Tabela 183 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 184 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 184 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
 
-Tabela 185 — Os nove casos de exemplo e o que cada um demonstra
+Tabela 185 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
-Tabela 186 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 186 — Os nove casos de exemplo e o que cada um demonstra
+
+Tabela 187 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -1155,7 +1159,7 @@ lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próp
 todo o resto do programa funciona igual.
 
 Há duas maneiras de instalá-la. A mais simples é pelo próprio instalador: copie a pasta
-`Netuno future files for 652 cities` para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
+`climbra_data` (ou `Netuno future files for 652 cities`) para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
 e escolha a instalação completa, ou marque o componente da base na personalizada; o
 instalador a copia para a pasta do programa. A outra é copiá-la à mão para a pasta do
 programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho
@@ -1407,8 +1411,8 @@ A série de chuva dos dez dias, em milímetros:
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |
 
-A demanda pluvial diária é a demanda total vezes a fração atendível:
-200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
+Sem demanda externa, a demanda pluvial diária é a demanda interna vezes a fração não
+potável interna, que aqui coincide com a fração atendível total: 200 × 0,40 = **80 L/dia**. É esse o volume que o sistema tenta entregar todo dia.
 
 #### 2.1.2.1. A tabela, dia a dia
 
@@ -6058,16 +6062,17 @@ propósito: ele se limita aos usos que a norma admite.
 #### 4.2.3.1. Percentual na tela, fração no arquivo
 
 A mesma grandeza aparece com duas grafias, e cada uma tem o seu lugar. Em todo campo em
-que se digita — a tela de edificação, as tabelas semanal e mensal, as tabelas de
-cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração
-atendível é um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no
-arquivo de parâmetros e em `rainwater_share`, ela é uma **fração, de 0 a 1**: 0,28.
+que se digita — as frações da tela de edificação, as tabelas semanal e mensal, as tabelas
+de cenários, a planilha de lote e o argumento `--share` da linha de comando — a fração é
+um **percentual, de 0 a 100**: 28 significa 28%. No arquivo de projeto, no arquivo de
+parâmetros e em `rainwater_share` e `non_potable_indoor_share`, ela é uma **fração, de 0
+a 1**: 0,28.
 
 A divisão não é arbitrária. O percentual é a forma em que a grandeza circula entre
 projetistas, normas e faturas de água e esgoto, e é a forma que menos se erra ao digitar. A
-fração é a forma em que ela entra na equação do balanço, multiplicando a demanda total
-(seção 2.3), e é a forma que não exige conversão a quem lê o arquivo com outro
-programa.
+fração é a forma em que ela entra na equação do balanço, multiplicando a demanda
+interna (seção 2.1), e é a forma que não exige conversão a quem lê o arquivo com
+outro programa.
 
 O que não se admite é a mistura. Até esta versão, doze pontos do programa aceitavam as
 duas grafias e decidiam pela regra «acima de 1 é percentual». A regra erra justamente
@@ -6091,10 +6096,24 @@ adivinhada pelo valor.== Um percentual acima de 100 é recusado; uma fração ac
 O programa aceita dois níveis de detalhe na descrição da demanda, e a escolha entre eles
 depende do que o estudo pretende responder.
 
-No **modo simplificado**, informa-se uma fração única — os 28% deste tutorial — e o
-programa trata toda a demanda atendível como um bloco homogêneo. É o modo adotado aqui e
-é suficiente para a maior parte dos estudos, porque o resultado agregado não depende de
-como as parcelas se distribuem internamente.
+No **modo simplificado**, informam-se duas coisas: a fração não potável do consumo
+interno — bacias sanitárias e lavagem de roupa — e, se houver, a demanda externa em litros
+por dia. A fração atendível **total** sai das duas,
+
+```text
+f = (fração interna × demanda interna + demanda externa) ÷ (demanda interna + demanda externa)
+```
+
+e aparece num campo que não se edita, porque é resultado e não dado. Sem demanda externa,
+a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
+suficiente para a maior parte dos estudos.
+
+> **Por que a total não se digita.** Até a versão 5.0.0 o campo da fração total era
+> editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
+> a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
+> que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é
+> calculada, e um arquivo antigo cujas frações discordem é aberto com a total que ele
+> declara, com um aviso.
 
 No **modo discretizado**, a demanda é separada em três parcelas: a potável interna, que a
 chuva nunca atende; a não potável interna, que é a prioridade do sistema; e a irrigação,
@@ -7191,46 +7210,67 @@ A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de
 
 ![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
 
-*Figura 59 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. Atenção ao sinal, que o gráfico inverte em relação à tabela acima: nele as emissões são positivas e a água evitada é negativa, de modo que a mesma dívida de carbono da tabela aparece aqui acima de zero. Figura gerada pelo próprio programa.*
+*Figura 59 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. O sinal segue a convenção adotada em todo este capítulo: emissões positivas, água evitada negativa. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.8.3. O material decide o sinal
 
 A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pesar
-88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a Figura 60 mostram a trajetória do saldo ao longo da vida útil, e a Figura 61, o saldo final de cada material.
+88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a Figura 60 mostram a trajetória das emissões líquidas ao longo da vida útil, e a Figura 61, o resultado final de cada material.
 
-<!-- tabela: **Tabela 122** — Saldo de carbono do projeto do tutorial conforme o material do reservatório -->
-| Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Saldo em 20 anos | Preço |
+==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
+
+<!-- tabela: **Tabela 122** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
+| Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Emissões líquidas em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | 74 kg | R$ 2 526 |
-| Concreto armado | 4 800 kg | 858 kg CO₂e | 42,8 anos | -457 kg | R$ 5 304 |
-| Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | 30 kg | R$ 3 410 |
-| Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | -347 kg | R$ 9 093 |
+| Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | -74 kg | R$ 2 526 |
+| Concreto armado | 4 800 kg | 858 kg CO₂e | 42,8 anos | 457 kg | R$ 5 304 |
+| Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | -30 kg | R$ 3 410 |
+| Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | 347 kg | R$ 9 093 |
 
-<!-- tabela: **Tabela 123** — Efeito do volume da cisterna de concreto sobre o saldo de carbono -->
-| Volume em concreto | Payback de carbono | Saldo em 20 anos |
+<!-- tabela: **Tabela 123** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
+| Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
-| 2 000 L | 27,4 anos | -141 kg CO₂e |
-| 3 000 L | 35,0 anos | -296 kg CO₂e |
-| 4 000 L | 42,8 anos | -457 kg CO₂e |
-| 8 000 L | 74,6 anos | -1 119 kg CO₂e |
+| 2 000 L | 27,4 anos | 141 kg CO₂e |
+| 3 000 L | 35,0 anos | 296 kg CO₂e |
+| 4 000 L | 42,8 anos | 457 kg CO₂e |
+| 8 000 L | 74,6 anos | 1 119 kg CO₂e |
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 60 — Saldo de carbono acumulado da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. O saldo parte do carbono incorporado na fabricação, com sinal negativo, e cresce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos, e o concreto não o cruza nos vinte anos de vida útil adotados.*
+*Figura 60 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. A curva parte do carbono incorporado na fabricação, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos e encerra a vida útil retirando carbono, e o concreto não o cruza nos vinte anos adotados.*
 
-![Saldo de carbono em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
+![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 61 — Saldo de carbono em vinte anos da cisterna de 4.000 L, por material. Em verde, saldo positivo; em laranja, negativo: dois dos quatro materiais encerram a vida útil com emissão líquida.*
+*Figura 61 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material. Em verde, valor negativo, isto é, retirada líquida; em laranja, positivo: dois dos quatro materiais encerram a vida útil emitindo mais do que evitaram.*
 
 **A escolha do material inverte o resultado.**
 
-Polietileno paga a dívida em 16,3 anos e termina os vinte anos com saldo positivo de 74 kg. Concreto leva 42,8 anos e termina negativo em 457 kg. Aço inoxidável também termina negativo, em 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
+Polietileno paga a dívida em 16,3 anos e termina os vinte anos tendo retirado 74 kg. Concreto leva 42,8 anos e termina emitindo 457 kg. Aço inoxidável também termina emitindo, 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
 
 E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
-cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos 141 kg no vermelho; a de
+cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos emitindo 141 kg; a de
 8.000 L, 1.119 kg. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
 rende cada vez menos água.
+
+---
+### 4.8.4. Existe um volume ambientalmente ótimo
+
+A observação acima vale para o concreto, mas ela é um caso particular de algo mais
+geral. O carbono incorporado cresce de forma quase afim com o volume; a água
+evitada cresce com o atendimento, que satura. A soma das duas parcelas tem
+**mínimo interior**: existe um volume a partir do qual cada litro a mais de
+reservação emite mais do que evita. A Figura 62 mostra as
+duas curvas.
+
+![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
+
+*Figura 62 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial. Em polietileno a curva tem mínimo interior em 1,5 m³ e volta a cruzar o zero por volta de 6 m³: acima desse volume o sistema passa a emitir mais do que evita. Em concreto não há mínimo interior dentro da faixa, e a curva é positiva em toda ela.*
+
+==Mais reservatório não é monotonicamente melhor para o clima.== É o contrário do que
+a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do
+atendimento. O volume que minimiza as emissões não é o mesmo que maximiza a
+economia de água — e a seção 4.9 trata de como decidir entre os dois.
 
 > **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 2.526
 > contra R$ 5.304 do concreto, pesa cinquenta e cinco vezes menos, e é o
@@ -7241,7 +7281,7 @@ rende cada vez menos água.
 
 ---
 
-### 4.8.4. Quando o concreto ainda faz sentido
+### 4.8.5. Quando o concreto ainda faz sentido
 
 A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
@@ -7259,7 +7299,7 @@ A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
 ---
 
-### 4.8.5. A decisão do tutorial
+### 4.8.6. A decisão do tutorial
 
 **Trocamos para polietileno.**
 
@@ -7276,7 +7316,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback financeiro | 16,3 anos | 12,8 anos |
 | VPL em 20 anos | R$ 2.745 | R$ 5.524 |
 | payback de carbono | 42,8 anos | 16,3 anos |
-| saldo de carbono em 20 anos | −457 kg | +74 kg |
+| emissões líquidas em 20 anos | +457 kg | −74 kg |
 
 <!-- tabela: **Tabela 125** — Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
@@ -7290,7 +7330,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 
 ---
 
-### 4.8.6. O que declarar
+### 4.8.7. O que declarar
 
 A avaliação de ciclo de vida do Netuno é de **triagem**, não de inventário completo.
 Todos os fatores padrão têm procedência declarada, mas alguns são aproximações, como o
@@ -7406,11 +7446,11 @@ igualmente entre os critérios de cada uma, o método indica o volume de 4.000 L
 
 ---
 
-A aba de decisão apresenta o escore de cada volume candidato (Figura 62).
+A aba de decisão apresenta o escore de cada volume candidato (Figura 63).
 
 ![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
-*Figura 62 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+*Figura 63 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.3. O peso muda a resposta
@@ -7433,8 +7473,8 @@ econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
 
 Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
 generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
-está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda conserva
-saldo de carbono positivo. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
+está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda encerra a
+vida útil retirando carbono. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
 para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 > **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
@@ -7443,11 +7483,11 @@ para baixo e a divergência entre os dois critérios apareceria com clareza.
 
 ---
 
-Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles (Figura 63).
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles (Figura 64).
 
 ![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 
-*Figura 63 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
+*Figura 64 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.4. A recomendação do tutorial
@@ -7495,7 +7535,7 @@ vez de supor que concordem sempre.
 | investimento | R$ 11.283 |
 | **valor presente líquido em 20 anos** | **R$ 5.524** |
 | payback descontado | 12,8 anos |
-| **saldo de carbono em 20 anos** | **+74 kg CO₂e** |
+| **emissões líquidas em 20 anos** | **−74 kg CO₂e** |
 | payback de carbono | 16,3 anos |
 
 Resta uma etapa, que é a de comunicar o resultado: um estudo que não é relatado de modo
@@ -7705,13 +7745,13 @@ Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 **Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
 projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
 altura do telhado e as paredes para dimensionar calhas.
-A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na Figura 64.
+A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na Figura 65.
 
 ---
 
 ![A chuva cai na vertical, e a área que capta é a projeção do telhado](../figuras/fig00i_projecao.png)
 
-*Figura 64 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
+*Figura 65 — Área de captação como projeção horizontal da cobertura, conforme o item 3.6 da ABNT NBR 15527:2019. Para inclinação de 30%, θ = 16,7° e a área inclinada é 4,4% maior que a projeção horizontal; usar a área inclinada superestima o volume captado nessa proporção em todos os dias da série.*
 
 ---
 
@@ -8054,13 +8094,13 @@ decidir se confia neles.
 
 ### 5.3.1. A suíte
 
-A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam (Figura 65): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam (Figura 66): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
 ![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
 
-*Figura 65 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
+*Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
 
 
 A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
@@ -8072,11 +8112,11 @@ que um defeito corrigido não retorna: a correção acompanha o teste que a vigi
 As camadas de verificação do programa formam uma hierarquia, e cada uma responde por
 um tipo de erro que as demais não alcançariam. Um teste de unidade não detecta um erro de
 modelo, porque confere a função contra o que dela se espera; e uma conferência manual,
-que detectaria esse erro, não cobre mil combinações de entrada (Figura 66).
+que detectaria esse erro, não cobre mil combinações de entrada (Figura 67).
 
 ![As camadas da verificação do programa](../figuras/fig00m_verificacao.png)
 
-*Figura 66 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo. Nenhuma camada substitui outra: é a superposição das cinco que sustenta o resultado publicado.*
+*Figura 67 — As cinco camadas de verificação do programa, dos testes de unidade, numerosos e dirigidos a erros locais, à conferência manual, pontual e dirigida a erros de modelo. Nenhuma camada substitui outra: é a superposição das cinco que sustenta o resultado publicado.*
 
 ---
 
@@ -8298,11 +8338,11 @@ A atribuição resultante:
 
 ---
 
-A Figura 67 decompõe a divergência total nas três fontes da tabela.
+A Figura 68 decompõe a divergência total nas três fontes da tabela.
 
 ![A divergência decomposta até o resíduo](../figuras/fig25_cascata.png)
 
-*Figura 67 — A divergência média em relação ao Netuno 4, decomposta. A primeira barra é o total observado; as duas alaranjadas são diferenças de método declaradas, uma de critério de projeto e outra de tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que efetivamente verifica o motor.*
+*Figura 68 — A divergência média em relação ao Netuno 4, decomposta. A primeira barra é o total observado; as duas alaranjadas são diferenças de método declaradas, uma de critério de projeto e outra de tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que efetivamente verifica o motor.*
 
 ---
 
@@ -8636,11 +8676,54 @@ mesmo registro.
 <!-- tabela: **Tabela 146** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
+| **5.0.1** | 28 de setembro de 2026 | A interface e a linha de comando passam a dar o mesmo resultado para o mesmo projeto, e a fração atendível é separada em interna, externa e total. | 9 |
 | **5.0.0** | 21 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério e a documentação em três formatos. | 8 |
 
 ---
 
-### 6.3.3. Versão 5.0.0 — 21 de setembro de 2026
+### 6.3.3. Versão 5.0.1 — 28 de setembro de 2026
+
+> **Em uma frase.** A interface e a linha de comando passam a dar o mesmo resultado
+> para o mesmo projeto, e a fração atendível é separada em interna, externa e total.
+
+Uma camada nova de testes abre cada projeto distribuído nas duas pontas do programa e
+exige que concordem, volume a volume, no potencial, no VPL, no payback e no carbono, e
+nos cinco ótimos. Ela encontrou as divergências abaixo, e todas foram corrigidas.
+
+#### 6.3.3.1. Novidades
+
+A demanda passou a ter duas parcelas declaradas: a fração não potável do consumo
+interno e a demanda externa em litros por dia, suspensa nos dias de chuva. A fração
+atendível total é derivada das duas e aparece num campo que não se edita. A seção
+4.2 descreve a regra.
+
+#### 6.3.3.2. Correções que alteram resultados
+
+<!-- tabela: **Tabela 147** — Correções que alteram resultados de estudos feitos na versão 5.0.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| a interface não restaurava a fração interna nem a demanda externa ao abrir um projeto, e simulava sempre com 35% e 0 L/dia | a interface simula com a fração do projeto; o tutorial, que declara 28%, dava 32,85% de potencial a 4.000 L na tela e passa a dar 27,12%, como o manual e a linha de comando |
+| a gravação pela interface escrevia 35% e 50 L/dia como fração interna e demanda externa, quaisquer que fossem os da tela | o arquivo grava as frações simuladas; arquivos antigos que discordam são abertos com a fração total que declaram, com aviso |
+| nos modos semanal, mensal e diário, a fração de reserva era a total, que já inclui a demanda externa | a fração de reserva é a interna, e a demanda externa deixa de ser contada duas vezes |
+| a interface ignorava o volume fixo declarado no projeto e simulava o ótimo técnico da varredura | no modo de volume fixo, a interface simula o volume declarado, como a linha de comando |
+| a aba ambiental da interface usava dose e fator de cloro próprios, e não os do projeto | a avaliação ambiental lê o cloro declarado na etapa de qualidade da água |
+| a linha de comando cobrava o mesmo preço de cisterna em toda a varredura | o preço acompanha o volume, como na interface; o VPL deixa de crescer indefinidamente com a capacidade |
+| a linha de comando omitia o dispositivo de descarte do carbono incorporado, convertia a potência da motobomba por outra regra e reconstruía a tubulação só com as bitolas de 50, 75, 100 e 150 mm | a avaliação ambiental da linha de comando lê o descarte, a motobomba e a tubulação do projeto, como a interface |
+| a linha de comando usava 5.000 sorteios no SMAA-VIKOR e pesos 0,33/0,33/0,34 no TOPSIS; a interface, 20.000 sorteios e 0,333/0,333/0,334 | as duas usam 20.000 sorteios e os mesmos pesos |
+| a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
+
+#### 6.3.3.3. Correções que não alteram resultados
+
+- Um único nome para o grupo de pesquisa: Sustainable Environments Research Group, em
+  português Grupo de Pesquisa em Ambientes Sustentáveis.
+- Os exemplos de Brasília e de Manaus passaram a usar as tarifas oficiais da cidade, em
+  vez das de Florianópolis.
+- Um exemplo novo, `examples/exemplo_quatro_criterios.netuno`, em que os ótimos técnico,
+  econômico, ambiental e TOPSIS caem em quatro volumes diferentes.
+
+---
+
+### 6.3.4. Versão 5.0.0 — 21 de setembro de 2026
 
 > **Em uma frase.** Primeiro lançamento público do Netuno 5: o motor de simulação
 > reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de
@@ -8656,7 +8739,7 @@ módulo, da tela para o núcleo de cálculo, entre a interface e a automação, 
 definições duplicadas de uma mesma constante, e ao longo do tempo, isto é, através da
 gravação e da releitura de um projeto.
 
-#### 6.3.3.1. Novidades
+#### 6.3.4.1. Novidades
 
 O programa foi reescrito em Python, com o motor de simulação separado da interface, e
 ganhou o que o Netuno 4 não tinha: avaliação de ciclo de vida do carbono, linha de
@@ -8666,14 +8749,14 @@ exportação para CAD, BIM e planilha. A seção 6.1 compara os dois programas n
 a número, e a seção 5.3 descreve a suíte de verificação que sustenta a
 comparação.
 
-#### 6.3.3.2. Correções que alteram resultados
+#### 6.3.4.2. Correções que alteram resultados
 
 As alterações reunidas nesta tabela mudam números em relação ao que o programa
 calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento público, nenhum
 estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
 a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
-<!-- tabela: **Tabela 147** — Correções que alteram resultados de estudos feitos em versão anterior -->
+<!-- tabela: **Tabela 148** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -8685,13 +8768,13 @@ a calcular de outro modo, e porque é o formato que as versões seguintes vão u
 | o fator de emissão do hipoclorito era 1,85 kg CO₂e/kg, sem processo declarado | passou a 1,72 kg CO₂e/kg, do Ecoinvent 3.8 na base de cloro ativo |
 | a lâmina de descarte da primeira chuva valia 1,0 mm no arquivo de projeto, na leitura de planilha e no motor, e 2,0 mm no exportador CAD, na linha de comando e no relatório | o valor de recurso passou a ser 2,0 mm em todos os caminhos, conforme o item 4.1.5 da ABNT NBR 15527:2019; um projeto sem lâmina declarada descarta o dobro do que descartava, e a captação aproveitada cai na medida dos dias de chuva fraca |
 
-#### 6.3.3.3. Correções que não alteram resultados
+#### 6.3.4.3. Correções que não alteram resultados
 
 As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum valor
 calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
-<!-- tabela: **Tabela 148** — Correções de comportamento que não alteram resultado calculado -->
+<!-- tabela: **Tabela 149** — Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
@@ -8699,7 +8782,7 @@ estudo errado.
 | a caixa de seleção da motobomba reserva forçava duas bombas em qualquer situação | a quantidade informada é respeitada |
 | seis campos eram gravados no arquivo e nunca lidos de volta | a seção 5.2 lista os que permanecem nessa condição |
 
-#### 6.3.3.4. Documentação
+#### 6.3.4.4. Documentação
 
 A documentação acompanha o lançamento em três formatos, montados das mesmas fontes: o
 manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte, e um
@@ -8719,7 +8802,7 @@ distribuído com o código, saem dos mesmos arquivos de texto.
 
 ---
 
-### 6.3.4. Como saber se a sua versão tem uma correção
+### 6.3.5. Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
 exemplo que acompanham o programa, descritos no apêndice J, rode-o, e compare o
@@ -8734,7 +8817,7 @@ uma diferença de versão que precisa ser identificada antes de qualquer estudo.
 
 ---
 
-### 6.3.5. O que declarar num trabalho publicado
+### 6.3.6. O que declarar num trabalho publicado
 
 A boa prática de reprodutibilidade computacional exige que um trabalho identifique de
 modo inequívoco o programa que produziu os resultados. No caso do Netuno, quatro
@@ -8821,7 +8904,7 @@ própria, porque a tabela certa é pública e específica de cada concessionári
 
 ### 6.4.3. Para onde enviar
 
-O Netuno é desenvolvido pelo Grupo de Pesquisa Gestão do Espaço Sustentável, no
+O Netuno é desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, no
 Departamento de Engenharia Civil da Universidade Federal de Santa Catarina. O contato
 do grupo é o canal de relato, e vale tanto para defeitos quanto para sugestões de
 funcionalidade e para pedidos de esclarecimento sobre o método.
@@ -8865,7 +8948,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 149** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 150** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -8876,7 +8959,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 150** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 151** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -8897,7 +8980,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 151** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 152** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -8921,7 +9004,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 152** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 153** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
@@ -8935,7 +9018,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 153** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 154** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -8968,7 +9051,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 154** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 155** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
@@ -8987,7 +9070,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 155** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 156** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -9011,7 +9094,7 @@ Observações do código:
 
 12 parâmetros.
 
-<!-- tabela: **Tabela 156** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 157** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -9043,7 +9126,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 157** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 158** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -9079,7 +9162,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 158** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 159** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
@@ -9088,7 +9171,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 159** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 160** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9099,7 +9182,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 160** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 161** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
@@ -9108,7 +9191,7 @@ Observações do código:
 
 14 parâmetros.
 
-<!-- tabela: **Tabela 161** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 162** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
@@ -9142,7 +9225,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 162** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 163** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -9159,7 +9242,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 163** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 164** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
@@ -9175,7 +9258,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 164** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 165** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9193,7 +9276,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 165** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 166** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -9876,7 +9959,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 166** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 167** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -9899,11 +9982,11 @@ por metro cúbico contra 22 do polietileno.
 Dezenove rotas de produção disponíveis, por macrorregião e tipo de manancial.
 
 **A fronteira é por metro cúbico entregue na edificação**, e não por metro cúbico
-produzido na estação. A conversão usa as perdas de distribuição de cada macrorregião (Figura 68):
+produzido na estação. A conversão usa as perdas de distribuição de cada macrorregião (Figura 69):
 
 ![As perdas de distribuição por macrorregião](../figuras/fig43_perdas.png)
 
-*Figura 68 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião. É essa fração que converte um fator de emissão de saída de estação em fator por metro cúbico entregue, e ignorá-la subestima a emissão evitada em até um terço.*
+*Figura 69 — Quanto de cada metro cúbico produzido chega efetivamente à edificação, por macrorregião. É essa fração que converte um fator de emissão de saída de estação em fator por metro cúbico entregue, e ignorá-la subestima a emissão evitada em até um terço.*
 
 
 ---
@@ -9918,7 +10001,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 167** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 168** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -9937,7 +10020,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 168** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 169** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -9962,7 +10045,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 169** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 170** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -10003,7 +10086,7 @@ Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na se�
 
 ### D.2. Os cinco regimes
 
-<!-- tabela: **Tabela 170** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+<!-- tabela: **Tabela 171** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
@@ -10017,11 +10100,11 @@ Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na se�
 
 ### D.3. Distribuição por unidade da federação
 
-A cobertura do catálogo acompanha a população, e não o território: as capitais e as regiões metropolitanas estão quase todas cadastradas, e o interior das regiões Norte e Centro-Oeste concentra os municípios ainda ausentes (Figura 69).
+A cobertura do catálogo acompanha a população, e não o território: as capitais e as regiões metropolitanas estão quase todas cadastradas, e o interior das regiões Norte e Centro-Oeste concentra os municípios ainda ausentes (Figura 70).
 
 ![Os municípios do catálogo, por unidade da federação](../figuras/fig42_uf.png)
 
-*Figura 69 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião. São Paulo e Minas Gerais respondem sozinhos por quase um terço do catálogo.*
+*Figura 70 — A distribuição dos 652 municípios catalogados pelas unidades da federação, com as cores identificando a macrorregião. São Paulo e Minas Gerais respondem sozinhos por quase um terço do catálogo.*
 
 
 ### D.4. Atualização e auditoria da base
@@ -10040,7 +10123,7 @@ A rotina pode simular a atualização sem gravar a base, executar apenas a detec
 
 Cada registro traz o grau de confiança da coleta:
 
-<!-- tabela: **Tabela 171** — Grau de confiança dos registros tarifários do catálogo -->
+<!-- tabela: **Tabela 172** — Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |
@@ -10062,7 +10145,7 @@ Cada registro traz o grau de confiança da coleta:
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 172** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 173** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -10110,7 +10193,7 @@ Independentes da base CMIP6, quatro séries históricas longas acompanham a
 instalação, na pasta `data
 ainfall` do programa:
 
-<!-- tabela: **Tabela 173** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 174** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -10145,7 +10228,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 174** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 175** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -10169,7 +10252,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 175** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 176** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -10198,7 +10281,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 176** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 177** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -10221,7 +10304,7 @@ O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 177** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 178** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -10240,7 +10323,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 178** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 179** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -10635,7 +10718,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 179** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 180** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -10646,7 +10729,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 180** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 181** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -10943,7 +11026,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 181** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 182** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -10964,7 +11047,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 182** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 183** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 |
@@ -10982,7 +11065,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.3. Ficha 3 — Os cinco regimes tarifários
 
-<!-- tabela: **Tabela 183** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 184** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -10998,7 +11081,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 184** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 185** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -11058,7 +11141,7 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ### J.1. Os nove casos do manual
 
-<!-- tabela: **Tabela 185** — Os nove casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 186** — Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -11078,7 +11161,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 186** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 187** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
