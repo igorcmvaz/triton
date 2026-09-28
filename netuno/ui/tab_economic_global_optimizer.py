@@ -18,7 +18,7 @@ from netuno.core.parser import NetunoConfig, format_ptbr, parse_float
 from netuno.core.simulation import run_single_simulation
 from netuno.core.economic import run_robust_economic_analysis, calculate_effective_tariff
 from netuno.core.environmental import EnvironmentalConfig, calculate_lca, run_environmental_sweep
-from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
+from netuno.core.topsis import PESOS_PADRAO, payback_do_criterio, TopsisCandidate, calculate_topsis_scores
 from netuno.core.mcdm_methods import run_smaa_vikor
 from netuno.core.cost_estimates import estimate_preliminary_capex, annualize_operational_costs, estimate_annual_chlorination_cost
 from netuno.ui.charts import TOPSISComparisonChart, TOPSISProximityChart
@@ -492,7 +492,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         w_e = self.spin_w_env.value()
         total = w_t + w_f + w_e
         if total <= 0:
-            return (0.333, 0.333, 0.334)
+            return PESOS_PADRAO
         return (w_t / total, w_f / total, w_e / total)
 
     def recalculate_all(self):
@@ -756,7 +756,7 @@ class TabEconomicGlobalOptimizer(QWidget):
                 is_technical_optimum=is_tech_opt,
                 potential_savings_pct=pot_pct,
                 overflow_m3_yr=r_item.annual_spill_m3,
-                discounted_payback_years=pb_discounted,
+                discounted_payback_years=payback_do_criterio(pb_discounted, vpl) if v_vol > 0 else None,
                 irr_pct=tir,
                 potable_consumed_m3_yr=r_item.annual_potable_consumed_m3,
             )

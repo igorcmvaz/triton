@@ -6,8 +6,8 @@ guarda premissas ambientais e pesos TOPSIS usados pela linha de comando.
 """
 
 from netuno.core.taxas import anual_pct_para_mensal_pct
-from netuno.core.fracao_atendivel import percentual_para_fracao
-from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
+from netuno.core.fracao_atendivel import conciliar_fracoes, percentual_para_fracao
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 import argparse
 import copy
 import csv
@@ -28,18 +28,33 @@ import numpy as np
 sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from netuno.core.economic import run_economic_analysis
-from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
+from netuno.core.economic import (
+    calculate_effective_tariff,
+    run_economic_analysis,
+    run_robust_economic_analysis,
+)
+from netuno.core.taxas import mensal_pct_para_anual_fracao
+from netuno.core.cost_estimates import (
+    annualize_operational_costs,
+    estimate_annual_chlorination_cost,
+    estimate_preliminary_capex,
+)
+from netuno.core.etap_integration import (
+    capex_incremental_da_etap,
+    opex_anual_incremental_da_etap,
+)
+from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO, PUREZA_PADRAO
 from netuno.core.environmental import (
     EnvironmentalConfig, MATERIAL_PRESETS, PipeInput, PumpInput, calculate_lca,
     grid_factor_default,
 )
-from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
+from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3
 from netuno.core.parser import (
     NetunoConfig, export_netuno_json, load_netuno_project, load_precipitation, parse_netuno_csv,
 )
 from netuno.core.simulation import SingleTankSimulationResult, run_single_simulation, run_sweep_simulation
-from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
+from netuno.core.topsis import PESOS_PADRAO, TopsisCandidate, calculate_topsis_scores, payback_do_criterio
+from netuno.core.mcdm_methods import AMOSTRAS_SMAA_PADRAO, run_smaa_vikor
 
 ANALYSES = ("technical", "economic", "environmental", "topsis", "all")
 FORMATS = ("text", "json", "csv", "html", "xlsx")
@@ -53,7 +68,14 @@ CONFIG_OVERRIDES = {
     "sewage_tariff_escalation", "elec_tariff_escalation", "elec_tariff", "elec_tax_fixed",
     "elec_tax_var", "cost_lower_tank", "cost_upper_tank", "cost_labor", "cost_piping",
     "cost_accessories", "pump_count", "pump_power_kw", "pump_flow_rate", "pump_efficiency",
-    "pump_startup_time_h", "pump_unit_cost",
+    "pump_startup_time_h", "pump_unit_cost", "pump_manometric_head_m", "pump_motor_efficiency",
+    "lower_tank_material", "upper_tank_material", "supply_arrangement",
+    "water_quality_target_class", "water_quality_disinfection", "water_quality_polishing",
+    "etap_enabled", "chlorine_treatment_enabled", "chlorine_dose_mg_l", "chlorine_product_purity",
+    "chlorine_cost_per_kg", "chlorine_co2_kg_per_kg", "iptu_green_enabled", "iptu_annual_value",
+    "iptu_discount_pct", "tariff_flag", "building_template_id", "irrigation_liters_per_day",
+    "irrigation_rain_threshold_mm", "irrigation_potable_backup", "potable_indoor_share",
+    "non_potable_indoor_share", "num_economias",
 }
 
 
@@ -146,12 +168,9 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
         return material_keys[index] if isinstance(index, int) and 0 <= index < len(material_keys) else default
     def value(name: str, default: float) -> float:
         return _as_float(text.get(name), default)
-    pipes = []
-    for diameter in (50, 75, 100, 150):
-        length = value(f"txt_pipe_{diameter}_m", 0.0)
-        factor = value(f"txt_pipe_{diameter}_co2", 0.0)
-        pipes.append({"diameter_mm": diameter, "length_m": length,
-                      "custom_co2_per_m": factor if factor > 0 else None})
+    # A tubulação não sai do estado da tela: ele só guarda as quatro bitolas
+    # antigas (50, 75, 100 e 150 mm) e perdia as demais. A ACV lê os
+    # comprimentos do próprio projeto, como a aba ambiental da interface.
     legacy_treatment_factor = value("txt_treatment_co2", 0.0)
     chlorine_dose = value("txt_chlorine_dose", DOSE_PADRAO_MG_POR_LITRO)
     # Estados de interface anteriores guardavam apenas kg CO2e/m³. Ao ler
@@ -162,25 +181,62 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
         chlorine_factor = legacy_treatment_factor / (chlorine_dose / 1000.0)
     else:
         chlorine_factor = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
+    from netuno.core.environmental import valor_personalizado_ou_none
+    baixo, alto = material("combo_lower_mat", "PEAD"), material("combo_upper_mat", "PEAD")
     output["environmental"] = {
-        "lower_material_key": material("combo_lower_mat", "PEAD"),
-        "upper_material_key": material("combo_upper_mat", "PEAD"),
-        "custom_lower_density_kg_m3": value("txt_lower_density", 0.0) or None,
-        "custom_lower_co2_per_kg": value("txt_lower_co2_kg", 0.0) or None,
-        "custom_upper_density_kg_m3": value("txt_upper_density", 0.0) or None,
-        "custom_upper_co2_per_kg": value("txt_upper_co2_kg", 0.0) or None,
+        "lower_material_key": baixo,
+        "upper_material_key": alto,
+        "custom_lower_density_kg_m3": valor_personalizado_ou_none(
+            baixo, value("txt_lower_density", 0.0) or None, "material_density_kg_per_m3_tank"),
+        "custom_lower_co2_per_kg": valor_personalizado_ou_none(
+            baixo, value("txt_lower_co2_kg", 0.0) or None, "co2_factor_kg_per_kg"),
+        "custom_upper_density_kg_m3": valor_personalizado_ou_none(
+            alto, value("txt_upper_density", 0.0) or None, "material_density_kg_per_m3_tank"),
+        "custom_upper_co2_per_kg": valor_personalizado_ou_none(
+            alto, value("txt_upper_co2_kg", 0.0) or None, "co2_factor_kg_per_kg"),
         "grid_co2_factor_kg_kwh": value("txt_grid_co2", grid_factor_default()),
         "potable_water_co2_kg_m3": value("txt_potable_co2", 0.35),
         "chlorine_dose_mg_l": chlorine_dose,
         "chlorine_co2_kg_per_kg": chlorine_factor,
         "system_lifespan_years": value("txt_lifespan", 20.0),
-        "pipes": pipes,
         "pump": {"power_cv": value("txt_pump_cv", 0.5),
-                 "specific_kwh_per_m3": value("txt_pump_kwh", 0.40),
+                 "specific_kwh_per_m3": value("txt_pump_kwh", consumo_especifico_padrao_kwh_por_m3()),
                  "custom_embodied_co2": value("txt_pump_co2", 0.0) or None},
         "upper_tank_used": bool(checks.get("chk_upper_used", True)),
     }
     return output
+
+
+def _prefill_preliminary_capex(cfg: NetunoConfig) -> None:
+    """Preenche estimativas preliminares de CAPEX/OPEX quando zeradas no projeto.
+
+    A interface gráfica preenche estes valores automaticamente (`tab_economic_integrated.py`).
+    Sem esta paridade, projetos .netuno recém-criados ou com custos zerados rodavam sem mão de
+    obra, tubulação ou acessórios na linha de comando.
+    """
+    vol_used = float(cfg.lower_tank_fixed if cfg.lower_tank_mode == 0 else (getattr(cfg, "econ_lower_tank_vol", 0.0) or 2000.0))
+    upper_used = bool(cfg.upper_tank_used)
+    estimates = estimate_preliminary_capex(
+        vol_used, getattr(cfg, "upper_tank_vol", 500.0), upper_used,
+        cfg.pump_power_kw, cfg.pump_count,
+        lower_material=getattr(cfg, "lower_tank_material", "PEAD"),
+        upper_material=getattr(cfg, "upper_tank_material", "PEAD"),
+    )
+    if cfg.cost_lower_tank <= 0 and cfg.lower_tank_mode == 0:
+        cfg.cost_lower_tank = estimates["lower"]
+    if cfg.cost_upper_tank <= 0:
+        cfg.cost_upper_tank = estimates["upper"]
+    if cfg.cost_piping <= 0:
+        cfg.cost_piping = estimates["piping"]
+    if cfg.cost_accessories <= 0:
+        cfg.cost_accessories = estimates["accessories"]
+    if cfg.cost_labor <= 0:
+        cfg.cost_labor = estimates["labor"]
+    if cfg.pump_unit_cost <= 0:
+        cfg.pump_unit_cost = estimates["pump_unit"]
+    if not cfg.op_costs:
+        from netuno.core.cost_estimates import default_maintenance_items
+        cfg.op_costs = default_maintenance_items(upper_used)
 
 
 def _load_bundle(project_file: str) -> Dict[str, Any]:
@@ -195,6 +251,8 @@ def _load_bundle(project_file: str) -> Dict[str, Any]:
         if not isinstance(raw, dict) or raw.get("schema", {}).get("name") != "netuno-project":
             raise ValueError("JSON inválido: esperado schema.name = 'netuno-project'. Use `netuno.cli init` para criar um modelo.")
         bundle = load_netuno_project(str(path))
+        if bundle.get("aviso_fracoes"):
+            print(f"Aviso: {bundle['aviso_fracoes']}", file=sys.stderr)
         explicit_analysis = bundle.get("analysis", {}) or {}
         legacy_analysis = _analysis_from_ui_state(bundle.get("ui_state", {}))
         # Campos explícitos do schema mais novo sempre vencem o estado legado.
@@ -210,6 +268,7 @@ def _load_bundle(project_file: str) -> Dict[str, Any]:
         bundle["source_path"] = str(path)
         # Permite arquivo de chuva relativo ao .netuno quando ele não incorporou a série.
         cfg = bundle["config"]
+        _prefill_preliminary_capex(cfg)
         if bundle.get("precip_data") is None and cfg.precip_file:
             relative_rainfall = path.parent / cfg.precip_file
             if relative_rainfall.is_file():
@@ -217,6 +276,7 @@ def _load_bundle(project_file: str) -> Dict[str, Any]:
         return bundle
 
     cfg = parse_netuno_csv(str(path))
+    _prefill_preliminary_capex(cfg)
     return {
         "config": cfg, "precip_data": None, "analysis": {}, "raw": {},
         "source_path": str(path), "is_json": False,
@@ -297,6 +357,36 @@ def _total_demand(cfg: NetunoConfig) -> float:
 
 
 def _run_technical(cfg: NetunoConfig, precip: Any, volume: Optional[float] = None) -> Tuple[List[SingleTankSimulationResult], Dict[str, Any]]:
+    # Uma alteração da fração total (--share, --set, cenários) recalcula a
+    # interna, e vice-versa; ver netuno/core/fracao_atendivel.py.
+    aviso = conciliar_fracoes(cfg)
+    if aviso:
+        print(f"Aviso: {aviso}", file=sys.stderr)
+    b_cfg = {
+        "area": cfg.area,
+        "runoff": cfg.runoff_coeff,
+        "runoff_coeff": cfg.runoff_coeff,
+        "residents": cfg.residents_count,
+        "demand": cfg.demand_value,
+        "share": cfg.rainwater_share,
+        "potable_indoor_share": cfg.potable_indoor_share,
+        "non_potable_indoor_share": cfg.non_potable_indoor_share,
+        "irrigation_liters_per_day": float(cfg.irrigation_liters_per_day or 0.0),
+        "irrigation_rain_threshold_mm": getattr(cfg, "irrigation_rain_threshold_mm", 2.0),
+        "irrigation_potable_backup": getattr(cfg, "irrigation_potable_backup", True),
+        "num_economias": max(1, int(getattr(cfg, "num_economias", 1))),
+        "demand_mode": getattr(cfg, "demand_mode", "constant") or "constant",
+        "template_id": getattr(cfg, "building_template_id", "res_medio"),
+        "monthly_demands": cfg.demand_monthly or None,
+        "monthly_residents": cfg.residents_monthly or None,
+        "monthly_shares": cfg.monthly_shares or None,
+        "weekly_demands": cfg.weekly_demands or None,
+        "weekly_residents": cfg.weekly_residents or None,
+        "weekly_shares": cfg.weekly_shares or None,
+        "daily_demands": cfg.daily_demands or None,
+        "daily_residents": cfg.daily_residents or None,
+        "daily_shares": cfg.daily_shares or None,
+    }
     common = dict(
         precip_data=precip, area=cfg.area, runoff_coeff=cfg.runoff_coeff,
         discard_mm=cfg.discard, discard_mode=cfg.discard_mode,
@@ -316,6 +406,7 @@ def _run_technical(cfg: NetunoConfig, precip: Any, volume: Optional[float] = Non
         daily_residents=cfg.daily_residents or None,
         daily_shares=cfg.daily_shares or None,
         start_date_str=cfg.start_date,
+        building_config=b_cfg,
     )
     if volume is not None:
         if volume < 0:
@@ -360,12 +451,27 @@ def _technical_row(result: SingleTankSimulationResult) -> Dict[str, float]:
 def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult, annual_pump_kwh: float,
                           raw: Optional[Dict[str, Any]]) -> EnvironmentalConfig:
     raw = raw or {}
-    pipes = [PipeInput(
-        diameter_mm=int(item.get("diameter_mm", 100)), length_m=float(item.get("length_m", 0)),
-        custom_co2_per_m=item.get("custom_co2_per_m"),
-    ) for item in raw.get("pipes", []) if isinstance(item, dict)]
+    if "pipes" in raw and isinstance(raw["pipes"], list):
+        pipes = [PipeInput(
+            diameter_mm=int(item.get("diameter_mm", 100)), length_m=float(item.get("length_m", 0)),
+            custom_co2_per_m=item.get("custom_co2_per_m"),
+        ) for item in raw["pipes"] if isinstance(item, dict)]
+    elif hasattr(cfg, "get_pipe_lengths_dict") and cfg.get_pipe_lengths_dict():
+        pipes = [PipeInput(diameter_mm=int(d), length_m=float(l))
+                 for d, l in sorted(cfg.get_pipe_lengths_dict().items()) if float(l) > 0]
+    elif hasattr(cfg, "pipes_list") and cfg.pipes_list:
+        pipes = [PipeInput(diameter_mm=int(d), length_m=float(l)) for d, l in cfg.pipes_list if float(l) > 0]
+    else:
+        pipes = None
+
     pump_raw = raw.get("pump", {}) if isinstance(raw.get("pump", {}), dict) else {}
-    power_cv = float(pump_raw.get("power_cv", max(0.25, round(cfg.pump_power_kw / 0.7355, 2))))
+    # Potência e consumo específico saem da mesma função que a aba ambiental da
+    # interface usa (compute_annual_pump_energy); a conversão direta de
+    # pump_power_kw dava 0,5 cv onde a interface via 0,25 cv, e o carbono
+    # incorporado da motobomba divergia entre as duas para o mesmo projeto.
+    energia = compute_annual_pump_energy(cfg, result, upper_tank_used=bool(cfg.upper_tank_used))
+    cv_padrao = energia.pump_power_cv if energia.pump_power_cv > 0 else max(0.25, round(cfg.pump_power_kw / 0.7355, 2))
+    power_cv = float(pump_raw.get("power_cv", cv_padrao))
     pump = PumpInput(
         power_cv=power_cv, custom_embodied_co2=pump_raw.get("custom_embodied_co2"),
         # 0,40 kWh/m3 era o valor anterior a correcao da hidraulica, que dividia
@@ -374,12 +480,19 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         # linha de comando ficou com o numero antigo: 3,7 vezes maior, de modo que
         # a mesma configuracao dava emissao diferente na tela e no terminal.
         specific_kwh_per_m3=float(
-            pump_raw.get("specific_kwh_per_m3", consumo_especifico_padrao_kwh_por_m3())
+            pump_raw.get("specific_kwh_per_m3",
+                         energia.specific_kwh_per_m3 if energia.specific_kwh_per_m3 > 0
+                         else consumo_especifico_padrao_kwh_por_m3())
         ),
         material=str(pump_raw.get("material", "Ferro Fundido, Cobre & Alumínio")),
     )
     has_explicit_chlorine = "chlorine_dose_mg_l" in raw or "chlorine_co2_kg_per_kg" in raw
-    chlorine_dose = float(raw.get("chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO))
+    if "chlorine_dose_mg_l" in raw:
+        chlorine_dose = float(raw["chlorine_dose_mg_l"])
+    elif not getattr(cfg, "chlorine_treatment_enabled", True):
+        chlorine_dose = 0.0
+    else:
+        chlorine_dose = float(getattr(cfg, "chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO))
 
     # A sobreposicao legada de intensidade de tratamento vale SO quando o projeto
     # a declara. Antes desta revisao ela era aplicada sempre que o projeto nao trazia
@@ -399,15 +512,19 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         # Projeto legado: reconstroi o fator que reproduz a intensidade declarada.
         chlorine_factor = legacy_treatment / (chlorine_dose / 1000.0)
     else:
-        chlorine_factor = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
+        chlorine_factor = float(getattr(cfg, "chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO))
+
+    lower_mat = raw.get("lower_material_key", getattr(cfg, "lower_tank_material", "PEAD"))
+    upper_mat = raw.get("upper_material_key", getattr(cfg, "upper_tank_material", "PEAD"))
+
     values = {
-        "lower_material_key": raw.get("lower_material_key", "PEAD"),
+        "lower_material_key": lower_mat,
         "custom_lower_density_kg_m3": raw.get("custom_lower_density_kg_m3"),
         "custom_lower_co2_per_kg": raw.get("custom_lower_co2_per_kg"),
-        "upper_material_key": raw.get("upper_material_key", "PEAD"),
+        "upper_material_key": upper_mat,
         "custom_upper_density_kg_m3": raw.get("custom_upper_density_kg_m3"),
         "custom_upper_co2_per_kg": raw.get("custom_upper_co2_per_kg"),
-        "pipes": pipes or None,
+        "pipes": pipes,
         "pump": pump,
         "pump_count": int(raw.get("pump_count", cfg.pump_count)),
         "pump_material": str(raw.get("pump_material", pump.material)),
@@ -435,22 +552,159 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         water_quality_polishing=bool(getattr(cfg, "water_quality_polishing", False)),
         etap_enabled=bool(getattr(cfg, "etap_enabled", True)),
         roof_area_m2=float(getattr(cfg, "area", 100.0) or 100.0),
-        chlorine_product_purity=float(getattr(cfg, "chlorine_product_purity", 0.65) or 0.65),
+        # O dispositivo de descarte declarado no projeto entra no carbono
+        # incorporado, como na interface; a linha de comando o omitia.
+        first_flush_system_enabled=bool(getattr(cfg, "first_flush_system_enabled", False)),
+        discard=float(getattr(cfg, "discard", LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
+        chlorine_product_purity=float(getattr(cfg, "chlorine_product_purity", PUREZA_PADRAO) or PUREZA_PADRAO),
         **values,
     )
 
 
-def _economic_row(cfg: NetunoConfig, result: SingleTankSimulationResult) -> Tuple[Dict[str, Any], Any]:
-    candidate_cfg = copy.copy(cfg)
-    candidate_cfg.econ_lower_tank_vol = result.lower_tank_vol
-    analysis = run_economic_analysis(candidate_cfg, result)
-    return {
-        "lower_tank_volume_l": result.lower_tank_vol, "capex_brl": analysis.capex_total,
-        "npv_brl": analysis.vpl, "irr_monthly_pct": analysis.tir_monthly_pct,
-        "irr_annual_pct": analysis.tir_annual_pct, "discounted_payback_months": analysis.payback_months,
-        "annual_water_savings_brl": analysis.annual_water_savings_brl,
-        "annual_opex_brl": analysis.annual_opex_brl, "annual_pump_kwh": analysis.annual_pump_kwh,
-    }, analysis
+def _preco_da_cisterna(cfg: NetunoConfig, volume_l: float) -> float:
+    """Preço da cisterna inferior para um volume da varredura.
+
+    É a mesma estimativa que a aba econômica da interface usa em cada linha da
+    varredura (`tab_economic_integrated.py`): interpolação da tabela de preços
+    pelo volume e pelo material. Sem ela, a linha de comando cobrava o mesmo
+    preço de uma cisterna de 1.000 L e de uma de 20.000 L, o VPL só crescia com
+    o volume, e as duas interfaces davam ótimos econômicos diferentes para o
+    mesmo projeto.
+    """
+    if volume_l <= 0:
+        return 0.0
+    return float(estimate_preliminary_capex(
+        volume_l, getattr(cfg, "upper_tank_vol", 500.0), bool(cfg.upper_tank_used),
+        cfg.pump_power_kw, cfg.pump_count,
+        lower_material=getattr(cfg, "lower_tank_material", "PEAD"),
+        upper_material=getattr(cfg, "upper_tank_material", "PEAD"),
+    )["lower"])
+
+
+def _economic_row(cfg: NetunoConfig, result: SingleTankSimulationResult,
+                  preco_por_volume: bool = False) -> Tuple[Dict[str, Any], Any]:
+    v_vol = result.lower_tank_vol
+    vol_m3_val = result.annual_pluvial_consumed_m3 if v_vol > 0 else 0.0
+    sim_days = getattr(result, 'total_days', getattr(result, 'n_days_simulated', 365))
+    upper_used = bool(getattr(cfg, 'upper_tank_used', 1))
+
+    if preco_por_volume:
+        c_low = _preco_da_cisterna(cfg, v_vol) if v_vol > 0 else 0.0
+    else:
+        c_low = float(cfg.cost_lower_tank) if v_vol > 0 else 0.0
+
+    etap_c_inc = capex_incremental_da_etap(cfg, vol_m3_val) if getattr(cfg, 'etap_enabled', True) else 0.0
+    capex_v = 0.0 if v_vol <= 0 else (
+        c_low + float(cfg.cost_upper_tank) +
+        (float(cfg.pump_unit_cost) * int(getattr(cfg, "pump_count", 1)) if upper_used else 0.0) +
+        float(cfg.cost_piping) + float(cfg.cost_accessories) + float(cfg.cost_labor) +
+        etap_c_inc
+    )
+
+    annual_total_demand = (result.annual_pluvial_consumed_m3 + result.annual_potable_consumed_m3) if v_vol > 0 else 0.0
+    tw_v, ts_v = calculate_effective_tariff(cfg, vol_m3_val, annual_total_demand_m3=annual_total_demand)
+
+    tma_annual = mensal_pct_para_anual_fracao(cfg.tma)
+    inf_annual = mensal_pct_para_anual_fracao(cfg.inflation)
+    n_readj_per_year = 12.0 / max(1.0, float(cfg.tariff_escalation))
+    w_esc_annual = (1.0 + float(getattr(cfg, 'water_tariff_escalation', 5.0)) / 100.0) ** n_readj_per_year - 1.0
+    s_esc_annual = (1.0 + float(getattr(cfg, 'sewage_tariff_escalation', 5.0)) / 100.0) ** n_readj_per_year - 1.0
+    e_esc_annual = (1.0 + float(getattr(cfg, 'elec_tariff_escalation', 5.0)) / 100.0) ** n_readj_per_year - 1.0
+
+    flag_sel = getattr(cfg, "tariff_flag", "verde")
+    flag_add = 0.0
+    if flag_sel == "amarela":
+        flag_add = 0.01885
+    elif flag_sel == "vermelha_1":
+        flag_add = 0.04463
+    elif flag_sel == "vermelha_2":
+        flag_add = 0.07877
+    elif flag_sel == "branca":
+        flag_add = -0.15 * float(cfg.elec_tariff)
+    eff_elec_tariff = max(0.0, float(cfg.elec_tariff) + flag_add)
+
+    p_hrs_v = 0.0
+    if upper_used and float(cfg.pump_flow_rate) > 0 and v_vol > 0:
+        if hasattr(result, 'total_pumped_liters') and result.total_pumped_liters > 0:
+            t_rec_v = (result.total_pumped_liters / max(1.0, sim_days / 365.25)) / float(cfg.pump_flow_rate)
+            ann_cyc_v = result.total_pump_cycles / max(1.0, sim_days / 365.25)
+            t_part_v = ann_cyc_v * float(cfg.pump_startup_time_h)
+            p_hrs_v = t_rec_v + t_part_v
+        else:
+            p_hrs_v = (vol_m3_val * 1000.0) / float(cfg.pump_flow_rate)
+
+    cl2_enabled = getattr(cfg, "chlorine_treatment_enabled", True)
+    cl2_dose = float(getattr(cfg, "chlorine_dose_mg_l", 2.0))
+    cl2_cost_kg = float(getattr(cfg, "chlorine_cost_per_kg", 25.0))
+    ann_cl_cost_v = 0.0
+    if upper_used and v_vol > 0:
+        _, ann_cl_cost_v = estimate_annual_chlorination_cost(
+            vol_m3_val, cl2_dose if cl2_enabled else 0.0, cl2_cost_kg
+        )
+
+    annual_om_v = annualize_operational_costs(cfg.op_costs, vol_m3_val) if v_vol > 0 else 0.0
+    if v_vol > 0 and getattr(cfg, 'etap_enabled', True):
+        annual_om_v += opex_anual_incremental_da_etap(cfg, vol_m3_val)
+
+    iptu_enabled = getattr(cfg, "iptu_green_enabled", False)
+    ann_iptu_savings = 0.0
+    if iptu_enabled and v_vol > 0:
+        ann_iptu_savings = float(getattr(cfg, "iptu_annual_value", 0.0)) * (float(getattr(cfg, "iptu_discount_pct", 0.0)) / 100.0)
+
+    econ_res = run_robust_economic_analysis(
+        initial_investment=capex_v,
+        annual_water_saved_m3=vol_m3_val,
+        water_tariff_per_m3=tw_v,
+        sewage_tariff_per_m3=ts_v,
+        sewage_mode=int(cfg.sewage_mode),
+        water_tariff_escalation_rate=w_esc_annual,
+        sewage_tariff_escalation_rate=s_esc_annual,
+        elec_tariff_escalation_rate=e_esc_annual,
+        inflation_rate=inf_annual,
+        discount_rate=tma_annual,
+        annual_om_cost_base=annual_om_v,
+        pump_power_kw=float(cfg.pump_power_kw),
+        pump_hours_year=p_hrs_v,
+        elec_tariff_kwh=eff_elec_tariff,
+        analysis_period_years=int(cfg.analysis_period_years),
+        annual_chlorine_cost=ann_cl_cost_v,
+        annual_iptu_savings=ann_iptu_savings,
+    )
+
+    if v_vol > 0 and len(econ_res.annual_cash_flows) > 1:
+        cf1 = econ_res.annual_cash_flows[1]
+        annual_opex_v = cf1.pump_energy_cost_brl + cf1.om_cost_brl + getattr(cf1, "chlorine_cost_brl", 0.0)
+        annual_water_savings_brl = cf1.total_gross_savings_brl
+    else:
+        annual_opex_v = 0.0
+        annual_water_savings_brl = 0.0
+
+    pump_energy_res = compute_annual_pump_energy(cfg, result, upper_tank_used=upper_used)
+    annual_pump_kwh = pump_energy_res.annual_kwh if v_vol > 0 else 0.0
+
+    pb_m = (econ_res.payback_discounted_years * 12.0) if econ_res.payback_discounted_years is not None else None
+    tir_m = anual_pct_para_mensal_pct(econ_res.tir_pct) if np.isfinite(econ_res.tir_pct) else 0.0
+
+    econ_res.capex_total = capex_v
+    econ_res.tir_annual_pct = econ_res.tir_pct
+    econ_res.tir_monthly_pct = tir_m
+    econ_res.payback_months = pb_m
+    econ_res.annual_water_savings_brl = annual_water_savings_brl
+    econ_res.annual_opex_brl = annual_opex_v
+    econ_res.annual_pump_kwh = annual_pump_kwh
+
+    row_dict = {
+        "lower_tank_volume_l": v_vol,
+        "capex_brl": capex_v,
+        "npv_brl": econ_res.vpl,
+        "irr_monthly_pct": tir_m,
+        "irr_annual_pct": econ_res.tir_pct,
+        "discounted_payback_months": pb_m,
+        "annual_water_savings_brl": annual_water_savings_brl,
+        "annual_opex_brl": annual_opex_v,
+        "annual_pump_kwh": annual_pump_kwh,
+    }
+    return row_dict, econ_res
 
 
 def _environmental_row(cfg: NetunoConfig, result: SingleTankSimulationResult, annual_pump_kwh: float,
@@ -472,7 +726,7 @@ def _environmental_row(cfg: NetunoConfig, result: SingleTankSimulationResult, an
 
 
 def run_analysis(cfg: NetunoConfig, precip: Any, analysis_type: str = "technical", volume: Optional[float] = None,
-                 weights: Tuple[float, float, float] = (0.33, 0.33, 0.34),
+                 weights: Tuple[float, float, float] = PESOS_PADRAO,
                  environmental: Optional[Dict[str, Any]] = None, source: str = "",
                  weight_sensitivity: int = 0, seed: int = 42) -> Dict[str, Any]:
     """Executa a cadeia técnica → econômica → ambiental → TOPSIS de forma rastreável."""
@@ -485,7 +739,10 @@ def run_analysis(cfg: NetunoConfig, precip: Any, analysis_type: str = "technical
     }
     if analysis_type == "technical":
         return output
-    economic_rows, economic_results = zip(*[_economic_row(cfg, result) for result in technical_results])
+    economic_rows, economic_results = zip(*[
+        _economic_row(cfg, result, preco_por_volume=(volume is None and cfg.lower_tank_mode == 1))
+        for result in technical_results
+    ])
     output["economic"] = {"alternatives": list(economic_rows)}
     if analysis_type == "economic":
         return output
@@ -496,14 +753,17 @@ def run_analysis(cfg: NetunoConfig, precip: Any, analysis_type: str = "technical
     output["environmental"] = {"alternatives": list(environmental_rows)}
     if analysis_type == "environmental":
         return output
+    opt_tech_vol = technical_summary.get("optimal_volume_l")
     candidates = [TopsisCandidate(
         lower_tank_vol=result.lower_tank_vol, water_saved_m3_yr=result.annual_pluvial_consumed_m3,
         vpl_brl=econ.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
         capex_brl=econ.capex_total, upper_tank_vol=cfg.upper_tank_vol if cfg.upper_tank_used else 0.0,
         technical_threshold_met=(result.lower_tank_vol > 0 and result.delta_potential_per_m3 <= cfg.delta_ideal),
+        is_technical_optimum=(opt_tech_vol is not None and abs(result.lower_tank_vol - opt_tech_vol) < 1.0),
         potential_savings_pct=result.potential_potable_savings_pct,
         overflow_m3_yr=result.annual_spill_m3,
-        discounted_payback_years=(econ.payback_months / 12.0 if econ.payback_months is not None else None),
+        discounted_payback_years=payback_do_criterio(
+            econ.payback_months / 12.0 if econ.payback_months is not None else None, econ.vpl),
         irr_pct=econ.tir_annual_pct,
         potable_consumed_m3_yr=result.annual_potable_consumed_m3,
     ) for result, econ, lca in zip(technical_results, economic_results, environmental_results)]
@@ -541,6 +801,21 @@ def run_analysis(cfg: NetunoConfig, precip: Any, analysis_type: str = "technical
             "environmental_gap_pct": float((1.0 - topsis.group_proximity_to_best[index, 2]) * 100.0),
         } for index, candidate in enumerate(topsis.candidates)] if topsis else [],
     }
+    smaa = run_smaa_vikor(candidates, v_param=0.5, num_samples=AMOSTRAS_SMAA_PADRAO, random_seed=seed) if candidates else None
+    if smaa:
+        output["smaa_vikor"] = {
+            "samples": AMOSTRAS_SMAA_PADRAO,
+            "seed": seed,
+            "best_volume_l": smaa.best_candidate.lower_tank_vol,
+            "best_acceptability_pct": float(smaa.first_rank_probs[smaa.best_index]),
+            "acceptabilities": [
+                {
+                    "lower_tank_volume_l": cand.lower_tank_vol,
+                    "first_rank_pct": float(smaa.first_rank_probs[idx]),
+                }
+                for idx, cand in enumerate(candidates)
+            ],
+        }
     if weight_sensitivity:
         rng = np.random.default_rng(seed)
         winners: Dict[str, int] = {}
@@ -584,12 +859,27 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
         print(f"=== Netuno | {summary['mode']} | {len(technical['alternatives'])} alternativa(s) ===")
         if summary.get("optimal_volume_l") is not None:
             print(f"Volume técnico indicado: {summary['optimal_volume_l']:.0f} L ({summary['optimal_potential_pct']:.2f}% de economia)")
-        for section, label, metric, unit in (("economic", "econômica", "npv_brl", "R$"), ("environmental", "ambiental", "lifetime_net_co2_saved_kg", "kg CO2e")):
-            if section in report:
-                best = max(report[section]["alternatives"], key=lambda row: row[metric])
-                print(f"Melhor alternativa {label}: {best['lower_tank_volume_l']:.0f} L | {best[metric]:.2f} {unit}")
+        if "economic" in report:
+            econ_alts = [row for row in report["economic"]["alternatives"] if row["lower_tank_volume_l"] > 0]
+            if econ_alts:
+                viable_pb = [row for row in econ_alts if row.get("discounted_payback_months") is not None and row["discounted_payback_months"] > 0 and row.get("npv_brl", 0) > 0]
+                if viable_pb:
+                    best_econ = min(viable_pb, key=lambda row: (row["discounted_payback_months"], -row["npv_brl"]))
+                else:
+                    best_econ = max(econ_alts, key=lambda row: row["npv_brl"])
+                pb_yrs = best_econ.get("discounted_payback_months") / 12.0 if best_econ.get("discounted_payback_months") else None
+                pb_txt = f" | Payback: {pb_yrs:.1f}a" if pb_yrs else ""
+                print(f"Melhor alternativa econômica (Menor Payback): {best_econ['lower_tank_volume_l']:.0f} L | R$ {best_econ['npv_brl']:.2f}{pb_txt}")
+        if "environmental" in report:
+            env_alts = [row for row in report["environmental"]["alternatives"] if row["lower_tank_volume_l"] > 0]
+            if env_alts:
+                best_env = max(env_alts, key=lambda row: row["lifetime_net_co2_saved_kg"])
+                print(f"Melhor alternativa ambiental: {best_env['lower_tank_volume_l']:.0f} L | {best_env['lifetime_net_co2_saved_kg']:.2f} kg CO2e")
         if "topsis" in report:
             print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
+        if "smaa_vikor" in report:
+            sv = report["smaa_vikor"]
+            print(f"SMAA-VIKOR: {sv['best_volume_l']:.0f} L | {sv['best_acceptability_pct']:.1f}% em {sv['samples']} simulações")
         return
     if not output_file:
         raise ValueError(f"--output é obrigatório quando --format {output_format} é usado")
@@ -619,15 +909,15 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
 
 def _template_analysis() -> Dict[str, Any]:
     return {
-        "topsis_weights": [0.33, 0.33, 0.34],
+        "topsis_weights": list(PESOS_PADRAO),
         "environmental": {
             "lower_material_key": "PEAD", "upper_material_key": "PEAD",
             "grid_co2_factor_kg_kwh": grid_factor_default(), "potable_water_co2_kg_m3": 0.35,
             "chlorine_dose_mg_l": DOSE_PADRAO_MG_POR_LITRO,
             "chlorine_co2_kg_per_kg": FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
             "system_lifespan_years": 20,
-            "pipes": [{"diameter_mm": 100, "length_m": 20}, {"diameter_mm": 50, "length_m": 15}],
-            "pump": {"power_cv": 0.5, "specific_kwh_per_m3": 0.40},
+            "pipes": [{"diameter_mm": 100, "length_m": 20}, {"diameter_mm": 32, "length_m": 20}, {"diameter_mm": 40, "length_m": 5}],
+            "pump": {"power_cv": 0.5, "specific_kwh_per_m3": consumo_especifico_padrao_kwh_por_m3()},
         },
     }
 
@@ -689,7 +979,7 @@ def _run_project(args: argparse.Namespace) -> None:
     if errors:
         raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
     analysis_config = bundle.get("analysis", {}) or {}
-    weights = args.weights or tuple(analysis_config.get("topsis_weights", (0.33, 0.33, 0.34)))
+    weights = args.weights or tuple(analysis_config.get("topsis_weights", PESOS_PADRAO))
     report = run_analysis(cfg, precipitation, args.analysis, args.volume, weights,
                           analysis_config.get("environmental", {}), bundle.get("source_path", args.file),
                           args.weight_sensitivity, args.seed)
@@ -725,7 +1015,7 @@ def _run_batch(args: argparse.Namespace) -> None:
             raise ValueError(f"Cenário '{scenario['scenario_name']}' inválido: {'; '.join(errors)}")
         report = run_analysis(
             cfg, precipitation, args.analysis,
-            weights=args.weights or tuple(base_analysis.get("topsis_weights", (0.33, 0.33, 0.34))),
+            weights=args.weights or tuple(base_analysis.get("topsis_weights", PESOS_PADRAO)),
             environmental=base_analysis.get("environmental", {}), source=args.file,
             weight_sensitivity=args.weight_sensitivity, seed=args.seed,
         )
@@ -895,7 +1185,7 @@ def _run_matrix(args: argparse.Namespace) -> None:
             cfg.start_date = start_date
             report = run_analysis(
                 cfg, precipitation, args.analysis,
-                weights=args.weights or tuple(analysis.get("topsis_weights", (0.33, 0.33, 0.34))),
+                weights=args.weights or tuple(analysis.get("topsis_weights", PESOS_PADRAO)),
                 environmental=analysis.get("environmental", {}),
                 source=f"{premises['_path'].name} × {climates['_path'].name}",
                 weight_sensitivity=args.weight_sensitivity, seed=args.seed,
@@ -1034,7 +1324,7 @@ def _run_project_matrix(args: argparse.Namespace) -> None:
                 errors = _validate_config(cfg, precipitation) + _validate_analysis_config(analysis_config)
                 if errors:
                     raise ValueError(f"Projeto '{project_path.name}' inválido: " + "; ".join(errors))
-                weights = args.weights or tuple(analysis_config.get("topsis_weights", (0.33, 0.33, 0.34)))
+                weights = args.weights or tuple(analysis_config.get("topsis_weights", PESOS_PADRAO))
                 report = run_analysis(
                     cfg, precipitation, args.analysis, weights=weights,
                     environmental=analysis_config.get("environmental", {}),
@@ -1207,7 +1497,7 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
     if errors:
         raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
     analysis_cfg = bundle.get("analysis", {}) or {}
-    weights = args.weights or tuple(analysis_cfg.get("topsis_weights", (0.33, 0.33, 0.34)))
+    weights = args.weights or tuple(analysis_cfg.get("topsis_weights", PESOS_PADRAO))
 
     # Sem volume explícito, a referência é o ótimo técnico do caso-base; isso
     # mede a robustez de uma decisão de projeto concreta, não de toda a varredura.
@@ -1743,6 +2033,10 @@ def _worker_vaz_study_file(file_path: str) -> List[Dict[str, Any]]:
                     cfg.upper_tank_used = True
                     cfg.upper_tank_vol = 0.5 * pluvial_demand
                     cfg.lower_tank_fixed = float(v_low)
+                    # Cada volume do estudo e uma cisterna diferente: sem isto o
+                    # NetunoConfig novo cobrava o mesmo preco-padrao de 500 L a
+                    # 30.000 L, e o VPL so crescia com o volume.
+                    cfg.cost_lower_tank = _preco_da_cisterna(cfg, float(v_low))
                     # O projeto guarda % ao mês. O valor 0,12 aqui significava
                     # 0,12% ao mês, e não os 12% ao ano pretendidos.
                     cfg.tma = anual_pct_para_mensal_pct(12.0)

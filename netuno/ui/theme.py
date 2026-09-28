@@ -1,5 +1,5 @@
 """
-Estilo Profissional Refinado Netuno (Grupo de Pesquisa Gestão do Espaço Sustentável).
+Estilo Profissional Refinado Netuno (Grupo de Pesquisa em Ambientes Sustentáveis).
 Proporciona um visual moderno, limpo e extremamente elegante para a interface desktop.
 """
 

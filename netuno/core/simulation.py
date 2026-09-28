@@ -264,8 +264,16 @@ def build_detailed_daily_demand_vectors(
     sh_in_arr = np.zeros(n_days, dtype=np.float64)
 
     # Fração de 0 a 1, e só fração: um 40 aqui é recusado, e não dividido por cem.
-    # Ver netuno/core/fracao_atendivel.py.
-    base_sh = validar_fracao("A fração atendível", rainwater_share)
+    # A fração que multiplica a demanda interna é a interna. Quando o projeto a
+    # declara, ela vale em todos os modos, inclusive como reserva dos vetores
+    # semanal, mensal e diário; a fração total (``share``) inclui a demanda
+    # externa e aplicá-la ao consumo interno contaria a externa duas vezes.
+    # Sem a interna, a fração recebida é interna por definição (sem demanda
+    # externa, as duas coincidem). Ver netuno/core/fracao_atendivel.py.
+    if non_pot_indoor_share is not None:
+        base_sh = validar_fracao("A fração não potável interna", non_pot_indoor_share)
+    else:
+        base_sh = validar_fracao("A fração atendível", rainwater_share)
 
     if demand_mode == "weekly" and weekly_demands and len(weekly_demands) >= 7:
         w_d = [float(v) if v is not None and float(v) > 0 else float(demand_value) for v in weekly_demands[:7]]
@@ -303,13 +311,7 @@ def build_detailed_daily_demand_vectors(
         sh_in_arr[:] = base_sh
 
     # Determinação das frações internas
-    if demand_mode in ("weekly", "monthly", "daily"):
-        non_pot_in_arr = tot_in_arr * sh_in_arr
-    elif non_pot_indoor_share is not None:
-        np_sh = validar_fracao("A fração não potável interna", non_pot_indoor_share)
-        non_pot_in_arr = tot_in_arr * np_sh
-    else:
-        non_pot_in_arr = tot_in_arr * sh_in_arr
+    non_pot_in_arr = tot_in_arr * sh_in_arr
 
     pot_in_arr = np.maximum(0.0, tot_in_arr - non_pot_in_arr)
 

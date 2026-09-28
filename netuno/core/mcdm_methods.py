@@ -199,10 +199,16 @@ def run_vikor(
     )
 
 
+#: Sorteios de pesos do SMAA-VIKOR quando nada se declara. É o perfil «alta
+#: precisão» da interface; a linha de comando usava 5.000, e com menos sorteios
+#: o líder podia mudar entre as duas para o mesmo projeto.
+AMOSTRAS_SMAA_PADRAO = 20000
+
+
 def run_smaa_vikor(
     candidates: Sequence[TopsisCandidate],
     v_param: float = 0.5,
-    num_samples: int = 5000,
+    num_samples: int = AMOSTRAS_SMAA_PADRAO,
     random_seed: int = 42
 ) -> SmaaResult:
     """

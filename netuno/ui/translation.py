@@ -1,6 +1,7 @@
 import os
 import sys
 from PySide6.QtCore import QSettings, Qt
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
 
 _runtime_language = None
@@ -77,13 +78,40 @@ class FirstRunLangDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Netuno 5 — Language / Idioma")
-        self.resize(430, 210)
+        self.resize(430, 260)
+        for icone_rel in (
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "Netuno2.png"),
+        ):
+            icone_path = get_resource_path(icone_rel)
+            if os.path.isfile(icone_path):
+                self.setWindowIcon(QIcon(icone_path))
+                break
         self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
-        layout.setSpacing(12)
+        layout.setSpacing(10)
         layout.setContentsMargins(15, 15, 15, 15)
+
+        logo_label = QLabel()
+        logo_label.setAlignment(Qt.AlignCenter)
+        for icone_rel in (
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+        ):
+            icone_path = get_resource_path(icone_rel)
+            if os.path.isfile(icone_path):
+                pixmap = QPixmap(icone_path)
+                if not pixmap.isNull():
+                    logo_label.setPixmap(pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                    layout.addWidget(logo_label)
+                    break
 
         lbl = QLabel(
             "Selecione o idioma de exibição do Netuno 5.\n"
@@ -632,9 +660,9 @@ _DICTIONARY = {
     "Relatório HTML salvo em:": "HTML Report saved to:",
     "Relatório PDF salvo em:": "PDF Report saved to:",
     "Relatório de Verificação": "Verification Report",
-    "Relatório de Verificação — Netuno 5.0.0": "Verification Report — Netuno 5.0.0",
+    "Relatório de Verificação — Netuno 5.0.1": "Verification Report — Netuno 5.0.1",
     "Relatório de Verificação Técnica e Computacional...": "Technical and Computational Verification Report...",
-    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.0": "Technical and Computational Verification Report — Netuno 5.0.0",
+    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.1": "Technical and Computational Verification Report — Netuno 5.0.1",
     "Evidências de Verificação e Rastreabilidade": "Verification Evidence and Traceability",
     "Status:": "Status:",
     "Relatório de validação gerado e certificado com sucesso.": "Validation report generated and certified successfully.",
@@ -1017,15 +1045,16 @@ _DICTIONARY = {
     "🏆 Conclusão da Otimização de Trade-Off": "🏆 Trade-Off Optimization Conclusion",
     "Maior Retorno Financeiro (Maior VPL Líquido): --": "Highest Financial Return (Highest Net NPV): --",
     "Comparação de Trade-off: --": "Trade-off Comparison: --",
-    "Netuno 5.0.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.0 — Rainwater Harvesting Design & Simulation",
-    "Manual do Usuário — Netuno 5.0.0": "User Manual — Netuno 5.0.0",
-    "Sobre o Netuno 5.0.0": "About Netuno 5.0.0",
+    "Netuno 5.0.1 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.1 — Rainwater Harvesting Design & Simulation",
+    "Manual do Usuário — Netuno 5.0.1": "User Manual — Netuno 5.0.1",
+    "Sobre o Netuno": "About Netuno",
+    "Sobre o Netuno 5.0.1": "About Netuno 5.0.1",
     "Versão": "Version",
     "Autores": "Authors",
-    "Grupo de Pesquisa Gestão do Espaço Sustentável": "Sustainable Space Management Research Group",
+    "Grupo de Pesquisa em Ambientes Sustentáveis": "Sustainable Environments Research Group",
     "Programa computacional para simulação de aproveitamento de água de chuva": "Computer program for rainwater harvesting simulation",
     "Plataforma para Aproveitamento de Água de Chuva em Edificações.": "Platform for Rainwater Harvesting in Buildings.",
-    "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Developed by the Sustainable Space Management Research Group (UFSC).",
+    "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "Developed by the Sustainable Environments Research Group (UFSC).",
     "Versão com descarte inicial por período, exportação em Kebab-Case e laudo gerencial oficial.": "Release with periodic first-flush disposal, timestamped Kebab-Case exports, and an official management report.",
     "Documento gerado automaticamente": "Automatically generated document",
     "Motor de Simulação": "Simulation Engine",
@@ -1301,7 +1330,7 @@ _SPANISH_DICTIONARY = {
     "Chuva: Não carregada": "Lluvia: no cargada", "Reiniciar Aplicativo": "Reiniciar aplicación",
     "Sobre o Netuno": "Acerca de Netuno", "Relatório de Validação Técnica": "Informe de validación técnica",
     "Relatório de Verificação": "Informe de verificación",
-    "Relatório de Verificação — Netuno 5.0.0": "Informe de verificación — Netuno 5.0.0",
+    "Relatório de Verificação — Netuno 5.0.1": "Informe de verificación — Netuno 5.0.1",
     "Uso pela Linha de Comando": "Uso por línea de comandos",
 }
 
@@ -1337,7 +1366,7 @@ _CHINESE_DICTIONARY = {
     "Chuva: Não carregada": "降雨：未加载", "Reiniciar Aplicativo": "重启应用",
     "Sobre o Netuno": "关于 Netuno", "Relatório de Validação Técnica": "技术验证报告",
     "Relatório de Verificação": "验证报告",
-    "Relatório de Verificação — Netuno 5.0.0": "验证报告 — Netuno 5.0.0",
+    "Relatório de Verificação — Netuno 5.0.1": "验证报告 — Netuno 5.0.1",
     "Uso pela Linha de Comando": "命令行使用",
 }
 
@@ -1376,7 +1405,7 @@ _EXTRA_ENGLISH = {
     "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "Run the simulation in Step 3 to view the CO2 comparison",
     "Execute a varredura para gerar o grafico": "Run the sweep to generate the chart", "Execute o recálculo para gerar a otimização TOPSIS": "Recalculate to generate the TOPSIS optimization",
     "Exportar Figura do Grafico": "Export Chart Figure", "Grafico exportado com sucesso em:": "Chart successfully exported to:",
-    "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Sustainable Space Management Research Group | UFSC", "Imagem PNG": "PNG Image",
+    "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "Sustainable Environments Research Group | UFSC", "Imagem PNG": "PNG Image",
     "Impactos (+kg)": "Impacts (+kg)", "Indicador Hídrico": "Water Indicator", "Investimento CAPEX": "CAPEX Investment",
     "Limiar Acionamento (Recalque)": "Activation Threshold (Pumping)", "Limiar Recalque": "Pumping Threshold", "Limiar Threshold": "Threshold Limit", "Limiar de acionamento": "Activation threshold",
     "Materiais": "Materials", "Materiais & Equipamentos (+kg)": "Materials & Equipment (+kg)", "Novo Cenário": "New Scenario",
@@ -1458,7 +1487,7 @@ _EXTRA_SPANISH = {
     "Execute a simulação na Etapa 3": "Ejecute la simulación en la etapa 3", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "Ejecute la simulación en la etapa 3 para ver la curva de VAN por volumen",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "Ejecute la simulación en la etapa 3 para ver el balance ambiental", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "Ejecute la simulación en la etapa 3 para ver la comparación de CO2",
     "Execute a varredura para gerar o grafico": "Ejecute el barrido para generar el gráfico", "Execute o recálculo para gerar a otimização TOPSIS": "Vuelva a calcular para generar la optimización TOPSIS",
-    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC", "Grupo de Pesquisa Gestão do Espaço Sustentável": "Grupo de Investigación Gestión del Espacio Sostenible", "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Desarrollado en el Grupo de Investigación Gestión del Espacio Sostenible (UFSC).",
+    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC", "Grupo de Pesquisa em Ambientes Sustentáveis": "Grupo de Investigación Gestión del Espacio Sostenible", "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "Desarrollado en el Grupo de Investigación Gestión del Espacio Sostenible (UFSC).",
     "Imagem PNG": "Imagen PNG", "Impactos (+kg)": "Impactos (+kg)", "Indicador Hídrico": "Indicador hídrico", "Investimento CAPEX": "Inversión CAPEX",
     "Limiar Acionamento (Recalque)": "Umbral de activación (bombeo)", "Limiar Recalque": "Umbral de bombeo", "Limiar Threshold": "Umbral", "Limiar de acionamento": "Umbral de activación",
     "Materiais": "Materiales", "Materiais & Equipamentos (+kg)": "Materiales y equipos (+kg)", "Novo Cenário": "Nuevo escenario", "Não aplicável": "No aplicable", "Não utilizado": "No utilizado",
@@ -1538,7 +1567,7 @@ _EXTRA_CHINESE = {
     "Execute a simulação na Etapa 3": "请在第 3 步运行模拟", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "请在第 3 步运行模拟以查看净现值-容积曲线",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "请在第 3 步运行模拟以查看环境平衡", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "请在第 3 步运行模拟以查看 CO2 对比",
     "Execute a varredura para gerar o grafico": "请运行扫描以生成图表", "Execute o recálculo para gerar a otimização TOPSIS": "请重新计算以生成 TOPSIS 优化结果",
-    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "可持续空间管理研究组 | UFSC", "Grupo de Pesquisa Gestão do Espaço Sustentável": "可持续空间管理研究组", "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "由可持续空间管理研究组（UFSC）开发。",
+    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "可持续空间管理研究组 | UFSC", "Grupo de Pesquisa em Ambientes Sustentáveis": "可持续空间管理研究组", "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "由可持续空间管理研究组（UFSC）开发。",
     "Imagem PNG": "PNG 图片", "Impactos (+kg)": "影响（+kg）", "Indicador Hídrico": "水资源指标", "Investimento CAPEX": "CAPEX 投资",
     "Limiar Acionamento (Recalque)": "启动阈值（泵送）", "Limiar Recalque": "泵送阈值", "Limiar Threshold": "阈值", "Limiar de acionamento": "启动阈值",
     "Materiais": "材料", "Materiais & Equipamentos (+kg)": "材料和设备（+kg）", "Novo Cenário": "新情景", "Não aplicável": "不适用", "Não utilizado": "未使用",
@@ -1695,7 +1724,7 @@ _CHINESE_DICTIONARY.update({
     "Relatórios e Exportação em PDF / HTML": "报告与 PDF / HTML 导出", "Idioma do Relatório:": "报告语言：", "Modelo do Relatório:": "报告模板：", "Pré-visualização do Relatório (Resumo Estruturado)": "报告预览（结构化摘要）",
 })
 
-# Netuno 5.0.0: scientifically explicit screening assumptions and TOPSIS gaps.
+# Netuno 5: scientifically explicit screening assumptions and TOPSIS gaps.
 _DICTIONARY.update({
     "Conservador — 5,0 %/m3": "Conservative — 5.0 %/m3",
     "Equilibrado — 2,5 %/m3": "Balanced — 2.5 %/m3",
@@ -2217,7 +2246,7 @@ _CHINESE_DICTIONARY.update({
     'Configuração incompleta': '配置不完整',
     'Custos Operacionais Anuais (OPEX R$/ano)': '年度运营成本（OPEX，R$/年）',
     'Custos Totais (CAPEX, OPEX Acumulado e Total)': '总成本（CAPEX、累计 OPEX 及合计）',
-    'Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).': '由圣卡塔琳娜联邦大学（UFSC）可持续空间管理研究组开发。',
+    'Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).': '由圣卡塔琳娜联邦大学（UFSC）可持续空间管理研究组开发。',
     'Economia Financeira Estimada': '预计节约费用',
     'Economia de Água Potável': '饮用水节约量',
     'Edificação & Demanda': '建筑与用水需求',
@@ -2228,7 +2257,7 @@ _CHINESE_DICTIONARY.update({
     'Extravasamento Médio': '平均溢流量',
     'Fator Regional SINAPI/CUB:': 'SINAPI/CUB 地区系数：',
     'Fonte de Dados / Referência': '数据来源 / 参考文献',
-    'Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC': '可持续空间管理研究组 | UFSC',
+    'Grupo de Pesquisa em Ambientes Sustentáveis | UFSC': '可持续空间管理研究组 | UFSC',
     'Investimento / Custos (R$)': '投资 / 成本（R$）',
     'Média diária\nde recalques': '日均\n提升次数',
     'Nao Utilizar Reservatorio Superior': '不使用高位水箱',

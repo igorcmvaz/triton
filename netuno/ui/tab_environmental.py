@@ -1231,6 +1231,15 @@ class TabEnvironmental(QWidget):
         if snap["specific_kwh_per_m3"] > 0:
             _set(self.txt_pump_kwh, snap["specific_kwh_per_m3"], "{:.3f}")
         _set(self.txt_lifespan, snap["lifespan_years"], "{:.0f}")
+        # Dose e fator do cloro são dados do projeto (Etapa 2), como na linha de
+        # comando; os campos desta aba ficavam nos padrões (1,5 mg/L e 1,72)
+        # mesmo quando o projeto declarava outros valores.
+        if cfg is not None:
+            if getattr(cfg, "chlorine_treatment_enabled", True):
+                _set(self.txt_chlorine_dose, float(getattr(cfg, "chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO)), "{:.2f}")
+            else:
+                _set(self.txt_chlorine_dose, 0.0, "{:.2f}")
+            _set(self.txt_chlorine_co2, float(getattr(cfg, "chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO)), "{:.2f}")
 
         if force:
             self._params_customized = False
@@ -1324,12 +1333,7 @@ class TabEnvironmental(QWidget):
             except Exception:
                 return def_v
 
-        def preset_or_none(material_key, value, preset_attr):
-            preset = MATERIAL_PRESETS.get(material_key, MATERIAL_PRESETS["PEAD"])
-            ref = getattr(preset, preset_attr)
-            if abs(value - ref) < max(0.01, ref * 0.001):
-                return None
-            return value
+        from netuno.core.environmental import valor_personalizado_ou_none as preset_or_none
 
         def pipe_co2_or_none(dn, value):
             ref = PIPE_EMISSION_FACTORS_PER_METER.get(dn, 3.92)

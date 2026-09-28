@@ -70,6 +70,18 @@ def ciclo():
         marcas[nome] = novo
         setattr(cfg, nome, novo)
 
+    # As três frações são ligadas entre si e ficam em [0, 1]: a gravação recusa
+    # 3,6 como fração e reconcilia uma total que discorde das outras duas. Elas
+    # recebem marcas válidas e coerentes (ver netuno/core/fracao_atendivel.py).
+    from netuno.core.fracao_atendivel import fracao_total
+    coerentes = {"non_potable_indoor_share": 0.3, "potable_indoor_share": 0.7,
+                 "irrigation_liters_per_day": 150.0}
+    coerentes["rainwater_share"] = fracao_total(
+        cfg.demand_value * cfg.residents_count, 0.3, 150.0)
+    for nome, valor in coerentes.items():
+        marcas[nome] = valor
+        setattr(cfg, nome, valor)
+
     with tempfile.TemporaryDirectory() as pasta:
         caminho = os.path.join(pasta, "projeto.netuno")
         export_netuno_json(cfg, caminho)

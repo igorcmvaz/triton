@@ -18,7 +18,7 @@ from PySide6.QtGui import QColor, QFont
 import numpy as np
 
 from netuno.core.parser import parse_float, parse_int, format_ptbr
-from netuno.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual
+from netuno.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual, fracao_total
 from netuno.ui.translation import tr, get_current_theme, get_current_lang
 
 
@@ -374,7 +374,10 @@ class TabBuilding(QWidget):
         lay_sin.addWidget(QLabel(f"<b>{tr('Substituição por Água de Chuva (%):')}</b>"), 2, 2)
         self.txt_share = QLineEdit("")
         self.txt_share.setPlaceholderText(tr("Ex: 40"))
-        self.txt_share.setToolTip(tr("Percentual da demanda total diária que será atendido por água de chuva."))
+        self.txt_share.setToolTip(tr("Fração total da demanda que a chuva pode atender. É calculada a partir da fração não potável interna e da demanda externa, e não se edita diretamente."))
+        # A total é derivada: editá-la aqui mudava só os rótulos, e a simulação
+        # seguia com a fração interna. Ver netuno/core/fracao_atendivel.py.
+        self.txt_share.setReadOnly(True)
         self.txt_share.textChanged.connect(self.on_base_share_changed)
         lay_sin.addWidget(self.txt_share, 2, 3)
 
@@ -1631,6 +1634,11 @@ class TabBuilding(QWidget):
             irr_thresh = parse_float(self.txt_irr_rain_threshold.text(), 2.0)
             irr_backup = self.chk_irr_potable_backup.isChecked()
 
+        # A fração total é sempre a derivada das outras duas, e não o texto do
+        # campo, para que o arquivo gravado nunca discorde do que se simulou.
+        share_val = fracao_total(demand_val * max(residents_val, 0.0),
+                                 min(1.0, max(0.0, non_pot_in_share)), irr_vol)
+
         cfg = {
             "area": area_val,
             "runoff": runoff_val,
@@ -1730,8 +1738,26 @@ class TabBuilding(QWidget):
                 self.txt_share.setText(f"{sh_pct:.1f}".replace('.0', ''))
             if "num_economias" in cfg:
                 self.txt_economias.setText(str(cfg["num_economias"]))
-            if "runoff" in cfg:
-                r_val = float(cfg["runoff"])
+            # Fração interna e demanda externa: sem restaurá-las, a tela voltava
+            # aos padrões (35% e 0 L/dia) a cada projeto aberto e simulava com eles.
+            if cfg.get("non_potable_indoor_share") is not None:
+                fi_pct = fracao_para_percentual("A fração não potável interna", cfg["non_potable_indoor_share"])
+                txt_fi = f"{fi_pct:.1f}".replace('.0', '')
+                txt_fp = f"{100.0 - fi_pct:.1f}".replace('.0', '')
+                for campo, texto in (("txt_non_potable_indoor_share_simple", txt_fi),
+                                     ("txt_potable_indoor_share_simple", txt_fp),
+                                     ("txt_non_potable_indoor_share", txt_fi),
+                                     ("txt_potable_indoor_share", txt_fp)):
+                    if hasattr(self, campo):
+                        getattr(self, campo).setText(texto)
+            if cfg.get("irrigation_liters_per_day") is not None:
+                txt_e = f"{float(cfg['irrigation_liters_per_day']):.0f}"
+                for campo in ("txt_external_demand_l_day", "txt_irrigation_l_day"):
+                    if hasattr(self, campo):
+                        getattr(self, campo).setText(txt_e)
+            runoff_val = cfg.get("runoff") if "runoff" in cfg else cfg.get("runoff_coeff")
+            if runoff_val is not None:
+                r_val = float(runoff_val)
                 matched = False
                 for i in range(self.combo_runoff.count()):
                     c_data = self.combo_runoff.itemData(i)
@@ -1800,4 +1826,8 @@ class TabBuilding(QWidget):
             self._updating_shares = False
 
         self._recalc_unified_balance(sync_to_base=False)
+        if self.tab_demand_mode.currentIndex() == 0:
+            self._sync_simple_pluvial_share()
+        else:
+            self._sync_consolidated_share()
         self.update_tot_pluvial_label()

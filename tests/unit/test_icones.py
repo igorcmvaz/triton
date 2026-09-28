@@ -63,7 +63,11 @@ def test_todo_quadro_do_ico_e_quadrado(nome):
 def test_o_primeiro_da_lista_e_o_que_o_instalador_usa():
     """Um ícone na janela e outro no atalho é defeito que ninguém percebe cedo."""
     spec = open(os.path.join(RAIZ, "Netuno.spec"), encoding="utf-8").read()
+    iss = open(os.path.join(RAIZ, "setup_script.iss"), encoding="utf-8").read()
     primeiro = next(n for n in PROCURADOS
                     if os.path.isfile(os.path.join(ICONES, n)) and n.endswith(".ico"))
     assert primeiro in spec, (f"Netuno.spec não usa {primeiro}, que é o primeiro "
                               f"ícone que o programa carrega")
+    assert f'#define MyAppIcon "icons\\{primeiro}"' in iss, (
+        f"setup_script.iss não usa {primeiro} como MyAppIcon"
+    )

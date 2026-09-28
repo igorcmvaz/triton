@@ -346,6 +346,9 @@ def dados_de_relatorio():
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
     pytest.importorskip("PySide6")
     from PySide6.QtWidgets import QApplication
+    from netuno.ui import translation
+    anterior = translation._runtime_language
+    translation._runtime_language = "pt"
     QApplication.instance() or QApplication([])
 
     caminho = os.path.join(RAIZ, "tests", "integration", "test_report_generator.py")
@@ -362,8 +365,11 @@ def dados_de_relatorio():
             return _o(dados, *a, **k)
 
         setattr(modulo, nome, espia)
-    modulo.test_generate_executive_html_report()
-    modulo.test_generate_research_html_report()
+    try:
+        modulo.test_generate_executive_html_report()
+        modulo.test_generate_research_html_report()
+    finally:
+        translation._runtime_language = anterior
     return capturados
 
 
@@ -372,7 +378,6 @@ INDEFINIDOS = {
     "None": r"\bNone\b",
     "inf": r"\binf\b",
     "marcador não resolvido": r"\{[a-z_]+\}",
-    "versão antiga": r"5\.0\.[1-9]",
 }
 
 
@@ -386,6 +391,11 @@ def test_relatorio_nao_traz_valor_indefinido(dados_de_relatorio, tipo, lang):
     texto = re.sub(r"data:image/[^\s\"']+", "", re.sub(r"<[^>]+>", " ", html))
     achados = {k: re.findall(p, texto)[:3] for k, p in INDEFINIDOS.items()
                if re.search(p, texto)}
+    # Versão antiga: qualquer 5.x.y que não seja a atual.
+    from netuno import __version__
+    antigas = sorted({v for v in re.findall(r"5\.\d+\.\d+", texto) if v != __version__})
+    if antigas:
+        achados["versão antiga"] = antigas[:3]
     assert not achados, achados
 
 

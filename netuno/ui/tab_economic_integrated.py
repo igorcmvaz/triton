@@ -1032,7 +1032,7 @@ class TabEconomicIntegrated(QWidget):
                         annual_iptu_savings=(ann_iptu_savings if v_vol > 0 else 0.0),
                     )
                     gross_m = (econ_v.annual_cash_flows[1].total_gross_savings_brl / 12.0) if len(econ_v.annual_cash_flows) > 1 else 0.0
-                    pb_v = econ_v.payback_discounted_years or econ_v.payback_simple_years
+                    pb_v = econ_v.payback_discounted_years
 
                     # Custo operacional anual (1º ano)
                     if v_vol > 0 and len(econ_v.annual_cash_flows) > 1:
@@ -1046,8 +1046,8 @@ class TabEconomicIntegrated(QWidget):
                             max_vpl_val = econ_v.vpl
                             best_vpl_idx = row
 
-                        # Critério padrão de ótimo econômico: menor payback viável (> 0)
-                        pb_cand = econ_v.payback_discounted_years if (econ_v.payback_discounted_years and econ_v.payback_discounted_years > 0) else econ_v.payback_simple_years
+                        # Critério padrão de ótimo econômico: menor payback descontado viável (> 0) com VPL > 0
+                        pb_cand = econ_v.payback_discounted_years if (econ_v.payback_discounted_years and econ_v.payback_discounted_years > 0 and econ_v.vpl > 0) else None
                         if pb_cand is not None and pb_cand > 0:
                             if pb_cand < min_pb_val - 1e-4:
                                 min_pb_val = pb_cand

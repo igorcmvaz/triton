@@ -1,6 +1,6 @@
 # TECHNICAL AND COMPUTATIONAL VERIFICATION REPORT — NETUNO 5
 
-**Sustainable Space Management Research Group**  
+**Sustainable Environments Research Group**  
 *Faithful Replication and Engineering Validation of Netuno*  
 **Scope:** automated regression and invariant evidence | **How to reproduce:** `python -m pytest tests -v`
 

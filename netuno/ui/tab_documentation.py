@@ -2509,7 +2509,7 @@ class TabDocumentation(QWidget):
         sec_box.addWidget(lbl_sec_desc)
         lay.addLayout(sec_box)
 
-        # 3. CARD DE DESTAQUE (Volume Geral 268 páginas)
+        # 3. CARD DE DESTAQUE (Volume Geral 270 páginas)
         feat = QFrame()
         feat.setObjectName("featCard")
         feat.setStyleSheet(f"""
@@ -2538,7 +2538,7 @@ class TabDocumentation(QWidget):
             lbl_f_img.setPixmap(pm_comp)
         f_left.addWidget(lbl_f_img)
 
-        lbl_f_sub = QLabel("PDF • 268 PÁGINAS" if not ingles else "PDF • 268 PAGES")
+        lbl_f_sub = QLabel("PDF • 270 PÁGINAS" if not ingles else "PDF • 270 PAGES")
         lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
         lbl_f_sub.setAlignment(Qt.AlignCenter)
         f_left.addWidget(lbl_f_sub)
@@ -2548,7 +2548,7 @@ class TabDocumentation(QWidget):
         f_right = QVBoxLayout()
         f_right.setSpacing(6)
 
-        f_badge = QLabel("VOLUME GERAL • 268 PÁGINAS" if not ingles else "GENERAL VOLUME • 268 PAGES")
+        f_badge = QLabel("VOLUME GERAL • 270 PÁGINAS" if not ingles else "GENERAL VOLUME • 270 PAGES")
         f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
         f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         f_right.addWidget(f_badge)
@@ -2639,7 +2639,7 @@ class TabDocumentation(QWidget):
              ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
              "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
              "manual/mini/Manual-Netuno-5-3-guias.pdf"),
-            (4, 71,
+            (4, 72,
              "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
              "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
              "Exemplo completo de dimensionamento: dados pluviométricos, capacidade do reservatório, viabilidade financeira e emissões evitadas."
@@ -2657,7 +2657,7 @@ class TabDocumentation(QWidget):
              ["Confiabilidade Hídrica" if not ingles else "Water Reliability", "Curvas de Permanência" if not ingles else "Duration Curves"],
              "icons/capas/thumb_capa_5-confiabilidade.png", "#d97706", "#78350f" if is_dark else "#fef3c7", "#fcd34d" if is_dark else "#92400e",
              "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf"),
-            (6, 22,
+            (6, 23,
              "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
              "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
              "Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."

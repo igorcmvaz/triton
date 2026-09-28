@@ -864,12 +864,26 @@ class TabTanksSimulation(QWidget):
     def apply_project_state(self, state: dict, config=None):
         """Restaura os controles da Etapa 3 sem disparar cálculo prematuro."""
         state = state or {}
+        self._auto_sweep_max_value = None
+        self._auto_sweep_step_value = None
 
         def text(name, widget, fallback=""):
             if name in state:
                 value = state[name]
-            elif config is not None and hasattr(config, name) and state:
-                value = getattr(config, name)
+            elif config is not None:
+                config_prop = {
+                    "sweep_max": "lower_tank_max",
+                    "sweep_step": "lower_tank_step",
+                    "delta_ideal": "delta_ideal",
+                    "upper_volume": "upper_tank_vol",
+                }.get(name, name)
+                if name == "pump_threshold_pct":
+                    if getattr(config, "upper_tank_vol", 0) > 0 and getattr(config, "pumping_threshold", 0) > 0:
+                        value = (config.pumping_threshold / config.upper_tank_vol) * 100.0
+                    else:
+                        value = fallback or 10.0
+                else:
+                    value = getattr(config, config_prop, fallback)
             else:
                 value = fallback
             widget.blockSignals(True)
@@ -919,8 +933,8 @@ class TabTanksSimulation(QWidget):
         text("tariff_period", self.txt_readj_period, getattr(config, "tariff_escalation", 12))
         text("water_adjustment", self.txt_readj_water, getattr(config, "water_tariff_escalation", 5.0))
         text("electricity_adjustment", self.txt_readj_elec, getattr(config, "elec_tariff_escalation", 5.0))
-        self._inf_mode = state.get("inflation_mode", "year")
-        self._tma_mode = state.get("tma_mode", "year")
+        self._inf_mode = state.get("inflation_mode", "month")
+        self._tma_mode = state.get("tma_mode", "month")
         self.btn_inf_toggle.setChecked(self._inf_mode == "year")
         self.btn_tma_toggle.setChecked(self._tma_mode == "year")
         self.btn_inf_toggle.setText("% a.a." if self._inf_mode == "year" else "% a.m.")
@@ -939,8 +953,15 @@ class TabTanksSimulation(QWidget):
         self.combo_currency.setCurrentIndex(max(0, min(int(state.get("currency", 0)), self.combo_currency.count() - 1)))
         self.combo_currency.blockSignals(False)
         self.verified_dialogs = set(state.get("verified_cost_sections", []))
-        self.selected_volume_mode = state.get("selected_volume_mode", "sweep")
-        self.custom_selected_vol = parse_float(state.get("custom_selected_volume"), 5000.0)
+        # Sem estado de tela gravado, vale o que o projeto declara: no modo de
+        # volume fixo (lower_tank_mode = 0) o volume selecionado é o fixo, como
+        # na linha de comando. Antes a tela selecionava o ótimo técnico e
+        # simulava um volume que o projeto não pedia.
+        fixo = config is not None and int(getattr(config, "lower_tank_mode", 1)) == 0
+        self.selected_volume_mode = state.get("selected_volume_mode", "custom" if fixo else "sweep")
+        self.custom_selected_vol = parse_float(
+            state.get("custom_selected_volume"),
+            float(getattr(config, "lower_tank_fixed", 5000.0)) if fixo else 5000.0)
         self.on_param_changed()
         for widget in [self.txt_sweep_max, self.txt_sweep_step, self.txt_delta_ideal]:
             self.check_input_highlight(widget)

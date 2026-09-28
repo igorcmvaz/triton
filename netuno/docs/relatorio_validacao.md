@@ -1,6 +1,6 @@
 # RELATÓRIO DE VERIFICAÇÃO — NETUNO 5
 
-**Grupo de Pesquisa Gestão do Espaço Sustentável**  
+**Grupo de Pesquisa em Ambientes Sustentáveis**  
 *Replicação Fiel e Validação da Engenharia do Netuno*  
 **Escopo:** evidências automatizadas de regressão e invariantes | **Como reproduzir:** `python -m pytest tests -v`
 

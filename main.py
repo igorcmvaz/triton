@@ -65,7 +65,7 @@ def main():
 
     app.setStyle(NoMnemonicUnderlineStyle(app.style()))
     app.setApplicationName("Netuno 5")
-    app.setOrganizationName("Grupo de Pesquisa Gestão do Espaço Sustentável")
+    app.setOrganizationName("Grupo de Pesquisa em Ambientes Sustentáveis")
 
     # Verifica se é a primeira execução do aplicativo para selecionar o idioma
     check_first_run_language()

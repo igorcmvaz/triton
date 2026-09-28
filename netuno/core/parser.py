@@ -169,9 +169,9 @@ class NetunoConfig:
     num_economias: int = 1  # Número de economias / apartamentos com micromedição individual
     
     # Discretização dos Usos da Água (Potável Interno, Não-Potável Interno e Irrigação Condicional)
-    potable_indoor_share: float = 0.65  # Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
-    non_potable_indoor_share: float = 0.35  # Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
-    irrigation_liters_per_day: float = 50.0  # Volume diário fixo de irrigação/usos externos (L/dia)
+    potable_indoor_share: float = 0.60  # Fração potável do consumo interno; 1 − non_potable_indoor_share
+    non_potable_indoor_share: float = 0.40  # Fração não potável do consumo interno (bacias, máquina); ver fracao_atendivel
+    irrigation_liters_per_day: float = 0.0  # Demanda externa (rega, lavagem de áreas externas), L/dia
     irrigation_rain_threshold_mm: float = 2.0  # Limiar diário de precipitação para supressão da irrigação (mm/dia)
     irrigation_potable_backup: bool = True  # Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
     irrigation_garden_area_m2: float = 0.0  # Área de jardim em m² para o assistente de dimensionamento
@@ -788,8 +788,13 @@ def export_netuno_json(
     """
     import json
     from datetime import datetime
+    from netuno.core.fracao_atendivel import conciliar_fracoes
 
-    b_data = building_data or {}
+    # O arquivo nunca grava frações que discordam entre si: a total, a interna e
+    # a externa saem coerentes, qualquer que seja a rotina que montou a config.
+    conciliar_fracoes(config)
+    b_data = dict(building_data or {})
+    b_data["share"] = config.rainwater_share
     
     precip_list = precip_data.tolist() if precip_data is not None else []
     
@@ -925,7 +930,7 @@ def export_netuno_json(
             "irrigation": {
                 "garden_area_m2": getattr(config, "irrigation_garden_area_m2", 0.0),
                 "rate_l_m2_day": getattr(config, "irrigation_rate_l_m2_day", 3.0),
-                "liters_per_day": getattr(config, "irrigation_liters_per_day", 50.0),
+                "liters_per_day": getattr(config, "irrigation_liters_per_day", 0.0),
                 "rain_threshold_mm": getattr(config, "irrigation_rain_threshold_mm", 2.0),
                 "potable_backup": bool(getattr(config, "irrigation_potable_backup", True)),
             },
@@ -936,8 +941,8 @@ def export_netuno_json(
                 "tariff_flag": getattr(config, "tariff_flag", "verde"),
                 "tariff_customized": bool(getattr(config, "tariff_customized", False)),
                 "num_economias": getattr(config, "num_economias", 1),
-                "potable_indoor_share": getattr(config, "potable_indoor_share", 0.65),
-                "non_potable_indoor_share": getattr(config, "non_potable_indoor_share", 0.35),
+                "potable_indoor_share": getattr(config, "potable_indoor_share", 0.60),
+                "non_potable_indoor_share": getattr(config, "non_potable_indoor_share", 0.40),
                 "install_month": getattr(config, "install_month", 0),
                 "econ_lower_tank_vol": getattr(config, "econ_lower_tank_vol", 2000.0),
                 "demand_mode": getattr(config, "demand_mode", "constant"),
@@ -972,6 +977,28 @@ class FormatoDeProjetoDesconhecido(ValueError):
     Existe para que o erro suba com nome proprio, em vez de ser confundido com
     um JSON truncado — que e o outro motivo de falha na abertura.
     """
+
+def _conciliar_fracoes_lidas(cfg) -> Optional[str]:
+    """Deixa coerentes as frações lidas de um arquivo, e guarda o retrato.
+
+    Até a versão 5.0.0 a janela principal gravava a fração interna e a demanda
+    externa com os valores padrão (0,35 e 50 L/dia), fossem quais fossem os da
+    tela, e a fração total com o valor que a pessoa via. Por isso, quando as três
+    discordam e o projeto não declara área de jardim, a demanda externa gravada é
+    tratada como esse resíduo e vale a total. Ver netuno/core/fracao_atendivel.py.
+    """
+    from netuno.core.fracao_atendivel import conciliar_fracoes, fracao_total, TOLERANCIA_ENTRE_FRACOES
+    n = float(cfg.residents_count or 0)
+    di = float(cfg.demand_value or 0.0) * (n if n > 0 else 1.0)
+    try:
+        derivada = fracao_total(di, cfg.non_potable_indoor_share, cfg.irrigation_liters_per_day)
+    except ValueError:
+        derivada = None
+    if (derivada is None or abs(derivada - cfg.rainwater_share) > TOLERANCIA_ENTRE_FRACOES)             and float(getattr(cfg, "irrigation_garden_area_m2", 0.0) or 0.0) <= 0.0:
+        cfg.irrigation_liters_per_day = 0.0
+    cfg._fracoes_lidas = None
+    return conciliar_fracoes(cfg, demanda_interna_l_dia=di)
+
 
 def load_netuno_project(file_path: str) -> dict:
     """
@@ -1049,9 +1076,9 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.demand_monthly = b.get("demand_monthly", [])
             cfg.residents_monthly = b.get("residents_monthly", cfg.residents_monthly)
             cfg.rainwater_share = b.get("rainwater_share", 0.4)
-            cfg.potable_indoor_share = b.get("potable_indoor_share", 0.65)
-            cfg.non_potable_indoor_share = b.get("non_potable_indoor_share", 0.35)
-            cfg.irrigation_liters_per_day = b.get("irrigation_liters_per_day", 50.0)
+            cfg.potable_indoor_share = b.get("potable_indoor_share", cfg.potable_indoor_share)
+            cfg.non_potable_indoor_share = b.get("non_potable_indoor_share", cfg.non_potable_indoor_share)
+            cfg.irrigation_liters_per_day = b.get("irrigation_liters_per_day", cfg.irrigation_liters_per_day)
             cfg.irrigation_rain_threshold_mm = b.get("irrigation_rain_threshold_mm", 2.0)
             cfg.irrigation_potable_backup = b.get("irrigation_potable_backup", True)
             cfg.irrigation_garden_area_m2 = b.get("irrigation_garden_area_m2", 0.0)
@@ -1171,6 +1198,7 @@ def load_netuno_project(file_path: str) -> dict:
             if "operational_costs" in co:
                 cfg.op_costs = [tuple(item) for item in co["operational_costs"]]
 
+            res["aviso_fracoes"] = _conciliar_fracoes_lidas(cfg)
             res["config"] = cfg
             # O projeto JSON já contém a chuva: o nome é apenas referência
             # visual e nunca é tratado como uma dependência externa.
@@ -1180,6 +1208,7 @@ def load_netuno_project(file_path: str) -> dict:
                 "demand": cfg.demand_value,
                 "residents": cfg.residents_count,
                 "share": cfg.rainwater_share,
+                "runoff": cfg.runoff_coeff,
                 "runoff_coeff": cfg.runoff_coeff,
                 "discard": cfg.discard,
                 "use_variable": b.get("use_variable", False),

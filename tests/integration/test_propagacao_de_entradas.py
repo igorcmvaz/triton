@@ -336,15 +336,18 @@ def test_a_linha_de_comando_usa_o_consumo_especifico_corrigido():
     Aquele número dividia pelo rendimento duas vezes e implicava 67 m de altura
     manométrica. A mesma configuração dava emissão de bombeamento diferente na
     tela e no terminal, com fator de 3,7.
+
+    Agora o valor sai da mesma função que a aba ambiental da interface usa,
+    ``compute_annual_pump_energy``, calculada sobre a simulação do volume.
     """
     from netuno.cli import _environmental_config
     from netuno.core.parser import NetunoConfig
-    from netuno.core.pump_energy import consumo_especifico_padrao_kwh_por_m3
+    from netuno.core.pump_energy import compute_annual_pump_energy
 
-    ambiental = _environmental_config(NetunoConfig(), _sim_cli(), 150.0, {})
-    assert ambiental.pump.specific_kwh_per_m3 == pytest.approx(
-        consumo_especifico_padrao_kwh_por_m3()
-    )
+    cfg, sim = NetunoConfig(), _sim_cli()
+    ambiental = _environmental_config(cfg, sim, 150.0, {})
+    esperado = compute_annual_pump_energy(cfg, sim, upper_tank_used=bool(cfg.upper_tank_used))
+    assert ambiental.pump.specific_kwh_per_m3 == pytest.approx(esperado.specific_kwh_per_m3)
     assert ambiental.pump.specific_kwh_per_m3 < 0.20
 
 

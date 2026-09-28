@@ -36,7 +36,6 @@ DOCUMENTOS = [
     RAIZ / "tarifas" / "README.md",
     RAIZ / "tests" / "README.md",
     RAIZ / "infos_licenses" / "README.md",
-    RAIZ / "LegadoWeb" / "README.md",
 ]
 
 PADRAO_DE_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")

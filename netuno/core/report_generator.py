@@ -335,7 +335,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
         <table class="footer-table">
             <tr>
                 <td style="width: 55%;">
-                    <div><b>{tr('Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC')}</b></div>
+                    <div><b>{tr('Grupo de Pesquisa em Ambientes Sustentáveis | UFSC')}</b></div>
                     <div>{APP_VERSION_LABEL} Engine — {tr('Documento Executivo A4 Paisagem')}</div>
                 </td>
                 <td style="width: 45%; text-align: right;">
@@ -879,7 +879,7 @@ def generate_environmental_html_report(
         <table class="footer-table">
             <tr>
                 <td style="width: 50%;">
-                    <div><b>{'Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC' if not is_en else 'Sustainable Space Management Research Group | UFSC'}</b></div>
+                    <div><b>{'Grupo de Pesquisa em Ambientes Sustentáveis | UFSC' if not is_en else 'Sustainable Environments Research Group | UFSC'}</b></div>
                     <div>{APP_VERSION_LABEL} — {'Laudo Ambiental e ESG gerado automaticamente' if not is_en else 'Environmental & ESG Report automatically generated'}</div>
                 </td>
                 <td style="width: 50%; text-align: right;">
@@ -1842,7 +1842,7 @@ li {{ margin-bottom: 2px; }}
     <div class='cover-institution'>
         UNIVERSIDADE FEDERAL DE SANTA CATARINA — UFSC<br/>
         CENTRO TECNOLÓGICO — CTC<br/>
-        GRUPO DE PESQUISA GESTÃO DO ESPAÇO SUSTENTÁVEL — GES
+        GRUPO DE PESQUISA EM AMBIENTES SUSTENTÁVEIS
     </div>
 
     <div class='cover-center'>
@@ -2304,7 +2304,7 @@ li {{ margin-bottom: 2px; }}
 
     <div class='footer-sig'>
         <div>
-            <b>{"Grupo de Pesquisa Gestão do Espaço Sustentável" if not is_en else "Sustainable Space Management Research Group"} (UFSC)</b><br/>
+            <b>{"Grupo de Pesquisa em Ambientes Sustentáveis" if not is_en else "Sustainable Environments Research Group"} (UFSC)</b><br/>
             {APP_VERSION_LABEL} Engine — {t('prepared')}
         </div>
         <div style='text-align: right;'>

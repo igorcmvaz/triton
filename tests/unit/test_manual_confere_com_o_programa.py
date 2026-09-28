@@ -869,7 +869,8 @@ def test_o_manual_nao_cita_arquivos_de_codigo():
 # Figuras
 # ══════════════════════════════════════════════════════════════════════════════
 
-FIGURAS_ESPERADAS = 69
+# 70 desde que a curva de otimizacao ambiental (fig06b) entrou no capitulo 12.
+FIGURAS_ESPERADAS = 70
 
 
 def test_as_figuras_estao_numeradas_na_ordem_da_leitura():

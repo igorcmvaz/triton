@@ -85,3 +85,118 @@ def aviso_percentual_pequeno(percentual: float, idioma: str = "pt") -> Optional[
     digitado = f"{p:g}".replace(".", decimal)
     modelo = _MODELOS_DO_AVISO.get(idioma, _MODELOS_DO_AVISO["pt"])
     return modelo.format(d=digitado, e=exemplo)
+
+
+# ── As três frações: interna, externa e total ─────────────────────────────────
+#
+# A demanda que a chuva pode atender tem duas origens, e só elas são dados:
+#
+# - a **fração interna** ``f_in`` (``non_potable_indoor_share``): parte do
+#   consumo interno, D_in = q × N, que não exige água potável — bacias
+#   sanitárias, máquina de lavar;
+# - a **demanda externa** ``E`` (``irrigation_liters_per_day``), em L/dia:
+#   rega e lavagem de áreas externas, suspensa nos dias de chuva.
+#
+# A **fração total** ``f`` (``rainwater_share``) é derivada das duas,
+#
+#     f = (f_in × D_in + E) / (D_in + E),
+#
+# e é a que se compara com o potencial de economia, cujo denominador é a demanda
+# total. Sem demanda externa, f = f_in. Ela fica gravada no projeto para leitura
+# e para os arquivos antigos, que só a conheciam, mas não entra no motor quando
+# as outras duas existem.
+
+#: Diferença a partir da qual a fração total gravada deixa de concordar com a
+#: interna e a externa (0,05 ponto percentual).
+TOLERANCIA_ENTRE_FRACOES = 5e-4
+
+
+def fracao_total(demanda_interna_l_dia: float, fracao_interna: float,
+                 demanda_externa_l_dia: float) -> float:
+    """f = (f_in·D_in + E) / (D_in + E). Sem demanda nenhuma, devolve f_in."""
+    fi = validar_fracao("A fração não potável interna", fracao_interna)
+    di = max(0.0, float(demanda_interna_l_dia))
+    de = max(0.0, float(demanda_externa_l_dia))
+    if di + de <= 0.0:
+        return fi
+    return (fi * di + de) / (di + de)
+
+
+def fracao_interna_da_total(demanda_interna_l_dia: float, fracao_total_: float,
+                            demanda_externa_l_dia: float) -> float:
+    """Inverte :func:`fracao_total`: a f_in que, com E, resulta na f pedida.
+
+    Se a demanda externa sozinha já supera a fração total pedida, não há f_in
+    possível; a função recusa em vez de devolver zero em silêncio.
+    """
+    f = validar_fracao("A fração total atendível", fracao_total_)
+    di = max(0.0, float(demanda_interna_l_dia))
+    de = max(0.0, float(demanda_externa_l_dia))
+    if di <= 0.0:
+        return f
+    fi = (f * (di + de) - de) / di
+    if fi < -TOLERANCIA_ENTRE_FRACOES or fi > 1.0 + TOLERANCIA_ENTRE_FRACOES:
+        raise ValueError(
+            f"Com {de:g} L/dia de demanda externa e {di:g} L/dia de demanda interna, "
+            f"a fração total de {f * 100:.1f}% é impossível: a externa sozinha já "
+            f"responde por {de / (di + de) * 100:.1f}% da demanda.")
+    return min(1.0, max(0.0, fi))
+
+
+def conciliar_fracoes(obj, *, demanda_interna_l_dia: Optional[float] = None) -> Optional[str]:
+    """Deixa as três frações de um projeto coerentes entre si, e diz o que fez.
+
+    ``obj`` é a configuração do projeto (``NetunoConfig`` ou equivalente, com
+    ``rainwater_share``, ``non_potable_indoor_share``, ``potable_indoor_share``,
+    ``irrigation_liters_per_day``, ``demand_value`` e ``residents_count``).
+
+    Qual das frações foi editada decide qual se recalcula. A leitura do arquivo
+    guarda um retrato, ``_fracoes_lidas``; comparado com ele:
+
+    - mudou só a total (``--share``, ``--set rainwater_share``, cenários):
+      a interna é recalculada a partir dela, mantida a externa;
+    - mudou a interna ou a externa: a total é recalculada;
+    - mudaram as duas e não concordam: é um erro de quem pediu, e se diz qual.
+
+    Sem retrato (configuração montada no código) e em desacordo, vale a total,
+    que é a grandeza que as rotinas antigas definem.
+
+    Devolve um aviso legível quando algo foi recalculado por desacordo, ou None.
+    """
+    if demanda_interna_l_dia is None:
+        n = float(getattr(obj, "residents_count", 0) or 0)
+        demanda_interna_l_dia = float(getattr(obj, "demand_value", 0.0) or 0.0) * (n if n > 0 else 1.0)
+    di = demanda_interna_l_dia
+    f = float(obj.rainwater_share)
+    fi = float(getattr(obj, "non_potable_indoor_share", f))
+    de = float(getattr(obj, "irrigation_liters_per_day", 0.0) or 0.0)
+    lidas = getattr(obj, "_fracoes_lidas", None)
+    aviso = None
+
+    def _difere(a, b):
+        return abs(float(a) - float(b)) > TOLERANCIA_ENTRE_FRACOES
+
+    derivada = fracao_total(di, fi, de)
+    if not _difere(derivada, f):
+        novo = (derivada, fi, de)
+    elif lidas is not None and (_difere(fi, lidas[1]) or _difere(de, lidas[2])) and not _difere(f, lidas[0]):
+        novo = (derivada, fi, de)
+    elif lidas is not None and _difere(f, lidas[0]) and (_difere(fi, lidas[1]) or _difere(de, lidas[2])):
+        raise ValueError(
+            f"A fração total ({f * 100:.1f}%) e a interna ({fi * 100:.1f}%) foram alteradas "
+            f"juntas e não concordam: com {de:g} L/dia de demanda externa, a interna de "
+            f"{fi * 100:.1f}% dá {derivada * 100:.1f}% de total. Altere só uma das duas.")
+    else:
+        novo = (f, fracao_interna_da_total(di, f, de), de)
+        if lidas is None or not _difere(f, lidas[0]):
+            aviso = (f"A fração total declarada ({f * 100:.1f}%) não concordava com a interna "
+                     f"({fi * 100:.1f}%) e a externa ({de:g} L/dia); vale a total, e a interna "
+                     f"passa a {novo[1] * 100:.1f}%.")
+
+    obj.rainwater_share, obj.non_potable_indoor_share, obj.irrigation_liters_per_day = novo
+    obj.potable_indoor_share = 1.0 - novo[1]
+    try:
+        obj._fracoes_lidas = novo
+    except AttributeError:
+        pass
+    return aviso

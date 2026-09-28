@@ -889,3 +889,20 @@ def run_environmental_sweep(
         min_payback_years=min_payback,
         sweep_details=details
     )
+
+
+def valor_personalizado_ou_none(material_key: str, value, preset_attr: str):
+    """None quando o valor é o do material de referência, dentro do arredondamento.
+
+    As telas mostram densidade e fator com uma ou duas casas; relido do estado da
+    tela, 1,612 kg CO2e/kg volta como 1,61 e viraria um valor «personalizado»
+    diferente do de referência. É a mesma regra na interface e na linha de comando.
+    """
+    if value is None:
+        return None
+    preset = MATERIAL_PRESETS.get(material_key, MATERIAL_PRESETS["PEAD"])
+    ref = getattr(preset, preset_attr)
+    if abs(float(value) - ref) < max(0.01, ref * 0.001):
+        return None
+    return float(value)
+

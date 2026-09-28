@@ -157,6 +157,10 @@ class MainWindow(QMainWindow):
         action_doc.triggered.connect(lambda: self.on_step_changed(10))
         menu_ajuda.addAction(action_doc)
 
+        action_about = QAction(tr("Sobre o Netuno"), self)
+        action_about.triggered.connect(self.on_show_about)
+        menu_ajuda.addAction(action_about)
+
     def set_theme(self, theme):
         """Compatibilidade interna: a edição atual é exclusivamente clara."""
         self.setStyleSheet(NETUNO4_CLASSIC_QSS)
@@ -552,6 +556,9 @@ class MainWindow(QMainWindow):
                 self.tab_project.precip_data = proj["precip_data"]
                 self.tab_project.precip_file_path = proj["precip_filename"]
                 self.tab_project.txt_file_path.setText(proj["precip_filename"])
+                self.tab_project.rb_source_custom.setChecked(True)
+                self.tab_project.panel_national.hide()
+                self.tab_project.panel_custom.show()
                 self.tab_project.update_tables()
 
             # 1.1 Carrega localização tarifária
@@ -623,6 +630,14 @@ class MainWindow(QMainWindow):
             cfg.demand_value = b_cfg.get('demand', 200.0)
             cfg.residents_count = b_cfg.get('residents', 3)
             cfg.rainwater_share = b_cfg.get('share', 0.4)
+            # A fração interna e a demanda externa são as que a tela simula; sem
+            # copiá-las, o arquivo gravava os valores padrão (0,35 e 50 L/dia) e
+            # discordava da fração total. Ver netuno/core/fracao_atendivel.py.
+            cfg.non_potable_indoor_share = b_cfg.get('non_potable_indoor_share', cfg.rainwater_share)
+            cfg.potable_indoor_share = 1.0 - cfg.non_potable_indoor_share
+            cfg.irrigation_liters_per_day = b_cfg.get('irrigation_liters_per_day', 0.0)
+            cfg.irrigation_rain_threshold_mm = b_cfg.get('irrigation_rain_threshold_mm', 2.0)
+            cfg.irrigation_potable_backup = b_cfg.get('irrigation_potable_backup', True)
             cfg.runoff_coeff = b_cfg.get('runoff', COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             cfg.demand_monthly = b_cfg.get('monthly_demands') or []
             cfg.residents_monthly = b_cfg.get('monthly_residents') or []
@@ -657,7 +672,13 @@ class MainWindow(QMainWindow):
                 ts = self.tab_tanks_simulation
                 cfg.lower_tank_max = parse_float(ts.txt_sweep_max.text(), cfg.lower_tank_max)
                 cfg.lower_tank_step = parse_float(ts.txt_sweep_step.text(), cfg.lower_tank_step)
-                cfg.lower_tank_mode = 1
+                # Volume escolhido à mão na tela = volume fixo do projeto; a linha
+                # de comando o avalia sozinho, e a releitura o seleciona de novo.
+                if getattr(ts, 'selected_volume_mode', 'sweep') == 'custom':
+                    cfg.lower_tank_mode = 0
+                    cfg.lower_tank_fixed = float(ts.custom_selected_vol)
+                else:
+                    cfg.lower_tank_mode = 1
                 cfg.delta_ideal = parse_float(ts.txt_delta_ideal.text(), cfg.delta_ideal)
                 cfg.upper_tank_used = 1 if ts.combo_upper_mode.currentIndex() != 2 else 0
                 ts.write_supply_to_config(cfg)
@@ -712,14 +733,14 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             tr(f"Manual do Usuário — Netuno {__version__}"),
-            tr('{0} — {1}\n{2}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n{3} (UFSC)').format(APP_VERSION_LABEL, tr('Manual do Usuário'), tr('Autores'), tr('Grupo de Pesquisa Gestão do Espaço Sustentável'))
+            tr('{0} — {1}\n{2}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n{3} (UFSC)').format(APP_VERSION_LABEL, tr('Manual do Usuário'), tr('Autores'), tr('Grupo de Pesquisa em Ambientes Sustentáveis'))
         )
 
     def on_show_citation(self):
         citation = (
             f"VAZ, I. C. M.; GHISI, E. <b>Netuno {__version__}</b>: "
             f"{tr('Programa computacional para simulação de aproveitamento de água de chuva em edificações')}. "
-            f"Florianópolis: Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa Gestão do Espaço Sustentável')}, 2026. "
+            f"Florianópolis: Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa em Ambientes Sustentáveis')}, 2026. "
             f"Software de computador, versão {__version__}."
         )
         bibtex = (
@@ -747,7 +768,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             tr(f"Sobre o Netuno {__version__}"),
-            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.'))
+            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.'))
         )
 
     def on_download_excel_sample(self):
@@ -763,7 +784,7 @@ class MainWindow(QMainWindow):
                 "<p>💡 <b>Para matrizes muito grandes:</b><br>"
                 "Estudos com milhares de cenários e séries longas são executados pela interface de "
                 "automação que acompanha a distribuição de código-fonte, usada nos trabalhos do "
-                "Grupo de Pesquisa Gestão do Espaço Sustentável. Para um estudo de projeto, a planilha "
+                "Grupo de Pesquisa em Ambientes Sustentáveis. Para um estudo de projeto, a planilha "
                 "de cenários desta tela responde a mesma pergunta.</p>"
                 "<p>Deseja salvar a planilha modelo de cenários (<code>.xlsx</code>) para preenchimento agora?</p>"
             )

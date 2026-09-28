@@ -312,6 +312,28 @@ def run_economic_analysis(
     """
     Executes full financial cash flow, VPL, TIR, and Payback analysis.
     """
+    if sim_result.lower_tank_vol <= 0 and sim_result.annual_pluvial_consumed_m3 <= 0:
+        return EconomicAnalysisResult(
+            vpl=0.0,
+            tir_monthly_pct=0.0,
+            tir_annual_pct=0.0,
+            payback_months=None,
+            payback_years=None,
+            capex_total=0.0,
+            annual_water_savings_brl=0.0,
+            annual_opex_brl=0.0,
+            monthly_pump_kwh=0.0,
+            annual_pump_kwh=0.0,
+            monthly_pump_cost_brl=0.0,
+            annual_pump_cost_brl=0.0,
+            annual_chlorine_cost_brl=0.0,
+            etap_capex_brl=0.0,
+            annual_etap_opex_brl=0.0,
+            annual_iptu_savings_brl=0.0,
+            annual_chlorine_kg=0.0,
+            monthly_cash_flows=[]
+        )
+
     # 1. Initial Investment Cost (CAPEX)
     capex = (
         config.cost_lower_tank +

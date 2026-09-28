@@ -789,7 +789,13 @@ class TabProject(QWidget):
             self.populate_climate_cities(select_city=city_name)
         finally:
             self._is_populating = False
-        self.load_active_national_series()
+        if getattr(self, "rb_source_national", None) and self.rb_source_national.isChecked():
+            if self.precip_data is None:
+                self.load_active_national_series()
+            else:
+                self.update_tariff_location_preview()
+        else:
+            self.update_tariff_location_preview()
 
     def _get_config(self):
         main_win = self.window()
@@ -1222,7 +1228,7 @@ class TabProject(QWidget):
 
     def apply_project_state(self, state: dict, config=None):
         state = state or {}
-        mode = state.get("source_mode", "national_db")
+        mode = state.get("source_mode", "custom_file" if self.precip_data is not None else "national_db")
         if mode == "national_db":
             self.rb_source_national.setChecked(True)
         else:
@@ -1267,7 +1273,8 @@ class TabProject(QWidget):
             self._is_populating = False
 
         if mode == "national_db":
-            self.load_active_national_series()
+            if self.precip_data is None or state.get("source_mode") == "national_db":
+                self.load_active_national_series()
         else:
             f_path = state.get("file_path", getattr(config, 'precip_file', ''))
             if f_path and os.path.isfile(f_path):
