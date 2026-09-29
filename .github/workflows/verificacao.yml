@@ -18,6 +18,9 @@ jobs:
   nucleo:
     name: Núcleo de cálculo (${{ matrix.kernel }}, Python ${{ matrix.python }})
     runs-on: ubuntu-latest
+    # Os jobs levam poucos minutos; um limite curto impede que uma fonte externa
+    # lenta (a ANEEL, nos testes de rede) prenda a verificação por horas.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -73,6 +76,9 @@ jobs:
   replicacao:
     name: Replicação contra o Netuno 4
     runs-on: ubuntu-latest
+    # Os jobs levam poucos minutos; um limite curto impede que uma fonte externa
+    # lenta (a ANEEL, nos testes de rede) prenda a verificação por horas.
+    timeout-minutes: 20
     # A comparação percorre 4.050 casos de referência. Com o kernel acelerado leva
     # cerca de dois minutos; sem ele, mais de dez. Roda apenas no push para main.
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'

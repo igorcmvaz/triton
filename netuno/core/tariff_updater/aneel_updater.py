@@ -9,11 +9,17 @@ import os
 import csv
 import io
 import datetime as dt
+import time
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, Any, Optional, List
 import requests
+
+# Prazo total do download. O timeout do requests vale entre dois pacotes: um
+# servidor lento, que manda um pouco a cada minuto, prenderia o programa para
+# sempre sem este limite.
+DOWNLOAD_DEADLINE_S = 180.0
 
 ANEEL_OPEN_DATA_URL = (
     "https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e/"
@@ -134,15 +140,23 @@ class AneelTariffUpdater:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
             "Accept": "text/csv,text/plain,*/*"
         }
+        # Baixa para um arquivo temporário e só então substitui o cache: um
+        # download interrompido nunca deixa um CSV pela metade no lugar do bom.
+        partial = self.cache_file.with_name(self.cache_file.name + ".part")
         try:
+            started = time.monotonic()
             resp = requests.get(ANEEL_OPEN_DATA_URL, headers=headers, timeout=60, stream=True)
             resp.raise_for_status()
-            with open(self.cache_file, "wb") as f:
+            with open(partial, "wb") as f:
                 for chunk in resp.iter_content(chunk_size=128 * 1024):
+                    if time.monotonic() - started > DOWNLOAD_DEADLINE_S:
+                        raise TimeoutError(f"download excedeu {DOWNLOAD_DEADLINE_S:.0f} s")
                     if chunk:
                         f.write(chunk)
+            os.replace(partial, self.cache_file)
             print(f" [⚡ ANEEL] Download concluído com sucesso ({self.cache_file.stat().st_size:,} bytes).")
         except Exception as e:
+            partial.unlink(missing_ok=True)
             if self.cache_file.exists():
                 print(f" [⚡ ANEEL] Falha no download ({e}). Utilizando arquivo de cache local existente.")
             else:

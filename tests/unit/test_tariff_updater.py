@@ -78,3 +78,66 @@ class TestTariffUpdater(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---------------------------------------------------------------------------------
+# Download da ANEEL sem rede: prazo total e cache nunca corrompido
+# ---------------------------------------------------------------------------------
+
+class _RespostaFalsa:
+    def __init__(self, pedacos, relogio, passo_s):
+        self._pedacos, self._relogio, self._passo = pedacos, relogio, passo_s
+
+    def raise_for_status(self):
+        pass
+
+    def iter_content(self, chunk_size):
+        for pedaco in self._pedacos:
+            self._relogio[0] += self._passo  # cada pedaço "leva" passo_s segundos
+            if isinstance(pedaco, Exception):
+                raise pedaco
+            yield pedaco
+
+
+def _preparar(monkeypatch, pedacos, passo_s):
+    from netuno.core.tariff_updater import aneel_updater
+
+    relogio = [0.0]
+    monkeypatch.setattr(aneel_updater.time, "monotonic", lambda: relogio[0])
+    monkeypatch.setattr(aneel_updater.requests, "get",
+                        lambda *a, **k: _RespostaFalsa(pedacos, relogio, passo_s))
+    return aneel_updater
+
+
+def test_download_lento_para_no_prazo_e_preserva_o_cache(tmp_path, monkeypatch):
+    """Um servidor que manda um pouco por minuto não prende o programa.
+
+    O timeout do requests só vale entre pacotes; sem prazo total, a atualização
+    de tarifas (e a integração contínua) esperariam indefinidamente.
+    """
+    modulo = _preparar(monkeypatch, [b"x" * 10] * 1000, passo_s=30.0)
+    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
+    atualizador.cache_file.write_bytes(b"cache bom" * 200)
+
+    assert atualizador.fetch_latest_csv(force_download=True) == str(atualizador.cache_file)
+    assert atualizador.cache_file.read_bytes() == b"cache bom" * 200
+    assert not list(tmp_path.glob("*.part"))
+
+
+def test_download_interrompido_sem_cache_e_erro_claro(tmp_path, monkeypatch):
+    modulo = _preparar(monkeypatch, [b"cabecalho;", ConnectionError("queda")], passo_s=1.0)
+    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
+
+    with pytest.raises(RuntimeError, match="Não foi possível obter dados da ANEEL: queda"):
+        atualizador.fetch_latest_csv(force_download=True)
+    assert not atualizador.cache_file.exists()  # nada pela metade no lugar do cache
+    assert not list(tmp_path.glob("*.part"))
+
+
+def test_download_completo_substitui_o_cache(tmp_path, monkeypatch):
+    modulo = _preparar(monkeypatch, [b"novo;" * 300, b"fim"], passo_s=1.0)
+    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
+    atualizador.cache_file.write_bytes(b"antigo" * 300)
+
+    atualizador.fetch_latest_csv(force_download=True)
+    assert atualizador.cache_file.read_bytes() == b"novo;" * 300 + b"fim"
