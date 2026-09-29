@@ -11,10 +11,8 @@ o CAD e o Revit; a leitura rápida é feita no esquema 3D fora de escala de
 
 from __future__ import annotations
 
-import math
-from html import escape
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 
 import ezdxf
 from ezdxf import units
