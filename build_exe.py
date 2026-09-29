@@ -236,6 +236,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
                 except Exception:
                     pass
 
+        remover_base_climatica_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
+
     print(f"\n[SUCESSO] Compilação concluída com sucesso em: dist/{args.name}/")
     return True
 
@@ -318,6 +320,21 @@ BASE_CLIMATICA = Path("data") / "climbra.db"
 PASTAS_DE_CSV_CLIMBRA = ("climbra_data", "Netuno future files for 652 cities")
 
 
+def remover_base_climatica_fora_da_brl(dist_dir: Path, edicao: str) -> None:
+    """A base CLIMBra só cobre cidades brasileiras e vai só na Edição Brasil.
+
+    O PyInstaller copia a pasta `data` inteira; na Internacional o banco sai
+    depois, e a edição fica leve e trabalha com séries próprias.
+    """
+    if edicao == "brl":
+        return
+    for base in [dist_dir, dist_dir / "_internal"]:
+        db = base / BASE_CLIMATICA
+        if db.exists():
+            db.unlink()
+            print(f"[*] Removido da edição {edicao.upper()}: {db}")
+
+
 def garantir_base_climatica(base_dir: Path) -> bool:
     """A Edição Brasil sai com a base CLIMBra embutida, ou não sai.
 
@@ -390,6 +407,7 @@ def main():
         ed_args = argparse.Namespace(**vars(args))
         ed_args.name = args.name or nome
         ed_args.main_script = base_dir / script
+        ed_args.edicao = edicao
         print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
         success = build_pyinstaller(ed_args, base_dir)
         if success and args.installer:

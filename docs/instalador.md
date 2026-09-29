@@ -50,7 +50,9 @@ Para compilar só o instalador, com `dist\Netuno` já pronto:
 A Edição Brasil (`Netuno.exe`, a que o instalador empacota) sai com a base CLIMBra
 **embutida**: o banco compilado `data/climbra.db` (cerca de 784 MB, 652 cidades,
 modelos e cenários CMIP6) entra no executável em `_internal\data\climbra.db`, e o
-programa já abre com as cidades no seletor da Etapa 1.
+programa já abre com as cidades no seletor da Etapa 1. A Edição Internacional
+(`--edition int`, em `dist\Netuno_INT`) sai **sem** o banco, que cobre só cidades
+brasileiras, e trabalha com séries de chuva próprias.
 
 O banco fica fora do git, por isso cada máquina de compilação o gera uma vez:
 

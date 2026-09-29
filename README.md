@@ -184,7 +184,7 @@ python build_exe.py --edition both --clean
 
 O instalador compilado será gerado em `dist/Netuno_Setup_5_0_0.exe`, a partir da Edição
 Brasil em `dist/Netuno/`. As duas edições partem do mesmo código e, nesta versão, se
-distinguem pelo executável e pelo título da janela; idioma, moeda e fonte de chuva são
+distinguem pelo executável, pelo título da janela e pela base CLIMBra, que só a Brasil leva; idioma, moeda e fonte de chuva são
 escolhidos na própria interface. A compilação exige Python 3.12 ou superior.
 
 A Edição Brasil sai com a base CLIMBra compilada embutida (`data/climbra.db`, 652 cidades):

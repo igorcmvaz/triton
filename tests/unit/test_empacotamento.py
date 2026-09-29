@@ -124,3 +124,15 @@ def test_o_instalador_confere_a_base_climbra_no_pacote(tmp_path):
     assert os.path.join("dist", "Netuno", "_internal", "data", "climbra.db") in [os.path.normpath(f) for f in faltam]
     # E a pasta `data` inteira entra no executável, levando o banco junto.
     assert "('data', 'data')" in open(os.path.join(RAIZ, "Netuno.spec"), encoding="utf-8").read()
+
+
+def test_a_edicao_internacional_sai_sem_a_base_climbra(tmp_path):
+    """A CLIMBra cobre só o Brasil: vai na BRL e é retirada do pacote da INT."""
+    b = _build_exe()
+    for edicao in ("brl", "int"):
+        db = tmp_path / edicao / "_internal" / "data" / "climbra.db"
+        db.parent.mkdir(parents=True)
+        db.write_bytes(b"SQLite")
+        b.remover_base_climatica_fora_da_brl(tmp_path / edicao, edicao)
+    assert (tmp_path / "brl" / "_internal" / "data" / "climbra.db").exists()
+    assert not (tmp_path / "int" / "_internal" / "data" / "climbra.db").exists()
