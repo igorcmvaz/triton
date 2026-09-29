@@ -1,3 +1,9 @@
+"""Imprime as estimativas calibradas de CAPEX e OPEX para conferência visual.
+
+É um relatório, não um teste: não faz asserções. Os testes do modelo de custos
+ficam em tests/.
+"""
+
 import sys
 import os
 

@@ -61,22 +61,22 @@ $$\text{VPL} = - \text{CAPEX} + \sum_{t=1}^{N} \frac{\Delta C_{\text{água},t}+\
 Execute `python -m pytest tests -v` no ambiente do projeto para obter a contagem e o resultado atuais. A suíte é organizada por propósito: invariantes de conservação de massa e finanças; testes unitários de simulação, parser, economia, ACV e TOPSIS; integrações de relatórios, cenários e interface. Os casos abaixo são exemplos rastreáveis — o resultado apresentado deve sempre ser o da execução atual.
 
 ```text
-tests/test_batch_validation.py::test_daily_water_balance_validation_sample PASSED
-tests/test_daily_water_balance.py::test_simple_3day_water_balance PASSED
-tests/test_economic.py::test_water_bill_multi_tier_calculation PASSED
-tests/test_economic.py::test_sewage_fixed_and_water_taxes PASSED
-tests/test_economic.py::test_pump_operational_electricity_costs PASSED
-tests/test_economic.py::test_additional_operational_costs PASSED
-tests/test_economic.py::test_economic_vpl_and_payback_favorable PASSED
-tests/test_economic.py::test_economic_unfavorable_scenario_negative_vpl PASSED
-tests/test_parser.py::test_parse_float_and_int PASSED
-tests/test_parser.py::test_load_precipitation_file PASSED
-tests/test_parser.py::test_parse_netuno_project_csv PASSED
-tests/test_parser.py::test_export_netuno4_csv_roundtrip PASSED
-tests/test_simulation.py::test_zero_rain_simulation PASSED
-tests/test_simulation.py::test_extreme_rain_simulation PASSED
-tests/test_simulation.py::test_dual_tank_pumping PASSED
-tests/test_simulation.py::test_sweep_optimal_volume_determination PASSED
+tests/integration/test_batch_validation.py::test_daily_water_balance_validation_sample PASSED
+tests/unit/test_daily_water_balance.py::test_simple_3day_water_balance PASSED
+tests/unit/test_economic.py::test_water_bill_multi_tier_calculation PASSED
+tests/unit/test_economic.py::test_sewage_fixed_and_water_taxes PASSED
+tests/unit/test_economic.py::test_pump_operational_electricity_costs PASSED
+tests/unit/test_economic.py::test_additional_operational_costs PASSED
+tests/unit/test_economic.py::test_economic_vpl_and_payback_favorable PASSED
+tests/unit/test_economic.py::test_economic_unfavorable_scenario_negative_vpl PASSED
+tests/unit/test_parser.py::test_parse_float_and_int PASSED
+tests/unit/test_parser.py::test_load_precipitation_file PASSED
+tests/unit/test_parser.py::test_parse_netuno_project_csv PASSED
+tests/unit/test_parser.py::test_export_netuno4_csv_roundtrip PASSED
+tests/unit/test_simulation.py::test_zero_rain_simulation PASSED
+tests/unit/test_simulation.py::test_extreme_rain_simulation PASSED
+tests/unit/test_simulation.py::test_dual_tank_pumping PASSED
+tests/unit/test_simulation.py::test_sweep_optimal_volume_determination PASSED
 ```
 
 ---

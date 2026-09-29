@@ -1,7 +1,7 @@
 """
 Suíte de Testes Financeiros Robustos e Cálculos Massivos do Netuno 5.
 Valida:
-1. Leitura e Execução de Presets da Planilha CSV (tests/test_financial_presets.csv)
+1. Leitura e Execução de Presets da Planilha CSV (tests/integration/test_financial_presets.csv)
 2. Propriedades Matemáticas Invariantes (Monotonicidade, Convergência da TIR, Payback Descontado >= Simples, Balanço de Caixa)
 3. Teste Massivo Paramétrico (Monte Carlo / Grid Search com +1000 cenários)
 4. Estabilidade da Matriz e Gráfico Teia de Sensibilidade Multivariável em Cenários Extremos

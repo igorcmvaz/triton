@@ -22,6 +22,7 @@ from netuno.core.excel_scenarios import (
     generate_factorial_grid,
     generate_sample_scenario_excel,
     parse_excel_scenarios,
+    run_parsed_scenarios,
 )
 
 SERIES = Path(__file__).resolve().parents[2] / "data" / "rainfall"
@@ -47,6 +48,33 @@ def test_modelo_gerado_pelo_programa_e_legivel_pelo_programa(tmp_path):
     for cenario in cenarios:
         assert cenario.get("scenario_name"), "cenário sem nome após a leitura"
         assert float(cenario.get("area", 0)) > 0, f"área inválida em {cenario}"
+
+
+def test_modelo_gerado_pelo_programa_roda_com_as_series_distribuidas(tmp_path):
+    """Cada série citada no modelo existe em data/rainfall, e o modelo roda.
+
+    O modelo já apontou para uma série que não era distribuída: o exemplo
+    entregue ao usuário falhava na primeira execução.
+    """
+    destino = tmp_path / "modelo.xlsx"
+    cenarios = parse_excel_scenarios(generate_sample_scenario_excel(str(destino)))
+    for cenario in cenarios:
+        assert (SERIES / Path(cenario["precip_file"]).name).exists(), cenario["precip_file"]
+    resultados = run_parsed_scenarios(cenarios[:1])
+    assert len(resultados) == 1
+
+
+def test_serie_ausente_e_erro_claro_e_nunca_troca_silenciosa(tmp_path):
+    """Sem a série do cenário, o erro diz qual cenário e qual arquivo.
+
+    Trocar em silêncio pela chuva de outra cidade daria um resultado plausível
+    e errado.
+    """
+    destino = tmp_path / "modelo.xlsx"
+    cenarios = parse_excel_scenarios(generate_sample_scenario_excel(str(destino)))[:1]
+    cenarios[0]["precip_file"] = "Cidade_Inexistente.csv"
+    with pytest.raises(FileNotFoundError, match=r"Cenário '.+': série de chuva 'Cidade_Inexistente.csv' não encontrada"):
+        run_parsed_scenarios(cenarios)
 
 
 def test_leitura_aceita_planilha_em_memoria(tmp_path):

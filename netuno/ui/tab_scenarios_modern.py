@@ -373,12 +373,8 @@ class TabScenariosModern(QWidget):
                 precip_data = main_win.tab_project.precip_data
 
             if precip_data is None or len(precip_data) == 0:
-                from netuno.core.parser import load_precipitation
-                try:
-                    precip_data = load_precipitation("precFpolis_2002_2011.csv")
-                except Exception:
-                    QMessageBox.warning(self, tr("Aviso"), tr("Por favor, carregue uma série de chuva na Etapa 1 antes de executar os cenários."))
-                    return
+                QMessageBox.warning(self, tr("Aviso"), tr("Por favor, carregue uma série de chuva na Etapa 1 antes de executar os cenários."))
+                return
 
             from netuno.core.parser import parse_float, parse_int, format_ptbr
             scenarios_data = []

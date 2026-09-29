@@ -13,10 +13,7 @@ WORKSPACE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 @pytest.fixture
 def fpolis_precip():
-    path = os.path.join(WORKSPACE_DIR, "Additional_Material", "Precipitation_Samples", "precFpolis_2002_2011.csv")
-    if not os.path.exists(path):
-        path = os.path.join(WORKSPACE_DIR, "data", "rainfall", "Florianopolis1.csv")
-    return load_precipitation(path)
+    return load_precipitation(os.path.join(WORKSPACE_DIR, "data", "rainfall", "Florianopolis1.csv"))
 
 def test_zero_rain_simulation():
     """Verify that zero rain results in 0% potential savings and 100% null satisfaction."""

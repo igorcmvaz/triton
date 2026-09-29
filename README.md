@@ -164,7 +164,7 @@ Para executar a suíte de testes unitários, testes de interface e validações 
 pytest
 
 # Executar testes específicos com cobertura detalhada:
-pytest tests/test_mcdm_methods.py tests/ui/ -v
+pytest tests/unit/test_mcdm_methods.py tests/ui/ -v
 ```
 
 ---

@@ -84,7 +84,6 @@ def load_precipitation(file_path: str) -> np.ndarray:
         base_name,
         os.path.join(".", base_name),
         os.path.join(base_dir, "data", "rainfall", base_name),
-        os.path.join(base_dir, "Additional_Material", "Precipitation_Samples", base_name)
     ]
     
     target_path = None

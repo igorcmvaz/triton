@@ -127,6 +127,17 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "netuno.core.mcdm_methods",
         "netuno.core.environmental_sync",
         "netuno.core.esg_certifications",
+        # Planta 3D, esquema e volumetria: parte é importada só dentro de funções.
+        "netuno.core.component_geometry",
+        "netuno.core.pipe_network",
+        "netuno.core.plant_3d",
+        "netuno.core.schematic_3d",
+        "netuno.core.volumetry",
+        "netuno.core.volumetry_export",
+        "netuno.ui.volumetry_view",
+        "netuno.ui.dialogs.pipe_runs_dialog",
+        "PySide6.QtSvg",
+        "ezdxf.render.forms",
     ]
     for hi in hidden_imports:
         cmd.append(f"--hidden-import={hi}")
@@ -190,7 +201,15 @@ def build_inno_setup(base_dir: Path) -> bool:
         return False
 
 
+PYTHON_MINIMO = (3, 12)
+
+
 def main():
+    # O executável embute o Python que o compila. O código usa sintaxe do 3.12
+    # (f-strings) e, compilado num Python anterior, o instalador sairia quebrado.
+    if sys.version_info < PYTHON_MINIMO:
+        sys.exit(f"[ERRO] Compile o Netuno com Python {PYTHON_MINIMO[0]}.{PYTHON_MINIMO[1]} ou superior "
+                 f"(este é {sys.version.split()[0]}).")
     parser = argparse.ArgumentParser(
         description="Compilador oficial do Netuno 5 para Windows (PyInstaller + Inno Setup)"
     )

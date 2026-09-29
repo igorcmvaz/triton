@@ -18,7 +18,7 @@ def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_netuno.xl
     sample_data = [
         {
             "Cenario": "Residência Florianópolis 3 hab",
-            "Chuva_Arquivo": "precFpolis_2002_2011.csv",
+            "Chuva_Arquivo": "Florianopolis1.csv",
             "Area_m2": 100,
             "Moradores": 3,
             "Demanda_L_hab_dia": 100,
@@ -32,8 +32,8 @@ def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_netuno.xl
             "Limiar_Recalque_L": 375
         },
         {
-            "Cenario": "Residência Santos 4 hab",
-            "Chuva_Arquivo": "precSantos_1994_2003.csv",
+            "Cenario": "Residência São Paulo 4 hab",
+            "Chuva_Arquivo": "SaoPaulo1.csv",
             "Area_m2": 150,
             "Moradores": 4,
             "Demanda_L_hab_dia": 120,
@@ -47,8 +47,8 @@ def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_netuno.xl
             "Limiar_Recalque_L": 375
         },
         {
-            "Cenario": "Escola Santana do Ipanema",
-            "Chuva_Arquivo": "precSantanaDoIpanema_2002_2011.csv",
+            "Cenario": "Escola Brasília",
+            "Chuva_Arquivo": "Brasilia1.csv",
             "Area_m2": 300,
             "Moradores": 10,
             "Demanda_L_hab_dia": 50,
@@ -98,7 +98,7 @@ def parse_excel_scenarios(file_input: Union[str, bytes, io.BytesIO]) -> List[Dic
             return default
             
         c_name = get_val(["cenario", "nome", "scenario", "name"], f"Cenario_{idx+1}")
-        c_file = get_val(["chuva", "arquivo", "precip", "file", "cidade"], "precFpolis_2002_2011.csv")
+        c_file = get_val(["chuva", "arquivo", "precip", "file", "cidade"], "Florianopolis1.csv")
         area = parse_float(get_val(["area"], 100.0), 100.0)
         residents = parse_int(get_val(["moradores", "habitants", "residents"], 3), 3)
         demand_capita = parse_float(get_val(["demanda", "demand"], 100.0), 100.0)
@@ -220,8 +220,13 @@ def run_parsed_scenarios(scenarios: List[Dict[str, Any]]) -> List[Dict[str, Any]
         if fpath not in precip_cache:
             try:
                 precip_cache[fpath] = load_precipitation(fpath)
-            except Exception:
-                precip_cache[fpath] = load_precipitation("precFpolis_2002_2011.csv")
+            except FileNotFoundError as exc:
+                # Nunca trocar em silêncio pela chuva de outra cidade: o cenário
+                # sairia com resultado plausível e errado.
+                raise FileNotFoundError(
+                    f"Cenário '{sc.get('scenario_name', idx + 1)}': série de chuva '{fpath}' não encontrada "
+                    f"(procurada no caminho informado e em data/rainfall)."
+                ) from exc
                 
         prec = precip_cache[fpath]
         tot_demand = sc["demand_per_capita"] * sc["residents"]
