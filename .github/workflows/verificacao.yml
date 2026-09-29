@@ -60,12 +60,15 @@ jobs:
           print("kernel conforme a matriz")
           PY
 
+      # Os testes marcados "rede" ficam fora da execução local padrão (pyproject.toml),
+      # mas os executores do GitHub têm internet: aqui eles rodam, consultando a
+      # ANEEL de fato, e contam para a cobertura do atualizador tarifário.
       - name: Suíte de verificação
-        run: python -m pytest --cov=netuno.core --cov-report=term-missing
+        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-report=term-missing
 
       - name: Portão de cobertura
         if: matrix.kernel == 'python' && matrix.python == '3.13'
-        run: python -m pytest --cov=netuno.core --cov-fail-under=80 -q
+        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-fail-under=80 -q
 
   replicacao:
     name: Replicação contra o Netuno 4
