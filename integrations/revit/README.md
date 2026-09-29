@@ -77,3 +77,30 @@ manifesto, e une segmentos consecutivos por curva ou luva. A seção
 ajuste os nomes antes de importar. Trechos sem sistema, tipo ou nível
 correspondente ficam pendentes, e juntas que o Revit recusar (por falta de
 preferência de roteamento) são listadas ao final.
+
+## Volumetria 3D girável
+
+Na mesma janela de organização, a aba **Volumetria 3D** mostra a maquete de
+estudo em escala, que pode ser girada, aproximada e clicada (a peça clicada
+mostra a sua ficha):
+
+| Elemento | Sólido | Dimensões |
+|---|---|---|
+| Cisterna e reservatório superior | prisma circular | `DIAMETRO_MM` e `ALTURA_MM`; na falta, estimadas pela capacidade (a do componente ou a calculada pelo Netuno), com H = D na cisterna e H = 0,55·D no superior. A ficha avisa quando a medida é estimada. |
+| Edificação | prisma retangular translúcido, com as lajes | canto, largura, profundidade, altura e pavimentos informados na janela |
+| Motobomba | prisma de base losango | proporcional à potência, quando informada |
+| Filtro, descarte, registros, válvulas | cilindros e cubos pequenos | ilustrativas |
+| Tubulação | prisma octogonal por segmento, no DN | tubos muito finos para a escala da cena ganham espessura mínima de visualização (declarada) |
+
+A posição de cada componente é o **centro da base**. Controles: arrastar gira;
+Shift, botão direito ou do meio deslocam; a roda aproxima; 1–4 escolhem
+perspectiva, planta, frente e lateral; F enquadra; Esc limpa a seleção.
+
+A volumetria é exportada em dois formatos, pelos botões da janela ou junto do
+DXF da Planta 3D (`*_volumetria.glb` e `*_volumetria.html`):
+
+* `.glb` (glTF 2.0): abre no Visualizador 3D do Windows, no Blender e em
+  visualizadores web; cada sólido é um nó nomeado com a ficha em `extras`.
+  O arquivo passa sem erros nem avisos no validador oficial da Khronos.
+* `.html`: página autocontida (sem internet nem bibliotecas externas) com o
+  mesmo visualizador, para enviar a quem não tem o Netuno.

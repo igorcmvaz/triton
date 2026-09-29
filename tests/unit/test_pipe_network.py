@@ -134,8 +134,9 @@ def test_schematic_marks_gravity_slope_and_numbers_warnings():
 
 def test_bim_layout_round_trips_through_netuno_file(tmp_path):
     path = tmp_path / "projeto.netuno"
-    export_netuno_json(NetunoConfig(), str(path), bim_layout={"bim_components": COMPONENTS, "pipe_runs": RUNS})
-    loaded = load_netuno_project(str(path))
-    assert loaded["bim_layout"] == {"bim_components": COMPONENTS, "pipe_runs": RUNS}
+    building = {"origin_mm": {"x": 0, "y": 0, "z": 0}, "width_mm": 8000, "depth_mm": 7000, "height_mm": 6000, "floors": 2}
+    layout = {"bim_components": COMPONENTS, "pipe_runs": RUNS, "building_volume": building}
+    export_netuno_json(NetunoConfig(), str(path), bim_layout=layout)
+    assert load_netuno_project(str(path))["bim_layout"] == layout
     export_netuno_json(NetunoConfig(), str(path))
-    assert load_netuno_project(str(path))["bim_layout"] == {"bim_components": [], "pipe_runs": []}
+    assert load_netuno_project(str(path))["bim_layout"] == {"bim_components": [], "pipe_runs": [], "building_volume": {}}

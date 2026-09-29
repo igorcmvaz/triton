@@ -38,3 +38,27 @@ def test_dialog_keeps_parameters_and_revalidates_after_reordering(qapp):
     assert errors == ["Trecho T-02: o primeiro trecho precisa de origem (componente ou coordenadas)."]
     assert not dialog.preview.has_drawing()
     assert "não será exportada" in dialog.lbl_report.text()
+
+
+def test_dialog_builds_volumetry_with_building_and_exports(qapp, tmp_path, monkeypatch):
+    layout = dict(LAYOUT, building_volume={"origin_mm": {"x": -1000, "y": -3000, "z": 0},
+                                           "width_mm": 8000, "depth_mm": 7000, "height_mm": 6000, "floors": 2})
+    dialog = PipeRunsDialog(None, layout=layout, project_data={"project_name": "Teste", "lower_vol": 5000})
+    assert dialog.get_layout()["building_volume"]["floors"] == 2
+    keys = {s.key for s in dialog.volumetry.view.scene.solids}
+    assert {"EDIFICACAO", "LAJE-1", "CI-01", "B-01", "T-01#1"} <= keys
+    assert dialog.btn_glb.isEnabled() and dialog.btn_html.isEnabled()
+
+    from PySide6.QtWidgets import QFileDialog
+    for fmt in ("glb", "html"):
+        target = tmp_path / f"vol.{fmt}"
+        monkeypatch.setattr(QFileDialog, "getSaveFileName", staticmethod(lambda *a, t=target: (str(t), "")))
+        assert dialog.export_volumetry(fmt) == str(target) and target.stat().st_size > 1000
+
+    # Largura zerada = sem edificação; organização inválida desliga a volumetria.
+    dialog.building_fields["width_mm"].setValue(0)
+    assert dialog.get_layout()["building_volume"] == {}
+    dialog.table_runs.setCurrentCell(1, 0)
+    dialog.move_run(-1)
+    dialog.refresh_preview()
+    assert dialog.volumetry.view.scene is None and not dialog.btn_glb.isEnabled()

@@ -12,20 +12,25 @@ from __future__ import annotations
 
 import re
 from html import escape
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from PySide6.QtCore import QByteArray, QRectF, Qt
 from PySide6.QtGui import QColor, QPainter
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import (
-    QComboBox, QDialog, QDialogButtonBox, QHBoxLayout, QHeaderView, QLabel,
-    QPushButton, QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget,
+    QComboBox, QDialog, QDialogButtonBox, QDoubleSpinBox, QFileDialog, QHBoxLayout, QHeaderView,
+    QLabel, QMessageBox, QPushButton, QSpinBox, QSplitter, QTableWidget, QTableWidgetItem,
+    QTabWidget, QVBoxLayout, QWidget,
 )
 
 from netuno.core.bim_exporter import COMPONENT_TYPES, build_bim_manifest, validate_bim_manifest
 from netuno.core.pipe_network import PIPE_SYSTEMS, format_route, parse_route
 from netuno.core.schematic_3d import generate_schematic_3d_svg
+from netuno.core.volumetry import build_volumetry
+from netuno.core.volumetry_export import write_glb, write_html_viewer
 from netuno.ui.translation import tr
+from netuno.ui.volumetry_view import VolumetryPanel
 
 
 COMPONENT_COLUMNS = ["ID", "Tipo", "X (mm)", "Y (mm)", "Z (mm)", "Rotação (°)", "Nível"]
@@ -77,10 +82,11 @@ class PipeRunsDialog(QDialog):
         root.addWidget(intro)
 
         splitter = QSplitter(Qt.Vertical)
-        splitter.addWidget(self._build_components_box(layout.get("bim_components") or []))
+        self._valid_data: Optional[Dict[str, Any]] = None
+        splitter.addWidget(self._build_components_box(layout.get("bim_components") or [], layout.get("building_volume") or {}))
         splitter.addWidget(self._build_runs_box(layout.get("pipe_runs") or []))
         splitter.addWidget(self._build_preview_box())
-        splitter.setSizes([170, 230, 420])
+        splitter.setSizes([200, 200, 480])
         root.addWidget(splitter, 1)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -93,7 +99,7 @@ class PipeRunsDialog(QDialog):
 
     # ── Componentes ──
 
-    def _build_components_box(self, components: List[Dict[str, Any]]) -> QWidget:
+    def _build_components_box(self, components: List[Dict[str, Any]], building: Dict[str, Any]) -> QWidget:
         box = QWidget()
         lay = QVBoxLayout(box)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -112,7 +118,49 @@ class PipeRunsDialog(QDialog):
         lay.addWidget(self.table_components)
         for item in components:
             self.add_component(item)
+        lay.addLayout(self._build_building_row(building))
         return box
+
+    def _build_building_row(self, building: Dict[str, Any]) -> QHBoxLayout:
+        """Edificação para a volumetria: prisma retangular a partir da origem (canto)."""
+        row = QHBoxLayout()
+        row.addWidget(QLabel(tr("<b>Edificação</b> (volumetria, opcional; 0 = sem edificação):")))
+        origin = building.get("origin_mm") or {}
+        self.building_fields: Dict[str, QDoubleSpinBox] = {}
+        for key, label, value, low in (
+            ("x", tr("canto x"), origin.get("x", 0), -1e6), ("y", tr("canto y"), origin.get("y", 0), -1e6),
+            ("z", tr("cota"), origin.get("z", 0), -1e5), ("width_mm", tr("largura x"), building.get("width_mm", 0), 0),
+            ("depth_mm", tr("profund. y"), building.get("depth_mm", 0), 0), ("height_mm", tr("altura"), building.get("height_mm", 0), 0),
+        ):
+            spin = QDoubleSpinBox()
+            spin.setRange(low, 1e6)
+            spin.setDecimals(0)
+            spin.setSingleStep(100)
+            spin.setSuffix(" mm")
+            spin.setValue(float(value or 0))
+            spin.setToolTip(label)
+            row.addWidget(QLabel(label))
+            row.addWidget(spin)
+            spin.editingFinished.connect(self.refresh_preview)
+            self.building_fields[key] = spin
+        self.spin_floors = QSpinBox()
+        self.spin_floors.setRange(1, 60)
+        self.spin_floors.setValue(int(building.get("floors") or 1))
+        self.spin_floors.editingFinished.connect(self.refresh_preview)
+        row.addWidget(QLabel(tr("pavimentos")))
+        row.addWidget(self.spin_floors)
+        row.addStretch()
+        return row
+
+    def _building_from_fields(self) -> Dict[str, Any]:
+        f = self.building_fields
+        if not all(f[k].value() > 0 for k in ("width_mm", "depth_mm", "height_mm")):
+            return {}
+        return {
+            "origin_mm": {k: f[k].value() for k in ("x", "y", "z")},
+            "width_mm": f["width_mm"].value(), "depth_mm": f["depth_mm"].value(),
+            "height_mm": f["height_mm"].value(), "floors": self.spin_floors.value(),
+        }
 
     def add_component(self, item: Optional[Dict[str, Any]] = None) -> None:
         item = item if isinstance(item, dict) else {}
@@ -251,7 +299,11 @@ class PipeRunsDialog(QDialog):
         return runs
 
     def get_layout(self) -> Dict[str, Any]:
-        return {"bim_components": self._components_from_table(), "pipe_runs": self._runs_from_table()}
+        return {
+            "bim_components": self._components_from_table(),
+            "pipe_runs": self._runs_from_table(),
+            "building_volume": self._building_from_fields(),
+        }
 
     # ── Prévia ──
 
@@ -261,13 +313,41 @@ class PipeRunsDialog(QDialog):
         box = QWidget()
         lay = QVBoxLayout(box)
         lay.setContentsMargins(0, 0, 0, 0)
+        head = QHBoxLayout()
         self.lbl_report = QLabel()
         self.lbl_report.setWordWrap(True)
         self.lbl_report.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        head.addWidget(self.lbl_report, 1)
+        self.btn_html = QPushButton(tr("🌐 Volumetria interativa (.html)"))
+        self.btn_html.setToolTip(tr("Página autocontida, girável no navegador, para compartilhar"))
+        self.btn_html.clicked.connect(lambda: self.export_volumetry("html"))
+        self.btn_glb = QPushButton(tr("🧊 Modelo 3D (.glb)"))
+        self.btn_glb.setToolTip(tr("glTF 2.0: Visualizador 3D do Windows, Blender, SketchUp e visualizadores web"))
+        self.btn_glb.clicked.connect(lambda: self.export_volumetry("glb"))
+        head.addWidget(self.btn_html)
+        head.addWidget(self.btn_glb)
+        lay.addLayout(head)
+        self.tabs = QTabWidget()
+        self.volumetry = VolumetryPanel()
         self.preview = SchematicView()
-        lay.addWidget(self.lbl_report)
-        lay.addWidget(self.preview, 1)
+        self.tabs.addTab(self.volumetry, tr("🧊 Volumetria 3D (girável)"))
+        self.tabs.addTab(self.preview, tr("🧭 Esquema 3D (medidas e sequência)"))
+        lay.addWidget(self.tabs, 1)
         return box
+
+    def export_volumetry(self, fmt: str) -> Optional[str]:
+        if self._valid_data is None:
+            QMessageBox.warning(self, tr("Volumetria"), tr("Resolva as pendências da organização antes de exportar."))
+            return None
+        name = str(self._valid_data.get("project_name") or "Projeto").replace(" ", "_")
+        filters = {"html": "Página HTML (*.html)", "glb": "glTF binário (*.glb)"}
+        path, _ = QFileDialog.getSaveFileName(self, tr("Exportar volumetria"), f"{name}_Volumetria_Netuno.{fmt}", filters[fmt])
+        if not path:
+            return None
+        scene = build_volumetry(self._valid_data)
+        (write_html_viewer if fmt == "html" else write_glb)(scene, path)
+        self.lbl_report.setText(self.lbl_report.text() + f" · {tr('exportado')}: {escape(Path(path).name)}")
+        return path
 
     def refresh_preview(self) -> List[str]:
         """Valida com o núcleo e atualiza o estado e o esquema 3D; devolve os erros."""
@@ -291,7 +371,12 @@ class PipeRunsDialog(QDialog):
                 f"{len(manifest['pipe_runs'])} {tr('trecho(s)')}{note}"
             )
         has_content = bool(data.get("pipe_runs") or data.get("bim_components"))
-        self.preview.set_svg(generate_schematic_3d_svg(data) if not errors and has_content else None)
+        valid = not errors and has_content
+        self._valid_data = data if valid else None
+        self.preview.set_svg(generate_schematic_3d_svg(data) if valid else None)
+        self.volumetry.set_scene(build_volumetry(data) if valid else None)
+        self.btn_html.setEnabled(valid)
+        self.btn_glb.setEnabled(valid)
         return errors
 
 

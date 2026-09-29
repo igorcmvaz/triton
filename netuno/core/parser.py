@@ -637,7 +637,8 @@ def export_netuno_json(
     A série diária de chuva é incorporada ao arquivo; ``ui_state`` preserva os
     controles das etapas para que a interface possa ser reconstituída fielmente.
     ``bim_layout`` guarda os componentes posicionados e os trechos de tubulação
-    na ordem organizada pelo projetista (``bim_components`` e ``pipe_runs``).
+    na ordem organizada pelo projetista (``bim_components`` e ``pipe_runs``),
+    além da volumetria da edificação (``building_volume``).
     """
     import json
     from datetime import datetime
@@ -743,6 +744,7 @@ def export_netuno_json(
         "bim_layout": {
             "bim_components": list((bim_layout or {}).get("bim_components") or []),
             "pipe_runs": list((bim_layout or {}).get("pipe_runs") or []),
+            "building_volume": dict((bim_layout or {}).get("building_volume") or {}),
         },
     }
 
@@ -769,7 +771,7 @@ def load_netuno_project(file_path: str) -> dict:
         "global_scenarios": [],
         "ui_state": {},
         "analysis": {},
-        "bim_layout": {"bim_components": [], "pipe_runs": []},
+        "bim_layout": {"bim_components": [], "pipe_runs": [], "building_volume": {}},
         "is_json": False
     }
 
@@ -910,6 +912,7 @@ def load_netuno_project(file_path: str) -> dict:
             res["bim_layout"] = {
                 "bim_components": list(layout.get("bim_components") or []),
                 "pipe_runs": list(layout.get("pipe_runs") or []),
+                "building_volume": dict(layout.get("building_volume") or {}),
             }
             return res
         except Exception:

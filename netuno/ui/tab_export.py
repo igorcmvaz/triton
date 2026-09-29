@@ -442,6 +442,7 @@ class TabExport(QWidget):
         data = dict(data)
         data["bim_components"] = list(layout.get("bim_components") or [])
         data["pipe_runs"] = list(layout.get("pipe_runs") or [])
+        data["building_volume"] = dict(layout.get("building_volume") or {})
         return data
 
     def _set_status(self, text: str, is_success: bool = True):
@@ -607,8 +608,15 @@ class TabExport(QWidget):
         try:
             generate_project_dxf(data, file_path, mode=mode)
             self._last_exported_path = file_path
+            if mode == "plant_3d":
+                from netuno.core.volumetry_export import write_volumetry_package
+
+                write_volumetry_package(data, str(Path(file_path).with_suffix("")))
             lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "simple": tr("Esquemático Simples"), "block_library": tr("Biblioteca de Blocos + BIM JSON"), "plant_3d": tr("Planta 3D + BIM JSON")}.get(mode, tr("CAD"))
-            suffix = tr("; manifesto BIM salvo ao lado do DXF") if mode in {"block_library", "plant_3d"} else ""
+            suffix = {
+                "block_library": tr("; manifesto BIM salvo ao lado do DXF"),
+                "plant_3d": tr("; manifesto BIM e volumetria (.glb e .html interativo) salvos ao lado do DXF"),
+            }.get(mode, "")
             self._set_status(tr(f"✓ Desenho CAD DXF exportado ({lbl_mode}): {Path(file_path).name}{suffix}"))
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao gerar desenho CAD DXF: {e}"))
