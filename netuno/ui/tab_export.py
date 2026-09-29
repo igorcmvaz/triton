@@ -287,6 +287,7 @@ class TabExport(QWidget):
         self.combo_cad_mode.addItem(tr("📐 Prancha Técnica Completa em A3 (Engenharia NBR 15527)"), "technical_a3")
         self.combo_cad_mode.addItem(tr("✏️ Esquemático Unifilar Simples (Apresentação Rápida)"), "simple")
         self.combo_cad_mode.addItem(tr("🧩 Biblioteca de Blocos para Plantas + BIM JSON"), "block_library")
+        self.combo_cad_mode.addItem(tr("🧭 Planta 3D dos Trechos Organizados + BIM JSON"), "plant_3d")
         self.combo_cad_mode.setStyleSheet("""
             QComboBox {
                 padding: 6px 12px;
@@ -328,6 +329,11 @@ class TabExport(QWidget):
         btn_grid_cad.addWidget(btn_dxf, 0, 1)
         btn_grid_cad.addWidget(btn_svg, 0, 2)
         btn_grid_cad.addWidget(btn_open, 0, 3)
+
+        btn_runs = QPushButton(tr("🧭 Organizar Trechos de Tubulação (Planta 3D)"))
+        btn_runs.setStyleSheet("font-size: 12px; font-weight: bold; background-color: #1d4ed8; color: white; padding: 9px 16px; border-radius: 6px; border: none;")
+        btn_runs.clicked.connect(self._organize_pipe_runs)
+        btn_grid_cad.addWidget(btn_runs, 1, 0, 1, 4)
         lay_cad.addLayout(btn_grid_cad)
 
         sec_bottom_grid.addWidget(card_cad, 0, 1)
@@ -432,6 +438,11 @@ class TabExport(QWidget):
                     data["upper_vol"] = float(mw.tab_tanks_simulation.txt_upper_vol.text().replace(',', '.'))
                 except Exception:
                     pass
+        layout = getattr(mw, "bim_layout", None) or {}
+        data = dict(data)
+        data["bim_components"] = list(layout.get("bim_components") or [])
+        data["pipe_runs"] = list(layout.get("pipe_runs") or [])
+        data["building_volume"] = dict(layout.get("building_volume") or {})
         return data
 
     def _set_status(self, text: str, is_success: bool = True):
@@ -585,7 +596,7 @@ class TabExport(QWidget):
         data = self._collect_project_data()
         proj_slug = str(data.get("project_name", "Esquema_Hidraulico")).replace(" ", "_")
         mode = self.combo_cad_mode.currentData() if hasattr(self, "combo_cad_mode") else "technical_a3"
-        mode_slug = {"technical_a3": "Prancha_A3", "simple": "Esquematico", "block_library": "Biblioteca_Blocos"}.get(mode, "CAD")
+        mode_slug = {"technical_a3": "Prancha_A3", "simple": "Esquematico", "block_library": "Biblioteca_Blocos", "plant_3d": "Planta_3D"}.get(mode, "CAD")
         file_path, _ = QFileDialog.getSaveFileName(
             self, tr("Exportar Esquema em CAD DXF"),
             f"{proj_slug}_{mode_slug}_Netuno.dxf",
@@ -597,8 +608,15 @@ class TabExport(QWidget):
         try:
             generate_project_dxf(data, file_path, mode=mode)
             self._last_exported_path = file_path
-            lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "simple": tr("Esquemático Simples"), "block_library": tr("Biblioteca de Blocos + BIM JSON")}.get(mode, tr("CAD"))
-            suffix = tr("; manifesto BIM salvo ao lado do DXF") if mode == "block_library" else ""
+            if mode == "plant_3d":
+                from netuno.core.volumetry_export import write_volumetry_package
+
+                write_volumetry_package(data, str(Path(file_path).with_suffix("")))
+            lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "simple": tr("Esquemático Simples"), "block_library": tr("Biblioteca de Blocos + BIM JSON"), "plant_3d": tr("Planta 3D + BIM JSON")}.get(mode, tr("CAD"))
+            suffix = {
+                "block_library": tr("; manifesto BIM salvo ao lado do DXF"),
+                "plant_3d": tr("; manifesto BIM e volumetria (.glb e .html interativo) salvos ao lado do DXF"),
+            }.get(mode, "")
             self._set_status(tr(f"✓ Desenho CAD DXF exportado ({lbl_mode}): {Path(file_path).name}{suffix}"))
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao gerar desenho CAD DXF: {e}"))
@@ -610,7 +628,7 @@ class TabExport(QWidget):
         if mode == "block_library":
             QMessageBox.information(self, tr("Biblioteca CAD"), tr("A biblioteca é entregue em DXF 1:1 mm e JSON BIM. Selecione ‘Exportar CAD (.dxf)’ para gerar o pacote."))
             return
-        mode_slug = "Prancha_A3" if mode == "technical_a3" else "Esquematico"
+        mode_slug = {"technical_a3": "Prancha_A3", "plant_3d": "Esquema_3D"}.get(mode, "Esquematico")
         file_path, _ = QFileDialog.getSaveFileName(
             self, tr("Exportar Diagrama Técnico em SVG"),
             f"{proj_slug}_{mode_slug}_Netuno.svg",
@@ -622,7 +640,7 @@ class TabExport(QWidget):
         try:
             generate_project_svg_diagram(data, file_path, mode=mode)
             self._last_exported_path = file_path
-            lbl_mode = tr("Prancha Técnica A3") if mode == "technical_a3" else tr("Esquemático Simples")
+            lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "plant_3d": tr("Esquema 3D")}.get(mode, tr("Esquemático Simples"))
             self._set_status(tr(f"✓ Diagrama vetorial SVG exportado ({lbl_mode}): {Path(file_path).name}"))
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao exportar diagrama SVG: {e}"))
@@ -644,8 +662,7 @@ class TabExport(QWidget):
                 QMessageBox.warning(self, tr("Aviso"), tr("Não foi possível renderizar a imagem vetorial."))
                 return
 
-            w = 1200 if mode == "technical_a3" else 950
-            h = 850 if mode == "technical_a3" else 650
+            w, h = {"technical_a3": (1200, 850), "plant_3d": (1280, 820)}.get(mode, (950, 650))
             image = QImage(w, h, QImage.Format_ARGB32)
             image.fill(QColor("white"))
             painter = QPainter(image)
@@ -662,7 +679,7 @@ class TabExport(QWidget):
             dlg_lay.setSpacing(10)
 
             top_bar = QHBoxLayout()
-            mode_name = tr("Prancha Técnica A3 (ABNT NBR 15527)") if mode == "technical_a3" else tr("Esquema Unifilar Simples")
+            mode_name = {"technical_a3": tr("Prancha Técnica A3 (ABNT NBR 15527)"), "plant_3d": tr("Esquema 3D dos trechos (fora de escala)")}.get(mode, tr("Esquema Unifilar Simples"))
             organization = str(data.get("organization") or tr("Organização a definir"))
             responsible = str(data.get("technical_responsible") or tr("Responsável técnico a definir"))
             lbl_info = QLabel(f"<b>{tr('Padrão:')}</b> {mode_name} | <b>{tr('Organização:')}</b> {organization} | <b>{tr('Responsável:')}</b> {responsible}")
@@ -693,6 +710,25 @@ class TabExport(QWidget):
             dlg.exec()
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao pré-visualizar desenho: {e}"))
+
+    def _organize_pipe_runs(self):
+        from netuno.ui.dialogs.pipe_runs_dialog import PipeRunsDialog
+
+        mw = self._get_main_window()
+        data = self._collect_project_data()
+        dlg = PipeRunsDialog(self, layout=getattr(mw, "bim_layout", None), project_data=data)
+        if dlg.exec() != QDialog.Accepted:
+            return
+        mw.bim_layout = dlg.get_layout()
+        errors = dlg.refresh_preview()
+        runs = len(mw.bim_layout["pipe_runs"])
+        if errors:
+            self._set_status(tr(f"Organização salva com {len(errors)} pendência(s); a planta 3D só é exportada sem erros."), is_success=False)
+        else:
+            index = self.combo_cad_mode.findData("plant_3d")
+            if index >= 0:
+                self.combo_cad_mode.setCurrentIndex(index)
+            self._set_status(tr(f"✓ {runs} trecho(s) organizados; exporte a Planta 3D em DXF ou SVG."))
 
     def _open_last_folder(self):
         folder = Path(self._last_exported_path).parent if self._last_exported_path else Path.cwd()

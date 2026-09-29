@@ -27,7 +27,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 423 testes, 0 falhas (mais 5 de replicação sob demanda) |
+| Suíte de testes | 472 testes em 59 arquivos, 0 falhas, em cinco famílias: 232 unitários, 185 de invariantes, 26 de integração, 22 de interface e 7 de replicação (5 destes e 2 de rede ficam fora da execução padrão). Contagem reproduzível com `python scripts/qa_runner.py --contagem`, que informa também a revisão do código |
 | Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
@@ -538,7 +538,7 @@ quanto se um deles for corrigido sem atualizar o registro.
 
 ## 7. Correção aplicada nesta apuração
 
-`tests/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
+`tests/integration/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
 **SP/Americana (DAE Americana)**, por asseverar `is_fix ∈ [−1, 1]`.
 
 A investigação mostrou que `−2` é semântica **deliberada e suportada**: `economic.py:149`

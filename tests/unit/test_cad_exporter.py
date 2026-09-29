@@ -111,7 +111,8 @@ def test_block_library_is_reusable_and_auditable(tmp_path):
 
     manifest_path = output.with_name("biblioteca_netuno-bim.json")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    assert manifest["schema_version"] == "1.0"
+    assert manifest["schema_version"] == "1.1"
+    assert manifest["pipe_runs"] == []
     assert len(manifest["component_types"]) == 11
     assert manifest["instances"] == []
     assert validate_bim_manifest(manifest) == []

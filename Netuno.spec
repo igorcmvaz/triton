@@ -31,6 +31,17 @@ hiddenimports = [
     'netuno.core.mcdm_methods',
     'netuno.core.environmental_sync',
     'netuno.core.esg_certifications',
+    # Planta 3D, esquema e volumetria: parte é importada só dentro de funções.
+    'netuno.core.component_geometry',
+    'netuno.core.pipe_network',
+    'netuno.core.plant_3d',
+    'netuno.core.schematic_3d',
+    'netuno.core.volumetry',
+    'netuno.core.volumetry_export',
+    'netuno.ui.volumetry_view',
+    'netuno.ui.dialogs.pipe_runs_dialog',
+    'PySide6.QtSvg',
+    'ezdxf.render.forms',
 ]
 
 a = Analysis(

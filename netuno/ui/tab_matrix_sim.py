@@ -187,13 +187,6 @@ class TabMatrixSimulation(QWidget):
                     precip_tuples.append((fn, os.path.join(rainfall_dir, fn)))
 
         if not precip_tuples:
-            samples_dir = os.path.join(base_dir, "Additional_Material", "Precipitation_Samples")
-            if os.path.exists(samples_dir):
-                for fn in os.listdir(samples_dir):
-                    if fn.endswith(".csv"):
-                        precip_tuples.append((fn, os.path.join(samples_dir, fn)))
-
-        if not precip_tuples:
             QMessageBox.warning(self, "Aviso", "Nenhum arquivo de chuva foi encontrado na pasta data/rainfall.")
             return
 

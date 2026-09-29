@@ -16,6 +16,7 @@ Exemplos
     python scripts/qa_runner.py --cov-min 85             # eleva o portão de cobertura
     python scripts/qa_runner.py --no-gate                # mede sem reprovar
     python scripts/qa_runner.py --loop 300               # observação contínua
+    python scripts/qa_runner.py --contagem               # testes por família, com a revisão
 """
 
 import argparse
@@ -61,6 +62,8 @@ CAMADAS = {
     # Comparação completa contra os resultados oficiais do Netuno 4 (4.050 casos).
     # Excluída da execução padrão por ser lenta; ver pyproject.toml, addopts.
     "replicacao": ["tests/benchmarking", "-m", "replicacao"],
+    # Consultas reais às fontes oficiais de tarifas; exigem internet.
+    "rede": ["tests", "-m", "rede"],
 }
 
 
@@ -192,6 +195,91 @@ def executar(camada: str = "all", cobertura: bool = True,
     return codigo
 
 
+FAMILIAS = {
+    "unit": "Unitários",
+    "invariants": "Invariantes",
+    "integration": "Integração",
+    "ui": "Interface gráfica",
+    "benchmarking": "Replicação do Netuno 4",
+    "": "Módulos na raiz de tests/",
+}
+
+
+def _revisao() -> str:
+    try:
+        rev = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=BASE_DIR,
+                             capture_output=True, text=True, check=True).stdout.strip()
+        sujo = subprocess.run(["git", "status", "--porcelain", "--", "tests", "netuno"], cwd=BASE_DIR,
+                              capture_output=True, text=True, check=True).stdout.strip()
+        return rev + (" (com alterações locais)" if sujo else "")
+    except (OSError, subprocess.CalledProcessError):
+        return "desconhecida"
+
+
+def contar_testes() -> dict:
+    """Coleta a suíte inteira (todos os marcadores) e conta por família.
+
+    É a fonte para citar o tamanho da suíte: a contagem vem do próprio pytest,
+    junto com a revisão do código e o que o ambiente deixou de coletar.
+    """
+    import pytest
+
+    class _Coletor:
+        itens: list = []
+
+        def pytest_collection_finish(self, session):
+            self.itens = list(session.items)
+
+    coletor = _Coletor()
+    with open(os.devnull, "w") as silencio:
+        saida, sys.stdout = sys.stdout, silencio
+        try:
+            pytest.main(["--collect-only", "-q", "-m", "", "-p", "no:cacheprovider",
+                         os.path.join(BASE_DIR, "tests")], plugins=[coletor])
+        finally:
+            sys.stdout = saida
+
+    familias: dict = {}
+    marcadores = {"replicacao": 0, "rede": 0}
+    for item in coletor.itens:
+        partes = item.nodeid.split("::")[0].split("/")
+        chave = partes[1] if len(partes) > 2 else ""
+        dados = familias.setdefault(chave, {"testes": 0, "arquivos": set()})
+        dados["testes"] += 1
+        dados["arquivos"].add(partes[-1] if chave == "" else "/".join(partes[1:]))
+        for nome in marcadores:
+            if item.get_closest_marker(nome):
+                marcadores[nome] += 1
+
+    import conftest  # tests/conftest.py, já importado pela coleta
+    nao_coletados = sorted(getattr(conftest, "collect_ignore", []))
+    return {
+        "revisao": _revisao(),
+        "familias": {k: {"testes": v["testes"], "arquivos": len(v["arquivos"])} for k, v in familias.items()},
+        "total": len(coletor.itens),
+        "arquivos": sum(len(v["arquivos"]) for v in familias.values()),
+        "fora_da_execucao_padrao": marcadores,
+        "nao_coletados_neste_ambiente": nao_coletados,
+    }
+
+
+def _imprimir_contagem(dados: dict) -> None:
+    print(f"Suíte de testes do Netuno — revisão {dados['revisao']}")
+    print(f"{'Família':<30}{'Testes':>8}{'Arquivos':>10}")
+    ordem = [k for k in FAMILIAS if k in dados["familias"]] + sorted(set(dados["familias"]) - set(FAMILIAS))
+    for chave in ordem:
+        f = dados["familias"][chave]
+        print(f"{FAMILIAS.get(chave, chave):<30}{f['testes']:>8}{f['arquivos']:>10}")
+    print(f"{'Total':<30}{dados['total']:>8}{dados['arquivos']:>10}")
+    fora = dados["fora_da_execucao_padrao"]
+    print(f"\nIncluídos no total, mas fora da execução padrão: {fora['replicacao']} de replicação "
+          f"(pytest -m replicacao) e {fora['rede']} de rede (pytest -m rede).")
+    if dados["nao_coletados_neste_ambiente"]:
+        print("Não coletados neste ambiente (dependem de Qt ou da base climática):")
+        for caminho in dados["nao_coletados_neste_ambiente"]:
+            print(f"  - tests/{caminho}")
+
+
 def main():
     analisador = argparse.ArgumentParser(
         description="Agente de QA do Netuno 5",
@@ -207,7 +295,17 @@ def main():
                             help="mede a cobertura mas não reprova a execução por ela")
     analisador.add_argument("--loop", type=int, default=0,
                             help="observação contínua com intervalo de N segundos")
+    analisador.add_argument("--contagem", action="store_true",
+                            help="só conta os testes por família (sem executar) e mostra a revisão")
+    analisador.add_argument("--json", action="store_true", help="com --contagem, saída em JSON")
     argumentos = analisador.parse_args()
+
+    if argumentos.contagem:
+        dados = contar_testes()
+        print(json.dumps(dados, ensure_ascii=False, indent=2) if argumentos.json else "", end="")
+        if not argumentos.json:
+            _imprimir_contagem(dados)
+        return
 
     parametros = dict(
         camada=argumentos.layer,

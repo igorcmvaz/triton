@@ -114,7 +114,8 @@ Dossiê em PDF/HTML com premissas, tabelas de varredura, indicadores hidráulico
 
 ## Requisitos
 
-- Python 3.9 ou superior; Python 3.11 é recomendado.
+- Instalador `.exe` para Windows: não requer Python.
+- A partir do código: Python 3.12 ou superior.
 - Windows, Linux ou macOS com suporte ao Qt.
 - Dependências Python: `PySide6`, `numpy`, `pandas`, `matplotlib`, `openpyxl`, `reportlab`, `numpy-financial` e `pytest`.
 

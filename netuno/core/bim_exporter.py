@@ -4,6 +4,10 @@ O arquivo JSON não finge ser um modelo ``.rvt``. Ele registra, em unidades e
 campos explícitos, os tipos calculados pelo Netuno e as instâncias posicionadas
 que o projetista informou. A criação de elementos nativos deve ocorrer dentro
 do Revit, onde a Autodesk Revit API está disponível.
+
+A versão 1.1 acrescenta os trechos de tubulação organizados pelo projetista
+(``pipe_runs``), já resolvidos em vértices 3D na ordem de montagem. A 1.0
+continua legível: é a 1.1 sem trechos.
 """
 
 from __future__ import annotations
@@ -13,9 +17,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
+from .component_geometry import fallback_volumes
+from .pipe_network import PIPE_SYSTEMS, resolve_pipe_network
 
-BIM_SCHEMA = "https://netuno.local/schemas/bim-interchange-1.0.json"
-BIM_SCHEMA_VERSION = "1.0"
+
+BIM_SCHEMA = "https://netuno.local/schemas/bim-interchange-1.1.json"
+BIM_SCHEMA_VERSION = "1.1"
+SUPPORTED_SCHEMA_VERSIONS = ("1.0", "1.1")
 
 
 COMPONENT_TYPES: List[Dict[str, Any]] = [
@@ -74,6 +82,10 @@ def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
     upper_vol = _number(project_data.get("upper_vol"), 0.0)
     discard_mm = _number(project_data.get("discard"), 0.0)
     area = _number(project_data.get("area"), 0.0)
+    instances = _normalise_instances(project_data.get("bim_components") or [])
+    pipe_runs, pipe_errors, pipe_warnings = resolve_pipe_network(
+        instances, project_data.get("pipe_runs") or [], fallback_volumes(project_data)
+    )
 
     return {
         "$schema": BIM_SCHEMA,
@@ -85,7 +97,7 @@ def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
             "location": str((project_data.get("audit_context") or {}).get("climate_location") or "Não informada"),
             "coordinate_status": "local_unreferenced",
         },
-        "units": {"length": "millimetre", "volume": "litre", "flow": "litre_per_minute", "power": "kilowatt", "rotation": "degree"},
+        "units": {"axis_up": "z", "length": "millimetre", "volume": "litre", "flow": "litre_per_minute", "power": "kilowatt", "rotation": "degree"},
         "calculated_design": {
             "catchment_area_m2": area,
             "first_flush_depth_mm": discard_mm,
@@ -94,14 +106,17 @@ def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
             "note": "Valores de cálculo; confirmar seleção comercial e compatibilização antes da execução.",
         },
         "component_types": COMPONENT_TYPES,
-        "instances": _normalise_instances(project_data.get("bim_components") or []),
+        "instances": instances,
+        "pipe_systems": [{k: item[k] for k in ("system_id", "label", "gravity")} for item in PIPE_SYSTEMS],
+        "pipe_runs": pipe_runs,
+        "validation": {"errors": pipe_errors, "warnings": pipe_warnings},
     }
 
 
 def validate_bim_manifest(manifest: Dict[str, Any]) -> List[str]:
     """Retorna problemas estruturais que impediriam a importação no Revit."""
     errors: List[str] = []
-    if manifest.get("schema_version") != BIM_SCHEMA_VERSION:
+    if manifest.get("schema_version") not in SUPPORTED_SCHEMA_VERSIONS:
         errors.append("Versão de esquema BIM não suportada.")
     if not manifest.get("project", {}).get("name"):
         errors.append("Nome do projeto ausente.")
@@ -116,6 +131,7 @@ def validate_bim_manifest(manifest: Dict[str, Any]) -> List[str]:
             errors.append(f"Tipo inexistente na instância {instance_id!r}.")
         if set((instance.get("position_mm") or {}).keys()) != {"x", "y", "z"}:
             errors.append(f"Coordenadas incompletas na instância {instance_id!r}.")
+    errors.extend((manifest.get("validation") or {}).get("errors") or [])
     return errors
 
 

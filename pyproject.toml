@@ -7,7 +7,7 @@ name = "netuno"
 version = "5.0.7"
 description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = { text = "GPL-3.0-or-later" }
 authors = [
     { name = "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)", email = "sustainability@contato.ufsc.br" }
@@ -31,8 +31,6 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Hydrology",
@@ -107,9 +105,14 @@ python_functions = ["test_*"]
 # execução padrão e é chamada sob demanda:
 #     pytest -m replicacao
 #     python scripts/qa_runner.py --layer replicacao
-addopts = "-q -m 'not replicacao'"
+# Os testes marcados como "rede" baixam dados de fontes oficiais (ANEEL) e só
+# passam com internet; também ficam fora da execução padrão:
+#     pytest -m rede
+#     python scripts/qa_runner.py --layer rede
+addopts = "-q -m 'not replicacao and not rede'"
 markers = [
     "replicacao: comparação completa contra os resultados oficiais do Netuno 4 (lenta)",
+    "rede: depende de acesso à internet (fontes oficiais de tarifas)",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

@@ -19,6 +19,8 @@ import ezdxf
 from ezdxf.enums import TextEntityAlignment
 
 from .cad_block_library import configure_cad_document, generate_block_library_dxf
+from .plant_3d import generate_plant_3d_dxf
+from .schematic_3d import generate_schematic_3d_svg
 
 
 def _safe_float(val: Any, default: float = 0.0) -> float:
@@ -763,12 +765,15 @@ def generate_project_dxf(project_data: Dict[str, Any], output_path: str, mode: s
       - project_data: Dicionário contendo dados de simulação e projeto.
       - output_path: Caminho de gravação do arquivo .dxf.
       - mode: 'technical_a3' (prancha técnica), 'simple' (esquema unifilar)
-              ou 'block_library' (biblioteca 1:1 mm + manifesto BIM JSON).
+              'block_library' (biblioteca 1:1 mm + manifesto BIM JSON)
+              ou 'plant_3d' (trechos organizados pelo projetista, em 3D).
     """
     if mode == "simple":
         return _generate_simple_ezdxf(project_data, output_path)
     if mode in {"block_library", "blocks", "biblioteca_blocos"}:
         return generate_block_library_dxf(project_data, output_path)
+    if mode in {"plant_3d", "planta_3d"}:
+        return generate_plant_3d_dxf(project_data, output_path)
     if mode != "technical_a3":
         raise ValueError(f"Modo CAD inválido: {mode}")
     return _generate_technical_a3_ezdxf(project_data, output_path)
@@ -1196,8 +1201,10 @@ def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
 
 
 def generate_project_svg_diagram(project_data: Dict[str, Any], output_path: Optional[str] = None, mode: str = "technical_a3") -> str:
-    """Gera diagrama vetorial SVG no modo selecionado ('technical_a3' ou 'simple')."""
-    if mode == "simple":
+    """Gera diagrama vetorial SVG no modo selecionado ('technical_a3', 'simple' ou 'plant_3d')."""
+    if mode in {"plant_3d", "planta_3d"}:
+        svg_content = generate_schematic_3d_svg(project_data)
+    elif mode == "simple":
         svg_content = _generate_simple_svg(project_data)
     else:
         svg_content = _generate_technical_a3_svg(project_data)

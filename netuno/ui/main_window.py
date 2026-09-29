@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
         self.config = NetunoConfig()
+        # Componentes posicionados e trechos de tubulação na ordem do projetista.
+        self.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
         
         logo_path = get_resource_path("Netuno2.png")
         if os.path.exists(logo_path):
@@ -534,6 +536,7 @@ class MainWindow(QMainWindow):
 
             cfg = proj["config"]
             self.config = cfg
+            self.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
             self.txt_workspace_project.setText(getattr(cfg, "project_name", "Novo projeto Netuno"))
 
             if hasattr(self, 'tab_economic'):
@@ -668,6 +671,7 @@ class MainWindow(QMainWindow):
                     building_data=b_cfg,
                     global_scenarios=global_scenarios,
                     ui_state=self._collect_project_ui_state(),
+                    bim_layout=self.bim_layout,
                 )
 
             QMessageBox.information(

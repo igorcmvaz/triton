@@ -412,10 +412,6 @@ class TabSingleSimulation(QWidget):
     def auto_load_default_rainfall(self):
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         default_p = os.path.join(base_dir, "data", "rainfall", "Manaus2.csv")
-        if not os.path.exists(default_p):
-            default_p = os.path.join(base_dir, "Additional_Material", "Precipitation_Samples", "Manaus2.csv")
-        if not os.path.exists(default_p):
-            default_p = os.path.join(base_dir, "data", "rainfall", "precFpolis_2002_2011.csv")
 
         if os.path.exists(default_p):
             self.load_precip_file(default_p)

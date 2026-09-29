@@ -319,7 +319,7 @@ class DialogScenarioSimulation(QDialog):
                 rain_files = [x.strip() for x in cell_str.split(',') if x.strip()]
 
         if not rain_files:
-            rain_files = ["precFpolis_2002_2011.csv"]
+            rain_files = ["Florianopolis1.csv"]
 
         start_dates = [x.strip() for x in (self.table.item(1, 1).text() if self.table.item(1, 1) else "01/01/2002").split(',') if x.strip()]
         areas = self.parse_list_float(self.table.item(2, 1).text() if self.table.item(2, 1) else "", [100.0])

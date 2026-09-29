@@ -256,7 +256,7 @@ Para cada entrada externa, guarde fonte, URL/DOI, autor/organização, versão, 
 
 ## 12. Referências metodológicas
 
-- GHISI, E.; CORDOVA, M. M. *Netuno 4 — Manual do Usuário*. UFSC, 2014. [Cópia local](../Additional_Material/Documentation/Manual-Netuno-4_Junho2014.pdf).
+- GHISI, E.; CORDOVA, M. M. *Netuno 4 — Manual do Usuário*. UFSC, 2014. [Cópia local](../additional_material/documentation/Manual-Netuno-4_Junho2014.pdf).
 - ROCHA, V. L. *Validação do algoritmo do programa Netuno para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966).
 - HWANG, C.-L.; YOON, K. *Multiple Attribute Decision Making: Methods and Applications*. Springer, 1981. [DOI](https://doi.org/10.1007/978-3-642-48318-9).
 - MCTI/SIRENE. *Fatores médios de emissão de CO2 do Sistema Interligado Nacional do Brasil*. [Série oficial e arquivos por ano](https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao).
