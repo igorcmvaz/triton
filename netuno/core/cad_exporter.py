@@ -19,7 +19,8 @@ import ezdxf
 from ezdxf.enums import TextEntityAlignment
 
 from .cad_block_library import configure_cad_document, generate_block_library_dxf
-from .plant_3d import generate_plant_3d_dxf, generate_plant_3d_svg
+from .plant_3d import generate_plant_3d_dxf
+from .schematic_3d import generate_schematic_3d_svg
 
 
 def _safe_float(val: Any, default: float = 0.0) -> float:
@@ -1202,7 +1203,7 @@ def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
 def generate_project_svg_diagram(project_data: Dict[str, Any], output_path: Optional[str] = None, mode: str = "technical_a3") -> str:
     """Gera diagrama vetorial SVG no modo selecionado ('technical_a3', 'simple' ou 'plant_3d')."""
     if mode in {"plant_3d", "planta_3d"}:
-        svg_content = generate_plant_3d_svg(project_data)
+        svg_content = generate_schematic_3d_svg(project_data)
     elif mode == "simple":
         svg_content = _generate_simple_svg(project_data)
     else:

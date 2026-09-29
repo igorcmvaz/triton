@@ -620,7 +620,7 @@ class TabExport(QWidget):
         if mode == "block_library":
             QMessageBox.information(self, tr("Biblioteca CAD"), tr("A biblioteca é entregue em DXF 1:1 mm e JSON BIM. Selecione ‘Exportar CAD (.dxf)’ para gerar o pacote."))
             return
-        mode_slug = {"technical_a3": "Prancha_A3", "plant_3d": "Planta_3D_Isometrica"}.get(mode, "Esquematico")
+        mode_slug = {"technical_a3": "Prancha_A3", "plant_3d": "Esquema_3D"}.get(mode, "Esquematico")
         file_path, _ = QFileDialog.getSaveFileName(
             self, tr("Exportar Diagrama Técnico em SVG"),
             f"{proj_slug}_{mode_slug}_Netuno.svg",
@@ -632,7 +632,7 @@ class TabExport(QWidget):
         try:
             generate_project_svg_diagram(data, file_path, mode=mode)
             self._last_exported_path = file_path
-            lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "plant_3d": tr("Planta 3D isométrica")}.get(mode, tr("Esquemático Simples"))
+            lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "plant_3d": tr("Esquema 3D")}.get(mode, tr("Esquemático Simples"))
             self._set_status(tr(f"✓ Diagrama vetorial SVG exportado ({lbl_mode}): {Path(file_path).name}"))
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao exportar diagrama SVG: {e}"))
@@ -654,7 +654,7 @@ class TabExport(QWidget):
                 QMessageBox.warning(self, tr("Aviso"), tr("Não foi possível renderizar a imagem vetorial."))
                 return
 
-            w, h = {"technical_a3": (1200, 850), "plant_3d": (1000, 700)}.get(mode, (950, 650))
+            w, h = {"technical_a3": (1200, 850), "plant_3d": (1280, 820)}.get(mode, (950, 650))
             image = QImage(w, h, QImage.Format_ARGB32)
             image.fill(QColor("white"))
             painter = QPainter(image)
@@ -671,7 +671,7 @@ class TabExport(QWidget):
             dlg_lay.setSpacing(10)
 
             top_bar = QHBoxLayout()
-            mode_name = {"technical_a3": tr("Prancha Técnica A3 (ABNT NBR 15527)"), "plant_3d": tr("Planta 3D (isométrica dos trechos)")}.get(mode, tr("Esquema Unifilar Simples"))
+            mode_name = {"technical_a3": tr("Prancha Técnica A3 (ABNT NBR 15527)"), "plant_3d": tr("Esquema 3D dos trechos (fora de escala)")}.get(mode, tr("Esquema Unifilar Simples"))
             organization = str(data.get("organization") or tr("Organização a definir"))
             responsible = str(data.get("technical_responsible") or tr("Responsável técnico a definir"))
             lbl_info = QLabel(f"<b>{tr('Padrão:')}</b> {mode_name} | <b>{tr('Organização:')}</b> {organization} | <b>{tr('Responsável:')}</b> {responsible}")

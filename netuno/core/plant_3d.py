@@ -4,8 +4,9 @@ Cada trecho é desenhado na ordem em que foi organizado, a partir do ponto em qu
 o anterior terminou (ver :mod:`netuno.core.pipe_network`). O DXF resultante tem,
 por sistema, um layer com o eixo da tubulação (POLYLINE 3D) e outro com o tubo
 em malha cilíndrica no diâmetro nominal, além dos blocos Netuno posicionados na
-cota de cada componente. A prévia SVG é uma perspectiva isométrica do mesmo
-modelo, para conferência antes de abrir o CAD.
+cota de cada componente. O DXF fica em escala, porque é o modelo que segue para
+o CAD e o Revit; a leitura rápida é feita no esquema 3D fora de escala de
+:mod:`netuno.core.schematic_3d`.
 """
 
 from __future__ import annotations
@@ -115,64 +116,3 @@ def _all_points(manifest: Dict[str, Any]) -> List[Tuple[float, float, float]]:
 def _bounds(manifest: Dict[str, Any]):
     points = _all_points(manifest) or [(0.0, 0.0, 0.0)]
     return tuple((min(values), max(values)) for values in zip(*points))
-
-
-# ── Prévia isométrica ────────────────────────────────────────────────────────
-
-_COS30, _SIN30 = math.cos(math.radians(30)), 0.5
-
-
-def _iso(x: float, y: float, z: float) -> Tuple[float, float]:
-    return (x - y) * _COS30, (x + y) * _SIN30 - z
-
-
-def generate_plant_3d_svg(project_data: Dict[str, Any], output_path: Optional[str] = None) -> str:
-    """Perspectiva isométrica da planta 3D, numerada na ordem dos trechos."""
-    manifest = _checked_manifest(project_data)
-    width, height, margin, legend_w = 1000.0, 700.0, 60.0, 250.0
-    projected = [_iso(*p) for p in _all_points(manifest)]
-    us, vs = [p[0] for p in projected], [p[1] for p in projected]
-    span_u, span_v = max(max(us) - min(us), 1.0), max(max(vs) - min(vs), 1.0)
-    scale = min((width - legend_w - 2 * margin) / span_u, (height - 2 * margin - 40) / span_v)
-
-    def screen(x: float, y: float, z: float) -> Tuple[float, float]:
-        u, v = _iso(x, y, z)
-        return margin + (u - min(us)) * scale, margin + 40 + (v - min(vs)) * scale
-
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" height="{height:.0f}" viewBox="0 0 {width:.0f} {height:.0f}" font-family="Segoe UI, Arial, sans-serif">',
-        f'<rect width="{width:.0f}" height="{height:.0f}" fill="#ffffff"/>',
-        f'<text x="{margin}" y="32" font-size="18" font-weight="700" fill="#0f172a">Planta 3D — {escape(manifest["project"]["name"])}</text>',
-    ]
-    for run in manifest["pipe_runs"]:
-        system = SYSTEMS_BY_ID[run["system"]]
-        pts = [screen(v["x"], v["y"], v["z"]) for v in run["vertices_mm"]]
-        stroke = max(2.0, min(9.0, run["dn_mm"] * scale * 4))
-        path = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-        parts.append(f'<polyline points="{path}" fill="none" stroke="{system["svg"]}" stroke-width="{stroke:.1f}" stroke-linejoin="round" stroke-linecap="round"/>')
-        mx, my = (pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2
-        parts.append(f'<circle cx="{mx:.1f}" cy="{my:.1f}" r="11" fill="#ffffff" stroke="{system["svg"]}" stroke-width="2"/>')
-        parts.append(f'<text x="{mx:.1f}" y="{my + 4:.1f}" font-size="11" font-weight="700" text-anchor="middle" fill="#0f172a">{run["sequence"]}</text>')
-    for item in manifest["instances"]:
-        pos = item["position_mm"]
-        x, y = screen(pos["x"], pos["y"], pos["z"])
-        parts.append(f'<rect x="{x - 6:.1f}" y="{y - 6:.1f}" width="12" height="12" fill="#0f172a"/>')
-        parts.append(f'<text x="{x + 10:.1f}" y="{y - 8:.1f}" font-size="12" fill="#0f172a">{escape(item["instance_id"])}</text>')
-
-    lx, ly = width - legend_w + 10, margin + 40
-    parts.append(f'<text x="{lx}" y="{ly}" font-size="13" font-weight="700" fill="#0f172a">Sequência de trechos</text>')
-    for offset, run in enumerate(manifest["pipe_runs"], start=1):
-        system = SYSTEMS_BY_ID[run["system"]]
-        y = ly + offset * 20
-        parts.append(f'<rect x="{lx}" y="{y - 10}" width="14" height="4" fill="{system["svg"]}"/>')
-        meters = f'{run["length_mm"] / 1000:.2f}'.replace(".", ",")
-        text = f'{run["sequence"]}. {run["run_id"]} — DN {run["dn_mm"]:g} — {meters} m'
-        parts.append(f'<text x="{lx + 20}" y="{y}" font-size="11" fill="#334155">{escape(text)}</text>')
-    for index, warning in enumerate(manifest["validation"]["warnings"][:6]):
-        parts.append(f'<text x="{margin}" y="{height - 110 + index * 16}" font-size="11" fill="#b45309">⚠ {escape(warning)}</text>')
-    parts.append(f'<text x="{margin}" y="{height - 10}" font-size="10" fill="#64748b">Isométrica sem escala · unidades em mm · z para cima</text>')
-    parts.append("</svg>")
-    svg = "\n".join(parts)
-    if output_path:
-        Path(output_path).write_text(svg, encoding="utf-8")
-    return svg

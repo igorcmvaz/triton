@@ -105,10 +105,31 @@ def test_plant_3d_refuses_invalid_or_empty_organisation(tmp_path):
     assert not (tmp_path / "x.dxf").exists()
 
 
-def test_plant_3d_svg_numbers_runs_in_sequence():
+def test_schematic_3d_lists_sequence_and_writes_real_measures():
     svg = generate_project_svg_diagram(_project(), mode="plant_3d")
-    assert svg.startswith("<svg") and "Sequência de trechos" in svg
-    assert svg.index("1. T-01") < svg.index("2. T-02") < svg.index("3. T-03")
+    assert svg.startswith("<svg") and "Esquema 3D da tubulação" in svg
+    assert "Sequência de montagem" in svg and "Quantitativo por DN" in svg
+    # Fora de escala no desenho, mas com as medidas e cotas reais escritas.
+    assert "↑ 6,50 m" in svg and "3,00 m" in svg and "Cota +6,50 m" in svg and "Cota −1,50 m" in svg
+    assert "CI-01 → B-01" in svg and "T-01 → RS-01" in svg
+    # Sem recursos que o renderizador SVG Tiny do Qt ignora.
+    assert "paint-order" not in svg and "context-stroke" not in svg
+
+
+def test_schematic_axis_keeps_order_and_connections_but_compresses_long_runs():
+    from netuno.core.schematic_3d import _AxisScale
+
+    scale = _AxisScale([0, 300, 12000, 12000, 12030])
+    assert scale(0) < scale(300) < scale(12000) == scale(12030)
+    # O trecho de 0,3 m ganha espaço visível ao lado do de 11,7 m.
+    assert scale(300) - scale(0) > 0.15
+
+
+def test_schematic_marks_gravity_slope_and_numbers_warnings():
+    runs = [{"run_id": "C-01", "system": "captacao", "dn_mm": 100, "start": {"x": 0, "y": 0, "z": 3000},
+             "route": "d 6000 0 -12; desce 3000"}]
+    svg = generate_project_svg_diagram(_project(runs=runs, components=[]), mode="plant_3d")
+    assert "i=0,2%" in svg and "Avisos" in svg and "C-01, segmento 1" in svg
 
 
 def test_bim_layout_round_trips_through_netuno_file(tmp_path):

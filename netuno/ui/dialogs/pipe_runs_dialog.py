@@ -3,7 +3,7 @@
 O projetista posiciona os componentes e lista os trechos na ordem de montagem.
 Cada trecho parte de um componente, do fim de um trecho anterior ou, com a origem
 em branco, do fim do trecho imediatamente acima. A validação e a prévia
-isométrica usam o mesmo núcleo que gera o DXF, para que o que se vê aqui seja o
+o esquema 3D usam o mesmo núcleo que gera o DXF, para que o que se vê aqui seja o
 que será exportado. A organização é salva mesmo com erros, porque é trabalho em
 andamento; quem recusa uma organização inválida é a exportação.
 """
@@ -11,10 +11,11 @@ andamento; quem recusa uma organização inválida é a exportação.
 from __future__ import annotations
 
 import re
+from html import escape
 from typing import Any, Dict, List, Optional
 
-from PySide6.QtCore import QByteArray, Qt
-from PySide6.QtGui import QColor, QImage, QPainter, QPixmap
+from PySide6.QtCore import QByteArray, QRectF, Qt
+from PySide6.QtGui import QColor, QPainter
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import (
     QComboBox, QDialog, QDialogButtonBox, QHBoxLayout, QHeaderView, QLabel,
@@ -22,8 +23,8 @@ from PySide6.QtWidgets import (
 )
 
 from netuno.core.bim_exporter import COMPONENT_TYPES, build_bim_manifest, validate_bim_manifest
-from netuno.core.pipe_network import PIPE_SYSTEMS, format_route, lengths_by_dn, parse_route
-from netuno.core.plant_3d import generate_plant_3d_svg
+from netuno.core.pipe_network import PIPE_SYSTEMS, format_route, parse_route
+from netuno.core.schematic_3d import generate_schematic_3d_svg
 from netuno.ui.translation import tr
 
 
@@ -58,7 +59,7 @@ class PipeRunsDialog(QDialog):
     def __init__(self, parent=None, layout: Optional[Dict[str, Any]] = None, project_data: Optional[Dict[str, Any]] = None):
         super().__init__(parent)
         self.setWindowTitle(tr("Organizar trechos de tubulação — planta 3D"))
-        self.resize(1250, 820)
+        self.resize(1280, 900)
         self._project_data = dict(project_data or {})
         # Parâmetros das famílias (capacidade, potência...) não aparecem na
         # tabela, mas são preservados por linha para não se perderem ao salvar.
@@ -79,7 +80,7 @@ class PipeRunsDialog(QDialog):
         splitter.addWidget(self._build_components_box(layout.get("bim_components") or []))
         splitter.addWidget(self._build_runs_box(layout.get("pipe_runs") or []))
         splitter.addWidget(self._build_preview_box())
-        splitter.setSizes([200, 280, 340])
+        splitter.setSizes([170, 230, 420])
         root.addWidget(splitter, 1)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -255,23 +256,21 @@ class PipeRunsDialog(QDialog):
     # ── Prévia ──
 
     def _build_preview_box(self) -> QWidget:
+        # O esquema já traz a sequência, o quantitativo e os avisos; ao lado dele
+        # fica só o estado da validação, com os erros que impedem a exportação.
         box = QWidget()
-        lay = QHBoxLayout(box)
+        lay = QVBoxLayout(box)
         lay.setContentsMargins(0, 0, 0, 0)
         self.lbl_report = QLabel()
         self.lbl_report.setWordWrap(True)
-        self.lbl_report.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         self.lbl_report.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        self.lbl_report.setMinimumWidth(360)
-        self.lbl_preview = QLabel()
-        self.lbl_preview.setAlignment(Qt.AlignCenter)
-        self.lbl_preview.setStyleSheet("background: #ffffff; border: 1px solid #cbd5e1;")
-        lay.addWidget(self.lbl_report, 1)
-        lay.addWidget(self.lbl_preview, 2)
+        self.preview = SchematicView()
+        lay.addWidget(self.lbl_report)
+        lay.addWidget(self.preview, 1)
         return box
 
     def refresh_preview(self) -> List[str]:
-        """Valida com o núcleo e atualiza o relatório e a isométrica; devolve os erros."""
+        """Valida com o núcleo e atualiza o estado e o esquema 3D; devolve os erros."""
         data = dict(self._project_data)
         try:
             data.update(self.get_layout())
@@ -279,34 +278,49 @@ class PipeRunsDialog(QDialog):
             errors = validate_bim_manifest(manifest)
         except ValueError as exc:
             manifest, errors = None, [str(exc)]
-        lines: List[str] = []
         if errors:
-            lines.append(f"<b style='color:#b91c1c'>{tr('Erros')}</b>")
-            lines += [f"• {e}" for e in errors]
-        if manifest:
-            if manifest["validation"]["warnings"]:
-                lines.append(f"<b style='color:#b45309'>{tr('Avisos')}</b>")
-                lines += [f"• {w}" for w in manifest["validation"]["warnings"]]
-            totals = lengths_by_dn(manifest["pipe_runs"])
-            if totals:
-                lines.append(f"<b>{tr('Comprimento por DN')}</b>")
-                lines += [f"• DN {dn:g}: {m:.2f} m".replace(".", ",") for dn, m in totals.items()]
-        if not errors:
-            lines.insert(0, f"<b style='color:#047857'>{tr('Organização válida')}</b>")
-        self.lbl_report.setText("<br>".join(lines))
-        self._render_preview(data if not errors else None)
+            self.lbl_report.setText(
+                f"<b style='color:#b91c1c'>{tr('Pendências — a planta 3D não será exportada:')}</b><br>"
+                + "<br>".join(f"• {escape(e)}" for e in errors)
+            )
+        else:
+            warnings = len(manifest["validation"]["warnings"])
+            note = f" · {warnings} {tr('aviso(s) numerado(s) no esquema')}" if warnings else ""
+            self.lbl_report.setText(
+                f"<b style='color:#047857'>{tr('Organização válida')}</b> · "
+                f"{len(manifest['pipe_runs'])} {tr('trecho(s)')}{note}"
+            )
+        has_content = bool(data.get("pipe_runs") or data.get("bim_components"))
+        self.preview.set_svg(generate_schematic_3d_svg(data) if not errors and has_content else None)
         return errors
 
-    def _render_preview(self, data: Optional[Dict[str, Any]]) -> None:
-        if data is None or not (data.get("pipe_runs") or data.get("bim_components")):
-            self.lbl_preview.setPixmap(QPixmap())
-            self.lbl_preview.setText(tr("Prévia disponível quando a organização estiver válida."))
+
+class SchematicView(QWidget):
+    """Desenha o SVG vetorialmente no espaço disponível, sem distorcer."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._renderer: Optional[QSvgRenderer] = None
+        self.setMinimumHeight(260)
+
+    def set_svg(self, svg: Optional[str]) -> None:
+        self._renderer = QSvgRenderer(QByteArray(svg.encode("utf-8"))) if svg else None
+        self.update()
+
+    def has_drawing(self) -> bool:
+        return self._renderer is not None and self._renderer.isValid()
+
+    def paintEvent(self, event) -> None:
+        painter = QPainter(self)
+        painter.fillRect(self.rect(), QColor("#ffffff"))
+        painter.setPen(QColor("#cbd5e1"))
+        painter.drawRect(self.rect().adjusted(0, 0, -1, -1))
+        if not self.has_drawing():
+            painter.setPen(QColor("#64748b"))
+            painter.drawText(self.rect(), Qt.AlignCenter, tr("O esquema 3D aparece quando a organização estiver válida."))
             return
-        renderer = QSvgRenderer(QByteArray(generate_plant_3d_svg(data).encode("utf-8")))
-        image = QImage(1000, 700, QImage.Format_ARGB32)
-        image.fill(QColor("white"))
-        painter = QPainter(image)
-        renderer.render(painter)
-        painter.end()
-        self.lbl_preview.setText("")
-        self.lbl_preview.setPixmap(QPixmap.fromImage(image).scaled(760, 532, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        size = self._renderer.defaultSize()
+        scale = min(self.width() / size.width(), self.height() / size.height())
+        width, height = size.width() * scale, size.height() * scale
+        target = QRectF((self.width() - width) / 2, (self.height() - height) / 2, width, height)
+        self._renderer.render(painter, target)

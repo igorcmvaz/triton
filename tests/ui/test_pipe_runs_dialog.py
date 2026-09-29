@@ -26,6 +26,7 @@ def test_origin_text_distinguishes_continuation_coordinates_and_references():
 def test_dialog_keeps_parameters_and_revalidates_after_reordering(qapp):
     dialog = PipeRunsDialog(None, layout=LAYOUT, project_data={"project_name": "Teste"})
     assert dialog.refresh_preview() == []
+    assert dialog.preview.has_drawing()
     assert dialog.get_layout()["bim_components"][0]["parameters"] == {"CAPACIDADE_L": 5000}
 
     dialog.table_runs.setCurrentCell(1, 0)
@@ -35,3 +36,5 @@ def test_dialog_keeps_parameters_and_revalidates_after_reordering(qapp):
     assert runs[0]["route"] == "+x 3000"
     errors = dialog.refresh_preview()
     assert errors == ["Trecho T-02: o primeiro trecho precisa de origem (componente ou coordenadas)."]
+    assert not dialog.preview.has_drawing()
+    assert "não será exportada" in dialog.lbl_report.text()

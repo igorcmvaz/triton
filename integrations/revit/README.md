@@ -55,7 +55,7 @@ declividade abaixo de 0,5 % geram aviso. A organização é salva no `.netuno`.
 
 Com o modo **Planta 3D dos Trechos Organizados + BIM JSON**, o DXF traz, por
 sistema, o eixo em POLYLINE 3D e o tubo em malha no diâmetro nominal, além dos
-blocos na cota de cada componente; o SVG é uma isométrica numerada na ordem
+blocos na cota de cada componente; o SVG é um esquema 3D fora de escala, numerado na ordem
 dos trechos. O manifesto passa a registrar `pipe_runs` com os vértices já
 resolvidos:
 
