@@ -50,7 +50,9 @@ outputs/
 # Exigida em tempo de execução por netuno/core/climate_database.py, mas grande
 # demais para controle de versão. Distribuída separadamente.
 # ---------------------------------------------------------------------------
+climbra_data/
 Netuno future files for 652 cities/
+data/climbra.db
 Netuno_future_files_split/
 
 # ---------------------------------------------------------------------------
@@ -83,3 +85,16 @@ desktop.ini
 *~
 .idea/
 .vscode/
+.mcp.json
+
+# Log de avisos do Qt, gerado em tempo de execução
+avisos_qt.log
+*.log
+
+# Material de terceiros e apresentações
+additional_material/documentation/*.pdf
+apresentacoes/
+
+# Rascunhos de depuração locais
+scratch/
+scratch_*.py

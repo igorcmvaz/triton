@@ -221,6 +221,7 @@ _HTML_TEMPLATE = r"""<!doctype html>
       <label class="toggle"><input type="checkbox" id="tBuilding" checked> Edificação</label>
       <label class="toggle"><input type="checkbox" id="tGround" checked> Terreno</label>
       <label class="toggle"><input type="checkbox" id="tLabels" checked> Rótulos</label>
+      <button id="btnFs" title="Alternar tela cheia (F11)">⛶ Tela cheia</button>
     </div>
   </div>
   <aside>
@@ -359,6 +360,31 @@ window.addEventListener("resize",()=>{ sizeCanvases(); if(autoFit) fit(); draw()
 const used=new Set(solids.filter(s=>s.kind==="pipe").map(s=>s.title.split(" · ")[1]));
 document.getElementById("legend").innerHTML=SCENE.systems.filter(s=>used.has(s.label)).map(s=>`<div><span class="sw" style="background:${s.color}"></span>${s.label}</div>`).join("")||'<p class="hint">Sem trechos.</p>';
 document.getElementById("notes").textContent=SCENE.notes.join(" ");
+
+const btnFs=document.getElementById("btnFs");
+function updateFsBtn(){
+  const isFs=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  if(btnFs){
+    btnFs.textContent=isFs?"🗗 Minimizar":"⛶ Tela cheia";
+    btnFs.title=isFs?"Sair da tela cheia / Minimizar (Esc ou F11)":"Alternar modo tela cheia (F11)";
+  }
+}
+if(btnFs){
+  btnFs.addEventListener("click",()=>{
+    if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+      const el=document.documentElement;
+      if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+      if(document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  });
+}
+document.addEventListener("fullscreenchange",updateFsBtn);
+document.addEventListener("webkitfullscreenchange",updateFsBtn);
+window.addEventListener("keydown",e=>{ if(e.key==="F11"){ e.preventDefault(); if(btnFs) btnFs.click(); } });
+
 sizeCanvases(); fit(); draw();
 </script>
 </body>

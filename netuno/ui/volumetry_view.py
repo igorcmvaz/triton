@@ -396,10 +396,30 @@ class VolumetryView(QWidget):
         elif event.key() in (Qt.Key_F, Qt.Key_Home):
             self.fit()
             self.update()
-        elif event.key() == Qt.Key_Escape and self.selected is not None:
-            self.selected = None
-            self.picked.emit(None)
-            self.update()
+        elif event.key() == Qt.Key_F11:
+            win = self.window()
+            if win:
+                if hasattr(win, "toggle_fullscreen"):
+                    win.toggle_fullscreen()
+                elif win.isFullScreen():
+                    win.showMaximized()
+                else:
+                    win.showFullScreen()
+            event.accept()
+        elif event.key() == Qt.Key_Escape:
+            win = self.window()
+            if win and win.isFullScreen():
+                if hasattr(win, "toggle_fullscreen"):
+                    win.toggle_fullscreen()
+                else:
+                    win.showMaximized()
+                event.accept()
+                return
+            if self.selected is not None:
+                self.selected = None
+                self.picked.emit(None)
+                self.update()
+                event.accept()
         else:
             super().keyPressEvent(event)
 
@@ -439,8 +459,13 @@ class VolumetryPanel(QWidget):
             box.setChecked(True)
             box.toggled.connect(lambda on, a=attr: (setattr(self.view, a, on), self.view.update()))
             bar.addWidget(box)
+        bar.addSpacing(12)
+        self.btn_fs = QPushButton(tr("⛶ Tela cheia"))
+        self.btn_fs.setToolTip(tr("Alternar modo tela cheia (F11)"))
+        self.btn_fs.clicked.connect(self._toggle_fullscreen)
+        bar.addWidget(self.btn_fs)
         bar.addStretch()
-        hint = QLabel(tr("Arraste: girar · Shift/botão direito: deslocar · roda: aproximar · 1–4: vistas · F: enquadrar"))
+        hint = QLabel(tr("Arraste: girar · Shift/botão direito: deslocar · roda: aproximar · 1–4: vistas · F: enquadrar · F11: tela cheia"))
         hint.setStyleSheet("color:#64748b; font-size:11px;")
         bar.addWidget(hint)
         left.addLayout(bar)
@@ -469,3 +494,24 @@ class VolumetryPanel(QWidget):
             return
         items = "".join(f"<li>{escape(line)}</li>" for line in solid.info)
         self.lbl_info.setText(f"<b style='font-size:13px'>{escape(solid.title)}</b><ul style='margin-left:-20px'>{items}</ul>{foot}")
+
+    def _toggle_fullscreen(self) -> None:
+        win = self.window()
+        if win is None:
+            return
+        if hasattr(win, "toggle_fullscreen"):
+            win.toggle_fullscreen()
+        elif win.isFullScreen():
+            win.showMaximized()
+        else:
+            win.showFullScreen()
+        self._sync_fs_button()
+
+    def _sync_fs_button(self) -> None:
+        win = self.window()
+        if win and win.isFullScreen():
+            self.btn_fs.setText(tr("🗗 Minimizar"))
+            self.btn_fs.setToolTip(tr("Sair da tela cheia (F11 ou Esc)"))
+        else:
+            self.btn_fs.setText(tr("⛶ Tela cheia"))
+            self.btn_fs.setToolTip(tr("Alternar modo tela cheia (F11)"))

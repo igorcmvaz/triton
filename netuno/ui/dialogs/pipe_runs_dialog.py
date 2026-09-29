@@ -15,8 +15,8 @@ from html import escape
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from PySide6.QtCore import QByteArray, QRectF, Qt
-from PySide6.QtGui import QColor, QPainter
+from PySide6.QtCore import QByteArray, QRectF, Qt, QUrl
+from PySide6.QtGui import QColor, QDesktopServices, QPainter
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import (
     QComboBox, QDialog, QDialogButtonBox, QDoubleSpinBox, QFileDialog, QHBoxLayout, QHeaderView,
@@ -64,7 +64,9 @@ class PipeRunsDialog(QDialog):
     def __init__(self, parent=None, layout: Optional[Dict[str, Any]] = None, project_data: Optional[Dict[str, Any]] = None):
         super().__init__(parent)
         self.setWindowTitle(tr("Organizar trechos de tubulação — planta 3D"))
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinMaxButtonsHint)
         self.resize(1280, 900)
+        self.setWindowState(Qt.WindowMaximized)
         self._project_data = dict(project_data or {})
         # Parâmetros das famílias (capacidade, potência...) não aparecem na
         # tabela, mas são preservados por linha para não se perderem ao salvar.
@@ -325,12 +327,16 @@ class PipeRunsDialog(QDialog):
         self.lbl_report.setWordWrap(True)
         self.lbl_report.setTextInteractionFlags(Qt.TextSelectableByMouse)
         head.addWidget(self.lbl_report, 1)
+        self.btn_fullscreen = QPushButton(tr("⛶ Tela cheia"))
+        self.btn_fullscreen.setToolTip(tr("Alternar modo tela cheia (F11)"))
+        self.btn_fullscreen.clicked.connect(self.toggle_fullscreen)
         self.btn_html = QPushButton(tr("🌐 Volumetria interativa (.html)"))
         self.btn_html.setToolTip(tr("Página autocontida, girável no navegador, para compartilhar"))
         self.btn_html.clicked.connect(lambda: self.export_volumetry("html"))
         self.btn_glb = QPushButton(tr("🧊 Modelo 3D (.glb)"))
         self.btn_glb.setToolTip(tr("glTF 2.0: Visualizador 3D do Windows, Blender, SketchUp e visualizadores web"))
         self.btn_glb.clicked.connect(lambda: self.export_volumetry("glb"))
+        head.addWidget(self.btn_fullscreen)
         head.addWidget(self.btn_html)
         head.addWidget(self.btn_glb)
         lay.addLayout(head)
@@ -342,7 +348,28 @@ class PipeRunsDialog(QDialog):
         lay.addWidget(self.tabs, 1)
         return box
 
-    def export_volumetry(self, fmt: str) -> Optional[str]:
+    def toggle_fullscreen(self) -> None:
+        if self.isFullScreen():
+            self.showMaximized()
+            self.btn_fullscreen.setText(tr("⛶ Tela cheia"))
+            self.btn_fullscreen.setToolTip(tr("Alternar modo tela cheia (F11)"))
+        else:
+            self.showFullScreen()
+            self.btn_fullscreen.setText(tr("🗗 Minimizar tela cheia"))
+            self.btn_fullscreen.setToolTip(tr("Restaurar tamanho da janela (F11 ou Esc)"))
+
+    def keyPressEvent(self, event) -> None:
+        if event.key() == Qt.Key_F11:
+            self.toggle_fullscreen()
+            event.accept()
+            return
+        if event.key() == Qt.Key_Escape and self.isFullScreen():
+            self.toggle_fullscreen()
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
+    def export_volumetry(self, fmt: str, open_browser: bool = False) -> Optional[str]:
         if self._valid_data is None:
             QMessageBox.warning(self, tr("Volumetria"), tr("Resolva as pendências da organização antes de exportar."))
             return None
@@ -354,6 +381,8 @@ class PipeRunsDialog(QDialog):
         scene = build_volumetry(self._valid_data)
         (write_html_viewer if fmt == "html" else write_glb)(scene, path)
         self.lbl_report.setText(self.lbl_report.text() + f" · {tr('exportado')}: {escape(Path(path).name)}")
+        if open_browser and fmt == "html":
+            QDesktopServices.openUrl(QUrl.fromLocalFile(path))
         return path
 
     def refresh_preview(self) -> List[str]:

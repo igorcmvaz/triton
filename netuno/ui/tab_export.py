@@ -673,7 +673,9 @@ class TabExport(QWidget):
 
             dlg = QDialog(self)
             dlg.setWindowTitle(tr("👁️ Pré-visualização do Desenho CAD / Prancha Técnica"))
+            dlg.setWindowFlags(dlg.windowFlags() | Qt.WindowMinMaxButtonsHint)
             dlg.resize(1150, 800)
+            dlg.setWindowState(Qt.WindowMaximized)
             dlg_lay = QVBoxLayout(dlg)
             dlg_lay.setContentsMargins(16, 14, 16, 14)
             dlg_lay.setSpacing(10)
