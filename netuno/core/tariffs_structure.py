@@ -3,7 +3,7 @@ Formalização da estrutura tarifária: códigos, famílias e validação.
 
 O catálogo do Netuno representa cada tarifa como uma lista de quádruplas
 ``(minimo_m3, maximo_m3, valor, codigo)``, em que ``codigo`` determina como o campo
-``valor`` deve ser lido. Até a versão 5.0.7 esses códigos eram números literais
+``valor`` deve ser lido. Anteriormente esses códigos eram números literais
 espalhados por `economic.py` e pelos testes, sem definição única — o que já produziu
 um teste desatualizado, que rejeitava o código ``-2`` por desconhecê-lo.
 

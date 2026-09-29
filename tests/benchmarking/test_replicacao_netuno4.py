@@ -1,7 +1,7 @@
 """
 Aderência de replicação: Netuno 5 contra os resultados oficiais do Netuno 4.
 
-Esta é a evidência central de um estudo de replicação — e, até a versão 5.0.7, era a
+Esta é a evidência central de um estudo de replicação — e, anteriormente, era a
 única comparação que não estava automatizada. O módulo
 `compare_netuno4_netuno5.py` existia desde o início, mas não seguia o padrão
 `test_*.py`, de modo que o pytest coletava zero testes do diretório e a função só

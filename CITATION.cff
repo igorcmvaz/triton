@@ -9,7 +9,7 @@ authors:
   - family-names: Cordova
     given-names: "Marcelo Marcel"
     affiliation: "Universidade Federal de Santa Catarina"
-version: "5.0.7"
+version: "5.0.0"
 date-released: "2026-09-07"
 license: GPL-3.0-or-later
 abstract: >-

@@ -109,7 +109,7 @@ MATERIAL_KEY_ALIASES: Dict[str, str] = {
 def normalize_material_key(value: Any, default: str = "PEAD") -> str:
     """Normaliza aliases usados pelos módulos econômico e ambiental.
 
-    Na v5.0.4, ``PRFV`` era aceito no custo mas caía silenciosamente no preset
+    Anteriormente, ``PRFV`` era aceito no custo mas caía silenciosamente no preset
     PEAD da ACV. A normalização explícita elimina essa divergência.
     """
     key = str(value or default).strip().upper()

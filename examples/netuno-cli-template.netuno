@@ -3,7 +3,7 @@
     "name": "netuno-project",
     "version": 2
   },
-  "version": "5.0.7",
+  "version": "5.0.0",
   "metadata": {
     "project_id": "N5-CLI-TEMPLATE",
     "name": "Modelo CLI Netuno",

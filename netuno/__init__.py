@@ -8,7 +8,7 @@ import hashlib
 import re
 import unicodedata
 
-__version__ = "5.0.7"
+__version__ = "5.0.0"
 APP_NAME = "Netuno"
 APP_VERSION_LABEL = f"Netuno {__version__}"
 APP_TITLE = f"Netuno {__version__} — Dimensionamento e Aproveitamento de Água de Chuva"

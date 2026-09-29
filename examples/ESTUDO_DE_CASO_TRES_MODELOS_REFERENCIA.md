@@ -1,4 +1,4 @@
-# Estudo de Caso e Verificação Manual — Três Modelos de Referência (Netuno 5.0.7)
+# Estudo de Caso e Verificação Manual — Três Modelos de Referência (Netuno 5.0.0)
 
 > Documento gerado por `python scripts/generate_reference_case_studies.py`. Não edite os números manualmente: altere premissas/código, execute o script e revise os resíduos.
 

@@ -1,4 +1,4 @@
-# Netuno 5.0.7
+# Netuno 5.0.0
 
 > Plataforma para dimensionamento de sistemas prediais de aproveitamento de água de chuva, com simulação diária, análise econômico-financeira, ACV simplificada e apoio à decisão multicritério.
 
@@ -27,7 +27,7 @@ O Netuno é uma aplicação desktop voltada a estudos de viabilidade e apoio ao 
 
 ### Escopo atual do produto
 
-| Componente | Situação na versão 5.0.7 | Observação |
+| Componente | Situação na versão 5.0.0 | Observação |
 | --- | --- | --- |
 | Aplicação desktop PySide6 | suportada | é a interface gráfica oficial e executa localmente |
 | CLI | suportada | adequada a automação, rastreabilidade e estudos em lote |
@@ -269,15 +269,15 @@ NetunoReplicacao/
 
 ## Citação
 
-> GHISI, E.; CORDOVA, M. M. Netuno 5.0.7: Programa computacional para simulação de aproveitamento de água de chuva. Florianópolis: Grupo de Pesquisa Gestão do Espaço Sustentável, UFSC, 2026. Software de computador, versão 5.0.7.
+> GHISI, E.; CORDOVA, M. M. Netuno 5.0.0: Programa computacional para simulação de aproveitamento de água de chuva. Florianópolis: Grupo de Pesquisa Gestão do Espaço Sustentável, UFSC, 2026. Software de computador, versão 5.0.0.
 
 ```bibtex
-@software{netuno_5_0_7,
+@software{netuno_5_0_0,
   author  = {Ghisi, Enedir and Cordova, Marcelo Marcel},
-  title   = {Netuno 5.0.7},
+  title   = {Netuno 5.0.0},
   year    = {2026},
   publisher = {UFSC},
-  version = {5.0.7}
+  version = {5.0.0}
 }
 ```
 

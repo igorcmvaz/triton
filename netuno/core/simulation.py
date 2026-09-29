@@ -670,7 +670,7 @@ def run_single_simulation(
         irr_vol_nominal = float(building_config.get("irrigation_liters_per_day", 0.0)) if building_config else 0.0
         vol_supp = days_supp * irr_vol_nominal
 
-        # Valores exatos, acumulados dia a dia dentro do kernel. Até a versão 5.0.7
+        # Valores exatos, acumulados dia a dia dentro do kernel. Anteriormente
         # estes eram estimados a partir dos totais anuais, o que superestimava o uso
         # interno e subestimava a irrigação em até 26%.
         pluv_in_est = pluv_indoor

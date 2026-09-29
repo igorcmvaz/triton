@@ -1,4 +1,4 @@
-# RELATÓRIO DE VERIFICAÇÃO TÉCNICA E COMPUTACIONAL — NETUNO 5.0.7
+# RELATÓRIO DE VERIFICAÇÃO TÉCNICA E COMPUTACIONAL — NETUNO 5.0.0
 
 **Grupo de Pesquisa Gestão do Espaço Sustentável**  
 *Replicação Fiel e Validação da Engenharia do Netuno*  
@@ -8,7 +8,7 @@
 
 ## 1. SUMÁRIO EXECUTIVO
 
-Este relatório descreve evidências automatizadas de **verificação interna** do Netuno 5.0.7. Ele não deve ser chamado de validação externa: os testes exercitam equações e regressões do próprio software, mas não substituem comparação independente com medições, certificação, projeto executivo ou revisão profissional das premissas locais.
+Este relatório descreve evidências automatizadas de **verificação interna** do Netuno 5.0.0. Ele não deve ser chamado de validação externa: os testes exercitam equações e regressões do próprio software, mas não substituem comparação independente com medições, certificação, projeto executivo ou revisão profissional das premissas locais.
 
 | Evidência | Caso automatizado | Critério de aceitação | Escopo |
 | :--- | :--- | :--- | :--- |

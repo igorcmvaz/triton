@@ -364,7 +364,7 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
         short_description="Campo opcional em kg CO2e/m³ para compatibilidade de projetos antigos",
         detailed_explanation=(
             "Projetos antigos podem informar diretamente uma intensidade agregada de tratamento. "
-            "Quando o campo não é usado, a versão 5.0.7 deriva a intensidade de dose de cloro × "
+            "Quando o campo não é usado, o Netuno 5.0.0 deriva a intensidade de dose de cloro × "
             "fator do cloro / 1000, exibindo também a massa anual."
         ),
         source_reference="Premissa do projeto legado; documentar tecnologia e inventário próprios",

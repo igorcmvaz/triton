@@ -68,7 +68,7 @@ class TestTariffsDatabase(unittest.TestCase):
                     self.assertGreaterEqual(min_v, 0.0)
                     self.assertGreaterEqual(val, 0.0)
                     # Os códigos são definidos em netuno/core/tariffs_structure.py,
-                    # fonte única desde a 5.0.7. Antes disso eram literais espalhados
+                    # fonte única padronizada no Netuno 5.0.0. Antes disso eram literais espalhados
                     # pelo código, e este teste rejeitava a tarifa legítima da DAE
                     # Americana por desconhecer a franquia de consumo mínimo (-2).
                     self.assertIn(

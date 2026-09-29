@@ -8,11 +8,11 @@ Evoluir o Netuno de um simulador determinístico com comparação multicritério
 2. o programa pode sugerir e validar, mas o usuário deve poder revisar, substituir e justificar;
 3. toda recomendação deve trazer um recibo reproduzível: dados, hipóteses, restrições, método, incerteza e motivo da escolha.
 
-Este documento é um roteiro técnico. Ele não altera a metodologia da versão 5.0.7 por si só.
+Este documento é um roteiro técnico. Ele não altera a metodologia da versão 5.0.0 por si só.
 
 ## 2. Estado atual e lacunas
 
-| Recurso | Situação na 5.0.7 | Limite atual | Próxima maturidade |
+| Recurso | Situação na 5.0.0 | Limite atual | Próxima maturidade |
 | --- | --- | --- | --- |
 | Balanço diário | Implementado por alternativa (modelo YAS) | Entradas determinísticas | Propagar incerteza e testar erro estrutural |
 | Grade de volumes | Até 40 capacidades positivas; passo múltiplo de 250 L | Grade regular, salvo o máximo terminal | Refinamento adaptativo opcional perto das regiões relevantes |
@@ -106,7 +106,7 @@ Isso evita que uma pontuação TOPSIS alta compense uma violação que o usuári
 
 ## 5. Roteiro incremental
 
-### Fase A — consolidar a 5.0.7
+### Fase A — consolidar a 5.0.0
 
 Prioridade imediata: estabilidade e transparência, sem ampliar ainda o modelo matemático.
 
@@ -250,7 +250,7 @@ Cada análise deverá produzir um objeto versionado contendo:
 
 ## 9. Ordem recomendada
 
-1. concluir a Fase A e estabilizar a grade da 5.0.7;
+1. concluir a Fase A e estabilizar a grade da 5.0.0;
 2. implementar o registro de premissas antes de ampliar o Monte Carlo;
 3. fazer Pareto determinístico, porque é simples, auditável e independente de pesos;
 4. ampliar Monte Carlo de um volume para todas as alternativas com amostras pareadas;

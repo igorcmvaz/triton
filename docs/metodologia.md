@@ -1,4 +1,4 @@
-# Metodologia, equações e fronteiras do modelo — Netuno 5.0.7
+# Metodologia, equações e fronteiras do modelo — Netuno 5.0.0
 
 Este documento descreve o que o motor do Netuno efetivamente calcula: as equações
 implementadas, as premissas que as sustentam e os limites além dos quais os resultados
@@ -104,7 +104,7 @@ custo_anual = n × [custo_fixo_por_ocorrência
                    + coeficiente_por_m³ × (consumo_pluvial_anual / 12)]
 ```
 
-O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. A versão 5.0.7 não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
+O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. A versão 5.0.0 não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
 
 ## 5. Bombeamento e cloração
 
@@ -154,7 +154,7 @@ Massas, fatores de materiais, fator da água, fator da rede e fator do cloro sã
 
 Os três critérios são de benefício: água pluvial consumida, VPL e CO2e líquido evitado. Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
 
-Além do escore agregado, a versão 5.0.7 calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
+Além do escore agregado, a versão 5.0.0 calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 
 ```text
 gapij = [max(xj) − xij] / [max(xj) − min(xj)]

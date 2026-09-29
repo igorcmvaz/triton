@@ -1,6 +1,6 @@
 """
-Testes de verificação para as atualizações do Netuno 5.0.7:
-1. Versão 5.0.7
+Testes de verificação para as atualizações do Netuno 5.0.0:
+1. Versão 5.0.0
 2. Paybacks simples e descontados calculados com precisão mensal
 3. Cloração uniforme do reservatório superior nas varreduras
 4. Sincronização e integridade do módulo ambiental
@@ -15,8 +15,8 @@ from netuno.core.environmental import (
 )
 
 
-def test_version_is_5_0_7():
-    assert __version__ == "5.0.7"
+def test_version_is_5_0_0():
+    assert __version__ == "5.0.0"
 
 
 def test_monthly_precision_payback_simple():

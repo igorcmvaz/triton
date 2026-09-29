@@ -614,7 +614,7 @@ _DICTIONARY = {
     "Relatório HTML salvo em:": "HTML Report saved to:",
     "Relatório PDF salvo em:": "PDF Report saved to:",
     "Relatório de Verificação Técnica e Computacional...": "Technical and Computational Verification Report...",
-    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.7": "Technical and Computational Verification Report — Netuno 5.0.7",
+    "Relatório de Verificação Técnica e Computacional — Netuno 5.0.0": "Technical and Computational Verification Report — Netuno 5.0.0",
     "Evidências de Verificação e Rastreabilidade": "Verification Evidence and Traceability",
     "Status:": "Status:",
     "Relatório de validação gerado e certificado com sucesso.": "Validation report generated and certified successfully.",
@@ -996,9 +996,9 @@ _DICTIONARY = {
     "🏆 Conclusão da Otimização de Trade-Off": "🏆 Trade-Off Optimization Conclusion",
     "Maior Retorno Financeiro (Maior VPL Líquido): --": "Highest Financial Return (Highest Net NPV): --",
     "Comparação de Trade-off: --": "Trade-off Comparison: --",
-    "Netuno 5.0.7 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.7 — Rainwater Harvesting Design & Simulation",
-    "Manual do Usuário — Netuno 5.0.7": "User Manual — Netuno 5.0.7",
-    "Sobre o Netuno 5.0.7": "About Netuno 5.0.7",
+    "Netuno 5.0.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.0 — Rainwater Harvesting Design & Simulation",
+    "Manual do Usuário — Netuno 5.0.0": "User Manual — Netuno 5.0.0",
+    "Sobre o Netuno 5.0.0": "About Netuno 5.0.0",
     "Versão": "Version",
     "Autores": "Authors",
     "Grupo de Pesquisa Gestão do Espaço Sustentável": "Sustainable Built Environment Research Group",
@@ -1640,7 +1640,7 @@ _CHINESE_DICTIONARY.update({
     "Relatórios e Exportação em PDF / HTML": "报告与 PDF / HTML 导出", "Idioma do Relatório:": "报告语言：", "Modelo do Relatório:": "报告模板：", "Pré-visualização do Relatório (Resumo Estruturado)": "报告预览（结构化摘要）",
 })
 
-# Netuno 5.0.7: scientifically explicit screening assumptions and TOPSIS gaps.
+# Netuno 5.0.0: scientifically explicit screening assumptions and TOPSIS gaps.
 _DICTIONARY.update({
     "Conservador — 5,0 %/m3": "Conservative — 5.0 %/m3",
     "Equilibrado — 2,5 %/m3": "Balanced — 2.5 %/m3",

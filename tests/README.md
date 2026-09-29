@@ -1,4 +1,4 @@
-# Testes do Netuno 5.0.7
+# Testes do Netuno 5.0.0
 
 Esta pasta reúne a verificação automatizada do motor, das interfaces de entrada e saída e dos fluxos gráficos. Os testes demonstram consistência interna com regras e casos de referência; não substituem validação externa com medições independentes.
 

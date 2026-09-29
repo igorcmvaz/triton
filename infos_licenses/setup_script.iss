@@ -2,7 +2,7 @@
 ; Grupo de Pesquisa Gestão Espaço Sustentável (UFSC)
 
 #define MyAppName "Netuno 5"
-#define MyAppVersion "5.0.7"
+#define MyAppVersion "5.0.0"
 #define MyAppPublisher "Grupo de Pesquisa Gestão Espaço Sustentável (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"
 #define MyAppExeName "Netuno.exe"
