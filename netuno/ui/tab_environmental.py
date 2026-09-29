@@ -17,16 +17,29 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor
 
-from netuno.ui.translation import tr, get_current_theme
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
 from netuno.core.parser import format_ptbr
 from netuno.core.environmental import (
     EnvironmentalConfig, EnvironmentalResult, EnvironmentalSweepResult,
     PipeInput, PumpInput, MATERIAL_PRESETS, PIPE_EMISSION_FACTORS_PER_METER, PUMP_EMBEDDED_CO2,
-    calculate_lca, run_environmental_sweep
+    calculate_lca, run_environmental_sweep, grid_factor_default
 )
 from netuno.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
-from netuno.core.pump_energy import compute_annual_pump_energy, CV_TO_KW
-from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport
+from netuno.core import water_supply_routes as rotas_de_agua
+from netuno.core.grid_emission_factors import (
+    BASE_PADRAO as BASE_PADRAO_DA_REDE,
+    bases_disponiveis as bases_de_rede_disponiveis,
+    fator_co2eq as fator_co2eq_da_base,
+    procedencia_da_base,
+)
+from netuno.core.chlorination import PUREZA_PADRAO as PUREZA_PADRAO_DO_CLORO
+from netuno.core.etap_integration import AREA_DE_RECURSO_M2
+from netuno.core.environmental import pump_embodied_co2_is_extrapolated
+from dataclasses import replace
+from netuno.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
+from netuno.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
+from netuno.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport, irrigacao_atendida_m3
+from netuno.core.edge_certification import consumo_base_anual_m3
 from netuno.ui.charts import (
     NetunoBaseChart, CO2ComparisonChart, EnvironmentalBalanceSummaryChart,
     LCAComponentBreakdownChart, WaterAndCarbonComparisonChart
@@ -35,9 +48,11 @@ from netuno.ui.justified_widgets import (
     JustifiedLineEdit, JustifiedComboBox, JustifiedCheckBox
 )
 from netuno.core.environmental_justifications import (
-    get_material_justification, get_operational_justification
+    get_material_justification, get_operational_justification,
+    get_pipe_justification, get_pump_justification
 )
 import numpy as np
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 
 def adapt_dialog_size(dlg, target_w=1080, target_h=860, min_w=840, min_h=720):
@@ -86,7 +101,7 @@ class LCAParametersDialog(QDialog):
         ann_kwh = sync.get("annual_pump_kwh")
         if ann_kwh is None: ann_kwh = 0.0
         spec_kwh = sync.get("specific_kwh_per_m3")
-        if spec_kwh is None: spec_kwh = 0.085
+        if spec_kwh is None: spec_kwh = consumo_especifico_padrao_kwh_por_m3()
 
         banner = QFrame()
         banner.setStyleSheet("QFrame { background-color: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 6px 12px; }")
@@ -121,15 +136,15 @@ class LCAParametersDialog(QDialog):
         leg_box = QHBoxLayout()
         leg_box.setSpacing(15)
 
-        lbl_leg_pre = QLabel("🟡 Campo Pré-estimado (Catálogo/Engenharia)")
+        lbl_leg_pre = QLabel(tr("🟡 Campo Pré-estimado (Catálogo/Engenharia)"))
         lbl_leg_pre.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; color: #854d0e; padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: bold;")
         leg_box.addWidget(lbl_leg_pre)
 
-        lbl_leg_cred = QLabel("🟢 Crédito / Abatimento de CO2")
+        lbl_leg_cred = QLabel(tr("🟢 Crédito / Abatimento de CO2"))
         lbl_leg_cred.setStyleSheet("background-color: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: bold;")
         leg_box.addWidget(lbl_leg_cred)
 
-        lbl_leg_usr = QLabel("⚪ Quantidade / Entrada do Projetista")
+        lbl_leg_usr = QLabel(tr("⚪ Quantidade / Entrada do Projetista"))
         lbl_leg_usr.setStyleSheet("background-color: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 3px 8px; border-radius: 4px; font-size: 10.5px;")
         leg_box.addWidget(lbl_leg_usr)
 
@@ -236,7 +251,18 @@ class LCAParametersDialog(QDialog):
         self.txt_chlorine_dose = JustifiedLineEdit(self.tab_env.txt_chlorine_dose.text())
         self.txt_chlorine_dose.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
         self.txt_chlorine_dose.set_justification(get_operational_justification("chlorine_dose"))
-        form_l.addRow(QLabel(tr("Dosagem de Cloro (mg/L):")), self.txt_chlorine_dose)
+        form_l.addRow(QLabel(tr("Dosagem de Cloro (mg Cl2 ativo/L):")), self.txt_chlorine_dose)
+
+        # A dose e de cloro ATIVO; o que se compra e o PRODUTO. A pureza faz a
+        # ponte, e nao era editavel: valia sempre 65%, do hipoclorito de calcio
+        # em pastilha. Quem usa agua sanitaria (cerca de 10%) precisa de seis
+        # vezes mais produto para a mesma dose.
+        self.txt_chlorine_purity = JustifiedLineEdit(
+            f"{getattr(self.tab_env, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO):.2f}"
+        )
+        self.txt_chlorine_purity.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
+        self.txt_chlorine_purity.set_justification(get_operational_justification("chlorine_purity"))
+        form_l.addRow(QLabel(tr("Pureza do Produto (kg Cl2 ativo/kg):")), self.txt_chlorine_purity)
 
         self.txt_lifespan = JustifiedLineEdit(self.tab_env.txt_lifespan.text())
         form_l.addRow(QLabel(tr("Vida Útil do Projeto (anos):")), self.txt_lifespan)
@@ -273,6 +299,10 @@ class LCAParametersDialog(QDialog):
             val_str = self.tab_env.txt_pipes_co2[dn].text() if (hasattr(self.tab_env, 'txt_pipes_co2') and dn in self.tab_env.txt_pipes_co2) else f"{pipe_co2_factor(dn):.2f}"
             txt_co2 = JustifiedLineEdit(val_str)
             txt_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
+            # A justificativa existia e nao era exibida. Os quatro diametros
+            # documentados a recebem; os demais seguem sem nota propria, porque
+            # a massa linear vem da mesma tabela e nao ha texto especifico.
+            txt_co2.set_justification(get_pipe_justification(dn))
             self.txt_pipes_co2[dn] = txt_co2
             form_r.addRow(QLabel(tr(f"CO2 Tubo DN {dn} (kg CO2/m):")), txt_co2)
 
@@ -289,9 +319,28 @@ class LCAParametersDialog(QDialog):
         form_r.addRow(QLabel(tr("CO2 Motobomba (kg CO2/un):")), self.txt_pump_co2)
 
         # ── FATORES OPERACIONAIS ──
+        # ── BASE DO FATOR DA REDE ──
+        # As bases documentadas diferem em gas contabilizado e em fronteira:
+        # a serie do MCTI e CO2 apenas, e apenas da geracao; as demais sao
+        # CO2-equivalente com fronteira mais larga. Escolher a base reescreve o
+        # campo abaixo, e a procedencia fica a vista.
+        self.cmb_base_rede = QComboBox()
+        for _chave in sorted(bases_de_rede_disponiveis()):
+            self.cmb_base_rede.addItem(_chave, _chave)
+        _idx = self.cmb_base_rede.findData(BASE_PADRAO_DA_REDE)
+        if _idx >= 0:
+            self.cmb_base_rede.setCurrentIndex(_idx)
+        self.cmb_base_rede.currentIndexChanged.connect(self._aplicar_base_da_rede)
+        form_r.addRow(QLabel(tr("Base do fator da rede:")), self.cmb_base_rede)
+
         self.txt_grid_co2 = JustifiedLineEdit(self.tab_env.txt_grid_co2.text())
         self.txt_grid_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
         form_r.addRow(QLabel(tr("Matriz Elétrica (kg CO2/kWh):")), self.txt_grid_co2)
+
+        self.lbl_base_rede_fonte = QLabel("")
+        self.lbl_base_rede_fonte.setWordWrap(True)
+        self.lbl_base_rede_fonte.setStyleSheet("color: #475569; font-size: 11px;")
+        form_r.addRow("", self.lbl_base_rede_fonte)
 
         self.txt_chlorine_co2 = JustifiedLineEdit(self.tab_env.txt_chlorine_co2.text())
         self.txt_chlorine_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
@@ -302,6 +351,57 @@ class LCAParametersDialog(QDialog):
         self.txt_potable_co2 = JustifiedLineEdit(self.tab_env.txt_potable_co2.text())
         self.txt_potable_co2.setStyleSheet("background-color: #dcfce7; border: 1px solid #86efac; font-weight: bold; color: #166534;")
         form_r.addRow(QLabel(tr("Abatimento Água Potável (kg CO2/m³):")), self.txt_potable_co2)
+
+        # ── ROTA DA AGUA SUBSTITUIDA ──
+        # A emissao evitada nao e propriedade do sistema pluvial: e propriedade
+        # da agua que ele desloca. Escolher a rota reescreve o campo abaixo.
+        #
+        # O combo ja existia e reescrevia o numero em silencio. Quem nao
+        # conhecesse a literatura nao tinha como saber por que escolher uma rota
+        # e nao outra, nem qual e a base do programa.
+        _lbl_rota_ajuda = QLabel(tr(
+            "<b>Qual água o sistema substitui?</b> O CO₂ evitado por m³ não é uma constante "
+            "do sistema pluvial: é propriedade da água que ele deixa de consumir. Substituir "
+            "água dessalinizada vale dezenas de vezes mais do que substituir água de manancial "
+            "tratada por gravidade.<br><br>"
+            "A <b>base do programa é {base:.2f} kg CO₂e/m³</b>, de tratamento convencional. Foi "
+            "escolhida por ficar logo abaixo das faixas publicadas tanto com matriz europeia "
+            "(0,41 a 0,47, Garfí et al., 2016) quanto com matriz brasileira (0,336 a 0,461 por "
+            "macrorregião, Vaz et al., 2025): subestimar o benefício é o erro conservador.<br><br>"
+            "Escolha abaixo a rota que corresponde ao <b>tratamento do seu local</b>. Cada uma "
+            "declara fonte, tecnologia, matriz elétrica e fronteira do sistema."
+        ).format(base=rotas_de_agua.BASE_DO_PROGRAMA_KG_M3))
+        _lbl_rota_ajuda.setWordWrap(True)
+        _lbl_rota_ajuda.setStyleSheet(
+            "color: #334155; font-size: 11px; font-weight: normal; "
+            "background-color: #f1f5f9; border: 1px solid #cbd5e1; "
+            "border-radius: 4px; padding: 7px;"
+        )
+        form_r.addRow(_lbl_rota_ajuda)
+        self.cmb_rota_agua = QComboBox()
+        for _chave in rotas_de_agua.chaves_das_rotas():
+            self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
+        _padrao = self.cmb_rota_agua.findData(rotas_de_agua.ROTA_PADRAO)
+        if _padrao >= 0:
+            self.cmb_rota_agua.setCurrentIndex(_padrao)
+        self.cmb_rota_agua.currentIndexChanged.connect(self._aplicar_rota_de_agua)
+        form_r.addRow(QLabel(tr("Água substituída pelo sistema:")), self.cmb_rota_agua)
+
+        self.lbl_rota_aviso = QLabel("")
+        self.lbl_rota_aviso.setWordWrap(True)
+        self.lbl_rota_aviso.setStyleSheet(
+            "color: #7c2d12; font-size: 11px; font-weight: bold; "
+            "background-color: #fef3c7; border: 1px solid #fbbf24; "
+            "border-radius: 4px; padding: 5px;"
+        )
+        self.lbl_rota_aviso.setVisible(False)
+        form_r.addRow("", self.lbl_rota_aviso)
+
+        self.lbl_rota_fonte = QLabel("")
+        self.lbl_rota_fonte.setWordWrap(True)
+        self.lbl_rota_fonte.setStyleSheet("color: #475569; font-size: 11px;")
+        form_r.addRow("", self.lbl_rota_fonte)
+
 
         lay_r.addLayout(form_r)
         lay_cols.addWidget(gb_right, stretch=1)
@@ -315,6 +415,8 @@ class LCAParametersDialog(QDialog):
         self._update_upper_density_justification()
         self._update_upper_co2_justification()
         self._update_pump_co2_justification()
+        self._mostrar_procedencia_da_base()
+        self._mostrar_procedencia_da_rota()
 
         # ── BOTÕES DE SALVAR E CANCELAR ──
         btns = QHBoxLayout()
@@ -336,6 +438,111 @@ class LCAParametersDialog(QDialog):
         btns.addWidget(btn_save)
 
         main_layout.addLayout(btns)
+
+    def _aplicar_rota_de_agua(self):
+        """Reescreve o abatimento por m3 com o valor da rota escolhida.
+
+        As rotas dominadas por eletricidade - a dessalinizacao a frente - sao
+        recalculadas com o fator de rede que estiver no formulario, e nao com o
+        da matriz do pais onde a fonte foi publicada. Com a matriz brasileira a
+        dessalinizacao sai perto do tratamento convencional; com uma matriz
+        carvoeira, varias vezes acima. Fixar um numero unico esconderia isso.
+        """
+        chave = self.cmb_rota_agua.currentData()
+        if not chave or not hasattr(self, "txt_potable_co2"):
+            # O combo e montado antes do campo; durante a construcao nao ha o
+            # que reescrever ainda.
+            return
+
+        try:
+            fator_da_rede = float(str(self.txt_grid_co2.text()).replace(",", "."))
+        except ValueError:
+            fator_da_rede = grid_factor_default()
+
+        valor = rotas_de_agua.co2_evitado_por_m3(chave, fator_da_rede)
+        self.txt_potable_co2.setText(f"{valor:.3f}")
+        self._mostrar_procedencia_da_rota()
+
+    def _mostrar_procedencia_da_rota(self):
+        """Escreve fonte, tecnologia, matriz e fronteira da rota selecionada.
+
+        Separado de `_aplicar_rota_de_agua` porque a abertura do diálogo precisa
+        do rótulo e NÃO pode reescrever o fator: apagaria um valor editado à mão.
+        """
+        chave = self.cmb_rota_agua.currentData()
+        if not chave or not hasattr(self, "lbl_rota_fonte"):
+            return
+
+        procedencia = rotas_de_agua.procedencia_da_rota(chave)
+        partes = []
+        if procedencia.get("tecnologia"):
+            partes.append(tr("Tecnologia") + ": " + str(procedencia["tecnologia"]) + ".")
+        if procedencia.get("faixa"):
+            _min, _max = procedencia["faixa"][0], procedencia["faixa"][-1]
+            partes.append(tr("Faixa publicada") + f": {_min:.3f} a {_max:.3f} kg CO2e/m3.")
+        partes.append(procedencia.get("fonte", ""))
+        if procedencia.get("matriz_da_fonte"):
+            partes.append(tr("Matriz assumida pela fonte") + ": " + procedencia["matriz_da_fonte"] + ".")
+        if procedencia.get("fronteira"):
+            partes.append(tr("Fronteira") + ": " + str(procedencia["fronteira"]))
+        if procedencia.get("observacao"):
+            partes.append(procedencia["observacao"])
+        self.lbl_rota_fonte.setText(" ".join(x for x in partes if x))
+
+        # Rotas de fronteira parcial subestimam por construcao. Deixa-las
+        # escolhiveis sem aviso seria repetir, com outro nome, o defeito de
+        # publicar numero sem procedencia.
+        if hasattr(self, "lbl_rota_aviso"):
+            incompleta = rotas_de_agua.fronteira_e_incompleta(chave)
+            self.lbl_rota_aviso.setVisible(incompleta)
+            # Limpar o texto, e nao so esconder: um rotulo escondido que guarda
+            # o aviso da rota anterior mente sobre a rota atual.
+            self.lbl_rota_aviso.setText("")
+            if incompleta:
+                self.lbl_rota_aviso.setText(tr(
+                    "⚠ Fronteira incompleta. Esta rota subestima por construção e serve como "
+                    "LIMITE INFERIOR, não como estimativa central da emissão evitada. Para o "
+                    "valor central, use a base do programa ou uma das rotas de Vaz et al. (2025)."
+                ))
+
+    def _aplicar_base_da_rede(self):
+        """Reescreve o fator da rede com o valor da base escolhida.
+
+        As bases nao sao intercambiaveis: a serie do MCTI contabiliza CO2 apenas,
+        e apenas da geracao, ao passo que as demais sao CO2-equivalente com
+        fronteira mais larga. Trocar uma pela outra sem dizer qual e qual foi o
+        que produziu a divergencia de quase duas vezes entre modulos.
+        """
+        chave = self.cmb_base_rede.currentData()
+        if not chave or not hasattr(self, "txt_grid_co2"):
+            return
+
+        self.txt_grid_co2.setText(f"{fator_co2eq_da_base(chave):.4f}")
+        self._mostrar_procedencia_da_base()
+
+        # A rota da agua depende do fator da rede quando e dominada por energia.
+        if hasattr(self, "cmb_rota_agua"):
+            self._aplicar_rota_de_agua()
+
+    def _mostrar_procedencia_da_base(self):
+        """Escreve a fonte, o gas e a fronteira da base selecionada.
+
+        Separado de `_aplicar_base_da_rede` porque a abertura do dialogo precisa
+        do rotulo e NAO pode reescrever o fator: apagaria um valor que o usuario
+        tenha editado a mao.
+        """
+        chave = self.cmb_base_rede.currentData()
+        if not chave or not hasattr(self, "lbl_base_rede_fonte"):
+            return
+        proc = procedencia_da_base(chave)
+        partes = [proc.get("fonte", "")]
+        if proc.get("gas"):
+            partes.append(tr("Gás contabilizado") + ": " + str(proc["gas"]) + ".")
+        if proc.get("fronteira"):
+            partes.append(tr("Fronteira") + ": " + str(proc["fronteira"]) + ".")
+        if proc.get("observacao"):
+            partes.append(str(proc["observacao"]))
+        self.lbl_base_rede_fonte.setText(" ".join(x for x in partes if x))
 
     def _apply_material_preset(self, combo, density_field, co2_field):
         key = combo.currentData() or "PEAD"
@@ -379,10 +586,37 @@ class LCAParametersDialog(QDialog):
             self.txt_upper_co2_kg.set_justification(just)
 
     def _update_pump_co2_justification(self):
-        """Atualiza o campo de CO2 da bomba (agora sem justificativa inline)."""
-        # Este método pode permanecer para manter compatibilidade com signals,
-        # mas não tenta mais acessar justificativas que foram movidas para documentação
-        pass
+        """Exibe a justificativa da emissão de fabricação da motobomba.
+
+        Era um `pass`: o método existia apenas para não quebrar os signals, e a
+        motobomba ficava sem justificativa visível — o único fator do módulo
+        ambiental cuja procedência continua sendo extrapolação aritmética a
+        partir do valor de meio cavalo. É o que a nota abaixo declara.
+        """
+        if not isinstance(getattr(self, "txt_pump_co2", None), JustifiedLineEdit):
+            return
+        try:
+            cv = float(str(self.txt_pump_cv.text()).replace(",", "."))
+        except (ValueError, AttributeError):
+            cv = 0.5
+
+        # O dicionário é indexado pelas seis potências comerciais; a mais
+        # próxima é a que descreve o valor exibido.
+        potencias = (0.25, 0.5, 0.75, 1.0, 1.5, 2.0)
+        proxima = min(potencias, key=lambda x: abs(x - cv))
+        just = get_pump_justification(proxima)
+
+        if just is not None and pump_embodied_co2_is_extrapolated(proxima):
+            just = replace(
+                just,
+                detailed_explanation=(
+                    "VALOR EXTRAPOLADO — a emissão de fabricação desta potência não foi "
+                    "medida nem publicada: resulta de escalonamento aritmético a partir "
+                    "do valor de 0,5 CV. Trate-a como ordem de grandeza.\n\n"
+                    + just.detailed_explanation
+                ),
+            )
+        self.txt_pump_co2.set_justification(just)
 
     def _on_lower_material_changed(self):
         self._apply_material_preset(self.combo_lower_mat, self.txt_lower_density, self.txt_lower_co2_kg)
@@ -421,7 +655,12 @@ class LCAParametersDialog(QDialog):
         self.txt_chlorine_dose.setText(te.txt_chlorine_dose.text())
         self.txt_chlorine_co2.setText(te.txt_chlorine_co2.text())
         self.txt_lifespan.setText(te.txt_lifespan.text())
-        
+        self.txt_chlorine_purity.setText(
+            f"{getattr(te, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO):.2f}")
+        _ib = self.cmb_base_rede.findData(getattr(te, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE))
+        if _ib >= 0:
+            self.cmb_base_rede.setCurrentIndex(_ib)
+
         # Atualiza justificativas após carregar os valores
         self._update_lower_density_justification()
         self._update_lower_co2_justification()
@@ -495,6 +734,15 @@ class LCAParametersDialog(QDialog):
         te.txt_chlorine_dose.setText(self.txt_chlorine_dose.text())
         te.txt_chlorine_co2.setText(self.txt_chlorine_co2.text())
         te.txt_lifespan.setText(self.txt_lifespan.text())
+
+        # A pureza e a base nomeada nao tem campo proprio na aba; ficam no
+        # estado dela, de onde `get_config` as le.
+        try:
+            te._pureza_do_cloro = max(0.01, min(1.0,
+                float(str(self.txt_chlorine_purity.text()).replace(',', '.'))))
+        except ValueError:
+            te._pureza_do_cloro = PUREZA_PADRAO_DO_CLORO
+        te._base_do_fator_da_rede = self.cmb_base_rede.currentData() or BASE_PADRAO_DA_REDE
 
         # Sincroniza todos os comprimentos de tubulação com a configuração global do projeto (CAPEX)
         cfg = getattr(te.window(), "config", None) if te.window() else None
@@ -673,16 +921,36 @@ class TabEnvironmental(QWidget):
         grid_esg = QGridLayout()
         grid_esg.setSpacing(10)
 
-        self.card_leed = self._create_kpi_card(tr("Selo LEED v4 WE (Máx: 8 pts)"), "--", tr("Máximo de 8 pontos possíveis"), "#16a34a", is_dark)
+        self.card_leed = self._create_kpi_card(tr("Selo LEED (v4 e v5 WE)"), "--", tr("Máximo de 8 pontos possíveis"), "#16a34a", is_dark)
         self.card_aqua = self._create_kpi_card(tr("Processo AQUA-HQE (Gestão da Água)"), "--", tr("Categoria 4 — Desempenho"), "#0284c7", is_dark)
         self.card_casa_azul = self._create_kpi_card(tr("Selo Casa Azul CAIXA"), "--", tr("Critério de Conservação"), "#0ea5e9", is_dark)
         self.card_gri = self._create_kpi_card(tr("GRI 303: Água Evitada da Rede"), "-- m³/ano", tr("Pegada Hídrica Preservada"), "#059669", is_dark)
+        self.card_edge = self._create_kpi_card(
+            tr("EDGE (IFC): Barra de Água"), "--%",
+            tr("Limiar de 20% — o EDGE não pontua"), "#b45309", is_dark)
 
         grid_esg.addWidget(self.card_leed, 0, 0)
         grid_esg.addWidget(self.card_aqua, 0, 1)
         grid_esg.addWidget(self.card_casa_azul, 1, 0)
         grid_esg.addWidget(self.card_gri, 1, 1)
+        grid_esg.addWidget(self.card_edge, 2, 0, 1, 2)
         lay_esg.addLayout(grid_esg)
+
+        # Caso-base do EDGE. O aplicativo do IFC fixa um consumo de referencia
+        # local, que o Netuno nao tem como saber; quem informa e o usuario.
+        row_edge = QHBoxLayout()
+        row_edge.addWidget(QLabel(
+            tr("Caso-base de consumo do EDGE (L/pessoa·dia, opcional):")))
+        self.txt_edge_base = QLineEdit()
+        self.txt_edge_base.setPlaceholderText(tr("em branco: usa a demanda do projeto"))
+        self.txt_edge_base.setFixedWidth(150)
+        self.txt_edge_base.setToolTip(tr(
+            "O EDGE mede a economia contra um caso-base local, que varia por país e "
+            "tipologia e é fixado pelo aplicativo. Em branco, o Netuno usa a demanda "
+            "modelada do projeto — que é um piso, não o número da certificação."))
+        row_edge.addWidget(self.txt_edge_base)
+        row_edge.addStretch()
+        lay_esg.addLayout(row_edge)
 
         self.lbl_esg_summary_box = QLabel(tr("Síntese Executiva ESG: Execute a simulação para gerar o relatório de créditos ambientais."))
         self.lbl_esg_summary_box.setWordWrap(True)
@@ -804,14 +1072,18 @@ class TabEnvironmental(QWidget):
         default_cv = 0.5
         self.txt_pump_cv = QLineEdit(f"{default_cv:.2f}")
         self.txt_pump_co2 = QLineEdit(f"{PUMP_EMBEDDED_CO2.get(default_cv, 18.0):.1f}")
-        self.txt_pump_kwh = QLineEdit("0.085")
+        # Este campo já nasceu com 0,085 — o fator da rede
+        # elétrica, copiado da linha seguinte. São grandezas diferentes, e o
+        # padrão do modelo vem da física do bombeamento: a interface partia de um
+        # valor várias vezes menor que o do motor.
+        self.txt_pump_kwh = QLineEdit(f"{consumo_especifico_padrao_kwh_por_m3():.2f}")
 
-        self.txt_grid_co2 = QLineEdit("0.085")
+        self.txt_grid_co2 = QLineEdit(f"{grid_factor_default():.4f}")
         self.txt_potable_co2 = QLineEdit("0.350")
         # Dose e fator ficam separados para tornar a massa anual de cloro
         # auditável; os padrões equivalem a 0,050 kg CO2e/m³.
-        self.txt_chlorine_dose = QLineEdit("2.00")
-        self.txt_chlorine_co2 = QLineEdit("25.00")
+        self.txt_chlorine_dose = QLineEdit(f"{DOSE_PADRAO_MG_POR_LITRO:.2f}")
+        self.txt_chlorine_co2 = QLineEdit(f"{FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO:.2f}")
         self.txt_lifespan = QLineEdit("20")
 
     def _get_project_context(self):
@@ -874,6 +1146,13 @@ class TabEnvironmental(QWidget):
         cfg, sim, upper_used, upper_vol, lower_vol, capture_area = self._get_project_context()
         if cfg is None:
             return self._last_sync_snapshot
+
+        # Caso-base do EDGE: vem do projeto, e volta para ele ao calcular. Sem os
+        # dois sentidos, o valor gravado no arquivo nunca chegaria à tela.
+        if hasattr(self, 'txt_edge_base'):
+            base_edge = float(getattr(cfg, 'edge_base_case_l_person_day', 0.0) or 0.0)
+            if base_edge > 0.0 and not self.txt_edge_base.text().strip():
+                self.txt_edge_base.setText(f"{base_edge:g}".replace(".", ","))
 
         # Sincroniza sempre os comprimentos de tubulação do CAPEX / projeto
         if hasattr(cfg, "get_pipe_length"):
@@ -952,6 +1231,15 @@ class TabEnvironmental(QWidget):
         if snap["specific_kwh_per_m3"] > 0:
             _set(self.txt_pump_kwh, snap["specific_kwh_per_m3"], "{:.3f}")
         _set(self.txt_lifespan, snap["lifespan_years"], "{:.0f}")
+        # Dose e fator do cloro são dados do projeto (Etapa 2), como na linha de
+        # comando; os campos desta aba ficavam nos padrões (1,5 mg/L e 1,72)
+        # mesmo quando o projeto declarava outros valores.
+        if cfg is not None:
+            if getattr(cfg, "chlorine_treatment_enabled", True):
+                _set(self.txt_chlorine_dose, float(getattr(cfg, "chlorine_dose_mg_l", DOSE_PADRAO_MG_POR_LITRO)), "{:.2f}")
+            else:
+                _set(self.txt_chlorine_dose, 0.0, "{:.2f}")
+            _set(self.txt_chlorine_co2, float(getattr(cfg, "chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO)), "{:.2f}")
 
         if force:
             self._params_customized = False
@@ -1045,12 +1333,7 @@ class TabEnvironmental(QWidget):
             except Exception:
                 return def_v
 
-        def preset_or_none(material_key, value, preset_attr):
-            preset = MATERIAL_PRESETS.get(material_key, MATERIAL_PRESETS["PEAD"])
-            ref = getattr(preset, preset_attr)
-            if abs(value - ref) < max(0.01, ref * 0.001):
-                return None
-            return value
+        from netuno.core.environmental import valor_personalizado_ou_none as preset_or_none
 
         def pipe_co2_or_none(dn, value):
             ref = PIPE_EMISSION_FACTORS_PER_METER.get(dn, 3.92)
@@ -1099,7 +1382,7 @@ class TabEnvironmental(QWidget):
         pump_co2 = None if abs(pump_co2_val - PUMP_EMBEDDED_CO2.get(pump_cv, pump_co2_val)) < 0.1 else pump_co2_val
 
         annual_pump_kwh = 0.0
-        specific_kwh = parse_f(self.txt_pump_kwh.text(), 0.085)
+        specific_kwh = parse_f(self.txt_pump_kwh.text(), consumo_especifico_padrao_kwh_por_m3())
         pump_count = 1
 
         if cfg is not None:
@@ -1119,6 +1402,8 @@ class TabEnvironmental(QWidget):
             specific_kwh_per_m3=specific_kwh,
         )
 
+        proj_cfg = getattr(self.window(), 'config', None) if self.window() else None
+
         return EnvironmentalConfig(
             lower_material_key=lower_key,
             custom_lower_density_kg_m3=preset_or_none(lower_key, lower_density, "material_density_kg_per_m3_tank"),
@@ -1128,16 +1413,57 @@ class TabEnvironmental(QWidget):
             custom_upper_co2_per_kg=preset_or_none(upper_key, upper_co2, "co2_factor_kg_per_kg"),
             upper_tank_vol_liters=parse_f(self.txt_upper_vol.text(), 500.0),
             upper_tank_used=self.chk_upper_used.isChecked(),
+            supply_arrangement=str(getattr(cfg, "supply_arrangement", "") or "") if cfg is not None else "",
             pipes=pipes,
             pump=pump,
             pump_count=pump_count,
             annual_pump_kwh=annual_pump_kwh,
-            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), 0.085),
+            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), grid_factor_default()),
             potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350),
             chlorine_dose_mg_l=parse_f(self.txt_chlorine_dose.text(), 2.0),
-            chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), 25.0),
+            chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
+            # A pureza e a base nomeada nao tem campo nesta aba: sao editadas no
+            # dialogo de parametros, que as deixa aqui. Sem esta linha o valor
+            # escolhido seria ignorado, que e o defeito que ele corrige.
+            chlorine_product_purity=max(0.01, min(1.0, float(
+                getattr(self, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO)))),
+            grid_co2_factor_basis=str(
+                getattr(self, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE)),
             system_lifespan_years=parse_f(self.txt_lifespan.text(), 20.0),
+            # A escolha de desinfeccao vem da Etapa 2 e atravessa ate aqui: e o
+            # que faz optar por ultravioleta mudar a emissao anual.
+            water_quality_target_class=str(getattr(proj_cfg, 'water_quality_target_class', 'classe_1')),
+            water_quality_disinfection=str(getattr(proj_cfg, 'water_quality_disinfection', 'cloro')),
+            water_quality_polishing=bool(getattr(proj_cfg, 'water_quality_polishing', False)),
+            roof_area_m2=float(getattr(proj_cfg, 'area', AREA_DE_RECURSO_M2) or AREA_DE_RECURSO_M2),
+            first_flush_system_enabled=bool(getattr(proj_cfg, 'first_flush_system_enabled', False)),
+            discard=float(getattr(proj_cfg, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
+            etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )
+
+    def _edge_base_case_annual_m3(self):
+        """Caso-base do EDGE em m3/ano, ou None quando nao foi declarado."""
+        campo = getattr(self, 'txt_edge_base', None)
+        if campo is None:
+            return None
+        texto = campo.text().strip().replace(',', '.')
+        if not texto:
+            return None
+        try:
+            litros = float(texto)
+        except ValueError:
+            return None
+        if litros <= 0.0:
+            return None
+        cfg = getattr(self.window(), 'config', None)
+        if cfg is not None:
+            # Devolve ao projeto para que o valor sobreviva a salvar e reabrir.
+            cfg.edge_base_case_l_person_day = litros
+        pessoas = float(getattr(cfg, 'residents_count', 0) or 0)
+        economias = float(getattr(cfg, 'num_economias', 1) or 1)
+        if pessoas <= 0.0:
+            return None
+        return consumo_base_anual_m3(litros, pessoas * max(1.0, economias))
 
     def _on_env_volume_changed(self):
         cur_v = self.combo_env_active_volume.currentData()
@@ -1276,6 +1602,8 @@ class TabEnvironmental(QWidget):
             potable_savings_pct = (ann_m3 / tot_demand_m3 * 100.0)
 
         potable_ann_m3 = max(0.0, tot_demand_m3 - ann_m3)
+        # O resultado de simulação de onde sai a repartição interno/externo.
+        res_ref = matching[0] if (sw_res_tech and matching) else single_res
 
         # Contexto do edifício: modo simplificado vs avançado, e demandas interna / externa
         mw = self.window()
@@ -1300,9 +1628,11 @@ class TabEnvironmental(QWidget):
 
                     if has_irr and outdoor_dem_m3 > 0:
                         indoor_dem_m3 = max(0.0, tot_demand_m3 - outdoor_dem_m3)
-                        pluv_to_outdoor = min(ann_m3, outdoor_dem_m3)
-                        pluv_to_indoor = max(0.0, ann_m3 - pluv_to_outdoor)
-                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                        # Parcela externa atendida pelo balanço, que serve o uso
+                        # interno primeiro; antes a tela servia o externo primeiro.
+                        pluv_to_outdoor = irrigacao_atendida_m3(res_ref)
+                        pluv_to_indoor = max(0.0, ann_m3 - (pluv_to_outdoor or 0.0))
+                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                         indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potable_savings_pct
                     else:
                         outdoor_dem_m3 = 0.0
@@ -1321,9 +1651,11 @@ class TabEnvironmental(QWidget):
 
                     if has_irr and outdoor_dem_m3 > 0:
                         indoor_dem_m3 = max(0.0, tot_demand_m3 - outdoor_dem_m3)
-                        pluv_to_outdoor = min(ann_m3, outdoor_dem_m3)
-                        pluv_to_indoor = max(0.0, ann_m3 - pluv_to_outdoor)
-                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                        # Parcela externa atendida pelo balanço, que serve o uso
+                        # interno primeiro; antes a tela servia o externo primeiro.
+                        pluv_to_outdoor = irrigacao_atendida_m3(res_ref)
+                        pluv_to_indoor = max(0.0, ann_m3 - (pluv_to_outdoor or 0.0))
+                        outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                         indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potable_savings_pct
                     else:
                         outdoor_dem_m3 = 0.0
@@ -1348,30 +1680,59 @@ class TabEnvironmental(QWidget):
             is_simplified_mode=is_simplified,
             indoor_demand_m3=indoor_dem_m3,
             outdoor_demand_m3=outdoor_dem_m3,
+            # Entrada do campo WEM14 do EDGE, vinda da aba de projeto.
+            catchment_area_m2=float(
+                getattr(getattr(self.window(), 'config', None), 'area', 0.0) or 0.0
+            ),
+            edge_base_case_annual_m3=self._edge_base_case_annual_m3(),
         )
 
         if hasattr(self, 'card_leed'):
-            leed_tot = esg_res.leed.total_leed_we_points
+            leed_v4_tot = esg_res.leed.total_leed_we_points
+            leed_v5_tot = esg_res.leed_v5.total_pts
             self._update_kpi(
                 self.card_leed,
-                f"{leed_tot} de 8 pts",
-                f"Tirou {leed_tot} de 8 pontos (Máx: 8 pts)"
+                f"v4: {leed_v4_tot} | v5: {leed_v5_tot} de 8 pts",
+                f"LEED v4: {leed_v4_tot} pts · LEED v5: {leed_v5_tot} pts ({esg_res.leed_v5.caminho})"
             )
             self.card_leed.setToolTip(
-                f"Selo LEED v4 WE (Water Efficiency):\n"
-                f"Teto máximo normativo: 8 pontos possíveis.\n"
-                f"Pontuação obtida pelo projeto: tirou {leed_tot} de 8 pontos.\n\n"
-                f"• WEc1 (Uso Externo): tirou {esg_res.leed.outdoor_water_points} de 2 pontos (máx: 2 pts)\n"
-                f"• WEc2 (Uso Interno): tirou {esg_res.leed.indoor_water_points} de 6 pontos (máx: 6 pts)\n"
-                f"Classificação: {esg_res.leed.badge_label}"
+                tr('Selo LEED v4 & v5 WE (Water Efficiency):\n'
+                   'Teto máximo normativo em ambas as versões: 8 pontos possíveis.\n\n'
+                   '• LEED v4 / v4.1 WE: tirou {0} de 8 pontos ({3})\n'
+                   '  - WEc1 (Uso Externo): tirou {1} de 2 pontos (máx: 2 pts)\n'
+                   '  - WEc2 (Uso Interno): tirou {2} de 6 pontos (máx: 6 pts)\n\n'
+                   '• LEED v5 BD+C WEc2 (Enhanced Water Efficiency): tirou {4} de 8 pontos ({5})\n'
+                   '  - Opção 2 (louças e metais): {6} de 3 pts\n'
+                   '  - Opção 4 (uso externo): {7} de 2 pts\n'
+                   '  - Opção 6 (fonte alternativa no lote): {8} de 2 pts\n'
+                   '  - Opção 1 (projeto inteiro): {9} de 8 pts\n\n'
+                   'O LEED v4/v4.1 aceita novos registros até 30/06/2027.').format(
+                    leed_v4_tot, esg_res.leed.outdoor_water_points, esg_res.leed.indoor_water_points,
+                    esg_res.leed.badge_label, leed_v5_tot, esg_res.leed_v5.caminho,
+                    esg_res.leed_v5.opcao2_pts, esg_res.leed_v5.opcao4_pts,
+                    esg_res.leed_v5.opcao6_pts, esg_res.leed_v5.opcao1_pts
+                )
             )
         if hasattr(self, 'card_aqua'):
             stars_str = "⭐" * esg_res.aqua.stars if esg_res.aqua.stars > 0 else ""
             self._update_kpi(self.card_aqua, f"{esg_res.aqua.performance_level} {stars_str}".strip())
         if hasattr(self, 'card_casa_azul'):
-            self._update_kpi(self.card_casa_azul, f"Nível {esg_res.casa_azul.category} (+{esg_res.casa_azul.points_awarded} pts)")
+            pts = (f"{esg_res.casa_azul.points_awarded} pts" if esg_res.casa_azul.points_awarded
+                   else esg_res.casa_azul.pontuacao_faixa if esg_res.casa_azul.criterion_met else "0 pts")
+            self._update_kpi(self.card_casa_azul, f"{tr(esg_res.casa_azul.category)} ({pts})")
         if hasattr(self, 'card_gri'):
             self._update_kpi(self.card_gri, f"{format_ptbr(esg_res.annual_potable_saved_m3, 0)} m³/ano")
+        if hasattr(self, 'card_edge'):
+            e = esg_res.edge
+            self._update_kpi(
+                self.card_edge,
+                f"{format_ptbr(e.economia_de_agua_pct, 1)}%",
+                ("Atende ao padrão de água (≥ 20%)" if e.atende_o_padrao_de_agua
+                 else f"Faltam {format_ptbr(abs(e.margem_pct), 1)} pontos percentuais"),
+            )
+            self.card_edge.setToolTip(
+                tr('{0}\n\n{1}\n\nÁrea de captação a declarar no campo da medida WEM14: {2} m².').format(e.descricao, e.ressalva, format_ptbr(e.area_de_captacao_m2, 0))
+            )
         if hasattr(self, 'lbl_esg_summary_box'):
             self.lbl_esg_summary_box.setText(f"🌿 <b>{tr('Síntese Executiva ESG & Certificações:')}</b> {esg_res.esg_summary_text}")
 
@@ -1398,7 +1759,7 @@ class TabEnvironmental(QWidget):
                 # 4: Pontos / Status
                 pts_text = f"{d.points_or_level} — {d.status}" if d.status else d.points_or_level
                 it_p = QTableWidgetItem(pts_text)
-                it_p.setToolTip(f"{d.requirement_rule}\n\nNota técnica: {d.notes}")
+                it_p.setToolTip(tr('{0}\n\nNota técnica: {1}').format(d.requirement_rule, d.notes))
                 self.table_esg_breakdown.setItem(row, 4, it_p)
 
         self.environmental_updated.emit()
@@ -1417,59 +1778,90 @@ class TabEnvironmental(QWidget):
             <p style="margin-top: 0; font-size: 12.5px;">
                 O aproveitamento de água de chuva é um dos vetores de maior pontuação em certificações ambientais de edifícios. 
                 O <b>Netuno 5</b> processa a simulação contínua do balanço hídrico diário (modelo YAS) e converte automaticamente 
-                a taxa de economia e a conservação de recursos em pontuações auditáveis nos quatro principais referenciais:
+                a taxa de economia e a conservação de recursos em pontuações auditáveis nos principais referenciais nacionais e internacionais:
             </p>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #16a34a; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">1. LEED v4 / v4.1 BD+C & O+M (USGBC / GBC Brasil) — Categoria WE (Water Efficiency)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">1. LEED v4 / v4.1 BD+C (USGBC / GBC Brasil) — Categoria WE (Water Efficiency)</h4>
                 <p style="margin: 0 0 6px 0;">
-                    <b>Pontuação Máxima Possível: 8 pontos</b> no crédito de aproveitamento pluvial (de 110 pontos totais da certificação LEED). O Netuno calcula exatamente quantos pontos (X de 8 pontos) a edificação tirou:
+                    <b>Pontuação Máxima: 8 pontos</b> na categoria de eficiência hídrica. A pontuação é dividida rigidamente entre uso externo e uso interno:
                 </p>
                 <ul style="margin: 0 0 6px 0; padding-left: 18px;">
-                    <li><b>Crédito WEc1 — Redução do Uso Externo (Outdoor Water Use - Máx. 2 pontos):</b> Avalia a substituição de água potável na irrigação e torneiras de jardim. Requer demanda externa ativa; sem demanda externa no projeto, atribui-se 0 pontos (não aplicável). Havendo irrigação: ≥ 50% de redução = <b>1 ponto</b>; ≥ 95% = <b>2 pontos (máximo)</b>.</li>
-                    <li><b>Crédito WEc2 — Redução do Uso Interno (Indoor Water Use - Máx. 6 pontos):</b> Avalia a substituição de água potável em bacias sanitárias, mictórios e lavanderia por fontes alternativas não potáveis. Pontuação progressiva oficial do USGBC LEED v4 BD+C / O+M:
-                        <br/>&nbsp;&nbsp;• <b>25%</b>: <b>1 ponto</b> &nbsp;|&nbsp; <b>30%</b>: <b>2 pontos</b> &nbsp;|&nbsp; <b>35%</b>: <b>3 pontos</b>
-                        <br/>&nbsp;&nbsp;• <b>40%</b>: <b>4 pontos</b> &nbsp;|&nbsp; <b>45%</b>: <b>5 pontos</b> &nbsp;|&nbsp; <b>≥ 50%</b>: <b>6 pontos (máximo)</b>.
+                    <li><b>Crédito WEc1 — Redução do Uso Externo (Outdoor Water Use - Máx. 2 pontos):</b> Avalia a irrigação paisagística. Havendo demanda externa modelada: ≥ 50% de redução = <b>1 ponto</b>; ≥ 100% (ou sem irrigação potável) = <b>2 pontos</b>.</li>
+                    <li><b>Crédito WEc2 — Redução do Uso Interno (Indoor Water Use - Máx. 6 pontos):</b> Antecedido pelo pré-requisito WEp2 (redução obrigatória de 20%). Pontuação progressiva conforme a substituição não potável:
+                        <br/>&nbsp;&nbsp;• <b>25%</b>: 1 pt &nbsp;|&nbsp; <b>30%</b>: 2 pts &nbsp;|&nbsp; <b>35%</b>: 3 pts &nbsp;|&nbsp; <b>40%</b>: 4 pts &nbsp;|&nbsp; <b>45%</b>: 5 pts &nbsp;|&nbsp; <b>≥ 50%</b>: <b>6 pts (máximo)</b>.
                     </li>
                 </ul>
+                <p style="margin: 0; font-size: 11px; color: {sub_col};">
+                    <i>Transição: O LEED v4/v4.1 aceita novos registros de projetos até 30 de junho de 2027 e certificações até 2033.</i>
+                </p>
+            </div>
+
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #059669; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">2. LEED v5 BD+C (USGBC / GBC Brasil) — Crédito WEc2: Enhanced Water Efficiency</h4>
+                <p style="margin: 0 0 6px 0;">
+                    O referencial <b>LEED v5</b> (Rating System oficial) reformulou a categoria de Eficiência Hídrica para alinhamento direto à <b>Descarbonização</b> e à <b>Resiliência Hídrica</b>. O uso interno e o uso externo foram consolidados no crédito <b>WEc2 (Enhanced Water Efficiency)</b>, que vale até <b>8 pontos</b> em Novas Construções (BD+C New Construction):
+                </p>
+                <ul style="margin: 0 0 8px 0; padding-left: 18px;">
+                    <li><b>Pré-requisitos Mandatórios:</b> O <b>WEp1 (Water Metering and Reporting)</b> exige hidrometração setorizada obrigatória para fontes alternativas de água (como a cisterna pluvial). O <b>WEp2 (Minimum Water Efficiency)</b> exige redução inicial de 20% no consumo de louças e metais.</li>
+                    <li><b>Duas Vias de Pontuação no WEc2 (o Netuno avalia ambas e seleciona a mais vantajosa):</b>
+                        <ul style="margin-top: 4px; padding-left: 16px;">
+                            <li><b>Opção 1 — Projeto Inteiro (Whole-Project Water Use):</b> Avalia a redução total de água do empreendimento contra a linha de base (30% = 1 pt até 65% = 8 pts). <b>Destaque para o sistema pluvial:</b> A presença de fonte alternativa no lote confere um <b>bônus de +1 ponto adicional</b> em cada faixa percentual atingida (até o teto de 8 pontos).</li>
+                            <li><b>Soma das Opções 2 a 6 (Abordagem Fracionada por Componentes):</b>
+                                <br/>• <i>Opção 2 (Louças e Metais Internos):</i> 30% = 1 pt | 35% = 2 pts | ≥ 40% = 3 pts.
+                                <br/>• <i>Opção 4 (Uso Externo / Irrigação, Caminho 2):</i> 50% = 1 pt | 100% = 2 pts.
+                                <br/>• <i>Opção 6 (Reúso e Fonte Alternativa no Lote, Caminho 2):</i> Sistema pluvial ativo atendendo descargas, irrigação ou resfriamento confere <b>2 pontos diretos</b>.
+                            </li>
+                        </ul>
+                    </li>
+                    <li><b>Crédito SSc3 — Rainwater Management (Gestão de Águas Pluviais):</b> Vale até 3 pontos pela retenção de eventos de chuva no terreno (percentis 80, 85 e 90), com bônus de +1 ponto quando a água retida é aproveitada na edificação. O Netuno identifica este crédito e o classifica como não avaliado diretamente, pois sua conformidade requer dados topográficos e de permeabilidade de todo o lote, e não apenas da área de telhado.</li>
+                </ul>
                 <span style="display: inline-block; background: {tag_bg}; color: {tag_col}; font-weight: bold; font-size: 11px; padding: 2px 8px; border-radius: 4px;">
-                    Teto Máximo em Eficiência Hídrica: Até 8 pontos diretos (Tirou X de 8 pontos possíveis)
+                    Consideração no Netuno: Simula simultaneamente a Opção 1 e a Soma das Opções 2 a 6, atribuindo a maior pontuação possível (até 8 pontos).
                 </span>
             </div>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #0284c7; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Categoria 4 (Gestão da Água)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">3. Processo AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Baseado no referencial internacional HQE e na <b>ABNT NBR 15527</b>, a Categoria 4 avalia a gestão sustentável das águas pluviais, retenção no lote e conservação de água potável:
+                    Conforme o <b>Referencial Vigente AQUA-HQE 2024</b>, a gestão hídrica e o aproveitamento pluvial são avaliados pelos itens normativos específicos da Categoria de Água:
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>Nível Base (⭐):</b> Substituição de água potável ≥ 10%. Atendimento às exigências construtivas mínimas (gradeamento, pré-filtro autolimpante, extravasor protegido e sifão anti-roedores).</li>
-                    <li><b>Nível Boas Práticas (⭐⭐):</b> Substituição de água potável ≥ 25%. Sistema integrado de descarte inicial calibrado (first flush), cloração com residual livre e abastecimento estável aos pontos de uso não potável.</li>
-                    <li><b>Nível Excelente (⭐⭐⭐):</b> Substituição de água potável ≥ 40%. Alta autossuficiência hídrica, retenção e amortecimento de vazões pluviais no terreno, medição setorizada de vazão e qualidade classe 1 ou 2.</li>
+                    <li><b>Item EAU.1.2 (Nível HQE):</b> Redução de pelo menos 20% no consumo de água potável em relação ao consumo de referência da planilha da Fundação Vanzolini.</li>
+                    <li><b>Item EAU.1.3 (Nível HQE 3):</b> Economia mínima de 40% de água potável no empreendimento.</li>
+                    <li><b>Item EAU.1.5 (Nível HQE 3):</b> Existência de sistema de captação e aproveitamento de águas pluviais dimensionado conforme as normas <b>ABNT NBR 15527</b> e <b>NBR 16783</b>.</li>
                 </ul>
             </div>
 
             <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #0ea5e9; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">3. Selo Casa Azul CAIXA — Critério 2.1 (Conservação de Água e Fontes Alternativas)</h4>
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">4. Selo Casa Azul + CAIXA — Critério 3.6 (Aproveitamento de Águas Pluviais)</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Criado pela Caixa Econômica Federal para classificar empreendimentos habitacionais sustentáveis financiados. Concede bonificação direta de pontos que habilitam a taxas de juros reduzidas no crédito imobiliário:
+                    Conforme o <b>Guia Selo Casa Azul + CAIXA (V023 de 2026)</b> e o Selo Casa Azul Uni, o critério pontua pela existência do sistema e pela abrangência do uso:
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>Graduação Prata (+2 pontos CAIXA):</b> Redução de pelo menos 10% no consumo de água potável da edificação via água de chuva.</li>
-                    <li><b>Graduação Ouro (+3 pontos CAIXA):</b> Redução ≥ 20%, com simulação hidrológica demonstrando regularidade e sistema de recalque automatizado.</li>
-                    <li><b>Graduação Diamante (+5 pontos CAIXA):</b> Redução ≥ 30%, com desinfecção ativa, dosagem de cloro, monitoramento contínuo e reserva técnica de emergência.</li>
+                    <li><b>Áreas Comuns do Empreendimento:</b> 2 pontos CAIXA.</li>
+                    <li><b>Unidades Habitacionais:</b> 4 pontos CAIXA.</li>
+                    <li><b>Unidades e Áreas Comuns:</b> 5 pontos CAIXA (obrigatório para o nível Diamante).</li>
+                    <li><b>Casas em Loteamento:</b> 2 pontos pela infraestrutura e preparação executada.</li>
                 </ul>
             </div>
 
-            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #059669; padding: 10px 14px; border-radius: 6px;">
-                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">4. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h4>
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">5. Certificação EDGE (IFC / Banco Mundial) — Medida WEM14</h4>
                 <p style="margin: 0 0 6px 0;">
-                    Padrão internacional para relatórios corporativos ESG, relatórios anuais de sustentabilidade e enquadramento em títulos verdes (green bonds):
+                    O EDGE não atribui pontos graduais: exige a superação de uma <b>barra mínima de 20% de economia</b> em três pilares (Energia, Água e Materiais). O aproveitamento pluvial pontua na <b>Medida WEM14 (Rainwater Harvesting System)</b>, comparando a produção da cisterna com o caso-base local auditado.
+                </p>
+            </div>
+
+            <div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid #8b5cf6; padding: 10px 14px; border-radius: 6px;">
+                <h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">6. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h4>
+                <p style="margin: 0 0 6px 0;">
+                    Padrão internacional para relatórios corporativos ESG e emissão de títulos verdes (Green Bonds):
                 </p>
                 <ul style="margin: 0; padding-left: 18px;">
-                    <li><b>GRI 303-3 (Captação de Água Evitada / Water Withdrawal Saved):</b> Volume total em m³/ano que o empreendimento deixa de extrair dos mananciais públicos e da concessionária.</li>
-                    <li><b>GRI 303-5 (Consumo e Circularidade Hídrica / Water Positive Ratio):</b> Razão entre o volume pluvial circular aproveitado e a demanda total de água:
-                        <br/><code>Water Positive Ratio = (Volume Pluvial Anual / Demanda Anual Total) × 100%</code>.
+                    <li><b>GRI 303-3 (Captação de Água Evitada / Water Withdrawal Saved):</b> Volume total em m³/ano que a edificação deixa de retirar dos mananciais públicos e da concessionária.</li>
+                    <li><b>GRI 303-5 (Taxa de Circularidade Hídrica / Water Positive Ratio):</b> Percentual da demanda total suprido por fonte pluvial circular:
+                        <br/><code>Water Positive Ratio = (Volume Pluvial Anual Consumido / Demanda Anual Total) × 100%</code>.
                     </li>
                 </ul>
             </div>

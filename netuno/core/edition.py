@@ -1,7 +1,10 @@
-"""
-Módulo de Definição e Controle de Edições do Netuno 5:
-- Netuno_5_BRL: Edição Brasil com base CLIMBra, catálogo tarifário de 652 municípios e normas ABNT.
-- Netuno_5_INT: Edição Internacional simplificada com foco em inserção direta de dados pluviométricos e parâmetros flexíveis.
+"""Edições do Netuno 5: Brasil (BRL) e Internacional (INT).
+
+As duas edições partem do mesmo código e hoje se distinguem pelo ponto de
+entrada (main_brl.py, main_int.py), pelo executável e pelo título da janela.
+Idioma, moeda e fonte de chuva são escolhidos na própria interface em qualquer
+edição; get_edition_default_language e get_edition_currency_symbol registram os
+padrões pretendidos para cada uma, mas ainda não são aplicados à interface.
 """
 
 from __future__ import annotations
@@ -41,10 +44,12 @@ def is_int_edition() -> bool:
 
 
 def get_edition_title() -> str:
-    """Retorna o título de apresentação da janela principal conforme a edição."""
+    """Título da janela principal: o título do programa e a edição ativa."""
+    from netuno import APP_TITLE
+
     if is_int_edition():
-        return "Netuno 5.0.0 — International Edition (INT)"
-    return "Netuno 5.0.0 — Edição Brasil (BRL)"
+        return f"{APP_TITLE} — International Edition (INT)"
+    return f"{APP_TITLE} — Edição Brasil (BRL)"
 
 
 def get_edition_default_language() -> str:

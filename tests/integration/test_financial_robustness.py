@@ -108,11 +108,12 @@ def test_csv_presets_execution():
             water_tariff_per_m3=p['tarifa_agua_m3'],
             sewage_tariff_per_m3=p['tarifa_esgoto_m3'],
             sewage_mode=p['modo_esgoto'],
-            water_tariff_escalation_rate=p['reajuste_agua_pct'],
-            sewage_tariff_escalation_rate=p['reajuste_esgoto_pct'],
-            elec_tariff_escalation_rate=p['reajuste_energia_pct'],
-            inflation_rate=p['inflacao_pct'],
-            discount_rate=p['tma_pct'],
+            # A planilha traz percentual; a função recebe fração.
+            water_tariff_escalation_rate=p['reajuste_agua_pct'] / 100.0,
+            sewage_tariff_escalation_rate=p['reajuste_esgoto_pct'] / 100.0,
+            elec_tariff_escalation_rate=p['reajuste_energia_pct'] / 100.0,
+            inflation_rate=p['inflacao_pct'] / 100.0,
+            discount_rate=p['tma_pct'] / 100.0,
             annual_om_cost_base=p['custo_om_ano'],
             analysis_period_years=p['periodo_anos']
         )

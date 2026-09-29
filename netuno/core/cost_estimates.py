@@ -13,6 +13,7 @@ Inclui:
 """
 
 import json
+from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
 import os
 from pathlib import Path
 from typing import List, Tuple, Dict, Any, Optional
@@ -31,17 +32,24 @@ _DEFAULT_REGIONAL_FACTORS: Dict[str, float] = {
 }
 
 # Valores padrão de fallback caso o arquivo JSON não seja encontrado ou contenha erro
+# Tabela de recurso, usada quando o banco de custos em JSON nao esta legivel.
+# Tem de espelhar `lower_tank_pead_prices` do JSON: antes desta revisao ela guardava a
+# versao antiga, com 1.750 L a R$ 1.399 e 2.000 L a R$ 1.299 - um reservatorio
+# maior custando menos. Bastava o arquivo faltar para o defeito voltar sem aviso.
+#
+# Fortlev, menor preco anunciado por capacidade em copafer.com.br, com maximo
+# corrente para garantir monotonicidade. Ver `_procedencia_precos_reservatorio`
+# no JSON para o criterio completo.
 _DEFAULT_LOWER_TANK_PRICES = [
-    (200, 180.00), (310, 220.00), (500, 289.90), (750, 390.00),
-    (1000, 449.90), (1750, 1399.00), (2000, 1299.00), (3000, 1950.00),
-    (5000, 2899.00), (7500, 4200.00), (10000, 5399.00), (15000, 8500.00),
-    (20000, 11500.00), (30000, 17500.00), (50000, 28500.00),
+    (310, 246.90), (500, 269.90), (750, 459.90), (1000, 459.90),
+    (2000, 1139.90), (3000, 2051.90), (5000, 2999.90), (10000, 5499.90),
+    (15000, 6935.00),
 ]
 
+# O reservatorio superior e o mesmo produto; so as capacidades usuais mudam.
 _DEFAULT_UPPER_TANK_PRICES = [
-    (200, 180.00), (310, 220.00), (500, 289.90), (750, 390.00),
-    (1000, 449.90), (1750, 1399.00), (2000, 1299.00), (3000, 1950.00),
-    (5000, 2899.00),
+    (310, 246.90), (500, 269.90), (750, 459.90), (1000, 459.90),
+    (2000, 1139.90),
 ]
 
 _DEFAULT_MATERIAL_MULTIPLIERS = {
@@ -187,6 +195,23 @@ def load_costs_database() -> Dict[str, Any]:
     }
 
 
+def verba_generica_de_tratamento_brl(typology: str = "UTI") -> float:
+    """Verba de filtracao e tratamento ja embutida em «Acessorios».
+
+    O estimador consolida painel, sensores, tratamento e desconexao em um unico
+    campo de acessorios. Quando a ETAP e dimensionada, ela substitui a parcela de
+    tratamento desse pacote, e so a diferenca e investimento novo. Sem este
+    desconto o filtro apareceria duas vezes no CAPEX.
+    """
+    db = load_costs_database()
+    cfgs = db.get("typology_subsystems_configs", _DEFAULT_TYPOLOGY_CONFIGS)
+    cfg = cfgs.get(str(typology).upper(), cfgs.get("UTI", {}))
+    try:
+        return max(0.0, float(cfg.get("treatment_filtration_cost", 350.0)))
+    except (TypeError, ValueError):
+        return 350.0
+
+
 def save_costs_database(data: Dict[str, Any]) -> bool:
     """Salva dados customizados no arquivo JSON de custos."""
     try:
@@ -253,30 +278,80 @@ def interpolate_price(table: List[Tuple[float, float]], volume_l: float) -> floa
     
     if v <= vols[-1]:
         return float(np.interp(v, vols, prices))
-    else:
-        v1, p1 = vols[-2], prices[-2]
-        v2, p2 = vols[-1], prices[-1]
-        slope = (p2 - p1) / max(1.0, v2 - v1)
-        return float(p2 + slope * (v - v2))
+
+    # Fora da tabela nao ha ponto observado. A inclinacao dos DOIS ULTIMOS
+    # pontos, que era o criterio anterior, e o par mais sensivel a ruido de
+    # varejo de toda a serie: uma promocao no maior volume tabelado girava a
+    # reta inteira. A regressao ajustada sobre o banco INTEIRO e a referencia
+    # estavel, e e o que `regressao_linear_da_tabela` devolve.
+    return _extrapolar_pela_regressao(sorted_table, v)
 
 
-def get_tank_linear_regression(material_key: str = "PEAD", is_upper: bool = False) -> Dict[str, float]:
-    """Retorna os coeficientes da regressão linear simples Custo = a * Volume + b para o material."""
-    table = UPPER_TANK_PRICE_TABLE if is_upper else LOWER_TANK_PRICE_TABLE
-    mult = MATERIAL_COST_MULTIPLIERS.get(material_key, 1.0)
-    vols = np.array([float(p[0]) for p in table])
-    prices = np.array([float(p[1]) * mult for p in table])
-    slope, intercept = np.polyfit(vols, prices, 1)
-    y_pred = slope * vols + intercept
-    ss_res = np.sum((prices - y_pred) ** 2)
-    ss_tot = np.sum((prices - np.mean(prices)) ** 2)
+def regressao_linear_da_tabela(table: List[Tuple[float, float]]) -> Dict[str, float]:
+    """Ajusta Preco = a x Volume + b sobre uma tabela de precos.
+
+    Devolve inclinacao, intercepto e R2. E a forma generica de
+    `get_tank_linear_regression`, que a chama para as tabelas de reservatorio
+    inferior e superior com o multiplicador de material aplicado.
+    """
+    pontos = sorted((float(v), float(p)) for v, p in table if float(v) > 0)
+    if len(pontos) < 2:
+        return {"slope_r_per_l": 0.0, "intercept_r": 0.0, "r_squared": 0.0}
+
+    vols = np.array([v for v, _ in pontos])
+    precos = np.array([p for _, p in pontos])
+    slope, intercept = np.polyfit(vols, precos, 1)
+    previsto = slope * vols + intercept
+    ss_res = float(np.sum((precos - previsto) ** 2))
+    ss_tot = float(np.sum((precos - np.mean(precos)) ** 2))
     r2 = 1.0 - (ss_res / ss_tot) if ss_tot > 0 else 1.0
     return {
         "slope_r_per_l": float(slope),
         "intercept_r": float(intercept),
         "r_squared": float(r2),
+    }
+
+
+#: R2 minimo para que a regressao seja usada na extrapolacao. Abaixo disso a reta
+#: nao descreve a tabela, e a inclinacao local dos ultimos pontos e menos ruim.
+R2_MINIMO_PARA_EXTRAPOLAR = 0.90
+
+
+def _extrapolar_pela_regressao(sorted_table: List[Tuple[float, float]], volume_l: float) -> float:
+    """Preco acima do maior volume tabelado."""
+    vols = [float(v) for v, _ in sorted_table]
+    precos = [float(p) for _, p in sorted_table]
+    reg = regressao_linear_da_tabela(sorted_table)
+
+    if reg["r_squared"] >= R2_MINIMO_PARA_EXTRAPOLAR and reg["slope_r_per_l"] > 0:
+        estimado = reg["slope_r_per_l"] * volume_l + reg["intercept_r"]
+    else:
+        # A reta nao descreve a tabela: volta-se a inclinacao dos ultimos pontos.
+        v1, p1 = vols[-2], precos[-2]
+        v2, p2 = vols[-1], precos[-1]
+        inclinacao_local = (p2 - p1) / max(1.0, v2 - v1)
+        estimado = p2 + inclinacao_local * (volume_l - v2)
+
+    # Reservatorio maior nao custa menos que o maior tabelado.
+    return float(max(estimado, precos[-1]))
+
+
+def get_tank_linear_regression(material_key: str = "PEAD", is_upper: bool = False) -> Dict[str, float]:
+    """Coeficientes de Preco = a x Volume + b para o material, sobre o banco de custos.
+
+    E a referencia linear que `interpolate_price` usa para extrapolar acima do
+    maior volume tabelado, e o R2 diz se ela pode ser usada. Dentro da tabela
+    vale a interpolacao ponto a ponto, porque cada ponto e um preco observado.
+    """
+    table = UPPER_TANK_PRICE_TABLE if is_upper else LOWER_TANK_PRICE_TABLE
+    mult = MATERIAL_COST_MULTIPLIERS.get(material_key, 1.0)
+    reg = regressao_linear_da_tabela([(float(v), float(pr) * mult) for v, pr in table])
+    return {
+        **reg,
         "material": material_key,
-        "is_upper": is_upper
+        "is_upper": is_upper,
+        "n_pontos": len(table),
+        "volume_maximo_tabelado_l": max((float(v) for v, _ in table), default=0.0),
     }
 
 
@@ -331,11 +406,30 @@ def estimate_pipe_network_cost(pipes: Optional[List[Any]] = None) -> float:
     return round(total * 1.25, 2)
 
 
-def estimate_annual_chlorination_cost(annual_pluvial_m3: float, dose_mg_l: float = 2.0, cost_per_kg: float = DEFAULT_CHLORINE_COST_PER_KG) -> Tuple[float, float]:
-    """Calcula a massa anual de cloro necessária e o custo operacional anual correspondente."""
-    annual_cl2_kg = (max(0.0, annual_pluvial_m3) * max(0.0, dose_mg_l)) / 1000.0
-    annual_cost = annual_cl2_kg * max(0.0, cost_per_kg)
-    return annual_cl2_kg, annual_cost
+def estimate_annual_chlorination_cost(
+    annual_pluvial_m3: float,
+    dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO,
+    cost_per_kg: float = DEFAULT_CHLORINE_COST_PER_KG,
+    purity: float = PUREZA_PADRAO,
+) -> Tuple[float, float]:
+    """Massa anual de produto e custo correspondente.
+
+    A massa devolvida e de **produto comercial**, ja corrigida pela pureza, que
+    e o que se compra e sobre o que incide o preco em R$/kg.
+
+    Esta funcao ja calculou a massa de cloro ATIVO e a
+    multiplicava pelo preco do produto, subestimando o custo em 1/pureza -
+    cerca de 35%. Era a quarta convencao de cloro do programa, e alimentava a
+    interface enquanto o modulo economico ja usava a corrigida, de modo que os
+    dois exibiam custos diferentes para a mesma cloracao.
+    """
+    cloracao = Cloracao(
+        dose_mg_por_litro=max(0.0, dose_mg_l),
+        pureza=max(1e-6, purity),
+    )
+    annual_product_kg = cloracao.massa_anual_de_produto_kg(max(0.0, annual_pluvial_m3))
+    annual_cost = annual_product_kg * max(0.0, cost_per_kg)
+    return annual_product_kg, annual_cost
 
 
 def annualize_operational_costs(

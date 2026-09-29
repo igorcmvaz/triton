@@ -80,8 +80,13 @@ def test_americana_residential_minimum_franchise_tariff():
 
 def test_preliminary_capex_and_maintenance_follow_system_configuration():
     estimates = estimate_preliminary_capex(5000.0, 500.0, True, 0.36775)
-    # 5.000 L é um ponto explícito da tabela interna de triagem (Fortlev/Acqualimp).
-    assert estimates["lower"] == pytest.approx(2899.0)
+    # 5.000 L é um ponto explícito da tabela de preços do banco de custos. O que
+    # se verifica é o vínculo com o banco, e não o número: o preço é de varejo e
+    # muda quando a fonte é atualizada, mas a estimativa tem de continuar
+    # devolvendo exatamente o valor tabelado nos pontos que existem na tabela.
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+    tabelado_5000 = dict(LOWER_TANK_PRICE_TABLE)[5000.0]
+    assert estimates["lower"] == pytest.approx(tabelado_5000)
     assert estimates["pump_unit"] >= 280.0
     assert estimates["labor"] > 0
     assert len(default_maintenance_items(True)) == 3
@@ -234,7 +239,12 @@ def test_economic_vpl_and_payback_favorable():
     
     econ = run_economic_analysis(config, sim_res)
     
-    assert econ.capex_total == 2300.0
+    # O CAPEX passou a conter a linha de tratamento, que antes era
+    # dimensionada e descartada. A soma dos seis campos de custo continua sendo
+    # a base; a ETAP e a parcela nova, e o teste a nomeia em vez de congelar o
+    # total, para que trocar o filtro de entrada nao quebre o caso.
+    assert econ.etap_capex_brl > 0.0
+    assert econ.capex_total == pytest.approx(2300.0 + econ.etap_capex_brl)
     assert len(econ.monthly_cash_flows) == 240
     assert econ.vpl > 0.0
     assert econ.payback_months is not None
@@ -272,7 +282,7 @@ def test_economic_unfavorable_scenario_negative_vpl():
     econ = run_economic_analysis(config, sim_res)
     
     # Configuração inicial inclui bomba principal e reserva.
-    assert econ.capex_total == 90000.0
+    assert econ.capex_total == pytest.approx(90000.0 + econ.etap_capex_brl)
     assert econ.vpl < 0.0
     assert econ.payback_months is None
     assert econ.payback_years is None
@@ -314,7 +324,7 @@ def test_separate_tariff_escalations_and_pump_metrics():
 
 
 def test_robust_sensitivity_rate_normalization():
-    """Valida se run_robust_economic_analysis e run_sensitivity_analysis tratam taxas percentuais de 5.0 como 0.05 e não 500% ao ano."""
+    """Taxas anuais entram como fração decimal; um valor percentual é recusado, e não reinterpretado."""
     from netuno.core.economic import run_robust_economic_analysis, run_sensitivity_analysis
 
     base_params = {
@@ -323,14 +333,17 @@ def test_robust_sensitivity_rate_normalization():
         'water_tariff_per_m3': 6.50,
         'sewage_tariff_per_m3': 5.20,
         'sewage_mode': 1,
-        'water_tariff_escalation_rate': 5.0,  # 5.0% a.a.
-        'sewage_tariff_escalation_rate': 5.0,
-        'elec_tariff_escalation_rate': 5.0,
-        'inflation_rate': 4.0,  # 4.0% a.a.
-        'discount_rate': 8.0,   # 8.0% a.a.
+        'water_tariff_escalation_rate': 0.05,  # 5% a.a.
+        'sewage_tariff_escalation_rate': 0.05,
+        'elec_tariff_escalation_rate': 0.05,
+        'inflation_rate': 0.04,  # 4% a.a.
+        'discount_rate': 0.08,   # 8% a.a.
         'annual_om_cost_base': 150.0,
         'analysis_period_years': 20
     }
+
+    with pytest.raises(ValueError, match="parece estar em percentual"):
+        run_robust_economic_analysis(**{**base_params, 'water_tariff_escalation_rate': 5.0})
 
     res_base = run_robust_economic_analysis(**base_params)
     
@@ -375,15 +388,16 @@ def test_step5_and_step7_exact_parity():
     window.config.cost_piping = 1200.0
     window.config.cost_accessories = 500.0
     window.config.cost_labor = 1000.0
-    window.config.tma = 15.0
-    window.config.inflation = 5.0
+    # Taxas em % ao mês, a unidade gravada no projeto
+    window.config.tma = 1.0
+    window.config.inflation = 0.4
     window.tab_economic._internal_config = window.config
 
 
     # Configura parâmetros financeiros e diálogos verificados antes de rodar a simulação
-    window.tab_tanks_simulation.txt_inflation.setText("5.0")
+    window.tab_tanks_simulation.txt_inflation.setText("0.4")
     window.tab_tanks_simulation.txt_period.setText("20")
-    window.tab_tanks_simulation.txt_tma.setText("15.0")
+    window.tab_tanks_simulation.txt_tma.setText("1.0")
     window.tab_tanks_simulation.txt_readj_period.setText("12")
     window.tab_tanks_simulation.txt_readj_water.setText("5.0")
     window.tab_tanks_simulation.txt_readj_elec.setText("5.0")
@@ -422,12 +436,15 @@ def test_material_cost_multipliers_and_tank_pricing():
         estimate_annual_chlorination_cost, estimate_preliminary_capex
     )
 
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+
     p_pead = estimate_tank_price_linear(5000.0, "PEAD")
     p_concreto = estimate_tank_price_linear(5000.0, "CONCRETO")
     p_prfv = estimate_tank_price_linear(5000.0, "PRFV")
     p_inox = estimate_tank_price_linear(5000.0, "ACO_INOX")
 
-    assert p_pead == pytest.approx(2899.0)
+    # O polietileno é a referência da tabela, e o multiplicador de material é 1.
+    assert p_pead == pytest.approx(dict(LOWER_TANK_PRICE_TABLE)[5000.0])
     assert p_prfv > p_pead
     assert p_concreto > p_prfv
     assert p_inox > p_concreto
@@ -438,11 +455,17 @@ def test_material_cost_multipliers_and_tank_pricing():
     # (20m * 38 + 15m * 18) * 1.25 = (760 + 270) * 1.25 = 1030 * 1.25 = 1287.50
     assert pipe_cost == 1287.50
 
-    # Cloração
+    # Cloração: a massa devolvida é de PRODUTO comercial, já corrigida pela
+    # pureza, porque é o produto que se compra e sobre ele que incide o preço.
+    # Esta conta já devolveu a massa de cloro ATIVO e a
+    # multiplicava pelo preço do produto, subestimando o custo em 1/pureza.
+    from netuno.core.chlorination import PUREZA_PADRAO
+
     cl_kg, cl_cost = estimate_annual_chlorination_cost(100.0, dose_mg_l=2.0, cost_per_kg=25.0)
-    # 100 m³ * 2 g/m³ = 200 g = 0.20 kg
-    assert cl_kg == pytest.approx(0.20)
-    assert cl_cost == pytest.approx(5.00)
+    cloro_ativo_kg = 100.0 * 2.0 / 1000.0            # 100 m³ a 2 g/m³ = 0,20 kg
+    assert cl_kg == pytest.approx(cloro_ativo_kg / PUREZA_PADRAO)
+    assert cl_cost == pytest.approx(cl_kg * 25.0)
+    assert cl_kg > cloro_ativo_kg
 
     # CAPEX discriminado
     est = estimate_preliminary_capex(5000.0, 500.0, True, 0.368, lower_material="CONCRETO", upper_material="PEAD")
@@ -493,8 +516,15 @@ def test_capex_dialog_opens_recalculated_for_every_sweep_volume(qapp):
 
     assert dialog.table_lower_costs.rowCount() == 4
     assert dialog.table_lower_costs.item(0, 0).text() == "0"
-    assert "449,90" in dialog.table_lower_costs.item(1, 1).text()
-    assert dialog.txt_upper.text() == "289,90"
+    # O diálogo mostra o preço tabelado para 1.000 L, formatado em pt-BR. O
+    # valor vem do banco de custos, e o teste o lê de lá em vez de congelá-lo.
+    from netuno.core.cost_estimates import LOWER_TANK_PRICE_TABLE
+    _esperado = f"{dict(LOWER_TANK_PRICE_TABLE)[1000.0]:.2f}".replace(".", ",")
+    assert _esperado in dialog.table_lower_costs.item(1, 1).text()
+    # A caixa superior padrao e de 500 L, e o preco tambem vem do banco.
+    from netuno.core.cost_estimates import UPPER_TANK_PRICE_TABLE
+    _esperado_sup = f"{dict(UPPER_TANK_PRICE_TABLE)[500.0]:.2f}".replace(".", ",")
+    assert dialog.txt_upper.text() == _esperado_sup
 
     pump_dialog = DialogMotobomba(config=config)
     assert pump_dialog.chk_backup_pump.isChecked()

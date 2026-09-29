@@ -1,4 +1,4 @@
-# Documentação do Netuno 5.0.0
+# Documentação do Netuno 5
 
 Ponto de entrada único da documentação. Antes desta versão os documentos estavam
 distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
@@ -57,6 +57,12 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | [`../tarifas/FONTES_E_METODOLOGIA.md`](../tarifas/FONTES_E_METODOLOGIA.md) | Procedência e método de auditoria das tarifas |
 | [`../tarifas/PANORAMA_TARIFAS_E_CONFIABILIDADE.md`](../tarifas/PANORAMA_TARIFAS_E_CONFIABILIDADE.md) | Panorama e confiabilidade por prestador |
 | [`../tarifas/README.md`](../tarifas/README.md) | Catálogo auditado de 652 municípios |
+
+### Base de dados CLIMBra (CMIP6)
+
+| Documento | Conteúdo |
+| :--- | :--- |
+| [`base_climatica_climbra.md`](base_climatica_climbra.md) | Procedência do CLIMBra (Nature Scientific Data), 19 modelos CMIP6, correção QDM e arquitetura SQLite de alta densidade |
 
 ### Operação e integrações
 

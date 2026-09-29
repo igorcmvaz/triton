@@ -3,13 +3,18 @@ Formalização da estrutura tarifária: códigos, famílias e validação.
 
 O catálogo do Netuno representa cada tarifa como uma lista de quádruplas
 ``(minimo_m3, maximo_m3, valor, codigo)``, em que ``codigo`` determina como o campo
-``valor`` deve ser lido. Anteriormente esses códigos eram números literais
+``valor`` deve ser lido. Esses códigos já foram números literais
 espalhados por `economic.py` e pelos testes, sem definição única — o que já produziu
 um teste desatualizado, que rejeitava o código ``-2`` por desconhecê-lo.
 
-Este módulo é a definição única. Não altera nenhum cálculo: nomeia os códigos, descreve
-as famílias efetivamente presentes no catálogo das 652 cidades e oferece validação
-estrutural.
+Este módulo é a definição única dos **códigos**. Não altera nenhum cálculo: nomeia os
+códigos, descreve as famílias efetivamente presentes no catálogo das 652 cidades e
+oferece validação estrutural.
+
+São dois níveis, e ambos fazem falta. O **código** diz como ler um campo da quádrupla;
+o **regime** diz o que a cobrança significa para quem economiza água — se reduzir o
+consumo reduz a conta, e a partir de que volume. Os regimes estão em
+`netuno/core/tariff_regimes.py`, e importam os códigos daqui em vez de repeti-los.
 
 Famílias observadas no catálogo (apuração de 8 de setembro de 2026)
 -------------------------------------------------------------------
@@ -46,11 +51,18 @@ TAXA_FIXA_DE_DISPONIBILIDADE = -1
 #: pelas faixas progressivas. Ex.: DAE Americana — até 6 m³, R$ 14,30 fixos.
 FRANQUIA_DE_CONSUMO_MINIMO = -2
 
+#: Piso de pagamento. ``valor`` é o mínimo que a conta pode atingir: cobra-se pelas
+#: faixas, mas o total nunca fica abaixo dele. Distinto da taxa de disponibilidade,
+#: que **soma** por cima do consumo medido — o piso **limita** por baixo. A diferença
+#: é a economia que um sistema de aproveitamento pode creditar no primeiro bloco.
+PISO_DE_PAGAMENTO = -3
+
 CODIGOS_VALIDOS = frozenset({
     FAIXA_PROGRESSIVA,
     FAIXA_ISENTA,
     TAXA_FIXA_DE_DISPONIBILIDADE,
     FRANQUIA_DE_CONSUMO_MINIMO,
+    PISO_DE_PAGAMENTO,
 })
 
 DESCRICAO_DO_CODIGO = {
@@ -58,6 +70,7 @@ DESCRICAO_DO_CODIGO = {
     FAIXA_ISENTA: "faixa sem cobrança volumétrica",
     TAXA_FIXA_DE_DISPONIBILIDADE: "taxa fixa de disponibilidade (R$)",
     FRANQUIA_DE_CONSUMO_MINIMO: "franquia de consumo mínimo com taxa inclusa (R$)",
+    PISO_DE_PAGAMENTO: "piso de pagamento: a conta nunca fica abaixo deste valor (R$)",
 }
 
 #: Valor convencional usado para representar “sem teto” na última faixa progressiva.

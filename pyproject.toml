@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "GPL-3.0-or-later" }
 authors = [
-    { name = "Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)", email = "sustainability@contato.ufsc.br" }
+    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "sustainability@contato.ufsc.br" }
 ]
 keywords = [
     "rainwater-harvesting",
@@ -105,8 +105,8 @@ python_functions = ["test_*"]
 # execução padrão e é chamada sob demanda:
 #     pytest -m replicacao
 #     python scripts/qa_runner.py --layer replicacao
-# Os testes marcados como "rede" baixam dados de fontes oficiais (ANEEL) e só
-# passam com internet; também ficam fora da execução padrão:
+# Os testes marcados como "rede" consultam fontes oficiais (ANEEL) e só passam
+# com internet; ficam fora da execução local e rodam na integração contínua:
 #     pytest -m rede
 #     python scripts/qa_runner.py --layer rede
 addopts = "-q -m 'not replicacao and not rede'"

@@ -1,6 +1,7 @@
 import os
 import sys
 from PySide6.QtCore import QSettings, Qt
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
 
 _runtime_language = None
@@ -10,11 +11,9 @@ _runtime_theme = None
 def get_current_lang():
     if _runtime_language is not None:
         return _runtime_language
-    from netuno.core.edition import is_int_edition
-    def_lang = "en" if is_int_edition() else "pt"
     settings = QSettings("UFSC", "Netuno5")
-    lang = str(settings.value("language", def_lang))
-    return lang if lang in get_available_languages() else def_lang
+    lang = str(settings.value("language", "pt"))
+    return lang if lang in get_available_languages() else "pt"
 
 
 def set_current_lang(lang):
@@ -79,13 +78,40 @@ class FirstRunLangDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Netuno 5 — Language / Idioma")
-        self.resize(430, 210)
+        self.resize(430, 260)
+        for icone_rel in (
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "Netuno2.png"),
+        ):
+            icone_path = get_resource_path(icone_rel)
+            if os.path.isfile(icone_path):
+                self.setWindowIcon(QIcon(icone_path))
+                break
         self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
-        layout.setSpacing(12)
+        layout.setSpacing(10)
         layout.setContentsMargins(15, 15, 15, 15)
+
+        logo_label = QLabel()
+        logo_label.setAlignment(Qt.AlignCenter)
+        for icone_rel in (
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+        ):
+            icone_path = get_resource_path(icone_rel)
+            if os.path.isfile(icone_path):
+                pixmap = QPixmap(icone_path)
+                if not pixmap.isNull():
+                    logo_label.setPixmap(pixmap.scaled(48, 48, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                    layout.addWidget(logo_label)
+                    break
 
         lbl = QLabel(
             "Selecione o idioma de exibição do Netuno 5.\n"
@@ -134,13 +160,8 @@ class FirstRunLangDialog(QDialog):
 def check_first_run_language():
     """
     Se o idioma ainda não estiver configurado nos registros, exibe o modal de seleção.
-    Na edição INT, adota 'en' por padrão se não configurado.
     """
-    from netuno.core.edition import is_int_edition
     if not is_language_set():
-        if is_int_edition():
-            set_current_lang("en")
-            return
         from PySide6.QtCore import Qt
         dialog = FirstRunLangDialog()
         dialog.exec()
@@ -156,6 +177,21 @@ LANGUAGES = {
 
 # Catálogo inglês completo para os rótulos já existentes.
 _DICTIONARY = {
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': 'Is the rainfall series long enough?',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': 'Tests sub-series of the loaded record and answers how many years this project needs.',
+    'Serie insuficiente': 'Series too short',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': 'Load a rainfall series with at least two years in Step 1.',
+    'Nao foi possivel analisar': 'Analysis not possible',
+    'Comprimento representativo da série': 'Representative length of the series',
+    'Todas as janelas possíveis foram testadas.': 'All possible windows were tested.',
+    'Anos de série': 'Years of series',
+    'Janelas testadas': 'Windows tested',
+    'Resultados semelhantes': 'Similar results',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': 'The method is that of Geraldi and Ghisi; the answer belongs to this project, and changes with the rainwater share and with the demand.',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': 'Ideal tank capacity with the whole series: {volume} L, with {potencial}% of savings. A window counts as similar when it selects the same ideal capacity and stays within {tolerancia} percentage points of the potential; the representative length is the shortest one that reaches {confianca}% of similar windows and holds for the longer lengths.',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': 'Windows drawn per length: {n}, with seed {s}.',
+
     "🌱 Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)": "🌱 Environmental & ESG Sustainability Report (LCA)",
     "Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)": "Environmental & ESG Sustainability Report (LCA)",
     "INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG": "KEY ENVIRONMENTAL MITIGATION & ESG INDICATORS",
@@ -273,7 +309,7 @@ _DICTIONARY = {
     "📚 8. Documentação e Fontes": "📚 8. Documentation & Sources",
     "📚 9. Documentação e Fontes": "📚 9. Documentation & Sources",
     "Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, GRI)": "Sustainable Certifications & ESG Criteria (LEED, AQUA, Casa Azul, GRI)",
-    "9 Índices Pluviométricos (ETCCDI)": "9 Rainfall Indices (ETCCDI)",
+    "9 Índices Pluviométricos (ETCCDI + Sazonalidade)": "9 Rainfall Indices (ETCCDI + Seasonality)",
     "A simulação automática calculou o potencial para toda a faixa de volumes. O volume ótimo sugerido é de": "The automatic simulation calculated the potential for the full range of volumes. The suggested optimal volume is",
     "Abordagem de Descarte Inicial:": "Initial Discard Approach:",
     "Abril": "April",
@@ -317,6 +353,7 @@ _DICTIONARY = {
     "Até:": "To:",
     "Aviso": "Warning",
     "Aço Galvanizado (0,92)": "Galvanized Steel (0.92)",
+    "Baixar Planilha Modelo Excel (.xlsx)": "Download Excel Template (.xlsx)",
     "Baixar Planilha Modelo Excel (.xlsx)...": "Download Excel Template (.xlsx)...",
     "Base (0%)": "Base (0%)",
     "Base Técnica, Metodologia e Premissas do Projeto": "Technical Base, Methodology & Assumptions",
@@ -330,6 +367,7 @@ _DICTIONARY = {
     "Campos Não Preenchidos": "Fields Not Filled",
     "Cancelar": "Cancel",
     "Carregar Arquivo de Dados Variáveis": "Load Variable Data File",
+    "Carregar Projeto CSV": "Load Project CSV",
     "Carregar Projeto CSV...": "Load Project CSV...",
     "Carregar arquivo": "Load file",
     "Carregue a série histórica de precipitação diária (CSV) do município desejado, defina a data inicial e o descarte de água inicial (first flush) e analise os 9 indicadores climatológicos médios da série temporal.": "Load the daily historical precipitation series (CSV) of the desired municipality, define the start date and the initial water discard (first flush), and analyze the 9 average climatological indicators of the time series.",
@@ -430,6 +468,7 @@ _DICTIONARY = {
     "ID Cenário": "Scenario ID",
     "Idioma": "Language",
     "Igual à Demanda Diária Pluvial": "Equal to Daily Rainwater Demand",
+    "Importar e Simular Cenários em Lote (Excel)": "Import & Batch Simulate Scenarios (Excel)",
     "Importar e Simular Cenários em Lote (Excel)...": "Import & Batch Simulate Scenarios (Excel)...",
     "Imposto fixo (R$)": "Fixed tax (BRL)",
     "Imposto fixo (R$):": "Fixed tax (R$):",
@@ -620,6 +659,8 @@ _DICTIONARY = {
     "Reiniciar Aplicativo": "Restart Application",
     "Relatório HTML salvo em:": "HTML Report saved to:",
     "Relatório PDF salvo em:": "PDF Report saved to:",
+    "Relatório de Verificação": "Verification Report",
+    "Relatório de Verificação — Netuno 5.0.0": "Verification Report — Netuno 5.0.0",
     "Relatório de Verificação Técnica e Computacional...": "Technical and Computational Verification Report...",
     "Relatório de Verificação Técnica e Computacional — Netuno 5.0.0": "Technical and Computational Verification Report — Netuno 5.0.0",
     "Evidências de Verificação e Rastreabilidade": "Verification Evidence and Traceability",
@@ -655,6 +696,7 @@ _DICTIONARY = {
     "SDII Médio": "Average SDII",
     "Sair": "Exit",
     "Salvar Fluxo de Caixa Completo": "Save Full Cash Flow",
+    "Salvar Projeto": "Save Project",
     "Salvar Projeto...": "Save Project...",
     "Salvar Relatório em HTML": "Save Report as HTML",
     "Salvar Relatório em PDF": "Save Report as PDF",
@@ -792,7 +834,7 @@ _DICTIONARY = {
     "dias": "days",
     "dias/ano": "days/year",
     "em uso no sistema": "in use",
-    "ex: 0,85": "e.g., 0.85",
+    "ex: 0,75": "e.g., 0.75",
     "fixo": "fixed",
     "hab": "res",
     "kWh/ano": "kWh/year",
@@ -870,12 +912,12 @@ _DICTIONARY = {
     "📈 Indicadores de Eficiência": "📈 Efficiency Indicators",
     "📊 4. Gráficos e Curvas (2x2)": "📊 4. Charts & Curves (2x2)",
     "📊 9 Indicadores Climatológicos Médios": "📊 9 Average Climatological Indicators",
-    "📊 9 Índices Pluviométricos (ETCCDI)": "📊 9 Rainfall Indices (ETCCDI)",
+    "📊 9 Índices Pluviométricos (ETCCDI + Sazonalidade)": "📊 9 Rainfall Indices (ETCCDI + Seasonality)",
     "📊 Etapa 4: Curvas de Desempenho e Dimensionamento (Grid 2x2)": "📊 Step 4: Performance Curves & Sizing (Grid 2x2)",
     "📊 Etapa 4: Gráficos de Desempenho e Curvas de Dimensionamento": "📊 Step 4: Performance Charts & Dimensioning Curves",
     "📊 Resultados Numéricos Detalhados do Balanço Hídrico": "📊 Detailed Water Balance Numerical Results",
     "📊 Tabela de Fluxo de Caixa Anual": "📊 Annual Cash Flow Table",
-    "📋 Tabela Detalhada Ano a Ano (ETCCDI)": "📋 Detailed Year-by-Year Table (ETCCDI)",
+    "📋 Tabela Detalhada Ano a Ano": "📋 Detailed Year-by-Year Table",
     "📌 Resumo do Projeto": "📌 Project Summary",
     "📑 7. Relatórios e PDF": "📑 7. Reports & PDF",
     "📑 Etapa 7: Geração de Relatório Técnico de Projeto": "📑 Step 7: Technical Project Report Generation",
@@ -1005,13 +1047,14 @@ _DICTIONARY = {
     "Comparação de Trade-off: --": "Trade-off Comparison: --",
     "Netuno 5.0.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Netuno 5.0.0 — Rainwater Harvesting Design & Simulation",
     "Manual do Usuário — Netuno 5.0.0": "User Manual — Netuno 5.0.0",
+    "Sobre o Netuno": "About Netuno",
     "Sobre o Netuno 5.0.0": "About Netuno 5.0.0",
     "Versão": "Version",
     "Autores": "Authors",
-    "Grupo de Pesquisa Gestão do Espaço Sustentável": "Sustainable Built Environment Research Group",
+    "Grupo de Pesquisa em Ambientes Sustentáveis": "Sustainable Environments Research Group",
     "Programa computacional para simulação de aproveitamento de água de chuva": "Computer program for rainwater harvesting simulation",
     "Plataforma para Aproveitamento de Água de Chuva em Edificações.": "Platform for Rainwater Harvesting in Buildings.",
-    "Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).": "Developed by the Sustainable Built Environment Research Group (UFSC).",
+    "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "Developed by the Sustainable Environments Research Group (UFSC).",
     "Versão com descarte inicial por período, exportação em Kebab-Case e laudo gerencial oficial.": "Release with periodic first-flush disposal, timestamped Kebab-Case exports, and an official management report.",
     "Documento gerado automaticamente": "Automatically generated document",
     "Motor de Simulação": "Simulation Engine",
@@ -1255,14 +1298,29 @@ _DICTIONARY = {
 # recorrentes. Textos técnicos ainda não traduzidos usam o catálogo inglês como
 # fallback em vez de produzir uma interface parcialmente corrompida.
 _SPANISH_DICTIONARY = {
-    "Arquivo": "Archivo", "Novo Projeto": "Nuevo proyecto", "Carregar Projeto CSV...": "Abrir proyecto CSV...",
-    "Salvar Projeto...": "Guardar proyecto...", "Sair": "Salir", "Cenários && Ferramentas": "Escenarios y herramientas",
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': '¿La serie de lluvia es lo bastante larga?',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': 'Prueba subseries del registro cargado y responde cuántos años necesita este proyecto.',
+    'Serie insuficiente': 'Serie insuficiente',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': 'Cargue una serie de precipitación con al menos dos años en la Etapa 1.',
+    'Nao foi possivel analisar': 'No fue posible analizar',
+    'Comprimento representativo da série': 'Longitud representativa de la serie',
+    'Todas as janelas possíveis foram testadas.': 'Se probaron todas las ventanas posibles.',
+    'Anos de série': 'Años de serie',
+    'Janelas testadas': 'Ventanas probadas',
+    'Resultados semelhantes': 'Resultados similares',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': 'El método es el de Geraldi y Ghisi; la respuesta es de este proyecto y cambia con la fracción atendible y con la demanda.',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': 'Volumen ideal con la serie completa: {volume} L, con {potencial}% de ahorro. Una ventana cuenta como similar cuando elige el mismo volumen ideal y queda a hasta {tolerancia} puntos porcentuales del potencial; la longitud representativa es la menor que alcanza {confianca}% de ventanas similares y se mantiene en las longitudes mayores.',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': 'Ventanas sorteadas por longitud: {n}, con semilla {s}.',
+
+    "Arquivo": "Archivo", "Novo Projeto": "Nuevo proyecto", "Carregar Projeto CSV": "Abrir proyecto CSV", "Carregar Projeto CSV...": "Abrir proyecto CSV...",
+    "Salvar Projeto": "Guardar proyecto", "Salvar Projeto...": "Guardar proyecto...", "Sair": "Salir", "Cenários && Ferramentas": "Escenarios y herramientas",
     "Opções": "Opciones", "Tema": "Tema", "Modo Claro": "Modo claro", "Modo Escuro": "Modo oscuro",
     "Idioma": "Idioma", "Ajuda": "Ayuda", "Português": "Portugués", "Inglês": "Inglés",
     "Espanhol": "Español", "Chinês (Simplificado)": "Chino (simplificado)",
     "Como Citar o Netuno": "Cómo citar Netuno", "Documentação": "Documentación",
     "Resumo do Projeto": "Resumen del proyecto", "Dimensionamento & Simulação": "Dimensionamiento y simulación",
-    "1. Projeto e Chuva": "1. Proyecto y lluvia", "2. Edificação Consumo": "2. Edificio y consumo",
+    "1. Projeto e Chuva": "1. Proyecto y lluvia", "2. Edificação Consumo": "2. Edificio y consumo", "2. Edificação e Consumo": "2. Edificio y consumo",
     "3. Reservatório & Custos": "3. Depósito y costes", "4. Resultados Técnicos": "4. Resultados técnicos",
     "5. Resultados Econômicos": "5. Resultados económicos", "6. Resultados Ambientais": "6. Resultados ambientales",
     "7. Multi-Critério (TOPSIS)": "7. Multicriterio (TOPSIS)", "8. Relatórios PDF": "8. Informes PDF",
@@ -1271,17 +1329,34 @@ _SPANISH_DICTIONARY = {
     "Erro": "Error", "Sucesso": "Éxito", "Modo: Não simulado": "Modo: no simulado",
     "Chuva: Não carregada": "Lluvia: no cargada", "Reiniciar Aplicativo": "Reiniciar aplicación",
     "Sobre o Netuno": "Acerca de Netuno", "Relatório de Validação Técnica": "Informe de validación técnica",
+    "Relatório de Verificação": "Informe de verificación",
+    "Relatório de Verificação — Netuno 5.0.0": "Informe de verificación — Netuno 5.0.0",
     "Uso pela Linha de Comando": "Uso por línea de comandos",
 }
 
 _CHINESE_DICTIONARY = {
-    "Arquivo": "文件", "Novo Projeto": "新建项目", "Carregar Projeto CSV...": "打开 CSV 项目...",
-    "Salvar Projeto...": "保存项目...", "Sair": "退出", "Cenários && Ferramentas": "情景与工具",
+    # Análise de comprimento representativo da série de chuva.
+    'A serie de chuva e longa o bastante?': '降雨序列足够长吗？',
+    'Testa subseries da serie carregada e responde de quantos anos este projeto precisa.': '对已载入序列的子序列进行检验，回答本项目需要多少年数据。',
+    'Serie insuficiente': '序列过短',
+    'Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1.': '请在步骤 1 载入至少两年的降雨序列。',
+    'Nao foi possivel analisar': '无法分析',
+    'Comprimento representativo da série': '序列的代表性长度',
+    'Todas as janelas possíveis foram testadas.': '已检验全部可能的窗口。',
+    'Anos de série': '序列年数',
+    'Janelas testadas': '检验的窗口数',
+    'Resultados semelhantes': '结果相近的比例',
+    'O método é o de Geraldi e Ghisi; a resposta é deste projeto, e muda com a fração atendível e com a demanda.': '方法来自 Geraldi 与 Ghisi；答案属于本项目，并随可由雨水满足的比例和需求而变化。',
+    'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': '使用完整序列得到的理想容积为 {volume} L，节水潜力为 {potencial}%。当某一窗口选出相同的理想容积、且潜力相差不超过 {tolerancia} 个百分点时，计为相近；代表性长度是达到 {confianca}% 相近窗口并在更长长度上保持的最小长度。',
+    'Janelas sorteadas por comprimento: {n}, com semente {s}.': '每种长度抽取的窗口数：{n}，随机种子 {s}。',
+
+    "Arquivo": "文件", "Novo Projeto": "新建项目", "Carregar Projeto CSV": "打开 CSV 项目", "Carregar Projeto CSV...": "打开 CSV 项目...",
+    "Salvar Projeto": "保存项目", "Salvar Projeto...": "保存项目...", "Sair": "退出", "Cenários && Ferramentas": "情景与工具",
     "Opções": "选项", "Tema": "主题", "Modo Claro": "浅色模式", "Modo Escuro": "深色模式",
     "Idioma": "语言", "Ajuda": "帮助", "Português": "葡萄牙语", "Inglês": "英语",
     "Espanhol": "西班牙语", "Chinês (Simplificado)": "简体中文", "Como Citar o Netuno": "如何引用 Netuno",
     "Documentação": "文档", "Resumo do Projeto": "项目概览", "Dimensionamento & Simulação": "容量设计与模拟",
-    "1. Projeto e Chuva": "1. 项目与降雨", "2. Edificação Consumo": "2. 建筑与用水",
+    "1. Projeto e Chuva": "1. 项目与降雨", "2. Edificação Consumo": "2. 建筑与用水", "2. Edificação e Consumo": "2. 建筑与用水",
     "3. Reservatório & Custos": "3. 储水罐与成本", "4. Resultados Técnicos": "4. 技术结果",
     "5. Resultados Econômicos": "5. 经济结果", "6. Resultados Ambientais": "6. 环境结果",
     "7. Multi-Critério (TOPSIS)": "7. 多准则 (TOPSIS)", "8. Relatórios PDF": "8. PDF 报告",
@@ -1290,6 +1365,8 @@ _CHINESE_DICTIONARY = {
     "Erro": "错误", "Sucesso": "成功", "Modo: Não simulado": "模式：未模拟",
     "Chuva: Não carregada": "降雨：未加载", "Reiniciar Aplicativo": "重启应用",
     "Sobre o Netuno": "关于 Netuno", "Relatório de Validação Técnica": "技术验证报告",
+    "Relatório de Verificação": "验证报告",
+    "Relatório de Verificação — Netuno 5.0.0": "验证报告 — Netuno 5.0.0",
     "Uso pela Linha de Comando": "命令行使用",
 }
 
@@ -1328,7 +1405,7 @@ _EXTRA_ENGLISH = {
     "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "Run the simulation in Step 3 to view the CO2 comparison",
     "Execute a varredura para gerar o grafico": "Run the sweep to generate the chart", "Execute o recálculo para gerar a otimização TOPSIS": "Recalculate to generate the TOPSIS optimization",
     "Exportar Figura do Grafico": "Export Chart Figure", "Grafico exportado com sucesso em:": "Chart successfully exported to:",
-    "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Sustainable Space Management Research Group | UFSC", "Imagem PNG": "PNG Image",
+    "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "Sustainable Environments Research Group | UFSC", "Imagem PNG": "PNG Image",
     "Impactos (+kg)": "Impacts (+kg)", "Indicador Hídrico": "Water Indicator", "Investimento CAPEX": "CAPEX Investment",
     "Limiar Acionamento (Recalque)": "Activation Threshold (Pumping)", "Limiar Recalque": "Pumping Threshold", "Limiar Threshold": "Threshold Limit", "Limiar de acionamento": "Activation threshold",
     "Materiais": "Materials", "Materiais & Equipamentos (+kg)": "Materials & Equipment (+kg)", "Novo Cenário": "New Scenario",
@@ -1410,7 +1487,7 @@ _EXTRA_SPANISH = {
     "Execute a simulação na Etapa 3": "Ejecute la simulación en la etapa 3", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "Ejecute la simulación en la etapa 3 para ver la curva de VAN por volumen",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "Ejecute la simulación en la etapa 3 para ver el balance ambiental", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "Ejecute la simulación en la etapa 3 para ver la comparación de CO2",
     "Execute a varredura para gerar o grafico": "Ejecute el barrido para generar el gráfico", "Execute o recálculo para gerar a otimização TOPSIS": "Vuelva a calcular para generar la optimización TOPSIS",
-    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC",
+    "Exportar Figura do Grafico": "Exportar figura del gráfico", "Grafico exportado com sucesso em:": "Gráfico exportado correctamente en:", "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "Grupo de Investigación Gestión del Espacio Sostenible | UFSC", "Grupo de Pesquisa em Ambientes Sustentáveis": "Grupo de Investigación Gestión del Espacio Sostenible", "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "Desarrollado en el Grupo de Investigación Gestión del Espacio Sostenible (UFSC).",
     "Imagem PNG": "Imagen PNG", "Impactos (+kg)": "Impactos (+kg)", "Indicador Hídrico": "Indicador hídrico", "Investimento CAPEX": "Inversión CAPEX",
     "Limiar Acionamento (Recalque)": "Umbral de activación (bombeo)", "Limiar Recalque": "Umbral de bombeo", "Limiar Threshold": "Umbral", "Limiar de acionamento": "Umbral de activación",
     "Materiais": "Materiales", "Materiais & Equipamentos (+kg)": "Materiales y equipos (+kg)", "Novo Cenário": "Nuevo escenario", "Não aplicável": "No aplicable", "Não utilizado": "No utilizado",
@@ -1490,7 +1567,7 @@ _EXTRA_CHINESE = {
     "Execute a simulação na Etapa 3": "请在第 3 步运行模拟", "Execute a simulação na Etapa 3 para visualizar a curva de VPL por volume": "请在第 3 步运行模拟以查看净现值-容积曲线",
     "Execute a simulação na Etapa 3 para visualizar o balanço ambiental": "请在第 3 步运行模拟以查看环境平衡", "Execute a simulação na Etapa 3 para visualizar o comparativo de CO2": "请在第 3 步运行模拟以查看 CO2 对比",
     "Execute a varredura para gerar o grafico": "请运行扫描以生成图表", "Execute o recálculo para gerar a otimização TOPSIS": "请重新计算以生成 TOPSIS 优化结果",
-    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC": "可持续空间管理研究组 | UFSC",
+    "Exportar Figura do Grafico": "导出图表图片", "Grafico exportado com sucesso em:": "图表已成功导出到：", "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "可持续空间管理研究组 | UFSC", "Grupo de Pesquisa em Ambientes Sustentáveis": "可持续空间管理研究组", "Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).": "由可持续空间管理研究组（UFSC）开发。",
     "Imagem PNG": "PNG 图片", "Impactos (+kg)": "影响（+kg）", "Indicador Hídrico": "水资源指标", "Investimento CAPEX": "CAPEX 投资",
     "Limiar Acionamento (Recalque)": "启动阈值（泵送）", "Limiar Recalque": "泵送阈值", "Limiar Threshold": "阈值", "Limiar de acionamento": "启动阈值",
     "Materiais": "材料", "Materiais & Equipamentos (+kg)": "材料和设备（+kg）", "Novo Cenário": "新情景", "Não aplicável": "不适用", "Não utilizado": "未使用",
@@ -1647,7 +1724,7 @@ _CHINESE_DICTIONARY.update({
     "Relatórios e Exportação em PDF / HTML": "报告与 PDF / HTML 导出", "Idioma do Relatório:": "报告语言：", "Modelo do Relatório:": "报告模板：", "Pré-visualização do Relatório (Resumo Estruturado)": "报告预览（结构化摘要）",
 })
 
-# Netuno 5.0.0: scientifically explicit screening assumptions and TOPSIS gaps.
+# Netuno 5: scientifically explicit screening assumptions and TOPSIS gaps.
 _DICTIONARY.update({
     "Conservador — 5,0 %/m3": "Conservative — 5.0 %/m3",
     "Equilibrado — 2,5 %/m3": "Balanced — 2.5 %/m3",
@@ -2106,3 +2183,132 @@ _CHINESE_DICTIONARY.update({
     "Varredura Completa Concluída": "完整扫描已完成",
 })
 
+
+# Unidades: fração atendível e taxas financeiras (2026-09-15).
+_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': 'As a percentage, from 0 to 100: 40 means 40%.',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': 'As a percentage, from 0 to 100: 40 means 40%. Separate multiple values with commas.',
+    'Simular mesmo assim?': 'Simulate anyway?',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': 'Inflation as a percentage (%). The button beside it sets the unit: % per month (p.m.) or % per year (p.a.); when switched, the value is converted by compound interest, (1 + i)^12 − 1, not multiplied by 12. It applies only to additional O&M costs; it does not adjust water, sewage or electricity.',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': 'Minimum attractive rate of return, as a percentage (%). The button beside it sets the unit: % per month (p.m.) or % per year (p.a.); when switched, the value is converted by compound interest: 1% p.m. equals 12.68% p.a. The project stores the rate in % per month.',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Water and sewage tariff adjustment, as a percentage (%) per adjustment period. The period length, in months, is in the «Tariff adjustment period» field: with 12 months, the value is % per year.',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Electricity tariff adjustment, as a percentage (%) per adjustment period. The period length, in months, is in the «Tariff adjustment period» field: with 12 months, the value is % per year.',
+})
+_SPANISH_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': 'En porcentaje, de 0 a 100: 40 significa 40%.',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': 'En porcentaje, de 0 a 100: 40 significa 40%. Separe varios valores con comas.',
+    'Simular mesmo assim?': '¿Simular de todos modos?',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': 'Inflación en porcentaje (%). El botón de al lado define la unidad: % al mes o % al año; al cambiar, el valor se convierte por interés compuesto, (1 + i)^12 − 1, y no se multiplica por 12. Se aplica solo a los costos adicionales de O&M; no reajusta agua, alcantarillado ni energía.',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': 'Tasa mínima de atractividad, en porcentaje (%). El botón de al lado define la unidad: % al mes o % al año; al cambiar, el valor se convierte por interés compuesto: 1% al mes equivale a 12,68% al año. El proyecto guarda la tasa en % al mes.',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Reajuste de las tarifas de agua y alcantarillado, en porcentaje (%) por período de reajuste. La duración del período, en meses, está en el campo «Período de reajuste de tarifas»: con 12 meses, el valor es % al año.',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': 'Reajuste de la tarifa de energía, en porcentaje (%) por período de reajuste. La duración del período, en meses, está en el campo «Período de reajuste de tarifas»: con 12 meses, el valor es % al año.',
+})
+_CHINESE_DICTIONARY.update({
+    'Em percentual, de 0 a 100: 40 significa 40%.': '以百分比表示，0 至 100：40 表示 40%。',
+    'Em percentual, de 0 a 100: 40 significa 40%. Separe vários valores por vírgula.': '以百分比表示，0 至 100：40 表示 40%。多个数值请用逗号分隔。',
+    'Simular mesmo assim?': '仍要模拟吗？',
+    'Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia.': '通货膨胀率，以百分比（%）表示。旁边的按钮设置单位：每月 % 或每年 %；切换时按复利换算，(1 + i)^12 − 1，而不是乘以 12。仅适用于额外的运维成本；不调整水费、污水费或电费。',
+    'Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês.': '最低期望收益率，以百分比（%）表示。旁边的按钮设置单位：每月 % 或每年 %；切换时按复利换算：每月 1% 相当于每年 12.68%。项目以每月 % 保存该利率。',
+    'Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '水费和污水费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
+    'Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano.': '电费调价，以每个调价周期的百分比（%）表示。周期长度（月）见“费率调整周期”字段：周期为 12 个月时，该值即为每年 %。',
+})
+
+
+# Complemento de 18/09/2026: os textos que a varredura das chamadas tr() achou
+# sem tradução. Só preenche lacunas; nada do que está acima é sobrescrito.
+from netuno.ui.translation_complement import COMPLEMENTO as _COMPLEMENTO  # noqa: E402
+
+for _fonte, (_en, _es, _zh) in _COMPLEMENTO.items():
+    _DICTIONARY.setdefault(_fonte, _en)
+    _SPANISH_DICTIONARY.setdefault(_fonte, _es)
+    _CHINESE_DICTIONARY.setdefault(_fonte, _zh)
+
+
+# Rotulos que a composicao do chines deixava em duas linguas: com a frase
+# inteira no catalogo, a composicao nao e mais acionada para eles.
+_CHINESE_DICTIONARY.update({
+    'Abatimento Água Potável (kg CO2/m³):': '饮用水替代减排量（kg CO2/m³）：',
+    'Análise Econômico-Financeira': '经济财务分析',
+    'Análise do Ciclo de Vida (ACV): Premissas e Justificativas': '生命周期评估（ACV）：假设与依据',
+    'Atendimento\ncompleto (%)': '完全满足\n天数占比（%）',
+    'Atendimento\nparcial (%)': '部分满足\n天数占比（%）',
+    'Atendimento Hídrico': '供水满足情况',
+    'Atendimento Hídrico Integral': '完全供水满足',
+    'Atendimento Parcial (%)': '部分满足（%）',
+    'Atendimento Total (%)': '完全满足（%）',
+    'Aço Inoxidável (AISI 304/316)': '不锈钢（AISI 304/316）',
+    'CREA / Registro Profissional': 'CREA / 执业注册号',
+    'Campos Nao Preenchidos': '存在未填写的字段',
+    'Carregar Arquivo de Dados Variáveis': '加载变量数据文件',
+    'Carregar arquivo': '加载文件',
+    'Coef. Escoamento (C)': '径流系数（C）',
+    'Coef. Escoamento C': '径流系数 C',
+    'Configuração incompleta': '配置不完整',
+    'Custos Operacionais Anuais (OPEX R$/ano)': '年度运营成本（OPEX，R$/年）',
+    'Custos Totais (CAPEX, OPEX Acumulado e Total)': '总成本（CAPEX、累计 OPEX 及合计）',
+    'Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).': '由圣卡塔琳娜联邦大学（UFSC）可持续空间管理研究组开发。',
+    'Economia Financeira Estimada': '预计节约费用',
+    'Economia de Água Potável': '饮用水节约量',
+    'Edificação & Demanda': '建筑与用水需求',
+    'Erro ao Carregar': '加载失败',
+    'Erro ao Salvar': '保存失败',
+    'Erro na Simulação': '模拟出错',
+    'Execute a Varredura de Volumes primeiro.': '请先运行容积扫描。',
+    'Extravasamento Médio': '平均溢流量',
+    'Fator Regional SINAPI/CUB:': 'SINAPI/CUB 地区系数：',
+    'Fonte de Dados / Referência': '数据来源 / 参考文献',
+    'Grupo de Pesquisa em Ambientes Sustentáveis | UFSC': '可持续空间管理研究组 | UFSC',
+    'Investimento / Custos (R$)': '投资 / 成本（R$）',
+    'Média diária\nde recalques': '日均\n提升次数',
+    'Nao Utilizar Reservatorio Superior': '不使用高位水箱',
+    'Nome do município, estado ou prestadora (ex.: Joinville, CASAN)': '市、州或供水企业名称（例如：Joinville、CASAN）',
+    'Outros Custos (R$)': '其他成本（R$）',
+    'Outros Custos O&M (R$)': '其他运维成本（R$）',
+    'Parâmetros econômicos': '经济参数',
+    'Passo de Varredura': '扫描步长',
+    'Periodo de reajuste de tarifas (meses):': '水价调整周期（月）：',
+    'Plataforma para Aproveitamento de Água de Chuva em Edificações.': '建筑雨水利用分析平台。',
+    'Polietileno de Alta Densidade (PEAD)': '高密度聚乙烯（HDPE/PEAD）',
+    'Precipitação & Hidrologia': '降水与水文',
+    'Preço Médio de Aquisição (CAPEX):': '平均采购价（CAPEX）：',
+    'Projeto carregado com sucesso!': '项目加载成功！',
+    'Referência INPC — 4,5% a.a. (O&M)': '参考 INPC — 年 4.5%（运维）',
+    'Referência IPCA — 4,5% a.a. (O&M)': '参考 IPCA — 年 4.5%（运维）',
+    'Referência real (IPCA + spread) — 6,0% a.a.': '实际参考利率（IPCA + 利差）— 年 6.0%',
+    'Referências Bibliográficas': '参考文献',
+    'Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)': '环境与 ESG 可持续性报告（生命周期评估）',
+    'Relatório Econômico (Clientes)': '经济分析报告（客户版）',
+    'Relatório HTML salvo com sucesso em:': 'HTML 报告已保存至：',
+    'Relatório PDF salvo com sucesso em:': 'PDF 报告已保存至：',
+    'Relatório de Pesquisa (Acadêmico/Engenharia/ACV)': '研究报告（学术 / 工程 / 生命周期评估）',
+    'Salvar Fluxo de Caixa': '保存现金流',
+    'Salvar Projeto Completo': '保存完整项目',
+    'Selecionar Arquivo CSV de Chuva': '选择降雨 CSV 文件',
+    'Selo Casa Azul + CAIXA': 'Casa Azul + CAIXA 认证',
+    'Selo Casa Azul CAIXA': 'Casa Azul CAIXA 认证',
+    'Sem Atendimento (Dias Secos)': '无法满足（干旱日）',
+    'Subtotal Calculado de Tubulações (SINAPI + conexões):': '管道计算小计（SINAPI + 管件）：',
+    'TFDI mensal': '月度 TFDI',
+    'Taxa Selic / Custo de oportunidade atual — 14,0% a.a.': 'Selic 利率 / 当前机会成本 — 年 14.0%',
+    'Todos os Projetos Aceitos': '所有项目均通过',
+    'UFSC · ENGENHARIA HÍDRICA': 'UFSC · 水利工程',
+    'Vida Útil do Projeto (anos):': '项目使用年限（年）：',
+    'Volume Maximo': '最大容积',
+    'Área Captação (Telhado)': '集水面积（屋面）',
+    '⚙️ Configurar Parâmetros da ACV (Materiais, Tubos e Emissões)...': '⚙️ 设置生命周期评估参数（材料、管道与排放）…',
+    '⚪ 2. Motobomba e Custo de Energia...': '⚪ 2. 水泵与电费…',
+    '⚪ 3. Outros Custos Operacionais...': '⚪ 3. 其他运营成本…',
+    '✅ 2. Motobomba e Custo de Energia': '✅ 2. 水泵与电费',
+    '✅ 3. Outros Custos Operacionais': '✅ 3. 其他运营成本',
+    '✅ Aplicar ao Projeto': '✅ 应用到项目',
+    '🌿 IPTU Verde & Detalhamento de Custos': '🌿 绿色房产税与成本明细',
+    '📁 Base de Custos (JSON)...': '📁 成本数据库（JSON）…',
+    '📁 Selecionar Arquivo CSV...': '📁 选择 CSV 文件…',
+    '📅 Amostra Diária (First Flush)': '📅 每日样本（初期雨水弃流）',
+    '📅 Selecionar data no calendário (F4)': '📅 在日历中选择日期（F4）',
+    '📈 Análise de Sensibilidade Multivariável': '📈 多变量敏感性分析',
+    '📉 Análise do Comportamento do VPL frente a Flutuações nos Parâmetros': '📉 净现值随参数波动的变化分析',
+    '📊 Tabela de Fluxo de Caixa Anual': '📊 年度现金流量表',
+    '📚 Base Técnica, Metodologia e Premissas do Projeto': '📚 技术依据、方法与项目假设',
+    '🔄 Restaurar do Projeto (Etapa 3)': '🔄 从项目恢复（第 3 步）',
+})

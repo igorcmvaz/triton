@@ -5,7 +5,8 @@ Este software e distribuido sob a GNU General Public License v3.0 ou posterior
 
 O texto integral da licenca esta no arquivo LICENSE, na raiz do projeto.
 
-Copyright (c) 2026 Grupo de Pesquisa Gestao do Espaco Sustentavel
+Copyright (c) 2026 Igor Catao Martins Vaz e Enedir Ghisi
+Grupo de Pesquisa em Ambientes Sustentaveis
 Universidade Federal de Santa Catarina (UFSC)
 
 Este programa e software livre: voce pode redistribui-lo e/ou modifica-lo sob os

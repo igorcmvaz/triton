@@ -18,7 +18,8 @@ from PySide6.QtGui import QColor, QFont
 import numpy as np
 
 from netuno.core.parser import parse_float, parse_int, format_ptbr
-from netuno.ui.translation import tr, get_current_theme
+from netuno.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual, fracao_total
+from netuno.ui.translation import tr, get_current_theme, get_current_lang
 
 
 # Catálogo oficial unificado de tipologias de edificação (NBR 5626 / ANA / NBR 15527 / ANVISA)
@@ -279,7 +280,7 @@ class TabBuilding(QWidget):
 
         self.txt_custom_runoff = QLineEdit("")
         self.txt_custom_runoff.setFixedWidth(80)
-        self.txt_custom_runoff.setPlaceholderText("ex: 0,85")
+        self.txt_custom_runoff.setPlaceholderText("ex: 0,75")
         self.txt_custom_runoff.hide()
         self.txt_custom_runoff.textChanged.connect(lambda: self.building_updated.emit())
 
@@ -288,7 +289,7 @@ class TabBuilding(QWidget):
         row_runoff.addWidget(self.txt_custom_runoff, stretch=1)
         grid_r.addLayout(row_runoff, 0, 3)
 
-        grid_r.addWidget(QLabel(tr("Economias / Unidades Habitacionais (Micromedição):")), 1, 0)
+        grid_r.addWidget(QLabel(tr("Economias (Micromedição):")), 1, 0)
         self.txt_economias = QLineEdit("")
         self.txt_economias.setPlaceholderText(tr("Ex: 1"))
         self.txt_economias.textChanged.connect(lambda: self.building_updated.emit())
@@ -373,7 +374,10 @@ class TabBuilding(QWidget):
         lay_sin.addWidget(QLabel(f"<b>{tr('Substituição por Água de Chuva (%):')}</b>"), 2, 2)
         self.txt_share = QLineEdit("")
         self.txt_share.setPlaceholderText(tr("Ex: 40"))
-        self.txt_share.setToolTip(tr("Percentual da demanda total diária que será atendido por água de chuva."))
+        self.txt_share.setToolTip(tr("Fração total da demanda que a chuva pode atender. É calculada a partir da fração não potável interna e da demanda externa, e não se edita diretamente."))
+        # A total é derivada: editá-la aqui mudava só os rótulos, e a simulação
+        # seguia com a fração interna. Ver netuno/core/fracao_atendivel.py.
+        self.txt_share.setReadOnly(True)
         self.txt_share.textChanged.connect(self.on_base_share_changed)
         lay_sin.addWidget(self.txt_share, 2, 3)
 
@@ -867,14 +871,55 @@ class TabBuilding(QWidget):
         self._update_discretized_balance_label()
         self.update_tot_pluvial_label()
 
+    #: Campos que a tela pede em percentual. Cada um ganha a nota da unidade na
+    #: dica, e fica laranja quando recebe um valor entre 0 e 1, que costuma ser
+    #: a fração digitada no lugar do percentual.
+    _CAMPOS_PERCENTUAIS = ("txt_share", "txt_potable_indoor_share_simple",
+                           "txt_non_potable_indoor_share_simple",
+                           "txt_potable_indoor_share", "txt_non_potable_indoor_share")
+
+    def _assinalar_percentual(self, line_edit, val):
+        """Nota da unidade na dica; devolve o aviso, se o valor parecer fração."""
+        if not any(getattr(self, nome, None) is line_edit for nome in self._CAMPOS_PERCENTUAIS):
+            return None
+        dica = line_edit.property("dica_percentual")
+        if dica is None:
+            base = line_edit.toolTip()
+            nota = tr("Em percentual, de 0 a 100: 40 significa 40%.")
+            dica = f"{base}\n{nota}" if base else nota
+            line_edit.setProperty("dica_percentual", dica)
+        aviso = aviso_percentual_pequeno(parse_float(val, None), get_current_lang()) if val else None
+        line_edit.setToolTip(dica + (f"\n⚠ {aviso}" if aviso else ""))
+        return aviso
+
+    def _assinalar_celula_percentual(self, tabela, row):
+        """A mesma marcação na coluna de percentual das tabelas de calendário."""
+        item = tabela.item(row, 3)
+        if item is None:
+            return
+        aviso = aviso_percentual_pequeno(parse_float(item.text(), None), get_current_lang())
+        tabela.blockSignals(True)
+        try:
+            item.setToolTip(tr("Em percentual, de 0 a 100: 40 significa 40%.") + (f"\n⚠ {aviso}" if aviso else ""))
+            item.setBackground(QColor("#fed7aa") if aviso else QColor(0, 0, 0, 0))
+        finally:
+            tabela.blockSignals(False)
+
     def check_input_highlight(self, line_edit):
         val = line_edit.text().strip()
         is_dark = get_current_theme() == "dark"
+        aviso = self._assinalar_percentual(line_edit, val)
         if not val or val == "-" or not self.is_valid_number(val):
             line_edit.setStyleSheet(
                 "QLineEdit { background-color: #713f12; border: 1.5px solid #eab308; color: #fef9c3; }"
                 if is_dark else
                 "QLineEdit { background-color: #fef08a; border: 1.5px solid #eab308; color: #1e293b; }"
+            )
+        elif aviso:
+            line_edit.setStyleSheet(
+                "QLineEdit { background-color: #7c2d12; border: 1.5px solid #fb923c; color: #ffedd5; }"
+                if is_dark else
+                "QLineEdit { background-color: #ffedd5; border: 1.5px solid #f97316; color: #1e293b; }"
             )
         else:
             line_edit.setStyleSheet(
@@ -1039,11 +1084,11 @@ class TabBuilding(QWidget):
 
         # Atualiza subtotais nos cards
         if hasattr(self, "lbl_subtot_potable"):
-            self.lbl_subtot_potable.setText(f"🚿 {tr('Subtotal Potável:')} {v_pot_in:.1f} L/{unit}/dia")
+            self.lbl_subtot_potable.setText(tr('🚿 {0} {1:.1f} L/{2}/dia').format(tr('Subtotal Potável:'), v_pot_in, unit))
         if hasattr(self, "lbl_subtot_non_potable"):
-            self.lbl_subtot_non_potable.setText(f"🚽 {tr('Subtotal Não-Potável:')} {v_non_pot_in:.1f} L/{unit}/dia")
+            self.lbl_subtot_non_potable.setText(tr('🚽 {0} {1:.1f} L/{2}/dia').format(tr('Subtotal Não-Potável:'), v_non_pot_in, unit))
         if hasattr(self, "lbl_subtot_outdoor"):
-            self.lbl_subtot_outdoor.setText(f"🌿 {tr('Subtotal Externo:')} {irr_l:.1f} L/dia")
+            self.lbl_subtot_outdoor.setText(tr('🌿 {0} {1:.1f} L/dia').format(tr('Subtotal Externo:'), irr_l))
 
         # Sincroniza com as variáveis base da edificação
         if sync_to_base and not self._updating_shares:
@@ -1220,15 +1265,15 @@ class TabBuilding(QWidget):
                     f"💧 {tr('Demanda:')} {tot_combined:,.0f} L/d ({tot_indoor:,.0f} int + {ext_l:,.0f} ext)".replace(',', '.')
                 )
                 self.lbl_simple_month_vol.setText(
-                    f"📦 {tr('Consumo Mensal:')} {month_tot_m3:.1f} m³/mês (🔵 {pot_pct:.0f}% pot / 🟢 {non_pot_pct:.0f}% não-pot)"
+                    tr('📦 {0} {1:.1f} m³/mês (🔵 {2:.0f}% pot / 🟢 {3:.0f}% não-pot)').format(tr('Consumo Mensal:'), month_tot_m3, pot_pct, non_pot_pct)
                 )
                 self.lbl_simple_pluvial_demand.setText(
                     f"🌧️ {tr('Alvo Pluvial:')} {pluvial_target:,.0f} L/d ({global_share_pct:.0f}%)".replace(',', '.')
                 )
             else:
-                self.lbl_simple_tot_demand.setText(f"💧 {tr('Demanda Total:')} -- L/dia")
-                self.lbl_simple_month_vol.setText(f"📦 {tr('Consumo Mensal:')} -- m³/mês")
-                self.lbl_simple_pluvial_demand.setText(f"🌧️ {tr('Alvo Pluvial:')} -- L/dia")
+                self.lbl_simple_tot_demand.setText(tr('💧 {0} -- L/dia').format(tr('Demanda Total:')))
+                self.lbl_simple_month_vol.setText(tr('📦 {0} -- m³/mês').format(tr('Consumo Mensal:')))
+                self.lbl_simple_pluvial_demand.setText(tr('🌧️ {0} -- L/dia').format(tr('Alvo Pluvial:')))
 
         # ── 2. Modo Avançado (Detalhamento de Usos) ──
         pot_pct = parse_float(self.txt_potable_indoor_share.text(), 0.0)
@@ -1321,6 +1366,7 @@ class TabBuilding(QWidget):
                 r = float(self.table_weekly.item(row, 2).text().replace(',', '.'))
                 s = float(self.table_weekly.item(row, 3).text().replace(',', '.')) / 100.0
                 tot = d * r * s
+                self._assinalar_celula_percentual(self.table_weekly, row)
                 self.table_weekly.blockSignals(True)
                 self.table_weekly.setItem(row, 4, QTableWidgetItem(f"{tot:.1f}"))
                 self.table_weekly.blockSignals(False)
@@ -1356,6 +1402,7 @@ class TabBuilding(QWidget):
                 r = float(self.table_monthly.item(row, 2).text().replace(',', '.'))
                 s = float(self.table_monthly.item(row, 3).text().replace(',', '.')) / 100.0
                 tot = d * r * s
+                self._assinalar_celula_percentual(self.table_monthly, row)
                 self.table_monthly.blockSignals(True)
                 self.table_monthly.setItem(row, 4, QTableWidgetItem(f"{tot:.1f}"))
                 self.table_monthly.blockSignals(False)
@@ -1465,18 +1512,18 @@ class TabBuilding(QWidget):
             non_pot_pct = parse_float(self.txt_non_potable_indoor_share_simple.text(), 35.0) if hasattr(self, "txt_non_potable_indoor_share_simple") else parse_float(self.txt_share.text(), 40.0)
             if d > 0 and r > 0:
                 tot = (d * r * (non_pot_pct / 100.0)) + ext_l
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} {tot:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
             else:
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} -- L/dia")
+                self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 1:  # Avançado
             d = parse_float(self.txt_demand.text(), 0.0)
             r = parse_float(self.txt_residents.text(), 0.0)
             s = parse_float(self.txt_share.text(), 0.0) / 100.0
             if d > 0 and r > 0:
                 tot = d * r * s
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} {tot:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
             else:
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Alvo:')} -- L/dia")
+                self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 2:  # Semanal
             tots = []
             for row in range(7):
@@ -1488,7 +1535,7 @@ class TabBuilding(QWidget):
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Semanal:')} {avg:,.1f} L/dia".replace(',', '.'))
+            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Semanal:'), avg).replace(',', '.'))
         elif idx == 3:  # Mensal
             tots = []
             for row in range(12):
@@ -1500,13 +1547,61 @@ class TabBuilding(QWidget):
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Mensal:')} {avg:,.1f} L/dia".replace(',', '.'))
+            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Mensal:'), avg).replace(',', '.'))
         elif idx == 4:  # Diária
             if self.daily_custom_series:
                 avg = sum(r[4] for r in self.daily_custom_series) / len(self.daily_custom_series)
-                self.lbl_tot_pluvial.setText(f"{tr('Demanda Pluvial Média Diária:')} {avg:,.1f} L/dia".replace(',', '.'))
+                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Diária:'), avg).replace(',', '.'))
             else:
                 self.lbl_tot_pluvial.setText(tr("Demanda Pluvial: -- L/dia"))
+
+    def _preencher_tabela_calendario(self, tabela, linhas, demandas,
+                                     moradores, fracoes):
+        """Escreve na tabela os valores lidos do projeto.
+
+        A fracao e gravada de 0 a 1 e exibida em porcentagem, que e a mesma
+        convencao da leitura em `get_building_config`.
+        """
+        if not demandas and not moradores and not fracoes:
+            return
+        tabela.blockSignals(True)
+        try:
+            for r in range(linhas):
+                d = float(demandas[r]) if demandas and r < len(demandas) else None
+                m = float(moradores[r]) if moradores and r < len(moradores) else None
+                f = float(fracoes[r]) if fracoes and r < len(fracoes) else None
+                if d is not None:
+                    tabela.setItem(r, 1, QTableWidgetItem(f"{d:.1f}"))
+                if m is not None:
+                    tabela.setItem(r, 2, QTableWidgetItem(str(int(m))))
+                if f is not None:
+                    tabela.setItem(r, 3, QTableWidgetItem(f"{f * 100.0:.1f}"))
+                if d is not None and m is not None and f is not None:
+                    tabela.setItem(r, 4, QTableWidgetItem(f"{d * m * f:.1f}"))
+        except (TypeError, ValueError):
+            pass
+        finally:
+            tabela.blockSignals(False)
+
+    def _restaurar_serie_diaria(self, demandas, moradores, fracoes):
+        """Reconstroi a serie diaria lida do projeto, com a mesma forma do CSV."""
+        if not demandas:
+            return
+        linhas = []
+        for i, d in enumerate(demandas):
+            m = moradores[i] if moradores and i < len(moradores) else 1
+            f = fracoes[i] if fracoes and i < len(fracoes) else 0.0
+            linhas.append((f"dia {i + 1}", float(d), int(m), float(f) * 100.0,
+                           float(d) * int(m) * float(f)))
+        self.daily_custom_series = linhas
+        if hasattr(self, "table_daily_preview"):
+            self.table_daily_preview.setRowCount(len(linhas))
+            for r, (rotulo, d, m, sh, tot) in enumerate(linhas):
+                self.table_daily_preview.setItem(r, 0, QTableWidgetItem(rotulo))
+                self.table_daily_preview.setItem(r, 1, QTableWidgetItem(f"{d:.1f}"))
+                self.table_daily_preview.setItem(r, 2, QTableWidgetItem(str(m)))
+                self.table_daily_preview.setItem(r, 3, QTableWidgetItem(f"{sh:.1f}"))
+                self.table_daily_preview.setItem(r, 4, QTableWidgetItem(f"{tot:.1f}"))
 
     def get_building_config(self) -> dict:
         area_val = parse_float(self.txt_area.text(), 0.0)
@@ -1539,6 +1634,11 @@ class TabBuilding(QWidget):
             irr_thresh = parse_float(self.txt_irr_rain_threshold.text(), 2.0)
             irr_backup = self.chk_irr_potable_backup.isChecked()
 
+        # A fração total é sempre a derivada das outras duas, e não o texto do
+        # campo, para que o arquivo gravado nunca discorde do que se simulou.
+        share_val = fracao_total(demand_val * max(residents_val, 0.0),
+                                 min(1.0, max(0.0, non_pot_in_share)), irr_vol)
+
         cfg = {
             "area": area_val,
             "runoff": runoff_val,
@@ -1566,6 +1666,13 @@ class TabBuilding(QWidget):
         # Salva o estado dos aparelhos hidráulicos e template
         if hasattr(self, "combo_building_template"):
             cfg["template_id"] = self.combo_building_template.currentData() or "res_medio"
+            # A tipologia também vai para a configuração do projeto. Sem isto
+            # ela ficava presa neste dicionário, e o módulo econômico não
+            # tinha como saber que cobra tarifa residencial de uma escola.
+            _janela = self.window()
+            _proj = getattr(_janela, "config", None) if _janela else None
+            if _proj is not None:
+                _proj.building_template_id = cfg["template_id"]
         if hasattr(self, "sp_shower_count"):
             cfg["shower_count"] = self.sp_shower_count.value()
             cfg["shower_time"] = self.sp_shower_time.value()
@@ -1627,12 +1734,30 @@ class TabBuilding(QWidget):
             if "demand" in cfg:
                 self.txt_demand.setText(str(cfg["demand"]))
             if "share" in cfg:
-                sh_pct = float(cfg["share"]) * 100.0 if float(cfg["share"]) <= 1.0 else float(cfg["share"])
+                sh_pct = fracao_para_percentual("A fração atendível", cfg["share"])
                 self.txt_share.setText(f"{sh_pct:.1f}".replace('.0', ''))
             if "num_economias" in cfg:
                 self.txt_economias.setText(str(cfg["num_economias"]))
-            if "runoff" in cfg:
-                r_val = float(cfg["runoff"])
+            # Fração interna e demanda externa: sem restaurá-las, a tela voltava
+            # aos padrões (35% e 0 L/dia) a cada projeto aberto e simulava com eles.
+            if cfg.get("non_potable_indoor_share") is not None:
+                fi_pct = fracao_para_percentual("A fração não potável interna", cfg["non_potable_indoor_share"])
+                txt_fi = f"{fi_pct:.1f}".replace('.0', '')
+                txt_fp = f"{100.0 - fi_pct:.1f}".replace('.0', '')
+                for campo, texto in (("txt_non_potable_indoor_share_simple", txt_fi),
+                                     ("txt_potable_indoor_share_simple", txt_fp),
+                                     ("txt_non_potable_indoor_share", txt_fi),
+                                     ("txt_potable_indoor_share", txt_fp)):
+                    if hasattr(self, campo):
+                        getattr(self, campo).setText(texto)
+            if cfg.get("irrigation_liters_per_day") is not None:
+                txt_e = f"{float(cfg['irrigation_liters_per_day']):.0f}"
+                for campo in ("txt_external_demand_l_day", "txt_irrigation_l_day"):
+                    if hasattr(self, campo):
+                        getattr(self, campo).setText(txt_e)
+            runoff_val = cfg.get("runoff") if "runoff" in cfg else cfg.get("runoff_coeff")
+            if runoff_val is not None:
+                r_val = float(runoff_val)
                 matched = False
                 for i in range(self.combo_runoff.count()):
                     c_data = self.combo_runoff.itemData(i)
@@ -1677,6 +1802,19 @@ class TabBuilding(QWidget):
                     if tpl:
                         self._update_contextual_labels(tpl)
 
+            # Repovoa as tabelas de calendario. Sem isto a configuracao
+            # carrega a modulacao e a tela mostra tabelas vazias: o primeiro
+            # salvamento seguinte leria a tela e apagaria o que foi lido.
+            self._preencher_tabela_calendario(
+                self.table_weekly, 7, cfg.get("weekly_demands"),
+                cfg.get("weekly_residents"), cfg.get("weekly_shares"))
+            self._preencher_tabela_calendario(
+                self.table_monthly, 12, cfg.get("monthly_demands"),
+                cfg.get("monthly_residents"), cfg.get("monthly_shares"))
+            self._restaurar_serie_diaria(
+                cfg.get("daily_demands"), cfg.get("daily_residents"),
+                cfg.get("daily_shares"))
+
             # Restaura modo de demanda
             d_mode = cfg.get("demand_mode", "constant")
             mode_map = {"constant": 0, "advanced": 1, "weekly": 2, "monthly": 3, "daily": 4}
@@ -1688,4 +1826,8 @@ class TabBuilding(QWidget):
             self._updating_shares = False
 
         self._recalc_unified_balance(sync_to_base=False)
+        if self.tab_demand_mode.currentIndex() == 0:
+            self._sync_simple_pluvial_share()
+        else:
+            self._sync_consolidated_share()
         self.update_tot_pluvial_label()

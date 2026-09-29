@@ -155,7 +155,8 @@ class TabExport(QWidget):
 
         # Linha de Opções de Formatação
         opts_box = QFrame()
-        opts_box.setStyleSheet("background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px;")
+        opts_box.setObjectName("optsBox")
+        opts_box.setStyleSheet("#optsBox { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px; }")
         lay_opts = QHBoxLayout(opts_box)
         lay_opts.setSpacing(14)
 
@@ -702,7 +703,8 @@ class TabExport(QWidget):
 
             scroll_prev = QScrollArea()
             scroll_prev.setWidgetResizable(True)
-            scroll_prev.setStyleSheet("background-color: #334155; border: 1px solid #cbd5e1; border-radius: 6px;")
+            scroll_prev.setObjectName("scrollPrev")
+            scroll_prev.setStyleSheet("#scrollPrev { background-color: #334155; border: 1px solid #cbd5e1; border-radius: 6px; }")
             lbl_img = QLabel()
             lbl_img.setPixmap(pixmap)
             lbl_img.setAlignment(Qt.AlignCenter)

@@ -3,6 +3,7 @@
 import json
 
 import ezdxf
+import pytest
 
 from netuno.core.bim_exporter import build_bim_manifest, validate_bim_manifest
 from netuno.core.cad_exporter import generate_project_dxf, generate_project_svg_diagram
@@ -19,7 +20,7 @@ PROJECT = {
     "lower_vol": 10000.0,
     "upper_vol": 1000.0,
     "tot_demand": 2500.0,
-    "share": 45.0,
+    "share": 0.45,
     "potential_pct": 48.0,
     "audit_context": {"climate_location": "Florianópolis / SC"},
 }
@@ -80,8 +81,10 @@ def test_generate_simple_dxf_and_svg(tmp_path):
     assert "Igor Catão" not in svg
 
 
-def test_fractional_share_from_web_is_normalised():
+def test_share_is_a_fraction_and_percent_is_refused():
     data = dict(PROJECT)
+    with pytest.raises(ValueError, match="percentual"):
+        generate_project_svg_diagram({**data, "share": 45.0}, mode="technical_a3")
     data["share"] = 0.45
     data["audit_context"] = None
     svg = generate_project_svg_diagram(data, mode="technical_a3")

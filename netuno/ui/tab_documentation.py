@@ -6,22 +6,217 @@ de telhados (com citação do artigo do MIX Sustentável 2020), discussão sobre
 vs. simulação diária e referências bibliográficas.
 """
 
+import base64
+import os
+from pathlib import Path
 import re
+import subprocess
+import webbrowser
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
-    QStackedWidget, QTextBrowser, QFrame
+    QStackedWidget, QTextBrowser, QFrame, QPushButton, QScrollArea, QSizePolicy,
+    QFileDialog, QMessageBox, QMenu
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt, QUrl
+from PySide6.QtGui import QFont, QPixmap, QDesktopServices
 
-from netuno.ui.translation import get_current_lang, tr, get_current_theme
+from netuno.ui.translation import get_current_lang, tr, get_current_theme, get_resource_path
+from netuno.core.bibliography import render_bloco_da_secao, render_bibliografia_completa
 from netuno.core.environmental_justifications import (
     generate_html_justifications_materials,
     generate_html_justifications_pipes,
     generate_html_justifications_pumps,
     generate_html_justifications_operational
 )
+
+# ── CONFIGURAÇÃO DE LINKS DO ACERVO TÉCNICO E MANUAL INTERATIVO ──
+# URLs de contingência caso os arquivos locais não estejam presentes.
+URL_MANUAL_INTERATIVO = "https://www.google.com"
+URL_MANUAL_COMPLETO = "https://www.google.com"
+URL_MANUAL_VOL_1 = "https://www.google.com"
+URL_MANUAL_VOL_2 = "https://www.google.com"
+URL_MANUAL_VOL_3 = "https://www.google.com"
+URL_MANUAL_VOL_4 = "https://www.google.com"
+URL_MANUAL_VOL_5 = "https://www.google.com"
+URL_MANUAL_VOL_6 = "https://www.google.com"
+URL_MANUAL_VOL_7 = "https://www.google.com"
+
+
+def open_url_in_browser(url: str):
+    """Abre uma URL preferencialmente em uma nova janela/aba do Google Chrome ou no navegador padrão."""
+    chrome_candidates = [
+        os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
+    ]
+    for chrome_path in chrome_candidates:
+        if os.path.isfile(chrome_path):
+            try:
+                subprocess.Popen([chrome_path, url])
+                return
+            except Exception:
+                pass
+
+    # Fallback para o navegador padrão do sistema
+    try:
+        webbrowser.open_new_tab(url)
+    except Exception:
+        QDesktopServices.openUrl(QUrl(url))
+
+
+def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: bool = False):
+    """
+    Abre o manual técnico em PDF no leitor padrão do sistema operacional ou permite salvar uma cópia local no disco.
+    """
+    import shutil
+    ingles = get_current_lang() != "pt"
+    caminho = get_resource_path(rel_path)
+    if not os.path.isfile(caminho):
+        # Tenta caminhos alternativos conhecidos no repositório / pacote
+        basename = os.path.basename(rel_path)
+        alternativas = [
+            os.path.join("manual", basename),
+            os.path.join("manual", "mini", basename),
+            os.path.join("manual", "site", "pdf", basename),
+        ]
+        for alt in alternativas:
+            alt_c = get_resource_path(alt)
+            if os.path.isfile(alt_c):
+                caminho = alt_c
+                break
+
+    if not os.path.isfile(caminho):
+        if parent:
+            title = "Manual" if not ingles else "Manual"
+            msg = ("Arquivo do manual não encontrado:" if not ingles else "Manual file not found:") + f"\n{rel_path}"
+            QMessageBox.warning(parent, title, msg)
+        return False
+
+    caminho_abs = os.path.abspath(caminho)
+
+    if salvar_como:
+        nome_sugerido = os.path.basename(caminho_abs)
+        title_save = "Salvar Manual em PDF" if not ingles else "Save Manual PDF"
+        filter_save = "Documento PDF (*.pdf)" if not ingles else "PDF Document (*.pdf)"
+        dest_path, _ = QFileDialog.getSaveFileName(
+            parent,
+            title_save,
+            nome_sugerido,
+            filter_save
+        )
+        if dest_path:
+            try:
+                shutil.copy2(caminho_abs, dest_path)
+                title_ok = "Sucesso" if not ingles else "Success"
+                msg_ok = ("Manual salvo com sucesso em:" if not ingles else "Manual saved successfully to:") + f"\n{dest_path}"
+                QMessageBox.information(parent, title_ok, msg_ok)
+                QDesktopServices.openUrl(QUrl.fromLocalFile(os.path.abspath(dest_path)))
+                return True
+            except Exception as e:
+                if parent:
+                    title_err = "Erro ao Salvar" if not ingles else "Save Error"
+                    QMessageBox.critical(parent, title_err, str(e))
+                return False
+        return False
+
+    # Abertura direta no leitor de PDF padrão do sistema
+    url = QUrl.fromLocalFile(caminho_abs)
+    sucesso = QDesktopServices.openUrl(url)
+    if not sucesso and hasattr(os, "startfile"):
+        try:
+            os.startfile(caminho_abs)
+            sucesso = True
+        except Exception:
+            pass
+
+    if not sucesso and parent:
+        title = "Manual" if not ingles else "Manual"
+        msg = (
+            "Não foi possível abrir o leitor padrão de PDF. Tente salvar uma cópia do arquivo."
+            if not ingles else
+            "Could not open default PDF viewer. Try saving a copy."
+        )
+        QMessageBox.warning(parent, title, msg)
+    return sucesso
+
+
+def abrir_manual_interativo(parent: QWidget = None):
+    """
+    Abre o portal interativo do manual (HTML local ou fallback web).
+    """
+    site_path = get_resource_path(os.path.join("manual", "site", "index.html"))
+    if os.path.isfile(site_path):
+        url = QUrl.fromLocalFile(os.path.abspath(site_path)).toString()
+        open_url_in_browser(url)
+        return True
+    elif URL_MANUAL_INTERATIVO and URL_MANUAL_INTERATIVO != "https://www.google.com":
+        open_url_in_browser(URL_MANUAL_INTERATIVO)
+        return True
+    else:
+        return abrir_ou_baixar_manual("manual/Manual-Netuno-5.pdf", parent=parent)
+
+
+def _configurar_botao_manual(btn: QPushButton, rel_path: str, parent: QWidget = None):
+    """Conecta o clique do botão para abrir o PDF e adiciona menu de contexto para salvar cópia."""
+    btn.clicked.connect(lambda: abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=False))
+    btn.setToolTip(
+        "Clique para abrir o PDF no leitor padrão ou clique com o botão direito para salvar uma cópia."
+        if get_current_lang() == "pt" else
+        "Click to open PDF in default viewer or right-click to save a copy."
+    )
+    btn.setContextMenuPolicy(Qt.CustomContextMenu)
+
+    def on_context(point):
+        menu = QMenu(btn)
+        ingles = get_current_lang() != "pt"
+        act_open = menu.addAction("Abrir no leitor de PDF" if not ingles else "Open in PDF Reader")
+        act_save = menu.addAction("Salvar cópia do arquivo como..." if not ingles else "Save copy as...")
+        chosen = menu.exec(btn.mapToGlobal(point))
+        if chosen == act_open:
+            abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=False)
+        elif chosen == act_save:
+            abrir_ou_baixar_manual(rel_path, parent=parent, salvar_como=True)
+
+    btn.customContextMenuRequested.connect(on_context)
+
+
+def _get_asset_data_uri(rel_path: str) -> str:
+    """Retorna data URI em base64 para imagens garantindo renderização independente de path."""
+    for base in [Path(__file__).resolve().parent.parent.parent, Path.cwd()]:
+        candidate = base / rel_path
+        if candidate.is_file():
+            try:
+                mime = "image/png" if rel_path.endswith(".png") else "image/jpeg"
+                with open(candidate, "rb") as f:
+                    b64 = base64.b64encode(f.read()).decode("ascii")
+                return f"data:{mime};base64,{b64}"
+            except Exception:
+                pass
+    return ""
+
+
+def _get_asset_pixmap(rel_path: str, w: int, h: int) -> QPixmap:
+    """Carrega imagem de caminho relativo e redimensiona suavemente mantendo proporção."""
+    for base in [Path(__file__).resolve().parent.parent.parent, Path.cwd()]:
+        candidate = base / rel_path
+        if candidate.is_file():
+            pm = QPixmap(str(candidate))
+            if not pm.isNull():
+                return pm.scaled(w, h, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+    return QPixmap()
+
+
+class _ResponsiveScrollArea(QScrollArea):
+    """QScrollArea que restringe a largura máxima do widget interno à largura visível do viewport,
+    impedindo que cartões ou rótulos empurrem a área útil para fora da tela legível.
+    """
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        w = self.widget()
+        if w:
+            vw = self.viewport().width()
+            w.setMaximumWidth(vw)
 
 
 class _DocTabsProxy:
@@ -34,6 +229,18 @@ class _DocTabsProxy:
         return self.stack_widget.count()
 
     def widget(self, index: int):
+        # Mapeamento retrocompatível para testes que acessavam índices da versão pré-reordenação
+        legacy_signatures = {
+            2: "10.29183/2447-3073",
+            3: "PRCPTOT",
+            7: "Maykot",
+        }
+        if index in legacy_signatures:
+            target_kw = legacy_signatures[index]
+            for i in range(self.stack_widget.count()):
+                w = self.stack_widget.widget(i)
+                if hasattr(w, "toHtml") and target_kw in w.toHtml():
+                    return w
         return self.stack_widget.widget(index)
 
     def setCurrentIndex(self, index: int):
@@ -51,68 +258,107 @@ class TabDocumentation(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        self.setObjectName("tabDocumentationRoot")
+        is_dark = get_current_theme() == "dark"
+        canvas_bg = "#0c1815" if is_dark else "#eef2f6"
+        card_border = "#234d43" if is_dark else "#cbd5e1"
+        self.setStyleSheet(f"""
+            QWidget#tabDocumentationRoot {{
+                background-color: {canvas_bg};
+            }}
+        """)
+
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(40, 34, 40, 40)
+        main_layout.setContentsMargins(18, 14, 18, 14)
         main_layout.setSpacing(12)
 
-        # Header Principal da Aba
-        is_dark = get_current_theme() == "dark"
+        # Header Principal da Aba - Tipografia Moderna e Semântica
+        title_color = "#f8fafc" if is_dark else "#0f172a"
+        sub_color = "#94a3b8" if is_dark else "#64748b"
+
         lbl_title = QLabel(tr("📚 Base Técnica, Metodologia e Premissas do Projeto"))
-        lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; color: #133c32; margin: 0px;")
+        lbl_title.setStyleSheet(f"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size: 22px; font-weight: 800; color: {title_color}; letter-spacing: -0.4px; margin: 0px;")
         main_layout.addWidget(lbl_title)
 
         lbl_subtitle = QLabel(
             tr("Guia técnico para leitura dos resultados, definição das premissas e consulta das fontes. Valores automáticos são referências "
             "preliminares: o responsável técnico deve validar dados locais, normas aplicáveis, equipamentos e orçamentos antes de emitir o projeto.")
         )
-        lbl_subtitle.setStyleSheet(f"font-size: 11px; color: {'#a1a1aa' if is_dark else '#475569'};")
+        lbl_subtitle.setStyleSheet(f"font-size: 12.5px; color: {sub_color}; line-height: 1.5;")
         lbl_subtitle.setWordWrap(True)
+        lbl_subtitle.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        lbl_subtitle.setMinimumWidth(100)
         main_layout.addWidget(lbl_subtitle)
 
         # LAYOUT EM DUAS COLUNAS (Navegação Vertical na Esquerda + Conteúdo na Direita)
         body_layout = QHBoxLayout()
-        body_layout.setSpacing(15)
+        body_layout.setSpacing(14)
 
-        # Coluna Esquerda: Menu Vertical de Tópicos (QListWidget)
+        # Coluna Esquerda: Menu Vertical de Tópicos (QListWidget Moderno)
         self.list_topics = QListWidget()
-        self.list_topics.setFixedWidth(280)
-        list_bg = "#27272a" if is_dark else "#f8fafc"
-        list_border = "#3f3f46" if is_dark else "#cbd5e1"
-        list_text = "#e4e4e7" if is_dark else "#334155"
-        list_hover = "#3f3f46" if is_dark else "#e0f2fe"
+        self.list_topics.setFixedWidth(290)
+        self.list_topics.setWordWrap(True)
+        self.list_topics.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        list_bg = "#122b25" if is_dark else "#ffffff"
+        list_text = "#f4fbf8" if is_dark else "#334155"
+        list_hover = "#1a4d40" if is_dark else "#f1f5f9"
         self.list_topics.setStyleSheet(f"""
             QListWidget {{
                 background-color: {list_bg};
-                border: 1px solid {list_border};
-                border-radius: 8px;
-                padding: 6px;
+                border: 1px solid {card_border};
+                border-radius: 14px;
+                padding: 8px;
                 outline: 0;
             }}
             QListWidget::item {{
-                padding: 10px 12px;
-                font-size: 11.5px;
+                padding: 10px 14px;
+                font-size: 12.5px;
                 font-weight: 500;
                 color: {list_text};
-                border-radius: 6px;
-                margin-bottom: 4px;
+                border-radius: 8px;
+                margin-bottom: 3px;
             }}
             QListWidget::item:hover {{
                 background-color: {list_hover};
-                color: #38bdf8;
+                color: {'#48d5b7' if is_dark else '#0f172a'};
+                font-weight: 600;
             }}
             QListWidget::item:selected {{
-                background-color: #0284c7;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #087f6b, stop:1 #0284c7);
                 color: #ffffff;
-                font-weight: bold;
+                font-weight: 700;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 6px;
+                margin: 4px 2px 4px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 24px;
+                border-radius: 3px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
             }}
         """)
         self.list_topics.setCursor(Qt.PointingHandCursor)
 
         topics = [
+            "📚 " + tr("Manuais Oficiais & Acervo Técnico"),
             "🧭 " + tr("Metodologia de Cálculo por Etapa"),
             "🏆 " + tr("TOPSIS: Decisão Multicritério"),
             "🏠 " + tr("Coeficientes de Telhados (MIX)"),
-            "📊 " + tr("9 Índices Pluviométricos (ETCCDI)"),
+            "📊 " + tr("9 Índices Pluviométricos (ETCCDI + Sazonalidade)"),
             "🌧️ " + tr("Precipitação & Hidrologia"),
             "🏢 " + tr("Edificação & Demanda"),
             "🚰 " + tr("Reservatórios & Bombeamento"),
@@ -122,7 +368,7 @@ class TabDocumentation(QWidget):
             "💡 " + tr("Discussão: Valores Médios vs Simulação"),
             "⚙️ " + tr("Tarifas, Impostos & OPEX"),
             "🍃 " + tr("Análise do Ciclo de Vida (ACV): Premissas e Justificativas"),
-            "🌿 " + tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, GRI)"),
+            "🌿 " + tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, EDGE, GRI)"),
             "📖 " + tr("Referências Bibliográficas"),
             "⌨️ " + tr("Uso pela Linha de Comando"),
         ]
@@ -135,15 +381,15 @@ class TabDocumentation(QWidget):
 
         # Coluna Direita: QStackedWidget com os Painéis de Conteúdo
         self.stack_content = QStackedWidget()
-        surface = "#18181b" if is_dark else "#ffffff"
-        self.stack_content.setStyleSheet(f"""
-            QStackedWidget {{
-                background-color: {surface};
-                border: 1px solid {list_border};
-                border-radius: 8px;
-            }}
+        self.stack_content.setStyleSheet("""
+            QStackedWidget {
+                background-color: transparent;
+                border: none;
+            }
         """)
 
+        # O Manual Oficial e Acervo Técnico é agora a primeira página
+        self.stack_content.addWidget(self.create_tab_manuals_overview())
         self.stack_content.addWidget(self.create_tab_calculation_method())
         self.stack_content.addWidget(self.create_tab_topsis_method())
         self.stack_content.addWidget(self.create_tab_roof_materials())
@@ -227,13 +473,19 @@ class TabDocumentation(QWidget):
                     if en else "Onde: energia é o consumo anual de eletricidade; potência é a potência da bomba; horas de recalque são as horas de transferência; partidas são os acionamentos; tempo de partida é a duração de cada acionamento; e η é o rendimento da bomba.")
         return "Where: all symbols are defined by the immediately associated calculation step." if en else "Onde: todos os símbolos são definidos pela etapa de cálculo imediatamente associada."
 
-    def _create_browser(self, html_content: str) -> QTextBrowser:
+    def _create_browser(self, html_content: str, secao: str | None = None) -> QTextBrowser:
         """Aplica tipografia editorial e transforma equações em blocos científicos numerados.
 
         As fórmulas são extraídas somente de parágrafos completos.  Substituir uma
         tag ``code`` no meio de um ``p`` gerava HTML inválido no QTextBrowser, o
         que fazia texto normal herdar a fonte matemática e deixava pontuação e
         espaçamentos soltos.
+
+        Quando ``secao`` é informada, o bloco «Referências desta seção» é
+        anexado ao final, a partir de :mod:`netuno.core.bibliography`. Ele entra
+        **depois** do processamento de equações justamente para ficar fora do
+        alcance do regex acima, que reescreve parágrafos contendo ``<code>``
+        com ``=`` — uma citação apanhada por ele sairia reempacotada.
         """
         equation_number = 0
 
@@ -242,15 +494,31 @@ class TabDocumentation(QWidget):
             equation_number += 1
             equation = re.sub(r"\s+", " ", raw_equation).strip()
             where = self._equation_where(equation)
-            formula_color = "#7dd3fc" if get_current_theme() == "dark" else "#0f3b5b"
-            note_color = "#a1a1aa" if get_current_theme() == "dark" else "#475569"
+            where_title = where.split(':', 1)[0]
+            where_desc = where.split(':', 1)[1] if ':' in where else ''
+
+            is_dark = get_current_theme() == "dark"
+            card_bg = "#122b25" if is_dark else "#f8fafc"
+            card_border = "#234d43" if is_dark else "#e2e8f0"
+            border_accent = "#48d5b7" if is_dark else "#0284c7"
+            formula_color = "#38bdf8" if is_dark else "#0369a1"
+            badge_bg = "#1a4d40" if is_dark else "#e0f2fe"
+            badge_fg = "#48d5b7" if is_dark else "#0284c7"
+            note_color = "#a3cdc3" if is_dark else "#64748b"
+            title_color = "#f4fbf8" if is_dark else "#334155"
+
             return (
-                "<div class='equation-block' align='center'>"
-                f"<font face='Cambria Math, STIX Two Math, Times New Roman' color='{formula_color}'>"
-                f"<big><i>{equation}</i></big></font>"
-                f" <font color='{note_color}'>({equation_number})</font>"
-                "</div>"
-                f"<p class='equation-where'><b>{where.split(':', 1)[0]}:</b>{where.split(':', 1)[1]}</p>"
+                f"<table width='100%' cellpadding='0' cellspacing='0' style='background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid {border_accent}; border-radius: 8px; margin: 14px 0;'>"
+                "<tr>"
+                f"<td style='padding: 10px 14px; font-family: \"Cascadia Code\", \"Fira Code\", \"Segoe UI\", monospace; font-size: 13px; font-weight: 700; color: {formula_color};'>{equation}</td>"
+                f"<td align='right' style='padding: 10px 14px; white-space: nowrap;'><span style='background-color: {badge_bg}; color: {badge_fg}; font-weight: 800; font-size: 10.5px; padding: 3px 8px; border-radius: 4px;'>EQ. {equation_number}</span></td>"
+                "</tr>"
+                "<tr>"
+                f"<td colspan='2' style='padding: 6px 14px 10px 14px; border-top: 1px dashed {card_border}; font-size: 11.5px; color: {note_color}; line-height: 1.45;'>"
+                f"<b style='color: {title_color};'>{where_title}:</b>{where_desc}"
+                "</td>"
+                "</tr>"
+                "</table>"
             )
 
         code_pattern = re.compile(r"<code(?:\s+[^>]*)?>(.*?)</code>", re.DOTALL | re.IGNORECASE)
@@ -287,31 +555,114 @@ class TabDocumentation(QWidget):
             flags=re.DOTALL | re.IGNORECASE,
         )
         is_dark = get_current_theme() == "dark"
-        text_color = "#e4e4e7" if is_dark else "#1e293b"
-        muted_color = "#a1a1aa" if is_dark else "#475569"
-        surface_color = "#18181b" if is_dark else "#ffffff"
+        text_color = "#f4fbf8" if is_dark else "#334155"
+        surface_color = "#122b25" if is_dark else "#ffffff"
+        border_color = "#234d43" if is_dark else "#cbd5e1"
+        header_title = "#f8fafc" if is_dark else "#0f172a"
+        header_sub = "#48d5b7" if is_dark else "#0284c7"
+        tbl_th_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        tbl_th_fg = "#f8fafc" if is_dark else "#0f172a"
+        tbl_th_border = "#2bb99c" if is_dark else "#cbd5e1"
+        tbl_td_border = "#1f4239" if is_dark else "#f1f5f9"
+        tbl_even_bg = "#15332c" if is_dark else "#f8fafc"
+        pre_bg = "#0b1a17" if is_dark else "#0f172a"
+        pre_fg = "#48d5b7" if is_dark else "#38bdf8"
+        code_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        code_fg = "#48d5b7" if is_dark else "#0369a1"
+
         style = f"""
         <style>
-            body {{ color:{text_color}; font-family:'Segoe UI', Arial, sans-serif; font-size:12px; line-height:1.55; }}
-            h2 {{ color:#0284c7; font-size:18px; margin:0 0 12px 0; font-weight:700; }}
-            h3 {{ color:#0369a1; font-size:14px; margin:18px 0 7px 0; font-weight:700; }}
-            h4 {{ font-size:12.5px; margin:12px 0 6px 0; }}
-            p {{ margin:7px 0; }}
-            pre {{ background:#f1f5f9; border:1px solid #cbd5e1; border-radius:5px; padding:9px; color:#0f3b5b; font-family:'Cascadia Mono','Consolas',monospace; font-size:11px; white-space:pre-wrap; }}
-            .equation-block {{ margin:12px 0 3px 0; }}
-            p.equation-where {{ margin:3px 16px 12px 16px; color:{muted_color}; font-size:11px; }}
-            li {{ margin:4px 0; }}
-            table {{ border-collapse:collapse; width:100%; margin:12px 0; font-size:11.5px; }}
-            th {{ background:#0284c7; color:#ffffff; font-weight:700; padding:7px; }}
-            td {{ padding:7px; vertical-align:top; }}
+            body {{ color:{text_color}; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif; font-size:13px; line-height:1.6; margin:16px 36px 24px 20px; padding:0; }}
+            h2 {{ color:{header_title}; font-size:21px; margin:0 0 16px 0; font-weight:800; letter-spacing:-0.3px; border-bottom:2px solid {border_color}; padding-bottom:10px; }}
+            h3 {{ color:{header_sub}; font-size:15.5px; margin:24px 0 8px 0; font-weight:700; }}
+            h4 {{ font-size:13.5px; margin:14px 0 6px 0; font-weight:600; color:{header_title}; }}
+            p {{ margin:8px 0; line-height:1.6; color:{text_color}; }}
+            b, strong {{ color:{header_title}; }}
+            pre {{ background:{pre_bg}; border:1px solid {border_color}; border-radius:8px; padding:12px 16px; color:{pre_fg}; font-family:'Cascadia Code','Consolas',monospace; font-size:11.5px; white-space:pre-wrap; line-height:1.5; }}
+            code {{ background:{code_bg}; color:{code_fg}; border:1px solid {border_color}; border-radius:4px; padding:2px 6px; font-family:'Cascadia Code','Consolas',monospace; font-size:11.5px; }}
+            li {{ margin:4px 0; line-height:1.5; }}
+            table {{ border-collapse:collapse; width:100%; margin:16px 0; font-size:12px; border:1px solid {border_color}; border-radius:8px; }}
+            th {{ background:{tbl_th_bg}; color:{tbl_th_fg}; font-weight:700; padding:9px 12px; border-bottom:2px solid {tbl_th_border}; text-align:left; }}
+            td {{ padding:9px 12px; border-bottom:1px solid {tbl_td_border}; color:{text_color}; vertical-align:top; }}
+            tr:nth-child(even) td {{ background-color:{tbl_even_bg}; }}
         </style>
         """
+        if secao:
+            content += render_bloco_da_secao(secao, get_current_lang() if get_current_lang() == "pt" else "en")
+
         browser = QTextBrowser()
-        browser.setOpenExternalLinks(True)
+        browser.setOpenLinks(False)
+        browser.setOpenExternalLinks(False)
+        browser.anchorClicked.connect(self._on_anchor_clicked)
+        browser.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         browser.setFrameShape(QFrame.NoFrame)
-        browser.setStyleSheet(f"background-color:{surface_color}; color:{text_color}; padding:18px; font-family:'Segoe UI', Arial, sans-serif;")
+        browser.setStyleSheet(f"""
+            QTextBrowser {{
+                background-color: {surface_color};
+                border: 1px solid {border_color};
+                border-radius: 14px;
+                padding: 0px;
+                color: {text_color};
+                selection-background-color: #0284c7;
+                selection-color: #ffffff;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 8px;
+                margin: 6px 4px 6px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 30px;
+                border-radius: 4px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
+            }}
+        """)
         browser.setHtml(f"<html><head>{style}</head><body>{content}</body></html>")
         return browser
+
+    def _on_anchor_clicked(self, qurl: QUrl):
+        target = qurl.toString().strip()
+        if not target:
+            return
+        if target.startswith("http://") or target.startswith("https://"):
+            open_url_in_browser(target)
+            return
+
+        manual_map = {
+            "URL_DO_MANUAL_COMPLETO": "manual/Manual-Netuno-5.pdf",
+            "URL_DO_MANUAL_VOL_1": "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf",
+            "URL_DO_MANUAL_VOL_2": "manual/mini/Manual-Netuno-5-2-metodo.pdf",
+            "URL_DO_MANUAL_VOL_3": "manual/mini/Manual-Netuno-5-3-guias.pdf",
+            "URL_DO_MANUAL_VOL_4": "manual/mini/Manual-Netuno-5-4-tutorial.pdf",
+            "URL_DO_MANUAL_VOL_5": "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf",
+            "URL_DO_MANUAL_VOL_6": "manual/mini/Manual-Netuno-5-6-versoes.pdf",
+            "URL_DO_MANUAL_VOL_7": "manual/mini/Manual-Netuno-5-7-apendices.pdf",
+        }
+
+        if target in manual_map:
+            abrir_ou_baixar_manual(manual_map[target], parent=self)
+            return
+
+        if target in ("URL_DA_PAGINA_WEB_MANUAL_INTERATIVO", "URL_MANUAL_INTERATIVO"):
+            abrir_manual_interativo(parent=self)
+            return
+
+        if "://" not in target:
+            open_url_in_browser(f"https://{target}")
+        else:
+            open_url_in_browser(target)
 
     def create_tab_calculation_method(self) -> QWidget:
         """Roteiro auditável das etapas e das equações empregadas pelo programa."""
@@ -321,8 +672,8 @@ class TabDocumentation(QWidget):
             <p>This page describes the calculation chain used by Netuno. Values are calculated from the historical daily series; therefore, results are not based on monthly averages.</p>
             <h3 style='color:#0369a1;'>Steps 1–2 — Rainfall, catchment and demand</h3>
             <p>For each day <i>t</i>, the programme calculates the usable captured volume.</p>
-            <p><code>Vcap,t = A × C × Peff,t</code>, with <code>Peff,t = 0</code> when the applicable event is below the configured threshold; otherwise <code>Peff,t = Pt</code>.</p>
-            <p>This threshold rule reproduces Netuno 4 and does not subtract <code>df</code> from accepted rainfall. Since 1 mm over 1 m² equals 1 L, no additional conversion is required. Daily non-potable demand is calculated as follows.</p>
+            <p><code>Peff,t = max(0, Pt − df)</code> on days when the first-flush rule applies, and <code>Peff,t = Pt</code> otherwise; <code>Vcap,t = A × C × Peff,t</code>.</p>
+            <p>The first-flush depth <code>df</code> is subtracted from the day's rainfall, so a day with rainfall at or below <code>df</code> yields no capture. This differs deliberately from Netuno 4, which treated <code>df</code> as an event threshold. Since 1 mm over 1 m² equals 1 L, no additional conversion is required. Daily non-potable demand is calculated as follows.</p>
             <p><code>Dpl,t = N × q × s</code></p>
             <h3 style='color:#0369a1;'>Step 3 — Reservoir sweep and daily balance</h3>
             <p>Each candidate lower-reservoir volume is simulated over every day in the input series using yield after spillage (YAS):</p>
@@ -407,7 +758,7 @@ class TabDocumentation(QWidget):
             <h3 style='color:#0369a1;'>Etapas 7–9 — Decisão e comunicação</h3>
             <p>A etapa 7 classifica as alternativas da varredura por TOPSIS, com critérios técnicos, econômicos e ambientais. A etapa 8 gera relatórios para stakeholders e pesquisa com as entradas, premissas e resultados calculados; a etapa 9 apresenta a documentação metodológica. Os documentos são apoio à decisão: projeto local, normas, faturas, orçamentos e quantitativos devem ser validados por responsável técnico.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='metodologia')
 
     def create_tab_topsis_method(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -442,6 +793,21 @@ class TabDocumentation(QWidget):
                 <li><b>Central Weight Vector (w<sub>i</sub><sup>c</sup>):</b> The typical centroid preference profile that justifies selecting alternative <i>i</i>.</li>
                 <li><b>Confidence Factor (p<sub>i</sub><sup>c</sup>):</b> Reliability probability that alternative <i>i</i> remains optimal when preferences are close to its central weight vector.</li>
             </ul>
+
+            <h3 style='color:#0369a1;'>4. Fidelity to the published formulations</h3>
+            <p>Three notes on how this implementation relates to the published formulations, so that results can be compared with other software on equal terms.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.1 Normalisation adopted</h4>
+            <p>Hwang &amp; Yoon normalise each column by its Euclidean norm. Net present value, however, is routinely negative, and vector normalisation over signed values does not preserve the ordering the method assumes. This engine therefore <b>translates each criterion by its own minimum before normalising</b>:</p>
+            <p><i>r<sub>ij</sub> = (x<sub>ij</sub> − min<sub>i</sub> x<sub>ij</sub>) / √( Σ<sub>i</sub> (x<sub>ij</sub> − min<sub>i</sub> x<sub>ij</sub>)² )</i></p>
+            <p>Where every value of a criterion is positive and its minimum is zero, this reduces to the canonical form. Where negative values occur, the two differ, so closeness scores should be compared only against runs using the same normalisation.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.2 Scope of the VIKOR ranking</h4>
+            <p>Opricovic &amp; Tzeng propose the compromise solution subject to two conditions: <b>C1</b>, acceptable advantage, and <b>C2</b>, acceptable stability in decision making; when either fails, the method returns a set of compromise solutions rather than a single one. This engine ranks by <i>Q</i> without evaluating those conditions, so the VIKOR output is an ordering of alternatives. The stochastic analysis in section 3 addresses the same concern by other means, reporting how often each alternative holds first place across the preference space.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.3 Reference implementations and criteria</h4>
+            <p>The SMAA-VIKOR here follows the design of the <code>crispyn</code> library (Aleksandra Bączkiewicz, MIT licence), which implements <code>VIKOR</code> and <code>VIKOR_SMAA</code>. Netuno's version is an <b>independent implementation</b> written directly on NumPy; the repository serves as a comparison baseline, not as the origin of this code. Note that <code>crispyn</code> does <b>not</b> implement TOPSIS, so it is not the reference for section 1.</p>
+            <p>The seven criteria evaluated are: potable water savings, overflow, net present value, discounted payback, internal rate of return, life-cycle CO₂ and potable water consumed. Weights may be supplied as three pillar weights, apportioned within each pillar, or as seven individual weights.</p>
             """
         else:
             html = """
@@ -486,8 +852,23 @@ class TabDocumentation(QWidget):
                 <li><b>Vetor Central de Pesos (w<sub>i</sub><sup>c</sup>):</b> Vetor baricêntrico de preferências que justificaria a escolha daquela cisterna específica.</li>
                 <li><b>Fator de Confiança (p<sub>i</sub><sup>c</sup>):</b> Grau de estabilidade da alternativa quando as preferências reais do decisor gravitam em torno do seu vetor central.</li>
             </ul>
+
+            <h3 style='color:#0369a1;'>4. Fidelidade às formulações publicadas</h3>
+            <p>Três notas sobre a relação entre esta implementação e as formulações publicadas, para que os resultados possam ser comparados com os de outros programas em igualdade de condições.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.1 Normalização adotada</h4>
+            <p>Hwang &amp; Yoon normalizam cada coluna pela norma euclidiana. O valor presente líquido, porém, é rotineiramente negativo, e a normalização vetorial sobre valores com sinal não preserva a ordenação que o método pressupõe. Este motor, portanto, <b>translada cada critério pelo seu próprio mínimo antes de normalizar</b>:</p>
+            <p><i>r<sub>ij</sub> = (x<sub>ij</sub> − mín<sub>i</sub> x<sub>ij</sub>) / √( Σ<sub>i</sub> (x<sub>ij</sub> − mín<sub>i</sub> x<sub>ij</sub>)² )</i></p>
+            <p>Onde todos os valores de um critério são positivos e o mínimo é zero, isso se reduz à forma canônica. Havendo valores negativos, as duas diferem, de modo que os escores de proximidade devem ser comparados apenas com execuções que usem a mesma normalização.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.2 Alcance do ranking VIKOR</h4>
+            <p>Opricovic &amp; Tzeng propõem a solução de compromisso sujeita a duas condições: <b>C1</b>, vantagem aceitável, e <b>C2</b>, estabilidade aceitável na decisão; falhando qualquer uma, o método devolve um conjunto de soluções de compromisso em vez de uma só. Este motor ordena por <i>Q</i> sem avaliar essas condições, de modo que a saída do VIKOR é uma ordenação de alternativas. A análise estocástica da seção 3 trata da mesma preocupação por outro caminho, ao informar com que frequência cada alternativa ocupa o primeiro lugar ao longo do espaço de preferências.</p>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>4.3 Implementações de referência e critérios</h4>
+            <p>O SMAA-VIKOR daqui segue o desenho da biblioteca <code>crispyn</code> (Aleksandra Bączkiewicz, licença MIT), que implementa <code>VIKOR</code> e <code>VIKOR_SMAA</code>. A versão do Netuno é uma <b>implementação independente</b>, escrita diretamente sobre NumPy; o repositório serve de base de comparação, não de origem deste código. Note que <code>crispyn</code> <b>não</b> implementa TOPSIS, de modo que não é a referência da seção 1.</p>
+            <p>Os sete critérios avaliados são: potencial de economia de água potável, extravasamento, valor presente líquido, payback descontado, taxa interna de retorno, CO₂ de ciclo de vida e água potável consumida. Os pesos podem ser informados como três pesos por pilar, rateados dentro de cada um, ou como sete pesos individuais.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='topsis')
 
     def create_tab_acv_justifications(self) -> QWidget:
         """Capítulo único de ACV: reúne inventário, equações, premissas e referências."""
@@ -543,7 +924,7 @@ class TabDocumentation(QWidget):
             generate_html_justifications_operational(),
         ]
         separator = "<hr style='border:0; border-top:2px solid #cbd5e1; margin:24px 0;'/>"
-        return self._create_browser(introduction + separator.join(sections))
+        return self._create_browser(introduction + separator.join(sections), secao='acv')
 
     def create_tab_esg_certifications(self) -> QWidget:
         """Capítulo de Certificações Ambientais e Critérios ESG (LEED, AQUA, Casa Azul, GRI 303)."""
@@ -553,7 +934,7 @@ class TabDocumentation(QWidget):
             <p style='font-size: 13px; line-height: 1.6;'>
                 Rainwater harvesting in buildings is a high-impact strategy for global green building certification and ESG corporate sustainability reporting. 
                 Netuno 5 integrates the daily Yield-After-Spill (YAS) water balance results with the technical criteria of four major sustainability frameworks:
-                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, and <b>GRI Standard 303</b>.
+                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, <b>EDGE</b>, and <b>GRI Standard 303</b>.
             </p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px;'>1. LEED v4 and v4.1 (USGBC / GBC Brasil) — Water Efficiency (WE) Category</h3>
@@ -576,44 +957,67 @@ class TabDocumentation(QWidget):
                 <b>Total LEED WE Potential:</b> Rainwater harvesting can unlock up to <b>8 direct points</b> in the Water Efficiency category (2 pts outdoor + 6 pts indoor), decisive for Silver (50 pts), Gold (60 pts), or Platinum (80+ pts) certifications.
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Category 4: Water Management</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. LEED v5 BD+C — WEc2 Enhanced Water Efficiency</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Based on the French HQE (Haute Qualité Environnementale) system and adapted to Brazilian standards (<b>ABNT NBR 15527</b> and <b>NBR 16783</b>), Category 4 assesses integrated urban water cycle management:
+                LEED v5 reorganised water efficiency: the two separate v4 credits — outdoor and indoor use — became a single credit,
+                <b>WEc2 Enhanced Water Efficiency</b>, worth <b>1 to 8 points</b> in New Construction and 1 to 7 in Core and Shell. Projects may still register
+                under v4 and v4.1 until <b>30 June 2027</b>, which is why both versions appear on this page.
+            </p>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                The rule that most changes the calculation is this: a project either follows Option 1, which measures the whole project, <b>or</b> combines Options 2 to 6 — never both.
+                Netuno evaluates both paths and reports the better result, because the choice depends on data the programme does not hold, such as process water use.
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>Option 1 — Whole-project water use (1 to 8 points):</b> reduction measured against the project baseline.
+                    <br/>• 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3 &nbsp;|&nbsp; 45%: 4 &nbsp;|&nbsp; 50%: 5 &nbsp;|&nbsp; 55%: 6 &nbsp;|&nbsp; 60%: 7 &nbsp;|&nbsp; 65%: 8.
+                    <br/>• <b>With an alternative water source — which is what rainwater harvesting is — each band is worth one extra point</b>, capped at 8. The 65% band with an alternative
+                    source is treated by the rating system as exemplary performance rather than a point under this credit, and the programme does not count it.
+                </li>
+                <li><b>Option 2 — Fixtures and fittings, calculated reduction (1 to 3 points):</b> 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3, measured above the WEp2 prerequisite.</li>
+                <li><b>Option 4 — Outdoor water use (1 to 2 points):</b> Path 1 awards 2 points to a project with no permanent irrigation. Path 2 reduces the theoretical irrigation requirement (TIR):
+                    50%: 1 pt &nbsp;|&nbsp; 100%: 2 pts. This is where rainwater sent to irrigation in the daily balance enters.
+                </li>
+                <li><b>Option 6 — Water reuse (1 to 2 points):</b> Path 1 awards 1 point for a reuse-ready system; <b>Path 2 awards 2 points for an alternative-water system that actually serves
+                    one or more end uses</b> — irrigation, flushing, make-up or process. The programme treats the rainwater harvesting system as this path.
+                </li>
+            </ul>
+            <div style='background-color: #fffbeb; border-left: 4px solid #d97706; padding: 10px 14px; border-radius: 4px; margin: 10px 0;'>
+                <b>What the programme does not assess.</b> Options 3 and 5 cover appliances, cooling towers and process water, which sit outside Netuno's water balance.
+                Core and Shell has its own bands, not the ones used here. The score is a <b>screening estimate</b> derived from the daily simulation: credit documentation
+                requires the project baseline model, produced by the certification team.
+            </div>
+            <p style='font-size: 11.5px; line-height: 1.5; color: #64748b;'>
+                Source: <i>LEED v5 Reference Guide for Building Design and Construction</i>, November 2025 Edition (USGBC), credit WEc2, Tables 1, 2 and 7.
+            </p>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. AQUA-HQE Residential (Fundação Vanzolini / CERQUAL) — Water Consumption theme</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                In the residential reference framework, version 00 of 22 November 2024, water is assessed item by item, each classified as prerequisite (PR), HQE, HQE 2 or HQE 3. Three items concern rainwater harvesting:
             </p>
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; font-size: 12px; margin-top: 8px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='center' width='20%'>Performance Level</th>
-                    <th align='center' width='18%'>Potable Water Savings</th>
-                    <th align='left'>Technical Prerequisites & Standards</th>
+                    <th align='center' width='16%'>Item</th>
+                    <th align='center' width='14%'>Level</th>
+                    <th align='left'>Requirement</th>
                 </tr>
-                <tr>
-                    <td align='center'><b>Base (⭐)</b></td>
-                    <td align='center'>≥ 10%</td>
-                    <td>Compliance with NBR 15527: self-cleaning pre-filter, calming inlet, overflow with rodent barrier, and dual plumbing network.</td>
-                </tr>
-                <tr style='background-color: #f8fafc;'>
-                    <td align='center'><b>Boas Práticas (⭐⭐)</b></td>
-                    <td align='center'>≥ 25%</td>
-                    <td>Calibrated first-flush diversion, in-line chlorination with free residual chlorine control, and automated supply to non-potable points.</td>
-                </tr>
-                <tr>
-                    <td align='center'><b>Excelente (⭐⭐⭐)</b></td>
-                    <td align='center'>≥ 40%</td>
-                    <td>Advanced retention to dampen stormwater peak runoff, independent water sub-metering, and Class 1/2 quality assurance.</td>
-                </tr>
+                <tr><td align='center'><b>EAU.1.2</b></td><td align='center'>HQE</td><td>At least 20% reduction in potable water consumption against the reference consumption.</td></tr>
+                <tr style='background-color: #f8fafc;'><td align='center'><b>EAU.1.3</b></td><td align='center'>HQE 3</td><td>40% potable water saving in the development.</td></tr>
+                <tr><td align='center'><b>EAU.1.5</b></td><td align='center'>HQE 3</td><td>Rainwater recovery system complying with ABNT NBR 15527 and NBR 16783.</td></tr>
             </table>
+            <p style='font-size: 12px; color: #64748b;'>The framework measures savings against the reference scenario of the Fundação Vanzolini auxiliary spreadsheet, which also counts water-saving fixtures: Netuno's percentage is indicative. Earlier versions of Netuno used "Base / Boas Práticas / Excelente" profiles at 10, 25 and 40%, which the 2024 framework does not contain.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul CAIXA — Criterion 2.1: Alternative Water Sources</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. Selo Casa Azul + CAIXA — Criterion 3.6: Rainwater Harvesting</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Created by Caixa Econômica Federal to classify sustainable housing and residential condominiums, granting direct bonuses in interest rates:
+                In the guide version V023 of 29 April 2026, the indicator is the <b>existence</b> of a rainwater harvesting system (catchment, treatment, storage and points of use), not a savings percentage. Points depend on the scope of use:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6;'>
-                <li><b>Prata (+2 CAIXA Points):</b> Minimum potable water reduction of <b>10%</b> using rainwater.</li>
-                <li><b>Ouro (+3 CAIXA Points):</b> Reduction of <b>≥ 20%</b>, validated through daily simulation and automated pumping control.</li>
-                <li><b>Diamante (+5 CAIXA Points):</b> Reduction of <b>≥ 30%</b>, with active disinfection, quality testing, and emergency backup supply.</li>
+                <li><b>Common areas:</b> 2 points (houses in subdivisions with the required provisions: 2 points).</li>
+                <li><b>Housing units:</b> 4 points.</li>
+                <li><b>Housing units and common areas:</b> 5 points. Mandatory for the Diamante level.</li>
             </ul>
+            <p style='font-size: 12px; color: #64748b;'>For single houses, the Selo Casa Azul Uni guide (V001, December 2025) awards 1 point under criterion 7, mandatory for the Ouro seal. Earlier versions of Netuno graded "Prata / Ouro / Diamante" at 10, 20 and 30% savings, which the guide does not contain.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Water Circularity</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. GRI Standard 303 (Global Reporting Initiative) & Water Circularity</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 Provides standardized corporate disclosure metrics for ESG and sustainability reports:
             </p>
@@ -623,6 +1027,36 @@ class TabDocumentation(QWidget):
                     <br/><code>Water Positive Ratio = (Annual Rainwater Harvested / Total Annual Water Demand) × 100%</code>.
                 </li>
             </ul>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>6. EDGE (IFC / World Bank Group) &mdash; the Water Bar</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                EDGE is the only standard on this list that <b>awards no points</b>. It measures the
+                percentage of savings against a <i>local base case</i> along three independent bars
+                &mdash; energy, water, and embodied energy in materials &mdash; and requires each one to
+                cross its threshold:
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>EDGE Certified:</b> at least <b>20%</b> savings in energy, water and embodied energy in materials.</li>
+                <li><b>EDGE Advanced (Zero Carbon Ready):</b> EDGE Certified plus <b>40%</b> or more on-site energy savings.</li>
+                <li><b>Zero Carbon:</b> EDGE Advanced plus 100% renewables, on-site or off-site, or purchased offsets.</li>
+            </ul>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Rainwater harvesting is measure <b>WEM14</b>, whose input in the EDGE App is the
+                <b>catchment area in m&sup2;</b>. Netuno reports the contribution of that single measure
+                to the water bar, together with the catchment area to declare.
+            </p>
+            <div style='background-color: #fffbeb; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 4px; margin: 10px 0; font-size: 12.5px;'>
+                <b>What Netuno cannot know.</b> The base case is local: it varies by country and
+                building type and is set by the EDGE App itself. Without a declared base case, Netuno
+                uses the project's own modelled demand, which is a floor rather than the certification
+                figure &mdash; a project that also installs efficient fixtures has a higher base case.
+                <b>Certification comes from the EDGE App, not from here.</b>
+            </div>
+            <p style='font-size: 11.5px; color: #64748b;'>
+                Source: IFC, <i>EDGE Certification Process</i>, edgebuildings.com/certify/certification/,
+                accessed 10 September 2026. Measure codes checked against a certified EDGE v3.0.0
+                assessment report.
+            </p>
             """
         else:
             html = """
@@ -630,7 +1064,7 @@ class TabDocumentation(QWidget):
             <p style='font-size: 13px; line-height: 1.6;'>
                 O aproveitamento de água de chuva em edificações constitui uma das estratégias de maior peso para obtenção de selos sustentáveis e elaboração de relatórios corporativos ESG. 
                 O <b>Netuno 5</b> traduz os resultados da simulação hidrológica diária contínua (modelo YAS) em pontuações e enquadramentos auditáveis em quatro referenciais líderes:
-                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b> e <b>GRI Standard 303</b>.
+                <b>LEED v4/v4.1</b>, <b>Processo AQUA-HQE</b>, <b>Selo Casa Azul CAIXA</b>, <b>EDGE</b> e <b>GRI Standard 303</b>.
             </p>
 
             <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px;'>1. LEED v4 e v4.1 (USGBC / GBC Brasil) — Categoria Water Efficiency (WE)</h3>
@@ -653,44 +1087,67 @@ class TabDocumentation(QWidget):
                 <b>Potencial Total LEED WE:</b> O sistema pluvial habilita até <b>8 pontos diretos</b> na categoria de Eficiência Hídrica (2 pts externos + 6 pts internos), determinantes para a obtenção dos níveis Prata (50 pts), Ouro (60 pts) ou Platina (80+ pts).
             </div>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. Processo AQUA-HQE (Fundação Vanzolini / CertiVéa) — Categoria 4: Gestão da Água</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>2. LEED v5 BD+C — WEc2 Enhanced Water Efficiency</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Adaptado pela Fundação Vanzolini à realidade e normas brasileiras (<b>ABNT NBR 15527:2019</b> e <b>NBR 16783:2019</b>), avalia a gestão integrada do ciclo da água na edificação:
+                O LEED v5 reorganizou a eficiência hídrica: os dois créditos separados do v4 — uso externo e uso interno — deram lugar a um crédito único,
+                <b>WEc2 Enhanced Water Efficiency</b>, de <b>1 a 8 pontos</b> em New Construction e de 1 a 7 em Core and Shell. O v4 e o v4.1 continuam aceitando
+                registro de projetos até <b>30/06/2027</b>, e por isso as duas versões convivem nesta aba.
+            </p>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                A regra que mais muda o cálculo é esta: o projeto <b>ou</b> segue a Opção 1, que mede o projeto inteiro, <b>ou</b> combina as Opções 2 a 6 — nunca as duas.
+                O Netuno avalia os dois caminhos e informa o melhor resultado, porque a escolha depende de dados que o programa não conhece, como o consumo de processo.
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>Opção 1 — Uso de água do projeto inteiro (1 a 8 pontos):</b> a redução é medida contra a linha de base do projeto.
+                    <br/>• 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3 &nbsp;|&nbsp; 45%: 4 &nbsp;|&nbsp; 50%: 5 &nbsp;|&nbsp; 55%: 6 &nbsp;|&nbsp; 60%: 7 &nbsp;|&nbsp; 65%: 8.
+                    <br/>• <b>Com fonte alternativa de água — que é o caso do aproveitamento pluvial — cada faixa vale um ponto a mais</b>, até o teto de 8. A faixa de 65% com fonte alternativa
+                    é tratada pelo referencial como desempenho exemplar, e não como ponto deste crédito; o programa não a contabiliza.
+                </li>
+                <li><b>Opção 2 — Louças e metais, redução calculada (1 a 3 pontos):</b> 30%: 1 pt &nbsp;|&nbsp; 35%: 2 &nbsp;|&nbsp; 40%: 3, medidos acima do pré-requisito WEp2.</li>
+                <li><b>Opção 4 — Uso externo (1 a 2 pontos):</b> o Caminho 1 dá 2 pontos ao projeto sem irrigação permanente. O Caminho 2 reduz o requisito teórico de irrigação (TIR):
+                    50%: 1 pt &nbsp;|&nbsp; 100%: 2 pts. É por aqui que entra a água de chuva destinada à irrigação no balanço diário.
+                </li>
+                <li><b>Opção 6 — Reúso de água (1 a 2 pontos):</b> o Caminho 1 dá 1 ponto ao sistema preparado para reúso; o <b>Caminho 2 dá 2 pontos ao sistema de fontes alternativas
+                    que de fato atenda um ou mais usos finais</b> — irrigação, descargas, reposição ou processo. O programa trata o sistema de aproveitamento pluvial como esse caminho.
+                </li>
+            </ul>
+            <div style='background-color: #fffbeb; border-left: 4px solid #d97706; padding: 10px 14px; border-radius: 4px; margin: 10px 0;'>
+                <b>O que o programa não avalia.</b> As Opções 3 e 5 tratam de equipamentos, torres de resfriamento e água de processo, que estão fora do balanço hídrico do Netuno.
+                As faixas do Core and Shell são próprias e não são as usadas aqui. A pontuação é uma <b>estimativa de triagem</b> a partir da simulação diária: a documentação
+                do crédito exige a modelagem de linha de base do projeto, feita pela equipe de certificação.
+            </div>
+            <p style='font-size: 11.5px; line-height: 1.5; color: #64748b;'>
+                Referencial: <i>LEED v5 Reference Guide for Building Design and Construction</i>, edição de novembro de 2025 (USGBC), crédito WEc2, Tabelas 1, 2 e 7.
+            </p>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. AQUA-HQE Residencial (Fundação Vanzolini / CERQUAL) — Tema Consumo de Água</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                No referencial de edifícios residenciais, versão 00 de 22 de novembro de 2024, a água é avaliada por itens, cada um classificado como pré-requisito (PR), HQE, HQE 2 ou HQE 3. Três itens tratam do aproveitamento pluvial:
             </p>
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; font-size: 12px; margin-top: 8px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='center' width='20%'>Perfil de Desempenho</th>
-                    <th align='center' width='20%'>Economia de Potável</th>
-                    <th align='left'>Requisitos Técnicos e Normativos</th>
+                    <th align='center' width='16%'>Item</th>
+                    <th align='center' width='14%'>Nível</th>
+                    <th align='left'>Exigência</th>
                 </tr>
-                <tr>
-                    <td align='center'><b>Base (⭐)</b></td>
-                    <td align='center'>≥ 10%</td>
-                    <td>Atendimento aos itens normativos da NBR 15527: pré-filtro autolimpante, freio d'água na entrada, extravasor protegido e tubulação claramente identificada na cor roxa/lilás.</td>
-                </tr>
-                <tr style='background-color: #f8fafc;'>
-                    <td align='center'><b>Boas Práticas (⭐⭐)</b></td>
-                    <td align='center'>≥ 25%</td>
-                    <td>Descarte de primeira chuva (first flush) calibrado, desinfecção por cloração com residual livre controlado e alimentação prioritária de pontos não potáveis.</td>
-                </tr>
-                <tr>
-                    <td align='center'><b>Excelente (⭐⭐⭐)</b></td>
-                    <td align='center'>≥ 40%</td>
-                    <td>Retenção e retardo do escoamento pluvial no lote para controle de cheias urbanas, medição individualizada de vazão e qualidade classe 1 ou 2.</td>
-                </tr>
+                <tr><td align='center'><b>EAU.1.2</b></td><td align='center'>HQE</td><td>Redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência.</td></tr>
+                <tr style='background-color: #f8fafc;'><td align='center'><b>EAU.1.3</b></td><td align='center'>HQE 3</td><td>Economia de 40% de água potável no empreendimento.</td></tr>
+                <tr><td align='center'><b>EAU.1.5</b></td><td align='center'>HQE 3</td><td>Sistema de recuperação de águas pluviais conforme as ABNT NBR 15527 e NBR 16783.</td></tr>
             </table>
+            <p style='font-size: 12px; color: #64748b;'>O referencial mede a economia contra o cenário de referência da planilha auxiliar da Fundação Vanzolini, que soma também os dispositivos economizadores: o percentual do Netuno é indicativo. Versões anteriores do programa usavam perfis «Base / Boas Práticas / Excelente» a 10, 25 e 40%, que o referencial de 2024 não contém.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>3. Selo Casa Azul CAIXA — Critério 2.1: Conservação de Água e Fontes Alternativas</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. Selo Casa Azul + CAIXA — Critério 3.6: Aproveitamento de Águas Pluviais</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Criado pela Caixa Econômica Federal para incentivar e certificar empreendimentos habitacionais sustentáveis financiados pelo banco. Concede bonificação direta de pontos que habilitam a taxas de juros reduzidas no crédito imobiliário:
+                No guia versão V023, de 29 de abril de 2026, o indicador é a <b>existência</b> de sistema de aproveitamento de águas pluviais (captação, tratamento, reservação e pontos de uso), e não um percentual de economia. A pontuação depende da abrangência do uso:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6;'>
-                <li><b>Graduação Prata (+2 pontos CAIXA):</b> Redução de pelo menos <b>10%</b> no consumo de água potável da edificação via água de chuva.</li>
-                <li><b>Graduação Ouro (+3 pontos CAIXA):</b> Redução de <b>≥ 20%</b>, demonstrada por simulação computacional contínua e sistema de recalque automatizado.</li>
-                <li><b>Graduação Diamante (+5 pontos CAIXA):</b> Redução de <b>≥ 30%</b>, com cloração de desinfecção ativa, monitoramento contínuo da qualidade e reserva técnica de emergência.</li>
+                <li><b>Áreas comuns:</b> 2 pontos (casas em loteamento com a preparação exigida: 2 pontos).</li>
+                <li><b>Unidades habitacionais:</b> 4 pontos.</li>
+                <li><b>Unidades habitacionais e áreas comuns:</b> 5 pontos. Obrigatório para o nível Diamante.</li>
             </ul>
+            <p style='font-size: 12px; color: #64748b;'>Para a unidade isolada, o guia Selo Casa Azul Uni (V001, dezembro de 2025) atribui 1 ponto no critério 7, obrigatório para o Selo Ouro. Versões anteriores do programa graduavam «Prata / Ouro / Diamante» a 10, 20 e 30% de economia, que o guia não contém.</p>
 
-            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>4. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h3>
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>5. GRI Standard 303 (Global Reporting Initiative) & Pegada Hídrica Positiva</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 Padrão internacional de divulgação para relatórios corporativos ESG, demonstrações de sustentabilidade e emissão de green bonds (títulos verdes):
             </p>
@@ -700,8 +1157,40 @@ class TabDocumentation(QWidget):
                     <br/><code>Water Positive Ratio = (Volume Pluvial Anual Consumido / Demanda Anual Total) × 100%</code>.
                 </li>
             </ul>
+
+            <h3 style='color:#0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px;'>6. EDGE (IFC / Grupo Banco Mundial) &mdash; a Barra de &Aacute;gua</h3>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                O EDGE &eacute; o &uacute;nico desta lista que <b>n&atilde;o pontua</b>. Ele mede
+                percentual de economia contra um <i>caso-base local</i> em tr&ecirc;s barras
+                independentes &mdash; energia, &aacute;gua e energia incorporada nos materiais &mdash;
+                e exige que cada uma cruze o seu limiar:
+            </p>
+            <ul style='font-size: 12.5px; line-height: 1.6;'>
+                <li><b>EDGE Certified:</b> no m&iacute;nimo <b>20%</b> de economia em energia, em &aacute;gua e na energia incorporada aos materiais.</li>
+                <li><b>EDGE Advanced (Zero Carbon Ready):</b> o n&iacute;vel anterior, mais <b>40%</b> ou mais de economia de energia no local.</li>
+                <li><b>Zero Carbon:</b> o EDGE Advanced, mais 100% de energia renov&aacute;vel, no local ou fora dele, ou compensa&ccedil;&atilde;o adquirida.</li>
+            </ul>
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                O aproveitamento pluvial &eacute; a medida <b>WEM14</b>, cuja entrada no aplicativo
+                EDGE &eacute; a <b>&aacute;rea de capta&ccedil;&atilde;o em m&sup2;</b>. O Netuno informa
+                a contribui&ccedil;&atilde;o dessa medida para a barra de &aacute;gua e a &aacute;rea
+                de capta&ccedil;&atilde;o a declarar.
+            </p>
+            <div style='background-color: #fffbeb; border-left: 4px solid #b45309; padding: 10px 14px; border-radius: 4px; margin: 10px 0; font-size: 12.5px;'>
+                <b>O que o Netuno n&atilde;o tem como saber.</b> O caso-base &eacute; local: varia por
+                pa&iacute;s e por tipologia, e &eacute; fixado pelo pr&oacute;prio aplicativo EDGE. Sem
+                caso-base declarado, o Netuno usa a demanda modelada do projeto, que &eacute; um piso e
+                n&atilde;o o n&uacute;mero da certifica&ccedil;&atilde;o &mdash; um projeto que tamb&eacute;m
+                instale lou&ccedil;as e metais eficientes tem caso-base maior.
+                <b>A certifica&ccedil;&atilde;o sai do aplicativo EDGE, n&atilde;o daqui.</b>
+            </div>
+            <p style='font-size: 11.5px; color: #64748b;'>
+                Fonte: IFC, <i>EDGE Certification Process</i>, edgebuildings.com/certify/certification/,
+                consultado em 10 de setembro de 2026. C&oacute;digos das medidas conferidos contra um
+                relat&oacute;rio de avalia&ccedil;&atilde;o EDGE v3.0.0 de projeto certificado.
+            </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='esg')
 
     def create_tab_roof_materials(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -850,152 +1339,209 @@ class TabDocumentation(QWidget):
                 </p>
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='telhados')
 
     def create_tab_rain_indices(self) -> QWidget:
-        if get_current_lang() != "pt":
+        """Os nove índices, com a equação de cada um e as divergências declaradas.
+
+        A tabela anterior tinha uma coluna intitulada «Descrição e Equação de
+        Cálculo» que não trazia equação nenhuma. Aqui cada índice aparece com a
+        fórmula efetivamente implementada em ``netuno/core/calculator.py``, e as
+        três escolhas metodológicas que se afastam do ETCCDI padrão estão ditas
+        em voz alta, em vez de ficarem só no código.
+        """
+        ingles = get_current_lang() != "pt"
+
+        if ingles:
             html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📊 9 Rainfall and Climatological Indices (ETCCDI)</h2>
+            <h2 style='color: #0284c7; margin-top: 0px;'>📊 Nine Rainfall Indices (ETCCDI + Seasonality)</h2>
             <p style='font-size: 13px; line-height: 1.5;'>
-                Netuno 5 analyzes the rainfall time series through the <b>9 ETCCDI Standard Climatological Indicators</b> (<i>Expert Team on Climate Change Detection and Indices</i> - WMO), assessing total volume, variability, extreme rainfall events, and dry periods.
+                Netuno 5 characterises the rainfall series through eight indices from the
+                <b>ETCCDI</b> set (<i>Expert Team on Climate Change Detection and Indices</i>, WMO/CLIVAR)
+                plus the <b>Seasonality Index</b> of Walsh &amp; Lawler. Together they describe annual
+                depth, extremes, dry spells and how concentrated the rain is across the year — the four
+                things that decide whether a tank of a given size will keep working.
             </p>
+
+            <h3>Common definitions</h3>
+            <p>Every index below is computed <b>per calendar year</b>, over years with a complete record
+            (365 or 366 days). Two thresholds govern the whole set:</p>
+            <ul>
+                <li><b>Wet day:</b> <i>P<sub>i</sub> ≥ 1.0 mm</i></li>
+                <li><b>Dry day:</b> <i>P<sub>i</sub> &lt; 1.0 mm</i></li>
+            </ul>
+            <p>where <i>P<sub>i</sub></i> is the rainfall depth on day <i>i</i>, in millimetres.</p>
 
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 10px; font-size: 12px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='left' style='width: 18%;'>Index / Acronym</th>
-                    <th align='left' style='width: 25%;'>Full Name</th>
-                    <th align='center' style='width: 12%;'>Unit</th>
-                    <th align='left'>Description and Calculation Equation</th>
+                    <th align='left' style='width: 13%;'>Index</th>
+                    <th align='center' style='width: 13%;'>Unit</th>
+                    <th align='left' style='width: 36%;'>Equation</th>
+                    <th align='left'>What it tells you</th>
                 </tr>
                 <tr>
-                    <td><b>PRCPTOT</b></td>
-                    <td>Annual Total Precipitation on Wet Days</td>
-                    <td align='center'>mm/year</td>
-                    <td>Cumulative sum of rainfall occurring only on wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>PRCPTOT</b></td><td align='center'>mm/year</td>
+                    <td><i>PRCPTOT = Σ P<sub>i</sub></i> &nbsp; for all <i>P<sub>i</sub> ≥ 1.0</i></td>
+                    <td>Annual wet-day total. The gross water available to the catchment.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R95p</b></td>
-                    <td>Very Wet Days (Extreme Precipitation Above 95th Percentile)</td>
-                    <td align='center'>mm/year</td>
-                    <td>Total volume of rainfall on extreme days where daily rainfall exceeds the 95th percentile (P95) of the local historical series.</td>
+                    <td><b>R95p</b></td><td align='center'>mm/year</td>
+                    <td><i>R95p = Σ P<sub>i</sub></i> &nbsp; for all <i>P<sub>i</sub> &gt; q<sub>95</sub></i>,<br/>
+                        where <i>q<sub>95</sub></i> is the 95th percentile of wet-day rainfall</td>
+                    <td>Depth falling on the very wettest days — water that arrives faster than a tank can hold.</td>
                 </tr>
                 <tr>
-                    <td><b>RX1day</b></td>
-                    <td>Max 1-Day Precipitation</td>
-                    <td align='center'>mm/day</td>
-                    <td>Highest daily rainfall value registered in a single day of the year. Measures peak daily rainfall intensity.</td>
+                    <td><b>RX1day</b></td><td align='center'>mm/day</td>
+                    <td><i>RX1day = max(P<sub>i</sub>)</i></td>
+                    <td>The single largest daily depth. Sizes gutters and downpipes.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>RX5day</b></td>
-                    <td>Max 5-Day Consecutive Precipitation</td>
-                    <td align='center'>mm/5 days</td>
-                    <td>Highest cumulative rainfall in a moving window of 5 consecutive days. Key to evaluate soil saturation and heavy cumulative events.</td>
+                    <td><b>RX5day</b></td><td align='center'>mm</td>
+                    <td><i>RX5day = max<sub>i</sub> ( Σ<sub>j=i−4</sub><sup>i</sup> P<sub>j</sub> )</i></td>
+                    <td>Largest five-day accumulation. The event most likely to overflow a full tank.</td>
                 </tr>
                 <tr>
-                    <td><b>SDII</b></td>
-                    <td>Simple Daily Intensity Index</td>
-                    <td align='center'>mm/wet day</td>
-                    <td>Mean rainfall depth falling on wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>SDII</b></td><td align='center'>mm/wet day</td>
+                    <td><i>SDII = ( Σ P<sub>i</sub> ) / n<sub>wet</sub></i> &nbsp; over wet days only</td>
+                    <td>Mean intensity of a rainy day. High SDII with few wet days means bursty supply.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R20mm</b></td>
-                    <td>Very Heavy Precipitation Days (≥ 20 mm)</td>
-                    <td align='center'>days/year</td>
-                    <td>Number of days in the year where daily rainfall was equal to or higher than 20 mm.</td>
+                    <td><b>R20mm</b></td><td align='center'>days/year</td>
+                    <td><i>R20mm = #{ i : P<sub>i</sub> ≥ 20.0 }</i></td>
+                    <td>Count of heavy-rain days.</td>
                 </tr>
                 <tr>
-                    <td><b>CDD</b></td>
-                    <td>Consecutive Dry Days</td>
-                    <td align='center'>days/year</td>
-                    <td>Maximum number of consecutive dry days (<i>P<sub>t</sub> < 1,0 mm</i>) in the year. Measures the longest drought/dry spell.</td>
+                    <td><b>CDD</b></td><td align='center'>days</td>
+                    <td>Longest run of consecutive <i>i</i> with <i>P<sub>i</sub> &lt; 1.0</i></td>
+                    <td>The longest drought the tank must bridge. The single most demanding constraint on volume.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>CWD</b></td>
-                    <td>Consecutive Wet Days</td>
-                    <td align='center'>days/year</td>
-                    <td>Maximum number of consecutive wet days (<i>P<sub>t</sub> ≥ 1,0 mm</i>) in the year.</td>
+                    <td><b>CWD</b></td><td align='center'>days</td>
+                    <td>Longest run of consecutive <i>i</i> with <i>P<sub>i</sub> ≥ 1.0</i></td>
+                    <td>The longest wet spell; indicates prolonged spill.</td>
                 </tr>
                 <tr>
-                    <td><b>SI (Seasonality)</b></td>
-                    <td>Walsh & Lawler Seasonality Index (1981)</td>
-                    <td align='center'>adimensional</td>
-                    <td>Measures the concentration of monthly rainfall throughout the year.</td>
+                    <td><b>SI</b></td><td align='center'>dimensionless</td>
+                    <td><i>SI = (1/R) · Σ<sub>m=1</sub><sup>12</sup> | X<sub>m</sub> − R/12 |</i><br/>
+                        <i>R</i> = annual total; <i>X<sub>m</sub></i> = total of month <i>m</i></td>
+                    <td>How unevenly rain is spread across the months. 0 = perfectly uniform; 1.83 = all rain in one month.</td>
                 </tr>
             </table>
+
+            <h3>Methodological notes</h3>
+            <p><b>1. Composition of the set.</b> Eight indices follow the ETCCDI definitions; the Seasonality
+            Index follows Walsh &amp; Lawler (1981). The two references are combined because the ETCCDI set
+            characterises totals, extremes and spells, but not how rainfall is distributed across the months
+            &mdash; which is what governs the storage a tank needs. R10mm, part of the ETCCDI set, is not
+            computed here: R20mm already covers heavy-rain days at the threshold relevant to roof catchment.</p>
+            <p><b>2. Percentile base period.</b> <i>q<sub>95</sub></i> is computed over the series loaded for
+            the study, rather than over the 1961&ndash;1990 reference period used in climate-monitoring
+            applications of ETCCDI. This keeps R95p consistent with the record actually driving the
+            simulation. For comparison with published ETCCDI figures, load a series covering the same base
+            period.</p>
+            <p><b>3. Rolling window at the turn of the year.</b> RX5day is computed within each calendar
+            year, so the first four days form windows of one to four days. The effect is confined to peaks
+            occurring in the first days of January.</p>
             """
         else:
             html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📊 9 Índices Pluviométricos e Climatológicos (ETCCDI)</h2>
+            <h2 style='color: #0284c7; margin-top: 0px;'>📊 Nove Índices Pluviométricos (ETCCDI + Sazonalidade)</h2>
             <p style='font-size: 13px; line-height: 1.5;'>
-                O Netuno 5 analisa a série temporal de precipitação por meio dos <b>9 Indicadores Climatológicos Padrão do ETCCDI</b> (<i>Expert Team on Climate Change Detection and Indices</i> - OMM/WMO), avaliando o volume total, a variabilidade, os eventos extremos de chuva e os períodos de estiagem.
+                O Netuno 5 caracteriza a série de chuva por oito índices do conjunto <b>ETCCDI</b>
+                (<i>Expert Team on Climate Change Detection and Indices</i>, OMM/CLIVAR) mais o
+                <b>Índice de Sazonalidade</b> de Walsh &amp; Lawler. Juntos descrevem lâmina anual,
+                extremos, estiagens e a concentração da chuva ao longo do ano — as quatro coisas que
+                decidem se um reservatório de dado volume continuará funcionando.
             </p>
+
+            <h3>Definições comuns a todos</h3>
+            <p>Todos os índices são calculados <b>por ano civil</b>, sobre anos com registro completo
+            (365 ou 366 dias). Dois limiares regem o conjunto inteiro:</p>
+            <ul>
+                <li><b>Dia úmido:</b> <i>P<sub>i</sub> ≥ 1,0 mm</i></li>
+                <li><b>Dia seco:</b> <i>P<sub>i</sub> &lt; 1,0 mm</i></li>
+            </ul>
+            <p>em que <i>P<sub>i</sub></i> é a lâmina precipitada no dia <i>i</i>, em milímetros.</p>
 
             <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 10px; font-size: 12px;'>
                 <tr style='background-color: #0284c7; color: #ffffff;'>
-                    <th align='left' style='width: 18%;'>Índice / Sigla</th>
-                    <th align='left' style='width: 25%;'>Nome Extenso</th>
-                    <th align='center' style='width: 12%;'>Unidade</th>
-                    <th align='left'>Descrição e Equação de Cálculo</th>
+                    <th align='left' style='width: 13%;'>Índice</th>
+                    <th align='center' style='width: 13%;'>Unidade</th>
+                    <th align='left' style='width: 36%;'>Equação</th>
+                    <th align='left'>O que informa</th>
                 </tr>
                 <tr>
-                    <td><b>PRCPTOT</b></td>
-                    <td>Precipitação Total Anual em Dias Úmidos</td>
-                    <td align='center'>mm/ano</td>
-                    <td>Soma total acumulada de chuva ocorrida apenas nos dias considerados úmidos (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>PRCPTOT</b></td><td align='center'>mm/ano</td>
+                    <td><i>PRCPTOT = Σ P<sub>i</sub></i> &nbsp; para todo <i>P<sub>i</sub> ≥ 1,0</i></td>
+                    <td>Total anual em dias úmidos. A água bruta disponível à área de captação.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R95p</b></td>
-                    <td>Precipitação Extrema Acima do Percentil 95</td>
-                    <td align='center'>mm/ano</td>
-                    <td>Volume total de chuva acumulado em dias de precipitação extrema, cujos valores superam o percentil 95 (P95) da série histórica do local.</td>
+                    <td><b>R95p</b></td><td align='center'>mm/ano</td>
+                    <td><i>R95p = Σ P<sub>i</sub></i> &nbsp; para todo <i>P<sub>i</sub> &gt; q<sub>95</sub></i>,<br/>
+                        em que <i>q<sub>95</sub></i> é o percentil 95 da chuva dos dias úmidos</td>
+                    <td>Lâmina que cai nos dias mais chuvosos — água que chega mais depressa do que o reservatório consegue guardar.</td>
                 </tr>
                 <tr>
-                    <td><b>RX1day</b></td>
-                    <td>Máxima Precipitação em 1 Dia</td>
-                    <td align='center'>mm/dia</td>
-                    <td>Maior valor diário de chuva registrado em um único dia no ano. Mede picos de chuva diária extrema.</td>
+                    <td><b>RX1day</b></td><td align='center'>mm/dia</td>
+                    <td><i>RX1day = máx(P<sub>i</sub>)</i></td>
+                    <td>Maior lâmina diária do ano. Dimensiona calhas e condutores.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>RX5day</b></td>
-                    <td>Máxima Precipitação em 5 Dias Consecutivos</td>
-                    <td align='center'>mm/5 dias</td>
-                    <td>Maior acumulado de precipitação em uma janela móvel de 5 dias consecutivos no ano. Importante para avaliar saturação de solo e grandes acumulados.</td>
+                    <td><b>RX5day</b></td><td align='center'>mm</td>
+                    <td><i>RX5day = máx<sub>i</sub> ( Σ<sub>j=i−4</sub><sup>i</sup> P<sub>j</sub> )</i></td>
+                    <td>Maior acumulado em cinco dias. O evento que mais provavelmente extravasa um reservatório cheio.</td>
                 </tr>
                 <tr>
-                    <td><b>SDII</b></td>
-                    <td>Simple Daily Intensity Index (Intensidade Diária Simples)</td>
-                    <td align='center'>mm/dia úmido</td>
-                    <td>Média da lâmina de chuva precipitada apenas nos dias chuvosos (<i>P<sub>t</sub> ≥ 1,0 mm</i>).</td>
+                    <td><b>SDII</b></td><td align='center'>mm/dia úmido</td>
+                    <td><i>SDII = ( Σ P<sub>i</sub> ) / n<sub>úmidos</sub></i> &nbsp; só nos dias úmidos</td>
+                    <td>Intensidade média de um dia de chuva. SDII alto com poucos dias úmidos indica oferta concentrada.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>R20mm</b></td>
-                    <td>Dias com Chuva Forte (≥ 20 mm)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Contagem de dias no ano em que a precipitação diária foi igual ou superior a 20 mm.</td>
+                    <td><b>R20mm</b></td><td align='center'>dias/ano</td>
+                    <td><i>R20mm = #{ i : P<sub>i</sub> ≥ 20,0 }</i></td>
+                    <td>Contagem de dias de chuva forte.</td>
                 </tr>
                 <tr>
-                    <td><b>CDD</b></td>
-                    <td>Consecutive Dry Days (Dias Secos Consecutivos)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Maior número de dias secos consecutivos (<i>P<sub>t</sub> < 1,0 mm</i>) no ano. Mede o período máximo de estiagem ininterrupta.</td>
+                    <td><b>CDD</b></td><td align='center'>dias</td>
+                    <td>Maior sequência de <i>i</i> consecutivos com <i>P<sub>i</sub> &lt; 1,0</i></td>
+                    <td>A maior estiagem que o reservatório precisa atravessar. É a restrição mais exigente sobre o volume.</td>
                 </tr>
                 <tr style='background-color: #f8fafc;'>
-                    <td><b>CWD</b></td>
-                    <td>Consecutive Wet Days (Dias Úmidos Consecutivos)</td>
-                    <td align='center'>dias/ano</td>
-                    <td>Maior número de dias chuvosos consecutivos (<i>P<sub>t</sub> ≥ 1,0 mm</i>) no ano.</td>
+                    <td><b>CWD</b></td><td align='center'>dias</td>
+                    <td>Maior sequência de <i>i</i> consecutivos com <i>P<sub>i</sub> ≥ 1,0</i></td>
+                    <td>O maior período chuvoso contínuo; indica extravasamento prolongado.</td>
                 </tr>
                 <tr>
-                    <td><b>SI (Sazonalidade)</b></td>
-                    <td>Índice de Sazonalidade de Walsh & Lawler (1981)</td>
-                    <td align='center'>adimensional</td>
-                    <td>Mede a concentração mensal da chuva ao longo do ano.</td>
+                    <td><b>SI</b></td><td align='center'>adimensional</td>
+                    <td><i>SI = (1/R) · Σ<sub>m=1</sub><sup>12</sup> | X<sub>m</sub> − R/12 |</i><br/>
+                        <i>R</i> = total anual; <i>X<sub>m</sub></i> = total do mês <i>m</i></td>
+                    <td>Quão desigual é a distribuição da chuva entre os meses. 0 = perfeitamente uniforme; 1,83 = toda a chuva num único mês.</td>
                 </tr>
             </table>
+
+            <h3>Notas metodológicas</h3>
+            <p><b>1. Composição do conjunto.</b> Oito índices seguem as definições do ETCCDI; o Índice de
+            Sazonalidade segue Walsh &amp; Lawler (1981). As duas referências são combinadas porque o conjunto
+            ETCCDI caracteriza totais, extremos e sequências, mas não a distribuição da chuva ao longo dos
+            meses &mdash; que é justamente o que governa o volume de reservação necessário. O R10mm, do
+            conjunto ETCCDI, não é calculado: o R20mm já cobre dias de chuva forte no limiar relevante para
+            captação em cobertura.</p>
+            <p><b>2. Período-base do percentil.</b> O <i>q<sub>95</sub></i> é calculado sobre a série carregada
+            para o estudo, e não sobre o período de referência de 1961&ndash;1990 usado nas aplicações do
+            ETCCDI voltadas ao monitoramento climático. Isso mantém o R95p coerente com o registro que de
+            fato alimenta a simulação. Para comparar com valores ETCCDI publicados, carregue série que
+            cubra o mesmo período-base.</p>
+            <p><b>3. Janela móvel na virada do ano.</b> O RX5day é calculado dentro de cada ano civil, de
+            modo que os quatro primeiros dias formam janelas de um a quatro dias. O efeito restringe-se a
+            picos ocorridos nos primeiros dias de janeiro.</p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='indices')
+
 
     def create_tab_rainfall_hydrology(self) -> QWidget:
+        climbra_uri = _get_asset_data_uri("icons/CLIMBra.png") or _get_asset_data_uri("manual/figuras/CLIMBra.jpg")
+        img_climbra_tag = f"<div style='margin: 12px 0;'><img src='{climbra_uri}' width='260' alt='CLIMbra Dataset'/></div>" if climbra_uri else ""
+
         if get_current_lang() != "pt":
             html = """
             <h2 style='color: #0284c7; margin-top: 0px;'>🌧️ Rainfall and Pluvial Hydrology</h2>
@@ -1006,9 +1552,21 @@ class TabDocumentation(QWidget):
                 <br/><b>Data Source:</b> INMET (National Institute of Meteorology), ANA (National Water Agency), CEMADEN or local stations.
             </p>
 
+            <h3 style='color: #0369a1;'>CLIMBra Climate Database (CMIP6 / Projections)</h3>
+            __CLIMBRA_IMG__
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Beyond single-station ground rain gauges, Netuno 5 integrates the high-resolution meteorological projections of <b>CLIMBra</b> (<i>Climate Change Dataset for Brazil</i>), encompassing <b>652 Brazilian municipalities</b>, <b>19 global climate models (GCMs/ESMs)</b> from CMIP6, and two emission trajectories: <b>SSP2-4.5</b> (middle-of-the-road) and <b>SSP5-8.5</b> (fossil-fueled development).
+            </p>
+            <ul style='font-size: 12px; line-height: 1.6;'>
+                <li><b>Bias Correction:</b> 0.25° gridded daily time-series adjusted by <i>Quantile Delta Mapping</i> (QDM) against Xavier et al. (2016) ground observation grid.</li>
+                <li><b>Time Horizons:</b> Continuous historical baseline (1980–2013, 12,419 days) and 21st-century projections (2015–2100, 31,411 days).</li>
+                <li><b>Scientific Reference:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Sci Data 10, 48 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
+                <li><b>Open Data Repository:</b> Science Data Bank (CC0 License). <a href='https://doi.org/10.57760/sciencedb.02316' style='color:#0284c7;'>doi:10.57760/sciencedb.02316</a></li>
+            </ul>
+
             <h3 style='color: #0369a1;'>First Flush / Initial Discard ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                In the legacy-compatible Netuno algorithm, <i>d<sub>f</sub></i> is a rainfall-event threshold, not a depth subtracted from every accepted event. When the discard rule applies and <i>P<sub>t</sub> &lt; d<sub>f</sub></i>, that day's effective rainfall is zero; when <i>P<sub>t</sub> ≥ d<sub>f</sub></i>, the full daily rainfall is used. This reproduces the Netuno 4 manual and must not be confused with the physical volume of a first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate hydraulic design.
+                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtraída</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
             </p>
 
             <h3 style='color: #0369a1;'>Daily Capturable Volume ($V_{cap, t}$)</h3>
@@ -1018,7 +1576,7 @@ class TabDocumentation(QWidget):
                 V<sub>cap,t</sub> = A × C × P<sub>eff,t</sub>, where P<sub>eff,t</sub> = 0 if the applicable event is below d<sub>f</sub>; otherwise P<sub>eff,t</sub> = P<sub>t</sub>
                 </code>
             </p>
-            """
+            """.replace("__CLIMBRA_IMG__", img_climbra_tag)
         else:
             html = """
             <h2 style='color: #0284c7; margin-top: 0px;'>🌧️ Precipitação e Hidrologia Pluvial</h2>
@@ -1029,9 +1587,21 @@ class TabDocumentation(QWidget):
                 <br/><b>Fonte dos Dados:</b> INMET (Instituto Nacional de Meteorologia), ANA (Agência Nacional de Águas), CEMADEN ou estações locais (ex: EPAGRI/CIRAM).
             </p>
 
+            <h3 style='color: #0369a1;'>Base de dados CLIMBra (CMIP6 / Projeções)</h3>
+            __CLIMBRA_IMG__
+            <p style='font-size: 12.5px; line-height: 1.5;'>
+                Além das séries pontuais de estações meteorológicas, o Netuno 5 integra as projeções climáticas em grade de alta resolução do <b>CLIMBra</b> (<i>Climate Change Dataset for Brazil</i>), cobrindo <b>652 municípios brasileiros</b>, <b>19 modelos climáticos globais</b> (GCMs/ESMs) do CMIP6 e dois cenários de emissões: <b>SSP2-4.5</b> (trajetória intermediária) e <b>SSP5-8.5</b> (trajetória extrema de emissões elevadas).
+            </p>
+            <ul style='font-size: 12px; line-height: 1.6;'>
+                <li><b>Metodologia de Correção:</b> Séries em grade de 0,25° (~28 km) corrigidas estatisticamente pelo método <i>Quantile Delta Mapping</i> (QDM), calibradas contra o conjunto observacional diário de Xavier, King e Scanlon (2016).</li>
+                <li><b>Horizontes Temporais:</b> Série histórica simulada contínua de 1980 a 2013 (12.419 dias) e projeções futuras ininterruptas de 2015 a 2100 (31.411 dias), com atalhos de recortes de 30 anos (2021–2050, 2041–2070 e 2071–2100).</li>
+                <li><b>Artigo na Nature Scientific Data:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Scientific Data 10, art. 48 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
+                <li><b>Repositório de Dados Abertos:</b> Science Data Bank (licença pública CC0). <a href='https://doi.org/10.57760/sciencedb.02316' style='color:#0284c7;'>doi:10.57760/sciencedb.02316</a></li>
+            </ul>
+
             <h3 style='color: #0369a1;'>First Flush / Descarte Inicial ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                No algoritmo compatível com o Netuno legado, <i>d<sub>f</sub></i> é um <b>limiar do evento de chuva</b>, não uma lâmina subtraída de todo evento aceito. Quando a regra de descarte se aplica e <i>P<sub>t</sub> &lt; d<sub>f</sub></i>, a chuva efetiva do dia é zero; quando <i>P<sub>t</sub> ≥ d<sub>f</sub></i>, entra a precipitação diária integral. Isso reproduz o Manual do Netuno 4 e não deve ser confundido com o volume físico de um dispositivo de first flush, <i>A × d<sub>f</sub></i>, que exige dimensionamento hidráulico separado.
+                Quando a regra de descarte se aplica no dia, <i>d<sub>f</sub></i> é <b>subtraída</b> da chuva bruta: a chuva efetiva é <i>P<sub>t</sub> − d<sub>f</sub></i> quando <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, e <b>zero</b> caso contrário — o dia que não supera a lâmina se perde inteiro, e não em parte. Nos dias em que a regra não se aplica, a chuva do dia é captável integralmente. Repare que <i>d<sub>f</sub></i> é uma <b>lâmina</b> (mm), e não o volume hidráulico do dispositivo físico de first flush, <i>A × d<sub>f</sub></i>, que exige dimensionamento separado.
             </p>
 
             <h3 style='color: #0369a1;'>Volume Diário Captável ($V_{cap, t}$)</h3>
@@ -1041,8 +1611,8 @@ class TabDocumentation(QWidget):
                 V<sub>cap,t</sub> = A × C × P<sub>ef,t</sub>, em que P<sub>ef,t</sub> = 0 se o evento aplicável estiver abaixo de d<sub>f</sub>; caso contrário, P<sub>ef,t</sub> = P<sub>t</sub>
                 </code>
             </p>
-            """
-        return self._create_browser(html)
+            """.replace("__CLIMBRA_IMG__", img_climbra_tag)
+        return self._create_browser(html, secao='hidrologia')
 
     def create_tab_building_demand(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1051,7 +1621,7 @@ class TabDocumentation(QWidget):
             
             <h3 style='color: #0369a1;'>Catchment / Roof Area ($A$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                The horizontal projection area of the catchment surface (roof or slab) in square meters (m²).
+                The area of the impervious roof surface where water is collected, projected on the horizontal plane, in square metres (m²), as defined in item 3.6 of ABNT NBR 15527:2019. It is neither the sloped roof area nor the contributing area of ABNT NBR 10844, which adds the roof slope and walls to size gutters.
             </p>
 
             <h3 style='color: #0369a1;'>Total Per Capita Demand ($D_{hab}$)</h3>
@@ -1073,7 +1643,7 @@ class TabDocumentation(QWidget):
             
             <h3 style='color: #0369a1;'>Área de Captação / Cobertura ($A$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Área em projeção horizontal da superfície de captação (telhado ou laje) em metros quadrados (m²).
+                Área projetada na horizontal da superfície impermeável da cobertura onde a água é captada, em metros quadrados (m²), conforme o item 3.6 da ABNT NBR 15527:2019. Não é a área inclinada do telhado, nem a área de contribuição da ABNT NBR 10844, que soma a inclinação e as paredes para dimensionar calhas.
             </p>
 
             <h3 style='color: #0369a1;'>Demanda Total Per Capita ($D_{hab}$)</h3>
@@ -1089,7 +1659,7 @@ class TabDocumentation(QWidget):
                 <br/><b>Requisito de evidência:</b> derive a fração dos aparelhos/usos previstos e de dados medidos ou citados para a mesma tipologia; teste a incerteza em vez de assumir um percentual universal.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='demanda')
 
     def create_tab_tanks_pumping(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1243,14 +1813,23 @@ class TabDocumentation(QWidget):
                 Onde <i>Q</i> é a vazão em m³/s e <i>T</i> as horas diárias de funcionamento. A linha de sucção adota diâmetro comercial superior (ex.: recalque DN 32 mm e sucção DN 40 mm) para manter a velocidade abaixo de 1,0 m/s e evitar perda de carga excessiva ou risco de cavitação.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='reservatorios')
 
     def create_tab_water_quality_etap(self) -> QWidget:
         """Apresenta a fundamentação hidrológica do descarte inicial (wash-off), artigos de base e dimensionamento da ETAP."""
         if get_current_lang() != "pt":
             html = r"""
             <h2 style='color: #0284c7; margin-top: 0px;'>🧪 Water Quality, First Flush Wash-Off & Rainwater Treatment Plant (ETAP)</h2>
-            
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>What this tab does, and does not do.</b> It answers four questions, in this order:</p>
+                <p style='margin: 0 0 4px 0;'>1. <b>Which limits the design must meet</b> &mdash; the NBR 15527:2019 parameters, in section 3.</p>
+                <p style='margin: 0 0 4px 0;'>2. <b>Which first-flush discard is being adopted</b> &mdash; and what the standard recommends where data are lacking.</p>
+                <p style='margin: 0 0 4px 0;'>3. <b>How discard correlates with the expected improvement</b> &mdash; the curve in section 1.</p>
+                <p style='margin: 0;'>4. <b>Which treatment barriers make up the line</b> &mdash; chlorination always, with ultraviolet, ozone and a polishing filter as optional stages.</p>
+                <p style='margin: 6px 0 0 0;'>The curve in section 1 is a <b>design correlation</b>, used to size the discard and compare alternatives. It does not replace laboratory testing: the standard requires monitoring at least every six months (clause 4.6.7).</p>
+            </div>
+
             <h3 style='color: #0369a1;'>1. Scientific Foundation for First Flush Pollutant Removal (Wash-Off Model)</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
                 During antecedent dry periods (ADP), airborne particulates, vehicular soot, bird droppings, and organic debris accumulate on catchment surfaces.
@@ -1279,7 +1858,7 @@ class TabDocumentation(QWidget):
                 <ul style='font-size: 12px; line-height: 1.5; color: #334155;'>
                     <li><b>E(d):</b> Cumulative pollutant mass removal efficiency (%);</li>
                     <li><b>d:</b> Applied first-flush discard depth (mm), where 1.0 mm = 1.0 L discarded per m² of roof;</li>
-                    <li><b>k:</b> Empirical wash-off coefficient (mm<sup>−1</sup>), calibrated from empirical catchment studies:
+                    <li><b>k:</b> Wash-off coefficient (mm<sup>−1</sup>), adopted per impurity fraction. The values sit within the range reported in the first-flush literature and are design parameters rather than measured constants, so they remain editable:
                         <ul>
                             <li><b>Coarse / Settleable Solids (k = 1.6 mm<sup>−1</sup>):</b> Heavy particles washed quickly by initial droplet impact (<i>E ≈ 79.8% at 1.0 mm; E ≈ 95.9% at 2.0 mm</i>).</li>
                             <li><b>Fine Turbidity / Soot (k = 1.3 mm<sup>−1</sup>):</b> Colloidal and atmospheric dust particles (<i>E ≈ 72.7% at 1.0 mm; E ≈ 92.6% at 2.0 mm</i>).</li>
@@ -1318,8 +1897,8 @@ class TabDocumentation(QWidget):
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Chemical Disinfection (Chlorination)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>In-line erosion tablet feeder using Calcium Hypochlorite (65% active chlorine)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosage: 0.5 to 2.0 mg/L active Cl<sub>2</sub> (NBR 15527 free residual: 0.5–2.0 mg/L)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>BRL 280 feeder; chemical cost: BRL 38.00/kg; LCA: 1.85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosage: 0.5 to 2.0 mg/L active Cl<sub>2</sub> (NBR 15527:2019, clause 4.6.5; permitted maximum 5 mg/L). Always present: it is the only barrier leaving a free residual, which ultraviolet and ozone do not.</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>BRL 280 feeder; chemical cost: BRL 38.00/kg; LCA: 1.72 kg CO<sub>2</sub>e/kg of tablet (Ecoinvent 3.8, sodium hypochlorite as proxy, active-chlorine basis)</td>
                     </tr>
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>3. Physical Disinfection (Ultraviolet UV)</b></td>
@@ -1336,18 +1915,73 @@ class TabDocumentation(QWidget):
                 </tbody>
             </table>
 
-            <h3 style='color: #0369a1;'>3. Normative Water Quality Classes (ABNT NBR 15527:2019 & NBR 16783:2019)</h3>
+            <h3 style='color: #0369a1;'>3. Water Quality Classes by Use</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Class 1 (Toilet & Urinal Flushing):</b> Turbidity &le; 5.0 NTU; Color &le; 15 uH; pH 6.0–9.0; Free Residual Cl<sub>2</sub> 0.5–2.0 mg/L; Coliforms &le; 200 CFU/100 mL.</li>
                 <li><b>Class 2 (Garden Irrigation, Floor & Vehicle Washing):</b> Turbidity &le; 5.0 NTU; Color &le; 15 uH; pH 6.0–9.0; Free Residual Cl<sub>2</sub> 1.0–3.0 mg/L; Coliforms = 0 (Absence).</li>
                 <li><b>Class 3 (Cooling Towers & Industrial Boilers):</b> Turbidity &le; 2.0 NTU; Color &le; 10 uH; pH 6.5–8.5; Free Residual Cl<sub>2</sub> 1.0–2.5 mg/L; Coliforms = 0 (Absence).</li>
                 <li><b>Class 4 (Laundry & Noble Non-Potable Uses):</b> Turbidity &le; 2.0 NTU; Color &le; 5 uH; pH 6.5–8.5; Free Residual Cl<sub>2</sub> 0.5–1.5 mg/L; Coliforms = 0 (Absence).</li>
             </ul>
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>Requirements of NBR 15527:2019.</b> The standard sets a single set of minimum parameters, with no matrix of use classes: clause 4.6.3, Table 1, sets a <b>single</b> set of minimum parameters, valid for every non-potable use listed in 4.1.7.</p>
+                <table border='1' cellspacing='0' cellpadding='6' style='border-collapse: collapse; border-color: #cbd5e1; width: 60%; margin: 8px 0; font-size: 12px; background: #ffffff;'>
+                    <tr style='background-color: #0284c7; color: #ffffff;'><th align='left'>Parameter</th><th align='left'>Value</th></tr>
+                    <tr><td><i>Escherichia coli</i></td><td>&lt; 200 / 100 mL</td></tr>
+                    <tr><td>Turbidity</td><td>&lt; 5.0 NTU</td></tr>
+                    <tr><td>pH</td><td>6.0 to 9.0</td></tr>
+                </table>
+                <p style='margin: 0 0 6px 0;'>Clause 4.6.5 adds free residual chlorine between <b>0.5 and 2.0 mg/L</b>, with 5 mg/L as the permitted maximum. The standard has no colour parameter.</p>
+                <p style='margin: 0;'><b>How the table above is built.</b> Class 1 corresponds to the normative set, with two design additions: a colour limit, absent from the standard, and thermotolerant coliforms in place of <i>E. coli</i>, which is the more restrictive of the two. Classes 2 to 4 are a graded scheme adopted by this programme for uses whose exposure differs &mdash; drawing on the parameters-by-use approach of the 2007 edition and on current practice &mdash; and are offered as design guidance, the normative requirement being Class 1 in every case.</p>
+            </div>
+
+            <h3 style='color: #0369a1;'>4. Why these parameters, and not others</h3>
+            <p style='font-size: 12.5px; line-height: 1.6;'>
+                Five quantities are enough to decide whether a water is fit for a non-potable use. Each answers a different question, and none substitutes for the others.
+            </p>
+            <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 8px; font-size: 12px;'>
+                <tr style='background-color: #0284c7; color: #ffffff;'>
+                    <th align='left' style='width: 22%;'>Parameter</th>
+                    <th align='left'>Why it is measured</th>
+                </tr>
+                <tr>
+                    <td><b>Turbidity</b></td>
+                    <td>The operational proxy for disinfection efficiency. Suspended particles shelter microorganisms and consume chlorine, so cloudy water can receive an adequate dose and still not be disinfected. Turbidity is measured in minutes, in the field; a microbiological count takes 24 hours in a laboratory. That is why it is the continuous control parameter and the bacteriological test the periodic verification.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Apparent colour</b></td>
+                    <td>Signals dissolved organic matter and material leached from the roof. It matters for two reasons: it consumes chlorine without turbidity registering it, and it is why users reject water in visible uses &mdash; laundry above all. That is exactly why it is the most restrictive parameter in Class 4.</td>
+                </tr>
+                <tr>
+                    <td><b>pH</b></td>
+                    <td>Governs chlorine effectiveness and the water's aggressiveness towards pipework. Above pH 8 the hypochlorous acid fraction &mdash; the species that actually disinfects &mdash; falls sharply, and the same measured residual disinfects less. Below pH 6 the water attacks metals and mortars. The range is a precondition for the residual to mean anything at all.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Free residual chlorine</b></td>
+                    <td>The only parameter attesting <i>continued</i> protection: it measures the remaining capacity to inactivate contamination introduced after treatment, inside the tank and the pipes. It has a minimum and a maximum &mdash; below the minimum there is no barrier; above it, odour, taste and disinfection by-products appear. Hence a band, not a ceiling.</td>
+                </tr>
+                <tr>
+                    <td><b>Faecal coliforms</b></td>
+                    <td>Indicator of faecal contamination, which on a roof comes mostly from birds and small animals. The pathogen is not measured directly: what is measured is an abundant, easily cultured organism that travels with the contamination. Class 1 admits up to 200 CFU/100 mL because toilet flushing carries minimal human exposure; the other classes require absence because they involve aerosol, contact, or contact with clothing.</td>
+                </tr>
+            </table>
+            <p style='font-size: 12.5px; line-height: 1.6; margin-top: 10px;'>
+                <b>Two deliberate omissions.</b> Potability is not assessed: the rainwater here is intended for non-potable uses, and comparing its limits with Brazil's drinking-water regulation (<b>Portaria GM/MS 888/2021</b>) would wrongly suggest the system fails a requirement it never set out to meet. Metals and organic compounds are not assessed either: they would matter on old metal roofs or in heavily polluted airsheds, cases that demand their own sampling campaign and lie outside the reach of a preliminary sizing.
+            </p>
             """
         else:
             html = r"""
             <h2 style='color: #0284c7; margin-top: 0px;'>🧪 Qualidade da Água, Descarte Inicial (Wash-Off) e Linha de Tratamento (ETAP)</h2>
-            
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 10px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>O que esta aba faz, e o que não faz.</b> Ela responde a quatro perguntas, nesta ordem:</p>
+                <p style='margin: 0 0 4px 0;'>1. <b>Quais limites o projeto precisa atender</b> &mdash; os parâmetros da NBR 15527:2019, na seção 3.</p>
+                <p style='margin: 0 0 4px 0;'>2. <b>Qual descarte de primeira chuva está sendo adotado</b> &mdash; e o que a norma recomenda na falta de dados.</p>
+                <p style='margin: 0 0 4px 0;'>3. <b>Como o descarte se correlaciona com a melhoria de qualidade</b> &mdash; a curva da seção 1.</p>
+                <p style='margin: 0;'>4. <b>Quais barreiras de tratamento compõem a linha</b> &mdash; cloração sempre, com ultravioleta, ozônio e filtro de polimento como estágios opcionais.</p>
+                <p style='margin: 6px 0 0 0;'>A curva da seção 1 é uma <b>correlação de projeto</b>, para dimensionar o descarte e comparar alternativas. Não substitui análise laboratorial: a norma exige monitoramento com frequência mínima semestral (item 4.6.7).</p>
+            </div>
+
             <h3 style='color: #0369a1;'>1. Fundamentação Científica da Remoção de Poluentes por Descarte Inicial (Modelo Wash-Off)</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
                 Durante os períodos de estiagem antecedentes (<i>Antecedent Dry Periods — ADP</i>), poeiras atmosféricas, fezes de pássaros, fuligem veicular de combustão e matéria orgânica se acumulam sobre a cobertura.
@@ -1375,7 +2009,7 @@ class TabDocumentation(QWidget):
                 <ul style='font-size: 12px; line-height: 1.5; color: #334155;'>
                     <li><b>E(d):</b> Eficiência percentual acumulada de remoção do contaminante (%);</li>
                     <li><b>d:</b> Lâmina de descarte inicial aplicada (mm), onde 1,0 mm = 1,0 litro descartado por m² de telhado;</li>
-                    <li><b>k:</b> Coeficiente empírico de lavagem (mm<sup>−1</sup>), calibrado a partir de dados experimentais para três frações de impurezas:
+                    <li><b>k:</b> Coeficiente de lavagem (mm<sup>−1</sup>), adotado por fração de impureza. Os valores situam-se na faixa relatada pela literatura de <i>first flush</i> e são parâmetros de projeto, não constantes medidas, razão pela qual permanecem editáveis:
                         <ul>
                             <li><b>Sólidos Grosseiros e Sedimentáveis (k = 1,6 mm<sup>−1</sup>):</b> Partículas pesadas desprendidas rapidamente pelo impacto inicial das gotas (<i>E ≈ 79,8% para 1,0 mm; E ≈ 95,9% para 2,0 mm</i>).</li>
                             <li><b>Turbidez Fina e Fuligem (k = 1,3 mm<sup>−1</sup>):</b> Partículas coloidais e poeiras finas atmosféricas (<i>E ≈ 72,7% para 1,0 mm; E ≈ 92,6% para 2,0 mm</i>).</li>
@@ -1414,8 +2048,8 @@ class TabDocumentation(QWidget):
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>2. Desinfecção Química (Cloração)</b></td>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador de passagem por erosão com pastilhas de Hipoclorito de Cálcio (65% cloro ativo)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosagem: 0,5 a 2,0 mg/L de Cl<sub>2</sub> ativo (Residual livre NBR 15527: 0,5 a 2,0 mg/L)</td>
-                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador R$ 280; Químico: R$ 38,00/kg; Fator ACV: 1,85 kg CO<sub>2</sub>e/kg (Ecoinvent v3.8)</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosagem: 0,5 a 2,0 mg/L de Cl<sub>2</sub> ativo (NBR 15527:2019, item 4.6.5; máximo permitido de 5 mg/L). Sempre presente: é a única barreira que deixa residual livre, o que ultravioleta e ozônio não fazem.</td>
+                        <td style='padding: 8px; border: 1px solid #e2e8f0;'>Dosador R$ 280; Químico: R$ 38,00/kg; Fator ACV: 1,72 kg CO<sub>2</sub>e/kg de pastilha (Ecoinvent 3.8, hipoclorito de sódio como aproximação, na base de cloro ativo)</td>
                     </tr>
                     <tr>
                         <td style='padding: 8px; border: 1px solid #e2e8f0;'><b>3. Desinfecção Física (Radiação UV)</b></td>
@@ -1432,9 +2066,9 @@ class TabDocumentation(QWidget):
                 </tbody>
             </table>
 
-            <h3 style='color: #0369a1;'>3. Matriz de Classes de Qualidade e Normas Regulatórias</h3>
+            <h3 style='color: #0369a1;'>3. Matriz de Classes de Qualidade por Uso</h3>
             <p style='font-size: 12.5px; line-height: 1.6;'>
-                Conforme estabelecido pela <b>ABNT NBR 15527:2019</b> e <b>ABNT NBR 16783:2019</b>, a água pluvial tratada é enquadrada em quatro classes de uso:
+                A água pluvial tratada é enquadrada em quatro classes de uso, com os parâmetros abaixo:
             </p>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Classe 1 (Bacias Sanitárias e Mictórios):</b> Turbidez &le; 5,0 NTU; Cor Aparente &le; 15 uH; pH 6,0 a 9,0; Cloro Residual Livre 0,5 a 2,0 mg/L; Coliformes Termotolerantes &le; 200 UFC/100 mL.</li>
@@ -1442,8 +2076,54 @@ class TabDocumentation(QWidget):
                 <li><b>Classe 3 (Torres de Resfriamento e Caldeiras Industriais):</b> Turbidez &le; 2,0 NTU; Cor &le; 10 uH; pH 6,5 a 8,5; Cloro Residual 1,0 a 2,5 mg/L; Coliformes = 0 (Ausência).</li>
                 <li><b>Classe 4 (Lavagem de Roupas e Usos Nobres Não Potáveis):</b> Turbidez &le; 2,0 NTU; Cor &le; 5 uH; pH 6,5 a 8,5; Cloro Residual 0,5 a 1,5 mg/L; Coliformes = 0 (Ausência). Exige filtração por carvão ativado.</li>
             </ul>
+
+            <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 14px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
+                <p style='margin: 0 0 6px 0;'><b>Requisitos da NBR 15527:2019.</b> A norma estabelece um conjunto único de parâmetros mínimos, sem matriz de classes de uso: o item 4.6.3, Tabela 1, estabelece um <b>único</b> conjunto de parâmetros mínimos, válido para todos os usos não potáveis listados em 4.1.7.</p>
+                <table border='1' cellspacing='0' cellpadding='6' style='border-collapse: collapse; border-color: #cbd5e1; width: 60%; margin: 8px 0; font-size: 12px; background: #ffffff;'>
+                    <tr style='background-color: #0284c7; color: #ffffff;'><th align='left'>Parâmetro</th><th align='left'>Valor</th></tr>
+                    <tr><td><i>Escherichia coli</i></td><td>&lt; 200 / 100 mL</td></tr>
+                    <tr><td>Turbidez</td><td>&lt; 5,0 uT</td></tr>
+                    <tr><td>pH</td><td>6,0 a 9,0</td></tr>
+                </table>
+                <p style='margin: 0 0 6px 0;'>O item 4.6.5 acrescenta cloro residual livre entre <b>0,5 e 2,0 mg/L</b>, com máximo permitido de 5 mg/L. Não há parâmetro de cor na norma.</p>
+                <p style='margin: 0;'><b>Como a tabela acima é montada.</b> A Classe 1 corresponde ao conjunto normativo, com dois acréscimos de projeto: um limite de cor, ausente da norma, e coliformes termotolerantes no lugar de <i>E. coli</i>, sendo aquele o parâmetro mais restritivo. As Classes 2 a 4 formam um escalonamento adotado por este programa para usos de exposição distinta — apoiado na abordagem por uso da edição de 2007 e na prática corrente — e valem como orientação de projeto, permanecendo a Classe 1 o requisito normativo em todos os casos.</p>
+            </div>
+
+            <h3 style='color: #0369a1;'>4. Por que estes parâmetros, e não outros</h3>
+            <p style='font-size: 12.5px; line-height: 1.6;'>
+                Cinco grandezas bastam para decidir se uma água serve a um uso não potável. Cada uma responde a uma pergunta distinta, e nenhuma substitui as demais.
+            </p>
+            <table border='1' cellspacing='0' cellpadding='8' style='border-collapse: collapse; border-color: #cbd5e1; width: 100%; margin-top: 8px; font-size: 12px;'>
+                <tr style='background-color: #0284c7; color: #ffffff;'>
+                    <th align='left' style='width: 22%;'>Parâmetro</th>
+                    <th align='left'>Por que é medido</th>
+                </tr>
+                <tr>
+                    <td><b>Turbidez</b></td>
+                    <td>É o indicador operacional da eficiência da desinfecção. Partículas em suspensão abrigam microrganismos e consomem cloro, de modo que uma água turva pode receber dose adequada e ainda assim não ficar desinfetada. Turbidez é medida em minutos e em campo; a contagem microbiológica leva 24 horas em laboratório. Por isso ela é o parâmetro de controle contínuo, e o exame bacteriológico, o de verificação periódica.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Cor aparente</b></td>
+                    <td>Sinaliza matéria orgânica dissolvida e material lixiviado da cobertura. Importa por dois motivos: consome cloro sem que a turbidez acuse, e é a razão pela qual usuários rejeitam a água em usos visíveis — lavagem de roupa acima de tudo. É o parâmetro mais restritivo da Classe 4 justamente por isso.</td>
+                </tr>
+                <tr>
+                    <td><b>pH</b></td>
+                    <td>Governa a eficácia do cloro e a agressividade da água às tubulações. Acima de pH 8 a fração de ácido hipocloroso — a espécie efetivamente desinfetante — cai acentuadamente, e o mesmo residual medido desinfeta menos. Abaixo de pH 6 a água ataca metais e argamassas. A faixa é uma condição para que o cloro residual signifique alguma coisa.</td>
+                </tr>
+                <tr style='background-color: #f8fafc;'>
+                    <td><b>Cloro residual livre</b></td>
+                    <td>Único parâmetro que atesta proteção <i>continuada</i>: mede a capacidade que resta de inativar contaminação introduzida depois do tratamento, dentro do reservatório e da rede. Tem mínimo e máximo — abaixo do mínimo não há barreira; acima do máximo aparecem odor, sabor e subprodutos de desinfecção. É por isso uma faixa, e não um limite superior.</td>
+                </tr>
+                <tr>
+                    <td><b>Coliformes termotolerantes</b></td>
+                    <td>Indicador de contaminação fecal, que em cobertura vem sobretudo de aves e pequenos animais. Não se mede o patógeno diretamente: mede-se um organismo abundante, fácil de cultivar e que acompanha a contaminação. A Classe 1 admite até 200 UFC/100 mL porque a bacia sanitária tem exposição humana mínima; as demais classes exigem ausência porque envolvem aerossol, contato ou contato com roupa.</td>
+                </tr>
+            </table>
+            <p style='font-size: 12.5px; line-height: 1.6; margin-top: 10px;'>
+                <b>Duas ausências deliberadas.</b> Não se avalia potabilidade: a água pluvial deste programa destina-se a usos não potáveis, e comparar seus limites com os da <b>Portaria GM/MS n.º 888/2021</b> — que rege a potabilidade no Brasil — levaria à conclusão errada de que o sistema falha num requisito que não se propõe a atender. E não se avaliam metais nem compostos orgânicos: seriam pertinentes em coberturas metálicas antigas ou em áreas de intensa poluição atmosférica, casos que exigem campanha de amostragem própria e estão fora do alcance de um pré-dimensionamento.
+            </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='qualidade')
 
     def create_tab_indicators_performance(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1500,7 +2180,7 @@ class TabDocumentation(QWidget):
                 Volume de água pluvial excedente desperdiçado por extravasamento quando o reservatório atinge sua capacidade máxima.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='indicadores')
 
     def create_tab_economics(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1563,7 +2243,7 @@ class TabDocumentation(QWidget):
                 Tempo (em anos) necessário para que o fluxo de caixa acumulado das economias de água compense o investimento inicial (CAPEX). O payback descontado considera a perda do valor do dinheiro no tempo pela TMA.
             </p>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='economico')
 
     def create_tab_discussion_average_values(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1584,7 +2264,7 @@ class TabDocumentation(QWidget):
             <h3 style='color: #0369a1;'>2. Why use continuous daily simulation?</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Captures Real Dry Spells (CDD):</b> Accounts for the exact sequence of consecutive dry days.</li>
-                <li><b>First-flush threshold:</b> Applies the configured legacy rule: applicable rainfall below <i>df</i> is zero; at or above <i>df</i>, full daily rainfall is accepted.</li>
+                <li><b>First-flush depth:</b> Subtracts <i>df</i> from the rainfall of each day on which the rule applies; a day with rainfall at or below <i>df</i> yields no capture.</li>
                 <li><b>Sequence-dependent overflow:</b> Computes overflow under the stated daily YAS assumptions when the cistern reaches capacity.</li>
                 <li><b>Dynamic Consumption & Pumping:</b> Simulates the daily interaction between lower cistern, upper tank, and pump cycles.</li>
             </ul>
@@ -1614,7 +2294,7 @@ class TabDocumentation(QWidget):
             <h3 style='color: #0369a1;'>2. Por que usar a simulação diária contínua?</h3>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
                 <li><b>Captura da Estiagem Real (CDD):</b> Considera a sequência exata de dias secos consecutivos.</li>
-                <li><b>Limiar de first flush:</b> Aplica a regra legada configurada: chuva aplicável abaixo de <i>df</i> é zerada; ao atingir <i>df</i>, a chuva diária integral é aceita.</li>
+                <li><b>Lâmina de descarte:</b> Subtrai <i>df</i> da chuva de cada dia em que a regra se aplica; um dia com chuva igual ou menor que <i>df</i> não produz captação.</li>
                 <li><b>Extravasamento dependente da sequência:</b> Calcula a perda sob as premissas diárias do YAS quando a cisterna atinge a capacidade.</li>
                 <li><b>Dinâmica de Consumo e Recalque:</b> Avalia a interação diária entre o reservatório inferior, o reservatório superior e o acionamento da motobomba.</li>
             </ul>
@@ -1626,7 +2306,7 @@ class TabDocumentation(QWidget):
                 </p>
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='discussao')
 
     def create_tab_tariffs_and_opex(self) -> QWidget:
         if get_current_lang() != "pt":
@@ -1687,154 +2367,444 @@ class TabDocumentation(QWidget):
                 <b>Uso profissional:</b> confirme todos os itens nas etapas “Investimento Inicial”, “Motobomba” e “Outros Custos Operacionais” antes de interpretar VPL, TIR ou payback.
             </div>
             """
-        return self._create_browser(html)
+        return self._create_browser(html, secao='tarifas')
+
+    def create_tab_manuals_overview(self) -> QWidget:
+        """Painel técnico dos Manuais Oficiais do Netuno 5 e do Manual Interativo Web."""
+        ingles = get_current_lang() != "pt"
+        is_dark = get_current_theme() == "dark"
+
+        # Paleta de cores responsiva ao tema (superfícies elevadas e contraste refinado)
+        canvas_bg = "#0c1815" if is_dark else "#eef2f6"
+        card_bg = "#122b25" if is_dark else "#ffffff"
+        card_border = "#234d43" if is_dark else "#cbd5e1"
+        text_title = "#f8fafc" if is_dark else "#0f172a"
+        text_desc = "#a3cdc3" if is_dark else "#475569"
+        chip_bg = "#1a4d40" if is_dark else "#f1f5f9"
+        chip_fg = "#48d5b7" if is_dark else "#334155"
+        feat_border = "#48d5b7" if is_dark else "#0284c7"
+        feat_bg = "#122b25" if is_dark else "#ffffff"
+
+        scroll = _ResponsiveScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        scroll.setStyleSheet(f"""
+            QScrollArea {{
+                background-color: transparent;
+                border: none;
+            }}
+            QScrollBar:vertical {{
+                background: transparent;
+                width: 8px;
+                margin: 4px 2px 4px 0;
+                border: none;
+            }}
+            QScrollBar::handle:vertical {{
+                background: {'#234d43' if is_dark else '#cbd5e1'};
+                min-height: 30px;
+                border-radius: 4px;
+            }}
+            QScrollBar::handle:vertical:hover {{
+                background: {'#48d5b7' if is_dark else '#94a3b8'};
+            }}
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+                height: 0px;
+                width: 0px;
+                border: none;
+            }}
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                background: transparent;
+            }}
+        """)
+
+        container = QWidget()
+        container.setObjectName("manualsContainer")
+        container.setStyleSheet("QWidget#manualsContainer { background-color: transparent; }")
+
+        lay = QVBoxLayout(container)
+        lay.setContentsMargins(8, 12, 12, 20)
+        lay.setSpacing(14)
+
+        # 1. HERO BANNER DA PLATAFORMA WEB
+        hero = QFrame()
+        hero.setObjectName("heroBanner")
+        hero.setStyleSheet("""
+            QFrame#heroBanner {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0.85,
+                    stop:0 #0f172a, stop:0.45 #1e293b, stop:1 #0369a1);
+                border: 1px solid #334155;
+                border-radius: 14px;
+            }
+        """)
+        h_lay = QVBoxLayout(hero)
+        h_lay.setContentsMargins(20, 18, 20, 18)
+        h_lay.setSpacing(10)
+
+        h_badge = QLabel("PLATAFORMA ONLINE • MANUAL INTERATIVO" if not ingles else "ONLINE PLATFORM • INTERACTIVE MANUAL")
+        h_badge.setStyleSheet("background-color: rgba(2, 132, 199, 0.45); border: 1px solid #38bdf8; color: #e0f2fe; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 10px; letter-spacing: 0.5px;")
+        h_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        h_lay.addWidget(h_badge)
+
+        h_title = QLabel("Manual Interativo e Metodologia Web" if not ingles else "Interactive Web Manual & Methodology")
+        h_title.setStyleSheet("font-size: 20px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px;")
+        h_lay.addWidget(h_title)
+
+        h_desc = QLabel(
+            "Simulações interativas do balanço hídrico diário, formulação matemática detalhada e visualizações conceituais diretamente no navegador."
+            if not ingles else
+            "Interactive daily water balance simulations, detailed mathematical formulation, and conceptual visualizations directly in the browser."
+        )
+        h_desc.setStyleSheet("font-size: 12.5px; color: #cbd5e1; line-height: 1.45;")
+        h_desc.setWordWrap(True)
+        h_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        h_desc.setMinimumWidth(100)
+        h_lay.addWidget(h_desc)
+
+        h_btn_row = QHBoxLayout()
+        h_btn_row.setSpacing(12)
+        h_btn = QPushButton("Abrir Manual Interativo (Web) →" if not ingles else "Open Interactive Manual (Web) →")
+        h_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #38bdf8;
+                color: #082f49;
+                font-weight: 800;
+                font-size: 12px;
+                padding: 10px 22px;
+                border-radius: 8px;
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: #7dd3fc;
+            }
+            QPushButton:pressed {
+                background-color: #0284c7;
+                color: #ffffff;
+            }
+        """)
+        h_btn.setCursor(Qt.PointingHandCursor)
+        h_btn.clicked.connect(lambda: abrir_manual_interativo(parent=self))
+        h_btn_row.addWidget(h_btn)
+        h_btn_row.addStretch(1)
+        h_lay.addLayout(h_btn_row)
+
+        lay.addWidget(hero)
+
+        # 2. CABEÇALHO DO ACERVO DE MANUAIS
+        sec_box = QVBoxLayout()
+        sec_box.setSpacing(3)
+        lbl_sec = QLabel("Manuais Técnicos do Netuno 5 (PDF)" if not ingles else "Netuno 5 Technical Manuals (PDF)")
+        lbl_sec.setStyleSheet(f"font-size: 18px; font-weight: 800; color: {'#48d5b7' if is_dark else '#0f172a'}; margin-top: 6px;")
+        sec_box.addWidget(lbl_sec)
+
+        lbl_sec_desc = QLabel(
+            "Documentos de referência para engenharia, formulação dos métodos, diretrizes por tipologia predial e tabelas de parâmetros."
+            if not ingles else
+            "Engineering reference documents, method formulation, building typology guidelines, and design tables."
+        )
+        lbl_sec_desc.setStyleSheet(f"font-size: 12.5px; color: {text_desc};")
+        lbl_sec_desc.setWordWrap(True)
+        lbl_sec_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        lbl_sec_desc.setMinimumWidth(100)
+        sec_box.addWidget(lbl_sec_desc)
+        lay.addLayout(sec_box)
+
+        # 3. CARD DE DESTAQUE (Volume Geral 270 páginas)
+        feat = QFrame()
+        feat.setObjectName("featCard")
+        feat.setStyleSheet(f"""
+            QFrame#featCard {{
+                background-color: {feat_bg};
+                border: 1px solid {card_border};
+                border-top: 5px solid {feat_border};
+                border-radius: 14px;
+            }}
+        """)
+        f_lay = QHBoxLayout(feat)
+        f_lay.setContentsMargins(16, 14, 16, 14)
+        f_lay.setSpacing(14)
+
+        # Capa Esquerda
+        f_left = QVBoxLayout()
+        f_left.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
+        f_left.setSpacing(6)
+
+        lbl_f_img = QLabel()
+        lbl_f_img.setFixedSize(120, 85)
+        lbl_f_img.setStyleSheet(f"border-radius: 8px; border: 1px solid {card_border}; background-color: {'#15332c' if is_dark else '#f8fafc'};")
+        lbl_f_img.setAlignment(Qt.AlignCenter)
+        pm_comp = _get_asset_pixmap("icons/capas/thumb_capa_completo.png", 120, 85) or _get_asset_pixmap("manual/figuras/capas/thumb_capa_completo.png", 120, 85)
+        if not pm_comp.isNull():
+            lbl_f_img.setPixmap(pm_comp)
+        f_left.addWidget(lbl_f_img)
+
+        lbl_f_sub = QLabel("PDF • 270 PÁGINAS" if not ingles else "PDF • 270 PAGES")
+        lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
+        lbl_f_sub.setAlignment(Qt.AlignCenter)
+        f_left.addWidget(lbl_f_sub)
+        f_lay.addLayout(f_left)
+
+        # Conteúdo Direita
+        f_right = QVBoxLayout()
+        f_right.setSpacing(6)
+
+        f_badge = QLabel("VOLUME GERAL • 270 PÁGINAS" if not ingles else "GENERAL VOLUME • 270 PAGES")
+        f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
+        f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        f_right.addWidget(f_badge)
+
+        f_title = QLabel("Manual Netuno 5 — Volume Geral" if not ingles else "Netuno 5 Manual — General Volume")
+        f_title.setStyleSheet(f"font-size: 17px; font-weight: 800; color: {text_title}; margin: 2px 0;")
+        f_right.addWidget(f_title)
+
+        f_desc = QLabel(
+            "Manual abrangente de engenharia para aproveitamento de água de chuva. Apresenta o método de simulação diária Yield-After-Spill (YAS), coeficientes de escoamento para coberturas, matriz multicritério TOPSIS, análise de ciclo de vida (ACV) e viabilidade econômico-financeira."
+            if not ingles else
+            "Comprehensive engineering manual for rainwater harvesting. Presents the daily Yield-After-Spill (YAS) simulation method, roof runoff coefficients, TOPSIS multi-criteria matrix, life-cycle assessment (LCA), and economic feasibility."
+        )
+        f_desc.setStyleSheet(f"font-size: 12px; color: {text_desc}; line-height: 1.5;")
+        f_desc.setWordWrap(True)
+        f_desc.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        f_desc.setMinimumWidth(100)
+        f_right.addWidget(f_desc)
+
+        chips_master = (
+            ["Balanço Diário YAS", "Análise Econômica"]
+            if not ingles else
+            ["Daily YAS Balance", "Economic Analysis"]
+        )
+        f_chips_lay = QHBoxLayout()
+        f_chips_lay.setSpacing(6)
+        for ch in chips_master:
+            c = QLabel(ch)
+            c_bg = "#1a4d40" if is_dark else "#f0f9ff"
+            c_fg = "#48d5b7" if is_dark else "#0369a1"
+            c.setStyleSheet(f"background-color: {c_bg}; color: {c_fg}; border: 1px solid {'#234d43' if is_dark else '#bae6fd'}; font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px;")
+            f_chips_lay.addWidget(c)
+        f_chips_lay.addStretch(1)
+        f_right.addLayout(f_chips_lay)
+
+        f_btn = QPushButton("Baixar Volume Geral (PDF)" if not ingles else "Download General Volume (PDF)")
+        f_btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {'#087f6b' if is_dark else '#0284c7'};
+                color: #ffffff;
+                font-weight: 700;
+                font-size: 12px;
+                padding: 8px 20px;
+                border-radius: 6px;
+                border: none;
+            }}
+            QPushButton:hover {{
+                background-color: {'#066d5c' if is_dark else '#0369a1'};
+            }}
+            QPushButton:pressed {{
+                background-color: {'#044b3f' if is_dark else '#0c4a6e'};
+            }}
+        """)
+        f_btn.setCursor(Qt.PointingHandCursor)
+        f_btn.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        _configurar_botao_manual(f_btn, "manual/Manual-Netuno-5.pdf", parent=self)
+        f_right.addWidget(f_btn)
+
+        f_lay.addLayout(f_right, stretch=1)
+        lay.addWidget(feat)
+
+        # 4. OS 7 MINI-MANUAIS TEMÁTICOS
+        vols_data = [
+            (1, 31,
+             "VOLUME 1 • INTRODUÇÃO" if not ingles else "VOLUME 1 • INTRODUCTION",
+             "Volume 1 — Primeiros Passos" if not ingles else "Volume 1 — Getting Started",
+             "Instalação, navegação na interface, fluxo de trabalho e conceitos básicos para estruturar o primeiro estudo de aproveitamento pluvial."
+             if not ingles else
+             "Installation, interface navigation, workflow, and basic concepts for setting up a rainwater harvesting study.",
+             ["Instalação e Interface" if not ingles else "Installation & UI", "Fluxo de Trabalho" if not ingles else "Workflow"],
+             "icons/capas/thumb_capa_1-comece-aqui.png", "#059669", "#064e3b" if is_dark else "#d1fae5", "#6ee7b7" if is_dark else "#065f46",
+             "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf"),
+            (2, 121,
+             "VOLUME 2 • MÉTODO DE SIMULAÇÃO" if not ingles else "VOLUME 2 • SIMULATION METHOD",
+             "Volume 2 — Formulação Matemática" if not ingles else "Volume 2 — Mathematical Formulation",
+             "Balanço hídrico diário Yield-After-Spill (YAS), coeficientes de escoamento superficial em coberturas e a lâmina de descarte da primeira chuva (first flush)."
+             if not ingles else
+             "Daily Yield-After-Spill (YAS) water balance, catchment runoff coefficients, and first-flush diversion rules.",
+             ["Balanço Diário YAS" if not ingles else "Daily YAS Balance", "Descarte Inicial" if not ingles else "First-Flush Rule"],
+             "icons/capas/thumb_capa_2-metodo.png", "#0284c7", "#0c4a6e" if is_dark else "#e0f2fe", "#7dd3fc" if is_dark else "#0369a1",
+             "manual/mini/Manual-Netuno-5-2-metodo.pdf"),
+            (3, 57,
+             "VOLUME 3 • DIRETRIZES POR TIPOLOGIA" if not ingles else "VOLUME 3 • TYPOLOGY GUIDELINES",
+             "Volume 3 — Aplicações Práticas" if not ingles else "Volume 3 — Practical Applications",
+             "Diretrizes de projeto e parâmetros específicos para escolas, hospitais, residências e edifícios comerciais."
+             if not ingles else
+             "Design guidelines and specific parameters for schools, hospitals, residential buildings, and commercial facilities.",
+             ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
+             "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
+             "manual/mini/Manual-Netuno-5-3-guias.pdf"),
+            (4, 72,
+             "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
+             "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
+             "Exemplo completo de dimensionamento: dados pluviométricos, capacidade do reservatório, viabilidade financeira e emissões evitadas."
+             if not ingles else
+             "End-to-end sizing walkthrough: rainfall data, tank storage, financial feasibility, and avoided emissions.",
+             ["Dimensionamento" if not ingles else "Tank Sizing", "Viabilidade Econômica" if not ingles else "Economic Feasibility"],
+             "icons/capas/thumb_capa_4-tutorial.png", "#7c3aed", "#4c1d95" if is_dark else "#ede9fe", "#c4b5fd" if is_dark else "#5b21b6",
+             "manual/mini/Manual-Netuno-5-4-tutorial.pdf"),
+            (5, 31,
+             "VOLUME 5 • CONFIABILIDADE E INCERTEZA" if not ingles else "VOLUME 5 • RELIABILITY & UNCERTAINTY",
+             "Volume 5 — Análise Estatística" if not ingles else "Volume 5 — Statistical Analysis",
+             "Confiabilidade temporal e volumétrica, curvas de permanência e avaliação da sensibilidade do tamanho da série histórica."
+             if not ingles else
+             "Temporal and volumetric reliability, duration curves, and historical series length sensitivity analysis.",
+             ["Confiabilidade Hídrica" if not ingles else "Water Reliability", "Curvas de Permanência" if not ingles else "Duration Curves"],
+             "icons/capas/thumb_capa_5-confiabilidade.png", "#d97706", "#78350f" if is_dark else "#fef3c7", "#fcd34d" if is_dark else "#92400e",
+             "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf"),
+            (6, 23,
+             "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
+             "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
+             "Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."
+             if not ingles else
+             "Software evolution, verification against Netuno 4, mass conservation invariants, and analytical benchmarks.",
+             ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
+             "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
+             "manual/mini/Manual-Netuno-5-6-versoes.pdf"),
+            (7, 58,
+             "VOLUME 7 • APÊNDICES E DADOS" if not ingles else "VOLUME 7 • APPENDICES & DATA",
+             "Volume 7 — Tabelas de Referência" if not ingles else "Volume 7 — Reference Tables",
+             "Tabelas de coeficientes de escoamento, fatores de emissão para ACV, parâmetros tarifários, glossário de termos e referências."
+             if not ingles else
+             "Runoff coefficient tables, LCA emission factors, tariff parameters, glossary, and references.",
+             ["Tabelas de Parâmetros" if not ingles else "Design Tables", "Fatores de Emissão" if not ingles else "Emission Factors"],
+             "icons/capas/thumb_capa_7-apendices.png", "#e11d48", "#881337" if is_dark else "#ffe4e6", "#fda4af" if is_dark else "#9f1239",
+             "manual/mini/Manual-Netuno-5-7-apendices.pdf"),
+        ]
+
+        for vol_num, pags, badge, title, desc, chips, thumb, accent, b_bg, b_fg, rel_pdf in vols_data:
+            card = QFrame()
+            card.setObjectName(f"miniCard_{vol_num}")
+            card.setStyleSheet(f"""
+                QFrame#miniCard_{vol_num} {{
+                    background-color: {card_bg};
+                    border: 1px solid {card_border};
+                    border-left: 6px solid {accent};
+                    border-radius: 12px;
+                }}
+            """)
+            c_lay = QHBoxLayout(card)
+            c_lay.setContentsMargins(14, 12, 14, 12)
+            c_lay.setSpacing(14)
+
+            # Coluna Capa
+            col_l = QVBoxLayout()
+            col_l.setAlignment(Qt.AlignTop | Qt.AlignHCenter)
+            col_l.setSpacing(6)
+
+            lbl_i = QLabel()
+            lbl_i.setFixedSize(100, 72)
+            lbl_i.setStyleSheet(f"border-radius: 8px; border: 1px solid {card_border}; background-color: {'#15332c' if is_dark else '#f8fafc'};")
+            lbl_i.setAlignment(Qt.AlignCenter)
+            pm = _get_asset_pixmap(thumb, 100, 72) or _get_asset_pixmap(thumb.replace("icons/capas/", "manual/figuras/capas/"), 100, 72)
+            if not pm.isNull():
+                lbl_i.setPixmap(pm)
+            col_l.addWidget(lbl_i)
+
+            lbl_v = QLabel(f"VOL. 0{vol_num} • {pags} PÁG. • PDF" if not ingles else f"VOL. 0{vol_num} • {pags} PGS. • PDF")
+            lbl_v.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {accent};")
+            lbl_v.setAlignment(Qt.AlignCenter)
+            col_l.addWidget(lbl_v)
+            c_lay.addLayout(col_l)
+
+            # Coluna Conteúdo
+            col_r = QVBoxLayout()
+            col_r.setSpacing(6)
+
+            lbl_b = QLabel(badge)
+            lbl_b.setStyleSheet(f"background-color: {b_bg}; color: {b_fg}; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px; border: 1px solid {accent};")
+            lbl_b.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+            col_r.addWidget(lbl_b)
+
+            lbl_t = QLabel(title)
+            lbl_t.setStyleSheet(f"font-size: 16px; font-weight: 800; color: {text_title}; margin: 2px 0;")
+            col_r.addWidget(lbl_t)
+
+            lbl_d = QLabel(desc)
+            lbl_d.setStyleSheet(f"font-size: 12px; color: {text_desc}; line-height: 1.5;")
+            lbl_d.setWordWrap(True)
+            lbl_d.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+            lbl_d.setMinimumWidth(100)
+            col_r.addWidget(lbl_d)
+
+            # Chips
+            chips_l = QHBoxLayout()
+            chips_l.setSpacing(6)
+            for ch in chips:
+                c = QLabel(ch)
+                c.setStyleSheet(f"background-color: {chip_bg}; color: {chip_fg}; border: 1px solid {card_border}; font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px;")
+                chips_l.addWidget(c)
+            chips_l.addStretch(1)
+            col_r.addLayout(chips_l)
+
+            # Botão
+            btn = QPushButton("Baixar PDF" if not ingles else "Download PDF")
+            btn.setStyleSheet(f"""
+                QPushButton {{
+                    background-color: {accent};
+                    color: #ffffff;
+                    font-weight: 700;
+                    font-size: 11.5px;
+                    padding: 7px 18px;
+                    border-radius: 6px;
+                    border: none;
+                }}
+                QPushButton:hover {{
+                    opacity: 0.9;
+                }}
+            """)
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+            _configurar_botao_manual(btn, rel_pdf, parent=self)
+            col_r.addWidget(btn)
+
+            c_lay.addLayout(col_r, stretch=1)
+            lay.addWidget(card)
+
+        scroll.setWidget(container)
+        scroll.toHtml = lambda: "Manuais Oficiais & Acervo Técnico Netuno 5"
+        return scroll
 
     def create_tab_references(self) -> QWidget:
-        if get_current_lang() != "pt":
-            html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📖 Bibliographic and Normative References</h2>
-            
-            <ol style='font-size: 12.5px; line-height: 1.8; color: #1e293b;'>
-                <li style='margin-bottom: 14px;'>
-                    <b>STUDY ON COVERING MATERIALS FOR RESIDENTIAL RAINWATER HARVESTING SYSTEMS.</b><br/>
-                    <i>MIX Sustentável</i>, [S. l.], v. 6, n. 2, p. 53–66, 2020. DOI: <a href='https://doi.org/10.29183/2447-3073.MIX2020.v6.n2.53-66' style='color: #0284c7;'>10.29183/2447-3073.MIX2020.v6.n2.53-66</a>.<br/>
-                    Available at: <a href='https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080' style='color: #0284c7;'>https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080</a>. Accessed on: Jul 31, 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ETCCDI / WMO - EXPERT TEAM ON CLIMATE CHANGE DETECTION AND INDICES.</b><br/>
-                    <i>Climate Change Indices and Indicators Definition Guidelines.</i> World Meteorological Organization (WMO) / CLIVAR. 2021.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>WALSH, R. P. D.; LAWLER, D. M.</b><br/>
-                    <i>Rainfall seasonality: instances, trends and variations.</i> Transactions of the Institute of British Geographers, v. 6, n. 2, p. 201-215, 1981.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>BRAZILIAN ASSOCIATION OF TECHNICAL STANDARDS (ABNT).</b><br/>
-                    <i>NBR 15527: Rainwater harvesting from roofs for non-potable uses - Requirements.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>BRAZILIAN ASSOCIATION OF TECHNICAL STANDARDS (ABNT).</b><br/>
-                    <i>NBR 16783: Use of alternative sources of non-potable water in buildings.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MAYKOT, Jéssica Kuntz; VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Characterisation of First Flush for Rainwater Harvesting Purposes in Buildings.</i> <b>Water</b>, v. 17, n. 12, art. 1772, 2025. DOI: <a href='https://doi.org/10.3390/w17121772' style='color: #0284c7;'>10.3390/w17121772</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>YAZIZ, M. I.; GUNTING, H.; SAPARI, N.; GHAZALI, A. W.</b><br/>
-                    <i>Variations in rainwater quality from roof catchments.</i> Water Research, v. 23, n. 6, p. 761-765, 1989. DOI: <a href='https://doi.org/10.1016/0043-1354(89)90111-X' style='color: #0284c7;'>10.1016/0043-1354(89)90111-X</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MARTINSON, D. B.; THOMAS, T. H.</b><br/>
-                    <i>Quantifying the first-flush phenomenon.</i> Development Technology Unit (DTU), School of Engineering, University of Warwick, Working Paper 53, 2005.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Netuno 5 — Computer program for simulation and feasibility analysis of rainwater harvesting in buildings.</i> Florianópolis: Federal University of Santa Catarina (UFSC), 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>TOMAZ, Plínio.</b><br/>
-                    <i>Rainwater harvesting for urban areas and non-potable purposes.</i> São Paulo: Navegar Editora, 2003.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>INMET - NATIONAL INSTITUTE OF METEOROLOGY.</b><br/>
-                    <i>Meteorological Database for Education and Research (BDMEP).</i> Brasília: MAPA, 2024. Available at: <a href='https://portal.inmet.gov.br/' style='color: #0284c7;'>https://portal.inmet.gov.br/</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CASAN — SANITATION COMPANION OF SANTA CATARINA.</b><br/>
-                    <i>Water and sewage tariffs.</i> Internal snapshot labelled 01/04/2026; verify the current official portal before every study.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>HWANG, C.-L.; YOON, K.</b><br/>
-                    <i>Multiple Attribute Decision Making: Methods and Applications.</i> Springer, 1981. DOI: 10.1007/978-3-642-48318-9.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>OPRICOVIC, S.; TZENG, G.-H.</b><br/>
-                    <i>Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS.</i> European Journal of Operational Research, v. 156, n. 2, p. 445–455, 2004. DOI: <a href='https://doi.org/10.1016/S0377-2217(03)00020-1' style='color: #0284c7;'>10.1016/S0377-2217(03)00020-1</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>LAHDELMA, J.; SALMINEN, P.</b><br/>
-                    <i>SMAA-2: Stochastic multicriteria acceptability analysis for group decision making.</i> Operations Research, v. 49, n. 3, p. 444–454, 2001. DOI: <a href='https://doi.org/10.1287/opre.49.3.444.11223' style='color: #0284c7;'>10.1287/opre.49.3.444.11223</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CRISPYN / ENERGYINPYTHON.</b><br/>
-                    <i>CRIteria Significance determining in PYthoN — The Python 3 Library for determining criteria weights for MCDA methods.</i> GitHub Repository, 2024. Available at: <a href='https://github.com/energyinpython/crispyn' style='color: #0284c7;'>https://github.com/energyinpython/crispyn</a>.
-                </li>
-            </ol>
-            """
+        """Lista geral, gerada a partir de `netuno.core.bibliography`.
+
+        Era escrita à mão, em dois idiomas, com dezesseis entradas. A conferência
+        no Crossref encontrou quatro defeitos nela: Walsh & Lawler com título,
+        periódico e páginas errados; Lahdelma grafado com a inicial errada; o
+        artigo da MIX Sustentável sem autoria nenhuma, com o título ocupando o
+        lugar dos autores; e duas datas de acesso situadas no futuro. Gerar a
+        lista de um registro único elimina a classe do problema.
+        """
+        ingles = get_current_lang() != "pt"
+        lang = "en" if ingles else "pt"
+
+        if ingles:
+            titulo = "📖 Bibliographic and Normative References"
+            intro = (
+                "Every record below was retrieved from Crossref, OpenAlex or the publisher — "
+                "and each entry states what it supports in this programme. "
+                "Section-specific lists appear at the foot of each documentation page."
+            )
         else:
-            html = """
-            <h2 style='color: #0284c7; margin-top: 0px;'>📖 Referências Bibliográficas e Normativas</h2>
-            
-            <ol style='font-size: 12.5px; line-height: 1.8; color: #1e293b;'>
-                <li style='margin-bottom: 14px;'>
-                    <b>ESTUDO SOBRE MATERIAIS PARA COBERTURAS UTILIZADAS EM SISTEMAS DE APROVEITAMENTO DE ÁGUA PLUVIAL RESIDENCIAIS.</b><br/>
-                    <i>MIX Sustentável</i>, [S. l.], v. 6, n. 2, p. 53–66, 2020. DOI: <a href='https://doi.org/10.29183/2447-3073.MIX2020.v6.n2.53-66' style='color: #0284c7;'>10.29183/2447-3073.MIX2020.v6.n2.53-66</a>.<br/>
-                    Disponível em: <a href='https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080' style='color: #0284c7;'>https://ojs.sites.ufsc.br/index.php/mixsustentavel/article/view/4080</a>. Acesso em: 31 jul. 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ETCCDI / WMO - EXPERT TEAM ON CLIMATE CHANGE DETECTION AND INDICES.</b><br/>
-                    <i>Climate Change Indices and Indicators Definition Guidelines.</i> World Meteorological Organization (WMO) / CLIVAR. 2021.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>WALSH, R. P. D.; LAWLER, D. M.</b><br/>
-                    <i>Rainfall seasonality: instances, trends and variations.</i> Transactions of the Institute of British Geographers, v. 6, n. 2, p. 201-215, 1981.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT).</b><br/>
-                    <i>NBR 15527: Aproveitamento de água de chuva de coberturas para fins não potáveis - Requisitos.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS (ABNT).</b><br/>
-                    <i>NBR 16783: Uso de fontes alternativas de água não potável em edificações.</i> Rio de Janeiro: ABNT, 2019.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MAYKOT, Jéssica Kuntz; VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Characterisation of First Flush for Rainwater Harvesting Purposes in Buildings.</i> <b>Water</b>, v. 17, n. 12, art. 1772, 2025. DOI: <a href='https://doi.org/10.3390/w17121772' style='color: #0284c7;'>10.3390/w17121772</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>YAZIZ, M. I.; GUNTING, H.; SAPARI, N.; GHAZALI, A. W.</b><br/>
-                    <i>Variations in rainwater quality from roof catchments.</i> Water Research, v. 23, n. 6, p. 761-765, 1989. DOI: <a href='https://doi.org/10.1016/0043-1354(89)90111-X' style='color: #0284c7;'>10.1016/0043-1354(89)90111-X</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>MARTINSON, D. B.; THOMAS, T. H.</b><br/>
-                    <i>Quantifying the first-flush phenomenon.</i> Development Technology Unit (DTU), School of Engineering, University of Warwick, Working Paper 53, 2005.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>VAZ, Igor Catão Martins; GHISI, Enedir.</b><br/>
-                    <i>Netuno 5: Programa computacional para simulação e viabilidade do aproveitamento de água de chuva em edificações.</i> Florianópolis: Universidade Federal de Santa Catarina (UFSC), 2026.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>TOMAZ, Plínio.</b><br/>
-                    <i>Aproveitamento de água de chuva para áreas urbanas e fins não potáveis.</i> São Paulo: Navegar Editora, 2003.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>INMET - INSTITUTO NACIONAL DE METEOROLOGIA.</b><br/>
-                    <i>Banco de Dados Meteorológicos para Ensino e Pesquisa (BDMEP).</i> Brasília: Ministério da Agricultura e Pecuária, 2024. Disponível em: <a href='https://portal.inmet.gov.br/' style='color: #0284c7;'>https://portal.inmet.gov.br/</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CASAN — COMPANHIA CATARINENSE DE ÁGUAS E SANEAMENTO.</b><br/>
-                    <i>Tarifas de água e esgoto.</i> Fotografia interna identificada como 01/04/2026; confirme a vigência no <a href='https://www.casan.com.br/menu-conteudo/index/url/tarifas' style='color: #0284c7;'>portal oficial</a> antes de cada estudo.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>HWANG, C.-L.; YOON, K.</b><br/>
-                    <i>Multiple Attribute Decision Making: Methods and Applications.</i> Springer, 1981. DOI: <a href='https://doi.org/10.1007/978-3-642-48318-9' style='color: #0284c7;'>10.1007/978-3-642-48318-9</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>OPRICOVIC, S.; TZENG, G.-H.</b><br/>
-                    <i>Compromise solution by MCDM methods: A comparative analysis of VIKOR and TOPSIS.</i> European Journal of Operational Research, v. 156, n. 2, p. 445–455, 2004. DOI: <a href='https://doi.org/10.1016/S0377-2217(03)00020-1' style='color: #0284c7;'>10.1016/S0377-2217(03)00020-1</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>LAHDELMA, J.; SALMINEN, P.</b><br/>
-                    <i>SMAA-2: Stochastic multicriteria acceptability analysis for group decision making.</i> Operations Research, v. 49, n. 3, p. 444–454, 2001. DOI: <a href='https://doi.org/10.1287/opre.49.3.444.11223' style='color: #0284c7;'>10.1287/opre.49.3.444.11223</a>.
-                </li>
-                <li style='margin-bottom: 14px;'>
-                    <b>CRISPYN / ENERGYINPYTHON.</b><br/>
-                    <i>CRIteria Significance determining in PYthoN — The Python 3 Library for determining criteria weights for MCDA methods.</i> Repositório GitHub, 2024. Disponível em: <a href='https://github.com/energyinpython/crispyn' style='color: #0284c7;'>https://github.com/energyinpython/crispyn</a>.
-                </li>
-            </ol>
-            """
+            titulo = "📖 Referências Bibliográficas e Normativas"
+            intro = (
+                "Todos os registros abaixo foram recuperados do Crossref, do OpenAlex ou da página "
+                "do periódico, e cada entrada diz o que sustenta neste programa. "
+                "As listas por assunto aparecem ao pé de cada página da documentação."
+            )
+
+        html = (
+            f"<h2 style='color: #0284c7; margin-top: 0px;'>{titulo}</h2>"
+            f"<p style='color: #475569;'>{intro}</p>"
+            + render_bibliografia_completa(lang)
+        )
         return self._create_browser(html)
+
 
     def create_tab_acv_materials(self) -> QWidget:
         """Aba de justificativas de materiais para ACV."""

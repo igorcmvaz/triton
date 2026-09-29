@@ -4,6 +4,7 @@ Fornece justificativas detalhadas, referências bibliográficas e explicações
 para cada definição de parâmetro ambiental, integrado com o sistema de tooltips da UI.
 """
 
+from netuno.core.chlorination import FONTE_DO_FATOR
 from dataclasses import dataclass, replace
 from typing import Dict, Optional
 
@@ -11,6 +12,9 @@ from netuno.core.environmental import (
     MATERIAL_PRESETS,
     PIPE_EMISSION_FACTORS_PER_METER,
     PUMP_EMBEDDED_CO2,
+    PUMP_EMBEDDED_CO2_SOURCE,
+    PUMP_KG_CO2E_POR_KG,
+    PUMP_MASS_KG,
 )
 from netuno.core.parser import format_ptbr
 
@@ -45,16 +49,25 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
         ),
         "co2_factor": ParameterJustification(
             title="Fator de Emissão de CO2e do PEAD",
-            short_description="3,0 kg CO2e por kg de material processado",
+            short_description="1,612 kg CO2e por kg de resina PEAD",
             detailed_explanation=(
-                "O fator de 3,0 kg CO2e/kg reflete toda a pegada de carbono da produção do PEAD:\n"
-                "• Extração e refino de petróleo bruto (~1,5 kg CO2e/kg)\n"
-                "• Polimerização e processamento químico (~1,0 kg CO2e/kg)\n"
-                "• Transporte industrial (~0,5 kg CO2e/kg)\n\n"
-                "A decomposição é apenas o racional histórico do cenário interno. O fator não foi "
-                "auditado contra uma EPD ou processo versionado nesta distribuição."
+                "Valor publicado, berco-ao-portao, para a resina de PEAD virgem:\n"
+                "- 1.221 kg CO2e por 1.000 kg vindos dos materiais de entrada (76%)\n"
+                "- 390 kg CO2e por 1.000 kg da producao da resina em si (24%)\n"
+                "- Total: 1.612 kg CO2e por 1.000 kg, ou seja 1,612 kg CO2e/kg\n\n"
+                "Metodo TRACI 2.1 com GWP-100 do IPCC (2013); escopo Estados Unidos.\n\n"
+                "Substitui o valor interno anterior de 3,00 kg CO2e/kg, que nao tinha fonte e "
+                "cuja decomposicao declarava a MESMA fronteira (extracao e refino, polimerizacao, "
+                "transporte). A diferenca, portanto, nao se explica por fronteira: o valor antigo "
+                "superestimava a resina em cerca de 86%.\n\n"
+                "Ressalva de escopo: a resina consumida no Brasil tem matriz eletrica e cadeia de "
+                "materia-prima diferentes das norte-americanas. Para publicacao, prefira a EPD do "
+                "fabricante efetivamente empregado."
             ),
-            source_reference="Cenário interno: selecionar EPD/inventário versionado do PEAD adotado",
+            source_reference=(
+                "FRANKLIN ASSOCIATES para o American Chemistry Council (out/2020), "
+                "Cradle-to-Gate Life Cycle Analysis of High-Density Polyethylene (HDPE) Resin, Tabela 6"
+            ),
             calculation_basis="Life Cycle Assessment (LCA) de produção PEAD virgin",
             notes=(
                 "Valores com reciclagem podem ser 30-50% menores (~1,5-2,1 kg CO2e/kg).\n"
@@ -86,46 +99,51 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
             title="Fator de Emissão de CO2e do Concreto Armado",
             short_description="0,14 kg CO2e por kg de concreto (incluindo armadura)",
             detailed_explanation=(
-                "A emissão de CO2e do concreto armado é dominada pelo cimento Portland (CP-II):\n"
-                "• Cimento (80% da pegada): ~0,126 kg CO2e/kg\n"
-                "• Aço de armadura (20%): ~0,014 kg CO2e/kg\n"
-                "• Agregados e água: negligenciáveis\n\n"
-                "Concreto com CP-II (pozolânico, menos intenso em carbono que CP-I) é escolhido.\n"
-                "Valor final integrado: 0,14 kg CO2e/kg da mistura total."
+                "O SIDAC, inventário brasileiro da construção, publica para concreto dosado em central "
+                "cerca de 310 kg CO2/m³ a 20 MPa e 480 kg CO2/m³ a 40 MPa.\n\n"
+                "0,14 kg CO2e/kg x 2.400 kg/m³ = 336 kg/m³, dentro da faixa de um concreto de 25 a 30 MPa.\n\n"
+                "A armadura não está separada: para a obra, some a EPD do aço com o quantitativo do projeto."
             ),
-            source_reference="Cenário interno: aplicar EPDs do concreto e do aço com quantitativos do projeto",
-            calculation_basis="Pegada de cimento CP-II + Aço ABNT NBR 6152",
+            source_reference=(
+                "SIDAC (Sistema de Informação do Desempenho Ambiental da Construção): concreto dosado em "
+                "central, 310 a 480 kg CO2/m³ entre 20 e 40 MPa"
+            ),
+            calculation_basis="Faixa do SIDAC por resistência convertida pela massa específica de 2.400 kg/m³",
             notes=(
-                "Concreto com cinza volante reduz a 0,09-0,11 kg CO2e/kg (30-40% menos).\n"
-                "Este projeto usa CP-II por disponibilidade regional."
+                "Concretos de maior resistência emitem mais por metro cúbico: a 40 MPa o SIDAC chega a "
+                "cerca de 480 kg CO2/m³, 43% acima do valor adotado. Declare a classe do concreto."
             )
         )
     },
     "FIBRA": {
         "density": ParameterJustification(
             title="Densidade do PRFV (Poliéster + Fibra de Vidro)",
-            short_description="~20 kg de material composto por m³ útil",
+            short_description="massa por capacidade do catálogo Fortlev; cerca de 15 kg por m³ útil",
             detailed_explanation=(
-                "Cisternas em PRFV (Poliéster Reforçado com Fibra de Vidro) são mais leves que "
-                "concreto mas mais densas que PEAD puro, devido à fibra de vidro estrutural.\n"
-                "Composição típica: 70% resina poliéster (~15 kg) + 30% fibra vidro (~5 kg) = ~20 kg/m³"
+                "O cálculo interpola a massa da caixa vazia por capacidade no catálogo técnico da "
+                "Fortlev (reservatórios conforme ABNT NBR 13210): 20,3 kg a 1.000 L, 74,9 kg a "
+                "5.000 L e 136,7 kg a 10.000 L. Há economia de escala, e a densidade constante de "
+                "20 kg/m³ usada antes superestimava a massa em até 46%."
             ),
-            source_reference="Cenário interno: substituir pela massa da ficha técnica do reservatório PRFV",
-            calculation_basis="Razão fibra:resina em projetos de cisternas comerciais",
-            notes="Varia de 18-24 kg/m³ conforme processo de fabricação (hand-lay-up vs infusão)."
+            source_reference="Catálogo técnico Fortlev, «Caixa d'água em fibra de vidro», peso da caixa vazia por capacidade",
+            calculation_basis="Interpolação linear da massa por capacidade na tabela do fabricante; fora da faixa, densidade do extremo mais próximo",
+            notes="A densidade cai com o porte: 20 kg/m³ a 1.000 L, 15 kg/m³ a 5.000 L e 13,7 kg/m³ a 10.000 L."
         ),
         "co2_factor": ParameterJustification(
             title="Fator de Emissão de CO2e do PRFV",
-            short_description="4,25 kg CO2e por kg de composto",
+            short_description="3,25 kg CO2e por kg de composto",
             detailed_explanation=(
-                "A pegada do PRFV é dominada pela resina poliéster + solventes de fabricação:\n"
-                "• Resina poliéster insaturada: ~4,5 kg CO2e/kg\n"
-                "• Fibra de vidro: ~2,5 kg CO2e/kg\n"
-                "• Solventes e processamento: ~1,2 kg CO2e/kg\n\n"
-                "Média ponderada: 0,70 × 4,5 + 0,30 × 2,5 = ~4,0 kg CO2e/kg (ajustado para 4,25 kg CO2e/kg"
-                " considerando desperdícios de processamento)."
+                "A Composites UK publica, para peças de PRFV, faixa típica de 2,5 a 4,0 kg CO2e/kg. "
+                "Adota-se o ponto médio, 3,25 kg CO2e/kg.\n\n"
+                "O valor de 8,1 kg CO2e/kg que circula na literatura antiga vem da base ICE dos anos "
+                "1990 e foi retirado na ICE v4.0: quem o encontrar deve descartá-lo.\n\n"
+                "Versões anteriores do programa exibiam aqui 4,25 kg CO2e/kg, com uma decomposição por "
+                "componente sem fonte, enquanto o cálculo já usava 3,25."
             ),
-            source_reference="Cenário interno: selecionar EPD/inventário versionado do compósito adotado",
+            source_reference=(
+                "COMPOSITES UK, Embodied carbon data for composites (atual. 22/04/2026): "
+                "faixa tipica de 2,5 a 4,0 kg CO2e/kg para pecas de PRFV"
+            ),
             calculation_basis="LCA de composição típica PRFV hand-lay-up",
             notes="PRFV com resina epóxi ecológica pode reduzir a ~2,8-3,2 kg CO2e/kg."
         )
@@ -145,21 +163,28 @@ MATERIAL_JUSTIFICATIONS: Dict[str, Dict[str, ParameterJustification]] = {
         ),
         "co2_factor": ParameterJustification(
             title="Fator de Emissão de CO2e do Aço Inoxidável",
-            short_description="2,89 kg CO2e por kg de aço inox AISI 304",
+            short_description="3,70 kg CO2e por kg de aço inox, a 50% de sucata",
             detailed_explanation=(
-                "A pegada do aço inox é alta comparada ao aço carbono (0,7-0,9 kg CO2e/kg) "
-                "devido ao alto teor de Cromo e Níquel:\n"
-                "• Minério e sinterização: ~1,0 kg CO2e/kg\n"
-                "• Fusão em forno elétrico de arco (EAF): ~1,2 kg CO2e/kg\n"
-                "• Redução de Cr/Ni e refino: ~0,6 kg CO2e/kg\n"
-                "• Laminação e acabamento: ~0,09 kg CO2e/kg\n\n"
-                "Total: ~2,89 kg CO2e/kg (AISI 304 primary route)."
+                "A pegada do aço inox é alta comparada à do aço carbono (0,7 a 0,9 kg CO2e/kg) "
+                "por causa do teor de cromo e níquel.\n\n"
+                "O que domina o resultado, porém, não é a liga: é o teor de sucata da carga. "
+                "O relatório worldstainless publica, berço-ao-portão com escopos 1, 2 e 3:\n"
+                "\u2022 85% de sucata: 1,95 kg CO2e/kg\n"
+                "\u2022 75% de sucata: 2,45 kg CO2e/kg\n"
+                "\u2022 50% de sucata: 3,70 kg CO2e/kg  (adotado)\n"
+                "\u2022 30% de sucata: 6,80 kg CO2e/kg\n\n"
+                "São 3,5 vezes entre os extremos. Um estudo que não declare o teor de sucata "
+                "não é comparável, pela mesma razão que um fator de rede sem ano não é."
             ),
-            source_reference="Cenário interno: selecionar EPD do aço com teor reciclado e rota declarados",
-            calculation_basis="Life Cycle Inventory de produção aço inox AISI 304 (EAF)",
+            source_reference=(
+                "WORLDSTAINLESS (World Steel Association), Stainless steel CO2 emissions "
+                "report (24/09/2024): 3,70 kg CO2/kg a 50% de sucata"
+            ),
+            calculation_basis="worldstainless, berço-ao-portão, escopos 1, 2 e 3, carga com 50% de sucata",
             notes=(
-                "Uso de aço inox reciclado reduz para ~1,5-1,8 kg CO2e/kg.\n"
-                "Este projeto assume produção primária (95% reciclabilidade ao final de vida)."
+                "Elevar o teor de sucata para 85% levaria o fator a 1,95 kg CO2e/kg, quase metade "
+                "do adotado. O aço inox é reciclável ao final da vida, o que não entra "
+                "nesta fronteira berço-ao-portão."
             )
         )
     }
@@ -172,12 +197,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 50 mm (2\")",
         short_description="1,54 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 50 mm contém ~0,55 kg de material PVC por metro.\n"
-            "Considerando fator de emissão do PVC = 2,80 kg CO2e/kg:\n"
-            "  0,55 kg × 2,80 kg CO2e/kg = 1,54 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 50 mm contém 0,668 kg de material PVC por metro.\n"
+            "Considerando fator de emissão do PVC = 2,36 kg CO2e/kg:\n"
+            "  0,668 kg x 2,36 kg CO2e/kg = 1,58 kg CO2e/m\n\n"
             "Este é o tubo mais fino do padrão, usado para linhas de recirculação e drenos."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: Amanco Wavin FTC000021 (out/2025) ou geometria das ABNT NBR 5648 e 5688. Fator: EPD Australasia S-P-05503, RXP PVC Pipes (25/11/2022), módulos A1-A3, 2,36 kg CO2e por kg de tubo instalado",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Inclui cimento PVC (5-10% das dimensões do tubo) e aditivos estabilizadores."
     ),
@@ -185,12 +210,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 75 mm (3\")",
         short_description="2,66 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 75 mm contém ~0,95 kg de material PVC por metro.\n"
-            "Cálculo: 0,95 kg × 2,80 kg CO2e/kg = 2,66 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 75 mm contém 1,412 kg de material PVC por metro.\n"
+            "Cálculo: 0,95 kg x 2,36 kg CO2e/kg = 2,24 kg CO2e/m\n\n"
             "Diâmetro intermediário, tipicamente usado para distribuição principal "
             "e interconexões entre cisterna e caixa superior."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: Amanco Wavin FTC000021 (out/2025) ou geometria das ABNT NBR 5648 e 5688. Fator: EPD Australasia S-P-05503, RXP PVC Pipes (25/11/2022), módulos A1-A3, 2,36 kg CO2e por kg de tubo instalado",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Tubo Schedule 40 com pressão nominal 100 psi (padrão sistemas de aproveitamento)."
     ),
@@ -198,12 +223,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 100 mm (4\")",
         short_description="3,92 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 100 mm contém ~1,40 kg de material PVC por metro.\n"
-            "Cálculo: 1,40 kg × 2,80 kg CO2e/kg = 3,92 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 100 mm contém 1,176 kg de material PVC por metro.\n"
+            "Cálculo: 1,40 kg x 2,36 kg CO2e/kg = 3,30 kg CO2e/m\n\n"
             "Tubo de maior seção, usado para linhas de grande vazão, "
             "captação principal e alimentação de cisterna."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: Amanco Wavin FTC000021 (out/2025) ou geometria das ABNT NBR 5648 e 5688. Fator: EPD Australasia S-P-05503, RXP PVC Pipes (25/11/2022), módulos A1-A3, 2,36 kg CO2e por kg de tubo instalado",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Mais econômico para grandes vazões que múltiplas linhas menores."
     ),
@@ -211,12 +236,12 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
         title="Fator de CO2 - Tubulação PVC DN 150 mm (6\")",
         short_description="7,84 kg CO2e por metro linear",
         detailed_explanation=(
-            "Tubulação PVC rígido DN 150 mm contém ~2,80 kg de material PVC por metro.\n"
-            "Cálculo: 2,80 kg × 2,80 kg CO2e/kg = 7,84 kg CO2e/m\n\n"
+            "Tubulação PVC rígido DN 150 mm contém 2,502 kg de material PVC por metro.\n"
+            "Cálculo: 2,80 kg x 2,36 kg CO2e/kg = 6,61 kg CO2e/m\n\n"
             "Tubo de maior seção do catálogo padrão, usado em coletas de grande escala "
             "ou quando a velocidade de fluxo deve ser minimizada (reduz perdas)."
         ),
-        source_reference="Cenário interno: massa linear × fator do PVC; substituir por ficha técnica/EPD",
+        source_reference="Massa linear: Amanco Wavin FTC000021 (out/2025) ou geometria das ABNT NBR 5648 e 5688. Fator: EPD Australasia S-P-05503, RXP PVC Pipes (25/11/2022), módulos A1-A3, 2,36 kg CO2e por kg de tubo instalado",
         calculation_basis="Peso linear de tubo PVC comercial × fator CO2 PVC virgin",
         notes="Próximo limite de aplicação em sistemas residenciais/comerciais de médio porte."
     )
@@ -224,99 +249,36 @@ PIPE_JUSTIFICATIONS: Dict[int, ParameterJustification] = {
 
 
 # ── JUSTIFICATIVAS PARA MOTOBOMBAS ──
-PUMP_JUSTIFICATIONS: Dict[float, ParameterJustification] = {
-    0.25: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 0,25 CV",
-        short_description="~12 kg CO2e de fabricação por unidade",
+# As versões anteriores decompunham cada valor em motor, corpo e acessórios, com
+# números sem fonte e, em quatro potências, por escalonamento aritmético. Agora a
+# justificativa é gerada das duas fontes lidas: massa de catálogo e intensidade
+# por quilo de uma EPD.
+def _justificativa_da_bomba(cv: float) -> ParameterJustification:
+    massa = PUMP_MASS_KG[cv]
+    co2 = PUMP_EMBEDDED_CO2[cv]
+    potencia = format_ptbr(cv, 2)
+    return ParameterJustification(
+        title=f"Emissão Incorporada - Motobomba {potencia} CV",
+        short_description=f"{format_ptbr(co2, 1)} kg CO2e de fabricação por unidade",
         detailed_explanation=(
-            "Motobomba de 1/4 CV em desenho típico (motor mono/trifásico + corpo ferro fundido + selo mecânico):\n"
-            "• Motor elétrico (bobinagem Cu + Alumínio): ~6 kg CO2e\n"
-            "• Corpo bomba (ferro fundido): ~4 kg CO2e\n"
-            "• Acoplamento, polia e acessórios: ~2 kg CO2e\n"
-            "Total: ~12 kg CO2e (cradle-to-gate, fábrica saída)"
+            f"Massa do produto: {format_ptbr(massa, 1)} kg (catálogo geral 60 Hz da Dancor, séries CAM W-4C "
+            f"e CAM W-10, motor monofásico de 2 polos).\n"
+            f"Intensidade: {format_ptbr(PUMP_KG_CO2E_POR_KG, 2)} kg CO2e por kg de bomba (EPD Grundfos "
+            f"EPD-GRU-20250340-CBA1-EN, módulos A1-A3: 10,4 kg CO2e por unidade de 2,179 kg).\n"
+            f"Emissão de fabricação: {format_ptbr(massa, 1)} x {format_ptbr(PUMP_KG_CO2E_POR_KG, 2)} = "
+            f"{format_ptbr(co2, 1)} kg CO2e (berço ao portão)."
         ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Desassembly-LCA de bomba comercial 0,25 CV",
-        notes="Bomba submersível reduz massa (~8 kg CO2e). Valor conservador para bomba superficial."
-    ),
-    0.50: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 0,5 CV (1/2 CV)",
-        short_description="~18 kg CO2e de fabricação por unidade",
-        detailed_explanation=(
-            "Motobomba de 1/2 CV, conforme ABNT NBR 9881:\n"
-            "• Motor elétrico (potência nominal): ~9 kg CO2e\n"
-            "• Corpo bomba + Impelidor (ferro fundido + latão): ~6 kg CO2e\n"
-            "• Acoplamento, vedações e acessórios: ~3 kg CO2e\n"
-            "Total: ~18 kg CO2e\n\n"
-            "É a faixa mais comum em sistemas de cisterna de médio porte (5000-8000 L)."
-        ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Desassembly-LCA típica de produto comercial consolidado",
-        notes="Maior volume de produção = fator CO2 otimizado por escala de fabricação."
-    ),
-    0.75: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 0,75 CV (3/4 CV)",
-        short_description="~24 kg CO2e de fabricação por unidade",
-        detailed_explanation=(
-            "Motobomba de 3/4 CV para sistemas de maior circulação:\n"
-            "• Motor elétrico (maior potência, mais cobre): ~12 kg CO2e\n"
-            "• Corpo bomba + impelidor (maior volume): ~8 kg CO2e\n"
-            "• Sistema de selagem mais robusto: ~4 kg CO2e\n"
-            "Total: ~24 kg CO2e\n\n"
-            "Razão: 3/4 CV = 0,75 ÷ 0,5 = 1,5×, então ~18 × 1,33 ≈ 24 kg CO2e (escala não-linear)"
-        ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Extrapolação linear + fator de investimento estrutural",
-        notes="Ainda em faixa de eficiência elevada; próximo limite de motores monofásicos."
-    ),
-    1.00: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 1,0 CV",
-        short_description="~30 kg CO2e de fabricação por unidade",
-        detailed_explanation=(
-            "Motobomba de 1 CV, fronteira entre trifásica leve e média industrial:\n"
-            "• Motor trifásico (cobre + alumínio + ferro): ~15 kg CO2e\n"
-            "• Corpo bomba + Rodete (ferro fundido, maior volume): ~10 kg CO2e\n"
-            "• Sistema de vedação industrial (duplo): ~5 kg CO2e\n"
-            "Total: ~30 kg CO2e\n\n"
-            "Usada em sistemas maiores (cisternas > 8000 L) ou múltiplas bombas."
-        ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Padrão consolidado para 1 CV em literatura técnica",
-        notes="Produtos de qualidade superior (menor tempo de reposição) podem ter +10% CO2 (maior eficiência)."
-    ),
-    1.50: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 1,5 CV",
-        short_description="~42 kg CO2e de fabricação por unidade",
-        detailed_explanation=(
-            "Motobomba de 1,5 CV, agora plenamente industrial (trifásica):\n"
-            "• Motor trifásico robusto (mais cobre, novo bobinado): ~21 kg CO2e\n"
-            "• Corpo bomba + impelidor (ferro nodular, maior rigidez): ~15 kg CO2e\n"
-            "• Sistema de lubrificação e vedação industrial: ~6 kg CO2e\n"
-            "Total: ~42 kg CO2e\n\n"
-            "Proporção: 1,5 ÷ 1,0 = 1,5, então ~30 × 1,4 = 42 kg CO2e (eficiência de escala levemente melhor)"
-        ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Incremento proporcional + ganhos de eficiência produtiva",
-        notes="Raramente usada em sistemas residenciais; comum em condomínios/indústria leve."
-    ),
-    2.00: ParameterJustification(
-        title="Emissão Incorporada - Motobomba 2,0 CV",
-        short_description="~55 kg CO2e de fabricação por unidade",
-        detailed_explanation=(
-            "Motobomba de 2 CV, entrada em classe industrial forte:\n"
-            "• Motor trifásico de classe energética IE3 mínima: ~27 kg CO2e\n"
-            "• Corpo bomba + carcaça ferro nodular (> 10 kg ferro): ~20 kg CO2e\n"
-            "• Sistema de lubrificação automática, vedação mecânica dupla: ~8 kg CO2e\n"
-            "Total: ~55 kg CO2e\n\n"
-            "Proporção: 2,0 ÷ 1,5 = 1,33, então ~42 × 1,31 = 55 kg CO2e (ganhos de escala continuam)"
-        ),
-        source_reference="Cenário interno: substituir por BOM/massa/EPD do modelo de motobomba",
-        calculation_basis="Incremento industrial + padrões de eficiência energética",
+        source_reference=PUMP_EMBEDDED_CO2_SOURCE[cv],
+        calculation_basis="Massa de catálogo x intensidade por quilo de EPD de bomba elétrica pequena",
         notes=(
-            "Já fora da faixa típica de sistemas de aproveitamento residencial;\n"
-            "aplicável em estações elevadoras de condomínios ou fazendas."
-        )
+            "A EPD é de circulador europeu com eletrônica embarcada, e a massa de referência inclui a "
+            "embalagem: trate o valor como ordem de grandeza. Havendo EPD do modelo empregado, ela prevalece."
+        ),
     )
+
+
+PUMP_JUSTIFICATIONS: Dict[float, ParameterJustification] = {
+    cv: _justificativa_da_bomba(cv) for cv in PUMP_MASS_KG
 }
 
 
@@ -330,41 +292,73 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
             "A conversão é direta: 1 mg/L equivale a 0,001 kg/m³; portanto, a massa anual de cloro é exibida em kg Cl2/ano.\n\n"
             "Esta entrada é uma premissa do inventário ambiental. Ela não dimensiona nem valida o tratamento da água."
         ),
-        source_reference="Premissa editável do projeto; validar tratamento conforme norma e responsável técnico",
+        source_reference="ABNT NBR 15527:2019, item 4.6.5: cloro residual livre de 0,5 a 2,0 mg/L; o programa adota 1,5 mg/L",
         calculation_basis="m_Cl2 = V_pluvial (m³/ano) × dose (mg/L) / 1000",
         notes="Use a dosagem adotada pelo projeto de tratamento ou uma análise de sensibilidade."
     ),
-    "chlorine_co2": ParameterJustification(
-        title="Fator de emissão do cloro",
-        short_description="CO2e anual = massa anual de cloro × fator (kg CO2e/kg Cl2)",
+    "chlorine_purity": ParameterJustification(
+        title="Pureza do produto clorado",
+        short_description="Massa de produto = massa de cloro ativo / pureza",
         detailed_explanation=(
-            "O fator converte a massa anual de cloro equivalente em emissão de ciclo de vida. "
-            "O Netuno apresenta separadamente dose, massa calculada, fator e CO2e anual para permitir auditoria."
+            "A dose e prescrita em cloro ATIVO, e e o cloro ativo que desinfeta. "
+            "O que se compra, porem, e o PRODUTO comercial, e tanto o preco quanto "
+            "o fator de emissao sao por quilo de produto. A pureza faz a ponte "
+            "entre os dois.\n\n"
+            "Hipoclorito de calcio em pastilha: 0,65 kg de cloro ativo por kg de "
+            "produto. Hipoclorito de sodio liquido (agua sanitaria): cerca de 0,10. "
+            "Dicloroisocianurato de sodio: cerca de 0,56.\n\n"
+            "O efeito e de 1/pureza, e nao e pequeno: a mesma dose, a agua "
+            "sanitaria exige seis vezes mais produto que a pastilha."
         ),
-        source_reference="Fator editável do inventário de ACV do projeto",
-        calculation_basis="CO2_cloro = m_Cl2 × f_Cl2",
-        notes="Substitua pelo fator da cadeia de fornecimento ou inventário adotado no estudo."
+        source_reference=(
+            "Teor declarado em rotulo dos produtos comerciais; "
+            "cadeia de conversao em netuno/core/chlorination.py"
+        ),
+        calculation_basis="m_produto = m_Cl2_ativo / pureza",
+        notes="Confira o teor no rotulo do produto adotado antes de editar."
+    ),
+    "chlorine_co2": ParameterJustification(
+        title="Fator de emissão do produto clorado",
+        short_description="CO2e anual = massa anual de produto × fator (kg CO2e/kg de produto)",
+        detailed_explanation=(
+            "O fator é por quilo de PRODUTO comercial, e não de cloro ativo: a pureza converte "
+            "a dose em massa de produto antes da multiplicação.\n\n"
+            "O padrão de 1,72 kg CO2e/kg vem do Ecoinvent 3.8 (cutoff), geografia RoW, processo «sodium "
+            "hypochlorite production, product in 15% solution state», método EF 3.1, "
+            "Climate change: 2,52 kg CO2e/kg de NaOCl puro. Como o Ecoinvent 3.8 não tem "
+            "hipoclorito de cálcio, o valor foi levado à base de cloro ativo (0,9525 kg de Cl2 "
+            "por kg de NaOCl, logo 2,65 kg CO2e/kg de cloro ativo) e multiplicado pela pureza "
+            "da pastilha, 0,65."
+        ),
+        source_reference=FONTE_DO_FATOR,
+        calculation_basis="CO2_cloro = V_pluvial × dose / 1000 / pureza × f_produto",
+        notes="Aproximação: declare-a no estudo. Um fator digitado pelo usuário substitui este."
     ),
     "grid_co2": ParameterJustification(
         title="Fator de Emissão da Matriz Elétrica Brasileira",
-        short_description="Padrão de triagem: 0,085 kg CO2e/kWh; entrada editável",
+        short_description="Padrão adotado: 0,085 kg CO2e/kWh; cinco bases selecionáveis",
         detailed_explanation=(
-            "O fator converte a energia de recalque calculada para cada volume em kg CO2e. "
-            "Ele varia no tempo e conforme o escopo do inventário. O valor 0,085 é somente "
-            "uma hipótese inicial e não é rotulado como fator oficial de um ano específico."
+            "O fator converte a energia de bombeamento em kg CO2e, e precisa ser de "
+            "CO2-equivalente: a série anual do MCTI/SIRENE é de CO2 apenas e cobre só a geração.\n\n"
+            "O padrão de 0,085 é uma escolha declarada, e não a transcrição de uma fonte única: "
+            "fica entre o SIDAC (0,070), o CaDI (0,074) e o percentil 5 do indicador fóssil da "
+            "matriz de 2022 em Vaz, Scolaro e Ghisi (2025), 0,075. O mesmo artigo dá 0,104 "
+            "(fóssil) e 0,151 (total) como valores centrais, que o programa oferece como bases "
+            "alternativas para a análise de sensibilidade."
         ),
-        source_reference="MCTI/SIRENE — selecionar e arquivar o fator correspondente ao período do estudo",
+        source_reference=(
+            "Vaz, Scolaro & Ghisi (2025), doi:10.1016/j.scitotenv.2025.179774; SIDAC; CaDI (2025). "
+            "Base registrada no relatório"
+        ),
         calculation_basis="CO2_bomba = energia anual (kWh) × fator da rede (kg CO2e/kWh)",
-        notes=(
-            "Registre arquivo, versão, período, data de acesso e natureza média/marginal do fator escolhido."
-        )
+        notes="Declare a base escolhida e o ano da matriz a que ela se refere."
     ),
     "treatment_co2": ParameterJustification(
         title="Fator agregado legado de tratamento",
         short_description="Campo opcional em kg CO2e/m³ para compatibilidade de projetos antigos",
         detailed_explanation=(
             "Projetos antigos podem informar diretamente uma intensidade agregada de tratamento. "
-            "Quando o campo não é usado, o Netuno 5.0.0 deriva a intensidade de dose de cloro × "
+            "Quando o campo não é usado, o programa deriva a intensidade de dose de cloro × "
             "fator do cloro / 1000, exibindo também a massa anual."
         ),
         source_reference="Premissa do projeto legado; documentar tecnologia e inventário próprios",
@@ -373,18 +367,22 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
     ),
     "potable_co2": ParameterJustification(
         title="Fator de Emissão de Água Potável Evitada",
-        short_description="Padrão de triagem: 0,35 kg CO2e por m³ evitado",
+        short_description="Padrão: 0,35 kg CO2e por m³ entregue; 19 rotas por macrorregião e manancial",
         detailed_explanation=(
-            "O fator representa o crédito de cenário por água potável que deixa de ser fornecida. "
-            "Sua fronteira deve declarar se inclui apenas abastecimento ou também esgotamento. "
-            "O padrão 0,35 é uma hipótese editável, não um valor nacional universal."
+            "O fator é por metro cúbico ENTREGUE na edificação, e não produzido na estação: as "
+            "perdas de distribuição do SNIS, de 33,9% no Sudeste a 46,9% no Norte, fazem cada m³ "
+            "entregue exigir de 1,5 a 1,9 m³ produzidos.\n\n"
+            "O padrão de 0,35 fica logo abaixo das faixas publicadas para tratamento convencional "
+            "(corroborado por Garfí et al., 2016), o que subestima o benefício do sistema pluvial: "
+            "é o erro conservador. As 19 rotas do programa trazem fonte e fronteira próprias."
         ),
-        source_reference="Inventário local da concessionária ou literatura compatível com a fronteira do estudo",
-        calculation_basis="CO2_água_evitado = volume pluvial consumido × fator da água",
-        notes=(
-            "Faça sensibilidade e evite dupla contagem de esgoto ou energia já incluída em outro módulo."
-        )
-    )
+        source_reference=(
+            "Rotas de abastecimento do programa, com procedência por rota; Garfí et al. (2016), "
+            "doi:10.1016/j.jclepro.2016.07.218; SNIS, perdas na distribuição"
+        ),
+        calculation_basis="CO2_água_evitado = volume pluvial consumido × fator por m³ entregue",
+        notes="Prefira o inventário da concessionária, quando existir, e declare a rota adotada."
+    ),
 }
 
 
@@ -409,12 +407,26 @@ def get_pipe_justification(diameter_mm: int) -> Optional[ParameterJustification]
 
 def get_pump_justification(power_cv: float) -> Optional[ParameterJustification]:
     """Obtém a justificativa para uma emissão de bomba."""
-    return _mark_as_screening(PUMP_JUSTIFICATIONS.get(power_cv))
+    # Com fonte declarada, a justificativa não recebe o carimbo de triagem, que
+    # sobrescreveria a referência pela frase genérica de cenário interno.
+    return PUMP_JUSTIFICATIONS.get(power_cv)
 
 
 def get_operational_justification(param_name: str) -> Optional[ParameterJustification]:
     """Obtém a justificativa para um fator operacional (matriz elétrica, tratamento, etc.)."""
     return _mark_as_screening(OPERATIONAL_JUSTIFICATIONS.get(param_name))
+
+
+#: Começos de referência que indicam cenário interno ou orientação, e não fonte.
+_SEM_FONTE = ("cenário", "premissa", "fator editável", "inventário local")
+
+
+def tem_fonte_declarada(justification: Optional[ParameterJustification]) -> bool:
+    """Diz se a justificativa cita uma fonte, em vez de um cenário interno."""
+    if justification is None:
+        return False
+    referencia = (justification.source_reference or "").strip().lower()
+    return bool(referencia) and not referencia.startswith(_SEM_FONTE)
 
 
 def _mark_as_screening(justification: Optional[ParameterJustification]) -> Optional[ParameterJustification]:
@@ -424,8 +436,10 @@ def _mark_as_screening(justification: Optional[ParameterJustification]) -> Optio
     a interface deixa explícito que o usuário precisa fornecer uma fonte
     rastreável para uso científico.
     """
-    if justification is None:
-        return None
+    # Só o que não tem fonte recebe o carimbo. Antes ele era aplicado a tudo, e
+    # sobrescrevia com «cenário interno» até a referência de uma EPD.
+    if justification is None or tem_fonte_declarada(justification):
+        return justification
     return replace(
         justification,
         detailed_explanation=(
@@ -559,14 +573,14 @@ def generate_html_justifications_pipes() -> str:
     """
     
     for dn, co2_per_m in PIPE_EMISSION_FACTORS_PER_METER.items():
-        weight_per_m = co2_per_m / 2.80  # Reverso: 2.80 é fator PVC
+        weight_per_m = co2_per_m / 2.36  # Reverso: 2.80 é fator PVC
         html += f"""
         <tr style='background-color: #fff7ed;'>
             <td><b>DN {dn} mm ({format_ptbr(dn / 25.4, 1)}")</b></td>
             <td align='center'>{format_ptbr(weight_per_m, 2)}</td>
             <td align='center'><b>{format_ptbr(co2_per_m, 2)}</b></td>
             <td>
-                Hipótese de massa linear × 2,80 kg CO2e/kg. Verifique classe, fabricante, massa e EPD do tubo.
+                Hipótese de massa linear × 2,36 kg CO2e/kg. Verifique classe, fabricante, massa e EPD do tubo.
             </td>
         </tr>
         """
@@ -592,38 +606,38 @@ def generate_html_justifications_pumps() -> str:
     html = """
     <h2 style='color: #b45309; margin-top: 0px;'>⚡ Justificativas de Emissão Incorporada em Motobombas (ACV)</h2>
     <p style='font-size: 13px; line-height: 1.5;'>
-        Cenário interno de triagem por faixa de potência. Para estudo definitivo, substitua pela massa/BOM e
-        EPD ou inventário do modelo escolhido, incluindo reposições coerentes com a vida útil.
+        Massa do produto (catálogo geral 60 Hz da Dancor, séries CAM W-4C e CAM W-10) multiplicada pela
+        intensidade de carbono por quilo de bomba da EPD Grundfos EPD-GRU-20250340-CBA1-EN (IBU, 2025,
+        módulos A1-A3). Havendo EPD do modelo empregado, ela prevalece.
     </p>
-    
+
     <table border='1' cellspacing='0' cellpadding='10' style='border-collapse: collapse; border-color: #fb923c; width: 100%; margin-top: 15px; font-size: 12px;'>
         <tr style='background-color: #fb923c; color: #ffffff; font-weight: bold;'>
             <th align='center'>Potência (CV)</th>
+            <th align='center'>Massa (kg)</th>
             <th align='center'>Emissão Incorporada (kg CO2e)</th>
-            <th align='left'>Composição e Aplicações Típicas</th>
         </tr>
     """
-    
+
     for cv, co2 in PUMP_EMBEDDED_CO2.items():
         html += f"""
         <tr style='background-color: #fff7ed;'>
             <td align='center'><b>{format_ptbr(cv, 2)}</b></td>
+            <td align='center'>{format_ptbr(PUMP_MASS_KG.get(cv, 0.0), 1)}</td>
             <td align='center'><b>{format_ptbr(co2, 1)}</b></td>
-            <td>
-                Partição ilustrativa: motor ({format_ptbr(co2 * 0.5, 0)} kg CO2e) + corpo ({format_ptbr(co2 * 0.33, 0)} kg CO2e) + acessórios ({format_ptbr(co2 * 0.17, 0)} kg CO2e).
-            </td>
         </tr>
         """
-    
-    html += """
+
+    html += f"""
     </table>
-    
+
     <div style='background-color: #fff7ed; border-left: 4px solid #f97316; padding: 14px; margin-top: 20px; border-radius: 4px;'>
         <h4 style='color: #b45309; margin: 0px 0px 8px 0px; font-size: 13px;'>💡 Interpretação:</h4>
         <p style='font-size: 12px; line-height: 1.6; margin: 0px;'>
-            A emissão incorporada cresce de forma não-linear com a potência (ganhos de escala produtivo). 
-            Valores referem-se à pegada de fabricação (cradle-to-gate), não incluindo a operação (consumo elétrico), 
-            que é contabilizado separadamente com base na matriz elétrica local.
+            Intensidade adotada: {format_ptbr(PUMP_KG_CO2E_POR_KG, 2)} kg CO2e por kg de bomba (10,4 kg CO2e por
+            unidade de 2,179 kg, com embalagem). É um circulador europeu com eletrônica embarcada, e não uma
+            centrífuga brasileira: trate o valor como ordem de grandeza. Os valores cobrem a fabricação (berço ao
+            portão); a energia de operação é contabilizada à parte, com o fator da rede elétrica escolhido.
         </p>
     </div>
     """

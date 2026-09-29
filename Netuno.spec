@@ -1,68 +1,20 @@
 # -*- mode: python ; coding: utf-8 -*-
-import os
-from pathlib import Path
 
-block_cipher = None
-base_dir = Path(SPECPATH) if "SPECPATH" in globals() else Path.cwd()
-
-datas = [
-    (str(base_dir / 'data'), 'data'),
-    (str(base_dir / 'templates'), 'templates'),
-    (str(base_dir / 'tarifas'), 'tarifas'),
-    (str(base_dir / 'icons'), 'icons'),
-    (str(base_dir / 'netuno' / 'data'), 'netuno/data'),
-    (str(base_dir / 'additional_material'), 'additional_material'),
-    (str(base_dir / 'integrations'), 'integrations'),
-]
-
-# Filtra apenas diretórios existentes para evitar avisos
-datas = [(src, dst) for src, dst in datas if os.path.exists(src)]
-
-hiddenimports = [
-    'PySide6.QtCore',
-    'PySide6.QtGui',
-    'PySide6.QtWidgets',
-    'matplotlib.backends.backend_qtagg',
-    'numpy',
-    'pandas',
-    'openpyxl',
-    'reportlab',
-    'ezdxf',
-    'netuno.core.mcdm_methods',
-    'netuno.core.environmental_sync',
-    'netuno.core.esg_certifications',
-    # Planta 3D, esquema e volumetria: parte é importada só dentro de funções.
-    'netuno.core.component_geometry',
-    'netuno.core.pipe_network',
-    'netuno.core.plant_3d',
-    'netuno.core.schematic_3d',
-    'netuno.core.volumetry',
-    'netuno.core.volumetry_export',
-    'netuno.ui.volumetry_view',
-    'netuno.ui.dialogs.pipe_runs_dialog',
-    'PySide6.QtSvg',
-    'ezdxf.render.forms',
-]
 
 a = Analysis(
-    ['main.py'],
-    pathex=[str(base_dir)],
+    ['D:\\AAAA_TEMPORARIO_AREATRABALHO\\NetunoReplicacao\\Netuno5_0_0\\main.py'],
+    pathex=[],
     binaries=[],
-    datas=datas,
-    hiddenimports=hiddenimports,
+    datas=[('data', 'data'), ('templates', 'templates'), ('tarifas', 'tarifas'), ('icons', 'icons'), ('netuno/data', 'netuno/data'), ('additional_material', 'additional_material'), ('manual/casos', 'casos'), ('examples', 'exemplos'), ('docs', 'docs'), ('manual/Manual-Netuno-5.pdf', 'manual'), ('manual/mini', 'manual/mini'), ('manual/site', 'manual/site')],
+    hiddenimports=['PySide6.QtCore', 'PySide6.QtGui', 'PySide6.QtWidgets', 'matplotlib.backends.backend_qtagg', 'numpy', 'pandas', 'openpyxl', 'reportlab', 'ezdxf', 'netuno.core.mcdm_methods', 'netuno.core.environmental_sync', 'netuno.core.esg_certifications', 'netuno.core.comprimento_de_serie', 'netuno.core.demanda_estocastica', 'netuno.ui.dialogs.dialog_comprimento_de_serie', 'netuno.core.excel_scenarios', 'netuno.ui.tab_economic_global_optimizer', 'netuno.core.edition', 'netuno.core.component_geometry', 'netuno.core.pipe_network', 'netuno.core.plant_3d', 'netuno.core.schematic_3d', 'netuno.core.volumetry', 'netuno.core.volumetry_export', 'netuno.ui.volumetry_view', 'netuno.ui.dialogs.pipe_runs_dialog', 'PySide6.QtSvg', 'ezdxf.render.forms'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['tkinter'],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
-    cipher=block_cipher,
+    excludes=[],
     noarchive=False,
+    optimize=0,
 )
-
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
-
-icon_file = str(base_dir / 'icons' / 'icon.ico') if os.path.exists(base_dir / 'icons' / 'icon.ico') else None
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
@@ -80,13 +32,11 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=icon_file,
+    icon=['D:\\AAAA_TEMPORARIO_AREATRABALHO\\NetunoReplicacao\\Netuno5_0_0\\icons\\netuno5.ico'],
 )
-
 coll = COLLECT(
     exe,
     a.binaries,
-    a.zipfiles,
     a.datas,
     strip=False,
     upx=True,

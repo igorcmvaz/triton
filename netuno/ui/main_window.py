@@ -4,6 +4,7 @@ Interface moderna com navegação por Sidebar em 6 Etapas, Live Preview e Sem Po
 """
 
 import os
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QMenuBar, QMenu, QMessageBox, QFileDialog,
     QToolBar, QLabel, QVBoxLayout, QFrame, QPushButton
@@ -23,7 +24,6 @@ from netuno.ui.tab_water_quality import TabWaterQuality
 from netuno.ui.tab_tanks_simulation import TabTanksSimulation
 from netuno.ui.tab_charts_netuno import TabChartsNetuno
 from netuno.ui.tab_economic_integrated import TabEconomicIntegrated
-from netuno.ui.tab_scenarios_modern import TabScenariosModern
 from netuno.ui.tab_environmental import TabEnvironmental
 from netuno.ui.tab_reports_pdf import TabReportsPdf
 from netuno.ui.tab_export import TabExport
@@ -39,12 +39,21 @@ class MainWindow(QMainWindow):
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
         self.config = NetunoConfig()
-        # Componentes posicionados e trechos de tubulação na ordem do projetista.
+        # Componentes posicionados, trechos na ordem do projetista e volumetria.
         self.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
         
-        logo_path = get_resource_path("Netuno2.png")
-        if os.path.exists(logo_path):
-            self.setWindowIcon(QIcon(logo_path))
+        # Ícone da janela principal
+        for icone_rel in (
+            os.path.join("icons", "netuno5.ico"),
+            os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "netuno5.png"),
+            os.path.join("icons", "icon.png"),
+            os.path.join("icons", "Netuno2.png"),
+        ):
+            logo_path = get_resource_path(icone_rel)
+            if os.path.isfile(logo_path):
+                self.setWindowIcon(QIcon(logo_path))
+                break
 
         self.setStyleSheet(NETUNO4_CLASSIC_QSS)
 
@@ -60,11 +69,11 @@ class MainWindow(QMainWindow):
         action_new = QAction(tr("Novo Projeto"), self)
         menu_file.addAction(action_new)
 
-        action_open = QAction(tr("Carregar Projeto CSV..."), self)
+        action_open = QAction(tr("Carregar Projeto CSV"), self)
         action_open.triggered.connect(self.on_load_simulation)
         menu_file.addAction(action_open)
 
-        action_save = QAction(tr("Salvar Projeto..."), self)
+        action_save = QAction(tr("Salvar Projeto"), self)
         action_save.triggered.connect(self.on_save_simulation)
         menu_file.addAction(action_save)
 
@@ -78,20 +87,20 @@ class MainWindow(QMainWindow):
         # projeto e as ações de análise claramente distintas.
         menu_sim = menu_bar.addMenu(tr("Cenários && Ferramentas"))
 
-        action_excel_sample = QAction(tr("Baixar Planilha Modelo Excel (.xlsx)..."), self)
+        action_excel_sample = QAction(tr("Baixar Planilha Modelo Excel (.xlsx)"), self)
         action_excel_sample.triggered.connect(self.on_download_excel_sample)
         menu_sim.addAction(action_excel_sample)
 
-        action_excel_import = QAction(tr("Importar e Simular Cenários em Lote (Excel)..."), self)
+        action_excel_import = QAction(tr("Importar e Simular Cenários em Lote (Excel)"), self)
         action_excel_import.triggered.connect(self.on_import_excel_scenarios)
         menu_sim.addAction(action_excel_import)
 
-        action_export_tab = QAction(tr("Central de Exportação (Planilhas, CAD e Projeto)..."), self)
+        action_export_tab = QAction(tr("Central de Exportação (Planilhas, CAD e Projeto)"), self)
         action_export_tab.triggered.connect(lambda: self.on_step_changed(9))
         menu_sim.addAction(action_export_tab)
 
         menu_sim.addSeparator()
-        action_tariffs_mgr = QAction(tr("Gestor Nacional de Tarifas & Auditoria (652 Cidades)..."), self)
+        action_tariffs_mgr = QAction(tr("Gestor Nacional de Tarifas & Auditoria (652 Cidades)"), self)
         action_tariffs_mgr.triggered.connect(lambda: self.on_step_changed(11))
         menu_sim.addAction(action_tariffs_mgr)
 
@@ -142,18 +151,17 @@ class MainWindow(QMainWindow):
         action_citacao.triggered.connect(self.on_show_citation)
         menu_ajuda.addAction(action_citacao)
 
-        action_val_report = QAction(tr("Relatório de Verificação Técnica e Computacional..."), self)
+        action_val_report = QAction(tr("Relatório de Verificação"), self)
         action_val_report.triggered.connect(self.on_show_validation_report)
         menu_ajuda.addAction(action_val_report)
 
-        action_doc = QAction(tr("Documentação das Variáveis e Fontes (MIX Sustentável)..."), self)
+        action_doc = QAction(tr("Documentação"), self)
         action_doc.triggered.connect(lambda: self.on_step_changed(10))
-
         menu_ajuda.addAction(action_doc)
 
-        action_sobre = QAction(tr(f"Sobre o Netuno {__version__}"), self)
-        action_sobre.triggered.connect(self.on_show_about)
-        menu_ajuda.addAction(action_sobre)
+        action_about = QAction(tr("Sobre o Netuno"), self)
+        action_about.triggered.connect(self.on_show_about)
+        menu_ajuda.addAction(action_about)
 
     def set_theme(self, theme):
         """Compatibilidade interna: a edição atual é exclusivamente clara."""
@@ -268,7 +276,7 @@ class MainWindow(QMainWindow):
 
         # 12 Etapas em 3 Blocos (Dados de Entrada -> Resultados -> Ferramentas)
         self.stack.addWidget(self.tab_project)           # 0. Projeto e Chuva (Input)
-        self.stack.addWidget(self.tab_building)          # 1. Edificação Consumo (Input)
+        self.stack.addWidget(self.tab_building)          # 2. Edificação e Consumo (Input)
         self.stack.addWidget(self.tab_water_quality)     # 2. Qualidade & ETAP (Input)
         self.stack.addWidget(self.tab_tanks_simulation)  # 3. Reservatório & Custos (Input)
         self.stack.addWidget(self.tab_charts)            # 4. Resultados Técnicos (Output)
@@ -520,48 +528,47 @@ class MainWindow(QMainWindow):
                     widget.setChecked(bool(checked))
             environmental._params_customized = bool(env_state.get("params_customized", True))
 
-    def on_load_simulation(self):
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            tr("Carregar Projeto Netuno"),
-            "",
-            f"{tr('Todos os Projetos Aceitos')} (*.netuno *.json *.csv);;{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;{tr('Arquivos CSV')} (*.csv)"
-        )
+    def on_load_simulation(self, file_path=None):
+        # Recebe o caminho quando o programa é aberto por um arquivo .netuno
+        # (associação criada pelo instalador); o menu passa um bool, e então
+        # o diálogo de abertura é mostrado.
+        if not isinstance(file_path, str) or not file_path:
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                tr("Carregar Projeto Netuno"),
+                "",
+                f"{tr('Todos os Projetos Aceitos')} (*.netuno *.json *.csv);;{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;{tr('Arquivos CSV')} (*.csv)"
+            )
         if not file_path:
             return
 
         try:
             from netuno.core.parser import load_netuno_project
             proj = load_netuno_project(file_path)
+            self.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
 
             cfg = proj["config"]
             self.config = cfg
-            self.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
             self.txt_workspace_project.setText(getattr(cfg, "project_name", "Novo projeto Netuno"))
 
             if hasattr(self, 'tab_economic'):
                 self.tab_economic._internal_config = cfg
 
-            # 1. Carrega chuva e modo de fonte
-            is_custom = getattr(cfg, 'climate_source_mode', 'custom') == 'custom'
-            if hasattr(self.tab_project, 'rb_source_custom') and hasattr(self.tab_project, 'rb_source_national'):
-                if is_custom:
-                    self.tab_project.rb_source_custom.setChecked(True)
-                else:
-                    self.tab_project.rb_source_national.setChecked(True)
-
+            # 1. Carrega chuva
             if proj["precip_data"] is not None:
                 self.tab_project.precip_data = proj["precip_data"]
                 self.tab_project.precip_file_path = proj["precip_filename"]
                 self.tab_project.txt_file_path.setText(proj["precip_filename"])
+                self.tab_project.rb_source_custom.setChecked(True)
+                self.tab_project.panel_national.hide()
+                self.tab_project.panel_custom.show()
                 self.tab_project.update_tables()
 
             # 1.1 Carrega localização tarifária
             if hasattr(self.tab_project, 'set_tariff_location'):
                 uf = getattr(cfg, 'tariff_city_uf', 'SC')
                 city = getattr(cfg, 'tariff_city_name', 'Florianópolis')
-                has_custom_tariffs = bool(getattr(cfg, 'water_tariffs', None))
-                self.tab_project.set_tariff_location(uf, city, preserve_custom_tariffs=has_custom_tariffs)
+                self.tab_project.set_tariff_location(uf, city)
 
             # 2. Carrega Edificação
             b_data = proj.get("building_data", {})
@@ -603,7 +610,7 @@ class MainWindow(QMainWindow):
             self,
             tr("Salvar Projeto Completo"),
             def_name,
-            f"{tr('Projeto Netuno')} (*.netuno);;{tr('Projeto JSON')} (*.json);;CSV legado — não preserva todas as etapas (*.csv)"
+            tr('{0} (*.netuno);;{1} (*.json);;CSV legado — não preserva todas as etapas (*.csv)').format(tr('Projeto Netuno'), tr('Projeto JSON'))
         )
         if not file_path:
             return
@@ -626,9 +633,29 @@ class MainWindow(QMainWindow):
             cfg.demand_value = b_cfg.get('demand', 200.0)
             cfg.residents_count = b_cfg.get('residents', 3)
             cfg.rainwater_share = b_cfg.get('share', 0.4)
-            cfg.runoff_coeff = b_cfg.get('runoff', 0.75)
+            # A fração interna e a demanda externa são as que a tela simula; sem
+            # copiá-las, o arquivo gravava os valores padrão (0,35 e 50 L/dia) e
+            # discordava da fração total. Ver netuno/core/fracao_atendivel.py.
+            cfg.non_potable_indoor_share = b_cfg.get('non_potable_indoor_share', cfg.rainwater_share)
+            cfg.potable_indoor_share = 1.0 - cfg.non_potable_indoor_share
+            cfg.irrigation_liters_per_day = b_cfg.get('irrigation_liters_per_day', 0.0)
+            cfg.irrigation_rain_threshold_mm = b_cfg.get('irrigation_rain_threshold_mm', 2.0)
+            cfg.irrigation_potable_backup = b_cfg.get('irrigation_potable_backup', True)
+            cfg.runoff_coeff = b_cfg.get('runoff', COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             cfg.demand_monthly = b_cfg.get('monthly_demands') or []
             cfg.residents_monthly = b_cfg.get('monthly_residents') or []
+            # O modo de demanda e as listas de calendario vinham da tela e
+            # paravam aqui: sem estas sete linhas o arquivo gravava sempre
+            # "constant", e as duas listas mensais acima eram ignoradas na
+            # releitura por causa do modo.
+            cfg.demand_mode = b_cfg.get('demand_mode') or 'constant'
+            cfg.weekly_demands = b_cfg.get('weekly_demands') or []
+            cfg.weekly_residents = b_cfg.get('weekly_residents') or []
+            cfg.weekly_shares = b_cfg.get('weekly_shares') or []
+            cfg.monthly_shares = b_cfg.get('monthly_shares') or []
+            cfg.daily_demands = b_cfg.get('daily_demands') or []
+            cfg.daily_residents = b_cfg.get('daily_residents') or []
+            cfg.daily_shares = b_cfg.get('daily_shares') or []
 
             if hasattr(self, 'tab_project'):
                 cfg.discard_mode = self.tab_project.get_discard_mode()
@@ -648,9 +675,16 @@ class MainWindow(QMainWindow):
                 ts = self.tab_tanks_simulation
                 cfg.lower_tank_max = parse_float(ts.txt_sweep_max.text(), cfg.lower_tank_max)
                 cfg.lower_tank_step = parse_float(ts.txt_sweep_step.text(), cfg.lower_tank_step)
-                cfg.lower_tank_mode = 1
+                # Volume escolhido à mão na tela = volume fixo do projeto; a linha
+                # de comando o avalia sozinho, e a releitura o seleciona de novo.
+                if getattr(ts, 'selected_volume_mode', 'sweep') == 'custom':
+                    cfg.lower_tank_mode = 0
+                    cfg.lower_tank_fixed = float(ts.custom_selected_vol)
+                else:
+                    cfg.lower_tank_mode = 1
                 cfg.delta_ideal = parse_float(ts.txt_delta_ideal.text(), cfg.delta_ideal)
                 cfg.upper_tank_used = 1 if ts.combo_upper_mode.currentIndex() != 2 else 0
+                ts.write_supply_to_config(cfg)
                 cfg.upper_tank_vol = parse_float(ts.txt_upper_vol.text(), cfg.upper_tank_vol)
                 pump_pct = parse_float(ts.txt_pump_thresh_pct.text(), 10.0)
                 cfg.pumping_threshold = cfg.upper_tank_vol * pump_pct / 100.0 if cfg.upper_tank_used else 0.0
@@ -663,10 +697,8 @@ class MainWindow(QMainWindow):
             if file_path.lower().endswith('.csv'):
                 QMessageBox.warning(
                     self,
-                    "Legacy format" if is_en else "Formato legado",
-                    "CSV is retained only for compatibility and does not preserve every control, LCA input or TOPSIS weight. Use .netuno to save a complete self-contained project."
-                    if is_en else
-                    "CSV é mantido somente para compatibilidade e não preserva todos os controles, a ACV ou os pesos TOPSIS. Para salvar um projeto completo e autocontido, use o formato .netuno.",
+                    tr("Formato legado"),
+                    tr("CSV é mantido somente para compatibilidade e não preserva todos os controles, a ACV ou os pesos TOPSIS. Para salvar um projeto completo e autocontido, use o formato .netuno."),
                 )
                 sweep_res = getattr(self.tab_tanks_simulation, 'last_sweep_result', None)
                 results = sweep_res.results_by_volume if (sweep_res and sweep_res.results_by_volume) else []
@@ -686,28 +718,33 @@ class MainWindow(QMainWindow):
                 self,
                 tr("Sucesso"),
                 f"{tr('Projeto salvo com sucesso (incluindo chuva, edificação, custos e otimizador) em:')}\n{file_path}\n\n"
-                + (".netuno/.json files include the daily rainfall series in the project itself and can be reopened without the original CSV."
-                   if is_en else
-                   "Arquivos .netuno/.json incluem a série diária de chuva no próprio projeto e podem ser reabertos sem o CSV original.")
+                + tr("Arquivos .netuno/.json incluem a série diária de chuva no próprio projeto e podem ser reabertos sem o CSV original.")
             )
         except Exception as e:
             import traceback
             QMessageBox.critical(self, tr("Erro ao Salvar"), f"{tr('Falha ao salvar projeto')}:\n{str(e)}\n\n{traceback.format_exc()}")
 
     def on_show_manual(self):
+        # O menu mostrava só autores e versão; agora abre o PDF do manual, que
+        # acompanha o programa, e só cai na mensagem quando ele não existe.
+        from PySide6.QtCore import QUrl
+        from PySide6.QtGui import QDesktopServices
+        for relativo in (os.path.join("manual", "Manual-Netuno-5.pdf"),):
+            caminho = get_resource_path(relativo)
+            if os.path.isfile(caminho):
+                QDesktopServices.openUrl(QUrl.fromLocalFile(caminho))
+                return
         QMessageBox.information(
             self,
             tr(f"Manual do Usuário — Netuno {__version__}"),
-            f"{APP_VERSION_LABEL} — {tr('Manual do Usuário')}\n"
-            f"{tr('Autores')}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n"
-            f"{tr('Grupo de Pesquisa Gestão do Espaço Sustentável')} (UFSC)"
+            tr('{0} — {1}\n{2}: Eng. Igor Catão Martins Vaz & Prof. Enedir Ghisi, PhD\n{3} (UFSC)').format(APP_VERSION_LABEL, tr('Manual do Usuário'), tr('Autores'), tr('Grupo de Pesquisa em Ambientes Sustentáveis'))
         )
 
     def on_show_citation(self):
         citation = (
             f"VAZ, I. C. M.; GHISI, E. <b>Netuno {__version__}</b>: "
             f"{tr('Programa computacional para simulação de aproveitamento de água de chuva em edificações')}. "
-            f"Florianópolis: Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa Gestão do Espaço Sustentável')}, 2026. "
+            f"Florianópolis: Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa em Ambientes Sustentáveis')}, 2026. "
             f"Software de computador, versão {__version__}."
         )
         bibtex = (
@@ -735,11 +772,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(
             self,
             tr(f"Sobre o Netuno {__version__}"),
-            f"<b>{APP_VERSION_LABEL}</b><br><br>"
-            f"{tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.')}<br>"
-            f"<b>{tr('Autores')}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>"
-            f"{tr('Desenvolvido no Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC).')}<br><br>"
-            f"<i>{tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.')}</i>"
+            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.'))
         )
 
     def on_download_excel_sample(self):
@@ -752,11 +785,11 @@ class MainWindow(QMainWindow):
                 "<p>Esta funcionalidade permite simular dezenas ou centenas de combinações de projetos "
                 "de água de chuva (variando área de captação, demanda, volume de cisterna, custos e coeficientes de escoamento) "
                 "de forma automatizada a partir de uma planilha Excel (<code>.xlsx</code>).</p>"
-                "<p>💡 <b>Recomendação para Lotes Grandes (Pesquisa e Automação):</b><br>"
-                "Para processar grandes matrizes de cenários com séries históricas extensas, é recomendado utilizar o "
-                "<b>modo linha de comando em Python (CLI)</b> diretamente pelo terminal, permitindo paralelização e scripts customizados.<br>"
-                "O código-fonte e exemplos de automação estão disponíveis no repositório:<br>"
-                "<a href='https://github.com/labeee-ufsc/netuno'>https://github.com/labeee-ufsc/netuno</a></p>"
+                "<p>💡 <b>Para matrizes muito grandes:</b><br>"
+                "Estudos com milhares de cenários e séries longas são executados pela interface de "
+                "automação que acompanha a distribuição de código-fonte, usada nos trabalhos do "
+                "Grupo de Pesquisa em Ambientes Sustentáveis. Para um estudo de projeto, a planilha "
+                "de cenários desta tela responde a mesma pergunta.</p>"
                 "<p>Deseja salvar a planilha modelo de cenários (<code>.xlsx</code>) para preenchimento agora?</p>"
             )
         )
@@ -785,21 +818,27 @@ class MainWindow(QMainWindow):
         return self.on_download_excel_sample()
 
     def on_import_excel_scenarios(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Selecionar Arquivo de Cenários Excel", "", "Planilhas (*.xlsx *.xls *.csv)")
+        file_path, _ = QFileDialog.getOpenFileName(self, tr("Selecionar Arquivo de Cenários Excel"), "", "Planilhas (*.xlsx *.xls *.csv)")
         if file_path:
             from netuno.core.excel_scenarios import parse_excel_scenarios, run_parsed_scenarios, export_scenarios_to_excel_bytes
             try:
                 scenarios = parse_excel_scenarios(file_path)
                 if not scenarios:
-                    QMessageBox.warning(self, "Aviso", "Nenhum cenário válido encontrado na planilha.")
+                    QMessageBox.warning(self, tr("Aviso"), tr("Nenhum cenário válido encontrado na planilha."))
+                    return
+                avisos = [a for sc in scenarios for a in sc.get("avisos", [])]
+                if avisos and QMessageBox.question(
+                        self, tr("Confira a substituição pluvial"),
+                        tr("A coluna de substituição está em percentual (40 = 40%).") + "\n\n"
+                        + "\n".join(avisos) + "\n\n" + tr("Simular mesmo assim?")) != QMessageBox.Yes:
                     return
                 results = run_parsed_scenarios(scenarios)
                 def_out = self.get_kebab_filename("netuno-resultados-cenarios", "xlsx")
-                out_path, _ = QFileDialog.getSaveFileName(self, "Salvar Resultados dos Cenários", def_out, "Planilha Excel (*.xlsx)")
+                out_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Resultados dos Cenários"), def_out, "Planilha Excel (*.xlsx)")
                 if out_path:
                     excel_bytes = export_scenarios_to_excel_bytes(results)
                     with open(out_path, "wb") as f:
                         f.write(excel_bytes)
-                    QMessageBox.information(self, "Simulação Concluída", f"Simulação de {len(scenarios)} cenários realizada com sucesso!\nResultados salvos em:\n{out_path}")
+                    QMessageBox.information(self, tr("Simulação Concluída"), tr('Simulação de {0} cenários realizada com sucesso!\nResultados salvos em:\n{1}').format(len(scenarios), out_path))
             except Exception as e:
-                QMessageBox.critical(self, "Erro na Simulação", f"Erro ao processar arquivo:\n{str(e)}")
+                QMessageBox.critical(self, tr("Erro na Simulação"), tr('Erro ao processar arquivo:\n{0}').format(str(e)))

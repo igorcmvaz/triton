@@ -14,6 +14,7 @@ from PySide6.QtWidgets import QApplication
 from netuno.core.parser import NetunoConfig
 from netuno.core.simulation import SingleTankSimulationResult, SimulationDayResult
 from netuno.core.economic import run_economic_analysis
+from netuno.core.pump_hydraulics import rendimento_do_motor
 from netuno.ui.tab_tanks_simulation import TabTanksSimulation
 
 
@@ -88,11 +89,37 @@ def test_pump_energy_exact_physics_formula():
     t_part_expected = avg_daily_cycles * days_in_month * (10.0 / 3600.0)
     t_tot_expected = t_rec_expected + t_part_expected
 
-    energy_kwh_expected = (0.7355 * t_tot_expected) / 0.60
+    # A potencia de placa e a potencia mecanica NO EIXO, por definicao da ABNT
+    # NBR 17094-2:2016, que manda marcar o rendimento na placa como grandeza
+    # separada. Duas consequencias, e as duas estao nesta conta:
+    #
+    # 1. o rendimento DA BOMBA ja esta embutido no fato de um motor de P kW no
+    #    eixo fazer a bomba entregar Q m3/h naquela altura, e dividir por ele
+    #    outra vez contaria a perda hidraulica duas vezes;
+    # 2. o rendimento DO MOTOR ainda falta, e e o que separa a energia de eixo
+    #    da energia que o medidor registra.
+    #
+    # A conta ja fez P x horas / eta_bomba, que errava nos dois
+    # sentidos ao mesmo tempo. A correcao arrumou o recalque e deixou as partidas.
+    eta_motor = rendimento_do_motor(0.7355)
+    volume_mensal_m3 = (avg_daily_pumped * days_in_month) / 1000.0
+    energia_recalque = (0.7355 / 3.0) / eta_motor * volume_mensal_m3
+
+    # Na partida a bomba nao entrega vazao util, mas o motor puxa da tomada: a
+    # placa dividida pelo rendimento do motor, sem o rendimento da bomba, porque
+    # perda hidraulica nao existe quando nao ha vazao.
+    energia_partidas = (0.7355 * t_part_expected) / eta_motor
+
+    energy_kwh_expected = energia_recalque + energia_partidas
     cost_expected = energy_kwh_expected * 1.00
 
     assert pytest.approx(econ.monthly_pump_kwh, rel=1e-3) == energy_kwh_expected
     assert pytest.approx(econ.monthly_pump_cost_brl, rel=1e-3) == cost_expected
+
+    # E a comparacao com a conta antiga, para que a diferenca fique registrada.
+    # A conta antiga dividia pelo rendimento da bomba, e nao do motor.
+    conta_antiga = (0.7355 * t_tot_expected) / 0.60
+    assert conta_antiga != pytest.approx(energy_kwh_expected, rel=1e-3)
 
 
 def test_pump_backup_count_capex_cost():

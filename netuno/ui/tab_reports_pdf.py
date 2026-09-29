@@ -121,14 +121,20 @@ class TabReportsPdf(QWidget):
 
         lbl_type = QLabel(tr("Modelo:"))
         lbl_type.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        lbl_type.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(lbl_type)
 
         self.combo_report_type = QComboBox()
         self.combo_report_type.addItem(tr("📊 Relatório Econômico Executivo (Clientes)"), "economic")
         self.combo_report_type.addItem(tr("🌱 Relatório Ambiental ESG & ACV"), "environmental")
         self.combo_report_type.addItem(tr("🔬 Relatório de Pesquisa & Dossiê Técnico"), "research")
-        self.combo_report_type.setMinimumWidth(280)
+        # Piso baixo de propósito: com a janela estreita, uma largura mínima
+        # grande não encolhe, estoura a linha e o rótulo «Idioma:» acaba por
+        # cima da caixa. Assim o nome do modelo é reticenciado, e os dois campos
+        # continuam separados em qualquer largura.
+        self.combo_report_type.setMinimumWidth(170)
         self.combo_report_type.setMaximumWidth(420)
+        self.combo_report_type.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.combo_report_type.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.combo_report_type.setStyleSheet(f"""
             QComboBox {{
@@ -144,20 +150,25 @@ class TabReportsPdf(QWidget):
             }}
         """)
         self.combo_report_type.currentIndexChanged.connect(self._on_report_type_changed)
+        # Em janela estreita o nome do modelo é cortado; a dica mostra o inteiro.
+        self.combo_report_type.currentIndexChanged.connect(
+            lambda: self.combo_report_type.setToolTip(self.combo_report_type.currentText()))
+        self.combo_report_type.setToolTip(self.combo_report_type.currentText())
         row_controls.addWidget(self.combo_report_type)
 
         row_controls.addSpacing(10)
 
         lbl_lang = QLabel(tr("Idioma:"))
         lbl_lang.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        lbl_lang.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(lbl_lang)
 
         self.combo_report_lang = QComboBox()
-        self.combo_report_lang.addItem("🇧🇷 Português (Brasil)", "pt")
+        self.combo_report_lang.addItem(tr("🇧🇷 Português (Brasil)"), "pt")
         self.combo_report_lang.addItem("🇺🇸 English (US)", "en")
         self.combo_report_lang.addItem("🇪🇸 Español", "es")
         self.combo_report_lang.addItem("🇨🇳 中文（简体）", "zh")
-        self.combo_report_lang.setMinimumWidth(150)
+        self.combo_report_lang.setMinimumWidth(130)
         self.combo_report_lang.setMaximumWidth(180)
         self.combo_report_lang.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.combo_report_lang.setStyleSheet(f"""
@@ -182,11 +193,12 @@ class TabReportsPdf(QWidget):
 
         self.lbl_volume = QLabel(tr("Volume:"))
         self.lbl_volume.setStyleSheet(f"font-size: 11px; font-weight: 600; color: {text_primary}; background-color: transparent;")
+        self.lbl_volume.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         row_controls.addWidget(self.lbl_volume)
 
         self.combo_volume = QComboBox()
         self.combo_volume.setEditable(False)
-        self.combo_volume.setMinimumWidth(210)
+        self.combo_volume.setMinimumWidth(140)
         self.combo_volume.setMaximumWidth(310)
         self.combo_volume.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.combo_volume.setStyleSheet(f"""
@@ -717,8 +729,12 @@ class TabReportsPdf(QWidget):
                                         else float(val.replace(',', '.'))
                         except Exception:
                             pass
+            # O campo da tela é percentual; o que segue para relatório e desenho é fração.
+            if isinstance(data["share"], float):
+                from netuno.core.fracao_atendivel import percentual_para_fracao
+                data["share"] = percentual_para_fracao(tr("Substituição por Água de Chuva (%):"), data["share"])
             if hasattr(tb, 'get_building_config'):
-                data["runoff"] = tb.get_building_config().get("runoff_coeff", 0.75)
+                data["runoff"] = tb.get_building_config().get("runoff", 0.75)
 
         rep_type = self.combo_report_type.currentData() or "economic" if hasattr(self, "combo_report_type") else "economic"
         chosen_vol = self.get_selected_volume()
@@ -1105,9 +1121,12 @@ class TabReportsPdf(QWidget):
                 has_irr = (outdoor_dem_m3 > 0.001)
                 if has_irr and outdoor_dem_m3 > 0:
                     indoor_dem_m3 = max(0.0, tot_dem - outdoor_dem_m3)
-                    pluv_to_outdoor = min(annual_pluvial_m3, outdoor_dem_m3)
-                    pluv_to_indoor = max(0.0, annual_pluvial_m3 - pluv_to_outdoor)
-                    outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0)
+                    # Parcela externa só se o balanço a calculou; sem ela, o
+                    # crédito externo fica como não avaliado, e não estimado.
+                    irr_d = self._project_data.get("pluv_irrigation_day")
+                    pluv_to_outdoor = (self._safe_float(irr_d, 0.0) * 365.25 / 1000.0) if irr_d is not None else None
+                    pluv_to_indoor = max(0.0, annual_pluvial_m3 - (pluv_to_outdoor or 0.0))
+                    outdoor_savings_pct = (pluv_to_outdoor / outdoor_dem_m3 * 100.0) if pluv_to_outdoor is not None else None
                     indoor_savings_pct = (pluv_to_indoor / indoor_dem_m3 * 100.0) if indoor_dem_m3 > 0 else potential_pct
                 else:
                     outdoor_dem_m3 = 0.0
@@ -1132,6 +1151,8 @@ class TabReportsPdf(QWidget):
             is_simplified_mode=is_simplified,
             indoor_demand_m3=indoor_dem_m3,
             outdoor_demand_m3=outdoor_dem_m3,
+            catchment_area_m2=self._safe_float(
+                self._project_data.get("area"), 0.0),
         )
 
     def _update_report_preview_text_legacy(self):
@@ -1225,8 +1246,13 @@ class TabReportsPdf(QWidget):
                 "",
                 f"  3. {tr('MATRIZ DE CERTIFICAÇÕES VERDES & ENQUADRAMENTO ESG')}",
                 f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
-                f"     {tr('Processo AQUA-HQE')}            : {tr(esg.aqua.performance_level)} ({'⭐'*esg.aqua.stars}) — {tr(esg.aqua.description)}",
-                f"     {tr('Selo Casa Azul CAIXA')}         : {tr(esg.casa_azul.category)} (+{esg.casa_azul.points_awarded} pts) — {esg.casa_azul.criterion_met and tr('Critério 2.1 Conforme')}",
+                f"     {tr('LEED v5 BD+C, WEc2')}           : {esg.leed_v5.total_pts} / 8 pts ({esg.leed_v5.caminho})",
+                f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
+                f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
+                f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",
+                f"     {tr('EDGE (IFC) — barra de água')} : {br(esg.edge.economia_de_agua_pct,1)}% "
+                f"({tr('atende ao padrão') if esg.edge.atende_o_padrao_de_agua else tr('abaixo do limiar de 20%')})"
+                f" — {tr('WEM14, área de captação')} {br(esg.edge.area_de_captacao_m2,0)} m²",
                 f"     {tr('GRI Standard 303 (Água)')}      : GRI 303-3 / 303-5 ({br(annual_m3,1)} m³ retirados/economizados)",
                 "═" * 72,
             ]

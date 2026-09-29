@@ -18,7 +18,6 @@ from netuno.ui.dialogs.dialog_economic import (
     DialogEconomicAnalysis
 )
 
-from netuno.ui.dialogs.dialog_scenario_simulation import DialogScenarioSimulation
 from netuno.ui.dialogs.pump_wizard_dialog import PumpSelectionWizardDialog
 
 __all__ = [
@@ -35,6 +34,5 @@ __all__ = [
     "DialogOtherOpCosts",
     "DialogCashFlow",
     "DialogEconomicAnalysis",
-    "DialogScenarioSimulation",
     "PumpSelectionWizardDialog",
 ]

@@ -1,5 +1,5 @@
 """
-Estilo Profissional Refinado Netuno (Grupo de Pesquisa Gestão do Espaço Sustentável).
+Estilo Profissional Refinado Netuno (Grupo de Pesquisa em Ambientes Sustentáveis).
 Proporciona um visual moderno, limpo e extremamente elegante para a interface desktop.
 """
 
@@ -227,13 +227,20 @@ QCheckBox:hover {
     color: #087f6b;
 }
 
-/* Tabela de Precipitação */
+/* Tabela de Precipitação e Tabelas Gerais */
 QTableWidget {
     background-color: #ffffff;
     color: #17332c;
     gridline-color: #e2ede8;
     border: 1px solid #d7e3df;
     border-radius: 12px;
+    selection-background-color: #ffffff;
+    selection-color: #17332c;
+}
+
+QTableWidget::item:selected {
+    background-color: #ffffff;
+    color: #17332c;
 }
 
 QHeaderView::section {
@@ -300,10 +307,10 @@ QToolTip {
     border-radius: 5px;
 }
 
-QScrollBar:vertical { background: #f2f6f3; width: 8px; margin: 2px; }
+QScrollBar:vertical { background: #f2f6f3; width: 14px; margin: 2px; }
 QScrollBar::handle:vertical { background: #9ec3b7; min-height: 28px; border-radius: 5px; }
 QScrollBar::handle:vertical:hover { background: #087f6b; }
-QScrollBar:horizontal { background: #f2f6f3; height: 8px; margin: 2px; }
+QScrollBar:horizontal { background: #f2f6f3; height: 14px; margin: 2px; }
 QScrollBar::handle:horizontal { background: #9ec3b7; min-width: 28px; border-radius: 5px; }
 QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 
@@ -665,13 +672,20 @@ QCheckBox:hover {
     color: #48d5b7;
 }
 
-/* Tabela de Precipitação */
+/* Tabela de Precipitação e Tabelas Gerais */
 QTableWidget {
     background-color: #122b25;
     color: #ffffff;
     gridline-color: #1f4239;
     border: 1px solid #1f4239;
     border-radius: 6px;
+    selection-background-color: #122b25;
+    selection-color: #ffffff;
+}
+
+QTableWidget::item:selected {
+    background-color: #122b25;
+    color: #ffffff;
 }
 
 QHeaderView::section {
@@ -730,7 +744,7 @@ QListView, QTreeView, QTableView, QAbstractItemView {
     selection-color: #ffffff;
 }
 
-QTableWidget::item:selected, QListView::item:selected, QTreeView::item:selected {
+QListView::item:selected, QTreeView::item:selected {
     background-color: #087f6b;
     color: #ffffff;
 }
@@ -743,10 +757,10 @@ QToolTip {
     border-radius: 5px;
 }
 
-QScrollBar:vertical { background: #0b1a17; width: 12px; margin: 2px; }
+QScrollBar:vertical { background: #0b1a17; width: 14px; margin: 2px; }
 QScrollBar::handle:vertical { background: #284d43; min-height: 28px; border-radius: 5px; }
 QScrollBar::handle:vertical:hover { background: #2bb99c; }
-QScrollBar:horizontal { background: #0b1a17; height: 12px; margin: 2px; }
+QScrollBar:horizontal { background: #0b1a17; height: 14px; margin: 2px; }
 QScrollBar::handle:horizontal { background: #284d43; min-width: 28px; border-radius: 5px; }
 QScrollBar::add-line, QScrollBar::sub-line { width: 0px; height: 0px; }
 

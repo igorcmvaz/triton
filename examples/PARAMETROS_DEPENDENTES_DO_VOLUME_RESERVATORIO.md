@@ -137,7 +137,7 @@ Os cenários internos atualmente usados são:
 | concreto | 1.200,0 | 0,14 | 168,0 |
 | aço inox | 38,0 | 2,89 | 109,82 |
 
-Esses valores são aproximações de triagem. Uma cisterna real não possui massa necessariamente linear com o volume: geometria, espessura, armadura, enterramento e classe estrutural importam. Use a massa da ficha técnica e uma EPD/inventário compatível sempre que possível. O Netuno 5.0.0 normaliza `PRFV` para `FIBRA`, eliminando o antigo fallback silencioso para PEAD.
+Esses valores são aproximações de triagem. Uma cisterna real não possui massa necessariamente linear com o volume: geometria, espessura, armadura, enterramento e classe estrutural importam. Use a massa da ficha técnica e uma EPD/inventário compatível sempre que possível. O programa normaliza `PRFV` para `FIBRA`, eliminando o antigo fallback silencioso para PEAD.
 
 Tubos, reservatório superior e bombas são impactos fixos dentro da mesma varredura porque seus quantitativos são entradas. Para comparar redes ou bombas redimensionadas, crie cenários separados.
 
@@ -189,7 +189,7 @@ Vmês = Vpluvial,anual(V) / 12
 CO&M(V) = Σ n × [Cfixo + cvariável × Vmês]
 ```
 
-Logo, o campo variável depende do **throughput de água pluvial**, não dos m³ de capacidade. Não há base científica transferível para o antigo valor de R$ 15/m³ de cisterna, que foi removido do padrão 5.0.0. Os estudos de referência usam custos fixos por ocorrência.
+Logo, o campo variável depende do **throughput de água pluvial**, não dos m³ de capacidade. Não há base científica transferível para o antigo valor de R$ 15/m³ de cisterna, que foi removido do padrão. Os estudos de referência usam custos fixos por ocorrência.
 
 Se uma equipe obtiver evidência de custo dependente da capacidade, deve formular e calibrar um novo modelo explicitamente. Um procedimento defensável seria coletar ordens de serviço comparáveis, separar deslocamento/mobilização (fixo) de horas, reagentes e descarte (variáveis), testar modelos candidatos por área interna, volume limpo ou tempo de serviço, reportar amostra, erro e intervalo de validade e só então implementar a relação. Não se deve converter uma justificativa intuitiva em coeficiente numérico sem dados.
 
@@ -234,7 +234,7 @@ Ci = D−i/(D+i + D−i)
 
 Todos os pesos devem ser finitos, não negativos e ter soma positiva. A translação sistemática torna o tratamento de valores negativos explícito e invariante a uma constante adicionada à coluna.
 
-O diagnóstico adicional do Netuno 5.0.0 não usa os pesos. Para cada eixo:
+O diagnóstico adicional não usa os pesos. Para cada eixo:
 
 ```text
 gapij = [max(xj) − xij]/[max(xj) − min(xj)]

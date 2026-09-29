@@ -97,7 +97,8 @@ class TabTariffsManager(QWidget):
 
         # SELETOR UF, CIDADE & CATEGORIA
         sel_card = QFrame()
-        sel_card.setStyleSheet("background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        sel_card.setObjectName("selCard")
+        sel_card.setStyleSheet("#selCard { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         sel_layout = QGridLayout(sel_card)
         sel_layout.setContentsMargins(0, 0, 0, 0)
         sel_layout.setSpacing(6)
@@ -125,7 +126,8 @@ class TabTariffsManager(QWidget):
 
         # CARTÃO INSTITUCIONAL & EVIDÊNCIA
         inst_card = QFrame()
-        inst_card.setStyleSheet("background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        inst_card.setObjectName("instCard")
+        inst_card.setStyleSheet("#instCard { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         inst_layout = QVBoxLayout(inst_card)
         inst_layout.setContentsMargins(0, 0, 0, 0)
         inst_layout.setSpacing(4)
@@ -141,7 +143,7 @@ class TabTariffsManager(QWidget):
         inst_layout.addLayout(row_inst1)
 
         row_inst2 = QHBoxLayout()
-        self.lbl_agencia = QLabel("📋 Regulação: -")
+        self.lbl_agencia = QLabel(tr("📋 Regulação: -"))
         self.lbl_agencia.setStyleSheet("font-size: 11.5px; color: #475569;")
         row_inst2.addWidget(self.lbl_agencia, stretch=1)
 
@@ -151,7 +153,7 @@ class TabTariffsManager(QWidget):
         row_inst2.addWidget(self.btn_open_url)
         inst_layout.addLayout(row_inst2)
 
-        self.lbl_disp_callout = QLabel("🏷️ Custo de Disponibilidade: -")
+        self.lbl_disp_callout = QLabel(tr("🏷️ Custo de Disponibilidade: -"))
         self.lbl_disp_callout.setStyleSheet("font-size: 11px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 6px;")
         inst_layout.addWidget(self.lbl_disp_callout)
 
@@ -159,7 +161,8 @@ class TabTariffsManager(QWidget):
 
         # PARÂMETROS NUMÉRICOS COMPACTOS
         params_card = QFrame()
-        params_card.setStyleSheet("background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;")
+        params_card.setObjectName("paramsCard")
+        params_card.setStyleSheet("#paramsCard { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; }")
         p_layout = QGridLayout(params_card)
         p_layout.setContentsMargins(0, 0, 0, 0)
         p_layout.setSpacing(6)
@@ -267,7 +270,14 @@ class TabTariffsManager(QWidget):
 
         # BOX DO SIMULADOR DE FATURA
         sim_box = QFrame()
-        sim_box.setStyleSheet("background: #f8fafc; border: 1px solid #bae6fd; border-radius: 8px; padding: 10px 12px;")
+        # A folha de estilo é presa ao quadro pelo nome. Sem seletor, o Qt a
+        # propaga aos filhos: o `padding` caía também sobre a barra deslizante,
+        # que passava a ser desenhada acima do centro da linha, desalinhada do
+        # texto ao lado.
+        sim_box.setObjectName("simBox")
+        sim_box.setStyleSheet(
+            "#simBox { background: #f8fafc; border: 1px solid #bae6fd; "
+            "border-radius: 8px; padding: 10px 12px; }")
         sim_layout = QVBoxLayout(sim_box)
         sim_layout.setContentsMargins(0, 0, 0, 0)
         sim_layout.setSpacing(6)
@@ -276,6 +286,15 @@ class TabTariffsManager(QWidget):
         sim_head.addWidget(QLabel(tr("🧮 <b>Simulador em Tempo Real:</b>")))
         
         self.slider_sim = QSlider(Qt.Horizontal)
+        # Estilo próprio, e não o que vazava do quadro: trilho fino centrado na
+        # linha, percorrido em vermelho até o volume escolhido.
+        self.slider_sim.setStyleSheet("""
+            QSlider::groove:horizontal { height: 6px; border-radius: 3px; background: #e2e8f0; }
+            QSlider::sub-page:horizontal { height: 6px; border-radius: 3px; background: #ef4444; }
+            QSlider::handle:horizontal { width: 16px; height: 16px; margin: -5px 0;
+                border-radius: 8px; background: #1f2937; border: 2px solid #ffffff; }
+            QSlider::handle:horizontal:hover { background: #087f6b; }
+        """)
         self.slider_sim.setRange(0, 50)
         self.slider_sim.setValue(15)
         self.slider_sim.valueChanged.connect(self.on_slider_changed)
@@ -297,12 +316,13 @@ class TabTariffsManager(QWidget):
         """)
         self.spin_sim_vol.valueChanged.connect(self.on_spin_vol_changed)
         sim_head.addWidget(self.spin_sim_vol)
-        sim_head.addWidget(QLabel("m³/mês"))
+        sim_head.addWidget(QLabel(tr("m³/mês")))
         sim_layout.addLayout(sim_head)
 
         # Demonstrativo de Fatura
-        self.lbl_sim_result = QLabel("🏷️ Fixa: R$ 0,00 | 💧 Água: R$ 0,00 | 🚽 Esgoto: R$ 0,00 | <b>Total: R$ 0,00 / mês</b>")
+        self.lbl_sim_result = QLabel(tr("🏷️ Fixa: R$ 0,00 | 💧 Água: R$ 0,00 | 🚽 Esgoto: R$ 0,00 | <b>Total: R$ 0,00 / mês</b>"))
         self.lbl_sim_result.setStyleSheet("font-size: 12px; color: #0369a1; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 5px 8px;")
+        self.lbl_sim_result.setWordWrap(True)
         sim_layout.addWidget(self.lbl_sim_result)
 
         right_layout.addWidget(sim_box)
@@ -310,6 +330,7 @@ class TabTariffsManager(QWidget):
         # CANVAS MATPLOTLIB EMBARCADO (2 SUBPLOTS: STEP CURVE + BILL CURVE)
         self.figure = Figure(figsize=(5.5, 3.8), dpi=95)
         self.figure.patch.set_facecolor("#ffffff")
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
         self.ax1 = self.figure.add_subplot(2, 1, 1)
         self.ax2 = self.figure.add_subplot(2, 1, 2)
         self.canvas = FigureCanvas(self.figure)
@@ -387,11 +408,11 @@ class TabTariffsManager(QWidget):
         self.active_tariffs_data = data
 
         self.lbl_prestador.setText(f"🏢 <b>Prestador:</b> {data.get('prestador_saneamento', '-')}")
-        self.lbl_agencia.setText(f"📋 <b>Regulação:</b> {data.get('agencia_reguladora', 'Municipal')}")
+        self.lbl_agencia.setText(tr('📋 <b>Regulação:</b> {0}').format(data.get('agencia_reguladora', 'Municipal')))
         
         status_glob = data.get("status_global", "AUTO_OR_VERIFIED")
         if status_glob == "MANUAL_REVIEW_NEEDED":
-            self.lbl_status_badge.setText("🟡 Revisão Decreto")
+            self.lbl_status_badge.setText(tr("🟡 Revisão Decreto"))
             self.lbl_status_badge.setStyleSheet("background: #fffbeb; color: #b45309; border: 1px solid #fde68a; border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold;")
         else:
             self.lbl_status_badge.setText("🟢 Homologado")
@@ -412,13 +433,13 @@ class TabTariffsManager(QWidget):
         tem_minima = any(t[3] in (-1, -2) for t in faixas)
         if tem_franquia:
             f_vol = next((t[1] for t in faixas if t[3] == -2 or (t[3] == -1 and t[1] > 0)), 6.0)
-            self.lbl_disp_callout.setText(f"🏷️ <b>Consumo Mínimo (Franquia):</b> R$ {t_fixa:.2f}/mês cobrindo até {f_vol:.0f} m³.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Consumo Mínimo (Franquia):</b> R$ {0:.2f}/mês cobrindo até {1:.0f} m³.').format(t_fixa, f_vol))
         elif t_fixa > 0 and tem_minima:
-            self.lbl_disp_callout.setText(f"🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {t_fixa:.2f}/mês somado a cada m³ medido.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {0:.2f}/mês somado a cada m³ medido.').format(t_fixa))
         elif t_fixa > 0:
-            self.lbl_disp_callout.setText(f"🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {t_fixa:.2f}/mês somado a cada m³ medido.")
+            self.lbl_disp_callout.setText(tr('🏷️ <b>Custo Fixo de Disponibilidade:</b> R$ {0:.2f}/mês somado a cada m³ medido.').format(t_fixa))
         else:
-            self.lbl_disp_callout.setText("🏷️ <b>Cobrança Linear:</b> Sem parcela fixa, cobrança proporcional ao consumo.")
+            self.lbl_disp_callout.setText(tr("🏷️ <b>Cobrança Linear:</b> Sem parcela fixa, cobrança proporcional ao consumo."))
 
         # Energia
         self.lbl_distribuidora.setText(f"Distr: {data.get('distribuidora_energia', '-')}")
@@ -643,13 +664,29 @@ class TabTariffsManager(QWidget):
         eff_rate = (total_val / vol) if vol > 0 else 0.0
 
         self.lbl_sim_result.setText(
-            f"🏷️ Fixa/Disp: <b>R$ {valor_fixo:.2f}</b> | 💧 Água Medida: <b>R$ {medido_val:.2f}</b> | "
-            f"🚽 Esgoto ({esgoto_pct:.0f}%): <b>R$ {esgoto_val:.2f}</b> | "
-            f"💰 <b>Total: R$ {total_val:.2f}/mês</b> (Média: R$ {eff_rate:.2f}/m³)"
+            tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2:.0f}%): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, esgoto_pct, esgoto_val, total_val, eff_rate)
         )
 
         # Atualiza Gráficos Matplotlib
         self.redraw_charts(faixas, fixed, esgoto_pct, vol, total_val)
+
+    def safe_draw(self):
+        """Atualização segura do canvas sem falhas de destruição de widgets ou timers pendentes."""
+        try:
+            if not hasattr(self, "canvas") or not self.canvas:
+                return
+            self.canvas.draw()
+        except Exception:
+            pass
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
+        self.safe_draw()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
 
     def redraw_charts(self, faixas: List[List[Any]], fixed: float, esgoto_pct: float, current_vol: float, current_bill: float):
         """Redesenha os dois subplots integrados (Step-curve + Curva de Fatura)."""
@@ -660,7 +697,7 @@ class TabTariffsManager(QWidget):
         self.ax2.cla()
 
         # Subplot 1: Curva de Degraus (Tarifa Marginal R$/m³)
-        max_plot_vol = 40.0
+        max_plot_vol = 50.0
         v_steps = []
         r_steps = []
 
@@ -680,7 +717,7 @@ class TabTariffsManager(QWidget):
 
         self.ax1.set_xlim(0, max_plot_vol)
         self.ax1.set_ylabel("R$/m³", fontsize=9, fontweight="bold", color="#334155")
-        self.ax1.set_title("Estrutura de Faixas (Tarifa Marginal R$/m³)", fontsize=10, fontweight="bold", color="#0f172a", pad=4)
+        self.ax1.set_title(tr("Estrutura de Faixas (Tarifa Marginal R$/m³)"), fontsize=10, fontweight="bold", color="#0f172a", pad=4)
         self.ax1.grid(True, linestyle=":", alpha=0.5)
         self.ax1.tick_params(labelsize=8)
         self.ax1.legend(loc="upper left", fontsize=7.5, framealpha=0.8)
@@ -699,13 +736,10 @@ class TabTariffsManager(QWidget):
         self.ax2.set_xlim(0, max_plot_vol)
         self.ax2.set_xlabel("Volume Consumido Mensal (m³)", fontsize=9, fontweight="bold", color="#334155")
         self.ax2.set_ylabel("Fatura (R$)", fontsize=9, fontweight="bold", color="#334155")
-        self.ax2.set_title("Evolução da Conta Mensal de Água & Esgoto", fontsize=10, fontweight="bold", color="#0f172a", pad=4)
+        self.ax2.set_title(tr("Evolução da Conta Mensal de Água & Esgoto"), fontsize=10, fontweight="bold", color="#0f172a", pad=4)
         self.ax2.grid(True, linestyle=":", alpha=0.5)
         self.ax2.tick_params(labelsize=8)
         self.ax2.legend(loc="upper left", fontsize=7.5, framealpha=0.8)
 
-        self.figure.tight_layout(pad=1.2)
-        try:
-            self.canvas.draw()
-        except Exception:
-            pass
+        self.figure.subplots_adjust(left=0.11, right=0.96, top=0.93, bottom=0.12, hspace=0.38)
+        self.safe_draw()

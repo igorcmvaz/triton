@@ -8,7 +8,7 @@ gráfica instalada.
 Por que a degradação importa
 ----------------------------
 Os testes de invariantes e propriedades científicas não dependem de interface, mas
-anteriormente o `conftest` importava PySide6 no topo e instalava um
+o `conftest` já importou PySide6 no topo e instalava um
 `QApplication` com `autouse=True`. Consequência: *todo* teste, inclusive os
 puramente numéricos, exigia Qt instalado. Isso impedia rodar a verificação em
 contêineres mínimos de integração contínua e obrigava `--noconftest` para exercitar
@@ -50,9 +50,10 @@ MODULOS_QUE_EXIGEM_INTERFACE = [
     "integration/test_national_climate_flow.py",
     "integration/test_new_tools.py",
     "integration/test_report_generator.py",
-    "integration/test_environmental_report.py",
-    "integration/test_tariffs_database.py",
+    "unit/test_environmental_report.py",
     "unit/test_esg_certifications.py",
+    "unit/test_pump_wizard.py",
+    "unit/test_tariffs_database.py",
     "unit/test_date_picker.py",
     "unit/test_economic.py",
     "unit/test_environmental.py",
@@ -63,6 +64,10 @@ MODULOS_QUE_EXIGEM_INTERFACE = [
     "unit/test_tariffs_manager_tab.py",
     "unit/test_technical_only_simulation.py",
     "unit/test_topsis.py",
+    "unit/test_traducao_completa.py",
+    "unit/test_traducao_sem_mistura.py",
+    "unit/test_o_que_se_comunica.py",
+    "unit/test_figuras_sem_corte.py",
     # Não testa interface, mas alcança Qt por uma inversão de camadas:
     # netuno/core/report_generator.py importa netuno.ui.translation, que importa
     # PySide6.QtCore. Enquanto o núcleo depender da camada de interface apenas para
@@ -104,6 +109,7 @@ if not TEM_BASE_CLIMATICA:
 TESTES_QUE_EXIGEM_BASE_CLIMATICA = {
     "test_tab_project_defaults",
     "test_tab_project_tariff_location",
+    "test_toda_cidade_ofertada_no_combo_tem_serie_climatica",
 }
 
 
@@ -134,6 +140,35 @@ def pytest_report_header(config):
     )
     clima = "base climática presente" if TEM_BASE_CLIMATICA else "sem base climática"
     return f"netuno: kernel {kernel} | {interface} | {clima}"
+
+
+@pytest.fixture(autouse=True)
+def idioma_portugues_isolado():
+    """Cada teste começa em português e não deixa idioma trocado para o seguinte.
+
+    `set_current_lang` grava o idioma no registro do usuário (QSettings). Um teste
+    que troca para inglês e falha antes de voltar deixaria os testes seguintes, e o
+    próprio programa instalado, em inglês.
+    """
+    if not TEM_INTERFACE_GRAFICA:
+        yield
+        return
+    from PySide6.QtCore import QSettings
+    from netuno.ui import translation
+
+    gravado = QSettings("UFSC", "Netuno5").value("language")
+    em_uso = translation._runtime_language
+    translation._runtime_language = "pt"
+    try:
+        yield
+    finally:
+        translation._runtime_language = em_uso
+        settings = QSettings("UFSC", "Netuno5")
+        if gravado is None:
+            settings.remove("language")
+        else:
+            settings.setValue("language", gravado)
+        settings.sync()
 
 
 @pytest.fixture(scope="session", autouse=True)

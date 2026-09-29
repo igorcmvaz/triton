@@ -1,6 +1,6 @@
-# RELATÓRIO DE VERIFICAÇÃO TÉCNICA E COMPUTACIONAL — NETUNO 5.0.0
+# RELATÓRIO DE VERIFICAÇÃO — NETUNO 5
 
-**Grupo de Pesquisa Gestão do Espaço Sustentável**  
+**Grupo de Pesquisa em Ambientes Sustentáveis**  
 *Replicação Fiel e Validação da Engenharia do Netuno*  
 **Escopo:** evidências automatizadas de regressão e invariantes | **Como reproduzir:** `python -m pytest tests -v`
 
@@ -8,7 +8,7 @@
 
 ## 1. SUMÁRIO EXECUTIVO
 
-Este relatório descreve evidências automatizadas de **verificação interna** do Netuno 5.0.0. Ele não deve ser chamado de validação externa: os testes exercitam equações e regressões do próprio software, mas não substituem comparação independente com medições, certificação, projeto executivo ou revisão profissional das premissas locais.
+Este relatório descreve evidências automatizadas de **verificação interna** do Netuno 5. Ele não deve ser chamado de validação externa: os testes exercitam equações e regressões do próprio software, mas não substituem comparação independente com medições, certificação, projeto executivo ou revisão profissional das premissas locais.
 
 | Evidência | Caso automatizado | Critério de aceitação | Escopo |
 | :--- | :--- | :--- | :--- |
@@ -25,10 +25,10 @@ Este relatório descreve evidências automatizadas de **verificação interna** 
 O teste de invariante usa uma série sintética reprodutível de 100 dias e confere, em cada dia, não negatividade, limites dos reservatórios e igualdade entre entradas e saídas. O estudo dos três modelos acrescenta séries longas reais de trabalho e mostra um dia auditado por clima. O teste de regressão com a planilha legada é executado somente quando o conjunto externo necessário está presente; ele amostra até 20 linhas e usa o critério declarado no próprio teste.
 
 ### Equações Principais de Conservação de Massa:
-1. **Chuva efetiva e volume captável diário** (regra de limiar compatível com Netuno 4):
-   $$P_{\text{ef},t}=0\;\text{se a regra se aplica e}\;P_t<d_f;\quad P_{\text{ef},t}=P_t\;\text{caso contrário}$$
+1. **Chuva efetiva e volume captável diário** (a lâmina de descarte é subtraída):
+   $$P_{\text{ef},t}=\max(0,\,P_t-d_f)\;\text{se a regra se aplica};\quad P_{\text{ef},t}=P_t\;\text{caso contrário}$$
    $$V_{\text{captado},t}=P_{\text{ef},t}\,C_{\text{escoamento}}\,A_{\text{captação}}$$
-   O motor não subtrai $d_f$ das chuvas que atingem o limiar.
+   O motor subtrai $d_f$ da chuva de cada dia em que a regra se aplica, e um dia com chuva igual ou menor que $d_f$ não produz captação. É uma diferença deliberada em relação ao Netuno 4, que tratava $d_f$ como limiar do evento.
 2. **Reservatório inferior no YAS**:
    $$I_t=\min(V_{\text{inf,máx}},S_{t-1}+V_{\text{captado},t});\quad O_t=\max(0,S_{t-1}+V_{\text{captado},t}-V_{\text{inf,máx}})$$
    $$Y_t=\min(D_{\text{pluvial},t},I_t);\quad S_t=I_t-Y_t$$
@@ -61,22 +61,22 @@ $$\text{VPL} = - \text{CAPEX} + \sum_{t=1}^{N} \frac{\Delta C_{\text{água},t}+\
 Execute `python -m pytest tests -v` no ambiente do projeto para obter a contagem e o resultado atuais. A suíte é organizada por propósito: invariantes de conservação de massa e finanças; testes unitários de simulação, parser, economia, ACV e TOPSIS; integrações de relatórios, cenários e interface. Os casos abaixo são exemplos rastreáveis — o resultado apresentado deve sempre ser o da execução atual.
 
 ```text
-tests/integration/test_batch_validation.py::test_daily_water_balance_validation_sample PASSED
-tests/unit/test_daily_water_balance.py::test_simple_3day_water_balance PASSED
-tests/unit/test_economic.py::test_water_bill_multi_tier_calculation PASSED
-tests/unit/test_economic.py::test_sewage_fixed_and_water_taxes PASSED
-tests/unit/test_economic.py::test_pump_operational_electricity_costs PASSED
-tests/unit/test_economic.py::test_additional_operational_costs PASSED
-tests/unit/test_economic.py::test_economic_vpl_and_payback_favorable PASSED
-tests/unit/test_economic.py::test_economic_unfavorable_scenario_negative_vpl PASSED
-tests/unit/test_parser.py::test_parse_float_and_int PASSED
-tests/unit/test_parser.py::test_load_precipitation_file PASSED
-tests/unit/test_parser.py::test_parse_netuno_project_csv PASSED
-tests/unit/test_parser.py::test_export_netuno4_csv_roundtrip PASSED
-tests/unit/test_simulation.py::test_zero_rain_simulation PASSED
-tests/unit/test_simulation.py::test_extreme_rain_simulation PASSED
-tests/unit/test_simulation.py::test_dual_tank_pumping PASSED
-tests/unit/test_simulation.py::test_sweep_optimal_volume_determination PASSED
+tests/test_batch_validation.py::test_daily_water_balance_validation_sample PASSED
+tests/test_daily_water_balance.py::test_simple_3day_water_balance PASSED
+tests/test_economic.py::test_water_bill_multi_tier_calculation PASSED
+tests/test_economic.py::test_sewage_fixed_and_water_taxes PASSED
+tests/test_economic.py::test_pump_operational_electricity_costs PASSED
+tests/test_economic.py::test_additional_operational_costs PASSED
+tests/test_economic.py::test_economic_vpl_and_payback_favorable PASSED
+tests/test_economic.py::test_economic_unfavorable_scenario_negative_vpl PASSED
+tests/test_parser.py::test_parse_float_and_int PASSED
+tests/test_parser.py::test_load_precipitation_file PASSED
+tests/test_parser.py::test_parse_netuno_project_csv PASSED
+tests/test_parser.py::test_export_netuno4_csv_roundtrip PASSED
+tests/test_simulation.py::test_zero_rain_simulation PASSED
+tests/test_simulation.py::test_extreme_rain_simulation PASSED
+tests/test_simulation.py::test_dual_tank_pumping PASSED
+tests/test_simulation.py::test_sweep_optimal_volume_determination PASSED
 ```
 
 ---

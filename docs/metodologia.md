@@ -1,4 +1,4 @@
-# Metodologia, equações e fronteiras do modelo — Netuno 5.0.0
+# Metodologia, equações e fronteiras do modelo — Netuno 5
 
 Este documento descreve o que o motor do Netuno efetivamente calcula: as equações
 implementadas, as premissas que as sustentam e os limites além dos quais os resultados
@@ -46,13 +46,21 @@ O que varia entre os modos não é a fórmula, mas **em quais dias** ela é acio
 
 Nos modos 2 e 3, os dias em que a regra não é acionada aproveitam a precipitação integral (`Pef,t = Pt`).
 
-> **Diferença deliberada em relação ao Netuno 4.** O Netuno 4 tratava `df` como limiar do evento (aproveitando `Pt` integralmente sempre que `Pt ≥ df`). O Netuno 5 subtrai a lâmina, o que é fisicamente mais fiel: a água desviada para o dispositivo de descarte não chega à cisterna. A consequência é mensurável e está quantificada em [`verificacao_e_validacao.md`](verificacao_e_validacao.md) §5: o Netuno 5 estima, em média, **2,3 a 2,7 pontos percentuais menos** economia de água potável que o Netuno 4 sobre os 4.050 casos de referência. Cerca de 46% dessa diferença é atribuível a esta mudança de tratamento. Estudos que comparem resultados das duas versões devem declarar esta diferença metodológica.
+> **Diferença deliberada em relação ao Netuno 4.** O Netuno 4 tratava `df` como limiar do evento (aproveitando `Pt` integralmente sempre que `Pt ≥ df`). O Netuno 5 subtrai a lâmina, o que é fisicamente mais fiel: a água desviada para o dispositivo de descarte não chega à cisterna. A consequência é mensurável e está quantificada em [`verificacao_e_validacao.md`](verificacao_e_validacao.md) §5: o Netuno 5 estima, em média, **2,3 a 2,7 pontos percentuais menos** economia de água potável que o Netuno 4 sobre os 4.050 casos de referência. A decomposição de `verificacao_e_validacao.md` §5.4 atribui a esta mudança **1,36 pp, ou 50%**, da divergência do conjunto de Manaus e São Paulo; o critério de escolha do volume ótimo responde por 1,11 pp (41%) e o resíduo do balanço hídrico por 0,25 pp (9%). Estudos que comparem resultados das duas versões devem declarar esta diferença metodológica.
 
 O parâmetro `df` é uma **lâmina** (mm), não o volume hidráulico do dispositivo físico de first flush (`A × df` litros); o dispositivo deve ser dimensionado separadamente.
 
 ## 2. Demanda e balanço YAS
 
-A demanda total-base é `Dtot = N × q`, em que `N` é o número de usuários e `q` a demanda per capita. Se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A solicitação pluvial é `Dpl,t = ft × Dtot,t`, em que `ft` é a fração de usos não potáveis.
+A demanda tem duas parcelas. A interna é `Din,t = N × q`, em que `N` é o número de usuários e `q` a demanda per capita; se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A externa (rega, lavagem de áreas externas) é um volume diário `Qex`, suspenso nos dias em que a chuva atinge o limiar (2 mm por padrão): `Dex,t = Qex` se `Pt < Plim`, e zero nos demais. A demanda total é `Dtot,t = Din,t + Dex,t`.
+
+A solicitação pluvial é `Dpl,t = fin × Din,t + Dex,t`, em que `fin` é a fração não potável do consumo **interno**. A fração atendível **total**,
+
+```text
+f = (fin × Din + Qex) / (Din + Qex)
+```
+
+é derivada das duas e não é dado de entrada: a interface a mostra num campo que não se edita, e o arquivo a grava para leitura. Sem demanda externa, `f = fin`. Alterar `f` pela linha de comando (`--share`, `--set rainwater_share=…`) recalcula `fin`, mantida a externa; alterar `fin` ou `Qex` recalcula `f`; alterar as duas de forma incoerente é recusado. A regra fica em `netuno/core/fracao_atendivel.py`.
 
 No reservatório inferior, o modelo *Yield After Spillage* (YAS) limita o estoque e calcula o extravasamento **antes** de retirar a demanda:
 
@@ -104,7 +112,7 @@ custo_anual = n × [custo_fixo_por_ocorrência
                    + coeficiente_por_m³ × (consumo_pluvial_anual / 12)]
 ```
 
-O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. A versão 5.0.0 não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
+O coeficiente variável, quando informado, remunera o **volume pluvial consumido no mês da ocorrência**, não a capacidade da cisterna. O programa não adota o antigo coeficiente arbitrário de R$ 15 por m³ de capacidade: a manutenção preliminar padrão é fixa. Uma relação com a capacidade só deve ser incluída se houver dados locais — ordens de serviço, contratos ou regressão de custos — com unidade, data-base, amostra e incerteza documentadas.
 
 ## 5. Bombeamento e cloração
 
@@ -119,10 +127,18 @@ E = P × [(Vrecalcado / Q) + (Npartidas × tpartida)] / η
 A cloração usa uma dose aplicada informada pelo usuário:
 
 ```text
-mCl2,eq (kg/ano) = Vtratado (m³/ano) × dose (mg/L) / 1000
-custoCl2 = mCl2,eq × preço_por_kg
-CO2Cl2 = mCl2,eq × fator_kgCO2e_por_kgCl2
+mCl2,ativo (kg/ano) = Vtratado (m³/ano) × dose (mg/L) / 1000
+mproduto  (kg/ano) = mCl2,ativo / pureza
+custoCl2           = mproduto × preço_por_kg_de_produto
+CO2Cl2             = mproduto × fator_kgCO2e_por_kg_de_produto
 ```
+
+A **pureza** está na conta porque a dose é prescrita em cloro ativo e o que se
+compra, transporta e fabrica é a pastilha, com 65% de cloro ativo. Somar uma
+dose de cloro ativo a um fator por quilo de pastilha subestima em 35%, e foi
+metade da divergência que separava o módulo ambiental do de qualidade até a
+revisão que precedeu o lançamento. A cadeia está em `netuno/core/chlorination.py`, e os três módulos
+— ambiental, econômico e de qualidade — partem dela.
 
 Essa conta estima **massa aplicada em cloro equivalente**, não a demanda de cloro da água. Demanda de cloro é a diferença entre dose aplicada e residual após tempo de contato, e exige ensaio com a água da fonte, definição do residual-alvo, pH, turbidez, matéria orgânica, tempo de contato e protocolo sanitário aplicável. Portanto, a dose padrão serve apenas para cenário econômico/ambiental e não prescreve tratamento.
 
@@ -148,13 +164,53 @@ CO2líquido,vida = anos × (CO2água_evitado,anual
                   − CO2incorporado
 ```
 
-Massas, fatores de materiais, fator da água, fator da rede e fator do cloro são hipóteses editáveis. Para publicação ou projeto executivo, substitua-os por inventário geograficamente e temporalmente representativo, EPDs/dados de fornecedor e análise de sensibilidade. O fator elétrico deve corresponder ao ano/escopo do estudo; a série oficial brasileira é publicada pelo MCTI/SIRENE.
+Os fatores têm fonte declarada, e não são mais hipóteses
+internas. O detalhe valor a valor está em
+[`procedencia_fatores_co2.md`](procedencia_fatores_co2.md):
+
+| Item | Fonte |
+| :--- | :--- |
+| PEAD | Franklin Associates para o American Chemistry Council (2020) |
+| PVC de tubo | EPD Australasia S-P-05503, por kg de tubo instalado |
+| PRFV | Composites UK, faixa de 2,5 a 4,0 kg CO₂e/kg |
+| Aço inox | worldstainless, por teor de sucata da carga |
+| Concreto | Hammond & Jones, corroborado pelo SIDAC |
+| Massa linear dos tubos | pesos Amanco Wavin e geometria das NBR 5648 e 5688 |
+| Massa do reservatório em PRFV | catálogo Fortlev, por capacidade |
+| Rede elétrica | bases de CO₂e nomeadas (SIDAC, CaDI, Vaz et al. 2025) |
+| Água substituída | rotas selecionáveis, incluindo a brasileira do SNIS |
+
+Duas ressalvas permanecem. **O fator da rede é CO₂-equivalente, não CO₂**: a
+série do MCTI/SIRENE cobre só o dióxido de carbono e só a geração, e usá-la aqui
+subestimaria o bombeamento. E as **motobombas** continuam sem fonte, com quatro
+dos seis valores extrapolados aritmeticamente — nenhum catálogo consultado
+publica massa por potência.
 
 ## 8. TOPSIS e novo diagnóstico da concessão
 
-Os três critérios são de benefício: água pluvial consumida, VPL e CO2e líquido evitado. Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
+São **sete** os critérios avaliados, quatro de benefício e três de custo:
 
-Além do escore agregado, a versão 5.0.0 calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
+| Critério | Sentido |
+| :--- | :--- |
+| Potencial de economia de água potável | benefício |
+| Extravasamento | custo |
+| Valor presente líquido | benefício |
+| Payback descontado | custo |
+| Taxa interna de retorno | benefício |
+| CO₂ de ciclo de vida | custo |
+| Água potável consumida | custo |
+
+> Esta seção já descreveu **três** critérios — água pluvial consumida,
+> VPL e CO₂e líquido evitado. O motor (`netuno/core/topsis.py`) já usava sete; a
+> documentação é que estava defasada.
+
+Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
+
+**Esta é uma variante declarada, não o TOPSIS canônico.** Hwang & Yoon (1981) normalizam pela norma euclidiana dos valores originais. Onde todos os valores de um critério são positivos e o mínimo é zero, as duas formas coincidem; onde há VPL negativo — o caso que motivou a mudança — divergem, e os escores não são comparáveis com os de uma implementação canônica sobre a mesma matriz.
+
+O VIKOR implementado em `netuno/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por Dirichlet simétrica; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
+
+Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 
 ```text
 gapij = [max(xj) − xij] / [max(xj) − min(xj)]
