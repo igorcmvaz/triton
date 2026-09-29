@@ -14,13 +14,17 @@ from netuno.core.pipe_network import format_route, lengths_by_dn, parse_route
 COMPONENTS = [
     {"instance_id": "CI-01", "type_id": "cisterna_inferior", "position_mm": {"x": 0, "y": 0, "z": -1500}},
     {"instance_id": "B-01", "type_id": "motobomba", "position_mm": {"x": 1500, "y": 0, "z": 0}},
-    {"instance_id": "RS-01", "type_id": "reservatorio_superior", "position_mm": {"x": 4500, "y": 2000, "z": 6500}},
+    {"instance_id": "RS-01", "type_id": "reservatorio_superior", "position_mm": {"x": 4500, "y": 2000, "z": 6500},
+     "parameters": {"DIAMETRO_MM": 1200, "ALTURA_MM": 700}},
 ]
 RUNS = [
     {"run_id": "T-01", "system": "succao", "dn_mm": 32, "start": "CI-01", "route": "sobe 1500; +x 1500", "end": "B-01"},
     # Sem origem: continua do fim de T-01, que está na bomba.
-    {"run_id": "T-02", "system": "recalque", "dn_mm": 25, "route": "+x 3000; +y 2000; sobe 6500", "end": "RS-01"},
-    {"run_id": "T-03", "system": "distribuicao", "dn_mm": 25, "start": "RS-01", "route": "desce 3000; -y 4000"},
+    # O recalque sobe ao lado do reservatório e entra pelo topo; a distribuição
+    # sai pelo fundo. Assim os dois nunca disputam a mesma vertical.
+    {"run_id": "T-02", "system": "recalque", "dn_mm": 25, "route": "+x 2100; +y 2000; sobe 7500; +x 900; desce 300",
+     "end": "RS-01:topo"},
+    {"run_id": "T-03", "system": "distribuicao", "dn_mm": 25, "start": "RS-01:fundo", "route": "desce 3000; -y 4000"},
 ]
 
 
@@ -46,9 +50,9 @@ def test_runs_are_resolved_in_sequence_from_the_previous_end():
     assert [run["sequence"] for run in manifest["pipe_runs"]] == [1, 2, 3]
     assert runs["T-02"]["start_ref"] == "T-01"
     assert runs["T-02"]["vertices_mm"][0] == {"x": 1500, "y": 0, "z": 0}
-    assert runs["T-02"]["vertices_mm"][-1] == {"x": 4500, "y": 2000, "z": 6500}
-    assert runs["T-02"]["length_mm"] == 11500
-    assert lengths_by_dn(manifest["pipe_runs"]) == {25.0: 18.5, 32.0: 3.0}
+    assert runs["T-02"]["vertices_mm"][-1] == {"x": 4500, "y": 2000, "z": 7200}
+    assert runs["T-02"]["length_mm"] == 12800
+    assert lengths_by_dn(manifest["pipe_runs"]) == {25.0: 19.8, 32.0: 3.0}
 
 
 def test_reordering_changes_the_plant_and_is_reported():
@@ -89,7 +93,7 @@ def test_plant_3d_dxf_has_axes_tubes_components_and_manifest(tmp_path):
     axes = msp.query("POLYLINE")
     assert len(axes) == 3 and all(axis.is_3d_polyline for axis in axes)
     assert [axis.get_xdata("NETUNO5")[0].value for axis in axes] == ["T-01", "T-02", "T-03"]
-    assert len(msp.query("MESH")) == 2 + 3 + 2
+    assert len(msp.query("MESH")) == 2 + 5 + 2
     assert all(name in doc.layers for name in ("NETUNO_3D_SUCCAO", "NETUNO_3D_RECALQUE_TUBO"))
     assert len(msp.query("INSERT")) == 3
     manifest = json.loads((tmp_path / "planta_netuno-bim.json").read_text(encoding="utf-8"))
@@ -110,8 +114,8 @@ def test_schematic_3d_lists_sequence_and_writes_real_measures():
     assert svg.startswith("<svg") and "Esquema 3D da tubulação" in svg
     assert "Sequência de montagem" in svg and "Quantitativo por DN" in svg
     # Fora de escala no desenho, mas com as medidas e cotas reais escritas.
-    assert "↑ 6,50 m" in svg and "3,00 m" in svg and "Cota +6,50 m" in svg and "Cota −1,50 m" in svg
-    assert "CI-01 → B-01" in svg and "T-01 → RS-01" in svg
+    assert "↑ 7,50 m" in svg and "3,00 m" in svg and "Cota +6,50 m" in svg and "Cota −1,50 m" in svg
+    assert "CI-01 → B-01" in svg and "T-01 → RS-01:topo" in svg
     # Sem recursos que o renderizador SVG Tiny do Qt ignora.
     assert "paint-order" not in svg and "context-stroke" not in svg
 
@@ -140,3 +144,68 @@ def test_bim_layout_round_trips_through_netuno_file(tmp_path):
     assert load_netuno_project(str(path))["bim_layout"] == layout
     export_netuno_json(NetunoConfig(), str(path))
     assert load_netuno_project(str(path))["bim_layout"] == {"bim_components": [], "pipe_runs": [], "building_volume": {}}
+
+
+def test_overlapping_pipes_under_the_tank_are_a_clash():
+    # O arranjo antigo: recalque chega ao fundo do RS-01 por baixo e a
+    # distribuição desce do mesmo ponto — 3 m do mesmo espaço.
+    runs = [RUNS[0], dict(RUNS[1], route="+x 3000; +y 2000; sobe 6500", end="RS-01"), dict(RUNS[2], start="RS-01")]
+    errors = validate_bim_manifest(build_bim_manifest(_project(runs=runs)))
+    assert len(errors) == 1
+    assert errors[0].startswith("Trechos T-02 (recalque) e T-03 (distribuição não potável) se sobrepõem em 3,00 m")
+    assert "RS-01:topo e RS-01:fundo" in errors[0]
+
+
+def test_crossing_and_parallel_close_pipes_are_clashes_but_touching_is_not():
+    base = {"system": "distribuicao", "dn_mm": 50}
+    crossing = [dict(base, run_id="A", start={"x": 0, "y": 0, "z": 0}, route="+x 2000"),
+                dict(base, run_id="B", start={"x": 1000, "y": -1000, "z": 30}, route="+y 2000")]
+    errors = validate_bim_manifest(build_bim_manifest(_project(runs=crossing, components=[])))
+    assert len(errors) == 1 and "se cruzam" in errors[0]
+    # Paralelos com eixos a 50 mm (DN 50 + DN 50): encostam, não se sobrepõem.
+    touching = [crossing[0], dict(base, run_id="C", start={"x": 0, "y": 50, "z": 0}, route="+x 2000")]
+    assert validate_bim_manifest(build_bim_manifest(_project(runs=touching, components=[]))) == []
+    close = [crossing[0], dict(base, run_id="C", start={"x": 0, "y": 30, "z": 0}, route="+x 2000")]
+    errors = validate_bim_manifest(build_bim_manifest(_project(runs=close, components=[])))
+    assert len(errors) == 1 and "se sobrepõem em 2,0" in errors[0] and "afaste os percursos" in errors[0]
+
+
+def test_joints_tees_and_continuations_are_not_clashes():
+    base = {"system": "distribuicao", "dn_mm": 50}
+    runs = [
+        dict(base, run_id="A", start={"x": 0, "y": 0, "z": 0}, route="+x 2000; +y 1000; sobe 500"),
+        dict(base, run_id="B", route="+x 1000"),                              # continua do fim de A
+        dict(base, run_id="C", start={"x": 1000, "y": 0, "z": 0}, route="-y 800"),  # tê no meio de A
+    ]
+    assert validate_bim_manifest(build_bim_manifest(_project(runs=runs, components=[]))) == []
+    # Um trecho que volta sobre si mesmo se sobrepõe.
+    folded = [dict(base, run_id="D", start={"x": 0, "y": 0, "z": 0}, route="+x 2000; -x 1000")]
+    errors = validate_bim_manifest(build_bim_manifest(_project(runs=folded, components=[])))
+    assert errors == ["Trecho D volta sobre si mesmo em 1,00 m perto de x 1,48 · y 0,00 · cota 0,00 m "
+                      "(segmentos 1 e 2); afaste os percursos."]
+
+
+def test_connection_ports_follow_the_component_envelope():
+    from netuno.core.component_geometry import port_position
+
+    rs = COMPONENTS[2]
+    assert port_position(rs, None) == (4500, 2000, 6500)
+    assert port_position(rs, "topo") == (4500, 2000, 7200)
+    assert port_position(rs, "sup+x") == pytest.approx((5100, 2000, 6500 + 0.85 * 700))
+    rotated = dict(COMPONENTS[1], rotation_deg=90)
+    assert port_position(rotated, "inf+x") == pytest.approx((1500, 300, 0.12 * 320))
+    with pytest.raises(ValueError):
+        port_position(rs, "lado")
+    runs = [dict(RUNS[0], end="B-01:meio")]
+    errors = validate_bim_manifest(build_bim_manifest(_project(runs=runs)))
+    assert errors and "ponto de conexão 'meio' desconhecido" in errors[0]
+
+
+def test_schematic_keeps_close_parallel_pipes_apart_and_breaks_the_back_one():
+    from netuno.core.schematic_3d import _AxisScale
+
+    plan = _AxisScale([0, 30, 5000], 1.0)
+    assert plan(0) < plan(30) < plan(5000)  # em planta, 30 mm continuam distintos
+    svg = generate_project_svg_diagram(_project(), mode="plant_3d")
+    # Cada segmento longo leva um vão branco por baixo (convenção de cruzamento).
+    assert svg.count('stroke="#ffffff" stroke-width="') >= 5

@@ -11,7 +11,7 @@ elemento vira um sólido reconhecível à distância:
 
 Convenções: milímetros, ``z`` para cima, ``position_mm`` dos componentes é o
 centro da base. As dimensões que o projetista não informou são estimadas por
-regras explícitas (ver :func:`tank_dimensions_mm`) e marcadas como estimadas na
+regras explícitas (ver :mod:`netuno.core.component_geometry`) e marcadas como estimadas na
 ficha do sólido, nunca apresentadas como medida de projeto.
 """
 
@@ -21,17 +21,15 @@ import math
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-from .pipe_network import SYSTEMS_BY_ID
+from .component_geometry import TANK_HEIGHT_RATIO, component_envelope, fallback_volumes, regular_polygon
+from .component_geometry import tank_dimensions_mm  # noqa: F401  (reexportado: parte da API da volumetria)
+from .pipe_network import SYSTEMS_BY_ID, junction_point, segment_distance
 from .plant_3d import _checked_manifest
 
 Point = Tuple[float, float, float]
 Color = Tuple[int, int, int]
 
-# Proporção altura/diâmetro quando o projetista não informa as dimensões:
-# cisterna enterrada tende ao cubo; caixa d'água superior é baixa e larga.
-_TANK_HEIGHT_RATIO = {"cisterna_inferior": 1.0, "reservatorio_superior": 0.55}
 _TUBE_SIDES = 8
-_TANK_SIDES = 32
 # Tubos finos somem numa maquete de dezenas de metros: abaixo desta fração da
 # diagonal da cena, o raio é ampliado para visualização (e isso é declarado).
 _MIN_TUBE_RADIUS_FRACTION = 0.0035
@@ -133,10 +131,6 @@ def prism(outline_xy: Sequence[Tuple[float, float]], base: Point, height: float,
     return [bottom, top, *sides]
 
 
-def regular_polygon(radius: float, sides: int, phase: float = 0.0) -> List[Tuple[float, float]]:
-    return [(radius * math.cos(phase + 2 * math.pi * i / sides), radius * math.sin(phase + 2 * math.pi * i / sides)) for i in range(sides)]
-
-
 def tube(a: Point, b: Point, radius: float, sides: int = _TUBE_SIDES) -> List[List[Point]]:
     """Prisma regular ao longo de ``a → b``, com as duas tampas."""
     axis = tuple(q - p for p, q in zip(a, b))
@@ -181,28 +175,6 @@ def face_normal(face: Sequence[Point]) -> Point:
 
 # ── Dimensionamento dos sólidos ──────────────────────────────────────────────
 
-def tank_dimensions_mm(type_id: str, parameters: Dict[str, Any], fallback_volume_l: float) -> Tuple[float, float, float, bool]:
-    """Diâmetro, altura, capacidade e se as dimensões foram estimadas.
-
-    Com ``DIAMETRO_MM`` e ``ALTURA_MM`` informados, valem eles. Sem eles, o
-    cilindro com a capacidade (do componente ou, na falta, a calculada pelo
-    Netuno) e a proporção típica do tipo: V = π·D²/4·H, H = k·D.
-    """
-    capacity = _number(parameters.get("CAPACIDADE_L"), None) or fallback_volume_l
-    diameter = _number(parameters.get("DIAMETRO_MM"), None)
-    height = _number(parameters.get("ALTURA_MM"), None)
-    if diameter and height:
-        return diameter, height, capacity, False
-    ratio = _TANK_HEIGHT_RATIO.get(type_id, 1.0)
-    volume_mm3 = max(capacity, 1.0) * 1e6
-    if diameter:
-        return diameter, volume_mm3 / (math.pi * diameter ** 2 / 4), capacity, True
-    if height:
-        return math.sqrt(4 * volume_mm3 / (math.pi * height)), height, capacity, True
-    diameter = (4 * volume_mm3 / (math.pi * ratio)) ** (1 / 3)
-    return diameter, ratio * diameter, capacity, True
-
-
 def _fmt(value: float, decimals: int = 2) -> str:
     return f"{value:,.{decimals}f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
@@ -212,45 +184,30 @@ def _component_solid(item: Dict[str, Any], project_data: Dict[str, Any]) -> Soli
     params = item.get("parameters") or {}
     pos = item["position_mm"]
     base = (pos["x"], pos["y"], pos["z"])
-    rotation = item.get("rotation_deg", 0.0)
     name = _TYPE_NAMES.get(type_id, type_id)
     info = [f"Tipo: {name}", f"Base: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
             f"Nível: {item.get('level', '')}"]
     color = _COLORS.get(type_id, (100, 116, 139))
-
-    if type_id in _TANK_HEIGHT_RATIO:
-        fallback = _number(project_data.get("lower_vol" if type_id == "cisterna_inferior" else "upper_vol"), 1000.0)
-        diameter, height, capacity, estimated = tank_dimensions_mm(type_id, params, fallback)
-        faces = prism(regular_polygon(diameter / 2, _TANK_SIDES), base, height)
-        info += [f"Capacidade: {_fmt(capacity, 0)} L",
-                 f"Ø {_fmt(diameter / 1000)} m × H {_fmt(height / 1000)} m" + (" (estimado pela capacidade)" if estimated else "")]
+    env = component_envelope(item, fallback_volumes(project_data))
+    # Tanques e cilindros não giram: a planta circular é a mesma em qualquer ângulo.
+    rotation = 0.0 if env.shape == "cylinder" else item.get("rotation_deg", 0.0)
+    faces = prism(env.outline, base, env.height, rotation)
+    label_at = (base[0], base[1], base[2] + env.height)
+    if type_id in TANK_HEIGHT_RATIO:
+        info += [f"Capacidade: {_fmt(env.capacity_l, 0)} L",
+                 f"Ø {_fmt(env.diameter / 1000)} m × H {_fmt(env.height / 1000)} m" + (" (estimado pela capacidade)" if env.estimated else "")]
         return Solid(item["instance_id"], "tank", f"{item['instance_id']} · {name}", info, color, faces,
-                     opacity=0.55, outline=True, label_at=(base[0], base[1], base[2] + height))
-
+                     opacity=0.55, outline=True, label_at=label_at)
     if type_id == "motobomba":
         power = _number(params.get("POTENCIA_KW"), None)
-        scale = 1.0 if power is None else min(1.8, max(0.8, (power / 0.37) ** (1 / 3)))
-        half_long, half_short, height = 300 * scale, 200 * scale, 320 * scale
-        faces = prism([(half_long, 0), (0, half_short), (-half_long, 0), (0, -half_short)], base, height, rotation)
         info.append(f"Potência: {_fmt(power)} kW" if power else "Potência: não informada (volume ilustrativo)")
         return Solid(item["instance_id"], "pump", f"{item['instance_id']} · {name}", info, color, faces,
-                     outline=True, label_at=(base[0], base[1], base[2] + height))
-
+                     outline=True, label_at=label_at)
     dn = _number(params.get("DN_MM"), None)
-    if type_id in {"filtro_pluvial", "first_flush"}:
-        radius, height = (220.0, 600.0) if type_id == "filtro_pluvial" else (90.0, 900.0)
-        faces = prism(regular_polygon(radius, 16), base, height)
-    elif type_id == "ponto_nao_potavel":
-        radius, height = 110.0, 220.0
-        faces = prism(regular_polygon(radius, 4, math.pi / 4), base, height, rotation)
-    else:
-        side = max(140.0, (dn or 25.0) * 3)
-        radius, height = side / 2, side
-        faces = prism(regular_polygon(side / math.sqrt(2), 4, math.pi / 4), base, height, rotation)
     if dn:
         info.append(f"DN {dn:g}")
     return Solid(item["instance_id"], "accessory", f"{item['instance_id']} · {name}", info, color, faces,
-                 outline=True, label_at=(base[0], base[1], base[2] + height))
+                 outline=True, label_at=label_at)
 
 
 def _building_solids(building: Dict[str, Any]) -> List[Solid]:
@@ -309,10 +266,13 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
 
     notes: List[str] = []
     enlarged = False
+    clearance = _clearances(manifest["pipe_runs"], 4 * min_radius)
     for run in manifest["pipe_runs"]:
         system = SYSTEMS_BY_ID[run["system"]]
         color = _hex_to_rgb(system["svg"])
-        radius = max(run["dn_mm"] / 2, min_radius)
+        # A espessura de visualização nunca encosta um tubo no vizinho: dois tubos
+        # distintos precisam continuar parecendo dois tubos.
+        radius = max(run["dn_mm"] / 2, min(min_radius, 0.45 * clearance.get(run["run_id"], math.inf)))
         enlarged |= radius > run["dn_mm"] / 2
         for index, seg in enumerate(run["segments"], start=1):
             a = (seg["start_mm"]["x"], seg["start_mm"]["y"], seg["start_mm"]["z"])
@@ -344,6 +304,31 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
     if any(s.info and "estimado" in " ".join(s.info) for s in solids):
         notes.append("Reservatórios sem Ø e altura informados: dimensões estimadas pela capacidade.")
     return Scene(str(manifest["project"]["name"]), solids, _bounds_of(solids), notes)
+
+
+def _clearances(runs: Sequence[Dict[str, Any]], horizon: float) -> Dict[str, float]:
+    """Menor distância entre eixos de cada trecho e os de outros trechos.
+
+    Ignora os pares que se encontram de propósito (junções). Só olha até
+    ``horizon``: além disso, a ampliação não alcança o vizinho.
+    """
+    segs = [(run["run_id"], _xyz_tuple(seg["start_mm"]), _xyz_tuple(seg["end_mm"])) for run in runs for seg in run["segments"]]
+    nearest: Dict[str, float] = {}
+    for i, (ra, a0, a1) in enumerate(segs):
+        for rb, b0, b1 in segs[i + 1:]:
+            if ra == rb or any(min(a0[k], a1[k]) - horizon > max(b0[k], b1[k]) or
+                               min(b0[k], b1[k]) - horizon > max(a0[k], a1[k]) for k in range(3)):
+                continue
+            if junction_point(a0, a1, b0, b1) is not None:
+                continue
+            distance, _ = segment_distance(a0, a1, b0, b1)
+            for key in (ra, rb):
+                nearest[key] = min(nearest.get(key, math.inf), distance)
+    return nearest
+
+
+def _xyz_tuple(p: Dict[str, float]) -> Point:
+    return (p["x"], p["y"], p["z"])
 
 
 def _hex_to_rgb(value: str) -> Color:

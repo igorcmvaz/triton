@@ -14,8 +14,12 @@ Convenções:
 * a origem de um trecho pode ser um componente (``"CI-01"``), o fim de um trecho
   anterior (``"T-01"``), coordenadas explícitas ou, se omitida, o fim do trecho
   imediatamente anterior;
+* origem e destino num componente aceitam um ponto de conexão após ``:``
+  (``RS-01:topo``, ``RS-01:inf+x``; ver :mod:`netuno.core.component_geometry`);
 * o destino, quando informado, é conferido, nunca completado: um trecho que não
-  chega ao componente declarado é um erro, não um segmento inventado.
+  chega ao componente declarado é um erro, não um segmento inventado;
+* dois tubos não ocupam o mesmo espaço: sobreposição, cruzamento ou saída
+  quase paralela do mesmo ponto é erro de interferência (:func:`find_clashes`).
 """
 
 from __future__ import annotations
@@ -23,6 +27,8 @@ from __future__ import annotations
 import math
 import re
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
+
+from .component_geometry import port_position, split_reference
 
 
 Point = Tuple[float, float, float]
@@ -157,17 +163,32 @@ def _distance(a: Point, b: Point) -> float:
 def resolve_pipe_network(
     instances: Iterable[Dict[str, Any]],
     pipe_runs: Iterable[Dict[str, Any]],
+    fallbacks: Optional[Dict[str, float]] = None,
 ) -> Tuple[List[Dict[str, Any]], List[str], List[str]]:
     """Resolve os trechos na ordem dada e devolve ``(trechos, erros, avisos)``.
 
     ``instances`` são as instâncias já normalizadas do manifesto BIM (com
     ``position_mm``). Um trecho com erro não é resolvido, e os trechos que
     dependem dele também não, porque não teriam de onde partir.
+    ``fallbacks`` são os volumes calculados, usados para dimensionar os
+    reservatórios sem medidas quando um trecho usa os seus pontos de conexão.
+    Depois de resolvidos, os trechos passam pela verificação de interferência.
     """
+    items = {str(item["instance_id"]): item for item in instances}
     anchors: Dict[str, Point] = {}
-    for item in instances:
+    for key, item in items.items():
         pos = item.get("position_mm") or {}
-        anchors[str(item["instance_id"])] = (float(pos["x"]), float(pos["y"]), float(pos["z"]))
+        anchors[key] = (float(pos["x"]), float(pos["y"]), float(pos["z"]))
+
+    def anchor(reference: str) -> Tuple[Optional[Point], Optional[str]]:
+        """Ponto de um componente (com porta opcional) ou ``(None, motivo)``."""
+        name, port = split_reference(reference)
+        if name not in items:
+            return None, None
+        try:
+            return port_position(items[name], port, fallbacks), None
+        except ValueError as exc:
+            return None, str(exc)
 
     resolved: List[Dict[str, Any]] = []
     errors: List[str] = []
@@ -216,8 +237,11 @@ def resolve_pipe_network(
                     if start_point is None:
                         errors.append(f"{label}: continua o trecho {previous_id}, que não foi resolvido.")
                         failed = True
-            elif start_ref in anchors:
-                start_point = anchors[start_ref]
+            elif split_reference(start_ref)[0] in anchors:
+                start_point, problem = anchor(start_ref)
+                if start_point is None:
+                    errors.append(f"{label}: origem {start_ref}: {problem}.")
+                    failed = True
             elif start_ref in run_ends:
                 start_point = run_ends[start_ref]
                 if start_point is None:
@@ -247,9 +271,10 @@ def resolve_pipe_network(
 
         end_ref = _reference(raw.get("end"))
         if end_ref is not None:
-            target = anchors.get(end_ref)
+            target, problem = anchor(end_ref)
             if target is None:
-                errors.append(f"{label}: destino '{end_ref}' não é um componente posicionado.")
+                errors.append(f"{label}: destino {end_ref}: {problem}." if problem
+                              else f"{label}: destino '{end_ref}' não é um componente posicionado.")
                 failed = True
             else:
                 gap = _distance(vertices[-1], target)
@@ -286,7 +311,164 @@ def resolve_pipe_network(
         run_ends[run_id] = vertices[-1]
         previous_end, previous_id = vertices[-1], run_id
 
+    errors.extend(find_clashes(resolved, anchors))
     return resolved, errors, warnings
+
+
+# ── Interferência entre tubos ────────────────────────────────────────────────
+
+# Numa junção (fim de um segmento sobre outro), o contato natural vai até 2·d
+# no tubo que passa (tê a 90°). Acima de 2,5·d, os tubos seguem juntos: é
+# sobreposição, ou saída do mesmo ponto com menos de ~24° entre eles.
+_JUNCTION_ALLOWANCE = 2.5
+
+
+def _vec(p: Dict[str, float]) -> Tuple[float, float, float]:
+    return (p["x"], p["y"], p["z"])
+
+
+def _point_segment_distance(p, a, b) -> float:
+    ab = [bb - aa for aa, bb in zip(a, b)]
+    denom = sum(c * c for c in ab)
+    t = 0.0 if denom == 0 else max(0.0, min(1.0, sum((pp - aa) * c for pp, aa, c in zip(p, a, ab)) / denom))
+    return math.dist(p, [aa + t * c for aa, c in zip(a, ab)])
+
+
+def segment_distance(a0, a1, b0, b1) -> Tuple[float, float]:
+    """Menor distância entre dois segmentos e o parâmetro ``t`` em ``a0→a1``."""
+    d1 = [q - p for p, q in zip(a0, a1)]
+    d2 = [q - p for p, q in zip(b0, b1)]
+    r = [p - q for p, q in zip(a0, b0)]
+    a, e, f = sum(c * c for c in d1), sum(c * c for c in d2), sum(x * y for x, y in zip(d2, r))
+    if a <= 1e-12 and e <= 1e-12:
+        return math.dist(a0, b0), 0.0
+    if a <= 1e-12:
+        s, t = 0.0, max(0.0, min(1.0, f / e))
+    else:
+        c = sum(x * y for x, y in zip(d1, r))
+        if e <= 1e-12:
+            t, s = 0.0, max(0.0, min(1.0, -c / a))
+        else:
+            b = sum(x * y for x, y in zip(d1, d2))
+            denom = a * e - b * b
+            s = max(0.0, min(1.0, (b * f - c * e) / denom)) if denom > 1e-12 else 0.0
+            t = (b * s + f) / e
+            if t < 0:
+                t, s = 0.0, max(0.0, min(1.0, -c / a))
+            elif t > 1:
+                t, s = 1.0, max(0.0, min(1.0, (b - c) / a))
+    pa = [p + s * q for p, q in zip(a0, d1)]
+    pb = [p + t * q for p, q in zip(b0, d2)]
+    return math.dist(pa, pb), s
+
+
+def _contact_interval(a0, a1, b0, b1, limit: float, s_star: float) -> Tuple[float, float]:
+    """Trecho de ``a0→a1`` a menos de ``limit`` do outro segmento.
+
+    A distância de um ponto de A até o segmento B é convexa ao longo de A, então
+    o conjunto é um intervalo em torno do ponto mais próximo: basta bisseção.
+    """
+    def dist(t):
+        return _point_segment_distance([p + t * (q - p) for p, q in zip(a0, a1)], b0, b1)
+
+    def edge(inside, outside):
+        if dist(outside) <= limit:
+            return outside
+        for _ in range(40):
+            mid = (inside + outside) / 2
+            inside, outside = (mid, outside) if dist(mid) <= limit else (inside, mid)
+        return inside
+
+    return edge(s_star, 0.0), edge(s_star, 1.0)
+
+
+def find_clashes(resolved_runs: Sequence[Dict[str, Any]], anchors: Optional[Dict[str, Point]] = None) -> List[str]:
+    """Pares de tubos que ocupam o mesmo espaço, com local e extensão.
+
+    Dois segmentos colidem quando os eixos ficam mais próximos que a soma dos
+    raios (DN/2). Onde eles se encontram de propósito — continuação, curva, tê —
+    o contato perto da junção é aceito; além disso, é sobreposição.
+    """
+    segs = []
+    for run in resolved_runs:
+        for index, seg in enumerate(run["segments"], start=1):
+            a, b = _vec(seg["start_mm"]), _vec(seg["end_mm"])
+            segs.append((run, index, a, b, run["dn_mm"] / 2))
+    names = {tuple(round(c, 3) for c in point): name for name, point in (anchors or {}).items()}
+    messages: List[str] = []
+    reported = set()
+    for i in range(len(segs)):
+        run_a, ia, a0, a1, ra = segs[i]
+        for j in range(i + 1, len(segs)):
+            run_b, ib, b0, b1, rb = segs[j]
+            if run_a is run_b and abs(ia - ib) == 1 and _straight_turn(a0, a1, b0, b1):
+                continue  # curva comum dentro do próprio trecho
+            limit = ra + rb - 0.5
+            if any(max(p[k] for p in (a0, a1)) + limit < min(p[k] for p in (b0, b1)) or
+                   max(p[k] for p in (b0, b1)) + limit < min(p[k] for p in (a0, a1)) for k in range(3)):
+                continue  # caixas envolventes afastadas
+            distance, s_star = segment_distance(a0, a1, b0, b1)
+            if distance >= limit:
+                continue
+            junction = _junction(a0, a1, b0, b1)
+            t0, t1 = _contact_interval(a0, a1, b0, b1, limit, s_star)
+            u0, u1 = _contact_interval(b0, b1, a0, a1, limit, segment_distance(b0, b1, a0, a1)[1])
+            contact = max((t1 - t0) * math.dist(a0, a1), (u1 - u0) * math.dist(b0, b1))
+            if junction is not None and contact <= _JUNCTION_ALLOWANCE * (ra + rb) + 1.0:
+                continue
+            pair = (run_a["run_id"], run_b["run_id"])
+            if pair in reported:
+                continue
+            reported.add(pair)
+            where = [p + (t0 + t1) / 2 * (q - p) for p, q in zip(a0, a1)]
+            place = f"x {_br(where[0])} · y {_br(where[1])} · cota {_br(where[2])} m"
+            who = (f"Trecho {run_a['run_id']}" if run_a is run_b else
+                   f"Trechos {run_a['run_id']} ({SYSTEMS_BY_ID[run_a['system']]['label'].lower()}) e "
+                   f"{run_b['run_id']} ({SYSTEMS_BY_ID[run_b['system']]['label'].lower()})")
+            overlap = contact > 2 * (ra + rb)
+            if junction is not None:
+                contact -= ra + rb  # o contato natural da própria junção não é sobreposição
+            if run_a is run_b:
+                what = f"volta sobre si mesmo em {_br(contact)} m" if overlap else "cruza a si mesmo"
+            else:
+                what = f"se sobrepõem em {_br(contact)} m" if overlap else "se cruzam"
+            hint = ""
+            node = names.get(junction) if junction is not None else None
+            if node:
+                hint = f"; ligue-os em pontos distintos de {node} (ex.: {node}:topo e {node}:fundo)"
+            elif overlap:
+                hint = "; afaste os percursos"
+            messages.append(f"{who} {what} perto de {place} (segmentos {ia} e {ib}){hint}.")
+    return messages
+
+
+def _straight_turn(a0, a1, b0, b1) -> bool:
+    """Segmentos consecutivos que não voltam sobre si mesmos (ângulo > ~24°)."""
+    if math.dist(a1, b0) > CONNECTION_TOLERANCE_MM:
+        return False
+    u = [q - p for p, q in zip(a0, a1)]
+    v = [q - p for p, q in zip(b0, b1)]
+    nu, nv = math.sqrt(sum(c * c for c in u)), math.sqrt(sum(c * c for c in v))
+    if nu == 0 or nv == 0:
+        return True
+    # Direções que saem do nó: -u (de volta pelo primeiro) e v (pelo segundo).
+    cos_between = -sum(x * y for x, y in zip(u, v)) / (nu * nv)
+    return cos_between < math.cos(math.radians(24))
+
+
+def _junction(a0, a1, b0, b1) -> Optional[Point]:
+    """Ponto onde um segmento termina sobre o outro (continuação, curva ou tê)."""
+    for p, other in ((a0, (b0, b1)), (a1, (b0, b1)), (b0, (a0, a1)), (b1, (a0, a1))):
+        if _point_segment_distance(p, *other) <= CONNECTION_TOLERANCE_MM:
+            return (round(p[0], 3), round(p[1], 3), round(p[2], 3))
+    return None
+
+
+junction_point = _junction
+
+
+def _br(mm: float) -> str:
+    return f"{mm / 1000:.2f}".replace(".", ",")
 
 
 def _gravity_warnings(label: str, segments: Sequence[Dict[str, Any]]) -> List[str]:

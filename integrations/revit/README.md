@@ -48,6 +48,24 @@ direções e comprimentos em mm:
 d 3000 0 -30                       deslocamento livre (aqui, 1 % de declividade)
 ```
 
+Origem e destino num componente aceitam um **ponto de conexão** após `:`,
+calculado pela mesma envoltória desenhada na volumetria:
+
+| Ponto | Posição |
+|---|---|
+| `RS-01` ou `RS-01:fundo` | centro da base |
+| `RS-01:topo` | centro do topo |
+| `RS-01:sup+x`, `sup-x`, `sup+y`, `sup-y` | lateral, a 85 % da altura, do lado indicado (eixos do componente) |
+| `RS-01:inf+x` … `inf-y` | lateral, a 12 % da altura |
+
+Use pontos distintos para quem chega e quem sai: o recalque entra pelo topo ou
+pela lateral superior do reservatório superior e a distribuição sai pelo fundo
+ou pela lateral inferior. Dois tubos nunca ocupam o mesmo espaço: sobreposição,
+cruzamento ou saída quase paralela do mesmo ponto (menos de ~24°) é erro de
+interferência, com o local e a extensão; curvas, continuações e tês são
+aceitos. Os pontos laterais e o topo de reservatórios sem Ø e altura informados
+dependem da capacidade; informe as medidas para fixá-los.
+
 O destino, quando informado, é conferido e não completado: se o percurso não
 chega ao componente, o Netuno informa o deslocamento que falta. Em sistemas por
 gravidade (captação, descarte, extravasor), segmentos que sobem ou com

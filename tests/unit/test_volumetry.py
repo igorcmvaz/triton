@@ -140,3 +140,15 @@ def test_package_writes_both_files_next_to_the_drawing(tmp_path):
     glb, html = write_volumetry_package(_project(), str(tmp_path / "Casa_Planta_3D"))
     assert glb.endswith("Casa_Planta_3D_volumetria.glb") and html.endswith("Casa_Planta_3D_volumetria.html")
     assert open(glb, "rb").read(4) == b"glTF"
+
+
+def test_visual_thickness_never_makes_close_pipes_look_merged():
+    # Dois tubos DN 25 paralelos a 60 mm (sem interferência) numa cena de 30 m:
+    # a espessura mínima de visualização (~100 mm) os fundiria num só.
+    base = {"system": "distribuicao", "dn_mm": 25}
+    runs = [dict(base, run_id="A", start={"x": 0, "y": 0, "z": 0}, route="+x 30000"),
+            dict(base, run_id="B", start={"x": 0, "y": 60, "z": 0}, route="+x 30000")]
+    scene = build_volumetry({"project_name": "Paralelos", "pipe_runs": runs})
+    radii = {s.group: s.axis[2] for s in scene.solids if s.kind == "pipe" and s.pickable}
+    assert radii["A"] + radii["B"] < 60
+    assert radii["A"] >= 12.5  # nunca menor que o tubo real

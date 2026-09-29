@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
+from .component_geometry import fallback_volumes
 from .pipe_network import PIPE_SYSTEMS, resolve_pipe_network
 
 
@@ -82,7 +83,9 @@ def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
     discard_mm = _number(project_data.get("discard"), 0.0)
     area = _number(project_data.get("area"), 0.0)
     instances = _normalise_instances(project_data.get("bim_components") or [])
-    pipe_runs, pipe_errors, pipe_warnings = resolve_pipe_network(instances, project_data.get("pipe_runs") or [])
+    pipe_runs, pipe_errors, pipe_warnings = resolve_pipe_network(
+        instances, project_data.get("pipe_runs") or [], fallback_volumes(project_data)
+    )
 
     return {
         "$schema": BIM_SCHEMA,

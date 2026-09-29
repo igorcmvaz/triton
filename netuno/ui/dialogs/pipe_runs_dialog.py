@@ -75,7 +75,9 @@ class PipeRunsDialog(QDialog):
         intro = QLabel(tr(
             "Coordenadas locais em mm, z para cima. Os trechos são montados de cima para baixo: "
             "origem em branco continua do fim do trecho anterior. Percurso: '+x 3000; desce 1200; "
-            "d 2000 0 -20' (d = deslocamento livre, para declividade). O destino é conferido, não completado."
+            "d 2000 0 -20' (d = deslocamento livre, para declividade). O destino é conferido, não completado. "
+            "Pontos de conexão: RS-01:topo, RS-01:fundo, RS-01:sup+x, RS-01:inf-y… — ligue recalque e "
+            "distribuição em pontos distintos; tubos que ocupam o mesmo espaço são recusados."
         ))
         intro.setWordWrap(True)
         intro.setStyleSheet("color: #475569; font-size: 11.5px;")
@@ -210,6 +212,11 @@ class PipeRunsDialog(QDialog):
         lay.addLayout(head)
         self.table_runs = QTableWidget(0, len(RUN_COLUMNS))
         self.table_runs.setHorizontalHeaderLabels([tr(c) for c in RUN_COLUMNS])
+        port_help = tr("Componente com ponto de conexão opcional: CI-01, RS-01:topo, RS-01:fundo, "
+                       "RS-01:sup+x (lateral a 85 % da altura), RS-01:inf-y (lateral a 12 %).")
+        for col, text in ((4, port_help + " " + tr("Em branco: continua do fim do trecho anterior. Também aceita um trecho (T-01) ou 'x y z'.")),
+                          (6, port_help + " " + tr("O Netuno confere se o percurso chega exatamente ali."))):
+            self.table_runs.horizontalHeaderItem(col).setToolTip(text)
         header = self.table_runs.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Interactive)
         header.setSectionResizeMode(5, QHeaderView.Stretch)

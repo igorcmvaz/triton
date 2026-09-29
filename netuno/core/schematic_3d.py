@@ -30,6 +30,7 @@ from html import escape
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+from .component_geometry import component_envelope, fallback_volumes
 from .pipe_network import SYSTEMS_BY_ID, lengths_by_dn
 from .plant_3d import _checked_manifest
 
@@ -74,10 +75,10 @@ def _cota(z_mm: float) -> str:
 class _AxisScale:
     """Mapeia coordenadas reais em posições ordenadas de 0 a 1."""
 
-    def __init__(self, values: Iterable[float]):
+    def __init__(self, values: Iterable[float], snap: float = _SNAP_MM):
         anchors: List[float] = []
         for value in sorted(set(values)):
-            if not anchors or value - anchors[-1] > _SNAP_MM:
+            if not anchors or value - anchors[-1] > snap:
                 anchors.append(value)
         self._anchors = anchors
         gaps = [b - a for a, b in zip(anchors, anchors[1:])]
@@ -101,7 +102,9 @@ class _AxisScale:
 class _Projection:
     def __init__(self, points: List[Tuple[float, float, float]]):
         xs, ys, zs = zip(*points)
-        self.sx, self.sy, self.sz = _AxisScale(xs), _AxisScale(ys), _AxisScale(zs)
+        # Só a cota é aproximada (declividades); em planta, tubos paralelos
+        # próximos precisam continuar separados no desenho.
+        self.sx, self.sy, self.sz = _AxisScale(xs, 1.0), _AxisScale(ys, 1.0), _AxisScale(zs)
         # 140 px à esquerda para as cotas; _LABEL_ROOM à direita para rótulos.
         area_w = _WIDTH - _PANEL_W - 2 * _MARGIN - 140.0 - _LABEL_ROOM
         area_h = _HEIGHT - 2 * _MARGIN - 90.0
@@ -122,10 +125,111 @@ class _Projection:
         return ox + self.sx(x) * self.w + dx, oy - self.sz(z) * self.h - dy
 
 
-def _points(manifest: Dict[str, Any]) -> List[Tuple[float, float, float]]:
+def _points(manifest: Dict[str, Any], envelopes: Optional[Dict[str, Any]] = None) -> List[Tuple[float, float, float]]:
     points = [(v["x"], v["y"], v["z"]) for run in manifest["pipe_runs"] for v in run["vertices_mm"]]
-    points += [(i["position_mm"]["x"], i["position_mm"]["y"], i["position_mm"]["z"]) for i in manifest["instances"]]
+    for item in manifest["instances"]:
+        x, y, z = item["position_mm"]["x"], item["position_mm"]["y"], item["position_mm"]["z"]
+        points.append((x, y, z))
+        env = (envelopes or {}).get(item["instance_id"])
+        if env is not None:
+            # A envoltória entra na escala: topo e laterais são pontos de conexão.
+            points += [(x - env.half_x, y, z), (x + env.half_x, y, z), (x, y - env.half_y, z),
+                       (x, y + env.half_y, z), (x, y, z + env.height)]
     return points
+
+
+def _xyz(p: Dict[str, float]) -> Tuple[float, float, float]:
+    return p["x"], p["y"], p["z"]
+
+
+def _dist_2d(p, a, b) -> float:
+    ax, ay = a
+    dx, dy = b[0] - ax, b[1] - ay
+    denom = dx * dx + dy * dy
+    t = 0.0 if denom == 0 else max(0.0, min(1.0, ((p[0] - ax) * dx + (p[1] - ay) * dy) / denom))
+    return math.hypot(p[0] - ax - t * dx, p[1] - ay - t * dy)
+
+
+def _segment_hits_box(a, b, box) -> bool:
+    """Liang–Barsky: o segmento a→b atravessa o retângulo?"""
+    x0, y0, x1, y1 = box
+    t0, t1 = 0.0, 1.0
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    for p, q in ((-dx, a[0] - x0), (dx, x1 - a[0]), (-dy, a[1] - y0), (dy, y1 - a[1])):
+        if p == 0:
+            if q < 0:
+                return False
+            continue
+        r = q / p
+        if p < 0:
+            t0 = max(t0, r)
+        else:
+            t1 = min(t1, r)
+        if t0 > t1:
+            return False
+    return True
+
+
+def _stroke_width(run: Dict[str, Any]) -> float:
+    return 2.5 if run["dn_mm"] < 40 else 4.0 if run["dn_mm"] < 75 else 5.5
+
+
+def _pipe_strokes(runs, project) -> List[str]:
+    """Segmentos do fundo para a frente, cada um com um vão branco por baixo.
+
+    Convenção de desenho técnico: onde dois tubos se cruzam só na projeção, o
+    de trás aparece interrompido e o da frente, contínuo. O vão não chega às
+    pontas, para não entalhar as curvas do próprio trecho.
+    """
+    items = []
+    for run in runs:
+        color, width = SYSTEMS_BY_ID[run["system"]]["svg"], _stroke_width(run)
+        for seg in run["segments"]:
+            a, b = seg["start_mm"], seg["end_mm"]
+            depth = (a["y"] + b["y"]) / 2 - 1e-6 * (a["z"] + b["z"])  # mais ao fundo = y maior
+            items.append((depth, project(a["x"], a["y"], a["z"]), project(b["x"], b["y"], b["z"]), color, width))
+    items.sort(key=lambda item: -item[0])
+    out = []
+    for _, (ax, ay), (bx, by), color, width in items:
+        size = math.dist((ax, ay), (bx, by))
+        if size > 16:
+            ux, uy = (bx - ax) / size, (by - ay) / size
+            out.append(f'<line x1="{ax + ux * 8:.1f}" y1="{ay + uy * 8:.1f}" x2="{bx - ux * 8:.1f}" y2="{by - uy * 8:.1f}" '
+                       f'stroke="#ffffff" stroke-width="{width + 6}" stroke-linecap="butt"/>')
+        out.append(f'<line x1="{ax:.1f}" y1="{ay:.1f}" x2="{bx:.1f}" y2="{by:.1f}" stroke="{color}" '
+                   f'stroke-width="{width}" stroke-linecap="round"/>')
+    return out
+
+
+def _component_body(item, env, project, placer, labels) -> List[str]:
+    """Corpo do componente como retângulo da base ao topo, na frente (y da base)."""
+    pos = item["position_mm"]
+    x, y, z = pos["x"], pos["y"], pos["z"]
+    left, bottom = project(x - env.half_x, y, z)
+    right, top = project(x + env.half_x, y, z + env.height)
+    cx = (left + right) / 2
+    type_id = item["type_id"]
+    min_w, min_h = (40, 26) if type_id in _TANKS else (26, 22) if type_id == "motobomba" else (16, 16)
+    if right - left < min_w:
+        left, right = cx - min_w / 2, cx + min_w / 2
+    if bottom - top < min_h:
+        top = bottom - min_h
+    fill, stroke = {"motobomba": ("#fee2e2", "#b91c1c")}.get(type_id, ("#e0f2fe", "#0369a1") if type_id in _TANKS else ("#ffffff", "#0f172a"))
+    out = [f'<rect x="{left:.1f}" y="{top:.1f}" width="{right - left:.1f}" height="{bottom - top:.1f}" rx="3" '
+           f'fill="{fill}" fill-opacity="0.9" stroke="{stroke}" stroke-width="1.5"/>']
+    if type_id == "motobomba":
+        out.append(f'<text x="{cx:.1f}" y="{(top + bottom) / 2 + 4:.1f}" font-size="11" font-weight="700" '
+                   f'text-anchor="middle" fill="#b91c1c">B</text>')
+    placer.block(left - 1, top - 1, right + 1, bottom + 1)
+    detail = _TYPE_LABELS.get(type_id, type_id)
+    capacity = item["parameters"].get("CAPACIDADE_L")
+    if capacity not in (None, ""):
+        detail += f" {int(float(capacity)):,} L".replace(",", ".")
+    lines = [(item["instance_id"], 12.0, "700", "#0f172a"), (f"{detail} · {_cota(z)} m", 11.0, "400", "#475569")]
+    mid = (top + bottom) / 2
+    labels.append((lines, [(right + 10, mid - 2, "start"), (left - 10, mid - 2, "end"), (cx, top - 22, "middle"),
+                           (cx, bottom + 16, "middle"), (right + 10, top - 6, "start"), (left - 10, top - 6, "end")]))
+    return out
 
 
 def _warning_locations(manifest: Dict[str, Any]) -> List[Tuple[int, str, Optional[Tuple[str, int]]]]:
@@ -148,6 +252,9 @@ class _Placer:
     def __init__(self, right: float):
         self.right = right
         self.boxes: List[Tuple[float, float, float, float]] = []
+        # Linhas dos tubos: rótulo por cima de outro tubo cria um falso vão.
+        self.lines: List[Tuple[Any, Tuple[float, float], Tuple[float, float]]] = []
+        self._own: Any = None
 
     def block(self, x0: float, y0: float, x1: float, y1: float) -> None:
         self.boxes.append((x0, y0, x1, y1))
@@ -163,9 +270,11 @@ class _Placer:
         x0, y0, x1, y1 = box
         overlap = sum(max(0.0, min(x1, b[2]) - max(x0, b[0])) * max(0.0, min(y1, b[3]) - max(y0, b[1])) for b in self.boxes)
         outside = max(0.0, x1 - self.right) * (y1 - y0) + max(0.0, _MARGIN / 2 - x0) * (y1 - y0) + max(0.0, 64 - y0) * (x1 - x0)
-        return overlap + 4 * outside
+        crossings = sum(1 for key, a, b in self.lines if key != self._own and _segment_hits_box(a, b, box))
+        return overlap + 4 * outside + 400 * crossings
 
-    def place(self, lines, candidates) -> List[str]:
+    def place(self, lines, candidates, own: Any = None) -> List[str]:
+        self._own = own
         options = [(self._cost(self._box(lines, x, y, a)), i, (x, y, a)) for i, (x, y, a) in enumerate(candidates)]
         _, _, (x, y, anchor) = min(options)
         self.block(*self._box(lines, x, y, anchor))
@@ -180,7 +289,7 @@ class _Placer:
 
 def _segment_candidates(ax: float, ay: float, bx: float, by: float):
     """Posições ao lado do segmento: meio, depois quartos, dos dois lados."""
-    positions = [0.5, 0.3, 0.7]
+    positions = [0.5, 0.3, 0.7, 0.2, 0.8, 0.12, 0.88]
     if abs(bx - ax) < 1.0:  # vertical
         return [(ax + side * 12, ay + (by - ay) * t + 4, "start" if side > 0 else "end") for t in positions for side in (1, -1)]
     return [(ax + (bx - ax) * t, ay + (by - ay) * t + dy, "middle") for t in positions for dy in (-9, 17)]
@@ -229,7 +338,9 @@ def _segment_note(seg: Dict[str, Any], gravity: bool) -> str:
 def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optional[str] = None) -> str:
     """Esquema 3D fora de escala, com medidas reais, níveis e sequência dos trechos."""
     manifest = _checked_manifest(project_data)
-    project = _Projection(_points(manifest))
+    fallbacks = fallback_volumes(project_data)
+    envelopes = {item["instance_id"]: component_envelope(item, fallbacks) for item in manifest["instances"]}
+    project = _Projection(_points(manifest, envelopes))
     runs, instances = manifest["pipe_runs"], manifest["instances"]
     warnings = _warning_locations(manifest)
     warn_at = {loc: number for number, _, loc in warnings if loc}
@@ -245,7 +356,7 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
     ]
 
     # 1. Níveis: um plano por cota em que há componente (e o zero de referência).
-    xs, ys, _ = zip(*_points(manifest))
+    xs, ys, _ = zip(*_points(manifest, envelopes))
     x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
     levels: Dict[float, List[str]] = {}
     for item in instances:
@@ -262,26 +373,39 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
         out.append(f'<text x="{ax - pad - 8:.1f}" y="{ay + 4:.1f}" font-size="12" font-weight="700" text-anchor="end" fill="#334155">'
                    f'Cota {_cota(z)} m</text>')
 
-    # 2. Trechos: linha por sistema e seta de sentido. Os rótulos são reunidos
-    # e posicionados no fim, depois de todos os obstáculos serem conhecidos.
+    # 2. Componentes sob as linhas, na altura e largura que ocupam (na escala do
+    # esquema): um tubo ligado ao topo ou à lateral encosta no contorno.
     placer = _Placer(right=_WIDTH - _PANEL_W - _MARGIN / 2)
+    component_labels = []
+    for item in instances:
+        out.extend(_component_body(item, envelopes[item["instance_id"]], project, placer, component_labels))
+
+    # 3. Trechos: linha por sistema e seta de sentido. Os rótulos são reunidos
+    # e posicionados no fim, depois de todos os obstáculos serem conhecidos.
     marks: List[str] = []
     segment_labels = []
+    out.extend(_pipe_strokes(runs, project))
+    screen_segments = [(run["run_id"], project(*_xyz(seg["start_mm"])), project(*_xyz(seg["end_mm"])))
+                       for run in runs for seg in run["segments"]]
+    placer.lines = [((run["run_id"], i), project(*_xyz(seg["start_mm"])), project(*_xyz(seg["end_mm"])))
+                    for run in runs for i, seg in enumerate(run["segments"])]
     for run in runs:
         system = SYSTEMS_BY_ID[run["system"]]
         color = system["svg"]
-        width = 2.5 if run["dn_mm"] < 40 else 4.0 if run["dn_mm"] < 75 else 5.5
         pts = [project(v["x"], v["y"], v["z"]) for v in run["vertices_mm"]]
-        out.append(f'<polyline points="{" ".join(f"{x:.1f},{y:.1f}" for x, y in pts)}" fill="none" stroke="{color}" '
-                   f'stroke-width="{width}" stroke-linejoin="round" stroke-linecap="round"/>')
+        others = [(a, b) for rid, a, b in screen_segments if rid != run["run_id"]]
         longest = max(range(len(run["segments"])), key=lambda i: math.dist(pts[i], pts[i + 1]))
         for index, seg in enumerate(run["segments"]):
             (ax, ay), (bx, by) = pts[index], pts[index + 1]
             size = math.dist((ax, ay), (bx, by))
             mx, my = (ax + bx) / 2, (ay + by) / 2
             if size >= 30:
-                out.append(_arrow(mx, my, (bx - ax) / size, (by - ay) / size, color))
-                placer.block(mx - 8, my - 8, mx + 8, my + 8)
+                # Seta longe de cruzamentos aparentes, para não esconder o vão.
+                t = next((t for t in (0.5, 0.35, 0.65, 0.25, 0.75)
+                          if all(_dist_2d((ax + (bx - ax) * t, ay + (by - ay) * t), a, b) > 14 for a, b in others)), 0.5)
+                px_, py_ = ax + (bx - ax) * t, ay + (by - ay) * t
+                out.append(_arrow(px_, py_, (bx - ax) / size, (by - ay) / size, color))
+                placer.block(px_ - 8, py_ - 8, px_ + 8, py_ + 8)
             number = warn_at.get((run["run_id"], index + 1))
             if number:
                 wx, wy = mx + 14, my + 14
@@ -292,7 +416,7 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
                 note = _segment_note(seg, system["gravity"])
                 if index == longest:
                     note = f"DN {run['dn_mm']:g} · {note}"
-                segment_labels.append((note, _segment_candidates(ax, ay, bx, by)))
+                segment_labels.append((note, _segment_candidates(ax, ay, bx, by), (run["run_id"], index), color))
         # O número fica logo depois da origem, para não cobrir o componente.
         (ax, ay), (bx, by) = pts[0], pts[1]
         size = max(math.dist(pts[0], pts[1]), 1e-9)
@@ -302,38 +426,14 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
                      f'<text x="{sx:.1f}" y="{sy + 4:.1f}" font-size="11" font-weight="700" text-anchor="middle" fill="#ffffff">{run["sequence"]}</text>')
         placer.block(sx - 11, sy - 11, sx + 11, sy + 11)
 
-    # 3. Componentes por cima das linhas: símbolo simples, identificação e dado principal.
-    component_labels = []
-    for item in instances:
-        pos = item["position_mm"]
-        x, y = project(pos["x"], pos["y"], pos["z"])
-        type_id = item["type_id"]
-        if type_id in _TANKS:
-            out.append(f'<rect x="{x - 22:.1f}" y="{y - 16:.1f}" width="44" height="32" rx="4" fill="#e0f2fe" stroke="#0369a1" stroke-width="1.5"/>')
-            placer.block(x - 23, y - 17, x + 23, y + 17)
-        elif type_id == "motobomba":
-            out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>'
-                       f'<text x="{x:.1f}" y="{y + 4:.1f}" font-size="11" font-weight="700" text-anchor="middle" fill="#b91c1c">B</text>')
-            placer.block(x - 14, y - 14, x + 14, y + 14)
-        else:
-            out.append(f'<rect x="{x - 8:.1f}" y="{y - 8:.1f}" width="16" height="16" transform="rotate(45 {x:.1f} {y:.1f})" '
-                       f'fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>')
-            placer.block(x - 12, y - 12, x + 12, y + 12)
-        detail = _TYPE_LABELS.get(type_id, type_id)
-        capacity = item["parameters"].get("CAPACIDADE_L")
-        if capacity not in (None, ""):
-            detail += f" {int(float(capacity)):,} L".replace(",", ".")
-        lines = [(item["instance_id"], 12.0, "700", "#0f172a"), (f"{detail} · {_cota(pos['z'])} m", 11.0, "400", "#475569")]
-        candidates = [(x + 28, y - 18, "start"), (x - 28, y - 18, "end"), (x + 28, y + 12, "start"),
-                      (x - 28, y + 12, "end"), (x, y - 40, "middle"), (x, y + 36, "middle")]
-        component_labels.append((lines, candidates))
     out.extend(marks)
 
     # Componentes primeiro: o nome do equipamento é o que orienta a leitura.
     for lines, candidates in component_labels:
         out.extend(placer.place(lines, candidates))
-    for note, candidates in segment_labels:
-        out.extend(placer.place([(note, 10.5, "400", "#1e293b")], candidates))
+    # Medida na cor do sistema: não há dúvida de a qual tubo ela pertence.
+    for note, candidates, own, color in segment_labels:
+        out.extend(placer.place([(note, 10.5, "600", color)], candidates, own))
 
     # 4. Painel: legenda dos sistemas usados, tabela da sequência, totais e avisos.
     px = _WIDTH - _PANEL_W + 8
