@@ -5,12 +5,13 @@ Compara o kernel JIT e o kernel Python no MESMO processo e no mesmo hardware,
 alternando simulation.HAS_NUMBA. Reporta separadamente o custo de compilacao
 JIT, que o usuario paga uma vez por sessao.
 """
+import os
 import sys
 import time
 
 import numpy as np
 
-sys.path.insert(0, r"D:\AAAA_TEMPORARIO_AREATRABALHO\NetunoReplicacao\Netuno5_0_7 (atual)")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from netuno.core import simulation  # noqa: E402
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation  # noqa: E402
 

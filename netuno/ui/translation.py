@@ -10,9 +10,11 @@ _runtime_theme = None
 def get_current_lang():
     if _runtime_language is not None:
         return _runtime_language
+    from netuno.core.edition import is_int_edition
+    def_lang = "en" if is_int_edition() else "pt"
     settings = QSettings("UFSC", "Netuno5")
-    lang = str(settings.value("language", "pt"))
-    return lang if lang in get_available_languages() else "pt"
+    lang = str(settings.value("language", def_lang))
+    return lang if lang in get_available_languages() else def_lang
 
 
 def set_current_lang(lang):
@@ -132,8 +134,13 @@ class FirstRunLangDialog(QDialog):
 def check_first_run_language():
     """
     Se o idioma ainda não estiver configurado nos registros, exibe o modal de seleção.
+    Na edição INT, adota 'en' por padrão se não configurado.
     """
+    from netuno.core.edition import is_int_edition
     if not is_language_set():
+        if is_int_edition():
+            set_current_lang("en")
+            return
         from PySide6.QtCore import Qt
         dialog = FirstRunLangDialog()
         dialog.exec()

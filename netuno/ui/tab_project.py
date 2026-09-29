@@ -147,7 +147,11 @@ class TabProject(QWidget):
         
         self.rb_source_national = QRadioButton(tr("🇧🇷 Base Climatológica Nacional (652 Cidades - CMIP6)"))
         self.rb_source_national.setStyleSheet("font-weight: bold; font-size: 12px;")
-        self.rb_source_national.setChecked(True)
+        from netuno.core.edition import is_int_edition
+        if is_int_edition():
+            self.rb_source_custom.setChecked(True)
+        else:
+            self.rb_source_national.setChecked(True)
         self.btn_group_source.addButton(self.rb_source_national, 0)
         row_modes.addWidget(self.rb_source_national)
 
@@ -685,8 +689,11 @@ class TabProject(QWidget):
         vigencia = data.get('vigencia_saneamento', '')
         reg_str = f"{agencia} ({vigencia})" if agencia and vigencia else (agencia or vigencia or "--")
 
+        cfg = self._get_config()
+        current_elec = getattr(cfg, 'elec_tariff', e_kwh) if cfg else e_kwh
+
         self.lbl_t_prestador.setText(f"🏢 <b>{tr('Saneamento:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
-        self.lbl_t_elec.setText(f"⚡ <b>{tr('Eletricidade (ANEEL B1):')}</b> {dist_e} (R$ {e_kwh:.4f}/kWh)")
+        self.lbl_t_elec.setText(f"⚡ <b>{tr('Eletricidade:')}</b> {dist_e} (R$ {current_elec:.4f}/kWh)")
         self.lbl_t_reg.setText(f"📋 <b>{tr('Regulação & Vigência:')}</b> {reg_str}")
 
         if self._tariff_is_customized:
@@ -723,7 +730,7 @@ class TabProject(QWidget):
     def get_tariff_location(self) -> tuple:
         return (self.combo_climate_uf.currentData() or "SC", self.combo_climate_city.currentText().strip())
 
-    def set_tariff_location(self, uf_code: str, city_name: str):
+    def set_tariff_location(self, uf_code: str, city_name: str, preserve_custom_tariffs: bool = False):
         self._is_populating = True
         try:
             uf_idx = self.combo_climate_uf.findData(uf_code)
@@ -732,7 +739,23 @@ class TabProject(QWidget):
             self.populate_climate_cities(select_city=city_name)
         finally:
             self._is_populating = False
-        self.load_active_national_series()
+
+        if preserve_custom_tariffs:
+            self._tariff_is_customized = True
+        else:
+            data = get_city_data(uf_code, city_name)
+            if data and not self._tariff_is_customized:
+                cfg = self._get_config()
+                cfg.water_tariffs = data.get('faixas', cfg.water_tariffs)
+                cfg.sewage_rate = data.get('esgoto_pct', cfg.sewage_rate)
+                cfg.sewage_mode = 1
+                e_kwh = data.get('energia_r_kwh', 0.0)
+                if e_kwh > 0:
+                    cfg.elec_tariff = e_kwh
+
+        self.update_tariff_location_preview()
+        if self.rb_source_national.isChecked():
+            self.load_active_national_series()
 
     def _get_config(self):
         main_win = self.window()
@@ -1161,14 +1184,14 @@ class TabProject(QWidget):
 
     def apply_project_state(self, state: dict, config=None):
         state = state or {}
-        mode = state.get("source_mode", "national_db")
-        if mode == "national_db":
-            self.rb_source_national.setChecked(True)
-        else:
+        mode = state.get("source_mode", getattr(config, 'climate_source_mode', 'national_db'))
+        if mode == "custom":
             self.rb_source_custom.setChecked(True)
+        else:
+            self.rb_source_national.setChecked(True)
 
-        uf = state.get("climate_uf", getattr(config, 'climate_city_uf', 'SC'))
-        city = state.get("climate_city", getattr(config, 'climate_city_name', 'Florianópolis'))
+        uf = state.get("climate_uf", getattr(config, 'tariff_city_uf', getattr(config, 'climate_city_uf', 'SC')))
+        city = state.get("climate_city", getattr(config, 'tariff_city_name', getattr(config, 'climate_city_name', 'Florianópolis')))
         model = state.get("climate_model", getattr(config, 'climate_model', 'ACCESS-CM2'))
         scenario = state.get("climate_scenario", getattr(config, 'climate_scenario', 'HIST'))
 
@@ -1205,11 +1228,13 @@ class TabProject(QWidget):
         finally:
             self._is_populating = False
 
+        self.update_tariff_location_preview()
+
         if mode == "national_db":
             self.load_active_national_series()
         else:
             f_path = state.get("file_path", getattr(config, 'precip_file', ''))
-            if f_path and os.path.isfile(f_path):
+            if f_path and os.path.isfile(f_path) and self.precip_data is None:
                 self.load_rain_file(f_path)
 
     def apply_custom_tariffs(self, tariffs_dict: dict):

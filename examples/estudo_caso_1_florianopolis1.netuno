@@ -5,6 +5,8 @@
   "title": "Residência Unifamiliar Sustentável",
   "typology": "Residencial Unifamiliar",
   "climate_city": "Florianopolis1",
+  "tariff_city_uf": "SC",
+  "tariff_city_name": "Florianópolis",
   "rain_file": "Florianopolis1.csv",
   "rain_sha256": "c2efedd93b596b29f1b72c4fd1e6c9a251248d89cf68698a625a8296b1f36842",
   "area": 180.0,
@@ -79,8 +81,8 @@
   "inflation_annual": 4.0,
   "optima": {
     "technical_volume_l": 2000.0,
-    "economic_volume_l": 4500.0,
+    "economic_volume_l": 5500.0,
     "environmental_volume_l": 1500.0,
-    "topsis_recommended_l": 2500.0
+    "topsis_recommended_l": 4000.0
   }
 }

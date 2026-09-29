@@ -753,10 +753,46 @@ def export_netuno_json(
     return file_path
 
 
+def resolve_city_and_uf(city_input: str, default_uf: str = "SC", default_city: str = "Florianópolis") -> tuple[str, str]:
+    """
+    Resolve UF e Município a partir de entradas variadas:
+    - 'DF - Brasília' -> ('DF', 'Brasília')
+    - 'Brasilia2' -> ('DF', 'Brasília')
+    - 'Florianopolis1' -> ('SC', 'Florianópolis')
+    - 'Manaus3' -> ('AM', 'Manaus')
+    - 'Brasília' -> ('DF', 'Brasília')
+    """
+    if not city_input:
+        return (default_uf, default_city)
+    raw = str(city_input).strip()
+    if " - " in raw:
+        parts = raw.split(" - ", 1)
+        return (parts[0].strip().upper(), parts[1].strip())
+
+    import re
+    import unicodedata
+    cleaned = re.sub(r'\d+$', '', raw).strip()
+    norm_cleaned = "".join(c for c in unicodedata.normalize('NFKD', cleaned) if not unicodedata.combining(c)).lower()
+
+    try:
+        from netuno.core.tariffs_database import load_tariffs_db
+        db = load_tariffs_db()
+        for key, cdata in db.get("cities", {}).items():
+            c_muni = cdata.get("municipio", "")
+            c_norm = "".join(c for c in unicodedata.normalize('NFKD', c_muni) if not unicodedata.combining(c)).lower()
+            if c_norm == norm_cleaned or c_norm.replace(" ", "") == norm_cleaned.replace(" ", ""):
+                return (cdata.get("uf", default_uf), c_muni)
+    except Exception:
+        pass
+
+    return (default_uf, cleaned or default_city)
+
+
 def load_netuno_project(file_path: str) -> dict:
     """
     Carrega um projeto Netuno a partir de um arquivo JSON (.netuno / .json)
     ou CSV (legado Netuno 4.0/5.0 ou chuva simples).
+    Suporta tanto o formato canônico aninhado v2 quanto arquivos planos de estudos de caso.
     Retorna um dicionário estruturado pronto para sincronizar a interface.
     """
     import json
@@ -786,111 +822,198 @@ def load_netuno_project(file_path: str) -> dict:
             inputs = data.get("inputs", {})
 
             cfg = NetunoConfig()
-            cfg.project_id = meta.get("project_id", "N5-PROJ")
-            cfg.project_name = meta.get("name", "Projeto Netuno")
-            cfg.created_at = meta.get("created_at", "")
-            cfg.precip_file = rainfall.get("file_name", os.path.basename(file_path))
-            cfg.start_date = rainfall.get("start_date", "01/01/1980")
-            cfg.climate_source_mode = rainfall.get("source_mode", "national_db")
-            cfg.climate_city_uf = rainfall.get("climate_city_uf", "SC")
-            cfg.climate_city_name = rainfall.get("climate_city_name", "Florianópolis")
+            cfg.project_id = meta.get("project_id") or data.get("case_id") or data.get("project_id") or "N5-PROJ"
+            cfg.project_name = meta.get("name") or data.get("title") or data.get("name") or "Projeto Netuno"
+            cfg.created_at = meta.get("created_at") or data.get("created_at") or ""
+
+            # Resolução de Cidade e UF (suporta 'Brasilia2', 'DF - Brasília', chaves explícitas ou aninhadas)
+            fe = inputs.get("financial_and_economic", {})
+            raw_city = (
+                fe.get("tariff_city_name")
+                or data.get("tariff_city_name")
+                or data.get("climate_city")
+                or data.get("city")
+                or rainfall.get("climate_city_name")
+            )
+            raw_uf = (
+                fe.get("tariff_city_uf")
+                or data.get("tariff_city_uf")
+                or data.get("uf")
+                or rainfall.get("climate_city_uf")
+            )
+            uf_resolved, city_resolved = resolve_city_and_uf(
+                raw_city or raw_uf,
+                default_uf=raw_uf or "SC",
+                default_city=raw_city or "Florianópolis"
+            )
+            cfg.tariff_city_uf = uf_resolved
+            cfg.tariff_city_name = city_resolved
+            cfg.climate_city_uf = uf_resolved
+            cfg.climate_city_name = city_resolved
+
+            # Arquivo e modo de precipitação
+            cfg.precip_file = rainfall.get("file_name") or data.get("rain_file") or os.path.basename(file_path)
+            raw_source_mode = rainfall.get("source_mode") or data.get("source_mode")
+            if not raw_source_mode:
+                if cfg.precip_file and cfg.precip_file.lower().endswith(".csv"):
+                    raw_source_mode = "custom"
+                else:
+                    raw_source_mode = "national_db"
+            cfg.climate_source_mode = raw_source_mode
+
             cfg.climate_model = rainfall.get("climate_model", "ACCESS-CM2")
             cfg.climate_scenario = rainfall.get("climate_scenario", "HIST")
             cfg.climate_start_date = rainfall.get("climate_start_date", "01/01/1980")
             cfg.climate_end_date = rainfall.get("climate_end_date", "31/12/2014")
+            cfg.start_date = rainfall.get("start_date", data.get("start_date", "01/01/1980"))
 
-            # Precipitação
+            # Precipitação: se não embutida, busca o arquivo no disco
             p_list = rainfall.get("precipitation_mm", [])
             if p_list:
                 res["precip_data"] = np.array(p_list, dtype=np.float64)
+                res["precip_filename"] = cfg.precip_file
+            else:
+                rain_name = cfg.precip_file
+                file_dir = os.path.dirname(os.path.abspath(file_path))
+                package_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                candidates = [
+                    os.path.join(file_dir, rain_name),
+                    os.path.join(file_dir, "..", "data", "rainfall", rain_name),
+                    os.path.join(file_dir, "data", "rainfall", rain_name),
+                    os.path.join(package_root, "data", "rainfall", rain_name),
+                    os.path.join(package_root, "data", rain_name),
+                    os.path.join(os.getcwd(), "data", "rainfall", rain_name),
+                    os.path.join(os.getcwd(), "data", rain_name),
+                ]
+                if os.path.isabs(rain_name):
+                    candidates.insert(0, rain_name)
+                found_rain = None
+                for c in candidates:
+                    if os.path.isfile(c):
+                        found_rain = c
+                        break
+                if found_rain:
+                    try:
+                        res["precip_data"] = load_precipitation(found_rain)
+                        res["precip_filename"] = rain_name
+                        cfg.climate_source_mode = "custom"
+                    except Exception:
+                        pass
 
             # Building & Demand
             b = inputs.get("building_and_demand", {})
-            cfg.area = b.get("catchment_area_m2", 100.0)
-            cfg.runoff_coeff = b.get("runoff_coeff", 0.9)
-            cfg.residents_count = b.get("residents_count", 3)
-            cfg.residents_type = b.get("residents_type", 0)
+            cfg.area = float(b.get("catchment_area_m2") or data.get("area") or 100.0)
+            cfg.runoff_coeff = float(b.get("runoff_coeff") or data.get("runoff") or 0.9)
+            cfg.residents_count = int(b.get("residents_count") or data.get("residents") or 3)
+            cfg.residents_type = int(b.get("residents_type", 0))
             cfg.residents_monthly = b.get("residents_monthly", [])
-            cfg.demand_value = b.get("demand_value", 200.0)
-            cfg.demand_type = b.get("demand_type", 0)
+            cfg.demand_value = float(b.get("demand_value") or data.get("demand") or 200.0)
+            cfg.demand_type = int(b.get("demand_type", 0))
             cfg.demand_monthly = b.get("demand_monthly", [])
-            cfg.residents_monthly = b.get("residents_monthly", cfg.residents_monthly)
-            cfg.rainwater_share = b.get("rainwater_share", 0.4)
-            cfg.potable_indoor_share = b.get("potable_indoor_share", 0.65)
-            cfg.non_potable_indoor_share = b.get("non_potable_indoor_share", 0.35)
-            cfg.irrigation_liters_per_day = b.get("irrigation_liters_per_day", 50.0)
-            cfg.irrigation_rain_threshold_mm = b.get("irrigation_rain_threshold_mm", 2.0)
-            cfg.irrigation_potable_backup = b.get("irrigation_potable_backup", True)
-            cfg.irrigation_garden_area_m2 = b.get("irrigation_garden_area_m2", 0.0)
-            cfg.irrigation_rate_l_m2_day = b.get("irrigation_rate_l_m2_day", 3.0)
+
+            raw_share = b.get("rainwater_share") if "rainwater_share" in b else data.get("share", 0.4)
+            if raw_share is not None and float(raw_share) > 1.0:
+                cfg.rainwater_share = float(raw_share) / 100.0
+            else:
+                cfg.rainwater_share = float(raw_share or 0.4)
+
+            cfg.potable_indoor_share = float(b.get("potable_indoor_share", 0.65))
+            cfg.non_potable_indoor_share = float(b.get("non_potable_indoor_share", 0.35))
+            cfg.irrigation_liters_per_day = float(b.get("irrigation_liters_per_day", 50.0))
+            cfg.irrigation_rain_threshold_mm = float(b.get("irrigation_rain_threshold_mm", 2.0))
+            cfg.irrigation_potable_backup = bool(b.get("irrigation_potable_backup", True))
+            cfg.irrigation_garden_area_m2 = float(b.get("irrigation_garden_area_m2", 0.0))
+            cfg.irrigation_rate_l_m2_day = float(b.get("irrigation_rate_l_m2_day", 3.0))
 
             # Rainfall Discard
             rd = inputs.get("rainfall_discard", {})
-            cfg.discard = rd.get("discard_mm", 1.0)
-            cfg.discard_mode = rd.get("discard_mode", 1)
-            cfg.discard_days_interval = rd.get("discard_days_interval", 7)
+            cfg.discard = float(rd.get("discard_mm") or data.get("discard") or 1.0)
+            cfg.discard_mode = int(rd.get("discard_mode") or data.get("discard_mode") or 1)
+            cfg.discard_days_interval = int(rd.get("discard_days_interval") or data.get("discard_days") or 7)
 
             # Reservoirs & Pumping
             rp = inputs.get("reservoirs_and_pumping", {})
-            cfg.lower_tank_fixed = rp.get("lower_tank_fixed_l", 2000.0)
-            cfg.lower_tank_max = rp.get("lower_tank_max_l", 10000.0)
-            cfg.lower_tank_step = rp.get("lower_tank_step_l", 250.0)
-            cfg.lower_tank_mode = rp.get("lower_tank_mode", 1)
-            cfg.delta_ideal = rp.get("delta_ideal_pct", 5.0)
-            cfg.upper_tank_vol = rp.get("upper_tank_vol_l", 500.0)
-            cfg.upper_tank_used = 1 if rp.get("upper_tank_used", True) else 0
-            cfg.pumping_threshold = rp.get("pumping_threshold_l", 375.0)
+            cfg.lower_tank_fixed = float(rp.get("lower_tank_fixed_l") or data.get("lower_tank_fixed") or 2000.0)
+            cfg.lower_tank_max = float(rp.get("lower_tank_max_l") or data.get("sweep_max") or 10000.0)
+            cfg.lower_tank_step = float(rp.get("lower_tank_step_l") or data.get("sweep_step") or 250.0)
+            cfg.lower_tank_mode = int(rp.get("lower_tank_mode", 1))
+            cfg.delta_ideal = float(rp.get("delta_ideal_pct") or data.get("delta_ideal") or 5.0)
+            cfg.upper_tank_vol = float(rp.get("upper_tank_vol_l") or data.get("upper_vol") or 500.0)
+            upper_used_val = rp.get("upper_tank_used") if "upper_tank_used" in rp else data.get("upper_used", True)
+            cfg.upper_tank_used = 1 if upper_used_val else 0
+
+            pump_thresh_pct = float(data.get("pump_thresh_pct", 0.0))
+            cfg.pumping_threshold = float(
+                rp.get("pumping_threshold_l")
+                or (cfg.upper_tank_vol * (pump_thresh_pct / 100.0) if pump_thresh_pct > 0 else 375.0)
+            )
 
             pump = rp.get("pump", {})
-            cfg.pump_count = pump.get("count", 2)
+            cfg.pump_count = int(pump.get("count") or data.get("pump_count") or 1)
             cfg.pump_power_str = pump.get("power_str", "1/2 CV")
-            cfg.pump_power_kw = pump.get("power_kw", 0.368)
-            cfg.pump_flow_rate = pump.get("flow_rate_l_h", 2280.0)
-            cfg.pump_efficiency = pump.get("efficiency_pct", 55.0)
-            cfg.pump_startup_time_h = pump.get("startup_time_h", 0.03)
-            cfg.pump_unit_cost = pump.get("unit_cost", 320.0)
+            cfg.pump_power_kw = float(pump.get("power_kw") or data.get("pump_power_kw") or 0.368)
+            cfg.pump_flow_rate = float(pump.get("flow_rate_l_h") or data.get("pump_flow_rate") or 2280.0)
+            cfg.pump_efficiency = float(pump.get("efficiency_pct") or data.get("pump_efficiency") or 55.0)
+            cfg.pump_startup_time_h = float(pump.get("startup_time_h") or data.get("pump_startup_h") or 0.03)
+            cfg.pump_unit_cost = float(pump.get("unit_cost", 320.0))
+
+            cfg.lower_tank_material = data.get("lower_tank_material", getattr(cfg, "lower_tank_material", "PEAD"))
+            cfg.upper_tank_material = data.get("upper_tank_material", getattr(cfg, "upper_tank_material", "PEAD"))
+            cfg.pipes_list = data.get("pipes_list", getattr(cfg, "pipes_list", []))
+            cfg.chlorine_treatment_enabled = bool(data.get("chlorine_treatment_enabled", False))
+            cfg.chlorine_dose_mg_l = float(data.get("chlorine_dose_mg_l", 0.0))
+            cfg.chlorine_cost_per_kg = float(data.get("chlorine_cost_per_kg", 0.0))
 
             # Financial & Economic
-            fe = inputs.get("financial_and_economic", {})
-            cfg.analysis_period_years = fe.get("analysis_period_years", 20)
-            cfg.tma = fe.get("tma_monthly_pct", 0.5)
-            cfg.inflation = fe.get("inflation_monthly_pct", 0.2)
-            cfg.sewage_mode = fe.get("sewage_mode", 1)
-            cfg.sewage_rate = fe.get("sewage_rate_pct", 100.0)
-            cfg.water_tax_fixed = fe.get("water_tax_fixed", 0.0)
-            cfg.water_tax_var = fe.get("water_tax_var_pct", 0.0)
-            cfg.water_tariffs = fe.get("water_tariffs", cfg.water_tariffs)
-            cfg.tariff_city_uf = fe.get("tariff_city_uf", getattr(cfg, "tariff_city_uf", "SC"))
-            cfg.tariff_city_name = fe.get("tariff_city_name", getattr(cfg, "tariff_city_name", "Florianópolis"))
-            cfg.elec_city_uf = fe.get("elec_city_uf", getattr(cfg, "elec_city_uf", "SC"))
-            cfg.elec_city_name = fe.get("elec_city_name", getattr(cfg, "elec_city_name", "Florianópolis"))
-            cfg.tariff_escalation = fe.get("tariff_escalation_months", 12)
-            cfg.water_tariff_escalation = fe.get("water_tariff_escalation_pct", 5.0)
-            cfg.sewage_tariff_escalation = fe.get("sewage_tariff_escalation_pct", 5.0)
-            cfg.elec_tariff = fe.get("elec_tariff", 1.0)
-            cfg.elec_tax_fixed = fe.get("elec_tax_fixed", 0.0)
-            cfg.elec_tax_var = fe.get("elec_tax_var_pct", 0.0)
-            cfg.elec_tariff_escalation = fe.get("elec_tariff_escalation_pct", 5.0)
+            cfg.analysis_period_years = int(fe.get("analysis_period_years") or data.get("analysis_years") or 20)
+            tma_ann = data.get("tma_annual")
+            if tma_ann is not None:
+                cfg.tma = float(tma_ann) / 12.0
+            else:
+                cfg.tma = float(fe.get("tma_monthly_pct", 0.5))
+
+            inf_ann = data.get("inflation_annual")
+            if inf_ann is not None:
+                cfg.inflation = float(inf_ann) / 12.0
+            else:
+                cfg.inflation = float(fe.get("inflation_monthly_pct", 0.2))
+
+            cfg.sewage_mode = int(fe.get("sewage_mode") or data.get("sewage_mode") or 1)
+            cfg.sewage_rate = float(fe.get("sewage_rate_pct") or data.get("sewage_rate") or 100.0)
+            cfg.water_tax_fixed = float(fe.get("water_tax_fixed", 0.0))
+            cfg.water_tax_var = float(fe.get("water_tax_var_pct", 0.0))
+
+            wt = fe.get("water_tariffs") or data.get("water_tariffs")
+            if wt:
+                cfg.water_tariffs = wt
+                cfg.tariff_customized = True
+
+            cfg.tariff_escalation = int(fe.get("tariff_escalation_months", 12))
+            cfg.water_tariff_escalation = float(fe.get("water_tariff_escalation_pct", 5.0))
+            cfg.sewage_tariff_escalation = float(fe.get("sewage_tariff_escalation_pct", 5.0))
+            cfg.elec_tariff = float(fe.get("elec_tariff") or data.get("elec_tariff") or 1.0)
+            cfg.elec_tax_fixed = float(fe.get("elec_tax_fixed", 0.0))
+            cfg.elec_tax_var = float(fe.get("elec_tax_var_pct", 0.0))
+            cfg.elec_tariff_escalation = float(fe.get("elec_tariff_escalation_pct", 5.0))
 
             # CAPEX & OPEX
             co = inputs.get("capex_and_opex", {})
-            cfg.cost_lower_tank = co.get("cost_lower_tank", 2500.0)
-            cfg.cost_upper_tank = co.get("cost_upper_tank", 380.0)
-            cfg.cost_labor = co.get("cost_labor", 1500.0)
-            cfg.cost_piping = co.get("cost_piping", 950.0)
-            cfg.cost_accessories = co.get("cost_accessories", 500.0)
+            cfg.cost_lower_tank = float(co.get("cost_lower_tank", 2500.0))
+            cfg.cost_upper_tank = float(co.get("cost_upper_tank", 380.0))
+            cfg.cost_labor = float(co.get("cost_labor", 1500.0))
+            cfg.cost_piping = float(co.get("cost_piping", 950.0))
+            cfg.cost_accessories = float(co.get("cost_accessories", 500.0))
             if "operational_costs" in co:
                 cfg.op_costs = [tuple(item) for item in co["operational_costs"]]
 
             res["config"] = cfg
-            # O projeto JSON já contém a chuva: o nome é apenas referência
-            # visual e nunca é tratado como uma dependência externa.
             res["precip_filename"] = cfg.precip_file or os.path.basename(file_path)
             res["building_data"] = {
                 "area": cfg.area,
                 "demand": cfg.demand_value,
                 "residents": cfg.residents_count,
                 "share": cfg.rainwater_share,
+                "runoff": cfg.runoff_coeff,
                 "runoff_coeff": cfg.runoff_coeff,
                 "discard": cfg.discard,
                 "use_variable": b.get("use_variable", False),
@@ -905,7 +1028,41 @@ def load_netuno_project(file_path: str) -> dict:
                 "irrigation_rate_l_m2_day": cfg.irrigation_rate_l_m2_day,
             }
             res["global_scenarios"] = inputs.get("global_optimizer_scenarios", [])
-            res["ui_state"] = data.get("ui_state", {})
+            ui_state = data.get("ui_state", {}) or {}
+
+            # Sintetiza ui_state caso esteja vazio ou incompleto
+            if "project" not in ui_state:
+                ui_state["project"] = {
+                    "source_mode": cfg.climate_source_mode,
+                    "climate_uf": cfg.climate_city_uf,
+                    "climate_city": cfg.climate_city_name,
+                    "climate_model": cfg.climate_model,
+                    "climate_scenario": cfg.climate_scenario,
+                    "start_date": cfg.start_date,
+                    "file_path": res.get("precip_filename", ""),
+                    "discard": str(cfg.discard),
+                    "discard_mode": cfg.discard_mode,
+                    "discard_days": cfg.discard_days_interval,
+                    "tariff_customized": bool(wt),
+                }
+            if "stage3" not in ui_state:
+                ui_state["stage3"] = {
+                    "sweep_max": str(cfg.lower_tank_max),
+                    "sweep_step": str(cfg.lower_tank_step),
+                    "delta_ideal": str(cfg.delta_ideal),
+                    "upper_mode": 1 if cfg.upper_tank_used else 2,
+                    "upper_volume": str(cfg.upper_tank_vol),
+                    "pump_threshold_pct": str(round((cfg.pumping_threshold / max(1.0, cfg.upper_tank_vol)) * 100.0, 1)) if cfg.upper_tank_used else "0",
+                    "inflation": str(round(cfg.inflation * 12.0, 2)),
+                    "tma": str(round(cfg.tma * 12.0, 2)),
+                    "inflation_mode": "year",
+                    "tma_mode": "year",
+                    "analysis_period": str(cfg.analysis_period_years),
+                    "tariff_period": str(cfg.tariff_escalation),
+                    "water_adjustment": str(cfg.water_tariff_escalation),
+                    "electricity_adjustment": str(cfg.elec_tariff_escalation),
+                }
+            res["ui_state"] = ui_state
             res["analysis"] = data.get("analysis", {})
             layout = data.get("bim_layout") or {}
             res["bim_layout"] = {

@@ -542,7 +542,14 @@ class MainWindow(QMainWindow):
             if hasattr(self, 'tab_economic'):
                 self.tab_economic._internal_config = cfg
 
-            # 1. Carrega chuva
+            # 1. Carrega chuva e modo de fonte
+            is_custom = getattr(cfg, 'climate_source_mode', 'custom') == 'custom'
+            if hasattr(self.tab_project, 'rb_source_custom') and hasattr(self.tab_project, 'rb_source_national'):
+                if is_custom:
+                    self.tab_project.rb_source_custom.setChecked(True)
+                else:
+                    self.tab_project.rb_source_national.setChecked(True)
+
             if proj["precip_data"] is not None:
                 self.tab_project.precip_data = proj["precip_data"]
                 self.tab_project.precip_file_path = proj["precip_filename"]
@@ -553,7 +560,8 @@ class MainWindow(QMainWindow):
             if hasattr(self.tab_project, 'set_tariff_location'):
                 uf = getattr(cfg, 'tariff_city_uf', 'SC')
                 city = getattr(cfg, 'tariff_city_name', 'Florianópolis')
-                self.tab_project.set_tariff_location(uf, city)
+                has_custom_tariffs = bool(getattr(cfg, 'water_tariffs', None))
+                self.tab_project.set_tariff_location(uf, city, preserve_custom_tariffs=has_custom_tariffs)
 
             # 2. Carrega Edificação
             b_data = proj.get("building_data", {})

@@ -34,7 +34,7 @@ InfoAfterFile=infos_licenses\info_after.txt
 
 ; Configurações de Compilação e Visual
 OutputDir=dist
-OutputBaseFilename=Netuno_Setup_5_0_7
+OutputBaseFilename=Netuno_Setup_5_0_0
 SetupIconFile={#MyAppIcon}
 SolidCompression=yes
 Compression=lzma2/ultra64

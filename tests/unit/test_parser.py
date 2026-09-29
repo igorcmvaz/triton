@@ -126,3 +126,43 @@ def test_export_and_load_netuno_json_project(tmp_path):
     assert proj["building_data"]["residents"] == 5
     assert len(proj["global_scenarios"]) == 2
     assert proj["global_scenarios"][1]["name"] == "Option 2"
+
+
+def test_resolve_city_and_uf():
+    from netuno.core.parser import resolve_city_and_uf
+
+    assert resolve_city_and_uf("Brasilia2") == ("DF", "Brasília")
+    assert resolve_city_and_uf("Florianopolis1") == ("SC", "Florianópolis")
+    assert resolve_city_and_uf("Manaus3") == ("AM", "Manaus")
+    assert resolve_city_and_uf("DF - Brasília") == ("DF", "Brasília")
+    assert resolve_city_and_uf("SC - Florianópolis") == ("SC", "Florianópolis")
+
+
+def test_load_brasilia_case_study():
+    from netuno.core.parser import load_netuno_project
+
+    proj_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "examples", "estudo_caso_2_brasilia2.netuno")
+    if not os.path.isfile(proj_path):
+        pytest.skip("estudo_caso_2_brasilia2.netuno não encontrado")
+
+    proj = load_netuno_project(proj_path)
+    cfg = proj["config"]
+
+    assert cfg.project_name == "Edifício Corporativo EcoOffice"
+    assert cfg.tariff_city_uf == "DF"
+    assert cfg.tariff_city_name == "Brasília"
+    assert cfg.area == 650.0
+    assert cfg.residents_count == 80
+    assert cfg.demand_value == 50.0
+    assert abs(cfg.rainwater_share - 0.65) < 1e-4
+    assert cfg.lower_tank_max == 50000.0
+    assert cfg.lower_tank_step == 2500.0
+    assert cfg.upper_tank_vol == 3000.0
+    assert cfg.elec_tariff == 1.05
+    assert len(cfg.water_tariffs) == 4
+    assert proj["precip_data"] is not None
+    assert len(proj["precip_data"]) == 12419
+    assert proj["ui_state"]["project"]["climate_uf"] == "DF"
+    assert proj["ui_state"]["project"]["climate_city"] == "Brasília"
+    assert proj["ui_state"]["stage3"]["sweep_max"] == "50000.0"
+

@@ -76,6 +76,8 @@ def run_case_study(
     tma_annual: float,
     inflation_annual: float,
     analysis_years: int = 20,
+    tariff_city_uf: str = "SC",
+    tariff_city_name: str = "Florianópolis",
     out_dir: str = "examples"
 ):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,6 +127,10 @@ def run_case_study(
     cfg.tma = tma_annual / 12.0
     cfg.inflation = inflation_annual / 12.0
     cfg.analysis_period_years = analysis_years
+    cfg.tariff_city_uf = tariff_city_uf
+    cfg.tariff_city_name = tariff_city_name
+    cfg.climate_city_uf = tariff_city_uf
+    cfg.climate_city_name = tariff_city_name
 
     # 2. Simulação Técnica (Etapa 3 / 4)
     tot_daily_demand = residents * demand_l_hab_day
@@ -286,6 +292,8 @@ def run_case_study(
         "title": title,
         "typology": typology,
         "climate_city": rain_filename.replace('.csv', ''),
+        "tariff_city_uf": tariff_city_uf,
+        "tariff_city_name": tariff_city_name,
         "rain_file": rain_filename,
         "rain_sha256": rain_sha256,
         "area": area_m2,
@@ -724,7 +732,7 @@ def write_reference_validation_report(results, output_path):
         raw_range = raw_max - raw_min
         manual_gaps = np.divide(
             raw_max - topsis.decision_matrix[selected_i], raw_range,
-            out=np.zeros(3, dtype=float), where=raw_range > 0,
+            out=np.zeros_like(raw_range), where=raw_range > 0,
         )
 
         lines.extend([
@@ -1343,7 +1351,9 @@ def main():
         sewage_rate=100.0,
         sewage_mode=1,
         tma_annual=10.0,
-        inflation_annual=4.0
+        inflation_annual=4.0,
+        tariff_city_uf="SC",
+        tariff_city_name="Florianópolis"
     )
 
     # ──────────────────────────────────────────────────────────────────────────
@@ -1391,7 +1401,9 @@ def main():
         sewage_rate=100.0,
         sewage_mode=1,
         tma_annual=12.0,
-        inflation_annual=4.5
+        inflation_annual=4.5,
+        tariff_city_uf="DF",
+        tariff_city_name="Brasília"
     )
 
     # ──────────────────────────────────────────────────────────────────────────
@@ -1439,7 +1451,9 @@ def main():
         sewage_rate=80.0,
         sewage_mode=1,
         tma_annual=10.0,
-        inflation_annual=4.5
+        inflation_annual=4.5,
+        tariff_city_uf="AM",
+        tariff_city_name="Manaus"
     )
 
     results = [res1, res2, res3]

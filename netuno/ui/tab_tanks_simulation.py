@@ -742,22 +742,35 @@ class TabTanksSimulation(QWidget):
         def text(name, widget, fallback=""):
             if name in state:
                 value = state[name]
-            elif config is not None and hasattr(config, name) and state:
-                value = getattr(config, name)
+            elif config is not None:
+                attr_map = {
+                    "sweep_max": "lower_tank_max",
+                    "sweep_step": "lower_tank_step",
+                    "delta_ideal": "delta_ideal",
+                    "upper_volume": "upper_tank_vol",
+                    "inflation": "inflation",
+                    "tma": "tma",
+                    "analysis_period": "analysis_period_years",
+                    "tariff_period": "tariff_escalation",
+                    "water_adjustment": "water_tariff_escalation",
+                    "electricity_adjustment": "elec_tariff_escalation",
+                }
+                cfg_attr = attr_map.get(name, name)
+                value = getattr(config, cfg_attr, fallback)
             else:
                 value = fallback
             widget.blockSignals(True)
             widget.setText(str(value))
             widget.blockSignals(False)
 
-        text("sweep_max", self.txt_sweep_max, "")
-        text("sweep_step", self.txt_sweep_step, "")
-        text("delta_ideal", self.txt_delta_ideal, "")
+        text("sweep_max", self.txt_sweep_max, getattr(config, "lower_tank_max", 10000.0))
+        text("sweep_step", self.txt_sweep_step, getattr(config, "lower_tank_step", 250.0))
+        text("delta_ideal", self.txt_delta_ideal, getattr(config, "delta_ideal", 5.0))
         mode = state.get("upper_mode", 2 if not getattr(config, "upper_tank_used", True) else 1)
         self.combo_upper_mode.blockSignals(True)
         self.combo_upper_mode.setCurrentIndex(max(0, min(int(mode), self.combo_upper_mode.count() - 1)))
         self.combo_upper_mode.blockSignals(False)
-        text("upper_volume", self.txt_upper_vol, "")
+        text("upper_volume", self.txt_upper_vol, getattr(config, "upper_tank_vol", 500.0))
         text("pump_threshold_pct", self.txt_pump_thresh_pct, "")
         text("inflation", self.txt_inflation, getattr(config, "inflation", 0.0))
         text("tma", self.txt_tma, getattr(config, "tma", 0.0))

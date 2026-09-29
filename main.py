@@ -28,18 +28,32 @@ class NoMnemonicUnderlineStyle(QProxyStyle):
 
 
 def main():
+    # Suporte a argumento de linha de comando --edition BRL|INT
+    import argparse
+    arg_parser = argparse.ArgumentParser(add_help=False)
+    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "BRL", "INT"], default=None)
+    parsed_args, remaining = arg_parser.parse_known_args()
+    if parsed_args.edition:
+        from netuno.core.edition import set_current_edition
+        set_current_edition(parsed_args.edition)
+
+    from netuno.core.edition import get_edition_title, is_int_edition
+
     # Garante contexto OpenGL compartilhado exigido pelo Chromium/QtWebEngine no Windows
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
 
-    app = QApplication(sys.argv)
+    qt_args = [sys.argv[0]] + remaining
+    app = QApplication(qt_args)
     app.setStyle(NoMnemonicUnderlineStyle(app.style()))
-    app.setApplicationName("Netuno 5")
+    app_name = "Netuno 5 (INT)" if is_int_edition() else "Netuno 5 (BRL)"
+    app.setApplicationName(app_name)
     app.setOrganizationName("Grupo de Pesquisa Gestão do Espaço Sustentável")
 
     # Verifica se é a primeira execução do aplicativo para selecionar o idioma
     check_first_run_language()
 
     window = MainWindow()
+    window.setWindowTitle(get_edition_title())
     primary_screen = app.primaryScreen()
     if primary_screen is not None:
         # Posiciona a janela nativa no monitor principal antes de maximizá-la;

@@ -68,9 +68,9 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 ## 📂 Estrutura do Repositório
 
 ```text
-Netuno5_0_7 (atual)/
+Netuno 5.0.0/
 ├── netuno/                     # Pacote Python Principal (Core Engine & Desktop UI)
-│   ├── core/                   # Motores de cálculo (hidrologia, economia, ACV, MCDM, tarifas)
+│   ├── core/                   # Motores de cálculo (hidrologia, economia, ACV, MCDM, tarifas, edições)
 │   ├── ui/                     # Interface gráfica desktop PySide6 (abas, gráficos, diálogos)
 │   ├── data/                   # Bases de dados embutidas (tarifas municipais, custos SINAPI)
 │   ├── docs/                   # Documentação técnica e fluxogramas metodológicos
@@ -85,11 +85,29 @@ Netuno5_0_7 (atual)/
 ├── pyproject.toml              # Metadados e configuração de empacotamento padrão PEP 517/621
 ├── requirements.txt            # Dependências de produção
 ├── requirements-dev.txt        # Dependências de desenvolvimento e testes
-├── build_exe.py                # Script utilitário de compilação (PyInstaller + Inno Setup)
+├── build_exe.py                # Script utilitário de compilação multiedição (PyInstaller + Inno Setup)
+├── build_exe_brl.py            # Compilação dedicada da Edição Brasil (Netuno_5_BRL)
+├── build_exe_int.py            # Compilação dedicada da Edição Internacional (Netuno_5_INT)
 ├── setup_script.iss            # Script de compilação do Instalador Inno Setup 6
-├── main.py                     # Ponto de entrada da aplicação Desktop
+├── main.py                     # Ponto de entrada com seleção de edição (--edition brl|int)
+├── main_brl.py                 # Ponto de entrada direto da Edição Brasil
+├── main_int.py                 # Ponto de entrada direto da Edição Internacional
 └── README.md                   # Documentação principal
 ```
+
+---
+
+## 🌎 Edições do Software (BRL & INT)
+
+O Netuno 5 está organizado em duas edições compiladas a partir de uma base de código unificada:
+
+| Característica | 🇧🇷 Netuno 5 BRL (Brasil) | 🌐 Netuno 5 INT (Internacional) |
+| :--- | :--- | :--- |
+| **Idioma Padrão** | Português (`pt_BR`) | Inglês (`en_US`) |
+| **Entrada de Chuva** | Base Climatológica Nacional CLIMBra (652 cidades) ativa por padrão | Entrada de Arquivo Personalizado ativa por padrão |
+| **Tarifas e Custos** | Catálogo auditado de 652 municípios e regras de concessionárias (CAESB, CASAN, SABESP, etc.) | Tarifas e custos de triagem flexíveis e editáveis diretamente |
+| **Moeda Padrão** | Real (`R$`) | Dólar (`$`) ou configurável |
+| **Normas / Referências** | ABNT NBR 5626, NBR 15527, ANA e ANEEL B1 | Padrões internacionais ISO, EN e EPA |
 
 ---
 
@@ -102,7 +120,7 @@ Netuno5_0_7 (atual)/
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash
 # Acesse a pasta raiz do programa
-cd "Netuno5_0_7 (atual)"
+cd Netuno5_0_0
 
 # Instale o pacote e suas dependências
 pip install -e .
@@ -112,9 +130,15 @@ pip install -r requirements-dev.txt
 ```
 
 ### 2. Executando a Versão Desktop
+
 ```bash
-# Via script principal:
-python main.py
+# Executar a Edição Brasil:
+python main_brl.py
+# ou: python main.py --edition brl
+
+# Executar a Edição Internacional:
+python main_int.py
+# ou: python main.py --edition int
 
 # Ou via comando registrado no PATH:
 netuno-gui
@@ -133,20 +157,28 @@ netuno --help
 
 ## 📦 Compilação do Executável Windows (.exe e Instalador)
 
-O script [`build_exe.py`](build_exe.py) automatiza a compilação do executável standalone e do instalador oficial:
+O compilador [`build_exe.py`](build_exe.py) automatiza a compilação das duas edições:
 
 ```bash
-# Compilação padrão (pasta standalone em dist/Netuno/):
-python build_exe.py
+# Compilar a Edição Brasil (Netuno_5_BRL.exe em dist/Netuno_5_BRL/):
+python build_exe_brl.py
+# ou: python build_exe.py --edition brl
 
-# Compilação limpa com executável único:
-python build_exe.py --clean --onefile
+# Compilar a Edição Internacional (Netuno_5_INT.exe em dist/Netuno_5_INT/):
+python build_exe_int.py
+# ou: python build_exe.py --edition int
+
+# Compilar ambas as edições em uma única execução:
+python build_exe.py --edition both --clean
+
+# Compilação com executável único:
+python build_exe.py --edition both --clean --onefile
 
 # Compilação com geração automática do instalador Inno Setup (.exe):
-python build_exe.py --clean --installer
+python build_exe.py --edition brl --clean --installer
 ```
 
-O instalador compilado será gerado em `dist/Netuno_Setup_5_0_7.exe`.
+O instalador compilado será gerado em `dist/Netuno_Setup_5_0_0.exe`.
 
 ---
 
@@ -156,10 +188,10 @@ Para executar a suíte de testes unitários, testes de interface e validações 
 
 ```bash
 # Executar todos os testes:
-pytest
+python -m pytest
 
 # Executar testes específicos com cobertura detalhada:
-pytest tests/unit/test_mcdm_methods.py tests/ui/ -v
+python -m pytest tests/unit/ tests/ui/ -v
 ```
 
 ---

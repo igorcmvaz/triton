@@ -142,7 +142,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
     for hi in hidden_imports:
         cmd.append(f"--hidden-import={hi}")
 
-    main_script = base_dir / "main.py"
+    main_script = getattr(args, "main_script", None) or (base_dir / "main.py")
     cmd.append(str(main_script))
 
     print(f"\n[*] Executando comando de compilação...")
@@ -194,7 +194,7 @@ def build_inno_setup(base_dir: Path) -> bool:
     print(f"[+] Utilizando script: {iss_script.relative_to(base_dir)}")
     res = subprocess.run([str(iscc), str(iss_script)], cwd=base_dir)
     if res.returncode == 0:
-        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_7.exe")
+        print(f"\n[SUCESSO] Instalador oficial gerado em: dist/Netuno_Setup_5_0_0.exe")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")
@@ -205,15 +205,15 @@ PYTHON_MINIMO = (3, 12)
 
 
 def main():
-    # O executável embute o Python que o compila. O código usa sintaxe do 3.12
-    # (f-strings) e, compilado num Python anterior, o instalador sairia quebrado.
     if sys.version_info < PYTHON_MINIMO:
         sys.exit(f"[ERRO] Compile o Netuno com Python {PYTHON_MINIMO[0]}.{PYTHON_MINIMO[1]} ou superior "
                  f"(este é {sys.version.split()[0]}).")
     parser = argparse.ArgumentParser(
         description="Compilador oficial do Netuno 5 para Windows (PyInstaller + Inno Setup)"
     )
-    parser.add_argument("--name", default="Netuno", help="Nome do executável gerado (padrão: Netuno)")
+    parser.add_argument("--edition", choices=["brl", "int", "both"], default="brl",
+                        help="Edição a compilar: 'brl' (Brasil), 'int' (Internacional) ou 'both' (ambas)")
+    parser.add_argument("--name", default=None, help="Nome do executável gerado (padrão: conforme edição)")
     parser.add_argument("--clean", action="store_true", help="Limpa as pastas build/ e dist/ antes de compilar")
     parser.add_argument("--onefile", action="store_true", help="Gera um executável único autocontido")
     parser.add_argument("--console", action="store_true", help="Mantém o console do prompt aberto ao executar")
@@ -225,9 +225,21 @@ def main():
     if args.clean:
         clean_build_dirs(base_dir)
 
-    success = build_pyinstaller(args, base_dir)
-    if success and args.installer:
-        build_inno_setup(base_dir)
+    editions = ["brl", "int"] if args.edition == "both" else [args.edition]
+    for ed in editions:
+        ed_args = argparse.Namespace(**vars(args))
+        if ed == "brl":
+            ed_args.name = args.name or "Netuno_5_BRL"
+            ed_args.main_script = base_dir / "main_brl.py"
+        else:
+            ed_args.name = args.name or "Netuno_5_INT"
+            ed_args.main_script = base_dir / "main_int.py"
+
+        # Executa compilação da edição
+        print(f"\n>>> Compilando Edição: {ed_args.name} ({ed.upper()}) <<<")
+        success = build_pyinstaller(ed_args, base_dir)
+        if success and ed_args.installer:
+            build_inno_setup(base_dir)
 
 
 if __name__ == "__main__":

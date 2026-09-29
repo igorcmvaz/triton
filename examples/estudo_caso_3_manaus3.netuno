@@ -5,6 +5,8 @@
   "title": "Escola Pública de Tempo Integral Amazonas",
   "typology": "Institucional / Escolar",
   "climate_city": "Manaus3",
+  "tariff_city_uf": "AM",
+  "tariff_city_name": "Manaus",
   "rain_file": "Manaus3.csv",
   "rain_sha256": "6f91aa11c06482fc8708bccd953900d091f636abe23874d51bffc510d1a0d153",
   "area": 1400.0,

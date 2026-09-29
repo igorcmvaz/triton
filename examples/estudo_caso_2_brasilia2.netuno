@@ -5,6 +5,8 @@
   "title": "Edifício Corporativo EcoOffice",
   "typology": "Comercial / Escritórios",
   "climate_city": "Brasilia2",
+  "tariff_city_uf": "DF",
+  "tariff_city_name": "Brasília",
   "rain_file": "Brasilia2.csv",
   "rain_sha256": "fb121ac5e308c6a009111ba20408d0a7e27363bddeca5404b29cae3cf864d54d",
   "area": 650.0,
@@ -73,8 +75,8 @@
   "inflation_annual": 4.5,
   "optima": {
     "technical_volume_l": 5000.0,
-    "economic_volume_l": 25000.0,
+    "economic_volume_l": 27500.0,
     "environmental_volume_l": 2500.0,
-    "topsis_recommended_l": 10000.0
+    "topsis_recommended_l": 20000.0
   }
 }
