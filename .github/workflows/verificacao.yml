@@ -18,9 +18,11 @@ jobs:
   nucleo:
     name: Núcleo de cálculo (${{ matrix.kernel }}, Python ${{ matrix.python }})
     runs-on: ubuntu-latest
-    # Os jobs levam poucos minutos; um limite curto impede que uma fonte externa
-    # lenta (a ANEEL, nos testes de rede) prenda a verificação por horas.
-    timeout-minutes: 20
+    # A suíte tem ~1.240 testes: 3 a 13 minutos com numba, até ~20 no Python puro
+    # num executor lento. O limite folgado evita cortar a suíte no meio; ainda
+    # impede que uma fonte externa lenta (a ANEEL, nos testes de rede) prenda a
+    # verificação por horas.
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -67,7 +69,7 @@ jobs:
       # mas os executores do GitHub têm internet: aqui eles rodam, consultando a
       # ANEEL de fato, e contam para a cobertura do atualizador tarifário.
       - name: Suíte de verificação
-        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-report=term-missing
+        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-report=term-missing --durations=15
 
       - name: Portão de cobertura
         if: matrix.kernel == 'python' && matrix.python == '3.13'
