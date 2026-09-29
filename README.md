@@ -1,6 +1,6 @@
 # Netuno 5 — Dimensionamento e Simulação de Aproveitamento de Água de Chuva
 
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![GUI Framework](https://img.shields.io/badge/GUI-PySide6%20(Qt6)-green)](https://www.qt.io/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
@@ -97,7 +97,8 @@ Netuno5_0_7 (atual)/
 ## 🚀 Instalação e Execução
 
 ### Pré-requisitos
-- Python 3.10 ou superior.
+- Para usar: o instalador `.exe` para Windows já traz tudo, sem Python.
+- Para desenvolver ou rodar a partir do código: Python 3.12 ou superior (o código usa a sintaxe de f-strings do 3.12).
 
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash

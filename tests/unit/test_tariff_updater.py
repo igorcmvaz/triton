@@ -7,6 +7,8 @@ import os
 import unittest
 from pathlib import Path
 
+import pytest
+
 from netuno.core.tariff_updater import (
     AneelTariffUpdater,
     SanitationScraperRegistry,
@@ -21,6 +23,7 @@ class TestTariffUpdater(unittest.TestCase):
     def setUp(self):
         self.engine = TariffUpdateEngine()
 
+    @pytest.mark.rede
     def test_aneel_distributor_matching(self):
         """Valida que distribuidoras conhecidas são mapeadas corretamente."""
         updater = AneelTariffUpdater()
@@ -58,6 +61,7 @@ class TestTariffUpdater(unittest.TestCase):
         self.assertIn(res["update_status_sanitation"], ["AUTO_SCRAPED", "VERIFIED_AUDIT"])
         self.assertEqual(res["agencia_reguladora"], "ARSESP")
 
+    @pytest.mark.rede
     def test_dry_run_execution(self):
         """Valida execução em modo dry-run para um estado específico (SC)."""
         res = self.engine.run_update(mode="all", target_uf="SC", dry_run=True)

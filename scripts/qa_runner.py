@@ -61,6 +61,8 @@ CAMADAS = {
     # Comparação completa contra os resultados oficiais do Netuno 4 (4.050 casos).
     # Excluída da execução padrão por ser lenta; ver pyproject.toml, addopts.
     "replicacao": ["tests/benchmarking", "-m", "replicacao"],
+    # Consultas reais às fontes oficiais de tarifas; exigem internet.
+    "rede": ["tests", "-m", "rede"],
 }
 
 

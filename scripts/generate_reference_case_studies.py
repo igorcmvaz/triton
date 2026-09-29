@@ -861,9 +861,11 @@ def write_reference_validation_report(results, output_path):
         "",
         "- [Atlas de fluxogramas metodológicos](../netuno/docs/fluxogramas_metodologicos.md): cadeia visual das equações e decisões implementadas.",
         "- GHISI, E.; CORDOVA, M. M. *Netuno 4 — Manual do Usuário*. UFSC, 2014. Cópia local em "
-        "[`Additional_Material/Documentation/Manual-Netuno-4_Junho2014.pdf`](../Additional_Material/Documentation/Manual-Netuno-4_Junho2014.pdf).",
-        "- ROCHA, V. L. *Validação do algoritmo do programa Netuno...*. Dissertação, UFSC, 2009. Cópia local em "
-        "[`Additional_Material/Documentation/Dissertacao_Vinicius Rocha.pdf`](../Additional_Material/Documentation/Dissertacao_Vinicius%20Rocha.pdf).",
+        "[`additional_material/documentation/Manual-Netuno-4_Junho2014.pdf`](../additional_material/documentation/Manual-Netuno-4_Junho2014.pdf).",
+        "- ROCHA, V. L. *Validação do algoritmo do programa Netuno para avaliação do potencial de economia de "
+        "água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em "
+        "edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. "
+        "[Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966).",
         "- HWANG, C.-L.; YOON, K. *Multiple Attribute Decision Making*. Springer, 1981. "
         "[DOI](https://doi.org/10.1007/978-3-642-48318-9).",
         "- [MCTI/SIRENE — fatores de emissão](https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao). "
