@@ -33,3 +33,47 @@ como pendentes; não são substituídas silenciosamente.
 
 As coordenadas são locais e não georreferenciadas até que o projetista defina
 o ponto-base, norte e sistema compartilhado no Revit.
+
+## Trechos de tubulação e planta 3D (manifesto 1.1)
+
+Na Central de Exportação, **Organizar Trechos de Tubulação (Planta 3D)** abre
+uma tabela em que o projetista posiciona os componentes e lista os trechos na
+ordem de montagem. Cada trecho parte de um componente (`CI-01`), do fim de um
+trecho anterior (`T-01`), de coordenadas (`0 0 -1500`) ou, com a origem em
+branco, do fim do trecho imediatamente acima. O percurso é descrito por
+direções e comprimentos em mm:
+
+```text
++x 3000; +y 2000; sobe 6500        eixos: ±x, ±y, ±z, sobe, desce, norte, sul, leste, oeste
+d 3000 0 -30                       deslocamento livre (aqui, 1 % de declividade)
+```
+
+O destino, quando informado, é conferido e não completado: se o percurso não
+chega ao componente, o Netuno informa o deslocamento que falta. Em sistemas por
+gravidade (captação, descarte, extravasor), segmentos que sobem ou com
+declividade abaixo de 0,5 % geram aviso. A organização é salva no `.netuno`.
+
+Com o modo **Planta 3D dos Trechos Organizados + BIM JSON**, o DXF traz, por
+sistema, o eixo em POLYLINE 3D e o tubo em malha no diâmetro nominal, além dos
+blocos na cota de cada componente; o SVG é uma isométrica numerada na ordem
+dos trechos. O manifesto passa a registrar `pipe_runs` com os vértices já
+resolvidos:
+
+```json
+{
+  "run_id": "T-02", "sequence": 2, "system": "recalque", "dn_mm": 25,
+  "material": "PVC", "level": "Nível 0", "start_ref": "T-01", "end_ref": "RS-01",
+  "route": "+x 3000; +y 2000; +z 6500",
+  "vertices_mm": [{"x": 1500, "y": 0, "z": 0}, "..."],
+  "segments": [{"start_mm": {"...": 0}, "end_mm": {"...": 0}, "length_mm": 3000}],
+  "length_mm": 11500
+}
+```
+
+No Revit, `netuno_import.py` cria cada segmento como `Pipe` nativo, na ordem do
+manifesto, e une segmentos consecutivos por curva ou luva. A seção
+`_tubulacoes` de `family_mapping.json` associa cada sistema Netuno a um
+*Piping System Type* e cada material a um *Pipe Type* do template do escritório;
+ajuste os nomes antes de importar. Trechos sem sistema, tipo ou nível
+correspondente ficam pendentes, e juntas que o Revit recusar (por falta de
+preferência de roteamento) são listadas ao final.

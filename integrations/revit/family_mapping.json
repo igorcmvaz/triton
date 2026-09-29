@@ -9,5 +9,20 @@
   "valvula_retencao": {"family": "NETUNO_ValvulaRetencao", "type": "Padrão"},
   "air_gap": {"family": "NETUNO_AirGap", "type": "Padrão"},
   "ladrao_sifonado": {"family": "NETUNO_LadraoSifonado", "type": "Padrão"},
-  "ponto_nao_potavel": {"family": "NETUNO_PontoNaoPotavel", "type": "Padrão"}
+  "ponto_nao_potavel": {"family": "NETUNO_PontoNaoPotavel", "type": "Padrão"},
+  "_tubulacoes": {
+    "tipo_padrao": "NETUNO_PVC_Soldavel",
+    "tipos_por_material": {
+      "PVC": "NETUNO_PVC_Soldavel"
+    },
+    "sistemas": {
+      "captacao": "NETUNO_Captacao_Pluvial",
+      "descarte": "NETUNO_Descarte",
+      "extravasor": "NETUNO_Extravasor",
+      "succao": "NETUNO_Succao",
+      "recalque": "NETUNO_Recalque",
+      "distribuicao": "NETUNO_Distribuicao_Nao_Potavel",
+      "alimentacao_potavel": "NETUNO_Alimentacao_Potavel"
+    }
+  }
 }

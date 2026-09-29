@@ -630,11 +630,14 @@ def export_netuno_json(
     global_scenarios: Optional[list] = None,
     ui_state: Optional[dict] = None,
     analysis: Optional[dict] = None,
+    bim_layout: Optional[dict] = None,
 ) -> str:
     """
     Exporta o projeto completo e autocontido do Netuno em JSON (.netuno / .json).
     A série diária de chuva é incorporada ao arquivo; ``ui_state`` preserva os
     controles das etapas para que a interface possa ser reconstituída fielmente.
+    ``bim_layout`` guarda os componentes posicionados e os trechos de tubulação
+    na ordem organizada pelo projetista (``bim_components`` e ``pipe_runs``).
     """
     import json
     from datetime import datetime
@@ -737,6 +740,10 @@ def export_netuno_json(
         # Bloco aberto para CLI, automações e futuras extensões; a GUI pode
         # ignorá-lo com segurança quando não houver campos reconhecidos.
         "analysis": analysis or {},
+        "bim_layout": {
+            "bim_components": list((bim_layout or {}).get("bim_components") or []),
+            "pipe_runs": list((bim_layout or {}).get("pipe_runs") or []),
+        },
     }
 
     with open(file_path, 'w', encoding='utf-8') as f:
@@ -762,6 +769,7 @@ def load_netuno_project(file_path: str) -> dict:
         "global_scenarios": [],
         "ui_state": {},
         "analysis": {},
+        "bim_layout": {"bim_components": [], "pipe_runs": []},
         "is_json": False
     }
 
@@ -898,6 +906,11 @@ def load_netuno_project(file_path: str) -> dict:
             res["global_scenarios"] = inputs.get("global_optimizer_scenarios", [])
             res["ui_state"] = data.get("ui_state", {})
             res["analysis"] = data.get("analysis", {})
+            layout = data.get("bim_layout") or {}
+            res["bim_layout"] = {
+                "bim_components": list(layout.get("bim_components") or []),
+                "pipe_runs": list(layout.get("pipe_runs") or []),
+            }
             return res
         except Exception:
             pass
