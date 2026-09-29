@@ -70,7 +70,7 @@ data/simulation_outputs/**
 !data/simulation_outputs/*_Descarte*_Area*.csv
 
 # ---------------------------------------------------------------------------
-# Node / PNPM (versão web descontinuada — ver LegadoWeb/)
+# Node / PNPM
 # ---------------------------------------------------------------------------
 .pnpm-store/
 node_modules/

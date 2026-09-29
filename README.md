@@ -76,7 +76,6 @@ Netuno5_0_7 (atual)/
 │   ├── docs/                   # Documentação técnica e fluxogramas metodológicos
 │   └── cli.py                  # Interface de linha de comando (CLI)
 ├── Netuno future files for 652 cities/  # Base climática CMIP6 (histórico + SSP245/SSP585) — exigida pelo motor
-├── LegadoWeb/                  # Arquivo histórico da versão web descontinuada (.tar.xz)
 ├── data/                       # Arquivos de dados, séries pluviométricas e dicionários
 ├── templates/                  # Modelos de projetos (.netuno) e planilhas de entrada
 ├── icons/                      # Identidade visual e ícones oficiais da aplicação
@@ -129,10 +128,6 @@ python -m netuno.cli --help
 # Ou diretamente:
 netuno --help
 ```
-
-> **Nota sobre a versão Web:** a interface web experimental (FastAPI + React, com o Chromium
-> como interface) foi **descontinuada na versão 5.0.7**. O Netuno é agora exclusivamente
-> desktop. O código está preservado, comprimido, em [`LegadoWeb/`](LegadoWeb/README.md).
 
 ---
 
