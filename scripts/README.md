@@ -23,6 +23,7 @@ Referenciadas pela documentação, pela integração contínua ou umas pelas out
 | `generate_uf_tariffs_breakdown.py` | recorte tarifário por unidade da federação |
 | `plot_tariff_tiers_summary.py` | figura-resumo das faixas tarifárias |
 | `build_tariff_workbook.mjs` | planilha tarifária (Node) |
+| `verificar_custos_calibrados.py` | imprime o CAPEX e o OPEX calibrados por tipologia e UF, para conferência visual (relatório, sem asserções) |
 | `gerar_relatorios_exemplo.py` | regera os laudos de `reports/exemplos/` pela própria interface |
 | `replicacao/` | cenários climáticos e comprimento de série citados em `docs/replicacao_dos_artigos.md` |
 
