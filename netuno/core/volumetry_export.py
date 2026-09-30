@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from .pipe_network import PIPE_SYSTEMS
-from .volumetry import Point, Scene, Solid, build_volumetry, face_normal
+from .volumetry import CONTROL_SYSTEM, Point, Scene, Solid, build_volumetry, face_normal
 
 _ANGLE_FEATURE_DEG = 25.0
 # Cascas abertas ou translúcidas de propósito: as duas faces são visíveis.
@@ -178,7 +178,7 @@ def scene_payload(scene: Scene) -> Dict:
     return {"title": scene.title, "notes": scene.notes, "solids": solids,
             "bounds": [[c / 1000.0 for c in low], [c / 1000.0 for c in high]],
             "systems": [{"id": s["system_id"], "label": s["label"], "color": s["svg"], "gravity": bool(s.get("gravity"))}
-                        for s in PIPE_SYSTEMS]}
+                        for s in PIPE_SYSTEMS] + [dict(CONTROL_SYSTEM, gravity=False, cable=True)]}
 
 
 #: Visualizador empacotado (web/volumetria, three.js) e céu HDRI (Poly Haven, CC0).

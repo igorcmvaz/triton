@@ -11,7 +11,7 @@ from netuno.core.volumetry import build_volumetry
 ARRANJO = ["FP-01", "FF-01", "CI-01", "B-01", "RS-01",
            "FR-01", "SF-01", "VP-01", "SN-01", "RP-01", "LS-01",
            "RG-03", "VR-01", "RG-01", "QC-01",
-           "SN-02", "RP-02", "AG-01",
+           "SN-02", "SN-03", "RP-02", "AG-01",
            "HD-01", "RG-02", "VS-01",
            "RG-05", "RG-04", "VR-02", "PNP-01"]
 
@@ -115,8 +115,26 @@ def test_o_arranjo_tem_o_que_a_instalacao_pede():
     potavel = [r for r in layout["pipe_runs"] if r["system"] == "alimentacao_potavel"]
     assert [r["start"] for r in potavel] == ["HD-01", "RG-02", "VS-01"]
     assert potavel[-1]["end"] == "AG-01:topo" and tipos["VS-01"] == "valvula_solenoide"
-    # Chaves de nível nas duas caixas.
-    assert tipos["SN-01"] == tipos["SN-02"] == "sensor_nivel"
+    # Chaves de nível: cisterna, e duas na caixa (partida acima, backup abaixo).
+    assert tipos["SN-01"] == tipos["SN-02"] == tipos["SN-03"] == "sensor_nivel"
+    cota = {c["instance_id"]: c["position_mm"]["z"] for c in layout["bim_components"]}
+    assert cota["SN-03"] < cota["SN-02"]
+
+
+def test_o_comando_aparece_como_cabos_do_quadro_e_logica_na_ficha():
+    """Boias → quadro → bomba e solenoide: é assim que o backup sabe quando abrir."""
+    layout = generate_study_layout({"lower_vol": 10000, "area": 180, "floors": 2})
+    cena = build_volumetry({"project_name": "Comando", **layout})
+    ligacoes = {s.group for s in cena.solids if s.kind == "cable"}
+    assert ligacoes == {"CABO SN-01-QC-01", "CABO SN-02-QC-01", "CABO SN-03-QC-01",
+                        "CABO QC-01-B-01", "CABO QC-01-VS-01"}
+    quadro = next(s for s in cena.solids if s.key == "QC-01")
+    ficha = " ".join(quadro.info)
+    assert "Lógica de comando" in ficha and "abre a solenoide" in ficha and "Intertravamento" in ficha
+
+    # Sem quadro de comando, não há cabos inventados.
+    sem_quadro = dict(layout, bim_components=[c for c in layout["bim_components"] if c["type_id"] != "quadro_comando"])
+    assert not [s for s in build_volumetry({"project_name": "x", **sem_quadro}).solids if s.kind == "cable"]
 
 
 def test_as_valvulas_seguem_a_direcao_do_trecho():

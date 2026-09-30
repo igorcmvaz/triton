@@ -92,8 +92,8 @@ def test_dialog_prefills_from_study_when_layout_is_empty(qapp):
     assert dialog.refresh_preview() == []
     assert dialog.preview.has_drawing()
     assert dialog.volumetry.view.scene is not None
-    # Arranjo normativo completo: 25 peças e 19 trechos (ver test_study_layout).
-    assert len(dialog.get_layout()["bim_components"]) == 25
+    # Arranjo normativo completo: 26 peças e 19 trechos (ver test_study_layout).
+    assert len(dialog.get_layout()["bim_components"]) == 26
     assert len(dialog.get_layout()["pipe_runs"]) == 19
 
     # Testa o botão/método apply_study_layout

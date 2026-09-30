@@ -304,10 +304,16 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
         peca("RG-01", "registro_gaveta", "Térreo", x_rg, y_b, z_b, DN_MM=dn_rec,
              FUNCAO="Bloqueio do recalque para retirar a motobomba"),
         peca("QC-01", "quadro_comando", "Térreo", x_b + 300.0, y_b + 800.0, 0.0, TENSAO_V=220,
-             FUNCAO="Comando da motobomba B-01 e da solenoide VS-01 pelas chaves SN-01 e SN-02"),
+             FUNCAO="Comando da motobomba B-01 e da solenoide VS-01 pelas chaves SN-01 (cisterna), "
+                    "SN-02 (partida) e SN-03 (backup)"),
         # Caixa superior
-        peca("SN-02", "sensor_nivel", cota_cobertura, x_rs - r_rs * 0.4, y_rs - r_rs * 0.4, z_rs + alt_rs * 0.45,
-             FUNCAO="Caixa superior: liga a motobomba; sem água de chuva, abre a solenoide VS-01"),
+        # Duas boias na caixa: a de partida (alta) chama a motobomba; a de backup
+        # (baixa) só abre a solenoide se a cisterna estiver no mínimo, e o backup
+        # enche só até ela — sobra volume para a próxima chuva.
+        peca("SN-02", "sensor_nivel", cota_cobertura, x_rs - r_rs * 0.4, y_rs - r_rs * 0.4, z_rs + alt_rs * 0.55,
+             FUNCAO="Caixa superior, nível de partida: liga a motobomba com água de chuva"),
+        peca("SN-03", "sensor_nivel", cota_cobertura, x_rs + r_rs * 0.4, y_rs - r_rs * 0.4, z_rs + alt_rs * 0.15,
+             FUNCAO="Caixa superior, nível de backup: sem água de chuva, abre a solenoide VS-01 e enche só até aqui"),
         peca("RP-02", "respiro", cota_cobertura, x_rs - r_rs * 0.35, y_rs + r_rs * 0.35, h_topo, DN_MM=50, ALTURA_MM=350),
         peca("AG-01", "air_gap", cota_cobertura, x_ag, y_ag, h_topo, DN_MM=dn_backup, FOLGA_MM=50),
         # Backup potável

@@ -723,6 +723,7 @@ class Visualizador {
   _solidObject(s) {
     const cor = rgb(s.color);
     if (s.kind === "pipe") return this._pipe(s, cor);
+    if (s.kind === "cable") return this._cable(s, cor);
     if (s.kind === "ground") return this._ground(s);
     if (s.kind === "building" || s.kind === "slab") return this._fromTris(s, s.kind === "building" ? MAT.vidro() : MAT.laje(), true);
     if (!s.box) return this._fromTris(s, MAT.pintura(cor), false);
@@ -806,6 +807,30 @@ class Visualizador {
     return grp;
   }
 
+  _cable(s, cor) {
+    // Cabo de comando: fio fino e tracejado, para não se confundir com tubo.
+    const a = new THREE.Vector3(s.axis[0], s.axis[1], s.axis[2]);
+    const b = new THREE.Vector3(s.axis[3], s.axis[4], s.axis[5]);
+    const grp = new THREE.Group();
+    const r = Math.max(this.diag * 0.0005, 0.006);
+    const len = a.distanceTo(b);
+    const passo = Math.max(r * 10, 0.08);
+    const n = Math.max(1, Math.floor(len / passo));
+    const mat = new THREE.MeshStandardMaterial({ color: cor, emissive: cor, emissiveIntensity: 0.35, roughness: 0.6 });
+    const dir = new THREE.Vector3().subVectors(b, a).divideScalar(n);
+    const tracos = [];
+    for (let i = 0; i < n; i++) {
+      const p0 = a.clone().addScaledVector(dir, i), p1 = a.clone().addScaledVector(dir, i + 0.65);
+      tracos.push(cylinderBetween(p0, p1, r, 6));
+    }
+    grp.add(mesh(mergeGeometries(tracos), mat, false));
+    // Casca invisível e mais grossa, só para o clique pegar o fio.
+    const alvo = new THREE.Mesh(cylinderBetween(a, b, r * 3, 6), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+    alvo.userData.pickOnly = true;
+    grp.add(alvo);
+    return grp;
+  }
+
   _ground(s) {
     const [lo, hi] = [s.box[0], s.box[1]];
     const w = (hi[0] - lo[0]) * 1.6, d = (hi[1] - lo[1]) * 1.6;
@@ -852,7 +877,7 @@ class Visualizador {
 
   // ── Painel lateral ──
   _legend() {
-    const presentes = new Set(this.payload.solids.filter((s) => s.kind === "pipe").map((s) => s.system));
+    const presentes = new Set(this.payload.solids.filter((s) => s.kind === "pipe" || s.kind === "cable").map((s) => s.system));
     this.legend.replaceChildren();
     for (const sys of this.payload.systems || []) {
       if (!presentes.has(sys.id)) continue;
@@ -870,7 +895,7 @@ class Visualizador {
     this.list.replaceChildren();
     this.listItems = new Map();
     for (const s of this.payload.solids) {
-      if (!s.pickable || s.kind === "pipe" || s.kind === "building" || s.kind === "slab") continue;
+      if (!s.pickable || s.kind === "pipe" || s.kind === "cable" || s.kind === "building" || s.kind === "slab") continue;
       const item = el("div", { class: "nv-item", onclick: () => { this.select(s); this.focus(s); } },
         el("span", { class: "nv-dot", style: `background:rgb(${s.color.join(",")})` }), s.title);
       this.listItems.set(s.key, item);
@@ -897,7 +922,7 @@ class Visualizador {
     this.raycaster.setFromCamera(p, this.camera);
     const vis = this.pickables.filter((o) => o.visible && this._visibleSolid(o.userData.solid));
     const hits = this.raycaster.intersectObjects(vis, true).filter((h) => h.object.visible && !h.object.userData.xrayOnly
-      && (h.object.material && h.object.material.opacity > 0.2 || h.object.userData.solid.kind === "pipe")
+      && (h.object.material && h.object.material.opacity > 0.2 || h.object.userData.solid.kind === "pipe" || h.object.userData.pickOnly)
       && (!this.cutActive || h.point.z <= this.cutZ + 1e-6));
     return hits[0] || null;
   }
@@ -919,7 +944,7 @@ class Visualizador {
       this.info.replaceChildren(el("p", { class: "nv-hint" }, this.t.semSelecao));
       return;
     }
-    const objs = s.kind === "pipe" && s.group
+    const objs = (s.kind === "pipe" || s.kind === "cable") && s.group
       ? this.pickables.filter((o) => o.userData.solid.group === s.group)
       : [this.byKey.get(s.key)].filter(Boolean);
     this.outline.selectedObjects = objs;
@@ -983,7 +1008,7 @@ class Visualizador {
     if (!s) return true;
     if ((s.kind === "building" || s.kind === "slab") && !this.show.building) return false;
     if (s.kind === "ground" && !this.show.ground) return false;
-    if (s.kind === "pipe" && this.hiddenSystems.has(s.system)) return false;
+    if ((s.kind === "pipe" || s.kind === "cable") && this.hiddenSystems.has(s.system)) return false;
     return true;
   }
 
@@ -1062,12 +1087,14 @@ class Visualizador {
     const placed = [];
     // Peças pequenas (registros, válvulas, chaves de nível) só ganham rótulo
     // quando a câmera se aproxima; na vista de conjunto, poluiriam a tela.
-    const perto = this.diag * 0.45;
+    const perto = this.frameBox.getSize(new THREE.Vector3()).length() * 0.45;
     const items = [];
     for (const l of this.labels) {
       const mundo = l.getWorldPosition(new THREE.Vector3());
       const oculto = l.userData.menor && mundo.distanceTo(this.camera.position) > perto;
-      l.element.style.display = oculto ? "none" : "";
+      // O CSS2DRenderer reescreve o display do elemento a cada quadro; o que
+      // some é o balão de dentro.
+      l.element.firstChild.style.visibility = oculto ? "hidden" : "";
       if (oculto) continue;
       const p = mundo.project(this.camera);
       items.push({ l, x: (p.x + 1) / 2 * w, y: (1 - p.y) / 2 * h });

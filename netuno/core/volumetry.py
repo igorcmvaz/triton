@@ -154,9 +154,17 @@ _ACCESSORY_INFO: Dict[str, List[str]] = {
         "Norma de referência: ABNT NBR 5626:2020 (reservatórios) e ABNT NBR 15527:2019",
     ],
     "quadro_comando": [
-        "Função: Comando automático da motobomba pelas chaves de nível",
+        "Função: Comando automático da motobomba e do backup potável pelas chaves de nível",
+        "Lógica de comando:",
+        " • Caixa superior no nível de partida e cisterna com água de chuva: liga a motobomba; solenoide fechada",
+        " • Caixa superior no nível de backup e cisterna no mínimo: bloqueia a motobomba e abre a solenoide",
+        " • O backup enche a caixa só até o nível de backup, e não até o topo: sobra volume para a próxima chuva",
+        " • Voltou água à cisterna: fecha a solenoide e devolve o abastecimento à motobomba",
+        " • Intertravamento: motobomba e solenoide nunca funcionam ao mesmo tempo",
+        " • Retardo nas boias contra liga-desliga seguido",
         "Proteções: Disjuntor, relé de sobrecarga, proteção contra marcha a seco e DR",
-        "Boa prática: Indicador de falta de água de chuva (backup potável em uso)",
+        "Sinalização: Sinaleiro «backup potável em uso» e seletor automático / forçar backup / desligado",
+        "Solenoide normalmente fechada: sem energia, o backup fica fechado",
         "Instalação: Abrigado, acima do piso, junto à motobomba",
     ],
 }
@@ -503,6 +511,60 @@ def _bounds_of(solids: Iterable[Solid]) -> Tuple[Point, Point]:
     return (min(xs), min(ys), min(zs)), (max(xs), max(ys), max(zs))
 
 
+#: Cor e sistema dos cabos de comando (não são tubulação: não passam pela rede).
+CONTROL_SYSTEM = {"id": "comando", "label": "Comando elétrico", "color": "#f59e0b"}
+_CABLE_ROLE = {
+    "sensor_nivel": "Sinal da chave de nível para o quadro",
+    "motobomba": "Acionamento da motobomba pelo quadro",
+    "valvula_solenoide": "Acionamento da válvula solenoide do backup pelo quadro",
+}
+
+
+def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str, Any], radius: float) -> List[Solid]:
+    """Cabos do quadro de comando: chaves de nível → quadro → bomba e solenoide.
+
+    Não são guardados no projeto: saem das peças presentes. Havendo um quadro
+    de comando, cada chave de nível leva sinal a ele, e ele aciona a motobomba e
+    a válvula solenoide. O traçado é esquemático — sobe, corre em x, corre em y e
+    desce —, para mostrar quem conversa com quem, não o eletroduto.
+    """
+    quadro = next((i for i in instances if i["type_id"] == "quadro_comando"), None)
+    if quadro is None:
+        return []
+    fallbacks = fallback_volumes(project_data)
+
+    def ponto(item: Dict[str, Any]) -> Point:
+        pos = item["position_mm"]
+        env = component_envelope(item, fallbacks)
+        return (float(pos["x"]), float(pos["y"]), float(pos["z"]) + env.height)
+
+    q = ponto(quadro)
+    q_id = quadro["instance_id"]
+    cables: List[Solid] = []
+    r = max(6.0, radius * 0.35)
+    for item in instances:
+        papel = _CABLE_ROLE.get(item["type_id"])
+        if not papel:
+            continue
+        p = ponto(item)
+        z_via = max(p[2], q[2]) + 300.0
+        caminho = [p, (p[0], p[1], z_via), (q[0], p[1], z_via), (q[0], q[1], z_via), q]
+        caminho = [pt for i, pt in enumerate(caminho) if i == 0 or math.dist(pt, caminho[i - 1]) > 1.0]
+        origem, destino = (item["instance_id"], q_id) if item["type_id"] == "sensor_nivel" else (q_id, item["instance_id"])
+        grupo = f"CABO {origem}-{destino}"
+        info = [
+            f"Sistema: {CONTROL_SYSTEM['label']}",
+            f"Ligação: {origem} → {destino}",
+            f"Função: {papel}",
+            "Traçado: Esquemático (a posição do eletroduto é definida no projeto elétrico)",
+        ]
+        for index, (a, b) in enumerate(zip(caminho, caminho[1:]), start=1):
+            cables.append(Solid(f"{grupo}#{index}", "cable", f"{grupo} · {CONTROL_SYSTEM['label']}", info,
+                                _hex_to_rgb(CONTROL_SYSTEM["color"]), tube(a, b, r), group=grupo,
+                                axis=(a, b, r), system=CONTROL_SYSTEM["id"]))
+    return cables
+
+
 def build_volumetry(project_data: Dict[str, Any]) -> Scene:
     """Monta a cena a partir do mesmo manifesto validado que gera DXF e JSON."""
     manifest = _checked_manifest(project_data)
@@ -561,6 +623,8 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
                                     dn_mm=dn_val))
     if enlarged:
         notes.append("Tubos de DN pequeno desenhados com espessura ampliada para visualização.")
+
+    solids += _control_cables(manifest["instances"], project_data, min_radius)
 
     low, high = _bounds_of(solids)
     margin = diagonal * 0.08
