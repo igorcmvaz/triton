@@ -64,6 +64,27 @@ def test_dialog_builds_volumetry_with_building_and_exports(qapp, tmp_path, monke
     assert dialog.volumetry.view.scene is None and not dialog.btn_glb.isEnabled()
 
 
+def test_organizacao_valida_abre_na_volumetria_com_o_editor_recolhido(qapp):
+    """A volumetria é o que se quer ver; as tabelas aparecem só para editar."""
+    dialog = PipeRunsDialog(None, layout=LAYOUT, project_data={"project_name": "Teste"})
+    assert dialog.editor.isHidden() and not dialog.btn_editor.isChecked()
+    dialog.btn_editor.setChecked(True)
+    assert not dialog.editor.isHidden()
+
+    # Tela cheia recolhe o editor e esconde os botões; ao sair, volta como estava.
+    dialog.toggle_fullscreen()
+    assert dialog.imersivo and dialog.editor.isHidden() and dialog._buttons.isHidden()
+    dialog.toggle_fullscreen()
+    assert not dialog.imersivo and not dialog.editor.isHidden() and not dialog._buttons.isHidden()
+    dialog.close()
+
+
+def test_organizacao_com_pendencias_abre_no_editor(qapp):
+    runs = [dict(LAYOUT["pipe_runs"][1]), dict(LAYOUT["pipe_runs"][0])]  # o primeiro sem origem
+    dialog = PipeRunsDialog(None, layout=dict(LAYOUT, pipe_runs=runs), project_data={"project_name": "Teste"})
+    assert not dialog.editor.isHidden() and dialog.btn_editor.isChecked()
+
+
 def test_dialog_prefills_from_study_when_layout_is_empty(qapp):
     project_data = {"project_name": "Casa Modelo Estudo", "lower_vol": 6000, "upper_vol": 1500, "floors": 2}
     dialog = PipeRunsDialog(None, layout=None, project_data=project_data)

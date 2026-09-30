@@ -18,7 +18,7 @@ import tempfile
 from pathlib import Path
 from typing import Dict, Optional
 
-from PySide6.QtCore import QUrl
+from PySide6.QtCore import QUrl, Signal
 from PySide6.QtWidgets import QVBoxLayout, QWidget
 
 from netuno.core.volumetry import Scene
@@ -35,7 +35,7 @@ def textos_da_volumetria() -> Dict[str, str]:
         "enquadrar": tr("Enquadrar"), "edificacao": tr("Edificação"), "terreno": tr("Terreno"),
         "rotulos": tr("Rótulos"), "fluxo": tr("Fluxo"), "raiox": tr("Raio-X"), "ceu": tr("Céu"),
         "sombras": tr("Sombras"), "corte": tr("Corte por cota"), "medir": tr("Medir"), "foto": tr("Imagem PNG"),
-        "telaCheia": tr("Tela cheia"), "tema": tr("Tema"), "sistemas": tr("Sistemas"),
+        "telaCheia": tr("Tela cheia"), "tema": tr("Tema"), "painel": tr("Painel"), "sistemas": tr("Sistemas"),
         "componentes": tr("Componentes"), "ficha": tr("Ficha técnica"), "notas": tr("Notas"),
         "semSelecao": tr("Clique numa peça para ver a ficha técnica."),
         "medirDica": tr("Clique em dois pontos para medir. Esc encerra."), "distancia": tr("Distância"),
@@ -60,6 +60,9 @@ def web_disponivel() -> bool:
 class VolumetryWebPanel(QWidget):
     """Aba da volumetria com o visualizador WebGL. Mesma API de ``VolumetryPanel``."""
 
+    #: O botão «Tela cheia» da página pediu (True) ou deixou (False) a tela cheia.
+    tela_cheia_pedida = Signal(bool)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         from PySide6.QtWebEngineCore import QWebEngineSettings
@@ -74,6 +77,10 @@ class VolumetryWebPanel(QWidget):
         # Página local e autocontida: nada de rede.
         settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)
         layout.addWidget(self.web)
+        # A tela cheia do navegador só funciona se o pedido da página for
+        # atendido: aceita e deixa a janela decidir como ocupar a tela.
+        settings.setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+        self.web.page().fullScreenRequested.connect(self._tela_cheia)
         self.scene: Optional[Scene] = None
         self._carregado = False      # a página do visualizador está aberta e montada
         self._carregando = False     # há um carregamento em curso
@@ -138,6 +145,16 @@ class VolumetryWebPanel(QWidget):
         self.layout().addWidget(self.reserva)
         self.web.hide()
         self.reserva.set_scene(self.scene)
+
+    def _tela_cheia(self, request) -> None:
+        request.accept()
+        self.tela_cheia_pedida.emit(bool(request.toggleOn()))
+
+    def sair_da_tela_cheia(self) -> None:
+        """A janela saiu da tela cheia (F11, Esc, botão): a página sai junto."""
+        from PySide6.QtWebEngineCore import QWebEnginePage
+
+        self.web.page().triggerAction(QWebEnginePage.ExitFullScreen)
 
     def closeEvent(self, event) -> None:
         try:

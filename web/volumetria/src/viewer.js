@@ -34,7 +34,7 @@ const TEXTOS_PADRAO = {
   iso: "Perspectiva", planta: "Planta", frente: "Frente", lateral: "Lateral", enquadrar: "Enquadrar",
   edificacao: "Edificação", terreno: "Terreno", rotulos: "Rótulos", fluxo: "Fluxo", raiox: "Raio-X",
   ceu: "Céu", sombras: "Sombras", corte: "Corte por cota", medir: "Medir", foto: "Imagem PNG",
-  telaCheia: "Tela cheia", tema: "Tema", sistemas: "Sistemas", componentes: "Componentes",
+  telaCheia: "Tela cheia", tema: "Tema", painel: "Painel", sistemas: "Sistemas", componentes: "Componentes",
   ficha: "Ficha técnica", notas: "Notas", semSelecao: "Clique numa peça para ver a ficha técnica.",
   medirDica: "Clique em dois pontos para medir. Esc encerra.", distancia: "Distância",
   semWebGL: "Este computador não oferece WebGL: a volumetria 3D não pode ser desenhada aqui.",
@@ -278,8 +278,12 @@ const CSS = `
 .nv-stage canvas{display:block;width:100%!important;height:100%!important;outline:none}
 .nv-css2d{position:absolute;inset:0;pointer-events:none}
 .nv-head{position:absolute;left:16px;top:12px;right:360px;pointer-events:none}
-.nv-head h1{margin:0;font-size:16px;font-weight:650;letter-spacing:.01em;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg)}
-.nv-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg)}
+.nv-head h1{margin:0;font-size:16px;font-weight:650;letter-spacing:.01em;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nv-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nv-root.nv-nopanel{grid-template-columns:1fr} .nv-nopanel .nv-side{display:none}
+@media (max-width:1100px){.nv-head p{display:none}}
 .nv-bar{position:absolute;left:12px;bottom:12px;right:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;pointer-events:none}
 .nv-bar>*{pointer-events:auto}
 .nv-grp{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;box-shadow:0 1px 3px rgba(15,23,42,.08)}
@@ -376,6 +380,7 @@ class Visualizador {
     const tools = el("div", { class: "nv-grp" },
       this.measureBtn = el("button", { class: "nv-btn", onclick: () => this.toggleMeasure() }, t.medir),
       el("button", { class: "nv-btn", onclick: () => this.screenshot() }, t.foto),
+      this.panelBtn = el("button", { class: "nv-btn on", onclick: () => this.togglePanel() }, t.painel),
       el("button", { class: "nv-btn", onclick: () => this.toggleTheme() }, t.tema),
       el("button", { class: "nv-btn", onclick: () => this.fullscreen() }, t.telaCheia));
     this.stage.append(el("div", { class: "nv-bar" }, views, toggles, cut), el("div", { class: "nv-tools" }, tools));
@@ -913,6 +918,12 @@ class Visualizador {
     const url = this.renderer.domElement.toDataURL("image/png");
     const a = el("a", { href: url, download: `${(this.payload && this.payload.title) || "volumetria"}_3d.png` });
     document.body.append(a); a.click(); a.remove();
+  }
+
+  togglePanel() {
+    // Recolhe a ficha lateral: o modelo ganha a largura inteira.
+    const oculto = this.root.classList.toggle("nv-nopanel");
+    this.panelBtn.classList.toggle("on", !oculto);
   }
 
   toggleTheme() {
