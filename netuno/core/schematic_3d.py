@@ -209,22 +209,39 @@ def _component_body(item, env, project, placer, labels) -> List[str]:
     right, top = project(x + env.half_x, y, z + env.height)
     cx = (left + right) / 2
     type_id = item["type_id"]
-    min_w, min_h = (40, 26) if type_id in _TANKS else (26, 22) if type_id == "motobomba" else (16, 16)
+    min_w, min_h = (40, 26) if type_id in _TANKS else (30, 24) if type_id == "first_flush" else (26, 22) if type_id in {"motobomba", "filtro_pluvial"} else (16, 16)
     if right - left < min_w:
         left, right = cx - min_w / 2, cx + min_w / 2
     if bottom - top < min_h:
         top = bottom - min_h
-    fill, stroke = {"motobomba": ("#fee2e2", "#b91c1c")}.get(type_id, ("#e0f2fe", "#0369a1") if type_id in _TANKS else ("#ffffff", "#0f172a"))
+    fill, stroke = {
+        "motobomba": ("#fee2e2", "#b91c1c"),
+        "filtro_pluvial": ("#f1f5f9", "#475569"),
+        "first_flush": ("#fef3c7", "#b45309"),
+    }.get(type_id, ("#e0f2fe", "#0369a1") if type_id in _TANKS else ("#ffffff", "#0f172a"))
     out = [f'<rect x="{left:.1f}" y="{top:.1f}" width="{right - left:.1f}" height="{bottom - top:.1f}" rx="3" '
            f'fill="{fill}" fill-opacity="0.9" stroke="{stroke}" stroke-width="1.5"/>']
     if type_id == "motobomba":
         out.append(f'<text x="{cx:.1f}" y="{(top + bottom) / 2 + 4:.1f}" font-size="11" font-weight="700" '
                    f'text-anchor="middle" fill="#b91c1c">B</text>')
+    elif type_id == "filtro_pluvial":
+        out.append(f'<text x="{cx:.1f}" y="{(top + bottom) / 2 + 4:.1f}" font-size="10" font-weight="700" '
+                   f'text-anchor="middle" fill="#475569">F</text>')
+    elif type_id == "first_flush":
+        out.append(f'<text x="{cx:.1f}" y="{(top + bottom) / 2 + 4:.1f}" font-size="10" font-weight="700" '
+                   f'text-anchor="middle" fill="#b45309">D</text>')
     placer.block(left - 1, top - 1, right + 1, bottom + 1)
     detail = _TYPE_LABELS.get(type_id, type_id)
-    capacity = item["parameters"].get("CAPACIDADE_L")
+    params = item.get("parameters") or {}
+    capacity = params.get("CAPACIDADE_L") or params.get("VOLUME_L")
     if capacity not in (None, ""):
         detail += f" {int(float(capacity)):,} L".replace(",", ".")
+    elif type_id == "filtro_pluvial" and params.get("DN_MM"):
+        detail += f" DN {int(float(params['DN_MM']))}"
+    elif type_id == "motobomba":
+        hp = params.get("POTENCIA_HP_LABEL")
+        if hp:
+            detail += f" {hp} HP"
     lines = [(item["instance_id"], 12.0, "700", "#0f172a"), (f"{detail} · {_cota(z)} m", 11.0, "400", "#475569")]
     mid = (top + bottom) / 2
     labels.append((lines, [(right + 10, mid - 2, "start"), (left - 10, mid - 2, "end"), (cx, top - 22, "middle"),

@@ -185,28 +185,153 @@ def _component_solid(item: Dict[str, Any], project_data: Dict[str, Any]) -> Soli
     pos = item["position_mm"]
     base = (pos["x"], pos["y"], pos["z"])
     name = _TYPE_NAMES.get(type_id, type_id)
-    info = [f"Tipo: {name}", f"Base: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
-            f"Nível: {item.get('level', '')}"]
     color = _COLORS.get(type_id, (100, 116, 139))
     env = component_envelope(item, fallback_volumes(project_data))
     # Tanques e cilindros não giram: a planta circular é a mesma em qualquer ângulo.
     rotation = 0.0 if env.shape == "cylinder" else item.get("rotation_deg", 0.0)
     faces = prism(env.outline, base, env.height, rotation)
     label_at = (base[0], base[1], base[2] + env.height)
-    if type_id in TANK_HEIGHT_RATIO:
-        info += [f"Capacidade: {_fmt(env.capacity_l, 0)} L",
-                 f"Ø {_fmt(env.diameter / 1000)} m × H {_fmt(env.height / 1000)} m" + (" (estimado pela capacidade)" if env.estimated else "")]
-        return Solid(item["instance_id"], "tank", f"{item['instance_id']} · {name}", info, color, faces,
-                     opacity=0.55, outline=True, label_at=label_at)
+    level = item.get("level") or "Térreo"
+    inst = item["instance_id"]
+
     if type_id == "motobomba":
-        power = _number(params.get("POTENCIA_KW"), None)
-        info.append(f"Potência: {_fmt(power)} kW" if power else "Potência: não informada (volume ilustrativo)")
-        return Solid(item["instance_id"], "pump", f"{item['instance_id']} · {name}", info, color, faces,
+        kw = _number(params.get("POTENCIA_KW"), None) or _number(project_data.get("pump_power_kw"), 0.37) or 0.37
+        cv = _number(params.get("POTENCIA_CV"), None) or (kw / 0.735499 if kw else 0.50)
+        hp_label = str(params.get("POTENCIA_HP_LABEL") or project_data.get("pump_hp") or "")
+        if not hp_label or hp_label in ("None", "0.0"):
+            if 0.35 <= cv <= 0.55:
+                hp_label = "1/2"
+            elif 0.70 <= cv <= 0.85:
+                hp_label = "3/4"
+            elif 0.90 <= cv <= 1.15:
+                hp_label = "1"
+            elif 0.20 <= cv <= 0.34:
+                hp_label = "1/3"
+            else:
+                hp_label = f"{cv:.2f}"
+
+        flow_l_min = _number(params.get("VAZAO_L_MIN"), None) or (_number(project_data.get("pump_flow_rate_m3_h"), 3.6) * 1000.0 / 60.0)
+        flow_m3_h = _number(params.get("VAZAO_M3_H"), None) or (flow_l_min * 60.0 / 1000.0)
+        head_mca = _number(params.get("ALTURA_MCA"), 12.0) or 12.0
+        dn_suc = _number(params.get("DN_SUCCAO_MM"), 32.0) or 32.0
+        dn_rec = _number(params.get("DN_RECALQUE_MM"), 25.0) or 25.0
+        vol_dia = _number(project_data.get("pluv_day"), 800.0) or 800.0
+        tempo_min = (vol_dia / max(flow_l_min, 1.0)) if vol_dia > 0 else 0.0
+
+        info = [
+            "Tipo: Conjunto Motobomba Centrífuga de Recalque",
+            f"Potência nominal: {_fmt(kw, 2)} kW ({_fmt(cv, 2)} CV / {hp_label} HP)",
+            f"Vazão de operação: {_fmt(flow_l_min, 1)} L/min ({_fmt(flow_m3_h, 2)} m³/h)",
+            f"Altura manométrica total: {_fmt(head_mca, 1)} mca",
+            f"Tubulação de sucção: DN {dn_suc:g} mm (econômico Forchheimer)",
+            f"Tubulação de recalque: DN {dn_rec:g} mm (econômico Forchheimer)",
+            f"Demanda diária bombeada: {_fmt(vol_dia, 0)} L/dia",
+            f"Tempo estimado de operação: ~{tempo_min:.0f} min/dia",
+            "Alimentação elétrica: Monofásico 220 V / 60 Hz",
+            "Comando e controle: Chaves boia de nível elétricas contra marcha a seco",
+            f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+            f"Nível de instalação: {level}",
+            "Normas de referência: ABNT NBR 5626:2020 e ABNT NBR 15527:2019",
+        ]
+        return Solid(inst, "pump", f"{inst} · Motobomba ({hp_label} HP / {_fmt(kw, 2)} kW)", info, color, faces,
                      outline=True, label_at=label_at)
+
+    if type_id == "filtro_pluvial":
+        dn = _number(params.get("DN_MM"), 100.0) or 100.0
+        malha = _number(params.get("MALHA_MM"), 0.35) or 0.35
+        efic = _number(params.get("EFICIENCIA_PCT"), 90.0) or 90.0
+        tipo_str = str(params.get("TIPO") or "Filtro Pluvial Autolimpante Vórtex")
+        info = [
+            f"Tipo: {tipo_str}",
+            f"Bitola de conexão: DN {dn:g} mm",
+            f"Malha filtrante: {_fmt(malha, 2)} mm ({int(malha * 1000)} µm) em Aço Inox AISI 304",
+            f"Eficiência hidráulica: {_fmt(efic, 0)}% de retenção e recuperação",
+            "Sólidos retidos: Folhas, galhos, musgo e detritos grosseiros",
+            "Operação: Autolimpante contínuo por arraste durante o fluxo pluvial",
+            f"Dimensões do corpo: Ø {_fmt(env.half_x * 2 / 1000)} m × Altura {_fmt(env.height / 1000)} m",
+            f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+            f"Nível de instalação: {level}",
+            "Norma de referência: ABNT NBR 15527:2019 item 4.3.4",
+        ]
+        return Solid(inst, "filter", f"{inst} · Filtro Pluvial Autolimpante (DN {dn:g})", info, color, faces,
+                     opacity=0.85, outline=True, label_at=label_at)
+
+    if type_id == "first_flush":
+        vol_desc = _number(params.get("VOLUME_L"), None) or (env.capacity_l if env.capacity_l else 300.0)
+        lamina = _number(params.get("DESCARTE_MM"), None) or _number(project_data.get("discard"), 2.0) or 2.0
+        area = _number(project_data.get("area"), 150.0) or 150.0
+        mecanismo = str(params.get("MECANISMO") or "Boia flutuante de vedação por esfera e válvula de purga lenta calibrada")
+        info = [
+            "Tipo: Dispositivo de Descarte de Escoamento Inicial (First Flush)",
+            f"Volume de descarte calculado: {_fmt(vol_desc, 0)} L ({_fmt(vol_desc / 1000, 2)} m³)",
+            f"Lâmina de descarte: {_fmt(lamina, 1)} mm (conforme ABNT NBR 15527:2019 item 4.3.5)",
+            f"Área de captação contribuinte: {_fmt(area, 0)} m²",
+            f"Dimensões do reservatório: Ø {_fmt(env.half_x * 2 / 1000)} m × Altura {_fmt(env.height / 1000)} m",
+            f"Mecanismo de funcionamento: {mecanismo}",
+            "Tempo de esvaziamento: Purga automática lenta em 24 a 48 horas de tempo seco",
+            "Poluentes descartados: Poeira acumulada no telhado, fuligem e fezes de aves lavadas da cobertura",
+            f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+            f"Nível de instalação: {level}",
+            "Norma de referência: ABNT NBR 15527:2019 item 4.3.5",
+        ]
+        return Solid(inst, "tank", f"{inst} · Descarte Inicial ({_fmt(vol_desc, 0)} L)", info, color, faces,
+                     opacity=0.80, outline=True, label_at=label_at)
+
+    if type_id == "cisterna_inferior":
+        cap = env.capacity_l or _number(params.get("CAPACIDADE_L"), 5000.0) or 5000.0
+        diam = env.diameter or _number(params.get("DIAMETRO_MM"), 1850.0) or 1850.0
+        alt = env.height or _number(params.get("ALTURA_MM"), 1850.0) or 1850.0
+        mat = str(params.get("MATERIAL") or "Polietileno de Alta Densidade (PEAD) com proteção UV")
+        info = [
+            "Tipo: Cisterna de Armazenamento Inferior (Água Pluvial)",
+            f"Capacidade: {_fmt(cap, 0)} L ({_fmt(cap / 1000, 2)} m³)",
+            f"Dimensões físicas: Ø {_fmt(diam / 1000)} m × Altura {_fmt(alt / 1000)} m" + (" (estimado pela capacidade)" if env.estimated else ""),
+            f"Material construtivo: {mat}",
+            f"Instalação: Enterrada no recuo técnico (cota de fundo: {_fmt(base[2] / 1000)} m)",
+            "Dispositivos hidráulicos integrados:",
+            " • Entrada: Tubo defletor calmo (freio d'água contra ressuspensão de sedimentos)",
+            " • Sucção: Mangueira flexível com captação flutuante a 15 cm da superfície",
+            " • Extravasor: Sifão ladrão com tela anti-inseto e proteção anti-refluxo",
+            " • Tampa: Inspeção estanque com vedação contra luz solar e proliferação de algas",
+            f"Posição da base: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+            f"Nível de instalação: {level}",
+            "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+        ]
+        return Solid(inst, "tank", f"{inst} · Cisterna Inferior ({_fmt(cap, 0)} L)", info, color, faces,
+                     opacity=0.55, outline=True, label_at=label_at)
+
+    if type_id == "reservatorio_superior":
+        cap = env.capacity_l or _number(params.get("CAPACIDADE_L"), 1000.0) or 1000.0
+        diam = env.diameter or _number(params.get("DIAMETRO_MM"), 1300.0) or 1300.0
+        alt = env.height or _number(params.get("ALTURA_MM"), 750.0) or 750.0
+        mat = str(params.get("MATERIAL") or "Polietileno de Alta Densidade (PEAD)")
+        info = [
+            "Tipo: Reservatório Superior de Não Potável (Barrilete)",
+            f"Capacidade: {_fmt(cap, 0)} L ({_fmt(cap / 1000, 2)} m³)",
+            f"Dimensões físicas: Ø {_fmt(diam / 1000)} m × Altura {_fmt(alt / 1000)} m" + (" (estimado pela capacidade)" if env.estimated else ""),
+            f"Material construtivo: {mat}",
+            "Instalação: Barrilete sobre a laje superior de cobertura (distribuição por gravidade)",
+            "Dispositivos hidráulicos integrados:",
+            " • Recalque: Entrada superior pelo topo com boia elétrica de comando da bomba",
+            " • Backup potável: Alimentação da rede pública com Air Gap normativo (NBR 5626)",
+            " • Distribuição: Saída inferior para barrilete de bacias sanitárias, rega e lavagem",
+            " • Extravasor: Tubo de aviso e extravasor de emergência independentes",
+            f"Posição da base: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+            f"Nível de instalação: {level}",
+            "Normas de referência: ABNT NBR 15527:2019 e ABNT NBR 5626:2020",
+        ]
+        return Solid(inst, "tank", f"{inst} · Caixa Superior ({_fmt(cap, 0)} L)", info, color, faces,
+                     opacity=0.55, outline=True, label_at=label_at)
+
     dn = _number(params.get("DN_MM"), None)
+    info = [
+        f"Tipo: {name}",
+        f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
+        f"Nível de instalação: {level}",
+    ]
     if dn:
-        info.append(f"DN {dn:g}")
-    return Solid(item["instance_id"], "accessory", f"{item['instance_id']} · {name}", info, color, faces,
+        info.append(f"Bitola nominal: DN {dn:g} mm")
+    return Solid(inst, "accessory", f"{inst} · {name}", info, color, faces,
                  outline=True, label_at=label_at)
 
 
@@ -219,14 +344,22 @@ def _building_solids(building: Dict[str, Any]) -> List[Solid]:
     x0, y0, z0 = (_signed(origin.get(k)) for k in ("x", "y", "z"))
     floors = int(_number(building.get("floors"), 1) or 1)
     rect = [(0, 0), (width, 0), (width, depth), (0, depth)]
-    info = [f"{_fmt(width / 1000)} × {_fmt(depth / 1000)} m em planta", f"Altura {_fmt(height / 1000)} m · {floors} pavimento(s)",
-            f"Origem: x {_fmt(x0 / 1000)} · y {_fmt(y0 / 1000)} · cota {_fmt(z0 / 1000)} m"]
+    area_proj = width * depth / 1e6
+    info = [
+        f"Dimensões em planta: {_fmt(width / 1000)} × {_fmt(depth / 1000)} m",
+        f"Área de projeção/cobertura: {_fmt(area_proj, 0)} m²",
+        f"Altura total: {_fmt(height / 1000)} m ({floors} pavimento(s))",
+        f"Pé-direito médio: {_fmt(height / (floors * 1000), 2)} m",
+        "Coeficiente de escoamento (runoff): C = 0,85 (ABNT NBR 15527:2019)",
+        f"Origem do canto: x {_fmt(x0 / 1000)} · y {_fmt(y0 / 1000)} · cota {_fmt(z0 / 1000)} m",
+    ]
     solids = [Solid("EDIFICACAO", "building", "Edificação (volumetria)", info, _COLORS["building"],
                     prism(rect, (x0, y0, z0), height), opacity=0.16, outline=True)]
     for floor in range(1, floors):
         z = z0 + height * floor / floors
         slab = [[(x0 + x, y0 + y, z) for x, y in rect]]
-        solids.append(Solid(f"LAJE-{floor}", "slab", f"Laje do {floor + 1}º pavimento", [f"Cota {_fmt(z / 1000)} m"],
+        solids.append(Solid(f"LAJE-{floor}", "slab", f"Laje do {floor + 1}º pavimento",
+                            [f"Cota de piso: {_fmt(z / 1000)} m", f"Área da laje: {_fmt(area_proj, 0)} m²"],
                             _COLORS["building"], slab, opacity=0.10, outline=True, pickable=False))
     return solids
 
@@ -274,18 +407,29 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
         # distintos precisam continuar parecendo dois tubos.
         radius = max(run["dn_mm"] / 2, min(min_radius, 0.45 * clearance.get(run["run_id"], math.inf)))
         enlarged |= radius > run["dn_mm"] / 2
+        dn_val = run["dn_mm"]
+        polegada = {20: '1/2"', 25: '3/4"', 32: '1"', 40: '1.1/4"', 50: '1.1/2"', 75: '2.1/2"', 100: '4"', 150: '6"'}.get(int(round(dn_val)), "")
+        pol_txt = f" ({polegada})" if polegada else ""
+        regime = "Gravitário por conduto livre" if system.get("gravity") else "Pressurizado por bombeamento"
         for index, seg in enumerate(run["segments"], start=1):
             a = (seg["start_mm"]["x"], seg["start_mm"]["y"], seg["start_mm"]["z"])
             b = (seg["end_mm"]["x"], seg["end_mm"]["y"], seg["end_mm"]["z"])
             dz = b[2] - a[2]
-            info = [f"Sistema: {system['label']}", f"DN {run['dn_mm']:g} · {run['material']}",
-                    f"Segmento {index} de {len(run['segments'])}: {_fmt(seg['length_mm'] / 1000)} m",
-                    f"Trecho completo: {_fmt(run['length_mm'] / 1000)} m · ordem {run['sequence']}"]
+            seg_len = seg["length_mm"]
+            info = [
+                f"Sistema: {system['label']}",
+                f"Diâmetro nominal: DN {dn_val:g} mm{pol_txt}",
+                f"Material da tubulação: {run['material']}",
+                f"Regime hidráulico: {regime}",
+                f"Segmento {index} de {len(run['segments'])}: {_fmt(seg_len / 1000)} m",
+                f"Extensão do trecho: {_fmt(run['length_mm'] / 1000)} m (ordem {run['sequence']})",
+            ]
             if abs(dz) > 0.5:
-                info.append(f"Desnível: {'+' if dz > 0 else '−'}{_fmt(abs(dz) / 1000)} m")
+                decliv = (abs(dz) / max(seg_len, 1.0)) * 100.0
+                info.append(f"Desnível do segmento: {'+' if dz > 0 else '−'}{_fmt(abs(dz) / 1000)} m (declividade: {_fmt(decliv, 1)}%)")
             if run["start_ref"] or run["end_ref"]:
-                info.append(f"De {run['start_ref'] or 'coordenadas'} para {run['end_ref'] or '—'}")
-            solids.append(Solid(f"{run['run_id']}#{index}", "pipe", f"{run['run_id']} · {system['label']}", info,
+                info.append(f"Interligação: De {run['start_ref'] or 'coordenadas'} para {run['end_ref'] or 'extremidade livre'}")
+            solids.append(Solid(f"{run['run_id']}#{index}", "pipe", f"{run['run_id']} · {system['label']} (DN {dn_val:g})", info,
                                 color, tube(a, b, radius), group=run["run_id"], axis=(a, b, radius)))
             if index < len(run["segments"]):
                 # Nó na mudança de direção, para a tubulação não parecer quebrada.

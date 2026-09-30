@@ -71,13 +71,13 @@ def test_dialog_prefills_from_study_when_layout_is_empty(qapp):
     assert dialog.refresh_preview() == []
     assert dialog.preview.has_drawing()
     assert dialog.volumetry.view.scene is not None
-    assert len(dialog.get_layout()["bim_components"]) == 3
-    assert len(dialog.get_layout()["pipe_runs"]) == 4
+    assert len(dialog.get_layout()["bim_components"]) == 5
+    assert len(dialog.get_layout()["pipe_runs"]) == 6
 
     # Testa o botão/método apply_study_layout
     dialog.table_runs.setRowCount(0)
     assert dialog.table_runs.rowCount() == 0
     dialog.apply_study_layout()
-    assert dialog.table_runs.rowCount() == 4
+    assert dialog.table_runs.rowCount() == 6
     assert dialog.refresh_preview() == []
 

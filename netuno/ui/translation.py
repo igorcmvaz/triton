@@ -2312,3 +2312,19 @@ _CHINESE_DICTIONARY.update({
     '📚 Base Técnica, Metodologia e Premissas do Projeto': '📚 技术依据、方法与项目假设',
     '🔄 Restaurar do Projeto (Etapa 3)': '🔄 从项目恢复（第 3 步）',
 })
+
+_DICTIONARY.update({
+    "⚡ Pré-preencher do Estudo": "⚡ Pre-fill from Study",
+    "Ficha Técnica do Objeto 3D": "3D Object Technical Datasheet",
+    "Clique em qualquer componente (motobomba, filtro, descarte, cisterna, reservatório ou tubulação) para inspecionar todas as características hidráulicas e normativas.": "Click on any component (pump, filter, first-flush diverter, lower tank, upper tank, or piping) to inspect all hydraulic and normative specifications.",
+})
+_SPANISH_DICTIONARY.update({
+    "⚡ Pré-preencher do Estudo": "⚡ Prellenar del Estudio",
+    "Ficha Técnica do Objeto 3D": "Ficha Técnica del Objeto 3D",
+    "Clique em qualquer componente (motobomba, filtro, descarte, cisterna, reservatório ou tubulação) para inspecionar todas as características hidráulicas e normativas.": "Haga clic en cualquier componente (bomba, filtro, desvío de primer lavado, cisterna, depósito superior o tubería) para inspeccionar todas las especificaciones hidráulicas y normativas.",
+})
+_CHINESE_DICTIONARY.update({
+    "⚡ Pré-preencher do Estudo": "⚡ 从研究中预填",
+    "Ficha Técnica do Objeto 3D": "3D 对象技术参数表",
+    "Clique em qualquer componente (motobomba, filtro, descarte, cisterna, reservatório ou tubulação) para inspecionar todas as características hidráulicas e normativas.": "点击任何组件（水泵、过滤器、初期弃流器、蓄水池、高位水箱或管道）以检查所有水力和规范特性。",
+})

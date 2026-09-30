@@ -189,7 +189,7 @@ _HTML_TEMPLATE = r"""<!doctype html>
   @media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --panel:#111a2e; --ink:#e2e8f0; --muted:#94a3b8; --line:#1e293b; --accent:#60a5fa; } }
   * { box-sizing: border-box; }
   html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font:14px/1.4 "Segoe UI", system-ui, sans-serif; }
-  #app { display:grid; grid-template-columns: 1fr 300px; height:100%; }
+  #app { display:grid; grid-template-columns: 1fr 340px; height:100%; }
   #stage { position:relative; overflow:hidden; }
   canvas { position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; }
   #gl { cursor:grab; } #gl.dragging { cursor:grabbing; }
@@ -202,11 +202,26 @@ _HTML_TEMPLATE = r"""<!doctype html>
   button:hover { border-color:var(--accent); }
   aside { border-left:1px solid var(--line); background:var(--panel); padding:16px; overflow:auto; }
   aside h2 { font-size:13px; margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
-  .legend div { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:13px; }
+  .legend div { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:12.5px; }
   .sw { width:22px; height:6px; border-radius:3px; }
-  #info { margin-top:18px; } #info h3 { margin:0 0 6px; font-size:15px; } #info li { margin:3px 0; }
-  #info ul { padding-left:18px; margin:0; } .hint { color:var(--muted); font-size:12.5px; }
-  .notes { margin-top:18px; font-size:12px; color:var(--muted); }
+  #info { margin-top:18px; }
+  .info-card { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:12px; margin-bottom:12px; }
+  .info-card-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; border-bottom:1px solid var(--line); padding-bottom:8px; }
+  .info-card h3 { margin:0; font-size:14px; font-weight:700; color:var(--ink); line-height:1.3; }
+  .badge { font-size:10px; font-weight:700; text-transform:uppercase; padding:2px 7px; border-radius:10px; color:#fff; background:#2563eb; white-space:nowrap; }
+  .badge.pump { background:#dc2626; }
+  .badge.tank { background:#0284c7; }
+  .badge.tank-ff { background:#b45309; }
+  .badge.filter { background:#475569; }
+  .badge.pipe { background:#0891b2; }
+  .badge.building { background:#475569; }
+  .info-row { display:flex; justify-content:space-between; gap:8px; margin:5px 0; font-size:12px; line-height:1.35; }
+  .info-row .k { color:var(--muted); font-weight:600; }
+  .info-row .v { color:var(--ink); font-weight:500; text-align:right; }
+  .sub-item { margin:3px 0 3px 8px; color:var(--ink); font-size:11.5px; line-height:1.35; }
+  .info-desc { margin:4px 0; color:var(--ink); font-weight:600; font-size:12px; }
+  .hint { color:var(--muted); font-size:12.5px; line-height:1.45; }
+  .notes { margin-top:18px; font-size:12px; color:var(--muted); border-top:1px dashed var(--line); padding-top:10px; }
   @media (max-width: 760px) { #app { grid-template-columns: 1fr; grid-template-rows: 1fr auto; } aside { max-height:40vh; border-left:0; border-top:1px solid var(--line); } header p { display:none; } }
 </style>
 </head>
@@ -226,7 +241,7 @@ _HTML_TEMPLATE = r"""<!doctype html>
   </div>
   <aside>
     <h2>Sistemas</h2><div class="legend" id="legend"></div>
-    <div id="info"><p class="hint">Clique num reservatório, motor ou trecho para ver a ficha.</p></div>
+    <div id="info"><p class="hint">Clique num reservatório, motobomba, filtro, descarte ou trecho para ver a ficha técnica detalhada.</p></div>
     <div class="notes" id="notes"></div>
   </aside>
 </div>
@@ -335,10 +350,26 @@ function pick(px,py){ const {e,f,r,u}=basis(), W=overlay.clientWidth, H=overlay.
       // Edificação translúcida só é escolhida se nada estiver dentro dela na linha do clique.
       const bias = s.kind==="building" ? radius0*10 : 0; if(t>0 && t+bias<bestT){ bestT=t+bias; best=s; } } }
   return best; }
+function esc(t){ return String(t).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function showInfo(s){ const el=document.getElementById("info");
-  if(!s){ el.innerHTML='<p class="hint">Clique num reservatório, motor ou trecho para ver a ficha.</p>'; return; }
-  el.innerHTML="<h3></h3><ul></ul>"; el.querySelector("h3").textContent=s.title;
-  const ul=el.querySelector("ul"); s.info.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); }); }
+  if(!s){ el.innerHTML='<p class="hint">Clique num reservatório, motobomba, filtro, descarte ou trecho para ver a ficha técnica detalhada.</p>'; return; }
+  const isFF = s.kind==="tank" && s.title.includes("Descarte");
+  const bCls = isFF ? "tank-ff" : s.kind;
+  const bTxt = isFF ? "First Flush" : (s.kind==="pump" ? "Motobomba" : (s.kind==="filter" ? "Filtro" : (s.kind==="tank" ? "Reservatório" : (s.kind==="pipe" ? "Tubulação" : s.kind))));
+  let html = `<div class="info-card"><div class="info-card-head"><h3>${esc(s.title)}</h3><span class="badge ${bCls}">${esc(bTxt)}</span></div>`;
+  s.info.forEach(line => {
+    if(line.startsWith(" • ")){
+      html += `<div class="sub-item">• ${esc(line.substring(3))}</div>`;
+    } else if(line.includes(": ")){
+      const idx = line.indexOf(": ");
+      const k = line.substring(0, idx), v = line.substring(idx + 2);
+      html += `<div class="info-row"><span class="k">${esc(k)}:</span><span class="v">${esc(v)}</span></div>`;
+    } else {
+      html += `<div class="info-desc">${esc(line)}</div>`;
+    }
+  });
+  html += `</div>`;
+  el.innerHTML = html; }
 
 // ── Interação.
 const canvas=gl.canvas; let drag=null;

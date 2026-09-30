@@ -4,6 +4,13 @@ Permite que o projetista visualize a planta e a volumetria 3D imediatamente a
 partir dos parâmetros calculados na simulação e nas diretrizes normativas
 (ABNT NBR 15527:2019, ABNT NBR 5626:2020 e ABNT NBR 10844:1989), sem ter que
 começar de uma tela em branco ou digitar coordenadas manualmente.
+
+Inclui os 5 elementos normativos essenciais de aproveitamento de água de chuva:
+1. Filtro pluvial autolimpante de primeiro estágio (FP-01);
+2. Reservatório / dispositivo de descarte de primeiras águas - first flush (FF-01);
+3. Cisterna de armazenamento inferior (CI-01);
+4. Conjunto motobomba de recalque dimensionado (B-01);
+5. Reservatório superior de distribuição não potável com backup (RS-01).
 """
 
 from __future__ import annotations
@@ -13,6 +20,7 @@ from typing import Any, Dict, List, Optional
 
 from netuno.core.component_geometry import tank_dimensions_mm
 from netuno.core.cad_exporter import _extract_upper_vol, calculate_forchheimer_pumping_diameters
+from netuno.core.pump_energy import CV_TO_KW
 
 
 def _number(value: Any, default: float = 0.0) -> float:
@@ -44,6 +52,10 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
     lower_vol = _number(data.get("lower_vol"), 5000.0)
     upper_vol = _extract_upper_vol(data, 1000.0)
     area = _number(data.get("area"), 150.0)
+    discard = _number(data.get("discard"), 2.0)
+
+    # Volume de descarte inicial (NBR 15527:2019 item 4.3.5)
+    ff_vol = round(discard * area, 1)
 
     # Pavimentos e dimensões da edificação
     bldg_vol = data.get("building_volume") or {}
@@ -75,6 +87,23 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
     dn_rec = float(pumping.get("dn_recalque_comercial_mm") or 25.0)
     dn_suc = float(pumping.get("dn_succao_comercial_mm") or 32.0)
 
+    # Potência do motor
+    pump_kw = _number(data.get("pump_power_kw"), 0.37)
+    if "1/2" in pump_hp:
+        pump_cv = 0.50
+        pump_kw = 0.37
+    elif "3/4" in pump_hp:
+        pump_cv = 0.75
+        pump_kw = 0.55
+    elif "1" in pump_hp:
+        pump_cv = 1.00
+        pump_kw = 0.75
+    else:
+        pump_cv = pump_kw / CV_TO_KW
+
+    flow_l_min = (flow_m3_h * 1000.0 / 60.0) if flow_m3_h > 0 else 60.0
+    head_mca = round((bldg_h + alt_ci + 500.0) / 1000.0 + 4.0, 1)
+
     # Coordenadas dos componentes (em mm, z para cima)
     # Cisterna enterrada no recuo externo
     x_ci = -1500.0 - diam_ci / 4.0
@@ -91,7 +120,51 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
     y_rs = min(bldg_d - 2000.0, max(2500.0, bldg_d * 0.5))
     z_rs = bldg_h + 500.0
 
+    # Filtro pluvial e reservatório de descarte na descida da prumada pluvial
+    x_fp = x_ci - 1500.0
+    y_fp = y_ci
+    z_fp = 1200.0
+    h_fp = 600.0
+    diam_fp = 320.0
+
+    x_ff = x_fp
+    y_ff = y_fp - 900.0
+    z_ff = 0.0
+    h_ff = 900.0
+    diam_ff = 400.0
+
+    dn_capt = 150.0 if area > 200.0 else 100.0
+
     components: List[Dict[str, Any]] = [
+        {
+            "instance_id": "FP-01",
+            "type_id": "filtro_pluvial",
+            "level": "Área externa / Térreo",
+            "position_mm": {"x": x_fp, "y": y_fp, "z": z_fp},
+            "rotation_deg": 0.0,
+            "parameters": {
+                "DN_MM": dn_capt,
+                "MALHA_MM": 0.35,
+                "EFICIENCIA_PCT": 90.0,
+                "DIAMETRO_MM": diam_fp,
+                "ALTURA_MM": h_fp,
+                "TIPO": "Filtro Pluvial Autolimpante Vórtex (Aço Inox 304)",
+            },
+        },
+        {
+            "instance_id": "FF-01",
+            "type_id": "first_flush",
+            "level": "Área externa / Térreo",
+            "position_mm": {"x": x_ff, "y": y_ff, "z": z_ff},
+            "rotation_deg": 0.0,
+            "parameters": {
+                "VOLUME_L": ff_vol,
+                "DESCARTE_MM": discard,
+                "DIAMETRO_MM": diam_ff,
+                "ALTURA_MM": h_ff,
+                "MECANISMO": "Boia flutuante de vedação por esfera e válvula de purga lenta calibrada",
+            },
+        },
         {
             "instance_id": "CI-01",
             "type_id": "cisterna_inferior",
@@ -102,6 +175,7 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
                 "CAPACIDADE_L": lower_vol,
                 "DIAMETRO_MM": diam_ci,
                 "ALTURA_MM": alt_ci,
+                "MATERIAL": "PEAD rotomoldado com proteção UV",
             },
         },
         {
@@ -111,9 +185,14 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
             "position_mm": {"x": x_b, "y": y_b, "z": z_b},
             "rotation_deg": 0.0,
             "parameters": {
-                "POTENCIA_KW": 0.37,
-                "VAZAO_L_MIN": 60.0,
-                "ALTURA_MCA": 12.0,
+                "POTENCIA_KW": round(pump_kw, 2),
+                "POTENCIA_CV": round(pump_cv, 2),
+                "POTENCIA_HP_LABEL": pump_hp,
+                "VAZAO_L_MIN": round(flow_l_min, 1),
+                "VAZAO_M3_H": round(flow_l_min * 0.06, 2),
+                "ALTURA_MCA": head_mca,
+                "DN_SUCCAO_MM": dn_suc,
+                "DN_RECALQUE_MM": dn_rec,
             },
         },
         {
@@ -126,6 +205,7 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
                 "CAPACIDADE_L": upper_vol,
                 "DIAMETRO_MM": diam_rs,
                 "ALTURA_MM": alt_rs,
+                "MATERIAL": "Polietileno de Alta Densidade (PEAD)",
             },
         },
     ]
@@ -137,19 +217,43 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
     h_topo = z_rs + alt_rs
     dz_sobe = h_topo + 300.0
 
+    # Distância horizontal do filtro para a cisterna
+    dx_fp_ci = x_ci - (x_fp + diam_fp / 2.0)
+    dz_fp_ci = (z_fp + h_fp * 0.85 - 20.0) - (z_ci + alt_ci)
+
     runs: List[Dict[str, Any]] = [
         {
             "run_id": "T-01",
             "system": "captacao",
-            "dn_mm": 100.0,
+            "dn_mm": dn_capt,
             "material": "PVC",
             "level": "Cobertura",
-            "start": {"x": x_ci - 1500.0, "y": y_ci, "z": bldg_h},
-            "route": f"d 1500 0 -20; desce {bldg_h - 20:g}",
-            "end": "CI-01:topo",
+            "start": {"x": x_fp - 1500.0, "y": y_fp, "z": bldg_h},
+            "route": f"d 1500 0 -20; desce {(bldg_h - 20.0) - (z_fp + h_fp):g}",
+            "end": "FP-01:topo",
         },
         {
             "run_id": "T-02",
+            "system": "descarte",
+            "dn_mm": dn_capt,
+            "material": "PVC",
+            "level": "Térreo",
+            "start": "FP-01:fundo",
+            "route": f"d 0 -900 -15; desce {(z_fp - 15.0) - (z_ff + h_ff):g}",
+            "end": "FF-01:topo",
+        },
+        {
+            "run_id": "T-03",
+            "system": "captacao",
+            "dn_mm": dn_capt,
+            "material": "PVC",
+            "level": "Térreo",
+            "start": "FP-01:sup+x",
+            "route": f"d {dx_fp_ci:g} 0 -20; desce {dz_fp_ci:g}",
+            "end": "CI-01:topo",
+        },
+        {
+            "run_id": "T-04",
             "system": "succao",
             "dn_mm": dn_suc,
             "material": "PVC",
@@ -159,7 +263,7 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
             "end": "B-01",
         },
         {
-            "run_id": "T-03",
+            "run_id": "T-05",
             "system": "recalque",
             "dn_mm": dn_rec,
             "material": "PVC",
@@ -169,7 +273,7 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
             "end": "RS-01:topo",
         },
         {
-            "run_id": "T-04",
+            "run_id": "T-06",
             "system": "distribuicao",
             "dn_mm": 25.0,
             "material": "PVC",

@@ -84,9 +84,12 @@ def tank_dimensions_mm(type_id: str, parameters: Dict[str, Any], fallback_volume
 
 def fallback_volumes(project_data: Dict[str, Any]) -> Dict[str, float]:
     """Volumes calculados pelo Netuno, usados quando o componente não informa."""
+    area = _number(project_data.get("area"), 150.0) or 150.0
+    discard = _number(project_data.get("discard"), 2.0) or 2.0
     return {
         "cisterna_inferior": _number(project_data.get("lower_vol"), 1000.0) or 1000.0,
         "reservatorio_superior": _number(project_data.get("upper_vol"), 1000.0) or 1000.0,
+        "first_flush": max(10.0, discard * area),
     }
 
 
@@ -103,9 +106,27 @@ def component_envelope(item: Dict[str, Any], fallbacks: Optional[Dict[str, float
         scale = 1.0 if power is None else min(1.8, max(0.8, (power / 0.37) ** (1 / 3)))
         hx, hy = 300 * scale, 200 * scale
         return Envelope("rhombus", [(hx, 0), (0, hy), (-hx, 0), (0, -hy)], hx, hy, 320 * scale)
-    if type_id in {"filtro_pluvial", "first_flush"}:
-        r, h = (220.0, 600.0) if type_id == "filtro_pluvial" else (90.0, 900.0)
-        return Envelope("cylinder", regular_polygon(r, 16), r, r, h)
+    if type_id == "filtro_pluvial":
+        dn = _number(params.get("DN_MM"), 100.0) or 100.0
+        diam = _number(params.get("DIAMETRO_MM"), None) or (320.0 if dn <= 100 else 420.0)
+        h = _number(params.get("ALTURA_MM"), None) or 600.0
+        r = diam / 2
+        return Envelope("cylinder", regular_polygon(r, 20), r, r, h, False, None, diam)
+    if type_id == "first_flush":
+        vol = _number(params.get("VOLUME_L"), None) or (fallbacks or {}).get("first_flush", 300.0)
+        diam = _number(params.get("DIAMETRO_MM"), None)
+        alt = _number(params.get("ALTURA_MM"), None)
+        if diam and alt:
+            r = diam / 2
+            return Envelope("cylinder", regular_polygon(r, 20), r, r, alt, False, vol, diam)
+        vol_mm3 = max(vol, 10.0) * 1e6
+        ratio = 3.0 if vol <= 250.0 else 1.8
+        d = max(200.0, (4 * vol_mm3 / (math.pi * ratio)) ** (1 / 3))
+        h = max(600.0, ratio * d)
+        d = round(d / 10.0) * 10.0
+        h = round(h / 10.0) * 10.0
+        r = d / 2
+        return Envelope("cylinder", regular_polygon(r, 20), r, r, h, True, vol, d)
     if type_id == "ponto_nao_potavel":
         return Envelope("box", regular_polygon(110.0, 4, math.pi / 4), 110 / math.sqrt(2), 110 / math.sqrt(2), 220.0)
     side = max(140.0, (_number(params.get("DN_MM"), None) or 25.0) * 3)

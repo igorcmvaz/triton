@@ -22,7 +22,7 @@ from typing import List, Optional, Tuple
 import numpy as np
 from PySide6.QtCore import QPointF, Qt, Signal
 from PySide6.QtGui import QColor, QFont, QPainter, QPainterPath, QPen, QPolygonF
-from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QLabel, QPushButton, QScrollArea, QVBoxLayout, QWidget
 
 from netuno.core.volumetry import Scene, Solid, face_normal
 from netuno.core.volumetry_export import feature_edges
@@ -470,13 +470,18 @@ class VolumetryPanel(QWidget):
         bar.addWidget(hint)
         left.addLayout(bar)
         root.addLayout(left, 1)
+        self.scroll_info = QScrollArea()
+        self.scroll_info.setWidgetResizable(True)
+        self.scroll_info.setFixedWidth(340)
+        self.scroll_info.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll_info.setStyleSheet("QScrollArea { border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; }")
         self.lbl_info = QLabel()
         self.lbl_info.setWordWrap(True)
         self.lbl_info.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-        self.lbl_info.setFixedWidth(250)
         self.lbl_info.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        self.lbl_info.setStyleSheet("background:#ffffff; border:1px solid #e2e8f0; border-radius:6px; padding:10px; font-size:12px;")
-        root.addWidget(self.lbl_info)
+        self.lbl_info.setStyleSheet("background: transparent; border: none; padding: 12px; font-size: 12px; color: #1e293b;")
+        self.scroll_info.setWidget(self.lbl_info)
+        root.addWidget(self.scroll_info)
         self.view.picked.connect(self._show_info)
         self._show_info(None)
 
@@ -488,12 +493,46 @@ class VolumetryPanel(QWidget):
         from html import escape
 
         notes = self.view.scene.notes if self.view.scene else []
-        foot = "".join(f"<p style='color:#64748b; font-size:11px'>{escape(n)}</p>" for n in notes)
+        foot = "".join(f"<div style='margin-top:10px; padding-top:8px; border-top:1px dashed #e2e8f0; color:#64748b; font-size:11px;'>ℹ️ {escape(n)}</div>" for n in notes)
         if solid is None:
-            self.lbl_info.setText(f"<p style='color:#64748b'>{tr('Clique num reservatório, motor ou trecho para ver a ficha.')}</p>{foot}")
+            self.lbl_info.setText(
+                f"<div style='color:#64748b; font-size:12px; line-height:1.5;'>"
+                f"<b style='color:#334155; font-size:13px;'>{tr('Ficha Técnica do Objeto 3D')}</b><br><br>"
+                f"{tr('Clique em qualquer componente (motobomba, filtro, descarte, cisterna, reservatório ou tubulação) para inspecionar todas as características hidráulicas e normativas.')}"
+                f"</div>{foot}"
+            )
             return
-        items = "".join(f"<li>{escape(line)}</li>" for line in solid.info)
-        self.lbl_info.setText(f"<b style='font-size:13px'>{escape(solid.title)}</b><ul style='margin-left:-20px'>{items}</ul>{foot}")
+
+        icon_map = {
+            "pump": ("⚙️", "#dc2626", "Bomba"),
+            "tank": ("🛢️", "#0284c7", "Reservatório"),
+            "filter": ("🌪️", "#475569", "Filtro"),
+            "pipe": ("📏", "#0891b2", "Tubulação"),
+            "building": ("🏢", "#475569", "Edificação"),
+            "slab": ("🧱", "#64748b", "Laje"),
+            "ground": ("🌱", "#16a34a", "Terreno"),
+        }
+        icon, badge_col, badge_txt = icon_map.get(solid.kind, ("💧", "#2563eb", solid.kind))
+        if solid.kind == "tank" and "Descarte" in solid.title:
+            icon, badge_col, badge_txt = "⏳", "#b45309", "First Flush"
+
+        header_html = (
+            f"<div style='border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 10px;'>"
+            f"<span style='display:inline-block; font-size:10px; font-weight:700; background:{badge_col}; color:#ffffff; padding:2px 7px; border-radius:10px; text-transform:uppercase;'>{badge_txt}</span>"
+            f"<h3 style='margin:6px 0 0; font-size:14px; font-weight:700; color:#0f172a;'>{icon} {escape(solid.title)}</h3>"
+            f"</div>"
+        )
+
+        body_lines = []
+        for line in solid.info:
+            if line.startswith(" • "):
+                body_lines.append(f"<div style='margin-left: 12px; margin-top: 2px; margin-bottom: 2px; color: #475569; font-size: 11.5px;'>• {escape(line[3:])}</div>")
+            elif ": " in line:
+                body_lines.append(f"<div style='margin-bottom: 5px; font-size: 12px; line-height: 1.4; color: #1e293b;'>{escape(line)}</div>")
+            else:
+                body_lines.append(f"<div style='margin-top: 6px; margin-bottom: 4px; color: #0f172a; font-weight: 600; font-size: 12px;'>{escape(line)}</div>")
+
+        self.lbl_info.setText(header_html + "".join(body_lines) + foot)
 
     def _toggle_fullscreen(self) -> None:
         win = self.window()
