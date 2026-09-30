@@ -198,6 +198,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "netuno.core.plant_3d",
         "netuno.core.schematic_3d",
         "netuno.core.study_layout",
+        "netuno.core.exportar_tudo",
         "netuno.core.volumetry",
         "netuno.core.volumetry_export",
         "netuno.ui.volumetry_view",
