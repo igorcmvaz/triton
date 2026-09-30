@@ -36,6 +36,9 @@ def _number(value: Any, default: float = 0.0) -> float:
         return default
 
 
+#: Distância do ralo da cobertura à borda do telhado (mm), onde nasce a captação.
+RECUO_DO_RALO_MM = 300.0
+
 #: Potência de placa usual (kW) dos motores de catálogo, por potência em CV.
 _KW_DE_PLACA = {1 / 3: 0.25, 0.5: 0.37, 0.75: 0.55, 1.0: 0.75, 1.5: 1.1, 2.0: 1.5, 3.0: 2.2}
 
@@ -251,8 +254,11 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
             "dn_mm": dn_capt,
             "material": "PVC",
             "level": "Cobertura",
-            "start": {"x": x_fp - 1500.0, "y": y_fp, "z": bldg_h},
-            "route": f"d 1500 0 -20; desce {(bldg_h - 20.0) - (z_fp + h_fp):g}",
+            # Nasce no ralo da cobertura, junto à borda do telhado do lado do
+            # filtro, e corre para fora até a vertical do filtro. Antes começava
+            # no ar, 1,5 m além do filtro, e apontava para longe da edificação.
+            "start": {"x": RECUO_DO_RALO_MM, "y": y_fp, "z": bldg_h},
+            "route": f"d {x_fp - RECUO_DO_RALO_MM:g} 0 -20; desce {(bldg_h - 20.0) - (z_fp + h_fp):g}",
             "end": "FP-01:topo",
         },
         {
