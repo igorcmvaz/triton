@@ -137,9 +137,13 @@ def component_envelope(item: Dict[str, Any], fallbacks: Optional[Dict[str, float
         "sensor_nivel": (120.0, 160.0),                                     # chave de nível (boia elétrica)
         "valvula_solenoide": (max(160.0, dn * 5.0), max(200.0, dn * 7.0)),  # corpo e bobina
         "hidrometro": (max(220.0, dn * 8.0), max(160.0, dn * 5.0)),         # cavalete com mostrador
+        "valvula_pe_crivo": (max(160.0, dn * 4.0), max(240.0, dn * 6.0)),   # válvula de pé com o crivo abaixo
+        "respiro": (max(160.0, dn * 3.2), 600.0),                           # pescoço de ganso com tela
+        "quadro_comando": (450.0, 1500.0),                                  # quadro em pedestal
     }
     if type_id in sizes:
         side, height = sizes[type_id]
+        height = _number(params.get("ALTURA_MM"), None) or height
         return Envelope("box", regular_polygon(side / math.sqrt(2), 4, math.pi / 4), side / 2, side / 2, height)
     side = max(140.0, (_number(params.get("DN_MM"), None) or 25.0) * 3)
     return Envelope("box", regular_polygon(side / math.sqrt(2), 4, math.pi / 4), side / 2, side / 2, side)

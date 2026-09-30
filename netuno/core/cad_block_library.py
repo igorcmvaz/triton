@@ -183,6 +183,33 @@ def register_plan_blocks(doc) -> None:
         b.add_text("HD", height=110, dxfattribs={"layer": "0"}).set_placement((0, 0), align=TextEntityAlignment.MIDDLE_CENTER)
         _add_attributes(b, [("ID", "HD-01", (-500, -380)), ("DN_MM", "25", (-500, -500)), ("VAZAO_NOMINAL_M3_H", "1.5", (-500, -620))])
 
+    # Válvula de pé com crivo: mantém a sucção escorvada e retém sólidos.
+    b = _new_block(doc, "NETUNO_VALV_PE_CRIVO")
+    if not list(b):
+        b.add_line((0, 500), (0, 200), dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-150, 200), (150, 200), (0, 50)], close=True, dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-150, 50), (150, 50), (150, -300), (-150, -300)], close=True, dxfattribs={"layer": "0"})
+        for x in (-75, 0, 75):
+            b.add_line((x, 50), (x, -300), dxfattribs={"layer": "0", "linetype": "DASHED"})
+        _add_attributes(b, [("ID", "VP-01", (-300, -450)), ("DN_MM", "32", (-300, -570))])
+
+    # Respiro do reservatório: curva de 180° com tela contra insetos.
+    b = _new_block(doc, "NETUNO_RESPIRO")
+    if not list(b):
+        b.add_line((0, -300), (0, 300), dxfattribs={"layer": "0"})
+        b.add_arc((150, 300), 150, 0, 180, dxfattribs={"layer": "0"})
+        b.add_line((300, 300), (300, 150), dxfattribs={"layer": "0"})
+        b.add_line((240, 150), (360, 150), dxfattribs={"layer": "0", "linetype": "DASHED"})
+        _add_attributes(b, [("ID", "RP-01", (-300, -450)), ("DN_MM", "50", (-300, -570))])
+
+    # Quadro de comando da motobomba.
+    b = _new_block(doc, "NETUNO_QUADRO_COMANDO")
+    if not list(b):
+        b.add_lwpolyline([(-300, -400), (300, -400), (300, 400), (-300, 400)], close=True, dxfattribs={"layer": "0"})
+        b.add_line((-300, 250), (300, 250), dxfattribs={"layer": "0"})
+        b.add_text("QC", height=150, dxfattribs={"layer": "0"}).set_placement((0, 0), align=TextEntityAlignment.MIDDLE_CENTER)
+        _add_attributes(b, [("ID", "QC-01", (-300, -560)), ("TENSAO_V", "220", (-300, -680)), ("FUNCAO", "COMANDO", (-300, -800))])
+
 
 def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -> str:
     """Gera catálogo DXF auditável e um manifesto BIM JSON com o mesmo nome-base."""

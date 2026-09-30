@@ -64,6 +64,9 @@ _TYPE_LABELS = {
     "sensor_nivel": "Chave de nível",
     "valvula_solenoide": "Válvula solenoide",
     "hidrometro": "Hidrômetro",
+    "valvula_pe_crivo": "Válvula de pé com crivo",
+    "respiro": "Respiro",
+    "quadro_comando": "Quadro de comando",
 }
 _TANKS = {"cisterna_inferior", "reservatorio_superior"}
 

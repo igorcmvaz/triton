@@ -51,6 +51,9 @@ _COLORS: Dict[str, Color] = {
     "sensor_nivel": (250, 204, 21),
     "valvula_solenoide": (22, 163, 74),
     "hidrometro": (22, 101, 52),
+    "valvula_pe_crivo": (71, 85, 105),
+    "respiro": (148, 163, 184),
+    "quadro_comando": (100, 116, 139),
     "building": (203, 213, 225),
     "ground": (163, 190, 140),
 }
@@ -71,6 +74,9 @@ _TYPE_NAMES = {
     "sensor_nivel": "Chave de nível",
     "valvula_solenoide": "Válvula solenoide",
     "hidrometro": "Hidrômetro",
+    "valvula_pe_crivo": "Válvula de pé com crivo",
+    "respiro": "Respiro",
+    "quadro_comando": "Quadro de comando",
 }
 
 #: Ficha dos acessórios: o que a peça faz na instalação e a norma que a pede.
@@ -78,6 +84,7 @@ _TYPE_NAMES = {
 _ACCESSORY_INFO: Dict[str, List[str]] = {
     "registro_gaveta": [
         "Função: Bloqueio para manutenção (aberto ou fechado, não regula vazão)",
+        "Boa prática: Antes e depois de cada equipamento (bomba, solenoide, hidrômetro), para trocá-lo sem esvaziar as linhas",
         "Norma de referência: ABNT NBR 5626:2020",
     ],
     "registro_esfera": [
@@ -85,8 +92,8 @@ _ACCESSORY_INFO: Dict[str, List[str]] = {
         "Norma de referência: ABNT NBR 5626:2020",
     ],
     "valvula_retencao": [
-        "Função: Impede o retorno da coluna de recalque quando a bomba desliga",
-        "Instalação: Logo após a motobomba, antes do registro de bloqueio",
+        "Função: Deixa a água passar num só sentido e impede o retorno",
+        "Uso típico: Após a motobomba (segura a coluna de recalque) e na descarga do extravasor (contra o refluxo da rede pluvial)",
         "Norma de referência: ABNT NBR 5626:2020",
     ],
     "air_gap": [
@@ -133,6 +140,24 @@ _ACCESSORY_INFO: Dict[str, List[str]] = {
         "Função: Medição da água potável da rede pública usada como reserva",
         "Instalação: Cavalete do ramal predial, seguido de registro de bloqueio",
         "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "valvula_pe_crivo": [
+        "Função: Válvula de pé com crivo na ponta da sucção",
+        "Efeito: Mantém a sucção escorvada com a bomba acima do nível d'água e retém folhas e sólidos",
+        "Instalação: Pendurada na sucção flutuante, abaixo da boia, longe do fundo",
+        "Manutenção: Limpar o crivo na limpeza periódica da cisterna",
+    ],
+    "respiro": [
+        "Função: Ventilação do reservatório (entrada e saída de ar ao encher e esvaziar)",
+        "Forma: Curva de 180° (pescoço de ganso) voltada para baixo, contra chuva e poeira",
+        "Proteção: Tela milimétrica contra insetos e pequenos animais",
+        "Norma de referência: ABNT NBR 5626:2020 (reservatórios) e ABNT NBR 15527:2019",
+    ],
+    "quadro_comando": [
+        "Função: Comando automático da motobomba pelas chaves de nível",
+        "Proteções: Disjuntor, relé de sobrecarga, proteção contra marcha a seco e DR",
+        "Boa prática: Indicador de falta de água de chuva (backup potável em uso)",
+        "Instalação: Abrigado, acima do piso, junto à motobomba",
     ],
 }
 

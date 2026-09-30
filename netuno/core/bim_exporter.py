@@ -46,6 +46,9 @@ COMPONENT_TYPES: List[Dict[str, Any]] = [
     {"type_id": "sensor_nivel", "cad_block": "NETUNO_SENSOR_NIVEL", "revit_category": "OST_ElectricalFixtures", "parameters": ["FUNCAO"]},
     {"type_id": "valvula_solenoide", "cad_block": "NETUNO_VALV_SOLENOIDE", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "TENSAO_V"]},
     {"type_id": "hidrometro", "cad_block": "NETUNO_HIDROMETRO", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "VAZAO_NOMINAL_M3_H"]},
+    {"type_id": "valvula_pe_crivo", "cad_block": "NETUNO_VALV_PE_CRIVO", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM"]},
+    {"type_id": "respiro", "cad_block": "NETUNO_RESPIRO", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "ALTURA_MM"]},
+    {"type_id": "quadro_comando", "cad_block": "NETUNO_QUADRO_COMANDO", "revit_category": "OST_ElectricalEquipment", "parameters": ["TENSAO_V", "FUNCAO"]},
 ]
 
 

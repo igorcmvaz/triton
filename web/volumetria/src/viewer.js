@@ -315,9 +315,56 @@ function pontoNaoPotavel(w, d, h, cor) {
   return g;
 }
 
+function valvulaDePe(w, d, h) {
+  // Portinhola que fecha para baixo e o crivo (cesto perfurado) embaixo dela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const bronze = MAT.pintura(0xa16207);
+  g.add(mesh(zCylinder(s * 0.16, h * 0.28, h * 0.72, 16), bronze));             // luva para a mangueira
+  g.add(mesh(zCylinder(s * 0.3, h * 0.16, h * 0.56, 24, s * 0.22), bronze));   // corpo da válvula
+  const crivo = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.8, roughness: 0.35, wireframe: true });
+  g.add(mesh(zCylinder(s * 0.36, h * 0.52, h * 0.04, 20), crivo));
+  g.add(mesh(zCylinder(s * 0.34, h * 0.04, 0, 20), bronze));                   // fundo do crivo
+  return g;
+}
+
+function respiro(w, d, h, cor) {
+  // Tubo que sobe do reservatório e volta para baixo (pescoço de ganso) com tela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.16;
+  const raio = s * 0.28;
+  const pvc = MAT.pvc(cor);
+  g.add(mesh(zCylinder(r, h - raio, 0, 16).translate(-raio, 0, 0), pvc));
+  const curva = new THREE.TorusGeometry(raio, r, 12, 20, Math.PI);
+  curva.rotateX(Math.PI / 2); curva.translate(0, 0, h - raio);
+  g.add(mesh(curva, pvc));
+  g.add(mesh(zCylinder(r, h * 0.2, h - raio - h * 0.2, 16).translate(raio, 0, 0), pvc));
+  g.add(mesh(zCylinder(r * 1.25, h * 0.03, h - raio - h * 0.23, 16).translate(raio, 0, 0),
+    new THREE.MeshStandardMaterial({ color: 0x334155, wireframe: true })));   // tela contra insetos
+  return g;
+}
+
+function quadroDeComando(w, d, h) {
+  // Quadro elétrico sobre pedestal, com porta, sinaleiros e prensa-cabos.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  g.add(mesh(new THREE.BoxGeometry(s * 0.12, s * 0.12, h * 0.55).translate(0, 0, h * 0.275), MAT.acoEscuro()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.45, h * 0.42, 3, s * 0.03).translate(0, 0, h * 0.76), MAT.pintura(0xe5e7eb)));
+  g.add(mesh(new THREE.BoxGeometry(s * 0.8, s * 0.02, h * 0.36).translate(0, -s * 0.23, h * 0.76), MAT.pintura(0xd1d5db)));
+  for (const [x, c] of [[-s * 0.2, 0x16a34a], [0, 0xf59e0b], [s * 0.2, 0xdc2626]]) {
+    g.add(mesh(new THREE.SphereGeometry(s * 0.035, 12, 8).translate(x, -s * 0.25, h * 0.9),
+      new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.6 })));
+  }
+  return g;
+}
+
 function acessorio(w, d, h, cor, tipo) {
   if (tipo && (tipo.startsWith("registro") || tipo === "valvula_retencao")) return registro(w, d, h, tipo);
   const modelos = {
+    valvula_pe_crivo: () => valvulaDePe(w, d, h),
+    respiro: () => respiro(w, d, h, cor),
+    quadro_comando: () => quadroDeComando(w, d, h),
     valvula_solenoide: () => solenoide(w, d, h),
     hidrometro: () => hidrometro(w, d, h),
     freio_dagua: () => freioDagua(w, d, h, cor),
@@ -698,7 +745,11 @@ class Visualizador {
         g.rotation.z += rot;
         break;
       }
-      default: g = acessorio(w, d, h, cor, s.type);
+      default:
+        g = acessorio(w, d, h, cor, s.type);
+        // Válvulas e acessórios seguem o giro do trecho em que estão (a planta
+        // deles é quadrada, então a caixa não muda com o giro).
+        g.rotation.z = THREE.MathUtils.degToRad(s.rotation || 0);
     }
     g.position.set((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, lo[2]);
     return g;

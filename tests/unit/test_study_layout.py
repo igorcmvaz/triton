@@ -8,8 +8,12 @@ from netuno.core.study_layout import generate_study_layout
 from netuno.core.volumetry import build_volumetry
 
 #: Arranjo gerado pelo estudo, na ordem do manifesto.
-ARRANJO = ["FP-01", "FF-01", "CI-01", "B-01", "RS-01", "FR-01", "SF-01", "SN-01", "LS-01",
-           "VR-01", "RG-01", "SN-02", "HD-01", "RG-02", "VS-01", "AG-01", "PNP-01"]
+ARRANJO = ["FP-01", "FF-01", "CI-01", "B-01", "RS-01",
+           "FR-01", "SF-01", "VP-01", "SN-01", "RP-01", "LS-01",
+           "RG-03", "VR-01", "RG-01", "QC-01",
+           "SN-02", "RP-02", "AG-01",
+           "HD-01", "RG-02", "VS-01",
+           "RG-05", "RG-04", "VR-02", "PNP-01"]
 
 def test_generate_study_layout_creates_valid_bim_manifest():
     project_data = {
@@ -23,7 +27,7 @@ def test_generate_study_layout_creates_valid_bim_manifest():
     layout = generate_study_layout(project_data)
     comp_ids = [c["instance_id"] for c in layout["bim_components"]]
     assert comp_ids == ARRANJO
-    assert len(layout["pipe_runs"]) == 13
+    assert len(layout["pipe_runs"]) == 19
     assert layout["building_volume"]["floors"] == 3
 
     # Verifica parâmetros calculados
@@ -92,19 +96,35 @@ def test_o_arranjo_tem_o_que_a_instalacao_pede():
     trechos = {r["run_id"]: r for r in layout["pipe_runs"]}
     # Entrada calma: a captação termina no freio d'água, dentro da cisterna.
     assert tipos["FR-01"] == "freio_dagua" and trechos["T-03"]["end"] == "FR-01:topo"
-    # A bomba puxa pela sucção flutuante, e não pelo fundo.
-    assert tipos["SF-01"] == "succao_flutuante" and trechos["T-04"]["start"] == "SF-01:topo"
-    # Recalque: bomba → retenção → registro → caixa superior.
-    assert [trechos[t]["start"] for t in ("T-05", "T-06", "T-07")] == ["B-01", "VR-01", "RG-01"]
-    # Extravasor com ladrão sifonado, por gravidade.
-    assert trechos["T-09"]["system"] == "extravasor" and trechos["T-09"]["end"] == "LS-01:sup+y"
+    # A bomba puxa pela válvula de pé com crivo, pendurada na boia, e não pelo fundo.
+    assert tipos["SF-01"] == "succao_flutuante" and tipos["VP-01"] == "valvula_pe_crivo"
+    assert trechos["T-04"]["start"] == "VP-01:topo"
+    # Registro de manutenção dos dois lados da bomba; retenção no recalque.
+    assert [trechos[t]["start"] for t in ("T-05", "T-06", "T-07", "T-08")] == ["RG-03", "B-01", "VR-01", "RG-01"]
+    assert tipos["RG-03"] == tipos["RG-01"] == "registro_gaveta" and tipos["VR-01"] == "valvula_retencao"
+    # Extravasor da cisterna: ladrão sifonado e antirrefluxo antes da rede pluvial.
+    assert trechos["T-11"]["end"] == "LS-01:sup+y" and trechos["T-12"]["end"] == "VR-02"
+    # Caixa superior: registro na saída, extravasor com aviso, limpeza com registro.
+    assert trechos["T-09"]["start"] == "RS-01:inf-y" and trechos["T-09"]["end"] == "RG-05"
+    assert trechos["T-10"]["end"] == "PNP-01:topo"
+    assert trechos["T-14"]["start"] == "RS-01:sup+y" and trechos["T-14"]["system"] == "extravasor"
+    assert trechos["T-15"]["start"] == "RS-01:inf+x" and trechos["T-15"]["end"] == "RG-04"
+    # Respiros com tela nas duas caixas, e o quadro de comando junto à bomba.
+    assert tipos["RP-01"] == tipos["RP-02"] == "respiro" and tipos["QC-01"] == "quadro_comando"
     # Backup potável: hidrômetro → registro → solenoide → air gap sobre a caixa.
     potavel = [r for r in layout["pipe_runs"] if r["system"] == "alimentacao_potavel"]
     assert [r["start"] for r in potavel] == ["HD-01", "RG-02", "VS-01"]
     assert potavel[-1]["end"] == "AG-01:topo" and tipos["VS-01"] == "valvula_solenoide"
-    # Chaves de nível nas duas caixas, e a distribuição chega a um ponto identificado.
+    # Chaves de nível nas duas caixas.
     assert tipos["SN-01"] == tipos["SN-02"] == "sensor_nivel"
-    assert trechos["T-08"]["end"] == "PNP-01:topo"
+
+
+def test_as_valvulas_seguem_a_direcao_do_trecho():
+    """As peças do backup correm em y: giro de 90°, senão ficam atravessadas no tubo."""
+    layout = generate_study_layout({"lower_vol": 10000, "area": 180, "floors": 2})
+    giro = {c["instance_id"]: c["rotation_deg"] for c in layout["bim_components"]}
+    assert giro["HD-01"] == giro["RG-02"] == giro["VS-01"] == giro["RG-05"] == giro["VR-02"] == 90.0
+    assert giro["VR-01"] == giro["RG-01"] == giro["RG-03"] == 0.0  # recalque e sucção correm em x
 
 
 @pytest.mark.parametrize("rotulo, cv, kw", [
