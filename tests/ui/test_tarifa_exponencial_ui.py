@@ -30,10 +30,11 @@ def test_o_gestor_mostra_a_formula_e_simula_com_o_motor(qapp):
     tab.table_tiers.item(linha, 2).setText("1.1000")
     tab.spin_sim_vol.setValue(15.0)
     tab.update_bill_simulation()
-    esperado = (43.39 + 9.15 * 15 ** 1.1) * 1.70
+    esperado = 43.39 + 9.15 * 15 ** 1.1 + 6.40 * 15  # esgoto por m³, sem serviço básico
     assert f"Total: R$ {esperado:.2f}/mês" in tab.lbl_sim_result.text()
     assert "PB × Cⁿ" in tab.lbl_sim_result.text()
-    assert tab._faixas_da_tabela()[linha] == [0.0, 1000.0, 1.1, EXPOENTE_DE_CONSUMO]
+    assert tab._faixas_da_tabela()[linha] == [0.0, 20.0, 1.1, EXPOENTE_DE_CONSUMO]
+    assert tab.lbl_sewage.text() == "Esgoto (R$/m³ consumido):"
 
 
 def test_a_etapa_economica_preserva_a_tabela_exponencial(qapp):
@@ -46,3 +47,47 @@ def test_a_etapa_economica_preserva_a_tabela_exponencial(qapp):
     dialogo.populate_table_from_tariffs(TABELA)
     dialogo.on_accept()
     assert cfg.water_tariffs == TABELA
+
+
+def test_a_formula_nao_espreme_os_graficos(qapp):
+    """O texto da fórmula alargava a coluna da esquerda e estreitava os gráficos."""
+    from netuno.ui.tab_tariffs_manager import TabTariffsManager
+
+    tab = TabTariffsManager()
+    tab.resize(1500, 900)
+    tab.show()
+    qapp.processEvents()
+    tab.load_city_tariffs("SC", "Florianópolis", "residencial")
+    qapp.processEvents()
+    largura = tab.canvas.width()
+    tab.load_city_tariffs("RS", "Alegrete", "residencial")
+    qapp.processEvents()
+    assert tab.canvas.width() == largura
+    tab.close()
+
+
+def test_a_etapa_economica_traz_o_esgoto_por_m3_da_corsan(qapp):
+    from netuno.core.parser import NetunoConfig
+    from netuno.core.tariffs_structure import ESGOTO_POR_M3
+    from netuno.ui.dialogs.dialog_economic import DialogTariffs
+
+    cfg = NetunoConfig()
+    cfg.tariff_city_uf, cfg.tariff_city_name = "RS", "Alegrete"
+    dialogo = DialogTariffs(config=cfg)
+    assert dialogo.radio_esg_m3.isChecked()
+    dialogo.on_accept()
+    assert (cfg.sewage_mode, cfg.sewage_rate) == (ESGOTO_POR_M3, 6.40)
+
+
+def test_o_botao_exportar_tudo_grava_a_planilha(qapp, tmp_path):
+    from netuno.ui.main_window import MainWindow
+
+    janela = MainWindow()
+    aba = janela.tab_export
+    assert aba.btn_export_tudo.text().startswith("📦")
+    destino = tmp_path / "tudo.xlsx"
+    assert aba._export_tudo(str(destino)) == str(destino)
+    import openpyxl
+
+    assert "Auditoria_Premissas" in openpyxl.load_workbook(destino).sheetnames
+    janela.close()

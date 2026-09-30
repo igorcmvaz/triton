@@ -11,7 +11,7 @@ import sys
 import json
 from typing import List, Tuple, Dict, Any, Optional
 
-from netuno.core.tariffs_structure import EXPOENTE_DE_CONSUMO
+from netuno.core.tariffs_structure import ESGOTO_PERCENTUAL, ESGOTO_POR_M3, EXPOENTE_DE_CONSUMO
 
 _DB_CACHE: Optional[Dict[str, Any]] = None
 
@@ -160,6 +160,25 @@ def get_city_data(uf_code: str, city_name: str) -> Optional[Dict[str, Any]]:
     return None
 
 
+def esgoto_do_municipio(dados: Dict[str, Any]) -> Tuple[int, float]:
+    """``(sewage_mode, sewage_rate)`` do município, prontos para o projeto.
+
+    Percentual da água na maior parte da base; preço por m³ consumido onde o
+    prestador fatura o esgoto pelo consumo, como a CORSAN.
+    """
+    if int(dados.get("esgoto_modo", ESGOTO_PERCENTUAL) or ESGOTO_PERCENTUAL) == ESGOTO_POR_M3 and dados.get("esgoto_r_m3"):
+        return ESGOTO_POR_M3, float(dados["esgoto_r_m3"])
+    return ESGOTO_PERCENTUAL, float(dados.get("esgoto_pct", 80.0) or 80.0)
+
+
+def rotulo_do_esgoto(dados: Dict[str, Any]) -> str:
+    """«80%» ou «R$ 6,40/m³», para as telas."""
+    modo, valor = esgoto_do_municipio(dados)
+    if modo == ESGOTO_POR_M3:
+        return f"R$ {valor:.2f}/m³".replace(".", ",")
+    return f"{valor:.0f}%"
+
+
 def get_city_tariffs_by_category(
     uf_code: str,
     city_name: str,
@@ -205,6 +224,8 @@ def get_city_tariffs_by_category(
         new_rate = rate if int(t_tipo) == EXPOENTE_DE_CONSUMO else round(rate * mult_agua, 4)
         new_faixas.append([inf, sup, new_rate, t_tipo])
     res["faixas"] = new_faixas
+    if base_data.get("esgoto_r_m3"):
+        res["esgoto_r_m3"] = round(float(base_data["esgoto_r_m3"]) * mult_agua, 4)
 
     # Ajusta Energia Elétrica
     orig_ene = float(base_data.get("energia_r_kwh", 0.75) or 0.75)

@@ -113,37 +113,41 @@ Tabela 5 — Os seis regimes tarifários e o que acontece ao economizar em cada 
 
 Tabela 6 — Efeito da economia de água na fatura em dois regimes tarifários opostos
 
-Tabela 7 — As três formas de comparar alternativas conforme o que varia entre elas
+Tabela 7 — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial
 
-Tabela 8 — Subcomandos da linha de comando e finalidade de cada um
+Tabela 8 — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026
 
-Tabela 9 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
+Tabela 9 — As três formas de comparar alternativas conforme o que varia entre elas
 
-Tabela 10 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
+Tabela 10 — Subcomandos da linha de comando e finalidade de cada um
 
-Tabela 11 — Dados do Netuno 4 recuperados pela importação
+Tabela 11 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
 
-Tabela 12 — Formatos de exportação e finalidade de cada um
+Tabela 12 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
 
-Tabela 13 — Opções da exportação de planilha e quando usar cada uma
+Tabela 13 — Dados do Netuno 4 recuperados pela importação
 
-Tabela 14 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
+Tabela 14 — Formatos de exportação e finalidade de cada um
 
-Tabela 15 — Grau de confiança dos registros tarifários do catálogo
+Tabela 15 — Opções da exportação de planilha e quando usar cada uma
 
-Tabela 16 — Formatos que o programa lê e onde cada um é carregado
+Tabela 16 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
-Tabela 17 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 17 — Grau de confiança dos registros tarifários do catálogo
 
-Tabela 18 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 18 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 19 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 19 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 20 — Compatibilidade entre versões do arquivo de projeto
+Tabela 20 — As sete seções do arquivo de projeto e o que cada uma guarda
 
-Tabela 21 — Padronização terminológica de água de chuva e água pluvial
+Tabela 21 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 22 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 22 — Compatibilidade entre versões do arquivo de projeto
+
+Tabela 23 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 24 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -694,45 +698,64 @@ A parcela de água da fatura é dada por uma fórmula:
 ```
 
 em que `PB` é o preço-base do município, em R$/m³; `C` é o consumo do mês, em m³; `n` é
-o expoente que a **tabela exponencial** da concessionária atribui àquele consumo; e `SB` é
-o serviço básico, cobrado mesmo sem consumo. A fórmula vale até 1.000 m³ por economia;
-acima disso, o excedente é cobrado pelo preço do m³. O esgoto é 70% do valor da água.
+o expoente que a **Tabela de Exponenciais** da concessionária atribui àquele consumo; e
+`SB` é o serviço básico, cobrado mesmo sem consumo. Na categoria residencial, `n` vale
+1,00 até 20 m³ e sobe a cada metro cúbico a partir daí:
+
+<!-- tabela: **Tabela 7** — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial -->
+| Consumo do mês | `n` | Consumo do mês | `n` |
+| :--- | ---: | :--- | ---: |
+| até 20 m³ | 1,00 | 36 a 45 m³ | 1,10 |
+| 21 m³ | 1,01 | 46 a 100 m³ | 1,11 |
+| 22 a 27 m³ | 1,02 a 1,07 | 101 a 150 m³ | 1,13 |
+| 28 e 29 m³ | 1,08 | 151 a 1.000 m³ | 1,1287 a 1,12 |
+| 30 a 35 m³ | 1,09 | acima de 1.000 m³ | 1,11 a 1,0858 |
+
+A tabela segue além de 1.000 m³: só a categoria industrial tem teto nesse volume, acima
+do qual o excedente é cobrado por preços próprios. O **esgoto** não entra na fórmula: é
+cobrado por metro cúbico consumido, sem o serviço básico e sem o expoente — R$ 6,40/m³
+tratado nos municípios do ANEXO-5, 70% do preço-base truncado no centavo.
 
 Duas diferenças em relação às faixas decidem o cálculo:
 
 - **O expoente vale para o consumo inteiro.** Nas faixas, cada metro cúbico é cobrado
   pelo preço da faixa em que cai; na fórmula, o `n` da linha em que o consumo total cai
-  se aplica a todo o volume. Mudar de linha muda a conta inteira, e não só o último m³.
-- **Não há degrau de preço, há curva.** O preço médio do metro cúbico é `PB × Cⁿ⁻¹`: com
-  `n` acima de 1 ele cresce com o consumo, com `n` igual a 1 é constante.
+  se aplica a todo o volume. Passar de 20 para 21 m³ custa R$ 15,09 de água, e não os
+  R$ 9,15 do preço-base, porque os 21 m³ inteiros passam a ser elevados a 1,01.
+- **Não há degrau de preço, há curva.** O preço médio do metro cúbico de água é
+  `PB × Cⁿ⁻¹`: constante até 20 m³ e crescente depois.
 
-Para o aproveitamento pluvial, a consequência é simples: **toda economia desconta desde o
-primeiro metro cúbico**, e o que se poupa vale `PB × (C₁ⁿ¹ − C₂ⁿ²)`, a diferença entre as
-duas contas — é assim que o programa calcula, com a fórmula e não com uma reta.
+<!-- tabela: **Tabela 8** — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026 -->
+| Consumo | `n` | Água | Água e esgoto | Preço médio da água |
+| ---: | ---: | ---: | ---: | ---: |
+| 10 m³ | 1,00 | R$ 134,89 | R$ 198,89 | R$ 13,49/m³ |
+| 20 m³ | 1,00 | R$ 226,39 | R$ 354,39 | R$ 11,32/m³ |
+| 25 m³ | 1,05 | R$ 312,08 | R$ 472,08 | R$ 12,48/m³ |
+| 30 m³ | 1,09 | R$ 416,20 | R$ 608,20 | R$ 13,87/m³ |
+
+Os R$ 134,89 de 10 m³ são exatamente a «tarifa mínima sem hidrômetro» da tabela da
+CORSAN, 43,39 + 9,15 × 10, o que confere a transcrição. Para o aproveitamento pluvial,
+a consequência é que **toda economia desconta desde o primeiro metro cúbico**, e desconta
+mais onde o expoente é maior: uma residência que desce de 30 para 20 m³ economiza
+R$ 253,81 por mês. A reta usada até a 5.0.0, com esgoto de 70% sobre a conta inteira,
+dava R$ 155,55 para a mesma redução.
 
 No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
-estrutura de Alegrete, vigente desde 1º de julho de 2026, é:
+estrutura de Alegrete começa assim:
 
 ```
-(0,00 ; 0,00    ; 43,39 ; -1)   serviço básico, soma sempre
-(0,00 ; 1000,00 ;  9,15 ;  2)   preço-base PB, fórmula válida até 1.000 m³
-(0,00 ; 1000,00 ;  1,00 ;  3)   tabela exponencial: n para o consumo em (0, 1.000]
-(1000,00 ; 999999 ; 9,15 ; 1)   excedente acima de 1.000 m³
+(0,00 ; 0,00   ; 43,39 ; -1)   serviço básico, soma sempre
+(0,00 ; 999999 ;  9,15 ;  2)   preço-base PB
+(0,00 ; 20,00  ;  1,00 ;  3)   n para o consumo em (0, 20]
+(20,00 ; 21,00 ;  1,01 ;  3)   n para o consumo em (20, 21]
+...                            uma linha por intervalo da Tabela de Exponenciais
 ```
 
-A tabela exponencial pode ter tantas linhas de código 3 quantas a concessionária
-publicar, cada uma com o seu intervalo de consumo e o seu `n`. No **Gestor de Tarifas**, a
-estrutura aparece com o rótulo «Fórmula exponencial», o simulador mostra o cálculo
-`PB × Cⁿ` do consumo escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez
-dos degraus.
-
-> **O estado da tabela exponencial nesta versão.** A tabela homologada pela AGERGS para a
-> vigência de 2026 não pôde ser transcrita da fonte primária a tempo desta versão. A base
-> grava, por isso, `n = 1` de 0 a 1.000 m³ e marca a tabela como **não conferida**: a conta
-> sai igual a `PB × C + SB`, e o Gestor de Tarifas exibe o aviso. Para usar a tabela
-> vigente, edite as linhas «Expoente n» no Gestor, uma por intervalo de consumo, e aplique
-> ao projeto. A tabela é a mesma para todos os municípios da CORSAN: quando a homologada
-> for transcrita na base, os 34 passam a usá-la de uma vez, e o aviso desaparece.
+No **Gestor de Tarifas**, a estrutura aparece com o rótulo «Fórmula exponencial», as
+linhas «Expoente n» podem ser editadas, o simulador mostra o cálculo `PB × Cⁿ` do consumo
+escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez dos degraus. O campo
+do esgoto passa a ser «Esgoto (R$/m³ consumido)», e a etapa econômica oferece o mesmo
+modo, «Por m³ consumido», ao lado do valor fixo e do percentual da água.
 
 ---
 
@@ -1093,7 +1116,7 @@ pergunta diferente, e usar a errada custa tempo sem produzir a informação dese
 
 ### 3.6.1. As três formas
 
-<!-- tabela: **Tabela 7** — As três formas de comparar alternativas conforme o que varia entre elas -->
+<!-- tabela: **Tabela 9** — As três formas de comparar alternativas conforme o que varia entre elas -->
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
 | **só o volume da cisterna** | a varredura | etapa 4. Reservatório & Custos |
@@ -1204,7 +1227,7 @@ Para estudos de larga escala — matrizes fatoriais de cidade, área, demanda e 
 
 A instalação do programa como pacote Python registra o comando `netuno`, que executa as mesmas rotinas de cálculo da interface gráfica sem abrir a janela; o instalador de Windows com interface gráfica não o inclui. A linha de comando lê arquivos `.netuno`, projetos em JSON estruturado e o formato CSV do Netuno 4, e grava os resultados em texto, JSON, CSV, HTML ou XLSX. É a interface indicada para estudos reprodutíveis, porque o próprio comando documenta as premissas alteradas.
 
-<!-- tabela: **Tabela 8** — Subcomandos da linha de comando e finalidade de cada um -->
+<!-- tabela: **Tabela 10** — Subcomandos da linha de comando e finalidade de cada um -->
 | Subcomando | Finalidade |
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
@@ -1315,7 +1338,7 @@ A tabela a seguir aplica o procedimento ao projeto fechado do tutorial — 4.000
 polietileno, recalque para caixa de 1.000 L, VPL provável de R$ 5.524 — e varia cinco
 premissas, uma de cada vez, entre um valor baixo e um alto.
 
-<!-- tabela: **Tabela 9** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
+<!-- tabela: **Tabela 11** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
 | Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | reajuste das tarifas de água e esgoto, % ao ano | 3,0 | 5,0 | 7,0 | 27,30% a 27,30% | R$ 860 a R$ 11 360 | 16,8 anos a 10,8 anos |
@@ -1360,7 +1383,7 @@ sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro
 
 Leia assim:
 
-<!-- tabela: **Tabela 10** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
+<!-- tabela: **Tabela 12** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
 | Aceitabilidade do volume vencedor | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |
@@ -1445,7 +1468,7 @@ Praticamente todo o núcleo de entrada do Netuno 4 tem correspondente direto na 
 atual, e é convertido sem intervenção do usuário. A tabela abaixo relaciona o que a
 importação recupera.
 
-<!-- tabela: **Tabela 11** — Dados do Netuno 4 recuperados pela importação -->
+<!-- tabela: **Tabela 13** — Dados do Netuno 4 recuperados pela importação -->
 | Dado | Vem? |
 | :--- | :---: |
 | arquivo e data inicial da chuva | sim |
@@ -1557,11 +1580,12 @@ conversão o substitui.
 
 ### 3.9.1. O que cada formato leva
 
-<!-- tabela: **Tabela 12** — Formatos de exportação e finalidade de cada um -->
+<!-- tabela: **Tabela 14** — Formatos de exportação e finalidade de cada um -->
 | Formato | Extensão | O que leva | Para quê |
 | :--- | :--- | :--- | :--- |
 | relatório | HTML, PDF | resultado completo e premissas | entregar |
 | planilha | XLSX | série diária e varredura | reanalisar |
+| auditoria | XLSX | todos os campos das premissas, da tarifa, do tratamento, da ACV, da economia e do arranjo | conferir |
 | desenho | DXF | esquema hidráulico dimensionado | projeto executivo |
 | manifesto BIM | JSON | componentes com tipo, posição, nível e parâmetros | importação no Revit |
 | projeto | NETUNO | todas as etapas e a série de chuva | reabrir e auditar |
@@ -1602,13 +1626,30 @@ um a um: o resumo executivo com os metadados do projeto, o balanço hídrico di�
 curva da varredura com a confiabilidade, o fluxo de caixa ano a ano, o inventário de
 ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a exportação:
 
-<!-- tabela: **Tabela 13** — Opções da exportação de planilha e quando usar cada uma -->
+<!-- tabela: **Tabela 15** — Opções da exportação de planilha e quando usar cada uma -->
 | Opção | Escolhas | Quando usar |
 | :--- | :--- | :--- |
 | formato | XLSX, CSV ou JSON | XLSX para abrir no Excel; CSV para R, Python ou outro programa; JSON para integração |
 | separador do CSV | ponto e vírgula ou vírgula | ponto e vírgula no Excel em português; vírgula no R e na maior parte das ferramentas internacionais |
 | filtro temporal | primeiro ano típico ou série completa | o ano para ilustrar; a série completa para qualquer estatística |
 | horizonte econômico | 10, 20, 25 ou 30 anos | 20 anos, a vida útil de projeto mínima do sistema hidrossanitário (ABNT NBR 15575-1:2025, Tabela 25), salvo justificativa |
+
+#### 3.9.3.1. Exportar tudo, para auditoria
+
+O botão **Exportar TUDO (auditoria)**, ao lado da exportação da planilha, grava um só
+arquivo Excel com as seis abas acima e, além delas, abas que não são escolhidas por
+ninguém: percorrem **todos** os campos do que o programa usou. São as premissas do
+projeto, uma linha por parâmetro, com o valor e a descrição tirada do próprio código; a
+tarifa aplicada, com o significado de cada código de faixa, o regime, o modo do esgoto e
+a conta para consumos de 0 a 50 m³; a linha de tratamento dimensionada na etapa de
+qualidade, com os estágios, as doses e o carbono que a ACV soma; o inventário de ciclo de
+vida item por item; os resultados da simulação, da economia e do multicritério; e o
+arranjo 3D, com cada peça, cada trecho e o quantitativo por diâmetro. A aba «0_Leia_me»
+diz o que há em cada uma.
+
+É o arquivo para quem precisa conferir uma conta do início ao fim, ou responder a um
+avaliador que pergunte o que entrou no carbono ou na economia. Um parâmetro novo no
+programa aparece nele sem que ninguém precise se lembrar de acrescentá-lo.
 
 > **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
 > simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta
@@ -1714,7 +1755,7 @@ Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seç�
 
 ### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 14** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
+<!-- tabela: **Tabela 16** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
@@ -1752,7 +1793,7 @@ A rotina pode simular a atualização sem gravar a base, executar apenas a detec
 
 Cada registro traz o grau de confiança da coleta:
 
-<!-- tabela: **Tabela 15** — Grau de confiança dos registros tarifários do catálogo -->
+<!-- tabela: **Tabela 17** — Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |
@@ -1774,7 +1815,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 16** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 18** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -1798,7 +1839,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 17** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 19** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -1827,7 +1868,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 18** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 20** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -1850,7 +1891,7 @@ O apêndice A (volume Apêndices) lista os 104 parâmetros, com o nome exato de 
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 19** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 21** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -1869,7 +1910,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 20** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 22** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -2278,7 +2319,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 21** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 23** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -2289,7 +2330,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 22** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 24** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

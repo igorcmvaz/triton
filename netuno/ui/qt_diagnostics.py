@@ -20,11 +20,20 @@ faz é transformá-lo de ruído em informação:
 
 O relatório fica em ``avisos_qt.log``, ao lado do executável, e um resumo é
 impresso ao encerrar.
+
+Uma família de avisos é conhecida e benigna: o compilador de sombreadores do
+Direct3D (ANGLE, no Windows) comenta os programas do three.js com ``warning
+X4122`` (soma não representável exatamente em precisão dupla) e ``warning
+X4000`` (variável possivelmente não inicializada). O programa compila e roda; o
+aviso vem do driver, e não do Netuno. Esses entram só na contagem, sem pilha e
+sem console. Um log de programa que traga **erro**, e não só avisos do
+compilador, continua sendo mostrado.
 """
 
 from __future__ import annotations
 
 import os
+import re
 import sys
 import traceback
 from collections import Counter
@@ -44,6 +53,18 @@ _ROTULOS = {
     QtMsgType.QtCriticalMsg: "crítico",
     QtMsgType.QtFatalMsg: "fatal",
 }
+
+
+_AVISO_DO_COMPILADOR = re.compile(r"warning X\d{4}:", re.IGNORECASE)
+
+
+def aviso_benigno(mensagem: str) -> bool:
+    """Log do three.js composto só de avisos do compilador de sombreadores."""
+    if "THREE.WebGLProgram" not in mensagem or "Program Info Log" not in mensagem:
+        return False
+    corpo = mensagem.split("Program Info Log", 1)[1].lstrip(": ")
+    linhas = [l for l in corpo.splitlines() if l.strip()]
+    return bool(linhas) and all(_AVISO_DO_COMPILADOR.search(l) for l in linhas)
 
 
 def _diretorio_base() -> str:
@@ -82,6 +103,9 @@ def instalar_captura_de_avisos() -> None:
 
     def manipulador(tipo, contexto, mensagem: str) -> None:
         rotulo = _ROTULOS.get(tipo, "qt")
+        if aviso_benigno(mensagem):
+            _CONTAGEM["avisos do compilador de sombreadores (Direct3D), benignos"] += 1
+            return
         _CONTAGEM[mensagem] += 1
 
         if mensagem in _JA_REGISTRADOS:

@@ -353,6 +353,10 @@ def _validar_exponencial(est: Estrutura, registro: Dict[str, Any]) -> List[Achad
             "a tabela exponencial gravada não foi conferida com a tabela vigente do "
             "prestador: a conta usa o expoente registrado, e não o homologado",
         ))
+    if registro.get("esgoto_modo") == 2 and not float(registro.get("esgoto_r_m3") or 0.0) > 0.0:
+        achados.append(Achado("esgoto_sem_preco", "erro",
+                              "esgoto cobrado por m³ sem preço por m³ declarado"))
+
     return achados
 
 
@@ -396,11 +400,13 @@ def resumo_do_regime(registro: Dict[str, Any], lang: str = "pt") -> str:
             "medido desde o primeiro metro cúbico. Toda economia de água vira desconto."
         )
     if est.regime == EXPONENCIAL:
+        teto = (f", até {est.teto_exponencial_m3:.0f} m³"
+                if est.teto_exponencial_m3 < TETO_ABERTO_M3 else "")
         return (
             f"Serviço básico de R$ {est.custo_fixo_mensal:.2f}/mês mais a fórmula exponencial "
             f"PB × Cⁿ, com preço-base de R$ {est.preco_base:.2f}/m³ e o expoente n da "
-            f"tabela pelo consumo do mês, até {est.teto_exponencial_m3:.0f} m³. Toda "
-            "economia de água vira desconto."
+            f"tabela pelo consumo do mês{teto}. Toda economia de água vira desconto, e o "
+            "metro cúbico poupado vale mais onde o expoente é maior."
         )
     if est.regime == FRANQUIA_RETROATIVA:
         return (

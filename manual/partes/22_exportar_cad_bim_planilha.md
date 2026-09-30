@@ -12,6 +12,7 @@
 | :--- | :--- | :--- | :--- |
 | relatório | HTML, PDF | resultado completo e premissas | entregar |
 | planilha | XLSX | série diária e varredura | reanalisar |
+| auditoria | XLSX | todos os campos das premissas, da tarifa, do tratamento, da ACV, da economia e do arranjo | conferir |
 | desenho | DXF | esquema hidráulico dimensionado | projeto executivo |
 | manifesto BIM | JSON | componentes com tipo, posição, nível e parâmetros | importação no Revit |
 | projeto | NETUNO | todas as etapas e a série de chuva | reabrir e auditar |
@@ -59,6 +60,23 @@ ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a 
 | separador do CSV | ponto e vírgula ou vírgula | ponto e vírgula no Excel em português; vírgula no R e na maior parte das ferramentas internacionais |
 | filtro temporal | primeiro ano típico ou série completa | o ano para ilustrar; a série completa para qualquer estatística |
 | horizonte econômico | 10, 20, 25 ou 30 anos | 20 anos, a vida útil de projeto mínima do sistema hidrossanitário (ABNT NBR 15575-1:2025, Tabela 25), salvo justificativa |
+
+### Exportar tudo, para auditoria
+
+O botão **Exportar TUDO (auditoria)**, ao lado da exportação da planilha, grava um só
+arquivo Excel com as seis abas acima e, além delas, abas que não são escolhidas por
+ninguém: percorrem **todos** os campos do que o programa usou. São as premissas do
+projeto, uma linha por parâmetro, com o valor e a descrição tirada do próprio código; a
+tarifa aplicada, com o significado de cada código de faixa, o regime, o modo do esgoto e
+a conta para consumos de 0 a 50 m³; a linha de tratamento dimensionada na etapa de
+qualidade, com os estágios, as doses e o carbono que a ACV soma; o inventário de ciclo de
+vida item por item; os resultados da simulação, da economia e do multicritério; e o
+arranjo 3D, com cada peça, cada trecho e o quantitativo por diâmetro. A aba «0_Leia_me»
+diz o que há em cada uma.
+
+É o arquivo para quem precisa conferir uma conta do início ao fim, ou responder a um
+avaliador que pergunte o que entrou no carbono ou na economia. Um parâmetro novo no
+programa aparece nele sem que ninguém precise se lembrar de acrescentá-lo.
 
 > **Um aviso de tamanho.** Trinta anos de série diária são 10.950 linhas por
 > simulação. Uma varredura de doze volumes com série detalhada gera cento e trinta

@@ -22,6 +22,7 @@ from netuno.core.etap_integration import (
 )
 from netuno.core.simulation import SingleTankSimulationResult
 from netuno.core.tariffs_structure import (
+    ESGOTO_POR_M3,
     EXPOENTE_DE_CONSUMO,
     PRECO_BASE_EXPONENCIAL,
     parcela_exponencial,
@@ -230,6 +231,10 @@ def calculate_water_bill(
     # Cálculo do esgoto
     if sewage_mode == 0:  # Custo fixo de esgoto
         c_sewage_unit = sewage_rate
+    elif sewage_mode == ESGOTO_POR_M3:
+        # Preço por m³ do consumo de água, sem serviço básico nem expoente: é
+        # como a CORSAN fatura o esgoto («de acordo com o consumo»).
+        c_sewage_unit = sewage_rate * vol_m3_unit
     else:  # Percentual sobre o valor da água
         c_sewage_unit = c_agua_unit * (sewage_rate / 100.0)
         
@@ -878,7 +883,7 @@ def run_robust_economic_analysis(
             curr_cl2_cost *= (1.0 + inf_r)
 
         w_savings = annual_water_saved_m3 * curr_water_tariff
-        s_savings = (annual_water_saved_m3 * curr_sewage_tariff) if sewage_mode == 1 else 0.0
+        s_savings = (annual_water_saved_m3 * curr_sewage_tariff) if sewage_mode in (1, ESGOTO_POR_M3) else 0.0
         curr_iptu_savings = annual_iptu_savings * ((1.0 + inf_r) ** (yr - 1)) if yr > 1 else annual_iptu_savings
         tot_savings = w_savings + s_savings + curr_iptu_savings
         

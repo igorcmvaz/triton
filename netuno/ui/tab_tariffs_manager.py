@@ -25,11 +25,14 @@ from netuno.ui.translation import tr, get_current_theme
 from netuno.core.economic import calculate_water_bill
 from netuno.core.tariff_regimes import EXPONENCIAL, ler_estrutura
 from netuno.core.tariffs_structure import (
+    ESGOTO_PERCENTUAL,
+    ESGOTO_POR_M3,
     EXPOENTE_DE_CONSUMO,
     PRECO_BASE_EXPONENCIAL,
     expoente_do_consumo,
 )
 from netuno.core.tariffs_database import (
+    esgoto_do_municipio,
     get_available_ufs,
     get_cities_by_uf,
     get_city_data,
@@ -162,6 +165,9 @@ class TabTariffsManager(QWidget):
 
         self.lbl_disp_callout = QLabel(tr("🏷️ Custo de Disponibilidade: -"))
         self.lbl_disp_callout.setStyleSheet("font-size: 11px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 6px;")
+        # Quebra de linha: sem ela, o texto da fórmula exponencial alargava a
+        # coluna e espremia os gráficos.
+        self.lbl_disp_callout.setWordWrap(True)
         inst_layout.addWidget(self.lbl_disp_callout)
 
         left_layout.addWidget(inst_card)
@@ -189,7 +195,9 @@ class TabTariffsManager(QWidget):
         """)
         p_layout.addWidget(self.spin_fixed_water, 0, 1)
 
-        p_layout.addWidget(QLabel(tr("Alíquota de Esgoto (%):")), 0, 2)
+        self._esgoto_modo = ESGOTO_PERCENTUAL
+        self.lbl_sewage = QLabel(tr("Alíquota de Esgoto (%):"))
+        p_layout.addWidget(self.lbl_sewage, 0, 2)
         self.spin_sewage_pct = QDoubleSpinBox()
         self.spin_sewage_pct.setLocale(pt_locale)
         self.spin_sewage_pct.setButtonSymbols(QAbstractSpinBox.NoButtons)
@@ -265,6 +273,9 @@ class TabTariffsManager(QWidget):
         btn_row.addWidget(self.btn_apply_project)
 
         left_layout.addLayout(btn_row)
+        # As proporções valem sobre a largura inteira, e não só sobre a sobra:
+        # conteúdo largo numa coluna não rouba espaço da outra.
+        left_col.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
         columns_layout.addWidget(left_col, stretch=48)
 
         # =================================================================================================
@@ -430,7 +441,7 @@ class TabTariffsManager(QWidget):
         self.spin_fixed_water.blockSignals(True)
         self.spin_sewage_pct.blockSignals(True)
         self.spin_fixed_water.setValue(t_fixa)
-        self.spin_sewage_pct.setValue(float(data.get("esgoto_pct", 80.0) or 80.0))
+        self._definir_modo_do_esgoto(*esgoto_do_municipio(data))
         self.spin_fixed_water.blockSignals(False)
         self.spin_sewage_pct.blockSignals(False)
 
@@ -440,8 +451,8 @@ class TabTariffsManager(QWidget):
         tem_franquia = any(t[3] == -2 or (t[3] == -1 and t[1] > 0) for t in faixas)
         tem_minima = any(t[3] in (-1, -2) for t in faixas)
         if estrutura.regime == EXPONENCIAL:
-            texto = tr('📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês, n pela tabela exponencial até {2:.0f} m³.').format(
-                estrutura.preco_base, estrutura.custo_fixo_mensal, estrutura.teto_exponencial_m3)
+            texto = tr('📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês; o expoente n cresce com o consumo do mês, pela Tabela de Exponenciais.').format(
+                estrutura.preco_base, estrutura.custo_fixo_mensal)
             if data.get("expoentes_verificados") is False:
                 texto += tr(' ⚠️ Tabela exponencial não conferida com a homologada: edite as linhas «Expoente n» com a tabela vigente.')
             self.lbl_disp_callout.setText(texto)
@@ -481,6 +492,24 @@ class TabTariffsManager(QWidget):
             self.table_tiers.setItem(r, 2, item_rate)
             self.table_tiers.setItem(r, 3, item_tipo)
         self.table_tiers.blockSignals(False)
+
+    def _definir_modo_do_esgoto(self, modo: int, valor: float) -> None:
+        """Percentual da água ou preço por m³ consumido, no mesmo campo."""
+        self._esgoto_modo = modo
+        if modo == ESGOTO_POR_M3:
+            self.lbl_sewage.setText(tr("Esgoto (R$/m³ consumido):"))
+            self.spin_sewage_pct.setDecimals(2)
+            self.spin_sewage_pct.setRange(0.0, 100.0)
+        else:
+            self.lbl_sewage.setText(tr("Alíquota de Esgoto (%):"))
+            self.spin_sewage_pct.setDecimals(1)
+            self.spin_sewage_pct.setRange(0.0, 200.0)
+        self.spin_sewage_pct.setValue(valor)
+
+    def _rotulo_do_esgoto(self, valor: float) -> str:
+        if self._esgoto_modo == ESGOTO_POR_M3:
+            return f"R$ {valor:.2f}/m³"
+        return f"{valor:.0f}%"
 
     @staticmethod
     def _rotulo_do_tipo(t_tipo: int, sup: float) -> str:
@@ -576,7 +605,9 @@ class TabTariffsManager(QWidget):
             "municipio": city,
             "categoria": cat,
             "tarifa_fixa_mensal": self.spin_fixed_water.value(),
-            "esgoto_pct": self.spin_sewage_pct.value(),
+            "esgoto_modo": self._esgoto_modo,
+            "esgoto_pct": self.spin_sewage_pct.value() if self._esgoto_modo != ESGOTO_POR_M3 else None,
+            "esgoto_r_m3": self.spin_sewage_pct.value() if self._esgoto_modo == ESGOTO_POR_M3 else None,
             "energia_r_kwh": self.spin_energy_kwh.value(),
             "faixas": faixas_custom,
         }
@@ -584,7 +615,7 @@ class TabTariffsManager(QWidget):
         if self.main_window and hasattr(self.main_window, "config"):
             cfg = self.main_window.config
             cfg.water_tariffs = [(float(f[0]), float(f[1]), float(f[2]), int(f[3])) for f in faixas_custom]
-            cfg.sewage_mode = 1
+            cfg.sewage_mode = self._esgoto_modo
             cfg.sewage_rate = float(self.spin_sewage_pct.value())
             cfg.cost_energy = float(self.spin_energy_kwh.value())
             cfg.tariff_city_uf = uf
@@ -645,7 +676,10 @@ class TabTariffsManager(QWidget):
         metered_water = max(0.0, agua - fixed_water)
 
         c_agua_total = fixed_water + metered_water
-        esgoto_val = c_agua_total * (esgoto_pct / 100.0)
+        if self._esgoto_modo == ESGOTO_POR_M3:
+            esgoto_val = esgoto_pct * vol  # R$/m³ sobre o consumo, sem serviço básico
+        else:
+            esgoto_val = c_agua_total * (esgoto_pct / 100.0)
         total_val = c_agua_total + esgoto_val
         return fixed_water, metered_water, esgoto_val, total_val
 
@@ -660,7 +694,7 @@ class TabTariffsManager(QWidget):
         valor_fixo, medido_val, esgoto_val, total_val = self._calculate_bill_for_vol(vol, faixas, fixed, esgoto_pct)
         eff_rate = (total_val / vol) if vol > 0 else 0.0
 
-        texto = tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2:.0f}%): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, esgoto_pct, esgoto_val, total_val, eff_rate)
+        texto = tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2}): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, self._rotulo_do_esgoto(esgoto_pct), esgoto_val, total_val, eff_rate)
         estrutura = ler_estrutura(faixas)
         if estrutura.regime == EXPONENCIAL and vol > 0:
             c = min(vol, estrutura.teto_exponencial_m3)
@@ -726,7 +760,9 @@ class TabTariffsManager(QWidget):
 
         self.ax1.set_xlim(0, max_plot_vol)
         self.ax1.set_ylabel("R$/m³", fontsize=9, fontweight="bold", color="#334155")
-        self.ax1.set_title(tr("Estrutura de Faixas (Tarifa Marginal R$/m³)"), fontsize=10, fontweight="bold", color="#0f172a", pad=4)
+        titulo = (tr("Preço Médio do m³ (PB × Cⁿ⁻¹, R$/m³)") if estrutura.regime == EXPONENCIAL
+                  else tr("Estrutura de Faixas (Tarifa Marginal R$/m³)"))
+        self.ax1.set_title(titulo, fontsize=10, fontweight="bold", color="#0f172a", pad=4)
         self.ax1.grid(True, linestyle=":", alpha=0.5)
         self.ax1.tick_params(labelsize=8)
         self.ax1.legend(loc="upper left", fontsize=7.5, framealpha=0.8)

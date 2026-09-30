@@ -217,6 +217,28 @@ class TabExport(QWidget):
         self.btn_export_custom.clicked.connect(self._export_custom_planilha)
         btn_action_row.addWidget(self.btn_export_custom)
 
+        # Tudo o que o estudo considerou, campo por campo, para auditoria.
+        self.btn_export_tudo = QPushButton(tr("📦 Exportar TUDO (auditoria) .xlsx"))
+        self.btn_export_tudo.setToolTip(tr(
+            "Uma planilha com as seis abas acima e, além delas, todos os campos das premissas do "
+            "projeto, da tarifa aplicada, da ETAP, da ACV, da economia e do arranjo 3D, sem seleção."))
+        self.btn_export_tudo.setStyleSheet("""
+            QPushButton {
+                font-size: 13px;
+                font-weight: bold;
+                background-color: #0f172a;
+                color: white;
+                padding: 10px 18px;
+                border-radius: 7px;
+                border: none;
+            }
+            QPushButton:hover {
+                background-color: #1e293b;
+            }
+        """)
+        self.btn_export_tudo.clicked.connect(self._export_tudo)
+        btn_action_row.addWidget(self.btn_export_tudo)
+
         btn_batch_tpl = QPushButton(tr("📋 Baixar Modelo de Cenários em Lote (.xlsx)"))
         btn_batch_tpl.setStyleSheet("""
             QPushButton {
@@ -547,6 +569,38 @@ class TabExport(QWidget):
                 self._set_status(tr(f"✓ Arquivo CSV exportado com sucesso: {Path(file_path).name} (delimitador '{delimiter}')"))
             except Exception as e:
                 QMessageBox.critical(self, tr("Erro"), tr(f"Falha ao gerar arquivo CSV: {e}"))
+
+    def _export_tudo(self, file_path: str = ""):
+        """Planilha de auditoria: tudo o que o estudo considerou, sem seleção."""
+        from netuno.core.exportar_tudo import exportar_tudo
+
+        data = self._collect_project_data()
+        mw = self._get_main_window()
+        if not file_path:
+            proj_slug = str(data.get("project_name", "Simulacao_Netuno")).replace(" ", "_")
+            file_path, _ = QFileDialog.getSaveFileName(
+                self, tr("Exportar TUDO para auditoria"), f"{proj_slug}_Auditoria_Completa.xlsx",
+                "Planilhas Excel (*.xlsx)")
+            if not file_path:
+                return
+        try:
+            exportar_tudo(
+                file_path,
+                config=getattr(mw, "config", None) if mw else None,
+                project_data=data,
+                single_result=getattr(mw.tab_tanks_simulation, "last_single_result", None) if mw else None,
+                sweep_result=getattr(mw.tab_tanks_simulation, "last_sweep_result", None) if mw else None,
+                economic_result=getattr(mw.tab_economic, "last_economic_result", None) if mw else None,
+                environmental_result=getattr(mw.tab_environmental, "last_env_result", None) if mw else None,
+                mcdm_result=getattr(mw.tab_global_optimizer, "last_mcdm_result", None) if mw else None,
+                horizon_years=int(self.combo_horizon.currentData() or 20),
+            )
+        except Exception as e:
+            QMessageBox.critical(self, tr("Erro"), tr("Falha ao gerar a planilha de auditoria: {0}").format(e))
+            return ""
+        self._last_exported_path = file_path
+        self._set_status(tr("✓ Planilha de auditoria exportada: {0}").format(Path(file_path).name))
+        return file_path
 
     # ── OUTROS HANDLERS ──
 

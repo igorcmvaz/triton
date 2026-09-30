@@ -246,7 +246,7 @@ class NetunoConfig:
     # metade da fatura total. Confundir os dois denominadores dobra ou divide
     # pela metade a conta de esgoto.
     sewage_rate: float = 100.0
-    sewage_mode: int = 1  # 0 = valor fixo em R$, 1 = percentual da parcela de água
+    sewage_mode: int = 1  # 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
     water_tax_fixed: float = 0.0  # R$
     water_tax_var: float = 0.0  # %
     inflation: float = 0.2  # % ao mês; inflação dos custos de O&M

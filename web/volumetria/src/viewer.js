@@ -289,17 +289,26 @@ function chaveDeNivel(w, d, h) {
 }
 
 function ladrao(w, d, h, cor) {
-  // Sifão em U com a saída telada (fecho hídrico contra insetos e odores).
+  // Ladrão sifonado no sentido do extravasor: entra pela face +y na altura das
+  // portas «sup» (85% da altura), desce, faz o U do fecho hídrico, sobe e sai
+  // pela face −y, onde fica a tela contra insetos. As pontas encostam nas faces,
+  // para os tubos dos dois lados chegarem à peça sem vão.
   const g = new THREE.Group();
-  const s = Math.min(w, d);
-  const r = s * 0.14;
+  const r = Math.min(w, d) / 6; // o envelope da peça tem 3 × DN de lado
+  const a = d * 0.22;
+  const zp = h * 0.85, zu = h * 0.35;
+  const V = (y, z) => new THREE.Vector3(0, y, z);
   const pvc = MAT.pvc(cor);
-  const u = new THREE.TorusGeometry(s * 0.25, r, 12, 24, Math.PI);
-  u.rotateX(Math.PI / 2); u.rotateZ(Math.PI); u.translate(0, 0, h * 0.35);
+  g.add(mesh(cylinderBetween(V(d / 2, zp), V(a, zp), r), pvc));
+  g.add(mesh(cylinderBetween(V(a, zp), V(a, zu), r), pvc));
+  const u = new THREE.TorusGeometry(a, r, 12, 24, Math.PI);
+  u.rotateX(-Math.PI / 2); u.rotateZ(Math.PI / 2); u.translate(0, 0, zu);
   g.add(mesh(u, pvc));
-  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(-s * 0.25, 0, 0), pvc));
-  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(s * 0.25, 0, 0), pvc));
-  g.add(mesh(zCylinder(r * 1.3, h * 0.05, h * 0.85, 16).translate(s * 0.25, 0, 0),
+  g.add(mesh(cylinderBetween(V(-a, zu), V(-a, zp), r), pvc));
+  g.add(mesh(cylinderBetween(V(-a, zp), V(-d / 2, zp), r), pvc));
+  // Luvas nas curvas de cima e a tela na saída.
+  for (const y of [a, -a]) g.add(mesh(new THREE.SphereGeometry(r * 1.02, 16, 12).translate(0, y, zp), pvc));
+  g.add(mesh(cylinderBetween(V(-d / 2 + r * 0.6, zp), V(-d / 2, zp), r * 1.25),
     new THREE.MeshStandardMaterial({ color: 0x475569, wireframe: true })));
   return g;
 }
@@ -499,7 +508,8 @@ class Visualizador {
     this.opts = opts || {};
     this.t = { ...TEXTOS_PADRAO, ...(this.opts.texts || {}) };
     this.container = container;
-    this.show = { building: true, ground: true, labels: true, flow: true, xray: false, sky: false, shadows: true };
+    // Só os rótulos vêm ligados: o resto pesa na primeira abertura e se liga no botão.
+    this.show = { building: false, ground: false, labels: true, flow: false, xray: false, sky: false, shadows: false };
     this.hiddenSystems = new Set();
     this.selected = null;
     this.measuring = false;

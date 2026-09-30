@@ -24,7 +24,7 @@ Códigos presentes       Cidades    Estrutura
 ``{-1, 1}``             486        taxa fixa de disponibilidade + faixas progressivas
 ``{1}``                 165        apenas faixas progressivas
 ``{-2, 1}``             1          franquia de consumo mínimo + faixas progressivas
-``{-1, 2, 3, 1}``       34         serviço básico + fórmula exponencial (CORSAN)
+``{-1, 2, 3}``          34         serviço básico + fórmula exponencial (CORSAN)
 ======================  =========  ==========================================
 
 A família exponencial é contada depois da apuração de 8 de setembro: até então as 34
@@ -63,14 +63,21 @@ PISO_DE_PAGAMENTO = -3
 
 #: Preço-base da fórmula exponencial da CORSAN: a água custa ``PB × Cⁿ``, em que ``C``
 #: é o consumo do mês inteiro e ``n`` vem da tabela exponencial. ``valor`` é o PB em
-#: R$/m³ e ``maximo_m3`` o consumo até o qual a fórmula vale (1.000 m³ na CORSAN);
-#: acima dele, o excedente é cobrado pelas faixas progressivas que começam ali.
+#: R$/m³ e ``maximo_m3`` o consumo até o qual a fórmula vale — sem teto na categoria
+#: residencial da CORSAN, 1.000 m³ na industrial; acima do teto, o excedente é
+#: cobrado pelas faixas progressivas que começam ali.
 PRECO_BASE_EXPONENCIAL = 2
 
 #: Uma linha da tabela exponencial. ``valor`` é o expoente ``n`` aplicado quando o
 #: consumo total do mês cai em ``(minimo_m3, maximo_m3]`` (a primeira linha inclui o
 #: zero). O expoente vale para o volume inteiro, não só para o que está na faixa.
 EXPOENTE_DE_CONSUMO = 3
+
+#: Modo de cobrança do esgoto (``esgoto_modo`` na base, ``sewage_mode`` no projeto):
+#: 0 = valor fixo em R$; 1 = percentual da parcela de água; 2 = preço por m³ do
+#: consumo de água. O modo 2 é o da CORSAN: o esgoto não carrega o serviço básico
+#: nem o expoente da água, e cresce linearmente com o consumo.
+ESGOTO_FIXO, ESGOTO_PERCENTUAL, ESGOTO_POR_M3 = 0, 1, 2
 
 CODIGOS_VALIDOS = frozenset({
     PRECO_BASE_EXPONENCIAL,
