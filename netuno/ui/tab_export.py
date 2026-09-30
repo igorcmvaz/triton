@@ -441,6 +441,11 @@ class TabExport(QWidget):
                     pass
         layout = getattr(mw, "bim_layout", None) or {}
         data = dict(data)
+        if not (layout.get("bim_components") or layout.get("pipe_runs")):
+            from netuno.core.study_layout import generate_study_layout
+            layout = generate_study_layout(data)
+            if mw:
+                mw.bim_layout = layout
         data["bim_components"] = list(layout.get("bim_components") or [])
         data["pipe_runs"] = list(layout.get("pipe_runs") or [])
         data["building_volume"] = dict(layout.get("building_volume") or {})

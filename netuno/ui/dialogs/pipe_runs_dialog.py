@@ -72,6 +72,9 @@ class PipeRunsDialog(QDialog):
         # tabela, mas são preservados por linha para não se perderem ao salvar.
         self._extra_component_parameters: Dict[int, Dict[str, Any]] = {}
         layout = layout or {}
+        if not (layout.get("bim_components") or layout.get("pipe_runs")):
+            from netuno.core.study_layout import generate_study_layout
+            layout = generate_study_layout(self._project_data)
 
         root = QVBoxLayout(self)
         intro = QLabel(tr(
@@ -103,6 +106,33 @@ class PipeRunsDialog(QDialog):
 
     # ── Componentes ──
 
+    def apply_study_layout(self) -> None:
+        """Substitui a organização atual pelo traçado normativo pré-preenchido do estudo."""
+        from netuno.core.study_layout import generate_study_layout
+
+        layout = generate_study_layout(self._project_data)
+        self.table_components.setRowCount(0)
+        self._extra_component_parameters.clear()
+        for item in layout.get("bim_components") or []:
+            self.add_component(item)
+
+        self.table_runs.setRowCount(0)
+        for run in layout.get("pipe_runs") or []:
+            self.add_run(run)
+
+        bldg = layout.get("building_volume") or {}
+        orig = bldg.get("origin_mm") or {}
+        for k in ("x", "y", "z"):
+            if k in self.building_fields:
+                self.building_fields[k].setValue(float(orig.get(k, 0.0)))
+        for k in ("width_mm", "depth_mm", "height_mm"):
+            if k in self.building_fields:
+                self.building_fields[k].setValue(float(bldg.get(k, 0.0)))
+        if hasattr(self, "spin_floors"):
+            self.spin_floors.setValue(int(bldg.get("floors", 1)))
+
+        self.refresh_preview()
+
     def _build_components_box(self, components: List[Dict[str, Any]], building: Dict[str, Any]) -> QWidget:
         box = QWidget()
         lay = QVBoxLayout(box)
@@ -111,7 +141,11 @@ class PipeRunsDialog(QDialog):
         title = QLabel(tr("<b>1. Componentes posicionados</b>"))
         head.addWidget(title)
         head.addStretch()
-        for label, slot in ((tr("+ Componente"), self.add_component), (tr("− Remover"), self._remove_component)):
+        for label, slot in (
+            (tr("+ Componente"), self.add_component),
+            (tr("− Remover"), self._remove_component),
+            (tr("⚡ Pré-preencher do Estudo"), self.apply_study_layout),
+        ):
             btn = QPushButton(label)
             btn.clicked.connect(slot)
             head.addWidget(btn)
