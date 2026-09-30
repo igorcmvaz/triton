@@ -66,6 +66,8 @@ class PipeRunsDialog(QDialog):
         self.setWindowTitle(tr("Organizar trechos de tubulação — planta 3D"))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMinMaxButtonsHint)
         self.resize(1280, 900)
+        self._editor_before_fullscreen = True
+        self.imersivo = False  # tela cheia de visualização (editor recolhido)
         self.setWindowState(Qt.WindowMaximized)
         self._project_data = dict(project_data or {})
         # Parâmetros das famílias (capacidade, potência...) não aparecem na
@@ -86,15 +88,33 @@ class PipeRunsDialog(QDialog):
         ))
         intro.setWordWrap(True)
         intro.setStyleSheet("color: #475569; font-size: 11.5px;")
-        root.addWidget(intro)
 
-        splitter = QSplitter(Qt.Vertical)
+        # As tabelas ficam num painel recolhível: com a organização válida, a
+        # janela abre na volumetria, e o editor aparece quando se quer mudar algo.
         self._valid_data: Optional[Dict[str, Any]] = None
-        splitter.addWidget(self._build_components_box(layout.get("bim_components") or [], layout.get("building_volume") or {}))
-        splitter.addWidget(self._build_runs_box(layout.get("pipe_runs") or []))
-        splitter.addWidget(self._build_preview_box())
-        splitter.setSizes([200, 200, 480])
-        root.addWidget(splitter, 1)
+        self.editor = QWidget()
+        editor_lay = QVBoxLayout(self.editor)
+        editor_lay.setContentsMargins(0, 0, 0, 0)
+        editor_lay.addWidget(intro)
+        editor_split = QSplitter(Qt.Vertical)
+        editor_split.addWidget(self._build_components_box(layout.get("bim_components") or [], layout.get("building_volume") or {}))
+        editor_split.addWidget(self._build_runs_box(layout.get("pipe_runs") or []))
+        editor_lay.addWidget(editor_split, 1)
+
+        self.btn_editor = QPushButton()
+        self.btn_editor.setCheckable(True)
+        self.btn_editor.toggled.connect(self.set_editor_visible)
+        top = QHBoxLayout()
+        top.addWidget(self.btn_editor)
+        top.addStretch()
+        root.addLayout(top)
+
+        self.splitter = QSplitter(Qt.Vertical)
+        self.splitter.addWidget(self.editor)
+        self.splitter.addWidget(self._build_preview_box())
+        self.splitter.setStretchFactor(1, 1)
+        self.splitter.setSizes([420, 560])
+        root.addWidget(self.splitter, 1)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         buttons.button(QDialogButtonBox.Ok).setText(tr("Salvar organização"))
@@ -102,7 +122,11 @@ class PipeRunsDialog(QDialog):
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         root.addWidget(buttons)
-        self.refresh_preview()
+        self._buttons = buttons
+        errors = self.refresh_preview()
+        # Organização válida abre direto na volumetria; com pendências, no editor.
+        self.btn_editor.setChecked(bool(errors) or self._valid_data is None)
+        self.set_editor_visible(self.btn_editor.isChecked())
 
     # ── Componentes ──
 
@@ -376,28 +400,55 @@ class PipeRunsDialog(QDialog):
         lay.addLayout(head)
         self.tabs = QTabWidget()
         self.volumetry = criar_painel_de_volumetria()
+        if hasattr(self.volumetry, "tela_cheia_pedida"):
+            self.volumetry.tela_cheia_pedida.connect(self._on_viewer_fullscreen)
         self.preview = SchematicView()
         self.tabs.addTab(self.volumetry, tr("🧊 Volumetria 3D (girável)"))
         self.tabs.addTab(self.preview, tr("🧭 Esquema 3D (medidas e sequência)"))
         lay.addWidget(self.tabs, 1)
         return box
 
+    def set_editor_visible(self, visible: bool) -> None:
+        """Mostra ou recolhe as tabelas de componentes e trechos."""
+        self.editor.setVisible(visible)
+        if self.btn_editor.isChecked() != visible:
+            self.btn_editor.blockSignals(True)
+            self.btn_editor.setChecked(visible)
+            self.btn_editor.blockSignals(False)
+        self.btn_editor.setText(tr("▾ Recolher o editor de componentes e trechos") if visible
+                                else tr("✏️ Editar componentes e trechos"))
+
     def toggle_fullscreen(self) -> None:
-        if self.isFullScreen():
+        """Tela cheia de visualização: a janela ocupa a tela e o editor recolhe."""
+        if self.imersivo:
+            self.imersivo = False
+            if hasattr(self.volumetry, "sair_da_tela_cheia"):
+                self.volumetry.sair_da_tela_cheia()
             self.showMaximized()
+            self.set_editor_visible(self._editor_before_fullscreen)
+            self._buttons.setVisible(True)
             self.btn_fullscreen.setText(tr("⛶ Tela cheia"))
             self.btn_fullscreen.setToolTip(tr("Alternar modo tela cheia (F11)"))
         else:
+            self.imersivo = True
+            self._editor_before_fullscreen = not self.editor.isHidden()
+            self.set_editor_visible(False)
+            self._buttons.setVisible(False)
             self.showFullScreen()
             self.btn_fullscreen.setText(tr("🗗 Minimizar tela cheia"))
             self.btn_fullscreen.setToolTip(tr("Restaurar tamanho da janela (F11 ou Esc)"))
+
+    def _on_viewer_fullscreen(self, on: bool) -> None:
+        """O botão «Tela cheia» de dentro do visualizador pede o mesmo modo."""
+        if on != self.imersivo:
+            self.toggle_fullscreen()
 
     def keyPressEvent(self, event) -> None:
         if event.key() == Qt.Key_F11:
             self.toggle_fullscreen()
             event.accept()
             return
-        if event.key() == Qt.Key_Escape and self.isFullScreen():
+        if event.key() == Qt.Key_Escape and self.imersivo:
             self.toggle_fullscreen()
             event.accept()
             return

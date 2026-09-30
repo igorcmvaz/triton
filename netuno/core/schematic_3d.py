@@ -59,6 +59,14 @@ _TYPE_LABELS = {
     "air_gap": "Air gap",
     "ladrao_sifonado": "Ladrão sifonado",
     "ponto_nao_potavel": "Ponto não potável",
+    "freio_dagua": "Freio d'água",
+    "succao_flutuante": "Sucção flutuante",
+    "sensor_nivel": "Chave de nível",
+    "valvula_solenoide": "Válvula solenoide",
+    "hidrometro": "Hidrômetro",
+    "valvula_pe_crivo": "Válvula de pé com crivo",
+    "respiro": "Respiro",
+    "quadro_comando": "Quadro de comando",
 }
 _TANKS = {"cisterna_inferior", "reservatorio_superior"}
 

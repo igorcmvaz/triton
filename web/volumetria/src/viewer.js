@@ -34,7 +34,7 @@ const TEXTOS_PADRAO = {
   iso: "Perspectiva", planta: "Planta", frente: "Frente", lateral: "Lateral", enquadrar: "Enquadrar",
   edificacao: "Edificação", terreno: "Terreno", rotulos: "Rótulos", fluxo: "Fluxo", raiox: "Raio-X",
   ceu: "Céu", sombras: "Sombras", corte: "Corte por cota", medir: "Medir", foto: "Imagem PNG",
-  telaCheia: "Tela cheia", tema: "Tema", sistemas: "Sistemas", componentes: "Componentes",
+  telaCheia: "Tela cheia", tema: "Tema", painel: "Painel", sistemas: "Sistemas", componentes: "Componentes",
   ficha: "Ficha técnica", notas: "Notas", semSelecao: "Clique numa peça para ver a ficha técnica.",
   medirDica: "Clique em dois pontos para medir. Esc encerra.", distancia: "Distância",
   semWebGL: "Este computador não oferece WebGL: a volumetria 3D não pode ser desenhada aqui.",
@@ -192,28 +192,191 @@ function motobomba(w, d, h, cor) {
   return g;
 }
 
+// Válvulas em linha: o tubo liga na porta «fundo» (centro da base), então o
+// corpo fica centrado nessa cota, no eixo do tubo, e não acima dele.
+function corpoDeValvula(g, w, s, corpo) {
+  g.add(mesh(new THREE.SphereGeometry(s * 0.32, 24, 16), corpo));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, 0), new THREE.Vector3(w / 2, 0, 0), s * 0.2, 20), corpo));
+  for (const x of [-w / 2, w / 2]) {
+    g.add(mesh(cylinderBetween(new THREE.Vector3(x - Math.sign(x) * s * 0.12, 0, 0), new THREE.Vector3(x, 0, 0), s * 0.26, 6), corpo));
+  }
+}
+
 function registro(w, d, h, tipo) {
   const g = new THREE.Group();
   const s = Math.min(w, d, h);
   const corpo = MAT.aco();
-  g.add(mesh(new THREE.SphereGeometry(s * 0.32, 24, 16).translate(0, 0, s * 0.4), corpo));
-  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, s * 0.4), new THREE.Vector3(w / 2, 0, s * 0.4), s * 0.2, 20), corpo));
+  corpoDeValvula(g, w, s, corpo);
   if (tipo === "registro_esfera") {
-    g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.12, s * 0.06, 2, s * 0.02).translate(s * 0.3, 0, s * 0.8), MAT.pintura(0xdc2626)));
+    g.add(mesh(zCylinder(s * 0.05, s * 0.3, s * 0.2, 12), corpo));
+    g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.12, s * 0.06, 2, s * 0.02).translate(s * 0.3, 0, s * 0.52), MAT.pintura(0xdc2626)));
   } else if (tipo === "valvula_retencao") {
-    g.add(mesh(zCylinder(s * 0.18, s * 0.3, s * 0.6, 20), corpo));
+    // Tampa da portinhola e seta do sentido do escoamento.
+    g.add(mesh(zCylinder(s * 0.2, s * 0.22, s * 0.22, 20), corpo));
+    const seta = new THREE.ConeGeometry(s * 0.12, s * 0.3, 16);
+    seta.rotateZ(-Math.PI / 2); seta.translate(0, 0, s * 0.58);
+    g.add(mesh(seta, MAT.pintura(0x16a34a)));
   } else {
-    g.add(mesh(zCylinder(s * 0.06, s * 0.4, s * 0.6, 12), corpo));
-    const volante = new THREE.TorusGeometry(s * 0.3, s * 0.05, 10, 32); volante.translate(0, 0, s * 1.0);
+    g.add(mesh(zCylinder(s * 0.06, s * 0.5, s * 0.2, 12), corpo));
+    const volante = new THREE.TorusGeometry(s * 0.3, s * 0.05, 10, 32); volante.translate(0, 0, s * 0.72);
     g.add(mesh(volante, MAT.pintura(0xdc2626)));
+  }
+  return g;
+}
+
+function solenoide(w, d, h) {
+  // Corpo de válvula com a bobina (atuador elétrico) acima e o cabo de comando.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  corpoDeValvula(g, w, s, MAT.pintura(0xb8860b));
+  g.add(mesh(zCylinder(s * 0.12, s * 0.2, s * 0.22, 16), MAT.aco()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.55, s * 0.55, h * 0.45, 3, s * 0.05).translate(0, 0, s * 0.42 + h * 0.225), MAT.pintura(0x111827)));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(0, s * 0.27, s * 0.42 + h * 0.3), new THREE.Vector3(0, s * 0.8, s * 0.42 + h * 0.3), s * 0.04, 8), MAT.borracha()));
+  return g;
+}
+
+function hidrometro(w, d, h) {
+  // Cavalete: corpo com mostrador de vidro e tampa articulada.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const bronze = MAT.pintura(0xa16207);
+  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, 0), new THREE.Vector3(w / 2, 0, 0), s * 0.1, 16), bronze));
+  g.add(mesh(zCylinder(s * 0.3, h * 0.35, -h * 0.15, 32), bronze));
+  const vidro = new THREE.MeshPhysicalMaterial({ color: 0xe0f2fe, roughness: 0.05, transparent: true, opacity: 0.6 });
+  g.add(mesh(zCylinder(s * 0.26, h * 0.05, h * 0.2, 32), vidro));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.62, s * 0.06, h * 0.4, 2, s * 0.02).translate(0, -s * 0.3, h * 0.45), MAT.pintura(0x1e3a8a)));
+  return g;
+}
+
+function freioDagua(w, d, h, cor) {
+  // Curva de 90° junto ao fundo, bocal voltado para cima: a água entra calma.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.22;
+  const pvc = MAT.pvc(cor);
+  const curva = new THREE.TorusGeometry(s * 0.3, r, 14, 24, Math.PI / 2);
+  curva.rotateX(Math.PI / 2); curva.rotateZ(Math.PI); curva.translate(s * 0.3, 0, h * 0.62);
+  g.add(mesh(curva, pvc));
+  g.add(mesh(zCylinder(r, h * 0.38, h * 0.62, 20), pvc));                 // descida vinda do filtro
+  g.add(mesh(cylinderBetween(new THREE.Vector3(s * 0.3, 0, h * 0.32), new THREE.Vector3(s * 0.3, 0, h * 0.02), r * 1.25, 20, true), pvc));
+  g.add(mesh(zCylinder(r * 1.5, h * 0.06, 0, 24), MAT.pintura(0x1e3a8a))); // apoio no fundo
+  return g;
+}
+
+function succaoFlutuante(w, d, h) {
+  // Boia na superfície com o crivo suspenso ~15 cm abaixo dela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const boia = new THREE.SphereGeometry(s * 0.32, 24, 16);
+  boia.scale(1, 1, 0.6); boia.translate(0, 0, h * 0.8);
+  g.add(mesh(boia, MAT.pintura(0xea580c)));
+  g.add(mesh(zCylinder(s * 0.03, h * 0.5, h * 0.25, 8), MAT.aco()));
+  const crivo = zCylinder(s * 0.16, h * 0.28, 0, 20);
+  g.add(mesh(crivo, new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.7, roughness: 0.4, wireframe: true })));
+  g.add(mesh(zCylinder(s * 0.15, h * 0.26, 0.01, 20), MAT.acoEscuro()));
+  return g;
+}
+
+function chaveDeNivel(w, d, h) {
+  // Boia elétrica pendurada pelo cabo.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const pera = new THREE.SphereGeometry(s * 0.35, 20, 14);
+  pera.scale(0.8, 0.8, 1.25); pera.translate(0, 0, h * 0.3);
+  g.add(mesh(pera, MAT.pintura(0xfacc15)));
+  g.add(mesh(zCylinder(s * 0.04, h * 0.45, h * 0.55, 8), MAT.borracha()));
+  return g;
+}
+
+function ladrao(w, d, h, cor) {
+  // Sifão em U com a saída telada (fecho hídrico contra insetos e odores).
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.14;
+  const pvc = MAT.pvc(cor);
+  const u = new THREE.TorusGeometry(s * 0.25, r, 12, 24, Math.PI);
+  u.rotateX(Math.PI / 2); u.rotateZ(Math.PI); u.translate(0, 0, h * 0.35);
+  g.add(mesh(u, pvc));
+  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(-s * 0.25, 0, 0), pvc));
+  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(s * 0.25, 0, 0), pvc));
+  g.add(mesh(zCylinder(r * 1.3, h * 0.05, h * 0.85, 16).translate(s * 0.25, 0, 0),
+    new THREE.MeshStandardMaterial({ color: 0x475569, wireframe: true })));
+  return g;
+}
+
+function pontoNaoPotavel(w, d, h, cor) {
+  // Torneira de uso restrito com a placa «água não potável».
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  g.add(mesh(zCylinder(s * 0.14, h * 0.4, h * 0.6, 16), MAT.aco()));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(0, 0, h * 0.8), new THREE.Vector3(0, -s * 0.55, h * 0.72), s * 0.07, 12), MAT.aco()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.5, s * 0.08, s * 0.1, 2, s * 0.02).translate(0, 0, h * 1.02), MAT.pintura(cor)));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.7, s * 0.04, h * 0.35, 2, s * 0.02).translate(0, s * 0.2, h * 0.3), MAT.pintura(cor)));
+  return g;
+}
+
+function valvulaDePe(w, d, h) {
+  // Portinhola que fecha para baixo e o crivo (cesto perfurado) embaixo dela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const bronze = MAT.pintura(0xa16207);
+  g.add(mesh(zCylinder(s * 0.16, h * 0.28, h * 0.72, 16), bronze));             // luva para a mangueira
+  g.add(mesh(zCylinder(s * 0.3, h * 0.16, h * 0.56, 24, s * 0.22), bronze));   // corpo da válvula
+  const crivo = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.8, roughness: 0.35, wireframe: true });
+  g.add(mesh(zCylinder(s * 0.36, h * 0.52, h * 0.04, 20), crivo));
+  g.add(mesh(zCylinder(s * 0.34, h * 0.04, 0, 20), bronze));                   // fundo do crivo
+  return g;
+}
+
+function respiro(w, d, h, cor) {
+  // Tubo que sobe do reservatório e volta para baixo (pescoço de ganso) com tela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.16;
+  const raio = s * 0.28;
+  const pvc = MAT.pvc(cor);
+  g.add(mesh(zCylinder(r, h - raio, 0, 16).translate(-raio, 0, 0), pvc));
+  const curva = new THREE.TorusGeometry(raio, r, 12, 20, Math.PI);
+  curva.rotateX(Math.PI / 2); curva.translate(0, 0, h - raio);
+  g.add(mesh(curva, pvc));
+  g.add(mesh(zCylinder(r, h * 0.2, h - raio - h * 0.2, 16).translate(raio, 0, 0), pvc));
+  g.add(mesh(zCylinder(r * 1.25, h * 0.03, h - raio - h * 0.23, 16).translate(raio, 0, 0),
+    new THREE.MeshStandardMaterial({ color: 0x334155, wireframe: true })));   // tela contra insetos
+  return g;
+}
+
+function quadroDeComando(w, d, h) {
+  // Quadro elétrico sobre pedestal, com porta, sinaleiros e prensa-cabos.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  g.add(mesh(new THREE.BoxGeometry(s * 0.12, s * 0.12, h * 0.55).translate(0, 0, h * 0.275), MAT.acoEscuro()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.45, h * 0.42, 3, s * 0.03).translate(0, 0, h * 0.76), MAT.pintura(0xe5e7eb)));
+  g.add(mesh(new THREE.BoxGeometry(s * 0.8, s * 0.02, h * 0.36).translate(0, -s * 0.23, h * 0.76), MAT.pintura(0xd1d5db)));
+  for (const [x, c] of [[-s * 0.2, 0x16a34a], [0, 0xf59e0b], [s * 0.2, 0xdc2626]]) {
+    g.add(mesh(new THREE.SphereGeometry(s * 0.035, 12, 8).translate(x, -s * 0.25, h * 0.9),
+      new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.6 })));
   }
   return g;
 }
 
 function acessorio(w, d, h, cor, tipo) {
   if (tipo && (tipo.startsWith("registro") || tipo === "valvula_retencao")) return registro(w, d, h, tipo);
+  const modelos = {
+    valvula_pe_crivo: () => valvulaDePe(w, d, h),
+    respiro: () => respiro(w, d, h, cor),
+    quadro_comando: () => quadroDeComando(w, d, h),
+    valvula_solenoide: () => solenoide(w, d, h),
+    hidrometro: () => hidrometro(w, d, h),
+    freio_dagua: () => freioDagua(w, d, h, cor),
+    succao_flutuante: () => succaoFlutuante(w, d, h),
+    sensor_nivel: () => chaveDeNivel(w, d, h),
+    ladrao_sifonado: () => ladrao(w, d, h, cor),
+    ponto_nao_potavel: () => pontoNaoPotavel(w, d, h, cor),
+  };
+  if (modelos[tipo]) return modelos[tipo]();
   const g = new THREE.Group();
   if (tipo === "air_gap") {
+    // Funil de recepção e o bocal potável solto acima dele (a folga é o air gap).
     g.add(mesh(zCylinder(Math.min(w, d) * 0.15, h * 0.5, 0, 24, Math.min(w, d) * 0.5), MAT.pvc(cor)));
     g.add(mesh(zCylinder(Math.min(w, d) * 0.08, h * 0.35, h * 0.62, 16), MAT.aco()));
     return g;
@@ -278,8 +441,12 @@ const CSS = `
 .nv-stage canvas{display:block;width:100%!important;height:100%!important;outline:none}
 .nv-css2d{position:absolute;inset:0;pointer-events:none}
 .nv-head{position:absolute;left:16px;top:12px;right:360px;pointer-events:none}
-.nv-head h1{margin:0;font-size:16px;font-weight:650;letter-spacing:.01em;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg)}
-.nv-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg)}
+.nv-head h1{margin:0;font-size:16px;font-weight:650;letter-spacing:.01em;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nv-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px;text-shadow:0 0 6px var(--bg),0 0 2px var(--bg);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nv-root.nv-nopanel{grid-template-columns:1fr} .nv-nopanel .nv-side{display:none}
+@media (max-width:1100px){.nv-head p{display:none}}
 .nv-bar{position:absolute;left:12px;bottom:12px;right:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;pointer-events:none}
 .nv-bar>*{pointer-events:auto}
 .nv-grp{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;box-shadow:0 1px 3px rgba(15,23,42,.08)}
@@ -376,6 +543,7 @@ class Visualizador {
     const tools = el("div", { class: "nv-grp" },
       this.measureBtn = el("button", { class: "nv-btn", onclick: () => this.toggleMeasure() }, t.medir),
       el("button", { class: "nv-btn", onclick: () => this.screenshot() }, t.foto),
+      this.panelBtn = el("button", { class: "nv-btn on", onclick: () => this.togglePanel() }, t.painel),
       el("button", { class: "nv-btn", onclick: () => this.toggleTheme() }, t.tema),
       el("button", { class: "nv-btn", onclick: () => this.fullscreen() }, t.telaCheia));
     this.stage.append(el("div", { class: "nv-bar" }, views, toggles, cut), el("div", { class: "nv-tools" }, tools));
@@ -536,6 +704,7 @@ class Visualizador {
         const lbl = new CSS2DObject(tag);
         lbl.position.set(...s.label);
         lbl.center.set(0.5, 1);
+        lbl.userData.menor = s.kind === "accessory";
         this.model.add(lbl);
         this.labels.push(lbl);
       }
@@ -554,6 +723,7 @@ class Visualizador {
   _solidObject(s) {
     const cor = rgb(s.color);
     if (s.kind === "pipe") return this._pipe(s, cor);
+    if (s.kind === "cable") return this._cable(s, cor);
     if (s.kind === "ground") return this._ground(s);
     if (s.kind === "building" || s.kind === "slab") return this._fromTris(s, s.kind === "building" ? MAT.vidro() : MAT.laje(), true);
     if (!s.box) return this._fromTris(s, MAT.pintura(cor), false);
@@ -576,7 +746,11 @@ class Visualizador {
         g.rotation.z += rot;
         break;
       }
-      default: g = acessorio(w, d, h, cor, s.type);
+      default:
+        g = acessorio(w, d, h, cor, s.type);
+        // Válvulas e acessórios seguem o giro do trecho em que estão (a planta
+        // deles é quadrada, então a caixa não muda com o giro).
+        g.rotation.z = THREE.MathUtils.degToRad(s.rotation || 0);
     }
     g.position.set((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, lo[2]);
     return g;
@@ -633,6 +807,30 @@ class Visualizador {
     return grp;
   }
 
+  _cable(s, cor) {
+    // Cabo de comando: fio fino e tracejado, para não se confundir com tubo.
+    const a = new THREE.Vector3(s.axis[0], s.axis[1], s.axis[2]);
+    const b = new THREE.Vector3(s.axis[3], s.axis[4], s.axis[5]);
+    const grp = new THREE.Group();
+    const r = Math.max(this.diag * 0.0005, 0.006);
+    const len = a.distanceTo(b);
+    const passo = Math.max(r * 10, 0.08);
+    const n = Math.max(1, Math.floor(len / passo));
+    const mat = new THREE.MeshStandardMaterial({ color: cor, emissive: cor, emissiveIntensity: 0.35, roughness: 0.6 });
+    const dir = new THREE.Vector3().subVectors(b, a).divideScalar(n);
+    const tracos = [];
+    for (let i = 0; i < n; i++) {
+      const p0 = a.clone().addScaledVector(dir, i), p1 = a.clone().addScaledVector(dir, i + 0.65);
+      tracos.push(cylinderBetween(p0, p1, r, 6));
+    }
+    grp.add(mesh(mergeGeometries(tracos), mat, false));
+    // Casca invisível e mais grossa, só para o clique pegar o fio.
+    const alvo = new THREE.Mesh(cylinderBetween(a, b, r * 3, 6), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+    alvo.userData.pickOnly = true;
+    grp.add(alvo);
+    return grp;
+  }
+
   _ground(s) {
     const [lo, hi] = [s.box[0], s.box[1]];
     const w = (hi[0] - lo[0]) * 1.6, d = (hi[1] - lo[1]) * 1.6;
@@ -679,7 +877,7 @@ class Visualizador {
 
   // ── Painel lateral ──
   _legend() {
-    const presentes = new Set(this.payload.solids.filter((s) => s.kind === "pipe").map((s) => s.system));
+    const presentes = new Set(this.payload.solids.filter((s) => s.kind === "pipe" || s.kind === "cable").map((s) => s.system));
     this.legend.replaceChildren();
     for (const sys of this.payload.systems || []) {
       if (!presentes.has(sys.id)) continue;
@@ -697,7 +895,7 @@ class Visualizador {
     this.list.replaceChildren();
     this.listItems = new Map();
     for (const s of this.payload.solids) {
-      if (!s.pickable || s.kind === "pipe" || s.kind === "building" || s.kind === "slab") continue;
+      if (!s.pickable || s.kind === "pipe" || s.kind === "cable" || s.kind === "building" || s.kind === "slab") continue;
       const item = el("div", { class: "nv-item", onclick: () => { this.select(s); this.focus(s); } },
         el("span", { class: "nv-dot", style: `background:rgb(${s.color.join(",")})` }), s.title);
       this.listItems.set(s.key, item);
@@ -724,7 +922,7 @@ class Visualizador {
     this.raycaster.setFromCamera(p, this.camera);
     const vis = this.pickables.filter((o) => o.visible && this._visibleSolid(o.userData.solid));
     const hits = this.raycaster.intersectObjects(vis, true).filter((h) => h.object.visible && !h.object.userData.xrayOnly
-      && (h.object.material && h.object.material.opacity > 0.2 || h.object.userData.solid.kind === "pipe")
+      && (h.object.material && h.object.material.opacity > 0.2 || h.object.userData.solid.kind === "pipe" || h.object.userData.pickOnly)
       && (!this.cutActive || h.point.z <= this.cutZ + 1e-6));
     return hits[0] || null;
   }
@@ -746,7 +944,7 @@ class Visualizador {
       this.info.replaceChildren(el("p", { class: "nv-hint" }, this.t.semSelecao));
       return;
     }
-    const objs = s.kind === "pipe" && s.group
+    const objs = (s.kind === "pipe" || s.kind === "cable") && s.group
       ? this.pickables.filter((o) => o.userData.solid.group === s.group)
       : [this.byKey.get(s.key)].filter(Boolean);
     this.outline.selectedObjects = objs;
@@ -810,7 +1008,7 @@ class Visualizador {
     if (!s) return true;
     if ((s.kind === "building" || s.kind === "slab") && !this.show.building) return false;
     if (s.kind === "ground" && !this.show.ground) return false;
-    if (s.kind === "pipe" && this.hiddenSystems.has(s.system)) return false;
+    if ((s.kind === "pipe" || s.kind === "cable") && this.hiddenSystems.has(s.system)) return false;
     return true;
   }
 
@@ -887,10 +1085,21 @@ class Visualizador {
     if (!this.labels || !this.show.labels) return;
     const w = this.stage.clientWidth, h = this.stage.clientHeight;
     const placed = [];
-    const items = this.labels.map((l) => {
-      const p = l.getWorldPosition(new THREE.Vector3()).project(this.camera);
-      return { l, x: (p.x + 1) / 2 * w, y: (1 - p.y) / 2 * h };
-    }).sort((a, b) => b.y - a.y);
+    // Peças pequenas (registros, válvulas, chaves de nível) só ganham rótulo
+    // quando a câmera se aproxima; na vista de conjunto, poluiriam a tela.
+    const perto = this.frameBox.getSize(new THREE.Vector3()).length() * 0.45;
+    const items = [];
+    for (const l of this.labels) {
+      const mundo = l.getWorldPosition(new THREE.Vector3());
+      const oculto = l.userData.menor && mundo.distanceTo(this.camera.position) > perto;
+      // O CSS2DRenderer reescreve o display do elemento a cada quadro; o que
+      // some é o balão de dentro.
+      l.element.firstChild.style.visibility = oculto ? "hidden" : "";
+      if (oculto) continue;
+      const p = mundo.project(this.camera);
+      items.push({ l, x: (p.x + 1) / 2 * w, y: (1 - p.y) / 2 * h });
+    }
+    items.sort((a, b) => b.y - a.y);
     for (const it of items) {
       const inner = it.l.element.firstChild;
       const bw = inner.offsetWidth || 40, bh = (inner.offsetHeight || 18) + 2;
@@ -913,6 +1122,12 @@ class Visualizador {
     const url = this.renderer.domElement.toDataURL("image/png");
     const a = el("a", { href: url, download: `${(this.payload && this.payload.title) || "volumetria"}_3d.png` });
     document.body.append(a); a.click(); a.remove();
+  }
+
+  togglePanel() {
+    // Recolhe a ficha lateral: o modelo ganha a largura inteira.
+    const oculto = this.root.classList.toggle("nv-nopanel");
+    this.panelBtn.classList.toggle("on", !oculto);
   }
 
   toggleTheme() {

@@ -139,6 +139,77 @@ def register_plan_blocks(doc) -> None:
         b.add_text("NP", height=100, dxfattribs={"layer": "0"}).set_placement((0, 340), align=TextEntityAlignment.BOTTOM_CENTER)
         _add_attributes(b, [("ID", "NP-01", (-250, -430)), ("USO", "A DEFINIR", (-250, -550)), ("DN_MM", "20", (-250, -670))])
 
+    # Freio d'água: curva 90° no fundo da cisterna com o bocal voltado para cima.
+    b = _new_block(doc, "NETUNO_FREIO_DAGUA")
+    if not list(b):
+        b.add_lwpolyline([(-80, 500), (-80, 80), (0, 0), (300, 0)], dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(80, 500), (80, 160), (300, 160)], dxfattribs={"layer": "0"})
+        b.add_line((300, -40), (300, 200), dxfattribs={"layer": "0"})
+        b.add_text("FR", height=90, dxfattribs={"layer": "0"}).set_placement((0, 560), align=TextEntityAlignment.BOTTOM_CENTER)
+        _add_attributes(b, [("ID", "FR-01", (-300, -250)), ("DN_MM", "100", (-300, -370))])
+
+    # Sucção flutuante: boia com o crivo pendurado a ~15 cm da lâmina.
+    b = _new_block(doc, "NETUNO_SUCCAO_FLUTUANTE")
+    if not list(b):
+        b.add_circle((0, 150), 180, dxfattribs={"layer": "0"})
+        b.add_line((0, -30), (0, -250), dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-90, -250), (90, -250), (90, -420), (-90, -420)], close=True, dxfattribs={"layer": "0"})
+        b.add_line((-90, -335), (90, -335), dxfattribs={"layer": "0", "linetype": "DASHED"})
+        _add_attributes(b, [("ID", "SF-01", (-300, -560)), ("DN_MM", "32", (-300, -680)), ("PROFUNDIDADE_MM", "150", (-300, -800))])
+
+    # Chave de nível (boia elétrica) que comanda bomba e solenoide.
+    b = _new_block(doc, "NETUNO_SENSOR_NIVEL")
+    if not list(b):
+        b.add_line((0, 400), (0, 120), dxfattribs={"layer": "0"})
+        b.add_ellipse((0, 0), major_axis=(0, 120), ratio=0.6, dxfattribs={"layer": "0"})
+        b.add_text("LS", height=90, dxfattribs={"layer": "0"}).set_placement((0, 440), align=TextEntityAlignment.BOTTOM_CENTER)
+        _add_attributes(b, [("ID", "SN-01", (-300, -250)), ("FUNCAO", "NIVEL", (-300, -370))])
+
+    # Válvula solenoide: corpo de válvula com o atuador elétrico (S) acima.
+    b = _new_block(doc, "NETUNO_VALV_SOLENOIDE")
+    if not list(b):
+        b.add_lwpolyline([(-300, -200), (300, 200), (300, -200), (-300, 200)], close=True, dxfattribs={"layer": "0"})
+        b.add_line((0, 0), (0, 320), dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-130, 320), (130, 320), (130, 560), (-130, 560)], close=True, dxfattribs={"layer": "0"})
+        b.add_text("S", height=150, dxfattribs={"layer": "0"}).set_placement((0, 440), align=TextEntityAlignment.MIDDLE_CENTER)
+        _add_attributes(b, [("ID", "VS-01", (-300, -420)), ("DN_MM", "25", (-300, -540)), ("TENSAO_V", "220", (-300, -660))])
+
+    # Hidrômetro do ramal predial (entrada da rede pública).
+    b = _new_block(doc, "NETUNO_HIDROMETRO")
+    if not list(b):
+        b.add_line((-500, 0), (-220, 0), dxfattribs={"layer": "0"})
+        b.add_line((220, 0), (500, 0), dxfattribs={"layer": "0"})
+        b.add_circle((0, 0), 220, dxfattribs={"layer": "0"})
+        b.add_text("HD", height=110, dxfattribs={"layer": "0"}).set_placement((0, 0), align=TextEntityAlignment.MIDDLE_CENTER)
+        _add_attributes(b, [("ID", "HD-01", (-500, -380)), ("DN_MM", "25", (-500, -500)), ("VAZAO_NOMINAL_M3_H", "1.5", (-500, -620))])
+
+    # Válvula de pé com crivo: mantém a sucção escorvada e retém sólidos.
+    b = _new_block(doc, "NETUNO_VALV_PE_CRIVO")
+    if not list(b):
+        b.add_line((0, 500), (0, 200), dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-150, 200), (150, 200), (0, 50)], close=True, dxfattribs={"layer": "0"})
+        b.add_lwpolyline([(-150, 50), (150, 50), (150, -300), (-150, -300)], close=True, dxfattribs={"layer": "0"})
+        for x in (-75, 0, 75):
+            b.add_line((x, 50), (x, -300), dxfattribs={"layer": "0", "linetype": "DASHED"})
+        _add_attributes(b, [("ID", "VP-01", (-300, -450)), ("DN_MM", "32", (-300, -570))])
+
+    # Respiro do reservatório: curva de 180° com tela contra insetos.
+    b = _new_block(doc, "NETUNO_RESPIRO")
+    if not list(b):
+        b.add_line((0, -300), (0, 300), dxfattribs={"layer": "0"})
+        b.add_arc((150, 300), 150, 0, 180, dxfattribs={"layer": "0"})
+        b.add_line((300, 300), (300, 150), dxfattribs={"layer": "0"})
+        b.add_line((240, 150), (360, 150), dxfattribs={"layer": "0", "linetype": "DASHED"})
+        _add_attributes(b, [("ID", "RP-01", (-300, -450)), ("DN_MM", "50", (-300, -570))])
+
+    # Quadro de comando da motobomba.
+    b = _new_block(doc, "NETUNO_QUADRO_COMANDO")
+    if not list(b):
+        b.add_lwpolyline([(-300, -400), (300, -400), (300, 400), (-300, 400)], close=True, dxfattribs={"layer": "0"})
+        b.add_line((-300, 250), (300, 250), dxfattribs={"layer": "0"})
+        b.add_text("QC", height=150, dxfattribs={"layer": "0"}).set_placement((0, 0), align=TextEntityAlignment.MIDDLE_CENTER)
+        _add_attributes(b, [("ID", "QC-01", (-300, -560)), ("TENSAO_V", "220", (-300, -680)), ("FUNCAO", "COMANDO", (-300, -800))])
+
 
 def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -> str:
     """Gera catálogo DXF auditável e um manifesto BIM JSON com o mesmo nome-base."""

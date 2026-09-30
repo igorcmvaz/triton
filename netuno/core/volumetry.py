@@ -46,6 +46,14 @@ _COLORS: Dict[str, Color] = {
     "air_gap": (22, 163, 74),
     "ladrao_sifonado": (100, 116, 139),
     "ponto_nao_potavel": (147, 51, 234),
+    "freio_dagua": (37, 99, 235),
+    "succao_flutuante": (234, 88, 12),
+    "sensor_nivel": (250, 204, 21),
+    "valvula_solenoide": (22, 163, 74),
+    "hidrometro": (22, 101, 52),
+    "valvula_pe_crivo": (71, 85, 105),
+    "respiro": (148, 163, 184),
+    "quadro_comando": (100, 116, 139),
     "building": (203, 213, 225),
     "ground": (163, 190, 140),
 }
@@ -61,6 +69,104 @@ _TYPE_NAMES = {
     "air_gap": "Air gap",
     "ladrao_sifonado": "Ladrão sifonado",
     "ponto_nao_potavel": "Ponto não potável",
+    "freio_dagua": "Freio d'água",
+    "succao_flutuante": "Sucção flutuante",
+    "sensor_nivel": "Chave de nível",
+    "valvula_solenoide": "Válvula solenoide",
+    "hidrometro": "Hidrômetro",
+    "valvula_pe_crivo": "Válvula de pé com crivo",
+    "respiro": "Respiro",
+    "quadro_comando": "Quadro de comando",
+}
+
+#: Ficha dos acessórios: o que a peça faz na instalação e a norma que a pede.
+#: O parâmetro ``FUNCAO`` ou ``USO`` da instância, quando houver, vem antes.
+_ACCESSORY_INFO: Dict[str, List[str]] = {
+    "registro_gaveta": [
+        "Função: Bloqueio para manutenção (aberto ou fechado, não regula vazão)",
+        "Boa prática: Antes e depois de cada equipamento (bomba, solenoide, hidrômetro), para trocá-lo sem esvaziar as linhas",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "registro_esfera": [
+        "Função: Bloqueio rápido de 1/4 de volta",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "valvula_retencao": [
+        "Função: Deixa a água passar num só sentido e impede o retorno",
+        "Uso típico: Após a motobomba (segura a coluna de recalque) e na descarga do extravasor (contra o refluxo da rede pluvial)",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "air_gap": [
+        "Função: Separação atmosférica entre a água potável e a não potável",
+        "Instalação: Saída potável livre acima do nível de transbordamento do reservatório",
+        "Folga mínima: 2 × o diâmetro do bocal, e não menos que 20 mm",
+        "Normas de referência: ABNT NBR 5626:2020 e ABNT NBR 15527:2019 item 4.4",
+    ],
+    "ladrao_sifonado": [
+        "Função: Extravasor da cisterna com fecho hídrico e tela contra insetos e roedores",
+        "Destino: Rede de águas pluviais, nunca a rede de esgoto",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "ponto_nao_potavel": [
+        "Função: Ponto de utilização de água não potável (bacias, rega, lavagem de pisos)",
+        "Identificação: Placa «Água não potável» e tubulação em cor distinta",
+        "Normas de referência: ABNT NBR 15527:2019 item 4.4 e ABNT NBR 5626:2020",
+    ],
+    "freio_dagua": [
+        "Função: Entrada calma da água pluvial no fundo da cisterna (freio d'água)",
+        "Efeito: Não revolve o sedimento depositado e mantém a camada de lodo em repouso",
+        "Instalação: Curva de 90° junto ao fundo, com o bocal voltado para cima",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "succao_flutuante": [
+        "Função: Captação flutuante, a cerca de 15 cm abaixo da superfície",
+        "Efeito: Retira a água mais limpa, entre a película superficial e o sedimento do fundo",
+        "Composição: Boia, mangueira flexível e crivo (filtro de sucção)",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "sensor_nivel": [
+        "Função: Chave de nível (boia elétrica) no comando do sistema",
+        "Cisterna: Desliga a motobomba no nível mínimo (proteção contra marcha a seco)",
+        "Caixa superior: Liga a motobomba e, sem água de chuva, abre a solenoide do backup",
+    ],
+    "valvula_solenoide": [
+        "Função: Abre a alimentação potável de reserva quando falta água de chuva",
+        "Comando: Chaves de nível — caixa superior no mínimo e cisterna vazia",
+        "Tipo: Normalmente fechada; sem energia, o backup fica fechado",
+        "Descarga: Sempre por separação atmosférica (air gap) no reservatório",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "hidrometro": [
+        "Função: Medição da água potável da rede pública usada como reserva",
+        "Instalação: Cavalete do ramal predial, seguido de registro de bloqueio",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "valvula_pe_crivo": [
+        "Função: Válvula de pé com crivo na ponta da sucção",
+        "Efeito: Mantém a sucção escorvada com a bomba acima do nível d'água e retém folhas e sólidos",
+        "Instalação: Pendurada na sucção flutuante, abaixo da boia, longe do fundo",
+        "Manutenção: Limpar o crivo na limpeza periódica da cisterna",
+    ],
+    "respiro": [
+        "Função: Ventilação do reservatório (entrada e saída de ar ao encher e esvaziar)",
+        "Forma: Curva de 180° (pescoço de ganso) voltada para baixo, contra chuva e poeira",
+        "Proteção: Tela milimétrica contra insetos e pequenos animais",
+        "Norma de referência: ABNT NBR 5626:2020 (reservatórios) e ABNT NBR 15527:2019",
+    ],
+    "quadro_comando": [
+        "Função: Comando automático da motobomba e do backup potável pelas chaves de nível",
+        "Lógica de comando:",
+        " • Caixa superior no nível de partida e cisterna com água de chuva: liga a motobomba; solenoide fechada",
+        " • Caixa superior no nível de backup e cisterna no mínimo: bloqueia a motobomba e abre a solenoide",
+        " • O backup enche a caixa só até o nível de backup, e não até o topo: sobra volume para a próxima chuva",
+        " • Voltou água à cisterna: fecha a solenoide e devolve o abastecimento à motobomba",
+        " • Intertravamento: motobomba e solenoide nunca funcionam ao mesmo tempo",
+        " • Retardo nas boias contra liga-desliga seguido",
+        "Proteções: Disjuntor, relé de sobrecarga, proteção contra marcha a seco e DR",
+        "Sinalização: Sinaleiro «backup potável em uso» e seletor automático / forçar backup / desligado",
+        "Solenoide normalmente fechada: sem energia, o backup fica fechado",
+        "Instalação: Abrigado, acima do piso, junto à motobomba",
+    ],
 }
 
 
@@ -338,13 +444,22 @@ def _component_solid_body(item: Dict[str, Any], project_data: Dict[str, Any]) ->
                      opacity=0.55, outline=True, label_at=label_at)
 
     dn = _number(params.get("DN_MM"), None)
-    info = [
-        f"Tipo: {name}",
+    info = [f"Tipo: {name}"]
+    papel = params.get("FUNCAO") or params.get("USO")
+    if papel and str(papel).strip().upper() not in ("", "A DEFINIR", "NIVEL"):
+        info.append(f"Neste projeto: {papel}")
+    info += _ACCESSORY_INFO.get(type_id, [])
+    if dn:
+        info.append(f"Bitola nominal: DN {dn:g} mm")
+    for key, label, unit in (("TENSAO_V", "Tensão da bobina", "V"), ("FOLGA_MM", "Folga da separação atmosférica", "mm"),
+                             ("VAZAO_NOMINAL_M3_H", "Vazão nominal", "m³/h"), ("PROFUNDIDADE_MM", "Profundidade da captação", "mm")):
+        value = _number(params.get(key), None)
+        if value:
+            info.append(f"{label}: {value:g} {unit}")
+    info += [
         f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
         f"Nível de instalação: {level}",
     ]
-    if dn:
-        info.append(f"Bitola nominal: DN {dn:g} mm")
     return Solid(inst, "accessory", f"{inst} · {name}", info, color, faces,
                  outline=True, label_at=label_at)
 
@@ -394,6 +509,60 @@ def _bounds_of(solids: Iterable[Solid]) -> Tuple[Point, Point]:
         return (0.0, 0.0, 0.0), (1.0, 1.0, 1.0)
     xs, ys, zs = zip(*pts)
     return (min(xs), min(ys), min(zs)), (max(xs), max(ys), max(zs))
+
+
+#: Cor e sistema dos cabos de comando (não são tubulação: não passam pela rede).
+CONTROL_SYSTEM = {"id": "comando", "label": "Comando elétrico", "color": "#f59e0b"}
+_CABLE_ROLE = {
+    "sensor_nivel": "Sinal da chave de nível para o quadro",
+    "motobomba": "Acionamento da motobomba pelo quadro",
+    "valvula_solenoide": "Acionamento da válvula solenoide do backup pelo quadro",
+}
+
+
+def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str, Any], radius: float) -> List[Solid]:
+    """Cabos do quadro de comando: chaves de nível → quadro → bomba e solenoide.
+
+    Não são guardados no projeto: saem das peças presentes. Havendo um quadro
+    de comando, cada chave de nível leva sinal a ele, e ele aciona a motobomba e
+    a válvula solenoide. O traçado é esquemático — sobe, corre em x, corre em y e
+    desce —, para mostrar quem conversa com quem, não o eletroduto.
+    """
+    quadro = next((i for i in instances if i["type_id"] == "quadro_comando"), None)
+    if quadro is None:
+        return []
+    fallbacks = fallback_volumes(project_data)
+
+    def ponto(item: Dict[str, Any]) -> Point:
+        pos = item["position_mm"]
+        env = component_envelope(item, fallbacks)
+        return (float(pos["x"]), float(pos["y"]), float(pos["z"]) + env.height)
+
+    q = ponto(quadro)
+    q_id = quadro["instance_id"]
+    cables: List[Solid] = []
+    r = max(6.0, radius * 0.35)
+    for item in instances:
+        papel = _CABLE_ROLE.get(item["type_id"])
+        if not papel:
+            continue
+        p = ponto(item)
+        z_via = max(p[2], q[2]) + 300.0
+        caminho = [p, (p[0], p[1], z_via), (q[0], p[1], z_via), (q[0], q[1], z_via), q]
+        caminho = [pt for i, pt in enumerate(caminho) if i == 0 or math.dist(pt, caminho[i - 1]) > 1.0]
+        origem, destino = (item["instance_id"], q_id) if item["type_id"] == "sensor_nivel" else (q_id, item["instance_id"])
+        grupo = f"CABO {origem}-{destino}"
+        info = [
+            f"Sistema: {CONTROL_SYSTEM['label']}",
+            f"Ligação: {origem} → {destino}",
+            f"Função: {papel}",
+            "Traçado: Esquemático (a posição do eletroduto é definida no projeto elétrico)",
+        ]
+        for index, (a, b) in enumerate(zip(caminho, caminho[1:]), start=1):
+            cables.append(Solid(f"{grupo}#{index}", "cable", f"{grupo} · {CONTROL_SYSTEM['label']}", info,
+                                _hex_to_rgb(CONTROL_SYSTEM["color"]), tube(a, b, r), group=grupo,
+                                axis=(a, b, r), system=CONTROL_SYSTEM["id"]))
+    return cables
 
 
 def build_volumetry(project_data: Dict[str, Any]) -> Scene:
@@ -454,6 +623,8 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
                                     dn_mm=dn_val))
     if enlarged:
         notes.append("Tubos de DN pequeno desenhados com espessura ampliada para visualização.")
+
+    solids += _control_cables(manifest["instances"], project_data, min_radius)
 
     low, high = _bounds_of(solids)
     margin = diagonal * 0.08

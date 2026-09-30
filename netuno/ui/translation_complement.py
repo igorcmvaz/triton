@@ -1366,5 +1366,8 @@ COMPLEMENTO = {
     'Distância': ('Distance', 'Distancia', '距离'),
     'Este computador não oferece WebGL: a volumetria 3D não pode ser desenhada aqui.': ('This computer does not provide WebGL: the 3D massing cannot be drawn here.', 'Este equipo no ofrece WebGL: la volumetría 3D no puede dibujarse aquí.', '此计算机不支持 WebGL，无法在此绘制三维体量。'),
     'three.js (MIT) · céu «Quarry» do Poly Haven (CC0)': ('three.js (MIT) · "Quarry" sky from Poly Haven (CC0)', 'three.js (MIT) · cielo «Quarry» de Poly Haven (CC0)', 'three.js（MIT）· Poly Haven 的“Quarry”天空（CC0）'),
-    'Organize os trechos para ver a volumetria 3D.': ('Organize the pipe runs to see the 3D massing.', 'Organice los tramos para ver la volumetría 3D.', '请整理管段以查看三维体量。'),
+    'Painel': ('Panel', 'Panel', '面板'),
+    '▾ Recolher o editor de componentes e trechos':('▾ Collapse the component and pipe run editor', '▾ Contraer el editor de componentes y tramos', '▾ 收起组件与管段编辑器'),
+    '✏️ Editar componentes e trechos': ('✏️ Edit components and pipe runs', '✏️ Editar componentes y tramos', '✏️ 编辑组件与管段'),
+    'Organize os trechos para ver a volumetria 3D.':('Organize the pipe runs to see the 3D massing.', 'Organice los tramos para ver la volumetría 3D.', '请整理管段以查看三维体量。'),
 }
