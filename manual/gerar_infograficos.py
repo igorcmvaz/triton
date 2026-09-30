@@ -378,11 +378,11 @@ def info_motores():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Os quatro códigos de faixa tarifária
+# Os seis códigos de faixa tarifária
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_codigos():
-    fig, ax = _tela(100, 50, (7.4, 3.9), "")
+    fig, ax = _tela(100, 75, (7.4, 5.8), "")
     itens = [
         ("1  ou  0", "faixa de consumo", AZUL,
          "preço por m³ do volume alocado" + NL +
@@ -394,9 +394,13 @@ def info_codigos():
          "acima dela, faturamento desde 0 m³"),
         ("−3", "piso de pagamento", VERDE,
          "valor mínimo da fatura:" + NL + "limite inferior, sem soma"),
+        ("2", "preço-base exponencial", AZUL,
+         "PB da fórmula PB × Cⁿ," + NL + "válida até o teto da linha"),
+        ("3", "expoente da tabela", AZUL,
+         "n aplicado ao consumo do mês" + NL + "inteiro que cai nesta linha"),
     ]
     for i, (codigo, nome, cor, efeito) in enumerate(itens):
-        y = 38 - i * 12.4
+        y = 63 - i * 12.4
         ax.add_patch(FancyBboxPatch(
             (1, y), 97, 11, boxstyle="round,pad=0.0,rounding_size=0.8",
             linewidth=1.3, edgecolor=cor, facecolor=CLARO[cor], zorder=3))
@@ -412,18 +416,18 @@ def info_codigos():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Os cinco regimes de mínimo no catálogo
+# Os seis regimes de mínimo no catálogo
 # ══════════════════════════════════════════════════════════════════════════════
 
 def info_regimes_base():
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
+    fig, ax = plt.subplots(figsize=(7.2, 3.8))
     fig.patch.set_facecolor(SUPERFICIE)
     ax.set_facecolor(SUPERFICIE)
 
     regimes = ["franquia no mínimo", "sem valor mínimo", "tarifa de disponibilidade",
-               "franquia retroativa", "piso de pagamento"]
-    quantos = [329, 165, 156, 2, 0]
-    cores = [LARANJA, VERDE, AZUL, ROXO, CINZA]
+               "fórmula exponencial", "franquia retroativa", "piso de pagamento"]
+    quantos = [329, 165, 122, 34, 2, 0]
+    cores = [LARANJA, VERDE, AZUL, AZUL, ROXO, CINZA]
 
     y = np.arange(len(regimes))[::-1]
     ax.barh(y, quantos, height=0.58, color=cores, zorder=3)

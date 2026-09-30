@@ -42,10 +42,12 @@ _MIN_GAP_WEIGHT = 0.3
 # Direção da profundidade (eixo y) na projeção cavaleira.
 _DEPTH_ANGLE = math.radians(35.0)
 
-_WIDTH, _HEIGHT = 1280.0, 820.0
-_PANEL_W = 400.0
+# Proporção de uma folha A3 deitada: o arranjo completo tem 26 peças e 19
+# trechos, e numa folha estreita elas ficavam umas sobre as outras.
+_WIDTH, _HEIGHT = 1680.0, 1188.0
+_PANEL_W = 480.0
 _MARGIN = 48.0
-_LABEL_ROOM = 170.0
+_LABEL_ROOM = 190.0
 
 _TYPE_LABELS = {
     "cisterna_inferior": "Cisterna",
@@ -69,6 +71,14 @@ _TYPE_LABELS = {
     "quadro_comando": "Quadro de comando",
 }
 _TANKS = {"cisterna_inferior", "reservatorio_superior"}
+#: Peças que definem um nível da instalação e ganham plano de cota e rótulo
+#: completo. As demais — registros, válvulas, chaves de nível, respiros — levam
+#: só o código no desenho; tipo e cota vão para a tabela de peças do painel.
+_PRINCIPAIS = _TANKS | {"motobomba", "filtro_pluvial", "first_flush"}
+#: Níveis mais próximos que isto viram um só plano.
+_NIVEL_MINIMO_MM = 300.0
+#: Distância mínima, em px, entre dois rótulos de cota na margem.
+_COTA_MINIMA_PX = 18.0
 
 
 def _br(value: float, decimals: int = 2) -> str:
@@ -250,10 +260,17 @@ def _component_body(item, env, project, placer, labels) -> List[str]:
         hp = params.get("POTENCIA_HP_LABEL")
         if hp:
             detail += f" {hp} HP"
-    lines = [(item["instance_id"], 12.0, "700", "#0f172a"), (f"{detail} · {_cota(z)} m", 11.0, "400", "#475569")]
     mid = (top + bottom) / 2
-    labels.append((lines, [(right + 10, mid - 2, "start"), (left - 10, mid - 2, "end"), (cx, top - 22, "middle"),
-                           (cx, bottom + 16, "middle"), (right + 10, top - 6, "start"), (left - 10, top - 6, "end")]))
+    if type_id in _PRINCIPAIS:
+        lines = [(item["instance_id"], 12.0, "700", "#0f172a"), (f"{detail} · {_cota(z)} m", 11.0, "400", "#475569")]
+        labels.append((lines, [(right + 10, mid - 2, "start"), (left - 10, mid - 2, "end"), (cx, top - 22, "middle"),
+                               (cx, bottom + 16, "middle"), (right + 10, top - 6, "start"), (left - 10, top - 6, "end")]))
+    else:
+        lines = [(item["instance_id"], 10.5, "700", "#334155")]
+        near = [(right + 6, mid + 4, "start"), (left - 6, mid + 4, "end"), (cx, top - 6, "middle"),
+                (cx, bottom + 14, "middle")]
+        far = [(x + dx, y + dy, a) for x, y, a in near for dx, dy in ((0, -16), (0, 16), (14, 0), (-14, 0))]
+        labels.append((lines, near + far))
     return out
 
 
@@ -384,10 +401,12 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
     xs, ys, _ = zip(*_points(manifest, envelopes))
     x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
     levels: Dict[float, List[str]] = {}
-    for item in instances:
+    principais = [i for i in instances if i["type_id"] in _PRINCIPAIS] or instances
+    for item in sorted(principais, key=lambda i: i["position_mm"]["z"]):
         z = item["position_mm"]["z"]
-        key = next((k for k in levels if abs(k - z) <= _SNAP_MM), z)
+        key = next((k for k in levels if abs(k - z) <= _NIVEL_MINIMO_MM), z)
         levels.setdefault(key, []).append(item["instance_id"])
+    last_label_y = None
     for z in sorted(levels):
         corners = [project(x0, y0, z), project(x1, y0, z), project(x1, y1, z), project(x0, y1, z)]
         (ax, ay), (bx, by) = corners[0], corners[1]
@@ -395,6 +414,9 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
         c2, c3 = corners[2], corners[3]
         poly = f"{ax - pad:.1f},{ay:.1f} {bx + pad:.1f},{by:.1f} {c2[0] + pad:.1f},{c2[1]:.1f} {c3[0] - pad:.1f},{c3[1]:.1f}"
         out.append(f'<polygon points="{poly}" fill="#f1f5f9" fill-opacity="0.45" stroke="#cbd5e1" stroke-dasharray="5 4" stroke-width="1"/>')
+        if last_label_y is not None and abs(last_label_y - ay) < _COTA_MINIMA_PX:
+            continue
+        last_label_y = ay
         out.append(f'<text x="{ax - pad - 8:.1f}" y="{ay + 4:.1f}" font-size="12" font-weight="700" text-anchor="end" fill="#334155">'
                    f'Cota {_cota(z)} m</text>')
 
@@ -437,7 +459,7 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
                 marks.append(f'<circle cx="{wx:.1f}" cy="{wy:.1f}" r="8" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5"/>'
                              f'<text x="{wx:.1f}" y="{wy + 4:.1f}" font-size="10" font-weight="700" text-anchor="middle" fill="#ffffff">{number}</text>')
                 placer.block(wx - 9, wy - 9, wx + 9, wy + 9)
-            if size >= 44:
+            if size >= 56:
                 note = _segment_note(seg, system["gravity"])
                 if index == longest:
                     note = f"DN {run['dn_mm']:g} · {note}"
@@ -484,6 +506,19 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
         for dn, meters in totals.items():
             y += 18
             out.append(f'<text x="{px}" y="{y}" font-size="11" fill="#1e293b">DN {dn:g}: {_br(meters)} m</text>')
+    pecas = [i for i in instances if i["type_id"] not in _PRINCIPAIS]
+    if pecas and len(pecas) < len(instances):
+        y += 30
+        out.append(f'<text x="{px}" y="{y}" font-size="13" font-weight="700" fill="#0f172a">Peças e acessórios</text>')
+        coluna = (len(pecas) + 1) // 2
+        topo = y
+        for n, item in enumerate(pecas):
+            cx = px + (0 if n < coluna else (_PANEL_W - 40) / 2)
+            cy = topo + 17 * (n % coluna + 1)
+            tipo = _TYPE_LABELS.get(item["type_id"], item["type_id"])
+            out.append(f'<text x="{cx}" y="{cy}" font-size="10" font-weight="700" fill="#334155">{escape(item["instance_id"])}</text>'
+                       f'<text x="{cx + 50}" y="{cy}" font-size="10" fill="#1e293b">{escape(tipo[:20])} · {_cota(item["position_mm"]["z"])}</text>')
+        y = topo + 17 * coluna
     if warnings:
         y += 30
         out.append(f'<text x="{px}" y="{y}" font-size="13" font-weight="700" fill="#b45309">Avisos</text>')

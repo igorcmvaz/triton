@@ -22,6 +22,13 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from netuno.ui.translation import tr, get_current_theme
+from netuno.core.economic import calculate_water_bill
+from netuno.core.tariff_regimes import EXPONENCIAL, ler_estrutura
+from netuno.core.tariffs_structure import (
+    EXPOENTE_DE_CONSUMO,
+    PRECO_BASE_EXPONENCIAL,
+    expoente_do_consumo,
+)
 from netuno.core.tariffs_database import (
     get_available_ufs,
     get_cities_by_uf,
@@ -427,11 +434,18 @@ class TabTariffsManager(QWidget):
         self.spin_fixed_water.blockSignals(False)
         self.spin_sewage_pct.blockSignals(False)
 
-        # Callout de Disponibilidade
+        # Callout do regime
         faixas = data.get("faixas", [])
+        estrutura = ler_estrutura(faixas)
         tem_franquia = any(t[3] == -2 or (t[3] == -1 and t[1] > 0) for t in faixas)
         tem_minima = any(t[3] in (-1, -2) for t in faixas)
-        if tem_franquia:
+        if estrutura.regime == EXPONENCIAL:
+            texto = tr('📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês, n pela tabela exponencial até {2:.0f} m³.').format(
+                estrutura.preco_base, estrutura.custo_fixo_mensal, estrutura.teto_exponencial_m3)
+            if data.get("expoentes_verificados") is False:
+                texto += tr(' ⚠️ Tabela exponencial não conferida com a homologada: edite as linhas «Expoente n» com a tabela vigente.')
+            self.lbl_disp_callout.setText(texto)
+        elif tem_franquia:
             f_vol = next((t[1] for t in faixas if t[3] == -2 or (t[3] == -1 and t[1] > 0)), 6.0)
             self.lbl_disp_callout.setText(tr('🏷️ <b>Consumo Mínimo (Franquia):</b> R$ {0:.2f}/mês cobrindo até {1:.0f} m³.').format(t_fixa, f_vol))
         elif t_fixa > 0 and tem_minima:
@@ -457,13 +471,7 @@ class TabTariffsManager(QWidget):
             item_inf = QTableWidgetItem(f"{inf:.1f}")
             item_sup = QTableWidgetItem(f"{sup:.1f}" if sup < 99999 else "> 99999")
             item_rate = QTableWidgetItem(f"{rate:.4f}")
-            if t_tipo == -2 or (t_tipo == -1 and sup > 0):
-                tipo_desc = tr("Consumo Mínimo")
-            elif t_tipo == -1:
-                tipo_desc = tr("Disponibilidade")
-            else:
-                tipo_desc = tr("Progressiva")
-            item_tipo = QTableWidgetItem(tipo_desc)
+            item_tipo = QTableWidgetItem(self._rotulo_do_tipo(int(t_tipo), sup))
 
             for it in (item_inf, item_sup, item_rate, item_tipo):
                 it.setTextAlignment(Qt.AlignCenter)
@@ -473,6 +481,49 @@ class TabTariffsManager(QWidget):
             self.table_tiers.setItem(r, 2, item_rate)
             self.table_tiers.setItem(r, 3, item_tipo)
         self.table_tiers.blockSignals(False)
+
+    @staticmethod
+    def _rotulo_do_tipo(t_tipo: int, sup: float) -> str:
+        if t_tipo == PRECO_BASE_EXPONENCIAL:
+            return tr("Preço-base (PB × Cⁿ)")
+        if t_tipo == EXPOENTE_DE_CONSUMO:
+            return tr("Expoente n")
+        if t_tipo == -3:
+            return tr("Piso de pagamento")
+        if t_tipo == -2 or (t_tipo == -1 and sup > 0):
+            return tr("Consumo Mínimo")
+        if t_tipo == -1:
+            return tr("Disponibilidade")
+        return tr("Progressiva")
+
+    @staticmethod
+    def _tipo_do_rotulo(tipo_str: str, sup: float) -> int:
+        if "PB" in tipo_str or tipo_str == tr("Preço-base (PB × Cⁿ)"):
+            return PRECO_BASE_EXPONENCIAL
+        if "Expoente" in tipo_str or tipo_str == tr("Expoente n"):
+            return EXPOENTE_DE_CONSUMO
+        if "Piso" in tipo_str or tipo_str == tr("Piso de pagamento"):
+            return -3
+        if "Mínim" in tipo_str or "Minim" in tipo_str or "Franquia" in tipo_str or tipo_str == tr("Consumo Mínimo"):
+            return -2 if sup > 0 else -1
+        if "Disponibilidade" in tipo_str or "Fixa" in tipo_str or tipo_str == tr("Disponibilidade"):
+            return -1
+        return 1
+
+    def _faixas_da_tabela(self) -> List[List[Any]]:
+        """Lê a tabela editável de volta para quádruplas."""
+        faixas = []
+        for r in range(self.table_tiers.rowCount()):
+            try:
+                inf = float(self.table_tiers.item(r, 0).text().replace(',', '.'))
+                sup_str = self.table_tiers.item(r, 1).text().replace(',', '.')
+                sup = 999999.0 if ">" in sup_str else float(sup_str)
+                rate = float(self.table_tiers.item(r, 2).text().replace(',', '.'))
+                t_tipo = self._tipo_do_rotulo(self.table_tiers.item(r, 3).text(), sup)
+                faixas.append([inf, sup, rate, t_tipo])
+            except Exception:
+                continue
+        return faixas
 
     def on_table_modified(self, item):
         self.update_bill_simulation()
@@ -518,23 +569,7 @@ class TabTariffsManager(QWidget):
         city = self.combo_city.currentData()
         cat = self.combo_category.currentData()
 
-        faixas_custom = []
-        for r in range(self.table_tiers.rowCount()):
-            try:
-                inf = float(self.table_tiers.item(r, 0).text().replace(',', '.'))
-                sup_str = self.table_tiers.item(r, 1).text().replace(',', '.')
-                sup = 999999.0 if ">" in sup_str else float(sup_str)
-                rate = float(self.table_tiers.item(r, 2).text().replace(',', '.'))
-                tipo_str = self.table_tiers.item(r, 3).text()
-                if "Mínim" in tipo_str or "Minim" in tipo_str or "Franquia" in tipo_str:
-                    t_tipo = -2 if sup > 0 else -1
-                elif "Disponibilidade" in tipo_str or "Fixa" in tipo_str:
-                    t_tipo = -1
-                else:
-                    t_tipo = 1
-                faixas_custom.append([inf, sup, rate, t_tipo])
-            except Exception:
-                continue
+        faixas_custom = self._faixas_da_tabela()
 
         updated_dict = {
             "uf": uf,
@@ -590,45 +625,24 @@ class TabTariffsManager(QWidget):
         )
 
     def _calculate_bill_for_vol(self, vol: float, faixas: List[List[Any]], fixed: float, esgoto_pct: float) -> tuple[float, float, float, float]:
-        """Calcula (valor_fixo, medido_agua, esgoto, total) em perfeita harmonia com o motor econômico do Netuno."""
-        # 1. Identifica se existe franquia de consumo mínimo não-cumulativa (t_tipo == -2 ou linha com sup > 0 e tipo mínimo)
-        min_franchise = None
-        for inf, sup, rate, t_tipo in faixas:
-            if t_tipo == -2 or (t_tipo == -1 and sup > 0):
-                min_franchise = (sup, rate)
-                break
+        """Calcula (valor_fixo, medido_agua, esgoto, total) com o próprio motor econômico.
 
-        fixed_water = 0.0
-        metered_water = 0.0
+        Não há uma segunda implementação da conta aqui: a fatura simulada é a de
+        `calculate_water_bill`, inclusive na fórmula exponencial e no piso.
+        """
+        quadruplas = [(float(a), float(b), float(c), int(d)) for a, b, c, d in faixas]
+        agua = calculate_water_bill(vol * 1000.0, quadruplas, sewage_mode=1, sewage_rate=0.0) if quadruplas else 0.0
 
-        if min_franchise is not None:
-            franchise_vol, franchise_cost = min_franchise
-            if vol <= franchise_vol:
-                fixed_water = franchise_cost
-                metered_water = 0.0
-            else:
-                # Excedeu o consumo mínimo: todo o volume desde 0 m³ é faturado pelas faixas variáveis
-                fixed_water = 0.0
-                for inf, sup, rate, t_tipo in faixas:
-                    if t_tipo == 1:
-                        eff_inf = 0.0 if inf <= franchise_vol else inf
-                        if vol > eff_inf:
-                            vol_faixa = min(vol, sup) - eff_inf
-                            if vol_faixa > 0:
-                                metered_water += vol_faixa * rate
+        franquia = next(((sup, rate) for inf, sup, rate, t in quadruplas if t == -2), None)
+        if franquia is not None:
+            fixed_water = franquia[1] if vol <= franquia[0] else 0.0
         else:
-            for inf, sup, rate, t_tipo in faixas:
-                if t_tipo == -1:
-                    fixed_water += rate
-                elif t_tipo == 1:
-                    if vol > inf:
-                        vol_faixa = min(vol, sup) - inf
-                        if vol_faixa > 0:
-                            metered_water += vol_faixa * rate
-
-            # Se houver valor fixo inserido manualmente no campo e ausente nas faixas
+            fixed_water = sum(rate for inf, sup, rate, t in quadruplas if t == -1)
+            # Valor fixo inserido no campo e ausente das faixas
             if fixed > 0 and fixed_water == 0.0:
                 fixed_water = fixed
+                agua += fixed
+        metered_water = max(0.0, agua - fixed_water)
 
         c_agua_total = fixed_water + metered_water
         esgoto_val = c_agua_total * (esgoto_pct / 100.0)
@@ -641,31 +655,19 @@ class TabTariffsManager(QWidget):
         fixed = self.spin_fixed_water.value()
         esgoto_pct = self.spin_sewage_pct.value()
 
-        # Extrai faixas da tabela
-        faixas = []
-        for r in range(self.table_tiers.rowCount()):
-            try:
-                inf = float(self.table_tiers.item(r, 0).text().replace(',', '.'))
-                sup_str = self.table_tiers.item(r, 1).text().replace(',', '.')
-                sup = 999999.0 if ">" in sup_str else float(sup_str)
-                rate = float(self.table_tiers.item(r, 2).text().replace(',', '.'))
-                tipo_str = self.table_tiers.item(r, 3).text()
-                if "Mínim" in tipo_str or "Minim" in tipo_str or "Franquia" in tipo_str:
-                    t_tipo = -2 if sup > 0 else -1
-                elif "Disponibilidade" in tipo_str or "Fixa" in tipo_str:
-                    t_tipo = -1
-                else:
-                    t_tipo = 1
-                faixas.append([inf, sup, rate, t_tipo])
-            except Exception:
-                continue
+        faixas = self._faixas_da_tabela()
 
         valor_fixo, medido_val, esgoto_val, total_val = self._calculate_bill_for_vol(vol, faixas, fixed, esgoto_pct)
         eff_rate = (total_val / vol) if vol > 0 else 0.0
 
-        self.lbl_sim_result.setText(
-            tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2:.0f}%): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, esgoto_pct, esgoto_val, total_val, eff_rate)
-        )
+        texto = tr('🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2:.0f}%): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)').format(valor_fixo, medido_val, esgoto_pct, esgoto_val, total_val, eff_rate)
+        estrutura = ler_estrutura(faixas)
+        if estrutura.regime == EXPONENCIAL and vol > 0:
+            c = min(vol, estrutura.teto_exponencial_m3)
+            n = expoente_do_consumo(faixas, c)
+            texto += "<br>" + '📈 PB × Cⁿ = {0:.2f} × {1:g}^{2:.4f} = <b>R$ {3:.2f}</b>'.format(
+                estrutura.preco_base, c, n, estrutura.preco_base * c ** n)
+        self.lbl_sim_result.setText(texto)
 
         # Atualiza Gráficos Matplotlib
         self.redraw_charts(faixas, fixed, esgoto_pct, vol, total_val)
@@ -708,7 +710,14 @@ class TabTariffsManager(QWidget):
                 v_steps.extend([x_start, x_end])
                 r_steps.extend([rate, rate])
 
-        if v_steps:
+        estrutura = ler_estrutura(faixas)
+        if estrutura.regime == EXPONENCIAL:
+            # Na fórmula exponencial não há degrau: o m³ custa, em média, PB × Cⁿ⁻¹.
+            cs = [max(0.5, v * 0.5) for v in range(1, int(max_plot_vol * 2) + 1)]
+            medio = [estrutura.preco_base * c ** (expoente_do_consumo(faixas, c) - 1.0) for c in cs]
+            self.ax1.plot(cs, medio, color="#0284c7", lw=2.2, label="Preço médio PB·Cⁿ⁻¹ (R$/m³)")
+            self.ax1.fill_between(cs, medio, alpha=0.15, color="#38bdf8")
+        elif v_steps:
             self.ax1.step(v_steps, r_steps, where="post", color="#0284c7", lw=2.2, label="Tarifa Marginal (R$/m³)")
             self.ax1.fill_between(v_steps, r_steps, step="post", alpha=0.15, color="#38bdf8")
 

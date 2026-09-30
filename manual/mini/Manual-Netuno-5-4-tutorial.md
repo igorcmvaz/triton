@@ -171,7 +171,7 @@ Tabela 23 — Composição da fatura de água e esgoto antes e depois do sistema
 
 Tabela 24 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
 
-Tabela 25 — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia
+Tabela 25 — Os seis regimes tarifários e o efeito de cada um sobre a economia
 
 Tabela 26 — Composição do investimento inicial do projeto do tutorial
 
@@ -209,7 +209,7 @@ Tabela 42 — Ficha de consulta: os dez passos de um estudo completo e a seção
 
 Tabela 43 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 44 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+Tabela 44 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
 Tabela 45 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
@@ -1486,12 +1486,13 @@ existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a 
 paga, e não impede a economia sobre o consumo.
 
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
-projetos inteiros. O programa distingue cinco.
+projetos inteiros. O programa distingue seis.
 
-<!-- tabela: **Tabela 25** — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
+<!-- tabela: **Tabela 25** — Os seis regimes tarifários e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
-| disponibilidade | cada m³ economizado desconta | 156 |
+| disponibilidade | cada m³ economizado desconta | 122 |
+| fórmula exponencial | cada m³ economizado desconta, pelo preço-base elevado ao expoente | 34 |
 | sem mínimo | idem | 165 |
 | franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
 | franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |
@@ -2293,6 +2294,10 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a demanda pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a demanda total da edificação.
 
+**CORSAN**. Companhia Riograndense de Saneamento, a concessionária de água e esgoto de boa
+parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
+serviço básico, e não por faixas de consumo.
+
 **CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
 registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -2464,6 +2469,9 @@ carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
 
+**PB**. Preço-base, em R$/m³, da fórmula exponencial da CORSAN, `PB × Cⁿ`, em que `C` é o
+consumo do mês e `n` o expoente da tabela exponencial para aquele consumo.
+
 **PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
 comuns no mercado brasileiro.
 
@@ -2505,6 +2513,9 @@ prediais — área de captação, condutores, descarte inicial (first flush), es
 tratamento (ETAP), cisterna inferior, reservatório superior, grupo motobomba ou pressurizador
 e rede de distribuição independente — concebido para coletar, tratar, armazenar e fornecer
 água não potável em conformidade com a ABNT NBR 15527 e a ABNT NBR 5626.
+
+**SB**. Serviço básico: a parcela fixa mensal da fatura de água da CORSAN, somada ao
+resultado da fórmula exponencial.
 
 **SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
 
@@ -2649,13 +2660,14 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ---
 
-### I.3. Ficha 3 — Os cinco regimes tarifários
+### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 44** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 44** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
-| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| disponibilidade | cada m³ desconta; o fixo continua | 122 |
+| fórmula exponencial (CORSAN) | cada m³ desconta; a conta é PB × Cⁿ + serviço básico | 34 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
 | piso de pagamento | a fatura não fica abaixo do piso | 0 |

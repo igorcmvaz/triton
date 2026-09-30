@@ -72,13 +72,16 @@ jobs:
       # 80%. Sob cobertura, as simulações em Python puro ficam até 20 vezes mais
       # lentas (3 s viram 68 s num único teste), e no 3.12 isso levava o job a
       # passar de 40 minutos; os demais jobs rodam a mesma suíte sem ela.
+      # O -m explícito substitui o do addopts do pyproject.toml, e por isso repete
+      # o «not rede»: os testes de rede baixam ~90 MB da ANEEL e rodam só sob
+      # demanda (pytest -m rede, ou o job «Fontes oficiais» disparado à mão).
       - name: Suíte de verificação
         if: ${{ !(matrix.kernel == 'python' && matrix.python == '3.13') }}
-        run: python -m pytest -m "not replicacao" --durations=15
+        run: python -m pytest -m "not replicacao and not rede" --durations=15
 
       - name: Suíte de verificação com portão de cobertura
         if: matrix.kernel == 'python' && matrix.python == '3.13'
-        run: python -m pytest -m "not replicacao" --durations=15 --cov=netuno.core --cov-report=term-missing --cov-fail-under=80
+        run: python -m pytest -m "not replicacao and not rede" --durations=15 --cov=netuno.core --cov-report=term-missing --cov-fail-under=80
 
   replicacao:
     name: Replicação contra o Netuno 4
@@ -109,3 +112,27 @@ jobs:
 
       - name: Decomposição da divergência
         run: python tests/benchmarking/decomposicao_divergencia.py
+
+  rede:
+    name: Fontes oficiais (ANEEL)
+    runs-on: ubuntu-latest
+    # Só quando pedido: Actions → Verificação → Run workflow. Nunca em push ou PR.
+    if: github.event_name == 'workflow_dispatch'
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install pytest
+
+      - name: Testes de rede
+        run: python -m pytest -m rede -v

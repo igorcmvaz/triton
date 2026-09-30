@@ -739,13 +739,25 @@ class DialogTariffs(QDialog):
         prev_blocked = self.table.blockSignals(True)
         self.table.setRowCount(len(tariffs))
         for r, (min_v, max_v, val, is_fix) in enumerate(tariffs):
+            casas = 2
             if is_fix in (-1, -2):
                 vol_str = f"{max_v:.0f}" if max_v > 0 else "0"
                 cost_str = tr("Consumo mínimo (fixo)") if is_fix == -2 or (max_v > 0) else tr("Custo fixo")
+            elif is_fix == -3:
+                vol_str = "0"
+                cost_str = tr("Piso de pagamento")
+            elif is_fix == 2:
+                vol_str = f"{max_v:.0f}"
+                cost_str = f"{tr('Preço-base exponencial (PB × Cⁿ)')} ({self._sym}/m³)"
+                casas = 4
+            elif is_fix == 3:
+                vol_str = f"{max_v:.0f}"
+                cost_str = tr("Expoente n da tabela exponencial")
+                casas = 4
             else:
                 vol_str = f"{max_v:.0f}" if max_v < 900 else f"{min_v:.0f}"
                 cost_str = f"{tr('Custo variável')} ({self._sym}/m³)"
-            val_str = f"{val:.2f}".replace('.', ',')
+            val_str = f"{val:.{casas}f}".replace('.', ',')
 
             self.table.setItem(r, 1, QTableWidgetItem(vol_str))
             self.table.setItem(r, 2, QTableWidgetItem(cost_str))
@@ -768,6 +780,20 @@ class DialogTariffs(QDialog):
         if item.column() == 1 or item.column() == 2:
             self.update_table_intervals()
 
+    @staticmethod
+    def _tipo_da_linha(c_text: str) -> str:
+        """Classifica a linha pelo texto da coluna de tipo: fixo, piso, pb, expoente ou faixa."""
+        c_text = c_text.lower()
+        if "pb ×" in c_text or tr("Preço-base exponencial (PB × Cⁿ)").lower() in c_text:
+            return "pb"
+        if "expoente" in c_text or tr("Expoente n da tabela exponencial").lower() in c_text:
+            return "expoente"
+        if "piso" in c_text or tr("Piso de pagamento").lower() in c_text:
+            return "piso"
+        if "fixo" in c_text or tr("fixo").lower() in c_text:
+            return "fixo"
+        return "faixa"
+
     def update_table_intervals(self):
         if getattr(self, '_updating_intervals', False):
             return
@@ -785,12 +811,22 @@ class DialogTariffs(QDialog):
                 vols.append(val)
 
             prev = 0.0
+            prev_exp = 0.0
             for r in range(n):
                 item_c = self.table.item(r, 2)
                 c_text = item_c.text().lower() if item_c else ""
-                is_fix_row = ("fixo" in c_text or tr("fixo").lower() in c_text)
+                tipo = self._tipo_da_linha(c_text)
+                is_fix_row = tipo == "fixo"
 
-                if n == 1:
+                if tipo == "pb":
+                    inter_str = f"PB × Cⁿ ≤ {vols[r]:.0f} m³"
+                    prev = vols[r]
+                elif tipo == "expoente":
+                    inter_str = f"n: {prev_exp:.0f} {tr('a')} {vols[r]:.0f} m³"
+                    prev_exp = vols[r]
+                elif tipo == "piso":
+                    inter_str = tr("Piso mensal")
+                elif n == 1:
                     inter_str = tr("TFDI mensal") if is_fix_row else tr("Qualquer consumo")
                 elif is_fix_row:
                     v_fix = vols[r]
@@ -836,6 +872,7 @@ class DialogTariffs(QDialog):
         try:
             tariffs = []
             prev_max = 0.0
+            prev_exp = 0.0
             for r in range(self.table.rowCount()):
                 v_str = self.table.item(r, 1).text().replace(',', '.').strip() if self.table.item(r, 1) else "0"
                 val_str = self.table.item(r, 3).text().replace(',', '.').strip() if self.table.item(r, 3) else "0"
@@ -843,9 +880,18 @@ class DialogTariffs(QDialog):
 
                 v_val = float(v_str) if v_str else 0.0
                 rate_val = float(val_str) if val_str else 0.0
-                is_fix = -1 if tr("fixo").lower() in c_type_str or "fixo" in c_type_str else 1
+                tipo = self._tipo_da_linha(c_type_str)
+                is_fix = -1 if tipo == "fixo" else 1
 
-                if is_fix == -1:
+                if tipo == "pb":
+                    tariffs.append((0.0, v_val, rate_val, 2))
+                    prev_max = v_val
+                elif tipo == "expoente":
+                    tariffs.append((prev_exp, v_val, rate_val, 3))
+                    prev_exp = v_val
+                elif tipo == "piso":
+                    tariffs.append((0.0, 0.0, rate_val, -3))
+                elif is_fix == -1:
                     is_fix_type = -2 if v_val > 0 else -1
                     tariffs.append((0.0, v_val, rate_val, is_fix_type))
                     if v_val > 0:

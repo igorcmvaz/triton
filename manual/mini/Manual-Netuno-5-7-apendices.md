@@ -118,7 +118,7 @@ Tabela 20 — Emissão de fabricação da motobomba por potência, com a massa d
 
 Tabela 21 — Procedência do fator de emissão do hipoclorito
 
-Tabela 22 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
+Tabela 22 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
 Tabela 23 — Grau de confiança dos registros tarifários do catálogo
 
@@ -144,7 +144,7 @@ Tabela 33 — Ficha de consulta: os dez passos de um estudo completo e a seção
 
 Tabela 34 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 35 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+Tabela 35 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
 Tabela 36 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
@@ -971,7 +971,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
 5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
 6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
-7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
+7. Os seis regimes tarifários estão nomeados e auditados na base dos 652 municípios.
 
 **Saídas**
 
@@ -1309,19 +1309,20 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
 
-Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7 (volume O método), e não se repetem aqui.
+Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7 (volume O método), e não se repetem aqui.
 
 
-### D.2. Os cinco regimes
+### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 22** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+<!-- tabela: **Tabela 22** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
-| **Disponibilidade** | 156 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
+| **Disponibilidade** | 122 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
 | **Franquia no mínimo** | 329 | O valor fixo já inclui um volume. Economizar **abaixo** da franquia não desconta nada. |
 | **Franquia retroativa** | 2 | Até a franquia paga-se o fixo; passando dela, tarifa-se **tudo desde zero**. |
 | **Piso de pagamento** | 0 | A fatura **não fica** abaixo do piso. Não soma: limita. |
+| **Fórmula exponencial** | 34 | Serviço básico mais `PB × Cⁿ`, com `n` pelo consumo do mês (CORSAN). Cada m³ economizado desconta. |
 
 > O piso de pagamento está implementado e nenhum município da base foi
 > classificado nele até esta versão.
@@ -1672,6 +1673,10 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a demanda pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a demanda total da edificação.
 
+**CORSAN**. Companhia Riograndense de Saneamento, a concessionária de água e esgoto de boa
+parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
+serviço básico, e não por faixas de consumo.
+
 **CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
 registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -1843,6 +1848,9 @@ carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
 
+**PB**. Preço-base, em R$/m³, da fórmula exponencial da CORSAN, `PB × Cⁿ`, em que `C` é o
+consumo do mês e `n` o expoente da tabela exponencial para aquele consumo.
+
 **PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
 comuns no mercado brasileiro.
 
@@ -1884,6 +1892,9 @@ prediais — área de captação, condutores, descarte inicial (first flush), es
 tratamento (ETAP), cisterna inferior, reservatório superior, grupo motobomba ou pressurizador
 e rede de distribuição independente — concebido para coletar, tratar, armazenar e fornecer
 água não potável em conformidade com a ABNT NBR 15527 e a ABNT NBR 5626.
+
+**SB**. Serviço básico: a parcela fixa mensal da fatura de água da CORSAN, somada ao
+resultado da fórmula exponencial.
 
 **SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
 
@@ -2295,13 +2306,14 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ---
 
-### I.3. Ficha 3 — Os cinco regimes tarifários
+### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 35** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 35** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
-| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| disponibilidade | cada m³ desconta; o fixo continua | 122 |
+| fórmula exponencial (CORSAN) | cada m³ desconta; a conta é PB × Cⁿ + serviço básico | 34 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
 | piso de pagamento | a fatura não fica abaixo do piso | 0 |

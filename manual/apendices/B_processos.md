@@ -458,7 +458,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
 5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
 6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
-7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
+7. Os seis regimes tarifários estão nomeados e auditados na base dos 652 municípios.
 
 **Saídas**
 

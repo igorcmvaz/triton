@@ -26,54 +26,38 @@ if hasattr(sys.stdout, "reconfigure"):
         pass
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from netuno.core.economic import calculate_water_bill  # noqa: E402
+
 DB_PATH = ROOT / "netuno" / "data" / "brazil_cities_tariffs.json"
 OUT_DIR = ROOT / "outputs"
 
 
 def calculate_bill(city_data: dict, volume_m3: float) -> tuple[float, float, float]:
-    """Calcula (valor_agua, valor_esgoto, valor_total) para um dado volume mensal."""
-    faixas = city_data.get("faixas", [])
-    tarifa_fixa = float(city_data.get("tarifa_fixa_mensal", 0.0) or 0.0)
+    """Calcula (valor_agua, valor_esgoto, valor_total) para um dado volume mensal.
+
+    Usa o motor econômico do programa, e não uma cópia da regra: assim a figura
+    reproduz todos os regimes, inclusive a fórmula exponencial da CORSAN.
+    """
+    faixas = [tuple(f) for f in city_data.get("faixas", [])]
     esgoto_pct = float(city_data.get("esgoto_pct", 80.0) or 80.0)
-
-    # 1. Parcela de água
-    agua_val = 0.0
-    tem_minima_fixa = False
-    
-    for inf, sup, rate, t_tipo in faixas:
-        if t_tipo == -1 and volume_m3 <= sup:
-            # Tarifa mínima fixa
-            agua_val = max(agua_val, rate)
-            tem_minima_fixa = True
-        elif t_tipo == 1:
-            if volume_m3 > inf:
-                vol_na_faixa = min(volume_m3, sup) - inf
-                agua_val += vol_na_faixa * rate
-
-    if tem_minima_fixa and tarifa_fixa > 0 and agua_val < tarifa_fixa:
-        agua_val = tarifa_fixa
-    elif tarifa_fixa > 0 and not tem_minima_fixa:
-        agua_val += tarifa_fixa
-
+    agua_val = calculate_water_bill(volume_m3 * 1000.0, faixas, sewage_mode=1, sewage_rate=0.0) if faixas else 0.0
     esgoto_val = agua_val * (esgoto_pct / 100.0)
     return agua_val, esgoto_val, agua_val + esgoto_val
 
 
 def get_marginal_rate(city_data: dict, vol: float) -> float:
-    """Retorna a tarifa marginal (R$/m³) no ponto de consumo vol."""
-    faixas = city_data.get("faixas", [])
-    for inf, sup, rate, t_tipo in faixas:
-        if t_tipo == 1 and inf <= vol < sup:
-            return rate
-        if t_tipo == -1 and vol <= sup:
-            # Se for mínima fixa até sup (ex: 10 m3), taxa média unitária = rate/sup
-            return rate / max(1.0, sup) if sup > 0 else 0.0
-    if faixas:
-        # Pega a última faixa marginal
-        m_faixas = [f for f in faixas if f[3] == 1]
-        if m_faixas:
-            return m_faixas[-1][2]
-    return float(city_data.get("tarifa_base_agua_r_m3", 5.0) or 5.0)
+    """Retorna a tarifa marginal (R$/m³) no ponto de consumo vol.
+
+    Diferença finita da parcela de água em torno de ``vol``; vale para faixas,
+    franquias e para a fórmula exponencial, que não tem degrau.
+    """
+    passo = 0.5
+    antes = calculate_bill(city_data, max(0.0, vol - passo))[0]
+    depois = calculate_bill(city_data, vol + passo)[0]
+    return (depois - antes) / (vol + passo - max(0.0, vol - passo))
 
 
 def main():

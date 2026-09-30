@@ -711,6 +711,10 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a demanda pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a demanda total da edificação.
 
+**CORSAN**. Companhia Riograndense de Saneamento, a concessionária de água e esgoto de boa
+parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
+serviço básico, e não por faixas de consumo.
+
 **CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
 registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -882,6 +886,9 @@ carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
 
+**PB**. Preço-base, em R$/m³, da fórmula exponencial da CORSAN, `PB × Cⁿ`, em que `C` é o
+consumo do mês e `n` o expoente da tabela exponencial para aquele consumo.
+
 **PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
 comuns no mercado brasileiro.
 
@@ -923,6 +930,9 @@ prediais — área de captação, condutores, descarte inicial (first flush), es
 tratamento (ETAP), cisterna inferior, reservatório superior, grupo motobomba ou pressurizador
 e rede de distribuição independente — concebido para coletar, tratar, armazenar e fornecer
 água não potável em conformidade com a ABNT NBR 15527 e a ABNT NBR 5626.
+
+**SB**. Serviço básico: a parcela fixa mensal da fatura de água da CORSAN, somada ao
+resultado da fórmula exponencial.
 
 **SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
 

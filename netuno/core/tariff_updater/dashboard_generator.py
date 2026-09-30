@@ -47,6 +47,9 @@ def generate_interactive_dashboard(
         faixas = c.get("faixas", [])
         faixa_ini_str = "R$ 0,00"
         for inf, sup, rate, t_tipo in faixas:
+            if t_tipo == 2:
+                faixa_ini_str = f"PB R$ {rate:.2f}/m³ × Cⁿ"
+                break
             if t_tipo == 1:
                 faixa_ini_str = f"R$ {rate:.2f}/m³"
                 break
@@ -57,7 +60,10 @@ def generate_interactive_dashboard(
         tarifa_fixa = float(c.get("tarifa_fixa_mensal", 0.0) or 0.0)
         tem_minima = any(t[3] == -1 for t in faixas)
         
-        if tarifa_fixa > 0 and tem_minima:
+        if any(t[3] == 2 for t in faixas):
+            disp_tipo = "Fórmula Exponencial (PB × Cⁿ)"
+            disp_desc = f"Serviço básico de R$ {tarifa_fixa:.2f}/mês mais o preço-base elevado ao expoente da tabela exponencial."
+        elif tarifa_fixa > 0 and tem_minima:
             disp_tipo = "Franquia / Consumo Mínimo"
             disp_desc = f"Cobrança mínima de R$ {tarifa_fixa:.2f}/mês cobrindo a faixa inicial."
         elif tarifa_fixa > 0:

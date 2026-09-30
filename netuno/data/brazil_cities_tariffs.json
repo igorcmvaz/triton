@@ -30517,12 +30517,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30531,8 +30543,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Alvorada": {
       "municipio": "Alvorada",
@@ -30557,12 +30571,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30571,8 +30597,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Bagé": {
       "municipio": "Bagé",
@@ -30667,12 +30695,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30681,8 +30721,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Cachoeira do Sul": {
       "municipio": "Cachoeira do Sul",
@@ -30707,12 +30749,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30721,8 +30775,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Cachoeirinha": {
       "municipio": "Cachoeirinha",
@@ -30747,12 +30803,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30761,8 +30829,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Camaquã": {
       "municipio": "Camaquã",
@@ -30787,12 +30857,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30801,8 +30883,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Campo Bom": {
       "municipio": "Campo Bom",
@@ -30827,12 +30911,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30841,8 +30937,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Canoas": {
       "municipio": "Canoas",
@@ -30867,12 +30965,24 @@
         ],
         [
           0.0,
+          1000.0,
+          8.68,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           8.68,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 8.68/m³ + R$ 41.20/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 8,68/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30881,8 +30991,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Capão da Canoa": {
       "municipio": "Capão da Canoa",
@@ -30907,12 +31019,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30921,8 +31045,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Carazinho": {
       "municipio": "Carazinho",
@@ -30947,12 +31073,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "Eletrocar",
       "energia_r_kwh": 0.79643,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 2.673, DE 22 DE JULHO DE 2026",
@@ -30961,8 +31099,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Caxias do Sul": {
       "municipio": "Caxias do Sul",
@@ -31071,12 +31211,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31085,8 +31237,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Erechim": {
       "municipio": "Erechim",
@@ -31111,12 +31265,24 @@
         ],
         [
           0.0,
+          1000.0,
+          6.95,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           6.95,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 6.95/m³ + R$ 32.95/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 6,95/m³, serviço básico R$ 32,95/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 6,95/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31125,8 +31291,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Esteio": {
       "municipio": "Esteio",
@@ -31151,12 +31319,24 @@
         ],
         [
           0.0,
+          1000.0,
+          8.68,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           8.68,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 8.68/m³ + R$ 41.20/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 8,68/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31165,8 +31345,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Farroupilha": {
       "municipio": "Farroupilha",
@@ -31191,12 +31373,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31205,8 +31399,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Gravataí": {
       "municipio": "Gravataí",
@@ -31231,12 +31427,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31245,8 +31453,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Guaíba": {
       "municipio": "Guaíba",
@@ -31271,12 +31481,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -31285,8 +31507,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Ijuí": {
       "municipio": "Ijuí",
@@ -31311,12 +31535,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "DEMEI",
       "energia_r_kwh": 0.76415,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 2.675, DE 22 DE JULHO DE 2026",
@@ -31325,8 +31561,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Lajeado": {
       "municipio": "Lajeado",
@@ -31351,12 +31589,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31365,8 +31615,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Montenegro": {
       "municipio": "Montenegro",
@@ -31391,12 +31643,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31405,8 +31669,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Novo Hamburgo": {
       "municipio": "Novo Hamburgo",
@@ -31471,12 +31737,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31485,8 +31763,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Passo Fundo": {
       "municipio": "Passo Fundo",
@@ -31511,12 +31791,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31525,8 +31817,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Pelotas": {
       "municipio": "Pelotas",
@@ -31655,12 +31949,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -31669,8 +31975,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Santa Cruz do Sul": {
       "municipio": "Santa Cruz do Sul",
@@ -31695,12 +32003,24 @@
         ],
         [
           0.0,
+          1000.0,
+          7.91,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           7.91,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 7.91/m³ + R$ 37.50/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 7,91/m³, serviço básico R$ 37,50/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 7,91/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31709,8 +32029,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Santa Maria": {
       "municipio": "Santa Maria",
@@ -31735,12 +32057,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31749,8 +32083,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Santa Rosa": {
       "municipio": "Santa Rosa",
@@ -31775,12 +32111,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31789,8 +32137,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Santana do Livramento": {
       "municipio": "Santana do Livramento",
@@ -31849,12 +32199,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31863,8 +32225,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Sapiranga": {
       "municipio": "Sapiranga",
@@ -31889,12 +32253,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31903,8 +32279,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Sapucaia do Sul": {
       "municipio": "Sapucaia do Sul",
@@ -31929,12 +32307,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31943,8 +32333,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - São Borja": {
       "municipio": "São Borja",
@@ -31969,12 +32361,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31983,8 +32387,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - São Gabriel": {
       "municipio": "São Gabriel",
@@ -32103,12 +32509,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32117,8 +32535,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Tramandaí": {
       "municipio": "Tramandaí",
@@ -32143,12 +32563,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -32157,8 +32589,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Uruguaiana": {
       "municipio": "Uruguaiana",
@@ -32241,12 +32675,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32255,8 +32701,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Venâncio Aires": {
       "municipio": "Venâncio Aires",
@@ -32281,12 +32729,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32295,8 +32755,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "RS - Viamão": {
       "municipio": "Viamão",
@@ -32321,12 +32783,24 @@
         ],
         [
           0.0,
+          1000.0,
+          9.15,
+          2
+        ],
+        [
+          0.0,
+          1000.0,
+          1.0,
+          3
+        ],
+        [
+          1000.0,
           999999.0,
           9.15,
           1
         ]
       ],
-      "faixas_desc": "Preço-base (fórmula exponencial): R$ 9.15/m³ + R$ 43.39/mês",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -32335,8 +32809,10 @@
       "update_status_sanitation": "VERIFIED_AUDIT",
       "status_desc_sanitation": "Validado com evidência primária homologada (Resolução AGERGS e estrutura tarifária por município 2026).",
       "status_global": "AUTO_OR_VERIFIED",
-      "regime_tarifario": "disponibilidade",
-      "consumo_minimo_faturado_m3": 0.0
+      "regime_tarifario": "exponencial",
+      "consumo_minimo_faturado_m3": 0.0,
+      "expoentes_verificados": false,
+      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
     },
     "SC - Araranguá": {
       "municipio": "Araranguá",
@@ -43750,6 +44226,7 @@
     "  disponibilidade     - taxa fixa somada POR CIMA do consumo desde 0 m3",
     "  franquia_retroativa - ate N paga-se fixo; acima, todo o volume e tarifado desde 0",
     "  sem_minimo          - so faixas progressivas",
+    "  exponencial         - servico basico + PB x C^n, n pela tabela exponencial (CORSAN)",
     "",
     "Franquia no minimo e disponibilidade tem a MESMA forma e diferem so pela tarifa da",
     "primeira faixa. Por isso o regime e declarado, e ha teste que confronta a declaracao",

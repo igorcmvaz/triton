@@ -27,7 +27,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 1.287 testes em 121 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede`) |
+| Suíte de testes | 1.315 testes em 124 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede` ou o job «Fontes oficiais» disparado à mão no GitHub) |
 | Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
@@ -513,18 +513,28 @@ com variação mediana de **+74,7%**. A leitura é direta: as contas estavam sub
 com elas a economia atribuída ao aproveitamento de água de chuva. **Estudos econômicos
 executados antes desta correção subestimam o retorno nesses municípios.**
 
-### 6.5 Ressalva sobre a CORSAN
+### 6.5 A fórmula exponencial da CORSAN
 
-Trinta e seis dos municípios corrigidos são atendidos pela CORSAN, cuja estrutura
-tarifária é **exponencial**: a base auditada registra que «o faturamento de água usa
-PB×Cⁿ acrescido do serviço básico». O expoente `n` **não consta** da base auditada, que
-resume a tarifa como «R$ 9,15/m³ + R$ 43,39/mês» — uma aproximação linear feita pelos
-próprios auditores.
+Os municípios atendidos pela CORSAN têm estrutura tarifária **exponencial**: a base
+auditada registra que «o faturamento de água usa PB×Cⁿ acrescido do serviço básico».
+Na reconciliação eles foram gravados como «R$ 9,15/m³ + R$ 43,39/mês», uma reta que só
+coincide com a fórmula quando `n = 1`.
 
-A correção adota essa aproximação, o que é inequivocamente melhor que a tarifa nula
-anterior, mas **não é exato**: se `n < 1`, a forma linear superestima a conta em consumos
-altos. Antes de publicar resultados econômicos para municípios da CORSAN, convém
-confrontar a conta calculada com uma fatura real.
+A partir desta revisão, os 34 municípios da CORSAN da base estão no regime
+`exponencial` (`netuno/core/tariff_regimes.py`), com códigos próprios de faixa
+(`netuno/core/tariffs_structure.py`): `2` para o preço-base e `3` para cada linha da
+tabela exponencial. O motor econômico calcula `PB × Cⁿ + SB` com `n` lido pelo consumo
+do mês inteiro, até 1.000 m³, e cobra o excedente pelo preço do m³; o Gestor de Tarifas
+e a etapa econômica exibem e editam a tabela, e a simulação da fatura usa o mesmo motor.
+
+**Ressalva que permanece.** A tabela de expoentes homologada não pôde ser transcrita da
+fonte primária (o domínio da concessionária não estava acessível na apuração). A base
+grava `n = 1` de 0 a 1.000 m³, com `expoentes_verificados = false`, e a validação emite o
+aviso `expoentes_pendentes` para esses municípios: a conta calculada é, por ora, a mesma
+da aproximação linear. A tabela vive em um único arquivo,
+`tarifas/tabela_exponencial_corsan.json`, e `scripts/aplicar_tarifa_exponencial.py
+--aplicar` a propaga aos 34 municípios. Antes de publicar resultados econômicos para
+municípios da CORSAN, convém confrontar a conta calculada com uma fatura real.
 
 ### 6.6 Os sete municípios remanescentes
 

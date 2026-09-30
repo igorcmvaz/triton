@@ -62,6 +62,7 @@ COPIAS = [
 FAIXA_PROGRESSIVA = 1
 TAXA_FIXA = -1
 FRANQUIA_MINIMA = -2
+PRECO_BASE_EXPONENCIAL = 2
 
 #: Parcela fixa declarada na base auditada, por município. Preenchido por
 #: `carregar_referencia_auditada`.
@@ -174,6 +175,10 @@ def reconciliar(cidades: dict, referencia: dict) -> tuple[dict, list, list, list
 
     for chave_cidade, dados in cidades.items():
         faixas = dados.get("faixas") or []
+        # A fórmula exponencial (código 2) tem script próprio:
+        # `aplicar_tarifa_exponencial.py`. Aqui a sua faixa 1 é só o excedente.
+        if any(int(f[3]) == PRECO_BASE_EXPONENCIAL for f in faixas):
+            continue
         indices_progressivas = [i for i, f in enumerate(faixas) if int(f[3]) == FAIXA_PROGRESSIVA]
         if not indices_progressivas:
             continue

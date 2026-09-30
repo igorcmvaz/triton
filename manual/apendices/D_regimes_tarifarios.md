@@ -8,19 +8,20 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
 
-Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção {{n:29}}, e não se repetem aqui.
+Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seção {{n:29}}, e não se repetem aqui.
 
 
-## Os cinco regimes
+## Os seis regimes
 
-<!-- tabela: Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+<!-- tabela: Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
-| **Disponibilidade** | 156 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
+| **Disponibilidade** | 122 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
 | **Franquia no mínimo** | 329 | O valor fixo já inclui um volume. Economizar **abaixo** da franquia não desconta nada. |
 | **Franquia retroativa** | 2 | Até a franquia paga-se o fixo; passando dela, tarifa-se **tudo desde zero**. |
 | **Piso de pagamento** | 0 | A fatura **não fica** abaixo do piso. Não soma: limita. |
+| **Fórmula exponencial** | 34 | Serviço básico mais `PB × Cⁿ`, com `n` pelo consumo do mês (CORSAN). Cada m³ economizado desconta. |
 
 > O piso de pagamento está implementado e nenhum município da base foi
 > classificado nele até esta versão.

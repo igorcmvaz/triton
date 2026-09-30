@@ -332,12 +332,17 @@ def apendice_d():
                                 "tarifa-se **tudo desde zero**."),
         "piso_de_pagamento": ("Piso de pagamento",
                               "A fatura **não fica** abaixo do piso. Não soma: limita."),
+        "exponencial": ("Fórmula exponencial",
+                        "Serviço básico mais `PB × Cⁿ`, com `n` pelo consumo do mês "
+                        "(CORSAN). Cada m³ economizado desconta."),
     }
     CODIGOS = {
         "1 ou 0": "faixa progressiva, cobra só o volume dentro dela",
         "−1": "custo de disponibilidade, soma por cima",
         "−2": "franquia retroativa",
         "−3": "piso de pagamento",
+        "2": "preço-base da fórmula exponencial",
+        "3": "expoente da tabela exponencial",
     }
 
     L = [
@@ -352,13 +357,13 @@ def apendice_d():
         "Cada linha da tabela tarifária é uma quádrupla "
         "`(mínimo, máximo, valor, código)`.",
         "",
-        "Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados "
+        "Os seis códigos e o efeito de cada um sobre a fatura estão desenhados "
         "na seção {{n:29}}, e não se repetem aqui.",
         "",
     ]
 
-    L += ["", "## Os cinco regimes", "",
-          "<!-- tabela: Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->",
+    L += ["", "## Os seis regimes", "",
+          "<!-- tabela: Distribuição dos municípios do catálogo pelos seis regimes tarifários -->",
           "| Regime | Municípios | O que acontece ao economizar |",
           "| :--- | ---: | :--- |"]
     for chave, (nome, desc) in NOMES.items():

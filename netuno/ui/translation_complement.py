@@ -7,6 +7,14 @@ de modo que uma tradução revisada à mão nunca é sobrescrita por esta.
 """
 
 COMPLEMENTO = {
+    'Preço-base (PB × Cⁿ)': ('Base price (PB × Cⁿ)', 'Precio base (PB × Cⁿ)', '基准价（PB × Cⁿ）'),
+    'Expoente n': ('Exponent n', 'Exponente n', '指数 n'),
+    'Piso de pagamento': ('Payment floor', 'Piso de pago', '最低缴费额'),
+    'Piso mensal': ('Monthly floor', 'Piso mensual', '每月最低额'),
+    'Preço-base exponencial (PB × Cⁿ)': ('Exponential base price (PB × Cⁿ)', 'Precio base exponencial (PB × Cⁿ)', '指数公式基准价（PB × Cⁿ）'),
+    'Expoente n da tabela exponencial': ('Exponent n from the exponential table', 'Exponente n de la tabla exponencial', '指数表中的指数 n'),
+    ' ⚠️ Tabela exponencial não conferida com a homologada: edite as linhas «Expoente n» com a tabela vigente.': (' ⚠️ Exponential table not checked against the approved one: edit the «Exponent n» rows with the current table.', ' ⚠️ Tabla exponencial no verificada con la homologada: edite las filas «Exponente n» con la tabla vigente.', ' ⚠️ 指数表尚未与核准版本核对：请按现行表格编辑「指数 n」各行。'),
+    '📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês, n pela tabela exponencial até {2:.0f} m³.': ('📈 <b>Exponential formula:</b> Water = PB × Cⁿ + basic service — PB R$ {0:.2f}/m³, basic service R$ {1:.2f}/month, n from the exponential table up to {2:.0f} m³.', '📈 <b>Fórmula exponencial:</b> Agua = PB × Cⁿ + servicio básico — PB R$ {0:.2f}/m³, servicio básico R$ {1:.2f}/mes, n según la tabla exponencial hasta {2:.0f} m³.', '📈 <b>指数公式：</b>水费 = PB × Cⁿ + 基本服务费 — PB R$ {0:.2f}/m³，基本服务费 R$ {1:.2f}/月，n 按指数表取值，适用至 {2:.0f} m³。'),
     'CREA / Registro Profissional': ('PE License / Professional Reg. No. (e.g. CREA/PE/CEng)', 'CREA / Registro profesional', 'CREA / 注册工程师编号'),
     'Documento Executivo A4 Paisagem': ('Executive Document, A4 Landscape', 'Documento ejecutivo A4 horizontal', '执行摘要文档（A4 横向）'),
     'Responsável Técnico(a) / Engenheiro(a)': ('Engineer in Charge / Professional', 'Responsable técnico(a) / Ingeniero(a)', '技术负责人 / 工程师'),

@@ -107,9 +107,9 @@ Tabela 2 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capit
 
 Tabela 3 — Conteúdo da base climática nacional distribuída com o programa
 
-Tabela 4 — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura
+Tabela 4 — Os seis códigos de faixa tarifária e o efeito de cada um na fatura
 
-Tabela 5 — Os cinco regimes de mínimo e o que acontece ao economizar em cada um
+Tabela 5 — Os seis regimes tarifários e o que acontece ao economizar em cada um
 
 Tabela 6 — Efeito da economia de água na fatura em dois regimes tarifários opostos
 
@@ -127,7 +127,7 @@ Tabela 12 — Formatos de exportação e finalidade de cada um
 
 Tabela 13 — Opções da exportação de planilha e quando usar cada uma
 
-Tabela 14 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
+Tabela 14 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
 Tabela 15 — Grau de confiança dos registros tarifários do catálogo
 
@@ -559,7 +559,7 @@ consumir é sempre o da faixa mais alta da fatura, que é o mais caro.
 
 **Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
 mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
-para outro. É o assunto da subseção sobre os cinco regimes, adiante, e é o ponto que mais
+para outro. É o assunto da subseção sobre os seis regimes, adiante, e é o ponto que mais
 decide se um sistema pluvial se paga.
 
 **O esgoto é cobrado como percentual da água.** A maior parte dos prestadores fatura o
@@ -614,13 +614,15 @@ código é o elemento decisivo, porque é ele que informa o que aquele valor sig
 estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
 cada linha.
 
-<!-- tabela: **Tabela 4** — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
+<!-- tabela: **Tabela 4** — Os seis códigos de faixa tarifária e o efeito de cada um na fatura -->
 | Código | O que é | Como entra na fatura |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
 | −1 | tarifa de disponibilidade | valor fixo **somado** à parcela de consumo |
 | −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
 | −3 | piso de pagamento | a fatura **não fica** abaixo deste valor |
+| 2 | preço-base exponencial | `PB` da fórmula `PB × Cⁿ`, válida até o máximo da linha |
+| 3 | expoente da tabela exponencial | o `n` aplicado ao consumo **do mês inteiro** que cai na linha |
 
 A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
 disponibilidade e quatro faixas progressivas.
@@ -635,16 +637,17 @@ disponibilidade e quatro faixas progressivas.
 
 ---
 
-### 3.3.4. Os cinco regimes, e por que isso decide projetos
+### 3.3.4. Os seis regimes, e por que isso decide projetos
 
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
-coisas **diferentes** em cada um. O programa distingue cinco regimes:
+coisas **diferentes** em cada um. O programa distingue seis regimes:
 
-<!-- tabela: **Tabela 5** — Os cinco regimes de mínimo e o que acontece ao economizar em cada um -->
+<!-- tabela: **Tabela 5** — Os seis regimes tarifários e o que acontece ao economizar em cada um -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | **sem mínimo** | cada m³ economizado desconta | 165 |
-| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 156 |
+| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 122 |
+| **fórmula exponencial** | idem; o m³ poupado vale pelo preço-base elevado ao expoente | 34 |
 | **franquia no mínimo** | abaixo da franquia, economizar **não desconta nada** | 329 |
 | **franquia retroativa** | passando da franquia, tarifa-se tudo desde zero | 2 |
 | **piso de pagamento** | a fatura não fica abaixo do piso | 0 |
@@ -681,7 +684,59 @@ não reduz a fatura em nada.==
 
 ---
 
-### 3.3.5. Quando o mínimo é diluído na tarifa
+### 3.3.5. A fórmula exponencial da CORSAN
+
+Os 34 municípios gaúchos da base atendidos pela CORSAN não cobram a água por faixas.
+A parcela de água da fatura é dada por uma fórmula:
+
+```
+Água = PB × Cⁿ + SB
+```
+
+em que `PB` é o preço-base do município, em R$/m³; `C` é o consumo do mês, em m³; `n` é
+o expoente que a **tabela exponencial** da concessionária atribui àquele consumo; e `SB` é
+o serviço básico, cobrado mesmo sem consumo. A fórmula vale até 1.000 m³ por economia;
+acima disso, o excedente é cobrado pelo preço do m³. O esgoto é 70% do valor da água.
+
+Duas diferenças em relação às faixas decidem o cálculo:
+
+- **O expoente vale para o consumo inteiro.** Nas faixas, cada metro cúbico é cobrado
+  pelo preço da faixa em que cai; na fórmula, o `n` da linha em que o consumo total cai
+  se aplica a todo o volume. Mudar de linha muda a conta inteira, e não só o último m³.
+- **Não há degrau de preço, há curva.** O preço médio do metro cúbico é `PB × Cⁿ⁻¹`: com
+  `n` acima de 1 ele cresce com o consumo, com `n` igual a 1 é constante.
+
+Para o aproveitamento pluvial, a consequência é simples: **toda economia desconta desde o
+primeiro metro cúbico**, e o que se poupa vale `PB × (C₁ⁿ¹ − C₂ⁿ²)`, a diferença entre as
+duas contas — é assim que o programa calcula, com a fórmula e não com uma reta.
+
+No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
+estrutura de Alegrete, vigente desde 1º de julho de 2026, é:
+
+```
+(0,00 ; 0,00    ; 43,39 ; -1)   serviço básico, soma sempre
+(0,00 ; 1000,00 ;  9,15 ;  2)   preço-base PB, fórmula válida até 1.000 m³
+(0,00 ; 1000,00 ;  1,00 ;  3)   tabela exponencial: n para o consumo em (0, 1.000]
+(1000,00 ; 999999 ; 9,15 ; 1)   excedente acima de 1.000 m³
+```
+
+A tabela exponencial pode ter tantas linhas de código 3 quantas a concessionária
+publicar, cada uma com o seu intervalo de consumo e o seu `n`. No **Gestor de Tarifas**, a
+estrutura aparece com o rótulo «Fórmula exponencial», o simulador mostra o cálculo
+`PB × Cⁿ` do consumo escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez
+dos degraus.
+
+> **O estado da tabela exponencial nesta versão.** A tabela homologada pela AGERGS para a
+> vigência de 2026 não pôde ser transcrita da fonte primária a tempo desta versão. A base
+> grava, por isso, `n = 1` de 0 a 1.000 m³ e marca a tabela como **não conferida**: a conta
+> sai igual a `PB × C + SB`, e o Gestor de Tarifas exibe o aviso. Para usar a tabela
+> vigente, edite as linhas «Expoente n» no Gestor, uma por intervalo de consumo, e aplique
+> ao projeto. A tabela é a mesma para todos os municípios da CORSAN: quando a homologada
+> for transcrita na base, os 34 passam a usá-la de uma vez, e o aviso desaparece.
+
+---
+
+### 3.3.6. Quando o mínimo é diluído na tarifa
 
 Um erro frequente nas bases públicas: a concessionária informa «tarifa mínima de
 R$ 52,89 para 10 m³», e quem cadastra grava isso como R$ 5,289 por m³ até 10 m³.
@@ -695,7 +750,7 @@ registro da correção. Se você cadastrar um município novo, **verifique isso*
 
 ---
 
-### 3.3.6. O esgoto
+### 3.3.7. O esgoto
 
 O percentual de esgoto incide sobre a **parcela de água** da fatura, e não sobre a fatura total.
 
@@ -709,7 +764,7 @@ limitação.
 
 ---
 
-### 3.3.7. Onde encontrar o dado
+### 3.3.8. Onde encontrar o dado
 
 Em ordem de confiabilidade:
 
@@ -726,7 +781,7 @@ Em ordem de confiabilidade:
 
 ---
 
-### 3.3.8. Confira antes de confiar
+### 3.3.9. Confira antes de confiar
 
 Depois de montar a tabela, faça o teste que o item 3.3.7 sugere: simule dois
 consumos, um dentro e um fora da faixa mínima, e compare com a fatura real ou com o
@@ -1607,6 +1662,8 @@ A integração com o Autodesk Revit é feita por um importador distribuído com 
 
 Sem organização salva, o programa pré-preenche o arranjo usual dessas instalações, a partir do estudo: captação do telhado, filtro e descarte inicial; cisterna com entrada calma pelo freio d'água, captação pela sucção flutuante com válvula de pé e crivo, chave de nível contra marcha a seco, respiro com tela e extravasor com ladrão sifonado e retenção antirrefluxo para a rede pluvial; registros de manutenção dos dois lados da motobomba, válvula de retenção no recalque e quadro de comando; caixa superior com chave de nível, respiro com tela, extravasor com descarga visível, limpeza com registro junto à saída e distribuição com registro até um ponto de utilização identificado; e o abastecimento potável de reserva — hidrômetro, registro e válvula solenoide — que só abre quando falta água de chuva e descarrega na caixa superior por separação atmosférica, como pede a ABNT NBR 5626:2020. Quem decide é o quadro de comando: com a caixa superior no nível de partida e água na cisterna, liga a motobomba; com a cisterna no mínimo, bloqueia a motobomba e abre a solenoide, que enche a caixa só até a boia de backup, mais baixa, para sobrar volume para a próxima chuva. Motobomba e solenoide nunca funcionam juntas. Na volumetria, os cabos de comando — das chaves de nível ao quadro e dele à motobomba e à solenoide — aparecem tracejados, e a lógica completa está na ficha do quadro. O arranjo é um ponto de partida: posições, percursos e peças são do projetista.
 
+Com esses dados o programa monta também a prancha do esquema 3D, fora de escala e em folha A3 deitada. Só os níveis que organizam a instalação — cisterna, reservatório superior, motobomba, filtro e descarte — ganham plano de cota; as peças pequenas aparecem no desenho pelo código, e o tipo e a cota de cada uma estão na tabela «Peças e acessórios», ao lado da sequência de montagem e do quantitativo por diâmetro.
+
 O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
 
 ---
@@ -1652,19 +1709,20 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
 
-Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7 (volume O método), e não se repetem aqui.
+Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7 (volume O método), e não se repetem aqui.
 
 
-### D.2. Os cinco regimes
+### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 14** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+<!-- tabela: **Tabela 14** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
-| **Disponibilidade** | 156 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
+| **Disponibilidade** | 122 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
 | **Franquia no mínimo** | 329 | O valor fixo já inclui um volume. Economizar **abaixo** da franquia não desconta nada. |
 | **Franquia retroativa** | 2 | Até a franquia paga-se o fixo; passando dela, tarifa-se **tudo desde zero**. |
 | **Piso de pagamento** | 0 | A fatura **não fica** abaixo do piso. Não soma: limita. |
+| **Fórmula exponencial** | 34 | Serviço básico mais `PB × Cⁿ`, com `n` pelo consumo do mês (CORSAN). Cada m³ economizado desconta. |
 
 > O piso de pagamento está implementado e nenhum município da base foi
 > classificado nele até esta versão.
@@ -1932,6 +1990,10 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a demanda pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a demanda total da edificação.
 
+**CORSAN**. Companhia Riograndense de Saneamento, a concessionária de água e esgoto de boa
+parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
+serviço básico, e não por faixas de consumo.
+
 **CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
 registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -2103,6 +2165,9 @@ carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
 
+**PB**. Preço-base, em R$/m³, da fórmula exponencial da CORSAN, `PB × Cⁿ`, em que `C` é o
+consumo do mês e `n` o expoente da tabela exponencial para aquele consumo.
+
 **PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
 comuns no mercado brasileiro.
 
@@ -2144,6 +2209,9 @@ prediais — área de captação, condutores, descarte inicial (first flush), es
 tratamento (ETAP), cisterna inferior, reservatório superior, grupo motobomba ou pressurizador
 e rede de distribuição independente — concebido para coletar, tratar, armazenar e fornecer
 água não potável em conformidade com a ABNT NBR 15527 e a ABNT NBR 5626.
+
+**SB**. Serviço básico: a parcela fixa mensal da fatura de água da CORSAN, somada ao
+resultado da fórmula exponencial.
 
 **SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
 
