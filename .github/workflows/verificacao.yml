@@ -18,10 +18,9 @@ jobs:
   nucleo:
     name: Núcleo de cálculo (${{ matrix.kernel }}, Python ${{ matrix.python }})
     runs-on: ubuntu-latest
-    # A suíte tem ~1.240 testes: 3 a 13 minutos com numba, até ~20 no Python puro
-    # num executor lento. O limite folgado evita cortar a suíte no meio; ainda
-    # impede que uma fonte externa lenta (a ANEEL, nos testes de rede) prenda a
-    # verificação por horas.
+    # A suíte tem ~1.240 testes e leva de 3 a 15 minutos por job. O limite folgado
+    # evita cortar a suíte num executor lento e ainda impede que uma fonte externa
+    # lenta (a ANEEL, nos testes de rede) prenda a verificação por horas.
     timeout-minutes: 45
     strategy:
       fail-fast: false
@@ -68,12 +67,18 @@ jobs:
       # Os testes marcados "rede" ficam fora da execução local padrão (pyproject.toml),
       # mas os executores do GitHub têm internet: aqui eles rodam, consultando a
       # ANEEL de fato, e contam para a cobertura do atualizador tarifário.
+      #
+      # A cobertura é medida uma vez, no job Python puro 3.13, que tem o portão de
+      # 80%. Sob cobertura, as simulações em Python puro ficam até 20 vezes mais
+      # lentas (3 s viram 68 s num único teste), e no 3.12 isso levava o job a
+      # passar de 40 minutos; os demais jobs rodam a mesma suíte sem ela.
       - name: Suíte de verificação
-        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-report=term-missing --durations=15
+        if: ${{ !(matrix.kernel == 'python' && matrix.python == '3.13') }}
+        run: python -m pytest -m "not replicacao" --durations=15
 
-      - name: Portão de cobertura
+      - name: Suíte de verificação com portão de cobertura
         if: matrix.kernel == 'python' && matrix.python == '3.13'
-        run: python -m pytest -m "not replicacao" --cov=netuno.core --cov-fail-under=80 -q
+        run: python -m pytest -m "not replicacao" --durations=15 --cov=netuno.core --cov-report=term-missing --cov-fail-under=80
 
   replicacao:
     name: Replicação contra o Netuno 4
