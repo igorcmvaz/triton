@@ -48,6 +48,7 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
    - Trechos organizados pelo projetista na ordem de montagem, a partir de pontos de conexão dos componentes (`RS-01:topo`, `RS-01:fundo`, laterais superior e inferior).
    - Conferência do destino de cada trecho, declividade mínima dos sistemas por gravidade (ABNT NBR 10844) e recusa de tubos que ocupam o mesmo espaço.
    - Planta 3D em DXF, esquema 3D com as medidas reais, volumetria girável no programa e exportação em glTF (`.glb`) e HTML interativo, além do manifesto BIM lido pelo Revit ([`integrations/revit`](integrations/revit/README.md)).
+   - Volumetria em WebGL ([three.js](https://threejs.org)), a mesma no programa e no HTML exportado: peças detalhadas (tanques, motobomba, filtro, descarte, registros), materiais físicos, céu HDRI do Poly Haven (CC0), sombras, fluxo animado por sistema, corte por cota, raio-X, medição e imagem PNG. Funciona sem internet; sem WebGL, a aba usa o visualizador simples. Código em [`web/volumetria`](web/volumetria/README.md).
 
 ---
 

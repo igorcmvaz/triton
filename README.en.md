@@ -35,7 +35,7 @@ the code.
 | **Economics** | parametric CAPEX, progressive water and sewerage tariffs for 652 municipalities, ANEEL electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon in materials, operational carbon of pumping and treatment, and the credit of mains water avoided |
 | **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, plus placement against LEED v4/v4.1 and LEED v5, EDGE, AQUA-HQE, Selo Casa Azul and GRI 303 |
-| **Piping in 3D** | pipe runs organised by the designer from component connection points, with destination checks, gravity slopes and clash detection; 3D plant in DXF, a schematic with real measurements, an orbitable volumetric model, glTF and interactive HTML export, and a BIM manifest for Revit |
+| **Piping in 3D** | pipe runs organised by the designer from component connection points, with destination checks, gravity slopes and clash detection; 3D plant in DXF, a schematic with real measurements, an orbitable WebGL volumetric model (three.js, PBR materials, Poly Haven HDRI, shadows, animated flow, section by elevation, measuring), glTF and interactive HTML export, and a BIM manifest for Revit |
 
 The three optima — technical, economic and environmental — do not in general coincide.
 Netuno 5 computes all three on one sweep so that the divergence is visible rather than

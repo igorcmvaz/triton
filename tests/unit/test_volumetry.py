@@ -1,5 +1,6 @@
 """Volumetria 3D: sólidos coerentes, dimensões rastreáveis e arquivos válidos."""
 
+import base64
 import json
 import math
 import re
@@ -123,7 +124,9 @@ def test_glb_is_structurally_valid_gltf(tmp_path):
 def test_html_viewer_is_self_contained_and_carries_the_scene(tmp_path):
     scene = build_volumetry(_project(project_name="Casa </script> 3D"))
     html = open(write_html_viewer(scene, str(tmp_path / "v.html")), encoding="utf-8").read()
-    assert "http://" not in html.replace("http://www.w3.org", "") and "https://" not in html
+    # Nada é carregado da rede: nem script, nem folha de estilo, nem textura.
+    # (O pacote do three.js cita endereços em texto, como a licença; carregar não carrega.)
+    assert not re.search(r"""(src|href)\s*=\s*["']?https?:|@import|url\(\s*["']?https?:|fetch\(\s*["']https?:|from\s*["']https?:""", html)
     assert html.count("</script>") == 1  # o nome do projeto não fecha o script
     payload = re.search(r"const SCENE = (\{.*?\});\n", html, re.S).group(1)
     data = json.loads(payload.replace("<\\/", "</"))
@@ -132,6 +135,10 @@ def test_html_viewer_is_self_contained_and_carries_the_scene(tmp_path):
     tank = next(s for s in data["solids"] if s["key"] == "CI-01")
     assert len(tank["tris"]) == len(tank["norms"]) and len(tank["tris"]) % 9 == 0
     assert scene_payload(scene)["bounds"][0][2] == pytest.approx(-1.5)
+    # O visualizador vai junto, e o céu HDRI também (Radiance em base64).
+    assert "NetunoVolumetria.mount(" in html
+    sky = re.search(r'const SKY = "([A-Za-z0-9+/=]*)";', html).group(1)
+    assert base64.b64decode(sky)[:10] == b"#?RADIANCE"
 
 
 def test_package_writes_both_files_next_to_the_drawing(tmp_path):

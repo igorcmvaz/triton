@@ -16,7 +16,8 @@ Inclui os 5 elementos normativos essenciais de aproveitamento de água de chuva:
 from __future__ import annotations
 
 import math
-from typing import Any, Dict, List, Optional
+import re
+from typing import Any, Dict, List, Optional, Tuple
 
 from netuno.core.component_geometry import tank_dimensions_mm
 from netuno.core.cad_exporter import _extract_upper_vol, calculate_forchheimer_pumping_diameters
@@ -33,6 +34,42 @@ def _number(value: Any, default: float = 0.0) -> float:
         return num if math.isfinite(num) and num > 0 else default
     except (ValueError, TypeError):
         return default
+
+
+#: Distância do ralo da cobertura à borda do telhado (mm), onde nasce a captação.
+RECUO_DO_RALO_MM = 300.0
+
+#: Potência de placa usual (kW) dos motores de catálogo, por potência em CV.
+_KW_DE_PLACA = {1 / 3: 0.25, 0.5: 0.37, 0.75: 0.55, 1.0: 0.75, 1.5: 1.1, 2.0: 1.5, 3.0: 2.2}
+
+
+def cv_do_rotulo(rotulo: Any) -> Optional[float]:
+    """Lê «1/2», «3/4», «1», «1 1/2», «1.1/2» ou «2» como potência em CV.
+
+    O teste por substring (``"1/2" in rotulo``) lia «1 1/2» como meio CV e
+    «1/3» como 1 CV.
+    """
+    texto = str(rotulo or "").strip().lower().replace("cv", "").replace("hp", "").replace(",", ".").strip()
+    m = re.fullmatch(r"(?:(\d+)[\s.]+)?(\d+)/(\d+)", texto)
+    if m:
+        inteiro, num, den = int(m.group(1) or 0), int(m.group(2)), int(m.group(3))
+        return inteiro + num / den if den else None
+    try:
+        valor = float(texto)
+    except ValueError:
+        return None
+    return valor if valor > 0 else None
+
+
+def potencia_da_motobomba(rotulo: Any, kw_informado: float = 0.0) -> Tuple[float, float]:
+    """(CV, kW) da motobomba. O kW informado prevalece; sem nada, ½ CV (0,37 kW)."""
+    cv = cv_do_rotulo(rotulo)
+    if kw_informado and kw_informado > 0:
+        return (cv if cv else kw_informado / CV_TO_KW), kw_informado
+    if cv is None:
+        cv = 0.5
+    kw = next((k for c, k in _KW_DE_PLACA.items() if abs(c - cv) < 1e-6), round(cv * CV_TO_KW, 2))
+    return cv, kw
 
 
 def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -87,19 +124,8 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
     dn_rec = float(pumping.get("dn_recalque_comercial_mm") or 25.0)
     dn_suc = float(pumping.get("dn_succao_comercial_mm") or 32.0)
 
-    # Potência do motor
-    pump_kw = _number(data.get("pump_power_kw"), 0.37)
-    if "1/2" in pump_hp:
-        pump_cv = 0.50
-        pump_kw = 0.37
-    elif "3/4" in pump_hp:
-        pump_cv = 0.75
-        pump_kw = 0.55
-    elif "1" in pump_hp:
-        pump_cv = 1.00
-        pump_kw = 0.75
-    else:
-        pump_cv = pump_kw / CV_TO_KW
+    # Potência do motor: a informada em kW prevalece; o rótulo completa o que faltar.
+    pump_cv, pump_kw = potencia_da_motobomba(pump_hp, _number(data.get("pump_power_kw"), 0.0))
 
     flow_l_min = (flow_m3_h * 1000.0 / 60.0) if flow_m3_h > 0 else 60.0
     head_mca = round((bldg_h + alt_ci + 500.0) / 1000.0 + 4.0, 1)
@@ -228,8 +254,11 @@ def generate_study_layout(project_data: Optional[Dict[str, Any]] = None) -> Dict
             "dn_mm": dn_capt,
             "material": "PVC",
             "level": "Cobertura",
-            "start": {"x": x_fp - 1500.0, "y": y_fp, "z": bldg_h},
-            "route": f"d 1500 0 -20; desce {(bldg_h - 20.0) - (z_fp + h_fp):g}",
+            # Nasce no ralo da cobertura, junto à borda do telhado do lado do
+            # filtro, e corre para fora até a vertical do filtro. Antes começava
+            # no ar, 1,5 m além do filtro, e apontava para longe da edificação.
+            "start": {"x": RECUO_DO_RALO_MM, "y": y_fp, "z": bldg_h},
+            "route": f"d {x_fp - RECUO_DO_RALO_MM:g} 0 -20; desce {(bldg_h - 20.0) - (z_fp + h_fp):g}",
             "end": "FP-01:topo",
         },
         {
