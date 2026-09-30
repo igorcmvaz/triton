@@ -26,10 +26,10 @@ Data de corte: **24 de agosto de 2026**.
    - Águas de Manaus/AGEMAN: https://www.aguasdemanaus.com.br/legislacao-e-tarifas/
    - CORSAN/AGERGS, tabelas por município em 2026: https://www.corsan.com.br/sistematarifario/
      A CORSAN fatura a água por `PB × Cⁿ + serviço básico`, e não por faixas. No banco, a
-     fórmula usa os códigos `2` (preço-base) e `3` (tabela exponencial); a tabela é única
-     para todos os municípios e vive em `tarifas/tabela_exponencial_corsan.json`, aplicada
-     por `scripts/aplicar_tarifa_exponencial.py`. Enquanto `verificada` for `false`, o
-     expoente gravado é 1 e a conta equivale à aproximação linear.
+     fórmula usa os códigos `2` (preço-base) e `3` (Tabela de Exponenciais, transcrita da
+     CORSAN em `tarifas/tabela_exponencial_corsan.json`, aplicada por
+     `scripts/aplicar_tarifa_exponencial.py`). O esgoto é cobrado por m³ consumido
+     (`esgoto_modo` 2, `esgoto_r_m3`), sem serviço básico nem expoente.
    - SANESUL/AGEMS, repositório de estruturas 2026: https://www.sanesul.ms.gov.br/evolucao-tarifaria
    - AGRESE/DESO, estruturas tarifárias autorizadas: https://agrese.se.gov.br/estrutura-tarifaria-autorizada/
    - MRAE/AGRESPI, identificação da concessionária Águas do Piauí: https://mrae.sead.pi.gov.br/institucional/governanca/concessionaria-aguas-do-piaui/

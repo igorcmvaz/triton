@@ -83,3 +83,14 @@ def test_a_variavel_de_ambiente_desliga_o_visualizador_web(monkeypatch, valor, e
     if esperado:
         pytest.importorskip("PySide6.QtWebEngineWidgets")
     assert volumetry_web.web_disponivel() is esperado
+
+
+def test_a_volumetria_abre_leve_so_com_os_rotulos():
+    """Edificação, terreno, fluxo, raio-X, céu e sombras pesam: ligam-se no botão."""
+    import re
+    from pathlib import Path
+
+    fonte = (Path(__file__).resolve().parents[2] / "web" / "volumetria" / "src" / "viewer.js").read_text(encoding="utf-8")
+    padrao = dict(re.findall(r"(\w+): (true|false)", re.search(r"this\.show = \{([^}]*)\}", fonte).group(1)))
+    assert padrao == {"building": "false", "ground": "false", "labels": "true", "flow": "false",
+                      "xray": "false", "sky": "false", "shadows": "false"}

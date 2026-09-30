@@ -118,3 +118,19 @@ def test_nenhuma_chamada_a_setpointsize_no_pacote():
         "setPointSize introduzido em netuno/ — provavel causa do aviso do Qt: "
         f"{ocorrencias}"
     )
+
+
+def test_avisos_do_compilador_de_sombreadores_sao_benignos():
+    """Os avisos X4122/X4000 do Direct3D sobre o three.js não são do Netuno."""
+    from netuno.ui.qt_diagnostics import aviso_benigno
+
+    x4122 = ("THREE.WebGLProgram: Program Info Log: C:\\fakepath(213,81-129): warning X4122: sum of "
+             "0.996094 and -2.98545e-017 cannot be represented accurately in double precision\n"
+             "C:\\fakepath(212,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented\n\n\n")
+    x4000 = ("THREE.WebGLProgram: Program Info Log: C:\\fakepath(100,1-6): warning X4000: use of "
+             "potentially uninitialized variable (dyn_index_vec4_float4_int)\n")
+    assert aviso_benigno(x4122) and aviso_benigno(x4000)
+    # Erro de compilação continua aparecendo, mesmo misturado a avisos.
+    assert not aviso_benigno("THREE.WebGLProgram: Program Info Log: C:\\fakepath(1,1): error X3004: undeclared "
+                             "identifier\nC:\\fakepath(2,1): warning X4000: x")
+    assert not aviso_benigno("QFont::setPointSize: Point size <= 0 (-1), must be greater than 0")

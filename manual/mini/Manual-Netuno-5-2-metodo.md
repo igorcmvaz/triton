@@ -2383,12 +2383,14 @@ T_agua = PB × C^n + SB
 | :--- | :--- | :--- |
 | `T_agua` | parcela de água da fatura | R$ |
 | `PB` | preço-base do município | R$/m³ |
-| `C` | consumo do mês por economia, limitado a 1.000 m³ | m³ |
-| `n` | expoente da tabela exponencial para o consumo `C` | adimensional |
+| `C` | consumo do mês por economia | m³ |
+| `n` | expoente da Tabela de Exponenciais para o consumo `C`: 1,00 até 20 m³, 1,13 entre 101 e 150 m³ | adimensional |
 | `SB` | serviço básico | R$ |
 
-O expoente é lido pelo consumo **total** do mês e aplicado a todo o volume. O excedente
-acima de 1.000 m³ é somado pelo preço do m³, como uma faixa comum. A economia mensal é a
+O expoente é lido pelo consumo **total** do mês e aplicado a todo o volume. Na categoria
+residencial não há teto; só a industrial passa, acima de 1.000 m³, a cobrar o excedente
+por preços próprios, e o programa representa esse teto com uma faixa comum a partir dele.
+A economia mensal é a
 diferença entre as duas contas, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, cada consumo com o seu expoente, e não o produto de um preço
 unitário pelo volume poupado; com `n` acima de 1, o metro cúbico poupado vale mais que o
 preço-base.
@@ -2421,6 +2423,11 @@ calculada. Cem por cento, que é o valor praticado por boa parte das concession�
 brasileiras, significa que a parcela de esgoto iguala a de água, e portanto que o esgoto
 responde por metade da fatura total.
 
+Há um terceiro modo, o da CORSAN: o esgoto cobrado **por metro cúbico consumido**,
+`T_esg = C × p_esg`, sem o serviço básico e sem o expoente da água. Aplicar ali o
+percentual sobre a parcela de água cobraria esgoto sobre o serviço básico e sobre a
+potência, e a conta sairia maior do que a concessionária fatura.
+
 ---
 
 ### 2.7.3. Os seis regimes na base
@@ -2437,7 +2444,7 @@ seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórm
 | franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
 | franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
 | piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
-| fórmula exponencial | serviço básico (−1), preço-base (2), tabela de expoentes (3) de 0 a 1.000 m³ e faixa (1) acima | serviço básico somado a `PB × Cⁿ`, com `n` pelo consumo do mês inteiro | toda redução de consumo reduz a fatura, pela diferença entre as duas potências |
+| fórmula exponencial | serviço básico (−1), preço-base (2) e tabela de expoentes (3) cobrindo todo o consumo | serviço básico somado a `PB × Cⁿ`, com `n` pelo consumo do mês inteiro | toda redução de consumo reduz a fatura, pela diferença entre as duas potências |
 
 ![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
 

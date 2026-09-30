@@ -20,7 +20,7 @@ from PySide6.QtGui import QColor, QFont
 
 from netuno.core.parser import load_precipitation, parse_float, format_ptbr
 from netuno.core.calculator import IndicesCalculator
-from netuno.core.tariffs_database import get_available_ufs, get_cities_by_uf, get_city_data
+from netuno.core.tariffs_database import esgoto_do_municipio, get_available_ufs, get_cities_by_uf, get_city_data, rotulo_do_esgoto
 from netuno.core.climate_database import (
     CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path,
     RECORTES_SUGERIDOS, ANOS_MINIMOS_RECOMENDADOS,
@@ -738,8 +738,7 @@ class TabProject(QWidget):
         data = get_city_data(uf_code, city_name)
         if data and not self._tariff_is_customized:
             cfg.water_tariffs = data.get('faixas', cfg.water_tariffs)
-            cfg.sewage_rate = data.get('esgoto_pct', cfg.sewage_rate)
-            cfg.sewage_mode = 1
+            cfg.sewage_mode, cfg.sewage_rate = esgoto_do_municipio(data)
             e_kwh = data.get('energia_r_kwh', 0.0)
             if e_kwh > 0:
                 cfg.elec_tariff = e_kwh
@@ -762,14 +761,14 @@ class TabProject(QWidget):
             return
 
         prestador = data.get('prestador_saneamento', '--')
-        esg_pct = data.get('esgoto_pct', 80.0)
+        esgoto = rotulo_do_esgoto(data)
         dist_e = data.get('distribuidora_energia', '--')
         e_kwh = data.get('energia_r_kwh', 0.0)
         agencia = data.get('agencia_reguladora', '')
         vigencia = data.get('vigencia_saneamento', '')
         reg_str = f"{agencia} ({vigencia})" if agencia and vigencia else (agencia or vigencia or "--")
 
-        self.lbl_t_prestador.setText(f"🏢 <b>{tr('Saneamento:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
+        self.lbl_t_prestador.setText(f"🏢 <b>{tr('Saneamento:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esgoto}")
         self.lbl_t_elec.setText(f"⚡ <b>{tr('Eletricidade (ANEEL B1):')}</b> {dist_e} (R$ {e_kwh:.4f}/kWh)")
         self.lbl_t_reg.setText(f"📋 <b>{tr('Regulação & Vigência:')}</b> {reg_str}")
 
@@ -797,8 +796,7 @@ class TabProject(QWidget):
         if data:
             cfg = self._get_config()
             cfg.water_tariffs = data.get('faixas', cfg.water_tariffs)
-            cfg.sewage_rate = data.get('esgoto_pct', cfg.sewage_rate)
-            cfg.sewage_mode = 1
+            cfg.sewage_mode, cfg.sewage_rate = esgoto_do_municipio(data)
             e_kwh = data.get('energia_r_kwh', 0.0)
             if e_kwh > 0:
                 cfg.elec_tariff = e_kwh

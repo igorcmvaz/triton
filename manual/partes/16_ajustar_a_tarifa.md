@@ -166,45 +166,64 @@ A parcela de água da fatura é dada por uma fórmula:
 ```
 
 em que `PB` é o preço-base do município, em R$/m³; `C` é o consumo do mês, em m³; `n` é
-o expoente que a **tabela exponencial** da concessionária atribui àquele consumo; e `SB` é
-o serviço básico, cobrado mesmo sem consumo. A fórmula vale até 1.000 m³ por economia;
-acima disso, o excedente é cobrado pelo preço do m³. O esgoto é 70% do valor da água.
+o expoente que a **Tabela de Exponenciais** da concessionária atribui àquele consumo; e
+`SB` é o serviço básico, cobrado mesmo sem consumo. Na categoria residencial, `n` vale
+1,00 até 20 m³ e sobe a cada metro cúbico a partir daí:
+
+<!-- tabela: Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial -->
+| Consumo do mês | `n` | Consumo do mês | `n` |
+| :--- | ---: | :--- | ---: |
+| até 20 m³ | 1,00 | 36 a 45 m³ | 1,10 |
+| 21 m³ | 1,01 | 46 a 100 m³ | 1,11 |
+| 22 a 27 m³ | 1,02 a 1,07 | 101 a 150 m³ | 1,13 |
+| 28 e 29 m³ | 1,08 | 151 a 1.000 m³ | 1,1287 a 1,12 |
+| 30 a 35 m³ | 1,09 | acima de 1.000 m³ | 1,11 a 1,0858 |
+
+A tabela segue além de 1.000 m³: só a categoria industrial tem teto nesse volume, acima
+do qual o excedente é cobrado por preços próprios. O **esgoto** não entra na fórmula: é
+cobrado por metro cúbico consumido, sem o serviço básico e sem o expoente — R$ 6,40/m³
+tratado nos municípios do ANEXO-5, 70% do preço-base truncado no centavo.
 
 Duas diferenças em relação às faixas decidem o cálculo:
 
 - **O expoente vale para o consumo inteiro.** Nas faixas, cada metro cúbico é cobrado
   pelo preço da faixa em que cai; na fórmula, o `n` da linha em que o consumo total cai
-  se aplica a todo o volume. Mudar de linha muda a conta inteira, e não só o último m³.
-- **Não há degrau de preço, há curva.** O preço médio do metro cúbico é `PB × Cⁿ⁻¹`: com
-  `n` acima de 1 ele cresce com o consumo, com `n` igual a 1 é constante.
+  se aplica a todo o volume. Passar de 20 para 21 m³ custa R$ 15,09 de água, e não os
+  R$ 9,15 do preço-base, porque os 21 m³ inteiros passam a ser elevados a 1,01.
+- **Não há degrau de preço, há curva.** O preço médio do metro cúbico de água é
+  `PB × Cⁿ⁻¹`: constante até 20 m³ e crescente depois.
 
-Para o aproveitamento pluvial, a consequência é simples: **toda economia desconta desde o
-primeiro metro cúbico**, e o que se poupa vale `PB × (C₁ⁿ¹ − C₂ⁿ²)`, a diferença entre as
-duas contas — é assim que o programa calcula, com a fórmula e não com uma reta.
+<!-- tabela: Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026 -->
+| Consumo | `n` | Água | Água e esgoto | Preço médio da água |
+| ---: | ---: | ---: | ---: | ---: |
+| 10 m³ | 1,00 | R$ 134,89 | R$ 198,89 | R$ 13,49/m³ |
+| 20 m³ | 1,00 | R$ 226,39 | R$ 354,39 | R$ 11,32/m³ |
+| 25 m³ | 1,05 | R$ 312,08 | R$ 472,08 | R$ 12,48/m³ |
+| 30 m³ | 1,09 | R$ 416,20 | R$ 608,20 | R$ 13,87/m³ |
+
+Os R$ 134,89 de 10 m³ são exatamente a «tarifa mínima sem hidrômetro» da tabela da
+CORSAN, 43,39 + 9,15 × 10, o que confere a transcrição. Para o aproveitamento pluvial,
+a consequência é que **toda economia desconta desde o primeiro metro cúbico**, e desconta
+mais onde o expoente é maior: uma residência que desce de 30 para 20 m³ economiza
+R$ 253,81 por mês. A reta usada até a 5.0.0, com esgoto de 70% sobre a conta inteira,
+dava R$ 155,55 para a mesma redução.
 
 No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
-estrutura de Alegrete, vigente desde 1º de julho de 2026, é:
+estrutura de Alegrete começa assim:
 
 ```
-(0,00 ; 0,00    ; 43,39 ; -1)   serviço básico, soma sempre
-(0,00 ; 1000,00 ;  9,15 ;  2)   preço-base PB, fórmula válida até 1.000 m³
-(0,00 ; 1000,00 ;  1,00 ;  3)   tabela exponencial: n para o consumo em (0, 1.000]
-(1000,00 ; 999999 ; 9,15 ; 1)   excedente acima de 1.000 m³
+(0,00 ; 0,00   ; 43,39 ; -1)   serviço básico, soma sempre
+(0,00 ; 999999 ;  9,15 ;  2)   preço-base PB
+(0,00 ; 20,00  ;  1,00 ;  3)   n para o consumo em (0, 20]
+(20,00 ; 21,00 ;  1,01 ;  3)   n para o consumo em (20, 21]
+...                            uma linha por intervalo da Tabela de Exponenciais
 ```
 
-A tabela exponencial pode ter tantas linhas de código 3 quantas a concessionária
-publicar, cada uma com o seu intervalo de consumo e o seu `n`. No **Gestor de Tarifas**, a
-estrutura aparece com o rótulo «Fórmula exponencial», o simulador mostra o cálculo
-`PB × Cⁿ` do consumo escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez
-dos degraus.
-
-> **O estado da tabela exponencial nesta versão.** A tabela homologada pela AGERGS para a
-> vigência de 2026 não pôde ser transcrita da fonte primária a tempo desta versão. A base
-> grava, por isso, `n = 1` de 0 a 1.000 m³ e marca a tabela como **não conferida**: a conta
-> sai igual a `PB × C + SB`, e o Gestor de Tarifas exibe o aviso. Para usar a tabela
-> vigente, edite as linhas «Expoente n» no Gestor, uma por intervalo de consumo, e aplique
-> ao projeto. A tabela é a mesma para todos os municípios da CORSAN: quando a homologada
-> for transcrita na base, os 34 passam a usá-la de uma vez, e o aviso desaparece.
+No **Gestor de Tarifas**, a estrutura aparece com o rótulo «Fórmula exponencial», as
+linhas «Expoente n» podem ser editadas, o simulador mostra o cálculo `PB × Cⁿ` do consumo
+escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez dos degraus. O campo
+do esgoto passa a ser «Esgoto (R$/m³ consumido)», e a etapa econômica oferece o mesmo
+modo, «Por m³ consumido», ao lado do valor fixo e do percentual da água.
 
 ---
 

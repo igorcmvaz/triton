@@ -30507,7 +30507,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30517,24 +30517,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30545,8 +30653,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Alvorada": {
       "municipio": "Alvorada",
@@ -30561,7 +30671,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30571,24 +30681,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30599,8 +30817,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Bagé": {
       "municipio": "Bagé",
@@ -30685,7 +30905,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30695,24 +30915,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30723,8 +31051,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Cachoeira do Sul": {
       "municipio": "Cachoeira do Sul",
@@ -30739,7 +31069,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30749,24 +31079,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30777,8 +31215,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Cachoeirinha": {
       "municipio": "Cachoeirinha",
@@ -30793,7 +31233,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30803,24 +31243,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30831,8 +31379,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Camaquã": {
       "municipio": "Camaquã",
@@ -30847,7 +31397,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30857,24 +31407,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -30885,8 +31543,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Campo Bom": {
       "municipio": "Campo Bom",
@@ -30901,7 +31561,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30911,24 +31571,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30939,8 +31707,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Canoas": {
       "municipio": "Canoas",
@@ -30955,7 +31725,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 41.2,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -30965,24 +31735,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           8.68,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          8.68,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 8,68/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,07/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -30993,8 +31871,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.07,
+      "esgoto_fonte": "70% do PB truncado no centavo; ANEXO-3 (Canoas e Esteio) não consultado"
     },
     "RS - Capão da Canoa": {
       "municipio": "Capão da Canoa",
@@ -31009,7 +31889,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31019,24 +31899,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -31047,8 +32035,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Carazinho": {
       "municipio": "Carazinho",
@@ -31063,7 +32053,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31073,24 +32063,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "Eletrocar",
       "energia_r_kwh": 0.79643,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 2.673, DE 22 DE JULHO DE 2026",
@@ -31101,8 +32199,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Caxias do Sul": {
       "municipio": "Caxias do Sul",
@@ -31201,7 +32301,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31211,24 +32311,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31239,8 +32447,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Erechim": {
       "municipio": "Erechim",
@@ -31255,7 +32465,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 32.95,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31265,24 +32475,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           6.95,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          6.95,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 6,95/m³, serviço básico R$ 32,95/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 6,95/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 6,95/m³, serviço básico R$ 32,95/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 4,86/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31293,8 +32611,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 4.86,
+      "esgoto_fonte": "Tabela tarifária de Erechim, vigência 01/01/2026"
     },
     "RS - Esteio": {
       "municipio": "Esteio",
@@ -31309,7 +32629,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 41.2,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31319,24 +32639,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           8.68,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          8.68,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 8,68/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 8,68/m³, serviço básico R$ 41,20/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,07/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31347,8 +32775,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.07,
+      "esgoto_fonte": "70% do PB truncado no centavo; ANEXO-3 (Canoas e Esteio) não consultado"
     },
     "RS - Farroupilha": {
       "municipio": "Farroupilha",
@@ -31363,7 +32793,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31373,24 +32803,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31401,8 +32939,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Gravataí": {
       "municipio": "Gravataí",
@@ -31417,7 +32957,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31427,24 +32967,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31455,8 +33103,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Guaíba": {
       "municipio": "Guaíba",
@@ -31471,7 +33121,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31481,24 +33131,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -31509,8 +33267,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Ijuí": {
       "municipio": "Ijuí",
@@ -31525,7 +33285,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31535,24 +33295,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "DEMEI",
       "energia_r_kwh": 0.76415,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 2.675, DE 22 DE JULHO DE 2026",
@@ -31563,8 +33431,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Lajeado": {
       "municipio": "Lajeado",
@@ -31579,7 +33449,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31589,24 +33459,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31617,8 +33595,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Montenegro": {
       "municipio": "Montenegro",
@@ -31633,7 +33613,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31643,24 +33623,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31671,8 +33759,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Novo Hamburgo": {
       "municipio": "Novo Hamburgo",
@@ -31727,7 +33817,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31737,24 +33827,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31765,8 +33963,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Passo Fundo": {
       "municipio": "Passo Fundo",
@@ -31781,7 +33981,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31791,24 +33991,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -31819,8 +34127,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Pelotas": {
       "municipio": "Pelotas",
@@ -31939,7 +34249,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -31949,24 +34259,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -31977,8 +34395,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Santa Cruz do Sul": {
       "municipio": "Santa Cruz do Sul",
@@ -31993,7 +34413,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 37.5,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32003,24 +34423,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           7.91,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          7.91,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 7,91/m³, serviço básico R$ 37,50/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 7,91/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 7,91/m³, serviço básico R$ 37,50/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 5,53/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32031,8 +34559,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 5.53,
+      "esgoto_fonte": "Tabela tarifária de Santa Cruz do Sul, vigência 01/01/2026"
     },
     "RS - Santa Maria": {
       "municipio": "Santa Maria",
@@ -32047,7 +34577,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32057,24 +34587,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32085,8 +34723,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Santa Rosa": {
       "municipio": "Santa Rosa",
@@ -32101,7 +34741,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32111,24 +34751,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32139,8 +34887,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Santana do Livramento": {
       "municipio": "Santana do Livramento",
@@ -32189,7 +34939,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32199,24 +34949,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32227,8 +35085,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Sapiranga": {
       "municipio": "Sapiranga",
@@ -32243,7 +35103,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32253,24 +35113,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32281,8 +35249,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Sapucaia do Sul": {
       "municipio": "Sapucaia do Sul",
@@ -32297,7 +35267,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32307,24 +35277,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32335,8 +35413,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - São Borja": {
       "municipio": "São Borja",
@@ -32351,7 +35431,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32361,24 +35441,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32389,8 +35577,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - São Gabriel": {
       "municipio": "São Gabriel",
@@ -32499,7 +35689,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32509,24 +35699,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32537,8 +35835,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Tramandaí": {
       "municipio": "Tramandaí",
@@ -32553,7 +35853,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32563,24 +35863,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -32591,8 +35999,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Uruguaiana": {
       "municipio": "Uruguaiana",
@@ -32665,7 +36075,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32675,24 +36085,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32703,8 +36221,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Venâncio Aires": {
       "municipio": "Venâncio Aires",
@@ -32719,7 +36239,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32729,24 +36249,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "RGE Sul (CPFL)",
       "energia_r_kwh": 0.94461,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.590, DE 16 DE JUNHO DE 2026",
@@ -32757,8 +36385,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "RS - Viamão": {
       "municipio": "Viamão",
@@ -32773,7 +36403,7 @@
       "confianca_score": 93.0,
       "tarifa_fixa_mensal": 43.39,
       "esgoto_pct": 70.0,
-      "esgoto_modo": 1,
+      "esgoto_modo": 2,
       "faixas": [
         [
           0.0,
@@ -32783,24 +36413,132 @@
         ],
         [
           0.0,
-          1000.0,
+          999999.0,
           9.15,
           2
         ],
         [
           0.0,
-          1000.0,
+          20.0,
           1.0,
           3
         ],
         [
+          20.0,
+          21.0,
+          1.01,
+          3
+        ],
+        [
+          21.0,
+          22.0,
+          1.02,
+          3
+        ],
+        [
+          22.0,
+          23.0,
+          1.03,
+          3
+        ],
+        [
+          23.0,
+          24.0,
+          1.04,
+          3
+        ],
+        [
+          24.0,
+          25.0,
+          1.05,
+          3
+        ],
+        [
+          25.0,
+          26.0,
+          1.06,
+          3
+        ],
+        [
+          26.0,
+          27.0,
+          1.07,
+          3
+        ],
+        [
+          27.0,
+          29.0,
+          1.08,
+          3
+        ],
+        [
+          29.0,
+          35.0,
+          1.09,
+          3
+        ],
+        [
+          35.0,
+          45.0,
+          1.1,
+          3
+        ],
+        [
+          45.0,
+          100.0,
+          1.11,
+          3
+        ],
+        [
+          100.0,
+          150.0,
+          1.13,
+          3
+        ],
+        [
+          150.0,
+          200.0,
+          1.1287,
+          3
+        ],
+        [
+          200.0,
+          300.0,
+          1.1275,
+          3
+        ],
+        [
+          300.0,
+          500.0,
+          1.125,
+          3
+        ],
+        [
+          500.0,
           1000.0,
+          1.12,
+          3
+        ],
+        [
+          1000.0,
+          2000.0,
+          1.11,
+          3
+        ],
+        [
+          2000.0,
+          9000.0,
+          1.1,
+          3
+        ],
+        [
+          9000.0,
           999999.0,
-          9.15,
-          1
+          1.0858,
+          3
         ]
       ],
-      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n pela tabela exponencial até 1.000 m³; acima, R$ 9,15/m³",
+      "faixas_desc": "Fórmula exponencial: PB × Cⁿ + serviço básico; PB R$ 9,15/m³, serviço básico R$ 43,39/mês, n de 1,00 (até 20 m³) a 1,13 (101 a 150 m³) pela Tabela de Exponenciais; esgoto tratado R$ 6,40/m³ consumido",
       "distribuidora_energia": "CEEE Equatorial",
       "energia_r_kwh": 0.822,
       "energia_ato": "RESOLUÇÃO HOMOLOGATÓRIA Nº 3.547, DE 18 DE NOVEMBRO DE 2025",
@@ -32811,8 +36549,10 @@
       "status_global": "AUTO_OR_VERIFIED",
       "regime_tarifario": "exponencial",
       "consumo_minimo_faturado_m3": 0.0,
-      "expoentes_verificados": false,
-      "expoentes_fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C."
+      "expoentes_verificados": true,
+      "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
+      "esgoto_r_m3": 6.4,
+      "esgoto_fonte": "ANEXO-5, vigência 01/07/2026"
     },
     "SC - Araranguá": {
       "municipio": "Araranguá",

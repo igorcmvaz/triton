@@ -14,9 +14,10 @@ from netuno.core.economic import run_economic_analysis, calculate_water_bill
 from netuno.core.tariff_regimes import resumo_do_regime, validar_estrutura
 from netuno.core.tariff_category import incompatibilidade_de_categoria
 from netuno.core.tariffs_database import (
-    get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count,
-    search_cities
+    esgoto_do_municipio, get_available_ufs, get_cities_by_uf, get_city_data,
+    get_total_cities_count, rotulo_do_esgoto, search_cities
 )
+from netuno.core.tariffs_structure import ESGOTO_POR_M3
 from netuno.core.cost_estimates import (
     LOWER_TANK_PRICE_TABLE, UPPER_TANK_PRICE_TABLE, estimate_preliminary_capex,
     COSTS_FILE_PATH, _refresh_runtime_constants, REGIONAL_FACTORS_BY_UF,
@@ -363,21 +364,27 @@ class DialogTariffs(QDialog):
         lay_esg = QHBoxLayout()
         self.radio_esg_fix = QRadioButton()
         self.radio_esg_var = QRadioButton()
-        
+        # Preço por m³ consumido, sem serviço básico nem expoente: a CORSAN.
+        self.radio_esg_m3 = QRadioButton()
+
         is_brl = (self._sym == "R$")
         esg_mode = getattr(self.config, 'sewage_mode', 1)
         if esg_mode == 0:
             self.radio_esg_fix.setChecked(True)
+        elif esg_mode == ESGOTO_POR_M3:
+            self.radio_esg_m3.setChecked(True)
         else:
             self.radio_esg_var.setChecked(True)
 
         esg_val = getattr(self.config, 'sewage_rate', 100.0 if is_brl else 0.0)
-        esg_val_str = f"{esg_val:.1f}".replace('.', ',') if (esg_val > 0 or is_brl) else ""
+        casas = 2 if esg_mode == ESGOTO_POR_M3 else 1
+        esg_val_str = f"{esg_val:.{casas}f}".replace('.', ',') if (esg_val > 0 or is_brl) else ""
         self.txt_esg_val = QLineEdit(esg_val_str)
         self.txt_esg_val.setFixedWidth(100)
 
         lay_esg.addWidget(self.radio_esg_fix)
         lay_esg.addWidget(self.radio_esg_var)
+        lay_esg.addWidget(self.radio_esg_m3)
         lay_esg.addWidget(self.txt_esg_val)
         lay_esg.addStretch()
         gb_esgoto.setLayout(lay_esg)
@@ -411,6 +418,7 @@ class DialogTariffs(QDialog):
 
         self.radio_esg_fix.toggled.connect(self.update_esg_checks)
         self.radio_esg_var.toggled.connect(self.update_esg_checks)
+        self.radio_esg_m3.toggled.connect(self.update_esg_checks)
         self.update_esg_checks()
 
         # Botões de Ação
@@ -613,7 +621,7 @@ class DialogTariffs(QDialog):
             return
 
         prestador = data.get('prestador_saneamento', '--')
-        esg_pct = data.get('esgoto_pct', 80.0)
+        esgoto = rotulo_do_esgoto(data)
         agencia = data.get('agencia_reguladora', '')
         vigencia = data.get('vigencia_saneamento', '')
         reg_str = f"{agencia} ({vigencia})" if agencia and vigencia else (agencia or vigencia or "--")
@@ -622,7 +630,7 @@ class DialogTariffs(QDialog):
         conf_score = data.get('confianca_score', 95.0)
         
         self.lbl_tipologia.setText(f"🏠 <b>{tr('Tipologia / Categoria:')}</b> {tr('Residencial (Auditada)')}")
-        self.lbl_prestador.setText(f"🏢 <b>{tr('Prestador:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
+        self.lbl_prestador.setText(f"🏢 <b>{tr('Prestador:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esgoto}")
         self.lbl_vigencia.setText(f"📋 <b>{tr('Regulação / Vigência:')}</b> {reg_str}")
         self.lbl_confianca.setText(f"⭐ <b>{tr('Confiança:')}</b> {conf_grau} ({conf_score:.0f}/100)")
 
@@ -673,7 +681,7 @@ class DialogTariffs(QDialog):
             self.lbl_elec_info.setText("")
 
         self.lbl_disclaimer.setText(tr(
-            f"⚠️ <b>Aviso de Vigência & Tipologia:</b> Tarifas auditadas para a categoria <b>Residencial</b> com esgoto oficial a <b>{esg_pct:.0f}%</b> (com tributos inclusos). "
+            f"⚠️ <b>Aviso de Vigência & Tipologia:</b> Tarifas auditadas para a categoria <b>Residencial</b> com esgoto oficial a <b>{esgoto}</b> (com tributos inclusos). "
             "Para outras tipologias (comercial, industrial, etc.) ou faturas recentes, use 'Personalizado' ou ajuste os valores na tabela."
         ))
 
@@ -720,9 +728,10 @@ class DialogTariffs(QDialog):
             self.populate_table_from_tariffs(faixas)
 
         # 2. Preenche esgoto
-        esg_pct = data.get('esgoto_pct', 80.0)
-        self.radio_esg_var.setChecked(True)
-        self.txt_esg_val.setText(f"{esg_pct:.1f}".replace('.', ','))
+        modo, valor = esgoto_do_municipio(data)
+        (self.radio_esg_m3 if modo == ESGOTO_POR_M3 else self.radio_esg_var).setChecked(True)
+        casas = 2 if modo == ESGOTO_POR_M3 else 1
+        self.txt_esg_val.setText(f"{valor:.{casas}f}".replace('.', ','))
         self.update_esg_checks()
 
         # 3. Atualiza energia se selecionado
@@ -767,14 +776,13 @@ class DialogTariffs(QDialog):
         self.update_table_intervals()
 
     def update_esg_checks(self):
-        fix_base = f"{tr('Fixa')} ({self._sym})"
-        var_base = tr("Variável (% da conta de água)")
-        if self.radio_esg_fix.isChecked():
-            self.radio_esg_fix.setText(f"✓ {fix_base}")
-            self.radio_esg_var.setText(var_base)
-        else:
-            self.radio_esg_fix.setText(fix_base)
-            self.radio_esg_var.setText(f"✓ {var_base}")
+        rotulos = (
+            (self.radio_esg_fix, f"{tr('Fixa')} ({self._sym})"),
+            (self.radio_esg_var, tr("Variável (% da conta de água)")),
+            (self.radio_esg_m3, f"{tr('Por m³ consumido')} ({self._sym}/m³)"),
+        )
+        for radio, texto in rotulos:
+            radio.setText(f"✓ {texto}" if radio.isChecked() else texto)
 
     def on_table_item_changed(self, item):
         if item.column() == 1 or item.column() == 2:
@@ -903,7 +911,8 @@ class DialogTariffs(QDialog):
                     tariffs.append((min_v, max_v, rate_val, 1))
 
             self.config.water_tariffs = tariffs
-            self.config.sewage_mode = 0 if self.radio_esg_fix.isChecked() else 1
+            self.config.sewage_mode = (0 if self.radio_esg_fix.isChecked()
+                                       else ESGOTO_POR_M3 if self.radio_esg_m3.isChecked() else 1)
             self.config.sewage_rate = float(self.txt_esg_val.text().replace(',', '.'))
             # Estes dois ja foram zerados aqui, apagando o que o arquivo
             # do projeto ou a linha de comando tivessem declarado.

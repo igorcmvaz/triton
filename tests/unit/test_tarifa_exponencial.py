@@ -1,9 +1,11 @@
 """A fórmula exponencial da CORSAN: Água = PB × Cⁿ + serviço básico.
 
-A CORSAN não cobra por faixas. O expoente ``n`` sai da tabela exponencial pelo
-consumo do mês inteiro e se aplica a todo o volume; a fórmula vale até 1.000 m³ e o
-excedente é cobrado pelo preço do m³. Até a 5.0.0 esses municípios estavam
-gravados como uma reta, ``PB × C + SB``, que só coincide com a fórmula se n = 1.
+A CORSAN não cobra por faixas. O expoente ``n`` sai da Tabela de Exponenciais pelo
+consumo do mês inteiro e se aplica a todo o volume: 1,00 até 20 m³, subindo até
+1,13 entre 101 e 150 m³. Só a categoria industrial tem teto (1.000 m³); a tabela
+sintética abaixo usa um teto para exercitar o excedente. O esgoto é cobrado por m³
+consumido, sem serviço básico nem expoente. Até a 5.0.0 esses municípios estavam
+gravados como uma reta, ``PB × C + SB``, com esgoto de 70% sobre a conta inteira.
 """
 
 import importlib.util
@@ -116,20 +118,68 @@ def test_os_34_municipios_da_corsan_estao_na_formula_exponencial():
         assert erros == [], (chave, erros)
 
 
-def test_a_tabela_pendente_e_declarada_e_nao_escondida():
-    """Enquanto a tabela homologada não for transcrita, o aviso acompanha a cidade."""
-    tabela = json.loads((RAIZ / "tarifas" / "tabela_exponencial_corsan.json").read_text(encoding="utf-8"))
-    alegrete = get_city_data("RS", "Alegrete")
-    assert alegrete["expoentes_verificados"] is bool(tabela["verificada"])
-    avisos = {a.codigo for a in validar_estrutura(alegrete)}
-    assert ("expoentes_pendentes" in avisos) is (not tabela["verificada"])
+def _tabela_oficial():
+    return json.loads((RAIZ / "tarifas" / "tabela_exponencial_corsan.json").read_text(encoding="utf-8"))
 
 
-def test_as_faixas_da_base_reproduzem_a_tabela_unica():
-    tabela = json.loads((RAIZ / "tarifas" / "tabela_exponencial_corsan.json").read_text(encoding="utf-8"))
-    alegrete = get_city_data("RS", "Alegrete")
-    gravados = [f[:3] for f in alegrete["faixas"] if int(f[3]) == EXPOENTE_DE_CONSUMO]
-    assert gravados == [[float(a), float(b), float(n)] for a, b, n in tabela["expoentes"]]
+@pytest.mark.parametrize("consumo, basica", [
+    (1, 1.0), (20, 1.0), (21, 1.01), (25, 1.05), (29, 1.08), (30, 1.09), (31, 1.09),
+    (36, 1.10), (46, 1.11), (101, 1.13), (151, 1.1287), (501, 1.12), (1001, 1.11), (9001, 1.0858),
+])
+def test_a_tabela_transcrita_confere_com_a_da_corsan(consumo, basica):
+    """Linhas lidas da Tabela de Exponenciais, coluna Básica (Residencial B)."""
+    tabela = _tabela_oficial()
+    coluna = tabela["colunas"].index("BASICA")
+    linha = next(l for l in tabela["linhas"] if l[0] == consumo)
+    assert linha[coluna] == basica
+    assert tabela["verificada"] is True
+
+
+@pytest.mark.parametrize("consumo, n", [
+    (10, 1.0), (20, 1.0), (21, 1.01), (28, 1.08), (29, 1.08), (30, 1.09), (35, 1.09),
+    (40, 1.10), (100, 1.11), (150, 1.13), (200, 1.1287), (1500, 1.11), (10000, 1.0858),
+])
+def test_cada_consumo_le_o_expoente_da_sua_linha(consumo, n):
+    """A linha «31» vale de 31 a 35 m³: o consumo 35 ainda usa o expoente de 31."""
+    assert expoente_do_consumo(get_city_data("RS", "Alegrete")["faixas"], consumo) == n
+
+
+def test_a_conta_de_alegrete_reproduz_a_tabela_tarifaria():
+    """10 m³ é a «tarifa mínima sem HD» do ANEXO-5: R$ 134,89 = 43,39 + 9,15 × 10."""
+    faixas = [tuple(f) for f in get_city_data("RS", "Alegrete")["faixas"]]
+
+    def agua(m3):
+        return calculate_water_bill(m3 * 1000.0, faixas, sewage_mode=1, sewage_rate=0.0)
+
+    assert agua(10) == pytest.approx(134.89)
+    assert agua(21) == pytest.approx(43.39 + 9.15 * 21 ** 1.01)
+    assert agua(150) == pytest.approx(43.39 + 9.15 * 150 ** 1.13)
+    # Sem teto no residencial: a 2.000 m³ ainda vale a fórmula, com n = 1,11.
+    assert agua(2000) == pytest.approx(43.39 + 9.15 * 2000 ** 1.11)
+
+
+@pytest.mark.parametrize("uf, cidade, minima", [
+    ("RS", "Alegrete", 134.89), ("RS", "Erechim", 102.45), ("RS", "Santa Cruz do Sul", 116.60),
+])
+def test_a_tarifa_minima_sem_hidrometro_bate_com_cada_tabela(uf, cidade, minima):
+    faixas = [tuple(f) for f in get_city_data(uf, cidade)["faixas"]]
+    assert calculate_water_bill(10_000.0, faixas, sewage_mode=1, sewage_rate=0.0) == pytest.approx(minima)
+
+
+@pytest.mark.parametrize("uf, cidade, esgoto", [
+    ("RS", "Alegrete", 6.40), ("RS", "Erechim", 4.86), ("RS", "Santa Cruz do Sul", 5.53), ("RS", "Canoas", 6.07),
+])
+def test_o_esgoto_e_cobrado_por_m3_consumido(uf, cidade, esgoto):
+    """Sem serviço básico e sem expoente: 70% do PB, truncado no centavo."""
+    from netuno.core.tariffs_database import esgoto_do_municipio
+    from netuno.core.tariffs_structure import ESGOTO_POR_M3
+
+    dados = get_city_data(uf, cidade)
+    assert esgoto_do_municipio(dados) == (ESGOTO_POR_M3, esgoto)
+    faixas = [tuple(f) for f in dados["faixas"]]
+    agua = calculate_water_bill(25_000.0, faixas, sewage_mode=1, sewage_rate=0.0)
+    total = calculate_water_bill(25_000.0, faixas, sewage_mode=ESGOTO_POR_M3, sewage_rate=esgoto)
+    assert total - agua == pytest.approx(25 * esgoto)
 
 
 def test_o_script_de_aplicacao_e_idempotente():

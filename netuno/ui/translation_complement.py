@@ -7,6 +7,15 @@ de modo que uma tradução revisada à mão nunca é sobrescrita por esta.
 """
 
 COMPLEMENTO = {
+    '📦 Exportar TUDO (auditoria) .xlsx': ('📦 Export EVERYTHING (audit) .xlsx', '📦 Exportar TODO (auditoría) .xlsx', '📦 全部导出（审计）.xlsx'),
+    'Uma planilha com as seis abas acima e, além delas, todos os campos das premissas do projeto, da tarifa aplicada, da ETAP, da ACV, da economia e do arranjo 3D, sem seleção.': ('One workbook with the six sheets above plus every field of the project assumptions, the applied tariff, the treatment line, the LCA, the economics and the 3D layout, unfiltered.', 'Una planilla con las seis hojas anteriores y, además, todos los campos de las premisas del proyecto, de la tarifa aplicada, de la ETAP, del ACV, de la economía y del arreglo 3D, sin selección.', '一个工作簿：包含上述六个工作表，以及项目假设、适用水价、处理线、生命周期评价、经济分析和三维布置的全部字段，不作筛选。'),
+    'Exportar TUDO para auditoria': ('Export EVERYTHING for audit', 'Exportar TODO para auditoría', '全部导出以供审计'),
+    'Falha ao gerar a planilha de auditoria: {0}': ('Failed to create the audit workbook: {0}', 'Error al generar la planilla de auditoría: {0}', '生成审计工作簿失败：{0}'),
+    '✓ Planilha de auditoria exportada: {0}': ('✓ Audit workbook exported: {0}', '✓ Planilla de auditoría exportada: {0}', '✓ 审计工作簿已导出：{0}'),
+    'Por m³ consumido': ('Per m³ consumed', 'Por m³ consumido', '按用水量计'),
+    '🏷️ Fixa/Disp: <b>R$ {0:.2f}</b> | 💧 Água Medida: <b>R$ {1:.2f}</b> | 🚽 Esgoto ({2}): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mês</b> (Média: R$ {5:.2f}/m³)': ('🏷️ Fixed/Avail.: <b>R$ {0:.2f}</b> | 💧 Metered Water: <b>R$ {1:.2f}</b> | 🚽 Sewage ({2}): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/month</b> (Average: R$ {5:.2f}/m³)', '🏷️ Fija/disp.: <b>R$ {0:.2f}</b> | 💧 Agua medida: <b>R$ {1:.2f}</b> | 🚽 Alcantarillado ({2}): <b>R$ {3:.2f}</b> | 💰 <b>Total: R$ {4:.2f}/mes</b> (media: R$ {5:.2f}/m³)', '🏷️ 固定/基本费：<b>R$ {0:.2f}</b> | 💧 计量水费：<b>R$ {1:.2f}</b> | 🚽 污水费（{2}）：<b>R$ {3:.2f}</b> | 💰 <b>合计：R$ {4:.2f}/月</b>（平均：R$ {5:.2f}/m³）'),
+    'Esgoto (R$/m³ consumido):': ('Sewage (R$/m³ consumed):', 'Alcantarillado (R$/m³ consumido):', '污水费（R$/m³ 用水量）：'),
+    'Preço Médio do m³ (PB × Cⁿ⁻¹, R$/m³)': ('Average Price per m³ (PB × Cⁿ⁻¹, R$/m³)', 'Precio medio del m³ (PB × Cⁿ⁻¹, R$/m³)', '每立方米平均价格（PB × Cⁿ⁻¹，R$/m³）'),
     'Preço-base (PB × Cⁿ)': ('Base price (PB × Cⁿ)', 'Precio base (PB × Cⁿ)', '基准价（PB × Cⁿ）'),
     'Expoente n': ('Exponent n', 'Exponente n', '指数 n'),
     'Piso de pagamento': ('Payment floor', 'Piso de pago', '最低缴费额'),
@@ -14,7 +23,7 @@ COMPLEMENTO = {
     'Preço-base exponencial (PB × Cⁿ)': ('Exponential base price (PB × Cⁿ)', 'Precio base exponencial (PB × Cⁿ)', '指数公式基准价（PB × Cⁿ）'),
     'Expoente n da tabela exponencial': ('Exponent n from the exponential table', 'Exponente n de la tabla exponencial', '指数表中的指数 n'),
     ' ⚠️ Tabela exponencial não conferida com a homologada: edite as linhas «Expoente n» com a tabela vigente.': (' ⚠️ Exponential table not checked against the approved one: edit the «Exponent n» rows with the current table.', ' ⚠️ Tabla exponencial no verificada con la homologada: edite las filas «Exponente n» con la tabla vigente.', ' ⚠️ 指数表尚未与核准版本核对：请按现行表格编辑「指数 n」各行。'),
-    '📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês, n pela tabela exponencial até {2:.0f} m³.': ('📈 <b>Exponential formula:</b> Water = PB × Cⁿ + basic service — PB R$ {0:.2f}/m³, basic service R$ {1:.2f}/month, n from the exponential table up to {2:.0f} m³.', '📈 <b>Fórmula exponencial:</b> Agua = PB × Cⁿ + servicio básico — PB R$ {0:.2f}/m³, servicio básico R$ {1:.2f}/mes, n según la tabla exponencial hasta {2:.0f} m³.', '📈 <b>指数公式：</b>水费 = PB × Cⁿ + 基本服务费 — PB R$ {0:.2f}/m³，基本服务费 R$ {1:.2f}/月，n 按指数表取值，适用至 {2:.0f} m³。'),
+    '📈 <b>Fórmula exponencial:</b> Água = PB × Cⁿ + serviço básico — PB R$ {0:.2f}/m³, serviço básico R$ {1:.2f}/mês; o expoente n cresce com o consumo do mês, pela Tabela de Exponenciais.': ('📈 <b>Exponential formula:</b> Water = PB × Cⁿ + basic service — PB R$ {0:.2f}/m³, basic service R$ {1:.2f}/month; the exponent n grows with monthly consumption, per the Exponent Table.', '📈 <b>Fórmula exponencial:</b> Agua = PB × Cⁿ + servicio básico — PB R$ {0:.2f}/m³, servicio básico R$ {1:.2f}/mes; el exponente n crece con el consumo del mes, según la Tabla de Exponenciales.', '📈 <b>指数公式：</b>水费 = PB × Cⁿ + 基本服务费 — PB R$ {0:.2f}/m³，基本服务费 R$ {1:.2f}/月；指数 n 随当月用水量按指数表递增。'),
     'CREA / Registro Profissional': ('PE License / Professional Reg. No. (e.g. CREA/PE/CEng)', 'CREA / Registro profesional', 'CREA / 注册工程师编号'),
     'Documento Executivo A4 Paisagem': ('Executive Document, A4 Landscape', 'Documento ejecutivo A4 horizontal', '执行摘要文档（A4 横向）'),
     'Responsável Técnico(a) / Engenheiro(a)': ('Engineer in Charge / Professional', 'Responsable técnico(a) / Ingeniero(a)', '技术负责人 / 工程师'),
