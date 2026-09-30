@@ -46,6 +46,11 @@ _COLORS: Dict[str, Color] = {
     "air_gap": (22, 163, 74),
     "ladrao_sifonado": (100, 116, 139),
     "ponto_nao_potavel": (147, 51, 234),
+    "freio_dagua": (37, 99, 235),
+    "succao_flutuante": (234, 88, 12),
+    "sensor_nivel": (250, 204, 21),
+    "valvula_solenoide": (22, 163, 74),
+    "hidrometro": (22, 101, 52),
     "building": (203, 213, 225),
     "ground": (163, 190, 140),
 }
@@ -61,6 +66,74 @@ _TYPE_NAMES = {
     "air_gap": "Air gap",
     "ladrao_sifonado": "Ladrão sifonado",
     "ponto_nao_potavel": "Ponto não potável",
+    "freio_dagua": "Freio d'água",
+    "succao_flutuante": "Sucção flutuante",
+    "sensor_nivel": "Chave de nível",
+    "valvula_solenoide": "Válvula solenoide",
+    "hidrometro": "Hidrômetro",
+}
+
+#: Ficha dos acessórios: o que a peça faz na instalação e a norma que a pede.
+#: O parâmetro ``FUNCAO`` ou ``USO`` da instância, quando houver, vem antes.
+_ACCESSORY_INFO: Dict[str, List[str]] = {
+    "registro_gaveta": [
+        "Função: Bloqueio para manutenção (aberto ou fechado, não regula vazão)",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "registro_esfera": [
+        "Função: Bloqueio rápido de 1/4 de volta",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "valvula_retencao": [
+        "Função: Impede o retorno da coluna de recalque quando a bomba desliga",
+        "Instalação: Logo após a motobomba, antes do registro de bloqueio",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "air_gap": [
+        "Função: Separação atmosférica entre a água potável e a não potável",
+        "Instalação: Saída potável livre acima do nível de transbordamento do reservatório",
+        "Folga mínima: 2 × o diâmetro do bocal, e não menos que 20 mm",
+        "Normas de referência: ABNT NBR 5626:2020 e ABNT NBR 15527:2019 item 4.4",
+    ],
+    "ladrao_sifonado": [
+        "Função: Extravasor da cisterna com fecho hídrico e tela contra insetos e roedores",
+        "Destino: Rede de águas pluviais, nunca a rede de esgoto",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "ponto_nao_potavel": [
+        "Função: Ponto de utilização de água não potável (bacias, rega, lavagem de pisos)",
+        "Identificação: Placa «Água não potável» e tubulação em cor distinta",
+        "Normas de referência: ABNT NBR 15527:2019 item 4.4 e ABNT NBR 5626:2020",
+    ],
+    "freio_dagua": [
+        "Função: Entrada calma da água pluvial no fundo da cisterna (freio d'água)",
+        "Efeito: Não revolve o sedimento depositado e mantém a camada de lodo em repouso",
+        "Instalação: Curva de 90° junto ao fundo, com o bocal voltado para cima",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "succao_flutuante": [
+        "Função: Captação flutuante, a cerca de 15 cm abaixo da superfície",
+        "Efeito: Retira a água mais limpa, entre a película superficial e o sedimento do fundo",
+        "Composição: Boia, mangueira flexível e crivo (filtro de sucção)",
+        "Norma de referência: ABNT NBR 15527:2019 item 4.4",
+    ],
+    "sensor_nivel": [
+        "Função: Chave de nível (boia elétrica) no comando do sistema",
+        "Cisterna: Desliga a motobomba no nível mínimo (proteção contra marcha a seco)",
+        "Caixa superior: Liga a motobomba e, sem água de chuva, abre a solenoide do backup",
+    ],
+    "valvula_solenoide": [
+        "Função: Abre a alimentação potável de reserva quando falta água de chuva",
+        "Comando: Chaves de nível — caixa superior no mínimo e cisterna vazia",
+        "Tipo: Normalmente fechada; sem energia, o backup fica fechado",
+        "Descarga: Sempre por separação atmosférica (air gap) no reservatório",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
+    "hidrometro": [
+        "Função: Medição da água potável da rede pública usada como reserva",
+        "Instalação: Cavalete do ramal predial, seguido de registro de bloqueio",
+        "Norma de referência: ABNT NBR 5626:2020",
+    ],
 }
 
 
@@ -338,13 +411,22 @@ def _component_solid_body(item: Dict[str, Any], project_data: Dict[str, Any]) ->
                      opacity=0.55, outline=True, label_at=label_at)
 
     dn = _number(params.get("DN_MM"), None)
-    info = [
-        f"Tipo: {name}",
+    info = [f"Tipo: {name}"]
+    papel = params.get("FUNCAO") or params.get("USO")
+    if papel and str(papel).strip().upper() not in ("", "A DEFINIR", "NIVEL"):
+        info.append(f"Neste projeto: {papel}")
+    info += _ACCESSORY_INFO.get(type_id, [])
+    if dn:
+        info.append(f"Bitola nominal: DN {dn:g} mm")
+    for key, label, unit in (("TENSAO_V", "Tensão da bobina", "V"), ("FOLGA_MM", "Folga da separação atmosférica", "mm"),
+                             ("VAZAO_NOMINAL_M3_H", "Vazão nominal", "m³/h"), ("PROFUNDIDADE_MM", "Profundidade da captação", "mm")):
+        value = _number(params.get(key), None)
+        if value:
+            info.append(f"{label}: {value:g} {unit}")
+    info += [
         f"Posição: x {_fmt(base[0] / 1000)} · y {_fmt(base[1] / 1000)} · cota {_fmt(base[2] / 1000)} m",
         f"Nível de instalação: {level}",
     ]
-    if dn:
-        info.append(f"Bitola nominal: DN {dn:g} mm")
     return Solid(inst, "accessory", f"{inst} · {name}", info, color, faces,
                  outline=True, label_at=label_at)
 

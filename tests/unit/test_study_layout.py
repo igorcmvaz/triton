@@ -7,6 +7,9 @@ from netuno.core.schematic_3d import generate_schematic_3d_svg
 from netuno.core.study_layout import generate_study_layout
 from netuno.core.volumetry import build_volumetry
 
+#: Arranjo gerado pelo estudo, na ordem do manifesto.
+ARRANJO = ["FP-01", "FF-01", "CI-01", "B-01", "RS-01", "FR-01", "SF-01", "SN-01", "LS-01",
+           "VR-01", "RG-01", "SN-02", "HD-01", "RG-02", "VS-01", "AG-01", "PNP-01"]
 
 def test_generate_study_layout_creates_valid_bim_manifest():
     project_data = {
@@ -18,11 +21,9 @@ def test_generate_study_layout_creates_valid_bim_manifest():
         "floors": 3,
     }
     layout = generate_study_layout(project_data)
-    # Inclui FP-01, FF-01, CI-01, B-01, RS-01
     comp_ids = [c["instance_id"] for c in layout["bim_components"]]
-    assert comp_ids == ["FP-01", "FF-01", "CI-01", "B-01", "RS-01"]
-    assert len(layout["bim_components"]) == 5
-    assert len(layout["pipe_runs"]) == 6
+    assert comp_ids == ARRANJO
+    assert len(layout["pipe_runs"]) == 13
     assert layout["building_volume"]["floors"] == 3
 
     # Verifica parâmetros calculados
@@ -67,12 +68,43 @@ def test_generate_study_layout_creates_valid_bim_manifest():
 
 def test_generate_study_layout_with_defaults():
     layout = generate_study_layout({})
-    assert len(layout["bim_components"]) == 5
-    assert len(layout["pipe_runs"]) == 6
-    comp_ids = [c["instance_id"] for c in layout["bim_components"]]
-    assert comp_ids == ["FP-01", "FF-01", "CI-01", "B-01", "RS-01"]
+    assert [c["instance_id"] for c in layout["bim_components"]] == ARRANJO
     manifest = build_bim_manifest(layout)
     assert validate_bim_manifest(manifest) == []
+    assert manifest["validation"]["warnings"] == []
+
+
+@pytest.mark.parametrize("volume, area, pavimentos, caixa", [
+    (1500, 60, 1, 500), (5000, 150, 2, 1000), (10000, 180, 3, 1000), (30000, 400, 6, 3000), (2000, 400, 1, 3000),
+])
+def test_o_arranjo_normativo_fecha_sem_erros_nem_avisos(volume, area, pavimentos, caixa):
+    """Da cisterna pequena ao prédio: todo trecho chega onde declara, sem colisão."""
+    layout = generate_study_layout({"lower_vol": volume, "area": area, "floors": pavimentos, "upper_vol": caixa})
+    manifest = build_bim_manifest({"project_name": "Grade", **layout})
+    assert validate_bim_manifest(manifest) == []
+    assert manifest["validation"]["warnings"] == []
+
+
+def test_o_arranjo_tem_o_que_a_instalacao_pede():
+    """Freio d'água, sucção flutuante, extravasor, retenção e o backup potável."""
+    layout = generate_study_layout({"lower_vol": 10000, "area": 180, "floors": 2})
+    tipos = {c["instance_id"]: c["type_id"] for c in layout["bim_components"]}
+    trechos = {r["run_id"]: r for r in layout["pipe_runs"]}
+    # Entrada calma: a captação termina no freio d'água, dentro da cisterna.
+    assert tipos["FR-01"] == "freio_dagua" and trechos["T-03"]["end"] == "FR-01:topo"
+    # A bomba puxa pela sucção flutuante, e não pelo fundo.
+    assert tipos["SF-01"] == "succao_flutuante" and trechos["T-04"]["start"] == "SF-01:topo"
+    # Recalque: bomba → retenção → registro → caixa superior.
+    assert [trechos[t]["start"] for t in ("T-05", "T-06", "T-07")] == ["B-01", "VR-01", "RG-01"]
+    # Extravasor com ladrão sifonado, por gravidade.
+    assert trechos["T-09"]["system"] == "extravasor" and trechos["T-09"]["end"] == "LS-01:sup+y"
+    # Backup potável: hidrômetro → registro → solenoide → air gap sobre a caixa.
+    potavel = [r for r in layout["pipe_runs"] if r["system"] == "alimentacao_potavel"]
+    assert [r["start"] for r in potavel] == ["HD-01", "RG-02", "VS-01"]
+    assert potavel[-1]["end"] == "AG-01:topo" and tipos["VS-01"] == "valvula_solenoide"
+    # Chaves de nível nas duas caixas, e a distribuição chega a um ponto identificado.
+    assert tipos["SN-01"] == tipos["SN-02"] == "sensor_nivel"
+    assert trechos["T-08"]["end"] == "PNP-01:topo"
 
 
 @pytest.mark.parametrize("rotulo, cv, kw", [

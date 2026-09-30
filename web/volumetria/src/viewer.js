@@ -192,28 +192,144 @@ function motobomba(w, d, h, cor) {
   return g;
 }
 
+// Válvulas em linha: o tubo liga na porta «fundo» (centro da base), então o
+// corpo fica centrado nessa cota, no eixo do tubo, e não acima dele.
+function corpoDeValvula(g, w, s, corpo) {
+  g.add(mesh(new THREE.SphereGeometry(s * 0.32, 24, 16), corpo));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, 0), new THREE.Vector3(w / 2, 0, 0), s * 0.2, 20), corpo));
+  for (const x of [-w / 2, w / 2]) {
+    g.add(mesh(cylinderBetween(new THREE.Vector3(x - Math.sign(x) * s * 0.12, 0, 0), new THREE.Vector3(x, 0, 0), s * 0.26, 6), corpo));
+  }
+}
+
 function registro(w, d, h, tipo) {
   const g = new THREE.Group();
   const s = Math.min(w, d, h);
   const corpo = MAT.aco();
-  g.add(mesh(new THREE.SphereGeometry(s * 0.32, 24, 16).translate(0, 0, s * 0.4), corpo));
-  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, s * 0.4), new THREE.Vector3(w / 2, 0, s * 0.4), s * 0.2, 20), corpo));
+  corpoDeValvula(g, w, s, corpo);
   if (tipo === "registro_esfera") {
-    g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.12, s * 0.06, 2, s * 0.02).translate(s * 0.3, 0, s * 0.8), MAT.pintura(0xdc2626)));
+    g.add(mesh(zCylinder(s * 0.05, s * 0.3, s * 0.2, 12), corpo));
+    g.add(mesh(new RoundedBoxGeometry(s * 0.9, s * 0.12, s * 0.06, 2, s * 0.02).translate(s * 0.3, 0, s * 0.52), MAT.pintura(0xdc2626)));
   } else if (tipo === "valvula_retencao") {
-    g.add(mesh(zCylinder(s * 0.18, s * 0.3, s * 0.6, 20), corpo));
+    // Tampa da portinhola e seta do sentido do escoamento.
+    g.add(mesh(zCylinder(s * 0.2, s * 0.22, s * 0.22, 20), corpo));
+    const seta = new THREE.ConeGeometry(s * 0.12, s * 0.3, 16);
+    seta.rotateZ(-Math.PI / 2); seta.translate(0, 0, s * 0.58);
+    g.add(mesh(seta, MAT.pintura(0x16a34a)));
   } else {
-    g.add(mesh(zCylinder(s * 0.06, s * 0.4, s * 0.6, 12), corpo));
-    const volante = new THREE.TorusGeometry(s * 0.3, s * 0.05, 10, 32); volante.translate(0, 0, s * 1.0);
+    g.add(mesh(zCylinder(s * 0.06, s * 0.5, s * 0.2, 12), corpo));
+    const volante = new THREE.TorusGeometry(s * 0.3, s * 0.05, 10, 32); volante.translate(0, 0, s * 0.72);
     g.add(mesh(volante, MAT.pintura(0xdc2626)));
   }
   return g;
 }
 
+function solenoide(w, d, h) {
+  // Corpo de válvula com a bobina (atuador elétrico) acima e o cabo de comando.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  corpoDeValvula(g, w, s, MAT.pintura(0xb8860b));
+  g.add(mesh(zCylinder(s * 0.12, s * 0.2, s * 0.22, 16), MAT.aco()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.55, s * 0.55, h * 0.45, 3, s * 0.05).translate(0, 0, s * 0.42 + h * 0.225), MAT.pintura(0x111827)));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(0, s * 0.27, s * 0.42 + h * 0.3), new THREE.Vector3(0, s * 0.8, s * 0.42 + h * 0.3), s * 0.04, 8), MAT.borracha()));
+  return g;
+}
+
+function hidrometro(w, d, h) {
+  // Cavalete: corpo com mostrador de vidro e tampa articulada.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const bronze = MAT.pintura(0xa16207);
+  g.add(mesh(cylinderBetween(new THREE.Vector3(-w / 2, 0, 0), new THREE.Vector3(w / 2, 0, 0), s * 0.1, 16), bronze));
+  g.add(mesh(zCylinder(s * 0.3, h * 0.35, -h * 0.15, 32), bronze));
+  const vidro = new THREE.MeshPhysicalMaterial({ color: 0xe0f2fe, roughness: 0.05, transparent: true, opacity: 0.6 });
+  g.add(mesh(zCylinder(s * 0.26, h * 0.05, h * 0.2, 32), vidro));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.62, s * 0.06, h * 0.4, 2, s * 0.02).translate(0, -s * 0.3, h * 0.45), MAT.pintura(0x1e3a8a)));
+  return g;
+}
+
+function freioDagua(w, d, h, cor) {
+  // Curva de 90° junto ao fundo, bocal voltado para cima: a água entra calma.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.22;
+  const pvc = MAT.pvc(cor);
+  const curva = new THREE.TorusGeometry(s * 0.3, r, 14, 24, Math.PI / 2);
+  curva.rotateX(Math.PI / 2); curva.rotateZ(Math.PI); curva.translate(s * 0.3, 0, h * 0.62);
+  g.add(mesh(curva, pvc));
+  g.add(mesh(zCylinder(r, h * 0.38, h * 0.62, 20), pvc));                 // descida vinda do filtro
+  g.add(mesh(cylinderBetween(new THREE.Vector3(s * 0.3, 0, h * 0.32), new THREE.Vector3(s * 0.3, 0, h * 0.02), r * 1.25, 20, true), pvc));
+  g.add(mesh(zCylinder(r * 1.5, h * 0.06, 0, 24), MAT.pintura(0x1e3a8a))); // apoio no fundo
+  return g;
+}
+
+function succaoFlutuante(w, d, h) {
+  // Boia na superfície com o crivo suspenso ~15 cm abaixo dela.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const boia = new THREE.SphereGeometry(s * 0.32, 24, 16);
+  boia.scale(1, 1, 0.6); boia.translate(0, 0, h * 0.8);
+  g.add(mesh(boia, MAT.pintura(0xea580c)));
+  g.add(mesh(zCylinder(s * 0.03, h * 0.5, h * 0.25, 8), MAT.aco()));
+  const crivo = zCylinder(s * 0.16, h * 0.28, 0, 20);
+  g.add(mesh(crivo, new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.7, roughness: 0.4, wireframe: true })));
+  g.add(mesh(zCylinder(s * 0.15, h * 0.26, 0.01, 20), MAT.acoEscuro()));
+  return g;
+}
+
+function chaveDeNivel(w, d, h) {
+  // Boia elétrica pendurada pelo cabo.
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const pera = new THREE.SphereGeometry(s * 0.35, 20, 14);
+  pera.scale(0.8, 0.8, 1.25); pera.translate(0, 0, h * 0.3);
+  g.add(mesh(pera, MAT.pintura(0xfacc15)));
+  g.add(mesh(zCylinder(s * 0.04, h * 0.45, h * 0.55, 8), MAT.borracha()));
+  return g;
+}
+
+function ladrao(w, d, h, cor) {
+  // Sifão em U com a saída telada (fecho hídrico contra insetos e odores).
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  const r = s * 0.14;
+  const pvc = MAT.pvc(cor);
+  const u = new THREE.TorusGeometry(s * 0.25, r, 12, 24, Math.PI);
+  u.rotateX(Math.PI / 2); u.rotateZ(Math.PI); u.translate(0, 0, h * 0.35);
+  g.add(mesh(u, pvc));
+  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(-s * 0.25, 0, 0), pvc));
+  g.add(mesh(zCylinder(r, h * 0.5, h * 0.35, 16).translate(s * 0.25, 0, 0), pvc));
+  g.add(mesh(zCylinder(r * 1.3, h * 0.05, h * 0.85, 16).translate(s * 0.25, 0, 0),
+    new THREE.MeshStandardMaterial({ color: 0x475569, wireframe: true })));
+  return g;
+}
+
+function pontoNaoPotavel(w, d, h, cor) {
+  // Torneira de uso restrito com a placa «água não potável».
+  const g = new THREE.Group();
+  const s = Math.min(w, d);
+  g.add(mesh(zCylinder(s * 0.14, h * 0.4, h * 0.6, 16), MAT.aco()));
+  g.add(mesh(cylinderBetween(new THREE.Vector3(0, 0, h * 0.8), new THREE.Vector3(0, -s * 0.55, h * 0.72), s * 0.07, 12), MAT.aco()));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.5, s * 0.08, s * 0.1, 2, s * 0.02).translate(0, 0, h * 1.02), MAT.pintura(cor)));
+  g.add(mesh(new RoundedBoxGeometry(s * 0.7, s * 0.04, h * 0.35, 2, s * 0.02).translate(0, s * 0.2, h * 0.3), MAT.pintura(cor)));
+  return g;
+}
+
 function acessorio(w, d, h, cor, tipo) {
   if (tipo && (tipo.startsWith("registro") || tipo === "valvula_retencao")) return registro(w, d, h, tipo);
+  const modelos = {
+    valvula_solenoide: () => solenoide(w, d, h),
+    hidrometro: () => hidrometro(w, d, h),
+    freio_dagua: () => freioDagua(w, d, h, cor),
+    succao_flutuante: () => succaoFlutuante(w, d, h),
+    sensor_nivel: () => chaveDeNivel(w, d, h),
+    ladrao_sifonado: () => ladrao(w, d, h, cor),
+    ponto_nao_potavel: () => pontoNaoPotavel(w, d, h, cor),
+  };
+  if (modelos[tipo]) return modelos[tipo]();
   const g = new THREE.Group();
   if (tipo === "air_gap") {
+    // Funil de recepção e o bocal potável solto acima dele (a folga é o air gap).
     g.add(mesh(zCylinder(Math.min(w, d) * 0.15, h * 0.5, 0, 24, Math.min(w, d) * 0.5), MAT.pvc(cor)));
     g.add(mesh(zCylinder(Math.min(w, d) * 0.08, h * 0.35, h * 0.62, 16), MAT.aco()));
     return g;
@@ -541,6 +657,7 @@ class Visualizador {
         const lbl = new CSS2DObject(tag);
         lbl.position.set(...s.label);
         lbl.center.set(0.5, 1);
+        lbl.userData.menor = s.kind === "accessory";
         this.model.add(lbl);
         this.labels.push(lbl);
       }
@@ -892,10 +1009,19 @@ class Visualizador {
     if (!this.labels || !this.show.labels) return;
     const w = this.stage.clientWidth, h = this.stage.clientHeight;
     const placed = [];
-    const items = this.labels.map((l) => {
-      const p = l.getWorldPosition(new THREE.Vector3()).project(this.camera);
-      return { l, x: (p.x + 1) / 2 * w, y: (1 - p.y) / 2 * h };
-    }).sort((a, b) => b.y - a.y);
+    // Peças pequenas (registros, válvulas, chaves de nível) só ganham rótulo
+    // quando a câmera se aproxima; na vista de conjunto, poluiriam a tela.
+    const perto = this.diag * 0.45;
+    const items = [];
+    for (const l of this.labels) {
+      const mundo = l.getWorldPosition(new THREE.Vector3());
+      const oculto = l.userData.menor && mundo.distanceTo(this.camera.position) > perto;
+      l.element.style.display = oculto ? "none" : "";
+      if (oculto) continue;
+      const p = mundo.project(this.camera);
+      items.push({ l, x: (p.x + 1) / 2 * w, y: (1 - p.y) / 2 * h });
+    }
+    items.sort((a, b) => b.y - a.y);
     for (const it of items) {
       const inner = it.l.element.firstChild;
       const bw = inner.offsetWidth || 40, bh = (inner.offsetHeight || 18) + 2;

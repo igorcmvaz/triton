@@ -129,6 +129,18 @@ def component_envelope(item: Dict[str, Any], fallbacks: Optional[Dict[str, float
         return Envelope("cylinder", regular_polygon(r, 20), r, r, h, True, vol, d)
     if type_id == "ponto_nao_potavel":
         return Envelope("box", regular_polygon(110.0, 4, math.pi / 4), 110 / math.sqrt(2), 110 / math.sqrt(2), 220.0)
+    # Peças do arranjo normativo, dimensionadas pela bitola quando cabe.
+    dn = _number(params.get("DN_MM"), None) or 25.0
+    sizes = {
+        "freio_dagua": (max(220.0, dn * 2.2), max(200.0, dn * 2.0)),        # curva 90° com bocal voltado para cima
+        "succao_flutuante": (max(220.0, dn * 6.0), max(200.0, dn * 5.0)),   # boia com crivo suspenso
+        "sensor_nivel": (120.0, 160.0),                                     # chave de nível (boia elétrica)
+        "valvula_solenoide": (max(160.0, dn * 5.0), max(200.0, dn * 7.0)),  # corpo e bobina
+        "hidrometro": (max(220.0, dn * 8.0), max(160.0, dn * 5.0)),         # cavalete com mostrador
+    }
+    if type_id in sizes:
+        side, height = sizes[type_id]
+        return Envelope("box", regular_polygon(side / math.sqrt(2), 4, math.pi / 4), side / 2, side / 2, height)
     side = max(140.0, (_number(params.get("DN_MM"), None) or 25.0) * 3)
     return Envelope("box", regular_polygon(side / math.sqrt(2), 4, math.pi / 4), side / 2, side / 2, side)
 

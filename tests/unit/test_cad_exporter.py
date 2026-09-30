@@ -102,6 +102,8 @@ def test_block_library_is_reusable_and_auditable(tmp_path):
         "netuno_first_flush", "netuno_motobomba", "netuno_reg_gaveta",
         "netuno_reg_esfera", "netuno_valv_retencao", "netuno_air_gap",
         "netuno_ladrao_sifonado", "netuno_ponto_nao_potavel",
+        "netuno_freio_dagua", "netuno_succao_flutuante", "netuno_sensor_nivel",
+        "netuno_valv_solenoide", "netuno_hidrometro",
     }
     assert expected <= names
     assert len(doc.modelspace().query("INSERT")) == len(expected)
@@ -116,7 +118,7 @@ def test_block_library_is_reusable_and_auditable(tmp_path):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert manifest["schema_version"] == "1.1"
     assert manifest["pipe_runs"] == []
-    assert len(manifest["component_types"]) == 11
+    assert len(manifest["component_types"]) == 16  # 11 originais + o arranjo normativo (freio d'água, sucção flutuante, chave de nível, solenoide, hidrômetro)
     assert manifest["instances"] == []
     assert validate_bim_manifest(manifest) == []
 

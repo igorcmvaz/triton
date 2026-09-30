@@ -38,6 +38,14 @@ COMPONENT_TYPES: List[Dict[str, Any]] = [
     {"type_id": "air_gap", "cad_block": "NETUNO_AIR_GAP", "revit_category": "OST_PipeAccessory", "parameters": ["FOLGA_MM", "DN_MM"]},
     {"type_id": "ladrao_sifonado", "cad_block": "NETUNO_LADRAO_SIFONADO", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "MALHA_MM"]},
     {"type_id": "ponto_nao_potavel", "cad_block": "NETUNO_PONTO_NAO_POTAVEL", "revit_category": "OST_PlumbingFixtures", "parameters": ["USO", "DN_MM"]},
+    # Arranjo normativo completo (ABNT NBR 15527:2019 e NBR 5626:2020): entrada
+    # calma na cisterna, captação flutuante, comando por nível e o backup potável
+    # com hidrômetro e válvula solenoide descarregando por separação atmosférica.
+    {"type_id": "freio_dagua", "cad_block": "NETUNO_FREIO_DAGUA", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM"]},
+    {"type_id": "succao_flutuante", "cad_block": "NETUNO_SUCCAO_FLUTUANTE", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "PROFUNDIDADE_MM"]},
+    {"type_id": "sensor_nivel", "cad_block": "NETUNO_SENSOR_NIVEL", "revit_category": "OST_ElectricalFixtures", "parameters": ["FUNCAO"]},
+    {"type_id": "valvula_solenoide", "cad_block": "NETUNO_VALV_SOLENOIDE", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "TENSAO_V"]},
+    {"type_id": "hidrometro", "cad_block": "NETUNO_HIDROMETRO", "revit_category": "OST_PipeAccessory", "parameters": ["DN_MM", "VAZAO_NOMINAL_M3_H"]},
 ]
 
 
