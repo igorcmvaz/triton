@@ -18,6 +18,21 @@ from netuno.core.tariff_updater import (
 from netuno.core.tariffs_database import load_tariffs_db, get_city_data
 
 
+def _pula_se_a_aneel_nao_responde(erro: Exception) -> None:
+    """Servidor da ANEEL fora do ar não é defeito do Netuno.
+
+    Conexão recusada, SSL cortado ou prazo estourado viram teste pulado. Se a
+    ANEEL responder com erro HTTP (endereço do CSV mudou) ou o arquivo não for
+    lido, o teste falha: esse é o sinal que o teste de rede existe para dar.
+    """
+    import requests
+
+    origem = erro.__cause__ or erro.__context__
+    if isinstance(origem, (requests.ConnectionError, requests.Timeout, TimeoutError)):
+        pytest.skip(f"ANEEL inacessível neste momento: {origem}")
+    raise erro
+
+
 class TestTariffUpdater(unittest.TestCase):
 
     def setUp(self):
@@ -27,7 +42,10 @@ class TestTariffUpdater(unittest.TestCase):
     def test_aneel_distributor_matching(self):
         """Valida que distribuidoras conhecidas são mapeadas corretamente."""
         updater = AneelTariffUpdater()
-        updater.load_and_parse(force_download=False)
+        try:
+            updater.load_and_parse(force_download=False)
+        except RuntimeError as erro:
+            _pula_se_a_aneel_nao_responde(erro)
 
         # Testa distribuidora de São Paulo
         sp_res = updater.get_tariff_for_distributor("ENEL Distribuição São Paulo")
@@ -64,7 +82,10 @@ class TestTariffUpdater(unittest.TestCase):
     @pytest.mark.rede
     def test_dry_run_execution(self):
         """Valida execução em modo dry-run para um estado específico (SC)."""
-        res = self.engine.run_update(mode="all", target_uf="SC", dry_run=True)
+        try:
+            res = self.engine.run_update(mode="all", target_uf="SC", dry_run=True)
+        except RuntimeError as erro:
+            _pula_se_a_aneel_nao_responde(erro)
         self.assertTrue(res["dry_run"])
         stats = res["stats"]
         self.assertGreater(stats["processed"], 0)
@@ -141,3 +162,28 @@ def test_download_completo_substitui_o_cache(tmp_path, monkeypatch):
 
     atualizador.fetch_latest_csv(force_download=True)
     assert atualizador.cache_file.read_bytes() == b"novo;" * 300 + b"fim"
+
+
+def test_aneel_fora_do_ar_pula_e_erro_http_falha(monkeypatch, tmp_path):
+    """O teste de rede distingue servidor inacessível de endereço quebrado."""
+    import requests
+    from netuno.core.tariff_updater import aneel_updater
+
+    def sem_conexao(*a, **k):
+        raise requests.exceptions.SSLError("EOF occurred in violation of protocol")
+
+    monkeypatch.setattr(aneel_updater.requests, "get", sem_conexao)
+    updater = AneelTariffUpdater(cache_dir=tmp_path)
+    with pytest.raises(RuntimeError) as capturado:
+        updater.fetch_latest_csv(force_download=True)
+    with pytest.raises(pytest.skip.Exception):
+        _pula_se_a_aneel_nao_responde(capturado.value)
+
+    def erro_http(*a, **k):
+        raise requests.exceptions.HTTPError("404 Not Found")
+
+    monkeypatch.setattr(aneel_updater.requests, "get", erro_http)
+    with pytest.raises(RuntimeError) as capturado:
+        updater.fetch_latest_csv(force_download=True)
+    with pytest.raises(RuntimeError):
+        _pula_se_a_aneel_nao_responde(capturado.value)
