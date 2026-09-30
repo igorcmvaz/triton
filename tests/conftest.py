@@ -25,6 +25,10 @@ import pytest
 
 # Renderização offscreen antes de qualquer importação de Qt.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+# A aba de volumetria usa o visualizador WebGL (QtWebEngine) no programa; nos
+# testes, o de QPainter, que não sobe um Chromium nem depende de GPU. O WebGL é
+# verificado por tests/unit/test_volumetria_web.py e pela conferência manual.
+os.environ.setdefault("NETUNO_VOLUMETRIA_SIMPLES", "1")
 
 try:
     import matplotlib

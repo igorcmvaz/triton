@@ -201,6 +201,11 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "netuno.core.volumetry",
         "netuno.core.volumetry_export",
         "netuno.ui.volumetry_view",
+        # Volumetria WebGL (three.js) na aba; o pacote do visualizador e o céu
+        # vão em netuno/data/volumetria.
+        "netuno.ui.volumetry_web",
+        "PySide6.QtWebEngineWidgets",
+        "PySide6.QtWebEngineCore",
         "netuno.ui.dialogs.pipe_runs_dialog",
         "PySide6.QtSvg",
         "ezdxf.render.forms",

@@ -82,6 +82,12 @@ class Solid:
     # Tubos: eixo e raio, para o visualizador trocar o prisma por uma linha
     # quando ele ficar mais fino que poucos pixels (nível de detalhe).
     axis: Optional[Tuple[Point, Point, float]] = None
+    # Para o visualizador WebGL desenhar a peça detalhada no lugar do prisma:
+    # o tipo do catálogo, o giro em planta e o sistema hidráulico do tubo.
+    type_id: str = ""
+    rotation_deg: float = 0.0
+    system: str = ""
+    dn_mm: float = 0.0  # diâmetro nominal real do tubo (o prisma pode estar ampliado)
 
 
 @dataclass
@@ -180,6 +186,14 @@ def _fmt(value: float, decimals: int = 2) -> str:
 
 
 def _component_solid(item: Dict[str, Any], project_data: Dict[str, Any]) -> Solid:
+    solid = _component_solid_body(item, project_data)
+    solid.type_id = item["type_id"]
+    env = component_envelope(item, fallback_volumes(project_data))
+    solid.rotation_deg = 0.0 if env.shape == "cylinder" else float(item.get("rotation_deg", 0.0) or 0.0)
+    return solid
+
+
+def _component_solid_body(item: Dict[str, Any], project_data: Dict[str, Any]) -> Solid:
     type_id = item["type_id"]
     params = item.get("parameters") or {}
     pos = item["position_mm"]
@@ -430,12 +444,14 @@ def build_volumetry(project_data: Dict[str, Any]) -> Scene:
             if run["start_ref"] or run["end_ref"]:
                 info.append(f"Interligação: De {run['start_ref'] or 'coordenadas'} para {run['end_ref'] or 'extremidade livre'}")
             solids.append(Solid(f"{run['run_id']}#{index}", "pipe", f"{run['run_id']} · {system['label']} (DN {dn_val:g})", info,
-                                color, tube(a, b, radius), group=run["run_id"], axis=(a, b, radius)))
+                                color, tube(a, b, radius), group=run["run_id"], axis=(a, b, radius),
+                                system=run["system"], dn_mm=dn_val))
             if index < len(run["segments"]):
                 # Nó na mudança de direção, para a tubulação não parecer quebrada.
                 solids.append(Solid(f"{run['run_id']}#{index}n", "pipe", f"{run['run_id']} · {system['label']}", info,
                                     color, prism(regular_polygon(radius * 1.08, _TUBE_SIDES), (b[0], b[1], b[2] - radius * 1.08), radius * 2.16),
-                                    pickable=False, group=run["run_id"], axis=(b, b, radius)))
+                                    pickable=False, group=run["run_id"], axis=(b, b, radius), system=run["system"],
+                                    dn_mm=dn_val))
     if enlarged:
         notes.append("Tubos de DN pequeno desenhados com espessura ampliada para visualização.")
 

@@ -1,5 +1,7 @@
 """Testes para geração de layout 3D a partir dos dados do estudo."""
 
+import pytest
+
 from netuno.core.bim_exporter import build_bim_manifest, validate_bim_manifest
 from netuno.core.schematic_3d import generate_schematic_3d_svg
 from netuno.core.study_layout import generate_study_layout
@@ -71,3 +73,20 @@ def test_generate_study_layout_with_defaults():
     assert comp_ids == ["FP-01", "FF-01", "CI-01", "B-01", "RS-01"]
     manifest = build_bim_manifest(layout)
     assert validate_bim_manifest(manifest) == []
+
+
+@pytest.mark.parametrize("rotulo, cv, kw", [
+    ("1/2", 0.5, 0.37), ("3/4", 0.75, 0.55), ("1", 1.0, 0.75), ("1 1/2", 1.5, 1.1),
+    ("1.1/2", 1.5, 1.1), ("1/3", 1 / 3, 0.25), ("2 CV", 2.0, 1.5), ("", 0.5, 0.37),
+])
+def test_o_rotulo_da_bomba_vira_a_potencia_certa(rotulo, cv, kw):
+    """«1 1/2» era lido como ½ CV, e «1/3» como 1 CV (teste por substring)."""
+    from netuno.core.study_layout import potencia_da_motobomba
+
+    assert potencia_da_motobomba(rotulo) == (pytest.approx(cv), pytest.approx(kw))
+
+
+def test_o_kw_informado_prevalece_sobre_o_rotulo():
+    from netuno.core.study_layout import potencia_da_motobomba
+
+    assert potencia_da_motobomba("1/2", 0.55)[1] == pytest.approx(0.55)

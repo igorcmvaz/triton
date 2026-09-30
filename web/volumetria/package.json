@@ -1,0 +1,15 @@
+{
+  "name": "netuno-volumetria",
+  "private": true,
+  "version": "5.0.0",
+  "description": "Visualizador 3D da volumetria do Netuno (three.js). Gera netuno/data/volumetria/netuno_volumetria.js.",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "three": "0.186.1"
+  }
+}

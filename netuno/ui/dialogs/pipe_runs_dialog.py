@@ -30,7 +30,7 @@ from netuno.core.schematic_3d import generate_schematic_3d_svg
 from netuno.core.volumetry import build_volumetry
 from netuno.core.volumetry_export import write_glb, write_html_viewer
 from netuno.ui.translation import tr
-from netuno.ui.volumetry_view import VolumetryPanel
+from netuno.ui.volumetry_web import criar_painel_de_volumetria, textos_da_volumetria
 
 
 COMPONENT_COLUMNS = ["ID", "Tipo", "X (mm)", "Y (mm)", "Z (mm)", "Rotação (°)", "Nível"]
@@ -375,7 +375,7 @@ class PipeRunsDialog(QDialog):
         head.addWidget(self.btn_glb)
         lay.addLayout(head)
         self.tabs = QTabWidget()
-        self.volumetry = VolumetryPanel()
+        self.volumetry = criar_painel_de_volumetria()
         self.preview = SchematicView()
         self.tabs.addTab(self.volumetry, tr("🧊 Volumetria 3D (girável)"))
         self.tabs.addTab(self.preview, tr("🧭 Esquema 3D (medidas e sequência)"))
@@ -413,7 +413,10 @@ class PipeRunsDialog(QDialog):
         if not path:
             return None
         scene = build_volumetry(self._valid_data)
-        (write_html_viewer if fmt == "html" else write_glb)(scene, path)
+        if fmt == "html":
+            write_html_viewer(scene, path, textos_da_volumetria())
+        else:
+            write_glb(scene, path)
         self.lbl_report.setText(self.lbl_report.text() + f" · {tr('exportado')}: {escape(Path(path).name)}")
         if open_browser and fmt == "html":
             QDesktopServices.openUrl(QUrl.fromLocalFile(path))

@@ -616,8 +616,9 @@ class TabExport(QWidget):
             self._last_exported_path = file_path
             if mode == "plant_3d":
                 from netuno.core.volumetry_export import write_volumetry_package
+                from netuno.ui.volumetry_web import textos_da_volumetria
 
-                write_volumetry_package(data, str(Path(file_path).with_suffix("")))
+                write_volumetry_package(data, str(Path(file_path).with_suffix("")), textos_da_volumetria())
             lbl_mode = {"technical_a3": tr("Prancha Técnica A3"), "simple": tr("Esquemático Simples"), "block_library": tr("Biblioteca de Blocos + BIM JSON"), "plant_3d": tr("Planta 3D + BIM JSON")}.get(mode, tr("CAD"))
             suffix = {
                 "block_library": tr("; manifesto BIM salvo ao lado do DXF"),
