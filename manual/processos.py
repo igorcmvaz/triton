@@ -315,7 +315,7 @@ PROCESSOS = [
   "que um estudo de aproveitamento pluvial precisa enxergar.",
   "O esgoto é percentual da <b>parcela de água</b>, não da fatura total. Em Florianópolis são 100% "
   "da água, que é metade da fatura.",
-  "Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios."],
+  "Os seis regimes tarifários estão nomeados e auditados na base dos 652 municípios."],
  [("economic.py", "calculate_water_bill"), ("tariff_regimes.py", "resumo_do_regime"),
   ("tariff_regimes.py", "validar_estrutura"), ("tariffs_structure.py", "CODIGOS_VALIDOS")],
  ["Valor da fatura de água e esgoto em R$/mês, para a projeção de PROC-18"],

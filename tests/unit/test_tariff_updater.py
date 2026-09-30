@@ -21,14 +21,18 @@ from netuno.core.tariffs_database import load_tariffs_db, get_city_data
 def _pula_se_a_aneel_nao_responde(erro: Exception) -> None:
     """Servidor da ANEEL fora do ar não é defeito do Netuno.
 
-    Conexão recusada, SSL cortado ou prazo estourado viram teste pulado. Se a
-    ANEEL responder com erro HTTP (endereço do CSV mudou) ou o arquivo não for
-    lido, o teste falha: esse é o sinal que o teste de rede existe para dar.
+    Conexão recusada, SSL cortado, conexão interrompida no meio do download ou
+    prazo estourado viram teste pulado. Se a ANEEL responder com erro HTTP
+    (endereço do CSV mudou) ou o arquivo não for lido, o teste falha: esse é o
+    sinal que o teste de rede existe para dar.
     """
     import requests
 
     origem = erro.__cause__ or erro.__context__
-    if isinstance(origem, (requests.ConnectionError, requests.Timeout, TimeoutError)):
+    # O CSV tem ~90 MB: a conexão que cai no meio chega como ChunkedEncodingError
+    # («Connection broken: IncompleteRead»), e não como ConnectionError.
+    rede = (requests.ConnectionError, requests.Timeout, requests.exceptions.ChunkedEncodingError, TimeoutError)
+    if isinstance(origem, rede):
         pytest.skip(f"ANEEL inacessível neste momento: {origem}")
     raise erro
 
@@ -186,4 +190,14 @@ def test_aneel_fora_do_ar_pula_e_erro_http_falha(monkeypatch, tmp_path):
     with pytest.raises(RuntimeError) as capturado:
         updater.fetch_latest_csv(force_download=True)
     with pytest.raises(RuntimeError):
+        _pula_se_a_aneel_nao_responde(capturado.value)
+
+    def conexao_cortada(*a, **k):
+        raise requests.exceptions.ChunkedEncodingError(
+            "Connection broken: IncompleteRead(9944387 bytes read, 79291328 more expected)")
+
+    monkeypatch.setattr(aneel_updater.requests, "get", conexao_cortada)
+    with pytest.raises(RuntimeError) as capturado:
+        updater.fetch_latest_csv(force_download=True)
+    with pytest.raises(pytest.skip.Exception):
         _pula_se_a_aneel_nao_responde(capturado.value)

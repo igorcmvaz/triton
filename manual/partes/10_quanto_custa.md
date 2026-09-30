@@ -45,12 +45,13 @@ existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a 
 paga, e não impede a economia sobre o consumo.
 
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
-projetos inteiros. O programa distingue cinco.
+projetos inteiros. O programa distingue seis.
 
-<!-- tabela: Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
+<!-- tabela: Os seis regimes tarifários e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
-| disponibilidade | cada m³ economizado desconta | 156 |
+| disponibilidade | cada m³ economizado desconta | 122 |
+| fórmula exponencial | cada m³ economizado desconta, pelo preço-base elevado ao expoente | 34 |
 | sem mínimo | idem | 165 |
 | franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
 | franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |

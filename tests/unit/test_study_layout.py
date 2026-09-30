@@ -175,3 +175,17 @@ def test_a_captacao_nasce_no_telhado_e_desce_no_filtro():
     # E o manifesto continua válido, com o trecho chegando ao topo do filtro.
     cena = build_volumetry({"project_name": "Telhado", **layout})
     assert any(s.key.startswith("T-01#") for s in cena.solids)
+
+
+def test_a_prancha_do_arranjo_completo_nao_embola():
+    """Um plano de cota por nível principal, e o tipo das peças pequenas vai para a tabela."""
+    import re
+
+    layout = generate_study_layout({"lower_vol": 10000, "upper_vol": 1000, "area": 180, "floors": 2})
+    svg = generate_schematic_3d_svg({"project_name": "Prancha", **layout})
+    cotas = re.findall(r">Cota ([^<]+) m<", svg)
+    assert len(cotas) <= 6, cotas  # eram 14, um por acessório
+    assert "Peças e acessórios" in svg
+    # As 21 peças pequenas aparecem no desenho só pelo código.
+    assert svg.count("Registro de gaveta ·") == 5  # uma vez cada, na tabela
+    assert 'width="1680" height="1188"' in svg  # folha A3 deitada

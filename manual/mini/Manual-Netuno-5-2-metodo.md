@@ -115,9 +115,9 @@ Figura 15 — Rendimento mínimo de motores de indução monofásicos de dois po
 
 Figura 16 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema
 
-Figura 17 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto
+Figura 17 — Os seis códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto
 
-Figura 18 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo
+Figura 18 — Distribuição dos 652 municípios do catálogo pelos seis regimes tarifários
 
 Figura 19 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno
 
@@ -241,27 +241,27 @@ Tabela 50 — Variáveis da Equação 38
 
 Tabela 51 — Variáveis da Equação 39
 
-Tabela 52 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
+Tabela 52 — Variáveis da Equação 40
 
-Tabela 53 — Variáveis da Equação 40
+Tabela 53 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
 
-Tabela 54 — Parcelas do custeio anual e a origem de cada uma
+Tabela 54 — Variáveis da Equação 41
 
-Tabela 55 — Variáveis da Equação 41
+Tabela 55 — Parcelas do custeio anual e a origem de cada uma
 
-Tabela 56 — Variáveis da Equação 43
+Tabela 56 — Variáveis da Equação 42
 
 Tabela 57 — Variáveis da Equação 44
 
-Tabela 58 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
+Tabela 58 — Variáveis da Equação 45
 
-Tabela 59 — Variáveis da Equação 45
+Tabela 59 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
 
-Tabela 60 — Massa por metro cúbico útil de cada material de reservatório
+Tabela 60 — Variáveis da Equação 46
 
-Tabela 61 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
+Tabela 61 — Massa por metro cúbico útil de cada material de reservatório
 
-Tabela 62 — Variáveis da Equação 46
+Tabela 62 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
 
 Tabela 63 — Variáveis da Equação 47
 
@@ -271,67 +271,69 @@ Tabela 65 — Variáveis da Equação 49
 
 Tabela 66 — Variáveis da Equação 50
 
-Tabela 67 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
+Tabela 67 — Variáveis da Equação 51
 
-Tabela 68 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
+Tabela 68 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
 
-Tabela 69 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
+Tabela 69 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
 
-Tabela 70 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+Tabela 70 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
 
-Tabela 71 — Variáveis da Equação 51
+Tabela 71 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
 
-Tabela 72 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+Tabela 72 — Variáveis da Equação 52
 
-Tabela 73 — Parâmetros do projeto: identificação
+Tabela 73 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
 
-Tabela 74 — Parâmetros do projeto: chuva
+Tabela 74 — Parâmetros do projeto: identificação
 
-Tabela 75 — Parâmetros do projeto: captação
+Tabela 75 — Parâmetros do projeto: chuva
 
-Tabela 76 — Parâmetros do projeto: edificação
+Tabela 76 — Parâmetros do projeto: captação
 
-Tabela 77 — Parâmetros do projeto: demanda
+Tabela 77 — Parâmetros do projeto: edificação
 
-Tabela 78 — Parâmetros do projeto: irrigação
+Tabela 78 — Parâmetros do projeto: demanda
 
-Tabela 79 — Parâmetros do projeto: qualidade da água
+Tabela 79 — Parâmetros do projeto: irrigação
 
-Tabela 80 — Parâmetros do projeto: reservatórios
+Tabela 80 — Parâmetros do projeto: qualidade da água
 
-Tabela 81 — Parâmetros do projeto: motobomba
+Tabela 81 — Parâmetros do projeto: reservatórios
 
-Tabela 82 — Parâmetros do projeto: tubulação
+Tabela 82 — Parâmetros do projeto: motobomba
 
-Tabela 83 — Parâmetros do projeto: investimento
+Tabela 83 — Parâmetros do projeto: tubulação
 
-Tabela 84 — Parâmetros do projeto: operação
+Tabela 84 — Parâmetros do projeto: investimento
 
-Tabela 85 — Parâmetros do projeto: tarifas
+Tabela 85 — Parâmetros do projeto: operação
 
-Tabela 86 — Parâmetros do projeto: energia
+Tabela 86 — Parâmetros do projeto: tarifas
 
-Tabela 87 — Parâmetros do projeto: incentivos
+Tabela 87 — Parâmetros do projeto: energia
 
-Tabela 88 — Parâmetros do projeto: financeiro
+Tabela 88 — Parâmetros do projeto: incentivos
 
-Tabela 89 — Parâmetros do projeto: certificações
+Tabela 89 — Parâmetros do projeto: financeiro
 
-Tabela 90 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 90 — Parâmetros do projeto: certificações
 
-Tabela 91 — Fatores de emissão dos insumos de tratamento
+Tabela 91 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 92 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 92 — Fatores de emissão dos insumos de tratamento
 
-Tabela 93 — Procedência do fator de emissão do hipoclorito
+Tabela 93 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 94 — Conteúdo da base climática nacional
+Tabela 94 — Procedência do fator de emissão do hipoclorito
 
-Tabela 95 — Séries históricas de precipitação distribuídas com o programa
+Tabela 95 — Conteúdo da base climática nacional
 
-Tabela 96 — Padronização terminológica de água de chuva e água pluvial
+Tabela 96 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 97 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 97 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 98 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -413,31 +415,33 @@ Equação 37 — energia_pressurizador
 
 Equação 38 — Economia mensal na fatura
 
-Equação 39 — Parcela de esgoto da fatura
+Equação 39 — exponencial
 
-Equação 40 — Investimento inicial total
+Equação 40 — Parcela de esgoto da fatura
 
-Equação 41 — Fator acumulado de inflação
+Equação 41 — Investimento inicial total
 
-Equação 42 — Número de reajustes aplicados
+Equação 42 — Fator acumulado de inflação
 
-Equação 43 — Fator acumulado de reajuste tarifário
+Equação 43 — Número de reajustes aplicados
 
-Equação 44 — Valor presente líquido
+Equação 44 — Fator acumulado de reajuste tarifário
 
-Equação 45 — Emissão incorporada de um componente
+Equação 45 — Valor presente líquido
 
-Equação 46 — Emissão anual da energia de bombeamento
+Equação 46 — Emissão incorporada de um componente
 
-Equação 47 — Saldo líquido anual de emissões
+Equação 47 — Emissão anual da energia de bombeamento
 
-Equação 48 — Tempo de retorno ambiental
+Equação 48 — Saldo líquido anual de emissões
 
-Equação 49 — Saldo de carbono ao fim da vida útil
+Equação 49 — Tempo de retorno ambiental
 
-Equação 50 — Emissão específica por litro entregue
+Equação 50 — Saldo de carbono ao fim da vida útil
 
-Equação 51 — Coeficiente de proximidade do TOPSIS
+Equação 51 — Emissão específica por litro entregue
+
+Equação 52 — Coeficiente de proximidade do TOPSIS
 
 ---
 
@@ -2297,7 +2301,7 @@ Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
 
 ## 2.7. Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os cinco regimes de mínimo
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
 > tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
@@ -2344,11 +2348,11 @@ economia de água atinge cada uma dessas parcelas de um jeito diferente, e é es
 
 *Figura 16 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema. A tarifa de disponibilidade é idêntica nos dois casos; a redução ocorre nas faixas de consumo superiores, que têm o maior preço por metro cúbico, e se estende ao esgoto, cobrado como percentual do valor da água.*
 
-O código de cada faixa define como o seu valor é aplicado (Figura 17). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; e no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura.
+O código de cada faixa define como o seu valor é aplicado (Figura 17). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura; e na fórmula exponencial, o código 2 guarda o preço-base e as linhas de código 3 guardam a tabela de expoentes.
 
-![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
+![Os seis códigos de faixa tarifária](../figuras/fig32_codigos.png)
 
-*Figura 17 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
+*Figura 17 — Os seis códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
 
 
 Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
@@ -2365,7 +2369,31 @@ estudo de viabilidade que os confunda chega a conclusões invertidas. É por ess
 o programa codifica o regime de forma explícita, em vez de tratá-lo como detalhe da
 tabela.
 
-#### 2.7.2.1. Micromedição
+#### 2.7.2.1. A fórmula exponencial
+
+Nos municípios da CORSAN a parcela de água não é soma de faixas, e sim uma potência do
+consumo do mês:
+
+```equacao:exponencial:39
+T_agua = PB × C^n + SB
+```
+
+<!-- tabela: **Tabela 51** — Variáveis da Equação 39 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `T_agua` | parcela de água da fatura | R$ |
+| `PB` | preço-base do município | R$/m³ |
+| `C` | consumo do mês por economia, limitado a 1.000 m³ | m³ |
+| `n` | expoente da tabela exponencial para o consumo `C` | adimensional |
+| `SB` | serviço básico | R$ |
+
+O expoente é lido pelo consumo **total** do mês e aplicado a todo o volume. O excedente
+acima de 1.000 m³ é somado pelo preço do m³, como uma faixa comum. A economia mensal é a
+diferença entre as duas contas, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, cada consumo com o seu expoente, e não o produto de um preço
+unitário pelo volume poupado; com `n` acima de 1, o metro cúbico poupado vale mais que o
+preço-base.
+
+#### 2.7.2.2. Micromedição
 
 Em edificações multifamiliares com medição individualizada, o consumo é avaliado no
 patamar de uma única unidade habitacional e o resultado é multiplicado pelo número de
@@ -2374,13 +2402,13 @@ apartamentos tratado como consumidor único cairia inteiro na faixa mais cara da
 a economia resultante sairia grosseiramente superestimada, porque cada metro cúbico
 poupado seria valorado a uma tarifa que nenhuma das vinte unidades efetivamente paga.
 
-#### 2.7.2.2. O esgoto
+#### 2.7.2.3. O esgoto
 
-```equacao:esgoto:39
+```equacao:esgoto:40
 T_esg = T_agua × s
 ```
 
-<!-- tabela: **Tabela 51** — Variáveis da Equação 39 -->
+<!-- tabela: **Tabela 52** — Variáveis da Equação 40 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_esg` | parcela de esgoto da fatura | R$ |
@@ -2395,13 +2423,13 @@ responde por metade da fatura total.
 
 ---
 
-### 2.7.3. Os cinco regimes na base
+### 2.7.3. Os seis regimes na base
 
-O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
+O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os seis
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
-seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 18). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
+seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórmula exponencial da CORSAN, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 18). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
 
-<!-- tabela: **Tabela 52** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+<!-- tabela: **Tabela 53** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
 | Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
 | :--- | :--- | :--- | :--- |
 | sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
@@ -2409,10 +2437,11 @@ seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo qu
 | franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
 | franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
 | piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
+| fórmula exponencial | serviço básico (−1), preço-base (2), tabela de expoentes (3) de 0 a 1.000 m³ e faixa (1) acima | serviço básico somado a `PB × Cⁿ`, com `n` pelo consumo do mês inteiro | toda redução de consumo reduz a fatura, pela diferença entre as duas potências |
 
 ![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
 
-*Figura 18 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
+*Figura 18 — Distribuição dos 652 municípios do catálogo pelos seis regimes tarifários. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
 
 
 O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi
@@ -2428,11 +2457,11 @@ economizar água abaixo do volume de franquia não produz desconto algum na fatu
 
 ### 2.7.4. O investimento
 
-```equacao:capex:40
+```equacao:capex:41
 CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 ```
 
-<!-- tabela: **Tabela 53** — Variáveis da Equação 40 -->
+<!-- tabela: **Tabela 54** — Variáveis da Equação 41 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX` | investimento inicial total do sistema | R$ |
@@ -2469,7 +2498,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ### 2.7.5. O custeio anual
 
-<!-- tabela: **Tabela 54** — Parcelas do custeio anual e a origem de cada uma -->
+<!-- tabela: **Tabela 55** — Parcelas do custeio anual e a origem de cada uma -->
 | Parcela | Origem |
 | :--- | :--- |
 | energia de bombeamento | seção 2.6, com a bandeira tarifária aplicada |
@@ -2498,11 +2527,11 @@ o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o te
 
 **A inflação incide só sobre o custeio:**
 
-```equacao:inflacao:41
+```equacao:inflacao:42
 f_inf = ( 1 + i )^( m − 1 )
 ```
 
-<!-- tabela: **Tabela 55** — Variáveis da Equação 41 -->
+<!-- tabela: **Tabela 56** — Variáveis da Equação 42 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
@@ -2511,15 +2540,15 @@ f_inf = ( 1 + i )^( m − 1 )
 
 **Os reajustes tarifários incidem só sobre a fatura, em degraus:**
 
-```equacao:degraus:42
+```equacao:degraus:43
 k = ⌊ ( m − 1 ) ÷ I ⌋
 ```
 
-```equacao:reajuste:43
+```equacao:reajuste:44
 f_j = ( 1 + r_j )^k
 ```
 
-<!-- tabela: **Tabela 56** — Variáveis da Equação 43 -->
+<!-- tabela: **Tabela 57** — Variáveis da Equação 44 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `k` | número de reajustes já aplicados até o mês `m` | adimensional |
@@ -2529,7 +2558,7 @@ f_j = ( 1 + r_j )^k
 | `f_j` | fator acumulado de reajuste da parcela `j` | adimensional |
 | `r_j` | taxa de reajuste da parcela `j`, que pode ser água, esgoto ou energia | adimensional |
 
-A Equação 43 é aplicada separadamente a cada uma das três parcelas, com
+A Equação 44 é aplicada separadamente a cada uma das três parcelas, com
 taxas próprias, e é dessa separação que trata a observação seguinte.
 
 > **Água e esgoto são reajustados por índices separados**, e não por um índice único
@@ -2548,15 +2577,15 @@ degrau que nada tem a ver com o desempenho do sistema.
 
 **Valor presente líquido:**
 
-```equacao:vpl:44
+```equacao:vpl:45
 VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 ```
 
-<!-- tabela: **Tabela 57** — Variáveis da Equação 44 -->
+<!-- tabela: **Tabela 58** — Variáveis da Equação 45 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `VPL` | valor presente líquido do investimento | R$ |
-| `CAPEX` | investimento inicial total, da Equação 40 | R$ |
+| `CAPEX` | investimento inicial total, da Equação 41 | R$ |
 | `FC_m` | fluxo de caixa líquido do mês `m` | R$ |
 | `TMA` | taxa mínima de atratividade mensal, como fração: 0,5% ao mês entra como 0,005 | adimensional |
 | `m` | mês do fluxo de caixa, de 1 até o fim do período de análise | mês |
@@ -2615,7 +2644,7 @@ ela que torna comparáveis alternativas diferentes. No programa, a unidade impl�
 comparação se faz contra o fornecimento, pela concessionária, do mesmo volume de água.
 Quem quiser comparar com a literatura pode convertê-la para a unidade mais usada, o
 metro cúbico de água entregue, dividindo o saldo pelo volume da vida útil, como faz a
-Equação 50.
+Equação 51.
 
 **2. Inventário.** Levanta os fluxos de entrada e saída de cada processo: massas de
 material, energia, insumos. No programa, o inventário são as massas dos componentes, a
@@ -2638,7 +2667,7 @@ mesma nomenclatura é usada nas declarações ambientais de produto conforme a E
 Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
 fronteira, e é o que um avaliador espera encontrar.
 
-<!-- tabela: **Tabela 58** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+<!-- tabela: **Tabela 59** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
 | Módulo | Etapa | Coberto pelo programa |
 | :--- | :--- | :--- |
 | A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas e descarte inicial |
@@ -2680,11 +2709,11 @@ qual todas as demais alternativas se comparam.
 
 ### 2.8.4. O carbono incorporado
 
-```equacao:emissao_componente:45
+```equacao:emissao_componente:46
 E_comp = m_comp × FE_mat
 ```
 
-<!-- tabela: **Tabela 59** — Variáveis da Equação 45 -->
+<!-- tabela: **Tabela 60** — Variáveis da Equação 46 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_comp` | emissão incorporada do componente | kg CO₂e |
@@ -2696,7 +2725,7 @@ A massa de cada componente decorre do seu dimensionamento. No caso do reservató
 que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
 dessa variação que decorre boa parte do resultado ambiental do projeto.
 
-<!-- tabela: **Tabela 60** — Massa por metro cúbico útil de cada material de reservatório -->
+<!-- tabela: **Tabela 61** — Massa por metro cúbico útil de cada material de reservatório -->
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
 | polietileno | 22 kg/m³ | 110 kg |
@@ -2715,7 +2744,7 @@ A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.0
 polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
 inicial.
 
-<!-- tabela: **Tabela 61** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
+<!-- tabela: **Tabela 62** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
 | Item | Incorporado | Parcela do incorporado | Anual |
 | :--- | ---: | ---: | ---: |
 | cisterna de 4.000 L, polietileno | 141,9 kg | 43,3% | — |
@@ -2744,11 +2773,11 @@ cloração juntas, e é por isso que, com o material certo, a dívida de fabrica
 
 **Bombeamento:**
 
-```equacao:emissao_energia:46
+```equacao:emissao_energia:47
 E_ener = C_ano × FE_rede
 ```
 
-<!-- tabela: **Tabela 62** — Variáveis da Equação 46 -->
+<!-- tabela: **Tabela 63** — Variáveis da Equação 47 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
@@ -2822,11 +2851,11 @@ fronteira de cada uma.
 
 **Saldo líquido anual:**
 
-```equacao:saldo_liquido:47
+```equacao:saldo_liquido:48
 E_liq = E_evit − E_ener − E_trat
 ```
 
-<!-- tabela: **Tabela 63** — Variáveis da Equação 47 -->
+<!-- tabela: **Tabela 64** — Variáveis da Equação 48 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
@@ -2836,16 +2865,16 @@ E_liq = E_evit − E_ener − E_trat
 
 **Payback de carbono:**
 
-```equacao:payback_carbono:48
+```equacao:payback_carbono:49
 PB_amb = E_inc ÷ E_liq
 ```
 
-<!-- tabela: **Tabela 64** — Variáveis da Equação 48 -->
+<!-- tabela: **Tabela 65** — Variáveis da Equação 49 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PB_amb` | tempo de retorno ambiental do sistema | ano |
 | `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
-| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+| `E_liq` | saldo líquido anual de emissões, da Equação 48 | kg CO₂e/ano |
 
 Quando o saldo líquido anual não é positivo — situação real, e não hipotética, em
 sistemas com reservatório de concreto de grande volume — o retorno ambiental não existe,
@@ -2855,15 +2884,15 @@ que o sistema termina a vida útil devendo carbono.
 
 **Saldo no fim da vida:**
 
-```equacao:saldo_vida:49
+```equacao:saldo_vida:50
 S_vida = ( E_liq × n_anos ) − E_inc
 ```
 
-<!-- tabela: **Tabela 65** — Variáveis da Equação 49 -->
+<!-- tabela: **Tabela 66** — Variáveis da Equação 50 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
-| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+| `E_liq` | saldo líquido anual de emissões, da Equação 48 | kg CO₂e/ano |
 | `n_anos` | vida útil adotada para o sistema | ano |
 | `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
 
@@ -2873,15 +2902,15 @@ vinte anos, como a seção 4.8 (volume Tutorial) demonstra.
 
 **Emissão específica evitada:**
 
-```equacao:emissao_especifica:50
+```equacao:emissao_especifica:51
 E_esp = S_vida ÷ V_vida
 ```
 
-<!-- tabela: **Tabela 66** — Variáveis da Equação 50 -->
+<!-- tabela: **Tabela 67** — Variáveis da Equação 51 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
-| `S_vida` | saldo de carbono ao fim da vida útil, da Equação 49 | kg CO₂e |
+| `S_vida` | saldo de carbono ao fim da vida útil, da Equação 50 | kg CO₂e |
 | `V_vida` | volume total de água pluvial entregue ao longo da vida útil | m³ |
 
 ---
@@ -3006,7 +3035,7 @@ a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O proj
 por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
 ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
 
-<!-- tabela: **Tabela 67** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+<!-- tabela: **Tabela 68** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
 | Opção | O que mede | Pontuação |
 | :--- | :--- | :--- |
 | 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
@@ -3041,7 +3070,7 @@ versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de á
 itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
 Três itens dizem respeito ao aproveitamento pluvial:
 
-<!-- tabela: **Tabela 68** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+<!-- tabela: **Tabela 69** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
 | Item | Nível | Exigência |
 | :--- | :--- | :--- |
 | EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
@@ -3068,7 +3097,7 @@ da categoria «Gestão eficiente da água», e o seu indicador não é um percen
 **existência** de sistema de aproveitamento, com captação, tratamento, reservação e
 pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
 
-<!-- tabela: **Tabela 69** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+<!-- tabela: **Tabela 70** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
 | Abrangência do uso da água pluvial | Pontos |
 | :--- | ---: |
 | áreas comuns do empreendimento | 2 |
@@ -3174,7 +3203,7 @@ O programa avalia cada volume da varredura segundo sete critérios, agrupados em
 dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
 outros, menos.
 
-<!-- tabela: **Tabela 70** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
+<!-- tabela: **Tabela 71** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
 | 1 | potencial de economia | maximizar | técnico |
@@ -3208,18 +3237,18 @@ em pontos percentuais e em quilogramas passem a ocupar escalas comparáveis; apl
 pesos declarados; identifica as soluções ideal e anti-ideal; e ordena as alternativas
 pela proximidade relativa ao ideal.
 
-```equacao:topsis:51
+```equacao:topsis:52
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Tabela 71** — Variáveis da Equação 51 -->
+<!-- tabela: **Tabela 72** — Variáveis da Equação 52 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
 | `d_i⁺` | distância euclidiana da alternativa `i` à solução ideal | adimensional |
 | `d_i⁻` | distância euclidiana da alternativa `i` à solução anti-ideal | adimensional |
 
-O coeficiente da Equação 51 valeria 1 para uma alternativa que coincidisse com
+O coeficiente da Equação 52 valeria 1 para uma alternativa que coincidisse com
 a solução ideal em todos os critérios, e 0 para uma que coincidisse com a anti-ideal.
 Como nenhuma alternativa real ocupa esses extremos, o que interessa não é o valor
 absoluto do coeficiente, e sim a ordenação que ele produz.
@@ -3297,7 +3326,7 @@ A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimen
 aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
 sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
 
-<!-- tabela: **Tabela 72** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+<!-- tabela: **Tabela 73** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
 | Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
 | 1 000 L | 0,401 | 7º | 0,0% |
@@ -3388,7 +3417,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 73** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 74** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -3399,7 +3428,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 74** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 75** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -3420,7 +3449,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 75** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 76** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -3444,7 +3473,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 76** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 77** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
@@ -3458,7 +3487,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 77** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 78** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -3491,7 +3520,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 78** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 79** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
@@ -3510,7 +3539,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 79** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 80** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -3534,7 +3563,7 @@ Observações do código:
 
 12 parâmetros.
 
-<!-- tabela: **Tabela 80** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 81** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -3566,7 +3595,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 81** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 82** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -3602,7 +3631,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 82** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 83** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
@@ -3611,7 +3640,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 83** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 84** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3622,7 +3651,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 84** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 85** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
@@ -3631,7 +3660,7 @@ Observações do código:
 
 14 parâmetros.
 
-<!-- tabela: **Tabela 85** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 86** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
@@ -3665,7 +3694,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 86** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 87** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -3682,7 +3711,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 87** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 88** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
@@ -3698,7 +3727,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 88** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 89** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3716,7 +3745,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 89** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 90** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -4183,7 +4212,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
 5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
 6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
-7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
+7. Os seis regimes tarifários estão nomeados e auditados na base dos 652 municípios.
 
 **Saídas**
 
@@ -4399,7 +4428,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 90** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 91** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -4441,7 +4470,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 91** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 92** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -4460,7 +4489,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 92** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 93** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -4485,7 +4514,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 93** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 94** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -4519,7 +4548,7 @@ o último fator de emissão padrão sem procedência, o do hipoclorito, passou a
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 94** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 95** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -4567,7 +4596,7 @@ Independentes da base CMIP6, quatro séries históricas longas acompanham a
 instalação, na pasta `data
 ainfall` do programa:
 
-<!-- tabela: **Tabela 95** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 96** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -4977,7 +5006,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 96** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 97** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -4988,7 +5017,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 97** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 98** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

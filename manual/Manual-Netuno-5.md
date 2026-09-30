@@ -260,9 +260,9 @@ Figura 23 — Rendimento mínimo de motores de indução monofásicos de dois po
 
 Figura 24 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema
 
-Figura 25 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto
+Figura 25 — Os seis códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto
 
-Figura 26 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo
+Figura 26 — Distribuição dos 652 municípios do catálogo pelos seis regimes tarifários
 
 Figura 27 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno
 
@@ -470,27 +470,27 @@ Tabela 56 — Variáveis da Equação 38
 
 Tabela 57 — Variáveis da Equação 39
 
-Tabela 58 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
+Tabela 58 — Variáveis da Equação 40
 
-Tabela 59 — Variáveis da Equação 40
+Tabela 59 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
 
-Tabela 60 — Parcelas do custeio anual e a origem de cada uma
+Tabela 60 — Variáveis da Equação 41
 
-Tabela 61 — Variáveis da Equação 41
+Tabela 61 — Parcelas do custeio anual e a origem de cada uma
 
-Tabela 62 — Variáveis da Equação 43
+Tabela 62 — Variáveis da Equação 42
 
 Tabela 63 — Variáveis da Equação 44
 
-Tabela 64 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
+Tabela 64 — Variáveis da Equação 45
 
-Tabela 65 — Variáveis da Equação 45
+Tabela 65 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
 
-Tabela 66 — Massa por metro cúbico útil de cada material de reservatório
+Tabela 66 — Variáveis da Equação 46
 
-Tabela 67 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
+Tabela 67 — Massa por metro cúbico útil de cada material de reservatório
 
-Tabela 68 — Variáveis da Equação 46
+Tabela 68 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
 
 Tabela 69 — Variáveis da Equação 47
 
@@ -500,233 +500,235 @@ Tabela 71 — Variáveis da Equação 49
 
 Tabela 72 — Variáveis da Equação 50
 
-Tabela 73 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
+Tabela 73 — Variáveis da Equação 51
 
-Tabela 74 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
+Tabela 74 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
 
-Tabela 75 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
+Tabela 75 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
 
-Tabela 76 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+Tabela 76 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
 
-Tabela 77 — Variáveis da Equação 51
+Tabela 77 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
 
-Tabela 78 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+Tabela 78 — Variáveis da Equação 52
 
-Tabela 79 — O mesmo projeto do tutorial simulado em quatro capitais brasileiras
+Tabela 79 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
 
-Tabela 80 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais
+Tabela 80 — O mesmo projeto do tutorial simulado em quatro capitais brasileiras
 
-Tabela 81 — Conteúdo da base climática nacional distribuída com o programa
+Tabela 81 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais
 
-Tabela 82 — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura
+Tabela 82 — Conteúdo da base climática nacional distribuída com o programa
 
-Tabela 83 — Os cinco regimes de mínimo e o que acontece ao economizar em cada um
+Tabela 83 — Os seis códigos de faixa tarifária e o efeito de cada um na fatura
 
-Tabela 84 — Efeito da economia de água na fatura em dois regimes tarifários opostos
+Tabela 84 — Os seis regimes tarifários e o que acontece ao economizar em cada um
 
-Tabela 85 — As três formas de comparar alternativas conforme o que varia entre elas
+Tabela 85 — Efeito da economia de água na fatura em dois regimes tarifários opostos
 
-Tabela 86 — Subcomandos da linha de comando e finalidade de cada um
+Tabela 86 — As três formas de comparar alternativas conforme o que varia entre elas
 
-Tabela 87 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
+Tabela 87 — Subcomandos da linha de comando e finalidade de cada um
 
-Tabela 88 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
+Tabela 88 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
 
-Tabela 89 — Dados do Netuno 4 recuperados pela importação
+Tabela 89 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
 
-Tabela 90 — Formatos de exportação e finalidade de cada um
+Tabela 90 — Dados do Netuno 4 recuperados pela importação
 
-Tabela 91 — Opções da exportação de planilha e quando usar cada uma
+Tabela 91 — Formatos de exportação e finalidade de cada um
 
-Tabela 92 — Caracterização da série de precipitação de Florianópolis adotada no tutorial
+Tabela 92 — Opções da exportação de planilha e quando usar cada uma
 
-Tabela 93 — Os três modos de aplicação do descarte de primeiras águas
+Tabela 93 — Caracterização da série de precipitação de Florianópolis adotada no tutorial
 
-Tabela 94 — Estado do projeto do tutorial ao fim da definição da chuva e da captação
+Tabela 94 — Os três modos de aplicação do descarte de primeiras águas
 
-Tabela 95 — Estado do projeto do tutorial ao fim da definição da demanda
+Tabela 95 — Estado do projeto do tutorial ao fim da definição da chuva e da captação
 
-Tabela 96 — Confronto entre a oferta anual de água pluvial e a demanda atendível
+Tabela 96 — Estado do projeto do tutorial ao fim da definição da demanda
 
-Tabela 97 — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L
+Tabela 97 — Confronto entre a oferta anual de água pluvial e a demanda atendível
 
-Tabela 98 — Classificação de cada dia da simulação quanto ao grau de atendimento
+Tabela 98 — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L
 
-Tabela 99 — Estado do projeto do tutorial após a primeira simulação
+Tabela 99 — Classificação de cada dia da simulação quanto ao grau de atendimento
 
-Tabela 100 — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado
+Tabela 100 — Estado do projeto do tutorial após a primeira simulação
 
-Tabela 101 — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório
+Tabela 101 — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado
 
-Tabela 102 — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial
+Tabela 102 — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório
 
-Tabela 103 — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto
+Tabela 103 — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial
 
-Tabela 104 — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido
+Tabela 104 — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto
 
-Tabela 105 — Estado do projeto do tutorial após a escolha do volume
+Tabela 105 — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido
 
-Tabela 106 — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto
+Tabela 106 — Estado do projeto do tutorial após a escolha do volume
 
-Tabela 107 — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total
+Tabela 107 — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto
 
-Tabela 108 — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos
+Tabela 108 — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total
 
-Tabela 109 — Estado do projeto do tutorial após a decisão sobre o reservatório superior
+Tabela 109 — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos
 
-Tabela 110 — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada
+Tabela 110 — Estado do projeto do tutorial após a decisão sobre o reservatório superior
 
-Tabela 111 — Recomendação de filtração fina e custo da linha por classe de qualidade
+Tabela 111 — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada
 
-Tabela 112 — Filtro mecânico de entrada dimensionado pela área de cobertura
+Tabela 112 — Recomendação de filtração fina e custo da linha por classe de qualidade
 
-Tabela 113 — Estado do projeto do tutorial após a definição da classe de qualidade
+Tabela 113 — Filtro mecânico de entrada dimensionado pela área de cobertura
 
-Tabela 114 — Composição da fatura de água e esgoto antes e depois do sistema pluvial
+Tabela 114 — Estado do projeto do tutorial após a definição da classe de qualidade
 
-Tabela 115 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
+Tabela 115 — Composição da fatura de água e esgoto antes e depois do sistema pluvial
 
-Tabela 116 — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia
+Tabela 116 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
 
-Tabela 117 — Composição do investimento inicial do projeto do tutorial
+Tabela 117 — Os seis regimes tarifários e o efeito de cada um sobre a economia
 
-Tabela 118 — Indicadores econômicos do projeto do tutorial em vinte anos
+Tabela 118 — Composição do investimento inicial do projeto do tutorial
 
-Tabela 119 — Premissas da projeção econômica e o peso de cada uma no resultado
+Tabela 119 — Indicadores econômicos do projeto do tutorial em vinte anos
 
-Tabela 120 — Estado do projeto do tutorial após a análise econômica
+Tabela 120 — Premissas da projeção econômica e o peso de cada uma no resultado
 
-Tabela 121 — Balanço de carbono do projeto do tutorial com cisterna de concreto
+Tabela 121 — Estado do projeto do tutorial após a análise econômica
 
-Tabela 122 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
+Tabela 122 — Balanço de carbono do projeto do tutorial com cisterna de concreto
 
-Tabela 123 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
+Tabela 123 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
 
-Tabela 124 — Efeito da troca de concreto por polietileno nas três dimensões de análise
+Tabela 124 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
 
-Tabela 125 — Estado do projeto do tutorial após a análise ambiental
+Tabela 125 — Efeito da troca de concreto por polietileno nas três dimensões de análise
 
-Tabela 126 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
+Tabela 126 — Estado do projeto do tutorial após a análise ambiental
 
-Tabela 127 — Volume vencedor segundo cada critério isolado
+Tabela 127 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
 
-Tabela 128 — Os sete critérios do multicritério e a direção de preferência de cada um
+Tabela 128 — Volume vencedor segundo cada critério isolado
 
-Tabela 129 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
+Tabela 129 — Os sete critérios do multicritério e a direção de preferência de cada um
 
-Tabela 130 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+Tabela 130 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
 
-Tabela 131 — Os conjuntos de casos de referência exportados do Netuno 4
+Tabela 131 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
 
-Tabela 132 — Divergência medida entre as duas versões, por conjunto de casos
+Tabela 132 — Os conjuntos de casos de referência exportados do Netuno 4
 
-Tabela 133 — Divergência em três configurações sucessivamente mais controladas
+Tabela 133 — Divergência medida entre as duas versões, por conjunto de casos
 
-Tabela 134 — Atribuição da divergência às suas três fontes
+Tabela 134 — Divergência em três configurações sucessivamente mais controladas
 
-Tabela 135 — Variáveis da Equação 52
+Tabela 135 — Atribuição da divergência às suas três fontes
 
-Tabela 136 — Mensagens de validação física da entrada e a providência de cada uma
+Tabela 136 — Variáveis da Equação 53
 
-Tabela 137 — Mensagens da fração atendível e a providência de cada uma
+Tabela 137 — Mensagens de validação física da entrada e a providência de cada uma
 
-Tabela 138 — Mensagens de erro da série de precipitação e a providência de cada uma
+Tabela 138 — Mensagens da fração atendível e a providência de cada uma
 
-Tabela 139 — Mensagens de erro da varredura de volumes
+Tabela 139 — Mensagens de erro da série de precipitação e a providência de cada uma
 
-Tabela 140 — Mensagens de erro dos parâmetros de cloração
+Tabela 140 — Mensagens de erro da varredura de volumes
 
-Tabela 141 — Mensagens de erro da análise econômica e a providência de cada uma
+Tabela 141 — Mensagens de erro dos parâmetros de cloração
 
-Tabela 142 — Mensagens de erro da decisão multicritério e a providência de cada uma
+Tabela 142 — Mensagens de erro da análise econômica e a providência de cada uma
 
-Tabela 143 — Mensagens de erro dos parâmetros da motobomba
+Tabela 143 — Mensagens de erro da decisão multicritério e a providência de cada uma
 
-Tabela 144 — Situações de erro na leitura e na gravação de arquivos
+Tabela 144 — Mensagens de erro dos parâmetros da motobomba
 
-Tabela 145 — Avisos que não interrompem o cálculo e precisam constar do estudo
+Tabela 145 — Situações de erro na leitura e na gravação de arquivos
 
-Tabela 146 — **Tabela 99** — Panorama das versões publicadas
+Tabela 146 — Avisos que não interrompem o cálculo e precisam constar do estudo
 
-Tabela 147 — Correções que alteram resultados de estudos feitos em versão anterior
+Tabela 147 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 148 — Correções de comportamento que não alteram resultado calculado
+Tabela 148 — Correções que alteram resultados de estudos feitos em versão anterior
 
-Tabela 149 — Parâmetros do projeto: identificação
+Tabela 149 — Correções de comportamento que não alteram resultado calculado
 
-Tabela 150 — Parâmetros do projeto: chuva
+Tabela 150 — Parâmetros do projeto: identificação
 
-Tabela 151 — Parâmetros do projeto: captação
+Tabela 151 — Parâmetros do projeto: chuva
 
-Tabela 152 — Parâmetros do projeto: edificação
+Tabela 152 — Parâmetros do projeto: captação
 
-Tabela 153 — Parâmetros do projeto: demanda
+Tabela 153 — Parâmetros do projeto: edificação
 
-Tabela 154 — Parâmetros do projeto: irrigação
+Tabela 154 — Parâmetros do projeto: demanda
 
-Tabela 155 — Parâmetros do projeto: qualidade da água
+Tabela 155 — Parâmetros do projeto: irrigação
 
-Tabela 156 — Parâmetros do projeto: reservatórios
+Tabela 156 — Parâmetros do projeto: qualidade da água
 
-Tabela 157 — Parâmetros do projeto: motobomba
+Tabela 157 — Parâmetros do projeto: reservatórios
 
-Tabela 158 — Parâmetros do projeto: tubulação
+Tabela 158 — Parâmetros do projeto: motobomba
 
-Tabela 159 — Parâmetros do projeto: investimento
+Tabela 159 — Parâmetros do projeto: tubulação
 
-Tabela 160 — Parâmetros do projeto: operação
+Tabela 160 — Parâmetros do projeto: investimento
 
-Tabela 161 — Parâmetros do projeto: tarifas
+Tabela 161 — Parâmetros do projeto: operação
 
-Tabela 162 — Parâmetros do projeto: energia
+Tabela 162 — Parâmetros do projeto: tarifas
 
-Tabela 163 — Parâmetros do projeto: incentivos
+Tabela 163 — Parâmetros do projeto: energia
 
-Tabela 164 — Parâmetros do projeto: financeiro
+Tabela 164 — Parâmetros do projeto: incentivos
 
-Tabela 165 — Parâmetros do projeto: certificações
+Tabela 165 — Parâmetros do projeto: financeiro
 
-Tabela 166 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 166 — Parâmetros do projeto: certificações
 
-Tabela 167 — Fatores de emissão dos insumos de tratamento
+Tabela 167 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 168 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 168 — Fatores de emissão dos insumos de tratamento
 
-Tabela 169 — Procedência do fator de emissão do hipoclorito
+Tabela 169 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 170 — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo
+Tabela 170 — Procedência do fator de emissão do hipoclorito
 
-Tabela 171 — Grau de confiança dos registros tarifários do catálogo
+Tabela 171 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
-Tabela 172 — Conteúdo da base climática nacional
+Tabela 172 — Grau de confiança dos registros tarifários do catálogo
 
-Tabela 173 — Séries históricas de precipitação distribuídas com o programa
+Tabela 173 — Conteúdo da base climática nacional
 
-Tabela 174 — Formatos que o programa lê e onde cada um é carregado
+Tabela 174 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 175 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 175 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 176 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 176 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 177 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 177 — As sete seções do arquivo de projeto e o que cada uma guarda
 
-Tabela 178 — Compatibilidade entre versões do arquivo de projeto
+Tabela 178 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 179 — Padronização terminológica de água de chuva e água pluvial
+Tabela 179 — Compatibilidade entre versões do arquivo de projeto
 
-Tabela 180 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 180 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 181 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 181 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 182 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 182 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
 
-Tabela 183 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+Tabela 183 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 184 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 184 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
-Tabela 185 — Os nove casos de exemplo e o que cada um demonstra
+Tabela 185 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
-Tabela 186 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 186 — Os nove casos de exemplo e o que cada um demonstra
+
+Tabela 187 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -808,33 +810,35 @@ Equação 37 — energia_pressurizador
 
 Equação 38 — Economia mensal na fatura
 
-Equação 39 — Parcela de esgoto da fatura
+Equação 39 — exponencial
 
-Equação 40 — Investimento inicial total
+Equação 40 — Parcela de esgoto da fatura
 
-Equação 41 — Fator acumulado de inflação
+Equação 41 — Investimento inicial total
 
-Equação 42 — Número de reajustes aplicados
+Equação 42 — Fator acumulado de inflação
 
-Equação 43 — Fator acumulado de reajuste tarifário
+Equação 43 — Número de reajustes aplicados
 
-Equação 44 — Valor presente líquido
+Equação 44 — Fator acumulado de reajuste tarifário
 
-Equação 45 — Emissão incorporada de um componente
+Equação 45 — Valor presente líquido
 
-Equação 46 — Emissão anual da energia de bombeamento
+Equação 46 — Emissão incorporada de um componente
 
-Equação 47 — Saldo líquido anual de emissões
+Equação 47 — Emissão anual da energia de bombeamento
 
-Equação 48 — Tempo de retorno ambiental
+Equação 48 — Saldo líquido anual de emissões
 
-Equação 49 — Saldo de carbono ao fim da vida útil
+Equação 49 — Tempo de retorno ambiental
 
-Equação 50 — Emissão específica por litro entregue
+Equação 50 — Saldo de carbono ao fim da vida útil
 
-Equação 51 — Coeficiente de proximidade do TOPSIS
+Equação 51 — Emissão específica por litro entregue
 
-Equação 52 — Transformação da série para emular o Netuno 4
+Equação 52 — Coeficiente de proximidade do TOPSIS
+
+Equação 53 — Transformação da série para emular o Netuno 4
 
 ---
 
@@ -3197,7 +3201,7 @@ Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
 
 ## 2.7. Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os cinco regimes de mínimo
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
 > tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
@@ -3244,11 +3248,11 @@ economia de água atinge cada uma dessas parcelas de um jeito diferente, e é es
 
 *Figura 24 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema. A tarifa de disponibilidade é idêntica nos dois casos; a redução ocorre nas faixas de consumo superiores, que têm o maior preço por metro cúbico, e se estende ao esgoto, cobrado como percentual do valor da água.*
 
-O código de cada faixa define como o seu valor é aplicado (Figura 25). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; e no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura.
+O código de cada faixa define como o seu valor é aplicado (Figura 25). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura; e na fórmula exponencial, o código 2 guarda o preço-base e as linhas de código 3 guardam a tabela de expoentes.
 
-![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
+![Os seis códigos de faixa tarifária](../figuras/fig32_codigos.png)
 
-*Figura 25 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
+*Figura 25 — Os seis códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
 
 
 Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
@@ -3265,7 +3269,31 @@ estudo de viabilidade que os confunda chega a conclusões invertidas. É por ess
 o programa codifica o regime de forma explícita, em vez de tratá-lo como detalhe da
 tabela.
 
-#### 2.7.2.1. Micromedição
+#### 2.7.2.1. A fórmula exponencial
+
+Nos municípios da CORSAN a parcela de água não é soma de faixas, e sim uma potência do
+consumo do mês:
+
+```equacao:exponencial:39
+T_agua = PB × C^n + SB
+```
+
+<!-- tabela: **Tabela 57** — Variáveis da Equação 39 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `T_agua` | parcela de água da fatura | R$ |
+| `PB` | preço-base do município | R$/m³ |
+| `C` | consumo do mês por economia, limitado a 1.000 m³ | m³ |
+| `n` | expoente da tabela exponencial para o consumo `C` | adimensional |
+| `SB` | serviço básico | R$ |
+
+O expoente é lido pelo consumo **total** do mês e aplicado a todo o volume. O excedente
+acima de 1.000 m³ é somado pelo preço do m³, como uma faixa comum. A economia mensal é a
+diferença entre as duas contas, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, cada consumo com o seu expoente, e não o produto de um preço
+unitário pelo volume poupado; com `n` acima de 1, o metro cúbico poupado vale mais que o
+preço-base.
+
+#### 2.7.2.2. Micromedição
 
 Em edificações multifamiliares com medição individualizada, o consumo é avaliado no
 patamar de uma única unidade habitacional e o resultado é multiplicado pelo número de
@@ -3274,13 +3302,13 @@ apartamentos tratado como consumidor único cairia inteiro na faixa mais cara da
 a economia resultante sairia grosseiramente superestimada, porque cada metro cúbico
 poupado seria valorado a uma tarifa que nenhuma das vinte unidades efetivamente paga.
 
-#### 2.7.2.2. O esgoto
+#### 2.7.2.3. O esgoto
 
-```equacao:esgoto:39
+```equacao:esgoto:40
 T_esg = T_agua × s
 ```
 
-<!-- tabela: **Tabela 57** — Variáveis da Equação 39 -->
+<!-- tabela: **Tabela 58** — Variáveis da Equação 40 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_esg` | parcela de esgoto da fatura | R$ |
@@ -3295,13 +3323,13 @@ responde por metade da fatura total.
 
 ---
 
-### 2.7.3. Os cinco regimes na base
+### 2.7.3. Os seis regimes na base
 
-O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
+O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os seis
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
-seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 26). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
+seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórmula exponencial da CORSAN, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 26). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
 
-<!-- tabela: **Tabela 58** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+<!-- tabela: **Tabela 59** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
 | Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
 | :--- | :--- | :--- | :--- |
 | sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
@@ -3309,10 +3337,11 @@ seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo qu
 | franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
 | franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
 | piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
+| fórmula exponencial | serviço básico (−1), preço-base (2), tabela de expoentes (3) de 0 a 1.000 m³ e faixa (1) acima | serviço básico somado a `PB × Cⁿ`, com `n` pelo consumo do mês inteiro | toda redução de consumo reduz a fatura, pela diferença entre as duas potências |
 
 ![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
 
-*Figura 26 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
+*Figura 26 — Distribuição dos 652 municípios do catálogo pelos seis regimes tarifários. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
 
 
 O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi
@@ -3328,11 +3357,11 @@ economizar água abaixo do volume de franquia não produz desconto algum na fatu
 
 ### 2.7.4. O investimento
 
-```equacao:capex:40
+```equacao:capex:41
 CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 ```
 
-<!-- tabela: **Tabela 59** — Variáveis da Equação 40 -->
+<!-- tabela: **Tabela 60** — Variáveis da Equação 41 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX` | investimento inicial total do sistema | R$ |
@@ -3369,7 +3398,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ### 2.7.5. O custeio anual
 
-<!-- tabela: **Tabela 60** — Parcelas do custeio anual e a origem de cada uma -->
+<!-- tabela: **Tabela 61** — Parcelas do custeio anual e a origem de cada uma -->
 | Parcela | Origem |
 | :--- | :--- |
 | energia de bombeamento | seção 2.6, com a bandeira tarifária aplicada |
@@ -3398,11 +3427,11 @@ o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o te
 
 **A inflação incide só sobre o custeio:**
 
-```equacao:inflacao:41
+```equacao:inflacao:42
 f_inf = ( 1 + i )^( m − 1 )
 ```
 
-<!-- tabela: **Tabela 61** — Variáveis da Equação 41 -->
+<!-- tabela: **Tabela 62** — Variáveis da Equação 42 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
@@ -3411,15 +3440,15 @@ f_inf = ( 1 + i )^( m − 1 )
 
 **Os reajustes tarifários incidem só sobre a fatura, em degraus:**
 
-```equacao:degraus:42
+```equacao:degraus:43
 k = ⌊ ( m − 1 ) ÷ I ⌋
 ```
 
-```equacao:reajuste:43
+```equacao:reajuste:44
 f_j = ( 1 + r_j )^k
 ```
 
-<!-- tabela: **Tabela 62** — Variáveis da Equação 43 -->
+<!-- tabela: **Tabela 63** — Variáveis da Equação 44 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `k` | número de reajustes já aplicados até o mês `m` | adimensional |
@@ -3429,7 +3458,7 @@ f_j = ( 1 + r_j )^k
 | `f_j` | fator acumulado de reajuste da parcela `j` | adimensional |
 | `r_j` | taxa de reajuste da parcela `j`, que pode ser água, esgoto ou energia | adimensional |
 
-A Equação 43 é aplicada separadamente a cada uma das três parcelas, com
+A Equação 44 é aplicada separadamente a cada uma das três parcelas, com
 taxas próprias, e é dessa separação que trata a observação seguinte.
 
 > **Água e esgoto são reajustados por índices separados**, e não por um índice único
@@ -3448,15 +3477,15 @@ degrau que nada tem a ver com o desempenho do sistema.
 
 **Valor presente líquido:**
 
-```equacao:vpl:44
+```equacao:vpl:45
 VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 ```
 
-<!-- tabela: **Tabela 63** — Variáveis da Equação 44 -->
+<!-- tabela: **Tabela 64** — Variáveis da Equação 45 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `VPL` | valor presente líquido do investimento | R$ |
-| `CAPEX` | investimento inicial total, da Equação 40 | R$ |
+| `CAPEX` | investimento inicial total, da Equação 41 | R$ |
 | `FC_m` | fluxo de caixa líquido do mês `m` | R$ |
 | `TMA` | taxa mínima de atratividade mensal, como fração: 0,5% ao mês entra como 0,005 | adimensional |
 | `m` | mês do fluxo de caixa, de 1 até o fim do período de análise | mês |
@@ -3515,7 +3544,7 @@ ela que torna comparáveis alternativas diferentes. No programa, a unidade impl�
 comparação se faz contra o fornecimento, pela concessionária, do mesmo volume de água.
 Quem quiser comparar com a literatura pode convertê-la para a unidade mais usada, o
 metro cúbico de água entregue, dividindo o saldo pelo volume da vida útil, como faz a
-Equação 50.
+Equação 51.
 
 **2. Inventário.** Levanta os fluxos de entrada e saída de cada processo: massas de
 material, energia, insumos. No programa, o inventário são as massas dos componentes, a
@@ -3538,7 +3567,7 @@ mesma nomenclatura é usada nas declarações ambientais de produto conforme a E
 Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
 fronteira, e é o que um avaliador espera encontrar.
 
-<!-- tabela: **Tabela 64** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+<!-- tabela: **Tabela 65** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
 | Módulo | Etapa | Coberto pelo programa |
 | :--- | :--- | :--- |
 | A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas e descarte inicial |
@@ -3580,11 +3609,11 @@ qual todas as demais alternativas se comparam.
 
 ### 2.8.4. O carbono incorporado
 
-```equacao:emissao_componente:45
+```equacao:emissao_componente:46
 E_comp = m_comp × FE_mat
 ```
 
-<!-- tabela: **Tabela 65** — Variáveis da Equação 45 -->
+<!-- tabela: **Tabela 66** — Variáveis da Equação 46 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_comp` | emissão incorporada do componente | kg CO₂e |
@@ -3596,7 +3625,7 @@ A massa de cada componente decorre do seu dimensionamento. No caso do reservató
 que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
 dessa variação que decorre boa parte do resultado ambiental do projeto.
 
-<!-- tabela: **Tabela 66** — Massa por metro cúbico útil de cada material de reservatório -->
+<!-- tabela: **Tabela 67** — Massa por metro cúbico útil de cada material de reservatório -->
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
 | polietileno | 22 kg/m³ | 110 kg |
@@ -3615,7 +3644,7 @@ A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.0
 polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
 inicial.
 
-<!-- tabela: **Tabela 67** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
+<!-- tabela: **Tabela 68** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
 | Item | Incorporado | Parcela do incorporado | Anual |
 | :--- | ---: | ---: | ---: |
 | cisterna de 4.000 L, polietileno | 141,9 kg | 43,3% | — |
@@ -3644,11 +3673,11 @@ cloração juntas, e é por isso que, com o material certo, a dívida de fabrica
 
 **Bombeamento:**
 
-```equacao:emissao_energia:46
+```equacao:emissao_energia:47
 E_ener = C_ano × FE_rede
 ```
 
-<!-- tabela: **Tabela 68** — Variáveis da Equação 46 -->
+<!-- tabela: **Tabela 69** — Variáveis da Equação 47 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
@@ -3722,11 +3751,11 @@ fronteira de cada uma.
 
 **Saldo líquido anual:**
 
-```equacao:saldo_liquido:47
+```equacao:saldo_liquido:48
 E_liq = E_evit − E_ener − E_trat
 ```
 
-<!-- tabela: **Tabela 69** — Variáveis da Equação 47 -->
+<!-- tabela: **Tabela 70** — Variáveis da Equação 48 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
@@ -3736,16 +3765,16 @@ E_liq = E_evit − E_ener − E_trat
 
 **Payback de carbono:**
 
-```equacao:payback_carbono:48
+```equacao:payback_carbono:49
 PB_amb = E_inc ÷ E_liq
 ```
 
-<!-- tabela: **Tabela 70** — Variáveis da Equação 48 -->
+<!-- tabela: **Tabela 71** — Variáveis da Equação 49 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PB_amb` | tempo de retorno ambiental do sistema | ano |
 | `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
-| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+| `E_liq` | saldo líquido anual de emissões, da Equação 48 | kg CO₂e/ano |
 
 Quando o saldo líquido anual não é positivo — situação real, e não hipotética, em
 sistemas com reservatório de concreto de grande volume — o retorno ambiental não existe,
@@ -3755,15 +3784,15 @@ que o sistema termina a vida útil devendo carbono.
 
 **Saldo no fim da vida:**
 
-```equacao:saldo_vida:49
+```equacao:saldo_vida:50
 S_vida = ( E_liq × n_anos ) − E_inc
 ```
 
-<!-- tabela: **Tabela 71** — Variáveis da Equação 49 -->
+<!-- tabela: **Tabela 72** — Variáveis da Equação 50 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
-| `E_liq` | saldo líquido anual de emissões, da Equação 47 | kg CO₂e/ano |
+| `E_liq` | saldo líquido anual de emissões, da Equação 48 | kg CO₂e/ano |
 | `n_anos` | vida útil adotada para o sistema | ano |
 | `E_inc` | carbono incorporado na fabricação dos componentes | kg CO₂e |
 
@@ -3773,15 +3802,15 @@ vinte anos, como a seção 4.8 demonstra.
 
 **Emissão específica evitada:**
 
-```equacao:emissao_especifica:50
+```equacao:emissao_especifica:51
 E_esp = S_vida ÷ V_vida
 ```
 
-<!-- tabela: **Tabela 72** — Variáveis da Equação 50 -->
+<!-- tabela: **Tabela 73** — Variáveis da Equação 51 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
-| `S_vida` | saldo de carbono ao fim da vida útil, da Equação 49 | kg CO₂e |
+| `S_vida` | saldo de carbono ao fim da vida útil, da Equação 50 | kg CO₂e |
 | `V_vida` | volume total de água pluvial entregue ao longo da vida útil | m³ |
 
 ---
@@ -3906,7 +3935,7 @@ a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O proj
 por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
 ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
 
-<!-- tabela: **Tabela 73** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+<!-- tabela: **Tabela 74** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
 | Opção | O que mede | Pontuação |
 | :--- | :--- | :--- |
 | 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
@@ -3941,7 +3970,7 @@ versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de á
 itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
 Três itens dizem respeito ao aproveitamento pluvial:
 
-<!-- tabela: **Tabela 74** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+<!-- tabela: **Tabela 75** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
 | Item | Nível | Exigência |
 | :--- | :--- | :--- |
 | EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
@@ -3968,7 +3997,7 @@ da categoria «Gestão eficiente da água», e o seu indicador não é um percen
 **existência** de sistema de aproveitamento, com captação, tratamento, reservação e
 pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
 
-<!-- tabela: **Tabela 75** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+<!-- tabela: **Tabela 76** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
 | Abrangência do uso da água pluvial | Pontos |
 | :--- | ---: |
 | áreas comuns do empreendimento | 2 |
@@ -4074,7 +4103,7 @@ O programa avalia cada volume da varredura segundo sete critérios, agrupados em
 dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
 outros, menos.
 
-<!-- tabela: **Tabela 76** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
+<!-- tabela: **Tabela 77** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
 | 1 | potencial de economia | maximizar | técnico |
@@ -4108,18 +4137,18 @@ em pontos percentuais e em quilogramas passem a ocupar escalas comparáveis; apl
 pesos declarados; identifica as soluções ideal e anti-ideal; e ordena as alternativas
 pela proximidade relativa ao ideal.
 
-```equacao:topsis:51
+```equacao:topsis:52
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Tabela 77** — Variáveis da Equação 51 -->
+<!-- tabela: **Tabela 78** — Variáveis da Equação 52 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
 | `d_i⁺` | distância euclidiana da alternativa `i` à solução ideal | adimensional |
 | `d_i⁻` | distância euclidiana da alternativa `i` à solução anti-ideal | adimensional |
 
-O coeficiente da Equação 51 valeria 1 para uma alternativa que coincidisse com
+O coeficiente da Equação 52 valeria 1 para uma alternativa que coincidisse com
 a solução ideal em todos os critérios, e 0 para uma que coincidisse com a anti-ideal.
 Como nenhuma alternativa real ocupa esses extremos, o que interessa não é o valor
 absoluto do coeficiente, e sim a ordenação que ele produz.
@@ -4197,7 +4226,7 @@ A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimen
 aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
 sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
 
-<!-- tabela: **Tabela 78** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+<!-- tabela: **Tabela 79** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
 | Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
 | 1 000 L | 0,401 | 7º | 0,0% |
@@ -4298,7 +4327,7 @@ O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 28% de fr
 atendível e cisterna de 4.000 L — levado a quatro capitais brasileiras produz a tabela
 abaixo.
 
-<!-- tabela: **Tabela 79** — O mesmo projeto do tutorial simulado em quatro capitais brasileiras -->
+<!-- tabela: **Tabela 80** — O mesmo projeto do tutorial simulado em quatro capitais brasileiras -->
 | Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos chuvoso | Potencial com 4.000 L | Volume ideal |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Florianópolis | 1 795 mm | 46% | 3,2× | 27,12% | 4 000 L |
@@ -4325,7 +4354,7 @@ que Florianópolis e rende pouco mais da metade, com 15,45%.
 A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
 cidade, que mede o quanto a chuva se concentra ao longo do ano.
 
-<!-- tabela: **Tabela 80** — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
+<!-- tabela: **Tabela 81** — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
 | Cidade | Razão | O que significa |
 | :--- | ---: | :--- |
 | Florianópolis | 3,2× | chove o ano inteiro, com estação mais úmida |
@@ -4441,7 +4470,7 @@ essa questão de forma explícita.
 
 ### 3.2.1. O que a base tem
 
-<!-- tabela: **Tabela 81** — Conteúdo da base climática nacional distribuída com o programa -->
+<!-- tabela: **Tabela 82** — Conteúdo da base climática nacional distribuída com o programa -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -4678,7 +4707,7 @@ consumir é sempre o da faixa mais alta da fatura, que é o mais caro.
 
 **Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
 mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
-para outro. É o assunto da subseção sobre os cinco regimes, adiante, e é o ponto que mais
+para outro. É o assunto da subseção sobre os seis regimes, adiante, e é o ponto que mais
 decide se um sistema pluvial se paga.
 
 **O esgoto é cobrado como percentual da água.** A maior parte dos prestadores fatura o
@@ -4733,13 +4762,15 @@ código é o elemento decisivo, porque é ele que informa o que aquele valor sig
 estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
 cada linha.
 
-<!-- tabela: **Tabela 82** — Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
+<!-- tabela: **Tabela 83** — Os seis códigos de faixa tarifária e o efeito de cada um na fatura -->
 | Código | O que é | Como entra na fatura |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
 | −1 | tarifa de disponibilidade | valor fixo **somado** à parcela de consumo |
 | −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
 | −3 | piso de pagamento | a fatura **não fica** abaixo deste valor |
+| 2 | preço-base exponencial | `PB` da fórmula `PB × Cⁿ`, válida até o máximo da linha |
+| 3 | expoente da tabela exponencial | o `n` aplicado ao consumo **do mês inteiro** que cai na linha |
 
 A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
 disponibilidade e quatro faixas progressivas.
@@ -4754,16 +4785,17 @@ disponibilidade e quatro faixas progressivas.
 
 ---
 
-### 3.3.4. Os cinco regimes, e por que isso decide projetos
+### 3.3.4. Os seis regimes, e por que isso decide projetos
 
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
-coisas **diferentes** em cada um. O programa distingue cinco regimes:
+coisas **diferentes** em cada um. O programa distingue seis regimes:
 
-<!-- tabela: **Tabela 83** — Os cinco regimes de mínimo e o que acontece ao economizar em cada um -->
+<!-- tabela: **Tabela 84** — Os seis regimes tarifários e o que acontece ao economizar em cada um -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | **sem mínimo** | cada m³ economizado desconta | 165 |
-| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 156 |
+| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 122 |
+| **fórmula exponencial** | idem; o m³ poupado vale pelo preço-base elevado ao expoente | 34 |
 | **franquia no mínimo** | abaixo da franquia, economizar **não desconta nada** | 329 |
 | **franquia retroativa** | passando da franquia, tarifa-se tudo desde zero | 2 |
 | **piso de pagamento** | a fatura não fica abaixo do piso | 0 |
@@ -4771,7 +4803,7 @@ coisas **diferentes** em cada um. O programa distingue cinco regimes:
 **O caso que derruba estudo.** Compare duas estruturas reais da base, lado a lado,
 para o mesmo consumo:
 
-<!-- tabela: **Tabela 84** — Efeito da economia de água na fatura em dois regimes tarifários opostos -->
+<!-- tabela: **Tabela 85** — Efeito da economia de água na fatura em dois regimes tarifários opostos -->
 | Consumo | Floriano (PI), franquia no mínimo | Florianópolis (SC), disponibilidade |
 | ---: | ---: | ---: |
 | 14 m³ | R$ 92,15 | R$ 134,38 |
@@ -4800,7 +4832,59 @@ não reduz a fatura em nada.==
 
 ---
 
-### 3.3.5. Quando o mínimo é diluído na tarifa
+### 3.3.5. A fórmula exponencial da CORSAN
+
+Os 34 municípios gaúchos da base atendidos pela CORSAN não cobram a água por faixas.
+A parcela de água da fatura é dada por uma fórmula:
+
+```
+Água = PB × Cⁿ + SB
+```
+
+em que `PB` é o preço-base do município, em R$/m³; `C` é o consumo do mês, em m³; `n` é
+o expoente que a **tabela exponencial** da concessionária atribui àquele consumo; e `SB` é
+o serviço básico, cobrado mesmo sem consumo. A fórmula vale até 1.000 m³ por economia;
+acima disso, o excedente é cobrado pelo preço do m³. O esgoto é 70% do valor da água.
+
+Duas diferenças em relação às faixas decidem o cálculo:
+
+- **O expoente vale para o consumo inteiro.** Nas faixas, cada metro cúbico é cobrado
+  pelo preço da faixa em que cai; na fórmula, o `n` da linha em que o consumo total cai
+  se aplica a todo o volume. Mudar de linha muda a conta inteira, e não só o último m³.
+- **Não há degrau de preço, há curva.** O preço médio do metro cúbico é `PB × Cⁿ⁻¹`: com
+  `n` acima de 1 ele cresce com o consumo, com `n` igual a 1 é constante.
+
+Para o aproveitamento pluvial, a consequência é simples: **toda economia desconta desde o
+primeiro metro cúbico**, e o que se poupa vale `PB × (C₁ⁿ¹ − C₂ⁿ²)`, a diferença entre as
+duas contas — é assim que o programa calcula, com a fórmula e não com uma reta.
+
+No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
+estrutura de Alegrete, vigente desde 1º de julho de 2026, é:
+
+```
+(0,00 ; 0,00    ; 43,39 ; -1)   serviço básico, soma sempre
+(0,00 ; 1000,00 ;  9,15 ;  2)   preço-base PB, fórmula válida até 1.000 m³
+(0,00 ; 1000,00 ;  1,00 ;  3)   tabela exponencial: n para o consumo em (0, 1.000]
+(1000,00 ; 999999 ; 9,15 ; 1)   excedente acima de 1.000 m³
+```
+
+A tabela exponencial pode ter tantas linhas de código 3 quantas a concessionária
+publicar, cada uma com o seu intervalo de consumo e o seu `n`. No **Gestor de Tarifas**, a
+estrutura aparece com o rótulo «Fórmula exponencial», o simulador mostra o cálculo
+`PB × Cⁿ` do consumo escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez
+dos degraus.
+
+> **O estado da tabela exponencial nesta versão.** A tabela homologada pela AGERGS para a
+> vigência de 2026 não pôde ser transcrita da fonte primária a tempo desta versão. A base
+> grava, por isso, `n = 1` de 0 a 1.000 m³ e marca a tabela como **não conferida**: a conta
+> sai igual a `PB × C + SB`, e o Gestor de Tarifas exibe o aviso. Para usar a tabela
+> vigente, edite as linhas «Expoente n» no Gestor, uma por intervalo de consumo, e aplique
+> ao projeto. A tabela é a mesma para todos os municípios da CORSAN: quando a homologada
+> for transcrita na base, os 34 passam a usá-la de uma vez, e o aviso desaparece.
+
+---
+
+### 3.3.6. Quando o mínimo é diluído na tarifa
 
 Um erro frequente nas bases públicas: a concessionária informa «tarifa mínima de
 R$ 52,89 para 10 m³», e quem cadastra grava isso como R$ 5,289 por m³ até 10 m³.
@@ -4814,7 +4898,7 @@ registro da correção. Se você cadastrar um município novo, **verifique isso*
 
 ---
 
-### 3.3.6. O esgoto
+### 3.3.7. O esgoto
 
 O percentual de esgoto incide sobre a **parcela de água** da fatura, e não sobre a fatura total.
 
@@ -4828,7 +4912,7 @@ limitação.
 
 ---
 
-### 3.3.7. Onde encontrar o dado
+### 3.3.8. Onde encontrar o dado
 
 Em ordem de confiabilidade:
 
@@ -4845,7 +4929,7 @@ Em ordem de confiabilidade:
 
 ---
 
-### 3.3.8. Confira antes de confiar
+### 3.3.9. Confira antes de confiar
 
 Depois de montar a tabela, faça o teste que o item 3.3.7 sugere: simule dois
 consumos, um dentro e um fora da faixa mínima, e compare com a fatura real ou com o
@@ -5157,7 +5241,7 @@ pergunta diferente, e usar a errada custa tempo sem produzir a informação dese
 
 ### 3.6.1. As três formas
 
-<!-- tabela: **Tabela 85** — As três formas de comparar alternativas conforme o que varia entre elas -->
+<!-- tabela: **Tabela 86** — As três formas de comparar alternativas conforme o que varia entre elas -->
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
 | **só o volume da cisterna** | a varredura | etapa 4. Reservatório & Custos |
@@ -5268,7 +5352,7 @@ Para estudos de larga escala — matrizes fatoriais de cidade, área, demanda e 
 
 A instalação do programa como pacote Python registra o comando `netuno`, que executa as mesmas rotinas de cálculo da interface gráfica sem abrir a janela; o instalador de Windows com interface gráfica não o inclui. A linha de comando lê arquivos `.netuno`, projetos em JSON estruturado e o formato CSV do Netuno 4, e grava os resultados em texto, JSON, CSV, HTML ou XLSX. É a interface indicada para estudos reprodutíveis, porque o próprio comando documenta as premissas alteradas.
 
-<!-- tabela: **Tabela 86** — Subcomandos da linha de comando e finalidade de cada um -->
+<!-- tabela: **Tabela 87** — Subcomandos da linha de comando e finalidade de cada um -->
 | Subcomando | Finalidade |
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
@@ -5379,7 +5463,7 @@ A tabela a seguir aplica o procedimento ao projeto fechado do tutorial — 4.000
 polietileno, recalque para caixa de 1.000 L, VPL provável de R$ 5.524 — e varia cinco
 premissas, uma de cada vez, entre um valor baixo e um alto.
 
-<!-- tabela: **Tabela 87** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
+<!-- tabela: **Tabela 88** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
 | Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | reajuste das tarifas de água e esgoto, % ao ano | 3,0 | 5,0 | 7,0 | 27,30% a 27,30% | R$ 860 a R$ 11 360 | 16,8 anos a 10,8 anos |
@@ -5424,7 +5508,7 @@ sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro
 
 Leia assim:
 
-<!-- tabela: **Tabela 88** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
+<!-- tabela: **Tabela 89** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
 | Aceitabilidade do volume vencedor | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |
@@ -5509,7 +5593,7 @@ Praticamente todo o núcleo de entrada do Netuno 4 tem correspondente direto na 
 atual, e é convertido sem intervenção do usuário. A tabela abaixo relaciona o que a
 importação recupera.
 
-<!-- tabela: **Tabela 89** — Dados do Netuno 4 recuperados pela importação -->
+<!-- tabela: **Tabela 90** — Dados do Netuno 4 recuperados pela importação -->
 | Dado | Vem? |
 | :--- | :---: |
 | arquivo e data inicial da chuva | sim |
@@ -5621,7 +5705,7 @@ conversão o substitui.
 
 ### 3.9.1. O que cada formato leva
 
-<!-- tabela: **Tabela 90** — Formatos de exportação e finalidade de cada um -->
+<!-- tabela: **Tabela 91** — Formatos de exportação e finalidade de cada um -->
 | Formato | Extensão | O que leva | Para quê |
 | :--- | :--- | :--- | :--- |
 | relatório | HTML, PDF | resultado completo e premissas | entregar |
@@ -5666,7 +5750,7 @@ um a um: o resumo executivo com os metadados do projeto, o balanço hídrico di�
 curva da varredura com a confiabilidade, o fluxo de caixa ano a ano, o inventário de
 ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a exportação:
 
-<!-- tabela: **Tabela 91** — Opções da exportação de planilha e quando usar cada uma -->
+<!-- tabela: **Tabela 92** — Opções da exportação de planilha e quando usar cada uma -->
 | Opção | Escolhas | Quando usar |
 | :--- | :--- | :--- |
 | formato | XLSX, CSV ou JSON | XLSX para abrir no Excel; CSV para R, Python ou outro programa; JSON para integração |
@@ -5725,6 +5809,8 @@ Na etapa **10. Exportação**, o modo *Biblioteca de Blocos para Plantas + BIM J
 A integração com o Autodesk Revit é feita por um importador distribuído com o programa, executado no motor CPython 3 do pyRevit, com um documento aberto no Revit 2022 ou posterior, e insere as instâncias do manifesto usando as famílias indicadas em `family_mapping.json`, que associa cada tipo do programa — cisterna, reservatório superior, filtro, descarte inicial, motobomba, registros, válvula de retenção, separação atmosférica, extravasor, ponto de consumo não potável, freio d'água, sucção flutuante, chave de nível, válvula solenoide, hidrômetro, válvula de pé com crivo, respiro e quadro de comando — a uma família e a um tipo do escritório.
 
 Sem organização salva, o programa pré-preenche o arranjo usual dessas instalações, a partir do estudo: captação do telhado, filtro e descarte inicial; cisterna com entrada calma pelo freio d'água, captação pela sucção flutuante com válvula de pé e crivo, chave de nível contra marcha a seco, respiro com tela e extravasor com ladrão sifonado e retenção antirrefluxo para a rede pluvial; registros de manutenção dos dois lados da motobomba, válvula de retenção no recalque e quadro de comando; caixa superior com chave de nível, respiro com tela, extravasor com descarga visível, limpeza com registro junto à saída e distribuição com registro até um ponto de utilização identificado; e o abastecimento potável de reserva — hidrômetro, registro e válvula solenoide — que só abre quando falta água de chuva e descarrega na caixa superior por separação atmosférica, como pede a ABNT NBR 5626:2020. Quem decide é o quadro de comando: com a caixa superior no nível de partida e água na cisterna, liga a motobomba; com a cisterna no mínimo, bloqueia a motobomba e abre a solenoide, que enche a caixa só até a boia de backup, mais baixa, para sobrar volume para a próxima chuva. Motobomba e solenoide nunca funcionam juntas. Na volumetria, os cabos de comando — das chaves de nível ao quadro e dele à motobomba e à solenoide — aparecem tracejados, e a lógica completa está na ficha do quadro. O arranjo é um ponto de partida: posições, percursos e peças são do projetista.
+
+Com esses dados o programa monta também a prancha do esquema 3D, fora de escala e em folha A3 deitada. Só os níveis que organizam a instalação — cisterna, reservatório superior, motobomba, filtro e descarte — ganham plano de cota; as peças pequenas aparecem no desenho pelo código, e o tipo e a cota de cada uma estão na tabela «Peças e acessórios», ao lado da sequência de montagem e do quantitativo por diâmetro.
 
 O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
 
@@ -5798,7 +5884,7 @@ cenários de emissão, com a simulação histórica de cada modelo. É o caminho
 Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
 os **30 primeiros anos**.
 
-<!-- tabela: **Tabela 92** — Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
+<!-- tabela: **Tabela 93** — Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
 | A série de Florianópolis | Valor |
 | :--- | ---: |
 | dias na série | 10 950 |
@@ -5926,7 +6012,7 @@ esse o valor adotado aqui.
 O programa oferece três modos de aplicação do descarte, que correspondem a três tipos de
 dispositivo de autolimpeza.
 
-<!-- tabela: **Tabela 93** — Os três modos de aplicação do descarte de primeiras águas -->
+<!-- tabela: **Tabela 94** — Os três modos de aplicação do descarte de primeiras águas -->
 | Modo | Quando descarta | Quando usar |
 | :--- | :--- | :--- |
 | 1 | em todo evento de chuva | o padrão, e o mais conservador |
@@ -5954,7 +6040,7 @@ para a drenagem junto com a sujeira que ele lavou.
 
 ### 4.1.6. O que temos até aqui
 
-<!-- tabela: **Tabela 94** — Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
+<!-- tabela: **Tabela 95** — Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
 | Dado | Valor |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |
@@ -6155,7 +6241,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 
 ### 4.2.6. O que temos até aqui
 
-<!-- tabela: **Tabela 95** — Estado do projeto do tutorial ao fim da definição da demanda -->
+<!-- tabela: **Tabela 96** — Estado do projeto do tutorial ao fim da definição da demanda -->
 | Dado | Valor |
 | :--- | ---: |
 | tipologia | residencial unifamiliar |
@@ -6168,7 +6254,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 O programa agora sabe a oferta e a demanda. Antes de simular, um confronto que vale
 guardar:
 
-<!-- tabela: **Tabela 96** — Confronto entre a oferta anual de água pluvial e a demanda atendível -->
+<!-- tabela: **Tabela 97** — Confronto entre a oferta anual de água pluvial e a demanda atendível -->
 | | m³/ano |
 | :--- | ---: |
 | precipitação incidente na área de captação | 229 |
@@ -6201,7 +6287,7 @@ superior desmarcado, e rode.
 
 ### 4.3.1. O resultado
 
-<!-- tabela: **Tabela 97** — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
+<!-- tabela: **Tabela 98** — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
 | Resultado com 3 000 L | Valor |
 | :--- | ---: |
 | potencial de economia de água potável | **26,48%** |
@@ -6274,7 +6360,7 @@ potencial de economia não alcança: com que frequência se pode contar com a á
 Cada dia da simulação recebe uma de três classificações, segundo o grau de atendimento
 alcançado.
 
-<!-- tabela: **Tabela 98** — Classificação de cada dia da simulação quanto ao grau de atendimento -->
+<!-- tabela: **Tabela 99** — Classificação de cada dia da simulação quanto ao grau de atendimento -->
 | Classe | O que significa |
 | :--- | :--- |
 | pleno | a chuva atendeu **toda** a demanda pluvial do dia |
@@ -6335,7 +6421,7 @@ limite. A seção 4.4 mede exatamente onde fica esse limite.
 
 ### 4.3.7. O que temos até aqui
 
-<!-- tabela: **Tabela 99** — Estado do projeto do tutorial após a primeira simulação -->
+<!-- tabela: **Tabela 100** — Estado do projeto do tutorial após a primeira simulação -->
 | Resultado com 3.000 L | |
 | :--- | ---: |
 | potencial de economia | 26,48% |
@@ -6391,7 +6477,7 @@ sem sistema, contra o qual todos os demais se comparam.
 
 ### 4.4.2. A curva
 
-<!-- tabela: **Tabela 100** — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado -->
+<!-- tabela: **Tabela 101** — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado -->
 | Volume | Potencial | Ganho sobre o anterior | Ganho por m³ acrescentado | Extravasado | Dias plenos |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | L | % | pontos percentuais | %/m³ | L/dia | % |
@@ -6419,7 +6505,7 @@ derivada discreta da curva de potencial e expressa quanto cada metro cúbico adi
 reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o
 padrão que ela revela é o argumento central desta seção.
 
-<!-- tabela: **Tabela 101** — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
+<!-- tabela: **Tabela 102** — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
 | De → para | Ganho por m³ |
 | :--- | ---: |
 | 0 → 1.000 L | 21,03 %/m³ |
@@ -6482,7 +6568,7 @@ com o limiar do tutorial, o primeiro volume a cair abaixo dele é o de 4.000 L, 
 ganho marginal de 0,64 %/m³. Quem refizer o tutorial precisa, portanto, alterar o limiar
 no programa antes de rodar a varredura.
 
-<!-- tabela: **Tabela 102** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
+<!-- tabela: **Tabela 103** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
 | Indicador | Valor |
 | :--- | ---: |
 | volume ideal, limiar de 1 %/m³ | 4.000 L |
@@ -6494,14 +6580,14 @@ O limiar, contudo, é uma escolha do analista, e ela decide o resultado tanto qu
 dados de entrada. A tabela abaixo mostra o volume ideal que cada limiar plausível
 produziria para este mesmo projeto.
 
-<!-- tabela: **Tabela 103** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
+<!-- tabela: **Tabela 104** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
 | Limiar declarado | Volume ideal | Potencial |
 | ---: | ---: | ---: |
 | 3,0 %/m³ | 3 000 L | 26,48% |
 | 1,0 %/m³ | 4 000 L | 27,12% |
 | 0,5 %/m³ | 5 000 L | 27,47% |
 
-<!-- tabela: **Tabela 104** — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
+<!-- tabela: **Tabela 105** — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
 | | 4.000 L | 20.000 L |
 | :--- | ---: | ---: |
 | potencial de economia | 27,12% | 28,00% |
@@ -6586,7 +6672,7 @@ O tutorial adota 4.000 L e segue. Trata-se do volume ideal pelo critério hidrá
 o limiar de 1 %/m³, e é o valor que o projeto carrega até a seção 4.9, onde será
 questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
 
-<!-- tabela: **Tabela 105** — Estado do projeto do tutorial após a escolha do volume -->
+<!-- tabela: **Tabela 106** — Estado do projeto do tutorial após a escolha do volume -->
 | Projeto até aqui | |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |
@@ -6635,7 +6721,7 @@ Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: **gravid
 sem bomba. A etapa **4. Reservatório & Custos** pergunta qual dos três arranjos o projeto
 adota, e é essa resposta que define a energia e as motobombas no custo e no carbono.
 
-<!-- tabela: **Tabela 106** — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
+<!-- tabela: **Tabela 107** — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
 | Arranjo | Energia calculada | Caixa superior e motobombas |
 | :--- | :--- | :--- |
 | recalque para caixa superior | volume recalcado, pela altura manométrica, mais as partidas | entram no custo e no carbono |
@@ -6667,7 +6753,7 @@ venceria por essa razão, e não pelo arranjo. Para isolar o efeito do arranjo �
 manter constante o armazenamento: comparam-se, portanto, 5.000 L num único reservatório
 contra 4.000 L embaixo mais 1.000 L em cima.
 
-<!-- tabela: **Tabela 107** — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
+<!-- tabela: **Tabela 108** — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
 | Mesmo armazenamento de 5.000 L | Um tanque só | 4.000 embaixo + 1.000 em cima |
 | :--- | ---: | ---: |
 | potencial de economia | 27,47% | 27,30% |
@@ -6710,7 +6796,7 @@ recalque e quando a cisterna seca.
 Se você adotar a caixa, há um parâmetro a ajustar: o volume de reserva que não se
 consome, abaixo do qual a bomba é acionada.
 
-<!-- tabela: **Tabela 108** — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos -->
+<!-- tabela: **Tabela 109** — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos -->
 | Limiar de acionamento | Potencial | Acionamentos por ano |
 | ---: | ---: | ---: |
 | 0 L | 27,24% | 62 |
@@ -6771,7 +6857,7 @@ Em relação à cisterna sozinha de 4.000 L, o potencial sobe de 27,12% para 27,
 porque a caixa acrescenta 1.000 L de armazenamento. Daqui em diante, o custo, o carbono
 e a decisão do tutorial incluem a caixa, as duas motobombas e a energia do recalque.
 
-<!-- tabela: **Tabela 109** — Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
+<!-- tabela: **Tabela 110** — Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume do reservatório inferior | 4.000 L |
@@ -6839,14 +6925,14 @@ Escolher uma classe não impõe equipamento algum ao projeto. A classe expressa 
 recomendação do programa, fundada na exigência típica do uso pretendido, e a decisão sobre
 adotá-la ou não permanece com quem assina o projeto.
 
-<!-- tabela: **Tabela 110** — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
+<!-- tabela: **Tabela 111** — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
 | Desinfecção | CAPEX | Custeio anual | CO₂e anual |
 | :--- | ---: | ---: | ---: |
 | Cloração por pastilhas | R$ 1 547 | R$ 43 | 0,2 kg |
 | Cloração + ultravioleta | R$ 2 747 | R$ 259 | 6,4 kg |
 | Cloração + ozonização | R$ 5 047 | R$ 243 | 15,2 kg |
 
-<!-- tabela: **Tabela 111** — Recomendação de filtração fina e custo da linha por classe de qualidade -->
+<!-- tabela: **Tabela 112** — Recomendação de filtração fina e custo da linha por classe de qualidade -->
 | Classe alvo | Recomenda filtração fina? | CAPEX sem | CAPEX com |
 | :--- | :---: | ---: | ---: |
 | classe 1 | não | R$ 1 547 | R$ 1 927 |
@@ -6905,7 +6991,7 @@ pela área de cobertura, e não pela classe de qualidade pretendida, porque o qu
 filtro precisa vencer é a vazão de pico da cobertura — grandeza que independe do destino
 final da água.
 
-<!-- tabela: **Tabela 112** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+<!-- tabela: **Tabela 113** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Filtro | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
@@ -6946,7 +7032,7 @@ o responsável defina e declare o critério de qualidade para ela, como a seçã
 registra. A cloração deixa residual, e o custo é
 o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 43,45 por ano de custeio: R$ 3,45 de pastilha e R$ 40 de manutenção do descarte.
 
-<!-- tabela: **Tabela 113** — Estado do projeto do tutorial após a definição da classe de qualidade -->
+<!-- tabela: **Tabela 114** — Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L |
@@ -6979,14 +7065,14 @@ que é o mais caro, e não o médio.==
 O Netuno evita o problema calculando duas faturas completas — a que a edificação pagaria
 sem o sistema e a que ela paga com ele — e tomando a diferença entre as duas.
 
-<!-- tabela: **Tabela 114** — Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
+<!-- tabela: **Tabela 115** — Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
 | A fatura da CASAN | Consumo | Valor |
 | :--- | ---: | ---: |
 | sem o sistema | 18,26 m³/mês | R$ 390,75 |
 | com o sistema | 13,28 m³/mês | R$ 248,06 |
 | **economia** | 4,99 m³/mês | **R$ 142,69** |
 
-<!-- tabela: **Tabela 115** — Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
+<!-- tabela: **Tabela 116** — Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
 | Análise de 20 anos | Valor |
 | :--- | ---: |
 | investimento inicial | R$ 14 061,19 |
@@ -7022,12 +7108,13 @@ existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a 
 paga, e não impede a economia sobre o consumo.
 
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
-projetos inteiros. O programa distingue cinco.
+projetos inteiros. O programa distingue seis.
 
-<!-- tabela: **Tabela 116** — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
+<!-- tabela: **Tabela 117** — Os seis regimes tarifários e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
-| disponibilidade | cada m³ economizado desconta | 156 |
+| disponibilidade | cada m³ economizado desconta | 122 |
+| fórmula exponencial | cada m³ economizado desconta, pelo preço-base elevado ao expoente | 34 |
 | sem mínimo | idem | 165 |
 | franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
 | franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |
@@ -7048,7 +7135,7 @@ projetos inteiros. O programa distingue cinco.
 
 R$ 14.061,19, assim distribuídos:
 
-<!-- tabela: **Tabela 117** — Composição do investimento inicial do projeto do tutorial -->
+<!-- tabela: **Tabela 118** — Composição do investimento inicial do projeto do tutorial -->
 | Rubrica | Valor |
 | :--- | ---: |
 | cisterna de concreto de 4.000 L | R$ 5.304 |
@@ -7071,7 +7158,7 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 
 ### 4.7.4. O resultado
 
-<!-- tabela: **Tabela 118** — Indicadores econômicos do projeto do tutorial em vinte anos -->
+<!-- tabela: **Tabela 119** — Indicadores econômicos do projeto do tutorial em vinte anos -->
 | Indicador | Valor |
 | :--- | ---: |
 | valor presente líquido | R$ 2.745 |
@@ -7100,7 +7187,7 @@ O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica rep
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
-<!-- tabela: **Tabela 119** — Premissas da projeção econômica e o peso de cada uma no resultado -->
+<!-- tabela: **Tabela 120** — Premissas da projeção econômica e o peso de cada uma no resultado -->
 | Premissa | Valor adotado | Onde ela pesa |
 | :--- | ---: | :--- |
 | taxa mínima de atratividade | 0,5% ao mês | desconta o fluxo; quanto maior, pior o VPL |
@@ -7123,7 +7210,7 @@ adotado e mostra a sensibilidade — a seção 3.7 ensina como.
 
 ### 4.7.6. O que temos até aqui
 
-<!-- tabela: **Tabela 120** — Estado do projeto do tutorial após a análise econômica -->
+<!-- tabela: **Tabela 121** — Estado do projeto do tutorial após a análise econômica -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L, concreto |
@@ -7164,7 +7251,7 @@ econômica.
 Para o nosso projeto, cisterna de concreto de 4.000 L com recalque para a caixa superior
 de 1.000 L:
 
-<!-- tabela: **Tabela 121** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
+<!-- tabela: **Tabela 122** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 858 kg CO₂e |
@@ -7220,7 +7307,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 
 ==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
 
-<!-- tabela: **Tabela 122** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
+<!-- tabela: **Tabela 123** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
 | Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Emissões líquidas em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | -74 kg | R$ 2 526 |
@@ -7228,7 +7315,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 | Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | -30 kg | R$ 3 410 |
 | Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | 347 kg | R$ 9 093 |
 
-<!-- tabela: **Tabela 123** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
+<!-- tabela: **Tabela 124** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
 | Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
 | 2 000 L | 27,4 anos | 141 kg CO₂e |
@@ -7308,7 +7395,7 @@ honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errad
 
 A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
 
-<!-- tabela: **Tabela 124** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
+<!-- tabela: **Tabela 125** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 5.304 | R$ 2.526 |
@@ -7318,7 +7405,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback de carbono | 42,8 anos | 16,3 anos |
 | emissões líquidas em 20 anos | +457 kg | −74 kg |
 
-<!-- tabela: **Tabela 125** — Estado do projeto do tutorial após a análise ambiental -->
+<!-- tabela: **Tabela 126** — Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L |
@@ -7366,7 +7453,7 @@ receberam três respostas que não coincidem. Essa discordância não é defeito
 nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
 diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
 
-<!-- tabela: **Tabela 126** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
+<!-- tabela: **Tabela 127** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
 | Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
@@ -7377,7 +7464,7 @@ diferentes e têm comportamentos diferentes em relação ao volume do reservató
 | 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
 | 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
 
-<!-- tabela: **Tabela 127** — Volume vencedor segundo cada critério isolado -->
+<!-- tabela: **Tabela 128** — Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume que vence |
 | :--- | ---: |
 | maior potencial de economia | 12 000 L |
@@ -7408,7 +7495,7 @@ métodos multicritério vêm preencher.
 
 O programa usa TOPSIS sobre **sete critérios**:
 
-<!-- tabela: **Tabela 128** — Os sete critérios do multicritério e a direção de preferência de cada um -->
+<!-- tabela: **Tabela 129** — Os sete critérios do multicritério e a direção de preferência de cada um -->
 | Critério | Direção |
 | :--- | :--- |
 | potencial de economia | maximizar |
@@ -7457,7 +7544,7 @@ A aba de decisão apresenta o escore de cada volume candidato (Figura 63).
 
 A tabela a seguir mostra o que acontece ao deslocar o peso.
 
-<!-- tabela: **Tabela 129** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
+<!-- tabela: **Tabela 130** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
 | Peso dominante | Volume | Segundo colocado |
 | :--- | ---: | ---: |
 | pesos iguais | 4 000 L | 5 000 L |
@@ -7513,7 +7600,7 @@ vez de supor que concordem sempre.
 
 ### 4.9.5. O projeto, fechado
 
-<!-- tabela: **Tabela 130** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
+<!-- tabela: **Tabela 131** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Netuno 5 · residência unifamiliar em Florianópolis | |
 | :--- | ---: |
 | série de precipitação | Florianópolis, 30 anos, 1.795 mm/ano |
@@ -8279,7 +8366,7 @@ Netuno 4 e preservados desde então, byte a byte, justamente para que a referên
 alterasse ao longo do desenvolvimento. Eles se distribuem por dois conjuntos, com
 cidades e faixas de parâmetros distintas.
 
-<!-- tabela: **Tabela 131** — Os conjuntos de casos de referência exportados do Netuno 4 -->
+<!-- tabela: **Tabela 132** — Os conjuntos de casos de referência exportados do Netuno 4 -->
 | Conjunto | Casos | Cidades |
 | :--- | ---: | :--- |
 | Floripa/Brasília | 1.458 | Florianópolis, Brasília |
@@ -8289,7 +8376,7 @@ cidades e faixas de parâmetros distintas.
 
 ### 6.1.3. A divergência total
 
-<!-- tabela: **Tabela 132** — Divergência medida entre as duas versões, por conjunto de casos -->
+<!-- tabela: **Tabela 133** — Divergência medida entre as duas versões, por conjunto de casos -->
 | Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
 | :--- | ---: | ---: | ---: | ---: |
 | Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
@@ -8308,7 +8395,7 @@ diferenças de naturezas distintas, e o número resultante não informa qual del
 pelo quê. A decomposição as separa comparando os dois programas em três configurações
 sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
-<!-- tabela: **Tabela 133** — Divergência em três configurações sucessivamente mais controladas -->
+<!-- tabela: **Tabela 134** — Divergência em três configurações sucessivamente mais controladas -->
 | Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
 | :--- | ---: | ---: | ---: |
 | 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
@@ -8321,7 +8408,7 @@ os casos, e por isso o erro médio absoluto praticamente coincide com o viés.
 
 A atribuição resultante:
 
-<!-- tabela: **Tabela 134** — Atribuição da divergência às suas três fontes -->
+<!-- tabela: **Tabela 135** — Atribuição da divergência às suas três fontes -->
 | Fonte da divergência | Contribuição | Natureza |
 | :--- | ---: | :--- |
 | critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |
@@ -8378,11 +8465,11 @@ não alterando o código do balanço hídrico. A distinção metodológica é es
 divergência com um código modificado validaria um programa que não é o distribuído ao
 usuário, o que anularia o propósito da verificação.
 
-```equacao:emulacao:52
+```equacao:emulacao:53
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 135** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 136** — Variáveis da Equação 53 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a ser fornecida ao Netuno 5 | mm |
@@ -8444,7 +8531,7 @@ simulação.==
 As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
 nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
 
-<!-- tabela: **Tabela 136** — Mensagens de validação física da entrada e a providência de cada uma -->
+<!-- tabela: **Tabela 137** — Mensagens de validação física da entrada e a providência de cada uma -->
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
 | «Volume do reservatório inferior negativo» | volume menor que zero | corrija; **zero é válido** e representa o cenário sem sistema |
@@ -8465,7 +8552,7 @@ nomeiam o campo responsável e o valor recebido, de modo que a correção não e
 > guarda 0,4 — tipicamente um arquivo de parâmetros editado à mão ou uma chamada de
 > automação.
 
-<!-- tabela: **Tabela 137** — Mensagens da fração atendível e a providência de cada uma -->
+<!-- tabela: **Tabela 138** — Mensagens da fração atendível e a providência de cada uma -->
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
 | «… parece estar em percentual» | fração entre 1 e 100 no arquivo, no vetor semanal, mensal ou diário, ou na automação | informe 0,4 para 40% |
@@ -8481,7 +8568,7 @@ falha na série interrompe o cálculo com a indicação de onde ela está. Preen
 ou recortar a série para um período sem falhas, é decisão de quem conduz o estudo, e a
 decisão precisa constar do estudo.
 
-<!-- tabela: **Tabela 138** — Mensagens de erro da série de precipitação e a providência de cada uma -->
+<!-- tabela: **Tabela 139** — Mensagens de erro da série de precipitação e a providência de cada uma -->
 | Mensagem | Causa | O que fazer |
 | :--- | :--- | :--- |
 | «A série de precipitação está vazia» | arquivo sem nenhuma linha numérica | confira se o arquivo tem uma coluna de valores diários, um por linha |
@@ -8495,7 +8582,7 @@ ignorada e a leitura começa na primeira linha numérica.
 
 ### 6.2.3. Varredura
 
-<!-- tabela: **Tabela 139** — Mensagens de erro da varredura de volumes -->
+<!-- tabela: **Tabela 140** — Mensagens de erro da varredura de volumes -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
@@ -8511,7 +8598,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.4. Cloração
 
-<!-- tabela: **Tabela 140** — Mensagens de erro dos parâmetros de cloração -->
+<!-- tabela: **Tabela 141** — Mensagens de erro dos parâmetros de cloração -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
@@ -8522,7 +8609,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.5. Análise econômica
 
-<!-- tabela: **Tabela 141** — Mensagens de erro da análise econômica e a providência de cada uma -->
+<!-- tabela: **Tabela 142** — Mensagens de erro da análise econômica e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior que zero |
@@ -8543,7 +8630,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.6. Decisão multicritério
 
-<!-- tabela: **Tabela 142** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
+<!-- tabela: **Tabela 143** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
@@ -8555,7 +8642,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.7. Motobomba
 
-<!-- tabela: **Tabela 143** — Mensagens de erro dos parâmetros da motobomba -->
+<!-- tabela: **Tabela 144** — Mensagens de erro dos parâmetros da motobomba -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» | rendimento como percentual no núcleo | use 0,55 para 55% |
@@ -8565,7 +8652,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.8. Arquivos
 
-<!-- tabela: **Tabela 144** — Situações de erro na leitura e na gravação de arquivos -->
+<!-- tabela: **Tabela 145** — Situações de erro na leitura e na gravação de arquivos -->
 | Situação | O que acontece | O que fazer |
 | :--- | :--- | :--- |
 | série de chuva ilegível | a leitura é interrompida com mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
@@ -8582,7 +8669,7 @@ observações que o programa faz sobre as condições em que o resultado foi pro
 elas precisam ser transportadas para o texto do estudo, porque todas afetam a
 interpretação do número e nenhuma delas fica evidente no resultado isolado.
 
-<!-- tabela: **Tabela 145** — Avisos que não interrompem o cálculo e precisam constar do estudo -->
+<!-- tabela: **Tabela 146** — Avisos que não interrompem o cálculo e precisam constar do estudo -->
 | Aviso | O que significa |
 | :--- | :--- |
 | tipologia não residencial com tarifa residencial | o resultado econômico está **subestimado**; veja a seção 3.5 |
@@ -8673,7 +8760,7 @@ três vezes: os três saem desta seção, e uma verificação automática recusa
 divergirem. Quem acompanha o programa pelo repositório, pelo site ou pelo manual lê o
 mesmo registro.
 
-<!-- tabela: **Tabela 146** — **Tabela 99** — Panorama das versões publicadas -->
+<!-- tabela: **Tabela 147** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
 | **5.0.0** | 29 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério, planta 3D da tubulação e a documentação em três formatos. | 17 |
@@ -8731,7 +8818,7 @@ calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento públ
 estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
 a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
-<!-- tabela: **Tabela 147** — Correções que alteram resultados de estudos feitos em versão anterior -->
+<!-- tabela: **Tabela 148** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -8758,7 +8845,7 @@ As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum 
 calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
-<!-- tabela: **Tabela 148** — Correções de comportamento que não alteram resultado calculado -->
+<!-- tabela: **Tabela 149** — Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
@@ -8770,6 +8857,9 @@ estudo errado.
 | Um exemplo novo, `examples/exemplo_quatro_criterios.netuno`, em que os ótimos técnico, econômico, ambiental e TOPSIS caem em quatro volumes diferentes. | nenhum valor calculado muda |
 | o modelo de cenários em planilha citava séries de chuva que não são distribuídas, e um cenário sem a sua série era simulado em silêncio com a chuva de Florianópolis | o modelo usa as séries de `data/rainfall`, e a falta de uma série é erro que nomeia o cenário e o arquivo |
 | a consulta às tarifas da ANEEL não tinha prazo total e gravava o arquivo em uso enquanto baixava | a consulta desiste após três minutos, e um download interrompido não deixa o cache pela metade |
+| os 34 municípios da CORSAN estavam gravados como uma reta, `PB × C + serviço básico`, embora a concessionária cobre `PB × Cⁿ + serviço básico` | a fórmula exponencial passou a ser um regime próprio, calculado pelo motor, exibido e editável no Gestor de Tarifas e na etapa econômica; com a tabela de expoentes ainda a transcrever (`n = 1`), as contas são as mesmas |
+| as equações do manual perdiam o sobrescrito: o VPL saía com `(1 + TMA) m` | os expoentes voltam a sair sobrescritos |
+| na prancha do esquema 3D, cada acessório criava um plano de cota e um rótulo de duas linhas, e as peças ficavam umas sobre as outras | a prancha passou a folha A3 deitada, com planos de cota só nos níveis principais e as peças pequenas identificadas pelo código, com tipo e cota numa tabela ao lado |
 
 #### 6.3.3.4. Documentação
 
@@ -8937,7 +9027,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 149** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 150** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -8948,7 +9038,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 150** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 151** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -8969,7 +9059,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 151** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 152** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -8993,7 +9083,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 152** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 153** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
@@ -9007,7 +9097,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 153** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 154** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -9040,7 +9130,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 154** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 155** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
@@ -9059,7 +9149,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 155** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 156** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -9083,7 +9173,7 @@ Observações do código:
 
 12 parâmetros.
 
-<!-- tabela: **Tabela 156** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 157** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -9115,7 +9205,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 157** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 158** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -9151,7 +9241,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 158** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 159** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
@@ -9160,7 +9250,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 159** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 160** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9171,7 +9261,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 160** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 161** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
@@ -9180,7 +9270,7 @@ Observações do código:
 
 14 parâmetros.
 
-<!-- tabela: **Tabela 161** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 162** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
@@ -9214,7 +9304,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 162** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 163** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -9231,7 +9321,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 163** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 164** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
@@ -9247,7 +9337,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 164** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 165** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9265,7 +9355,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 165** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 166** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -9732,7 +9822,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 4. Código **−2**, franquia retroativa: até o volume da franquia paga-se o valor fixo; passando dele, **todo** o volume desde zero é tarifado pelas faixas.
 5. Código **−3**, piso de pagamento: não soma, **limita por baixo**. Com piso de R$ 40 e consumo tarifado de R$ 55, economizar até R$ 15 não reduz nada — e é exatamente isso que um estudo de aproveitamento pluvial precisa enxergar.
 6. O esgoto é percentual da **parcela de água**, não da fatura total. Em Florianópolis são 100% da água, que é metade da fatura.
-7. Os cinco regimes de mínimo estão nomeados e auditados na base dos 652 municípios.
+7. Os seis regimes tarifários estão nomeados e auditados na base dos 652 municípios.
 
 **Saídas**
 
@@ -9948,7 +10038,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 166** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 167** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -9990,7 +10080,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 167** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 168** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -10009,7 +10099,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 168** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 169** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -10034,7 +10124,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 169** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 170** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -10070,19 +10160,20 @@ da própria base do programa, e não transcrita.
 
 Cada linha da tabela tarifária é uma quádrupla `(mínimo, máximo, valor, código)`.
 
-Os quatro códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7, e não se repetem aqui.
+Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seção 2.7, e não se repetem aqui.
 
 
-### D.2. Os cinco regimes
+### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 170** — Distribuição dos municípios do catálogo pelos cinco regimes de mínimo -->
+<!-- tabela: **Tabela 171** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
-| **Disponibilidade** | 156 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
+| **Disponibilidade** | 122 | Valor fixo que **soma** por cima do consumo medido. Cada m³ economizado desconta. |
 | **Franquia no mínimo** | 329 | O valor fixo já inclui um volume. Economizar **abaixo** da franquia não desconta nada. |
 | **Franquia retroativa** | 2 | Até a franquia paga-se o fixo; passando dela, tarifa-se **tudo desde zero**. |
 | **Piso de pagamento** | 0 | A fatura **não fica** abaixo do piso. Não soma: limita. |
+| **Fórmula exponencial** | 34 | Serviço básico mais `PB × Cⁿ`, com `n` pelo consumo do mês (CORSAN). Cada m³ economizado desconta. |
 
 > O piso de pagamento está implementado e nenhum município da base foi
 > classificado nele até esta versão.
@@ -10112,7 +10203,7 @@ A rotina pode simular a atualização sem gravar a base, executar apenas a detec
 
 Cada registro traz o grau de confiança da coleta:
 
-<!-- tabela: **Tabela 171** — Grau de confiança dos registros tarifários do catálogo -->
+<!-- tabela: **Tabela 172** — Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |
@@ -10134,7 +10225,7 @@ Cada registro traz o grau de confiança da coleta:
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 172** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 173** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -10182,7 +10273,7 @@ Independentes da base CMIP6, quatro séries históricas longas acompanham a
 instalação, na pasta `data
 ainfall` do programa:
 
-<!-- tabela: **Tabela 173** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 174** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -10217,7 +10308,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 174** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 175** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -10241,7 +10332,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 175** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 176** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -10270,7 +10361,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 176** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 177** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -10293,7 +10384,7 @@ O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 177** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 178** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -10312,7 +10403,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 178** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 179** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -10711,7 +10802,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 179** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 180** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -10722,7 +10813,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 180** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 181** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -11019,7 +11110,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 181** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 182** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -11040,7 +11131,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 182** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 183** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 |
@@ -11056,13 +11147,14 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ---
 
-### I.3. Ficha 3 — Os cinco regimes tarifários
+### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 183** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 184** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
-| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| disponibilidade | cada m³ desconta; o fixo continua | 122 |
+| fórmula exponencial (CORSAN) | cada m³ desconta; a conta é PB × Cⁿ + serviço básico | 34 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
 | piso de pagamento | a fatura não fica abaixo do piso | 0 |
@@ -11074,7 +11166,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 184** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 185** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -11134,7 +11226,7 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ### J.1. Os nove casos do manual
 
-<!-- tabela: **Tabela 185** — Os nove casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 186** — Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -11154,7 +11246,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 186** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 187** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |

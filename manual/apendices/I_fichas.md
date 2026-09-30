@@ -44,13 +44,14 @@ enganos. Seção {{n:36}}, as limitações que afetam o seu caso.
 
 ---
 
-## Ficha 3 — Os cinco regimes tarifários
+## Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
-| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| disponibilidade | cada m³ desconta; o fixo continua | 122 |
+| fórmula exponencial (CORSAN) | cada m³ desconta; a conta é PB × Cⁿ + serviço básico | 34 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
 | piso de pagamento | a fatura não fica abaixo do piso | 0 |

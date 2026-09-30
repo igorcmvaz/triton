@@ -171,7 +171,7 @@ Tabela 23 — Composição da fatura de água e esgoto antes e depois do sistema
 
 Tabela 24 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
 
-Tabela 25 — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia
+Tabela 25 — Os seis regimes tarifários e o efeito de cada um sobre a economia
 
 Tabela 26 — Composição do investimento inicial do projeto do tutorial
 
@@ -209,7 +209,7 @@ Tabela 42 — Ficha de consulta: os dez passos de um estudo completo e a seção
 
 Tabela 43 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 44 — Ficha de consulta: os cinco regimes tarifários e o efeito da economia
+Tabela 44 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
 Tabela 45 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
@@ -1486,12 +1486,13 @@ existe: cada metro cúbico economizado gera desconto desde o primeiro, porque a 
 paga, e não impede a economia sobre o consumo.
 
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
-projetos inteiros. O programa distingue cinco.
+projetos inteiros. O programa distingue seis.
 
-<!-- tabela: **Tabela 25** — Os cinco regimes de mínimo tarifário e o efeito de cada um sobre a economia -->
+<!-- tabela: **Tabela 25** — Os seis regimes tarifários e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
-| disponibilidade | cada m³ economizado desconta | 156 |
+| disponibilidade | cada m³ economizado desconta | 122 |
+| fórmula exponencial | cada m³ economizado desconta, pelo preço-base elevado ao expoente | 34 |
 | sem mínimo | idem | 165 |
 | franquia no mínimo | economizar abaixo da franquia **não desconta nada** | 329 |
 | franquia retroativa | passando da franquia, tarifa-se tudo desde zero | 2 |
@@ -2649,13 +2650,14 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ---
 
-### I.3. Ficha 3 — Os cinco regimes tarifários
+### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 44** — Ficha de consulta: os cinco regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 44** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
-| disponibilidade | cada m³ desconta; o fixo continua | 156 |
+| disponibilidade | cada m³ desconta; o fixo continua | 122 |
+| fórmula exponencial (CORSAN) | cada m³ desconta; a conta é PB × Cⁿ + serviço básico | 34 |
 | **franquia no mínimo** | **abaixo da franquia não desconta nada** | **329** |
 | franquia retroativa | passando dela, tarifa tudo desde zero | 2 |
 | piso de pagamento | a fatura não fica abaixo do piso | 0 |

@@ -11,6 +11,8 @@ import sys
 import json
 from typing import List, Tuple, Dict, Any, Optional
 
+from netuno.core.tariffs_structure import EXPOENTE_DE_CONSUMO
+
 _DB_CACHE: Optional[Dict[str, Any]] = None
 
 # =====================================================================================================================
@@ -199,7 +201,8 @@ def get_city_tariffs_by_category(
     orig_faixas = base_data.get("faixas", [])
     new_faixas = []
     for inf, sup, rate, t_tipo in orig_faixas:
-        new_rate = round(rate * mult_agua, 4)
+        # O expoente da tabela exponencial é adimensional: só o preço-base escala.
+        new_rate = rate if int(t_tipo) == EXPOENTE_DE_CONSUMO else round(rate * mult_agua, 4)
         new_faixas.append([inf, sup, new_rate, t_tipo])
     res["faixas"] = new_faixas
 

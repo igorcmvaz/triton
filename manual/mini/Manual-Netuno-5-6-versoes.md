@@ -70,7 +70,7 @@ Tabela 3 — Divergência em três configurações sucessivamente mais controlad
 
 Tabela 4 — Atribuição da divergência às suas três fontes
 
-Tabela 5 — Variáveis da Equação 52
+Tabela 5 — Variáveis da Equação 53
 
 Tabela 6 — Mensagens de validação física da entrada e a providência de cada uma
 
@@ -102,7 +102,7 @@ Tabela 18 — Correções de comportamento que não alteram resultado calculado
 
 ## Lista de equações
 
-Equação 52 — Transformação da série para emular o Netuno 4
+Equação 53 — Transformação da série para emular o Netuno 4
 
 ---
 
@@ -241,11 +241,11 @@ não alterando o código do balanço hídrico. A distinção metodológica é es
 divergência com um código modificado validaria um programa que não é o distribuído ao
 usuário, o que anularia o propósito da verificação.
 
-```equacao:emulacao:52
+```equacao:emulacao:53
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 5** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 5** — Variáveis da Equação 53 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a ser fornecida ao Netuno 5 | mm |
@@ -633,6 +633,9 @@ estudo errado.
 | Um exemplo novo, `examples/exemplo_quatro_criterios.netuno`, em que os ótimos técnico, econômico, ambiental e TOPSIS caem em quatro volumes diferentes. | nenhum valor calculado muda |
 | o modelo de cenários em planilha citava séries de chuva que não são distribuídas, e um cenário sem a sua série era simulado em silêncio com a chuva de Florianópolis | o modelo usa as séries de `data/rainfall`, e a falta de uma série é erro que nomeia o cenário e o arquivo |
 | a consulta às tarifas da ANEEL não tinha prazo total e gravava o arquivo em uso enquanto baixava | a consulta desiste após três minutos, e um download interrompido não deixa o cache pela metade |
+| os 34 municípios da CORSAN estavam gravados como uma reta, `PB × C + serviço básico`, embora a concessionária cobre `PB × Cⁿ + serviço básico` | a fórmula exponencial passou a ser um regime próprio, calculado pelo motor, exibido e editável no Gestor de Tarifas e na etapa econômica; com a tabela de expoentes ainda a transcrever (`n = 1`), as contas são as mesmas |
+| as equações do manual perdiam o sobrescrito: o VPL saía com `(1 + TMA) m` | os expoentes voltam a sair sobrescritos |
+| na prancha do esquema 3D, cada acessório criava um plano de cota e um rótulo de duas linhas, e as peças ficavam umas sobre as outras | a prancha passou a folha A3 deitada, com planos de cota só nos níveis principais e as peças pequenas identificadas pelo código, com tipo e cota numa tabela ao lado |
 
 #### 6.3.3.4. Documentação
 

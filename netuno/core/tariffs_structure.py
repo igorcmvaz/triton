@@ -24,7 +24,11 @@ Códigos presentes       Cidades    Estrutura
 ``{-1, 1}``             486        taxa fixa de disponibilidade + faixas progressivas
 ``{1}``                 165        apenas faixas progressivas
 ``{-2, 1}``             1          franquia de consumo mínimo + faixas progressivas
+``{-1, 2, 3, 1}``       34         serviço básico + fórmula exponencial (CORSAN)
 ======================  =========  ==========================================
+
+A família exponencial é contada depois da apuração de 8 de setembro: até então as 34
+cidades da CORSAN estavam gravadas como ``{-1, 1}``, uma aproximação linear.
 """
 
 from __future__ import annotations
@@ -57,7 +61,20 @@ FRANQUIA_DE_CONSUMO_MINIMO = -2
 #: é a economia que um sistema de aproveitamento pode creditar no primeiro bloco.
 PISO_DE_PAGAMENTO = -3
 
+#: Preço-base da fórmula exponencial da CORSAN: a água custa ``PB × Cⁿ``, em que ``C``
+#: é o consumo do mês inteiro e ``n`` vem da tabela exponencial. ``valor`` é o PB em
+#: R$/m³ e ``maximo_m3`` o consumo até o qual a fórmula vale (1.000 m³ na CORSAN);
+#: acima dele, o excedente é cobrado pelas faixas progressivas que começam ali.
+PRECO_BASE_EXPONENCIAL = 2
+
+#: Uma linha da tabela exponencial. ``valor`` é o expoente ``n`` aplicado quando o
+#: consumo total do mês cai em ``(minimo_m3, maximo_m3]`` (a primeira linha inclui o
+#: zero). O expoente vale para o volume inteiro, não só para o que está na faixa.
+EXPOENTE_DE_CONSUMO = 3
+
 CODIGOS_VALIDOS = frozenset({
+    PRECO_BASE_EXPONENCIAL,
+    EXPOENTE_DE_CONSUMO,
     FAIXA_PROGRESSIVA,
     FAIXA_ISENTA,
     TAXA_FIXA_DE_DISPONIBILIDADE,
@@ -71,6 +88,8 @@ DESCRICAO_DO_CODIGO = {
     TAXA_FIXA_DE_DISPONIBILIDADE: "taxa fixa de disponibilidade (R$)",
     FRANQUIA_DE_CONSUMO_MINIMO: "franquia de consumo mínimo com taxa inclusa (R$)",
     PISO_DE_PAGAMENTO: "piso de pagamento: a conta nunca fica abaixo deste valor (R$)",
+    PRECO_BASE_EXPONENCIAL: "preço-base da fórmula exponencial PB × Cⁿ (R$/m³)",
+    EXPOENTE_DE_CONSUMO: "expoente n da tabela exponencial, pelo consumo do mês",
 }
 
 #: Valor convencional usado para representar “sem teto” na última faixa progressiva.
@@ -106,13 +125,41 @@ def _quadruplas(faixas: Iterable[Sequence]) -> List[Tuple[float, float, float, i
     return [(float(f[0]), float(f[1]), float(f[2]), int(f[3])) for f in faixas]
 
 
+def expoente_do_consumo(faixas: Sequence[Sequence], consumo_m3: float) -> float:
+    """O ``n`` da tabela exponencial para o consumo total do mês.
+
+    Cada linha cobre ``(minimo, maximo]``; a primeira inclui o zero. Sem tabela, o
+    expoente é 1 e a fórmula se reduz a ``PB × C``, a forma linear.
+    """
+    linhas = sorted((q for q in _quadruplas(faixas) if q[3] == EXPOENTE_DE_CONSUMO),
+                    key=lambda q: q[0])
+    for _minimo, maximo, expoente, _ in linhas:
+        if consumo_m3 <= maximo:
+            return expoente
+    return linhas[-1][2] if linhas else 1.0
+
+
+def parcela_exponencial(faixas: Sequence[Sequence], consumo_m3: float) -> float:
+    """``PB × Cⁿ``, com ``C`` limitado ao teto da fórmula; zero sem preço-base.
+
+    O excedente acima do teto não entra aqui: é cobrado pelas faixas progressivas
+    que começam no teto, como qualquer outra faixa.
+    """
+    base = next((q for q in _quadruplas(faixas) if q[3] == PRECO_BASE_EXPONENCIAL), None)
+    if base is None or consumo_m3 <= 0:
+        return 0.0
+    _minimo, teto, preco_base, _ = base
+    consumo = min(consumo_m3, teto) if teto > 0 else consumo_m3
+    return preco_base * consumo ** expoente_do_consumo(faixas, consumo)
+
+
 def custo_volumetrico(faixas: Sequence[Sequence], consumo_m3: float) -> float:
     """Parcela da conta que depende do volume, ignorando taxas fixas.
 
     Reproduz a lógica de `economic.calculate_water_bill` restrita às faixas
     progressivas, para permitir o diagnóstico sem construir uma conta completa.
     """
-    total = 0.0
+    total = parcela_exponencial(faixas, consumo_m3)
     for minimo, maximo, valor, codigo in _quadruplas(faixas):
         if codigo not in (FAIXA_PROGRESSIVA, FAIXA_ISENTA):
             continue
@@ -146,7 +193,7 @@ def diagnosticar(faixas: Sequence[Sequence]) -> DiagnosticoTarifario:
     progressivas = sorted(
         [q for q in quadruplas if q[3] == FAIXA_PROGRESSIVA], key=lambda q: q[0]
     )
-    tem_progressiva = bool(progressivas)
+    tem_progressiva = bool(progressivas) or PRECO_BASE_EXPONENCIAL in codigos
     if not tem_progressiva:
         problemas.append("nenhuma faixa progressiva: a conta não pode variar com o consumo")
 

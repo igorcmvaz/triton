@@ -21,6 +21,11 @@ from netuno.core.etap_integration import (
     opex_anual_incremental_da_etap,
 )
 from netuno.core.simulation import SingleTankSimulationResult
+from netuno.core.tariffs_structure import (
+    EXPOENTE_DE_CONSUMO,
+    PRECO_BASE_EXPONENCIAL,
+    parcela_exponencial,
+)
 
 
 def _calculate_irr(cash_flows: List[float], periods_per_year: int = 1) -> Optional[float]:
@@ -191,14 +196,17 @@ def calculate_water_bill(
                         if v_in_tier > 0:
                             c_agua_unit += v_in_tier * rate_or_fix
     else:
+        # Fórmula exponencial (CORSAN): PB × Cⁿ sobre o consumo do mês inteiro,
+        # até o teto da fórmula; o excedente segue pelas faixas progressivas.
+        c_agua_unit += parcela_exponencial(effective_tariffs, vol_m3_unit)
         # Calcula a tarifa de água nas faixas progressivas padrão para 1 unidade habitacional
         for t in effective_tariffs:
             min_v, max_v, rate_or_fix, is_fix = t
             if is_fix == -1:
                 # Custo fixo / disponibilidade por unidade
                 c_agua_unit += rate_or_fix
-            elif is_fix == -3:
-                # Piso: aplicado depois, sobre o total tarifado.
+            elif is_fix in (-3, PRECO_BASE_EXPONENCIAL, EXPOENTE_DE_CONSUMO):
+                # Piso: aplicado depois; preço-base e expoentes: já na parcela exponencial.
                 continue
             elif vol_m3_unit > min_v:
                 v_in_tier = min(vol_m3_unit, max_v) - min_v

@@ -118,7 +118,38 @@ def para_tex(linha):
             saida.append(r"\;\mathrm{" + token + r"}\;")
         else:
             saida.append(_variavel(token))
-    return " ".join(saida)
+    return _expoentes(saida)
+
+
+def _expoentes(saida):
+    """Junta cada ``^`` ao que ele eleva, entre chaves.
+
+    O mathtext ignora o sobrescrito de ``C ^ n`` quando há espaço em volta do
+    circunflexo, e a equação saía com o expoente na linha de base: ``(1 + TMA) m``
+    em vez de ``(1 + TMA)ᵐ``. Um expoente entre parênteses, ``^( m − 1 )``, perde
+    os parênteses, que o sobrescrito já delimita.
+    """
+    pedacos = []
+    i = 0
+    while i < len(saida):
+        if saida[i] == "^" and pedacos and i + 1 < len(saida):
+            if saida[i + 1] == "(":
+                nivel, j = 0, i + 1
+                while j < len(saida):
+                    nivel += {"(": 1, ")": -1}.get(saida[j], 0)
+                    if nivel == 0:
+                        break
+                    j += 1
+                expoente = " ".join(saida[i + 2:j])
+                i = j + 1
+            else:
+                expoente = saida[i + 1]
+                i += 2
+            pedacos[-1] = pedacos[-1] + "^{" + expoente + "}"
+            continue
+        pedacos.append(saida[i])
+        i += 1
+    return " ".join(pedacos)
 
 
 def compor(fonte, nome):

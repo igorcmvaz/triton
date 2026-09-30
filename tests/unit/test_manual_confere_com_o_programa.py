@@ -709,7 +709,7 @@ def test_o_manual_declara_que_os_numeros_sao_calculados():
 # ══════════════════════════════════════════════════════════════════════════════
 
 def test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D():
-    """Impresso: 329 de franquia, 165 sem mínimo, 156 de disponibilidade."""
+    """Impresso: 329 de franquia, 165 sem mínimo, 122 de disponibilidade, 34 exponenciais."""
     import json
     from collections import Counter
 
@@ -719,7 +719,8 @@ def test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D():
     assert len(base["cities"]) == 652
     assert regimes["franquia_no_minimo"] == 329
     assert regimes["sem_minimo"] == 165
-    assert regimes["disponibilidade"] == 156
+    assert regimes["disponibilidade"] == 122
+    assert regimes["exponencial"] == 34
 
 
 def test_a_franquia_para_de_descontar_como_o_guia_16_mostra():

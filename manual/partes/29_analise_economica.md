@@ -1,6 +1,6 @@
 # Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os cinco regimes de mínimo
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
 > tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
@@ -46,11 +46,11 @@ economia de água atinge cada uma dessas parcelas de um jeito diferente, e é es
 
 *Figura 99 — Fatura mensal de água e esgoto do projeto do tutorial, aberta em parcelas, sem e com o sistema. A tarifa de disponibilidade é idêntica nos dois casos; a redução ocorre nas faixas de consumo superiores, que têm o maior preço por metro cúbico, e se estende ao esgoto, cobrado como percentual do valor da água.*
 
-O código de cada faixa define como o seu valor é aplicado ({{fig:fig32_codigos}}). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; e no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura.
+O código de cada faixa define como o seu valor é aplicado ({{fig:fig32_codigos}}). Nas faixas de consumo, de código 1 ou 0, é cobrado o preço por volume que está alocado dentro de cada faixa de consumo; na tarifa de disponibilidade, de código −1, o valor fixo é somado à parcela de consumo; na franquia retroativa, de código −2, o consumo acima da franquia faz todo o volume ser faturado desde 0 m³; no piso de pagamento, de código −3, o valor declarado é o limite inferior da fatura; e na fórmula exponencial, o código 2 guarda o preço-base e as linhas de código 3 guardam a tabela de expoentes.
 
-![Os quatro códigos de faixa tarifária](../figuras/fig32_codigos.png)
+![Os seis códigos de faixa tarifária](../figuras/fig32_codigos.png)
 
-*Figura 99 — Os quatro códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
+*Figura 99 — Os seis códigos de faixa tarifária e o efeito de cada um sobre a fatura mensal de água e esgoto. Duas estruturas com os mesmos valores numéricos resultam em faturas distintas conforme o código de cada faixa.*
 
 
 Dois desses regimes são frequentemente confundidos entre si, embora produzam efeitos
@@ -66,6 +66,29 @@ desde o primeiro ou se a economia só começa a valer depois de vencido um patam
 estudo de viabilidade que os confunda chega a conclusões invertidas. É por essa razão que
 o programa codifica o regime de forma explícita, em vez de tratá-lo como detalhe da
 tabela.
+
+### A fórmula exponencial
+
+Nos municípios da CORSAN a parcela de água não é soma de faixas, e sim uma potência do
+consumo do mês:
+
+```equacao:exponencial
+T_agua = PB × C^n + SB
+```
+
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `T_agua` | parcela de água da fatura | R$ |
+| `PB` | preço-base do município | R$/m³ |
+| `C` | consumo do mês por economia, limitado a 1.000 m³ | m³ |
+| `n` | expoente da tabela exponencial para o consumo `C` | adimensional |
+| `SB` | serviço básico | R$ |
+
+O expoente é lido pelo consumo **total** do mês e aplicado a todo o volume. O excedente
+acima de 1.000 m³ é somado pelo preço do m³, como uma faixa comum. A economia mensal é a
+diferença entre as duas contas, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, cada consumo com o seu expoente, e não o produto de um preço
+unitário pelo volume poupado; com `n` acima de 1, o metro cúbico poupado vale mais que o
+preço-base.
 
 ### Micromedição
 
@@ -96,11 +119,11 @@ responde por metade da fatura total.
 
 ---
 
-## Os cinco regimes na base
+## Os seis regimes na base
 
-O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os cinco
+O catálogo distribui os seus 652 municípios de maneira bastante desigual entre os seis
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
-seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum ({{fig:fig33_regimes_base}}). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
+seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórmula exponencial da CORSAN, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum ({{fig:fig33_regimes_base}}). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
 
 <!-- tabela: Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
 | Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
@@ -110,10 +133,11 @@ seguem-se 165 sem mínimo algum e 156 com tarifa de disponibilidade, ao passo qu
 | franquia no mínimo | valor fixo (−1) e primeira faixa de 0 a N m³ a R$ 0,00/m³ | valor fixo que inclui os N m³ da franquia; acima deles, faixas de consumo | redução abaixo de N m³ não altera a fatura |
 | franquia retroativa | franquia (−2) de 0 a N m³ com valor fixo, e faixas de consumo | até N m³, valor fixo; acima, todo o volume faturado desde 0 m³ pelas faixas | reduzir o consumo para até N m³ substitui a parcela de consumo pelo valor fixo |
 | piso de pagamento | piso (−3) e faixas de consumo | parcela de consumo pelas faixas, limitada inferiormente ao valor do piso | redução que leva a parcela abaixo do piso não reduz a fatura |
+| fórmula exponencial | serviço básico (−1), preço-base (2), tabela de expoentes (3) de 0 a 1.000 m³ e faixa (1) acima | serviço básico somado a `PB × Cⁿ`, com `n` pelo consumo do mês inteiro | toda redução de consumo reduz a fatura, pela diferença entre as duas potências |
 
 ![Os municípios do catálogo, pelo regime de mínimo](../figuras/fig33_regimes_base.png)
 
-*Figura 99 — Distribuição dos 652 municípios do catálogo pelos cinco regimes de valor mínimo. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
+*Figura 99 — Distribuição dos 652 municípios do catálogo pelos seis regimes tarifários. Metade deles pratica franquia no mínimo, regime em que a redução do consumo abaixo da franquia não reduz a fatura.*
 
 
 O piso de pagamento está implementado no motor de cálculo e nenhum município da base foi

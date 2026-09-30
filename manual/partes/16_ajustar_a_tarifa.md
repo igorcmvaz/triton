@@ -31,7 +31,7 @@ consumir é sempre o da faixa mais alta da fatura, que é o mais caro.
 
 **Existe uma parcela que independe do consumo.** Quase toda concessionária cobra algo
 mesmo de quem não consome nada, e o nome e a natureza dessa parcela variam de um lugar
-para outro. É o assunto da subseção sobre os cinco regimes, adiante, e é o ponto que mais
+para outro. É o assunto da subseção sobre os seis regimes, adiante, e é o ponto que mais
 decide se um sistema pluvial se paga.
 
 **O esgoto é cobrado como percentual da água.** A maior parte dos prestadores fatura o
@@ -86,13 +86,15 @@ código é o elemento decisivo, porque é ele que informa o que aquele valor sig
 estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
 cada linha.
 
-<!-- tabela: Os quatro códigos de faixa tarifária e o efeito de cada um na fatura -->
+<!-- tabela: Os seis códigos de faixa tarifária e o efeito de cada um na fatura -->
 | Código | O que é | Como entra na fatura |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
 | −1 | tarifa de disponibilidade | valor fixo **somado** à parcela de consumo |
 | −2 | franquia retroativa | até o volume da franquia, paga-se o fixo; passando dele, tarifa-se **tudo desde zero** |
 | −3 | piso de pagamento | a fatura **não fica** abaixo deste valor |
+| 2 | preço-base exponencial | `PB` da fórmula `PB × Cⁿ`, válida até o máximo da linha |
+| 3 | expoente da tabela exponencial | o `n` aplicado ao consumo **do mês inteiro** que cai na linha |
 
 A estrutura de Florianópolis, tomada como exemplo, tem cinco linhas: uma de
 disponibilidade e quatro faixas progressivas.
@@ -107,16 +109,17 @@ disponibilidade e quatro faixas progressivas.
 
 ---
 
-## Os cinco regimes, e por que isso decide projetos
+## Os seis regimes, e por que isso decide projetos
 
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
-coisas **diferentes** em cada um. O programa distingue cinco regimes:
+coisas **diferentes** em cada um. O programa distingue seis regimes:
 
-<!-- tabela: Os cinco regimes de mínimo e o que acontece ao economizar em cada um -->
+<!-- tabela: Os seis regimes tarifários e o que acontece ao economizar em cada um -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | **sem mínimo** | cada m³ economizado desconta | 165 |
-| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 156 |
+| **disponibilidade** | idem; a taxa fixa continua, mas não impede a economia | 122 |
+| **fórmula exponencial** | idem; o m³ poupado vale pelo preço-base elevado ao expoente | 34 |
 | **franquia no mínimo** | abaixo da franquia, economizar **não desconta nada** | 329 |
 | **franquia retroativa** | passando da franquia, tarifa-se tudo desde zero | 2 |
 | **piso de pagamento** | a fatura não fica abaixo do piso | 0 |
@@ -150,6 +153,58 @@ não reduz a fatura em nada.==
 ![A parcela de água da fatura contra o consumo, em três regimes de mínimo](../figuras/fig05_regimes.png)
 
 *Figura 99 — Parcela de água da fatura mensal em função do consumo, em três regimes de valor mínimo. O esgoto não entra no gráfico porque é cobrado como percentual desta parcela e apenas multiplica a curva, sem mudar-lhe o formato. Na tarifa de disponibilidade e sem valor mínimo, cada metro cúbico economizado reduz a fatura desde o primeiro; na franquia no mínimo, o trecho horizontal marca a faixa de consumo em que a economia de água não reduz a fatura.*
+
+---
+
+## A fórmula exponencial da CORSAN
+
+Os 34 municípios gaúchos da base atendidos pela CORSAN não cobram a água por faixas.
+A parcela de água da fatura é dada por uma fórmula:
+
+```
+Água = PB × Cⁿ + SB
+```
+
+em que `PB` é o preço-base do município, em R$/m³; `C` é o consumo do mês, em m³; `n` é
+o expoente que a **tabela exponencial** da concessionária atribui àquele consumo; e `SB` é
+o serviço básico, cobrado mesmo sem consumo. A fórmula vale até 1.000 m³ por economia;
+acima disso, o excedente é cobrado pelo preço do m³. O esgoto é 70% do valor da água.
+
+Duas diferenças em relação às faixas decidem o cálculo:
+
+- **O expoente vale para o consumo inteiro.** Nas faixas, cada metro cúbico é cobrado
+  pelo preço da faixa em que cai; na fórmula, o `n` da linha em que o consumo total cai
+  se aplica a todo o volume. Mudar de linha muda a conta inteira, e não só o último m³.
+- **Não há degrau de preço, há curva.** O preço médio do metro cúbico é `PB × Cⁿ⁻¹`: com
+  `n` acima de 1 ele cresce com o consumo, com `n` igual a 1 é constante.
+
+Para o aproveitamento pluvial, a consequência é simples: **toda economia desconta desde o
+primeiro metro cúbico**, e o que se poupa vale `PB × (C₁ⁿ¹ − C₂ⁿ²)`, a diferença entre as
+duas contas — é assim que o programa calcula, com a fórmula e não com uma reta.
+
+No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
+estrutura de Alegrete, vigente desde 1º de julho de 2026, é:
+
+```
+(0,00 ; 0,00    ; 43,39 ; -1)   serviço básico, soma sempre
+(0,00 ; 1000,00 ;  9,15 ;  2)   preço-base PB, fórmula válida até 1.000 m³
+(0,00 ; 1000,00 ;  1,00 ;  3)   tabela exponencial: n para o consumo em (0, 1.000]
+(1000,00 ; 999999 ; 9,15 ; 1)   excedente acima de 1.000 m³
+```
+
+A tabela exponencial pode ter tantas linhas de código 3 quantas a concessionária
+publicar, cada uma com o seu intervalo de consumo e o seu `n`. No **Gestor de Tarifas**, a
+estrutura aparece com o rótulo «Fórmula exponencial», o simulador mostra o cálculo
+`PB × Cⁿ` do consumo escolhido, e o gráfico de cima traz o preço médio `PB × Cⁿ⁻¹` em vez
+dos degraus.
+
+> **O estado da tabela exponencial nesta versão.** A tabela homologada pela AGERGS para a
+> vigência de 2026 não pôde ser transcrita da fonte primária a tempo desta versão. A base
+> grava, por isso, `n = 1` de 0 a 1.000 m³ e marca a tabela como **não conferida**: a conta
+> sai igual a `PB × C + SB`, e o Gestor de Tarifas exibe o aviso. Para usar a tabela
+> vigente, edite as linhas «Expoente n» no Gestor, uma por intervalo de consumo, e aplique
+> ao projeto. A tabela é a mesma para todos os municípios da CORSAN: quando a homologada
+> for transcrita na base, os 34 passam a usá-la de uma vez, e o aviso desaparece.
 
 ---
 

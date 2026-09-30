@@ -1,0 +1,11 @@
+{
+  "prestador": "CORSAN",
+  "formula": "Água = PB × Cⁿ + Serviço Básico; esgoto = percentual do valor da água",
+  "descricao": "PB é o preço-base (R$/m³) de cada município; C, o consumo do mês em m³; n, o expoente desta tabela para o consumo C. A fórmula vale até o teto; acima dele, o excedente é cobrado pelo preço do m³.",
+  "teto_exponencial_m3": 1000.0,
+  "verificada": false,
+  "fonte": "PENDENTE: tabela exponencial da estrutura tarifária CORSAN homologada pela AGERGS (vigência 01/07/2026). O domínio corsan.com.br não estava acessível na apuração; enquanto a tabela homologada não for transcrita aqui, o expoente é 1 e a conta coincide com a aproximação linear PB × C.",
+  "expoentes": [
+    [0.0, 1000.0, 1.0]
+  ]
+}

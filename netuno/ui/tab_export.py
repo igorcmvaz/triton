@@ -669,7 +669,7 @@ class TabExport(QWidget):
                 QMessageBox.warning(self, tr("Aviso"), tr("Não foi possível renderizar a imagem vetorial."))
                 return
 
-            w, h = {"technical_a3": (1200, 850), "plant_3d": (1280, 820)}.get(mode, (950, 650))
+            w, h = {"technical_a3": (1200, 850), "plant_3d": (1300, 920)}.get(mode, (950, 650))
             image = QImage(w, h, QImage.Format_ARGB32)
             image.fill(QColor("white"))
             painter = QPainter(image)
