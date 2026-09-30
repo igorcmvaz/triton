@@ -1,0 +1,108 @@
+{
+  "01_tutorial_florianopolis.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 4000.0,
+    "potencial_pct": 27.3,
+    "pluvial_l_dia": 163.8,
+    "extravasado_l_dia": 349.0,
+    "atendimento_pleno_pct": 97.3,
+    "capitulo": "4.1 a 4.10",
+    "demonstra": "o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L",
+    "projeto": "Manual, tutorial - residencia em Florianopolis",
+    "dias_de_chuva": 10950
+  },
+  "02_tutorial_varredura.netuno": {
+    "modo": "varredura",
+    "volume_ideal_l": 4000.0,
+    "potencial_pct": 27.12,
+    "volumes_simulados": 21,
+    "capitulo": "4.4 e 2.2",
+    "demonstra": "o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L",
+    "projeto": "Manual, tutorial - varredura de volumes",
+    "dias_de_chuva": 10950
+  },
+  "03_dez_dias.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 2000.0,
+    "potencial_pct": 36.0,
+    "pluvial_l_dia": 72.0,
+    "extravasado_l_dia": 412.1,
+    "atendimento_pleno_pct": 90.0,
+    "capitulo": "2.1",
+    "demonstra": "o caso didático de dez dias, que cabe numa planilha",
+    "projeto": "Manual, secao 2.1 - dez dias resolvidos",
+    "dias_de_chuva": 10
+  },
+  "04_reservatorio_superior.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 4000.0,
+    "potencial_pct": 27.3,
+    "pluvial_l_dia": 163.8,
+    "extravasado_l_dia": 349.0,
+    "atendimento_pleno_pct": 97.3,
+    "capitulo": "4.5",
+    "demonstra": "4.000 L embaixo mais 1.000 em cima, a comparação da seção 4.5 contra os 5.000 L de um tanque só",
+    "projeto": "Manual, secao 4.5 - com reservatorio superior",
+    "dias_de_chuva": 10950
+  },
+  "05_manaus.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 4000.0,
+    "potencial_pct": 20.96,
+    "pluvial_l_dia": 125.8,
+    "extravasado_l_dia": 501.0,
+    "atendimento_pleno_pct": 73.9,
+    "capitulo": "3.1",
+    "demonstra": "o projeto do tutorial levado a Manaus, que chove mais e rende menos",
+    "projeto": "Manual, secao 3.1 - o mesmo projeto em Manaus",
+    "dias_de_chuva": 10950
+  },
+  "06_brasilia.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 4000.0,
+    "potencial_pct": 15.45,
+    "pluvial_l_dia": 92.7,
+    "extravasado_l_dia": 300.9,
+    "atendimento_pleno_pct": 54.4,
+    "capitulo": "3.1",
+    "demonstra": "o projeto do tutorial levado a Brasília, de estação seca marcada",
+    "projeto": "Manual, secao 3.1 - o mesmo projeto em Brasília",
+    "dias_de_chuva": 10950
+  },
+  "07_saopaulo.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 4000.0,
+    "potencial_pct": 25.74,
+    "pluvial_l_dia": 154.4,
+    "extravasado_l_dia": 312.6,
+    "atendimento_pleno_pct": 91.3,
+    "capitulo": "3.1",
+    "demonstra": "o projeto do tutorial levado a São Paulo",
+    "projeto": "Manual, secao 3.1 - o mesmo projeto em São Paulo",
+    "dias_de_chuva": 10950
+  },
+  "08_escola_semanal.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 30000.0,
+    "potencial_pct": 34.34,
+    "pluvial_l_dia": 3095.8,
+    "extravasado_l_dia": 1250.4,
+    "atendimento_pleno_pct": 42.0,
+    "capitulo": "3.4 e 3.5",
+    "demonstra": "escola de 300 alunos com demanda modulada por dia da semana",
+    "projeto": "Manual, secao 3.5 - escola com demanda semanal",
+    "dias_de_chuva": 10950
+  },
+  "09_hotel_mensal.netuno": {
+    "modo": "volume fixo",
+    "volume_l": 25000.0,
+    "potencial_pct": 32.11,
+    "pluvial_l_dia": 1854.9,
+    "extravasado_l_dia": 1042.5,
+    "atendimento_pleno_pct": 72.3,
+    "capitulo": "3.4",
+    "demonstra": "hotel de litoral com ocupação mensal em fase com a chuva",
+    "projeto": "Manual, secao 3.4 - hotel com demanda mensal",
+    "dias_de_chuva": 10950
+  }
+}

@@ -1,7 +1,7 @@
 """
 Etapa 1: Configuração do Projeto, Série Climatológica de Chuva & Tarifas (Netuno 5).
 Permite selecionar:
-1. 🇧🇷 Base Climatológica Nacional (652 Cidades - CMIP6 com 19 Modelos GCMs e Cenários Histórico/SSP2-4.5/SSP5-8.5).
+1. 🇧🇷 Base de dados CLIMBra (652 Cidades - CMIP6 com 19 Modelos GCMs e Cenários Histórico/SSP2-4.5/SSP5-8.5).
 2. 📁 Importar Arquivo CSV em formato Netuno (arquivo diário simples).
 Suporta recorte temporal por intervalo de datas e sincronização automática/inteligente com as tarifas municipais auditadas.
 """
@@ -22,11 +22,14 @@ from netuno.core.parser import load_precipitation, parse_float, format_ptbr
 from netuno.core.calculator import IndicesCalculator
 from netuno.core.tariffs_database import get_available_ufs, get_cities_by_uf, get_city_data
 from netuno.core.climate_database import (
-    CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path
+    CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path,
+    RECORTES_SUGERIDOS, ANOS_MINIMOS_RECOMENDADOS,
+    get_available_climate_cities
 )
 from netuno.ui.translation import tr, get_current_theme
 from netuno.ui.date_picker import DatePickerLineEdit
 from netuno.ui.charts import PrcptotAnnualChart, SdiiVsR95pChart, CddCwdAnnualChart, SeasonalPrecipChart
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 
 class ClimateKpiCard(QFrame):
@@ -82,6 +85,32 @@ class TabProject(QWidget):
         self.climate_indices_df = None
         self.init_ui()
         self.clear_climate_cards_and_tables()
+        self._abrir_sem_base_climatica()
+
+    #: Série distribuída com o programa, usada quando a base CLIMBra não está
+    #: instalada (o instalador não a inclui: ela é copiada à parte).
+    SERIE_DE_EXEMPLO = "Florianopolis1.csv"
+
+    def _abrir_sem_base_climatica(self):
+        """Sem a base CLIMBra, abre a série de exemplo em vez de uma Etapa 1 vazia.
+
+        A base das 652 cidades é distribuída separadamente. Sem ela, a janela
+        abria sem chuva nenhuma, e todas as etapas seguintes ficavam sem dados.
+        """
+        if self.precip_data is not None or get_available_climate_cities():
+            return
+        base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        exemplo = os.path.join(base, "data", "rainfall", self.SERIE_DE_EXEMPLO)
+        if not os.path.isfile(exemplo):
+            return
+        self.rb_source_custom.setChecked(True)
+        self.load_rain_file(exemplo)
+        # O aviso vai no painel de arquivo, o que fica visível neste modo.
+        self.lbl_stats.setText(
+            self.lbl_stats.text() + "<br/>ℹ️ "
+            + tr("Base climática CLIMBra não instalada: aberta a série de exemplo de Florianópolis. "
+                 "Carregue a série do seu projeto ou instale a base (pasta climbra_data) para usar as 652 cidades.")
+        )
 
     def clear_climate_cards_and_tables(self):
         self.card_prcptot.set_value("-")
@@ -128,8 +157,8 @@ class TabProject(QWidget):
         layout.addWidget(lbl_title)
 
         lbl_desc = QLabel(tr(
-            "Selecione uma das 652 cidades brasileiras da Base Climatológica Nacional (CMIP6 com modelos GCMs e projeções climáticas) "
-            "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores ETCCDI."
+            "Selecione uma das 652 cidades brasileiras da Base de dados CLIMBra (CMIP6 com modelos GCMs e projeções climáticas) "
+            "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores pluviométricos."
         ))
         lbl_desc.setWordWrap(True)
         lbl_desc.setStyleSheet(f"color: {muted_color}; font-size: 12px; margin-bottom: 2px;")
@@ -145,13 +174,9 @@ class TabProject(QWidget):
         row_modes = QHBoxLayout()
         self.btn_group_source = QButtonGroup(self)
         
-        self.rb_source_national = QRadioButton(tr("🇧🇷 Base Climatológica Nacional (652 Cidades - CMIP6)"))
+        self.rb_source_national = QRadioButton(tr("🇧🇷 Base de dados CLIMBra (652 Cidades - CMIP6)"))
         self.rb_source_national.setStyleSheet("font-weight: bold; font-size: 12px;")
-        from netuno.core.edition import is_int_edition
-        if is_int_edition():
-            self.rb_source_custom.setChecked(True)
-        else:
-            self.rb_source_national.setChecked(True)
+        self.rb_source_national.setChecked(True)
         self.btn_group_source.addButton(self.rb_source_national, 0)
         row_modes.addWidget(self.rb_source_national)
 
@@ -165,7 +190,7 @@ class TabProject(QWidget):
         row_modes.addStretch()
         lay_rain.addLayout(row_modes)
 
-        # ── PAINEL A: BASE CLIMATOLÓGICA NACIONAL ──
+        # ── PAINEL A: BASE DE DADOS CLIMBRA ──
         self.panel_national = QFrame()
         self.panel_national.setStyleSheet(f"QFrame {{ background-color: {card_bg}; border: 1px solid {card_border}; border-radius: 6px; padding: 6px; }}")
         lay_pnat = QVBoxLayout(self.panel_national)
@@ -195,7 +220,7 @@ class TabProject(QWidget):
         self.combo_climate_model.setCurrentText("INM-CM4")
         grid_nat.addWidget(self.combo_climate_model, 1, 1)
 
-        grid_nat.addWidget(QLabel(f"<b>{tr('Cenário & Horizonte:')}</b>"), 1, 2)
+        grid_nat.addWidget(QLabel(f"<b>{tr('Simulação / Cenário:')}</b>"), 1, 2)
         self.combo_climate_scenario = QComboBox()
         for k, sc_data in CLIMATE_SCENARIOS.items():
             self.combo_climate_scenario.addItem(tr(sc_data["label"]), k)
@@ -217,6 +242,15 @@ class TabProject(QWidget):
         self.btn_apply_date_filter.clicked.connect(self.on_apply_date_filter)
         row_end.addWidget(self.btn_apply_date_filter)
         grid_nat.addLayout(row_end, 2, 3)
+
+        # Linha 3: atalhos de recorte. O recorte continua livre nas datas acima.
+        grid_nat.addWidget(QLabel(f"<b>{tr('Atalho de recorte:')}</b>"), 3, 0)
+        self.combo_recorte = QComboBox()
+        self.combo_recorte.setToolTip(tr(
+            "Preenche as datas com um período de trinta anos, a duração das normais "
+            "climatológicas. As datas continuam editáveis."))
+        self.combo_recorte.activated.connect(self.on_recorte_sugerido)
+        grid_nat.addWidget(self.combo_recorte, 3, 1, 1, 3)
 
         lay_pnat.addLayout(grid_nat)
 
@@ -327,7 +361,12 @@ class TabProject(QWidget):
         grid_p.setSpacing(10)
 
         grid_p.addWidget(QLabel(tr("Descarte do Escoamento Inicial (mm):")), 0, 0)
+        # O campo abre vazio e em amarelo, para pedir a lâmina medida na própria
+        # cobertura. Quem não declarar nada recebe a da ABNT NBR 15527:2019 — o
+        # mesmo número do exemplo, e o mesmo que o motor assume.
         self.txt_discard = QLineEdit("")
+        # Texto inteiro, e não concatenado: a tradução é por frase. Um teste
+        # confere que o exemplo é a lâmina da norma.
         self.txt_discard.setPlaceholderText(tr("Ex: 2,0"))
         self.txt_discard.textChanged.connect(self.on_discard_changed)
         grid_p.addWidget(self.txt_discard, 0, 1)
@@ -391,6 +430,7 @@ class TabProject(QWidget):
         # Linha de Resumo Geral
         self.lbl_stats = QLabel(f"{tr('Registros')}: 0 {tr('dias')} | {tr('Precipitação Média Anual')}: - mm | {tr('Máximo Diário')}: - mm")
         self.lbl_stats.setStyleSheet(f"font-weight: bold; color: {heading_color}; padding-left: 2px;")
+        self.lbl_stats.setWordWrap(True)
         lay_prev.addWidget(self.lbl_stats)
 
         # Abas Inferiores: Gráficos, Tabela Anual e Amostra Diária
@@ -463,7 +503,7 @@ class TabProject(QWidget):
             self.table_indices_summary.horizontalScrollBar().setValue
         )
         self.table_indices.horizontalHeader().sectionResized.connect(self._sync_summary_column_widths)
-        self.tab_widget.addTab(w_table_years, tr("📋 Tabela Detalhada Ano a Ano (ETCCDI)"))
+        self.tab_widget.addTab(w_table_years, tr("📋 Tabela Detalhada Ano a Ano"))
 
         # Sub-aba 3: Pré-visualização Diária (First Flush)
         w_daily = QWidget()
@@ -532,6 +572,7 @@ class TabProject(QWidget):
         self.combo_climate_city.currentIndexChanged.connect(self.on_climate_city_changed)
         self.combo_climate_model.currentIndexChanged.connect(self.on_climate_model_changed)
         self.combo_climate_scenario.currentIndexChanged.connect(self.on_climate_scenario_changed)
+        self.populate_recortes()
 
         # Carrega a série inicial
         self.load_active_national_series()
@@ -541,7 +582,19 @@ class TabProject(QWidget):
         prev_blocked = self.combo_climate_city.blockSignals(True)
         self.combo_climate_city.clear()
 
+        # A lista vem da base tarifaria, e quem tem de ter arquivo e a base
+        # CLIMATICA. Ofertar uma cidade sem serie de precipitacao levaria o
+        # usuario a descobrir a falta so ao tentar simular.
         cities = get_cities_by_uf(uf_code)
+        try:
+            com_serie = set(get_available_climate_cities())
+        except Exception:
+            com_serie = set()
+        if com_serie:
+            filtradas = [c for c in cities if c in com_serie]
+            # Se o filtro esvaziar a lista, o problema esta na base climatica e
+            # nao na escolha do usuario: melhor ofertar tudo que nada.
+            cities = filtradas or cities
         for c in cities:
             self.combo_climate_city.addItem(c, c)
 
@@ -595,9 +648,32 @@ class TabProject(QWidget):
         self.txt_start_date.setText(sc_info["start_date"])
         self.txt_start_date.blockSignals(False)
         self.txt_end_date.setText(sc_info.get("end_date", ""))
+        self.populate_recortes()
         self.load_active_national_series()
 
     def on_apply_date_filter(self):
+        self.load_active_national_series()
+
+    def populate_recortes(self):
+        """Atalhos de recorte da simulação escolhida; o primeiro item não altera nada."""
+        sc_key = self.combo_climate_scenario.currentData() or "HIST"
+        self.combo_recorte.blockSignals(True)
+        self.combo_recorte.clear()
+        self.combo_recorte.addItem(tr("Personalizado — datas acima"), None)
+        for rotulo, ini, fim in RECORTES_SUGERIDOS.get(sc_key, []):
+            self.combo_recorte.addItem(tr(rotulo), (ini, fim))
+        self.combo_recorte.setCurrentIndex(0)
+        self.combo_recorte.blockSignals(False)
+
+    def on_recorte_sugerido(self, *_args):
+        periodo = self.combo_recorte.currentData()
+        if not periodo:
+            return
+        ini, fim = periodo
+        self.txt_start_date.blockSignals(True)
+        self.txt_start_date.setText(ini)
+        self.txt_start_date.blockSignals(False)
+        self.txt_end_date.setText(fim)
         self.load_active_national_series()
 
     def load_active_national_series(self):
@@ -630,9 +706,13 @@ class TabProject(QWidget):
             years_sel = sel_days / 365.25 if sel_days > 0 else 1.0
             years_tot = tot_days / 365.25 if tot_days > 0 else 1.0
 
+            aviso = ""
+            if years_sel < ANOS_MINIMOS_RECOMENDADOS:
+                aviso = (f"<br/>⚠️ {tr('Recorte com menos de dez anos: o resultado passa a depender do trecho escolhido. Declare a limitação ou amplie o período.')}")
             self.lbl_date_range_info.setText(
                 f"ℹ️ {tr('Série Completa')}: {years_tot:.0f} {tr('anos')} ({tot_days:,} {tr('dias')}) | "
                 f"{tr('Período Selecionado para Simulação')}: <b>{years_sel:.1f} {tr('anos')} ({sel_days:,} {tr('dias de')} {eff_start} {tr('a')} {eff_end})</b>".replace(',', '.')
+                + aviso
             )
 
             # Sincroniza tarifas automaticamente com a cidade selecionada
@@ -689,11 +769,8 @@ class TabProject(QWidget):
         vigencia = data.get('vigencia_saneamento', '')
         reg_str = f"{agencia} ({vigencia})" if agencia and vigencia else (agencia or vigencia or "--")
 
-        cfg = self._get_config()
-        current_elec = getattr(cfg, 'elec_tariff', e_kwh) if cfg else e_kwh
-
         self.lbl_t_prestador.setText(f"🏢 <b>{tr('Saneamento:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
-        self.lbl_t_elec.setText(f"⚡ <b>{tr('Eletricidade:')}</b> {dist_e} (R$ {current_elec:.4f}/kWh)")
+        self.lbl_t_elec.setText(f"⚡ <b>{tr('Eletricidade (ANEEL B1):')}</b> {dist_e} (R$ {e_kwh:.4f}/kWh)")
         self.lbl_t_reg.setText(f"📋 <b>{tr('Regulação & Vigência:')}</b> {reg_str}")
 
         if self._tariff_is_customized:
@@ -730,7 +807,7 @@ class TabProject(QWidget):
     def get_tariff_location(self) -> tuple:
         return (self.combo_climate_uf.currentData() or "SC", self.combo_climate_city.currentText().strip())
 
-    def set_tariff_location(self, uf_code: str, city_name: str, preserve_custom_tariffs: bool = False):
+    def set_tariff_location(self, uf_code: str, city_name: str):
         self._is_populating = True
         try:
             uf_idx = self.combo_climate_uf.findData(uf_code)
@@ -739,23 +816,13 @@ class TabProject(QWidget):
             self.populate_climate_cities(select_city=city_name)
         finally:
             self._is_populating = False
-
-        if preserve_custom_tariffs:
-            self._tariff_is_customized = True
+        if getattr(self, "rb_source_national", None) and self.rb_source_national.isChecked():
+            if self.precip_data is None:
+                self.load_active_national_series()
+            else:
+                self.update_tariff_location_preview()
         else:
-            data = get_city_data(uf_code, city_name)
-            if data and not self._tariff_is_customized:
-                cfg = self._get_config()
-                cfg.water_tariffs = data.get('faixas', cfg.water_tariffs)
-                cfg.sewage_rate = data.get('esgoto_pct', cfg.sewage_rate)
-                cfg.sewage_mode = 1
-                e_kwh = data.get('energia_r_kwh', 0.0)
-                if e_kwh > 0:
-                    cfg.elec_tariff = e_kwh
-
-        self.update_tariff_location_preview()
-        if self.rb_source_national.isChecked():
-            self.load_active_national_series()
+            self.update_tariff_location_preview()
 
     def _get_config(self):
         main_win = self.window()
@@ -995,16 +1062,23 @@ class TabProject(QWidget):
             except Exception:
                 start_dt = datetime(1980, 1, 1)
 
-        discard_valid = False
-        discard_mm = 0.0
-        try:
-            val_txt = self.txt_discard.text().strip().replace(',', '.')
-            if val_txt and val_txt != "-":
-                discard_mm = float(val_txt)
-                if discard_mm >= 0:
-                    discard_valid = True
-        except ValueError:
-            discard_valid = False
+        # Campo vazio não é lâmina zero: é lâmina não declarada, e aí vale a da
+        # ABNT NBR 15527:2019 — a mesma que o motor assume. Antes esta prévia
+        # mostrava a chuva sem descarte nenhum enquanto a simulação descontava
+        # 2 mm, duas contas diferentes na mesma janela. O campo segue em amarelo
+        # até o usuário declarar a lâmina que mediu.
+        discard_valid = True
+        discard_mm = LAMINA_DE_DESCARTE_PADRAO_MM
+        val_txt = self.txt_discard.text().strip().replace(',', '.')
+        if val_txt and val_txt != "-":
+            try:
+                lida = float(val_txt)
+                if lida >= 0:
+                    discard_mm = lida
+                else:
+                    discard_valid = False
+            except ValueError:
+                discard_valid = False        # texto que não é número
 
         total_days = len(self.precip_data)
         show_count = min(total_days, 100)
@@ -1044,10 +1118,7 @@ class TabProject(QWidget):
             avg_eff_annual = (sum_p - total_discard) / years
             disc_pct = (total_discard / sum_p * 100.0) if sum_p > 0 else 0.0
             self.lbl_stats.setText(
-                f"{tr('Registros')}: {total_days:,} {tr('dias')} ({years:.1f} {tr('anos')}) | "
-                f"{tr('Chuva Bruta')}: {avg_annual:.1f} mm/ano | "
-                f"{tr('Descarte')}: {avg_discard_annual:.1f} mm/ano ({disc_pct:.1f}%) | "
-                f"{tr('Chuva Efetiva')}: {avg_eff_annual:.1f} mm/ano".replace(',', '.')
+                tr('{0}: {1:,} {2} ({3:.1f} {4}) | {5}: {6:.1f} mm/ano | {7}: {8:.1f} mm/ano ({9:.1f}%) | {10}: {11:.1f} mm/ano').format(tr('Registros'), total_days, tr('dias'), years, tr('anos'), tr('Chuva Bruta'), avg_annual, tr('Descarte'), avg_discard_annual, disc_pct, tr('Chuva Efetiva'), avg_eff_annual).replace(',', '.')
             )
         else:
             self.lbl_stats.setText(
@@ -1184,14 +1255,14 @@ class TabProject(QWidget):
 
     def apply_project_state(self, state: dict, config=None):
         state = state or {}
-        mode = state.get("source_mode", getattr(config, 'climate_source_mode', 'national_db'))
-        if mode == "custom":
-            self.rb_source_custom.setChecked(True)
-        else:
+        mode = state.get("source_mode", "custom_file" if self.precip_data is not None else "national_db")
+        if mode == "national_db":
             self.rb_source_national.setChecked(True)
+        else:
+            self.rb_source_custom.setChecked(True)
 
-        uf = state.get("climate_uf", getattr(config, 'tariff_city_uf', getattr(config, 'climate_city_uf', 'SC')))
-        city = state.get("climate_city", getattr(config, 'tariff_city_name', getattr(config, 'climate_city_name', 'Florianópolis')))
+        uf = state.get("climate_uf", getattr(config, 'climate_city_uf', 'SC'))
+        city = state.get("climate_city", getattr(config, 'climate_city_name', 'Florianópolis'))
         model = state.get("climate_model", getattr(config, 'climate_model', 'ACCESS-CM2'))
         scenario = state.get("climate_scenario", getattr(config, 'climate_scenario', 'HIST'))
 
@@ -1228,13 +1299,12 @@ class TabProject(QWidget):
         finally:
             self._is_populating = False
 
-        self.update_tariff_location_preview()
-
         if mode == "national_db":
-            self.load_active_national_series()
+            if self.precip_data is None or state.get("source_mode") == "national_db":
+                self.load_active_national_series()
         else:
             f_path = state.get("file_path", getattr(config, 'precip_file', ''))
-            if f_path and os.path.isfile(f_path) and self.precip_data is None:
+            if f_path and os.path.isfile(f_path):
                 self.load_rain_file(f_path)
 
     def apply_custom_tariffs(self, tariffs_dict: dict):

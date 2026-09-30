@@ -20,11 +20,14 @@ NEAR_DAYS = 10958    # 2015-01-01 a 2044-12-31
 MIDDLE_DAYS = 10957  # 2045-01-01 a 2074-12-31
 FAR_DAYS = 9496      # 2075-01-01 a 2100-12-31 (Total = 31.411 dias)
 
-DEFAULT_INPUT_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "Replicacao_Projected",
-    "Netuno future files for 652 cities"
-)
+_proj_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_INPUT_DIR = os.path.join(_proj_root, "climbra_data")
+if not os.path.isdir(DEFAULT_INPUT_DIR):
+    _legacy_root = os.path.join(_proj_root, "Netuno future files for 652 cities")
+    if os.path.isdir(_legacy_root):
+        DEFAULT_INPUT_DIR = _legacy_root
+    else:
+        DEFAULT_INPUT_DIR = os.path.join(_proj_root, "Replicacao_Projected", "Netuno future files for 652 cities")
 
 DEFAULT_OUTPUT_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -99,13 +102,15 @@ def split_climates_vaz(input_dir=None, output_dir=None, num_workers=None):
     if input_dir is None:
         input_dir = DEFAULT_INPUT_DIR
         if not os.path.exists(input_dir) or len(glob.glob(os.path.join(input_dir, "*.csv"))) == 0:
-            alt_dir = os.path.join(
-                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                "Teste_ArtigoNovo",
-                "Netuno future files for 652 cities"
-            )
-            if os.path.exists(alt_dir):
-                input_dir = alt_dir
+            for alt_name in ["climbra_data", "Netuno future files for 652 cities"]:
+                alt_dir = os.path.join(
+                    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    "Teste_ArtigoNovo",
+                    alt_name
+                )
+                if os.path.exists(alt_dir):
+                    input_dir = alt_dir
+                    break
 
     if output_dir is None:
         output_dir = DEFAULT_OUTPUT_DIR

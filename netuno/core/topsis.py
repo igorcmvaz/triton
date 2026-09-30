@@ -279,3 +279,25 @@ def calculate_topsis_scores(
         criterion_gap_to_best=gap,
         criterion_weights=criterion_weights,
     )
+
+
+#: Pesos dos três grupos (técnico, econômico, ambiental) quando nada se declara:
+#: os da interface, 33,3 / 33,3 / 33,4 %. A linha de comando usava 0,33 / 0,33 /
+#: 0,34, e o escore TOPSIS do mesmo projeto diferia na terceira casa.
+PESOS_PADRAO = (0.333, 0.333, 0.334)
+
+def payback_do_criterio(payback_descontado_anos, vpl_brl) -> "Optional[float]":
+    """Payback descontado que entra no multicritério, ou None.
+
+    Só existe payback de um investimento que se paga: com payback nulo ou
+    ausente (a alternativa sem cisterna) ou com VPL não positivo, o critério
+    recebe None. A interface gravava 0 para a alternativa de 0 L, e 0 é o
+    «melhor» payback possível; o SMAA-VIKOR da interface e o da linha de comando
+    elegiam líderes diferentes para o mesmo projeto por causa disso.
+    """
+    if payback_descontado_anos is None or vpl_brl is None:
+        return None
+    if payback_descontado_anos <= 0 or vpl_brl <= 0:
+        return None
+    return float(payback_descontado_anos)
+

@@ -20,11 +20,13 @@ def test_calculate_esg_certifications():
     assert isinstance(res, EsgConsolidatedReport)
     assert isinstance(res.leed, LeedWaterCredits)
     assert res.leed.indoor_water_points >= 3
-    assert res.leed.total_leed_we_points >= 5
+    # Sem a economia externa calculada, WEc1 não é estimado: só WEc2 pontua.
+    assert res.leed.outdoor_water_points == 0
+    assert res.leed.total_leed_we_points == res.leed.indoor_water_points
     assert isinstance(res.aqua, AquaHqeRating)
-    assert res.aqua.stars >= 2
+    assert res.aqua.performance_level == "HQE (EAU.1.2)"   # 38%: acima de 20, abaixo de 40
     assert isinstance(res.casa_azul, CasaAzulRating)
-    assert res.casa_azul.category in ["Diamante", "Ouro", "Prata"]
+    assert res.casa_azul.criterion_met
     assert res.water_positive_ratio > 0
     assert len(res.esg_summary_text) > 20
 
@@ -38,11 +40,16 @@ def test_esg_simplified_mode():
         project_lifetime_years=20,
         is_simplified_mode=True
     )
-    assert res.indoor_savings_pct > 0.0
-    assert res.outdoor_savings_pct > 0.0
+    # O modo simplificado deixou de inventar a partição 85/15 e os 35%.
+    assert res.indoor_savings_pct == pytest.approx(40.0)
+    assert res.outdoor_savings_pct == 0.0
     assert res.leed.indoor_water_points >= 2
-    assert res.leed.outdoor_water_points >= 1
-    assert len(res.credit_details) == 5
+    assert res.leed.outdoor_water_points == 0
+    assert res.credit_details[0].status.startswith("Não avaliado")
+    # Conta pelo conteúdo, não pelo tamanho: a matriz cresce quando entra uma
+    # certificação nova, e contar linhas quebra o teste sem indicar defeito.
+    codigos = {d.credit_code for d in res.credit_details}
+    assert {"WEc1", "WEc2", "EAU.1.2 / EAU.1.3 / EAU.1.5", "Critério 3.6", "WEM14"} <= codigos
     # Focus field should be populated
     assert any(d.focus for d in res.credit_details)
 
@@ -148,3 +155,116 @@ def test_environmental_tab_opens_with_environmental_optimum(qapp):
     assert cur_selected != 2000.0
 
 
+def test_certificacoes_usam_so_a_economia_total():
+    """AQUA-HQE não sobe de nível por atalho do uso interno."""
+    res = calculate_esg_certifications(
+        potable_savings_pct=12.0,
+        annual_pluvial_consumed_m3=60.0,
+        annual_potable_consumed_m3=440.0,
+        net_co2e_saved_kg_lifetime=500.0,
+        indoor_savings_pct=36.0,
+        outdoor_savings_pct=60.0,
+    )
+    assert res.aqua.performance_level == "Abaixo de EAU.1.2"
+    assert any(i.startswith("EAU.1.5") for i in res.aqua.itens_atendidos)
+
+
+@pytest.mark.parametrize("economia, nivel", [(19.9, "Abaixo de EAU.1.2"), (20.0, "HQE (EAU.1.2)"),
+                                             (39.9, "HQE (EAU.1.2)"), (40.0, "HQE 3 (EAU.1.3)")])
+def test_aqua_segue_os_itens_do_referencial_de_2024(economia, nivel):
+    """Referencial AQUA-HQE Residencial v00 (22/11/2024): EAU.1.2 a 20%, EAU.1.3 a 40%.
+
+    Os perfis «Base, Boas Práticas, Excelente» a 10, 25 e 40% não existem no referencial.
+    """
+    res = calculate_esg_certifications(
+        potable_savings_pct=economia, annual_pluvial_consumed_m3=100.0,
+        annual_potable_consumed_m3=300.0, net_co2e_saved_kg_lifetime=500.0)
+    assert res.aqua.performance_level == nivel
+
+
+@pytest.mark.parametrize("abrangencia, pontos", [(None, 0), ("areas_comuns", 2), ("loteamento", 2),
+                                                 ("unidades", 4), ("unidades_e_areas_comuns", 5)])
+def test_casa_azul_pontua_pela_abrangencia_e_nao_pelo_percentual(abrangencia, pontos):
+    """Guia Casa Azul + CAIXA V023 (29/04/2026), critério 3.6: o indicador é a existência."""
+    for economia in (5.0, 35.0):
+        res = calculate_esg_certifications(
+            potable_savings_pct=economia, annual_pluvial_consumed_m3=50.0,
+            annual_potable_consumed_m3=400.0, net_co2e_saved_kg_lifetime=100.0,
+            casa_azul_abrangencia=abrangencia)
+        assert res.casa_azul.criterion_met
+        assert res.casa_azul.points_awarded == pontos
+    sem_sistema = calculate_esg_certifications(
+        potable_savings_pct=0.0, annual_pluvial_consumed_m3=0.0,
+        annual_potable_consumed_m3=400.0, net_co2e_saved_kg_lifetime=0.0,
+        casa_azul_abrangencia=abrangencia)
+    assert not sem_sistema.casa_azul.criterion_met and sem_sistema.casa_azul.points_awarded == 0
+
+
+@pytest.mark.parametrize("externa, pontos", [(49.9, 0), (50.0, 1), (96.0, 1), (100.0, 2)])
+def test_wec1_segue_os_limiares_do_leed(externa, pontos):
+    res = calculate_esg_certifications(
+        potable_savings_pct=30.0,
+        annual_pluvial_consumed_m3=100.0,
+        annual_potable_consumed_m3=233.0,
+        net_co2e_saved_kg_lifetime=500.0,
+        has_irrigation_demand=True,
+        outdoor_demand_m3=20.0,
+        indoor_savings_pct=30.0,
+        outdoor_savings_pct=externa,
+    )
+    assert res.leed.outdoor_water_points == pontos
+
+
+def test_irrigacao_atendida_sai_do_resultado_do_balanco():
+    from types import SimpleNamespace
+    from netuno.core.esg_certifications import irrigacao_atendida_m3
+    assert irrigacao_atendida_m3(None) is None
+    r = SimpleNamespace(avg_pluvial_irrigation_consumed_l_day=100.0)
+    assert irrigacao_atendida_m3(r) == pytest.approx(36.525)
+
+
+# ── LEED v5 BD+C, conferido contra o Rating System de novembro de 2025 ───────
+
+def _v5(**kw):
+    base = dict(potable_savings_pct=37.5, annual_pluvial_consumed_m3=82.0,
+                annual_potable_consumed_m3=137.0, net_co2e_saved_kg_lifetime=200.0,
+                has_irrigation_demand=False, indoor_savings_pct=37.5)
+    base.update(kw)
+    return calculate_esg_certifications(**base).leed_v5
+
+
+def test_leed_v5_soma_as_opcoes_2_a_6():
+    """37,5% interno dá 2 pontos na Opção 2, e o sistema pluvial 2 na Opção 6."""
+    r = _v5()
+    assert r.opcao2_pts == 2
+    assert r.opcao6_pts == 2
+    assert r.opcao4_pts == 0
+    assert r.total_pts == 4
+    assert r.caminho == "Opções 2 a 6"
+
+
+@pytest.mark.parametrize("pct, pontos", [(29.9, 0), (30.0, 1), (35.0, 2), (40.0, 3), (60.0, 3)])
+def test_leed_v5_opcao_2_faixas(pct, pontos):
+    assert _v5(indoor_savings_pct=pct, potable_savings_pct=pct).opcao2_pts == pontos
+
+
+@pytest.mark.parametrize("pct, pontos", [(30.0, 2), (45.0, 5), (65.0, 8), (80.0, 8)])
+def test_leed_v5_opcao_1_com_fonte_alternativa(pct, pontos):
+    """Tabela 1 do WEc2: 30% vale 1 ponto, e a fonte alternativa acrescenta 1, até 8."""
+    assert _v5(potable_savings_pct=pct, indoor_savings_pct=pct).opcao1_pts == pontos
+
+
+def test_leed_v5_sem_sistema_nao_pontua_a_opcao_6():
+    r = _v5(annual_pluvial_consumed_m3=0.0, potable_savings_pct=0.0, indoor_savings_pct=0.0)
+    assert r.opcao6_pts == 0
+    assert r.total_pts == 0
+
+
+def test_leed_v5_aparece_na_matriz_de_criterios():
+    res = calculate_esg_certifications(
+        potable_savings_pct=37.5, annual_pluvial_consumed_m3=82.0,
+        annual_potable_consumed_m3=137.0, net_co2e_saved_kg_lifetime=200.0,
+        has_irrigation_demand=False, indoor_savings_pct=37.5)
+    pares = {(d.certification, d.credit_code) for d in res.credit_details}
+    assert ("LEED v5 BD+C", "WEc2") in pares
+    assert ("LEED v5 BD+C", "SSc3") in pares

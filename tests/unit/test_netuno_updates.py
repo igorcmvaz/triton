@@ -56,7 +56,7 @@ def test_monthly_precision_payback_discounted():
         sewage_tariff_per_m3=0.0,
         sewage_mode=0,
         water_tariff_escalation_rate=0.0,
-        discount_rate=10.0,  # 10% a.a.
+        discount_rate=0.10,  # 10% a.a., como fração (10.0 é recusado)
         annual_om_cost_base=0.0,
         pump_power_kw=0.0,
         analysis_period_years=10,
@@ -104,13 +104,22 @@ def test_upper_tank_chlorination_uniform_in_environmental_sweep():
     assert cl_masses[0] > 0.0
 
 
-def test_calculate_lca_without_upper_tank_has_no_chlorination():
-    """Valida se sistema sem reservatório superior não possui impacto de cloração."""
-    cfg = EnvironmentalConfig(
-        upper_tank_used=False,
-        chlorine_dose_mg_l=2.0,
-        chlorine_co2_kg_per_kg=25.0
-    )
-    lca = calculate_lca(5000.0, 100.0, cfg)
-    assert lca.annual_chlorine_kg == 0.0
-    assert lca.annual_treatment_co2_kg == 0.0
+def test_a_cloracao_acompanha_o_tratamento_e_nao_a_caixa_superior():
+    """Sem caixa superior, a água pluvial continua sendo clorada.
+
+    Regra da 5.0.0: antes, desmarcar a caixa tirava o cloro do carbono e o
+    deixava no custo. Sem cloro só quando o tratamento está desligado.
+    """
+    com_caixa = calculate_lca(5000.0, 100.0, EnvironmentalConfig(
+        upper_tank_used=True, chlorine_dose_mg_l=2.0, chlorine_co2_kg_per_kg=25.0))
+    sem_caixa = calculate_lca(5000.0, 100.0, EnvironmentalConfig(
+        upper_tank_used=False, chlorine_dose_mg_l=2.0, chlorine_co2_kg_per_kg=25.0))
+    assert sem_caixa.annual_chlorine_kg > 0.0
+    assert sem_caixa.annual_chlorine_kg == pytest.approx(com_caixa.annual_chlorine_kg)
+
+    cfg = EnvironmentalConfig(upper_tank_used=False, etap_enabled=False,
+                              chlorine_dose_mg_l=2.0, chlorine_co2_kg_per_kg=25.0)
+    cfg.chlorine_treatment_enabled = False   # lido por getattr; não é campo declarado
+    sem_tratamento = calculate_lca(5000.0, 100.0, cfg)
+    assert sem_tratamento.annual_chlorine_kg == 0.0
+    assert sem_tratamento.annual_treatment_co2_kg == 0.0

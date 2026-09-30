@@ -211,13 +211,13 @@ class TabChartsNetuno(QWidget):
                 is_tech_only = getattr(main_win.tab_tanks_simulation, "_is_technical_only", False)
 
             self.val_pot.setText(f"{format_ptbr(res.potential_potable_savings_pct, 2)} %")
-            self.val_vol_annual.setText(f"{format_ptbr(res.annual_pluvial_consumed_m3, 1)} m\u00b3/ano")
-            self.val_fin_annual.setText("--" if is_tech_only else f"{sym} {format_ptbr(est_fin, 2)}/ano")
-            self.val_days_full.setText(f"{num_full} dias ({format_ptbr(res.pct_days_full_satisfaction, 1)}%)")
-            self.val_days_part.setText(f"{num_part} dias ({format_ptbr(res.pct_days_partial_satisfaction, 1)}%)")
-            self.val_days_null.setText(f"{num_null} dias ({format_ptbr(res.pct_days_null_satisfaction, 1)}%)")
-            self.val_spill.setText(f"{format_ptbr(res.total_overflow_liters / 1000.0, 1)} m\u00b3/ano")
-            self.val_daily_demand.setText(f"{format_ptbr(tot_demand * share, 0)} L/dia")
+            self.val_vol_annual.setText(tr('{0} m³/ano').format(format_ptbr(res.annual_pluvial_consumed_m3, 1)))
+            self.val_fin_annual.setText("--" if is_tech_only else tr("{0} {1}/ano").format(sym, format_ptbr(est_fin, 2)))
+            self.val_days_full.setText(tr('{0} dias ({1}%)').format(num_full, format_ptbr(res.pct_days_full_satisfaction, 1)))
+            self.val_days_part.setText(tr('{0} dias ({1}%)').format(num_part, format_ptbr(res.pct_days_partial_satisfaction, 1)))
+            self.val_days_null.setText(tr('{0} dias ({1}%)').format(num_null, format_ptbr(res.pct_days_null_satisfaction, 1)))
+            self.val_spill.setText(tr('{0} m³/ano').format(format_ptbr(res.total_overflow_liters / 1000.0, 1)))
+            self.val_daily_demand.setText(tr('{0} L/dia').format(format_ptbr(tot_demand * share, 0)))
             self.val_opt_vol.setText(f"{format_ptbr(opt_v, 0)} L" if opt_v else "--")
 
             # KPIs da motobomba
@@ -253,21 +253,21 @@ class TabChartsNetuno(QWidget):
             else:
                 energy_kwh = 0.0; energy_cost = 0.0
 
-            self.val_pump_thresh.setText(f"{format_ptbr(pump_thresh_pct, 1)}% ({format_ptbr(pump_thresh_vol, 0)} L)" if upper_used else "Sem Res. Sup.")
+            self.val_pump_thresh.setText(f"{format_ptbr(pump_thresh_pct, 1)}% ({format_ptbr(pump_thresh_vol, 0)} L)" if upper_used else tr("Sem Res. Sup."))
             self.val_pump_power.setText(f"{format_ptbr(cfg_power_cv, 2)} CV ({format_ptbr(cfg_kw, 3)} kW)")
-            self.val_pump_cycles.setText(f"{format_ptbr(annual_cycles, 0)} partidas/ano")
-            self.val_pump_energy.setText(f"{format_ptbr(energy_kwh, 1)} kWh/ano")
-            self.val_pump_cost.setText(f"{sym} {format_ptbr(energy_cost, 2)}/ano")
-            self.val_pumped_vol.setText(f"{format_ptbr(annual_pumped_m3, 1)} m\u00b3/ano")
+            self.val_pump_cycles.setText(tr('{0} partidas/ano').format(format_ptbr(annual_cycles, 0)))
+            self.val_pump_energy.setText(tr('{0} kWh/ano').format(format_ptbr(energy_kwh, 1)))
+            self.val_pump_cost.setText(tr('{0} {1}/ano').format(sym, format_ptbr(energy_cost, 2)))
+            self.val_pumped_vol.setText(tr('{0} m³/ano').format(format_ptbr(annual_pumped_m3, 1)))
             self.val_pump_batch.setText(f"{format_ptbr(res.average_pumped_liters_per_cycle, 1)} L/partida")
 
             # KPIs discretizados e irrigação
-            self.val_pot_indoor.setText(f"{format_ptbr(res.annual_potable_consumed_m3, 1)} m\u00b3/ano")
-            self.val_pluv_indoor.setText(f"{format_ptbr(res.annual_pluvial_indoor_consumed_m3, 1)} m\u00b3/ano")
-            self.val_pluv_irr.setText(f"{format_ptbr(res.annual_pluvial_irrigation_consumed_m3, 1)} m\u00b3/ano")
-            self.val_irr_supp_vol.setText(f"{format_ptbr(res.annual_irrigation_volume_suppressed_m3, 1)} m\u00b3/ano")
-            self.val_irr_supp_days.setText(f"{res.total_irrigation_days_suppressed} dias/ano")
-            self.val_irr_active_days.setText(f"{res.total_irrigation_days_active} dias/ano")
+            self.val_pot_indoor.setText(tr('{0} m³/ano').format(format_ptbr(res.annual_potable_consumed_m3, 1)))
+            self.val_pluv_indoor.setText(tr('{0} m³/ano').format(format_ptbr(res.annual_pluvial_indoor_consumed_m3, 1)))
+            self.val_pluv_irr.setText(tr('{0} m³/ano').format(format_ptbr(res.annual_pluvial_irrigation_consumed_m3, 1)))
+            self.val_irr_supp_vol.setText(tr('{0} m³/ano').format(format_ptbr(res.annual_irrigation_volume_suppressed_m3, 1)))
+            self.val_irr_supp_days.setText(tr('{0} dias/ano').format(res.total_irrigation_days_suppressed))
+            self.val_irr_active_days.setText(tr('{0} dias/ano').format(res.total_irrigation_days_active))
 
         # Atualiza diagrama hidraulico
         main_win = self.window()

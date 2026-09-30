@@ -11,6 +11,8 @@ import time
 
 import numpy as np
 
+# Caminho relativo ao proprio script. O caminho absoluto anterior apontava
+# para a pasta da versao e quebrava a cada renomeacao.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from netuno.core import simulation  # noqa: E402
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation  # noqa: E402

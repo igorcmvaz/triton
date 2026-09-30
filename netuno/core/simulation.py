@@ -1,9 +1,11 @@
 import math
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.fracao_atendivel import validar_fracao
 
 @dataclass
 class SimulationDayResult:
@@ -54,6 +56,11 @@ class SingleTankSimulationResult:
     avg_pluvial_indoor_consumed_l_day: float = 0.0
     avg_pluvial_irrigation_consumed_l_day: float = 0.0
     avg_irrigation_suppressed_l_day: float = 0.0
+    # Demanda que nao foi atendida por ninguem: acontece quando o suprimento
+    # de reserva da irrigacao esta desligado e a cisterna nao da conta. Sem
+    # este campo o balanco nao fecha as claras, porque a demanda total deixa
+    # de ser a soma do pluvial com o potavel.
+    avg_unmet_demand_l_day: float = 0.0
     total_irrigation_days_suppressed: int = 0
     total_irrigation_days_active: int = 0
 
@@ -256,14 +263,23 @@ def build_detailed_daily_demand_vectors(
     tot_in_arr = np.zeros(n_days, dtype=np.float64)
     sh_in_arr = np.zeros(n_days, dtype=np.float64)
 
-    base_sh = (rainwater_share / 100.0) if rainwater_share > 1.0 else rainwater_share
-    base_sh = max(0.0, min(1.0, float(base_sh)))
+    # Fração de 0 a 1, e só fração: um 40 aqui é recusado, e não dividido por cem.
+    # A fração que multiplica a demanda interna é a interna. Quando o projeto a
+    # declara, ela vale em todos os modos, inclusive como reserva dos vetores
+    # semanal, mensal e diário; a fração total (``share``) inclui a demanda
+    # externa e aplicá-la ao consumo interno contaria a externa duas vezes.
+    # Sem a interna, a fração recebida é interna por definição (sem demanda
+    # externa, as duas coincidem). Ver netuno/core/fracao_atendivel.py.
+    if non_pot_indoor_share is not None:
+        base_sh = validar_fracao("A fração não potável interna", non_pot_indoor_share)
+    else:
+        base_sh = validar_fracao("A fração atendível", rainwater_share)
 
     if demand_mode == "weekly" and weekly_demands and len(weekly_demands) >= 7:
         w_d = [float(v) if v is not None and float(v) > 0 else float(demand_value) for v in weekly_demands[:7]]
         w_r = [float(v) if v is not None and float(v) > 0 else float(residents_count) for v in (weekly_residents[:7] if weekly_residents and len(weekly_residents) >= 7 else [residents_count]*7)]
         w_s_raw = weekly_shares[:7] if weekly_shares and len(weekly_shares) >= 7 else [base_sh]*7
-        w_s = [(float(v)/100.0 if float(v) > 1.0 else float(v)) if v is not None and float(v) >= 0 else base_sh for v in w_s_raw]
+        w_s = [validar_fracao("A fração semanal", v) if v is not None and float(v) >= 0 else base_sh for v in w_s_raw]
         for i in range(n_days):
             cur_dt = start_dt + timedelta(days=i)
             w_idx = cur_dt.weekday()
@@ -273,7 +289,7 @@ def build_detailed_daily_demand_vectors(
         m_d = [float(v) if v is not None and float(v) > 0 else float(demand_value) for v in monthly_demands[:12]]
         m_r = [float(v) if v is not None and float(v) > 0 else float(residents_count) for v in (monthly_residents[:12] if monthly_residents and len(monthly_residents) >= 12 else [residents_count]*12)]
         m_s_raw = monthly_shares[:12] if monthly_shares and len(monthly_shares) >= 12 else [base_sh]*12
-        m_s = [(float(v)/100.0 if float(v) > 1.0 else float(v)) if v is not None and float(v) >= 0 else base_sh for v in m_s_raw]
+        m_s = [validar_fracao("A fração mensal", v) if v is not None and float(v) >= 0 else base_sh for v in m_s_raw]
         for i in range(n_days):
             cur_dt = start_dt + timedelta(days=i)
             m_idx = cur_dt.month - 1
@@ -287,7 +303,7 @@ def build_detailed_daily_demand_vectors(
             d_val = float(daily_demands[i % len_d])
             r_val = float(daily_residents[i % len_r]) if len_r > 0 else float(residents_count)
             s_raw = float(daily_shares[i % len_s]) if len_s > 0 else base_sh
-            s_val = (s_raw / 100.0) if s_raw > 1.0 else s_raw
+            s_val = validar_fracao("A fração diária", s_raw)
             tot_in_arr[i] = max(0.0, d_val * r_val)
             sh_in_arr[i] = max(0.0, min(1.0, s_val))
     else:
@@ -295,16 +311,7 @@ def build_detailed_daily_demand_vectors(
         sh_in_arr[:] = base_sh
 
     # Determinação das frações internas
-    if demand_mode in ("weekly", "monthly", "daily"):
-        non_pot_in_arr = tot_in_arr * sh_in_arr
-    elif non_pot_indoor_share is not None:
-        np_sh = float(non_pot_indoor_share)
-        if np_sh > 1.0:
-            np_sh /= 100.0
-        np_sh = max(0.0, min(1.0, np_sh))
-        non_pot_in_arr = tot_in_arr * np_sh
-    else:
-        non_pot_in_arr = tot_in_arr * sh_in_arr
+    non_pot_in_arr = tot_in_arr * sh_in_arr
 
     pot_in_arr = np.maximum(0.0, tot_in_arr - non_pot_in_arr)
 
@@ -382,7 +389,7 @@ except ImportError:
 if HAS_NUMBA:
     @numba.njit(fastmath=True)
     def _numba_sim_single(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, non_pot_in_arr, irr_arr
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, non_pot_in_arr, irr_arr, pot_in_arr, irr_backup
     ):
         n_days = len(precip_data)
         v_lower = 0.0
@@ -394,6 +401,7 @@ if HAS_NUMBA:
         # sistemático, pois Σ min(aᵢ,bᵢ) ≤ min(Σaᵢ, Σbᵢ).
         total_pluvial_indoor = 0.0
         total_pluvial_irrigation = 0.0
+        total_unmet = 0.0
 
         days_full = 0
         days_partial = 0
@@ -435,7 +443,25 @@ if HAS_NUMBA:
             v_c = min(pluvial_demand_per_day, v_in_tank)
             v_lower = v_in_tank - v_c
 
-            potable_used = tot_demand_day - v_c
+            # A reparticao precisa vir ANTES do potavel: o deficit de irrigacao
+            # so vira consumo de rede se o suprimento de reserva estiver ligado.
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+            deficit_in = non_pot_in_arr[i] - c_pluv_in
+            if deficit_in < 0.0:
+                deficit_in = 0.0
+            deficit_irr = irr_arr[i] - c_pluv_irr
+            if deficit_irr < 0.0:
+                deficit_irr = 0.0
+            if irr_backup:
+                potable_used = pot_in_arr[i] + deficit_in + deficit_irr
+                unmet_today = 0.0
+            else:
+                potable_used = pot_in_arr[i] + deficit_in
+                unmet_today = deficit_irr
             if v_c >= pluvial_demand_per_day - 1e-5:
                 days_full += 1
             elif v_c > 1e-5:
@@ -443,24 +469,19 @@ if HAS_NUMBA:
             else:
                 days_null += 1
 
-            c_pluv_in = min(v_c, non_pot_in_arr[i])
-            residual = v_c - c_pluv_in
-            if residual < 0.0:
-                residual = 0.0
-            c_pluv_irr = min(residual, irr_arr[i])
-
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
             total_spilled += v_spill_today
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
+            total_unmet += unmet_today
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
 
 
     @numba.njit(fastmath=True)
     def _numba_sim_dual(
-        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold, non_pot_in_arr, irr_arr
+        precip_data, lower_tank_vol, area, runoff_coeff, discard_mm, discard_mode, discard_days_interval, tot_demands_arr, pluvial_demands_arr, upper_tank_vol, pumping_threshold, non_pot_in_arr, irr_arr, pot_in_arr, irr_backup
     ):
         n_days = len(precip_data)
         v_lower = 0.0
@@ -474,6 +495,7 @@ if HAS_NUMBA:
         # Ver a nota em _numba_sim_single: a repartição é acumulada dia a dia.
         total_pluvial_indoor = 0.0
         total_pluvial_irrigation = 0.0
+        total_unmet = 0.0
 
         days_full = 0
         days_partial = 0
@@ -548,19 +570,31 @@ if HAS_NUMBA:
                     else:
                         break
 
-            potable_used = tot_demand_day - v_c
+            # A reparticao precisa vir ANTES do potavel: o deficit de irrigacao
+            # so vira consumo de rede se o suprimento de reserva estiver ligado.
+            c_pluv_in = min(v_c, non_pot_in_arr[i])
+            residual = v_c - c_pluv_in
+            if residual < 0.0:
+                residual = 0.0
+            c_pluv_irr = min(residual, irr_arr[i])
+            deficit_in = non_pot_in_arr[i] - c_pluv_in
+            if deficit_in < 0.0:
+                deficit_in = 0.0
+            deficit_irr = irr_arr[i] - c_pluv_irr
+            if deficit_irr < 0.0:
+                deficit_irr = 0.0
+            if irr_backup:
+                potable_used = pot_in_arr[i] + deficit_in + deficit_irr
+                unmet_today = 0.0
+            else:
+                potable_used = pot_in_arr[i] + deficit_in
+                unmet_today = deficit_irr
             if v_c >= pluvial_demand_per_day - 1e-5:
                 days_full += 1
             elif v_c > 1e-5:
                 days_partial += 1
             else:
                 days_null += 1
-
-            c_pluv_in = min(v_c, non_pot_in_arr[i])
-            residual = v_c - c_pluv_in
-            if residual < 0.0:
-                residual = 0.0
-            c_pluv_irr = min(residual, irr_arr[i])
 
             total_pluvial_consumed += v_c
             total_potable_consumed += potable_used
@@ -569,16 +603,144 @@ if HAS_NUMBA:
             total_pump_cycles += cycles_today
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
+            total_unmet += unmet_today
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
+
+
+def validar_parametros_fisicos(
+    lower_tank_vol: float,
+    area: float,
+    runoff_coeff: float,
+    discard_mm: float,
+    total_demand_per_day: float,
+    rainwater_share: float,
+    upper_tank_vol: float = 0.0,
+    discard_mode: int = 1,
+    discard_days_interval: int = 7,
+    pumping_threshold: float = 0.0,
+) -> None:
+    """Rejeita entrada fisicamente impossivel, antes de simular.
+
+    Antes desta revisao area negativa, coeficiente negativo e volume negativo
+    passavam sem erro e produziam potencial de economia NEGATIVO - de -166% no
+    caso do volume. Um percentual assim nao significa nada e atravessa o
+    programa inteiro: vira economia de agua no economico, emissao evitada na
+    ACV e numero no relatorio.
+
+    Nao se cala o valor: area negativa e erro de digitacao, e quem digitou
+    precisa ver. Levanta-se `ValueError` nomeando o campo.
+
+    Volume ZERO e valido: e a referencia "sem sistema" da varredura.
+    """
+    # NaN e infinito atravessam todas as comparacoes abaixo sem disparar
+    # nenhuma, porque `nan < 0` e falso. Area NaN produzia 40% de economia com
+    # 100% de dias plenos: um numero plausivel, e falso. Barra-se antes de tudo.
+    for nome, valor in (
+        ("volume do reservatorio inferior", lower_tank_vol),
+        ("volume do reservatorio superior", upper_tank_vol),
+        ("area de captacao", area),
+        ("coeficiente de escoamento", runoff_coeff),
+        ("lamina de descarte", discard_mm),
+        ("demanda diaria", total_demand_per_day),
+        ("fracao atendivel", rainwater_share),
+        ("nivel de acionamento da motobomba", pumping_threshold),
+    ):
+        if not math.isfinite(float(valor)):
+            raise ValueError(f"{nome.capitalize()} nao e um numero finito ({valor!r}).")
+    if lower_tank_vol < 0:
+        raise ValueError(
+            f"Volume do reservatorio inferior negativo ({lower_tank_vol:g} L). "
+            "Zero e valido e representa o cenario sem sistema; negativo, nao."
+        )
+    if upper_tank_vol < 0:
+        raise ValueError(f"Volume do reservatorio superior negativo ({upper_tank_vol:g} L).")
+    if area < 0:
+        raise ValueError(f"Area de captacao negativa ({area:g} m2).")
+    if not 0.0 <= runoff_coeff <= 1.0:
+        raise ValueError(
+            f"Coeficiente de escoamento fora de [0, 1]: {runoff_coeff:g}. "
+            "Acima de 1 a cobertura entregaria mais agua do que a chuva traz; "
+            "abaixo de 0, captacao negativa. Telhados usuais ficam entre 0,80 e 0,95."
+        )
+    if discard_mm < 0:
+        raise ValueError(
+            f"Lamina de descarte negativa ({discard_mm:g} mm): o descarte retira "
+            "agua da captacao, nao acrescenta."
+        )
+    if total_demand_per_day < 0:
+        raise ValueError(f"Demanda diaria negativa ({total_demand_per_day:g} L/dia).")
+    if not 0.0 <= rainwater_share <= 1.0:
+        raise ValueError(
+            f"Fracao atendivel por agua pluvial fora de [0, 1]: {rainwater_share:g}. "
+            "Informe 0,4 para 40%, nao 40."
+        )
+    # Um modo desconhecido nao descartava nada, sem aviso: o descarte some da
+    # conta e o potencial sobe. So existem os modos 1, 2 e 3.
+    if int(discard_mode) not in (1, 2, 3):
+        raise ValueError(
+            f"Modo de descarte desconhecido ({discard_mode}). Use 1 (todos os "
+            "eventos), 2 (primeiro evento apos estiagem) ou 3 (a cada X dias); "
+            "para nao descartar, informe lamina zero."
+        )
+    if int(discard_mode) == 3 and int(discard_days_interval) < 1:
+        raise ValueError(
+            f"Intervalo de descarte invalido ({discard_days_interval} dias): o "
+            "modo 3 exige intervalo de pelo menos 1 dia."
+        )
+    if pumping_threshold < 0:
+        raise ValueError(
+            f"Nivel de acionamento da motobomba negativo ({pumping_threshold:g} L)."
+        )
+
+
+def validar_serie_precipitacao(precip_data) -> None:
+    """Rejeita serie vazia, com falha de registro ou com chuva negativa.
+
+    O motor nao tem como distinguir um dia seco de um dia sem registro, e nao
+    deve adivinhar. Ate esta revisao:
+
+    - a serie vazia chegava ao fim do laco e quebrava com ZeroDivisionError,
+      longe da causa;
+    - um valor NaN tornava o nivel do reservatorio NaN para sempre, e todo dia
+      seguinte contava como pleno, porque min(demanda, nan) devolve a demanda;
+      o resultado era um potencial plausivel e falso;
+    - o sentinela -999, comum em series do INMET e da ANA, entrava como chuva
+      negativa e produzia consumo pluvial negativo e potencial de -4.179%.
+
+    Levanta `ValueError` dizendo quantos dias e onde esta o primeiro.
+    """
+    serie = np.asarray(precip_data, dtype=np.float64)
+    if serie.ndim != 1 or serie.size == 0:
+        raise ValueError(
+            "A serie de precipitacao esta vazia. Confira se o arquivo tem uma "
+            "coluna de valores diarios, um por linha."
+        )
+    finitos = np.isfinite(serie)
+    if not finitos.all():
+        falhas = np.flatnonzero(~finitos)
+        raise ValueError(
+            f"A serie de precipitacao tem {falhas.size} dia(s) sem valor numerico, "
+            f"o primeiro no dia {int(falhas[0]) + 1}. Falha de registro nao pode "
+            "ser simulada como dia seco sem que isso seja declarado: preencha as "
+            "falhas ou recorte a serie."
+        )
+    negativos = np.flatnonzero(serie < 0.0)
+    if negativos.size:
+        i = int(negativos[0])
+        raise ValueError(
+            f"A serie de precipitacao tem {negativos.size} valor(es) negativo(s), "
+            f"o primeiro de {serie[i]:g} mm no dia {i + 1}. Valores como -999 "
+            "costumam marcar falha de registro, e nao chuva."
+        )
 
 
 def run_single_simulation(
     precip_data: np.ndarray,
     lower_tank_vol: float,
     area: float = 100.0,
-    runoff_coeff: float = 0.9,
-    discard_mm: float = 1.0,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
     discard_mode: int = 1,  # 1 = Todos os eventos, 2 = 1º evento pós estiagem (1 dia sem chuva), 3 = A cada X dias
     discard_days_interval: int = 7,  # Intervalo de dias para o modo 3
     total_demand_per_day: float = 300.0,  # 100 L/capita * 3 residents = 300 L/day
@@ -601,12 +763,29 @@ def run_single_simulation(
     building_config: Optional[dict] = None,
     tot_demands_arr: Optional[np.ndarray] = None,
     pluvial_demands_arr: Optional[np.ndarray] = None,
+    demand_detail: Optional[Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = None,
 ) -> SingleTankSimulationResult:
     """
     Executes daily water balance simulation for a specific lower tank volume.
     Replicates Netuno 4.0 exact daily water balance equations.
     Supports constant, weekly, monthly and full daily modulated demand series.
     """
+    # Entrada fisicamente impossivel produz resultado sem sentido que atravessa
+    # o programa inteiro sem erro. Barra-se aqui, nomeando o campo.
+    validar_parametros_fisicos(
+        lower_tank_vol=float(lower_tank_vol),
+        area=float(area),
+        runoff_coeff=float(runoff_coeff),
+        discard_mm=float(discard_mm),
+        total_demand_per_day=float(total_demand_per_day),
+        rainwater_share=float(rainwater_share),
+        upper_tank_vol=float(upper_tank_vol),
+        discard_mode=discard_mode,
+        discard_days_interval=discard_days_interval,
+        pumping_threshold=float(pumping_threshold),
+    )
+    validar_serie_precipitacao(precip_data)
+
     n_days = len(precip_data)
     pumping_threshold = max(0.0, min(float(pumping_threshold), max(0.0, float(upper_tank_vol))))
 
@@ -630,6 +809,13 @@ def run_single_simulation(
             building_config=building_config,
             precip_data=precip_data,
         )
+    elif demand_detail is not None:
+        # A varredura calcula os vetores uma vez e os repassa inteiros. Antes ela
+        # repassava so o total e o pluvial, e cada volume da varredura perdia a
+        # reparticao entre uso interno e irrigacao e a regra do suprimento de
+        # reserva: com a reserva desligada, a varredura comprava da rede a
+        # irrigacao que a simulacao unica deixava sem atender.
+        pot_in_arr, non_pot_in_arr, irr_arr, irr_suppressed_mask = demand_detail
     else:
         pot_in_arr = None
         non_pot_in_arr = None
@@ -653,24 +839,38 @@ def run_single_simulation(
             np_in_arr = pl_arr
             ir_arr = np.zeros(len(p_arr), dtype=np.float64)
 
+        # A bandeira do suprimento de reserva atravessa ate o kernel: sem ela,
+        # desligar a reserva nao mudava um litro no resumo.
+        irr_backup = bool(building_config.get("irrigation_potable_backup", True)) \
+            if building_config else True
+        if pot_in_arr is not None:
+            pt_arr = np.ascontiguousarray(pot_in_arr, dtype=np.float64)
+        else:
+            pt_arr = np.ascontiguousarray(
+                np.maximum(0.0, t_arr - pl_arr), dtype=np.float64)
+
         if not upper_tank_used or upper_tank_vol <= 0:
             res_tup = _numba_sim_single(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, np_in_arr, ir_arr
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, np_in_arr, ir_arr, pt_arr, irr_backup
             )
         else:
             res_tup = _numba_sim_dual(
-                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr
+                p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr, pt_arr, irr_backup
             )
 
-        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation = res_tup
+        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation, tot_unmet = res_tup
         total_demand_period = float(np.sum(tot_demands_arr))
         potential_savings_pct = (tot_pluv / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
+        # O potavel vem do acumulador, e nao da diferenca: com o suprimento de
+        # reserva desligado, a irrigacao nao atendida nao e comprada da rede.
+        avg_potable_kernel = tot_pot / len(p_arr)
+        avg_unmet_kernel = tot_unmet / len(p_arr)
         
         days_supp = int(np.sum(irr_suppressed_mask)) if irr_suppressed_mask is not None else 0
         irr_vol_nominal = float(building_config.get("irrigation_liters_per_day", 0.0)) if building_config else 0.0
         vol_supp = days_supp * irr_vol_nominal
 
-        # Valores exatos, acumulados dia a dia dentro do kernel. Anteriormente
+        # Valores exatos, acumulados dia a dia dentro do kernel. Antes desta revisão
         # estes eram estimados a partir dos totais anuais, o que superestimava o uso
         # interno e subestimava a irrigação em até 26%.
         pluv_in_est = pluv_indoor
@@ -680,7 +880,7 @@ def run_single_simulation(
             lower_tank_vol=lower_tank_vol,
             potential_potable_savings_pct=potential_savings_pct,
             avg_pluvial_consumed_l_day=tot_pluv / n_days,
-            avg_potable_consumed_l_day=(total_demand_period - tot_pluv) / n_days,
+            avg_potable_consumed_l_day=avg_potable_kernel,
             avg_spilled_l_day=tot_spill / n_days,
             pct_days_full_satisfaction=(d_full / n_days) * 100.0,
             pct_days_partial_satisfaction=(d_part / n_days) * 100.0,
@@ -695,6 +895,7 @@ def run_single_simulation(
             avg_irrigation_suppressed_l_day=vol_supp / n_days,
             total_irrigation_days_suppressed=days_supp,
             total_irrigation_days_active=n_days - days_supp,
+            avg_unmet_demand_l_day=avg_unmet_kernel,
         )
 
     # State variables (Pure Python fallback and detailed daily results)
@@ -705,6 +906,7 @@ def run_single_simulation(
     total_pluvial_indoor_consumed = 0.0
     total_pluvial_irrigation_consumed = 0.0
     total_potable_consumed = 0.0
+    total_unmet_demand = 0.0
     total_spilled = 0.0
     total_pumped = 0.0
     total_pump_cycles = 0
@@ -828,6 +1030,9 @@ def run_single_simulation(
         deficit_in = max(0.0, non_pot_in_day - c_pluv_in)
         deficit_irr = max(0.0, irr_day - c_pluv_irr) if irr_backup_enabled else 0.0
         potable_used = pot_in_day + deficit_in + deficit_irr
+        # Sem suprimento de reserva, o deficit de irrigacao nao e comprado da
+        # rede: fica como demanda nao atendida, e o balanco precisa mostra-la.
+        unmet_today = 0.0 if irr_backup_enabled else max(0.0, irr_day - c_pluv_irr)
         
         # Satisfaction metric
         if v_c >= pluvial_demand_per_day - 1e-5:
@@ -842,6 +1047,7 @@ def run_single_simulation(
             
         total_pluvial_consumed += v_c
         total_potable_consumed += potable_used
+        total_unmet_demand += unmet_today
         total_spilled += v_spill_today
         total_pumped += v_rec_today
         total_pump_cycles += cycles_today
@@ -873,7 +1079,11 @@ def run_single_simulation(
     potential_savings_pct = (total_pluvial_consumed / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
     
     avg_pluvial = total_pluvial_consumed / n_days
-    avg_potable = (total_demand_period - total_pluvial_consumed) / n_days
+    # Vem do acumulador dia a dia, que respeita o suprimento de reserva. Ate a
+    # revisao era recalculado por diferenca, o que atribuia ao potavel toda
+    # a demanda nao atendida pela chuva - inclusive a irrigacao que a regra manda
+    # nao fazer. Com a reserva ligada, que e o padrao, as duas formulas coincidem.
+    avg_potable = total_potable_consumed / n_days
     avg_spilled = total_spilled / n_days
     
     pct_full = (days_full / n_days) * 100.0
@@ -899,6 +1109,7 @@ def run_single_simulation(
         avg_irrigation_suppressed_l_day=vol_irr_suppressed / n_days,
         total_irrigation_days_suppressed=days_irr_suppressed,
         total_irrigation_days_active=n_days - days_irr_suppressed,
+        avg_unmet_demand_l_day=total_unmet_demand / n_days,
     )
 
 
@@ -907,8 +1118,8 @@ def run_sweep_simulation(
     lower_tank_max: float = 10000.0,
     lower_tank_step: float = 250.0,
     area: float = 100.0,
-    runoff_coeff: float = 0.9,
-    discard_mm: float = 1.0,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
     discard_mode: int = 1,
     discard_days_interval: int = 7,
     total_demand_per_day: float = 300.0,
@@ -939,8 +1150,10 @@ def run_sweep_simulation(
     grid = build_sweep_volume_grid(lower_tank_max, lower_tank_step)
     vols = grid.volumes_l
         
+    validar_serie_precipitacao(precip_data)
     n_days = len(precip_data)
-    tot_demands_arr, pluvial_demands_arr = build_daily_demand_vectors(
+    (tot_demands_arr, pluvial_demands_arr, pot_in_arr, non_pot_in_arr,
+     irr_arr, irr_suppressed_mask) = build_detailed_daily_demand_vectors(
         n_days=n_days,
         start_date_str=start_date_str,
         demand_mode=demand_mode,
@@ -991,6 +1204,8 @@ def run_sweep_simulation(
             building_config=building_config,
             tot_demands_arr=tot_demands_arr,
             pluvial_demands_arr=pluvial_demands_arr,
+            demand_detail=(pot_in_arr, non_pot_in_arr, irr_arr,
+                           irr_suppressed_mask),
         )
         results.append(res)
         

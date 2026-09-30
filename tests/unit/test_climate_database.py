@@ -1,5 +1,5 @@
 """
-Testes unitários para a Base Climatológica Nacional (climate_database.py).
+Testes unitários para a Base de dados CLIMBra (climate_database.py).
 Valida indexação, busca de cidades, leitura de 19 modelos CMIP6, cenários e recorte de datas.
 """
 
@@ -100,3 +100,32 @@ def test_nonexistent_city_raises():
     """Valida que município inexistente gera FileNotFoundError informativo."""
     with pytest.raises(FileNotFoundError):
         load_national_climate_series("CidadeInexistenteXYZ123")
+
+
+def test_climbra_db_integration():
+    """Valida integração e leitura direta da base compilada climbra.db."""
+    from netuno.core.climate_database import get_climate_db_path, get_available_climate_cities
+    import os
+
+    db_path = get_climate_db_path()
+    assert db_path is not None
+    assert os.path.isfile(db_path)
+    assert os.path.getsize(db_path) > 100 * 1024 * 1024  # Maior que 100 MB
+
+    cities = get_available_climate_cities()
+    assert len(cities) == 652
+    assert "São Paulo" in cities or "Sao Paulo" in cities or any("Paulo" in c for c in cities)
+
+    # Leitura de teste e integridade
+    p_data, s_date, e_date, tot, sel, fpath = load_national_climate_series(
+        city_name="Florianópolis",
+        model_name="INM-CM4",
+        scenario_key="SSP245",
+    )
+    assert len(p_data) == 31411
+    assert tot == 31411
+    assert sel == 31411
+    assert s_date == "01/01/2015"
+    assert e_date == "31/12/2100"
+    assert np.all(p_data >= 0.0)
+

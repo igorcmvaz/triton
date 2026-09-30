@@ -16,6 +16,8 @@ from typing import Dict, Any, List, Optional, Tuple
 from .aneel_updater import AneelTariffUpdater
 from .sanitation_scrapers import SanitationScraperRegistry
 
+from netuno.core.tariff_regimes import validar_estrutura
+
 
 class TariffUpdateEngine:
     """Orquestrador do processo completo de atualização e auditoria tarifária."""
@@ -140,6 +142,46 @@ class TariffUpdateEngine:
             else:
                 updated_city["status_global"] = "AUTO_OR_VERIFIED"
                 stats["overall_auto_or_verified"] += 1
+
+            # PORTA DE VALIDACAO ESTRUTURAL
+            #
+            # O motor raspa fontes das concessionarias, e antes desta revisao gravava o
+            # que raspasse sem conferir a ESTRUTURA. Isso reintroduzia, a cada
+            # rodada, os defeitos que esta revisao corrigiu: minimo diluido em
+            # tarifa unitaria, tabela truncada, lacuna entre faixas. Automatico e
+            # periodico, e portanto pior que o defeito original.
+            #
+            # A porta nao derruba a rodada: conserva o registro ANTERIOR do
+            # municipio cuja estrutura nova tem erro e o manda para revisao
+            # manual. Uma pagina que mudou de layout nao pode nem derrubar a base
+            # nem entrar nela em silencio.
+            erros_estrutura = [
+                a for a in validar_estrutura(updated_city) if a.gravidade == "erro"
+            ]
+            if erros_estrutura:
+                anterior = cities_dict.get(key)
+                motivo = "; ".join(a.mensagem for a in erros_estrutura)
+                stats["structure_rejected"] = stats.get("structure_rejected", 0) + 1
+                manual_reviews.append({
+                    "uf": uf,
+                    "municipio": muni,
+                    "prestador": updated_city.get("prestador_saneamento"),
+                    "distribuidora": updated_city.get("distribuidora_energia"),
+                    "motivo_saneamento": f"estrutura tarifária rejeitada: {motivo}",
+                    "fonte_url": updated_city.get("fonte_url"),
+                })
+                if anterior is not None:
+                    anterior = dict(anterior)
+                    anterior["status_global"] = "MANUAL_REVIEW_NEEDED"
+                    anterior["_estrutura_rejeitada_em"] = dt.date.today().isoformat()
+                    anterior["_estrutura_rejeitada_motivo"] = motivo
+                    cities_dict[key] = anterior
+                    results.append(anterior)
+                    continue
+                # Sem registro anterior, o municipio entra marcado.
+                updated_city["status_global"] = "MANUAL_REVIEW_NEEDED"
+                updated_city["estrutura_incompleta"] = True
+                updated_city["_ressalva_estrutura"] = motivo
 
             # Atualiza no dicionário mestre
             cities_dict[key] = updated_city

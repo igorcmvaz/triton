@@ -5,15 +5,17 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
 
-O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa Gestão do Espaço Sustentável da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
+*English: [README.en.md](README.en.md) — resumo em inglês, com a documentação técnica em [`docs/en/`](docs/en/).*
+
+O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
 
 ---
 
 ## 🌟 Principais Recursos e Inovações Metodológicas
 
 1. **Balanço Hídrico Diário de Alta Precisão (Yield-After-Spill - YAS):**
-   - Simulação contínua com descarte inicial de primeira chuva (*first flush*) configurável (fixo ou por período de estiagem).
-   - Suporte a demandas não potáveis constantes ou moduladas (sazonalidade mensal, semanal e horária).
+   - Simulação contínua com descarte inicial de primeira chuva (*first flush*) em três modos: em todos os eventos, no primeiro evento após estiagem ou a cada intervalo de dias.
+   - Suporte a demandas não potáveis constantes ou moduladas (modulação semanal, mensal ou por série diária).
    - Varredura paramétrica de volumes de reservatório inferior e superior com motobomba.
 
 2. **Base Tarifária Nacional Auditada de 652 Municípios:**
@@ -32,18 +34,26 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 
 5. **Tomada de Decisão Multicritério Integrada:**
    - **🏆 TOPSIS:** Ordenação por proximidade relativa às soluções ideais sob perfis de pesos declarados (Equilibrado, Econômico, Ambiental, Técnico ou Customizado).
-   - **🎲 SMAA-VIKOR (Padrão Cryspin):** Análise de aceitabilidade estocástica via simulações Monte Carlo (1.000 a 50.000 simulações) no simplex uniforme de pesos, calculando índices de aceitabilidade de 1º lugar ($b_i^1$), fatores de confiança e vetor central de pesos ($w_i^c$).
+   - **🎲 SMAA-VIKOR:** Análise de aceitabilidade estocástica via simulações Monte Carlo (1.000 a 50.000 simulações) no simplex uniforme de pesos, calculando índices de aceitabilidade de 1º lugar ($b_i^1$), fatores de confiança e vetor central de pesos ($w_i^c$). Implementação independente sobre NumPy, seguindo o desenho de [`crispyn`](https://github.com/energyinpython/crispyn) (A. Bączkiewicz, MIT) e as formulações de Lahdelma & Salminen (2001) e Opricovic & Tzeng (2004).
 
 6. **Enquadramento em Certificações Sustentáveis & Critérios ESG:**
-   - **🌱 LEED v4 / v4.1 (BD+C & O+M):** Até 8 pontos diretos na Categoria Eficiência Hídrica (WEc1 Uso Externo: 0 a 2 pts; WEc2 Uso Interno: 1 a 6 pts para reduções de 20% a 45%+).
+   - **🌱 LEED v4 / v4.1 (BD+C & O+M):** Até 8 pontos diretos na Categoria Eficiência Hídrica (WEc1 Uso Externo: 0 a 2 pts; WEc2 Uso Interno: 1 a 6 pts para reduções de 25% a 50%, com pré-requisito de 20%). Registro de projetos aberto até 30/06/2027.
+   - **🌱 LEED v5 BD+C (novembro de 2025):** WEc2 *Enhanced Water Efficiency* até 8 pontos, pela Opção 1 (redução do uso de água do projeto inteiro, de 30% a 65%) ou pela soma das Opções 2 a 6, incluindo a Opção 6 de reúso no lote (2 pts), além do ponto de reúso do SSc3.
+   - **🏗️ EDGE (IFC / Banco Mundial):** Barra de água pela medida WEM14, comparada ao caso-base local.
    - **💧 Processo AQUA-HQE (Fundação Vanzolini):** Avaliação de desempenho na Categoria 4 (Gestão da Água) com enquadramento em Nível Base (≥ 10%), Boas Práticas (≥ 25%) ou Excelente (≥ 40%).
    - **🏠 Selo Casa Azul CAIXA:** Pontuação e elegibilidade direta no Critério 2.1 (Conservação de Recursos Hídricos) nas graduações Prata (+2 pts), Ouro (+3 pts) e Diamante (+5 pts), com bonificação em financiamentos habitacionais.
    - **📊 GRI Standard 303 & Water Positive Index:** Quantificação auditável de captação evitada de água tratada (GRI 303-3) e circularidade hídrica no empreendimento (GRI 303-5).
+
+7. **Planta 3D, Esquema e Volumetria da Tubulação:**
+   - Trechos organizados pelo projetista na ordem de montagem, a partir de pontos de conexão dos componentes (`RS-01:topo`, `RS-01:fundo`, laterais superior e inferior).
+   - Conferência do destino de cada trecho, declividade mínima dos sistemas por gravidade (ABNT NBR 10844) e recusa de tubos que ocupam o mesmo espaço.
+   - Planta 3D em DXF, esquema 3D com as medidas reais, volumetria girável no programa e exportação em glTF (`.glb`) e HTML interativo, além do manifesto BIM lido pelo Revit ([`integrations/revit`](integrations/revit/README.md)).
 
 ---
 
 ## 📚 Documentação e Artigos Técnicos
 
+- [Manual do usuário (PDF)](manual/Manual-Netuno-5.pdf)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
 - [Relatório de Verificação e Validação](docs/verificacao_e_validacao.md)
 - [Fluxogramas Metodológicos](netuno/docs/fluxogramas_metodologicos.md)
@@ -68,46 +78,43 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 ## 📂 Estrutura do Repositório
 
 ```text
-Netuno 5.0.0/
-├── netuno/                     # Pacote Python Principal (Core Engine & Desktop UI)
-│   ├── core/                   # Motores de cálculo (hidrologia, economia, ACV, MCDM, tarifas, edições)
-│   ├── ui/                     # Interface gráfica desktop PySide6 (abas, gráficos, diálogos)
-│   ├── data/                   # Bases de dados embutidas (tarifas municipais, custos SINAPI)
-│   ├── docs/                   # Documentação técnica e fluxogramas metodológicos
-│   └── cli.py                  # Interface de linha de comando (CLI)
-├── Netuno future files for 652 cities/  # Base climática CMIP6 (histórico + SSP245/SSP585) — exigida pelo motor
-├── data/                       # Arquivos de dados, séries pluviométricas e dicionários
-├── templates/                  # Modelos de projetos (.netuno) e planilhas de entrada
-├── icons/                      # Identidade visual e ícones oficiais da aplicação
-├── scripts/                    # Scripts de auditoria, estudos de caso e processamento em lote
-├── tests/                      # Suíte de testes automatizados (unitários, integração e UI)
-├── infos_licenses/             # Licenças, documentação legal e scripts Inno Setup
-├── pyproject.toml              # Metadados e configuração de empacotamento padrão PEP 517/621
+netuno/
+├── netuno/                     # Pacote Python: motor de cálculo, interface e linha de comando
+│   ├── core/                   # Hidrologia, economia, ACV, decisão multicritério, tarifas, unidades
+│   ├── ui/                     # Interface desktop PySide6 (abas, gráficos, diálogos, traduções)
+│   ├── data/                   # Bases embutidas: tarifas, custos, fatores de emissão, rotas de água
+│   ├── docs/                   # Relatórios de validação e fluxogramas distribuídos com o programa
+│   └── cli.py                  # Interface de linha de comando
+├── tests/                      # Suíte automatizada: unit, integration, invariants, ui, benchmarking
+├── manual/                     # Fonte do manual: partes/, apendices/, casos/, figuras/ e geradores
+│                               #   (Manual-Netuno-5.md e .pdf são gerados e não são versionados)
+├── docs/                       # Documentação técnica: metodologia, verificação, procedência dos fatores
+├── examples/                   # Estudos de caso e projetos de exemplo (.netuno)
+├── templates/                  # Modelos de projeto e planilhas de entrada
+├── data/                       # Séries pluviométricas e planilhas de referência do Netuno 4
+├── tarifas/                    # Base tarifária auditada das 652 cidades
+├── scripts/                    # Auditoria, estudos em lote e geração de artigos (não vão ao instalador)
+├── integrations/               # Integração com Revit
+├── additional_material/        # Biblioteca CAD/BIM e documentos de referência
+├── icons/                      # Ícones da aplicação
+├── infos_licenses/             # Licença, textos do instalador e README distribuído
+├── .github/workflows/          # Integração contínua: núcleo com e sem numba, replicação do Netuno 4
+├── pyproject.toml              # Metadados do pacote (PEP 621); o estado de lançamento é declarado aqui
 ├── requirements.txt            # Dependências de produção
 ├── requirements-dev.txt        # Dependências de desenvolvimento e testes
-├── build_exe.py                # Script utilitário de compilação multiedição (PyInstaller + Inno Setup)
-├── build_exe_brl.py            # Compilação dedicada da Edição Brasil (Netuno_5_BRL)
-├── build_exe_int.py            # Compilação dedicada da Edição Internacional (Netuno_5_INT)
-├── setup_script.iss            # Script de compilação do Instalador Inno Setup 6
-├── main.py                     # Ponto de entrada com seleção de edição (--edition brl|int)
-├── main_brl.py                 # Ponto de entrada direto da Edição Brasil
-├── main_int.py                 # Ponto de entrada direto da Edição Internacional
-└── README.md                   # Documentação principal
+├── build_exe.py                # Compilação do executável (PyInstaller) e do instalador
+├── Netuno.spec                 # Especificação do PyInstaller
+├── setup_script.iss            # Script do instalador Inno Setup 6
+├── CITATION.cff                # Como citar o programa
+└── main.py                     # Ponto de entrada da aplicação desktop
 ```
 
----
-
-## 🌎 Edições do Software (BRL & INT)
-
-O Netuno 5 está organizado em duas edições compiladas a partir de uma base de código unificada:
-
-| Característica | 🇧🇷 Netuno 5 BRL (Brasil) | 🌐 Netuno 5 INT (Internacional) |
-| :--- | :--- | :--- |
-| **Idioma Padrão** | Português (`pt_BR`) | Inglês (`en_US`) |
-| **Entrada de Chuva** | Base Climatológica Nacional CLIMBra (652 cidades) ativa por padrão | Entrada de Arquivo Personalizado ativa por padrão |
-| **Tarifas e Custos** | Catálogo auditado de 652 municípios e regras de concessionárias (CAESB, CASAN, SABESP, etc.) | Tarifas e custos de triagem flexíveis e editáveis diretamente |
-| **Moeda Padrão** | Real (`R$`) | Dólar (`$`) ou configurável |
-| **Normas / Referências** | ABNT NBR 5626, NBR 15527, ANA e ANEEL B1 | Padrões internacionais ISO, EN e EPA |
+Fora do controle de versão, por tamanho ou por serem regeneráveis: a base climática
+CMIP6 — os CSV brutos (`climbra_data/`, ~6,5 GB) e o banco compilado `data/climbra.db`
+(~784 MB, gerado por `scripts/compilar_base_climbra.py` e embutido no executável da Edição
+Brasil pelo `build_exe.py`) —, as saídas de
+simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de referência),
+`tmp/`, os laudos gerados em `reports/` (exceto `reports/exemplos/`), o manual montado e o PDF.
 
 ---
 
@@ -120,7 +127,7 @@ O Netuno 5 está organizado em duas edições compiladas a partir de uma base de
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash
 # Acesse a pasta raiz do programa
-cd Netuno5_0_0
+cd netuno
 
 # Instale o pacote e suas dependências
 pip install -e .
@@ -130,15 +137,13 @@ pip install -r requirements-dev.txt
 ```
 
 ### 2. Executando a Versão Desktop
-
 ```bash
-# Executar a Edição Brasil:
-python main_brl.py
-# ou: python main.py --edition brl
+# Via script principal (Edição Brasil):
+python main.py
 
-# Executar a Edição Internacional:
-python main_int.py
-# ou: python main.py --edition int
+# Edição Brasil ou Internacional explicitamente:
+python main_brl.py          # ou: python main.py --edition brl
+python main_int.py          # ou: python main.py --edition int
 
 # Ou via comando registrado no PATH:
 netuno-gui
@@ -153,32 +158,39 @@ python -m netuno.cli --help
 netuno --help
 ```
 
+> **Nota sobre a versão Web:** a interface web experimental (FastAPI + React, com o Chromium
+> como interface) foi **descontinuada**. O Netuno é exclusivamente desktop.
+
 ---
 
 ## 📦 Compilação do Executável Windows (.exe e Instalador)
 
-O compilador [`build_exe.py`](build_exe.py) automatiza a compilação das duas edições:
+O script [`build_exe.py`](build_exe.py) automatiza a compilação do executável standalone e do instalador oficial:
 
 ```bash
-# Compilar a Edição Brasil (Netuno_5_BRL.exe em dist/Netuno_5_BRL/):
-python build_exe_brl.py
-# ou: python build_exe.py --edition brl
+# Compilação padrão (pasta standalone em dist/Netuno/):
+python build_exe.py
 
-# Compilar a Edição Internacional (Netuno_5_INT.exe em dist/Netuno_5_INT/):
-python build_exe_int.py
-# ou: python build_exe.py --edition int
-
-# Compilar ambas as edições em uma única execução:
-python build_exe.py --edition both --clean
-
-# Compilação com executável único:
-python build_exe.py --edition both --clean --onefile
+# Compilação limpa com executável único:
+python build_exe.py --clean --onefile
 
 # Compilação com geração automática do instalador Inno Setup (.exe):
-python build_exe.py --edition brl --clean --installer
+python build_exe.py --clean --installer
+
+# Edição Internacional (dist/Netuno_INT/) ou as duas edições:
+python build_exe.py --edition int
+python build_exe.py --edition both --clean
 ```
 
-O instalador compilado será gerado em `dist/Netuno_Setup_5_0_0.exe`.
+O instalador compilado será gerado em `dist/Netuno_Setup_5_0_0.exe`, a partir da Edição
+Brasil em `dist/Netuno/`. As duas edições partem do mesmo código e, nesta versão, se
+distinguem pelo executável, pelo título da janela e pela base CLIMBra, que só a Brasil leva; idioma, moeda e fonte de chuva são
+escolhidos na própria interface. A compilação exige Python 3.12 ou superior.
+
+A Edição Brasil sai com a base CLIMBra compilada embutida (`data/climbra.db`, 652 cidades):
+o `build_exe.py` a compila a partir de `climbra_data/` se o banco faltar e interrompe se
+não houver nenhum dos dois, em vez de gerar um instalador sem a base. Detalhes em
+[`docs/instalador.md`](docs/instalador.md).
 
 ---
 
@@ -188,15 +200,15 @@ Para executar a suíte de testes unitários, testes de interface e validações 
 
 ```bash
 # Executar todos os testes:
-python -m pytest
+pytest
 
 # Executar testes específicos com cobertura detalhada:
-python -m pytest tests/unit/ tests/ui/ -v
+pytest tests/unit/test_mcdm_methods.py tests/ui/ -v
 ```
 
 ---
 
 ## 📄 Licença e Créditos
 
-Desenvolvido pelo **Grupo de Pesquisa Gestão do Espaço Sustentável** — Universidade Federal de Santa Catarina (UFSC).  
+Desenvolvido pelo **Grupo de Pesquisa em Ambientes Sustentáveis** — Universidade Federal de Santa Catarina (UFSC).  
 Distribuído sob a **GNU General Public License v3.0 ou posterior**. Consulte o arquivo [`LICENSE`](LICENSE) para o texto integral.

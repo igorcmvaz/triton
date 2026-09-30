@@ -25,6 +25,5 @@ data/rainfall/**                        -text
 
 # Estatísticas de linguagem do GitHub: não contar dados nem legado como código.
 data/**            linguist-generated
-LegadoWeb/**       linguist-vendored
 additional_material/** linguist-documentation
 docs/**            linguist-documentation

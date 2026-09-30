@@ -206,3 +206,28 @@ def test_monthly_potable_use_tracks_each_days_variable_demand():
     assert result.daily_results[0].potable_consumed_liters == pytest.approx(100.0)
     assert result.daily_results[30].potable_consumed_liters == pytest.approx(100.0)
     assert result.daily_results[31].potable_consumed_liters == pytest.approx(200.0)
+
+
+def test_suggested_sweep_residential_sizing(qapp):
+    """Garante que para residência simples o volume máximo é >= 8.000L e o passo sugerido é 500L."""
+    pytest.importorskip("PySide6", reason="abre a aba de reservatórios, que exige a interface gráfica")
+    from netuno.ui.tab_tanks_simulation import TabTanksSimulation
+
+    tab = TabTanksSimulation()
+    # Edificação residencial padrão: 4 pessoas, 200 L/dia, 40% não potável (320 L/dia), telhado 100m²
+    building = {
+        "area": 100.0,
+        "demand": 200.0,
+        "residents": 4.0,
+        "runoff": 0.8,
+        "share": 0.4,
+    }
+    res = tab._calculate_suggested_sweep(building, sdii_mm_day=10.0)
+
+    # Volume máximo deve ser de pelo menos o dobro de 3.750L (ou seja, >= 7.500L / 8.000L)
+    assert res["sweep_max_l"] >= 8000.0
+    # Passo adaptativo deve ser de 500L para essa faixa
+    assert res["sweep_step_l"] == 500.0
+    # Quantidade de simulações positiva deve ser moderada (entre 15 e 40)
+    assert 15 <= res["positive_volume_count"] <= 40
+

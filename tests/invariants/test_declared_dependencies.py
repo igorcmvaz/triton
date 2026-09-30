@@ -3,7 +3,7 @@ Invariante de empacotamento: tudo que o pacote importa deve estar declarado.
 
 Motivação
 ---------
-A versão 5.0.0 foi auditada e três dependências de terceiros eram importadas sem
+Uma auditoria encontrou três dependências de terceiros importadas sem
 constar de `pyproject.toml`: `requests` e `beautifulsoup4` (atualizador tarifário) e
 `pyarrow` (exportação parquet da CLI em lote). Uma instalação limpa via
 `pip install -e .` funcionava até o usuário tocar nesses caminhos, e então falhava

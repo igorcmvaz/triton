@@ -1,4 +1,13 @@
 import os
+import re
+from netuno.core.supply_arrangement import arranjo_de
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
+from netuno.core.pump_hydraulics import ALTURA_MANOMETRICA_PADRAO_M
+from netuno.core.chlorination import (
+    DOSE_PADRAO_MG_POR_LITRO,
+    FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
+    PUREZA_PADRAO,
+)
 import csv
 import hashlib
 import socket
@@ -95,22 +104,32 @@ def load_precipitation(file_path: str) -> np.ndarray:
     if not target_path:
         raise FileNotFoundError(f"Could not find precipitation file: {file_path} (or {base_name})")
             
-    precip = []
+    import math
+
+    # Falha de registro vira NaN, e nao 0 mm. Antes, linha vazia ou texto no
+    # meio da serie viravam dia seco em silencio, o que subestima a chuva sem
+    # aviso; e um cabecalho como "Data;Precipitacao" encerrava a leitura na
+    # primeira linha e devolvia serie vazia. Agora o cabecalho e pulado, a falha
+    # e preservada, e a simulacao recusa NaN e valor negativo dizendo onde estao.
+    nan = float("nan")
+    lidos = []  # (valor, linha_tinha_conteudo)
+    iniciou = False
     with open(target_path, 'r', encoding='utf-8', errors='ignore') as f:
         for line in f:
             line_str = line.strip()
-            if not line_str:
-                precip.append(0.0)
-                continue
-            # If line contains text or config header, stop reading rainfall
-            if ';' in line_str or 'Descarte' in line_str or 'Data' in line_str or 'Área' in line_str or 'Demanda' in line_str:
-                break
-            try:
-                val = parse_float(line_str)
-                precip.append(val)
-            except Exception:
-                precip.append(0.0)
-    return np.array(precip, dtype=np.float64)
+            valor = parse_float(line_str, nan) if line_str else nan
+            if not iniciou:
+                if math.isnan(valor):
+                    continue  # cabecalho ou linhas vazias antes dos dados
+                iniciou = True
+            elif (';' in line_str or 'Descarte' in line_str or 'Data' in line_str
+                  or 'Área' in line_str or 'Demanda' in line_str):
+                break  # bloco de configuracao do Netuno 4, depois dos dados
+            lidos.append((valor, bool(line_str)))
+    # Linhas vazias no fim do arquivo sao formatacao, e nao falha de registro.
+    while lidos and math.isnan(lidos[-1][0]) and not lidos[-1][1]:
+        lidos.pop()
+    return np.array([v for v, _ in lidos], dtype=np.float64)
 
 
 
@@ -122,7 +141,7 @@ class NetunoConfig:
     created_at: str = field(default_factory=lambda: datetime.now().strftime("%d/%m/%Y %H:%M"))
 
     precip_file: str = ""
-    climate_source_mode: str = "national_db"  # "national_db" ou "custom_file"
+    climate_source_mode: str = "national_db"  # "national_db" (base nacional) ou "custom_file" (arquivo próprio)
     climate_city_uf: str = "SC"
     climate_city_name: str = "Florianópolis"
     climate_model: str = "INM-CM4"
@@ -131,16 +150,15 @@ class NetunoConfig:
     climate_end_date: str = "31/12/2013"
     tariff_customized: bool = False
 
-    discard: float = 1.0  # mm
+    discard: float = LAMINA_DE_DESCARTE_PADRAO_MM  # mm
     discard_mode: int = 1  # 1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias
     discard_days_interval: int = 7  # intervalo para modo 3
     start_date: str = "01/01/1980"
-    area: float = 100.0  # m2
-    
+    area: float = 100.0  # m²
     # Total water demand mode: 0 = fixed total demand per capita or total
     demand_type: int = 0
     demand_mode: str = "constant"  # "constant", "weekly", "monthly", "daily"
-    demand_value: float = 200.0  # liters/day per capita or total
+    demand_value: float = 200.0  # L/dia, por habitante ou total
     demand_monthly: List[float] = field(default_factory=list)
     
     # Resident count mode: 0 = fixed number of residents
@@ -150,15 +168,15 @@ class NetunoConfig:
     num_economias: int = 1  # Número de economias / apartamentos com micromedição individual
     
     # Discretização dos Usos da Água (Potável Interno, Não-Potável Interno e Irrigação Condicional)
-    potable_indoor_share: float = 0.65  # Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
-    non_potable_indoor_share: float = 0.35  # Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
-    irrigation_liters_per_day: float = 50.0  # Volume diário fixo de irrigação/usos externos (L/dia)
+    potable_indoor_share: float = 0.60  # Fração potável do consumo interno; 1 − non_potable_indoor_share
+    non_potable_indoor_share: float = 0.40  # Fração não potável do consumo interno (bacias, máquina); ver fracao_atendivel
+    irrigation_liters_per_day: float = 0.0  # Demanda externa (rega, lavagem de áreas externas), L/dia
     irrigation_rain_threshold_mm: float = 2.0  # Limiar diário de precipitação para supressão da irrigação (mm/dia)
     irrigation_potable_backup: bool = True  # Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
     irrigation_garden_area_m2: float = 0.0  # Área de jardim em m² para o assistente de dimensionamento
     irrigation_rate_l_m2_day: float = 3.0  # Taxa diária de rega (L/m²/dia)
     
-    rainwater_share: float = 0.4  # fraction 0..1 (e.g. 0.4 = 40%)
+    rainwater_share: float = 0.4  # fração de 0 a 1 (0,4 = 40%)
     
     # Weekly modulation (7 days: Mon to Sun)
     weekly_demands: List[float] = field(default_factory=list)
@@ -173,20 +191,37 @@ class NetunoConfig:
     daily_residents: List[float] = field(default_factory=list)
     daily_shares: List[float] = field(default_factory=list)
     
-    runoff_coeff: float = 0.75  # runoff coefficient C (0..1)
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO  # ver hydrology_defaults
     
     # Upper Reservoir
-    upper_tank_vol: float = 500.0  # liters
-    upper_tank_used: int = 1  # 0 = not used, 1 = used (default used in system)
-    pumping_threshold: float = 50.0  # liters (recalque trigger level)
+    upper_tank_vol: float = 500.0  # L
+    upper_tank_used: int = 1  # 0 = sem caixa superior, 1 = com caixa superior
+    pumping_threshold: float = 50.0  # L, nível de acionamento do recalque
+
+    # Como a água chega aos pontos de uso: "recalque", "pressurizacao" ou
+    # "gravidade". Vazio num arquivo antigo: deduzido de upper_tank_used, em
+    # netuno/core/supply_arrangement.py.
+    supply_arrangement: str = ""
+    # Pressurização direta: pressão de trabalho (m.c.a.) e acionamentos por
+    # pessoa por dia. Padrões e fontes em supply_arrangement.py.
+    pressurizer_pressure_m: float = 18.0
+    pressurizer_starts_per_person_day: float = 5.05
+    # Modelo do pressurizador (netuno/core/pressurizer_catalog.py) e vazão do
+    # ponto de uso, que limita a vazão efetiva. Em «personalizado», valem a
+    # potência de placa, a vazão na pressão de trabalho e o retardo digitados.
+    pressurizer_model: str = "komeco_tp820t"
+    pressurizer_point_flow_l_min: float = 9.0
+    pressurizer_power_kw: float = 0.18
+    pressurizer_flow_l_min: float = 13.3
+    pressurizer_post_run_s: float = 0.0
     
     # Lower Reservoir
-    lower_tank_max: float = 10000.0  # liters
-    lower_tank_step: float = 250.0  # liters
-    lower_tank_mode: int = 1  # 0 = fixed volume, 1 = sweep range
-    lower_tank_fixed: float = 2000.0  # if fixed mode
+    lower_tank_max: float = 10000.0  # L
+    lower_tank_step: float = 250.0  # L
+    lower_tank_mode: int = 1  # 0 = volume fixo, 1 = varredura
+    lower_tank_fixed: float = 2000.0  # usado no modo de volume fixo
     
-    delta_ideal: float = 5.0  # %/m3 threshold for optimal tank size
+    delta_ideal: float = 5.0  # limiar de ganho marginal para o volume ideal, em %/m³
 
     # Economic Parameters
     econ_lower_tank_vol: float = 2000.0
@@ -205,17 +240,22 @@ class NetunoConfig:
     tariff_city_name: str = "Florianópolis"
     elec_city_uf: str = "SC"
     elec_city_name: str = "Florianópolis"
-    sewage_rate: float = 100.0  # % of water bill or fixed R$
-    sewage_mode: int = 1  # 0 = fixed R$, 1 = % of water bill
+    # Percentual da TARIFA DE ÁGUA quando sewage_mode == 1, ou valor fixo em R$
+    # quando sewage_mode == 0. O denominador é a parcela de água, não a fatura:
+    # a CASAN cobra 100%, o que faz o esgoto igualar a água e responder por
+    # metade da fatura total. Confundir os dois denominadores dobra ou divide
+    # pela metade a conta de esgoto.
+    sewage_rate: float = 100.0
+    sewage_mode: int = 1  # 0 = valor fixo em R$, 1 = percentual da parcela de água
     water_tax_fixed: float = 0.0  # R$
     water_tax_var: float = 0.0  # %
-    inflation: float = 0.2  # % monthly
-    tariff_escalation: float = 12.0  # months period
-    water_tariff_escalation: float = 5.0  # % escalation per period (annual)
-    sewage_tariff_escalation: float = 5.0  # % escalation per period (annual)
-    elec_tariff_escalation: float = 5.0  # % escalation per period (annual)
-    analysis_period_years: int = 20  # years
-    tma: float = 2.0  # % monthly discount rate
+    inflation: float = 0.2  # % ao mês; inflação dos custos de O&M
+    tariff_escalation: float = 12.0  # meses; comprimento do período de reajuste
+    water_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
+    sewage_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
+    elec_tariff_escalation: float = 5.0  # % por período de reajuste; com 12 meses, % ao ano
+    analysis_period_years: int = 20  # anos
+    tma: float = 2.0  # % ao mês; taxa mínima de atratividade
     install_month: int = 0
     
     # Materials & Components Selection
@@ -224,20 +264,40 @@ class NetunoConfig:
     
     # Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL
     iptu_green_enabled: bool = False
+    # Caso-base de consumo do aplicativo EDGE, em L/pessoa*dia. Zero significa
+    # nao declarado: entao vale a demanda modelada do projeto, com ressalva.
+    edge_base_case_l_person_day: float = 0.0
     iptu_annual_value: float = 4000.0       # Valor venal do IPTU anual da edificação (R$/ano)
     iptu_discount_pct: float = 5.0          # Desconto municipal do IPTU Verde (%)
     tariff_flag: str = "verde"              # "verde", "amarela", "vermelha_1", "vermelha_2", "branca"
+
+    # Tipologia da edificação, escolhida na Etapa 2.
+    #
+    # Ficava presa num dicionário local da aba de edificação: a demanda que ela
+    # define atravessava o programa, mas a tipologia em si não. Sem ela nenhum
+    # módulo sabe que tipo de edificação está sendo estudada, e o econômico não
+    # tem como perceber que cobra tarifa residencial de um hospital.
+    building_template_id: str = "res_medio"
 
     # Qualidade da Água & Linha de Tratamento (ETAP)
     water_quality_target_class: str = "classe_1"
     water_quality_disinfection: str = "cloro"   # "cloro", "uv", "ozonio", "nenhum"
     water_quality_polishing: bool = False
+    # Dimensionamento físico e orçamentário do subsistema de descarte de primeiras águas
+    first_flush_system_enabled: bool = False
+    # Desligar devolve o comportamento anterior, em que a linha de tratamento
+    # nao entrava no investimento nem no custeio. Serve para reproduzir estudos
+    # anteriores, e para hipoteses de CAPEX nulo.
+    etap_enabled: bool = True
     
     # Chlorination / Chemical Disinfection Treatment
     chlorine_treatment_enabled: bool = True
-    chlorine_dose_mg_l: float = 2.0         # Dose de cloro (mg Cl2 / L)
-    chlorine_cost_per_kg: float = 25.0      # Custo do insumo de cloro (R$ / kg Cl2)
-    chlorine_co2_kg_per_kg: float = 25.0    # Fator de emissão ACV (kg CO2e / kg Cl2)
+    chlorine_dose_mg_l: float = DOSE_PADRAO_MG_POR_LITRO   # mg de Cl2 ativo por litro
+    chlorine_product_purity: float = PUREZA_PADRAO         # kg Cl2 ativo por kg de produto
+    chlorine_cost_per_kg: float = 25.0      # R$ por kg de PRODUTO comercial
+    # O valor de 25,0 que aqui estava nao tinha fonte e era identico ao custo
+    # acima, em R$/kg. Ver netuno/core/chlorination.py.
+    chlorine_co2_kg_per_kg: float = FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 
     # Piping Network
     # List of tuples/dicts or PipeInput: (diameter_mm, length_m)
@@ -297,10 +357,32 @@ class NetunoConfig:
     # Pump Parameters
     pump_count: int = 2  # principal + reserva como configuração inicial recomendada
     pump_power_str: str = "1/2"
-    pump_power_kw: float = 0.36775  # kW (1 CV ~ 0.7355 kW -> 1/2 CV ~ 0.36775 kW)
-    pump_efficiency: float = 55.0  # %
-    pump_flow_rate: float = 2280.0  # L/h, referência de motobomba periférica residencial 1/2 CV
-    pump_startup_time_h: float = 0.03  # hours
+    pump_power_kw: float = 0.36775  # kW (1 CV = 0,7355 kW; 1/2 CV = 0,36775 kW)
+
+    # Altura manométrica total: desnível geométrico entre a sucção e a entrada
+    # do reservatório superior, mais as perdas de carga. É o parâmetro que mais
+    # pesa no consumo de bombeamento, e antes desta revisão não existia: estava
+    # embutido na vazão e no rendimento fixos, que juntos implicavam 67 m —
+    # altura de edifício alto, não de casa.
+    # Zero significa «não informada»: o assistente de motobomba a calcula a
+    # partir da altura geométrica e das perdas, e é ela que rege a energia
+    # quando existe. Sem ela, cai-se na vazão informada ou no valor de recurso.
+    pump_manometric_head_m: float = 0.0
+
+    # Rendimento do conjunto motobomba. Zero ou negativo faz o programa adotar o
+    # típico do porte, que cresce com a potência.
+    pump_efficiency: float = 0.0  # %, 0 = deduzir do porte
+
+    # Vazão em L/h. Zero faz o programa deduzi-la da potência e da altura, pela
+    # equação da bomba. Antes era 2.280 fixo, e não acompanhava a potência: uma
+    # bomba de 2 CV recalcava tão devagar quanto uma de 1/4.
+    pump_flow_rate: float = 0.0
+    pump_startup_time_h: float = 0.03  # h
+    # Rendimento do MOTOR, em %. A potencia de placa e a mecanica no eixo, e o
+    # rendimento do motor e o que separa a energia de eixo da energia que o
+    # medidor registra. Zero significa nao informado: vale entao a Tabela 13 da
+    # ABNT NBR 17094-2:2016 para a potencia escolhida.
+    pump_motor_efficiency: float = 0.0  # %
     pump_unit_cost: float = 300.0  # R$, referência de mercado para motobomba periférica 1/2 CV
     elec_tariff: float = 0.6957  # R$/kWh (Tarifa B1 Residencial CELESC/SC Florianópolis)
     elec_tax_fixed: float = 0.0  # R$
@@ -348,9 +430,66 @@ class NetunoConfig:
         self.cost_labor = float(val)
 
 
+def parametros_do_nome_do_arquivo(caminho: str) -> Dict[str, float]:
+    """Extrai os parâmetros codificados no nome de uma exportação do Netuno 4.
+
+    O Netuno 4 exporta a varredura como uma tabela de volume contra resultado, e
+    **não grava parâmetro nenhum dentro do arquivo**. Toda a configuração fica no
+    nome, por convenção:
+
+        Florianopolis2_Descarte2_Area100_Consumo100_Pessoas4_Percentual90_Coefs08_Recalque20_5000_500_2.csv
+
+    Antes desta versão, ``parse_netuno_csv`` ignorava o nome e devolvia a
+    configuração padrão inteira — área, demanda, coeficiente, descarte, tudo. O
+    retorno parecia uma leitura bem-sucedida, e quem montasse uma comparação com
+    o Netuno 4 a partir dele rodava com parâmetros que não eram os do arquivo,
+    sem qualquer sinal de que algo estava errado.
+
+    Devolve apenas as chaves efetivamente encontradas, para que quem chama possa
+    distinguir «não estava no nome» de «era igual ao padrão».
+    """
+    nome = os.path.basename(caminho)
+    achados: Dict[str, float] = {}
+
+    padroes = {
+        "discard": r"Descarte(\d+(?:[.,]\d+)?)",
+        "area": r"Area(\d+(?:[.,]\d+)?)",
+        "demand_value": r"Consumo(\d+(?:[.,]\d+)?)",
+        "residents_count": r"Pessoas(\d+)",
+        "rainwater_share_pct": r"Percentual(\d+(?:[.,]\d+)?)",
+        "runoff_coeff_raw": r"Coefs?(\d+)",
+        "pumping_threshold": r"Recalque(\d+(?:[.,]\d+)?)",
+    }
+    for chave, padrao in padroes.items():
+        m = re.search(padrao, nome, re.IGNORECASE)
+        if m:
+            achados[chave] = float(m.group(1).replace(",", "."))
+
+    # "Coefs08" designa 0,80; "Coefs095", 0,95. O dígito inicial nunca é a
+    # unidade, porque um coeficiente de escoamento não passa de 1.
+    if "runoff_coeff_raw" in achados:
+        bruto = achados.pop("runoff_coeff_raw")
+        achados["runoff_coeff"] = bruto / (10.0 ** len(str(int(bruto))))
+
+    if "rainwater_share_pct" in achados:
+        achados["rainwater_share"] = achados.pop("rainwater_share_pct") / 100.0
+
+    return achados
+
+
 def parse_netuno_csv(file_path: str) -> NetunoConfig:
-    """Parses a Netuno 4 .csv file into a NetunoConfig object."""
+    """Lê uma exportação .csv do Netuno 4 e devolve a configuração correspondente.
+
+    O Netuno 4 grava a configuração **no nome do arquivo**, não no conteúdo, de
+    modo que a leitura começa por ali. O que estiver também no corpo do arquivo
+    prevalece sobre o nome, porque é mais específico.
+    """
     config = NetunoConfig()
+
+    for chave, valor in parametros_do_nome_do_arquivo(file_path).items():
+        if hasattr(config, chave):
+            atual = getattr(config, chave)
+            setattr(config, chave, int(valor) if isinstance(atual, int) else valor)
     
     with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
         lines = f.readlines()
@@ -379,7 +518,7 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
             if key.startswith("Arquivo dados"):
                 config.precip_file = parts[1] if len(parts) > 1 else ""
             elif key.startswith("Descarte precipitao") or key.startswith("Descarte precipitação"):
-                config.discard = parse_float(parts[1], 1.0)
+                config.discard = parse_float(parts[1], LAMINA_DE_DESCARTE_PADRAO_MM)
             elif key.startswith("Modo de descarte"):
                 config.discard_mode = parse_int(parts[1], 1)
                 config.discard_days_interval = parse_int(parts[2] if len(parts) > 2 else "7", 7)
@@ -396,9 +535,18 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
                 config.residents_type = parse_int(parts[1], 0)
                 config.residents_count = parse_int(parts[3] if len(parts) > 3 else parts[2], 3)
             elif key.startswith("Percentual de gua potvel") or key.startswith("Percentual de água potável"):
-                config.rainwater_share = parse_float(parts[1], 0.4)
+                # A linha é percentual, de 0 a 100, como o rótulo diz. Um valor entre
+                # 0 e 1 costuma vir de arquivo gravado por versão anterior, que
+                # gravava fração; é lido como percentual e assinalado.
+                from netuno.core.fracao_atendivel import aviso_percentual_pequeno, percentual_para_fracao
+                _pct = parse_float(parts[1], 40.0)
+                config.rainwater_share = percentual_para_fracao("Percentual de água potável a ser substituída", _pct)
+                _aviso = aviso_percentual_pequeno(_pct)
+                if _aviso:
+                    import warnings
+                    warnings.warn(f"Arquivo de parâmetros: {_aviso}", stacklevel=2)
             elif key.startswith("Coeficiente de escoamento"):
-                config.runoff_coeff = parse_float(parts[1], 0.9)
+                config.runoff_coeff = parse_float(parts[1], COEFICIENTE_DE_ESCOAMENTO_PADRAO)
             elif key.startswith("Reservatrio superior") or key.startswith("Reservatório superior"):
                 # Format: Reservatório superior (litros);500;0 (0 = used/desejado, 1 = not used)
                 config.upper_tank_vol = parse_float(parts[1], 500.0)
@@ -544,7 +692,9 @@ def export_netuno_csv(
     lines.append(f"Demanda de água total;{config.demand_type};1;{format_netuno_float(config.demand_value)};")
     lines.append(f"Número de moradores;{config.residents_type};1;{config.residents_count};")
     
-    rain_share_pct = config.rainwater_share if config.rainwater_share <= 1.0 else config.rainwater_share / 100.0
+    # A linha herdada do Netuno 4 diz «percentual», e grava percentual, de 0 a 100.
+    from netuno.core.fracao_atendivel import fracao_para_percentual
+    rain_share_pct = fracao_para_percentual("rainwater_share", config.rainwater_share)
     lines.append(f"Percentual de água potável a ser substituída por pluvial;{format_netuno_float(rain_share_pct)}")
     lines.append(f"Coeficiente de escoamento superficial;{format_netuno_float(config.runoff_coeff)}")
     
@@ -635,14 +785,16 @@ def export_netuno_json(
     Exporta o projeto completo e autocontido do Netuno em JSON (.netuno / .json).
     A série diária de chuva é incorporada ao arquivo; ``ui_state`` preserva os
     controles das etapas para que a interface possa ser reconstituída fielmente.
-    ``bim_layout`` guarda os componentes posicionados e os trechos de tubulação
-    na ordem organizada pelo projetista (``bim_components`` e ``pipe_runs``),
-    além da volumetria da edificação (``building_volume``).
     """
     import json
     from datetime import datetime
+    from netuno.core.fracao_atendivel import conciliar_fracoes
 
-    b_data = building_data or {}
+    # O arquivo nunca grava frações que discordam entre si: a total, a interna e
+    # a externa saem coerentes, qualquer que seja a rotina que montou a config.
+    conciliar_fracoes(config)
+    b_data = dict(building_data or {})
+    b_data["share"] = config.rainwater_share
     
     precip_list = precip_data.tolist() if precip_data is not None else []
     
@@ -681,6 +833,21 @@ def export_netuno_json(
                 "use_variable": b_data.get("use_variable", False),
                 "rainwater_share": b_data.get("share", config.rainwater_share)
             },
+            # A modulacao por calendario. Antes desta revisao estas sete listas
+            # existiam na configuracao e nenhuma era gravada: um projeto
+            # semanal ou diario reabria como constante, sem aviso. A lista
+            # mensal de demanda fica na secao acima, por compatibilidade com
+            # os arquivos ja gravados.
+            "demand_modulation": {
+                "demand_mode": b_data.get("demand_mode", getattr(config, "demand_mode", "constant")),
+                "weekly_demands": b_data.get("weekly_demands") or list(getattr(config, "weekly_demands", [])),
+                "weekly_residents": b_data.get("weekly_residents") or list(getattr(config, "weekly_residents", [])),
+                "weekly_shares": b_data.get("weekly_shares") or list(getattr(config, "weekly_shares", [])),
+                "monthly_shares": b_data.get("monthly_shares") or list(getattr(config, "monthly_shares", [])),
+                "daily_demands": b_data.get("daily_demands") or list(getattr(config, "daily_demands", [])),
+                "daily_residents": b_data.get("daily_residents") or list(getattr(config, "daily_residents", [])),
+                "daily_shares": b_data.get("daily_shares") or list(getattr(config, "daily_shares", [])),
+            },
             "rainfall_discard": {
                 "discard_mm": b_data.get("discard", config.discard),
                 "discard_mode": config.discard_mode,
@@ -695,6 +862,15 @@ def export_netuno_json(
                 "upper_tank_vol_l": config.upper_tank_vol,
                 "upper_tank_used": bool(config.upper_tank_used),
                 "pumping_threshold_l": config.pumping_threshold,
+                "supply_arrangement": arranjo_de(config),
+                "pressurizer_pressure_m": getattr(config, "pressurizer_pressure_m", 18.0),
+                "pressurizer_starts_per_person_day": getattr(
+                    config, "pressurizer_starts_per_person_day", 5.05),
+                "pressurizer_model": getattr(config, "pressurizer_model", "komeco_tp820t"),
+                "pressurizer_point_flow_l_min": getattr(config, "pressurizer_point_flow_l_min", 9.0),
+                "pressurizer_power_kw": getattr(config, "pressurizer_power_kw", 0.18),
+                "pressurizer_flow_l_min": getattr(config, "pressurizer_flow_l_min", 13.3),
+                "pressurizer_post_run_s": getattr(config, "pressurizer_post_run_s", 0.0),
                 "pump": {
                     "count": config.pump_count,
                     "power_str": config.pump_power_str,
@@ -702,7 +878,11 @@ def export_netuno_json(
                     "flow_rate_l_h": config.pump_flow_rate,
                     "efficiency_pct": config.pump_efficiency,
                     "startup_time_h": config.pump_startup_time_h,
-                    "unit_cost": config.pump_unit_cost
+                    "motor_efficiency": getattr(config, "pump_motor_efficiency", 0.0),
+                    "unit_cost": config.pump_unit_cost,
+                    # Saida do assistente de motobomba. Zero significa "nao informada",
+                    # e sem ela o calculo de energia volta a usar a altura de recurso.
+                    "manometric_head_m": getattr(config, "pump_manometric_head_m", 0.0)
                 }
             },
             "financial_and_economic": {
@@ -726,6 +906,49 @@ def export_netuno_json(
                 "elec_tax_var_pct": config.elec_tax_var,
                 "elec_tariff_escalation_pct": getattr(config, 'elec_tariff_escalation', 5.0)
             },
+            # Secoes que faltavam. Antes desta revisao o arquivo gravava seis secoes e
+            # trinta campos ficavam de fora, voltando ao padrao em silencio ao
+            # reabrir: quem salvasse um estudo com ozonio, 30 m de desnivel e
+            # cisterna de concreto reabria outro, com cloracao, altura zero e PEAD.
+            "water_quality_and_etap": {
+                "target_class": getattr(config, "water_quality_target_class", "classe_1"),
+                "disinfection": getattr(config, "water_quality_disinfection", "cloro"),
+                "polishing_filter": bool(getattr(config, "water_quality_polishing", False)),
+                "first_flush_system_enabled": bool(getattr(config, "first_flush_system_enabled", False)),
+                "etap_enabled": bool(getattr(config, "etap_enabled", True)),
+                "chlorine_treatment_enabled": bool(getattr(config, "chlorine_treatment_enabled", True)),
+                "chlorine_dose_mg_l": getattr(config, "chlorine_dose_mg_l", 1.5),
+                "chlorine_product_purity": getattr(config, "chlorine_product_purity", 0.65),
+                "chlorine_cost_per_kg": getattr(config, "chlorine_cost_per_kg", 25.0),
+                "chlorine_co2_kg_per_kg": getattr(config, "chlorine_co2_kg_per_kg", FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
+            },
+            "materials_and_typology": {
+                "building_template_id": getattr(config, "building_template_id", "res_medio"),
+                "lower_tank_material": getattr(config, "lower_tank_material", "PEAD"),
+                "upper_tank_material": getattr(config, "upper_tank_material", "PEAD"),
+            },
+            "irrigation": {
+                "garden_area_m2": getattr(config, "irrigation_garden_area_m2", 0.0),
+                "rate_l_m2_day": getattr(config, "irrigation_rate_l_m2_day", 3.0),
+                "liters_per_day": getattr(config, "irrigation_liters_per_day", 0.0),
+                "rain_threshold_mm": getattr(config, "irrigation_rain_threshold_mm", 2.0),
+                "potable_backup": bool(getattr(config, "irrigation_potable_backup", True)),
+            },
+            "incentives_and_shares": {
+                "iptu_green_enabled": bool(getattr(config, "iptu_green_enabled", False)),
+                "iptu_annual_value": getattr(config, "iptu_annual_value", 4000.0),
+                "iptu_discount_pct": getattr(config, "iptu_discount_pct", 5.0),
+                "tariff_flag": getattr(config, "tariff_flag", "verde"),
+                "tariff_customized": bool(getattr(config, "tariff_customized", False)),
+                "num_economias": getattr(config, "num_economias", 1),
+                "potable_indoor_share": getattr(config, "potable_indoor_share", 0.60),
+                "non_potable_indoor_share": getattr(config, "non_potable_indoor_share", 0.40),
+                "install_month": getattr(config, "install_month", 0),
+                "econ_lower_tank_vol": getattr(config, "econ_lower_tank_vol", 2000.0),
+                "demand_mode": getattr(config, "demand_mode", "constant"),
+                "edge_base_case_l_person_day": getattr(
+                    config, "edge_base_case_l_person_day", 0.0),
+            },
             "capex_and_opex": {
                 "cost_lower_tank": config.cost_lower_tank,
                 "cost_upper_tank": config.cost_upper_tank,
@@ -740,6 +963,8 @@ def export_netuno_json(
         # Bloco aberto para CLI, automações e futuras extensões; a GUI pode
         # ignorá-lo com segurança quando não houver campos reconhecidos.
         "analysis": analysis or {},
+        # Componentes posicionados, trechos na ordem do projetista e volumetria
+        # da edificação (planta 3D e volumetria).
         "bim_layout": {
             "bim_components": list((bim_layout or {}).get("bim_components") or []),
             "pipe_runs": list((bim_layout or {}).get("pipe_runs") or []),
@@ -753,46 +978,39 @@ def export_netuno_json(
     return file_path
 
 
-def resolve_city_and_uf(city_input: str, default_uf: str = "SC", default_city: str = "Florianópolis") -> tuple[str, str]:
-    """
-    Resolve UF e Município a partir de entradas variadas:
-    - 'DF - Brasília' -> ('DF', 'Brasília')
-    - 'Brasilia2' -> ('DF', 'Brasília')
-    - 'Florianopolis1' -> ('SC', 'Florianópolis')
-    - 'Manaus3' -> ('AM', 'Manaus')
-    - 'Brasília' -> ('DF', 'Brasília')
-    """
-    if not city_input:
-        return (default_uf, default_city)
-    raw = str(city_input).strip()
-    if " - " in raw:
-        parts = raw.split(" - ", 1)
-        return (parts[0].strip().upper(), parts[1].strip())
+class FormatoDeProjetoDesconhecido(ValueError):
+    """O arquivo e JSON, mas nao e um projeto do Netuno.
 
-    import re
-    import unicodedata
-    cleaned = re.sub(r'\d+$', '', raw).strip()
-    norm_cleaned = "".join(c for c in unicodedata.normalize('NFKD', cleaned) if not unicodedata.combining(c)).lower()
+    Existe para que o erro suba com nome proprio, em vez de ser confundido com
+    um JSON truncado — que e o outro motivo de falha na abertura.
+    """
 
+def _conciliar_fracoes_lidas(cfg) -> Optional[str]:
+    """Deixa coerentes as frações lidas de um arquivo, e guarda o retrato.
+
+    Até a versão 5.0.0 a janela principal gravava a fração interna e a demanda
+    externa com os valores padrão (0,35 e 50 L/dia), fossem quais fossem os da
+    tela, e a fração total com o valor que a pessoa via. Por isso, quando as três
+    discordam e o projeto não declara área de jardim, a demanda externa gravada é
+    tratada como esse resíduo e vale a total. Ver netuno/core/fracao_atendivel.py.
+    """
+    from netuno.core.fracao_atendivel import conciliar_fracoes, fracao_total, TOLERANCIA_ENTRE_FRACOES
+    n = float(cfg.residents_count or 0)
+    di = float(cfg.demand_value or 0.0) * (n if n > 0 else 1.0)
     try:
-        from netuno.core.tariffs_database import load_tariffs_db
-        db = load_tariffs_db()
-        for key, cdata in db.get("cities", {}).items():
-            c_muni = cdata.get("municipio", "")
-            c_norm = "".join(c for c in unicodedata.normalize('NFKD', c_muni) if not unicodedata.combining(c)).lower()
-            if c_norm == norm_cleaned or c_norm.replace(" ", "") == norm_cleaned.replace(" ", ""):
-                return (cdata.get("uf", default_uf), c_muni)
-    except Exception:
-        pass
-
-    return (default_uf, cleaned or default_city)
+        derivada = fracao_total(di, cfg.non_potable_indoor_share, cfg.irrigation_liters_per_day)
+    except ValueError:
+        derivada = None
+    if (derivada is None or abs(derivada - cfg.rainwater_share) > TOLERANCIA_ENTRE_FRACOES)             and float(getattr(cfg, "irrigation_garden_area_m2", 0.0) or 0.0) <= 0.0:
+        cfg.irrigation_liters_per_day = 0.0
+    cfg._fracoes_lidas = None
+    return conciliar_fracoes(cfg, demanda_interna_l_dia=di)
 
 
 def load_netuno_project(file_path: str) -> dict:
     """
     Carrega um projeto Netuno a partir de um arquivo JSON (.netuno / .json)
     ou CSV (legado Netuno 4.0/5.0 ou chuva simples).
-    Suporta tanto o formato canônico aninhado v2 quanto arquivos planos de estudos de caso.
     Retorna um dicionário estruturado pronto para sincronizar a interface.
     """
     import json
@@ -821,192 +1039,177 @@ def load_netuno_project(file_path: str) -> dict:
             rainfall = data.get("rainfall", {})
             inputs = data.get("inputs", {})
 
+            # Um JSON que nao traz nenhuma das secoes do projeto nao e um
+            # projeto do Netuno. Antes desta revisao ele era aceito e devolvia a
+            # configuracao padrao inteira, de modo que o estudo aberto nao era
+            # o estudo do arquivo — e nada avisava.
+            if not inputs and not rainfall and "schema" not in data:
+                raise FormatoDeProjetoDesconhecido(
+                    f"O arquivo '{os.path.basename(file_path)}' e um JSON valido, "
+                    "mas nao tem as secoes de um projeto do Netuno "
+                    "('schema', 'rainfall', 'inputs'). Se ele veio de uma versao "
+                    "antiga ou de outro programa, converta-o antes de abrir: "
+                    "abrir assim carregaria um projeto padrao com o nome deste "
+                    "arquivo."
+                )
+
             cfg = NetunoConfig()
-            cfg.project_id = meta.get("project_id") or data.get("case_id") or data.get("project_id") or "N5-PROJ"
-            cfg.project_name = meta.get("name") or data.get("title") or data.get("name") or "Projeto Netuno"
-            cfg.created_at = meta.get("created_at") or data.get("created_at") or ""
-
-            # Resolução de Cidade e UF (suporta 'Brasilia2', 'DF - Brasília', chaves explícitas ou aninhadas)
-            fe = inputs.get("financial_and_economic", {})
-            raw_city = (
-                fe.get("tariff_city_name")
-                or data.get("tariff_city_name")
-                or data.get("climate_city")
-                or data.get("city")
-                or rainfall.get("climate_city_name")
-            )
-            raw_uf = (
-                fe.get("tariff_city_uf")
-                or data.get("tariff_city_uf")
-                or data.get("uf")
-                or rainfall.get("climate_city_uf")
-            )
-            uf_resolved, city_resolved = resolve_city_and_uf(
-                raw_city or raw_uf,
-                default_uf=raw_uf or "SC",
-                default_city=raw_city or "Florianópolis"
-            )
-            cfg.tariff_city_uf = uf_resolved
-            cfg.tariff_city_name = city_resolved
-            cfg.climate_city_uf = uf_resolved
-            cfg.climate_city_name = city_resolved
-
-            # Arquivo e modo de precipitação
-            cfg.precip_file = rainfall.get("file_name") or data.get("rain_file") or os.path.basename(file_path)
-            raw_source_mode = rainfall.get("source_mode") or data.get("source_mode")
-            if not raw_source_mode:
-                if cfg.precip_file and cfg.precip_file.lower().endswith(".csv"):
-                    raw_source_mode = "custom"
-                else:
-                    raw_source_mode = "national_db"
-            cfg.climate_source_mode = raw_source_mode
-
+            cfg.project_id = meta.get("project_id", "N5-PROJ")
+            cfg.project_name = meta.get("name", "Projeto Netuno")
+            cfg.created_at = meta.get("created_at", "")
+            cfg.precip_file = rainfall.get("file_name", os.path.basename(file_path))
+            cfg.start_date = rainfall.get("start_date", "01/01/1980")
+            cfg.climate_source_mode = rainfall.get("source_mode", "national_db")
+            cfg.climate_city_uf = rainfall.get("climate_city_uf", "SC")
+            cfg.climate_city_name = rainfall.get("climate_city_name", "Florianópolis")
             cfg.climate_model = rainfall.get("climate_model", "ACCESS-CM2")
             cfg.climate_scenario = rainfall.get("climate_scenario", "HIST")
             cfg.climate_start_date = rainfall.get("climate_start_date", "01/01/1980")
             cfg.climate_end_date = rainfall.get("climate_end_date", "31/12/2014")
-            cfg.start_date = rainfall.get("start_date", data.get("start_date", "01/01/1980"))
 
-            # Precipitação: se não embutida, busca o arquivo no disco
+            # Precipitação
             p_list = rainfall.get("precipitation_mm", [])
             if p_list:
                 res["precip_data"] = np.array(p_list, dtype=np.float64)
-                res["precip_filename"] = cfg.precip_file
-            else:
-                rain_name = cfg.precip_file
-                file_dir = os.path.dirname(os.path.abspath(file_path))
-                package_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-                candidates = [
-                    os.path.join(file_dir, rain_name),
-                    os.path.join(file_dir, "..", "data", "rainfall", rain_name),
-                    os.path.join(file_dir, "data", "rainfall", rain_name),
-                    os.path.join(package_root, "data", "rainfall", rain_name),
-                    os.path.join(package_root, "data", rain_name),
-                    os.path.join(os.getcwd(), "data", "rainfall", rain_name),
-                    os.path.join(os.getcwd(), "data", rain_name),
-                ]
-                if os.path.isabs(rain_name):
-                    candidates.insert(0, rain_name)
-                found_rain = None
-                for c in candidates:
-                    if os.path.isfile(c):
-                        found_rain = c
-                        break
-                if found_rain:
-                    try:
-                        res["precip_data"] = load_precipitation(found_rain)
-                        res["precip_filename"] = rain_name
-                        cfg.climate_source_mode = "custom"
-                    except Exception:
-                        pass
 
             # Building & Demand
             b = inputs.get("building_and_demand", {})
-            cfg.area = float(b.get("catchment_area_m2") or data.get("area") or 100.0)
-            cfg.runoff_coeff = float(b.get("runoff_coeff") or data.get("runoff") or 0.9)
-            cfg.residents_count = int(b.get("residents_count") or data.get("residents") or 3)
-            cfg.residents_type = int(b.get("residents_type", 0))
+            cfg.area = b.get("catchment_area_m2", 100.0)
+            cfg.runoff_coeff = b.get("runoff_coeff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
+            cfg.residents_count = b.get("residents_count", 3)
+            cfg.residents_type = b.get("residents_type", 0)
             cfg.residents_monthly = b.get("residents_monthly", [])
-            cfg.demand_value = float(b.get("demand_value") or data.get("demand") or 200.0)
-            cfg.demand_type = int(b.get("demand_type", 0))
+            cfg.demand_value = b.get("demand_value", 200.0)
+            cfg.demand_type = b.get("demand_type", 0)
             cfg.demand_monthly = b.get("demand_monthly", [])
-
-            raw_share = b.get("rainwater_share") if "rainwater_share" in b else data.get("share", 0.4)
-            if raw_share is not None and float(raw_share) > 1.0:
-                cfg.rainwater_share = float(raw_share) / 100.0
-            else:
-                cfg.rainwater_share = float(raw_share or 0.4)
-
-            cfg.potable_indoor_share = float(b.get("potable_indoor_share", 0.65))
-            cfg.non_potable_indoor_share = float(b.get("non_potable_indoor_share", 0.35))
-            cfg.irrigation_liters_per_day = float(b.get("irrigation_liters_per_day", 50.0))
-            cfg.irrigation_rain_threshold_mm = float(b.get("irrigation_rain_threshold_mm", 2.0))
-            cfg.irrigation_potable_backup = bool(b.get("irrigation_potable_backup", True))
-            cfg.irrigation_garden_area_m2 = float(b.get("irrigation_garden_area_m2", 0.0))
-            cfg.irrigation_rate_l_m2_day = float(b.get("irrigation_rate_l_m2_day", 3.0))
+            cfg.residents_monthly = b.get("residents_monthly", cfg.residents_monthly)
+            cfg.rainwater_share = b.get("rainwater_share", 0.4)
+            cfg.potable_indoor_share = b.get("potable_indoor_share", cfg.potable_indoor_share)
+            cfg.non_potable_indoor_share = b.get("non_potable_indoor_share", cfg.non_potable_indoor_share)
+            cfg.irrigation_liters_per_day = b.get("irrigation_liters_per_day", cfg.irrigation_liters_per_day)
+            cfg.irrigation_rain_threshold_mm = b.get("irrigation_rain_threshold_mm", 2.0)
+            cfg.irrigation_potable_backup = b.get("irrigation_potable_backup", True)
+            cfg.irrigation_garden_area_m2 = b.get("irrigation_garden_area_m2", 0.0)
+            cfg.irrigation_rate_l_m2_day = b.get("irrigation_rate_l_m2_day", 3.0)
 
             # Rainfall Discard
             rd = inputs.get("rainfall_discard", {})
-            cfg.discard = float(rd.get("discard_mm") or data.get("discard") or 1.0)
-            cfg.discard_mode = int(rd.get("discard_mode") or data.get("discard_mode") or 1)
-            cfg.discard_days_interval = int(rd.get("discard_days_interval") or data.get("discard_days") or 7)
+            cfg.discard = rd.get("discard_mm", LAMINA_DE_DESCARTE_PADRAO_MM)
+            cfg.discard_mode = rd.get("discard_mode", 1)
+            cfg.discard_days_interval = rd.get("discard_days_interval", 7)
 
             # Reservoirs & Pumping
             rp = inputs.get("reservoirs_and_pumping", {})
-            cfg.lower_tank_fixed = float(rp.get("lower_tank_fixed_l") or data.get("lower_tank_fixed") or 2000.0)
-            cfg.lower_tank_max = float(rp.get("lower_tank_max_l") or data.get("sweep_max") or 10000.0)
-            cfg.lower_tank_step = float(rp.get("lower_tank_step_l") or data.get("sweep_step") or 250.0)
-            cfg.lower_tank_mode = int(rp.get("lower_tank_mode", 1))
-            cfg.delta_ideal = float(rp.get("delta_ideal_pct") or data.get("delta_ideal") or 5.0)
-            cfg.upper_tank_vol = float(rp.get("upper_tank_vol_l") or data.get("upper_vol") or 500.0)
-            upper_used_val = rp.get("upper_tank_used") if "upper_tank_used" in rp else data.get("upper_used", True)
-            cfg.upper_tank_used = 1 if upper_used_val else 0
-
-            pump_thresh_pct = float(data.get("pump_thresh_pct", 0.0))
-            cfg.pumping_threshold = float(
-                rp.get("pumping_threshold_l")
-                or (cfg.upper_tank_vol * (pump_thresh_pct / 100.0) if pump_thresh_pct > 0 else 375.0)
-            )
+            cfg.lower_tank_fixed = rp.get("lower_tank_fixed_l", 2000.0)
+            cfg.lower_tank_max = rp.get("lower_tank_max_l", 10000.0)
+            cfg.lower_tank_step = rp.get("lower_tank_step_l", 250.0)
+            cfg.lower_tank_mode = rp.get("lower_tank_mode", 1)
+            cfg.delta_ideal = rp.get("delta_ideal_pct", 5.0)
+            cfg.upper_tank_vol = rp.get("upper_tank_vol_l", 500.0)
+            cfg.upper_tank_used = 1 if rp.get("upper_tank_used", True) else 0
+            cfg.pumping_threshold = rp.get("pumping_threshold_l", 375.0)
+            cfg.supply_arrangement = rp.get("supply_arrangement", "")
+            cfg.pressurizer_pressure_m = rp.get("pressurizer_pressure_m", cfg.pressurizer_pressure_m)
+            cfg.pressurizer_starts_per_person_day = rp.get(
+                "pressurizer_starts_per_person_day", cfg.pressurizer_starts_per_person_day)
+            for campo in ("pressurizer_model", "pressurizer_point_flow_l_min",
+                          "pressurizer_power_kw", "pressurizer_flow_l_min",
+                          "pressurizer_post_run_s"):
+                setattr(cfg, campo, rp.get(campo, getattr(cfg, campo)))
 
             pump = rp.get("pump", {})
-            cfg.pump_count = int(pump.get("count") or data.get("pump_count") or 1)
+            cfg.pump_count = pump.get("count", 2)
             cfg.pump_power_str = pump.get("power_str", "1/2 CV")
-            cfg.pump_power_kw = float(pump.get("power_kw") or data.get("pump_power_kw") or 0.368)
-            cfg.pump_flow_rate = float(pump.get("flow_rate_l_h") or data.get("pump_flow_rate") or 2280.0)
-            cfg.pump_efficiency = float(pump.get("efficiency_pct") or data.get("pump_efficiency") or 55.0)
-            cfg.pump_startup_time_h = float(pump.get("startup_time_h") or data.get("pump_startup_h") or 0.03)
-            cfg.pump_unit_cost = float(pump.get("unit_cost", 320.0))
-
-            cfg.lower_tank_material = data.get("lower_tank_material", getattr(cfg, "lower_tank_material", "PEAD"))
-            cfg.upper_tank_material = data.get("upper_tank_material", getattr(cfg, "upper_tank_material", "PEAD"))
-            cfg.pipes_list = data.get("pipes_list", getattr(cfg, "pipes_list", []))
-            cfg.chlorine_treatment_enabled = bool(data.get("chlorine_treatment_enabled", False))
-            cfg.chlorine_dose_mg_l = float(data.get("chlorine_dose_mg_l", 0.0))
-            cfg.chlorine_cost_per_kg = float(data.get("chlorine_cost_per_kg", 0.0))
+            cfg.pump_power_kw = pump.get("power_kw", 0.368)
+            cfg.pump_flow_rate = pump.get("flow_rate_l_h", 2280.0)
+            cfg.pump_efficiency = pump.get("efficiency_pct", 55.0)
+            cfg.pump_startup_time_h = pump.get("startup_time_h", 0.03)
+            cfg.pump_motor_efficiency = pump.get(
+                "motor_efficiency", cfg.pump_motor_efficiency)
+            cfg.pump_unit_cost = pump.get("unit_cost", 320.0)
+            # Zero significa «não informada»: é o que faz a precedência do
+            # cálculo de energia funcionar. Sem persistir, o desnível levantado
+            # pelo assistente se perdia ao reabrir o projeto.
+            cfg.pump_manometric_head_m = pump.get("manometric_head_m", 0.0)
 
             # Financial & Economic
-            cfg.analysis_period_years = int(fe.get("analysis_period_years") or data.get("analysis_years") or 20)
-            tma_ann = data.get("tma_annual")
-            if tma_ann is not None:
-                cfg.tma = float(tma_ann) / 12.0
-            else:
-                cfg.tma = float(fe.get("tma_monthly_pct", 0.5))
-
-            inf_ann = data.get("inflation_annual")
-            if inf_ann is not None:
-                cfg.inflation = float(inf_ann) / 12.0
-            else:
-                cfg.inflation = float(fe.get("inflation_monthly_pct", 0.2))
-
-            cfg.sewage_mode = int(fe.get("sewage_mode") or data.get("sewage_mode") or 1)
-            cfg.sewage_rate = float(fe.get("sewage_rate_pct") or data.get("sewage_rate") or 100.0)
-            cfg.water_tax_fixed = float(fe.get("water_tax_fixed", 0.0))
-            cfg.water_tax_var = float(fe.get("water_tax_var_pct", 0.0))
-
-            wt = fe.get("water_tariffs") or data.get("water_tariffs")
-            if wt:
-                cfg.water_tariffs = wt
-                cfg.tariff_customized = True
-
-            cfg.tariff_escalation = int(fe.get("tariff_escalation_months", 12))
-            cfg.water_tariff_escalation = float(fe.get("water_tariff_escalation_pct", 5.0))
-            cfg.sewage_tariff_escalation = float(fe.get("sewage_tariff_escalation_pct", 5.0))
-            cfg.elec_tariff = float(fe.get("elec_tariff") or data.get("elec_tariff") or 1.0)
-            cfg.elec_tax_fixed = float(fe.get("elec_tax_fixed", 0.0))
-            cfg.elec_tax_var = float(fe.get("elec_tax_var_pct", 0.0))
-            cfg.elec_tariff_escalation = float(fe.get("elec_tariff_escalation_pct", 5.0))
+            fe = inputs.get("financial_and_economic", {})
+            cfg.analysis_period_years = fe.get("analysis_period_years", 20)
+            cfg.tma = fe.get("tma_monthly_pct", 0.5)
+            cfg.inflation = fe.get("inflation_monthly_pct", 0.2)
+            cfg.sewage_mode = fe.get("sewage_mode", 1)
+            cfg.sewage_rate = fe.get("sewage_rate_pct", 100.0)
+            cfg.water_tax_fixed = fe.get("water_tax_fixed", 0.0)
+            cfg.water_tax_var = fe.get("water_tax_var_pct", 0.0)
+            cfg.water_tariffs = fe.get("water_tariffs", cfg.water_tariffs)
+            cfg.tariff_city_uf = fe.get("tariff_city_uf", getattr(cfg, "tariff_city_uf", "SC"))
+            cfg.tariff_city_name = fe.get("tariff_city_name", getattr(cfg, "tariff_city_name", "Florianópolis"))
+            cfg.elec_city_uf = fe.get("elec_city_uf", getattr(cfg, "elec_city_uf", "SC"))
+            cfg.elec_city_name = fe.get("elec_city_name", getattr(cfg, "elec_city_name", "Florianópolis"))
+            cfg.tariff_escalation = fe.get("tariff_escalation_months", 12)
+            cfg.water_tariff_escalation = fe.get("water_tariff_escalation_pct", 5.0)
+            cfg.sewage_tariff_escalation = fe.get("sewage_tariff_escalation_pct", 5.0)
+            cfg.elec_tariff = fe.get("elec_tariff", 1.0)
+            cfg.elec_tax_fixed = fe.get("elec_tax_fixed", 0.0)
+            cfg.elec_tax_var = fe.get("elec_tax_var_pct", 0.0)
+            cfg.elec_tariff_escalation = fe.get("elec_tariff_escalation_pct", 5.0)
 
             # CAPEX & OPEX
             co = inputs.get("capex_and_opex", {})
-            cfg.cost_lower_tank = float(co.get("cost_lower_tank", 2500.0))
-            cfg.cost_upper_tank = float(co.get("cost_upper_tank", 380.0))
-            cfg.cost_labor = float(co.get("cost_labor", 1500.0))
-            cfg.cost_piping = float(co.get("cost_piping", 950.0))
-            cfg.cost_accessories = float(co.get("cost_accessories", 500.0))
+            cfg.cost_lower_tank = co.get("cost_lower_tank", 2500.0)
+            cfg.cost_upper_tank = co.get("cost_upper_tank", 380.0)
+            cfg.cost_labor = co.get("cost_labor", 1500.0)
+            cfg.cost_piping = co.get("cost_piping", 950.0)
+            cfg.cost_accessories = co.get("cost_accessories", 500.0)
+
+            # Secoes acrescentadas nesta revisao. `get` com o padrao mantem os arquivos
+            # anteriores legiveis: o que nao existir no arquivo cai no padrao, que
+            # e o comportamento que eles ja tinham.
+            wq = inputs.get("water_quality_and_etap", {})
+            cfg.water_quality_target_class = wq.get("target_class", "classe_1")
+            cfg.water_quality_disinfection = wq.get("disinfection", "cloro")
+            cfg.water_quality_polishing = bool(wq.get("polishing_filter", False))
+            cfg.first_flush_system_enabled = bool(wq.get("first_flush_system_enabled", False))
+            cfg.etap_enabled = bool(wq.get("etap_enabled", True))
+            cfg.chlorine_treatment_enabled = bool(wq.get("chlorine_treatment_enabled", True))
+            cfg.chlorine_dose_mg_l = wq.get("chlorine_dose_mg_l", cfg.chlorine_dose_mg_l)
+            cfg.chlorine_product_purity = wq.get("chlorine_product_purity", cfg.chlorine_product_purity)
+            cfg.chlorine_cost_per_kg = wq.get("chlorine_cost_per_kg", cfg.chlorine_cost_per_kg)
+            cfg.chlorine_co2_kg_per_kg = wq.get("chlorine_co2_kg_per_kg", cfg.chlorine_co2_kg_per_kg)
+
+            mt = inputs.get("materials_and_typology", {})
+            cfg.building_template_id = mt.get("building_template_id", "res_medio")
+            cfg.lower_tank_material = mt.get("lower_tank_material", "PEAD")
+            cfg.upper_tank_material = mt.get("upper_tank_material", "PEAD")
+
+            ir = inputs.get("irrigation", {})
+            cfg.irrigation_garden_area_m2 = ir.get("garden_area_m2", cfg.irrigation_garden_area_m2)
+            cfg.irrigation_rate_l_m2_day = ir.get("rate_l_m2_day", cfg.irrigation_rate_l_m2_day)
+            cfg.irrigation_liters_per_day = ir.get("liters_per_day", cfg.irrigation_liters_per_day)
+            cfg.irrigation_rain_threshold_mm = ir.get("rain_threshold_mm", cfg.irrigation_rain_threshold_mm)
+            cfg.irrigation_potable_backup = bool(ir.get("potable_backup", True))
+
+            inc = inputs.get("incentives_and_shares", {})
+            cfg.iptu_green_enabled = bool(inc.get("iptu_green_enabled", False))
+            cfg.iptu_annual_value = inc.get("iptu_annual_value", cfg.iptu_annual_value)
+            cfg.iptu_discount_pct = inc.get("iptu_discount_pct", cfg.iptu_discount_pct)
+            cfg.tariff_flag = inc.get("tariff_flag", "verde")
+            cfg.tariff_customized = bool(inc.get("tariff_customized", False))
+            cfg.num_economias = inc.get("num_economias", cfg.num_economias)
+            cfg.potable_indoor_share = inc.get("potable_indoor_share", cfg.potable_indoor_share)
+            cfg.non_potable_indoor_share = inc.get("non_potable_indoor_share", cfg.non_potable_indoor_share)
+            cfg.install_month = inc.get("install_month", cfg.install_month)
+            cfg.econ_lower_tank_vol = inc.get("econ_lower_tank_vol", cfg.econ_lower_tank_vol)
+            cfg.demand_mode = inc.get("demand_mode", cfg.demand_mode)
+            cfg.edge_base_case_l_person_day = inc.get(
+                "edge_base_case_l_person_day", cfg.edge_base_case_l_person_day)
             if "operational_costs" in co:
                 cfg.op_costs = [tuple(item) for item in co["operational_costs"]]
 
+            res["aviso_fracoes"] = _conciliar_fracoes_lidas(cfg)
             res["config"] = cfg
+            # O projeto JSON já contém a chuva: o nome é apenas referência
+            # visual e nunca é tratado como uma dependência externa.
             res["precip_filename"] = cfg.precip_file or os.path.basename(file_path)
             res["building_data"] = {
                 "area": cfg.area,
@@ -1027,42 +1230,28 @@ def load_netuno_project(file_path: str) -> dict:
                 "irrigation_garden_area_m2": cfg.irrigation_garden_area_m2,
                 "irrigation_rate_l_m2_day": cfg.irrigation_rate_l_m2_day,
             }
+            mod = inputs.get("demand_modulation", {})
+            if mod:
+                cfg.demand_mode = mod.get("demand_mode", cfg.demand_mode)
+                cfg.weekly_demands = list(mod.get("weekly_demands", []) or [])
+                cfg.weekly_residents = list(mod.get("weekly_residents", []) or [])
+                cfg.weekly_shares = list(mod.get("weekly_shares", []) or [])
+                cfg.monthly_shares = list(mod.get("monthly_shares", []) or [])
+                cfg.daily_demands = list(mod.get("daily_demands", []) or [])
+                cfg.daily_residents = list(mod.get("daily_residents", []) or [])
+                cfg.daily_shares = list(mod.get("daily_shares", []) or [])
+            res["building_data"].update({
+                "demand_mode": cfg.demand_mode,
+                "weekly_demands": cfg.weekly_demands,
+                "weekly_residents": cfg.weekly_residents,
+                "weekly_shares": cfg.weekly_shares,
+                "monthly_shares": cfg.monthly_shares,
+                "daily_demands": cfg.daily_demands,
+                "daily_residents": cfg.daily_residents,
+                "daily_shares": cfg.daily_shares,
+            })
             res["global_scenarios"] = inputs.get("global_optimizer_scenarios", [])
-            ui_state = data.get("ui_state", {}) or {}
-
-            # Sintetiza ui_state caso esteja vazio ou incompleto
-            if "project" not in ui_state:
-                ui_state["project"] = {
-                    "source_mode": cfg.climate_source_mode,
-                    "climate_uf": cfg.climate_city_uf,
-                    "climate_city": cfg.climate_city_name,
-                    "climate_model": cfg.climate_model,
-                    "climate_scenario": cfg.climate_scenario,
-                    "start_date": cfg.start_date,
-                    "file_path": res.get("precip_filename", ""),
-                    "discard": str(cfg.discard),
-                    "discard_mode": cfg.discard_mode,
-                    "discard_days": cfg.discard_days_interval,
-                    "tariff_customized": bool(wt),
-                }
-            if "stage3" not in ui_state:
-                ui_state["stage3"] = {
-                    "sweep_max": str(cfg.lower_tank_max),
-                    "sweep_step": str(cfg.lower_tank_step),
-                    "delta_ideal": str(cfg.delta_ideal),
-                    "upper_mode": 1 if cfg.upper_tank_used else 2,
-                    "upper_volume": str(cfg.upper_tank_vol),
-                    "pump_threshold_pct": str(round((cfg.pumping_threshold / max(1.0, cfg.upper_tank_vol)) * 100.0, 1)) if cfg.upper_tank_used else "0",
-                    "inflation": str(round(cfg.inflation * 12.0, 2)),
-                    "tma": str(round(cfg.tma * 12.0, 2)),
-                    "inflation_mode": "year",
-                    "tma_mode": "year",
-                    "analysis_period": str(cfg.analysis_period_years),
-                    "tariff_period": str(cfg.tariff_escalation),
-                    "water_adjustment": str(cfg.water_tariff_escalation),
-                    "electricity_adjustment": str(cfg.elec_tariff_escalation),
-                }
-            res["ui_state"] = ui_state
+            res["ui_state"] = data.get("ui_state", {})
             res["analysis"] = data.get("analysis", {})
             layout = data.get("bim_layout") or {}
             res["bim_layout"] = {
@@ -1071,6 +1260,8 @@ def load_netuno_project(file_path: str) -> dict:
                 "building_volume": dict(layout.get("building_volume") or {}),
             }
             return res
+        except FormatoDeProjetoDesconhecido:
+            raise
         except Exception:
             pass
 

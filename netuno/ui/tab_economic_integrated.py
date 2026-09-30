@@ -8,15 +8,22 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QTabWidget,
     QFileDialog, QMessageBox, QFrame, QSizePolicy, QDialog, QComboBox,
-    QDoubleSpinBox, QAbstractSpinBox, QCheckBox, QApplication
+    QDoubleSpinBox, QAbstractSpinBox, QCheckBox, QApplication, QSplitter
 )
 from PySide6.QtCore import Qt, Signal, QLocale
 from PySide6.QtGui import QFont, QColor
 
+from netuno.core.taxas import mensal_pct_para_anual_fracao, mensal_pct_para_anual_pct
 from netuno.core.parser import NetunoConfig, parse_float, format_ptbr
 from netuno.core.economic import (
     run_robust_economic_analysis, EconomicAnalysisResult, calculate_effective_tariff,
     run_sensitivity_analysis
+)
+from netuno.core.tariff_category import incompatibilidade_de_categoria
+from netuno.core.etap_integration import (
+    capex_incremental_da_etap,
+    opex_anual_incremental_da_etap,
+    dimensionar_etap_do_projeto,
 )
 from netuno.core.cost_estimates import (
     estimate_preliminary_capex, default_maintenance_items,
@@ -169,62 +176,28 @@ class TabEconomicIntegrated(QWidget):
         self.lbl_val_vpl     = mk_card(tr("VPL (Valor Presente Líquido)"),     "#16a34a")
         self.lbl_val_tir     = mk_card(tr("TIR (Taxa Interna Retorno)"),       "#d97706")
 
+        # Aviso de categoria tarifaria incompativel, acima dos indicadores:
+        # se a tarifa esta errada, os cinco numeros abaixo estao errados.
+        self.lbl_aviso_categoria = QLabel("")
+        self.lbl_aviso_categoria.setWordWrap(True)
+        self.lbl_aviso_categoria.setStyleSheet(
+            "font-size: 11px; color: #7c2d12; background-color: #fef3c7; "
+            "border: 1px solid #fbbf24; border-radius: 4px; padding: 6px;"
+        )
+        self.lbl_aviso_categoria.setVisible(False)
+        layout.addWidget(self.lbl_aviso_categoria)
+
         layout.addWidget(gb_res)
 
         # ── SUB-ABAS FINANCEIRAS ──
         self.sub_tabs = QTabWidget()
 
-        # ── SUB-ABA 0: IMPACTO DA SELEÇÃO DE MATERIAIS & EQUIPAMENTOS ──
+        # ── SUB-ABA 0: INCENTIVOS FISCAIS (IPTU VERDE) & CUSTOS DOS COMPONENTES ──
         sub_tab_materials = QWidget()
         lay_mat = QVBoxLayout(sub_tab_materials)
         lay_mat.setSpacing(8)
 
-        # Barra de Configuração Rápida de Materiais
-        gb_quick_mat = QGroupBox(tr("⚙️ Configuração de Materiais e Insumos do Sistema"))
-        lay_qm = QHBoxLayout(gb_quick_mat)
-        lay_qm.setSpacing(12)
-
-        lay_qm.addWidget(QLabel(tr("Cisterna:")))
-        self.combo_lower_mat = QComboBox()
-        self.combo_lower_mat.addItem(tr("PEAD (Polietileno)"), "PEAD")
-        self.combo_lower_mat.addItem(tr("Concreto Armado"), "CONCRETO")
-        self.combo_lower_mat.addItem(tr("PRFV (Fibra de Vidro)"), "PRFV")
-        self.combo_lower_mat.addItem(tr("Aço Inoxidável"), "ACO_INOX")
-        self.combo_lower_mat.currentIndexChanged.connect(self._on_material_selection_changed)
-        lay_qm.addWidget(self.combo_lower_mat)
-
-        lay_qm.addWidget(QLabel(tr("Caixa Superior:")))
-        self.combo_upper_mat = QComboBox()
-        self.combo_upper_mat.addItem(tr("PEAD (Polietileno)"), "PEAD")
-        self.combo_upper_mat.addItem(tr("Concreto Armado"), "CONCRETO")
-        self.combo_upper_mat.addItem(tr("PRFV (Fibra de Vidro)"), "PRFV")
-        self.combo_upper_mat.addItem(tr("Aço Inoxidável"), "ACO_INOX")
-        self.combo_upper_mat.currentIndexChanged.connect(self._on_material_selection_changed)
-        lay_qm.addWidget(self.combo_upper_mat)
-
-        self.chk_chlorine = QCheckBox(tr("Cloração / Desinfecção"))
-        self.chk_chlorine.setChecked(True)
-        self.chk_chlorine.toggled.connect(self._on_material_selection_changed)
-        lay_qm.addWidget(self.chk_chlorine)
-
         pt_locale = QLocale(QLocale.Portuguese, QLocale.Brazil)
-        lay_qm.addWidget(QLabel(tr("Dose:")))
-        self.spin_cl_dose = QDoubleSpinBox()
-        self.spin_cl_dose.setLocale(pt_locale)
-        self.spin_cl_dose.setButtonSymbols(QAbstractSpinBox.NoButtons)
-        self.spin_cl_dose.setRange(0.1, 20.0)
-        self.spin_cl_dose.setValue(2.0)
-        self.spin_cl_dose.setSuffix(" mg/L")
-        self.spin_cl_dose.valueChanged.connect(self._on_material_selection_changed)
-        lay_qm.addWidget(self.spin_cl_dose)
-
-        self.btn_edit_opex = QPushButton(tr("🛠️ Rotinas de Manutenção (OPEX)..."))
-        self.btn_edit_opex.setStyleSheet("font-weight: bold; padding: 4px 10px;")
-        self.btn_edit_opex.clicked.connect(self._on_open_opex_dialog)
-        lay_qm.addWidget(self.btn_edit_opex)
-
-        lay_qm.addStretch()
-        lay_mat.addWidget(gb_quick_mat)
 
         # Barra de Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL
         gb_fiscal = QGroupBox(tr("🌿 Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL"))
@@ -279,12 +252,36 @@ class TabEconomicIntegrated(QWidget):
         self.table_mat_impact.setColumnCount(5)
         self.table_mat_impact.setHorizontalHeaderLabels([
             tr("Componente"), tr("Material / Especificação"), tr("Quantidade / Porte"),
-            tr("CAPEX Inicial (R$)"), tr("OPEX Anual (R$/ano)")
+            tr("CAPEX Inicial (R$)"), tr("OPEX Anual / Benefício (R$/ano)")
         ])
-        self.table_mat_impact.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.table_mat_impact.setMinimumHeight(280)
-        lay_mat.addWidget(self.table_mat_impact)
-        self.sub_tabs.addTab(sub_tab_materials, tr("🧱 Detalhamento de Materiais & Componentes"))
+        self.table_mat_impact.setStyleSheet("""
+            QTableWidget {
+                selection-background-color: #ffffff;
+                selection-color: #1e293b;
+            }
+            QTableWidget::item:selected {
+                background-color: #ffffff;
+                color: #1e293b;
+            }
+        """)
+        self.table_mat_impact.setWordWrap(True)
+        self.table_mat_impact.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.table_mat_impact.setAlternatingRowColors(True)
+        self.table_mat_impact.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table_mat_impact.setMinimumHeight(420)
+        
+        tbl_hdr = self.table_mat_impact.horizontalHeader()
+        tbl_hdr.setMinimumSectionSize(110)
+        tbl_hdr.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        tbl_hdr.setSectionResizeMode(1, QHeaderView.Stretch)
+        tbl_hdr.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        tbl_hdr.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        tbl_hdr.setSectionResizeMode(4, QHeaderView.ResizeToContents)
+        tbl_hdr.setStretchLastSection(False)
+        self.table_mat_impact.verticalHeader().setDefaultSectionSize(32)
+
+        lay_mat.addWidget(self.table_mat_impact, stretch=1)
+        self.sub_tabs.addTab(sub_tab_materials, tr("🌿 IPTU Verde & Detalhamento de Custos"))
 
         # Sub-aba 1: Tabela do Fluxo de Caixa Anual
         sub_tab_cashflow = QWidget()
@@ -311,6 +308,16 @@ class TabEconomicIntegrated(QWidget):
             tr("Fluxo Líquido (R$)"), tr("Fator Desconto"), tr("Fluxo Descontado (R$)"),
             tr("Fluxo Acumulado (R$)")
         ])
+        self.table_cashflow.setStyleSheet("""
+            QTableWidget {
+                selection-background-color: #ffffff;
+                selection-color: #1e293b;
+            }
+            QTableWidget::item:selected {
+                background-color: #ffffff;
+                color: #1e293b;
+            }
+        """)
         self.table_cashflow.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         lay_cf.addWidget(self.table_cashflow)
         self.sub_tabs.addTab(sub_tab_cashflow, tr("📊 Tabela de Fluxo de Caixa Anual"))
@@ -342,6 +349,16 @@ class TabEconomicIntegrated(QWidget):
         self.table_sens.setHorizontalHeaderLabels([
             tr("Parâmetro Variado"), "-30%", "-15%", tr("Base (0%)"), "+15%", "+30%"
         ])
+        self.table_sens.setStyleSheet("""
+            QTableWidget {
+                selection-background-color: #ffffff;
+                selection-color: #1e293b;
+            }
+            QTableWidget::item:selected {
+                background-color: #ffffff;
+                color: #1e293b;
+            }
+        """)
         self.table_sens.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
         for c in range(1, 6):
             self.table_sens.horizontalHeader().setSectionResizeMode(c, QHeaderView.Stretch)
@@ -372,12 +389,12 @@ class TabEconomicIntegrated(QWidget):
         bar_metric.addStretch()
         lay_vv_main.addLayout(bar_metric)
 
-        lay_vv = QHBoxLayout()
-        lay_vv.setSpacing(12)
+        splitter_vv = QSplitter(Qt.Horizontal)
+        splitter_vv.setChildrenCollapsible(False)
 
         self.chart_vpl_volume = VplVsVolumeChart()
         self.chart_vpl_volume.set_canvas_height_range(minimum=420)
-        lay_vv.addWidget(self.chart_vpl_volume, stretch=3)
+        splitter_vv.addWidget(self.chart_vpl_volume)
 
         gb_vpl_tbl = QGroupBox(tr("Tabela Comparativa de Indicadores por Volume da Varredura"))
         lay_vt = QVBoxLayout(gb_vpl_tbl)
@@ -388,10 +405,37 @@ class TabEconomicIntegrated(QWidget):
             tr("Volume (L)"), tr("CAPEX (R$)"), tr("OPEX Anual (R$/ano)"), tr("Economia (m³/ano)"),
             tr("VPL Líquido (R$)"), tr("TIR (% a.a.)"), tr("Payback (anos)")
         ])
-        self.table_vpl_volumes.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table_vpl_volumes.setWordWrap(False)
+        self.table_vpl_volumes.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.table_vpl_volumes.setStyleSheet("""
+            QTableWidget {
+                font-size: 11px;
+                gridline-color: #e2ede8;
+                selection-background-color: #ffffff;
+                selection-color: #1e293b;
+            }
+            QTableWidget::item {
+                padding: 3px 5px;
+            }
+            QTableWidget::item:selected {
+                background-color: #ffffff;
+                color: #1e293b;
+            }
+            QHeaderView::section {
+                font-size: 10.5px;
+                font-weight: bold;
+                padding: 5px 3px;
+            }
+        """)
+        self.table_vpl_volumes.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.table_vpl_volumes.horizontalHeader().setStretchLastSection(True)
         lay_vt.addWidget(self.table_vpl_volumes)
-        lay_vv.addWidget(gb_vpl_tbl, stretch=3)
-        lay_vv_main.addLayout(lay_vv, stretch=1)
+        splitter_vv.addWidget(gb_vpl_tbl)
+        splitter_vv.setStretchFactor(0, 5)
+        splitter_vv.setStretchFactor(1, 5)
+        splitter_vv.setSizes([480, 560])
+
+        lay_vv_main.addWidget(splitter_vv, stretch=1)
         self.sub_tabs.addTab(sub_tab_vpl_volumes, tr("📈 Comparativo de Volumes && Indicadores"))
 
         layout.addWidget(self.sub_tabs, stretch=1)
@@ -409,7 +453,7 @@ class TabEconomicIntegrated(QWidget):
                 if sw_tech:
                     opt_tech_vol = getattr(sw_tech, "optimal_lower_tank_vol", None)
             cfg = getattr(main_win, "config", None) if main_win else None
-            tma_r = cfg.tma if cfg else 8.0
+            tma_r = mensal_pct_para_anual_pct(cfg.tma) if cfg else 8.0
             self.chart_vpl_volume.update_chart(
                 self.last_sweep_econ_results,
                 metric=metric,
@@ -436,8 +480,11 @@ class TabEconomicIntegrated(QWidget):
         if main_win and hasattr(main_win, "tab_tanks_simulation"):
             ts = main_win.tab_tanks_simulation
             try:
-                cfg.tma       = ts.get_tma_annual_pct()
-                cfg.inflation = ts.get_inflation_annual_pct()
+                # O projeto grava a TMA e a inflação em % ao mês. Gravar aqui a
+                # taxa anual fazia o arquivo salvo guardar um valor anual sob a
+                # chave «tma_monthly_pct».
+                cfg.tma       = ts.get_tma_monthly_pct()
+                cfg.inflation = ts.get_inflation_monthly_pct()
                 cfg.analysis_period_years = int(parse_float(ts.txt_period.text(), 20.0))
                 cfg.tariff_escalation         = parse_float(ts.txt_readj_period.text(), 12.0)
                 cfg.water_tariff_escalation   = parse_float(ts.txt_readj_water.text(), 5.0)
@@ -551,10 +598,14 @@ class TabEconomicIntegrated(QWidget):
         main_win = self.window()
         if main_win and hasattr(main_win, "config"):
             cfg = main_win.config
-            cfg.lower_tank_material = self.combo_lower_mat.currentData()
-            cfg.upper_tank_material = self.combo_upper_mat.currentData()
-            cfg.chlorine_treatment_enabled = self.chk_chlorine.isChecked()
-            cfg.chlorine_dose_mg_l = self.spin_cl_dose.value()
+            if hasattr(self, "combo_lower_mat"):
+                cfg.lower_tank_material = self.combo_lower_mat.currentData()
+            if hasattr(self, "combo_upper_mat"):
+                cfg.upper_tank_material = self.combo_upper_mat.currentData()
+            if hasattr(self, "chk_chlorine"):
+                cfg.chlorine_treatment_enabled = self.chk_chlorine.isChecked()
+            if hasattr(self, "spin_cl_dose"):
+                cfg.chlorine_dose_mg_l = self.spin_cl_dose.value()
             
             # Recalcula custos preliminares baseados nos novos materiais
             upper_used = bool(getattr(cfg, "upper_tank_used", 1))
@@ -676,10 +727,28 @@ class TabEconomicIntegrated(QWidget):
             cfg.pump_power_kw, cfg.pump_count,
             lower_material=low_mat, upper_material=up_mat
         )
+        # A linha de tratamento entra no investimento. Antes desta revisao esta soma a
+        # ignorava, e marcar a filtracao fina nao mexia no valor exibido.
+        # A regra incremental - descontar a verba generica ja embutida em
+        # «Acessorios» - vive em netuno/core/etap_integration.py, e e a mesma
+        # que o motor do nucleo usa.
+        # Tipologia nao residencial com tarifa residencial: a conta inteira sai
+        # errada, e o sentido do erro e conhecido. Avisar aqui tambem, e nao so
+        # no dialogo, porque e aqui que o resultado contaminado e lido.
+        if hasattr(self, "lbl_aviso_categoria"):
+            _incompat = incompatibilidade_de_categoria(cfg)
+            self.lbl_aviso_categoria.setText(
+                (tr("⚠️ Categoria tarifária incompatível: ") + _incompat.split("\n")[0])
+                if _incompat else ""
+            )
+            self.lbl_aviso_categoria.setVisible(bool(_incompat))
+
+        etap_capex_inc = capex_incremental_da_etap(cfg)
         total_capex = 0.0 if lower_vol <= 0 else (
             est["lower"] + cfg.cost_upper_tank +
             (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-            cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor
+            cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+            etap_capex_inc
         )
 
         has_sim = False
@@ -733,8 +802,8 @@ class TabEconomicIntegrated(QWidget):
         water_t, sewage_t = calculate_effective_tariff(
             cfg, annual_saved_m3, annual_total_demand_m3=annual_total_demand_m3
         )
-        tma_annual = cfg.tma / 100.0 if cfg.tma > 1.0 else cfg.tma
-        inf_annual = cfg.inflation / 100.0 if cfg.inflation > 1.0 else cfg.inflation
+        tma_annual = mensal_pct_para_anual_fracao(cfg.tma)
+        inf_annual = mensal_pct_para_anual_fracao(cfg.inflation)
 
         n_readj_per_year = 12.0 / max(1.0, cfg.tariff_escalation)
         w_esc_annual = (1.0 + cfg.water_tariff_escalation / 100.0) ** n_readj_per_year - 1.0
@@ -749,9 +818,15 @@ class TabEconomicIntegrated(QWidget):
                 t_rec = (single_res.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                 ann_cyc = single_res.total_pump_cycles / max(1.0, sim_days / 365.25)
                 t_part = ann_cyc * cfg.pump_startup_time_h
-                pump_hours_year = (t_rec + t_part) / max(0.01, cfg.pump_efficiency / 100.0)
+                # Horas de operacao, sem dividir pelo rendimento: a potencia de
+                # placa ja o embute, e dividir de novo conta a perda duas vezes.
+                pump_hours_year = t_rec + t_part
 
         annual_om_base = annualize_operational_costs(cfg.op_costs, annual_saved_m3)
+        # Custeio da linha de tratamento sem a cloracao, que a linha de cloro
+        # abaixo ja cobra. Sem isto, escolher ultravioleta ou filtro de polimento
+        # nao mexia na manutencao exibida.
+        annual_om_base += opex_anual_incremental_da_etap(cfg, annual_saved_m3)
 
         # Cloração
         cl2_enabled = getattr(cfg, "chlorine_treatment_enabled", True)
@@ -906,7 +981,8 @@ class TabEconomicIntegrated(QWidget):
                     capex_v = 0.0 if v_vol <= 0 else (
                         c_low + cfg.cost_upper_tank +
                         (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-                        cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor
+                        cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+                        capex_incremental_da_etap(cfg, vol_m3_val)
                     )
                     tw_v, ts_v = calculate_effective_tariff(
                         cfg, vol_m3_val,
@@ -918,11 +994,11 @@ class TabEconomicIntegrated(QWidget):
                             t_rec_v = (r_item.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                             ann_cyc_v = r_item.total_pump_cycles / max(1.0, sim_days / 365.25)
                             t_part_v = ann_cyc_v * cfg.pump_startup_time_h
-                            p_hrs_v = (t_rec_v + t_part_v) / max(0.01, cfg.pump_efficiency / 100.0)
+                            p_hrs_v = t_rec_v + t_part_v
                         else:
                             ann_pumped_l = vol_m3_val * 1000.0
                             t_rec_v = ann_pumped_l / cfg.pump_flow_rate
-                            p_hrs_v = t_rec_v / max(0.01, cfg.pump_efficiency / 100.0)
+                            p_hrs_v = t_rec_v
 
                     # Cloração proporcional ao volume tratado para cada reservatório
                     if upper_used and v_vol > 0:
@@ -933,6 +1009,8 @@ class TabEconomicIntegrated(QWidget):
                         ann_cl_cost_v = 0.0
 
                     annual_om_v = annualize_operational_costs(cfg.op_costs, vol_m3_val) if v_vol > 0 else 0.0
+                    if v_vol > 0:
+                        annual_om_v += opex_anual_incremental_da_etap(cfg, vol_m3_val)
 
                     econ_v = run_robust_economic_analysis(
                         initial_investment=capex_v,
@@ -954,7 +1032,7 @@ class TabEconomicIntegrated(QWidget):
                         annual_iptu_savings=(ann_iptu_savings if v_vol > 0 else 0.0),
                     )
                     gross_m = (econ_v.annual_cash_flows[1].total_gross_savings_brl / 12.0) if len(econ_v.annual_cash_flows) > 1 else 0.0
-                    pb_v = econ_v.payback_discounted_years or econ_v.payback_simple_years
+                    pb_v = econ_v.payback_discounted_years
 
                     # Custo operacional anual (1º ano)
                     if v_vol > 0 and len(econ_v.annual_cash_flows) > 1:
@@ -968,8 +1046,8 @@ class TabEconomicIntegrated(QWidget):
                             max_vpl_val = econ_v.vpl
                             best_vpl_idx = row
 
-                        # Critério padrão de ótimo econômico: menor payback viável (> 0)
-                        pb_cand = econ_v.payback_discounted_years if (econ_v.payback_discounted_years and econ_v.payback_discounted_years > 0) else econ_v.payback_simple_years
+                        # Critério padrão de ótimo econômico: menor payback descontado viável (> 0) com VPL > 0
+                        pb_cand = econ_v.payback_discounted_years if (econ_v.payback_discounted_years and econ_v.payback_discounted_years > 0 and econ_v.vpl > 0) else None
                         if pb_cand is not None and pb_cand > 0:
                             if pb_cand < min_pb_val - 1e-4:
                                 min_pb_val = pb_cand
@@ -995,13 +1073,36 @@ class TabEconomicIntegrated(QWidget):
                         "total_costs": (capex_v + econ_v.total_opex_brl) if v_vol > 0 else 0.0,
                     }
 
-                    self.table_vpl_volumes.setItem(row, 0, QTableWidgetItem(f"{v_vol:.0f}"))
-                    self.table_vpl_volumes.setItem(row, 1, QTableWidgetItem(f"{curr_sym} {format_ptbr(capex_v, 2)}"))
-                    self.table_vpl_volumes.setItem(row, 2, QTableWidgetItem(f"{curr_sym} {format_ptbr(annual_opex_v, 2)}/a" if annual_opex_v > 0 else f"{curr_sym} 0,00/a"))
-                    self.table_vpl_volumes.setItem(row, 3, QTableWidgetItem(f"{format_ptbr(vol_m3_val, 1)}"))
-                    self.table_vpl_volumes.setItem(row, 4, QTableWidgetItem(f"{curr_sym} {format_ptbr(econ_v.vpl, 2)}"))
-                    self.table_vpl_volumes.setItem(row, 5, QTableWidgetItem(f"{format_ptbr(econ_v.tir_pct, 1)}%"))
-                    self.table_vpl_volumes.setItem(row, 6, QTableWidgetItem(f"{format_ptbr(pb_v, 1)}" if pb_v else "Sem Retorno"))
+                    it0 = QTableWidgetItem(f"{v_vol:,.0f} L".replace(",", "."))
+                    it0.setTextAlignment(Qt.AlignCenter)
+                    self.table_vpl_volumes.setItem(row, 0, it0)
+
+                    it1 = QTableWidgetItem(f"{curr_sym} {format_ptbr(capex_v, 2)}")
+                    it1.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    self.table_vpl_volumes.setItem(row, 1, it1)
+
+                    it2 = QTableWidgetItem(f"{curr_sym} {format_ptbr(annual_opex_v, 2)}/a" if annual_opex_v > 0 else f"{curr_sym} 0,00/a")
+                    it2.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    self.table_vpl_volumes.setItem(row, 2, it2)
+
+                    it3 = QTableWidgetItem(f"{format_ptbr(vol_m3_val, 1)}")
+                    it3.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    self.table_vpl_volumes.setItem(row, 3, it3)
+
+                    it4 = QTableWidgetItem(f"{curr_sym} {format_ptbr(econ_v.vpl, 2)}")
+                    it4.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    if econ_v.vpl < 0:
+                        it4.setForeground(QColor("#dc2626"))
+                    self.table_vpl_volumes.setItem(row, 4, it4)
+
+                    it5 = QTableWidgetItem(f"{format_ptbr(econ_v.tir_pct, 1)}%")
+                    it5.setTextAlignment(Qt.AlignCenter)
+                    self.table_vpl_volumes.setItem(row, 5, it5)
+
+                    pb_txt = f"{format_ptbr(pb_v, 1)}" if pb_v else tr("Sem Retorno")
+                    it6 = QTableWidgetItem(pb_txt)
+                    it6.setTextAlignment(Qt.AlignCenter)
+                    self.table_vpl_volumes.setItem(row, 6, it6)
 
                 # O default de referência ótima econômica é o payback mais curto
                 best_opt_idx = best_pb_idx if best_pb_idx >= 0 else best_vpl_idx
@@ -1017,12 +1118,17 @@ class TabEconomicIntegrated(QWidget):
                     if it_vol:
                         tag = tr("Menor Payback") if best_pb_idx >= 0 else tr("VPL Máximo")
                         it_vol.setText(f"★ {it_vol.text()} ({tag})")
+                        it_vol.setToolTip(f"{tr('Ótimo Econômico')} — {tag}")
 
                 # Se o VPL Máximo for em outro volume, anota-o de forma informativa
                 if best_vpl_idx >= 0 and best_vpl_idx != best_opt_idx:
                     it_vpl = self.table_vpl_volumes.item(best_vpl_idx, 0)
                     if it_vpl and "★" not in it_vpl.text():
                         it_vpl.setText(f"{it_vpl.text()} ({tr('Maior VPL')})")
+                        it_vpl.setToolTip(tr("Maior VPL"))
+
+                self.table_vpl_volumes.resizeColumnsToContents()
+                self.table_vpl_volumes.horizontalHeader().setStretchLastSection(True)
 
                 self.last_sweep_econ_results = sweep_econ_results
                 
@@ -1035,7 +1141,7 @@ class TabEconomicIntegrated(QWidget):
                     metric=cur_metric or "payback_discounted",
                     currency_symbol=curr_sym,
                     optimal_tech_vol=opt_tech_v,
-                    tma_rate=cfg.tma
+                    tma_rate=mensal_pct_para_anual_pct(cfg.tma)
                 )
 
                 if best_opt_idx >= 0:
@@ -1104,10 +1210,19 @@ class TabEconomicIntegrated(QWidget):
                 (f"🛠️ {tr(it[0])}", f"{tr('Rotina')} {it[1]}m", "-", 0.0, 0.0)
                 for it in raw_maint
             ]
-            iptu_row = (tr("🌿 Incentivo Fiscal (IPTU Verde)"), tr("Desativado"), "-", 0.0, 0.0)
+            if iptu_enabled:
+                calc_savings = iptu_val * (iptu_disc / 100.0)
+                ann_iptu_savings = calc_savings
+                iptu_desc = f"{tr('Benefício Fiscal Anual')} ({tr('Desconto de')} {iptu_disc:.1f}%)"
+                iptu_dim = f"{tr('Base IPTU:')} {curr_sym} {format_ptbr(iptu_val, 2)}/{tr('ano')}"
+                iptu_opex_reduction = -calc_savings
+                iptu_row = (tr("🌿 Incentivo Fiscal (IPTU Verde)"), iptu_desc, iptu_dim, 0.0, iptu_opex_reduction)
+            else:
+                iptu_row = (tr("🌿 Incentivo Fiscal (IPTU Verde)"), tr("(Desativado)"), "-", 0.0, 0.0)
             rows_data = fixed_rows + maint_rows + [iptu_row]
             tot_capex = 0.0
-            tot_opex_net = 0.0
+            tot_opex_gross = 0.0
+            tot_opex_net = -ann_iptu_savings if iptu_enabled else 0.0
         else:
             # Bomba
             pump_cv = round(cfg.pump_power_kw / 0.735499, 2)
@@ -1119,9 +1234,14 @@ class TabEconomicIntegrated(QWidget):
             pipe_qty_str = f"{tot_pipe_m:,.0f} m lineares".replace(',', '.')
             pipe_spec_str = f"PVC ({', '.join(pipe_desc_list)})" if pipe_desc_list else "PVC Rígido"
 
-            iptu_desc = f"Desconto de {iptu_disc:.1f}% sobre IPTU" if iptu_enabled else tr("(Desativado)")
-            iptu_dim = f"{curr_sym} {format_ptbr(iptu_val, 2)}/ano" if iptu_enabled else "-"
-            iptu_opex_reduction = -ann_iptu_savings if iptu_enabled else 0.0
+            if iptu_enabled:
+                iptu_desc = f"{tr('Benefício Fiscal Anual')} ({tr('Desconto de')} {iptu_disc:.1f}%)"
+                iptu_dim = f"{tr('Base IPTU:')} {curr_sym} {format_ptbr(iptu_val, 2)}/{tr('ano')}"
+                iptu_opex_reduction = -ann_iptu_savings
+            else:
+                iptu_desc = tr("(Desativado)")
+                iptu_dim = "-"
+                iptu_opex_reduction = 0.0
 
             fixed_rows = [
                 (tr("Cisterna Inferior"), tr(low_mat), f"{lower_vol:,.0f} L", estimate_preliminary_capex(
@@ -1135,6 +1255,21 @@ class TabEconomicIntegrated(QWidget):
                 (tr("Motobomba de Recalque"), f"{pump_cv:.2f} CV ({cfg.pump_count}x)", f"{cfg.pump_flow_rate:,.0f} L/h" if upper_used else "-", cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0, ann_pump_cost),
                 (tr("Cloração / Desinfecção"), f"Cloro Ativo ({cfg.chlorine_dose_mg_l:.1f} mg/L)" if cfg.chlorine_treatment_enabled else tr("Inativo"), f"{ann_cl2_kg:.2f} kg/ano", 0.0, ann_cl2_cost),
             ]
+
+            if getattr(cfg, 'etap_enabled', True):
+                etap_p = dimensionar_etap_do_projeto(cfg)
+                etap_c_inc = capex_incremental_da_etap(cfg)
+                etap_o_inc = opex_anual_incremental_da_etap(cfg)
+                ff_info = ""
+                if etap_p.resultado.first_flush and etap_p.resultado.first_flush.diverter_volume_liters > 0:
+                    ff_info = f" + Descarte {etap_p.resultado.first_flush.diverter_volume_liters:.0f} L"
+                fixed_rows.append((
+                    tr("Linha de Tratamento (ETAP) & Descarte"),
+                    f"{tr(etap_p.resultado.target_quality_class)}{ff_info}",
+                    f"{etap_p.resultado.disinfection_method.upper()}",
+                    etap_c_inc,
+                    etap_o_inc,
+                ))
 
             # As 3 manutenções de referência (ou todas as configuradas pelo usuário)
             maint_rows = []
@@ -1165,34 +1300,91 @@ class TabEconomicIntegrated(QWidget):
         tot_row_idx = len(rows_data)
 
         for i, r in enumerate(rows_data):
-            self.table_mat_impact.setItem(i, 0, QTableWidgetItem(r[0]))
-            self.table_mat_impact.setItem(i, 1, QTableWidgetItem(r[1]))
-            self.table_mat_impact.setItem(i, 2, QTableWidgetItem(r[2]))
-            self.table_mat_impact.setItem(i, 3, QTableWidgetItem(f"{curr_sym} {format_ptbr(r[3], 2)}"))
+            it0 = QTableWidgetItem(r[0])
+            it0.setToolTip(r[0])
+            it0.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            self.table_mat_impact.setItem(i, 0, it0)
+
+            it1 = QTableWidgetItem(r[1])
+            it1.setToolTip(r[1])
+            it1.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            self.table_mat_impact.setItem(i, 1, it1)
+
+            it2 = QTableWidgetItem(r[2])
+            it2.setToolTip(r[2])
+            it2.setTextAlignment(Qt.AlignCenter)
+            self.table_mat_impact.setItem(i, 2, it2)
+
+            capex_text = f"{curr_sym} {format_ptbr(r[3], 2)}" if r[3] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} 0,00")
+            it3 = QTableWidgetItem(capex_text)
+            it3.setToolTip(capex_text)
+            it3.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            self.table_mat_impact.setItem(i, 3, it3)
+
             if i == iptu_row_idx and iptu_enabled:
-                it_opex = QTableWidgetItem(f"- {curr_sym} {format_ptbr(ann_iptu_savings, 2)}/a ({tr('Economia')})")
+                opex_str = f"+ {curr_sym} {format_ptbr(ann_iptu_savings, 2)}/{tr('ano')} ({tr('Benefício Fiscal / Economia')})"
+                it_opex = QTableWidgetItem(opex_str)
+                it_opex.setToolTip(f"{tr('Benefício de IPTU Verde que reduz o OPEX anual do sistema em')} {curr_sym} {format_ptbr(ann_iptu_savings, 2)}/{tr('ano')}")
                 it_opex.setForeground(fg_iptu)
                 it_opex.setBackground(bg_iptu)
                 it_opex.setFont(font_bold)
+                it_opex.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 self.table_mat_impact.setItem(i, 4, it_opex)
                 if self.table_mat_impact.item(i, 0):
                     self.table_mat_impact.item(i, 0).setForeground(fg_iptu)
                     self.table_mat_impact.item(i, 0).setFont(font_bold)
             else:
-                self.table_mat_impact.setItem(i, 4, QTableWidgetItem(f"{curr_sym} {format_ptbr(r[4], 2)}/a" if r[4] > 0 else "-"))
+                opex_text = f"{curr_sym} {format_ptbr(r[4], 2)}/{tr('ano')}" if r[4] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} 0,00")
+                it4 = QTableWidgetItem(opex_text)
+                it4.setToolTip(opex_text)
+                it4.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                self.table_mat_impact.setItem(i, 4, it4)
 
         # Linha Total
-        tot_label = f"★ {tr('TOTAL DO SISTEMA')} (+Mão de Obra e IPTU Verde)" if iptu_enabled else f"★ {tr('TOTAL DO SISTEMA')} (+Mão de Obra)"
-        self.table_mat_impact.setItem(tot_row_idx, 0, QTableWidgetItem(tot_label))
-        self.table_mat_impact.setItem(tot_row_idx, 1, QTableWidgetItem(f"{low_mat} / {up_mat}"))
-        self.table_mat_impact.setItem(tot_row_idx, 2, QTableWidgetItem(f"{lower_vol:,.0f} L"))
-        self.table_mat_impact.setItem(tot_row_idx, 3, QTableWidgetItem(f"{curr_sym} {format_ptbr(tot_capex, 2)}"))
-        self.table_mat_impact.setItem(tot_row_idx, 4, QTableWidgetItem(f"{curr_sym} {format_ptbr(tot_opex_net, 2)}/a" if lower_vol > 0 else "-"))
+        tot_label = f"★ {tr('TOTAL DO SISTEMA')} ({tr('+Mão de Obra e Benefício IPTU Verde')})" if iptu_enabled else f"★ {tr('TOTAL DO SISTEMA')} ({tr('+Mão de Obra')})"
+        it_tot0 = QTableWidgetItem(tot_label)
+        it_tot0.setToolTip(tot_label)
+        it_tot0.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.table_mat_impact.setItem(tot_row_idx, 0, it_tot0)
+
+        it_tot1 = QTableWidgetItem(f"{low_mat} / {up_mat}")
+        it_tot1.setToolTip(f"{low_mat} / {up_mat}")
+        it_tot1.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.table_mat_impact.setItem(tot_row_idx, 1, it_tot1)
+
+        it_tot2 = QTableWidgetItem(f"{lower_vol:,.0f} L")
+        it_tot2.setToolTip(f"{lower_vol:,.0f} L")
+        it_tot2.setTextAlignment(Qt.AlignCenter)
+        self.table_mat_impact.setItem(tot_row_idx, 2, it_tot2)
+
+        tot_capex_text = f"{curr_sym} {format_ptbr(tot_capex, 2)}"
+        it_tot3 = QTableWidgetItem(tot_capex_text)
+        it_tot3.setToolTip(tot_capex_text)
+        it_tot3.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.table_mat_impact.setItem(tot_row_idx, 3, it_tot3)
+
+        if lower_vol > 0 or iptu_enabled:
+            tot_opex_text = f"{curr_sym} {format_ptbr(tot_opex_net, 2)}/{tr('ano')}"
+            tot_opex_tip = (
+                f"{tr('OPEX Bruto:')} {curr_sym} {format_ptbr(tot_opex_gross, 2)}/{tr('ano')} | "
+                f"{tr('Benefício IPTU Verde:')} -{curr_sym} {format_ptbr(ann_iptu_savings, 2)}/{tr('ano')} = "
+                f"{tr('Custo Líquido:')} {curr_sym} {format_ptbr(tot_opex_net, 2)}/{tr('ano')}"
+            ) if iptu_enabled else f"{tr('Custo Operacional Total:')} {curr_sym} {format_ptbr(tot_opex_gross, 2)}/{tr('ano')}"
+        else:
+            tot_opex_text = "—"
+            tot_opex_tip = ""
+        it_tot4 = QTableWidgetItem(tot_opex_text)
+        it_tot4.setToolTip(tot_opex_tip or tot_opex_text)
+        it_tot4.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.table_mat_impact.setItem(tot_row_idx, 4, it_tot4)
+
         for col in range(5):
             it = self.table_mat_impact.item(tot_row_idx, col)
             if it:
                 it.setFont(font_bold)
                 it.setBackground(bg_tot)
+
+        self.table_mat_impact.resizeRowsToContents()
 
     def export_cash_flow_csv(self):
         if not self.last_result or not self.last_result.annual_cash_flows:

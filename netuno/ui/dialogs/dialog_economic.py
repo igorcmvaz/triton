@@ -11,8 +11,11 @@ from PySide6.QtGui import QColor, QFont, QDesktopServices
 from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import NetunoConfig, format_ptbr
 from netuno.core.economic import run_economic_analysis, calculate_water_bill
+from netuno.core.tariff_regimes import resumo_do_regime, validar_estrutura
+from netuno.core.tariff_category import incompatibilidade_de_categoria
 from netuno.core.tariffs_database import (
-    get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count
+    get_available_ufs, get_cities_by_uf, get_city_data, get_total_cities_count,
+    search_cities
 )
 from netuno.core.cost_estimates import (
     LOWER_TANK_PRICE_TABLE, UPPER_TANK_PRICE_TABLE, estimate_preliminary_capex,
@@ -170,6 +173,22 @@ class DialogTariffs(QDialog):
         lbl_sel_info.setStyleSheet(f"font-size: 11px; font-weight: normal; color: {sub_text_color};")
         lay_city.addWidget(lbl_sel_info)
 
+        # Busca de municipio: a selecao exigia saber a UF de antemao, e a base
+        # tem 652 municipios de 27 estados. A busca varre nome, estado e
+        # prestadora de saneamento, e posiciona os dois combos no resultado.
+        row_busca = QHBoxLayout()
+        row_busca.setSpacing(6)
+        row_busca.addWidget(QLabel(f"<b>{tr('Buscar município:')}</b>"))
+        self.txt_busca_municipio = QLineEdit()
+        self.txt_busca_municipio.setPlaceholderText(
+            tr("Nome do município, estado ou prestadora (ex.: Joinville, CASAN)"))
+        self.txt_busca_municipio.textEdited.connect(self._buscar_municipio)
+        row_busca.addWidget(self.txt_busca_municipio, stretch=1)
+        self.lbl_busca_resultado = QLabel("")
+        self.lbl_busca_resultado.setStyleSheet("color: #475569; font-size: 11px;")
+        row_busca.addWidget(self.lbl_busca_resultado)
+        lay_city.addLayout(row_busca)
+
         row_sel = QHBoxLayout()
         row_sel.setSpacing(6)
         row_sel.addWidget(QLabel(f"<b>{tr('Estado (UF):')}</b>"))
@@ -265,6 +284,21 @@ class DialogTariffs(QDialog):
         row_info2.addStretch()
         card_lay.addLayout(row_info2)
 
+        # Linha 2.1: regime de tarifa minima e ressalva de estrutura.
+        self.lbl_regime = QLabel("")
+        self.lbl_regime.setWordWrap(True)
+        self.lbl_regime.setStyleSheet("font-size: 11px; color: #1e3a8a;")
+        card_lay.addWidget(self.lbl_regime)
+
+        self.lbl_estrutura_aviso = QLabel("")
+        self.lbl_estrutura_aviso.setWordWrap(True)
+        self.lbl_estrutura_aviso.setStyleSheet(
+            "font-size: 11px; color: #7c2d12; background-color: #fef3c7; "
+            "border: 1px solid #fbbf24; border-radius: 4px; padding: 5px;"
+        )
+        self.lbl_estrutura_aviso.setVisible(False)
+        card_lay.addWidget(self.lbl_estrutura_aviso)
+
         # Linha 3: Eletricidade B1 (ANEEL)
         row_elec = QHBoxLayout()
         self.chk_update_elec = QCheckBox(tr("Sincronizar tarifa de eletricidade B1 (ANEEL)"))
@@ -349,6 +383,26 @@ class DialogTariffs(QDialog):
         gb_esgoto.setLayout(lay_esg)
         lay.addWidget(gb_esgoto)
 
+        # ── BLOCO 4: IMPOSTOS SOBRE A CONTA DE AGUA ──
+        # O motor economico soma os dois desde sempre; ate esta versao a tela
+        # nao os oferecia e ainda os zerava ao fechar.
+        gb_imp = QGroupBox(tr("Impostos e encargos sobre a conta de água (opcional)"))
+        lay_imp = QHBoxLayout()
+        _tax_fix = float(getattr(self.config, "water_tax_fixed", 0.0) or 0.0)
+        _tax_var = float(getattr(self.config, "water_tax_var", 0.0) or 0.0)
+        lay_imp.addWidget(QLabel(tr("Imposto fixo (R$/mês):")))
+        self.txt_tax_fix = QLineEdit(f"{_tax_fix:.2f}".replace(".", ","))
+        self.txt_tax_fix.setFixedWidth(90)
+        lay_imp.addWidget(self.txt_tax_fix)
+        lay_imp.addSpacing(18)
+        lay_imp.addWidget(QLabel(tr("Imposto variável (%):")))
+        self.txt_tax_var = QLineEdit(f"{_tax_var:.2f}".replace(".", ","))
+        self.txt_tax_var.setFixedWidth(90)
+        lay_imp.addWidget(self.txt_tax_var)
+        lay_imp.addStretch()
+        gb_imp.setLayout(lay_imp)
+        lay.addWidget(gb_imp)
+
         # Estilo de RadioButtons
         self.setStyleSheet(f"""
             QRadioButton {{ padding: 3px; }}
@@ -430,6 +484,48 @@ class DialogTariffs(QDialog):
         self.combo_category.currentIndexChanged.connect(self.apply_city_tariffs)
         self.update_city_preview()
 
+    def _buscar_municipio(self, texto: str):
+        """Posiciona os combos no primeiro municipio que casa com a busca.
+
+        Devolve o numero de resultados para que o usuario saiba que ha mais de
+        um, e nao se surpreenda com a escolha feita por ele.
+        """
+        consulta = (texto or "").strip()
+        if len(consulta) < 3:
+            self.lbl_busca_resultado.setText("")
+            return
+
+        achados = search_cities(consulta, limit=20)
+        if not achados:
+            self.lbl_busca_resultado.setText(tr("nenhum município encontrado"))
+            return
+
+        primeiro = achados[0]
+        uf = primeiro.get("uf", "")
+        municipio = primeiro.get("municipio", "")
+        if not uf or not municipio:
+            return
+
+        idx_uf = self.combo_uf.findData(uf)
+        if idx_uf < 0:
+            return
+
+        anterior = self._is_populating_ui
+        self._is_populating_ui = True
+        try:
+            self.combo_uf.setCurrentIndex(idx_uf)
+            self.populate_cities_for_current_uf(select_city=municipio)
+        finally:
+            self._is_populating_ui = anterior
+
+        prestadora = primeiro.get("prestador_saneamento", "")
+        sufixo = f" — {prestadora}" if prestadora else ""
+        extra = f" (+{len(achados) - 1})" if len(achados) > 1 else ""
+        self.lbl_busca_resultado.setText(f"{uf} · {municipio}{sufixo}{extra}")
+
+        self.apply_city_tariffs()
+        self.update_city_preview()
+
     def populate_cities_for_current_uf(self, select_city=None):
         uf_code = self.combo_uf.currentData() or "CUSTOM"
         
@@ -491,6 +587,13 @@ class DialogTariffs(QDialog):
             self.lbl_confianca.setText(f"⭐ <b>{tr('Modo:')}</b> {tr('Personalizado')}")
             self.btn_open_url.setVisible(False)
             self.lbl_elec_info.setText("")
+            self.lbl_regime.setText(tr(
+                "💧 <b>Regime de cobrança:</b> defina você mesmo. Se a sua concessionária cobra um "
+                "mínimo que já dá direito a alguns m³, lance-o como faixa de R$ 0,00/m³ até esse "
+                "volume: abaixo dele economizar água não reduz a conta."
+            ))
+            self.lbl_estrutura_aviso.setText("")
+            self.lbl_estrutura_aviso.setVisible(False)
             self.lbl_disclaimer.setText(tr(
                 "💡 <b>Modo Personalizado:</b> As faixas e alíquotas abaixo são editáveis livremente. "
                 "Insira os valores com impostos inclusos conforme a fatura do seu projeto."
@@ -522,6 +625,33 @@ class DialogTariffs(QDialog):
         self.lbl_prestador.setText(f"🏢 <b>{tr('Prestador:')}</b> {prestador} &nbsp;•&nbsp; <b>{tr('Esgoto:')}</b> {esg_pct:.0f}%")
         self.lbl_vigencia.setText(f"📋 <b>{tr('Regulação / Vigência:')}</b> {reg_str}")
         self.lbl_confianca.setText(f"⭐ <b>{tr('Confiança:')}</b> {conf_grau} ({conf_score:.0f}/100)")
+
+        # Regime de tarifa minima. O projetista nao precisa do nome do regime:
+        # precisa saber se economizar agua reduz a conta, e a partir de que
+        # consumo. Num municipio com franquia de 15 m3, uma residencia que
+        # consome 12 m3 nao economiza um centavo por instalar cisterna.
+        self.lbl_regime.setText(f"💧 <b>{tr('Regime de cobrança:')}</b> {resumo_do_regime(data)}")
+
+        # Estrutura incompleta ou suspeita: escolhivel sim, mas nunca em silencio.
+        # A categoria vem primeiro, porque erra a conta inteira e nao um trecho.
+        incompativel = incompatibilidade_de_categoria(self.config)
+        erros = [a for a in validar_estrutura(data) if a.gravidade == "erro"]
+        ressalva = data.get("_ressalva_estrutura", "") or data.get("_ressalva_esgoto", "")
+        if incompativel:
+            self.lbl_estrutura_aviso.setText(
+                f"⚠️ <b>{tr('Categoria tarifária incompatível:')}</b> "
+                + incompativel.replace("\n\n", "<br><br>")
+            )
+            self.lbl_estrutura_aviso.setVisible(True)
+        elif erros or ressalva:
+            texto = ressalva or "; ".join(a.mensagem for a in erros)
+            self.lbl_estrutura_aviso.setText(
+                f"⚠️ <b>{tr('Estrutura tarifária a conferir:')}</b> {texto}"
+            )
+            self.lbl_estrutura_aviso.setVisible(True)
+        else:
+            self.lbl_estrutura_aviso.setText("")
+            self.lbl_estrutura_aviso.setVisible(False)
         
         # Link da Fonte
         url = data.get('fonte_url', '')
@@ -729,8 +859,16 @@ class DialogTariffs(QDialog):
             self.config.water_tariffs = tariffs
             self.config.sewage_mode = 0 if self.radio_esg_fix.isChecked() else 1
             self.config.sewage_rate = float(self.txt_esg_val.text().replace(',', '.'))
-            self.config.water_tax_fixed = 0.0
-            self.config.water_tax_var = 0.0
+            # Estes dois ja foram zerados aqui, apagando o que o arquivo
+            # do projeto ou a linha de comando tivessem declarado.
+            def _num(campo, padrao=0.0):
+                t = campo.text().strip().replace(".", "").replace(",", ".")
+                try:
+                    return max(0.0, float(t)) if t else padrao
+                except ValueError:
+                    return padrao
+            self.config.water_tax_fixed = _num(self.txt_tax_fix)
+            self.config.water_tax_var = _num(self.txt_tax_var)
             
             # Persist selected city metadata
             if self.combo_uf.currentIndex() >= 0:
@@ -1524,7 +1662,19 @@ class DialogElectricity(QDialog):
 
         lay_p.addWidget(QLabel(tr("Rendimento (%):")))
         self.txt_eff = QLineEdit(f"{self.config.pump_efficiency:.1f}".replace('.', ','))
+        self.txt_eff.setToolTip(tr(
+            "Rendimento da BOMBA, isto é, da parte hidráulica. Não inclui o motor: a potência de placa é a mecânica no eixo, e o rendimento do motor é campo à parte."))
         lay_p.addWidget(self.txt_eff)
+
+        # O rendimento do motor separa a energia de eixo da energia faturada.
+        lay_p.addWidget(QLabel(tr("Rendimento do motor (%, em branco usa a NBR 17094-2):")))
+        _mot = float(getattr(self.config, 'pump_motor_efficiency', 0.0) or 0.0)
+        self.txt_motor_eff = QLineEdit(
+            f"{_mot:.1f}".replace('.', ',') if _mot > 0 else "")
+        self.txt_motor_eff.setPlaceholderText(tr("Ex: 60,5 para meio CV"))
+        self.txt_motor_eff.setToolTip(tr(
+            "A potência de placa é a potência mecânica no eixo, e a ABNT NBR 17094-2 manda marcar o rendimento na placa como grandeza separada. Em branco, o programa adota a Tabela 13 da norma para a potência escolhida: 60,5% em meio CV, 69,3% em um CV."))
+        lay_p.addWidget(self.txt_motor_eff)
 
         lay_p.addWidget(QLabel(tr("Vazão nominal (litros/hora):")))
         self.txt_flow = QLineEdit(f"{self.config.pump_flow_rate:.0f}".replace('.', ','))
@@ -1546,8 +1696,23 @@ class DialogElectricity(QDialog):
         self.txt_elec_tariff = QLineEdit(elec_tariff_str)
         lay_p.addWidget(self.txt_elec_tariff)
 
+        # Impostos da conta de energia. No Brasil a fatura carrega ICMS mais
+        # PIS/COFINS, entre 25% e 30% em boa parte dos estados, e o bombeamento
+        # e o unico custo operacional recorrente do sistema.
+        _e_var = float(getattr(self.config, "elec_tax_var", 0.0) or 0.0)
+        _e_fix = float(getattr(self.config, "elec_tax_fixed", 0.0) or 0.0)
+        lay_p.addWidget(QLabel(tr("Imposto variável sobre a conta de energia (%):")))
+        self.txt_elec_tax_var = QLineEdit(f"{_e_var:.2f}".replace(".", ","))
+        lay_p.addWidget(self.txt_elec_tax_var)
+        lay_p.addWidget(QLabel(tr("Imposto fixo sobre a conta de energia (R$/mês):")))
+        self.txt_elec_tax_fix = QLineEdit(f"{_e_fix:.2f}".replace(".", ","))
+        lay_p.addWidget(self.txt_elec_tax_fix)
+
         self.chk_backup_pump = QCheckBox(tr("Considerar motobomba de reserva"))
-        self.chk_backup_pump.setChecked(True if getattr(self.config, 'pump_count', 2) >= 1 else True)
+        # O ternario anterior devolvia True nos dois ramos, de modo que a caixa abria
+        # sempre marcada e o OK devolvia pump_count = 2, apagando a escolha de bomba
+        # unica. A contagem de bombas entra na ACV e no CAPEX.
+        self.chk_backup_pump.setChecked(int(getattr(self.config, 'pump_count', 2)) >= 2)
         lay_p.addWidget(self.chk_backup_pump)
 
         lay.addWidget(gb_pump)
@@ -1735,12 +1900,18 @@ class DialogElectricity(QDialog):
 
             self.config.pump_power_kw = p_kw
             self.config.pump_efficiency = float(self.txt_eff.text().replace(',', '.'))
+            _mot_txt = self.txt_motor_eff.text().strip().replace(',', '.')
+            try:
+                self.config.pump_motor_efficiency = max(0.0, min(100.0, float(_mot_txt))) \
+                    if _mot_txt else 0.0
+            except ValueError:
+                self.config.pump_motor_efficiency = 0.0
             self.config.pump_flow_rate = float(self.txt_flow.text().replace(',', '.'))
             self.config.pump_startup_time_h = float(self.txt_startup.text().replace(',', '.')) / 3600.0
             self.config.pump_unit_cost = _parse_val(self.txt_unit_cost)
             self.config.elec_tariff = _parse_val(self.txt_elec_tariff)
-            self.config.elec_tax_fixed = 0.0
-            self.config.elec_tax_var = 0.0
+            self.config.elec_tax_fixed = max(0.0, _parse_val(self.txt_elec_tax_fix))
+            self.config.elec_tax_var = max(0.0, _parse_val(self.txt_elec_tax_var))
             self.config.pump_count = 2 if self.chk_backup_pump.isChecked() else 1
             
             # Persiste seleção de cidade da eletricidade
@@ -1777,7 +1948,8 @@ class DialogElectricity(QDialog):
                     if hasattr(self, "txt_pipes"):
                         for dn_pipe, txt_p in self.txt_pipes.items():
                             txt_p.setText(f"{self.config.get_pipe_length(dn_pipe):.1f}".replace('.', ','))
-                    self._on_pipes_changed()
+                    if hasattr(self, "_on_pipes_changed"):
+                        self._on_pipes_changed()
 
 
 

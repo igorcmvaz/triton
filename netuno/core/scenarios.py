@@ -1,11 +1,13 @@
 import os
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Tuple, Optional, Union, Callable
+from netuno.core.fracao_atendivel import validar_fracao
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from netuno.core.parser import load_precipitation
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
+from netuno.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 @dataclass
 class ScenarioItem:
@@ -116,7 +118,7 @@ def run_multi_scenario_matrix(
     upper_tank_vol: float = 500.0,
     upper_tank_used: bool = False,
     pumping_threshold: float = 375.0,
-    discard_mm: float = 1.0,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
     discard_mode: int = 1,
     discard_days_interval: int = 7,
     delta_ideal: float = 2.0,
@@ -127,6 +129,8 @@ def run_multi_scenario_matrix(
 ) -> MultiScenarioMatrixResult:
     """
     Executa simulação de matriz fatorial multi-cenários usando o motor oficial netuno.core.simulation.
+
+    `rainwater_shares` são frações de 0 a 1; quem recebe percentual da tela converte antes.
     Suporta computação paralela multi-core para alta performance e notificação de progresso via callback.
     """
     precip_cache: Dict[str, np.ndarray] = {}
@@ -153,7 +157,7 @@ def run_multi_scenario_matrix(
                             scen_counter += 1
                             scen_id = f"SCEN_{scen_counter:04d}"
                             tot_demand = d_cap * res
-                            r_share_val = r_share / 100.0 if r_share > 1.0 else r_share
+                            r_share_val = validar_fracao("A fração atendível do cenário", r_share)
                             
                             tasks.append((
                                 scen_id, city_label, p_path, p_data, area, res, d_cap, tot_demand, r_share_val, runoff,

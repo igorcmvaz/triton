@@ -326,7 +326,7 @@ class SensitivityChart(NetunoBaseChart):
         for spine in ax.spines.values():
             spine.set_color(grid_color)
 
-        self.figure.subplots_adjust(left=0.10, bottom=0.15, right=0.62, top=0.92)
+        self.figure.subplots_adjust(left=0.14, bottom=0.16, right=0.62, top=0.92)
         self.safe_draw()
 
 
@@ -669,10 +669,14 @@ class TOPSISComparisonChart(NetunoBaseChart):
 
         is_smaa = hasattr(res, "first_rank_probs") or method == "smaa_vikor"
         if is_smaa:
-            # Em porcentagem (0 a 100%)
-            raw_scores = getattr(res, "first_rank_acceptabilities", getattr(res, "first_rank_probs", None))
+            # `first_rank_acceptabilities` é fração de 0 a 1, e o gráfico mostra
+            # percentual. A conversão é fixa: multiplicar só o que fosse <= 1
+            # misturava as duas unidades na mesma série de barras.
+            raw_scores = getattr(res, "first_rank_acceptabilities", None)
             if raw_scores is not None:
-                scores = [float(s) * 100.0 if float(s) <= 1.0 else float(s) for s in raw_scores]
+                scores = [float(s) * 100.0 for s in raw_scores]
+            elif getattr(res, "first_rank_probs", None) is not None:
+                scores = [float(s) for s in res.first_rank_probs]  # já em percentual
             else:
                 scores = [0.0] * n_bars
             y_label = tr("Aceitabilidade de 1º Lugar — SMAA-VIKOR (%)")
@@ -693,7 +697,8 @@ class TOPSISComparisonChart(NetunoBaseChart):
             val_fmt = lambda s: f"{s:.2f}"
             annot_best_label = tr("Ótimo TOPSIS")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.2f})"
-            max_y = 1.30
+            # O escore vai de 0 a 1; a folga até 1,2 abriga a anotação do ótimo.
+            max_y = 1.20
 
         if n_bars <= 15:
             # Gráfico de barras discreto para poucas alternativas
@@ -745,6 +750,11 @@ class TOPSISComparisonChart(NetunoBaseChart):
             )
 
         ax.set_ylim(0, max_y)
+        if n_bars > 15:
+            ax.set_xlim(0.0, _upper_multiple(vols, 1000.0))
+        if not is_smaa:
+            import matplotlib.ticker as ticker
+            ax.yaxis.set_major_locator(ticker.MultipleLocator(0.2))
         if is_smaa:
             import matplotlib.ticker as ticker
             step_ticks = 20.0 if max_y >= 40.0 else 10.0
@@ -919,16 +929,16 @@ class VplVsVolumeChart(NetunoBaseChart):
             if same_opt:
                 ax.plot(best_vol, best_val, color='#eab308', marker='*', markersize=16, linestyle='',
                         markeredgecolor='#a16207', markeredgewidth=1.2,
-                        label=f"{tr('Ótimo Técnico = Econômico')}: {best_vol:.0f} L ({currency_symbol} {format_ptbr(best_val, 2)})")
+                        label=f"{tr('Ótimo Técnico = Econômico')}: {format_ptbr(best_vol, 0)} L ({currency_symbol} {format_ptbr(best_val, 2)})")
             else:
                 ax.plot(best_vol, best_val, color='#059669', marker='*', markersize=14, linestyle='',
                         markeredgecolor='#047857', markeredgewidth=1.0,
-                        label=f"{tr('VPL Máximo')}: {best_vol:.0f} L ({currency_symbol} {format_ptbr(best_val, 2)})")
+                        label=f"{tr('VPL Máximo')}: {format_ptbr(best_vol, 0)} L ({currency_symbol} {format_ptbr(best_val, 2)})")
                 if tech_idx is not None:
                     t_vol = vols[tech_idx]; t_val = vals[tech_idx]
                     ax.plot(t_vol, t_val, color='#0284c7', marker='D', markersize=10, linestyle='',
                             markeredgecolor='#0369a1', markeredgewidth=1.2,
-                            label=f"{tr('Ótimo Técnico')}: {t_vol:.0f} L ({currency_symbol} {format_ptbr(t_val, 2)})")
+                            label=f"{tr('Ótimo Técnico')}: {format_ptbr(t_vol, 0)} L ({currency_symbol} {format_ptbr(t_val, 2)})")
 
             ax.set_ylabel(f"{tr('VPL Líquido')} ({currency_symbol})", color=text_color, fontsize=8.5, fontweight='bold')
 
@@ -944,7 +954,7 @@ class VplVsVolumeChart(NetunoBaseChart):
             best_vol = vols[best_idx]; best_val = vals[best_idx]
             ax.plot(best_vol, best_val, color='#059669', marker='*', markersize=14, linestyle='',
                     markeredgecolor='#047857', markeredgewidth=1.0,
-                    label=f"{tr('TIR Máxima')}: {best_vol:.0f} L ({format_ptbr(best_val, 1)}% a.a.)")
+                    label=f"{tr('TIR Máxima')}: {format_ptbr(best_vol, 0)} L ({format_ptbr(best_val, 1)}% a.a.)")
 
             ax.set_ylabel(tr("Taxa Interna de Retorno — TIR (% a.a.)"), color=text_color, fontsize=8.5, fontweight='bold')
 
@@ -965,7 +975,7 @@ class VplVsVolumeChart(NetunoBaseChart):
                 best_vol, min_pb = min(valid_pts, key=lambda t: t[1])
                 ax.plot(best_vol, min_pb, color='#059669', marker='*', markersize=14, linestyle='',
                         markeredgecolor='#047857', markeredgewidth=1.0,
-                        label=f"{tr('Ótimo Econômico (Menor Payback)')}: {best_vol:.0f} L ({format_ptbr(min_pb, 1)}a)")
+                        label=f"{tr('Ótimo Econômico (Menor Payback)')}: {format_ptbr(best_vol, 0)} L ({format_ptbr(min_pb, 1)}a)")
 
             ax.set_ylabel(lbl_name, color=text_color, fontsize=8.5, fontweight='bold')
 
@@ -987,17 +997,27 @@ class VplVsVolumeChart(NetunoBaseChart):
             ax.set_ylabel(f"{tr('Custo Operacional Anual')} ({currency_symbol}/ano)", color=text_color, fontsize=8.5, fontweight='bold')
 
         ax.set_xlabel(tr("Volume do Reservatório (Litros)"), color=text_color, fontsize=8.5, fontweight='bold')
-        ax.tick_params(colors=text_color, labelsize=8)
+        from matplotlib.ticker import FuncFormatter, MaxNLocator
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=6, integer=True))
+        ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f"{int(x):,}".replace(",", ".")))
+        ax.tick_params(axis='x', colors=text_color, labelsize=8.5, pad=4)
+        ax.tick_params(axis='y', colors=text_color, labelsize=8)
         ax.grid(True, linestyle=':', alpha=0.6, color=grid_color)
         ax.legend(fontsize=8, loc='best', facecolor=bg_color, edgecolor=grid_color, labelcolor=text_color)
+
+        if vols:
+            ax.set_xlim(left=0, right=_upper_multiple(vols, 1000.0 if max(vols, default=0) >= 5000 else 500.0))
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)
 
         try:
-            self.figure.tight_layout(pad=0.8)
+            self.figure.subplots_adjust(left=0.18, bottom=0.19, right=0.96, top=0.92)
         except Exception:
-            pass
+            try:
+                self.figure.tight_layout(pad=1.2)
+            except Exception:
+                pass
         self.safe_draw()
 
 
@@ -1041,18 +1061,49 @@ class EnvironmentalBalanceSummaryChart(NetunoBaseChart):
         bars = ax.barh(range(len(values)), values, color=colors, alpha=0.9, height=0.58)
         ax.axvline(0, color=text_color, linewidth=0.9)
         span = max(1.0, max(abs(value) for value in values))
+
+        from matplotlib import patheffects
+        stroke_emerald = [patheffects.withStroke(linewidth=2.5, foreground='#064e3b' if is_dark else '#047857')]
+        stroke_blue = [patheffects.withStroke(linewidth=2.5, foreground='#0c4a6e' if is_dark else '#0369a1')]
+
+        # Posicionamento inteligente dos valores numéricos para evitar qualquer
+        # sobreposição com os rótulos de categoria à esquerda ou cortes na moldura:
         for bar, value in zip(bars, values):
-            horizontal = 0.025 * span if value >= 0 else -0.025 * span
-            align = 'left' if value >= 0 else 'right'
             prefix = "+" if value > 0 else ""
-            ax.text(value + horizontal, bar.get_y() + bar.get_height() / 2,
-                    f"{prefix}{format_ptbr(value, 0)} kg", va='center', ha=align,
-                    fontsize=8, fontweight='bold', color=text_color)
+            txt_str = f"{prefix}{format_ptbr(value, 0)} kg"
+            y_pos = bar.get_y() + bar.get_height() / 2
+
+            if value < 0:
+                # Barras negativas crescem para a esquerda (de 0 até value).
+                # Se a barra tem largura suficiente (> 18% do span), o texto fica
+                # por DENTRO da barra (em direção ao 0), em branco com contorno contrastante.
+                # Isso elimina a colisão com os rótulos do eixo Y à esquerda da moldura.
+                # Se for muito curta (<= 18%), fica por fora à esquerda mas ainda próxima de zero.
+                if abs(value) > 0.18 * span:
+                    posicao = value + 0.03 * span
+                    ax.text(posicao, y_pos, txt_str, va='center', ha='left',
+                            fontsize=8, fontweight='bold', color='#ffffff',
+                            path_effects=stroke_emerald)
+                else:
+                    posicao = value - 0.03 * span
+                    ax.text(posicao, y_pos, txt_str, va='center', ha='right',
+                            fontsize=8, fontweight='bold', color=text_color)
+            else:
+                # Barras positivas crescem para a direita.
+                if value > 0.65 * span:
+                    posicao = value - 0.03 * span
+                    ax.text(posicao, y_pos, txt_str, va='center', ha='right',
+                            fontsize=8, fontweight='bold', color='#ffffff',
+                            path_effects=stroke_blue)
+                else:
+                    posicao = value + 0.03 * span
+                    ax.text(posicao, y_pos, txt_str, va='center', ha='left',
+                            fontsize=8, fontweight='bold', color=text_color)
 
         ax.set_yticks(range(len(labels)))
         ax.set_yticklabels(labels, fontsize=8, color=text_color)
         ax.invert_yaxis()
-        ax.set_xlabel(tr("Carbono no Ciclo de Vida: [- Retirada / + Emissão] (kg CO2e / 20 anos)"), color=text_color, fontsize=8, fontweight='bold')
+        ax.set_xlabel(tr("Carbono no ciclo de vida (kg CO2e em 20 anos)\nnegativo retira, positivo emite"), color=text_color, fontsize=8, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=7.5)
         ax.grid(True, axis='x', linestyle=':', alpha=0.6, color=grid_color)
         ax.set_xlim(min(-span * 1.35, -1), max(span * 1.35, 1))
@@ -1089,10 +1140,22 @@ class CO2ComparisonChart(NetunoBaseChart):
         water_saved_annual = getattr(lca_result, 'annual_water_saved_m3', getattr(lca_result, 'annual_pluvial_m3', 0.0))
         potable_residual_annual = max(0.0, total_demand_m3 - water_saved_annual)
 
-        baseline_co2_lifetime = total_demand_m3 * 0.35 * lifespan_years
+        # O fator da água potável evitada era 0,35 fixo aqui, de modo que editá-lo
+        # na interface não mudava este gráfico. Recupera-se agora o fator
+        # efetivamente usado no cálculo, já que
+        # `annual_avoided_co2_kg = annual_pluvial_m3 × potable_water_co2_kg_m3`.
+        pluvial_annual = getattr(lca_result, 'annual_pluvial_m3', 0.0) or 0.0
+        avoided_annual = getattr(lca_result, 'annual_avoided_co2_kg', 0.0) or 0.0
+        if pluvial_annual > 0:
+            potable_co2_factor = avoided_annual / pluvial_annual
+        else:
+            from netuno.core.environmental import potable_water_factor_default
+            potable_co2_factor = potable_water_factor_default()
+
+        baseline_co2_lifetime = total_demand_m3 * potable_co2_factor * lifespan_years
         system_embodied = lca_result.total_embodied_co2_kg
         system_op_lifetime = (lca_result.annual_pumping_co2_kg + lca_result.annual_treatment_co2_kg) * lifespan_years
-        system_potable_lifetime = potable_residual_annual * 0.35 * lifespan_years
+        system_potable_lifetime = potable_residual_annual * potable_co2_factor * lifespan_years
         system_total_co2_lifetime = system_embodied + system_op_lifetime + system_potable_lifetime
 
         net_avoided = baseline_co2_lifetime - system_total_co2_lifetime
@@ -1186,7 +1249,7 @@ class LCAComponentBreakdownChart(NetunoBaseChart):
             ax.axhline(y=0, color=text_color, linestyle='-', linewidth=0.9, alpha=0.8)
 
             ax.set_xticks(x_indices)
-            ax.set_xticklabels([f"{v:.0f} L" for v in vols], rotation=0, fontsize=7.5, color=text_color)
+            ax.set_xticklabels([f"{v:.0f} L" for v in vols], rotation=45, ha='right', fontsize=8, color=text_color)
             ax.set_xlabel(tr("Volume Inferior do Reservatório (Litros)"), color=text_color, fontsize=8, fontweight='bold')
             ax.set_ylabel(tr("Carbono em 20 Anos: [- Retirada / + Emissão] (kg CO2e)"), color=text_color, fontsize=8, fontweight='bold')
             ax.tick_params(colors=text_color, labelsize=7.5)
@@ -1203,14 +1266,14 @@ class LCAComponentBreakdownChart(NetunoBaseChart):
             ax.axhline(y=0, color=text_color, linestyle='-', linewidth=0.9)
             ax.set_xticks([0, 1])
             ax.set_xticklabels([tr("Emissões (+kg)"), tr("Retirada (-kg)")], fontsize=8, color=text_color)
-            ax.set_ylabel(tr("Carbono Acumulado [- Retirada / + Emissão] (kg CO2e)"), color=text_color, fontsize=8, fontweight='bold')
+            ax.set_ylabel(tr("Carbono acumulado (kg CO2e)\nnegativo retira, positivo emite"), color=text_color, fontsize=8, fontweight='bold')
             ax.legend(fontsize=7, loc='best')
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)
 
         try:
-            self.figure.subplots_adjust(left=0.08, bottom=0.18, right=0.96, top=0.90)
+            self.figure.subplots_adjust(left=0.16, bottom=0.24, right=0.96, top=0.90)
         except Exception:
             try:
                 self.figure.tight_layout(pad=1.2)
@@ -1240,7 +1303,10 @@ class PrcptotAnnualChart(NetunoBaseChart):
         ax = self.figure.add_subplot(111)
         ax.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         prcp = df_indices['PRCPTOT'].values
         mean_prcp = np.mean(prcp)
 
@@ -1251,7 +1317,13 @@ class PrcptotAnnualChart(NetunoBaseChart):
         ax.set_ylabel(tr("Precipitação Anual (mm)"), color=text_color, fontsize=8, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=7.5)
         ax.grid(True, axis='y', linestyle=':', alpha=0.6, color=grid_color)
-        ax.legend(fontsize=7.5, loc='upper right', facecolor=bg_color, edgecolor=grid_color, labelcolor=text_color)
+        # O eixo começa em zero e termina num múltiplo de 500 mm, e a legenda
+        # fica acima da área do gráfico: dentro dela cobria as barras mais altas.
+        from matplotlib.ticker import MultipleLocator
+        ax.set_ylim(0.0, _upper_multiple([float(v) * 1.04 for v in prcp], 500.0))
+        ax.yaxis.set_major_locator(MultipleLocator(500.0))
+        ax.legend(fontsize=7.5, loc='lower right', bbox_to_anchor=(1.0, 1.0), ncol=2,
+                  frameon=False, labelcolor=text_color)
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)
@@ -1285,7 +1357,10 @@ class SdiiVsR95pChart(NetunoBaseChart):
         ax2 = ax1.twinx()
         ax1.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         sdii = df_indices['SDII'].values
         r95p = df_indices['R95p'].values
 
@@ -1337,7 +1412,10 @@ class CddCwdAnnualChart(NetunoBaseChart):
         ax = self.figure.add_subplot(111)
         ax.set_facecolor(bg_color)
 
-        years = df_indices.index.astype(int)
+        # O calculador devolve o ano numa coluna, e o indice e apenas
+        # posicional: usar o indice rotulava o eixo «Ano» com 0, 1, 2...
+        years = (df_indices["year"] if "year" in df_indices.columns
+                 else df_indices.index).astype(int)
         cdd = df_indices['CDD'].values
         cwd = df_indices['CWD'].values
 
@@ -1348,7 +1426,15 @@ class CddCwdAnnualChart(NetunoBaseChart):
         ax.set_ylabel(tr("Duração Contínua (Dias)"), color=text_color, fontsize=8, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=7.5)
         ax.grid(True, linestyle=':', alpha=0.6, color=grid_color)
-        ax.legend(fontsize=7.5, loc='upper right', facecolor=bg_color, edgecolor=grid_color, labelcolor=text_color)
+        # O eixo começa em zero e termina num múltiplo de 2,5 dias; acima de
+        # 30 dias as marcas passam a 5, que continua múltiplo de 2,5. A legenda
+        # fica acima do gráfico, fora das linhas.
+        from matplotlib.ticker import MultipleLocator
+        teto = _upper_multiple([float(v) * 1.04 for v in list(cdd) + list(cwd)], 2.5)
+        ax.set_ylim(0.0, teto)
+        ax.yaxis.set_major_locator(MultipleLocator(2.5 if teto <= 30.0 else 5.0))
+        ax.legend(fontsize=7.5, loc='lower right', bbox_to_anchor=(1.0, 1.0), ncol=2,
+                  frameon=False, labelcolor=text_color)
 
         for spine in ax.spines.values():
             spine.set_color(grid_color)

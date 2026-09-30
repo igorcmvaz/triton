@@ -177,7 +177,7 @@ def test_discretized_weekly_modulation_with_irrigation():
         "demand_mode": "weekly",
         "weekly_demands": [100.0, 100.0, 100.0, 100.0, 100.0, 200.0, 200.0],  # Fim de semana consome mais
         "weekly_residents": [4.0] * 7,
-        "weekly_shares": [30.0, 30.0, 30.0, 30.0, 30.0, 50.0, 50.0],  # 30% dias úteis, 50% fim de semana
+        "weekly_shares": [0.30, 0.30, 0.30, 0.30, 0.30, 0.50, 0.50],  # 30% dias úteis, 50% fim de semana
         "irrigation_liters_per_day": 60.0,
         "irrigation_rain_threshold_mm": 2.0,
         "irrigation_potable_backup": True,

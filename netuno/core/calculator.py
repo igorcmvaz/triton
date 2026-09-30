@@ -1,6 +1,8 @@
 """
 Módulo Core para Cálculo de Indicadores Climatológicos da Série de Precipitação (Netuno 5).
-Calcula os 9 indicadores clássicos ETCCDI (PRCPTOT, R95p, RX1day, RX5day, SDII, R20mm, CDD, CWD e Sazonalidade).
+Calcula 9 indicadores pluviometricos: oito do conjunto ETCCDI (PRCPTOT, R95p, RX1day,
+RX5day, SDII, R20mm, CDD, CWD) mais o Indice de Sazonalidade de Walsh & Lawler (1981),
+que NAO pertence ao ETCCDI. O R10mm, que pertence, nao e calculado aqui.
 """
 
 from collections.abc import Sequence

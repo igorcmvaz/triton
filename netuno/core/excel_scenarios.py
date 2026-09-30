@@ -1,4 +1,5 @@
 import os
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 import itertools
 import io
 from dataclasses import dataclass, field
@@ -7,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from netuno.core.parser import load_precipitation, parse_float, parse_int
+from netuno.core.fracao_atendivel import percentual_para_fracao, aviso_percentual_pequeno
 from netuno.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
 from netuno.core.scenarios import ScenarioItem, ScenarioOutput, MultiScenarioMatrixResult
 
@@ -54,7 +56,7 @@ def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_netuno.xl
             "Demanda_L_hab_dia": 50,
             "Substituicao_Percentual": 30,
             "Descarte_mm": 2.0,
-            "Coef_Escoamento": 0.85,
+            "Coef_Escoamento": COEFICIENTE_DE_ESCOAMENTO_PADRAO,
             "Modo_Reservatorio": "Fixo",
             "Reservatorio_Inferior_L": 5000,
             "Passo_Varredura_L": 0,
@@ -103,14 +105,13 @@ def parse_excel_scenarios(file_input: Union[str, bytes, io.BytesIO]) -> List[Dic
         residents = parse_int(get_val(["moradores", "habitants", "residents"], 3), 3)
         demand_capita = parse_float(get_val(["demanda", "demand"], 100.0), 100.0)
         
+        # A coluna é sempre percentual, de 0 a 100: 40 é 40%, e 0,4 é 0,4%.
         share_val = parse_float(get_val(["substituicao", "share", "percentual"], 40.0), 40.0)
-        if share_val > 1.0:
-            share = share_val / 100.0
-        else:
-            share = share_val
+        share = percentual_para_fracao(f"Substituição da linha {idx + 2}", share_val)
+        aviso = aviso_percentual_pequeno(share_val)
             
-        discard = parse_float(get_val(["descarte", "discard"], 1.0), 1.0)
-        runoff = parse_float(get_val(["coef", "runoff", "escoamento"], 0.9), 0.9)
+        discard = parse_float(get_val(["descarte", "discard"], LAMINA_DE_DESCARTE_PADRAO_MM), LAMINA_DE_DESCARTE_PADRAO_MM)
+        runoff = parse_float(get_val(["coef", "runoff", "escoamento"], COEFICIENTE_DE_ESCOAMENTO_PADRAO), COEFICIENTE_DE_ESCOAMENTO_PADRAO)
         
         mode_str = str(get_val(["modo", "mode"], "varredura")).lower()
         is_sweep = "varredura" in mode_str or "sweep" in mode_str or "range" in mode_str
@@ -134,7 +135,8 @@ def parse_excel_scenarios(file_input: Union[str, bytes, io.BytesIO]) -> List[Dic
             "lower_tank_vol": tank_lower,
             "lower_tank_step": tank_step,
             "upper_tank_vol": tank_upper,
-            "pumping_threshold": limiar
+            "pumping_threshold": limiar,
+            "avisos": [f"{c_name}: {aviso}"] if aviso else [],
         })
         
     return scenarios
@@ -149,8 +151,8 @@ def generate_factorial_grid(
     lower_tanks: List[float],
     upper_tank_vol: float = 0.0,
     pumping_threshold: float = 0.0,
-    discard_mm: float = 1.0,
-    runoff_coeff: float = 0.9,
+    discard_mm: float = LAMINA_DE_DESCARTE_PADRAO_MM,
+    runoff_coeff: float = COEFICIENTE_DE_ESCOAMENTO_PADRAO,
     is_sweep: bool = True,
     sweep_step: float = 250.0
 ) -> List[Dict[str, Any]]:

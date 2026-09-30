@@ -15,6 +15,10 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont, QColor
 
+import numpy as np
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+
 from netuno.ui.translation import tr, get_current_theme
 from netuno.core.parser import format_ptbr
 
@@ -72,7 +76,7 @@ def get_suction_pipe(rec_pipe: dict) -> dict:
 
 
 # ── CATÁLOGO DE MOTOBOMBAS COMERCIAIS REAIS DO MERCADO BRASILEIRO ──
-# Dados técnicos catalogados de fabricantes nacionais (Schneider/Franklin Electric, Dancor e Lepono).
+# Dados técnicos e curvas H x Q catalogados de fabricantes nacionais (Schneider/Franklin Electric, Dancor e Lepono).
 # Os bocais de fábrica e faixas de vazão/pressão utilizam exatamente os diâmetros calculados.
 PUMP_CATALOG = [
     {
@@ -87,6 +91,8 @@ PUMP_CATALOG = [
         "bocal_rec": '3/4" (DN 25)',
         "rec_pipe_dn": 25,
         "suc_pipe_dn": 32,
+        "curve_q": [0, 500, 1000, 1500, 1800, 2200, 2500],
+        "curve_h": [22.0, 21.0, 18.5, 15.0, 12.0, 7.0, 2.0],
     },
     {
         "label": "Schneider BC-98 1/3 CV (0.25 kW) — Residencial Padrão",
@@ -100,6 +106,8 @@ PUMP_CATALOG = [
         "bocal_rec": '3/4" (DN 25)',
         "rec_pipe_dn": 25,
         "suc_pipe_dn": 32,
+        "curve_q": [0, 500, 1000, 1500, 2000, 2400, 2800],
+        "curve_h": [26.0, 25.0, 23.0, 20.0, 16.0, 12.5, 5.0],
     },
     {
         "label": "Schneider BC-92 S 1/2 CV (0.37 kW) — Centrífuga Sobrado",
@@ -113,6 +121,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1" (DN 32)',
         "rec_pipe_dn": 32,
         "suc_pipe_dn": 40,
+        "curve_q": [0, 1000, 2000, 3000, 3600, 4200, 4800],
+        "curve_h": [30.0, 28.5, 25.5, 21.5, 18.0, 13.5, 7.0],
     },
     {
         "label": "Schneider BC-92 T / Dancor CHS 3/4 CV (0.55 kW) — Média Elevação",
@@ -126,6 +136,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1" (DN 32)',
         "rec_pipe_dn": 32,
         "suc_pipe_dn": 40,
+        "curve_q": [0, 1000, 2000, 3000, 4000, 5200, 6000],
+        "curve_h": [36.0, 34.5, 32.0, 28.5, 24.0, 17.5, 10.0],
     },
     {
         "label": "Schneider BC-21 R 1.0 CV (0.75 kW) — Alta Vazão Predial",
@@ -139,6 +151,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1" (DN 32)',
         "rec_pipe_dn": 40,
         "suc_pipe_dn": 50,
+        "curve_q": [0, 2000, 4000, 6000, 7200, 8500, 10000],
+        "curve_h": [42.0, 39.5, 36.0, 30.5, 26.0, 18.5, 8.0],
     },
     {
         "label": "Schneider BC-22 R 1.5 CV (1.10 kW) — Edifício / Grande Altura",
@@ -152,6 +166,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1 1/4" (DN 40)',
         "rec_pipe_dn": 40,
         "suc_pipe_dn": 50,
+        "curve_q": [0, 2000, 4000, 6000, 8000, 9800, 11500, 13000],
+        "curve_h": [48.0, 46.5, 43.5, 39.5, 33.5, 27.0, 18.0, 8.0],
     },
     {
         "label": "Schneider BC-22 R 2.0 CV (1.50 kW) — Comercial / Coletivo",
@@ -165,6 +181,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1 1/4" (DN 40)',
         "rec_pipe_dn": 50,
         "suc_pipe_dn": 60,
+        "curve_q": [0, 3000, 6000, 9000, 12000, 13500, 15500, 17500],
+        "curve_h": [54.0, 51.5, 47.5, 42.0, 34.5, 30.0, 21.0, 8.0],
     },
     {
         "label": "Schneider ME-AL 3.0 CV (2.20 kW) — Multi-estágio Alta Pressão",
@@ -178,6 +196,8 @@ PUMP_CATALOG = [
         "bocal_rec": '1 1/2" (DN 50)',
         "rec_pipe_dn": 50,
         "suc_pipe_dn": 75,
+        "curve_q": [0, 3000, 6000, 9000, 12000, 15000, 16000, 18500],
+        "curve_h": [68.0, 65.5, 61.5, 56.0, 49.0, 39.5, 35.0, 22.0],
     },
 ]
 
@@ -404,12 +424,67 @@ class PumpSelectionWizardDialog(QDialog):
         self.lbl_pump_maxh = QLabel("-- mca")
         grid_pump_det.addWidget(self.lbl_pump_maxh, 2, 3)
 
-        vlay_rec.addLayout(grid_pump_det)
+        # Nota técnica de referência na aba de dimensionamento
+        lbl_ref_note = QLabel(
+            tr("📌 <b>Modelo de Referência:</b> O dimensionamento adota os parâmetros de catálogo de um modelo comercial de referência. "
+               "Você pode visualizar a curva de desempenho e alterar livremente os parâmetros na aba <i>Curva Característica (H × Q)</i>.")
+        )
+        lbl_ref_note.setStyleSheet("font-size: 10.5px; color: #64748b; padding-top: 2px;")
+        lbl_ref_note.setWordWrap(True)
+        vlay_rec.addWidget(lbl_ref_note)
+
+        btn_view_curve = QPushButton(tr("📈 Visualizar Curva Característica da Motobomba (H × Q)"))
+        btn_view_curve.setStyleSheet("font-weight: bold; color: #0284c7; background-color: transparent; border: 1px solid #0284c7; border-radius: 4px; padding: 4px 10px;")
+        btn_view_curve.clicked.connect(lambda: self.tabs.setCurrentIndex(1))
+        vlay_rec.addWidget(btn_view_curve)
+
         gb_recommendation.setLayout(vlay_rec)
         lay_dim.addWidget(gb_recommendation)
         self.tabs.addTab(tab_dim, tr("📐 Dimensionamento Hidráulico"))
 
-        # ── ABA 2: ANÁLISE NA VARREDURA DE VOLUMES ──
+        # ── ABA 2: CURVA CARACTERÍSTICA DA MOTOBOMBA (H × Q) ──
+        tab_curve = QWidget()
+        lay_curve = QVBoxLayout(tab_curve)
+        lay_curve.setSpacing(8)
+
+        # Banner de Aviso / Indicação de Modelo Específico e Liberdade de Modificação
+        self.frame_curve_banner = QFrame()
+        self.frame_curve_banner.setStyleSheet(f"""
+            QFrame {{
+                background-color: {bg_card};
+                border: 1px solid {border_card};
+                border-left: 4px solid #f59e0b;
+                border-radius: 6px;
+                padding: 6px 12px;
+            }}
+        """)
+        b_lay = QVBoxLayout(self.frame_curve_banner)
+        b_lay.setContentsMargins(4, 4, 4, 4)
+        b_lay.setSpacing(2)
+
+        self.lbl_curve_model_title = QLabel(tr("📌 Modelo de Referência Comercial: Schneider BC-98"))
+        self.lbl_curve_model_title.setFont(QFont("Segoe UI", 11, QFont.Bold))
+        self.lbl_curve_model_title.setStyleSheet("color: #d97706;")
+        b_lay.addWidget(self.lbl_curve_model_title)
+
+        self.lbl_curve_model_desc = QLabel(
+            tr("A curva de desempenho abaixo corresponde ao modelo comercial de referência selecionado. "
+               "Os dados de catálogo orientam a especificação técnica, mas você pode modificar os parâmetros "
+               "de vazão, desnível geométrico, rendimento e diâmetros de acordo com o modelo do fabricante de sua preferência.")
+        )
+        self.lbl_curve_model_desc.setStyleSheet("font-size: 11px; color: #64748b;")
+        self.lbl_curve_model_desc.setWordWrap(True)
+        b_lay.addWidget(self.lbl_curve_model_desc)
+        lay_curve.addWidget(self.frame_curve_banner)
+
+        # Canvas Matplotlib da Curva H x Q
+        self.figure = Figure(figsize=(8, 4.5), dpi=100)
+        self.canvas = FigureCanvas(self.figure)
+        lay_curve.addWidget(self.canvas, stretch=1)
+
+        self.tabs.addTab(tab_curve, tr("📈 Curva Característica (H × Q)"))
+
+        # ── ABA 3: ANÁLISE NA VARREDURA DE VOLUMES ──
         tab_sweep = QWidget()
         lay_sw = QVBoxLayout(tab_sweep)
         lay_sw.setSpacing(8)
@@ -546,7 +621,7 @@ class PumpSelectionWizardDialog(QDialog):
         current_suc_pipe = next((p for p in COMMERCIAL_PIPES if p["dn"] == selected_suc_dn), COMMERCIAL_PIPES[2])
 
         self.lbl_economic_diam.setText(
-            f"{d_forch_mm:.1f} mm (Teórico) → Regido pela Bomba: {current_rec_pipe['label']}"
+            tr('{0:.1f} mm (Teórico) → Regido pela Bomba: {1}').format(d_forch_mm, current_rec_pipe['label'])
         )
         self.lbl_suction_dn.setText(f"{current_suc_pipe['label']}")
 
@@ -567,6 +642,11 @@ class PumpSelectionWizardDialog(QDialog):
             loss_m = 0.5
 
         h_man = h_geom + loss_m
+        # Guardados para irem no retorno: são o resultado do assistente, e sem
+        # eles o cálculo de energia volta a usar a altura de recurso.
+        self.h_man_calculada = h_man
+        self.h_geom_informada = h_geom
+        self.perda_de_carga_calculada = loss_m
         self.lbl_loss.setText(f"{loss_m:.2f} mca")
         self.lbl_hman.setText(f"{h_man:.2f} mca")
 
@@ -582,6 +662,7 @@ class PumpSelectionWizardDialog(QDialog):
 
         self.update_pump_details(current_rec_pipe, current_suc_pipe)
         self.update_sweep_table(h_man, eta)
+        self.update_pump_curve_plot(q_rec_lh, h_man, h_geom, current_rec_pipe)
 
     def on_pump_selection_changed(self):
         p_data = self.combo_pump.currentData()
@@ -624,7 +705,7 @@ class PumpSelectionWizardDialog(QDialog):
         upper_v = self.spin_upper_vol.value()
         self.lbl_pump_power.setText(f"{p_data['kw']:.3f} kW ({p_data['cv']} CV)")
         self.lbl_pump_flow.setText(f"{p_data['flow_lh']:,.0f} L/h".replace(',', '.'))
-        self.lbl_pump_threads.setText(f"Sucção {p_data.get('bocal_suc', '--')}  ×  Recalque {p_data.get('bocal_rec', '--')}")
+        self.lbl_pump_threads.setText(tr('Sucção {0}  ×  Recalque {1}').format(p_data.get('bocal_suc', '--'), p_data.get('bocal_rec', '--')))
         self.lbl_pump_cost.setText(f"R$ {p_data['cost']:.2f}")
         self.lbl_pump_maxh.setText(f"{p_data['max_h']:.1f} mca")
 
@@ -648,6 +729,12 @@ class PumpSelectionWizardDialog(QDialog):
             "bocal_suc": p_data.get('bocal_suc', ''),
             "bocal_rec": p_data.get('bocal_rec', ''),
             "brand": p_data.get('brand', ''),
+            # A hidráulica calculada aqui precisa chegar ao motor. Sem estes três
+            # campos o programa refazia a conta com a altura de recurso, e não com
+            # o desnível que o usuário informou.
+            "manometric_head_m": getattr(self, "h_man_calculada", 0.0),
+            "geometric_head_m": getattr(self, "h_geom_informada", 0.0),
+            "head_loss_m": getattr(self, "perda_de_carga_calculada", 0.0),
         }
 
     def update_sweep_table(self, h_man: float, eta: float):
@@ -688,6 +775,133 @@ class PumpSelectionWizardDialog(QDialog):
             self.table_sweep.setItem(r, 5, QTableWidgetItem(f"{runtime_h_year:.1f} h"))
             self.table_sweep.setItem(r, 6, QTableWidgetItem(f"{energy_kwh:.1f} kWh"))
             self.table_sweep.setItem(r, 7, QTableWidgetItem(f"R$ {cost_energy:.2f}"))
+
+    def update_pump_curve_plot(self, q_rec_lh: float, h_man: float, h_geom: float, rec_pipe: dict):
+        """Plota a curva característica H x Q da motobomba comercial e a curva do sistema."""
+        if not hasattr(self, "figure") or not hasattr(self, "canvas"):
+            return
+
+        p_data = self.combo_pump.currentData()
+        if not p_data:
+            return
+
+        # 1. Atualiza cabeçalho explicativo da aba de curva
+        self.lbl_curve_model_title.setText(
+            tr('📌 Modelo de Referência Comercial: {0}').format(p_data['label'])
+        )
+        self.lbl_curve_model_desc.setText(
+            tr('A curva azul contínua representa o ensaio de bancada do fabricante para o modelo <b>{0} ({1} CV / {2} kW)</b> com bocal de recalque {3}. O ponto vermelho indica a solicitação calculada para a sua instalação ({4:,.0f} L/h @ {5:.1f} mca). Você pode ajustar livremente a vazão, altura geométrica, rendimento e tubulações de acordo com qualquer modelo comercial.').format(p_data['brand'], p_data['cv'], p_data['kw'], p_data.get('bocal_rec', ''), q_rec_lh, h_man)
+        )
+
+        # 2. Configura visual (tema dark / light)
+        is_dark = get_current_theme() == "dark"
+        bg_color = "#1e293b" if is_dark else "#ffffff"
+        text_color = "#f1f5f9" if is_dark else "#0f172a"
+        grid_color = "#334155" if is_dark else "#e2e8f0"
+        line_pump_color = "#38bdf8" if is_dark else "#0284c7"
+        line_sys_color = "#fb923c" if is_dark else "#ea580c"
+
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+        self.figure.patch.set_facecolor(bg_color)
+        ax.set_facecolor(bg_color)
+
+        # 3. Curva da Motobomba (H x Q)
+        raw_q = np.array(p_data.get("curve_q", [0, p_data["flow_lh"]]), dtype=float)
+        raw_h = np.array(p_data.get("curve_h", [p_data["max_h"], 0.0]), dtype=float)
+
+        # Ajuste de curva polinomial quadrática suave (H = H0 - b * Q^2)
+        if len(raw_q) >= 3:
+            poly_coeff = np.polyfit(raw_q, raw_h, 2)
+            q_max_plot = max(raw_q[-1], q_rec_lh * 1.35)
+            q_dense = np.linspace(0.0, q_max_plot, 120)
+            h_dense = np.polyval(poly_coeff, q_dense)
+            h_dense = np.maximum(0.0, h_dense)
+        else:
+            q_dense = raw_q
+            h_dense = raw_h
+            q_max_plot = max(raw_q[-1], q_rec_lh * 1.35)
+
+        ax.plot(
+            q_dense, h_dense,
+            color=line_pump_color, linewidth=2.4,
+            label=f"Curva da Bomba: {p_data['brand']} ({p_data['cv']} CV)"
+        )
+        ax.scatter(
+            raw_q, raw_h,
+            color=line_pump_color, edgecolors="white" if is_dark else "black",
+            s=45, zorder=4, label="Pontos de Catálogo (Ensaio)"
+        )
+
+        # 4. Curva do Sistema Hidráulico: H_sist(Q) = H_geom + Perdas(Q)
+        # J = 10.643 * Q^1.852 * C^-1.852 * D^-4.87 * L_eq
+        pipe_l = self.spin_pipe_len.value()
+        d_int_m = rec_pipe["di_mm"] / 1000.0
+        c_pvc = 140.0
+
+        q_sys_dense = np.linspace(0.0, q_max_plot, 120)
+        h_sys_dense = np.zeros_like(q_sys_dense)
+        for i, q_val in enumerate(q_sys_dense):
+            if q_val > 0 and d_int_m > 0:
+                q_m3s_i = (q_val / 1000.0) / 3600.0
+                j_i = 10.643 * math.pow(q_m3s_i, 1.852) * math.pow(c_pvc, -1.852) * math.pow(d_int_m, -4.87)
+                loss_i = j_i * pipe_l * 1.30
+                h_sys_dense[i] = h_geom + loss_i
+            else:
+                h_sys_dense[i] = h_geom
+
+        ax.plot(
+            q_sys_dense, h_sys_dense,
+            color=line_sys_color, linewidth=2.0, linestyle="--",
+            label=f"Curva da Instalação ({rec_pipe['label']}, L={pipe_l:.0f}m)"
+        )
+
+        # 5. Ponto de Operação do Projeto (Q_req, H_man)
+        ax.scatter(
+            [q_rec_lh], [h_man],
+            color="#dc2626", edgecolors="white", s=130, marker="*",
+            zorder=6, label=f"Ponto de Operação: {q_rec_lh:,.0f} L/h @ {h_man:.1f} mca"
+        )
+        # Linhas de chamada do ponto
+        ax.vlines(q_rec_lh, 0, h_man, colors="#dc2626", linestyles=":", alpha=0.6)
+        ax.hlines(h_man, 0, q_rec_lh, colors="#dc2626", linestyles=":", alpha=0.6)
+
+        # Texto do ponto de operação
+        ax.annotate(
+            f"  Ponto de Trabalho\n  ({q_rec_lh:,.0f} L/h, {h_man:.1f} mca)",
+            xy=(q_rec_lh, h_man),
+            xytext=(10, 10), textcoords="offset points",
+            color="#dc2626", fontweight="bold", fontsize=9.5,
+            bbox=dict(boxstyle="round,pad=0.3", fc=bg_color, ec="#dc2626", alpha=0.85)
+        )
+
+        # 6. Formatação de eixos e títulos
+        ax.set_xlabel(tr("Vazão de Recalque Q (L/h)"), color=text_color, fontsize=10.5, fontweight="bold")
+        ax.set_ylabel(tr("Altura Manométrica Total H (mca)"), color=text_color, fontsize=10.5, fontweight="bold")
+        ax.set_title(
+            f"{tr('Curva Característica H × Q')} — {p_data['label']}",
+            color=text_color, fontsize=12, fontweight="bold", pad=12
+        )
+
+        ax.tick_params(colors=text_color, labelsize=9.5)
+        for spine in ax.spines.values():
+            spine.set_color(grid_color)
+        ax.grid(True, linestyle="--", alpha=0.5, color=grid_color)
+
+        ax.set_xlim(0, q_max_plot * 1.05)
+        max_h_axis = max(p_data["max_h"], h_man) * 1.15
+        ax.set_ylim(0, max_h_axis)
+
+        # Legenda limpa e legível
+        leg = ax.legend(
+            loc="upper right", frameon=True,
+            facecolor=bg_color, edgecolor=grid_color, fontsize=9
+        )
+        for text in leg.get_texts():
+            text.set_color(text_color)
+
+        self.figure.tight_layout()
+        self.canvas.draw()
 
     def on_apply(self):
         if not self.selected_pump_data:

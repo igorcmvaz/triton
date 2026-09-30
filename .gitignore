@@ -32,7 +32,10 @@ dist/
 # ---------------------------------------------------------------------------
 # Saídas de QA e relatórios gerados
 # ---------------------------------------------------------------------------
-reports/
+reports/**
+!reports/
+!reports/exemplos/
+!reports/exemplos/**
 
 # ---------------------------------------------------------------------------
 # Cache de execução do programa
@@ -52,6 +55,10 @@ outputs/
 # ---------------------------------------------------------------------------
 climbra_data/
 Netuno future files for 652 cities/
+
+# Base climatica compilada: 784 MB, gerada por scripts/compilar_base_climbra.py
+# a partir da pasta acima. O GitHub recusa arquivo com mais de 100 MB, e a base
+# e um download a parte, como a pasta de origem.
 data/climbra.db
 Netuno_future_files_split/
 
@@ -70,7 +77,7 @@ data/simulation_outputs/**
 !data/simulation_outputs/*_Descarte*_Area*.csv
 
 # ---------------------------------------------------------------------------
-# Node / PNPM
+# Node / PNPM (versão web descontinuada)
 # ---------------------------------------------------------------------------
 .pnpm-store/
 node_modules/
@@ -87,14 +94,26 @@ desktop.ini
 .vscode/
 .mcp.json
 
-# Log de avisos do Qt, gerado em tempo de execução
+# Log de avisos do Qt, gerado em tempo de execucao
 avisos_qt.log
-*.log
 
-# Material de terceiros e apresentações
+# O manual montado, os mini manuais e o site sao gerados, mas VAO para o
+# controle de versao: sao o que se manda para alguem ler, e quem clona o
+# repositorio nao precisa montar nada para chegar ao texto. Regerar:
+#   python manual/gerar.py && python manual/gerar_pdf.py
+#   python manual/gerar_mini_manuais.py && python manual/gerar_site.py
+manual/Manual-Netuno-5.pdf.novo
+
+# ---------------------------------------------------------------------------
+# Material de terceiros: usado para escrever o manual, nao redistribuido.
+# Os arquivos continuam na maquina de quem escreve; fora do repositorio.
+# ---------------------------------------------------------------------------
 additional_material/documentation/*.pdf
+
+# Apresentações ficam fora do repositório (decisão de 28/09/2026)
 apresentacoes/
 
 # Rascunhos de depuração locais
 scratch/
 scratch_*.py
+*.log

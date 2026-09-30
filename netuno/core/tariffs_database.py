@@ -77,7 +77,7 @@ def _find_database_file() -> str:
     acompanha tanto a instalação por ``pip`` (via ``package-data``) quanto o executável
     congelado, e o atualizador tarifário escreve exatamente no arquivo que o programa lê.
 
-    Anteriormente havia duas cópias — ``data/tarifas/`` e ``netuno/data/`` — ambas
+    Já houve duas cópias — ``data/tarifas/`` e ``netuno/data/`` — ambas
     empacotadas, com esta busca preferindo a primeira. Elas divergiram em 465 das 652
     cidades sem que nada acusasse, e a cópia lida tinha a primeira faixa tarifária
     zerada em 464 delas. Manter uma única cópia elimina a classe do problema; o teste

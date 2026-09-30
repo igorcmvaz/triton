@@ -1,4 +1,4 @@
-# Relatório de Verificação e Validação — Netuno 5.0.0
+# Relatório de Verificação — Netuno 5
 
 **Data da apuração:** 7–8 de setembro de 2026
 **Escopo:** núcleo de cálculo (`netuno.core`), com ênfase no motor de balanço hídrico diário
@@ -27,7 +27,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 472 testes em 59 arquivos, 0 falhas, em cinco famílias: 232 unitários, 185 de invariantes, 26 de integração, 22 de interface e 7 de replicação (5 destes e 2 de rede ficam fora da execução padrão). Contagem reproduzível com `python scripts/qa_runner.py --contagem`, que informa também a revisão do código |
+| Suíte de testes | 1.248 testes em 118 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede`) |
 | Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
@@ -347,7 +347,7 @@ configurações sucessivamente mais controladas sobre os 2.583 casos de Manaus/S
 
 | Configuração | MAE | Viés | ≤ 5 pp |
 | :--- | ---: | ---: | ---: |
-| 1. Ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,81 pp | −2,71 pp | 88,6% |
+| 1. Ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
 | 2. Avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
 | 3. Idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
 
@@ -365,7 +365,7 @@ O resíduo é compatível com a precisão de duas casas decimais da própria pla
 referência, o que significa que o balanço hídrico diário calcula, dentro do que os dados
 permitem distinguir, o mesmo que uma implementação independente do modelo.
 
-**É este número que verifica o motor.** A divergência total de 2,81 pp da configuração 1
+**É este número que verifica o motor.** A divergência total de 2,71 pp da configuração 1
 não mede erro: mede a soma de duas decisões de projeto do Netuno 5, ambas deliberadas e
 documentadas.
 
@@ -538,7 +538,7 @@ quanto se um deles for corrigido sem atualizar o registro.
 
 ## 7. Correção aplicada nesta apuração
 
-`tests/integration/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
+`tests/unit/test_tariffs_database.py` rejeitava a faixa tarifária `[0.0, 6.0, 14.3, −2]` de
 **SP/Americana (DAE Americana)**, por asseverar `is_fix ∈ [−1, 1]`.
 
 A investigação mostrou que `−2` é semântica **deliberada e suportada**: `economic.py:149`

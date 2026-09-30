@@ -5,10 +5,13 @@ Todos os inputs: varredura, reservatorios, parametros financeiros, CAPEX, OPEX e
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea, QInputDialog
+    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea, QInputDialog,
+    QApplication
 )
 from PySide6.QtCore import Signal, Qt, QTimer
 from PySide6.QtGui import QFont
+from netuno.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
+from netuno.core.fracao_atendivel import validar_fracao
 from netuno.ui.translation import tr, get_current_theme
 
 from netuno.core.simulation import (
@@ -111,14 +114,121 @@ class TabTanksSimulation(QWidget):
         grid_sw.addWidget(self.combo_threshold_profile, 3, 1)
         lay_t.addLayout(grid_sw)
 
-        self.lbl_sweep_guidance = QLabel(tr("Sugestao: limite = 8 × SDII × area × coeficiente de escoamento; passo-base de 250 L, dobrado automaticamente para manter no maximo 40 volumes positivos."))
+        self.lbl_sweep_guidance = QLabel(tr("Sugestão: limite baseado em 20–30 dias de demanda pluvial e captação (mín. 8.000 L); passo adaptativo de 250 L (≤5.000 L) ou 500 L (≤20.000 L)."))
         self.lbl_sweep_guidance.setWordWrap(True)
         self.lbl_sweep_guidance.setStyleSheet("color: #475569; font-size: 11px; padding: 2px 0;")
         lay_t.addWidget(self.lbl_sweep_guidance)
 
+        # A pergunta que o revisor faz: a serie de chuva carregada basta para
+        # este projeto? Ver netuno/core/comprimento_de_serie.py.
+        self.btn_serie_representativa = QPushButton(tr("A serie de chuva e longa o bastante?"))
+        self.btn_serie_representativa.setStyleSheet(
+            "font-size: 11px; font-weight: bold; color: #0284c7; padding: 4px 10px;")
+        self.btn_serie_representativa.setToolTip(tr(
+            "Testa subseries da serie carregada e responde de quantos anos este projeto precisa."))
+        self.btn_serie_representativa.clicked.connect(self.on_analisar_comprimento_da_serie)
+        lay_t.addWidget(self.btn_serie_representativa)
+
+        # Arranjo de abastecimento: a pergunta única que o econômico, a ACV e os
+        # relatórios leem. Ver netuno/core/supply_arrangement.py.
+        lbl_arr = QLabel(tr("Como a agua chega aos pontos de uso?"))
+        lbl_arr.setStyleSheet("font-weight: bold; margin-top: 6px;")
+        lay_t.addWidget(lbl_arr)
+        self.combo_supply = QComboBox()
+        self.combo_supply.addItem(tr("Recalque para caixa superior"), "recalque")
+        self.combo_supply.addItem(tr("Pressurizacao direta a partir da cisterna"), "pressurizacao")
+        self.combo_supply.addItem(tr("Gravidade, sem bomba (cisterna acima dos pontos de uso)"), "gravidade")
+        self.combo_supply.currentIndexChanged.connect(self._on_supply_changed)
+        lay_t.addWidget(self.combo_supply)
+        self.lbl_supply_warning = QLabel(tr(
+            "Projeto antigo sem caixa superior: escolha o arranjo. Ate la, nenhuma energia de bombeamento e calculada."))
+        self.lbl_supply_warning.setWordWrap(True)
+        self.lbl_supply_warning.setStyleSheet("color: #b45309; font-size: 11px; padding: 2px 0;")
+        self.lbl_supply_warning.setVisible(False)
+        lay_t.addWidget(self.lbl_supply_warning)
+
+        # Pressurizador: modelo de catálogo ou dados próprios. A energia vem do
+        # tempo ligado, que o ponto de uso dita, e não da pressão sozinha.
+        # Ver netuno/core/pressurizer_catalog.py.
+        from netuno.core.pressurizer_catalog import CATALOGO, PERSONALIZADO
+        self.box_pressurizer = QWidget()
+        grid_pr = QGridLayout(self.box_pressurizer)
+        grid_pr.setContentsMargins(0, 0, 0, 0)
+        grid_pr.addWidget(QLabel(tr("Modelo do pressurizador:")), 0, 0)
+        self.combo_pressurizer_model = QComboBox()
+        for modelo in CATALOGO:
+            self.combo_pressurizer_model.addItem(modelo.rotulo, modelo.chave)
+        self.combo_pressurizer_model.addItem(tr("Personalizado — dados do fabricante"), PERSONALIZADO)
+        self.combo_pressurizer_model.setToolTip(tr(
+            "Modelos com curva de catálogo publicada pelo fabricante. A energia é o tempo "
+            "ligado vezes a potência elétrica: a potência de placa dividida pelo rendimento "
+            "do motor da ABNT NBR 17094-2."))
+        self.combo_pressurizer_model.currentIndexChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.combo_pressurizer_model, 0, 1)
+        grid_pr.addWidget(QLabel(tr("Pressao de trabalho (m.c.a.):")), 1, 0)
+        self.txt_pressurizer_pressure = QLineEdit("18")
+        self.txt_pressurizer_pressure.setToolTip(tr(
+            "Pressão que a bomba precisa manter: desnível até o ponto mais alto, perdas e a "
+            "pressão dinâmica do ponto, de no mínimo 1 m.c.a. (ABNT NBR 5626:2020, 6.9.2). "
+            "O padrão de 18 m.c.a. é a média da faixa do pressostato do Komeco TP 820T, "
+            "que liga a 12 e desliga a 24. A pressão estática nos pontos não pode passar de "
+            "40 m.c.a. (6.9.4)."))
+        self.txt_pressurizer_pressure.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_pressure, 1, 1)
+        grid_pr.addWidget(QLabel(tr("Vazão do ponto de uso (L/min):")), 2, 0)
+        self.txt_pressurizer_point_flow = QLineEdit("9")
+        self.txt_pressurizer_point_flow.setToolTip(tr(
+            "A vazão que o ponto aceita limita a da bomba: a boia de uma caixa acoplada "
+            "enche no ritmo dela, e bomba maior não a enche mais depressa. O padrão de "
+            "9 L/min (0,15 L/s) é a vazão de projeto da bacia com caixa de descarga da "
+            "ABNT NBR 5626:1998; a edição de 2020 (6.7.1) deixa ao projeto explicitá-la."))
+        self.txt_pressurizer_point_flow.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_point_flow, 2, 1)
+        grid_pr.addWidget(QLabel(tr("Acionamentos por pessoa por dia:")), 3, 0)
+        self.txt_pressurizer_starts = QLineEdit("5,05")
+        self.txt_pressurizer_starts.setToolTip(tr(
+            "5,05 descargas por pessoa por dia (Mayer, DeOreo et al., 1999), multiplicadas "
+            "pelos moradores. Some 0,37 se a máquina de lavar roupa usar água de chuva. "
+            "Nos controles eletrônicos, cada acionamento soma o retardo de desligamento."))
+        self.txt_pressurizer_starts.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_starts, 3, 1)
+        self.lbl_pr_power = QLabel(tr("Potência de placa (kW):"))
+        grid_pr.addWidget(self.lbl_pr_power, 4, 0)
+        self.txt_pressurizer_power = QLineEdit("0,18")
+        self.txt_pressurizer_power.setToolTip(tr(
+            "Potência de placa, que é mecânica, no eixo. O programa a divide pelo rendimento "
+            "do motor da ABNT NBR 17094-2 para chegar à potência elétrica."))
+        self.txt_pressurizer_power.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_power, 4, 1)
+        self.lbl_pr_flow = QLabel(tr("Vazão na pressão de trabalho (L/min):"))
+        grid_pr.addWidget(self.lbl_pr_flow, 5, 0)
+        self.txt_pressurizer_flow = QLineEdit("13,3")
+        self.txt_pressurizer_flow.setToolTip(tr(
+            "Leia na curva vazão × pressão do fabricante, na pressão de trabalho informada acima."))
+        self.txt_pressurizer_flow.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_flow, 5, 1)
+        self.lbl_pr_delay = QLabel(tr("Retardo de desligamento (s):"))
+        grid_pr.addWidget(self.lbl_pr_delay, 6, 0)
+        self.txt_pressurizer_delay = QLineEdit("0")
+        self.txt_pressurizer_delay.setToolTip(tr(
+            "Segundos que a bomba segue ligada depois de fechado o último ponto. Zero nos "
+            "pressostatos mecânicos; 10 s na Syllent Impulse Press, segundo o manual."))
+        self.txt_pressurizer_delay.textChanged.connect(self._on_supply_changed)
+        grid_pr.addWidget(self.txt_pressurizer_delay, 6, 1)
+        self.lbl_pressurizer_info = QLabel("")
+        self.lbl_pressurizer_info.setWordWrap(True)
+        self.lbl_pressurizer_info.setTextFormat(Qt.RichText)
+        self.lbl_pressurizer_info.setStyleSheet(
+            "color: #334155; font-size: 11px; background: #f1f5f9; border: 1px solid #cbd5e1; "
+            "border-radius: 4px; padding: 6px;")
+        grid_pr.addWidget(self.lbl_pressurizer_info, 7, 0, 1, 2)
+        self.box_pressurizer.setVisible(False)
+        lay_t.addWidget(self.box_pressurizer)
+
         lbl_sup = QLabel(tr("Reservatorio Superior (Elevado / Motobomba):"))
         lbl_sup.setStyleSheet("font-weight: bold; margin-top: 6px;")
         lay_t.addWidget(lbl_sup)
+        self.lbl_upper_section = lbl_sup
 
         self.combo_upper_mode = QComboBox()
         self.combo_upper_mode.addItem(tr("Igual a Demanda Diaria Pluvial"), 0)
@@ -218,7 +328,7 @@ class TabTanksSimulation(QWidget):
         row_inf = QHBoxLayout()
         self.txt_inflation = QLineEdit("-")
         self.txt_inflation.setFixedWidth(80)
-        self.txt_inflation.setToolTip(tr("Taxa aplicada somente aos custos adicionais de O&M; nao reajusta agua, esgoto ou energia."))
+        self.txt_inflation.setToolTip(tr("Inflação em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos, (1 + i)^12 − 1, e não multiplicado por 12. Aplica-se somente aos custos adicionais de O&M; não reajusta água, esgoto ou energia."))
         self.txt_inflation.textChanged.connect(lambda: self.check_econ_highlight(self.txt_inflation))
         self.txt_inflation.textChanged.connect(lambda: self._mark_preset_custom("combo_inflation_profile"))
         row_inf.addWidget(self.txt_inflation)
@@ -250,7 +360,7 @@ class TabTanksSimulation(QWidget):
         row_tma = QHBoxLayout()
         self.txt_tma = QLineEdit("-")
         self.txt_tma.setFixedWidth(80)
-        self.txt_tma.setToolTip(tr("Taxa Minima de Atratividade."))
+        self.txt_tma.setToolTip(tr("Taxa Mínima de Atratividade, em percentual (%). O botão ao lado define a unidade: % ao mês (a.m.) ou % ao ano (a.a.); ao trocar, o valor é convertido por juros compostos: 1% a.m. equivale a 12,68% a.a. O projeto grava a taxa em % ao mês."))
         self.txt_tma.textChanged.connect(lambda: self.check_econ_highlight(self.txt_tma))
         self.txt_tma.textChanged.connect(lambda: self._mark_preset_custom("combo_tma_profile"))
         row_tma.addWidget(self.txt_tma)
@@ -300,14 +410,14 @@ class TabTanksSimulation(QWidget):
         # Linha 3: Reajuste agua | Reajuste energia
         grid_fin.addWidget(QLabel(tr("Reajuste agua/esgoto (% por periodo):")), 3, 0)
         self.txt_readj_water = QLineEdit("-")
-        self.txt_readj_water.setToolTip(tr("Reajuste independente das tarifas de agua e esgoto; altera as economias calculadas no periodo configurado."))
+        self.txt_readj_water.setToolTip(tr("Reajuste das tarifas de água e esgoto, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano."))
         self.txt_readj_water.textChanged.connect(lambda: self.check_econ_highlight(self.txt_readj_water))
         self.txt_readj_water.textChanged.connect(lambda: self._mark_preset_custom("combo_tariff_profile"))
         grid_fin.addWidget(self.txt_readj_water, 3, 1)
 
         grid_fin.addWidget(QLabel(tr("Reajuste energia eletrica (% por periodo):")), 3, 2)
         self.txt_readj_elec = QLineEdit("-")
-        self.txt_readj_elec.setToolTip(tr("Reajuste independente da tarifa de energia; altera o custo de bombeamento no periodo configurado."))
+        self.txt_readj_elec.setToolTip(tr("Reajuste da tarifa de energia, em percentual (%) por período de reajuste. O comprimento do período, em meses, está no campo «Período de reajuste de tarifas»: com 12 meses, o valor é % ao ano."))
         self.txt_readj_elec.textChanged.connect(lambda: self.check_econ_highlight(self.txt_readj_elec))
         self.txt_readj_elec.textChanged.connect(lambda: self._mark_preset_custom("combo_tariff_profile"))
         grid_fin.addWidget(self.txt_readj_elec, 3, 3)
@@ -558,16 +668,31 @@ class TabTanksSimulation(QWidget):
         self._set_preset_guidance(tr("Perfil tarifário aplicado como referência; inflação e tarifas continuam sendo premissas independentes."))
 
     def get_tma_annual_pct(self):
-        val = parse_float(self.txt_tma.text(), 12.0)
+        # Campo vazio: o padrão é 12% ao ano, qualquer que seja o botão. Antes o
+        # padrão era lido na unidade do botão, e com «% a.m.» virava 12% ao mês.
+        val = parse_float(self.txt_tma.text(), None)
+        if val is None:
+            return 12.0
         if getattr(self, "_tma_mode", "year") == "month":
-            return ((1 + val / 100.0) ** 12 - 1) * 100.0
+            return mensal_pct_para_anual_pct(val)
         return val
 
     def get_inflation_annual_pct(self):
-        val = parse_float(self.txt_inflation.text(), 4.5)
+        # Campo vazio: o padrão é 4,5% ao ano, qualquer que seja o botão.
+        val = parse_float(self.txt_inflation.text(), None)
+        if val is None:
+            return 4.5
         if getattr(self, "_inf_mode", "year") == "month":
-            return ((1 + val / 100.0) ** 12 - 1) * 100.0
+            return mensal_pct_para_anual_pct(val)
         return val
+
+    def get_tma_monthly_pct(self):
+        """TMA em % ao mês, a unidade em que o projeto a grava."""
+        return anual_pct_para_mensal_pct(self.get_tma_annual_pct())
+
+    def get_inflation_monthly_pct(self):
+        """Inflação em % ao mês, a unidade em que o projeto a grava."""
+        return anual_pct_para_mensal_pct(self.get_inflation_annual_pct())
 
     def get_currency_symbol(self):
         if not hasattr(self, "combo_currency"):
@@ -664,6 +789,7 @@ class TabTanksSimulation(QWidget):
                 evaluated_volumes = [self.last_single_result.lower_tank_vol]
         up_mode = self.combo_upper_mode.currentIndex()
         cfg.upper_tank_used = 1 if up_mode != 2 else 0
+        self.write_supply_to_config(cfg)
         try:
             cfg.upper_tank_vol = float(self.txt_upper_vol.text().replace(",", "."))
         except ValueError:
@@ -738,39 +864,68 @@ class TabTanksSimulation(QWidget):
     def apply_project_state(self, state: dict, config=None):
         """Restaura os controles da Etapa 3 sem disparar cálculo prematuro."""
         state = state or {}
+        self._auto_sweep_max_value = None
+        self._auto_sweep_step_value = None
 
         def text(name, widget, fallback=""):
             if name in state:
                 value = state[name]
             elif config is not None:
-                attr_map = {
+                config_prop = {
                     "sweep_max": "lower_tank_max",
                     "sweep_step": "lower_tank_step",
                     "delta_ideal": "delta_ideal",
                     "upper_volume": "upper_tank_vol",
-                    "inflation": "inflation",
-                    "tma": "tma",
-                    "analysis_period": "analysis_period_years",
-                    "tariff_period": "tariff_escalation",
-                    "water_adjustment": "water_tariff_escalation",
-                    "electricity_adjustment": "elec_tariff_escalation",
-                }
-                cfg_attr = attr_map.get(name, name)
-                value = getattr(config, cfg_attr, fallback)
+                }.get(name, name)
+                if name == "pump_threshold_pct":
+                    if getattr(config, "upper_tank_vol", 0) > 0 and getattr(config, "pumping_threshold", 0) > 0:
+                        value = (config.pumping_threshold / config.upper_tank_vol) * 100.0
+                    else:
+                        value = fallback or 10.0
+                else:
+                    value = getattr(config, config_prop, fallback)
             else:
                 value = fallback
             widget.blockSignals(True)
             widget.setText(str(value))
             widget.blockSignals(False)
 
-        text("sweep_max", self.txt_sweep_max, getattr(config, "lower_tank_max", 10000.0))
-        text("sweep_step", self.txt_sweep_step, getattr(config, "lower_tank_step", 250.0))
-        text("delta_ideal", self.txt_delta_ideal, getattr(config, "delta_ideal", 5.0))
+        text("sweep_max", self.txt_sweep_max, "")
+        text("sweep_step", self.txt_sweep_step, "")
+        text("delta_ideal", self.txt_delta_ideal, "")
+        from netuno.core.supply_arrangement import arranjo_de, ARRANJOS
+        arranjo = arranjo_de(config) if config is not None else "recalque"
+        self.combo_supply.blockSignals(True)
+        self.combo_supply.setCurrentIndex(max(0, self.combo_supply.findData(arranjo if arranjo in ARRANJOS else "recalque")))
+        self.combo_supply.blockSignals(False)
+        self._supply_undeclared = arranjo not in ARRANJOS
+        self.lbl_supply_warning.setVisible(self._supply_undeclared)
+        if config is not None:
+            for widget, valor in (
+                    (self.txt_pressurizer_pressure, getattr(config, "pressurizer_pressure_m", 18.0)),
+                    (self.txt_pressurizer_starts, getattr(config, "pressurizer_starts_per_person_day", 5.05)),
+                    (self.txt_pressurizer_point_flow, getattr(config, "pressurizer_point_flow_l_min", 9.0)),
+                    (self.txt_pressurizer_power, getattr(config, "pressurizer_power_kw", 0.18)),
+                    (self.txt_pressurizer_flow, getattr(config, "pressurizer_flow_l_min", 13.3)),
+                    (self.txt_pressurizer_delay, getattr(config, "pressurizer_post_run_s", 0.0))):
+                widget.blockSignals(True)
+                texto = format_ptbr(float(valor), 2, thousands=False)
+                if "," in texto:
+                    texto = texto.rstrip("0").rstrip(",")
+                widget.setText(texto)
+                widget.blockSignals(False)
+            self.combo_pressurizer_model.blockSignals(True)
+            indice = self.combo_pressurizer_model.findData(
+                getattr(config, "pressurizer_model", "komeco_tp820t"))
+            self.combo_pressurizer_model.setCurrentIndex(max(0, indice))
+            self.combo_pressurizer_model.blockSignals(False)
+            self._refresh_pressurizer_info()
+        self.box_pressurizer.setVisible(arranjo == "pressurizacao")
         mode = state.get("upper_mode", 2 if not getattr(config, "upper_tank_used", True) else 1)
         self.combo_upper_mode.blockSignals(True)
         self.combo_upper_mode.setCurrentIndex(max(0, min(int(mode), self.combo_upper_mode.count() - 1)))
         self.combo_upper_mode.blockSignals(False)
-        text("upper_volume", self.txt_upper_vol, getattr(config, "upper_tank_vol", 500.0))
+        text("upper_volume", self.txt_upper_vol, "")
         text("pump_threshold_pct", self.txt_pump_thresh_pct, "")
         text("inflation", self.txt_inflation, getattr(config, "inflation", 0.0))
         text("tma", self.txt_tma, getattr(config, "tma", 0.0))
@@ -778,8 +933,8 @@ class TabTanksSimulation(QWidget):
         text("tariff_period", self.txt_readj_period, getattr(config, "tariff_escalation", 12))
         text("water_adjustment", self.txt_readj_water, getattr(config, "water_tariff_escalation", 5.0))
         text("electricity_adjustment", self.txt_readj_elec, getattr(config, "elec_tariff_escalation", 5.0))
-        self._inf_mode = state.get("inflation_mode", "year")
-        self._tma_mode = state.get("tma_mode", "year")
+        self._inf_mode = state.get("inflation_mode", "month")
+        self._tma_mode = state.get("tma_mode", "month")
         self.btn_inf_toggle.setChecked(self._inf_mode == "year")
         self.btn_tma_toggle.setChecked(self._tma_mode == "year")
         self.btn_inf_toggle.setText("% a.a." if self._inf_mode == "year" else "% a.m.")
@@ -798,8 +953,15 @@ class TabTanksSimulation(QWidget):
         self.combo_currency.setCurrentIndex(max(0, min(int(state.get("currency", 0)), self.combo_currency.count() - 1)))
         self.combo_currency.blockSignals(False)
         self.verified_dialogs = set(state.get("verified_cost_sections", []))
-        self.selected_volume_mode = state.get("selected_volume_mode", "sweep")
-        self.custom_selected_vol = parse_float(state.get("custom_selected_volume"), 5000.0)
+        # Sem estado de tela gravado, vale o que o projeto declara: no modo de
+        # volume fixo (lower_tank_mode = 0) o volume selecionado é o fixo, como
+        # na linha de comando. Antes a tela selecionava o ótimo técnico e
+        # simulava um volume que o projeto não pedia.
+        fixo = config is not None and int(getattr(config, "lower_tank_mode", 1)) == 0
+        self.selected_volume_mode = state.get("selected_volume_mode", "custom" if fixo else "sweep")
+        self.custom_selected_vol = parse_float(
+            state.get("custom_selected_volume"),
+            float(getattr(config, "lower_tank_fixed", 5000.0)) if fixo else 5000.0)
         self.on_param_changed()
         for widget in [self.txt_sweep_max, self.txt_sweep_step, self.txt_delta_ideal]:
             self.check_input_highlight(widget)
@@ -811,6 +973,140 @@ class TabTanksSimulation(QWidget):
     def set_precip_data(self, precip_data):
         self.precip_data = precip_data
         self.auto_fill_sweep_range()
+
+    def supply_arrangement(self) -> str:
+        """Arranjo escolhido na tela; «não informado» enquanto o aviso estiver ativo."""
+        if getattr(self, "_supply_undeclared", False):
+            return "nao_informado"
+        return self.combo_supply.currentData() or "recalque"
+
+    def _on_supply_changed(self, *_args):
+        """Mantém caixa superior, campos do pressurizador e projeto coerentes."""
+        if self.sender() is self.combo_supply:
+            self._supply_undeclared = False
+            self.lbl_supply_warning.setVisible(False)
+        arranjo = self.supply_arrangement()
+        recalque = arranjo == "recalque"
+        self.box_pressurizer.setVisible(arranjo == "pressurizacao")
+        self._refresh_pressurizer_info()
+        self.combo_upper_mode.blockSignals(True)
+        if not recalque:
+            self.combo_upper_mode.setCurrentIndex(2)
+        elif self.combo_upper_mode.currentIndex() == 2:
+            self.combo_upper_mode.setCurrentIndex(0)
+        self.combo_upper_mode.blockSignals(False)
+        for w in (self.combo_upper_mode, self.txt_upper_vol, self.txt_pump_thresh_pct, self.combo_pump_profile):
+            w.setEnabled(recalque)
+        cfg = self._get_config()
+        self.write_supply_to_config(cfg)
+        self.on_param_changed()
+        self._queue_hydraulic_refresh()
+
+    def write_supply_to_config(self, cfg):
+        arranjo = self.supply_arrangement()
+        cfg.supply_arrangement = "" if arranjo == "nao_informado" else arranjo
+        cfg.pressurizer_pressure_m = parse_float(self.txt_pressurizer_pressure.text(), 18.0)
+        cfg.pressurizer_starts_per_person_day = parse_float(self.txt_pressurizer_starts.text(), 5.05)
+        cfg.pressurizer_model = self.combo_pressurizer_model.currentData() or "komeco_tp820t"
+        cfg.pressurizer_point_flow_l_min = parse_float(self.txt_pressurizer_point_flow.text(), 9.0)
+        cfg.pressurizer_power_kw = parse_float(self.txt_pressurizer_power.text(), 0.18)
+        cfg.pressurizer_flow_l_min = parse_float(self.txt_pressurizer_flow.text(), 13.3)
+        cfg.pressurizer_post_run_s = parse_float(self.txt_pressurizer_delay.text(), 0.0)
+
+    def _pressurizer_volume_and_residents(self):
+        """Volume pluvial anual e moradores para a estimativa da tela.
+
+        Com simulação, o volume consumido; sem ela, a demanda pluvial do ano, que é
+        o teto do que o sistema consome.
+        """
+        moradores, volume = 4.0, 0.0
+        main_win = self.window()
+        if main_win and hasattr(main_win, "tab_building"):
+            try:
+                b_cfg = main_win.tab_building.get_building_config()
+                moradores = float(b_cfg.get("residents", 4.0) or 4.0)
+                volume = (b_cfg.get("demand", 150.0) * moradores * b_cfg.get("share", 0.28)
+                          * 365.25 / 1000.0)
+            except Exception:
+                pass
+        res = getattr(self, "last_sweep_result", None)
+        consumido = None
+        lista = list(getattr(res, "results_by_volume", None) or []) if res is not None else []
+        if lista:
+            alvo = getattr(res, "optimal_lower_tank_vol", None)
+            escolhido = next((r for r in lista if alvo is not None
+                              and abs(r.lower_tank_vol - alvo) < 1e-6), lista[-1])
+            consumido = getattr(escolhido, "annual_pluvial_consumed_m3", None)
+        return (float(consumido) if consumido else volume), moradores, bool(consumido)
+
+    def _refresh_pressurizer_info(self):
+        """Quadro com a energia do modelo escolhido e a de cada modelo do catálogo."""
+        if not hasattr(self, "lbl_pressurizer_info"):
+            return
+        from netuno.core.pressurizer_catalog import (
+            PERSONALIZADO, comparar, energia_personalizada, menor_que_atende)
+        personalizado = self.combo_pressurizer_model.currentData() == PERSONALIZADO
+        for w in (self.lbl_pr_power, self.txt_pressurizer_power, self.lbl_pr_flow,
+                  self.txt_pressurizer_flow, self.lbl_pr_delay, self.txt_pressurizer_delay):
+            w.setVisible(personalizado)
+        pressao = parse_float(self.txt_pressurizer_pressure.text(), 18.0) or 18.0
+        q_ponto = parse_float(self.txt_pressurizer_point_flow.text(), 9.0) or 9.0
+        acion = parse_float(self.txt_pressurizer_starts.text(), 5.05)
+        volume, moradores, simulado = self._pressurizer_volume_and_residents()
+        partidas = moradores * acion * 365.25
+        linhas = comparar(volume, pressao, partidas, q_ponto)
+        escolhido = self.combo_pressurizer_model.currentData()
+        if personalizado:
+            q = parse_float(self.txt_pressurizer_flow.text(), 0.0)
+            atual = energia_personalizada(
+                parse_float(self.txt_pressurizer_power.text(), 0.0), min(q, q_ponto) if q > 0 else q_ponto,
+                parse_float(self.txt_pressurizer_delay.text(), 0.0), volume, partidas)
+        else:
+            atual = next(e for e in linhas if e.chave == escolhido)
+        base = tr("consumo simulado") if simulado else tr("demanda pluvial do ano")
+        partes = []
+        sem_volume = volume <= 0
+        if sem_volume:
+            partes.append(tr(
+                "Preencha a edificação na etapa 2 para estimar a energia anual. A tabela mostra "
+                "a vazão que cada modelo entrega na pressão de trabalho."))
+        elif not atual.atende:
+            partes.append("<b style='color:#b91c1c;'>" + tr(
+                "Este modelo não alcança {0} m.c.a.: escolha outro ou reduza a pressão.").format(
+                format_ptbr(pressao, 1)) + "</b>")
+        else:
+            partes.append(tr(
+                "<b>{0}</b>: {1} L/min efetivos, {2} h e <b>{3} kWh por ano</b> ({4} kWh/m³), "
+                "sobre {5} m³ de {6}.").format(
+                atual.rotulo if not personalizado else tr("Personalizado"),
+                format_ptbr(atual.vazao_l_min, 1), format_ptbr(atual.horas_ano, 0),
+                format_ptbr(atual.kwh_ano, 1), format_ptbr(atual.kwh_por_m3, 2),
+                format_ptbr(volume, 1), base))
+        menor = menor_que_atende(pressao, q_ponto)
+        if menor is None:
+            partes.append(tr("Nenhum modelo do catálogo entrega {0} L/min a {1} m.c.a.").format(
+                format_ptbr(q_ponto, 1), format_ptbr(pressao, 1)))
+        elif not personalizado and menor.chave != escolhido:
+            partes.append(tr(
+                "O menor modelo que atende é o <b>{0}</b>. Um modelo maior não enche a caixa mais "
+                "depressa: gasta mais no mesmo tempo (ABNT NBR 5626:2020, 6.5.11.12).").format(menor.rotulo))
+        tabela = ["<table cellspacing='0' cellpadding='2'>",
+                  "<tr><td><b>" + tr("Modelo") + "</b></td><td align='right'><b>L/min</b></td>"
+                  "<td align='right'><b>kWh/" + tr("ano") + "</b></td></tr>"]
+        for e in linhas:
+            if e.atende and sem_volume:
+                valor = "—"
+            elif e.atende:
+                valor = format_ptbr(e.kwh_ano, 1)
+            else:
+                valor = tr("não atende")
+            estilo = " style='font-weight:bold;'" if e.chave == escolhido else ""
+            tabela.append(f"<tr{estilo}><td>{e.rotulo}</td>"
+                          f"<td align='right'>{format_ptbr(e.vazao_da_bomba_l_min, 1)}</td>"
+                          f"<td align='right'>{valor}</td></tr>")
+        tabela.append("</table>")
+        partes.append(tr("Vazão da curva de cada modelo na pressão de trabalho, e a energia anual:"))
+        self.lbl_pressurizer_info.setText("<br>".join(partes) + "".join(tabela))
 
     def on_param_changed(self):
         """Atualiza a parametrização do reservatório superior e sincroniza varredura."""
@@ -863,27 +1159,28 @@ class TabTanksSimulation(QWidget):
     def _calculate_suggested_sweep(self, building: dict, sdii_mm_day: float):
         """Calcula de forma consistente o volume máximo de varredura e passo."""
         tot_demand = building.get("demand", 200.0) * building.get("residents", 4.0)
-        share = building.get("share", 0.40)
-        share_dec = (share / 100.0) if share > 1.0 else share
-        pluvial_demand_day = tot_demand * max(0.0, min(1.0, share_dec))
+        # O dicionário da edificação guarda frações de 0 a 1.
+        pluvial_demand_day = tot_demand * validar_fracao("A fração atendível", building.get("share", 0.40))
 
         if building.get("demand_mode") == "weekly" and building.get("weekly_demands"):
             w_d = building["weekly_demands"]
             w_r = building.get("weekly_residents", [4.0]*7)
-            w_s = [((s/100.0) if s > 1.0 else s) for s in building.get("weekly_shares", [0.4]*7)]
+            w_s = [validar_fracao("A fração semanal", s) for s in building.get("weekly_shares", [0.4]*7)]
             pluvial_demand_day = sum(w_d[i] * w_r[i] * w_s[i] for i in range(len(w_d))) / len(w_d)
         elif building.get("demand_mode") == "monthly" and building.get("monthly_demands"):
             m_d = building["monthly_demands"]
             m_r = building.get("monthly_residents", [4.0]*12)
-            m_s = [((s/100.0) if s > 1.0 else s) for s in building.get("monthly_shares", [0.4]*12)]
+            m_s = [validar_fracao("A fração mensal", s) for s in building.get("monthly_shares", [0.4]*12)]
             pluvial_demand_day = sum(m_d[i] * m_r[i] * m_s[i] for i in range(len(m_d))) / len(m_d)
 
-        # Autonomia em dias modulada pelo SDII:
-        autonomy_days = 15.0 + min(20.0, 1.0 * sdii_mm_day)
+        # Autonomia em dias modulada pelo SDII (calibrada para 20 a 30 dias de projeto,
+        # cobrindo períodos secos e permitindo à curva de varredura explorar além da inflexão):
+        autonomy_days = 20.0 + min(12.0, 0.6 * max(1.0, sdii_mm_day))
         sweep_from_demand = pluvial_demand_day * autonomy_days
 
-        # Oferta pluvial captável por ciclo de eventos de chuva
-        sweep_from_catchment = min(8.0, 3.0 + 0.3 * sdii_mm_day) * sdii_mm_day * building.get("area", 100.0) * building.get("runoff", 0.8)
+        # Oferta pluvial captável por período de chuva representativo
+        rain_depth_ref_mm = max(60.0, min(140.0, 8.0 * max(1.0, sdii_mm_day)))
+        sweep_from_catchment = rain_depth_ref_mm * building.get("area", 100.0) * building.get("runoff", 0.8)
 
         # Se houver reservatório superior configurado
         try:
@@ -892,13 +1189,25 @@ class TabTanksSimulation(QWidget):
             upper_vol = 0.0
         sweep_from_upper = upper_vol * 10.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0
 
+        # Piso mínimo de 8.000 L para abranger cisternas residenciais padrão de 5.000 a 8.000 L
         if pluvial_demand_day > 0:
-            raw_sweep_max_l = max(sweep_from_demand, min(sweep_from_catchment, sweep_from_demand * 1.8), sweep_from_upper)
+            raw_sweep_max_l = max(sweep_from_demand, sweep_from_catchment, sweep_from_upper, 8000.0)
         else:
-            raw_sweep_max_l = max(sweep_from_catchment, 5000.0)
+            raw_sweep_max_l = max(sweep_from_catchment, 8000.0)
 
-        sweep_max_l = max(SWEEP_STEP_QUANTUM_L, int(round(raw_sweep_max_l / SWEEP_STEP_QUANTUM_L)) * SWEEP_STEP_QUANTUM_L)
-        grid_plan = build_sweep_volume_grid(sweep_max_l, SWEEP_STEP_QUANTUM_L)
+        # Passo adaptativo: 250 L para volumes pequenos (<= 5.000 L); 500 L para volumes médios (<= 20.000 L);
+        # 1.000 L para volumes grandes (<= 50.000 L); e 2.500 L acima.
+        if raw_sweep_max_l <= 5000.0:
+            suggested_step = 250.0
+        elif raw_sweep_max_l <= 20000.0:
+            suggested_step = 500.0
+        elif raw_sweep_max_l <= 50000.0:
+            suggested_step = 1000.0
+        else:
+            suggested_step = 2500.0
+
+        sweep_max_l = max(suggested_step, int(round(raw_sweep_max_l / suggested_step)) * int(suggested_step))
+        grid_plan = build_sweep_volume_grid(sweep_max_l, suggested_step)
         sweep_step_l = grid_plan.effective_step_l
 
         return {
@@ -976,6 +1285,58 @@ class TabTanksSimulation(QWidget):
         if not self._setting_auto_sweep:
             self._auto_sweep_step_value = None
 
+    def on_analisar_comprimento_da_serie(self):
+        """Responde se a serie carregada basta para o projeto desta tela.
+
+        Usa a mesma grade da varredura e o mesmo limiar de ganho marginal, porque
+        a resposta depende deles: quanto maior a fracao atendivel, mais longa a
+        serie precisa ser.
+        """
+        from netuno.core.comprimento_de_serie import DIAS_NO_ANO, analisar
+        from netuno.ui.dialogs.dialog_comprimento_de_serie import DialogComprimentoDeSerie
+
+        if self.precip_data is None or len(self.precip_data) < 2 * DIAS_NO_ANO:
+            QMessageBox.warning(self, tr("Serie insuficiente"), tr(
+                "Carregue uma serie de precipitacao com pelo menos dois anos na Etapa 1."))
+            return
+
+        b_cfg = {"area": 100.0, "demand": 200.0, "residents": 4, "runoff": 0.75, "share": 0.4}
+        discard_mm, discard_mode, discard_days = 2.0, 1, 7
+        main_win = self.window()
+        if main_win and hasattr(main_win, "tab_building"):
+            b_cfg = main_win.tab_building.get_building_config()
+        if main_win and hasattr(main_win, "tab_project"):
+            discard_mm = parse_float(main_win.tab_project.txt_discard.text(), 2.0)
+            discard_mode = main_win.tab_project.get_discard_mode()
+            discard_days = main_win.tab_project.get_discard_days()
+
+        parametros = dict(
+            area=b_cfg["area"], runoff_coeff=b_cfg["runoff"], discard_mm=discard_mm,
+            discard_mode=discard_mode, discard_days_interval=discard_days,
+            total_demand_per_day=b_cfg["demand"] * b_cfg["residents"],
+            rainwater_share=b_cfg["share"],
+        )
+        passo = max(250.0, parse_float(self.txt_sweep_step.text(), 250.0))
+        maximo = max(passo * 4, parse_float(self.txt_sweep_max.text(), 10000.0))
+        limiar = parse_float(self.txt_delta_ideal.text(), 5.0)
+
+        # Janelas sorteadas, e nao todas: a tela responde em segundos, e a
+        # analise exaustiva fica na linha de comando (netuno series-length).
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            resultado = analisar(
+                self.precip_data, parametros, volume_maximo_l=maximo, passo_l=passo,
+                limiar_ganho_pct_m3=limiar, amostra_por_comprimento=8, semente=42)
+        except ValueError as erro:
+            QApplication.restoreOverrideCursor()
+            QMessageBox.warning(self, tr("Nao foi possivel analisar"), str(erro))
+            return
+        finally:
+            if QApplication.overrideCursor() is not None:
+                QApplication.restoreOverrideCursor()
+
+        DialogComprimentoDeSerie(resultado, self).exec()
+
     def _apply_sweep_grid_policy(self, announce=True):
         """Normalize the editable grid without turning a valid edit into an error."""
         if self._setting_auto_sweep:
@@ -1048,7 +1409,7 @@ class TabTanksSimulation(QWidget):
             return False
 
         active_max_l = max_l if max_blank or self._auto_sweep_max_value is not None else parse_float(self.txt_sweep_max.text(), max_l)
-        requested_step_l = SWEEP_STEP_QUANTUM_L if step_blank or self._auto_sweep_step_value is not None else parse_float(self.txt_sweep_step.text(), SWEEP_STEP_QUANTUM_L)
+        requested_step_l = step_l if step_blank or self._auto_sweep_step_value is not None else parse_float(self.txt_sweep_step.text(), step_l)
         grid_plan = build_sweep_volume_grid(active_max_l, requested_step_l)
         step_l = grid_plan.effective_step_l
 
@@ -1268,12 +1629,12 @@ class TabTanksSimulation(QWidget):
         )
         if self.selected_volume_mode == "sweep":
             self.lbl_selected_vol_status.setText(
-                f"\u2713 {len(self.last_sweep_result.results_by_volume) if self.last_sweep_result else 0} volumes disponíveis para avaliação; decisão final no TOPSIS."
+                tr('✓ {0} volumes disponíveis para avaliação; decisão final no TOPSIS.').format(len(self.last_sweep_result.results_by_volume) if self.last_sweep_result else 0)
             )
             self.lbl_selected_vol_status.setStyleSheet("font-size: 12px; font-weight: bold; color: #059669;")
         else:
             self.lbl_selected_vol_status.setText(
-                f"\u2713 Volume: {format_ptbr(target_vol, 0)} L ({tr('Volume Fixo Personalizado')})"
+                tr('✓ Volume: {0} L ({1})').format(format_ptbr(target_vol, 0), tr('Volume Fixo Personalizado'))
             )
             self.lbl_selected_vol_status.setStyleSheet(
                 f"font-size: 12px; font-weight: bold; color: {'#ffffff' if is_dark else '#0284c7'};"
@@ -1301,6 +1662,13 @@ class TabTanksSimulation(QWidget):
                     main_win.config.pump_flow_rate = data["flow_lh"]
                     main_win.config.pump_unit_cost = data["cost"]
                     main_win.config.upper_tank_vol = data["upper_vol"]
+                    # O rendimento e a altura manométrica eram calculados pelo
+                    # assistente e descartados aqui. Sem eles, a emissão e o custo
+                    # de bombeamento ignoravam o desnível informado pelo usuário.
+                    if data.get("efficiency"):
+                        main_win.config.pump_efficiency = float(data["efficiency"])
+                    if data.get("manometric_head_m"):
+                        main_win.config.pump_manometric_head_m = float(data["manometric_head_m"])
                     if hasattr(main_win.config, "update_pump_pipes") and "suction_dn" in data and "recalque_dn" in data:
                         main_win.config.update_pump_pipes(
                             data["suction_dn"], data["recalque_dn"],
@@ -1309,6 +1677,8 @@ class TabTanksSimulation(QWidget):
                 self.txt_upper_vol.setText(str(data["upper_vol"]))
                 QMessageBox.information(self, tr("Motobomba Selecionada"),
                     tr(f"Motobomba selecionada com sucesso!\n"
-                       f"Potencia: {data['kw']:.3f} kW | Vazao: {data['flow_lh']:.0f} L/h | "
+                       f"Potencia: {data['kw']:.3f} kW | Vazao: {data['flow_lh']:.0f} L/h\n"
+                       f"Altura manometrica: {data.get('manometric_head_m', 0):.1f} mca | "
+                       f"Rendimento: {data.get('efficiency', 0):.0f}%\n"
                        f"Custo: R$ {data['cost']:.2f} | Vol. Sup.: {data['upper_vol']:.0f} L"))
                 self.on_param_changed()

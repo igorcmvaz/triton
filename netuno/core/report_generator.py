@@ -7,6 +7,8 @@ Suporta dois modelos principais de exportação:
 """
 
 import os
+from netuno.core.fracao_atendivel import fracao_para_percentual
+from netuno.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import base64
 from html import escape
 from datetime import datetime
@@ -44,13 +46,13 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     climate_period = escape(str(audit.get("climate_period", "-")))
     analysis_years = escape(str(audit.get("analysis_period_years", 20)))
     area = project_data.get("area", 100.0)
-    runoff = project_data.get("runoff", 0.75)
+    runoff = project_data.get("runoff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard = project_data.get("discard", 2.0)
     residents = project_data.get("residents", 4)
     demand = project_data.get("demand", 200.0)
     raw_share = project_data.get("share", 0.40)
     if isinstance(raw_share, (int, float)):
-        share = raw_share * 100.0 if raw_share <= 1.0 else raw_share
+        share = fracao_para_percentual("A fração atendível", raw_share)
     else:
         share = "-"
     
@@ -289,6 +291,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
                         <tr><td>Consumo Médio Potável</td><td>{potable_day_str} L/dia</td></tr>
                         <tr><td>Volume Extravasado</td><td>{spill_day_str} L/dia</td></tr>
                         <tr><td>Garantia Plena (100%)</td><td class="val-bold">{sat_full_str}% dos dias</td></tr>
+                        <tr><td>Atendimento Nulo (0%)</td><td class="val-bold">{sat_null_str}% dos dias</td></tr>
                     </table>
                 </td>
                 <td>
@@ -332,7 +335,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
         <table class="footer-table">
             <tr>
                 <td style="width: 55%;">
-                    <div><b>{tr('Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC')}</b></div>
+                    <div><b>{tr('Grupo de Pesquisa em Ambientes Sustentáveis | UFSC')}</b></div>
                     <div>{APP_VERSION_LABEL} Engine — {tr('Documento Executivo A4 Paisagem')}</div>
                 </td>
                 <td style="width: 45%; text-align: right;">
@@ -382,13 +385,13 @@ def generate_environmental_html_report(
     climate_period = escape(str(audit.get("climate_period", "-")))
     tariff_location = escape(str(audit.get("tariff_location", "-")))
     area = project_data.get("area", 100.0)
-    runoff = project_data.get("runoff", 0.75)
+    runoff = project_data.get("runoff", COEFICIENTE_DE_ESCOAMENTO_PADRAO)
     discard = project_data.get("discard", 2.0)
     residents = project_data.get("residents", 4)
     demand = project_data.get("demand", 200.0)
     raw_share = project_data.get("share", 0.40)
     if isinstance(raw_share, (int, float)):
-        share = raw_share * 100.0 if raw_share <= 1.0 else raw_share
+        share = fracao_para_percentual("A fração atendível", raw_share)
     else:
         share = "-"
 
@@ -420,7 +423,9 @@ def generate_environmental_html_report(
             annual_potable_consumed_m3=annual_potable_m3,
             net_co2e_saved_kg_lifetime=lca_result.lifetime_net_co2_saved_kg if lca_result else 0.0,
             project_lifetime_years=20,
-            has_irrigation_demand=True
+            has_irrigation_demand=True,
+            # A area de captacao e a entrada do campo WEM14 do EDGE.
+            catchment_area_m2=float(area) if isinstance(area, (int, float)) else 0.0,
         )
 
     # Formatação numérica
@@ -466,6 +471,18 @@ def generate_environmental_html_report(
     # Cloração
     cl2_dose_str = format_ptbr(lca_result.chlorine_dose_mg_l, 2)
     cl2_kg_yr_str = format_ptbr(lca_result.annual_chlorine_kg, 3)
+
+    # Linha de tratamento: sem nomear os estagios, dois laudos com valores muito
+    # diferentes ficariam indistinguiveis.
+    estagios = list(getattr(lca_result, 'etap_disinfection_stages', []) or [])
+    if estagios:
+        etap_stages_html = (
+            "<div class=\"eq-box\"><b>"
+            + ('Linha de tratamento considerada:' if not is_en else 'Treatment train considered:')
+            + "</b> " + "; ".join(estagios) + ".</div>"
+        )
+    else:
+        etap_stages_html = ""
 
     # Tabela de itens do ICV
     # Convenção estrita: Emitido para a atmosfera = Positivo (+) / Vermelho (ruim)
@@ -784,7 +801,7 @@ def generate_environmental_html_report(
                 <tr>
                     <td class="val-red">+{embodied_co2_str} kg CO2e</td>
                     <td class="val-red">+{ann_pumping_co2_str} kg/ano</td>
-                    <td class="val-red">+{ann_treatment_co2_str} kg/ano ({cl2_kg_yr_str} kg Cl2/ano)</td>
+                    <td class="val-red">+{ann_treatment_co2_str} kg/ano ({cl2_kg_yr_str} kg produto/ano a {cl2_dose_str} mg Cl2/L)</td>
                     <td class="val-green">-{ann_avoided_co2_str} kg/ano</td>
                     <td class="{'val-green' if net_ann_co2_val >= 0 else 'val-red'}">{net_ann_co2_str} kg CO2e/ano</td>
                     <td class="val-bold">{payback_env_str}</td>
@@ -799,6 +816,8 @@ def generate_environmental_html_report(
             {'O payback ambiental representa o tempo necessário para que as emissões evitadas pela água pluvial compensem integralmente o carbono incorporado nos materiais.' if not is_en else 'Environmental payback represents the time required for operational avoided emissions to offset initial material embodied carbon.'}
         </div>
 
+        {etap_stages_html}
+
         {charts_html}
 
         <!-- SEÇÃO 4: MATRIZ ESG & CERTIFICAÇÕES AMBIENTAIS -->
@@ -811,15 +830,28 @@ def generate_environmental_html_report(
                 <p style="margin-top: 3px;">WEc1 (Ext.): {esg_result.leed.outdoor_water_points}/2 pts | WEc2 (Int.): {esg_result.leed.indoor_water_points}/6 pts</p>
             </div>
             <div class="esg-card">
-                <h4>🌿 Processo AQUA-HQE</h4>
-                <p><b>{'Nível' if not is_en else 'Level'}: {esg_result.aqua.performance_level}</b> {aqua_stars}</p>
+                <h4>🏛️ LEED v5 BD+C (WEc2)</h4>
+                <p><b>{esg_result.leed_v5.total_pts} de 8 {'pontos' if not is_en else 'points'}</b></p>
+                <div class="esg-badge">{esg_result.leed_v5.caminho}</div>
+                <p style="margin-top: 3px;">{'Opção' if not is_en else 'Option'} 2: {esg_result.leed_v5.opcao2_pts} | 4: {esg_result.leed_v5.opcao4_pts} | 6: {esg_result.leed_v5.opcao6_pts} | 1: {esg_result.leed_v5.opcao1_pts}</p>
+            </div>
+            <div class="esg-card">
+                <h4>🌿 AQUA-HQE Residencial</h4>
+                <p><b>{'Nível' if not is_en else 'Level'}: {esg_result.aqua.performance_level}</b></p>
+                <p style="margin-top: 3px;">{'; '.join(esg_result.aqua.itens_atendidos) or ('Nenhum item atendido' if not is_en else 'No item met')}</p>
                 <p style="margin-top: 3px;">{esg_result.aqua.description}</p>
             </div>
             <div class="esg-card">
-                <h4>🏠 Selo Casa Azul CAIXA</h4>
-                <p><b>{'Graduação' if not is_en else 'Rating'}: {esg_result.casa_azul.category}</b></p>
-                <div class="esg-badge">+{esg_result.casa_azul.points_awarded} {'pontos CAIXA' if not is_en else 'points'}</div>
+                <h4>🏠 Selo Casa Azul + CAIXA</h4>
+                <p><b>{esg_result.casa_azul.category}</b></p>
+                <div class="esg-badge">{(str(esg_result.casa_azul.points_awarded) + (' pontos' if not is_en else ' points')) if esg_result.casa_azul.points_awarded else (esg_result.casa_azul.pontuacao_faixa if esg_result.casa_azul.criterion_met else '0')}</div>
                 <p style="margin-top: 3px;">{esg_result.casa_azul.description}</p>
+            </div>
+            <div class="esg-card">
+                <h4>🌍 EDGE (IFC)</h4>
+                <p><b>{'Barra de água' if not is_en else 'Water bar'}: {format_ptbr(esg_result.edge.economia_de_agua_pct, 1)}%</b></p>
+                <div class="esg-badge">{('Atende ao padrão de água' if not is_en else 'Meets water standard') if esg_result.edge.atende_o_padrao_de_agua else (('Faltam ' if not is_en else 'Short by ') + format_ptbr(abs(esg_result.edge.margem_pct), 1) + ' p.p.')}</div>
+                <p style="margin-top: 3px;">{'Sem pontos: o EDGE mede percentual contra um caso-base local. Área de captação da WEM14: ' if not is_en else 'No points: EDGE measures percentage against a local base case. WEM14 catchment area: '}{format_ptbr(esg_result.edge.area_de_captacao_m2, 0)} m²</p>
             </div>
             <div class="esg-card">
                 <h4>💧 GRI 303 & Water Positive</h4>
@@ -847,7 +879,7 @@ def generate_environmental_html_report(
         <table class="footer-table">
             <tr>
                 <td style="width: 50%;">
-                    <div><b>{'Grupo de Pesquisa Gestão do Espaço Sustentável | UFSC' if not is_en else 'Sustainable Space Management Research Group | UFSC'}</b></div>
+                    <div><b>{'Grupo de Pesquisa em Ambientes Sustentáveis | UFSC' if not is_en else 'Sustainable Environments Research Group | UFSC'}</b></div>
                     <div>{APP_VERSION_LABEL} — {'Laudo Ambiental e ESG gerado automaticamente' if not is_en else 'Environmental & ESG Report automatically generated'}</div>
                 </td>
                 <td style="width: 50%; text-align: right;">
@@ -974,9 +1006,7 @@ def generate_research_html_report(
     potential_pct = number(project_data.get("potential_pct"))
     sat_full = number(project_data.get("sat_full"))
     sat_null = number(project_data.get("sat_null"))
-    share = number(project_data.get("share"))
-    if 0.0 < share <= 1.0:
-        share *= 100.0
+    share = fracao_para_percentual("A fração atendível", number(project_data.get("share")))
     annual_pluvial_m3 = pluv_day * 365.0 / 1000.0
     annual_spill_m3 = spill_day * 365.0 / 1000.0
     annual_potable_m3 = potable_day * 365.0 / 1000.0
@@ -1025,9 +1055,7 @@ def generate_research_html_report(
     potential_pct = number(project_data.get("potential_pct"))
     sat_full = number(project_data.get("sat_full"))
     sat_null = number(project_data.get("sat_null"))
-    share = number(project_data.get("share"))
-    if 0.0 < share <= 1.0:
-        share *= 100.0
+    share = fracao_para_percentual("A fração atendível", number(project_data.get("share")))
     annual_pluvial_m3 = pluv_day * 365.0 / 1000.0
     annual_spill_m3 = spill_day * 365.0 / 1000.0
     annual_potable_m3 = potable_day * 365.0 / 1000.0
@@ -1814,7 +1842,7 @@ li {{ margin-bottom: 2px; }}
     <div class='cover-institution'>
         UNIVERSIDADE FEDERAL DE SANTA CATARINA — UFSC<br/>
         CENTRO TECNOLÓGICO — CTC<br/>
-        GRUPO DE PESQUISA GESTÃO DO ESPAÇO SUSTENTÁVEL — GES
+        GRUPO DE PESQUISA EM AMBIENTES SUSTENTÁVEIS
     </div>
 
     <div class='cover-center'>
@@ -2276,7 +2304,7 @@ li {{ margin-bottom: 2px; }}
 
     <div class='footer-sig'>
         <div>
-            <b>Grupo de Pesquisa Gestão do Espaço Sustentável (UFSC)</b><br/>
+            <b>{"Grupo de Pesquisa em Ambientes Sustentáveis" if not is_en else "Sustainable Environments Research Group"} (UFSC)</b><br/>
             {APP_VERSION_LABEL} Engine — {t('prepared')}
         </div>
         <div style='text-align: right;'>

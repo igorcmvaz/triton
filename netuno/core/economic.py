@@ -4,6 +4,22 @@ from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from netuno.core.parser import NetunoConfig
+from netuno.core.pump_energy import compute_annual_pump_energy
+from netuno.core.supply_arrangement import GRAVIDADE, arranjo_de
+from netuno.core.pump_hydraulics import (
+    ALTURA_MANOMETRICA_PADRAO_M,
+    energia_especifica_a_partir_da_vazao,
+    energia_especifica_kwh_por_m3,
+    rendimento_do_motor,
+    rendimento_tipico,
+    vazao_l_por_h,
+)
+from netuno.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
+from netuno.core.etap_integration import (
+    capex_incremental_da_etap,
+    dimensionar_etap_do_projeto,
+    opex_anual_incremental_da_etap,
+)
 from netuno.core.simulation import SingleTankSimulationResult
 
 
@@ -114,6 +130,12 @@ class EconomicAnalysisResult:
     monthly_pump_cost_brl: float = 0.0
     annual_pump_cost_brl: float = 0.0
     annual_chlorine_cost_brl: float = 0.0
+    # Linha de tratamento (ETAP). O investimento entra no CAPEX e o custeio
+    # anual, descontada a cloracao ja contabilizada, entra no fluxo de caixa.
+    etap_capex_brl: float = 0.0
+    annual_etap_opex_brl: float = 0.0
+    etap_disinfection_method: str = ""
+    etap_disinfection_stages: List[str] = field(default_factory=list)
     annual_iptu_savings_brl: float = 0.0
     annual_chlorine_kg: float = 0.0
     monthly_cash_flows: List[MonthlyCashFlowItem] = field(default_factory=list)
@@ -175,10 +197,27 @@ def calculate_water_bill(
             if is_fix == -1:
                 # Custo fixo / disponibilidade por unidade
                 c_agua_unit += rate_or_fix
+            elif is_fix == -3:
+                # Piso: aplicado depois, sobre o total tarifado.
+                continue
             elif vol_m3_unit > min_v:
                 v_in_tier = min(vol_m3_unit, max_v) - min_v
                 if v_in_tier > 0:
                     c_agua_unit += v_in_tier * rate_or_fix
+
+    # 2. Piso de pagamento (is_fix == -3)
+    #
+    # Regime distinto do custo fixo, e o motor nao o tinha. O custo fixo SOMA por
+    # cima do consumo medido; o piso nao soma, LIMITA por baixo. Com piso de
+    # R$ 40 e consumo tarifado de R$ 55, economizar ate R$ 15 nao reduz nada -
+    # e e justamente isso que um estudo de aproveitamento pluvial precisa
+    # enxergar. Ver netuno/core/tariff_regimes.py.
+    piso = 0.0
+    for t in effective_tariffs:
+        if int(t[3]) == -3:
+            piso = max(piso, float(t[2]))
+    if piso > 0.0:
+        c_agua_unit = max(c_agua_unit, piso)
 
     # Cálculo do esgoto
     if sewage_mode == 0:  # Custo fixo de esgoto
@@ -273,6 +312,28 @@ def run_economic_analysis(
     """
     Executes full financial cash flow, VPL, TIR, and Payback analysis.
     """
+    if sim_result.lower_tank_vol <= 0 and sim_result.annual_pluvial_consumed_m3 <= 0:
+        return EconomicAnalysisResult(
+            vpl=0.0,
+            tir_monthly_pct=0.0,
+            tir_annual_pct=0.0,
+            payback_months=None,
+            payback_years=None,
+            capex_total=0.0,
+            annual_water_savings_brl=0.0,
+            annual_opex_brl=0.0,
+            monthly_pump_kwh=0.0,
+            annual_pump_kwh=0.0,
+            monthly_pump_cost_brl=0.0,
+            annual_pump_cost_brl=0.0,
+            annual_chlorine_cost_brl=0.0,
+            etap_capex_brl=0.0,
+            annual_etap_opex_brl=0.0,
+            annual_iptu_savings_brl=0.0,
+            annual_chlorine_kg=0.0,
+            monthly_cash_flows=[]
+        )
+
     # 1. Initial Investment Cost (CAPEX)
     capex = (
         config.cost_lower_tank +
@@ -280,7 +341,8 @@ def run_economic_analysis(
         config.cost_labor +
         config.cost_piping +
         config.cost_accessories +
-        (config.pump_unit_cost * config.pump_count)
+        # Arranjo por gravidade não tem motobomba a comprar.
+        (0.0 if arranjo_de(config) == GRAVIDADE else config.pump_unit_cost * config.pump_count)
     )
     
     # Average monthly consumption volumes
@@ -317,19 +379,14 @@ def run_economic_analysis(
     monthly_pump_cost_base = 0.0
     monthly_pump_kwh_base = 0.0
     
-    if config.upper_tank_used and config.pump_flow_rate > 0:
-        # Pump runtime based on total simulated days
-        tot_days = max(1, sim_result.total_days)
-        avg_daily_pumped = sim_result.total_pumped_liters / tot_days
-        avg_daily_cycles = sim_result.total_pump_cycles / tot_days
-        
-        t_rec_hours_month = (avg_daily_pumped * days_in_month) / config.pump_flow_rate
-        t_part_hours_month = avg_daily_cycles * days_in_month * config.pump_startup_time_h
-        t_total_hours_month = t_rec_hours_month + t_part_hours_month
-        
-        eta = (config.pump_efficiency / 100.0) if config.pump_efficiency > 0 else 0.55
-        monthly_pump_kwh_base = (config.pump_power_kw * t_total_hours_month) / eta
-        
+    # A energia vem da função única de netuno/core/pump_energy.py, conforme o
+    # arranjo de abastecimento. Até setembro de 2026 esta conta era uma cópia
+    # que só existia com caixa superior, enquanto a ACV cobrava bombeamento em
+    # qualquer arranjo.
+    energia_de_abastecimento = compute_annual_pump_energy(config, sim_result)
+    if energia_de_abastecimento.annual_kwh > 0:
+        monthly_pump_kwh_base = energia_de_abastecimento.annual_kwh / 12.0
+
         # Ajuste por bandeira tarifária ANEEL ou Tarifa Branca
         tariff_flag = getattr(config, 'tariff_flag', 'verde')
         flag_add = 0.0
@@ -349,15 +406,44 @@ def run_economic_analysis(
             config.elec_tax_fixed
         )
         
+    # Volume pluvial anual efetivamente aproveitado, base de dimensionamento da
+    # linha de tratamento e da dosagem.
+    annual_pluvial_m3 = vol_pluv_m3_month * 12.0
+
     # 2.1 Chlorination / Chemical Treatment Cost (OPEX)
     chlorine_enabled = getattr(config, 'chlorine_treatment_enabled', True)
-    dose_mg_l = getattr(config, 'chlorine_dose_mg_l', 2.0)
+    dose_mg_l = getattr(config, 'chlorine_dose_mg_l', DOSE_PADRAO_MG_POR_LITRO)
     cost_per_kg_cl2 = getattr(config, 'chlorine_cost_per_kg', 25.0)
-    
-    monthly_cl2_kg = (vol_pluv_m3_month * dose_mg_l / 1000.0) if chlorine_enabled else 0.0
+
+    # O que se compra e o PRODUTO (pastilha a 65% de cloro ativo), nao o cloro
+    # puro, e o preco em R$/kg e do produto. Antes desta revisao a conta usava a massa
+    # de cloro ativo, subestimando o custo em 1/0,65 - cerca de 35%. A conversao
+    # vem da cadeia unica em netuno/core/chlorination.py.
+    _cloracao = Cloracao(
+        dose_mg_por_litro=max(0.0, float(dose_mg_l)),
+        pureza=max(1e-6, float(getattr(config, 'chlorine_product_purity', PUREZA_PADRAO))),
+    )
+    monthly_cl2_kg = _cloracao.massa_anual_de_produto_kg(vol_pluv_m3_month) if chlorine_enabled else 0.0
     monthly_cl2_cost_base = monthly_cl2_kg * cost_per_kg_cl2
     annual_cl2_kg = monthly_cl2_kg * 12.0
     annual_cl2_cost = monthly_cl2_cost_base * 12.0
+
+    # 2.1.1 Linha de tratamento (ETAP)
+    #
+    # A escolha feita na aba de Qualidade da Agua - classe alvo, desinfeccao e
+    # filtro de polimento - chega aqui pela configuracao. O investimento entra no
+    # CAPEX; do custeio anual desconta-se a cloracao, que as linhas acima ja
+    # custeiam, de modo que o hipoclorito e pago uma vez so.
+    etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3=annual_pluvial_m3, sim_result=sim_result)
+    # A regra incremental - descontar a verba generica de «Acessorios» do CAPEX e
+    # a cloracao do custeio - vive em netuno/core/etap_integration.py, e nao aqui:
+    # a aba economica integrada monta o proprio fluxo de caixa e precisa da mesma
+    # regra. Duas copias divergiriam, e foi assim que o cloro chegou a ter cinco
+    # convencoes.
+    etap_capex = capex_incremental_da_etap(config, annual_pluvial_m3, sim_result)
+    annual_etap_opex = opex_anual_incremental_da_etap(config, annual_pluvial_m3, sim_result)
+    monthly_etap_opex_base = annual_etap_opex / 12.0
+    capex += etap_capex
 
     # 2.2 Benefício Fiscal do IPTU Verde
     iptu_enabled = getattr(config, 'iptu_green_enabled', False)
@@ -441,11 +527,15 @@ def run_economic_analysis(
                 
         # Chlorination chemical consumable cost indexed to inflation
         cl2_cost = monthly_cl2_cost_base * inf_factor
+
+        # Custeio da ETAP sem a cloracao: lampada germicida, energia do reator,
+        # refil do filtro de polimento. Indexado a inflacao como os demais O&M.
+        etap_cost = monthly_etap_opex_base * inf_factor
         
         # IPTU Verde savings
         iptu_s = monthly_iptu_savings_base * inf_factor
         
-        net_s = w_savings - p_cost - om_cost - cl2_cost + iptu_s
+        net_s = w_savings - p_cost - om_cost - cl2_cost - etap_cost + iptu_s
         disc_net_s = net_s / ((1.0 + tma_monthly) ** m)
         cumulative_disc += disc_net_s
         
@@ -462,7 +552,7 @@ def run_economic_analysis(
             water_savings=w_savings,
             pump_energy_kwh=monthly_pump_kwh_base,
             pump_cost=p_cost,
-            om_cost=om_cost,
+            om_cost=om_cost + etap_cost,
             chlorine_cost=cl2_cost,
             iptu_savings=iptu_s,
             net_savings=net_s,
@@ -487,7 +577,7 @@ def run_economic_analysis(
         payback_years=payback_yrs,
         capex_total=capex,
         annual_water_savings_brl=monthly_water_savings_base * 12.0,
-        annual_opex_brl=(monthly_pump_cost_base * 12.0) + annual_cl2_cost,
+        annual_opex_brl=(monthly_pump_cost_base * 12.0) + annual_cl2_cost + annual_etap_opex,
         monthly_pump_kwh=monthly_pump_kwh_base,
         annual_pump_kwh=monthly_pump_kwh_base * 12.0,
         monthly_pump_cost_brl=monthly_pump_cost_base,
@@ -495,7 +585,11 @@ def run_economic_analysis(
         annual_chlorine_cost_brl=annual_cl2_cost,
         annual_iptu_savings_brl=annual_iptu_savings_base,
         annual_chlorine_kg=annual_cl2_kg,
-        monthly_cash_flows=cash_flows
+        monthly_cash_flows=cash_flows,
+        etap_capex_brl=etap_capex,
+        annual_etap_opex_brl=annual_etap_opex,
+        etap_disinfection_method=etap.metodo,
+        etap_disinfection_stages=etap.estagios,
     )
 
 
@@ -654,11 +748,25 @@ def run_robust_economic_analysis(
         "annual_chlorine_cost": annual_chlorine_cost,
         "annual_iptu_savings": annual_iptu_savings,
     }
+    rotulos = {
+        "initial_investment": "O investimento inicial",
+        "annual_water_saved_m3": "O volume anual de água economizada",
+        "water_tariff_per_m3": "A tarifa de água",
+        "sewage_tariff_per_m3": "A tarifa de esgoto",
+        "annual_om_cost_base": "O custo anual de operação e manutenção",
+        "pump_power_kw": "A potência da motobomba",
+        "pump_hours_year": "O tempo anual de funcionamento da motobomba",
+        "elec_tariff_kwh": "A tarifa de energia elétrica",
+        "annual_chlorine_cost": "O custo anual de cloração",
+        "annual_iptu_savings": "O desconto anual de IPTU",
+    }
     for name, value in numeric_inputs.items():
         if not math.isfinite(float(value)) or float(value) < 0:
-            raise ValueError(f"{name} deve ser finito e não negativo.")
+            raise ValueError(f"{rotulos.get(name, name)} deve ser um número finito "
+                             f"e não negativo; recebido {value!r}.")
     if int(analysis_period_years) != analysis_period_years or analysis_period_years <= 0:
-        raise ValueError("analysis_period_years deve ser um inteiro positivo.")
+        raise ValueError("O período de análise deve ser um número inteiro de anos, "
+                         f"maior que zero; recebido {analysis_period_years!r}.")
     if initial_investment <= 0 and annual_water_saved_m3 <= 0 and annual_iptu_savings <= 0:
         cfs_zero = [
             AnnualCashFlowItem(
@@ -714,17 +822,16 @@ def run_robust_economic_analysis(
     s_esc = tariff_escalation_rate if tariff_escalation_rate is not None else sewage_tariff_escalation_rate
     e_esc = tariff_escalation_rate if tariff_escalation_rate is not None else elec_tariff_escalation_rate
 
-    # Normalização de taxas (5.0% -> 0.05) se fornecidas como percentual inteiro/decimal em vez de fracionário
-    w_esc = w_esc / 100.0 if abs(w_esc) > 0.5 else w_esc
-    s_esc = s_esc / 100.0 if abs(s_esc) > 0.5 else s_esc
-    e_esc = e_esc / 100.0 if abs(e_esc) > 0.5 else e_esc
-    inf_r = inflation_rate / 100.0 if abs(inflation_rate) > 0.5 else inflation_rate
-    disc_r = discount_rate / 100.0 if abs(discount_rate) > 0.5 else discount_rate
-    for name, rate in (("reajuste de água", w_esc), ("reajuste de esgoto", s_esc),
-                       ("reajuste de energia", e_esc), ("inflação", inf_r),
-                       ("taxa de desconto", disc_r)):
-        if not math.isfinite(rate) or rate <= -1.0:
-            raise ValueError(f"A {name} deve ser finita e maior que -100%.")
+    # As taxas chegam como fração decimal ao ano, sempre. Antes a função
+    # adivinhava a unidade: módulo até 0,5 era fração, acima disso percentual.
+    # Uma TMA de 0,5% ao mês chegava como 0,5 e era lida como 50% ao ano. A
+    # convenção está em netuno/core/taxas.py.
+    from netuno.core.taxas import validar_fracao_anual
+    w_esc = validar_fracao_anual("O reajuste da tarifa de água", w_esc)
+    s_esc = validar_fracao_anual("O reajuste da tarifa de esgoto", s_esc)
+    e_esc = validar_fracao_anual("O reajuste da tarifa de energia", e_esc)
+    inf_r = validar_fracao_anual("A inflação", inflation_rate)
+    disc_r = validar_fracao_anual("A taxa de desconto", discount_rate)
 
     # Ano 0
     cash_flows.append(AnnualCashFlowItem(

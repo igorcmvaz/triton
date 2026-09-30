@@ -13,11 +13,12 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont, QColor
 
+from netuno.core.taxas import mensal_pct_para_anual_fracao
 from netuno.core.parser import NetunoConfig, format_ptbr, parse_float
 from netuno.core.simulation import run_single_simulation
 from netuno.core.economic import run_robust_economic_analysis, calculate_effective_tariff
 from netuno.core.environmental import EnvironmentalConfig, calculate_lca, run_environmental_sweep
-from netuno.core.topsis import TopsisCandidate, calculate_topsis_scores
+from netuno.core.topsis import PESOS_PADRAO, payback_do_criterio, TopsisCandidate, calculate_topsis_scores
 from netuno.core.mcdm_methods import run_smaa_vikor
 from netuno.core.cost_estimates import estimate_preliminary_capex, annualize_operational_costs, estimate_annual_chlorination_cost
 from netuno.ui.charts import TOPSISComparisonChart, TOPSISProximityChart
@@ -466,7 +467,7 @@ class TabEconomicGlobalOptimizer(QWidget):
             samples = self.get_smaa_num_simulations()
             v_val = self.get_vikor_v_param()
             self.lbl_weight_validation.setText(
-                f"✓ {samples:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={v_val:.2f}".replace(",", ".")
+                tr('✓ {0:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val).replace(",", ".")
             )
             self.lbl_weight_validation.setStyleSheet(
                 "font-size: 10px; font-weight: bold; color: #047857;"
@@ -491,7 +492,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         w_e = self.spin_w_env.value()
         total = w_t + w_f + w_e
         if total <= 0:
-            return (0.333, 0.333, 0.334)
+            return PESOS_PADRAO
         return (w_t / total, w_f / total, w_e / total)
 
     def recalculate_all(self):
@@ -582,12 +583,11 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         v_map = []
         for r in sweep_results:
-            annual_pump_kwh = 0.0
-            if bool(getattr(cfg, "upper_tank_used", 1)) and cfg.pump_flow_rate > 0:
-                years = max(1.0, r.total_days / 365.25)
-                run_h = (r.total_pumped_liters / years) / cfg.pump_flow_rate
-                start_h = (r.total_pump_cycles / years) * cfg.pump_startup_time_h
-                annual_pump_kwh = cfg.pump_power_kw * (run_h + start_h) / max(0.01, cfg.pump_efficiency / 100.0)
+            # A energia de recalque sai da funcao unica do nucleo. Aqui havia uma
+            # copia da formula antiga, que dividia pelo rendimento uma segunda vez:
+            # o criterio ambiental do multicriterio ranqueava volumes com uma
+            # energia 1,68 vezes maior que a da aba ambiental, no mesmo projeto.
+            annual_pump_kwh = _energia_anual_de_bombeamento(cfg, r)
             v_map.append((r.lower_tank_vol, r.annual_pluvial_consumed_m3, annual_pump_kwh))
         env_sweep = run_environmental_sweep(v_map, env_cfg)
         env_dict = {d["volume_l"]: d for d in env_sweep.sweep_details}
@@ -613,8 +613,8 @@ class TabEconomicGlobalOptimizer(QWidget):
         min_pb = float("inf")
         best_vpl_for_pb = -float("inf")
 
-        tma_annual = cfg.tma / 100.0 if cfg.tma > 1.0 else cfg.tma
-        inf_annual = cfg.inflation / 100.0 if cfg.inflation > 1.0 else cfg.inflation
+        tma_annual = mensal_pct_para_anual_fracao(cfg.tma)
+        inf_annual = mensal_pct_para_anual_fracao(cfg.inflation)
         n_readj_per_year = 12.0 / max(1.0, cfg.tariff_escalation)
         w_esc_annual = (1.0 + getattr(cfg, 'water_tariff_escalation', 5.0) / 100.0) ** n_readj_per_year - 1.0
         s_esc_annual = (1.0 + getattr(cfg, 'sewage_tariff_escalation', 5.0) / 100.0) ** n_readj_per_year - 1.0
@@ -646,10 +646,14 @@ class TabEconomicGlobalOptimizer(QWidget):
                 up_mat = getattr(cfg, "upper_tank_material", "PEAD")
                 est_v = estimate_preliminary_capex(v_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used, cfg.pump_power_kw, cfg.pump_count, lower_material=low_mat, upper_material=up_mat)
                 c_low = est_v["lower"]
+                etap_c_inc = 0.0
+                if getattr(cfg, 'etap_enabled', True):
+                    from netuno.core.etap_integration import capex_incremental_da_etap
+                    etap_c_inc = capex_incremental_da_etap(cfg, annual_m3_val)
                 capex_tot = 0.0 if v_vol <= 0 else (
                     c_low + cfg.upper_tank_unit_cost +
                     (cfg.pump_unit_cost * getattr(cfg, "pump_count", 1) if upper_used else 0.0) +
-                    cfg.filters_pipes_cost + cfg.labor_installation_cost
+                    cfg.filters_pipes_cost + cfg.labor_installation_cost + etap_c_inc
                 )
                 tw_v, ts_v = calculate_effective_tariff(
                     cfg, annual_m3_val if v_vol > 0 else 0.0,
@@ -661,11 +665,12 @@ class TabEconomicGlobalOptimizer(QWidget):
                         t_rec_v = (r_item.total_pumped_liters / max(1.0, sim_days / 365.25)) / cfg.pump_flow_rate
                         ann_cyc_v = r_item.total_pump_cycles / max(1.0, sim_days / 365.25)
                         t_part_v = ann_cyc_v * cfg.pump_startup_time_h
-                        p_hrs_v = (t_rec_v + t_part_v) / max(0.01, cfg.pump_efficiency / 100.0)
+                        # Horas de operacao, sem dividir pelo rendimento.
+                        p_hrs_v = t_rec_v + t_part_v
                     else:
                         ann_pumped_l = (annual_m3_val if v_vol > 0 else 0.0) * 1000.0
                         t_rec_v = ann_pumped_l / cfg.pump_flow_rate
-                        p_hrs_v = t_rec_v / max(0.01, cfg.pump_efficiency / 100.0)
+                        p_hrs_v = t_rec_v
 
                 cl2_enabled = getattr(cfg, "chlorine_treatment_enabled", True)
                 cl2_dose = getattr(cfg, "chlorine_dose_mg_l", 2.0)
@@ -751,7 +756,7 @@ class TabEconomicGlobalOptimizer(QWidget):
                 is_technical_optimum=is_tech_opt,
                 potential_savings_pct=pot_pct,
                 overflow_m3_yr=r_item.annual_spill_m3,
-                discounted_payback_years=pb_discounted,
+                discounted_payback_years=payback_do_criterio(pb_discounted, vpl) if v_vol > 0 else None,
                 irr_pct=tir,
                 potable_consumed_m3_yr=r_item.annual_potable_consumed_m3,
             )
@@ -855,8 +860,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         if smaa_res:
             best_sma = smaa_res.best_candidate
             self.lbl_best_vikor.setText(
-                f"🎲 {tr('Ótimo VIKOR / SMAA')}: {best_sma.lower_tank_vol:.0f} L "
-                f"({smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100:.1f}% em {smaa_samples:,} simulações)".replace(",", ".")
+                tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples).replace(",", ".")
             )
 
         if topsis_res:
@@ -875,11 +879,11 @@ class TabEconomicGlobalOptimizer(QWidget):
             best_f = topsis_candidates[topsis_res.financial_best_index]
             best_e = topsis_candidates[topsis_res.environmental_best_index]
 
-            self.lbl_best_tech.setText(f"💧 {tr('Ótimo Técnico')}: {best_t.lower_tank_vol:.0f} L ({best_t.water_saved_m3_yr:.1f} m³/ano)")
+            self.lbl_best_tech.setText(tr('💧 {0}: {1:.0f} L ({2:.1f} m³/ano)').format(tr('Ótimo Técnico'), best_t.lower_tank_vol, best_t.water_saved_m3_yr))
             pb_f = best_f.discounted_payback_years
             pb_f_str = f" | Payback: {format_ptbr(pb_f, 1)}a" if (pb_f is not None and pb_f > 0) else ""
             self.lbl_best_vpl.setText(f"💵 {tr('Ótimo Econômico (Menor Payback)')}: {best_f.lower_tank_vol:.0f} L ({curr_sym} {format_ptbr(best_f.vpl_brl, 2)}{pb_f_str})")
-            self.lbl_best_env.setText(f"🍃 {tr('Ótimo Ambiental')}: {best_e.lower_tank_vol:.0f} L ({best_e.lifecycle_co2_kg:.0f} kg CO2e líquidos)")
+            self.lbl_best_env.setText(tr('🍃 {0}: {1:.0f} L ({2:.0f} kg CO2e líquidos)').format(tr('Ótimo Ambiental'), best_e.lower_tank_vol, best_e.lifecycle_co2_kg))
 
         target_econ_row = topsis_res.financial_best_index if topsis_res else best_econ_row
         for row in range(self.table.rowCount()):
@@ -915,3 +919,17 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         self._updating_table = False
         self.optimization_updated.emit()
+
+
+def _energia_anual_de_bombeamento(cfg, resultado) -> float:
+    """kWh/ano de recalque, pela função única do núcleo.
+
+    Existiam quatro cópias da fórmula antiga espalhadas pela interface, todas
+    dividindo pelo rendimento uma segunda vez — a potência de placa já o embute.
+    Superestimavam em 1/η, 1,68 vezes com rendimento de 55%.
+    """
+    from netuno.core.pump_energy import compute_annual_pump_energy
+
+    if not bool(getattr(cfg, "upper_tank_used", 1)):
+        return 0.0
+    return compute_annual_pump_energy(cfg, resultado, upper_tank_used=True).annual_kwh

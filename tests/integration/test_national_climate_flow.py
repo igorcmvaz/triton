@@ -1,5 +1,5 @@
 """
-Teste de integração de ponta a ponta: Base Climatológica Nacional,
+Teste de integração de ponta a ponta: Base de dados CLIMBra,
 sincronização de tarifas, simulação de balanço hídrico e análise econômica.
 """
 

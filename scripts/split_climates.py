@@ -18,11 +18,14 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 NEAR_DAYS = 16436  # 2015-01-01 a 2059-12-31
 FAR_DAYS = 14975   # 2060-01-01 a 2100-12-31 (Total = 31.411 dias)
 
-DEFAULT_INPUT_DIR = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "Replicacao_Projected",
-    "Netuno future files for 652 cities"
-)
+_proj_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DEFAULT_INPUT_DIR = os.path.join(_proj_root, "climbra_data")
+if not os.path.isdir(DEFAULT_INPUT_DIR):
+    _legacy_root = os.path.join(_proj_root, "Netuno future files for 652 cities")
+    if os.path.isdir(_legacy_root):
+        DEFAULT_INPUT_DIR = _legacy_root
+    else:
+        DEFAULT_INPUT_DIR = os.path.join(_proj_root, "Replicacao_Projected", "Netuno future files for 652 cities")
 
 DEFAULT_OUTPUT_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
