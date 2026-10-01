@@ -12,7 +12,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU General Public License below for more details.
 
-Third-party components keep their own licences, listed in infos_licenses/.
+Third-party components keep their own licences, reproduced in
+AVISOS_DE_TERCEIROS.txt (infos_licenses/ in the source tree).
 
 SPDX-License-Identifier: GPL-3.0-or-later
 

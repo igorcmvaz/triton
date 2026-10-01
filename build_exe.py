@@ -350,6 +350,7 @@ def verificar_pasta_para_instalador(base_dir: Path) -> list:
         Path("dist/Netuno/_internal") / BASE_CLIMATICA,
         Path("LICENSE"),
         Path("Licence.txt"),
+        Path("infos_licenses/AVISOS_DE_TERCEIROS.txt"),
         Path("icons/netuno5.ico"),
         Path("infos_licenses/info_before.txt"),
         Path("infos_licenses/info_after.txt"),
@@ -443,6 +444,9 @@ def main():
     # O manual entra no pacote, e por isso é gerado antes dele.
     if not args.sem_manual and not build_manual(base_dir):
         print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
+
+    # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote.
+    subprocess.run([sys.executable, str(base_dir / "scripts" / "gerar_avisos_de_terceiros.py")], cwd=base_dir)
 
     edicoes = ["brl", "int"] if args.edition == "both" else [args.edition]
     if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):

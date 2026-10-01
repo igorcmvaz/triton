@@ -95,6 +95,8 @@ Source: "dist\Netuno\_internal\data\languages\zh.json"; DestDir: "{app}\_interna
 ; pede que quem recebe o executável receba também o texto dela. Licence.txt traz o
 ; aviso de copyright do Netuno seguido do texto integral da GPL v3.
 Source: "Licence.txt"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+; Licenças do Python, do Qt (LGPL) e das bibliotecas empacotadas, geradas no build.
+Source: "infos_licenses\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Ícones para os atalhos e sistema
 Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs createallsubdirs

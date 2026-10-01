@@ -38,7 +38,7 @@ Para compilar só o instalador, com `dist\Netuno` já pronto:
 | Item | Comportamento |
 | :--- | :--- |
 | pasta | `C:\Program Files\Netuno 5`, ou a pasta do usuário se a instalação for feita sem administrador (o instalador pergunta) |
-| licença | GPL v3: o texto integral, do arquivo `LICENSE`, na página de licença; e o aviso de copyright com o texto integral (`Licence.txt`) instalado como `LICENSE.txt` na pasta do programa |
+| licença | GPL v3: o texto integral, do arquivo `LICENSE`, na página de licença; e o aviso de copyright com o texto integral (`Licence.txt`) instalado como `LICENSE.txt` na pasta do programa, com as licenças de terceiros (Python, Qt sob LGPL e bibliotecas) em `AVISOS_DE_TERCEIROS.txt`, gerado no build por `scripts/gerar_avisos_de_terceiros.py` |
 | idiomas do instalador | português, inglês e espanhol |
 | componentes | programa com a base CLIMBra compilada, manual, casos e exemplos (obrigatório); pacotes de idioma espanhol e chinês |
 | atalhos | Menu Iniciar (programa e manual em PDF); área de trabalho, opcional |

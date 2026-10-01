@@ -31874,7 +31874,7 @@
       "expoentes_verificados": true,
       "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
       "esgoto_r_m3": 6.07,
-      "esgoto_fonte": "70% do PB truncado no centavo; ANEXO-3 (Canoas e Esteio) não consultado"
+      "esgoto_fonte": "ANEXO-3 (Canoas e Esteio), vigência 01/07/2026"
     },
     "RS - Capão da Canoa": {
       "municipio": "Capão da Canoa",
@@ -32778,7 +32778,7 @@
       "expoentes_verificados": true,
       "expoentes_fonte": "CORSAN, Tabela de Exponenciais do Sistema Tarifário (corsan.com.br/sistematarifario), anexa às tabelas tarifárias de 2026: ANEXO-5 (vigência 01/07/2026), Erechim e Santa Cruz do Sul (vigência 01/01/2026). Cópias em tarifas/fontes/corsan/.",
       "esgoto_r_m3": 6.07,
-      "esgoto_fonte": "70% do PB truncado no centavo; ANEXO-3 (Canoas e Esteio) não consultado"
+      "esgoto_fonte": "ANEXO-3 (Canoas e Esteio), vigência 01/07/2026"
     },
     "RS - Farroupilha": {
       "municipio": "Farroupilha",

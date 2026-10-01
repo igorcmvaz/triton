@@ -31,6 +31,21 @@ def test_a_licenca_mostrada_e_o_texto_integral_da_gpl_v3():
     assert "END OF TERMS AND CONDITIONS" in texto
 
 
+def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
+    import subprocess
+    import sys
+
+    assert 'Source: "infos_licenses\\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"' in ISS
+    avisos = (RAIZ / "infos_licenses" / "AVISOS_DE_TERCEIROS.txt").read_text(encoding="utf-8")
+    assert "GNU LESSER GENERAL PUBLIC LICENSE" in avisos  # Qt
+    assert "PYTHON SOFTWARE FOUNDATION LICENSE" in avisos.upper()
+    for componente in ("PySide6", "numpy", "matplotlib", "three.js", "CLIMBra"):
+        assert componente in avisos
+    res = subprocess.run([sys.executable, str(RAIZ / "scripts" / "gerar_avisos_de_terceiros.py"), "--conferir"],
+                         capture_output=True, text=True)
+    assert res.returncode == 0, res.stdout
+
+
 def test_a_licenca_e_instalada_com_o_programa():
     assert 'Source: "Licence.txt"; DestDir: "{app}"; DestName: "LICENSE.txt"' in ISS
     aviso = (RAIZ / "Licence.txt").read_text(encoding="utf-8")

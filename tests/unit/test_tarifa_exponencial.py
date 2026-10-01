@@ -160,6 +160,7 @@ def test_a_conta_de_alegrete_reproduz_a_tabela_tarifaria():
 
 @pytest.mark.parametrize("uf, cidade, minima", [
     ("RS", "Alegrete", 134.89), ("RS", "Erechim", 102.45), ("RS", "Santa Cruz do Sul", 116.60),
+    ("RS", "Canoas", 128.00), ("RS", "Esteio", 128.00),  # ANEXO-3, Residencial B
 ])
 def test_a_tarifa_minima_sem_hidrometro_bate_com_cada_tabela(uf, cidade, minima):
     faixas = [tuple(f) for f in get_city_data(uf, cidade)["faixas"]]
