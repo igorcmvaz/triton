@@ -27,7 +27,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 1.447 testes em 128 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede` ou o job «Fontes oficiais» disparado à mão no GitHub) |
+| Suíte de testes | 1.450 testes em 129 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede` ou o job «Fontes oficiais» disparado à mão no GitHub) |
 | Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |

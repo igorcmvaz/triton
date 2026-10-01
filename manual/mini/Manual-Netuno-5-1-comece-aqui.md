@@ -467,8 +467,14 @@ seguinte: 4.000 L é o volume certo?
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
 programa.
 
-**A lista de cidades está vazia.** A base climática nacional não está instalada. Use
-um arquivo de chuva próprio, ou instale a base — o apêndice E (volume Apêndices) diz como.
+**A lista de cidades está vazia.** A base climática nacional acompanha só a Edição
+Brasil. Na Internacional, use um arquivo de chuva próprio.
+
+**Falta alguma parte do programa, como a volumetria 3D.** Rode, no Prompt de Comando,
+`"C:\Program Files\Netuno 5\Netuno.exe" --diagnostico`. O programa lista o que a
+instalação traz: o visualizador 3D, a base climática, o banco tarifário e o manual. Cada
+item sai marcado OK ou FALTA. A lista também fica gravada em `netuno_diagnostico.txt`,
+na pasta temporária do Windows. Mande esse arquivo junto com o relato do problema.
 
 **O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
 carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração

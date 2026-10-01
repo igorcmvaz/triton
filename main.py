@@ -37,6 +37,32 @@ class NoMnemonicUnderlineStyle(QProxyStyle):
             widget.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
 
 
+def diagnosticar(argumentos_qt) -> int:
+    """``--diagnostico``: o que este pacote traz. Grava, mostra e devolve 1 se faltar o essencial."""
+    import tempfile
+    from netuno.core.diagnostico import faltam_obrigatorios, relatorio, verificacoes
+
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
+    app = QApplication([sys.argv[0]] + list(argumentos_qt))
+    itens = verificacoes()
+    texto = relatorio(itens)
+    arquivo = os.path.join(tempfile.gettempdir(), "netuno_diagnostico.txt")
+    try:
+        with open(arquivo, "w", encoding="utf-8") as f:
+            f.write(texto)
+    except OSError:
+        arquivo = ""
+    try:
+        print(texto)
+    except Exception:
+        pass  # executável sem console
+    if app.platformName() not in ("offscreen", "minimal"):
+        from PySide6.QtWidgets import QMessageBox
+        QMessageBox.information(None, "Netuno — diagnóstico",
+                                texto + (f"\nGravado em {arquivo}" if arquivo else ""))
+    return 1 if faltam_obrigatorios(itens) else 0
+
+
 def main():
     # Edição (--edition brl|int); main_brl.py e main_int.py a fixam pela variável
     # de ambiente NETUNO_EDITION. Os demais argumentos seguem para o Qt.
@@ -45,9 +71,12 @@ def main():
 
     arg_parser = argparse.ArgumentParser(add_help=False)
     arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "BRL", "INT"], default=None)
+    arg_parser.add_argument("--diagnostico", action="store_true")
     parsed_args, remaining = arg_parser.parse_known_args()
     if parsed_args.edition:
         set_current_edition(parsed_args.edition)
+    if parsed_args.diagnostico:
+        sys.exit(diagnosticar(remaining))
 
     # Garante contexto OpenGL compartilhado exigido pelo Chromium/QtWebEngine no Windows
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)

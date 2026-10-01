@@ -78,6 +78,20 @@ Florianópolis e avisa que a base não está instalada.
 
 ## Conferência depois de instalar
 
+O `build_exe.py` roda o executável gerado com `--diagnostico` antes de declarar sucesso.
+O diagnóstico confere:
+
+- o visualizador 3D e o QtWebEngine;
+- a geração do arranjo e da volumetria;
+- a base CLIMBra;
+- o banco tarifário, com a CORSAN na fórmula exponencial;
+- o manual.
+
+Um pacote sem o 3D ou com o banco tarifário antigo é recusado. Na Edição Brasil, a
+falta da base também reprova o pacote, salvo com `--sem-base-climatica`. Na máquina
+instalada, `Netuno.exe --diagnostico` mostra o mesmo relatório e o grava em
+`%TEMP%\netuno_diagnostico.txt`.
+
 - O programa abre, e a janela «Sobre» mostra a versão correta.
 - **Ajuda → Manual** abre o PDF.
 - **Ajuda → Relatório de Verificação Técnica e Computacional** abre o relatório.

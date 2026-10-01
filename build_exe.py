@@ -200,6 +200,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "netuno.core.study_layout",
         "netuno.core.exportar_tudo",
         "netuno.core.quantitativo_do_arranjo",
+        "netuno.core.diagnostico",
         "netuno.core.volumetry",
         "netuno.core.volumetry_export",
         "netuno.ui.volumetry_view",
@@ -246,8 +247,45 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
 
         remover_base_climatica_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
 
+    if not args.onefile and not diagnosticar_o_pacote(dist_dir, args):
+        return False
+
     print(f"\n[SUCESSO] Compilação concluída com sucesso em: dist/{args.name}/")
     return True
+
+
+def diagnosticar_o_pacote(dist_dir: Path, args) -> bool:
+    """Roda o executável gerado com ``--diagnostico`` e recusa o pacote incompleto.
+
+    O que o PyInstaller deixa de fora só aparece quando o programa roda: um pacote
+    sem o visualizador 3D, sem o QtWebEngine ou com o banco tarifário antigo saía
+    com «SUCESSO». Na Edição Brasil, a base CLIMBra também é exigida, salvo com
+    --sem-base-climatica.
+    """
+    exe = dist_dir / (args.name + (".exe" if sys.platform.startswith("win") else ""))
+    if not exe.is_file():
+        print(f"[AVISO] Executável não encontrado para o diagnóstico: {exe}")
+        return True
+    ambiente = dict(os.environ, QT_QPA_PLATFORM="offscreen")
+    try:
+        res = subprocess.run([str(exe), "--diagnostico"], env=ambiente, capture_output=True,
+                             text=True, encoding="utf-8", errors="replace", timeout=300)
+    except (OSError, subprocess.TimeoutExpired) as erro:
+        print(f"[ERRO] O executável gerado não rodou o diagnóstico: {erro}")
+        return False
+    import tempfile
+    relatorio = Path(tempfile.gettempdir()) / "netuno_diagnostico.txt"
+    texto = res.stdout.strip() or (relatorio.read_text(encoding="utf-8") if relatorio.is_file() else "")
+    print("\n[*] Diagnóstico do pacote gerado:\n" + texto)
+    falhou = res.returncode != 0
+    if getattr(args, "edicao", "brl") == "brl" and not getattr(args, "sem_base_climatica", False) \
+            and "[FALTA] Base climática" in texto:
+        falhou = True
+    if falhou:
+        print("[ERRO] O pacote saiu incompleto (itens marcados FALTA acima). Nada foi aprovado.")
+        if res.stderr.strip():
+            print(res.stderr.strip()[-2000:])
+    return not falhou
 
 
 def build_inno_setup(base_dir: Path) -> bool:
