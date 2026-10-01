@@ -39,9 +39,10 @@ Releases ship a signed Windows installer that bundles Python and every dependenc
 needs no Python installation. Download it from the repository releases page and run it;
 the software is installed under *Program Files* and appears in the start menu.
 
-The embedded national climate base is a separate download of about 6.5 GB, compiled into
-a 784 MB database. The software runs without it — you then supply your own precipitation
-series — and the installer asks whether to fetch it.
+The Brazil edition ships with the national climate base embedded: the 37,164 CLIMBra CSV
+files (about 6.5 GB) compiled into a single database of about 800 MB. There is nothing
+else to download. The International edition ships without it and works with your own
+precipitation series.
 
 ---
 

@@ -67,8 +67,8 @@ estatística; não transforma um modelo ruim num modelo bom.
 > e comprimidos pelo Netuno 5 em um banco de dados SQLite binário de alta performance
 > (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
 > instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
-> sem a necessidade de downloads externos volumosos. Caso o usuário disponha da pasta com os
-> CSVs originais, o programa mantém total compatibilidade e suporte alternativo de carregamento.
+> sem a necessidade de downloads externos volumosos. Os CSV originais não são distribuídos
+> nem precisam ser instalados.
 
 ---
 

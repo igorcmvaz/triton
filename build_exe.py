@@ -287,8 +287,7 @@ def build_inno_setup(base_dir: Path) -> bool:
     if res.returncode == 0:
         nome = f"Netuno_Setup_{versao.replace('.', '_')}.exe"
         print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
-        print("          A base CLIMBra compilada (652 cidades) vai embutida. Para instalar também")
-        print("          os CSV brutos, copie a pasta 'climbra_data' para o lado do instalador.")
+        print("          A base CLIMBra compilada (652 cidades) vai embutida.")
         return True
     else:
         print(f"\n[ERRO] Falha na compilação do instalador Inno Setup.")
@@ -312,6 +311,7 @@ def verificar_pasta_para_instalador(base_dir: Path) -> list:
         Path("dist/Netuno/_internal/manual/Manual-Netuno-5.pdf"),
         Path("dist/Netuno/_internal") / BASE_CLIMATICA,
         Path("LICENSE"),
+        Path("Licence.txt"),
         Path("icons/netuno5.ico"),
         Path("infos_licenses/info_before.txt"),
         Path("infos_licenses/info_after.txt"),
