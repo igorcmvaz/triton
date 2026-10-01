@@ -117,3 +117,6 @@ apresentacoes/
 scratch/
 scratch_*.py
 *.log
+
+# Commit compilado, gravado pelo build_exe.py e lido pelo --diagnostico
+netuno/data/revisao.json
