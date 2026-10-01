@@ -120,6 +120,10 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "--clean",
         "-y",
         f"--name={args.name}",
+        # O .spec gerado vai para build/: na raiz, o PyInstaller reescrevia o
+        # Netuno.spec versionado com os caminhos desta máquina, e o git pull seguinte
+        # parava por «alterações locais».
+        f"--specpath={base_dir / 'build'}",
     ]
 
     if args.onefile:
@@ -169,7 +173,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         src_path = base_dir / src_rel
         if src_path.exists():
             sep = ";" if sys.platform.startswith("win") else ":"
-            cmd.append(f"--add-data={src_rel}{sep}{dst_rel}")
+            cmd.append(f"--add-data={src_path}{sep}{dst_rel}")
             print(f"[+] Incluindo assets: {src_rel} -> {dst_rel}")
 
     # Hidden imports para garantir que submódulos dinâmicos sejam incluídos
@@ -435,37 +439,128 @@ def main():
     parser.add_argument("--sem-base-climatica", action="store_true",
                         help="Compila a edição Brasil sem exigir data/climbra.db (só para testes; não gera instalador)")
 
+    parser.add_argument("--ignorar-git", action="store_true",
+                        help="Compila mesmo com a pasta atrás do origin/main (não recomendado)")
+
     args = parser.parse_args()
     base_dir = Path(__file__).resolve().parent
 
-    if args.clean:
-        clean_build_dirs(base_dir)
-
-    # O manual entra no pacote, e por isso é gerado antes dele.
-    if not args.sem_manual and not build_manual(base_dir):
-        print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
-
-    # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote.
-    subprocess.run([sys.executable, str(base_dir / "scripts" / "gerar_avisos_de_terceiros.py")], cwd=base_dir)
-
-    edicoes = ["brl", "int"] if args.edition == "both" else [args.edition]
-    if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):
+    if not conferir_a_pasta(base_dir, args.ignorar_git):
         sys.exit(1)
+    limpos_antes = arquivos_versionados_limpos(base_dir)
+    try:
+        gravar_revisao(base_dir)
 
-    for edicao in edicoes:
-        script, nome = EDICOES[edicao]
-        ed_args = argparse.Namespace(**vars(args))
-        ed_args.name = args.name or nome
-        ed_args.main_script = base_dir / script
-        ed_args.edicao = edicao
-        print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
-        success = build_pyinstaller(ed_args, base_dir)
-        if success and args.installer:
-            if edicao == "brl" and ed_args.name == "Netuno" and not args.sem_base_climatica:
-                build_inno_setup(base_dir)
-            else:
-                print("[AVISO] O instalador (setup_script.iss) empacota a pasta dist/Netuno, da edição Brasil "
-                      f"com a base CLIMBra. A compilação {edicao.upper()} fica em dist/{ed_args.name}.")
+        if args.clean:
+            clean_build_dirs(base_dir)
+
+        # O manual entra no pacote, e por isso é gerado antes dele.
+        if not args.sem_manual and not build_manual(base_dir):
+            print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
+
+        # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote.
+        subprocess.run([sys.executable, str(base_dir / "scripts" / "gerar_avisos_de_terceiros.py")], cwd=base_dir)
+
+        edicoes = ["brl", "int"] if args.edition == "both" else [args.edition]
+        if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):
+            sys.exit(1)
+
+        for edicao in edicoes:
+            script, nome = EDICOES[edicao]
+            ed_args = argparse.Namespace(**vars(args))
+            ed_args.name = args.name or nome
+            ed_args.main_script = base_dir / script
+            ed_args.edicao = edicao
+            print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
+            success = build_pyinstaller(ed_args, base_dir)
+            if success and args.installer:
+                if edicao == "brl" and ed_args.name == "Netuno" and not args.sem_base_climatica:
+                    build_inno_setup(base_dir)
+                else:
+                    print("[AVISO] O instalador (setup_script.iss) empacota a pasta dist/Netuno, da edição Brasil "
+                          f"com a base CLIMBra. A compilação {edicao.upper()} fica em dist/{ed_args.name}.")
+    finally:
+        restaurar_gerados(base_dir, limpos_antes)
+
+
+# ── Git: compilar o código certo e não sujar a pasta ─────────────────────────
+
+def _git(base_dir: Path, *argumentos: str) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", *argumentos], cwd=base_dir, capture_output=True, text=True,
+                          encoding="utf-8", errors="replace")
+
+
+def conferir_a_pasta(base_dir: Path, ignorar: bool = False) -> bool:
+    """Recusa compilar uma pasta atrás do origin/main.
+
+    Um ``git pull`` interrompido por alterações locais deixa a pasta na versão
+    anterior sem que nada avise, e o build empacotava esse código antigo.
+    """
+    try:
+        if _git(base_dir, "rev-parse", "--is-inside-work-tree").returncode != 0:
+            return True  # cópia sem git (pacote de código-fonte): nada a conferir
+    except OSError:
+        return True
+    revisao = _git(base_dir, "rev-parse", "--short", "HEAD").stdout.strip()
+    ramo = _git(base_dir, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
+    print(f"[+] Código a compilar: {ramo} @ {revisao}")
+    if _git(base_dir, "fetch", "--quiet", "origin", "main").returncode != 0:
+        print("[AVISO] Não foi possível consultar o origin/main (sem rede?); seguindo com a pasta como está.")
+        return True
+    atras = _git(base_dir, "rev-list", "--count", "HEAD..origin/main").stdout.strip()
+    if atras and atras != "0":
+        print(f"[ERRO] A pasta está {atras} commit(s) atrás do origin/main: o pacote sairia com o código antigo.")
+        print("        Rode «git stash» e «git pull» (ou resolva o que o git pull acusar) e compile de novo.")
+        if ignorar:
+            print("[AVISO] --ignorar-git: compilando assim mesmo.")
+            return True
+        return False
+    return True
+
+
+def arquivos_versionados_limpos(base_dir: Path) -> set:
+    """Arquivos versionados sem alteração antes do build: os únicos que ele pode restaurar."""
+    try:
+        alterados = _git(base_dir, "diff", "--name-only", "HEAD").stdout.split()
+        todos = _git(base_dir, "ls-files").stdout.split("\n")
+    except OSError:
+        return set()
+    return {f for f in todos if f} - set(alterados)
+
+
+def restaurar_gerados(base_dir: Path, limpos_antes: set) -> None:
+    """Devolve ao estado do commit o que só o build alterou (manual, site, changelog).
+
+    O manual é regerado para entrar no pacote; as diferenças são de ambiente e não
+    devem ficar na pasta, onde fariam o próximo git pull parar.
+    """
+    if not limpos_antes:
+        return
+    try:
+        sujos = [f for f in _git(base_dir, "diff", "--name-only", "HEAD").stdout.split() if f in limpos_antes]
+    except OSError:
+        return
+    if sujos:
+        _git(base_dir, "checkout", "--", *sujos)
+        print(f"[*] Restaurados {len(sujos)} arquivo(s) versionado(s) que o build regerou (manual, site, changelog).")
+
+
+def gravar_revisao(base_dir: Path) -> None:
+    """Grava em netuno/data/revisao.json o commit compilado, que o --diagnostico mostra."""
+    import json
+    from datetime import datetime
+
+    try:
+        dados = {
+            "commit": _git(base_dir, "rev-parse", "--short", "HEAD").stdout.strip(),
+            "ramo": _git(base_dir, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip(),
+            "alteracoes_locais": bool(_git(base_dir, "status", "--porcelain", "--untracked-files=no").stdout.strip()),
+        }
+    except OSError:
+        dados = {"commit": "", "ramo": "", "alteracoes_locais": False}
+    dados["compilado_em"] = datetime.now().isoformat(timespec="seconds")
+    (base_dir / "netuno" / "data" / "revisao.json").write_text(json.dumps(dados, ensure_ascii=False, indent=2),
+                                                                encoding="utf-8")
 
 
 if __name__ == "__main__":

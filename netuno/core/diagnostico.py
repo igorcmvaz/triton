@@ -105,6 +105,22 @@ def verificacoes() -> List[Verificacao]:
     return itens
 
 
+def revisao_compilada() -> str:
+    """O commit de onde o pacote saiu, gravado pelo build_exe.py em netuno/data/revisao.json."""
+    import json
+    from pathlib import Path
+
+    arquivo = Path(__file__).resolve().parent.parent / "data" / "revisao.json"
+    try:
+        dados = json.loads(arquivo.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return "Revisão: não registrada (pacote gerado sem o build_exe.py, ou código-fonte)"
+    texto = f"Revisão: {dados.get('commit') or '?'} ({dados.get('ramo') or '?'}), compilado em {dados.get('compilado_em', '?')}"
+    if dados.get("alteracoes_locais"):
+        texto += " — ATENÇÃO: havia alterações locais não commitadas"
+    return texto
+
+
 def relatorio(itens: Optional[List[Verificacao]] = None) -> str:
     from netuno import __version__
     from netuno.core.edition import is_int_edition
@@ -113,6 +129,7 @@ def relatorio(itens: Optional[List[Verificacao]] = None) -> str:
     linhas = [
         f"Netuno {__version__} — Edição {'Internacional' if is_int_edition() else 'Brasil'}",
         f"Executável: {sys.executable}" + (" (empacotado)" if getattr(sys, "frozen", False) else " (código-fonte)"),
+        revisao_compilada(),
         "",
     ]
     for nome, ok, detalhe in itens:

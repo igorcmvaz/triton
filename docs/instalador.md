@@ -76,6 +76,22 @@ pasta do programa, com as variáveis de ambiente `NETUNO_CLIMBRA_DB` (o banco) o
 Rodando do código-fonte sem a base, a Etapa 1 abre com a série de exemplo de
 Florianópolis e avisa que a base não está instalada.
 
+## O código que vai no pacote
+
+Antes de compilar, o `build_exe.py` confere a pasta:
+
+- **Pasta atrás do `origin/main`:** recusa compilar. Isso acontece quando um `git pull`
+  é interrompido por alterações locais, e a pasta fica na versão anterior sem aviso.
+  Rode `git stash` e `git pull` e compile de novo. A opção `--ignorar-git` passa por
+  cima da conferência.
+- **Commit compilado:** fica gravado em `netuno/data/revisao.json`. O `--diagnostico`
+  mostra esse commit, e avisa quando havia alterações locais não commitadas.
+- **`.spec` do PyInstaller:** vai para `build/`, e não sobrescreve o `Netuno.spec`
+  versionado.
+- **Arquivos regerados pelo build:** o manual, o site, o changelog e os avisos de
+  terceiros voltam ao estado do commit depois do empacotamento. Assim o próximo
+  `git pull` não para. Alterações suas, feitas antes do build, não são tocadas.
+
 ## Conferência depois de instalar
 
 O `build_exe.py` roda o executável gerado com `--diagnostico` antes de declarar sucesso.
