@@ -152,3 +152,29 @@ def test_o_arquivo_antigo_mantem_os_custos_que_declara(tmp_path):
     run_economic_analysis(relido, _simulacao())
     assert (relido.cost_piping, relido.cost_accessories) == (1200.0, 1800.0)
 
+
+
+def test_o_arranjo_usual_acompanha_o_volume_do_projeto():
+    """Era 5.000 L para todo projeto: a configuração não tem ``lower_tank_vol``."""
+    from netuno.core.quantitativo_do_arranjo import arranjo_do_projeto
+
+    pequeno, grande = _projeto_novo(), _projeto_novo()
+    pequeno.econ_lower_tank_vol, grande.econ_lower_tank_vol = 1500.0, 30000.0
+    cisterna = lambda cfg: next(c for c in arranjo_do_projeto(cfg)["bim_components"] if c["type_id"] == "cisterna_inferior")
+    assert cisterna(pequeno)["parameters"] != cisterna(grande)["parameters"]
+    assert quantitativo_do_projeto(pequeno).tubos_m_por_dn != quantitativo_do_projeto(grande).tubos_m_por_dn
+    fixo = _projeto_novo()
+    fixo.lower_tank_mode, fixo.lower_tank_fixed, fixo.econ_lower_tank_vol = 0, 30000.0, 1500.0
+    assert cisterna(fixo)["parameters"] == cisterna(grande)["parameters"]
+
+
+def test_o_capex_e_o_desenho_levantam_o_mesmo_arranjo():
+    """Com os dados que a prancha recebe, ou só com o projeto, o arranjo usual é um só."""
+    from netuno.core.quantitativo_do_arranjo import arranjo_do_projeto, dados_do_estudo
+
+    cfg = _projeto_novo()
+    cfg.econ_lower_tank_vol, cfg.area, cfg.upper_tank_vol = 8000.0, 220.0, 1000.0
+    relatorio = {"lower_vol": 8000.0, "area": "-", "discard": "-", "upper_vol": 1000.0, "pluv_day": 0.0}
+    desenho = generate_study_layout(dados_do_estudo(cfg, relatorio))
+    assert desenho == arranjo_do_projeto(cfg)
+    assert quantitativo_do_projeto(cfg, None).tubos_m_por_dn == levantar(desenho).tubos_m_por_dn

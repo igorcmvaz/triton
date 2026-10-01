@@ -461,13 +461,16 @@ class TabExport(QWidget):
                     data["upper_vol"] = float(mw.tab_tanks_simulation.txt_upper_vol.text().replace(',', '.'))
                 except Exception:
                     pass
+        # O que faltar no relatório (área, descarte...) vem do projeto, pela mesma
+        # regra que o CAPEX e a ACV usam para montar o arranjo usual.
+        from netuno.core.quantitativo_do_arranjo import arranjo_do_projeto, dados_do_estudo
+        config = getattr(mw, "config", None)
+        data = dados_do_estudo(config, data)
         layout = getattr(mw, "bim_layout", None) or {}
-        data = dict(data)
         if not (layout.get("bim_components") or layout.get("pipe_runs")):
-            from netuno.core.study_layout import generate_study_layout
-            layout = generate_study_layout(data)
-            if mw:
-                mw.bim_layout = layout
+            # Não é gravado no projeto: acompanha o volume enquanto o projetista
+            # não organiza os trechos.
+            layout = arranjo_do_projeto(config, data)
         data["bim_components"] = list(layout.get("bim_components") or [])
         data["pipe_runs"] = list(layout.get("pipe_runs") or [])
         data["building_volume"] = dict(layout.get("building_volume") or {})

@@ -195,6 +195,12 @@ def test_o_dialogo_constroi_com_os_controles_novos(dialogo):
     assert dialogo.cmb_base_rede.count() >= 3
 
 
+def test_o_dialogo_abre_em_tela_cheia(dialogo):
+    from PySide6.QtCore import Qt
+
+    assert dialogo.windowState() & Qt.WindowMaximized
+
+
 def test_escolher_a_base_reescreve_o_fator_e_mostra_a_procedencia(dialogo):
     """Era o ponto: as bases não eram selecionáveis, só o número era editável."""
     valores = {}

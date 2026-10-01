@@ -82,6 +82,9 @@ class LCAParametersDialog(QDialog):
         self._sync = tab_env.sync_from_project(force=False) if self._has_sweep else {}
         self.setWindowTitle(tr("⚙️ Parâmetros do Ciclo de Vida (ACV — Materiais, Tubulações e Operação)"))
         adapt_dialog_size(self, target_w=1080, target_h=860, min_w=840, min_h=720)
+        # Abre ocupando a tela: são duas colunas longas de quantidades e fatores.
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinMaxButtonsHint)
+        self.setWindowState(Qt.WindowMaximized)
         self.init_ui()
 
     def init_ui(self):

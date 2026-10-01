@@ -219,15 +219,39 @@ def arranjo_do_projeto(config: Any = None, project_data: Optional[Dict[str, Any]
         return layout
     from netuno.core.study_layout import generate_study_layout
 
-    estudo = {
-        "lower_vol": float(getattr(config, "lower_tank_vol", 0.0) or dados.get("lower_vol") or 5000.0),
-        "upper_vol": float(getattr(config, "upper_tank_vol", 0.0) or dados.get("upper_vol") or 0.0),
-        "area": float(getattr(config, "area", 0.0) or dados.get("area") or 100.0),
-        "discard": float(getattr(config, "discard", 0.0) or dados.get("discard") or 2.0),
-        "floors": int(getattr(config, "floors", 0) or dados.get("floors") or 1),
-    }
-    estudo.update({k: v for k, v in dados.items() if k not in estudo})
-    return generate_study_layout(estudo)
+    return generate_study_layout(dados_do_estudo(config, dados))
+
+
+def volume_do_estudo(config: Any) -> float:
+    """O volume da cisterna que o projeto analisa: o fixo, ou o escolhido na varredura."""
+    if config is None:
+        return 0.0
+    if int(getattr(config, "lower_tank_mode", 1) or 0) == 0 and float(getattr(config, "lower_tank_fixed", 0.0) or 0.0) > 0:
+        return float(config.lower_tank_fixed)
+    return float(getattr(config, "econ_lower_tank_vol", 0.0) or 0.0)
+
+
+def dados_do_estudo(config: Any = None, project_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """O que o gerador do arranjo usual lê, com a mesma regra para o CAPEX e o desenho.
+
+    Os dados do desenho (``project_data``), quando há, prevalecem: são o volume e a
+    área que a prancha documenta. Sem eles vale o projeto. O número de pavimentos,
+    que o projeto não guarda, fica com o padrão do gerador nos dois casos.
+    """
+    estudo: Dict[str, Any] = {}
+    if config is not None:
+        estudo = {
+            "lower_vol": volume_do_estudo(config),
+            "upper_vol": float(getattr(config, "upper_tank_vol", 0.0) or 0.0),
+            "area": float(getattr(config, "area", 0.0) or 0.0),
+            "discard": float(getattr(config, "discard", 0.0) or 0.0),
+        }
+        estudo = {k: v for k, v in estudo.items() if v > 0}
+    for chave, valor in dict(project_data or {}).items():
+        vazio = valor in (None, "", "-") or (isinstance(valor, (int, float)) and not isinstance(valor, bool) and valor <= 0)
+        if not vazio or chave not in estudo:
+            estudo[chave] = valor
+    return estudo
 
 
 def levantar(layout: Dict[str, Any], project_data: Optional[Dict[str, Any]] = None,
@@ -356,9 +380,8 @@ _CACHE: Dict[str, Quantitativo] = {}
 
 
 def _chave(config: Any) -> str:
-    campos = ("lower_tank_vol", "upper_tank_vol", "area", "discard", "floors",
-              "first_flush_system_enabled", "etap_enabled")
-    return json.dumps([getattr(config, "bim_layout", None) or {}]
+    campos = ("first_flush_system_enabled", "etap_enabled")
+    return json.dumps([getattr(config, "bim_layout", None) or {}, dados_do_estudo(config)]
                       + [getattr(config, c, None) for c in campos], sort_keys=True, default=str)
 
 
