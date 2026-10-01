@@ -103,6 +103,7 @@ _LINHA_DO_DESCARTE = "subsistema de descarte (ACV)"
 #: Curva de 90° e conexão de extremidade (luva ou adaptador), na bitola de 25 mm.
 CURVA = Peca("Curva 90° PVC", "pvc", 3.0, 0.03, True, _ORIGEM_PADRAO)
 CONEXAO = Peca("Conexão de extremidade PVC (luva/adaptador)", "pvc", 2.5, 0.025, True, _ORIGEM_PADRAO)
+TE = Peca("Tê 90° PVC", "pvc", 4.5, 0.045, True, _ORIGEM_PADRAO)
 CABO = Peca("Cabo PP 3 × 1,5 mm² (por metro)", "cabo", 6.0, 0.12, False, _ORIGEM_PADRAO)
 
 _DN_REFERENCIA = 25.0
@@ -209,6 +210,35 @@ def _curvas(run: Dict[str, Any]) -> int:
     return sum(1 for u, w in zip(direcoes, direcoes[1:]) if sum(p * q for p, q in zip(u, w)) < 0.999)
 
 
+def _tes(runs: Sequence[Dict[str, Any]]) -> Dict[int, int]:
+    """Tês: ponta solta de um trecho que cai no meio de outro (a reserva da bomba).
+
+    A bitola é a maior das duas. Ponta solta que não encontra tubo é descarga livre.
+    """
+    def distancia(p, a, b) -> float:
+        ab = [bj - aj for aj, bj in zip(a, b)]
+        n2 = sum(c * c for c in ab)
+        t = 0.0 if n2 <= 0 else max(0.0, min(1.0, sum((pj - aj) * c for pj, aj, c in zip(p, a, ab)) / n2))
+        return math.dist(p, [aj + t * c for aj, c in zip(a, ab)])
+
+    tes: Dict[int, int] = {}
+    for run in runs:
+        vertices = [(v["x"], v["y"], v["z"]) for v in run.get("vertices_mm") or []]
+        if len(vertices) < 2:
+            continue
+        pontas = ([vertices[0]] if not run.get("start_ref") else []) + ([vertices[-1]] if not run.get("end_ref") else [])
+        for ponta in pontas:
+            for outro in runs:
+                if outro is run:
+                    continue
+                vs = [(v["x"], v["y"], v["z"]) for v in outro.get("vertices_mm") or []]
+                if any(distancia(ponta, a, b) <= 1.0 for a, b in zip(vs, vs[1:])):
+                    dn = _dn_comercial(max(float(run["dn_mm"]), float(outro["dn_mm"])))
+                    tes[dn] = tes.get(dn, 0) + 1
+                    break
+    return tes
+
+
 def arranjo_do_projeto(config: Any = None, project_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """O arranjo organizado, ou o usual montado a partir do estudo."""
     layout = dict(getattr(config, "bim_layout", None) or {})
@@ -245,8 +275,12 @@ def dados_do_estudo(config: Any = None, project_data: Optional[Dict[str, Any]] =
             "upper_vol": float(getattr(config, "upper_tank_vol", 0.0) or 0.0),
             "area": float(getattr(config, "area", 0.0) or 0.0),
             "discard": float(getattr(config, "discard", 0.0) or 0.0),
+            "pump_count": float(getattr(config, "pump_count", 1) or 1),
         }
         estudo = {k: v for k, v in estudo.items() if v > 0}
+        from netuno.core.supply_arrangement import arranjo_de
+
+        estudo["supply_arrangement"] = arranjo_de(config)
     for chave, valor in dict(project_data or {}).items():
         vazio = valor in (None, "", "-") or (isinstance(valor, (int, float)) and not isinstance(valor, bool) and valor <= 0)
         if not vazio or chave not in estudo:
@@ -285,7 +319,8 @@ def levantar(layout: Dict[str, Any], project_data: Optional[Dict[str, Any]] = No
             metros * PIPE_EMISSION_FACTORS_PER_METER.get(dn, 3.92), DESTINO_TUBULACAO,
             "preço por metro de cost_estimates.py (SINAPI); massa e fator de environmental.py"))
     fator_pvc = FATORES_POR_MATERIAL["pvc"][0]
-    for nome, peca, contagem in (("Curvas", CURVA, curvas), ("Conexões de extremidade", CONEXAO, conexoes)):
+    for nome, peca, contagem in (("Curvas", CURVA, curvas), ("Conexões de extremidade", CONEXAO, conexoes),
+                                 ("Tês", TE, _tes(manifesto["pipe_runs"]))):
         for dn, n in sorted(contagem.items()):
             if n <= 0:
                 continue
@@ -374,6 +409,33 @@ def conferir_cobertura(q: Quantitativo) -> List[str]:
     return faltam
 
 
+def divergencias_com_o_projeto(config: Any, q: Quantitativo) -> List[str]:
+    """O que o arranjo desenha e o projeto não declara, ou o contrário.
+
+    O arranjo usual sai do projeto e não diverge; um arranjo organizado à mão pode
+    ficar para trás quando o projeto muda de abastecimento ou de número de bombas.
+    """
+    if config is None:
+        return []
+    from netuno.core.supply_arrangement import GRAVIDADE, NAO_INFORMADO, RECALQUE, arranjo_de
+
+    arranjo = arranjo_de(config)
+    if arranjo == NAO_INFORMADO:
+        return ["o projeto não declara o arranjo de abastecimento (recalque, pressurização ou gravidade); "
+                "o arranjo usual desenhado é o de recalque"]
+    tipos = [c["type_id"] for c in q.componentes]
+    avisos = []
+    bombas = tipos.count("motobomba")
+    esperadas = 0 if arranjo == GRAVIDADE else int(getattr(config, "pump_count", 1) or 0)
+    if bombas != esperadas:
+        avisos.append(f"o arranjo tem {bombas} motobomba(s) e o projeto declara {esperadas}")
+    tem_caixa = "reservatorio_superior" in tipos
+    if tem_caixa != (arranjo == RECALQUE):
+        avisos.append("o arranjo tem caixa superior e o abastecimento do projeto não a usa" if tem_caixa
+                      else "o projeto declara caixa superior e o arranjo não a tem")
+    return avisos
+
+
 # ── sincronização com o projeto ─────────────────────────────────────────────
 
 _CACHE: Dict[str, Quantitativo] = {}
@@ -385,16 +447,7 @@ def _chave(config: Any) -> str:
                       + [getattr(config, c, None) for c in campos], sort_keys=True, default=str)
 
 
-def sincronizar_com_o_arranjo(config: Any) -> Optional[Quantitativo]:
-    """Leva o arranjo ao CAPEX e à ACV, se o projeto o usa como fonte.
-
-    É chamada no início do motor econômico, da aba econômica e da montagem da ACV,
-    para que nenhum deles leia uma tubulação ou uma verba de acessórios que não
-    corresponda ao arranjo. Com ``capex_do_arranjo`` desligado — o projetista
-    digitou os próprios valores —, nada muda.
-    """
-    if config is None or not bool(getattr(config, "capex_do_arranjo", False)):
-        return None
+def _quantitativo_em_cache(config: Any) -> Optional[Quantitativo]:
     chave = _chave(config)
     q = _CACHE.get(chave)
     if q is None:
@@ -405,8 +458,80 @@ def sincronizar_com_o_arranjo(config: Any) -> Optional[Quantitativo]:
         if len(_CACHE) > 64:
             _CACHE.clear()
         _CACHE[chave] = q
-    aplicar_ao_projeto(config, q)
     return q
+
+
+def sincronizar_com_o_arranjo(config: Any) -> Optional[Quantitativo]:
+    """Leva o arranjo ao CAPEX e à ACV, se o projeto o usa como fonte.
+
+    É chamada no início do motor econômico, da aba econômica e da montagem da ACV,
+    para que nenhum deles leia uma tubulação ou uma verba de acessórios que não
+    corresponda ao arranjo. Com ``capex_do_arranjo`` desligado — o projetista
+    digitou os próprios valores —, nada muda. A mão de obra automática é refeita
+    em seguida, sobre os materiais que ficaram.
+    """
+    if config is None:
+        return None
+    q = None
+    if bool(getattr(config, "capex_do_arranjo", False)):
+        q = _quantitativo_em_cache(config)
+        if q is not None:
+            aplicar_ao_projeto(config, q)
+    if bool(getattr(config, "mao_de_obra_automatica", False)):
+        config.cost_labor = mao_de_obra_do_projeto(config)
+    return q
+
+
+# ── mão de obra ─────────────────────────────────────────────────────────────
+
+def materiais_do_projeto(config: Any, custo_cisterna: Optional[float] = None,
+                         custo_tubulacao: Optional[float] = None, custo_acessorios: Optional[float] = None) -> float:
+    """Soma dos materiais que a mão de obra instala: reservatórios, motobombas e arranjo."""
+    from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+
+    bombas = 0.0 if not usa_bomba(arranjo_de(config)) else (
+        float(getattr(config, "pump_unit_cost", 0.0) or 0.0) * int(getattr(config, "pump_count", 1) or 0))
+    return (float(config.cost_lower_tank if custo_cisterna is None else custo_cisterna)
+            + float(getattr(config, "cost_upper_tank", 0.0) or 0.0) + bombas
+            + float(config.cost_piping if custo_tubulacao is None else custo_tubulacao)
+            + float(config.cost_accessories if custo_acessorios is None else custo_acessorios))
+
+
+def mao_de_obra_do_projeto(config: Any, custo_cisterna: Optional[float] = None,
+                           custo_tubulacao: Optional[float] = None, custo_acessorios: Optional[float] = None) -> float:
+    """Mão de obra como fração dos materiais: cresce com a cisterna e com o arranjo.
+
+    É a regra do estimador (``labor_percentage`` de costs_database.json, 30 %, com
+    piso de R$ 1.400), aplicada aos materiais do projeto, e não às verbas genéricas.
+    """
+    from netuno.core.cost_estimates import mao_de_obra_estimada
+
+    return round(mao_de_obra_estimada(materiais_do_projeto(config, custo_cisterna, custo_tubulacao,
+                                                           custo_acessorios)), 2)
+
+
+def capex_do_volume(config: Any, volume_l: float, custo_cisterna: float) -> Tuple[float, float, float]:
+    """``(tubulação, acessórios, mão de obra)`` de um volume da varredura.
+
+    Com o arranjo usual, cada volume tem a sua cisterna e os seus percursos; com o
+    arranjo organizado pelo projetista, ou com valores digitados, eles não mudam.
+    A mão de obra automática acompanha o custo da cisterna de cada volume.
+    """
+    tubulacao, acessorios = float(config.cost_piping), float(config.cost_accessories)
+    organizado = bool((getattr(config, "bim_layout", None) or {}).get("bim_components"))
+    if bool(getattr(config, "capex_do_arranjo", False)) and not organizado and volume_l > 0:
+        import copy
+
+        do_volume = copy.copy(config)
+        do_volume.lower_tank_mode, do_volume.econ_lower_tank_vol = 1, float(volume_l)
+        q = _quantitativo_em_cache(do_volume)
+        if q is not None:
+            tubulacao, acessorios = q.custo_de_tubulacao, q.custo_de_acessorios
+    if bool(getattr(config, "mao_de_obra_automatica", False)):
+        mao = mao_de_obra_do_projeto(config, custo_cisterna, tubulacao, acessorios)
+    else:
+        mao = float(config.cost_labor)
+    return tubulacao, acessorios, mao
 
 
 def itens_para_acv(q: Optional[Quantitativo]) -> List[Tuple[str, str, float, float, str]]:

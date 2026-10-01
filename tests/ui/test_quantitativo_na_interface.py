@@ -8,6 +8,7 @@ def test_a_janela_nova_parte_do_arranjo(qapp):
 
     janela = MainWindow()
     assert janela.config.capex_do_arranjo is True
+    assert janela.config.mao_de_obra_automatica is True
     janela.bim_layout = generate_study_layout({"lower_vol": 6000, "area": 120})
     assert janela.config.bim_layout is janela.bim_layout or janela.config.bim_layout == janela.bim_layout
     janela.close()

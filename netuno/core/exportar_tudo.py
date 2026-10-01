@@ -285,7 +285,9 @@ def _aba_do_arranjo(wb, dados: Dict[str, Any]) -> List[str]:
 
 def _aba_do_quantitativo(wb, config: Any, dados: Dict[str, Any], ambiental: Any) -> Optional[str]:
     """Cada item do arranjo, com preço, massa, carbono e destino, e a conferência."""
-    from netuno.core.quantitativo_do_arranjo import conferir_cobertura, levantar, arranjo_do_projeto
+    from netuno.core.quantitativo_do_arranjo import (
+        arranjo_do_projeto, conferir_cobertura, divergencias_com_o_projeto, levantar, mao_de_obra_do_projeto,
+    )
 
     try:
         q = levantar(arranjo_do_projeto(config, dados), dados,
@@ -322,9 +324,19 @@ def _aba_do_quantitativo(wb, config: Any, dados: Dict[str, Any], ambiental: Any)
         ws.append([nome, do_q, do_proj, "sim" if abs(float(do_q) - float(do_proj)) < 0.5 else "NÃO"])
     ws.append(["Fonte do CAPEX de tubulação e acessórios",
                "arranjo 3D" if do_arranjo else "valores digitados pelo projetista", "", ""])
+    if config is not None:
+        automatica = bool(getattr(config, "mao_de_obra_automatica", False))
+        regra = mao_de_obra_do_projeto(config)
+        ws.append(["Mão de obra (R$): fração dos materiais do projeto", regra,
+                   float(getattr(config, "cost_labor", 0.0) or 0.0),
+                   ("sim" if abs(regra - float(config.cost_labor)) < 0.5 else "NÃO") if automatica
+                   else "valor digitado pelo projetista"])
     faltam = conferir_cobertura(q)
     ws.append(["Itens do arranjo sem destino no CAPEX ou na ACV", len(faltam), "; ".join(faltam) or "nenhum",
                "sim" if not faltam else "NÃO"])
+    divergencias = divergencias_com_o_projeto(config, q)
+    ws.append(["Arranjo coerente com o abastecimento e as motobombas do projeto", len(divergencias),
+               "; ".join(divergencias) or "sim", "sim" if not divergencias else "NÃO"])
     _larguras(ws)
     return ws.title
 

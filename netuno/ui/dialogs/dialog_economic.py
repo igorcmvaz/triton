@@ -1199,7 +1199,13 @@ class DialogInitialCosts(QDialog):
             if self._tubos_do_arranjo(pipes):
                 piping = q.custo_de_tubulacao
             acessorios = q.custo_de_acessorios
-        return estimates['lower'], estimates['upper'], estimates['labor'], piping, acessorios
+        labor = estimates['labor']
+        if q is not None or getattr(self.config, "mao_de_obra_automatica", False):
+            # A mesma regra da mão de obra automática: fração dos materiais, aqui
+            # com a tubulação e os acessórios do arranjo.
+            from netuno.core.quantitativo_do_arranjo import mao_de_obra_do_projeto
+            labor = mao_de_obra_do_projeto(self.config, estimates['lower'], piping, acessorios)
+        return estimates['lower'], estimates['upper'], labor, piping, acessorios
 
     def _tubos_do_arranjo(self, pipes) -> bool:
         q = getattr(self, "_quantitativo_referencia", None)
@@ -1562,6 +1568,7 @@ class DialogInitialCosts(QDialog):
                 dn = p["dn"]
                 if hasattr(self, "txt_pipes") and dn in self.txt_pipes:
                     self.config.set_pipe_length(dn, _parse_val(self.txt_pipes[dn]))
+            mao_anterior = float(self.config.cost_labor)
             self.config.cost_lower_tank  = self._estimate_costs(lower_volume=self._lower_vol)[0]
             self.config.cost_upper_tank  = _parse_val(self.txt_upper)
             self.config.cost_labor       = _parse_val(self.txt_labor)
@@ -1576,6 +1583,11 @@ class DialogInitialCosts(QDialog):
                 and abs(self.config.cost_piping - q.custo_de_tubulacao) < 0.5
                 and abs(self.config.cost_accessories - q.custo_de_acessorios) < 0.5
             )
+            # Mão de obra: segue automática enquanto não for trocada por um valor digitado.
+            from netuno.core.quantitativo_do_arranjo import mao_de_obra_do_projeto
+            automatica = mao_de_obra_do_projeto(self.config)
+            intocada = getattr(self.config, "mao_de_obra_automatica", False) and abs(self.config.cost_labor - mao_anterior) < 0.5
+            self.config.mao_de_obra_automatica = bool(intocada or abs(self.config.cost_labor - automatica) < 0.5)
             self.accept()
         except ValueError:
             QMessageBox.critical(

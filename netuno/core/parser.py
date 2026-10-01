@@ -354,6 +354,10 @@ class NetunoConfig:
     # por padrão, para que um estudo montado em código ou lido de arquivo antigo
     # mantenha os custos que declara; o projeto novo da interface o liga.
     capex_do_arranjo: bool = False
+    # Mão de obra refeita a cada cálculo como fração dos materiais (reservatórios,
+    # motobombas e arranjo). Desligada por padrão pelo mesmo motivo; o projeto novo
+    # a liga, e digitar outro valor no diálogo econômico a desliga.
+    mao_de_obra_automatica: bool = False
 
     # Initial Investment Costs (CAPEX)
     cost_lower_tank: float = 0.0
@@ -615,6 +619,7 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
                 config.cost_upper_tank = parse_float(parts[1], 0.0)
             elif key.startswith("Mao-de-obra") or key.startswith("Mão-de-obra"):
                 config.cost_labor = parse_float(parts[1], 0.0)
+                config.mao_de_obra_automatica = False
             elif key.startswith("Tubulacoes") or key.startswith("Tubulações"):
                 config.cost_piping = parse_float(parts[1], 0.0)
                 config.capex_do_arranjo = False  # o arquivo legado traz o custo do estudo
@@ -969,6 +974,7 @@ def export_netuno_json(
                 "cost_piping": config.cost_piping,
                 "cost_accessories": config.cost_accessories,
                 "capex_do_arranjo": bool(getattr(config, "capex_do_arranjo", True)),
+                "mao_de_obra_automatica": bool(getattr(config, "mao_de_obra_automatica", False)),
                 "operational_costs": config.op_costs
             },
             "global_optimizer_scenarios": global_scenarios or []
@@ -1178,6 +1184,7 @@ def load_netuno_project(file_path: str) -> dict:
             # Arquivo anterior ao quantitativo do arranjo: os custos gravados são os
             # do estudo e continuam valendo. Só o projeto novo parte do arranjo.
             cfg.capex_do_arranjo = bool(co.get("capex_do_arranjo", False))
+            cfg.mao_de_obra_automatica = bool(co.get("mao_de_obra_automatica", False))
 
             # Secoes acrescentadas nesta revisao. `get` com o padrao mantem os arquivos
             # anteriores legiveis: o que nao existir no arquivo cai no padrao, que

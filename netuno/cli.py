@@ -598,10 +598,14 @@ def _economic_row(cfg: NetunoConfig, result: SingleTankSimulationResult,
         c_low = float(cfg.cost_lower_tank) if v_vol > 0 else 0.0
 
     etap_c_inc = capex_incremental_da_etap(cfg, vol_m3_val) if getattr(cfg, 'etap_enabled', True) else 0.0
+    # Arranjo e mão de obra de cada volume, pela mesma regra da interface.
+    from netuno.core.quantitativo_do_arranjo import capex_do_volume
+    from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+    tub_v, acc_v, mao_v = capex_do_volume(cfg, v_vol, c_low)
     capex_v = 0.0 if v_vol <= 0 else (
         c_low + float(cfg.cost_upper_tank) +
-        (float(cfg.pump_unit_cost) * int(getattr(cfg, "pump_count", 1)) if upper_used else 0.0) +
-        float(cfg.cost_piping) + float(cfg.cost_accessories) + float(cfg.cost_labor) +
+        (float(cfg.pump_unit_cost) * int(getattr(cfg, "pump_count", 1)) if usa_bomba(arranjo_de(cfg)) else 0.0) +
+        tub_v + acc_v + mao_v +
         etap_c_inc
     )
 

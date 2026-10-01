@@ -2476,7 +2476,7 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `CAPEX` | investimento inicial total do sistema | R$ |
 | `C_cist` | custo do reservatório inferior | R$ |
 | `C_sup` | custo do reservatório superior, quando houver | R$ |
-| `C_mo` | custo de mão de obra de instalação | R$ |
+| `C_mo` | custo de mão de obra de instalação: no projeto novo, 30% dos materiais, com piso de R$ 1.400 | R$ |
 | `C_tub` | custo da tubulação: tubos, curvas e conexões do arranjo 3D | R$ |
 | `C_ace` | custo dos acessórios: as peças do arranjo 3D, uma a uma, e os cabos de comando | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
@@ -2492,6 +2492,14 @@ caixa superior e motobomba têm termo próprio; o filtro de entrada e o descarte
 linha de tratamento quando ela os dimensiona. O projetista pode digitar outros valores na
 etapa econômica; o projeto passa então a usar os digitados, e a planilha de auditoria
 registra a troca. Projetos gravados antes desta regra mantêm os custos que declaram.
+
+A mão de obra do projeto novo também é refeita a cada cálculo: 30% da soma de cisterna,
+caixa superior, motobombas, tubulação e acessórios, com piso de R$ 1.400 (chave
+`labor_percentage` de `costs_database.json`). Assim, ela cresce com o reservatório: na
+varredura de volumes, cada volume tem a sua cisterna, o seu arranjo usual e a sua mão de
+obra. Antes, a mão de obra era fixada uma única vez, sobre verbas genéricas de tubulação
+e acessórios, e valia igual para todos os volumes. Um valor digitado na etapa econômica
+prevalece, como nas outras rubricas.
 
 O último termo segue a regra incremental da seção 2.5 e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 
@@ -2511,7 +2519,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
 
-*Figura 19 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes.*
+*Figura 19 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Com os custos que o tutorial declara, só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes. Num projeto novo, tubulação e acessórios saem do arranjo 3D, que não tem essa verba, e a mão de obra acompanha os materiais de cada volume.*
 
 ---
 
@@ -3422,7 +3430,7 @@ quais volumes sequer entram na comparação.
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **114 parâmetros**. É a lista completa do que um projeto
+São **115 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -3618,7 +3626,7 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `supply_arrangement` | — | código | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `supply_arrangement` | — | código | Ambiental, Econômico, Varredura | ACV, Automação, Econômico, Motobomba |
 | `pressurizer_pressure_m` | 18 | m.c.a. | Varredura | Motobomba |
 | `pressurizer_starts_per_person_day` | 5,05 | 1/pessoa·dia | Varredura | Motobomba |
 | `pressurizer_model` | komeco_tp820t | código | Varredura | Motobomba |
@@ -3771,13 +3779,14 @@ Observações do código:
 
 ### A.18. Outros
 
-2 parâmetros.
+3 parâmetros.
 
 <!-- tabela: **Tabela 91** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
 | `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
 
 ---
 

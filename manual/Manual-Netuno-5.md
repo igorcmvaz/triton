@@ -3380,7 +3380,7 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `CAPEX` | investimento inicial total do sistema | R$ |
 | `C_cist` | custo do reservatório inferior | R$ |
 | `C_sup` | custo do reservatório superior, quando houver | R$ |
-| `C_mo` | custo de mão de obra de instalação | R$ |
+| `C_mo` | custo de mão de obra de instalação: no projeto novo, 30% dos materiais, com piso de R$ 1.400 | R$ |
 | `C_tub` | custo da tubulação: tubos, curvas e conexões do arranjo 3D | R$ |
 | `C_ace` | custo dos acessórios: as peças do arranjo 3D, uma a uma, e os cabos de comando | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
@@ -3396,6 +3396,14 @@ caixa superior e motobomba têm termo próprio; o filtro de entrada e o descarte
 linha de tratamento quando ela os dimensiona. O projetista pode digitar outros valores na
 etapa econômica; o projeto passa então a usar os digitados, e a planilha de auditoria
 registra a troca. Projetos gravados antes desta regra mantêm os custos que declaram.
+
+A mão de obra do projeto novo também é refeita a cada cálculo: 30% da soma de cisterna,
+caixa superior, motobombas, tubulação e acessórios, com piso de R$ 1.400 (chave
+`labor_percentage` de `costs_database.json`). Assim, ela cresce com o reservatório: na
+varredura de volumes, cada volume tem a sua cisterna, o seu arranjo usual e a sua mão de
+obra. Antes, a mão de obra era fixada uma única vez, sobre verbas genéricas de tubulação
+e acessórios, e valia igual para todos os volumes. Um valor digitado na etapa econômica
+prevalece, como nas outras rubricas.
 
 O último termo segue a regra incremental da seção 2.5 e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 
@@ -3415,7 +3423,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
 
-*Figura 27 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes.*
+*Figura 27 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Com os custos que o tutorial declara, só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes. Num projeto novo, tubulação e acessórios saem do arranjo 3D, que não tem essa verba, e a mão de obra acompanha os materiais de cada volume.*
 
 ---
 
@@ -5870,6 +5878,16 @@ A integração com o Autodesk Revit é feita por um importador distribuído com 
 
 Sem organização salva, o programa pré-preenche o arranjo usual dessas instalações, a partir do estudo: captação do telhado, filtro e descarte inicial; cisterna com entrada calma pelo freio d'água, captação pela sucção flutuante com válvula de pé e crivo, chave de nível contra marcha a seco, respiro com tela e extravasor com ladrão sifonado e retenção antirrefluxo para a rede pluvial; registros de manutenção dos dois lados da motobomba, válvula de retenção no recalque e quadro de comando; caixa superior com chave de nível, respiro com tela, extravasor com descarga visível, limpeza com registro junto à saída e distribuição com registro até um ponto de utilização identificado; e o abastecimento potável de reserva — hidrômetro, registro e válvula solenoide — que só abre quando falta água de chuva e descarrega na caixa superior por separação atmosférica, como pede a ABNT NBR 5626:2020. Quem decide é o quadro de comando: com a caixa superior no nível de partida e água na cisterna, liga a motobomba; com a cisterna no mínimo, bloqueia a motobomba e abre a solenoide, que enche a caixa só até a boia de backup, mais baixa, para sobrar volume para a próxima chuva. Motobomba e solenoide nunca funcionam juntas. Na volumetria, os cabos de comando — das chaves de nível ao quadro e dele à motobomba e à solenoide — aparecem tracejados, e a lógica completa está na ficha do quadro. O arranjo é um ponto de partida: posições, percursos e peças são do projetista.
 
+O arranjo segue duas escolhas do projeto:
+
+- **Número de motobombas.** Com duas, a reserva é desenhada em paralelo com a principal, com registro na sucção, válvula de retenção e registro no recalque próprios. Ela se liga às linhas da principal por tês.
+- **Arranjo de abastecimento.** Muda o que existe na instalação:
+  - **Recalque para caixa superior:** é o arranjo descrito acima.
+  - **Pressurização direta:** não há caixa superior. O pressurizador leva a água da cisterna direto ao ponto de utilização. O abastecimento potável de reserva descarrega na própria cisterna, também por separação atmosférica, e só até uma boia de backup instalada nela.
+  - **Gravidade:** não há bomba. A cisterna fica sobre uma base, acima do ponto de utilização, e a água sai por uma saída lateral baixa com registro. O abastecimento potável de reserva descarrega na cisterna, como na pressurização.
+
+Enquanto os trechos não são organizados, o arranjo é refeito a cada mudança do volume, do abastecimento ou do número de bombas.
+
 Com esses dados o programa monta também a prancha do esquema 3D, fora de escala e em folha A3 deitada. Só os níveis que organizam a instalação — cisterna, reservatório superior, motobomba, filtro e descarte — ganham plano de cota; as peças pequenas aparecem no desenho pelo código, e o tipo e a cota de cada uma estão na tabela «Peças e acessórios», ao lado da sequência de montagem e do quantitativo por diâmetro.
 
 O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
@@ -5886,7 +5904,7 @@ O mesmo arranjo alimenta o custo e o carbono. O programa levanta, peça por peç
 
 Cada item recebe preço e massa. O preço vai para o CAPEX: tubos e conexões em *Tubulações*, peças e cabos em *Acessórios*. A massa, vezes o fator do material, vai para a ACV na etapa A1–A3. Cisterna, reservatório superior e motobomba já têm linha própria nas duas análises e não são contados de novo. O filtro e o descarte inicial entram pela ETAP no CAPEX, quando a ETAP está ativa, e pelo subsistema de descarte na ACV, quando ele está ativo.
 
-Um teste automático confere que nenhuma peça, nenhum metro de tubo, nenhuma curva e nenhum cabo do arranjo fica sem custo ou sem carbono. A aba `Auditoria_Quantitativo` do *Exportar tudo* lista cada item com o seu destino no CAPEX e na ACV, e fecha a soma contra os valores que as análises usaram.
+Um teste automático confere que nenhuma peça, nenhum metro de tubo, nenhuma curva, nenhum tê e nenhum cabo do arranjo fica sem custo ou sem carbono. O teste cobre os três arranjos de abastecimento, com uma e com duas motobombas. A aba `Auditoria_Quantitativo` do *Exportar tudo* lista cada item com o seu destino no CAPEX e na ACV, e fecha a soma contra os valores que as análises usaram. A mesma aba confere ainda se o arranjo está coerente com o projeto: um arranjo organizado à mão pode ficar para trás quando o projeto muda o abastecimento ou o número de bombas, e a divergência aparece ali.
 
 Os preços e as massas das peças são um cenário de referência, e não uma cotação. Ficam em `costs_database.json`, na chave `pecas_do_arranjo`, e podem ser trocados ali. Na etapa econômica, o projetista também pode digitar outros valores de tubulação e acessórios: a partir daí o programa usa os valores digitados. Um projeto novo começa pelo arranjo. Um arquivo antigo mantém os custos que já declarava.
 
@@ -8941,6 +8959,8 @@ estudo errado.
 | o texto da fórmula exponencial alargava a coluna do Gestor de Tarifas e estreitava os gráficos | os gráficos mantêm a largura em qualquer município |
 | os avisos do compilador de sombreadores do Direct3D (X4122, X4000) apareciam como «Qt aviso» | entram só na contagem do resumo; erro de compilação continua aparecendo |
 | o CAPEX de tubulação e acessórios era uma verba estimada, e a ACV contava só os metros de tubo digitados; curvas, conexões, peças e cabos de comando do arranjo 3D não entravam em nenhum dos dois | em projeto novo, os dois passam a sair do arranjo, peça por peça, com preço e carbono de cada item; arquivos antigos mantêm os custos que declaravam |
+| a mão de obra era fixada uma vez, sobre verbas genéricas, e não mudava com o volume na varredura; a varredura também deixava de cobrar o pressurizador quando não havia caixa superior | em projeto novo, a mão de obra é 30% dos materiais de cada volume, e a motobomba entra em todo arranjo que não seja por gravidade, como no motor econômico |
+| o arranjo 3D usual era sempre o de recalque, com uma motobomba | o arranjo segue o abastecimento do projeto (recalque, pressurização ou gravidade) e desenha a motobomba reserva em paralelo; o CAPEX e a ACV deixam de cobrar peças de caixa superior que não existem e passam a cobrar as da reserva |
 
 #### 6.3.3.4. Documentação
 
@@ -9094,7 +9114,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **114 parâmetros**. É a lista completa do que um projeto
+São **115 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -9290,7 +9310,7 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `supply_arrangement` | — | código | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `supply_arrangement` | — | código | Ambiental, Econômico, Varredura | ACV, Automação, Econômico, Motobomba |
 | `pressurizer_pressure_m` | 18 | m.c.a. | Varredura | Motobomba |
 | `pressurizer_starts_per_person_day` | 5,05 | 1/pessoa·dia | Varredura | Motobomba |
 | `pressurizer_model` | komeco_tp820t | código | Varredura | Motobomba |
@@ -9443,13 +9463,14 @@ Observações do código:
 
 ### A.18. Outros
 
-2 parâmetros.
+3 parâmetros.
 
 <!-- tabela: **Tabela 169** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
 | `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
 
 ---
 

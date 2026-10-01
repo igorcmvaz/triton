@@ -749,10 +749,13 @@ class TabEconomicIntegrated(QWidget):
             self.lbl_aviso_categoria.setVisible(bool(_incompat))
 
         etap_capex_inc = capex_incremental_da_etap(cfg)
+        from netuno.core.quantitativo_do_arranjo import capex_do_volume
+        from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+        _tub, _acc, _mao = capex_do_volume(cfg, lower_vol, est["lower"])
         total_capex = 0.0 if lower_vol <= 0 else (
             est["lower"] + cfg.cost_upper_tank +
-            (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-            cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+            (cfg.pump_unit_cost * cfg.pump_count if usa_bomba(arranjo_de(cfg)) else 0.0) +
+            _tub + _acc + _mao +
             etap_capex_inc
         )
 
@@ -983,10 +986,16 @@ class TabEconomicIntegrated(QWidget):
 
                     est_v = estimate_preliminary_capex(v_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used, cfg.pump_power_kw, cfg.pump_count, lower_material=low_mat, upper_material=up_mat)
                     c_low = est_v["lower"]
+                    # Cada volume com a sua cisterna, o seu arranjo usual e a mão de
+                    # obra correspondente; a motobomba só não entra na gravidade,
+                    # como no motor econômico.
+                    from netuno.core.quantitativo_do_arranjo import capex_do_volume
+                    from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+                    tub_v, acc_v, mao_v = capex_do_volume(cfg, v_vol, c_low)
                     capex_v = 0.0 if v_vol <= 0 else (
                         c_low + cfg.cost_upper_tank +
-                        (cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0) +
-                        cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor +
+                        (cfg.pump_unit_cost * cfg.pump_count if usa_bomba(arranjo_de(cfg)) else 0.0) +
+                        tub_v + acc_v + mao_v +
                         capex_incremental_da_etap(cfg, vol_m3_val)
                     )
                     tw_v, ts_v = calculate_effective_tariff(
@@ -1248,16 +1257,23 @@ class TabEconomicIntegrated(QWidget):
                 iptu_dim = "-"
                 iptu_opex_reduction = 0.0
 
+            c_low = estimate_preliminary_capex(
+                lower_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used,
+                cfg.pump_power_kw, cfg.pump_count,
+                lower_material=low_mat, upper_material=up_mat,
+                pipes=cfg.pipes_list
+            )["lower"]
+            # Mesma composição do total do CAPEX: arranjo e mão de obra do volume,
+            # motobomba em todo arranjo que não seja por gravidade.
+            from netuno.core.quantitativo_do_arranjo import capex_do_volume
+            from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+            tub_v, acc_v, mao_v = capex_do_volume(cfg, lower_vol, c_low)
+            com_bomba = usa_bomba(arranjo_de(cfg))
             fixed_rows = [
-                (tr("Cisterna Inferior"), tr(low_mat), f"{lower_vol:,.0f} L", estimate_preliminary_capex(
-                    lower_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used,
-                    cfg.pump_power_kw, cfg.pump_count,
-                    lower_material=low_mat, upper_material=up_mat,
-                    pipes=cfg.pipes_list
-                )["lower"], 0.0),
+                (tr("Cisterna Inferior"), tr(low_mat), f"{lower_vol:,.0f} L", c_low, 0.0),
                 (tr("Reservatório Superior"), tr(up_mat) if upper_used else tr("Desabilitado"), f"{cfg.upper_tank_vol:,.0f} L" if upper_used else "-", cfg.cost_upper_tank if upper_used else 0.0, 0.0),
-                (tr("Tubulações e Conexões"), pipe_spec_str, pipe_qty_str, cfg.cost_piping + cfg.cost_accessories, 0.0),
-                (tr("Motobomba de Recalque"), f"{pump_cv:.2f} CV ({cfg.pump_count}x)", f"{cfg.pump_flow_rate:,.0f} L/h" if upper_used else "-", cfg.pump_unit_cost * cfg.pump_count if upper_used else 0.0, ann_pump_cost),
+                (tr("Tubulações e Conexões"), pipe_spec_str, pipe_qty_str, tub_v + acc_v, 0.0),
+                (tr("Motobomba de Recalque"), f"{pump_cv:.2f} CV ({cfg.pump_count}x)", f"{cfg.pump_flow_rate:,.0f} L/h" if upper_used else "-", cfg.pump_unit_cost * cfg.pump_count if com_bomba else 0.0, ann_pump_cost),
                 (tr("Cloração / Desinfecção"), f"Cloro Ativo ({cfg.chlorine_dose_mg_l:.1f} mg/L)" if cfg.chlorine_treatment_enabled else tr("Inativo"), f"{ann_cl2_kg:.2f} kg/ano", 0.0, ann_cl2_cost),
             ]
 
@@ -1294,7 +1310,7 @@ class TabEconomicIntegrated(QWidget):
             rows_data = fixed_rows + maint_rows + [iptu_row]
 
             n_capex_opex_items = len(fixed_rows) + len(maint_rows)
-            tot_capex = sum(r[3] for r in rows_data[:n_capex_opex_items]) + cfg.cost_labor
+            tot_capex = sum(r[3] for r in rows_data[:n_capex_opex_items]) + mao_v
             tot_opex_gross = sum(r[4] for r in rows_data[:n_capex_opex_items])
             tot_opex_net = tot_opex_gross - (ann_iptu_savings if iptu_enabled else 0.0)
 

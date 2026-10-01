@@ -42,8 +42,11 @@ def test_todo_tipo_de_peca_tem_onde_ser_contado():
     (1500, 60, 1, 500), (5000, 150, 2, 1000), (10000, 180, 3, 1000), (30000, 400, 6, 3000),
 ])
 @pytest.mark.parametrize("descarte, etap", [(False, True), (True, True), (True, False), (False, False)])
-def test_nada_do_arranjo_fica_sem_custo_ou_sem_carbono(volume, area, pavimentos, caixa, descarte, etap):
-    layout = generate_study_layout({"lower_vol": volume, "area": area, "floors": pavimentos, "upper_vol": caixa})
+@pytest.mark.parametrize("abastecimento, bombas", [("recalque", 1), ("recalque", 2), ("pressurizacao", 2), ("gravidade", 1)])
+def test_nada_do_arranjo_fica_sem_custo_ou_sem_carbono(volume, area, pavimentos, caixa, descarte, etap,
+                                                       abastecimento, bombas):
+    layout = generate_study_layout({"lower_vol": volume, "area": area, "floors": pavimentos, "upper_vol": caixa,
+                                    "supply_arrangement": abastecimento, "pump_count": bombas})
     q = levantar(layout, subsistema_de_descarte=descarte, etap=etap)
     assert conferir_cobertura(q) == []
     assert len({i.item for i in q.itens if i.unidade == "un" and i.tipo not in ("conexao",)}) == len(layout["bim_components"])
@@ -178,3 +181,123 @@ def test_o_capex_e_o_desenho_levantam_o_mesmo_arranjo():
     desenho = generate_study_layout(dados_do_estudo(cfg, relatorio))
     assert desenho == arranjo_do_projeto(cfg)
     assert quantitativo_do_projeto(cfg, None).tubos_m_por_dn == levantar(desenho).tubos_m_por_dn
+
+
+# ─────────── abastecimento, motobomba reserva e mão de obra ───────────
+
+def _tipos(layout):
+    return [c["type_id"] for c in layout["bim_components"]]
+
+
+def _validado(dados):
+    from netuno.core.bim_exporter import build_bim_manifest, validate_bim_manifest
+
+    layout = generate_study_layout(dados)
+    manifesto = build_bim_manifest(dict(dados, project_name="t", **layout))
+    assert validate_bim_manifest(manifesto) == []
+    return layout, {c["instance_id"]: c for c in layout["bim_components"]}
+
+
+def test_a_reserva_e_desenhada_em_paralelo_com_as_suas_pecas():
+    layout, por_id = _validado({"lower_vol": 5000, "pump_count": 2})
+    assert _tipos(layout).count("motobomba") == 2
+    for peca in ("RG-06", "VR-03", "RG-07"):
+        assert peca in por_id
+    q = levantar(layout)
+    assert {i.item for i in q.itens} >= {"Tês DN 25", "Tês DN 32"}
+    um = levantar(generate_study_layout({"lower_vol": 5000, "pump_count": 1}))
+    assert q.custo_de_acessorios > um.custo_de_acessorios
+    assert q.custo_de_tubulacao > um.custo_de_tubulacao
+
+
+def test_sem_caixa_o_backup_potavel_desce_na_propria_cisterna():
+    for abastecimento in ("pressurizacao", "gravidade"):
+        layout, por_id = _validado({"lower_vol": 5000, "supply_arrangement": abastecimento, "pump_count": 2})
+        assert "reservatorio_superior" not in _tipos(layout)
+        assert not {"SN-02", "RP-02", "RG-04"} & set(por_id)
+        cisterna = por_id["CI-01"]
+        topo = cisterna["position_mm"]["z"] + cisterna["parameters"]["ALTURA_MM"]
+        assert por_id["AG-01"]["position_mm"]["z"] == pytest.approx(topo)
+        assert "SN-03" in por_id  # boia de backup, agora na cisterna
+        trecho = next(r for r in layout["pipe_runs"] if r["run_id"] == "T-19")
+        assert trecho["end"] == "AG-01:topo"
+
+
+def test_pressurizacao_leva_o_recalque_direto_ao_ponto():
+    layout, por_id = _validado({"lower_vol": 5000, "supply_arrangement": "pressurizacao", "pump_count": 1})
+    assert _tipos(layout).count("motobomba") == 1
+    saida = next(r for r in layout["pipe_runs"] if r["start"] == "RG-01")
+    assert saida["end"] == "PNP-01:topo"
+
+
+def test_gravidade_nao_tem_bomba_e_a_cisterna_fica_acima_do_ponto():
+    layout, por_id = _validado({"lower_vol": 5000, "supply_arrangement": "gravidade", "pump_count": 2})
+    assert not {"motobomba", "succao_flutuante", "valvula_pe_crivo"} & set(_tipos(layout))
+    assert por_id["CI-01"]["position_mm"]["z"] > por_id["PNP-01"]["position_mm"]["z"]
+
+
+def test_o_arranjo_usual_segue_o_abastecimento_e_as_bombas_do_projeto():
+    from netuno.core.quantitativo_do_arranjo import divergencias_com_o_projeto
+
+    for abastecimento, caixa in (("recalque", 1), ("pressurizacao", 0), ("gravidade", 0)):
+        cfg = _projeto_novo()
+        cfg.supply_arrangement, cfg.upper_tank_used, cfg.pump_count = abastecimento, caixa, 2
+        q = quantitativo_do_projeto(cfg)
+        assert divergencias_com_o_projeto(cfg, q) == []
+    # Um arranjo organizado à mão que ficou para trás é apontado.
+    cfg = _projeto_novo()
+    cfg.pump_count = 2
+    cfg.bim_layout = generate_study_layout({"lower_vol": 5000, "pump_count": 1})
+    assert divergencias_com_o_projeto(cfg, quantitativo_do_projeto(cfg))
+
+
+def test_a_mao_de_obra_automatica_acompanha_os_materiais():
+    from netuno.core.cost_estimates import LABOR_PCT
+    from netuno.core.quantitativo_do_arranjo import capex_do_volume, materiais_do_projeto, sincronizar_com_o_arranjo
+
+    cfg = _projeto_novo()
+    cfg.mao_de_obra_automatica = True
+    cfg.cost_lower_tank, cfg.cost_upper_tank, cfg.pump_unit_cost = 6000.0, 500.0, 600.0
+    sincronizar_com_o_arranjo(cfg)
+    assert cfg.cost_labor == pytest.approx(max(1400.0, LABOR_PCT * materiais_do_projeto(cfg)), abs=0.01)
+    assert materiais_do_projeto(cfg) == pytest.approx(6000 + 500 + 600 * cfg.pump_count
+                                                      + cfg.cost_piping + cfg.cost_accessories)
+    # Na varredura, cisterna maior custa mais e pede mais mão de obra.
+    _, _, mao_pequena = capex_do_volume(cfg, 2000.0, 1500.0)
+    _, _, mao_grande = capex_do_volume(cfg, 30000.0, 15000.0)
+    assert mao_grande > mao_pequena
+
+
+def test_a_mao_de_obra_digitada_prevalece():
+    from netuno.core.quantitativo_do_arranjo import capex_do_volume, sincronizar_com_o_arranjo
+
+    cfg = _projeto_novo()
+    cfg.mao_de_obra_automatica, cfg.cost_labor = False, 2222.0
+    sincronizar_com_o_arranjo(cfg)
+    assert cfg.cost_labor == 2222.0
+    assert capex_do_volume(cfg, 30000.0, 15000.0)[2] == 2222.0
+
+
+def test_o_capex_do_motor_usa_a_mao_de_obra_automatica():
+    cfg = _projeto_novo()
+    cfg.mao_de_obra_automatica = True
+    cfg.cost_labor = 1.0
+    res = run_economic_analysis(cfg, _simulacao())
+    assert cfg.cost_labor >= 1400.0
+    assert res is not None
+
+
+def test_a_escolha_da_mao_de_obra_viaja_com_o_projeto(tmp_path):
+    import json
+
+    from netuno.core.parser import export_netuno_json, load_netuno_project
+
+    cfg = _projeto_novo()
+    cfg.mao_de_obra_automatica = True
+    caminho = tmp_path / "p.netuno"
+    export_netuno_json(cfg, str(caminho))
+    assert load_netuno_project(str(caminho))["config"].mao_de_obra_automatica is True
+    dados = json.loads(caminho.read_text(encoding="utf-8"))
+    dados["inputs"]["capex_and_opex"].pop("mao_de_obra_automatica")
+    caminho.write_text(json.dumps(dados), encoding="utf-8")
+    assert load_netuno_project(str(caminho))["config"].mao_de_obra_automatica is False

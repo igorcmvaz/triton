@@ -56,6 +56,8 @@ class MainWindow(QMainWindow):
         self.config = NetunoConfig()
         # Projeto novo: tubulação e acessórios saem do arranjo 3D, peça a peça.
         self.config.capex_do_arranjo = True
+        # e a mão de obra acompanha os materiais, inclusive o volume da cisterna.
+        self.config.mao_de_obra_automatica = True
         
         # Ícone da janela principal
         for icone_rel in (
@@ -706,6 +708,7 @@ class MainWindow(QMainWindow):
             if cfg is not self.config:
                 cfg.bim_layout = self.config.bim_layout
                 cfg.capex_do_arranjo = self.config.capex_do_arranjo
+                cfg.mao_de_obra_automatica = self.config.mao_de_obra_automatica
             self.config = cfg
 
             global_scenarios = getattr(self.tab_global_optimizer, 'scenarios', [])

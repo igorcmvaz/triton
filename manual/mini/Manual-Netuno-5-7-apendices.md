@@ -164,7 +164,7 @@ Tabela 39 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **114 parâmetros**. É a lista completa do que um projeto
+São **115 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -360,7 +360,7 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `supply_arrangement` | — | código | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `supply_arrangement` | — | código | Ambiental, Econômico, Varredura | ACV, Automação, Econômico, Motobomba |
 | `pressurizer_pressure_m` | 18 | m.c.a. | Varredura | Motobomba |
 | `pressurizer_starts_per_person_day` | 5,05 | 1/pessoa·dia | Varredura | Motobomba |
 | `pressurizer_model` | komeco_tp820t | código | Varredura | Motobomba |
@@ -513,13 +513,14 @@ Observações do código:
 
 ### A.18. Outros
 
-2 parâmetros.
+3 parâmetros.
 
 <!-- tabela: **Tabela 18** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
 | `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
 
 ---
 
