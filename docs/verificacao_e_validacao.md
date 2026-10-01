@@ -27,7 +27,7 @@ certificação, projeto executivo nem revisão profissional das premissas locais
 
 | Dimensão | Resultado |
 | :--- | :--- |
-| Suíte de testes | 1.443 testes em 127 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede` ou o job «Fontes oficiais» disparado à mão no GitHub) |
+| Suíte de testes | 1.454 testes em 129 arquivos, 0 falhas (5 de replicação e 2 de rede rodam sob demanda: `pytest -m replicacao`, `pytest -m rede` ou o job «Fontes oficiais» disparado à mão no GitHub) |
 | Cobertura do núcleo de cálculo | 85% das linhas, nenhum módulo abaixo de 50% |
 | Propriedades científicas verificadas | 9 de 9 aprovadas, em 2 regimes hidrológicos |
 | Conservação de massa | fecha exatamente (erro máximo 0,000 L) |
@@ -535,9 +535,10 @@ hidrômetro» de cada município (R$ 134,89, R$ 102,45 e R$ 116,60), e
 `tests/unit/test_tarifa_exponencial.py` confere 14 linhas da tabela transcrita e o
 expoente lido em cada limite de faixa.
 
-**Ressalva que permanece.** Canoas e Esteio seguem o ANEXO-3, que não foi consultado: o
-preço-base (R$ 8,68) e o serviço básico vêm da base auditada, e o esgoto (R$ 6,07/m³) da
-regra que as outras três tabelas obedecem. A base registra essa origem em `esgoto_fonte`.
+Canoas e Esteio seguem o ANEXO-3, com vigência a partir de 01/07/2026. Ele confirma o que
+a base tinha para a categoria Residencial B: preço-base de R$ 8,68, serviço básico de
+R$ 41,20 e esgoto tratado de R$ 6,07/m³. A 10 m³, a fórmula dá a «tarifa mínima sem
+hidrômetro» da tabela, R$ 128,00, e o teste confere esse valor nos dois municípios.
 
 ### 6.6 Os sete municípios remanescentes
 

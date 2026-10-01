@@ -8,7 +8,8 @@ esgoto em `scripts/aplicar_tarifa_exponencial.py` possam ser conferidos.
 | :--- | :--- | :--- |
 | `tabela-exponenciais.pdf` | Tabela de Exponenciais, seis categorias | a mesma para todos os anexos |
 | `ANEXO-5-TABELA-TARIFARIA_AGOSTO-2026.pdf` | PB, serviço básico e esgoto por m³ dos municípios do Apêndice I | 01/07/2026 |
+| `ANEXO-3-CANOAS-E-ESTEIO-TABELA-TARIFARIA_AGOSTO-2026.pdf` | idem, Canoas e Esteio | 01/07/2026 |
 | `Tabela-Tarifaria-Erechim_2026.pdf` | idem, Erechim | 01/01/2026 |
 | `Tabela-Tarifaria-Santa-Cruz-do-Sul_2026.pdf` | idem, Santa Cruz do Sul | 01/01/2026 |
 
-Os anexos 3 (Canoas e Esteio) e 4 não estão aqui.
+O anexo 4 não está aqui.

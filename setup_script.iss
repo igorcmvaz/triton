@@ -7,11 +7,10 @@
 ; versão lida de netuno/__init__.py. Para compilar à mão:
 ;   ISCC /DMyAppVersion=5.0.0 setup_script.iss
 ;
-; Base climática compilada (CLIMBra / SQLite): incorporada diretamente no executável
-; sob data/climbra.db (~1,1 GB), garantindo execução instantânea e portabilidade.
-; Se a pasta original de arquivos CSV soltos "climbra_data" (ou "Netuno future files for 652 cities")
-; estiver AO LADO do instalador no momento da instalação, o componente opcional
-; «Base climática nacional (CSV brutos)» pode copiá-la para a pasta do programa.
+; Base climática CLIMBra: o banco compilado data/climbra.db (652 cidades, todos os
+; modelos e cenários) vai embutido no programa, em _internal\data\climbra.db. Os CSV
+; brutos de origem (~6,5 GB) não são oferecidos: o programa lê o banco, e eles só
+; serviriam para recompilá-lo (scripts/compilar_base_climbra.py).
 
 #define MyAppName "Netuno 5"
 #ifndef MyAppVersion
@@ -21,8 +20,6 @@
 #define MyAppURL "https://sustainability.ufsc.br/"
 #define MyAppExeName "Netuno.exe"
 #define MyAppIcon "icons\netuno5.ico"
-#define ClimateFolder "climbra_data"
-#define ClimateFolderLegacy "Netuno future files for 652 cities"
 #define ProgId "Netuno.Projeto"
 
 [Setup]
@@ -75,14 +72,12 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Types]
 Name: "standard"; Description: "Instalação padrão (todos os idiomas)"
-Name: "full"; Description: "Instalação completa (todos os idiomas e a base climática, se disponível)"
 Name: "custom"; Description: "Instalação personalizada"; Flags: iscustom
 
 [Components]
-Name: "core"; Description: "Aplicativo Netuno, base climática nacional compilada (CLIMBra), manual, casos e exemplos"; Types: standard full custom; Flags: fixed
-Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: standard full custom
-Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: standard full custom
-Name: "clima"; Description: "Arquivos CSV brutos da base climática (opcional, cerca de 6,5 GB; copiada da pasta ao lado do instalador, se existir)"; Types: full; ExtraDiskSpaceRequired: 6979321856
+Name: "core"; Description: "Aplicativo Netuno, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"; Types: standard custom; Flags: fixed
+Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: standard custom
+Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: standard custom
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -96,15 +91,15 @@ Source: "dist\Netuno\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs c
 Source: "dist\Netuno\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
 Source: "dist\Netuno\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
 
+; A licença acompanha o programa instalado, e não só a página do instalador: a GPL
+; pede que quem recebe o executável receba também o texto dela. Licence.txt traz o
+; aviso de copyright do Netuno seguido do texto integral da GPL v3.
+Source: "Licence.txt"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+; Licenças do Python, do Qt (LGPL) e das bibliotecas empacotadas, geradas no build.
+Source: "infos_licenses\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"; Flags: ignoreversion
+
 ; Ícones para os atalhos e sistema
 Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs createallsubdirs
-
-; Base climática: copiada de fora do instalador, de {src}, e ignorada se ausente.
-; O programa a procura ao lado do executável (netuno/core/climate_database.py).
-Source: "{src}\{#ClimateFolder}\*"; DestDir: "{app}\{#ClimateFolder}"; Components: clima; \
-  Flags: external recursesubdirs createallsubdirs skipifsourcedoesntexist ignoreversion
-Source: "{src}\{#ClimateFolderLegacy}\*"; DestDir: "{app}\{#ClimateFolderLegacy}"; Components: clima; \
-  Flags: external recursesubdirs createallsubdirs skipifsourcedoesntexist ignoreversion
 
 [Registry]
 ; Associação dos arquivos .netuno. HKA grava em HKLM numa instalação para todos
@@ -117,7 +112,7 @@ Root: HKA; Subkey: "Software\Classes\{#ProgId}\shell\open\command"; ValueType: s
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".netuno"; ValueData: ""; Tasks: assocnetuno
 
 [Icons]
-; A pasta de trabalho é a do programa, onde ele também procura a base climática.
+; A pasta de trabalho é a do programa.
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\netuno5.ico"
 Name: "{autoprograms}\Manual do {#MyAppName}"; Filename: "{app}\_internal\manual\Manual-Netuno-5.pdf"; Check: FileExists(ExpandConstant('{app}\_internal\manual\Manual-Netuno-5.pdf')); IconFilename: "{app}\icons\netuno5.ico"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\netuno5.ico"
@@ -128,18 +123,3 @@ Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:Launch
 [UninstallDelete]
 ; Arquivos que o próprio programa cria na pasta de instalação
 Type: files; Name: "{app}\avisos_qt.log"
-
-[Code]
-// Avisa, na página de componentes, quando a base climática não está ao lado do
-// instalador: o componente seria marcado e nada seria copiado.
-function BaseClimaticaDisponivel(): Boolean;
-begin
-  Result := DirExists(ExpandConstant('{src}\{#ClimateFolder}'));
-end;
-
-procedure CurPageChanged(CurPageID: Integer);
-begin
-  if (CurPageID = wpSelectComponents) and (not BaseClimaticaDisponivel()) then
-    WizardForm.ComponentsList.ItemCaption[3] :=
-      'Base climática nacional CLIMBra: não encontrada ao lado do instalador (será ignorada)';
-end;

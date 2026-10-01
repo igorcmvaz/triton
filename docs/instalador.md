@@ -38,9 +38,9 @@ Para compilar só o instalador, com `dist\Netuno` já pronto:
 | Item | Comportamento |
 | :--- | :--- |
 | pasta | `C:\Program Files\Netuno 5`, ou a pasta do usuário se a instalação for feita sem administrador (o instalador pergunta) |
-| licença | GPL v3, do arquivo `LICENSE` |
+| licença | GPL v3: o texto integral, do arquivo `LICENSE`, na página de licença; e o aviso de copyright com o texto integral (`Licence.txt`) instalado como `LICENSE.txt` na pasta do programa, com as licenças de terceiros (Python, Qt sob LGPL e bibliotecas) em `AVISOS_DE_TERCEIROS.txt`, gerado no build por `scripts/gerar_avisos_de_terceiros.py` |
 | idiomas do instalador | português, inglês e espanhol |
-| componentes | programa com a base CLIMBra compilada, manual, casos e exemplos (obrigatório); pacotes de idioma espanhol e chinês; CSV brutos da base climática (opcional) |
+| componentes | programa com a base CLIMBra compilada, manual, casos e exemplos (obrigatório); pacotes de idioma espanhol e chinês |
 | atalhos | Menu Iniciar (programa e manual em PDF); área de trabalho, opcional |
 | arquivos `.netuno` | associados ao programa, opcional e marcado por padrão: o duplo clique abre o projeto |
 | desinstalação | remove a pasta do programa e o `avisos_qt.log` que ele cria; os projetos do usuário ficam onde foram salvos |
@@ -67,17 +67,30 @@ de gerar um instalador sem a base. A conferência anterior ao Inno Setup também
 `dist\Netuno\_internal\data\climbra.db`. A opção `--sem-base-climatica` compila um
 pacote de teste sem a base e não gera instalador.
 
-Os CSV brutos (cerca de 6,5 GB em 37.164 arquivos) são opcionais e não vão dentro do
-instalador. Para distribuí-los junto, copie a pasta `climbra_data` para o **mesmo
-diretório** do `Netuno_Setup_*.exe` e escolha «Instalação completa»; se a pasta não
-estiver ao lado do instalador, o componente aparece como «não encontrada» e é ignorado.
-A base também pode ficar fora da pasta do programa, com as variáveis de ambiente
-`NETUNO_CLIMBRA_DB` (o banco) ou `NETUNO_CLIMATE_DATA_DIR` (a pasta de CSV).
+Os CSV brutos (cerca de 6,5 GB em 37.164 arquivos) não são distribuídos: o banco
+contém todas as séries, e os CSV só servem para recompilá-lo. Por isso o instalador não
+oferece o componente da base em CSV. Para desenvolvimento, a base pode ficar fora da
+pasta do programa, com as variáveis de ambiente `NETUNO_CLIMBRA_DB` (o banco) ou
+`NETUNO_CLIMATE_DATA_DIR` (a pasta de CSV, lida só quando não há banco).
 
 Rodando do código-fonte sem a base, a Etapa 1 abre com a série de exemplo de
 Florianópolis e avisa que a base não está instalada.
 
 ## Conferência depois de instalar
+
+O `build_exe.py` roda o executável gerado com `--diagnostico` antes de declarar sucesso.
+O diagnóstico confere:
+
+- o visualizador 3D e o QtWebEngine;
+- a geração do arranjo e da volumetria;
+- a base CLIMBra;
+- o banco tarifário, com a CORSAN na fórmula exponencial;
+- o manual.
+
+Um pacote sem o 3D ou com o banco tarifário antigo é recusado. Na Edição Brasil, a
+falta da base também reprova o pacote, salvo com `--sem-base-climatica`. Na máquina
+instalada, `Netuno.exe --diagnostico` mostra o mesmo relatório e o grava em
+`%TEMP%\netuno_diagnostico.txt`.
 
 - O programa abre, e a janela «Sobre» mostra a versão correta.
 - **Ajuda → Manual** abre o PDF.

@@ -11,10 +11,9 @@
 | Requisito | O que é preciso |
 | :--- | :--- |
 | sistema | Windows 10 ou 11, 64 bits |
-| espaço em disco | cerca de 600 MB para o programa |
+| espaço em disco | cerca de 1,5 GB, já com a base climática nacional |
 | memória | 4 GB bastam; 8 GB deixam a varredura mais confortável |
 | privilégios | de administrador para instalar para todos os usuários; sem eles, a instalação vai para a pasta do usuário |
-| base climática, opcional | mais cerca de 6,5 GB |
 
 Nada além disso precisa ser instalado. O programa é distribuído já montado, com todos os
 componentes de que depende para calcular, e não requer instalação prévia de
@@ -76,18 +75,11 @@ um trabalho verificável de um trabalho apenas relatado.
 O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
 
-Existe além disso uma **base climática nacional**, com 652 cidades, 19 modelos
-climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto CLIMBra. São cerca de 6,5 GB, distribuídos à parte
-justamente por causa do tamanho. Instalada, ela aparece na primeira tela como uma
-lista de cidades; ausente, a tela oferece apenas o carregamento de arquivo próprio, e
-todo o resto do programa funciona igual.
-
-Há duas maneiras de instalá-la. A mais simples é pelo próprio instalador: copie a pasta
-`climbra_data` (ou `Netuno future files for 652 cities`) para o mesmo diretório do `Netuno_Setup_5_0_0.exe`
-e escolha a instalação completa, ou marque o componente da base na personalizada; o
-instalador a copia para a pasta do programa. A outra é copiá-la à mão para a pasta do
-programa, ao lado do `Netuno.exe`, ou para qualquer lugar do disco, indicando o caminho
-na variável de ambiente `NETUNO_CLIMATE_DATA_DIR`.
+Além delas, a Edição Brasil traz a **base climática nacional**: 652 cidades, 19 modelos
+climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto
+CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados num
+único banco, de cerca de 800 MB, que vai embutido no instalador. Não há nada a baixar
+nem a copiar: a base aparece na primeira tela como uma lista de cidades.
 
 O apêndice {{n:E}} descreve a base, e a seção {{n:15}} mostra como usar um cenário futuro.
 
@@ -142,8 +134,14 @@ seguinte: 4.000 L é o volume certo?
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
 programa.
 
-**A lista de cidades está vazia.** A base climática nacional não está instalada. Use
-um arquivo de chuva próprio, ou instale a base — o apêndice {{n:E}} diz como.
+**A lista de cidades está vazia.** A base climática nacional acompanha só a Edição
+Brasil. Na Internacional, use um arquivo de chuva próprio.
+
+**Falta alguma parte do programa, como a volumetria 3D.** Rode, no Prompt de Comando,
+`"C:\Program Files\Netuno 5\Netuno.exe" --diagnostico`. O programa lista o que a
+instalação traz: o visualizador 3D, a base climática, o banco tarifário e o manual. Cada
+item sai marcado OK ou FALTA. A lista também fica gravada em `netuno_diagnostico.txt`,
+na pasta temporária do Windows. Mande esse arquivo junto com o relato do problema.
 
 **O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
 carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração

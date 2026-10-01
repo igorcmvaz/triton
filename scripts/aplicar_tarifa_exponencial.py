@@ -59,13 +59,13 @@ TABELA = RAIZ / "tarifas" / "tabela_exponencial_corsan.json"
 TETO_ABERTO = 999999.0
 
 #: Preço do esgoto tratado por m³, lido de cada tabela tarifária, pelo preço-base.
-#: O PB de R$ 8,68 é o de Canoas e Esteio (ANEXO-3), que não foi consultado: o valor
-#: segue a regra que as outras três tabelas obedecem, 70% do PB truncado no centavo.
+#: O PB de R$ 8,68 é o de Canoas e Esteio (ANEXO-3): PB 8,68, serviço básico 41,20 e
+#: esgoto tratado 6,07/m³ na categoria Residencial B, como na base.
 ESGOTO_TRATADO_R_M3 = {
     9.15: (6.40, "ANEXO-5, vigência 01/07/2026"),
     6.95: (4.86, "Tabela tarifária de Erechim, vigência 01/01/2026"),
     7.91: (5.53, "Tabela tarifária de Santa Cruz do Sul, vigência 01/01/2026"),
-    8.68: (6.07, "70% do PB truncado no centavo; ANEXO-3 (Canoas e Esteio) não consultado"),
+    8.68: (6.07, "ANEXO-3 (Canoas e Esteio), vigência 01/07/2026"),
 }
 
 

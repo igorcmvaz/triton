@@ -108,8 +108,8 @@ class TabProject(QWidget):
         # O aviso vai no painel de arquivo, o que fica visível neste modo.
         self.lbl_stats.setText(
             self.lbl_stats.text() + "<br/>ℹ️ "
-            + tr("Base climática CLIMBra não instalada: aberta a série de exemplo de Florianópolis. "
-                 "Carregue a série do seu projeto ou instale a base (pasta climbra_data) para usar as 652 cidades.")
+            + tr("Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. "
+                 "Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil.")
         )
 
     def clear_climate_cards_and_tables(self):
