@@ -451,6 +451,9 @@ def _technical_row(result: SingleTankSimulationResult) -> Dict[str, float]:
 def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult, annual_pump_kwh: float,
                           raw: Optional[Dict[str, Any]]) -> EnvironmentalConfig:
     raw = raw or {}
+    # O arranjo 3D define a tubulação e acrescenta conexões, peças e cabos.
+    from netuno.core.quantitativo_do_arranjo import itens_de_acv_do_projeto
+    itens_do_arranjo = itens_de_acv_do_projeto(cfg)
     if "pipes" in raw and isinstance(raw["pipes"], list):
         pipes = [PipeInput(
             diameter_mm=int(item.get("diameter_mm", 100)), length_m=float(item.get("length_m", 0)),
@@ -557,6 +560,7 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         first_flush_system_enabled=bool(getattr(cfg, "first_flush_system_enabled", False)),
         discard=float(getattr(cfg, "discard", LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
         chlorine_product_purity=float(getattr(cfg, "chlorine_product_purity", PUREZA_PADRAO) or PUREZA_PADRAO),
+        itens_do_arranjo=itens_do_arranjo,
         **values,
     )
 

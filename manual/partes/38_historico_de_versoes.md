@@ -153,6 +153,7 @@ estudo errado.
 | a volumetria abria com edificação, terreno, fluxo e sombras ligados, pesada na primeira abertura | abre só com os rótulos; o resto se liga no botão |
 | o texto da fórmula exponencial alargava a coluna do Gestor de Tarifas e estreitava os gráficos | os gráficos mantêm a largura em qualquer município |
 | os avisos do compilador de sombreadores do Direct3D (X4122, X4000) apareciam como «Qt aviso» | entram só na contagem do resumo; erro de compilação continua aparecendo |
+| o CAPEX de tubulação e acessórios era uma verba estimada, e a ACV contava só os metros de tubo digitados; curvas, conexões, peças e cabos de comando do arranjo 3D não entravam em nenhum dos dois | em projeto novo, os dois passam a sair do arranjo, peça por peça, com preço e carbono de cada item; arquivos antigos mantêm os custos que declaravam |
 
 ### Documentação
 

@@ -511,6 +511,9 @@ class TabEconomicIntegrated(QWidget):
         if cfg.pump_unit_cost   <= 0: cfg.pump_unit_cost   = estimates["pump_unit"]
         if not cfg.op_costs:
             cfg.op_costs = default_maintenance_items(upper_used)
+        # Tubulação e acessórios saem do arranjo 3D, e não das verbas acima.
+        from netuno.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
+        sincronizar_com_o_arranjo(cfg)
 
         if hasattr(self, "chk_iptu"):
             cfg.iptu_green_enabled = self.chk_iptu.isChecked()
@@ -617,6 +620,8 @@ class TabEconomicIntegrated(QWidget):
             cfg.cost_lower_tank = est["lower"]
             cfg.cost_upper_tank = est["upper"]
             cfg.cost_piping = est["piping"]
+            from netuno.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
+            sincronizar_com_o_arranjo(cfg)
             
         self.calculate_economics()
 

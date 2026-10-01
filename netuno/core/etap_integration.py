@@ -220,7 +220,10 @@ def capex_incremental_da_etap(
 
     etap = dimensionar_etap_do_projeto(config, annual_pluvial_m3, sim_result)
     verba = verba_generica_de_tratamento_brl(getattr(config, "building_typology", "UTI"))
-    deslocavel = verba if float(getattr(config, "cost_accessories", 0.0) or 0.0) > 0 else 0.0
+    # Com os acessórios levantados peça a peça do arranjo, não há verba genérica
+    # de tratamento dentro deles a deslocar: o filtro está na ETAP, e só nela.
+    do_arranjo = bool(getattr(config, "capex_do_arranjo", False))
+    deslocavel = verba if (float(getattr(config, "cost_accessories", 0.0) or 0.0) > 0 and not do_arranjo) else 0.0
     return max(0.0, etap.capex - deslocavel)
 
 

@@ -1123,6 +1123,17 @@ class DialogInitialCosts(QDialog):
         super().__init__(parent)
         self.config = config or NetunoConfig()
         _refresh_runtime_constants()
+        # Tubulação e acessórios vêm do arranjo 3D: o diálogo abre com os comprimentos
+        # e custos levantados peça a peça. Alterá-los faz do valor digitado o do projeto.
+        from netuno.core.quantitativo_do_arranjo import quantitativo_do_projeto, sincronizar_com_o_arranjo
+        self._quantitativo = sincronizar_com_o_arranjo(self.config)
+        if self._quantitativo is None and not getattr(self.config, "capex_do_arranjo", True):
+            try:
+                self._quantitativo_referencia = quantitativo_do_projeto(self.config)
+            except Exception:
+                self._quantitativo_referencia = None
+        else:
+            self._quantitativo_referencia = self._quantitativo
         
         # Get parent currency symbol
         self._sym = "R$"
@@ -1180,7 +1191,22 @@ class DialogInitialCosts(QDialog):
             pipes=pipes,
             uf=uf
         )
-        return estimates['lower'], estimates['upper'], estimates['labor'], estimates['piping'], estimates['accessories']
+        piping, acessorios = estimates['piping'], estimates['accessories']
+        q = getattr(self, "_quantitativo_referencia", None)
+        if q is not None:
+            # Com o arranjo, a tubulação é a do quantitativo quando os comprimentos
+            # são os dele, e os acessórios são sempre as peças levantadas.
+            if self._tubos_do_arranjo(pipes):
+                piping = q.custo_de_tubulacao
+            acessorios = q.custo_de_acessorios
+        return estimates['lower'], estimates['upper'], estimates['labor'], piping, acessorios
+
+    def _tubos_do_arranjo(self, pipes) -> bool:
+        q = getattr(self, "_quantitativo_referencia", None)
+        if q is None:
+            return False
+        atuais = {int(d): round(float(l), 1) for d, l in (pipes or []) if float(l) > 0}
+        return atuais == {int(d): round(float(l), 1) for d, l in q.pipes_list() if float(l) > 0}
 
     def init_ui(self):
         adapt_dialog_size(self, target_w=980, target_h=860, min_w=680, min_h=640)
@@ -1541,6 +1567,15 @@ class DialogInitialCosts(QDialog):
             self.config.cost_labor       = _parse_val(self.txt_labor)
             self.config.cost_piping      = _parse_val(self.txt_piping)
             self.config.cost_accessories = _parse_val(self.txt_accessories)
+            # Continua do arranjo enquanto os valores forem os dele; um valor
+            # digitado passa a ser o do projeto, e o arranjo deixa de sobrescrevê-lo.
+            q = self._quantitativo_referencia
+            self.config.capex_do_arranjo = bool(
+                q is not None
+                and self._tubos_do_arranjo(self.config.pipes_list)
+                and abs(self.config.cost_piping - q.custo_de_tubulacao) < 0.5
+                and abs(self.config.cost_accessories - q.custo_de_acessorios) < 0.5
+            )
             self.accept()
         except ValueError:
             QMessageBox.critical(

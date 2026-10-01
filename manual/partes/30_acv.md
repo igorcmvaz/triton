@@ -58,7 +58,7 @@ fronteira, e é o que um avaliador espera encontrar.
 <!-- tabela: Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
 | Módulo | Etapa | Coberto pelo programa |
 | :--- | :--- | :--- |
-| A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas e descarte inicial |
+| A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas, descarte inicial e todas as peças, conexões e cabos do arranjo 3D |
 | A4 e A5 | construção: transporte até a obra e instalação | não; a escavação da cisterna enterrada fica de fora |
 | B1 a B5 | uso, manutenção, reparo, substituição e reforma | não; trocas de bomba e de componentes não entram |
 | B6 | energia operacional | sim, a energia de bombeamento |

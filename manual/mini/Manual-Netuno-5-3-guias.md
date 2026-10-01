@@ -1707,6 +1707,22 @@ Com esses dados o programa monta também a prancha do esquema 3D, fora de escala
 
 O importador não cria famílias nem substitui componentes por aproximação: instância sem família ou sem nível correspondente é listada como pendente ao fim da importação. As coordenadas são locais, e a amarração ao ponto-base e ao norte do projeto é feita no Revit, pelo projetista. O manifesto serve à coordenação e ao levantamento de quantitativos, e não substitui a modelagem da instalação hidráulica.
 
+#### 3.9.5.1. Do arranjo ao CAPEX e à ACV
+
+O mesmo arranjo alimenta o custo e o carbono. O programa levanta, peça por peça:
+
+- os metros de tubo por diâmetro;
+- as curvas, uma por mudança de direção do percurso;
+- as conexões, uma em cada ponta de percurso ligada a uma peça;
+- cada peça do manifesto, pelo tipo;
+- os metros de cabo de comando.
+
+Cada item recebe preço e massa. O preço vai para o CAPEX: tubos e conexões em *Tubulações*, peças e cabos em *Acessórios*. A massa, vezes o fator do material, vai para a ACV na etapa A1–A3. Cisterna, reservatório superior e motobomba já têm linha própria nas duas análises e não são contados de novo. O filtro e o descarte inicial entram pela ETAP no CAPEX, quando a ETAP está ativa, e pelo subsistema de descarte na ACV, quando ele está ativo.
+
+Um teste automático confere que nenhuma peça, nenhum metro de tubo, nenhuma curva e nenhum cabo do arranjo fica sem custo ou sem carbono. A aba `Auditoria_Quantitativo` do *Exportar tudo* lista cada item com o seu destino no CAPEX e na ACV, e fecha a soma contra os valores que as análises usaram.
+
+Os preços e as massas das peças são um cenário de referência, e não uma cotação. Ficam em `costs_database.json`, na chave `pecas_do_arranjo`, e podem ser trocados ali. Na etapa econômica, o projetista também pode digitar outros valores de tubulação e acessórios: a partir daí o programa usa os valores digitados. Um projeto novo começa pelo arranjo. Um arquivo antigo mantém os custos que já declarava.
+
 ---
 
 ### 3.9.6. Relatórios

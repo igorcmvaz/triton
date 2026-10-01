@@ -31,6 +31,21 @@ from netuno.ui.tab_documentation import TabDocumentation
 from netuno.ui.tab_tariffs_manager import TabTariffsManager
 
 class MainWindow(QMainWindow):
+    @property
+    def bim_layout(self) -> dict:
+        """Componentes posicionados, trechos na ordem do projetista e volumetria.
+
+        Vive na configuração do projeto, e não na janela: é assim que o CAPEX, a
+        ACV e a linha de comando leem o mesmo arranjo que a Planta 3D mostra.
+        """
+        if not self.config.bim_layout:
+            self.config.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
+        return self.config.bim_layout
+
+    @bim_layout.setter
+    def bim_layout(self, valor: dict) -> None:
+        self.config.bim_layout = dict(valor or {})
+
     def __init__(self):
         super().__init__()
         from netuno import get_kebab_filename
@@ -39,8 +54,8 @@ class MainWindow(QMainWindow):
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
         self.config = NetunoConfig()
-        # Componentes posicionados, trechos na ordem do projetista e volumetria.
-        self.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
+        # Projeto novo: tubulação e acessórios saem do arranjo 3D, peça a peça.
+        self.config.capex_do_arranjo = True
         
         # Ícone da janela principal
         for icone_rel in (
@@ -545,9 +560,8 @@ class MainWindow(QMainWindow):
         try:
             from netuno.core.parser import load_netuno_project
             proj = load_netuno_project(file_path)
-            self.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
-
             cfg = proj["config"]
+            cfg.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
             self.config = cfg
             self.txt_workspace_project.setText(getattr(cfg, "project_name", "Novo projeto Netuno"))
 
@@ -689,6 +703,9 @@ class MainWindow(QMainWindow):
                 pump_pct = parse_float(ts.txt_pump_thresh_pct.text(), 10.0)
                 cfg.pumping_threshold = cfg.upper_tank_vol * pump_pct / 100.0 if cfg.upper_tank_used else 0.0
 
+            if cfg is not self.config:
+                cfg.bim_layout = self.config.bim_layout
+                cfg.capex_do_arranjo = self.config.capex_do_arranjo
             self.config = cfg
 
             global_scenarios = getattr(self.tab_global_optimizer, 'scenarios', [])

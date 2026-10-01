@@ -456,6 +456,10 @@ class EnvironmentalConfig:
     # Desligar devolve o comportamento anterior, em que o tratamento era só a
     # cloração. Serve para reproduzir estudos anteriores, não para uso corrente.
     etap_enabled: bool = True
+    # Conexões, peças e cabos do arranjo 3D que não têm linha própria:
+    # (categoria, quantidade, massa kg, kg CO2e incorporado, fonte). Preenchido
+    # por `quantitativo_do_arranjo.itens_para_acv`.
+    itens_do_arranjo: List[Tuple[str, str, float, float, str]] = field(default_factory=list)
 
     def __post_init__(self):
         if self.material_key is not None:
@@ -671,7 +675,20 @@ def calculate_lca(
                 source_reference="ABNT NBR 15527:2019 (Descarte inicial) / Inventário de Polímeros & Inox"
             ))
 
-    total_embodied = lower_embodied + upper_embodied + total_pipes_embodied + pump_emb + ff_embodied
+    # 4.2 Conexões, peças e cabos do arranjo 3D
+    arranjo_embodied = 0.0
+    for categoria, quantidade, massa_kg, co2e_kg, fonte in getattr(config, "itens_do_arranjo", None) or []:
+        arranjo_embodied += co2e_kg
+        items.append(LCAItemBreakdown(
+            category=f"Arranjo 3D: {categoria}",
+            quantity_str=f"{quantidade} ({massa_kg:.2f} kg)",
+            embodied_co2_kg=co2e_kg,
+            annual_op_co2_kg=0.0,
+            lifetime_net_co2_kg=co2e_kg,
+            source_reference=fonte,
+        ))
+
+    total_embodied = lower_embodied + upper_embodied + total_pipes_embodied + pump_emb + ff_embodied + arranjo_embodied
 
     # 5. Operação Anual (Bombeamento Elétrico — Sincronizado 100% com a simulação técnica)
     # A energia vem de netuno/core/pump_energy.py pelo campo annual_pump_kwh.

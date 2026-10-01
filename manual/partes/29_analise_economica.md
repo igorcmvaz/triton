@@ -170,11 +170,21 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `C_cist` | custo do reservatório inferior | R$ |
 | `C_sup` | custo do reservatório superior, quando houver | R$ |
 | `C_mo` | custo de mão de obra de instalação | R$ |
-| `C_tub` | custo da tubulação | R$ |
-| `C_ace` | custo de acessórios, incluída a verba genérica de filtragem | R$ |
+| `C_tub` | custo da tubulação: tubos, curvas e conexões do arranjo 3D | R$ |
+| `C_ace` | custo dos acessórios: as peças do arranjo 3D, uma a uma, e os cabos de comando | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
 | `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
 | `CAPEX_inc` | investimento incremental da linha de tratamento, incluído o descarte inicial quando dimensionado | R$ |
+
+No projeto novo, `C_tub` e `C_ace` não são verbas: saem do **quantitativo do arranjo 3D**
+(seção {{n:22}}). Cada metro de tubo, cada curva, cada conexão de extremidade, cada peça —
+registros, válvulas de retenção e de pé, solenoide, hidrômetro, chaves de nível, quadro de
+comando, freio d'água, sucção flutuante, respiros, ladrão, separação atmosférica, ponto de
+consumo — e cada metro de cabo de comando tem preço, e a soma é o que entra aqui. Cisterna,
+caixa superior e motobomba têm termo próprio; o filtro de entrada e o descarte entram pela
+linha de tratamento quando ela os dimensiona. O projetista pode digitar outros valores na
+etapa econômica; o projeto passa então a usar os digitados, e a planilha de auditoria
+registra a troca. Projetos gravados antes desta regra mantêm os custos que declaram.
 
 O último termo segue a regra incremental da seção {{n:27}} e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 

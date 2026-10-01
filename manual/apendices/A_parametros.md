@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **112 parâmetros**. É a lista completa do que um projeto
+São **114 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -49,13 +49,13 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
+| `discard` | — | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `discard_mode` | 1 | código | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `discard_days_interval` | 7 | dias | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `area` | 100 | m² | Ambiental, Documentação, Edificação, Gráficos, Janela principal, Qualidade, Relatórios, Varredura | ACV, Automação, Balanço diário, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `irrigation_garden_area_m2` | 0 | m² | — | — |
-| `runoff_coeff` | — | — | Janela principal, Qualidade, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, ETAP |
+| `runoff_coeff` | — | — | Edificação, Janela principal, Qualidade, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 
 Observações do código:
 
@@ -73,8 +73,8 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
-| `building_template_id` | res_medio | — | Edificação | Tarifas |
+| `num_economias` | 1 | un | Ambiental, Edificação | Automação, Econômico |
+| `building_template_id` | res_medio | — | Edificação | Automação, Tarifas |
 
 Observações do código:
 
@@ -94,8 +94,8 @@ Observações do código:
 | `residents_type` | 0 | código | — | — |
 | `residents_count` | 4 | hab | Ambiental, Econômico, Janela principal | Automação, Balanço diário, Motobomba |
 | `residents_monthly` | — | — | Janela principal | Automação |
-| `potable_indoor_share` | 0,65 | fração | Edificação | — |
-| `non_potable_indoor_share` | 0,35 | fração | Edificação | Balanço diário |
+| `potable_indoor_share` | 0,6 | fração | Edificação, Janela principal | Automação |
+| `non_potable_indoor_share` | 0,4 | fração | Edificação, Janela principal | Automação, Balanço diário |
 | `rainwater_share` | 0,4 | fração | Documentação, Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `weekly_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
 | `weekly_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
@@ -109,8 +109,8 @@ Observações do código:
 
 - `demand_mode`: "constant", "weekly", "monthly", "daily"
 - `demand_value`: L/dia, por habitante ou total
-- `potable_indoor_share`: Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
-- `non_potable_indoor_share`: Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
+- `potable_indoor_share`: Fração potável do consumo interno; 1 − non_potable_indoor_share
+- `non_potable_indoor_share`: Fração não potável do consumo interno (bacias, máquina); ver fracao_atendivel
 - `rainwater_share`: fração de 0 a 1 (0,4 = 40%)
 
 ## Irrigação
@@ -120,14 +120,14 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
-| `irrigation_rain_threshold_mm` | 2 | mm/dia | Edificação | Balanço diário |
-| `irrigation_potable_backup` | sim | — | Edificação | Balanço diário |
+| `irrigation_liters_per_day` | 0 | L/dia | Ambiental, Edificação, Janela principal, Relatórios | Automação, Balanço diário |
+| `irrigation_rain_threshold_mm` | 2 | mm/dia | Edificação, Janela principal | Automação, Balanço diário |
+| `irrigation_potable_backup` | sim | — | Edificação, Janela principal | Automação, Balanço diário |
 | `irrigation_rate_l_m2_day` | 3 | L/m²·dia | — | — |
 
 Observações do código:
 
-- `irrigation_liters_per_day`: Volume diário fixo de irrigação/usos externos (L/dia)
+- `irrigation_liters_per_day`: Demanda externa (rega, lavagem de áreas externas), L/dia
 - `irrigation_rain_threshold_mm`: Limiar diário de precipitação para supressão da irrigação (mm/dia)
 - `irrigation_potable_backup`: Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
 - `irrigation_rate_l_m2_day`: Taxa diária de rega (L/m²/dia)
@@ -143,10 +143,10 @@ Observações do código:
 | `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `etap_enabled` | sim | — | Ambiental, Econômico, Otimizador | ACV, Automação, ETAP |
-| `chlorine_treatment_enabled` | sim | — | Econômico, Otimizador, Qualidade | ACV, Econômico |
+| `chlorine_treatment_enabled` | sim | — | Ambiental, Econômico, Otimizador, Qualidade | ACV, Automação, Econômico |
 | `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econômico, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
 | `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
-| `chlorine_cost_per_kg` | 25 | R$/kg | Econômico, Otimizador, Qualidade | ETAP, Econômico, Preços |
+| `chlorine_cost_per_kg` | 25 | R$/kg | Econômico, Otimizador, Qualidade | Automação, ETAP, Econômico, Preços |
 | `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, Automação, ETAP |
 
 Observações do código:
@@ -167,12 +167,12 @@ Observações do código:
 | `upper_tank_used` | 1 | código | Ambiental, Econômico, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Motobomba, Planilhas |
 | `lower_tank_max` | 10000 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `lower_tank_step` | 250 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `lower_tank_mode` | 1 | código | Janela principal | Automação |
-| `lower_tank_fixed` | 2000 | L | Tarifas e custos | Automação |
+| `lower_tank_mode` | 1 | código | Janela principal, Varredura | Automação |
+| `lower_tank_fixed` | 2000 | L | Janela principal, Tarifas e custos, Varredura | Automação |
 | `delta_ideal` | 5 | %/m³ | Janela principal, Otimizador, Varredura | Automação, Cenários |
 | `econ_lower_tank_vol` | 2000 | L | Ambiental, Econômico, Tarifas e custos, Varredura | Automação |
-| `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
-| `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
+| `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação |
+| `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação |
 | `cost_lower_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
 | `cost_upper_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
 
@@ -207,11 +207,11 @@ Observações do código:
 | `pump_count` | 2 | un | Ambiental, Econômico, Otimizador, Relatórios, Tarifas e custos | ACV, Automação, Econômico, Preços, Relatórios |
 | `pump_power_str` | 1/2 | — | Relatórios | — |
 | `pump_power_kw` | 0,36775 | kW | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, CAD e BIM, Econômico, Motobomba, Preços, Relatórios |
-| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Motobomba |
+| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Automação, Motobomba |
 | `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Motobomba |
 | `pump_flow_rate` | 0 | L/h | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Motobomba |
 | `pump_startup_time_h` | 0,03 | h | Econômico, Gráficos, Otimizador, Tarifas e custos | Automação, Motobomba |
-| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Motobomba |
+| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Automação, Motobomba |
 | `pump_unit_cost` | 300 | R$ | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
 
 Observações do código:
@@ -231,7 +231,7 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
+| `pipes_list` | — | — | Econômico, Tarifas e custos | ACV, Automação |
 
 ## Investimento
 
@@ -251,7 +251,7 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
+| `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 
 ## Tarifas
 
@@ -264,20 +264,20 @@ Observações do código:
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
-| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
-| `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
+| `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
 | `water_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
 | `tariff_escalation` | 12 | meses | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 | `water_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
 | `sewage_tariff_escalation` | 5 | % por período | Econômico, Otimizador | Automação, Econômico |
 | `elec_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
-| `tariff_flag` | verde | — | Econômico | Econômico |
+| `tariff_flag` | verde | — | Econômico | Automação, Econômico |
 | `elec_tariff` | 0,6957 | R$/kWh | Econômico, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do código:
 
-- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água
+- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
 - `tariff_escalation`: meses; comprimento do período de reajuste
@@ -311,9 +311,9 @@ Observações do código:
 <!-- tabela: Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
-| `iptu_annual_value` | 4000 | R$/ano | Econômico, Otimizador | Econômico |
-| `iptu_discount_pct` | 5 | % | Econômico, Otimizador | Econômico |
+| `iptu_green_enabled` | não | — | Econômico, Otimizador | Automação, Econômico |
+| `iptu_annual_value` | 4000 | R$/ano | Econômico, Otimizador | Automação, Econômico |
+| `iptu_discount_pct` | 5 | % | Econômico, Otimizador | Automação, Econômico |
 
 Observações do código:
 
@@ -346,4 +346,14 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
+
+## Outros
+
+2 parâmetros.
+
+<!-- tabela: Parâmetros do projeto: outros -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `bim_layout` | — | — | Exportação, Janela principal | — |
+| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
 
