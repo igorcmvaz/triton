@@ -520,13 +520,13 @@ _CABLE_ROLE = {
 }
 
 
-def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str, Any], radius: float) -> List[Solid]:
-    """Cabos do quadro de comando: chaves de nível → quadro → bomba e solenoide.
+def trajetos_de_comando(instances: Sequence[Dict[str, Any]], project_data: Dict[str, Any]) -> List[Tuple[str, str, str, List[Point]]]:
+    """Cabos do quadro de comando: ``(origem, destino, função, caminho)``.
 
-    Não são guardados no projeto: saem das peças presentes. Havendo um quadro
-    de comando, cada chave de nível leva sinal a ele, e ele aciona a motobomba e
-    a válvula solenoide. O traçado é esquemático — sobe, corre em x, corre em y e
-    desce —, para mostrar quem conversa com quem, não o eletroduto.
+    Não são guardados no projeto: saem das peças presentes. Havendo um quadro de
+    comando, cada chave de nível leva sinal a ele, e ele aciona a motobomba e a
+    válvula solenoide. O traçado — sobe, corre em x, corre em y e desce — é o que a
+    volumetria desenha e o que o quantitativo mede.
     """
     quadro = next((i for i in instances if i["type_id"] == "quadro_comando"), None)
     if quadro is None:
@@ -540,8 +540,7 @@ def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str,
 
     q = ponto(quadro)
     q_id = quadro["instance_id"]
-    cables: List[Solid] = []
-    r = max(6.0, radius * 0.35)
+    trajetos = []
     for item in instances:
         papel = _CABLE_ROLE.get(item["type_id"])
         if not papel:
@@ -551,6 +550,15 @@ def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str,
         caminho = [p, (p[0], p[1], z_via), (q[0], p[1], z_via), (q[0], q[1], z_via), q]
         caminho = [pt for i, pt in enumerate(caminho) if i == 0 or math.dist(pt, caminho[i - 1]) > 1.0]
         origem, destino = (item["instance_id"], q_id) if item["type_id"] == "sensor_nivel" else (q_id, item["instance_id"])
+        trajetos.append((origem, destino, papel, caminho))
+    return trajetos
+
+
+def _control_cables(instances: Sequence[Dict[str, Any]], project_data: Dict[str, Any], radius: float) -> List[Solid]:
+    """Os cabos de `trajetos_de_comando` como sólidos da cena."""
+    cables: List[Solid] = []
+    r = max(6.0, radius * 0.35)
+    for origem, destino, papel, caminho in trajetos_de_comando(instances, project_data):
         grupo = f"CABO {origem}-{destino}"
         info = [
             f"Sistema: {CONTROL_SYSTEM['label']}",

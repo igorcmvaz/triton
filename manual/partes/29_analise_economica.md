@@ -169,12 +169,30 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `CAPEX` | investimento inicial total do sistema | R$ |
 | `C_cist` | custo do reservatório inferior | R$ |
 | `C_sup` | custo do reservatório superior, quando houver | R$ |
-| `C_mo` | custo de mão de obra de instalação | R$ |
-| `C_tub` | custo da tubulação | R$ |
-| `C_ace` | custo de acessórios, incluída a verba genérica de filtragem | R$ |
+| `C_mo` | custo de mão de obra de instalação: no projeto novo, 30% dos materiais, com piso de R$ 1.400 | R$ |
+| `C_tub` | custo da tubulação: tubos, curvas e conexões do arranjo 3D | R$ |
+| `C_ace` | custo dos acessórios: as peças do arranjo 3D, uma a uma, e os cabos de comando | R$ |
 | `C_bomba` | custo unitário da motobomba | R$ |
 | `n_b` | número de motobombas, incluindo a reserva quando houver | unidade |
 | `CAPEX_inc` | investimento incremental da linha de tratamento, incluído o descarte inicial quando dimensionado | R$ |
+
+No projeto novo, `C_tub` e `C_ace` não são verbas: saem do **quantitativo do arranjo 3D**
+(seção {{n:22}}). Cada metro de tubo, cada curva, cada conexão de extremidade, cada peça —
+registros, válvulas de retenção e de pé, solenoide, hidrômetro, chaves de nível, quadro de
+comando, freio d'água, sucção flutuante, respiros, ladrão, separação atmosférica, ponto de
+consumo — e cada metro de cabo de comando tem preço, e a soma é o que entra aqui. Cisterna,
+caixa superior e motobomba têm termo próprio; o filtro de entrada e o descarte entram pela
+linha de tratamento quando ela os dimensiona. O projetista pode digitar outros valores na
+etapa econômica; o projeto passa então a usar os digitados, e a planilha de auditoria
+registra a troca. Projetos gravados antes desta regra mantêm os custos que declaram.
+
+A mão de obra do projeto novo também é refeita a cada cálculo: 30% da soma de cisterna,
+caixa superior, motobombas, tubulação e acessórios, com piso de R$ 1.400 (chave
+`labor_percentage` de `costs_database.json`). Assim, ela cresce com o reservatório: na
+varredura de volumes, cada volume tem a sua cisterna, o seu arranjo usual e a sua mão de
+obra. Antes, a mão de obra era fixada uma única vez, sobre verbas genéricas de tubulação
+e acessórios, e valia igual para todos os volumes. Um valor digitado na etapa econômica
+prevalece, como nas outras rubricas.
 
 O último termo segue a regra incremental da seção {{n:27}} e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 
@@ -194,7 +212,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
 
-*Figura 99 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes.*
+*Figura 99 — Investimento inicial aberto nas sete rubricas que o programa soma, para três volumes de reservatório de polietileno. Com os custos que o tutorial declara, só o reservatório inferior cresce com o volume; caixa superior, mão de obra, tubulação, acessórios, motobombas e linha de tratamento não mudam. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para não contar o filtro duas vezes. Num projeto novo, tubulação e acessórios saem do arranjo 3D, que não tem essa verba, e a mão de obra acompanha os materiais de cada volume.*
 
 ---
 

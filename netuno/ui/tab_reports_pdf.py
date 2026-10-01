@@ -1240,6 +1240,7 @@ class TabReportsPdf(QWidget):
                 f"  2. {tr('INVENTÁRIO DO CICLO DE VIDA (ICV / LCA — ISO 14040/14044)')}",
                 f"     {tr('Tubulações')}                   : {br(lca.total_pipes_co2_kg,1)} kg CO2e",
                 f"     {tr('Conjunto Motobomba')}           : {br(lca.pump_embodied_co2_kg,1)} kg CO2e",
+                f"     {tr('Peças e conexões do arranjo 3D')}: {br(sum(i.embodied_co2_kg for i in lca.inventory_items if i.category.startswith('Arranjo 3D')),1)} kg CO2e",
                 f"     {tr('Impacto Fabricação (Total)')}   : {br(lca.total_embodied_co2_kg,1)} kg CO2e",
                 f"     {tr('Operação — Bombeamento')}       : {br(lca.annual_pumping_co2_kg,1)} kg CO2e/ano",
                 f"     {tr('Crédito — Água Evitada')}       : {br(lca.annual_avoided_co2_kg,1)} kg CO2e/ano",

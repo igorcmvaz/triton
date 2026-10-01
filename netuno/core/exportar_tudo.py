@@ -283,6 +283,64 @@ def _aba_do_arranjo(wb, dados: Dict[str, Any]) -> List[str]:
     return criadas
 
 
+def _aba_do_quantitativo(wb, config: Any, dados: Dict[str, Any], ambiental: Any) -> Optional[str]:
+    """Cada item do arranjo, com preço, massa, carbono e destino, e a conferência."""
+    from netuno.core.quantitativo_do_arranjo import (
+        arranjo_do_projeto, conferir_cobertura, divergencias_com_o_projeto, levantar, mao_de_obra_do_projeto,
+    )
+
+    try:
+        q = levantar(arranjo_do_projeto(config, dados), dados,
+                     subsistema_de_descarte=bool(getattr(config, "first_flush_system_enabled", False)),
+                     etap=bool(getattr(config, "etap_enabled", True)))
+    except Exception as erro:
+        ws = wb.create_sheet(_nome_de_aba(wb, "Auditoria_Quantitativo"))
+        ws.append([f"Quantitativo indisponível: o arranjo não fecha ({erro})"])
+        return ws.title
+    ws = wb.create_sheet(_nome_de_aba(wb, "Auditoria_Quantitativo"))
+    _cabecalho(ws, ["Item", "Tipo", "Quantidade", "Unidade", "DN (mm)", "Custo (R$)", "Massa (kg)",
+                    "Carbono incorporado (kg CO2e)", "No CAPEX", "Na ACV", "Origem de preço, massa e fator"])
+    for i in q.itens:
+        ws.append([i.item, i.tipo, i.quantidade, i.unidade, i.dn_mm, i.custo_brl, i.massa_kg,
+                   round(i.co2e_kg, 3), i.no_capex, i.na_acv, i.origem])
+    ws.append([])
+    _cabecalho(ws, ["Conferência", "Do quantitativo", "No projeto", "Confere"])
+    no_projeto_tub = float(getattr(config, "cost_piping", 0.0) or 0.0) if config is not None else 0.0
+    no_projeto_acc = float(getattr(config, "cost_accessories", 0.0) or 0.0) if config is not None else 0.0
+    do_arranjo = bool(getattr(config, "capex_do_arranjo", False)) if config is not None else False
+    linhas = [
+        ("CAPEX: tubulação e conexões (R$)", q.custo_de_tubulacao, no_projeto_tub),
+        ("CAPEX: acessórios (R$)", q.custo_de_acessorios, no_projeto_acc),
+    ]
+    tubos_projeto = sum(float(l) for _, l in (getattr(config, "pipes_list", None) or [])) if config is not None else 0.0
+    linhas.append(("ACV: tubulação (m)", round(sum(q.tubos_m_por_dn.values()), 3), round(tubos_projeto, 3)))
+    if ambiental is not None:
+        itens = getattr(ambiental, "inventory_items", None) or []
+        no_inventario = sum(float(getattr(it, "embodied_co2_kg", 0.0)) for it in itens
+                            if str(getattr(it, "category", "")).startswith("Arranjo 3D"))
+        linhas.append(("ACV: conexões, peças e cabos (kg CO2e)", round(q.co2e_de_acessorios + q.co2e_de_conexoes, 2),
+                       round(no_inventario, 2)))
+    for nome, do_q, do_proj in linhas:
+        ws.append([nome, do_q, do_proj, "sim" if abs(float(do_q) - float(do_proj)) < 0.5 else "NÃO"])
+    ws.append(["Fonte do CAPEX de tubulação e acessórios",
+               "arranjo 3D" if do_arranjo else "valores digitados pelo projetista", "", ""])
+    if config is not None:
+        automatica = bool(getattr(config, "mao_de_obra_automatica", False))
+        regra = mao_de_obra_do_projeto(config)
+        ws.append(["Mão de obra (R$): fração dos materiais do projeto", regra,
+                   float(getattr(config, "cost_labor", 0.0) or 0.0),
+                   ("sim" if abs(regra - float(config.cost_labor)) < 0.5 else "NÃO") if automatica
+                   else "valor digitado pelo projetista"])
+    faltam = conferir_cobertura(q)
+    ws.append(["Itens do arranjo sem destino no CAPEX ou na ACV", len(faltam), "; ".join(faltam) or "nenhum",
+               "sim" if not faltam else "NÃO"])
+    divergencias = divergencias_com_o_projeto(config, q)
+    ws.append(["Arranjo coerente com o abastecimento e as motobombas do projeto", len(divergencias),
+               "; ".join(divergencias) or "sim", "sim" if not divergencias else "NÃO"])
+    _larguras(ws)
+    return ws.title
+
+
 def exportar_tudo(
     caminho: str,
     config: Any = None,
@@ -334,6 +392,10 @@ def exportar_tudo(
                 indice.append((aba, "ETAP: estágios, doses, custo e carbono"))
         except Exception as erro:
             indice.append(("—", f"ETAP não dimensionada: {erro}"))
+    quantitativo = _aba_do_quantitativo(wb, config, dados, environmental_result)
+    if quantitativo:
+        indice.append((quantitativo, "quantitativo do arranjo 3D: cada item, onde entra no CAPEX e na ACV, "
+                                     "e a conferência de que nada ficou de fora"))
     tarifa = _aba_da_tarifa(wb, config) if config is not None else None
     if tarifa:
         indice.append((tarifa, "estrutura tarifária aplicada, regime, esgoto e conta por consumo"))

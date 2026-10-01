@@ -347,6 +347,18 @@ class NetunoConfig:
             res[int(d)] = float(l)
         return res
 
+    # Arranjo 3D: peças posicionadas, trechos na ordem do projetista e volume da
+    # edificação. Vazio, vale o arranjo usual montado a partir do estudo.
+    bim_layout: Dict[str, Any] = field(default_factory=dict)
+    # Tubulação e acessórios do CAPEX e da ACV levantados do arranjo 3D. Desligado
+    # por padrão, para que um estudo montado em código ou lido de arquivo antigo
+    # mantenha os custos que declara; o projeto novo da interface o liga.
+    capex_do_arranjo: bool = False
+    # Mão de obra refeita a cada cálculo como fração dos materiais (reservatórios,
+    # motobombas e arranjo). Desligada por padrão pelo mesmo motivo; o projeto novo
+    # a liga, e digitar outro valor no diálogo econômico a desliga.
+    mao_de_obra_automatica: bool = False
+
     # Initial Investment Costs (CAPEX)
     cost_lower_tank: float = 0.0
     cost_upper_tank: float = 0.0
@@ -607,10 +619,13 @@ def parse_netuno_csv(file_path: str) -> NetunoConfig:
                 config.cost_upper_tank = parse_float(parts[1], 0.0)
             elif key.startswith("Mao-de-obra") or key.startswith("Mão-de-obra"):
                 config.cost_labor = parse_float(parts[1], 0.0)
+                config.mao_de_obra_automatica = False
             elif key.startswith("Tubulacoes") or key.startswith("Tubulações"):
                 config.cost_piping = parse_float(parts[1], 0.0)
+                config.capex_do_arranjo = False  # o arquivo legado traz o custo do estudo
             elif key.startswith("Acessorios") or key.startswith("Acessórios"):
                 config.cost_accessories = parse_float(parts[1], 0.0)
+                config.capex_do_arranjo = False
             elif key.startswith("Quantidade"):
                 config.pump_count = parse_int(parts[1], 2)
             elif key.startswith("Potencia") or key.startswith("Potência"):
@@ -793,6 +808,9 @@ def export_netuno_json(
     # O arquivo nunca grava frações que discordam entre si: a total, a interna e
     # a externa saem coerentes, qualquer que seja a rotina que montou a config.
     conciliar_fracoes(config)
+    # O arranjo 3D vive na configuração: quem não o passa grava o que ela tem.
+    if bim_layout is None:
+        bim_layout = getattr(config, "bim_layout", None)
     b_data = dict(building_data or {})
     b_data["share"] = config.rainwater_share
     
@@ -955,6 +973,8 @@ def export_netuno_json(
                 "cost_labor": config.cost_labor,
                 "cost_piping": config.cost_piping,
                 "cost_accessories": config.cost_accessories,
+                "capex_do_arranjo": bool(getattr(config, "capex_do_arranjo", True)),
+                "mao_de_obra_automatica": bool(getattr(config, "mao_de_obra_automatica", False)),
                 "operational_costs": config.op_costs
             },
             "global_optimizer_scenarios": global_scenarios or []
@@ -1161,6 +1181,10 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.cost_labor = co.get("cost_labor", 1500.0)
             cfg.cost_piping = co.get("cost_piping", 950.0)
             cfg.cost_accessories = co.get("cost_accessories", 500.0)
+            # Arquivo anterior ao quantitativo do arranjo: os custos gravados são os
+            # do estudo e continuam valendo. Só o projeto novo parte do arranjo.
+            cfg.capex_do_arranjo = bool(co.get("capex_do_arranjo", False))
+            cfg.mao_de_obra_automatica = bool(co.get("mao_de_obra_automatica", False))
 
             # Secoes acrescentadas nesta revisao. `get` com o padrao mantem os arquivos
             # anteriores legiveis: o que nao existir no arquivo cai no padrao, que
@@ -1259,6 +1283,8 @@ def load_netuno_project(file_path: str) -> dict:
                 "pipe_runs": list(layout.get("pipe_runs") or []),
                 "building_volume": dict(layout.get("building_volume") or {}),
             }
+            if res.get("config") is not None:
+                res["config"].bim_layout = dict(res["bim_layout"])
             return res
         except FormatoDeProjetoDesconhecido:
             raise

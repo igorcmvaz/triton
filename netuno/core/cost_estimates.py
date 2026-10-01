@@ -260,6 +260,15 @@ def _refresh_runtime_constants():
 _refresh_runtime_constants()
 
 
+#: Piso da mão de obra estimada (R$), o mesmo do estimador preliminar.
+MAO_DE_OBRA_MINIMA = 1400.0
+
+
+def mao_de_obra_estimada(materiais_brl: float) -> float:
+    """Mão de obra de instalação: ``labor_percentage`` dos materiais, com piso."""
+    return max(MAO_DE_OBRA_MINIMA, LABOR_PCT * max(0.0, float(materiais_brl)))
+
+
 def interpolate_price(table: List[Tuple[float, float]], volume_l: float) -> float:
     """Interpolação linear contínua e monótona para qualquer capacidade de reservatório (litros).
     
@@ -624,7 +633,7 @@ def estimate_preliminary_capex(
         piping = max(950.0, PIPING_PCT * lower + 0.25 * upper)
         
     accessories = max(500.0, 150.0 + ACCESSORIES_PCT * (lower + upper))
-    labor = max(1400.0, LABOR_PCT * (lower + upper + pump + piping + accessories))
+    labor = mao_de_obra_estimada(lower + upper + pump + piping + accessories)
     
     f_reg = REGIONAL_FACTORS_BY_UF.get(str(uf).upper(), 1.00) if uf else 1.00
     total_base = lower + upper + pump + piping + accessories + labor

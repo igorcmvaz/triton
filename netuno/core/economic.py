@@ -348,6 +348,10 @@ def run_economic_analysis(
         )
 
     # 1. Initial Investment Cost (CAPEX)
+    # Tubulação e acessórios saem do arranjo 3D, peça a peça, quando o projeto o
+    # usa como fonte: é o mesmo quantitativo que a ACV e a Planta 3D leem.
+    from netuno.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
+    sincronizar_com_o_arranjo(config)
     capex = (
         config.cost_lower_tank +
         config.cost_upper_tank +

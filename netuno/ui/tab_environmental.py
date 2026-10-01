@@ -82,6 +82,9 @@ class LCAParametersDialog(QDialog):
         self._sync = tab_env.sync_from_project(force=False) if self._has_sweep else {}
         self.setWindowTitle(tr("⚙️ Parâmetros do Ciclo de Vida (ACV — Materiais, Tubulações e Operação)"))
         adapt_dialog_size(self, target_w=1080, target_h=860, min_w=840, min_h=720)
+        # Abre ocupando a tela: são duas colunas longas de quantidades e fatores.
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMinMaxButtonsHint)
+        self.setWindowState(Qt.WindowMaximized)
         self.init_ui()
 
     def init_ui(self):
@@ -1353,6 +1356,11 @@ class TabEnvironmental(QWidget):
 
         cfg, sim, upper_used, _, _, _ = self._get_project_context()
 
+        # O arranjo 3D define a tubulação do projeto e acrescenta conexões, peças
+        # e cabos; sincroniza antes de ler os comprimentos.
+        from netuno.core.quantitativo_do_arranjo import itens_de_acv_do_projeto
+        itens_do_arranjo = itens_de_acv_do_projeto(cfg) if cfg is not None else []
+
         # Constrói tubulações exatamente conforme definidas no projeto / CAPEX
         pipes = []
         capex_pipe_dict = {}
@@ -1437,6 +1445,7 @@ class TabEnvironmental(QWidget):
             water_quality_polishing=bool(getattr(proj_cfg, 'water_quality_polishing', False)),
             roof_area_m2=float(getattr(proj_cfg, 'area', AREA_DE_RECURSO_M2) or AREA_DE_RECURSO_M2),
             first_flush_system_enabled=bool(getattr(proj_cfg, 'first_flush_system_enabled', False)),
+            itens_do_arranjo=itens_do_arranjo,
             discard=float(getattr(proj_cfg, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
             etap_enabled=bool(getattr(proj_cfg, 'etap_enabled', True)),
         )

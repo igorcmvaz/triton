@@ -958,6 +958,7 @@ COMPLEMENTO = {
     'Carbono Incorporado (ICV)': ('Embodied Carbon (LCI)', 'Carbono incorporado (ICV)', '隐含碳（LCI）'),
     'Central de Relatórios & Exportações Oficiais': ('Reports & Official Exports Centre', 'Central de informes y exportaciones oficiales', '报告与官方导出中心'),
     'Conjunto Motobomba': ('Pump Set', 'Conjunto de bombeo', '水泵机组'),
+    'Peças e conexões do arranjo 3D': ('3D layout fittings and parts', 'Piezas y conexiones del arreglo 3D', '3D 布置的管件与配件'),
     'Consumo Médio Pluvial': ('Mean Rainwater Use', 'Consumo medio pluvial', '平均雨水用量'),
     'Consumo Médio Potável (Rede)': ('Mean Potable Use (Mains)', 'Consumo medio potable (red)', '平均自来水用量（市政）'),
     'Crédito — Água Evitada': ('Credit — Avoided Water', 'Crédito — agua evitada', '得分 — 节约用水'),

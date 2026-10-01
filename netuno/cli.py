@@ -451,6 +451,9 @@ def _technical_row(result: SingleTankSimulationResult) -> Dict[str, float]:
 def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult, annual_pump_kwh: float,
                           raw: Optional[Dict[str, Any]]) -> EnvironmentalConfig:
     raw = raw or {}
+    # O arranjo 3D define a tubulação e acrescenta conexões, peças e cabos.
+    from netuno.core.quantitativo_do_arranjo import itens_de_acv_do_projeto
+    itens_do_arranjo = itens_de_acv_do_projeto(cfg)
     if "pipes" in raw and isinstance(raw["pipes"], list):
         pipes = [PipeInput(
             diameter_mm=int(item.get("diameter_mm", 100)), length_m=float(item.get("length_m", 0)),
@@ -557,6 +560,7 @@ def _environmental_config(cfg: NetunoConfig, result: SingleTankSimulationResult,
         first_flush_system_enabled=bool(getattr(cfg, "first_flush_system_enabled", False)),
         discard=float(getattr(cfg, "discard", LAMINA_DE_DESCARTE_PADRAO_MM) or LAMINA_DE_DESCARTE_PADRAO_MM),
         chlorine_product_purity=float(getattr(cfg, "chlorine_product_purity", PUREZA_PADRAO) or PUREZA_PADRAO),
+        itens_do_arranjo=itens_do_arranjo,
         **values,
     )
 
@@ -594,10 +598,14 @@ def _economic_row(cfg: NetunoConfig, result: SingleTankSimulationResult,
         c_low = float(cfg.cost_lower_tank) if v_vol > 0 else 0.0
 
     etap_c_inc = capex_incremental_da_etap(cfg, vol_m3_val) if getattr(cfg, 'etap_enabled', True) else 0.0
+    # Arranjo e mão de obra de cada volume, pela mesma regra da interface.
+    from netuno.core.quantitativo_do_arranjo import capex_do_volume
+    from netuno.core.supply_arrangement import arranjo_de, usa_bomba
+    tub_v, acc_v, mao_v = capex_do_volume(cfg, v_vol, c_low)
     capex_v = 0.0 if v_vol <= 0 else (
         c_low + float(cfg.cost_upper_tank) +
-        (float(cfg.pump_unit_cost) * int(getattr(cfg, "pump_count", 1)) if upper_used else 0.0) +
-        float(cfg.cost_piping) + float(cfg.cost_accessories) + float(cfg.cost_labor) +
+        (float(cfg.pump_unit_cost) * int(getattr(cfg, "pump_count", 1)) if usa_bomba(arranjo_de(cfg)) else 0.0) +
+        tub_v + acc_v + mao_v +
         etap_c_inc
     )
 

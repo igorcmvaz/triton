@@ -110,47 +110,49 @@ Tabela 16 — Parâmetros do projeto: financeiro
 
 Tabela 17 — Parâmetros do projeto: certificações
 
-Tabela 18 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 18 — Parâmetros do projeto: outros
 
-Tabela 19 — Fatores de emissão dos insumos de tratamento
+Tabela 19 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 20 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 20 — Fatores de emissão dos insumos de tratamento
 
-Tabela 21 — Procedência do fator de emissão do hipoclorito
+Tabela 21 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 22 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
+Tabela 22 — Procedência do fator de emissão do hipoclorito
 
-Tabela 23 — Grau de confiança dos registros tarifários do catálogo
+Tabela 23 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
-Tabela 24 — Conteúdo da base climática nacional
+Tabela 24 — Grau de confiança dos registros tarifários do catálogo
 
-Tabela 25 — Séries históricas de precipitação distribuídas com o programa
+Tabela 25 — Conteúdo da base climática nacional
 
-Tabela 26 — Formatos que o programa lê e onde cada um é carregado
+Tabela 26 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 27 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 27 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 28 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 28 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 29 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 29 — As sete seções do arquivo de projeto e o que cada uma guarda
 
-Tabela 30 — Compatibilidade entre versões do arquivo de projeto
+Tabela 30 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 31 — Padronização terminológica de água de chuva e água pluvial
+Tabela 31 — Compatibilidade entre versões do arquivo de projeto
 
-Tabela 32 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 32 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 33 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 33 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 34 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 34 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
 
-Tabela 35 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+Tabela 35 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 36 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 36 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
-Tabela 37 — Os nove casos de exemplo e o que cada um demonstra
+Tabela 37 — Ficha de consulta: os indicadores e a pergunta que cada um responde
 
-Tabela 38 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 38 — Os nove casos de exemplo e o que cada um demonstra
+
+Tabela 39 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -162,7 +164,7 @@ Tabela 38 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **112 parâmetros**. É a lista completa do que um projeto
+São **115 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -211,13 +213,13 @@ Observações do código:
 <!-- tabela: **Tabela 3** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `discard` | 1 | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
+| `discard` | — | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `discard_mode` | 1 | código | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `discard_days_interval` | 7 | dias | Janela principal, Projeto, Varredura | Automação, Balanço diário, Cenários |
 | `area` | 100 | m² | Ambiental, Documentação, Edificação, Gráficos, Janela principal, Qualidade, Relatórios, Varredura | ACV, Automação, Balanço diário, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
 | `irrigation_garden_area_m2` | 0 | m² | — | — |
-| `runoff_coeff` | — | — | Janela principal, Qualidade, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, ETAP |
+| `runoff_coeff` | — | — | Edificação, Janela principal, Qualidade, Varredura | Automação, Balanço diário, Cenários, Planilhas |
+| `first_flush_system_enabled` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 
 Observações do código:
 
@@ -235,8 +237,8 @@ Observações do código:
 <!-- tabela: **Tabela 4** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `num_economias` | 1 | un | Ambiental, Edificação | Econômico |
-| `building_template_id` | res_medio | — | Edificação | Tarifas |
+| `num_economias` | 1 | un | Ambiental, Edificação | Automação, Econômico |
+| `building_template_id` | res_medio | — | Edificação | Automação, Tarifas |
 
 Observações do código:
 
@@ -256,8 +258,8 @@ Observações do código:
 | `residents_type` | 0 | código | — | — |
 | `residents_count` | 4 | hab | Ambiental, Econômico, Janela principal | Automação, Balanço diário, Motobomba |
 | `residents_monthly` | — | — | Janela principal | Automação |
-| `potable_indoor_share` | 0,65 | fração | Edificação | — |
-| `non_potable_indoor_share` | 0,35 | fração | Edificação | Balanço diário |
+| `potable_indoor_share` | 0,6 | fração | Edificação, Janela principal | Automação |
+| `non_potable_indoor_share` | 0,4 | fração | Edificação, Janela principal | Automação, Balanço diário |
 | `rainwater_share` | 0,4 | fração | Documentação, Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `weekly_demands` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
 | `weekly_residents` | — | — | Edificação, Janela principal, Varredura | Automação, Balanço diário |
@@ -271,8 +273,8 @@ Observações do código:
 
 - `demand_mode`: "constant", "weekly", "monthly", "daily"
 - `demand_value`: L/dia, por habitante ou total
-- `potable_indoor_share`: Fração potável do consumo interno (ex: 65% para banho/cozinha/beber)
-- `non_potable_indoor_share`: Fração não-potável do consumo interno (ex: 35% para bacias/máquina)
+- `potable_indoor_share`: Fração potável do consumo interno; 1 − non_potable_indoor_share
+- `non_potable_indoor_share`: Fração não potável do consumo interno (bacias, máquina); ver fracao_atendivel
 - `rainwater_share`: fração de 0 a 1 (0,4 = 40%)
 
 ### A.6. Irrigação
@@ -282,14 +284,14 @@ Observações do código:
 <!-- tabela: **Tabela 6** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `irrigation_liters_per_day` | 50 | L/dia | Ambiental, Edificação, Relatórios | Balanço diário |
-| `irrigation_rain_threshold_mm` | 2 | mm/dia | Edificação | Balanço diário |
-| `irrigation_potable_backup` | sim | — | Edificação | Balanço diário |
+| `irrigation_liters_per_day` | 0 | L/dia | Ambiental, Edificação, Janela principal, Relatórios | Automação, Balanço diário |
+| `irrigation_rain_threshold_mm` | 2 | mm/dia | Edificação, Janela principal | Automação, Balanço diário |
+| `irrigation_potable_backup` | sim | — | Edificação, Janela principal | Automação, Balanço diário |
 | `irrigation_rate_l_m2_day` | 3 | L/m²·dia | — | — |
 
 Observações do código:
 
-- `irrigation_liters_per_day`: Volume diário fixo de irrigação/usos externos (L/dia)
+- `irrigation_liters_per_day`: Demanda externa (rega, lavagem de áreas externas), L/dia
 - `irrigation_rain_threshold_mm`: Limiar diário de precipitação para supressão da irrigação (mm/dia)
 - `irrigation_potable_backup`: Se True, a rede pública atende a irrigação em dias secos se a cisterna secar
 - `irrigation_rate_l_m2_day`: Taxa diária de rega (L/m²/dia)
@@ -305,10 +307,10 @@ Observações do código:
 | `water_quality_disinfection` | cloro | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `water_quality_polishing` | não | — | Ambiental, Qualidade | ACV, Automação, ETAP |
 | `etap_enabled` | sim | — | Ambiental, Econômico, Otimizador | ACV, Automação, ETAP |
-| `chlorine_treatment_enabled` | sim | — | Econômico, Otimizador, Qualidade | ACV, Econômico |
+| `chlorine_treatment_enabled` | sim | — | Ambiental, Econômico, Otimizador, Qualidade | ACV, Automação, Econômico |
 | `chlorine_dose_mg_l` | — | mg Cl₂/L | Ambiental, Econômico, Otimizador, Qualidade | ACV, Automação, ETAP, Econômico, Relatórios |
 | `chlorine_product_purity` | — | kg/kg | Ambiental, Qualidade | ACV, Automação, ETAP, Econômico |
-| `chlorine_cost_per_kg` | 25 | R$/kg | Econômico, Otimizador, Qualidade | ETAP, Econômico, Preços |
+| `chlorine_cost_per_kg` | 25 | R$/kg | Econômico, Otimizador, Qualidade | Automação, ETAP, Econômico, Preços |
 | `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Ambiental, Qualidade | ACV, Automação, ETAP |
 
 Observações do código:
@@ -329,12 +331,12 @@ Observações do código:
 | `upper_tank_used` | 1 | código | Ambiental, Econômico, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | ACV, Automação, Balanço diário, Cenários, Motobomba, Planilhas |
 | `lower_tank_max` | 10000 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
 | `lower_tank_step` | 250 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `lower_tank_mode` | 1 | código | Janela principal | Automação |
-| `lower_tank_fixed` | 2000 | L | Tarifas e custos | Automação |
+| `lower_tank_mode` | 1 | código | Janela principal, Varredura | Automação |
+| `lower_tank_fixed` | 2000 | L | Janela principal, Tarifas e custos, Varredura | Automação |
 | `delta_ideal` | 5 | %/m³ | Janela principal, Otimizador, Varredura | Automação, Cenários |
 | `econ_lower_tank_vol` | 2000 | L | Ambiental, Econômico, Tarifas e custos, Varredura | Automação |
-| `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
-| `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV |
+| `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação |
+| `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação |
 | `cost_lower_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
 | `cost_upper_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
 
@@ -358,7 +360,7 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
-| `supply_arrangement` | — | código | Ambiental, Varredura | ACV, Automação, Econômico, Motobomba |
+| `supply_arrangement` | — | código | Ambiental, Econômico, Varredura | ACV, Automação, Econômico, Motobomba |
 | `pressurizer_pressure_m` | 18 | m.c.a. | Varredura | Motobomba |
 | `pressurizer_starts_per_person_day` | 5,05 | 1/pessoa·dia | Varredura | Motobomba |
 | `pressurizer_model` | komeco_tp820t | código | Varredura | Motobomba |
@@ -369,11 +371,11 @@ Observações do código:
 | `pump_count` | 2 | un | Ambiental, Econômico, Otimizador, Relatórios, Tarifas e custos | ACV, Automação, Econômico, Preços, Relatórios |
 | `pump_power_str` | 1/2 | — | Relatórios | — |
 | `pump_power_kw` | 0,36775 | kW | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, CAD e BIM, Econômico, Motobomba, Preços, Relatórios |
-| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Motobomba |
+| `pump_manometric_head_m` | 0 | m.c.a. | Varredura | Automação, Motobomba |
 | `pump_efficiency` | 0 | % | Gráficos, Tarifas e custos, Varredura | Automação, Motobomba |
 | `pump_flow_rate` | 0 | L/h | Econômico, Gráficos, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Motobomba |
 | `pump_startup_time_h` | 0,03 | h | Econômico, Gráficos, Otimizador, Tarifas e custos | Automação, Motobomba |
-| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Motobomba |
+| `pump_motor_efficiency` | 0 | % | Tarifas e custos | Automação, Motobomba |
 | `pump_unit_cost` | 300 | R$ | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico, Preços |
 
 Observações do código:
@@ -393,7 +395,7 @@ Observações do código:
 <!-- tabela: **Tabela 10** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `pipes_list` | — | — | Econômico, Tarifas e custos | ACV |
+| `pipes_list` | — | — | Econômico, Tarifas e custos | ACV, Automação |
 
 ### A.11. Investimento
 
@@ -413,7 +415,7 @@ Observações do código:
 <!-- tabela: **Tabela 12** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Econômico |
+| `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 
 ### A.13. Tarifas
 
@@ -426,20 +428,20 @@ Observações do código:
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
-| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
-| `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico |
+| `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
+| `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
 | `water_tax_var` | 0 | % | Tarifas e custos | Automação, Econômico |
 | `tariff_escalation` | 12 | meses | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 | `water_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
 | `sewage_tariff_escalation` | 5 | % por período | Econômico, Otimizador | Automação, Econômico |
 | `elec_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
-| `tariff_flag` | verde | — | Econômico | Econômico |
+| `tariff_flag` | verde | — | Econômico | Automação, Econômico |
 | `elec_tariff` | 0,6957 | R$/kWh | Econômico, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do código:
 
-- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água
+- `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
 - `tariff_escalation`: meses; comprimento do período de reajuste
@@ -473,9 +475,9 @@ Observações do código:
 <!-- tabela: **Tabela 15** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
-| `iptu_green_enabled` | não | — | Econômico, Otimizador | Econômico |
-| `iptu_annual_value` | 4000 | R$/ano | Econômico, Otimizador | Econômico |
-| `iptu_discount_pct` | 5 | % | Econômico, Otimizador | Econômico |
+| `iptu_green_enabled` | não | — | Econômico, Otimizador | Automação, Econômico |
+| `iptu_annual_value` | 4000 | R$/ano | Econômico, Otimizador | Automação, Econômico |
+| `iptu_discount_pct` | 5 | % | Econômico, Otimizador | Automação, Econômico |
 
 Observações do código:
 
@@ -508,6 +510,17 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
+
+### A.18. Outros
+
+3 parâmetros.
+
+<!-- tabela: **Tabela 18** — Parâmetros do projeto: outros -->
+| Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
+| :--- | ---: | :--- | :--- | :--- |
+| `bim_layout` | — | — | Exportação, Janela principal | — |
+| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
 
 ---
 
@@ -1187,7 +1200,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 18** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 19** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -1229,7 +1242,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 19** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 20** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -1248,7 +1261,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 20** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 21** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -1273,7 +1286,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 21** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 22** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -1314,7 +1327,7 @@ Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seç�
 
 ### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 22** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
+<!-- tabela: **Tabela 23** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
@@ -1352,7 +1365,7 @@ A rotina pode simular a atualização sem gravar a base, executar apenas a detec
 
 Cada registro traz o grau de confiança da coleta:
 
-<!-- tabela: **Tabela 23** — Grau de confiança dos registros tarifários do catálogo -->
+<!-- tabela: **Tabela 24** — Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |
@@ -1374,7 +1387,7 @@ Cada registro traz o grau de confiança da coleta:
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 24** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 25** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -1422,7 +1435,7 @@ Independentes da base CMIP6, quatro séries históricas longas acompanham a
 instalação, na pasta `data
 ainfall` do programa:
 
-<!-- tabela: **Tabela 25** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 26** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -1457,7 +1470,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 26** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 27** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -1481,7 +1494,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 27** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 28** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -1510,7 +1523,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 28** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 29** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -1533,7 +1546,7 @@ O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 29** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 30** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -1552,7 +1565,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 30** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 31** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -1961,7 +1974,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 31** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 32** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -1972,7 +1985,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 32** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 33** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -2269,7 +2282,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 33** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 34** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 (volume Tutorial) |
@@ -2290,7 +2303,7 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 34** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 35** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 (volume Enganos, limitações e confiabilidade) |
@@ -2308,7 +2321,7 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 35** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 36** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -2325,7 +2338,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 36** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 37** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -2385,7 +2398,7 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ### J.1. Os nove casos do manual
 
-<!-- tabela: **Tabela 37** — Os nove casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 38** — Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -2405,7 +2418,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 38** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 39** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
