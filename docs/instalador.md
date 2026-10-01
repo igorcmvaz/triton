@@ -84,7 +84,7 @@ Antes de compilar, o `build_exe.py` confere a pasta:
   é interrompido por alterações locais, e a pasta fica na versão anterior sem aviso.
   Rode `git stash` e `git pull` e compile de novo. A opção `--ignorar-git` passa por
   cima da conferência.
-- **Commit compilado:** fica gravado em `netuno/data/revisao.json`. O `--diagnostico`
+- **Commit compilado:** fica gravado no arquivo `revisao.json`, na pasta `netuno/data` (criado pelo build e fora do git). O `--diagnostico`
   mostra esse commit, e avisa quando havia alterações locais não commitadas.
 - **`.spec` do PyInstaller:** vai para `build/`, e não sobrescreve o `Netuno.spec`
   versionado.
