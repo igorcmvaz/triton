@@ -163,3 +163,16 @@ def test_o_dialogo_de_tarifas_avisa_da_categoria_antes_da_estrutura(janela):
     dlg = DialogTariffs(config=janela.config)
     dlg._buscar_municipio("Florianópolis")
     assert "Categoria tarifária incompatível" in dlg.lbl_estrutura_aviso.text()
+
+
+@pytest.mark.parametrize("template_id", NAO_RESIDENCIAIS)
+def test_a_international_edition_nao_fala_de_um_catalogo_que_ela_nao_tem(template_id, monkeypatch):
+    """Na International Edition a tarifa é digitada pelo usuário, na categoria certa.
+
+    O aviso diz que «o catálogo tem apenas a categoria Residencial», e esse
+    catálogo não acompanha a edição: lá ele seria falso, e em português.
+    """
+    monkeypatch.setenv("NETUNO_EDITION", "INT")
+    assert incompatibilidade_de_categoria(_config(template_id)) is None
+    monkeypatch.setenv("NETUNO_EDITION", "BRL")
+    assert incompatibilidade_de_categoria(_config(template_id))

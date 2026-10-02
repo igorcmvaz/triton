@@ -82,6 +82,11 @@ def incompatibilidade_de_categoria(config: Any) -> Optional[str]:
     template_id = getattr(config, "building_template_id", "res_medio")
     if e_residencial(template_id):
         return None
+    # Na International Edition não há catálogo: a tarifa é digitada pelo usuário,
+    # que lança a da categoria certa. O aviso falaria de um catálogo que não existe.
+    from netuno.core.edition import usa_dados_do_brasil
+    if not usa_dados_do_brasil():
+        return None
 
     tipologia = NOME_DA_TIPOLOGIA.get(str(template_id), str(template_id))
     categoria = categoria_exigida(template_id)
