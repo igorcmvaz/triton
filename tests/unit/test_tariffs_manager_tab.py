@@ -12,6 +12,7 @@ from netuno.core.tariffs_database import (
     get_city_data,
     get_city_tariffs_by_category,
     CATEGORIAS_TARIFARIAS,
+    categorias_coletadas,
 )
 from netuno.ui.tab_tariffs_manager import TabTariffsManager
 
@@ -27,28 +28,32 @@ class TestTariffsMultiCategoryAndTab(unittest.TestCase):
         self.assertIn("publica", cats)
         self.assertIn("social", cats)
 
-    def test_florianopolis_multi_category_scaling(self):
-        """Valida multiplicadores de tarifas para Florianópolis em diferentes categorias."""
+    def test_categoria_sem_tabela_coletada_nao_e_estimada(self):
+        """Até a 5.0.0 a comercial era a residencial vezes 1,85, sem fonte.
+
+        Uma categoria sem tabela oficial no registro do município não devolve nada:
+        o programa não inventa a tarifa de uma categoria a partir de outra.
+        """
         res = get_city_tariffs_by_category("SC", "Florianópolis", category="residencial")
-        com = get_city_tariffs_by_category("SC", "Florianópolis", category="comercial")
-        ind = get_city_tariffs_by_category("SC", "Florianópolis", category="industrial")
-        soc = get_city_tariffs_by_category("SC", "Florianópolis", category="social")
-
         self.assertIsNotNone(res)
-        self.assertIsNotNone(com)
-        self.assertIsNotNone(ind)
-        self.assertIsNotNone(soc)
+        self.assertEqual(res["faixas"], get_city_data("SC", "Florianópolis")["faixas"])
+        for cat in ("comercial", "industrial", "publica", "social"):
+            if cat not in (get_city_data("SC", "Florianópolis").get("categorias") or {}):
+                self.assertIsNone(get_city_tariffs_by_category("SC", "Florianópolis", category=cat))
 
-        # Comercial deve ter tarifa fixa e unitária maior que residencial
-        self.assertGreater(com["tarifa_fixa_mensal"], res["tarifa_fixa_mensal"])
-        self.assertGreater(com["faixas"][0][2], res["faixas"][0][2])
-
-        # Industrial deve ter tarifa maior que comercial
-        self.assertGreater(ind["tarifa_fixa_mensal"], com["tarifa_fixa_mensal"])
-
-        # Social deve ter desconto (tarifa menor que residencial)
-        self.assertLess(soc["tarifa_fixa_mensal"], res["tarifa_fixa_mensal"])
-        self.assertLess(soc["faixas"][0][2], res["faixas"][0][2])
+    def test_categoria_coletada_usa_a_tabela_dela(self):
+        from unittest import mock
+        import netuno.core.tariffs_database as tdb
+        base = dict(get_city_data("SC", "Florianópolis"))
+        base["categorias"] = {"comercial": {"faixas": [[0.0, 999999.0, 6.81, 1]],
+                                            "tarifa_fixa_mensal": 46.34,
+                                            "fonte_url": "resolução"}}
+        with mock.patch.object(tdb, "get_city_data", return_value=base):
+            com = tdb.get_city_tariffs_by_category("SC", "Florianópolis", "comercial")
+            self.assertEqual(com["faixas"], [[0.0, 999999.0, 6.81, 1]])
+            self.assertEqual(com["categoria_tarifaria"], "comercial")
+            self.assertNotIn("categorias", com)
+            self.assertEqual(tdb.categorias_coletadas(base), ["residencial", "comercial"])
 
     def test_tab_tariffs_manager_widget(self):
         """Valida inicialização e componentes da aba TabTariffsManager."""
@@ -57,6 +62,10 @@ class TestTariffsMultiCategoryAndTab(unittest.TestCase):
         self.assertGreater(tab.combo_uf.count(), 0)
         self.assertGreater(tab.combo_city.count(), 0)
         self.assertEqual(tab.combo_category.count(), 5)
+        # Só as categorias com tabela coletada podem ser escolhidas.
+        modelo = tab.combo_category.model()
+        habilitadas = [tab.combo_category.itemData(i) for i in range(5) if modelo.item(i).isEnabled()]
+        self.assertEqual(habilitadas, categorias_coletadas(tab.current_city_data))
 
         # Testa simulação de fatura
         tab.spin_sim_vol.setValue(20.0)

@@ -176,3 +176,25 @@ def test_a_international_edition_nao_fala_de_um_catalogo_que_ela_nao_tem(templat
     assert incompatibilidade_de_categoria(_config(template_id)) is None
     monkeypatch.setenv("NETUNO_EDITION", "BRL")
     assert incompatibilidade_de_categoria(_config(template_id))
+
+
+def test_o_aviso_some_quando_a_tarifa_aplicada_e_da_categoria_certa(monkeypatch):
+    """O aviso aparecia mesmo com a categoria certa escolhida: a escolha não era gravada."""
+    monkeypatch.setenv("NETUNO_EDITION", "BRL")
+    cfg = _config("escola")
+    assert incompatibilidade_de_categoria(cfg)
+    cfg.tariff_category = "publica"
+    assert incompatibilidade_de_categoria(cfg) is None
+    cfg.tariff_category = "personalizada"
+    assert incompatibilidade_de_categoria(cfg) is None
+    cfg.tariff_category = "comercial"
+    assert "Comercial" in incompatibilidade_de_categoria(cfg)
+
+
+def test_a_categoria_aplicada_sobrevive_ao_arquivo(tmp_path):
+    from netuno.core.parser import export_netuno_json, load_netuno_project
+    cfg = _config("comercial")
+    cfg.tariff_category = "comercial"
+    caminho = tmp_path / "p.netuno"
+    export_netuno_json(cfg, str(caminho))
+    assert load_netuno_project(str(caminho))["config"].tariff_category == "comercial"

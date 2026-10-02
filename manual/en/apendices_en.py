@@ -143,6 +143,8 @@ NOTAS = {
     "iptu_discount_pct": ("Desconto municipal do IPTU Verde (%)", "Municipal green property-tax discount (IPTU Verde, %); Brazil Edition"),
     "inflation": ("% ao mês; inflação dos custos de O&M", "% per month; inflation of O&M costs"),
     "analysis_period_years": ("anos", "years"),
+    "tariff_category": ('categoria da tabela tarifária aplicada; "personalizada" quando digitada',
+                        'category of the tariff table applied; "personalizada" (custom) when typed in'),
     "tma": ("% ao mês; taxa mínima de atratividade", "% per month; minimum attractive rate of return"),
 }
 

@@ -386,7 +386,7 @@ Tabela 14 — Variáveis da Equação 2
 
 Tabela 15 — Variáveis da Equação 5
 
-Tabela 16 — YAS, YBS e a ordem do Netuno: Regra, Retirada do dia, Armazenado no fim do dia
+Tabela 16 — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno
 
 Tabela 17 — Variáveis da Equação 7
 
@@ -940,7 +940,7 @@ chuva. A Figura 3 mostra como a precipitação de um dia se reparte, e a conta �
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
+*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermediária entre as regras YAS e YBS, explicada na seção do balanço diário.*
 
 Lendo o desenho:
 
@@ -1140,10 +1140,10 @@ nenhum aviso.
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
-   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
-   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
-   adiante). A **personalizada** permite marcar cada um.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
+   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
+   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
+   junto, embutida no programa.
 4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
 5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
    .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
@@ -1361,8 +1361,8 @@ trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguint
 Onde este manual trata cada uma: a etapa 1 na seção 4.1, a 2 na 4.2, a 3 na 4.6, a 4 nas seções 4.3, 4.4 e 4.7, a 5 na 4.3, a 6 na 4.7, a 7 na 4.8, a 8 na 4.9, a 9 na 4.10, a 10 na 3.9 e a 12 na 3.3. A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
 
 
-Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
-relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
+Convém salvar o projeto ao concluir cada etapa. Os parâmetros do apêndice A são
+gravados e relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
 para quem o refará no futuro quanto para quem o avaliará.
 
 ---
@@ -1669,7 +1669,7 @@ Na literatura, YAS e YBS têm definição precisa (Fewkes e Butler, 2000). Com `
 volume retirado no dia, `Q_t` o volume captado, `S_t` o volume armazenado no fim do dia
 e `V_max` a capacidade:
 
-<!-- tabela: **Tabela 16** — YAS, YBS e a ordem do Netuno: Regra, Retirada do dia, Armazenado no fim do dia -->
+<!-- tabela: **Tabela 16** — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno -->
 | Regra | Retirada do dia | Armazenado no fim do dia |
 | :--- | :--- | :--- |
 | YAS estrita | `Y_t = min(D_pl,t ; S_t−1)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max − Y_t)` |
@@ -7788,7 +7788,7 @@ da seção seguinte.
 
 > Ao terminar esta seção você terá o relatório emitido e, se pretende publicar, a
 > lista do que precisa constar no método do artigo. Essa lista é a parte mais
-> curto e o mais importante do manual.
+> curta e a mais importante do manual.
 
 ---
 
@@ -7887,7 +7887,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 #### 4.10.3.7. Análise econômica
 
 - **Município e concessionária**, com a data de vigência da tabela tarifária.
-- **Regime de mínimo** entre os cinco. É o que mais muda resultado entre municípios.
+- **Regime de mínimo** entre os seis. É o que mais muda resultado entre municípios.
 - Percentual de esgoto, e que ele incide sobre a **parcela de água** da fatura.
 - Taxa mínima de atratividade, inflação, período de análise.
 - **Reajustes tarifários** de água, esgoto e energia, com o intervalo.
@@ -9097,7 +9097,7 @@ transformar a investigação numa troca de mensagens que consome mais tempo de t
 que o próprio conserto.
 
 **O arquivo do projeto.** É o item mais importante, e sozinho substitui páginas de
-descrição. O `.netuno` é autocontido: traz os 104 parâmetros e a série de chuva inteira
+descrição. O `.netuno` é autocontido: traz todos os parâmetros e a série de chuva inteira
 dentro dele, de modo que quem o receber reproduz exatamente a sua simulação, na mesma
 máquina ou em outra qualquer. Sem ele, a investigação começa por tentar adivinhar as
 entradas, e adivinhar entradas é a forma mais eficiente de não encontrar um defeito.
@@ -9177,7 +9177,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **115 parâmetros**. É a lista completa do que um projeto
+São **116 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -9432,7 +9432,7 @@ Observações do código:
 
 ### A.13. Tarifas
 
-14 parâmetros.
+15 parâmetros.
 
 <!-- tabela: **Tabela 166** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
@@ -9441,6 +9441,7 @@ Observações do código:
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_category` | residencial | — | Econômico, Tarifas, Tarifas e custos | Tarifas |
 | `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
@@ -9454,6 +9455,7 @@ Observações do código:
 
 Observações do código:
 
+- `tariff_category`: categoria da tabela tarifária aplicada; "personalizada" quando digitada
 - `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
@@ -9565,7 +9567,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
 2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+3. A base climática vai embutida na Edição Brasil, em `climbra.db`; na International Edition, que não a traz, a série é sempre um arquivo do usuário.
 
 **Saídas**
 
@@ -10547,7 +10549,7 @@ Ele tem sete seções:
 | `water_quality_and_etap` | classe-alvo, desinfecção e tratamento |
 | `financial_and_economic` | tarifas, impostos, reajustes e prazo |
 
-O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
+O apêndice A lista todos os parâmetros, com o nome exato de cada campo.
 
 > **A série de chuva vai dentro do arquivo.** É o que torna o projeto reproduzível:
 > quem receber o arquivo obtém exatamente os seus números, mesmo sem ter a base

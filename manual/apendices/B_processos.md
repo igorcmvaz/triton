@@ -26,7 +26,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
 2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+3. A base climática vai embutida na Edição Brasil, em `climbra.db`; na International Edition, que não a traz, a série é sempre um arquivo do usuário.
 
 **Saídas**
 

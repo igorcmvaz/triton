@@ -231,6 +231,7 @@ Na literatura, YAS e YBS têm definição precisa (Fewkes e Butler, 2000). Com `
 volume retirado no dia, `Q_t` o volume captado, `S_t` o volume armazenado no fim do dia
 e `V_max` a capacidade:
 
+<!-- tabela: Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno -->
 | Regra | Retirada do dia | Armazenado no fim do dia |
 | :--- | :--- | :--- |
 | YAS estrita | `Y_t = min(D_pl,t ; S_t−1)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max − Y_t)` |

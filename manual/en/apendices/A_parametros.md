@@ -1,6 +1,6 @@
 # The project parameters
 
-There are **115 parameters**. This is the complete list of what a project
+There are **116 parameters**. This is the complete list of what a project
 stores, with the exact name of each field inside the `.netuno` file.
 
 The list was not transcribed by hand: it is extracted from the program itself for
@@ -259,7 +259,7 @@ Notes from the code:
 
 ## Tariffs
 
-14 parameters.
+15 parameters.
 
 <!-- tabela: Project parameters: tariffs -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
@@ -268,6 +268,7 @@ Notes from the code:
 | `water_tariffs` | — | — | Project, Sweep, Tariffs, Tariffs and costs | Economic |
 | `tariff_city_uf` | SC | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
 | `tariff_city_name` | Florianópolis | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
+| `tariff_category` | residencial | — | Economic, Tariffs, Tariffs and costs | Tariffs |
 | `sewage_rate` | 100 | % of water | Project, Tariffs, Tariffs and costs | Automation, Economic, Tariffs |
 | `sewage_mode` | 1 | code | Economic, Optimiser, Project, Tariffs, Tariffs and costs | Automation, Economic, Tariffs |
 | `water_tax_fixed` | 0 | R$/month | Tariffs and costs | Automation, Economic |
@@ -281,6 +282,7 @@ Notes from the code:
 
 Notes from the code:
 
+- `tariff_category`: category of the tariff table applied; "personalizada" (custom) when typed in
 - `sewage_mode`: 0 = fixed amount, 1 = percentage of the water part, 2 = amount per m³ consumed
 - `water_tax_fixed`: currency
 - `water_tax_var`: %

@@ -4,8 +4,8 @@ O programa oferece oito tipologias de edificação e cada uma ajusta o consumo p
 capita e a fração não potável. Isso funciona: a demanda muda e atravessa o
 programa.
 
-O catálogo tarifário, porém, tem **uma só categoria**: «Residencial normal», nos
-652 municípios. Um estudo de hospital ou de escola sai com a demanda certa e a
+O catálogo tarifário tem a categoria «Residencial normal» nos 652 municípios; as
+demais só onde a tabela oficial do prestador foi coletada. Um estudo de hospital ou de escola sai com a demanda certa e a
 **tarifa errada**, e a diferença não é pequena — na Tabela Tarifária CASAN
 04/2026 a primeira faixa custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no
 comercial, no industrial e no público, mais que o dobro. A taxa fixa de
@@ -15,8 +15,8 @@ Como a economia de água é avaliada pela tarifa, **subestimar a tarifa subestim
 economia na mesma proporção**: um estudo de escola com tarifa residencial mostra
 menos da metade do retorno que o projeto teria.
 
-Não dá para corrigir o dado aqui: as outras categorias não foram coletadas para
-os 652 municípios, e inventá-las seria pior que a lacuna. Dá para tornar a
+Não dá para corrigir o dado aqui: onde a categoria não foi coletada, inventá-la
+(multiplicando a residencial, como o programa fazia até a 5.0.0) seria pior que a lacuna. Dá para tornar a
 incompatibilidade **visível**, que é o que impede o estudo errado de sair calado.
 
 Este módulo é o mapa entre as duas coisas, e a função que diz quando elas não
@@ -41,6 +41,17 @@ CATEGORIA_POR_TIPOLOGIA: Dict[str, str] = {
     "escola": "Pública",
     "hotel": "Comercial",
     "hospital": "Pública",
+}
+
+#: Da categoria exigida para o identificador de CATEGORIAS_TARIFARIAS.
+ID_DA_CATEGORIA: Dict[str, str] = {
+    "Residencial": "residencial", "Comercial": "comercial",
+    "Industrial": "industrial", "Pública": "publica",
+}
+
+NOME_DA_CATEGORIA: Dict[str, str] = {
+    "residencial": CATEGORIA_COLETADA, "comercial": "Comercial",
+    "industrial": "Industrial", "publica": "Pública", "social": "Social",
 }
 
 #: Nome legível de cada tipologia, para a mensagem de aviso.
@@ -90,15 +101,20 @@ def incompatibilidade_de_categoria(config: Any) -> Optional[str]:
 
     tipologia = NOME_DA_TIPOLOGIA.get(str(template_id), str(template_id))
     categoria = categoria_exigida(template_id)
+    # A tarifa aplicada já é da categoria certa, coletada ou digitada pelo usuário.
+    aplicada = str(getattr(config, "tariff_category", "residencial") or "residencial")
+    if aplicada == "personalizada" or ID_DA_CATEGORIA.get(categoria) == aplicada:
+        return None
     return (
         f"A tipologia escolhida é «{tipologia}», que a concessionária fatura na "
-        f"categoria {categoria}. O catálogo do programa tem apenas a categoria "
-        f"{CATEGORIA_COLETADA}, de modo que a conta de água está sendo calculada "
-        f"com a tarifa errada.\n\n"
+        f"categoria {categoria}, mas a tarifa aplicada ao projeto é a da categoria "
+        f"{NOME_DA_CATEGORIA.get(aplicada, aplicada)}: a conta de água está sendo calculada com a tarifa "
+        f"errada.\n\n"
         f"O erro tem sentido conhecido: as categorias não residenciais são mais "
         f"caras, e portanto a economia e o retorno estão SUBESTIMADOS. Na Tabela "
         f"Tarifária CASAN 04/2026 a primeira faixa custa R$ 6,81/m³ no comercial "
         f"contra R$ 3,08/m³ no residencial — mais que o dobro.\n\n"
-        f"Para um estudo publicável, lance a estrutura da categoria {categoria} "
-        f"da sua concessionária no modo Personalizado do diálogo de tarifas."
+        f"Escolha a categoria {categoria} no diálogo de tarifas, se a tabela dela "
+        f"já foi coletada para o município, ou lance a estrutura da sua "
+        f"concessionária no modo Personalizado."
     )

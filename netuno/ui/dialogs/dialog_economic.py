@@ -205,9 +205,8 @@ class DialogTariffs(QDialog):
         row_sel.addWidget(QLabel(f"<b>{tr('Categoria:')}</b>"))
         self.combo_category = QComboBox()
         self.combo_category.setMinimumWidth(150)
-        from netuno.core.tariffs_database import CATEGORIAS_TARIFARIAS
-        for cat_id, cat_info in CATEGORIAS_TARIFARIAS.items():
-            self.combo_category.addItem(f"{cat_info['icone']} {tr(cat_info['nome'])}", cat_id)
+        from netuno.ui.categorias_tarifarias import preencher_categorias
+        preencher_categorias(self.combo_category, None)
         row_sel.addWidget(self.combo_category)
 
         self.btn_load_city = QPushButton(tr("📥 Carregar"))
@@ -326,7 +325,7 @@ class DialogTariffs(QDialog):
         lay_disc = QVBoxLayout(self.box_disclaimer)
         lay_disc.setContentsMargins(8, 6, 8, 6)
         self.lbl_disclaimer = QLabel(tr(
-            "📅 <b>Auditoria Tarifária:</b> Tarifas auditadas e validadas oficialmente com suporte a todas as categorias (Residencial, Comercial, Industrial, Pública, Social). "
+            "📅 <b>Auditoria Tarifária:</b> Tarifas residenciais auditadas para os 652 municípios; as demais categorias, onde a tabela oficial do prestador foi coletada. "
             "<br>📌 <i>Caso este valor esteja errado ou defasado, favor contatar pelo e-mail: <a href='mailto:igorcmvaz@gmail.com?subject=Netuno%205%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7;font-weight:bold;'>igorcmvaz@gmail.com</a></i>"
         ))
         self.lbl_disclaimer.setOpenExternalLinks(False)
@@ -716,8 +715,11 @@ class DialogTariffs(QDialog):
             return
 
         city_name = self.combo_city.currentText().strip()
-        cat_val = self.combo_category.currentData() or "residencial"
-        from netuno.core.tariffs_database import get_city_tariffs_by_category
+        from netuno.core.tariffs_database import get_city_data, get_city_tariffs_by_category
+        from netuno.ui.categorias_tarifarias import preencher_categorias
+        cat_val = preencher_categorias(self.combo_category, get_city_data(uf_code, city_name),
+                                       self.combo_category.currentData()
+                                       or getattr(self.config, "tariff_category", "residencial"))
         data = get_city_tariffs_by_category(uf_code, city_name, category=cat_val)
         if not data:
             QMessageBox.warning(self, tr("Aviso"), tr("Dados tarifários não encontrados para a cidade selecionada."))
@@ -934,6 +936,10 @@ class DialogTariffs(QDialog):
                 self.config.tariff_city_uf = self.combo_uf.currentData() or self.combo_uf.currentText().split(' - ')[0]
             if self.combo_city.currentIndex() >= 0:
                 self.config.tariff_city_name = self.combo_city.currentText().strip()
+            personalizada = (self.combo_uf.currentData() == "CUSTOM"
+                             or self.combo_city.currentData() == "CUSTOM")
+            self.config.tariff_category = ("personalizada" if personalizada
+                                           else self.combo_category.currentData() or "residencial")
                 
             if self.chk_update_elec.isChecked() and self._current_city_data:
                 e_kwh = self._current_city_data.get('energia_r_kwh', 0.0)

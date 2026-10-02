@@ -193,14 +193,11 @@ def test_o_script_de_aplicacao_e_idempotente():
     assert json.dumps(base["cities"], sort_keys=True) == antes
 
 
-def test_a_categoria_escala_o_preco_base_e_nao_o_expoente():
-    residencial = get_city_tariffs_by_category("RS", "Alegrete", "residencial")
-    comercial = get_city_tariffs_by_category("RS", "Alegrete", "comercial")
-    for r, c in zip(residencial["faixas"], comercial["faixas"]):
-        if int(r[3]) == EXPOENTE_DE_CONSUMO:
-            assert c[2] == r[2]
-        elif int(r[3]) == PRECO_BASE_EXPONENCIAL:
-            assert c[2] > r[2]
+def test_categoria_sem_tabela_da_corsan_nao_e_derivada_da_residencial():
+    """A comercial da CORSAN tem preço-base e tabela de expoentes próprios: não se deriva."""
+    assert get_city_tariffs_by_category("RS", "Alegrete", "residencial")
+    if "comercial" not in (get_city_data("RS", "Alegrete").get("categorias") or {}):
+        assert get_city_tariffs_by_category("RS", "Alegrete", "comercial") is None
 
 
 def test_parcela_exponencial_sem_preco_base_e_zero():
