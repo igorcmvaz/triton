@@ -106,17 +106,20 @@ def test_uma_tipologia_desconhecida_nao_estoura():
 
 # ──────────────────── a premissa do aviso continua verdadeira ──────────────────
 
-def test_o_catalogo_tem_mesmo_uma_categoria_so():
-    """O aviso existe porque isto é verdade. Se deixar de ser, ele sai.
+def test_toda_categoria_coletada_tem_documento_e_vigencia():
+    """A residencial está nos 652; as demais, só onde a tabela oficial foi transcrita.
 
-    Quando as demais categorias forem coletadas, este teste cai e lembra de
-    trocar o aviso por um seletor de categoria.
+    Este teste substituiu o que exigia «uma categoria só»: ele caiu quando as
+    categorias da CORSAN entraram, como previsto, e o aviso ganhou o seletor. A regra
+    que fica é a da procedência: categoria no banco tem documento, vigência e fonte.
     """
     cidades = load_tariffs_db()["cities"]
-    assert CATEGORIA_COLETADA == "Residencial normal"
-    # Nenhum município declara estrutura por categoria.
-    assert not any("categorias" in c for c in cidades.values())
     assert all("faixas" in c for c in cidades.values())
+    for chave, c in cidades.items():
+        for cat, dados in (c.get("categorias") or {}).items():
+            assert cat in ("comercial", "industrial", "publica", "social"), (chave, cat)
+            for campo in ("faixas", "fonte_documento", "vigencia_saneamento", "fonte_url"):
+                assert dados.get(campo), (chave, cat, campo)
 
 
 # ───────────────────── o percurso, da aba ao painel ────────────────────────────

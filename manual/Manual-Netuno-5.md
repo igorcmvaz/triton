@@ -4812,7 +4812,10 @@ frequentemente são o dobro ou mais da residencial. Na tabela da CASAN, a primei
 custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial.
 
 > **O que o programa traz, e o que você precisa lançar.** O catálogo de 652 municípios do
-> programa registra a **categoria residencial** de cada um deles. As demais categorias
+> programa registra a **categoria residencial** de cada um deles. As categorias comercial,
+> pública e industrial entram município a município, transcritas da tabela oficial do
+> prestador, e só aparecem para escolha onde foram coletadas — nos 34 municípios da CORSAN,
+> por exemplo; nunca são estimadas a partir da residencial. As demais categorias
 > existem, são públicas e estão nas resoluções das agências reguladoras — o que não há é
 > um catálogo nacional delas, que seria um levantamento de porte próprio. Para estudar
 > uma escola, um comércio ou uma indústria, lance a estrutura da categoria correta no

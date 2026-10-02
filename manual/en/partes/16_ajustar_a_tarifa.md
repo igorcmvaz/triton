@@ -51,7 +51,10 @@ double the residential one or more. In the CASAN table, the first block costs R$
 residential and R$ 6.81/m³ for commercial.
 
 > **What the program brings, and what you need to enter.** The program's catalogue of 652
-> municipalities records the **residential category** of each one. The other categories
+> municipalities records the **residential category** of each one. The commercial, public and
+> industrial categories are added municipality by municipality, transcribed from the
+> provider's official table, and can only be chosen where they have been collected — in the
+> 34 CORSAN municipalities, for example; they are never estimated from the residential one. The other categories
 > exist, are public and are in the resolutions of the regulatory agencies — what does not
 > exist is a national catalogue of them, which would be a survey in its own right. To study
 > a school, a shop or an industry, enter the structure of the right category in the custom
