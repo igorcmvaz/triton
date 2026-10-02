@@ -30,6 +30,35 @@ COLUNAS_POR_BLOCO = 10
 CATEGORIAS = ("residencial", "comercial", "publica", "industrial", "social")
 
 
+#: A situação de cada estrutura, pela cor da linha: o PDF pinta o fundo pelo marcador
+#: que abre a célula do número, e o Markdown mostra o próprio marcador.
+MARCADOR = {"verde": "🟢", "amarelo": "🟡", "vermelho": "🔴"}
+REGISTRO_DE_FONTES = os.path.join(BASE, "data", "tarifas", "change_tracking_registry.json")
+
+
+def situacao(dados: dict) -> str:
+    """Verde: auditada contra a fonte primária. Amarela: falta confirmar. Vermelha: dado ruim."""
+    if dados.get("fonte_documento"):
+        return "verde"  # categoria transcrita de uma tabela oficial guardada no repositório
+    grau = str(dados.get("confianca_grau") or "")
+    if grau.startswith("D"):
+        return "vermelho"
+    if (grau.startswith("C") or dados.get("status_global") == "MANUAL_REVIEW_NEEDED"
+            or dados.get("update_status_sanitation") != "VERIFIED_AUDIT"):
+        return "amarelo"
+    return "verde"
+
+
+def _verificacoes() -> Dict[str, str]:
+    """{url da fonte: data da última verificação}, do registro de monitoramento."""
+    try:
+        with open(REGISTRO_DE_FONTES, encoding="utf-8") as f:
+            urls = json.load(f).get("monitored_urls", {})
+    except (OSError, ValueError):
+        return {}
+    return {u: str(d.get("last_checked") or "")[:10] for u, d in urls.items()}
+
+
 def carregar() -> Dict[str, dict]:
     with open(BANCO, encoding="utf-8") as f:
         return json.load(f)["cities"]
@@ -76,7 +105,9 @@ def linhas(cidades: Dict[str, dict]):
             continue
         assinatura = json.dumps([dados.get("prestador_saneamento"), cat, dados["faixas"],
                                  dados.get("esgoto_modo"), dados.get("esgoto_pct"),
-                                 dados.get("esgoto_r_m3")], sort_keys=True)
+                                 dados.get("esgoto_r_m3"), situacao(dados),
+                                 dados.get("vigencia_saneamento"), dados.get("fonte_url")],
+                                sort_keys=True)
         grupos.setdefault(assinatura, [dados.get("prestador_saneamento") or "—", cat, [], dados])
         grupos[assinatura][2].append(f"{dados.get('municipio')} ({dados.get('uf')})")
     ordem = {c: i for i, c in enumerate(CATEGORIAS)}
@@ -119,7 +150,7 @@ def secao(cidades: Dict[str, dict], T: Dict[str, str], num: Callable[[float, int
           "| " + " | ".join([T["n"], T["prestador"], T["categoria"], T["fixo"], T["esgoto"]]) + " |",
           "| ---: | :--- | :--- | :--- | :--- |"]
     for i, (prestador, cat, municipios, dados) in enumerate(grupos, 1):
-        L.append(f"| {i} | {prestador}: {_municipios(municipios, T['e_mais'])} | "
+        L.append(f"| {MARCADOR[situacao(dados)]} {i} | {prestador}: {_municipios(municipios, T['e_mais'])} | "
                  f"{T['cat_' + cat]} | {fixo(dados)} | {esgoto(dados)} |")
     L.append("")
     blocos = [intervalos[i:i + COLUNAS_POR_BLOCO] for i in range(0, len(intervalos), COLUNAS_POR_BLOCO)]
@@ -131,12 +162,24 @@ def secao(cidades: Dict[str, dict], T: Dict[str, str], num: Callable[[float, int
               "| " + " | ".join(cab) + " |",
               "| " + " | ".join(["---:"] * len(cab)) + " |"]
         for i, (_p, _c, _m, dados) in enumerate(grupos, 1):
-            celulas = [str(i)]
+            celulas = [f"{MARCADOR[situacao(dados)]} {i}"]
             for a, b in bloco:
                 p = _preco(dados["faixas"], a, b)
                 celulas.append("—" if p is None else num(p, 2))
             L.append("| " + " | ".join(celulas) + " |")
         L.append("")
+
+    verificadas = _verificacoes()
+    L += [T["data_texto"], "", f"<!-- tabela: {T['data_legenda']} -->",
+          "| " + " | ".join(T["data_cab"]) + " |", "| ---: | :--- | :--- | :--- |"]
+    for i, (_p, _c, _m, dados) in enumerate(grupos, 1):
+        cor = situacao(dados)
+        vigencia = str(dados.get("vigencia_saneamento") or "—").replace("|", "/")
+        quando = verificadas.get(dados.get("fonte_url") or "", "") or "—"
+        if T.get("data_dia_mes_ano") and len(quando) == 10:
+            quando = "/".join(reversed(quando.split("-")))
+        L.append(f"| {MARCADOR[cor]} {i} | {vigencia} | {quando} | {T['situacao_' + cor]} |")
+    L.append("")
 
     # A fórmula exponencial, à parte.
     exp: Dict[str, list] = {}

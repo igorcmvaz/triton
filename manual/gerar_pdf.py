@@ -249,6 +249,10 @@ def _celulas(linha):
     return [c.strip() for c in linha.strip().strip("|").split("|")]
 
 
+FUNDO_POR_MARCADOR = {"🟢": colors.HexColor("#e3f4e8"), "🟡": colors.HexColor("#fff4cc"),
+                      "🔴": colors.HexColor("#fbe0dc")}
+
+
 def montar_tabela(linhas):
     """Compõe uma tabela do Markdown, com a largura repartida pelo conteúdo."""
     if len(linhas) < 2:
@@ -256,6 +260,13 @@ def montar_tabela(linhas):
     cabecalho = _celulas(linhas[0])
     alin = alinhamentos(linhas[1])
     corpo = [_celulas(l) for l in linhas[2:]]
+    # Uma linha cuja primeira célula abre com 🟢, 🟡 ou 🔴 ganha fundo verde, amarelo ou
+    # vermelho claro, e o marcador sai do texto: é a situação do dado (apêndice de tarifas).
+    fundos = {}
+    for i, l in enumerate(corpo, 1):
+        if l and l[0][:1] in FUNDO_POR_MARCADOR:
+            fundos[i] = FUNDO_POR_MARCADOR[l[0][:1]]
+            l[0] = l[0][1:].strip()
     colunas = max([len(cabecalho)] + [len(l) for l in corpo])
     alin += ["e"] * (colunas - len(alin))
 
@@ -329,6 +340,8 @@ def montar_tabela(linhas):
         ("LINEBELOW", (0, 1), (-1, -2), 0.35, colors.HexColor("#eceef0")),
         ("LINEBELOW", (0, -1), (-1, -1), 0.8, REGUA),
     ])
+    for i, cor in fundos.items():
+        estilo_tab.add("BACKGROUND", (0, i), (-1, i), cor)
     t = Table(dados, colWidths=larguras, repeatRows=1, hAlign="LEFT")
     t.setStyle(estilo_tab)
     return t

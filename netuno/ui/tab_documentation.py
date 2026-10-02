@@ -2509,7 +2509,7 @@ class TabDocumentation(QWidget):
         sec_box.addWidget(lbl_sec_desc)
         lay.addLayout(sec_box)
 
-        # 3. CARD DE DESTAQUE (Volume Geral 297 páginas)
+        # 3. CARD DE DESTAQUE (Volume Geral 302 páginas)
         feat = QFrame()
         feat.setObjectName("featCard")
         feat.setStyleSheet(f"""
@@ -2538,7 +2538,7 @@ class TabDocumentation(QWidget):
             lbl_f_img.setPixmap(pm_comp)
         f_left.addWidget(lbl_f_img)
 
-        lbl_f_sub = QLabel("PDF • 297 PÁGINAS" if not ingles else "PDF • 297 PAGES")
+        lbl_f_sub = QLabel("PDF • 302 PÁGINAS" if not ingles else "PDF • 302 PAGES")
         lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
         lbl_f_sub.setAlignment(Qt.AlignCenter)
         f_left.addWidget(lbl_f_sub)
@@ -2548,7 +2548,7 @@ class TabDocumentation(QWidget):
         f_right = QVBoxLayout()
         f_right.setSpacing(6)
 
-        f_badge = QLabel("VOLUME GERAL • 297 PÁGINAS" if not ingles else "GENERAL VOLUME • 297 PAGES")
+        f_badge = QLabel("VOLUME GERAL • 302 PÁGINAS" if not ingles else "GENERAL VOLUME • 302 PAGES")
         f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
         f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         f_right.addWidget(f_badge)
