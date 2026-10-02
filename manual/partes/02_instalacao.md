@@ -23,6 +23,30 @@ computador.
 
 ---
 
+## As duas edições
+
+O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
+lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
+rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+
+<!-- tabela: O que muda entre a Edição Brasil e a International Edition -->
+| | Edição Brasil (BRL) | International Edition (INT) |
+| :--- | :--- | :--- |
+| instalador | `Netuno_Setup_5_0_0.exe` | `Netuno_INT_Setup_5_0_0.exe` |
+| idioma ao abrir | português | inglês |
+| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
+| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
+| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
+| moeda e custos | reais, com preços de referência | moeda escolhida; custos digitados |
+| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
+
+Sem os fatores de emissão do país, a International Edition não calcula a avaliação
+ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
+nenhum aviso.
+
+---
+
 ## A instalação
 
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para

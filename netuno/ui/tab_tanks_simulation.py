@@ -404,6 +404,10 @@ class TabTanksSimulation(QWidget):
         grid_fin.addWidget(QLabel(tr("Moeda / Currency:")), 1, 2)
         self.combo_currency = QComboBox()
         self.combo_currency.addItems(["R$ (BRL)", "$ (USD)", "\u20ac (EUR)", "\u00a3 (GBP)", "\u00a5 (CNY)"])
+        from netuno.core.edition import usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            # A Internacional não traz preços: começa em dólar, e o usuário informa os custos.
+            self.combo_currency.setCurrentIndex(1)
         self.combo_currency.currentIndexChanged.connect(self.on_currency_changed)
         grid_fin.addWidget(self.combo_currency, 1, 3)
 
@@ -716,6 +720,10 @@ class TabTanksSimulation(QWidget):
             cfg = main_win.config
             self.verified_dialogs.clear()
             if self.get_currency_symbol() != "R$":
+                # Os preços do arranjo 3D e a mão de obra automática são em reais:
+                # em outra moeda, os custos passam a ser os digitados.
+                cfg.capex_do_arranjo = False
+                cfg.mao_de_obra_automatica = False
                 cfg.cost_lower_tank = 0.0; cfg.cost_upper_tank = 0.0
                 cfg.cost_labor = 0.0; cfg.cost_piping = 0.0
                 cfg.cost_accessories = 0.0; cfg.op_costs = []

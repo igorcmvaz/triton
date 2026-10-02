@@ -246,6 +246,9 @@ class TabEconomicIntegrated(QWidget):
 
         lay_fisc.addStretch()
         lay_mat.addWidget(gb_fiscal)
+        # IPTU Verde e bandeiras tarifárias da ANEEL só existem no Brasil.
+        from netuno.core.edition import usa_dados_do_brasil
+        gb_fiscal.setVisible(usa_dados_do_brasil())
 
         # Tabela Detalhada de Impacto
         self.table_mat_impact = QTableWidget()
@@ -1314,10 +1317,15 @@ class TabEconomicIntegrated(QWidget):
             tot_opex_gross = sum(r[4] for r in rows_data[:n_capex_opex_items])
             tot_opex_net = tot_opex_gross - (ann_iptu_savings if iptu_enabled else 0.0)
 
+        # IPTU Verde é incentivo municipal brasileiro: a Internacional não mostra a linha.
+        from netuno.core.edition import usa_dados_do_brasil
+        _com_iptu = usa_dados_do_brasil()
+        if not _com_iptu:
+            rows_data = rows_data[:-1]
         total_row_count = len(rows_data) + 1
         self.table_mat_impact.setRowCount(total_row_count)
 
-        iptu_row_idx = len(rows_data) - 1
+        iptu_row_idx = len(rows_data) - 1 if _com_iptu else -1
         tot_row_idx = len(rows_data)
 
         for i, r in enumerate(rows_data):

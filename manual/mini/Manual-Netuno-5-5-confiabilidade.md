@@ -677,6 +677,10 @@ tratada neste manual, nas versões 4, 4.1 e 5.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
 
+**BRL**. Sigla da Edição Brasil do programa, a que traz os dados brasileiros: base
+climática CLIMBra, tarifas de 652 municípios, energia da ANEEL, custos em reais e
+certificações nacionais. A seção 1.2 (volume Comece aqui) compara as duas edições.
+
 **CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
 esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
 
@@ -807,6 +811,9 @@ HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
 *Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
 exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
+
+**INT**. Sigla da *International Edition* do programa: abre em inglês e não traz dados
+brasileiros. Tarifas, custos, moeda e fatores de emissão são informados pelo usuário.
 
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de

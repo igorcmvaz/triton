@@ -81,6 +81,13 @@ _NIVEL_MINIMO_MM = 300.0
 _COTA_MINIMA_PX = 18.0
 
 
+
+
+def _edicao() -> str:
+    from netuno.core.edition import rotulo_da_edicao
+
+    return rotulo_da_edicao()
+
 def _br(value: float, decimals: int = 2) -> str:
     return f"{value:.{decimals}f}".replace(".", ",")
 
@@ -394,7 +401,8 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
         f'<text x="{_MARGIN}" y="34" font-size="19" font-weight="700" fill="#0f172a">'
         f'Esquema 3D da tubulação — {escape(manifest["project"]["name"])}</text>',
         f'<text x="{_MARGIN}" y="54" font-size="11.5" fill="#64748b">Fora de escala: posições ordenadas, '
-        f'medidas e cotas reais indicadas. Números = ordem de montagem.</text>',
+        f'medidas e cotas reais indicadas. Números = ordem de montagem. '
+        f'Netuno 5 · {escape(_edicao())}.</text>',
     ]
 
     # 1. Níveis: um plano por cota em que há componente (e o zero de referência).

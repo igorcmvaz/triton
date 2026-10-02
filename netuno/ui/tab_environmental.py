@@ -344,6 +344,13 @@ class LCAParametersDialog(QDialog):
         self.lbl_base_rede_fonte.setWordWrap(True)
         self.lbl_base_rede_fonte.setStyleSheet("color: #475569; font-size: 11px;")
         form_r.addRow("", self.lbl_base_rede_fonte)
+        from netuno.core.edition import usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            # As bases (MCTI, SIDAC) são do sistema elétrico brasileiro: na
+            # Internacional o fator é o do país do projeto, digitado.
+            form_r.setRowVisible(self.cmb_base_rede, False)
+            form_r.setRowVisible(self.lbl_base_rede_fonte, False)
+            self.txt_grid_co2.setPlaceholderText(tr("fator do país do projeto, kg CO2/kWh"))
 
         self.txt_chlorine_co2 = JustifiedLineEdit(self.tab_env.txt_chlorine_co2.text())
         self.txt_chlorine_co2.setStyleSheet("background-color: #fef9c3; border: 1px solid #fde047; font-weight: bold;")
@@ -815,6 +822,16 @@ class TabEnvironmental(QWidget):
 
         main_layout.addLayout(top_bar)
 
+        # Internacional: sem fatores brasileiros, a ACV espera os do país do projeto.
+        self.lbl_fatores_do_pais = QLabel(tr(
+            "⚠️ Informe, nos parâmetros da ACV, o fator de emissão da eletricidade da rede e o da água "
+            "potável do país do projeto. Sem eles a avaliação ambiental não é calculada."))
+        self.lbl_fatores_do_pais.setWordWrap(True)
+        self.lbl_fatores_do_pais.setStyleSheet(
+            "background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 6px; padding: 8px; font-weight: bold;")
+        self.lbl_fatores_do_pais.setVisible(False)
+        main_layout.addWidget(self.lbl_fatores_do_pais)
+
         # ── ÁREA ROLÁVEL PRINCIPAL DA ETAPA 6 ──
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -935,6 +952,9 @@ class TabEnvironmental(QWidget):
         grid_esg.addWidget(self.card_leed, 0, 0)
         grid_esg.addWidget(self.card_aqua, 0, 1)
         grid_esg.addWidget(self.card_casa_azul, 1, 0)
+        from netuno.core.edition import usa_dados_do_brasil
+        self.card_aqua.setVisible(usa_dados_do_brasil())
+        self.card_casa_azul.setVisible(usa_dados_do_brasil())
         grid_esg.addWidget(self.card_gri, 1, 1)
         grid_esg.addWidget(self.card_edge, 2, 0, 1, 2)
         lay_esg.addLayout(grid_esg)
@@ -1012,7 +1032,8 @@ class TabEnvironmental(QWidget):
         self.browser_esg_info.setHtml(self._get_esg_methodology_html(is_dark))
         lay_esg.addWidget(self.browser_esg_info)
 
-        self.tab_charts_env.addTab(tab_env_esg, tr("🌿 Certificações ESG (LEED / AQUA / Casa Azul)"))
+        self.tab_charts_env.addTab(tab_env_esg, tr("🌿 Certificações ESG (LEED / AQUA / Casa Azul)") if usa_dados_do_brasil()
+                                   else tr("🌿 Certificações ESG (LEED / EDGE)"))
 
         self.tab_charts_env.currentChanged.connect(self._on_charts_tab_changed)
         self._on_charts_tab_changed(0)
@@ -1081,8 +1102,11 @@ class TabEnvironmental(QWidget):
         # valor várias vezes menor que o do motor.
         self.txt_pump_kwh = QLineEdit(f"{consumo_especifico_padrao_kwh_por_m3():.2f}")
 
-        self.txt_grid_co2 = QLineEdit(f"{grid_factor_default():.4f}")
-        self.txt_potable_co2 = QLineEdit("0.350")
+        # Na Internacional não há fator padrão: o da rede é o do MCTI (Brasil) e o da
+        # água potável vem de rotas brasileiras. Os campos começam vazios.
+        from netuno.core.edition import usa_dados_do_brasil
+        self.txt_grid_co2 = QLineEdit(f"{grid_factor_default():.4f}" if usa_dados_do_brasil() else "")
+        self.txt_potable_co2 = QLineEdit("0.350" if usa_dados_do_brasil() else "")
         # Dose e fator ficam separados para tornar a massa anual de cloro
         # auditável; os padrões equivalem a 0,050 kg CO2e/m³.
         self.txt_chlorine_dose = QLineEdit(f"{DOSE_PADRAO_MG_POR_LITRO:.2f}")
@@ -1336,6 +1360,9 @@ class TabEnvironmental(QWidget):
             except Exception:
                 return def_v
 
+        from netuno.core.edition import usa_dados_do_brasil
+        _br = usa_dados_do_brasil()
+
         from netuno.core.environmental import valor_personalizado_ou_none as preset_or_none
 
         def pipe_co2_or_none(dn, value):
@@ -1426,8 +1453,10 @@ class TabEnvironmental(QWidget):
             pump=pump,
             pump_count=pump_count,
             annual_pump_kwh=annual_pump_kwh,
-            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), grid_factor_default()),
-            potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350),
+            # Na Internacional não há fator de reserva brasileiro: vazio vale zero, e a
+            # aba e os relatórios avisam que falta o fator do país.
+            grid_co2_factor_kg_kwh=parse_f(self.txt_grid_co2.text(), grid_factor_default() if _br else 0.0),
+            potable_water_co2_kg_m3=parse_f(self.txt_potable_co2.text(), 0.350 if _br else 0.0),
             chlorine_dose_mg_l=parse_f(self.txt_chlorine_dose.text(), 2.0),
             chlorine_co2_kg_per_kg=parse_f(self.txt_chlorine_co2.text(), FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO),
             # A pureza e a base nomeada nao tem campo nesta aba: sao editadas no
@@ -1435,8 +1464,8 @@ class TabEnvironmental(QWidget):
             # escolhido seria ignorado, que e o defeito que ele corrige.
             chlorine_product_purity=max(0.01, min(1.0, float(
                 getattr(self, '_pureza_do_cloro', PUREZA_PADRAO_DO_CLORO)))),
-            grid_co2_factor_basis=str(
-                getattr(self, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE)),
+            grid_co2_factor_basis=(str(getattr(self, '_base_do_fator_da_rede', BASE_PADRAO_DA_REDE)) if _br
+                                   else "informado pelo usuário"),
             system_lifespan_years=parse_f(self.txt_lifespan.text(), 20.0),
             # A escolha de desinfeccao vem da Etapa 2 e atravessa ate aqui: e o
             # que faz optar por ultravioleta mudar a emissao anual.
@@ -1480,6 +1509,19 @@ class TabEnvironmental(QWidget):
             self._user_selected_env_vol = float(cur_v)
         self.recalculate_and_update(from_combo=True)
 
+    def faltam_fatores_do_pais(self) -> bool:
+        """Internacional sem o fator da rede ou o da água potável: a ACV não é calculada."""
+        from netuno.core.edition import usa_dados_do_brasil
+        if usa_dados_do_brasil():
+            return False
+        for campo in (self.txt_grid_co2, self.txt_potable_co2):
+            try:
+                if float(campo.text().replace(",", ".")) <= 0:
+                    return True
+            except ValueError:
+                return True
+        return False
+
     def recalculate_and_update(self, from_combo=False):
         mw = self.window()
         if not self.has_technical_sweep():
@@ -1488,6 +1530,12 @@ class TabEnvironmental(QWidget):
 
         if not self._params_customized and not from_combo:
             self.sync_from_project(force=False)
+
+        if self.faltam_fatores_do_pais():
+            self._show_empty_state()
+            self.lbl_fatores_do_pais.setVisible(True)
+            return
+        self.lbl_fatores_do_pais.setVisible(False)
 
         cfg = self.get_config()
 
@@ -1782,7 +1830,7 @@ class TabEnvironmental(QWidget):
         tag_bg = '#14532d' if is_dark else '#dcfce7'
         tag_col = '#86efac' if is_dark else '#15803d'
 
-        return f"""
+        html = f"""
         <div style="color: {text_col}; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.55;">
             <p style="margin-top: 0; font-size: 12.5px;">
                 O aproveitamento de água de chuva é um dos vetores de maior pontuação em certificações ambientais de edifícios. 
@@ -1876,3 +1924,13 @@ class TabEnvironmental(QWidget):
             </div>
         </div>
         """
+        from netuno.core.edition import usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            # AQUA-HQE e Casa Azul são brasileiros: a Internacional mostra só os referenciais internacionais.
+            inicio = html.find('<div style="background-color: {}'.format(card_bg)
+                               + '; border: 1px solid {}; border-left: 4px solid #0284c7'.format(card_border))
+            fim = html.find("5. Certificação EDGE")
+            fim = html.rfind("<div", 0, fim) if fim > 0 else -1
+            if 0 <= inicio < fim:
+                html = html[:inicio] + html[fim:]
+        return html

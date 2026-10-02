@@ -355,6 +355,6 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
-| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
-| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
+| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos, Varredura | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos, Varredura | — |
 

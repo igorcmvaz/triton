@@ -410,7 +410,8 @@ def exportar_tudo(
     leia.append(["Netuno — exportação completa para auditoria"])
     leia["A1"].font = Font(bold=True, size=14, color=_VERDE)
     leia.append([f"Projeto: {dados.get('project_name', '—')}"])
-    leia.append([f"Versão do programa: {versao}"])
+    from netuno.core.edition import rotulo_da_edicao
+    leia.append([f"Versão do programa: {versao} — {rotulo_da_edicao()}"])
     leia.append([f"Gerado em: {_dt.datetime.now().isoformat(sep=' ', timespec='seconds')}"])
     leia.append(["As abas «Auditoria_*» trazem todos os campos dos objetos que o programa usou, "
                  "sem seleção; as numeradas são a planilha de dados de sempre."])

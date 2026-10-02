@@ -97,8 +97,10 @@ tubos que ocupam o mesmo espaço e gera, com os mesmos dados, a planta 3D em DXF
 esquema 3D com as medidas reais, a volumetria girável e os arquivos glTF e HTML para
 compartilhar, além do manifesto BIM lido pelo Revit.
 
-A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código e se
-distinguem, nesta versão, pelo executável e pelo título da janela.
+A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código. A Brasil
+traz os dados brasileiros auditados. A Internacional é o núcleo neutro: abre em inglês,
+com tarifas, custos, moeda e fatores de emissão informados pelo usuário. As diferenças
+estão na seção {{n:2}}.
 
 ### Correções que alteram resultados
 
@@ -155,6 +157,7 @@ estudo errado.
 | os avisos do compilador de sombreadores do Direct3D (X4122, X4000) apareciam como «Qt aviso» | entram só na contagem do resumo; erro de compilação continua aparecendo |
 | o CAPEX de tubulação e acessórios era uma verba estimada, e a ACV contava só os metros de tubo digitados; curvas, conexões, peças e cabos de comando do arranjo 3D não entravam em nenhum dos dois | em projeto novo, os dois passam a sair do arranjo, peça por peça, com preço e carbono de cada item; arquivos antigos mantêm os custos que declaravam |
 | a mão de obra era fixada uma vez, sobre verbas genéricas, e não mudava com o volume na varredura; a varredura também deixava de cobrar o pressurizador quando não havia caixa superior | em projeto novo, a mão de obra é 30% dos materiais de cada volume, e a motobomba entra em todo arranjo que não seja por gravidade, como no motor econômico |
+| no otimizador global, o símbolo da moeda seguia o idioma: em inglês, valores em reais apareciam como dólares | o símbolo é o da moeda escolhida no projeto; em outra moeda, os preços em reais do arranjo 3D e a mão de obra automática deixam de ser aplicados |
 | o arranjo 3D usual era sempre o de recalque, com uma motobomba | o arranjo segue o abastecimento do projeto (recalque, pressurização ou gravidade) e desenha a motobomba reserva em paralelo; o CAPEX e a ACV deixam de cobrar peças de caixa superior que não existem e passam a cobrar as da reserva |
 
 ### Documentação

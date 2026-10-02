@@ -156,9 +156,13 @@ class TabProject(QWidget):
         lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; color: #133c32;")
         layout.addWidget(lbl_title)
 
+        from netuno.core.edition import usa_dados_do_brasil
         lbl_desc = QLabel(tr(
             "Selecione uma das 652 cidades brasileiras da Base de dados CLIMBra (CMIP6 com modelos GCMs e projeções climáticas) "
             "ou importe um arquivo CSV próprio. Defina o intervalo de análise, first flush e consulte os 9 indicadores pluviométricos."
+        ) if usa_dados_do_brasil() else tr(
+            "Importe a série diária de chuva do local do projeto em arquivo CSV. Defina o intervalo de análise, "
+            "first flush e consulte os 9 indicadores pluviométricos."
         ))
         lbl_desc.setWordWrap(True)
         lbl_desc.setStyleSheet(f"color: {muted_color}; font-size: 12px; margin-bottom: 2px;")
@@ -179,6 +183,8 @@ class TabProject(QWidget):
         self.rb_source_national.setChecked(True)
         self.btn_group_source.addButton(self.rb_source_national, 0)
         row_modes.addWidget(self.rb_source_national)
+        # A base CLIMBra cobre só cidades brasileiras e não vai na Internacional.
+        self.rb_source_national.setVisible(usa_dados_do_brasil())
 
         self.rb_source_custom = QRadioButton(tr("📁 Importar Arquivo CSV em Formato Netuno"))
         self.rb_source_custom.setStyleSheet("font-weight: bold; font-size: 12px;")
@@ -353,6 +359,9 @@ class TabProject(QWidget):
         lay_tariffs.addWidget(self.card_tariff_info)
         gb_tariffs.setLayout(lay_tariffs)
         layout.addWidget(gb_tariffs)
+        # Município de referência e tarifas auditadas: só no Brasil. Na Internacional,
+        # tarifa e energia são digitadas nos diálogos econômicos.
+        gb_tariffs.setVisible(usa_dados_do_brasil())
 
         # ── GroupBox 3: PARÂMETROS DE DESCARTE INICIAL (FIRST FLUSH) ──
         gb_params = QGroupBox(tr("Parâmetros do Projeto & Regra de Descarte Inicial (First Flush)"))

@@ -81,19 +81,21 @@ Figura 8 — As doze etapas do programa, agrupadas por natureza
 
 Tabela 1 — Requisitos de sistema para instalar e executar o programa
 
-Tabela 2 — Formatos de arquivo que o programa grava e o conteúdo de cada um
+Tabela 2 — O que muda entre a Edição Brasil e a International Edition
 
-Tabela 3 — Arquivos de exemplo distribuídos com o programa
+Tabela 3 — Formatos de arquivo que o programa grava e o conteúdo de cada um
 
-Tabela 4 — Percurso de leitura recomendado conforme o objetivo do leitor
+Tabela 4 — Arquivos de exemplo distribuídos com o programa
 
-Tabela 5 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
+Tabela 5 — Percurso de leitura recomendado conforme o objetivo do leitor
 
-Tabela 6 — Critérios hidráulicos para decidir sobre o reservatório superior
+Tabela 6 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
 
-Tabela 7 — Padronização terminológica de água de chuva e água pluvial
+Tabela 7 — Critérios hidráulicos para decidir sobre o reservatório superior
 
-Tabela 8 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 8 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 9 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -356,7 +358,31 @@ computador.
 
 ---
 
-### 1.2.2. A instalação
+### 1.2.2. As duas edições
+
+O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
+lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
+rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+
+<!-- tabela: **Tabela 2** — O que muda entre a Edição Brasil e a International Edition -->
+| | Edição Brasil (BRL) | International Edition (INT) |
+| :--- | :--- | :--- |
+| instalador | `Netuno_Setup_5_0_0.exe` | `Netuno_INT_Setup_5_0_0.exe` |
+| idioma ao abrir | português | inglês |
+| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
+| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
+| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
+| moeda e custos | reais, com preços de referência | moeda escolhida; custos digitados |
+| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
+
+Sem os fatores de emissão do país, a International Edition não calcula a avaliação
+ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
+nenhum aviso.
+
+---
+
+### 1.2.3. A instalação
 
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
@@ -382,12 +408,12 @@ Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
 
 ---
 
-### 1.2.3. Onde ficam os seus arquivos
+### 1.2.4. Onde ficam os seus arquivos
 
 O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
 relatório ou uma exportação, ele pergunta a pasta.
 
-<!-- tabela: **Tabela 2** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
+<!-- tabela: **Tabela 3** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
 | O que você grava | Extensão | Contém |
 | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os dados de entrada **e a série de chuva** |
@@ -403,7 +429,7 @@ um trabalho verificável de um trabalho apenas relatado.
 
 ---
 
-### 1.2.4. A base climática
+### 1.2.5. A base climática
 
 O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
@@ -418,12 +444,12 @@ O apêndice E (volume Apêndices) descreve a base, e a seção 3.2 (volume Guias
 
 ---
 
-### 1.2.5. Os arquivos de exemplo
+### 1.2.6. Os arquivos de exemplo
 
 O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
 aqui.
 
-<!-- tabela: **Tabela 3** — Arquivos de exemplo distribuídos com o programa -->
+<!-- tabela: **Tabela 4** — Arquivos de exemplo distribuídos com o programa -->
 | Arquivo | Para que serve |
 | :--- | :--- |
 | `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo 4 constrói, pronto |
@@ -441,7 +467,7 @@ programa são de versões diferentes, e a seção 6.3 (volume Correções, bugs 
 
 ---
 
-### 1.2.6. A primeira simulação, em cinco minutos
+### 1.2.7. A primeira simulação, em cinco minutos
 
 O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
 trabalha. Para a primeira simulação bastam quatro delas.
@@ -461,7 +487,7 @@ seguinte: 4.000 L é o volume certo?
 
 ---
 
-### 1.2.7. Se alguma coisa der errado
+### 1.2.8. Se alguma coisa der errado
 
 **O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
@@ -499,7 +525,7 @@ existe justamente para indicar esse ponto de entrada.
 A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
 percurso de leitura correspondente a cada um deles.
 
-<!-- tabela: **Tabela 4** — Percurso de leitura recomendado conforme o objetivo do leitor -->
+<!-- tabela: **Tabela 5** — Percurso de leitura recomendado conforme o objetivo do leitor -->
 | Você quer | Leia |
 | :--- | :--- |
 | **aprender a usar** o programa | o capítulo 4 inteiro, seções 4.1 (volume Tutorial) a 4.10 (volume Tutorial), na ordem |
@@ -541,7 +567,7 @@ Os casos residenciais são tratados na seção 4.2 (volume Tutorial), e o caso c
 A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
 modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
 
-<!-- tabela: **Tabela 5** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
+<!-- tabela: **Tabela 6** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
 | Se você quer | Use | Onde se trata |
 | :--- | :--- | :--- |
 | avaliar uma cisterna que já existe | volume fixo | seção 4.3 (volume Tutorial) |
@@ -557,7 +583,7 @@ de que qualquer estudo pode dispor ao justificar um volume.
 A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
 pressão exigida nos pontos de consumo.
 
-<!-- tabela: **Tabela 6** — Critérios hidráulicos para decidir sobre o reservatório superior -->
+<!-- tabela: **Tabela 7** — Critérios hidráulicos para decidir sobre o reservatório superior -->
 | Se a edificação | Então | Onde se trata |
 | :--- | :--- | :--- |
 | é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção 4.5 (volume Tutorial) |
@@ -672,6 +698,10 @@ tratada neste manual, nas versões 4, 4.1 e 5.
 **BIM** (*building information modeling*). Modelagem da informação da construção.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
+
+**BRL**. Sigla da Edição Brasil do programa, a que traz os dados brasileiros: base
+climática CLIMBra, tarifas de 652 municípios, energia da ANEEL, custos em reais e
+certificações nacionais. A seção 1.2 compara as duas edições.
 
 **CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
 esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
@@ -803,6 +833,9 @@ HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
 *Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
 exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
+
+**INT**. Sigla da *International Edition* do programa: abre em inglês e não traz dados
+brasileiros. Tarifas, custos, moeda e fatores de emissão são informados pelo usuário.
 
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
@@ -997,7 +1030,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 7** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 8** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -1008,7 +1041,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 8** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 9** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

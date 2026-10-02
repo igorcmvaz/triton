@@ -338,6 +338,9 @@ class DialogTariffs(QDialog):
 
         lay_city.addWidget(self.card_info)
         lay.addWidget(gb_city)
+        # O catálogo de 652 municípios é brasileiro: na Internacional, a tarifa é digitada.
+        from netuno.core.edition import usa_dados_do_brasil
+        gb_city.setVisible(usa_dados_do_brasil())
 
         # ── BLOCO 2: FAIXAS DE TARIFA DE ÁGUA ──
         lay.addWidget(QLabel(tr("<b>Faixas de tarifa de água potável (por unidade habitacional):</b>")))
@@ -457,12 +460,13 @@ class DialogTariffs(QDialog):
         try:
             self.combo_uf.clear()
             self.combo_uf.addItem(tr("⚙️ Personalizado"), "CUSTOM")
-            ufs = get_available_ufs()
+            from netuno.core.edition import usa_dados_do_brasil
+            ufs = get_available_ufs() if usa_dados_do_brasil() else []
             for uf_code, state_name in ufs:
                 self.combo_uf.addItem(f"{uf_code} - {state_name}", uf_code)
 
-            saved_uf = getattr(self.config, 'tariff_city_uf', 'SC')
-            saved_city = getattr(self.config, 'tariff_city_name', 'Florianópolis')
+            saved_uf = getattr(self.config, 'tariff_city_uf', 'SC') if ufs else "CUSTOM"
+            saved_city = getattr(self.config, 'tariff_city_name', 'Florianópolis') if ufs else "CUSTOM"
 
             # Localiza UF
             uf_idx = -1
@@ -1730,6 +1734,8 @@ class DialogElectricity(QDialog):
 
         lay_elec.addWidget(self.card_elec_info)
         lay.addWidget(gb_elec)
+        from netuno.core.edition import usa_dados_do_brasil
+        gb_elec.setVisible(usa_dados_do_brasil())
 
         # ── BLOCO 2: PARÂMETROS DA MOTOBOMBA ──
         gb_pump = QGroupBox(tr("⚙️ Parâmetros da Motobomba"))
@@ -1855,12 +1861,15 @@ class DialogElectricity(QDialog):
         try:
             self.combo_elec_uf.clear()
             self.combo_elec_uf.addItem(tr("⚙️ Personalizado"), "CUSTOM")
-            ufs = get_available_ufs()
+            from netuno.core.edition import usa_dados_do_brasil
+            ufs = get_available_ufs() if usa_dados_do_brasil() else []
             for uf_code, state_name in ufs:
                 self.combo_elec_uf.addItem(f"{uf_code} - {state_name}", uf_code)
 
-            saved_uf = getattr(self.config, 'elec_city_uf', getattr(self.config, 'tariff_city_uf', 'SC'))
-            saved_city = getattr(self.config, 'elec_city_name', getattr(self.config, 'tariff_city_name', 'Florianópolis'))
+            saved_uf = (getattr(self.config, 'elec_city_uf', getattr(self.config, 'tariff_city_uf', 'SC'))
+                        if ufs else "CUSTOM")
+            saved_city = (getattr(self.config, 'elec_city_name', getattr(self.config, 'tariff_city_name', 'Florianópolis'))
+                          if ufs else "CUSTOM")
 
             uf_idx = -1
             for i in range(self.combo_elec_uf.count()):

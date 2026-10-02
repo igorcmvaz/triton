@@ -8,18 +8,31 @@ _runtime_language = None
 _runtime_theme = None
 
 
+def _preferencias() -> QSettings:
+    """Preferências separadas por edição: instaladas lado a lado, não dividem idioma."""
+    from netuno.core.edition import is_int_edition
+
+    return QSettings("UFSC", "Netuno5-INT" if is_int_edition() else "Netuno5")
+
+
+def _idioma_padrao() -> str:
+    from netuno.core.edition import is_int_edition
+
+    return "en" if is_int_edition() else "pt"
+
+
 def get_current_lang():
     if _runtime_language is not None:
         return _runtime_language
-    settings = QSettings("UFSC", "Netuno5")
-    lang = str(settings.value("language", "pt"))
-    return lang if lang in get_available_languages() else "pt"
+    settings = _preferencias()
+    lang = str(settings.value("language", _idioma_padrao()))
+    return lang if lang in get_available_languages() else _idioma_padrao()
 
 
 def set_current_lang(lang):
     global _runtime_language
     _runtime_language = lang if lang in get_available_languages() else "pt"
-    settings = QSettings("UFSC", "Netuno5")
+    settings = _preferencias()
     settings.setValue("language", _runtime_language)
     settings.sync()
 
@@ -27,7 +40,7 @@ def set_current_lang(lang):
 def is_language_set():
     if _runtime_language is not None:
         return True
-    settings = QSettings("UFSC", "Netuno5")
+    settings = _preferencias()
     return settings.contains("language")
 
 
@@ -39,7 +52,7 @@ def get_current_theme():
 def set_current_theme(theme):
     global _runtime_theme
     _runtime_theme = "light"
-    settings = QSettings("UFSC", "Netuno5")
+    settings = _preferencias()
     settings.setValue("theme", _runtime_theme)
     settings.sync()
 
@@ -162,6 +175,11 @@ def check_first_run_language():
     Se o idioma ainda não estiver configurado nos registros, exibe o modal de seleção.
     """
     if not is_language_set():
+        from netuno.core.edition import is_int_edition
+        if is_int_edition():
+            # A Internacional abre em inglês; o idioma muda depois pela interface.
+            set_current_lang("en")
+            return
         from PySide6.QtCore import Qt
         dialog = FirstRunLangDialog()
         dialog.exec()

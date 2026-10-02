@@ -47,7 +47,13 @@ Para compilar só o instalador, com `dist\Netuno` já pronto:
 
 ## A base climática
 
-A Edição Brasil (`Netuno.exe`, a que o instalador empacota) sai com a base CLIMBra
+Cada edição tem o seu instalador, gerado pelo mesmo `setup_script.iss` com
+`/DEdition=BRL` ou `/DEdition=INT`. O `python build_exe_int.py --installer` gera o
+`Netuno_INT_Setup_*.exe`, a partir de `dist\Netuno_INT`. As duas edições têm AppId,
+pasta (`Netuno 5` e `Netuno 5 International`), atalhos e ProgId próprios, e por isso
+instalam-se lado a lado. Na Internacional, a associação dos `.netuno` vem desmarcada.
+
+A Edição Brasil (`Netuno.exe`) sai com a base CLIMBra
 **embutida**: o banco compilado `data/climbra.db` (cerca de 784 MB, 652 cidades,
 modelos e cenários CMIP6) entra no executável em `_internal\data\climbra.db`, e o
 programa já abre com as cidades no seletor da Etapa 1. A Edição Internacional
