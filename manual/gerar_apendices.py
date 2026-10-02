@@ -320,6 +320,37 @@ def _limpa(t):
     return t
 
 
+TEXTOS_FAIXAS = dict(
+    titulo="## As faixas por município e categoria",
+    texto=[
+        "A tabela abaixo traz o preço da água, em R$/m³, em cada intervalo de consumo mensal,",
+        "para cada estrutura do catálogo. As colunas são a maior discretização que o catálogo",
+        "pede: a união dos limites de faixa de todos os prestadores, de modo que dentro de cada",
+        "coluna nenhum prestador muda o preço. Municípios com a mesma tabela formam uma linha,",
+        "identificada pelo número da primeira coluna, que se repete nas partes seguintes.",
+        "",
+        "A categoria residencial está nos 652 municípios; as demais aparecem onde a tabela oficial",
+        "do prestador foi coletada. A tabela é gerada da base a cada versão e cresce com ela.",
+        "A parcela fixa soma por cima do consumo; um preço zero nas primeiras faixas é o volume",
+        "já incluído no valor fixo (franquia no mínimo).",
+    ],
+    legenda_id="As estruturas tarifárias do catálogo, numeradas para as tabelas de preço por faixa que vêm a seguir",
+    legenda="Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte {0} de {1}: {2} a {3} m³)",
+    n="Nº", prestador="Prestador: municípios", categoria="Categoria", fixo="Fixo (R$/mês)",
+    esgoto="Esgoto", e_mais=" e mais {0}", retroativa="até {0} m³: {1} (retroativa)",
+    piso="piso {0}", esgoto_m3="R$ {0}/m³",
+    cat_residencial="Residencial", cat_comercial="Comercial", cat_publica="Pública",
+    cat_industrial="Industrial", cat_social="Social",
+    exp_texto="Os municípios da CORSAN cobram pela fórmula exponencial `PB × Cⁿ + SB` (seção {{n:16}}), sem preço por faixa; o expoente `n` é o da coluna da categoria na Tabela de Exponenciais.",
+    exp_legenda="A fórmula exponencial da CORSAN em cada tabela tarifária e categoria coletada",
+    exp_cab=["Municípios", "Categoria", "PB (R$/m³)", "SB (R$/mês)", "Esgoto (R$/m³)"],
+)
+
+
+def _num_pt(v, casas):
+    return f"{v:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
 def apendice_d():
     """Regimes tarifários e a base dos 652 municípios, lidos da própria base."""
     import json
@@ -430,6 +461,8 @@ def apendice_d():
           "> **Confira sempre a data de vigência** do registro do seu município contra a",
           "> resolução da concessionária. Tarifas são reajustadas anualmente, e a seção {{n:16}}",
           "> ensina o teste que identifica estrutura errada.", ""]
+    from tabela_de_faixas import secao
+    L += secao(cidades, TEXTOS_FAIXAS, _num_pt)
     return NL.join(L), len(cidades)
 
 

@@ -42,7 +42,7 @@ _PORTUGUES = re.compile(
 #: Sections whose text legitimately quotes Portuguese: reference titles, the glossary's
 #: original terms, messages the program prints in Portuguese.
 _TOLERANCIA = {"H_referencias": 10**6, "G_glossario": 80, "37_mensagens_de_erro": 80,
-               "D_regimes_tarifarios": 5, "A_parametros": 5, "22_exportar_cad_bim_planilha": 15,
+               "D_regimes_tarifarios": 10**6,  # nomes de municípios e prestadores "A_parametros": 5, "22_exportar_cad_bim_planilha": 15,
                "38_historico_de_versoes": 10, "16_ajustar_a_tarifa": 15, "21_importar_do_netuno4": 10,
                "F_arquivos_e_formatos": 15, "J_arquivos_de_exemplo": 15, "31_certificacoes": 10}
 

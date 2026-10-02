@@ -265,6 +265,38 @@ GRAUS = {
 }
 
 
+TEXTOS_FAIXAS = dict(
+    titulo="## The blocks by municipality and category",
+    texto=[
+        "The table below gives the price of water, in R$/m³, in each monthly consumption",
+        "interval, for each structure of the catalogue. The columns are the finest split the",
+        "catalogue needs: the union of the block limits of all providers, so that within each",
+        "column no provider changes the price. Municipalities with the same table form one row,",
+        "identified by the number in the first column, which repeats in the following parts.",
+        "",
+        "The residential category covers the 652 municipalities; the others appear where the",
+        "provider's official table has been collected. The table is generated from the database",
+        "for each version and grows with it. The fixed part adds on top of consumption; a zero",
+        "price in the first blocks is the volume already included in the fixed value (allowance",
+        "in the minimum).",
+    ],
+    legenda_id="The tariff structures of the catalogue, numbered for the price-by-block tables that follow",
+    legenda="Price of water by monthly consumption interval, in R$/m³, by municipality and category (part {0} of {1}: {2} to {3} m³)",
+    n="No.", prestador="Provider: municipalities", categoria="Category", fixo="Fixed (R$/month)",
+    esgoto="Sewage", e_mais=" and {0} more", retroativa="up to {0} m³: {1} (retroactive)",
+    piso="floor {0}", esgoto_m3="R$ {0}/m³",
+    cat_residencial="Residential", cat_comercial="Commercial", cat_publica="Public",
+    cat_industrial="Industrial", cat_social="Social",
+    exp_texto="The CORSAN municipalities charge by the exponential formula `PB × Cⁿ + SB` (section {{n:16}}), with no price per block; the exponent `n` is that of the category's column in the Exponent Table.",
+    exp_legenda="The CORSAN exponential formula in each tariff table and collected category",
+    exp_cab=["Municipalities", "Category", "PB (R$/m³)", "SB (R$/month)", "Sewage (R$/m³)"],
+)
+
+
+def _num_en(v, casas):
+    return f"{v:,.{casas}f}"
+
+
 def apendice_d():
     caminho = os.path.join(RAIZ, "netuno", "data", "brazil_cities_tariffs.json")
     if not os.path.exists(caminho):
@@ -361,6 +393,8 @@ def apendice_d():
           "> **Always check the effective date** of your municipality's record against the",
           "> utility's resolution. Tariffs are adjusted every year, and section {{n:16}}",
           "> teaches the test that identifies a wrong structure.", ""]
+    from tabela_de_faixas import secao
+    L += secao(cidades, TEXTOS_FAIXAS, _num_en)
     return NL.join(L), len(cidades)
 
 

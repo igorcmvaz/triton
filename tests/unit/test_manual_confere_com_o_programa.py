@@ -1047,6 +1047,9 @@ def test_toda_sigla_recorrente_esta_no_glossario():
     # «BD+C» cobre a sigla nua «BD», pelo mesmo motivo.
     verbetes |= {v.split("+")[0].lower() for v in nomes if "+" in v}
 
+    # As tabelas de faixas por município do apêndice de regimes tarifários são dado: os
+    # nomes de prestadores e as siglas de UF ali são células, e não vocabulário do texto.
+    texto = re.sub(r"(?ms)^#+ [^\n]*As faixas por município e categoria.*?(?=^#{2,3} )", "", texto)
     from collections import Counter
     contagem = Counter(re.findall(r"\b([A-Z]{2,}(?:-[A-Z0-9]+)?)\b", texto))
     faltando = [
