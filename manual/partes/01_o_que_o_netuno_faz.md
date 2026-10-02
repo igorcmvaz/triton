@@ -80,7 +80,7 @@ chuva. A {{fig:fig00b_destino}} mostra como a precipitação de um dia se repart
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 99 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
+*Figura 99 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermediária entre as regras YAS e YBS, explicada na seção do balanço diário.*
 
 Lendo o desenho:
 

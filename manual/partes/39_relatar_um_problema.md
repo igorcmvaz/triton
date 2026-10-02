@@ -19,7 +19,7 @@ transformar a investigação numa troca de mensagens que consome mais tempo de t
 que o próprio conserto.
 
 **O arquivo do projeto.** É o item mais importante, e sozinho substitui páginas de
-descrição. O `.netuno` é autocontido: traz os 104 parâmetros e a série de chuva inteira
+descrição. O `.netuno` é autocontido: traz todos os parâmetros e a série de chuva inteira
 dentro dele, de modo que quem o receber reproduz exatamente a sua simulação, na mesma
 máquina ou em outra qualquer. Sem ele, a investigação começa por tentar adivinhar as
 entradas, e adivinhar entradas é a forma mais eficiente de não encontrar um defeito.

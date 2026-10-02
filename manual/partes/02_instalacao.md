@@ -52,10 +52,10 @@ nenhum aviso.
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
-   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
-   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
-   adiante). A **personalizada** permite marcar cada um.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
+   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
+   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
+   junto, embutida no programa.
 4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
 5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
    .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
