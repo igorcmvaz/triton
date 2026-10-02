@@ -169,7 +169,12 @@ def fontes():
     return out
 
 
-def apendice_a():
+def campos_do_projeto():
+    """Os campos de `NetunoConfig`, com o padrão cru, a nota do código e onde cada um aparece.
+
+    Os nomes de seção, de tela e de módulo saem em português; o manual em inglês os
+    traduz em `manual/en/apendices_en.py`.
+    """
     src = open(os.path.join(PKG, "core", "parser.py"), encoding="utf-8").read()
     linhas_fonte = src.split(NL)
     arv = ast.parse(src)
@@ -189,16 +194,6 @@ def apendice_a():
                     padrao = ast.literal_eval(item.value) if item.value else None
                 except (ValueError, TypeError, SyntaxError):
                     padrao = None
-                if isinstance(padrao, (list, tuple)):
-                    padrao = "vazio" if not padrao else f"{len(padrao)} itens"
-                elif isinstance(padrao, bool):
-                    padrao = "sim" if padrao else "não"
-                elif isinstance(padrao, float):
-                    padrao = f"{padrao:g}".replace(".", ",")
-                elif padrao is None or padrao == "":
-                    padrao = "—"
-                else:
-                    padrao = str(padrao)
 
                 alvo = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(nome)
                                   + r"(?![A-Za-z0-9_])")
@@ -212,11 +207,30 @@ def apendice_a():
                     if rel.startswith("ui/") and base in TELAS:
                         telas.add(TELAS[base])
                 campos.append({
-                    "n": nome, "p": padrao, "u": UNIDADES.get(nome, ""),
+                    "n": nome, "cru": padrao, "u": UNIDADES.get(nome, ""),
                     "nota": nota, "sec": secao(nome),
                     "mods": sorted(mods - {"Arquivo do projeto"}),
                     "telas": sorted(telas),
                 })
+    return campos
+
+
+def padrao_em_portugues(padrao):
+    if isinstance(padrao, (list, tuple)):
+        return "vazio" if not padrao else f"{len(padrao)} itens"
+    if isinstance(padrao, bool):
+        return "sim" if padrao else "não"
+    if isinstance(padrao, float):
+        return f"{padrao:g}".replace(".", ",")
+    if padrao is None or padrao == "":
+        return "—"
+    return str(padrao)
+
+
+def apendice_a():
+    campos = campos_do_projeto()
+    for c in campos:
+        c["p"] = padrao_em_portugues(c["cru"])
 
     por_sec = {}
     for c in campos:

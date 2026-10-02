@@ -382,11 +382,14 @@ de aproveitamento de água pluvial.
 dos formatos de exportação de planilhas e de resultados da linha de comando.
 
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+calculado **antes** da retirada da demanda e, na forma estrita, a retirada do dia sai
+só do volume guardado na véspera. O programa calcula o extravasamento antes, como a
+YAS, mas deixa a chuva do dia atender a demanda do dia; fica entre a YAS e a YBS
+(seção {{n:23}}).
 
 **YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes**
 do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o
-aproveitamento; não é o modelo adotado pelo programa.
+aproveitamento; o programa não a adota, e o resultado dele fica entre a YAS e a YBS.
 
 ---
 

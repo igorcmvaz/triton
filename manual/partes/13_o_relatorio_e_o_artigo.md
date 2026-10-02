@@ -129,7 +129,8 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 Para o nosso projeto, o método ficaria assim:
 
 > A simulação foi conduzida no Netuno 5.0.0, com modelo comportamental de base
-> diária (YAS, extravasamento anterior à retirada da demanda), sobre série de
+> diária (extravasamento calculado antes da retirada da demanda, com a chuva do dia
+> disponível para o consumo do dia, ordem intermediária entre YAS e YBS), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
 > Adotou-se área de captação de 150 m² em projeção horizontal, coeficiente de
 > escoamento de 0,85, adotado a partir da eficiência de captação η que a ABNT NBR 15527:2019

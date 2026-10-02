@@ -17,7 +17,8 @@ PROCESSOS = [
  ["A série vira um vetor <code>numpy</code> de milímetros por dia; o índice do vetor "
   "é o dia, e a data serve só para saber o dia da semana e o mês.",
   "Ano incompleto é descartado na leitura, para não enviesar totais anuais.",
-  "A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário."],
+  "A base climática vai embutida na Edição Brasil, em <code>climbra.db</code>; na "
+  "International Edition, que não a traz, a série é sempre um arquivo do usuário."],
  [("climate_database.py", "load_national_climate_series"),
   ("climate_database.py", "get_climate_file_path"),
   ("parser.py", "load_precipitation")],
@@ -99,7 +100,8 @@ PROCESSOS = [
  "PROC-06", "Armazenar e extravasar", "balanco",
  "Todo dia, depois da captação.",
  ["<code>v_ac</code>", "volume remanescente do dia anterior", "<code>lower_tank_vol</code>"],
- ["<b>Modelo YAS</b>: o extravasamento é calculado <b>antes</b> de retirar a demanda.",
+ ["<b>Extravasamento antes do consumo</b>, como na regra YAS; a chuva do dia, até a "
+  "capacidade, já atende a demanda do dia, o que põe o modelo entre a YAS e a YBS estritas.",
   "<code>disponível = v_lower + v_ac</code>. Se passar da capacidade, o excedente extravasa "
   "e o reservatório fica cheio.",
   "A ordem importa: retirar a demanda antes faria o reservatório aceitar água que "

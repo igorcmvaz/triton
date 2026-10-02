@@ -98,10 +98,13 @@ O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, e
 **774 L extravasam**. Só depois disso o programa retira os 80 L da demanda, deixando
 1.920 L para o dia seguinte.
 
-> **Atenção.** Esta ordem define o modelo, e tem nome: **YAS**, de *yield after
-> spillage*. O extravasamento é calculado **antes** da retirada da demanda.
+> **Atenção.** Esta ordem define o modelo. O extravasamento é calculado **antes** da
+> retirada da demanda, como na regra **YAS** (*yield after spillage*), mas a chuva do
+> próprio dia já pode atender a demanda do dia, como na regra **YBS**. O Netuno fica,
+> portanto, entre as duas, e a subseção «YAS, YBS e a ordem do Netuno», adiante, mostra
+> por quê.
 >
-> Se a ordem fosse invertida, o reservatório aceitaria água que fisicamente já teria
+> Se o consumo viesse antes do extravasamento, o reservatório aceitaria água que fisicamente já teria
 > extravasado, e o programa superestimaria o aproveitamento. A diferença aparece
 > justamente nos dias de chuva forte, que são os que mais pesam no total anual.
 
@@ -203,9 +206,10 @@ V_arm,t = min(D_t ; V_max)
 | `V_max` | capacidade útil do reservatório inferior | L |
 
 ==A ordem em que as Equações {{eq:extravasado}} e {{eq:armazenado}} aparecem define o
-modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
-convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
-é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
+modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e é por isso que
+o programa costuma ser descrito pela regra YAS, do inglês *yield after spillage*, isto
+é, rendimento posterior ao extravasamento. A descrição é aproximada, e a subseção
+seguinte diz em que ela falha. Inverter a ordem faria o reservatório
 aceitar, na forma de consumo, água que fisicamente já teria extravasado, e
 superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
 mais pesam no total anual.
@@ -219,7 +223,35 @@ esses dias os que mais pesam no total anual, e por isso uma escolha que parece f
 
 ![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
 
-*Figura 99 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
+*Figura 99 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
+
+### YAS, YBS e a ordem do Netuno
+
+Na literatura, YAS e YBS têm definição precisa (Fewkes e Butler, 2000). Com `Y_t` o
+volume retirado no dia, `Q_t` o volume captado, `S_t` o volume armazenado no fim do dia
+e `V_max` a capacidade:
+
+| Regra | Retirada do dia | Armazenado no fim do dia |
+| :--- | :--- | :--- |
+| YAS estrita | `Y_t = min(D_pl,t ; S_t−1)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max − Y_t)` |
+| YBS estrita | `Y_t = min(D_pl,t ; S_t−1 + Q_t)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max)` |
+| Netuno | `Y_t = min(D_pl,t ; min(S_t−1 + Q_t ; V_max))` | `S_t = min(S_t−1 + Q_t ; V_max) − Y_t` |
+
+Na YAS estrita, a retirada do dia sai só do que estava guardado na véspera: a chuva de
+hoje só serve amanhã. Na YBS estrita, a chuva de hoje atende a demanda antes de o
+reservatório extravasar. O Netuno faz o extravasamento primeiro, como a YAS, e depois
+deixa a chuva do dia, até o limite da capacidade, atender a demanda do dia.
+
+Disso decorre uma desigualdade que vale em qualquer série: o volume consumido pelo
+Netuno nunca é menor que o da YAS estrita nem maior que o da YBS estrita. O resultado
+fica **entre as duas**, mais perto da YAS nos reservatórios grandes, em que a véspera
+quase sempre basta, e mais longe dela nos pequenos, em que a chuva do dia pesa. Quem
+compara o Netuno com um programa ou com uma norma que use a YAS estrita, como o método
+detalhado da EN 16941-1:2024 (Anexo A), deve esperar do Netuno um potencial de economia
+um pouco maior para o mesmo volume.
+
+O programa mantém essa ordem por decisão: ela reproduz o Netuno 4 e os estudos do grupo
+de pesquisa que o usaram, e uma mudança aqui deslocaria todos os resultados publicados.
 
 ### O atendimento da demanda
 

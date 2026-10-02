@@ -50,7 +50,7 @@ Nos modos 2 e 3, os dias em que a regra não é acionada aproveitam a precipita�
 
 O parâmetro `df` é uma **lâmina** (mm), não o volume hidráulico do dispositivo físico de first flush (`A × df` litros); o dispositivo deve ser dimensionado separadamente.
 
-## 2. Demanda e balanço YAS
+## 2. Demanda e balanço diário
 
 A demanda tem duas parcelas. A interna é `Din,t = N × q`, em que `N` é o número de usuários e `q` a demanda per capita; se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A externa (rega, lavagem de áreas externas) é um volume diário `Qex`, suspenso nos dias em que a chuva atinge o limiar (2 mm por padrão): `Dex,t = Qex` se `Pt < Plim`, e zero nos demais. A demanda total é `Dtot,t = Din,t + Dex,t`.
 
@@ -62,7 +62,7 @@ f = (fin × Din + Qex) / (Din + Qex)
 
 é derivada das duas e não é dado de entrada: a interface a mostra num campo que não se edita, e o arquivo a grava para leitura. Sem demanda externa, `f = fin`. Alterar `f` pela linha de comando (`--share`, `--set rainwater_share=…`) recalcula `fin`, mantida a externa; alterar `fin` ou `Qex` recalcula `f`; alterar as duas de forma incoerente é recusado. A regra fica em `netuno/core/fracao_atendivel.py`.
 
-No reservatório inferior, o modelo *Yield After Spillage* (YAS) limita o estoque e calcula o extravasamento **antes** de retirar a demanda:
+No reservatório inferior, o programa limita o estoque e calcula o extravasamento **antes** de retirar a demanda, como na regra *Yield After Spillage* (YAS), mas a chuva do próprio dia já pode atender a demanda do dia:
 
 ```text
 Aprov,t = St−1 + Vcap,t
@@ -71,6 +71,8 @@ Extravasamento,t = max(0, Aprov,t − V)
 Atendimento,t = min(Dpl,t, Santes,t)
 St = Santes,t − Atendimento,t
 ```
+
+Por isso o modelo não é a YAS estrita de Fewkes e Butler (2000), em que a retirada do dia sai só do estoque da véspera (`Atendimento,t = min(Dpl,t, St−1)`), nem a YBS, em que a demanda sai antes do extravasamento. O consumo calculado fica sempre entre os dois, e mais longe da YAS nos reservatórios pequenos. A EN 16941-1:2024 (Anexo A.3) usa a YAS estrita; a comparação está em [`normas_nbr_x_en16941.md`](normas_nbr_x_en16941.md).
 
 Quando há reservatório superior, o recalque é uma transferência interna adicional, limitada pelos estoques, pelo volume superior e pelo limiar de acionamento. O balanço auditável dos dois reservatórios é `estoque inicial + captação = estoque final + consumo pluvial + extravasamento`.
 

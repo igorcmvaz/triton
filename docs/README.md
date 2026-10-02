@@ -27,7 +27,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 
 | Documento | Conteúdo |
 | :--- | :--- |
-| [`metodologia.md`](metodologia.md) | Equações, premissas e fronteiras do modelo em 9 seções: chuva efetiva, balanço YAS, CAPEX, bombeamento, economia, ACV, TOPSIS |
+| [`metodologia.md`](metodologia.md) | Equações, premissas e fronteiras do modelo em 9 seções: chuva efetiva, balanço diário, CAPEX, bombeamento, economia, ACV, TOPSIS |
 | [`normas_nbr_x_en16941.md`](normas_nbr_x_en16941.md) | Diferenças entre a NBR 15527/5626 e a EN 16941-1:2024, item a item, e o que o Netuno faz em cada uma |
 | [`../netuno/docs/fluxogramas_metodologicos.md`](../netuno/docs/fluxogramas_metodologicos.md) | Atlas de 22 fluxogramas do encadeamento implementado |
 | [`../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md`](../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md) | O que depende e o que não depende do volume da cisterna |

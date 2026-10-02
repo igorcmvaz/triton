@@ -13,7 +13,8 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 
 ## 🌟 Principais Recursos e Inovações Metodológicas
 
-1. **Balanço Hídrico Diário de Alta Precisão (Yield-After-Spill - YAS):**
+1. **Balanço Hídrico Diário de Alta Precisão:**
+   - Extravasamento calculado antes do consumo, com a chuva do dia disponível para a demanda do dia: ordem intermediária entre as regras YAS e YBS (seção do balanço diário no manual).
    - Simulação contínua com descarte inicial de primeira chuva (*first flush*) em três modos: em todos os eventos, no primeiro evento após estiagem ou a cada intervalo de dias.
    - Suporte a demandas não potáveis constantes ou moduladas (modulação semanal, mensal ou por série diária).
    - Varredura paramétrica de volumes de reservatório inferior e superior com motobomba.
@@ -68,7 +69,7 @@ O **Netuno 5** é uma plataforma computacional avançada desenvolvida pelo **Gru
 
 | Módulo | Descrição Técnica |
 | :--- | :--- |
-| [`netuno.core.simulation`](netuno/core/simulation.py) | Motor de simulação de balanço hídrico diário (YAS), descarte de primeira chuva e varredura |
+| [`netuno.core.simulation`](netuno/core/simulation.py) | Motor de simulação de balanço hídrico diário (extravasamento antes do consumo), descarte de primeira chuva e varredura |
 | [`netuno.core.economic`](netuno/core/economic.py) | Análise econômico-financeira (tarifas progressivas, fluxo de caixa, VPL, TIR e Payback) |
 | [`netuno.core.cost_estimates`](netuno/core/cost_estimates.py) | Engenharia de custos paramétricos, composições SINAPI e fatores regionais por UF |
 | [`netuno.core.tariffs_database`](netuno/core/tariffs_database.py) | Catálogo auditado de tarifas de saneamento e eletricidade ANEEL para 652 cidades |

@@ -21,7 +21,12 @@ As marcas que o texto usa:
 Uso:
     python manual/gerar_tabelas.py
     python manual/gerar_apendices.py
-    python manual/gerar.py
+    python manual/gerar.py              # o manual em português
+    python manual/gerar.py --idioma en  # o manual em inglês, de manual/en
+
+O manual em inglês tem a mesma estrutura, as mesmas marcas e as mesmas figuras; o
+texto vem de `manual/en/partes` e `manual/en/apendices`, e os títulos, os rótulos e a
+folha de rosto vêm de `manual/en/textos_en.py`.
 """
 
 from __future__ import annotations
@@ -162,6 +167,50 @@ TITULOS = {
     "J_arquivos_de_exemplo": "Arquivos de exemplo",
 }
 
+#: Os rótulos que a montagem escreve, por idioma. O português é o padrão; o inglês
+#: é ativado por `usar_idioma("en")`, que também troca as pastas e os títulos.
+ROTULOS = {
+    "pt": dict(figura="Figura", tabela="Tabela", equacao="Equação", apendice="Apêndice",
+               lista_figuras="Lista de figuras", lista_tabelas="Lista de tabelas",
+               lista_equacoes="Lista de equações", sumario="Sumário",
+               variaveis="Variáveis da Equação", variaveis_sem="Variáveis da equação",
+               cabecalho_variaveis="| Símbolo | Significado | Unidade |",
+               por_escrever="> **Seção por escrever.**",
+               genericos={"valor", "valores", "parâmetro", "padrão", "unidade",
+                          "o que significa", "o que é", "descrição", "item", "quanto"}),
+}
+IDIOMA = "pt"
+PASTA_DO_TEXTO = AQUI
+DESTINO = os.path.join(AQUI, "Manual-Netuno-5.md")
+NOMES_DAS_EQUACOES = None  # None: os nomes em português, de listar_equacoes
+
+
+def R(chave):
+    return ROTULOS[IDIOMA][chave]
+
+
+def usar_idioma(idioma):
+    """Troca o idioma da montagem: pastas, títulos, rótulos e folha de rosto."""
+    global IDIOMA, PASTA_DO_TEXTO, DESTINO, ESTRUTURA, TITULOS, NOMES_DAS_EQUACOES, frontmatter
+    if idioma == "pt":
+        return
+    if idioma != "en":
+        raise SystemExit(f"idioma desconhecido: {idioma}")
+    pasta_en = os.path.join(AQUI, "en")
+    if pasta_en not in sys.path:
+        sys.path.insert(0, pasta_en)
+    import textos_en as T
+    ROTULOS["en"] = T.ROTULOS
+    IDIOMA = "en"
+    PASTA_DO_TEXTO = pasta_en
+    DESTINO = os.path.join(pasta_en, T.ARQUIVO_MONTADO)
+    ESTRUTURA = [(T.CAPITULOS[i], pasta, secoes)
+                 for i, (_, pasta, secoes) in enumerate(ESTRUTURA)]
+    TITULOS = T.TITULOS
+    NOMES_DAS_EQUACOES = T.EQUACOES
+    frontmatter = T.frontmatter
+
+
 #: Da antiga «Parte N» para o capítulo que a sucedeu.
 PARTE_PARA_CAPITULO = {"1": 1, "2": 4, "3": 3, "4": 2, "5": 5, "6": 5}
 
@@ -198,7 +247,7 @@ def sumario_do_capitulo(i, titulo, pasta):
 
 def entrada_do_sumario(chave, pasta):
     numero = indice_das_secoes()[chave]
-    rotulo = f"Apêndice {numero} —" if eh_apendice(pasta) else numero
+    rotulo = f"{R('apendice')} {numero} —" if eh_apendice(pasta) else numero
     return f"{rotulo} {TITULOS.get(chave, chave)}"
 
 
@@ -259,7 +308,7 @@ def numerar_titulos(texto, capitulo, secao, letra=None):
             saida.append(f"### {base}.{sub}. {linha[3:].strip()}")
         elif linha.startswith("# ") and not linha.startswith("## "):
             if letra:
-                saida.append(f"## Apêndice {letra} — {linha[2:].strip()}")
+                saida.append(f"## {R('apendice')} {letra} — {linha[2:].strip()}")
             else:
                 saida.append(f"## {base}. {linha[2:].strip()}")
         else:
@@ -276,12 +325,13 @@ def numerar_figuras(corpo):
     figura inexistente interrompe a montagem, e uma figura sem chamada é listada.
     """
     contador = [0]
+    fig = R("figura")
 
     def proxima(m):
         contador[0] += 1
-        return "*Figura " + str(contador[0]) + " —"
+        return "*" + fig + " " + str(contador[0]) + " —"
 
-    corpo = re.sub(r"\*Figura\s+\d+\s+—", proxima, corpo)
+    corpo = re.sub(r"\*" + fig + r"\s+\d+\s+—", proxima, corpo)
 
     numeros = {}
     imagem = None
@@ -290,7 +340,7 @@ def numerar_figuras(corpo):
         if m:
             imagem = m.group(1)
             continue
-        m = re.match(r"^\*Figura (\d+) —", linha)
+        m = re.match(r"^\*" + fig + r" (\d+) —", linha)
         if m and imagem:
             numeros.setdefault(imagem, int(m.group(1)))
             imagem = None
@@ -300,7 +350,7 @@ def numerar_figuras(corpo):
     if inexistentes:
         raise SystemExit("chamada a figura inexistente: " + ", ".join(inexistentes))
     corpo = re.sub(r"\{\{fig:([^}]+)\}\}",
-                   lambda m: "Figura " + str(numeros[m.group(1).strip()]), corpo)
+                   lambda m: fig + " " + str(numeros[m.group(1).strip()]), corpo)
     sem_chamada = sorted((n, nome) for nome, n in numeros.items() if nome not in chamadas)
     if sem_chamada:
         print(f"  {len(sem_chamada)} figura(s) sem chamada no texto: "
@@ -374,7 +424,7 @@ def resolver_marcas(corpo):
 
 
 def esqueleto(titulo):
-    return NL.join([f"# {titulo}", "", "> **Seção por escrever.**", ""])
+    return NL.join([f"# {titulo}", "", R("por_escrever"), ""])
 
 
 def frontmatter(sumario_linhas, palavras):
@@ -527,17 +577,15 @@ def legendar_tabelas(corpo):
             numero += 1
             if legenda_declarada:
                 texto = legenda_declarada
-            elif linha.startswith("| Símbolo | Significado | Unidade |"):
-                texto = ("Variáveis da Equação " + equacao_corrente
-                         if equacao_corrente else "Variáveis da equação")
+            elif linha.startswith(R("cabecalho_variaveis")):
+                texto = (R("variaveis") + " " + equacao_corrente
+                         if equacao_corrente else R("variaveis_sem"))
             else:
                 cabecas = [c.strip(" *") for c in linha.strip("|").split("|")]
                 cabecas = [c for c in cabecas if c]
                 # Cabeçalho genérico não descreve tabela nenhuma: nesse caso a
                 # legenda se apoia na seção e na subseção em que a tabela está.
-                genericos = {"valor", "valores", "parâmetro", "padrão",
-                             "unidade", "o que significa", "o que é",
-                             "descrição", "item", "quanto"}
+                genericos = R("genericos")
                 uteis = [c for c in cabecas if c.lower() not in genericos]
                 if len(uteis) >= 2 and titulo_corrente:
                     texto = titulo_corrente + ": " + ", ".join(uteis[:3])
@@ -549,7 +597,7 @@ def legendar_tabelas(corpo):
                     texto = ", ".join(cabecas[:3])
             legenda_declarada = None
             lista.append((numero, texto))
-            saida.append("<!-- tabela: **Tabela " + str(numero) + "** — "
+            saida.append("<!-- tabela: **" + R("tabela") + " " + str(numero) + "** — "
                          + texto + " -->")
         saida.append(linha)
 
@@ -559,7 +607,7 @@ def legendar_tabelas(corpo):
 def listar_figuras(corpo):
     """Devolve [(número, legenda)] das figuras, na ordem de leitura."""
     lista = []
-    for m in re.finditer(r"^\*Figura (\d+) — (.+?)\*\s*$", corpo, flags=re.M):
+    for m in re.finditer(r"^\*" + R("figura") + r" (\d+) — (.+?)\*\s*$", corpo, flags=re.M):
         texto = m.group(2).strip()
         # A legenda da figura é longa por desígnio; a lista inicial leva só a
         # primeira oração, que é o que identifica a figura.
@@ -621,6 +669,8 @@ def listar_equacoes(corpo):
         "topsis": "Coeficiente de proximidade do TOPSIS",
         "emulacao": "Transformação da série para emular o Netuno 4",
     }
+    if NOMES_DAS_EQUACOES is not None:
+        nomes = NOMES_DAS_EQUACOES
     lista = []
     for m in re.finditer(r"^```equacao:([^:\n]+):(\d+)\s*$", corpo, flags=re.M):
         chave = m.group(1).strip()
@@ -653,7 +703,7 @@ def main():
 
         corpo_partes.append(titulo_do_capitulo(i, titulo_cap, pasta) + NL)
         for j, chave in enumerate(secoes, start=1):
-            caminho = os.path.join(AQUI, pasta, f"{chave}.md")
+            caminho = os.path.join(PASTA_DO_TEXTO, pasta, f"{chave}.md")
             if os.path.exists(caminho):
                 texto = resolver(open(caminho, encoding="utf-8").read(), caminho)
                 escritos.append(chave)
@@ -662,7 +712,7 @@ def main():
                 faltando.append(chave)
             corpo_partes.append(numerar_secao(texto, i, j, chave, pasta).rstrip(NL) + NL)
 
-    destino = os.path.join(AQUI, "Manual-Netuno-5.md")
+    destino = DESTINO
     corpo = (NL + "---" + NL + NL).join(corpo_partes)
     corpo = resolver_marcas(corpo)
     corpo = numerar_figuras(corpo)
@@ -672,9 +722,9 @@ def main():
     equacoes = listar_equacoes(corpo)
 
     listas = []
-    listas += bloco_de_lista("Lista de figuras", figuras, "Figura")
-    listas += bloco_de_lista("Lista de tabelas", tabelas, "Tabela")
-    listas += bloco_de_lista("Lista de equações", equacoes, "Equação")
+    listas += bloco_de_lista(R("lista_figuras"), figuras, R("figura"))
+    listas += bloco_de_lista(R("lista_tabelas"), tabelas, R("tabela"))
+    listas += bloco_de_lista(R("lista_equacoes"), equacoes, R("equacao"))
 
     palavras = len(corpo.split())
     # O preâmbulo também usa marcas, e elas precisam ser resolvidas: montado
@@ -693,4 +743,8 @@ def main():
 
 
 if __name__ == "__main__":
+    import argparse
+    _args = argparse.ArgumentParser(description="Monta o manual.")
+    _args.add_argument("--idioma", choices=("pt", "en"), default="pt")
+    usar_idioma(_args.parse_args().idioma)
     sys.exit(0 if main() else 0)

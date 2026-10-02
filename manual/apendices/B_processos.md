@@ -155,7 +155,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Regras**
 
-1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
+1. **Extravasamento antes do consumo**, como na regra YAS; a chuva do dia, até a capacidade, já atende a demanda do dia, o que põe o modelo entre a YAS e a YBS estritas.
 2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
 3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
 
