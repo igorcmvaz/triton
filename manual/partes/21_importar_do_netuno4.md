@@ -14,7 +14,7 @@ continuar parecendo o estudo original enquanto simula outra coisa.
 Basta abrir o arquivo antigo pelo menu de abertura de projetos. O programa reconhece o
 formato legado, que é texto separado por ponto e vírgula, e o converte para a estrutura
 interna da versão atual. Feita a conversão, salve o projeto: ele passa a ser gravado no
-formato JSON do Netuno 5, com os 104 campos descritos no apêndice {{n:A}}, e o arquivo
+formato JSON do Netuno 5, com os campos descritos no apêndice {{n:A}}, e o arquivo
 original permanece intacto no disco, o que convém preservar como evidência do estudo
 anterior.
 
