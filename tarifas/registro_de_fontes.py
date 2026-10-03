@@ -73,7 +73,9 @@ def gravar(reg: dict) -> None:
 
 
 def _pasta(prestador: str) -> str:
-    nome = re.sub(r"[^a-z0-9]+", "_", prestador.lower()).strip("_")
+    import unicodedata
+    sem_acento = unicodedata.normalize("NFKD", prestador).encode("ascii", "ignore").decode()
+    nome = re.sub(r"[^a-z0-9]+", "_", sem_acento.lower()).strip("_")
     return nome or "outros"
 
 
@@ -178,6 +180,9 @@ def gerar(reg: dict | None = None) -> None:
                  f"{f['industrial']} | {f['social']} | {d['confirmar']} |")
     with open(RELATORIO, "w", encoding="utf-8", newline="") as fh:
         fh.write(NL.join(L) + NL)
+    # A lista de sites a visitar muda de grupo conforme o material chega.
+    import gerar_lista_de_coleta
+    gerar_lista_de_coleta.gerar()
 
 
 def main() -> int:

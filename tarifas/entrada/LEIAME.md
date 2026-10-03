@@ -19,3 +19,6 @@ Para facilitar:
   todas as categorias (residencial, social, comercial, industrial, pública).
 
 O que falta coletar, por prestador, está em `tarifas/fontes/REGISTRO.md`.
+A lista de sites a visitar, com o link de cada prestador e a pasta onde salvar, está em
+`tarifas/lista_de_coleta.html` (abre direto do disco); ela separa os prestadores que já
+mandaram material dos que ainda não, e é regerada a cada registro.
