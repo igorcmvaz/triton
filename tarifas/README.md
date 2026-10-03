@@ -99,3 +99,20 @@ python tarifas/atualizar_tarifas.py --detect-changes
 Ao rodar o `python tarifas/atualizar_tarifas.py`, os seguintes relatórios são atualizados na pasta `outputs/`:
 * `outputs/relatorio_atualizacao_tarifas.md`: Relatório executivo com o log de cada município e eventuais alertas de revisão.
 * `outputs/dashboard_tarifas.html`: Dashboard visual e interativo em HTML para navegar, filtrar por estado/grau de confiança e inspecionar os links oficiais de cada cidade no navegador.
+
+---
+
+## 📥 Material recebido: registro obrigatório
+
+Todo PDF, planilha ou página oficial que chega para a base é registrado em
+`tarifas/fontes/registro.json` por `tarifas/registro_de_fontes.py`, que guarda a impressão
+digital SHA-256, a data, o prestador, o conteúdo, a vigência e o que foi feito com ele.
+Um arquivo reenviado é reconhecido pela impressão digital, ainda que com outro nome.
+`tarifas/fontes/REGISTRO.md`, gerado do registro, diz o que já chegou e o que falta
+coletar, por prestador:
+
+```bash
+python tarifas/registro_de_fontes.py conferir arquivo.pdf
+python tarifas/registro_de_fontes.py registrar arquivo.pdf --prestador SABESP --conteudo "Deliberação ARSESP, todas as categorias" --vigencia 01/01/2026
+```
+
