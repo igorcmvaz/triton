@@ -114,11 +114,38 @@ def linhas(cidades: Dict[str, dict]):
     return sorted(grupos.values(), key=lambda g: (g[0].lower(), ordem.get(g[1], 9), g[2][0]))
 
 
-def _municipios(lista: List[str], e_mais: str) -> str:
-    lista = sorted(lista)
-    if len(lista) <= 3:
-        return ", ".join(lista)
-    return ", ".join(lista[:3]) + e_mais.format(len(lista) - 3)
+def _municipios(lista: List[str], e_mais: str = "") -> str:
+    """Todos os municípios, por extenso: cada um dos 652 tem de ser achado na tabela."""
+    return ", ".join(sorted(lista))
+
+
+def cobertura(cidades: Dict[str, dict]) -> Dict[str, Dict[str, int]]:
+    """{categoria: {situação: municípios}}, com «nao_coletada» para a categoria ausente."""
+    conta = {c: {"verde": 0, "amarelo": 0, "vermelho": 0, "nao_coletada": 0} for c in CATEGORIAS}
+    for dados in cidades.values():
+        extra = dados.get("categorias") or {}
+        for cat in CATEGORIAS:
+            if cat == "residencial":
+                conta[cat][situacao(dados)] += 1
+            elif cat in extra:
+                conta[cat][situacao(dict(dados, **extra[cat]))] += 1
+            else:
+                conta[cat]["nao_coletada"] += 1
+    return conta
+
+
+def nao_coletadas(cidades: Dict[str, dict]):
+    """[(prestador, categoria, municípios)] das categorias sem tabela, por prestador."""
+    grupos: Dict[Tuple[str, str], List[str]] = {}
+    for dados in cidades.values():
+        extra = dados.get("categorias") or {}
+        for cat in CATEGORIAS[1:]:
+            if cat not in extra:
+                chave = (dados.get("prestador_saneamento") or "—", cat)
+                grupos.setdefault(chave, []).append(f"{dados.get('municipio')} ({dados.get('uf')})")
+    ordem = {c: i for i, c in enumerate(CATEGORIAS)}
+    return sorted(((p, c, m) for (p, c), m in grupos.items()),
+                  key=lambda g: (g[0].lower(), ordem[g[1]]))
 
 
 def secao(cidades: Dict[str, dict], T: Dict[str, str], num: Callable[[float, int], str]) -> List[str]:
@@ -146,6 +173,17 @@ def secao(cidades: Dict[str, dict], T: Dict[str, str], num: Callable[[float, int
         return f"{num(float(dados.get('esgoto_pct') or 0), 0)}%"
 
     L = ["", T["titulo"], ""] + T["texto"] + [""]
+    conta = cobertura(cidades)
+    total = len(cidades)
+    L += [T["cob_texto"].format(total, total * len(CATEGORIAS)), "",
+          f"<!-- tabela: {T['cob_legenda']} -->",
+          "| " + " | ".join(T["cob_cab"]) + " |",
+          "| :--- | ---: | ---: | ---: | ---: | ---: |"]
+    for cat in CATEGORIAS:
+        n = conta[cat]
+        L.append(f"| {T['cat_' + cat]} | {n['verde']} | {n['amarelo']} | {n['vermelho']} | "
+                 f"{n['nao_coletada']} | {sum(n.values())} |")
+    L.append("")
     L += [f"<!-- tabela: {T['legenda_id']} -->",
           "| " + " | ".join([T["n"], T["prestador"], T["categoria"], T["fixo"], T["esgoto"]]) + " |",
           "| ---: | :--- | :--- | :--- | :--- |"]
@@ -167,6 +205,16 @@ def secao(cidades: Dict[str, dict], T: Dict[str, str], num: Callable[[float, int
                 p = _preco(dados["faixas"], a, b)
                 celulas.append("—" if p is None else num(p, 2))
             L.append("| " + " | ".join(celulas) + " |")
+        L.append("")
+
+    faltam: Dict[Tuple[str, str], List[str]] = {}
+    for prestador, cat, municipios in nao_coletadas(cidades):
+        faltam.setdefault((prestador, _municipios(municipios)), []).append(T["cat_" + cat])
+    if faltam:
+        L += [T["falta_texto"], "", f"<!-- tabela: {T['falta_legenda']} -->",
+              "| " + " | ".join(T["falta_cab"]) + " |", "| :--- | :--- |"]
+        for (prestador, municipios), cats in sorted(faltam.items(), key=lambda kv: kv[0][0].lower()):
+            L.append(f"| {MARCADOR['vermelho']} {prestador}: {municipios} | {', '.join(cats)} |")
         L.append("")
 
     verificadas = _verificacoes()

@@ -201,10 +201,17 @@ E = {
 
 
 # ── inline ───────────────────────────────────────────────────────────────────
+CIRCULO_POR_MARCADOR = {"🟢": "#2e9d55", "🟡": "#d9a400", "🔴": "#d1453b"}
+
+
 def inline(texto):
     """Converte o Markdown de linha para a marcação que o Paragraph entende."""
     t = _sem_unicode(texto)
     t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    # Os marcadores de situação viram um círculo na cor deles: a fonte do PDF não tem
+    # os emojis, e sem isto eles saíam como um quadrado preto.
+    for marcador, cor in CIRCULO_POR_MARCADOR.items():
+        t = t.replace(marcador, f'<font color="{cor}">\u25cf</font>')
 
     # O código entra primeiro e sai do caminho das demais marcações: um trecho
     # como `**` dentro de crase não pode virar negrito.

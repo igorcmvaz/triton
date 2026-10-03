@@ -82,6 +82,17 @@ fonte primária, a resolução ou a tabela oficial do prestador; **amarelo** (�
 automaticamente ou marcado para revisão, e por isso a confirmar contra a resolução
 vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem correção.
 
+São 652 municípios e cinco categorias, 3260 combinações. A primeira tabela diz, para cada categoria, em quantos municípios a tabela tarifária está auditada, a confirmar, incompleta ou ainda não coletada; cada município aparece por extenso nas tabelas seguintes, e as categorias não coletadas estão listadas por prestador ao fim da seção.
+
+<!-- tabela: Cobertura do catálogo tarifário: municípios por categoria e situação do dado -->
+| Categoria | 🟢 auditada | 🟡 a confirmar | 🔴 incompleta | 🔴 não coletada | Municípios |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Residencial | 363 | 285 | 4 | 0 | 652 |
+| Comercial | 34 | 0 | 0 | 618 | 652 |
+| Pública | 34 | 0 | 0 | 618 | 652 |
+| Industrial | 30 | 0 | 0 | 622 | 652 |
+| Social | 0 | 0 | 0 | 652 | 652 |
+
 <!-- tabela: As estruturas tarifárias do catálogo, numeradas para as tabelas de preço por faixa que vêm a seguir -->
 | Nº | Prestador: municípios | Categoria | Fixo (R$/mês) | Esgoto |
 | ---: | :--- | :--- | :--- | :--- |
@@ -93,30 +104,30 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟡 6 | BRK Ambiental Porto Ferreira: Porto Ferreira (SP) | Residencial | 42,00 | 90% |
 | 🟢 7 | BRK Ambiental Sumaré: Sumaré (SP) | Residencial | 36,35 | 80% |
 | 🟢 8 | BRK Ambiental Uruguaiana: Uruguaiana (RS) | Residencial | — | 70% |
-| 🟡 9 | BRK Tocantins: Araguaína (TO), Gurupi (TO), Palmas (TO) e mais 2 | Residencial | — | 80% |
-| 🟢 10 | CAEMA: Açailândia (MA), Bacabal (MA), Balsas (MA) e mais 19 | Residencial | 33,58 | 100% |
+| 🟡 9 | BRK Tocantins: Araguaína (TO), Gurupi (TO), Palmas (TO), Paraíso do Tocantins (TO), Porto Nacional (TO) | Residencial | — | 80% |
+| 🟢 10 | CAEMA: Açailândia (MA), Bacabal (MA), Balsas (MA), Barra do Corda (MA), Barreirinhas (MA), Buriticupu (MA), Caxias (MA), Chapadinha (MA), Codó (MA), Coroatá (MA), Grajaú (MA), Imperatriz (MA), Itapecuru-Mirim (MA), Paço do Lumiar (MA), Pinheiro (MA), Santa Inês (MA), Santa Luzia (MA), São José de Ribamar (MA), São Luís (MA), Timon (MA), Tutóia (MA), Viana (MA) | Residencial | 33,58 | 100% |
 | 🟡 11 | CAER: Boa Vista (RR) | Residencial | 39,92 | 80% |
-| 🟢 12 | CAERD: Ariquemes (RO), Jaru (RO), Ji-Paraná (RO) e mais 2 | Residencial | 57,51 | 70% |
-| 🟢 13 | CAERN: Assu (RN), Caicó (RN), Ceará-Mirim (RN) e mais 4 | Residencial | 56,96 | 70% |
+| 🟢 12 | CAERD: Ariquemes (RO), Jaru (RO), Ji-Paraná (RO), Porto Velho (RO), Rolim de Moura (RO) | Residencial | 57,51 | 70% |
+| 🟢 13 | CAERN: Assu (RN), Caicó (RN), Ceará-Mirim (RN), Extremoz (RN), Macaíba (RN), Mossoró (RN), Parnamirim (RN) | Residencial | 56,96 | 70% |
 | 🟢 14 | CAERN: Natal (RN) | Residencial | 51,40 | 70% |
 | 🟢 15 | CAESB: Brasília (DF) | Residencial | 11,62 | 100% |
 | 🟡 16 | CAESC – Companhia de Água, Esgoto e Saneamento de Coari: Coari (AM) | Residencial | 32,50 | 80% |
-| 🟡 17 | CAGECE: Acaraú (CE), Aquiraz (CE), Aracati (CE) e mais 34 | Residencial | — | 80% |
-| 🟢 18 | CAGEPA: Bayeux (PB), Cabedelo (PB), Cajazeiras (PB) e mais 7 | Residencial | 54,82 | 80% |
+| 🟡 17 | CAGECE: Acaraú (CE), Aquiraz (CE), Aracati (CE), Barbalha (CE), Beberibe (CE), Boa Viagem (CE), Brejo Santo (CE), Camocim (CE), Canindé (CE), Cascavel (CE), Caucaia (CE), Crateús (CE), Crato (CE), Eusébio (CE), Fortaleza (CE), Granja (CE), Horizonte (CE), Icó (CE), Iguatu (CE), Itaitinga (CE), Itapipoca (CE), Juazeiro do Norte (CE), Limoeiro do Norte (CE), Maracanaú (CE), Maranguape (CE), Morada Nova (CE), Pacajus (CE), Pacatuba (CE), Quixadá (CE), Quixeramobim (CE), Russas (CE), Sobral (CE), São Gonçalo do Amarante (CE), Tauá (CE), Tianguá (CE), Trairi (CE), Viçosa do Ceará (CE) | Residencial | — | 80% |
+| 🟢 18 | CAGEPA: Bayeux (PB), Cabedelo (PB), Cajazeiras (PB), Campina Grande (PB), Guarabira (PB), João Pessoa (PB), Patos (PB), Santa Rita (PB), Sapé (PB), Sousa (PB) | Residencial | 54,82 | 80% |
 | 🟢 19 | CASAL: Arapiraca (AL) | Residencial | — | 80% |
-| 🟡 20 | CASAN: Araranguá (SC), Biguaçu (SC), Camboriú (SC) e mais 19 | Residencial | 46,34 | 100% |
-| 🟡 21 | CEDAE/serviço local – validar área: Guapimirim (RJ), Itaperuna (RJ), Macaé (RJ) e mais 1 | Residencial | — | 100% |
+| 🟡 20 | CASAN: Araranguá (SC), Biguaçu (SC), Camboriú (SC), Canoinhas (SC), Caçador (SC), Chapecó (SC), Concórdia (SC), Criciúma (SC), Florianópolis (SC), Imbituba (SC), Indaial (SC), Itapema (SC), Içara (SC), Mafra (SC), Navegantes (SC), Palhoça (SC), Rio do Sul (SC), São Francisco do Sul (SC), São José (SC), Tijucas (SC), Videira (SC), Xanxerê (SC) | Residencial | 46,34 | 100% |
+| 🟡 21 | CEDAE/serviço local – validar área: Guapimirim (RJ), Itaperuna (RJ), Macaé (RJ), Valença (RJ) | Residencial | — | 100% |
 | 🟢 22 | CESAMA Juiz de Fora: Juiz de Fora (MG) | Residencial | 15,01 | 80% |
-| 🟢 23 | CESAN: Cariacica (ES), Guarapari (ES), Serra (ES) e mais 2 | Residencial | 57,39 | 80% |
+| 🟢 23 | CESAN: Cariacica (ES), Guarapari (ES), Serra (ES), Vila Velha (ES), Vitória (ES) | Residencial | 57,39 | 80% |
 | 🟢 24 | CODAU Uberaba: Uberaba (MG) | Residencial | — | 95% |
 | 🟡 25 | COHASB / Prefeitura de Humaitá – prestação local: Humaitá (AM) | Residencial | 32,50 | 80% |
 | 🟢 26 | Companhia Ituana de Saneamento (CIS): Itu (SP) | Residencial | 36,96 | 100% |
 | 🟢 27 | Companhia Águas de Joinville: Joinville (SC) | Residencial | 34,93 | 80% |
-| 🟢 28 | COMPESA: Abreu e Lima (PE), Araripina (PE), Arcoverde (PE) e mais 30 | Residencial | 61,77 | 100% |
+| 🟢 28 | COMPESA: Abreu e Lima (PE), Araripina (PE), Arcoverde (PE), Belo Jardim (PE), Bezerros (PE), Buíque (PE), Cabo de Santo Agostinho (PE), Camaragibe (PE), Carpina (PE), Caruaru (PE), Escada (PE), Garanhuns (PE), Goiana (PE), Gravatá (PE), Igarassu (PE), Ipojuca (PE), Jaboatão dos Guararapes (PE), Limoeiro (PE), Moreno (PE), Olinda (PE), Ouricuri (PE), Palmares (PE), Paudalho (PE), Paulista (PE), Pesqueira (PE), Petrolina (PE), Recife (PE), Salgueiro (PE), Santa Cruz do Capibaribe (PE), Serra Talhada (PE), Surubim (PE), São Lourenço da Mata (PE), Vitória de Santo Antão (PE) | Residencial | 61,77 | 100% |
 | 🟢 29 | COMUSA Novo Hamburgo: Novo Hamburgo (RS) | Residencial | 43,21 | 70% |
-| 🟡 30 | COPASA: Alfenas (MG), Araxá (MG), Barbacena (MG) e mais 44 | Residencial | 25,77 | 74% |
+| 🟡 30 | COPASA: Alfenas (MG), Araxá (MG), Barbacena (MG), Belo Horizonte (MG), Betim (MG), Bom Despacho (MG), Campo Belo (MG), Caratinga (MG), Cataguases (MG), Congonhas (MG), Conselheiro Lafaiete (MG), Contagem (MG), Coronel Fabriciano (MG), Curvelo (MG), Divinópolis (MG), Esmeraldas (MG), Extrema (MG), Frutal (MG), Guaxupé (MG), Ibirité (MG), Ipatinga (MG), Itajubá (MG), Itaúna (MG), Janaúba (MG), Januária (MG), João Monlevade (MG), Lagoa Santa (MG), Lavras (MG), Leopoldina (MG), Montes Claros (MG), Nova Lima (MG), Nova Serrana (MG), Paracatu (MG), Patos de Minas (MG), Pedro Leopoldo (MG), Pouso Alegre (MG), Ribeirão das Neves (MG), Sabará (MG), São Francisco (MG), São Sebastião do Paraíso (MG), Teófilo Otoni (MG), Timóteo (MG), Três Corações (MG), Ubá (MG), Unaí (MG), Varginha (MG), Vespasiano (MG) | Residencial | 25,77 | 74% |
 | 🟡 31 | COSAMA: Tabatinga (AM) | Residencial | 32,50 | 80% |
-| 🟢 32 | COSANPA: Abaetetuba (PA), Acará (PA), Alenquer (PA) e mais 39 | Residencial | — | 80% |
+| 🟢 32 | COSANPA: Abaetetuba (PA), Acará (PA), Alenquer (PA), Altamira (PA), Ananindeua (PA), Baião (PA), Barcarena (PA), Belém (PA), Benevides (PA), Bragança (PA), Breves (PA), Cametá (PA), Canaã dos Carajás (PA), Capanema (PA), Capitão Poço (PA), Castanhal (PA), Dom Eliseu (PA), Igarapé-Miri (PA), Itaituba (PA), Juruti (PA), Marabá (PA), Marituba (PA), Moju (PA), Monte Alegre (PA), Novo Repartimento (PA), Oriximiná (PA), Paragominas (PA), Parauapebas (PA), Portel (PA), Redenção (PA), Rondon do Pará (PA), Santa Izabel do Pará (PA), Santarém (PA), São Félix do Xingu (PA), São Miguel do Guamá (PA), Tailândia (PA), Tomé-Açu (PA), Tucuruí (PA), Vigia (PA), Viseu (PA), Xinguara (PA), Óbidos (PA) | Residencial | — | 80% |
 | 🟢 33 | CSA Equatorial: Macapá (AP), Santana (AP) | Residencial | 42,91 | 100% |
 | 🟢 34 | DAAE Araraquara: Araraquara (SP) | Residencial | 22,70 | 100% |
 | 🟢 35 | DAAE Rio Claro: Rio Claro (SP) | Residencial | 35,36 | 100% |
@@ -137,9 +148,9 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟡 50 | DMAE Uberlândia: Uberlândia (MG) | Residencial | — | 80% |
 | 🟡 51 | DMAES Ponte Nova: Ponte Nova (MG) | Residencial | — | 80% |
 | 🟢 52 | EMASA Balneário Camboriú: Balneário Camboriú (SC) | Residencial | 44,95 | 100% |
-| 🟡 53 | EMBASA: Alagoinhas (BA), Barra (BA), Barreiras (BA) e mais 38 | Residencial | 44,77 | 80% |
+| 🟡 53 | EMBASA: Alagoinhas (BA), Barra (BA), Barreiras (BA), Bom Jesus da Lapa (BA), Brumado (BA), Caetité (BA), Camaçari (BA), Campo Formoso (BA), Candeias (BA), Casa Nova (BA), Conceição do Coité (BA), Cruz das Almas (BA), Dias d'Ávila (BA), Euclides da Cunha (BA), Eunápolis (BA), Feira de Santana (BA), Guanambi (BA), Ilhéus (BA), Ipirá (BA), Irecê (BA), Itaberaba (BA), Itabuna (BA), Itamaraju (BA), Itapetinga (BA), Jacobina (BA), Jequié (BA), Juazeiro (BA), Lauro de Freitas (BA), Luís Eduardo Magalhães (BA), Paulo Afonso (BA), Porto Seguro (BA), Ribeira do Pombal (BA), Salvador (BA), Santo Amaro (BA), Santo Antônio de Jesus (BA), Santo Estêvão (BA), Senhor do Bonfim (BA), Serrinha (BA), Simões Filho (BA), Teixeira de Freitas (BA), Vitória da Conquista (BA) | Residencial | 44,77 | 80% |
 | 🟢 54 | GS Inima SAMAR: Araçatuba (SP) | Residencial | 28,48 | 80% |
-| 🟢 55 | Iguá Sergipe: Aracaju (SE), Estância (SE), Itabaiana (SE) e mais 4 | Residencial | 49,26 | 80% |
+| 🟢 55 | Iguá Sergipe: Aracaju (SE), Estância (SE), Itabaiana (SE), Lagarto (SE), Nossa Senhora do Socorro (SE), São Cristóvão (SE), Tobias Barreto (SE) | Residencial | 49,26 | 80% |
 | 🟢 56 | Ourinhos Saneamento: Ourinhos (SP) | Residencial | — | 50% |
 | 🟡 57 | Prefeitura de Birigui – Diretoria de Água e Esgoto: Birigui (SP) | Residencial | 23,90 | 100% |
 | 🟡 58 | Prestador municipal/local – Iranduba: Iranduba (AM) | Residencial | 32,50 | 80% |
@@ -193,9 +204,9 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟡 106 | SAAEJA: Jaguariúna (SP) | Residencial | 22,81 | 100% |
 | 🟡 107 | SAAET: Taquaritinga (SP) | Residencial | 42,00 | 90% |
 | 🟢 108 | SABESP: Amparo (SP) | Residencial | 29,47 | 90% |
-| 🟢 109 | SABESP: Artur Nogueira (SP), Assis (SP), Avaré (SP) e mais 36 | Residencial | 40,42 | 80% |
-| 🟢 110 | SABESP: Arujá (SP), Barueri (SP), Caieiras (SP) e mais 26 | Residencial | 40,42 | 100% |
-| 🟢 111 | SABESP: Bertioga (SP), Caraguatatuba (SP), Cubatão (SP) e mais 9 | Residencial | 40,42 | 100% |
+| 🟢 109 | SABESP: Artur Nogueira (SP), Assis (SP), Avaré (SP), Batatais (SP), Boituva (SP), Botucatu (SP), Campo Limpo Paulista (SP), Caçapava (SP), Cosmópolis (SP), Fernandópolis (SP), Franca (SP), Hortolândia (SP), Ibiúna (SP), Itapetininga (SP), Itapeva (SP), Itatiba (SP), Itupeva (SP), Lins (SP), Lorena (SP), Mococa (SP), Mogi das Cruzes (SP), Monte Mor (SP), Nova Odessa (SP), Paulínia (SP), Piedade (SP), Pindamonhangaba (SP), Porto Feliz (SP), Registro (SP), Santa Bárbara d'Oeste (SP), Suzano (SP), São José dos Campos (SP), São João da Boa Vista (SP), São Roque (SP), Tatuí (SP), Taubaté (SP), Tremembé (SP), Tupã (SP), Votorantim (SP), Várzea Paulista (SP) | Residencial | 40,42 | 80% |
+| 🟢 110 | SABESP: Arujá (SP), Barueri (SP), Caieiras (SP), Cajamar (SP), Carapicuíba (SP), Cotia (SP), Diadema (SP), Embu das Artes (SP), Embu-Guaçu (SP), Ferraz de Vasconcelos (SP), Francisco Morato (SP), Franco da Rocha (SP), Guarulhos (SP), Itapecerica da Serra (SP), Itapevi (SP), Itaquaquecetuba (SP), Jandira (SP), Mairiporã (SP), Mauá (SP), Osasco (SP), Poá (SP), Ribeirão Pires (SP), Santa Isabel (SP), Santana de Parnaíba (SP), Santo André (SP), São Bernardo do Campo (SP), São Paulo (SP), Taboão da Serra (SP), Vargem Grande Paulista (SP) | Residencial | 40,42 | 100% |
+| 🟢 111 | SABESP: Bertioga (SP), Caraguatatuba (SP), Cubatão (SP), Guarujá (SP), Itanhaém (SP), Mongaguá (SP), Peruíbe (SP), Praia Grande (SP), Santos (SP), São Sebastião (SP), São Vicente (SP), Ubatuba (SP) | Residencial | 40,42 | 100% |
 | 🟢 112 | SABESP: Bragança Paulista (SP) | Residencial | 40,42 | 100% |
 | 🟢 113 | SABESP: Olímpia (SP) | Residencial | 25,34 | 80% |
 | 🟢 114 | SABESP: Presidente Prudente (SP) | Residencial | 32,27 | 80% |
@@ -222,7 +233,7 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟡 135 | SAMAE Tangará da Serra: Tangará da Serra (MT) | Residencial | — | 80% |
 | 🟢 136 | SANASA Campinas: Campinas (SP) | Residencial | 53,65 | 123% |
 | 🟢 137 | SANEACRE: Cruzeiro do Sul (AC), Rio Branco (AC) | Residencial | 38,37 | 80% |
-| 🟢 138 | SANEAGO: Anápolis (GO), Aparecida de Goiânia (GO), Caldas Novas (GO) e mais 21 | Residencial | 17,46 | 100% |
+| 🟢 138 | SANEAGO: Anápolis (GO), Aparecida de Goiânia (GO), Caldas Novas (GO), Catalão (GO), Cidade Ocidental (GO), Cristalina (GO), Formosa (GO), Goianira (GO), Goianésia (GO), Goiânia (GO), Inhumas (GO), Itumbiara (GO), Jataí (GO), Luziânia (GO), Mineiros (GO), Morrinhos (GO), Novo Gama (GO), Planaltina (GO), Rio Verde (GO), Santo Antônio do Descoberto (GO), Senador Canedo (GO), Trindade (GO), Valparaíso de Goiás (GO), Águas Lindas de Goiás (GO) | Residencial | 17,46 | 100% |
 | 🟢 139 | Saneaqua: Mairinque (SP) | Residencial | — | 100% |
 | 🟢 140 | SANEAR Colatina: Colatina (ES) | Residencial | — | 80% |
 | 🟡 141 | SANEAR Rondonópolis: Rondonópolis (MT) | Residencial | 36,50 | 80% |
@@ -230,9 +241,9 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟢 143 | Saneouro: Ouro Preto (MG) | Residencial | 25,72 | 95% |
 | 🟢 144 | SANEP Pelotas: Pelotas (RS) | Residencial | 28,96 | 80% |
 | 🟡 145 | SANEPAR – Curitiba: Curitiba (PR) | Residencial | 55,09 | 85% |
-| 🟡 146 | SANEPAR – Demais localidades: Almirante Tamandaré (PR), Apucarana (PR), Arapongas (PR) e mais 30 | Residencial | 55,09 | 80% |
+| 🟡 146 | SANEPAR – Demais localidades: Almirante Tamandaré (PR), Apucarana (PR), Arapongas (PR), Araucária (PR), Cambé (PR), Campo Largo (PR), Campo Mourão (PR), Castro (PR), Cianorte (PR), Colombo (PR), Fazenda Rio Grande (PR), Foz do Iguaçu (PR), Francisco Beltrão (PR), Guarapuava (PR), Ibiporã (PR), Irati (PR), Londrina (PR), Marechal Cândido Rondon (PR), Maringá (PR), Medianeira (PR), Paranaguá (PR), Paranavaí (PR), Pato Branco (PR), Pinhais (PR), Piraquara (PR), Ponta Grossa (PR), Rolândia (PR), Sarandi (PR), São José dos Pinhais (PR), Telêmaco Borba (PR), Toledo (PR), Umuarama (PR), União da Vitória (PR) | Residencial | 55,09 | 80% |
 | 🟡 147 | Sanessol: Mirassol (SP) | Residencial | 42,00 | 90% |
-| 🟢 148 | SANESUL: Corumbá (MS), Dourados (MS), Naviraí (MS) e mais 2 | Residencial | 16,50 | 70% |
+| 🟢 148 | SANESUL: Corumbá (MS), Dourados (MS), Naviraí (MS), Ponta Porã (MS), Três Lagoas (MS) | Residencial | 16,50 | 70% |
 | 🟢 149 | SEMAE Piracicaba: Piracicaba (SP) | Residencial | 31,99 | 100% |
 | 🟢 150 | SeMAE Rio Preto: São José do Rio Preto (SP) | Residencial | 26,63 | 100% |
 | 🟢 151 | SEMAE São Leopoldo: São Leopoldo (RS) | Residencial | 61,29 | 80% |
@@ -263,9 +274,9 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟡 176 | Águas do Imperador: Petrópolis (RJ) | Residencial | — | 100% |
 | 🟢 177 | Águas do Pantanal (autarquia municipal): Cáceres (MT) | Residencial | — | 50% |
 | 🟡 178 | Águas do Paraíba: Campos dos Goytacazes (RJ) | Residencial | — | 100% |
-| 🟢 179 | Águas do Piauí: Floriano (PI), Parnaíba (PI), Picos (PI) e mais 1 | Residencial | 52,89 | 80% |
-| 🟡 180 | Águas do Rio: Belford Roxo (RJ), Duque de Caxias (RJ), Japeri (RJ) e mais 5 | Residencial | — | 100% |
-| 🟡 181 | Águas do Rio: Cachoeiras de Macacu (RJ), Itaboraí (RJ), Magé (RJ) e mais 4 | Residencial | — | 100% |
+| 🟢 179 | Águas do Piauí: Floriano (PI), Parnaíba (PI), Picos (PI), Piripiri (PI) | Residencial | 52,89 | 80% |
+| 🟡 180 | Águas do Rio: Belford Roxo (RJ), Duque de Caxias (RJ), Japeri (RJ), Mesquita (RJ), Nilópolis (RJ), Nova Iguaçu (RJ), Queimados (RJ), São João de Meriti (RJ) | Residencial | — | 100% |
+| 🟡 181 | Águas do Rio: Cachoeiras de Macacu (RJ), Itaboraí (RJ), Magé (RJ), Maricá (RJ), Rio Bonito (RJ), Saquarema (RJ), São Gonçalo (RJ) | Residencial | — | 100% |
 | 🟡 182 | Águas do Rio / Iguá / Rio+ Saneamento: Rio de Janeiro (RJ) | Residencial | — | 100% |
 | 🟢 183 | Águas do Sertão: Delmiro Gouveia (AL), Palmeira dos Índios (AL) | Residencial | — | 80% |
 | 🟢 184 | Águas do Sertão: Penedo (AL) | Residencial | — | 80% |
@@ -846,6 +857,189 @@ vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem 
 | 🟢 186 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 |
 | 🟢 187 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 |
 
+As categorias abaixo ainda não têm a tabela oficial do prestador no catálogo. Nesses municípios o programa não as oferece, e o caminho é lançar a tabela no modo Personalizado.
+
+<!-- tabela: Categorias tarifárias ainda não coletadas, por prestador -->
+| Prestador: municípios | Categorias não coletadas |
+| :--- | :--- |
+| 🔴 BRK Alagoas: Maceió (AL), Marechal Deodoro (AL), Rio Largo (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Cachoeiro: Cachoeiro de Itapemirim (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Limeira: Limeira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Porto Ferreira: Porto Ferreira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Sumaré: Sumaré (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Uruguaiana: Uruguaiana (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Tocantins: Araguaína (TO), Gurupi (TO), Palmas (TO), Paraíso do Tocantins (TO), Porto Nacional (TO) | Comercial, Pública, Industrial, Social |
+| 🔴 CAEMA: Açailândia (MA), Bacabal (MA), Balsas (MA), Barra do Corda (MA), Barreirinhas (MA), Buriticupu (MA), Caxias (MA), Chapadinha (MA), Codó (MA), Coroatá (MA), Grajaú (MA), Imperatriz (MA), Itapecuru-Mirim (MA), Paço do Lumiar (MA), Pinheiro (MA), Santa Inês (MA), Santa Luzia (MA), São José de Ribamar (MA), São Luís (MA), Timon (MA), Tutóia (MA), Viana (MA) | Comercial, Pública, Industrial, Social |
+| 🔴 CAER: Boa Vista (RR) | Comercial, Pública, Industrial, Social |
+| 🔴 CAERD: Ariquemes (RO), Jaru (RO), Ji-Paraná (RO), Porto Velho (RO), Rolim de Moura (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 CAERN: Assu (RN), Caicó (RN), Ceará-Mirim (RN), Extremoz (RN), Macaíba (RN), Mossoró (RN), Natal (RN), Parnamirim (RN) | Comercial, Pública, Industrial, Social |
+| 🔴 CAESB: Brasília (DF) | Comercial, Pública, Industrial, Social |
+| 🔴 CAESC – Companhia de Água, Esgoto e Saneamento de Coari: Coari (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 CAGECE: Acaraú (CE), Aquiraz (CE), Aracati (CE), Barbalha (CE), Beberibe (CE), Boa Viagem (CE), Brejo Santo (CE), Camocim (CE), Canindé (CE), Cascavel (CE), Caucaia (CE), Crateús (CE), Crato (CE), Eusébio (CE), Fortaleza (CE), Granja (CE), Horizonte (CE), Icó (CE), Iguatu (CE), Itaitinga (CE), Itapipoca (CE), Juazeiro do Norte (CE), Limoeiro do Norte (CE), Maracanaú (CE), Maranguape (CE), Morada Nova (CE), Pacajus (CE), Pacatuba (CE), Quixadá (CE), Quixeramobim (CE), Russas (CE), Sobral (CE), São Gonçalo do Amarante (CE), Tauá (CE), Tianguá (CE), Trairi (CE), Viçosa do Ceará (CE) | Comercial, Pública, Industrial, Social |
+| 🔴 CAGEPA: Bayeux (PB), Cabedelo (PB), Cajazeiras (PB), Campina Grande (PB), Guarabira (PB), João Pessoa (PB), Patos (PB), Santa Rita (PB), Sapé (PB), Sousa (PB) | Comercial, Pública, Industrial, Social |
+| 🔴 CASAL: Arapiraca (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 CASAN: Araranguá (SC), Biguaçu (SC), Camboriú (SC), Canoinhas (SC), Caçador (SC), Chapecó (SC), Concórdia (SC), Criciúma (SC), Florianópolis (SC), Imbituba (SC), Indaial (SC), Itapema (SC), Içara (SC), Mafra (SC), Navegantes (SC), Palhoça (SC), Rio do Sul (SC), São Francisco do Sul (SC), São José (SC), Tijucas (SC), Videira (SC), Xanxerê (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 CEDAE/serviço local – validar área: Guapimirim (RJ), Itaperuna (RJ), Macaé (RJ), Valença (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 CESAMA Juiz de Fora: Juiz de Fora (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 CESAN: Cariacica (ES), Guarapari (ES), Serra (ES), Vila Velha (ES), Vitória (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 CODAU Uberaba: Uberaba (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 COHASB / Prefeitura de Humaitá – prestação local: Humaitá (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Companhia Ituana de Saneamento (CIS): Itu (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Companhia Águas de Joinville: Joinville (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 COMPESA: Abreu e Lima (PE), Araripina (PE), Arcoverde (PE), Belo Jardim (PE), Bezerros (PE), Buíque (PE), Cabo de Santo Agostinho (PE), Camaragibe (PE), Carpina (PE), Caruaru (PE), Escada (PE), Garanhuns (PE), Goiana (PE), Gravatá (PE), Igarassu (PE), Ipojuca (PE), Jaboatão dos Guararapes (PE), Limoeiro (PE), Moreno (PE), Olinda (PE), Ouricuri (PE), Palmares (PE), Paudalho (PE), Paulista (PE), Pesqueira (PE), Petrolina (PE), Recife (PE), Salgueiro (PE), Santa Cruz do Capibaribe (PE), Serra Talhada (PE), Surubim (PE), São Lourenço da Mata (PE), Vitória de Santo Antão (PE) | Comercial, Pública, Industrial, Social |
+| 🔴 COMUSA Novo Hamburgo: Novo Hamburgo (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 COPASA: Alfenas (MG), Araxá (MG), Barbacena (MG), Belo Horizonte (MG), Betim (MG), Bom Despacho (MG), Campo Belo (MG), Caratinga (MG), Cataguases (MG), Congonhas (MG), Conselheiro Lafaiete (MG), Contagem (MG), Coronel Fabriciano (MG), Curvelo (MG), Divinópolis (MG), Esmeraldas (MG), Extrema (MG), Frutal (MG), Guaxupé (MG), Ibirité (MG), Ipatinga (MG), Itajubá (MG), Itaúna (MG), Janaúba (MG), Januária (MG), João Monlevade (MG), Lagoa Santa (MG), Lavras (MG), Leopoldina (MG), Montes Claros (MG), Nova Lima (MG), Nova Serrana (MG), Paracatu (MG), Patos de Minas (MG), Pedro Leopoldo (MG), Pouso Alegre (MG), Ribeirão das Neves (MG), Sabará (MG), São Francisco (MG), São Sebastião do Paraíso (MG), Teófilo Otoni (MG), Timóteo (MG), Três Corações (MG), Ubá (MG), Unaí (MG), Varginha (MG), Vespasiano (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 CORSAN: Canoas (RS), Erechim (RS), Esteio (RS), Santa Cruz do Sul (RS) | Industrial |
+| 🔴 CORSAN: Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Canoas (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Erechim (RS), Esteio (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Cruz do Sul (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Social |
+| 🔴 COSAMA: Tabatinga (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 COSANPA: Abaetetuba (PA), Acará (PA), Alenquer (PA), Altamira (PA), Ananindeua (PA), Baião (PA), Barcarena (PA), Belém (PA), Benevides (PA), Bragança (PA), Breves (PA), Cametá (PA), Canaã dos Carajás (PA), Capanema (PA), Capitão Poço (PA), Castanhal (PA), Dom Eliseu (PA), Igarapé-Miri (PA), Itaituba (PA), Juruti (PA), Marabá (PA), Marituba (PA), Moju (PA), Monte Alegre (PA), Novo Repartimento (PA), Oriximiná (PA), Paragominas (PA), Parauapebas (PA), Portel (PA), Redenção (PA), Rondon do Pará (PA), Santa Izabel do Pará (PA), Santarém (PA), São Félix do Xingu (PA), São Miguel do Guamá (PA), Tailândia (PA), Tomé-Açu (PA), Tucuruí (PA), Vigia (PA), Viseu (PA), Xinguara (PA), Óbidos (PA) | Comercial, Pública, Industrial, Social |
+| 🔴 CSA Equatorial: Macapá (AP), Santana (AP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAAE Araraquara: Araraquara (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAAE Rio Claro: Rio Claro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Americana: Americana (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Bauru: Bauru (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Jundiaí: Jundiaí (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Sant'Ana do Livramento: Santana do Livramento (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Valinhos: Valinhos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE/VG: Várzea Grande (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEB Bagé: Bagé (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEP Penápolis: Penápolis (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEPA: Patrocínio (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DAESC Coruripe: Coruripe (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 DAMAE São João del-Rei: São João del-Rei (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DEMSUR: Muriaé (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Porto Alegre: Porto Alegre (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Poços de Caldas: Poços de Caldas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Uberlândia: Uberlândia (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAES Ponte Nova: Ponte Nova (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 EMASA Balneário Camboriú: Balneário Camboriú (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 EMBASA: Alagoinhas (BA), Barra (BA), Barreiras (BA), Bom Jesus da Lapa (BA), Brumado (BA), Caetité (BA), Camaçari (BA), Campo Formoso (BA), Candeias (BA), Casa Nova (BA), Conceição do Coité (BA), Cruz das Almas (BA), Dias d'Ávila (BA), Euclides da Cunha (BA), Eunápolis (BA), Feira de Santana (BA), Guanambi (BA), Ilhéus (BA), Ipirá (BA), Irecê (BA), Itaberaba (BA), Itabuna (BA), Itamaraju (BA), Itapetinga (BA), Jacobina (BA), Jequié (BA), Juazeiro (BA), Lauro de Freitas (BA), Luís Eduardo Magalhães (BA), Paulo Afonso (BA), Porto Seguro (BA), Ribeira do Pombal (BA), Salvador (BA), Santo Amaro (BA), Santo Antônio de Jesus (BA), Santo Estêvão (BA), Senhor do Bonfim (BA), Serrinha (BA), Simões Filho (BA), Teixeira de Freitas (BA), Vitória da Conquista (BA) | Comercial, Pública, Industrial, Social |
+| 🔴 GS Inima SAMAR: Araçatuba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Iguá Sergipe: Aracaju (SE), Estância (SE), Itabaiana (SE), Lagarto (SE), Nossa Senhora do Socorro (SE), São Cristóvão (SE), Tobias Barreto (SE) | Comercial, Pública, Industrial, Social |
+| 🔴 Ourinhos Saneamento: Ourinhos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Prefeitura de Birigui – Diretoria de Água e Esgoto: Birigui (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Iranduba: Iranduba (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Manicoré: Manicoré (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – São Gabriel da Cachoeira: São Gabriel da Cachoeira (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Tefé: Tefé (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prolagos: Cabo Frio (RJ), São Pedro da Aldeia (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 RIC Ambiental: Marília (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Rio+ Saneamento: Itaguaí (RJ), Rio das Ostras (RJ), Seropédica (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE / prestação municipal de Manacapuru – confirmar: Manacapuru (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Angra dos Reis: Angra dos Reis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Aracruz / CESAN conforme área: Aracruz (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Atibaia: Atibaia (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Barra Mansa: Barra Mansa (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Cacoal: Cacoal (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Capivari: Capivari (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Cruzeiro: Cruzeiro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Formiga: Formiga (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Ibitinga: Ibitinga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Indaiatuba: Indaiatuba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itabira: Itabira (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itabirito: Itabirito (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itacoatiara: Itacoatiara (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itapira: Itapira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Jaboticabal: Jaboticabal (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Jacareí: Jacareí (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lagoa da Prata: Lagoa da Prata (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lençóis Paulista: Lençóis Paulista (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Linhares: Linhares (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lucas do Rio Verde: Lucas do Rio Verde (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Manhuaçu: Manhuaçu (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Mariana: Mariana (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Maués: Maués (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Mogi Mirim: Mogi Mirim (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Nova Mutum: Nova Mutum (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Parintins: Parintins (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Passos: Passos (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Pirapora: Pirapora (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Salto: Salto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Sete Lagoas: Sete Lagoas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Sorocaba: Sorocaba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE São Carlos: São Carlos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE São Mateus: São Mateus (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Três Pontas: Três Pontas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Três Rios: Três Rios (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Vilhena: Vilhena (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Viçosa: Viçosa (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Volta Redonda: Volta Redonda (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEB Ambiental: Bebedouro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEB Barretos: Barretos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEJA: Jaguariúna (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAET: Taquaritinga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SABESP: Amparo (SP), Artur Nogueira (SP), Arujá (SP), Assis (SP), Avaré (SP), Barueri (SP), Batatais (SP), Bertioga (SP), Boituva (SP), Botucatu (SP), Bragança Paulista (SP), Caieiras (SP), Cajamar (SP), Campo Limpo Paulista (SP), Caraguatatuba (SP), Carapicuíba (SP), Caçapava (SP), Cosmópolis (SP), Cotia (SP), Cubatão (SP), Diadema (SP), Embu das Artes (SP), Embu-Guaçu (SP), Fernandópolis (SP), Ferraz de Vasconcelos (SP), Franca (SP), Francisco Morato (SP), Franco da Rocha (SP), Guarujá (SP), Guarulhos (SP), Hortolândia (SP), Ibiúna (SP), Itanhaém (SP), Itapecerica da Serra (SP), Itapetininga (SP), Itapeva (SP), Itapevi (SP), Itaquaquecetuba (SP), Itatiba (SP), Itupeva (SP), Jandira (SP), Lins (SP), Lorena (SP), Mairiporã (SP), Mauá (SP), Mococa (SP), Mogi das Cruzes (SP), Mongaguá (SP), Monte Mor (SP), Nova Odessa (SP), Olímpia (SP), Osasco (SP), Paulínia (SP), Peruíbe (SP), Piedade (SP), Pindamonhangaba (SP), Porto Feliz (SP), Poá (SP), Praia Grande (SP), Presidente Prudente (SP), Registro (SP), Ribeirão Pires (SP), Santa Bárbara d'Oeste (SP), Santa Isabel (SP), Santana de Parnaíba (SP), Santo André (SP), Santos (SP), Suzano (SP), São Bernardo do Campo (SP), São José dos Campos (SP), São João da Boa Vista (SP), São Paulo (SP), São Roque (SP), São Sebastião (SP), São Vicente (SP), Taboão da Serra (SP), Tatuí (SP), Taubaté (SP), Tremembé (SP), Tupã (SP), Ubatuba (SP), Vargem Grande Paulista (SP), Votorantim (SP), Várzea Paulista (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Araguari: Araguari (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Ituiutaba: Ituiutaba (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Louveira: Louveira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEC Catanduva: Catanduva (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAECIL Leme: Leme (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEG: Guaratinguetá (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEMA Araras: Araras (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEMAS Sertãozinho: Sertãozinho (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEP Pirassununga: Pirassununga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAERP Ribeirão Preto: Ribeirão Preto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAERP São José do Rio Pardo: São José do Rio Pardo (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAESA: São Caetano do Sul (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEV Ambiental: Votuporanga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Blumenau / BRK Ambiental Blumenau: Blumenau (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Brusque: Brusque (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Caxias do Sul: Caxias do Sul (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Gaspar: Gaspar (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Jaraguá do Sul: Jaraguá do Sul (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Mogi Guaçu: Mogi Guaçu (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE São Bento do Sul: São Bento do Sul (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Tangará da Serra: Tangará da Serra (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SANASA Campinas: Campinas (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEACRE: Cruzeiro do Sul (AC), Rio Branco (AC) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAGO: Anápolis (GO), Aparecida de Goiânia (GO), Caldas Novas (GO), Catalão (GO), Cidade Ocidental (GO), Cristalina (GO), Formosa (GO), Goianira (GO), Goianésia (GO), Goiânia (GO), Inhumas (GO), Itumbiara (GO), Jataí (GO), Luziânia (GO), Mineiros (GO), Morrinhos (GO), Novo Gama (GO), Planaltina (GO), Rio Verde (GO), Santo Antônio do Descoberto (GO), Senador Canedo (GO), Trindade (GO), Valparaíso de Goiás (GO), Águas Lindas de Goiás (GO) | Comercial, Pública, Industrial, Social |
+| 🔴 Saneaqua: Mairinque (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAR Colatina: Colatina (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAR Rondonópolis: Rondonópolis (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEBAVI Vinhedo: Vinhedo (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Saneouro: Ouro Preto (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEP Pelotas: Pelotas (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEPAR – Curitiba: Curitiba (PR) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEPAR – Demais localidades: Almirante Tamandaré (PR), Apucarana (PR), Arapongas (PR), Araucária (PR), Cambé (PR), Campo Largo (PR), Campo Mourão (PR), Castro (PR), Cianorte (PR), Colombo (PR), Fazenda Rio Grande (PR), Foz do Iguaçu (PR), Francisco Beltrão (PR), Guarapuava (PR), Ibiporã (PR), Irati (PR), Londrina (PR), Marechal Cândido Rondon (PR), Maringá (PR), Medianeira (PR), Paranaguá (PR), Paranavaí (PR), Pato Branco (PR), Pinhais (PR), Piraquara (PR), Ponta Grossa (PR), Rolândia (PR), Sarandi (PR), São José dos Pinhais (PR), Telêmaco Borba (PR), Toledo (PR), Umuarama (PR), União da Vitória (PR) | Comercial, Pública, Industrial, Social |
+| 🔴 Sanessol: Mirassol (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANESUL: Corumbá (MS), Dourados (MS), Naviraí (MS), Ponta Porã (MS), Três Lagoas (MS) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMAE Piracicaba: Piracicaba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SeMAE Rio Preto: São José do Rio Preto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMAE São Leopoldo: São Leopoldo (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMASA Itajaí: Itajaí (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMASA Lages: Lages (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 Serviço local – Barra do Piraí: Barra do Piraí (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 São Gabriel Saneamento S.A.: São Gabriel (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 Tubarão Saneamento: Tubarão (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 Verde Alagoas: União dos Palmares (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Alta Floresta / Norte Saneamento: Alta Floresta (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Cuiabá (Iguá): Cuiabá (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas da Imperatriz: Teresópolis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas das Agulhas Negras: Resende (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Andradina: Andradina (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Barra do Garças (Aegea): Barra do Garças (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Jahu: Jaú (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Juturnaíba: Araruama (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Manaus: Manaus (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Matão: Matão (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Niterói: Niterói (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Nova Friburgo: Nova Friburgo (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Pará de Minas: Pará de Minas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Primavera (Aegea): Primavera do Leste (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Sinop (Aegea): Sinop (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Sorriso: Sorriso (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Teresina: Teresina (PI) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Valadares (Aegea): Governador Valadares (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Imperador: Petrópolis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Pantanal (autarquia municipal): Cáceres (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Paraíba: Campos dos Goytacazes (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Piauí: Floriano (PI), Parnaíba (PI), Picos (PI), Piripiri (PI) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Rio: Belford Roxo (RJ), Cachoeiras de Macacu (RJ), Duque de Caxias (RJ), Itaboraí (RJ), Japeri (RJ), Magé (RJ), Maricá (RJ), Mesquita (RJ), Nilópolis (RJ), Nova Iguaçu (RJ), Queimados (RJ), Rio Bonito (RJ), Saquarema (RJ), São Gonçalo (RJ), São João de Meriti (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Rio / Iguá / Rio+ Saneamento: Rio de Janeiro (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Sertão: Delmiro Gouveia (AL), Palmeira dos Índios (AL), Penedo (AL), São Miguel dos Campos (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Guariroba: Campo Grande (MS) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Pontes e Lacerda / Norte Saneamento: Pontes e Lacerda (MT) | Comercial, Pública, Industrial, Social |
+
 A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e a data em que a página oficial foi verificada pela última vez pela rotina de monitoramento da base. Linha sem data é fonte que a rotina ainda não monitora.
 
 <!-- tabela: Vigência e última verificação da fonte de cada estrutura tarifária, com a situação do dado -->
@@ -1051,10 +1245,10 @@ Os municípios da CORSAN cobram pela fórmula exponencial `PB × Cⁿ + SB` (se�
 | Canoas (RS), Esteio (RS) | Residencial | 8,68 | 41,20 | 6,07 |
 | Santa Cruz do Sul (RS) | Comercial | 8,98 | 66,92 | 6,28 |
 | Santa Cruz do Sul (RS) | Pública | 8,98 | 133,64 | 6,28 |
-| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS) e mais 27 | Residencial | 9,15 | 43,39 | 6,40 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Residencial | 9,15 | 43,39 | 6,40 |
 | Canoas (RS), Esteio (RS) | Comercial | 9,88 | 73,48 | 6,91 |
 | Canoas (RS), Esteio (RS) | Pública | 9,88 | 146,79 | 6,91 |
-| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS) e mais 27 | Comercial | 10,41 | 77,41 | 7,28 |
-| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS) e mais 27 | Pública | 10,41 | 154,64 | 7,28 |
-| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS) e mais 27 | Industrial | 11,83 | 154,64 | 8,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Comercial | 10,41 | 77,41 | 7,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Pública | 10,41 | 154,64 | 7,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Industrial | 11,83 | 154,64 | 8,28 |
 
