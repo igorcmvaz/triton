@@ -668,6 +668,8 @@ def listar_equacoes(corpo):
         "emissao_especifica": "Emissão específica por litro entregue",
         "topsis": "Coeficiente de proximidade do TOPSIS",
         "emulacao": "Transformação da série para emular o Netuno 4",
+        "fracao_de_armazenamento": "Fração de armazenamento",
+        "uso_da_captacao": "Eficiência de uso da água captada",
     }
     if NOMES_DAS_EQUACOES is not None:
         nomes = NOMES_DAS_EQUACOES

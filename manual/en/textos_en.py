@@ -150,6 +150,8 @@ EQUACOES = {
     "emissao_especifica": "Specific emission per litre delivered",
     "topsis": "TOPSIS closeness coefficient",
     "emulacao": "Series transformation to emulate Netuno 4",
+    "fracao_de_armazenamento": "Storage fraction",
+    "uso_da_captacao": "Efficiency of use of the collected water",
 }
 
 
