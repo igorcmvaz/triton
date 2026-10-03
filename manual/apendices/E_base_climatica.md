@@ -51,8 +51,7 @@ As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na ba
 ## As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data
-ainfall` do programa:
+instalação, na pasta `data/rainfall` do programa:
 
 <!-- tabela: Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
