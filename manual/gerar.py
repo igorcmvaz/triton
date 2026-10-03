@@ -670,6 +670,7 @@ def listar_equacoes(corpo):
         "emulacao": "Transformação da série para emular o Netuno 4",
         "fracao_de_armazenamento": "Fração de armazenamento",
         "uso_da_captacao": "Eficiência de uso da água captada",
+        "energia_pressurizador": "Energia anual do pressurizador",
     }
     if NOMES_DAS_EQUACOES is not None:
         nomes = NOMES_DAS_EQUACOES
