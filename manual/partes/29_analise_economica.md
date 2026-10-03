@@ -1,7 +1,7 @@
 # Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
-> tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes
+> tarifários — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
 

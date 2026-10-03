@@ -136,6 +136,7 @@ EQUACOES = {
     "energia_partida": "Energy used at start-ups",
     "energia_anual": "Annual pump energy",
     "economia_mensal": "Monthly bill saving",
+    "exponencial": "CORSAN exponential formula",
     "esgoto": "Sewage part of the bill",
     "capex": "Total initial investment",
     "inflacao": "Cumulative inflation factor",

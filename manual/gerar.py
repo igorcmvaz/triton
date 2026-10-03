@@ -654,6 +654,7 @@ def listar_equacoes(corpo):
         "energia_partida": "Energia consumida nas partidas",
         "energia_anual": "Energia anual da motobomba",
         "economia_mensal": "Economia mensal na fatura",
+        "exponencial": "Fórmula exponencial da CORSAN",
         "esgoto": "Parcela de esgoto da fatura",
         "capex": "Investimento inicial total",
         "inflacao": "Fator acumulado de inflação",
