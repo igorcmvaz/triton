@@ -17,7 +17,7 @@ Pesquisa em Ambientes Sustentáveis*) at the Federal University of Santa Catarin
 Brazil, and succeeds Netuno 4, in use since 2014.
 
 The application interface is available in Portuguese, English and Chinese; the user
-manual is written in Portuguese. This file, together with the documents under
+manual is written in Portuguese and translated into English in full, section by section. This file, together with the documents under
 [`docs/en/`](docs/en/), is the English entry point for readers, reviewers and reusers of
 the code.
 
@@ -120,6 +120,7 @@ netuno uncertainty projeto.netuno     # Monte Carlo over the sizing decision
 | [`docs/metodologia.md`](docs/metodologia.md) | Portuguese | the same model, in full, with the national data sources |
 | [`docs/verificacao_e_validacao.md`](docs/verificacao_e_validacao.md) | Portuguese | the complete verification and validation report |
 | `manual/Manual-Netuno-5.pdf` | Portuguese | the user manual, with the worked case studies and the parameter appendices; also issued as seven standalone parts under `manual/mini/` |
+| `manual/en/Netuno-5-User-Manual.pdf` | English | the same user manual, translated; it is the one the International Edition installs and opens |
 
 ---
 

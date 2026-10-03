@@ -58,14 +58,34 @@ def test_o_numero_de_paginas_anunciado_e_o_do_pdf(volume, paginas, arquivo):
                               f"tem {reais}")
 
 
-def test_o_volume_geral_tambem_confere():
+def _manuais_completos_anunciados():
+    """O dicionário PAGINAS_DO_MANUAL_COMPLETO da aba, lido do código pelo mesmo motivo."""
     fonte = open(ABA, encoding="utf-8").read()
-    anunciadas = {int(n) for n in re.findall(r"(\d+)\s*PÁGINAS", fonte)}
-    reais = _paginas_do_pdf("manual/Manual-Netuno-5.pdf")
+    for no in ast.walk(ast.parse(fonte)):
+        if isinstance(no, ast.Assign) and any(
+                getattr(alvo, "id", None) == "PAGINAS_DO_MANUAL_COMPLETO" for alvo in no.targets):
+            return sorted(ast.literal_eval(no.value).items())
+    raise AssertionError("a aba não declara PAGINAS_DO_MANUAL_COMPLETO")
+
+
+def test_a_aba_anuncia_o_manual_completo_nas_duas_linguas():
+    assert [a for a, _ in _manuais_completos_anunciados()] == [
+        "manual/Manual-Netuno-5.pdf", "manual/en/Netuno-5-User-Manual.pdf"]
+
+
+@pytest.mark.parametrize("arquivo,paginas", _manuais_completos_anunciados())
+def test_o_volume_geral_tambem_confere(arquivo, paginas):
+    reais = _paginas_do_pdf(arquivo)
     if reais is None:
-        pytest.skip("o manual completo não foi gerado nesta árvore")
-    assert anunciadas == {reais}, (f"a aba anuncia {sorted(anunciadas)} páginas para o "
-                                   f"volume geral, que tem {reais}")
+        pytest.skip(f"{arquivo} não foi gerado nesta árvore")
+    assert reais == paginas, (f"a aba anuncia {paginas} páginas para {arquivo}, "
+                              f"que tem {reais}")
+
+
+def test_nenhum_numero_de_paginas_escrito_a_mao_no_volume_geral():
+    """O cartão do volume geral lê o número do dicionário; um «312 PÁGINAS» solto envelhece."""
+    fonte = open(ABA, encoding="utf-8").read()
+    assert not re.findall(r"\b\d+\s*PÁGINAS", fonte)
 
 
 def test_todo_pdf_prometido_existe():

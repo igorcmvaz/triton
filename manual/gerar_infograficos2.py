@@ -356,10 +356,10 @@ def info_cenarios():
 #: Coleta do pytest nesta versão (pytest --collect-only), por pasta de tests/.
 #: Atualizar junto com a seção de verificação quando a suíte mudar.
 SUITE = [
-    ("unitários", "unit", 70, 819, VERDE),
-    ("invariantes", "invariants", 11, 194, AZUL),
-    ("integração", "integration", 8, 49, AZUL),
-    ("interface gráfica", "ui", 4, 8, ROXO),
+    ("unitários", "unit", 104, 1269, VERDE),
+    ("invariantes", "invariants", 11, 175, AZUL),
+    ("integração", "integration", 9, 65, AZUL),
+    ("interface gráfica", "ui", 10, 33, ROXO),
     ("replicação do Netuno 4", "benchmarking", 1, 2, LARANJA),
 ]
 
@@ -387,9 +387,9 @@ def info_suite():
                        fontsize=8.2)
     _eixos(ax, "", "", "")
     ax.set_xlabel("casos de teste coletados", color=TINTA2, fontsize=9)
-    ax.set_xlim(0, 1100)
-    ax.set_xticks(range(0, 1001, 200))
-    ax.set_xticklabels([f"{v:,}".replace(",", ".") for v in range(0, 1001, 200)])
+    ax.set_xlim(0, 1400)
+    ax.set_xticks(range(0, 1201, 200))
+    ax.set_xticklabels([f"{v:,}".replace(",", ".") for v in range(0, 1201, 200)])
     ax.grid(axis="y", visible=False)
 
     fig.tight_layout()

@@ -784,7 +784,7 @@ Equação 11 — Ganho marginal por metro cúbico acrescentado
 
 Equação 12 — Volume ideal pelo critério de ganho marginal
 
-Equação 13 — fracao_de_armazenamento
+Equação 13 — Fração de armazenamento
 
 Equação 14 — Potencial de economia de água potável
 
@@ -794,7 +794,7 @@ Equação 16 — Relação entre potencial e confiabilidade
 
 Equação 17 — Extravasamento médio diário
 
-Equação 18 — uso_da_captacao
+Equação 18 — Eficiência de uso da água captada
 
 Equação 19 — Volume anual de água potável poupado
 
@@ -832,11 +832,11 @@ Equação 35 — Energia consumida nas partidas
 
 Equação 36 — Energia anual da motobomba
 
-Equação 37 — energia_pressurizador
+Equação 37 — Energia anual do pressurizador
 
 Equação 38 — Economia mensal na fatura
 
-Equação 39 — exponencial
+Equação 39 — Fórmula exponencial da CORSAN
 
 Equação 40 — Parcela de esgoto da fatura
 
@@ -3282,8 +3282,8 @@ Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
 
 ## 2.7. Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
-> tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes
+> tarifários — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
 
@@ -3766,9 +3766,9 @@ inicial.
 | **total** | **327,4 kg** | **100%** | **-20,05 kg/ano** |
 
 Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
-quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+quase metade do carbono incorporado, e os reservatórios juntos por mais da metade. A
 segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
-simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+simplificadas, somam quase dois quintos do total: um estudo que contasse só o reservatório
 subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
 crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
 cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
@@ -3812,10 +3812,10 @@ quase todas elas.
 
 > **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
 > energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
-> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
-> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
-> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
-> inverter o resultado.
+> cerca de 6 kg CO₂e por ano às emissões e reduziria o saldo anual de 20,1 para cerca de
+> 14,1 kg CO₂e. O saldo anual continuaria positivo, mas o payback de carbono passaria de
+> 16,3 para cerca de 23 anos, além dos vinte de vida útil adotados: o sistema terminaria a
+> vida devendo carbono. Em matrizes mais fósseis que a brasileira, o efeito é ainda maior.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção 2.5, e existe para o hipoclorito não ser contado duas
@@ -8003,7 +8003,7 @@ pedreiro conhece.
 Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 
 **Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
-projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
+projeção horizontal, e a EN 16941-1:2024 faz o mesmo. Não use a área de contribuição da NBR 10844, que soma a metade da
 altura do telhado e as paredes para dimensionar calhas.
 A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na Figura 65.
 
@@ -8070,18 +8070,19 @@ fora da faixa mínima, e compare com uma fatura real da edificação.
 
 ### 5.1.5. Simular escola ou hospital com tarifa residencial
 
-**O engano.** Usar a tarifa do catálogo — que é residencial — para edificação não
-residencial.
+**O engano.** Usar a tarifa residencial do catálogo para edificação não residencial.
 
-**Por que é tentador.** O catálogo traz 652 municípios prontos, e o programa não
-impede.
+**Por que é tentador.** O catálogo traz 652 municípios prontos, quase todos só com a
+categoria residencial, e o programa não impede.
 
 **O que faz ao resultado.** Subestima a economia. As categorias não residenciais são
 mais caras: na CASAN de abril de 2026, a primeira faixa custa R$ 6,81/m³ no
 comercial contra R$ 3,08/m³ no residencial.
 
 **Como evitar.** O programa **avisa** quando a tipologia não é residencial, e diz o
-sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A seção 3.5 trata do assunto.
+sentido do erro. Escolha a categoria da edificação onde o catálogo a traz, hoje nos
+municípios da CORSAN; nos demais, lance a estrutura da categoria correta no modo
+personalizado. A seção 3.5 trata do assunto.
 
 ---
 
@@ -8228,12 +8229,15 @@ do dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige projet
 
 ### 5.2.2. Limitações dos dados tarifários
 
-**O catálogo tarifário cobre apenas a categoria residencial.** Os 652 municípios da
-base trazem a estrutura residencial, e as categorias comercial, industrial e pública —
-que existem em toda concessionária e custam tipicamente o dobro — precisam ser lançadas
-à mão pelo usuário, conforme a seção 3.3 descreve. Enquanto não forem, um estudo de
-escola, comércio ou indústria calcula a economia com a tarifa residencial, e portanto a
-**subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
+**O catálogo tarifário cobre quase só a categoria residencial.** Os 652 municípios da
+base trazem a estrutura residencial; as categorias não residenciais só entram com a
+tabela oficial do prestador, e hoje estão transcritas nos municípios da CORSAN — comercial
+e pública em 34, industrial em 30. Nos demais, as categorias comercial, industrial e
+pública, que existem em toda concessionária e costumam ser mais caras, precisam ser
+lançadas à mão pelo usuário, conforme a seção 3.3 descreve. Enquanto não forem, um
+estudo de escola, comércio ou indústria calcula a economia com a tarifa residencial, e
+portanto a **subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser
+declarado. O apêndice D mostra, município a município, o que já foi coletado.
 
 **Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
 subestima a fatura no primeiro bloco.
@@ -8354,13 +8358,13 @@ decidir se confia neles.
 
 ### 5.3.1. A suíte
 
-A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam (Figura 66): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+A verificação do programa consiste em 1.544 testes automatizados, distribuídos por 135 arquivos e organizados em cinco famílias que se complementam (Figura 66): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
 ![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
 
-*Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
+*Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por mais de quatro quintos do total, por serem de execução rápida e localizarem o erro perto da origem.*
 
 
 A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
@@ -8494,7 +8498,7 @@ O menu **Ajuda → Relatório de Verificação** abre, dentro do programa, o rel
 A suíte acompanha o código-fonte do programa, e não a instalação: ela é executada pelo
 grupo de pesquisa a cada alteração, antes que qualquer versão seja publicada. O que isso
 significa para quem usa o programa instalado é que a versão presente na sua máquina
-passou pelos 1.072 testes aqui descritos, incluindo as que conferem cada número
+passou pelos 1.544 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
@@ -8936,7 +8940,7 @@ mesmo registro.
 <!-- tabela: **Tabela 151** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **5.0.0** | 29 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério, planta 3D da tubulação e a documentação em três formatos. | 18 |
+| **5.0.0** | 29 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério, planta 3D da tubulação e a documentação em três formatos. | 19 |
 
 ---
 
@@ -9014,6 +9018,7 @@ a calcular de outro modo, e porque é o formato que as versões seguintes vão u
 | a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
 | a lâmina de descarte da primeira chuva valia 1,0 mm no arquivo de projeto, na leitura de planilha e no motor, e 2,0 mm no exportador CAD, na linha de comando e no relatório | o valor de recurso passou a ser 2,0 mm em todos os caminhos, conforme o item 4.1.5 da ABNT NBR 15527:2019; um projeto sem lâmina declarada descarta o dobro do que descartava, e a captação aproveitada cai na medida dos dias de chuva fraca |
 | os 34 municípios da CORSAN estavam gravados como uma reta, `PB × C + serviço básico`, com esgoto de 70% sobre a conta inteira, embora a concessionária cobre `PB × Cⁿ + serviço básico` e o esgoto por m³ consumido | a água segue a Tabela de Exponenciais (`n` de 1,00 até 20 m³ a 1,13 entre 101 e 150 m³) e o esgoto, R$ 6,40/m³ no ANEXO-5; em Alegrete, reduzir o consumo de 30 para 20 m³ passou a economizar R$ 253,81 por mês, e não R$ 155,55 |
+| as categorias comercial, industrial, pública e social eram a tarifa residencial multiplicada por fatores fixos, sem tabela de prestador nenhum: ×1,85 na água comercial, ×2,30 na industrial, ×1,65 na pública e ×0,50 na social | uma categoria só entra com a tabela oficial do prestador; hoje, comercial e pública nos 34 municípios da CORSAN e industrial em 30. Nos demais, a categoria aparece desabilitada e o estudo usa a estrutura personalizada; quando a categoria que a tipologia exige não está disponível, o programa avisa que a tarifa residencial subestima a economia |
 
 #### 6.3.3.3. Correções que não alteram resultados
 
@@ -9051,6 +9056,16 @@ manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte,
 site de documentação com dezoito figuras interativas, em que o leitor muda os
 parâmetros e vê o resultado que o programa calculou. Os três, mais o `CHANGELOG.md`
 distribuído com o código, saem dos mesmos arquivos de texto.
+
+O manual passou a existir também em inglês, seção a seção, com os mesmos números,
+figuras, tabelas e equações; é o manual que a edição Internacional instala e abre. Uma
+verificação automática recusa a montagem se as duas versões divergirem na estrutura.
+Três acréscimos ao texto em português acompanharam a tradução: a seção 2.1 explica
+onde a ordem do balanço do Netuno fica entre as regras YAS e YBS da literatura, que antes
+eram dadas como equivalentes a ela; o apêndice D ganhou as faixas de cada
+município por categoria, com a situação da auditoria e a data de cada dado; e o material
+tarifário recebido passou a ser registrado num controle próprio, em
+`tarifas/fontes/REGISTRO.md`, que diz o que já chegou e o que falta coletar.
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa
@@ -9157,7 +9172,8 @@ município tratado como consumo mínimo quando é taxa de disponibilidade — ou
 Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
 5.2 relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
 produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
-tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios e as demais só
+onde a tabela oficial do prestador foi transcrita, de modo que, nos outros municípios, um
 estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
 lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
 própria, porque a tabela certa é pública e específica de cada concessionária.
@@ -11655,8 +11671,7 @@ As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na ba
 ### E.4. As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data
-ainfall` do programa:
+instalação, na pasta `data/rainfall` do programa:
 
 <!-- tabela: **Tabela 187** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
@@ -12044,42 +12059,37 @@ prediais.
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
 
-**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+**Manuais do Netuno 5** (*Netuno 5 manual suite*). A documentação do programa, montada
+das mesmas fontes em três formatos: o manual completo, sete volumes avulsos, cada um com
+uma parte dele, e o site de documentação. Os volumes servem a quem precisa de uma parte
+só, para consultar ou enviar:
 
-1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+1. **Manual completo**: todos os capítulos e apêndices.
    ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
-   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
-
-2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+2. **Volume 1 — Comece aqui**: o que o programa faz, como instalá-lo e por onde entrar
+   conforme o seu objetivo.
    ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
-   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
-
-3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+3. **Volume 2 — O método**: as equações, os critérios e as fontes por trás de cada número
+   que o programa publica.
    ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
-   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
-
-4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, demanda variável,
+   lote, sensibilidade e exportação.
    ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
-   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
-
-5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+5. **Volume 4 — Tutorial**: um projeto de residência em Florianópolis, do primeiro dado ao
+   volume recomendado.
    ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
-   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
-
-6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+6. **Volume 5 — Enganos, limitações e confiabilidade**: os enganos mais comuns, os limites
+   do modelo e como o programa é verificado.
    ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
-   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
-
-7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+7. **Volume 6 — Correções, bugs e versionamento**: o que mudou desde o Netuno 4, as
+   mensagens de erro e como relatar um problema.
    ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
-   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
-
-8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+8. **Volume 7 — Apêndices**: parâmetros, processos, fatores de emissão, tarifas, base
+   climática, formatos, glossário e referências.
    ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
-   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
 
-- **Manual Interativo & Portal Web Oficial:**
-  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
+Os PDFs acompanham o programa e abrem pela etapa 9. Documentação; o manual existe também
+em inglês, na íntegra.
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
@@ -12223,7 +12233,7 @@ Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas n
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
 | **Demanda pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
-| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (YAS) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
+| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (seção 2.1) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
 | **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da demanda **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
 | **Confiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da demanda **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
 | **Confiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a demanda pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |

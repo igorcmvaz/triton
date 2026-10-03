@@ -29,6 +29,8 @@
   #define SetupName "Netuno_INT_Setup_"
   #define CoreDesc "Netuno application (International Edition: no Brazilian data), manual, cases and examples"
   #define AssocFlags "; Flags: unchecked"
+  #define ManualPdf "_internal\manual\en\Netuno-5-User-Manual.pdf"
+  #define ManualLink "Netuno 5 User Manual"
 #else
   #define MyAppName "Netuno 5 — Edição Brasil"
   #define MyAppDir "Netuno 5"
@@ -39,6 +41,8 @@
   #define SetupName "Netuno_Setup_"
   #define CoreDesc "Aplicativo Netuno, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"
   #define AssocFlags ""
+  #define ManualPdf "_internal\manual\Manual-Netuno-5.pdf"
+  #define ManualLink "Manual do Netuno 5"
 #endif
 #ifndef MyAppVersion
   #define MyAppVersion "5.0.0"
@@ -140,7 +144,7 @@ Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes
 [Icons]
 ; A pasta de trabalho é a do programa.
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\netuno5.ico"
-Name: "{autoprograms}\Manual do {#MyAppName}"; Filename: "{app}\_internal\manual\Manual-Netuno-5.pdf"; Check: FileExists(ExpandConstant('{app}\_internal\manual\Manual-Netuno-5.pdf')); IconFilename: "{app}\icons\netuno5.ico"
+Name: "{autoprograms}\{#ManualLink}"; Filename: "{app}\{#ManualPdf}"; Check: FileExists(ExpandConstant('{app}\{#ManualPdf}')); IconFilename: "{app}\icons\netuno5.ico"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\netuno5.ico"
 
 [Run]

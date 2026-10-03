@@ -754,7 +754,8 @@ class MainWindow(QMainWindow):
         # acompanha o programa, e só cai na mensagem quando ele não existe.
         from PySide6.QtCore import QUrl
         from PySide6.QtGui import QDesktopServices
-        for relativo in (os.path.join("manual", "Manual-Netuno-5.pdf"),):
+        from netuno.ui.tab_documentation import caminho_do_manual_completo
+        for relativo in (caminho_do_manual_completo(),):
             caminho = get_resource_path(relativo)
             if os.path.isfile(caminho):
                 QDesktopServices.openUrl(QUrl.fromLocalFile(caminho))

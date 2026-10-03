@@ -12,7 +12,7 @@ manual, and it was written to be read by those who need to decide whether to tru
 
 ## The suite
 
-The program's verification consists of 1,072 automated tests, spread over 94 files and organised
+The program's verification consists of 1,544 automated tests, spread over 135 files and organised
 into five complementary families ({{fig:fig45_suite}}): unit tests, invariant tests, integration
 tests, graphical interface tests and the test that replicates the results of Netuno 4. The
 separation is not merely organisational: each family catches a distinct class of defect, and the
@@ -20,7 +20,7 @@ absence of any of them would leave a flank exposed.
 
 ![The five families of the verification suite](../figuras/fig45_suite.png)
 
-*Figure 99 — Number of tests and of files in each family of the verification suite, as collected in this version. Unit tests account for three quarters of the total, because they run fast and locate the error close to its origin.*
+*Figure 99 — Number of tests and of files in each family of the verification suite, as collected in this version. Unit tests account for more than four fifths of the total, because they run fast and locate the error close to its origin.*
 
 
 The whole suite runs at every change to the code, and no change is merged while a test is failing.
@@ -149,7 +149,7 @@ a study needs to declare how the program was verified.
 
 The suite comes with the program's source code, not with the installation: it is run by the
 research group at every change, before any version is released. What this means for those using the
-installed program is that the version on their machine has passed the 1,072 tests described here,
+installed program is that the version on their machine has passed the 1,544 tests described here,
 including those that check each number printed in this manual.
 
 > **In depth: checking for yourself.** The source code is public, under the GPL v3 licence, and the

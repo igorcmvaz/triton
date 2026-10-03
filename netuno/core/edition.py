@@ -51,6 +51,23 @@ def usa_dados_do_brasil() -> bool:
     return is_brl_edition()
 
 
+#: O manual completo em cada língua, relativo à raiz do programa.
+MANUAL_PT = "manual/Manual-Netuno-5.pdf"
+MANUAL_EN = "manual/en/Netuno-5-User-Manual.pdf"
+
+
+def manual_do_usuario(idioma: str) -> str:
+    """O manual completo que o programa abre: o inglês na Internacional ou fora do português.
+
+    A Internacional abre em inglês e não traz dados brasileiros; o manual dela é o
+    inglês, qualquer que seja a língua escolhida. Na Brasil, segue a língua da interface:
+    espanhol e chinês não têm manual próprio, e o inglês lhes serve melhor que o português.
+    """
+    if is_int_edition() or idioma != "pt":
+        return MANUAL_EN
+    return MANUAL_PT
+
+
 def rotulo_da_edicao(curto: bool = False) -> str:
     """«Edição Brasil (BRL)» ou «International Edition (INT)», para selo, relatórios e exportações."""
     if is_int_edition():

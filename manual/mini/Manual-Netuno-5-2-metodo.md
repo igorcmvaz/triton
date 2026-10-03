@@ -85,7 +85,7 @@ Apêndice H — Referências
 
 Figura 1 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, após o consumo, com a capacidade de 2.000 L em tracejado; nos dias 6, 7 e 9 o reservatório atinge a capacidade, extravasa e termina o dia com 1.920 L
 
-Figura 2 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento
+Figura 2 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento
 
 Figura 3 — Curva de potencial de economia da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa calcula corretamente cada ponto que contém, mas não contém o trecho de maior curvatura, entre 1 e 5 m³
 
@@ -155,187 +155,189 @@ Tabela 7 — Variáveis da Equação 2
 
 Tabela 8 — Variáveis da Equação 5
 
-Tabela 9 — Variáveis da Equação 7
+Tabela 9 — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno
 
-Tabela 10 — Variáveis da Equação 8
+Tabela 10 — Variáveis da Equação 7
 
-Tabela 11 — Variáveis da Equação 9
+Tabela 11 — Variáveis da Equação 8
 
-Tabela 12 — Variáveis da Equação 10
+Tabela 12 — Variáveis da Equação 9
 
-Tabela 13 — Variáveis da Equação 11
+Tabela 13 — Variáveis da Equação 10
 
-Tabela 14 — Variáveis da Equação 12
+Tabela 14 — Variáveis da Equação 11
 
-Tabela 15 — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária
+Tabela 15 — Variáveis da Equação 12
 
-Tabela 16 — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa
+Tabela 16 — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária
 
-Tabela 17 — Variáveis da Equação 13
+Tabela 17 — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa
 
-Tabela 18 — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível
+Tabela 18 — Variáveis da Equação 13
 
-Tabela 19 — Variáveis da Equação 14
+Tabela 19 — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível
 
-Tabela 20 — Variáveis da Equação 15
+Tabela 20 — Variáveis da Equação 14
 
-Tabela 21 — Variáveis da Equação 16
+Tabela 21 — Variáveis da Equação 15
 
-Tabela 22 — Variáveis da Equação 17
+Tabela 22 — Variáveis da Equação 16
 
-Tabela 23 — Variáveis da Equação 18
+Tabela 23 — Variáveis da Equação 17
 
-Tabela 24 — Variáveis da Equação 19
+Tabela 24 — Variáveis da Equação 18
 
-Tabela 25 — Variáveis da Equação 20
+Tabela 25 — Variáveis da Equação 19
 
-Tabela 26 — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde
+Tabela 26 — Variáveis da Equação 20
 
-Tabela 27 — Variáveis da Equação 21
+Tabela 27 — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde
 
-Tabela 28 — Variáveis da Equação 22
+Tabela 28 — Variáveis da Equação 21
 
-Tabela 29 — Variáveis da Equação 23
+Tabela 29 — Variáveis da Equação 22
 
-Tabela 30 — Variáveis da Equação 24
+Tabela 30 — Variáveis da Equação 23
 
-Tabela 31 — Variáveis da Equação 25
+Tabela 31 — Variáveis da Equação 24
 
-Tabela 32 — Variáveis da Equação 26
+Tabela 32 — Variáveis da Equação 25
 
-Tabela 33 — Variáveis da Equação 27
+Tabela 33 — Variáveis da Equação 26
 
-Tabela 34 — Variáveis da Equação 28
+Tabela 34 — Variáveis da Equação 27
 
-Tabela 35 — Variáveis da Equação 29
+Tabela 35 — Variáveis da Equação 28
 
-Tabela 36 — Filtro mecânico de entrada dimensionado pela área de cobertura
+Tabela 36 — Variáveis da Equação 29
 
-Tabela 37 — Variáveis da Equação 30
+Tabela 37 — Filtro mecânico de entrada dimensionado pela área de cobertura
 
-Tabela 38 — Recomendação de filtro de polimento por classe de qualidade alvo
+Tabela 38 — Variáveis da Equação 30
 
-Tabela 39 — Dimensionamento e orçamento do descarte inicial no projeto do tutorial
+Tabela 39 — Recomendação de filtro de polimento por classe de qualidade alvo
 
-Tabela 40 — Variáveis da Equação 31
+Tabela 40 — Dimensionamento e orçamento do descarte inicial no projeto do tutorial
 
-Tabela 41 — Os dois rendimentos da cadeia de bombeamento e o que cada um converte
+Tabela 41 — Variáveis da Equação 31
 
-Tabela 42 — Variáveis da Equação 32
+Tabela 42 — Os dois rendimentos da cadeia de bombeamento e o que cada um converte
 
-Tabela 43 — Variáveis da Equação 33
+Tabela 43 — Variáveis da Equação 32
 
-Tabela 44 — Variáveis da Equação 34
+Tabela 44 — Variáveis da Equação 33
 
-Tabela 45 — Variáveis da Equação 35
+Tabela 45 — Variáveis da Equação 34
 
-Tabela 46 — Variáveis da Equação 36
+Tabela 46 — Variáveis da Equação 35
 
-Tabela 47 — Valores de recurso adotados quando o projeto não os declara
+Tabela 47 — Variáveis da Equação 36
 
-Tabela 48 — Variáveis da Equação 37
+Tabela 48 — Valores de recurso adotados quando o projeto não os declara
 
-Tabela 49 — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba
+Tabela 49 — Variáveis da Equação 37
 
-Tabela 50 — Variáveis da Equação 38
+Tabela 50 — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba
 
-Tabela 51 — Variáveis da Equação 39
+Tabela 51 — Variáveis da Equação 38
 
-Tabela 52 — Variáveis da Equação 40
+Tabela 52 — Variáveis da Equação 39
 
-Tabela 53 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
+Tabela 53 — Variáveis da Equação 40
 
-Tabela 54 — Variáveis da Equação 41
+Tabela 54 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
 
-Tabela 55 — Parcelas do custeio anual e a origem de cada uma
+Tabela 55 — Variáveis da Equação 41
 
-Tabela 56 — Variáveis da Equação 42
+Tabela 56 — Parcelas do custeio anual e a origem de cada uma
 
-Tabela 57 — Variáveis da Equação 44
+Tabela 57 — Variáveis da Equação 42
 
-Tabela 58 — Variáveis da Equação 45
+Tabela 58 — Variáveis da Equação 44
 
-Tabela 59 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
+Tabela 59 — Variáveis da Equação 45
 
-Tabela 60 — Variáveis da Equação 46
+Tabela 60 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
 
-Tabela 61 — Massa por metro cúbico útil de cada material de reservatório
+Tabela 61 — Variáveis da Equação 46
 
-Tabela 62 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
+Tabela 62 — Massa por metro cúbico útil de cada material de reservatório
 
-Tabela 63 — Variáveis da Equação 47
+Tabela 63 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
 
-Tabela 64 — Variáveis da Equação 48
+Tabela 64 — Variáveis da Equação 47
 
-Tabela 65 — Variáveis da Equação 49
+Tabela 65 — Variáveis da Equação 48
 
-Tabela 66 — Variáveis da Equação 50
+Tabela 66 — Variáveis da Equação 49
 
-Tabela 67 — Variáveis da Equação 51
+Tabela 67 — Variáveis da Equação 50
 
-Tabela 68 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
+Tabela 68 — Variáveis da Equação 51
 
-Tabela 69 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
+Tabela 69 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
 
-Tabela 70 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
+Tabela 70 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
 
-Tabela 71 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+Tabela 71 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
 
-Tabela 72 — Variáveis da Equação 52
+Tabela 72 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
 
-Tabela 73 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+Tabela 73 — Variáveis da Equação 52
 
-Tabela 74 — Parâmetros do projeto: identificação
+Tabela 74 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
 
-Tabela 75 — Parâmetros do projeto: chuva
+Tabela 75 — Parâmetros do projeto: identificação
 
-Tabela 76 — Parâmetros do projeto: captação
+Tabela 76 — Parâmetros do projeto: chuva
 
-Tabela 77 — Parâmetros do projeto: edificação
+Tabela 77 — Parâmetros do projeto: captação
 
-Tabela 78 — Parâmetros do projeto: demanda
+Tabela 78 — Parâmetros do projeto: edificação
 
-Tabela 79 — Parâmetros do projeto: irrigação
+Tabela 79 — Parâmetros do projeto: demanda
 
-Tabela 80 — Parâmetros do projeto: qualidade da água
+Tabela 80 — Parâmetros do projeto: irrigação
 
-Tabela 81 — Parâmetros do projeto: reservatórios
+Tabela 81 — Parâmetros do projeto: qualidade da água
 
-Tabela 82 — Parâmetros do projeto: motobomba
+Tabela 82 — Parâmetros do projeto: reservatórios
 
-Tabela 83 — Parâmetros do projeto: tubulação
+Tabela 83 — Parâmetros do projeto: motobomba
 
-Tabela 84 — Parâmetros do projeto: investimento
+Tabela 84 — Parâmetros do projeto: tubulação
 
-Tabela 85 — Parâmetros do projeto: operação
+Tabela 85 — Parâmetros do projeto: investimento
 
-Tabela 86 — Parâmetros do projeto: tarifas
+Tabela 86 — Parâmetros do projeto: operação
 
-Tabela 87 — Parâmetros do projeto: energia
+Tabela 87 — Parâmetros do projeto: tarifas
 
-Tabela 88 — Parâmetros do projeto: incentivos
+Tabela 88 — Parâmetros do projeto: energia
 
-Tabela 89 — Parâmetros do projeto: financeiro
+Tabela 89 — Parâmetros do projeto: incentivos
 
-Tabela 90 — Parâmetros do projeto: certificações
+Tabela 90 — Parâmetros do projeto: financeiro
 
-Tabela 91 — Parâmetros do projeto: outros
+Tabela 91 — Parâmetros do projeto: certificações
 
-Tabela 92 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 92 — Parâmetros do projeto: outros
 
-Tabela 93 — Fatores de emissão dos insumos de tratamento
+Tabela 93 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 94 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 94 — Fatores de emissão dos insumos de tratamento
 
-Tabela 95 — Procedência do fator de emissão do hipoclorito
+Tabela 95 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 96 — Conteúdo da base climática nacional
+Tabela 96 — Procedência do fator de emissão do hipoclorito
 
-Tabela 97 — Séries históricas de precipitação distribuídas com o programa
+Tabela 97 — Conteúdo da base climática nacional
 
-Tabela 98 — Padronização terminológica de água de chuva e água pluvial
+Tabela 98 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 99 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 99 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 100 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -365,7 +367,7 @@ Equação 11 — Ganho marginal por metro cúbico acrescentado
 
 Equação 12 — Volume ideal pelo critério de ganho marginal
 
-Equação 13 — fracao_de_armazenamento
+Equação 13 — Fração de armazenamento
 
 Equação 14 — Potencial de economia de água potável
 
@@ -375,7 +377,7 @@ Equação 16 — Relação entre potencial e confiabilidade
 
 Equação 17 — Extravasamento médio diário
 
-Equação 18 — uso_da_captacao
+Equação 18 — Eficiência de uso da água captada
 
 Equação 19 — Volume anual de água potável poupado
 
@@ -413,11 +415,11 @@ Equação 35 — Energia consumida nas partidas
 
 Equação 36 — Energia anual da motobomba
 
-Equação 37 — energia_pressurizador
+Equação 37 — Energia anual do pressurizador
 
 Equação 38 — Economia mensal na fatura
 
-Equação 39 — exponencial
+Equação 39 — Fórmula exponencial da CORSAN
 
 Equação 40 — Parcela de esgoto da fatura
 
@@ -603,10 +605,13 @@ O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, e
 **774 L extravasam**. Só depois disso o programa retira os 80 L da demanda, deixando
 1.920 L para o dia seguinte.
 
-> **Atenção.** Esta ordem define o modelo, e tem nome: **YAS**, de *yield after
-> spillage*. O extravasamento é calculado **antes** da retirada da demanda.
+> **Atenção.** Esta ordem define o modelo. O extravasamento é calculado **antes** da
+> retirada da demanda, como na regra **YAS** (*yield after spillage*), mas a chuva do
+> próprio dia já pode atender a demanda do dia, como na regra **YBS**. O Netuno fica,
+> portanto, entre as duas, e a subseção «YAS, YBS e a ordem do Netuno», adiante, mostra
+> por quê.
 >
-> Se a ordem fosse invertida, o reservatório aceitaria água que fisicamente já teria
+> Se o consumo viesse antes do extravasamento, o reservatório aceitaria água que fisicamente já teria
 > extravasado, e o programa superestimaria o aproveitamento. A diferença aparece
 > justamente nos dias de chuva forte, que são os que mais pesam no total anual.
 
@@ -711,9 +716,10 @@ V_arm,t = min(D_t ; V_max)
 | `V_max` | capacidade útil do reservatório inferior | L |
 
 ==A ordem em que as Equações 4 e 5 aparecem define o
-modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
-convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
-é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
+modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e é por isso que
+o programa costuma ser descrito pela regra YAS, do inglês *yield after spillage*, isto
+é, rendimento posterior ao extravasamento. A descrição é aproximada, e a subseção
+seguinte diz em que ela falha. Inverter a ordem faria o reservatório
 aceitar, na forma de consumo, água que fisicamente já teria extravasado, e
 superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
 mais pesam no total anual.
@@ -727,9 +733,38 @@ esses dias os que mais pesam no total anual, e por isso uma escolha que parece f
 
 ![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
 
-*Figura 2 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
+*Figura 2 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
 
-#### 2.1.4.3. O atendimento da demanda
+#### 2.1.4.3. YAS, YBS e a ordem do Netuno
+
+Na literatura, YAS e YBS têm definição precisa (Fewkes e Butler, 2000). Com `Y_t` o
+volume retirado no dia, `Q_t` o volume captado, `S_t` o volume armazenado no fim do dia
+e `V_max` a capacidade:
+
+<!-- tabela: **Tabela 9** — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno -->
+| Regra | Retirada do dia | Armazenado no fim do dia |
+| :--- | :--- | :--- |
+| YAS estrita | `Y_t = min(D_pl,t ; S_t−1)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max − Y_t)` |
+| YBS estrita | `Y_t = min(D_pl,t ; S_t−1 + Q_t)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max)` |
+| Netuno | `Y_t = min(D_pl,t ; min(S_t−1 + Q_t ; V_max))` | `S_t = min(S_t−1 + Q_t ; V_max) − Y_t` |
+
+Na YAS estrita, a retirada do dia sai só do que estava guardado na véspera: a chuva de
+hoje só serve amanhã. Na YBS estrita, a chuva de hoje atende a demanda antes de o
+reservatório extravasar. O Netuno faz o extravasamento primeiro, como a YAS, e depois
+deixa a chuva do dia, até o limite da capacidade, atender a demanda do dia.
+
+Disso decorre uma desigualdade que vale em qualquer série: o volume consumido pelo
+Netuno nunca é menor que o da YAS estrita nem maior que o da YBS estrita. O resultado
+fica **entre as duas**, mais perto da YAS nos reservatórios grandes, em que a véspera
+quase sempre basta, e mais longe dela nos pequenos, em que a chuva do dia pesa. Quem
+compara o Netuno com um programa ou com uma norma que use a YAS estrita, como o método
+detalhado da EN 16941-1:2024 (Anexo A), deve esperar do Netuno um potencial de economia
+um pouco maior para o mesmo volume.
+
+O programa mantém essa ordem por decisão: ela reproduz o Netuno 4 e os estudos do grupo
+de pesquisa que o usaram, e uma mudança aqui deslocaria todos os resultados publicados.
+
+#### 2.1.4.4. O atendimento da demanda
 
 Estabelecido quanto há no reservatório, o programa retira dele o menor valor entre a
 demanda pluvial do dia e o volume disponível, e devolve ao dia seguinte o que restar.
@@ -742,7 +777,7 @@ V_con,t = min(D_pl,t ; V_arm,t)
 V_res,t = V_arm,t − V_con,t
 ```
 
-<!-- tabela: **Tabela 9** — Variáveis da Equação 7 -->
+<!-- tabela: **Tabela 10** — Variáveis da Equação 7 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_con,t` | volume de água pluvial consumido no dia `t` | L |
@@ -756,7 +791,7 @@ Nenhum cálculo baseado em médias mensais ou anuais consegue representar esse
 encadeamento, e é dele que decorre todo o descasamento entre a oferta concentrada e a
 demanda distribuída.
 
-#### 2.1.4.4. O complemento da rede pública
+#### 2.1.4.5. O complemento da rede pública
 
 O que a chuva não atendeu é comprado da concessionária, e essa parcela reúne três
 origens distintas.
@@ -765,7 +800,7 @@ origens distintas.
 V_pot,t = D_pot,t + ΔD_int,t + ΔD_irr,t
 ```
 
-<!-- tabela: **Tabela 10** — Variáveis da Equação 8 -->
+<!-- tabela: **Tabela 11** — Variáveis da Equação 8 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_pot,t` | volume de água potável consumido da rede no dia `t` | L |
@@ -780,7 +815,7 @@ jardim simplesmente não é regado, a edificação não compra essa água, e o v
 correspondente é contabilizado como **demanda não atendida**, que é a terceira parcela
 do balanço de demanda tratada adiante nesta seção.
 
-#### 2.1.4.5. A classificação do dia
+#### 2.1.4.6. A classificação do dia
 
 Por fim, cada dia recebe uma classificação segundo o grau de atendimento alcançado, e é
 a partir dessa classificação que se calculam os percentuais de dias de atendimento
@@ -790,7 +825,7 @@ pleno, parcial e nulo relatados na seção 2.3.
 pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
 ```
 
-<!-- tabela: **Tabela 11** — Variáveis da Equação 9 -->
+<!-- tabela: **Tabela 12** — Variáveis da Equação 9 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_con,t` | volume de água pluvial consumido no dia `t` | L |
@@ -809,7 +844,7 @@ A demanda total de um dia se reparte em três, e não em duas:
 D_t = V_con,t + V_pot,t + V_nao,t
 ```
 
-<!-- tabela: **Tabela 12** — Variáveis da Equação 10 -->
+<!-- tabela: **Tabela 13** — Variáveis da Equação 10 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `D_t` | demanda total da edificação no dia `t` | L |
@@ -930,7 +965,7 @@ calculada para cada volume da grade a partir do segundo.
 Δ(V_i) = [ Epot(V_i) − Epot(V_i−1) ] ÷ [ (V_i − V_i−1) ÷ 1000 ]
 ```
 
-<!-- tabela: **Tabela 13** — Variáveis da Equação 11 -->
+<!-- tabela: **Tabela 14** — Variáveis da Equação 11 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Δ(V_i)` | ganho marginal do volume `V_i` em relação ao anterior | %/m³ |
@@ -961,7 +996,7 @@ tenha caído abaixo de um limiar declarado pelo usuário.
 V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
 ```
 
-<!-- tabela: **Tabela 14** — Variáveis da Equação 12 -->
+<!-- tabela: **Tabela 15** — Variáveis da Equação 12 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_ideal` | volume ideal pelo critério de ganho marginal | L |
@@ -1042,7 +1077,7 @@ sequer a demanda.
 A tabela a seguir aplica cinco desses métodos ao projeto do tutorial, arredonda cada
 volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele produz.
 
-<!-- tabela: **Tabela 15** — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
+<!-- tabela: **Tabela 16** — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
 | Método | Regra | Volume | Potencial simulado |
 | :--- | :--- | ---: | ---: |
 | prático alemão | 6% do menor entre oferta e demanda anuais | 3 750 L | 27,00% |
@@ -1052,7 +1087,7 @@ volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele
 | prático inglês | 0,05 × P × A | 13 500 L | 28,00% |
 | **simulação diária, ganho marginal de 1 %/m³** | varredura | **4 000 L** | **27,12%** |
 
-<!-- tabela: **Tabela 16** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
+<!-- tabela: **Tabela 17** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
 | Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |
 | ---: | ---: | :--- |
 | 1 000 L | 0,0037 | horário |
@@ -1095,7 +1130,7 @@ a **fração de armazenamento**.
 F_S = S ÷ (A × R)
 ```
 
-<!-- tabela: **Tabela 17** — Variáveis da Equação 13 -->
+<!-- tabela: **Tabela 18** — Variáveis da Equação 13 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `F_S` | fração de armazenamento | adimensional |
@@ -1201,7 +1236,7 @@ isolam e que a análise deixa visível: a série necessária cresce com a fraç�
 atendível. Nas quatro séries de trinta anos que acompanham o programa, com
 cobertura de 100 m², quatro moradores e 150 L por pessoa ao dia:
 
-<!-- tabela: **Tabela 18** — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível -->
+<!-- tabela: **Tabela 19** — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível -->
 | Fração atendível | Florianópolis | São Paulo | Brasília | Manaus |
 | :--- | ---: | ---: | ---: | ---: |
 | 20% | 2 | 8 | 9 | 16 |
@@ -1264,7 +1299,7 @@ não apenas da parcela que a chuva poderia atender.
 Epot = ( Σ V_con,t ÷ Σ D_t ) × 100
 ```
 
-<!-- tabela: **Tabela 19** — Variáveis da Equação 14 -->
+<!-- tabela: **Tabela 20** — Variáveis da Equação 14 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Epot` | potencial de economia de água potável | % |
@@ -1291,7 +1326,7 @@ demanda pluvial, e não a demanda total.
 Rv = ( Σ V_con,t ÷ Σ D_pl,t ) × 100
 ```
 
-<!-- tabela: **Tabela 20** — Variáveis da Equação 15 -->
+<!-- tabela: **Tabela 21** — Variáveis da Equação 15 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Rv` | confiabilidade volumétrica do sistema | % |
@@ -1307,7 +1342,7 @@ conferência rápida de qualquer resultado.
 Epot = Rv × f
 ```
 
-<!-- tabela: **Tabela 21** — Variáveis da Equação 16 -->
+<!-- tabela: **Tabela 22** — Variáveis da Equação 16 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Epot` | potencial de economia de água potável | % |
@@ -1365,7 +1400,7 @@ baixo se a demanda pluvial for pequena, e o contrário também acontece.
 V_ext,med = ( Σ V_ext,t ) ÷ n
 ```
 
-<!-- tabela: **Tabela 22** — Variáveis da Equação 17 -->
+<!-- tabela: **Tabela 23** — Variáveis da Equação 17 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_ext,med` | extravasamento médio diário | L/dia |
@@ -1395,7 +1430,7 @@ descarte de primeiras águas, que acabou consumida.
 η_cap = ( Σ V_con,t ÷ Σ V_cap,t ) × 100
 ```
 
-<!-- tabela: **Tabela 23** — Variáveis da Equação 18 -->
+<!-- tabela: **Tabela 24** — Variáveis da Equação 18 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `η_cap` | eficiência de uso da água captada | % |
@@ -1444,7 +1479,7 @@ dos pontos de uso pluviais, e não apenas para complementar pequenas faltas.
 V_poup = ( V_con,med × 365,25 ) ÷ 1000
 ```
 
-<!-- tabela: **Tabela 24** — Variáveis da Equação 19 -->
+<!-- tabela: **Tabela 25** — Variáveis da Equação 19 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_poup` | volume de água potável poupado por ano | m³/ano |
@@ -1476,7 +1511,7 @@ varredura** — uma simulação de volume único não o produz.
 V_nao,med = ( Σ V_nao,t ) ÷ n
 ```
 
-<!-- tabela: **Tabela 25** — Variáveis da Equação 20 -->
+<!-- tabela: **Tabela 26** — Variáveis da Equação 20 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_nao,med` | demanda média diária não atendida por nenhuma fonte | L/dia |
@@ -1494,7 +1529,7 @@ toda a demanda que a chuva não atendeu. A seção 2.1 detalha.
 
 ### 2.3.10. Quadro-resumo
 
-<!-- tabela: **Tabela 26** — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
+<!-- tabela: **Tabela 27** — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
 | Indicador | Unidade | Denominador | Responde |
 | :--- | :--- | :--- | :--- |
 | potencial de economia | % | demanda total | quanto do consumo de água potável cai |
@@ -1536,7 +1571,7 @@ no total.
 PRCPTOT = Σ P_i , para P_i ≥ 1 mm
 ```
 
-<!-- tabela: **Tabela 27** — Variáveis da Equação 21 -->
+<!-- tabela: **Tabela 28** — Variáveis da Equação 21 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PRCPTOT` | precipitação total dos dias úmidos do ano | mm |
@@ -1553,7 +1588,7 @@ extravasamento de cisternas.
 R95p = Σ P_i , para P_i > q_95
 ```
 
-<!-- tabela: **Tabela 28** — Variáveis da Equação 22 -->
+<!-- tabela: **Tabela 29** — Variáveis da Equação 22 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `R95p` | precipitação acumulada nos dias muito úmidos | mm |
@@ -1569,7 +1604,7 @@ calha, e não o reservatório.
 RX1day = max ( P_i )
 ```
 
-<!-- tabela: **Tabela 29** — Variáveis da Equação 23 -->
+<!-- tabela: **Tabela 30** — Variáveis da Equação 23 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `RX1day` | maior precipitação diária do ano | mm |
@@ -1586,7 +1621,7 @@ apenas no pico diário.
 RX5day = max ( Σ P_j ) , para j de i a i + 4
 ```
 
-<!-- tabela: **Tabela 30** — Variáveis da Equação 24 -->
+<!-- tabela: **Tabela 31** — Variáveis da Equação 24 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `RX5day` | maior acumulado de cinco dias consecutivos no ano | mm |
@@ -1604,7 +1639,7 @@ bem diferentes.
 SDII = PRCPTOT ÷ n_úmidos
 ```
 
-<!-- tabela: **Tabela 31** — Variáveis da Equação 25 -->
+<!-- tabela: **Tabela 32** — Variáveis da Equação 25 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `SDII` | intensidade média dos dias úmidos | mm/dia |
@@ -1620,7 +1655,7 @@ aproveitamento pluvial, esses são tipicamente os dias de extravasamento.
 R20mm = # { i : P_i ≥ 20 mm }
 ```
 
-<!-- tabela: **Tabela 32** — Variáveis da Equação 26 -->
+<!-- tabela: **Tabela 33** — Variáveis da Equação 26 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `R20mm` | número de dias com precipitação intensa no ano | dia |
@@ -1637,7 +1672,7 @@ longa é o que esvazia a cisterna.
 CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
 ```
 
-<!-- tabela: **Tabela 33** — Variáveis da Equação 27 -->
+<!-- tabela: **Tabela 34** — Variáveis da Equação 27 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CDD` | maior sequência de dias secos consecutivos no ano | dia |
@@ -1654,7 +1689,7 @@ do reservatório.
 CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
 ```
 
-<!-- tabela: **Tabela 34** — Variáveis da Equação 28 -->
+<!-- tabela: **Tabela 35** — Variáveis da Equação 28 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CWD` | maior sequência de dias úmidos consecutivos no ano | dia |
@@ -1671,7 +1706,7 @@ ao conjunto ETCCDI: foi proposto por Walsh e Lawler em 1981.
 SI = ( 1 ÷ R ) × Σ | X_m − R ÷ 12 |
 ```
 
-<!-- tabela: **Tabela 35** — Variáveis da Equação 29 -->
+<!-- tabela: **Tabela 36** — Variáveis da Equação 29 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `SI` | índice de sazonalidade de Walsh e Lawler | adimensional |
@@ -1808,7 +1843,7 @@ produz — grandeza que independe do destino final da água. As três faixas ado
 programa correspondem às capacidades que os próprios fabricantes declaram para os
 equipamentos correntes no mercado brasileiro.
 
-<!-- tabela: **Tabela 36** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+<!-- tabela: **Tabela 37** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Equipamento | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
@@ -1849,7 +1884,7 @@ cúbico tratado, que decorre da dose aplicada e da pureza do produto adquirido.
 m_prod = ( C_Cl ÷ 1000 ) ÷ p
 ```
 
-<!-- tabela: **Tabela 37** — Variáveis da Equação 30 -->
+<!-- tabela: **Tabela 38** — Variáveis da Equação 30 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `m_prod` | massa de produto comercial consumida por metro cúbico tratado | kg/m³ |
@@ -1874,7 +1909,7 @@ tipo de meio filtrante: a lavagem de roupas, por envolver contato com tecido e p
 exige carvão ativado em bloco, ao passo que os demais usos se satisfazem com filtro de
 areia ou cartucho de vinte micrômetros.
 
-<!-- tabela: **Tabela 38** — Recomendação de filtro de polimento por classe de qualidade alvo -->
+<!-- tabela: **Tabela 39** — Recomendação de filtro de polimento por classe de qualidade alvo -->
 | Classe | Recomenda polimento? | Equipamento quando marcado |
 | :--- | :---: | :--- |
 | 1 — NBR 15527:2019 | não | filtro de areia ou cartucho de 20 µm |
@@ -1900,7 +1935,7 @@ O descarte de primeiras águas entra no programa de duas formas. No balanço hí
 
 O volume do reservatório de descarte é o produto da lâmina de descarte pela área de captação, `V_desc = d × A`, em litros, com `d` em milímetros e `A` em metros quadrados. Até 250 L, o programa orça uma coluna vertical de desvio em PVC, a R$ 2,20 por litro acrescidos de R$ 120 em conexões e válvula de purga lenta; acima de 250 L, um reservatório de polietileno rotomoldado, com preço interpolado na base de custos e acréscimo de R$ 150 em boia de vedação e dispositivo de purga. O separador de folhas custa R$ 220 para até 200 m² de captação, R$ 440 para até 500 m² e R$ 220 por unidade, a cada 250 m², acima disso. O custeio anual do subsistema é de R$ 40, e todos os valores são multiplicados pelo fator regional.
 
-<!-- tabela: **Tabela 39** — Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
+<!-- tabela: **Tabela 40** — Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
 | Item | Valor |
 | :--- | ---: |
 | lâmina de descarte | 2 mm |
@@ -1931,7 +1966,7 @@ genérica e soma apenas o incremento.
 CAPEX_inc = CAPEX_linha − V_gen
 ```
 
-<!-- tabela: **Tabela 40** — Variáveis da Equação 31 -->
+<!-- tabela: **Tabela 41** — Variáveis da Equação 31 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
@@ -1994,7 +2029,7 @@ placa for a potência mecânica **no eixo**.
 
 Daí a cadeia ter dois rendimentos, e não um:
 
-<!-- tabela: **Tabela 41** — Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
+<!-- tabela: **Tabela 42** — Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
 | Rendimento | O que converte |
 | :--- | :--- |
 | **da bomba**, `η_b` | potência de eixo em potência hidráulica entregue à água |
@@ -2012,7 +2047,7 @@ O programa pede os dois, em campos separados.
 e = ( ρ × g × H ) ÷ ( η_b × η_m )
 ```
 
-<!-- tabela: **Tabela 42** — Variáveis da Equação 32 -->
+<!-- tabela: **Tabela 43** — Variáveis da Equação 32 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `e` | consumo específico de energia por volume recalcado | kWh/m³ |
@@ -2033,7 +2068,7 @@ gasto para realizá-lo, e não o consumo específico.
 e = P ÷ ( Q × η_m )
 ```
 
-<!-- tabela: **Tabela 43** — Variáveis da Equação 33 -->
+<!-- tabela: **Tabela 44** — Variáveis da Equação 33 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `e` | consumo específico de energia por volume recalcado | kWh/m³ |
@@ -2052,7 +2087,7 @@ outra vez contabilizaria a perda hidráulica duas vezes.
 Q = ( P × η_b ) ÷ ( ρ × g × H )
 ```
 
-<!-- tabela: **Tabela 44** — Variáveis da Equação 34 -->
+<!-- tabela: **Tabela 45** — Variáveis da Equação 34 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Q` | vazão de recalque deduzida | m³/h |
@@ -2068,7 +2103,7 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 E_part = ( P × t_part ) ÷ η_m
 ```
 
-<!-- tabela: **Tabela 45** — Variáveis da Equação 35 -->
+<!-- tabela: **Tabela 46** — Variáveis da Equação 35 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_part` | energia consumida no conjunto das partidas do período | kWh |
@@ -2088,7 +2123,7 @@ depende do volume elevado, e a das partidas, que depende do número de acionamen
 E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 ```
 
-<!-- tabela: **Tabela 46** — Variáveis da Equação 36 -->
+<!-- tabela: **Tabela 47** — Variáveis da Equação 36 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ano` | energia elétrica consumida pela motobomba no ano | kWh/ano |
@@ -2172,7 +2207,7 @@ A altura manométrica e a perda de carga calculadas retornam ao projeto e passam
 
 Usados quando o projeto não declara:
 
-<!-- tabela: **Tabela 47** — Valores de recurso adotados quando o projeto não os declara -->
+<!-- tabela: **Tabela 48** — Valores de recurso adotados quando o projeto não os declara -->
 | Parâmetro | Valor | Origem |
 | :--- | ---: | :--- |
 | altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico e ~30% de perda de carga dão de 10 a 12 m; adota-se o extremo conservador |
@@ -2207,7 +2242,7 @@ tempo ligado:
 E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
 ```
 
-<!-- tabela: **Tabela 48** — Variáveis da Equação 37 -->
+<!-- tabela: **Tabela 49** — Variáveis da Equação 37 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E` | energia anual do pressurizador | kWh/ano |
@@ -2242,7 +2277,7 @@ vazão lida na curva do fabricante na pressão de trabalho e o retardo de deslig
 A tabela aplica o catálogo à pressurização direta do tutorial: a cisterna de 4.000 L sem
 caixa superior, quatro moradores e a vazão da bacia de 9 L/min.
 
-<!-- tabela: **Tabela 49** — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba -->
+<!-- tabela: **Tabela 50** — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba -->
 | Modelo | Controle | Vazão da curva a 18 m.c.a. | Horas por ano | kWh por ano | kWh/m³ | kWh por ano a 24 m.c.a. |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | Komeco TP 820T, 1/4 CV | pressostato | 13,3 L/min | 110 | 40,5 | 0,68 | 82,0 |
@@ -2303,8 +2338,8 @@ Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
 
 ## 2.7. Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
-> tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes
+> tarifários — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
 
@@ -2320,7 +2355,7 @@ entre elas.
 E_mês = F(V_tot) − F(V_pot)
 ```
 
-<!-- tabela: **Tabela 50** — Variáveis da Equação 38 -->
+<!-- tabela: **Tabela 51** — Variáveis da Equação 38 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_mês` | economia obtida no mês | R$ |
@@ -2380,7 +2415,7 @@ consumo do mês:
 T_agua = PB × C^n + SB
 ```
 
-<!-- tabela: **Tabela 51** — Variáveis da Equação 39 -->
+<!-- tabela: **Tabela 52** — Variáveis da Equação 39 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_agua` | parcela de água da fatura | R$ |
@@ -2412,7 +2447,7 @@ poupado seria valorado a uma tarifa que nenhuma das vinte unidades efetivamente 
 T_esg = T_agua × s
 ```
 
-<!-- tabela: **Tabela 52** — Variáveis da Equação 40 -->
+<!-- tabela: **Tabela 53** — Variáveis da Equação 40 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_esg` | parcela de esgoto da fatura | R$ |
@@ -2438,7 +2473,7 @@ O catálogo distribui os seus 652 municípios de maneira bastante desigual entre
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
 seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórmula exponencial da CORSAN, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 18). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
 
-<!-- tabela: **Tabela 53** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+<!-- tabela: **Tabela 54** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
 | Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
 | :--- | :--- | :--- | :--- |
 | sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
@@ -2470,7 +2505,7 @@ economizar água abaixo do volume de franquia não produz desconto algum na fatu
 CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 ```
 
-<!-- tabela: **Tabela 54** — Variáveis da Equação 41 -->
+<!-- tabela: **Tabela 55** — Variáveis da Equação 41 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX` | investimento inicial total do sistema | R$ |
@@ -2525,7 +2560,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ### 2.7.5. O custeio anual
 
-<!-- tabela: **Tabela 55** — Parcelas do custeio anual e a origem de cada uma -->
+<!-- tabela: **Tabela 56** — Parcelas do custeio anual e a origem de cada uma -->
 | Parcela | Origem |
 | :--- | :--- |
 | energia de bombeamento | seção 2.6, com a bandeira tarifária aplicada |
@@ -2558,7 +2593,7 @@ o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o te
 f_inf = ( 1 + i )^( m − 1 )
 ```
 
-<!-- tabela: **Tabela 56** — Variáveis da Equação 42 -->
+<!-- tabela: **Tabela 57** — Variáveis da Equação 42 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
@@ -2575,7 +2610,7 @@ k = ⌊ ( m − 1 ) ÷ I ⌋
 f_j = ( 1 + r_j )^k
 ```
 
-<!-- tabela: **Tabela 57** — Variáveis da Equação 44 -->
+<!-- tabela: **Tabela 58** — Variáveis da Equação 44 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `k` | número de reajustes já aplicados até o mês `m` | adimensional |
@@ -2608,7 +2643,7 @@ degrau que nada tem a ver com o desempenho do sistema.
 VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 ```
 
-<!-- tabela: **Tabela 58** — Variáveis da Equação 45 -->
+<!-- tabela: **Tabela 59** — Variáveis da Equação 45 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `VPL` | valor presente líquido do investimento | R$ |
@@ -2694,7 +2729,7 @@ mesma nomenclatura é usada nas declarações ambientais de produto conforme a E
 Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
 fronteira, e é o que um avaliador espera encontrar.
 
-<!-- tabela: **Tabela 59** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+<!-- tabela: **Tabela 60** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
 | Módulo | Etapa | Coberto pelo programa |
 | :--- | :--- | :--- |
 | A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas, descarte inicial e todas as peças, conexões e cabos do arranjo 3D |
@@ -2740,7 +2775,7 @@ qual todas as demais alternativas se comparam.
 E_comp = m_comp × FE_mat
 ```
 
-<!-- tabela: **Tabela 60** — Variáveis da Equação 46 -->
+<!-- tabela: **Tabela 61** — Variáveis da Equação 46 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_comp` | emissão incorporada do componente | kg CO₂e |
@@ -2752,7 +2787,7 @@ A massa de cada componente decorre do seu dimensionamento. No caso do reservató
 que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
 dessa variação que decorre boa parte do resultado ambiental do projeto.
 
-<!-- tabela: **Tabela 61** — Massa por metro cúbico útil de cada material de reservatório -->
+<!-- tabela: **Tabela 62** — Massa por metro cúbico útil de cada material de reservatório -->
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
 | polietileno | 22 kg/m³ | 110 kg |
@@ -2771,7 +2806,7 @@ A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.0
 polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
 inicial.
 
-<!-- tabela: **Tabela 62** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
+<!-- tabela: **Tabela 63** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
 | Item | Incorporado | Parcela do incorporado | Anual |
 | :--- | ---: | ---: | ---: |
 | cisterna de 4.000 L, polietileno | 141,9 kg | 43,3% | — |
@@ -2787,9 +2822,9 @@ inicial.
 | **total** | **327,4 kg** | **100%** | **-20,05 kg/ano** |
 
 Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
-quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+quase metade do carbono incorporado, e os reservatórios juntos por mais da metade. A
 segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
-simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+simplificadas, somam quase dois quintos do total: um estudo que contasse só o reservatório
 subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
 crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
 cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
@@ -2804,7 +2839,7 @@ cloração juntas, e é por isso que, com o material certo, a dívida de fabrica
 E_ener = C_ano × FE_rede
 ```
 
-<!-- tabela: **Tabela 63** — Variáveis da Equação 47 -->
+<!-- tabela: **Tabela 64** — Variáveis da Equação 47 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
@@ -2833,10 +2868,10 @@ quase todas elas.
 
 > **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
 > energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
-> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
-> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
-> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
-> inverter o resultado.
+> cerca de 6 kg CO₂e por ano às emissões e reduziria o saldo anual de 20,1 para cerca de
+> 14,1 kg CO₂e. O saldo anual continuaria positivo, mas o payback de carbono passaria de
+> 16,3 para cerca de 23 anos, além dos vinte de vida útil adotados: o sistema terminaria a
+> vida devendo carbono. Em matrizes mais fósseis que a brasileira, o efeito é ainda maior.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção 2.5, e existe para o hipoclorito não ser contado duas
@@ -2882,7 +2917,7 @@ fronteira de cada uma.
 E_liq = E_evit − E_ener − E_trat
 ```
 
-<!-- tabela: **Tabela 64** — Variáveis da Equação 48 -->
+<!-- tabela: **Tabela 65** — Variáveis da Equação 48 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
@@ -2896,7 +2931,7 @@ E_liq = E_evit − E_ener − E_trat
 PB_amb = E_inc ÷ E_liq
 ```
 
-<!-- tabela: **Tabela 65** — Variáveis da Equação 49 -->
+<!-- tabela: **Tabela 66** — Variáveis da Equação 49 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PB_amb` | tempo de retorno ambiental do sistema | ano |
@@ -2915,7 +2950,7 @@ que o sistema termina a vida útil devendo carbono.
 S_vida = ( E_liq × n_anos ) − E_inc
 ```
 
-<!-- tabela: **Tabela 66** — Variáveis da Equação 50 -->
+<!-- tabela: **Tabela 67** — Variáveis da Equação 50 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
@@ -2933,7 +2968,7 @@ vinte anos, como a seção 4.8 (volume Tutorial) demonstra.
 E_esp = S_vida ÷ V_vida
 ```
 
-<!-- tabela: **Tabela 67** — Variáveis da Equação 51 -->
+<!-- tabela: **Tabela 68** — Variáveis da Equação 51 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
@@ -3062,7 +3097,7 @@ a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O proj
 por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
 ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
 
-<!-- tabela: **Tabela 68** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+<!-- tabela: **Tabela 69** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
 | Opção | O que mede | Pontuação |
 | :--- | :--- | :--- |
 | 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
@@ -3097,7 +3132,7 @@ versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de á
 itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
 Três itens dizem respeito ao aproveitamento pluvial:
 
-<!-- tabela: **Tabela 69** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+<!-- tabela: **Tabela 70** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
 | Item | Nível | Exigência |
 | :--- | :--- | :--- |
 | EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
@@ -3124,7 +3159,7 @@ da categoria «Gestão eficiente da água», e o seu indicador não é um percen
 **existência** de sistema de aproveitamento, com captação, tratamento, reservação e
 pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
 
-<!-- tabela: **Tabela 70** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+<!-- tabela: **Tabela 71** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
 | Abrangência do uso da água pluvial | Pontos |
 | :--- | ---: |
 | áreas comuns do empreendimento | 2 |
@@ -3230,7 +3265,7 @@ O programa avalia cada volume da varredura segundo sete critérios, agrupados em
 dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
 outros, menos.
 
-<!-- tabela: **Tabela 71** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
+<!-- tabela: **Tabela 72** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
 | 1 | potencial de economia | maximizar | técnico |
@@ -3268,7 +3303,7 @@ pela proximidade relativa ao ideal.
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Tabela 72** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 73** — Variáveis da Equação 52 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
@@ -3353,7 +3388,7 @@ A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimen
 aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
 sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
 
-<!-- tabela: **Tabela 73** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+<!-- tabela: **Tabela 74** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
 | Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
 | 1 000 L | 0,401 | 7º | 0,0% |
@@ -3430,7 +3465,7 @@ quais volumes sequer entram na comparação.
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **115 parâmetros**. É a lista completa do que um projeto
+São **116 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -3444,7 +3479,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 74** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 75** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -3455,7 +3490,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 75** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 76** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -3476,7 +3511,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 76** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 77** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | — | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -3500,7 +3535,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 77** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 78** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Automação, Econômico |
@@ -3514,7 +3549,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 78** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 79** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -3547,7 +3582,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 79** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 80** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 0 | L/dia | Ambiental, Edificação, Janela principal, Relatórios | Automação, Balanço diário |
@@ -3566,7 +3601,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 80** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 81** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -3590,7 +3625,7 @@ Observações do código:
 
 12 parâmetros.
 
-<!-- tabela: **Tabela 81** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 82** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -3622,7 +3657,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 82** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 83** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -3658,7 +3693,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 83** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 84** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV, Automação |
@@ -3667,7 +3702,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 84** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 85** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3678,22 +3713,23 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 85** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 86** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 
 ### A.13. Tarifas
 
-14 parâmetros.
+15 parâmetros.
 
-<!-- tabela: **Tabela 86** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 87** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_category` | residencial | — | Econômico, Tarifas, Tarifas e custos | Tarifas |
 | `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
@@ -3707,6 +3743,7 @@ Observações do código:
 
 Observações do código:
 
+- `tariff_category`: categoria da tabela tarifária aplicada; "personalizada" quando digitada
 - `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
@@ -3721,7 +3758,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 87** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 88** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -3738,7 +3775,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 88** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 89** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Automação, Econômico |
@@ -3754,7 +3791,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 89** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 90** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3772,7 +3809,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 90** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 91** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -3781,7 +3818,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 91** — Parâmetros do projeto: outros -->
+<!-- tabela: **Tabela 92** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
@@ -3818,7 +3855,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
 2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+3. A base climática vai embutida na Edição Brasil, em `climbra.db`; na International Edition, que não a traz, a série é sempre um arquivo do usuário.
 
 **Saídas**
 
@@ -3947,7 +3984,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Regras**
 
-1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
+1. **Extravasamento antes do consumo**, como na regra YAS; a chuva do dia, até a capacidade, já atende a demanda do dia, o que põe o modelo entre a YAS e a YBS estritas.
 2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
 3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
 
@@ -4466,7 +4503,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 92** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 93** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -4508,7 +4545,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 93** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 94** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -4527,7 +4564,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 94** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 95** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -4552,7 +4589,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 95** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 96** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -4586,7 +4623,7 @@ o último fator de emissão padrão sem procedência, o do hipoclorito, passou a
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 96** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 97** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -4631,10 +4668,9 @@ As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na ba
 ### E.4. As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data
-ainfall` do programa:
+instalação, na pasta `data/rainfall` do programa:
 
-<!-- tabela: **Tabela 97** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 98** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -4901,42 +4937,37 @@ prediais.
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
 
-**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+**Manuais do Netuno 5** (*Netuno 5 manual suite*). A documentação do programa, montada
+das mesmas fontes em três formatos: o manual completo, sete volumes avulsos, cada um com
+uma parte dele, e o site de documentação. Os volumes servem a quem precisa de uma parte
+só, para consultar ou enviar:
 
-1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+1. **Manual completo**: todos os capítulos e apêndices.
    ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
-   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
-
-2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+2. **Volume 1 — Comece aqui**: o que o programa faz, como instalá-lo e por onde entrar
+   conforme o seu objetivo.
    ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
-   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
-
-3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+3. **Volume 2 — O método**: as equações, os critérios e as fontes por trás de cada número
+   que o programa publica.
    ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
-   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
-
-4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, demanda variável,
+   lote, sensibilidade e exportação.
    ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
-   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
-
-5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+5. **Volume 4 — Tutorial**: um projeto de residência em Florianópolis, do primeiro dado ao
+   volume recomendado.
    ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
-   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
-
-6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+6. **Volume 5 — Enganos, limitações e confiabilidade**: os enganos mais comuns, os limites
+   do modelo e como o programa é verificado.
    ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
-   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
-
-7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+7. **Volume 6 — Correções, bugs e versionamento**: o que mudou desde o Netuno 4, as
+   mensagens de erro e como relatar um problema.
    ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
-   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
-
-8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+8. **Volume 7 — Apêndices**: parâmetros, processos, fatores de emissão, tarifas, base
+   climática, formatos, glossário e referências.
    ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
-   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
 
-- **Manual Interativo & Portal Web Oficial:**
-  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
+Os PDFs acompanham o programa e abrem pela etapa 9. Documentação; o manual existe também
+em inglês, na íntegra.
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
@@ -5045,11 +5076,14 @@ de aproveitamento de água pluvial.
 dos formatos de exportação de planilhas e de resultados da linha de comando.
 
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+calculado **antes** da retirada da demanda e, na forma estrita, a retirada do dia sai
+só do volume guardado na véspera. O programa calcula o extravasamento antes, como a
+YAS, mas deixa a chuva do dia atender a demanda do dia; fica entre a YAS e a YBS
+(seção 2.1).
 
 **YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes**
 do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o
-aproveitamento; não é o modelo adotado pelo programa.
+aproveitamento; o programa não a adota, e o resultado dele fica entre a YAS e a YBS.
 
 ---
 
@@ -5061,7 +5095,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 98** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 99** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -5072,12 +5106,12 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 99** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 100** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
 | **Demanda pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
-| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (YAS) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
+| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (seção 2.1) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
 | **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da demanda **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
 | **Confiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da demanda **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
 | **Confiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a demanda pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |
@@ -5213,6 +5247,9 @@ edificação.
 
 **EN 15804:2012+A2:2019** — Sustainability of construction works: environmental product
 declarations, core rules for the product category of construction products.
+
+**EN 16941-1:2024** — On-site non-potable water systems — Part 1: Systems for the use
+of rainwater. Bruxelas: CEN, 2024.
 
 **ABNT NBR 15527:2007** — Água de chuva: aproveitamento de coberturas em áreas urbanas
 para fins não potáveis. Anexo A, informativo: métodos de Rippl, da simulação, de Azevedo

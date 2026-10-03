@@ -88,13 +88,18 @@ def build_manual(base_dir: Path) -> bool:
         ("PDF", "manual/gerar_pdf.py"),
         ("mini manuais", "manual/gerar_mini_manuais.py"),
         ("site de documentação", "manual/gerar_site.py"),
+        # O manual em inglês, que a Internacional abre.
+        ("tabelas em inglês", "manual/en/traduzir_tabelas.py"),
+        ("apêndices em inglês", "manual/en/apendices_en.py"),
+        ("montagem em inglês", "manual/gerar.py", "--idioma", "en"),
+        ("PDF em inglês", "manual/gerar_pdf.py", "--idioma", "en"),
     ]
-    for rotulo, script in etapas:
+    for rotulo, script, *argumentos in etapas:
         caminho = base_dir / script
         if not caminho.exists():
             print(f"    {rotulo}: {script} não encontrado; pulando")
             continue
-        res = subprocess.run([sys.executable, str(caminho)], cwd=base_dir)
+        res = subprocess.run([sys.executable, str(caminho), *argumentos], cwd=base_dir)
         if res.returncode != 0:
             print(f"[ERRO] Falha ao gerar {rotulo}.")
             return False
@@ -163,6 +168,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         ("examples", "exemplos"),
         ("docs", "docs"),
         ("manual/Manual-Netuno-5.pdf", "manual"),
+        # O manual em inglês: o que a Internacional abre, e o da Brasil fora do português.
+        ("manual/en/Netuno-5-User-Manual.pdf", "manual/en"),
         # Os sete volumes avulsos, para mandar só uma parte do manual.
         ("manual/mini", "manual/mini"),
         # Manual interativo offline (HTML/JS/CSS)
@@ -361,6 +368,8 @@ def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list
         Path("infos_licenses/info_before.txt"),
         Path("infos_licenses/info_after.txt"),
     ]
+    if edicao == "int":
+        esperados.append(pasta / "_internal/manual/en/Netuno-5-User-Manual.pdf")
     if edicao == "brl":
         esperados.append(pasta / "_internal" / BASE_CLIMATICA)  # a base CLIMBra só vai na Brasil
     return [str(p) for p in esperados if not (base_dir / p).exists()]
