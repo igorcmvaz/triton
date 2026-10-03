@@ -60,7 +60,8 @@ município tratado como consumo mínimo quando é taxa de disponibilidade — ou
 Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
 {{n:36}} relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
 produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
-tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios e as demais só
+onde a tabela oficial do prestador foi transcrita, de modo que, nos outros municípios, um
 estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
 lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
 própria, porque a tabela certa é pública e específica de cada concessionária.
