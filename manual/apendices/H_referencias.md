@@ -119,6 +119,9 @@ edificação.
 **EN 15804:2012+A2:2019** — Sustainability of construction works: environmental product
 declarations, core rules for the product category of construction products.
 
+**EN 16941-1:2024** — On-site non-potable water systems — Part 1: Systems for the use
+of rainwater. Bruxelas: CEN, 2024.
+
 **ABNT NBR 15527:2007** — Água de chuva: aproveitamento de coberturas em áreas urbanas
 para fins não potáveis. Anexo A, informativo: métodos de Rippl, da simulação, de Azevedo
 Neto e práticos alemão, inglês e australiano.

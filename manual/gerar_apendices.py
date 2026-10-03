@@ -169,7 +169,12 @@ def fontes():
     return out
 
 
-def apendice_a():
+def campos_do_projeto():
+    """Os campos de `NetunoConfig`, com o padrão cru, a nota do código e onde cada um aparece.
+
+    Os nomes de seção, de tela e de módulo saem em português; o manual em inglês os
+    traduz em `manual/en/apendices_en.py`.
+    """
     src = open(os.path.join(PKG, "core", "parser.py"), encoding="utf-8").read()
     linhas_fonte = src.split(NL)
     arv = ast.parse(src)
@@ -189,16 +194,6 @@ def apendice_a():
                     padrao = ast.literal_eval(item.value) if item.value else None
                 except (ValueError, TypeError, SyntaxError):
                     padrao = None
-                if isinstance(padrao, (list, tuple)):
-                    padrao = "vazio" if not padrao else f"{len(padrao)} itens"
-                elif isinstance(padrao, bool):
-                    padrao = "sim" if padrao else "não"
-                elif isinstance(padrao, float):
-                    padrao = f"{padrao:g}".replace(".", ",")
-                elif padrao is None or padrao == "":
-                    padrao = "—"
-                else:
-                    padrao = str(padrao)
 
                 alvo = re.compile(r"(?<![A-Za-z0-9_])" + re.escape(nome)
                                   + r"(?![A-Za-z0-9_])")
@@ -212,11 +207,30 @@ def apendice_a():
                     if rel.startswith("ui/") and base in TELAS:
                         telas.add(TELAS[base])
                 campos.append({
-                    "n": nome, "p": padrao, "u": UNIDADES.get(nome, ""),
+                    "n": nome, "cru": padrao, "u": UNIDADES.get(nome, ""),
                     "nota": nota, "sec": secao(nome),
                     "mods": sorted(mods - {"Arquivo do projeto"}),
                     "telas": sorted(telas),
                 })
+    return campos
+
+
+def padrao_em_portugues(padrao):
+    if isinstance(padrao, (list, tuple)):
+        return "vazio" if not padrao else f"{len(padrao)} itens"
+    if isinstance(padrao, bool):
+        return "sim" if padrao else "não"
+    if isinstance(padrao, float):
+        return f"{padrao:g}".replace(".", ",")
+    if padrao is None or padrao == "":
+        return "—"
+    return str(padrao)
+
+
+def apendice_a():
+    campos = campos_do_projeto()
+    for c in campos:
+        c["p"] = padrao_em_portugues(c["cru"])
 
     por_sec = {}
     for c in campos:
@@ -304,6 +318,53 @@ def _limpa(t):
     t = t.replace("&rarr;", "→").replace("&nbsp;", " ").replace("&mdash;", "—")
     t = re.sub(r"<[^>]+>", "", t)
     return t
+
+
+TEXTOS_FAIXAS = dict(
+    titulo="## As faixas por município e categoria",
+    texto=[
+        "A tabela abaixo traz o preço da água, em R$/m³, em cada intervalo de consumo mensal,",
+        "para cada estrutura do catálogo. As colunas são a maior discretização que o catálogo",
+        "pede: a união dos limites de faixa de todos os prestadores, de modo que dentro de cada",
+        "coluna nenhum prestador muda o preço. Municípios com a mesma tabela formam uma linha,",
+        "identificada pelo número da primeira coluna, que se repete nas partes seguintes.",
+        "",
+        "A categoria residencial está nos 652 municípios; as demais aparecem onde a tabela oficial",
+        "do prestador foi coletada. A tabela é gerada da base a cada versão e cresce com ela.",
+        "A parcela fixa soma por cima do consumo; um preço zero nas primeiras faixas é o volume",
+        "já incluído no valor fixo (franquia no mínimo).",
+        "",
+        "A cor da linha diz quanto o dado merece confiança: **verde** (🟢), auditado contra a",
+        "fonte primária, a resolução ou a tabela oficial do prestador; **amarelo** (🟡), coletado",
+        "automaticamente ou marcado para revisão, e por isso a confirmar contra a resolução",
+        "vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem correção.",
+    ],
+    data_texto="A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e a data em que a página oficial foi verificada pela última vez pela rotina de monitoramento da base. Linha sem data é fonte que a rotina ainda não monitora.",
+    data_legenda="Vigência e última verificação da fonte de cada estrutura tarifária, com a situação do dado",
+    data_cab=["Nº", "Vigência declarada", "Fonte verificada em", "Situação"],
+    data_dia_mes_ano=True,
+    situacao_verde="auditada", situacao_amarelo="a confirmar", situacao_vermelho="estrutura incompleta",
+    cob_texto="São {0} municípios e cinco categorias, {1} combinações. A primeira tabela diz, para cada categoria, em quantos municípios a tabela tarifária está auditada, a confirmar, incompleta ou ainda não coletada; cada município aparece por extenso nas tabelas seguintes, e as categorias não coletadas estão listadas por prestador ao fim da seção.",
+    cob_legenda="Cobertura do catálogo tarifário: municípios por categoria e situação do dado",
+    cob_cab=["Categoria", "🟢 auditada", "🟡 a confirmar", "🔴 incompleta", "🔴 não coletada", "Municípios"],
+    falta_texto="As categorias abaixo ainda não têm a tabela oficial do prestador no catálogo. Nesses municípios o programa não as oferece, e o caminho é lançar a tabela no modo Personalizado.",
+    falta_legenda="Categorias tarifárias ainda não coletadas, por prestador",
+    falta_cab=["Prestador: municípios", "Categorias não coletadas"],
+    legenda_id="As estruturas tarifárias do catálogo, numeradas para as tabelas de preço por faixa que vêm a seguir",
+    legenda="Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte {0} de {1}: {2} a {3} m³)",
+    n="Nº", prestador="Prestador: municípios", categoria="Categoria", fixo="Fixo (R$/mês)",
+    esgoto="Esgoto", e_mais=" e mais {0}", retroativa="até {0} m³: {1} (retroativa)",
+    piso="piso {0}", esgoto_m3="R$ {0}/m³",
+    cat_residencial="Residencial", cat_comercial="Comercial", cat_publica="Pública",
+    cat_industrial="Industrial", cat_social="Social",
+    exp_texto="Os municípios da CORSAN cobram pela fórmula exponencial `PB × Cⁿ + SB` (seção {{n:16}}), sem preço por faixa; o expoente `n` é o da coluna da categoria na Tabela de Exponenciais.",
+    exp_legenda="A fórmula exponencial da CORSAN em cada tabela tarifária e categoria coletada",
+    exp_cab=["Municípios", "Categoria", "PB (R$/m³)", "SB (R$/mês)", "Esgoto (R$/m³)"],
+)
+
+
+def _num_pt(v, casas):
+    return f"{v:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
 def apendice_d():
@@ -416,6 +477,8 @@ def apendice_d():
           "> **Confira sempre a data de vigência** do registro do seu município contra a",
           "> resolução da concessionária. Tarifas são reajustadas anualmente, e a seção {{n:16}}",
           "> ensina o teste que identifica estrutura errada.", ""]
+    from tabela_de_faixas import secao
+    L += secao(cidades, TEXTOS_FAIXAS, _num_pt)
     return NL.join(L), len(cidades)
 
 

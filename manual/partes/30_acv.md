@@ -134,9 +134,9 @@ inicial.
 <!-- inclui: _tabelas/cap30_inventario.md -->
 
 Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
-quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+quase metade do carbono incorporado, e os reservatórios juntos por mais da metade. A
 segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
-simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+simplificadas, somam quase dois quintos do total: um estudo que contasse só o reservatório
 subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
 crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
 cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
@@ -179,10 +179,10 @@ quase todas elas.
 
 > **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
 > energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
-> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
-> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
-> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
-> inverter o resultado.
+> cerca de 6 kg CO₂e por ano às emissões e reduziria o saldo anual de 20,1 para cerca de
+> 14,1 kg CO₂e. O saldo anual continuaria positivo, mas o payback de carbono passaria de
+> 16,3 para cerca de 23 anos, além dos vinte de vida útil adotados: o sistema terminaria a
+> vida devendo carbono. Em matrizes mais fósseis que a brasileira, o efeito é ainda maior.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção {{n:27}}, e existe para o hipoclorito não ser contado duas

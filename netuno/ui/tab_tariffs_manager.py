@@ -22,6 +22,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from netuno.ui.translation import tr, get_current_theme
+from netuno.ui.categorias_tarifarias import preencher_categorias
 from netuno.core.economic import calculate_water_bill
 from netuno.core.tariff_regimes import EXPONENCIAL, ler_estrutura
 from netuno.core.tariffs_structure import (
@@ -128,8 +129,7 @@ class TabTariffsManager(QWidget):
         sel_layout.addWidget(QLabel(f"<b>{tr('Categoria:')}</b>"), 1, 0)
         self.combo_category = QComboBox()
         self.combo_category.setStyleSheet("padding: 4px 6px; font-size: 12px; font-weight: bold; color: #0284c7;")
-        for cat_id, cat_info in CATEGORIAS_TARIFARIAS.items():
-            self.combo_category.addItem(f"{cat_info['icone']} {tr(cat_info['nome'])}", cat_id)
+        preencher_categorias(self.combo_category, None)
         sel_layout.addWidget(self.combo_category, 1, 1, 1, 3)
 
         left_layout.addWidget(sel_card)
@@ -405,8 +405,9 @@ class TabTariffsManager(QWidget):
         if not uf or not city:
             return
 
-        cat = self.combo_category.currentData() or "residencial"
         self.current_city_data = get_city_data(uf, city)
+        cat = preencher_categorias(self.combo_category, self.current_city_data,
+                                   self.combo_category.currentData() or "residencial")
         self.load_city_tariffs(uf, city, cat)
 
     def on_category_changed(self, index: int):
@@ -620,6 +621,7 @@ class TabTariffsManager(QWidget):
             cfg.cost_energy = float(self.spin_energy_kwh.value())
             cfg.tariff_city_uf = uf
             cfg.tariff_city_name = city
+            cfg.tariff_category = cat or "residencial"
 
         if self.main_window and hasattr(self.main_window, "tab_project"):
             if hasattr(self.main_window.tab_project, "apply_custom_tariffs"):

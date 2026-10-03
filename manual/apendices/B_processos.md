@@ -26,7 +26,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
 2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+3. A base climática vai embutida na Edição Brasil, em `climbra.db`; na International Edition, que não a traz, a série é sempre um arquivo do usuário.
 
 **Saídas**
 
@@ -155,7 +155,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Regras**
 
-1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
+1. **Extravasamento antes do consumo**, como na regra YAS; a chuva do dia, até a capacidade, já atende a demanda do dia, o que põe o modelo entre a YAS e a YBS estritas.
 2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
 3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
 

@@ -23,15 +23,39 @@ computador.
 
 ---
 
+## As duas edições
+
+O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
+lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
+rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+
+<!-- tabela: O que muda entre a Edição Brasil e a International Edition -->
+| | Edição Brasil (BRL) | International Edition (INT) |
+| :--- | :--- | :--- |
+| instalador | `Netuno_Setup_5_0_0.exe` | `Netuno_INT_Setup_5_0_0.exe` |
+| idioma ao abrir | português | inglês |
+| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
+| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
+| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
+| moeda e custos | reais, com preços de referência | moeda escolhida; custos digitados |
+| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
+
+Sem os fatores de emissão do país, a International Edition não calcula a avaliação
+ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
+nenhum aviso.
+
+---
+
 ## A instalação
 
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
-   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
-   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
-   adiante). A **personalizada** permite marcar cada um.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
+   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
+   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
+   junto, embutida no programa.
 4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
 5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
    .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre

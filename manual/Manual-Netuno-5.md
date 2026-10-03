@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 5.0.0 · revisão de 01/10/2026
+Versão 5.0.0 · revisão de 03/10/2026
 
 ---
 
@@ -230,7 +230,7 @@ Figura 8 — As doze etapas do programa, agrupadas por natureza
 
 Figura 9 — Os dez dias do caso resolvido: (a) volume captado, em azul, e volume extravasado, em laranja, por dia — no dia 9 o volume extravasado quase iguala o captado; (b) volume armazenado no reservatório inferior ao fim de cada dia, após o consumo, com a capacidade de 2.000 L em tracejado; nos dias 6, 7 e 9 o reservatório atinge a capacidade, extravasa e termina o dia com 1.920 L
 
-Figura 10 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento
+Figura 10 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento
 
 Figura 11 — Curva de potencial de economia da mesma edificação, varrida com passo de 250 L e com passo de 5.000 L. A grade grossa calcula corretamente cada ponto que contém, mas não contém o trecho de maior curvatura, entre 1 e 5 m³
 
@@ -358,383 +358,403 @@ Figura 70 — A distribuição dos 652 municípios catalogados pelas unidades da
 
 Tabela 1 — Requisitos de sistema para instalar e executar o programa
 
-Tabela 2 — Formatos de arquivo que o programa grava e o conteúdo de cada um
+Tabela 2 — O que muda entre a Edição Brasil e a International Edition
 
-Tabela 3 — Arquivos de exemplo distribuídos com o programa
+Tabela 3 — Formatos de arquivo que o programa grava e o conteúdo de cada um
 
-Tabela 4 — Percurso de leitura recomendado conforme o objetivo do leitor
+Tabela 4 — Arquivos de exemplo distribuídos com o programa
 
-Tabela 5 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
+Tabela 5 — Percurso de leitura recomendado conforme o objetivo do leitor
 
-Tabela 6 — Critérios hidráulicos para decidir sobre o reservatório superior
+Tabela 6 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
 
-Tabela 7 — Dados de entrada do caso resolvido de dez dias
+Tabela 7 — Critérios hidráulicos para decidir sobre o reservatório superior
 
-Tabela 8 — Série de precipitação dos dez dias do caso resolvido
+Tabela 8 — Dados de entrada do caso resolvido de dez dias
 
-Tabela 9 — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento
+Tabela 9 — Série de precipitação dos dez dias do caso resolvido
 
-Tabela 10 — Verificação do fechamento do balanço de massa nos dez dias
+Tabela 10 — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento
 
-Tabela 11 — Indicadores resultantes do caso resolvido de dez dias
+Tabela 11 — Verificação do fechamento do balanço de massa nos dez dias
 
-Tabela 12 — Variáveis da Equação 1
+Tabela 12 — Indicadores resultantes do caso resolvido de dez dias
 
-Tabela 13 — Variáveis da Equação 2
+Tabela 13 — Variáveis da Equação 1
 
-Tabela 14 — Variáveis da Equação 5
+Tabela 14 — Variáveis da Equação 2
 
-Tabela 15 — Variáveis da Equação 7
+Tabela 15 — Variáveis da Equação 5
 
-Tabela 16 — Variáveis da Equação 8
+Tabela 16 — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno
 
-Tabela 17 — Variáveis da Equação 9
+Tabela 17 — Variáveis da Equação 7
 
-Tabela 18 — Variáveis da Equação 10
+Tabela 18 — Variáveis da Equação 8
 
-Tabela 19 — Variáveis da Equação 11
+Tabela 19 — Variáveis da Equação 9
 
-Tabela 20 — Variáveis da Equação 12
+Tabela 20 — Variáveis da Equação 10
 
-Tabela 21 — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária
+Tabela 21 — Variáveis da Equação 11
 
-Tabela 22 — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa
+Tabela 22 — Variáveis da Equação 12
 
-Tabela 23 — Variáveis da Equação 13
+Tabela 23 — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária
 
-Tabela 24 — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível
+Tabela 24 — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa
 
-Tabela 25 — Variáveis da Equação 14
+Tabela 25 — Variáveis da Equação 13
 
-Tabela 26 — Variáveis da Equação 15
+Tabela 26 — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível
 
-Tabela 27 — Variáveis da Equação 16
+Tabela 27 — Variáveis da Equação 14
 
-Tabela 28 — Variáveis da Equação 17
+Tabela 28 — Variáveis da Equação 15
 
-Tabela 29 — Variáveis da Equação 18
+Tabela 29 — Variáveis da Equação 16
 
-Tabela 30 — Variáveis da Equação 19
+Tabela 30 — Variáveis da Equação 17
 
-Tabela 31 — Variáveis da Equação 20
+Tabela 31 — Variáveis da Equação 18
 
-Tabela 32 — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde
+Tabela 32 — Variáveis da Equação 19
 
-Tabela 33 — Variáveis da Equação 21
+Tabela 33 — Variáveis da Equação 20
 
-Tabela 34 — Variáveis da Equação 22
+Tabela 34 — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde
 
-Tabela 35 — Variáveis da Equação 23
+Tabela 35 — Variáveis da Equação 21
 
-Tabela 36 — Variáveis da Equação 24
+Tabela 36 — Variáveis da Equação 22
 
-Tabela 37 — Variáveis da Equação 25
+Tabela 37 — Variáveis da Equação 23
 
-Tabela 38 — Variáveis da Equação 26
+Tabela 38 — Variáveis da Equação 24
 
-Tabela 39 — Variáveis da Equação 27
+Tabela 39 — Variáveis da Equação 25
 
-Tabela 40 — Variáveis da Equação 28
+Tabela 40 — Variáveis da Equação 26
 
-Tabela 41 — Variáveis da Equação 29
+Tabela 41 — Variáveis da Equação 27
 
-Tabela 42 — Filtro mecânico de entrada dimensionado pela área de cobertura
+Tabela 42 — Variáveis da Equação 28
 
-Tabela 43 — Variáveis da Equação 30
+Tabela 43 — Variáveis da Equação 29
 
-Tabela 44 — Recomendação de filtro de polimento por classe de qualidade alvo
+Tabela 44 — Filtro mecânico de entrada dimensionado pela área de cobertura
 
-Tabela 45 — Dimensionamento e orçamento do descarte inicial no projeto do tutorial
+Tabela 45 — Variáveis da Equação 30
 
-Tabela 46 — Variáveis da Equação 31
+Tabela 46 — Recomendação de filtro de polimento por classe de qualidade alvo
 
-Tabela 47 — Os dois rendimentos da cadeia de bombeamento e o que cada um converte
+Tabela 47 — Dimensionamento e orçamento do descarte inicial no projeto do tutorial
 
-Tabela 48 — Variáveis da Equação 32
+Tabela 48 — Variáveis da Equação 31
 
-Tabela 49 — Variáveis da Equação 33
+Tabela 49 — Os dois rendimentos da cadeia de bombeamento e o que cada um converte
 
-Tabela 50 — Variáveis da Equação 34
+Tabela 50 — Variáveis da Equação 32
 
-Tabela 51 — Variáveis da Equação 35
+Tabela 51 — Variáveis da Equação 33
 
-Tabela 52 — Variáveis da Equação 36
+Tabela 52 — Variáveis da Equação 34
 
-Tabela 53 — Valores de recurso adotados quando o projeto não os declara
+Tabela 53 — Variáveis da Equação 35
 
-Tabela 54 — Variáveis da Equação 37
+Tabela 54 — Variáveis da Equação 36
 
-Tabela 55 — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba
+Tabela 55 — Valores de recurso adotados quando o projeto não os declara
 
-Tabela 56 — Variáveis da Equação 38
+Tabela 56 — Variáveis da Equação 37
 
-Tabela 57 — Variáveis da Equação 39
+Tabela 57 — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba
 
-Tabela 58 — Variáveis da Equação 40
+Tabela 58 — Variáveis da Equação 38
 
-Tabela 59 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
+Tabela 59 — Variáveis da Equação 39
 
-Tabela 60 — Variáveis da Equação 41
+Tabela 60 — Variáveis da Equação 40
 
-Tabela 61 — Parcelas do custeio anual e a origem de cada uma
+Tabela 61 — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura
 
-Tabela 62 — Variáveis da Equação 42
+Tabela 62 — Variáveis da Equação 41
 
-Tabela 63 — Variáveis da Equação 44
+Tabela 63 — Parcelas do custeio anual e a origem de cada uma
 
-Tabela 64 — Variáveis da Equação 45
+Tabela 64 — Variáveis da Equação 42
 
-Tabela 65 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
+Tabela 65 — Variáveis da Equação 44
 
-Tabela 66 — Variáveis da Equação 46
+Tabela 66 — Variáveis da Equação 45
 
-Tabela 67 — Massa por metro cúbico útil de cada material de reservatório
+Tabela 67 — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um
 
-Tabela 68 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
+Tabela 68 — Variáveis da Equação 46
 
-Tabela 69 — Variáveis da Equação 47
+Tabela 69 — Massa por metro cúbico útil de cada material de reservatório
 
-Tabela 70 — Variáveis da Equação 48
+Tabela 70 — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito
 
-Tabela 71 — Variáveis da Equação 49
+Tabela 71 — Variáveis da Equação 47
 
-Tabela 72 — Variáveis da Equação 50
+Tabela 72 — Variáveis da Equação 48
 
-Tabela 73 — Variáveis da Equação 51
+Tabela 73 — Variáveis da Equação 49
 
-Tabela 74 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
+Tabela 74 — Variáveis da Equação 50
 
-Tabela 75 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
+Tabela 75 — Variáveis da Equação 51
 
-Tabela 76 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
+Tabela 76 — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui
 
-Tabela 77 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+Tabela 77 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial
 
-Tabela 78 — Variáveis da Equação 52
+Tabela 78 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
 
-Tabela 79 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+Tabela 79 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
 
-Tabela 80 — O mesmo projeto do tutorial simulado em quatro capitais brasileiras
+Tabela 80 — Variáveis da Equação 52
 
-Tabela 81 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais
+Tabela 81 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
 
-Tabela 82 — Conteúdo da base climática nacional distribuída com o programa
+Tabela 82 — O mesmo projeto do tutorial simulado em quatro capitais brasileiras
 
-Tabela 83 — Os seis códigos de faixa tarifária e o efeito de cada um na fatura
+Tabela 83 — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais
 
-Tabela 84 — Os seis regimes tarifários e o que acontece ao economizar em cada um
+Tabela 84 — Conteúdo da base climática nacional distribuída com o programa
 
-Tabela 85 — Efeito da economia de água na fatura em dois regimes tarifários opostos
+Tabela 85 — Os seis códigos de faixa tarifária e o efeito de cada um na fatura
 
-Tabela 86 — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial
+Tabela 86 — Os seis regimes tarifários e o que acontece ao economizar em cada um
 
-Tabela 87 — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026
+Tabela 87 — Efeito da economia de água na fatura em dois regimes tarifários opostos
 
-Tabela 88 — As três formas de comparar alternativas conforme o que varia entre elas
+Tabela 88 — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial
 
-Tabela 89 — Subcomandos da linha de comando e finalidade de cada um
+Tabela 89 — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026
 
-Tabela 90 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
+Tabela 90 — As três formas de comparar alternativas conforme o que varia entre elas
 
-Tabela 91 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
+Tabela 91 — Subcomandos da linha de comando e finalidade de cada um
 
-Tabela 92 — Dados do Netuno 4 recuperados pela importação
+Tabela 92 — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto
 
-Tabela 93 — Formatos de exportação e finalidade de cada um
+Tabela 93 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
 
-Tabela 94 — Opções da exportação de planilha e quando usar cada uma
+Tabela 94 — Dados do Netuno 4 recuperados pela importação
 
-Tabela 95 — Caracterização da série de precipitação de Florianópolis adotada no tutorial
+Tabela 95 — Formatos de exportação e finalidade de cada um
 
-Tabela 96 — Os três modos de aplicação do descarte de primeiras águas
+Tabela 96 — Opções da exportação de planilha e quando usar cada uma
 
-Tabela 97 — Estado do projeto do tutorial ao fim da definição da chuva e da captação
+Tabela 97 — Caracterização da série de precipitação de Florianópolis adotada no tutorial
 
-Tabela 98 — Estado do projeto do tutorial ao fim da definição da demanda
+Tabela 98 — Os três modos de aplicação do descarte de primeiras águas
 
-Tabela 99 — Confronto entre a oferta anual de água pluvial e a demanda atendível
+Tabela 99 — Estado do projeto do tutorial ao fim da definição da chuva e da captação
 
-Tabela 100 — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L
+Tabela 100 — Estado do projeto do tutorial ao fim da definição da demanda
 
-Tabela 101 — Classificação de cada dia da simulação quanto ao grau de atendimento
+Tabela 101 — Confronto entre a oferta anual de água pluvial e a demanda atendível
 
-Tabela 102 — Estado do projeto do tutorial após a primeira simulação
+Tabela 102 — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L
 
-Tabela 103 — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado
+Tabela 103 — Classificação de cada dia da simulação quanto ao grau de atendimento
 
-Tabela 104 — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório
+Tabela 104 — Estado do projeto do tutorial após a primeira simulação
 
-Tabela 105 — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial
+Tabela 105 — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado
 
-Tabela 106 — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto
+Tabela 106 — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório
 
-Tabela 107 — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido
+Tabela 107 — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial
 
-Tabela 108 — Estado do projeto do tutorial após a escolha do volume
+Tabela 108 — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto
 
-Tabela 109 — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto
+Tabela 109 — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido
 
-Tabela 110 — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total
+Tabela 110 — Estado do projeto do tutorial após a escolha do volume
 
-Tabela 111 — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos
+Tabela 111 — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto
 
-Tabela 112 — Estado do projeto do tutorial após a decisão sobre o reservatório superior
+Tabela 112 — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total
 
-Tabela 113 — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada
+Tabela 113 — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos
 
-Tabela 114 — Recomendação de filtração fina e custo da linha por classe de qualidade
+Tabela 114 — Estado do projeto do tutorial após a decisão sobre o reservatório superior
 
-Tabela 115 — Filtro mecânico de entrada dimensionado pela área de cobertura
+Tabela 115 — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada
 
-Tabela 116 — Estado do projeto do tutorial após a definição da classe de qualidade
+Tabela 116 — Recomendação de filtração fina e custo da linha por classe de qualidade
 
-Tabela 117 — Composição da fatura de água e esgoto antes e depois do sistema pluvial
+Tabela 117 — Filtro mecânico de entrada dimensionado pela área de cobertura
 
-Tabela 118 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
+Tabela 118 — Estado do projeto do tutorial após a definição da classe de qualidade
 
-Tabela 119 — Os seis regimes tarifários e o efeito de cada um sobre a economia
+Tabela 119 — Composição da fatura de água e esgoto antes e depois do sistema pluvial
 
-Tabela 120 — Composição do investimento inicial do projeto do tutorial
+Tabela 120 — Indicadores econômicos do projeto do tutorial em vinte anos de análise
 
-Tabela 121 — Indicadores econômicos do projeto do tutorial em vinte anos
+Tabela 121 — Os seis regimes tarifários e o efeito de cada um sobre a economia
 
-Tabela 122 — Premissas da projeção econômica e o peso de cada uma no resultado
+Tabela 122 — Composição do investimento inicial do projeto do tutorial
 
-Tabela 123 — Estado do projeto do tutorial após a análise econômica
+Tabela 123 — Indicadores econômicos do projeto do tutorial em vinte anos
 
-Tabela 124 — Balanço de carbono do projeto do tutorial com cisterna de concreto
+Tabela 124 — Premissas da projeção econômica e o peso de cada uma no resultado
 
-Tabela 125 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
+Tabela 125 — Estado do projeto do tutorial após a análise econômica
 
-Tabela 126 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
+Tabela 126 — Balanço de carbono do projeto do tutorial com cisterna de concreto
 
-Tabela 127 — Efeito da troca de concreto por polietileno nas três dimensões de análise
+Tabela 127 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
 
-Tabela 128 — Estado do projeto do tutorial após a análise ambiental
+Tabela 128 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
 
-Tabela 129 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
+Tabela 129 — Efeito da troca de concreto por polietileno nas três dimensões de análise
 
-Tabela 130 — Volume vencedor segundo cada critério isolado
+Tabela 130 — Estado do projeto do tutorial após a análise ambiental
 
-Tabela 131 — Os sete critérios do multicritério e a direção de preferência de cada um
+Tabela 131 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
 
-Tabela 132 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
+Tabela 132 — Volume vencedor segundo cada critério isolado
 
-Tabela 133 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+Tabela 133 — Os sete critérios do multicritério e a direção de preferência de cada um
 
-Tabela 134 — Os conjuntos de casos de referência exportados do Netuno 4
+Tabela 134 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
 
-Tabela 135 — Divergência medida entre as duas versões, por conjunto de casos
+Tabela 135 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
 
-Tabela 136 — Divergência em três configurações sucessivamente mais controladas
+Tabela 136 — Os conjuntos de casos de referência exportados do Netuno 4
 
-Tabela 137 — Atribuição da divergência às suas três fontes
+Tabela 137 — Divergência medida entre as duas versões, por conjunto de casos
 
-Tabela 138 — Variáveis da Equação 53
+Tabela 138 — Divergência em três configurações sucessivamente mais controladas
 
-Tabela 139 — Mensagens de validação física da entrada e a providência de cada uma
+Tabela 139 — Atribuição da divergência às suas três fontes
 
-Tabela 140 — Mensagens da fração atendível e a providência de cada uma
+Tabela 140 — Variáveis da Equação 53
 
-Tabela 141 — Mensagens de erro da série de precipitação e a providência de cada uma
+Tabela 141 — Mensagens de validação física da entrada e a providência de cada uma
 
-Tabela 142 — Mensagens de erro da varredura de volumes
+Tabela 142 — Mensagens da fração atendível e a providência de cada uma
 
-Tabela 143 — Mensagens de erro dos parâmetros de cloração
+Tabela 143 — Mensagens de erro da série de precipitação e a providência de cada uma
 
-Tabela 144 — Mensagens de erro da análise econômica e a providência de cada uma
+Tabela 144 — Mensagens de erro da varredura de volumes
 
-Tabela 145 — Mensagens de erro da decisão multicritério e a providência de cada uma
+Tabela 145 — Mensagens de erro dos parâmetros de cloração
 
-Tabela 146 — Mensagens de erro dos parâmetros da motobomba
+Tabela 146 — Mensagens de erro da análise econômica e a providência de cada uma
 
-Tabela 147 — Situações de erro na leitura e na gravação de arquivos
+Tabela 147 — Mensagens de erro da decisão multicritério e a providência de cada uma
 
-Tabela 148 — Avisos que não interrompem o cálculo e precisam constar do estudo
+Tabela 148 — Mensagens de erro dos parâmetros da motobomba
 
-Tabela 149 — **Tabela 99** — Panorama das versões publicadas
+Tabela 149 — Situações de erro na leitura e na gravação de arquivos
 
-Tabela 150 — Correções que alteram resultados de estudos feitos em versão anterior
+Tabela 150 — Avisos que não interrompem o cálculo e precisam constar do estudo
 
-Tabela 151 — Correções de comportamento que não alteram resultado calculado
+Tabela 151 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 152 — Parâmetros do projeto: identificação
+Tabela 152 — Correções que alteram resultados de estudos feitos em versão anterior
 
-Tabela 153 — Parâmetros do projeto: chuva
+Tabela 153 — Correções de comportamento que não alteram resultado calculado
 
-Tabela 154 — Parâmetros do projeto: captação
+Tabela 154 — Parâmetros do projeto: identificação
 
-Tabela 155 — Parâmetros do projeto: edificação
+Tabela 155 — Parâmetros do projeto: chuva
 
-Tabela 156 — Parâmetros do projeto: demanda
+Tabela 156 — Parâmetros do projeto: captação
 
-Tabela 157 — Parâmetros do projeto: irrigação
+Tabela 157 — Parâmetros do projeto: edificação
 
-Tabela 158 — Parâmetros do projeto: qualidade da água
+Tabela 158 — Parâmetros do projeto: demanda
 
-Tabela 159 — Parâmetros do projeto: reservatórios
+Tabela 159 — Parâmetros do projeto: irrigação
 
-Tabela 160 — Parâmetros do projeto: motobomba
+Tabela 160 — Parâmetros do projeto: qualidade da água
 
-Tabela 161 — Parâmetros do projeto: tubulação
+Tabela 161 — Parâmetros do projeto: reservatórios
 
-Tabela 162 — Parâmetros do projeto: investimento
+Tabela 162 — Parâmetros do projeto: motobomba
 
-Tabela 163 — Parâmetros do projeto: operação
+Tabela 163 — Parâmetros do projeto: tubulação
 
-Tabela 164 — Parâmetros do projeto: tarifas
+Tabela 164 — Parâmetros do projeto: investimento
 
-Tabela 165 — Parâmetros do projeto: energia
+Tabela 165 — Parâmetros do projeto: operação
 
-Tabela 166 — Parâmetros do projeto: incentivos
+Tabela 166 — Parâmetros do projeto: tarifas
 
-Tabela 167 — Parâmetros do projeto: financeiro
+Tabela 167 — Parâmetros do projeto: energia
 
-Tabela 168 — Parâmetros do projeto: certificações
+Tabela 168 — Parâmetros do projeto: incentivos
 
-Tabela 169 — Parâmetros do projeto: outros
+Tabela 169 — Parâmetros do projeto: financeiro
 
-Tabela 170 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 170 — Parâmetros do projeto: certificações
 
-Tabela 171 — Fatores de emissão dos insumos de tratamento
+Tabela 171 — Parâmetros do projeto: outros
 
-Tabela 172 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 172 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 173 — Procedência do fator de emissão do hipoclorito
+Tabela 173 — Fatores de emissão dos insumos de tratamento
 
-Tabela 174 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
+Tabela 174 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 175 — Grau de confiança dos registros tarifários do catálogo
+Tabela 175 — Procedência do fator de emissão do hipoclorito
 
-Tabela 176 — Conteúdo da base climática nacional
+Tabela 176 — Distribuição dos municípios do catálogo pelos seis regimes tarifários
 
-Tabela 177 — Séries históricas de precipitação distribuídas com o programa
+Tabela 177 — Grau de confiança dos registros tarifários do catálogo
 
-Tabela 178 — Formatos que o programa lê e onde cada um é carregado
+Tabela 178 — Cobertura do catálogo tarifário: municípios por categoria e situação do dado
 
-Tabela 179 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 179 — As estruturas tarifárias do catálogo, numeradas para as tabelas de preço por faixa que vêm a seguir
 
-Tabela 180 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 180 — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 1 de 3: 0–5 a 20–25 m³)
 
-Tabela 181 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 181 — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 2 de 3: 25–30 a 70–75 m³)
 
-Tabela 182 — Compatibilidade entre versões do arquivo de projeto
+Tabela 182 — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 3 de 3: 75–80 a 5.000 m³)
 
-Tabela 183 — Padronização terminológica de água de chuva e água pluvial
+Tabela 183 — Categorias tarifárias ainda não coletadas, por prestador
 
-Tabela 184 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 184 — Vigência e última verificação da fonte de cada estrutura tarifária, com a situação do dado
 
-Tabela 185 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 185 — A fórmula exponencial da CORSAN em cada tabela tarifária e categoria coletada
 
-Tabela 186 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 186 — Conteúdo da base climática nacional
 
-Tabela 187 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+Tabela 187 — Séries históricas de precipitação distribuídas com o programa
 
-Tabela 188 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 188 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 189 — Os nove casos de exemplo e o que cada um demonstra
+Tabela 189 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 190 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 190 — As sete seções do arquivo de projeto e o que cada uma guarda
+
+Tabela 191 — Localização dos arquivos do programa e dos arquivos do usuário
+
+Tabela 192 — Compatibilidade entre versões do arquivo de projeto
+
+Tabela 193 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 194 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+
+Tabela 195 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+
+Tabela 196 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+
+Tabela 197 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+
+Tabela 198 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 199 — Os nove casos de exemplo e o que cada um demonstra
+
+Tabela 200 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -764,7 +784,7 @@ Equação 11 — Ganho marginal por metro cúbico acrescentado
 
 Equação 12 — Volume ideal pelo critério de ganho marginal
 
-Equação 13 — fracao_de_armazenamento
+Equação 13 — Fração de armazenamento
 
 Equação 14 — Potencial de economia de água potável
 
@@ -774,7 +794,7 @@ Equação 16 — Relação entre potencial e confiabilidade
 
 Equação 17 — Extravasamento médio diário
 
-Equação 18 — uso_da_captacao
+Equação 18 — Eficiência de uso da água captada
 
 Equação 19 — Volume anual de água potável poupado
 
@@ -812,11 +832,11 @@ Equação 35 — Energia consumida nas partidas
 
 Equação 36 — Energia anual da motobomba
 
-Equação 37 — energia_pressurizador
+Equação 37 — Energia anual do pressurizador
 
 Equação 38 — Economia mensal na fatura
 
-Equação 39 — exponencial
+Equação 39 — Fórmula exponencial da CORSAN
 
 Equação 40 — Parcela de esgoto da fatura
 
@@ -936,7 +956,7 @@ chuva. A Figura 3 mostra como a precipitação de um dia se reparte, e a conta �
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
+*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermediária entre as regras YAS e YBS, explicada na seção do balanço diário.*
 
 Lendo o desenho:
 
@@ -1107,15 +1127,39 @@ computador.
 
 ---
 
-### 1.2.2. A instalação
+### 1.2.2. As duas edições
+
+O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
+lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
+rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+
+<!-- tabela: **Tabela 2** — O que muda entre a Edição Brasil e a International Edition -->
+| | Edição Brasil (BRL) | International Edition (INT) |
+| :--- | :--- | :--- |
+| instalador | `Netuno_Setup_5_0_0.exe` | `Netuno_INT_Setup_5_0_0.exe` |
+| idioma ao abrir | português | inglês |
+| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
+| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
+| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
+| moeda e custos | reais, com preços de referência | moeda escolhida; custos digitados |
+| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
+
+Sem os fatores de emissão do país, a International Edition não calcula a avaliação
+ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
+nenhum aviso.
+
+---
+
+### 1.2.3. A instalação
 
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
-   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
-   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
-   adiante). A **personalizada** permite marcar cada um.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
+   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
+   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
+   junto, embutida no programa.
 4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
 5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
    .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
@@ -1133,12 +1177,12 @@ Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
 
 ---
 
-### 1.2.3. Onde ficam os seus arquivos
+### 1.2.4. Onde ficam os seus arquivos
 
 O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
 relatório ou uma exportação, ele pergunta a pasta.
 
-<!-- tabela: **Tabela 2** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
+<!-- tabela: **Tabela 3** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
 | O que você grava | Extensão | Contém |
 | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os dados de entrada **e a série de chuva** |
@@ -1154,7 +1198,7 @@ um trabalho verificável de um trabalho apenas relatado.
 
 ---
 
-### 1.2.4. A base climática
+### 1.2.5. A base climática
 
 O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
@@ -1169,12 +1213,12 @@ O apêndice E descreve a base, e a seção 3.2 mostra como usar um cenário futu
 
 ---
 
-### 1.2.5. Os arquivos de exemplo
+### 1.2.6. Os arquivos de exemplo
 
 O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
 aqui.
 
-<!-- tabela: **Tabela 3** — Arquivos de exemplo distribuídos com o programa -->
+<!-- tabela: **Tabela 4** — Arquivos de exemplo distribuídos com o programa -->
 | Arquivo | Para que serve |
 | :--- | :--- |
 | `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo 4 constrói, pronto |
@@ -1192,7 +1236,7 @@ programa são de versões diferentes, e a seção 6.3 explica como proceder ness
 
 ---
 
-### 1.2.6. A primeira simulação, em cinco minutos
+### 1.2.7. A primeira simulação, em cinco minutos
 
 O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
 trabalha. Para a primeira simulação bastam quatro delas.
@@ -1212,7 +1256,7 @@ seguinte: 4.000 L é o volume certo?
 
 ---
 
-### 1.2.7. Se alguma coisa der errado
+### 1.2.8. Se alguma coisa der errado
 
 **O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
@@ -1250,7 +1294,7 @@ existe justamente para indicar esse ponto de entrada.
 A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
 percurso de leitura correspondente a cada um deles.
 
-<!-- tabela: **Tabela 4** — Percurso de leitura recomendado conforme o objetivo do leitor -->
+<!-- tabela: **Tabela 5** — Percurso de leitura recomendado conforme o objetivo do leitor -->
 | Você quer | Leia |
 | :--- | :--- |
 | **aprender a usar** o programa | o capítulo 4 inteiro, seções 4.1 a 4.10, na ordem |
@@ -1292,7 +1336,7 @@ Os casos residenciais são tratados na seção 4.2, e o caso comercial na seçã
 A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
 modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
 
-<!-- tabela: **Tabela 5** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
+<!-- tabela: **Tabela 6** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
 | Se você quer | Use | Onde se trata |
 | :--- | :--- | :--- |
 | avaliar uma cisterna que já existe | volume fixo | seção 4.3 |
@@ -1308,7 +1352,7 @@ de que qualquer estudo pode dispor ao justificar um volume.
 A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
 pressão exigida nos pontos de consumo.
 
-<!-- tabela: **Tabela 6** — Critérios hidráulicos para decidir sobre o reservatório superior -->
+<!-- tabela: **Tabela 7** — Critérios hidráulicos para decidir sobre o reservatório superior -->
 | Se a edificação | Então | Onde se trata |
 | :--- | :--- | :--- |
 | é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção 4.5 |
@@ -1333,8 +1377,8 @@ trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguint
 Onde este manual trata cada uma: a etapa 1 na seção 4.1, a 2 na 4.2, a 3 na 4.6, a 4 nas seções 4.3, 4.4 e 4.7, a 5 na 4.3, a 6 na 4.7, a 7 na 4.8, a 8 na 4.9, a 9 na 4.10, a 10 na 3.9 e a 12 na 3.3. A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
 
 
-Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
-relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
+Convém salvar o projeto ao concluir cada etapa. Os parâmetros do apêndice A são
+gravados e relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
 para quem o refará no futuro quanto para quem o avaliará.
 
 ---
@@ -1399,7 +1443,7 @@ isso.
 Dez dias, uma residência, sem reservatório superior. Os números foram escolhidos
 para caber numa planilha.
 
-<!-- tabela: **Tabela 7** — Dados de entrada do caso resolvido de dez dias -->
+<!-- tabela: **Tabela 8** — Dados de entrada do caso resolvido de dez dias -->
 | Dado de entrada | Valor |
 | :--- | ---: |
 | área de captação | 100 m² |
@@ -1412,7 +1456,7 @@ para caber numa planilha.
 
 A série de chuva dos dez dias, em milímetros:
 
-<!-- tabela: **Tabela 8** — Série de precipitação dos dez dias do caso resolvido -->
+<!-- tabela: **Tabela 9** — Série de precipitação dos dez dias do caso resolvido -->
 | Dia | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |
@@ -1422,7 +1466,7 @@ potável interna, que aqui coincide com a fração atendível total: 200 × 0,40
 
 #### 2.1.2.1. A tabela, dia a dia
 
-<!-- tabela: **Tabela 9** — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento -->
+<!-- tabela: **Tabela 10** — Balanço hídrico diário do caso resolvido, dia a dia, com as parcelas de captação, consumo, extravasamento e armazenamento -->
 | Dia | Chuva | Descarte | Chuva efetiva | Captado | Demanda pluvial | Consumido | Extravasado | No reservatório | Atendimento |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
 | | mm | mm | mm | L | L | L | L | L | |
@@ -1438,7 +1482,7 @@ potável interna, que aqui coincide com a fração atendível total: 200 × 0,40
 | 10 | 0,0 | 0,0 | 0,0 | 0 | 80 | 80 | 0 | 1 840 | pleno |
 | **soma** | | | | **6 681** | | **720** | **4 121** | 1 840 | |
 
-<!-- tabela: **Tabela 10** — Verificação do fechamento do balanço de massa nos dez dias -->
+<!-- tabela: **Tabela 11** — Verificação do fechamento do balanço de massa nos dez dias -->
 | Verificação do fechamento | Litros |
 | :--- | ---: |
 | captado no período | 6 681 |
@@ -1447,7 +1491,7 @@ potável interna, que aqui coincide com a fração atendível total: 200 × 0,40
 | menos o que ficou no reservatório | −1 840 |
 | **resíduo** | **0** |
 
-<!-- tabela: **Tabela 11** — Indicadores resultantes do caso resolvido de dez dias -->
+<!-- tabela: **Tabela 12** — Indicadores resultantes do caso resolvido de dez dias -->
 | Indicador dos dez dias | Valor |
 | :--- | ---: |
 | potencial de economia de água potável | 36,0% |
@@ -1505,10 +1549,13 @@ O reservatório tinha 564 L. Somados, 2.774 L. O reservatório guarda 2.000 L, e
 **774 L extravasam**. Só depois disso o programa retira os 80 L da demanda, deixando
 1.920 L para o dia seguinte.
 
-> **Atenção.** Esta ordem define o modelo, e tem nome: **YAS**, de *yield after
-> spillage*. O extravasamento é calculado **antes** da retirada da demanda.
+> **Atenção.** Esta ordem define o modelo. O extravasamento é calculado **antes** da
+> retirada da demanda, como na regra **YAS** (*yield after spillage*), mas a chuva do
+> próprio dia já pode atender a demanda do dia, como na regra **YBS**. O Netuno fica,
+> portanto, entre as duas, e a subseção «YAS, YBS e a ordem do Netuno», adiante, mostra
+> por quê.
 >
-> Se a ordem fosse invertida, o reservatório aceitaria água que fisicamente já teria
+> Se o consumo viesse antes do extravasamento, o reservatório aceitaria água que fisicamente já teria
 > extravasado, e o programa superestimaria o aproveitamento. A diferença aparece
 > justamente nos dias de chuva forte, que são os que mais pesam no total anual.
 
@@ -1534,7 +1581,7 @@ A última linha da tabela e o quadro de verificação mostram o fechamento:
 V_cap = V_ext + V_con + V_res
 ```
 
-<!-- tabela: **Tabela 12** — Variáveis da Equação 1 -->
+<!-- tabela: **Tabela 13** — Variáveis da Equação 1 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_cap` | volume total captado no período | L |
@@ -1569,7 +1616,7 @@ coeficiente de escoamento superficial.
 V_cap,t = P_ef,t × A × C
 ```
 
-<!-- tabela: **Tabela 13** — Variáveis da Equação 2 -->
+<!-- tabela: **Tabela 14** — Variáveis da Equação 2 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_cap,t` | volume captado no dia `t` | L |
@@ -1602,7 +1649,7 @@ V_ext,t = max(0 ; D_t − V_max)
 V_arm,t = min(D_t ; V_max)
 ```
 
-<!-- tabela: **Tabela 14** — Variáveis da Equação 5 -->
+<!-- tabela: **Tabela 15** — Variáveis da Equação 5 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `D_t` | volume disponível no dia `t`, antes do consumo | L |
@@ -1613,9 +1660,10 @@ V_arm,t = min(D_t ; V_max)
 | `V_max` | capacidade útil do reservatório inferior | L |
 
 ==A ordem em que as Equações 4 e 5 aparecem define o
-modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e essa
-convenção tem nome na literatura: é a regra YAS, do inglês *yield after spillage*, isto
-é, rendimento posterior ao extravasamento. Inverter a ordem faria o reservatório
+modelo.== O extravasamento é calculado **antes** da retirada do consumo do dia, e é por isso que
+o programa costuma ser descrito pela regra YAS, do inglês *yield after spillage*, isto
+é, rendimento posterior ao extravasamento. A descrição é aproximada, e a subseção
+seguinte diz em que ela falha. Inverter a ordem faria o reservatório
 aceitar, na forma de consumo, água que fisicamente já teria extravasado, e
 superestimaria o aproveitamento justamente nos dias de chuva intensa, que são os que
 mais pesam no total anual.
@@ -1629,9 +1677,38 @@ esses dias os que mais pesam no total anual, e por isso uma escolha que parece f
 
 ![A mesma chuva, duas ordens de cálculo](../figuras/fig00f_yas.png)
 
-*Figura 10 — Sequência de operações do balanço diário: (a) regra YAS, adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
+*Figura 10 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) ordem invertida (YBS), com o consumo retirado antes do extravasamento. As duas sequências só divergem nos dias em que o reservatório atinge a capacidade, e a YBS supõe um consumo anterior à chuva do dia, o que superestima o aproveitamento.*
 
-#### 2.1.4.3. O atendimento da demanda
+#### 2.1.4.3. YAS, YBS e a ordem do Netuno
+
+Na literatura, YAS e YBS têm definição precisa (Fewkes e Butler, 2000). Com `Y_t` o
+volume retirado no dia, `Q_t` o volume captado, `S_t` o volume armazenado no fim do dia
+e `V_max` a capacidade:
+
+<!-- tabela: **Tabela 16** — Retirada do dia e volume armazenado no fim do dia nas regras YAS e YBS estritas e no Netuno -->
+| Regra | Retirada do dia | Armazenado no fim do dia |
+| :--- | :--- | :--- |
+| YAS estrita | `Y_t = min(D_pl,t ; S_t−1)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max − Y_t)` |
+| YBS estrita | `Y_t = min(D_pl,t ; S_t−1 + Q_t)` | `S_t = min(S_t−1 + Q_t − Y_t ; V_max)` |
+| Netuno | `Y_t = min(D_pl,t ; min(S_t−1 + Q_t ; V_max))` | `S_t = min(S_t−1 + Q_t ; V_max) − Y_t` |
+
+Na YAS estrita, a retirada do dia sai só do que estava guardado na véspera: a chuva de
+hoje só serve amanhã. Na YBS estrita, a chuva de hoje atende a demanda antes de o
+reservatório extravasar. O Netuno faz o extravasamento primeiro, como a YAS, e depois
+deixa a chuva do dia, até o limite da capacidade, atender a demanda do dia.
+
+Disso decorre uma desigualdade que vale em qualquer série: o volume consumido pelo
+Netuno nunca é menor que o da YAS estrita nem maior que o da YBS estrita. O resultado
+fica **entre as duas**, mais perto da YAS nos reservatórios grandes, em que a véspera
+quase sempre basta, e mais longe dela nos pequenos, em que a chuva do dia pesa. Quem
+compara o Netuno com um programa ou com uma norma que use a YAS estrita, como o método
+detalhado da EN 16941-1:2024 (Anexo A), deve esperar do Netuno um potencial de economia
+um pouco maior para o mesmo volume.
+
+O programa mantém essa ordem por decisão: ela reproduz o Netuno 4 e os estudos do grupo
+de pesquisa que o usaram, e uma mudança aqui deslocaria todos os resultados publicados.
+
+#### 2.1.4.4. O atendimento da demanda
 
 Estabelecido quanto há no reservatório, o programa retira dele o menor valor entre a
 demanda pluvial do dia e o volume disponível, e devolve ao dia seguinte o que restar.
@@ -1644,7 +1721,7 @@ V_con,t = min(D_pl,t ; V_arm,t)
 V_res,t = V_arm,t − V_con,t
 ```
 
-<!-- tabela: **Tabela 15** — Variáveis da Equação 7 -->
+<!-- tabela: **Tabela 17** — Variáveis da Equação 7 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_con,t` | volume de água pluvial consumido no dia `t` | L |
@@ -1658,7 +1735,7 @@ Nenhum cálculo baseado em médias mensais ou anuais consegue representar esse
 encadeamento, e é dele que decorre todo o descasamento entre a oferta concentrada e a
 demanda distribuída.
 
-#### 2.1.4.4. O complemento da rede pública
+#### 2.1.4.5. O complemento da rede pública
 
 O que a chuva não atendeu é comprado da concessionária, e essa parcela reúne três
 origens distintas.
@@ -1667,7 +1744,7 @@ origens distintas.
 V_pot,t = D_pot,t + ΔD_int,t + ΔD_irr,t
 ```
 
-<!-- tabela: **Tabela 16** — Variáveis da Equação 8 -->
+<!-- tabela: **Tabela 18** — Variáveis da Equação 8 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_pot,t` | volume de água potável consumido da rede no dia `t` | L |
@@ -1682,7 +1759,7 @@ jardim simplesmente não é regado, a edificação não compra essa água, e o v
 correspondente é contabilizado como **demanda não atendida**, que é a terceira parcela
 do balanço de demanda tratada adiante nesta seção.
 
-#### 2.1.4.5. A classificação do dia
+#### 2.1.4.6. A classificação do dia
 
 Por fim, cada dia recebe uma classificação segundo o grau de atendimento alcançado, e é
 a partir dessa classificação que se calculam os percentuais de dias de atendimento
@@ -1692,7 +1769,7 @@ pleno, parcial e nulo relatados na seção 2.3.
 pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
 ```
 
-<!-- tabela: **Tabela 17** — Variáveis da Equação 9 -->
+<!-- tabela: **Tabela 19** — Variáveis da Equação 9 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_con,t` | volume de água pluvial consumido no dia `t` | L |
@@ -1711,7 +1788,7 @@ A demanda total de um dia se reparte em três, e não em duas:
 D_t = V_con,t + V_pot,t + V_nao,t
 ```
 
-<!-- tabela: **Tabela 18** — Variáveis da Equação 10 -->
+<!-- tabela: **Tabela 20** — Variáveis da Equação 10 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `D_t` | demanda total da edificação no dia `t` | L |
@@ -1832,7 +1909,7 @@ calculada para cada volume da grade a partir do segundo.
 Δ(V_i) = [ Epot(V_i) − Epot(V_i−1) ] ÷ [ (V_i − V_i−1) ÷ 1000 ]
 ```
 
-<!-- tabela: **Tabela 19** — Variáveis da Equação 11 -->
+<!-- tabela: **Tabela 21** — Variáveis da Equação 11 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Δ(V_i)` | ganho marginal do volume `V_i` em relação ao anterior | %/m³ |
@@ -1863,7 +1940,7 @@ tenha caído abaixo de um limiar declarado pelo usuário.
 V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
 ```
 
-<!-- tabela: **Tabela 20** — Variáveis da Equação 12 -->
+<!-- tabela: **Tabela 22** — Variáveis da Equação 12 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_ideal` | volume ideal pelo critério de ganho marginal | L |
@@ -1944,7 +2021,7 @@ sequer a demanda.
 A tabela a seguir aplica cinco desses métodos ao projeto do tutorial, arredonda cada
 volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele produz.
 
-<!-- tabela: **Tabela 21** — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
+<!-- tabela: **Tabela 23** — Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
 | Método | Regra | Volume | Potencial simulado |
 | :--- | :--- | ---: | ---: |
 | prático alemão | 6% do menor entre oferta e demanda anuais | 3 750 L | 27,00% |
@@ -1954,7 +2031,7 @@ volume ao múltiplo de 250 L e simula, no próprio programa, o potencial que ele
 | prático inglês | 0,05 × P × A | 13 500 L | 28,00% |
 | **simulação diária, ganho marginal de 1 %/m³** | varredura | **4 000 L** | **27,12%** |
 
-<!-- tabela: **Tabela 22** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
+<!-- tabela: **Tabela 24** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
 | Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |
 | ---: | ---: | :--- |
 | 1 000 L | 0,0037 | horário |
@@ -1997,7 +2074,7 @@ a **fração de armazenamento**.
 F_S = S ÷ (A × R)
 ```
 
-<!-- tabela: **Tabela 23** — Variáveis da Equação 13 -->
+<!-- tabela: **Tabela 25** — Variáveis da Equação 13 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `F_S` | fração de armazenamento | adimensional |
@@ -2103,7 +2180,7 @@ isolam e que a análise deixa visível: a série necessária cresce com a fraç�
 atendível. Nas quatro séries de trinta anos que acompanham o programa, com
 cobertura de 100 m², quatro moradores e 150 L por pessoa ao dia:
 
-<!-- tabela: **Tabela 24** — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível -->
+<!-- tabela: **Tabela 26** — **Tabela 99** — Comprimento de série representativo, em anos, conforme a fração atendível -->
 | Fração atendível | Florianópolis | São Paulo | Brasília | Manaus |
 | :--- | ---: | ---: | ---: | ---: |
 | 20% | 2 | 8 | 9 | 16 |
@@ -2166,7 +2243,7 @@ não apenas da parcela que a chuva poderia atender.
 Epot = ( Σ V_con,t ÷ Σ D_t ) × 100
 ```
 
-<!-- tabela: **Tabela 25** — Variáveis da Equação 14 -->
+<!-- tabela: **Tabela 27** — Variáveis da Equação 14 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Epot` | potencial de economia de água potável | % |
@@ -2193,7 +2270,7 @@ demanda pluvial, e não a demanda total.
 Rv = ( Σ V_con,t ÷ Σ D_pl,t ) × 100
 ```
 
-<!-- tabela: **Tabela 26** — Variáveis da Equação 15 -->
+<!-- tabela: **Tabela 28** — Variáveis da Equação 15 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Rv` | confiabilidade volumétrica do sistema | % |
@@ -2209,7 +2286,7 @@ conferência rápida de qualquer resultado.
 Epot = Rv × f
 ```
 
-<!-- tabela: **Tabela 27** — Variáveis da Equação 16 -->
+<!-- tabela: **Tabela 29** — Variáveis da Equação 16 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Epot` | potencial de economia de água potável | % |
@@ -2267,7 +2344,7 @@ baixo se a demanda pluvial for pequena, e o contrário também acontece.
 V_ext,med = ( Σ V_ext,t ) ÷ n
 ```
 
-<!-- tabela: **Tabela 28** — Variáveis da Equação 17 -->
+<!-- tabela: **Tabela 30** — Variáveis da Equação 17 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_ext,med` | extravasamento médio diário | L/dia |
@@ -2297,7 +2374,7 @@ descarte de primeiras águas, que acabou consumida.
 η_cap = ( Σ V_con,t ÷ Σ V_cap,t ) × 100
 ```
 
-<!-- tabela: **Tabela 29** — Variáveis da Equação 18 -->
+<!-- tabela: **Tabela 31** — Variáveis da Equação 18 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `η_cap` | eficiência de uso da água captada | % |
@@ -2346,7 +2423,7 @@ dos pontos de uso pluviais, e não apenas para complementar pequenas faltas.
 V_poup = ( V_con,med × 365,25 ) ÷ 1000
 ```
 
-<!-- tabela: **Tabela 30** — Variáveis da Equação 19 -->
+<!-- tabela: **Tabela 32** — Variáveis da Equação 19 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_poup` | volume de água potável poupado por ano | m³/ano |
@@ -2378,7 +2455,7 @@ varredura** — uma simulação de volume único não o produz.
 V_nao,med = ( Σ V_nao,t ) ÷ n
 ```
 
-<!-- tabela: **Tabela 31** — Variáveis da Equação 20 -->
+<!-- tabela: **Tabela 33** — Variáveis da Equação 20 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `V_nao,med` | demanda média diária não atendida por nenhuma fonte | L/dia |
@@ -2396,7 +2473,7 @@ toda a demanda que a chuva não atendeu. A seção 2.1 detalha.
 
 ### 2.3.10. Quadro-resumo
 
-<!-- tabela: **Tabela 32** — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
+<!-- tabela: **Tabela 34** — Quadro-resumo dos indicadores, com denominador e pergunta que cada um responde -->
 | Indicador | Unidade | Denominador | Responde |
 | :--- | :--- | :--- | :--- |
 | potencial de economia | % | demanda total | quanto do consumo de água potável cai |
@@ -2438,7 +2515,7 @@ no total.
 PRCPTOT = Σ P_i , para P_i ≥ 1 mm
 ```
 
-<!-- tabela: **Tabela 33** — Variáveis da Equação 21 -->
+<!-- tabela: **Tabela 35** — Variáveis da Equação 21 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PRCPTOT` | precipitação total dos dias úmidos do ano | mm |
@@ -2455,7 +2532,7 @@ extravasamento de cisternas.
 R95p = Σ P_i , para P_i > q_95
 ```
 
-<!-- tabela: **Tabela 34** — Variáveis da Equação 22 -->
+<!-- tabela: **Tabela 36** — Variáveis da Equação 22 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `R95p` | precipitação acumulada nos dias muito úmidos | mm |
@@ -2471,7 +2548,7 @@ calha, e não o reservatório.
 RX1day = max ( P_i )
 ```
 
-<!-- tabela: **Tabela 35** — Variáveis da Equação 23 -->
+<!-- tabela: **Tabela 37** — Variáveis da Equação 23 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `RX1day` | maior precipitação diária do ano | mm |
@@ -2488,7 +2565,7 @@ apenas no pico diário.
 RX5day = max ( Σ P_j ) , para j de i a i + 4
 ```
 
-<!-- tabela: **Tabela 36** — Variáveis da Equação 24 -->
+<!-- tabela: **Tabela 38** — Variáveis da Equação 24 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `RX5day` | maior acumulado de cinco dias consecutivos no ano | mm |
@@ -2506,7 +2583,7 @@ bem diferentes.
 SDII = PRCPTOT ÷ n_úmidos
 ```
 
-<!-- tabela: **Tabela 37** — Variáveis da Equação 25 -->
+<!-- tabela: **Tabela 39** — Variáveis da Equação 25 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `SDII` | intensidade média dos dias úmidos | mm/dia |
@@ -2522,7 +2599,7 @@ aproveitamento pluvial, esses são tipicamente os dias de extravasamento.
 R20mm = # { i : P_i ≥ 20 mm }
 ```
 
-<!-- tabela: **Tabela 38** — Variáveis da Equação 26 -->
+<!-- tabela: **Tabela 40** — Variáveis da Equação 26 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `R20mm` | número de dias com precipitação intensa no ano | dia |
@@ -2539,7 +2616,7 @@ longa é o que esvazia a cisterna.
 CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
 ```
 
-<!-- tabela: **Tabela 39** — Variáveis da Equação 27 -->
+<!-- tabela: **Tabela 41** — Variáveis da Equação 27 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CDD` | maior sequência de dias secos consecutivos no ano | dia |
@@ -2556,7 +2633,7 @@ do reservatório.
 CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
 ```
 
-<!-- tabela: **Tabela 40** — Variáveis da Equação 28 -->
+<!-- tabela: **Tabela 42** — Variáveis da Equação 28 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CWD` | maior sequência de dias úmidos consecutivos no ano | dia |
@@ -2573,7 +2650,7 @@ ao conjunto ETCCDI: foi proposto por Walsh e Lawler em 1981.
 SI = ( 1 ÷ R ) × Σ | X_m − R ÷ 12 |
 ```
 
-<!-- tabela: **Tabela 41** — Variáveis da Equação 29 -->
+<!-- tabela: **Tabela 43** — Variáveis da Equação 29 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `SI` | índice de sazonalidade de Walsh e Lawler | adimensional |
@@ -2710,7 +2787,7 @@ produz — grandeza que independe do destino final da água. As três faixas ado
 programa correspondem às capacidades que os próprios fabricantes declaram para os
 equipamentos correntes no mercado brasileiro.
 
-<!-- tabela: **Tabela 42** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+<!-- tabela: **Tabela 44** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Equipamento | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
@@ -2751,7 +2828,7 @@ cúbico tratado, que decorre da dose aplicada e da pureza do produto adquirido.
 m_prod = ( C_Cl ÷ 1000 ) ÷ p
 ```
 
-<!-- tabela: **Tabela 43** — Variáveis da Equação 30 -->
+<!-- tabela: **Tabela 45** — Variáveis da Equação 30 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `m_prod` | massa de produto comercial consumida por metro cúbico tratado | kg/m³ |
@@ -2776,7 +2853,7 @@ tipo de meio filtrante: a lavagem de roupas, por envolver contato com tecido e p
 exige carvão ativado em bloco, ao passo que os demais usos se satisfazem com filtro de
 areia ou cartucho de vinte micrômetros.
 
-<!-- tabela: **Tabela 44** — Recomendação de filtro de polimento por classe de qualidade alvo -->
+<!-- tabela: **Tabela 46** — Recomendação de filtro de polimento por classe de qualidade alvo -->
 | Classe | Recomenda polimento? | Equipamento quando marcado |
 | :--- | :---: | :--- |
 | 1 — NBR 15527:2019 | não | filtro de areia ou cartucho de 20 µm |
@@ -2802,7 +2879,7 @@ O descarte de primeiras águas entra no programa de duas formas. No balanço hí
 
 O volume do reservatório de descarte é o produto da lâmina de descarte pela área de captação, `V_desc = d × A`, em litros, com `d` em milímetros e `A` em metros quadrados. Até 250 L, o programa orça uma coluna vertical de desvio em PVC, a R$ 2,20 por litro acrescidos de R$ 120 em conexões e válvula de purga lenta; acima de 250 L, um reservatório de polietileno rotomoldado, com preço interpolado na base de custos e acréscimo de R$ 150 em boia de vedação e dispositivo de purga. O separador de folhas custa R$ 220 para até 200 m² de captação, R$ 440 para até 500 m² e R$ 220 por unidade, a cada 250 m², acima disso. O custeio anual do subsistema é de R$ 40, e todos os valores são multiplicados pelo fator regional.
 
-<!-- tabela: **Tabela 45** — Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
+<!-- tabela: **Tabela 47** — Dimensionamento e orçamento do descarte inicial no projeto do tutorial -->
 | Item | Valor |
 | :--- | ---: |
 | lâmina de descarte | 2 mm |
@@ -2833,7 +2910,7 @@ genérica e soma apenas o incremento.
 CAPEX_inc = CAPEX_linha − V_gen
 ```
 
-<!-- tabela: **Tabela 46** — Variáveis da Equação 31 -->
+<!-- tabela: **Tabela 48** — Variáveis da Equação 31 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX_inc` | investimento incremental da linha de tratamento | R$ |
@@ -2896,7 +2973,7 @@ placa for a potência mecânica **no eixo**.
 
 Daí a cadeia ter dois rendimentos, e não um:
 
-<!-- tabela: **Tabela 47** — Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
+<!-- tabela: **Tabela 49** — Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
 | Rendimento | O que converte |
 | :--- | :--- |
 | **da bomba**, `η_b` | potência de eixo em potência hidráulica entregue à água |
@@ -2914,7 +2991,7 @@ O programa pede os dois, em campos separados.
 e = ( ρ × g × H ) ÷ ( η_b × η_m )
 ```
 
-<!-- tabela: **Tabela 48** — Variáveis da Equação 32 -->
+<!-- tabela: **Tabela 50** — Variáveis da Equação 32 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `e` | consumo específico de energia por volume recalcado | kWh/m³ |
@@ -2935,7 +3012,7 @@ gasto para realizá-lo, e não o consumo específico.
 e = P ÷ ( Q × η_m )
 ```
 
-<!-- tabela: **Tabela 49** — Variáveis da Equação 33 -->
+<!-- tabela: **Tabela 51** — Variáveis da Equação 33 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `e` | consumo específico de energia por volume recalcado | kWh/m³ |
@@ -2954,7 +3031,7 @@ outra vez contabilizaria a perda hidráulica duas vezes.
 Q = ( P × η_b ) ÷ ( ρ × g × H )
 ```
 
-<!-- tabela: **Tabela 50** — Variáveis da Equação 34 -->
+<!-- tabela: **Tabela 52** — Variáveis da Equação 34 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `Q` | vazão de recalque deduzida | m³/h |
@@ -2970,7 +3047,7 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 E_part = ( P × t_part ) ÷ η_m
 ```
 
-<!-- tabela: **Tabela 51** — Variáveis da Equação 35 -->
+<!-- tabela: **Tabela 53** — Variáveis da Equação 35 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_part` | energia consumida no conjunto das partidas do período | kWh |
@@ -2990,7 +3067,7 @@ depende do volume elevado, e a das partidas, que depende do número de acionamen
 E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 ```
 
-<!-- tabela: **Tabela 52** — Variáveis da Equação 36 -->
+<!-- tabela: **Tabela 54** — Variáveis da Equação 36 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ano` | energia elétrica consumida pela motobomba no ano | kWh/ano |
@@ -3074,7 +3151,7 @@ A altura manométrica e a perda de carga calculadas retornam ao projeto e passam
 
 Usados quando o projeto não declara:
 
-<!-- tabela: **Tabela 53** — Valores de recurso adotados quando o projeto não os declara -->
+<!-- tabela: **Tabela 55** — Valores de recurso adotados quando o projeto não os declara -->
 | Parâmetro | Valor | Origem |
 | :--- | ---: | :--- |
 | altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico e ~30% de perda de carga dão de 10 a 12 m; adota-se o extremo conservador |
@@ -3109,7 +3186,7 @@ tempo ligado:
 E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
 ```
 
-<!-- tabela: **Tabela 54** — Variáveis da Equação 37 -->
+<!-- tabela: **Tabela 56** — Variáveis da Equação 37 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E` | energia anual do pressurizador | kWh/ano |
@@ -3144,7 +3221,7 @@ vazão lida na curva do fabricante na pressão de trabalho e o retardo de deslig
 A tabela aplica o catálogo à pressurização direta do tutorial: a cisterna de 4.000 L sem
 caixa superior, quatro moradores e a vazão da bacia de 9 L/min.
 
-<!-- tabela: **Tabela 55** — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba -->
+<!-- tabela: **Tabela 57** — Energia anual de seis pressurizadores de catálogo na pressurização direta do tutorial, com a vazão da bacia sanitária limitando a da bomba -->
 | Modelo | Controle | Vazão da curva a 18 m.c.a. | Horas por ano | kWh por ano | kWh/m³ | kWh por ano a 24 m.c.a. |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
 | Komeco TP 820T, 1/4 CV | pressostato | 13,3 L/min | 110 | 40,5 | 0,68 | 82,0 |
@@ -3205,8 +3282,8 @@ Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
 
 ## 2.7. Análise econômica e os regimes tarifários
 
-> Esta seção formaliza o fluxo de caixa e detalha os seis regimes tarifários
-> tarifário — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
+> Esta seção formaliza o fluxo de caixa e detalha os seis regimes
+> tarifários — o dado que mais decide a viabilidade de um sistema pluvial no Brasil.
 
 ---
 
@@ -3222,7 +3299,7 @@ entre elas.
 E_mês = F(V_tot) − F(V_pot)
 ```
 
-<!-- tabela: **Tabela 56** — Variáveis da Equação 38 -->
+<!-- tabela: **Tabela 58** — Variáveis da Equação 38 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_mês` | economia obtida no mês | R$ |
@@ -3282,7 +3359,7 @@ consumo do mês:
 T_agua = PB × C^n + SB
 ```
 
-<!-- tabela: **Tabela 57** — Variáveis da Equação 39 -->
+<!-- tabela: **Tabela 59** — Variáveis da Equação 39 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_agua` | parcela de água da fatura | R$ |
@@ -3314,7 +3391,7 @@ poupado seria valorado a uma tarifa que nenhuma das vinte unidades efetivamente 
 T_esg = T_agua × s
 ```
 
-<!-- tabela: **Tabela 58** — Variáveis da Equação 40 -->
+<!-- tabela: **Tabela 60** — Variáveis da Equação 40 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `T_esg` | parcela de esgoto da fatura | R$ |
@@ -3340,7 +3417,7 @@ O catálogo distribui os seus 652 municípios de maneira bastante desigual entre
 regimes. A franquia no mínimo responde sozinha por **329** deles, mais da metade;
 seguem-se 165 sem mínimo algum, 122 com tarifa de disponibilidade e 34 na fórmula exponencial da CORSAN, ao passo que a franquia retroativa aparece em apenas dois e o piso de pagamento em nenhum (Figura 26). A tabela a seguir mostra como cada regime é codificado e aplicado no cálculo da fatura.
 
-<!-- tabela: **Tabela 59** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
+<!-- tabela: **Tabela 61** — Codificação e aplicação de cada regime de valor mínimo no cálculo da fatura -->
 | Regime | Codificação das faixas | Cálculo da parcela de água | Efeito da redução do consumo |
 | :--- | :--- | :--- | :--- |
 | sem valor mínimo | apenas faixas de consumo (código 1 ou 0) | soma, em cada faixa, do preço por m³ aplicado ao volume alocado dentro dela | toda redução de consumo reduz a fatura |
@@ -3372,7 +3449,7 @@ economizar água abaixo do volume de franquia não produz desconto algum na fatu
 CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 ```
 
-<!-- tabela: **Tabela 60** — Variáveis da Equação 41 -->
+<!-- tabela: **Tabela 62** — Variáveis da Equação 41 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `CAPEX` | investimento inicial total do sistema | R$ |
@@ -3427,7 +3504,7 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 
 ### 2.7.5. O custeio anual
 
-<!-- tabela: **Tabela 61** — Parcelas do custeio anual e a origem de cada uma -->
+<!-- tabela: **Tabela 63** — Parcelas do custeio anual e a origem de cada uma -->
 | Parcela | Origem |
 | :--- | :--- |
 | energia de bombeamento | seção 2.6, com a bandeira tarifária aplicada |
@@ -3460,7 +3537,7 @@ o instante em que o saldo acumulado deixa de ser negativo. Esse instante é o te
 f_inf = ( 1 + i )^( m − 1 )
 ```
 
-<!-- tabela: **Tabela 62** — Variáveis da Equação 42 -->
+<!-- tabela: **Tabela 64** — Variáveis da Equação 42 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `f_inf` | fator acumulado de inflação até o mês `m` | adimensional |
@@ -3477,7 +3554,7 @@ k = ⌊ ( m − 1 ) ÷ I ⌋
 f_j = ( 1 + r_j )^k
 ```
 
-<!-- tabela: **Tabela 63** — Variáveis da Equação 44 -->
+<!-- tabela: **Tabela 65** — Variáveis da Equação 44 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `k` | número de reajustes já aplicados até o mês `m` | adimensional |
@@ -3510,7 +3587,7 @@ degrau que nada tem a ver com o desempenho do sistema.
 VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 ```
 
-<!-- tabela: **Tabela 64** — Variáveis da Equação 45 -->
+<!-- tabela: **Tabela 66** — Variáveis da Equação 45 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `VPL` | valor presente líquido do investimento | R$ |
@@ -3596,7 +3673,7 @@ mesma nomenclatura é usada nas declarações ambientais de produto conforme a E
 Declarar quais módulos o estudo cobre é a forma mais curta e precisa de declarar a
 fronteira, e é o que um avaliador espera encontrar.
 
-<!-- tabela: **Tabela 65** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
+<!-- tabela: **Tabela 67** — Módulos do ciclo de vida da EN 15978 e o que a avaliação do programa cobre em cada um -->
 | Módulo | Etapa | Coberto pelo programa |
 | :--- | :--- | :--- |
 | A1 a A3 | produto: matéria-prima, transporte até a fábrica, fabricação | sim, para reservatórios, tubulação, motobombas, descarte inicial e todas as peças, conexões e cabos do arranjo 3D |
@@ -3642,7 +3719,7 @@ qual todas as demais alternativas se comparam.
 E_comp = m_comp × FE_mat
 ```
 
-<!-- tabela: **Tabela 66** — Variáveis da Equação 46 -->
+<!-- tabela: **Tabela 68** — Variáveis da Equação 46 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_comp` | emissão incorporada do componente | kg CO₂e |
@@ -3654,7 +3731,7 @@ A massa de cada componente decorre do seu dimensionamento. No caso do reservató
 que varia por mais de uma ordem de grandeza entre o polietileno e o concreto armado — e é
 dessa variação que decorre boa parte do resultado ambiental do projeto.
 
-<!-- tabela: **Tabela 67** — Massa por metro cúbico útil de cada material de reservatório -->
+<!-- tabela: **Tabela 69** — Massa por metro cúbico útil de cada material de reservatório -->
 | Material | Massa por m³ útil | O que isso significa em 5 m³ |
 | :--- | ---: | ---: |
 | polietileno | 22 kg/m³ | 110 kg |
@@ -3673,7 +3750,7 @@ A tabela a seguir abre o carbono do projeto fechado do tutorial: cisterna de 4.0
 polietileno, caixa superior de 1.000 L, duas motobombas, a tubulação padrão e o descarte
 inicial.
 
-<!-- tabela: **Tabela 68** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
+<!-- tabela: **Tabela 70** — Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito -->
 | Item | Incorporado | Parcela do incorporado | Anual |
 | :--- | ---: | ---: | ---: |
 | cisterna de 4.000 L, polietileno | 141,9 kg | 43,3% | — |
@@ -3689,9 +3766,9 @@ inicial.
 | **total** | **327,4 kg** | **100%** | **-20,05 kg/ano** |
 
 Três leituras importam. A primeira é que, mesmo em polietileno, a cisterna responde por
-quase metade do carbono incorporado, e os reservatórios juntos por cerca de 60%. A
+quase metade do carbono incorporado, e os reservatórios juntos por mais da metade. A
 segunda é que a tubulação e as motobombas, que costumam ser esquecidas nas contas
-simplificadas, somam um terço do total: um estudo que contasse só o reservatório
+simplificadas, somam quase dois quintos do total: um estudo que contasse só o reservatório
 subestimaria o carbono incorporado em quase metade. A terceira está na coluna anual: o
 crédito da água evitada é cerca de 23 vezes maior que as emissões anuais do recalque e da
 cloração juntas, e é por isso que, com o material certo, a dívida de fabricação se paga.
@@ -3706,7 +3783,7 @@ cloração juntas, e é por isso que, com o material certo, a dívida de fabrica
 E_ener = C_ano × FE_rede
 ```
 
-<!-- tabela: **Tabela 69** — Variáveis da Equação 47 -->
+<!-- tabela: **Tabela 71** — Variáveis da Equação 47 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_ener` | emissão anual da energia de bombeamento | kg CO₂e/ano |
@@ -3735,10 +3812,10 @@ quase todas elas.
 
 > **Quando a energia decide.** Com o fator da rede brasileira, multiplicar por dez a
 > energia do tutorial, levando-a para perto da mediana empírica de Vieira et al., somaria
-> cerca de 8 kg CO₂e por ano às emissões e reduziria o saldo anual de 27,7 para cerca de
-> 19,5 kg CO₂e. O sistema continuaria compensando, mas o payback de carbono passaria de 13
-> para cerca de 19 anos. Em matrizes mais fósseis que a brasileira, a energia pode
-> inverter o resultado.
+> cerca de 6 kg CO₂e por ano às emissões e reduziria o saldo anual de 20,1 para cerca de
+> 14,1 kg CO₂e. O saldo anual continuaria positivo, mas o payback de carbono passaria de
+> 16,3 para cerca de 23 anos, além dos vinte de vida útil adotados: o sistema terminaria a
+> vida devendo carbono. Em matrizes mais fósseis que a brasileira, o efeito é ainda maior.
 
 **Tratamento:** a linha da ETAP **substitui** o termo de cloração, em vez de somar a
 ele. É a mesma regra da seção 2.5, e existe para o hipoclorito não ser contado duas
@@ -3784,7 +3861,7 @@ fronteira de cada uma.
 E_liq = E_evit − E_ener − E_trat
 ```
 
-<!-- tabela: **Tabela 70** — Variáveis da Equação 48 -->
+<!-- tabela: **Tabela 72** — Variáveis da Equação 48 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_liq` | saldo líquido anual de emissões | kg CO₂e/ano |
@@ -3798,7 +3875,7 @@ E_liq = E_evit − E_ener − E_trat
 PB_amb = E_inc ÷ E_liq
 ```
 
-<!-- tabela: **Tabela 71** — Variáveis da Equação 49 -->
+<!-- tabela: **Tabela 73** — Variáveis da Equação 49 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `PB_amb` | tempo de retorno ambiental do sistema | ano |
@@ -3817,7 +3894,7 @@ que o sistema termina a vida útil devendo carbono.
 S_vida = ( E_liq × n_anos ) − E_inc
 ```
 
-<!-- tabela: **Tabela 72** — Variáveis da Equação 50 -->
+<!-- tabela: **Tabela 74** — Variáveis da Equação 50 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `S_vida` | saldo de carbono ao fim da vida útil adotada | kg CO₂e |
@@ -3835,7 +3912,7 @@ vinte anos, como a seção 4.8 demonstra.
 E_esp = S_vida ÷ V_vida
 ```
 
-<!-- tabela: **Tabela 73** — Variáveis da Equação 51 -->
+<!-- tabela: **Tabela 75** — Variáveis da Equação 51 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `E_esp` | emissão específica do sistema ao longo da vida útil | g CO₂e/L |
@@ -3964,7 +4041,7 @@ a cisterna pluvial, tenha medidor próprio, separado do da rede pública. O proj
 por um de dois caminhos: a Opção 1, que mede a redução do uso de água do projeto inteiro,
 ou a soma das Opções 2 a 6, que tratam cada parcela separadamente.
 
-<!-- tabela: **Tabela 74** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
+<!-- tabela: **Tabela 76** — Opções do crédito WEc2 do LEED v5 às quais o aproveitamento pluvial contribui -->
 | Opção | O que mede | Pontuação |
 | :--- | :--- | :--- |
 | 1. Projeto inteiro | redução do uso de água do projeto contra a linha de base | 30% 1 ponto, e 1 ponto a cada 5%, até 65% 8 pontos; com fonte alternativa de água, cada faixa vale 1 ponto a mais, até 8 |
@@ -3999,7 +4076,7 @@ versão 00 de 22 de novembro de 2024, a água é tratada no tema «Consumo de á
 itens, e cada item é classificado num nível: pré-requisito (PR), HQE, HQE 2 ou HQE 3.
 Três itens dizem respeito ao aproveitamento pluvial:
 
-<!-- tabela: **Tabela 75** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
+<!-- tabela: **Tabela 77** — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao aproveitamento pluvial -->
 | Item | Nível | Exigência |
 | :--- | :--- | :--- |
 | EAU.1.2 | HQE | redução de pelo menos 20% do consumo de água potável em relação ao consumo de referência |
@@ -4026,7 +4103,7 @@ da categoria «Gestão eficiente da água», e o seu indicador não é um percen
 **existência** de sistema de aproveitamento, com captação, tratamento, reservação e
 pontos de uso indicados no projeto. A pontuação depende da abrangência do uso:
 
-<!-- tabela: **Tabela 76** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
+<!-- tabela: **Tabela 78** — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso -->
 | Abrangência do uso da água pluvial | Pontos |
 | :--- | ---: |
 | áreas comuns do empreendimento | 2 |
@@ -4132,7 +4209,7 @@ O programa avalia cada volume da varredura segundo sete critérios, agrupados em
 dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
 outros, menos.
 
-<!-- tabela: **Tabela 77** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
+<!-- tabela: **Tabela 79** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
 | # | Critério | Direção | Grupo |
 | :-- | :--- | :--- | :--- |
 | 1 | potencial de economia | maximizar | técnico |
@@ -4170,7 +4247,7 @@ pela proximidade relativa ao ideal.
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Tabela 78** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 80** — Variáveis da Equação 52 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
@@ -4255,7 +4332,7 @@ A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimen
 aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
 sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
 
-<!-- tabela: **Tabela 79** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+<!-- tabela: **Tabela 81** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
 | Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
 | 1 000 L | 0,401 | 7º | 0,0% |
@@ -4356,7 +4433,7 @@ O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 28% de fr
 atendível e cisterna de 4.000 L — levado a quatro capitais brasileiras produz a tabela
 abaixo.
 
-<!-- tabela: **Tabela 80** — O mesmo projeto do tutorial simulado em quatro capitais brasileiras -->
+<!-- tabela: **Tabela 82** — O mesmo projeto do tutorial simulado em quatro capitais brasileiras -->
 | Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos chuvoso | Potencial com 4.000 L | Volume ideal |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Florianópolis | 1 795 mm | 46% | 3,2× | 27,12% | 4 000 L |
@@ -4383,7 +4460,7 @@ que Florianópolis e rende pouco mais da metade, com 15,45%.
 A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
 cidade, que mede o quanto a chuva se concentra ao longo do ano.
 
-<!-- tabela: **Tabela 81** — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
+<!-- tabela: **Tabela 83** — Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
 | Cidade | Razão | O que significa |
 | :--- | ---: | :--- |
 | Florianópolis | 3,2× | chove o ano inteiro, com estação mais úmida |
@@ -4499,7 +4576,7 @@ essa questão de forma explícita.
 
 ### 3.2.1. O que a base tem
 
-<!-- tabela: **Tabela 82** — Conteúdo da base climática nacional distribuída com o programa -->
+<!-- tabela: **Tabela 84** — Conteúdo da base climática nacional distribuída com o programa -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -4751,7 +4828,10 @@ frequentemente são o dobro ou mais da residencial. Na tabela da CASAN, a primei
 custa R$ 3,08/m³ no residencial e R$ 6,81/m³ no comercial.
 
 > **O que o programa traz, e o que você precisa lançar.** O catálogo de 652 municípios do
-> programa registra a **categoria residencial** de cada um deles. As demais categorias
+> programa registra a **categoria residencial** de cada um deles. As categorias comercial,
+> pública e industrial entram município a município, transcritas da tabela oficial do
+> prestador, e só aparecem para escolha onde foram coletadas — nos 34 municípios da CORSAN,
+> por exemplo; nunca são estimadas a partir da residencial. As demais categorias
 > existem, são públicas e estão nas resoluções das agências reguladoras — o que não há é
 > um catálogo nacional delas, que seria um levantamento de porte próprio. Para estudar
 > uma escola, um comércio ou uma indústria, lance a estrutura da categoria correta no
@@ -4791,7 +4871,7 @@ código é o elemento decisivo, porque é ele que informa o que aquele valor sig
 estruturas visualmente parecidas cobram de maneiras muito diferentes conforme o código de
 cada linha.
 
-<!-- tabela: **Tabela 83** — Os seis códigos de faixa tarifária e o efeito de cada um na fatura -->
+<!-- tabela: **Tabela 85** — Os seis códigos de faixa tarifária e o efeito de cada um na fatura -->
 | Código | O que é | Como entra na fatura |
 | ---: | :--- | :--- |
 | 1 ou 0 | faixa de consumo | é cobrado o preço por volume que está alocado **dentro** de cada faixa de consumo |
@@ -4819,7 +4899,7 @@ disponibilidade e quatro faixas progressivas.
 O «consumo mínimo» aparece na conta de quase todo município brasileiro, e significa
 coisas **diferentes** em cada um. O programa distingue seis regimes:
 
-<!-- tabela: **Tabela 84** — Os seis regimes tarifários e o que acontece ao economizar em cada um -->
+<!-- tabela: **Tabela 86** — Os seis regimes tarifários e o que acontece ao economizar em cada um -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | **sem mínimo** | cada m³ economizado desconta | 165 |
@@ -4832,7 +4912,7 @@ coisas **diferentes** em cada um. O programa distingue seis regimes:
 **O caso que derruba estudo.** Compare duas estruturas reais da base, lado a lado,
 para o mesmo consumo:
 
-<!-- tabela: **Tabela 85** — Efeito da economia de água na fatura em dois regimes tarifários opostos -->
+<!-- tabela: **Tabela 87** — Efeito da economia de água na fatura em dois regimes tarifários opostos -->
 | Consumo | Floriano (PI), franquia no mínimo | Florianópolis (SC), disponibilidade |
 | ---: | ---: | ---: |
 | 14 m³ | R$ 92,15 | R$ 134,38 |
@@ -4875,7 +4955,7 @@ o expoente que a **Tabela de Exponenciais** da concessionária atribui àquele c
 `SB` é o serviço básico, cobrado mesmo sem consumo. Na categoria residencial, `n` vale
 1,00 até 20 m³ e sobe a cada metro cúbico a partir daí:
 
-<!-- tabela: **Tabela 86** — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial -->
+<!-- tabela: **Tabela 88** — Expoente n da Tabela de Exponenciais da CORSAN, categoria residencial -->
 | Consumo do mês | `n` | Consumo do mês | `n` |
 | :--- | ---: | :--- | ---: |
 | até 20 m³ | 1,00 | 36 a 45 m³ | 1,10 |
@@ -4898,7 +4978,7 @@ Duas diferenças em relação às faixas decidem o cálculo:
 - **Não há degrau de preço, há curva.** O preço médio do metro cúbico de água é
   `PB × Cⁿ⁻¹`: constante até 20 m³ e crescente depois.
 
-<!-- tabela: **Tabela 87** — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026 -->
+<!-- tabela: **Tabela 89** — Fatura mensal em Alegrete (RS) pela fórmula exponencial, vigência 01/07/2026 -->
 | Consumo | `n` | Água | Água e esgoto | Preço médio da água |
 | ---: | ---: | ---: | ---: | ---: |
 | 10 m³ | 1,00 | R$ 134,89 | R$ 198,89 | R$ 13,49/m³ |
@@ -5289,7 +5369,7 @@ pergunta diferente, e usar a errada custa tempo sem produzir a informação dese
 
 ### 3.6.1. As três formas
 
-<!-- tabela: **Tabela 88** — As três formas de comparar alternativas conforme o que varia entre elas -->
+<!-- tabela: **Tabela 90** — As três formas de comparar alternativas conforme o que varia entre elas -->
 | Se o que muda é | Use | Onde |
 | :--- | :--- | :--- |
 | **só o volume da cisterna** | a varredura | etapa 4. Reservatório & Custos |
@@ -5400,7 +5480,7 @@ Para estudos de larga escala — matrizes fatoriais de cidade, área, demanda e 
 
 A instalação do programa como pacote Python registra o comando `netuno`, que executa as mesmas rotinas de cálculo da interface gráfica sem abrir a janela; o instalador de Windows com interface gráfica não o inclui. A linha de comando lê arquivos `.netuno`, projetos em JSON estruturado e o formato CSV do Netuno 4, e grava os resultados em texto, JSON, CSV, HTML ou XLSX. É a interface indicada para estudos reprodutíveis, porque o próprio comando documenta as premissas alteradas.
 
-<!-- tabela: **Tabela 89** — Subcomandos da linha de comando e finalidade de cada um -->
+<!-- tabela: **Tabela 91** — Subcomandos da linha de comando e finalidade de cada um -->
 | Subcomando | Finalidade |
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
@@ -5511,7 +5591,7 @@ A tabela a seguir aplica o procedimento ao projeto fechado do tutorial — 4.000
 polietileno, recalque para caixa de 1.000 L, VPL provável de R$ 5.524 — e varia cinco
 premissas, uma de cada vez, entre um valor baixo e um alto.
 
-<!-- tabela: **Tabela 90** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
+<!-- tabela: **Tabela 92** — Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
 | Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | reajuste das tarifas de água e esgoto, % ao ano | 3,0 | 5,0 | 7,0 | 27,30% a 27,30% | R$ 860 a R$ 11 360 | 16,8 anos a 10,8 anos |
@@ -5556,7 +5636,7 @@ sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro
 
 Leia assim:
 
-<!-- tabela: **Tabela 91** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
+<!-- tabela: **Tabela 93** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
 | Aceitabilidade do volume vencedor | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |
@@ -5629,7 +5709,7 @@ continuar parecendo o estudo original enquanto simula outra coisa.
 Basta abrir o arquivo antigo pelo menu de abertura de projetos. O programa reconhece o
 formato legado, que é texto separado por ponto e vírgula, e o converte para a estrutura
 interna da versão atual. Feita a conversão, salve o projeto: ele passa a ser gravado no
-formato JSON do Netuno 5, com os 104 campos descritos no apêndice A, e o arquivo
+formato JSON do Netuno 5, com os campos descritos no apêndice A, e o arquivo
 original permanece intacto no disco, o que convém preservar como evidência do estudo
 anterior.
 
@@ -5641,7 +5721,7 @@ Praticamente todo o núcleo de entrada do Netuno 4 tem correspondente direto na 
 atual, e é convertido sem intervenção do usuário. A tabela abaixo relaciona o que a
 importação recupera.
 
-<!-- tabela: **Tabela 92** — Dados do Netuno 4 recuperados pela importação -->
+<!-- tabela: **Tabela 94** — Dados do Netuno 4 recuperados pela importação -->
 | Dado | Vem? |
 | :--- | :---: |
 | arquivo e data inicial da chuva | sim |
@@ -5753,7 +5833,7 @@ conversão o substitui.
 
 ### 3.9.1. O que cada formato leva
 
-<!-- tabela: **Tabela 93** — Formatos de exportação e finalidade de cada um -->
+<!-- tabela: **Tabela 95** — Formatos de exportação e finalidade de cada um -->
 | Formato | Extensão | O que leva | Para quê |
 | :--- | :--- | :--- | :--- |
 | relatório | HTML, PDF | resultado completo e premissas | entregar |
@@ -5799,7 +5879,7 @@ um a um: o resumo executivo com os metadados do projeto, o balanço hídrico di�
 curva da varredura com a confiabilidade, o fluxo de caixa ano a ano, o inventário de
 ciclo de vida e a matriz de decisão multicritério. Três escolhas completam a exportação:
 
-<!-- tabela: **Tabela 94** — Opções da exportação de planilha e quando usar cada uma -->
+<!-- tabela: **Tabela 96** — Opções da exportação de planilha e quando usar cada uma -->
 | Opção | Escolhas | Quando usar |
 | :--- | :--- | :--- |
 | formato | XLSX, CSV ou JSON | XLSX para abrir no Excel; CSV para R, Python ou outro programa; JSON para integração |
@@ -5976,7 +6056,7 @@ cenários de emissão, com a simulação histórica de cada modelo. É o caminho
 Para o nosso projeto, use a série de Florianópolis que acompanha o programa e recorte
 os **30 primeiros anos**.
 
-<!-- tabela: **Tabela 95** — Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
+<!-- tabela: **Tabela 97** — Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
 | A série de Florianópolis | Valor |
 | :--- | ---: |
 | dias na série | 10 950 |
@@ -6104,7 +6184,7 @@ esse o valor adotado aqui.
 O programa oferece três modos de aplicação do descarte, que correspondem a três tipos de
 dispositivo de autolimpeza.
 
-<!-- tabela: **Tabela 96** — Os três modos de aplicação do descarte de primeiras águas -->
+<!-- tabela: **Tabela 98** — Os três modos de aplicação do descarte de primeiras águas -->
 | Modo | Quando descarta | Quando usar |
 | :--- | :--- | :--- |
 | 1 | em todo evento de chuva | o padrão, e o mais conservador |
@@ -6132,7 +6212,7 @@ para a drenagem junto com a sujeira que ele lavou.
 
 ### 4.1.6. O que temos até aqui
 
-<!-- tabela: **Tabela 97** — Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
+<!-- tabela: **Tabela 99** — Estado do projeto do tutorial ao fim da definição da chuva e da captação -->
 | Dado | Valor |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |
@@ -6333,7 +6413,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 
 ### 4.2.6. O que temos até aqui
 
-<!-- tabela: **Tabela 98** — Estado do projeto do tutorial ao fim da definição da demanda -->
+<!-- tabela: **Tabela 100** — Estado do projeto do tutorial ao fim da definição da demanda -->
 | Dado | Valor |
 | :--- | ---: |
 | tipologia | residencial unifamiliar |
@@ -6346,7 +6426,7 @@ demanda infla tanto o consumo quanto a economia aparente do sistema.
 O programa agora sabe a oferta e a demanda. Antes de simular, um confronto que vale
 guardar:
 
-<!-- tabela: **Tabela 99** — Confronto entre a oferta anual de água pluvial e a demanda atendível -->
+<!-- tabela: **Tabela 101** — Confronto entre a oferta anual de água pluvial e a demanda atendível -->
 | | m³/ano |
 | :--- | ---: |
 | precipitação incidente na área de captação | 229 |
@@ -6379,7 +6459,7 @@ superior desmarcado, e rode.
 
 ### 4.3.1. O resultado
 
-<!-- tabela: **Tabela 100** — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
+<!-- tabela: **Tabela 102** — Resultado da primeira simulação do tutorial, com reservatório de 3.000 L -->
 | Resultado com 3 000 L | Valor |
 | :--- | ---: |
 | potencial de economia de água potável | **26,48%** |
@@ -6452,7 +6532,7 @@ potencial de economia não alcança: com que frequência se pode contar com a á
 Cada dia da simulação recebe uma de três classificações, segundo o grau de atendimento
 alcançado.
 
-<!-- tabela: **Tabela 101** — Classificação de cada dia da simulação quanto ao grau de atendimento -->
+<!-- tabela: **Tabela 103** — Classificação de cada dia da simulação quanto ao grau de atendimento -->
 | Classe | O que significa |
 | :--- | :--- |
 | pleno | a chuva atendeu **toda** a demanda pluvial do dia |
@@ -6513,7 +6593,7 @@ limite. A seção 4.4 mede exatamente onde fica esse limite.
 
 ### 4.3.7. O que temos até aqui
 
-<!-- tabela: **Tabela 102** — Estado do projeto do tutorial após a primeira simulação -->
+<!-- tabela: **Tabela 104** — Estado do projeto do tutorial após a primeira simulação -->
 | Resultado com 3.000 L | |
 | :--- | ---: |
 | potencial de economia | 26,48% |
@@ -6569,7 +6649,7 @@ sem sistema, contra o qual todos os demais se comparam.
 
 ### 4.4.2. A curva
 
-<!-- tabela: **Tabela 103** — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado -->
+<!-- tabela: **Tabela 105** — Varredura de volumes do projeto do tutorial, com o ganho marginal de cada metro cúbico acrescentado -->
 | Volume | Potencial | Ganho sobre o anterior | Ganho por m³ acrescentado | Extravasado | Dias plenos |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | L | % | pontos percentuais | %/m³ | L/dia | % |
@@ -6597,7 +6677,7 @@ derivada discreta da curva de potencial e expressa quanto cada metro cúbico adi
 reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o
 padrão que ela revela é o argumento central desta seção.
 
-<!-- tabela: **Tabela 104** — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
+<!-- tabela: **Tabela 106** — Ganho marginal de economia a cada metro cúbico acrescentado ao reservatório -->
 | De → para | Ganho por m³ |
 | :--- | ---: |
 | 0 → 1.000 L | 21,03 %/m³ |
@@ -6660,7 +6740,7 @@ com o limiar do tutorial, o primeiro volume a cair abaixo dele é o de 4.000 L, 
 ganho marginal de 0,64 %/m³. Quem refizer o tutorial precisa, portanto, alterar o limiar
 no programa antes de rodar a varredura.
 
-<!-- tabela: **Tabela 105** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
+<!-- tabela: **Tabela 107** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
 | Indicador | Valor |
 | :--- | ---: |
 | volume ideal, limiar de 1 %/m³ | 4.000 L |
@@ -6672,14 +6752,14 @@ O limiar, contudo, é uma escolha do analista, e ela decide o resultado tanto qu
 dados de entrada. A tabela abaixo mostra o volume ideal que cada limiar plausível
 produziria para este mesmo projeto.
 
-<!-- tabela: **Tabela 106** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
+<!-- tabela: **Tabela 108** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
 | Limiar declarado | Volume ideal | Potencial |
 | ---: | ---: | ---: |
 | 3,0 %/m³ | 3 000 L | 26,48% |
 | 1,0 %/m³ | 4 000 L | 27,12% |
 | 0,5 %/m³ | 5 000 L | 27,47% |
 
-<!-- tabela: **Tabela 107** — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
+<!-- tabela: **Tabela 109** — Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
 | | 4.000 L | 20.000 L |
 | :--- | ---: | ---: |
 | potencial de economia | 27,12% | 28,00% |
@@ -6764,7 +6844,7 @@ O tutorial adota 4.000 L e segue. Trata-se do volume ideal pelo critério hidrá
 o limiar de 1 %/m³, e é o valor que o projeto carrega até a seção 4.9, onde será
 questionado outra vez, então com o dinheiro e o carbono incorporados à análise.
 
-<!-- tabela: **Tabela 108** — Estado do projeto do tutorial após a escolha do volume -->
+<!-- tabela: **Tabela 110** — Estado do projeto do tutorial após a escolha do volume -->
 | Projeto até aqui | |
 | :--- | ---: |
 | série | Florianópolis, 30 anos |
@@ -6813,7 +6893,7 @@ Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: **gravid
 sem bomba. A etapa **4. Reservatório & Custos** pergunta qual dos três arranjos o projeto
 adota, e é essa resposta que define a energia e as motobombas no custo e no carbono.
 
-<!-- tabela: **Tabela 109** — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
+<!-- tabela: **Tabela 111** — Os três arranjos de abastecimento e o que cada um acrescenta ao projeto -->
 | Arranjo | Energia calculada | Caixa superior e motobombas |
 | :--- | :--- | :--- |
 | recalque para caixa superior | volume recalcado, pela altura manométrica, mais as partidas | entram no custo e no carbono |
@@ -6845,7 +6925,7 @@ venceria por essa razão, e não pelo arranjo. Para isolar o efeito do arranjo �
 manter constante o armazenamento: comparam-se, portanto, 5.000 L num único reservatório
 contra 4.000 L embaixo mais 1.000 L em cima.
 
-<!-- tabela: **Tabela 110** — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
+<!-- tabela: **Tabela 112** — Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
 | Mesmo armazenamento de 5.000 L | Um tanque só | 4.000 embaixo + 1.000 em cima |
 | :--- | ---: | ---: |
 | potencial de economia | 27,47% | 27,30% |
@@ -6888,7 +6968,7 @@ recalque e quando a cisterna seca.
 Se você adotar a caixa, há um parâmetro a ajustar: o volume de reserva que não se
 consome, abaixo do qual a bomba é acionada.
 
-<!-- tabela: **Tabela 111** — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos -->
+<!-- tabela: **Tabela 113** — Efeito do limiar de acionamento da motobomba sobre o potencial de economia e sobre o número de acionamentos -->
 | Limiar de acionamento | Potencial | Acionamentos por ano |
 | ---: | ---: | ---: |
 | 0 L | 27,24% | 62 |
@@ -6949,7 +7029,7 @@ Em relação à cisterna sozinha de 4.000 L, o potencial sobe de 27,12% para 27,
 porque a caixa acrescenta 1.000 L de armazenamento. Daqui em diante, o custo, o carbono
 e a decisão do tutorial incluem a caixa, as duas motobombas e a energia do recalque.
 
-<!-- tabela: **Tabela 112** — Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
+<!-- tabela: **Tabela 114** — Estado do projeto do tutorial após a decisão sobre o reservatório superior -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume do reservatório inferior | 4.000 L |
@@ -7017,14 +7097,14 @@ Escolher uma classe não impõe equipamento algum ao projeto. A classe expressa 
 recomendação do programa, fundada na exigência típica do uso pretendido, e a decisão sobre
 adotá-la ou não permanece com quem assina o projeto.
 
-<!-- tabela: **Tabela 113** — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
+<!-- tabela: **Tabela 115** — Custo da linha de tratamento conforme a tecnologia de desinfecção adotada -->
 | Desinfecção | CAPEX | Custeio anual | CO₂e anual |
 | :--- | ---: | ---: | ---: |
 | Cloração por pastilhas | R$ 1 547 | R$ 43 | 0,2 kg |
 | Cloração + ultravioleta | R$ 2 747 | R$ 259 | 6,4 kg |
 | Cloração + ozonização | R$ 5 047 | R$ 243 | 15,2 kg |
 
-<!-- tabela: **Tabela 114** — Recomendação de filtração fina e custo da linha por classe de qualidade -->
+<!-- tabela: **Tabela 116** — Recomendação de filtração fina e custo da linha por classe de qualidade -->
 | Classe alvo | Recomenda filtração fina? | CAPEX sem | CAPEX com |
 | :--- | :---: | ---: | ---: |
 | classe 1 | não | R$ 1 547 | R$ 1 927 |
@@ -7083,7 +7163,7 @@ pela área de cobertura, e não pela classe de qualidade pretendida, porque o qu
 filtro precisa vencer é a vazão de pico da cobertura — grandeza que independe do destino
 final da água.
 
-<!-- tabela: **Tabela 115** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
+<!-- tabela: **Tabela 117** — Filtro mecânico de entrada dimensionado pela área de cobertura -->
 | Cobertura | Filtro | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
@@ -7124,7 +7204,7 @@ o responsável defina e declare o critério de qualidade para ela, como a seçã
 registra. A cloração deixa residual, e o custo é
 o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 43,45 por ano de custeio: R$ 3,45 de pastilha e R$ 40 de manutenção do descarte.
 
-<!-- tabela: **Tabela 116** — Estado do projeto do tutorial após a definição da classe de qualidade -->
+<!-- tabela: **Tabela 118** — Estado do projeto do tutorial após a definição da classe de qualidade -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L |
@@ -7157,14 +7237,14 @@ que é o mais caro, e não o médio.==
 O Netuno evita o problema calculando duas faturas completas — a que a edificação pagaria
 sem o sistema e a que ela paga com ele — e tomando a diferença entre as duas.
 
-<!-- tabela: **Tabela 117** — Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
+<!-- tabela: **Tabela 119** — Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
 | A fatura da CASAN | Consumo | Valor |
 | :--- | ---: | ---: |
 | sem o sistema | 18,26 m³/mês | R$ 390,75 |
 | com o sistema | 13,28 m³/mês | R$ 248,06 |
 | **economia** | 4,99 m³/mês | **R$ 142,69** |
 
-<!-- tabela: **Tabela 118** — Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
+<!-- tabela: **Tabela 120** — Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
 | Análise de 20 anos | Valor |
 | :--- | ---: |
 | investimento inicial | R$ 14 061,19 |
@@ -7202,7 +7282,7 @@ paga, e não impede a economia sobre o consumo.
 Nem todo município adota esse regime, e a diferença entre eles decide a viabilidade de
 projetos inteiros. O programa distingue seis.
 
-<!-- tabela: **Tabela 119** — Os seis regimes tarifários e o efeito de cada um sobre a economia -->
+<!-- tabela: **Tabela 121** — Os seis regimes tarifários e o efeito de cada um sobre a economia -->
 | Regime | O que acontece ao economizar | Municípios na base |
 | :--- | :--- | ---: |
 | disponibilidade | cada m³ economizado desconta | 122 |
@@ -7227,7 +7307,7 @@ projetos inteiros. O programa distingue seis.
 
 R$ 14.061,19, assim distribuídos:
 
-<!-- tabela: **Tabela 120** — Composição do investimento inicial do projeto do tutorial -->
+<!-- tabela: **Tabela 122** — Composição do investimento inicial do projeto do tutorial -->
 | Rubrica | Valor |
 | :--- | ---: |
 | cisterna de concreto de 4.000 L | R$ 5.304 |
@@ -7250,7 +7330,7 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 
 ### 4.7.4. O resultado
 
-<!-- tabela: **Tabela 121** — Indicadores econômicos do projeto do tutorial em vinte anos -->
+<!-- tabela: **Tabela 123** — Indicadores econômicos do projeto do tutorial em vinte anos -->
 | Indicador | Valor |
 | :--- | ---: |
 | valor presente líquido | R$ 2.745 |
@@ -7279,7 +7359,7 @@ O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica rep
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
-<!-- tabela: **Tabela 122** — Premissas da projeção econômica e o peso de cada uma no resultado -->
+<!-- tabela: **Tabela 124** — Premissas da projeção econômica e o peso de cada uma no resultado -->
 | Premissa | Valor adotado | Onde ela pesa |
 | :--- | ---: | :--- |
 | taxa mínima de atratividade | 0,5% ao mês | desconta o fluxo; quanto maior, pior o VPL |
@@ -7302,7 +7382,7 @@ adotado e mostra a sensibilidade — a seção 3.7 ensina como.
 
 ### 4.7.6. O que temos até aqui
 
-<!-- tabela: **Tabela 123** — Estado do projeto do tutorial após a análise econômica -->
+<!-- tabela: **Tabela 125** — Estado do projeto do tutorial após a análise econômica -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L, concreto |
@@ -7343,7 +7423,7 @@ econômica.
 Para o nosso projeto, cisterna de concreto de 4.000 L com recalque para a caixa superior
 de 1.000 L:
 
-<!-- tabela: **Tabela 124** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
+<!-- tabela: **Tabela 126** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 858 kg CO₂e |
@@ -7399,7 +7479,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 
 ==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
 
-<!-- tabela: **Tabela 125** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
+<!-- tabela: **Tabela 127** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
 | Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Emissões líquidas em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | -74 kg | R$ 2 526 |
@@ -7407,7 +7487,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 | Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | -30 kg | R$ 3 410 |
 | Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | 347 kg | R$ 9 093 |
 
-<!-- tabela: **Tabela 126** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
+<!-- tabela: **Tabela 128** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
 | Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
 | 2 000 L | 27,4 anos | 141 kg CO₂e |
@@ -7487,7 +7567,7 @@ honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errad
 
 A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
 
-<!-- tabela: **Tabela 127** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
+<!-- tabela: **Tabela 129** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 5.304 | R$ 2.526 |
@@ -7497,7 +7577,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback de carbono | 42,8 anos | 16,3 anos |
 | emissões líquidas em 20 anos | +457 kg | −74 kg |
 
-<!-- tabela: **Tabela 128** — Estado do projeto do tutorial após a análise ambiental -->
+<!-- tabela: **Tabela 130** — Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L |
@@ -7545,7 +7625,7 @@ receberam três respostas que não coincidem. Essa discordância não é defeito
 nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
 diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
 
-<!-- tabela: **Tabela 129** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
+<!-- tabela: **Tabela 131** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
 | Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
@@ -7556,7 +7636,7 @@ diferentes e têm comportamentos diferentes em relação ao volume do reservató
 | 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
 | 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
 
-<!-- tabela: **Tabela 130** — Volume vencedor segundo cada critério isolado -->
+<!-- tabela: **Tabela 132** — Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume que vence |
 | :--- | ---: |
 | maior potencial de economia | 12 000 L |
@@ -7587,7 +7667,7 @@ métodos multicritério vêm preencher.
 
 O programa usa TOPSIS sobre **sete critérios**:
 
-<!-- tabela: **Tabela 131** — Os sete critérios do multicritério e a direção de preferência de cada um -->
+<!-- tabela: **Tabela 133** — Os sete critérios do multicritério e a direção de preferência de cada um -->
 | Critério | Direção |
 | :--- | :--- |
 | potencial de economia | maximizar |
@@ -7636,7 +7716,7 @@ A aba de decisão apresenta o escore de cada volume candidato (Figura 63).
 
 A tabela a seguir mostra o que acontece ao deslocar o peso.
 
-<!-- tabela: **Tabela 132** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
+<!-- tabela: **Tabela 134** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
 | Peso dominante | Volume | Segundo colocado |
 | :--- | ---: | ---: |
 | pesos iguais | 4 000 L | 5 000 L |
@@ -7692,7 +7772,7 @@ vez de supor que concordem sempre.
 
 ### 4.9.5. O projeto, fechado
 
-<!-- tabela: **Tabela 133** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
+<!-- tabela: **Tabela 135** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Netuno 5 · residência unifamiliar em Florianópolis | |
 | :--- | ---: |
 | série de precipitação | Florianópolis, 30 anos, 1.795 mm/ano |
@@ -7727,7 +7807,7 @@ da seção seguinte.
 
 > Ao terminar esta seção você terá o relatório emitido e, se pretende publicar, a
 > lista do que precisa constar no método do artigo. Essa lista é a parte mais
-> curto e o mais importante do manual.
+> curta e a mais importante do manual.
 
 ---
 
@@ -7826,7 +7906,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 #### 4.10.3.7. Análise econômica
 
 - **Município e concessionária**, com a data de vigência da tabela tarifária.
-- **Regime de mínimo** entre os cinco. É o que mais muda resultado entre municípios.
+- **Regime de mínimo** entre os seis. É o que mais muda resultado entre municípios.
 - Percentual de esgoto, e que ele incide sobre a **parcela de água** da fatura.
 - Taxa mínima de atratividade, inflação, período de análise.
 - **Reajustes tarifários** de água, esgoto e energia, com o intervalo.
@@ -7854,7 +7934,8 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 Para o nosso projeto, o método ficaria assim:
 
 > A simulação foi conduzida no Netuno 5.0.0, com modelo comportamental de base
-> diária (YAS, extravasamento anterior à retirada da demanda), sobre série de
+> diária (extravasamento calculado antes da retirada da demanda, com a chuva do dia
+> disponível para o consumo do dia, ordem intermediária entre YAS e YBS), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
 > Adotou-se área de captação de 150 m² em projeção horizontal, coeficiente de
 > escoamento de 0,85, adotado a partir da eficiência de captação η que a ABNT NBR 15527:2019
@@ -7922,7 +8003,7 @@ pedreiro conhece.
 Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 
 **Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
-projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
+projeção horizontal, e a EN 16941-1:2024 faz o mesmo. Não use a área de contribuição da NBR 10844, que soma a metade da
 altura do telhado e as paredes para dimensionar calhas.
 A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na Figura 65.
 
@@ -7989,18 +8070,19 @@ fora da faixa mínima, e compare com uma fatura real da edificação.
 
 ### 5.1.5. Simular escola ou hospital com tarifa residencial
 
-**O engano.** Usar a tarifa do catálogo — que é residencial — para edificação não
-residencial.
+**O engano.** Usar a tarifa residencial do catálogo para edificação não residencial.
 
-**Por que é tentador.** O catálogo traz 652 municípios prontos, e o programa não
-impede.
+**Por que é tentador.** O catálogo traz 652 municípios prontos, quase todos só com a
+categoria residencial, e o programa não impede.
 
 **O que faz ao resultado.** Subestima a economia. As categorias não residenciais são
 mais caras: na CASAN de abril de 2026, a primeira faixa custa R$ 6,81/m³ no
 comercial contra R$ 3,08/m³ no residencial.
 
 **Como evitar.** O programa **avisa** quando a tipologia não é residencial, e diz o
-sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A seção 3.5 trata do assunto.
+sentido do erro. Escolha a categoria da edificação onde o catálogo a traz, hoje nos
+municípios da CORSAN; nos demais, lance a estrutura da categoria correta no modo
+personalizado. A seção 3.5 trata do assunto.
 
 ---
 
@@ -8147,12 +8229,15 @@ do dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige projet
 
 ### 5.2.2. Limitações dos dados tarifários
 
-**O catálogo tarifário cobre apenas a categoria residencial.** Os 652 municípios da
-base trazem a estrutura residencial, e as categorias comercial, industrial e pública —
-que existem em toda concessionária e custam tipicamente o dobro — precisam ser lançadas
-à mão pelo usuário, conforme a seção 3.3 descreve. Enquanto não forem, um estudo de
-escola, comércio ou indústria calcula a economia com a tarifa residencial, e portanto a
-**subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
+**O catálogo tarifário cobre quase só a categoria residencial.** Os 652 municípios da
+base trazem a estrutura residencial; as categorias não residenciais só entram com a
+tabela oficial do prestador, e hoje estão transcritas nos municípios da CORSAN — comercial
+e pública em 34, industrial em 30. Nos demais, as categorias comercial, industrial e
+pública, que existem em toda concessionária e costumam ser mais caras, precisam ser
+lançadas à mão pelo usuário, conforme a seção 3.3 descreve. Enquanto não forem, um
+estudo de escola, comércio ou indústria calcula a economia com a tarifa residencial, e
+portanto a **subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser
+declarado. O apêndice D mostra, município a município, o que já foi coletado.
 
 **Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
 subestima a fatura no primeiro bloco.
@@ -8273,13 +8358,13 @@ decidir se confia neles.
 
 ### 5.3.1. A suíte
 
-A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam (Figura 66): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+A verificação do programa consiste em 1.544 testes automatizados, distribuídos por 135 arquivos e organizados em cinco famílias que se complementam (Figura 66): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
 ![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
 
-*Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
+*Figura 66 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por mais de quatro quintos do total, por serem de execução rápida e localizarem o erro perto da origem.*
 
 
 A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
@@ -8413,7 +8498,7 @@ O menu **Ajuda → Relatório de Verificação** abre, dentro do programa, o rel
 A suíte acompanha o código-fonte do programa, e não a instalação: ela é executada pelo
 grupo de pesquisa a cada alteração, antes que qualquer versão seja publicada. O que isso
 significa para quem usa o programa instalado é que a versão presente na sua máquina
-passou pelos 1.072 testes aqui descritos, incluindo as que conferem cada número
+passou pelos 1.544 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
@@ -8458,7 +8543,7 @@ Netuno 4 e preservados desde então, byte a byte, justamente para que a referên
 alterasse ao longo do desenvolvimento. Eles se distribuem por dois conjuntos, com
 cidades e faixas de parâmetros distintas.
 
-<!-- tabela: **Tabela 134** — Os conjuntos de casos de referência exportados do Netuno 4 -->
+<!-- tabela: **Tabela 136** — Os conjuntos de casos de referência exportados do Netuno 4 -->
 | Conjunto | Casos | Cidades |
 | :--- | ---: | :--- |
 | Floripa/Brasília | 1.458 | Florianópolis, Brasília |
@@ -8468,7 +8553,7 @@ cidades e faixas de parâmetros distintas.
 
 ### 6.1.3. A divergência total
 
-<!-- tabela: **Tabela 135** — Divergência medida entre as duas versões, por conjunto de casos -->
+<!-- tabela: **Tabela 137** — Divergência medida entre as duas versões, por conjunto de casos -->
 | Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
 | :--- | ---: | ---: | ---: | ---: |
 | Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
@@ -8487,7 +8572,7 @@ diferenças de naturezas distintas, e o número resultante não informa qual del
 pelo quê. A decomposição as separa comparando os dois programas em três configurações
 sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
 
-<!-- tabela: **Tabela 136** — Divergência em três configurações sucessivamente mais controladas -->
+<!-- tabela: **Tabela 138** — Divergência em três configurações sucessivamente mais controladas -->
 | Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
 | :--- | ---: | ---: | ---: |
 | 1. ótimo do Netuno 5 contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
@@ -8500,7 +8585,7 @@ os casos, e por isso o erro médio absoluto praticamente coincide com o viés.
 
 A atribuição resultante:
 
-<!-- tabela: **Tabela 137** — Atribuição da divergência às suas três fontes -->
+<!-- tabela: **Tabela 139** — Atribuição da divergência às suas três fontes -->
 | Fonte da divergência | Contribuição | Natureza |
 | :--- | ---: | :--- |
 | critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |
@@ -8561,7 +8646,7 @@ usuário, o que anularia o propósito da verificação.
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 138** — Variáveis da Equação 53 -->
+<!-- tabela: **Tabela 140** — Variáveis da Equação 53 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a ser fornecida ao Netuno 5 | mm |
@@ -8623,7 +8708,7 @@ simulação.==
 As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
 nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
 
-<!-- tabela: **Tabela 139** — Mensagens de validação física da entrada e a providência de cada uma -->
+<!-- tabela: **Tabela 141** — Mensagens de validação física da entrada e a providência de cada uma -->
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
 | «Volume do reservatório inferior negativo» | volume menor que zero | corrija; **zero é válido** e representa o cenário sem sistema |
@@ -8644,7 +8729,7 @@ nomeiam o campo responsável e o valor recebido, de modo que a correção não e
 > guarda 0,4 — tipicamente um arquivo de parâmetros editado à mão ou uma chamada de
 > automação.
 
-<!-- tabela: **Tabela 140** — Mensagens da fração atendível e a providência de cada uma -->
+<!-- tabela: **Tabela 142** — Mensagens da fração atendível e a providência de cada uma -->
 | Mensagem | O que a disparou | O que fazer |
 | :--- | :--- | :--- |
 | «… parece estar em percentual» | fração entre 1 e 100 no arquivo, no vetor semanal, mensal ou diário, ou na automação | informe 0,4 para 40% |
@@ -8660,7 +8745,7 @@ falha na série interrompe o cálculo com a indicação de onde ela está. Preen
 ou recortar a série para um período sem falhas, é decisão de quem conduz o estudo, e a
 decisão precisa constar do estudo.
 
-<!-- tabela: **Tabela 141** — Mensagens de erro da série de precipitação e a providência de cada uma -->
+<!-- tabela: **Tabela 143** — Mensagens de erro da série de precipitação e a providência de cada uma -->
 | Mensagem | Causa | O que fazer |
 | :--- | :--- | :--- |
 | «A série de precipitação está vazia» | arquivo sem nenhuma linha numérica | confira se o arquivo tem uma coluna de valores diários, um por linha |
@@ -8674,7 +8759,7 @@ ignorada e a leitura começa na primeira linha numérica.
 
 ### 6.2.3. Varredura
 
-<!-- tabela: **Tabela 142** — Mensagens de erro da varredura de volumes -->
+<!-- tabela: **Tabela 144** — Mensagens de erro da varredura de volumes -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
@@ -8690,7 +8775,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.4. Cloração
 
-<!-- tabela: **Tabela 143** — Mensagens de erro dos parâmetros de cloração -->
+<!-- tabela: **Tabela 145** — Mensagens de erro dos parâmetros de cloração -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
@@ -8701,7 +8786,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.5. Análise econômica
 
-<!-- tabela: **Tabela 144** — Mensagens de erro da análise econômica e a providência de cada uma -->
+<!-- tabela: **Tabela 146** — Mensagens de erro da análise econômica e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior que zero |
@@ -8722,7 +8807,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.6. Decisão multicritério
 
-<!-- tabela: **Tabela 145** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
+<!-- tabela: **Tabela 147** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
@@ -8734,7 +8819,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.7. Motobomba
 
-<!-- tabela: **Tabela 146** — Mensagens de erro dos parâmetros da motobomba -->
+<!-- tabela: **Tabela 148** — Mensagens de erro dos parâmetros da motobomba -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» | rendimento como percentual no núcleo | use 0,55 para 55% |
@@ -8744,7 +8829,7 @@ e não o passo originalmente pedido.
 
 ### 6.2.8. Arquivos
 
-<!-- tabela: **Tabela 147** — Situações de erro na leitura e na gravação de arquivos -->
+<!-- tabela: **Tabela 149** — Situações de erro na leitura e na gravação de arquivos -->
 | Situação | O que acontece | O que fazer |
 | :--- | :--- | :--- |
 | série de chuva ilegível | a leitura é interrompida com mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
@@ -8761,7 +8846,7 @@ observações que o programa faz sobre as condições em que o resultado foi pro
 elas precisam ser transportadas para o texto do estudo, porque todas afetam a
 interpretação do número e nenhuma delas fica evidente no resultado isolado.
 
-<!-- tabela: **Tabela 148** — Avisos que não interrompem o cálculo e precisam constar do estudo -->
+<!-- tabela: **Tabela 150** — Avisos que não interrompem o cálculo e precisam constar do estudo -->
 | Aviso | O que significa |
 | :--- | :--- |
 | tipologia não residencial com tarifa residencial | o resultado econômico está **subestimado**; veja a seção 3.5 |
@@ -8852,10 +8937,10 @@ três vezes: os três saem desta seção, e uma verificação automática recusa
 divergirem. Quem acompanha o programa pelo repositório, pelo site ou pelo manual lê o
 mesmo registro.
 
-<!-- tabela: **Tabela 149** — **Tabela 99** — Panorama das versões publicadas -->
+<!-- tabela: **Tabela 151** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **5.0.0** | 29 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério, planta 3D da tubulação e a documentação em três formatos. | 18 |
+| **5.0.0** | 29 de setembro de 2026 | Primeiro lançamento público do Netuno 5: o motor de simulação reescrito em Python e separado da interface, com avaliação de ciclo de vida, linha de tratamento, decisão multicritério, planta 3D da tubulação e a documentação em três formatos. | 19 |
 
 ---
 
@@ -8900,8 +8985,10 @@ tubos que ocupam o mesmo espaço e gera, com os mesmos dados, a planta 3D em DXF
 esquema 3D com as medidas reais, a volumetria girável e os arquivos glTF e HTML para
 compartilhar, além do manifesto BIM lido pelo Revit.
 
-A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código e se
-distinguem, nesta versão, pelo executável e pelo título da janela.
+A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código. A Brasil
+traz os dados brasileiros auditados. A Internacional é o núcleo neutro: abre em inglês,
+com tarifas, custos, moeda e fatores de emissão informados pelo usuário. As diferenças
+estão na seção 1.2.
 
 #### 6.3.3.2. Correções que alteram resultados
 
@@ -8910,7 +8997,7 @@ calculava antes de cada correção. Como a 5.0.0 é o primeiro lançamento públ
 estudo depende delas; a tabela fica registrada porque descreve o que o programa passou
 a calcular de outro modo, e porque é o formato que as versões seguintes vão usar.
 
-<!-- tabela: **Tabela 150** — Correções que alteram resultados de estudos feitos em versão anterior -->
+<!-- tabela: **Tabela 152** — Correções que alteram resultados de estudos feitos em versão anterior -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 | a potência de placa da motobomba era tratada como potência elétrica de entrada, quando é potência de eixo | consumo específico de bombeamento passou de 0,0654 para 0,1080 kWh/m³ |
@@ -8931,6 +9018,7 @@ a calcular de outro modo, e porque é o formato que as versões seguintes vão u
 | a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
 | a lâmina de descarte da primeira chuva valia 1,0 mm no arquivo de projeto, na leitura de planilha e no motor, e 2,0 mm no exportador CAD, na linha de comando e no relatório | o valor de recurso passou a ser 2,0 mm em todos os caminhos, conforme o item 4.1.5 da ABNT NBR 15527:2019; um projeto sem lâmina declarada descarta o dobro do que descartava, e a captação aproveitada cai na medida dos dias de chuva fraca |
 | os 34 municípios da CORSAN estavam gravados como uma reta, `PB × C + serviço básico`, com esgoto de 70% sobre a conta inteira, embora a concessionária cobre `PB × Cⁿ + serviço básico` e o esgoto por m³ consumido | a água segue a Tabela de Exponenciais (`n` de 1,00 até 20 m³ a 1,13 entre 101 e 150 m³) e o esgoto, R$ 6,40/m³ no ANEXO-5; em Alegrete, reduzir o consumo de 30 para 20 m³ passou a economizar R$ 253,81 por mês, e não R$ 155,55 |
+| as categorias comercial, industrial, pública e social eram a tarifa residencial multiplicada por fatores fixos, sem tabela de prestador nenhum: ×1,85 na água comercial, ×2,30 na industrial, ×1,65 na pública e ×0,50 na social | uma categoria só entra com a tabela oficial do prestador; hoje, comercial e pública nos 34 municípios da CORSAN e industrial em 30. Nos demais, a categoria aparece desabilitada e o estudo usa a estrutura personalizada; quando a categoria que a tipologia exige não está disponível, o programa avisa que a tarifa residencial subestima a economia |
 
 #### 6.3.3.3. Correções que não alteram resultados
 
@@ -8938,7 +9026,7 @@ As alterações abaixo corrigem o comportamento do programa sem tocar em nenhum 
 calculado. Nenhum resultado muda por causa delas; apenas ficou mais difícil produzir um
 estudo errado.
 
-<!-- tabela: **Tabela 151** — Correções de comportamento que não alteram resultado calculado -->
+<!-- tabela: **Tabela 153** — Correções de comportamento que não alteram resultado calculado -->
 | O que foi corrigido | O que muda para você |
 | :--- | :--- |
 | a modulação de demanda por calendário não era gravada no arquivo do projeto | um projeto com perfil semanal, mensal ou diário reabre como foi salvo |
@@ -8958,6 +9046,7 @@ estudo errado.
 | os avisos do compilador de sombreadores do Direct3D (X4122, X4000) apareciam como «Qt aviso» | entram só na contagem do resumo; erro de compilação continua aparecendo |
 | o CAPEX de tubulação e acessórios era uma verba estimada, e a ACV contava só os metros de tubo digitados; curvas, conexões, peças e cabos de comando do arranjo 3D não entravam em nenhum dos dois | em projeto novo, os dois passam a sair do arranjo, peça por peça, com preço e carbono de cada item; arquivos antigos mantêm os custos que declaravam |
 | a mão de obra era fixada uma vez, sobre verbas genéricas, e não mudava com o volume na varredura; a varredura também deixava de cobrar o pressurizador quando não havia caixa superior | em projeto novo, a mão de obra é 30% dos materiais de cada volume, e a motobomba entra em todo arranjo que não seja por gravidade, como no motor econômico |
+| no otimizador global, o símbolo da moeda seguia o idioma: em inglês, valores em reais apareciam como dólares | o símbolo é o da moeda escolhida no projeto; em outra moeda, os preços em reais do arranjo 3D e a mão de obra automática deixam de ser aplicados |
 | o arranjo 3D usual era sempre o de recalque, com uma motobomba | o arranjo segue o abastecimento do projeto (recalque, pressurização ou gravidade) e desenha a motobomba reserva em paralelo; o CAPEX e a ACV deixam de cobrar peças de caixa superior que não existem e passam a cobrar as da reserva |
 
 #### 6.3.3.4. Documentação
@@ -8967,6 +9056,16 @@ manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte,
 site de documentação com dezoito figuras interativas, em que o leitor muda os
 parâmetros e vê o resultado que o programa calculou. Os três, mais o `CHANGELOG.md`
 distribuído com o código, saem dos mesmos arquivos de texto.
+
+O manual passou a existir também em inglês, seção a seção, com os mesmos números,
+figuras, tabelas e equações; é o manual que a edição Internacional instala e abre. Uma
+verificação automática recusa a montagem se as duas versões divergirem na estrutura.
+Três acréscimos ao texto em português acompanharam a tradução: a seção 2.1 explica
+onde a ordem do balanço do Netuno fica entre as regras YAS e YBS da literatura, que antes
+eram dadas como equivalentes a ela; o apêndice D ganhou as faixas de cada
+município por categoria, com a situação da auditoria e a data de cada dado; e o material
+tarifário recebido passou a ser registrado num controle próprio, em
+`tarifas/fontes/REGISTRO.md`, que diz o que já chegou e o que falta coletar.
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa
@@ -9032,7 +9131,7 @@ transformar a investigação numa troca de mensagens que consome mais tempo de t
 que o próprio conserto.
 
 **O arquivo do projeto.** É o item mais importante, e sozinho substitui páginas de
-descrição. O `.netuno` é autocontido: traz os 104 parâmetros e a série de chuva inteira
+descrição. O `.netuno` é autocontido: traz todos os parâmetros e a série de chuva inteira
 dentro dele, de modo que quem o receber reproduz exatamente a sua simulação, na mesma
 máquina ou em outra qualquer. Sem ele, a investigação começa por tentar adivinhar as
 entradas, e adivinhar entradas é a forma mais eficiente de não encontrar um defeito.
@@ -9073,7 +9172,8 @@ município tratado como consumo mínimo quando é taxa de disponibilidade — ou
 Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
 5.2 relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
 produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
-tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios e as demais só
+onde a tabela oficial do prestador foi transcrita, de modo que, nos outros municípios, um
 estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
 lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
 própria, porque a tabela certa é pública e específica de cada concessionária.
@@ -9112,7 +9212,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **115 parâmetros**. É a lista completa do que um projeto
+São **116 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -9126,7 +9226,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 152** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 154** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Netuno | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -9137,7 +9237,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2.
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 153** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 155** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -9158,7 +9258,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 154** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 156** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | — | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -9182,7 +9282,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 155** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 157** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Automação, Econômico |
@@ -9196,7 +9296,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 156** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 158** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -9229,7 +9329,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 157** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 159** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 0 | L/dia | Ambiental, Edificação, Janela principal, Relatórios | Automação, Balanço diário |
@@ -9248,7 +9348,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 158** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 160** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -9272,7 +9372,7 @@ Observações do código:
 
 12 parâmetros.
 
-<!-- tabela: **Tabela 159** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 161** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas |
@@ -9304,7 +9404,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 160** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 162** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -9340,7 +9440,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 161** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 163** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV, Automação |
@@ -9349,7 +9449,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 162** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 164** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9360,22 +9460,23 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 163** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 165** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
 
 ### A.13. Tarifas
 
-14 parâmetros.
+15 parâmetros.
 
-<!-- tabela: **Tabela 164** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 166** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_category` | residencial | — | Econômico, Tarifas, Tarifas e custos | Tarifas |
 | `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
@@ -9389,6 +9490,7 @@ Observações do código:
 
 Observações do código:
 
+- `tariff_category`: categoria da tabela tarifária aplicada; "personalizada" quando digitada
 - `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
@@ -9403,7 +9505,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 165** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 167** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -9420,7 +9522,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 166** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 168** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Automação, Econômico |
@@ -9436,7 +9538,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 167** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 169** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -9454,7 +9556,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 168** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 170** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -9463,12 +9565,12 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 169** — Parâmetros do projeto: outros -->
+<!-- tabela: **Tabela 171** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
-| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
-| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
+| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos, Varredura | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos, Varredura | — |
 
 ---
 
@@ -9500,7 +9602,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
 2. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-3. A base climática de 6,5 GB é distribuída à parte; sem ela, a aba cai para arquivo do usuário.
+3. A base climática vai embutida na Edição Brasil, em `climbra.db`; na International Edition, que não a traz, a série é sempre um arquivo do usuário.
 
 **Saídas**
 
@@ -9629,7 +9731,7 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Regras**
 
-1. **Modelo YAS**: o extravasamento é calculado **antes** de retirar a demanda.
+1. **Extravasamento antes do consumo**, como na regra YAS; a chuva do dia, até a capacidade, já atende a demanda do dia, o que põe o modelo entre a YAS e a YBS estritas.
 2. `disponível = v_lower + v_ac`. Se passar da capacidade, o excedente extravasa e o reservatório fica cheio.
 3. A ordem importa: retirar a demanda antes faria o reservatório aceitar água que fisicamente já teria extravasado, superestimando o aproveitamento.
 
@@ -10148,7 +10250,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 170** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 172** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -10190,7 +10292,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 171** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 173** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -10209,7 +10311,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 172** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 174** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -10234,7 +10336,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 173** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 175** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -10275,7 +10377,7 @@ Os seis códigos e o efeito de cada um sobre a fatura estão desenhados na seç�
 
 ### D.2. Os seis regimes
 
-<!-- tabela: **Tabela 174** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
+<!-- tabela: **Tabela 176** — Distribuição dos municípios do catálogo pelos seis regimes tarifários -->
 | Regime | Municípios | O que acontece ao economizar |
 | :--- | ---: | :--- |
 | **Sem mínimo** | 165 | Cada m³ economizado reduz a fatura. |
@@ -10313,7 +10415,7 @@ A rotina pode simular a atualização sem gravar a base, executar apenas a detec
 
 Cada registro traz o grau de confiança da coleta:
 
-<!-- tabela: **Tabela 175** — Grau de confiança dos registros tarifários do catálogo -->
+<!-- tabela: **Tabela 177** — Grau de confiança dos registros tarifários do catálogo -->
 | Grau | Registros |
 | :--- | ---: |
 | A — alta | 580 |
@@ -10325,6 +10427,1195 @@ Cada registro traz o grau de confiança da coleta:
 > resolução da concessionária. Tarifas são reajustadas anualmente, e a seção 3.3
 > ensina o teste que identifica estrutura errada.
 
+
+### D.6. As faixas por município e categoria
+
+A tabela abaixo traz o preço da água, em R$/m³, em cada intervalo de consumo mensal,
+para cada estrutura do catálogo. As colunas são a maior discretização que o catálogo
+pede: a união dos limites de faixa de todos os prestadores, de modo que dentro de cada
+coluna nenhum prestador muda o preço. Municípios com a mesma tabela formam uma linha,
+identificada pelo número da primeira coluna, que se repete nas partes seguintes.
+
+A categoria residencial está nos 652 municípios; as demais aparecem onde a tabela oficial
+do prestador foi coletada. A tabela é gerada da base a cada versão e cresce com ela.
+A parcela fixa soma por cima do consumo; um preço zero nas primeiras faixas é o volume
+já incluído no valor fixo (franquia no mínimo).
+
+A cor da linha diz quanto o dado merece confiança: **verde** (🟢), auditado contra a
+fonte primária, a resolução ou a tabela oficial do prestador; **amarelo** (🟡), coletado
+automaticamente ou marcado para revisão, e por isso a confirmar contra a resolução
+vigente; **vermelho** (🔴), estrutura incompleta, que não deve ser usada sem correção.
+
+São 652 municípios e cinco categorias, 3260 combinações. A primeira tabela diz, para cada categoria, em quantos municípios a tabela tarifária está auditada, a confirmar, incompleta ou ainda não coletada; cada município aparece por extenso nas tabelas seguintes, e as categorias não coletadas estão listadas por prestador ao fim da seção.
+
+<!-- tabela: **Tabela 178** — Cobertura do catálogo tarifário: municípios por categoria e situação do dado -->
+| Categoria | 🟢 auditada | 🟡 a confirmar | 🔴 incompleta | 🔴 não coletada | Municípios |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Residencial | 363 | 285 | 4 | 0 | 652 |
+| Comercial | 34 | 0 | 0 | 618 | 652 |
+| Pública | 34 | 0 | 0 | 618 | 652 |
+| Industrial | 30 | 0 | 0 | 622 | 652 |
+| Social | 0 | 0 | 0 | 652 | 652 |
+
+<!-- tabela: **Tabela 179** — As estruturas tarifárias do catálogo, numeradas para as tabelas de preço por faixa que vêm a seguir -->
+| Nº | Prestador: municípios | Categoria | Fixo (R$/mês) | Esgoto |
+| ---: | :--- | :--- | :--- | :--- |
+| 🟢 1 | BRK Alagoas: Maceió (AL) | Residencial | — | 100% |
+| 🟢 2 | BRK Alagoas: Marechal Deodoro (AL) | Residencial | — | 80% |
+| 🟢 3 | BRK Alagoas: Rio Largo (AL) | Residencial | — | 80% |
+| 🟡 4 | BRK Ambiental Cachoeiro: Cachoeiro de Itapemirim (ES) | Residencial | 45,00 | 80% |
+| 🟢 5 | BRK Ambiental Limeira: Limeira (SP) | Residencial | 37,10 | 100% |
+| 🟡 6 | BRK Ambiental Porto Ferreira: Porto Ferreira (SP) | Residencial | 42,00 | 90% |
+| 🟢 7 | BRK Ambiental Sumaré: Sumaré (SP) | Residencial | 36,35 | 80% |
+| 🟢 8 | BRK Ambiental Uruguaiana: Uruguaiana (RS) | Residencial | — | 70% |
+| 🟡 9 | BRK Tocantins: Araguaína (TO), Gurupi (TO), Palmas (TO), Paraíso do Tocantins (TO), Porto Nacional (TO) | Residencial | — | 80% |
+| 🟢 10 | CAEMA: Açailândia (MA), Bacabal (MA), Balsas (MA), Barra do Corda (MA), Barreirinhas (MA), Buriticupu (MA), Caxias (MA), Chapadinha (MA), Codó (MA), Coroatá (MA), Grajaú (MA), Imperatriz (MA), Itapecuru-Mirim (MA), Paço do Lumiar (MA), Pinheiro (MA), Santa Inês (MA), Santa Luzia (MA), São José de Ribamar (MA), São Luís (MA), Timon (MA), Tutóia (MA), Viana (MA) | Residencial | 33,58 | 100% |
+| 🟡 11 | CAER: Boa Vista (RR) | Residencial | 39,92 | 80% |
+| 🟢 12 | CAERD: Ariquemes (RO), Jaru (RO), Ji-Paraná (RO), Porto Velho (RO), Rolim de Moura (RO) | Residencial | 57,51 | 70% |
+| 🟢 13 | CAERN: Assu (RN), Caicó (RN), Ceará-Mirim (RN), Extremoz (RN), Macaíba (RN), Mossoró (RN), Parnamirim (RN) | Residencial | 56,96 | 70% |
+| 🟢 14 | CAERN: Natal (RN) | Residencial | 51,40 | 70% |
+| 🟢 15 | CAESB: Brasília (DF) | Residencial | 11,62 | 100% |
+| 🟡 16 | CAESC – Companhia de Água, Esgoto e Saneamento de Coari: Coari (AM) | Residencial | 32,50 | 80% |
+| 🟡 17 | CAGECE: Acaraú (CE), Aquiraz (CE), Aracati (CE), Barbalha (CE), Beberibe (CE), Boa Viagem (CE), Brejo Santo (CE), Camocim (CE), Canindé (CE), Cascavel (CE), Caucaia (CE), Crateús (CE), Crato (CE), Eusébio (CE), Fortaleza (CE), Granja (CE), Horizonte (CE), Icó (CE), Iguatu (CE), Itaitinga (CE), Itapipoca (CE), Juazeiro do Norte (CE), Limoeiro do Norte (CE), Maracanaú (CE), Maranguape (CE), Morada Nova (CE), Pacajus (CE), Pacatuba (CE), Quixadá (CE), Quixeramobim (CE), Russas (CE), Sobral (CE), São Gonçalo do Amarante (CE), Tauá (CE), Tianguá (CE), Trairi (CE), Viçosa do Ceará (CE) | Residencial | — | 80% |
+| 🟢 18 | CAGEPA: Bayeux (PB), Cabedelo (PB), Cajazeiras (PB), Campina Grande (PB), Guarabira (PB), João Pessoa (PB), Patos (PB), Santa Rita (PB), Sapé (PB), Sousa (PB) | Residencial | 54,82 | 80% |
+| 🟢 19 | CASAL: Arapiraca (AL) | Residencial | — | 80% |
+| 🟡 20 | CASAN: Araranguá (SC), Biguaçu (SC), Camboriú (SC), Canoinhas (SC), Caçador (SC), Chapecó (SC), Concórdia (SC), Criciúma (SC), Florianópolis (SC), Imbituba (SC), Indaial (SC), Itapema (SC), Içara (SC), Mafra (SC), Navegantes (SC), Palhoça (SC), Rio do Sul (SC), São Francisco do Sul (SC), São José (SC), Tijucas (SC), Videira (SC), Xanxerê (SC) | Residencial | 46,34 | 100% |
+| 🟡 21 | CEDAE/serviço local – validar área: Guapimirim (RJ), Itaperuna (RJ), Macaé (RJ), Valença (RJ) | Residencial | — | 100% |
+| 🟢 22 | CESAMA Juiz de Fora: Juiz de Fora (MG) | Residencial | 15,01 | 80% |
+| 🟢 23 | CESAN: Cariacica (ES), Guarapari (ES), Serra (ES), Vila Velha (ES), Vitória (ES) | Residencial | 57,39 | 80% |
+| 🟢 24 | CODAU Uberaba: Uberaba (MG) | Residencial | — | 95% |
+| 🟡 25 | COHASB / Prefeitura de Humaitá – prestação local: Humaitá (AM) | Residencial | 32,50 | 80% |
+| 🟢 26 | Companhia Ituana de Saneamento (CIS): Itu (SP) | Residencial | 36,96 | 100% |
+| 🟢 27 | Companhia Águas de Joinville: Joinville (SC) | Residencial | 34,93 | 80% |
+| 🟢 28 | COMPESA: Abreu e Lima (PE), Araripina (PE), Arcoverde (PE), Belo Jardim (PE), Bezerros (PE), Buíque (PE), Cabo de Santo Agostinho (PE), Camaragibe (PE), Carpina (PE), Caruaru (PE), Escada (PE), Garanhuns (PE), Goiana (PE), Gravatá (PE), Igarassu (PE), Ipojuca (PE), Jaboatão dos Guararapes (PE), Limoeiro (PE), Moreno (PE), Olinda (PE), Ouricuri (PE), Palmares (PE), Paudalho (PE), Paulista (PE), Pesqueira (PE), Petrolina (PE), Recife (PE), Salgueiro (PE), Santa Cruz do Capibaribe (PE), Serra Talhada (PE), Surubim (PE), São Lourenço da Mata (PE), Vitória de Santo Antão (PE) | Residencial | 61,77 | 100% |
+| 🟢 29 | COMUSA Novo Hamburgo: Novo Hamburgo (RS) | Residencial | 43,21 | 70% |
+| 🟡 30 | COPASA: Alfenas (MG), Araxá (MG), Barbacena (MG), Belo Horizonte (MG), Betim (MG), Bom Despacho (MG), Campo Belo (MG), Caratinga (MG), Cataguases (MG), Congonhas (MG), Conselheiro Lafaiete (MG), Contagem (MG), Coronel Fabriciano (MG), Curvelo (MG), Divinópolis (MG), Esmeraldas (MG), Extrema (MG), Frutal (MG), Guaxupé (MG), Ibirité (MG), Ipatinga (MG), Itajubá (MG), Itaúna (MG), Janaúba (MG), Januária (MG), João Monlevade (MG), Lagoa Santa (MG), Lavras (MG), Leopoldina (MG), Montes Claros (MG), Nova Lima (MG), Nova Serrana (MG), Paracatu (MG), Patos de Minas (MG), Pedro Leopoldo (MG), Pouso Alegre (MG), Ribeirão das Neves (MG), Sabará (MG), São Francisco (MG), São Sebastião do Paraíso (MG), Teófilo Otoni (MG), Timóteo (MG), Três Corações (MG), Ubá (MG), Unaí (MG), Varginha (MG), Vespasiano (MG) | Residencial | 25,77 | 74% |
+| 🟡 31 | COSAMA: Tabatinga (AM) | Residencial | 32,50 | 80% |
+| 🟢 32 | COSANPA: Abaetetuba (PA), Acará (PA), Alenquer (PA), Altamira (PA), Ananindeua (PA), Baião (PA), Barcarena (PA), Belém (PA), Benevides (PA), Bragança (PA), Breves (PA), Cametá (PA), Canaã dos Carajás (PA), Capanema (PA), Capitão Poço (PA), Castanhal (PA), Dom Eliseu (PA), Igarapé-Miri (PA), Itaituba (PA), Juruti (PA), Marabá (PA), Marituba (PA), Moju (PA), Monte Alegre (PA), Novo Repartimento (PA), Oriximiná (PA), Paragominas (PA), Parauapebas (PA), Portel (PA), Redenção (PA), Rondon do Pará (PA), Santa Izabel do Pará (PA), Santarém (PA), São Félix do Xingu (PA), São Miguel do Guamá (PA), Tailândia (PA), Tomé-Açu (PA), Tucuruí (PA), Vigia (PA), Viseu (PA), Xinguara (PA), Óbidos (PA) | Residencial | — | 80% |
+| 🟢 33 | CSA Equatorial: Macapá (AP), Santana (AP) | Residencial | 42,91 | 100% |
+| 🟢 34 | DAAE Araraquara: Araraquara (SP) | Residencial | 22,70 | 100% |
+| 🟢 35 | DAAE Rio Claro: Rio Claro (SP) | Residencial | 35,36 | 100% |
+| 🟢 36 | DAE Americana: Americana (SP) | Residencial | até 6 m³: 14,30 (retroativa) | 100% |
+| 🟢 37 | DAE Bauru: Bauru (SP) | Residencial | até 6 m³: 19,37 (retroativa) | 65% |
+| 🟢 38 | DAE Jundiaí: Jundiaí (SP) | Residencial | 40,84 | 69% |
+| 🟡 39 | DAE Sant'Ana do Livramento: Santana do Livramento (RS) | Residencial | — | 80% |
+| 🟢 40 | DAE Valinhos: Valinhos (SP) | Residencial | 23,73 | 100% |
+| 🟡 41 | DAE/VG: Várzea Grande (MT) | Residencial | 31,20 | 80% |
+| 🟢 42 | DAEB Bagé: Bagé (RS) | Residencial | 53,37 | 50% |
+| 🟢 43 | DAEP Penápolis: Penápolis (SP) | Residencial | 7,31 | 70% |
+| 🟡 44 | DAEPA: Patrocínio (MG) | Residencial | — | 80% |
+| 🟡 45 | DAESC Coruripe: Coruripe (AL) | Residencial | — | 80% |
+| 🟡 46 | DAMAE São João del-Rei: São João del-Rei (MG) | Residencial | — | 80% |
+| 🟡 47 | DEMSUR: Muriaé (MG) | Residencial | — | 80% |
+| 🟢 48 | DMAE Porto Alegre: Porto Alegre (RS) | Residencial | — | 100% |
+| 🟢 49 | DMAE Poços de Caldas: Poços de Caldas (MG) | Residencial | — | 85% |
+| 🟡 50 | DMAE Uberlândia: Uberlândia (MG) | Residencial | — | 80% |
+| 🟡 51 | DMAES Ponte Nova: Ponte Nova (MG) | Residencial | — | 80% |
+| 🟢 52 | EMASA Balneário Camboriú: Balneário Camboriú (SC) | Residencial | 44,95 | 100% |
+| 🟡 53 | EMBASA: Alagoinhas (BA), Barra (BA), Barreiras (BA), Bom Jesus da Lapa (BA), Brumado (BA), Caetité (BA), Camaçari (BA), Campo Formoso (BA), Candeias (BA), Casa Nova (BA), Conceição do Coité (BA), Cruz das Almas (BA), Dias d'Ávila (BA), Euclides da Cunha (BA), Eunápolis (BA), Feira de Santana (BA), Guanambi (BA), Ilhéus (BA), Ipirá (BA), Irecê (BA), Itaberaba (BA), Itabuna (BA), Itamaraju (BA), Itapetinga (BA), Jacobina (BA), Jequié (BA), Juazeiro (BA), Lauro de Freitas (BA), Luís Eduardo Magalhães (BA), Paulo Afonso (BA), Porto Seguro (BA), Ribeira do Pombal (BA), Salvador (BA), Santo Amaro (BA), Santo Antônio de Jesus (BA), Santo Estêvão (BA), Senhor do Bonfim (BA), Serrinha (BA), Simões Filho (BA), Teixeira de Freitas (BA), Vitória da Conquista (BA) | Residencial | 44,77 | 80% |
+| 🟢 54 | GS Inima SAMAR: Araçatuba (SP) | Residencial | 28,48 | 80% |
+| 🟢 55 | Iguá Sergipe: Aracaju (SE), Estância (SE), Itabaiana (SE), Lagarto (SE), Nossa Senhora do Socorro (SE), São Cristóvão (SE), Tobias Barreto (SE) | Residencial | 49,26 | 80% |
+| 🟢 56 | Ourinhos Saneamento: Ourinhos (SP) | Residencial | — | 50% |
+| 🟡 57 | Prefeitura de Birigui – Diretoria de Água e Esgoto: Birigui (SP) | Residencial | 23,90 | 100% |
+| 🟡 58 | Prestador municipal/local – Iranduba: Iranduba (AM) | Residencial | 32,50 | 80% |
+| 🟡 59 | Prestador municipal/local – Manicoré: Manicoré (AM) | Residencial | 32,50 | 80% |
+| 🟡 60 | Prestador municipal/local – São Gabriel da Cachoeira: São Gabriel da Cachoeira (AM) | Residencial | 32,50 | 80% |
+| 🟡 61 | Prestador municipal/local – Tefé: Tefé (AM) | Residencial | 32,50 | 80% |
+| 🟢 62 | Prolagos: Cabo Frio (RJ), São Pedro da Aldeia (RJ) | Residencial | — | 100% |
+| 🟢 63 | RIC Ambiental: Marília (SP) | Residencial | 19,71 | 75% |
+| 🟡 64 | Rio+ Saneamento: Itaguaí (RJ), Rio das Ostras (RJ), Seropédica (RJ) | Residencial | — | 100% |
+| 🟡 65 | SAAE / prestação municipal de Manacapuru – confirmar: Manacapuru (AM) | Residencial | 32,50 | 80% |
+| 🟡 66 | SAAE Angra dos Reis: Angra dos Reis (RJ) | Residencial | — | 100% |
+| 🟡 67 | SAAE Aracruz / CESAN conforme área: Aracruz (ES) | Residencial | 57,39 | 80% |
+| 🟡 68 | SAAE Atibaia: Atibaia (SP) | Residencial | 52,97 | 100% |
+| 🟡 69 | SAAE Barra Mansa: Barra Mansa (RJ) | Residencial | — | 100% |
+| 🟡 70 | SAAE Cacoal: Cacoal (RO) | Residencial | 17,58 | 60% |
+| 🟡 71 | SAAE Capivari: Capivari (SP) | Residencial | 33,11 | 90% |
+| 🟡 72 | SAAE Cruzeiro: Cruzeiro (SP) | Residencial | 42,00 | 90% |
+| 🟡 73 | SAAE Formiga: Formiga (MG) | Residencial | 21,40 | 50% |
+| 🟡 74 | SAAE Ibitinga: Ibitinga (SP) | Residencial | — | 100% |
+| 🟡 75 | SAAE Indaiatuba: Indaiatuba (SP) | Residencial | 35,10 | 90% |
+| 🟡 76 | SAAE Itabira: Itabira (MG) | Residencial | — | 80% |
+| 🟡 77 | SAAE Itabirito: Itabirito (MG) | Residencial | 22,73 | 60% |
+| 🟡 78 | SAAE Itacoatiara: Itacoatiara (AM) | Residencial | 32,50 | 80% |
+| 🟡 79 | SAAE Itapira: Itapira (SP) | Residencial | 22,71 | 100% |
+| 🟡 80 | SAAE Jaboticabal: Jaboticabal (SP) | Residencial | 28,91 | 100% |
+| 🟡 81 | SAAE Jacareí: Jacareí (SP) | Residencial | 42,00 | 90% |
+| 🟡 82 | SAAE Lagoa da Prata: Lagoa da Prata (MG) | Residencial | 41,70 | 65% |
+| 🟡 83 | SAAE Lençóis Paulista: Lençóis Paulista (SP) | Residencial | 42,00 | 90% |
+| 🟡 84 | SAAE Linhares: Linhares (ES) | Residencial | 45,00 | 80% |
+| 🟡 85 | SAAE Lucas do Rio Verde: Lucas do Rio Verde (MT) | Residencial | — | 80% |
+| 🟡 86 | SAAE Manhuaçu: Manhuaçu (MG) | Residencial | — | 80% |
+| 🟡 87 | SAAE Mariana: Mariana (MG) | Residencial | 29,82 | 100% |
+| 🟡 88 | SAAE Maués: Maués (AM) | Residencial | 32,50 | 80% |
+| 🟡 89 | SAAE Mogi Mirim: Mogi Mirim (SP) | Residencial | 20,25 | 140% |
+| 🟡 90 | SAAE Nova Mutum: Nova Mutum (MT) | Residencial | 24,82 | 80% |
+| 🟡 91 | SAAE Parintins: Parintins (AM) | Residencial | 32,50 | 80% |
+| 🟡 92 | SAAE Passos: Passos (MG) | Residencial | — | 80% |
+| 🟡 93 | SAAE Pirapora: Pirapora (MG) | Residencial | 43,06 | 50% |
+| 🟡 94 | SAAE Salto: Salto (SP) | Residencial | 32,22 | 100% |
+| 🔴 95 | SAAE Sete Lagoas: Sete Lagoas (MG) | Residencial | 30,96 | 80% |
+| 🟡 96 | SAAE Sorocaba: Sorocaba (SP) | Residencial | 22,00 | 92% |
+| 🟡 97 | SAAE São Carlos: São Carlos (SP) | Residencial | — | 100% |
+| 🟡 98 | SAAE São Mateus: São Mateus (ES) | Residencial | — | 80% |
+| 🟡 99 | SAAE Três Pontas: Três Pontas (MG) | Residencial | — | 80% |
+| 🟡 100 | SAAE Três Rios: Três Rios (RJ) | Residencial | — | 100% |
+| 🟡 101 | SAAE Vilhena: Vilhena (RO) | Residencial | 57,51 | 70% |
+| 🟡 102 | SAAE Viçosa: Viçosa (MG) | Residencial | — | 50% |
+| 🟡 103 | SAAE Volta Redonda: Volta Redonda (RJ) | Residencial | — | 100% |
+| 🔴 104 | SAAEB Ambiental: Bebedouro (SP) | Residencial | 34,62 | 80% |
+| 🟡 105 | SAAEB Barretos: Barretos (SP) | Residencial | 28,90 | 50% |
+| 🟡 106 | SAAEJA: Jaguariúna (SP) | Residencial | 22,81 | 100% |
+| 🟡 107 | SAAET: Taquaritinga (SP) | Residencial | 42,00 | 90% |
+| 🟢 108 | SABESP: Amparo (SP) | Residencial | 29,47 | 90% |
+| 🟢 109 | SABESP: Artur Nogueira (SP), Assis (SP), Avaré (SP), Batatais (SP), Boituva (SP), Botucatu (SP), Campo Limpo Paulista (SP), Caçapava (SP), Cosmópolis (SP), Fernandópolis (SP), Franca (SP), Hortolândia (SP), Ibiúna (SP), Itapetininga (SP), Itapeva (SP), Itatiba (SP), Itupeva (SP), Lins (SP), Lorena (SP), Mococa (SP), Mogi das Cruzes (SP), Monte Mor (SP), Nova Odessa (SP), Paulínia (SP), Piedade (SP), Pindamonhangaba (SP), Porto Feliz (SP), Registro (SP), Santa Bárbara d'Oeste (SP), Suzano (SP), São José dos Campos (SP), São João da Boa Vista (SP), São Roque (SP), Tatuí (SP), Taubaté (SP), Tremembé (SP), Tupã (SP), Votorantim (SP), Várzea Paulista (SP) | Residencial | 40,42 | 80% |
+| 🟢 110 | SABESP: Arujá (SP), Barueri (SP), Caieiras (SP), Cajamar (SP), Carapicuíba (SP), Cotia (SP), Diadema (SP), Embu das Artes (SP), Embu-Guaçu (SP), Ferraz de Vasconcelos (SP), Francisco Morato (SP), Franco da Rocha (SP), Guarulhos (SP), Itapecerica da Serra (SP), Itapevi (SP), Itaquaquecetuba (SP), Jandira (SP), Mairiporã (SP), Mauá (SP), Osasco (SP), Poá (SP), Ribeirão Pires (SP), Santa Isabel (SP), Santana de Parnaíba (SP), Santo André (SP), São Bernardo do Campo (SP), São Paulo (SP), Taboão da Serra (SP), Vargem Grande Paulista (SP) | Residencial | 40,42 | 100% |
+| 🟢 111 | SABESP: Bertioga (SP), Caraguatatuba (SP), Cubatão (SP), Guarujá (SP), Itanhaém (SP), Mongaguá (SP), Peruíbe (SP), Praia Grande (SP), Santos (SP), São Sebastião (SP), São Vicente (SP), Ubatuba (SP) | Residencial | 40,42 | 100% |
+| 🟢 112 | SABESP: Bragança Paulista (SP) | Residencial | 40,42 | 100% |
+| 🟢 113 | SABESP: Olímpia (SP) | Residencial | 25,34 | 80% |
+| 🟢 114 | SABESP: Presidente Prudente (SP) | Residencial | 32,27 | 80% |
+| 🟢 115 | SAE Araguari: Araguari (MG) | Residencial | 33,89 | 80% |
+| 🟢 116 | SAE Ituiutaba: Ituiutaba (MG) | Residencial | 18,12 | 70% |
+| 🟢 117 | SAE Louveira: Louveira (SP) | Residencial | 27,93 | 85% |
+| 🟢 118 | SAEC Catanduva: Catanduva (SP) | Residencial | 24,79 | 100% |
+| 🟢 119 | SAECIL Leme: Leme (SP) | Residencial | 35,33 | 85% |
+| 🟢 120 | SAEG: Guaratinguetá (SP) | Residencial | 30,06 | 80% |
+| 🟢 121 | SAEMA Araras: Araras (SP) | Residencial | 25,71 | 80% |
+| 🟢 122 | SAEMAS Sertãozinho: Sertãozinho (SP) | Residencial | 25,31 | 80% |
+| 🔴 123 | SAEP Pirassununga: Pirassununga (SP) | Residencial | 29,91 | 100% |
+| 🟢 124 | SAERP Ribeirão Preto: Ribeirão Preto (SP) | Residencial | 14,06 | 128% |
+| 🔴 125 | SAERP São José do Rio Pardo: São José do Rio Pardo (SP) | Residencial | 29,99 | 80% |
+| 🟡 126 | SAESA: São Caetano do Sul (SP) | Residencial | 42,00 | 90% |
+| 🟢 127 | SAEV Ambiental: Votuporanga (SP) | Residencial | 28,22 | 100% |
+| 🟢 128 | SAMAE Blumenau / BRK Ambiental Blumenau: Blumenau (SC) | Residencial | 47,43 | 112% |
+| 🟢 129 | SAMAE Brusque: Brusque (SC) | Residencial | 42,38 | 80% |
+| 🟢 130 | SAMAE Caxias do Sul: Caxias do Sul (RS) | Residencial | 38,30 | 80% |
+| 🟢 131 | SAMAE Gaspar: Gaspar (SC) | Residencial | 50,58 | 80% |
+| 🟢 132 | SAMAE Jaraguá do Sul: Jaraguá do Sul (SC) | Residencial | 30,16 | 80% |
+| 🟢 133 | SAMAE Mogi Guaçu: Mogi Guaçu (SP) | Residencial | 18,91 | 100% |
+| 🟢 134 | SAMAE São Bento do Sul: São Bento do Sul (SC) | Residencial | 31,40 | 80% |
+| 🟡 135 | SAMAE Tangará da Serra: Tangará da Serra (MT) | Residencial | — | 80% |
+| 🟢 136 | SANASA Campinas: Campinas (SP) | Residencial | 53,65 | 123% |
+| 🟢 137 | SANEACRE: Cruzeiro do Sul (AC), Rio Branco (AC) | Residencial | 38,37 | 80% |
+| 🟢 138 | SANEAGO: Anápolis (GO), Aparecida de Goiânia (GO), Caldas Novas (GO), Catalão (GO), Cidade Ocidental (GO), Cristalina (GO), Formosa (GO), Goianira (GO), Goianésia (GO), Goiânia (GO), Inhumas (GO), Itumbiara (GO), Jataí (GO), Luziânia (GO), Mineiros (GO), Morrinhos (GO), Novo Gama (GO), Planaltina (GO), Rio Verde (GO), Santo Antônio do Descoberto (GO), Senador Canedo (GO), Trindade (GO), Valparaíso de Goiás (GO), Águas Lindas de Goiás (GO) | Residencial | 17,46 | 100% |
+| 🟢 139 | Saneaqua: Mairinque (SP) | Residencial | — | 100% |
+| 🟢 140 | SANEAR Colatina: Colatina (ES) | Residencial | — | 80% |
+| 🟡 141 | SANEAR Rondonópolis: Rondonópolis (MT) | Residencial | 36,50 | 80% |
+| 🟢 142 | SANEBAVI Vinhedo: Vinhedo (SP) | Residencial | 40,20 | 100% |
+| 🟢 143 | Saneouro: Ouro Preto (MG) | Residencial | 25,72 | 95% |
+| 🟢 144 | SANEP Pelotas: Pelotas (RS) | Residencial | 28,96 | 80% |
+| 🟡 145 | SANEPAR – Curitiba: Curitiba (PR) | Residencial | 55,09 | 85% |
+| 🟡 146 | SANEPAR – Demais localidades: Almirante Tamandaré (PR), Apucarana (PR), Arapongas (PR), Araucária (PR), Cambé (PR), Campo Largo (PR), Campo Mourão (PR), Castro (PR), Cianorte (PR), Colombo (PR), Fazenda Rio Grande (PR), Foz do Iguaçu (PR), Francisco Beltrão (PR), Guarapuava (PR), Ibiporã (PR), Irati (PR), Londrina (PR), Marechal Cândido Rondon (PR), Maringá (PR), Medianeira (PR), Paranaguá (PR), Paranavaí (PR), Pato Branco (PR), Pinhais (PR), Piraquara (PR), Ponta Grossa (PR), Rolândia (PR), Sarandi (PR), São José dos Pinhais (PR), Telêmaco Borba (PR), Toledo (PR), Umuarama (PR), União da Vitória (PR) | Residencial | 55,09 | 80% |
+| 🟡 147 | Sanessol: Mirassol (SP) | Residencial | 42,00 | 90% |
+| 🟢 148 | SANESUL: Corumbá (MS), Dourados (MS), Naviraí (MS), Ponta Porã (MS), Três Lagoas (MS) | Residencial | 16,50 | 70% |
+| 🟢 149 | SEMAE Piracicaba: Piracicaba (SP) | Residencial | 31,99 | 100% |
+| 🟢 150 | SeMAE Rio Preto: São José do Rio Preto (SP) | Residencial | 26,63 | 100% |
+| 🟢 151 | SEMAE São Leopoldo: São Leopoldo (RS) | Residencial | 61,29 | 80% |
+| 🟢 152 | SEMASA Itajaí: Itajaí (SC) | Residencial | 41,70 | 80% |
+| 🟢 153 | SEMASA Lages: Lages (SC) | Residencial | 44,00 | 80% |
+| 🟡 154 | Serviço local – Barra do Piraí: Barra do Piraí (RJ) | Residencial | — | 100% |
+| 🟡 155 | São Gabriel Saneamento S.A.: São Gabriel (RS) | Residencial | 33,89 | 80% |
+| 🟢 156 | Tubarão Saneamento: Tubarão (SC) | Residencial | — | 100% |
+| 🟢 157 | Verde Alagoas: União dos Palmares (AL) | Residencial | — | 80% |
+| 🟡 158 | Águas Alta Floresta / Norte Saneamento: Alta Floresta (MT) | Residencial | — | 80% |
+| 🟢 159 | Águas Cuiabá (Iguá): Cuiabá (MT) | Residencial | — | 90% |
+| 🟢 160 | Águas da Imperatriz: Teresópolis (RJ) | Residencial | — | 90% |
+| 🟡 161 | Águas das Agulhas Negras: Resende (RJ) | Residencial | — | 100% |
+| 🟡 162 | Águas de Andradina: Andradina (SP) | Residencial | 42,00 | 90% |
+| 🟢 163 | Águas de Barra do Garças (Aegea): Barra do Garças (MT) | Residencial | — | 80% |
+| 🟡 164 | Águas de Jahu: Jaú (SP) | Residencial | 42,00 | 90% |
+| 🟢 165 | Águas de Juturnaíba: Araruama (RJ) | Residencial | — | 100% |
+| 🟡 166 | Águas de Manaus: Manaus (AM) | Residencial | — | 80% |
+| 🟢 167 | Águas de Matão: Matão (SP) | Residencial | 45,32 | 100% |
+| 🟡 168 | Águas de Niterói: Niterói (RJ) | Residencial | — | 100% |
+| 🟡 169 | Águas de Nova Friburgo: Nova Friburgo (RJ) | Residencial | — | 100% |
+| 🟡 170 | Águas de Pará de Minas: Pará de Minas (MG) | Residencial | — | 80% |
+| 🟢 171 | Águas de Primavera (Aegea): Primavera do Leste (MT) | Residencial | — | 90% |
+| 🟢 172 | Águas de Sinop (Aegea): Sinop (MT) | Residencial | — | 100% |
+| 🟢 173 | Águas de Sorriso: Sorriso (MT) | Residencial | — | 80% |
+| 🟢 174 | Águas de Teresina: Teresina (PI) | Residencial | 46,83 | 80% |
+| 🟢 175 | Águas de Valadares (Aegea): Governador Valadares (MG) | Residencial | 14,67 | 70% |
+| 🟡 176 | Águas do Imperador: Petrópolis (RJ) | Residencial | — | 100% |
+| 🟢 177 | Águas do Pantanal (autarquia municipal): Cáceres (MT) | Residencial | — | 50% |
+| 🟡 178 | Águas do Paraíba: Campos dos Goytacazes (RJ) | Residencial | — | 100% |
+| 🟢 179 | Águas do Piauí: Floriano (PI), Parnaíba (PI), Picos (PI), Piripiri (PI) | Residencial | 52,89 | 80% |
+| 🟡 180 | Águas do Rio: Belford Roxo (RJ), Duque de Caxias (RJ), Japeri (RJ), Mesquita (RJ), Nilópolis (RJ), Nova Iguaçu (RJ), Queimados (RJ), São João de Meriti (RJ) | Residencial | — | 100% |
+| 🟡 181 | Águas do Rio: Cachoeiras de Macacu (RJ), Itaboraí (RJ), Magé (RJ), Maricá (RJ), Rio Bonito (RJ), Saquarema (RJ), São Gonçalo (RJ) | Residencial | — | 100% |
+| 🟡 182 | Águas do Rio / Iguá / Rio+ Saneamento: Rio de Janeiro (RJ) | Residencial | — | 100% |
+| 🟢 183 | Águas do Sertão: Delmiro Gouveia (AL), Palmeira dos Índios (AL) | Residencial | — | 80% |
+| 🟢 184 | Águas do Sertão: Penedo (AL) | Residencial | — | 80% |
+| 🟢 185 | Águas do Sertão: São Miguel dos Campos (AL) | Residencial | — | 80% |
+| 🟢 186 | Águas Guariroba: Campo Grande (MS) | Residencial | 19,87 | 70% |
+| 🟢 187 | Águas Pontes e Lacerda / Norte Saneamento: Pontes e Lacerda (MT) | Residencial | — | 90% |
+
+<!-- tabela: **Tabela 180** — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 1 de 3: 0–5 a 20–25 m³) -->
+| Nº | 0–5 | 5–6 | 6–7 | 7–10 | 10–12 | 12–13 | 13–15 | 15–17 | 17–20 | 20–25 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 🟢 1 | 7,64 | 7,64 | 7,64 | 7,64 | 14,61 | 14,61 | 14,61 | 16,89 | 16,89 | 18,04 |
+| 🟢 2 | 6,82 | 6,82 | 6,82 | 6,82 | 12,70 | 12,70 | 12,70 | 14,27 | 14,27 | 15,46 |
+| 🟢 3 | 7,64 | 7,64 | 7,64 | 7,64 | 14,61 | 14,61 | 14,61 | 16,89 | 16,89 | 18,04 |
+| 🟡 4 | 0,00 | 0,00 | 0,00 | 0,00 | 6,10 | 6,10 | 6,10 | 6,10 | 6,10 | 9,80 |
+| 🟢 5 | 0,00 | 0,00 | 0,00 | 0,00 | 5,11 | 5,11 | 5,11 | 10,14 | 10,14 | 10,14 |
+| 🟡 6 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 7 | 0,00 | 0,00 | 0,00 | 0,00 | 3,64 | 3,64 | 3,64 | 3,64 | 3,64 | 4,01 |
+| 🟢 8 | 10,20 | 10,20 | 10,20 | 10,20 | 10,70 | 10,70 | 10,70 | 10,70 | 10,70 | 15,34 |
+| 🟡 9 | 8,76 | 3,05 | 3,05 | 3,05 | 8,66 | 8,66 | 8,66 | 11,07 | 11,07 | 13,53 |
+| 🟢 10 | 0,00 | 0,00 | 0,00 | 0,00 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 10,77 |
+| 🟡 11 | 0,00 | 0,00 | 0,00 | 0,00 | 5,40 | 5,40 | 5,40 | 5,40 | 5,40 | 8,90 |
+| 🟢 12 | 0,00 | 0,00 | 0,00 | 0,00 | 6,52 | 6,52 | 6,52 | 7,17 | 7,17 | 8,61 |
+| 🟢 13 | 0,00 | 0,00 | 0,00 | 0,00 | 6,34 | 6,34 | 6,34 | 7,51 | 7,51 | 8,45 |
+| 🟢 14 | 0,00 | 0,00 | 0,00 | 0,00 | 5,73 | 5,73 | 5,73 | 6,77 | 6,77 | 7,64 |
+| 🟢 15 | 4,30 | 4,30 | 4,30 | 5,15 | 5,15 | 5,15 | 10,21 | 10,21 | 10,21 | 14,81 |
+| 🟡 16 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 17 | 6,77 | 6,77 | 6,77 | 6,77 | 8,78 | 8,78 | 8,78 | 9,49 | 9,49 | 16,29 |
+| 🟢 18 | 0,00 | 0,00 | 0,00 | 0,00 | 7,08 | 7,08 | 7,08 | 7,08 | 7,08 | 9,32 |
+| 🟢 19 | 7,28 | 7,28 | 7,28 | 7,28 | 13,90 | 13,90 | 13,90 | 16,07 | 16,07 | 17,17 |
+| 🟡 20 | 3,08 | 3,08 | 3,08 | 3,08 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 |
+| 🟡 21 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟢 22 | 1,65 | 4,46 | 4,46 | 4,46 | 5,58 | 5,58 | 5,58 | 6,32 | 6,32 | 8,55 |
+| 🟢 23 | 2,26 | 2,26 | 2,26 | 2,26 | 4,52 | 4,52 | 4,52 | 8,14 | 8,14 | 9,77 |
+| 🟢 24 | 3,91 | 3,91 | 3,91 | 3,91 | 5,20 | 5,20 | 5,20 | 5,20 | 5,20 | 5,74 |
+| 🟡 25 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟢 26 | 0,00 | 0,00 | 0,00 | 0,00 | 4,34 | 4,34 | 4,34 | 4,34 | 4,34 | 6,63 |
+| 🟢 27 | 1,49 | 1,49 | 1,49 | 1,49 | 9,89 | 9,89 | 9,89 | 9,95 | 9,95 | 9,95 |
+| 🟢 28 | 0,00 | 0,00 | 0,00 | 0,00 | 7,09 | 7,09 | 7,09 | 7,09 | 7,09 | 8,42 |
+| 🟢 29 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 |
+| 🟡 30 | 2,69 | 5,33 | 5,33 | 5,33 | 8,06 | 8,06 | 8,06 | 10,83 | 10,83 | 13,66 |
+| 🟡 31 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟢 32 | 4,91 | 4,91 | 4,91 | 4,91 | 7,00 | 7,00 | 7,00 | 7,00 | 7,00 | 9,38 |
+| 🟢 33 | 0,00 | 0,00 | 0,00 | 0,00 | 4,49 | 4,49 | 4,49 | 4,49 | 4,49 | 5,06 |
+| 🟢 34 | 0,00 | 0,00 | 0,00 | 0,00 | 4,09 | 4,09 | 4,09 | 4,09 | 4,09 | 5,83 |
+| 🟢 35 | 0,00 | 0,00 | 0,00 | 0,00 | 7,19 | 7,19 | 7,19 | 7,19 | 7,19 | 10,77 |
+| 🟢 36 | — | — | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 |
+| 🟢 37 | — | — | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 |
+| 🟢 38 | 0,00 | 0,00 | 0,00 | 0,00 | 5,18 | 5,18 | 5,18 | 7,65 | 7,65 | 11,01 |
+| 🟡 39 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 |
+| 🟢 40 | 0,00 | 0,00 | 0,00 | 0,00 | 4,40 | 4,40 | 4,40 | 4,40 | 5,69 | 5,69 |
+| 🟡 41 | 0,00 | 0,00 | 0,00 | 0,00 | 4,20 | 4,20 | 4,20 | 4,20 | 4,20 | 6,80 |
+| 🟢 42 | 4,26 | 4,26 | 4,26 | 4,26 | 5,11 | 5,11 | 5,11 | 5,11 | 5,11 | 6,84 |
+| 🟢 43 | 3,76 | 3,76 | 3,76 | 3,76 | 3,76 | 3,76 | 3,76 | 3,76 | 3,76 | 4,89 |
+| 🟡 44 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 45 | 7,28 | 7,28 | 7,28 | 7,28 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 |
+| 🟡 46 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 47 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟢 48 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 |
+| 🟢 49 | 3,70 | 3,70 | 3,70 | 3,70 | 4,44 | 4,44 | 4,44 | 5,22 | 5,22 | 6,74 |
+| 🟡 50 | 3,85 | 3,85 | 3,85 | 3,85 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 8,20 |
+| 🟡 51 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟢 52 | 0,66 | 0,66 | 0,66 | 0,66 | 4,70 | 4,70 | 4,70 | 4,70 | 4,70 | 4,70 |
+| 🟡 53 | 0,00 | 0,00 | 1,77 | 1,77 | 12,53 | 12,53 | 12,53 | 13,41 | 13,41 | 15,08 |
+| 🟢 54 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 3,50 | 3,50 | 3,50 | 3,50 | 6,46 |
+| 🟢 55 | 0,00 | 0,00 | 0,00 | 0,00 | 11,02 | 11,02 | 11,02 | 11,02 | 11,02 | 16,75 |
+| 🟢 56 | 3,11 | 3,11 | 3,11 | 3,11 | 6,17 | 6,17 | 6,17 | 6,17 | 6,17 | 7,77 |
+| 🟡 57 | 0,00 | 0,00 | 0,00 | 0,00 | 2,90 | 2,90 | 2,90 | 2,90 | 2,90 | 3,34 |
+| 🟡 58 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 59 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 60 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 61 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟢 62 | 17,04 | 17,04 | 17,04 | 17,04 | 22,32 | 22,32 | 22,32 | 35,74 | 35,74 | 35,74 |
+| 🟢 63 | 0,00 | 2,31 | 2,31 | 2,31 | 2,31 | 2,31 | 2,31 | 6,24 | 6,24 | 6,24 |
+| 🟡 64 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 15,37 | 15,37 | 15,37 |
+| 🟡 65 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 66 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟡 67 | 0,00 | 0,00 | 0,00 | 0,00 | 4,52 | 4,52 | 4,52 | 8,14 | 8,14 | 9,77 |
+| 🟡 68 | 0,00 | 0,00 | 0,00 | 0,00 | 7,97 | 7,97 | 7,97 | 7,97 | 7,97 | 13,13 |
+| 🟡 69 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟡 70 | 0,00 | 0,00 | 0,00 | 0,00 | 2,11 | 2,11 | 2,11 | 2,43 | 2,43 | 2,79 |
+| 🟡 71 | 0,00 | 0,00 | 0,00 | 0,00 | 5,33 | 5,33 | 5,33 | 5,33 | 5,33 | 6,65 |
+| 🟡 72 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟡 73 | 0,60 | 0,85 | 0,85 | 0,85 | 2,82 | 2,82 | 2,82 | 4,29 | 4,29 | 6,26 |
+| 🟡 74 | 2,41 | 2,41 | 2,41 | 2,41 | 2,41 | 2,41 | 2,41 | 2,99 | 2,99 | 3,59 |
+| 🟡 75 | 0,00 | 0,52 | 0,52 | 0,52 | 4,70 | 4,70 | 4,70 | 4,70 | 4,70 | 6,16 |
+| 🟡 76 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 77 | 1,66 | 1,95 | 1,95 | 1,95 | 3,84 | 3,84 | 3,84 | 5,64 | 5,64 | 6,19 |
+| 🟡 78 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 79 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 7,29 | 7,29 | 8,27 |
+| 🟡 80 | 0,00 | 0,00 | 0,00 | 0,00 | 3,48 | 3,48 | 3,48 | 3,48 | 3,48 | 4,38 |
+| 🟡 81 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟡 82 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 3,58 | 3,58 | 3,76 |
+| 🟡 83 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟡 84 | 0,00 | 0,00 | 0,00 | 0,00 | 6,10 | 6,10 | 6,10 | 6,10 | 6,10 | 9,80 |
+| 🟡 85 | 2,43 | 2,43 | 2,43 | 2,43 | 3,12 | 3,12 | 3,12 | 3,12 | 3,12 | 4,15 |
+| 🟡 86 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 87 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 |
+| 🟡 88 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 89 | 0,00 | 0,00 | 0,00 | 0,00 | 2,22 | 2,22 | 2,22 | 9,09 | 9,09 | 9,17 |
+| 🟡 90 | 0,00 | 0,00 | 0,00 | 0,00 | 5,22 | 5,22 | 5,22 | 5,22 | 5,22 | 7,54 |
+| 🟡 91 | 0,00 | 0,00 | 0,00 | 0,00 | 4,50 | 4,50 | 4,50 | 4,50 | 4,50 | 7,20 |
+| 🟡 92 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 93 | 1,01 | 1,30 | 1,30 | 1,30 | 2,44 | 2,44 | 2,44 | 4,16 | 4,16 | 6,45 |
+| 🟡 94 | 0,00 | 0,00 | 0,00 | 0,00 | 3,60 | 3,60 | 3,60 | 3,92 | 3,92 | 4,31 |
+| 🔴 95 | 0,00 | 0,00 | — | — | — | — | — | — | — | — |
+| 🟡 96 | 0,00 | 0,00 | 0,00 | 0,00 | 3,30 | 3,30 | 3,30 | 4,81 | 4,81 | 6,98 |
+| 🟡 97 | 2,41 | 2,41 | 2,41 | 2,41 | 6,05 | 6,05 | 6,05 | 6,05 | 6,05 | 7,77 |
+| 🟡 98 | 3,87 | 3,87 | 3,87 | 3,87 | 6,11 | 6,11 | 6,11 | 7,44 | 7,44 | 8,21 |
+| 🟡 99 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟡 100 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟡 101 | 0,00 | 0,00 | 0,00 | 0,00 | 7,85 | 7,85 | 7,85 | 7,85 | 7,85 | 11,90 |
+| 🟡 102 | 2,82 | 2,93 | 2,93 | 2,93 | 3,14 | 3,14 | 3,14 | 7,03 | 7,03 | 7,03 |
+| 🟡 103 | 4,05 | 4,05 | 4,05 | 4,05 | 4,85 | 4,85 | 4,85 | 4,85 | 4,85 | 8,20 |
+| 🔴 104 | 0,00 | 0,00 | 0,00 | 0,00 | — | — | — | — | — | — |
+| 🟡 105 | 0,00 | 0,00 | 0,00 | 0,00 | 5,99 | 5,99 | 5,99 | 6,71 | 6,71 | 7,58 |
+| 🟡 106 | 0,00 | 0,00 | 0,00 | 0,00 | 2,76 | 2,76 | 2,76 | 3,22 | 3,22 | 3,96 |
+| 🟡 107 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 108 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 4,17 | 4,17 | 4,17 | 4,17 | 13,78 |
+| 🟢 109 | 0,00 | 0,00 | 0,00 | 0,00 | 5,69 | 5,69 | 5,69 | 5,69 | 5,69 | 8,74 |
+| 🟢 110 | 0,00 | 0,00 | 0,00 | 0,00 | 6,40 | 6,40 | 6,40 | 6,40 | 6,40 | 15,95 |
+| 🟢 111 | 0,00 | 0,00 | 0,00 | 0,00 | 5,69 | 5,69 | 5,69 | 5,69 | 5,69 | 8,74 |
+| 🟢 112 | 0,00 | 0,00 | 0,00 | 0,00 | 5,69 | 5,69 | 5,69 | 5,69 | 5,69 | 7,53 |
+| 🟢 113 | 0,00 | 0,00 | 0,00 | 0,00 | 5,09 | 5,09 | 5,09 | 5,09 | 5,09 | 5,16 |
+| 🟢 114 | 0,00 | 0,00 | 0,00 | 0,00 | 4,53 | 4,53 | 4,53 | 4,53 | 4,53 | 6,95 |
+| 🟢 115 | 0,00 | 0,00 | 0,00 | 0,00 | 2,34 | 2,34 | 2,34 | 2,34 | 2,34 | 2,57 |
+| 🟢 116 | 1,67 | 2,88 | 2,88 | 2,88 | 4,08 | 4,08 | 4,08 | 5,04 | 5,04 | 5,77 |
+| 🟢 117 | 0,00 | 0,00 | 0,00 | 0,00 | 3,78 | 3,78 | 3,78 | 3,78 | 3,78 | 4,68 |
+| 🟢 118 | 0,00 | 0,00 | 0,00 | 0,00 | 3,25 | 3,25 | 3,25 | 3,25 | 3,25 | 7,75 |
+| 🟢 119 | 0,00 | 0,00 | 0,00 | 0,00 | 4,03 | 4,03 | 4,03 | 4,03 | 4,03 | 5,15 |
+| 🟢 120 | 0,00 | 0,00 | 0,00 | 0,00 | 4,12 | 4,12 | 4,12 | 4,12 | 4,12 | 6,91 |
+| 🟢 121 | 0,00 | 0,00 | 0,00 | 0,00 | 3,21 | 3,21 | 3,21 | 3,21 | 3,21 | 4,13 |
+| 🟢 122 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 2,05 | 2,05 | 4,81 |
+| 🔴 123 | 0,00 | 0,00 | 0,00 | 0,00 | — | — | — | — | — | — |
+| 🟢 124 | 0,00 | 0,00 | 0,00 | 0,00 | 2,48 | 2,48 | 2,48 | 3,93 | 3,93 | 5,39 |
+| 🔴 125 | 0,00 | 0,00 | 0,00 | 0,00 | — | — | — | — | — | — |
+| 🟡 126 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 127 | 0,00 | 0,00 | 0,00 | 0,00 | 4,87 | 4,87 | 4,87 | 4,87 | 4,87 | 8,31 |
+| 🟢 128 | 0,00 | 0,00 | 0,00 | 0,00 | 8,63 | 8,63 | 8,63 | 8,63 | 8,63 | 8,63 |
+| 🟢 129 | 0,00 | 0,00 | 0,00 | 0,00 | 7,80 | 7,80 | 7,80 | 10,01 | 10,01 | 11,37 |
+| 🟢 130 | 0,00 | 8,77 | 8,77 | 8,77 | 10,54 | 10,54 | 10,54 | 16,56 | 16,56 | 21,75 |
+| 🟢 131 | 0,00 | 0,00 | 0,00 | 0,00 | 7,81 | 7,81 | 7,81 | 7,81 | 7,81 | 7,81 |
+| 🟢 132 | 1,59 | 1,80 | 1,80 | 1,80 | 8,05 | 8,05 | 8,05 | 10,23 | 10,23 | 11,37 |
+| 🟢 133 | 0,00 | 0,00 | 0,00 | 0,00 | 2,29 | 2,29 | 2,29 | 2,82 | 2,82 | 7,52 |
+| 🟢 134 | 2,36 | 2,55 | 2,55 | 2,55 | 8,83 | 8,83 | 8,83 | 9,40 | 9,40 | 10,02 |
+| 🟡 135 | 5,85 | 5,85 | 5,85 | 5,85 | 7,90 | 7,90 | 7,90 | 7,90 | 7,90 | 10,80 |
+| 🟢 136 | 0,00 | 0,00 | 0,00 | 0,00 | 9,96 | 9,96 | 9,96 | 10,18 | 10,18 | 10,43 |
+| 🟢 137 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 3,68 | 3,68 | 4,57 |
+| 🟢 138 | 5,77 | 5,77 | 5,77 | 5,77 | 6,51 | 6,51 | 6,51 | 7,45 | 7,45 | 8,45 |
+| 🟢 139 | 4,71 | 4,71 | 4,71 | 4,71 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,04 |
+| 🟢 140 | 2,85 | 2,85 | 2,85 | 2,85 | 5,92 | 5,92 | 5,92 | 8,50 | 8,50 | 9,36 |
+| 🟡 141 | 0,00 | 0,00 | 0,00 | 0,00 | 5,10 | 5,10 | 5,10 | 5,10 | 5,10 | 8,20 |
+| 🟢 142 | 0,00 | 0,00 | 0,00 | 0,00 | 4,56 | 4,56 | 4,56 | 5,73 | 5,73 | 8,00 |
+| 🟢 143 | 3,67 | 3,67 | 3,67 | 3,67 | 10,06 | 10,06 | 10,06 | 12,46 | 12,46 | 14,30 |
+| 🟢 144 | 6,13 | 6,13 | 6,13 | 6,13 | 7,05 | 7,05 | 7,05 | 7,05 | 7,05 | 9,32 |
+| 🟡 145 | 0,00 | 1,70 | 1,70 | 1,70 | 9,49 | 9,49 | 9,49 | 9,54 | 9,54 | 9,62 |
+| 🟡 146 | 0,00 | 1,70 | 1,70 | 1,70 | 9,49 | 9,49 | 9,49 | 9,54 | 9,54 | 9,62 |
+| 🟡 147 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 148 | 5,92 | 5,92 | 5,92 | 5,92 | 7,45 | 7,45 | 7,45 | 9,15 | 9,15 | 11,80 |
+| 🟢 149 | 0,00 | 0,00 | 0,00 | 0,00 | 5,49 | 5,49 | 5,49 | 7,88 | 7,88 | 11,28 |
+| 🟢 150 | 0,00 | 0,00 | 0,00 | 0,00 | 3,84 | 3,84 | 3,84 | 3,84 | 3,84 | 5,25 |
+| 🟢 151 | 5,15 | 5,15 | 5,15 | 5,15 | 5,15 | 5,15 | 5,15 | 11,45 | 11,45 | 11,45 |
+| 🟢 152 | 0,00 | 0,00 | 0,00 | 0,00 | 7,48 | 7,48 | 7,48 | 7,48 | 7,48 | 7,48 |
+| 🟢 153 | 0,00 | 0,00 | 0,00 | 0,00 | 7,48 | 7,48 | 7,48 | 7,48 | 7,48 | 7,48 |
+| 🟡 154 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟡 155 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 |
+| 🟢 156 | 5,25 | 5,25 | 5,25 | 5,25 | 9,68 | 9,68 | 9,68 | 9,68 | 9,68 | 11,11 |
+| 🟢 157 | 5,58 | 5,58 | 5,58 | 5,58 | 10,25 | 10,25 | 10,25 | 11,14 | 11,14 | 12,22 |
+| 🟡 158 | 5,85 | 5,85 | 5,85 | 5,85 | 7,90 | 7,90 | 7,90 | 7,90 | 7,90 | 10,80 |
+| 🟢 159 | 4,92 | 4,92 | 4,92 | 4,92 | 6,01 | 6,01 | 6,01 | 6,01 | 6,01 | 10,06 |
+| 🟢 160 | 5,28 | 5,28 | 5,28 | 5,28 | 5,28 | 5,28 | 5,28 | 11,62 | 11,62 | 11,62 |
+| 🟡 161 | 4,50 | 4,50 | 4,50 | 4,50 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,50 |
+| 🟡 162 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 163 | 4,33 | 4,33 | 4,33 | 4,33 | 6,50 | 6,50 | 6,50 | 6,50 | 6,50 | 10,83 |
+| 🟡 164 | 0,00 | 0,00 | 0,00 | 0,00 | 5,60 | 5,60 | 5,60 | 5,60 | 5,60 | 9,80 |
+| 🟢 165 | 13,79 | 13,79 | 13,79 | 13,79 | 17,71 | 17,71 | 17,71 | 26,45 | 26,45 | 26,45 |
+| 🟡 166 | 6,42 | 6,42 | 6,42 | 6,42 | 12,43 | 12,43 | 12,43 | 12,43 | 12,43 | 18,98 |
+| 🟢 167 | 0,00 | 0,00 | 0,00 | 0,00 | 4,53 | 4,53 | 4,53 | 4,53 | 4,53 | 6,04 |
+| 🟡 168 | 5,65 | 5,65 | 5,65 | 5,65 | 5,65 | 5,65 | 5,65 | 14,13 | 14,13 | 14,13 |
+| 🟡 169 | 4,25 | 4,25 | 4,25 | 4,25 | 7,10 | 7,10 | 7,10 | 7,10 | 7,10 | 7,10 |
+| 🟡 170 | 4,10 | 4,10 | 4,10 | 4,10 | 5,95 | 5,95 | 5,95 | 5,95 | 5,95 | 8,60 |
+| 🟢 171 | 5,76 | 5,76 | 5,76 | 5,76 | 8,64 | 8,64 | 8,64 | 8,64 | 8,64 | 14,40 |
+| 🟢 172 | 6,01 | 6,01 | 6,01 | 6,01 | 8,54 | 8,54 | 8,54 | 8,54 | 8,54 | 14,32 |
+| 🟢 173 | 3,06 | 3,06 | 3,06 | 3,06 | 4,59 | 4,59 | 4,59 | 4,59 | 4,59 | 7,66 |
+| 🟢 174 | 0,00 | 0,00 | 0,00 | 0,00 | 8,72 | 8,72 | 8,72 | 8,72 | 8,72 | 8,72 |
+| 🟢 175 | 1,79 | 1,83 | 1,83 | 1,83 | 5,24 | 5,24 | 5,24 | 5,57 | 5,57 | 5,62 |
+| 🟡 176 | 4,80 | 4,80 | 4,80 | 4,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 11,50 |
+| 🟢 177 | 3,27 | 3,27 | 3,27 | 3,27 | 5,72 | 5,72 | 5,72 | 5,72 | 5,72 | 8,87 |
+| 🟡 178 | 4,85 | 4,85 | 4,85 | 4,85 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 11,50 |
+| 🟢 179 | 0,00 | 0,00 | 0,00 | 0,00 | 9,81 | 9,81 | 9,81 | 10,92 | 10,92 | 12,80 |
+| 🟡 180 | 7,52 | 7,52 | 7,52 | 7,52 | 7,52 | 7,52 | 7,52 | 16,54 | 16,54 | 16,54 |
+| 🟡 181 | 7,44 | 7,44 | 7,44 | 7,44 | 7,44 | 7,44 | 7,44 | 16,36 | 16,36 | 16,36 |
+| 🟡 182 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 6,98 | 15,37 | 15,37 | 15,37 |
+| 🟢 183 | 7,39 | 7,39 | 7,39 | 7,39 | 14,10 | 14,10 | 14,10 | 16,30 | 16,30 | 17,41 |
+| 🟢 184 | 6,14 | 6,14 | 6,14 | 6,14 | 10,68 | 10,68 | 10,68 | 12,17 | 12,17 | 13,72 |
+| 🟢 185 | 5,49 | 5,49 | 5,49 | 5,49 | 10,48 | 10,48 | 10,48 | 12,11 | 12,11 | 12,94 |
+| 🟢 186 | 8,03 | 8,03 | 8,03 | 8,03 | 10,28 | 10,28 | 10,28 | 10,46 | 10,46 | 11,57 |
+| 🟢 187 | 3,03 | 3,03 | 3,03 | 3,03 | 4,55 | 4,55 | 4,55 | 4,55 | 4,55 | 7,57 |
+
+<!-- tabela: **Tabela 181** — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 2 de 3: 25–30 a 70–75 m³) -->
+| Nº | 25–30 | 30–35 | 35–40 | 40–45 | 45–50 | 50–55 | 55–60 | 60–65 | 65–70 | 70–75 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 🟢 1 | 18,04 | 18,63 | 18,63 | 18,86 | 18,86 | 18,99 | 18,99 | 18,99 | 18,99 | 18,99 |
+| 🟢 2 | 15,46 | 15,97 | 15,97 | 15,92 | 15,92 | 15,14 | 15,14 | 15,14 | 15,14 | 15,14 |
+| 🟢 3 | 18,04 | 18,63 | 18,63 | 18,86 | 18,86 | 18,99 | 18,99 | 18,99 | 18,99 | 18,99 |
+| 🟡 4 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 |
+| 🟢 5 | 10,14 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 16,48 | 16,48 | 16,48 |
+| 🟡 6 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 7 | 4,01 | 5,64 | 5,64 | 5,64 | 5,64 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 |
+| 🟢 8 | 15,34 | 15,85 | 15,85 | 15,85 | 15,85 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 |
+| 🟡 9 | 15,67 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 |
+| 🟢 10 | 10,77 | 13,68 | 13,68 | 13,68 | 13,68 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 |
+| 🟡 11 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 |
+| 🟢 12 | 9,87 | 11,82 | 11,82 | 11,82 | 11,82 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 |
+| 🟢 13 | 8,45 | 9,74 | 9,74 | 9,74 | 9,74 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 14 | 7,64 | 8,79 | 8,79 | 8,79 | 8,79 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 15 | 14,81 | 22,22 | 22,22 | 22,22 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 |
+| 🟡 16 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 17 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 |
+| 🟢 18 | 9,32 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 |
+| 🟢 19 | 17,17 | 17,72 | 17,72 | 17,96 | 17,96 | 18,07 | 18,07 | 18,07 | 18,07 | 18,07 |
+| 🟡 20 | 19,14 | 19,14 | 19,14 | 19,14 | 19,14 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 |
+| 🟡 21 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟢 22 | 8,55 | 8,55 | 8,55 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 |
+| 🟢 23 | 9,77 | 11,24 | 11,24 | 11,24 | 11,24 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 |
+| 🟢 24 | 5,74 | 6,13 | 6,13 | 6,13 | 6,13 | 6,88 | 6,88 | 6,88 | 6,88 | 6,88 |
+| 🟡 25 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 26 | 6,63 | 6,63 | 6,63 | 6,63 | 6,63 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 |
+| 🟢 27 | 13,18 | 13,18 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 |
+| 🟢 28 | 8,42 | 11,59 | 11,59 | 11,59 | 11,59 | 13,74 | 13,74 | 13,74 | 13,74 | 13,74 |
+| 🟢 29 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 |
+| 🟡 30 | 13,66 | 13,66 | 13,66 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 |
+| 🟡 31 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 32 | 9,38 | 10,58 | 10,58 | 14,66 | 14,66 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 |
+| 🟢 33 | 5,06 | 6,58 | 6,58 | 6,58 | 6,58 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 |
+| 🟢 34 | 5,83 | 7,64 | 7,64 | 9,07 | 9,07 | 10,82 | 10,82 | 10,82 | 10,82 | 10,82 |
+| 🟢 35 | 10,77 | 10,77 | 10,77 | 10,77 | 10,77 | 15,55 | 15,55 | 15,55 | 15,55 | 15,55 |
+| 🟢 36 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 |
+| 🟢 37 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 |
+| 🟢 38 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 |
+| 🟡 39 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 |
+| 🟢 40 | 7,77 | 7,77 | 10,69 | 10,69 | 10,69 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 |
+| 🟡 41 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 |
+| 🟢 42 | 6,84 | 8,10 | 8,10 | 8,94 | 8,94 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 |
+| 🟢 43 | 4,89 | 5,26 | 5,26 | 5,64 | 5,64 | 6,01 | 6,01 | 6,01 | 6,01 | 6,01 |
+| 🟡 44 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 45 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 |
+| 🟡 46 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 47 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 48 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 |
+| 🟢 49 | 6,74 | 8,37 | 8,37 | 9,93 | 9,93 | 11,47 | 11,47 | 13,08 | 13,08 | 14,61 |
+| 🟡 50 | 8,20 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 |
+| 🟡 51 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 52 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 |
+| 🟡 53 | 16,82 | 18,49 | 18,49 | 20,28 | 20,28 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 |
+| 🟢 54 | 6,46 | 8,82 | 8,82 | 8,82 | 8,82 | 12,69 | 12,69 | 12,69 | 12,69 | 12,69 |
+| 🟢 55 | 16,75 | 23,49 | 23,49 | 23,49 | 23,49 | 32,67 | 32,67 | 32,67 | 32,67 | 32,67 |
+| 🟢 56 | 7,77 | 10,04 | 10,04 | 10,04 | 10,04 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 |
+| 🟡 57 | 3,34 | 3,70 | 3,70 | 5,06 | 5,06 | 6,46 | 6,46 | 6,46 | 6,46 | 6,46 |
+| 🟡 58 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 59 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 60 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 61 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 62 | 42,88 | 42,88 | 51,46 | 51,46 | 63,18 | 63,18 | 80,25 | 80,25 | 91,26 | 91,26 |
+| 🟢 63 | 6,24 | 8,41 | 8,41 | 8,41 | 8,41 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 |
+| 🟡 64 | 15,37 | 20,94 | 20,94 | 20,94 | 41,88 | 41,88 | 41,88 | 55,84 | 55,84 | 55,84 |
+| 🟡 65 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 66 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 67 | 9,77 | 11,24 | 11,24 | 11,24 | 11,24 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 |
+| 🟡 68 | 13,13 | 13,13 | 13,13 | 13,13 | 13,13 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 |
+| 🟡 69 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 70 | 3,21 | 3,69 | 3,69 | 3,69 | 3,69 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 |
+| 🟡 71 | 6,65 | 9,53 | 9,53 | 14,27 | 14,27 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 |
+| 🟡 72 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 73 | 8,23 | 9,71 | 9,71 | 9,96 | 9,96 | 10,01 | 10,01 | 10,01 | 10,01 | 10,01 |
+| 🟡 74 | 4,11 | 4,66 | 5,33 | 6,07 | 6,92 | 7,88 | 7,88 | 7,88 | 7,88 | 8,99 |
+| 🟡 75 | 6,16 | 6,83 | 6,83 | 9,65 | 9,65 | 9,65 | 9,65 | 11,45 | 11,45 | 11,45 |
+| 🟡 76 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 77 | 6,83 | 7,49 | 7,49 | 8,29 | 8,29 | 9,09 | 9,09 | 9,09 | 9,09 | 9,09 |
+| 🟡 78 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 79 | 8,27 | 8,37 | 8,50 | 8,67 | 8,67 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 |
+| 🟡 80 | 4,38 | 7,21 | 7,21 | 8,37 | 8,37 | 11,88 | 11,88 | 13,03 | 13,03 | 14,36 |
+| 🟡 81 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 82 | 3,93 | 4,31 | 4,31 | 4,51 | 4,51 | 4,72 | 4,72 | 4,72 | 4,72 | 4,72 |
+| 🟡 83 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 84 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 |
+| 🟡 85 | 5,96 | 5,96 | 7,03 | 7,03 | 7,03 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 |
+| 🟡 86 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 87 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 |
+| 🟡 88 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 89 | 9,17 | 9,56 | 9,56 | 10,05 | 10,05 | 10,66 | 10,66 | 10,66 | 10,66 | 10,66 |
+| 🟡 90 | 7,54 | 9,28 | 9,28 | 11,59 | 11,59 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 |
+| 🟡 91 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 92 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 93 | 8,17 | 9,88 | 9,88 | 10,17 | 10,17 | 10,23 | 10,23 | 10,23 | 10,23 | 10,23 |
+| 🟡 94 | 4,77 | 5,27 | 6,34 | 8,07 | 8,07 | 8,07 | 8,07 | 10,21 | 10,21 | 10,21 |
+| 🔴 95 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 96 | 7,69 | 8,05 | 8,05 | 8,47 | 8,47 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 |
+| 🟡 97 | 7,77 | 9,81 | 9,81 | 11,65 | 11,65 | 12,78 | 12,78 | 14,16 | 14,16 | 14,16 |
+| 🟡 98 | 8,21 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 |
+| 🟡 99 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 100 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 101 | 11,90 | 11,90 | 11,90 | 11,90 | 11,90 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 |
+| 🟡 102 | 7,03 | 7,03 | 7,03 | 9,74 | 9,74 | 9,74 | 9,74 | 10,33 | 10,33 | 10,33 |
+| 🟡 103 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 |
+| 🔴 104 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 105 | 8,64 | 9,94 | 11,54 | 13,50 | 13,50 | 15,91 | 15,91 | 15,91 | 15,91 | 15,91 |
+| 🟡 106 | 4,73 | 5,65 | 6,85 | 6,85 | 8,21 | 8,21 | 8,21 | 9,78 | 9,78 | 9,78 |
+| 🟡 107 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 108 | 13,78 | 13,78 | 13,78 | 13,78 | 13,78 | 20,37 | 20,37 | 20,37 | 20,37 | 20,37 |
+| 🟢 109 | 8,74 | 8,74 | 8,74 | 8,74 | 8,74 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 |
+| 🟢 110 | 15,95 | 15,95 | 15,95 | 15,95 | 15,95 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 |
+| 🟢 111 | 8,74 | 8,74 | 8,74 | 8,74 | 8,74 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 |
+| 🟢 112 | 7,53 | 7,53 | 7,53 | 7,53 | 7,53 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 |
+| 🟢 113 | 5,16 | 7,09 | 7,09 | 7,09 | 7,09 | 11,82 | 11,82 | 11,93 | 11,93 | 12,03 |
+| 🟢 114 | 6,95 | 6,95 | 6,95 | 6,95 | 6,95 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 |
+| 🟢 115 | 2,57 | 2,81 | 2,81 | 3,10 | 3,10 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 |
+| 🟢 116 | 6,49 | 6,97 | 6,97 | 7,45 | 7,45 | 7,69 | 7,69 | 7,69 | 7,69 | 7,69 |
+| 🟢 117 | 4,68 | 6,43 | 6,43 | 7,25 | 7,25 | 10,21 | 10,21 | 10,21 | 10,21 | 15,08 |
+| 🟢 118 | 7,79 | 8,34 | 8,34 | 9,77 | 9,77 | 11,47 | 11,47 | 11,47 | 11,47 | 11,47 |
+| 🟢 119 | 5,15 | 6,62 | 6,62 | 6,90 | 6,90 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 |
+| 🟢 120 | 6,91 | 6,91 | 6,91 | 6,91 | 6,91 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 |
+| 🟢 121 | 4,13 | 5,58 | 5,58 | 5,58 | 5,58 | 7,82 | 7,82 | 7,82 | 7,82 | 7,82 |
+| 🟢 122 | 5,39 | 5,83 | 5,93 | 6,46 | 6,46 | 7,02 | 7,02 | 7,67 | 7,67 | 9,92 |
+| 🔴 123 | — | — | — | — | — | — | — | — | — | — |
+| 🟢 124 | 7,18 | 9,33 | 9,33 | 12,57 | 12,57 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 |
+| 🔴 125 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 126 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 127 | 8,31 | 8,25 | 8,25 | 8,25 | 8,25 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 |
+| 🟢 128 | 8,63 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 |
+| 🟢 129 | 12,54 | 12,54 | 12,54 | 12,54 | 12,54 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 |
+| 🟢 130 | 21,75 | 22,66 | 22,66 | 22,66 | 22,66 | 24,36 | 24,36 | 24,36 | 24,36 | 24,36 |
+| 🟢 131 | 10,30 | 10,30 | 10,30 | 12,49 | 12,49 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 |
+| 🟢 132 | 12,49 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 |
+| 🟢 133 | 7,52 | 7,58 | 7,58 | 9,34 | 9,34 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 |
+| 🟢 134 | 10,34 | 10,34 | 10,34 | 10,34 | 10,34 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 |
+| 🟡 135 | 10,80 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 |
+| 🟢 136 | 12,82 | 13,65 | 13,65 | 13,65 | 13,65 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 |
+| 🟢 137 | 5,46 | 6,35 | 7,24 | 8,12 | 9,01 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 |
+| 🟢 138 | 9,54 | 10,89 | 10,89 | 12,33 | 12,33 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 |
+| 🟢 139 | 10,04 | 10,04 | 10,04 | 10,04 | 10,04 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 |
+| 🟢 140 | 9,36 | 9,98 | 9,98 | 9,98 | 9,98 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 |
+| 🟡 141 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 |
+| 🟢 142 | 8,00 | 8,00 | 11,63 | 11,63 | 11,63 | 16,92 | 16,92 | 16,92 | 16,92 | 16,92 |
+| 🟢 143 | 14,30 | 14,30 | 14,30 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 |
+| 🟢 144 | 9,32 | 10,74 | 10,74 | 10,74 | 10,74 | 12,33 | 12,33 | 12,33 | 12,33 | 12,33 |
+| 🟡 145 | 9,62 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 |
+| 🟡 146 | 9,62 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 |
+| 🟡 147 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 148 | 11,80 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 |
+| 🟢 149 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 |
+| 🟢 150 | 5,25 | 6,99 | 6,99 | 8,64 | 8,64 | 13,14 | 13,14 | 13,14 | 13,14 | 13,14 |
+| 🟢 151 | 11,45 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 |
+| 🟢 152 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 |
+| 🟢 153 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 |
+| 🟡 154 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 155 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 |
+| 🟢 156 | 11,11 | 13,59 | 13,59 | 13,59 | 13,59 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 |
+| 🟢 157 | 12,22 | 12,64 | 12,64 | 13,29 | 13,29 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 |
+| 🟡 158 | 10,80 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 |
+| 🟢 159 | 10,06 | 12,31 | 12,31 | 12,31 | 12,31 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 |
+| 🟢 160 | 11,62 | 15,85 | 15,85 | 15,85 | 31,70 | 31,70 | 31,70 | 42,27 | 42,27 | 42,27 |
+| 🟡 161 | 10,50 | 10,50 | 10,50 | 10,50 | 10,50 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 162 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 163 | 10,83 | 14,29 | 14,29 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 |
+| 🟡 164 | 9,80 | 9,80 | 9,80 | 9,80 | 9,80 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 165 | 33,10 | 33,10 | 42,43 | 42,43 | 51,93 | 51,93 | 66,02 | 66,02 | 80,27 | 80,27 |
+| 🟡 166 | 18,98 | 25,86 | 25,86 | 29,84 | 29,84 | 29,84 | 29,84 | 34,02 | 34,02 | 34,02 |
+| 🟢 167 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 |
+| 🟡 168 | 14,13 | 17,53 | 17,53 | 17,53 | 33,92 | 33,92 | 33,92 | 45,23 | 45,23 | 45,23 |
+| 🟡 169 | 7,10 | 11,80 | 11,80 | 11,80 | 11,80 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 |
+| 🟡 170 | 8,60 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 171 | 14,40 | 19,01 | 19,01 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 |
+| 🟢 172 | 14,32 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 |
+| 🟢 173 | 7,66 | 11,48 | 11,48 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 |
+| 🟢 174 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 |
+| 🟢 175 | 5,62 | 5,62 | 5,62 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 |
+| 🟡 176 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 |
+| 🟢 177 | 8,87 | 11,37 | 11,37 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 |
+| 🟡 178 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 179 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 |
+| 🟡 180 | 16,54 | 22,56 | 22,56 | 22,56 | 45,12 | 45,12 | 45,12 | 60,16 | 60,16 | 60,16 |
+| 🟡 181 | 16,36 | 22,31 | 22,31 | 22,31 | 44,62 | 44,62 | 44,62 | 59,49 | 59,49 | 59,49 |
+| 🟡 182 | 15,37 | 20,94 | 20,94 | 20,94 | 41,88 | 41,88 | 41,88 | 55,84 | 55,84 | 55,84 |
+| 🟢 183 | 17,41 | 17,98 | 17,98 | 18,21 | 18,21 | 18,33 | 18,33 | 18,33 | 18,33 | 18,33 |
+| 🟢 184 | 13,72 | 14,83 | 14,83 | 15,57 | 15,57 | 15,95 | 15,95 | 15,95 | 15,95 | 15,95 |
+| 🟢 185 | 12,94 | 13,36 | 13,36 | 13,54 | 13,54 | 13,62 | 13,62 | 13,62 | 13,62 | 13,62 |
+| 🟢 186 | 14,23 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 |
+| 🟢 187 | 7,57 | 9,99 | 9,99 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 |
+
+<!-- tabela: **Tabela 182** — Preço da água por intervalo de consumo mensal, em R$/m³, por município e categoria (parte 3 de 3: 75–80 a 5.000 m³) -->
+| Nº | 75–80 | 80–90 | 90–99 | 99–100 | 100–150 | 150–200 | 200–300 | 300–500 | 500–5.000 | > 5.000 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 🟢 1 | 18,99 | 18,99 | 19,09 | 19,09 | 19,09 | 19,10 | 19,10 | 19,10 | 19,10 | 19,10 |
+| 🟢 2 | 15,14 | 15,14 | 16,96 | 16,96 | 16,96 | 19,88 | 19,88 | 19,88 | 19,88 | 19,88 |
+| 🟢 3 | 18,99 | 18,99 | 19,09 | 19,09 | 19,09 | 19,10 | 19,10 | 19,10 | 19,10 | 19,10 |
+| 🟡 4 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 |
+| 🟢 5 | 16,48 | 16,48 | 16,48 | 16,48 | 20,60 | 20,60 | 20,60 | 20,60 | 20,60 | 20,60 |
+| 🟡 6 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 7 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 | 7,57 |
+| 🟢 8 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 | 16,18 |
+| 🟡 9 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 | 17,50 |
+| 🟢 10 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 | 21,48 |
+| 🟡 11 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 | 8,90 |
+| 🟢 12 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 |
+| 🟢 13 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 14 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 15 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 | 28,88 |
+| 🟡 16 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 17 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 | 28,77 |
+| 🟢 18 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 | 12,67 |
+| 🟢 19 | 18,07 | 18,07 | 18,18 | 18,18 | 18,18 | 18,19 | 18,19 | 18,19 | 18,19 | 18,19 |
+| 🟡 20 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 | 24,08 |
+| 🟡 21 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟢 22 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 | 11,16 |
+| 🟢 23 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 |
+| 🟢 24 | 6,88 | 6,88 | 6,88 | 6,88 | 7,03 | 7,03 | 7,28 | 7,28 | 7,28 | 7,28 |
+| 🟡 25 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 26 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 | 7,94 |
+| 🟢 27 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 | 13,63 |
+| 🟢 28 | 13,74 | 13,74 | 26,40 | 26,40 | 26,40 | 26,40 | 26,40 | 26,40 | 26,40 | 26,40 |
+| 🟢 29 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 | 9,23 |
+| 🟡 30 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 | 16,54 |
+| 🟡 31 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 32 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 | 19,04 |
+| 🟢 33 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 | 9,31 |
+| 🟢 34 | 10,82 | 10,82 | 10,82 | 10,82 | 12,76 | 12,76 | 15,21 | 15,21 | 15,21 | 15,21 |
+| 🟢 35 | 15,55 | 15,55 | 15,55 | 15,55 | 17,91 | 17,91 | 17,91 | 17,91 | 17,91 | 17,91 |
+| 🟢 36 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 | 3,49 |
+| 🟢 37 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 | 3,23 |
+| 🟢 38 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 | 11,01 |
+| 🟡 39 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 | 2,37 |
+| 🟢 40 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 | 22,18 |
+| 🟡 41 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 | 6,80 |
+| 🟢 42 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 | 11,17 |
+| 🟢 43 | 6,39 | 6,39 | 6,39 | 6,39 | 6,76 | 6,76 | 6,76 | 6,76 | 6,76 | 6,76 |
+| 🟡 44 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 45 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 | 19,80 |
+| 🟡 46 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 47 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 48 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 | 5,50 |
+| 🟢 49 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 | 14,61 |
+| 🟡 50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 | 11,50 |
+| 🟡 51 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 52 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 | 7,83 |
+| 🟡 53 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 | 24,40 |
+| 🟢 54 | 12,69 | 12,69 | 12,69 | 12,69 | 16,79 | 16,79 | 16,79 | 16,79 | 16,79 | 16,79 |
+| 🟢 55 | 32,67 | 32,67 | 32,67 | 32,67 | 42,08 | 42,08 | 42,08 | 42,08 | 42,08 | 42,08 |
+| 🟢 56 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 | 15,77 |
+| 🟡 57 | 6,46 | 6,46 | 6,46 | 6,46 | 8,12 | 8,12 | 9,62 | 9,62 | 9,62 | 9,62 |
+| 🟡 58 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 59 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 60 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 61 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟢 62 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 | 91,26 |
+| 🟢 63 | 10,20 | 10,20 | 10,20 | 10,20 | 11,63 | 11,63 | 11,63 | 11,63 | 11,63 | 11,63 |
+| 🟡 64 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 |
+| 🟡 65 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 66 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 67 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 | 12,36 |
+| 🟡 68 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 | 16,09 |
+| 🟡 69 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 70 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 | 4,06 |
+| 🟡 71 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 | 15,67 |
+| 🟡 72 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 73 | 10,06 | 10,06 | 10,06 | 10,06 | 10,11 | 10,11 | 10,16 | 10,16 | 10,16 | 10,16 |
+| 🟡 74 | 8,99 | 8,99 | 8,99 | 8,99 | 10,22 | 10,22 | 10,22 | 10,22 | 10,22 | 10,22 |
+| 🟡 75 | 11,45 | 23,32 | 23,32 | 23,32 | 23,32 | 23,32 | 23,32 | 23,32 | 23,32 | 23,32 |
+| 🟡 76 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 77 | 9,99 | 9,99 | 9,99 | 9,99 | 10,99 | 10,99 | 12,09 | 12,09 | 12,09 | 12,09 |
+| 🟡 78 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 79 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 | 10,44 |
+| 🟡 80 | 14,36 | 15,93 | 17,47 | 17,47 | 19,22 | 19,22 | 19,22 | 19,22 | 19,22 | 19,22 |
+| 🟡 81 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 82 | 5,11 | 5,11 | 5,11 | 5,11 | 5,54 | 5,54 | 5,72 | 5,72 | 5,72 | 5,72 |
+| 🟡 83 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟡 84 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 | 14,80 |
+| 🟡 85 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 |
+| 🟡 86 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 87 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 | 0,00 |
+| 🟡 88 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 89 | 11,67 | 11,67 | 11,67 | 11,67 | 12,75 | 12,75 | 12,75 | 12,75 | 12,75 | 12,75 |
+| 🟡 90 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 | 13,92 |
+| 🟡 91 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 | 7,20 |
+| 🟡 92 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 93 | 10,29 | 10,29 | 10,29 | 10,29 | 10,34 | 10,34 | 10,40 | 10,40 | 10,40 | 10,40 |
+| 🟡 94 | 10,21 | 13,58 | 13,58 | 13,58 | 13,58 | 13,58 | 13,58 | 13,58 | 13,58 | 13,58 |
+| 🔴 95 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 96 | 9,12 | 9,12 | 9,12 | 9,12 | 10,95 | 10,95 | 13,13 | 15,75 | 15,75 | 15,75 |
+| 🟡 97 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 | 14,16 |
+| 🟡 98 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 | 9,40 |
+| 🟡 99 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟡 100 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 101 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 | 16,50 |
+| 🟡 102 | 10,33 | 10,33 | 10,33 | 10,33 | 10,33 | 10,33 | 10,33 | 10,95 | 10,95 | 10,95 |
+| 🟡 103 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 | 12,50 |
+| 🔴 104 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 105 | 15,91 | 15,91 | 15,91 | 15,91 | 17,18 | 17,18 | 17,18 | 17,18 | 17,18 | 17,18 |
+| 🟡 106 | 9,78 | 9,78 | 9,78 | 9,78 | 11,75 | 11,75 | 11,75 | 11,75 | 11,75 | 11,75 |
+| 🟡 107 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 108 | 20,37 | 20,37 | 20,37 | 25,49 | 25,49 | 25,49 | 25,49 | 25,49 | 25,49 | 25,49 |
+| 🟢 109 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 |
+| 🟢 110 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 | 17,57 |
+| 🟢 111 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 | 10,46 |
+| 🟢 112 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 |
+| 🟢 113 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 | 12,03 |
+| 🟢 114 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 | 8,32 |
+| 🟢 115 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 | 3,46 |
+| 🟢 116 | 7,93 | 7,93 | 7,93 | 7,93 | 8,17 | 8,17 | 8,41 | 8,41 | 8,41 | 8,41 |
+| 🟢 117 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 | 15,08 |
+| 🟢 118 | 11,47 | 11,47 | 11,47 | 11,47 | 13,46 | 13,46 | 13,46 | 13,46 | 13,46 | 13,46 |
+| 🟢 119 | 9,23 | 9,23 | 9,23 | 9,23 | 10,87 | 10,87 | 10,87 | 10,87 | 10,87 | 10,87 |
+| 🟢 120 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 | 11,31 |
+| 🟢 121 | 7,82 | 7,82 | 7,82 | 7,82 | 11,34 | 11,34 | 11,34 | 11,34 | 17,02 | 26,39 |
+| 🟢 122 | 9,92 | 12,03 | 12,81 | 12,81 | 13,20 | 13,20 | 13,20 | 13,20 | 13,20 | 13,20 |
+| 🔴 123 | — | — | — | — | — | — | — | — | — | — |
+| 🟢 124 | 15,77 | 19,02 | 19,02 | 19,02 | 21,87 | 21,87 | 21,87 | 21,87 | 21,87 | 21,87 |
+| 🔴 125 | — | — | — | — | — | — | — | — | — | — |
+| 🟡 126 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 127 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 | 9,94 |
+| 🟢 128 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 | 11,00 |
+| 🟢 129 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 | 13,18 |
+| 🟢 130 | 24,36 | 24,36 | 24,36 | 24,36 | 28,35 | 28,35 | 28,35 | 28,35 | 28,35 | 28,35 |
+| 🟢 131 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 | 14,31 |
+| 🟢 132 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 | 14,79 |
+| 🟢 133 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 | 10,74 |
+| 🟢 134 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 | 10,51 |
+| 🟡 135 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 |
+| 🟢 136 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 | 20,94 |
+| 🟢 137 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 | 9,90 |
+| 🟢 138 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 | 14,06 |
+| 🟢 139 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 | 11,91 |
+| 🟢 140 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 | 10,41 |
+| 🟡 141 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 | 8,20 |
+| 🟢 142 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 | 22,82 |
+| 🟢 143 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 | 22,98 |
+| 🟢 144 | 12,33 | 12,33 | 12,33 | 12,33 | 14,18 | 14,18 | 14,18 | 14,18 | 14,18 | 14,18 |
+| 🟡 145 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 |
+| 🟡 146 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 | 16,28 |
+| 🟡 147 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 148 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 | 15,60 |
+| 🟢 149 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 | 11,28 |
+| 🟢 150 | 13,14 | 13,14 | 13,14 | 13,14 | 14,59 | 14,59 | 14,59 | 14,59 | 14,59 | 14,59 |
+| 🟢 151 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 | 16,03 |
+| 🟢 152 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 | 10,38 |
+| 🟢 153 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 | 10,20 |
+| 🟡 154 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 155 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 | 6,74 |
+| 🟢 156 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 |
+| 🟢 157 | 13,92 | 13,92 | 13,96 | 13,96 | 13,96 | 13,97 | 13,97 | 13,97 | 13,97 | 13,97 |
+| 🟡 158 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 | 14,20 |
+| 🟢 159 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 | 16,29 |
+| 🟢 160 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 | 42,27 |
+| 🟡 161 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 | 15,00 |
+| 🟡 162 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 163 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 | 22,95 |
+| 🟡 164 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 | 14,50 |
+| 🟢 165 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 | 80,27 |
+| 🟡 166 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 | 34,02 |
+| 🟢 167 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 | 6,04 |
+| 🟡 168 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 | 45,23 |
+| 🟡 169 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 | 15,50 |
+| 🟡 170 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 | 12,00 |
+| 🟢 171 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 | 26,90 |
+| 🟢 172 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 | 17,93 |
+| 🟢 173 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 | 18,04 |
+| 🟢 174 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 | 15,06 |
+| 🟢 175 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 | 10,37 |
+| 🟡 176 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 | 17,20 |
+| 🟢 177 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 | 15,88 |
+| 🟡 178 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 | 16,80 |
+| 🟢 179 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 | 12,80 |
+| 🟡 180 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 | 60,16 |
+| 🟡 181 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 | 59,49 |
+| 🟡 182 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 | 55,84 |
+| 🟢 183 | 18,33 | 18,33 | 18,44 | 18,44 | 18,44 | 18,45 | 18,45 | 18,45 | 18,45 | 18,45 |
+| 🟢 184 | 15,95 | 15,95 | 16,01 | 16,01 | 16,01 | 16,01 | 16,01 | 16,01 | 16,01 | 16,01 |
+| 🟢 185 | 13,62 | 13,62 | 13,70 | 13,70 | 13,70 | 13,71 | 13,71 | 13,71 | 13,71 | 13,71 |
+| 🟢 186 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 | 20,40 |
+| 🟢 187 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 | 16,04 |
+
+As categorias abaixo ainda não têm a tabela oficial do prestador no catálogo. Nesses municípios o programa não as oferece, e o caminho é lançar a tabela no modo Personalizado.
+
+<!-- tabela: **Tabela 183** — Categorias tarifárias ainda não coletadas, por prestador -->
+| Prestador: municípios | Categorias não coletadas |
+| :--- | :--- |
+| 🔴 BRK Alagoas: Maceió (AL), Marechal Deodoro (AL), Rio Largo (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Cachoeiro: Cachoeiro de Itapemirim (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Limeira: Limeira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Porto Ferreira: Porto Ferreira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Sumaré: Sumaré (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Ambiental Uruguaiana: Uruguaiana (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 BRK Tocantins: Araguaína (TO), Gurupi (TO), Palmas (TO), Paraíso do Tocantins (TO), Porto Nacional (TO) | Comercial, Pública, Industrial, Social |
+| 🔴 CAEMA: Açailândia (MA), Bacabal (MA), Balsas (MA), Barra do Corda (MA), Barreirinhas (MA), Buriticupu (MA), Caxias (MA), Chapadinha (MA), Codó (MA), Coroatá (MA), Grajaú (MA), Imperatriz (MA), Itapecuru-Mirim (MA), Paço do Lumiar (MA), Pinheiro (MA), Santa Inês (MA), Santa Luzia (MA), São José de Ribamar (MA), São Luís (MA), Timon (MA), Tutóia (MA), Viana (MA) | Comercial, Pública, Industrial, Social |
+| 🔴 CAER: Boa Vista (RR) | Comercial, Pública, Industrial, Social |
+| 🔴 CAERD: Ariquemes (RO), Jaru (RO), Ji-Paraná (RO), Porto Velho (RO), Rolim de Moura (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 CAERN: Assu (RN), Caicó (RN), Ceará-Mirim (RN), Extremoz (RN), Macaíba (RN), Mossoró (RN), Natal (RN), Parnamirim (RN) | Comercial, Pública, Industrial, Social |
+| 🔴 CAESB: Brasília (DF) | Comercial, Pública, Industrial, Social |
+| 🔴 CAESC – Companhia de Água, Esgoto e Saneamento de Coari: Coari (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 CAGECE: Acaraú (CE), Aquiraz (CE), Aracati (CE), Barbalha (CE), Beberibe (CE), Boa Viagem (CE), Brejo Santo (CE), Camocim (CE), Canindé (CE), Cascavel (CE), Caucaia (CE), Crateús (CE), Crato (CE), Eusébio (CE), Fortaleza (CE), Granja (CE), Horizonte (CE), Icó (CE), Iguatu (CE), Itaitinga (CE), Itapipoca (CE), Juazeiro do Norte (CE), Limoeiro do Norte (CE), Maracanaú (CE), Maranguape (CE), Morada Nova (CE), Pacajus (CE), Pacatuba (CE), Quixadá (CE), Quixeramobim (CE), Russas (CE), Sobral (CE), São Gonçalo do Amarante (CE), Tauá (CE), Tianguá (CE), Trairi (CE), Viçosa do Ceará (CE) | Comercial, Pública, Industrial, Social |
+| 🔴 CAGEPA: Bayeux (PB), Cabedelo (PB), Cajazeiras (PB), Campina Grande (PB), Guarabira (PB), João Pessoa (PB), Patos (PB), Santa Rita (PB), Sapé (PB), Sousa (PB) | Comercial, Pública, Industrial, Social |
+| 🔴 CASAL: Arapiraca (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 CASAN: Araranguá (SC), Biguaçu (SC), Camboriú (SC), Canoinhas (SC), Caçador (SC), Chapecó (SC), Concórdia (SC), Criciúma (SC), Florianópolis (SC), Imbituba (SC), Indaial (SC), Itapema (SC), Içara (SC), Mafra (SC), Navegantes (SC), Palhoça (SC), Rio do Sul (SC), São Francisco do Sul (SC), São José (SC), Tijucas (SC), Videira (SC), Xanxerê (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 CEDAE/serviço local – validar área: Guapimirim (RJ), Itaperuna (RJ), Macaé (RJ), Valença (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 CESAMA Juiz de Fora: Juiz de Fora (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 CESAN: Cariacica (ES), Guarapari (ES), Serra (ES), Vila Velha (ES), Vitória (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 CODAU Uberaba: Uberaba (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 COHASB / Prefeitura de Humaitá – prestação local: Humaitá (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Companhia Ituana de Saneamento (CIS): Itu (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Companhia Águas de Joinville: Joinville (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 COMPESA: Abreu e Lima (PE), Araripina (PE), Arcoverde (PE), Belo Jardim (PE), Bezerros (PE), Buíque (PE), Cabo de Santo Agostinho (PE), Camaragibe (PE), Carpina (PE), Caruaru (PE), Escada (PE), Garanhuns (PE), Goiana (PE), Gravatá (PE), Igarassu (PE), Ipojuca (PE), Jaboatão dos Guararapes (PE), Limoeiro (PE), Moreno (PE), Olinda (PE), Ouricuri (PE), Palmares (PE), Paudalho (PE), Paulista (PE), Pesqueira (PE), Petrolina (PE), Recife (PE), Salgueiro (PE), Santa Cruz do Capibaribe (PE), Serra Talhada (PE), Surubim (PE), São Lourenço da Mata (PE), Vitória de Santo Antão (PE) | Comercial, Pública, Industrial, Social |
+| 🔴 COMUSA Novo Hamburgo: Novo Hamburgo (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 COPASA: Alfenas (MG), Araxá (MG), Barbacena (MG), Belo Horizonte (MG), Betim (MG), Bom Despacho (MG), Campo Belo (MG), Caratinga (MG), Cataguases (MG), Congonhas (MG), Conselheiro Lafaiete (MG), Contagem (MG), Coronel Fabriciano (MG), Curvelo (MG), Divinópolis (MG), Esmeraldas (MG), Extrema (MG), Frutal (MG), Guaxupé (MG), Ibirité (MG), Ipatinga (MG), Itajubá (MG), Itaúna (MG), Janaúba (MG), Januária (MG), João Monlevade (MG), Lagoa Santa (MG), Lavras (MG), Leopoldina (MG), Montes Claros (MG), Nova Lima (MG), Nova Serrana (MG), Paracatu (MG), Patos de Minas (MG), Pedro Leopoldo (MG), Pouso Alegre (MG), Ribeirão das Neves (MG), Sabará (MG), São Francisco (MG), São Sebastião do Paraíso (MG), Teófilo Otoni (MG), Timóteo (MG), Três Corações (MG), Ubá (MG), Unaí (MG), Varginha (MG), Vespasiano (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 CORSAN: Canoas (RS), Erechim (RS), Esteio (RS), Santa Cruz do Sul (RS) | Industrial |
+| 🔴 CORSAN: Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Canoas (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Erechim (RS), Esteio (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Cruz do Sul (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Social |
+| 🔴 COSAMA: Tabatinga (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 COSANPA: Abaetetuba (PA), Acará (PA), Alenquer (PA), Altamira (PA), Ananindeua (PA), Baião (PA), Barcarena (PA), Belém (PA), Benevides (PA), Bragança (PA), Breves (PA), Cametá (PA), Canaã dos Carajás (PA), Capanema (PA), Capitão Poço (PA), Castanhal (PA), Dom Eliseu (PA), Igarapé-Miri (PA), Itaituba (PA), Juruti (PA), Marabá (PA), Marituba (PA), Moju (PA), Monte Alegre (PA), Novo Repartimento (PA), Oriximiná (PA), Paragominas (PA), Parauapebas (PA), Portel (PA), Redenção (PA), Rondon do Pará (PA), Santa Izabel do Pará (PA), Santarém (PA), São Félix do Xingu (PA), São Miguel do Guamá (PA), Tailândia (PA), Tomé-Açu (PA), Tucuruí (PA), Vigia (PA), Viseu (PA), Xinguara (PA), Óbidos (PA) | Comercial, Pública, Industrial, Social |
+| 🔴 CSA Equatorial: Macapá (AP), Santana (AP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAAE Araraquara: Araraquara (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAAE Rio Claro: Rio Claro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Americana: Americana (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Bauru: Bauru (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Jundiaí: Jundiaí (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Sant'Ana do Livramento: Santana do Livramento (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE Valinhos: Valinhos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAE/VG: Várzea Grande (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEB Bagé: Bagé (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEP Penápolis: Penápolis (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 DAEPA: Patrocínio (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DAESC Coruripe: Coruripe (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 DAMAE São João del-Rei: São João del-Rei (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DEMSUR: Muriaé (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Porto Alegre: Porto Alegre (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Poços de Caldas: Poços de Caldas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAE Uberlândia: Uberlândia (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 DMAES Ponte Nova: Ponte Nova (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 EMASA Balneário Camboriú: Balneário Camboriú (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 EMBASA: Alagoinhas (BA), Barra (BA), Barreiras (BA), Bom Jesus da Lapa (BA), Brumado (BA), Caetité (BA), Camaçari (BA), Campo Formoso (BA), Candeias (BA), Casa Nova (BA), Conceição do Coité (BA), Cruz das Almas (BA), Dias d'Ávila (BA), Euclides da Cunha (BA), Eunápolis (BA), Feira de Santana (BA), Guanambi (BA), Ilhéus (BA), Ipirá (BA), Irecê (BA), Itaberaba (BA), Itabuna (BA), Itamaraju (BA), Itapetinga (BA), Jacobina (BA), Jequié (BA), Juazeiro (BA), Lauro de Freitas (BA), Luís Eduardo Magalhães (BA), Paulo Afonso (BA), Porto Seguro (BA), Ribeira do Pombal (BA), Salvador (BA), Santo Amaro (BA), Santo Antônio de Jesus (BA), Santo Estêvão (BA), Senhor do Bonfim (BA), Serrinha (BA), Simões Filho (BA), Teixeira de Freitas (BA), Vitória da Conquista (BA) | Comercial, Pública, Industrial, Social |
+| 🔴 GS Inima SAMAR: Araçatuba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Iguá Sergipe: Aracaju (SE), Estância (SE), Itabaiana (SE), Lagarto (SE), Nossa Senhora do Socorro (SE), São Cristóvão (SE), Tobias Barreto (SE) | Comercial, Pública, Industrial, Social |
+| 🔴 Ourinhos Saneamento: Ourinhos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Prefeitura de Birigui – Diretoria de Água e Esgoto: Birigui (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Iranduba: Iranduba (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Manicoré: Manicoré (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – São Gabriel da Cachoeira: São Gabriel da Cachoeira (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prestador municipal/local – Tefé: Tefé (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Prolagos: Cabo Frio (RJ), São Pedro da Aldeia (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 RIC Ambiental: Marília (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Rio+ Saneamento: Itaguaí (RJ), Rio das Ostras (RJ), Seropédica (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE / prestação municipal de Manacapuru – confirmar: Manacapuru (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Angra dos Reis: Angra dos Reis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Aracruz / CESAN conforme área: Aracruz (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Atibaia: Atibaia (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Barra Mansa: Barra Mansa (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Cacoal: Cacoal (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Capivari: Capivari (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Cruzeiro: Cruzeiro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Formiga: Formiga (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Ibitinga: Ibitinga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Indaiatuba: Indaiatuba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itabira: Itabira (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itabirito: Itabirito (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itacoatiara: Itacoatiara (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Itapira: Itapira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Jaboticabal: Jaboticabal (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Jacareí: Jacareí (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lagoa da Prata: Lagoa da Prata (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lençóis Paulista: Lençóis Paulista (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Linhares: Linhares (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Lucas do Rio Verde: Lucas do Rio Verde (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Manhuaçu: Manhuaçu (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Mariana: Mariana (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Maués: Maués (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Mogi Mirim: Mogi Mirim (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Nova Mutum: Nova Mutum (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Parintins: Parintins (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Passos: Passos (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Pirapora: Pirapora (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Salto: Salto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Sete Lagoas: Sete Lagoas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Sorocaba: Sorocaba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE São Carlos: São Carlos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE São Mateus: São Mateus (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Três Pontas: Três Pontas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Três Rios: Três Rios (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Vilhena: Vilhena (RO) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Viçosa: Viçosa (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAE Volta Redonda: Volta Redonda (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEB Ambiental: Bebedouro (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEB Barretos: Barretos (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAEJA: Jaguariúna (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAAET: Taquaritinga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SABESP: Amparo (SP), Artur Nogueira (SP), Arujá (SP), Assis (SP), Avaré (SP), Barueri (SP), Batatais (SP), Bertioga (SP), Boituva (SP), Botucatu (SP), Bragança Paulista (SP), Caieiras (SP), Cajamar (SP), Campo Limpo Paulista (SP), Caraguatatuba (SP), Carapicuíba (SP), Caçapava (SP), Cosmópolis (SP), Cotia (SP), Cubatão (SP), Diadema (SP), Embu das Artes (SP), Embu-Guaçu (SP), Fernandópolis (SP), Ferraz de Vasconcelos (SP), Franca (SP), Francisco Morato (SP), Franco da Rocha (SP), Guarujá (SP), Guarulhos (SP), Hortolândia (SP), Ibiúna (SP), Itanhaém (SP), Itapecerica da Serra (SP), Itapetininga (SP), Itapeva (SP), Itapevi (SP), Itaquaquecetuba (SP), Itatiba (SP), Itupeva (SP), Jandira (SP), Lins (SP), Lorena (SP), Mairiporã (SP), Mauá (SP), Mococa (SP), Mogi das Cruzes (SP), Mongaguá (SP), Monte Mor (SP), Nova Odessa (SP), Olímpia (SP), Osasco (SP), Paulínia (SP), Peruíbe (SP), Piedade (SP), Pindamonhangaba (SP), Porto Feliz (SP), Poá (SP), Praia Grande (SP), Presidente Prudente (SP), Registro (SP), Ribeirão Pires (SP), Santa Bárbara d'Oeste (SP), Santa Isabel (SP), Santana de Parnaíba (SP), Santo André (SP), Santos (SP), Suzano (SP), São Bernardo do Campo (SP), São José dos Campos (SP), São João da Boa Vista (SP), São Paulo (SP), São Roque (SP), São Sebastião (SP), São Vicente (SP), Taboão da Serra (SP), Tatuí (SP), Taubaté (SP), Tremembé (SP), Tupã (SP), Ubatuba (SP), Vargem Grande Paulista (SP), Votorantim (SP), Várzea Paulista (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Araguari: Araguari (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Ituiutaba: Ituiutaba (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SAE Louveira: Louveira (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEC Catanduva: Catanduva (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAECIL Leme: Leme (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEG: Guaratinguetá (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEMA Araras: Araras (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEMAS Sertãozinho: Sertãozinho (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEP Pirassununga: Pirassununga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAERP Ribeirão Preto: Ribeirão Preto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAERP São José do Rio Pardo: São José do Rio Pardo (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAESA: São Caetano do Sul (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAEV Ambiental: Votuporanga (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Blumenau / BRK Ambiental Blumenau: Blumenau (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Brusque: Brusque (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Caxias do Sul: Caxias do Sul (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Gaspar: Gaspar (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Jaraguá do Sul: Jaraguá do Sul (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Mogi Guaçu: Mogi Guaçu (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE São Bento do Sul: São Bento do Sul (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SAMAE Tangará da Serra: Tangará da Serra (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SANASA Campinas: Campinas (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEACRE: Cruzeiro do Sul (AC), Rio Branco (AC) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAGO: Anápolis (GO), Aparecida de Goiânia (GO), Caldas Novas (GO), Catalão (GO), Cidade Ocidental (GO), Cristalina (GO), Formosa (GO), Goianira (GO), Goianésia (GO), Goiânia (GO), Inhumas (GO), Itumbiara (GO), Jataí (GO), Luziânia (GO), Mineiros (GO), Morrinhos (GO), Novo Gama (GO), Planaltina (GO), Rio Verde (GO), Santo Antônio do Descoberto (GO), Senador Canedo (GO), Trindade (GO), Valparaíso de Goiás (GO), Águas Lindas de Goiás (GO) | Comercial, Pública, Industrial, Social |
+| 🔴 Saneaqua: Mairinque (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAR Colatina: Colatina (ES) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEAR Rondonópolis: Rondonópolis (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEBAVI Vinhedo: Vinhedo (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Saneouro: Ouro Preto (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEP Pelotas: Pelotas (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEPAR – Curitiba: Curitiba (PR) | Comercial, Pública, Industrial, Social |
+| 🔴 SANEPAR – Demais localidades: Almirante Tamandaré (PR), Apucarana (PR), Arapongas (PR), Araucária (PR), Cambé (PR), Campo Largo (PR), Campo Mourão (PR), Castro (PR), Cianorte (PR), Colombo (PR), Fazenda Rio Grande (PR), Foz do Iguaçu (PR), Francisco Beltrão (PR), Guarapuava (PR), Ibiporã (PR), Irati (PR), Londrina (PR), Marechal Cândido Rondon (PR), Maringá (PR), Medianeira (PR), Paranaguá (PR), Paranavaí (PR), Pato Branco (PR), Pinhais (PR), Piraquara (PR), Ponta Grossa (PR), Rolândia (PR), Sarandi (PR), São José dos Pinhais (PR), Telêmaco Borba (PR), Toledo (PR), Umuarama (PR), União da Vitória (PR) | Comercial, Pública, Industrial, Social |
+| 🔴 Sanessol: Mirassol (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SANESUL: Corumbá (MS), Dourados (MS), Naviraí (MS), Ponta Porã (MS), Três Lagoas (MS) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMAE Piracicaba: Piracicaba (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SeMAE Rio Preto: São José do Rio Preto (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMAE São Leopoldo: São Leopoldo (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMASA Itajaí: Itajaí (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 SEMASA Lages: Lages (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 Serviço local – Barra do Piraí: Barra do Piraí (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 São Gabriel Saneamento S.A.: São Gabriel (RS) | Comercial, Pública, Industrial, Social |
+| 🔴 Tubarão Saneamento: Tubarão (SC) | Comercial, Pública, Industrial, Social |
+| 🔴 Verde Alagoas: União dos Palmares (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Alta Floresta / Norte Saneamento: Alta Floresta (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Cuiabá (Iguá): Cuiabá (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas da Imperatriz: Teresópolis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas das Agulhas Negras: Resende (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Andradina: Andradina (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Barra do Garças (Aegea): Barra do Garças (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Jahu: Jaú (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Juturnaíba: Araruama (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Manaus: Manaus (AM) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Matão: Matão (SP) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Niterói: Niterói (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Nova Friburgo: Nova Friburgo (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Pará de Minas: Pará de Minas (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Primavera (Aegea): Primavera do Leste (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Sinop (Aegea): Sinop (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Sorriso: Sorriso (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Teresina: Teresina (PI) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas de Valadares (Aegea): Governador Valadares (MG) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Imperador: Petrópolis (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Pantanal (autarquia municipal): Cáceres (MT) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Paraíba: Campos dos Goytacazes (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Piauí: Floriano (PI), Parnaíba (PI), Picos (PI), Piripiri (PI) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Rio: Belford Roxo (RJ), Cachoeiras de Macacu (RJ), Duque de Caxias (RJ), Itaboraí (RJ), Japeri (RJ), Magé (RJ), Maricá (RJ), Mesquita (RJ), Nilópolis (RJ), Nova Iguaçu (RJ), Queimados (RJ), Rio Bonito (RJ), Saquarema (RJ), São Gonçalo (RJ), São João de Meriti (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Rio / Iguá / Rio+ Saneamento: Rio de Janeiro (RJ) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas do Sertão: Delmiro Gouveia (AL), Palmeira dos Índios (AL), Penedo (AL), São Miguel dos Campos (AL) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Guariroba: Campo Grande (MS) | Comercial, Pública, Industrial, Social |
+| 🔴 Águas Pontes e Lacerda / Norte Saneamento: Pontes e Lacerda (MT) | Comercial, Pública, Industrial, Social |
+
+A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e a data em que a página oficial foi verificada pela última vez pela rotina de monitoramento da base. Linha sem data é fonte que a rotina ainda não monitora.
+
+<!-- tabela: **Tabela 184** — Vigência e última verificação da fonte de cada estrutura tarifária, com a situação do dado -->
+| Nº | Vigência declarada | Fonte verificada em | Situação |
+| ---: | :--- | :--- | :--- |
+| 🟢 1 | Vigente desde dezembro de 2025 | 31/08/2026 | auditada |
+| 🟢 2 | Vigente desde dezembro de 2025 | 31/08/2026 | auditada |
+| 🟢 3 | Vigente desde dezembro de 2025 | 31/08/2026 | auditada |
+| 🟡 4 | Resoluções ARSP / Concessões ES | 31/08/2026 | a confirmar |
+| 🟢 5 | Contas emitidas desde julho de 2026 | 31/08/2026 | auditada |
+| 🟡 6 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 7 | Vigente desde fevereiro de 2026 | 31/08/2026 | auditada |
+| 🟢 8 | Tabela vigente desde 30/08/2025; ainda vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 9 | Vigente desde 05/12/2025 | 31/08/2026 | a confirmar |
+| 🟢 10 | Água vigente desde 05/01/2024; relação esgoto/água confirmada em 19/01/2026 | 31/08/2026 | auditada |
+| 🟡 11 | Estrutura Tarifária CAER Oficial | 31/08/2026 | a confirmar |
+| 🟢 12 | Vigente em 2025/2026 | 31/08/2026 | auditada |
+| 🟢 13 | Vigente desde 01/04/2025 | 31/08/2026 | auditada |
+| 🟢 14 | Vigente desde 01/07/2025 | 31/08/2026 | auditada |
+| 🟢 15 | Resolução ADASA nº 70 | 31/08/2026 | auditada |
+| 🟡 16 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 17 | Vigente desde 05/11/2025 | 31/08/2026 | a confirmar |
+| 🟢 18 | Vigente desde 30/06/2025 | 31/08/2026 | auditada |
+| 🟢 19 | Vigente desde dezembro de 2025 | 31/08/2026 | auditada |
+| 🟡 20 | Vigente desde 01/04/2026 | 31/08/2026 | a confirmar |
+| 🟡 21 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟢 22 | Res. ARISB-MG 332/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 23 | Tabela aplicável desde 01/08/2025 e vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 24 | Vigente desde março de 2026 | 31/08/2026 | auditada |
+| 🟡 25 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟢 26 | Vigente desde maio de 2026 | 31/08/2026 | auditada |
+| 🟢 27 | 01/03/2026 | 31/08/2026 | auditada |
+| 🟢 28 | Resolução ARPE nº 289 | 31/08/2026 | auditada |
+| 🟢 29 | 2026 vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 30 | 22/01/2026–21/01/2027 | 31/08/2026 | a confirmar |
+| 🟡 31 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟢 32 | Resoluções ARCON-PA 2024-2026 | 31/08/2026 | auditada |
+| 🟢 33 | Vigente de 30/08/2025 a 29/08/2026 | 31/08/2026 | auditada |
+| 🟢 34 | Vigente desde novembro de 2025 | 31/08/2026 | auditada |
+| 🟢 35 | Vigente desde fevereiro de 2026 | 31/08/2026 | auditada |
+| 🟢 36 | Vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 37 | Resolução nº 02, de 11/02/2026 | 31/08/2026 | auditada |
+| 🟢 38 | Res. 664/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 39 | Referência vigente pesquisada em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟢 40 | Vigente desde abril de 2023; último ato listado pela ARES-PCJ | 31/08/2026 | auditada |
+| 🟡 41 | Estrutura Tarifária DAE/VG | 31/08/2026 | a confirmar |
+| 🟢 42 | 2026 vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 43 | Vigente desde 01/03/2026 | 31/08/2026 | auditada |
+| 🟡 44 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 45 | Resolução ARSAL Nº 233 | 31/08/2026 | a confirmar |
+| 🟡 46 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 47 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟢 48 | 2026 vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 49 | Vigente desde 01/06/2026 | 31/08/2026 | auditada |
+| 🟡 50 | Estrutura Tarifária DMAE / ARESAN | 31/08/2026 | a confirmar |
+| 🟡 51 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟢 52 | Vigente desde 04/05/2026 | 31/08/2026 | auditada |
+| 🟡 53 | Vigente desde 20/07/2026 | 31/08/2026 | a confirmar |
+| 🟢 54 | Desde 01/03/2026 | 31/08/2026 | auditada |
+| 🟢 55 | Vigente desde 01/08/2025 | 31/08/2026 | auditada |
+| 🟢 56 | Vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 57 | Desde 03/2026 | 31/08/2026 | a confirmar |
+| 🟡 58 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 59 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 60 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 61 | Estrutura Municipal Vigente | — | a confirmar |
+| 🟢 62 | Vigente desde 01/12/2025 | 31/08/2026 | auditada |
+| 🟢 63 | Vigente desde abril de 2026 | 31/08/2026 | auditada |
+| 🟡 64 | Deliberação AGENERSA | — | a confirmar |
+| 🟡 65 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 66 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 67 | SAAE: efeitos desde 09/06/2026; Res. ARSP 103/2026 | 31/08/2026 | a confirmar |
+| 🟡 68 | Vigente desde dezembro de 2025 | 31/08/2026 | a confirmar |
+| 🟡 69 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 70 | Vigente desde 28/12/2025 | 31/08/2026 | a confirmar |
+| 🟡 71 | Res. 704/2026; desde 07/2026 | 31/08/2026 | a confirmar |
+| 🟡 72 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 73 | Res. ARISB-MG 361/2025; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 74 | Vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 75 | Res. ARES-PCJ 699/2026; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 76 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 77 | Vigente desde agosto de 2026 | 31/08/2026 | a confirmar |
+| 🟡 78 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 79 | Vigente desde junho de 2026 | 31/08/2026 | a confirmar |
+| 🟡 80 | Res. 713/2026; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 81 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 82 | Res. ARISB-MG 373/2025; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 83 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 84 | Resoluções ARSP / Concessões ES | 31/08/2026 | a confirmar |
+| 🟡 85 | Tabela oficial de 2026 | 31/08/2026 | a confirmar |
+| 🟡 86 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 87 | Desde 01/2026 | 31/08/2026 | a confirmar |
+| 🟡 88 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 89 | Vigente desde julho de 2026 | 31/08/2026 | a confirmar |
+| 🟡 90 | Vigente desde abril de 2025; mantida como vigente pelo SAAE em 24/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 91 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 92 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 93 | Res. ARISB-MG 367/2025 c/ correção 377/2026; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 94 | Vigente desde novembro de 2025 | — | a confirmar |
+| 🔴 95 | Vigente desde 03/03/2026 | 31/08/2026 | estrutura incompleta |
+| 🟡 96 | Res. 703/2026; desde 07/2026 | 31/08/2026 | a confirmar |
+| 🟡 97 | Vigente desde setembro de 2025 | 31/08/2026 | a confirmar |
+| 🟡 98 | 26/02/2026–25/02/2027; Res. ARSP 098/2026 | 31/08/2026 | a confirmar |
+| 🟡 99 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 100 | Regulação Oficial | — | a confirmar |
+| 🟡 101 | Resoluções AGERO / CAERD | 31/08/2026 | a confirmar |
+| 🟡 102 | Resolução ARIS-MG nº 227/2026 | 31/08/2026 | a confirmar |
+| 🟡 103 | Decreto Municipal | — | a confirmar |
+| 🔴 104 | Desde 03/2026 | 31/08/2026 | estrutura incompleta |
+| 🟡 105 | Vigente desde setembro de 2025; tabela sucessora ainda não aplicável na data de corte | 31/08/2026 | a confirmar |
+| 🟡 106 | Res. 696/2026; vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 107 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 108 | Res. 697/2026; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 109 | Desde 01/01/2026 | 31/08/2026 | auditada |
+| 🟢 110 | Desde 01/01/2026 | 31/08/2026 | auditada |
+| 🟢 111 | Desde 01/01/2026 | 31/08/2026 | auditada |
+| 🟢 112 | Desde 01/01/2026 | 31/08/2026 | auditada |
+| 🟢 113 | Res. 659/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 114 | Desde 01/01/2026 | 31/08/2026 | auditada |
+| 🟢 115 | Res. ARISB-MG 368/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 116 | Res. ARISB-MG 371/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 117 | Resolução ARES-PCJ nº 687/2026 | 31/08/2026 | auditada |
+| 🟢 118 | Vigente desde janeiro de 2026 | 31/08/2026 | auditada |
+| 🟢 119 | Tabela da Resolução ARES-PCJ nº 680/2025 vigente em 2026 | 31/08/2026 | auditada |
+| 🟢 120 | Vigente desde 15/03/2026 | 31/08/2026 | auditada |
+| 🟢 121 | Vigente desde dezembro de 2025 | 31/08/2026 | auditada |
+| 🟢 122 | Tabela da Resolução ARES-PCJ nº 678/2025 vigente em 2026 | 31/08/2026 | auditada |
+| 🔴 123 | Res. 695/2026; vigente em 19/08/2026 | 31/08/2026 | estrutura incompleta |
+| 🟢 124 | Vigente desde maio de 2026 | 31/08/2026 | auditada |
+| 🔴 125 | Res. 694/2026; vigente em 19/08/2026 | 31/08/2026 | estrutura incompleta |
+| 🟡 126 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 127 | Vigente no exercício de 2026 | 31/08/2026 | auditada |
+| 🟢 128 | Água desde 01/01/2026; esgoto desde 01/04/2026 | 31/08/2026 | auditada |
+| 🟢 129 | Tarifa de água vigente desde 17/05/2026; esgoto ainda não faturado no cenário atual | 31/08/2026 | auditada |
+| 🟢 130 | Vigente desde 01/07/2026 | 31/08/2026 | auditada |
+| 🟢 131 | Tarifa de água vigente desde 01/07/2026; adicional de esgoto condicionado à unidade atendida | 31/08/2026 | auditada |
+| 🟢 132 | Tabela tarifária do exercício de 2026 | 31/08/2026 | auditada |
+| 🟢 133 | Resolução ARES-PCJ nº 686/2026 | 31/08/2026 | auditada |
+| 🟢 134 | 01/08/2026 | 31/08/2026 | auditada |
+| 🟡 135 | Resoluções AGER-MT / Concessões | 31/08/2026 | a confirmar |
+| 🟢 136 | Vigente desde fevereiro de 2026 | 31/08/2026 | auditada |
+| 🟢 137 | Vigente desde julho de 2025 | 31/08/2026 | auditada |
+| 🟢 138 | Desde 01/04/2026 | 31/08/2026 | auditada |
+| 🟢 139 | Res. ARSESP 1787/2026; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 140 | Vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 141 | Estrutura Tarifária SANEAR | 31/08/2026 | a confirmar |
+| 🟢 142 | Vigente desde agosto de 2026 | 31/08/2026 | auditada |
+| 🟢 143 | Tabela jan/2026 - Res. ARISB-MG 369/2025 | 31/08/2026 | auditada |
+| 🟢 144 | Vigente de 07/2026 a 06/2027 | — | auditada |
+| 🟡 145 | Vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 146 | Vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 147 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 148 | Portaria AGEMS 315 / SANESUL | 31/08/2026 | auditada |
+| 🟢 149 | Res. 638/2025 adotada no corte 19/08/2026 | 31/08/2026 | auditada |
+| 🟢 150 | Vigente em agosto de 2026, após o prazo legal mínimo | 31/08/2026 | auditada |
+| 🟢 151 | Tabela tarifária do exercício de 2026 | 31/08/2026 | auditada |
+| 🟢 152 | Vigente para faturas com vencimento desde 05/10/2025 | 31/08/2026 | auditada |
+| 🟢 153 | Tabela tarifária do exercício de 2026 | 31/08/2026 | auditada |
+| 🟡 154 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 155 | 2026 vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟢 156 | Vigente de 01/05/2026 a 30/04/2027 | 31/08/2026 | auditada |
+| 🟢 157 | Vigente desde 08/03/2026 | 31/08/2026 | auditada |
+| 🟡 158 | Resoluções AGER-MT / Concessões | 31/08/2026 | a confirmar |
+| 🟢 159 | Vigente desde 20/03/2025 | 31/08/2026 | auditada |
+| 🟢 160 | Vigente desde 06/01/2026 | 31/08/2026 | auditada |
+| 🟡 161 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 162 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 163 | Vigente desde janeiro de 2026 | 31/08/2026 | auditada |
+| 🟡 164 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 165 | Vigente desde 01/12/2025 | 31/08/2026 | auditada |
+| 🟡 166 | Vigente desde fevereiro de 2026 | 31/08/2026 | a confirmar |
+| 🟢 167 | Res. 665/2025; vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 168 | Deliberação AGENERSA | 31/08/2026 | a confirmar |
+| 🟡 169 | Deliberação AGENERSA | 31/08/2026 | a confirmar |
+| 🟡 170 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟢 171 | Vigente desde janeiro de 2026 | 31/08/2026 | auditada |
+| 🟢 172 | Estrutura vigente após as parcelas/reajustes de junho de 2026 | 31/08/2026 | auditada |
+| 🟢 173 | Vigente desde novembro de 2025 | 31/08/2026 | auditada |
+| 🟢 174 | Vigente desde 28/06/2026 | 31/08/2026 | auditada |
+| 🟢 175 | Vigente em 19/08/2026 | 31/08/2026 | auditada |
+| 🟡 176 | Decreto Municipal | 31/08/2026 | a confirmar |
+| 🟢 177 | Tabela oficial consultada em 24/08/2026 | 31/08/2026 | auditada |
+| 🟡 178 | Decreto Municipal | 31/08/2026 | a confirmar |
+| 🟢 179 | Vigente desde 01/03/2026 | — | auditada |
+| 🟡 180 | Vigente desde dezembro de 2025 | 31/08/2026 | a confirmar |
+| 🟡 181 | Vigente desde dezembro de 2025 | 31/08/2026 | a confirmar |
+| 🟡 182 | Deliberação AGENERSA | 31/08/2026 | a confirmar |
+| 🟢 183 | Vigente desde 08/03/2026 | 31/08/2026 | auditada |
+| 🟢 184 | Vigente desde 08/03/2026 | 31/08/2026 | auditada |
+| 🟢 185 | Vigente desde 08/03/2026 | 31/08/2026 | auditada |
+| 🟢 186 | Vigente desde 03/01/2026 | 31/08/2026 | auditada |
+| 🟢 187 | Estrutura tarifária 2026; aplicação publicada para março de 2026 | 31/08/2026 | auditada |
+
+Os municípios da CORSAN cobram pela fórmula exponencial `PB × Cⁿ + SB` (seção 3.3), sem preço por faixa; o expoente `n` é o da coluna da categoria na Tabela de Exponenciais.
+
+<!-- tabela: **Tabela 185** — A fórmula exponencial da CORSAN em cada tabela tarifária e categoria coletada -->
+| Municípios | Categoria | PB (R$/m³) | SB (R$/mês) | Esgoto (R$/m³) |
+| :--- | :--- | ---: | ---: | ---: |
+| Erechim (RS) | Residencial | 6,95 | 32,95 | 4,86 |
+| Erechim (RS) | Comercial | 7,90 | 58,79 | 5,53 |
+| Erechim (RS) | Pública | 7,90 | 117,40 | 5,53 |
+| Santa Cruz do Sul (RS) | Residencial | 7,91 | 37,50 | 5,53 |
+| Canoas (RS), Esteio (RS) | Residencial | 8,68 | 41,20 | 6,07 |
+| Santa Cruz do Sul (RS) | Comercial | 8,98 | 66,92 | 6,28 |
+| Santa Cruz do Sul (RS) | Pública | 8,98 | 133,64 | 6,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Residencial | 9,15 | 43,39 | 6,40 |
+| Canoas (RS), Esteio (RS) | Comercial | 9,88 | 73,48 | 6,91 |
+| Canoas (RS), Esteio (RS) | Pública | 9,88 | 146,79 | 6,91 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Comercial | 10,41 | 77,41 | 7,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Pública | 10,41 | 154,64 | 7,28 |
+| Alegrete (RS), Alvorada (RS), Bento Gonçalves (RS), Cachoeira do Sul (RS), Cachoeirinha (RS), Camaquã (RS), Campo Bom (RS), Capão da Canoa (RS), Carazinho (RS), Cruz Alta (RS), Farroupilha (RS), Gravataí (RS), Guaíba (RS), Ijuí (RS), Lajeado (RS), Montenegro (RS), Parobé (RS), Passo Fundo (RS), Rio Grande (RS), Santa Maria (RS), Santa Rosa (RS), Santo Ângelo (RS), Sapiranga (RS), Sapucaia do Sul (RS), São Borja (RS), Taquara (RS), Tramandaí (RS), Vacaria (RS), Venâncio Aires (RS), Viamão (RS) | Industrial | 11,83 | 154,64 | 8,28 |
+
 ---
 
 ## Apêndice E — Base climática
@@ -10335,7 +11626,7 @@ Cada registro traz o grau de confiança da coleta:
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 176** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 186** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -10380,10 +11671,9 @@ As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na ba
 ### E.4. As séries históricas que acompanham o programa
 
 Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data
-ainfall` do programa:
+instalação, na pasta `data/rainfall` do programa:
 
-<!-- tabela: **Tabela 177** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 187** — Séries históricas de precipitação distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -10418,7 +11708,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 178** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 188** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -10442,7 +11732,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 179** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 189** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -10471,7 +11761,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 180** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 190** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -10482,7 +11772,7 @@ Ele tem sete seções:
 | `water_quality_and_etap` | classe-alvo, desinfecção e tratamento |
 | `financial_and_economic` | tarifas, impostos, reajustes e prazo |
 
-O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
+O apêndice A lista todos os parâmetros, com o nome exato de cada campo.
 
 > **A série de chuva vai dentro do arquivo.** É o que torna o projeto reproduzível:
 > quem receber o arquivo obtém exatamente os seus números, mesmo sem ter a base
@@ -10494,7 +11784,7 @@ O apêndice A lista os 104 parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 181** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 191** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Netuno 5` |
@@ -10513,7 +11803,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 182** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 192** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -10597,6 +11887,10 @@ tratada neste manual, nas versões 4, 4.1 e 5.
 **BIM** (*building information modeling*). Modelagem da informação da construção.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
+
+**BRL**. Sigla da Edição Brasil do programa, a que traz os dados brasileiros: base
+climática CLIMBra, tarifas de 652 municípios, energia da ANEEL, custos em reais e
+certificações nacionais. A seção 1.2 compara as duas edições.
 
 **CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
 esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
@@ -10729,6 +12023,9 @@ Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, 
 *Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
 exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
 
+**INT**. Sigla da *International Edition* do programa: abre em inglês e não traz dados
+brasileiros. Tarifas, custos, moeda e fatores de emissão são informados pelo usuário.
+
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
 avaliação a que as projeções climáticas se referem.
@@ -10762,42 +12059,37 @@ prediais.
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
 
-**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+**Manuais do Netuno 5** (*Netuno 5 manual suite*). A documentação do programa, montada
+das mesmas fontes em três formatos: o manual completo, sete volumes avulsos, cada um com
+uma parte dele, e o site de documentação. Os volumes servem a quem precisa de uma parte
+só, para consultar ou enviar:
 
-1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+1. **Manual completo**: todos os capítulos e apêndices.
    ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
-   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
-
-2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+2. **Volume 1 — Comece aqui**: o que o programa faz, como instalá-lo e por onde entrar
+   conforme o seu objetivo.
    ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
-   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
-
-3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+3. **Volume 2 — O método**: as equações, os critérios e as fontes por trás de cada número
+   que o programa publica.
    ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
-   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
-
-4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, demanda variável,
+   lote, sensibilidade e exportação.
    ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
-   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
-
-5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+5. **Volume 4 — Tutorial**: um projeto de residência em Florianópolis, do primeiro dado ao
+   volume recomendado.
    ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
-   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
-
-6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+6. **Volume 5 — Enganos, limitações e confiabilidade**: os enganos mais comuns, os limites
+   do modelo e como o programa é verificado.
    ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
-   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
-
-7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+7. **Volume 6 — Correções, bugs e versionamento**: o que mudou desde o Netuno 4, as
+   mensagens de erro e como relatar um problema.
    ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
-   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
-
-8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+8. **Volume 7 — Apêndices**: parâmetros, processos, fatores de emissão, tarifas, base
+   climática, formatos, glossário e referências.
    ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
-   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
 
-- **Manual Interativo & Portal Web Oficial:**
-  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
+Os PDFs acompanham o programa e abrem pela etapa 9. Documentação; o manual existe também
+em inglês, na íntegra.
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
@@ -10906,11 +12198,14 @@ de aproveitamento de água pluvial.
 dos formatos de exportação de planilhas e de resultados da linha de comando.
 
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+calculado **antes** da retirada da demanda e, na forma estrita, a retirada do dia sai
+só do volume guardado na véspera. O programa calcula o extravasamento antes, como a
+YAS, mas deixa a chuva do dia atender a demanda do dia; fica entre a YAS e a YBS
+(seção 2.1).
 
 **YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes**
 do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o
-aproveitamento; não é o modelo adotado pelo programa.
+aproveitamento; o programa não a adota, e o resultado dele fica entre a YAS e a YBS.
 
 ---
 
@@ -10922,7 +12217,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 183** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 193** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -10933,12 +12228,12 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 184** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 194** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
 | **Demanda pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
-| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (YAS) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
+| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (seção 2.1) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
 | **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da demanda **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
 | **Confiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da demanda **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
 | **Confiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a demanda pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |
@@ -11074,6 +12369,9 @@ edificação.
 
 **EN 15804:2012+A2:2019** — Sustainability of construction works: environmental product
 declarations, core rules for the product category of construction products.
+
+**EN 16941-1:2024** — On-site non-potable water systems — Part 1: Systems for the use
+of rainwater. Bruxelas: CEN, 2024.
 
 **ABNT NBR 15527:2007** — Água de chuva: aproveitamento de coberturas em áreas urbanas
 para fins não potáveis. Anexo A, informativo: métodos de Rippl, da simulação, de Azevedo
@@ -11230,7 +12528,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 185** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 195** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -11251,7 +12549,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 186** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 196** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 |
@@ -11269,7 +12567,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 187** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 197** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -11286,7 +12584,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 188** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 198** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -11346,7 +12644,7 @@ incorporada: abrem sem o CSV de origem, em qualquer máquina.
 
 ### J.1. Os nove casos do manual
 
-<!-- tabela: **Tabela 189** — Os nove casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 199** — Os nove casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.netuno` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -11366,7 +12664,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 190** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 200** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.netuno` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |

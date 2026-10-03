@@ -19,7 +19,7 @@ transformar a investigação numa troca de mensagens que consome mais tempo de t
 que o próprio conserto.
 
 **O arquivo do projeto.** É o item mais importante, e sozinho substitui páginas de
-descrição. O `.netuno` é autocontido: traz os 104 parâmetros e a série de chuva inteira
+descrição. O `.netuno` é autocontido: traz todos os parâmetros e a série de chuva inteira
 dentro dele, de modo que quem o receber reproduz exatamente a sua simulação, na mesma
 máquina ou em outra qualquer. Sem ele, a investigação começa por tentar adivinhar as
 entradas, e adivinhar entradas é a forma mais eficiente de não encontrar um defeito.
@@ -60,7 +60,8 @@ município tratado como consumo mínimo quando é taxa de disponibilidade — ou
 Confira em seguida se o comportamento observado não é uma limitação declarada. A seção
 {{n:36}} relaciona o que o programa reconhecidamente não faz, e algumas dessas limitações
 produzem exatamente a impressão de defeito. O caso mais frequente envolve a categoria
-tarifária: o catálogo cobre a categoria residencial dos 652 municípios, de modo que um
+tarifária: o catálogo cobre a categoria residencial dos 652 municípios e as demais só
+onde a tabela oficial do prestador foi transcrita, de modo que, nos outros municípios, um
 estudo de escola ou de comércio sai com a tarifa residencial enquanto o usuário não
 lançar a da categoria correta. O programa avisa disso em vez de corrigir por conta
 própria, porque a tabela certa é pública e específica de cada concessionária.

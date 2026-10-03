@@ -1,7 +1,8 @@
 """
 Módulo de Banco de Dados de Tarifas Municipais de Saneamento e Energia (Netuno 5).
 Contém a base auditada de 652 municípios brasileiros em todas as 27 Unidades Federativas,
-suportando todas as categorias tarifárias: Residencial, Comercial, Industrial, Pública e Social.
+com a categoria Residencial para os 652 municípios e as demais categorias onde a tabela
+oficial do prestador foi coletada.
 """
 
 from __future__ import annotations
@@ -19,52 +20,22 @@ _DB_CACHE: Optional[Dict[str, Any]] = None
 # CATEGORIAS TARIFÁRIAS NACIONAIS (ÁGUA, ESGOTO E ENERGIA ELÉTRICA)
 # =====================================================================================================================
 
+#: As categorias de consumidor das tabelas das concessionárias. Só a residencial foi
+#: coletada para os 652 municípios; as outras entram município a município, em
+#: ``categorias`` do registro, à medida que a tabela oficial de cada prestador é
+#: levantada (tarifas/categorias/). Não há multiplicador sobre a residencial: uma
+#: categoria sem tabela coletada não é oferecida como dado do catálogo.
 CATEGORIAS_TARIFARIAS: Dict[str, Dict[str, Any]] = {
-    "residencial": {
-        "id": "residencial",
-        "nome": "Residencial Normal",
-        "icone": "🏠",
-        "mult_agua": 1.0,
-        "mult_fixo": 1.0,
-        "mult_energia": 1.0,
-        "desc": "Tarifa padrão para domicílios e habitações unifamiliares e multifamiliares (ANEEL B1)."
-    },
-    "comercial": {
-        "id": "comercial",
-        "nome": "Comercial / Serviços",
-        "icone": "💼",
-        "mult_agua": 1.85,
-        "mult_fixo": 1.75,
-        "mult_energia": 1.10,
-        "desc": "Comércio, escritórios, consultórios e prestadores de serviços (ANEEL B3 / Água Comercial)."
-    },
-    "industrial": {
-        "id": "industrial",
-        "nome": "Industrial",
-        "icone": "🏭",
-        "mult_agua": 2.30,
-        "mult_fixo": 2.20,
-        "mult_energia": 1.15,
-        "desc": "Indústrias de transformação, manufatura e plantas fabris."
-    },
-    "publica": {
-        "id": "publica",
-        "nome": "Pública / Institucional",
-        "icone": "🏛️",
-        "mult_agua": 1.65,
-        "mult_fixo": 1.50,
-        "mult_energia": 0.95,
-        "desc": "Órgãos governamentais, escolas públicas, universidades e hospitais."
-    },
-    "social": {
-        "id": "social",
-        "nome": "Social / Baixa Renda",
-        "icone": "🤝",
-        "mult_agua": 0.50,
-        "mult_fixo": 0.50,
-        "mult_energia": 0.60,
-        "desc": "Tarifa Social de Água e Esgoto (Lei Federal nº 14.898/2024) e TSEE (ANEEL)."
-    },
+    "residencial": {"id": "residencial", "nome": "Residencial Normal", "icone": "🏠",
+                    "desc": "Domicílios unifamiliares e multifamiliares."},
+    "comercial": {"id": "comercial", "nome": "Comercial / Serviços", "icone": "💼",
+                  "desc": "Comércio, escritórios, consultórios e prestadores de serviços."},
+    "industrial": {"id": "industrial", "nome": "Industrial", "icone": "🏭",
+                   "desc": "Indústrias de transformação e plantas fabris."},
+    "publica": {"id": "publica", "nome": "Pública / Institucional", "icone": "🏛️",
+                "desc": "Órgãos públicos, escolas públicas, universidades e hospitais públicos."},
+    "social": {"id": "social", "nome": "Social / Baixa Renda", "icone": "🤝",
+               "desc": "Tarifa social de água e esgoto (Lei nº 14.898/2024)."},
 }
 
 
@@ -179,58 +150,47 @@ def rotulo_do_esgoto(dados: Dict[str, Any]) -> str:
     return f"{valor:.0f}%"
 
 
+def categorias_coletadas(data: Optional[Dict[str, Any]]) -> List[str]:
+    """As categorias com tabela oficial no registro do município, residencial primeiro."""
+    if not data:
+        return []
+    extras = [c for c in (data.get("categorias") or {}) if c in CATEGORIAS_TARIFARIAS and c != "residencial"]
+    return ["residencial"] + [c for c in CATEGORIAS_TARIFARIAS if c in extras]
+
+
 def get_city_tariffs_by_category(
     uf_code: str,
     city_name: str,
     category: str = "residencial"
 ) -> Optional[Dict[str, Any]]:
-    """
-    Retorna a estrutura tarifária adaptada para a categoria especificada:
-    - 'residencial': Tarifa normal padrão (1.0x)
-    - 'comercial': Comercial / Serviços (~1.85x)
-    - 'industrial': Industrial (~2.30x)
-    - 'publica': Poder Público / Institucional (~1.65x)
-    - 'social': Tarifa Social de Água e Esgoto / Baixa Renda (0.50x)
+    """A estrutura tarifária do município na categoria pedida, como a tabela oficial a traz.
+
+    A residencial é o registro do catálogo. As demais vêm de ``categorias`` do registro,
+    que guarda, por categoria, as faixas, a parcela fixa, o esgoto, a fonte e a vigência
+    levantados da resolução do prestador; o que a categoria não traz é herdado do registro
+    (o prestador, a agência, a energia). Categoria sem tabela coletada devolve ``None``:
+    o programa não estima uma tarifa a partir de outra.
     """
     base_data = get_city_data(uf_code, city_name)
     if not base_data:
         return None
 
-    cat_key = str(category).strip().lower()
-    cat_info = CATEGORIAS_TARIFARIAS.get(cat_key, CATEGORIAS_TARIFARIAS["residencial"])
-
-    res = dict(base_data)
+    cat_key = str(category or "residencial").strip().lower()
+    if cat_key not in CATEGORIAS_TARIFARIAS:
+        return None
+    if cat_key == "residencial":
+        res = dict(base_data)
+    else:
+        coletada = (base_data.get("categorias") or {}).get(cat_key)
+        if not coletada:
+            return None
+        res = dict(base_data)
+        res.update(coletada)
+    res.pop("categorias", None)
+    cat_info = CATEGORIAS_TARIFARIAS[cat_key]
     res["categoria_tarifaria"] = cat_key
     res["categoria_nome"] = cat_info["nome"]
     res["categoria_icone"] = cat_info["icone"]
-
-    mult_agua = cat_info["mult_agua"]
-    mult_fixo = cat_info["mult_fixo"]
-    mult_energia = cat_info["mult_energia"]
-
-    # Se for residencial padrão, retorna os valores base originais
-    if cat_key == "residencial":
-        return res
-
-    # Ajusta Parcela Fixa
-    orig_fixo = float(base_data.get("tarifa_fixa_mensal", 0.0) or 0.0)
-    res["tarifa_fixa_mensal"] = round(orig_fixo * mult_fixo, 2)
-
-    # Ajusta Faixas Volumétricas
-    orig_faixas = base_data.get("faixas", [])
-    new_faixas = []
-    for inf, sup, rate, t_tipo in orig_faixas:
-        # O expoente da tabela exponencial é adimensional: só o preço-base escala.
-        new_rate = rate if int(t_tipo) == EXPOENTE_DE_CONSUMO else round(rate * mult_agua, 4)
-        new_faixas.append([inf, sup, new_rate, t_tipo])
-    res["faixas"] = new_faixas
-    if base_data.get("esgoto_r_m3"):
-        res["esgoto_r_m3"] = round(float(base_data["esgoto_r_m3"]) * mult_agua, 4)
-
-    # Ajusta Energia Elétrica
-    orig_ene = float(base_data.get("energia_r_kwh", 0.75) or 0.75)
-    res["energia_r_kwh"] = round(orig_ene * mult_energia, 5)
-
     return res
 
 

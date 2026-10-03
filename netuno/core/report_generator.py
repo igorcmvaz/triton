@@ -19,6 +19,14 @@ from netuno import APP_VERSION_LABEL
 from netuno.ui.translation import tr, get_current_lang, _translate_composite, _SPANISH_PHRASES, _CHINESE_PHRASES
 
 
+
+
+def _edicao() -> str:
+    """Edição do programa que gerou o documento: «Edição Brasil (BRL)» ou «International Edition (INT)»."""
+    from netuno.core.edition import rotulo_da_edicao
+
+    return rotulo_da_edicao()
+
 def _localize_report_markup(html: str) -> str:
     """Aplica o glossário de interface também às partes estáticas do relatório."""
     lang = get_current_lang()
@@ -231,7 +239,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
                     <p>Netuno 5 — Aproveitamento de Água de Chuva | Empreendimento: <b>{project_name}</b></p>
                 </td>
                 <td class="doc-meta" style="width: 45%;">
-                    <p>Ref. Projeto: <b>{ref_code}</b> | Emissão: <b>{date_str}</b></p>
+                    <p>Ref. Projeto: <b>{ref_code}</b> | Emissão: <b>{date_str}</b> | <b>{_edicao()}</b></p>
                     <p>Conformidade Normativa: <b>ABNT NBR 15527:2019 & NBR 5626</b></p>
                 </td>
             </tr>
@@ -693,7 +701,7 @@ def generate_environmental_html_report(
                 <td style="width: 30%; text-align: right; font-size: 7pt; color: #475569;">
                     <div>Ref: <b style="color: #0f172a;">{ref_code}</b></div>
                     <div>{'Data' if not is_en else 'Date'}: <b>{date_str}</b></div>
-                    <div>{APP_VERSION_LABEL}</div>
+                    <div>{APP_VERSION_LABEL} · {_edicao()}</div>
                 </td>
             </tr>
         </table>
@@ -1859,6 +1867,7 @@ li {{ margin-bottom: 2px; }}
             <tr><td style='font-weight: bold;'>Nome do Projeto:</td><td>{safe(project_data.get('project_name', 'Projeto Netuno'))}</td></tr>
             <tr><td style='font-weight: bold;'>Diretrizes Normativas:</td><td>ABNT NBR 15527:2019 | ISO 14040/14044</td></tr>
             <tr><td style='font-weight: bold;'>Data de Emissão:</td><td>{date_str}</td></tr>
+            <tr><td style='font-weight: bold;'>{'Program edition' if is_en else 'Edição do programa'}:</td><td>{_edicao()}</td></tr>
             <tr><td style='font-weight: bold;'>Responsabilidade Técnica:</td><td>Pesquisador(a) / Engenheiro(a) Responsável</td></tr>
         </table>
     </div>
@@ -2305,7 +2314,7 @@ li {{ margin-bottom: 2px; }}
     <div class='footer-sig'>
         <div>
             <b>{"Grupo de Pesquisa em Ambientes Sustentáveis" if not is_en else "Sustainable Environments Research Group"} (UFSC)</b><br/>
-            {APP_VERSION_LABEL} Engine — {t('prepared')}
+            {APP_VERSION_LABEL} Engine · {_edicao()} — {t('prepared')}
         </div>
         <div style='text-align: right;'>
             <br/><br/><br/><br/>

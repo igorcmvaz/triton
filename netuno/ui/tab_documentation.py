@@ -65,6 +65,23 @@ def open_url_in_browser(url: str):
         QDesktopServices.openUrl(QUrl(url))
 
 
+#: Páginas de cada manual completo, que a aba anuncia; `test_acervo_de_manuais` confere
+#: contra os PDFs.
+PAGINAS_DO_MANUAL_COMPLETO = {
+    "manual/Manual-Netuno-5.pdf": 314,
+    "manual/en/Netuno-5-User-Manual.pdf": 314,
+}
+
+
+def caminho_do_manual_completo() -> str:
+    """O manual completo desta edição e língua; o português, se o inglês não veio no pacote."""
+    from netuno.core.edition import MANUAL_PT, manual_do_usuario
+    escolhido = manual_do_usuario(get_current_lang())
+    if os.path.isfile(get_resource_path(escolhido)):
+        return escolhido
+    return MANUAL_PT
+
+
 def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: bool = False):
     """
     Abre o manual técnico em PDF no leitor padrão do sistema operacional ou permite salvar uma cópia local no disco.
@@ -77,6 +94,7 @@ def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: b
         basename = os.path.basename(rel_path)
         alternativas = [
             os.path.join("manual", basename),
+            os.path.join("manual", "en", basename),
             os.path.join("manual", "mini", basename),
             os.path.join("manual", "site", "pdf", basename),
         ]
@@ -154,7 +172,7 @@ def abrir_manual_interativo(parent: QWidget = None):
         open_url_in_browser(URL_MANUAL_INTERATIVO)
         return True
     else:
-        return abrir_ou_baixar_manual("manual/Manual-Netuno-5.pdf", parent=parent)
+        return abrir_ou_baixar_manual(caminho_do_manual_completo(), parent=parent)
 
 
 def _configurar_botao_manual(btn: QPushButton, rel_path: str, parent: QWidget = None):
@@ -641,7 +659,7 @@ class TabDocumentation(QWidget):
             return
 
         manual_map = {
-            "URL_DO_MANUAL_COMPLETO": "manual/Manual-Netuno-5.pdf",
+            "URL_DO_MANUAL_COMPLETO": caminho_do_manual_completo(),
             "URL_DO_MANUAL_VOL_1": "manual/mini/Manual-Netuno-5-1-comece-aqui.pdf",
             "URL_DO_MANUAL_VOL_2": "manual/mini/Manual-Netuno-5-2-metodo.pdf",
             "URL_DO_MANUAL_VOL_3": "manual/mini/Manual-Netuno-5-3-guias.pdf",
@@ -2509,7 +2527,7 @@ class TabDocumentation(QWidget):
         sec_box.addWidget(lbl_sec_desc)
         lay.addLayout(sec_box)
 
-        # 3. CARD DE DESTAQUE (Volume Geral 270 páginas)
+        # 3. CARD DE DESTAQUE (Volume Geral)
         feat = QFrame()
         feat.setObjectName("featCard")
         feat.setStyleSheet(f"""
@@ -2538,7 +2556,8 @@ class TabDocumentation(QWidget):
             lbl_f_img.setPixmap(pm_comp)
         f_left.addWidget(lbl_f_img)
 
-        lbl_f_sub = QLabel("PDF • 270 PÁGINAS" if not ingles else "PDF • 270 PAGES")
+        _paginas = PAGINAS_DO_MANUAL_COMPLETO.get(caminho_do_manual_completo(), 0)
+        lbl_f_sub = QLabel(f"PDF • {_paginas} PÁGINAS" if not ingles else f"PDF • {_paginas} PAGES")
         lbl_f_sub.setStyleSheet(f"font-size: 10px; font-weight: 800; color: {feat_border};")
         lbl_f_sub.setAlignment(Qt.AlignCenter)
         f_left.addWidget(lbl_f_sub)
@@ -2548,7 +2567,7 @@ class TabDocumentation(QWidget):
         f_right = QVBoxLayout()
         f_right.setSpacing(6)
 
-        f_badge = QLabel("VOLUME GERAL • 270 PÁGINAS" if not ingles else "GENERAL VOLUME • 270 PAGES")
+        f_badge = QLabel(f"VOLUME GERAL • {_paginas} PÁGINAS" if not ingles else f"GENERAL VOLUME • {_paginas} PAGES")
         f_badge.setStyleSheet(f"background-color: {'#087f6b' if is_dark else '#0284c7'}; color: #ffffff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 5px;")
         f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         f_right.addWidget(f_badge)
@@ -2604,7 +2623,7 @@ class TabDocumentation(QWidget):
         """)
         f_btn.setCursor(Qt.PointingHandCursor)
         f_btn.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
-        _configurar_botao_manual(f_btn, "manual/Manual-Netuno-5.pdf", parent=self)
+        _configurar_botao_manual(f_btn, caminho_do_manual_completo(), parent=self)
         f_right.addWidget(f_btn)
 
         f_lay.addLayout(f_right, stretch=1)
@@ -2630,7 +2649,7 @@ class TabDocumentation(QWidget):
              ["Balanço Diário YAS" if not ingles else "Daily YAS Balance", "Descarte Inicial" if not ingles else "First-Flush Rule"],
              "icons/capas/thumb_capa_2-metodo.png", "#0284c7", "#0c4a6e" if is_dark else "#e0f2fe", "#7dd3fc" if is_dark else "#0369a1",
              "manual/mini/Manual-Netuno-5-2-metodo.pdf"),
-            (3, 57,
+            (3, 98,
              "VOLUME 3 • DIRETRIZES POR TIPOLOGIA" if not ingles else "VOLUME 3 • TYPOLOGY GUIDELINES",
              "Volume 3 — Aplicações Práticas" if not ingles else "Volume 3 — Practical Applications",
              "Diretrizes de projeto e parâmetros específicos para escolas, hospitais, residências e edifícios comerciais."
@@ -2639,7 +2658,7 @@ class TabDocumentation(QWidget):
              ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
              "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
              "manual/mini/Manual-Netuno-5-3-guias.pdf"),
-            (4, 72,
+            (4, 71,
              "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
              "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
              "Exemplo completo de dimensionamento: dados pluviométricos, capacidade do reservatório, viabilidade financeira e emissões evitadas."
@@ -2648,7 +2667,7 @@ class TabDocumentation(QWidget):
              ["Dimensionamento" if not ingles else "Tank Sizing", "Viabilidade Econômica" if not ingles else "Economic Feasibility"],
              "icons/capas/thumb_capa_4-tutorial.png", "#7c3aed", "#4c1d95" if is_dark else "#ede9fe", "#c4b5fd" if is_dark else "#5b21b6",
              "manual/mini/Manual-Netuno-5-4-tutorial.pdf"),
-            (5, 31,
+            (5, 30,
              "VOLUME 5 • CONFIABILIDADE E INCERTEZA" if not ingles else "VOLUME 5 • RELIABILITY & UNCERTAINTY",
              "Volume 5 — Análise Estatística" if not ingles else "Volume 5 — Statistical Analysis",
              "Confiabilidade temporal e volumétrica, curvas de permanência e avaliação da sensibilidade do tamanho da série histórica."
@@ -2657,7 +2676,7 @@ class TabDocumentation(QWidget):
              ["Confiabilidade Hídrica" if not ingles else "Water Reliability", "Curvas de Permanência" if not ingles else "Duration Curves"],
              "icons/capas/thumb_capa_5-confiabilidade.png", "#d97706", "#78350f" if is_dark else "#fef3c7", "#fcd34d" if is_dark else "#92400e",
              "manual/mini/Manual-Netuno-5-5-confiabilidade.pdf"),
-            (6, 23,
+            (6, 25,
              "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
              "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
              "Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."
@@ -2666,7 +2685,7 @@ class TabDocumentation(QWidget):
              ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
              "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
              "manual/mini/Manual-Netuno-5-6-versoes.pdf"),
-            (7, 58,
+            (7, 95,
              "VOLUME 7 • APÊNDICES E DADOS" if not ingles else "VOLUME 7 • APPENDICES & DATA",
              "Volume 7 — Tabelas de Referência" if not ingles else "Volume 7 — Reference Tables",
              "Tabelas de coeficientes de escoamento, fatores de emissão para ACV, parâmetros tarifários, glossário de termos e referências."

@@ -38,8 +38,9 @@ sem montar nada.
 ```
 manual/
   Manual-Netuno-5.md         o manual inteiro, em Markdown
-  Manual-Netuno-5.pdf        o manual inteiro, 260 páginas
+  Manual-Netuno-5.pdf        o manual inteiro, em PDF
   mini/                      os sete volumes avulsos, em Markdown e PDF
+  en/Netuno-5-User-Manual.*  o manual inteiro em inglês, em Markdown e PDF
   site/                      o site de documentação, pronto para hospedar
 ```
 
@@ -55,6 +56,21 @@ python manual/gerar_pdf.py            # o PDF completo
 python manual/gerar_mini_manuais.py   # os sete volumes
 python manual/gerar_site.py           # o site
 ```
+
+E o manual em inglês, que a edição Internacional instala e abre:
+
+```bash
+python manual/en/traduzir_tabelas.py  # as tabelas geradas, em inglês
+python manual/en/apendices_en.py      # os apêndices A, B e D, em inglês
+python manual/gerar.py --idioma en    # manual/en/Netuno-5-User-Manual.md
+python manual/gerar_pdf.py --idioma en
+python manual/en/conferir.py          # a estrutura segue a do português?
+```
+
+O texto inglês fica em `manual/en/partes` e `manual/en/apendices`, um arquivo por seção,
+com o mesmo nome do português. Mudou uma seção em português, mude a inglesa: o
+`conferir.py` e `tests/unit/test_manual_en.py` recusam títulos, figuras, equações,
+remissões ou tabelas que não batam, e português esquecido no texto inglês.
 
 `build_exe.py` roda a mesma sequência antes de empacotar o instalador.
 

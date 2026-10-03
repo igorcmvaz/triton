@@ -88,13 +88,18 @@ def build_manual(base_dir: Path) -> bool:
         ("PDF", "manual/gerar_pdf.py"),
         ("mini manuais", "manual/gerar_mini_manuais.py"),
         ("site de documentação", "manual/gerar_site.py"),
+        # O manual em inglês, que a Internacional abre.
+        ("tabelas em inglês", "manual/en/traduzir_tabelas.py"),
+        ("apêndices em inglês", "manual/en/apendices_en.py"),
+        ("montagem em inglês", "manual/gerar.py", "--idioma", "en"),
+        ("PDF em inglês", "manual/gerar_pdf.py", "--idioma", "en"),
     ]
-    for rotulo, script in etapas:
+    for rotulo, script, *argumentos in etapas:
         caminho = base_dir / script
         if not caminho.exists():
             print(f"    {rotulo}: {script} não encontrado; pulando")
             continue
-        res = subprocess.run([sys.executable, str(caminho)], cwd=base_dir)
+        res = subprocess.run([sys.executable, str(caminho), *argumentos], cwd=base_dir)
         if res.returncode != 0:
             print(f"[ERRO] Falha ao gerar {rotulo}.")
             return False
@@ -163,6 +168,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         ("examples", "exemplos"),
         ("docs", "docs"),
         ("manual/Manual-Netuno-5.pdf", "manual"),
+        # O manual em inglês: o que a Internacional abre, e o da Brasil fora do português.
+        ("manual/en/Netuno-5-User-Manual.pdf", "manual/en"),
         # Os sete volumes avulsos, para mandar só uma parte do manual.
         ("manual/mini", "manual/mini"),
         # Manual interativo offline (HTML/JS/CSS)
@@ -292,7 +299,7 @@ def diagnosticar_o_pacote(dist_dir: Path, args) -> bool:
     return not falhou
 
 
-def build_inno_setup(base_dir: Path) -> bool:
+def build_inno_setup(base_dir: Path, edicao: str = "brl") -> bool:
     """Compila o instalador Windows (.exe) utilizando o Inno Setup."""
     print("\n=======================================================")
     print("  Iniciando Criação do Instalador Inno Setup 6")
@@ -315,7 +322,7 @@ def build_inno_setup(base_dir: Path) -> bool:
 
     print(f"[+] Utilizando script: {iss_script.relative_to(base_dir)}")
 
-    faltando = verificar_pasta_para_instalador(base_dir)
+    faltando = verificar_pasta_para_instalador(base_dir, edicao)
     if faltando:
         print("[ERRO] A compilação em dist/Netuno está incompleta. Faltam:")
         for item in faltando:
@@ -325,9 +332,10 @@ def build_inno_setup(base_dir: Path) -> bool:
 
     versao = versao_do_programa(base_dir)
     print(f"[+] Versão do programa: {versao}")
-    res = subprocess.run([str(iscc), f"/DMyAppVersion={versao}", str(iss_script)], cwd=base_dir)
+    res = subprocess.run([str(iscc), f"/DMyAppVersion={versao}", f"/DEdition={edicao.upper()}", str(iss_script)],
+                         cwd=base_dir)
     if res.returncode == 0:
-        nome = f"Netuno_Setup_{versao.replace('.', '_')}.exe"
+        nome = f"{'Netuno_INT_Setup_' if edicao == 'int' else 'Netuno_Setup_'}{versao.replace('.', '_')}.exe"
         print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
         print("          A base CLIMBra compilada (652 cidades) vai embutida.")
         return True
@@ -344,14 +352,15 @@ def versao_do_programa(base_dir: Path) -> str:
     return achado.group(1) if achado else "5.0.0"
 
 
-def verificar_pasta_para_instalador(base_dir: Path) -> list:
-    """Arquivos que o setup_script.iss espera encontrar; devolve os ausentes."""
+def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list:
+    """Arquivos que o setup_script.iss espera encontrar para a edição; devolve os ausentes."""
+    pasta = Path("dist/Netuno_INT") if edicao == "int" else Path("dist/Netuno")
+    exe = "Netuno_INT.exe" if edicao == "int" else "Netuno.exe"
     esperados = [
-        Path("dist/Netuno/Netuno.exe"),
-        Path("dist/Netuno/_internal/data/languages/es.json"),
-        Path("dist/Netuno/_internal/data/languages/zh.json"),
-        Path("dist/Netuno/_internal/manual/Manual-Netuno-5.pdf"),
-        Path("dist/Netuno/_internal") / BASE_CLIMATICA,
+        pasta / exe,
+        pasta / "_internal/data/languages/es.json",
+        pasta / "_internal/data/languages/zh.json",
+        pasta / "_internal/manual/Manual-Netuno-5.pdf",
         Path("LICENSE"),
         Path("Licence.txt"),
         Path("infos_licenses/AVISOS_DE_TERCEIROS.txt"),
@@ -359,6 +368,10 @@ def verificar_pasta_para_instalador(base_dir: Path) -> list:
         Path("infos_licenses/info_before.txt"),
         Path("infos_licenses/info_after.txt"),
     ]
+    if edicao == "int":
+        esperados.append(pasta / "_internal/manual/en/Netuno-5-User-Manual.pdf")
+    if edicao == "brl":
+        esperados.append(pasta / "_internal" / BASE_CLIMATICA)  # a base CLIMBra só vai na Brasil
     return [str(p) for p in esperados if not (base_dir / p).exists()]
 
 
@@ -474,11 +487,11 @@ def main():
             print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
             success = build_pyinstaller(ed_args, base_dir)
             if success and args.installer:
-                if edicao == "brl" and ed_args.name == "Netuno" and not args.sem_base_climatica:
-                    build_inno_setup(base_dir)
+                if ed_args.name != nome or (edicao == "brl" and args.sem_base_climatica):
+                    print(f"[AVISO] Instalador não gerado: o setup_script.iss empacota dist/{nome}"
+                          + (" com a base CLIMBra" if edicao == "brl" else "") + ".")
                 else:
-                    print("[AVISO] O instalador (setup_script.iss) empacota a pasta dist/Netuno, da edição Brasil "
-                          f"com a base CLIMBra. A compilação {edicao.upper()} fica em dist/{ed_args.name}.")
+                    build_inno_setup(base_dir, edicao)
     finally:
         restaurar_gerados(base_dir, limpos_antes)
 

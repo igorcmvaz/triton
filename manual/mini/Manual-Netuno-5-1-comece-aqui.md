@@ -81,19 +81,21 @@ Figura 8 — As doze etapas do programa, agrupadas por natureza
 
 Tabela 1 — Requisitos de sistema para instalar e executar o programa
 
-Tabela 2 — Formatos de arquivo que o programa grava e o conteúdo de cada um
+Tabela 2 — O que muda entre a Edição Brasil e a International Edition
 
-Tabela 3 — Arquivos de exemplo distribuídos com o programa
+Tabela 3 — Formatos de arquivo que o programa grava e o conteúdo de cada um
 
-Tabela 4 — Percurso de leitura recomendado conforme o objetivo do leitor
+Tabela 4 — Arquivos de exemplo distribuídos com o programa
 
-Tabela 5 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
+Tabela 5 — Percurso de leitura recomendado conforme o objetivo do leitor
 
-Tabela 6 — Critérios hidráulicos para decidir sobre o reservatório superior
+Tabela 6 — Escolha entre volume fixo e varredura conforme a pergunta do estudo
 
-Tabela 7 — Padronização terminológica de água de chuva e água pluvial
+Tabela 7 — Critérios hidráulicos para decidir sobre o reservatório superior
 
-Tabela 8 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 8 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 9 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -185,7 +187,7 @@ chuva. A Figura 3 mostra como a precipitação de um dia se reparte, e a conta �
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, conforme a regra YAS.*
+*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermediária entre as regras YAS e YBS, explicada na seção do balanço diário.*
 
 Lendo o desenho:
 
@@ -356,15 +358,39 @@ computador.
 
 ---
 
-### 1.2.2. A instalação
+### 1.2.2. As duas edições
+
+O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
+lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
+rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+
+<!-- tabela: **Tabela 2** — O que muda entre a Edição Brasil e a International Edition -->
+| | Edição Brasil (BRL) | International Edition (INT) |
+| :--- | :--- | :--- |
+| instalador | `Netuno_Setup_5_0_0.exe` | `Netuno_INT_Setup_5_0_0.exe` |
+| idioma ao abrir | português | inglês |
+| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
+| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
+| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
+| moeda e custos | reais, com preços de referência | moeda escolhida; custos digitados |
+| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
+
+Sem os fatores de emissão do país, a International Edition não calcula a avaliação
+ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
+nenhum aviso.
+
+---
+
+### 1.2.3. A instalação
 
 1. Execute **`Netuno_Setup_5_0_0.exe`**. O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos e os
-   exemplos, em português e inglês. A **completa** acrescenta os pacotes de idioma
-   espanhol e chinês e a base climática nacional, se ela estiver disponível (veja
-   adiante). A **personalizada** permite marcar cada um.
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
+   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
+   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
+   junto, embutida no programa.
 4. Aceite a pasta sugerida, `C:\Program Files\Netuno 5`, ou escolha outra.
 5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
    .netuno com o Netuno 5** vem marcada: com ela, um duplo clique num projeto o abre
@@ -382,12 +408,12 @@ Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
 
 ---
 
-### 1.2.3. Onde ficam os seus arquivos
+### 1.2.4. Onde ficam os seus arquivos
 
 O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
 relatório ou uma exportação, ele pergunta a pasta.
 
-<!-- tabela: **Tabela 2** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
+<!-- tabela: **Tabela 3** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
 | O que você grava | Extensão | Contém |
 | :--- | :--- | :--- |
 | projeto | `.netuno` | todos os dados de entrada **e a série de chuva** |
@@ -403,7 +429,7 @@ um trabalho verificável de um trabalho apenas relatado.
 
 ---
 
-### 1.2.4. A base climática
+### 1.2.5. A base climática
 
 O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
 Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
@@ -418,12 +444,12 @@ O apêndice E (volume Apêndices) descreve a base, e a seção 3.2 (volume Guias
 
 ---
 
-### 1.2.5. Os arquivos de exemplo
+### 1.2.6. Os arquivos de exemplo
 
 O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
 aqui.
 
-<!-- tabela: **Tabela 3** — Arquivos de exemplo distribuídos com o programa -->
+<!-- tabela: **Tabela 4** — Arquivos de exemplo distribuídos com o programa -->
 | Arquivo | Para que serve |
 | :--- | :--- |
 | `casos\01_tutorial_florianopolis.netuno` | o projeto que o capítulo 4 constrói, pronto |
@@ -441,7 +467,7 @@ programa são de versões diferentes, e a seção 6.3 (volume Correções, bugs 
 
 ---
 
-### 1.2.6. A primeira simulação, em cinco minutos
+### 1.2.7. A primeira simulação, em cinco minutos
 
 O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
 trabalha. Para a primeira simulação bastam quatro delas.
@@ -461,7 +487,7 @@ seguinte: 4.000 L é o volume certo?
 
 ---
 
-### 1.2.7. Se alguma coisa der errado
+### 1.2.8. Se alguma coisa der errado
 
 **O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
 cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
@@ -499,7 +525,7 @@ existe justamente para indicar esse ponto de entrada.
 A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
 percurso de leitura correspondente a cada um deles.
 
-<!-- tabela: **Tabela 4** — Percurso de leitura recomendado conforme o objetivo do leitor -->
+<!-- tabela: **Tabela 5** — Percurso de leitura recomendado conforme o objetivo do leitor -->
 | Você quer | Leia |
 | :--- | :--- |
 | **aprender a usar** o programa | o capítulo 4 inteiro, seções 4.1 (volume Tutorial) a 4.10 (volume Tutorial), na ordem |
@@ -541,7 +567,7 @@ Os casos residenciais são tratados na seção 4.2 (volume Tutorial), e o caso c
 A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
 modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
 
-<!-- tabela: **Tabela 5** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
+<!-- tabela: **Tabela 6** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
 | Se você quer | Use | Onde se trata |
 | :--- | :--- | :--- |
 | avaliar uma cisterna que já existe | volume fixo | seção 4.3 (volume Tutorial) |
@@ -557,7 +583,7 @@ de que qualquer estudo pode dispor ao justificar um volume.
 A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
 pressão exigida nos pontos de consumo.
 
-<!-- tabela: **Tabela 6** — Critérios hidráulicos para decidir sobre o reservatório superior -->
+<!-- tabela: **Tabela 7** — Critérios hidráulicos para decidir sobre o reservatório superior -->
 | Se a edificação | Então | Onde se trata |
 | :--- | :--- | :--- |
 | é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção 4.5 (volume Tutorial) |
@@ -582,8 +608,8 @@ trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguint
 Onde este manual trata cada uma: a etapa 1 na seção 4.1 (volume Tutorial), a 2 na 4.2 (volume Tutorial), a 3 na 4.6 (volume Tutorial), a 4 nas seções 4.3 (volume Tutorial), 4.4 (volume Tutorial) e 4.7 (volume Tutorial), a 5 na 4.3 (volume Tutorial), a 6 na 4.7 (volume Tutorial), a 7 na 4.8 (volume Tutorial), a 8 na 4.9 (volume Tutorial), a 9 na 4.10 (volume Tutorial), a 10 na 3.9 (volume Guias de uso) e a 12 na 3.3 (volume Guias de uso). A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
 
 
-Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
-relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
+Convém salvar o projeto ao concluir cada etapa. Os parâmetros do apêndice A (volume Apêndices) são
+gravados e relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
 para quem o refará no futuro quanto para quem o avaliará.
 
 ---
@@ -672,6 +698,10 @@ tratada neste manual, nas versões 4, 4.1 e 5.
 **BIM** (*building information modeling*). Modelagem da informação da construção.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
+
+**BRL**. Sigla da Edição Brasil do programa, a que traz os dados brasileiros: base
+climática CLIMBra, tarifas de 652 municípios, energia da ANEEL, custos em reais e
+certificações nacionais. A seção 1.2 compara as duas edições.
 
 **CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
 esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
@@ -804,6 +834,9 @@ Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, 
 *Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
 exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
 
+**INT**. Sigla da *International Edition* do programa: abre em inglês e não traz dados
+brasileiros. Tarifas, custos, moeda e fatores de emissão são informados pelo usuário.
+
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
 avaliação a que as projeções climáticas se referem.
@@ -837,42 +870,37 @@ prediais.
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
 
-**Manuais do Netuno 5** (*Netuno 5 Manual Suite*). Conjunto bibliográfico oficial e modular de documentação técnica do Netuno 5, concebido para fornecer fundamentação metodológica transparente, reprodutibilidade científica e orientação prática de engenharia. O acervo compõe-se de **1 Manual Geral Completo** e **7 Mini-Manuais Temáticos Independentes**, possibilitando tanto a consulta integral quanto a consulta ou envio fracionado por disciplina e fase do projeto:
+**Manuais do Netuno 5** (*Netuno 5 manual suite*). A documentação do programa, montada
+das mesmas fontes em três formatos: o manual completo, sete volumes avulsos, cada um com
+uma parte dele, e o site de documentação. Os volumes servem a quem precisa de uma parte
+só, para consultar ou enviar:
 
-1. **Manual Completo (Geral):** Volume unificado abrangente (266 páginas) contendo a íntegra dos métodos analíticos, tutoriais de caso prático, equações de balanço diário, justificativas de ACV, certificações sustentáveis e todos os apêndices de engenharia.
+1. **Manual completo**: todos os capítulos e apêndices.
    ![Capa do Manual Completo](../figuras/capas/capa_completo.png)
-   * Link para download: [Manual Completo do Netuno 5 (PDF)](URL_DO_MANUAL_COMPLETO)
-
-2. **Volume 1 — Comece Aqui:** Guia rápido de instalação, configuração, primeiros passos, conceitos elementares e apresentação das funcionalidades centrais do programa.
+2. **Volume 1 — Comece aqui**: o que o programa faz, como instalá-lo e por onde entrar
+   conforme o seu objetivo.
    ![Capa do Volume 1 — Comece Aqui](../figuras/capas/capa_1-comece-aqui.png)
-   * Link para download: [Volume 1 — Comece Aqui (PDF)](URL_DO_MANUAL_VOL_1)
-
-3. **Volume 2 — O Método de Simulação:** Equações detalhadas do balanço hídrico diário *Yield-After-Spill* (YAS), modelos de escoamento superficial em coberturas, regras de descarte de primeira chuva (*first flush*), hidráulica de bombeamento e formulações matemáticas rigorosas.
+3. **Volume 2 — O método**: as equações, os critérios e as fontes por trás de cada número
+   que o programa publica.
    ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
-   * Link para download: [Volume 2 — O Método de Simulação (PDF)](URL_DO_MANUAL_VOL_2)
-
-4. **Volume 3 — Guias Práticos e Aplicações:** Diretrizes de projeto para diferentes tipologias prediais (escolas, hospitais, residências unifamiliares, edifícios comerciais), modulação de demandas sazonais e estudos com séries pluviométricas de capitais brasileiras.
+4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, demanda variável,
+   lote, sensibilidade e exportação.
    ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
-   * Link para download: [Volume 3 — Guias Práticos e Aplicações (PDF)](URL_DO_MANUAL_VOL_3)
-
-5. **Volume 4 — Tutorial Passo a Passo:** Caso prático completo guiado passo a passo, desde a entrada de dados pluviométricos e arquitetônicos até o dimensionamento do reservatório ideal, análise de fluxo de caixa (VPL, TIR, Payback) e balanço de carbono.
+5. **Volume 4 — Tutorial**: um projeto de residência em Florianópolis, do primeiro dado ao
+   volume recomendado.
    ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
-   * Link para download: [Volume 4 — Tutorial Passo a Passo (PDF)](URL_DO_MANUAL_VOL_4)
-
-6. **Volume 5 — Análise de Confiabilidade e Incerteza:** Confiabilidade temporal e volumétrica, curvas de permanência de nível de reservatório, análise de sensibilidade e estabilidade estatística do comprimento representativo de séries pluviométricas.
+6. **Volume 5 — Enganos, limitações e confiabilidade**: os enganos mais comuns, os limites
+   do modelo e como o programa é verificado.
    ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
-   * Link para download: [Volume 5 — Análise de Confiabilidade (PDF)](URL_DO_MANUAL_VOL_5)
-
-7. **Volume 6 — Histórico de Versões e Validação:** Evolução histórica do Netuno 1 ao 5, protocolo de replicação e auditoria contra o Netuno 4, verificação analítica dos algoritmos e matriz de testes unitários.
+7. **Volume 6 — Correções, bugs e versionamento**: o que mudou desde o Netuno 4, as
+   mensagens de erro e como relatar um problema.
    ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
-   * Link para download: [Volume 6 — Histórico de Versões (PDF)](URL_DO_MANUAL_VOL_6)
-
-8. **Volume 7 — Apêndices Técnicos e Dados:** Coletânea exaustiva de parâmetros de projeto, coeficientes de escoamento por material de telhado (artigo MIX 2020), fatores de emissão de carbono (ACV), estruturas tarifárias de saneamento, glossário terminológico e referências bibliográficas conferidas.
+8. **Volume 7 — Apêndices**: parâmetros, processos, fatores de emissão, tarifas, base
+   climática, formatos, glossário e referências.
    ![Capa do Volume 7 — Apêndices](../figuras/capas/capa_7-apendices.png)
-   * Link para download: [Volume 7 — Apêndices Técnicos e Dados (PDF)](URL_DO_MANUAL_VOL_7)
 
-- **Manual Interativo & Portal Web Oficial:**
-  * Link para consulta online: [Página Web Oficial com Explicações e Manual Interativo](https://www.google.com)
+Os PDFs acompanham o programa e abrem pela etapa 9. Documentação; o manual existe também
+em inglês, na íntegra.
 
 **NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
@@ -981,11 +1009,14 @@ de aproveitamento de água pluvial.
 dos formatos de exportação de planilhas e de resultados da linha de comando.
 
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda. É o modelo adotado pelo programa.
+calculado **antes** da retirada da demanda e, na forma estrita, a retirada do dia sai
+só do volume guardado na véspera. O programa calcula o extravasamento antes, como a
+YAS, mas deixa a chuva do dia atender a demanda do dia; fica entre a YAS e a YBS
+(seção 2.1 (volume O método)).
 
 **YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes**
 do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o
-aproveitamento; não é o modelo adotado pelo programa.
+aproveitamento; o programa não a adota, e o resultado dele fica entre a YAS e a YBS.
 
 ---
 
@@ -997,7 +1028,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 7** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 8** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Netuno | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -1008,12 +1039,12 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 8** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 9** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
 | **Demanda pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
-| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (YAS) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
+| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (seção 2.1 (volume O método)) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
 | **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da demanda **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
 | **Confiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da demanda **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
 | **Confiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a demanda pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |

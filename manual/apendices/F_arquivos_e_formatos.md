@@ -70,7 +70,7 @@ Ele tem sete seções:
 | `water_quality_and_etap` | classe-alvo, desinfecção e tratamento |
 | `financial_and_economic` | tarifas, impostos, reajustes e prazo |
 
-O apêndice {{n:A}} lista os 104 parâmetros, com o nome exato de cada campo.
+O apêndice {{n:A}} lista todos os parâmetros, com o nome exato de cada campo.
 
 > **A série de chuva vai dentro do arquivo.** É o que torna o projeto reproduzível:
 > quem receber o arquivo obtém exatamente os seus números, mesmo sem ter a base

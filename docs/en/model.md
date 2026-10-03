@@ -73,8 +73,9 @@ and the project file stores it for reading. Without outdoor demand, `f = f_in`. 
 the outdoor demand; changing `f_in` or `Q_ex` recomputes `f`; changing both inconsistently
 is refused. The rule lives in `netuno/core/fracao_atendivel.py`.
 
-In the lower tank the **yield-after-spillage** (YAS) convention caps the store and
-computes the overflow *before* withdrawing the demand:
+In the lower tank the program caps the store and computes the overflow *before*
+withdrawing the demand, as in the **yield-after-spillage** (YAS) rule, but the same
+day's rain is already available to that day's demand:
 
 ```text
 Avail_t     = S_{t−1} + V_cap,t
@@ -85,9 +86,12 @@ S_t         = S_before,t − Supplied_t
 ```
 
 The order of these five lines is not an implementation detail: it decides how much the
-system delivers. Under the alternative convention, YBS, the demand is withdrawn before
-the overflow is computed, and the same physical system reports more yield. YAS is the
-conservative choice and the one Netuno 5 adopts.
+system delivers. Under strict YAS (Fewkes and Butler, 2000) the day's yield comes only
+from the previous day's store, `Supplied_t = min(D_pl,t, S_{t−1})`; under YBS the demand is
+withdrawn before the overflow is computed. Netuno sits between the two: its yield is never
+below strict YAS nor above YBS, and it departs most from YAS with small tanks. EN
+16941-1:2024 (Annex A.3) uses strict YAS, so for the same volume Netuno reports a slightly
+higher coverage.
 
 Where an upper tank exists, pumping is an additional internal transfer bounded by both
 stores and by a trigger level. The auditable balance over both tanks is

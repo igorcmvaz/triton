@@ -599,7 +599,10 @@ class TabEconomicGlobalOptimizer(QWidget):
             )
 
         lang_is_en = get_current_lang() == "en"
-        curr_sym = "$" if lang_is_en else "R$"
+        # O símbolo é o da moeda escolhida, não o do idioma: em inglês, valores em
+        # reais apareciam como dólares.
+        curr_sym = (main_win.tab_tanks_simulation.get_currency_symbol()
+                    if main_win and hasattr(main_win, "tab_tanks_simulation") else "R$")
         unit_m3_yr = "m³/year" if lang_is_en else "m³/ano"
         unit_yrs = "years" if lang_is_en else "anos"
         no_payback_str = "No payback" if lang_is_en else "Sem Retorno"

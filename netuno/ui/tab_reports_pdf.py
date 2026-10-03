@@ -5,6 +5,7 @@ Suporta exportação em dois formatos estruturais:
 2. Relatório de Pesquisa — Estudo técnico-científico aprofundado com hidrologia, ACV e equações.
 """
 
+from netuno.core.edition import rotulo_da_edicao
 import os
 import base64
 from io import BytesIO
@@ -1181,7 +1182,7 @@ class TabReportsPdf(QWidget):
             title_mode = tr("Relatório Econômico (Clientes)")
             lines = [
                 "═" * 72,
-                f"  NETUNO 5  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  NETUNO 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('KPIs EXECUTIVOS COMERCIAIS')} ─────────────────────────────────────┐",
@@ -1222,7 +1223,7 @@ class TabReportsPdf(QWidget):
 
             lines = [
                 "═" * 72,
-                f"  NETUNO 5  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  NETUNO 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG')} ─────────────┐",
@@ -1262,7 +1263,7 @@ class TabReportsPdf(QWidget):
             lca = self.get_lca_result()
             lines = [
                 "═" * 72,
-                f"  NETUNO 5  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  NETUNO 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('RESUMO TÉCNICO-CIENTÍFICO & ACV')} ─────────────────────────────────┐",

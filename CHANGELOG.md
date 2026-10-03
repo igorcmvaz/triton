@@ -56,8 +56,10 @@ tubos que ocupam o mesmo espaço e gera, com os mesmos dados, a planta 3D em DXF
 esquema 3D com as medidas reais, a volumetria girável e os arquivos glTF e HTML para
 compartilhar, além do manifesto BIM lido pelo Revit.
 
-A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código e se
-distinguem, nesta versão, pelo executável e pelo título da janela.
+A edição Brasil (BRL) e a edição Internacional (INT) partem do mesmo código. A Brasil
+traz os dados brasileiros auditados. A Internacional é o núcleo neutro: abre em inglês,
+com tarifas, custos, moeda e fatores de emissão informados pelo usuário. As diferenças
+estão na seção 1.2.
 
 ### Correções que alteram resultados
 
@@ -86,6 +88,7 @@ a calcular de outro modo, e porque é o formato que as versões seguintes vão u
 | a alternativa sem cisterna entrava no multicritério da interface com payback zero, o melhor possível | alternativa que não se paga entra sem payback, nas duas pontas |
 | a lâmina de descarte da primeira chuva valia 1,0 mm no arquivo de projeto, na leitura de planilha e no motor, e 2,0 mm no exportador CAD, na linha de comando e no relatório | o valor de recurso passou a ser 2,0 mm em todos os caminhos, conforme o item 4.1.5 da ABNT NBR 15527:2019; um projeto sem lâmina declarada descarta o dobro do que descartava, e a captação aproveitada cai na medida dos dias de chuva fraca |
 | os 34 municípios da CORSAN estavam gravados como uma reta, `PB × C + serviço básico`, com esgoto de 70% sobre a conta inteira, embora a concessionária cobre `PB × Cⁿ + serviço básico` e o esgoto por m³ consumido | a água segue a Tabela de Exponenciais (`n` de 1,00 até 20 m³ a 1,13 entre 101 e 150 m³) e o esgoto, R$ 6,40/m³ no ANEXO-5; em Alegrete, reduzir o consumo de 30 para 20 m³ passou a economizar R$ 253,81 por mês, e não R$ 155,55 |
+| as categorias comercial, industrial, pública e social eram a tarifa residencial multiplicada por fatores fixos, sem tabela de prestador nenhum: ×1,85 na água comercial, ×2,30 na industrial, ×1,65 na pública e ×0,50 na social | uma categoria só entra com a tabela oficial do prestador; hoje, comercial e pública nos 34 municípios da CORSAN e industrial em 30. Nos demais, a categoria aparece desabilitada e o estudo usa a estrutura personalizada; quando a categoria que a tipologia exige não está disponível, o programa avisa que a tarifa residencial subestima a economia |
 
 ### Correções que não alteram resultados
 
@@ -112,6 +115,7 @@ estudo errado.
 | os avisos do compilador de sombreadores do Direct3D (X4122, X4000) apareciam como «Qt aviso» | entram só na contagem do resumo; erro de compilação continua aparecendo |
 | o CAPEX de tubulação e acessórios era uma verba estimada, e a ACV contava só os metros de tubo digitados; curvas, conexões, peças e cabos de comando do arranjo 3D não entravam em nenhum dos dois | em projeto novo, os dois passam a sair do arranjo, peça por peça, com preço e carbono de cada item; arquivos antigos mantêm os custos que declaravam |
 | a mão de obra era fixada uma vez, sobre verbas genéricas, e não mudava com o volume na varredura; a varredura também deixava de cobrar o pressurizador quando não havia caixa superior | em projeto novo, a mão de obra é 30% dos materiais de cada volume, e a motobomba entra em todo arranjo que não seja por gravidade, como no motor econômico |
+| no otimizador global, o símbolo da moeda seguia o idioma: em inglês, valores em reais apareciam como dólares | o símbolo é o da moeda escolhida no projeto; em outra moeda, os preços em reais do arranjo 3D e a mão de obra automática deixam de ser aplicados |
 | o arranjo 3D usual era sempre o de recalque, com uma motobomba | o arranjo segue o abastecimento do projeto (recalque, pressurização ou gravidade) e desenha a motobomba reserva em paralelo; o CAPEX e a ACV deixam de cobrar peças de caixa superior que não existem e passam a cobrar as da reserva |
 
 ### Documentação
@@ -121,6 +125,16 @@ manual completo em PDF, sete volumes avulsos para quem só precisa de uma parte,
 site de documentação com dezoito figuras interativas, em que o leitor muda os
 parâmetros e vê o resultado que o programa calculou. Os três, mais o `CHANGELOG.md`
 distribuído com o código, saem dos mesmos arquivos de texto.
+
+O manual passou a existir também em inglês, seção a seção, com os mesmos números,
+figuras, tabelas e equações; é o manual que a edição Internacional instala e abre. Uma
+verificação automática recusa a montagem se as duas versões divergirem na estrutura.
+Três acréscimos ao texto em português acompanharam a tradução: a seção 2.1 explica
+onde a ordem do balanço do Netuno fica entre as regras YAS e YBS da literatura, que antes
+eram dadas como equivalentes a ela; o apêndice D ganhou as faixas de cada
+município por categoria, com a situação da auditoria e a data de cada dado; e o material
+tarifário recebido passou a ser registrado num controle próprio, em
+`tarifas/fontes/REGISTRO.md`, que diz o que já chegou e o que falta coletar.
 
 > **Aprofundamento: por que a correção do bombeamento é a mais relevante.** A ABNT NBR
 > 17094-2:2016 determina que o rendimento do motor seja marcado na placa

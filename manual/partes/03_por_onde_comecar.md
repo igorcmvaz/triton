@@ -95,8 +95,8 @@ trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguint
 Onde este manual trata cada uma: a etapa 1 na seção {{n:4}}, a 2 na {{n:5}}, a 3 na {{n:9}}, a 4 nas seções {{n:6}}, {{n:7}} e {{n:10}}, a 5 na {{n:6}}, a 6 na {{n:10}}, a 7 na {{n:11}}, a 8 na {{n:12}}, a 9 na {{n:13}}, a 10 na {{n:22}} e a 12 na {{n:16}}. A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui.
 
 
-Convém salvar o projeto ao concluir cada etapa. Os 104 parâmetros são gravados e
-relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
+Convém salvar o projeto ao concluir cada etapa. Os parâmetros do apêndice {{n:A}} são
+gravados e relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
 para quem o refará no futuro quanto para quem o avaliará.
 
 ---

@@ -238,6 +238,7 @@ class NetunoConfig:
     )  # (min_m3, max_m3, rate_or_fixed, is_fixed)
     tariff_city_uf: str = "SC"
     tariff_city_name: str = "Florianópolis"
+    tariff_category: str = "residencial"  # categoria da tabela tarifária aplicada; "personalizada" quando digitada
     elec_city_uf: str = "SC"
     elec_city_name: str = "Florianópolis"
     # Percentual da TARIFA DE ÁGUA quando sewage_mode == 1, ou valor fixo em R$
@@ -914,6 +915,7 @@ def export_netuno_json(
                 "water_tariffs": config.water_tariffs,
                 "tariff_city_uf": getattr(config, 'tariff_city_uf', 'SC'),
                 "tariff_city_name": getattr(config, 'tariff_city_name', 'Florianópolis'),
+                "tariff_category": getattr(config, 'tariff_category', 'residencial'),
                 "elec_city_uf": getattr(config, 'elec_city_uf', 'SC'),
                 "elec_city_name": getattr(config, 'elec_city_name', 'Florianópolis'),
                 "tariff_escalation_months": config.tariff_escalation,
@@ -1164,6 +1166,7 @@ def load_netuno_project(file_path: str) -> dict:
             cfg.water_tariffs = fe.get("water_tariffs", cfg.water_tariffs)
             cfg.tariff_city_uf = fe.get("tariff_city_uf", getattr(cfg, "tariff_city_uf", "SC"))
             cfg.tariff_city_name = fe.get("tariff_city_name", getattr(cfg, "tariff_city_name", "Florianópolis"))
+            cfg.tariff_category = fe.get("tariff_category", getattr(cfg, "tariff_category", "residencial"))
             cfg.elec_city_uf = fe.get("elec_city_uf", getattr(cfg, "elec_city_uf", "SC"))
             cfg.elec_city_name = fe.get("elec_city_name", getattr(cfg, "elec_city_name", "Florianópolis"))
             cfg.tariff_escalation = fe.get("tariff_escalation_months", 12)

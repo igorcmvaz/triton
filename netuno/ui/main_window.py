@@ -55,9 +55,14 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(900, 600)
         self.config = NetunoConfig()
         # Projeto novo: tubulação e acessórios saem do arranjo 3D, peça a peça.
-        self.config.capex_do_arranjo = True
+        # Os preços do catálogo são em reais: só a Edição Brasil os pré-preenche.
+        from netuno.core.edition import usa_dados_do_brasil
+        self.config.capex_do_arranjo = usa_dados_do_brasil()
         # e a mão de obra acompanha os materiais, inclusive o volume da cisterna.
-        self.config.mao_de_obra_automatica = True
+        self.config.mao_de_obra_automatica = usa_dados_do_brasil()
+        if not usa_dados_do_brasil():
+            from netuno.core.edition import neutralizar_para_a_internacional
+            neutralizar_para_a_internacional(self.config)
         
         # Ícone da janela principal
         for icone_rel in (
@@ -749,7 +754,8 @@ class MainWindow(QMainWindow):
         # acompanha o programa, e só cai na mensagem quando ele não existe.
         from PySide6.QtCore import QUrl
         from PySide6.QtGui import QDesktopServices
-        for relativo in (os.path.join("manual", "Manual-Netuno-5.pdf"),):
+        from netuno.ui.tab_documentation import caminho_do_manual_completo
+        for relativo in (caminho_do_manual_completo(),):
             caminho = get_resource_path(relativo)
             if os.path.isfile(caminho):
                 QDesktopServices.openUrl(QUrl.fromLocalFile(caminho))

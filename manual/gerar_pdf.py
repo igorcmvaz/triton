@@ -201,10 +201,17 @@ E = {
 
 
 # ── inline ───────────────────────────────────────────────────────────────────
+CIRCULO_POR_MARCADOR = {"🟢": "#2e9d55", "🟡": "#d9a400", "🔴": "#d1453b"}
+
+
 def inline(texto):
     """Converte o Markdown de linha para a marcação que o Paragraph entende."""
     t = _sem_unicode(texto)
     t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    # Os marcadores de situação viram um círculo na cor deles: a fonte do PDF não tem
+    # os emojis, e sem isto eles saíam como um quadrado preto.
+    for marcador, cor in CIRCULO_POR_MARCADOR.items():
+        t = t.replace(marcador, f'<font color="{cor}">\u25cf</font>')
 
     # O código entra primeiro e sai do caminho das demais marcações: um trecho
     # como `**` dentro de crase não pode virar negrito.
@@ -249,6 +256,10 @@ def _celulas(linha):
     return [c.strip() for c in linha.strip().strip("|").split("|")]
 
 
+FUNDO_POR_MARCADOR = {"🟢": colors.HexColor("#e3f4e8"), "🟡": colors.HexColor("#fff4cc"),
+                      "🔴": colors.HexColor("#fbe0dc")}
+
+
 def montar_tabela(linhas):
     """Compõe uma tabela do Markdown, com a largura repartida pelo conteúdo."""
     if len(linhas) < 2:
@@ -256,6 +267,13 @@ def montar_tabela(linhas):
     cabecalho = _celulas(linhas[0])
     alin = alinhamentos(linhas[1])
     corpo = [_celulas(l) for l in linhas[2:]]
+    # Uma linha cuja primeira célula abre com 🟢, 🟡 ou 🔴 ganha fundo verde, amarelo ou
+    # vermelho claro, e o marcador sai do texto: é a situação do dado (apêndice de tarifas).
+    fundos = {}
+    for i, l in enumerate(corpo, 1):
+        if l and l[0][:1] in FUNDO_POR_MARCADOR:
+            fundos[i] = FUNDO_POR_MARCADOR[l[0][:1]]
+            l[0] = l[0][1:].strip()
     colunas = max([len(cabecalho)] + [len(l) for l in corpo])
     alin += ["e"] * (colunas - len(alin))
 
@@ -329,6 +347,8 @@ def montar_tabela(linhas):
         ("LINEBELOW", (0, 1), (-1, -2), 0.35, colors.HexColor("#eceef0")),
         ("LINEBELOW", (0, -1), (-1, -1), 0.8, REGUA),
     ])
+    for i, cor in fundos.items():
+        estilo_tab.add("BACKGROUND", (0, i), (-1, i), cor)
     t = Table(dados, colWidths=larguras, repeatRows=1, hAlign="LEFT")
     t.setStyle(estilo_tab)
     return t
@@ -387,7 +407,7 @@ def moldura(canvas, doc, com_furniture=True):
         if titulo:
             canvas.drawString(MARGEM_E, ALTURA - MARGEM_S + 8 * mm, titulo[:78])
         canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - MARGEM_S + 8 * mm,
-                               getattr(doc, "cabecalho", f"Manual do Netuno {VERSAO}"))
+                               getattr(doc, "cabecalho", T("cabecalho")))
         canvas.setStrokeColor(REGUA)
         canvas.setLineWidth(0.4)
         canvas.line(MARGEM_E, ALTURA - MARGEM_S + 6 * mm,
@@ -396,6 +416,29 @@ def moldura(canvas, doc, com_furniture=True):
         canvas.drawCentredString(LARGURA / 2.0, MARGEM_I - 6 * mm,
                                  str(canvas.getPageNumber()))
     canvas.restoreState()
+
+
+#: O que a composição escreve por conta própria, por idioma. O manual em inglês usa
+#: `compor_pdf(..., idioma="en")`; o texto dele já vem traduzido do Markdown.
+TEXTOS = {
+    "pt": dict(cabecalho=f"Manual do Netuno {VERSAO}", capa="MANUAL DO USUÁRIO",
+               grupo="Grupo de Pesquisa em Ambientes Sustentáveis",
+               universidade="Universidade Federal de Santa Catarina",
+               rodape=f"Florianópolis · 2026 · Versão {VERSAO}",
+               aprofundamento="Aprofundamento", sumario="sumário", apendice="Apêndice",
+               assunto="Aproveitamento de água pluvial em edificações"),
+    "en": dict(cabecalho=f"Netuno User Manual {VERSAO}", capa="USER MANUAL",
+               grupo="Sustainable Environments Research Group",
+               universidade="Federal University of Santa Catarina",
+               rodape=f"Florianópolis, Brazil · 2026 · Version {VERSAO}",
+               aprofundamento="In depth", sumario="contents", apendice="Appendix",
+               assunto="Rainwater harvesting in buildings"),
+}
+IDIOMA_PDF = "pt"
+
+
+def T(chave):
+    return TEXTOS[IDIOMA_PDF][chave]
 
 
 MARINHO = colors.HexColor("#0b2545")
@@ -427,7 +470,7 @@ def capa(canvas, doc):
     canvas.setFont(F["titulo"], 10)
     canvas.drawString(MARGEM_E, ALTURA - 18 * mm, "NETUNO 5")
     canvas.setFont(F["titulo_r"], 10)
-    canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - 18 * mm, "MANUAL DO USUÁRIO")
+    canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - 18 * mm, T("capa"))
     canvas.setStrokeColor(colors.Color(1, 1, 1, alpha=0.35))
     canvas.setLineWidth(0.5)
     canvas.line(MARGEM_E, ALTURA - 21 * mm, LARGURA - MARGEM_D, ALTURA - 21 * mm)
@@ -472,9 +515,9 @@ def capa(canvas, doc):
     canvas.drawString(MARGEM_E, 30 * mm, "Igor Catão Martins Vaz & Enedir Ghisi")
     canvas.setFillColor(TINTA2)
     canvas.setFont(F["titulo_r"], 9.5)
-    canvas.drawString(MARGEM_E, 25 * mm, "Grupo de Pesquisa em Ambientes Sustentáveis")
-    canvas.drawString(MARGEM_E, 20.5 * mm, "Universidade Federal de Santa Catarina")
-    canvas.drawString(MARGEM_E, 16 * mm, f"Florianópolis · 2026 · Versão {VERSAO}")
+    canvas.drawString(MARGEM_E, 25 * mm, T("grupo"))
+    canvas.drawString(MARGEM_E, 20.5 * mm, T("universidade"))
+    canvas.drawString(MARGEM_E, 16 * mm, T("rodape"))
     if os.path.exists(LOGO):
         from reportlab.lib.utils import ImageReader
         lx, ly = ImageReader(LOGO).getSize()
@@ -700,9 +743,9 @@ def converter(texto):
             # o assunto como etiqueta acima do texto.
             aprof = False
             etiqueta = ""
-            if bruto and bruto[0].startswith("**Aprofundamento"):
+            if bruto and bruto[0].startswith("**" + T("aprofundamento")):
                 aprof = True
-                m_et = re.match(r"^\*\*Aprofundamento:?\s*([^*]*)\.?\*\*\s*(.*)$",
+                m_et = re.match(r"^\*\*" + T("aprofundamento") + r":?\s*([^*]*)\.?\*\*\s*(.*)$",
                                 bruto[0])
                 if m_et:
                     etiqueta = (m_et.group(1) or "").strip().rstrip(".")
@@ -711,7 +754,7 @@ def converter(texto):
             estilo_texto = "aprof" if aprof else "cita"
             dentro = []
             if aprof:
-                rotulo = "APROFUNDAMENTO"
+                rotulo = T("aprofundamento").upper()
                 if etiqueta:
                     rotulo += "  ·  " + etiqueta
                 dentro.append(Paragraph(inline(rotulo.upper()),
@@ -768,7 +811,7 @@ def converter(texto):
         if cru.startswith("## ") and not cru.startswith("### "):
             fecha_paragrafo(acumulado)
             titulo = cru[3:].strip()
-            if titulo.lower().startswith("sumário"):
+            if titulo.lower().startswith(T("sumario")):
                 fluxo += [PageBreak(), Paragraph(inline(titulo), E["h2"])]
             else:
                 if fluxo:
@@ -922,7 +965,7 @@ def titulos_no_pe_da_pagina(caminho):
             if tamanhos and max(tamanhos) < 10.5:
                 continue
             if (re.match(r"^(\d+|[A-J])(\.\d+)+\.\s+\S", ultimo)
-                    or re.match(r"^Apêndice [A-J] —", ultimo)) and len(ultimo) < 120:
+                    or re.match(r"^" + T("apendice") + r" [A-J] —", ultimo)) and len(ultimo) < 120:
                 achados.append((numero, ultimo))
     return achados
 
@@ -937,13 +980,30 @@ CAPA_COMPLETA = dict(
 )
 
 
-def main():
+#: A capa do manual em inglês, em manual/en.
+CAPA_EN = dict(CAPA_COMPLETA, titulo="Netuno User Manual",
+               frase="Simulation of rainwater harvesting systems in buildings: the method, "
+                     "the tutorial, the guides and the references, in one volume.",
+               conteudo="Complete edition · six chapters and ten appendices")
+
+
+def main(idioma="pt"):
+    if idioma == "en":
+        pasta = os.path.join(AQUI, "en")
+        sys.path.insert(0, pasta)
+        import textos_en
+        return compor_pdf(os.path.join(pasta, textos_en.ARQUIVO_MONTADO),
+                          os.path.join(pasta, textos_en.ARQUIVO_PDF),
+                          titulo="Netuno User Manual", cabecalho=TEXTOS["en"]["cabecalho"],
+                          capa_info=CAPA_EN, idioma="en")
     return compor_pdf(ENTRADA, SAIDA, capa_info=CAPA_COMPLETA)
 
 
 def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
-               cabecalho=f"Manual do Netuno {VERSAO}", capa_info=None):
-    """Compõe o PDF de um manual montado: o completo ou um mini manual."""
+               cabecalho=f"Manual do Netuno {VERSAO}", capa_info=None, idioma="pt"):
+    """Compõe o PDF de um manual montado: o completo, um mini manual ou o em inglês."""
+    global IDIOMA_PDF
+    IDIOMA_PDF = idioma
     ENTRADA, SAIDA = entrada, saida
     if not os.path.exists(ENTRADA):
         print("manual ainda não montado; rode manual/gerar.py")
@@ -981,7 +1041,7 @@ def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
                  topMargin=MARGEM_S, bottomMargin=MARGEM_I,
                  title=cabecalho,
                  author="Igor Catão Martins Vaz; Enedir Ghisi",
-                 subject="Aproveitamento de água pluvial em edificações")
+                 subject=T("assunto"))
     quadro = Frame(MARGEM_E, MARGEM_I, UTIL,
                    ALTURA - MARGEM_S - MARGEM_I, id="corpo",
                    leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
@@ -1018,4 +1078,7 @@ def compor_pdf(entrada, saida, titulo="Manual do Netuno", volume=None,
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    import argparse
+    _args = argparse.ArgumentParser(description="Compõe o PDF do manual.")
+    _args.add_argument("--idioma", choices=("pt", "en"), default="pt")
+    sys.exit(main(_args.parse_args().idioma))

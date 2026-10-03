@@ -106,17 +106,20 @@ def test_uma_tipologia_desconhecida_nao_estoura():
 
 # ──────────────────── a premissa do aviso continua verdadeira ──────────────────
 
-def test_o_catalogo_tem_mesmo_uma_categoria_so():
-    """O aviso existe porque isto é verdade. Se deixar de ser, ele sai.
+def test_toda_categoria_coletada_tem_documento_e_vigencia():
+    """A residencial está nos 652; as demais, só onde a tabela oficial foi transcrita.
 
-    Quando as demais categorias forem coletadas, este teste cai e lembra de
-    trocar o aviso por um seletor de categoria.
+    Este teste substituiu o que exigia «uma categoria só»: ele caiu quando as
+    categorias da CORSAN entraram, como previsto, e o aviso ganhou o seletor. A regra
+    que fica é a da procedência: categoria no banco tem documento, vigência e fonte.
     """
     cidades = load_tariffs_db()["cities"]
-    assert CATEGORIA_COLETADA == "Residencial normal"
-    # Nenhum município declara estrutura por categoria.
-    assert not any("categorias" in c for c in cidades.values())
     assert all("faixas" in c for c in cidades.values())
+    for chave, c in cidades.items():
+        for cat, dados in (c.get("categorias") or {}).items():
+            assert cat in ("comercial", "industrial", "publica", "social"), (chave, cat)
+            for campo in ("faixas", "fonte_documento", "vigencia_saneamento", "fonte_url"):
+                assert dados.get(campo), (chave, cat, campo)
 
 
 # ───────────────────── o percurso, da aba ao painel ────────────────────────────
@@ -163,3 +166,38 @@ def test_o_dialogo_de_tarifas_avisa_da_categoria_antes_da_estrutura(janela):
     dlg = DialogTariffs(config=janela.config)
     dlg._buscar_municipio("Florianópolis")
     assert "Categoria tarifária incompatível" in dlg.lbl_estrutura_aviso.text()
+
+
+@pytest.mark.parametrize("template_id", NAO_RESIDENCIAIS)
+def test_a_international_edition_nao_fala_de_um_catalogo_que_ela_nao_tem(template_id, monkeypatch):
+    """Na International Edition a tarifa é digitada pelo usuário, na categoria certa.
+
+    O aviso diz que «o catálogo tem apenas a categoria Residencial», e esse
+    catálogo não acompanha a edição: lá ele seria falso, e em português.
+    """
+    monkeypatch.setenv("NETUNO_EDITION", "INT")
+    assert incompatibilidade_de_categoria(_config(template_id)) is None
+    monkeypatch.setenv("NETUNO_EDITION", "BRL")
+    assert incompatibilidade_de_categoria(_config(template_id))
+
+
+def test_o_aviso_some_quando_a_tarifa_aplicada_e_da_categoria_certa(monkeypatch):
+    """O aviso aparecia mesmo com a categoria certa escolhida: a escolha não era gravada."""
+    monkeypatch.setenv("NETUNO_EDITION", "BRL")
+    cfg = _config("escola")
+    assert incompatibilidade_de_categoria(cfg)
+    cfg.tariff_category = "publica"
+    assert incompatibilidade_de_categoria(cfg) is None
+    cfg.tariff_category = "personalizada"
+    assert incompatibilidade_de_categoria(cfg) is None
+    cfg.tariff_category = "comercial"
+    assert "Comercial" in incompatibilidade_de_categoria(cfg)
+
+
+def test_a_categoria_aplicada_sobrevive_ao_arquivo(tmp_path):
+    from netuno.core.parser import export_netuno_json, load_netuno_project
+    cfg = _config("comercial")
+    cfg.tariff_category = "comercial"
+    caminho = tmp_path / "p.netuno"
+    export_netuno_json(cfg, str(caminho))
+    assert load_netuno_project(str(caminho))["config"].tariff_category == "comercial"

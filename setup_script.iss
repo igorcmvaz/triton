@@ -5,26 +5,55 @@
 ;   python build_exe.py --installer
 ; compila o programa com o PyInstaller em dist\Netuno e chama o ISCC com a
 ; versão lida de netuno/__init__.py. Para compilar à mão:
-;   ISCC /DMyAppVersion=5.0.0 setup_script.iss
+;   ISCC /DMyAppVersion=5.0.0 setup_script.iss                 (Edição Brasil)
+;   ISCC /DMyAppVersion=5.0.0 /DEdition=INT setup_script.iss   (International Edition)
+;
+; As duas edições têm AppId, pasta, atalhos e associação próprios: instalam-se
+; lado a lado. A Brasil empacota dist\Netuno; a Internacional, dist\Netuno_INT.
 ;
 ; Base climática CLIMBra: o banco compilado data/climbra.db (652 cidades, todos os
 ; modelos e cenários) vai embutido no programa, em _internal\data\climbra.db. Os CSV
 ; brutos de origem (~6,5 GB) não são oferecidos: o programa lê o banco, e eles só
 ; serviriam para recompilá-lo (scripts/compilar_base_climbra.py).
 
-#define MyAppName "Netuno 5"
+#ifndef Edition
+  #define Edition "BRL"
+#endif
+#if Edition == "INT"
+  #define MyAppName "Netuno 5 — International Edition"
+  #define MyAppDir "Netuno 5 International"
+  #define MyAppExeName "Netuno_INT.exe"
+  #define DistDir "dist\Netuno_INT"
+  #define ProgId "Netuno.Projeto.INT"
+  #define AppGuid "{{7B1E4C2A-5D3F-4A8B-9C61-2E0F8D4A6B13}"
+  #define SetupName "Netuno_INT_Setup_"
+  #define CoreDesc "Netuno application (International Edition: no Brazilian data), manual, cases and examples"
+  #define AssocFlags "; Flags: unchecked"
+  #define ManualPdf "_internal\manual\en\Netuno-5-User-Manual.pdf"
+  #define ManualLink "Netuno 5 User Manual"
+#else
+  #define MyAppName "Netuno 5 — Edição Brasil"
+  #define MyAppDir "Netuno 5"
+  #define MyAppExeName "Netuno.exe"
+  #define DistDir "dist\Netuno"
+  #define ProgId "Netuno.Projeto"
+  #define AppGuid "{{D69F06B0-943D-4E4D-AAB2-350D616A06F5}"
+  #define SetupName "Netuno_Setup_"
+  #define CoreDesc "Aplicativo Netuno, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"
+  #define AssocFlags ""
+  #define ManualPdf "_internal\manual\Manual-Netuno-5.pdf"
+  #define ManualLink "Manual do Netuno 5"
+#endif
 #ifndef MyAppVersion
   #define MyAppVersion "5.0.0"
 #endif
 #define MyAppPublisher "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"
-#define MyAppExeName "Netuno.exe"
 #define MyAppIcon "icons\netuno5.ico"
-#define ProgId "Netuno.Projeto"
 
 [Setup]
 ; ID único: mantém atualizações sobre a mesma instalação
-AppId={{D69F06B0-943D-4E4D-AAB2-350D616A06F5}
+AppId={#AppGuid}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} {#MyAppVersion}
@@ -38,8 +67,8 @@ VersionInfoCompany={#MyAppPublisher}
 
 ; Pasta padrão: C:\Program Files\Netuno 5, ou a pasta do usuário quando a
 ; instalação é feita sem privilégio de administrador.
-DefaultDirName={autopf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
+DefaultDirName={autopf}\{#MyAppDir}
+DefaultGroupName={#MyAppDir}
 DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\icons\netuno5.ico
 UninstallDisplayName={#MyAppName} {#MyAppVersion}
@@ -59,7 +88,7 @@ InfoAfterFile=infos_licenses\info_after.txt
 
 ; Compilação e aparência
 OutputDir=dist
-OutputBaseFilename=Netuno_Setup_{#StringChange(MyAppVersion, '.', '_')}
+OutputBaseFilename={#SetupName}{#StringChange(MyAppVersion, '.', '_')}
 SetupIconFile={#MyAppIcon}
 SolidCompression=yes
 Compression=lzma2/ultra64
@@ -75,21 +104,22 @@ Name: "standard"; Description: "Instalação padrão (todos os idiomas)"
 Name: "custom"; Description: "Instalação personalizada"; Flags: iscustom
 
 [Components]
-Name: "core"; Description: "Aplicativo Netuno, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"; Types: standard custom; Flags: fixed
+Name: "core"; Description: "{#CoreDesc}"; Types: standard custom; Flags: fixed
 Name: "lang_es"; Description: "Pacote de idioma: Español"; Types: standard custom
 Name: "lang_zh"; Description: "Pacote de idioma: 中文（简体）"; Types: standard custom
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "assocnetuno"; Description: "Abrir arquivos .netuno com o {#MyAppName}"; GroupDescription: "Associação de arquivos:"
+; Na Internacional, a associação vem desmarcada para não tomar os .netuno da Brasil.
+Name: "assocnetuno"; Description: "Abrir arquivos .netuno com o {#MyAppName}"; GroupDescription: "Associação de arquivos:"{#AssocFlags}
 
 [Files]
 ; Programa compilado pelo PyInstaller. Os pacotes de idioma opcionais saem
 ; daqui e entram pelos componentes abaixo.
-Source: "dist\Netuno\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; \
+Source: "{#DistDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; \
   Excludes: "simulation_outputs\*,\simulation_outputs,Dados.txt,\_internal\data\languages\es.json,\_internal\data\languages\zh.json,exemplos\netuno-cli-template.netuno,avisos_qt.log"
-Source: "dist\Netuno\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
-Source: "dist\Netuno\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
+Source: "{#DistDir}\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
+Source: "{#DistDir}\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
 
 ; A licença acompanha o programa instalado, e não só a página do instalador: a GPL
 ; pede que quem recebe o executável receba também o texto dela. Licence.txt traz o
@@ -114,7 +144,7 @@ Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes
 [Icons]
 ; A pasta de trabalho é a do programa.
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\netuno5.ico"
-Name: "{autoprograms}\Manual do {#MyAppName}"; Filename: "{app}\_internal\manual\Manual-Netuno-5.pdf"; Check: FileExists(ExpandConstant('{app}\_internal\manual\Manual-Netuno-5.pdf')); IconFilename: "{app}\icons\netuno5.ico"
+Name: "{autoprograms}\{#ManualLink}"; Filename: "{app}\{#ManualPdf}"; Check: FileExists(ExpandConstant('{app}\{#ManualPdf}')); IconFilename: "{app}\icons\netuno5.ico"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\netuno5.ico"
 
 [Run]

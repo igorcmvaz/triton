@@ -40,12 +40,15 @@ do dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige projet
 
 ## Limitações dos dados tarifários
 
-**O catálogo tarifário cobre apenas a categoria residencial.** Os 652 municípios da
-base trazem a estrutura residencial, e as categorias comercial, industrial e pública —
-que existem em toda concessionária e custam tipicamente o dobro — precisam ser lançadas
-à mão pelo usuário, conforme a seção {{n:16}} descreve. Enquanto não forem, um estudo de
-escola, comércio ou indústria calcula a economia com a tarifa residencial, e portanto a
-**subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser declarado.
+**O catálogo tarifário cobre quase só a categoria residencial.** Os 652 municípios da
+base trazem a estrutura residencial; as categorias não residenciais só entram com a
+tabela oficial do prestador, e hoje estão transcritas nos municípios da CORSAN — comercial
+e pública em 34, industrial em 30. Nos demais, as categorias comercial, industrial e
+pública, que existem em toda concessionária e costumam ser mais caras, precisam ser
+lançadas à mão pelo usuário, conforme a seção {{n:16}} descreve. Enquanto não forem, um
+estudo de escola, comércio ou indústria calcula a economia com a tarifa residencial, e
+portanto a **subestima**: o erro é conservador e tem sentido conhecido, mas precisa ser
+declarado. O apêndice {{n:D}} mostra, município a município, o que já foi coletado.
 
 **Cinco municípios da BRK Tocantins com tarifa decrescente** na primeira faixa, o que
 subestima a fatura no primeiro bloco.

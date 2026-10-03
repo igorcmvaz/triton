@@ -17,7 +17,7 @@ pedreiro conhece.
 Num telhado de 30% de caimento, 4,4% de água que não existe; em 60%, 16,6%.
 
 **Como evitar.** O item 3.6 da NBR 15527:2019 define a área de captação como a
-projeção horizontal. Não use a área de contribuição da NBR 10844, que soma a metade da
+projeção horizontal, e a EN 16941-1:2024 faz o mesmo. Não use a área de contribuição da NBR 10844, que soma a metade da
 altura do telhado e as paredes para dimensionar calhas.
 A chuva cai na vertical, e o que ela vê é a sombra da cobertura no chão. Se você tem a área inclinada, multiplique por `cos(inclinação)`, como na {{fig:fig00i_projecao}}.
 
@@ -84,18 +84,19 @@ fora da faixa mínima, e compare com uma fatura real da edificação.
 
 ## Simular escola ou hospital com tarifa residencial
 
-**O engano.** Usar a tarifa do catálogo — que é residencial — para edificação não
-residencial.
+**O engano.** Usar a tarifa residencial do catálogo para edificação não residencial.
 
-**Por que é tentador.** O catálogo traz 652 municípios prontos, e o programa não
-impede.
+**Por que é tentador.** O catálogo traz 652 municípios prontos, quase todos só com a
+categoria residencial, e o programa não impede.
 
 **O que faz ao resultado.** Subestima a economia. As categorias não residenciais são
 mais caras: na CASAN de abril de 2026, a primeira faixa custa R$ 6,81/m³ no
 comercial contra R$ 3,08/m³ no residencial.
 
 **Como evitar.** O programa **avisa** quando a tipologia não é residencial, e diz o
-sentido do erro. Lance a estrutura da categoria correta no modo personalizado. A seção {{n:18}} trata do assunto.
+sentido do erro. Escolha a categoria da edificação onde o catálogo a traz, hoje nos
+municípios da CORSAN; nos demais, lance a estrutura da categoria correta no modo
+personalizado. A seção {{n:18}} trata do assunto.
 
 ---
 

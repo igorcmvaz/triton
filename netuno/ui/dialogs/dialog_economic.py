@@ -205,9 +205,8 @@ class DialogTariffs(QDialog):
         row_sel.addWidget(QLabel(f"<b>{tr('Categoria:')}</b>"))
         self.combo_category = QComboBox()
         self.combo_category.setMinimumWidth(150)
-        from netuno.core.tariffs_database import CATEGORIAS_TARIFARIAS
-        for cat_id, cat_info in CATEGORIAS_TARIFARIAS.items():
-            self.combo_category.addItem(f"{cat_info['icone']} {tr(cat_info['nome'])}", cat_id)
+        from netuno.ui.categorias_tarifarias import preencher_categorias
+        preencher_categorias(self.combo_category, None)
         row_sel.addWidget(self.combo_category)
 
         self.btn_load_city = QPushButton(tr("📥 Carregar"))
@@ -326,7 +325,7 @@ class DialogTariffs(QDialog):
         lay_disc = QVBoxLayout(self.box_disclaimer)
         lay_disc.setContentsMargins(8, 6, 8, 6)
         self.lbl_disclaimer = QLabel(tr(
-            "📅 <b>Auditoria Tarifária:</b> Tarifas auditadas e validadas oficialmente com suporte a todas as categorias (Residencial, Comercial, Industrial, Pública, Social). "
+            "📅 <b>Auditoria Tarifária:</b> Tarifas residenciais auditadas para os 652 municípios; as demais categorias, onde a tabela oficial do prestador foi coletada. "
             "<br>📌 <i>Caso este valor esteja errado ou defasado, favor contatar pelo e-mail: <a href='mailto:igorcmvaz@gmail.com?subject=Netuno%205%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7;font-weight:bold;'>igorcmvaz@gmail.com</a></i>"
         ))
         self.lbl_disclaimer.setOpenExternalLinks(False)
@@ -338,6 +337,9 @@ class DialogTariffs(QDialog):
 
         lay_city.addWidget(self.card_info)
         lay.addWidget(gb_city)
+        # O catálogo de 652 municípios é brasileiro: na Internacional, a tarifa é digitada.
+        from netuno.core.edition import usa_dados_do_brasil
+        gb_city.setVisible(usa_dados_do_brasil())
 
         # ── BLOCO 2: FAIXAS DE TARIFA DE ÁGUA ──
         lay.addWidget(QLabel(tr("<b>Faixas de tarifa de água potável (por unidade habitacional):</b>")))
@@ -457,12 +459,13 @@ class DialogTariffs(QDialog):
         try:
             self.combo_uf.clear()
             self.combo_uf.addItem(tr("⚙️ Personalizado"), "CUSTOM")
-            ufs = get_available_ufs()
+            from netuno.core.edition import usa_dados_do_brasil
+            ufs = get_available_ufs() if usa_dados_do_brasil() else []
             for uf_code, state_name in ufs:
                 self.combo_uf.addItem(f"{uf_code} - {state_name}", uf_code)
 
-            saved_uf = getattr(self.config, 'tariff_city_uf', 'SC')
-            saved_city = getattr(self.config, 'tariff_city_name', 'Florianópolis')
+            saved_uf = getattr(self.config, 'tariff_city_uf', 'SC') if ufs else "CUSTOM"
+            saved_city = getattr(self.config, 'tariff_city_name', 'Florianópolis') if ufs else "CUSTOM"
 
             # Localiza UF
             uf_idx = -1
@@ -712,8 +715,11 @@ class DialogTariffs(QDialog):
             return
 
         city_name = self.combo_city.currentText().strip()
-        cat_val = self.combo_category.currentData() or "residencial"
-        from netuno.core.tariffs_database import get_city_tariffs_by_category
+        from netuno.core.tariffs_database import get_city_data, get_city_tariffs_by_category
+        from netuno.ui.categorias_tarifarias import preencher_categorias
+        cat_val = preencher_categorias(self.combo_category, get_city_data(uf_code, city_name),
+                                       self.combo_category.currentData()
+                                       or getattr(self.config, "tariff_category", "residencial"))
         data = get_city_tariffs_by_category(uf_code, city_name, category=cat_val)
         if not data:
             QMessageBox.warning(self, tr("Aviso"), tr("Dados tarifários não encontrados para a cidade selecionada."))
@@ -930,6 +936,10 @@ class DialogTariffs(QDialog):
                 self.config.tariff_city_uf = self.combo_uf.currentData() or self.combo_uf.currentText().split(' - ')[0]
             if self.combo_city.currentIndex() >= 0:
                 self.config.tariff_city_name = self.combo_city.currentText().strip()
+            personalizada = (self.combo_uf.currentData() == "CUSTOM"
+                             or self.combo_city.currentData() == "CUSTOM")
+            self.config.tariff_category = ("personalizada" if personalizada
+                                           else self.combo_category.currentData() or "residencial")
                 
             if self.chk_update_elec.isChecked() and self._current_city_data:
                 e_kwh = self._current_city_data.get('energia_r_kwh', 0.0)
@@ -1730,6 +1740,8 @@ class DialogElectricity(QDialog):
 
         lay_elec.addWidget(self.card_elec_info)
         lay.addWidget(gb_elec)
+        from netuno.core.edition import usa_dados_do_brasil
+        gb_elec.setVisible(usa_dados_do_brasil())
 
         # ── BLOCO 2: PARÂMETROS DA MOTOBOMBA ──
         gb_pump = QGroupBox(tr("⚙️ Parâmetros da Motobomba"))
@@ -1855,12 +1867,15 @@ class DialogElectricity(QDialog):
         try:
             self.combo_elec_uf.clear()
             self.combo_elec_uf.addItem(tr("⚙️ Personalizado"), "CUSTOM")
-            ufs = get_available_ufs()
+            from netuno.core.edition import usa_dados_do_brasil
+            ufs = get_available_ufs() if usa_dados_do_brasil() else []
             for uf_code, state_name in ufs:
                 self.combo_elec_uf.addItem(f"{uf_code} - {state_name}", uf_code)
 
-            saved_uf = getattr(self.config, 'elec_city_uf', getattr(self.config, 'tariff_city_uf', 'SC'))
-            saved_city = getattr(self.config, 'elec_city_name', getattr(self.config, 'tariff_city_name', 'Florianópolis'))
+            saved_uf = (getattr(self.config, 'elec_city_uf', getattr(self.config, 'tariff_city_uf', 'SC'))
+                        if ufs else "CUSTOM")
+            saved_city = (getattr(self.config, 'elec_city_name', getattr(self.config, 'tariff_city_name', 'Florianópolis'))
+                          if ufs else "CUSTOM")
 
             uf_idx = -1
             for i in range(self.combo_elec_uf.count()):

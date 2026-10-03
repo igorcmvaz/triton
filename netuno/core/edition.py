@@ -1,10 +1,13 @@
 """Edições do Netuno 5: Brasil (BRL) e Internacional (INT).
 
-As duas edições partem do mesmo código e hoje se distinguem pelo ponto de
-entrada (main_brl.py, main_int.py), pelo executável e pelo título da janela.
-Idioma, moeda e fonte de chuva são escolhidos na própria interface em qualquer
-edição; get_edition_default_language e get_edition_currency_symbol registram os
-padrões pretendidos para cada uma, mas ainda não são aplicados à interface.
+As duas edições partem do mesmo código. A Brasil traz os dados brasileiros
+auditados: base climática CLIMBra, tarifas de 652 municípios, energia da ANEEL,
+custos em reais, fator de emissão da rede do MCTI e as certificações e incentivos
+nacionais (Casa Azul, AQUA-HQE, IPTU Verde). A Internacional é o núcleo neutro:
+abre em inglês, com moeda escolhida pelo usuário, tarifas, custos e fator de
+emissão informados por ele, e só as certificações internacionais (LEED, EDGE).
+`usa_dados_do_brasil` é a pergunta que cada tela faz antes de oferecer um dado
+brasileiro.
 """
 
 from __future__ import annotations
@@ -43,13 +46,60 @@ def is_int_edition() -> bool:
     return get_current_edition() == EDITION_INT
 
 
+def usa_dados_do_brasil() -> bool:
+    """Tarifas, custos, clima, fator de rede e certificações brasileiros aparecem só na BRL."""
+    return is_brl_edition()
+
+
+#: O manual completo em cada língua, relativo à raiz do programa.
+MANUAL_PT = "manual/Manual-Netuno-5.pdf"
+MANUAL_EN = "manual/en/Netuno-5-User-Manual.pdf"
+
+
+def manual_do_usuario(idioma: str) -> str:
+    """O manual completo que o programa abre: o inglês na Internacional ou fora do português.
+
+    A Internacional abre em inglês e não traz dados brasileiros; o manual dela é o
+    inglês, qualquer que seja a língua escolhida. Na Brasil, segue a língua da interface:
+    espanhol e chinês não têm manual próprio, e o inglês lhes serve melhor que o português.
+    """
+    if is_int_edition() or idioma != "pt":
+        return MANUAL_EN
+    return MANUAL_PT
+
+
+def rotulo_da_edicao(curto: bool = False) -> str:
+    """«Edição Brasil (BRL)» ou «International Edition (INT)», para selo, relatórios e exportações."""
+    if is_int_edition():
+        return "INT" if curto else "International Edition (INT)"
+    return "BRL" if curto else "Edição Brasil (BRL)"
+
+
+def neutralizar_para_a_internacional(config) -> None:
+    """Projeto novo da Internacional: nenhum preço, tarifa ou incentivo brasileiro.
+
+    Os padrões do NetunoConfig são os de um projeto em Florianópolis (tarifa da
+    CASAN, energia da CELESC, motobomba, cloro e manutenções em reais). Na
+    Internacional, ficam zerados para o usuário informar os da sua obra, na moeda
+    escolhida; os nomes das manutenções continuam, como roteiro.
+    """
+    config.water_tariffs = []
+    config.tariff_city_uf = config.tariff_city_name = "CUSTOM"
+    config.elec_city_uf = config.elec_city_name = "CUSTOM"
+    config.elec_tariff = 0.0
+    config.pump_unit_cost = 0.0
+    config.chlorine_cost_per_kg = 0.0
+    config.iptu_green_enabled = False
+    config.capex_do_arranjo = False
+    config.mao_de_obra_automatica = False
+    config.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in (config.op_costs or [])]
+
+
 def get_edition_title() -> str:
     """Título da janela principal: o título do programa e a edição ativa."""
     from netuno import APP_TITLE
 
-    if is_int_edition():
-        return f"{APP_TITLE} — International Edition (INT)"
-    return f"{APP_TITLE} — Edição Brasil (BRL)"
+    return f"{APP_TITLE} — {rotulo_da_edicao()}"
 
 
 def get_edition_default_language() -> str:

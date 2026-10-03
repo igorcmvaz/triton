@@ -14,13 +14,13 @@ decidir se confia neles.
 
 ## A suíte
 
-A verificação do programa consiste em 1.072 testes automatizados, distribuídos por 94 arquivos e organizados em cinco famílias que se complementam ({{fig:fig45_suite}}): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
+A verificação do programa consiste em 1.544 testes automatizados, distribuídos por 135 arquivos e organizados em cinco famílias que se complementam ({{fig:fig45_suite}}): testes unitários, testes de invariantes, testes de integração, testes da interface gráfica e o teste de replicação dos resultados do Netuno 4. A separação não é meramente organizacional: cada família captura uma
 classe distinta de defeito, e a ausência de qualquer uma delas deixaria um flanco
 descoberto.
 
 ![As cinco famílias da suíte de verificação](../figuras/fig45_suite.png)
 
-*Figura 99 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por três quartos do total, por serem de execução rápida e localizarem o erro perto da origem.*
+*Figura 99 — Número de testes e de arquivos de cada família da suíte de verificação, conforme a coleta da suíte nesta versão. Os testes unitários respondem por mais de quatro quintos do total, por serem de execução rápida e localizarem o erro perto da origem.*
 
 
 A suíte inteira é executada a cada alteração do código, e nenhuma alteração é
@@ -154,7 +154,7 @@ O menu **Ajuda → Relatório de Verificação** abre, dentro do programa, o rel
 A suíte acompanha o código-fonte do programa, e não a instalação: ela é executada pelo
 grupo de pesquisa a cada alteração, antes que qualquer versão seja publicada. O que isso
 significa para quem usa o programa instalado é que a versão presente na sua máquina
-passou pelos 1.072 testes aqui descritos, incluindo as que conferem cada número
+passou pelos 1.544 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença

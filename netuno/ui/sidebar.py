@@ -66,6 +66,19 @@ class Sidebar(QWidget):
 
         v_title.addWidget(lbl_title)
         v_title.addWidget(lbl_sub)
+        # Selo da edição: a Brasil traz os dados brasileiros; a Internacional, não.
+        from netuno.core.edition import is_int_edition, rotulo_da_edicao
+        self.lbl_edicao = QLabel(rotulo_da_edicao())
+        self.lbl_edicao.setObjectName("selo_edicao")
+        self.lbl_edicao.setToolTip(
+            tr("Edição Internacional: tarifas, custos, moeda e fator de emissão informados pelo usuário.")
+            if is_int_edition() else
+            tr("Edição Brasil: base climática CLIMBra, tarifas de 652 municípios e custos em reais."))
+        self.lbl_edicao.setStyleSheet(
+            "font-size: 9.5px; font-weight: 800; letter-spacing: 0.6px; padding: 1px 6px; border-radius: 4px; "
+            + ("background-color: #1d4ed8; color: #ffffff;" if is_int_edition()
+               else "background-color: #15803d; color: #ffffff;"))
+        v_title.addWidget(self.lbl_edicao)
         header_layout.addLayout(v_title)
         header_layout.addStretch()
 
@@ -102,6 +115,10 @@ class Sidebar(QWidget):
                 (f"🏛️ {tr('12. Gestor de Tarifas')}", 11),
             ])
         ]
+        # O Gestor de Tarifas é o catálogo dos 652 municípios brasileiros.
+        from netuno.core.edition import usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            steps_sections[-1][2].pop()
 
         # Estilo unificado, robusto e destacado para as etapas
         btn_style = """
@@ -151,7 +168,7 @@ class Sidebar(QWidget):
             layout.addWidget(lbl_sec)
 
             for text, idx in items:
-                btn = QPushButton(text)
+                btn = QPushButton(text.replace("&", "&&"))  # «&» das traduções não vira atalho sublinhado
                 btn.setCheckable(True)
                 btn.setStyleSheet(btn_style)
                 btn.setCursor(Qt.PointingHandCursor)

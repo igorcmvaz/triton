@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **115 parâmetros**. É a lista completa do que um projeto
+São **116 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.netuno`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -255,7 +255,7 @@ Observações do código:
 
 ## Tarifas
 
-14 parâmetros.
+15 parâmetros.
 
 <!-- tabela: Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
@@ -264,6 +264,7 @@ Observações do código:
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
 | `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_category` | residencial | — | Econômico, Tarifas, Tarifas e custos | Tarifas |
 | `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `sewage_mode` | 1 | código | Econômico, Otimizador, Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
 | `water_tax_fixed` | 0 | R$/mês | Tarifas e custos | Automação, Econômico |
@@ -277,6 +278,7 @@ Observações do código:
 
 Observações do código:
 
+- `tariff_category`: categoria da tabela tarifária aplicada; "personalizada" quando digitada
 - `sewage_mode`: 0 = valor fixo em R$, 1 = percentual da parcela de água, 2 = R$/m³ consumido
 - `water_tax_fixed`: R$
 - `water_tax_var`: %
@@ -355,6 +357,6 @@ Observações do código:
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `bim_layout` | — | — | Exportação, Janela principal | — |
-| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos | ETAP |
-| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos | — |
+| `capex_do_arranjo` | não | — | Janela principal, Tarifas e custos, Varredura | ETAP |
+| `mao_de_obra_automatica` | não | — | Janela principal, Tarifas e custos, Varredura | — |
 

@@ -1,0 +1,57 @@
+{
+  "prestador": "CORSAN",
+  "formula": "exponencial",
+  "leitura": "Tabela I de cada tabela tarifária: preço-base (PB), serviço básico (SB) e esgoto tratado por m³, por categoria. O expoente vem da coluna da categoria na Tabela de Exponenciais (tarifas/tabela_exponencial_corsan.json). Os municípios de cada tabela são os do catálogo cujo PB residencial (Residencial B) é o da tabela.",
+  "nao_coletadas": {
+    "social": "A Residencial Social tem PB próprio só até 10 m³ (15 m³ na tarifa da Lei 14.898/24), com o excedente pelo PB da Residencial B: a estrutura de quádruplas do programa não representa essa troca de PB, e a categoria fica de fora até que represente.",
+    "comercial_c1": "A Comercial C1 (pequeno comércio) usa o PB da Residencial B até 20 m³ e o da Comercial no excedente; o programa a trata como «comercial» só quando a C1 não se aplica."
+  },
+  "tabelas": [
+    {
+      "documento": "ANEXO-5-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+      "vigencia": "01/07/2026",
+      "fonte_url": "https://www.corsan.com.br/sistematarifario",
+      "pb_residencial": 9.15,
+      "categorias": {
+        "comercial":  {"pb": 10.41, "sb": 77.41,  "esgoto_tratado_m3": 7.28, "coluna": "COM"},
+        "publica":    {"pb": 10.41, "sb": 154.64, "esgoto_tratado_m3": 7.28, "coluna": "PUB"},
+        "industrial": {"pb": 11.83, "sb": 154.64, "esgoto_tratado_m3": 8.28, "coluna": "IND",
+                       "excedente_tabela_ix": [[1000, 2000, 9.87], [2000, 5000, 8.60], [5000, 10000, 7.45],
+                                               [10000, 20000, 6.32], [20000, 999999, 5.12]]}
+      }
+    },
+    {
+      "documento": "ANEXO-3-CANOAS-E-ESTEIO-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+      "vigencia": "01/07/2026",
+      "fonte_url": "https://www.corsan.com.br/sistematarifario",
+      "pb_residencial": 8.68,
+      "categorias": {
+        "comercial": {"pb": 9.88, "sb": 73.48,  "esgoto_tratado_m3": 6.91, "coluna": "COM"},
+        "publica":   {"pb": 9.88, "sb": 146.79, "esgoto_tratado_m3": 6.91, "coluna": "PUB"}
+      },
+      "industrial_fora": "A tabela não traz a Tabela IX do excedente industrial acima de 1.000 m³."
+    },
+    {
+      "documento": "Tabela-Tarifaria-Erechim_2026.pdf",
+      "vigencia": "01/01/2026",
+      "fonte_url": "https://www.corsan.com.br/sistematarifario",
+      "pb_residencial": 6.95,
+      "categorias": {
+        "comercial": {"pb": 7.90, "sb": 58.79,  "esgoto_tratado_m3": 5.53, "coluna": "COM"},
+        "publica":   {"pb": 7.90, "sb": 117.40, "esgoto_tratado_m3": 5.53, "coluna": "PUB"}
+      },
+      "industrial_fora": "A tabela não traz a Tabela IX do excedente industrial acima de 1.000 m³."
+    },
+    {
+      "documento": "Tabela-Tarifaria-Santa-Cruz-do-Sul_2026.pdf",
+      "vigencia": "01/01/2026",
+      "fonte_url": "https://www.corsan.com.br/sistematarifario",
+      "pb_residencial": 7.91,
+      "categorias": {
+        "comercial": {"pb": 8.98, "sb": 66.92,  "esgoto_tratado_m3": 6.28, "coluna": "COM"},
+        "publica":   {"pb": 8.98, "sb": 133.64, "esgoto_tratado_m3": 6.28, "coluna": "PUB"}
+      },
+      "industrial_fora": "A tabela não traz a Tabela IX do excedente industrial acima de 1.000 m³."
+    }
+  ]
+}
