@@ -37,6 +37,8 @@ import tabela_de_faixas as T  # noqa: E402
 
 SAIDA = os.path.join(AQUI, "lista_de_coleta.html")
 MODELO = os.path.join(AQUI, "lista_de_coleta_modelo.html")
+MAPA = os.path.join(AQUI, "mapa_brasil_uf.json")
+COORDENADAS = os.path.join(AQUI, "validated_cidades_50k.json")
 
 #: As categorias que faltam, na ordem em que a página as mostra.
 CATEGORIAS = ["comercial", "publica", "industrial", "social"]
@@ -97,7 +99,38 @@ def dados() -> dict:
             "recebido": recebidos.get(nome, []),
         })
     prestadores.sort(key=lambda p: (-p["n"], p["nome"].lower()))
-    return {"gerado_em": date.today().isoformat(), "prestadores": prestadores}
+    return {"gerado_em": date.today().isoformat(), "prestadores": prestadores,
+            "cidades": _cidades(cidades, recebidos), "mapa": _mapa()}
+
+
+def _mapa() -> dict:
+    """Os contornos dos estados, de `mapa_brasil_uf.json` (gerado por gerar_mapa_brasil.py)."""
+    with open(MAPA, encoding="utf-8") as f:
+        m = json.load(f)
+    return {"largura": m["largura"], "altura": m["altura"], "estados": m["estados"]}
+
+
+def _cidades(cidades: dict, recebidos: dict) -> list:
+    """Uma linha por município, com a posição no mapa e a situação de cada categoria."""
+    import gerar_mapa_brasil as G
+    with open(MAPA, encoding="utf-8") as f:
+        caixa = json.load(f)["caixa"]
+    projetar, _ = G.projetor(*caixa)
+    with open(COORDENADAS, encoding="utf-8") as f:
+        coordenadas = json.load(f)
+    linhas = []
+    for d in sorted(cidades.values(), key=lambda d: (d["uf"], d["municipio"])):
+        alvo = (coordenadas.get(d["municipio"]) or {}).get("target") or {}
+        x, y = projetar(alvo["lon"], alvo["lat"]) if alvo else (None, None)
+        extra = d.get("categorias") or {}
+        linhas.append({
+            "m": d["municipio"], "uf": d["uf"], "p": d.get("prestador_saneamento") or "—",
+            "x": None if x is None else round(x, 1), "y": None if y is None else round(y, 1),
+            "res": T.situacao(d),
+            "cats": [c for c in CATEGORIAS if c in extra],
+            "html": bool(recebidos.get(d.get("prestador_saneamento"))),
+        })
+    return linhas
 
 
 #: O que o arquivo local leva antes do conteúdo; o artefato publicado recebe isso do servidor.
