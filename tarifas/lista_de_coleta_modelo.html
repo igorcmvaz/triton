@@ -146,6 +146,17 @@ th button:focus-visible { outline: 2px solid var(--accent); }
 .recebidos li { margin: 2px 0; }
 .vazio { color: var(--muted); padding: 18px; border: 1px dashed var(--line); border-radius: 10px; text-align: center; }
 footer { margin-top: 40px; color: var(--muted); font-size: 13px; max-width: 72ch; }
+.lote { display: inline-flex; align-items: center; gap: 6px; }
+.lote select { padding: 7px 8px; }
+button.botao.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.fila { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: var(--surface); border-top: 2px solid var(--accent);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -4px 16px rgb(0 0 0 / 0.12); }
+.fila-in { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.fila-txt { flex: 1 1 260px; min-width: 0; font-size: 14px; }
+.fila-txt b { font-family: var(--mono); font-weight: 500; }
+.fila-txt small { display: block; color: var(--muted); font-size: 12px; }
+.fila-acoes { display: flex; flex-wrap: wrap; gap: 6px; }
+body.com-fila .wrap { padding-bottom: 140px; }
 
 /* Estatísticas */
 .cartao { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
@@ -202,6 +213,12 @@ footer { margin-top: 40px; color: var(--muted); font-size: 13px; max-width: 72ch
       <input type="search" id="busca" placeholder="Prestador, município ou agência" aria-label="Buscar prestador, município ou agência">
       <select id="uf" aria-label="Estado"><option value="">Todos os estados</option></select>
       <label for="esconder"><input type="checkbox" id="esconder"> Esconder os que já visitei</label>
+      <span class="lote">
+        <select id="tam-lote" aria-label="Quantos prestadores abrir">
+          <option value="5">5</option><option value="10" selected>10</option><option value="20">20</option>
+        </select>
+        <button type="button" class="botao principal" id="abrir-lote" title="Abre as fontes dos próximos prestadores sem HTML que ainda não foram visitados, com os filtros atuais">Abrir lote</button>
+      </span>
     </div>
 
     <section aria-labelledby="t-falta">
@@ -283,6 +300,17 @@ footer { margin-top: 40px; color: var(--muted); font-size: 13px; max-width: 72ch
     e da malha estadual do IBGE (2022). «Visitei» fica só neste navegador. Um prestador muda de grupo quando o arquivo
     dele é registrado com <code class="mono">registro_de_fontes.py</code>.
   </footer>
+</div>
+<div class="fila" id="fila" hidden role="region" aria-label="Lote de prestadores">
+  <div class="fila-in">
+    <div class="fila-txt" id="fila-txt" aria-live="polite"></div>
+    <div class="fila-acoes">
+      <a class="botao principal" id="fila-prox" href="#" target="_blank" rel="noopener">Abrir próxima</a>
+      <button type="button" class="botao" id="fila-pular">Pular</button>
+      <button type="button" class="botao" id="fila-copiar">Copiar links</button>
+      <button type="button" class="botao" id="fila-fechar">Fechar</button>
+    </div>
+  </div>
 </div>
 <div class="dica" id="dica" hidden></div>
 
@@ -480,6 +508,74 @@ footer { margin-top: 40px; color: var(--muted); font-size: 13px; max-width: 72ch
     filtrar();
   });
   filtrar();
+
+  /* ───── Abrir em lote ───── */
+  var fila = [], pos = 0, bloqueado = false;
+  var barraFila = document.getElementById("fila"), txtFila = document.getElementById("fila-txt"), prox = document.getElementById("fila-prox");
+  var pular = document.getElementById("fila-pular");
+  function liDe(nome) {
+    var achado = null;
+    [listas.falta, listas.tem].forEach(function (l) { Array.prototype.forEach.call(l.children, function (li) { if (li.dataset.nome === nome) achado = li; }); });
+    return achado;
+  }
+  function marcarVisitado(p) {
+    if (visitados[p.nome]) return;
+    visitados[p.nome] = new Date().toISOString().slice(0, 10); salvarVisitados();
+    var li = liDe(p.nome);
+    if (li) { li.classList.add("visitado"); var cb = li.querySelector('input[type="checkbox"]'); if (cb) cb.checked = true; seloVisitado(li, p); }
+  }
+  function urlDe(p) { return p.fontes.length ? p.fontes[0].url : p.busca; }
+  function mostrarFila() {
+    txtFila.textContent = "";
+    if (!fila.length) {
+      txtFila.textContent = "Nenhum prestador sem HTML e não visitado com esses filtros.";
+      prox.hidden = pular.hidden = true;
+    } else if (pos >= fila.length) {
+      txtFila.appendChild(el("b", { text: fila.length + "/" + fila.length + " " }));
+      txtFila.appendChild(document.createTextNode("Lote aberto."));
+      txtFila.appendChild(el("small", { text: "Os prestadores abertos ficaram marcados como visitados. Clique em «Abrir lote» de novo para os próximos." }));
+      prox.hidden = pular.hidden = true;
+    } else {
+      var p = fila[pos];
+      txtFila.appendChild(el("b", { text: (pos + 1) + "/" + fila.length + " " }));
+      txtFila.appendChild(document.createTextNode(p.nome + " · " + p.n + (p.n === 1 ? " município" : " municípios")));
+      txtFila.appendChild(el("small", { text: (bloqueado ? "O navegador bloqueou as outras abas: abra uma por clique. " : "") + "Salvar em " + p.pasta }));
+      prox.href = urlDe(p); prox.hidden = pular.hidden = false;
+    }
+    barraFila.hidden = false; document.body.classList.add("com-fila");
+  }
+  document.getElementById("abrir-lote").addEventListener("click", function () {
+    var n = Number(document.getElementById("tam-lote").value);
+    fila = []; pos = 0; bloqueado = false;
+    Array.prototype.forEach.call(listas.falta.children, function (li) {
+      if (fila.length >= n || li.hidden || li.classList.contains("vazio") || visitados[li.dataset.nome]) return;
+      var p = P.filter(function (x) { return x.nome === li.dataset.nome; })[0];
+      if (p) fila.push(p);
+    });
+    // Abre quantas o navegador deixar; a primeira bloqueada fica na fila, para abrir uma por clique.
+    while (pos < fila.length) {
+      var w = null;
+      try { w = window.open(urlDe(fila[pos]), "_blank"); } catch (e) { w = null; }
+      if (!w) { bloqueado = true; break; }
+      try { w.opener = null; } catch (e) {}
+      marcarVisitado(fila[pos]); pos++;
+    }
+    mostrarFila();
+  });
+  prox.addEventListener("click", function () {
+    var p = fila[pos]; if (!p) return;
+    marcarVisitado(p);
+    setTimeout(function () { pos++; mostrarFila(); }, 0);
+  });
+  pular.addEventListener("click", function () { pos++; mostrarFila(); });
+  document.getElementById("fila-copiar").addEventListener("click", function () {
+    var b = this, texto = fila.map(urlDe).join("\n");
+    function ok() { var t = b.textContent; b.textContent = "Copiado"; setTimeout(function () { b.textContent = t; }, 1200); }
+    try { navigator.clipboard.writeText(texto).then(ok, function () {}); } catch (e) {}
+  });
+  document.getElementById("fila-fechar").addEventListener("click", function () {
+    barraFila.hidden = true; document.body.classList.remove("com-fila"); filtrar();
+  });
 
   /* ───── Aba 2: estatísticas ───── */
   var css = function (v) { return "var(" + v + ")"; };
