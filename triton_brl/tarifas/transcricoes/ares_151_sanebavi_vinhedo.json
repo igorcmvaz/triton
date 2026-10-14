@@ -1,0 +1,193 @@
+{
+ "prestador": "SANEBAVI Vinhedo",
+ "registro": [
+  151
+ ],
+ "documento": "sanebavi_vinhedo_ARESPCJ_resoluo_n_710_2026_-_reviso_tarifria_-_vinhedo.pdf",
+ "vigencia": "26/06/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1782828007-resoluo_n_710_2026_-_reviso_tarifria_-_vinhedo.pdf",
+ "leitura": "Material tarifário oficial de SANEBAVI Vinhedo. Anexo I da resolução da ARES-PCJ, vigência a partir de 26/06/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Vinhedo"
+   ],
+   "social": {
+    "esgoto_pct": 100,
+    "fixo": 20.1,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.29
+     ],
+     [
+      15.0,
+      20.0,
+      4.3
+     ],
+     [
+      20.0,
+      35.0,
+      8.0
+     ],
+     [
+      35.0,
+      50.0,
+      11.63
+     ],
+     [
+      50.0,
+      75.0,
+      16.92
+     ],
+     [
+      75.0,
+      null,
+      22.82
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "residencial": {
+    "esgoto_pct": 100,
+    "fixo": 40.2,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      4.56
+     ],
+     [
+      15.0,
+      20.0,
+      5.73
+     ],
+     [
+      20.0,
+      35.0,
+      8.0
+     ],
+     [
+      35.0,
+      50.0,
+      11.63
+     ],
+     [
+      50.0,
+      75.0,
+      16.92
+     ],
+     [
+      75.0,
+      null,
+      22.82
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "publica": {
+    "esgoto_pct": 100,
+    "fixo": 40.2,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      4.56
+     ],
+     [
+      15.0,
+      20.0,
+      5.73
+     ],
+     [
+      20.0,
+      35.0,
+      8.0
+     ],
+     [
+      35.0,
+      50.0,
+      11.63
+     ],
+     [
+      50.0,
+      75.0,
+      16.92
+     ],
+     [
+      75.0,
+      null,
+      22.82
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "comercial": {
+    "esgoto_pct": 100,
+    "fixo": 47.91,
+    "franquia": 6.0,
+    "faixas": [
+     [
+      6.0,
+      25.0,
+      14.66
+     ],
+     [
+      25.0,
+      45.0,
+      23.71
+     ],
+     [
+      45.0,
+      70.0,
+      25.08
+     ],
+     [
+      70.0,
+      null,
+      30.22
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "industrial": {
+    "esgoto_pct": 100,
+    "fixo": 385.95,
+    "franquia": 25.0,
+    "faixas": [
+     [
+      25.0,
+      100.0,
+      42.0
+     ],
+     [
+      100.0,
+      250.0,
+      49.82
+     ],
+     [
+      250.0,
+      null,
+      53.81
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Vinhedo",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 91.65,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

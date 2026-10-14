@@ -1,0 +1,36 @@
+{
+  "cisterna_inferior": {"family": "TRITON_Cisterna", "type": "Padrão"},
+  "reservatorio_superior": {"family": "TRITON_ReservatorioSuperior", "type": "Padrão"},
+  "filtro_pluvial": {"family": "TRITON_FiltroPluvial", "type": "Padrão"},
+  "first_flush": {"family": "TRITON_FirstFlush", "type": "Padrão"},
+  "motobomba": {"family": "TRITON_Motobomba", "type": "Padrão"},
+  "registro_gaveta": {"family": "TRITON_RegistroGaveta", "type": "Padrão"},
+  "registro_esfera": {"family": "TRITON_RegistroEsfera", "type": "Padrão"},
+  "valvula_retencao": {"family": "TRITON_ValvulaRetencao", "type": "Padrão"},
+  "air_gap": {"family": "TRITON_AirGap", "type": "Padrão"},
+  "ladrao_sifonado": {"family": "TRITON_LadraoSifonado", "type": "Padrão"},
+  "ponto_nao_potavel": {"family": "TRITON_PontoNaoPotavel", "type": "Padrão"},
+  "freio_dagua": {"family": "TRITON_FreioDagua", "type": "Padrão"},
+  "succao_flutuante": {"family": "TRITON_SuccaoFlutuante", "type": "Padrão"},
+  "sensor_nivel": {"family": "TRITON_ChaveDeNivel", "type": "Padrão"},
+  "valvula_solenoide": {"family": "TRITON_ValvulaSolenoide", "type": "Padrão"},
+  "hidrometro": {"family": "TRITON_Hidrometro", "type": "Padrão"},
+  "valvula_pe_crivo": {"family": "TRITON_ValvulaPeCrivo", "type": "Padrão"},
+  "respiro": {"family": "TRITON_Respiro", "type": "Padrão"},
+  "quadro_comando": {"family": "TRITON_QuadroComando", "type": "Padrão"},
+  "_tubulacoes": {
+    "tipo_padrao": "TRITON_PVC_Soldavel",
+    "tipos_por_material": {
+      "PVC": "TRITON_PVC_Soldavel"
+    },
+    "sistemas": {
+      "captacao": "TRITON_Captacao_Pluvial",
+      "descarte": "TRITON_Descarte",
+      "extravasor": "TRITON_Extravasor",
+      "succao": "TRITON_Succao",
+      "recalque": "TRITON_Recalque",
+      "distribuicao": "TRITON_Distribuicao_Nao_Potavel",
+      "alimentacao_potavel": "TRITON_Alimentacao_Potavel"
+    }
+  }
+}

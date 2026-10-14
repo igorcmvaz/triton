@@ -1,0 +1,428 @@
+{
+ "prestador": "COSANPA",
+ "registro": [
+  29
+ ],
+ "documento": "Anexo_VII_Estrutura_Tarifaria_A-B-C-D_13_12_2024.pdf",
+ "vigencia": "13/12/2024",
+ "fonte_url": "https://www.cosanpa.pa.gov.br",
+ "leitura": "Anexo VII do contrato de concessão regionalizada dos Blocos A, B, C e D (Pará), de 13/12/2024. Tabela 1: municípios originalmente atendidos pela COSANPA; Tabelas 3 e 4: Altamira e Parauapebas; Tabela 5: demais municípios (70% da tarifa da COSANPA no 1º ano). O anexo não lista os municípios da Tabela 1; por abrangência, ela vale para todos os municípios que a base atribui à COSANPA, menos Altamira e Parauapebas (Tabelas 3 e 4). A tabela da COSANPA de 23/01/2016 (item 160, Santarém) tem a mesma estrutura, com valores antigos. Sem consumo mínimo; esgoto a 80% da água. Vigência de 2024: há reajustes posteriores a buscar.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela 1 (consumo hidrometrado), municípios originalmente atendidos pela Cosanpa",
+   "uf": "PA",
+   "municipios": [
+    "Abaetetuba",
+    "Acará",
+    "Alenquer",
+    "Baião",
+    "Barcarena",
+    "Belém",
+    "Benevides",
+    "Bragança",
+    "Breves",
+    "Cametá",
+    "Canaã dos Carajás",
+    "Capanema",
+    "Capitão Poço",
+    "Castanhal",
+    "Dom Eliseu",
+    "Igarapé-Miri",
+    "Itaituba",
+    "Juruti",
+    "Marabá",
+    "Moju",
+    "Monte Alegre",
+    "Novo Repartimento",
+    "Oriximiná",
+    "Paragominas",
+    "Portel",
+    "Redenção",
+    "Rondon do Pará",
+    "Santa Izabel do Pará",
+    "Santarém",
+    "São Félix do Xingu",
+    "São Miguel do Guamá",
+    "Tailândia",
+    "Tomé-Açu",
+    "Tucuruí",
+    "Vigia",
+    "Viseu",
+    "Xinguara",
+    "Óbidos"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.91
+     ],
+     [
+      10,
+      20,
+      7.0
+     ],
+     [
+      20,
+      30,
+      9.38
+     ],
+     [
+      30,
+      40,
+      10.58
+     ],
+     [
+      40,
+      50,
+      14.66
+     ],
+     [
+      50,
+      null,
+      19.04
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      15,
+      2.46
+     ],
+     [
+      15,
+      20,
+      7.0
+     ],
+     [
+      20,
+      30,
+      9.38
+     ],
+     [
+      30,
+      40,
+      10.58
+     ],
+     [
+      40,
+      50,
+      14.66
+     ],
+     [
+      50,
+      null,
+      19.04
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      14.66
+     ],
+     [
+      10,
+      null,
+      18.29
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      18.29
+     ],
+     [
+      10,
+      null,
+      23.4
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      14.66
+     ],
+     [
+      10,
+      null,
+      18.29
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "abrangencia": "Tabela 1 do Anexo VII: «municípios originalmente atendidos pela Cosanpa», sem lista; aplicada a todos os que a base atribui à COSANPA, menos Altamira e Parauapebas, que têm tabela própria"
+  },
+  {
+   "rotulo": "Tabela 3, Altamira",
+   "uf": "PA",
+   "municipios": [
+    "Altamira"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.07
+     ],
+     [
+      10,
+      20,
+      5.8
+     ],
+     [
+      20,
+      30,
+      7.78
+     ],
+     [
+      30,
+      40,
+      8.77
+     ],
+     [
+      40,
+      50,
+      12.15
+     ],
+     [
+      50,
+      null,
+      15.78
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      15,
+      2.04
+     ],
+     [
+      15,
+      20,
+      5.8
+     ],
+     [
+      20,
+      30,
+      7.78
+     ],
+     [
+      30,
+      40,
+      8.77
+     ],
+     [
+      40,
+      50,
+      12.15
+     ],
+     [
+      50,
+      null,
+      15.78
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      12.15
+     ],
+     [
+      10,
+      null,
+      15.16
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      15.16
+     ],
+     [
+      10,
+      null,
+      19.4
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      12.15
+     ],
+     [
+      10,
+      null,
+      15.16
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  },
+  {
+   "rotulo": "Tabela 4, Parauapebas",
+   "uf": "PA",
+   "municipios": [
+    "Parauapebas"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.57
+     ],
+     [
+      10,
+      20,
+      6.52
+     ],
+     [
+      20,
+      30,
+      8.74
+     ],
+     [
+      30,
+      40,
+      9.85
+     ],
+     [
+      40,
+      50,
+      13.65
+     ],
+     [
+      50,
+      null,
+      17.73
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      15,
+      2.29
+     ],
+     [
+      15,
+      20,
+      6.52
+     ],
+     [
+      20,
+      30,
+      8.74
+     ],
+     [
+      30,
+      40,
+      9.85
+     ],
+     [
+      40,
+      50,
+      13.65
+     ],
+     [
+      50,
+      null,
+      17.73
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      13.65
+     ],
+     [
+      10,
+      null,
+      17.03
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      17.03
+     ],
+     [
+      10,
+      null,
+      21.79
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      13.65
+     ],
+     [
+      10,
+      null,
+      17.03
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PA - Altamira",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 40.7,
+   "impresso": "Tabela 3: 0-10 m³ R$ 4,07"
+  }
+ ]
+}

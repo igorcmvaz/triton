@@ -1,0 +1,260 @@
+{
+ "prestador": "COPASA",
+ "registro": [
+  115,
+  116
+ ],
+ "documento": "copasa_resolucao_arsae_217_2025.pdf",
+ "vigencia": "22/01/2026",
+ "fonte_url": "https://www.arsae.mg.gov.br",
+ "leitura": "Resolução Arsae-MG nº 217, de 22/12/2025 (revisão tarifária periódica da COPASA), Anexo I «Tarifas aplicáveis aos usuários», a partir de 22/01/2026. Tabela única da COPASA para os serviços regulados pela ARSAE-MG, que a base registra como reguladora dos municípios abaixo. Taxa fixa somada ao consumo desde 0 m³; esgoto dinâmico com coleta e tratamento a 74% da água. O Anexo III (item baixado junto) trata do envio de informações à agência, não de tarifas.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tarifas aplicáveis aos usuários – Revisão Tarifária 2025",
+   "uf": "MG",
+   "municipios": [
+    "Alfenas",
+    "Araxá",
+    "Barbacena",
+    "Belo Horizonte",
+    "Betim",
+    "Bom Despacho",
+    "Campo Belo",
+    "Caratinga",
+    "Cataguases",
+    "Congonhas",
+    "Conselheiro Lafaiete",
+    "Contagem",
+    "Coronel Fabriciano",
+    "Curvelo",
+    "Divinópolis",
+    "Esmeraldas",
+    "Extrema",
+    "Frutal",
+    "Guaxupé",
+    "Ibirité",
+    "Ipatinga",
+    "Itajubá",
+    "Itaúna",
+    "Janaúba",
+    "Januária",
+    "João Monlevade",
+    "Lagoa Santa",
+    "Lavras",
+    "Leopoldina",
+    "Nova Lima",
+    "Nova Serrana",
+    "Paracatu",
+    "Patos de Minas",
+    "Pedro Leopoldo",
+    "Pouso Alegre",
+    "Ribeirão das Neves",
+    "Sabará",
+    "São Francisco",
+    "São Sebastião do Paraíso",
+    "Teófilo Otoni",
+    "Timóteo",
+    "Três Corações",
+    "Ubá",
+    "Unaí",
+    "Varginha",
+    "Vespasiano"
+   ],
+   "residencial": {
+    "fixo": 25.77,
+    "faixas": [
+     [
+      0,
+      5,
+      2.69
+     ],
+     [
+      5,
+      10,
+      5.334
+     ],
+     [
+      10,
+      15,
+      8.056
+     ],
+     [
+      15,
+      20,
+      10.83
+     ],
+     [
+      20,
+      40,
+      13.658
+     ],
+     [
+      40,
+      null,
+      16.538
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "social": {
+    "fixo": 9.02,
+    "faixas": [
+     [
+      0,
+      5,
+      0.94
+     ],
+     [
+      5,
+      10,
+      1.867
+     ],
+     [
+      10,
+      15,
+      2.82
+     ],
+     [
+      15,
+      20,
+      3.79
+     ],
+     [
+      20,
+      40,
+      4.78
+     ],
+     [
+      40,
+      null,
+      5.788
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Residencial Social Nível I. Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "comercial": {
+    "fixo": 42.86,
+    "faixas": [
+     [
+      0,
+      5,
+      5.34
+     ],
+     [
+      5,
+      10,
+      8.002
+     ],
+     [
+      10,
+      20,
+      10.723
+     ],
+     [
+      20,
+      40,
+      13.498
+     ],
+     [
+      40,
+      200,
+      16.326
+     ],
+     [
+      200,
+      null,
+      19.206
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "industrial": {
+    "fixo": 42.86,
+    "faixas": [
+     [
+      0,
+      5,
+      5.34
+     ],
+     [
+      5,
+      10,
+      8.002
+     ],
+     [
+      10,
+      20,
+      10.723
+     ],
+     [
+      20,
+      40,
+      13.498
+     ],
+     [
+      40,
+      200,
+      16.326
+     ],
+     [
+      200,
+      null,
+      19.206
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "publica": {
+    "fixo": 36.43,
+    "faixas": [
+     [
+      0,
+      5,
+      5.06
+     ],
+     [
+      5,
+      10,
+      7.597
+     ],
+     [
+      10,
+      20,
+      10.186
+     ],
+     [
+      20,
+      40,
+      12.818
+     ],
+     [
+      40,
+      200,
+      15.514
+     ],
+     [
+      200,
+      null,
+      18.242
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "abrangencia": "tabela única do COPASA (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Belo Horizonte",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 65.89,
+   "impresso": "Fixa 25,77 + 5 × 2,69 + 5 × 5,334"
+  }
+ ]
+}

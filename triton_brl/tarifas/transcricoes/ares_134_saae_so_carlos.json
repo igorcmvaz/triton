@@ -1,0 +1,229 @@
+{
+ "prestador": "SAAE São Carlos",
+ "registro": [
+  134
+ ],
+ "documento": "saae_sao_carlos_ARESPCJ_resoluo_n_724_2026_-_reajuste_tarifrio_-_so_carlos.pdf",
+ "vigencia": "21/08/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1787764462-resoluo_n_724_2026_-_reajuste_tarifrio_-_so_carlos.pdf",
+ "leitura": "Material tarifário oficial de SAAE São Carlos. Anexo I da resolução da ARES-PCJ, vigência a partir de 21/08/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "São Carlos"
+   ],
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      2.56
+     ],
+     [
+      10.0,
+      20.0,
+      6.41
+     ],
+     [
+      20.0,
+      30.0,
+      8.24
+     ],
+     [
+      30.0,
+      40.0,
+      10.4
+     ],
+     [
+      40.0,
+      50.0,
+      12.35
+     ],
+     [
+      50.0,
+      60.0,
+      13.55
+     ],
+     [
+      60.0,
+      null,
+      15.01
+     ]
+    ],
+    "nota": "O Anexo cobra os primeiros 10 m³ por m³, sem «(mínimo)»; lido como faixa por m³ desde 0."
+   },
+   "social": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      0.76
+     ],
+     [
+      10.0,
+      20.0,
+      1.93
+     ],
+     [
+      20.0,
+      30.0,
+      2.47
+     ],
+     [
+      30.0,
+      40.0,
+      3.12
+     ],
+     [
+      40.0,
+      50.0,
+      3.72
+     ],
+     [
+      50.0,
+      60.0,
+      4.06
+     ],
+     [
+      60.0,
+      null,
+      4.51
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      5.58
+     ],
+     [
+      10.0,
+      20.0,
+      9.43
+     ],
+     [
+      20.0,
+      30.0,
+      15.35
+     ],
+     [
+      30.0,
+      40.0,
+      20.03
+     ],
+     [
+      40.0,
+      50.0,
+      20.94
+     ],
+     [
+      50.0,
+      60.0,
+      22.34
+     ],
+     [
+      60.0,
+      null,
+      26.94
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      7.09
+     ],
+     [
+      10.0,
+      20.0,
+      11.34
+     ],
+     [
+      20.0,
+      30.0,
+      17.0
+     ],
+     [
+      30.0,
+      40.0,
+      23.36
+     ],
+     [
+      40.0,
+      50.0,
+      24.01
+     ],
+     [
+      50.0,
+      60.0,
+      26.81
+     ],
+     [
+      60.0,
+      null,
+      33.57
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      0.84
+     ],
+     [
+      10.0,
+      20.0,
+      1.41
+     ],
+     [
+      20.0,
+      30.0,
+      2.31
+     ],
+     [
+      30.0,
+      40.0,
+      3.0
+     ],
+     [
+      40.0,
+      50.0,
+      3.15
+     ],
+     [
+      50.0,
+      60.0,
+      3.35
+     ],
+     [
+      60.0,
+      null,
+      4.05
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - São Carlos",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 89.7,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

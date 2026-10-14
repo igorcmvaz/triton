@@ -1,0 +1,193 @@
+{
+ "prestador": "SAE Araguari",
+ "registro": [
+  87
+ ],
+ "documento": "RES_368_2025_ARISB_MG_Revisao_Araguari_assinado.pdf",
+ "vigencia": "03/12/2025",
+ "fonte_url": "https://arisb.com.br",
+ "leitura": "Resolução ARISB-MG nº 368, de 03/12/2025 (revisão de 11,80%), Anexo I. Consumo mínimo (10 m³; 20 m³ na industrial) e excedente por faixa; esgoto a 80% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "MG",
+   "municipios": [
+    "Araguari"
+   ],
+   "residencial": {
+    "fixo": 33.89,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      2.34
+     ],
+     [
+      20,
+      30,
+      2.57
+     ],
+     [
+      30,
+      40,
+      2.81
+     ],
+     [
+      40,
+      50,
+      3.1
+     ],
+     [
+      50,
+      null,
+      3.46
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "fixo": 14.29,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      0.99
+     ],
+     [
+      20,
+      30,
+      1.08
+     ],
+     [
+      30,
+      40,
+      1.19
+     ],
+     [
+      40,
+      50,
+      1.31
+     ],
+     [
+      50,
+      null,
+      1.46
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "fixo": 47.84,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      2.94
+     ],
+     [
+      20,
+      30,
+      3.21
+     ],
+     [
+      30,
+      40,
+      3.55
+     ],
+     [
+      40,
+      50,
+      3.9
+     ],
+     [
+      50,
+      null,
+      4.29
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "fixo": 47.84,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      2.94
+     ],
+     [
+      20,
+      30,
+      3.21
+     ],
+     [
+      30,
+      40,
+      3.55
+     ],
+     [
+      40,
+      50,
+      3.9
+     ],
+     [
+      50,
+      null,
+      4.29
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "fixo": 81.68,
+    "franquia": 20,
+    "faixas": [
+     [
+      20,
+      30,
+      2.75
+     ],
+     [
+      30,
+      40,
+      3.01
+     ],
+     [
+      40,
+      50,
+      3.3
+     ],
+     [
+      50,
+      70,
+      3.66
+     ],
+     [
+      70,
+      100,
+      4.03
+     ],
+     [
+      100,
+      null,
+      4.41
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Araguari",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 57.29,
+   "impresso": "33,89 + 10 × 2,34"
+  }
+ ]
+}

@@ -1,0 +1,174 @@
+{
+ "prestador": "SAEV Ambiental",
+ "registro": [
+  202,
+  207
+ ],
+ "documento": "Prefeitura de Votuporanga - Legislação.html",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.votuporanga.sp.gov.br/portal/leis_decretos/12440/",
+ "leitura": "Decreto nº 20.111, de 23/02/2026 (Prefeitura de Votuporanga, portal de legislação), que reescreve a Tabela «C» do Decreto nº 19.729/2025 com efeitos a partir de 01/03/2026. Consumo mínimo até 10 m³ e faixas excedentes por m³. Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída.",
+ "tabelas": [
+  {
+   "rotulo": "Decreto 20.111/2026, Tabela C",
+   "uf": "SP",
+   "municipios": [
+    "Votuporanga"
+   ],
+   "residencial": {
+    "fixo": 28.22,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.87
+     ],
+     [
+      20,
+      30,
+      6.45
+     ],
+     [
+      30,
+      50,
+      8.05
+     ],
+     [
+      50,
+      null,
+      9.6
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída."
+   },
+   "social": {
+    "fixo": 14.11,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      1.411
+     ],
+     [
+      15,
+      20,
+      4.87
+     ],
+     [
+      20,
+      30,
+      6.45
+     ],
+     [
+      30,
+      50,
+      8.05
+     ],
+     [
+      50,
+      null,
+      9.6
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída."
+   },
+   "comercial": {
+    "fixo": 62.76,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.13
+     ],
+     [
+      20,
+      30,
+      9.19
+     ],
+     [
+      30,
+      50,
+      12.861
+     ],
+     [
+      50,
+      null,
+      15.124
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída."
+   },
+   "industrial": {
+    "fixo": 62.76,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.13
+     ],
+     [
+      20,
+      30,
+      9.19
+     ],
+     [
+      30,
+      50,
+      12.861
+     ],
+     [
+      50,
+      null,
+      15.124
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída."
+   },
+   "publica": {
+    "fixo": 87.11,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.12
+     ],
+     [
+      20,
+      30,
+      14.69
+     ],
+     [
+      30,
+      50,
+      17.018
+     ],
+     [
+      50,
+      null,
+      19.78
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto a 100% da água: Decreto nº 19.729/2025, Regulamento, art. 18, II (item 207), com a tarifa mínima incluída."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Votuporanga",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 109.17,
+   "impresso": "mínimo 28,220 + 10 × 4,870 + 5 × 6,450"
+  }
+ ]
+}

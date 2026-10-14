@@ -1,0 +1,406 @@
+/*
+ * BL-17 - o lado do navegador do banner de cookies (issue #25)
+ *
+ * Implementa a especificacao do BL-16, em docs/regra-de-consentimento-e-textos.md.
+ * As referencias a R1..R13 sao as regras da secao 2 daquele documento.
+ *
+ * O QUE ESTE ARQUIVO FAZ E O QUE ELE NAO FAZ. Ele grava e le a escolha e mostra
+ * as duas camadas da caixa. Ele NAO decide o que carrega: quem decide e o PHP,
+ * no consentimento.php, antes de imprimir o <head> (R1). Por isso toda mudanca
+ * de escolha que altere o que a pagina deve carregar termina em recarga - e a
+ * unica forma de o servidor imprimir (ou parar de imprimir) a tag do terceiro.
+ *
+ * ES5 de proposito: sem arrow function, sem const e sem template string. O site
+ * ainda carrega jQuery 1.7.2 e nao passa por transpilador nenhum, e este e o
+ * ultimo lugar do site onde vale a pena arriscar um erro de sintaxe - um script
+ * quebrado aqui significa banner que nao aparece e consentimento que nao e
+ * coletado.
+ */
+(function () {
+	'use strict';
+
+	var NOME = 'samae_consentimento';
+	var CATEGORIAS = ['estatistica', 'publicidade', 'incorporado'];
+
+	/*
+	 * Os cookies que o site consegue apagar quando a categoria e desligada (R8):
+	 * so os de primeira parte, gravados no dominio do site. O `fr` da Meta e os
+	 * do YouTube ficam em dominio de terceiro e o site nao os alcanca - e por
+	 * isso que a tela de configuracoes termina dizendo isso ao cidadao.
+	 *
+	 * A lista e a da medicao do inventario (R13), nao a do fornecedor: o GA4 por
+	 * gtag.js grava _ga e _ga_<id-do-fluxo>, e mais nada. Cookie novo aqui so
+	 * depois de entrar no inventario e na tela de configuracoes.
+	 */
+	var COOKIES_DA_CATEGORIA = {
+		estatistica: ['_ga', '_ga_F4NNNRFE7X'],
+		publicidade: ['_fbp'],
+		incorporado: []
+	};
+
+	var caixa = document.getElementById('consentimento');
+	if (!caixa) {
+		return;
+	}
+
+	var aviso = document.getElementById('consentimento_aviso');
+	var config = document.getElementById('consentimento_config');
+	var versao = caixa.getAttribute('data-versao');
+	var dias = parseInt(caixa.getAttribute('data-dias'), 10);
+
+	/*
+	 * O rodape tem DOIS pontos de entrada para reabrir a escolha - a linha do
+	 * copyright e a coluna LGPD - e os dois abrem a mesma tela. Os `links` sao os
+	 * <a> que recebem o clique; os `ocultos` sao os elementos que nascem com hidden
+	 * e precisam ser revelados, que na coluna e o <li> inteiro, para a coluna nao
+	 * ficar com um item vazio ocupando a linha.
+	 */
+	var links = document.querySelectorAll('.consentimento_link');
+	var ocultos = document.querySelectorAll('[data-consentimento-link]');
+
+	/* De onde a tela de configuracoes foi aberta: muda para onde o Esc volta. */
+	var origem = null;
+
+	/* Por qual dos dois links ela foi aberta: e para ele que o foco volta. */
+	var linkUsado = null;
+
+	function mostrar(elemento) {
+		if (elemento) {
+			elemento.removeAttribute('hidden');
+		}
+	}
+
+	function esconder(elemento) {
+		if (elemento) {
+			elemento.setAttribute('hidden', 'hidden');
+		}
+	}
+
+	function dois(n) {
+		return (n < 10 ? '0' : '') + n;
+	}
+
+	/*
+	 * Data local no formato da secao 3 do documento: 2026-09-17T14:03:21-03:00.
+	 * E hora do navegador, nao do servidor - o que interessa registrar e o
+	 * momento em que o cidadao clicou.
+	 */
+	function agora() {
+		var d = new Date();
+		var minutos = -d.getTimezoneOffset();
+		var sinal = minutos < 0 ? '-' : '+';
+		var absoluto = Math.abs(minutos);
+
+		return d.getFullYear() + '-' + dois(d.getMonth() + 1) + '-' + dois(d.getDate())
+			+ 'T' + dois(d.getHours()) + ':' + dois(d.getMinutes()) + ':' + dois(d.getSeconds())
+			+ sinal + dois(Math.floor(absoluto / 60)) + ':' + dois(absoluto % 60);
+	}
+
+	/*
+	 * Grava a escolha. O valor e legivel a olho nu no DevTools, que e o ponto -
+	 * ele e o que prova a coleta do consentimento meses depois (LGPD, art. 8o,
+	 * par. 2o), e quem for conferir nao precisa decodificar nada.
+	 *
+	 * O unico caractere codificado e o "+" do fuso: o parse_str do PHP traduz "+"
+	 * por espaco, entao um visitante a leste de Greenwich gravaria uma data que o
+	 * servidor leria quebrada. Para quem esta no Brasil o fuso e negativo e o
+	 * valor sai inteiro, sem nenhum %.
+	 *
+	 * expires e nao max-age: max-age nao existe nos navegadores mais antigos que
+	 * este site ainda atende, e um cookie sem prazo valido morreria ao fechar o
+	 * navegador - o cidadao seria perguntado de novo toda visita.
+	 */
+	function gravar(valores) {
+		var prazo = new Date();
+		prazo.setTime(prazo.getTime() + dias * 24 * 60 * 60 * 1000);
+
+		var valor = 'versao=' + versao + '&data=' + agora().replace('+', '%2B');
+		var i;
+		for (i = 0; i < CATEGORIAS.length; i++) {
+			valor += '&' + CATEGORIAS[i] + '=' + (valores[CATEGORIAS[i]] ? 's' : 'n');
+		}
+
+		document.cookie = NOME + '=' + valor
+			+ '; expires=' + prazo.toUTCString()
+			+ '; path=/'
+			+ '; SameSite=Lax'
+			+ (window.location.protocol === 'https:' ? '; Secure' : '');
+	}
+
+	/*
+	 * Devolve a escolha gravada, ou null quando nao ha nenhuma valida - a mesma
+	 * regra do consentimento.php, inclusive o descarte por versao diferente (R9).
+	 */
+	function ler() {
+		var pedacos = document.cookie ? document.cookie.split(';') : [];
+		var i;
+
+		for (i = 0; i < pedacos.length; i++) {
+			var pedaco = pedacos[i].replace(/^\s+/, '');
+			if (pedaco.indexOf(NOME + '=') !== 0) {
+				continue;
+			}
+
+			var campos = {};
+			var pares = pedaco.substring(NOME.length + 1).split('&');
+			var j;
+			for (j = 0; j < pares.length; j++) {
+				var igual = pares[j].indexOf('=');
+				if (igual > 0) {
+					campos[pares[j].substring(0, igual)] = pares[j].substring(igual + 1);
+				}
+			}
+
+			if (campos.versao !== versao) {
+				return null;
+			}
+
+			var escolha = {};
+			var k;
+			for (k = 0; k < CATEGORIAS.length; k++) {
+				escolha[CATEGORIAS[k]] = campos[CATEGORIAS[k]] === 's';
+			}
+			return escolha;
+		}
+
+		return null;
+	}
+
+	/*
+	 * Apaga um cookie de primeira parte (R8). Tenta em todos os dominios em que
+	 * ele pode ter sido gravado, porque quem o gravou foi script de terceiro: o
+	 * gtag.js grava o _ga no dominio registravel (".samae.sc.gov.br"), nao no
+	 * host da pagina, e cookie so e apagado pelo par exato de dominio e caminho.
+	 * As tentativas em sufixo publico o navegador recusa sozinho, sem efeito.
+	 */
+	function apagarCookie(nome) {
+		var partes = window.location.hostname.split('.');
+		var dominios = [''];
+		var i;
+
+		for (i = 0; i < partes.length - 1; i++) {
+			var dominio = partes.slice(i).join('.');
+			dominios.push('; domain=' + dominio);
+			dominios.push('; domain=.' + dominio);
+		}
+
+		for (i = 0; i < dominios.length; i++) {
+			document.cookie = nome + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + dominios[i];
+		}
+	}
+
+	function caixasDeCategoria() {
+		return config ? config.getElementsByTagName('input') : [];
+	}
+
+	/* O que as caixas da tela mostram agora. */
+	function estadoDasCaixas() {
+		var valores = {};
+		var entradas = caixasDeCategoria();
+		var i;
+
+		for (i = 0; i < CATEGORIAS.length; i++) {
+			valores[CATEGORIAS[i]] = false;
+		}
+		for (i = 0; i < entradas.length; i++) {
+			var categoria = entradas[i].getAttribute('data-categoria');
+			if (categoria) {
+				valores[categoria] = entradas[i].checked;
+			}
+		}
+		return valores;
+	}
+
+	function marcarCaixas(valores) {
+		var entradas = caixasDeCategoria();
+		var i;
+
+		for (i = 0; i < entradas.length; i++) {
+			var categoria = entradas[i].getAttribute('data-categoria');
+			if (categoria) {
+				entradas[i].checked = !!(valores && valores[categoria]);
+			}
+		}
+	}
+
+	function todas(ligadas) {
+		var valores = {};
+		var i;
+		for (i = 0; i < CATEGORIAS.length; i++) {
+			valores[CATEGORIAS[i]] = ligadas;
+		}
+		return valores;
+	}
+
+	function abrirCaixa() {
+		mostrar(caixa);
+		if (document.body.className.indexOf('consentimento_aberto') < 0) {
+			document.body.className += ' consentimento_aberto';
+		}
+	}
+
+	function fecharCaixa() {
+		esconder(caixa);
+		esconder(config);
+		document.body.className = document.body.className.replace(/\s*consentimento_aberto/g, '');
+	}
+
+	/*
+	 * R11: a caixa recebe o foco ao aparecer. O foco vai para a secao, e nao para
+	 * um botao, para que a leitura comece pelo titulo e pelo texto - e para que
+	 * um Enter distraido nao vire aceite. Nao ha prisao de foco: o Tab sai da
+	 * caixa e segue pela pagina, que continua inteira acessivel (R5).
+	 */
+	function abrirAviso() {
+		abrirCaixa();
+		esconder(config);
+		mostrar(aviso);
+		if (aviso) {
+			aviso.focus();
+		}
+	}
+
+	function abrirConfiguracoes(deOnde) {
+		origem = deOnde;
+		marcarCaixas(ler());
+		abrirCaixa();
+		esconder(aviso);
+		mostrar(config);
+		if (config) {
+			config.focus();
+		}
+	}
+
+	/*
+	 * Sair da tela de configuracoes sem gravar. Aberta pelo link do rodape, isso
+	 * fecha tudo e a escolha continua a que ja estava. Aberta pelo banner, volta
+	 * para o aviso: nao existe saida por inercia enquanto nao houver escolha (R4).
+	 */
+	function sairDasConfiguracoes() {
+		if (origem === 'banner' && aviso) {
+			abrirAviso();
+			return;
+		}
+		fecharCaixa();
+		devolverFoco();
+	}
+
+	/*
+	 * Devolve o foco ao link que abriu a tela - o da coluna LGPD ou o da linha do
+	 * copyright. Sem isto, quem navega por teclado voltaria para o comeco da pagina
+	 * depois de mexer na escolha, e teria de percorrer o site inteiro de novo.
+	 */
+	function devolverFoco() {
+		if (linkUsado) {
+			linkUsado.focus();
+		}
+	}
+
+	/*
+	 * Grava a escolha e, se o que a pagina carrega mudou, recarrega - porque quem
+	 * imprime (ou deixa de imprimir) a tag do terceiro e o servidor. Desligar uma
+	 * categoria ainda apaga os cookies que ela ja tinha gravado no dominio do
+	 * site, para que o identificador nao sobreviva a revogacao (R8).
+	 *
+	 * Recusar tudo na primeira visita nao recarrega: nada nao necessario chegou a
+	 * ser impresso, entao nao ha o que desfazer.
+	 *
+	 * A recarga e um location.replace sem a ancora, e nao um location.reload: o
+	 * reload reenvia o POST da pagina em que se esta, e a /doacoes-de-fundos posta
+	 * para ela mesma - mudar preferencia de cookie nao pode reenviar formulario.
+	 */
+	function aplicar(valores) {
+		var anterior = ler();
+		var recarregar = false;
+		var i;
+
+		for (i = 0; i < CATEGORIAS.length; i++) {
+			var categoria = CATEGORIAS[i];
+			var antes = anterior ? anterior[categoria] : false;
+
+			if (antes && !valores[categoria]) {
+				var cookies = COOKIES_DA_CATEGORIA[categoria] || [];
+				var j;
+				for (j = 0; j < cookies.length; j++) {
+					apagarCookie(cookies[j]);
+				}
+				recarregar = true;
+			} else if (!antes && valores[categoria]) {
+				recarregar = true;
+			}
+		}
+
+		gravar(valores);
+
+		if (recarregar) {
+			window.location.replace(window.location.href.split('#')[0]);
+			return;
+		}
+
+		fecharCaixa();
+		if (origem === 'rodape') {
+			devolverFoco();
+		}
+	}
+
+	caixa.addEventListener('click', function (evento) {
+		var alvo = evento.target;
+		while (alvo && alvo !== caixa && !alvo.getAttribute('data-consentimento')) {
+			alvo = alvo.parentNode;
+		}
+		if (!alvo || alvo === caixa) {
+			return;
+		}
+
+		switch (alvo.getAttribute('data-consentimento')) {
+			case 'aceitar':
+				aplicar(todas(true));
+				break;
+			case 'recusar':
+				aplicar(todas(false));
+				break;
+			case 'configurar':
+				abrirConfiguracoes('banner');
+				break;
+			case 'salvar':
+				aplicar(estadoDasCaixas());
+				break;
+			case 'fechar':
+				sairDasConfiguracoes();
+				break;
+		}
+	});
+
+	document.addEventListener('keydown', function (evento) {
+		if (evento.keyCode !== 27 || caixa.hasAttribute('hidden')) {
+			return;
+		}
+		if (config && !config.hasAttribute('hidden')) {
+			sairDasConfiguracoes();
+		}
+	});
+
+	function ligarLink(elemento) {
+		elemento.addEventListener('click', function (evento) {
+			evento.preventDefault();
+			linkUsado = elemento;
+			abrirConfiguracoes('rodape');
+		});
+	}
+
+	for (var n = 0; n < links.length; n++) {
+		ligarLink(links[n]);
+	}
+	for (n = 0; n < ocultos.length; n++) {
+		mostrar(ocultos[n]);
+	}
+
+	/*
+	 * O servidor so imprime a primeira camada quando nao ha escolha registrada:
+	 * a presenca do elemento e a decisao, ja tomada com o mesmo cookie que o
+	 * navegador acabou de enviar.
+	 */
+	if (aviso) {
+		abrirAviso();
+	}
+})();

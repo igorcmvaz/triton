@@ -1,0 +1,182 @@
+{
+ "prestador": "SAAE Sete Lagoas",
+ "registro": [
+  91
+ ],
+ "documento": "Tabela de Tarifas - 03-03-2026.pdf",
+ "vigencia": "03/03/2026",
+ "fonte_url": "https://www.saaesetelagoas.com.br",
+ "leitura": "Tabela de cobranças do SAAE Sete Lagoas a vigorar a partir de 03/03/2026 (Decreto nº 7.702, de 26/01/2026), serviço medido: valor básico operacional e valor do m³ excedente por faixa (o número da faixa é o limite superior). Decreto nº 7.702/2026: o valor básico cobre até 6 m³ na residencial (6 × R$ 5,16) e 10 m³ na comercial e na pública; a faixa de 6 a 7 m³ sai a R$ 0,8799/m³ como impressa. Esgoto a 80% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de cobranças, serviço medido",
+   "uf": "MG",
+   "municipios": [
+    "Sete Lagoas"
+   ],
+   "residencial": {
+    "fixo": 30.9599,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      7,
+      0.8799
+     ],
+     [
+      7,
+      11,
+      5.5278
+     ],
+     [
+      11,
+      15,
+      6.707
+     ],
+     [
+      15,
+      20,
+      8.8449
+     ],
+     [
+      20,
+      30,
+      10.3187
+     ],
+     [
+      30,
+      40,
+      12.6772
+     ],
+     [
+      40,
+      50,
+      14.2256
+     ],
+     [
+      50,
+      60,
+      16.2165
+     ],
+     [
+      60,
+      null,
+      18.2789
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Decreto nº 7.702/2026: o valor básico cobre até 6 m³ na residencial (6 × R$ 5,16) e 10 m³ na comercial e na pública; a faixa de 6 a 7 m³ sai a R$ 0,8799/m³ como impressa. Esgoto a 80% da água."
+   },
+   "comercial": {
+    "fixo": 72.2274,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.6562
+     ],
+     [
+      20,
+      30,
+      10.5403
+     ],
+     [
+      30,
+      40,
+      12.6772
+     ],
+     [
+      40,
+      50,
+      14.2256
+     ],
+     [
+      50,
+      60,
+      16.2165
+     ],
+     [
+      60,
+      null,
+      18.2789
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "fixo": 316.2066,
+    "franquia": 30,
+    "faixas": [
+     [
+      30,
+      40,
+      12.6771
+     ],
+     [
+      40,
+      60,
+      14.2254
+     ],
+     [
+      60,
+      100,
+      16.2164
+     ],
+     [
+      100,
+      null,
+      18.2787
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "fixo": 62.6551,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.6562
+     ],
+     [
+      20,
+      30,
+      10.4667
+     ],
+     [
+      30,
+      40,
+      12.014
+     ],
+     [
+      40,
+      60,
+      14.2256
+     ],
+     [
+      60,
+      100,
+      16.2165
+     ],
+     [
+      100,
+      null,
+      18.2789
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Sete Lagoas",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 80.78,
+   "impresso": "30,9599 + 1 × 0,8799 + 4 × 5,5278 + 4 × 6,7070"
+  }
+ ]
+}

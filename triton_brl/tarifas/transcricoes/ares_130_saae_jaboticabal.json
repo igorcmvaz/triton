@@ -1,0 +1,278 @@
+{
+ "prestador": "SAAE Jaboticabal",
+ "registro": [
+  130
+ ],
+ "documento": "saae_jaboticabal_ARESPCJ_resoluo_n_713_2026_-_reviso_tarifria_-_jaboticabal.pdf",
+ "vigencia": "01/08/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1784317368-resoluo_n_713_2026_-_reviso_tarifria_-_jaboticabal.pdf",
+ "leitura": "Material tarifário oficial de SAAE Jaboticabal. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/08/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Jaboticabal"
+   ],
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "fixo": 28.91,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.48
+     ],
+     [
+      20.0,
+      30.0,
+      4.38
+     ],
+     [
+      30.0,
+      40.0,
+      7.21
+     ],
+     [
+      40.0,
+      50.0,
+      8.37
+     ],
+     [
+      50.0,
+      60.0,
+      11.88
+     ],
+     [
+      60.0,
+      70.0,
+      13.03
+     ],
+     [
+      70.0,
+      80.0,
+      14.36
+     ],
+     [
+      80.0,
+      90.0,
+      15.93
+     ],
+     [
+      90.0,
+      100.0,
+      17.47
+     ],
+     [
+      100.0,
+      null,
+      19.22
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 100.0,
+    "fixo": 14.46,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.74
+     ],
+     [
+      15.0,
+      20.0,
+      2.61
+     ],
+     [
+      20.0,
+      30.0,
+      4.38
+     ],
+     [
+      30.0,
+      40.0,
+      7.21
+     ],
+     [
+      40.0,
+      50.0,
+      8.37
+     ],
+     [
+      50.0,
+      60.0,
+      11.88
+     ],
+     [
+      60.0,
+      70.0,
+      13.03
+     ],
+     [
+      70.0,
+      80.0,
+      14.36
+     ],
+     [
+      80.0,
+      90.0,
+      15.93
+     ],
+     [
+      90.0,
+      100.0,
+      17.47
+     ],
+     [
+      100.0,
+      null,
+      19.22
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 100.0,
+    "fixo": 28.91,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.48
+     ],
+     [
+      20.0,
+      30.0,
+      4.38
+     ],
+     [
+      30.0,
+      40.0,
+      7.21
+     ],
+     [
+      40.0,
+      50.0,
+      8.37
+     ],
+     [
+      50.0,
+      60.0,
+      11.88
+     ],
+     [
+      60.0,
+      70.0,
+      13.03
+     ],
+     [
+      70.0,
+      80.0,
+      14.36
+     ],
+     [
+      80.0,
+      90.0,
+      15.93
+     ],
+     [
+      90.0,
+      100.0,
+      17.47
+     ],
+     [
+      100.0,
+      null,
+      19.22
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "fixo": 44.54,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.11
+     ],
+     [
+      20.0,
+      30.0,
+      6.53
+     ],
+     [
+      30.0,
+      40.0,
+      10.82
+     ],
+     [
+      40.0,
+      50.0,
+      12.44
+     ],
+     [
+      50.0,
+      100.0,
+      17.71
+     ],
+     [
+      100.0,
+      null,
+      23.18
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100.0,
+    "fixo": 44.54,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.11
+     ],
+     [
+      20.0,
+      30.0,
+      6.53
+     ],
+     [
+      30.0,
+      40.0,
+      10.82
+     ],
+     [
+      40.0,
+      50.0,
+      12.44
+     ],
+     [
+      50.0,
+      100.0,
+      17.71
+     ],
+     [
+      100.0,
+      null,
+      23.18
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Jaboticabal",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 63.71,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

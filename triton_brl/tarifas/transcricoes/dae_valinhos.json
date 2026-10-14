@@ -1,0 +1,200 @@
+{
+ "prestador": "DAE Valinhos",
+ "registro": [
+  46
+ ],
+ "documento": "1678301025-resolucao_n_483_2023_-_revisao_tarifaria_-_daev_valinhos.pdf",
+ "vigencia": "27/02/2023",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 483, de 27/02/2023, revisão tarifária do DAEV (Valinhos), Anexo I, Tabela 1; segundo o quadro da ARES-PCJ de 01/09/2026, é a última resolução de Valinhos (o programa reajusta a partir da vigência). As tarifas são cobradas «na forma direta»: todo o volume pelo preço da faixa em que cai o consumo (25 m³ × R$ 5,69 = R$ 142,25), convertida em faixas progressivas equivalentes. Esgoto = 100% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela 1",
+   "uf": "SP",
+   "municipios": [
+    "Valinhos"
+   ],
+   "residencial": {
+    "direta": {
+     "minimo": [
+      10,
+      23.73
+     ],
+     "precos": [
+      [
+       11,
+       17,
+       4.4
+      ],
+      [
+       18,
+       25,
+       5.69
+      ],
+      [
+       26,
+       35,
+       7.77
+      ],
+      [
+       36,
+       50,
+       10.69
+      ]
+     ],
+     "acima": 22.18
+    },
+    "esgoto_pct": 100,
+    "nota": "Forma direta: todo o volume pelo preço da faixa em que cai o consumo (Anexo I e exemplo de cálculo). Esgoto = 100% da água (nota da Tabela 1)."
+   },
+   "social": {
+    "direta": {
+     "minimo": [
+      10,
+      11.87
+     ],
+     "precos": [
+      [
+       11,
+       17,
+       2.2
+      ],
+      [
+       18,
+       25,
+       2.84
+      ],
+      [
+       26,
+       35,
+       3.88
+      ],
+      [
+       36,
+       50,
+       5.35
+      ]
+     ],
+     "acima": 11.09
+    },
+    "esgoto_pct": 100,
+    "nota": "Forma direta: todo o volume pelo preço da faixa em que cai o consumo (Anexo I e exemplo de cálculo). Esgoto = 100% da água (nota da Tabela 1)."
+   },
+   "comercial": {
+    "direta": {
+     "minimo": [
+      10,
+      94.91
+     ],
+     "precos": [
+      [
+       11,
+       17,
+       15.06
+      ],
+      [
+       18,
+       25,
+       17.19
+      ],
+      [
+       26,
+       35,
+       22.85
+      ],
+      [
+       36,
+       50,
+       28.78
+      ]
+     ],
+     "acima": 41.0
+    },
+    "esgoto_pct": 100,
+    "nota": "Forma direta: todo o volume pelo preço da faixa em que cai o consumo (Anexo I e exemplo de cálculo). Esgoto = 100% da água (nota da Tabela 1)."
+   },
+   "industrial": {
+    "direta": {
+     "minimo": [
+      10,
+      130.09
+     ],
+     "precos": [
+      [
+       11,
+       17,
+       18.91
+      ],
+      [
+       18,
+       25,
+       20.03
+      ],
+      [
+       26,
+       35,
+       27.01
+      ],
+      [
+       36,
+       50,
+       32.53
+      ]
+     ],
+     "acima": 55.8
+    },
+    "esgoto_pct": 100,
+    "nota": "Forma direta: todo o volume pelo preço da faixa em que cai o consumo (Anexo I e exemplo de cálculo). Esgoto = 100% da água (nota da Tabela 1)."
+   },
+   "publica": {
+    "direta": {
+     "minimo": [
+      10,
+      24.92
+     ],
+     "precos": [
+      [
+       11,
+       17,
+       4.62
+      ],
+      [
+       18,
+       25,
+       5.97
+      ],
+      [
+       26,
+       35,
+       8.16
+      ],
+      [
+       36,
+       50,
+       11.23
+      ]
+     ],
+     "acima": 23.29
+    },
+    "esgoto_pct": 100,
+    "nota": "Forma direta: todo o volume pelo preço da faixa em que cai o consumo (Anexo I e exemplo de cálculo). Esgoto = 100% da água (nota da Tabela 1)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Valinhos",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 142.25,
+   "impresso": "25 m³ × R$ 5,69 = R$ 142,25"
+  },
+  {
+   "municipio": "SP - Valinhos",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 23.73,
+   "impresso": "Tarifa de Água Mínima = R$ 23,73"
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+{
+ "prestador": "SAMAE Mogi Guaçu",
+ "registro": [
+  147
+ ],
+ "documento": "samae_mogi_guacu_ARESPCJ_resoluo_n_686_2026_-_reajuste_tarifrio_-_mogi_guau.pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1770038955-resoluo_n_686_2026_-_reajuste_tarifrio_-_mogi_guau.pdf",
+ "leitura": "Material tarifário oficial de SAMAE Mogi Guaçu. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/03/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Mogi Guaçu"
+   ],
+   "social": {
+    "esgoto_pct": 100,
+    "fixo": 9.46,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.15
+     ],
+     [
+      15.0,
+      20.0,
+      2.12
+     ],
+     [
+      20.0,
+      30.0,
+      7.52
+     ],
+     [
+      30.0,
+      40.0,
+      7.58
+     ],
+     [
+      40.0,
+      50.0,
+      9.34
+     ],
+     [
+      50.0,
+      null,
+      10.74
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 100,
+    "fixo": 18.91,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.29
+     ],
+     [
+      15.0,
+      20.0,
+      2.82
+     ],
+     [
+      20.0,
+      30.0,
+      7.52
+     ],
+     [
+      30.0,
+      40.0,
+      7.58
+     ],
+     [
+      40.0,
+      50.0,
+      9.34
+     ],
+     [
+      50.0,
+      null,
+      10.74
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100,
+    "fixo": 46.91,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      8.15
+     ],
+     [
+      20.0,
+      30.0,
+      9.1
+     ],
+     [
+      30.0,
+      40.0,
+      15.97
+     ],
+     [
+      40.0,
+      50.0,
+      17.97
+     ],
+     [
+      50.0,
+      null,
+      24.69
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100,
+    "fixo": 78.03,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      10.13
+     ],
+     [
+      20.0,
+      30.0,
+      14.66
+     ],
+     [
+      30.0,
+      40.0,
+      18.66
+     ],
+     [
+      40.0,
+      50.0,
+      21.4
+     ],
+     [
+      50.0,
+      null,
+      28.56
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 100,
+    "fixo": 63.05,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      8.99
+     ],
+     [
+      20.0,
+      30.0,
+      10.01
+     ],
+     [
+      30.0,
+      40.0,
+      17.54
+     ],
+     [
+      40.0,
+      50.0,
+      17.97
+     ],
+     [
+      50.0,
+      null,
+      25.18
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Mogi Guaçu",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 44.46,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

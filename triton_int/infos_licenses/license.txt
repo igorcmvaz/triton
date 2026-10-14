@@ -1,0 +1,18 @@
+Triton — Licenca
+
+Este software e distribuido sob a GNU General Public License v3.0 ou posterior
+(GPL-3.0-or-later).
+
+O texto integral da licenca esta no arquivo LICENSE, na raiz do projeto.
+
+Copyright (c) 2026 Igor Catao Martins Vaz e Enedir Ghisi
+Grupo de Pesquisa em Ambientes Sustentaveis
+Universidade Federal de Santa Catarina (UFSC)
+
+Este programa e software livre: voce pode redistribui-lo e/ou modifica-lo sob os
+termos da GNU General Public License conforme publicada pela Free Software
+Foundation, na versao 3 da Licenca ou (a seu criterio) qualquer versao posterior.
+
+Este programa e distribuido na expectativa de ser util, mas SEM QUALQUER
+GARANTIA; sem mesmo a garantia implicita de COMERCIALIZACAO ou ADEQUACAO A UM
+PROPOSITO ESPECIFICO. Consulte a GNU General Public License para mais detalhes.

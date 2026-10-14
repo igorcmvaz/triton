@@ -1,0 +1,158 @@
+{
+ "prestador": "Ourinhos Saneamento",
+ "registro": [
+  52
+ ],
+ "documento": "Legislação e Tarifas _ Ourinhos saneamento.html",
+ "vigencia": "01/11/2025",
+ "fonte_url": "https://www.ourinhossaneamento.com.br/legislacao-e-tarifas",
+ "leitura": "Página «Legislação e Tarifas» da Ourinhos Saneamento: estrutura tarifária a partir de novembro de 2025 (reajuste contratual de 10,18%). A primeira faixa é o mínimo; esgoto a 50% da água. «0–10 m³ (mínimo)» a R$/m³: conta mínima de 10 m³ vezes a tarifa.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária a partir de nov/2025",
+   "uf": "SP",
+   "municipios": [
+    "Ourinhos"
+   ],
+   "residencial": {
+    "fixo": 31.1,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      6.17
+     ],
+     [
+      20,
+      30,
+      7.77
+     ],
+     [
+      30,
+      50,
+      10.04
+     ],
+     [
+      50,
+      null,
+      15.77
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "«0–10 m³ (mínimo)» a R$/m³: conta mínima de 10 m³ vezes a tarifa."
+   },
+   "social": {
+    "fixo": 15.6,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      1.56
+     ],
+     [
+      15,
+      20,
+      6.12
+     ],
+     [
+      20,
+      30,
+      7.77
+     ],
+     [
+      30,
+      50,
+      10.04
+     ],
+     [
+      50,
+      null,
+      15.77
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Residencial Social (Lei Federal). «0–10 m³ (mínimo)» a R$/m³: conta mínima de 10 m³ vezes a tarifa."
+   },
+   "comercial": {
+    "fixo": 78.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.84
+     ],
+     [
+      20,
+      30,
+      17.17
+     ],
+     [
+      30,
+      50,
+      21.01
+     ],
+     [
+      50,
+      null,
+      23.52
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "«0–10 m³ (mínimo)» a R$/m³: conta mínima de 10 m³ vezes a tarifa."
+   },
+   "industrial": {
+    "fixo": 78.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.84
+     ],
+     [
+      20,
+      30,
+      17.17
+     ],
+     [
+      30,
+      50,
+      21.01
+     ],
+     [
+      50,
+      null,
+      23.52
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "«0–10 m³ (mínimo)» a R$/m³: conta mínima de 10 m³ vezes a tarifa."
+   },
+   "publica": {
+    "fixo": 139.8,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      null,
+      10.87
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Mínimo de 15 m³ a R$ 9,32."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Ourinhos",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 31.1,
+   "impresso": "0 - 10 m³/mês (mínimo) R$ 3,11/m³"
+  }
+ ]
+}

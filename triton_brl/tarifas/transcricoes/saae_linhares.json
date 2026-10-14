@@ -1,0 +1,107 @@
+{
+ "prestador": "SAAE Linhares",
+ "registro": [
+  72
+ ],
+ "documento": "Tabela de Tarifas _ SAAE Linhares.html",
+ "vigencia": "19/01/2026",
+ "fonte_url": "https://www.saaelinhares.com.br",
+ "leitura": "Página «Tabela de Tarifas» do SAAE Linhares (atualizada em 19/01/2026), regulado pela ARIES. Faixas por m³ desde 0 m³, como impressas. A página não traz o esgoto nem consumo mínimo; mantido o esgoto de 80% da base.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de Tarifas",
+   "uf": "ES",
+   "municipios": [
+    "Linhares"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      2.45
+     ],
+     [
+      10,
+      20,
+      3.4
+     ],
+     [
+      20,
+      30,
+      4.05
+     ],
+     [
+      30,
+      40,
+      4.75
+     ],
+     [
+      40,
+      null,
+      5.19
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "A página não traz o esgoto nem consumo mínimo; mantido o esgoto de 80% da base."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      15,
+      4.75
+     ],
+     [
+      15,
+      null,
+      6.57
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "A página não traz o esgoto nem consumo mínimo; mantido o esgoto de 80% da base."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      40,
+      6.57
+     ],
+     [
+      40,
+      null,
+      7.96
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "A página não traz o esgoto nem consumo mínimo; mantido o esgoto de 80% da base."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      4.75
+     ],
+     [
+      15,
+      null,
+      6.57
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "A página não traz o esgoto nem consumo mínimo; mantido o esgoto de 80% da base."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - Linhares",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 58.5,
+   "impresso": "0–10 m³ R$ 2,45; 11–20 m³ R$ 3,40"
+  }
+ ]
+}

@@ -1,0 +1,120 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "triton"
+version = "1.0.0"
+description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "GPL-3.0-or-later" }
+authors = [
+    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "sustainability@contato.ufsc.br" }
+]
+keywords = [
+    "rainwater-harvesting",
+    "water-conservation",
+    "sustainability",
+    "mcdm",
+    "topsis",
+    "smaa-vikor",
+    "engineering-economics",
+    "life-cycle-assessment",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: X11 Applications :: Qt",
+    "Environment :: Win32 (MS Windows)",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "PySide6>=6.5.0",
+    "matplotlib>=3.7.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "reportlab>=4.0.0",
+    "pydantic>=2.0.0",
+    "ezdxf>=1.3.0",
+    # Usado pelo atualizador tarifário (triton/core/tariff_updater/) para consultar
+    # ANEEL e prestadores de saneamento. Importado no topo desses módulos, portanto
+    # obrigatório — não opcional.
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    # Motor parquet da exportação em lote da CLI (triton/cli.py), usada pelos
+    # estudos de simulação em massa.
+    "pyarrow>=14.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pyinstaller>=6.0.0",
+    "time-machine>=2.14.0",
+]
+
+# Aceleração opcional do balanço hídrico diário (kernels JIT).
+#
+# Sem numba o programa usa o kernel Python de referência, e os resultados são os
+# mesmos: a paridade entre as duas implementações é verificada por
+# tests/test_essencial.py (testes test_kernels_concordam_*).
+#
+# O ganho é de 107x a 267x. Em uso interativo é imperceptível (a varredura mais
+# pesada leva 0,48 s em Python puro); em estudos de lote é a diferença entre
+# minutos e horas. Instale com:  pip install -e ".[acelerado]"
+acelerado = [
+    # Piso em 0.62 por compatibilidade de numpy, não por recurso do numba:
+    # versões anteriores exigem numpy<2.2 e o pip as resolve rebaixando um numpy
+    # 2.3 já instalado. A partir de 0.62 o requisito é numpy<2.6, e a instalação
+    # do extra deixa de mexer no ambiente existente.
+    "numba>=0.62",
+]
+
+[project.scripts]
+triton = "triton.cli:main"
+triton-gui = "main:main"
+
+[project.urls]
+Homepage = "https://sustainability.ufsc.br/"
+Documentation = "https://sustainability.ufsc.br/triton"
+Repository = "https://github.com/igorcmvaz/triton"
+
+[tool.setuptools]
+packages = ["triton", "triton.core", "triton.ui", "triton.data", "triton.docs"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.txt", "*.csv", "*.png", "*.ico", "*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# A comparação completa de replicação contra o Netuno 4 percorre milhares de
+# varreduras e leva de 40 s (com numba) a mais de dez minutos (sem). Fica fora da
+# execução padrão e é chamada sob demanda:
+#     pytest -m replicacao
+#     python scripts/qa_runner.py --layer replicacao
+# Os testes marcados como "rede" consultam fontes oficiais (ANEEL) e só passam
+# com internet; ficam fora da execução local e rodam na integração contínua:
+#     pytest -m rede
+#     python scripts/qa_runner.py --layer rede
+addopts = "-q -m 'not replicacao and not rede'"
+markers = [
+    "replicacao: comparação completa contra os resultados oficiais do Netuno 4 (lenta)",
+    "rede: depende de acesso à internet (fontes oficiais de tarifas)",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]

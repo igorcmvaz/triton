@@ -1,0 +1,190 @@
+{
+ "Florianópolis": {
+  "historico": {
+   "modelos": 19,
+   "potencial_medio": 14.46,
+   "potencial_min": 14.01,
+   "potencial_max": 14.87,
+   "extravasado_m3_ano": 38.7,
+   "chuva_anual_mm": 1787.0,
+   "variacao_vs_historico_pp": 0.0
+  },
+  "245_proximo": {
+   "modelos": 19,
+   "potencial_medio": 14.52,
+   "potencial_min": 13.26,
+   "potencial_max": 15.63,
+   "extravasado_m3_ano": 42.0,
+   "chuva_anual_mm": 1866.0,
+   "variacao_vs_historico_pp": 0.06
+  },
+  "245_distante": {
+   "modelos": 19,
+   "potencial_medio": 14.82,
+   "potencial_min": 13.44,
+   "potencial_max": 16.57,
+   "extravasado_m3_ano": 48.4,
+   "chuva_anual_mm": 2018.0,
+   "variacao_vs_historico_pp": 0.36
+  },
+  "585_proximo": {
+   "modelos": 19,
+   "potencial_medio": 14.45,
+   "potencial_min": 13.18,
+   "potencial_max": 15.69,
+   "extravasado_m3_ano": 42.8,
+   "chuva_anual_mm": 1879.0,
+   "variacao_vs_historico_pp": -0.01
+  },
+  "585_distante": {
+   "modelos": 19,
+   "potencial_medio": 15.11,
+   "potencial_min": 13.45,
+   "potencial_max": 17.39,
+   "extravasado_m3_ano": 54.6,
+   "chuva_anual_mm": 2168.0,
+   "variacao_vs_historico_pp": 0.65
+  }
+ },
+ "Manaus": {
+  "historico": {
+   "modelos": 19,
+   "potencial_medio": 15.1,
+   "potencial_min": 13.76,
+   "potencial_max": 16.71,
+   "extravasado_m3_ano": 54.7,
+   "chuva_anual_mm": 2198.0,
+   "variacao_vs_historico_pp": 0.0
+  },
+  "245_proximo": {
+   "modelos": 19,
+   "potencial_medio": 14.94,
+   "potencial_min": 13.34,
+   "potencial_max": 16.97,
+   "extravasado_m3_ano": 56.8,
+   "chuva_anual_mm": 2232.0,
+   "variacao_vs_historico_pp": -0.16
+  },
+  "245_distante": {
+   "modelos": 19,
+   "potencial_medio": 14.35,
+   "potencial_min": 12.04,
+   "potencial_max": 17.12,
+   "extravasado_m3_ano": 58.7,
+   "chuva_anual_mm": 2224.0,
+   "variacao_vs_historico_pp": -0.75
+  },
+  "585_proximo": {
+   "modelos": 19,
+   "potencial_medio": 14.86,
+   "potencial_min": 12.0,
+   "potencial_max": 17.04,
+   "extravasado_m3_ano": 55.6,
+   "chuva_anual_mm": 2206.0,
+   "variacao_vs_historico_pp": -0.24
+  },
+  "585_distante": {
+   "modelos": 19,
+   "potencial_medio": 13.06,
+   "potencial_min": 9.69,
+   "potencial_max": 16.17,
+   "extravasado_m3_ano": 58.9,
+   "chuva_anual_mm": 2138.0,
+   "variacao_vs_historico_pp": -2.04
+  }
+ },
+ "Fortaleza": {
+  "historico": {
+   "modelos": 19,
+   "potencial_medio": 7.42,
+   "potencial_min": 6.71,
+   "potencial_max": 7.91,
+   "extravasado_m3_ano": 20.8,
+   "chuva_anual_mm": 969.0,
+   "variacao_vs_historico_pp": 0.0
+  },
+  "245_proximo": {
+   "modelos": 19,
+   "potencial_medio": 7.45,
+   "potencial_min": 6.14,
+   "potencial_max": 8.01,
+   "extravasado_m3_ano": 21.7,
+   "chuva_anual_mm": 999.0,
+   "variacao_vs_historico_pp": 0.03
+  },
+  "245_distante": {
+   "modelos": 19,
+   "potencial_medio": 7.58,
+   "potencial_min": 5.46,
+   "potencial_max": 8.63,
+   "extravasado_m3_ano": 25.4,
+   "chuva_anual_mm": 1080.0,
+   "variacao_vs_historico_pp": 0.16
+  },
+  "585_proximo": {
+   "modelos": 19,
+   "potencial_medio": 7.41,
+   "potencial_min": 5.33,
+   "potencial_max": 8.22,
+   "extravasado_m3_ano": 22.2,
+   "chuva_anual_mm": 1002.0,
+   "variacao_vs_historico_pp": -0.01
+  },
+  "585_distante": {
+   "modelos": 19,
+   "potencial_medio": 7.53,
+   "potencial_min": 5.7,
+   "potencial_max": 8.49,
+   "extravasado_m3_ano": 27.4,
+   "chuva_anual_mm": 1112.0,
+   "variacao_vs_historico_pp": 0.11
+  }
+ },
+ "Brasília": {
+  "historico": {
+   "modelos": 19,
+   "potencial_medio": 10.4,
+   "potencial_min": 9.84,
+   "potencial_max": 11.06,
+   "extravasado_m3_ano": 36.2,
+   "chuva_anual_mm": 1497.0,
+   "variacao_vs_historico_pp": 0.0
+  },
+  "245_proximo": {
+   "modelos": 19,
+   "potencial_medio": 10.02,
+   "potencial_min": 8.83,
+   "potencial_max": 10.76,
+   "extravasado_m3_ano": 37.8,
+   "chuva_anual_mm": 1504.0,
+   "variacao_vs_historico_pp": -0.38
+  },
+  "245_distante": {
+   "modelos": 19,
+   "potencial_medio": 9.95,
+   "potencial_min": 8.68,
+   "potencial_max": 11.26,
+   "extravasado_m3_ano": 41.5,
+   "chuva_anual_mm": 1573.0,
+   "variacao_vs_historico_pp": -0.45
+  },
+  "585_proximo": {
+   "modelos": 19,
+   "potencial_medio": 9.97,
+   "potencial_min": 8.93,
+   "potencial_max": 10.84,
+   "extravasado_m3_ano": 37.9,
+   "chuva_anual_mm": 1503.0,
+   "variacao_vs_historico_pp": -0.43
+  },
+  "585_distante": {
+   "modelos": 19,
+   "potencial_medio": 9.62,
+   "potencial_min": 7.73,
+   "potencial_max": 11.15,
+   "extravasado_m3_ano": 44.8,
+   "chuva_anual_mm": 1618.0,
+   "variacao_vs_historico_pp": -0.78
+  }
+ }
+}

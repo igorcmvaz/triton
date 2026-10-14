@@ -1,0 +1,118 @@
+{
+ "prestador": "Águas Guariroba",
+ "registro": [
+  111
+ ],
+ "documento": "AguasGuariroba_legislacao_e_tarifas.html",
+ "vigencia": "03/01/2026",
+ "fonte_url": "https://www.aguasguariroba.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas Guariroba: tabela do reajuste de 4,49% + revisão de 0,16%, Portaria n. 37, de 03/12/2025, vigência 03/01/2026. A tarifa social (até 20 m³, depois a residencial) não se representa no Triton.",
+ "tabelas": [
+  {
+   "rotulo": "Portaria 37/2025",
+   "uf": "MS",
+   "municipios": [
+    "Campo Grande"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      8.03
+     ],
+     [
+      10,
+      15,
+      10.28
+     ],
+     [
+      15,
+      20,
+      10.46
+     ],
+     [
+      20,
+      25,
+      11.57
+     ],
+     [
+      25,
+      30,
+      14.23
+     ],
+     [
+      30,
+      50,
+      17.02
+     ],
+     [
+      50,
+      null,
+      18.75
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 19.87,
+    "nota": "Tarifa fixa somada ao consumo desde 1 m³; esgoto a 70% (5,62/8,03)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.09
+     ],
+     [
+      10,
+      null,
+      22.69
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 30.14
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      17.31
+     ],
+     [
+      10,
+      null,
+      33.33
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 47.38
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      20,
+      10.06
+     ],
+     [
+      20,
+      null,
+      41.78
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 100.56
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MS - Campo Grande",
+   "categoria": "residencial",
+   "consumo_m3": 40,
+   "conta_agua": 503.07,
+   "impresso": "fixa 19,87 + 10 × 8,03 + 5 × 10,28 + 5 × 10,46 + 5 × 11,57 + 5 × 14,23 + 10 × 17,02"
+  }
+ ]
+}

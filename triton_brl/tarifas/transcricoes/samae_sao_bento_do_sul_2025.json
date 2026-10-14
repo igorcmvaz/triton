@@ -1,0 +1,110 @@
+{
+ "prestador": "SAMAE São Bento do Sul",
+ "registro": [
+  204,
+  209,
+  210,
+  211
+ ],
+ "documento": "Tabela Tarifária - 2025_2026 - SAMAE SBS.html",
+ "vigencia": "01/08/2025",
+ "fonte_url": "https://www.samaesbs.sc.gov.br/tabela-tarifaria-20252026",
+ "leitura": "Post «Tabela Tarifária – 2025/2026» do SAMAE São Bento do Sul (06/04/2026), com a tabela em imagem (_files/image_750x_69d3c78a5c253.jpg); as outras imagens são a capa «Tarifas 2025» e as sanções regulamentares. A tabela é da imagem salva com a página (Tabela Tarifária 2025/2026, «Reajuste Tarifário 2025 = 5,00%»), que não imprime a data; a vigência vem da notícia oficial «Reajuste Tarifário Anual – A partir de Agosto/2025» (item 211: reajuste de 5% a partir de agosto de 2025) (o reajuste seguinte, de 4,40%, vale a partir de 01/08/2026, item 198, e o programa reajusta a partir da vigência). TBO = tarifa básica operacional, somada ao consumo desde 0 m³. Esgoto a 80% da água, sobre a TBO e todas as faixas: fatura-modelo do SAMAE na página «Entenda sua fatura» («ESGOTO: 80%», itens 209 e 210).",
+ "tabelas": [
+  {
+   "rotulo": "Tabela 2025/2026",
+   "uf": "SC",
+   "municipios": [
+    "São Bento do Sul"
+   ],
+   "residencial": {
+    "fixo": 30.08,
+    "faixas": [
+     [
+      0,
+      5,
+      2.26
+     ],
+     [
+      5,
+      10,
+      2.44
+     ],
+     [
+      10,
+      15,
+      8.46
+     ],
+     [
+      15,
+      20,
+      9.0
+     ],
+     [
+      20,
+      25,
+      9.6
+     ],
+     [
+      25,
+      50,
+      9.9
+     ],
+     [
+      50,
+      null,
+      10.07
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "A tabela é da imagem salva com a página (Tabela Tarifária 2025/2026, «Reajuste Tarifário 2025 = 5,00%»), que não imprime a data; a vigência vem da notícia oficial de reajuste a partir de agosto de 2025 (item 211) (o reajuste seguinte, de 4,40%, vale a partir de 01/08/2026, item 198, e o programa reajusta a partir da vigência). TBO = tarifa básica operacional, somada ao consumo desde 0 m³. Esgoto a 80% da água, sobre a TBO e todas as faixas: fatura-modelo do SAMAE na página «Entenda sua fatura» («ESGOTO: 80%», itens 209 e 210)."
+   },
+   "comercial": {
+    "fixo": 62.38,
+    "faixas": [
+     [
+      0,
+      5,
+      4.0
+     ],
+     [
+      5,
+      10,
+      4.39
+     ],
+     [
+      10,
+      30,
+      12.79
+     ],
+     [
+      30,
+      50,
+      15.58
+     ],
+     [
+      50,
+      100,
+      16.8
+     ],
+     [
+      100,
+      null,
+      20.43
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da água, sobre a TBO e todas as faixas: fatura-modelo do SAMAE na página «Entenda sua fatura» («ESGOTO: 80%», itens 209 e 210)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - São Bento do Sul",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 53.58,
+   "impresso": "TBO 30,08 + 5 × 2,26 + 5 × 2,44"
+  }
+ ]
+}

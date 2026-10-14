@@ -1,0 +1,324 @@
+{
+ "prestador": "SANESUL",
+ "registro": [
+  13
+ ],
+ "documento": "Estrutura Tarifária 2026.pdf",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://agencia.sanesul.ms.gov.br",
+ "leitura": "Folheto oficial «Você sabe qual a tarifa de água e esgoto da sua cidade?» da SANESUL, vigência 01/01/2026 (reajuste de 14,60%), uma página por área com a lista de municípios. Tarifa fixa somada ao consumo desde 1 m³; esgoto a 50% da água em todas as faixas.",
+ "tabelas": [
+  {
+   "rotulo": "Área 1 (p. 1)",
+   "uf": "MS",
+   "municipios": [
+    "Corumbá",
+    "Dourados",
+    "Naviraí",
+    "Ponta Porã"
+   ],
+   "residencial": {
+    "fixo": 17.6,
+    "faixas": [
+     [
+      0,
+      10,
+      6.7
+     ],
+     [
+      10,
+      15,
+      7.92
+     ],
+     [
+      15,
+      20,
+      9.13
+     ],
+     [
+      20,
+      25,
+      10.57
+     ],
+     [
+      25,
+      30,
+      13.33
+     ],
+     [
+      30,
+      50,
+      15.79
+     ],
+     [
+      50,
+      null,
+      17.43
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "social": {
+    "fixo": 5.11,
+    "faixas": [
+     [
+      0,
+      10,
+      1.23
+     ],
+     [
+      10,
+      15,
+      3.54
+     ],
+     [
+      15,
+      20,
+      3.91
+     ],
+     [
+      20,
+      25,
+      10.57
+     ],
+     [
+      25,
+      30,
+      13.33
+     ],
+     [
+      30,
+      50,
+      15.79
+     ],
+     [
+      50,
+      null,
+      17.43
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Residencial Social 1."
+   },
+   "comercial": {
+    "fixo": 17.6,
+    "faixas": [
+     [
+      0,
+      10,
+      8.66
+     ],
+     [
+      10,
+      20,
+      16.94
+     ],
+     [
+      20,
+      null,
+      21.35
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "industrial": {
+    "fixo": 17.6,
+    "faixas": [
+     [
+      0,
+      10,
+      13.25
+     ],
+     [
+      10,
+      20,
+      25.6
+     ],
+     [
+      20,
+      null,
+      28.09
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "publica": {
+    "fixo": 17.6,
+    "faixas": [
+     [
+      0,
+      20,
+      9.34
+     ],
+     [
+      20,
+      null,
+      38.58
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Poder Público."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SANESUL, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Área 3 (p. 3)",
+   "uf": "MS",
+   "municipios": [
+    "Três Lagoas"
+   ],
+   "residencial": {
+    "fixo": 6.9,
+    "faixas": [
+     [
+      0,
+      10,
+      6.09
+     ],
+     [
+      10,
+      15,
+      7.69
+     ],
+     [
+      15,
+      20,
+      8.35
+     ],
+     [
+      20,
+      25,
+      9.46
+     ],
+     [
+      25,
+      30,
+      9.96
+     ],
+     [
+      30,
+      50,
+      12.17
+     ],
+     [
+      50,
+      null,
+      12.78
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "social": {
+    "fixo": 2.6,
+    "faixas": [
+     [
+      0,
+      10,
+      2.3
+     ],
+     [
+      10,
+      15,
+      2.9
+     ],
+     [
+      15,
+      20,
+      3.15
+     ],
+     [
+      20,
+      25,
+      9.46
+     ],
+     [
+      25,
+      30,
+      9.96
+     ],
+     [
+      30,
+      50,
+      12.17
+     ],
+     [
+      50,
+      null,
+      12.78
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Residencial Social 1."
+   },
+   "comercial": {
+    "fixo": 6.9,
+    "faixas": [
+     [
+      0,
+      10,
+      7.53
+     ],
+     [
+      10,
+      20,
+      16.31
+     ],
+     [
+      20,
+      null,
+      17.76
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "industrial": {
+    "fixo": 6.9,
+    "faixas": [
+     [
+      0,
+      10,
+      11.34
+     ],
+     [
+      10,
+      20,
+      24.19
+     ],
+     [
+      20,
+      null,
+      26.36
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "publica": {
+    "fixo": 6.9,
+    "faixas": [
+     [
+      0,
+      20,
+      7.86
+     ],
+     [
+      20,
+      null,
+      36.01
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Poder Público."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SANESUL, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MS - Dourados",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 84.6,
+   "impresso": "Área 1: tarifa fixa R$ 17,60 + 1 a 10 m³ a R$ 6,70"
+  }
+ ]
+}

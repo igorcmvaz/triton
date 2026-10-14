@@ -1,0 +1,394 @@
+{
+ "prestador": "SANEPAR",
+ "registro": [
+  10
+ ],
+ "documento": "Tarifas _ Sanepar.html",
+ "vigencia": "15/04/2026",
+ "fonte_url": "https://site.sanepar.com.br/clientes/tarifas",
+ "leitura": "Página de tarifas da Sanepar, Revisão Tarifária Periódica 2026 (Diário Oficial Executivo 12127, 15/04/2026). Água igual em todas as localidades; esgoto a 85% da água em Curitiba e 80% nas demais localidades. Mínimo de 5 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Curitiba (esgoto 85%)",
+   "uf": "PR",
+   "municipios": [
+    "Curitiba"
+   ],
+   "residencial": {
+    "fixo": 55.09,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      1.7
+     ],
+     [
+      10,
+      15,
+      9.49
+     ],
+     [
+      15,
+      20,
+      9.54
+     ],
+     [
+      20,
+      30,
+      9.62
+     ],
+     [
+      30,
+      null,
+      16.28
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "comercial": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.63
+     ],
+     [
+      15,
+      20,
+      12.73
+     ],
+     [
+      20,
+      30,
+      12.81
+     ],
+     [
+      30,
+      null,
+      12.9
+     ]
+    ],
+    "esgoto_pct": 85,
+    "nota": "Comercial / Utilidade Pública / Poder Público."
+   },
+   "publica": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.63
+     ],
+     [
+      15,
+      20,
+      12.73
+     ],
+     [
+      20,
+      30,
+      12.81
+     ],
+     [
+      30,
+      null,
+      12.9
+     ]
+    ],
+    "esgoto_pct": 85,
+    "nota": "Comercial / Utilidade Pública / Poder Público."
+   },
+   "industrial": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.17
+     ],
+     [
+      15,
+      20,
+      12.36
+     ],
+     [
+      20,
+      30,
+      12.39
+     ],
+     [
+      30,
+      null,
+      12.44
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "social": {
+    "fixo": 27.54,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      5.51
+     ],
+     [
+      10,
+      15,
+      5.51
+     ],
+     [
+      15,
+      20,
+      9.54
+     ],
+     [
+      20,
+      30,
+      9.62
+     ],
+     [
+      30,
+      null,
+      16.28
+     ]
+    ],
+    "esgoto_pct": 85,
+    "nota": "Tarifa Social."
+   }
+  },
+  {
+   "rotulo": "Demais localidades (esgoto 80%)",
+   "uf": "PR",
+   "municipios": [
+    "Almirante Tamandaré",
+    "Apucarana",
+    "Arapongas",
+    "Araucária",
+    "Cambé",
+    "Campo Largo",
+    "Campo Mourão",
+    "Castro",
+    "Cianorte",
+    "Colombo",
+    "Fazenda Rio Grande",
+    "Foz do Iguaçu",
+    "Francisco Beltrão",
+    "Guarapuava",
+    "Ibiporã",
+    "Irati",
+    "Londrina",
+    "Marechal Cândido Rondon",
+    "Maringá",
+    "Medianeira",
+    "Paranaguá",
+    "Paranavaí",
+    "Pato Branco",
+    "Pinhais",
+    "Piraquara",
+    "Ponta Grossa",
+    "Rolândia",
+    "Sarandi",
+    "São José dos Pinhais",
+    "Telêmaco Borba",
+    "Toledo",
+    "Umuarama",
+    "União da Vitória"
+   ],
+   "residencial": {
+    "fixo": 55.09,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      1.7
+     ],
+     [
+      10,
+      15,
+      9.49
+     ],
+     [
+      15,
+      20,
+      9.54
+     ],
+     [
+      20,
+      30,
+      9.62
+     ],
+     [
+      30,
+      null,
+      16.28
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.63
+     ],
+     [
+      15,
+      20,
+      12.73
+     ],
+     [
+      20,
+      30,
+      12.81
+     ],
+     [
+      30,
+      null,
+      12.9
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Utilidade Pública / Poder Público."
+   },
+   "publica": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.63
+     ],
+     [
+      15,
+      20,
+      12.73
+     ],
+     [
+      20,
+      30,
+      12.81
+     ],
+     [
+      30,
+      null,
+      12.9
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Utilidade Pública / Poder Público."
+   },
+   "industrial": {
+    "fixo": 99.17,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      2.55
+     ],
+     [
+      10,
+      15,
+      12.17
+     ],
+     [
+      15,
+      20,
+      12.36
+     ],
+     [
+      20,
+      30,
+      12.39
+     ],
+     [
+      30,
+      null,
+      12.44
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "fixo": 27.54,
+    "franquia": 5,
+    "faixas": [
+     [
+      5,
+      10,
+      5.51
+     ],
+     [
+      10,
+      15,
+      5.51
+     ],
+     [
+      15,
+      20,
+      9.54
+     ],
+     [
+      20,
+      30,
+      9.62
+     ],
+     [
+      30,
+      null,
+      16.28
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa Social."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SANEPAR, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PR - Curitiba",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 63.59,
+   "impresso": "Até 5 m³ R$ 55,09; 6 a 10 m³ R$ 1,70"
+  }
+ ]
+}

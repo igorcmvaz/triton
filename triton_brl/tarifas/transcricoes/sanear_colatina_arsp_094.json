@@ -1,0 +1,169 @@
+{
+ "prestador": "SANEAR Colatina",
+ "registro": [
+  179
+ ],
+ "documento": "_ResoluçãoARSP094_2025.pdf",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://e-docs.es.gov.br/d/2025-8HNKD6",
+ "leitura": "Resolução ARSP nº 094/2025, reajuste de 4,18% do SANEAR (Colatina), Anexo I, vigência em 01/12/2025: R$/m³ por faixa.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "ES",
+   "municipios": [
+    "Colatina"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      2.85
+     ],
+     [
+      10,
+      15,
+      5.92
+     ],
+     [
+      15,
+      20,
+      8.5
+     ],
+     [
+      20,
+      30,
+      9.36
+     ],
+     [
+      30,
+      50,
+      9.98
+     ],
+     [
+      50,
+      null,
+      10.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água (2,28/2,85); só coleta e afastamento, 50%."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.16
+     ],
+     [
+      10,
+      15,
+      7.63
+     ],
+     [
+      15,
+      20,
+      10.6
+     ],
+     [
+      20,
+      30,
+      11.14
+     ],
+     [
+      30,
+      50,
+      11.47
+     ],
+     [
+      50,
+      null,
+      11.81
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.05
+     ],
+     [
+      10,
+      15,
+      11.16
+     ],
+     [
+      15,
+      20,
+      12.13
+     ],
+     [
+      20,
+      30,
+      12.25
+     ],
+     [
+      30,
+      50,
+      12.57
+     ],
+     [
+      50,
+      null,
+      12.8
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.59
+     ],
+     [
+      10,
+      15,
+      8.0
+     ],
+     [
+      15,
+      20,
+      10.25
+     ],
+     [
+      20,
+      30,
+      10.6
+     ],
+     [
+      30,
+      50,
+      10.74
+     ],
+     [
+      50,
+      null,
+      10.86
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - Colatina",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 58.1,
+   "impresso": "10 × 2,85 + 5 × 5,92"
+  }
+ ]
+}

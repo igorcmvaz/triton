@@ -1,0 +1,142 @@
+{
+ "prestador": "SAMAE Brusque",
+ "registro": [
+  191,
+  190,
+  206
+ ],
+ "documento": "samae_brusque_tarifas_2026.html",
+ "vigencia": "17/05/2026",
+ "fonte_url": "https://samaebru.com.br/tarifas-2026",
+ "leitura": "Página «Tarifas 2026» do SAMAE Brusque, com o Decreto nº 10.669, de 13/04/2026 (reajuste de 3,36%, AGIR): tarifas de água vencíveis a partir de 17/05/2026. Esgoto 0%: Brusque não tem coleta de esgoto — «Hoje o nosso percentual é de 0% do esgoto coletado e tratado» (Prefeitura, 09/12/2025, item 206); a concessão licitada em fev/2026 cobrará tarifa de esgoto só onde a rede chegar. Quem já estiver ligado à rede deve informar o percentual no programa.",
+ "tabelas": [
+  {
+   "rotulo": "Decreto 10.669/2026",
+   "uf": "SC",
+   "municipios": [
+    "Brusque"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      15,
+      7.8
+     ],
+     [
+      15,
+      20,
+      10.01
+     ],
+     [
+      20,
+      25,
+      11.37
+     ],
+     [
+      25,
+      50,
+      12.54
+     ],
+     [
+      50,
+      null,
+      13.18
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 42.38,
+    "franquia": 10,
+    "nota": "Esgoto 0%: Brusque não tem coleta de esgoto — «Hoje o nosso percentual é de 0% do esgoto coletado e tratado» (Prefeitura, 09/12/2025, item 206); a concessão licitada em fev/2026 cobrará tarifa de esgoto só onde a rede chegar. Quem já estiver ligado à rede deve informar o percentual no programa."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      15,
+      7.8
+     ],
+     [
+      15,
+      20,
+      10.01
+     ],
+     [
+      20,
+      25,
+      11.37
+     ],
+     [
+      25,
+      50,
+      12.54
+     ],
+     [
+      50,
+      null,
+      13.18
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 42.38,
+    "franquia": 10,
+    "nota": "Esgoto 0%: Brusque não tem coleta de esgoto — «Hoje o nosso percentual é de 0% do esgoto coletado e tratado» (Prefeitura, 09/12/2025, item 206); a concessão licitada em fev/2026 cobrará tarifa de esgoto só onde a rede chegar. Quem já estiver ligado à rede deve informar o percentual no programa."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      30,
+      9.53
+     ],
+     [
+      30,
+      100,
+      11.45
+     ],
+     [
+      100,
+      null,
+      13.75
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 100.33,
+    "franquia": 10,
+    "nota": "Esgoto 0%: Brusque não tem coleta de esgoto — «Hoje o nosso percentual é de 0% do esgoto coletado e tratado» (Prefeitura, 09/12/2025, item 206); a concessão licitada em fev/2026 cobrará tarifa de esgoto só onde a rede chegar. Quem já estiver ligado à rede deve informar o percentual no programa."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      30,
+      9.53
+     ],
+     [
+      30,
+      100,
+      11.45
+     ],
+     [
+      100,
+      null,
+      13.75
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 100.33,
+    "franquia": 10,
+    "nota": "Esgoto 0%: Brusque não tem coleta de esgoto — «Hoje o nosso percentual é de 0% do esgoto coletado e tratado» (Prefeitura, 09/12/2025, item 206); a concessão licitada em fev/2026 cobrará tarifa de esgoto só onde a rede chegar. Quem já estiver ligado à rede deve informar o percentual no programa."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Brusque",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 42.38,
+   "impresso": "Até 10 m³: 42,38"
+  }
+ ]
+}

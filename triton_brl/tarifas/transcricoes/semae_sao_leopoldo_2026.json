@@ -1,0 +1,151 @@
+{
+ "prestador": "SEMAE São Leopoldo",
+ "registro": [
+  200,
+  194
+ ],
+ "documento": "semae_sao_leopoldo_tabela_2026.pdf",
+ "vigencia": "2026",
+ "fonte_url": "https://semae.rs.gov.br/wp-content/uploads/2026/01/TABELA-2026.pdf",
+ "leitura": "«Tabela tarifária por categoria 2026» do SEMAE São Leopoldo (reajuste de 4,68%, Resolução CSR 45/2025 da AGESAN-RS). Serviço básico de água somado ao consumo desde 0 m³; esgoto a 80% (serviço básico de esgoto 49,03 = 80% de 61,29). A drenagem urbana (R$ 22,68) não entra.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela por categoria 2026",
+   "uf": "RS",
+   "municipios": [
+    "São Leopoldo"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      5.1517
+     ],
+     [
+      15,
+      30,
+      11.4524
+     ],
+     [
+      30,
+      null,
+      16.0298
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 61.29,
+    "nota": "Serviço básico de água somado ao consumo desde 0 m³; esgoto a 80% (serviço básico de esgoto 49,03 = 80% de 61,29). A drenagem urbana (R$ 22,68) não entra."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.1571
+     ],
+     [
+      15,
+      30,
+      12.5833
+     ],
+     [
+      30,
+      200,
+      18.3096
+     ],
+     [
+      200,
+      null,
+      27.4284
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 114.36,
+    "nota": "Comercial B."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.8751
+     ],
+     [
+      15,
+      30,
+      13.7322
+     ],
+     [
+      30,
+      200,
+      22.851
+     ],
+     [
+      200,
+      null,
+      38.8808
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 194.44
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.8751
+     ],
+     [
+      15,
+      30,
+      13.7322
+     ],
+     [
+      30,
+      200,
+      22.851
+     ],
+     [
+      200,
+      null,
+      38.8808
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 194.44
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      15,
+      2.5759
+     ],
+     [
+      15,
+      30,
+      11.4524
+     ],
+     [
+      30,
+      null,
+      16.0298
+     ]
+    ],
+    "esgoto_pct": 50,
+    "fixo": 24.53
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RS - São Leopoldo",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 195.83,
+   "impresso": "61,29 + 15 × 5,1517 + 5 × 11,4524"
+  }
+ ]
+}

@@ -1,0 +1,152 @@
+{
+ "prestador": "SAAE Sorocaba",
+ "registro": [
+  135
+ ],
+ "documento": "saae_sorocaba_ARESPCJ_resoluo_n_703_2026_-_reajuste_tarifrio_-_sorocaba.pdf",
+ "vigencia": "01/07/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1779814062-resoluo_n_703_2026_-_reajuste_tarifrio_-_sorocaba.pdf",
+ "leitura": "Material tarifário oficial de SAAE Sorocaba. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/07/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Sorocaba"
+   ],
+   "residencial": {
+    "fixo": 22.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      3.3
+     ],
+     [
+      15,
+      20,
+      4.81
+     ],
+     [
+      20,
+      25,
+      6.98
+     ],
+     [
+      25,
+      30,
+      7.69
+     ],
+     [
+      30,
+      40,
+      8.05
+     ],
+     [
+      40,
+      50,
+      8.47
+     ],
+     [
+      50,
+      75,
+      8.9
+     ],
+     [
+      75,
+      100,
+      9.12
+     ],
+     [
+      100,
+      200,
+      10.95
+     ],
+     [
+      200,
+      300,
+      13.13
+     ],
+     [
+      300,
+      null,
+      15.75
+     ]
+    ],
+    "esgoto_pct": 92.5
+   },
+   "social": {
+    "fixo": 4.39,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      0.98
+     ],
+     [
+      15,
+      20,
+      1.93
+     ],
+     [
+      20,
+      25,
+      6.98
+     ],
+     [
+      25,
+      30,
+      7.69
+     ],
+     [
+      30,
+      40,
+      8.05
+     ],
+     [
+      40,
+      50,
+      8.47
+     ],
+     [
+      50,
+      75,
+      8.9
+     ],
+     [
+      75,
+      100,
+      9.12
+     ],
+     [
+      100,
+      200,
+      10.95
+     ],
+     [
+      200,
+      300,
+      13.13
+     ],
+     [
+      300,
+      null,
+      15.75
+     ]
+    ],
+    "esgoto_pct": 92.5
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Sorocaba",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 62.55,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

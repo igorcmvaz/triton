@@ -1,0 +1,95 @@
+{
+ "prestador": "Águas Cuiabá (Iguá)",
+ "registro": [
+  100
+ ],
+ "documento": "AguasCuiaba_comunicado_reajuste_2025.pdf",
+ "vigencia": "20/03/2025",
+ "fonte_url": "https://igua.com.br/storage/e3/69/85/historico-das-tarifa-urkqd.pdf",
+ "leitura": "Comunicado de reajuste de 4,44758% da Águas Cuiabá (Contrato de Concessão, Edital 014/2011), estrutura tarifária a partir de 20/03/2025. Esgoto = 90% da água (nota 1). Consumo mínimo de 10 m³/mês (nota 2 do comunicado): a primeira faixa é cobrada como 10 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária 2025",
+   "uf": "MT",
+   "municipios": [
+    "Cuiabá"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      20,
+      6.01
+     ],
+     [
+      20,
+      30,
+      10.06
+     ],
+     [
+      30,
+      50,
+      12.31
+     ],
+     [
+      50,
+      null,
+      16.29
+     ]
+    ],
+    "esgoto_pct": 90,
+    "fixo": 49.2,
+    "franquia": 10,
+    "nota": "Mínimo = 10 × R$ 4,92. Consumo mínimo de 10 m³/mês (nota 2 do comunicado): a primeira faixa é cobrada como 10 m³."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      null,
+      11.56
+     ]
+    ],
+    "esgoto_pct": 90,
+    "fixo": 76.5,
+    "franquia": 10,
+    "nota": "Mínimo = 10 × R$ 7,65."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      null,
+      13.32
+     ]
+    ],
+    "esgoto_pct": 90,
+    "fixo": 89.7,
+    "franquia": 10,
+    "nota": "Mínimo = 10 × R$ 8,97."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      null,
+      15.75
+     ]
+    ],
+    "esgoto_pct": 90,
+    "fixo": 96.1,
+    "franquia": 10,
+    "nota": "Mínimo = 10 × R$ 9,61."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Cuiabá",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 79.25,
+   "impresso": "10 × 4,92 (mínimo) + 5 × 6,01"
+  }
+ ]
+}

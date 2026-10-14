@@ -1,0 +1,194 @@
+{
+ "prestador": "DAE Santa Bárbara d'Oeste",
+ "registro": [
+  119
+ ],
+ "documento": "dae_santa_barbara_d_oeste_ARESPCJ_resoluo_arespcj_655_-_reviso_sbo.pdf",
+ "vigencia": "17/09/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1758807482-resoluo_arespcj_655_-_reviso_sbo.pdf",
+ "leitura": "Material tarifário oficial de DAE Santa Bárbara d'Oeste. Anexo I da resolução da ARES-PCJ, vigência a partir de 17/09/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Santa Bárbara d'Oeste"
+   ],
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "fixo": 27.24,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.7
+     ],
+     [
+      20.0,
+      30.0,
+      5.0
+     ],
+     [
+      30.0,
+      60.0,
+      6.3
+     ],
+     [
+      60.0,
+      100.0,
+      9.31
+     ],
+     [
+      100.0,
+      null,
+      14.02
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 100.0,
+    "fixo": 13.62,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.85
+     ],
+     [
+      15.0,
+      20.0,
+      2.78
+     ],
+     [
+      20.0,
+      30.0,
+      5.0
+     ],
+     [
+      30.0,
+      60.0,
+      6.3
+     ],
+     [
+      60.0,
+      100.0,
+      9.31
+     ],
+     [
+      100.0,
+      null,
+      14.02
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "fixo": 33.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      45.0,
+      7.12
+     ],
+     [
+      45.0,
+      100.0,
+      10.76
+     ],
+     [
+      100.0,
+      500.0,
+      14.33
+     ],
+     [
+      500.0,
+      1000.0,
+      14.57
+     ],
+     [
+      1000.0,
+      null,
+      14.8
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 100.0,
+    "fixo": 33.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      45.0,
+      7.12
+     ],
+     [
+      45.0,
+      100.0,
+      10.76
+     ],
+     [
+      100.0,
+      500.0,
+      14.33
+     ],
+     [
+      500.0,
+      1000.0,
+      14.57
+     ],
+     [
+      1000.0,
+      null,
+      14.8
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100.0,
+    "fixo": 33.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      45.0,
+      7.12
+     ],
+     [
+      45.0,
+      100.0,
+      10.76
+     ],
+     [
+      100.0,
+      500.0,
+      14.33
+     ],
+     [
+      500.0,
+      1000.0,
+      14.57
+     ],
+     [
+      1000.0,
+      null,
+      14.8
+     ]
+    ]
+   },
+   "abrangencia": "o documento é do prestador (DAE Santa Bárbara d'Oeste), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Santa Bárbara d'Oeste",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 64.24,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

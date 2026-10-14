@@ -1,0 +1,204 @@
+{
+ "prestador": "Companhia Águas de Joinville",
+ "registro": [
+  57
+ ],
+ "documento": "Tabela-Tarifaria-de-Agua-e-Esgoto-Vigente-a-partir-de-1-de-marco-de-2026.pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.aguasdejoinville.com.br",
+ "leitura": "Anexo I, Quadro 1 «Estrutura Tarifária» da Companhia Águas de Joinville, vigente a partir de 01/03/2026 (ARIS). Tarifa fixa somada ao consumo desde 1 m³. Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico).",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Quadro 1",
+   "uf": "SC",
+   "municipios": [
+    "Joinville"
+   ],
+   "residencial": {
+    "fixo": 34.93,
+    "faixas": [
+     [
+      0,
+      10,
+      1.49
+     ],
+     [
+      10,
+      15,
+      9.89
+     ],
+     [
+      15,
+      25,
+      9.95
+     ],
+     [
+      25,
+      35,
+      13.18
+     ],
+     [
+      35,
+      null,
+      13.63
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico)."
+   },
+   "social": {
+    "fixo": 10.48,
+    "faixas": [
+     [
+      0,
+      10,
+      0.45
+     ],
+     [
+      10,
+      15,
+      4.95
+     ],
+     [
+      15,
+      25,
+      9.95
+     ],
+     [
+      25,
+      35,
+      13.18
+     ],
+     [
+      35,
+      null,
+      13.63
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Tarifa Social. Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico)."
+   },
+   "comercial": {
+    "fixo": 58.2,
+    "faixas": [
+     [
+      0,
+      5,
+      1.98
+     ],
+     [
+      5,
+      10,
+      2.06
+     ],
+     [
+      10,
+      15,
+      12.42
+     ],
+     [
+      15,
+      25,
+      12.75
+     ],
+     [
+      25,
+      50,
+      12.86
+     ],
+     [
+      50,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico)."
+   },
+   "industrial": {
+    "fixo": 58.2,
+    "faixas": [
+     [
+      0,
+      5,
+      1.98
+     ],
+     [
+      5,
+      10,
+      2.06
+     ],
+     [
+      10,
+      15,
+      12.42
+     ],
+     [
+      15,
+      25,
+      12.75
+     ],
+     [
+      25,
+      50,
+      12.86
+     ],
+     [
+      50,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico)."
+   },
+   "publica": {
+    "fixo": 58.2,
+    "faixas": [
+     [
+      0,
+      5,
+      1.98
+     ],
+     [
+      5,
+      10,
+      2.06
+     ],
+     [
+      10,
+      15,
+      12.42
+     ],
+     [
+      15,
+      25,
+      12.75
+     ],
+     [
+      25,
+      50,
+      12.86
+     ],
+     [
+      50,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da fatura de água (multiplicado pelo fator de carga K1, que é 1 no esgoto doméstico)."
+   },
+   "abrangencia": "o documento é do prestador (Companhia Águas de Joinville), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Joinville",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 49.83,
+   "impresso": "tarifa fixa R$ 34,93 + 1 a 10 m³ a R$ 1,49"
+  }
+ ]
+}

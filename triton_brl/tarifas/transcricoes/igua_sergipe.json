@@ -1,0 +1,274 @@
+{
+ "prestador": "Iguá Sergipe",
+ "registro": [
+  43
+ ],
+ "documento": "estrutura-tarifaria-nfvjp (1).pdf",
+ "vigencia": "01/09/2025",
+ "fonte_url": "https://igua.com.br",
+ "leitura": "Estrutura Tarifária Iguá Sergipe 2025 (reajuste de 7,837%, Portaria AGRESE nº 56/2025), faturas emitidas a partir de 01/09/2025. Item 1: Região Metropolitana, Norte e Sul, ligações medidas; item 3: Estância; esgoto a 80% da água (item 4).",
+ "tabelas": [
+  {
+   "rotulo": "Item 1, Região Metropolitana, Norte e Sul (ligações medidas)",
+   "uf": "SE",
+   "municipios": [
+    "Aracaju",
+    "Itabaiana",
+    "Lagarto",
+    "Nossa Senhora do Socorro",
+    "São Cristóvão",
+    "Tobias Barreto"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.93
+     ],
+     [
+      10,
+      20,
+      11.02
+     ],
+     [
+      20,
+      30,
+      16.75
+     ],
+     [
+      30,
+      50,
+      23.49
+     ],
+     [
+      50,
+      100,
+      32.67
+     ],
+     [
+      100,
+      null,
+      42.08
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento cobra os primeiros 10 m³ por m³ e não menciona consumo mínimo; a base presumia franquia de 10 m³."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      2.46
+     ],
+     [
+      10,
+      15,
+      7.72
+     ],
+     [
+      15,
+      20,
+      8.81
+     ],
+     [
+      20,
+      30,
+      16.75
+     ],
+     [
+      30,
+      50,
+      23.49
+     ],
+     [
+      50,
+      100,
+      32.67
+     ],
+     [
+      100,
+      null,
+      42.27
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.38
+     ],
+     [
+      10,
+      null,
+      20.1
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      30,
+      16.04
+     ],
+     [
+      30,
+      null,
+      25.17
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      21.68
+     ],
+     [
+      10,
+      null,
+      33.13
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do Iguá Sergipe, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Item 3, Município de Estância",
+   "uf": "SE",
+   "municipios": [
+    "Estância"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.35
+     ],
+     [
+      10,
+      20,
+      8.39
+     ],
+     [
+      20,
+      30,
+      17.75
+     ],
+     [
+      30,
+      50,
+      21.55
+     ],
+     [
+      50,
+      100,
+      41.27
+     ],
+     [
+      100,
+      null,
+      56.22
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento cobra os primeiros 10 m³ por m³ e não menciona consumo mínimo; a base presumia franquia de 10 m³."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      2.65
+     ],
+     [
+      10,
+      20,
+      8.39
+     ],
+     [
+      20,
+      30,
+      17.75
+     ],
+     [
+      30,
+      50,
+      21.55
+     ],
+     [
+      50,
+      100,
+      41.27
+     ],
+     [
+      100,
+      null,
+      56.22
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      5.02
+     ],
+     [
+      20,
+      100,
+      28.15
+     ],
+     [
+      100,
+      null,
+      35.17
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial 1."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      50,
+      9.74
+     ],
+     [
+      50,
+      100,
+      46.2
+     ],
+     [
+      100,
+      null,
+      67.67
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SE - Aracaju",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 159.5,
+   "impresso": "0 a 10 R$ 4,93; 11 a 20 R$ 11,02"
+  }
+ ]
+}

@@ -1,0 +1,208 @@
+{
+ "prestador": "SAAE Passos",
+ "registro": [
+  131
+ ],
+ "documento": "saae_passos_resolucao_arisb_401_2026.pdf",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.arisb.com.br/imgeditor/file/RES_401_2026_ARISB_MG_Reajuste_Passos%20-%20assinada.pdf",
+ "leitura": "Resolução ARISB-MG nº 401/2026 (reajuste de 7,72% do SAAE Passos), Anexo I, em vigor em 01/06/2026. Tarifa fixa somada à variável desde 0 m³; esgoto a 70% da água (fixa e variável).",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "MG",
+   "municipios": [
+    "Passos"
+   ],
+   "residencial": {
+    "fixo": 15.29,
+    "faixas": [
+     [
+      0,
+      5,
+      1.1801
+     ],
+     [
+      5,
+      10,
+      1.6241
+     ],
+     [
+      10,
+      15,
+      2.6819
+     ],
+     [
+      15,
+      20,
+      4.1374
+     ],
+     [
+      20,
+      40,
+      5.763
+     ],
+     [
+      40,
+      null,
+      7.9112
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "social": {
+    "fixo": 7.65,
+    "faixas": [
+     [
+      0,
+      5,
+      0.5901
+     ],
+     [
+      5,
+      10,
+      0.5901
+     ],
+     [
+      10,
+      15,
+      0.5901
+     ],
+     [
+      15,
+      20,
+      2.0687
+     ],
+     [
+      20,
+      40,
+      2.8816
+     ],
+     [
+      40,
+      null,
+      3.9556
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "comercial": {
+    "fixo": 21.9,
+    "faixas": [
+     [
+      0,
+      5,
+      2.4164
+     ],
+     [
+      5,
+      10,
+      2.7298
+     ],
+     [
+      10,
+      20,
+      3.0389
+     ],
+     [
+      20,
+      40,
+      4.0602
+     ],
+     [
+      40,
+      200,
+      5.0634
+     ],
+     [
+      200,
+      null,
+      6.7183
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "industrial": {
+    "fixo": 21.9,
+    "faixas": [
+     [
+      0,
+      5,
+      2.4164
+     ],
+     [
+      5,
+      10,
+      2.7298
+     ],
+     [
+      10,
+      20,
+      3.0389
+     ],
+     [
+      20,
+      40,
+      4.0602
+     ],
+     [
+      40,
+      200,
+      5.0634
+     ],
+     [
+      200,
+      null,
+      6.7183
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "publica": {
+    "fixo": 17.44,
+    "faixas": [
+     [
+      0,
+      5,
+      1.9669
+     ],
+     [
+      5,
+      10,
+      2.3729
+     ],
+     [
+      10,
+      20,
+      2.7705
+     ],
+     [
+      20,
+      40,
+      3.789
+     ],
+     [
+      40,
+      200,
+      4.521
+     ],
+     [
+      200,
+      null,
+      5.8262
+     ]
+    ],
+    "esgoto_pct": 70
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Passos",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 29.31,
+   "impresso": "fixa 15,29 + 5 × 1,1801 + 5 × 1,6241"
+  }
+ ]
+}

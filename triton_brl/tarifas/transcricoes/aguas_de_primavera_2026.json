@@ -1,0 +1,104 @@
+{
+ "prestador": "Águas de Primavera (Aegea)",
+ "registro": [
+  176
+ ],
+ "documento": "Águas de Primavera.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.aegeamt.com.br/legislacao-e-tarifas/aguas-de-primavera/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Primavera, aba 2026, R$/m³ por faixa.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifas em vigor 2026",
+   "uf": "MT",
+   "municipios": [
+    "Primavera do Leste"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.76
+     ],
+     [
+      10,
+      20,
+      8.64
+     ],
+     [
+      20,
+      30,
+      14.4
+     ],
+     [
+      30,
+      40,
+      19.01
+     ],
+     [
+      40,
+      null,
+      26.9
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto a 90% da água (5,18/5,76)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      8.06
+     ],
+     [
+      10,
+      null,
+      12.1
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      9.16
+     ],
+     [
+      10,
+      null,
+      14.92
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      9.45
+     ],
+     [
+      10,
+      null,
+      14.0
+     ]
+    ],
+    "esgoto_pct": 90
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Primavera do Leste",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 144.0,
+   "impresso": "10 × 5,76 + 10 × 8,64"
+  }
+ ]
+}

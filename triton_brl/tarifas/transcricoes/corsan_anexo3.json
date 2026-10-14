@@ -1,0 +1,23 @@
+{
+ "prestador": "CORSAN",
+ "registro": [
+  5,
+  3
+ ],
+ "documento": "ANEXO-3-CANOAS-E-ESTEIO-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+ "vigencia": "01/07/2026",
+ "fonte_url": "https://www.corsan.com.br/sistematarifario",
+ "leitura": "Tabela I da CORSAN (fórmula exponencial PB × Cⁿ), PB residencial R$ 8.68/m³; expoentes da Tabela de Exponenciais (item 3). A residencial e as categorias foram gravadas por scripts/aplicar_tarifa_exponencial.py e scripts/aplicar_categorias_corsan.py, a partir de tarifas/categorias/corsan_2026.json; aqui entra a procedência da residencial.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela I, residencial (fórmula exponencial)",
+   "uf": "RS",
+   "municipios": [
+    "Canoas",
+    "Esteio"
+   ],
+   "residencial_conferida": true
+  }
+ ],
+ "conferencia": []
+}

@@ -1,0 +1,93 @@
+{
+ "prestador": "Saneouro",
+ "registro": [
+  153,
+  152
+ ],
+ "documento": "saneouro_resolucao_arisb_409_2026_retificacao.pdf",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://www.arisb.com.br/imgeditor/file/RESOLUCAO%20DE%20FISCALIZA%C3%87%C3%83O%20E%20REGULACAO%20ARISB-MG%20N%C2%BA%20409.pdf",
+ "leitura": "Resolução ARISB-MG nº 409/2026 (retificação), Anexo I: tabela atualizada nos moldes do Quarto Termo Aditivo da concessão de Ouro Preto, por 12 meses a partir de 01/01/2026 (efeitos retroativos); depois volta a da Res. 369/2025 (item 152). Tarifa fixa somada ao consumo desde 0 m³. Esgoto dinâmico com tratamento (EDT) a 95% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Res. 409/2026, Anexo I (vigente em 2026)",
+   "uf": "MG",
+   "municipios": [
+    "Ouro Preto"
+   ],
+   "residencial": {
+    "fixo": 23.597,
+    "faixas": [
+     [
+      0,
+      10,
+      1.922
+     ],
+     [
+      10,
+      15,
+      5.272
+     ],
+     [
+      15,
+      20,
+      11.433
+     ],
+     [
+      20,
+      40,
+      13.121
+     ],
+     [
+      40,
+      null,
+      21.08
+     ]
+    ],
+    "esgoto_pct": 95,
+    "nota": "Esgoto dinâmico com tratamento (EDT) a 95% da água."
+   },
+   "social": {
+    "fixo": 7.865,
+    "faixas": [
+     [
+      0,
+      10,
+      1.559
+     ],
+     [
+      10,
+      15,
+      3.206
+     ],
+     [
+      15,
+      20,
+      5.833
+     ],
+     [
+      20,
+      40,
+      6.56
+     ],
+     [
+      40,
+      null,
+      21.08
+     ]
+    ],
+    "esgoto_pct": 95,
+    "nota": "Esgoto dinâmico com tratamento (EDT) a 95% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Ouro Preto",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 69.18,
+   "impresso": "fixa 23,597 + 10 × 1,922 + 5 × 5,272"
+  }
+ ]
+}

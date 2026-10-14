@@ -1,0 +1,114 @@
+{
+ "prestador": "Águas de Teresina",
+ "registro": [
+  181
+ ],
+ "documento": "aguas_de_teresina_legislacao_e_tarifas.html",
+ "vigencia": "28/06/2026",
+ "fonte_url": "https://www.aguasdeteresina.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Teresina, ligações hidrometradas, reajuste de 6,618% com vigência em 28/06/2026 (Arsete).",
+ "tabelas": [
+  {
+   "rotulo": "Ligações hidrometradas, 2026",
+   "uf": "PI",
+   "municipios": [
+    "Teresina"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      25,
+      8.72
+     ],
+     [
+      25,
+      null,
+      15.06
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 46.83,
+    "franquia": 10,
+    "nota": "Até 10 m³, R$ 46,83; esgoto a 80% da água (37,46/46,83)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      25,
+      14.33
+     ],
+     [
+      25,
+      null,
+      17.0
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 96.11,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      25,
+      14.33
+     ],
+     [
+      25,
+      null,
+      17.0
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 96.11,
+    "franquia": 10
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      25,
+      14.33
+     ],
+     [
+      25,
+      null,
+      17.0
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 96.11,
+    "franquia": 10
+   },
+   "social": {
+    "faixas": [
+     [
+      10,
+      25,
+      8.72
+     ],
+     [
+      25,
+      null,
+      15.06
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 20.54,
+    "franquia": 10
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PI - Teresina",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 134.03,
+   "impresso": "46,83 + 10 × 8,72"
+  }
+ ]
+}

@@ -1,0 +1,193 @@
+{
+ "prestador": "SAAE Porto Feliz",
+ "registro": [
+  132
+ ],
+ "documento": "saae_porto_feliz_ARESPCJ_resoluo_n_631_2025_-_reviso_tarifria_-_porto_feliz.pdf",
+ "vigencia": "26/05/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1748892925-resoluo_n_631_2025_-_reviso_tarifria_-_porto_feliz.pdf",
+ "leitura": "Material tarifário oficial de SAAE Porto Feliz. Anexo I da resolução da ARES-PCJ, vigência a partir de 26/05/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Porto Feliz"
+   ],
+   "social": {
+    "esgoto_pct": 81.5,
+    "fixo": 9.65,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      15.0,
+      2.53
+     ],
+     [
+      15.0,
+      20.0,
+      3.79
+     ],
+     [
+      20.0,
+      30.0,
+      6.54
+     ],
+     [
+      30.0,
+      40.0,
+      7.78
+     ],
+     [
+      40.0,
+      50.0,
+      8.83
+     ],
+     [
+      50.0,
+      null,
+      9.85
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 81.5,
+    "fixo": 19.29,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      20.0,
+      5.05
+     ],
+     [
+      20.0,
+      30.0,
+      6.54
+     ],
+     [
+      30.0,
+      40.0,
+      7.78
+     ],
+     [
+      40.0,
+      50.0,
+      8.83
+     ],
+     [
+      50.0,
+      null,
+      9.85
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 81.5,
+    "fixo": 19.29,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      20.0,
+      5.05
+     ],
+     [
+      20.0,
+      30.0,
+      6.54
+     ],
+     [
+      30.0,
+      40.0,
+      7.78
+     ],
+     [
+      40.0,
+      50.0,
+      8.83
+     ],
+     [
+      50.0,
+      null,
+      9.85
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 81.5,
+    "fixo": 28.21,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      20.0,
+      7.78
+     ],
+     [
+      20.0,
+      30.0,
+      9.06
+     ],
+     [
+      30.0,
+      40.0,
+      10.39
+     ],
+     [
+      40.0,
+      50.0,
+      12.44
+     ],
+     [
+      50.0,
+      null,
+      14.79
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 81.5,
+    "fixo": 47.35,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      20.0,
+      12.59
+     ],
+     [
+      20.0,
+      30.0,
+      15.33
+     ],
+     [
+      30.0,
+      40.0,
+      17.63
+     ],
+     [
+      40.0,
+      50.0,
+      19.73
+     ],
+     [
+      50.0,
+      null,
+      22.31
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Porto Feliz",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 95.04,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

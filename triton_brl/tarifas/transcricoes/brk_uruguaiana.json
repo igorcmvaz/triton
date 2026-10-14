@@ -1,0 +1,149 @@
+{
+ "prestador": "BRK Ambiental Uruguaiana",
+ "registro": [
+  22
+ ],
+ "documento": "tabelas-de-tarifas-brk-2025.pdf",
+ "vigencia": "30/08/2025",
+ "fonte_url": "https://www.brkambiental.com.br/uruguaiana",
+ "leitura": "Tabela de tarifas da BRK Ambiental em Uruguaiana, reajuste de 14,58% vigente a partir de 30/08/2025. Faixas por m³ desde 0 m³. Esgoto coletado e tratado a 70% da água (só coleta, 50%).",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária 2025",
+   "uf": "RS",
+   "municipios": [
+    "Uruguaiana"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.2
+     ],
+     [
+      10,
+      20,
+      10.7
+     ],
+     [
+      20,
+      30,
+      15.34
+     ],
+     [
+      30,
+      50,
+      15.85
+     ],
+     [
+      50,
+      null,
+      16.18
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.2
+     ],
+     [
+      10,
+      20,
+      10.7
+     ],
+     [
+      20,
+      30,
+      16.99
+     ],
+     [
+      30,
+      50,
+      17.55
+     ],
+     [
+      50,
+      null,
+      17.93
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.2
+     ],
+     [
+      10,
+      20,
+      10.7
+     ],
+     [
+      20,
+      30,
+      16.87
+     ],
+     [
+      30,
+      50,
+      17.43
+     ],
+     [
+      50,
+      null,
+      17.77
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      13.81
+     ],
+     [
+      10,
+      20,
+      14.41
+     ],
+     [
+      20,
+      30,
+      17.62
+     ],
+     [
+      30,
+      50,
+      17.89
+     ],
+     [
+      50,
+      null,
+      19.0
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "abrangencia": "o documento é do prestador (BRK Ambiental Uruguaiana), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RS - Uruguaiana",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 209.0,
+   "impresso": "0 a 10 R$ 10,20; 11 a 20 R$ 10,70"
+  }
+ ]
+}

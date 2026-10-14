@@ -1,0 +1,208 @@
+{
+ "prestador": "SAAE São Mateus",
+ "registro": [
+  89
+ ],
+ "documento": "Resolução_098_Fixação_Tarifas_SAAE_São_Mateus.pdf",
+ "vigencia": "26/02/2026",
+ "fonte_url": "https://arsp.es.gov.br",
+ "leitura": "Resolução ARSP nº 098/2026 (fixação de tarifas do SAAE São Mateus), Anexo I, Quadro 1 (categorias com medição); vigência de 26/02/2026 a 25/02/2027. Faixas por m³ desde 0 m³. Esgoto com coleta, afastamento e tratamento a 80% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Quadro 1",
+   "uf": "ES",
+   "municipios": [
+    "São Mateus"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      3.87
+     ],
+     [
+      10,
+      15,
+      6.11
+     ],
+     [
+      15,
+      20,
+      7.44
+     ],
+     [
+      20,
+      30,
+      8.21
+     ],
+     [
+      30,
+      40,
+      9.4
+     ],
+     [
+      40,
+      null,
+      9.4
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      1.54
+     ],
+     [
+      10,
+      15,
+      3.66
+     ],
+     [
+      15,
+      20,
+      5.95
+     ],
+     [
+      20,
+      30,
+      8.21
+     ],
+     [
+      30,
+      40,
+      9.4
+     ],
+     [
+      40,
+      null,
+      9.4
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      8.04
+     ],
+     [
+      10,
+      15,
+      8.04
+     ],
+     [
+      15,
+      20,
+      10.84
+     ],
+     [
+      20,
+      30,
+      10.84
+     ],
+     [
+      30,
+      40,
+      12.48
+     ],
+     [
+      40,
+      null,
+      12.48
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      12.62
+     ],
+     [
+      10,
+      15,
+      12.62
+     ],
+     [
+      15,
+      20,
+      12.62
+     ],
+     [
+      20,
+      30,
+      12.62
+     ],
+     [
+      30,
+      40,
+      12.62
+     ],
+     [
+      40,
+      null,
+      14.19
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.86
+     ],
+     [
+      10,
+      15,
+      7.86
+     ],
+     [
+      15,
+      20,
+      10.75
+     ],
+     [
+      20,
+      30,
+      10.75
+     ],
+     [
+      30,
+      40,
+      12.4
+     ],
+     [
+      40,
+      null,
+      12.4
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - São Mateus",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 69.25,
+   "impresso": "10 × 3,87 + 5 × 6,11"
+  }
+ ]
+}

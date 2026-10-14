@@ -1,0 +1,168 @@
+{
+ "prestador": "Companhia Ituana de Saneamento (CIS)",
+ "registro": [
+  80
+ ],
+ "documento": "1777896808-resoluo_n_693_2026_-_reviso_tarifria_-_itu.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 693, de 02/04/2026 (revisão tarifária da CIS, Itu), Anexo I, a partir de maio de 2026. Mínimo de 10 m³; esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Itu"
+   ],
+   "residencial": {
+    "fixo": 36.96,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.34
+     ],
+     [
+      20,
+      30,
+      6.63
+     ],
+     [
+      30,
+      50,
+      6.63
+     ],
+     [
+      50,
+      null,
+      7.94
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 18.48,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.17
+     ],
+     [
+      15,
+      20,
+      3.26
+     ],
+     [
+      20,
+      30,
+      6.63
+     ],
+     [
+      30,
+      50,
+      6.63
+     ],
+     [
+      50,
+      null,
+      7.94
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 74.3,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.37
+     ],
+     [
+      20,
+      30,
+      11.98
+     ],
+     [
+      30,
+      50,
+      11.98
+     ],
+     [
+      50,
+      null,
+      14.05
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 89.17,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      8.84
+     ],
+     [
+      20,
+      30,
+      14.37
+     ],
+     [
+      30,
+      50,
+      14.37
+     ],
+     [
+      50,
+      null,
+      16.86
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 55.71,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.54
+     ],
+     [
+      20,
+      30,
+      9.01
+     ],
+     [
+      30,
+      50,
+      9.01
+     ],
+     [
+      50,
+      null,
+      10.53
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Itu",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 36.96,
+   "impresso": "De 0 a 10 (mínimo): R$ 36,96"
+  }
+ ]
+}

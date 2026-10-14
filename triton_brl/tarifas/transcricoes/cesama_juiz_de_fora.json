@@ -1,0 +1,188 @@
+{
+ "prestador": "CESAMA Juiz de Fora",
+ "registro": [
+  65
+ ],
+ "documento": "resolucao_332_1_(1)_01050938.pdf",
+ "vigencia": "31/03/2025",
+ "fonte_url": "https://arisb.com.br",
+ "leitura": "Resolução ARISB-MG nº 332, de 31/03/2025 (revisão de 7,95% da Cesama, Juiz de Fora), Anexo I (PDF digitalizado, p. 3). Tarifa fixa somada ao consumo desde 0 m³. Esgoto em tabela própria, de 58% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I (p. 3), Residencial Unifamiliar",
+   "uf": "MG",
+   "municipios": [
+    "Juiz de Fora"
+   ],
+   "residencial": {
+    "fixo": 15.01,
+    "faixas": [
+     [
+      0,
+      5,
+      1.6527
+     ],
+     [
+      5,
+      10,
+      4.4624
+     ],
+     [
+      10,
+      15,
+      5.5781
+     ],
+     [
+      15,
+      20,
+      6.3218
+     ],
+     [
+      20,
+      40,
+      8.5543
+     ],
+     [
+      40,
+      null,
+      11.1574
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Esgoto em tabela própria, de 58% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³."
+   },
+   "social": {
+    "fixo": 7.5,
+    "faixas": [
+     [
+      0,
+      15,
+      0.8264
+     ],
+     [
+      15,
+      20,
+      3.1609
+     ],
+     [
+      20,
+      40,
+      4.2778
+     ],
+     [
+      40,
+      null,
+      5.5794
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Residencial Tarifa Social. Esgoto em tabela própria, de 58% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³."
+   },
+   "comercial": {
+    "fixo": 34.55,
+    "faixas": [
+     [
+      0,
+      10,
+      3.7187
+     ],
+     [
+      10,
+      20,
+      6.5117
+     ],
+     [
+      20,
+      40,
+      8.5556
+     ],
+     [
+      40,
+      200,
+      9.6725
+     ],
+     [
+      200,
+      null,
+      10.7868
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Esgoto ≈70% da água (fixa e faixas)."
+   },
+   "industrial": {
+    "fixo": 42.61,
+    "faixas": [
+     [
+      0,
+      10,
+      4.4676
+     ],
+     [
+      10,
+      20,
+      5.0189
+     ],
+     [
+      20,
+      40,
+      6.3218
+     ],
+     [
+      40,
+      200,
+      8.9288
+     ],
+     [
+      200,
+      null,
+      10.7868
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Esgoto ≈70% da água (fixa e faixas)."
+   },
+   "publica": {
+    "fixo": 35.23,
+    "faixas": [
+     [
+      0,
+      10,
+      2.4017
+     ],
+     [
+      10,
+      20,
+      3.9976
+     ],
+     [
+      20,
+      40,
+      6.1359
+     ],
+     [
+      40,
+      200,
+      6.5078
+     ],
+     [
+      200,
+      null,
+      6.8808
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Esgoto ≈70% da água (fixa e faixas)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Juiz de Fora",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 45.58,
+   "impresso": "fixa 15,01 + 5×1,6527 + 5×4,4624"
+  }
+ ]
+}

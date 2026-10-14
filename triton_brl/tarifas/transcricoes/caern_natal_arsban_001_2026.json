@@ -1,0 +1,149 @@
+{
+ "prestador": "CAERN",
+ "registro": [
+  164
+ ],
+ "documento": "resolucao-n-001.2026-reajuste-tarifario.pdf",
+ "vigencia": "27/08/2026",
+ "fonte_url": "https://www.natal.rn.gov.br/dom",
+ "leitura": "Resolução ARSBAN nº 001/2026 (DOM de Natal, 28/07/2026, republicada), reajuste linear de 6,98% (IPCA), Anexo I, Tabela I: cota básica com tarifa mínima e consumos excedentes por faixa. Vale a partir de 30 dias da publicação (art. 2º): 27/08/2026. Esgoto convencional a 70% da água (art. 4º, II); condominial 35%, poço tubular 100%.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela I",
+   "uf": "RN",
+   "municipios": [
+    "Natal"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      15,
+      6.13
+     ],
+     [
+      15,
+      20,
+      7.24
+     ],
+     [
+      20,
+      30,
+      8.17
+     ],
+     [
+      30,
+      50,
+      9.4
+     ],
+     [
+      50,
+      100,
+      12.17
+     ],
+     [
+      100,
+      null,
+      13.83
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 54.99,
+    "franquia": 10,
+    "nota": "Esgoto convencional a 70% da água (art. 4º, II); condominial 35%, poço tubular 100%."
+   },
+   "social": {
+    "faixas": [
+     [
+      10,
+      15,
+      6.13
+     ],
+     [
+      15,
+      20,
+      7.24
+     ],
+     [
+      20,
+      30,
+      8.17
+     ],
+     [
+      30,
+      50,
+      9.4
+     ],
+     [
+      50,
+      100,
+      12.17
+     ],
+     [
+      100,
+      null,
+      13.83
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 11.09,
+    "franquia": 10
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      15,
+      10.67
+     ],
+     [
+      15,
+      20,
+      11.46
+     ],
+     [
+      20,
+      null,
+      13.83
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 84.61,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      20,
+      null,
+      15.21
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 184.53,
+    "franquia": 20
+   },
+   "publica": {
+    "faixas": [
+     [
+      20,
+      null,
+      15.21
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 176.98,
+    "franquia": 20
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RN - Natal",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 121.84,
+   "impresso": "mínimo 54,99 + 5 × 6,13 + 5 × 7,24"
+  }
+ ]
+}

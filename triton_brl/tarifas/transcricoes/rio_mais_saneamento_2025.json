@@ -1,0 +1,160 @@
+{
+ "prestador": "Rio+ Saneamento",
+ "registro": [
+  159,
+  123
+ ],
+ "documento": "Estrutura tarifária - Rio+ Saneamento.html",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.riomaissaneamento.com.br/agencia-virtual/estrutura-tarifaria/",
+ "leitura": "Página «Estrutura tarifária» da Rio+ Saneamento, «Estrutura Tarifária Vigente 2025 (a partir de 01/12/2025)», reajuste de 8,96% (processo SEI-480002/008426/2025, item 123); a tabela é a imagem Ativo-1-9-1.png salva com a página, TRA R$ 5,6363. «(CONTA MÍNIMA) 5,636324» é a Tarifa 1 da estrutura herdada da CEDAE: conta mínima de 15 m³ × 5,636324 para a unidade de até 15 m³/mês; acima, a Domiciliar desde 0 m³. Esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de 12/2025 (imagem)",
+   "uf": "RJ",
+   "municipios": [
+    "Itaguaí",
+    "Rio das Ostras",
+    "Seropédica"
+   ],
+   "abrangencia": "tabela única da concessão (uma TRA para toda a Rio+ Saneamento): todos os municípios que a base atribui à Rio+ Saneamento",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.456972
+     ],
+     [
+      15,
+      30,
+      14.205338
+     ],
+     [
+      30,
+      45,
+      19.370919
+     ],
+     [
+      45,
+      60,
+      38.741838
+     ],
+     [
+      60,
+      null,
+      51.655786
+     ]
+    ],
+    "esgoto_pct": 100,
+    "retroativa": {
+     "ate": 15,
+     "valor": 84.54
+    },
+    "nota": "«(CONTA MÍNIMA) 5,636324» é a Tarifa 1 da estrutura herdada da CEDAE: conta mínima de 15 m³ × 5,636324 para a unidade de até 15 m³/mês; acima, a Domiciliar desde 0 m³. Esgoto igual à água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      21.953708
+     ],
+     [
+      20,
+      30,
+      38.677268
+     ],
+     [
+      30,
+      null,
+      41.324627
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      30.347773
+     ],
+     [
+      20,
+      30,
+      30.347773
+     ],
+     [
+      30,
+      130,
+      34.867653
+     ],
+     [
+      130,
+      null,
+      36.804746
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      8.523203
+     ],
+     [
+      15,
+      null,
+      18.85436
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "representativa": "a conta depende de a unidade ficar até 15 m³/mês (conta mínima) ou acima",
+   "variantes": {
+    "Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       6.456972
+      ],
+      [
+       15,
+       30,
+       14.205338
+      ],
+      [
+       30,
+       45,
+       19.370919
+      ],
+      [
+       45,
+       60,
+       38.741838
+      ],
+      [
+       60,
+       null,
+       51.655786
+      ]
+     ],
+     "esgoto_pct": 100
+    }
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - Itaguaí",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 167.88,
+   "impresso": "15 × 6,456972 + 5 × 14,205338"
+  }
+ ]
+}

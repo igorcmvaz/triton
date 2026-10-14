@@ -1,0 +1,108 @@
+{
+ "prestador": "SAECIL Leme",
+ "registro": [
+  137
+ ],
+ "documento": "saecil_leme_ARESPCJ_resoluo_n_680_2025_-_reajuste_tarifrio_-_leme_c.pdf",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1768225265-resoluo_n_680_2025_-_reajuste_tarifrio_-_leme_c.pdf",
+ "leitura": "Material tarifário oficial de SAECIL Leme. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/01/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Leme"
+   ],
+   "residencial": {
+    "fixo": 35.33,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.03
+     ],
+     [
+      20,
+      30,
+      5.15
+     ],
+     [
+      30,
+      40,
+      6.62
+     ],
+     [
+      40,
+      50,
+      6.9
+     ],
+     [
+      50,
+      100,
+      9.23
+     ],
+     [
+      100,
+      null,
+      10.87
+     ]
+    ],
+    "esgoto_pct": 85,
+    "nota": "Esgoto com coleta, afastamento e tratamento: 85% da água."
+   },
+   "social": {
+    "fixo": 17.67,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.03
+     ],
+     [
+      15,
+      20,
+      3.03
+     ],
+     [
+      20,
+      30,
+      5.15
+     ],
+     [
+      30,
+      40,
+      6.62
+     ],
+     [
+      40,
+      50,
+      6.9
+     ],
+     [
+      50,
+      100,
+      9.23
+     ],
+     [
+      100,
+      null,
+      10.87
+     ]
+    ],
+    "esgoto_pct": 85
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Leme",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 75.63,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

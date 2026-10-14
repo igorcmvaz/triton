@@ -1,0 +1,107 @@
+{
+ "prestador": "SEMASA Itajaí",
+ "registro": [
+  170
+ ],
+ "documento": "SEMASA _ Tabela tarifária.html",
+ "vigencia": "02/09/2025",
+ "fonte_url": "https://www.semasaitajai.com.br/informacoes/tarifas",
+ "leitura": "Página «Tabela tarifária» do SEMASA Itajaí: tarifas fixadas pelo Decreto nº 13.761, de 02/09/2025; taxa mínima até 10 m³ e excedentes por faixa; Taxa de Esgotos Sanitários de 80% da tarifa de água (Lei 6.233/2012).",
+ "tabelas": [
+  {
+   "rotulo": "Decreto 13.761/2025",
+   "uf": "SC",
+   "municipios": [
+    "Itajaí"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      25,
+      7.48
+     ],
+     [
+      25,
+      null,
+      10.38
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 41.7,
+    "franquia": 10,
+    "nota": "«Normal até 10 m³: 4,17» é a taxa mínima de 10 m³ (R$ 41,70). Esgoto (TES) = 80% da água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      null,
+      9.87
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 58.0,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      5000,
+      9.87
+     ],
+     [
+      5000,
+      10000,
+      7.94
+     ],
+     [
+      10000,
+      30000,
+      7.22
+     ],
+     [
+      30000,
+      60000,
+      6.36
+     ],
+     [
+      60000,
+      120000,
+      6.0
+     ],
+     [
+      120000,
+      null,
+      5.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 58.0,
+    "franquia": 10
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      null,
+      9.87
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 61.1,
+    "franquia": 10
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Itajaí",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 116.5,
+   "impresso": "mínimo 41,70 + 10 × 7,48"
+  }
+ ]
+}

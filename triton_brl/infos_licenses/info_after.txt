@@ -1,0 +1,16 @@
+INSTALAÇÃO CONCLUÍDA COM SUCESSO!
+
+O Triton foi instalado em seu computador e está pronto para uso.
+
+LEMBRETES IMPORTANTES:
+1. Atalhos para execução foram criados na sua Área de Trabalho e no Menu Iniciar.
+2. Lembre-se de que esta é uma versão BETA e seu feedback é fundamental para
+   o aprimoramento da ferramenta.
+
+CANAIS DE CONTATO:
+Para relatar bugs, enviar sugestões ou esclarecer dúvidas metodológicas:
+  - E-mail: igor.catao@posgrad.ufsc.br
+
+Responsáveis: Profs. Enedir Ghisi e Igor Catão
+
+Agradecemos por utilizar e testar o Triton!

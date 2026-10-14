@@ -1,0 +1,168 @@
+{
+ "prestador": "BRK Ambiental Sumaré",
+ "registro": [
+  23
+ ],
+ "documento": "1765993558-resoluo_n_672_2025_-_reajuste_tarifrio_-_sumar.pdf",
+ "vigencia": "11/12/2025",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 672, de 11/12/2025, reajuste tarifário da BRK Ambiental em Sumaré, Anexo I. Mínimo de 10 m³ por mês; esgoto em duas parcelas (coleta e afastamento a 80% e tratamento a 20% da água).",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Sumaré"
+   ],
+   "residencial": {
+    "fixo": 36.35,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      3.64
+     ],
+     [
+      20,
+      30,
+      4.01
+     ],
+     [
+      30,
+      50,
+      5.64
+     ],
+     [
+      50,
+      null,
+      7.57
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento (80% da água) + tratamento (20%) = 100% da água."
+   },
+   "social": {
+    "fixo": 18.18,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      1.82
+     ],
+     [
+      15,
+      20,
+      2.73
+     ],
+     [
+      20,
+      30,
+      4.01
+     ],
+     [
+      30,
+      50,
+      5.64
+     ],
+     [
+      50,
+      null,
+      7.57
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Social. Esgoto: coleta e afastamento (80% da água) + tratamento (20%) = 100% da água."
+   },
+   "comercial": {
+    "fixo": 83.02,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      8.3
+     ],
+     [
+      20,
+      30,
+      9.03
+     ],
+     [
+      30,
+      50,
+      11.96
+     ],
+     [
+      50,
+      null,
+      15.18
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento (80% da água) + tratamento (20%) = 100% da água."
+   },
+   "industrial": {
+    "fixo": 105.64,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      30,
+      10.57
+     ],
+     [
+      30,
+      50,
+      14.43
+     ],
+     [
+      50,
+      null,
+      19.52
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento (80% da água) + tratamento (20%) = 100% da água."
+   },
+   "publica": {
+    "fixo": 83.02,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      8.3
+     ],
+     [
+      20,
+      30,
+      9.03
+     ],
+     [
+      30,
+      50,
+      11.96
+     ],
+     [
+      50,
+      null,
+      15.18
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento (80% da água) + tratamento (20%) = 100% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Sumaré",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 92.8,
+   "impresso": "36,35 + 10×3,64 + 5×4,01"
+  }
+ ]
+}

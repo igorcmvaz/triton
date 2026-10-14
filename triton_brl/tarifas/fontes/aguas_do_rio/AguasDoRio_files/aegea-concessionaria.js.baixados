@@ -1,0 +1,15 @@
+jQuery(document).ready(function () {
+    jQuery('.pace').hide();
+    jQuery('#paginated').paginate();
+});
+
+var video = document.querySelectorAll(".media-holder iframe");
+if (video.length > 0) {
+    for (var i = 0; i < video.length; i++) {
+        var video_heigth = (video[i].clientWidth / 1.78) * 2;
+        video[i].style.width = '100%';
+        video[i].style.height = video_heigth + 'px';
+        console.log("video " + i);
+        console.log(video[i].style.height);
+    }
+}

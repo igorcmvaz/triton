@@ -1,0 +1,103 @@
+{
+ "prestador": "SANASA Campinas",
+ "registro": [
+  148
+ ],
+ "documento": "sanasa_campinas_ARESPCJ_resoluo_n_679_2025_-_reajuste_tarifrio_-_campinas.pdf",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1767039489-resoluo_n_679_2025_-_reajuste_tarifrio_-_campinas.pdf",
+ "leitura": "Material tarifário oficial de SANASA Campinas. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/12/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Campinas"
+   ],
+   "residencial": {
+    "fixo": 53.65,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      9.96
+     ],
+     [
+      15,
+      20,
+      10.18
+     ],
+     [
+      20,
+      25,
+      10.43
+     ],
+     [
+      25,
+      30,
+      12.82
+     ],
+     [
+      30,
+      50,
+      13.65
+     ],
+     [
+      50,
+      null,
+      20.94
+     ]
+    ],
+    "esgoto_pct": 123,
+    "nota": "Tarifa por m³ com parcela a deduzir, equivalente à cascata. Esgoto: coleta e afastamento (80%) + tratamento (43%) = 123% da água."
+   },
+   "social": {
+    "fixo": 26.83,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      4.98
+     ],
+     [
+      15,
+      20,
+      7.64
+     ],
+     [
+      20,
+      25,
+      10.43
+     ],
+     [
+      25,
+      30,
+      12.82
+     ],
+     [
+      30,
+      50,
+      13.65
+     ],
+     [
+      50,
+      null,
+      20.94
+     ]
+    ],
+    "esgoto_pct": 123
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Campinas",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 154.35,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "prestador": "SeMAE Rio Preto",
+ "registro": [
+  157
+ ],
+ "documento": "semae_rio_preto_ARESPCJ_resoluo_n_715_2026_-_reajuste_tarifrio_-_so_jos_do_rio_preto.pdf",
+ "vigencia": "01/08/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1784893910-resoluo_n_715_2026_-_reajuste_tarifrio_-_so_jos_do_rio_preto.pdf",
+ "leitura": "Material tarifário oficial de SeMAE Rio Preto. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/08/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "São José do Rio Preto"
+   ],
+   "residencial": {
+    "fixo": 26.63,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      3.84
+     ],
+     [
+      20,
+      30,
+      5.25
+     ],
+     [
+      30,
+      40,
+      6.99
+     ],
+     [
+      40,
+      50,
+      8.64
+     ],
+     [
+      50,
+      100,
+      13.14
+     ],
+     [
+      100,
+      null,
+      14.59
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial padrão."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - São José do Rio Preto",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 65.03,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

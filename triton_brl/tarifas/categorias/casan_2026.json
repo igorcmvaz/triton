@@ -1,0 +1,65 @@
+{
+  "prestador": "CASAN",
+  "formula": "progressiva",
+  "leitura": "Tabela tarifária estadual da CASAN válida a partir de 01/04/2026 (Resolução ARESC nº 389/2026, Deliberação ARIS nº 003/2026, Decisão AGIR nº 321/2026 e Resolução CISAM-SUL CREFISBA nº 07/2026). Aplica-se a todos os 22 municípios atendidos pela CASAN no catálogo do Triton. TFDI de R$ 46,34/mês (R$ 8,63 na Social convencional) e esgoto a 100% da água.",
+  "documento": "CASAN - Companhia Catarinense de Águas e Saneamento.html",
+  "vigencia": "01/04/2026",
+  "fonte_url": "https://www.casan.com.br/menu-conteudo/index/url/tarifas",
+  "categorias": {
+    "comercial": {
+      "tarifa_fixa_mensal": 46.34,
+      "esgoto_pct": 100.0,
+      "esgoto_modo": 1,
+      "regime_tarifario": "disponibilidade",
+      "consumo_minimo_faturado_m3": 0.0,
+      "faixas": [
+        [0.0, 0.0, 46.34, -1],
+        [0.0, 10.0, 6.81, 1],
+        [10.0, 50.0, 19.14, 1],
+        [50.0, 999999.0, 24.08, 1]
+      ],
+      "faixas_desc": "0–10 m³: R$ 6.81/m³ + TFDI R$ 46.34/mês; 11–50 m³: R$ 19.14/m³; >50 m³: R$ 24.08/m³"
+    },
+    "industrial": {
+      "tarifa_fixa_mensal": 46.34,
+      "esgoto_pct": 100.0,
+      "esgoto_modo": 1,
+      "regime_tarifario": "disponibilidade",
+      "consumo_minimo_faturado_m3": 0.0,
+      "faixas": [
+        [0.0, 0.0, 46.34, -1],
+        [0.0, 10.0, 6.81, 1],
+        [10.0, 999999.0, 19.14, 1]
+      ],
+      "faixas_desc": "0–10 m³: R$ 6.81/m³ + TFDI R$ 46.34/mês; >10 m³: R$ 19.14/m³"
+    },
+    "publica": {
+      "tarifa_fixa_mensal": 46.34,
+      "esgoto_pct": 100.0,
+      "esgoto_modo": 1,
+      "regime_tarifario": "disponibilidade",
+      "consumo_minimo_faturado_m3": 0.0,
+      "faixas": [
+        [0.0, 0.0, 46.34, -1],
+        [0.0, 10.0, 6.81, 1],
+        [10.0, 999999.0, 19.14, 1]
+      ],
+      "faixas_desc": "0–10 m³: R$ 6.81/m³ + TFDI R$ 46.34/mês; >10 m³: R$ 19.14/m³"
+    },
+    "social": {
+      "tarifa_fixa_mensal": 8.63,
+      "esgoto_pct": 100.0,
+      "esgoto_modo": 1,
+      "regime_tarifario": "disponibilidade",
+      "consumo_minimo_faturado_m3": 0.0,
+      "faixas": [
+        [0.0, 0.0, 8.63, -1],
+        [0.0, 10.0, 0.58, 1],
+        [10.0, 25.0, 4.11, 1],
+        [25.0, 50.0, 19.14, 1],
+        [50.0, 999999.0, 24.08, 1]
+      ],
+      "faixas_desc": "0–10 m³: R$ 0.58/m³ + TFDI R$ 8.63/mês; 11–25 m³: R$ 4.11/m³; 26–50 m³: R$ 19.14/m³; >50 m³: R$ 24.08/m³"
+    }
+  }
+}

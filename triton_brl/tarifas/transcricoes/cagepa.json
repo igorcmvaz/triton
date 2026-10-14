@@ -1,0 +1,99 @@
+{
+ "prestador": "CAGEPA",
+ "registro": [
+  37
+ ],
+ "documento": "RESOLUÇÃO-ARPB-004-2025.pdf",
+ "vigencia": "30/06/2025",
+ "fonte_url": "https://www.arpb.pb.gov.br",
+ "leitura": "Resolução de Diretoria da ARPB nº 004/2025-DP (reajuste de 7,72%, publicada no Diário Oficial de 31/05/2025, aplicada 30 dias depois), Tabela 1 «Estrutura Tarifária» (PDF digitalizado, p. 2). O esgoto muda de percentual por faixa e o banco guarda um só: fica o da tarifa mínima. A tarifa social só é tabelada até 10 m³ e fica de fora.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela 1, Estrutura Tarifária (p. 2)",
+   "uf": "PB",
+   "municipios": [
+    "Bayeux",
+    "Cabedelo",
+    "Cajazeiras",
+    "Campina Grande",
+    "Guarabira",
+    "João Pessoa",
+    "Patos",
+    "Santa Rita",
+    "Sapé",
+    "Sousa"
+   ],
+   "residencial": {
+    "fixo": 54.82,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.08
+     ],
+     [
+      20,
+      30,
+      9.32
+     ],
+     [
+      30,
+      null,
+      12.67
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto: 80% até 20 m³, 90% de 21 a 30 m³ e 100% acima; o banco guarda 80% e subestima o esgoto acima de 20 m³."
+   },
+   "comercial": {
+    "fixo": 97.81,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      16.94
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: 90% na tarifa mínima e 100% acima de 10 m³; o banco guarda 90%."
+   },
+   "industrial": {
+    "fixo": 118.47,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      18.87
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: 90% na tarifa mínima e 100% acima de 10 m³; o banco guarda 90%."
+   },
+   "publica": {
+    "fixo": 111.08,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      18.64
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "abrangencia": "tabela única do CAGEPA (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PB - João Pessoa",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 125.62,
+   "impresso": "tarifa mínima 54,82 + 11 a 20 m³ a 7,08"
+  }
+ ]
+}

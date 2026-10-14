@@ -1,0 +1,990 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)https://www.casan.com.br/menu-conteudo/index/url/tarifas#0 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CASAN - Companhia Catarinense de Águas e Saneamento</title>
+    <link href="./CASAN - Companhia Catarinense de Águas e Saneamento_files/estilos.css" rel="stylesheet" type="text/css">
+    <link href="./CASAN - Companhia Catarinense de Águas e Saneamento_files/paginacao.css" rel="stylesheet" type="text/css">
+    <link href="./CASAN - Companhia Catarinense de Águas e Saneamento_files/all.min.css" rel="stylesheet" type="text/css">
+    <script src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/sdk.js.baixados" defer="" async=""></script><script language="javascript" type="text/javascript" src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/jquery-3.7.1.min.js.baixados"></script>
+    <script language="javascript" type="text/javascript" src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/jquery.jcarousel.min.0.3.8.js.baixados"></script>
+    <script language="javascript" type="text/javascript" src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/jquery.imgpreload.min.js.baixados"></script>
+    <script language="javascript" type="text/javascript" src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/script.js.baixados"></script>
+        
+    <script>
+        (function(d,t) {
+            var BASE_URL="https://chat.lourens.net.br";
+            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=BASE_URL+"/packs/js/sdk.js";
+            g.defer = true;
+            g.async = true;
+            s.parentNode.insertBefore(g,s);
+            carregouChat = false;
+
+            window.abreChat = function abreChat() {
+                if (carregouChat) {
+                    window.$chatwoot.toggle('open');
+                } else {
+                    window.addEventListener("chatwoot:ready",() => {
+                        window.$chatwoot.toggle('open');
+                    });
+                }
+                /*ainda que um link para #chat funcione, chamar esta função no onclick pode ser ideal por:
+                - garantir que seja acionado mesmo se já a url no navegador já for #chat, já que o evento de hashchange não dispararia nesse caso
+                - evitar que a url do navegador seja alterada para #chat, mantendo a url "limpa" para compartilhamento, SEO, etc.
+                */
+            }
+
+            g.onload=function(){
+                window.chatwootSDK.run({
+                    websiteToken: 'WUjKgbt4r6SHFXPs3PiVxHT8',
+                    baseUrl: BASE_URL
+                });
+
+                window.addEventListener("chatwoot:ready",() => {
+                    carregouChat = true;
+                    if(window.location.hash === "#chat") {
+                        window.$chatwoot.toggle('open');
+                    }
+                });
+
+                window.addEventListener("hashchange",() => {
+                    if(window.location.hash === "#chat") {
+                        abreChat();
+                    }
+                });
+            }
+        })(document,"script");
+    </script>
+        
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.casan.com.br/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.casan.com.br/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.casan.com.br/favicon-16x16.png">
+    <link rel="manifest" href="https://www.casan.com.br/site.webmanifest">
+
+        <style>
+        /* Banners da campanha de eleições (a partir de 03/07/2026 16h).
+           Sobrescreve as imagens de fundo definidas em estilos.css. */
+        .banner-115-mobile {
+            background-image: url(/imagens/banner_115_eleicoes.jpeg);
+        }
+        .eduambiental-container {
+            background-image: url(/imagens/eduambiental_eleicoes.jpg);
+        }
+
+        /* Home no período de eleições: oculta "Publicações nas redes"
+           (.wrapper-conteudo-left) e "Últimas notícias" (.wrapper-noticias). */
+        .wrapper-conteudo-left,
+        .wrapper-noticias {
+            display: none;
+        }
+
+        /* Bloco de serviços (eleições), abaixo da Central de Atendimento.
+           Sem gap: o espaço título->conteúdo vem do margin-bottom do .titulo,
+           igual à Central de Atendimento. */
+        .wrapper-servicos-eleicoes {
+            display: flex;
+            flex-direction: column;
+        }
+        .wrapper-servicos-eleicoes a {
+            text-decoration: none;
+        }
+        /* Comunicados e Redes Sociais empilhados; viram 2 colunas no desktop. */
+        .servicos-eleicoes-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        /* Alinha os ícones das redes à esquerda do item, como o ícone do Fale Conosco. */
+        .servicos-eleicoes-content .redes_sociais {
+            margin-left: 0;
+        }
+        /* Centraliza verticalmente o ícone com o texto (Comunicados, Redes Sociais). */
+        .servicos-eleicoes-content .central_atendimento_item {
+            align-items: center;
+        }
+        .servicos-eleicoes-content .titulo-contato {
+            margin-bottom: 18px;
+        }
+        /* "Nosso Whatsapp" tem 2 linhas e ficava baixo; alinha o texto pelo topo do ícone. */
+        .central_atendimento_item_internal:has(.detalhe_contato_whatsapp) {
+            justify-content: flex-start;
+            /*margin-top: 7px;*/
+        }
+        /* Ajuste fino de alinhamento do "Fale Conosco". */
+        a[href="/menu-conteudo/index/url/fale-conosco"] .central_atendimento_item_internal {
+            margin-bottom: 5px;
+        }
+        /* Mesmo ajuste no "Comunicados". */
+        .servicos-eleicoes-content a[href="/noticias"] .central_atendimento_item_internal {
+            margin-bottom: 5px;
+        }
+
+        @media (min-width: 1024px) {
+            /* Central de Atendimento ocupa o espaço liberado, iniciando à esquerda. */
+            .wrapper-central-atendimento {
+                grid-column: 1 / 3;
+                grid-row: 1;
+            }
+            /* Itens de contato distribuídos em duas colunas. */
+            .wrapper-central-atendimento-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px 25px;
+                align-content: start;
+            }
+            /* Bloco de serviços abaixo da central, ocupando as colunas 1-2.
+               margin-top afasta da Central de Atendimento (estavam coladas). */
+            .wrapper-servicos-eleicoes {
+                grid-column: 1 / 3;
+                grid-row: 2;
+                margin-top: 25px;
+            }
+            /* Comunicados e Redes Sociais em duas colunas, alinhadas com a
+               Central de Atendimento acima. */
+            .servicos-eleicoes-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px 25px;
+                align-content: start;
+            }
+            /* Banners ocupam a coluna da direita nas duas linhas. */
+            .wrapper-conteudo-right {
+                grid-row: 1 / 3;
+            }
+            /* Imagens com a proporção real (sem corte) e cantos arredondados:
+               a altura sai da proporção, preenchendo a largura da coluna (~284px). */
+            .aplicativo-container,
+            .eduambiental-container {
+                height: auto !important;
+                width: 100%;
+            }
+            .aplicativo-container {
+                aspect-ratio: 304 / 252;
+            }
+            .eduambiental-container {
+                aspect-ratio: 1264 / 945;
+            }
+        }
+    </style>
+    
+<style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><link type="text/css" rel="stylesheet" href="./CASAN - Companhia Catarinense de Águas e Saneamento_files/css2"><link type="text/css" rel="stylesheet" href="./CASAN - Companhia Catarinense de Águas e Saneamento_files/css2"></head>
+
+<body data-new-gr-c-s-check-loaded="14.1154.0" data-gr-ext-installed=""><div id="esg_atica"></div>
+    <div class="accessibility-menu-container">
+        <button id="accessibilityToggle" class="accessibility-toggle-button" aria-expanded="false" aria-controls="accessibilityPanel" style="font-size: 16px;">
+            <i class="fas fa-universal-access"></i>
+        </button>
+        <div id="accessibilityPanel" class="accessibility-panel" role="menu" aria-hidden="true">
+            <h4 style="font-size: 17.6px;">Opções de Acessibilidade</h4>
+
+            <div class="accessibility-option" style="font-size: 16px;">
+                <label for="font-size">Tamanho da Fonte:</label>
+                <div class="accessibility-controls" style="font-size: 16px;">
+                    <button id="fontDecrease" title="Diminuir Fonte" aria-label="Diminuir Fonte" style="font-size: 14.4px;">A-</button>
+                    <button id="fontNormal" title="Fonte Padrão" aria-label="Fonte Padrão" class="active" style="font-size: 14.4px;">A</button>
+                    <button id="fontIncrease" title="Aumentar Fonte" aria-label="Aumentar Fonte" style="font-size: 14.4px;">A+</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option" style="font-size: 16px;">
+                <label for="high-contrast">Alto Contraste:</label>
+                <div class="accessibility-controls" style="font-size: 16px;">
+                    <button id="highContrastToggle" title="Alternar Alto Contraste" aria-label="Alternar Alto Contraste" style="font-size: 14.4px;">Ativar/Desativar</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option" style="font-size: 16px;">
+                <label for="dark-mode">Modo Escuro:</label>
+                <div class="accessibility-controls" style="font-size: 16px;">
+                    <button id="darkModeToggle" title="Alternar Modo Escuro" aria-label="Alternar Modo Escuro" style="font-size: 14.4px;">Ativar/Desativar</button>
+                </div>
+            </div>
+
+            <button id="resetAccessibility" class="reset-button" style="font-size: 16px;">
+                <i class="fas fa-sync-alt"></i> Resetar
+            </button>
+        </div>
+    </div>
+
+    <div class="blockContainer" style="font-size: 16px;"></div>
+    <script>
+        function toggle_menu() {
+            $("body").toggleClass('block');
+            $("#main_menu").toggleClass('menu_open');
+        }
+    </script>
+    
+    <!--header-->
+    <header>
+        <div class="header" style="font-size: 16px;">
+            <div class="logo-casan" style="font-size: 16px;">
+                <a href="https://www.casan.com.br/" title="Casan" style="font-size: 16px;">
+                    <img src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/novo_logo_topo.png" alt="Profissionalismo, Sustentabilidade, Competência &amp; Inovação" width="91">
+                </a>
+                <span class="nome" style="font-size: 20px;">Companhia Catarinense <br>de Águas e Saneamento</span>
+            </div>
+
+            <div class="slogan" style="font-size: 16px;">
+                <span class="slogan-span" style="font-size: 16px;">
+                    <img src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/slogan_profissionalismo_cut.png" alt="Profissionalismo, Sustentabilidade, Competência &amp; Inovação" width="222">
+                    <a href="tel:115" style="font-size: 16px;">
+                        <img src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/banner_115_eleicoes.jpeg" alt="Profissionalismo, Sustentabilidade, Competência &amp; Inovação" width="222" class="banner-115-topo">
+                    </a>
+                </span>
+            </div>
+            <a href="https://www.casan.com.br/menu-conteudo/index/url/tarifas#" class="button_toggle_menu" style="font-size: 48px;">
+                <i class="bi bi-list" onclick="toggle_menu()"></i>
+            </a>
+
+        </div>
+        <div class="barra-topo" style="font-size: 16px;">
+            <nav id="main_menu">
+
+                <ul>
+                    <li class="button_close_menu" style="font-size: 48px;"><i class="bi bi-x-lg " onclick="toggle_menu()"></i></li>
+                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/companhia" style="font-size: 15px;">Companhia</a></li>
+                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/noticias" style="font-size: 15px;">Notícias</a></li>
+                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/perguntas-frequentes" style="font-size: 15px;">Perguntas Frequentes</a></li>
+                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/acesso-restrito" style="font-size: 15px;">Acesso Restrito</a></li>
+                    <li style="font-size: 16px;"><a href="https://ouvidoria.sc.gov.br/cidadao/" style="font-size: 15px;">e-SIC Acesso à Informação</a></li>
+                </ul>
+            </nav>
+
+            <div class="boxBusca" style="font-size: 16px;">
+                <form action="https://www.casan.com.br/busca/index/" method="post">
+                    <input type="text" name="query" id="fieldBusca" value="" placeholder="Buscar no portal..." autocomplete="false" style="font-size: 15px;">
+                </form>
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <div class="mainContent" style="font-size: 16px;">
+        <div class="internas" style="font-size: 16px;">
+
+	<div class="breadcrumbs" style="font-size: 15px;">
+	
+	<span style="font-size: 15px;"><a href="https://www.casan.com.br/" title="Página Inicial" style="font-size: 15px;">Página Inicial</a><b>&nbsp;»&nbsp;</b>
+		
+				<a href="https://www.casan.com.br/menu-conteudo/index/url/orientacoes-ao-usuario" id="menu_id_23" title="Orientações ao Usuário" style="font-size: 15px;">Orientações ao Usuário</a>
+				
+				<b>&nbsp;»&nbsp;</b><b>Tarifas</b>	</span>
+	</div>
+	<h1 style="font-size: 24px;">Tarifas</h1>
+	<table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;font-family:Arial,Helvetica,sans-serif !important;color:#262b33 !important;width:100% !important;" width="100%">
+	<tbody>
+		<tr>
+			<td style="padding:0 0 4px 0 !important;font-family:Arial,Helvetica,sans-serif !important;color:#262b33 !important;">
+				<p style="margin: 0px 0px 14px !important; padding: 0px !important; font-size: 15px; line-height: 1.6 !important; font-family: Arial, Helvetica, sans-serif !important; text-align: justify !important;">
+					Os serviços de abastecimento de água e de esgotamento sanitário prestados pela CASAN são remunerados sob a forma de tarifa, reajustada periodicamente.</p>
+				<p style="margin: 0px 0px 14px !important; padding: 0px !important; font-size: 15px; line-height: 1.6 !important; font-family: Arial, Helvetica, sans-serif !important; text-align: justify !important;">
+					A tabela tarifária da CASAN é válida para todo o Estado, independentemente do tipo e da complexidade da Estação de Tratamento de Água e do manancial de abastecimento. Os valores são estabelecidos de acordo com as categorias dos usuários e suas respectivas faixas de consumo.</p>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#eafaf7" style="background:#eafaf7 !important;background-color:#eafaf7 !important;border:1px solid #b9e7df !important;border-left:4px solid #02b19f !important;padding:12px 16px !important;font-size:14px !important;line-height:1.55 !important;color:#262b33 !important;font-family:Arial,Helvetica,sans-serif !important;">
+				<strong style="color:#057a6c !important;font-weight:bold !important;">Valores vigentes a partir de 1º de abril de 2026.</strong> O reajuste tarifário aplicado às tarifas de água, esgoto, serviços e infrações foi de 5,80%.</td>
+		</tr>
+		<tr>
+			<td height="22" style="height:22px !important;line-height:22px !important;font-size:22px !important;">
+				&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top !important;font-family:Arial,Helvetica,sans-serif !important;color:#262b33 !important;">
+				<p style="margin: 0px 0px 18px !important; padding: 0px !important; font-size: 18px; line-height: 1.3 !important; font-weight: bold !important; letter-spacing: 0.5px !important; text-transform: uppercase !important; font-family: Arial, Helvetica, sans-serif !important; text-align: center !important;">
+					Estrutura tarifária</p>
+				<p style="margin: 0px 0px 14px !important; padding: 0px !important; font-size: 14px; line-height: 1.55 !important; font-family: Arial, Helvetica, sans-serif !important; text-align: justify !important;">
+					As Agências Reguladoras ARESC – Agência Reguladora de Serviços Públicos de Santa Catarina, por meio da Resolução nº 389/2026, de 13 de janeiro de 2026; ARIS – Agência Reguladora Intermunicipal de Saneamento, por meio da Deliberação nº 003/2026, de 16 de janeiro de 2026; AGIR – Agência Intermunicipal de Regulação do Médio Vale do Itajaí, por meio da Decisão nº 321, de 21 de janeiro de 2026; e CISAM-SUL – Consórcio Intermunicipal de Saneamento Ambiental, por meio da Resolução CREFISBA nº 07/2026, de 26 de janeiro de 2026, autorizaram o reajuste de 5,80% nas tarifas de água, esgoto, serviços e infrações, aplicado a partir do mês de abril de 2026, conforme a tabela abaixo.</p>
+				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;margin:18px 0 10px 0 !important;width:100% !important;" width="100%">
+					<tbody>
+						<tr>
+							<td style="font-size:13px !important;line-height:1.3 !important;font-weight:bold !important;text-transform:uppercase !important;letter-spacing:1px !important;color:#057a6c !important;border-bottom:2px solid #d8efe9 !important;padding:0 0 5px 0 !important;font-family:Arial,Helvetica,sans-serif !important;">
+								Tarifas de água e esgoto</td>
+						</tr>
+					</tbody>
+				</table>
+				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;margin:0 0 12px 0 !important;width:100% !important;" width="100%">
+					<tbody>
+						<tr>
+							<td bgcolor="#f7f9fc" style="background:#f7f9fc !important;border:1px solid #d8efe9 !important;padding:10px 12px !important;font-size:14px !important;line-height:1.5 !important;color:#262b33 !important;font-family:Arial,Helvetica,sans-serif !important;text-align:center !important;">
+								<strong style="color:#2c357a !important;">1 metro cúbico (m³) = 1 mil litros de água</strong><br>
+								<strong style="color:#2c357a !important;">Tarifa de esgoto = 100% do valor da tarifa de água</strong></td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="width: 100% !important; overflow-x: auto !important; margin: 0px 0px 18px !important; font-size: 16px;">
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;width:100% !important;min-width:940px !important;font-family:Arial,Helvetica,sans-serif !important;table-layout:fixed !important;" width="100%">
+						<tbody>
+							<tr>
+								<td bgcolor="#f7f9fc" style="background:#f7f9fc !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:13px !important;line-height:1.25 !important;font-weight:bold !important;color:#262b33 !important;text-align:left !important;width:13% !important;">
+									Intervalo<br>
+									R$/m³</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:12% !important;">
+									Residencial</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:12% !important;">
+									Residencial<br>
+									Social**</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:11% !important;">
+									Comercial</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:13% !important;">
+									Micro e Pequeno<br>
+									Comércio</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:12% !important;">
+									Industrial</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.2 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:15% !important;">
+									Pública<br>
+									<span style="font-size: 11px; font-weight: normal !important; line-height: 1.15 !important;">Órgãos públicos federais, estaduais e municipais</span></td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.2 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;width:12% !important;">
+									Pública Especial<br>
+									<span style="font-size: 11px; font-weight: normal !important; line-height: 1.15 !important;">Entidades beneficentes e filantrópicas</span></td>
+							</tr>
+							<tr>
+								<td bgcolor="#f7f9fc" style="background:#f7f9fc !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;color:#262b33 !important;text-align:left !important;">
+									TFDI*<br>
+									R$/mês</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									46,34</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									8,63</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									46,34</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									46,34</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									46,34</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									46,34</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									13,89</td>
+							</tr>
+							<tr bgcolor="#eef0fb">
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:left !important;">
+									0 a 10</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									3,08</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									0,58</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									6,81</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									4,80</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									6,81</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									6,81</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									2,04</td>
+							</tr>
+							<tr>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:left !important;">
+									11 a 25</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									14,31</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									4,11</td>
+								<td rowspan="2" style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;vertical-align:middle !important;">
+									19,14</td>
+								<td rowspan="3" style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;vertical-align:middle !important;">
+									19,14</td>
+								<td rowspan="3" style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;vertical-align:middle !important;">
+									19,14</td>
+								<td rowspan="3" style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;vertical-align:middle !important;">
+									19,14</td>
+								<td rowspan="3" style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;vertical-align:middle !important;">
+									5,73</td>
+							</tr>
+							<tr bgcolor="#eef0fb">
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:left !important;">
+									26 a 50</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									19,14</td>
+								<td style="background:#eef0fb !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									19,14</td>
+							</tr>
+							<tr>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:left !important;">
+									Acima de 50</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									24,08</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									24,08</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									24,08</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;margin:22px 0 10px 0 !important;width:100% !important;" width="100%">
+					<tbody>
+						<tr>
+							<td style="font-size:13px !important;line-height:1.3 !important;font-weight:bold !important;text-transform:uppercase !important;letter-spacing:1px !important;color:#057a6c !important;border-bottom:2px solid #d8efe9 !important;padding:0 0 5px 0 !important;font-family:Arial,Helvetica,sans-serif !important;">
+								Tarifa Social – Lei Federal nº 14.898/2024</td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="width: 100% !important; overflow-x: auto !important; margin: 0px 0px 18px !important; font-size: 16px;">
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;width:100% !important;min-width:760px !important;font-family:Arial,Helvetica,sans-serif !important;table-layout:fixed !important;" width="100%">
+						<tbody>
+							<tr>
+								<td bgcolor="#f7f9fc" rowspan="2" style="background:#f7f9fc !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#262b33 !important;text-align:center !important;vertical-align:middle !important;width:17% !important;">
+									Residencial Social<br>
+									Lei Federal<br>
+									14.898/2024</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									TFDI*<br>
+									R$/mês</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Intervalo<br>
+									0 a 15 R$/m³</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Intervalo<br>
+									16 a 25 R$/m³</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Intervalo<br>
+									26 a 50 R$/m³</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Intervalo<br>
+									Acima de 50 R$/m³</td>
+							</tr>
+							<tr>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									23,17</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									1,54</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									14,31</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									19,14</td>
+								<td style="border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;text-align:center !important;">
+									24,08</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;margin:24px 0 10px 0 !important;width:100% !important;" width="100%">
+					<tbody>
+						<tr>
+							<td style="font-size:13px !important;line-height:1.3 !important;font-weight:bold !important;text-transform:uppercase !important;letter-spacing:1px !important;color:#057a6c !important;border-bottom:2px solid #d8efe9 !important;padding:0 0 5px 0 !important;font-family:Arial,Helvetica,sans-serif !important;">
+								Soluções individuais de esgotamento sanitário</td>
+						</tr>
+					</tbody>
+				</table>
+				<p style="margin: 0px 0px 14px !important; padding: 0px !important; font-size: 14px; line-height: 1.55 !important; font-family: Arial, Helvetica, sans-serif !important; text-align: justify !important;">
+					As Agências Reguladoras ARIS – Agência Reguladora Intermunicipal de Saneamento, AGIR – Agência Intermunicipal de Regulação do Médio Vale do Itajaí e CISAM-SUL – Consórcio Intermunicipal de Saneamento Ambiental, por meio da Deliberação nº 021/2025, de 10 de junho de 2025, autorizaram a tabela tarifária aplicável à prestação do serviço de gerenciamento, coleta e tratamento de efluentes provenientes de soluções individuais de esgotamento sanitário pela CASAN, conforme apresentado a seguir.</p>
+				<div style="width: 100% !important; overflow-x: auto !important; margin: 0px 0px 18px !important; font-size: 16px;">
+					<table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;width:100% !important;min-width:700px !important;font-family:Arial,Helvetica,sans-serif !important;table-layout:fixed !important;" width="100%">
+						<tbody>
+							<tr>
+								<td bgcolor="#f7f9fc" rowspan="2" style="background:#f7f9fc !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;line-height:1.25 !important;font-weight:bold !important;color:#262b33 !important;text-align:center !important;vertical-align:middle !important;width:17% !important;">
+									Soluções Individuais de Esgotamento Sanitário</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Residencial</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Social</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Comercial</td>
+								<td bgcolor="#2c357a" style="background:#2c357a !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Industrial</td>
+								<td bgcolor="#02a995" style="background:#02a995 !important;border:1px solid #8f96a3 !important;padding:10px 8px !important;font-size:14px !important;font-weight:bold !important;color:#ffffff !important;text-align:left !important;">
+									Pública</td>
+							</tr>
+							<tr>
+								<td style="border:1px solid #8f96a3 !important;padding:12px 8px !important;font-size:14px !important;text-align:center !important;">
+									31,84</td>
+								<td style="border:1px solid #8f96a3 !important;padding:12px 8px !important;font-size:14px !important;text-align:center !important;">
+									15,92</td>
+								<td style="border:1px solid #8f96a3 !important;padding:12px 8px !important;font-size:14px !important;text-align:center !important;">
+									35,02</td>
+								<td style="border:1px solid #8f96a3 !important;padding:12px 8px !important;font-size:14px !important;text-align:center !important;">
+									35,02</td>
+								<td style="border:1px solid #8f96a3 !important;padding:12px 8px !important;font-size:14px !important;text-align:center !important;">
+									35,02</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div style="padding: 12px 16px !important; margin: 0px 0px 22px !important; font-size: 13px; line-height: 1.55 !important; font-family: Arial, Helvetica, sans-serif !important;">
+					<strong style="color:#057a6c !important;">*TFDI</strong> = Tarifa Fixa de Disponibilidade de Infraestrutura.<br>
+					<strong style="color:#057a6c !important;">**</strong> Válida para solicitações recebidas até 10/12/2024.</div>
+				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;margin:22px 0 10px 0 !important;width:100% !important;" width="100%">
+					<tbody>
+						<tr>
+							<td style="font-size:13px !important;line-height:1.3 !important;font-weight:bold !important;text-transform:uppercase !important;letter-spacing:1px !important;color:#057a6c !important;border-bottom:2px solid #d8efe9 !important;padding:0 0 5px 0 !important;font-family:Arial,Helvetica,sans-serif !important;">
+								Arquivos para consulta</td>
+						</tr>
+					</tbody>
+				</table>
+				<table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse !important;width:100% !important;margin:0 0 22px 0 !important;font-family:Arial,Helvetica,sans-serif !important;" width="100%">
+					<tbody>
+						<tr>
+							<td bgcolor="#eef0fb" style="background:#eef0fb !important;border:1px solid #c3c9e8 !important;padding:12px 14px !important;font-size:14px !important;line-height:1.5 !important;">
+								<strong style="color:#2c357a !important;">Publicação da Tabela Tarifária com reajuste de 5,80%</strong><br>
+								<span style="font-size: 13px;">Em vigor a partir de 01/04/2026</span><br>
+								<a href="https://www.casan.com.br/ckfinder/userfiles/files/Tarifas/2026/Tabela%20Tarif%C3%A1ria%2004-2026.pdf" style="text-decoration: underline !important; font-weight: bold !important; font-size: 14px;" target="_blank">Acessar a tabela tarifária em PDF</a></td>
+						</tr>
+						<tr>
+							<td height="8" style="height:8px !important;line-height:8px !important;font-size:8px !important;">
+								&nbsp;</td>
+						</tr>
+						<tr>
+							<td bgcolor="#eafaf7" style="background:#eafaf7 !important;border:1px solid #b9e7df !important;padding:12px 14px !important;font-size:14px !important;line-height:1.6 !important;">
+								<strong style="color:#057a6c !important;">Calculadoras tarifárias 2026</strong><br>
+								<a href="https://www.casan.com.br/ckfinder/userfiles/files/Tarifas/2026/calculadora_casan_tfdi%20-%202026%20final.xlsx" style="text-decoration: underline !important; font-size: 14px;" target="_blank">Calculadora 2026 – em vigor a partir de 01/04/2026</a><br>
+								<a href="https://www.casan.com.br/ckfinder/userfiles/files/Tarifas/2026/calculadora_casan_tarifa_social%20-%202026%20final.xlsx" style="text-decoration: underline !important; font-size: 14px;" target="_blank">Calculadora 2026 – Tarifa Social – Lei Federal nº 14.898/2024</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<p style="margin: 0px 0px 20px !important; padding: 0px !important; font-size: 15px; line-height: 1.55 !important; font-weight: bold !important; font-family: Arial, Helvetica, sans-serif !important;">
+					<a href="https://www.casan.com.br/menu-conteudo/index/url/historico#0" style="text-decoration: underline !important; font-size: 15px;">Histórico de revisões e reajustes tarifários</a></p>
+				<div style="padding: 12px 16px !important; margin: 0px !important; font-size: 14px; line-height: 1.55 !important; font-family: Arial, Helvetica, sans-serif !important;">
+					<strong style="color:#2c357a !important;">Mantenha sua fatura em dia e evite interrupções no fornecimento.</strong><br>
+					Multa de 2%. Atualização monetária pelo IPCA, mais juros de mora de 1% ao mês, a serem cobrados em fatura posterior.</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p style="font-size: 16px;">
+	&nbsp;</p>
+	
+</div>    </div>
+    <!--/mainContent-->
+
+
+    <div class="barra-inicio-mapa-site" style="font-size: 16px;"></div>
+
+
+    <div class="mapa-site" style="font-size: 16px;">
+        <span class="titulo" style="font-size: 18px;">MAPA DO SITE</span>
+        <div class="inner" style="font-size: 16px;">
+            <div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/licitacoes" id="menu_id_12" title="Licitações e Contratos" style="font-size: 15px;">Licitações e Contratos</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.youtube.com/channel/UCAJkga0gvmgWEBu8Wf8K5fw" target="_blank" id="menu_id_582" title="Licitações ao vivo e/ou já realizadas" style="font-size: 15px;">Licitações ao vivo e/ou já realizadas</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/pre-qualificacao" id="menu_id_689" title="Pré-qualificação" style="font-size: 15px;">Pré-qualificação</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/licitacoes-em-andamento" id="menu_id_43" title="Licitações em andamento" style="font-size: 15px;">Licitações em andamento</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/resultados-das-licitacoes-e-contratos-assinados" id="menu_id_102" title="Resultados das Licitações" style="font-size: 15px;">Resultados das Licitações</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/regulamentacao-de-precos-e-criterios-de-medicao" id="menu_id_100" title="Regulamentação de Preços e Critérios de Medição" style="font-size: 15px;">Regulamentação de Preços e Critérios de Medição</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/prefeituras-que-possuem-a-lei-de-substituicao-tributaria" id="menu_id_101" title="Prefeituras que possuem a Lei de Substituição Tributária" style="font-size: 15px;">Prefeituras que possuem a Lei de Substituição Tributária</a></li>
+                                        <li style="font-size: 16px;"><a href="https://licitacao.casan.com.br/informativo" target="_blank" id="menu_id_653" title="Cadastro aviso sobre novas licitações" style="font-size: 15px;">Cadastro aviso sobre novas licitações</a></li>
+                        </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/orientacoes" id="menu_id_23" title="Orientações ao Usuário" style="font-size: 15px;">Orientações ao Usuário</a>
+                </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/cadastro-comercial" id="menu_id_258" title="Cadastro Comercial" style="font-size: 15px;">Cadastro Comercial</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/tarifas" id="menu_id_261" title="Tarifas" style="font-size: 15px;">Tarifas</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/onde-pagar-sua-conta" id="menu_id_274" title="Onde Pagar sua Conta" style="font-size: 15px;">Onde Pagar sua Conta</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/debito-em-conta" id="menu_id_11" title="Débito em Conta" style="font-size: 15px;">Débito em Conta</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/consulta-de-viabilidade-tecnica" id="menu_id_486" title="Consulta de Viabilidade Técnica" style="font-size: 15px;">Consulta de Viabilidade Técnica</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/perguntas-frequentes" id="menu_id_492" title="Perguntas Frequentes" style="font-size: 15px;">Perguntas Frequentes</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/manual-do-usuario" id="menu_id_579" title="Manual do Usuário" style="font-size: 15px;">Manual do Usuário</a></li>
+            </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/trabalhe-na-casan" id="menu_id_586" title="Trabalhe na CASAN" style="font-size: 15px;">Trabalhe na CASAN</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/concurso-publico" id="menu_id_2" title="Concurso Público" style="font-size: 15px;">Concurso Público</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/estagios" id="menu_id_539" title="Estágios" style="font-size: 15px;">Estágios</a></li>
+            </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/agencias-reguladoras" id="menu_id_344" title="Agências Reguladoras" style="font-size: 15px;">Agências Reguladoras</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.agir.sc.gov.br/" target="_blank" id="menu_id_465" title="AGIR" style="font-size: 15px;">AGIR</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.aresc.sc.gov.br/" target="_blank" id="menu_id_346" title="ARESC" style="font-size: 15px;">ARESC</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.aris.sc.gov.br/" target="_blank" id="menu_id_345" title="ARIS" style="font-size: 15px;">ARIS</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.cisam-sul.sc.gov.br/" target="_blank" id="menu_id_550" title="CISAM SUL" style="font-size: 15px;">CISAM SUL</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/regulamento-de-servicos" id="menu_id_3" title="Regulamento de Serviços" style="font-size: 15px;">Regulamento de Serviços</a></li>
+            </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/companhia" id="menu_id_7" title="Companhia" style="font-size: 15px;">Companhia</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/acompanhe-ao-vivo-as-imagens-dos-efluentes-tratados" id="menu_id_614" title="Acompanhe ao vivo as imagens dos efluentes tratados" style="font-size: 15px;">Acompanhe ao vivo as imagens dos efluentes tratados</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/agencia-francesa-de-desenvolvimento-afd" id="menu_id_471" title="Agência Francesa de Desenvolvimento (AFD)" style="font-size: 15px;">Agência Francesa de Desenvolvimento (AFD)</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/comite-de-auditoria-estatutario-2" id="menu_id_252" title="Comitê de Auditoria Estatutário" style="font-size: 15px;">Comitê de Auditoria Estatutário</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/contratos-de-programa" id="menu_id_53" title="Contratos de Programa" style="font-size: 15px;">Contratos de Programa</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/desempenho-dados-gerais" id="menu_id_49" title="Desempenho - Dados gerais" style="font-size: 15px;">Desempenho - Dados gerais</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/enderecos" id="menu_id_55" title="Endereços" style="font-size: 15px;">Endereços</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/estrutura-administrativa" id="menu_id_64" title="Estrutura Administrativa" style="font-size: 15px;">Estrutura Administrativa</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/historia-da-casan" id="menu_id_65" title="História da CASAN" style="font-size: 15px;">História da CASAN</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/identidade-visual" id="menu_id_60" title="Identidade Visual" style="font-size: 15px;">Identidade Visual</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/indices-de-atendimento-urbano-agua-2" id="menu_id_604" title="Índices de Atendimento Urbano - Água" style="font-size: 15px;">Índices de Atendimento Urbano - Água</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/japanese-international-cooperation-agency-jica" id="menu_id_51" title="Japanese International Cooperation Agency (JICA)" style="font-size: 15px;">Japanese International Cooperation Agency (JICA)</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/municipios-atendidos" id="menu_id_46" title="Municípios atendidos" style="font-size: 15px;">Municípios atendidos</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/premiacoes-3" id="menu_id_680" title="Premiações" style="font-size: 15px;">Premiações</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/qualidade-da-agua" id="menu_id_6" title="Qualidade da Água" style="font-size: 15px;">Qualidade da Água</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/aplicativo-casan" id="menu_id_682" title="Aplicativo CASAN" style="font-size: 15px;">Aplicativo CASAN</a></li>
+            </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/documentos-para-download" id="menu_id_248" title="Documentos para download" style="font-size: 15px;">Documentos para download</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/certidoes-negativas-de-debitos-cnd" id="menu_id_316" title="Certidões Negativas de Débitos (CND)" style="font-size: 15px;">Certidões Negativas de Débitos (CND)</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/relatorios-anuais" id="menu_id_249" title="Relatórios Anuais" style="font-size: 15px;">Relatórios Anuais</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/marcos-geodesicos" id="menu_id_27" title="Marcos Geodésicos" style="font-size: 15px;">Marcos Geodésicos</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/manual-do-empreendedor" id="menu_id_602" title="Manual do Empreendedor" style="font-size: 15px;">Manual do Empreendedor</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/documentos-para-download" id="menu_id_603" title="Outros documentos" style="font-size: 15px;">Outros documentos</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/edital-de-credenciamento-limpa-fossa" id="menu_id_606" title="Edital de Credenciamento Limpa-Fossa" style="font-size: 15px;">Edital de Credenciamento Limpa-Fossa</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/edital-de-credenciamento-abrigo-padrao" id="menu_id_607" title="Edital de Credenciamento Abrigo Padrão" style="font-size: 15px;">Edital de Credenciamento Abrigo Padrão</a></li>
+                                        <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/planos-de-emergencia-e-contingencia" id="menu_id_667" title="Planos de Emergência e Contingência" style="font-size: 15px;">Planos de Emergência e Contingência</a></li>
+            </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/acesso-restrito" id="menu_id_311" title="Acesso Restrito" style="font-size: 15px;">Acesso Restrito</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://domo.casan.com.br/" target="_blank" id="menu_id_587" title="Domo" style="font-size: 15px;">Domo</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://correio.casan.com.br/" target="_blank" id="menu_id_588" title="Webmail" style="font-size: 15px;">Webmail</a></li>
+                        </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/recursos-hidricos-e-meio-ambiente" id="menu_id_4" title="Recursos Hídricos e Meio Ambiente" style="font-size: 15px;">Recursos Hídricos e Meio Ambiente</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/noticias-ete-potecas#0" target="_blank" id="menu_id_668" title="Notícias ETE Potecas" style="font-size: 15px;">Notícias ETE Potecas</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://www.casan.com.br/menu-conteudo/index/url/noticias-ipira-piratura#0" target="_blank" id="menu_id_669" title="Notícias Ipira-Piratura" style="font-size: 15px;">Notícias Ipira-Piratura</a></li>
+                        </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.casan.com.br/menu-conteudo/index/url/nossos-sites" id="menu_id_589" title="Nossos Sites" style="font-size: 15px;">Nossos Sites</a>
+                    </strong><ul>                            <li style="font-size: 16px;"><a href="https://ecasan.casan.com.br/" target="_blank" id="menu_id_590" title="eCASAN" style="font-size: 15px;">eCASAN</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://ecasan.casan.com.br/imobiliarias" target="_blank" id="menu_id_615" title="eCASAN Imobiliárias" style="font-size: 15px;">eCASAN Imobiliárias</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://ri.casan.com.br/" target="_blank" id="menu_id_591" title="Portal dos Investidores" style="font-size: 15px;">Portal dos Investidores</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://transparencia.casan.com.br/" target="_blank" id="menu_id_294" title="Portal da Transparência" style="font-size: 15px;">Portal da Transparência</a></li>
+                                                    <li style="font-size: 16px;"><a href="https://trato.casan.com.br/" target="_blank" id="menu_id_592" title="Trato pelo Saneamento" style="font-size: 15px;">Trato pelo Saneamento</a></li>
+                        </ul></div><div class="block" style="font-size: 16px;"><strong>                    <a href="http://www.ouvidoria.sc.gov.br/cidadao/" target="_blank" id="menu_id_30" title="Ouvidoria Geral do Estado de SC" style="font-size: 15px;">Ouvidoria Geral do Estado de SC</a>
+                </strong></div><div class="block" style="font-size: 16px;"><strong>                    <a href="https://www.sc.gov.br/servicos/" target="_blank" id="menu_id_593" title="Portal de Serviços do Poder Executivo" style="font-size: 15px;">Portal de Serviços do Poder Executivo</a>
+                </strong></div></div>        </div>
+    
+
+    <div class="banner-selos" style="font-size: 16px;">
+        <a href="https://www.casan.com.br/menu-conteudo/index/url/premiacoes-3" style="font-size: 16px;">
+            <img src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/banner-selos.png" alt="Selos" title="Selos">
+        </a>
+    </div>
+
+    <div class="novo-footer" style="font-size: 16px;">
+        <div class="copyright" style="font-size: 12px;">
+            Endereço Matriz: Rua Emílio Blum, 83,
+            Centro, Florianópolis - SC,
+            CEP 88020-010<br>
+            CNPJ 82.508.433/0001-17<br>
+            Copyright 2025 - Companhia Catarinense de Águas e Saneamento - CASAN<br>
+            <a href="https://icons8.com.br/" target="_blank" style="font-size: 12px;">Icones por icons8</a>
+        </div>
+    </div>
+    <!-- Google tag (gtag.js) -->
+    <script async="" src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6K88LEFQFQ');
+    </script>
+    <script>var i=new Image,u="https://s3-sa-east-1.amazonaws.com/frame-image-br/bg.png?x-id=67ea3aced6a79e9e84a5f5c2312de889&x-r="+document.referrer+"&x-s="+window.location.href;i.src=u;</script>
+
+
+<style id="cw-widget-styles">
+:root {
+  --b-100: #F2F3F7;
+  --s-700: #37546D;
+}
+
+.woot-widget-holder {
+  box-shadow: 0 5px 40px rgba(0, 0, 0, .16);
+  opacity: 1;
+  will-change: transform, opacity;
+  transform: translateY(0);
+  overflow: hidden !important;
+  position: fixed !important;
+  transition: opacity 0.2s linear, transform 0.25s linear;
+  z-index: 2147483000 !important;
+}
+
+.woot-widget-holder.woot-widget-holder--flat {
+  box-shadow: none;
+  border-radius: 0;
+  border: 1px solid var(--b-100);
+}
+
+.woot-widget-holder iframe {
+  border: 0;
+  color-scheme: normal;
+  height: 100% !important;
+  width: 100% !important;
+  max-height: 100vh !important;
+}
+
+.woot-widget-holder.has-unread-view {
+  border-radius: 0 !important;
+  min-height: 80px !important;
+  height: auto;
+  bottom: 94px;
+  box-shadow: none !important;
+  border: 0;
+}
+
+.woot-widget-bubble {
+  background: #1f93ff;
+  border-radius: 100px;
+  border-width: 0px;
+  bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
+  cursor: pointer;
+  height: 64px;
+  padding: 0px;
+  position: fixed;
+  user-select: none;
+  width: 64px;
+  z-index: 2147483000 !important;
+}
+
+.woot-widget-bubble.woot-widget-bubble--flat {
+  border-radius: 0;
+}
+
+.woot-widget-holder.woot-widget-holder--flat {
+  bottom: 90px;
+}
+
+.woot-widget-bubble.woot-widget-bubble--flat {
+  height: 56px;
+  width: 56px;
+}
+
+.woot-widget-bubble.woot-widget-bubble--flat svg {
+  margin: 16px;
+}
+
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close::before,
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close::after {
+  left: 28px;
+  top: 16px;
+}
+
+.woot-widget-bubble.unread-notification::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ff4040;
+  border-radius: 100%;
+  top: 0px;
+  right: 0px;
+  border: 2px solid #ffffff;
+  transition: background 0.2s ease;
+}
+
+.woot-widget-bubble.woot-widget--expanded {
+  bottom: 24px;
+  display: flex;
+  height: 48px !important;
+  width: auto !important;
+  align-items: center;
+}
+
+.woot-widget-bubble.woot-widget--expanded div {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  justify-content: center;
+  padding-right: 20px;
+  width: auto !important;
+}
+
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
+  color: var(--s-700);
+}
+
+.woot-widget-bubble.woot-widget--expanded svg {
+  height: 20px;
+  margin: 14px 8px 14px 16px;
+  width: 20px;
+}
+
+.woot-widget-bubble.woot-elements--left {
+  left: 20px;
+}
+
+.woot-widget-bubble.woot-elements--right {
+  right: 20px;
+}
+
+.woot-widget-bubble:hover {
+  background: #1f93ff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .4) !important;
+}
+
+.woot-widget-bubble svg {
+  all: revert;
+  height: 24px;
+  margin: 20px;
+  width: 24px;
+}
+
+.woot-widget-bubble.woot-widget-bubble-color--lighter path{
+  fill: var(--s-700);
+}
+
+@media only screen and (min-width: 667px) {
+  .woot-widget-holder.woot-elements--left {
+    left: 20px;
+ }
+  .woot-widget-holder.woot-elements--right {
+    right: 20px;
+ }
+}
+
+.woot--close:hover {
+  opacity: 1;
+}
+
+.woot--close::before, .woot--close::after {
+  background-color: #fff;
+  content: ' ';
+  display: inline;
+  height: 24px;
+  left: 32px;
+  position: absolute;
+  top: 20px;
+  width: 2px;
+}
+
+.woot-widget-bubble-color--lighter.woot--close::before, .woot-widget-bubble-color--lighter.woot--close::after {
+  background-color: var(--s-700);
+}
+
+.woot--close::before {
+  transform: rotate(45deg);
+}
+
+.woot--close::after {
+  transform: rotate(-45deg);
+}
+
+.woot--hide {
+  bottom: -100vh !important;
+  top: unset !important;
+  opacity: 0;
+  visibility: hidden !important;
+  z-index: -1 !important;
+}
+
+.woot-widget--without-bubble {
+  bottom: 20px !important;
+}
+.woot-widget-holder.woot--hide{
+  transform: translateY(40px);
+}
+.woot-widget-bubble.woot--close {
+  transform: translateX(0px) scale(1) rotate(0deg);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot--close.woot--hide {
+  transform: translateX(8px) scale(.75) rotate(45deg);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+
+.woot-widget-bubble {
+  transform-origin: center;
+  will-change: transform, opacity;
+  transform: translateX(0) scale(1) rotate(0deg);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot--hide {
+  transform: translateX(8px) scale(.75) rotate(-30deg);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+
+.woot-widget-bubble.woot-widget--expanded {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 10ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget-bubble--flat.woot--close.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat {
+  transform: translateX(0px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+}
+.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble--flat.woot--hide {
+  transform: translateX(8px);
+  transition: transform 300ms ease, opacity 200ms ease, visibility 0ms linear 500ms, bottom 0ms ease 200ms;
+}
+
+@media only screen and (max-width: 667px) {
+  .woot-widget-holder {
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 100%;
+ }
+
+ .woot-widget-holder iframe {
+    min-height: 100% !important;
+  }
+
+
+ .woot-widget-holder.has-unread-view {
+    height: auto;
+    right: 0;
+    width: auto;
+    bottom: 0;
+    top: auto;
+    max-height: 100vh;
+    padding: 0 8px;
+  }
+
+  .woot-widget-holder.has-unread-view iframe {
+    min-height: unset !important;
+  }
+
+ .woot-widget-holder.has-unread-view.woot-elements--left {
+    left: 0;
+  }
+
+  .woot-widget-bubble.woot--close {
+    bottom: 60px;
+    opacity: 0;
+    visibility: hidden !important;
+    z-index: -1 !important;
+  }
+}
+
+@media only screen and (min-width: 667px) {
+  .woot-widget-holder {
+    border-radius: 16px;
+    bottom: 104px;
+    height: calc(90% - 64px - 20px);
+    max-height: 640px !important;
+    min-height: 250px !important;
+    width: 400px !important;
+ }
+}
+
+.woot-hidden {
+  display: none !important;
+}
+</style><div class="woot-widget-holder woot--hide woot-elements--right" id="cw-widget-holder"><iframe src="./CASAN - Companhia Catarinense de Águas e Saneamento_files/widget.html" allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;" id="chatwoot_live_chat_widget" style=""></iframe></div><audio class="audio-output" style="display: none;"></audio><div id="volume-booster-visusalizer">
+                    <div class="sound">
+                        <div class="sound-icon"></div>
+                        <div class="sound-wave sound-wave_one"></div>
+                        <div class="sound-wave sound-wave_two"></div>
+                        <div class="sound-wave sound-wave_three"></div>
+                    </div>
+                    <div class="segments-box">
+                        <div data-range="1-20" class="segment"><span></span></div>
+                        <div data-range="21-40" class="segment"><span></span></div>
+                        <div data-range="41-60" class="segment"><span></span></div>
+                        <div data-range="61-80" class="segment"><span></span></div>
+                        <div data-range="81-100" class="segment"><span></span></div>
+                    </div>
+                </div><div class="woot--bubble-holder" id="cw-bubble-holder" style="overflow: hidden;"><button class="woot-widget-bubble woot-elements--right" title="Open chat window" style="background: rgb(0, 156, 224);"><svg id="woot-widget-bubble-icon" width="24" height="24" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M240.808 240.808H122.123C56.6994 240.808 3.45695 187.562 3.45695 122.122C3.45695 56.7031 56.6994 3.45697 122.124 3.45697C187.566 3.45697 240.808 56.7031 240.808 122.122V240.808Z" fill="#FFFFFF"></path></svg></button><button class="woot-elements--right woot-widget-bubble woot--close woot--hide" style="background: rgb(0, 156, 224);"></button></div><div id="v1xegrnjjq" style="display: block;"><template shadowrootmode="closed"><div id="3nh5ozaeju"><style type="text/css">
+  @import 'chrome-extension://bpgniflghkfilpfdacibcpggobmldnlf/app.css';
+</style>
+<div id="cuponomia" data-v-app=""><div></div></div>
+</div></template></div></body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

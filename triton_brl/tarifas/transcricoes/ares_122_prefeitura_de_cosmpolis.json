@@ -1,0 +1,160 @@
+{
+ "prestador": "Prefeitura de Cosmópolis",
+ "registro": [
+  122
+ ],
+ "documento": "prefeitura_de_cosmopolis_ARESPCJ_resoluo_n_623_2025_-_reviso_tarifria_-_cosmpolis.pdf",
+ "vigencia": "01/06/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1746022517-resoluo_n_623_2025_-_reviso_tarifria_-_cosmpolis.pdf",
+ "leitura": "Material tarifário oficial de Prefeitura de Cosmópolis. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/06/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Cosmópolis"
+   ],
+   "social": {
+    "esgoto_pct": 100,
+    "fixo": 15.58,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.58
+     ],
+     [
+      15.0,
+      20.0,
+      2.42
+     ],
+     [
+      20.0,
+      30.0,
+      4.19
+     ],
+     [
+      30.0,
+      40.0,
+      7.13
+     ],
+     [
+      40.0,
+      null,
+      16.39
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "residencial": {
+    "esgoto_pct": 100,
+    "fixo": 31.15,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      3.16
+     ],
+     [
+      15.0,
+      20.0,
+      3.22
+     ],
+     [
+      20.0,
+      30.0,
+      4.19
+     ],
+     [
+      30.0,
+      40.0,
+      7.13
+     ],
+     [
+      40.0,
+      null,
+      16.39
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "comercial": {
+    "esgoto_pct": 100,
+    "fixo": 38.94,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      3.92
+     ],
+     [
+      15.0,
+      20.0,
+      3.96
+     ],
+     [
+      20.0,
+      30.0,
+      5.11
+     ],
+     [
+      30.0,
+      40.0,
+      8.63
+     ],
+     [
+      40.0,
+      null,
+      19.67
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   },
+   "industrial": {
+    "esgoto_pct": 100,
+    "fixo": 49.84,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      4.74
+     ],
+     [
+      15.0,
+      20.0,
+      4.6
+     ],
+     [
+      20.0,
+      30.0,
+      5.95
+     ],
+     [
+      30.0,
+      40.0,
+      10.05
+     ],
+     [
+      40.0,
+      null,
+      22.95
+     ]
+    ],
+    "nota": "Esgoto com coleta, afastamento e tratamento = 100% da água (só coleta e afastamento, 80%)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Cosmópolis",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 63.05,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

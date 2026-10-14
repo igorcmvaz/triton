@@ -1,0 +1,183 @@
+{
+ "prestador": "SANEP Pelotas",
+ "registro": [
+  175
+ ],
+ "documento": "e4ec53825f3073f59ac90291977bea60.pdf",
+ "vigencia": "2022",
+ "fonte_url": "arquivo recebido, sem endereço: tarifas/fontes/sanep_pelotas/e4ec53825f3073f59ac90291977bea60.pdf",
+ "leitura": "Anexo I do Ato 01/2022 do SANEP Pelotas, matriz tarifária: serviço básico e valor-base por m³ por faixa, com o esgoto em três modalidades (30%, 60%, 80%). É de 2022; o banco tinha valores maiores, sem documento, e o programa reajusta a partir da vigência.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Ato 01/2022",
+   "uf": "RS",
+   "municipios": [
+    "Pelotas"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.08
+     ],
+     [
+      10,
+      20,
+      5.84
+     ],
+     [
+      20,
+      30,
+      7.73
+     ],
+     [
+      30,
+      50,
+      8.9
+     ],
+     [
+      50,
+      100,
+      10.22
+     ],
+     [
+      100,
+      null,
+      11.75
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 24.01,
+    "nota": "Serviço básico somado ao consumo desde 0 m³; esgoto a 80% (coluna «Esgoto 80%»; 30% e 60% nas outras modalidades)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.77
+     ],
+     [
+      10,
+      15,
+      6.63
+     ],
+     [
+      15,
+      20,
+      7.61
+     ],
+     [
+      20,
+      30,
+      8.78
+     ],
+     [
+      30,
+      50,
+      10.1
+     ],
+     [
+      50,
+      100,
+      11.6
+     ],
+     [
+      100,
+      200,
+      13.35
+     ],
+     [
+      200,
+      400,
+      10.1
+     ],
+     [
+      400,
+      null,
+      8.78
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 42.88
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      6.56
+     ],
+     [
+      20,
+      120,
+      9.96
+     ],
+     [
+      120,
+      3000,
+      11.47
+     ],
+     [
+      3000,
+      5000,
+      6.11
+     ],
+     [
+      5000,
+      null,
+      5.26
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 85.65
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.77
+     ],
+     [
+      10,
+      20,
+      7.61
+     ],
+     [
+      20,
+      30,
+      8.78
+     ],
+     [
+      30,
+      50,
+      10.1
+     ],
+     [
+      50,
+      100,
+      11.6
+     ],
+     [
+      100,
+      null,
+      13.35
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 85.65
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RS - Pelotas",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 74.81,
+   "impresso": "serviço básico 24,01 + 10 × 5,08"
+  }
+ ]
+}

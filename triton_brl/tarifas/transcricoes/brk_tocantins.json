@@ -1,0 +1,198 @@
+{
+ "prestador": "BRK Tocantins",
+ "registro": [
+  45
+ ],
+ "documento": "resolucao_reajuste_tarifariopdf.pdf",
+ "vigencia": "05/12/2025",
+ "fonte_url": "https://www.atr.to.gov.br",
+ "leitura": "Resolução ATR nº 13/2025, Anexo I «Estrutura Tarifária – BRK Ambiental / Saneatins» (assinado em 05/11/2025, aplicado 30 dias depois), tabela única do Tocantins. Faixas por m³ desde 0 m³, como impressas.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "TO",
+   "municipios": [
+    "Araguaína",
+    "Gurupi",
+    "Palmas",
+    "Paraíso do Tocantins",
+    "Porto Nacional"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      5,
+      8.76
+     ],
+     [
+      5,
+      10,
+      3.05
+     ],
+     [
+      10,
+      15,
+      8.66
+     ],
+     [
+      15,
+      20,
+      11.07
+     ],
+     [
+      20,
+      25,
+      13.53
+     ],
+     [
+      25,
+      30,
+      15.67
+     ],
+     [
+      30,
+      35,
+      17.28
+     ],
+     [
+      35,
+      40,
+      21.34
+     ],
+     [
+      40,
+      50,
+      23.94
+     ],
+     [
+      50,
+      null,
+      28.57
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.62
+     ],
+     [
+      5,
+      10,
+      0.92
+     ],
+     [
+      10,
+      15,
+      5.62
+     ],
+     [
+      15,
+      20,
+      9.42
+     ],
+     [
+      20,
+      25,
+      12.85
+     ],
+     [
+      25,
+      30,
+      14.89
+     ],
+     [
+      30,
+      35,
+      17.28
+     ],
+     [
+      35,
+      40,
+      21.34
+     ],
+     [
+      40,
+      50,
+      23.94
+     ],
+     [
+      50,
+      null,
+      28.57
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social; acima de 30 m³, conforme a residencial. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      5,
+      22.48
+     ],
+     [
+      5,
+      10,
+      7.68
+     ],
+     [
+      10,
+      null,
+      20.69
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      15,
+      16.64
+     ],
+     [
+      15,
+      null,
+      23.12
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      9.99
+     ],
+     [
+      15,
+      null,
+      17.04
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "abrangencia": "tabela única do BRK Tocantins (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "TO - Palmas",
+   "categoria": "residencial",
+   "consumo_m3": 60,
+   "conta_agua": 1021.9,
+   "impresso": "Anexo I, residencial até acima de 50 m³ a R$ 28,57"
+  }
+ ]
+}

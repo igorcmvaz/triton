@@ -1,0 +1,138 @@
+{
+ "prestador": "EMASA Balneário Camboriú",
+ "registro": [
+  61
+ ],
+ "documento": "oficio_361_2026aris.pdf",
+ "vigencia": "04/05/2026",
+ "fonte_url": "https://www.aris.sc.gov.br",
+ "leitura": "Deliberação ARIS nº 015/2026, de 02/04/2026 (reajuste de 6,30%), Anexo I, Quadro 1; vale 30 dias após a publicação no DOM. TFDI por unidade e categoria somada ao consumo desde 0 m³. «Esgoto: 80% do volume faturado de água», lido como 80% da conta de água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Quadro 1",
+   "uf": "SC",
+   "municipios": [
+    "Balneário Camboriú"
+   ],
+   "residencial": {
+    "fixo": 44.95,
+    "faixas": [
+     [
+      0,
+      10,
+      0.6585
+     ],
+     [
+      10,
+      25,
+      4.6959
+     ],
+     [
+      25,
+      null,
+      7.8312
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Esgoto: 80% do volume faturado de água», lido como 80% da conta de água."
+   },
+   "social": {
+    "fixo": 7.87,
+    "faixas": [
+     [
+      0,
+      10,
+      0.1127
+     ],
+     [
+      10,
+      25,
+      2.0533
+     ],
+     [
+      25,
+      null,
+      6.8478
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Esgoto: 80% do volume faturado de água», lido como 80% da conta de água."
+   },
+   "comercial": {
+    "fixo": 66.65,
+    "faixas": [
+     [
+      0,
+      10,
+      1.446
+     ],
+     [
+      10,
+      25,
+      6.2707
+     ],
+     [
+      25,
+      null,
+      7.8312
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Não residencial comum. «Esgoto: 80% do volume faturado de água», lido como 80% da conta de água."
+   },
+   "industrial": {
+    "fixo": 66.65,
+    "faixas": [
+     [
+      0,
+      10,
+      1.446
+     ],
+     [
+      10,
+      25,
+      6.2707
+     ],
+     [
+      25,
+      null,
+      7.8312
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Não residencial comum. «Esgoto: 80% do volume faturado de água», lido como 80% da conta de água."
+   },
+   "publica": {
+    "fixo": 66.65,
+    "faixas": [
+     [
+      0,
+      10,
+      1.446
+     ],
+     [
+      10,
+      25,
+      6.2707
+     ],
+     [
+      25,
+      null,
+      7.8312
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Não residencial comum. «Esgoto: 80% do volume faturado de água», lido como 80% da conta de água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Balneário Camboriú",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 51.54,
+   "impresso": "TFDI 44,95 + 0 à 10 m³ a 0,6585"
+  }
+ ]
+}

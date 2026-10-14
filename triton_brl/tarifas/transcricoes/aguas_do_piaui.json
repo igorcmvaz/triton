@@ -1,0 +1,197 @@
+{
+ "prestador": "Águas do Piauí",
+ "registro": [
+  34
+ ],
+ "documento": "Legislação e Tarifas AguasPiaui.html",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.aguasdopiaui.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas do Piauí, aba Tarifas em Vigor, filtro 2026 (reajuste de 2,078%, vigência 01/03/2026). Esgoto a 80% da água em todas as faixas. «Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifas em Vigor 2026",
+   "uf": "PI",
+   "municipios": [
+    "Floriano",
+    "Parnaíba",
+    "Picos",
+    "Piripiri"
+   ],
+   "residencial": {
+    "fixo": 52.89,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      9.815
+     ],
+     [
+      15,
+      20,
+      10.917
+     ],
+     [
+      20,
+      25,
+      11.8
+     ],
+     [
+      25,
+      35,
+      18.747
+     ],
+     [
+      35,
+      null,
+      20.401
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra."
+   },
+   "social": {
+    "fixo": 26.44,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      4.907
+     ],
+     [
+      15,
+      20,
+      10.917
+     ],
+     [
+      20,
+      25,
+      11.8
+     ],
+     [
+      25,
+      35,
+      18.747
+     ],
+     [
+      35,
+      null,
+      20.401
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa Social; acima de 15 m³, pela residencial. «Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra."
+   },
+   "comercial": {
+    "fixo": 108.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      16.211
+     ],
+     [
+      15,
+      20,
+      17.975
+     ],
+     [
+      20,
+      25,
+      20.953
+     ],
+     [
+      25,
+      35,
+      21.173
+     ],
+     [
+      35,
+      null,
+      23.158
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública. «Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra."
+   },
+   "industrial": {
+    "fixo": 108.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      16.211
+     ],
+     [
+      15,
+      20,
+      17.975
+     ],
+     [
+      20,
+      25,
+      20.953
+     ],
+     [
+      25,
+      35,
+      21.173
+     ],
+     [
+      35,
+      null,
+      23.158
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública. «Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra."
+   },
+   "publica": {
+    "fixo": 108.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      16.211
+     ],
+     [
+      15,
+      20,
+      17.975
+     ],
+     [
+      20,
+      25,
+      20.953
+     ],
+     [
+      25,
+      35,
+      21.173
+     ],
+     [
+      35,
+      null,
+      23.158
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública. «Até 10 m³» lido como consumo mínimo de 10 m³ (como na base e na leitura das tabelas da ARSAL); a página não detalha a regra."
+   },
+   "abrangencia": "tabela única do Águas do Piauí (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PI - Parnaíba",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 309.29,
+   "impresso": "52,89 + 5×9,815 + 5×10,917 + 5×11,800 + 5×18,747"
+  }
+ ]
+}

@@ -1,0 +1,52 @@
+{
+ "prestador": "CORSAN",
+ "registro": [
+  4,
+  3
+ ],
+ "documento": "ANEXO-5-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+ "vigencia": "01/07/2026",
+ "fonte_url": "https://www.corsan.com.br/sistematarifario",
+ "leitura": "Tabela I da CORSAN (fórmula exponencial PB × Cⁿ), PB residencial R$ 9.15/m³; expoentes da Tabela de Exponenciais (item 3). A residencial e as categorias foram gravadas por scripts/aplicar_tarifa_exponencial.py e scripts/aplicar_categorias_corsan.py, a partir de tarifas/categorias/corsan_2026.json; aqui entra a procedência da residencial.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela I, residencial (fórmula exponencial)",
+   "uf": "RS",
+   "municipios": [
+    "Alegrete",
+    "Alvorada",
+    "Bento Gonçalves",
+    "Cachoeira do Sul",
+    "Cachoeirinha",
+    "Camaquã",
+    "Campo Bom",
+    "Capão da Canoa",
+    "Carazinho",
+    "Cruz Alta",
+    "Farroupilha",
+    "Gravataí",
+    "Guaíba",
+    "Ijuí",
+    "Lajeado",
+    "Montenegro",
+    "Parobé",
+    "Passo Fundo",
+    "Rio Grande",
+    "Santa Maria",
+    "Santa Rosa",
+    "Santo Ângelo",
+    "Sapiranga",
+    "Sapucaia do Sul",
+    "São Borja",
+    "Taquara",
+    "Tramandaí",
+    "Vacaria",
+    "Venâncio Aires",
+    "Viamão"
+   ],
+   "residencial_conferida": true,
+   "abrangencia": "tabela única do CORSAN (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": []
+}

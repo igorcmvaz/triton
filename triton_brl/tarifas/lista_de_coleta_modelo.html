@@ -1,0 +1,952 @@
+<title>Coleta de Tarifas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: uma coluna de trabalho com duas abas. «Sites para visitar»: placar, filtros fixos e as duas listas de prestadores.
+   «Estatísticas»: números-chave, barras por categoria, dois mapas (estado e cidade) com o mesmo seletor, e as tabelas que os sustentam. */
+:root {
+  --bg: #f3f6f5;
+  --surface: #ffffff;
+  --sunken: #e8eeec;
+  --fg: #14211e;
+  --muted: #56655f;
+  --line: #d3ddd9;
+  --accent: #0b6e64;
+  --accent-ink: #ffffff;
+  --accent-bg: #e1f0ee;
+  --falta: #a8432f;
+  --falta-bg: #f8e6e1;
+  --confirmar: #8a5a00;
+  --confirmar-bg: #f8edd2;
+  --ok: #2c6e33;
+  --ok-bg: #e3f2e4;
+  --ok-line: #9fcfa3;
+  /* marcas do mapa e das barras */
+  --st-ok: #0ca30c;
+  --st-warn: #d9a400;
+  --st-bad: #d03b3b;
+  --st-none: #c9d2cf;
+  --r0: #e6ebe9;
+  --r1: #6fbfb2;
+  --r2: #36998b;
+  --r3: #147a6f;
+  --r4: #0a5049;
+  --estado: #edf1f0;
+  --cl-completa: #0a5049; --cl-doc: #0ca30c; --cl-velha: #c46a12; --cl-semdoc: #7d93ad;
+  --borda-uf: #ffffff;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1614; --surface: #17211e; --sunken: #1e2a27; --fg: #e3ebe8; --muted: #9db0a9;
+    --line: #2c3a36; --accent: #4cc2b2; --accent-ink: #062723; --accent-bg: #16302c;
+    --falta: #f0957f; --falta-bg: #3a201a; --confirmar: #e9bb5e; --confirmar-bg: #352a12;
+    --ok: #8bd193; --ok-bg: #18301d; --ok-line: #2f5a35;
+    --st-ok: #0ca30c; --st-warn: #e9b53a; --st-bad: #e66767; --st-none: #3d4b47;
+    --r0: #223030; --r1: #1f6a60; --r2: #2f9586; --r3: #52c1b0; --r4: #9fe3d6;
+    --estado: #1e2a27; --borda-uf: #0f1614;
+    --cl-completa: #9fe3d6; --cl-doc: #2fbf3a; --cl-velha: #f0a050; --cl-semdoc: #8aa3c0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1614; --surface: #17211e; --sunken: #1e2a27; --fg: #e3ebe8; --muted: #9db0a9;
+  --line: #2c3a36; --accent: #4cc2b2; --accent-ink: #062723; --accent-bg: #16302c;
+  --falta: #f0957f; --falta-bg: #3a201a; --confirmar: #e9bb5e; --confirmar-bg: #352a12;
+  --ok: #8bd193; --ok-bg: #18301d; --ok-line: #2f5a35;
+  --st-ok: #0ca30c; --st-warn: #e9b53a; --st-bad: #e66767; --st-none: #3d4b47;
+  --r0: #223030; --r1: #1f6a60; --r2: #2f9586; --r3: #52c1b0; --r4: #9fe3d6;
+  --estado: #1e2a27; --borda-uf: #0f1614;
+  --cl-completa: #9fe3d6; --cl-doc: #2fbf3a; --cl-velha: #f0a050; --cl-semdoc: #8aa3c0;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; }
+h1, h2, h3 { font-family: var(--display); font-stretch: 85%; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(28px, 4.5vw, 40px); font-weight: 800; }
+h2 { font-size: 22px; font-weight: 700; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+h3 { font-size: 17px; font-weight: 700; }
+h2 .conta { font-family: var(--mono); font-size: 14px; color: var(--muted); font-weight: 400; }
+.lead { color: var(--muted); max-width: 68ch; margin: 8px 0 0; }
+.lead code, .mono { font-family: var(--mono); font-size: 0.88em; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Abas */
+.abas { display: flex; gap: 4px; margin-top: 20px; border-bottom: 1px solid var(--line); }
+.abas button { font: 600 15px var(--body); color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent;
+  padding: 10px 14px 8px; cursor: pointer; }
+.abas button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.abas button:hover { color: var(--fg); }
+
+.placar { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line);
+  border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 20px; }
+.placar div { background: var(--surface); padding: 12px 14px; }
+@media (max-width: 600px) { .placar div:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+.placar b { display: block; font-family: var(--display); font-stretch: 80%; font-size: 28px; font-weight: 700; }
+.placar span { color: var(--muted); font-size: 13px; }
+.barra-prog { height: 6px; background: var(--sunken); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.barra-prog i { display: block; height: 100%; background: var(--accent); min-width: 2px; }
+
+.filtros { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 0; margin-top: 18px; border-bottom: 1px solid var(--line); }
+input[type="search"], select { font: inherit; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0; }
+.filtros input[type="search"] { flex: 1 1 240px; }
+.filtros label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 14px; }
+
+section { margin-top: 30px; }
+.nota-secao { color: var(--muted); font-size: 14px; margin: 4px 0 12px; max-width: 72ch; }
+ol.lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.item.recebido { background: var(--ok-bg); border-color: var(--ok-line); }
+.item.visitado:not(.recebido) { background: var(--accent-bg); }
+.linha { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr) auto; gap: 14px; padding: 12px 14px; align-items: start; }
+@media (max-width: 760px) { .linha { grid-template-columns: minmax(0, 1fr); } }
+.nome { font-weight: 600; font-size: 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.selo { font: 600 11px var(--body); letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; }
+.selo.ok { background: var(--ok); color: var(--surface); }
+.selo.vis { background: var(--accent); color: var(--accent-ink); }
+.meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 2px; }
+.meta .n { font-family: var(--mono); color: var(--fg); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { font-size: 12px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.falta { background: var(--falta-bg); color: var(--falta); }
+.chip.confirmar { background: var(--confirmar-bg); color: var(--confirmar); }
+.chip.ok { background: var(--surface); color: var(--ok); border: 1px solid var(--ok-line); }
+.acoes { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+@media (max-width: 760px) { .acoes { justify-content: flex-start; } }
+a.botao, button.botao { font: 500 13px var(--body); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 10px; border-radius: 7px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+a.botao.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+a.botao:hover, button.botao:hover { border-color: var(--accent); }
+.tipo { font-family: var(--mono); font-size: 11px; opacity: 0.85; }
+label.visitei { font-size: 13px; color: var(--muted); display: inline-flex; align-items: center; gap: 5px; padding: 6px 4px; }
+
+details { border-top: 1px solid var(--line); }
+summary { cursor: pointer; padding: 8px 14px; color: var(--muted); font-size: 13px; }
+.detalhe { padding: 4px 14px 14px; display: grid; gap: 12px; }
+.salvar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
+.salvar code { font-family: var(--mono); background: var(--sunken); padding: 3px 7px; border-radius: 5px; overflow-wrap: anywhere; }
+.fonte-url { font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.tabela-wrap { overflow-x: auto; }
+.tabela-wrap.alta { max-height: 520px; overflow-y: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; background: var(--surface); }
+.alta th { position: sticky; top: 0; z-index: 1; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.uf { font-family: var(--mono); }
+tr.feito td { background: var(--ok-bg); }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 2px solid var(--accent); }
+.ponto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.ponto.completa { background: var(--cl-completa); } .ponto.documentada { background: var(--cl-doc); } .ponto.a_renovar { background: var(--cl-velha); }
+.ponto.sem_documento { background: var(--cl-semdoc); } .ponto.a_confirmar { background: var(--st-warn); } .ponto.ruim { background: var(--st-bad); }
+.detalhe { margin-top: 12px; font-size: 14px; line-height: 1.5; border-top: 1px solid var(--line); padding-top: 10px; }
+.detalhe dl { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0 0; }
+.detalhe dt { color: var(--muted); } .detalhe dd { margin: 0; overflow-wrap: anywhere; }
+.mapa .cidade { cursor: pointer; }
+.ponto.verde { background: var(--ok); } .ponto.amarelo { background: var(--confirmar); } .ponto.vermelho { background: var(--falta); }
+.sim { color: var(--ok); font-weight: 600; } .nao { color: var(--muted); }
+.recebidos li { margin: 2px 0; }
+.vazio { color: var(--muted); padding: 18px; border: 1px dashed var(--line); border-radius: 10px; text-align: center; }
+footer { margin-top: 40px; color: var(--muted); font-size: 13px; max-width: 72ch; }
+.lote { display: inline-flex; align-items: center; gap: 6px; }
+.lote select { padding: 7px 8px; }
+button.botao.principal { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.fila { position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; background: var(--surface); border-top: 2px solid var(--accent);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -4px 16px rgb(0 0 0 / 0.12); }
+.fila-in { max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.fila-txt { flex: 1 1 260px; min-width: 0; font-size: 14px; }
+.fila-txt b { font-family: var(--mono); font-weight: 500; }
+.fila-txt small { display: block; color: var(--muted); font-size: 12px; }
+.fila-acoes { display: flex; flex-wrap: wrap; gap: 6px; }
+body.com-fila .wrap { padding-bottom: 140px; }
+
+/* Estatísticas */
+.cartao { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.grade-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 860px) { .grade-2 { grid-template-columns: minmax(0, 1fr); } }
+.barras { display: grid; gap: 10px; margin-top: 12px; }
+.barra-linha { display: grid; grid-template-columns: 96px minmax(0, 1fr) 118px; gap: 10px; align-items: center; font-size: 14px; }
+@media (max-width: 520px) { .barra-linha { grid-template-columns: 78px minmax(0, 1fr); } .barra-linha .total { grid-column: 2; } }
+.pilha { display: flex; gap: 2px; height: 22px; }
+.pilha span { border-radius: 4px; min-width: 0; }
+.barra-linha .total { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.legenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+.legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.legenda svg { flex: none; }
+.amostra { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.seletor { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); flex-wrap: wrap; }
+.seletor button { flex: 1 1 auto; font: 500 13px var(--body); color: var(--muted); background: none; border: 0; padding: 7px 12px; cursor: pointer; }
+.seletor button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.mapa { width: 100%; height: auto; display: block; touch-action: manipulation; }
+.mapa .uf { stroke: var(--borda-uf); stroke-width: 1.2; }
+.mapa .uf-rot { font: 600 22px var(--body); fill: var(--fg); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; pointer-events: none; }
+.mapa .uf.ativa { stroke: var(--fg); stroke-width: 2; }
+.mapa .cidade { stroke: var(--surface); stroke-width: 0.8; }
+.mapa .cidade.ativa { stroke: var(--fg); stroke-width: 2; }
+.dica { position: fixed; z-index: 20; pointer-events: none; background: var(--fg); color: var(--bg); font-size: 13px; line-height: 1.4;
+  padding: 8px 10px; border-radius: 8px; max-width: 280px; box-shadow: 0 4px 14px rgb(0 0 0 / 0.18); }
+.dica b { display: block; }
+.cabeca-mapa { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.cabeca-mapa span { color: var(--muted); font-size: 13px; }
+.linha-ctrl { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 10px 0 12px; }
+.linha-ctrl input[type="search"] { flex: 1 1 220px; }
+@media (prefers-reduced-motion: no-preference) { .item, .pilha span { transition: background-color .15s, flex-basis .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Coleta de Tarifas</h1>
+    <p class="lead">Os sites de cada prestador de saneamento da base do Triton e o andamento da coleta.
+      Abra a fonte, salve a página completa (ou o PDF da resolução) na pasta indicada em
+      <code>tarifas/entrada/</code> e anote a URL no <code>fontes.txt</code>. O que rende mais é a
+      resolução tarifária vigente com todas as categorias: residencial, social, comercial, industrial e pública.</p>
+  </header>
+
+  <div class="abas" role="tablist" aria-label="Seções">
+    <button role="tab" id="aba-sites" aria-controls="painel-sites" aria-selected="true">Sites para visitar</button>
+    <button role="tab" id="aba-estatisticas" aria-controls="painel-estatisticas" aria-selected="false" tabindex="-1">Estatísticas</button>
+  </div>
+
+  <!-- ═══ Aba 1 ═══ -->
+  <div role="tabpanel" id="painel-sites" aria-labelledby="aba-sites">
+    <p class="nota-secao" style="font-size:15px"><strong>Para coletar, use <a href="o_que_buscar.html">o_que_buscar.html</a></strong>:
+      uma busca pronta no Google por cidade (ou por companhia estadual), com o motivo de cada uma. Esta aba fica como
+      referência dos links que a base já tinha.</p>
+    <div class="placar" id="placar"></div>
+
+    <div class="filtros" role="search">
+      <input type="search" id="busca" placeholder="Prestador, município ou agência" aria-label="Buscar prestador, município ou agência">
+      <select id="uf" aria-label="Estado"><option value="">Todos os estados</option></select>
+      <label for="esconder"><input type="checkbox" id="esconder"> Esconder os que já visitei</label>
+      <span class="lote">
+        <select id="tam-lote" aria-label="Quantas páginas abrir">
+          <option value="5">5</option><option value="10" selected>10</option><option value="20">20</option>
+        </select>
+        <button type="button" class="botao principal" id="abrir-lote" title="Abre as próximas páginas ainda não visitadas da lista «Falta documento», cada URL uma vez só, com os filtros atuais">Abrir lote</button>
+      </span>
+    </div>
+
+    <section aria-labelledby="t-falta">
+      <h2 id="t-falta">Falta documento <span class="conta" id="c-falta"></span></h2>
+      <p class="nota-secao">Prestadores com município ainda sem documento oficial transcrito, ou com documento de vigência antiga. Ordem: mais municípios por documentar primeiro. «Visitei» vale para a página: marcar um prestador marca todos os que usam a mesma URL, e o lote abre cada página uma vez só.</p>
+      <ol class="lista" id="l-falta"></ol>
+    </section>
+
+    <section aria-labelledby="t-tem">
+      <h2 id="t-tem">Documentados e em dia <span class="conta" id="c-tem"></span></h2>
+      <p class="nota-secao">Todos os municípios do prestador têm a residencial transcrita de documento oficial guardado, com vigência de até 12 meses. Só voltam à fila quando a vigência envelhecer ou chegar um reajuste. Os chips mostram categorias que ainda faltam.</p>
+      <ol class="lista" id="l-tem"></ol>
+    </section>
+  </div>
+
+  <!-- ═══ Aba 2 ═══ -->
+  <div role="tabpanel" id="painel-estatisticas" aria-labelledby="aba-estatisticas" hidden>
+    <div class="placar" id="placar-est"></div>
+
+    <section aria-labelledby="t-cat">
+      <h2 id="t-cat">Por categoria</h2>
+      <p class="nota-secao">Cada barra são os 652 municípios. Auditada: transcrita de uma fonte oficial conferida. A confirmar: há valor na base, mas falta conferir contra a tabela. Não coletada: a categoria não existe na base para o município.</p>
+      <div class="cartao">
+        <div class="barras" id="barras"></div>
+        <div class="legenda" id="leg-barras"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-mapa">
+      <h2 id="t-mapa">No mapa</h2>
+      <div class="linha-ctrl">
+        <div class="seletor" role="group" aria-label="O que o mapa mostra" id="seletor">
+          <button type="button" data-m="doc" aria-pressed="true">Documento-base</button>
+          <button type="button" data-m="res" aria-pressed="false">Residencial auditada</button>
+          <button type="button" data-m="cats" aria-pressed="false">Categorias coletadas</button>
+          <button type="button" data-m="html" aria-pressed="false">HTML recebido</button>
+        </div>
+      </div>
+      <div class="grade-2">
+        <div class="cartao">
+          <div class="cabeca-mapa"><h3>Por estado</h3><span id="sub-uf"></span></div>
+          <svg class="mapa" id="mapa-uf" role="img" aria-labelledby="t-mapa-uf"><title id="t-mapa-uf">Mapa do Brasil por estado</title></svg>
+          <div class="legenda" id="leg-uf"></div>
+        </div>
+        <div class="cartao">
+          <div class="cabeca-mapa"><h3>Por cidade</h3><span id="sub-cid"></span></div>
+          <svg class="mapa" id="mapa-cid" role="img" aria-labelledby="t-mapa-cid"><title id="t-mapa-cid">Mapa do Brasil com os 652 municípios</title></svg>
+          <div class="legenda" id="leg-cid"></div>
+          <div class="detalhe" id="detalhe-cid" aria-live="polite"><span class="nota-secao">Clique numa cidade para ver o documento que sustenta a tarifa.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-tab-uf">
+      <h2 id="t-tab-uf">Por estado, em números</h2>
+      <p class="nota-secao">Clique no cabeçalho para ordenar. Linhas em verde: estado com todos os municípios auditados na residencial.</p>
+      <div class="tabela-wrap cartao" style="padding:0"><table id="tab-uf"></table></div>
+    </section>
+
+    <section aria-labelledby="t-tab-cid">
+      <h2 id="t-tab-cid">Por cidade <span class="conta" id="c-cid"></span></h2>
+      <div class="linha-ctrl">
+        <input type="search" id="busca-cid" placeholder="Município ou prestador" aria-label="Buscar município ou prestador">
+        <select id="uf-cid" aria-label="Estado"><option value="">Todos os estados</option></select>
+        <select id="sit-cid" aria-label="Situação">
+          <option value="">Todas as situações</option>
+          <option value="cl:completa">Documentada, 4 categorias</option>
+          <option value="cl:documentada">Residencial documentada</option>
+          <option value="cl:a_renovar">Documentada, vigência &gt; 12 meses</option>
+          <option value="cl:sem_documento">Auditada sem documento guardado</option>
+          <option value="verde">Residencial auditada</option>
+          <option value="amarelo">Residencial a confirmar</option>
+          <option value="vermelho">Residencial com dado ruim</option>
+          <option value="cats">Com categoria não residencial</option>
+          <option value="html">Com HTML recebido</option>
+        </select>
+      </div>
+      <div class="tabela-wrap alta"><table id="tab-cid"></table></div>
+    </section>
+  </div>
+
+  <footer>
+    Gerada em {{GERADO_EM}} por <code class="mono">tarifas/gerar_lista_de_coleta.py</code>, a partir de
+    <code class="mono">triton/data/brazil_cities_tariffs.json</code>, <code class="mono">tarifas/fontes/registro.json</code>
+    e da malha estadual do IBGE (2022). «Visitei» fica só neste navegador. Um prestador muda de grupo quando o arquivo
+    dele é registrado com <code class="mono">registro_de_fontes.py</code>.
+  </footer>
+</div>
+<div class="fila" id="fila" hidden role="region" aria-label="Lote de prestadores">
+  <div class="fila-in">
+    <div class="fila-txt" id="fila-txt" aria-live="polite"></div>
+    <div class="fila-acoes">
+      <a class="botao principal" id="fila-prox" href="#" target="_blank" rel="noopener">Abrir próxima</a>
+      <button type="button" class="botao" id="fila-pular">Pular</button>
+      <button type="button" class="botao" id="fila-copiar">Copiar links</button>
+      <button type="button" class="botao" id="fila-fechar">Fechar</button>
+    </div>
+  </div>
+</div>
+<div class="dica" id="dica" hidden></div>
+
+<script type="application/json" id="dados">/*DADOS*/null</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("dados").textContent);
+  var P = D.prestadores, C = D.cidades, M = D.mapa;
+  var CATS = ["comercial", "publica", "industrial", "social"];
+  var NOMES = { residencial: "Residencial", comercial: "comercial", publica: "pública", industrial: "industrial", social: "social" };
+  var RES = { verde: "auditada", amarelo: "a confirmar", vermelho: "dado ruim" };
+  var CL = [["completa", "documentada, 4 categorias", "--cl-completa"], ["documentada", "residencial documentada", "--cl-doc"],
+    ["a_renovar", "documentada, vigência > 12 meses", "--cl-velha"], ["sem_documento", "auditada sem documento guardado", "--cl-semdoc"],
+    ["a_confirmar", "a confirmar", "--st-warn"], ["ruim", "dado ruim", "--st-bad"]];
+  var CLN = {}, CLC = {}; CL.forEach(function (k) { CLN[k[0]] = k[1]; CLC[k[0]] = k[2]; });
+  function documentada(c) { return c.cl === "completa" || c.cl === "documentada" || c.cl === "a_renovar"; }
+  function origemHTML(c) {
+    if (!c.o.doc) return c.o.motivo ? "dado ruim: " + esc(c.o.motivo) : "sem documento guardado";
+    return esc(c.o.doc) + (c.o.tab ? " · " + esc(c.o.tab) : "") + "<br>vigência: " + esc(c.o.vig || "—") +
+      "<br>recebido em " + esc(c.o.rec || "—") + (c.o.reg.length ? " (registro nº " + c.o.reg.join(", ") + ")" : "");
+  }
+  var CHAVE = "coleta-tarifas-visitados";
+  var SVG = "http://www.w3.org/2000/svg";
+  var visitados = {};
+  try { visitados = JSON.parse(localStorage.getItem(CHAVE) || "{}") || {}; } catch (e) { visitados = {}; }
+  function salvarVisitados() { try { localStorage.setItem(CHAVE, JSON.stringify(visitados)); } catch (e) {} }
+  // «Visitei» é da página: vários prestadores usam a mesma URL. A chave antiga, por nome, ainda vale.
+  function visitadoEm(p) { return visitados["url:" + p.url] || visitados[p.nome] || ""; }
+
+  function el(tag, attrs, filhos) {
+    var n = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "class") n.className = attrs[k];
+      else if (k === "text") n.textContent = attrs[k];
+      else n.setAttribute(k, attrs[k]);
+    }
+    (filhos || []).forEach(function (f) { if (f != null) n.appendChild(typeof f === "string" ? document.createTextNode(f) : f); });
+    return n;
+  }
+  function sv(tag, attrs) { var n = document.createElementNS(SVG, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+  function fmt(n) { return n.toLocaleString("pt-BR"); }
+  function pct(a, b) { return b ? (100 * a / b).toLocaleString("pt-BR", { maximumFractionDigits: 0 }) + "%" : "—"; }
+  function semAcento(t) { return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+
+  /* ───── Abas ───── */
+  var abas = [document.getElementById("aba-sites"), document.getElementById("aba-estatisticas")];
+  function abrir(i, foco) {
+    abas.forEach(function (a, j) {
+      a.setAttribute("aria-selected", i === j ? "true" : "false");
+      a.tabIndex = i === j ? 0 : -1;
+      document.getElementById(a.getAttribute("aria-controls")).hidden = i !== j;
+    });
+    if (foco) abas[i].focus();
+    try { localStorage.setItem(CHAVE + "-aba", String(i)); } catch (e) {}
+  }
+  abas.forEach(function (a, i) {
+    a.addEventListener("click", function () { abrir(i); });
+    a.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); abrir((i + 1) % 2, true); }
+    });
+  });
+  var inicial = location.hash === "#estatisticas" ? 1 : 0;
+  try { if (!location.hash) inicial = Number(localStorage.getItem(CHAVE + "-aba") || 0) || 0; } catch (e) {}
+  abrir(inicial);
+
+  function tiles(alvo, lista) {
+    lista.forEach(function (c) {
+      var d = el("div", null, [el("b", { text: c[0] }), el("span", { text: c[1] })]);
+      if (c[2] != null) { var b = el("div", { class: "barra-prog" }, [el("i")]); b.firstChild.style.width = (c[2] * 100).toFixed(1) + "%"; d.appendChild(b); }
+      alvo.appendChild(d);
+    });
+  }
+
+  /* ───── Aba 1: sites ───── */
+  var total = P.length, comMaterial = P.filter(function (p) { return p.recebido.length; }).length;
+  var emDia = P.filter(function (p) { return p.todo_em_dia; }).length;
+  var paginasFalta = {}; P.forEach(function (p) { if (!p.todo_em_dia) paginasFalta[p.url] = 1; });
+  var munEmDia = P.reduce(function (s, p) { return s + p.em_dia; }, 0);
+  var municipios = C.length;
+  var munCom = C.filter(function (c) { return c.html; }).length;
+  var faltaCat = C.reduce(function (s, c) { return s + (4 - c.cats.length); }, 0);
+  var confirmar = C.filter(function (c) { return c.res !== "verde"; }).length;
+  tiles(document.getElementById("placar"), [
+    [fmt(Object.keys(paginasFalta).length), "páginas distintas por visitar"],
+    [fmt(emDia) + " / " + fmt(total), "prestadores documentados e em dia", emDia / total],
+    [fmt(munEmDia) + " / " + fmt(municipios), "municípios com documento vigente", munEmDia / municipios],
+    [fmt(faltaCat), "pares município × categoria a coletar"],
+    [fmt(confirmar), "residenciais a confirmar"]]);
+
+  var ufs = {};
+  C.forEach(function (c) { ufs[c.uf] = 1; });
+  var listaUF = Object.keys(ufs).sort();
+  ["uf", "uf-cid"].forEach(function (id) {
+    var s = document.getElementById(id);
+    listaUF.forEach(function (u) { s.appendChild(el("option", { value: u, text: u })); });
+  });
+  var sel = document.getElementById("uf");
+
+  function chipsDe(p) {
+    var c = [];
+    CATS.forEach(function (k) {
+      if (p.faltam[k]) c.push(el("span", { class: "chip falta", text: NOMES[k] + (p.n > 1 ? " · " + p.faltam[k] : "") }));
+    });
+    if (p.confirmar) c.push(el("span", { class: "chip confirmar", text: "residencial a confirmar" + (p.n > 1 ? " · " + p.confirmar : "") }));
+    if (!c.length) c.push(el("span", { class: "chip ok", text: "completo" }));
+    return el("div", { class: "chips" }, c);
+  }
+  function copiar(texto, botao) {
+    function ok() { var t = botao.textContent; botao.textContent = "Copiado"; setTimeout(function () { botao.textContent = t; }, 1200); }
+    try { navigator.clipboard.writeText(texto).then(ok, function () { selecionar(botao.previousSibling); }); }
+    catch (e) { selecionar(botao.previousSibling); }
+  }
+  function selecionar(no) {
+    try { var r = document.createRange(); r.selectNodeContents(no); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
+  }
+  function seloVisitado(li, p) {
+    var nome = li.querySelector(".nome"), velho = nome.querySelector(".selo.vis");
+    if (velho) velho.remove();
+    if (visitadoEm(p) && !p.todo_em_dia) {
+      var d = visitadoEm(p).split("-");
+      nome.appendChild(el("span", { class: "selo vis", text: "visitado " + d[2] + "/" + d[1] }));
+    }
+  }
+
+  function item(p, i) {
+    var feito = p.todo_em_dia;
+    var li = el("li", { class: "item" + (feito ? " recebido" : "") + (visitadoEm(p) ? " visitado" : "") });
+    li.dataset.nome = p.nome; li.dataset.url = p.url;
+    var nome = el("div", { class: "nome" }, [p.nome]);
+    if (feito) nome.appendChild(el("span", { class: "selo ok", text: "em dia" }));
+    else if (p.recebido.length) nome.appendChild(el("span", { class: "selo", text: "material recebido" }));
+    if (p.compartilha.length) nome.appendChild(el("span", { class: "selo", title: "Mesma página de: " + p.compartilha.join(", "),
+      text: "mesma página de +" + p.compartilha.length }));
+    var esquerda = el("div", null, [nome,
+      el("div", { class: "meta" }, [
+        el("span", null, [el("span", { class: "n", text: fmt(p.n) }), p.n === 1 ? " município" : " municípios"]),
+        el("span", { text: fmt(p.em_dia) + " em dia" }),
+        el("span", { text: p.ufs.join(", ") }),
+        el("span", { text: "Agência: " + p.agencias.join(", ") })
+      ])]);
+    var acoes = el("div", { class: "acoes" });
+    p.fontes.forEach(function (f) {
+      acoes.appendChild(el("a", { class: "botao principal", href: f.url, target: "_blank", rel: "noopener" },
+        ["Abrir fonte ", el("span", { class: "tipo", text: f.tipo })]));
+    });
+    acoes.appendChild(el("a", { class: "botao", href: p.busca, target: "_blank", rel: "noopener",
+      title: "Busca a resolução tarifária vigente na agência reguladora" }, ["Buscar resolução"]));
+    var id = "v" + i, cb = el("input", { type: "checkbox", id: id });
+    cb.checked = !!visitadoEm(p);
+    cb.addEventListener("change", function () {
+      if (cb.checked) visitados["url:" + p.url] = new Date().toISOString().slice(0, 10);
+      else { delete visitados["url:" + p.url]; P.forEach(function (x) { if (x.url === p.url) delete visitados[x.nome]; }); }
+      salvarVisitados(); atualizarPagina(p.url); filtrar();
+    });
+    acoes.appendChild(el("label", { class: "visitei", for: id }, [cb, "Visitei"]));
+
+    var det = el("details");
+    det.appendChild(el("summary", { text: "Detalhes: onde salvar, a fonte e os " + fmt(p.n) + (p.n === 1 ? " município" : " municípios") }));
+    var corpo = el("div", { class: "detalhe" });
+    var codigo = el("code", { text: p.pasta }), bt = el("button", { class: "botao", type: "button", text: "Copiar" });
+    bt.addEventListener("click", function () { copiar(p.pasta, bt); });
+    corpo.appendChild(el("div", { class: "salvar" }, ["Salvar em", codigo, bt]));
+    p.fontes.forEach(function (f) { corpo.appendChild(el("div", { class: "fonte-url", text: "Fonte usada na base: " + f.url })); });
+    if (p.compartilha.length) corpo.appendChild(el("div", { class: "fonte-url",
+      text: "A mesma página serve a: " + p.compartilha.join(", ") + ". Ao abri-la, procure o documento de cada um." }));
+    if (p.vigencia) corpo.appendChild(el("div", { class: "fonte-url", text: "Vigência registrada: " + p.vigencia }));
+    if (feito) {
+      var ul = el("ul", { class: "recebidos" });
+      p.recebido.forEach(function (r) { ul.appendChild(el("li", { text: r.data + " · " + r.arquivo + " · " + r.situacao })); });
+      corpo.appendChild(el("div", null, [el("strong", { text: "Já recebido" }), ul]));
+    }
+    var tb = el("tbody");
+    p.municipios.forEach(function (m) {
+      var tr = el("tr", m.res === "verde" && !m.faltam.length ? { class: "feito" } : null, [
+        el("td", { text: m.m }), el("td", { class: "uf", text: m.uf }),
+        el("td", null, [el("span", { class: "ponto " + m.res }), RES[m.res]]),
+        el("td", { text: m.faltam.length ? m.faltam.map(function (c) { return NOMES[c]; }).join(", ") : "—" })]);
+      tb.appendChild(tr);
+    });
+    corpo.appendChild(el("div", { class: "tabela-wrap" }, [el("table", null, [
+      el("thead", null, [el("tr", null, [el("th", { text: "Município" }), el("th", { text: "UF" }),
+        el("th", { text: "Residencial" }), el("th", { text: "Categorias faltando" })])]), tb])]));
+    det.appendChild(corpo);
+    li.appendChild(el("div", { class: "linha" }, [esquerda, el("div", null, [chipsDe(p)]), acoes]));
+    li.appendChild(det);
+    seloVisitado(li, p);
+    li._texto = semAcento(p.nome + " " + p.agencias.join(" ") + " " + p.municipios.map(function (m) { return m.m; }).join(" "));
+    li._ufs = p.ufs;
+    return li;
+  }
+
+  var listas = { falta: document.getElementById("l-falta"), tem: document.getElementById("l-tem") };
+  P.forEach(function (p, i) { (p.todo_em_dia ? listas.tem : listas.falta).appendChild(item(p, i)); });
+  function atualizarPagina(url) {
+    [listas.falta, listas.tem].forEach(function (l) {
+      Array.prototype.forEach.call(l.children, function (li) {
+        if (li.dataset.url !== url) return;
+        var p = P.filter(function (x) { return x.nome === li.dataset.nome; })[0];
+        var v = !!visitadoEm(p);
+        li.classList.toggle("visitado", v);
+        var cb = li.querySelector('input[type="checkbox"]'); if (cb) cb.checked = v;
+        seloVisitado(li, p);
+      });
+    });
+  }
+  var busca = document.getElementById("busca"), esconder = document.getElementById("esconder");
+  try { esconder.checked = localStorage.getItem(CHAVE + "-esconder") === "1"; } catch (e) {}
+  function filtrar() {
+    var q = semAcento(busca.value).trim(), uf = sel.value;
+    ["falta", "tem"].forEach(function (k) {
+      var vis = 0;
+      Array.prototype.forEach.call(listas[k].children, function (li) {
+        if (li.classList.contains("vazio")) return;
+        var mostra = (!q || li._texto.indexOf(q) >= 0) && (!uf || li._ufs.indexOf(uf) >= 0)
+          && !(esconder.checked && (visitados["url:" + li.dataset.url] || visitados[li.dataset.nome]));
+        li.hidden = !mostra; if (mostra) vis++;
+      });
+      var vazio = listas[k].querySelector(".vazio");
+      if (!vis && !vazio) listas[k].appendChild(el("li", { class: "vazio", text: "Nenhum prestador com esses filtros." }));
+      if (vis && vazio) vazio.remove();
+      document.getElementById("c-" + k).textContent = fmt(vis) + " prestadores";
+    });
+  }
+  busca.addEventListener("input", filtrar);
+  sel.addEventListener("change", filtrar);
+  esconder.addEventListener("change", function () {
+    try { localStorage.setItem(CHAVE + "-esconder", esconder.checked ? "1" : "0"); } catch (e) {}
+    filtrar();
+  });
+  filtrar();
+
+  /* ───── Abrir em lote ───── */
+  var fila = [], pos = 0, bloqueado = false;
+  var barraFila = document.getElementById("fila"), txtFila = document.getElementById("fila-txt"), prox = document.getElementById("fila-prox");
+  var pular = document.getElementById("fila-pular");
+  function liDe(nome) {
+    var achado = null;
+    [listas.falta, listas.tem].forEach(function (l) { Array.prototype.forEach.call(l.children, function (li) { if (li.dataset.nome === nome) achado = li; }); });
+    return achado;
+  }
+  function marcarVisitado(g) {
+    if (visitados["url:" + g.url]) return;
+    visitados["url:" + g.url] = new Date().toISOString().slice(0, 10); salvarVisitados();
+    atualizarPagina(g.url);
+  }
+  function urlDe(g) { return g.url; }
+  function mostrarFila() {
+    txtFila.textContent = "";
+    if (!fila.length) {
+      txtFila.textContent = "Nenhuma página por visitar com esses filtros.";
+      prox.hidden = pular.hidden = true;
+    } else if (pos >= fila.length) {
+      txtFila.appendChild(el("b", { text: fila.length + "/" + fila.length + " " }));
+      txtFila.appendChild(document.createTextNode("Lote aberto."));
+      txtFila.appendChild(el("small", { text: "As páginas abertas ficaram marcadas como visitadas, para todos os prestadores que as usam. Clique em «Abrir lote» de novo para as próximas." }));
+      prox.hidden = pular.hidden = true;
+    } else {
+      var g = fila[pos];
+      txtFila.appendChild(el("b", { text: (pos + 1) + "/" + fila.length + " " }));
+      txtFila.appendChild(document.createTextNode(g.ps.map(function (p) { return p.nome; }).join(", ")));
+      txtFila.appendChild(el("small", { text: (bloqueado ? "O navegador bloqueou as outras abas: abra uma por clique. " : "") +
+        (g.ps.length > 1 ? "Uma página para " + g.ps.length + " prestadores: procure o documento de cada um. " : "") + "Salve em tarifas/entrada/." }));
+      prox.href = urlDe(g); prox.hidden = pular.hidden = false;
+    }
+    barraFila.hidden = false; document.body.classList.add("com-fila");
+  }
+  document.getElementById("abrir-lote").addEventListener("click", function () {
+    var n = Number(document.getElementById("tam-lote").value);
+    fila = []; pos = 0; bloqueado = false;
+    var porUrl = {};
+    Array.prototype.forEach.call(listas.falta.children, function (li) {
+      if (li.hidden || li.classList.contains("vazio")) return;
+      var p = P.filter(function (x) { return x.nome === li.dataset.nome; })[0];
+      if (!p || visitadoEm(p)) return;
+      if (porUrl[p.url]) { porUrl[p.url].ps.push(p); return; }
+      if (fila.length >= n) return;
+      porUrl[p.url] = { url: p.url, ps: [p] }; fila.push(porUrl[p.url]);
+    });
+    // Abre quantas o navegador deixar; a primeira bloqueada fica na fila, para abrir uma por clique.
+    while (pos < fila.length) {
+      var w = null;
+      try { w = window.open(urlDe(fila[pos]), "_blank"); } catch (e) { w = null; }
+      if (!w) { bloqueado = true; break; }
+      try { w.opener = null; } catch (e) {}
+      marcarVisitado(fila[pos]); pos++;
+    }
+    mostrarFila();
+  });
+  prox.addEventListener("click", function () {
+    var p = fila[pos]; if (!p) return;
+    marcarVisitado(p);
+    setTimeout(function () { pos++; mostrarFila(); }, 0);
+  });
+  pular.addEventListener("click", function () { pos++; mostrarFila(); });
+  document.getElementById("fila-copiar").addEventListener("click", function () {
+    var b = this, texto = fila.map(urlDe).join("\n");
+    function ok() { var t = b.textContent; b.textContent = "Copiado"; setTimeout(function () { b.textContent = t; }, 1200); }
+    try { navigator.clipboard.writeText(texto).then(ok, function () {}); } catch (e) {}
+  });
+  document.getElementById("fila-fechar").addEventListener("click", function () {
+    barraFila.hidden = true; document.body.classList.remove("com-fila"); filtrar();
+  });
+
+  /* ───── Aba 2: estatísticas ───── */
+  var css = function (v) { return "var(" + v + ")"; };
+  var auditadas = C.filter(function (c) { return c.res === "verde"; }).length;
+  var catColetadas = C.reduce(function (s, c) { return s + c.cats.length; }, 0);
+  tiles(document.getElementById("placar-est"), [
+    [pct(auditadas, municipios), fmt(auditadas) + " de " + fmt(municipios) + " residenciais auditadas", auditadas / municipios],
+    [fmt(confirmar - C.filter(function (c) { return c.res === "vermelho"; }).length), "residenciais a confirmar"],
+    [fmt(C.filter(function (c) { return c.res === "vermelho"; }).length), "residenciais com dado ruim"],
+    [fmt(catColetadas) + " / " + fmt(municipios * 4), "categorias não residenciais coletadas", catColetadas / (municipios * 4)],
+    [fmt(munCom) + " / " + fmt(municipios), "municípios com HTML recebido", munCom / municipios]]);
+
+  // Barras por categoria
+  var SEG = [["verde", "auditada", "--st-ok"], ["amarelo", "a confirmar", "--st-warn"], ["vermelho", "dado ruim", "--st-bad"], ["nada", "não coletada", "--st-none"]];
+  var barras = document.getElementById("barras");
+  ["residencial"].concat(CATS).forEach(function (cat) {
+    var n = { verde: 0, amarelo: 0, vermelho: 0, nada: 0 };
+    C.forEach(function (c) {
+      if (cat === "residencial") n[c.res]++;
+      else n[c.cats.indexOf(cat) >= 0 ? "verde" : "nada"]++;
+    });
+    var pilha = el("div", { class: "pilha", role: "img",
+      "aria-label": NOMES[cat] + ": " + SEG.map(function (s) { return n[s[0]] + " " + s[1]; }).join(", ") });
+    SEG.forEach(function (s) {
+      if (!n[s[0]]) return;
+      var sp = el("span", { title: NOMES[cat] + " · " + s[1] + ": " + fmt(n[s[0]]) + " (" + pct(n[s[0]], municipios) + ")" });
+      sp.style.flex = n[s[0]] + " 0 0"; sp.style.background = css(s[2]);
+      dicaEm(sp, function () { return "<b>" + NOMES[cat].replace(/^./, function (x) { return x.toUpperCase(); }) + "</b>" + s[1] + ": " + fmt(n[s[0]]) + " municípios (" + pct(n[s[0]], municipios) + ")"; });
+      pilha.appendChild(sp);
+    });
+    barras.appendChild(el("div", { class: "barra-linha" }, [
+      el("span", { text: NOMES[cat].replace(/^./, function (x) { return x.toUpperCase(); }) }), pilha,
+      el("span", { class: "total", text: fmt(n.verde) + " auditadas" })]));
+  });
+  var lb = document.getElementById("leg-barras");
+  SEG.forEach(function (s) { var a = el("i", { class: "amostra" }); a.style.background = css(s[2]); lb.appendChild(el("span", null, [a, s[1]])); });
+
+  // Dica (tooltip)
+  var dica = document.getElementById("dica");
+  function mostrarDica(html, x, y) {
+    dica.innerHTML = html; dica.hidden = false;
+    var w = dica.offsetWidth, h = dica.offsetHeight;
+    var px = x + 14, py = y + 14;
+    if (px + w > innerWidth - 8) px = x - w - 14;
+    if (py + h > innerHeight - 8) py = y - h - 14;
+    dica.style.left = Math.max(8, px) + "px"; dica.style.top = Math.max(8, py) + "px";
+  }
+  function esconderDica() { dica.hidden = true; }
+  function dicaEm(no, texto) {
+    no.addEventListener("pointermove", function (e) { mostrarDica(texto(), e.clientX, e.clientY); });
+    no.addEventListener("pointerleave", esconderDica);
+  }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  // Agregados por UF
+  var porUF = {};
+  listaUF.forEach(function (u) { porUF[u] = { uf: u, n: 0, verde: 0, amarelo: 0, vermelho: 0, cats: 0, html: 0, doc: 0, nome: (M.estados[u] || {}).nome || u }; });
+  C.forEach(function (c) { var a = porUF[c.uf]; a.n++; a[c.res]++; a.cats += c.cats.length; if (c.html) a.html++; if (documentada(c)) a.doc++; });
+
+  var METRICAS = {
+    doc: { titulo: "residencial com documento guardado", frac: function (a) { return a.doc / a.n; } },
+    res: { titulo: "residencial auditada", frac: function (a) { return a.verde / a.n; } },
+    cats: { titulo: "categorias não residenciais coletadas", frac: function (a) { return a.cats / (4 * a.n); } },
+    html: { titulo: "municípios com HTML recebido", frac: function (a) { return a.html / a.n; } }
+  };
+  var RAMPA = ["--r0", "--r1", "--r2", "--r3", "--r4"];
+  var FAIXAS = ["0%", "1–25%", "26–50%", "51–75%", "76–100%"];
+  function passo(f) { return f <= 0 ? 0 : f <= 0.25 ? 1 : f <= 0.5 ? 2 : f <= 0.75 ? 3 : 4; }
+
+  var W = M.largura, H = M.altura;
+  function baseMapa(svg) {
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var g = sv("g", {});
+    listaUF.concat(Object.keys(M.estados).filter(function (u) { return listaUF.indexOf(u) < 0; })).forEach(function (u) {
+      var e = M.estados[u]; if (!e) return;
+      var p = sv("path", { d: e.d, class: "uf", "data-uf": u });
+      g.appendChild(p);
+    });
+    svg.appendChild(g);
+    return g;
+  }
+
+  // Mapa por estado
+  var svgUF = document.getElementById("mapa-uf"), gUF = baseMapa(svgUF);
+  var rotulos = sv("g", {});
+  Object.keys(M.estados).forEach(function (u) {
+    var e = M.estados[u], t = sv("text", { x: e.cx, y: e.cy + 8, "text-anchor": "middle", class: "uf-rot" });
+    t.textContent = u; rotulos.appendChild(t);
+  });
+  svgUF.appendChild(rotulos);
+  Array.prototype.forEach.call(gUF.children, function (p) {
+    var u = p.getAttribute("data-uf");
+    p.addEventListener("pointermove", function (e) {
+      var a = porUF[u];
+      gUF.querySelectorAll(".ativa").forEach(function (x) { x.classList.remove("ativa"); });
+      p.classList.add("ativa");
+      if (!a) { mostrarDica("<b>" + esc(M.estados[u].nome) + "</b>sem municípios na base", e.clientX, e.clientY); return; }
+      var met = METRICAS[metrica];
+      mostrarDica("<b>" + esc(a.nome) + " · " + a.n + " municípios</b>" + met.titulo + ": " + pct(met.frac(a) * 1000, 1000) +
+        "<br>residencial: " + a.verde + " auditada, " + a.amarelo + " a confirmar" + (a.vermelho ? ", " + a.vermelho + " ruim" : "") +
+        "<br>categorias: " + a.cats + " de " + 4 * a.n + " · HTML: " + a.html, e.clientX, e.clientY);
+    });
+    p.addEventListener("pointerleave", function () { p.classList.remove("ativa"); esconderDica(); });
+  });
+
+  // Mapa por cidade
+  var svgC = document.getElementById("mapa-cid"), gC0 = baseMapa(svgC);
+  Array.prototype.forEach.call(gC0.children, function (p) { p.style.fill = css("--estado"); });
+  var gC = sv("g", {});
+  svgC.appendChild(gC);
+  var R = 5.2;
+  function forma(c) {
+    // Residencial: círculo auditada, triângulo a confirmar, quadrado dado ruim (forma + cor, nunca só cor).
+    if (metrica === "doc" && c.cl === "a_confirmar")
+      return sv("path", { d: "M" + c.x + "," + (c.y - R * 1.15) + "L" + (c.x + R * 1.05) + "," + (c.y + R * 0.75) + "L" + (c.x - R * 1.05) + "," + (c.y + R * 0.75) + "Z" });
+    if (metrica === "doc" && c.cl === "ruim")
+      return sv("rect", { x: c.x - R, y: c.y - R, width: 2 * R, height: 2 * R, rx: 1 });
+    if (metrica === "res" && c.res === "amarelo")
+      return sv("path", { d: "M" + c.x + "," + (c.y - R * 1.15) + "L" + (c.x + R * 1.05) + "," + (c.y + R * 0.75) + "L" + (c.x - R * 1.05) + "," + (c.y + R * 0.75) + "Z" });
+    if (metrica === "res" && c.res === "vermelho")
+      return sv("rect", { x: c.x - R, y: c.y - R, width: 2 * R, height: 2 * R, rx: 1 });
+    return sv("circle", { cx: c.x, cy: c.y, r: R });
+  }
+  function corCidade(c) {
+    if (metrica === "doc") return CLC[c.cl];
+    if (metrica === "res") return { verde: "--st-ok", amarelo: "--st-warn", vermelho: "--st-bad" }[c.res];
+    if (metrica === "cats") return c.cats.length ? RAMPA[c.cats.length] : "--st-none";
+    return c.html ? "--r4" : "--st-none";
+  }
+  var marcas = [];
+  function desenharCidades() {
+    while (gC.firstChild) gC.removeChild(gC.firstChild);
+    marcas = [];
+    // os que já foram feitos por cima, para não sumirem atrás dos que faltam
+    var ordem = C.filter(function (c) { return c.x != null; }).slice().sort(function (a, b) { return peso(a) - peso(b); });
+    ordem.forEach(function (c) {
+      var f = forma(c);
+      f.setAttribute("class", "cidade"); f.style.fill = css(corCidade(c));
+      gC.appendChild(f); marcas.push([c, f]);
+    });
+  }
+  function peso(c) {
+    if (metrica === "doc") return { sem_documento: 0, a_confirmar: 1, ruim: 2, a_renovar: 3, documentada: 4, completa: 5 }[c.cl];
+    if (metrica === "res") return { amarelo: 1, verde: 0, vermelho: 2 }[c.res];
+    if (metrica === "cats") return c.cats.length;
+    return c.html ? 1 : 0;
+  }
+  var ativa = null;
+  svgC.addEventListener("pointermove", function (e) {
+    var m = svgC.getScreenCTM(); if (!m) return;
+    var pt = svgC.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    var p = pt.matrixTransform(m.inverse());
+    var raio = 14 / m.a, melhor = null, dmin = raio * raio;
+    for (var i = marcas.length - 1; i >= 0; i--) {
+      var c = marcas[i][0], dx = c.x - p.x, dy = c.y - p.y, d = dx * dx + dy * dy;
+      if (d < dmin) { dmin = d; melhor = marcas[i]; }
+    }
+    if (ativa && (!melhor || ativa !== melhor[1])) ativa.classList.remove("ativa");
+    if (!melhor) { ativa = null; esconderDica(); return; }
+    ativa = melhor[1]; ativa.classList.add("ativa");
+    var c = melhor[0];
+    mostrarDica("<b>" + esc(c.m) + " · " + c.uf + "</b>" + esc(c.p) + "<br>residencial: " + RES[c.res] +
+      "<br>categorias: " + (c.cats.length ? c.cats.map(function (k) { return NOMES[k]; }).join(", ") : "nenhuma coletada") +
+      "<br>HTML: " + (c.html ? "recebido" : "não recebido") +
+      "<br><b style=\"margin-top:4px\">" + esc(CLN[c.cl]) + "</b>" + origemHTML(c), e.clientX, e.clientY);
+  });
+  function detalhar(c) {
+    var d = document.getElementById("detalhe-cid"); d.textContent = "";
+    var dl = el("dl");
+    function par(k, v) { if (v) { dl.appendChild(el("dt", { text: k })); dl.appendChild(el("dd", null, [v])); } }
+    par("Situação", CLN[c.cl]);
+    par("Prestador", c.p);
+    if (c.o.doc) {
+      var arq = c.o.onde ? el("a", { href: c.o.onde.replace(/^tarifas\//, ""), text: c.o.doc, target: "_blank", rel: "noopener" }) : c.o.doc;
+      par("Documento", arq);
+      par("Tabela", c.o.tab);
+      par("Vigência", c.o.vig);
+      par("Recebido em", c.o.rec + (c.o.reg.length ? " · registro nº " + c.o.reg.join(", ") : ""));
+      par("Guardado em", c.o.onde);
+    } else {
+      if (c.o.motivo) par("Dado ruim", c.o.motivo);
+      par("Documento", "nenhum guardado: o valor da base vem do catálogo antigo");
+      par("Vigência na base", c.o.vig);
+    }
+    if (c.o.url) par("Fonte", el("a", { href: c.o.url, text: c.o.url, target: "_blank", rel: "noopener" }));
+    par("Categorias", c.cats.length ? c.cats.map(function (k) { return NOMES[k]; }).join(", ") : "nenhuma coletada");
+    d.appendChild(el("b", { text: c.m + " · " + c.uf })); d.appendChild(dl);
+  }
+  svgC.addEventListener("click", function () { if (ativa) { var m = marcas.filter(function (x) { return x[1] === ativa; })[0]; if (m) detalhar(m[0]); } });
+  svgC.addEventListener("pointerleave", function () { if (ativa) ativa.classList.remove("ativa"); ativa = null; esconderDica(); });
+
+  function legendaRampa(alvo, rotulos) {
+    alvo.textContent = "";
+    rotulos.forEach(function (r, i) { var a = el("i", { class: "amostra" }); a.style.background = css(RAMPA[i]); alvo.appendChild(el("span", null, [a, r])); });
+  }
+  function legendaForma(alvo, itens) {
+    alvo.textContent = "";
+    itens.forEach(function (it) {
+      var s = sv("svg", { width: 14, height: 14, viewBox: "-7 -7 14 14", "aria-hidden": "true" }), f;
+      if (it[2] === "tri") f = sv("path", { d: "M0,-6L5.6,4.4L-5.6,4.4Z" });
+      else if (it[2] === "qua") f = sv("rect", { x: -5, y: -5, width: 10, height: 10, rx: 1 });
+      else f = sv("circle", { r: 5.5 });
+      f.style.fill = css(it[1]); s.appendChild(f);
+      alvo.appendChild(el("span", null, [s, it[0]]));
+    });
+  }
+
+  var metrica = "doc";
+  function aplicarMetrica() {
+    var met = METRICAS[metrica];
+    Array.prototype.forEach.call(gUF.children, function (p) {
+      var a = porUF[p.getAttribute("data-uf")];
+      p.style.fill = a ? css(RAMPA[passo(met.frac(a))]) : css("--estado");
+    });
+    var tot = 0, ok = 0;
+    listaUF.forEach(function (u) { var a = porUF[u]; tot++; if (met.frac(a) >= 1) ok++; });
+    document.getElementById("sub-uf").textContent = "% de " + met.titulo;
+    legendaRampa(document.getElementById("leg-uf"), FAIXAS);
+    desenharCidades();
+    var lc = document.getElementById("leg-cid"), sub = document.getElementById("sub-cid");
+    if (metrica === "doc") {
+      sub.textContent = "de onde vem a residencial";
+      legendaForma(lc, CL.map(function (k) {
+        return [k[1] + " · " + fmt(C.filter(function (c) { return c.cl === k[0]; }).length), k[2], k[0] === "a_confirmar" ? "tri" : k[0] === "ruim" ? "qua" : "cir"];
+      }));
+    } else if (metrica === "res") {
+      sub.textContent = "situação da residencial";
+      legendaForma(lc, [["auditada · " + fmt(auditadas), "--st-ok", "cir"], ["a confirmar · " + fmt(C.filter(function (c) { return c.res === "amarelo"; }).length), "--st-warn", "tri"],
+        ["dado ruim · " + fmt(C.filter(function (c) { return c.res === "vermelho"; }).length), "--st-bad", "qua"]]);
+    } else if (metrica === "cats") {
+      sub.textContent = "quantas das 4 categorias";
+      var cont = [0, 0, 0, 0, 0]; C.forEach(function (c) { cont[c.cats.length]++; });
+      legendaForma(lc, [["nenhuma · " + fmt(cont[0]), "--st-none"], ["1 · " + fmt(cont[1]), "--r1"], ["2 · " + fmt(cont[2]), "--r2"],
+        ["3 · " + fmt(cont[3]), "--r3"], ["4 · " + fmt(cont[4]), "--r4"]]);
+    } else {
+      sub.textContent = "material do prestador";
+      legendaForma(lc, [["recebido · " + fmt(munCom), "--r4", "cir"], ["não recebido · " + fmt(municipios - munCom), "--st-none", "cir"]]);
+    }
+  }
+  document.querySelectorAll("#seletor button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      metrica = b.getAttribute("data-m");
+      document.querySelectorAll("#seletor button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      aplicarMetrica();
+    });
+  });
+  aplicarMetrica();
+
+  // Tabela por UF
+  var COLS_UF = [
+    ["Estado", function (a) { return a.nome; }, false],
+    ["UF", function (a) { return a.uf; }, false],
+    ["Municípios", function (a) { return a.n; }, true],
+    ["Auditada", function (a) { return a.verde; }, true],
+    ["A confirmar", function (a) { return a.amarelo; }, true],
+    ["Dado ruim", function (a) { return a.vermelho; }, true],
+    ["% auditada", function (a) { return a.verde / a.n; }, true, function (v) { return pct(v * 1000, 1000); }],
+    ["Categorias", function (a) { return a.cats; }, true, null, function (a) { return fmt(a.cats) + " / " + fmt(4 * a.n); }],
+    ["HTML", function (a) { return a.html; }, true]
+  ];
+  var ordemUF = { i: 6, dir: 1 };
+  function tabelaUF() {
+    var t = document.getElementById("tab-uf"); t.textContent = "";
+    var hr = el("tr");
+    COLS_UF.forEach(function (c, i) {
+      var b = el("button", { type: "button", text: c[0] + (ordemUF.i === i ? (ordemUF.dir > 0 ? " ↑" : " ↓") : "") });
+      b.addEventListener("click", function () { ordemUF = { i: i, dir: ordemUF.i === i ? -ordemUF.dir : (c[2] ? -1 : 1) }; tabelaUF(); });
+      hr.appendChild(el("th", c[2] ? { class: "num", "aria-sort": ordemUF.i === i ? (ordemUF.dir > 0 ? "ascending" : "descending") : "none" } : { "aria-sort": ordemUF.i === i ? (ordemUF.dir > 0 ? "ascending" : "descending") : "none" }, [b]));
+    });
+    t.appendChild(el("thead", null, [hr]));
+    var tb = el("tbody");
+    listaUF.map(function (u) { return porUF[u]; }).sort(function (a, b) {
+      var f = COLS_UF[ordemUF.i][1], x = f(a), y = f(b);
+      return (x > y ? 1 : x < y ? -1 : 0) * ordemUF.dir || a.uf.localeCompare(b.uf);
+    }).forEach(function (a) {
+      tb.appendChild(el("tr", a.verde === a.n ? { class: "feito" } : null, COLS_UF.map(function (c) {
+        var v = c[1](a), txt = c[4] ? c[4](a) : c[3] ? c[3](v) : (typeof v === "number" ? fmt(v) : v);
+        return el("td", c[2] ? { class: "num" } : (c[0] === "UF" ? { class: "uf" } : null), [txt]);
+      })));
+    });
+    t.appendChild(tb);
+  }
+  tabelaUF();
+
+  // Tabela por cidade
+  var tCid = document.getElementById("tab-cid");
+  tCid.appendChild(el("thead", null, [el("tr", null, ["Município", "UF", "Prestador", "Situação", "Documento-base", "Vigência", "Recebido", "Residencial"].map(function (h) { return el("th", { text: h }); })
+    .concat(CATS.map(function (k) { return el("th", { text: NOMES[k] }); })).concat([el("th", { text: "HTML" })]))]));
+  var tbCid = el("tbody"); tCid.appendChild(tbCid);
+  var linhasCid = C.map(function (c) {
+    var feito = c.res === "verde" && c.cats.length === 4;
+    var tr = el("tr", feito ? { class: "feito" } : null, [
+      el("td", { text: c.m }), el("td", { class: "uf", text: c.uf }), el("td", { text: c.p }),
+      el("td", null, [el("span", { class: "ponto " + c.cl }), CLN[c.cl]]),
+      el("td", null, [c.o.onde ? el("a", { href: c.o.onde.replace(/^tarifas\//, ""), text: c.o.doc, target: "_blank", rel: "noopener" }) : "—"]),
+      el("td", { text: c.o.doc ? c.o.vig : "—" }), el("td", { text: c.o.rec || "—" }),
+      el("td", null, [el("span", { class: "ponto " + c.res }), RES[c.res]])
+    ].concat(CATS.map(function (k) { var tem = c.cats.indexOf(k) >= 0; return el("td", { class: tem ? "sim" : "nao", text: tem ? "✓ coletada" : "—" }); }))
+     .concat([el("td", { class: c.html ? "sim" : "nao", text: c.html ? "✓ recebido" : "—" })]));
+    tr._texto = semAcento(c.m + " " + c.p + " " + c.o.doc); tr._c = c;
+    tbCid.appendChild(tr);
+    return tr;
+  });
+  var bCid = document.getElementById("busca-cid"), ufCid = document.getElementById("uf-cid"), sitCid = document.getElementById("sit-cid");
+  function filtrarCid() {
+    var q = semAcento(bCid.value).trim(), u = ufCid.value, s = sitCid.value, n = 0;
+    linhasCid.forEach(function (tr) {
+      var c = tr._c;
+      var ok = (!q || tr._texto.indexOf(q) >= 0) && (!u || c.uf === u) &&
+        (!s || (s === "cats" ? c.cats.length > 0 : s === "html" ? c.html : s.indexOf("cl:") === 0 ? c.cl === s.slice(3) : c.res === s));
+      tr.hidden = !ok; if (ok) n++;
+    });
+    document.getElementById("c-cid").textContent = fmt(n) + " de " + fmt(C.length);
+  }
+  [bCid, ufCid, sitCid].forEach(function (x) { x.addEventListener(x.tagName === "INPUT" ? "input" : "change", filtrarCid); });
+  filtrarCid();
+})();
+</script>

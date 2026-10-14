@@ -1,0 +1,168 @@
+{
+ "prestador": "SAAE Amparo",
+ "registro": [
+  125
+ ],
+ "documento": "saae_amparo_ARESPCJ_resoluo_n_697_2026_-_reajuste_tarifrio_-_amparo.pdf",
+ "vigencia": "24/04/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1778508513-resoluo_n_697_2026_-_reajuste_tarifrio_-_amparo.pdf",
+ "leitura": "Material tarifário oficial de SAAE Amparo. Anexo I da resolução da ARES-PCJ, vigência a partir de 24/04/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Amparo"
+   ],
+   "social": {
+    "esgoto_pct": 90.0,
+    "fixo": 14.73,
+    "franquia": 12.0,
+    "faixas": [
+     [
+      12.0,
+      15.0,
+      2.09
+     ],
+     [
+      15.0,
+      20.0,
+      3.13
+     ],
+     [
+      20.0,
+      50.0,
+      13.78
+     ],
+     [
+      50.0,
+      99.0,
+      20.37
+     ],
+     [
+      99.0,
+      null,
+      25.49
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 90.0,
+    "fixo": 29.47,
+    "franquia": 12.0,
+    "faixas": [
+     [
+      12.0,
+      20.0,
+      4.17
+     ],
+     [
+      20.0,
+      50.0,
+      13.78
+     ],
+     [
+      50.0,
+      99.0,
+      20.37
+     ],
+     [
+      99.0,
+      null,
+      25.49
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 90.0,
+    "fixo": 46.51,
+    "franquia": 12.0,
+    "faixas": [
+     [
+      12.0,
+      20.0,
+      5.12
+     ],
+     [
+      20.0,
+      50.0,
+      17.86
+     ],
+     [
+      50.0,
+      99.0,
+      24.61
+     ],
+     [
+      99.0,
+      null,
+      27.53
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 90.0,
+    "fixo": 46.51,
+    "franquia": 12.0,
+    "faixas": [
+     [
+      12.0,
+      20.0,
+      5.12
+     ],
+     [
+      20.0,
+      50.0,
+      17.86
+     ],
+     [
+      50.0,
+      99.0,
+      24.61
+     ],
+     [
+      99.0,
+      null,
+      27.53
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 90.0,
+    "fixo": 57.41,
+    "franquia": 12.0,
+    "faixas": [
+     [
+      12.0,
+      20.0,
+      6.58
+     ],
+     [
+      20.0,
+      50.0,
+      18.36
+     ],
+     [
+      50.0,
+      99.0,
+      25.55
+     ],
+     [
+      99.0,
+      null,
+      28.87
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Amparo",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 62.83,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

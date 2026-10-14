@@ -1,0 +1,248 @@
+{
+ "prestador": "SAAE Salto",
+ "registro": [
+  133
+ ],
+ "documento": "saae_salto_ARESPCJ_resoluo_n_658_2025_-_revisotarifria_-_saae_salto_vret.pdf",
+ "vigencia": "01/11/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1771009406-resoluo_n_658_2025_-_revisotarifria_-_saae_salto_vret.pdf",
+ "leitura": "Material tarifário oficial de SAAE Salto. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/11/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Salto"
+   ],
+   "residencial": {
+    "esgoto_pct": 98,
+    "fixo": 32.22,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      3.6
+     ],
+     [
+      15.0,
+      20.0,
+      3.92
+     ],
+     [
+      20.0,
+      25.0,
+      4.31
+     ],
+     [
+      25.0,
+      30.0,
+      4.77
+     ],
+     [
+      30.0,
+      35.0,
+      5.27
+     ],
+     [
+      35.0,
+      40.0,
+      6.34
+     ],
+     [
+      40.0,
+      60.0,
+      8.07
+     ],
+     [
+      60.0,
+      80.0,
+      10.21
+     ],
+     [
+      80.0,
+      null,
+      13.58
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento + tratamento = 98% da água."
+   },
+   "social": {
+    "esgoto_pct": 98,
+    "fixo": 16.11,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.8
+     ],
+     [
+      15.0,
+      20.0,
+      2.35
+     ],
+     [
+      20.0,
+      25.0,
+      2.59
+     ],
+     [
+      25.0,
+      30.0,
+      2.86
+     ],
+     [
+      30.0,
+      35.0,
+      3.16
+     ],
+     [
+      35.0,
+      40.0,
+      3.8
+     ],
+     [
+      40.0,
+      60.0,
+      8.07
+     ],
+     [
+      60.0,
+      80.0,
+      10.21
+     ],
+     [
+      80.0,
+      null,
+      13.58
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento + tratamento = 98% da água."
+   },
+   "publica": {
+    "esgoto_pct": 98,
+    "fixo": 32.22,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      3.6
+     ],
+     [
+      15.0,
+      20.0,
+      3.92
+     ],
+     [
+      20.0,
+      25.0,
+      4.31
+     ],
+     [
+      25.0,
+      30.0,
+      4.77
+     ],
+     [
+      30.0,
+      40.0,
+      6.34
+     ],
+     [
+      40.0,
+      60.0,
+      8.07
+     ],
+     [
+      60.0,
+      80.0,
+      10.21
+     ],
+     [
+      80.0,
+      null,
+      13.58
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento + tratamento = 98% da água."
+   },
+   "comercial": {
+    "esgoto_pct": 98,
+    "fixo": 46.08,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.57
+     ],
+     [
+      20.0,
+      30.0,
+      7.47
+     ],
+     [
+      30.0,
+      40.0,
+      8.57
+     ],
+     [
+      40.0,
+      60.0,
+      9.97
+     ],
+     [
+      60.0,
+      80.0,
+      13.03
+     ],
+     [
+      80.0,
+      null,
+      17.47
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento + tratamento = 98% da água."
+   },
+   "industrial": {
+    "esgoto_pct": 98,
+    "fixo": 161.62,
+    "franquia": 20.0,
+    "faixas": [
+     [
+      20.0,
+      120.0,
+      10.89
+     ],
+     [
+      120.0,
+      180.0,
+      13.47
+     ],
+     [
+      180.0,
+      240.0,
+      15.28
+     ],
+     [
+      240.0,
+      null,
+      23.05
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento + tratamento = 98% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Salto",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 69.82,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

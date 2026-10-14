@@ -1,0 +1,212 @@
+{
+ "prestador": "DAEB Bagé",
+ "registro": [
+  58
+ ],
+ "documento": "Tabela-valores-2026.pdf",
+ "vigencia": "2026",
+ "fonte_url": "https://www.daeb.com.br",
+ "leitura": "Tabela de tarifas de água e esgoto do DAEB para o exercício de 2026, conforme a Resolução AGESAN CSR nº 040/2025, de 28/11/2025. Serviço básico somado ao consumo desde 0 m³; esgoto a 50% do total da água (25% na residencial social).",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de tarifas 2026",
+   "uf": "RS",
+   "municipios": [
+    "Bagé"
+   ],
+   "residencial": {
+    "fixo": 53.37,
+    "faixas": [
+     [
+      0,
+      10,
+      4.26
+     ],
+     [
+      10,
+      20,
+      5.11
+     ],
+     [
+      20,
+      30,
+      6.84
+     ],
+     [
+      30,
+      40,
+      8.1
+     ],
+     [
+      40,
+      50,
+      8.94
+     ],
+     [
+      50,
+      null,
+      11.17
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Residencial e Nova Tarifa Social (Lei 14.898/2024)."
+   },
+   "social": {
+    "fixo": 8.54,
+    "faixas": [
+     [
+      0,
+      15,
+      1.61
+     ],
+     [
+      15,
+      25,
+      2.56
+     ],
+     [
+      25,
+      35,
+      3.84
+     ],
+     [
+      35,
+      45,
+      4.69
+     ],
+     [
+      45,
+      55,
+      5.99
+     ],
+     [
+      55,
+      null,
+      6.39
+     ]
+    ],
+    "esgoto_pct": 25,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "fixo": 53.37,
+    "faixas": [
+     [
+      0,
+      10,
+      7.47
+     ],
+     [
+      10,
+      20,
+      7.91
+     ],
+     [
+      20,
+      30,
+      8.32
+     ],
+     [
+      30,
+      40,
+      8.77
+     ],
+     [
+      40,
+      50,
+      9.17
+     ],
+     [
+      50,
+      null,
+      10.69
+     ]
+    ],
+    "esgoto_pct": 50,
+    "nota": "Comercial I; o Comercial II vai de R$ 9,40 a R$ 11,53/m³."
+   },
+   "industrial": {
+    "fixo": 64.03,
+    "faixas": [
+     [
+      0,
+      10,
+      9.4
+     ],
+     [
+      10,
+      20,
+      9.81
+     ],
+     [
+      20,
+      30,
+      10.24
+     ],
+     [
+      30,
+      40,
+      10.69
+     ],
+     [
+      40,
+      50,
+      11.1
+     ],
+     [
+      50,
+      null,
+      11.53
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "publica": {
+    "fixo": 53.37,
+    "faixas": [
+     [
+      0,
+      10,
+      7.47
+     ],
+     [
+      10,
+      20,
+      7.91
+     ],
+     [
+      20,
+      30,
+      8.32
+     ],
+     [
+      30,
+      40,
+      8.77
+     ],
+     [
+      40,
+      50,
+      9.17
+     ],
+     [
+      50,
+      null,
+      10.69
+     ]
+    ],
+    "esgoto_pct": 50
+   },
+   "abrangencia": "o documento é do prestador (DAEB Bagé), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RS - Bagé",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 95.97,
+   "impresso": "serviço básico 53,37 + 00–10 m³ a 4,26"
+  }
+ ]
+}

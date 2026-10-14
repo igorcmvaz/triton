@@ -1,0 +1,131 @@
+{
+ "prestador": "DAAE Rio Claro",
+ "registro": [
+  79
+ ],
+ "documento": "1768419516-resoluo_n_681_2026_-_reviso_tarifria_-_rio_claro.pdf",
+ "vigencia": "01/02/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 681, de 09/01/2026 (revisão tarifária do DAAE), Anexo I, a partir de fevereiro de 2026. Cascata com mínimo (10 m³ residencial, 15 m³ comercial e industrial); esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Rio Claro"
+   ],
+   "residencial": {
+    "fixo": 35.36,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.19
+     ],
+     [
+      20,
+      50,
+      10.77
+     ],
+     [
+      50,
+      100,
+      15.55
+     ],
+     [
+      100,
+      null,
+      17.91
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 17.69,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      3.6
+     ],
+     [
+      20,
+      50,
+      5.39
+     ],
+     [
+      50,
+      100,
+      10.77
+     ],
+     [
+      100,
+      null,
+      15.55
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 94.42,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      30,
+      12.03
+     ],
+     [
+      30,
+      50,
+      17.91
+     ],
+     [
+      50,
+      100,
+      21.66
+     ],
+     [
+      100,
+      null,
+      24.0
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 179.87,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      50,
+      18.3
+     ],
+     [
+      50,
+      500,
+      28.48
+     ],
+     [
+      500,
+      null,
+      30.56
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Rio Claro",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 161.11,
+   "impresso": "exemplo do Anexo: 25 m³ = R$ 161,11"
+  }
+ ]
+}

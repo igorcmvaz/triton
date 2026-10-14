@@ -1,0 +1,195 @@
+{
+ "prestador": "CESAMA Juiz de Fora",
+ "registro": [
+  113
+ ],
+ "documento": "cesama_resolucao_arisb_395_2026.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arisb.com.br/imgeditor/file/RES_395_2026_ARISB_MG_Revis%C3%A3o_Cesama.pdf",
+ "leitura": "Resolução ARISB-MG nº 395 (01/05/2026), revisão de 7,99% da CESAMA, Anexo I. Tarifa fixa somada ao consumo desde 0 m³. Esgoto em tabela própria, de 60% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "MG",
+   "municipios": [
+    "Juiz de Fora"
+   ],
+   "residencial": {
+    "fixo": 16.21,
+    "faixas": [
+     [
+      0,
+      5,
+      1.7848
+     ],
+     [
+      5,
+      10,
+      4.8189
+     ],
+     [
+      10,
+      15,
+      6.0238
+     ],
+     [
+      15,
+      20,
+      6.8269
+     ],
+     [
+      20,
+      40,
+      9.2378
+     ],
+     [
+      40,
+      null,
+      12.0489
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Residencial unifamiliar. Esgoto em tabela própria, de 60% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³."
+   },
+   "social": {
+    "fixo": 8.1,
+    "faixas": [
+     [
+      0,
+      5,
+      0.8924
+     ],
+     [
+      5,
+      10,
+      0.8924
+     ],
+     [
+      10,
+      15,
+      0.8924
+     ],
+     [
+      15,
+      20,
+      3.4135
+     ],
+     [
+      20,
+      40,
+      4.6196
+     ],
+     [
+      40,
+      null,
+      6.0252
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Esgoto em tabela própria, de 60% a 70% da água conforme a faixa; o banco guarda 70%, a razão acima de 15 m³."
+   },
+   "comercial": {
+    "fixo": 37.31,
+    "faixas": [
+     [
+      0,
+      10,
+      4.0158
+     ],
+     [
+      10,
+      20,
+      7.032
+     ],
+     [
+      20,
+      40,
+      9.2392
+     ],
+     [
+      40,
+      200,
+      10.4453
+     ],
+     [
+      200,
+      null,
+      11.6487
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "industrial": {
+    "fixo": 46.01,
+    "faixas": [
+     [
+      0,
+      10,
+      4.8246
+     ],
+     [
+      10,
+      20,
+      5.4199
+     ],
+     [
+      20,
+      40,
+      6.8269
+     ],
+     [
+      40,
+      200,
+      9.6422
+     ],
+     [
+      200,
+      null,
+      11.6487
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "publica": {
+    "fixo": 38.04,
+    "faixas": [
+     [
+      0,
+      10,
+      2.5936
+     ],
+     [
+      10,
+      20,
+      4.317
+     ],
+     [
+      20,
+      40,
+      6.6262
+     ],
+     [
+      40,
+      200,
+      7.0278
+     ],
+     [
+      200,
+      null,
+      7.4306
+     ]
+    ],
+    "esgoto_pct": 70
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Juiz de Fora",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 49.23,
+   "impresso": "fixa 16,21 + 5 × 1,7848 + 5 × 4,8189"
+  }
+ ]
+}

@@ -1,0 +1,158 @@
+{
+ "prestador": "DAEP Penápolis",
+ "registro": [
+  178,
+  64
+ ],
+ "documento": "tabela_aprovada_06085022.pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "arquivo recebido, sem endereço: tarifas/fontes/daep_penapolis/tabela_aprovada_06085022.pdf",
+ "leitura": "Tabela do DAEP Penápolis «com aumento de 8% na água e esgoto a partir de 01 de março de 2026», a tabela que faltava ao Decreto 8.504/2026 (item 64).",
+ "tabelas": [
+  {
+   "rotulo": "Tabela aprovada, 01/03/2026",
+   "uf": "SP",
+   "municipios": [
+    "Penápolis"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      5,
+      20,
+      3.6256
+     ],
+     [
+      20,
+      30,
+      4.7132
+     ],
+     [
+      30,
+      40,
+      5.0758
+     ],
+     [
+      40,
+      50,
+      5.4383
+     ],
+     [
+      50,
+      null,
+      5.8009
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 18.1278,
+    "franquia": 5,
+    "nota": "Mínimo de 5 m³ (5 × tarifa básica 3,6256); esgoto a 70% da água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      5,
+      20,
+      7.2511
+     ],
+     [
+      20,
+      30,
+      9.4265
+     ],
+     [
+      30,
+      40,
+      10.1516
+     ],
+     [
+      40,
+      50,
+      10.8767
+     ],
+     [
+      50,
+      null,
+      11.6018
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 36.2556,
+    "franquia": 5
+   },
+   "publica": {
+    "faixas": [
+     [
+      5,
+      20,
+      7.2511
+     ],
+     [
+      20,
+      30,
+      9.4265
+     ],
+     [
+      30,
+      40,
+      10.1516
+     ],
+     [
+      40,
+      50,
+      10.8767
+     ],
+     [
+      50,
+      null,
+      11.6018
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 36.2556,
+    "franquia": 5
+   },
+   "industrial": {
+    "faixas": [
+     [
+      5,
+      20,
+      7.2511
+     ],
+     [
+      20,
+      30,
+      9.4265
+     ],
+     [
+      30,
+      40,
+      10.1516
+     ],
+     [
+      40,
+      50,
+      10.8767
+     ],
+     [
+      50,
+      null,
+      11.6018
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 36.2556,
+    "franquia": 5
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Penápolis",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 72.51,
+   "impresso": "18,1278 + 15 × 3,6256"
+  }
+ ]
+}

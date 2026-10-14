@@ -1,0 +1,1275 @@
+(()=>{var ee={"token":"e51b7f8c2de397d36daf363ab5d77fc5","description":null,"logo":{"url":null},"url":"https://www.ourinhossaneamento.com.br","status":"active","name":"Ourinhos Saneamento","hide_on_accept":false,"privacy_portal_enabled":true,"is_compact":false,"classification":[{"id":3,"name":"Necessários","cookies":[{"id":11160,"name":"DPOEasyVisitorId","value":null,"domain":null,"expires":1770310855.2519538,"platform":"DPOEasy"},{"id":11161,"name":"DPOEasyUserConsent","value":null,"domain":null,"expires":1770310855.2524557,"platform":"DPOEasy"},{"id":11778,"name":"DPOEasyUserConsent","value":"%7B%22consents%22%3A%7B%22mode%22%3A%22accept_all%22%2C%22necessary%22%3A%5B%22DPOEasyVisitorId%22%2C%22DPOEasyUserConsent%22%5D%2C%22analytics%22%3A%5B%22_ga_X74G8LTS77%22%2C%22_ga_H5Y2HGW4J1%22%2C%22_ga%22%2C%22_gid%22%2C%22_gat_gtag_UA_204552629_1%22%5D%2C%22analytic%22%3A%5B%22_ga_X74G8LTS77%22%2C%22_ga_H5Y2HGW4J1%22%2C%22_ga%22%2C%22_gid%22%2C%22_gat_gtag_UA_204552629_1%22%5D%2C%22functionality%22%3A%5B%22YSC%22%2C%22__Secure-ROLLOUT_TOKEN%22%2C%22__Secure-YNID%22%5D%2C%22advertising%22%3A%5B%22VISITOR_INFO1_LIVE%22%5D%2C%22marketing%22%3A%5B%22VISITOR_INFO1_LIVE%22%5D%7D%2C%22selectedTags%22%3A%5B%22_ga_X74G8LTS77%22%2C%22_ga_H5Y2HGW4J1%22%2C%22_ga%22%2C%22_gid%22%2C%22_gat_gtag_UA_204552629_1%22%2C%22YSC%22%2C%22__Secure-ROLLOUT_TOKEN%22%2C%22__Secure-YNID%22%2C%22VISITOR_INFO1_LIVE%22%5D%2C%22userConsentToken%22%3A%22cbbbefe51963d37cdaa88b555c480d46%22%7D","domain":"www.ourinhossaneamento.com.br","expires":1791640073,"platform":""},{"id":18361,"name":"DPOEasyVisitorID","value":"44733c83-3417-4921-bf38-46d1b8ca9e2f","domain":"www.ourinhossaneamento.com.br","expires":1791640069,"platform":"DPOEasy"}]},{"id":5,"name":"Desempenho","cookies":[{"id":11162,"name":"_ga_X74G8LTS77","value":"GS2.1.s1789048069$o1$g1$t1789048074$j58$l0$h0","domain":".ourinhossaneamento.com.br","expires":1823608074.86348,"platform":"Google Analytics"},{"id":11167,"name":"_ga_H5Y2HGW4J1","value":"GS2.1.s1789048067$o1$g1$t1789048074$j60$l0$h0","domain":".ourinhossaneamento.com.br","expires":1823608074.661517,"platform":"Google Analytics"},{"id":11168,"name":"_ga","value":"GA1.1.849781985.1789048068","domain":".ourinhossaneamento.com.br","expires":1823608074.864393,"platform":"Google Analytics"},{"id":11169,"name":"_gid","value":"GA1.3.302263026.1789048073","domain":".ourinhossaneamento.com.br","expires":1789134474,"platform":"Google Analytics"},{"id":11170,"name":"_gat_gtag_UA_204552629_1","value":"1","domain":".ourinhossaneamento.com.br","expires":1789048132,"platform":"Google Analytics"},{"id":11164,"name":"__Secure-ROLLOUT_TOKEN","value":"CPStwN7SoPjiCBCQk-6zk-SWAxjJs_W3k-SWAw%3D%3D","domain":".youtube.com","expires":1804600075.153,"platform":""},{"id":14523,"name":"__Secure-YNID","value":"21.YT=Pi4h1Hba3kBNqbPonIzn-OxfsvmHto7tYxvw83VzgNddYhfxJvwsjYviIJczhYGJq8M5aN-Q4uoXyrLGLPwUnpKDfKJUo1d1OJfum26BrbfSssb3R8__hAYvHmSXBFeCJOUBbRs_GMRC1UK__olnQ_hC0jpazptbTJkZyMhkQgP1SZqeO2IS6oUZ-ZY5fIhLt_K_cZlEmBnK43cAWhJD_2BVlKfblH6ftWhzhsKN9C91jXQf192hqUqssh5YBJgTWu4f8kpuNi3reNqiN1NM4e-wxUZROgKoScPYk8NXVpu-HkeH4WvnwnrplNVOatTDeVHXDmquGqvLyr7wZFFTwg","domain":".youtube.com","expires":1804600066.151894,"platform":""},{"id":18360,"name":"__Secure-YEC","value":"","domain":".youtube.com","expires":1702648075.15407,"platform":""}]},{"id":6,"name":"Funcionalidade","cookies":[{"id":11163,"name":"YSC","value":"t5VwhEwU6Ak","domain":".youtube.com","expires":-1,"platform":"Youtube"}]},{"id":7,"name":"Publicidade","cookies":[{"id":11165,"name":"VISITOR_INFO1_LIVE","value":"LGA_omJVEgI","domain":".youtube.com","expires":1804600075.154168,"platform":"Youtube"}]}],"primary_color":"#005E83","secondary_color":"#3AB0C8","font_family":"","privacy_policy_link":null,"cookies_policy_link":null,"privacy_portal_url":"https://www.privacidade.com.br/portal-de-privacidade?token=8a6afff51d3ac1e0110f4d86e553ce79","position":"fixed","hide_reject_button":false,"requests_limit_reached":false,"banners_limit_reached":false},te={"button":{"acceptAll":"Aceitar todos","rejectAll":"Rejeitar todos","rejectAllExceptNecessary":"Rejeitar cookies não necessários","acceptAllCookies":"Permitir todos os cookies","reject":"Rejeitar","manageCookies":"Gerenciar cookies","confirmChoices":"Confirmar minhas escolhas","cancel":"Cancelar"},"privacyPortal":{"title":"Atendimento ao titular de dados","description":"Nossa página do Canal de Comunicação é seu ponto de contato direto para questões relacionadas à LGPD. Aqui, você pode reportar preocupações, solicitar informações sobre seus dados pessoais e esclarecer dúvidas sobre a proteção da sua privacidade. Estamos prontos para ouvir e responder às suas necessidades de forma segura e confidencial. Sua privacidade é nossa prioridade."},"menu":{"serviceChannelLabel":"Atendimento ao titular de dados","cookiesLabel":"Cookies","disableAllCookiesLabel":"Desabilitar cookies no navegador","cookieSection":{"description":"Cookies são pequenos arquivos de texto que são armazenados no seu computador quando visita um site. Utilizamos cookies para diversos fins e para aprimorar sua experiência no nosso site (por exemplo, para se lembrar dos detalhes de login da sua conta).","necessary":{"title":"Cookies necessários","description":"São essenciais para assegurar o funcionamento do nosso site. Os cookies são utilizados para que o site realize funções básicas e opere corretamente, não podendo ser desabilitados."},"functionality":{"title":"Cookies de funcionalidade","description":"São utilizados para fornecer uma experiência mais personalizada no nosso site possibilitando o registro e lembrança das suas preferências, como por exemplo: região e idioma."},"marketing":{"title":"Cookies de publicidade","description":"São utilizados para fins de publicidade ou exibição de anúncios com base nos seus hábitos e comportamentos de navegação. Se optar por remover ou desativar estes cookies, você ainda poderá ver anúncios, mas que eventualmente não terão relevância ao seu perfil de navegação."},"analytics":{"title":"Cookies analíticos ou de desempenho","description":"São utilizados para coletar informações sobre o tráfego em nosso site. Esses cookies permitem, por exemplo, verificar quais páginas são visitadas com maior frequência, ocorrência de erros e o desempenho do site."},"others":{"title":"Outros","description":"Cookies que não se enquadram nas demais categorias ou cuja finalidade não pôde ser identificada. Eles podem ser utilizados para funcionalidades diversas ou ainda não categorizadas."}},"serviceChannel":{"title":"Atendimento ao titular"},"disableCookies":{"title":"Desabilitar cookies no navegador","description":"Os cookies são pequenos arquivos de texto que os sites armazenam no seu dispositivo para lembrar informações sobre você. Se você deseja desabilitar os cookies no seu navegador, siga os passos abaixo:","stepLabel":"Passo","steps":{"zero":"Abra o seu navegador da web. Isso pode ser o","one":"ou qualquer outro navegador que você esteja utilizando.","two":"Localize o menu de configurações. Geralmente, você pode encontrá-lo clicando nos três pontos verticais no canto superior direito do navegador.","three":"No menu de configurações, role para baixo até encontrar a opção \"Configurações\" ou \"Preferências\". Clique nessa opção para acessar as configurações do navegador.","four":"Dentro das configurações, procure por uma seção relacionada à privacidade ou segurança. Esta seção pode ter diferentes nomes dependendo do navegador.","five":"Dentro da seção de privacidade ou segurança, você deve encontrar uma opção relacionada aos cookies. Esta opção pode ser denominada \"Configurações de cookies\", \"Gerenciar cookies\" ou algo semelhante.","six":"Clique na opção de gerenciamento de cookies. Isso abrirá uma nova página ou painel com várias opções de configuração.","seven":"Procure pela opção que permite desabilitar os cookies. Isso pode ser feito através de um botão de alternância ou marcando uma caixa de seleção.","eight":"Após desabilitar os cookies, certifique-se de salvar suas alterações. Isso geralmente é feito clicando em um botão de \"Salvar\" ou \"Aplicar\".","nine":"Feche a página de configurações e retorne à navegação normal.","ten":"Se desejar, reinicie o navegador para garantir que as alterações tenham sido aplicadas corretamente."}}},"banner":{"title":"Controle sua privacidade","secondLevelTitle":"Preferências de privacidade","description":"Para melhorar a sua experiência na plataforma e prover serviços personalizados, utilizamos cookies. Ao aceitar, você terá acesso a todas as funcionalidades do site. Se clicar em \"Rejeitar todos\", os cookies que não forem estritamente necessários serão desativados. Para escolher quais quer autorizar, clique em \"Gerenciar cookies\". Para maiores informações, consulte a nossa Política de Cookies.","compactDescription":"[banner.compactDescription]"},"card":{"alwaysActive":"Sempre ativo","cookiesDetails":"Detalhes dos cookies","showCookies":"Ver cookies"},"switch":{"activateLabel":"Ativar"},"table":{"noInfo":"Não informado","typeCol":"Tipo","durationCol":"Duração","hostCol":"Anfitrião","nameCol":"Nome"}},oe={"button":{"acceptAll":"Accept all","rejectAll":"Reject all","rejectAllExceptNecessary":"Reject non-essential cookies","acceptAllCookies":"Allow all cookies","reject":"Reject","manageCookies":"Manage cookies","confirmChoices":"Confirm my choices","cancel":"Cancel"},"privacyPortal":{"title":"DSAR","description":"Our DSAR page allows you to request access to your personal data, correct inaccuracies, or request deletion in accordance with data protection laws. This secure channel ensures your data privacy rights are respected and handled with confidentiality."},"menu":{"serviceChannelLabel":"DSAR","cookiesLabel":"Cookies","disableAllCookiesLabel":"Disable cookies in the browser","cookieSection":{"description":"Cookies are small text files stored on your computer when you visit a website. We use cookies for various purposes and to enhance your experience on our site (e.g., to remember your account login details).","necessary":{"title":"Necessary cookies","description":"These are essential to ensure the proper functioning of our site. Cookies are used to perform basic functions and enable the site to work correctly, and cannot be disabled."},"functionality":{"title":"Functionality cookies","description":"These are used to provide a more personalized experience on our site by storing and remembering your preferences, such as region and language."},"marketing":{"title":"Advertising cookies","description":"These are used for advertising purposes or to display ads based on your browsing habits and behaviors. If you choose to remove or disable these cookies, you may still see ads, but they may not be relevant to your browsing profile."},"analytics":{"title":"Analytical or performance cookies","description":"These are used to collect information about traffic on our site. For example, these cookies help identify which pages are visited most frequently, track errors, and assess site performance."},"others":{"title":"Other","description":"Cookies that do not fit into other categories or whose purpose could not be identified. They may be used for miscellaneous or yet uncategorized functionalities."}},"serviceChannel":{"title":"[menu.serviceChannel.title]"},"disableCookies":{"title":"Disable cookies in the browser","description":"Cookies are small text files that websites store on your device to remember information about you. If you want to disable cookies in your browser, follow the steps below:","stepLabel":"Step","steps":{"zero":"Open your web browser. This can be","one":"or any other browser you are using.","two":"Locate the settings menu. Usually, you can find it by clicking on the three vertical dots in the top-right corner of the browser.","three":"In the settings menu, scroll down until you find the \"Settings\" or \"Preferences\" option. Click on it to access browser settings.","four":"Within settings, look for a section related to privacy or security. This section may have different names depending on the browser.","five":"Within the privacy or security section, you should find an option related to cookies. This option may be called \"Cookie settings,\" \"Manage cookies,\" or something similar.","six":"Click on the cookie management option. This will open a new page or panel with various configuration options.","seven":"Look for the option to disable cookies. This may be done through a toggle button or by checking a box.","eight":"After disabling cookies, make sure to save your changes. This is usually done by clicking a \"Save\" or \"Apply\" button.","nine":"Close the settings page and return to normal browsing.","ten":"If desired, restart the browser to ensure the changes have been applied correctly."}}},"banner":{"title":"Control your privacy","secondLevelTitle":"Privacy preferences","description":"To enhance your experience on the platform and provide personalized services, we use cookies. By accepting, you will have access to all site features. If you click \"Reject all\", non-essential cookies will be disabled. To choose which ones to authorize, click \"Manage cookies\".","compactDescription":"[banner.compactDescription]"},"card":{"alwaysActive":"Always active","cookiesDetails":"Cookies details","showCookies":"View cookies"},"switch":{"activateLabel":"Activate"},"table":{"noInfo":"Not informed","typeCol":"Type","durationCol":"Duration","hostCol":"Host","nameCol":"Name"}},ae={"button":{"acceptAll":"Aceptar todos","rejectAll":"Rechazar todos","rejectAllExceptNecessary":"Rechazar cookies no esenciales","acceptAllCookies":"Permitir todas las cookies","reject":"Rechazar","manageCookies":"Gestionar cookies","confirmChoices":"Confirmar mis elecciones","cancel":"Cancelar"},"privacyPortal":{"title":"Atención al titular de datos","description":"uestra página del Canal de Atención es su punto de contacto directo para temas relacionados con la privacidad de datos. Aquí puede reportar inquietudes, solicitar información sobre sus datos personales y aclarar dudas sobre la protección de su privacidad. Estamos listos para escuchar y responder a sus necesidades de manera segura y confidencial. Su privacidad es nuestra prioridad."},"menu":{"serviceChannelLabel":"Atención al titular de datos","cookiesLabel":"Cookies","disableAllCookiesLabel":"Deshabilitar cookies en el navegador","cookieSection":{"description":"Las cookies son pequeños archivos de texto que se almacenan en su computadora cuando visita un sitio web. Utilizamos cookies para varios propósitos y para mejorar su experiencia en nuestro sitio (por ejemplo, recordar los detalles de inicio de sesión de su cuenta).","necessary":{"title":"Cookies necesarias","description":"Son esenciales para asegurar el funcionamiento adecuado de nuestro sitio. Estas cookies se utilizan para que el sitio realice funciones básicas y opere correctamente, y no se pueden desactivar."},"functionality":{"title":"Cookies de funcionalidad","description":"Se utilizan para proporcionar una experiencia más personalizada en nuestro sitio, permitiendo registrar y recordar sus preferencias, como la región e idioma."},"marketing":{"title":"Cookies de publicidad","description":"Se utilizan con fines publicitarios o para mostrar anuncios basados en sus hábitos y comportamientos de navegación. Si elige eliminar o desactivar estas cookies, es posible que aún vea anuncios, pero es posible que no sean relevantes para su perfil de navegación."},"analytics":{"title":"Cookies analíticas o de rendimiento","description":"Se utilizan para recopilar información sobre el tráfico en nuestro sitio. Por ejemplo, estas cookies permiten identificar qué páginas se visitan con mayor frecuencia, errores y el rendimiento del sitio."},"others":{"title":"Otros","description":"Cookies que no encajan en las demás categorías o cuya finalidad no pudo ser identificada. Pueden ser utilizados para funcionalidades diversas o aún no categorizadas."}},"serviceChannel":{"title":"[menu.serviceChannel.title]"},"disableCookies":{"title":"Deshabilitar cookies en el navegador","description":"Las cookies son pequeños archivos de texto que los sitios web almacenan en su dispositivo para recordar información sobre usted. Si desea deshabilitar las cookies en su navegador, siga los pasos a continuación:","stepLabel":"Paso","steps":{"zero":"Abra su navegador web. Esto puede ser","one":"o cualquier otro navegador que esté utilizando.","two":"Ubique el menú de configuración. Por lo general, puede encontrarlo haciendo clic en los tres puntos verticales en la esquina superior derecha del navegador.","three":"En el menú de configuración, desplácese hacia abajo hasta encontrar la opción \"Configuración\" o \"Preferencias\". Haga clic en esa opción para acceder a la configuración del navegador.","four":"Dentro de la configuración, busque una sección relacionada con privacidad o seguridad. Esta sección puede tener diferentes nombres dependiendo del navegador.","five":"Dentro de la sección de privacidad o seguridad, debería encontrar una opción relacionada con las cookies. Esta opción puede llamarse \"Configuración de cookies\", \"Gestionar cookies\" o algo similar.","six":"Haga clic en la opción de gestión de cookies. Esto abrirá una nueva página o panel con varias opciones de configuración.","seven":"Busque la opción para deshabilitar las cookies. Esto puede hacerse a través de un botón de alternancia o marcando una casilla.","eight":"Después de deshabilitar las cookies, asegúrese de guardar los cambios. Esto generalmente se hace haciendo clic en un botón de \"Guardar\" o \"Aplicar\".","nine":"Cierre la página de configuración y vuelva a la navegación normal.","ten":"Si lo desea, reinicie el navegador para asegurarse de que los cambios se hayan aplicado correctamente."}}},"banner":{"title":"Controle su privacidad","secondLevelTitle":"Preferencias de privacidad","description":"Para mejorar su experiencia en la plataforma y brindar servicios personalizados, utilizamos cookies. Al aceptar, tendrá acceso a todas las funcionalidades del sitio. Si hace clic en \"Rechazar todos\", las cookies que no sean estrictamente necesarias serán desactivadas. Para elegir cuáles autorizar, haga clic en \"Gestionar cookies\".","compactDescription":"[banner.compactDescription]"},"card":{"alwaysActive":"Siempre activo","cookiesDetails":"Detalles de las cookies","showCookies":"Ver cookies"},"switch":{"activateLabel":"Activar"},"table":{"noInfo":"No informado","typeCol":"Tipo","durationCol":"Duración","hostCol":"Anfitrión","nameCol":"Nombre"}};function qe(){return[ee,te,oe,ae].join("|")}var Ue={token:null,description:null,logo:{url:null},url:null,status:null,name:null,position:"left",hide_on_accept:!1,is_compact:!1,hide_reject_button:!1,privacy_portal_enabled:!1,privacy_portal_url:null,privacy_policy_link:null,cookies_policy_link:null,primary_color:"#233154",secondary_color:"#0763A0",font_family:"Arial",requests_limit_reached:!1,banners_limit_reached:!1,classification:[],locales:{},environment:"production"},Ct=[{name:"Google Chrome",url:"https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=pt-BR"},{name:"Mozilla Firefox",url:"https://support.mozilla.org/pt-BR/kb/desative-cookies-terceiros-impedir-rastreamento"},{name:"Safari",url:"https://support.apple.com/pt-br/guide/safari/sfri11471/mac"},{name:"Microsoft Edge",url:"https://support.microsoft.com/pt-br/microsoft-edge/excluir-cookies-no-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09"}],Ve=[{id:3,key:"necessary",storageKeys:["necessary"],required:!0},{id:5,key:"analytics",storageKeys:["analytics","analytic"],required:!1},{id:6,key:"functionality",storageKeys:["functionality"],required:!1},{id:7,key:"advertising",storageKeys:["advertising","marketing"],required:!1},{id:10,key:"unknown",storageKeys:["unknown","others"],required:!1}],d={bannerTitle:"Controle sua privacidade",bannerDescription:'Para melhorar a sua experiencia na plataforma e prover servicos personalizados, utilizamos cookies. Ao aceitar, voce tera acesso a todas as funcionalidades do site. Se clicar em "Rejeitar todos", os cookies que nao forem estritamente necessarios serao desativados. Para escolher quais quer autorizar, clique em "Gerenciar cookies". Para maiores informacoes, consulte a nossa Politica de Cookies.',bannerCompactDescription:'Usamos cookies para personalizar sua experi\xEAncia. Aceite para ter acesso a todas as fun\xE7\xF5es, rejeite os n\xE3o essenciais ou personalize suas escolhas em "Gerenciar cookies".',manageButtonLabel:"Gerenciar cookies",rejectButtonLabel:"Rejeitar cookies nao necessarios",acceptButtonLabel:"Aceitar todos",rejectAllLabel:"Rejeitar todos",acceptAllCookiesLabel:"Permitir todos os cookies",preferencesTitle:"Preferencias de privacidade",preferencesDescription:"Cookies sao pequenos arquivos de texto que sao armazenados no seu computador quando visita um site. Utilizamos cookies para diversos fins e para aprimorar sua experiencia no nosso site (por exemplo, para se lembrar dos detalhes de login da sua conta).",confirmChoicesLabel:"Confirmar minhas escolhas",cancelButtonLabel:"Cancelar",backButtonLabel:"Voltar",handlerAriaLabel:"Abrir o gerenciador de cookies",alwaysActiveLabel:"Sempre ativo",activateLabel:"Ativar",cookiesLabel:"Cookies",disableCookiesLabel:"Desabilitar cookies no navegador",serviceChannelLabel:"Atendimento ao titular de dados",privacyPortalTitle:"Atendimento ao titular de dados",privacyPortalDescription:"Nossa pagina do Canal de Comunicacao e seu ponto de contato direto para questoes relacionadas a LGPD. Aqui, voce pode reportar preocupacoes, solicitar informacoes sobre seus dados pessoais e esclarecer duvidas sobre a protecao da sua privacidade. Estamos prontos para ouvir e responder as suas necessidades de forma segura e confidencial. Sua privacidade e nossa prioridade.",serviceChannelTitle:"Atendimento ao titular",cookieDetailsLabel:"Detalhes dos cookies",showCookiesLabel:"Ver cookies",cookieDetailsEmptyLabel:"Nenhum cookie informado para esta categoria.",showMoreLabel:"Ver mais",showLessLabel:"Ver menos",disableCookies:{title:"Desabilitar cookies no navegador",description:"Os cookies sao pequenos arquivos de texto que os sites armazenam no seu dispositivo para lembrar informacoes sobre voce. Se voce deseja desabilitar os cookies no seu navegador, siga os passos abaixo:",stepLabel:"Passo",steps:{zero:"Abra o seu navegador da web. Isso pode ser o",one:"ou qualquer outro navegador que voce esteja utilizando.",two:"Localize o menu de configuracoes. Geralmente, voce pode encontra-lo clicando nos tres pontos verticais no canto superior direito do navegador.",three:'No menu de configuracoes, role para baixo ate encontrar a opcao "Configuracoes" ou "Preferencias". Clique nessa opcao para acessar as configuracoes do navegador.',four:"Dentro das configuracoes, procure por uma secao relacionada a privacidade ou seguranca. Esta secao pode ter diferentes nomes dependendo do navegador.",five:'Dentro da secao de privacidade ou seguranca, voce deve encontrar uma opcao relacionada aos cookies. Esta opcao pode ser denominada "Configuracoes de cookies", "Gerenciar cookies" ou algo semelhante.',six:"Clique na opcao de gerenciamento de cookies. Isso abrira uma nova pagina ou painel com varias opcoes de configuracao.",seven:"Procure pela opcao que permite desabilitar os cookies. Isso pode ser feito atraves de um botao de alternancia ou marcando uma caixa de selecao.",eight:'Apos desabilitar os cookies, certifique-se de salvar suas alteracoes. Isso geralmente e feito clicando em um botao de "Salvar" ou "Aplicar".',nine:"Feche a pagina de configuracoes e retorne a navegacao normal.",ten:"Se desejar, reinicie o navegador para garantir que as alteracoes tenham sido aplicadas corretamente."},browsers:Ct},serviceChannel:{title:"Atendimento ao titular"},table:{noInfo:"Nao informado",typeCol:"Tipo",durationCol:"Duracao",hostCol:"Anfitriao",nameCol:"Nome"},categories:{necessary:{title:"Cookies necessarios",description:"Sao essenciais para assegurar o funcionamento do nosso site. Os cookies sao utilizados para que o site realize funcoes basicas e opere corretamente, nao podendo ser desabilitados."},analytics:{title:"Cookies analiticos ou de desempenho",description:"Sao utilizados para coletar informacoes sobre o trafego em nosso site. Esses cookies permitem, por exemplo, verificar quais paginas sao visitadas com maior frequencia, ocorrencia de erros e o desempenho do site."},functionality:{title:"Cookies de funcionalidade",description:"Sao utilizados para fornecer uma experiencia mais personalizada no nosso site possibilitando o registro e lembranca das suas preferencias, como por exemplo: regiao e idioma."},advertising:{title:"Cookies de publicidade",description:"Sao utilizados para fins de publicidade ou exibicao de anuncios com base nos seus habitos e comportamentos de navegacao. Se optar por remover ou desativar estes cookies, voce ainda podera ver anuncios, mas que eventualmente nao terao relevancia ao seu perfil de navegacao."},unknown:{title:"Outros",description:"Cookies que nao se enquadram nas demais categorias ou cuja finalidade nao pode ser identificada. Eles podem ser utilizados para funcionalidades diversas ou ainda nao categorizadas."}}},_t="__DPOEASY_BANNER_CONFIG__",At="__DPOEASY_BANNER_LOCALES__",Et=/^__([A-Z0-9_]+)__$/,St=/^\[[^\]]+\]$/;function Fe(e){return typeof e=="string"&&Et.test(e)}function Dt(e){return typeof e=="string"&&St.test(e.trim())}function Ot(e){if(e!=null&&!(Fe(e)||Dt(e))&&!(typeof e=="string"&&e.trim()===""))return e}function i(...e){for(let t of e){let o=Ot(t);if(o!==void 0)return o}}function Tt(e){return e.replace(/_([a-z])/g,(t,o)=>o.toUpperCase())}function F(e){return Array.isArray(e)?e.map(F):e&&typeof e=="object"?Object.fromEntries(Object.entries(e).map(([t,o])=>[Tt(t),F(o)])):e}function K(e){return!!e&&typeof e=="object"&&!Array.isArray(e)}function D(e,t){if(!K(e)||!K(t))return t===void 0?e:t;let o={...e};for(let[a,n]of Object.entries(t))o[a]=D(e[a],n);return o}function ie(e){return e?String(e).trim().toLowerCase().replaceAll("_","-"):null}function re(e){let t=ie(e);return t&&t.split("-")[0]||null}function ne(e){return K(e)?Object.entries(e).reduce((t,[o,a])=>{let n=ie(o),r=U(a);return n&&K(r)&&(t[n]=r),t},{}):{}}function Pt(e){if(typeof e!="string")return null;let t=e.trim();if(!t.startsWith("{")&&!t.startsWith("["))return null;try{return JSON.parse(t)}catch(o){return null}}function zt(e){return[...new Set(e.filter(Boolean))]}function Bt(e){var o;if(!K(e))return null;let t=Number(e.expires);return{...e,id:(o=e.id)!=null?o:null,name:i(e.name)||null,domain:i(e.domain,e.host)||null,expires:Number.isFinite(t)?t:null,platform:i(e.platform,e.type)||null,tag:i(e.tag,e.slug,e.code)||null}}function Ke(e){return Array.isArray(e)?e.map(t=>{let o=Number(t==null?void 0:t.id);return Number.isFinite(o)?{...t,id:o,cookies:Array.isArray(t==null?void 0:t.cookies)?t.cookies.map(Bt).filter(Boolean):[]}:null}).filter(Boolean):[]}function He(e){var t;return typeof window=="undefined"?null:(t=window[e])!=null?t:null}function U(e){return Fe(e)?null:e&&typeof e=="object"?e:Pt(e)}function jt(){qe();let e=He(_t);if(e&&typeof e=="object")return e;let t=U(ee);return t||Ue}function Mt(e){let t=ne({"pt-br":U(te),"en-us":U(oe),"es-es":U(ae)}),o=ne(F(e==null?void 0:e.locales)),a=ne(F(He(At)));return[...new Set([...Object.keys(t),...Object.keys(o),...Object.keys(a)])].reduce((n,r)=>(n[r]=D(D(t[r]||{},o[r]||{}),a[r]||{}),n),{})}function Ye(e){return e.locale||e.language?e.locale||e.language:typeof navigator!="undefined"&&navigator.language?navigator.language:"pt-BR"}function It(e,t){let o=ie(e),a=re(e);if(o&&t[o])return t[o];let n=Object.entries(t).find(([r])=>re(r)===a);return n?n[1]:t["pt-br"]||t.pt||t["en-us"]||t.en||{}}function $t(e,t){var c,l,u,f,v,g,C,L,O,$,E,N,Y,R,y,b,w,S,x,m,h,T,P,q,V,G,xe,ve,we,ke,Le,Ce,_e,Ae,Ee,Se,De,Oe,Te,Pe,ze,Be,je,Me,Ie,$e,Ne,Re;let o=Ye(e),a=It(o,t),n=((c=a==null?void 0:a.menu)==null?void 0:c.cookieSection)||{},r=((l=a==null?void 0:a.menu)==null?void 0:l.disableCookies)||{},s=r.steps||{};return!a||typeof a!="object"?{}:{bannerTitle:i(a.bannerTitle,a.title,a.titleText,(u=a.banner)==null?void 0:u.title),bannerDescription:i(a.bannerDescription,a.description,a.message,(f=a.banner)==null?void 0:f.description),bannerCompactDescription:i(a.bannerCompactDescription,a.compactDescription,(v=a.banner)==null?void 0:v.compactDescription),manageButtonLabel:i(a.manageButtonLabel,a.manageCookiesLabel,(g=a.button)==null?void 0:g.manageCookies),rejectButtonLabel:i(a.rejectButtonLabel,a.rejectLabel,(C=a.button)==null?void 0:C.rejectAllExceptNecessary),acceptButtonLabel:i(a.acceptButtonLabel,a.acceptLabel,(L=a.button)==null?void 0:L.acceptAll),rejectAllLabel:i(a.rejectAllLabel,(O=a.button)==null?void 0:O.rejectAll),acceptAllCookiesLabel:i(a.acceptAllCookiesLabel,($=a.button)==null?void 0:$.acceptAllCookies),preferencesTitle:i(a.preferencesTitle,(E=a.banner)==null?void 0:E.secondLevelTitle),preferencesDescription:i(a.preferencesDescription,n.description),confirmChoicesLabel:i(a.confirmChoicesLabel,(N=a.button)==null?void 0:N.confirmChoices),cancelButtonLabel:i(a.cancelButtonLabel,(Y=a.button)==null?void 0:Y.cancel),backButtonLabel:i(a.backButtonLabel,(R=a.button)==null?void 0:R.cancel),handlerAriaLabel:i(a.handlerAriaLabel,a.openPreferencesLabel),alwaysActiveLabel:i(a.alwaysActiveLabel,(y=a.card)==null?void 0:y.alwaysActive),activateLabel:i(a.activateLabel,(b=a.switch)==null?void 0:b.activateLabel),cookiesLabel:i(a.cookiesLabel,(w=a.menu)==null?void 0:w.cookiesLabel),disableCookiesLabel:i(a.disableCookiesLabel,(S=a.menu)==null?void 0:S.disableAllCookiesLabel),serviceChannelLabel:i(a.serviceChannelLabel,(x=a.menu)==null?void 0:x.serviceChannelLabel),privacyPortalTitle:i(a.privacyPortalTitle,(m=a.privacyPortal)==null?void 0:m.title),privacyPortalDescription:i(a.privacyPortalDescription,(h=a.privacyPortal)==null?void 0:h.description),serviceChannelTitle:i(a.serviceChannelTitle,(P=(T=a.menu)==null?void 0:T.serviceChannel)==null?void 0:P.title,a.privacyPortalTitle,(q=a.privacyPortal)==null?void 0:q.title,(V=a.menu)==null?void 0:V.serviceChannelLabel),cookieDetailsLabel:i(a.cookieDetailsLabel,(G=a.card)==null?void 0:G.cookiesDetails),showCookiesLabel:i(a.showCookiesLabel,(xe=a.card)==null?void 0:xe.showCookies),cookieDetailsEmptyLabel:i(a.cookieDetailsEmptyLabel,(ve=a.card)==null?void 0:ve.emptyCookies,(we=a.table)==null?void 0:we.emptyState),disableCookies:{title:i(a.disableCookiesTitle,r.title),description:i(a.disableCookiesDescription,r.description),stepLabel:i(a.disableCookiesStepLabel,r.stepLabel),steps:{zero:i(s.zero),one:i(s.one),two:i(s.two),three:i(s.three),four:i(s.four),five:i(s.five),six:i(s.six),seven:i(s.seven),eight:i(s.eight),nine:i(s.nine),ten:i(s.ten)},browsers:Array.isArray(r.browsers)?r.browsers:void 0},serviceChannel:{title:i(a.serviceChannelTitle,(Le=(ke=a.menu)==null?void 0:ke.serviceChannel)==null?void 0:Le.title,a.privacyPortalTitle,(Ce=a.privacyPortal)==null?void 0:Ce.title,(_e=a.menu)==null?void 0:_e.serviceChannelLabel)},table:{noInfo:i((Ae=a.table)==null?void 0:Ae.noInfo),typeCol:i((Ee=a.table)==null?void 0:Ee.typeCol),durationCol:i((Se=a.table)==null?void 0:Se.durationCol),hostCol:i((De=a.table)==null?void 0:De.hostCol),nameCol:i((Oe=a.table)==null?void 0:Oe.nameCol)},categories:{necessary:{title:i((Te=n.necessary)==null?void 0:Te.title),description:i((Pe=n.necessary)==null?void 0:Pe.description)},analytics:{title:i((ze=n.analytics)==null?void 0:ze.title),description:i((Be=n.analytics)==null?void 0:Be.description)},functionality:{title:i((je=n.functionality)==null?void 0:je.title),description:i((Me=n.functionality)==null?void 0:Me.description)},advertising:{title:i((Ie=n.marketing)==null?void 0:Ie.title),description:i(($e=n.marketing)==null?void 0:$e.description)},unknown:{title:i((Ne=n.others)==null?void 0:Ne.title),description:i((Re=n.others)==null?void 0:Re.description)}}}}var Ge={pt:{showMoreLabel:"Ver mais",showLessLabel:"Ver menos"},en:{showMoreLabel:"Show more",showLessLabel:"Show less"},es:{showMoreLabel:"Ver m\xE1s",showLessLabel:"Ver menos"}};function Nt(e){let t=re(Ye(e));return Ge[t]||Ge.pt}function Rt(e,t){let o=e.texts&&typeof e.texts=="object"?e.texts:{},a=Nt(e),n=$t(e,t),r=D(D(d.disableCookies,n.disableCookies||{}),o.disableCookies||{}),s=D(D(d.serviceChannel,n.serviceChannel||{}),o.serviceChannel||{}),c=D(D(d.table,n.table||{}),o.table||{}),l=Object.fromEntries(Object.keys(d.categories).map(u=>{var f,v;return[u,{...d.categories[u],...((f=n.categories)==null?void 0:f[u])||{},...((v=o.categories)==null?void 0:v[u])||{}}]}));return{...d,...n,...o,disableCookies:r,serviceChannel:s,table:c,categories:l,bannerTitle:i(o.bannerTitle,e.bannerTitle,n.bannerTitle,d.bannerTitle),bannerDescription:i(o.bannerDescription,e.bannerDescription,n.bannerDescription,e.isCompact?d.bannerCompactDescription:d.bannerDescription),manageButtonLabel:i(o.manageButtonLabel,e.manageButtonLabel,n.manageButtonLabel,d.manageButtonLabel),rejectButtonLabel:i(o.rejectButtonLabel,e.rejectButtonLabel,n.rejectButtonLabel,d.rejectButtonLabel),acceptButtonLabel:i(o.acceptButtonLabel,e.acceptButtonLabel,n.acceptButtonLabel,d.acceptButtonLabel),rejectAllLabel:i(o.rejectAllLabel,e.rejectAllLabel,n.rejectAllLabel,d.rejectAllLabel),acceptAllCookiesLabel:i(o.acceptAllCookiesLabel,e.acceptAllCookiesLabel,n.acceptAllCookiesLabel,d.acceptAllCookiesLabel),preferencesTitle:i(o.preferencesTitle,e.preferencesTitle,n.preferencesTitle,d.preferencesTitle),preferencesDescription:i(o.preferencesDescription,e.preferencesDescription,n.preferencesDescription,d.preferencesDescription),confirmChoicesLabel:i(o.confirmChoicesLabel,e.confirmChoicesLabel,n.confirmChoicesLabel,d.confirmChoicesLabel),cancelButtonLabel:i(o.cancelButtonLabel,e.cancelButtonLabel,n.cancelButtonLabel,d.cancelButtonLabel),backButtonLabel:i(o.backButtonLabel,e.backButtonLabel,n.backButtonLabel,d.backButtonLabel),handlerAriaLabel:i(o.handlerAriaLabel,e.handlerAriaLabel,n.handlerAriaLabel,d.handlerAriaLabel),alwaysActiveLabel:i(o.alwaysActiveLabel,e.alwaysActiveLabel,n.alwaysActiveLabel,d.alwaysActiveLabel),activateLabel:i(o.activateLabel,e.activateLabel,n.activateLabel,d.activateLabel),cookiesLabel:i(o.cookiesLabel,e.cookiesLabel,n.cookiesLabel,d.cookiesLabel),disableCookiesLabel:i(o.disableCookiesLabel,e.disableCookiesLabel,n.disableCookiesLabel,d.disableCookiesLabel),serviceChannelLabel:i(o.serviceChannelLabel,e.serviceChannelLabel,n.serviceChannelLabel,d.serviceChannelLabel),privacyPortalTitle:i(o.privacyPortalTitle,e.privacyPortalTitle,n.privacyPortalTitle,d.privacyPortalTitle),privacyPortalDescription:i(o.privacyPortalDescription,e.privacyPortalDescription,n.privacyPortalDescription,d.privacyPortalDescription),serviceChannelTitle:i(o.serviceChannelTitle,e.serviceChannelTitle,n.serviceChannelTitle,s.title,d.serviceChannelTitle),cookieDetailsLabel:i(o.cookieDetailsLabel,e.cookieDetailsLabel,n.cookieDetailsLabel,d.cookieDetailsLabel),showCookiesLabel:i(o.showCookiesLabel,e.showCookiesLabel,n.showCookiesLabel,d.showCookiesLabel),cookieDetailsEmptyLabel:i(o.cookieDetailsEmptyLabel,e.cookieDetailsEmptyLabel,n.cookieDetailsEmptyLabel,d.cookieDetailsEmptyLabel),showMoreLabel:i(o.showMoreLabel,e.showMoreLabel,n.showMoreLabel,a.showMoreLabel,d.showMoreLabel),showLessLabel:i(o.showLessLabel,e.showLessLabel,n.showLessLabel,a.showLessLabel,d.showLessLabel)}}function qt(e,t){let o=Ke(e.classification),a=new Set(o.map(r=>Number(r==null?void 0:r.id)).filter(r=>Number.isFinite(r)));return(a.size?Ve.filter(r=>r.required||a.has(r.id)):Ve.filter(r=>r.id!==10)).map(r=>{var s,c;return{...r,cookies:((s=o.find(l=>l.id===r.id))==null?void 0:s.cookies)||[],cookieNames:zt((((c=o.find(l=>l.id===r.id))==null?void 0:c.cookies)||[]).map(l=>l==null?void 0:l.name).filter(Boolean)),label:t.categories[r.key].title,description:t.categories[r.key].description}})}function We(){let e=jt(),t=F({...Ue,...e}),o=Mt(t),a=Rt(t,o),n=Ke(t.classification);return{...t,classification:n,texts:a,preferenceCategories:qt({...t,classification:n},a)}}function _(e){return String(e).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;")}function Vt(e){return e.texts||{}}var Gt='<svg class="dpoeasy-handler-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.598 11.064a1.006 1.006 0 0 0-.854-.172A2.938 2.938 0 0 1 20 11c-1.654 0-3-1.346-3.003-2.937.005-.034.016-.136.017-.17a1 1 0 0 0-1.197-1.015 2.93 2.93 0 0 1-.605.064C13.556 6.942 12 5.386 12 3.456c0-.068.01-.136.015-.204a1 1 0 0 0-1.17-1.06C5.99 3.07 2 7.456 2 12.756c0 5.514 4.486 10 10 10s10-4.486 10-10c0-.169-.01-.336-.023-.502a1.004 1.004 0 0 0-.379-.19zM12 20.756c-4.411 0-8-3.589-8-8 0-3.721 2.474-6.936 6.003-7.85.404 2.105 2.194 3.76 4.399 3.996C14.741 10.511 16 11.947 16 13.643c0 .072.012.14.019.21a4.003 4.003 0 0 0 3.67 3.645 8.006 8.006 0 0 1-7.689 3.258zM9 13.756a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2-3a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" /></svg>';function Ut(e,t){return!e.privacyPortalEnabled||!e.privacyPortalUrl?"":`
+    <a
+      href="${_(e.privacyPortalUrl)}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="dpoeasy-service-link"
+    >${_(t.privacyPortalTitle)}</a>
+  `}function Je(e){let t=Vt(e),o=Ut(e,t),a=e.hideRejectButton?"":`<button class="dpoeasy-button dpoeasy-button--outlined" data-action="reject">
+          ${_(t.rejectAllLabel)}
+        </button>`;return`
+    <section class="dpoeasy-card" aria-labelledby="dpoeasy-banner-title">
+      <p class="dpoeasy-title" id="dpoeasy-banner-title" role="heading" aria-level="2">${_(t.bannerTitle)}</p>
+      <div class="dpoeasy-description-wrap">
+        <p class="dpoeasy-description">${_(t.bannerDescription)}</p>
+      </div>
+      <div class="dpoeasy-portal-row">
+        ${o}
+        <button
+          class="dpoeasy-show-more"
+          type="button"
+          data-action="toggle-description"
+          data-more="${_(t.showMoreLabel)}"
+          data-less="${_(t.showLessLabel)}"
+          hidden
+        ><svg class="dpoeasy-show-more-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg><span class="dpoeasy-show-more-label">${_(t.showMoreLabel)}</span></button>
+      </div>
+      <div class="dpoeasy-actions">
+        <button class="dpoeasy-button dpoeasy-button--ghost" data-action="manage">
+          ${_(t.manageButtonLabel)}
+        </button>
+        ${a}
+        <button class="dpoeasy-button dpoeasy-button--contained" data-action="accept">
+          ${_(t.acceptButtonLabel)}
+        </button>
+      </div>
+    </section>
+  `}function Xe(){return Gt}function p(e){return String(e).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;")}var Ft='<svg class="dpoeasy-arrow dpoeasy-arrow--right" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>',Kt='<svg class="dpoeasy-arrow dpoeasy-arrow--down dpoeasy-hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>',Ht='<svg class="dpoeasy-modal-close-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.29-6.3z"/></svg>',Yt='<svg class="dpoeasy-modal-logo-svg" width="154" height="70" viewBox="0 0 895.3 408.9" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo da DPOEasy"><g><path fill="currentColor" d="M395,369.1v12.2h-49.8v-71.7h48.9v12.2h-34.9v17.3h30.2v11.3h-30.2v18.7H395z"/><path fill="currentColor" d="M442.5,309.6h14.1l26.4,71.7h-14.3l-6-17.9h-26.3l-6,17.9H416L442.5,309.6z M459.4,353.6l-9.9-29.6l-9.9,29.6H459.4z"/><path fill="currentColor" d="M549.7,328.4c-0.5-0.5-1.3-1.1-2.6-1.9c-1.2-0.8-2.8-1.6-4.5-2.3c-1.8-0.7-3.7-1.4-5.8-2 c-2.1-0.6-4.2-0.9-6.4-0.9c-3.8,0-6.6,0.7-8.5,2.1c-1.9,1.4-2.9,3.4-2.9,5.9c0,1.9,0.6,3.5,1.8,4.6c1.2,1.1,3,2.1,5.5,2.9 s5.5,1.7,9.1,2.6c4.7,1.1,8.8,2.5,12.3,4.2c3.5,1.6,6.1,3.8,8,6.4c1.9,2.6,2.8,6.1,2.8,10.5c0,3.8-0.7,7.1-2.1,9.8 c-1.4,2.7-3.4,4.9-5.9,6.6c-2.5,1.7-5.3,2.9-8.5,3.7c-3.2,0.8-6.5,1.2-10.1,1.2c-3.6,0-7.1-0.4-10.7-1.1c-3.6-0.7-7-1.8-10.3-3.2 c-3.3-1.4-6.3-3-9.1-5l6.2-12c0.6,0.6,1.7,1.4,3.2,2.4c1.5,1,3.4,2,5.7,2.9c2.2,1,4.6,1.8,7.3,2.5c2.6,0.7,5.3,1,8,1 c3.8,0,6.6-0.6,8.6-1.9s2.9-3.1,2.9-5.4c0-2.1-0.8-3.8-2.3-5c-1.6-1.2-3.7-2.3-6.5-3.2c-2.8-0.9-6-1.9-9.8-3 c-4.5-1.3-8.3-2.7-11.3-4.3c-3-1.6-5.3-3.6-6.8-6c-1.5-2.4-2.2-5.4-2.2-9.1c0-4.9,1.2-9,3.5-12.3c2.3-3.3,5.5-5.8,9.4-7.5 c4-1.7,8.4-2.6,13.2-2.6c3.4,0,6.5,0.4,9.5,1.1c3,0.7,5.8,1.7,8.4,2.9c2.6,1.2,5,2.5,7.1,3.9L549.7,328.4z"/><path fill="currentColor" d="M592.2,309.6l17.7,33.7l18-33.7h15l-26.1,46.7v25H603V356l-26-46.5H592.2z"/></g><path fill="currentColor" d="M881.3,186c0-50.1-40.7-90.8-90.8-90.8s-90.8,40.7-90.8,90.8c0,50.1,40.7,90.8,90.8,90.8S881.3,236,881.3,186z M728.1,186c0-34.4,28-62.3,62.3-62.3s62.3,28,62.3,62.3c0,34.4-28,62.3-62.3,62.3S728.1,220.3,728.1,186z"/><path fill="currentColor" d="M430.1,95.2c-50.1,0-90.8,40.7-90.8,90.8v90.7h28.5V186c0-34.4,28-62.3,62.3-62.3c34.4,0,62.3,28,62.3,62.3 c0,34.4-28,62.3-62.3,62.3h-42.4v28.5h42.4c50.1,0,90.8-40.7,90.8-90.8C520.9,135.9,480.2,95.2,430.1,95.2z"/><path fill="currentColor" d="M689.5,173.7c0-21-8.4-40.9-23.6-55.8c-14.7-14.5-34.8-22.7-54.9-22.7c0,0,0,0,0,0c-19.7,0-38.7,7.9-53.4,22.3 C544.8,129.8,536,146,533.2,162c-0.9,5.1-0.9,10.3-0.9,11.9v102.8h28.5c0,0,0.1-107.5,0.5-109.9c3-17.4,20.8-43.1,49.6-43.1 c0,0,0,0,0,0c27.2,0,50.1,22.9,50.1,50.1c0,27.6-22.5,50.1-50.1,50.1l-2,0h-30.6v28.5h22.4c1.5,0.1,6.9,0,10.2,0 C654.2,252.3,689.5,217,689.5,173.7z"/><g><path fill="currentColor" d="M290.4,91.7L176.3,26.2c-10.4-6-23.2-6-33.6,0L28.6,91.7c-10.5,6-16.9,17.1-16.9,29.2v130.8 c0,12.1,6.4,23.2,16.9,29.2l114.1,65.5c10.4,6,23.2,6,33.6,0l114.1-65.5c10.5-6,16.9-17.1,16.9-29.2V120.9 C307.3,108.9,300.9,97.7,290.4,91.7z M148.3,305.8c-0.5,0.4-1,0.8-1.5,1.2c0,0,0,0,0,0c-1.4,1.1-2.9,2.2-4.5,3.2 c-0.2,0.1-0.3,0.2-0.5,0.3c-0.4,0.3-0.8,0.5-1.2,0.8c-0.2,0.1-0.5,0.3-0.7,0.4c-0.4,0.2-0.8,0.5-1.2,0.7c-0.3,0.2-0.6,0.3-0.9,0.5 c-0.6,0.3-1.1,0.6-1.7,0.9c-0.4,0.2-0.8,0.4-1.2,0.6c-0.3,0.1-0.6,0.3-0.9,0.4c-0.4,0.2-0.8,0.3-1.2,0.5c-0.3,0.1-0.6,0.2-0.9,0.3 c-0.5,0.2-1,0.3-1.4,0.5c-0.2,0.1-0.5,0.2-0.7,0.2c-0.7,0.2-1.4,0.4-2.1,0.6c-0.2,0-0.4,0.1-0.6,0.1c-0.5,0.1-1.1,0.2-1.7,0.3 c-0.3,0-0.5,0.1-0.8,0.1c-0.5,0.1-1.1,0.2-1.6,0.2c-0.2,0-0.5,0.1-0.7,0.1c-0.8,0.1-1.5,0.1-2.3,0.1c-2.3-0.1-13-6.6-14.4-7.5 c-25.7-15.8-37.6-21.2-40.7-25c-0.9-1.1-1.1-4.1-1-5.2c0.1-1.8,0.1-1.7,0.6-4.9c0.1-0.4,0.1-0.8,0.2-1.2c0-0.1,0-0.2,0-0.3 c0.1-0.8,0.3-1.7,0.4-2.6c0-0.1,0-0.2,0.1-0.3c0.2-0.9,0.3-1.9,0.5-3c0-0.1,0-0.2,0-0.3c0.2-1,0.4-2.1,0.6-3.2 c0-0.2,0.1-0.4,0.1-0.6c0.1-0.4,0.1-0.9,0.2-1.3c4-22.6,10.8-58.2,10.8-58.2c0.7-4.4,4-14.2,9-14.3c2.5-0.1,4.4,0.5,5.6,1.7 c1.4,1.4,1.8,3.4,1.9,3.9c-0.2,3.1,0.7,18.5,1,25c0,0.4,0.1,0.8,0.2,1.1l-4.1,4.1c-1.3,1.3-2,3-2,4.8c0,1.8,0.7,3.5,2,4.8 c1.3,1.3,3,2,4.8,2c1.8,0,3.5-0.7,4.8-2l58.2-58.2c1.6-1,6.4-3.3,9.9,0.2c5.2,5.2,3.3,9.1,2.1,10.7l-34.6,34.6 c-2.7,2.7-2.7,7,0,9.6c1.3,1.3,3,2,4.8,2c1.8,0,3.5-0.7,4.8-2l8.9-8.9c4.9,5.1,3.1,9,1.9,10.5l-13.1,13.1c-1.3,1.3-2,3-2,4.8 c0,1.8,0.7,3.5,2,4.8c2.7,2.7,7,2.7,9.6,0l9.8-9.8c4.3,4.8,2.5,8.5,1.4,9.9l-13.1,13.1c-2.7,2.7-2.7,7,0,9.6c2.7,2.7,7,2.7,9.6,0 l7.2-7.2c4.4,4.9,2.6,8.5,1.5,10C169.4,282.5,161,295.5,148.3,305.8z M165.3,306.2c8.4-7.7,14-14.3,14-14.3 c0.1-0.1,0.3-0.3,0.4-0.4c4.2-5,9.1-17.4-2.8-29.2c0,0,0,0,0,0c3.4-6.8,3.7-16.7-5.2-25.6c-0.4-0.4-0.7-0.7-1.1-1 c1.4-4.9,1.9-13.3-6.4-21.7l16.3-16.3c0.1-0.1,0.3-0.3,0.4-0.4c4.2-4.9,9.1-17.4-2.8-29.3c-9.7-9.7-22.3-5.2-27.7-1.5 c-0.3,0.2-0.6,0.5-0.9,0.8L107.9,209c-0.3-6.7-0.5-11.5-0.5-12.4c0.2-2.7-0.7-9.1-5.5-14.2c-2.7-2.9-7.8-6.3-16-6 c-14.2,0.5-20.5,16.5-22,25.9c0,0-3.6,23.9-7,46.2c-11-18.1-17.4-39.4-17.4-62.2c0-66.3,53.7-120,120-120s120,53.7,120,120 C279.5,250.7,228.9,303.2,165.3,306.2z"/><path fill="currentColor" d="M113.7,129.8c-2.9-2.9-7.6-2.9-10.5,0c-2.9,2.9-2.9,7.6,0,10.5l14.5,14.5c1.4,1.4,3.3,2.2,5.2,2.2 s3.8-0.7,5.2-2.2c1.4-1.4,2.2-3.3,2.2-5.2c0-2-0.8-3.8-2.2-5.2L113.7,129.8z"/><path fill="currentColor" d="M215.5,140.3c2.9-2.9,2.9-7.6,0-10.5c-2.9-2.9-7.6-2.9-10.5,0l-14.5,14.5c-1.4,1.4-2.2,3.3-2.2,5.2 s0.8,3.8,2.2,5.2c1.4,1.4,3.3,2.2,5.2,2.2s3.8-0.7,5.2-2.2L215.5,140.3z"/><path fill="currentColor" d="M159.4,109.6c-4.1,0-7.4,3.3-7.4,7.4l0,20.5c0,4.1,3.3,7.4,7.4,7.4c4.1,0,7.4-3.3,7.4-7.4V117 C166.8,112.9,163.4,109.6,159.4,109.6z"/><path fill="currentColor" d="M225.2,178.5h-20.5c-4.1,0-7.4,3.3-7.4,7.4c0,4.1,3.3,7.4,7.4,7.4l20.5,0h0c2,0,3.8-0.8,5.2-2.2 c1.4-1.4,2.2-3.3,2.2-5.2C232.6,181.8,229.3,178.5,225.2,178.5z"/></g></svg>';function Wt(e,t){let o=Number(e);if(!Number.isFinite(o)||o<=0)return t;try{let a=typeof navigator!="undefined"&&navigator.language?navigator.language:"pt-BR";return new Intl.DateTimeFormat(a).format(new Date(o*1e3))}catch(a){return new Date(o*1e3).toLocaleDateString()}}function W(e,t){return`
+    <div class="dpoeasy-cookie-row">
+      <span class="dpoeasy-cookie-label">${p(e)}</span>
+      <span class="dpoeasy-cookie-value">${p(t)}</span>
+    </div>
+  `}function Jt(e,t){let o=t.table||{},a=o.noInfo||"";return`
+    <div class="dpoeasy-cookie-table">
+      ${W(o.nameCol,(e==null?void 0:e.name)||a)}
+      ${W(o.hostCol,(e==null?void 0:e.domain)||a)}
+      ${W(o.durationCol,Wt(e==null?void 0:e.expires,a))}
+      ${W(o.typeCol,(e==null?void 0:e.platform)||a)}
+    </div>
+  `}function Xt(e,t){var o;return(o=e.cookies)!=null&&o.length?e.cookies.map(a=>Jt(a,t)).join(""):`<p class="dpoeasy-empty-state">${p(t.cookieDetailsEmptyLabel)}</p>`}function Zt(e){let o=(Array.isArray(e.browsers)?e.browsers:[]).map(a=>`
+        <a
+          href="${p(a.url)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="dpoeasy-inline-link"
+        >${p(a.name)}</a>`).join(", ");return`
+    <li class="dpoeasy-step-item">
+      <strong>${p(e.stepLabel)} 1</strong>
+      <span>
+        ${p(e.steps.zero)}
+        ${o}
+        ${o?" ":""}
+        ${p(e.steps.one)}
+      </span>
+    </li>
+  `}function Qt(e,t,o){return`
+    <li class="dpoeasy-step-item">
+      <strong>${p(o)} ${e}</strong>
+      <span>${p(t)}</span>
+    </li>
+  `}function eo(e){var o;let t=(o=e.logo)==null?void 0:o.url;return t?`<img src="${p(t)}" alt="Logo" class="dpoeasy-modal-logo-img" />`:Yt}function to(e,t,o,a=!1){return`
+    <label class="dpoeasy-toggle-wrapper${a?" dpoeasy-toggle-disabled":""}">
+      <input
+        class="dpoeasy-toggle-input"
+        type="checkbox"
+        data-preference-key="${p(e.key)}"
+        ${t?"checked":""}
+        ${a?"disabled":""}
+      />
+      <span class="dpoeasy-toggle-track"></span>
+      <span class="dpoeasy-toggle-text">${p(o)}</span>
+    </label>
+  `}function oo(e,t,o,a=!1){let n=!!t[e.key],r=a&&!e.required,s=e.required?`<span class="dpoeasy-badge">${p(o.alwaysActiveLabel)}</span>`:to(e,n,o.activateLabel,r);return`
+    <div class="dpoeasy-category-card">
+      <div class="dpoeasy-category-row">
+        <span class="dpoeasy-category-title">${p(e.label)}</span>
+        <div class="dpoeasy-category-control">${s}</div>
+      </div>
+      <div class="dpoeasy-details-card" data-details-open="false">
+        <div class="dpoeasy-details-header" data-action="toggle-details">
+          <span class="dpoeasy-details-label">${p(o.cookieDetailsLabel)}</span>
+          <div class="dpoeasy-details-right">
+            <span class="dpoeasy-details-show">${p(o.showCookiesLabel)}</span>
+            ${Ft}
+            ${Kt}
+          </div>
+        </div>
+        <div class="dpoeasy-details-body dpoeasy-hidden">${Xt(e,o)}</div>
+      </div>
+    </div>
+  `}function ao(e,t,o=!1){let a=e.texts||{},n=e.preferenceCategories.map(r=>oo(r,t,a,o)).join("");return`
+    <div class="dpoeasy-tab-panel" data-panel="cookies">
+      <p class="dpoeasy-section-description">${p(a.preferencesDescription)}</p>
+      ${n}
+    </div>
+  `}function no(e){let t=e.texts||{},a=e.privacyPortalEnabled&&e.privacyPortalUrl?`<button class="dpoeasy-nav-item" data-tab="service">${p(t.serviceChannelLabel)}</button>`:"";return`
+    <nav class="dpoeasy-modal-sidebar">
+      <button class="dpoeasy-nav-item dpoeasy-nav-active" data-tab="cookies">${p(t.cookiesLabel)}</button>
+      <button class="dpoeasy-nav-item" data-tab="disable">${p(t.disableCookiesLabel)}</button>
+      ${a}
+    </nav>
+  `}function ro(e){var n,r,s,c,l,u,f,v,g;let o=(e.texts||{}).disableCookies||{},a=[["2",(n=o.steps)==null?void 0:n.two],["3",(r=o.steps)==null?void 0:r.three],["4",(s=o.steps)==null?void 0:s.four],["5",(c=o.steps)==null?void 0:c.five],["6",(l=o.steps)==null?void 0:l.six],["7",(u=o.steps)==null?void 0:u.seven],["8",(f=o.steps)==null?void 0:f.eight],["9",(v=o.steps)==null?void 0:v.nine],["10",(g=o.steps)==null?void 0:g.ten]].filter(([,C])=>C).map(([C,L])=>Qt(C,L,o.stepLabel)).join("");return`
+    <div class="dpoeasy-tab-panel dpoeasy-hidden" data-panel="disable">
+      <h3 class="dpoeasy-service-title">${p(o.title)}</h3>
+      <p class="dpoeasy-section-description">${p(o.description)}</p>
+      <ul class="dpoeasy-step-list">
+        ${Zt(o)}
+        ${a}
+      </ul>
+    </div>
+  `}function io(e){var a;let t=e.texts||{},o=((a=t.serviceChannel)==null?void 0:a.title)||t.serviceChannelTitle||t.privacyPortalTitle;return`
+    <div class="dpoeasy-tab-panel dpoeasy-hidden" data-panel="service">
+      <h3 class="dpoeasy-service-title">${p(o)}</h3>
+      <p class="dpoeasy-section-description">${p(t.privacyPortalDescription)}</p>
+      <a
+        href="${p(e.privacyPortalUrl)}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="dpoeasy-service-link"
+      >${p(t.privacyPortalTitle)}</a>
+    </div>
+  `}function Ze(e,t,o=!1){let a=e.texts||{},n=e.privacyPortalEnabled&&e.privacyPortalUrl,r=a.cancelButtonLabel||"Fechar";return`
+    <div class="dpoeasy-modal" role="dialog" aria-modal="true" aria-labelledby="dpoeasy-modal-title">
+      <div class="dpoeasy-modal-header">
+        <button class="dpoeasy-modal-close" type="button" data-action="close" aria-label="${p(r)}">
+          ${Ht}
+        </button>
+        <div class="dpoeasy-modal-logo">
+          ${eo(e)}
+        </div>
+        <div class="dpoeasy-modal-title-area">
+          <div class="dpoeasy-modal-title" id="dpoeasy-modal-title" role="heading" aria-level="2">
+            ${p(a.preferencesTitle)}
+          </div>
+        </div>
+      </div>
+
+      <div class="dpoeasy-modal-body">
+        ${no(e)}
+        <div class="dpoeasy-modal-content">
+          ${ao(e,t,o)}
+          ${ro(e)}
+          ${n?io(e):""}
+        </div>
+      </div>
+
+      <div class="dpoeasy-modal-footer">
+        <div class="dpoeasy-modal-actions">
+          <button class="dpoeasy-button dpoeasy-button--ghost" data-action="reject">
+            ${p(a.rejectButtonLabel)}
+          </button>
+          <button class="dpoeasy-button dpoeasy-button--outlined" data-action="confirm">
+            ${p(a.confirmChoicesLabel)}
+          </button>
+          <button class="dpoeasy-button dpoeasy-button--contained" data-action="accept">
+            ${p(a.acceptAllCookiesLabel)}
+          </button>
+        </div>
+      </div>
+    </div>
+  `}var se="DPOEasyUserConsent";function so(e){if(typeof document=="undefined")return null;let t=`${e}=`,o=document.cookie.split(";");for(let a of o){let n=a.trim();if(n.startsWith(t))return decodeURIComponent(n.slice(t.length))}return null}function co(e,t,o){if(typeof document=="undefined")return;let a=new Date(Date.now()+o*24*60*60*1e3).toUTCString();document.cookie=`${e}=${encodeURIComponent(t)}; expires=${a}; path=/; SameSite=Lax`}function B(){let e=so(se);if(!e)return null;try{return JSON.parse(e)}catch(t){return null}}function ce(e){co(se,JSON.stringify(e),30)}function Qe(){typeof document!="undefined"&&(document.cookie=`${se}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`)}var lo=`
+  :host {
+    all: initial;
+  }
+
+  .dpoeasy-shell {
+    all: initial;
+    display: contents;
+  }
+
+  :host, :host *, :host *::before, :host *::after,
+  .dpoeasy-shell, .dpoeasy-shell *, .dpoeasy-shell *::before, .dpoeasy-shell *::after {
+    box-sizing: border-box;
+  }
+
+  @keyframes dpoeasy-banner-enter {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes dpoeasy-modal-overlay-enter {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dpoeasy-modal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .dpoeasy-root {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2147483647;
+    display: flex;
+    justify-content: flex-start;
+    pointer-events: none;
+    font-family: var(--dpoeasy-font-family, Arial, sans-serif);
+  }
+
+  .dpoeasy-banner-content {
+    width: min(700px, 100%);
+  }
+
+  .dpoeasy-root[data-position='right'] {
+    justify-content: flex-end;
+  }
+
+  .dpoeasy-root[data-position='center'] {
+    justify-content: center;
+  }
+
+  .dpoeasy-root[data-position='fixed'] {
+    left: 0;
+    right: 0;
+    padding: 0 16px;
+    justify-content: center;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-banner-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-card {
+    width: 100%;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
+    column-gap: 24px;
+    row-gap: 8px;
+    align-items: center;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-title {
+    font-size: 22px;
+    line-height: 1.35;
+    grid-column: 1;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-description {
+    grid-column: 1;
+    max-width: none;
+    color: rgba(31, 60, 136, 0.92);
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-actions {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    align-self: center;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-service-link {
+    grid-column: 1;
+    width: fit-content;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-button {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .dpoeasy-root[data-position='fixed'] .dpoeasy-button--ghost {
+    padding-inline: 0;
+    border: 0;
+  }
+
+  .dpoeasy-card {
+    width: min(700px, 100%);
+    max-height: 350px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    pointer-events: auto;
+    animation: dpoeasy-banner-enter 180ms ease-out;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-banner-content,
+  .dpoeasy-root[data-compact='true'] .dpoeasy-card {
+    width: min(500px, 100%);
+  }
+
+  /* position=fixed ocupa a largura inteira, mesmo em modo compacto */
+  .dpoeasy-root[data-position='fixed'][data-compact='true'] .dpoeasy-banner-content,
+  .dpoeasy-root[data-position='fixed'][data-compact='true'] .dpoeasy-card {
+    width: 100%;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-actions {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-actions .dpoeasy-button {
+    flex: 1 1 0;
+    max-width: none;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-title {
+    font-size: 18px;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-description {
+    font-size: 12px;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-button {
+    font-size: 12px;
+    min-height: 32px;
+    padding: 5px 12px;
+  }
+
+  .dpoeasy-root[data-compact='true'] .dpoeasy-service-link {
+    font-size: 12px;
+  }
+
+  .dpoeasy-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-description-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 0;
+  }
+
+  .dpoeasy-description-wrap:has(.dpoeasy-description--expanded) {
+    flex: 1 1 auto;
+  }
+
+  .dpoeasy-description {
+    position: relative;
+    margin: 0;
+    max-height: 96px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+    white-space: pre-line;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-description--clamped:not(.dpoeasy-description--expanded)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 48px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+  }
+
+  .dpoeasy-description--expanded {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+  }
+
+  .dpoeasy-portal-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .dpoeasy-show-more {
+    margin-left: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-show-more[hidden] {
+    display: none;
+  }
+
+  .dpoeasy-show-more-label {
+    text-decoration: underline;
+  }
+
+  .dpoeasy-show-more-icon {
+    width: 14px;
+    height: 14px;
+    transition: transform 150ms ease;
+  }
+
+  .dpoeasy-show-more--expanded .dpoeasy-show-more-icon {
+    transform: rotate(180deg);
+  }
+
+  .dpoeasy-actions {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .dpoeasy-button {
+    width: 100%;
+    max-width: 196px;
+    min-width: 64px;
+    appearance: none;
+    border-radius: 4px;
+    min-height: 36px;
+    padding: 6px 16px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    white-space: nowrap;
+    line-height: 1.75;
+    display: inline-block;
+  }
+
+  .dpoeasy-button--ghost {
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    text-transform: initial;
+    letter-spacing: normal;
+  }
+
+  .dpoeasy-button--outlined {
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    border-color: var(--dpoeasy-secondary-color, #0763A0);
+  }
+
+  .dpoeasy-button--contained {
+    background: var(--dpoeasy-secondary-color, #0763A0);
+    border-color: var(--dpoeasy-secondary-color, #0763A0);
+    color: #fff;
+  }
+
+  .dpoeasy-handler {
+    appearance: none;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    width: 56px;
+    height: 56px;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    z-index: 2147483647;
+    background: rgba(7, 99, 160, 0.12);
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  }
+
+  .dpoeasy-handler-icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+
+  .dpoeasy-handler[data-position='right'] {
+    left: auto;
+    right: 20px;
+  }
+
+  .dpoeasy-handler[data-position='center'] {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .dpoeasy-hidden {
+    display: none !important;
+  }
+
+  /* \u2500\u2500 Modal overlay \u2500\u2500 */
+
+  .dpoeasy-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483646;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-family: var(--dpoeasy-font-family, Arial, sans-serif);
+  }
+
+  .dpoeasy-modal-overlay:not(.dpoeasy-hidden) {
+    animation: dpoeasy-modal-overlay-enter 180ms ease-out;
+  }
+
+  /* \u2500\u2500 Modal dialog \u2500\u2500 */
+
+  .dpoeasy-modal {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow:
+      0 11px 15px -7px rgba(0, 0, 0, 0.2),
+      0 24px 38px 3px rgba(0, 0, 0, 0.14),
+      0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    width: min(1200px, 100%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: dpoeasy-modal-enter 280ms ease-out;
+  }
+
+  /* \u2500\u2500 Header \u2500\u2500 */
+
+  .dpoeasy-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 20px 0;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.62);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .dpoeasy-modal-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  .dpoeasy-modal-close-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
+  .dpoeasy-modal-logo {
+    width: 25%;
+    min-width: 180px;
+    max-width: 280px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-height: 100px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-modal-logo-img {
+    display: block;
+    max-width: 100%;
+    max-height: 100px;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .dpoeasy-modal-logo-svg {
+    width: min(154px, 100%);
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-modal-logo-text {
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-modal-title-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 24px 0 32px;
+  }
+
+  .dpoeasy-modal-title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: left;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  /* \u2500\u2500 Body: sidebar + content \u2500\u2500 */
+
+  .dpoeasy-modal-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  /* \u2500\u2500 Sidebar nav \u2500\u2500 */
+
+  .dpoeasy-modal-sidebar {
+    width: 25%;
+    min-width: 180px;
+    max-width: 280px;
+    background: var(--dpoeasy-primary-color, #233154);
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    overflow-y: auto;
+    max-height: 60vh;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-nav-item {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: left;
+    padding: 16px 20px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    line-height: 1.4;
+    border-radius: 0;
+  }
+
+  .dpoeasy-nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .dpoeasy-nav-item.dpoeasy-nav-active {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
+
+  /* \u2500\u2500 Content panel \u2500\u2500 */
+
+  .dpoeasy-modal-content {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 60vh;
+    min-height: 60vh;
+    padding: 36px 40px;
+    min-width: 0;
+  }
+
+  .dpoeasy-tab-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .dpoeasy-section-description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.65;
+    text-align: justify;
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  /* \u2500\u2500 Service channel panel \u2500\u2500 */
+
+  .dpoeasy-service-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-service-link {
+    display: inline-block;
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    font-weight: 600;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-decoration: underline;
+  }
+
+  .dpoeasy-service-link:hover {
+    text-decoration: underline;
+  }
+
+  /* \u2500\u2500 Category card \u2500\u2500 */
+
+  .dpoeasy-category-card {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 12px;
+    padding: 18px 20px 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(250, 250, 250, 1) 100%);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dpoeasy-category-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .dpoeasy-category-title {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    flex: 1;
+    color: var(--dpoeasy-primary-color, #233154);
+  }
+
+  .dpoeasy-category-control {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-category-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: justify;
+    color: rgba(0, 0, 0, 0.72);
+  }
+
+  .dpoeasy-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dpoeasy-primary-color, #233154);
+    white-space: nowrap;
+  }
+
+  /* \u2500\u2500 Toggle switch \u2500\u2500 */
+
+  .dpoeasy-toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .dpoeasy-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .dpoeasy-toggle-track {
+    position: relative;
+    width: 44px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.26);
+    border-radius: 999px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-toggle-input:checked ~ .dpoeasy-toggle-track {
+    background: var(--dpoeasy-secondary-color, #0763A0);
+  }
+
+  .dpoeasy-toggle-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s;
+  }
+
+  .dpoeasy-toggle-input:checked ~ .dpoeasy-toggle-track::after {
+    transform: translateX(22px);
+  }
+
+  .dpoeasy-toggle-text {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+  }
+
+  /* \u2500\u2500 Details collapsible card \u2500\u2500 */
+
+  .dpoeasy-details-card {
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0 0 8px 8px;
+    padding-top: 4px;
+  }
+
+  .dpoeasy-details-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+  }
+
+  .dpoeasy-details-card[data-details-open='true'] .dpoeasy-details-header {
+    border-bottom: 1px solid #bdbdbd;
+    padding-bottom: 10px;
+  }
+
+  .dpoeasy-details-label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    min-width: 0;
+    line-height: 1.4;
+  }
+
+  .dpoeasy-details-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-details-show {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+  }
+
+  .dpoeasy-arrow {
+    color: rgba(0, 0, 0, 0.54);
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-details-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0 4px;
+  }
+
+  .dpoeasy-cookie-table {
+    display: flex;
+    flex-direction: column;
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 14px 16px;
+    gap: 4px;
+  }
+
+  .dpoeasy-cookie-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) 1fr;
+    gap: 12px;
+    padding: 6px 0;
+  }
+
+  .dpoeasy-cookie-label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  .dpoeasy-cookie-value {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.62);
+    overflow-wrap: anywhere;
+  }
+
+  .dpoeasy-empty-state {
+    margin: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .dpoeasy-step-list {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .dpoeasy-step-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: rgba(0, 0, 0, 0.78);
+    line-height: 1.55;
+  }
+
+  .dpoeasy-inline-link {
+    color: var(--dpoeasy-secondary-color, #0763A0);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .dpoeasy-inline-link:hover {
+    text-decoration: underline;
+  }
+
+  /* \u2500\u2500 Modal footer \u2500\u2500 */
+
+  .dpoeasy-modal-footer {
+    padding: 8px 24px;
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .dpoeasy-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: min(100%, 900px);
+  }
+
+  .dpoeasy-modal-actions .dpoeasy-button {
+    width: auto;
+    max-width: none;
+    min-width: 220px;
+    min-height: 36px;
+    padding: 8px 22px;
+    white-space: normal;
+    flex: 1 1 220px;
+  }
+
+  /* \u2500\u2500 Responsive \u2500\u2500 */
+
+  @media (max-width: 768px) {
+    .dpoeasy-card {
+      width: 100%;
+      max-height: none;
+      padding: 16px;
+    }
+
+    .dpoeasy-actions {
+      flex-direction: column-reverse;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .dpoeasy-actions .dpoeasy-button {
+      width: 100%;
+      max-width: none;
+      min-height: 38px;
+    }
+
+    .dpoeasy-actions .dpoeasy-button--contained {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .dpoeasy-actions .dpoeasy-button--outlined {
+      background: #fff;
+    }
+
+    .dpoeasy-actions .dpoeasy-button--ghost {
+      padding: 4px 8px 12px;
+      min-height: 0;
+      text-align: center;
+      text-transform: none;
+      box-shadow: none;
+    }
+
+    .dpoeasy-modal {
+      max-height: 100vh;
+      height: 100vh;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .dpoeasy-root[data-position='fixed'] {
+      padding: 0;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-card {
+      width: 100%;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-title {
+      font-size: 20px;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-description {
+      max-width: none;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-actions {
+      grid-column: auto;
+      grid-row: auto;
+      flex-direction: column-reverse;
+      gap: 10px;
+      align-items: stretch;
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+      align-self: stretch;
+      width: 100%;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-button {
+      width: 100%;
+      max-width: none;
+      min-height: 38px;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-button--contained {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-button--outlined {
+      background: #fff;
+    }
+
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-button--ghost {
+      padding: 4px 8px 12px;
+      min-height: 0;
+      text-align: center;
+      text-transform: none;
+      box-shadow: none;
+    }
+
+    .dpoeasy-modal-overlay {
+      padding: 0;
+      align-items: flex-end;
+    }
+
+    .dpoeasy-modal-header {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .dpoeasy-modal-close {
+      top: 12px;
+      right: 12px;
+    }
+
+    .dpoeasy-modal-logo {
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+      max-height: none;
+      padding: 0;
+    }
+
+    .dpoeasy-modal-logo-img {
+      max-height: 72px;
+    }
+
+    .dpoeasy-modal-title-area {
+      width: 100%;
+      display: block;
+      padding: 0;
+    }
+
+    .dpoeasy-modal-title {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    .dpoeasy-modal-body {
+      flex-direction: column;
+    }
+
+    .dpoeasy-modal-sidebar {
+      width: 100%;
+      max-width: none;
+      max-height: none;
+      flex-direction: column;
+      align-self: stretch;
+      overflow: visible;
+    }
+
+    .dpoeasy-nav-item {
+      white-space: normal;
+      flex-shrink: 0;
+      padding: 16px;
+    }
+
+    .dpoeasy-modal-content {
+      max-height: none;
+      min-height: 0;
+      flex: 1;
+      padding: 20px 16px;
+    }
+
+    .dpoeasy-section-description {
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .dpoeasy-category-card {
+      padding: 16px;
+      gap: 10px;
+    }
+
+    .dpoeasy-category-title {
+      font-size: 17px;
+    }
+
+    .dpoeasy-modal-footer {
+      padding: 12px 16px 16px;
+      background: #fff;
+    }
+
+    .dpoeasy-modal-actions {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .dpoeasy-modal-actions .dpoeasy-button {
+      width: 100%;
+      max-width: none;
+      min-height: 38px;
+      flex: 1 1 auto;
+    }
+
+    .dpoeasy-modal-actions .dpoeasy-button--contained {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .dpoeasy-modal-actions .dpoeasy-button--outlined {
+      background: #fff;
+    }
+
+    .dpoeasy-modal-actions .dpoeasy-button--ghost {
+      border: 0;
+      padding: 4px 8px 0;
+      min-height: 0;
+      color: var(--dpoeasy-secondary-color, #0763A0);
+      text-align: center;
+      text-transform: none;
+      box-shadow: none;
+    }
+
+    .dpoeasy-category-row {
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dpoeasy-category-control {
+      width: auto;
+      justify-content: flex-end;
+    }
+
+    .dpoeasy-toggle-wrapper {
+      flex-shrink: 0;
+    }
+
+    .dpoeasy-cookie-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+
+    .dpoeasy-details-header {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .dpoeasy-details-right {
+      padding-top: 1px;
+    }
+
+    .dpoeasy-details-show {
+      white-space: normal;
+      text-align: right;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dpoeasy-card,
+    .dpoeasy-root[data-position='fixed'] .dpoeasy-card,
+    .dpoeasy-modal-overlay:not(.dpoeasy-hidden),
+    .dpoeasy-modal {
+      animation: none !important;
+    }
+  }
+`;function et(e=document){if(typeof document=="undefined")return;let t=typeof ShadowRoot!="undefined"&&e instanceof ShadowRoot;if(t){if(e.querySelector("#dpoeasy-banner-styles"))return}else if(document.getElementById("dpoeasy-banner-styles"))return;let o=document.createElement("style");if(o.id="dpoeasy-banner-styles",o.textContent=lo,t){e.appendChild(o);return}document.head.appendChild(o)}var tt={development:"http://api.localhost:3013",test:"https://cookies.sandbox.dponet.com.br",production:"https://cookies.dponet.com.br"};function ot(e){return tt[e]||tt.production}function po(e){return e.replace(/([A-Z])/g,t=>`_${t.toLowerCase()}`)}function le(e){return Array.isArray(e)?e.map(le):e!==null&&typeof e=="object"?Object.fromEntries(Object.entries(e).map(([t,o])=>[po(t),le(o)])):e}function uo(e){return e.replace(/_([a-z])/g,(t,o)=>o.toUpperCase())}function J(e){return Array.isArray(e)?e.map(J):e!==null&&typeof e=="object"?Object.fromEntries(Object.entries(e).map(([t,o])=>[uo(t),J(o)])):e}async function at(e,t,o,a,n={}){let r=await fetch(e+o,{method:t,headers:{"Content-Type":"application/json"},body:JSON.stringify(le(a)),keepalive:n.keepalive||!1}),s=await r.text(),c=s?JSON.parse(s):null;return r.ok?{data:J(c)}:Promise.reject(J(c))}function de(e,{bannerToken:t,tags:o,ageRestricted:a=!1}){let n=ot(e),r={bannerToken:t,tags:o};return a&&(r.ageRestricted=!0),at(n,"POST","/consents",{consent:r},{keepalive:a})}function pe(e,{bannerToken:t,tags:o,ageRestricted:a=!1}){let n=ot(e),r={bannerToken:t,tags:o};return a&&(r.ageRestricted=!0),at(n,"PATCH","/consents",{consent:r},{keepalive:a})}var rt="DPOEasyVisitorID",fo="DPOEasyVisitorID_sent",yo="DPOEasyVisitorID_expiry";function mo(e){if(typeof document=="undefined")return null;let t=`${e}=`,o=document.cookie.split(";");for(let a of o){let n=a.trim();if(n.startsWith(t))return decodeURIComponent(n.slice(t.length))}return null}function bo(e,t,o){if(typeof document=="undefined")return;let a=new Date(o).toUTCString();document.cookie=`${e}=${encodeURIComponent(t)}; expires=${a}; path=/; SameSite=Lax`}function nt(e){typeof document!="undefined"&&(document.cookie=`${e}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`)}function ho(){try{localStorage.removeItem(fo),localStorage.removeItem(yo)}catch(e){}}function go(){return Date.now()+2592e6}function xo(){let e=mo(rt);return e&&e.trim()||null}function it(){return!!xo()}function st(e){let t=typeof e=="string"?e.trim():String(e||"").trim();t&&(bo(rt,t,go()),nt("DPOEasyVisitorID_sent"),nt("DPOEasyVisitorID_expiry"),ho())}var vo=["bot","crawl","spider","googlebot","slurp"],wo={development:"http://localhost:3014/api/beacon",test:"https://test.cdn.cookies.dponet.com.br/tracker",production:"https://cdn.cookies.dponet.com.br/tracker"};function ko(e){return e?vo.some(t=>e.toLowerCase().includes(t)):!1}function Lo(e){return e!=null&&e.beaconUrl?e.beaconUrl:wo[e==null?void 0:e.environment]||""}function ct(e){return e==null?null:String(e).trim()||null}function lt(e){var o,a,n,r,s;if(!e)return null;if(typeof e=="string"||typeof e=="number")return ct(e);if(typeof e!="object")return null;let t=[e.DPOEasyVisitorID,e.dpoeasyVisitorId,e.visitorId,e.visitor_id,e.id,(o=e.data)==null?void 0:o.DPOEasyVisitorID,(a=e.data)==null?void 0:a.dpoeasyVisitorId,(n=e.data)==null?void 0:n.visitorId,(r=e.data)==null?void 0:r.visitor_id,(s=e.data)==null?void 0:s.id];for(let c of t){let l=ct(c);if(l)return l}return null}async function Co(e){let o=(await e.text()).trim();if(!o)return null;try{return lt(JSON.parse(o))}catch(a){return lt(o)}}function dt(e){if(typeof window=="undefined"||typeof navigator=="undefined"||!(e!=null&&e.token))return;let t=Lo(e);if(t&&!ko(navigator.userAgent)&&!it())try{if(typeof fetch!="function")return;fetch(t,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({banner_token:e.token,timestamp:Date.now(),referrer_host:window.location.hostname,user_agent:navigator.userAgent})}).then(async o=>{if(o.ok){let a=await Co(o);st(a)}}).catch(o=>{console.error("[dpoeasy] Erro ao enviar beacon:",o)})}catch(o){console.error("[dpoeasy] Erro ao enviar beacon:",o)}}var _o={analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",functionality_storage:"denied",personalization_storage:"denied",security_storage:"granted"};function Ao(e){return typeof window=="undefined"?!1:(e==null?void 0:e.gtmEnabled)===!0||typeof window.gtag=="function"||Array.isArray(window.dataLayer)}function Eo(e){let t={..._o};return e!=null&&e.analytics&&(t.analytics_storage="granted"),e!=null&&e.advertising&&(t.ad_storage="granted",t.ad_user_data="granted",t.ad_personalization="granted"),e!=null&&e.functionality&&(t.functionality_storage="granted",t.personalization_storage="granted"),t}function ue(e,t,o="update"){if(!Ao(e))return;let a=Eo(t);if(typeof window.gtag=="function"){window.gtag("consent",o,a);return}window.dataLayer=window.dataLayer||[],(function(){window.dataLayer.push(arguments)})("consent",o,a)}var fe=new Set(["DPOEasyUserConsent","DPOEasyVisitorID","ag_verified"]),ut={3:"necessary",5:"analytics",6:"functionality",7:"advertising",10:"unknown"},k=null,A=null,M=null,ye=[];function ft(e){let t=e.indexOf("=");return(t>=0?e.slice(0,t):e.split(";")[0]).trim()}function yt(e){if(fe.has(e)||M===null)return!0;let t=M.get(e);return!t||t==="necessary"?!0:A===null?!1:!!A[t]}function mt(e){let t=new Map;for(let o of e||[]){let a=ut[o.id];if(a)for(let n of o.cookies||[])n.name&&t.set(n.name,a)}return t}function So(){var e;try{let t=document.cookie.match(/DPOEasyUserConsent=([^;]+)/);if(!t)return null;let o=(e=JSON.parse(decodeURIComponent(t[1])))==null?void 0:e.consents;if(!o)return null;switch(o.mode){case"accept_all":return{analytics:!0,functionality:!0,advertising:!0,unknown:!0};case"reject_non_essential":return{analytics:!1,functionality:!1,advertising:!1,unknown:!1};case"custom":return{analytics:Array.isArray(o.analytics)&&o.analytics.length>0,functionality:Array.isArray(o.functionality)&&o.functionality.length>0,advertising:Array.isArray(o.advertising)&&o.advertising.length>0,unknown:Array.isArray(o.unknown)&&o.unknown.length>0}}}catch(t){}return null}function Do(e,t){let o=e.startsWith(".")?e.slice(1):e;return t===o||t.endsWith(`.${o}`)}function pt(e,t){if(!k)return;let o="Thu, 01 Jan 1970 00:00:00 GMT",a=["/",window.location.pathname],n=window.location.hostname,r=[`expires=${o}`,"max-age=0"],s=["",n,`.${n}`];t&&Do(t,n)&&s.push(t);for(let c of r)for(let l of s){let u=l?`; domain=${l}`:"";for(let f of a)try{k.set.call(document,`${e}=; ${c}; path=${f}${u}`)}catch(v){}}}function Oo(e){for(let t of e||[]){let o=ut[t.id];if(!(!o||o==="necessary")&&!(A!=null&&A[o]))for(let a of t.cookies||[])a.name&&!fe.has(a.name)&&pt(a.name,a.domain)}if(!(!k||!M))try{let t=k.get.call(document);if(!t)return;for(let o of t.split(";")){let a=o.indexOf("="),n=(a>=0?o.slice(0,a):o).trim();if(!n||fe.has(n))continue;let r=M.get(n);!r||r==="necessary"||A!=null&&A[r]||pt(n,null)}}catch(t){}}function bt(){let e=[];for(let t of ye)if(yt(ft(t)))try{k.set.call(document,t)}catch(o){}else e.push(t);ye=e}function ht(){var e;if(typeof document!="undefined"&&(k=(e=Object.getOwnPropertyDescriptor(Document.prototype,"cookie"))!=null?e:Object.getOwnPropertyDescriptor(HTMLDocument.prototype,"cookie"),!!(k!=null&&k.set))){A=So();try{Object.defineProperty(document,"cookie",{configurable:!0,enumerable:!0,get(){return k.get.call(this)},set(t){let o=ft(t);yt(o)?k.set.call(this,t):ye.push(t)}})}catch(t){k=null}}}function gt(e){k&&(M=mt(e.classification),bt())}function X(e,t){k&&(M=mt(e.classification),A=t,bt(),Oo(e.classification))}var be=[],Z=null,me=null;function To(e){if(!e.parentNode)return;let t=document.createElement("script");for(let o of e.attributes)o.name!=="type"&&t.setAttribute(o.name,o.value);t.type="text/javascript",e.textContent.trim()&&(t.textContent=e.textContent),e.parentNode.insertBefore(t,e.nextSibling),e.parentNode.removeChild(e)}function xt(e){if(e.activated||!Z)return;let t=e.element.dataset.dpoeasyCategory;t!=="necessary"&&!Z[t]||(e.activated=!0,To(e.element))}function Po(e){if(e.nodeName!=="SCRIPT"||e.type!=="text/plain"||!e.dataset.dpoeasyCategory)return;let t={element:e,activated:!1};be.push(t),Z!==null&&xt(t)}function vt(){if(typeof document=="undefined"||me!==null)return;let e=document.querySelectorAll('script[type="text/plain"][data-dpoeasy-category]');for(let t of e)be.push({element:t,activated:!1});me=new MutationObserver(t=>{for(let o of t)for(let a of o.addedNodes)Po(a)}),me.observe(document.documentElement,{childList:!0,subtree:!0})}function Q(e){Z=e;for(let t of be)xt(t)}ht();vt();var zo="#dpoeasy-banner-handler, [data-dpoeasy-open-preferences]",I="DPOEasyBanner",z="DPOEasy";function wt(e,t){var a;e.style.setProperty("--dpoeasy-primary-color",t.primaryColor),e.style.setProperty("--dpoeasy-secondary-color",t.secondaryColor);let o=((a=t.fontFamily)==null?void 0:a.trim())||"Arial";e.style.setProperty("--dpoeasy-font-family",`${o}, Arial, sans-serif`)}function Bo(e){return["left","right","center","fixed"].includes(e)?e:"left"}function jo(e){return typeof e.attachShadow!="function"?e:e.shadowRoot||e.attachShadow({mode:"open"})}function Mo(e){for(let t=1;t<e.length;t+=1)e[t].remove()}function Io(e){return(e==null?void 0:e.getAttribute("data-dpoeasy-rendered"))==="true"}function j(e){return Object.fromEntries(e.preferenceCategories.map(t=>[t.key,t.required]))}function he(e){return Object.fromEntries(e.preferenceCategories.map(t=>[t.key,!0]))}function $o(e,t){for(let o of t.storageKeys||[t.key])if(e[o]!==void 0)return e[o];return e[t.key]}function kt(e){return[...new Set(e.flatMap(t=>t.cookieNames||[]))]}function ge(e,t){let o=e.preferenceCategories.filter(s=>t[s.key]&&!s.required),a=e.preferenceCategories.filter(s=>!t[s.key]),n=kt(o),r=kt(a);return n.length||r.length?{optIns:n,optOuts:r}:{optIns:o.map(s=>s.id),optOuts:a.map(s=>s.id)}}function No(e,t,o){let a={mode:o};for(let n of e.preferenceCategories){let r=t[n.key]?n.cookieNames||[]:[],s=n.storageKeys||[n.key];for(let c of s)a[c]=r}return a}function Lt(e,t){let o=j(e),a=t==null?void 0:t.consents;if(!a||typeof a!="object")return o;if(a.mode==="accept_all")return he(e);if(a.mode==="reject_non_essential")return o;let n={...o};for(let r of e.preferenceCategories){let s=$o(a,r);if(typeof s=="boolean"){n[r.key]=r.required?!0:s;continue}Array.isArray(s)&&(n[r.key]=r.required?!0:s.length>0)}return n}function Ro(e,t,o,a=!1){let n=ge(e,t).optIns,r={consents:No(e,t,o),selectedTags:n,userConsentToken:null};return a&&(r.ageRestricted=!0),r}function qo(){let e="ag_verified=";for(let t of document.cookie.split(";")){let o=t.trim();if(o.startsWith(e))return decodeURIComponent(o.slice(e.length))}return null}function Vo(){return!!document.getElementById("age-gate")}function Go(e){var r;let t=j(e),o=((r=B())==null?void 0:r.userConsentToken)||null;Qe(),X(e,t),Q(t);let a=ge(e,t);(o?pe(e.environment,{bannerToken:e.token,tags:a,ageRestricted:!0}):de(e.environment,{bannerToken:e.token,tags:a,ageRestricted:!0})).catch(s=>{console.error("[dpoeasy] Erro ao revogar consentimento por age gate:",s)})}function Uo(e){var o;if(typeof window=="undefined")return()=>{};window[I]={...window[I]||{},...e},window[z]={...window[z]||{},banner:{...((o=window[z])==null?void 0:o.banner)||{},...e}};let t=a=>{var r,s,c,l,u;a.target.closest(zo)&&(a.preventDefault(),(c=(s=(r=window[z])==null?void 0:r.banner)==null?void 0:s.openPreferences)!=null&&c.call(s)||((u=(l=window[I])==null?void 0:l.openPreferences)==null||u.call(l)))};return document.addEventListener("click",t),()=>{document.removeEventListener("click",t),window[I]&&(window[I]={...window[I],openPreferences:void 0}),window[z]&&(window[z]={...window[z],banner:{...window[z].banner||{},openPreferences:void 0}})}}function H(e,t,{ageRestricted:o=!1}={}){let a=B(),n=!!(a!=null&&a.consents),r=Bo(t.position),s=jo(e),c={preferences:o?j(t):Lt(t,a)};(n||o)&&(X(t,c.preferences),Q(c.preferences)),e.innerHTML="",s!==e&&(s.innerHTML=""),et(s);let l=document.createElement("div");l.className="dpoeasy-shell",wt(l,t),s.appendChild(l);let u=document.createElement("div");u.className="dpoeasy-root",u.dataset.position=r,t.isCompact&&(u.dataset.compact="true"),t.token&&(u.dataset.token=String(t.token));let f=document.createElement("button");f.type="button",f.className="dpoeasy-handler",f.dataset.position=r,f.setAttribute("aria-label",t.texts.handlerAriaLabel),f.innerHTML=Xe();let v=document.createElement("div");v.className="dpoeasy-banner-content",u.appendChild(v),l.appendChild(u),t.hideOnAccept||l.appendChild(f);let g=document.createElement("div");g.className="dpoeasy-modal-overlay dpoeasy-hidden",l.appendChild(g);let C=()=>{u.classList.remove("dpoeasy-hidden"),f.classList.add("dpoeasy-hidden")},L=()=>{u.classList.add("dpoeasy-hidden"),t.hideOnAccept||f.classList.remove("dpoeasy-hidden")},O=(y,b)=>{var T;let w=o?j(t):y,S=o?"reject_non_essential":b,x=((T=B())==null?void 0:T.userConsentToken)||null;ce(Ro(t,w,S,o)),X(t,w),Q(w),ue(t,w,"update");let m=ge(t,w);(x?pe(t.environment,{bannerToken:t.token,tags:m,ageRestricted:o}):de(t.environment,{bannerToken:t.token,tags:m,ageRestricted:o})).then(P=>{var V;let q=(V=P==null?void 0:P.data)==null?void 0:V.token;if(q){let G=B();G&&ce({...G,userConsentToken:q})}}).catch(P=>{console.error("[dpoeasy] Erro ao enviar consentimento:",P)})},$=y=>{y.key==="Escape"&&E()},E=()=>{g.classList.add("dpoeasy-hidden"),document.removeEventListener("keydown",$);let y=B();y!=null&&y.consents?t.hideOnAccept||f.classList.remove("dpoeasy-hidden"):C()},N=()=>{u.classList.add("dpoeasy-hidden"),f.classList.add("dpoeasy-hidden"),c.preferences=o?j(t):Lt(t,B()),g.innerHTML=Ze(t,c.preferences,o),wt(g,t),g.classList.remove("dpoeasy-hidden"),document.addEventListener("keydown",$)},Y=Uo({openPreferences:N});window.addEventListener("beforeunload",Y,{once:!0});let R=()=>{v.innerHTML=Je(t);let y=v.firstElementChild,b=y.querySelector(".dpoeasy-description"),w=y.querySelector('[data-action="toggle-description"]');b&&w&&requestAnimationFrame(()=>{b.scrollHeight>b.clientHeight&&(w.hidden=!1,b.classList.add("dpoeasy-description--clamped"))}),y.addEventListener("click",S=>{let x=S.target.closest("[data-action]");if(!x)return;let m=x.dataset.action;if(m==="toggle-description"){let h=b.classList.toggle("dpoeasy-description--expanded"),T=x.querySelector(".dpoeasy-show-more-label");T&&(T.textContent=h?x.dataset.less:x.dataset.more),x.classList.toggle("dpoeasy-show-more--expanded",h),h||(b.scrollTop=0);return}if(m==="manage"){N();return}if(m==="accept"){c.preferences=he(t),O(c.preferences,"accept_all"),L();return}m==="reject"&&(c.preferences=j(t),O(c.preferences,"reject_non_essential"),L())})};if(g.addEventListener("change",y=>{let b=y.target.closest("[data-preference-key]");b&&(c.preferences={...c.preferences,[b.dataset.preferenceKey]:b.checked})}),g.addEventListener("click",y=>{if(y.target===g){E();return}let b=y.target.closest("[data-tab]");if(b){let m=b.dataset.tab;g.querySelectorAll("[data-tab]").forEach(h=>{h.classList.toggle("dpoeasy-nav-active",h.dataset.tab===m)}),g.querySelectorAll("[data-panel]").forEach(h=>{h.classList.toggle("dpoeasy-hidden",h.dataset.panel!==m)});return}let w=y.target.closest('[data-action="toggle-details"]');if(w){let m=w.closest(".dpoeasy-details-card"),h=m.dataset.detailsOpen==="true";m.dataset.detailsOpen=String(!h),m.querySelector(".dpoeasy-details-body").classList.toggle("dpoeasy-hidden",h),m.querySelector(".dpoeasy-arrow--right").classList.toggle("dpoeasy-hidden",!h),m.querySelector(".dpoeasy-arrow--down").classList.toggle("dpoeasy-hidden",h);return}let S=y.target.closest("[data-action]");if(!S)return;let x=S.dataset.action;if(x==="close"){E();return}if(x==="accept"){c.preferences=he(t),O(c.preferences,"accept_all"),L(),E();return}if(x==="reject"){c.preferences=j(t),O(c.preferences,"reject_non_essential"),L(),E();return}x==="confirm"&&(O(c.preferences,"custom"),L(),E())}),R(),ue(t,c.preferences,n?"update":"default"),t.hideOnAccept||f.addEventListener("click",()=>{R(),C()}),!n){C();return}if(t.hideOnAccept){u.classList.add("dpoeasy-hidden");return}L()}function Fo(e,t){let o=qo();if(o==="1"){H(e,t);return}if(o==="limited"){H(e,t,{ageRestricted:!0});return}if(!Vo()){H(e,t);return}document.addEventListener("age-gate:decision",function(n){let{action:r}=n.detail;if(r==="accept"){H(e,t);return}if(r==="block"||r==="redirect"){Go(t);return}r==="limit_cookies"&&H(e,t,{ageRestricted:!0})},{once:!0})}function Ko(e,t=100,o=10){let a=We(),n=0;gt(a);let r=window.setInterval(()=>{let s=document.querySelectorAll(e);if(s.length>0){let c=s[0];if(window.clearInterval(r),Mo(s),Io(c))return;c.setAttribute("data-dpoeasy-rendered","true"),dt(a),Fo(c,a);return}n>=o&&(window.clearInterval(r),console.error(`Elemento ${e} nao encontrado apos ${o} tentativas.`)),n+=1},t)}Ko("#dpoeasy-banner");})();

@@ -1,0 +1,245 @@
+{
+ "prestador": "SAAE Lagoa da Prata",
+ "registro": [
+  68
+ ],
+ "documento": "RES_373_2025_ARISB_MG_Revisão_Lagoa da Prata - assinada.pdf",
+ "vigencia": "30/12/2025",
+ "fonte_url": "https://arisb.com.br",
+ "leitura": "Resolução ARISB-MG nº 373, de 30/12/2025 (revisão de 14,97%), Anexo I. Consumo mínimo por categoria (domiciliar 15 m³ = R$ 41,70; industrial 60 m³ = R$ 256,77); esgoto a 65% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "MG",
+   "municipios": [
+    "Lagoa da Prata"
+   ],
+   "residencial": {
+    "fixo": 41.7,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      3.5779
+     ],
+     [
+      20,
+      25,
+      3.757
+     ],
+     [
+      25,
+      30,
+      3.9265
+     ],
+     [
+      30,
+      40,
+      4.3128
+     ],
+     [
+      40,
+      50,
+      4.506
+     ],
+     [
+      50,
+      75,
+      4.7191
+     ],
+     [
+      75,
+      100,
+      5.1091
+     ],
+     [
+      100,
+      200,
+      5.544
+     ],
+     [
+      200,
+      null,
+      5.7224
+     ]
+    ],
+    "esgoto_pct": 65,
+    "nota": "Categoria domiciliar."
+   },
+   "social": {
+    "fixo": 20.85,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      1.789
+     ],
+     [
+      20,
+      25,
+      1.8785
+     ],
+     [
+      25,
+      30,
+      1.9633
+     ],
+     [
+      30,
+      40,
+      2.1564
+     ],
+     [
+      40,
+      50,
+      2.253
+     ],
+     [
+      50,
+      75,
+      2.3596
+     ],
+     [
+      75,
+      100,
+      2.5546
+     ],
+     [
+      100,
+      200,
+      2.772
+     ],
+     [
+      200,
+      null,
+      2.8612
+     ]
+    ],
+    "esgoto_pct": 65,
+    "nota": "Domiciliar social."
+   },
+   "comercial": {
+    "fixo": 54.41,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      30,
+      3.6276
+     ],
+     [
+      30,
+      40,
+      4.3128
+     ],
+     [
+      40,
+      50,
+      4.506
+     ],
+     [
+      50,
+      75,
+      4.7191
+     ],
+     [
+      75,
+      100,
+      5.1091
+     ],
+     [
+      100,
+      200,
+      5.544
+     ],
+     [
+      200,
+      null,
+      5.7224
+     ]
+    ],
+    "esgoto_pct": 65
+   },
+   "publica": {
+    "fixo": 54.41,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      30,
+      3.6276
+     ],
+     [
+      30,
+      40,
+      4.3128
+     ],
+     [
+      40,
+      50,
+      4.506
+     ],
+     [
+      50,
+      75,
+      4.7191
+     ],
+     [
+      75,
+      100,
+      5.1091
+     ],
+     [
+      100,
+      200,
+      5.544
+     ],
+     [
+      200,
+      null,
+      5.7224
+     ]
+    ],
+    "esgoto_pct": 65
+   },
+   "industrial": {
+    "fixo": 256.77,
+    "franquia": 60,
+    "faixas": [
+     [
+      60,
+      75,
+      4.2795
+     ],
+     [
+      75,
+      100,
+      5.1091
+     ],
+     [
+      100,
+      200,
+      5.544
+     ],
+     [
+      200,
+      null,
+      5.7224
+     ]
+    ],
+    "esgoto_pct": 65
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Lagoa da Prata",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 41.7,
+   "impresso": "consumo mínimo domiciliar: R$ 41,70"
+  }
+ ]
+}

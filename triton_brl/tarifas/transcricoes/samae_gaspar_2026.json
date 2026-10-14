@@ -1,0 +1,177 @@
+{
+ "prestador": "SAMAE Gaspar",
+ "registro": [
+  169,
+  205,
+  208
+ ],
+ "documento": "SAMAE GASPAR _ Serviço Autônomo Municipal de Água e Esgoto.html",
+ "vigencia": "01/07/2026",
+ "fonte_url": "https://www.samaegaspar.com.br/servicos/agua/tarifas",
+ "leitura": "Página «Tarifas» do SAMAE Gaspar (item 169): a tabela vigente está na imagem salva com a página (_files/7015e643646e4692979f4417c27a4450.jpg), com remissão ao Decreto nº 12.484; a notícia oficial de 03/06/2026 (item 205) dá a vigência, 01/07/2026, o reajuste de 4,669% autorizado pela AGIR e confirma o mínimo residencial de R$ 50,58 (antes R$ 48,32), comercial R$ 65,35 e industrial R$ 140,88. Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela da página (Decreto 12.484)",
+   "uf": "SC",
+   "municipios": [
+    "Gaspar"
+   ],
+   "residencial": {
+    "fixo": 50.58,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      25,
+      7.81
+     ],
+     [
+      25,
+      40,
+      10.3
+     ],
+     [
+      40,
+      50,
+      12.49
+     ],
+     [
+      50,
+      null,
+      14.31
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "publica": {
+    "fixo": 50.58,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      25,
+      7.81
+     ],
+     [
+      25,
+      40,
+      10.3
+     ],
+     [
+      40,
+      50,
+      12.49
+     ],
+     [
+      50,
+      null,
+      14.31
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "Residencial e Poder Público na mesma tabela. Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "comercial": {
+    "fixo": 65.35,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      8.79
+     ],
+     [
+      15,
+      40,
+      11.68
+     ],
+     [
+      40,
+      50,
+      13.39
+     ],
+     [
+      50,
+      null,
+      14.74
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "industrial": {
+    "fixo": 140.88,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      30,
+      12.63
+     ],
+     [
+      30,
+      100,
+      17.14
+     ],
+     [
+      100,
+      null,
+      19.46
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "social": {
+    "fixo": 25.29,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.53
+     ],
+     [
+      15,
+      25,
+      7.81
+     ],
+     [
+      25,
+      40,
+      10.3
+     ],
+     [
+      40,
+      50,
+      12.49
+     ],
+     [
+      50,
+      null,
+      14.31
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Gaspar",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 50.58,
+   "impresso": "0 a 10 m³: R$ 50,58 (mínimo)"
+  },
+  {
+   "municipio": "SC - Gaspar",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 219.23,
+   "impresso": "50,58 + 15 × 7,81 + 5 × 10,30"
+  }
+ ]
+}

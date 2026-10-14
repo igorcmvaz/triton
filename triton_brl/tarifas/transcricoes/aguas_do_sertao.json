@@ -1,0 +1,304 @@
+{
+ "prestador": "Águas do Sertão",
+ "registro": [
+  44
+ ],
+ "documento": "listagem-arquivo-022455000000-06022026.pdf",
+ "vigencia": "04/02/2026",
+ "fonte_url": "https://www.arsal.al.gov.br",
+ "leitura": "Estrutura Tarifária Bloco B – Conasa Águas do Sertão, Resolução ARSAL nº 252, de 04/02/2026 (PDF digitalizado). Colunas: demais localidades (40 municípios), Penedo, São Miguel dos Campos, Porto Real do Colégio e Pão de Açúcar. Tarifa mínima de 10 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Demais localidades (40 municípios)",
+   "uf": "AL",
+   "municipios": [
+    "Delmiro Gouveia",
+    "Palmeira dos Índios"
+   ],
+   "residencial": {
+    "fixo": 73.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      14.1
+     ],
+     [
+      15,
+      20,
+      16.3
+     ],
+     [
+      20,
+      30,
+      17.41
+     ],
+     [
+      30,
+      40,
+      17.98
+     ],
+     [
+      40,
+      50,
+      18.21
+     ],
+     [
+      50,
+      90,
+      18.33
+     ],
+     [
+      90,
+      150,
+      18.44
+     ],
+     [
+      150,
+      null,
+      18.45
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 170.7,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      27.13
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 191.7,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      35.03
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 144.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      37.05
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   }
+  },
+  {
+   "rotulo": "Penedo",
+   "uf": "AL",
+   "municipios": [
+    "Penedo"
+   ],
+   "residencial": {
+    "fixo": 61.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      10.68
+     ],
+     [
+      15,
+      20,
+      12.17
+     ],
+     [
+      20,
+      30,
+      13.72
+     ],
+     [
+      30,
+      40,
+      14.83
+     ],
+     [
+      40,
+      50,
+      15.57
+     ],
+     [
+      50,
+      90,
+      15.95
+     ],
+     [
+      90,
+      150,
+      16.01
+     ],
+     [
+      150,
+      null,
+      16.01
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 170.7,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      27.13
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 191.7,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      35.03
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 144.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      37.05
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   }
+  },
+  {
+   "rotulo": "São Miguel dos Campos",
+   "uf": "AL",
+   "municipios": [
+    "São Miguel dos Campos"
+   ],
+   "residencial": {
+    "fixo": 54.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      10.48
+     ],
+     [
+      15,
+      20,
+      12.11
+     ],
+     [
+      20,
+      30,
+      12.94
+     ],
+     [
+      30,
+      40,
+      13.36
+     ],
+     [
+      40,
+      50,
+      13.54
+     ],
+     [
+      50,
+      90,
+      13.62
+     ],
+     [
+      90,
+      150,
+      13.7
+     ],
+     [
+      150,
+      null,
+      13.71
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 126.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      20.16
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 142.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      26.03
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 107.0,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      27.54
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "TM = tarifa mínima de 10 m³ (legenda do documento). O documento não traz o esgoto; mantido 80% da água, como na base."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AL - Penedo",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 61.4,
+   "impresso": "Penedo, 0 a 10 m³: R$ 6,14/m³ (TM 10 m³)"
+  }
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "prestador": "Águas de Sinop (Aegea)",
+ "registro": [
+  177
+ ],
+ "documento": "Águas de Sinop.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.aegeamt.com.br/legislacao-e-tarifas/aguas-de-sinop/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Sinop, tabela mais recente: R$/m³ por faixa (m³/mês por economia), esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária vigente",
+   "uf": "MT",
+   "municipios": [
+    "Sinop"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      6.015
+     ],
+     [
+      10,
+      20,
+      8.541
+     ],
+     [
+      20,
+      30,
+      14.316
+     ],
+     [
+      30,
+      null,
+      17.925
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto igual à água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      12.271
+     ],
+     [
+      10,
+      null,
+      20.391
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      17.925
+     ],
+     [
+      10,
+      null,
+      29.413
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      12.271
+     ],
+     [
+      10,
+      null,
+      20.391
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Sinop",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 145.56,
+   "impresso": "10 × 6,015 + 10 × 8,541"
+  }
+ ]
+}

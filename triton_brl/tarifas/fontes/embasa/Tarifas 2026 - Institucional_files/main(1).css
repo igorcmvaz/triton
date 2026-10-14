@@ -1,0 +1,68 @@
+.lfr-layout-structure-item-container {padding: 0;} .lfr-layout-structure-item-row {overflow: hidden;} .portlet-borderless .portlet-content {padding: 0;}.lfr-layout-structure-item-9b7ac999-3bf7-bfc5-24ba-909c28a646c3 {
+background-color: var(--gray) !important;
+overflow: visible !important;
+}
+.lfr-layout-structure-item-276859db-baa5-464b-2cd9-742bea9796f1 {
+margin-bottom: var(--spacer-4,1.5rem) !important;
+margin-top: var(--spacer-4,1.5rem) !important;
+}
+.lfr-layout-structure-item-07d14a2a-c26c-6716-0ab0-71c940d53804 {
+margin-bottom: var(--spacer-4,1.5rem) !important;
+margin-top: var(--spacer-4,1.5rem) !important;
+}
+.lfr-layout-structure-item-ebb900b4-3532-98a4-f674-10891cee9595 {
+background-color: var(--gray) !important;
+}
+.lfr-layout-structure-item-e88d3f54-b429-4be7-0192-d5381f4c9e5e {
+font-weight: var(--font-weight-bold) !important;
+color: var(--success) !important;
+}
+.lfr-layout-structure-item-274ce38b-c35f-29a4-27fd-66497a9e752e {
+padding-bottom: var(--spacer-4,1.5rem) !important;
+padding-top: var(--spacer-5,3rem) !important;
+}
+.lfr-layout-structure-item-793fda62-f2e9-a5e5-6ebb-563c6bb1a03f {
+color: var(--primary) !important;
+}
+.lfr-layout-structure-item-25120808-afcd-7d2e-e926-256b99e2d583 {
+background-color: var(--gray) !important;
+padding-bottom: var(--spacer-4,1.5rem) !important;
+padding-top: var(--spacer-5,3rem) !important;
+}
+.lfr-layout-structure-item-25ece578-c278-2202-1b32-1f266c24a9f7 {
+margin-top: var(--spacer-1,0.25rem) !important;
+}
+.lfr-layout-structure-item-375621e4-e8ab-79a3-5387-e554a091b360 {
+font-weight: var(--font-weight-bold) !important;
+color: var(--success) !important;
+}
+.lfr-layout-structure-item-c091db33-f721-a917-1433-e10acff11494 {
+color: var(--primary) !important;
+}
+.lfr-layout-structure-item-3665b694-7b71-da6a-5b50-9e8eb21ce9ca {
+margin-bottom: var(--spacer-4,1.5rem) !important;
+margin-top: var(--spacer-4,1.5rem) !important;
+}
+@media screen and (max-width: 991px) {.lfr-layout-structure-item-0fea84f7-d25a-e594-2a16-058d7827528f {
+display: none !important;
+}
+.lfr-layout-structure-item-e88d3f54-b429-4be7-0192-d5381f4c9e5e {
+display: none !important;
+}
+.lfr-layout-structure-item-793fda62-f2e9-a5e5-6ebb-563c6bb1a03f {
+display: none !important;
+}
+.lfr-layout-structure-item-375621e4-e8ab-79a3-5387-e554a091b360 {
+display: block !important;
+}
+}@media screen and (max-width: 575px) {.lfr-layout-structure-item-0fea84f7-d25a-e594-2a16-058d7827528f {
+display: none !important;
+text-align: center !important;
+}
+.lfr-layout-structure-item-e88d3f54-b429-4be7-0192-d5381f4c9e5e {
+display: none !important;
+}
+.lfr-layout-structure-item-793fda62-f2e9-a5e5-6ebb-563c6bb1a03f {
+display: none !important;
+}
+}

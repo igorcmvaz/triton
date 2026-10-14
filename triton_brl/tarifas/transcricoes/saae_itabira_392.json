@@ -1,0 +1,213 @@
+{
+ "prestador": "SAAE Itabira",
+ "registro": [
+  129
+ ],
+ "documento": "saae_itabira_resolucao_arisb_392_2026.pdf",
+ "vigencia": "31/03/2026",
+ "fonte_url": "https://www.arisb.com.br/imgeditor/file/Resolucao_392_2026_Assinada_ITABIRA.pdf",
+ "leitura": "Resolução ARISB-MG nº 392 (31/03/2026), reajuste de 5,91% do SAAE Itabira, Anexo I (p. 3). Tarifa fixa somada ao consumo desde 0 m³. Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "MG",
+   "municipios": [
+    "Itabira"
+   ],
+   "residencial": {
+    "fixo": 25.4953,
+    "faixas": [
+     [
+      0,
+      5,
+      1.7357
+     ],
+     [
+      5,
+      10,
+      2.6232
+     ],
+     [
+      10,
+      15,
+      3.9872
+     ],
+     [
+      15,
+      20,
+      5.0679
+     ],
+     [
+      20,
+      40,
+      7.2441
+     ],
+     [
+      40,
+      null,
+      12.3661
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%."
+   },
+   "social": {
+    "fixo": 12.7395,
+    "faixas": [
+     [
+      0,
+      5,
+      0.8842
+     ],
+     [
+      5,
+      10,
+      0.8842
+     ],
+     [
+      10,
+      15,
+      0.8842
+     ],
+     [
+      15,
+      20,
+      2.5332
+     ],
+     [
+      20,
+      40,
+      3.6024
+     ],
+     [
+      40,
+      null,
+      6.1601
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%."
+   },
+   "comercial": {
+    "fixo": 32.3726,
+    "faixas": [
+     [
+      0,
+      5,
+      3.7825
+     ],
+     [
+      5,
+      10,
+      4.4326
+     ],
+     [
+      10,
+      20,
+      5.2399
+     ],
+     [
+      20,
+      40,
+      5.9653
+     ],
+     [
+      40,
+      200,
+      7.8696
+     ],
+     [
+      200,
+      null,
+      9.6168
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%."
+   },
+   "industrial": {
+    "fixo": 35.1399,
+    "faixas": [
+     [
+      0,
+      5,
+      4.3884
+     ],
+     [
+      5,
+      10,
+      5.0319
+     ],
+     [
+      10,
+      20,
+      5.6836
+     ],
+     [
+      20,
+      40,
+      6.5548
+     ],
+     [
+      40,
+      200,
+      7.8696
+     ],
+     [
+      200,
+      null,
+      9.6168
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%."
+   },
+   "publica": {
+    "fixo": 26.5269,
+    "faixas": [
+     [
+      0,
+      5,
+      3.0621
+     ],
+     [
+      5,
+      10,
+      3.776
+     ],
+     [
+      10,
+      20,
+      4.3556
+     ],
+     [
+      20,
+      40,
+      6.1225
+     ],
+     [
+      40,
+      200,
+      6.9936
+     ],
+     [
+      200,
+      null,
+      7.8696
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Esgoto: tratamento (60% da água) + coleta e afastamento (30%) = 90%."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Itabira",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 47.29,
+   "impresso": "fixa 25,4953 + 5 × 1,7357 + 5 × 2,6232"
+  }
+ ]
+}

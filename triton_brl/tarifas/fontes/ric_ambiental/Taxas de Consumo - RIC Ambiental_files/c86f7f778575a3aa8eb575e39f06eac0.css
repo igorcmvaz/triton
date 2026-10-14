@@ -1,0 +1,1 @@
+.skip-link.screen-reader-text{position:absolute;left:-9999px;top:5px;z-index:999999;width:1px;height:1px;overflow:hidden}.skip-link.screen-reader-text:focus{left:50%;transform:translateX(-50%);width:auto;height:auto;overflow:visible;padding:10px 20px;background:#000;color:#fff;text-decoration:none;border-radius:4px}
