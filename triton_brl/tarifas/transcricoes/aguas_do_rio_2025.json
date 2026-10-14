@@ -1,0 +1,523 @@
+{
+ "prestador": "Águas do Rio",
+ "registro": [
+  158,
+  107
+ ],
+ "documento": "AguasDoRio.html",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.aguasdorio.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas do Rio, aba 2025: tabelas da Região 1 e da Região 4, válidas a partir de dezembro de 2025, cada uma com Área A e Área B, e a aba «Localidades (A e B)», que põe todos os municípios fora da capital na Tarifa B. No Rio de Janeiro a tarifa muda por bairro: entra uma representativa e as demais como alternativas. Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³. Esgoto igual à água (Anexo VII, item 107).",
+ "tabelas": [
+  {
+   "rotulo": "Região 1, Área B",
+   "uf": "RJ",
+   "municipios": [
+    "Cachoeiras de Macacu",
+    "Itaboraí",
+    "Magé",
+    "Maricá",
+    "Rio Bonito",
+    "Saquarema",
+    "São Gonçalo"
+   ],
+   "abrangencia": "a página põe o município na «Tarifa B» (Área B); região conforme os blocos 1 e 4 do leilão da CEDAE (lista informada pelo autor em 05/10/2026, de matéria sobre o leilão; Saquarema só no 3º distrito)",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.52305
+     ],
+     [
+      15,
+      30,
+      14.35071
+     ],
+     [
+      30,
+      45,
+      19.569152
+     ],
+     [
+      45,
+      60,
+      39.138304
+     ],
+     [
+      60,
+      null,
+      52.184405
+     ]
+    ],
+    "esgoto_pct": 100,
+    "retroativa": {
+     "ate": 15,
+     "valor": 85.41
+    },
+    "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      22.178373
+     ],
+     [
+      20,
+      30,
+      39.073073
+     ],
+     [
+      30,
+      null,
+      41.747523
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      30.658338
+     ],
+     [
+      20,
+      30,
+      30.658338
+     ],
+     [
+      30,
+      130,
+      35.224473
+     ],
+     [
+      130,
+      null,
+      37.181388
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      8.610426
+     ],
+     [
+      15,
+      null,
+      19.047307
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "representativa": "a conta depende de a unidade ficar até 15 m³/mês (Tarifa 1) ou acima (Tarifa 2)",
+   "variantes": {
+    "Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       6.52305
+      ],
+      [
+       15,
+       30,
+       14.35071
+      ],
+      [
+       30,
+       45,
+       19.569152
+      ],
+      [
+       45,
+       60,
+       39.138304
+      ],
+      [
+       60,
+       null,
+       52.184405
+      ]
+     ],
+     "esgoto_pct": 100
+    }
+   }
+  },
+  {
+   "rotulo": "Região 4, Área B",
+   "uf": "RJ",
+   "municipios": [
+    "Belford Roxo",
+    "Duque de Caxias",
+    "Japeri",
+    "Mesquita",
+    "Nilópolis",
+    "Nova Iguaçu",
+    "Queimados",
+    "São João de Meriti"
+   ],
+   "abrangencia": "a página põe o município na «Tarifa B» (Área B); região conforme os blocos 1 e 4 do leilão da CEDAE (lista informada pelo autor em 05/10/2026, de matéria sobre o leilão; Saquarema só no 3º distrito)",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.596519
+     ],
+     [
+      15,
+      30,
+      14.512341
+     ],
+     [
+      30,
+      45,
+      19.789559
+     ],
+     [
+      45,
+      60,
+      39.579118
+     ],
+     [
+      60,
+      null,
+      52.772157
+     ]
+    ],
+    "esgoto_pct": 100,
+    "retroativa": {
+     "ate": 15,
+     "valor": 86.37
+    },
+    "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      22.428168
+     ],
+     [
+      20,
+      30,
+      39.513152
+     ],
+     [
+      30,
+      null,
+      42.217724
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      31.003643
+     ],
+     [
+      20,
+      30,
+      31.003643
+     ],
+     [
+      30,
+      130,
+      35.621205
+     ],
+     [
+      130,
+      null,
+      37.600162
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      8.707405
+     ],
+     [
+      15,
+      null,
+      19.261836
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "representativa": "a conta depende de a unidade ficar até 15 m³/mês (Tarifa 1) ou acima (Tarifa 2)",
+   "variantes": {
+    "Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       6.596519
+      ],
+      [
+       15,
+       30,
+       14.512341
+      ],
+      [
+       30,
+       45,
+       19.789559
+      ],
+      [
+       45,
+       60,
+       39.579118
+      ],
+      [
+       60,
+       null,
+       52.772157
+      ]
+     ],
+     "esgoto_pct": 100
+    }
+   }
+  },
+  {
+   "rotulo": "Rio de Janeiro: Região 4, Área A (representativa)",
+   "uf": "RJ",
+   "municipios": [
+    "Rio de Janeiro"
+   ],
+   "prestador": "Águas do Rio (tarifa representativa; Iguá na Barra e em Jacarepaguá)",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      7.520046
+     ],
+     [
+      15,
+      30,
+      16.544101
+     ],
+     [
+      30,
+      45,
+      22.560137
+     ],
+     [
+      45,
+      60,
+      45.120276
+     ],
+     [
+      60,
+      null,
+      60.160368
+     ]
+    ],
+    "esgoto_pct": 100,
+    "retroativa": {
+     "ate": 15,
+     "valor": 98.46
+    },
+    "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+   },
+   "representativa": "a tarifa muda por bairro: a representativa é a do Centro e da Zona Norte (Águas do Rio, Região 4, Área A); a Zona Sul (Região 1, Área A) e os bairros da Tarifa B estão nas alternativas; Barra, Jacarepaguá (Iguá) e Zona Oeste ainda sem tabela guardada",
+   "variantes": {
+    "Zona Sul (Região 1, Área A)": {
+     "faixas": [
+      [
+       0,
+       15,
+       7.436291
+      ],
+      [
+       15,
+       30,
+       16.359841
+      ],
+      [
+       30,
+       45,
+       22.308872
+      ],
+      [
+       45,
+       60,
+       44.617747
+      ],
+      [
+       60,
+       null,
+       59.490329
+      ]
+     ],
+     "esgoto_pct": 100,
+     "retroativa": {
+      "ate": 15,
+      "valor": 97.37
+     },
+     "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+    },
+    "Bairros da Tarifa B (Região 4, Área B)": {
+     "faixas": [
+      [
+       0,
+       15,
+       6.596519
+      ],
+      [
+       15,
+       30,
+       14.512341
+      ],
+      [
+       30,
+       45,
+       19.789559
+      ],
+      [
+       45,
+       60,
+       39.579118
+      ],
+      [
+       60,
+       null,
+       52.772157
+      ]
+     ],
+     "esgoto_pct": 100,
+     "retroativa": {
+      "ate": 15,
+      "valor": 86.37
+     },
+     "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+    },
+    "Centro e Zona Norte, Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       7.520046
+      ],
+      [
+       15,
+       30,
+       16.544101
+      ],
+      [
+       30,
+       45,
+       22.560137
+      ],
+      [
+       45,
+       60,
+       45.120276
+      ],
+      [
+       60,
+       null,
+       60.160368
+      ]
+     ],
+     "esgoto_pct": 100
+    }
+   },
+   "abrangencia": "a página lista os bairros do Rio de Janeiro na Tarifa A e na Tarifa B; região conforme os blocos 1 e 4 do leilão da CEDAE (lista informada pelo autor em 05/10/2026, de matéria sobre o leilão; Saquarema só no 3º distrito)",
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      25.568155
+     ],
+     [
+      20,
+      30,
+      45.045077
+     ],
+     [
+      30,
+      null,
+      48.128293
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      39.104238
+     ],
+     [
+      20,
+      30,
+      41.059452
+     ],
+     [
+      30,
+      null,
+      48.053094
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      9.926462
+     ],
+     [
+      15,
+      null,
+      21.958534
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - São Gonçalo",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 169.6,
+   "impresso": "15 × 6,523050 + 5 × 14,350710"
+  },
+  {
+   "municipio": "RJ - Nova Iguaçu",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 171.51,
+   "impresso": "15 × 6,596519 + 5 × 14,512341"
+  },
+  {
+   "municipio": "RJ - Rio de Janeiro",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 195.52,
+   "impresso": "15 × 7,520046 + 5 × 16,544101"
+  }
+ ]
+}

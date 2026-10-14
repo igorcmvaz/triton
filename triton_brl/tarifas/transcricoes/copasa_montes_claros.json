@@ -1,0 +1,213 @@
+{
+ "prestador": "COPASA",
+ "registro": [
+  15
+ ],
+ "documento": "TabelaTarifariaAMASBE_MG.png",
+ "vigencia": "22/01/2026",
+ "fonte_url": "https://www.copasa.com.br/wps/portal/internet/informacoes-ao-cliente/tarifas",
+ "leitura": "Tabela tarifária da COPASA homologada pela AMASBE, de jan/2026 até jan/2027 (imagem). Taxa fixa somada ao consumo desde 0 m³. A imagem é da AMASBE e vale para Montes Claros; os demais municípios da COPASA, regulados pela ARSAE-MG, aguardam a resolução da ARSAE que os cite, mesmo que os valores da base sejam idênticos.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela AMASBE jan/2026–jan/2027",
+   "uf": "MG",
+   "municipios": [
+    "Montes Claros"
+   ],
+   "residencial": {
+    "fixo": 25.77,
+    "faixas": [
+     [
+      0,
+      5,
+      2.69
+     ],
+     [
+      5,
+      10,
+      5.334
+     ],
+     [
+      10,
+      15,
+      8.056
+     ],
+     [
+      15,
+      20,
+      10.83
+     ],
+     [
+      20,
+      40,
+      13.658
+     ],
+     [
+      40,
+      null,
+      16.538
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "social": {
+    "fixo": 9.02,
+    "faixas": [
+     [
+      0,
+      5,
+      0.94
+     ],
+     [
+      5,
+      10,
+      1.867
+     ],
+     [
+      10,
+      15,
+      2.82
+     ],
+     [
+      15,
+      20,
+      3.79
+     ],
+     [
+      20,
+      40,
+      4.78
+     ],
+     [
+      40,
+      null,
+      5.788
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Residencial Social Nível I. Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "comercial": {
+    "fixo": 42.86,
+    "faixas": [
+     [
+      0,
+      5,
+      5.34
+     ],
+     [
+      5,
+      10,
+      8.002
+     ],
+     [
+      10,
+      20,
+      10.723
+     ],
+     [
+      20,
+      40,
+      13.498
+     ],
+     [
+      40,
+      200,
+      16.326
+     ],
+     [
+      200,
+      null,
+      19.206
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "industrial": {
+    "fixo": 42.86,
+    "faixas": [
+     [
+      0,
+      5,
+      5.34
+     ],
+     [
+      5,
+      10,
+      8.002
+     ],
+     [
+      10,
+      20,
+      10.723
+     ],
+     [
+      20,
+      40,
+      13.498
+     ],
+     [
+      40,
+      200,
+      16.326
+     ],
+     [
+      200,
+      null,
+      19.206
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   },
+   "publica": {
+    "fixo": 36.43,
+    "faixas": [
+     [
+      0,
+      5,
+      5.06
+     ],
+     [
+      5,
+      10,
+      7.597
+     ],
+     [
+      10,
+      20,
+      10.186
+     ],
+     [
+      20,
+      40,
+      12.818
+     ],
+     [
+      40,
+      200,
+      15.514
+     ],
+     [
+      200,
+      null,
+      18.242
+     ]
+    ],
+    "esgoto_pct": 74,
+    "nota": "Esgoto dinâmico com coleta e tratamento (EDC): 74% da água em todas as faixas."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Montes Claros",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 65.89,
+   "impresso": "Fixa 25,77; 0 a 5 m³ 2,69; >5 a 10 m³ 5,334"
+  }
+ ]
+}

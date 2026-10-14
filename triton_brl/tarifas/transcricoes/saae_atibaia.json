@@ -1,0 +1,144 @@
+{
+ "prestador": "SAAE Atibaia",
+ "registro": [
+  78
+ ],
+ "documento": "1763579706-resoluo_n_663_2025_-_reviso_tarifria_-_atibaia.pdf",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 663, de 12/11/2025 (revisão tarifária do SAAE Atibaia), Anexo I, a partir de dezembro de 2025. Mínimo de 10 m³; esgoto com coleta, afastamento e tratamento igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Atibaia"
+   ],
+   "residencial": {
+    "fixo": 52.97,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.97
+     ],
+     [
+      20,
+      50,
+      13.13
+     ],
+     [
+      50,
+      null,
+      16.09
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial padrão."
+   },
+   "social": {
+    "fixo": 26.49,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      3.99
+     ],
+     [
+      15,
+      20,
+      5.98
+     ],
+     [
+      20,
+      50,
+      13.13
+     ],
+     [
+      50,
+      null,
+      16.09
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 88.81,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      11.93
+     ],
+     [
+      20,
+      50,
+      20.32
+     ],
+     [
+      50,
+      null,
+      29.42
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 111.77,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      14.45
+     ],
+     [
+      20,
+      50,
+      24.28
+     ],
+     [
+      50,
+      null,
+      29.42
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 111.77,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      13.69
+     ],
+     [
+      20,
+      50,
+      22.99
+     ],
+     [
+      50,
+      null,
+      27.84
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Atibaia",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 132.67,
+   "impresso": "52,97 + 10 × 7,97"
+  }
+ ]
+}

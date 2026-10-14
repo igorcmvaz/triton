@@ -1,0 +1,234 @@
+{
+ "prestador": "Águas de Valadares (Aegea)",
+ "registro": [
+  105
+ ],
+ "documento": "aguas_de_valadares_legislacao_e_tarifas_2026.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.aguasdevaladares.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Valadares, aba 2026: TBO fixa por economia mais a tarifa por faixa (R$/m³).",
+ "tabelas": [
+  {
+   "rotulo": "Tarifas em vigor 2026",
+   "uf": "MG",
+   "municipios": [
+    "Governador Valadares"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      5,
+      1.7875
+     ],
+     [
+      5,
+      10,
+      1.8314
+     ],
+     [
+      10,
+      15,
+      5.2419
+     ],
+     [
+      15,
+      20,
+      5.5696
+     ],
+     [
+      20,
+      40,
+      5.6181
+     ],
+     [
+      40,
+      null,
+      10.3675
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 14.67,
+    "nota": "TBO (tarifa básica operacional) somada ao consumo desde 0 m³; esgoto a 70% (TBO 10,27/14,67)."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      5,
+      0.8938
+     ],
+     [
+      5,
+      10,
+      0.9156
+     ],
+     [
+      10,
+      15,
+      2.621
+     ],
+     [
+      15,
+      20,
+      2.7848
+     ],
+     [
+      20,
+      40,
+      2.809
+     ],
+     [
+      40,
+      null,
+      5.1838
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 7.34
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.1933
+     ],
+     [
+      5,
+      10,
+      2.4345
+     ],
+     [
+      10,
+      15,
+      5.3296
+     ],
+     [
+      15,
+      20,
+      7.6106
+     ],
+     [
+      20,
+      40,
+      7.8477
+     ],
+     [
+      40,
+      100,
+      7.9177
+     ],
+     [
+      100,
+      null,
+      7.9875
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 19.11
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.6319
+     ],
+     [
+      5,
+      10,
+      3.257
+     ],
+     [
+      10,
+      15,
+      6.7442
+     ],
+     [
+      15,
+      20,
+      7.501
+     ],
+     [
+      20,
+      40,
+      7.7312
+     ],
+     [
+      40,
+      100,
+      8.001
+     ],
+     [
+      100,
+      600,
+      8.3978
+     ],
+     [
+      600,
+      null,
+      8.5073
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 21.19
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      5,
+      1.9191
+     ],
+     [
+      5,
+      10,
+      2.5441
+     ],
+     [
+      10,
+      15,
+      5.5599
+     ],
+     [
+      15,
+      20,
+      6.5139
+     ],
+     [
+      20,
+      40,
+      8.6743
+     ],
+     [
+      40,
+      100,
+      8.7676
+     ],
+     [
+      100,
+      300,
+      8.799
+     ],
+     [
+      300,
+      null,
+      8.8803
+     ]
+    ],
+    "esgoto_pct": 70,
+    "fixo": 19.11
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Governador Valadares",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 32.76,
+   "impresso": "TBO 14,67 + 5 × 1,7875 + 5 × 1,8314"
+  }
+ ]
+}

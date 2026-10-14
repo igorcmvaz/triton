@@ -1,0 +1,217 @@
+{
+ "prestador": "SAAE Itapira",
+ "registro": [
+  81
+ ],
+ "documento": "1778508605-resoluo_n_698_2026_-_reajuste_tarifrio_-_itapira.pdf",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 698, de 30/04/2026 (reajuste do SAAE Itapira), Anexo I. Mínimo de 15 m³; esgoto igual à água. A vigência de junho de 2026 vem da base.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Itapira"
+   ],
+   "residencial": {
+    "fixo": 22.71,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      7.29
+     ],
+     [
+      20,
+      30,
+      8.27
+     ],
+     [
+      30,
+      35,
+      8.37
+     ],
+     [
+      35,
+      40,
+      8.5
+     ],
+     [
+      40,
+      50,
+      8.67
+     ],
+     [
+      50,
+      null,
+      10.44
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial, pública e condomínios."
+   },
+   "publica": {
+    "fixo": 22.71,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      7.29
+     ],
+     [
+      20,
+      30,
+      8.27
+     ],
+     [
+      30,
+      35,
+      8.37
+     ],
+     [
+      35,
+      40,
+      8.5
+     ],
+     [
+      40,
+      50,
+      8.67
+     ],
+     [
+      50,
+      null,
+      10.44
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial, pública e condomínios."
+   },
+   "social": {
+    "fixo": 11.36,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      5.47
+     ],
+     [
+      20,
+      30,
+      8.27
+     ],
+     [
+      30,
+      35,
+      8.37
+     ],
+     [
+      35,
+      40,
+      8.5
+     ],
+     [
+      40,
+      50,
+      8.67
+     ],
+     [
+      50,
+      null,
+      10.44
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 30.76,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      10.91
+     ],
+     [
+      20,
+      30,
+      17.42
+     ],
+     [
+      30,
+      35,
+      17.78
+     ],
+     [
+      35,
+      40,
+      18.17
+     ],
+     [
+      40,
+      50,
+      18.28
+     ],
+     [
+      50,
+      null,
+      24.84
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial e industrial."
+   },
+   "industrial": {
+    "fixo": 30.76,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      10.91
+     ],
+     [
+      20,
+      30,
+      17.42
+     ],
+     [
+      30,
+      35,
+      17.78
+     ],
+     [
+      35,
+      40,
+      18.17
+     ],
+     [
+      40,
+      50,
+      18.28
+     ],
+     [
+      50,
+      null,
+      24.84
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial e industrial."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Itapira",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 100.5,
+   "impresso": "22,71 + 5 × 7,29 + 5 × 8,27"
+  }
+ ]
+}

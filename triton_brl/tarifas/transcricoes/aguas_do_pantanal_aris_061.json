@@ -1,0 +1,105 @@
+{
+ "prestador": "Águas do Pantanal (autarquia municipal)",
+ "registro": [
+  166,
+  165
+ ],
+ "documento": "487.pdf",
+ "vigencia": "27/09/2026",
+ "fonte_url": "arquivo recebido, sem endereço: tarifas/fontes/aguas_do_pantanal_autarquia_municipal/487.pdf",
+ "leitura": "Resolução ARIS-MT nº 061/2026 (DOC/TCE-MT de 28/08/2026), reajuste de 19,89% das tarifas de água do Serviço de Saneamento Ambiental de Cáceres – Águas do Pantanal, Anexo I (Tabela I), faturas com vencimento a partir de 27/09/2026; revoga a 060/2026 (item 165), de valores de água iguais. A resolução fixa só as tarifas de água (e a taxa de lixo); não há tarifa de esgoto.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela I (água)",
+   "uf": "MT",
+   "municipios": [
+    "Cáceres"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      3.92
+     ],
+     [
+      10,
+      20,
+      6.853
+     ],
+     [
+      20,
+      30,
+      10.633
+     ],
+     [
+      30,
+      40,
+      13.636
+     ],
+     [
+      40,
+      null,
+      19.041
+     ]
+    ],
+    "esgoto_pct": 0,
+    "nota": "A resolução fixa só as tarifas de água (e a taxa de lixo); não há tarifa de esgoto."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      9.963
+     ],
+     [
+      10,
+      null,
+      14.978
+     ]
+    ],
+    "esgoto_pct": 0
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.623
+     ],
+     [
+      10,
+      null,
+      17.277
+     ]
+    ],
+    "esgoto_pct": 0
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.623
+     ],
+     [
+      10,
+      null,
+      17.277
+     ]
+    ],
+    "esgoto_pct": 0
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Cáceres",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 107.73,
+   "impresso": "acumulado impresso na faixa 11–20: R$ 107,75"
+  }
+ ]
+}

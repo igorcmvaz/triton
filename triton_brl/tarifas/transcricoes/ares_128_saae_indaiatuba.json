@@ -1,0 +1,243 @@
+{
+ "prestador": "SAAE Indaiatuba",
+ "registro": [
+  128
+ ],
+ "documento": "saae_indaiatuba_ARESPCJ_resoluo_n_699_2026_-_reviso_tarifria_-_indaiatuba.pdf",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1778508686-resoluo_n_699_2026_-_reviso_tarifria_-_indaiatuba.pdf",
+ "leitura": "Material tarifário oficial de SAAE Indaiatuba. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/06/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Indaiatuba"
+   ],
+   "residencial": {
+    "esgoto_pct": 90.5,
+    "fixo": 35.1,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      10.0,
+      0.52
+     ],
+     [
+      10.0,
+      20.0,
+      4.7
+     ],
+     [
+      20.0,
+      30.0,
+      6.16
+     ],
+     [
+      30.0,
+      40.0,
+      6.83
+     ],
+     [
+      40.0,
+      60.0,
+      9.65
+     ],
+     [
+      60.0,
+      80.0,
+      11.45
+     ],
+     [
+      80.0,
+      null,
+      23.32
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 90.5,
+    "fixo": 35.1,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      10.0,
+      0.52
+     ],
+     [
+      10.0,
+      20.0,
+      4.7
+     ],
+     [
+      20.0,
+      30.0,
+      6.16
+     ],
+     [
+      30.0,
+      40.0,
+      6.83
+     ],
+     [
+      40.0,
+      60.0,
+      9.65
+     ],
+     [
+      60.0,
+      80.0,
+      11.45
+     ],
+     [
+      80.0,
+      null,
+      23.32
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 92.5,
+    "fixo": 17.55,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      10.0,
+      0.26
+     ],
+     [
+      10.0,
+      15.0,
+      2.35
+     ],
+     [
+      15.0,
+      20.0,
+      3.53
+     ],
+     [
+      20.0,
+      30.0,
+      6.16
+     ],
+     [
+      30.0,
+      40.0,
+      6.83
+     ],
+     [
+      40.0,
+      60.0,
+      9.65
+     ],
+     [
+      60.0,
+      80.0,
+      11.45
+     ],
+     [
+      80.0,
+      null,
+      23.32
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 90.0,
+    "fixo": 63.0,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      10.0,
+      0.92
+     ],
+     [
+      10.0,
+      20.0,
+      9.02
+     ],
+     [
+      20.0,
+      30.0,
+      11.99
+     ],
+     [
+      30.0,
+      40.0,
+      13.31
+     ],
+     [
+      40.0,
+      60.0,
+      18.78
+     ],
+     [
+      60.0,
+      80.0,
+      25.23
+     ],
+     [
+      80.0,
+      null,
+      33.63
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 90.0,
+    "fixo": 70.37,
+    "franquia": 5.0,
+    "faixas": [
+     [
+      5.0,
+      10.0,
+      1.0
+     ],
+     [
+      10.0,
+      20.0,
+      12.71
+     ],
+     [
+      20.0,
+      30.0,
+      17.28
+     ],
+     [
+      30.0,
+      40.0,
+      19.2
+     ],
+     [
+      40.0,
+      60.0,
+      21.76
+     ],
+     [
+      60.0,
+      80.0,
+      28.1
+     ],
+     [
+      80.0,
+      null,
+      35.49
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Indaiatuba",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 84.7,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

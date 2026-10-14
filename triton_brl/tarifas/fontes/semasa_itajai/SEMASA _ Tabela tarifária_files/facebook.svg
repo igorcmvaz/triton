@@ -1,0 +1,15 @@
+<svg width="24" height="24" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icone">
+ <defs>
+  <linearGradient id="facebook" x2="1" gradientTransform="matrix(-1.02e-5 233 -233 -1.02e-5 533 349)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#5162b7" offset="0"/>
+   <stop stop-color="#3e4aa4" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(-58.5 -103)">
+  <g transform="matrix(.0874 0 0 .0869 23.9 74.3)">
+   <path d="m610 333h-154c-33.4 0-60.5 27-60.5 60.2v154c0 33.4 27.1 60.7 60.5 60.7h154c33.2 0 60.4-27.4 60.4-60.7v-154c0-33.2-27.2-60.2-60.4-60.2" fill="#fff"/>
+   <path d="m456 332h154c33.2 0 60.5 27.3 60.5 60.5v154c0 33.4-27.3 60.6-60.5 60.6h-154c-33.4 0-60.5-27.3-60.5-60.6v-154c0-33.2 27.1-60.5 60.5-60.5" fill="url(#facebook)" fill-rule="evenodd"/>
+   <path d="m547 438v-13.3c0-6.37 4.29-7.89 7.34-7.89h18.5v-28.4h-25.6c-28.4 0-34.7 21-34.7 34.6v14.9h-16.5v33.1h16.6v82.6h33.1v-82.6h24.5l1.11-13 1.94-20.1h-26.3" fill="#fff" fill-rule="evenodd"/>
+  </g>
+ </g>
+</svg>

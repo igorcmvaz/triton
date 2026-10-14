@@ -1,0 +1,162 @@
+{
+ "prestador": "SAEMAS Sertãozinho",
+ "registro": [
+  141
+ ],
+ "documento": "saemas_sertaozinho_ARESPCJ_resoluo_n_678_2025_-_reajuste_tarifrio_-_sertozinho.pdf",
+ "vigencia": "01/02/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1767038705-resoluo_n_678_2025_-_reajuste_tarifrio_-_sertozinho.pdf",
+ "leitura": "Material tarifário oficial de SAEMAS Sertãozinho. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/02/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Sertãozinho"
+   ],
+   "residencial": {
+    "esgoto_pct": 80.0,
+    "fixo": 25.31,
+    "franquia": 15.0,
+    "faixas": [
+     [
+      15.0,
+      20.0,
+      2.05
+     ],
+     [
+      20.0,
+      25.0,
+      4.81
+     ],
+     [
+      25.0,
+      30.0,
+      5.39
+     ],
+     [
+      30.0,
+      35.0,
+      5.83
+     ],
+     [
+      35.0,
+      40.0,
+      5.93
+     ],
+     [
+      40.0,
+      50.0,
+      6.46
+     ],
+     [
+      50.0,
+      60.0,
+      7.02
+     ],
+     [
+      60.0,
+      70.0,
+      7.67
+     ],
+     [
+      70.0,
+      80.0,
+      9.92
+     ],
+     [
+      80.0,
+      90.0,
+      12.03
+     ],
+     [
+      90.0,
+      100.0,
+      12.81
+     ],
+     [
+      100.0,
+      null,
+      13.2
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 80.0,
+    "fixo": 12.66,
+    "franquia": 15.0,
+    "faixas": [
+     [
+      15.0,
+      20.0,
+      1.54
+     ],
+     [
+      20.0,
+      25.0,
+      4.81
+     ],
+     [
+      25.0,
+      30.0,
+      5.39
+     ],
+     [
+      30.0,
+      35.0,
+      5.83
+     ],
+     [
+      35.0,
+      40.0,
+      5.93
+     ],
+     [
+      40.0,
+      50.0,
+      6.46
+     ],
+     [
+      50.0,
+      60.0,
+      7.02
+     ],
+     [
+      60.0,
+      70.0,
+      7.67
+     ],
+     [
+      70.0,
+      80.0,
+      9.92
+     ],
+     [
+      80.0,
+      90.0,
+      12.03
+     ],
+     [
+      90.0,
+      100.0,
+      12.81
+     ],
+     [
+      100.0,
+      null,
+      13.2
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Sertãozinho",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 35.56,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

@@ -1,0 +1,5052 @@
+{
+ "gerado_em": "2026-10-05",
+ "documentos": [
+  {
+   "id": 3,
+   "arquivo": "tabela-exponenciais.pdf",
+   "prestador": "CORSAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RS - Alegrete",
+    "RS - Alvorada",
+    "RS - Bento Gonçalves",
+    "RS - Cachoeira do Sul",
+    "RS - Cachoeirinha",
+    "RS - Camaquã",
+    "RS - Campo Bom",
+    "RS - Canoas",
+    "RS - Capão da Canoa",
+    "RS - Carazinho",
+    "RS - Cruz Alta",
+    "RS - Erechim",
+    "RS - Esteio",
+    "RS - Farroupilha",
+    "RS - Gravataí",
+    "RS - Guaíba",
+    "RS - Ijuí",
+    "RS - Lajeado",
+    "RS - Montenegro",
+    "RS - Parobé",
+    "RS - Passo Fundo",
+    "RS - Rio Grande",
+    "RS - Santa Cruz do Sul",
+    "RS - Santa Maria",
+    "RS - Santa Rosa",
+    "RS - Santo Ângelo",
+    "RS - Sapiranga",
+    "RS - Sapucaia do Sul",
+    "RS - São Borja",
+    "RS - Taquara",
+    "RS - Tramandaí",
+    "RS - Vacaria",
+    "RS - Venâncio Aires",
+    "RS - Viamão"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 4,
+   "arquivo": "ANEXO-5-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+   "prestador": "CORSAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AC - Cruzeiro do Sul",
+    "AM - Humaitá",
+    "AP - Santana",
+    "BA - Barra",
+    "BA - Salvador",
+    "CE - Fortaleza",
+    "ES - Serra",
+    "ES - Vitória",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MA - Viana",
+    "MG - Lavras",
+    "MG - Mariana",
+    "MG - Passos",
+    "MG - São Francisco",
+    "PE - Palmares",
+    "PR - Sarandi",
+    "RJ - Petrópolis",
+    "RR - Boa Vista",
+    "RS - Alegrete",
+    "RS - Alvorada",
+    "RS - Bento Gonçalves",
+    "RS - Cachoeira do Sul",
+    "RS - Cachoeirinha",
+    "RS - Camaquã",
+    "RS - Capão da Canoa",
+    "RS - Carazinho",
+    "RS - Cruz Alta",
+    "RS - Farroupilha",
+    "RS - Gravataí",
+    "RS - Guaíba",
+    "RS - Lajeado",
+    "RS - Montenegro",
+    "RS - Passo Fundo",
+    "RS - Rio Grande",
+    "RS - Santa Maria",
+    "RS - Santa Rosa",
+    "RS - Santo Ângelo",
+    "RS - São Borja",
+    "RS - Taquara",
+    "RS - Vacaria",
+    "RS - Venâncio Aires",
+    "RS - Viamão",
+    "SC - São José",
+    "SP - Assis",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Caçapava",
+    "SP - Itatiba",
+    "SP - Salto",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ],
+   "transcritos": [
+    "RS - Alegrete",
+    "RS - Alvorada",
+    "RS - Bento Gonçalves",
+    "RS - Cachoeira do Sul",
+    "RS - Cachoeirinha",
+    "RS - Camaquã",
+    "RS - Campo Bom",
+    "RS - Capão da Canoa",
+    "RS - Carazinho",
+    "RS - Cruz Alta",
+    "RS - Farroupilha",
+    "RS - Gravataí",
+    "RS - Guaíba",
+    "RS - Ijuí",
+    "RS - Lajeado",
+    "RS - Montenegro",
+    "RS - Parobé",
+    "RS - Passo Fundo",
+    "RS - Rio Grande",
+    "RS - Santa Maria",
+    "RS - Santa Rosa",
+    "RS - Santo Ângelo",
+    "RS - Sapiranga",
+    "RS - Sapucaia do Sul",
+    "RS - São Borja",
+    "RS - Taquara",
+    "RS - Tramandaí",
+    "RS - Vacaria",
+    "RS - Venâncio Aires",
+    "RS - Viamão"
+   ],
+   "citados_nao_transcritos": [
+    "AC - Cruzeiro do Sul",
+    "AM - Humaitá",
+    "AP - Santana",
+    "BA - Barra",
+    "BA - Salvador",
+    "CE - Fortaleza",
+    "ES - Serra",
+    "ES - Vitória",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MA - Viana",
+    "MG - Lavras",
+    "MG - Mariana",
+    "MG - Passos",
+    "MG - São Francisco",
+    "PE - Palmares",
+    "PR - Sarandi",
+    "RJ - Petrópolis",
+    "RR - Boa Vista",
+    "SC - São José",
+    "SP - Assis",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Caçapava",
+    "SP - Itatiba",
+    "SP - Salto",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ]
+  },
+  {
+   "id": 5,
+   "arquivo": "ANEXO-3-CANOAS-E-ESTEIO-TABELA-TARIFARIA_AGOSTO-2026.pdf",
+   "prestador": "CORSAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Canoas",
+    "RS - Esteio"
+   ],
+   "transcritos": [
+    "RS - Canoas",
+    "RS - Esteio"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 6,
+   "arquivo": "Tabela-Tarifaria-Erechim_2026.pdf",
+   "prestador": "CORSAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Erechim"
+   ],
+   "transcritos": [
+    "RS - Erechim"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 7,
+   "arquivo": "Tabela-Tarifaria-Santa-Cruz-do-Sul_2026.pdf",
+   "prestador": "CORSAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Santa Cruz do Sul"
+   ],
+   "transcritos": [
+    "RS - Santa Cruz do Sul"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 9,
+   "arquivo": "CASAN - Companhia Catarinense de Águas e Saneamento.html",
+   "prestador": "CASAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Ipirá",
+    "SC - Florianópolis",
+    "SC - Itajaí"
+   ],
+   "transcritos": [
+    "SC - Araranguá",
+    "SC - Biguaçu",
+    "SC - Camboriú",
+    "SC - Canoinhas",
+    "SC - Caçador",
+    "SC - Chapecó",
+    "SC - Concórdia",
+    "SC - Criciúma",
+    "SC - Florianópolis",
+    "SC - Imbituba",
+    "SC - Indaial",
+    "SC - Itapema",
+    "SC - Içara",
+    "SC - Mafra",
+    "SC - Navegantes",
+    "SC - Palhoça",
+    "SC - Rio do Sul",
+    "SC - São Francisco do Sul",
+    "SC - São José",
+    "SC - Tijucas",
+    "SC - Videira",
+    "SC - Xanxerê"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Ipirá",
+    "SC - Itajaí"
+   ]
+  },
+  {
+   "id": 10,
+   "arquivo": "Tarifas _ Sanepar.html",
+   "prestador": "SANEPAR",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PR - Apucarana",
+    "PR - Cianorte",
+    "PR - Curitiba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "PR - Almirante Tamandaré",
+    "PR - Apucarana",
+    "PR - Arapongas",
+    "PR - Araucária",
+    "PR - Cambé",
+    "PR - Campo Largo",
+    "PR - Campo Mourão",
+    "PR - Castro",
+    "PR - Cianorte",
+    "PR - Colombo",
+    "PR - Curitiba",
+    "PR - Fazenda Rio Grande",
+    "PR - Foz do Iguaçu",
+    "PR - Francisco Beltrão",
+    "PR - Guarapuava",
+    "PR - Ibiporã",
+    "PR - Irati",
+    "PR - Londrina",
+    "PR - Marechal Cândido Rondon",
+    "PR - Maringá",
+    "PR - Medianeira",
+    "PR - Paranaguá",
+    "PR - Paranavaí",
+    "PR - Pato Branco",
+    "PR - Pinhais",
+    "PR - Piraquara",
+    "PR - Ponta Grossa",
+    "PR - Rolândia",
+    "PR - Sarandi",
+    "PR - São José dos Pinhais",
+    "PR - Telêmaco Borba",
+    "PR - Toledo",
+    "PR - Umuarama",
+    "PR - União da Vitória"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 11,
+   "arquivo": "NT_1__REAJUSTE_TARIFARIO_DA_SABESP__Tarifa_Aplicacao___URAE1___assinado.pdf",
+   "prestador": "SABESP",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "PE - Paulista",
+    "SP - Bragança Paulista",
+    "SP - Mogi das Cruzes",
+    "SP - Presidente Prudente",
+    "SP - Santa Isabel",
+    "SP - São Caetano do Sul",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Arujá",
+    "SP - Assis",
+    "SP - Avaré",
+    "SP - Barueri",
+    "SP - Batatais",
+    "SP - Bertioga",
+    "SP - Boituva",
+    "SP - Botucatu",
+    "SP - Bragança Paulista",
+    "SP - Caieiras",
+    "SP - Cajamar",
+    "SP - Campo Limpo Paulista",
+    "SP - Caraguatatuba",
+    "SP - Carapicuíba",
+    "SP - Caçapava",
+    "SP - Cotia",
+    "SP - Cubatão",
+    "SP - Diadema",
+    "SP - Embu das Artes",
+    "SP - Embu-Guaçu",
+    "SP - Fernandópolis",
+    "SP - Ferraz de Vasconcelos",
+    "SP - Franca",
+    "SP - Francisco Morato",
+    "SP - Franco da Rocha",
+    "SP - Guarujá",
+    "SP - Guarulhos",
+    "SP - Hortolândia",
+    "SP - Ibiúna",
+    "SP - Itanhaém",
+    "SP - Itapecerica da Serra",
+    "SP - Itapetininga",
+    "SP - Itapeva",
+    "SP - Itapevi",
+    "SP - Itaquaquecetuba",
+    "SP - Itatiba",
+    "SP - Itupeva",
+    "SP - Jandira",
+    "SP - Lins",
+    "SP - Lorena",
+    "SP - Mairiporã",
+    "SP - Mauá",
+    "SP - Mococa",
+    "SP - Mongaguá",
+    "SP - Monte Mor",
+    "SP - Osasco",
+    "SP - Paulínia",
+    "SP - Peruíbe",
+    "SP - Piedade",
+    "SP - Pindamonhangaba",
+    "SP - Poá",
+    "SP - Praia Grande",
+    "SP - Presidente Prudente",
+    "SP - Registro",
+    "SP - Ribeirão Pires",
+    "SP - Santa Isabel",
+    "SP - Santana de Parnaíba",
+    "SP - Santo André",
+    "SP - Santos",
+    "SP - Suzano",
+    "SP - São Bernardo do Campo",
+    "SP - São José dos Campos",
+    "SP - São João da Boa Vista",
+    "SP - São Paulo",
+    "SP - São Roque",
+    "SP - São Sebastião",
+    "SP - São Vicente",
+    "SP - Taboão da Serra",
+    "SP - Tatuí",
+    "SP - Taubaté",
+    "SP - Tremembé",
+    "SP - Tupã",
+    "SP - Ubatuba",
+    "SP - Vargem Grande Paulista",
+    "SP - Várzea Paulista"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "PE - Paulista",
+    "SP - Mogi das Cruzes",
+    "SP - São Caetano do Sul"
+   ]
+  },
+  {
+   "id": 12,
+   "arquivo": "Resolução_107_Resultado_Final_2ªRTO_CESAN.pdf",
+   "prestador": "CESAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - Aracruz",
+    "ES - Vitória"
+   ],
+   "transcritos": [
+    "ES - Cariacica",
+    "ES - Guarapari",
+    "ES - Serra",
+    "ES - Vila Velha",
+    "ES - Vitória"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Aracruz"
+   ]
+  },
+  {
+   "id": 13,
+   "arquivo": "Estrutura Tarifária 2026.pdf",
+   "prestador": "SANESUL",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "MS - Corumbá",
+    "MS - Dourados",
+    "MS - Naviraí",
+    "MS - Ponta Porã",
+    "MS - Três Lagoas"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 14,
+   "arquivo": "Res_Normativa_Conjunta_AGR_AR_01_2026.pdf",
+   "prestador": "SANEAGO",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "GO - Anápolis",
+    "GO - Aparecida de Goiânia",
+    "GO - Caldas Novas",
+    "GO - Catalão",
+    "GO - Cidade Ocidental",
+    "GO - Cristalina",
+    "GO - Formosa",
+    "GO - Goianira",
+    "GO - Goianésia",
+    "GO - Goiânia",
+    "GO - Inhumas",
+    "GO - Itumbiara",
+    "GO - Jataí",
+    "GO - Luziânia",
+    "GO - Mineiros",
+    "GO - Morrinhos",
+    "GO - Novo Gama",
+    "GO - Planaltina",
+    "GO - Rio Verde",
+    "GO - Santo Antônio do Descoberto",
+    "GO - Senador Canedo",
+    "GO - Trindade",
+    "GO - Valparaíso de Goiás",
+    "GO - Águas Lindas de Goiás"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 15,
+   "arquivo": "TabelaTarifariaAMASBE_MG.png",
+   "prestador": "COPASA",
+   "situacao": "transcrito",
+   "leitura": "imagem: lida visualmente",
+   "citados": [],
+   "transcritos": [
+    "MG - Montes Claros"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 16,
+   "arquivo": "CAER _ Serviços.html",
+   "prestador": "CAER",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 17,
+   "arquivo": "Estrutura tarifária _ Portal Cagece.html",
+   "prestador": "CAGECE",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "CE - Fortaleza",
+    "MG - Patrocínio"
+   ],
+   "transcritos": [
+    "CE - Acaraú",
+    "CE - Aquiraz",
+    "CE - Aracati",
+    "CE - Barbalha",
+    "CE - Beberibe",
+    "CE - Boa Viagem",
+    "CE - Brejo Santo",
+    "CE - Camocim",
+    "CE - Canindé",
+    "CE - Cascavel",
+    "CE - Caucaia",
+    "CE - Crateús",
+    "CE - Crato",
+    "CE - Eusébio",
+    "CE - Fortaleza",
+    "CE - Granja",
+    "CE - Horizonte",
+    "CE - Icó",
+    "CE - Iguatu",
+    "CE - Itaitinga",
+    "CE - Itapipoca",
+    "CE - Juazeiro do Norte",
+    "CE - Limoeiro do Norte",
+    "CE - Maracanaú",
+    "CE - Maranguape",
+    "CE - Morada Nova",
+    "CE - Pacajus",
+    "CE - Pacatuba",
+    "CE - Quixadá",
+    "CE - Quixeramobim",
+    "CE - Russas",
+    "CE - Sobral",
+    "CE - São Gonçalo do Amarante",
+    "CE - Tauá",
+    "CE - Tianguá",
+    "CE - Trairi",
+    "CE - Viçosa do Ceará"
+   ],
+   "citados_nao_transcritos": [
+    "MG - Patrocínio"
+   ]
+  },
+  {
+   "id": 18,
+   "arquivo": "Estrutura-Tarifria-Compesa-2025---Resoluo-ARPE-n-289-2025.pdf",
+   "prestador": "COMPESA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PE - Recife"
+   ],
+   "transcritos": [
+    "PE - Abreu e Lima",
+    "PE - Araripina",
+    "PE - Arcoverde",
+    "PE - Belo Jardim",
+    "PE - Bezerros",
+    "PE - Buíque",
+    "PE - Cabo de Santo Agostinho",
+    "PE - Camaragibe",
+    "PE - Carpina",
+    "PE - Caruaru",
+    "PE - Escada",
+    "PE - Garanhuns",
+    "PE - Goiana",
+    "PE - Gravatá",
+    "PE - Igarassu",
+    "PE - Ipojuca",
+    "PE - Jaboatão dos Guararapes",
+    "PE - Limoeiro",
+    "PE - Moreno",
+    "PE - Olinda",
+    "PE - Ouricuri",
+    "PE - Palmares",
+    "PE - Paudalho",
+    "PE - Paulista",
+    "PE - Pesqueira",
+    "PE - Petrolina",
+    "PE - Recife",
+    "PE - Salgueiro",
+    "PE - Santa Cruz do Capibaribe",
+    "PE - Serra Talhada",
+    "PE - Surubim",
+    "PE - São Lourenço da Mata",
+    "PE - Vitória de Santo Antão"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 19,
+   "arquivo": "PROLAGOS Legislação e Tarifas.html",
+   "prestador": "Prolagos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RJ - Rio de Janeiro"
+   ],
+   "transcritos": [
+    "RJ - Cabo Frio",
+    "RJ - São Pedro da Aldeia"
+   ],
+   "citados_nao_transcritos": [
+    "RJ - Rio de Janeiro"
+   ]
+  },
+  {
+   "id": 20,
+   "arquivo": "01-estrutura-tarifaria-cachoeiro-2024.pdf",
+   "prestador": "BRK Ambiental Cachoeiro",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "ES - Cachoeiro de Itapemirim"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 21,
+   "arquivo": "114624-RESOLUCAO Nº 008-2025, DE 30 DE JULHO DE 2025 - Reajuste Tarifa_rio de 2025 CSA.pdf",
+   "prestador": "CSA Equatorial",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AP - Macapá",
+    "AP - Santana",
+    "PB - Santa Rita"
+   ],
+   "transcritos": [
+    "AP - Macapá",
+    "AP - Santana"
+   ],
+   "citados_nao_transcritos": [
+    "PB - Santa Rita"
+   ]
+  },
+  {
+   "id": 22,
+   "arquivo": "tabelas-de-tarifas-brk-2025.pdf",
+   "prestador": "BRK Ambiental Uruguaiana",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RS - Uruguaiana"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 23,
+   "arquivo": "1765993558-resoluo_n_672_2025_-_reajuste_tarifrio_-_sumar.pdf",
+   "prestador": "BRK Ambiental Sumaré",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Sumaré"
+   ],
+   "transcritos": [
+    "SP - Sumaré"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 24,
+   "arquivo": "1780515925-resoluo_n_705_2026_-_reajuste_tarifrio_-_limeira_rtf.pdf",
+   "prestador": "BRK Ambiental Limeira",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Limeira"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 25,
+   "arquivo": "1790877131-tarifas_categoria_comercial_01_09_2026.pdf",
+   "prestador": "ARES-PCJ",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ]
+  },
+  {
+   "id": 26,
+   "arquivo": "1790877131-tarifas_categoria_industrial_01_09_2026.pdf",
+   "prestador": "ARES-PCJ",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ]
+  },
+  {
+   "id": 27,
+   "arquivo": "1790877131-tarifas_categoria_residencial_social_01_09_2026.pdf",
+   "prestador": "ARES-PCJ",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ]
+  },
+  {
+   "id": 28,
+   "arquivo": "1790877132-tarifas_categoria_residencial_01_09_2026.pdf",
+   "prestador": "ARES-PCJ",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Amparo",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Artur Nogueira",
+    "SP - Atibaia",
+    "SP - Barretos",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Cosmópolis",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Olímpia",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Porto Feliz",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São Carlos",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo",
+    "SP - Votorantim"
+   ],
+   "transcritos": [
+    "SP - Amparo",
+    "SP - Artur Nogueira",
+    "SP - Barretos",
+    "SP - Cosmópolis",
+    "SP - Mogi das Cruzes",
+    "SP - Nova Odessa",
+    "SP - Piracicaba",
+    "SP - Porto Feliz",
+    "SP - Santa Bárbara d'Oeste",
+    "SP - São Carlos",
+    "SP - Votorantim"
+   ],
+   "citados_nao_transcritos": [
+    "PA - Monte Alegre",
+    "PB - Santa Rita",
+    "SP - Americana",
+    "SP - Araraquara",
+    "SP - Araras",
+    "SP - Atibaia",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Indaiatuba",
+    "SP - Itapira",
+    "SP - Jaboticabal",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Limeira",
+    "SP - Louveira",
+    "SP - Matão",
+    "SP - Mogi Guaçu",
+    "SP - Mogi Mirim",
+    "SP - Olímpia",
+    "SP - Pirassununga",
+    "SP - Ribeirão Preto",
+    "SP - Rio Claro",
+    "SP - Salto",
+    "SP - Sertãozinho",
+    "SP - Sorocaba",
+    "SP - Sumaré",
+    "SP - São José do Rio Pardo",
+    "SP - São José do Rio Preto",
+    "SP - Valinhos",
+    "SP - Vinhedo"
+   ]
+  },
+  {
+   "id": 29,
+   "arquivo": "Anexo_VII_Estrutura_Tarifaria_A-B-C-D_13_12_2024.pdf",
+   "prestador": "COSANPA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PA - Altamira",
+    "PA - Parauapebas"
+   ],
+   "transcritos": [
+    "PA - Abaetetuba",
+    "PA - Acará",
+    "PA - Alenquer",
+    "PA - Altamira",
+    "PA - Baião",
+    "PA - Barcarena",
+    "PA - Belém",
+    "PA - Benevides",
+    "PA - Bragança",
+    "PA - Breves",
+    "PA - Cametá",
+    "PA - Canaã dos Carajás",
+    "PA - Capanema",
+    "PA - Capitão Poço",
+    "PA - Castanhal",
+    "PA - Dom Eliseu",
+    "PA - Igarapé-Miri",
+    "PA - Itaituba",
+    "PA - Juruti",
+    "PA - Marabá",
+    "PA - Moju",
+    "PA - Monte Alegre",
+    "PA - Novo Repartimento",
+    "PA - Oriximiná",
+    "PA - Paragominas",
+    "PA - Parauapebas",
+    "PA - Portel",
+    "PA - Redenção",
+    "PA - Rondon do Pará",
+    "PA - Santa Izabel do Pará",
+    "PA - Santarém",
+    "PA - São Félix do Xingu",
+    "PA - São Miguel do Guamá",
+    "PA - Tailândia",
+    "PA - Tomé-Açu",
+    "PA - Tucuruí",
+    "PA - Vigia",
+    "PA - Viseu",
+    "PA - Xinguara",
+    "PA - Óbidos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 30,
+   "arquivo": "ESTRUTURA-TARiFARIA-2026.pdf",
+   "prestador": "CASAL",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "AL - Arapiraca"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 31,
+   "arquivo": "ESTRUTURATARIFÁRIA-2025-CORRIGIDA.pdf",
+   "prestador": "SANEACRE",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "AC - Cruzeiro do Sul",
+    "AC - Rio Branco"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 32,
+   "arquivo": "ESTRUTURA_TARIFÁRIA_JAN_2026_VIGENTE.pdf",
+   "prestador": "CEDAE",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "MG - Muriaé",
+    "RJ - Barra do Piraí",
+    "RJ - Itaperuna",
+    "RJ - Macaé",
+    "RS - Santa Maria"
+   ],
+   "transcritos": [
+    "RJ - Barra do Piraí",
+    "RJ - Itaperuna",
+    "RJ - Macaé"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "MG - Muriaé",
+    "RS - Santa Maria"
+   ]
+  },
+  {
+   "id": 33,
+   "arquivo": "Estrutura Tarifaria Bloco A.pdf",
+   "prestador": "BRK Alagoas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AL - Maceió",
+    "AL - Marechal Deodoro",
+    "AL - Rio Largo",
+    "BA - Barra",
+    "MA - Santa Luzia"
+   ],
+   "transcritos": [
+    "AL - Maceió",
+    "AL - Marechal Deodoro",
+    "AL - Rio Largo"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "MA - Santa Luzia"
+   ]
+  },
+  {
+   "id": 34,
+   "arquivo": "Legislação e Tarifas AguasPiaui.html",
+   "prestador": "Águas do Piauí",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PA - Belém",
+    "PI - Parnaíba",
+    "PI - Teresina",
+    "SC - Palhoça",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "PI - Floriano",
+    "PI - Parnaíba",
+    "PI - Picos",
+    "PI - Piripiri"
+   ],
+   "citados_nao_transcritos": [
+    "PA - Belém",
+    "PI - Teresina",
+    "SC - Palhoça",
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 36,
+   "arquivo": "Legislação e Tarifas_AguasdoRio.html",
+   "prestador": "Águas do Rio",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ]
+  },
+  {
+   "id": 37,
+   "arquivo": "RESOLUÇÃO-ARPB-004-2025.pdf",
+   "prestador": "CAGEPA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "PB - Bayeux",
+    "PB - Cabedelo",
+    "PB - Cajazeiras",
+    "PB - Campina Grande",
+    "PB - Guarabira",
+    "PB - João Pessoa",
+    "PB - Patos",
+    "PB - Santa Rita",
+    "PB - Sapé",
+    "PB - Sousa"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 38,
+   "arquivo": "RS.CA.P.G.02.0002.03_REAJUSTE_TARIFARIO_NATAL.pdf",
+   "prestador": "CAERN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - Linhares",
+    "RN - Natal",
+    "RS - Rio Grande",
+    "SP - Registro",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "RN - Natal"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Linhares",
+    "RS - Rio Grande",
+    "SP - Registro",
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 39,
+   "arquivo": "Resolucao_n._082_2025.pdf",
+   "prestador": "CAERD",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília"
+   ],
+   "transcritos": [
+    "RO - Ariquemes",
+    "RO - Jaru",
+    "RO - Ji-Paraná",
+    "RO - Porto Velho",
+    "RO - Rolim de Moura"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília"
+   ]
+  },
+  {
+   "id": 40,
+   "arquivo": "Tabela de tarifas de água tem novo valor após três anos sem reajuste.html",
+   "prestador": "CAEMA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MA - São Luís"
+   ],
+   "transcritos": [
+    "MA - Açailândia",
+    "MA - Bacabal",
+    "MA - Balsas",
+    "MA - Barra do Corda",
+    "MA - Barreirinhas",
+    "MA - Buriticupu",
+    "MA - Caxias",
+    "MA - Chapadinha",
+    "MA - Codó",
+    "MA - Coroatá",
+    "MA - Grajaú",
+    "MA - Imperatriz",
+    "MA - Itapecuru-Mirim",
+    "MA - Paço do Lumiar",
+    "MA - Pinheiro",
+    "MA - Santa Inês",
+    "MA - Santa Luzia",
+    "MA - São José de Ribamar",
+    "MA - São Luís",
+    "MA - Timon",
+    "MA - Tutóia",
+    "MA - Viana"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 41,
+   "arquivo": "Tabela-01-06-2026-a-31-05-2027.pdf",
+   "prestador": "CAESB",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "DF - Brasília"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 42,
+   "arquivo": "Tarifas 2026 - Institucional.html",
+   "prestador": "EMBASA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Feira de Santana",
+    "BA - Salvador",
+    "BA - Vitória da Conquista",
+    "MG - Patrocínio"
+   ],
+   "transcritos": [
+    "BA - Alagoinhas",
+    "BA - Barra",
+    "BA - Barreiras",
+    "BA - Bom Jesus da Lapa",
+    "BA - Brumado",
+    "BA - Caetité",
+    "BA - Camaçari",
+    "BA - Campo Formoso",
+    "BA - Candeias",
+    "BA - Casa Nova",
+    "BA - Conceição do Coité",
+    "BA - Cruz das Almas",
+    "BA - Dias d'Ávila",
+    "BA - Euclides da Cunha",
+    "BA - Eunápolis",
+    "BA - Feira de Santana",
+    "BA - Guanambi",
+    "BA - Ilhéus",
+    "BA - Ipirá",
+    "BA - Irecê",
+    "BA - Itaberaba",
+    "BA - Itabuna",
+    "BA - Itamaraju",
+    "BA - Itapetinga",
+    "BA - Jacobina",
+    "BA - Jequié",
+    "BA - Juazeiro",
+    "BA - Lauro de Freitas",
+    "BA - Luís Eduardo Magalhães",
+    "BA - Paulo Afonso",
+    "BA - Porto Seguro",
+    "BA - Ribeira do Pombal",
+    "BA - Salvador",
+    "BA - Santo Amaro",
+    "BA - Santo Antônio de Jesus",
+    "BA - Santo Estêvão",
+    "BA - Senhor do Bonfim",
+    "BA - Serrinha",
+    "BA - Simões Filho",
+    "BA - Teixeira de Freitas",
+    "BA - Vitória da Conquista"
+   ],
+   "citados_nao_transcritos": [
+    "MG - Patrocínio"
+   ]
+  },
+  {
+   "id": 43,
+   "arquivo": "estrutura-tarifaria-nfvjp (1).pdf",
+   "prestador": "Iguá Sergipe",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SE - Aracaju",
+    "SE - Estância"
+   ],
+   "transcritos": [
+    "SE - Aracaju",
+    "SE - Estância",
+    "SE - Itabaiana",
+    "SE - Lagarto",
+    "SE - Nossa Senhora do Socorro",
+    "SE - São Cristóvão",
+    "SE - Tobias Barreto"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 44,
+   "arquivo": "listagem-arquivo-022455000000-06022026.pdf",
+   "prestador": "Águas do Sertão",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "AL - Delmiro Gouveia",
+    "AL - Palmeira dos Índios",
+    "AL - Penedo",
+    "AL - São Miguel dos Campos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 45,
+   "arquivo": "resolucao_reajuste_tarifariopdf.pdf",
+   "prestador": "BRK Tocantins",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Registro",
+    "TO - Palmas"
+   ],
+   "transcritos": [
+    "TO - Araguaína",
+    "TO - Gurupi",
+    "TO - Palmas",
+    "TO - Paraíso do Tocantins",
+    "TO - Porto Nacional"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 46,
+   "arquivo": "1678301025-resolucao_n_483_2023_-_revisao_tarifaria_-_daev_valinhos.pdf",
+   "prestador": "DAE Valinhos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Valinhos"
+   ],
+   "transcritos": [
+    "SP - Valinhos"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 47,
+   "arquivo": "BO-BM-1510 (1).pdf",
+   "prestador": "SAAE Barra Mansa",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AL - Penedo",
+    "AP - Santana",
+    "BA - Barra",
+    "ES - Linhares",
+    "ES - Serra",
+    "MA - Viana",
+    "MG - Mariana",
+    "MG - Patrocínio",
+    "PA - Breves",
+    "PB - Sousa",
+    "PI - Floriano",
+    "RJ - Barra Mansa",
+    "RJ - Resende",
+    "RJ - Rio de Janeiro",
+    "RN - Natal",
+    "RS - Santa Maria",
+    "SP - Assis",
+    "SP - Cotia",
+    "SP - Jandira",
+    "SP - Registro",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "RJ - Barra Mansa"
+   ],
+   "citados_nao_transcritos": [
+    "AL - Penedo",
+    "AP - Santana",
+    "BA - Barra",
+    "ES - Linhares",
+    "ES - Serra",
+    "MA - Viana",
+    "MG - Mariana",
+    "MG - Patrocínio",
+    "PA - Breves",
+    "PB - Sousa",
+    "PI - Floriano",
+    "RJ - Resende",
+    "RJ - Rio de Janeiro",
+    "RN - Natal",
+    "RS - Santa Maria",
+    "SP - Assis",
+    "SP - Cotia",
+    "SP - Jandira",
+    "SP - Registro",
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 48,
+   "arquivo": "DAE - BAURU.html",
+   "prestador": "DAE Bauru",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Bauru"
+   ],
+   "transcritos": [
+    "SP - Bauru"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 49,
+   "arquivo": "Diario_07082025.pdf",
+   "prestador": "DAESC Coruripe",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "AL - Coruripe",
+    "PR - Castro",
+    "SP - Registro",
+    "SP - Santos"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "AL - Coruripe",
+    "PR - Castro",
+    "SP - Registro",
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 50,
+   "arquivo": "Estrutura Tarifária – COSAMA – Companhia de Saneamento do Amazonas.html",
+   "prestador": "COSAMA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "AM - Tabatinga"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 51,
+   "arquivo": "Legislação e Tarifas _ GS Inima Samar.html",
+   "prestador": "GS Inima SAMAR",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Araçatuba"
+   ],
+   "transcritos": [
+    "SP - Araçatuba"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 52,
+   "arquivo": "Legislação e Tarifas _ Ourinhos saneamento.html",
+   "prestador": "Ourinhos Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Ourinhos",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Ourinhos"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 53,
+   "arquivo": "Legislação e Tarifas.html",
+   "prestador": "Águas do Rio",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ]
+  },
+  {
+   "id": 54,
+   "arquivo": "RES_285_2024_ARISB_MG_Revisao_Passos_2_.pdf",
+   "prestador": "SAAE Passos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Passos"
+   ],
+   "transcritos": [
+    "MG - Passos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 55,
+   "arquivo": "Resolução 383 - Rev1.pdf",
+   "prestador": "CODAU Uberaba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Uberaba"
+   ],
+   "transcritos": [
+    "MG - Uberaba"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 56,
+   "arquivo": "Serviços – DAE Americana.html",
+   "prestador": "DAE Americana",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Americana",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Americana"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 57,
+   "arquivo": "Tabela-Tarifaria-de-Agua-e-Esgoto-Vigente-a-partir-de-1-de-marco-de-2026.pdf",
+   "prestador": "Companhia Águas de Joinville",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "SC - Joinville"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 58,
+   "arquivo": "Tabela-valores-2026.pdf",
+   "prestador": "DAEB Bagé",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RS - Bagé"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 59,
+   "arquivo": "Tarifa - Tabela de Preço - DMAE.html",
+   "prestador": "DMAE Poços de Caldas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Poços de Caldas",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "MG - Poços de Caldas"
+   ],
+   "citados_nao_transcritos": [
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 60,
+   "arquivo": "Tarifas_2026-Parcela1_Tarifas.pdf",
+   "prestador": "COMUSA Novo Hamburgo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Novo Hamburgo"
+   ],
+   "transcritos": [
+    "RS - Novo Hamburgo"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 61,
+   "arquivo": "oficio_361_2026aris.pdf",
+   "prestador": "EMASA Balneário Camboriú",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Balneário Camboriú",
+    "SC - Camboriú",
+    "SC - Florianópolis"
+   ],
+   "transcritos": [
+    "SC - Balneário Camboriú"
+   ],
+   "citados_nao_transcritos": [
+    "SC - Camboriú",
+    "SC - Florianópolis"
+   ]
+  },
+  {
+   "id": 62,
+   "arquivo": "publicado_27336_2014-12-29_585ddfcef92d6a007feb8db90d1cd821.pdf",
+   "prestador": "COHASB / Prefeitura de Humaitá – prestação local",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AL - Marechal Deodoro",
+    "AM - Coari",
+    "AM - Humaitá",
+    "AM - Iranduba",
+    "AM - Itacoatiara",
+    "AM - Manacapuru",
+    "AM - Manaus",
+    "AM - Manicoré",
+    "AM - Maués",
+    "AM - Parintins",
+    "AM - Tabatinga",
+    "CE - Fortaleza",
+    "CE - Horizonte",
+    "ES - Serra",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MG - São Francisco",
+    "MG - Timóteo",
+    "PA - Vigia",
+    "PB - Sousa",
+    "PE - Moreno",
+    "PE - Olinda",
+    "PE - Recife",
+    "PR - Castro",
+    "RO - Cacoal",
+    "RO - Porto Velho",
+    "RO - Rolim de Moura",
+    "RR - Boa Vista",
+    "RS - Alvorada",
+    "RS - Montenegro",
+    "SC - São José",
+    "SE - São Cristóvão",
+    "SP - Assis",
+    "SP - Franca",
+    "SP - Registro",
+    "SP - Santos",
+    "SP - São Paulo",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ],
+   "transcritos": [
+    "AM - Humaitá"
+   ],
+   "citados_nao_transcritos": [
+    "AL - Marechal Deodoro",
+    "AM - Coari",
+    "AM - Iranduba",
+    "AM - Itacoatiara",
+    "AM - Manacapuru",
+    "AM - Manaus",
+    "AM - Manicoré",
+    "AM - Maués",
+    "AM - Parintins",
+    "AM - Tabatinga",
+    "CE - Fortaleza",
+    "CE - Horizonte",
+    "ES - Serra",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MG - São Francisco",
+    "MG - Timóteo",
+    "PA - Vigia",
+    "PB - Sousa",
+    "PE - Moreno",
+    "PE - Olinda",
+    "PE - Recife",
+    "PR - Castro",
+    "RO - Cacoal",
+    "RO - Porto Velho",
+    "RO - Rolim de Moura",
+    "RR - Boa Vista",
+    "RS - Alvorada",
+    "RS - Montenegro",
+    "SC - São José",
+    "SE - São Cristóvão",
+    "SP - Assis",
+    "SP - Franca",
+    "SP - Registro",
+    "SP - Santos",
+    "SP - São Paulo",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ]
+  },
+  {
+   "id": 63,
+   "arquivo": "publicado_dioc-_lei_5.693_-_25.pdf",
+   "prestador": "SAAE Cacoal",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RO - Cacoal",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "RO - Cacoal"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 64,
+   "arquivo": "resolucao_01_2026_(realinhamento_tarifas)_15055405.pdf",
+   "prestador": "DAEP Penápolis",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SP - Penápolis",
+    "SP - Santos",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Penápolis"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SP - Santos",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 65,
+   "arquivo": "resolucao_332_1_(1)_01050938.pdf",
+   "prestador": "CESAMA Juiz de Fora",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "MG - Juiz de Fora"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 66,
+   "arquivo": "RESOLUÇÃO DE FISCALIZAÇÃO E REGULAÇÃO 361 FORMIGA.pdf",
+   "prestador": "SAAE Formiga",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Formiga"
+   ],
+   "transcritos": [
+    "MG - Formiga"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 67,
+   "arquivo": "RES_367_2025_ARISB_MG_Revisao_Pirapora_corrigida.pdf",
+   "prestador": "SAAE Pirapora",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Pirapora"
+   ],
+   "transcritos": [
+    "MG - Pirapora"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 68,
+   "arquivo": "RES_373_2025_ARISB_MG_Revisão_Lagoa da Prata - assinada.pdf",
+   "prestador": "SAAE Lagoa da Prata",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Lagoa da Prata"
+   ],
+   "transcritos": [
+    "MG - Lagoa da Prata"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 69,
+   "arquivo": "RES_406_2026_ARISB_MG_Reajuste_Itabirito_assinada.pdf",
+   "prestador": "SAAE Itabirito",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Itabirito"
+   ],
+   "transcritos": [
+    "MG - Itabirito"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 70,
+   "arquivo": "SAAE - Lucas do Rio Verde - MT.html",
+   "prestador": "SAAE Lucas do Rio Verde",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "GO - Rio Verde",
+    "MT - Lucas do Rio Verde",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MT - Lucas do Rio Verde"
+   ],
+   "citados_nao_transcritos": [
+    "GO - Rio Verde",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 71,
+   "arquivo": "TARIFAS VIGENTES.html",
+   "prestador": "SAAE Nova Mutum",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Nova Mutum"
+   ],
+   "transcritos": [
+    "MT - Nova Mutum"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 72,
+   "arquivo": "Tabela de Tarifas _ SAAE Linhares.html",
+   "prestador": "SAAE Linhares",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "ES - Linhares",
+    "MG - São Francisco"
+   ],
+   "transcritos": [
+    "ES - Linhares"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "MG - São Francisco"
+   ]
+  },
+  {
+   "id": 73,
+   "arquivo": "tabela de tarifas-sabesp-geral.pdf",
+   "prestador": "SABESP",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "PA - Bragança",
+    "PE - Paulista",
+    "SP - Bragança Paulista",
+    "SP - Diadema",
+    "SP - Guarulhos",
+    "SP - Itapira",
+    "SP - Mogi das Cruzes",
+    "SP - Presidente Prudente",
+    "SP - Santo André",
+    "SP - São Caetano do Sul",
+    "SP - São Paulo"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "PA - Bragança",
+    "PE - Paulista",
+    "SP - Bragança Paulista",
+    "SP - Diadema",
+    "SP - Guarulhos",
+    "SP - Itapira",
+    "SP - Mogi das Cruzes",
+    "SP - Presidente Prudente",
+    "SP - Santo André",
+    "SP - São Caetano do Sul",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 74,
+   "arquivo": "115604-Resolução ARSAP nº 009-2026 de 30 de julho de 2026.pdf",
+   "prestador": "CSA Equatorial",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AP - Macapá",
+    "AP - Santana",
+    "PB - Santa Rita"
+   ],
+   "transcritos": [
+    "AP - Macapá",
+    "AP - Santana"
+   ],
+   "citados_nao_transcritos": [
+    "PB - Santa Rita"
+   ]
+  },
+  {
+   "id": 75,
+   "arquivo": "1754333350-resoluo_n_643_2025_-_reviso_tarifria_-_barretos.pdf",
+   "prestador": "SAAEB Barretos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Barretos",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Barretos"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 76,
+   "arquivo": "1759774558-resoluo_n_656_2025_-_reviso_tarifria_-_araraquara.pdf",
+   "prestador": "DAAE Araraquara",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Araraquara",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Araraquara"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 77,
+   "arquivo": "1760448426-resoluo_n_646_2025_-_reviso_tarifria_-_saae_so_carlos_assi.pdf",
+   "prestador": "SAAE São Carlos",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "SP - São Carlos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 78,
+   "arquivo": "1763579706-resoluo_n_663_2025_-_reviso_tarifria_-_atibaia.pdf",
+   "prestador": "SAAE Atibaia",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Atibaia",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Atibaia"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 79,
+   "arquivo": "1768419516-resoluo_n_681_2026_-_reviso_tarifria_-_rio_claro.pdf",
+   "prestador": "DAAE Rio Claro",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Rio Claro"
+   ],
+   "transcritos": [
+    "SP - Rio Claro"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 80,
+   "arquivo": "1777896808-resoluo_n_693_2026_-_reviso_tarifria_-_itu.pdf",
+   "prestador": "Companhia Ituana de Saneamento (CIS)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Itu"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 81,
+   "arquivo": "1778508605-resoluo_n_698_2026_-_reajuste_tarifrio_-_itapira.pdf",
+   "prestador": "SAAE Itapira",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Itapira",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Itapira"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 82,
+   "arquivo": "1780491027-resoluo_n_706_2026_-_reajuste_tarifrio_-_mogi_mirim.pdf",
+   "prestador": "SAAE Mogi Mirim",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Mogi Mirim",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Mogi Mirim"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 83,
+   "arquivo": "2293E805-0897-4386-B71A070178985E4F03032026112334 (1).pdf",
+   "prestador": "SAAEB Ambiental",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RJ - Resende",
+    "SP - Bebedouro",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Bebedouro"
+   ],
+   "citados_nao_transcritos": [
+    "RJ - Resende",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 84,
+   "arquivo": "CAER _ Serviços (item 84).html",
+   "prestador": "CAER",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 85,
+   "arquivo": "COPASA - ARSAE-MG.html",
+   "prestador": "COPASA",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "ES - Serra",
+    "MG - Belo Horizonte"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "ES - Serra",
+    "MG - Belo Horizonte"
+   ]
+  },
+  {
+   "id": 86,
+   "arquivo": "Decreto-Reajuste.pdf",
+   "prestador": "SAAEB Ambiental",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Bebedouro"
+   ],
+   "transcritos": [
+    "SP - Bebedouro"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 87,
+   "arquivo": "RES_368_2025_ARISB_MG_Revisao_Araguari_assinado.pdf",
+   "prestador": "SAE Araguari",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Araguari"
+   ],
+   "transcritos": [
+    "MG - Araguari"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 88,
+   "arquivo": "RES_371_2025_ARISB_MG_Reajuste_Ituiutaba - assinada.pdf",
+   "prestador": "SAE Ituiutaba",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "MG - Ituiutaba"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 89,
+   "arquivo": "Resolução_098_Fixação_Tarifas_SAAE_São_Mateus.pdf",
+   "prestador": "SAAE São Mateus",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - São Mateus",
+    "ES - Vitória",
+    "SC - Navegantes"
+   ],
+   "transcritos": [
+    "ES - São Mateus"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Vitória",
+    "SC - Navegantes"
+   ]
+  },
+  {
+   "id": 90,
+   "arquivo": "Resolução_103_Reajuste-SAAE-Aracruz.pdf",
+   "prestador": "SAAE Aracruz / CESAN conforme área",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - Aracruz",
+    "ES - Vitória",
+    "SC - Navegantes"
+   ],
+   "transcritos": [
+    "ES - Aracruz"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Vitória",
+    "SC - Navegantes"
+   ]
+  },
+  {
+   "id": 91,
+   "arquivo": "Tabela de Tarifas - 03-03-2026.pdf",
+   "prestador": "SAAE Sete Lagoas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Sete Lagoas"
+   ],
+   "transcritos": [
+    "MG - Sete Lagoas"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 92,
+   "arquivo": "Tabela de tarifas de água tem novo valor após três anos sem reajuste (item 92).html",
+   "prestador": "CAEMA",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "MA - São Luís"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "MA - São Luís"
+   ]
+  },
+  {
+   "id": 93,
+   "arquivo": "Tabela-Tarifria-Compesa-Reajuste-Maro-2023-para-Site.pdf",
+   "prestador": "COMPESA",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "PE - Recife"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "PE - Recife"
+   ]
+  },
+  {
+   "id": 94,
+   "arquivo": "Tabelas-de-Tarifas-Vigentes-Setembro-de-2026.pdf",
+   "prestador": "SAAEB Barretos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Barretos"
+   ],
+   "transcritos": [
+    "SP - Barretos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 95,
+   "arquivo": "Tarifa_Novembro_2023.pdf",
+   "prestador": "COSANPA",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "PA - Belém"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "PA - Belém"
+   ]
+  },
+  {
+   "id": 96,
+   "arquivo": "conteudos-uwbca.pdf",
+   "prestador": "Águas do Rio / Iguá / Rio+ Saneamento",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "RJ - Rio de Janeiro"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "RJ - Rio de Janeiro"
+   ]
+  },
+  {
+   "id": 97,
+   "arquivo": "resolucao-ares-727-2026 (1).pdf",
+   "prestador": "SAEAN Artur Nogueira",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Artur Nogueira",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Artur Nogueira"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 98,
+   "arquivo": "tabela_tarifaria_CAEMA.jpg",
+   "prestador": "CAEMA",
+   "situacao": "consultado",
+   "leitura": "imagem: lida visualmente",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 99,
+   "arquivo": "Águas do Rio - Legislação e Tarifas.html",
+   "prestador": "Águas do Rio",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ]
+  },
+  {
+   "id": 100,
+   "arquivo": "AguasCuiaba_comunicado_reajuste_2025.pdf",
+   "prestador": "Águas Cuiabá (Iguá)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Cuiabá",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MT - Cuiabá"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 101,
+   "arquivo": "AguasDaImperatriz_Deliberacao_AGENERSA_4995_2026.pdf",
+   "prestador": "Águas da Imperatriz",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MA - Imperatriz"
+   ],
+   "transcritos": [
+    "RJ - Teresópolis"
+   ],
+   "citados_nao_transcritos": [
+    "MA - Imperatriz"
+   ]
+  },
+  {
+   "id": 102,
+   "arquivo": "AguasDeJuturnaiba_Deliberacao_AGENERSA_4980_2025.pdf",
+   "prestador": "Águas de Juturnaíba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RJ - Araruama"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 103,
+   "arquivo": "AguasDeManaus_legislacao_e_tarifas.html",
+   "prestador": "Águas de Manaus",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AM - Manaus",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "AM - Manaus"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 104,
+   "arquivo": "aguas_de_matao_ARESPCJ_resoluo_n_665_2025_-_reajuste_tarifrio_-_guas_de_mato.pdf",
+   "prestador": "Águas de Matão",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Matão",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Matão"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 105,
+   "arquivo": "aguas_de_valadares_legislacao_e_tarifas_2026.html",
+   "prestador": "Águas de Valadares (Aegea)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Governador Valadares",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MG - Governador Valadares"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 106,
+   "arquivo": "aguas_de_votorantim_ARESPCJ_resoluo_n_716_2026_-_reajuste_tarifrio_-_votorantim.pdf",
+   "prestador": "Águas de Votorantim",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro",
+    "SP - Votorantim"
+   ],
+   "transcritos": [
+    "SP - Votorantim"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 107,
+   "arquivo": "AguasDoRio_AGENERSA_Anexo-VII_Estrutura_Tarifaria.pdf",
+   "prestador": "Águas do Rio",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AM - Humaitá",
+    "BA - Barra",
+    "CE - Horizonte",
+    "MA - Caxias",
+    "MA - Grajaú",
+    "MG - Muriaé",
+    "PE - Palmares",
+    "RJ - Itaboraí",
+    "RJ - Itaguaí",
+    "RJ - Itaperuna",
+    "RJ - Japeri",
+    "RJ - Macaé",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Seropédica",
+    "RJ - Teresópolis",
+    "RJ - Valença",
+    "RS - Taquara",
+    "SC - São José",
+    "SP - Piedade",
+    "SP - Rio Claro",
+    "SP - Santos",
+    "SP - Sumaré"
+   ],
+   "transcritos": [
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Magé",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti"
+   ],
+   "citados_nao_transcritos": [
+    "AM - Humaitá",
+    "BA - Barra",
+    "CE - Horizonte",
+    "MA - Caxias",
+    "MA - Grajaú",
+    "MG - Muriaé",
+    "PE - Palmares",
+    "RJ - Itaguaí",
+    "RJ - Itaperuna",
+    "RJ - Macaé",
+    "RJ - Seropédica",
+    "RJ - Teresópolis",
+    "RJ - Valença",
+    "RS - Taquara",
+    "SC - São José",
+    "SP - Piedade",
+    "SP - Rio Claro",
+    "SP - Santos",
+    "SP - Sumaré"
+   ]
+  },
+  {
+   "id": 108,
+   "arquivo": "AguasDoRio_Bloco1_AGENERSA_Reajuste2025_dez2025.pdf",
+   "prestador": "Águas do Rio",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 109,
+   "arquivo": "AguasDoRio_Bloco4_AGENERSA_Reajuste2025_dez2025.pdf",
+   "prestador": "Águas do Rio",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 110,
+   "arquivo": "Igua_AGENERSA_Reajuste2025_dez2025.pdf",
+   "prestador": "Águas do Rio / Iguá / Rio+ Saneamento",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 111,
+   "arquivo": "AguasGuariroba_legislacao_e_tarifas.html",
+   "prestador": "Águas Guariroba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MS - Campo Grande",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MS - Campo Grande"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 112,
+   "arquivo": "CEDAE_AGENERSA_Reajuste2025_jan2026.pdf",
+   "prestador": "CEDAE/serviço local – validar área",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RJ - Rio de Janeiro"
+   ],
+   "transcritos": [
+    "RJ - Barra do Piraí",
+    "RJ - Itaperuna",
+    "RJ - Macaé"
+   ],
+   "citados_nao_transcritos": [
+    "RJ - Rio de Janeiro"
+   ]
+  },
+  {
+   "id": 113,
+   "arquivo": "cesama_resolucao_arisb_395_2026.pdf",
+   "prestador": "CESAMA Juiz de Fora",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Juiz de Fora"
+   ],
+   "transcritos": [
+    "MG - Juiz de Fora"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 114,
+   "arquivo": "coden_nova_odessa_ARESPCJ_resolucao_n_612_2025_-_reajuste_tarifrio_-_nova_odessa.pdf",
+   "prestador": "CODEN Nova Odessa",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Nova Odessa",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Nova Odessa"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 115,
+   "arquivo": "copasa_resolucao_arsae_217_2025.pdf",
+   "prestador": "COPASA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "MG - Belo Horizonte"
+   ],
+   "transcritos": [
+    "MG - Alfenas",
+    "MG - Araxá",
+    "MG - Barbacena",
+    "MG - Belo Horizonte",
+    "MG - Betim",
+    "MG - Bom Despacho",
+    "MG - Campo Belo",
+    "MG - Caratinga",
+    "MG - Cataguases",
+    "MG - Congonhas",
+    "MG - Conselheiro Lafaiete",
+    "MG - Contagem",
+    "MG - Coronel Fabriciano",
+    "MG - Curvelo",
+    "MG - Divinópolis",
+    "MG - Esmeraldas",
+    "MG - Extrema",
+    "MG - Frutal",
+    "MG - Guaxupé",
+    "MG - Ibirité",
+    "MG - Ipatinga",
+    "MG - Itajubá",
+    "MG - Itaúna",
+    "MG - Janaúba",
+    "MG - Januária",
+    "MG - João Monlevade",
+    "MG - Lagoa Santa",
+    "MG - Lavras",
+    "MG - Leopoldina",
+    "MG - Nova Lima",
+    "MG - Nova Serrana",
+    "MG - Paracatu",
+    "MG - Patos de Minas",
+    "MG - Pedro Leopoldo",
+    "MG - Pouso Alegre",
+    "MG - Ribeirão das Neves",
+    "MG - Sabará",
+    "MG - São Francisco",
+    "MG - São Sebastião do Paraíso",
+    "MG - Teófilo Otoni",
+    "MG - Timóteo",
+    "MG - Três Corações",
+    "MG - Ubá",
+    "MG - Unaí",
+    "MG - Varginha",
+    "MG - Vespasiano"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília"
+   ]
+  },
+  {
+   "id": 116,
+   "arquivo": "copasa_resolucao_arsae_217_2025_anexo_III.pdf",
+   "prestador": "COPASA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - Serra",
+    "MG - Belo Horizonte",
+    "MG - Contagem",
+    "PE - Gravatá",
+    "PR - Castro",
+    "RJ - Rio de Janeiro",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MG - Alfenas",
+    "MG - Araxá",
+    "MG - Barbacena",
+    "MG - Belo Horizonte",
+    "MG - Betim",
+    "MG - Bom Despacho",
+    "MG - Campo Belo",
+    "MG - Caratinga",
+    "MG - Cataguases",
+    "MG - Congonhas",
+    "MG - Conselheiro Lafaiete",
+    "MG - Contagem",
+    "MG - Coronel Fabriciano",
+    "MG - Curvelo",
+    "MG - Divinópolis",
+    "MG - Esmeraldas",
+    "MG - Extrema",
+    "MG - Frutal",
+    "MG - Guaxupé",
+    "MG - Ibirité",
+    "MG - Ipatinga",
+    "MG - Itajubá",
+    "MG - Itaúna",
+    "MG - Janaúba",
+    "MG - Januária",
+    "MG - João Monlevade",
+    "MG - Lagoa Santa",
+    "MG - Lavras",
+    "MG - Leopoldina",
+    "MG - Nova Lima",
+    "MG - Nova Serrana",
+    "MG - Paracatu",
+    "MG - Patos de Minas",
+    "MG - Pedro Leopoldo",
+    "MG - Pouso Alegre",
+    "MG - Ribeirão das Neves",
+    "MG - Sabará",
+    "MG - São Francisco",
+    "MG - São Sebastião do Paraíso",
+    "MG - Teófilo Otoni",
+    "MG - Timóteo",
+    "MG - Três Corações",
+    "MG - Ubá",
+    "MG - Unaí",
+    "MG - Varginha",
+    "MG - Vespasiano"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Serra",
+    "PE - Gravatá",
+    "PR - Castro",
+    "RJ - Rio de Janeiro",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 117,
+   "arquivo": "AguasDoPara_legislacao-e-tarifas.html",
+   "prestador": "COSANPA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PA - Ananindeua",
+    "PA - Belém",
+    "PA - Marituba"
+   ],
+   "transcritos": [
+    "PA - Ananindeua",
+    "PA - Belém",
+    "PA - Marituba"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 118,
+   "arquivo": "dae_jundiai_ARESPCJ_resoluo_n_664_2025_-_reajuste_tarifrio_-_jundia.pdf",
+   "prestador": "DAE Jundiaí",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Jundiaí"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 119,
+   "arquivo": "dae_santa_barbara_d_oeste_ARESPCJ_resoluo_arespcj_655_-_reviso_sbo.pdf",
+   "prestador": "DAE Santa Bárbara d'Oeste",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Santa Bárbara d'Oeste"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 120,
+   "arquivo": "DMAE_Decreto_23639_2026_preco_basico.pdf",
+   "prestador": "DMAE Porto Alegre",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Porto Alegre"
+   ],
+   "transcritos": [
+    "RS - Porto Alegre"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 121,
+   "arquivo": "DMAE_entenda_a_conta.html",
+   "prestador": "DMAE Porto Alegre",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "RS - Porto Alegre"
+   ],
+   "transcritos": [
+    "RS - Porto Alegre"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília"
+   ]
+  },
+  {
+   "id": 122,
+   "arquivo": "prefeitura_de_cosmopolis_ARESPCJ_resoluo_n_623_2025_-_reviso_tarifria_-_cosmpolis.pdf",
+   "prestador": "Prefeitura de Cosmópolis",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Cosmópolis",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Cosmópolis"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 123,
+   "arquivo": "RioMaisSaneamento_AGENERSA_Reajuste2025_dez2025.pdf",
+   "prestador": "Rio+ Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RJ - Itaguaí",
+    "RJ - Rio das Ostras",
+    "RJ - Seropédica"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 124,
+   "arquivo": "saaeja_ARESPCJ_resoluo_n_696_2026_-_reviso_tarifria_-_saaeja_jaguarina.pdf",
+   "prestador": "SAAEJA",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jaguariúna",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Jaguariúna"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 125,
+   "arquivo": "saae_amparo_ARESPCJ_resoluo_n_697_2026_-_reajuste_tarifrio_-_amparo.pdf",
+   "prestador": "SAAE Amparo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Amparo",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Amparo"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 126,
+   "arquivo": "saae_capivari_ARESPCJ_resoluo_n_704_2026_-_reajuste_tarifrio_-_saae_capivari_errata.pdf",
+   "prestador": "SAAE Capivari",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Capivari"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 127,
+   "arquivo": "saae_formiga_resolucao_arisb_420_2026.pdf",
+   "prestador": "SAAE Formiga",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Formiga"
+   ],
+   "transcritos": [
+    "MG - Formiga"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 128,
+   "arquivo": "saae_indaiatuba_ARESPCJ_resoluo_n_699_2026_-_reviso_tarifria_-_indaiatuba.pdf",
+   "prestador": "SAAE Indaiatuba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Indaiatuba",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Indaiatuba"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 129,
+   "arquivo": "saae_itabira_resolucao_arisb_392_2026.pdf",
+   "prestador": "SAAE Itabira",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Itabira"
+   ],
+   "transcritos": [
+    "MG - Itabira"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 130,
+   "arquivo": "saae_jaboticabal_ARESPCJ_resoluo_n_713_2026_-_reviso_tarifria_-_jaboticabal.pdf",
+   "prestador": "SAAE Jaboticabal",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jaboticabal",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Jaboticabal"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 131,
+   "arquivo": "saae_passos_resolucao_arisb_401_2026.pdf",
+   "prestador": "SAAE Passos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Passos"
+   ],
+   "transcritos": [
+    "MG - Passos"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 132,
+   "arquivo": "saae_porto_feliz_ARESPCJ_resoluo_n_631_2025_-_reviso_tarifria_-_porto_feliz.pdf",
+   "prestador": "SAAE Porto Feliz",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Porto Feliz"
+   ],
+   "transcritos": [
+    "SP - Porto Feliz"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 133,
+   "arquivo": "saae_salto_ARESPCJ_resoluo_n_658_2025_-_revisotarifria_-_saae_salto_vret.pdf",
+   "prestador": "SAAE Salto",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Salto"
+   ],
+   "transcritos": [
+    "SP - Salto"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 134,
+   "arquivo": "saae_sao_carlos_ARESPCJ_resoluo_n_724_2026_-_reajuste_tarifrio_-_so_carlos.pdf",
+   "prestador": "SAAE São Carlos",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - São Carlos"
+   ],
+   "transcritos": [
+    "SP - São Carlos"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 135,
+   "arquivo": "saae_sorocaba_ARESPCJ_resoluo_n_703_2026_-_reajuste_tarifrio_-_sorocaba.pdf",
+   "prestador": "SAAE Sorocaba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Sorocaba"
+   ],
+   "transcritos": [
+    "SP - Sorocaba"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 136,
+   "arquivo": "sabesp_ARESPCJ_resoluo_n_659_2025_-_reajuste_e_reviso_tarifria_-_sabesp_olmpia_v3.pdf",
+   "prestador": "SABESP",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Olímpia",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Olímpia"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 137,
+   "arquivo": "saecil_leme_ARESPCJ_resoluo_n_680_2025_-_reajuste_tarifrio_-_leme_c.pdf",
+   "prestador": "SAECIL Leme",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Leme"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 138,
+   "arquivo": "saec_catanduva_ARESPCJ_resolucao_n_677_2025_-_reviso_tarifaria_-_saec_catanduva.pdf",
+   "prestador": "SAEC Catanduva",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Catanduva",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Catanduva"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 139,
+   "arquivo": "saeg_Deliberacao_ARSESP_1773_2026_Guaratingueta.pdf",
+   "prestador": "SAEG",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SE - Estância",
+    "SP - Guaratinguetá",
+    "SP - Registro",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Guaratinguetá"
+   ],
+   "citados_nao_transcritos": [
+    "SE - Estância",
+    "SP - Registro",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 140,
+   "arquivo": "saeg_NT_ARSESP_Reajuste_2026_Guaratingueta.pdf",
+   "prestador": "SAEG",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SP - Guaratinguetá",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Guaratinguetá"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 141,
+   "arquivo": "saemas_sertaozinho_ARESPCJ_resoluo_n_678_2025_-_reajuste_tarifrio_-_sertozinho.pdf",
+   "prestador": "SAEMAS Sertãozinho",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Sertãozinho"
+   ],
+   "transcritos": [
+    "SP - Sertãozinho"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 142,
+   "arquivo": "saema_araras_ARESPCJ_resoluo_n_662_2025_-_reajuste_tarifrio_-_araras.pdf",
+   "prestador": "SAEMA Araras",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Araras",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Araras"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 143,
+   "arquivo": "saep_pirassununga_ARESPCJ_resoluo_n_695_2026_-_reajuste_tarifrio_-_pirassununga.pdf",
+   "prestador": "SAEP Pirassununga",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Pirassununga",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SP - Pirassununga"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 144,
+   "arquivo": "saerp_ribeirao_preto_ARESPCJ_resoluo_n_690_2026_-_reviso_tarifria_-_ribeiro_preto_retificada.pdf",
+   "prestador": "SAERP Ribeirão Preto",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Ribeirão Preto"
+   ],
+   "transcritos": [
+    "SP - Ribeirão Preto"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 145,
+   "arquivo": "saerp_sao_jose_do_rio_pardo_ARESPCJ_resoluo_n_694_2026_-_reajuste_tarifrio_-_so_jos_do_rio_pardo.pdf",
+   "prestador": "SAERP São José do Rio Pardo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - São José",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro",
+    "SP - São José do Rio Pardo"
+   ],
+   "transcritos": [
+    "SP - São José do Rio Pardo"
+   ],
+   "citados_nao_transcritos": [
+    "SC - São José",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 146,
+   "arquivo": "sae_louveira_ARESPCJ_resoluo_n_687_2026_-_reviso_tarifria_-_louveira.pdf",
+   "prestador": "SAE Louveira",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Louveira",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Louveira"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 147,
+   "arquivo": "samae_mogi_guacu_ARESPCJ_resoluo_n_686_2026_-_reajuste_tarifrio_-_mogi_guau.pdf",
+   "prestador": "SAMAE Mogi Guaçu",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Mogi Guaçu",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Mogi Guaçu"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 148,
+   "arquivo": "sanasa_campinas_ARESPCJ_resoluo_n_679_2025_-_reajuste_tarifrio_-_campinas.pdf",
+   "prestador": "SANASA Campinas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Campinas"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 149,
+   "arquivo": "saneaqua_Deliberacao_ARSESP_1787_2026_Mairinque.pdf",
+   "prestador": "Saneaqua",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Mairinque",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Mairinque"
+   ],
+   "citados_nao_transcritos": [
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 150,
+   "arquivo": "saneaqua_NT_ARSESP_Reajuste_2026_Mairinque.pdf",
+   "prestador": "Saneaqua",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SP - Mairinque",
+    "SP - São Paulo"
+   ],
+   "transcritos": [
+    "SP - Mairinque"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 151,
+   "arquivo": "sanebavi_vinhedo_ARESPCJ_resoluo_n_710_2026_-_reviso_tarifria_-_vinhedo.pdf",
+   "prestador": "SANEBAVI Vinhedo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - Vinhedo"
+   ],
+   "transcritos": [
+    "SP - Vinhedo"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 152,
+   "arquivo": "saneouro_resolucao_arisb_369_2025.pdf",
+   "prestador": "Saneouro",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Ouro Preto",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MG - Ouro Preto"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 153,
+   "arquivo": "saneouro_resolucao_arisb_409_2026_retificacao.pdf",
+   "prestador": "Saneouro",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MG - Ouro Preto"
+   ],
+   "transcritos": [
+    "MG - Ouro Preto"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 154,
+   "arquivo": "semae_mogi_das_cruzes_ARESPCJ_resoluo_n_731_2026_-_reviso_tarifria_-_mogi_das_cruzes.pdf",
+   "prestador": "SEMAE Mogi das Cruzes",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Mogi das Cruzes",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Mogi das Cruzes"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 155,
+   "arquivo": "semae_piracicaba_ARESPCJ_resoluo_n_719_2026_-_reajuste_tarifrio_-_piracicaba.pdf",
+   "prestador": "SEMAE Piracicaba",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [
+    "SP - Piracicaba"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí"
+   ]
+  },
+  {
+   "id": 156,
+   "arquivo": "semae_piracicaba_ARESPCJ_resoluo_n_720_2026_-_reviso_extraordinria_-_piracicaba.pdf",
+   "prestador": "SEMAE Piracicaba",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 157,
+   "arquivo": "semae_rio_preto_ARESPCJ_resoluo_n_715_2026_-_reajuste_tarifrio_-_so_jos_do_rio_preto.pdf",
+   "prestador": "SeMAE Rio Preto",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - São José",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba",
+    "SP - São José do Rio Preto"
+   ],
+   "transcritos": [
+    "SP - São José do Rio Preto"
+   ],
+   "citados_nao_transcritos": [
+    "SC - São José",
+    "SP - Capivari",
+    "SP - Jundiaí",
+    "SP - Piracicaba"
+   ]
+  },
+  {
+   "id": 158,
+   "arquivo": "AguasDoRio.html",
+   "prestador": "Águas do Rio",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ],
+   "transcritos": [
+    "RJ - Belford Roxo",
+    "RJ - Cachoeiras de Macacu",
+    "RJ - Duque de Caxias",
+    "RJ - Itaboraí",
+    "RJ - Japeri",
+    "RJ - Magé",
+    "RJ - Maricá",
+    "RJ - Mesquita",
+    "RJ - Nilópolis",
+    "RJ - Nova Iguaçu",
+    "RJ - Queimados",
+    "RJ - Rio Bonito",
+    "RJ - Rio de Janeiro",
+    "RJ - Saquarema",
+    "RJ - São Gonçalo",
+    "RJ - São João de Meriti"
+   ],
+   "citados_nao_transcritos": [
+    "AM - Humaitá",
+    "MA - Grajaú",
+    "MG - São Francisco",
+    "RR - Boa Vista",
+    "SE - São Cristóvão",
+    "SP - Piedade",
+    "SP - Santos",
+    "SP - São Sebastião"
+   ]
+  },
+  {
+   "id": 159,
+   "arquivo": "Estrutura tarifária - Rio+ Saneamento.html",
+   "prestador": "Rio+ Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MA - Imperatriz",
+    "MG - Pará de Minas",
+    "RJ - Niterói",
+    "RJ - Rio de Janeiro",
+    "SP - Votorantim"
+   ],
+   "transcritos": [
+    "RJ - Itaguaí",
+    "RJ - Rio das Ostras",
+    "RJ - Seropédica"
+   ],
+   "citados_nao_transcritos": [
+    "MA - Imperatriz",
+    "MG - Pará de Minas",
+    "RJ - Niterói",
+    "RJ - Rio de Janeiro",
+    "SP - Votorantim"
+   ]
+  },
+  {
+   "id": 160,
+   "arquivo": "Tarifas_Cosanpa_Santarém.jpg",
+   "prestador": "COSANPA",
+   "situacao": "consultado",
+   "leitura": "imagem: lida visualmente",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 161,
+   "arquivo": "aguas de barra do garcas.html",
+   "prestador": "Águas de Barra do Garças (Aegea)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "MT - Barra do Garças",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "MT - Barra do Garças"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 162,
+   "arquivo": "e2bafe_1bac7349bef64b79b740e111a6c2bc36.pdf",
+   "prestador": "Águas Alta Floresta / Norte Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Alta Floresta"
+   ],
+   "transcritos": [
+    "MT - Alta Floresta"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 163,
+   "arquivo": "historico-de-tarifas-70cbv.pdf",
+   "prestador": "Iguá Castilho",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 164,
+   "arquivo": "resolucao-n-001.2026-reajuste-tarifario.pdf",
+   "prestador": "CAERN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RN - Natal"
+   ],
+   "transcritos": [
+    "RN - Natal"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 165,
+   "arquivo": "14.pdf",
+   "prestador": "Águas do Pantanal (autarquia municipal)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Cuiabá",
+    "MT - Cáceres",
+    "SP - Franca"
+   ],
+   "transcritos": [
+    "MT - Cáceres"
+   ],
+   "citados_nao_transcritos": [
+    "MT - Cuiabá",
+    "SP - Franca"
+   ]
+  },
+  {
+   "id": 166,
+   "arquivo": "487.pdf",
+   "prestador": "Águas do Pantanal (autarquia municipal)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Barra do Garças",
+    "MT - Cuiabá",
+    "MT - Cáceres"
+   ],
+   "transcritos": [
+    "MT - Cáceres"
+   ],
+   "citados_nao_transcritos": [
+    "MT - Barra do Garças",
+    "MT - Cuiabá"
+   ]
+  },
+  {
+   "id": 167,
+   "arquivo": "dedc-4336-bf74-122229e030e6.pdf",
+   "prestador": "SAMAE Caxias do Sul",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Caxias do Sul"
+   ],
+   "transcritos": [
+    "RS - Caxias do Sul"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 168,
+   "arquivo": "SAMAE - Blumenau.html",
+   "prestador": "SAMAE Blumenau / BRK Ambiental Blumenau",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Blumenau",
+    "SC - Itajaí",
+    "SP - Salto"
+   ],
+   "transcritos": [
+    "SC - Blumenau"
+   ],
+   "citados_nao_transcritos": [
+    "SC - Itajaí",
+    "SP - Salto"
+   ]
+  },
+  {
+   "id": 169,
+   "arquivo": "SAMAE GASPAR _ Serviço Autônomo Municipal de Água e Esgoto.html",
+   "prestador": "SAMAE Gaspar",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Gaspar"
+   ],
+   "transcritos": [
+    "SC - Gaspar"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 170,
+   "arquivo": "SEMASA _ Tabela tarifária.html",
+   "prestador": "SEMASA Itajaí",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Itajaí"
+   ],
+   "transcritos": [
+    "SC - Itajaí"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 171,
+   "arquivo": "Semasa Lages⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀.html",
+   "prestador": "SEMASA Lages",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Lages"
+   ],
+   "transcritos": [
+    "SC - Lages"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 172,
+   "arquivo": "Tabela de Tarifas Água e Esgoto - Samae - Jaraguá do Sul.html",
+   "prestador": "SAMAE Jaraguá do Sul",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Jaraguá do Sul"
+   ],
+   "transcritos": [
+    "SC - Jaraguá do Sul"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 173,
+   "arquivo": "Tabela-Tarifaria-298-municipios_2026-x.pdf",
+   "prestador": "CORSAN",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "AC - Cruzeiro do Sul",
+    "AM - Humaitá",
+    "AP - Santana",
+    "BA - Barra",
+    "BA - Salvador",
+    "CE - Fortaleza",
+    "ES - Serra",
+    "ES - Vitória",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MA - Viana",
+    "MG - Lavras",
+    "MG - Mariana",
+    "MG - Passos",
+    "MG - São Francisco",
+    "PE - Palmares",
+    "PR - Sarandi",
+    "RJ - Petrópolis",
+    "RR - Boa Vista",
+    "RS - Alegrete",
+    "RS - Alvorada",
+    "RS - Bento Gonçalves",
+    "RS - Cachoeira do Sul",
+    "RS - Cachoeirinha",
+    "RS - Camaquã",
+    "RS - Capão da Canoa",
+    "RS - Carazinho",
+    "RS - Cruz Alta",
+    "RS - Farroupilha",
+    "RS - Gravataí",
+    "RS - Guaíba",
+    "RS - Lajeado",
+    "RS - Montenegro",
+    "RS - Passo Fundo",
+    "RS - Rio Grande",
+    "RS - Santa Maria",
+    "RS - Santa Rosa",
+    "RS - Santo Ângelo",
+    "RS - São Borja",
+    "RS - Taquara",
+    "RS - Vacaria",
+    "RS - Venâncio Aires",
+    "RS - Viamão",
+    "SC - São José",
+    "SP - Assis",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Caçapava",
+    "SP - Itatiba",
+    "SP - Salto",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "AC - Cruzeiro do Sul",
+    "AM - Humaitá",
+    "AP - Santana",
+    "BA - Barra",
+    "BA - Salvador",
+    "CE - Fortaleza",
+    "ES - Serra",
+    "ES - Vitória",
+    "GO - Trindade",
+    "MA - Pinheiro",
+    "MA - Viana",
+    "MG - Lavras",
+    "MG - Mariana",
+    "MG - Passos",
+    "MG - São Francisco",
+    "PE - Palmares",
+    "PR - Sarandi",
+    "RJ - Petrópolis",
+    "RR - Boa Vista",
+    "RS - Alegrete",
+    "RS - Alvorada",
+    "RS - Bento Gonçalves",
+    "RS - Cachoeira do Sul",
+    "RS - Cachoeirinha",
+    "RS - Camaquã",
+    "RS - Capão da Canoa",
+    "RS - Carazinho",
+    "RS - Cruz Alta",
+    "RS - Farroupilha",
+    "RS - Gravataí",
+    "RS - Guaíba",
+    "RS - Lajeado",
+    "RS - Montenegro",
+    "RS - Passo Fundo",
+    "RS - Rio Grande",
+    "RS - Santa Maria",
+    "RS - Santa Rosa",
+    "RS - Santo Ângelo",
+    "RS - São Borja",
+    "RS - Taquara",
+    "RS - Vacaria",
+    "RS - Venâncio Aires",
+    "RS - Viamão",
+    "SC - São José",
+    "SP - Assis",
+    "SP - Campinas",
+    "SP - Capivari",
+    "SP - Caçapava",
+    "SP - Itatiba",
+    "SP - Salto",
+    "SP - São Sebastião",
+    "SP - São Vicente"
+   ]
+  },
+  {
+   "id": 174,
+   "arquivo": "Taxas de Consumo - RIC Ambiental.html",
+   "prestador": "RIC Ambiental",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AC - Rio Branco",
+    "SP - Marília"
+   ],
+   "transcritos": [
+    "SP - Marília"
+   ],
+   "citados_nao_transcritos": [
+    "AC - Rio Branco"
+   ]
+  },
+  {
+   "id": 175,
+   "arquivo": "e4ec53825f3073f59ac90291977bea60.pdf",
+   "prestador": "SANEP Pelotas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Pelotas"
+   ],
+   "transcritos": [
+    "RS - Pelotas"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 176,
+   "arquivo": "Águas de Primavera.html",
+   "prestador": "Águas de Primavera (Aegea)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "BA - Barra",
+    "MT - Primavera do Leste"
+   ],
+   "transcritos": [
+    "MT - Primavera do Leste"
+   ],
+   "citados_nao_transcritos": [
+    "BA - Barra"
+   ]
+  },
+  {
+   "id": 177,
+   "arquivo": "Águas de Sinop.html",
+   "prestador": "Águas de Sinop (Aegea)",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Sinop",
+    "MT - Sorriso"
+   ],
+   "transcritos": [
+    "MT - Sinop"
+   ],
+   "citados_nao_transcritos": [
+    "MT - Sorriso"
+   ]
+  },
+  {
+   "id": 178,
+   "arquivo": "tabela_aprovada_06085022.pdf",
+   "prestador": "DAEP Penápolis",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "SP - Penápolis"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 179,
+   "arquivo": "_ResoluçãoARSP094_2025.pdf",
+   "prestador": "SANEAR Colatina",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "ES - Colatina",
+    "ES - Vitória",
+    "SC - Navegantes",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "ES - Colatina"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "ES - Vitória",
+    "SC - Navegantes",
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 180,
+   "arquivo": "aguas_de_sorriso_legislacao_e_tarifas.html",
+   "prestador": "Águas de Sorriso",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "MT - Sorriso"
+   ],
+   "transcritos": [
+    "MT - Sorriso"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 181,
+   "arquivo": "aguas_de_teresina_legislacao_e_tarifas.html",
+   "prestador": "Águas de Teresina",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "PI - Teresina",
+    "SP - Santos"
+   ],
+   "transcritos": [
+    "PI - Teresina"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Santos"
+   ]
+  },
+  {
+   "id": 182,
+   "arquivo": "aguas_pontes_e_lacerda_comunicados.html",
+   "prestador": "Águas Pontes e Lacerda / Norte Saneamento",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "CE - Horizonte",
+    "ES - Serra",
+    "MT - Pontes e Lacerda",
+    "RS - Rio Grande",
+    "SC - São José",
+    "SP - Araras"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "CE - Horizonte",
+    "ES - Serra",
+    "MT - Pontes e Lacerda",
+    "RS - Rio Grande",
+    "SC - São José",
+    "SP - Araras"
+   ]
+  },
+  {
+   "id": 183,
+   "arquivo": "aguas_pontes_e_lacerda_tarifas.html",
+   "prestador": "Águas Pontes e Lacerda / Norte Saneamento",
+   "situacao": "descartado",
+   "leitura": "texto",
+   "citados": [
+    "MT - Sorriso"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "MT - Sorriso"
+   ]
+  },
+  {
+   "id": 184,
+   "arquivo": "brk_blumenau_estrutura_tarifaria_2026.jpg",
+   "prestador": "SAMAE Blumenau / BRK Ambiental Blumenau",
+   "situacao": "transcrito",
+   "leitura": "imagem: lida visualmente",
+   "citados": [],
+   "transcritos": [
+    "SC - Blumenau"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 185,
+   "arquivo": "brk_blumenau_estrutura_tarifaria_esgoto.html",
+   "prestador": "SAMAE Blumenau / BRK Ambiental Blumenau",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "SC - Blumenau"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "SC - Blumenau"
+   ]
+  },
+  {
+   "id": 186,
+   "arquivo": "comusa_sistema_tarifario.html",
+   "prestador": "COMUSA Novo Hamburgo",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "RS - Novo Hamburgo",
+    "RS - Rio Grande"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "RS - Novo Hamburgo",
+    "RS - Rio Grande"
+   ]
+  },
+  {
+   "id": 187,
+   "arquivo": "comusa_tarifas_2026_parcela2.pdf",
+   "prestador": "COMUSA Novo Hamburgo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Novo Hamburgo"
+   ],
+   "transcritos": [
+    "RS - Novo Hamburgo"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 188,
+   "arquivo": "dmae_porto_alegre_lei_complementar_170_1987.html",
+   "prestador": "DMAE Porto Alegre",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Porto Alegre",
+    "RS - Rio Grande"
+   ],
+   "transcritos": [
+    "RS - Porto Alegre"
+   ],
+   "citados_nao_transcritos": [
+    "RS - Rio Grande"
+   ]
+  },
+  {
+   "id": 189,
+   "arquivo": "saae_nova_mutum_decreto_105_2026.pdf",
+   "prestador": "SAAE Nova Mutum",
+   "situacao": "transcrito",
+   "leitura": "sem texto extraível (digitalizado?)",
+   "citados": [],
+   "transcritos": [
+    "MT - Nova Mutum"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 190,
+   "arquivo": "samae_brusque_reajuste_2026.html",
+   "prestador": "SAMAE Brusque",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - Brusque"
+   ],
+   "transcritos": [
+    "SC - Brusque"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília"
+   ]
+  },
+  {
+   "id": 191,
+   "arquivo": "samae_brusque_tarifas_2026.html",
+   "prestador": "SAMAE Brusque",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Brusque",
+    "SC - Itajaí"
+   ],
+   "transcritos": [
+    "SC - Brusque"
+   ],
+   "citados_nao_transcritos": [
+    "SC - Itajaí"
+   ]
+  },
+  {
+   "id": 192,
+   "arquivo": "samae_gaspar_20240703153835.pdf",
+   "prestador": "SAMAE Gaspar",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Gaspar"
+   ],
+   "transcritos": [
+    "SC - Gaspar"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 193,
+   "arquivo": "samae_sao_bento_do_sul_comercial.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul",
+    "SP - Registro"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SC - São Bento do Sul",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 194,
+   "arquivo": "semae_sao_leopoldo_sistema_tarifario.html",
+   "prestador": "SEMAE São Leopoldo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Rio Grande",
+    "RS - São Leopoldo"
+   ],
+   "transcritos": [
+    "RS - São Leopoldo"
+   ],
+   "citados_nao_transcritos": [
+    "RS - Rio Grande"
+   ]
+  },
+  {
+   "id": 195,
+   "arquivo": "tubarao_saneamento_tabela_tarifaria.html",
+   "prestador": "Tubarão Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Tubarão",
+    "SP - Capivari"
+   ],
+   "transcritos": [
+    "SC - Tubarão"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Capivari"
+   ]
+  },
+  {
+   "id": 196,
+   "arquivo": "comusa_resolucao_agesan_csr_046_2025.pdf",
+   "prestador": "COMUSA Novo Hamburgo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Novo Hamburgo",
+    "RS - Porto Alegre"
+   ],
+   "transcritos": [
+    "RS - Novo Hamburgo"
+   ],
+   "citados_nao_transcritos": [
+    "RS - Porto Alegre"
+   ]
+  },
+  {
+   "id": 197,
+   "arquivo": "comusa_tabela_de_exponenciais.html",
+   "prestador": "COMUSA Novo Hamburgo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "RS - Novo Hamburgo",
+    "RS - Rio Grande"
+   ],
+   "transcritos": [
+    "RS - Novo Hamburgo"
+   ],
+   "citados_nao_transcritos": [
+    "RS - Rio Grande"
+   ]
+  },
+  {
+   "id": 198,
+   "arquivo": "samae_sao_bento_do_sul_reajuste_agosto_2026.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SC - São Bento do Sul"
+   ]
+  },
+  {
+   "id": 199,
+   "arquivo": "samae_sao_bento_do_sul_tabela_2025_2026.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "consultado",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul"
+   ],
+   "transcritos": [],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SC - São Bento do Sul"
+   ]
+  },
+  {
+   "id": 200,
+   "arquivo": "semae_sao_leopoldo_tabela_2026.pdf",
+   "prestador": "SEMAE São Leopoldo",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "RS - São Leopoldo"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 201,
+   "arquivo": "tubarao_saneamento_tabela_tarifaria_servicos.pdf",
+   "prestador": "Tubarão Saneamento",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SC - Tubarão"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 202,
+   "arquivo": "Prefeitura de Votuporanga - Legislação.html",
+   "prestador": "SAEV Ambiental",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - São Paulo",
+    "SP - Votuporanga"
+   ],
+   "transcritos": [
+    "SP - Votuporanga"
+   ],
+   "citados_nao_transcritos": [
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 203,
+   "arquivo": "9. Estrutura Tarifaria Bloco C - Ano 04 2025-2026 Rampa - Vigente a partir de 08.03.2026.pdf",
+   "prestador": "Verde Alagoas",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "AL - União dos Palmares",
+    "MA - São Luís"
+   ],
+   "transcritos": [
+    "AL - União dos Palmares"
+   ],
+   "citados_nao_transcritos": [
+    "MA - São Luís"
+   ]
+  },
+  {
+   "id": 204,
+   "arquivo": "Tabela Tarifária - 2025_2026 - SAMAE SBS.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul"
+   ],
+   "transcritos": [
+    "SC - São Bento do Sul"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília"
+   ]
+  },
+  {
+   "id": 205,
+   "arquivo": "samae_gaspar_noticia_reajuste_julho_2026.html",
+   "prestador": "SAMAE Gaspar",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Gaspar",
+    "SC - Itajaí"
+   ],
+   "transcritos": [
+    "SC - Gaspar"
+   ],
+   "citados_nao_transcritos": [
+    "SC - Itajaí"
+   ]
+  },
+  {
+   "id": 206,
+   "arquivo": "prefeitura_brusque_concessao_esgoto_2025.html",
+   "prestador": "SAMAE Brusque",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Brusque"
+   ],
+   "transcritos": [
+    "SC - Brusque"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 207,
+   "arquivo": "saev_votuporanga_decreto_19729_2025.html",
+   "prestador": "SAEV Ambiental",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SP - Registro",
+    "SP - São Paulo",
+    "SP - Votuporanga"
+   ],
+   "transcritos": [
+    "SP - Votuporanga"
+   ],
+   "citados_nao_transcritos": [
+    "SP - Registro",
+    "SP - São Paulo"
+   ]
+  },
+  {
+   "id": 208,
+   "arquivo": "samae_gaspar_sinisa_2024_instituto_agua_e_saneamento.html",
+   "prestador": "SAMAE Gaspar",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "SC - Gaspar",
+    "SC - Itajaí"
+   ],
+   "transcritos": [
+    "SC - Gaspar"
+   ],
+   "citados_nao_transcritos": [
+    "SC - Itajaí"
+   ]
+  },
+  {
+   "id": 209,
+   "arquivo": "samae_sao_bento_do_sul_entenda_sua_fatura.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SC - São Bento do Sul"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 210,
+   "arquivo": "samae_sao_bento_do_sul_fatura_modelo.jpg",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "transcrito",
+   "leitura": "imagem: lida visualmente",
+   "citados": [],
+   "transcritos": [
+    "SC - São Bento do Sul"
+   ],
+   "citados_nao_transcritos": []
+  },
+  {
+   "id": 211,
+   "arquivo": "samae_sao_bento_do_sul_reajuste_agosto_2025.html",
+   "prestador": "SAMAE São Bento do Sul",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [
+    "DF - Brasília",
+    "SC - São Bento do Sul",
+    "SP - Registro"
+   ],
+   "transcritos": [
+    "SC - São Bento do Sul"
+   ],
+   "citados_nao_transcritos": [
+    "DF - Brasília",
+    "SP - Registro"
+   ]
+  },
+  {
+   "id": 212,
+   "arquivo": "cesan_arsp_cartilha_tarifa_em_duas_partes_2021.pdf",
+   "prestador": "CESAN",
+   "situacao": "transcrito",
+   "leitura": "texto",
+   "citados": [],
+   "transcritos": [
+    "ES - Cariacica",
+    "ES - Guarapari",
+    "ES - Serra",
+    "ES - Vila Velha",
+    "ES - Vitória"
+   ],
+   "citados_nao_transcritos": []
+  }
+ ],
+ "pendentes_com_documento": {
+  "AL - Coruripe": {
+   "classe": "a_confirmar",
+   "prestador": "DAESC Coruripe",
+   "documentos": [
+    49
+   ]
+  },
+  "AM - Coari": {
+   "classe": "a_confirmar",
+   "prestador": "CAESC – Companhia de Água, Esgoto e Saneamento de Coari",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Iranduba": {
+   "classe": "a_confirmar",
+   "prestador": "Prestador municipal/local – Iranduba",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Itacoatiara": {
+   "classe": "a_confirmar",
+   "prestador": "SAAE Itacoatiara",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Manacapuru": {
+   "classe": "a_confirmar",
+   "prestador": "SAAE / prestação municipal de Manacapuru – confirmar",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Manicoré": {
+   "classe": "a_confirmar",
+   "prestador": "Prestador municipal/local – Manicoré",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Maués": {
+   "classe": "a_confirmar",
+   "prestador": "SAAE Maués",
+   "documentos": [
+    62
+   ]
+  },
+  "AM - Parintins": {
+   "classe": "a_confirmar",
+   "prestador": "SAAE Parintins",
+   "documentos": [
+    62
+   ]
+  },
+  "MG - Mariana": {
+   "classe": "a_confirmar",
+   "prestador": "SAAE Mariana",
+   "documentos": [
+    4,
+    47,
+    173
+   ]
+  },
+  "MG - Muriaé": {
+   "classe": "a_confirmar",
+   "prestador": "DEMSUR",
+   "documentos": [
+    32,
+    107
+   ]
+  },
+  "MG - Pará de Minas": {
+   "classe": "a_confirmar",
+   "prestador": "Águas de Pará de Minas",
+   "documentos": [
+    159
+   ]
+  },
+  "MG - Patrocínio": {
+   "classe": "a_confirmar",
+   "prestador": "DAEPA",
+   "documentos": [
+    17,
+    42,
+    47
+   ]
+  },
+  "MT - Pontes e Lacerda": {
+   "classe": "sem_documento",
+   "prestador": "Águas Pontes e Lacerda / Norte Saneamento",
+   "documentos": [
+    182
+   ]
+  },
+  "RJ - Niterói": {
+   "classe": "a_confirmar",
+   "prestador": "Águas de Niterói",
+   "documentos": [
+    159
+   ]
+  },
+  "RJ - Petrópolis": {
+   "classe": "a_confirmar",
+   "prestador": "Águas do Imperador",
+   "documentos": [
+    4,
+    173
+   ]
+  },
+  "RJ - Resende": {
+   "classe": "a_confirmar",
+   "prestador": "Águas das Agulhas Negras",
+   "documentos": [
+    47,
+    83
+   ]
+  },
+  "RJ - Valença": {
+   "classe": "a_confirmar",
+   "prestador": "CEDAE/serviço local – validar área",
+   "documentos": [
+    107
+   ]
+  },
+  "RR - Boa Vista": {
+   "classe": "a_confirmar",
+   "prestador": "CAER",
+   "documentos": [
+    4,
+    36,
+    53,
+    62,
+    99,
+    158,
+    173
+   ]
+  },
+  "SP - São Caetano do Sul": {
+   "classe": "a_confirmar",
+   "prestador": "SAESA",
+   "documentos": [
+    11,
+    73
+   ]
+  }
+ },
+ "imagens_nao_conferidas": []
+}

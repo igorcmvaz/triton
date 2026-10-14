@@ -1,0 +1,207 @@
+{
+ "prestador": "SAAE Lucas do Rio Verde",
+ "registro": [
+  70
+ ],
+ "documento": "SAAE - Lucas do Rio Verde - MT.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.saaelrv.mt.gov.br",
+ "leitura": "Página de tarifas do SAAE Lucas do Rio Verde (Decreto nº 7.349, de 27/10/2025), tabela de 2026. As colunas «mínimo da faixa» e «máximo da faixa» mostram cobrança direta: todo o volume pelo preço da faixa (11 m³ = 11 × 3,12 = R$ 34,32; 20 m³ = 20 × 3,12 = R$ 62,40), convertida em faixas progressivas equivalentes. Esgoto na coluna «% Esgoto»: 80% (social 50%). Na comercial, o «máximo» da faixa 4 (R$ 228,00) é erro de digitação da página: 35 × 9,12 = R$ 319,20.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifa de água/esgoto 2026",
+   "uf": "MT",
+   "municipios": [
+    "Lucas do Rio Verde"
+   ],
+   "residencial": {
+    "direta": {
+     "minimo": [
+      10,
+      24.3
+     ],
+     "precos": [
+      [
+       11,
+       20,
+       3.12
+      ],
+      [
+       21,
+       25,
+       4.15
+      ],
+      [
+       26,
+       35,
+       5.96
+      ],
+      [
+       36,
+       50,
+       7.03
+      ]
+     ],
+     "acima": 8.2
+    },
+    "esgoto_pct": 80,
+    "nota": "Cobrança direta: todo o volume pelo preço da faixa (colunas «mínimo/máximo da faixa» da página). Até 10 m³, 10 × o preço da faixa 1."
+   },
+   "social": {
+    "direta": {
+     "minimo": [
+      10,
+      12.2
+     ],
+     "precos": [
+      [
+       11,
+       20,
+       1.56
+      ],
+      [
+       21,
+       25,
+       2.08
+      ],
+      [
+       26,
+       35,
+       2.98
+      ],
+      [
+       36,
+       50,
+       3.52
+      ]
+     ],
+     "acima": 4.1
+    },
+    "esgoto_pct": 50,
+    "nota": "Residencial Social. Cobrança direta: todo o volume pelo preço da faixa (colunas «mínimo/máximo da faixa» da página). Até 10 m³, 10 × o preço da faixa 1."
+   },
+   "comercial": {
+    "direta": {
+     "minimo": [
+      10,
+      55.9
+     ],
+     "precos": [
+      [
+       11,
+       20,
+       7.72
+      ],
+      [
+       21,
+       25,
+       9.09
+      ],
+      [
+       26,
+       35,
+       9.12
+      ],
+      [
+       36,
+       50,
+       9.15
+      ]
+     ],
+     "acima": 9.17
+    },
+    "esgoto_pct": 80,
+    "nota": "Cobrança direta: todo o volume pelo preço da faixa (colunas «mínimo/máximo da faixa» da página). Até 10 m³, 10 × o preço da faixa 1."
+   },
+   "industrial": {
+    "direta": {
+     "minimo": [
+      10,
+      55.3
+     ],
+     "precos": [
+      [
+       11,
+       20,
+       7.72
+      ],
+      [
+       21,
+       25,
+       9.41
+      ],
+      [
+       26,
+       35,
+       9.42
+      ],
+      [
+       36,
+       50,
+       9.43
+      ]
+     ],
+     "acima": 9.45
+    },
+    "esgoto_pct": 80,
+    "nota": "Cobrança direta: todo o volume pelo preço da faixa (colunas «mínimo/máximo da faixa» da página). Até 10 m³, 10 × o preço da faixa 1."
+   },
+   "publica": {
+    "direta": {
+     "minimo": [
+      10,
+      69.7
+     ],
+     "precos": [
+      [
+       11,
+       20,
+       9.77
+      ],
+      [
+       21,
+       25,
+       10.91
+      ],
+      [
+       26,
+       35,
+       11.17
+      ],
+      [
+       36,
+       50,
+       11.18
+      ]
+     ],
+     "acima": 11.2
+    },
+    "esgoto_pct": 80,
+    "nota": "Cobrança direta: todo o volume pelo preço da faixa (colunas «mínimo/máximo da faixa» da página). Até 10 m³, 10 × o preço da faixa 1."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Lucas do Rio Verde",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 62.4,
+   "impresso": "máximo da faixa 2: R$ 62,40"
+  },
+  {
+   "municipio": "MT - Lucas do Rio Verde",
+   "categoria": "residencial",
+   "consumo_m3": 21,
+   "conta_agua": 87.15,
+   "impresso": "mínimo da faixa 3: R$ 87,15"
+  },
+  {
+   "municipio": "MT - Lucas do Rio Verde",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 24.3,
+   "impresso": "faixa 1: R$ 24,30"
+  }
+ ]
+}

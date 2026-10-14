@@ -1,0 +1,167 @@
+{
+ "prestador": "CEDAE",
+ "registro": [
+  32,
+  112
+ ],
+ "documento": "ESTRUTURA_TARIFÁRIA_JAN_2026_VIGENTE.pdf",
+ "vigencia": "22/01/2026",
+ "fonte_url": "https://www.cedae.com.br",
+ "leitura": "Estrutura tarifária vigente da CEDAE, Área B (processo SEI-480002/010061/2025, IN AGENERSA 141/2025), reajuste de 5,1722% a partir de 22/01/2026 (decisão cautelar no item 112). O próprio documento lista os municípios da área de atuação da Companhia; da base, Barra do Piraí, Itaperuna e Macaé. Esgoto igual à água. Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifa 1 e Tarifas 2 e 3, Área B",
+   "uf": "RJ",
+   "municipios": [
+    "Barra do Piraí",
+    "Itaperuna",
+    "Macaé"
+   ],
+   "prestador": "CEDAE",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      5.628681
+     ],
+     [
+      15,
+      30,
+      12.383098
+     ],
+     [
+      30,
+      45,
+      16.886043
+     ],
+     [
+      45,
+      60,
+      33.772086
+     ],
+     [
+      60,
+      null,
+      45.029448
+     ]
+    ],
+    "esgoto_pct": 100,
+    "retroativa": {
+     "ate": 15,
+     "valor": 73.69
+    },
+    "nota": "Tarifa 1 (unidade com até 0,5 m³/dia por economia, isto é, até 15 m³/mês) lida como conta mínima de 15 m³ × tarifa, como a tabela da CEDAE imprime («DOMICILIAR (CONTA MÍNIMA)», R$ 73,69 = 15 × 4,913304); acima de 15 m³, todo o volume pela Tarifa 2, desde 0 m³."
+   },
+   "representativa": "a conta depende de a unidade ficar até 15 m³/mês (Tarifa 1) ou acima (Tarifa 2)",
+   "variantes": {
+    "Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       5.628681
+      ],
+      [
+       15,
+       30,
+       12.383098
+      ],
+      [
+       30,
+       45,
+       16.886043
+      ],
+      [
+       45,
+       60,
+       33.772086
+      ],
+      [
+       60,
+       null,
+       45.029448
+      ]
+     ],
+     "esgoto_pct": 100
+    }
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      19.137515
+     ],
+     [
+      20,
+      30,
+      33.715799
+     ],
+     [
+      30,
+      null,
+      36.023558
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      26.4548
+     ],
+     [
+      20,
+      30,
+      26.4548
+     ],
+     [
+      30,
+      130,
+      30.394877
+     ],
+     [
+      130,
+      null,
+      32.083481
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      7.429858
+     ],
+     [
+      15,
+      null,
+      16.435748
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - Macaé",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 73.69,
+   "impresso": "Tarifa 1, DOMICILIAR (CONTA MÍNIMA): VALOR 73,69"
+  },
+  {
+   "municipio": "RJ - Macaé",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 270.16,
+   "impresso": "Tarifas 2 e 3, DOMICILIAR 16-30: VALOR 270,16 (conta no limite superior da faixa)"
+  }
+ ]
+}

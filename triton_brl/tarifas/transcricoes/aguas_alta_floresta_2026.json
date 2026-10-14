@@ -1,0 +1,104 @@
+{
+ "prestador": "Águas Alta Floresta / Norte Saneamento",
+ "registro": [
+  162
+ ],
+ "documento": "e2bafe_1bac7349bef64b79b740e111a6c2bc36.pdf",
+ "vigencia": "01/04/2026",
+ "fonte_url": "https://www.aguasaltafloresta.com.br",
+ "leitura": "Estrutura tarifária da Águas Alta Floresta, início de vigência 04/2026. Classes R1 a R5 lidas como faixas progressivas (0–10, 11–20, 21–30, 31–40, >40), multiplicadores 1,0 a 5,3 da tarifa do edital; esgoto a 90% da água (multiplicadores 0,90 a 4,77).",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária 04/2026",
+   "uf": "MT",
+   "municipios": [
+    "Alta Floresta"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.21
+     ],
+     [
+      10,
+      20,
+      6.32
+     ],
+     [
+      20,
+      30,
+      10.53
+     ],
+     [
+      30,
+      40,
+      13.89
+     ],
+     [
+      40,
+      null,
+      22.31
+     ]
+    ],
+    "esgoto_pct": 90,
+    "nota": "Classes R1 a R5 lidas como faixas progressivas (0–10, 11–20, 21–30, 31–40, >40), multiplicadores 1,0 a 5,3 da tarifa do edital; esgoto a 90% da água (multiplicadores 0,90 a 4,77)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      9.68
+     ],
+     [
+      10,
+      null,
+      14.74
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.37
+     ],
+     [
+      10,
+      null,
+      16.84
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.53
+     ],
+     [
+      10,
+      null,
+      16.0
+     ]
+    ],
+    "esgoto_pct": 90
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Alta Floresta",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 105.3,
+   "impresso": "10 × 4,21 + 10 × 6,32"
+  }
+ ]
+}

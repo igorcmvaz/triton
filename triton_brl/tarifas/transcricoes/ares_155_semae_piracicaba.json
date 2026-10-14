@@ -1,0 +1,122 @@
+{
+ "prestador": "SEMAE Piracicaba",
+ "registro": [
+  155
+ ],
+ "documento": "semae_piracicaba_ARESPCJ_resoluo_n_719_2026_-_reajuste_tarifrio_-_piracicaba.pdf",
+ "vigencia": "01/08/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1785758045-resoluo_n_719_2026_-_reajuste_tarifrio_-_piracicaba.pdf",
+ "leitura": "Material tarifário oficial de SEMAE Piracicaba. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/08/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Piracicaba"
+   ],
+   "residencial": {
+    "fixo": 33.52,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      5.75
+     ],
+     [
+      15,
+      20,
+      8.26
+     ],
+     [
+      20,
+      25,
+      11.82
+     ],
+     [
+      25,
+      30,
+      13.98
+     ],
+     [
+      30,
+      40,
+      15.73
+     ],
+     [
+      40,
+      50,
+      17.78
+     ],
+     [
+      50,
+      80,
+      20.81
+     ],
+     [
+      80,
+      null,
+      23.61
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 16.76,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.88
+     ],
+     [
+      15,
+      20,
+      6.2
+     ],
+     [
+      20,
+      25,
+      11.82
+     ],
+     [
+      25,
+      30,
+      13.98
+     ],
+     [
+      30,
+      40,
+      15.73
+     ],
+     [
+      40,
+      50,
+      17.78
+     ],
+     [
+      50,
+      80,
+      20.81
+     ],
+     [
+      80,
+      null,
+      23.61
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Piracicaba",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 103.57,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

@@ -1,0 +1,139 @@
+{
+ "prestador": "SAEG",
+ "registro": [
+  139,
+  140
+ ],
+ "documento": "saeg_Deliberacao_ARSESP_1773_2026_Guaratingueta.pdf",
+ "vigencia": "15/03/2026",
+ "fonte_url": "https://www.arsesp.sp.gov.br/LegislacaoArquivos/Delibera%C3%A7%C3%A3o-1773.pdf",
+ "leitura": "Deliberação ARSESP nº 1.773/2026, Anexo I (vigência a partir de 15/03/2026): mínimo de 10 m³ (art. 3º) e esgoto a 80% da água (art. 2º). Nota técnica no item 140.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Guaratinguetá"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      20,
+      4.121
+     ],
+     [
+      20,
+      50,
+      6.912
+     ],
+     [
+      50,
+      null,
+      11.312
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 30.063,
+    "franquia": 10
+   },
+   "social": {
+    "faixas": [
+     [
+      10,
+      20,
+      2.059
+     ],
+     [
+      20,
+      50,
+      3.459
+     ],
+     [
+      50,
+      null,
+      5.645
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 15.03,
+    "franquia": 10
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      20,
+      6.912
+     ],
+     [
+      20,
+      50,
+      11.303
+     ],
+     [
+      50,
+      null,
+      18.888
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 60.38,
+    "franquia": 10
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      20,
+      6.912
+     ],
+     [
+      20,
+      50,
+      11.303
+     ],
+     [
+      50,
+      null,
+      18.888
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 60.38,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      20,
+      8.445
+     ],
+     [
+      20,
+      50,
+      15.521
+     ],
+     [
+      50,
+      null,
+      23.909
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 68.429,
+    "franquia": 10
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Guaratinguetá",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 71.27,
+   "impresso": "mínimo 30,063 + 10 × 4,121"
+  }
+ ]
+}

@@ -1,0 +1,104 @@
+{
+ "prestador": "Águas de Sorriso",
+ "registro": [
+  180
+ ],
+ "documento": "aguas_de_sorriso_legislacao_e_tarifas.html",
+ "vigencia": "01/11/2025",
+ "fonte_url": "https://www.aegeamt.com.br/legislacao-e-tarifas/aguas-de-sorriso/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Sorriso, «Estrutura tarifária vigente» (reajuste de 4,39% de novembro de 2025), R$/m³ por faixa (m³/mês por economia).",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária vigente",
+   "uf": "MT",
+   "municipios": [
+    "Sorriso"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      3.062
+     ],
+     [
+      10,
+      20,
+      4.593
+     ],
+     [
+      20,
+      30,
+      7.655
+     ],
+     [
+      30,
+      40,
+      11.483
+     ],
+     [
+      40,
+      null,
+      18.035
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da água (2,450/3,062)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.134
+     ],
+     [
+      10,
+      null,
+      10.717
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      8.114
+     ],
+     [
+      10,
+      null,
+      13.228
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      8.359
+     ],
+     [
+      10,
+      null,
+      12.401
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Sorriso",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 76.55,
+   "impresso": "10 × 3,062 + 10 × 4,593"
+  }
+ ]
+}

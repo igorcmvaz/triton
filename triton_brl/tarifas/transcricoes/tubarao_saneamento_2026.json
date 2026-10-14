@@ -1,0 +1,120 @@
+{
+ "prestador": "Tubarão Saneamento",
+ "registro": [
+  201,
+  195
+ ],
+ "documento": "tubarao_saneamento_tabela_tarifaria_servicos.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://tubaraosaneamento.com.br/uploads/Tabela_tarif%C3%A1ria_e_servi%C3%A7os_complementares.pdf",
+ "leitura": "«Matriz tarifária e tarifa máxima de água» da Tubarão Saneamento, vigência de 01/05/2026 a 30/04/2027 (Decreto 9.159/2026, AGR). A tabela da página (item 195) é a antiga.",
+ "tabelas": [
+  {
+   "rotulo": "Matriz tarifária 2026/27",
+   "uf": "SC",
+   "municipios": [
+    "Tubarão"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      5.25
+     ],
+     [
+      10,
+      20,
+      9.68
+     ],
+     [
+      20,
+      30,
+      11.11
+     ],
+     [
+      30,
+      50,
+      13.59
+     ],
+     [
+      50,
+      null,
+      16.29
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto igual à água (mesmo R$/m³)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.79
+     ],
+     [
+      10,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.79
+     ],
+     [
+      10,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.79
+     ],
+     [
+      10,
+      null,
+      12.97
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      0.97
+     ],
+     [
+      10,
+      null,
+      2.79
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Tubarão",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 149.3,
+   "impresso": "10 × 5,25 + 10 × 9,68"
+  }
+ ]
+}

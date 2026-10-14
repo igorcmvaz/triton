@@ -1,0 +1,162 @@
+{
+ "prestador": "COMPESA",
+ "registro": [
+  18
+ ],
+ "documento": "Estrutura-Tarifria-Compesa-2025---Resoluo-ARPE-n-289-2025.pdf",
+ "vigencia": "26/03/2025",
+ "fonte_url": "https://www.arpe.pe.gov.br",
+ "leitura": "Anexo Único da Resolução ARPE nº 289, de 26/03/2025: estrutura tarifária estadual da COMPESA. Esgoto em sistema convencional com ligação convencional a 100% da água (50% em ramal condominial, 80% em sistema simplificado).",
+ "tabelas": [
+  {
+   "rotulo": "Anexo Único (tabela estadual)",
+   "uf": "PE",
+   "municipios": [
+    "Abreu e Lima",
+    "Araripina",
+    "Arcoverde",
+    "Belo Jardim",
+    "Bezerros",
+    "Buíque",
+    "Cabo de Santo Agostinho",
+    "Camaragibe",
+    "Carpina",
+    "Caruaru",
+    "Escada",
+    "Garanhuns",
+    "Goiana",
+    "Gravatá",
+    "Igarassu",
+    "Ipojuca",
+    "Jaboatão dos Guararapes",
+    "Limoeiro",
+    "Moreno",
+    "Olinda",
+    "Ouricuri",
+    "Palmares",
+    "Paudalho",
+    "Paulista",
+    "Pesqueira",
+    "Petrolina",
+    "Recife",
+    "Salgueiro",
+    "Santa Cruz do Capibaribe",
+    "Serra Talhada",
+    "Surubim",
+    "São Lourenço da Mata",
+    "Vitória de Santo Antão"
+   ],
+   "residencial": {
+    "fixo": 61.77,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.09
+     ],
+     [
+      20,
+      30,
+      8.42
+     ],
+     [
+      30,
+      50,
+      11.59
+     ],
+     [
+      50,
+      90,
+      13.74
+     ],
+     [
+      90,
+      null,
+      26.4
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 27.5,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      7.09
+     ],
+     [
+      20,
+      30,
+      8.42
+     ],
+     [
+      30,
+      50,
+      11.59
+     ],
+     [
+      50,
+      90,
+      13.74
+     ],
+     [
+      90,
+      null,
+      26.4
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Tarifa Social Pernambucana: R$ 27,50 até 10 m³ e R$ 0,00 de 10 a 15 m³."
+   },
+   "comercial": {
+    "fixo": 90.88,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      18.02
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 113.88,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      24.14
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 87.84,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      13.32
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "abrangencia": "tabela única do COMPESA (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PE - Recife",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 132.67,
+   "impresso": "até 10 m³ R$ 61,77; 10,001 a 20 R$ 7,09"
+  }
+ ]
+}

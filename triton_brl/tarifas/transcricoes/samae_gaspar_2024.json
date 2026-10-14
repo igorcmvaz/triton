@@ -1,0 +1,137 @@
+{
+ "prestador": "SAMAE Gaspar",
+ "registro": [
+  169,
+  192,
+  208
+ ],
+ "documento": "samae_gaspar_20240703153835.pdf",
+ "vigencia": "01/07/2024",
+ "fonte_url": "http://samaegaspar.com.br/arquivos/20240703153835.pdf",
+ "leitura": "Decreto nº 11.870, de 29/05/2024, de Gaspar: tabela de tarifas do SAMAE, efeitos a partir de 01/07/2024 (o Decreto nº 12.484, mais recente, não estava no endereço citado pela página, item 169). Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa.",
+ "tabelas": [
+  {
+   "rotulo": "Decreto 11.870/2024, §1º",
+   "uf": "SC",
+   "municipios": [
+    "Gaspar"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      25,
+      7.07
+     ],
+     [
+      25,
+      40,
+      9.32
+     ],
+     [
+      40,
+      50,
+      11.29
+     ],
+     [
+      50,
+      null,
+      12.95
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 45.75,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      25,
+      7.07
+     ],
+     [
+      25,
+      40,
+      9.32
+     ],
+     [
+      40,
+      50,
+      11.29
+     ],
+     [
+      50,
+      null,
+      12.95
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 45.75,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      15,
+      7.95
+     ],
+     [
+      15,
+      40,
+      10.57
+     ],
+     [
+      40,
+      50,
+      12.11
+     ],
+     [
+      50,
+      null,
+      13.33
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 59.1,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      15,
+      30,
+      11.43
+     ],
+     [
+      30,
+      100,
+      15.5
+     ],
+     [
+      100,
+      null,
+      17.6
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 127.42,
+    "franquia": 15,
+    "nota": "Esgoto 0%: o SAMAE Gaspar não publica tarifa de esgoto (decreto e página só têm a ligação predial) e coleta 1,1% do esgoto gerado (SINISA 2024, página do Instituto Água e Saneamento, item 208). Quem estiver ligado à rede deve informar o percentual no programa."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Gaspar",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 81.1,
+   "impresso": "mínimo 45,75 + 5 × 7,07"
+  }
+ ]
+}

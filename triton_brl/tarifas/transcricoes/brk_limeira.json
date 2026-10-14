@@ -1,0 +1,189 @@
+{
+ "prestador": "BRK Ambiental Limeira",
+ "registro": [
+  24
+ ],
+ "documento": "1780515925-resoluo_n_705_2026_-_reajuste_tarifrio_-_limeira_rtf.pdf",
+ "vigencia": "29/05/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 705, de 29/05/2026, reajuste tarifário da BRK Ambiental em Limeira, Anexo I, Tabela 1. Consumo mínimo de 10 m³, cobrança em cascata; esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela 1",
+   "uf": "SP",
+   "municipios": [
+    "Limeira"
+   ],
+   "residencial": {
+    "fixo": 37.1,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      5.11
+     ],
+     [
+      15,
+      30,
+      10.14
+     ],
+     [
+      30,
+      60,
+      13.18
+     ],
+     [
+      60,
+      100,
+      16.48
+     ],
+     [
+      100,
+      null,
+      20.6
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 18.55,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.56
+     ],
+     [
+      15,
+      30,
+      7.61
+     ],
+     [
+      30,
+      60,
+      10.14
+     ],
+     [
+      60,
+      100,
+      13.18
+     ],
+     [
+      100,
+      null,
+      16.48
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "fixo": 82.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      12.36
+     ],
+     [
+      15,
+      30,
+      12.36
+     ],
+     [
+      30,
+      60,
+      20.6
+     ],
+     [
+      60,
+      100,
+      28.84
+     ],
+     [
+      100,
+      null,
+      37.08
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 82.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      8.24
+     ],
+     [
+      15,
+      30,
+      13.18
+     ],
+     [
+      30,
+      60,
+      21.42
+     ],
+     [
+      60,
+      100,
+      29.66
+     ],
+     [
+      100,
+      null,
+      37.9
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 49.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      9.06
+     ],
+     [
+      15,
+      30,
+      9.06
+     ],
+     [
+      30,
+      60,
+      13.18
+     ],
+     [
+      60,
+      100,
+      20.6
+     ],
+     [
+      100,
+      null,
+      24.72
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Limeira",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 164.05,
+   "impresso": "exemplo b do Anexo: R$ 164,05 para 25 m³"
+  }
+ ]
+}

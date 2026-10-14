@@ -1,0 +1,17 @@
+# testes que dependem de dados só da Edição Brasil; saltados fora dela
+tests/unit/test_climate_database.py
+tests/unit/test_tarifa_exponencial.py
+tests/unit/test_categoria_tarifaria.py
+tests/unit/test_processar_entrada.py
+tests/unit/test_processo_tarifario.py
+tests/unit/test_registro_de_fontes.py
+tests/unit/test_transcricoes.py
+tests/unit/test_funcoes_orfas.py::test_a_busca_posiciona_os_dois_combos
+tests/unit/test_funcoes_orfas.py::test_a_busca_pela_prestadora_tambem_move_os_combos
+tests/unit/test_funcoes_orfas.py::test_toda_cidade_ofertada_no_combo_tem_serie_climatica
+tests/unit/test_tariffs_database.py::TestTariffsDatabase::test_tab_project_tariff_location
+tests/unit/test_manual_confere_com_o_programa.py::test_o_historico_cita_a_conferencia_atual_da_base
+tests/unit/test_projeto_sobrevive_ao_arquivo.py::test_todo_caso_do_manual_abre_e_traz_a_chuva_dentro
+tests/unit/test_projeto_sobrevive_ao_arquivo.py::test_todo_caso_do_manual_reproduz_o_numero_publicado
+tests/test_essencial.py::test_o_investimento_e_a_manutencao_exibidos_acompanham_a_caixa
+tests/test_essencial.py::test_o_payback_exibido_piora_com_o_filtro

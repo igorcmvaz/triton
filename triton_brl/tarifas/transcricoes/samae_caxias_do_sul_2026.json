@@ -1,0 +1,165 @@
+{
+ "prestador": "SAMAE Caxias do Sul",
+ "registro": [
+  167
+ ],
+ "documento": "dedc-4336-bf74-122229e030e6.pdf",
+ "vigencia": "01/07/2026",
+ "fonte_url": "arquivo recebido, sem endereço: tarifas/fontes/samae_caxias_do_sul/dedc-4336-bf74-122229e030e6.pdf",
+ "leitura": "Tabela A do SAMAE Caxias do Sul (reajuste de 4,26%, Resolução CSR nº 3/2026 da AGESAN-RS), faturas com vencimento a partir de 01/07/2026. Tarifa mínima por categoria e consumo excedente por faixa. Esgoto: volume de escoamento = 80% do volume de água, a 80% do valor do m³ da tarifa mínima de água (R$ 38,30 / 5 m³ = R$ 7,66): 0,8 × 0,8 × 7,66 = R$ 4,9024 por m³ de água consumido (modalidade I, com tratamento). O mínimo de esgoto de 5 m³ por economia não se representa.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela A",
+   "uf": "RS",
+   "municipios": [
+    "Caxias do Sul"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      5,
+      10,
+      8.77
+     ],
+     [
+      10,
+      15,
+      10.54
+     ],
+     [
+      15,
+      20,
+      16.56
+     ],
+     [
+      20,
+      30,
+      21.75
+     ],
+     [
+      30,
+      50,
+      22.66
+     ],
+     [
+      50,
+      100,
+      24.36
+     ],
+     [
+      100,
+      null,
+      28.35
+     ]
+    ],
+    "esgoto_r_m3": 4.9024,
+    "fixo": 38.3,
+    "franquia": 5,
+    "nota": "Esgoto: volume de escoamento = 80% do volume de água, a 80% do valor do m³ da tarifa mínima de água (R$ 38,30 / 5 m³ = R$ 7,66): 0,8 × 0,8 × 7,66 = R$ 4,9024 por m³ de água consumido (modalidade I, com tratamento). O mínimo de esgoto de 5 m³ por economia não se representa."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      15,
+      10.54
+     ],
+     [
+      15,
+      20,
+      16.56
+     ],
+     [
+      20,
+      30,
+      21.75
+     ],
+     [
+      30,
+      50,
+      22.66
+     ],
+     [
+      50,
+      100,
+      24.36
+     ],
+     [
+      100,
+      null,
+      28.35
+     ]
+    ],
+    "esgoto_r_m3": 5.2576,
+    "fixo": 82.15,
+    "franquia": 10,
+    "nota": "Esgoto a 0,64 × (82,15/10) por m³."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      15,
+      10.54
+     ],
+     [
+      15,
+      20,
+      16.56
+     ],
+     [
+      20,
+      30,
+      21.75
+     ],
+     [
+      30,
+      50,
+      22.66
+     ],
+     [
+      50,
+      100,
+      24.36
+     ],
+     [
+      100,
+      null,
+      28.35
+     ]
+    ],
+    "esgoto_r_m3": 5.2576,
+    "fixo": 82.15,
+    "franquia": 10,
+    "nota": "Esgoto a 0,64 × (82,15/10) por m³."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      20,
+      120,
+      26.58
+     ],
+     [
+      120,
+      null,
+      31.16
+     ]
+    ],
+    "esgoto_r_m3": 6.9648,
+    "fixo": 217.65,
+    "franquia": 20,
+    "nota": "Esgoto a 0,64 × (217,65/20) por m³."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RS - Caxias do Sul",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 82.15,
+   "impresso": "mínimo 38,30 + 5 × 8,77"
+  }
+ ]
+}

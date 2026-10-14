@@ -1,0 +1,121 @@
+{
+ "prestador": "CSA Equatorial",
+ "registro": [
+  74
+ ],
+ "documento": "115604-Resolução ARSAP nº 009-2026 de 30 de julho de 2026.pdf",
+ "vigencia": "30/08/2026",
+ "fonte_url": "https://arsap.portal.ap.gov.br",
+ "leitura": "Resolução ARSAP nº 009/2026 (Diário Oficial do Amapá nº 8.708, de 30/07/2026), Anexo I «Estrutura Tarifária Reajustada», vigência a partir de 30/08/2026. Substitui a de 2025 (Res. ARSAP 008/2025). Cota mínima de 10 m³; esgoto a 100% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela 1 (consumidores medidos)",
+   "uf": "AP",
+   "municipios": [
+    "Macapá",
+    "Santana"
+   ],
+   "residencial": {
+    "fixo": 45.71,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.78
+     ],
+     [
+      20,
+      30,
+      5.39
+     ],
+     [
+      30,
+      50,
+      7.01
+     ],
+     [
+      50,
+      null,
+      9.92
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial R1."
+   },
+   "social": {
+    "fixo": 18.34,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.78
+     ],
+     [
+      20,
+      30,
+      5.39
+     ],
+     [
+      30,
+      50,
+      7.01
+     ],
+     [
+      50,
+      null,
+      9.92
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 118.81,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      14.25
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial C2."
+   },
+   "industrial": {
+    "fixo": 162.8,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      16.28
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 325.72,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      16.8
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AP - Macapá",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 93.51,
+   "impresso": "cota mínima 10 m³ R$ 45,71; 11–20 R$ 4,78"
+  }
+ ]
+}

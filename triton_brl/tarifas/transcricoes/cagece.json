@@ -1,0 +1,147 @@
+{
+ "prestador": "CAGECE",
+ "registro": [
+  17
+ ],
+ "documento": "Estrutura tarifária _ Portal Cagece.html",
+ "vigencia": "05/11/2025",
+ "fonte_url": "https://www.cagece.com.br/produtos-e-servicos/precos-e-prazos/estrutura-tarifaria/",
+ "leitura": "Página «Estrutura tarifária» da CAGECE, tabela válida a partir de 05/11/2025 para Fortaleza e o Estado do Ceará. Cada categoria tem demanda mínima faturada (10 m³ na residencial normal): o mínimo é a demanda vezes a tarifa da primeira faixa. O esgoto tem tarifa própria por m³ e é faturado sobre 80% do volume de água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de tarifas (Fortaleza e Estado do Ceará)",
+   "uf": "CE",
+   "municipios": [
+    "Acaraú",
+    "Aquiraz",
+    "Aracati",
+    "Barbalha",
+    "Beberibe",
+    "Boa Viagem",
+    "Brejo Santo",
+    "Camocim",
+    "Canindé",
+    "Cascavel",
+    "Caucaia",
+    "Crateús",
+    "Crato",
+    "Eusébio",
+    "Fortaleza",
+    "Granja",
+    "Horizonte",
+    "Icó",
+    "Iguatu",
+    "Itaitinga",
+    "Itapipoca",
+    "Juazeiro do Norte",
+    "Limoeiro do Norte",
+    "Maracanaú",
+    "Maranguape",
+    "Morada Nova",
+    "Pacajus",
+    "Pacatuba",
+    "Quixadá",
+    "Quixeramobim",
+    "Russas",
+    "Sobral",
+    "São Gonçalo do Amarante",
+    "Tauá",
+    "Tianguá",
+    "Trairi",
+    "Viçosa do Ceará"
+   ],
+   "residencial": {
+    "fixo": 67.7,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      8.78
+     ],
+     [
+      15,
+      20,
+      9.49
+     ],
+     [
+      20,
+      50,
+      16.29
+     ],
+     [
+      50,
+      null,
+      28.77
+     ]
+    ],
+    "esgoto_pct": 88,
+    "nota": "Residencial Normal: demanda mínima de 10 m³ a R$ 6,77. Esgoto com tarifa própria por m³ sobre 80% do volume de água; equivale a ≈88% da conta de água."
+   },
+   "comercial": {
+    "fixo": 169.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      50,
+      16.99
+     ],
+     [
+      50,
+      null,
+      26.93
+     ]
+    ],
+    "esgoto_pct": 88,
+    "nota": "Comercial II: demanda mínima de 10 m³ a R$ 16,99. Esgoto com tarifa própria por m³ sobre 80% do volume de água; equivale a ≈88% da conta de água."
+   },
+   "industrial": {
+    "fixo": 225.0,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      50,
+      17.81
+     ],
+     [
+      50,
+      null,
+      27.68
+     ]
+    ],
+    "esgoto_pct": 88,
+    "nota": "Demanda mínima de 15 m³ a R$ 15,00. Esgoto com tarifa própria por m³ sobre 80% do volume de água; equivale a ≈88% da conta de água."
+   },
+   "publica": {
+    "fixo": 148.5,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      50,
+      14.73
+     ],
+     [
+      50,
+      null,
+      23.66
+     ]
+    ],
+    "esgoto_pct": 88,
+    "nota": "Demanda mínima de 15 m³ a R$ 9,90. Esgoto com tarifa própria por m³ sobre 80% do volume de água; equivale a ≈88% da conta de água."
+   },
+   "abrangencia": "tabela única do CAGECE (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "CE - Fortaleza",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 240.5,
+   "impresso": "Exemplo 3 da página: 25 m³ residencial normal = R$ 240,50"
+  }
+ ]
+}

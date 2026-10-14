@@ -1,0 +1,288 @@
+$(document).ready(function(){
+	
+	//Check to see if the window is top if not then display button
+	$(window).scroll(function(){
+		if ($(this).scrollTop() > 100) {
+			$('.scrollToTop').fadeIn();
+		} else {
+			$('.scrollToTop').fadeOut();
+		}
+	});
+	
+	//Click event to scroll to top
+	$('.scrollToTop').click(function(){
+		$('html, body').animate({scrollTop : 0},800);
+		return false;
+	});
+	
+});
+
+/* HTML document is loaded. DOM is ready.
+-------------------------------------------*/
+$(function(){
+
+    /* start typed element */
+    //http://stackoverflow.com/questions/24874797/select-div-title-text-and-make-array-with-jquery
+    var subElementArray = $.map($('.sub-element'), function(el) { return $(el).text(); });    
+    $(".element").typed({
+        strings: subElementArray,
+        typeSpeed: 30,
+        contentType: 'html',
+        showCursor: false,
+        loop: true,
+        loopCount: true,
+    });
+    /* end typed element */
+
+    /* Smooth scroll and Scroll spy (https://github.com/ChrisWojcik/single-page-nav)    
+    ---------------------------------------------------------------------------------*/ 
+    $('.dae-nav').singlePageNav({
+        offset: $(".dae-nav").height(),
+        filter: ':not(.external)',
+        updateHash: false
+    });
+
+    /* start navigation top js */
+    $(window).scroll(function(){
+        if($(this).scrollTop()>58){
+            $(".dae-nav").addClass("sticky");
+        }
+        else{
+            $(".dae-nav").removeClass("sticky");
+        }
+    });
+    
+    /* Hide mobile menu after clicking on a link
+    -----------------------------------------------*/
+    $('.navbar-collapse a').click(function(){
+        $(".navbar-collapse").collapse('hide');
+    });
+    /* end navigation top js */
+
+    $('body').bind('touchstart', function() {});
+
+    /* wow
+    -----------------*/
+    new WOW().init();
+});
+
+/* start preloader */
+$(window).load(function(){
+	$('.preloader').fadeOut(1000); // set duration in brackets    
+});
+/* end preloader */
+
+
+
+jQuery(document).ready(function($){
+
+	/************** Menu Content Opening *********************/
+
+	loadScript();
+
+	/************** Gallery Hover Effect *********************/
+	$(".overlay").hide();
+
+	$('.gallery-item').hover(
+	  function() {
+	    $(this).find('.overlay').fadeIn(800);
+	  },
+	  function() {
+	    $(this).find('.overlay').fadeOut(800);
+	  }
+	);
+
+	/************** LightBox ********************
+	$(function(){
+		$('[data-rel="lightbox"]').lightbox();
+	});
+
+
+	$("a.menu-toggle-btn").click(function() {
+	  $(".responsive_menu").stop(true,true).slideToggle();
+	  return false;
+	});
+ 
+    $(".responsive_menu a").click(function(){
+		$('.responsive_menu').hide();
+	});*/
+
+});
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  document.body.appendChild(script);
+  
+	<!-- scroll to specific id when click on menu -->
+	// Cache selectors
+
+	var lastId,
+    topMenu = $("#top-menu"),
+    topMenuHeight = topMenu.outerHeight()+100,
+    // All list items
+    menuItems = topMenu.find("a"),
+    // Anchors corresponding to menu items
+    scrollItems = menuItems.map(function(){
+      var item = $($(this).attr("href"));
+      if (item.length) { return item; }
+    });
+
+	// Bind click handler to menu items
+	// so we can get a fancy scroll animation
+	menuItems.click(function(e){
+	  var href = $(this).attr("href"),
+    	  offsetTop = href === "#" ? 0 : $(href).offset().top-topMenuHeight+5;
+	  $('html, body').stop().animate({ 
+    	  scrollTop: offsetTop
+	  }, 300);
+	  e.preventDefault();
+	});
+
+// Bind to scroll
+$(window).scroll(function(){
+   // Get container scroll position
+   var fromTop = $(this).scrollTop()+topMenuHeight;
+   
+   // Get id of current scroll item
+   var cur = scrollItems.map(function(){
+     if ($(this).offset().top < fromTop)
+       return this;
+   });
+   // Get the id of the current element
+   cur = cur[cur.length-1];
+   var id = cur && cur.length ? cur[0].id : "";
+   
+   if (lastId !== id) {
+       lastId = id;
+       // Set/remove active class
+       menuItems
+         .parent().removeClass("active")
+         .end().filter("[href=#"+id+"]").parent().addClass("active");
+   }                   
+});
+}
+
+/* start printpage */
+function popUP(nome, url, settings){
+	var  w, h, left, top
+	w=screen.width
+	h=screen.height    
+	left=(w-480)/2
+	top=(h-560)/2
+	settings+=", left="+left+", top="+top
+	window.open(url, nome, settings)
+}
+
+function PrintPage() {
+	if (window.print)
+		window.print()
+	else
+		alert("O script não conseguiu enviar o documento diretamente para impressão, Pressione Ctrl+P ou selecione Imprimir no menu Arquivo para imprimir esta página.");
+}
+/* end printpage */
+
+/* start simpleLightbox */
+$(function(){
+	var $gallery = $('.gallery a').simpleLightbox();
+		
+	$gallery.on('show.simplelightbox', function(){
+		console.log('Requested for showing');
+	})
+	.on('shown.simplelightbox', function(){
+		console.log('Shown');
+	})
+	.on('close.simplelightbox', function(){
+		console.log('Requested for closing');
+	})
+	.on('closed.simplelightbox', function(){
+		console.log('Closed');
+	})
+	.on('change.simplelightbox', function(){
+		console.log('Requested for change');
+	})
+	.on('next.simplelightbox', function(){
+		console.log('Requested for next');
+	})
+	.on('prev.simplelightbox', function(){
+		console.log('Requested for prev');
+	})
+	.on('nextImageLoaded.simplelightbox', function(){
+		console.log('Next image loaded');
+	})
+	.on('prevImageLoaded.simplelightbox', function(){
+		console.log('Prev image loaded');
+	})
+	.on('changed.simplelightbox', function(){
+		console.log('Image changed');
+	})
+	.on('nextDone.simplelightbox', function(){
+		console.log('Image changed to next');
+	})
+	.on('prevDone.simplelightbox', function(){
+		console.log('Image changed to prev');
+	})
+	.on('error.simplelightbox', function(e){
+		console.log('No image found, go to the next/prev');
+		console.log(e);
+	});
+});
+/* end simpleLightbox */
+
+/* start submenu dentro do combo TOPICOS */
+jQuery(document).ready(function( $ ){
+	var uls = $('#menu ul');
+	uls.hide();
+		
+	$('#menu > li').click(function( e ){
+		e.stopPropagation();
+		uls.hide();
+		$( this ).find('ul').show();
+	});
+	$('#menu ul').click(function( e ){
+		e.stopPropagation();
+	});
+	$('body').click(function(){
+		uls.hide();
+	});
+});
+/* end submenu dentro do combo TOPICOS */
+
+
+/* START fixa div num ponto da pagina */
+$(window).scroll(function() {
+  if ($(document).scrollTop() > 210) { //ponto de mudanca - 210 pixeis
+    $('.cta').css({
+      'position': 'fixed', //fixo a partir deste ponto
+      'bottom': '0px',
+      'right': '28px',
+	  'display': 'block',
+    });
+  } else {
+    $('.cta').css({
+		'position': 'static',
+		'display': 'none',
+	}); //se voltou a cima poe estatico
+  }
+});
+/* END fixa div num ponto da pagina */
+
+window.onload = function () {
+    $.ajax({
+        url: "https://www.daebauru.sp.gov.br/nivel.php?"+Math.random(),
+        type: "GET",
+        dataType: "json",
+		timeout: 2000,
+        success: function (data) {
+			$("#nivel").html("<h4>NÍVEL DA LAGOA DE CAPTAÇÃO</h4><h3 style='text-shadow: 0.1em 0.1em 0.2em black;margin:0px 0px 5px 0px'><span style='font-size:9px'>horário da leitura</span><br> " + data['info']['data'] + "</h3><h2 style='text-align:center;border: none;margin:0px;text-shadow: 0.1em 0.1em 0.2em black'><i class='fas fa-water'></i><br> " + data['info']['nivel'] + "m</h2>"+
+			"<h4 style='text-shadow: 0.1em 0.1em 0.2em black'>NÍVEL IDEAL: 3,20m</h4><p style='text-align:right;margin:0px;text-shadow: 0.1em 0.1em 0.2em black'>fonte: telemetria&nbsp;</p>");
+        },
+        error: function (xhr, status, error) {
+			if (status === "timeout") {
+                $("#nivel").html("<h4>Demorou para carregar e foi cancelada!</h4>");
+            } else {			
+				$("#nivel").html("<h4>Servidor em manuten&ccedil;&atilde;o!</h4>");
+			}
+        }
+    });
+};

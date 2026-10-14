@@ -1,0 +1,163 @@
+{
+ "prestador": "SAMAE Jaraguá do Sul",
+ "registro": [
+  172
+ ],
+ "documento": "Tabela de Tarifas Água e Esgoto - Samae - Jaraguá do Sul.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.samaejs.com.br/central-do-usuario/tabela-de-tarifas-agua-e-esgoto/",
+ "leitura": "Página «Tabela de Tarifas Água e Esgoto» do SAMAE Jaraguá do Sul, colunas de 2026: TBO por economia e valor por m³ por faixa; esgoto a 80% da água onde há rede (20% com fossa e filtro coletivos).",
+ "tabelas": [
+  {
+   "rotulo": "Categoria A, residencial, 2026",
+   "uf": "SC",
+   "municipios": [
+    "Jaraguá do Sul"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      5,
+      1.59
+     ],
+     [
+      5,
+      10,
+      1.8
+     ],
+     [
+      10,
+      15,
+      8.05
+     ],
+     [
+      15,
+      20,
+      10.23
+     ],
+     [
+      20,
+      25,
+      11.37
+     ],
+     [
+      25,
+      30,
+      12.49
+     ],
+     [
+      30,
+      null,
+      14.79
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 30.16,
+    "nota": "TBO (tarifa básica operacional) somada ao consumo desde 0 m³; esgoto a 80% da água (TBO esgoto 24,13)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.25
+     ],
+     [
+      5,
+      10,
+      3.87
+     ],
+     [
+      10,
+      30,
+      11.83
+     ],
+     [
+      30,
+      100,
+      12.95
+     ],
+     [
+      100,
+      null,
+      14.79
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 51.02
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.25
+     ],
+     [
+      5,
+      10,
+      3.87
+     ],
+     [
+      10,
+      30,
+      11.83
+     ],
+     [
+      30,
+      100,
+      12.95
+     ],
+     [
+      100,
+      null,
+      14.79
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 51.02
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      5,
+      2.25
+     ],
+     [
+      5,
+      10,
+      3.87
+     ],
+     [
+      10,
+      30,
+      11.83
+     ],
+     [
+      30,
+      100,
+      12.95
+     ],
+     [
+      100,
+      null,
+      14.79
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 51.02
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Jaraguá do Sul",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 47.11,
+   "impresso": "TBO 30,16 + 5 × 1,59 + 5 × 1,80"
+  }
+ ]
+}

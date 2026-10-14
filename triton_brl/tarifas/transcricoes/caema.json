@@ -1,0 +1,127 @@
+{
+ "prestador": "CAEMA",
+ "registro": [
+  40
+ ],
+ "documento": "Tabela de tarifas de água tem novo valor após três anos sem reajuste.html",
+ "vigencia": "05/01/2024",
+ "fonte_url": "https://caema.ma.gov.br",
+ "leitura": "Notícia da CAEMA de 07/12/2023 sobre a Resolução MOB nº 10/2023 (reajuste de 31,69%, vigente a partir de 05/01/2024), com a tabela em imagem (tabela_tarifaria.jpg, na pasta _files da página guardada). Vale a coluna «INPC atualizada 2024».",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de tarifas (imagem), coluna INPC atualizada 2024",
+   "uf": "MA",
+   "municipios": [
+    "Açailândia",
+    "Bacabal",
+    "Balsas",
+    "Barra do Corda",
+    "Barreirinhas",
+    "Buriticupu",
+    "Caxias",
+    "Chapadinha",
+    "Codó",
+    "Coroatá",
+    "Grajaú",
+    "Imperatriz",
+    "Itapecuru-Mirim",
+    "Paço do Lumiar",
+    "Pinheiro",
+    "Santa Inês",
+    "Santa Luzia",
+    "São José de Ribamar",
+    "São Luís",
+    "Timon",
+    "Tutóia",
+    "Viana"
+   ],
+   "residencial": {
+    "fixo": 33.58,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      6.8
+     ],
+     [
+      20,
+      30,
+      10.77
+     ],
+     [
+      30,
+      50,
+      13.68
+     ],
+     [
+      50,
+      null,
+      21.48
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 174.42,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      100,
+      15.51
+     ],
+     [
+      100,
+      null,
+      13.47
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 178.77,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      100,
+      15.71
+     ],
+     [
+      100,
+      null,
+      13.47
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "publica": {
+    "fixo": 179.16,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      null,
+      19.56
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "abrangencia": "tabela única do CAEMA (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MA - São Luís",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 33.58,
+   "impresso": "Até 10: R$ 33,58"
+  }
+ ]
+}

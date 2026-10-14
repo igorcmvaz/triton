@@ -1,0 +1,116 @@
+{
+ "prestador": "SAAE Nova Mutum",
+ "registro": [
+  189,
+  71
+ ],
+ "documento": "saae_nova_mutum_decreto_105_2026.pdf",
+ "vigencia": "01/10/2026",
+ "fonte_url": "https://cdn.saaenm.com.br/assets/files/105%20-%20REAJUS_2609031311.pdf",
+ "leitura": "Decreto nº 105, de 01/09/2026, de Nova Mutum (reajuste de 7,81%, AGER-MT), Anexo I, tarifas do serviço de abastecimento de água, aplicadas a partir de 01/10/2026 (art. 4º). PDF digitalizado, lido pelas imagens das páginas. Esgoto 0%: o Decreto nº 105/2026 reajusta «as tarifas de abastecimento de água, dos serviços complementares e das sanções» do SAAE, e os Anexos I e II não têm tarifa de esgoto; o SAAE não cobra esgoto. Quem estiver ligado a uma rede deve informar o percentual no programa.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I (digitalizado)",
+   "uf": "MT",
+   "municipios": [
+    "Nova Mutum"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      20,
+      5.63
+     ],
+     [
+      20,
+      30,
+      8.13
+     ],
+     [
+      30,
+      40,
+      10.0
+     ],
+     [
+      40,
+      50,
+      12.5
+     ],
+     [
+      50,
+      null,
+      15.0
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 26.76,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o Decreto nº 105/2026 reajusta «as tarifas de abastecimento de água, dos serviços complementares e das sanções» do SAAE, e os Anexos I e II não têm tarifa de esgoto; o SAAE não cobra esgoto. Quem estiver ligado a uma rede deve informar o percentual no programa."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      20,
+      12.5
+     ],
+     [
+      20,
+      null,
+      15.0
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 66.9,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o Decreto nº 105/2026 reajusta «as tarifas de abastecimento de água, dos serviços complementares e das sanções» do SAAE, e os Anexos I e II não têm tarifa de esgoto; o SAAE não cobra esgoto. Quem estiver ligado a uma rede deve informar o percentual no programa."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      20,
+      12.5
+     ],
+     [
+      20,
+      null,
+      15.0
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 66.9,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o Decreto nº 105/2026 reajusta «as tarifas de abastecimento de água, dos serviços complementares e das sanções» do SAAE, e os Anexos I e II não têm tarifa de esgoto; o SAAE não cobra esgoto. Quem estiver ligado a uma rede deve informar o percentual no programa."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      20,
+      12.5
+     ],
+     [
+      20,
+      null,
+      15.0
+     ]
+    ],
+    "esgoto_pct": 0,
+    "fixo": 83.4,
+    "franquia": 10,
+    "nota": "Esgoto 0%: o Decreto nº 105/2026 reajusta «as tarifas de abastecimento de água, dos serviços complementares e das sanções» do SAAE, e os Anexos I e II não têm tarifa de esgoto; o SAAE não cobra esgoto. Quem estiver ligado a uma rede deve informar o percentual no programa."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Nova Mutum",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 54.91,
+   "impresso": "26,76 + 5 × 5,63"
+  }
+ ]
+}

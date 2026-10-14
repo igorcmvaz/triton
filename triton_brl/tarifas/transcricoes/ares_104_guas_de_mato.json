@@ -1,0 +1,144 @@
+{
+ "prestador": "Águas de Matão",
+ "registro": [
+  104
+ ],
+ "documento": "aguas_de_matao_ARESPCJ_resoluo_n_665_2025_-_reajuste_tarifrio_-_guas_de_mato.pdf",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1764850939-resoluo_n_665_2025_-_reajuste_tarifrio_-_guas_de_mato.pdf",
+ "leitura": "Material tarifário oficial de Águas de Matão. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/01/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Matão"
+   ],
+   "social": {
+    "esgoto_pct": 100.0,
+    "fixo": 22.66,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.27
+     ],
+     [
+      15.0,
+      20.0,
+      3.4
+     ],
+     [
+      20.0,
+      30.0,
+      6.04
+     ],
+     [
+      30.0,
+      50.0,
+      10.52
+     ],
+     [
+      50.0,
+      70.0,
+      17.14
+     ],
+     [
+      70.0,
+      100.0,
+      20.95
+     ],
+     [
+      100.0,
+      null,
+      26.16
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "fixo": 45.32,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      4.53
+     ],
+     [
+      20.0,
+      30.0,
+      6.04
+     ],
+     [
+      30.0,
+      50.0,
+      10.52
+     ],
+     [
+      50.0,
+      70.0,
+      17.14
+     ],
+     [
+      70.0,
+      100.0,
+      20.95
+     ],
+     [
+      100.0,
+      null,
+      26.16
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "fixo": 45.5,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      6.76
+     ],
+     [
+      20.0,
+      30.0,
+      9.01
+     ],
+     [
+      30.0,
+      50.0,
+      15.54
+     ],
+     [
+      50.0,
+      70.0,
+      25.8
+     ],
+     [
+      70.0,
+      100.0,
+      31.05
+     ],
+     [
+      100.0,
+      null,
+      39.07
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Matão",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 90.62,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

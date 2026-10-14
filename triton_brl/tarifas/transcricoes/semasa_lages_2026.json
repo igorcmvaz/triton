@@ -1,0 +1,82 @@
+{
+ "prestador": "SEMASA Lages",
+ "registro": [
+  171
+ ],
+ "documento": "Semasa Lages⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.semasalages.com.br/tarifas",
+ "leitura": "Página do SEMASA Lages, «Tabela tarifária – 2026»: tarifa de 10 m³ e excedentes por faixa, água e esgoto.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela tarifária 2026",
+   "uf": "SC",
+   "municipios": [
+    "Lages"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      25,
+      7.48
+     ],
+     [
+      25,
+      null,
+      10.2
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 44.0,
+    "franquia": 10,
+    "nota": "Esgoto a 80% da água (35,20/44,00)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      null,
+      9.64
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 61.34,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      null,
+      9.64
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 61.34,
+    "franquia": 10
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      null,
+      9.64
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 61.34,
+    "franquia": 10
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Lages",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 118.8,
+   "impresso": "10 m³ = 44,00 + 10 × 7,48"
+  }
+ ]
+}

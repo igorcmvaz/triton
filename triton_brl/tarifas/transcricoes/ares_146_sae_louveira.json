@@ -1,0 +1,263 @@
+{
+ "prestador": "SAE Louveira",
+ "registro": [
+  146
+ ],
+ "documento": "sae_louveira_ARESPCJ_resoluo_n_687_2026_-_reviso_tarifria_-_louveira.pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1770039048-resoluo_n_687_2026_-_reviso_tarifria_-_louveira.pdf",
+ "leitura": "Material tarifário oficial de SAE Louveira. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/03/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Louveira"
+   ],
+   "residencial": {
+    "esgoto_pct": 85.0,
+    "fixo": 27.93,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.78
+     ],
+     [
+      20.0,
+      30.0,
+      4.68
+     ],
+     [
+      30.0,
+      40.0,
+      6.43
+     ],
+     [
+      40.0,
+      50.0,
+      7.25
+     ],
+     [
+      50.0,
+      70.0,
+      10.21
+     ],
+     [
+      70.0,
+      null,
+      15.08
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 85.0,
+    "fixo": 13.97,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      1.89
+     ],
+     [
+      20.0,
+      30.0,
+      3.51
+     ],
+     [
+      30.0,
+      40.0,
+      6.43
+     ],
+     [
+      40.0,
+      50.0,
+      7.25
+     ],
+     [
+      50.0,
+      70.0,
+      10.21
+     ],
+     [
+      70.0,
+      null,
+      15.08
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 85.0,
+    "fixo": 27.93,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.78
+     ],
+     [
+      20.0,
+      30.0,
+      4.68
+     ],
+     [
+      30.0,
+      40.0,
+      6.43
+     ],
+     [
+      40.0,
+      50.0,
+      7.25
+     ],
+     [
+      50.0,
+      70.0,
+      10.21
+     ],
+     [
+      70.0,
+      null,
+      15.08
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 85.0,
+    "fixo": 37.68,
+    "franquia": 6.0,
+    "faixas": [
+     [
+      6.0,
+      24.0,
+      6.13
+     ],
+     [
+      24.0,
+      44.0,
+      6.43
+     ],
+     [
+      44.0,
+      64.0,
+      7.13
+     ],
+     [
+      64.0,
+      84.0,
+      8.52
+     ],
+     [
+      84.0,
+      104.0,
+      10.9
+     ],
+     [
+      104.0,
+      150.0,
+      14.95
+     ],
+     [
+      150.0,
+      500.0,
+      22.82
+     ],
+     [
+      500.0,
+      10000.0,
+      24.09
+     ],
+     [
+      10000.0,
+      15000.0,
+      25.51
+     ],
+     [
+      15000.0,
+      20000.0,
+      26.91
+     ],
+     [
+      20000.0,
+      null,
+      28.35
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 85.0,
+    "fixo": 37.68,
+    "franquia": 6.0,
+    "faixas": [
+     [
+      6.0,
+      24.0,
+      6.13
+     ],
+     [
+      24.0,
+      44.0,
+      6.43
+     ],
+     [
+      44.0,
+      64.0,
+      7.13
+     ],
+     [
+      64.0,
+      84.0,
+      8.52
+     ],
+     [
+      84.0,
+      104.0,
+      10.9
+     ],
+     [
+      104.0,
+      150.0,
+      14.95
+     ],
+     [
+      150.0,
+      500.0,
+      22.82
+     ],
+     [
+      500.0,
+      10000.0,
+      24.09
+     ],
+     [
+      10000.0,
+      15000.0,
+      25.51
+     ],
+     [
+      15000.0,
+      20000.0,
+      26.91
+     ],
+     [
+      20000.0,
+      null,
+      28.35
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Louveira",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 65.73,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

@@ -1,0 +1,232 @@
+{
+ "prestador": "EMBASA",
+ "registro": [
+  42
+ ],
+ "documento": "Tarifas 2026 - Institucional.html",
+ "vigencia": "20/07/2026",
+ "fonte_url": "https://www.embasa.ba.gov.br/w/tarifas-2026",
+ "leitura": "Página «Tarifas 2026» da EMBASA, vigência a partir de 20/07/2026 (Resolução AGERSA 001/2026). Tabela estadual única: tarifa mínima equivalente a 6 m³ e excedente por faixa; esgoto a 80% da conta de água na capital e no interior (45% em sistemas independentes, caso a caso).",
+ "tabelas": [
+  {
+   "rotulo": "1.1 Ligações medidas (tabela estadual)",
+   "uf": "BA",
+   "municipios": [
+    "Alagoinhas",
+    "Barra",
+    "Barreiras",
+    "Bom Jesus da Lapa",
+    "Brumado",
+    "Caetité",
+    "Camaçari",
+    "Campo Formoso",
+    "Candeias",
+    "Casa Nova",
+    "Conceição do Coité",
+    "Cruz das Almas",
+    "Dias d'Ávila",
+    "Euclides da Cunha",
+    "Eunápolis",
+    "Feira de Santana",
+    "Guanambi",
+    "Ilhéus",
+    "Ipirá",
+    "Irecê",
+    "Itaberaba",
+    "Itabuna",
+    "Itamaraju",
+    "Itapetinga",
+    "Jacobina",
+    "Jequié",
+    "Juazeiro",
+    "Lauro de Freitas",
+    "Luís Eduardo Magalhães",
+    "Paulo Afonso",
+    "Porto Seguro",
+    "Ribeira do Pombal",
+    "Salvador",
+    "Santo Amaro",
+    "Santo Antônio de Jesus",
+    "Santo Estêvão",
+    "Senhor do Bonfim",
+    "Serrinha",
+    "Simões Filho",
+    "Teixeira de Freitas",
+    "Vitória da Conquista"
+   ],
+   "residencial": {
+    "fixo": 44.77,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      1.77
+     ],
+     [
+      10,
+      15,
+      12.53
+     ],
+     [
+      15,
+      20,
+      13.41
+     ],
+     [
+      20,
+      25,
+      15.08
+     ],
+     [
+      25,
+      30,
+      16.82
+     ],
+     [
+      30,
+      40,
+      18.49
+     ],
+     [
+      40,
+      50,
+      20.28
+     ],
+     [
+      50,
+      null,
+      24.4
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "fixo": 16.28,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      1.01
+     ],
+     [
+      10,
+      15,
+      7.18
+     ],
+     [
+      15,
+      20,
+      7.81
+     ],
+     [
+      20,
+      25,
+      11.64
+     ],
+     [
+      25,
+      30,
+      12.98
+     ],
+     [
+      30,
+      40,
+      14.37
+     ],
+     [
+      40,
+      50,
+      16.46
+     ],
+     [
+      50,
+      null,
+      19.79
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "fixo": 129.94,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      4.96
+     ],
+     [
+      10,
+      50,
+      28.5
+     ],
+     [
+      50,
+      null,
+      33.6
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial (serviços, comércios e outras atividades normal); a atividade reduzida tem mínimo de R$ 55,53."
+   },
+   "industrial": {
+    "fixo": 129.94,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      4.96
+     ],
+     [
+      10,
+      50,
+      28.5
+     ],
+     [
+      50,
+      null,
+      33.6
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Construção e Industrial."
+   },
+   "publica": {
+    "fixo": 129.94,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      4.96
+     ],
+     [
+      10,
+      50,
+      28.5
+     ],
+     [
+      50,
+      null,
+      33.6
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "abrangencia": "tabela única do EMBASA (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "BA - Salvador",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 51.85,
+   "impresso": "Até 6 m³ R$ 44,77; 7–10 m³ R$ 1,77"
+  }
+ ]
+}

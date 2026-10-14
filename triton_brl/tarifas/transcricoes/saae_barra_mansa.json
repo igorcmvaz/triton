@@ -1,0 +1,130 @@
+{
+ "prestador": "SAAE Barra Mansa",
+ "registro": [
+  47
+ ],
+ "documento": "BO-BM-1510 (1).pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.barramansa.rj.gov.br",
+ "leitura": "Boletim Oficial de Barra Mansa nº 1510 (06/03/2026), p. 26: Resolução nº 002/2026 do Conselho Deliberativo do SAAE (realinhamento de 9,73%, efeitos a partir de 01/03/2026), Anexo I, tarifas das ligações com hidrômetro. Faixas por m³ desde 0 m³; esgoto: acréscimo de 60% sobre a água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, ligações com hidrômetro",
+   "uf": "RJ",
+   "municipios": [
+    "Barra Mansa"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.87
+     ],
+     [
+      10,
+      15,
+      8.35
+     ],
+     [
+      15,
+      30,
+      14.69
+     ],
+     [
+      30,
+      45,
+      20.02
+     ],
+     [
+      45,
+      60,
+      40.06
+     ],
+     [
+      60,
+      null,
+      53.41
+     ]
+    ],
+    "esgoto_pct": 60
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.94
+     ],
+     [
+      10,
+      20,
+      18.16
+     ],
+     [
+      20,
+      30,
+      33.98
+     ],
+     [
+      30,
+      null,
+      38.46
+     ]
+    ],
+    "esgoto_pct": 60,
+    "nota": "Comercial e Industrial."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.94
+     ],
+     [
+      10,
+      20,
+      18.16
+     ],
+     [
+      20,
+      30,
+      33.98
+     ],
+     [
+      30,
+      null,
+      38.46
+     ]
+    ],
+    "esgoto_pct": 60,
+    "nota": "Comercial e Industrial."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      8.81
+     ],
+     [
+      15,
+      null,
+      19.49
+     ]
+    ],
+    "esgoto_pct": 60
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - Barra Mansa",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 48.7,
+   "impresso": "00-10 m³ R$ 4,87"
+  }
+ ]
+}

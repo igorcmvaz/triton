@@ -1,0 +1,121 @@
+{
+ "prestador": "CSA Equatorial",
+ "registro": [
+  21
+ ],
+ "documento": "114624-RESOLUCAO Nº 008-2025, DE 30 DE JULHO DE 2025 - Reajuste Tarifa_rio de 2025 CSA.pdf",
+ "vigencia": "30/08/2025",
+ "fonte_url": "https://arsap.portal.ap.gov.br",
+ "leitura": "Resolução ARSAP nº 008/2025, de 30/07/2025, Anexo I «Estrutura Tarifária Reajustada», vigência a partir de 30/08/2025 (Amapá). Cota mínima de 10 m³; esgoto a 100% da água em todas as categorias.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela 1 (consumidores medidos)",
+   "uf": "AP",
+   "municipios": [
+    "Macapá",
+    "Santana"
+   ],
+   "residencial": {
+    "fixo": 42.91,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.49
+     ],
+     [
+      20,
+      30,
+      5.06
+     ],
+     [
+      30,
+      50,
+      6.58
+     ],
+     [
+      50,
+      null,
+      9.31
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial R1."
+   },
+   "social": {
+    "fixo": 17.22,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.49
+     ],
+     [
+      20,
+      30,
+      5.06
+     ],
+     [
+      30,
+      50,
+      6.58
+     ],
+     [
+      50,
+      null,
+      9.31
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 111.54,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      13.38
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial C2; C1 tem mínimo de R$ 55,77 e R$ 11,16/m³, C3 R$ 133,69 e R$ 15,28/m³."
+   },
+   "industrial": {
+    "fixo": 152.84,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      15.28
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 305.79,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      15.77
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AP - Macapá",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 87.81,
+   "impresso": "cota mínima 10 m³ R$ 42,91; 11–20 R$ 4,49"
+  }
+ ]
+}

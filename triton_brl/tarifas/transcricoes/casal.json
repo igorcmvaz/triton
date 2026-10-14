@@ -1,0 +1,164 @@
+{
+ "prestador": "CASAL",
+ "registro": [
+  30
+ ],
+ "documento": "ESTRUTURA-TARiFARIA-2026.pdf",
+ "vigencia": "08/12/2025",
+ "fonte_url": "https://www.casal.al.gov.br",
+ "leitura": "Estrutura Tarifária 2026 da CASAL, aprovada pela Resolução ARSAL nº 233 de 05/11/2025, em vigor a partir de 08/12/2025. «Até 10 m³» é conta mínima de 10 m³: a tabela de custo por consumo de Atalaia, no documento do Bloco A (mesma resolução ARSAL), cobra o mesmo valor de 1 a 10 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura Tarifária 2026",
+   "uf": "AL",
+   "municipios": [
+    "Arapiraca"
+   ],
+   "residencial": {
+    "fixo": 72.8,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      13.9
+     ],
+     [
+      15,
+      20,
+      16.069
+     ],
+     [
+      20,
+      30,
+      17.169
+     ],
+     [
+      30,
+      40,
+      17.723
+     ],
+     [
+      40,
+      50,
+      17.957
+     ],
+     [
+      50,
+      90,
+      18.075
+     ],
+     [
+      90,
+      150,
+      18.177
+     ],
+     [
+      150,
+      null,
+      18.193
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Até 10 m³» é conta mínima de 10 m³: a tabela de custo por consumo de Atalaia, no documento do Bloco A (mesma resolução ARSAL), cobra o mesmo valor de 1 a 10 m³. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "social": {
+    "fixo": 36.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      6.95
+     ],
+     [
+      15,
+      20,
+      8.034
+     ],
+     [
+      20,
+      30,
+      17.169
+     ],
+     [
+      30,
+      40,
+      17.723
+     ],
+     [
+      40,
+      50,
+      17.957
+     ],
+     [
+      50,
+      90,
+      18.075
+     ],
+     [
+      90,
+      150,
+      18.177
+     ],
+     [
+      150,
+      null,
+      18.193
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa Social: 50% da tarifa mínima residencial até 10 m³ e 50% da residencial de 11 a 20 m³. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 168.3,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      26.746
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 188.97,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      34.539
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 141.13,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      36.53
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "abrangencia": "o documento é do prestador (CASAL), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AL - Arapiraca",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 142.3,
+   "impresso": "Até 10 m³ 7,28; 11–15 13,90"
+  }
+ ]
+}

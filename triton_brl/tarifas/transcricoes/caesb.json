@@ -1,0 +1,199 @@
+{
+ "prestador": "CAESB",
+ "registro": [
+  41
+ ],
+ "documento": "Tabela-01-06-2026-a-31-05-2027.pdf",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.caesb.df.gov.br",
+ "leitura": "Tabela de tarifa da CAESB com vigência de 01/06/2026 a 31/05/2027 (reajuste de 3,98%, Resolução ADASA nº 70/2026, DODF de 23/04/2026). Tarifa fixa somada ao consumo desde 0 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de tarifa mensal 2026/2027",
+   "uf": "DF",
+   "municipios": [
+    "Brasília"
+   ],
+   "residencial": {
+    "fixo": 11.62,
+    "faixas": [
+     [
+      0,
+      7,
+      4.3
+     ],
+     [
+      7,
+      13,
+      5.15
+     ],
+     [
+      13,
+      20,
+      10.21
+     ],
+     [
+      20,
+      30,
+      14.81
+     ],
+     [
+      30,
+      45,
+      22.22
+     ],
+     [
+      45,
+      null,
+      28.88
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Padrão. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "social": {
+    "fixo": 5.81,
+    "faixas": [
+     [
+      0,
+      7,
+      2.15
+     ],
+     [
+      7,
+      13,
+      2.58
+     ],
+     [
+      13,
+      20,
+      5.11
+     ],
+     [
+      20,
+      30,
+      7.41
+     ],
+     [
+      30,
+      45,
+      22.22
+     ],
+     [
+      45,
+      null,
+      28.88
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 30.51,
+    "faixas": [
+     [
+      0,
+      4,
+      8.87
+     ],
+     [
+      4,
+      7,
+      11.08
+     ],
+     [
+      7,
+      10,
+      14.3
+     ],
+     [
+      10,
+      40,
+      17.73
+     ],
+     [
+      40,
+      null,
+      20.92
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial, Industrial e Pública. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 30.51,
+    "faixas": [
+     [
+      0,
+      4,
+      8.87
+     ],
+     [
+      4,
+      7,
+      11.08
+     ],
+     [
+      7,
+      10,
+      14.3
+     ],
+     [
+      10,
+      40,
+      17.73
+     ],
+     [
+      40,
+      null,
+      20.92
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial, Industrial e Pública. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "publica": {
+    "fixo": 30.51,
+    "faixas": [
+     [
+      0,
+      4,
+      8.87
+     ],
+     [
+      4,
+      7,
+      11.08
+     ],
+     [
+      7,
+      10,
+      14.3
+     ],
+     [
+      10,
+      40,
+      17.73
+     ],
+     [
+      40,
+      null,
+      20.92
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial, Industrial e Pública. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "abrangencia": "o documento é do prestador (CAESB), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "DF - Brasília",
+   "categoria": "residencial",
+   "consumo_m3": 7,
+   "conta_agua": 41.72,
+   "impresso": "tarifa fixa 11,62 + 0 a 7 m³ a 4,30 (valor da faixa 30,10)"
+  }
+ ]
+}

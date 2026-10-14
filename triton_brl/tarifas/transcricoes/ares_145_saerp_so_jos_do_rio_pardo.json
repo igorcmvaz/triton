@@ -1,0 +1,188 @@
+{
+ "prestador": "SAERP São José do Rio Pardo",
+ "registro": [
+  145
+ ],
+ "documento": "saerp_sao_jose_do_rio_pardo_ARESPCJ_resoluo_n_694_2026_-_reajuste_tarifrio_-_so_jos_do_rio_pardo.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1777896921-resoluo_n_694_2026_-_reajuste_tarifrio_-_so_jos_do_rio_pardo.pdf",
+ "leitura": "Material tarifário oficial de SAERP São José do Rio Pardo. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/05/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "São José do Rio Pardo"
+   ],
+   "residencial": {
+    "esgoto_pct": 80,
+    "fixo": 29.99,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      3.67
+     ],
+     [
+      20.0,
+      30.0,
+      4.47
+     ],
+     [
+      30.0,
+      40.0,
+      6.8
+     ],
+     [
+      40.0,
+      50.0,
+      8.37
+     ],
+     [
+      50.0,
+      null,
+      10.98
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 80,
+    "fixo": 46.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.49
+     ],
+     [
+      20.0,
+      30.0,
+      9.22
+     ],
+     [
+      30.0,
+      40.0,
+      18.52
+     ],
+     [
+      40.0,
+      50.0,
+      21.22
+     ],
+     [
+      50.0,
+      null,
+      23.08
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 80,
+    "fixo": 46.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.49
+     ],
+     [
+      20.0,
+      30.0,
+      9.22
+     ],
+     [
+      30.0,
+      40.0,
+      18.52
+     ],
+     [
+      40.0,
+      50.0,
+      21.22
+     ],
+     [
+      50.0,
+      null,
+      23.08
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 80,
+    "fixo": 46.47,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.49
+     ],
+     [
+      20.0,
+      30.0,
+      9.22
+     ],
+     [
+      30.0,
+      40.0,
+      18.52
+     ],
+     [
+      40.0,
+      50.0,
+      21.22
+     ],
+     [
+      50.0,
+      null,
+      23.08
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 80,
+    "fixo": 9.0,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      1.1
+     ],
+     [
+      20.0,
+      30.0,
+      4.47
+     ],
+     [
+      30.0,
+      40.0,
+      6.8
+     ],
+     [
+      40.0,
+      50.0,
+      8.37
+     ],
+     [
+      50.0,
+      null,
+      10.98
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - São José do Rio Pardo",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 66.69,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

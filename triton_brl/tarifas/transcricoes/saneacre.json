@@ -1,0 +1,148 @@
+{
+ "prestador": "SANEACRE",
+ "registro": [
+  31
+ ],
+ "documento": "ESTRUTURATARIFÁRIA-2025-CORRIGIDA.pdf",
+ "vigencia": "14/04/2025",
+ "fonte_url": "https://saneacre.ac.gov.br",
+ "leitura": "Estrutura tarifária do SANEACRE 2025 (correção de 4,76%, Resolução nº 104/AGEAC, de 14/04/2025). Conta mínima por categoria (residencial e comercial 15 m³, industrial e público 20 m³) e excedente por faixa; esgoto ≈80% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura Tarifária SANEACRE 2025",
+   "uf": "AC",
+   "municipios": [
+    "Rio Branco",
+    "Cruzeiro do Sul"
+   ],
+   "residencial": {
+    "fixo": 38.37,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      20,
+      3.68
+     ],
+     [
+      20,
+      25,
+      4.57
+     ],
+     [
+      25,
+      30,
+      5.46
+     ],
+     [
+      30,
+      35,
+      6.35
+     ],
+     [
+      35,
+      40,
+      7.24
+     ],
+     [
+      40,
+      45,
+      8.12
+     ],
+     [
+      45,
+      50,
+      9.01
+     ],
+     [
+      50,
+      null,
+      9.9
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "fixo": 77.59,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      25,
+      7.85
+     ],
+     [
+      25,
+      50,
+      8.25
+     ],
+     [
+      50,
+      null,
+      8.68
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "fixo": 119.3,
+    "franquia": 20,
+    "faixas": [
+     [
+      20,
+      30,
+      8.99
+     ],
+     [
+      30,
+      50,
+      9.87
+     ],
+     [
+      50,
+      null,
+      10.83
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "fixo": 264.62,
+    "franquia": 20,
+    "faixas": [
+     [
+      20,
+      30,
+      14.11
+     ],
+     [
+      30,
+      50,
+      19.62
+     ],
+     [
+      50,
+      100,
+      21.34
+     ],
+     [
+      100,
+      null,
+      25.26
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "abrangencia": "tabela única do SANEACRE (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AC - Rio Branco",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 38.37,
+   "impresso": "Residencial 15 m³: R$ 38,37"
+  }
+ ]
+}

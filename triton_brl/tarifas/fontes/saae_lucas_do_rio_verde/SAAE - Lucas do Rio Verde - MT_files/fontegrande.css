@@ -1,0 +1,231 @@
+@charset "utf-8";
+
+/**********************************  
+************** geral **************
+***********************************/
+
+body {
+	font-size: 1.5em;
+}
+
+.btn {
+   	font-size: 0.9em;
+}
+
+.btn-search-pag{
+	font-size:14px;
+}
+
+h4{
+	font-size: 21px;
+}
+
+h6{
+	font-size:16px;
+}
+
+.btn-lg{
+	font-size:18px;
+}
+
+/**********************************  
+*************** menu **************
+***********************************/
+
+.navbar-custom .nav li a {
+   	font-size:16px;
+}
+
+.navbar-nav > li > .icon-search{
+    font-size:14px !important;
+}
+
+/**********************************  
+********* acessibilidade **********
+***********************************/
+
+#acessibilidade{
+	font-size:14px;
+}
+
+a.acessibilidade-link {
+    margin-right:16px;
+}
+
+/**********************************  
+******** carousel noticias ********
+***********************************/
+
+.title-menu-carousel{
+	font-size: 16px;
+}
+
+.carousel-caption a{
+	font-size: 22px;
+	
+}
+
+.carousel-caption p{
+	font-size: 16px;
+}
+
+h5.title-menu-carousel {
+	margin-bottom: 5px;
+}
+
+/**********************************  
+************* servicos ************
+***********************************/
+.btn-featured div {
+	line-height: 24px;
+}
+
+.title-service {
+   font-size:28px !important;
+   margin-top: 13px;
+}
+
+.description-service{
+   font-size:13px !important;
+}
+
+
+/**********************************  
+********** tv prefeitura **********
+***********************************/
+
+.video-retina-title{
+    font-size: 20px;
+}
+
+/**********************************  
+******** radio prefeitura *********
+***********************************/
+
+.radio-div-conteudo{
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right: 7px;
+	padding-left: 7px;
+	margin-bottom:10px;
+}
+
+.radio-text-info p{
+	margin-bottom:0px;
+	font-size:18px;
+}
+	
+
+
+
+/**********************************  
+*********** secretarias ***********
+***********************************/
+
+.secretaria-list-group-item {
+	font-size:16px;
+}
+
+
+/**********************************  
+************** fotos **************
+***********************************/
+.foto-capa-text {
+    font-size: 24px;
+}
+
+.foto-titulo-text{
+	margin-top:5px;
+}
+
+.foto-data-text{
+	margin-top:5px;
+	font-size:14px;
+}
+
+
+/**********************************  
+************* videos **************
+***********************************/
+
+.video-data-text{
+	margin-top:5px;
+	font-size:14px;
+}
+
+
+
+/**********************************  
+************ telefones ************
+***********************************/
+
+a.tel-list-group-item.active {
+   font-size:16px;
+}
+
+
+
+/**********************************  
+************* info bar ************
+***********************************/
+
+.info-bar-footer h5{
+	 font-size:21px;
+}
+
+.info-bar-footer h6{
+	 font-size:16px;
+}
+
+
+
+/**********************************  
+************** footer *************
+***********************************/
+
+.footer {
+   font-size:16px;
+}
+
+.footer-copyright{
+	 font-size:16px;
+}
+
+
+/**********************************  
+************ breadcrumb ***********
+***********************************/
+
+section.page-header .breadcrumb {
+    font-size: 16px;
+}
+
+
+/**********************************  
+*********** panel-title ***********
+***********************************/
+
+.panel-title {
+    font-size: 15px;
+}
+
+
+/**********************************  
+************ btn-block ************
+***********************************/
+
+.btn-negative{
+	font-size:16px;
+}
+
+/**********************************  
+************* noticia *************
+***********************************/
+
+.text-muted{
+	font-size:17px;
+}
+
+.text-news span{
+	font-size:18px !important;
+}

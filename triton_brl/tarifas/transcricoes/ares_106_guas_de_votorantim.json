@@ -1,0 +1,198 @@
+{
+ "prestador": "Águas de Votorantim",
+ "registro": [
+  106
+ ],
+ "documento": "aguas_de_votorantim_ARESPCJ_resoluo_n_716_2026_-_reajuste_tarifrio_-_votorantim.pdf",
+ "vigencia": "01/09/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1785757037-resoluo_n_716_2026_-_reajuste_tarifrio_-_votorantim.pdf",
+ "leitura": "Material tarifário oficial de Águas de Votorantim. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/09/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Votorantim"
+   ],
+   "social": {
+    "esgoto_pct": 80,
+    "fixo": 14.93,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.13
+     ],
+     [
+      15.0,
+      20.0,
+      3.2
+     ],
+     [
+      20.0,
+      30.0,
+      4.84
+     ],
+     [
+      30.0,
+      40.0,
+      5.61
+     ],
+     [
+      40.0,
+      50.0,
+      6.3
+     ],
+     [
+      50.0,
+      100.0,
+      7.31
+     ],
+     [
+      100.0,
+      200.0,
+      10.03
+     ],
+     [
+      200.0,
+      null,
+      12.78
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 80,
+    "fixo": 29.86,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      4.26
+     ],
+     [
+      20.0,
+      30.0,
+      4.84
+     ],
+     [
+      30.0,
+      40.0,
+      5.61
+     ],
+     [
+      40.0,
+      50.0,
+      6.3
+     ],
+     [
+      50.0,
+      100.0,
+      7.31
+     ],
+     [
+      100.0,
+      200.0,
+      10.03
+     ],
+     [
+      200.0,
+      null,
+      12.78
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 80,
+    "fixo": 88.39,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      30.0,
+      13.13
+     ],
+     [
+      30.0,
+      50.0,
+      14.35
+     ],
+     [
+      50.0,
+      100.0,
+      15.83
+     ],
+     [
+      100.0,
+      null,
+      17.37
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 80,
+    "fixo": 218.98,
+    "franquia": 20.0,
+    "faixas": [
+     [
+      20.0,
+      50.0,
+      14.63
+     ],
+     [
+      50.0,
+      100.0,
+      16.07
+     ],
+     [
+      100.0,
+      200.0,
+      17.63
+     ],
+     [
+      200.0,
+      null,
+      17.93
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 80,
+    "fixo": 88.39,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      30.0,
+      13.13
+     ],
+     [
+      30.0,
+      50.0,
+      14.35
+     ],
+     [
+      50.0,
+      100.0,
+      15.83
+     ],
+     [
+      100.0,
+      null,
+      17.37
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Votorantim",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 72.46,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

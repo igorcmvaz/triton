@@ -1,0 +1,236 @@
+{
+ "prestador": "SAAEJA",
+ "registro": [
+  124
+ ],
+ "documento": "saaeja_ARESPCJ_resoluo_n_696_2026_-_reviso_tarifria_-_saaeja_jaguarina.pdf",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1782129024-resoluo_n_696_2026_-_reviso_tarifria_-_saaeja_jaguarina.pdf",
+ "leitura": "Material tarifário oficial de SAAEJA. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/06/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Jaguariúna"
+   ],
+   "social": {
+    "esgoto_pct": 100.0,
+    "fixo": 11.4,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.09
+     ],
+     [
+      15.0,
+      20.0,
+      2.42
+     ],
+     [
+      20.0,
+      25.0,
+      3.96
+     ],
+     [
+      25.0,
+      30.0,
+      4.73
+     ],
+     [
+      30.0,
+      35.0,
+      5.65
+     ],
+     [
+      35.0,
+      45.0,
+      6.85
+     ],
+     [
+      45.0,
+      60.0,
+      8.21
+     ],
+     [
+      60.0,
+      100.0,
+      9.78
+     ],
+     [
+      100.0,
+      null,
+      11.75
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "fixo": 22.81,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.76
+     ],
+     [
+      15.0,
+      20.0,
+      3.22
+     ],
+     [
+      20.0,
+      25.0,
+      3.96
+     ],
+     [
+      25.0,
+      30.0,
+      4.73
+     ],
+     [
+      30.0,
+      35.0,
+      5.65
+     ],
+     [
+      35.0,
+      45.0,
+      6.85
+     ],
+     [
+      45.0,
+      60.0,
+      8.21
+     ],
+     [
+      60.0,
+      100.0,
+      9.78
+     ],
+     [
+      100.0,
+      null,
+      11.75
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "fixo": 54.29,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      6.56
+     ],
+     [
+      15.0,
+      20.0,
+      7.84
+     ],
+     [
+      20.0,
+      25.0,
+      9.38
+     ],
+     [
+      25.0,
+      30.0,
+      11.3
+     ],
+     [
+      30.0,
+      35.0,
+      13.5
+     ],
+     [
+      35.0,
+      45.0,
+      16.25
+     ],
+     [
+      45.0,
+      60.0,
+      19.52
+     ],
+     [
+      60.0,
+      100.0,
+      23.38
+     ],
+     [
+      100.0,
+      null,
+      28.05
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100.0,
+    "fixo": 109.26,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      12.54
+     ],
+     [
+      15.0,
+      20.0,
+      14.33
+     ],
+     [
+      20.0,
+      25.0,
+      16.55
+     ],
+     [
+      25.0,
+      30.0,
+      18.99
+     ],
+     [
+      30.0,
+      35.0,
+      21.86
+     ],
+     [
+      35.0,
+      45.0,
+      25.09
+     ],
+     [
+      45.0,
+      60.0,
+      28.91
+     ],
+     [
+      60.0,
+      100.0,
+      33.25
+     ],
+     [
+      100.0,
+      null,
+      38.2
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Jaguariúna",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 52.71,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

@@ -1,0 +1,171 @@
+{
+ "prestador": "SAEP Pirassununga",
+ "registro": [
+  143
+ ],
+ "documento": "saep_pirassununga_ARESPCJ_resoluo_n_695_2026_-_reajuste_tarifrio_-_pirassununga.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1777897172-resoluo_n_695_2026_-_reajuste_tarifrio_-_pirassununga.pdf",
+ "leitura": "Material tarifário oficial de SAEP Pirassununga. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/05/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Pirassununga"
+   ],
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "fixo": 29.91,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      3.01
+     ],
+     [
+      15.0,
+      20.0,
+      4.12
+     ],
+     [
+      20.0,
+      25.0,
+      4.9
+     ],
+     [
+      25.0,
+      30.0,
+      6.08
+     ],
+     [
+      30.0,
+      35.0,
+      7.14
+     ],
+     [
+      35.0,
+      null,
+      8.25
+     ]
+    ]
+   },
+   "social": {
+    "esgoto_pct": 100.0,
+    "fixo": 14.96,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      1.51
+     ],
+     [
+      15.0,
+      20.0,
+      3.09
+     ],
+     [
+      20.0,
+      25.0,
+      4.9
+     ],
+     [
+      25.0,
+      30.0,
+      6.08
+     ],
+     [
+      30.0,
+      35.0,
+      7.14
+     ],
+     [
+      35.0,
+      null,
+      8.25
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 100.0,
+    "fixo": 39.52,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      4.35
+     ],
+     [
+      15.0,
+      20.0,
+      5.6
+     ],
+     [
+      20.0,
+      25.0,
+      6.64
+     ],
+     [
+      25.0,
+      30.0,
+      8.0
+     ],
+     [
+      30.0,
+      35.0,
+      9.19
+     ],
+     [
+      35.0,
+      null,
+      11.24
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 100.0,
+    "fixo": 58.69,
+    "franquia": 40.0,
+    "faixas": [
+     [
+      40.0,
+      50.0,
+      10.57
+     ],
+     [
+      50.0,
+      100.0,
+      11.51
+     ],
+     [
+      100.0,
+      500.0,
+      14.54
+     ],
+     [
+      500.0,
+      1000.0,
+      16.83
+     ],
+     [
+      1000.0,
+      null,
+      21.33
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Pirassununga",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 65.56,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

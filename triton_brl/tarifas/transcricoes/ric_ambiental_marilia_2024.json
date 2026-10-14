@@ -1,0 +1,142 @@
+{
+ "prestador": "RIC Ambiental",
+ "registro": [
+  174
+ ],
+ "documento": "Taxas de Consumo - RIC Ambiental.html",
+ "vigencia": "01/05/2024",
+ "fonte_url": "https://ricambiental.com.br/taxas-de-consumo/",
+ "leitura": "Página «Taxas de Consumo» da RIC Ambiental (Marília): a tabela é a imagem salva com a página, «RIC maio24»: mínimo de 5 m³ (residencial) e 15 m³ (comercial, industrial, pública), excedentes por faixa, esgoto a 75% da água. O banco tinha valores maiores, sem documento; o programa reajusta a tabela a partir da vigência.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela RIC maio/2024 (imagem)",
+   "uf": "SP",
+   "municipios": [
+    "Marília"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      5,
+      15,
+      2.17
+     ],
+     [
+      15,
+      30,
+      5.85
+     ],
+     [
+      30,
+      50,
+      7.88
+     ],
+     [
+      50,
+      100,
+      9.56
+     ],
+     [
+      100,
+      null,
+      10.9
+     ]
+    ],
+    "esgoto_pct": 75,
+    "fixo": 18.47,
+    "franquia": 5,
+    "nota": "Mínimo de 5 m³; esgoto a 75% da água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      15,
+      30,
+      6.8
+     ],
+     [
+      30,
+      50,
+      9.04
+     ],
+     [
+      50,
+      100,
+      10.84
+     ],
+     [
+      100,
+      null,
+      12.69
+     ]
+    ],
+    "esgoto_pct": 75,
+    "fixo": 51.85,
+    "franquia": 15
+   },
+   "industrial": {
+    "faixas": [
+     [
+      15,
+      30,
+      6.8
+     ],
+     [
+      30,
+      50,
+      9.04
+     ],
+     [
+      50,
+      100,
+      10.84
+     ],
+     [
+      100,
+      null,
+      12.69
+     ]
+    ],
+    "esgoto_pct": 75,
+    "fixo": 51.85,
+    "franquia": 15
+   },
+   "publica": {
+    "faixas": [
+     [
+      15,
+      30,
+      6.8
+     ],
+     [
+      30,
+      50,
+      9.04
+     ],
+     [
+      50,
+      100,
+      10.84
+     ],
+     [
+      100,
+      null,
+      12.69
+     ]
+    ],
+    "esgoto_pct": 75,
+    "fixo": 51.85,
+    "franquia": 15
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Marília",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 40.17,
+   "impresso": "mínimo 18,47 + 10 × 2,17"
+  }
+ ]
+}

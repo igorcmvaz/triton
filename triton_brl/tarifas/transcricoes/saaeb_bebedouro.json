@@ -1,0 +1,143 @@
+{
+ "prestador": "SAAEB Ambiental",
+ "registro": [
+  86,
+  83
+ ],
+ "documento": "Decreto-Reajuste.pdf",
+ "vigencia": "01/04/2026",
+ "fonte_url": "https://www.saaeb.sp.gov.br",
+ "leitura": "Decreto nº 18.160, de 27/02/2026, de Bebedouro (Diário Oficial de 03/03/2026, reajuste de 6,26%), cobrado a partir dos vencimentos de 01/04/2026: tarifa mínima de 0 a 10 m³, valor por m³ adicional em cada faixa e a conta total tabelada de 11 a 100 m³. Mínimo de 10 m³; esgoto a 80% da água (R$ 3,76 sobre R$ 4,70 por m³).",
+ "tabelas": [
+  {
+   "rotulo": "Art. 1º, tabelas",
+   "uf": "SP",
+   "municipios": [
+    "Bebedouro"
+   ],
+   "residencial": {
+    "fixo": 34.62,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.7
+     ],
+     [
+      20,
+      30,
+      6.23
+     ],
+     [
+      30,
+      40,
+      6.96
+     ],
+     [
+      40,
+      50,
+      8.72
+     ],
+     [
+      50,
+      60,
+      10.52
+     ],
+     [
+      60,
+      null,
+      12.69
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Mínimo de 10 m³; esgoto a 80% da água (R$ 3,76 sobre R$ 4,70 por m³)."
+   },
+   "comercial": {
+    "fixo": 43.45,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.81
+     ],
+     [
+      20,
+      30,
+      7.63
+     ],
+     [
+      30,
+      40,
+      8.78
+     ],
+     [
+      40,
+      50,
+      10.82
+     ],
+     [
+      50,
+      60,
+      13.11
+     ],
+     [
+      60,
+      null,
+      15.94
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial/Industrial. Mínimo de 10 m³; esgoto a 80% da água (R$ 3,76 sobre R$ 4,70 por m³)."
+   },
+   "industrial": {
+    "fixo": 43.45,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.81
+     ],
+     [
+      20,
+      30,
+      7.63
+     ],
+     [
+      30,
+      40,
+      8.78
+     ],
+     [
+      40,
+      50,
+      10.82
+     ],
+     [
+      50,
+      60,
+      13.11
+     ],
+     [
+      60,
+      null,
+      15.94
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial/Industrial. Mínimo de 10 m³; esgoto a 80% da água (R$ 3,76 sobre R$ 4,70 por m³)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Bebedouro",
+   "categoria": "residencial",
+   "consumo_m3": 11,
+   "conta_agua": 39.32,
+   "impresso": "11 m³: total R$ 70,78 = água 34,62 + 4,70 e esgoto 27,70 + 3,76"
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+{
+ "prestador": "DAE Jundiaí",
+ "registro": [
+  118
+ ],
+ "documento": "dae_jundiai_ARESPCJ_resoluo_n_664_2025_-_reajuste_tarifrio_-_jundia.pdf",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1763579795-resoluo_n_664_2025_-_reajuste_tarifrio_-_jundia.pdf",
+ "leitura": "Material tarifário oficial de DAE Jundiaí. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/12/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Jundiaí"
+   ],
+   "social": {
+    "esgoto_pct": 117,
+    "fixo": 20.42,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.59
+     ],
+     [
+      15.0,
+      20.0,
+      5.73
+     ],
+     [
+      20.0,
+      30.0,
+      11.05
+     ],
+     [
+      30.0,
+      50.0,
+      16.61
+     ],
+     [
+      50.0,
+      80.0,
+      20.27
+     ],
+     [
+      80.0,
+      null,
+      23.42
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento (75%) + tratamento = 117% da água."
+   },
+   "residencial": {
+    "esgoto_pct": 117,
+    "fixo": 40.82,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      5.18
+     ],
+     [
+      15.0,
+      20.0,
+      7.63
+     ],
+     [
+      20.0,
+      30.0,
+      11.05
+     ],
+     [
+      30.0,
+      50.0,
+      16.61
+     ],
+     [
+      50.0,
+      80.0,
+      20.27
+     ],
+     [
+      80.0,
+      null,
+      23.42
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento (75%) + tratamento = 117% da água."
+   },
+   "publica": {
+    "esgoto_pct": 117,
+    "fixo": 46.95,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      5.94
+     ],
+     [
+      15.0,
+      20.0,
+      8.81
+     ],
+     [
+      20.0,
+      30.0,
+      12.72
+     ],
+     [
+      30.0,
+      50.0,
+      19.1
+     ],
+     [
+      50.0,
+      80.0,
+      23.31
+     ],
+     [
+      80.0,
+      null,
+      26.91
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento (75%) + tratamento = 117% da água."
+   },
+   "comercial": {
+    "esgoto_pct": 117,
+    "fixo": 106.98,
+    "franquia": 15.0,
+    "faixas": [
+     [
+      15.0,
+      25.0,
+      11.64
+     ],
+     [
+      25.0,
+      35.0,
+      12.92
+     ],
+     [
+      35.0,
+      45.0,
+      17.6
+     ],
+     [
+      45.0,
+      null,
+      24.53
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento (75%) + tratamento = 117% da água."
+   },
+   "industrial": {
+    "esgoto_pct": 117,
+    "fixo": 720.24,
+    "franquia": 50.0,
+    "faixas": [
+     [
+      50.0,
+      100.0,
+      22.62
+     ],
+     [
+      100.0,
+      500.0,
+      26.46
+     ],
+     [
+      500.0,
+      10000.0,
+      29.59
+     ],
+     [
+      10000.0,
+      null,
+      32.21
+     ]
+    ],
+    "nota": "Esgoto: coleta e afastamento (75%) + tratamento = 117% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Jundiaí",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 104.87,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

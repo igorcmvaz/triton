@@ -1,0 +1,104 @@
+{
+ "prestador": "Águas de Barra do Garças (Aegea)",
+ "registro": [
+  161
+ ],
+ "documento": "aguas de barra do garcas.html",
+ "vigencia": "2026",
+ "fonte_url": "https://www.aguasdebarradogarcas.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas de Barra do Garças, aba 2026 (tarifas em vigor), R$/m³ por faixa.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifas em vigor 2026",
+   "uf": "MT",
+   "municipios": [
+    "Barra do Garças"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.33
+     ],
+     [
+      10,
+      20,
+      6.5
+     ],
+     [
+      20,
+      30,
+      10.83
+     ],
+     [
+      30,
+      40,
+      14.29
+     ],
+     [
+      40,
+      null,
+      22.95
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto a 80% da água (3,46/4,33)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.13
+     ],
+     [
+      10,
+      null,
+      15.16
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.52
+     ],
+     [
+      10,
+      null,
+      18.71
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      11.86
+     ],
+     [
+      10,
+      null,
+      17.58
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MT - Barra do Garças",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 108.3,
+   "impresso": "10 × 4,33 + 10 × 6,50"
+  }
+ ]
+}

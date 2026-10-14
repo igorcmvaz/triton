@@ -1,0 +1,22 @@
+{
+ "prestador": "COMUSA Novo Hamburgo",
+ "registro": [
+  60
+ ],
+ "documento": "Tarifas_2026-Parcela1_Tarifas.pdf",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.comusa.rs.gov.br",
+ "leitura": "Tabela das tarifas da COMUSA (Resolução CSR nº 046/2025 da AGESAN-RS), vigência a partir de 01/03/2026. A conta é Serviço Básico + PB × Cⁿ, com o expoente n da tabela de exponenciais, que não veio no documento. Residencial Básica: PB R$ 9,23/m³ e serviço básico R$ 43,21; esgoto tratado a 70% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela 1 (residencial básica RB)",
+   "uf": "RS",
+   "municipios": [
+    "Novo Hamburgo"
+   ],
+   "situacao": "ruim",
+   "motivo": "a COMUSA cobra pela fórmula exponencial SB + PB × Cⁿ (Res. AGESAN-RS 046/2025) e a base aplica o PB de R$ 9,23 como preço linear; falta a tabela de exponenciais da COMUSA"
+  }
+ ],
+ "conferencia": []
+}

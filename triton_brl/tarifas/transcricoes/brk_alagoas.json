@@ -1,0 +1,446 @@
+{
+ "prestador": "BRK Alagoas",
+ "registro": [
+  33
+ ],
+ "documento": "Estrutura Tarifaria Bloco A.pdf",
+ "vigencia": "08/12/2025",
+ "fonte_url": "https://www.arsal.al.gov.br",
+ "leitura": "Estrutura Tarifária Bloco A – BRK Ambiental (2025–2026), Resolução ARSAL nº 237 de 05/11/2025, para Barra de São Miguel, Maceió, Paripueira, Rio Largo, Coqueiro Seco, Santa Luzia do Norte, Pilar, Satuba, Murici e Messias. «Até 10 m³» é conta mínima de 10 m³: a tabela de custo por consumo de Atalaia, no documento do Bloco A (mesma resolução ARSAL), cobra o mesmo valor de 1 a 10 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Bloco A, tabela geral (Maceió: esgoto 100% na base)",
+   "uf": "AL",
+   "municipios": [
+    "Maceió"
+   ],
+   "residencial": {
+    "fixo": 76.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      14.61
+     ],
+     [
+      15,
+      20,
+      16.89
+     ],
+     [
+      20,
+      30,
+      18.04
+     ],
+     [
+      30,
+      40,
+      18.63
+     ],
+     [
+      40,
+      50,
+      18.86
+     ],
+     [
+      50,
+      90,
+      18.99
+     ],
+     [
+      90,
+      150,
+      19.09
+     ],
+     [
+      150,
+      null,
+      19.1
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "«Até 10 m³» é conta mínima de 10 m³: a tabela de custo por consumo de Atalaia, no documento do Bloco A (mesma resolução ARSAL), cobra o mesmo valor de 1 a 10 m³. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "social": {
+    "fixo": 38.2,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      7.305
+     ],
+     [
+      15,
+      20,
+      8.445
+     ],
+     [
+      20,
+      30,
+      18.04
+     ],
+     [
+      30,
+      40,
+      18.63
+     ],
+     [
+      40,
+      50,
+      18.86
+     ],
+     [
+      50,
+      90,
+      18.99
+     ],
+     [
+      90,
+      150,
+      19.09
+     ],
+     [
+      150,
+      null,
+      19.1
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Tarifa Social: 50% da tarifa mínima residencial até 10 m³ e 50% da residencial de 11 a 20 m³. O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 176.8,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      28.11
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 198.5,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      36.29
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "publica": {
+    "fixo": 149.1,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      38.39
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "O documento não traz o esgoto; mantido 100% da água, como na base."
+   }
+  },
+  {
+   "rotulo": "Bloco A, tabela geral",
+   "uf": "AL",
+   "municipios": [
+    "Rio Largo"
+   ],
+   "residencial": {
+    "fixo": 76.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      14.61
+     ],
+     [
+      15,
+      20,
+      16.89
+     ],
+     [
+      20,
+      30,
+      18.04
+     ],
+     [
+      30,
+      40,
+      18.63
+     ],
+     [
+      40,
+      50,
+      18.86
+     ],
+     [
+      50,
+      90,
+      18.99
+     ],
+     [
+      90,
+      150,
+      19.09
+     ],
+     [
+      150,
+      null,
+      19.1
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Até 10 m³» é conta mínima de 10 m³: a tabela de custo por consumo de Atalaia, no documento do Bloco A (mesma resolução ARSAL), cobra o mesmo valor de 1 a 10 m³. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "social": {
+    "fixo": 38.2,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      7.305
+     ],
+     [
+      15,
+      20,
+      8.445
+     ],
+     [
+      20,
+      30,
+      18.04
+     ],
+     [
+      30,
+      40,
+      18.63
+     ],
+     [
+      40,
+      50,
+      18.86
+     ],
+     [
+      50,
+      90,
+      18.99
+     ],
+     [
+      90,
+      150,
+      19.09
+     ],
+     [
+      150,
+      null,
+      19.1
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa Social: 50% da tarifa mínima residencial até 10 m³ e 50% da residencial de 11 a 20 m³. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 176.8,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      28.11
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 198.5,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      36.29
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 149.1,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      38.39
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   }
+  },
+  {
+   "rotulo": "Marechal Deodoro, Transição Tarifária (última página)",
+   "uf": "AL",
+   "municipios": [
+    "Marechal Deodoro"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      15,
+      12.7
+     ],
+     [
+      15,
+      20,
+      14.27
+     ],
+     [
+      20,
+      30,
+      15.46
+     ],
+     [
+      30,
+      40,
+      15.97
+     ],
+     [
+      40,
+      50,
+      15.92
+     ],
+     [
+      50,
+      90,
+      15.14
+     ],
+     [
+      90,
+      150,
+      16.96
+     ],
+     [
+      150,
+      null,
+      19.88
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 68.19,
+    "franquia": 10,
+    "nota": "«Transição Tarifária»: até 10 m³, conta de R$ 68,19. O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      20,
+      21.31
+     ],
+     [
+      20,
+      30,
+      22.04
+     ],
+     [
+      30,
+      40,
+      22.19
+     ],
+     [
+      40,
+      60,
+      22.65
+     ],
+     [
+      60,
+      null,
+      22.7
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 157.83,
+    "franquia": 10,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      20,
+      27.34
+     ],
+     [
+      20,
+      30,
+      28.28
+     ],
+     [
+      30,
+      40,
+      28.48
+     ],
+     [
+      40,
+      60,
+      29.06
+     ],
+     [
+      60,
+      null,
+      29.13
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 157.83,
+    "franquia": 10,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      null,
+      27.85
+     ]
+    ],
+    "esgoto_pct": 80,
+    "fixo": 171.9,
+    "franquia": 10,
+    "nota": "«Até 10: 17,19» lido como R$/m³, conta mínima de 10 m³, como no Bloco A. O documento não traz o esgoto; mantido 80% da água, como na base."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AL - Maceió",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 76.4,
+   "impresso": "Até 10 m³ R$ 7,64/m³"
+  },
+  {
+   "municipio": "AL - Marechal Deodoro",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 131.69,
+   "impresso": "68,19 + 5 × 12,70"
+  }
+ ]
+}

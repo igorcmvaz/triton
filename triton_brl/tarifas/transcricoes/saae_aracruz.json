@@ -1,0 +1,209 @@
+{
+ "prestador": "SAAE Aracruz",
+ "registro": [
+  90
+ ],
+ "documento": "Resolução_103_Reajuste-SAAE-Aracruz.pdf",
+ "vigencia": "09/06/2026",
+ "fonte_url": "https://arsp.es.gov.br",
+ "leitura": "Resolução ARSP nº 103/2026 (reajuste de 6,48% do SAAE Aracruz), Anexo I, efeitos a partir de 09/06/2026. Faixas por m³ desde 0 m³. Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo. A base trazia a tabela da CESAN.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "ES",
+   "municipios": [
+    "Aracruz"
+   ],
+   "prestador": "SAAE Aracruz",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.06
+     ],
+     [
+      10,
+      15,
+      4.29
+     ],
+     [
+      15,
+      20,
+      5.32
+     ],
+     [
+      20,
+      30,
+      6.38
+     ],
+     [
+      30,
+      50,
+      6.86
+     ],
+     [
+      50,
+      null,
+      7.51
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      1.01
+     ],
+     [
+      10,
+      15,
+      1.07
+     ],
+     [
+      15,
+      20,
+      2.66
+     ],
+     [
+      20,
+      30,
+      6.38
+     ],
+     [
+      30,
+      50,
+      6.86
+     ],
+     [
+      50,
+      null,
+      7.51
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Social I. Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      6.86
+     ],
+     [
+      10,
+      15,
+      6.86
+     ],
+     [
+      15,
+      20,
+      9.9
+     ],
+     [
+      20,
+      30,
+      9.9
+     ],
+     [
+      30,
+      50,
+      9.9
+     ],
+     [
+      50,
+      null,
+      9.9
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      9.9
+     ],
+     [
+      10,
+      15,
+      9.9
+     ],
+     [
+      15,
+      20,
+      9.9
+     ],
+     [
+      20,
+      30,
+      12.05
+     ],
+     [
+      30,
+      50,
+      12.05
+     ],
+     [
+      50,
+      null,
+      12.05
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      6.86
+     ],
+     [
+      10,
+      15,
+      6.86
+     ],
+     [
+      15,
+      20,
+      9.9
+     ],
+     [
+      20,
+      30,
+      9.9
+     ],
+     [
+      30,
+      50,
+      9.9
+     ],
+     [
+      50,
+      null,
+      9.9
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto com coleta, afastamento e tratamento a 80% da água; o documento não declara consumo mínimo."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - Aracruz",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 40.6,
+   "impresso": "0-10 m³ R$ 4,06"
+  }
+ ]
+}

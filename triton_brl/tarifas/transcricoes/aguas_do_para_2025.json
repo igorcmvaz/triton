@@ -1,0 +1,146 @@
+{
+ "prestador": "Águas do Pará",
+ "registro": [
+  117
+ ],
+ "documento": "AguasDoPara_legislacao-e-tarifas.html",
+ "vigencia": "2025",
+ "fonte_url": "https://www.aguasdopara.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Águas do Pará (aba 2025), que declara operação definitiva em Belém, Ananindeua e Marituba; nos demais municípios a tarifa segue com o prestador anterior. Água e esgoto em R$/m³ por faixa, esgoto a 80% (3,93/4,91).",
+ "tabelas": [
+  {
+   "rotulo": "Tarifas em vigor 2025",
+   "uf": "PA",
+   "municipios": [
+    "Belém",
+    "Ananindeua",
+    "Marituba"
+   ],
+   "prestador": "Águas do Pará",
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.91
+     ],
+     [
+      10,
+      20,
+      7.0
+     ],
+     [
+      20,
+      30,
+      9.38
+     ],
+     [
+      30,
+      40,
+      10.58
+     ],
+     [
+      40,
+      50,
+      14.66
+     ],
+     [
+      50,
+      null,
+      19.04
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      15,
+      2.46
+     ],
+     [
+      15,
+      20,
+      7.0
+     ],
+     [
+      20,
+      30,
+      9.38
+     ],
+     [
+      30,
+      40,
+      10.58
+     ],
+     [
+      40,
+      50,
+      14.66
+     ],
+     [
+      50,
+      null,
+      19.04
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      14.66
+     ],
+     [
+      10,
+      null,
+      18.29
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      18.29
+     ],
+     [
+      10,
+      null,
+      23.4
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      14.66
+     ],
+     [
+      10,
+      null,
+      18.29
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "PA - Belém",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 119.1,
+   "impresso": "10 × 4,91 + 10 × 7,00"
+  }
+ ]
+}

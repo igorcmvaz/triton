@@ -1,0 +1,101 @@
+{
+ "prestador": "COSAMA",
+ "registro": [
+  50
+ ],
+ "documento": "Estrutura Tarifária – COSAMA – Companhia de Saneamento do Amazonas.html",
+ "vigencia": "2025",
+ "fonte_url": "https://www.cosama.am.gov.br/estrutura-tarifaria/",
+ "leitura": "Página «Estrutura Tarifária» da COSAMA (Resolução nº 03/2025-CA), tabela hidrometrada com cobrança em cascata e tarifa mínima por categoria (residencial: 10 m³ = R$ 25,91).",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura Tarifária Hidrometrado",
+   "uf": "AM",
+   "municipios": [
+    "Tabatinga"
+   ],
+   "residencial": {
+    "fixo": 25.91,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.1
+     ],
+     [
+      20,
+      30,
+      7.8
+     ],
+     [
+      30,
+      40,
+      10.6
+     ],
+     [
+      40,
+      60,
+      12.17
+     ],
+     [
+      60,
+      null,
+      13.91
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "comercial": {
+    "fixo": 111.8,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      null,
+      13.0
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "industrial": {
+    "fixo": 487.88,
+    "franquia": 40,
+    "faixas": [
+     [
+      40,
+      null,
+      16.75
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "publica": {
+    "fixo": 145.7,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      null,
+      16.37
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento não traz o esgoto; mantido 80% da água, como na base."
+   },
+   "abrangencia": "o documento é do prestador (COSAMA), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AM - Tabatinga",
+   "categoria": "residencial",
+   "consumo_m3": 12,
+   "conta_agua": 36.11,
+   "impresso": "exemplo da página: 12 m³ = 25,91 + 10,20 (impresso R$ 36,18)"
+  }
+ ]
+}

@@ -1,0 +1,188 @@
+{
+ "prestador": "DMAE Poços de Caldas",
+ "registro": [
+  59
+ ],
+ "documento": "Tarifa - Tabela de Preço - DMAE.html",
+ "vigencia": "01/06/2026",
+ "fonte_url": "https://www.dmaepc.mg.gov.br/tarifa-tabela-de-preco/",
+ "leitura": "Página «Tarifa – Tabela de Preço» do DMAE de Poços de Caldas (tabela de valores de água e esgoto; a página não data a tabela, e a vigência de 01/06/2026 vem da base). Faixas por m³ desde 0 m³; esgoto a 85% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de valores de água e esgoto",
+   "uf": "MG",
+   "municipios": [
+    "Poços de Caldas"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      3.7024
+     ],
+     [
+      10,
+      15,
+      4.4399
+     ],
+     [
+      15,
+      20,
+      5.2226
+     ],
+     [
+      20,
+      30,
+      6.7427
+     ],
+     [
+      30,
+      40,
+      8.3681
+     ],
+     [
+      40,
+      50,
+      9.9334
+     ],
+     [
+      50,
+      60,
+      11.4686
+     ],
+     [
+      60,
+      70,
+      13.079
+     ],
+     [
+      70,
+      null,
+      14.6141
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      10,
+      1.8512
+     ],
+     [
+      10,
+      15,
+      1.8512
+     ],
+     [
+      15,
+      20,
+      2.6113
+     ],
+     [
+      20,
+      30,
+      3.3713
+     ],
+     [
+      30,
+      40,
+      4.1841
+     ],
+     [
+      40,
+      50,
+      4.9667
+     ],
+     [
+      50,
+      60,
+      5.7343
+     ],
+     [
+      60,
+      70,
+      6.5395
+     ],
+     [
+      70,
+      null,
+      7.3071
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      7.2995
+     ],
+     [
+      10,
+      15,
+      7.6608
+     ],
+     [
+      15,
+      30,
+      8.7444
+     ],
+     [
+      30,
+      null,
+      13.5305
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      30,
+      9.0454
+     ],
+     [
+      30,
+      100,
+      13.967
+     ],
+     [
+      100,
+      null,
+      15.1258
+     ]
+    ],
+    "esgoto_pct": 85
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      30,
+      5.8547
+     ],
+     [
+      30,
+      null,
+      11.6793
+     ]
+    ],
+    "esgoto_pct": 85
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "MG - Poços de Caldas",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 37.02,
+   "impresso": "00 a 10 m³ R$ 3,7024"
+  }
+ ]
+}

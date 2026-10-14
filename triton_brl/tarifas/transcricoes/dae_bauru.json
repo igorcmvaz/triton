@@ -1,0 +1,76 @@
+{
+ "prestador": "DAE Bauru",
+ "registro": [
+  48
+ ],
+ "documento": "DAE - BAURU.html",
+ "vigencia": "14/02/2026",
+ "fonte_url": "https://www.daebauru.sp.gov.br",
+ "leitura": "Página de tarifas do DAE Bauru, Tarifa Residencial (Resolução nº 02, de 11/02/2026, DOMB 4.094 de 14/02/2026): a conta de água tabelada m³ a m³ de 0 a 100 m³ (R$ 19,37 até 6 m³) e R$ 18,19/m³ acima de 100. Para não criar uma faixa por m³, as faixas aqui são as dezenas, com o preço médio de cada uma: a conta sai exata em 6, 10, 20, …, 100 m³ e difere em centavos entre esses pontos. Esgoto a 65% da água. As demais categorias ficam em outras páginas do sítio.",
+ "tabelas": [
+  {
+   "rotulo": "Tarifa Residencial (tabela por m³, agrupada por dezena)",
+   "uf": "SP",
+   "municipios": [
+    "Bauru"
+   ],
+   "residencial": {
+    "fixo": 19.37,
+    "franquia": 6,
+    "faixas": [
+     [
+      6,
+      10,
+      3.2375
+     ],
+     [
+      10,
+      20,
+      4.102
+     ],
+     [
+      20,
+      30,
+      6.872
+     ],
+     [
+      30,
+      40,
+      9.943
+     ],
+     [
+      40,
+      50,
+      12.398
+     ],
+     [
+      50,
+      60,
+      21.35
+     ],
+     [
+      60,
+      100,
+      31.001
+     ],
+     [
+      100,
+      null,
+      18.19
+     ]
+    ],
+    "esgoto_pct": 65,
+    "nota": "Faixas por dezena com o preço médio; conta exata nas dezenas."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Bauru",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 142.06,
+   "impresso": "30 m³: R$ 142,06 de água"
+  }
+ ]
+}

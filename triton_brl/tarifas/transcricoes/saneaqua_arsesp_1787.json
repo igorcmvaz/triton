@@ -1,0 +1,145 @@
+{
+ "prestador": "Saneaqua",
+ "registro": [
+  149,
+  150
+ ],
+ "documento": "saneaqua_Deliberacao_ARSESP_1787_2026_Mairinque.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arsesp.sp.gov.br/LegislacaoArquivos/1787.pdf",
+ "leitura": "Deliberação ARSESP nº 1.787/2026, Anexo I (reajuste de −2,6668%, aplicável a partir de 01/05/2026). O Anexo I imprime «00 a 10 | R$/mês | 4,71», mas o art. 4º manda cobrar o mínimo de 10 m³; lido como 10 × R$ 4,71 = R$ 47,10. Esgoto a 100% da água com tratamento (80% sem). Nota técnica no item 150.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Mairinque"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      20,
+      6.5
+     ],
+     [
+      20,
+      50,
+      10.04
+     ],
+     [
+      50,
+      null,
+      11.91
+     ]
+    ],
+    "esgoto_pct": 100,
+    "fixo": 47.1,
+    "franquia": 10,
+    "nota": "O Anexo I imprime «00 a 10 | R$/mês | 4,71», mas o art. 4º manda cobrar o mínimo de 10 m³; lido como 10 × R$ 4,71 = R$ 47,10. Esgoto a 100% da água com tratamento (80% sem)."
+   },
+   "social": {
+    "faixas": [
+     [
+      10,
+      20,
+      2.44
+     ],
+     [
+      20,
+      30,
+      5.28
+     ],
+     [
+      30,
+      50,
+      7.63
+     ],
+     [
+      50,
+      null,
+      9.06
+     ]
+    ],
+    "esgoto_pct": 100,
+    "fixo": 15.1,
+    "franquia": 10
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      20,
+      11.1
+     ],
+     [
+      20,
+      50,
+      18.08
+     ],
+     [
+      50,
+      null,
+      21.22
+     ]
+    ],
+    "esgoto_pct": 100,
+    "fixo": 94.2,
+    "franquia": 10
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      20,
+      11.1
+     ],
+     [
+      20,
+      50,
+      18.08
+     ],
+     [
+      50,
+      null,
+      21.22
+     ]
+    ],
+    "esgoto_pct": 100,
+    "fixo": 94.2,
+    "franquia": 10
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      20,
+      11.1
+     ],
+     [
+      20,
+      50,
+      18.08
+     ],
+     [
+      50,
+      null,
+      21.22
+     ]
+    ],
+    "esgoto_pct": 100,
+    "fixo": 94.2,
+    "franquia": 10
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Mairinque",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 79.6,
+   "impresso": "10 × 4,71 (mínimo) + 5 × 6,50"
+  }
+ ]
+}

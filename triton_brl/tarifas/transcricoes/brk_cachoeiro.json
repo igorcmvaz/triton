@@ -1,0 +1,149 @@
+{
+ "prestador": "BRK Ambiental Cachoeiro",
+ "registro": [
+  20
+ ],
+ "documento": "01-estrutura-tarifaria-cachoeiro-2024.pdf",
+ "vigencia": "01/02/2024",
+ "fonte_url": "https://www.brkambiental.com.br/cachoeiro-de-itapemirim",
+ "leitura": "Estrutura tarifária 2024 da BRK Ambiental em Cachoeiro de Itapemirim, vigente a partir de 01/02/2024. Faixas por m³ desde 0 m³; esgoto a 80% da água na residencial e 100% nas demais. Vigência de 2024: buscar o reajuste mais recente.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária 2024",
+   "uf": "ES",
+   "municipios": [
+    "Cachoeiro de Itapemirim"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      4.26
+     ],
+     [
+      10,
+      20,
+      9.47
+     ],
+     [
+      20,
+      30,
+      9.8
+     ],
+     [
+      30,
+      40,
+      11.53
+     ],
+     [
+      40,
+      null,
+      11.53
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.55
+     ],
+     [
+      10,
+      20,
+      13.29
+     ],
+     [
+      20,
+      30,
+      15.1
+     ],
+     [
+      30,
+      40,
+      16.32
+     ],
+     [
+      40,
+      null,
+      16.32
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      10,
+      10.14
+     ],
+     [
+      10,
+      20,
+      13.38
+     ],
+     [
+      20,
+      30,
+      14.85
+     ],
+     [
+      30,
+      40,
+      15.92
+     ],
+     [
+      40,
+      null,
+      17.26
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      10,
+      15.82
+     ],
+     [
+      10,
+      20,
+      15.82
+     ],
+     [
+      20,
+      30,
+      15.82
+     ],
+     [
+      30,
+      40,
+      18.16
+     ],
+     [
+      40,
+      null,
+      18.16
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "abrangencia": "o documento é do prestador (BRK Ambiental Cachoeiro), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - Cachoeiro de Itapemirim",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 42.6,
+   "impresso": "00 - 10 m³ R$ 4,26"
+  }
+ ]
+}

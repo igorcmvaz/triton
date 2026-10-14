@@ -1,0 +1,101 @@
+{
+ "prestador": "SAMAE Blumenau / BRK Ambiental Blumenau",
+ "registro": [
+  168,
+  184
+ ],
+ "documento": "SAMAE - Blumenau.html",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://www.samae.com.br/tabela-tarifaria",
+ "leitura": "Página «Tabela Tarifária» do SAMAE Blumenau, reajuste tarifário 2026 (6,834%, decisão nº 312/2025 da AGIR), a partir de 01/01/2026. Até 10 m³ é a tarifa mínima. Esgoto da BRK Ambiental (estrutura tarifária, Decisão nº 325/2026, a partir de 01/04/2026, item 184): R$ 52,63 até 10 m³, 9,635 de 11 a 30 m³ e 12,279 acima, isto é, 111,6% da água nas faixas excedentes (110,96% no mínimo).",
+ "tabelas": [
+  {
+   "rotulo": "Reajuste tarifário 2026",
+   "uf": "SC",
+   "municipios": [
+    "Blumenau"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      10,
+      30,
+      8.63
+     ],
+     [
+      30,
+      null,
+      11.0
+     ]
+    ],
+    "esgoto_pct": 111.6,
+    "fixo": 47.43,
+    "franquia": 10,
+    "nota": "Esgoto da BRK Ambiental (estrutura tarifária, Decisão nº 325/2026, a partir de 01/04/2026, item 184): R$ 52,63 até 10 m³, 9,635 de 11 a 30 m³ e 12,279 acima, isto é, 111,6% da água nas faixas excedentes (110,96% no mínimo)."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      10,
+      30,
+      11.0
+     ],
+     [
+      30,
+      null,
+      16.52
+     ]
+    ],
+    "esgoto_pct": 111.6,
+    "fixo": 71.89,
+    "franquia": 10,
+    "nota": "Esgoto da BRK a 111,6% da água; na comercial e industrial acima de 30 m³ a BRK cobra 22,096 (133,8% da água)."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      10,
+      30,
+      11.0
+     ],
+     [
+      30,
+      null,
+      16.52
+     ]
+    ],
+    "esgoto_pct": 111.6,
+    "fixo": 71.89,
+    "franquia": 10,
+    "nota": "Esgoto da BRK a 111,6% da água; na comercial e industrial acima de 30 m³ a BRK cobra 22,096 (133,8% da água)."
+   },
+   "publica": {
+    "faixas": [
+     [
+      10,
+      500,
+      9.14
+     ],
+     [
+      500,
+      null,
+      16.52
+     ]
+    ],
+    "esgoto_pct": 111.6,
+    "fixo": 47.43,
+    "franquia": 10,
+    "nota": "Esgoto da BRK a 111,6% da água (10,219/9,14 de 11 a 500 m³)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Blumenau",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 133.73,
+   "impresso": "mínimo 47,43 + 10 × 8,63"
+  }
+ ]
+}

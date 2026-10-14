@@ -1,0 +1,149 @@
+{
+ "prestador": "SANEAGO",
+ "registro": [
+  14
+ ],
+ "documento": "Res_Normativa_Conjunta_AGR_AR_01_2026.pdf",
+ "vigencia": "01/04/2026",
+ "fonte_url": "https://www.agr.go.gov.br",
+ "leitura": "Resolução Conjunta nº 1/2026 AGR/AR (reajuste de 4,845%), Anexo Único «Estrutura Tarifária 2026», a partir de 01/04/2026 (PDF digitalizado, lido nas páginas 3 e 4). Tarifa básica (custo mínimo fixo) somada ao consumo desde 1 m³. A Residencial Social só é tabelada até 20 m³ e fica de fora.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo Único, itens 1 e 2 (pp. 3–4)",
+   "uf": "GO",
+   "municipios": [
+    "Anápolis",
+    "Aparecida de Goiânia",
+    "Caldas Novas",
+    "Catalão",
+    "Cidade Ocidental",
+    "Cristalina",
+    "Formosa",
+    "Goianira",
+    "Goianésia",
+    "Goiânia",
+    "Inhumas",
+    "Itumbiara",
+    "Jataí",
+    "Luziânia",
+    "Mineiros",
+    "Morrinhos",
+    "Novo Gama",
+    "Planaltina",
+    "Rio Verde",
+    "Santo Antônio do Descoberto",
+    "Senador Canedo",
+    "Trindade",
+    "Valparaíso de Goiás",
+    "Águas Lindas de Goiás"
+   ],
+   "residencial": {
+    "fixo": 17.46,
+    "faixas": [
+     [
+      0,
+      10,
+      5.77
+     ],
+     [
+      10,
+      15,
+      6.51
+     ],
+     [
+      15,
+      20,
+      7.45
+     ],
+     [
+      20,
+      25,
+      8.45
+     ],
+     [
+      25,
+      30,
+      9.54
+     ],
+     [
+      30,
+      40,
+      10.89
+     ],
+     [
+      40,
+      50,
+      12.33
+     ],
+     [
+      50,
+      null,
+      14.06
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento + tratamento, por m³, iguais à água (≈100%)."
+   },
+   "publica": {
+    "fixo": 17.46,
+    "faixas": [
+     [
+      0,
+      10,
+      10.89
+     ],
+     [
+      10,
+      null,
+      12.33
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento + tratamento, por m³, iguais à água (≈100%)."
+   },
+   "comercial": {
+    "fixo": 17.46,
+    "faixas": [
+     [
+      0,
+      10,
+      12.33
+     ],
+     [
+      10,
+      null,
+      14.06
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial I (médio e grande porte). Esgoto: coleta e afastamento + tratamento, por m³, iguais à água (≈100%)."
+   },
+   "industrial": {
+    "fixo": 17.46,
+    "faixas": [
+     [
+      0,
+      10,
+      12.33
+     ],
+     [
+      10,
+      null,
+      14.06
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Esgoto: coleta e afastamento + tratamento, por m³, iguais à água (≈100%)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "GO - Goiânia",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 75.16,
+   "impresso": "tarifa básica R$ 17,46 + 1-10 m³ a R$ 5,77"
+  }
+ ]
+}

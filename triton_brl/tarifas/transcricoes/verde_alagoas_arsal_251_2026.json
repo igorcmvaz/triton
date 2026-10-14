@@ -1,0 +1,163 @@
+{
+ "prestador": "Verde Alagoas",
+ "registro": [
+  203
+ ],
+ "documento": "9. Estrutura Tarifaria Bloco C - Ano 04 2025-2026 Rampa - Vigente a partir de 08.03.2026.pdf",
+ "vigencia": "08/03/2026",
+ "fonte_url": "https://www.verdealagoas.com.br/tabela-tarifaria",
+ "leitura": "Estrutura Tarifária Bloco C – Verde Ambiental Alagoas, Ano 04 (2025–2026), Resolução ARSAL nº 251, de 04/02/2026, vigente a partir de 08/03/2026. Página 1: Feliz Deserto, Chã Preta, Tanque d’Arca, Branquinha, Porto Calvo, São Luís do Quitunde e São Miguel dos Milagres (nenhum no banco); página 2: União dos Palmares, com tabela própria; página 3 em branco. «Até 10 m³» é conta mínima de 10 m³, como no Bloco A da BRK (mesma estrutura ARSAL): a Tarifa Social é «50% TMR», a tarifa mínima residencial. O documento só traz a água; o esgoto fica com o valor do banco, sem documento. Arquivo recebido sem endereço; fonte_url é a página de tabelas tarifárias do prestador (recusa acesso automático, HTTP 403), não o endereço do PDF.",
+ "tabelas": [
+  {
+   "rotulo": "Bloco C, União dos Palmares",
+   "uf": "AL",
+   "municipios": [
+    "União dos Palmares"
+   ],
+   "residencial": {
+    "fixo": 55.8,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      10.25
+     ],
+     [
+      15,
+      20,
+      11.14
+     ],
+     [
+      20,
+      30,
+      12.22
+     ],
+     [
+      30,
+      40,
+      12.64
+     ],
+     [
+      40,
+      50,
+      13.29
+     ],
+     [
+      50,
+      90,
+      13.92
+     ],
+     [
+      90,
+      150,
+      13.96
+     ],
+     [
+      150,
+      null,
+      13.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "«Até 10 m³» é conta mínima de 10 m³, como no Bloco A da BRK (mesma estrutura ARSAL): a Tarifa Social é «50% TMR», a tarifa mínima residencial. O documento só traz a água; o esgoto fica com o valor do banco, sem documento."
+   },
+   "social": {
+    "fixo": 27.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      5.125
+     ],
+     [
+      15,
+      20,
+      5.57
+     ],
+     [
+      20,
+      30,
+      12.22
+     ],
+     [
+      30,
+      40,
+      12.64
+     ],
+     [
+      40,
+      50,
+      13.29
+     ],
+     [
+      50,
+      90,
+      13.92
+     ],
+     [
+      90,
+      150,
+      13.96
+     ],
+     [
+      150,
+      null,
+      13.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa Social: 50% da tarifa mínima residencial até 10 m³ e 50% da residencial de 11 a 20 m³. O documento só traz a água; o esgoto fica com o valor do banco, sem documento."
+   },
+   "comercial": {
+    "fixo": 114.2,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      16.27
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento só traz a água; o esgoto fica com o valor do banco, sem documento."
+   },
+   "industrial": {
+    "fixo": 123.5,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      18.85
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento só traz a água; o esgoto fica com o valor do banco, sem documento."
+   },
+   "publica": {
+    "fixo": 87.9,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      null,
+      20.02
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "O documento só traz a água; o esgoto fica com o valor do banco, sem documento."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AL - União dos Palmares",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 107.05,
+   "impresso": "Até 10 m³ 5,58/m³ (10 × 5,58) + 5 × 10,25"
+  }
+ ]
+}

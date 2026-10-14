@@ -1,0 +1,35 @@
+{
+ "prestador": "COHASB / Prefeitura de Humaitá – prestação local",
+ "registro": [
+  62
+ ],
+ "documento": "publicado_27336_2014-12-29_585ddfcef92d6a007feb8db90d1cd821.pdf",
+ "vigencia": "29/12/2014",
+ "fonte_url": "https://www.diariomunicipal.com.br/aam",
+ "leitura": "Diário Oficial dos Municípios do Amazonas nº 1258 (30/12/2014), p. 16: Lei Municipal de Humaitá nº 669/2014, tarifas da COHASB por número de pontos de água do imóvel, sem medição. Conta fixa: a economia de água não reduz a conta. A lei não trata de esgoto. Vigência de 2014: buscar lei ou decreto mais recente.",
+ "tabelas": [
+  {
+   "rotulo": "Lei 669/2014, Art. 1º (classe A, 1 a 5 pontos)",
+   "uf": "AM",
+   "municipios": [
+    "Humaitá"
+   ],
+   "residencial": {
+    "fixo": 18.38,
+    "franquia": 999999,
+    "faixas": [],
+    "esgoto_pct": 0,
+    "nota": "Residencial classe A (1 a 5 pontos de água); classe B (6 a 10) R$ 27,45 e C (mais de 10) R$ 41,33. Conta fixa, sem esgoto na lei."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "AM - Humaitá",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 18.38,
+   "impresso": "I – Residencial, 1 a 5 pontos, classe A: R$ 18,38"
+  }
+ ]
+}

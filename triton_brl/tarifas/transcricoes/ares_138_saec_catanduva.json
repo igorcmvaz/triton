@@ -1,0 +1,124 @@
+{
+ "prestador": "SAEC Catanduva",
+ "registro": [
+  138
+ ],
+ "documento": "saec_catanduva_ARESPCJ_resolucao_n_677_2025_-_reviso_tarifaria_-_saec_catanduva.pdf",
+ "vigencia": "19/12/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1772798851-resolucao_n_677_2025_-_reviso_tarifaria_-_saec_catanduva.pdf",
+ "leitura": "Material tarifário oficial de SAEC Catanduva. Anexo I da resolução da ARES-PCJ, vigência a partir de 19/12/2025.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Catanduva"
+   ],
+   "residencial": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      2.63
+     ],
+     [
+      10.0,
+      20.0,
+      3.25
+     ],
+     [
+      20.0,
+      25.0,
+      7.75
+     ],
+     [
+      25.0,
+      30.0,
+      7.79
+     ],
+     [
+      30.0,
+      40.0,
+      8.34
+     ],
+     [
+      40.0,
+      50.0,
+      9.77
+     ],
+     [
+      50.0,
+      100.0,
+      11.47
+     ],
+     [
+      100.0,
+      null,
+      13.46
+     ]
+    ],
+    "nota": "O Anexo cobra os primeiros 10 m³ por m³, sem «(mínimo)»; lido como faixa por m³ desde 0."
+   },
+   "social": {
+    "esgoto_pct": 100.0,
+    "faixas": [
+     [
+      0,
+      10.0,
+      1.31
+     ],
+     [
+      10.0,
+      15.0,
+      1.62
+     ],
+     [
+      15.0,
+      20.0,
+      2.44
+     ],
+     [
+      20.0,
+      25.0,
+      7.75
+     ],
+     [
+      25.0,
+      30.0,
+      7.79
+     ],
+     [
+      30.0,
+      40.0,
+      8.34
+     ],
+     [
+      40.0,
+      50.0,
+      9.77
+     ],
+     [
+      50.0,
+      100.0,
+      11.47
+     ],
+     [
+      100.0,
+      null,
+      13.46
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Catanduva",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 58.8,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

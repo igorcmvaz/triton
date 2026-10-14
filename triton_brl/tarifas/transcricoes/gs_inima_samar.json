@@ -1,0 +1,188 @@
+{
+ "prestador": "GS Inima SAMAR",
+ "registro": [
+  51
+ ],
+ "documento": "Legislação e Tarifas _ GS Inima Samar.html",
+ "vigencia": "01/03/2026",
+ "fonte_url": "https://www.samar.eco.br/legislacao-e-tarifas",
+ "leitura": "Página «Legislação e Tarifas» da GS Inima SAMAR (Araçatuba), tabela de preços de referência 2026 (a vigência de 01/03/2026 vem da base). Mínimo de 12 m³; esgoto a 80% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela de preços, referência 2026",
+   "uf": "SP",
+   "municipios": [
+    "Araçatuba"
+   ],
+   "residencial": {
+    "fixo": 28.48,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      20,
+      3.5
+     ],
+     [
+      20,
+      30,
+      6.46
+     ],
+     [
+      30,
+      50,
+      8.82
+     ],
+     [
+      50,
+      100,
+      12.69
+     ],
+     [
+      100,
+      null,
+      16.79
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "social": {
+    "fixo": 9.69,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      20,
+      1.68
+     ],
+     [
+      20,
+      30,
+      4.44
+     ],
+     [
+      30,
+      50,
+      7.54
+     ],
+     [
+      50,
+      100,
+      10.58
+     ],
+     [
+      100,
+      null,
+      13.37
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "comercial": {
+    "fixo": 55.68,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      20,
+      5.62
+     ],
+     [
+      20,
+      30,
+      8.89
+     ],
+     [
+      30,
+      50,
+      12.31
+     ],
+     [
+      50,
+      100,
+      15.75
+     ],
+     [
+      100,
+      null,
+      19.44
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "industrial": {
+    "fixo": 55.68,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      20,
+      5.62
+     ],
+     [
+      20,
+      30,
+      8.89
+     ],
+     [
+      30,
+      50,
+      12.31
+     ],
+     [
+      50,
+      100,
+      15.75
+     ],
+     [
+      100,
+      null,
+      19.44
+     ]
+    ],
+    "esgoto_pct": 80
+   },
+   "publica": {
+    "fixo": 61.63,
+    "franquia": 12,
+    "faixas": [
+     [
+      12,
+      20,
+      8.54
+     ],
+     [
+      20,
+      30,
+      12.87
+     ],
+     [
+      30,
+      50,
+      16.54
+     ],
+     [
+      50,
+      100,
+      19.38
+     ],
+     [
+      100,
+      null,
+      22.92
+     ]
+    ],
+    "esgoto_pct": 80
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Araçatuba",
+   "categoria": "residencial",
+   "consumo_m3": 12,
+   "conta_agua": 28.48,
+   "impresso": "00 a 12 m³/mês (mínimo): R$ 28,48"
+  }
+ ]
+}

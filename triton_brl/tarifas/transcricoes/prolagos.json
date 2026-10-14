@@ -1,0 +1,155 @@
+{
+ "prestador": "Prolagos",
+ "registro": [
+  19
+ ],
+ "documento": "PROLAGOS Legislação e Tarifas.html",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.prolagos.com.br/legislacao-e-tarifas/",
+ "leitura": "Página «Legislação e Tarifas» da Prolagos, estrutura tarifária com período de referência dez/2025 (reajuste de 2,752%, Contrato de Concessão nº 04/96). Coluna «Demais cidades» (Arraial do Cabo tem coluna própria). Faixas por m³ desde 0 m³.",
+ "tabelas": [
+  {
+   "rotulo": "Estrutura tarifária dez/2025, coluna Demais cidades",
+   "uf": "RJ",
+   "municipios": [
+    "Cabo Frio",
+    "São Pedro da Aldeia"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      10,
+      17.04
+     ],
+     [
+      10,
+      15,
+      22.32
+     ],
+     [
+      15,
+      25,
+      35.74
+     ],
+     [
+      25,
+      35,
+      42.88
+     ],
+     [
+      35,
+      45,
+      51.46
+     ],
+     [
+      45,
+      55,
+      63.18
+     ],
+     [
+      55,
+      65,
+      80.25
+     ],
+     [
+      65,
+      null,
+      91.26
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "A página não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "social": {
+    "faixas": [
+     [
+      0,
+      null,
+      8.44
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Tarifa Social, preço único por m³. A página não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      10,
+      44.15
+     ],
+     [
+      10,
+      20,
+      55.11
+     ],
+     [
+      20,
+      30,
+      85.07
+     ],
+     [
+      30,
+      null,
+      134.98
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "A página não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      84.72
+     ],
+     [
+      20,
+      30,
+      107.45
+     ],
+     [
+      30,
+      null,
+      134.98
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "A página não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      20,
+      23.8
+     ],
+     [
+      20,
+      30,
+      35.8
+     ],
+     [
+      30,
+      null,
+      55.8
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Poder Público. A página não traz o esgoto; mantido 100% da água, como na base."
+   },
+   "abrangencia": "tabela única do Prolagos (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - Cabo Frio",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 170.4,
+   "impresso": "0 a 10 m³ R$ 17,04/m³ (demais cidades)"
+  }
+ ]
+}

@@ -1,0 +1,81 @@
+{
+ "prestador": "SAERP Ribeirão Preto",
+ "registro": [
+  144
+ ],
+ "documento": "saerp_ribeirao_preto_ARESPCJ_resoluo_n_690_2026_-_reviso_tarifria_-_ribeiro_preto_retificada.pdf",
+ "vigencia": "01/05/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1778174854-resoluo_n_690_2026_-_reviso_tarifria_-_ribeiro_preto_retificada.pdf",
+ "leitura": "Material tarifário oficial de SAERP Ribeirão Preto. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/05/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Ribeirão Preto"
+   ],
+   "residencial": {
+    "fixo": 14.06,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.48
+     ],
+     [
+      15,
+      20,
+      3.93
+     ],
+     [
+      20,
+      25,
+      5.39
+     ],
+     [
+      25,
+      30,
+      7.18
+     ],
+     [
+      30,
+      40,
+      9.33
+     ],
+     [
+      40,
+      50,
+      12.57
+     ],
+     [
+      50,
+      80,
+      15.77
+     ],
+     [
+      80,
+      100,
+      19.02
+     ],
+     [
+      100,
+      null,
+      21.87
+     ]
+    ],
+    "esgoto_pct": 127.5,
+    "nota": "«De 0 a 10: R$/mês». Esgoto: coleta e afastamento + tratamento = 127,5% da água."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Ribeirão Preto",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 46.11,
+   "impresso": "Anexo I, residencial até 20 m³"
+  }
+ ]
+}

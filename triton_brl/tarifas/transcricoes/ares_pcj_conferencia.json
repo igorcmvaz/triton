@@ -1,0 +1,186 @@
+{
+ "prestador": "ARES-PCJ",
+ "registro": [
+  28
+ ],
+ "documento": "1790877132-tarifas_categoria_residencial_01_09_2026.pdf",
+ "vigencia": "01/09/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Quadro da ARES-PCJ com a conta mínima residencial (volume, tarifa de água e de esgoto, data da última resolução) de cada município regulado, posição 01/09/2026. Não traz as faixas: serve para conferir prestador, conta mínima e esgoto. Onde a base diverge, o município é marcado como dado ruim até chegar a resolução do prestador.",
+ "tabelas": [
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial (Amparo/SAAE, abr-26)",
+   "uf": "SP",
+   "municipios": [
+    "Amparo"
+   ],
+   "prestador": "SAAE Amparo"
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Artur Nogueira"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista o SAEAN, não a SABESP; conta mínima de R$ 43,37 por 10 m³ e esgoto 100% (ago/2026), contra R$ 40,42 e 80% na base",
+   "prestador": "SAEAN Artur Nogueira",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 43.37
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Cosmópolis"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista a Prefeitura, não a SABESP; conta mínima de R$ 31,15 por 10 m³ e esgoto 100% (abr/2025), contra R$ 40,42 e 80% na base",
+   "prestador": "Prefeitura de Cosmópolis",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 31.15
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Mogi das Cruzes"
+   ],
+   "situacao": "ruim",
+   "motivo": "o varejo é do SEMAE (a SABESP só vende água por atacado, NT ARSESP Tabela 9); conta mínima de R$ 31,43 por 10 m³ e esgoto 80% (set/2026), contra R$ 40,42 na base",
+   "prestador": "SEMAE Mogi das Cruzes",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 31.43
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Nova Odessa"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista a CODEN, não a SABESP; conta de R$ 17,82 por 5 m³ e R$ 38,37 por 10 m³, esgoto 100% (fev/2025), contra R$ 40,42 e 80% na base",
+   "prestador": "CODEN Nova Odessa",
+   "espera": [
+    {
+     "consumo_m3": 5,
+     "conta_agua": 17.82
+    },
+    {
+     "consumo_m3": 10,
+     "conta_agua": 38.37
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Porto Feliz"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista o SAAE, não a SABESP; conta de R$ 19,29 por 5 m³ e R$ 44,54 por 10 m³, esgoto 81% (mai/2025), contra R$ 40,42 na base",
+   "prestador": "SAAE Porto Feliz",
+   "espera": [
+    {
+     "consumo_m3": 5,
+     "conta_agua": 19.29
+    },
+    {
+     "consumo_m3": 10,
+     "conta_agua": 44.54
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Santa Bárbara d'Oeste"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista o DAE, não a SABESP; conta mínima de R$ 27,24 por 10 m³ e esgoto 100% (set/2025), contra R$ 40,42 e 80% na base",
+   "prestador": "DAE Santa Bárbara d'Oeste",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 27.24
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Votorantim"
+   ],
+   "situacao": "ruim",
+   "motivo": "a ARES-PCJ lista a Águas de Votorantim, não a SABESP; conta mínima de R$ 29,86 por 10 m³ (jul/2026), contra R$ 40,42 na base",
+   "prestador": "Águas de Votorantim",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 29.86
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Barretos"
+   ],
+   "situacao": "ruim",
+   "motivo": "desatualizada: a ARES-PCJ registra resolução de jul/2026 com conta mínima de R$ 30,59 por 10 m³, contra R$ 28,90 na base",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 30.59
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "São Carlos"
+   ],
+   "situacao": "ruim",
+   "motivo": "desatualizada: a ARES-PCJ registra resolução de ago/2026 com conta mínima de R$ 25,60 por 10 m³, contra R$ 24,10 na base",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 25.6
+    }
+   ]
+  },
+  {
+   "rotulo": "lista ARES-PCJ, categoria residencial",
+   "uf": "SP",
+   "municipios": [
+    "Piracicaba"
+   ],
+   "situacao": "ruim",
+   "motivo": "desatualizada: a ARES-PCJ registra resolução de jul/2026 com conta mínima de R$ 33,52 por 10 m³, contra R$ 31,99 na base (tabela de 2025)",
+   "espera": [
+    {
+     "consumo_m3": 10,
+     "conta_agua": 33.52
+    }
+   ]
+  }
+ ],
+ "conferencia": []
+}

@@ -1,0 +1,168 @@
+{
+ "prestador": "SAEAN Artur Nogueira",
+ "registro": [
+  97
+ ],
+ "documento": "resolucao-ares-727-2026 (1).pdf",
+ "vigencia": "01/10/2026",
+ "fonte_url": "https://www.arespcj.com.br",
+ "leitura": "Resolução ARES-PCJ nº 727, de 28/08/2026 (reajuste do SAEAN, Artur Nogueira), Anexo I, a partir de outubro de 2026. Mínimo de 10 m³; esgoto igual à água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Artur Nogueira"
+   ],
+   "residencial": {
+    "fixo": 43.37,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.45
+     ],
+     [
+      20,
+      30,
+      6.77
+     ],
+     [
+      30,
+      50,
+      9.82
+     ],
+     [
+      50,
+      null,
+      16.23
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "social": {
+    "fixo": 21.69,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      2.73
+     ],
+     [
+      15,
+      20,
+      4.09
+     ],
+     [
+      20,
+      30,
+      6.77
+     ],
+     [
+      30,
+      50,
+      9.82
+     ],
+     [
+      50,
+      null,
+      16.23
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 54.21,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.97
+     ],
+     [
+      20,
+      30,
+      7.45
+     ],
+     [
+      30,
+      40,
+      10.82
+     ],
+     [
+      40,
+      null,
+      17.85
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "publica": {
+    "fixo": 54.21,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.97
+     ],
+     [
+      20,
+      30,
+      7.45
+     ],
+     [
+      30,
+      50,
+      10.82
+     ],
+     [
+      50,
+      null,
+      17.85
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "industrial": {
+    "fixo": 65.08,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.16
+     ],
+     [
+      20,
+      30,
+      8.97
+     ],
+     [
+      30,
+      50,
+      12.98
+     ],
+     [
+      50,
+      null,
+      21.41
+     ]
+    ],
+    "esgoto_pct": 100
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Artur Nogueira",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 131.72,
+   "impresso": "43,37 + 10 × 5,45 + 5 × 6,77"
+  }
+ ]
+}

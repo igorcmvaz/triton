@@ -1,0 +1,218 @@
+{
+ "prestador": "SABESP",
+ "registro": [
+  136
+ ],
+ "documento": "sabesp_ARESPCJ_resoluo_n_659_2025_-_reajuste_e_reviso_tarifria_-_sabesp_olmpia_v3.pdf",
+ "vigencia": "01/12/2025",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1761934918-resoluo_n_659_2025_-_reajuste_e_reviso_tarifria_-_sabesp_olmpia_v3.pdf",
+ "leitura": "Material tarifário oficial de SABESP. Anexo I da resolução da ARES-PCJ, vigência a partir de 01/12/2025. Corrigido em 05/10/2026: a transcrição tinha sido aplicada a Arujá por engano; a resolução é de Olímpia.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Olímpia"
+   ],
+   "social": {
+    "esgoto_pct": 80.0,
+    "fixo": 12.67,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.55
+     ],
+     [
+      15.0,
+      20.0,
+      3.82
+     ],
+     [
+      20.0,
+      30.0,
+      5.16
+     ],
+     [
+      30.0,
+      50.0,
+      6.4
+     ],
+     [
+      50.0,
+      60.0,
+      9.24
+     ],
+     [
+      60.0,
+      70.0,
+      9.37
+     ],
+     [
+      70.0,
+      null,
+      9.42
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 80.0,
+    "fixo": 25.34,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.09
+     ],
+     [
+      20.0,
+      30.0,
+      5.16
+     ],
+     [
+      30.0,
+      50.0,
+      6.4
+     ],
+     [
+      50.0,
+      60.0,
+      9.24
+     ],
+     [
+      60.0,
+      70.0,
+      9.37
+     ],
+     [
+      70.0,
+      null,
+      9.42
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 80.0,
+    "fixo": 36.22,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      6.36
+     ],
+     [
+      20.0,
+      30.0,
+      6.39
+     ],
+     [
+      30.0,
+      50.0,
+      7.99
+     ],
+     [
+      50.0,
+      60.0,
+      9.28
+     ],
+     [
+      60.0,
+      70.0,
+      9.37
+     ],
+     [
+      70.0,
+      null,
+      9.42
+     ]
+    ]
+   },
+   "publica": {
+    "esgoto_pct": 80.0,
+    "fixo": 78.18,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      7.62
+     ],
+     [
+      20.0,
+      30.0,
+      7.7
+     ],
+     [
+      30.0,
+      50.0,
+      10.4
+     ],
+     [
+      50.0,
+      60.0,
+      11.82
+     ],
+     [
+      60.0,
+      70.0,
+      11.93
+     ],
+     [
+      70.0,
+      null,
+      12.03
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 80.0,
+    "fixo": 72.43,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      7.07
+     ],
+     [
+      20.0,
+      30.0,
+      7.1
+     ],
+     [
+      30.0,
+      50.0,
+      9.59
+     ],
+     [
+      50.0,
+      60.0,
+      10.82
+     ],
+     [
+      60.0,
+      70.0,
+      10.87
+     ],
+     [
+      70.0,
+      null,
+      11.01
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Olímpia",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 76.24,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

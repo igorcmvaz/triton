@@ -1,0 +1,113 @@
+$(function(){
+
+    $('.nav a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('href'),
+            targetOffset = $(id).offset().top;
+        
+        $('html, body').animate({ 
+            scrollTop: targetOffset - 100
+        }, 500);
+    });
+
+    const handleButtonColor = (fontSize) => {
+        $('.tamanho-texto button').removeClass('btn-primary');
+        if(fontSize < 100){
+            $('.tamanho-texto button.minus').addClass('btn-primary');
+        }else if(fontSize == 100){
+            $('.tamanho-texto button.default').addClass('btn-primary');
+        }else{
+            $('.tamanho-texto button.plus').addClass('btn-primary');
+        }
+    }
+
+    $('.icone-acessibilidade').on('click', function(){
+        $('.dropdown-acessibilidade').slideToggle();
+    })
+
+    //Configurando localStorage para receber os parametros de configuração de acessibilidade
+    let fontScale = localStorage.getItem("fontScale") || '100';
+    let darkMode = localStorage.getItem("darkMode");
+    let fullAcessibility = localStorage.getItem("fullAcessibility");
+
+    darkMode == null ? localStorage.setItem("darkMode", false) : "";
+    fullAcessibility == null ? localStorage.setItem("fullAcessibility", false) : "";
+
+    handleButtonColor(parseInt(fontScale));
+
+
+    $('.tamanho-texto button').on('click', function(){
+        
+        var fontScale = parseInt(localStorage.getItem('fontScale'));
+
+        if($(this).hasClass('minus') && fontScale >= 90){
+
+            $('html').css('font-size', `${fontScale-1}%`);
+            localStorage.setItem('fontScale', fontScale-1);
+            handleButtonColor(fontScale-1)
+        }
+
+        if($(this).hasClass('plus') && fontScale <= 110){
+
+            $('html').css('font-size', `${fontScale+1}%`);
+            localStorage.setItem('fontScale', fontScale+1);
+            handleButtonColor(fontScale+1)
+        }
+
+        if($(this).hasClass('default')){
+            $('html').css('font-size', `100%`);
+            localStorage.setItem('fontScale', 100);
+            handleButtonColor(100);
+        }
+    })
+
+    $('.botao-versao-acessivel').on('click', function(){
+        console.log(localStorage.getItem('fullAcessibility'))
+        if(localStorage.getItem('fullAcessibility') == "false"){
+            handleButtonColor(107); 
+            if(localStorage.getItem('fontScale') != "107"){
+                $('html').css('font-size', '107%');
+                localStorage.setItem('fontScale', 107);
+            }
+            if(localStorage.getItem('darkMode') == "false"){
+                $('.alto-contraste .custom-control-input').prop('checked', true);
+                localStorage.setItem('darkMode', true);
+                $('html').addClass('dark-mode');
+            }
+            localStorage.setItem('fullAcessibility', true);
+        }else{
+            handleButtonColor(100); 
+            if(localStorage.getItem('fontScale') == "107"){
+                $('html').css('font-size', '100%');
+                localStorage.setItem('fontScale', 100);
+            }
+            if(localStorage.getItem('darkMode') == "true"){
+                $('.alto-contraste .custom-control-input').prop('checked', false);
+                $('html').removeClass('dark-mode');
+                localStorage.setItem('darkMode', false)
+            } 
+            localStorage.setItem('fullAcessibility', false);
+        }
+
+
+    })
+
+    $('.alto-contraste .custom-control-input').on('change', function(){
+        if($(this).prop('checked')){
+            localStorage.setItem('darkMode', true);
+            $('html').addClass('dark-mode');
+        }else{
+            localStorage.setItem('darkMode', false);
+            $('html').removeClass('dark-mode');
+        }
+    })
+
+    //$('.custom-control-input-darkmode').prop('checked', true)
+
+
+    $('#vlibras').on('click', function(){
+        $("div[vw]#vlibrasBotao div[vw-access-button].active").click();
+        $("div[vw]#vlibrasBotao").toggleClass('d-none');
+    })
+
+})

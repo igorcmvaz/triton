@@ -1,0 +1,107 @@
+
+
+/*---- TAMANHO DA FONTE ----*/
+
+
+const fonte = localStorage.getItem('font-size');
+if (fonte !== null) {
+	// Define o tamanho inicial da fonte com base
+	// no que o usuário selecionou anteriormente
+	alterarFonte(fonte);
+}
+
+$(document).ready(function() {
+	$("#acc-aumentar-fonte").click(function() {
+		alterarFonte('+');
+	});
+
+	$("#acc-diminuir-fonte").click(function() {
+		alterarFonte('-');
+	});
+});
+
+/**
+ * Define o tamanho global da fonte, diretamente ou incrementalmente
+ * Máximo: 32px | Mínimo: 16px
+ * @param {string} opcao
+ */
+function alterarFonte(opcao) {
+	let fonte = parseInt($('html').css('font-size'));
+
+	if (opcao === '+') {
+		var tamanho = fonte + 2;
+	} else if (opcao === '-' && fonte > 16) {
+		var tamanho = fonte - 2;
+	} else if ($.isNumeric(opcao)) {
+		tamanho = parseInt(opcao);
+	} else {
+		return;
+	}
+
+	if (tamanho < 16) { tamanho = 16; }
+	if (tamanho > 32) { tamanho = 32; }
+
+	$('html').css("font-size", tamanho);
+	localStorage.setItem('font-size', tamanho);
+}
+
+
+/*---- MODO CLARO/ESCURO ----*/
+
+
+let temaAtual = getTheme();
+
+setTheme(temaAtual);
+
+$(document).ready(function() {
+	const button = $("#acc-contraste");
+	updateButton(button, (temaAtual === "dark"));
+
+	// Event listener para alternar entre os temas
+	button.on("click", function() {
+		const novoTema = temaAtual === "dark" ? "light" : "dark";
+
+		localStorage.setItem("theme", novoTema);
+		updateButton(button, novoTema);
+		setTheme(novoTema);
+
+		temaAtual = novoTema;
+	});
+});
+
+/**
+ * Identifica o tema atual
+ */
+function getTheme() {
+	const localStorageTheme = localStorage.getItem("theme");
+	const systemSettingDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+	// Aplica o tema salvo em storage, se existir
+	if (localStorageTheme !== null) {
+		return localStorageTheme;
+	}
+
+	// Aplica a preferência do sistema, se definida
+	if (systemSettingDark.matches) {
+		return "dark";
+	}
+
+	// Opção padrão
+	return "light";
+}
+
+/**
+ * Atualiza o tema na tag HTML
+ */
+function setTheme(theme) {
+	$('html').attr("data-theme", theme);
+}
+
+/**
+ * Atualiza o texto do botão
+ */
+function updateButton(button, novoTema) {
+	const label = (novoTema === "dark") ? "Alternar para o modo claro" : "Alternar para o modo escuro";
+
+	button.attr("aria-label", label);
+}

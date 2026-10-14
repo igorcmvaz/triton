@@ -1,0 +1,581 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- saved from url=(0085)https://agencia.caer.com.br/gsan/exibirConsultarEstruturaTarifariaPortalCaerAction.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+		<title>CAER | Serviços</title>
+
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+		
+		<script async="" src="./CAER _ Serviços_files/analytics.js.baixados"></script><script language="JavaScript" src="./CAER _ Serviços_files/jquery-1.4.2.min.js.baixados"></script>
+		<script language="JavaScript" src="./CAER _ Serviços_files/util.js.baixados"></script>
+		<link rel="stylesheet" href="./CAER _ Serviços_files/style.css" type="text/css">
+		<link rel="stylesheet" href="./CAER _ Serviços_files/internal.css" type="text/css">
+		<link rel="stylesheet" href="./CAER _ Serviços_files/jquery.theme.css" type="text/css">
+		<script language="JavaScript" src="./CAER _ Serviços_files/jquery.blockUI.js.baixados"></script>
+		
+		<script language="JavaScript" src="./CAER _ Serviços_files/regras_validator.js.baixados"></script>
+		
+		
+		
+		
+		
+			
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				if('null' == 'SIM'){
+					$('[name=valorEntradaInformado]').focus();					
+				}
+				
+				$('#botaoConfirmar').click(function(){
+					$.blockUI({
+						message : $('#alertConfirmacao'),
+						theme : true,
+						title : 'Confirmar'
+					});
+					
+					$('#botaoSim').click(function(){
+						efetuarParcelamento();
+						$.unblockUI();
+					});
+					$('#botaoNao').click(function(){
+						$.unblockUI();
+					});
+				});
+			});
+		</script>
+		
+		<script type="text/javascript">
+			function showMessage(message){
+				$('#message h3').text(message);
+				$.blockUI({
+					message : $('#message'),
+					theme : true,
+					title : 'Aviso'
+				});
+				
+				$('.confirm').live('click', function(){
+					$.unblockUI();
+				});
+			}
+			
+		</script>
+	<style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><style>.vue-notification-group{display:block;position:fixed;z-index:5000}.vue-notification-wrapper{display:block;overflow:hidden;width:100%;margin:0;padding:0}.notification-title{font-weight:600}.vue-notification-template{display:block;box-sizing:border-box;background:#fff;text-align:left}.vue-notification{display:block;box-sizing:border-box;text-align:left;font-size:12px;padding:10px;margin:0 5px 5px;color:#fff;background:#44a4fc;border-left:5px solid #187FE7}.vue-notification.warn{background:#ffb648;border-left-color:#f48a06}.vue-notification.error{background:#e54d42;border-left-color:#b82e24}.vue-notification.success{background:#68cd86;border-left-color:#42a85f}.vn-fade-enter-active,.vn-fade-leave-active,.vn-fade-move{transition:all .5s}.vn-fade-enter-from,.vn-fade-leave-to{opacity:0}</style><link type="text/css" rel="stylesheet" href="./CAER _ Serviços_files/css2"><link type="text/css" rel="stylesheet" href="./CAER _ Serviços_files/css2"></head>
+	<body data-new-gr-c-s-check-loaded="14.1154.0" data-gr-ext-installed=""><div id="esg_atica"></div>
+		<div id="container">
+	    	
+
+
+
+
+
+
+
+
+
+	<script language="JavaScript">
+	
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-60594060-12', 'auto');
+		ga('send', 'pageview');
+	
+	</script>
+	<script language="JavaScript" src="./CAER _ Serviços_files/jquery-3.2.1.min.js.baixados"></script>
+	<script>
+		var $3 = jQuery.noConflict();
+	</script>
+	<script async="" defer="" src="https://pulsecdn.consensotec.com.br/cdn/pulse.js" data-pulse-app-id="f18bfc59-860d-4b80-8368-d70f214f15b2"></script>
+
+
+
+   	<!-- Início Cabe&ccedil;alho -->
+     <div id="top">
+     	<a href="https://agencia.caer.com.br/gsan/exibirServicosPortalCaerAction.do?menu=sim" title="Caer">
+        	<img src="./CAER _ Serviços_files/loja-virtual.png" alt="Mosaico" style="width:auto;float:none;">
+     	</a>
+     </div>
+     <!-- Fim Cabe&ccedil;alho -->
+
+
+
+			
+			<div id="content">
+				
+
+
+
+
+
+
+
+	
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+		
+		<style>
+			.btn-voltar-informacoes {
+    			left: 0px;
+    			position: absolute;
+    			top: -10px;
+			}
+			#barra-informacoes{
+				 background: url("/gsan/imagens/portal/caer/general/barra-informacoes.gif") no-repeat scroll 0 0 transparent;
+				 margin: 50px 0 0 38px;
+				 position: relative;
+				 width: 865px;
+				 float: left;
+				 height: 40px
+			}
+		</style>
+	
+	
+		
+			<div id="voltar-informacoes" class="serv-int btn-voltar-informacoes">
+				<a href="https://agencia.caer.com.br/gsan/exibirInformacoesPortalCaerAction.do" title="Voltar Para o Menu de Informações">
+		   			<img src="./CAER _ Serviços_files/btn-voltar-informacoes.gif" alt="Voltar Para o Menu de Informações">
+				</a>
+			</div>
+		
+		<div id="barra-informacoes">
+			<a href="https://agencia.caer.com.br/gsan/exibirServicosPortalCaerAction.do?menu=sim" title="Sair"><img src="./CAER _ Serviços_files/btn-sair.png" alt="Sair" style="float: right;"></a>
+		</div>
+		
+		<!-- Bot&atilde;o download Adobe Reader - Start -->
+		<a href="http://get.adobe.com/br/reader/" title="Faça o download do Adobe Reader" class="adobe-reader" target="_blank"><img src="./CAER _ Serviços_files/adobe-reader.gif" alt="Download do Adobe Reader"></a>
+		<!-- Bot&atilde;o download Adobe Reader - End -->
+		
+		
+	
+
+				
+				<div id="parc-debito" class="serv-int">
+	            	<h3>Estrutura Tarifária<span>&nbsp;</span></h3>
+
+	            	<form>
+						<!-- Início dos consumidores medidos -->
+						<div id="negociadebitos" class="serv-int" style="height: 300px; width: 97%; overflow: auto;">
+							
+							<p><b>
+								RESOLUçãO Nº 04/2008:
+							</b></p>
+							
+							<!-- Início da estrutura da tabela -->
+							<table summary="Tabela do consumos" style="margin-top: 0px">
+								<tbody><tr>
+									<td colspan="4">
+									<table summary="Tabela de consumo">
+										<tbody>
+											<tr class="tr-1" id="tr-1-2">
+												<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	A - Todas as Categorias 
+										        </td>
+										    	<td width="50%" align="center">
+													D - Todas as Categorias 
+												</td>
+											</tr>
+											<tr class="tr-1" id="tr-1-2">
+										        <td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	Consumo até 10m³ ou Consumidores Taxados
+										         </td>
+										         <td width="50%" align="center">
+													Consumo de 31m³ até 100m³
+												 </td>
+											</tr>
+											<tr class="tr-1" id="tr-1-2">
+												<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	V = NI
+												</td>
+												<td width="50%" align="center">
+													V = NI(7x² + 1200x)/10.000	
+												</td>
+											</tr>
+											
+											<tr class="tr-2" id="tr-2-2">
+												<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	B - Todas as Categorias
+										        </td>
+										    	<td width="50%" align="center">
+													E - Todas as Categorias
+												</td>
+										    </tr>
+										    <tr class="tr-2" id="tr-2-2">
+										        <td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	Consumo de 11m³ até 19m³ 
+										        </td>
+										        <td width="50%" align="center">
+													Consumo de 101m³ até 200m³
+												</td>
+										    </tr>
+										    <tr class="tr-2" id="tr-2-2">
+										    	<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	V = NI(7x² + 995x)/10.000 
+												</td>
+												<td width="50%" align="center">
+													V = NI(7x² + 1210x)/10.000	
+												</td>
+											</tr>
+											
+											<tr class="tr-1" id="tr-1-2">		
+												<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	C - Todas as Categorias
+										        </td>
+										   		<td width="50%" align="center">
+										   			F - Todas as Categorias
+										   		</td>
+										   	</tr>
+										   	<tr class="tr-1" id="tr-1-2">
+										   		<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	Consumo de 20m³ até 30m³
+										        </td>
+										        <td width="50%" align="center">
+													Consumo Superior a 200m³
+												</td>
+											</tr>
+											<tr class="tr-1" id="tr-1-2">
+												<td width="50%" style="border-right: 1px solid #C8C8C8;">
+										        	V = NI(7x² + 1130x)/10.000
+												</td>
+												<td width="50%" align="center">
+													V = NI(0,32x - 11,2)		
+												</td>
+											</tr>
+										</tbody>										
+									</table>
+									</td>
+								</tr>
+							</tbody></table>
+							<!-- Fim da estrutura da tabela -->
+						
+							<p><b>
+								Sendo:
+							</b></p>
+							
+							<!-- Início da estrutura da legenda -->
+							<table summary="Tabela de legendas" style="margin-top: 0px">
+								<tbody><tr>
+									<td colspan="4">
+									<table summary="Tabela de legenda">
+										<tbody>
+											<tr class="tr-1" id="tr-1-2">
+												<td width="5%" style="border-right: 1px solid #C8C8C8;">
+										        	V 
+												</td>
+												<td width="50%" align="center">
+													Valor da Conta de água em R$	
+												</td>
+											</tr>
+											<tr class="tr-2" id="tr-2-2">
+												<td width="5%" style="border-right: 1px solid #C8C8C8;">
+										        	NI 
+												</td>
+												<td width="50%" align="center">
+													Tarifa Mínima da Categoria do Consumidor	
+												</td>
+											</tr>
+											<tr class="tr-1" id="tr-1-2">		
+												<td width="5%" style="border-right: 1px solid #C8C8C8;">
+										        	X 
+												</td>
+												<td width="50%" align="center">
+													Consumo em m³	
+												</td>
+											</tr>
+										</tbody>										
+									</table>
+									</td>
+								</tr>
+							</tbody></table>
+							<!-- Fim da estrutura da legenda -->
+							
+							<p><b>
+								Vigência 01.09.11:
+							</b></p>
+							
+							<!-- Início da estrutura tarif&aacute;ria residencial -->
+							<table summary="Tabela de contas" style="margin-top: 0px">
+								
+								<tbody><tr>
+									<td colspan="4">
+									<table summary="Tabela de conta">
+										
+											<thead>
+						                    	<tr>
+						                        	<th width="55%">Categoria</th>
+						                            <th width="25%">Tarifa Mínima - NI (R$)</th>
+						                        </tr>
+						                    </thead>
+												
+											<tbody>
+												
+													 
+													<tr class="tr-1" id="tr-1-2">
+													
+														<td width="55%" style="border-right: 1px solid #C8C8C8;">
+												           RESIDENCIAL
+														</td>
+														<td width="25%">
+															38,65
+														</td>
+													</tr>
+												
+													 
+													<tr class="tr-2" id="tr-2-2">
+													
+														<td width="55%" style="border-right: 1px solid #C8C8C8;">
+												           COMERCIAL
+														</td>
+														<td width="25%">
+															81,27
+														</td>
+													</tr>
+												
+													 
+													<tr class="tr-1" id="tr-1-2">
+													
+														<td width="55%" style="border-right: 1px solid #C8C8C8;">
+												           INDUSTRIAL
+														</td>
+														<td width="25%">
+															126,65
+														</td>
+													</tr>
+												
+													 
+													<tr class="tr-2" id="tr-2-2">
+													
+														<td width="55%" style="border-right: 1px solid #C8C8C8;">
+												           PUBLICO
+														</td>
+														<td width="25%">
+															105,83
+														</td>
+													</tr>
+												
+											</tbody>										
+										
+									</table>
+									</td>
+								</tr>
+							</tbody></table>
+							<!-- Fim da estrutura tarif&aacute;ria residencial -->
+							
+							
+								<p><b>
+									Exemplo:
+								</b></p>
+								
+								<p class="paragrafo"><em><b>Como calcular o valor em R$ para um consumo de 15m³ de água na categoria residencial.</b></em></p>
+								
+								
+									<p class="paragrafo"><em><b>
+										V = NI (7x² + 995x) /10000 <br>
+										V = 38,65 (7.15² + 995.15) /10000 <br>
+										V = 38,65 (7.225 + 14925) /10000 <br>
+										V = 38,65 (1575 + 14925) /10000 <br>
+										V = 38,65 (16500) /10000 <br>
+										V = 63,77 <br>
+									</b></em></p>
+								
+							
+							
+							
+								
+									<p><b>Tarifa Social:</b></p>
+									
+									<p class="paragrafo"><em><b>
+										Criada pelo Conselho de Administração em 08/11/05, com um valor de R$ 15,75, 
+										tem como objetivo levar o saneamento às pessoas menos favorecidas, garantindo saúde 
+										e qualidade de vida às famílias roraimenses que não tem condições 
+										de pagar pelos serviços.
+									</b></em></p>
+									
+									<p><b>Críterios:</b></p>
+									
+									<p class="paragrafo"><em><b>
+										Imóveis: Somente devem ser cadastrados os imóveis com área construída de até 70 m² (setenta metros quadrados), para fins residenciais. <br>
+										Consumo de água: até 10 m³. <br>
+										Renda: A renda da família residente no imóvel será de até um salário mínimo por pessoa. <br>
+										Consumo de energia: até 80 kW.<br>
+									</b></em></p>
+									
+								
+							
+							
+							
+								<p><b>Esgoto:</b></p>
+								
+								<p class="paragrafo"><em><b>
+									Incidirá o percentual de 80% sobre o valor da conta de água, no caso de haver 
+									rede de esgoto disponível no logradouro do usuário.
+								</b></em></p>
+								
+								<p><b>
+									Exemplo:
+								</b></p>
+								
+								<p class="paragrafo"><em><b>Como calcular o valor da Tarifa de esgoto para um consumode 10m³ de água que custa, na tarifa residencial. 
+									R$ 38,65</b></em></p>
+								
+								
+									<p class="paragrafo"><em><b>
+										Esgoto = 80% sobre o valor de R$ 38,65 <br>
+										Esgoto = R$ 30,92 <br>
+									</b></em></p>
+								
+								
+								<p class="paragrafo"><em><b>Somando o valor de Tarifa de água mais o valor de Tarifa de Esgoto, teremos o valor total da conta de água: <br>
+									R$ (30,92 + 38,65 ) 
+									= 69,57
+								</b></em></p>
+								
+							
+							
+						</div>
+						<!-- Fim dos consumidores medidos -->
+					
+					</form>
+	            </div>
+	        </div>
+	        
+			
+
+
+
+
+
+
+
+	
+	
+	
+	
+	     <!-- Footer - Start -->
+	     <div id="footer" align="center">
+	     	<h4>Canais de atendimento</h4>
+	         <ul>
+	         	<li id="link-1"><a href="https://agencia.caer.com.br/gsan/exibirLojasAtendimentoPresencialPortalCaerAction.do" title="Lojas de atendimento presencial">Lojas de atendimento presencial</a></li>
+	            <li id="link-2"><a href="https://agencia.caer.com.br/gsan/exibirCanaisAtendimentoCaerAction.do?method=teleatendimento" title="Tele atendimento 0800-280 95 20">Tele atendimento 0800-280 95 20</a></li>
+	            <li id="link-3"><a href="https://agencia.caer.com.br/gsan/exibirCanaisAtendimentoCaerAction.do?method=ouvidoria" title="Ouvidoria">Ouvidoria</a></li>
+	            <li id="link-4"><a href="http://www.facebook.com.br/ascom.caer/" target="_blank" title="Facebook">Facebook</a></li>
+	         </ul>
+	         <address>Companhia de águas e Esgoto de Roraima - Todos os Direitos Reservados.</address>
+	     </div>
+	     <style type="text/css">
+#maisDeUmaAba {
+   width: 100%;
+   height: 100%;
+   top: 0;
+   left: 0;
+   position: fixed;
+   display: block;
+   opacity: 0.8;
+   background-color: #fff;
+   z-index: 99;
+   text-align: center;
+}
+
+#maisDeUmaAba-image {
+  position: absolute;
+  top: 200px;
+  z-index: 100;
+} 
+			
+#maisDeUmaAbaTexto {
+   height: 10em;
+   position: relative
+ }
+              
+#maisDeUmaAbaTexto p {
+   margin: 0;
+   position: absolute;               
+   top: 90%;
+   transform: translate(90%, 0%) 
+}
+</style>
+
+<div id="maisDeUmaAba" style="display: none;">
+	<div id="maisDeUmaAbaTexto">
+		<p>Foi detectado o acesso à funcionalidade usando mais de
+			uma Aba.</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+//nao executar para dispositivos moveis.
+var isPhone = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+	function ocultarMaisDeUmaAba(){
+		$('#maisDeUmaAba').hide();
+	}
+	
+	function exibirMaisDeUmaAba(){
+		if(!isPhone) {
+			$('#maisDeUmaAba').show();
+		}
+	}
+	
+	//validacao em javascript para descobrir se ha
+	//mais de uma aba aberta na mesma tela.
+	localStorage.openpages = Date.now();
+	var onLocalStorageEvent = function(e){
+	    if(e.key == "openpages"){
+	        localStorage.page_available = Date.now();
+	    }
+	
+	     if(e.key == "page_available"){
+			exibirMaisDeUmaAba();
+	    }
+	};
+	window.addEventListener('storage', onLocalStorageEvent, false);
+</script>
+	
+
+		</div><!-- Content - End -->
+		
+		<div id="message" style="display:none; cursor: default;"> 
+	        <h3 style="text-align:center; padding-top:10px; padding-bottom: 10px;"></h3> 
+			<a href="javascript:void(0);" class="ui-corner-all button confirm">OK</a>
+		</div>
+	
+<audio class="audio-output" style="display: none;"></audio><div id="volume-booster-visusalizer">
+                    <div class="sound">
+                        <div class="sound-icon"></div>
+                        <div class="sound-wave sound-wave_one"></div>
+                        <div class="sound-wave sound-wave_two"></div>
+                        <div class="sound-wave sound-wave_three"></div>
+                    </div>
+                    <div class="segments-box">
+                        <div data-range="1-20" class="segment"><span></span></div>
+                        <div data-range="21-40" class="segment"><span></span></div>
+                        <div data-range="41-60" class="segment"><span></span></div>
+                        <div data-range="61-80" class="segment"><span></span></div>
+                        <div data-range="81-100" class="segment"><span></span></div>
+                    </div>
+                </div><div id="v1xegrnjjq" style="display: block;"><template shadowrootmode="closed"><div id="giu4xt8knl"><style type="text/css">
+  @import 'chrome-extension://bpgniflghkfilpfdacibcpggobmldnlf/app.css';
+</style>
+<div id="cuponomia" data-v-app=""><div></div></div>
+</div></template></div></body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

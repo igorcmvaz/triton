@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'wws-fonts';
+  src:  url('../fonts/wws-fonts.eot?oc4zcx');
+  src:  url('../fonts/wws-fonts.eot?oc4zcx#iefix') format('embedded-opentype'),
+    url('../fonts/wws-fonts.ttf?oc4zcx') format('truetype'),
+    url('../fonts/wws-fonts.woff?oc4zcx') format('woff'),
+    url('../fonts/wws-fonts.svg?oc4zcx#wws-fonts') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="wws-icon-"], [class*=" wws-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'wws-fonts' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wws-icon-close:before {
+  content: "\f00d";
+}
+.wws-icon-remove:before {
+  content: "\f00d";
+}
+.wws-icon-arrow-left:before {
+  content: "\f060";
+}
+.wws-icon-eye:before {
+  content: "\f06e";
+}
+.wws-icon-desktop:before {
+  content: "\f108";
+}
+.wws-icon-mobile:before {
+  content: "\f10b";
+}
+.wws-icon-mobile-phone:before {
+  content: "\f10b";
+}
+.wws-icon-trash:before {
+  content: "\f1f8";
+}
+.wws-icon-whatsapp:before {
+  content: "\f232";
+}
+.wws-icon-mouse-pointer:before {
+  content: "\f245";
+}

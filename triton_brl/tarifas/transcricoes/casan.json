@@ -1,0 +1,158 @@
+{
+ "prestador": "CASAN",
+ "registro": [
+  9
+ ],
+ "documento": "CASAN - Companhia Catarinense de Águas e Saneamento.html",
+ "vigencia": "01/04/2026",
+ "fonte_url": "https://www.casan.com.br/menu-conteudo/index/url/tarifas",
+ "leitura": "Tabela tarifária estadual da CASAN válida a partir de 01/04/2026 (Resolução ARESC nº 389/2026, Deliberação ARIS nº 003/2026, Decisão AGIR nº 321/2026 e Resolução CISAM-SUL CREFISBA nº 07/2026). Aplica-se a todos os 22 municípios atendidos pela CASAN no catálogo do Triton. TFDI de R$ 46,34/mês (R$ 8,63 na Social convencional) e esgoto a 100% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela tarifária estadual (página de tarifas, valores a partir de 01/04/2026)",
+   "uf": "SC",
+   "municipios": [
+    "Araranguá",
+    "Biguaçu",
+    "Camboriú",
+    "Canoinhas",
+    "Caçador",
+    "Chapecó",
+    "Concórdia",
+    "Criciúma",
+    "Florianópolis",
+    "Imbituba",
+    "Indaial",
+    "Itapema",
+    "Içara",
+    "Mafra",
+    "Navegantes",
+    "Palhoça",
+    "Rio do Sul",
+    "São Francisco do Sul",
+    "São José",
+    "Tijucas",
+    "Videira",
+    "Xanxerê"
+   ],
+   "residencial": {
+    "fixo": 46.34,
+    "faixas": [
+     [
+      0,
+      10,
+      3.08
+     ],
+     [
+      10,
+      25,
+      14.31
+     ],
+     [
+      25,
+      50,
+      19.14
+     ],
+     [
+      50,
+      null,
+      24.08
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "TFDI R$ 46,34/mês somada ao consumo desde 0 m³."
+   },
+   "comercial": {
+    "fixo": 46.34,
+    "faixas": [
+     [
+      0.0,
+      10.0,
+      6.81
+     ],
+     [
+      10.0,
+      50.0,
+      19.14
+     ],
+     [
+      50.0,
+      null,
+      24.08
+     ]
+    ],
+    "esgoto_pct": 100.0,
+    "nota": "Comercial (Comércio); Micro e Pequeno Comércio tem 0–10 m³ a R$ 4,80."
+   },
+   "industrial": {
+    "fixo": 46.34,
+    "faixas": [
+     [
+      0.0,
+      10.0,
+      6.81
+     ],
+     [
+      10.0,
+      null,
+      19.14
+     ]
+    ],
+    "esgoto_pct": 100.0
+   },
+   "publica": {
+    "fixo": 46.34,
+    "faixas": [
+     [
+      0.0,
+      10.0,
+      6.81
+     ],
+     [
+      10.0,
+      null,
+      19.14
+     ]
+    ],
+    "esgoto_pct": 100.0,
+    "nota": "Pública; Pública Especial (entidades beneficentes) tem TFDI R$ 13,89, 0–10 a R$ 2,04 e 11–25 a R$ 5,73."
+   },
+   "social": {
+    "fixo": 8.63,
+    "faixas": [
+     [
+      0.0,
+      10.0,
+      0.58
+     ],
+     [
+      10.0,
+      25.0,
+      4.11
+     ],
+     [
+      25.0,
+      50.0,
+      19.14
+     ],
+     [
+      50.0,
+      null,
+      24.08
+     ]
+    ],
+    "esgoto_pct": 100.0
+   },
+   "abrangencia": "tabela única do CASAN (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SC - Florianópolis",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 77.14,
+   "impresso": "TFDI 46,34 + 0 a 10 m³ a 3,08"
+  }
+ ]
+}

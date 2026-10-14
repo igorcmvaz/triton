@@ -1,0 +1,150 @@
+{
+ "prestador": "CAERN",
+ "registro": [
+  38
+ ],
+ "documento": "RS.CA.P.G.02.0002.03_REAJUSTE_TARIFARIO_NATAL.pdf",
+ "vigencia": "01/07/2025",
+ "fonte_url": "https://www.caern.com.br",
+ "leitura": "Resolução RS.CA.P.G.02.0002.03 do Conselho de Administração da CAERN, Anexo I «Tabela Tarifária 2025 - Natal» (reajuste de 8,91%, contas com vencimento a partir de julho de 2025). Só Natal: os demais municípios da CAERN têm tabela própria, não recebida. Esgoto convencional a 70% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Tabela Tarifária 2025 - Natal",
+   "uf": "RN",
+   "municipios": [
+    "Natal"
+   ],
+   "residencial": {
+    "fixo": 51.4,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      5.73
+     ],
+     [
+      15,
+      20,
+      6.77
+     ],
+     [
+      20,
+      30,
+      7.64
+     ],
+     [
+      30,
+      50,
+      8.79
+     ],
+     [
+      50,
+      100,
+      11.38
+     ],
+     [
+      100,
+      null,
+      12.93
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "social": {
+    "fixo": 10.37,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      5.73
+     ],
+     [
+      15,
+      20,
+      6.77
+     ],
+     [
+      20,
+      30,
+      7.64
+     ],
+     [
+      30,
+      50,
+      8.79
+     ],
+     [
+      50,
+      100,
+      11.38
+     ],
+     [
+      100,
+      null,
+      12.93
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Residencial Social."
+   },
+   "comercial": {
+    "fixo": 79.09,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      9.97
+     ],
+     [
+      15,
+      20,
+      10.71
+     ],
+     [
+      20,
+      null,
+      12.93
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "industrial": {
+    "fixo": 172.49,
+    "franquia": 20,
+    "faixas": [
+     [
+      20,
+      null,
+      14.22
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "publica": {
+    "fixo": 165.43,
+    "franquia": 20,
+    "faixas": [
+     [
+      20,
+      null,
+      14.22
+     ]
+    ],
+    "esgoto_pct": 70,
+    "nota": "Unidades de saúde e educação pagam a tabela residencial (nota 4)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RN - Natal",
+   "categoria": "residencial",
+   "consumo_m3": 60,
+   "conta_agua": 479.9,
+   "impresso": "51,40 + 5×5,73 + 5×6,77 + 10×7,64 + 20×8,79 + 10×11,38"
+  }
+ ]
+}

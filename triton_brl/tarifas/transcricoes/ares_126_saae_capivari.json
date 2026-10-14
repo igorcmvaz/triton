@@ -1,0 +1,161 @@
+{
+ "prestador": "SAAE Capivari",
+ "registro": [
+  126
+ ],
+ "documento": "saae_capivari_ARESPCJ_resoluo_n_704_2026_-_reajuste_tarifrio_-_saae_capivari_errata.pdf",
+ "vigencia": "29/05/2026",
+ "fonte_url": "https://www.arespcj.com.br/public/media/arquivos/1783109867-resoluo_n_704_2026_-_reajuste_tarifrio_-_saae_capivari_errata.pdf",
+ "leitura": "Material tarifário oficial de SAAE Capivari. Anexo I da resolução da ARES-PCJ, vigência a partir de 29/05/2026.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I",
+   "uf": "SP",
+   "municipios": [
+    "Capivari"
+   ],
+   "social": {
+    "esgoto_pct": 90.0,
+    "fixo": 16.56,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      15.0,
+      2.66
+     ],
+     [
+      15.0,
+      20.0,
+      4.0
+     ],
+     [
+      20.0,
+      30.0,
+      6.65
+     ],
+     [
+      30.0,
+      40.0,
+      9.53
+     ],
+     [
+      40.0,
+      50.0,
+      14.27
+     ],
+     [
+      50.0,
+      null,
+      15.67
+     ]
+    ]
+   },
+   "residencial": {
+    "esgoto_pct": 90.0,
+    "fixo": 33.11,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      5.33
+     ],
+     [
+      20.0,
+      30.0,
+      6.65
+     ],
+     [
+      30.0,
+      40.0,
+      9.53
+     ],
+     [
+      40.0,
+      50.0,
+      14.27
+     ],
+     [
+      50.0,
+      null,
+      15.67
+     ]
+    ]
+   },
+   "comercial": {
+    "esgoto_pct": 90.0,
+    "fixo": 78.09,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      11.34
+     ],
+     [
+      20.0,
+      30.0,
+      12.62
+     ],
+     [
+      30.0,
+      40.0,
+      18.13
+     ],
+     [
+      40.0,
+      50.0,
+      27.04
+     ],
+     [
+      50.0,
+      null,
+      29.2
+     ]
+    ]
+   },
+   "industrial": {
+    "esgoto_pct": 90.0,
+    "fixo": 78.09,
+    "franquia": 10.0,
+    "faixas": [
+     [
+      10.0,
+      20.0,
+      11.34
+     ],
+     [
+      20.0,
+      30.0,
+      12.62
+     ],
+     [
+      30.0,
+      40.0,
+      18.13
+     ],
+     [
+      40.0,
+      50.0,
+      27.04
+     ],
+     [
+      50.0,
+      null,
+      29.2
+     ]
+    ]
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - Capivari",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 86.41,
+   "impresso": "Anexo I, categoria residencial: mínimo e faixas até 20 m³"
+  }
+ ]
+}

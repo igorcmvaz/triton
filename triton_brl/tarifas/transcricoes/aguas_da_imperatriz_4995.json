@@ -1,0 +1,157 @@
+{
+ "prestador": "Águas da Imperatriz",
+ "registro": [
+  101
+ ],
+ "documento": "AguasDaImperatriz_Deliberacao_AGENERSA_4995_2026.pdf",
+ "vigencia": "06/01/2026",
+ "fonte_url": "https://www.rj.gov.br/agenersa/sites/default/files/arquivos_paginas_basicas/AGUAS%20DA%20IMPERATRIZ_0.pdf",
+ "leitura": "Deliberação AGENERSA nº 4995, de 03/02/2026 (reajuste de 6,52%, «Reajuste Tarifário Jan/26»): tarifas de água e esgoto por faixa (R$/m³), progressivas. Teresópolis é o único município da concessão. «Conta mínima 15 m³ a R$ 4,6120/m³» é a Tarifa 1 da estrutura herdada da CEDAE: conta mínima de 15 × 4,6120 = R$ 69,18 para a unidade de até 15 m³/mês; acima, a Domiciliar desde 0 m³. Esgoto a 90% da água. «Conta mínima 15 m³ a R$ 4,6120/m³» é a Tarifa 1 da estrutura herdada da CEDAE: conta mínima de 15 × 4,6120 = R$ 69,18 para a unidade de até 15 m³/mês; acima, a Domiciliar desde 0 m³. Esgoto a 90% da água.",
+ "tabelas": [
+  {
+   "rotulo": "Deliberação 4995/2026",
+   "uf": "RJ",
+   "municipios": [
+    "Teresópolis"
+   ],
+   "residencial": {
+    "faixas": [
+     [
+      0,
+      15,
+      5.2836
+     ],
+     [
+      15,
+      30,
+      11.6238
+     ],
+     [
+      30,
+      45,
+      15.8506
+     ],
+     [
+      45,
+      60,
+      31.7012
+     ],
+     [
+      60,
+      null,
+      42.2682
+     ]
+    ],
+    "esgoto_pct": 90,
+    "retroativa": {
+     "ate": 15,
+     "valor": 69.18
+    },
+    "nota": "«Conta mínima 15 m³ a R$ 4,6120/m³» é a Tarifa 1 da estrutura herdada da CEDAE: conta mínima de 15 × 4,6120 = R$ 69,18 para a unidade de até 15 m³/mês; acima, a Domiciliar desde 0 m³. Esgoto a 90% da água."
+   },
+   "comercial": {
+    "faixas": [
+     [
+      0,
+      20,
+      17.964
+     ],
+     [
+      20,
+      30,
+      31.6483
+     ],
+     [
+      30,
+      null,
+      33.8146
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "industrial": {
+    "faixas": [
+     [
+      0,
+      20,
+      24.8326
+     ],
+     [
+      20,
+      30,
+      24.8326
+     ],
+     [
+      30,
+      130,
+      28.531
+     ],
+     [
+      130,
+      null,
+      30.1161
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "publica": {
+    "faixas": [
+     [
+      0,
+      15,
+      6.9743
+     ],
+     [
+      15,
+      null,
+      15.4278
+     ]
+    ],
+    "esgoto_pct": 90
+   },
+   "representativa": "a conta depende de a unidade ficar até 15 m³/mês (conta mínima) ou acima",
+   "variantes": {
+    "Sem a Tarifa 1 (Tarifa 2 desde 0 m³)": {
+     "faixas": [
+      [
+       0,
+       15,
+       5.2836
+      ],
+      [
+       15,
+       30,
+       11.6238
+      ],
+      [
+       30,
+       45,
+       15.8506
+      ],
+      [
+       45,
+       60,
+       31.7012
+      ],
+      [
+       60,
+       null,
+       42.2682
+      ]
+     ],
+     "esgoto_pct": 90
+    }
+   },
+   "abrangencia": "o documento é do prestador (Águas da Imperatriz), que atende um só município da base; não repete o nome dele"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RJ - Teresópolis",
+   "categoria": "residencial",
+   "consumo_m3": 20,
+   "conta_agua": 137.37,
+   "impresso": "15 × 5,2836 + 5 × 11,6238"
+  }
+ ]
+}

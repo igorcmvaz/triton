@@ -1,8 +1,0 @@
-# Netuno 5 — Dependências de Desenvolvimento, Testes e Compilação
--r requirements.txt
-
-pytest>=7.4.0
-pypdf>=4.0.0          # conferência das páginas dos PDFs do manual
-pytest-cov>=4.1.0
-time-machine>=2.14.0
-pyinstaller>=6.0.0

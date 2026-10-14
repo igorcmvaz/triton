@@ -1,0 +1,351 @@
+{
+ "prestador": "CESAN",
+ "registro": [
+  12,
+  212
+ ],
+ "documento": "Resolução_107_Resultado_Final_2ªRTO_CESAN.pdf",
+ "vigencia": "01/09/2026",
+ "fonte_url": "https://arsp.es.gov.br",
+ "leitura": "Resolução ARSP nº 107, de 30/07/2026 (2ª Revisão Tarifária Periódica da CESAN), Anexo II, Quadro 1 — categorias individuais, tabelas a partir de 01/09/2026; a ordem dos blocos no texto do PDF é dados → rótulo (água, depois coleta-afastamento-tratamento, depois coleta-afastamento), a mesma da cartilha da ARSP (item 212), cujos valores de 2021 batem com a imagem da CESAN (água residencial 19,19). Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%. Tabela única da companhia.",
+ "tabelas": [
+  {
+   "rotulo": "Anexo II, Quadro 1 (categorias individuais), água",
+   "uf": "ES",
+   "municipios": [
+    "Cariacica",
+    "Guarapari",
+    "Serra",
+    "Vila Velha",
+    "Vitória"
+   ],
+   "abrangencia": "tabela única do CESAN (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador",
+   "residencial": {
+    "fixo_por_faixa": [
+     [
+      10,
+      25.73
+     ],
+     [
+      15,
+      30.62
+     ],
+     [
+      20,
+      36.44
+     ],
+     [
+      30,
+      43.36
+     ],
+     [
+      50,
+      51.6
+     ],
+     [
+      null,
+      61.41
+     ]
+    ],
+    "faixas": [
+     [
+      0,
+      10,
+      2.42
+     ],
+     [
+      10,
+      15,
+      4.84
+     ],
+     [
+      15,
+      20,
+      8.71
+     ],
+     [
+      20,
+      30,
+      10.46
+     ],
+     [
+      30,
+      50,
+      12.02
+     ],
+     [
+      50,
+      null,
+      13.23
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%."
+   },
+   "social": {
+    "fixo_por_faixa": [
+     [
+      10,
+      6.43
+     ],
+     [
+      15,
+      7.66
+     ],
+     [
+      20,
+      9.11
+     ],
+     [
+      30,
+      10.84
+     ],
+     [
+      50,
+      12.9
+     ],
+     [
+      null,
+      15.35
+     ]
+    ],
+    "faixas": [
+     [
+      0,
+      10,
+      0.61
+     ],
+     [
+      10,
+      15,
+      1.21
+     ],
+     [
+      15,
+      20,
+      4.36
+     ],
+     [
+      20,
+      30,
+      10.46
+     ],
+     [
+      30,
+      50,
+      12.02
+     ],
+     [
+      50,
+      null,
+      13.23
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social I. Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%."
+   },
+   "comercial": {
+    "fixo_por_faixa": [
+     [
+      10,
+      25.73
+     ],
+     [
+      15,
+      30.88
+     ],
+     [
+      20,
+      38.6
+     ],
+     [
+      30,
+      46.32
+     ],
+     [
+      50,
+      55.58
+     ],
+     [
+      null,
+      66.7
+     ]
+    ],
+    "faixas": [
+     [
+      0,
+      10,
+      5.29
+     ],
+     [
+      10,
+      15,
+      7.93
+     ],
+     [
+      15,
+      20,
+      10.31
+     ],
+     [
+      20,
+      30,
+      12.38
+     ],
+     [
+      30,
+      50,
+      13.61
+     ],
+     [
+      50,
+      null,
+      14.97
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial e Serviços. Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%."
+   },
+   "industrial": {
+    "fixo_por_faixa": [
+     [
+      10,
+      56.61
+     ],
+     [
+      15,
+      67.93
+     ],
+     [
+      20,
+      81.52
+     ],
+     [
+      30,
+      97.83
+     ],
+     [
+      50,
+      112.5
+     ],
+     [
+      null,
+      129.37
+     ]
+    ],
+    "faixas": [
+     [
+      0,
+      10,
+      6.67
+     ],
+     [
+      10,
+      15,
+      10.0
+     ],
+     [
+      15,
+      20,
+      12.0
+     ],
+     [
+      20,
+      30,
+      13.2
+     ],
+     [
+      30,
+      50,
+      14.52
+     ],
+     [
+      50,
+      null,
+      15.61
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%."
+   },
+   "publica": {
+    "fixo_por_faixa": [
+     [
+      10,
+      28.31
+     ],
+     [
+      15,
+      33.97
+     ],
+     [
+      20,
+      42.46
+     ],
+     [
+      30,
+      50.95
+     ],
+     [
+      50,
+      58.59
+     ],
+     [
+      null,
+      67.38
+     ]
+    ],
+    "faixas": [
+     [
+      0,
+      10,
+      5.4
+     ],
+     [
+      10,
+      15,
+      7.56
+     ],
+     [
+      15,
+      20,
+      9.83
+     ],
+     [
+      20,
+      30,
+      11.8
+     ],
+     [
+      30,
+      50,
+      12.98
+     ],
+     [
+      50,
+      null,
+      13.63
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Tarifa em duas partes: parcela fixa da faixa em que cai o consumo total do mês, mais parcela variável em cascata (cartilha da ARSP, item 212: «[R$ 1,72] × [20 m³] + [R$ 3,25] × [5 m³]»). Esgoto com coleta, afastamento e tratamento = 80% da água, na parcela fixa e na variável (Quadro 1: 20,59/25,73; 1,94/2,42…); só coleta e afastamento, ≈61%."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "ES - Vitória",
+   "categoria": "residencial",
+   "consumo_m3": 9,
+   "conta_agua": 47.51,
+   "impresso": "parcela fixa 25,73 + 9 × 2,42 (Quadro 1, 0–10 m³)"
+  },
+  {
+   "municipio": "ES - Vitória",
+   "categoria": "residencial",
+   "consumo_m3": 25,
+   "conta_agua": 187.61,
+   "impresso": "fixa 43,36 (21–30 m³) + 10 × 2,42 + 5 × 4,84 + 5 × 8,71 + 5 × 10,46"
+  }
+ ]
+}

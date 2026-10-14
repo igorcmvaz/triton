@@ -1,0 +1,1127 @@
+{
+ "prestador": "SABESP",
+ "registro": [
+  11
+ ],
+ "documento": "NT_1__REAJUSTE_TARIFARIO_DA_SABESP__Tarifa_Aplicacao___URAE1___assinado.pdf",
+ "vigencia": "01/01/2026",
+ "fonte_url": "https://www.arsesp.sp.gov.br",
+ "leitura": "Nota Técnica ARSESP do 1º reajuste tarifário da SABESP na URAE-1 Sudeste, Anexo I (Tabelas Tarifárias), vigência a partir de janeiro de 2026. Uma tabela por página, com o título no alto. A NT define as Tabelas 1 a 6 por unidade de negócio; o município entra na tabela da unidade da sua região. As Tabelas 7 e 8 são especiais (Adamantina, Pirapozinho, Presidente Prudente) e a 10 é exclusiva de Lins. Mogi das Cruzes e São Caetano do Sul só compram água por atacado (Tabela 9): o varejo é do SEMAE e da SAESA.",
+ "tabelas": [
+  {
+   "rotulo": "Tabela 1 (p. 9): unidades OC, OL, OO, ON, OS, Guararema e Santa Isabel",
+   "uf": "SP",
+   "municipios": [
+    "Arujá",
+    "Barueri",
+    "Caieiras",
+    "Cajamar",
+    "Carapicuíba",
+    "Cotia",
+    "Diadema",
+    "Embu das Artes",
+    "Embu-Guaçu",
+    "Ferraz de Vasconcelos",
+    "Francisco Morato",
+    "Franco da Rocha",
+    "Guarulhos",
+    "Itapecerica da Serra",
+    "Itapevi",
+    "Itaquaquecetuba",
+    "Jandira",
+    "Mairiporã",
+    "Mauá",
+    "Osasco",
+    "Poá",
+    "Ribeirão Pires",
+    "Santa Isabel",
+    "Santana de Parnaíba",
+    "Santo André",
+    "São Bernardo do Campo",
+    "São Paulo",
+    "Suzano",
+    "Taboão da Serra",
+    "Vargem Grande Paulista"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      6.4
+     ],
+     [
+      20,
+      50,
+      15.95
+     ],
+     [
+      50,
+      null,
+      17.57
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      15.95
+     ],
+     [
+      20,
+      50,
+      30.57
+     ],
+     [
+      50,
+      null,
+      31.84
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      15.95
+     ],
+     [
+      20,
+      50,
+      30.57
+     ],
+     [
+      50,
+      null,
+      31.84
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      15.95
+     ],
+     [
+      20,
+      50,
+      30.57
+     ],
+     [
+      50,
+      null,
+      31.84
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Pública sem contrato (Comercial / Industrial / Pública sem contrato); com contrato: 61,11 / 11,95 / 22,99 / 23,90."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      2.18
+     ],
+     [
+      20,
+      30,
+      7.79
+     ],
+     [
+      30,
+      50,
+      11.1
+     ],
+     [
+      50,
+      null,
+      12.26
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Social."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SABESP, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Tabela 2 (p. 10): Bragança Paulista, Joanópolis, Nazaré Paulista, Pedra Bela, Pinhalzinho, Piracaia, Socorro e Vargem",
+   "uf": "SP",
+   "municipios": [
+    "Bragança Paulista"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.69
+     ],
+     [
+      20,
+      50,
+      8.74
+     ],
+     [
+      50,
+      null,
+      10.46
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      4.3
+     ],
+     [
+      30,
+      50,
+      6.12
+     ],
+     [
+      50,
+      null,
+      7.29
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   }
+  },
+  {
+   "rotulo": "Tabela 3 (p. 11): unidades OX e OI (Baixada Santista e Litoral Norte)",
+   "uf": "SP",
+   "municipios": [
+    "Bertioga",
+    "Caraguatatuba",
+    "Cubatão",
+    "Guarujá",
+    "Itanhaém",
+    "Mongaguá",
+    "Peruíbe",
+    "Praia Grande",
+    "Santos",
+    "São Sebastião",
+    "São Vicente",
+    "Ubatuba"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.69
+     ],
+     [
+      20,
+      50,
+      7.53
+     ],
+     [
+      50,
+      null,
+      10.2
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.67
+     ],
+     [
+      20,
+      50,
+      23.33
+     ],
+     [
+      50,
+      null,
+      25.18
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.67
+     ],
+     [
+      20,
+      50,
+      23.33
+     ],
+     [
+      50,
+      null,
+      25.18
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      10.67
+     ],
+     [
+      20,
+      50,
+      23.33
+     ],
+     [
+      50,
+      null,
+      25.18
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Pública sem contrato; com contrato: 61,11 / 8,00 / 17,52 / 18,92."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      3.68
+     ],
+     [
+      30,
+      50,
+      5.25
+     ],
+     [
+      50,
+      null,
+      7.13
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Social."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SABESP, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Tabela 4 (p. 12): unidade OR (Vale do Ribeira), exceto Apiaí, Barra do Chapéu, Itaóca, Itapirapuã Paulista e Ribeira",
+   "uf": "SP",
+   "municipios": [
+    "Registro"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.69
+     ],
+     [
+      20,
+      50,
+      8.74
+     ],
+     [
+      50,
+      null,
+      10.46
+     ]
+    ],
+    "esgoto_pct": 100
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.37
+     ],
+     [
+      50,
+      null,
+      20.75
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.37
+     ],
+     [
+      50,
+      null,
+      20.75
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Comercial / Industrial / Pública sem contrato."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.37
+     ],
+     [
+      50,
+      null,
+      20.75
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Pública sem contrato."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      4.3
+     ],
+     [
+      30,
+      50,
+      6.12
+     ],
+     [
+      50,
+      null,
+      7.29
+     ]
+    ],
+    "esgoto_pct": 100,
+    "nota": "Residencial Social."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SABESP, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Tabela 5 (p. 13): GT-Interior, unidades OP, OU, OF, OJ, OM e OT",
+   "uf": "SP",
+   "municipios": [
+    "Assis",
+    "Avaré",
+    "Batatais",
+    "Boituva",
+    "Botucatu",
+    "Campo Limpo Paulista",
+    "Fernandópolis",
+    "Franca",
+    "Hortolândia",
+    "Ibiúna",
+    "Itapetininga",
+    "Itapeva",
+    "Itatiba",
+    "Itupeva",
+    "Mococa",
+    "Monte Mor",
+    "Paulínia",
+    "Piedade",
+    "São João da Boa Vista",
+    "São Roque",
+    "Tatuí",
+    "Tupã",
+    "Várzea Paulista"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.69
+     ],
+     [
+      20,
+      50,
+      8.74
+     ],
+     [
+      50,
+      null,
+      10.46
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      4.3
+     ],
+     [
+      30,
+      50,
+      6.12
+     ],
+     [
+      50,
+      null,
+      7.29
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SABESP, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Tabela 6 (p. 14): unidade OV (Vale do Paraíba)",
+   "uf": "SP",
+   "municipios": [
+    "Caçapava",
+    "Lorena",
+    "Pindamonhangaba",
+    "São José dos Campos",
+    "Taubaté",
+    "Tremembé"
+   ],
+   "residencial": {
+    "fixo": 40.42,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      5.69
+     ],
+     [
+      20,
+      50,
+      8.74
+     ],
+     [
+      50,
+      null,
+      10.46
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "comercial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.15
+     ],
+     [
+      50,
+      null,
+      20.52
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.15
+     ],
+     [
+      50,
+      null,
+      20.52
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      16.15
+     ],
+     [
+      50,
+      null,
+      20.52
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      4.3
+     ],
+     [
+      30,
+      50,
+      6.12
+     ],
+     [
+      50,
+      null,
+      7.29
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "abrangencia": "o documento traz a tabela por região ou unidade de negócio do SABESP, sem lista de municípios; a região de cada município é a que a base já atribuía, sem documento guardado"
+  },
+  {
+   "rotulo": "Tabela 8 (p. 15): Presidente Prudente; demais categorias pela Tabela 5",
+   "uf": "SP",
+   "municipios": [
+    "Presidente Prudente"
+   ],
+   "residencial": {
+    "fixo": 34.53,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.87
+     ],
+     [
+      20,
+      50,
+      8.74
+     ],
+     [
+      50,
+      null,
+      10.46
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Especial, a única residencial que a Tabela 8 fixa para Presidente Prudente. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "comercial": {
+    "fixo": 61.19,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.25
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial Especial da Tabela 8. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "industrial": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato, Tabela 5. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "publica": {
+    "fixo": 81.57,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      9.7
+     ],
+     [
+      20,
+      50,
+      15.68
+     ],
+     [
+      50,
+      null,
+      18.41
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Pública sem contrato, Tabela 5. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "social": {
+    "fixo": 11.46,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.98
+     ],
+     [
+      20,
+      30,
+      4.3
+     ],
+     [
+      30,
+      50,
+      6.12
+     ],
+     [
+      50,
+      null,
+      7.29
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social, Tabela 5. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   }
+  },
+  {
+   "rotulo": "Tabela 10 (p. 16): exclusiva de Lins",
+   "uf": "SP",
+   "municipios": [
+    "Lins"
+   ],
+   "residencial": {
+    "fixo": 32.27,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      4.53
+     ],
+     [
+      20,
+      50,
+      6.95
+     ],
+     [
+      50,
+      null,
+      8.32
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "comercial": {
+    "fixo": 64.96,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.69
+     ],
+     [
+      20,
+      50,
+      12.54
+     ],
+     [
+      50,
+      null,
+      14.68
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "industrial": {
+    "fixo": 64.96,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.69
+     ],
+     [
+      20,
+      50,
+      12.54
+     ],
+     [
+      50,
+      null,
+      14.68
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Comercial / Industrial / Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "publica": {
+    "fixo": 64.96,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      7.69
+     ],
+     [
+      20,
+      50,
+      12.54
+     ],
+     [
+      50,
+      null,
+      14.68
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Pública sem contrato. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   },
+   "social": {
+    "fixo": 9.91,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      1.74
+     ],
+     [
+      20,
+      30,
+      3.71
+     ],
+     [
+      30,
+      50,
+      5.35
+     ],
+     [
+      50,
+      null,
+      6.33
+     ]
+    ],
+    "esgoto_pct": 80,
+    "nota": "Residencial Social. Esgoto ≈ 80% da água (a NT traz a tarifa de esgoto em tabela própria, a 80% da de água arredondada)."
+   }
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "SP - São Paulo",
+   "categoria": "residencial",
+   "consumo_m3": 15,
+   "conta_agua": 72.42,
+   "impresso": "Tabela 1: 0 a 10 R$ 40,42/mês; 11 a 20 R$ 6,40/m³"
+  },
+  {
+   "municipio": "SP - Santos",
+   "categoria": "residencial",
+   "consumo_m3": 30,
+   "conta_agua": 172.62,
+   "impresso": "Tabela 3: 40,42 + 10×5,69 + 10×7,53"
+  },
+  {
+   "municipio": "SP - Lins",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 32.27,
+   "impresso": "Tabela 10: 0 a 10 R$ 32,27/mês"
+  },
+  {
+   "municipio": "SP - Franca",
+   "categoria": "comercial",
+   "consumo_m3": 20,
+   "conta_agua": 178.57,
+   "impresso": "Tabela 5: 81,57 + 10×9,70"
+  }
+ ]
+}

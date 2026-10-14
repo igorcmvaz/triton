@@ -1,0 +1,158 @@
+{
+ "prestador": "CAERD",
+ "registro": [
+  39
+ ],
+ "documento": "Resolucao_n._082_2025.pdf",
+ "vigencia": "19/06/2025",
+ "fonte_url": "https://agero.ro.gov.br",
+ "leitura": "Resolução nº 82/2025/AGERO-PRES (reajuste de 4,42%), publicada em 20/05/2025 e aplicada 30 dias depois; Anexo I, Estrutura Tarifária da CAERD, tabela estadual. Esgoto com coleta e tratamento a 70% da água (só coleta, 43%).",
+ "tabelas": [
+  {
+   "rotulo": "Anexo I, Estrutura Tarifária CAERD",
+   "uf": "RO",
+   "municipios": [
+    "Ariquemes",
+    "Jaru",
+    "Ji-Paraná",
+    "Porto Velho",
+    "Rolim de Moura"
+   ],
+   "residencial": {
+    "fixo": 57.51,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      15,
+      6.52
+     ],
+     [
+      15,
+      20,
+      7.17
+     ],
+     [
+      20,
+      25,
+      8.61
+     ],
+     [
+      25,
+      30,
+      9.87
+     ],
+     [
+      30,
+      50,
+      11.82
+     ],
+     [
+      50,
+      null,
+      14.18
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "social": {
+    "fixo": 26.63,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      2.66
+     ],
+     [
+      20,
+      25,
+      8.61
+     ],
+     [
+      25,
+      30,
+      9.87
+     ],
+     [
+      30,
+      50,
+      11.82
+     ],
+     [
+      50,
+      null,
+      14.18
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "comercial": {
+    "fixo": 96.39,
+    "franquia": 10,
+    "faixas": [
+     [
+      10,
+      20,
+      11.56
+     ],
+     [
+      20,
+      50,
+      16.0
+     ],
+     [
+      50,
+      null,
+      18.18
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "industrial": {
+    "fixo": 143.61,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      50,
+      14.96
+     ],
+     [
+      50,
+      null,
+      15.12
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "publica": {
+    "fixo": 219.76,
+    "franquia": 15,
+    "faixas": [
+     [
+      15,
+      50,
+      26.15
+     ],
+     [
+      50,
+      null,
+      26.66
+     ]
+    ],
+    "esgoto_pct": 70
+   },
+   "abrangencia": "tabela única do CAERD (estadual ou da concessão), sem lista de municípios: vale para todos os municípios que a base atribui ao prestador"
+  }
+ ],
+ "conferencia": [
+  {
+   "municipio": "RO - Porto Velho",
+   "categoria": "residencial",
+   "consumo_m3": 10,
+   "conta_agua": 57.51,
+   "impresso": "0 a 10 R$ 57,51"
+  }
+ ]
+}
