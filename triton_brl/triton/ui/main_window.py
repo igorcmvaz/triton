@@ -100,6 +100,9 @@ class MainWindow(QMainWindow):
         for icone_rel in (
             os.path.join("icons", "triton.ico"),
             os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "triton_brl.png"),
+            os.path.join("icons", "triton_int.png"),
+            os.path.join("icons", "triton_prt.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "Triton2.png"),

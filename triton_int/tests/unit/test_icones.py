@@ -16,8 +16,16 @@ import pytest
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ICONES = os.path.join(RAIZ, "icons")
 
-#: A ordem em que `main.py` e `main_window.py` procuram o ícone da janela.
-PROCURADOS = ("triton.ico", "icon.ico", "triton.png", "icon.png", "Triton2.png")
+PROCURADOS = (
+    "triton.ico",
+    "icon.ico",
+    "triton_brl.png",
+    "triton_int.png",
+    "triton_prt.png",
+    "triton.png",
+    "icon.png",
+    "Triton2.png",
+)
 
 #: Tamanhos que o Windows pede. Sem eles, não há ícone na tela.
 INDISPENSAVEIS = {16, 32, 48}

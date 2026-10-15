@@ -22,17 +22,17 @@ logo, versioning and one edition for each region.
 <table>
   <tr>
     <td align="center" width="33%">
-      <a href="triton_brl"><img src="triton_brl/icons/triton.png" width="140" alt="Triton Brasil"></a><br>
+      <a href="triton_brl"><img src="triton_brl/icons/triton_brl.png" width="140" alt="Triton Brasil"></a><br>
       <h3>Brasil (BRL)</h3>
       <sub><code>triton_brl/</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="triton_int"><img src="triton_int/icons/triton.png" width="140" alt="Triton International"></a><br>
+      <a href="triton_int"><img src="triton_int/icons/triton_int.png" width="140" alt="Triton International"></a><br>
       <h3>International (INT)</h3>
       <sub><code>triton_int/</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="triton_prt"><img src="triton_prt/icons/triton.png" width="140" alt="Triton Portugal"></a><br>
+      <a href="triton_prt"><img src="triton_prt/icons/triton_prt.png" width="140" alt="Triton Portugal"></a><br>
       <h3>Portugal (PRT)</h3>
       <sub><code>triton_prt/</code></sub>
     </td>
