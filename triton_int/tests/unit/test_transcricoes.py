@@ -36,6 +36,13 @@ def _conta_de_agua(dados: dict, consumo: float) -> float:
     return calculate_water_bill(consumo * 1000.0, [tuple(f) for f in dados["faixas"]], 1, 0.0)
 
 
+PULAR_SEM_DOCUMENTOS = pytest.mark.skipif(
+    not any(os.path.isfile(os.path.join(RAIZ, i['guardado_em'])) for i in REGISTRO.values() if i.get('guardado_em')),
+    reason="documentos de terceiros ausentes neste clone (tarifas/fontes/procedencia.tsv traz hash e URL; o banco tarifas/tarifas_fontes.db os reúne)")
+SEM_DOCUMENTOS = True
+
+
+@PULAR_SEM_DOCUMENTOS
 @pytest.mark.parametrize("nome,t", TRANSCRICOES, ids=[n for n, _ in TRANSCRICOES])
 def test_a_transcricao_cita_um_documento_registrado_e_guardado(nome, t):
     assert t["registro"], nome
@@ -124,6 +131,7 @@ def _texto_do_item(i: int) -> str:
     return _TEXTOS[i]
 
 
+@PULAR_SEM_DOCUMENTOS
 @pytest.mark.parametrize("nome,t", TRANSCRICOES, ids=[n for n, _ in TRANSCRICOES])
 def test_todo_municipio_e_nomeado_no_documento_ou_tem_a_regra_de_abrangencia(nome, t):
     """Município entra numa tabela porque o documento o nomeia, ou por uma regra escrita.

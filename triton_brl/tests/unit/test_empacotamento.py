@@ -138,15 +138,27 @@ def test_a_edicao_internacional_sai_sem_a_base_climbra(tmp_path):
     assert not (tmp_path / "int" / "_internal" / "data" / "climbra.db").exists()
 
 
-def test_a_pasta_de_tarifas_so_vai_na_brl_e_sem_a_entrada(tmp_path):
-    """Documentos e transcrições acompanham a Brasil; a entrada não vai em nenhuma."""
+def test_a_pasta_de_tarifas_so_vai_na_brl_e_sem_material_de_terceiros(tmp_path):
+    """A transcrição acompanha a Brasil; os documentos de terceiros e a entrada não vão em nenhuma edição."""
     b = _build_exe()
     for edicao in ("brl", "int"):
-        for sub in ("fontes", "entrada"):
-            p = tmp_path / edicao / "_internal" / "tarifas" / sub / "doc.pdf"
-            p.parent.mkdir(parents=True)
+        for sub in ("fontes", "entrada", "tarifas_fontes.db", "transcricoes"):
+            p = tmp_path / edicao / "_internal" / "tarifas" / sub
+            if sub == "transcricoes":
+                p = p / "doc.json"
+            elif sub.endswith(".db"):
+                pass
+            else:
+                p = p / "doc.pdf"
+            p.parent.mkdir(parents=True, exist_ok=True)
             p.write_bytes(b"%PDF")
+        manual = tmp_path / edicao / "_internal" / "additional_material" / "documentation" / "Manual-Netuno-4.pdf"
+        manual.parent.mkdir(parents=True)
+        manual.write_bytes(b"%PDF")
         b.remover_tarifas_fora_da_brl(tmp_path / edicao, edicao)
-    assert (tmp_path / "brl" / "_internal" / "tarifas" / "fontes" / "doc.pdf").exists()
-    assert not (tmp_path / "brl" / "_internal" / "tarifas" / "entrada").exists()
+    brl = tmp_path / "brl" / "_internal"
+    assert (brl / "tarifas" / "transcricoes" / "doc.json").exists()
+    for fora in ("fontes", "entrada", "tarifas_fontes.db"):
+        assert not (brl / "tarifas" / fora).exists(), fora
+    assert not (brl / "additional_material" / "documentation").exists()
     assert not (tmp_path / "int" / "_internal" / "tarifas").exists()

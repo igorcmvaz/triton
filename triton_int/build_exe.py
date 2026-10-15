@@ -406,18 +406,36 @@ BASE_PORTUGAL = Path("data") / "portugal_eobs.db"
 FONTES_DE_PORTUGAL = Path("data") / "portugal"
 
 
-def remover_tarifas_fora_da_brl(dist_dir: Path, edicao: str) -> None:
-    """A pasta `tarifas` (documentos oficiais, transcrições, procedência) é da Edição Brasil.
+#: Material de terceiros (documentos dos prestadores, o banco que os reúne e o manual do Netuno 4): fica no
+#: disco do mantenedor e não vai em nenhum instalador. O programa não lê nada disso em execução.
+SO_DOCUMENTOS_DE_TERCEIROS = (
+    Path("tarifas") / "fontes",
+    Path("tarifas") / "entrada",
+    Path("tarifas") / "tarifas_fontes.db",
+    Path("tarifas_portugal") / "fontes",
+    Path("tarifas_portugal") / "tarifas_portugal_fontes.db",
+    Path("additional_material") / "documentation",
+)
 
-    O programa lê só `triton/data/brazil_cities_tariffs.json`; a pasta acompanha a
-    Brasil como procedência consultável. A `entrada`, material ainda não processado,
-    não vai em nenhuma edição; a Internacional não leva a pasta.
+
+def remover_tarifas_fora_da_brl(dist_dir: Path, edicao: str) -> None:
+    """A pasta `tarifas` (transcrições e catálogo auditado) é da Edição Brasil; a Internacional não a leva.
+
+    O programa lê `triton/data/brazil_cities_tariffs.json` e `tarifas/catalogo_tarifas_auditado_652.csv`.
+    Os documentos de terceiros (`fontes`, o banco que os reúne, o manual do Netuno 4) e a `entrada`,
+    material ainda não processado, não vão em nenhuma edição.
     """
     for base in [dist_dir, dist_dir / "_internal"]:
-        alvo = base / "tarifas" if edicao != "brl" else base / "tarifas" / "entrada"
-        if alvo.exists():
-            shutil.rmtree(alvo, ignore_errors=True)
-            print(f"[*] Removido da edição {edicao.upper()}: {alvo}")
+        alvos = [base / rel for rel in SO_DOCUMENTOS_DE_TERCEIROS]
+        if edicao != "brl":
+            alvos.append(base / "tarifas")
+        for alvo in alvos:
+            if alvo.is_dir():
+                shutil.rmtree(alvo, ignore_errors=True)
+                print(f"[*] Removido da edição {edicao.upper()}: {alvo}")
+            elif alvo.is_file():
+                alvo.unlink()
+                print(f"[*] Removido da edição {edicao.upper()}: {alvo}")
 
 
 def podar_caminhos_excessivos_para_inno_setup(dist_dir: Path) -> None:

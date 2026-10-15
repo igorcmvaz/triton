@@ -30,6 +30,16 @@ def _municipios(t):
     return {f"{tab['uf']} - {m}" for tab in t["tabelas"] for m in tab["municipios"]}
 
 
+def _tem_documentos():
+    """Os PDFs e páginas dos prestadores são de terceiros e não vão ao Git: só o registro vai."""
+    return any(os.path.isfile(os.path.join(RAIZ, i["guardado_em"])) for i in REG if i.get("guardado_em"))
+
+
+SEM_DOCUMENTOS = not _tem_documentos()
+PULAR = pytest.mark.skipif(SEM_DOCUMENTOS, reason="documentos de terceiros ausentes neste clone (tarifas/fontes/procedencia.tsv traz hash e URL; o banco tarifas/tarifas_fontes.db os reúne)")
+
+
+@PULAR
 def test_todo_item_registrado_tem_o_arquivo_com_a_mesma_impressao_digital():
     ruins = []
     for i in REG:
@@ -91,6 +101,7 @@ def test_toda_pasta_de_fontes_tem_item_registrado(pasta):
     assert any(os.path.dirname(i.get("guardado_em") or "") == rel for i in REG), f"{rel} sem item no registro"
 
 
+@PULAR
 def test_toda_imagem_de_pagina_foi_lida():
     """Tabela em imagem salva com a página (`*_files/`) não pode passar despercebida.
 

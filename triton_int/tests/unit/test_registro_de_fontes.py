@@ -9,12 +9,22 @@ from __future__ import annotations
 
 import hashlib
 import json
+import pytest
 import os
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FONTES = os.path.join(RAIZ, "tarifas", "fontes")
 REGISTRO = json.load(open(os.path.join(FONTES, "registro.json"), encoding="utf-8"))["itens"]
-NAO_SAO_FONTES = {"registro.json", "REGISTRO.md", "LEIAME.md"}
+NAO_SAO_FONTES = {"registro.json", "REGISTRO.md", "LEIAME.md", "procedencia.tsv"}
+
+
+def _tem_documentos():
+    """Os PDFs e páginas dos prestadores são de terceiros e não vão ao Git: só o registro vai."""
+    return any(os.path.isfile(os.path.join(RAIZ, i["guardado_em"])) for i in REGISTRO if i.get("guardado_em"))
+
+
+SEM_DOCUMENTOS = not _tem_documentos()
+PULAR = pytest.mark.skipif(SEM_DOCUMENTOS, reason="documentos de terceiros ausentes neste clone (tarifas/fontes/procedencia.tsv traz hash e URL; o banco tarifas/tarifas_fontes.db os reúne)")
 
 
 def _sha(caminho):
@@ -44,6 +54,7 @@ def test_todo_arquivo_guardado_esta_no_registro():
             assert rel in guardados, f"{rel} está em tarifas/fontes sem registro"
 
 
+@PULAR
 def test_a_impressao_digital_confere():
     for i in REGISTRO:
         if i["guardado_em"]:

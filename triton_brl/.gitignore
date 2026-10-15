@@ -134,3 +134,13 @@ tarifas/entrada/*
 data/portugal/fontes/
 tarifas_portugal/fontes/_fora_do_tema/
 tarifas_portugal/fontes/_secundarios/
+
+# Documentos de terceiros (PDFs e páginas salvas de prestadores e agências): ficam só no disco do mantenedor.
+# O que vai ao Git é o registro: hash e URL em procedencia.tsv, e o registro.json que os testes leem.
+tarifas/fontes/*
+!tarifas/fontes/registro.json
+!tarifas/fontes/REGISTRO.md
+!tarifas/fontes/LEIAME.md
+!tarifas/fontes/procedencia.tsv
+# O banco que reúne esses documentos (scripts/compilar_base_tarifas_fontes.py) também fica fora do Git.
+tarifas/tarifas_fontes.db

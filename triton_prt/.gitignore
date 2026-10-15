@@ -134,3 +134,9 @@ tarifas/entrada/*
 data/portugal/fontes/
 tarifas_portugal/fontes/_fora_do_tema/
 tarifas_portugal/fontes/_secundarios/
+
+# Documentos de terceiros das tarifas de Portugal: só no disco do mantenedor (FONTES.tsv guarda URL e hash).
+tarifas_portugal/fontes/*
+!tarifas_portugal/fontes/FONTES.tsv
+!tarifas_portugal/fontes/LEIA.md
+tarifas_portugal/tarifas_portugal_fontes.db
