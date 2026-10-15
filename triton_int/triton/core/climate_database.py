@@ -156,6 +156,10 @@ def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
     legado: Optional[str] = None
     for nome in nomes:
         caminho = os.path.join(pasta, nome)
+        if os.path.isdir(caminho):
+            sub = os.path.join(caminho, nome)
+            if os.path.isfile(sub):
+                caminho = sub
         if not os.path.isfile(caminho):
             continue
         if nome == _NOME_DO_BANCO_UNICO:

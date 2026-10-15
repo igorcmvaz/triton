@@ -13,6 +13,17 @@ import subprocess
 import sys
 from pathlib import Path
 
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 
 def find_icon(base_dir: Path) -> Path | None:
     """Busca o ícone oficial da aplicação nos locais padrão."""
@@ -340,8 +351,14 @@ def diagnosticar_o_pacote(dist_dir: Path, args) -> bool:
         return False
     import tempfile
     relatorio = Path(tempfile.gettempdir()) / "triton_diagnostico.txt"
-    texto = res.stdout.strip() or (relatorio.read_text(encoding="utf-8") if relatorio.is_file() else "")
-    print("\n[*] Diagnóstico do pacote gerado:\n" + texto)
+    texto = res.stdout.strip() or (relatorio.read_text(encoding="utf-8", errors="replace") if relatorio.is_file() else "")
+    try:
+        print("\n[*] Diagnóstico do pacote gerado:\n" + texto)
+    except Exception:
+        try:
+            print("\n[*] Diagnóstico do pacote gerado:\n" + texto.encode(sys.stdout.encoding or "ascii", errors="replace").decode(sys.stdout.encoding or "ascii"))
+        except Exception:
+            pass
     falhou = res.returncode != 0
     if getattr(args, "edicao", "brl") == "brl" and not getattr(args, "sem_base_climatica", False) \
             and "[FALTA] Base climática" in texto:
