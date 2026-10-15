@@ -250,6 +250,8 @@ def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -
 
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    from .dados_do_relatorio import documento_dxf_de_exportacao
+    documento_dxf_de_exportacao(doc)
     doc.saveas(path)
     write_bim_manifest(project_data, str(path.with_name(path.stem + "_triton-bim.json")))
     return str(path)

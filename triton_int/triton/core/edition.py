@@ -293,12 +293,25 @@ _NORMA_DE_REFERENCIA = {
 }
 
 
+_NORMA_LINHA = re.compile(
+    r"^Normas? de refer[eê]ncia:\s*(?:ABNT\s+)?NBR.*$",
+    re.IGNORECASE | re.MULTILINE)
+_NORMA_PARENS = re.compile(
+    r"\s*\((?:conforme\s+)?(?:ABNT\s+)?NBR[^\)]*\)",
+    re.IGNORECASE)
+
+
 def sem_norma_do_brasil(texto: str, idioma: str | None = None) -> str:
     """Troca «ABNT NBR n» por «norma de referência» em textos do núcleo."""
     if not texto or usa_dados_do_brasil() or not isinstance(texto, str):
         return texto
-    ref = _NORMA_DE_REFERENCIA.get(idioma or "pt", _NORMA_DE_REFERENCIA["pt"])
-    return _NORMA_NBR.sub(ref, texto)
+    lingua = idioma or ("en" if is_int_edition() else "pt")
+    if _NORMA_LINHA.match(texto):
+        return "Reference standard: local project standard" if lingua == "en" else "Norma de referência: a do local do projeto"
+    texto = _NORMA_PARENS.sub("", texto)
+    ref = _NORMA_DE_REFERENCIA.get(lingua, _NORMA_DE_REFERENCIA["pt"])
+    texto = _NORMA_NBR.sub(ref, texto)
+    return re.sub(r"\bABNT\b\s*", "", texto).rstrip()
 
 
 _MARCAS_DO_BRASIL = (

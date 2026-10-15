@@ -42,14 +42,14 @@ where it is in the code, what goes into each package — is in
 
 | Stage | What it computes |
 | :--- | :--- |
-| **Rainfall** | reads a daily precipitation series; computes nine rainfall indices; optionally draws on an embedded national climate base of 652 Brazilian municipalities under CMIP6 scenarios |
+| **Rainfall** | reads a daily precipitation series; computes nine rainfall indices; in the Brazil Edition, optionally draws on an embedded national climate base of 652 municipalities under CMIP6 scenarios |
 | **Building** | catchment area, runoff coefficient, first-flush discard depth, non-potable demand (constant, weekly, monthly or a full daily series) |
 | **Daily balance** | *yield-after-spillage* (YAS) balance, day by day, over the whole series, for every candidate tank capacity |
 | **Indicators** | potable water savings, volumetric and temporal reliability, days of full, partial and no supply, overflow |
 | **Water quality** | four use classes, a screening treatment train, and the operating cost and energy of disinfection |
-| **Economics** | parametric CAPEX, progressive water and sewerage tariffs for 652 municipalities, ANEEL electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
+| **Economics** | parametric CAPEX, progressive water and sewerage tariffs, electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon in materials, operational carbon of pumping and treatment, and the credit of mains water avoided |
-| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, plus placement against LEED v4/v4.1 and LEED v5, EDGE, AQUA-HQE, Selo Casa Azul and GRI 303 |
+| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, plus placement against international certifications (LEED v4/v4.1, LEED v5, EDGE, GRI 303; national certifications in the respective editions) |
 | **Piping in 3D** | pipe runs organised by the designer from component connection points, with destination checks, gravity slopes and clash detection; 3D plant in DXF, a schematic with real measurements, an orbitable WebGL volumetric model (three.js, PBR materials, Poly Haven HDRI, shadows, animated flow, section by elevation, measuring), glTF and interactive HTML export, and a BIM manifest for Revit |
 
 The three optima — technical, economic and environmental — do not in general coincide.
@@ -209,6 +209,6 @@ Contact: sustainability@contato.ufsc.br
 
 Academic source-available, all rights reserved, free for non-commercial use. See [`LICENSE.md`](../../LICENSE.md) for the full terms, including the mandatory citation.
 
-The embedded climate base (CLIMBra) is public-domain data published by Ballarin, Sone,
+The embedded climate base of the Brazil Edition (CLIMBra) is public-domain data published by Ballarin, Sone,
 Gesualdo, Schwamback, Reis, Almagro and Wendland (2023), *Scientific Data* 10(1), article
 47, and is redistributed under its own terms.

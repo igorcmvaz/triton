@@ -97,3 +97,11 @@ tests/test_essencial_interface.py::test_escolher_a_base_muda_o_resultado_da_acv
 tests/test_essencial_interface.py::test_a_aba_entrega_a_pureza_e_a_base_escolhidas
 tests/test_essencial_interface.py::test_o_dialogo_constroi_com_os_controles_novos
 tests/test_essencial_interface.py::test_escolher_a_base_reescreve_o_fator_e_mostra_a_procedencia
+
+# --- Interface: janelas da Edição Brasil com dados exclusivos (banco de 652 cidades, tarifas CORSAN/RJ, MCTI) ---
+tests/test_essencial_interface.py::test_janela_da_brasil_continua_como_era
+tests/test_essencial_interface.py::test_brasil_mostra_so_o_real
+tests/test_essencial_interface.py::test_brasil_continua_com_a_etap_e_os_cabecalhos_em_reais
+tests/test_essencial_interface.py::test_o_gestor_mostra_a_formula_e_simula_com_o_motor
+tests/test_essencial_interface.py::test_a_etapa_economica_traz_o_esgoto_por_m3_da_corsan
+tests/test_essencial_interface.py::test_municipio_com_tarifa_por_bairro_oferece_as_alternativas

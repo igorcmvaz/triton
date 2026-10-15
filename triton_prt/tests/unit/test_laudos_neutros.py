@@ -330,3 +330,16 @@ def test_nomes_sugeridos_levam_a_edicao_e_nao_ficam_em_portugues(monkeypatch):
     assert nome_sugerido("_Dados_Simulados") == "_Simulated_Data_INT"
     monkeypatch.setenv("TRITON_EDITION", "BRL")
     assert nome_sugerido("projeto_triton") == "projeto_triton"
+
+
+@pytest.mark.parametrize("edicao", ("INT", "PRT"))
+def test_volumetria_3d_sem_norma_do_brasil(monkeypatch, edicao):
+    monkeypatch.setenv("TRITON_EDITION", edicao)
+    from triton.core.study_layout import generate_study_layout
+    from triton.core.volumetry import build_volumetry
+    dados = {"project_name": "P", "area": 150.0, "lower_vol": 5000.0}
+    dados.update(generate_study_layout(dados))
+    cena = build_volumetry(dados)
+    for s in cena.solids:
+        achados = [m.group(0) for info in s.info for m in EXPORT_BRASIL.finditer(info)]
+        assert not achados, f"{s.key} ({s.title}): {achados}"
