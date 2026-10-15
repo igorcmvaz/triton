@@ -345,7 +345,7 @@ class DialogTariffs(QDialog):
         lay_disc.setContentsMargins(8, 6, 8, 6)
         self.lbl_disclaimer = QLabel(tr(
             "📅 <b>Auditoria Tarifária:</b> Tarifas residenciais auditadas para os 652 municípios; as demais categorias, onde a tabela oficial do prestador foi coletada. "
-            "<br>📌 <i>Caso este valor esteja errado ou defasado, favor contatar pelo e-mail: <a href='mailto:igorcmvaz@gmail.com?subject=Triton%205%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7;font-weight:bold;'>igorcmvaz@gmail.com</a></i>"
+            "<br>📌 <i>Caso este valor esteja errado ou defasado, favor contatar pelo e-mail: <a href='mailto:igorcmvaz@gmail.com?subject=Triton%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7;font-weight:bold;'>igorcmvaz@gmail.com</a></i>"
         ))
         self.lbl_disclaimer.setOpenExternalLinks(False)
         self.lbl_disclaimer.linkActivated.connect(self.on_contact_link_clicked)

@@ -266,7 +266,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
                     pass
 
         remover_base_climatica_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
-        remover_dados_de_portugal_fora_da_por(dist_dir, getattr(args, "edicao", "brl"))
+        remover_dados_de_portugal_fora_da_prt(dist_dir, getattr(args, "edicao", "brl"))
         remover_tarifas_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
         podar_caminhos_excessivos_para_inno_setup(dist_dir)
 
@@ -347,7 +347,7 @@ def build_inno_setup(base_dir: Path, edicao: str = "brl") -> bool:
     res = subprocess.run([str(iscc), f"/DMyAppVersion={versao}", f"/DEdition={edicao.upper()}", str(iss_script)],
                          cwd=base_dir)
     if res.returncode == 0:
-        prefixo = {"int": "Triton_INT_Setup_", "por": "Triton_POR_Setup_"}.get(edicao, "Triton_Setup_")
+        prefixo = {"int": "Triton_INT_Setup_", "prt": "Triton_PRT_Setup_"}.get(edicao, "Triton_Setup_")
         nome = f"{prefixo}{versao.replace('.', '_')}.exe"
         print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
         if edicao == "brl":
@@ -376,8 +376,7 @@ def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list
         pasta / "_internal/data/languages/es.json",
         pasta / "_internal/data/languages/zh.json",
         pasta / "_internal/manual/Manual-Triton.pdf",
-        Path("LICENSE"),
-        Path("Licence.txt"),
+        Path("LICENSE.md"),
         Path("infos_licenses/AVISOS_DE_TERCEIROS.txt"),
         Path("icons/triton.ico"),
         Path("infos_licenses/info_before.txt"),
@@ -387,7 +386,7 @@ def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list
         esperados.append(pasta / "_internal/manual/en/Triton-User-Manual.pdf")
     if edicao == "brl":
         esperados.append(pasta / "_internal" / BASE_CLIMATICA)  # a base CLIMBra só vai na Brasil
-    if edicao == "por":
+    if edicao == "prt":
         esperados.append(pasta / "_internal" / BASE_PORTUGAL)  # a base E-OBS só vai na Portugal
     return [str(p) for p in esperados if not (base_dir / p).exists()]
 
@@ -455,7 +454,7 @@ def remover_base_climatica_fora_da_brl(dist_dir: Path, edicao: str) -> None:
             print(f"[*] Removido da edição {edicao.upper()}: {db}")
 
 
-def remover_dados_de_portugal_fora_da_por(dist_dir: Path, edicao: str) -> None:
+def remover_dados_de_portugal_fora_da_prt(dist_dir: Path, edicao: str) -> None:
     """As fontes brutas saem de todas as edições; a base E-OBS fica só na Portugal."""
     for base in [dist_dir, dist_dir / "_internal"]:
         fontes = base / FONTES_DE_PORTUGAL
@@ -463,7 +462,7 @@ def remover_dados_de_portugal_fora_da_por(dist_dir: Path, edicao: str) -> None:
             shutil.rmtree(fontes, ignore_errors=True)
             print(f"[*] Removido do pacote: {fontes}")
         db = base / BASE_PORTUGAL
-        if edicao != "por" and db.exists():
+        if edicao != "prt" and db.exists():
             db.unlink()
             print(f"[*] Removido da edição {edicao.upper()}: {db}")
 
@@ -508,9 +507,9 @@ def garantir_base_climatica(base_dir: Path) -> bool:
 #: Edição → (ponto de entrada, nome do executável). A Edição Brasil mantém o nome
 #: "Triton": é a pasta dist/Triton que o setup_script.iss empacota.
 EDICOES = {
-    "brl": ("main_brl.py", "Triton"),
-    "int": ("main_int.py", "Triton_INT"),
-    "por": ("main_por.py", "Triton_POR"),
+    "brl": ("main.py", "Triton"),
+    "int": ("main.py", "Triton_INT"),
+    "prt": ("main.py", "Triton_PRT"),
 }
 
 
@@ -523,8 +522,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Compilador oficial do Triton para Windows (PyInstaller + Inno Setup)"
     )
-    parser.add_argument("--edition", choices=["brl", "int", "por", "both", "all"], default="brl",
-                        help="Edição a compilar: 'brl' (Brasil, padrão), 'int' (Internacional), 'por' (Portugal), "
+    parser.add_argument("--edition", choices=["brl", "int", "prt", "por", "both", "all"], default="int",
+                        help="Edição a compilar: 'brl' (Brasil, padrão), 'int' (Internacional), 'prt' (Portugal), "
                              "'both' (BRL e INT) ou 'all' (as três)")
     parser.add_argument("--name", default=None, help="Nome do executável (padrão: conforme a edição)")
     parser.add_argument("--clean", action="store_true", help="Limpa as pastas build/ e dist/ antes de compilar")
@@ -540,6 +539,8 @@ def main():
                         help="Compila mesmo com a pasta atrás do origin/main (não recomendado)")
 
     args = parser.parse_args()
+    if args.edition == "por":          # código antigo da Edição Portugal
+        args.edition = "prt"
     base_dir = Path(__file__).resolve().parent
 
     if not conferir_a_pasta(base_dir, args.ignorar_git):
@@ -558,10 +559,10 @@ def main():
         # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote.
         subprocess.run([sys.executable, str(base_dir / "scripts" / "gerar_avisos_de_terceiros.py")], cwd=base_dir)
 
-        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "por"]}.get(args.edition, [args.edition])
+        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "prt"]}.get(args.edition, [args.edition])
         if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):
             sys.exit(1)
-        if "por" in edicoes and not args.sem_base_climatica and not garantir_base_portugal(base_dir):
+        if "prt" in edicoes and not args.sem_base_climatica and not garantir_base_portugal(base_dir):
             sys.exit(1)
 
         for edicao in edicoes:
@@ -573,9 +574,9 @@ def main():
             print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
             success = build_pyinstaller(ed_args, base_dir)
             if success and args.installer:
-                if ed_args.name != nome or (edicao in ("brl", "por") and args.sem_base_climatica):
+                if ed_args.name != nome or (edicao in ("brl", "prt") and args.sem_base_climatica):
                     print(f"[AVISO] Instalador não gerado: o setup_script.iss empacota dist/{nome}"
-                          + {"brl": " com a base CLIMBra", "por": " com a base E-OBS"}.get(edicao, "") + ".")
+                          + {"brl": " com a base CLIMBra", "prt": " com a base E-OBS"}.get(edicao, "") + ".")
                 else:
                     build_inno_setup(base_dir, edicao)
     finally:

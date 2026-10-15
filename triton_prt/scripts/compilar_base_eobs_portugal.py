@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Compila a base de precipitação diária por concelho da Edição Portugal (POR).
+"""Compila a base de precipitação diária por concelho da Edição Portugal (PRT).
 
 Fontes (em data/portugal/fontes, fora do git; ver data/portugal/fontes/LEIA.txt):
 

@@ -68,7 +68,7 @@ standard EN 16941-1:2024 are listed, item by item, in the repository document
 1. Run **`Triton_Setup_1_0_0.exe`** (Brazil Edition) or **`Triton_INT_Setup_1_0_0.exe`**
    (International Edition). The installer asks whether the installation is for all
    users, which requires administrator rights, or only for you.
-2. Choose the installation language and accept the licence, the GPL version 3.
+2. Choose the installation language and read and accept the licence (academic source-available, non-commercial use).
 3. Choose the installation type. The **standard** one brings the program, the manual,
    the cases, the examples and all the languages. The **custom** one lets you untick the
    Spanish and Chinese language packs. In the Brazil Edition, the national climate

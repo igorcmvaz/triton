@@ -1127,7 +1127,7 @@ class TabReportsPdf(QWidget):
             title_mode = tr("Relatório Econômico (Clientes)")
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('KPIs EXECUTIVOS COMERCIAIS')} ─────────────────────────────────────┐",
@@ -1168,7 +1168,7 @@ class TabReportsPdf(QWidget):
 
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG')} ─────────────┐",
@@ -1208,7 +1208,7 @@ class TabReportsPdf(QWidget):
             lca = self.get_lca_result()
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('RESUMO TÉCNICO-CIENTÍFICO & ACV')} ─────────────────────────────────┐",

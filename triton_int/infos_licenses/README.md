@@ -248,7 +248,7 @@ O progresso apresenta barra, combinações concluídas, tempo decorrido e ETA. A
 ## Estrutura do projeto
 
 ```text
-TritonReplicacao/
+triton_int/
 ├── main.py                  # Inicialização da aplicação desktop
 ├── build_exe.py             # Empacotamento com PyInstaller
 ├── triton/

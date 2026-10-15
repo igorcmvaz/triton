@@ -11,7 +11,7 @@ authors:
     affiliation: "Universidade Federal de Santa Catarina"
 version: "1.0.0"
 date-released: "2026-10-14"
-license: GPL-3.0-or-later
+license-url: https://github.com/igorcmvaz/triton/blob/main/triton_int/LICENSE.md
 abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
   aproveitamento de água de chuva em edificações, com balanço hídrico diário

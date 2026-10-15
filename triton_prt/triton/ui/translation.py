@@ -12,7 +12,7 @@ def _preferencias() -> QSettings:
     """Preferências separadas por edição: instaladas lado a lado, não dividem idioma."""
     from triton.core.edition import get_current_edition
 
-    sufixo = {"INT": "-INT", "POR": "-POR"}.get(get_current_edition(), "")
+    sufixo = {"INT": "-INT", "PRT": "-PRT"}.get(get_current_edition(), "")
     return QSettings("UFSC", "Triton" + sufixo)
 
 
@@ -67,9 +67,9 @@ def get_resource_path(relative_path):
 
 def _variante_portugal() -> bool:
     """Na Edição Portugal, o português da interface é o de Portugal (ver portugues_de_portugal)."""
-    from triton.core.edition import is_por_edition
+    from triton.core.edition import is_prt_edition
 
-    return is_por_edition()
+    return is_prt_edition()
 
 
 def em_portugues_da_edicao(texto: str) -> str:

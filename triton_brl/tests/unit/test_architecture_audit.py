@@ -95,8 +95,7 @@ def test_arquivos_fundamentais_do_repositorio():
     arquivos_obrigatorios = [
         RAIZ / "pyproject.toml",
         RAIZ / "README.md",
-        RAIZ / "LICENSE",
-        RAIZ / "CLAUDE.md",
+        RAIZ / "LICENSE.md",
         CORE_DIR / "simulation.py",
         CORE_DIR / "parser.py",
         CORE_DIR / "economic.py",

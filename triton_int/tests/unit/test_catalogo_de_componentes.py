@@ -31,7 +31,7 @@ def test_todo_tipo_tem_bloco_dxf():
 
 
 def test_todo_tipo_tem_familia_no_revit():
-    mapa = json.loads((RAIZ / "integrations" / "revit" / "family_mapping.json").read_text(encoding="utf-8"))
+    mapa = json.loads((RAIZ / "additional_material" / "integrations" / "revit" / "family_mapping.json").read_text(encoding="utf-8"))
     assert not [t for t in TIPOS if t not in mapa]
 
 

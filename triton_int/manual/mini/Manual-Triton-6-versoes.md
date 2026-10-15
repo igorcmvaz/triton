@@ -99,9 +99,9 @@ Tabela 16 — **Tabela 99** — Panorama das versões publicadas
 
 Tabela 17 — Correções que alteram resultados na versão 1.0.0
 
-Tabela 18 — Itens previstos para a versão 5.1
+Tabela 18 — Itens previstos para a versão 1.1
 
-Tabela 19 — Itens previstos para a versão 6.0
+Tabela 19 — Itens previstos para a versão 2.0
 
 ---
 
@@ -714,7 +714,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 > decidido do que é intenção deixa o usuário planejar o estudo com a versão que tem hoje,
 > e não com a que gostaria de ter.
 
-Esta seção resume o arquivo `ROADMAP.md` do repositório e reflete o estado da versão
+Esta seção resume o `ROADMAP.md` da raiz do repositório Triton, que vale para as três edições e reflete o estado da versão
 1.0.0. Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
 grupo de pesquisa, sem data de entrega. Quando um item é implementado, ele sai daqui e
 entra no histórico de versões, com a indicação de se muda o resultado de estudos já
@@ -740,9 +740,9 @@ e Portugal.
 
 ---
 
-### 6.5.2. Versão 5.1: consolidação e confiabilidade
+### 6.5.2. Versão 1.1: consolidação e confiabilidade
 
-<!-- tabela: **Tabela 18** — Itens previstos para a versão 5.1 -->
+<!-- tabela: **Tabela 18** — Itens previstos para a versão 1.1 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Edição Internacional | Provedores globais de chuva | Reanálises ERA5-Land e NOAA GHCN-Daily |
@@ -757,9 +757,9 @@ e Portugal.
 | Custos e engenharia | Custo de implantação por material e por solo | Curvas paramétricas por tecnologia e por classe de solo |
 | Custos e engenharia | Custo de operação detalhado | Filtros, desinfecção, curva de degradação da bomba |
 
-### 6.5.3. Versão 6.0: fronteira metodológica
+### 6.5.3. Versão 2.0: fronteira metodológica
 
-<!-- tabela: **Tabela 19** — Itens previstos para a versão 6.0 -->
+<!-- tabela: **Tabela 19** — Itens previstos para a versão 2.0 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Física do sistema | Passo de tempo horário | Modelo horário com dados de pluviógrafo |
@@ -772,7 +772,7 @@ e Portugal.
 ### 6.5.4. Como ler este roteiro
 
 **A ordem não é um compromisso de data.** A ordem segue a consequência sobre o resultado de
-um estudo. O passo horário, por exemplo, só chega na 6.0 porque exige dados de pluviógrafo
+um estudo. O passo horário, por exemplo, só chega na 2.0 porque exige dados de pluviógrafo
 que a maioria dos municípios não tem.
 
 **Um item entra pela evidência.** Cada método listado responde a uma lacuna medida na

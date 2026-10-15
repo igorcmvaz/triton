@@ -172,7 +172,7 @@ def decompor(caminho_da_planilha: Path = PLANILHA_PADRAO,
 
 
 def main() -> int:
-    print("DECOMPOSIÇÃO DA DIVERGÊNCIA TRITON 5 vs TRITON 4")
+    print("DECOMPOSIÇÃO DA DIVERGÊNCIA TRITON vs TRITON 4")
     print("=" * 74)
 
     resultados = decompor()

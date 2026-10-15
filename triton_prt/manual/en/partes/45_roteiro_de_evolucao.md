@@ -4,7 +4,7 @@
 > from what is intended lets users plan a study with the version they have today, not the one they
 > would like to have.
 
-This section summarises the `ROADMAP.md` file of the repository and reflects the state of version
+This section summarises the `ROADMAP.md` at the root of the Triton repository, which covers all three editions and reflects the state of version
 1.0.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
 group, with no delivery date. When an item is implemented, it leaves this list and enters the version
 history, with a note on whether it changes the results of studies already done.
@@ -28,9 +28,9 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 
 ---
 
-## Version 5.1: consolidation and reliability
+## Version 1.1: consolidation and reliability
 
-<!-- tabela: Items planned for version 5.1 -->
+<!-- tabela: Items planned for version 1.1 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | International Edition | Global rainfall providers | ERA5-Land and NOAA GHCN-Daily reanalyses |
@@ -45,9 +45,9 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 | Costs and engineering | Installation cost by material and soil | Parametric curves by technology and soil class |
 | Costs and engineering | Detailed operating cost | Filters, disinfection, pump degradation curve |
 
-## Version 6.0: methodological frontier
+## Version 2.0: methodological frontier
 
-<!-- tabela: Items planned for version 6.0 -->
+<!-- tabela: Items planned for version 2.0 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | System physics | Hourly time step | Hourly model with rain-gauge data |
@@ -60,7 +60,7 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 ## How to read this roadmap
 
 **The order is not a commitment of dates.** The order follows the consequence for the result of a
-study. The hourly step, for example, only arrives in 6.0 because it needs rain-gauge data that most
+study. The hourly step, for example, only arrives in 2.0 because it needs rain-gauge data that most
 municipalities do not have.
 
 **An item enters on evidence.** Each method listed answers a gap measured in the literature review,

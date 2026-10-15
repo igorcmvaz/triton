@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ===============================================================================
-TRITON 5 — ATUALIZADOR, WEBSCRAPER & MONITOR DE MUDANÇAS DE TARIFAS
+TRITON — ATUALIZADOR, WEBSCRAPER & MONITOR DE MUDANÇAS DE TARIFAS
 ===============================================================================
 Script oficial de atualização periódica das tarifas de saneamento e energia
 para as 652 cidades do estudo Triton.
@@ -105,7 +105,7 @@ def main():
         mode = "sanitation"
 
     print("=" * 80)
-    print(" [TRITON 5] ATUALIZADOR, DETECTOR DE MUDANÇAS & DASHBOARD DE TARIFAS")
+    print(" [TRITON] ATUALIZADOR, DETECTOR DE MUDANÇAS & DASHBOARD DE TARIFAS")
     print(f" Modo de Execução : {mode.upper()}")
     print(f" Simulação/Dry-run: {'SIM (Somente Leitura)' if args.check else 'NÃO (Gravação Oficial)'}")
     if args.uf:

@@ -1294,7 +1294,7 @@ def write_complete_detail_report(results, output_path):
 
 def main():
     print("=" * 80)
-    print("TRITON 5 — ESTUDO DE CASO INTEGRADO DE 3 MODELOS DE REFERÊNCIA")
+    print("TRITON — ESTUDO DE CASO INTEGRADO DE 3 MODELOS DE REFERÊNCIA")
     print("=" * 80)
 
     # ──────────────────────────────────────────────────────────────────────────

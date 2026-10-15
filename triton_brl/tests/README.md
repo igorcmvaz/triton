@@ -53,7 +53,7 @@ Os testes devem ser iniciados na raiz porque usam módulos do repositório e dad
 
 ## Mapa da suíte
 
-A suíte foi consolidada em 06/10/2026 (ver `AUDITORIA_DE_TESTES.md`): o que testa o
+A suíte foi consolidada: o que testa o
 programa está em dois arquivos; o que testa dado, manual e pacote continua nos seus.
 
 | Grupo | Arquivos e escopo principal |

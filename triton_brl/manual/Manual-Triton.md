@@ -24,7 +24,7 @@ Versão 1.0.0 · revisão de 14/10/2026
 | **Editora** | Universidade Federal de Santa Catarina |
 | **Grupo de pesquisa** | Ambientes Sustentáveis |
 | **Ano de publicação** | 2026 |
-| **Licença** | GNU General Public License v3.0 |
+| **Licença** | Código-fonte acadêmico (uso não comercial), ver LICENSE.md |
 
 ### Como citar
 
@@ -683,9 +683,9 @@ Tabela 151 — **Tabela 99** — Panorama das versões publicadas
 
 Tabela 152 — Correções que alteram resultados na versão 1.0.0
 
-Tabela 153 — Itens previstos para a versão 5.1
+Tabela 153 — Itens previstos para a versão 1.1
 
-Tabela 154 — Itens previstos para a versão 6.0
+Tabela 154 — Itens previstos para a versão 2.0
 
 Tabela 155 — As variáveis que a modulação probabilística pode sortear, com a distribuição de triagem que a tela propõe
 
@@ -1226,7 +1226,7 @@ nenhum aviso.
 1. Execute **`Triton_Setup_1_0_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_1_0_0.exe`**
    (International Edition). O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
-2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
+2. Escolha o idioma da instalação e leia e aceite a licença (código-fonte acadêmico, uso não comercial).
 3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
    exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
    idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
@@ -8658,7 +8658,7 @@ passou pelos 1.544 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
-> GPL v3, e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
+> acadêmica (uso não comercial; `LICENSE.md`), e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
 > revisor que queira conferir as invariantes — fechamento de massa, monotonicidade,
 > paridade entre os dois motores de cálculo — encontra os arquivos de teste organizados
 > por tema, e o apêndice B liga cada processo do programa ao que o verifica.
@@ -9268,7 +9268,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 > decidido do que é intenção deixa o usuário planejar o estudo com a versão que tem hoje,
 > e não com a que gostaria de ter.
 
-Esta seção resume o arquivo `ROADMAP.md` do repositório e reflete o estado da versão
+Esta seção resume o `ROADMAP.md` da raiz do repositório Triton, que vale para as três edições e reflete o estado da versão
 1.0.0. Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
 grupo de pesquisa, sem data de entrega. Quando um item é implementado, ele sai daqui e
 entra no histórico de versões, com a indicação de se muda o resultado de estudos já
@@ -9294,9 +9294,9 @@ e Portugal.
 
 ---
 
-### 6.5.2. Versão 5.1: consolidação e confiabilidade
+### 6.5.2. Versão 1.1: consolidação e confiabilidade
 
-<!-- tabela: **Tabela 153** — Itens previstos para a versão 5.1 -->
+<!-- tabela: **Tabela 153** — Itens previstos para a versão 1.1 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Edição Internacional | Provedores globais de chuva | Reanálises ERA5-Land e NOAA GHCN-Daily |
@@ -9311,9 +9311,9 @@ e Portugal.
 | Custos e engenharia | Custo de implantação por material e por solo | Curvas paramétricas por tecnologia e por classe de solo |
 | Custos e engenharia | Custo de operação detalhado | Filtros, desinfecção, curva de degradação da bomba |
 
-### 6.5.3. Versão 6.0: fronteira metodológica
+### 6.5.3. Versão 2.0: fronteira metodológica
 
-<!-- tabela: **Tabela 154** — Itens previstos para a versão 6.0 -->
+<!-- tabela: **Tabela 154** — Itens previstos para a versão 2.0 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Física do sistema | Passo de tempo horário | Modelo horário com dados de pluviógrafo |
@@ -9326,7 +9326,7 @@ e Portugal.
 ### 6.5.4. Como ler este roteiro
 
 **A ordem não é um compromisso de data.** A ordem segue a consequência sobre o resultado de
-um estudo. O passo horário, por exemplo, só chega na 6.0 porque exige dados de pluviógrafo
+um estudo. O passo horário, por exemplo, só chega na 2.0 porque exige dados de pluviógrafo
 que a maioria dos municípios não tem.
 
 **Um item entra pela evidência.** Cada método listado responde a uma lacuna medida na

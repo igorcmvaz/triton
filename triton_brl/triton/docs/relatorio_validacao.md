@@ -1,4 +1,4 @@
-# RELATÓRIO DE VERIFICAÇÃO — TRITON 5
+# RELATÓRIO DE VERIFICAÇÃO — TRITON
 
 **Grupo de Pesquisa em Ambientes Sustentáveis**  
 *Replicação Fiel e Validação da Engenharia do Triton*  

@@ -93,10 +93,10 @@ def _textos_da_distribuicao(dist: md.Distribution) -> List[Tuple[str, str]]:
 def montar() -> str:
     dists = distribuicoes()
     partes = [
-        "TRITON 5 — AVISOS DE TERCEIROS",
+        "TRITON — AVISOS DE TERCEIROS",
         "",
-        "O Triton é distribuído sob a GNU GPL v3 ou posterior (LICENSE.txt, na pasta do",
-        "programa). O executável inclui os componentes abaixo, cada um sob a sua própria",
+        "O Triton é distribuído como código-fonte disponível para fins acadêmicos (LICENSE.md,",
+        "na pasta do programa). O executável inclui os componentes abaixo, cada um sob a sua própria",
         "licença, reproduzida neste arquivo. Arquivo gerado por",
         "scripts/gerar_avisos_de_terceiros.py a partir dos pacotes empacotados.",
         "",
@@ -124,8 +124,8 @@ def montar() -> str:
         "As bibliotecas do Qt vão como arquivos separados na pasta _internal do programa",
         "e podem ser substituídas por outra versão compatível. O código-fonte está em",
         "https://code.qt.io (qt/qtbase e demais módulos; pyside/pyside-setup) e em",
-        "https://download.qt.io/official_releases/. A LGPL v3 complementa a GPL v3, cujo",
-        "texto está em LICENSE.txt.",
+        "https://download.qt.io/official_releases/. A LGPL v3 vale para o Qt e não altera a",
+        "licença do Triton, que está em LICENSE.md.",
         "",
         (TEXTOS / "LGPL-3.0.txt").read_text(encoding="utf-8"),
         _LINHA,

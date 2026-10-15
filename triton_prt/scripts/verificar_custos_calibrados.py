@@ -20,7 +20,7 @@ from triton.core.cost_estimates import (
 
 def run_tests():
     print("=" * 80)
-    print("VERIFICAÇÃO DO MODELO DE CAPEX E OPEX CALIBRADO - TRITON 5")
+    print("VERIFICAÇÃO DO MODELO DE CAPEX E OPEX CALIBRADO - TRITON")
     print("=" * 80)
     
     print("\n1. CAPEX e OPEX para 5.000 L em São Paulo (SP - Base 1.00):")

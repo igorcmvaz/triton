@@ -1902,7 +1902,7 @@ def _run_compare_mass(args: argparse.Namespace) -> None:
     workers = args.workers or os.cpu_count() or 4
 
     print("=" * 80)
-    print("TRITON 5 -- EXECUÇÃO PARALELA MASSIVA E COMPARAÇÃO COM TESTEMASSIVO")
+    print("TRITON -- EXECUÇÃO PARALELA MASSIVA E COMPARAÇÃO COM TESTEMASSIVO")
     print("=" * 80)
     print(f" [+] Pasta de Séries Climáticas: {input_dir}")
     print(f" [+] Pasta de Referência: {reference_dir}")
@@ -2387,7 +2387,7 @@ def _run_vaz_study(args: argparse.Namespace) -> None:
     total_simulations = len(climate_files) * len(VAZ_BUILDING_MODELS) * 90  # 5 tipologias * 3 shares * 3 dmodes * 10 volumes = 450 sim por arquivo
 
     print("=" * 80)
-    print("ESTUDO MASSIVO COMPLETO DE TIPOLOGIAS DE VAZ — TRITON 5 (PARQUET STREAMING)")
+    print("ESTUDO MASSIVO COMPLETO DE TIPOLOGIAS DE VAZ — TRITON (PARQUET STREAMING)")
     print("=" * 80)
     print(f" [+] Pasta de Séries Climáticas: {input_dir}")
     print(f" [+] Pasta de Resultados e Parquet: {output_dir}")

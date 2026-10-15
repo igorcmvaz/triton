@@ -772,7 +772,7 @@ def generate_interactive_dashboard(
     <!-- BANNER DE CONTATO -->
     <div class="contact-banner">
       <span style="font-size:18px;">📌</span>
-      <span><strong>Canal de Transparência & Atualizações:</strong> Caso algum valor tarifário esteja incorreto ou defasado em relação à sua fatura municipal recente, favor contatar pelo e-mail: <a href="mailto:igorcmvaz@gmail.com?subject=Triton%205%20-%20Ajuste%20de%20Tarifa" style="color:#0284c7; font-weight:bold; text-decoration:underline;">igorcmvaz@gmail.com</a></span>
+      <span><strong>Canal de Transparência & Atualizações:</strong> Caso algum valor tarifário esteja incorreto ou defasado em relação à sua fatura municipal recente, favor contatar pelo e-mail: <a href="mailto:igorcmvaz@gmail.com?subject=Triton%20-%20Ajuste%20de%20Tarifa" style="color:#0284c7; font-weight:bold; text-decoration:underline;">igorcmvaz@gmail.com</a></span>
     </div>
 
     <!-- KPIS -->

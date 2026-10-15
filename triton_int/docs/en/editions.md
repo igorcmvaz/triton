@@ -1,4 +1,4 @@
-# The three editions: Brazil (BRL), International (INT) and Portugal (POR)
+# The three editions: Brazil (BRL), International (INT) and Portugal (PRT)
 
 Triton ships in three editions built from **the same code**. The calculation engine —
 daily balance, first flush, runoff coefficients, economic analysis, LCA, TOPSIS — is a
@@ -17,10 +17,10 @@ version: [`../edicoes.md`](../edicoes.md).
 
 ## 1. What the user sees
 
-| | Brazil Edition (BRL) | International Edition (INT) | Portugal Edition (POR) |
+| | Brazil Edition (BRL) | International Edition (INT) | Portugal Edition (PRT) |
 | :--- | :--- | :--- | :--- |
 | language on opening | Brazilian Portuguese | English | European Portuguese (VAL, entidade gestora, ficheiro, escalões) |
-| sidebar badge, window title, footer of reports and exports | «Edição Brasil (BRL)», green | «International Edition (INT)», blue | «Edição Portugal (POR)», red |
+| sidebar badge, window title, footer of reports and exports | «Edição Brasil (BRL)», green | «International Edition (INT)», blue | «Edição Portugal (PRT)», red |
 | rainfall | CLIMBra database (652 cities, CMIP6) or own series | own series | E-OBS database by municipality (278 on the mainland, observed, 1950–2025) or own series; Azores and Madeira only with own series |
 | water and sewage tariffs | catalogue of 652 municipalities, with provenance by document, or typed in | typed in | typed in; tariffs of the district capitals under construction |
 | step 12, Tariff Manager | present | absent | absent until there are tariffs |
@@ -32,7 +32,7 @@ version: [`../edicoes.md`](../edicoes.md).
 | grid and potable water emission factors | MCTI and routes by region | from the project's country; without them, the LCA is not calculated | typed in, as in the International Edition |
 | certifications | LEED, EDGE, GRI, AQUA-HQE, Selo Casa Azul | LEED, EDGE, GRI | LEED, EDGE, GRI |
 | manual the program opens | Portuguese; English in the other interface languages | English | Portuguese |
-| preferences (QSettings) | `UFSC/Triton` | `UFSC/Triton-INT` | `UFSC/Triton-POR` |
+| preferences (QSettings) | `UFSC/Triton` | `UFSC/Triton-INT` | `UFSC/Triton-PRT` |
 
 ---
 
@@ -41,7 +41,7 @@ version: [`../edicoes.md`](../edicoes.md).
 The question every screen asks before offering a Brazilian datum is
 `usa_dados_do_brasil()`, in `triton/core/edition.py`; for a Portuguese datum,
 `usa_dados_de_portugal()`. The edition comes from the `TRITON_EDITION` environment variable
-(`BRL` by default), set by `main_brl.py`, `main_int.py`, `main_por.py` and the
+(`BRL` by default), set by the `main.py` of each folder and the
 `main.py --edition brl|int|por` option. Outside Brazil, the Portugal Edition behaves like
 the International one (neutral core), except where the table says otherwise.
 
@@ -53,15 +53,15 @@ the International one (neutral core), except where the table says otherwise.
 | `triton/core/report_generator.py` | environmental report without AQUA-HQE and Selo Casa Azul (Brazilian certifications) |
 | `triton/core/tariff_category.py` | no tariff-category warning (there is no catalogue) |
 | `triton/ui/main_window.py` | new project without arrangement costs or automatic labour; calls the neutralisation; fixed texts in reais («CAPEX (R$)», «Fixed tax (R$/month)») in the steps and dialogues switch to the project currency (`triton/ui/moeda_na_interface.py`) |
-| `triton/ui/sidebar.py` | blue (INT) or red (POR) badge; no step 12, Tariff Manager |
-| `triton/ui/tab_project.py` | no city tariff panel; the chosen city loads neither tariff nor electricity; the national rainfall database is CLIMBra (BRL), E-OBS by district and municipality (POR) or none (INT: opens the tutorial sample series from file, even with CLIMBra in the folder, and the tariff location is «CUSTOM») |
+| `triton/ui/sidebar.py` | blue (INT) or red (PRT) badge; no step 12, Tariff Manager |
+| `triton/ui/tab_project.py` | no city tariff panel; the chosen city loads neither tariff nor electricity; the national rainfall database is CLIMBra (BRL), E-OBS by district and municipality (PRT) or none (INT: opens the tutorial sample series from file, even with CLIMBra in the folder, and the tariff location is «CUSTOM») |
 | `triton/ui/tab_water_quality.py` | treatment line and first-flush device without the catalogue prices in reais (only chlorine, at the price entered, in the project currency); the UV reactor's electricity emits at the grid factor entered for the LCA, not the MCTI one |
 | `triton/ui/tab_modulacao_estocastica.py` | no draw amongst CLIMBra climate models (step 13); values in the project currency (euro on opening) |
 | `triton/ui/dialogs/dialog_economic.py` | no municipality selector for tariff and electricity |
 | `triton/ui/tab_economic_integrated.py` | no IPTU Verde and no tariff flags |
 | `triton/ui/tab_tanks_simulation.py` | currencies: in the International Edition, euro first and default, the others to choose from; in the Portugal Edition, only the euro; in the Brazil Edition, only the real; the project stores the currency code |
 | `triton/ui/tab_environmental.py` | emission factors empty and mandatory; no AQUA-HQE or Casa Azul |
-| `triton/ui/translation.py` | English on opening (INT) or European Portuguese (POR, glossary in `triton/ui/portugues_de_portugal.py`); separate preferences |
+| `triton/ui/translation.py` | English on opening (INT) or European Portuguese (PRT, glossary in `triton/ui/portugues_de_portugal.py`); separate preferences |
 
 `tests/unit/test_edicoes_documentadas.py` fails if a file starts asking for the edition
 without being listed in this table.
@@ -80,10 +80,10 @@ edition and in the CLI.
 
 | | Brazil | International | Portugal |
 | :--- | :--- | :--- | :--- |
-| entry point | `main_brl.py` | `main_int.py` | `main_por.py` |
-| build | `python build_exe.py` (or `build_exe_brl.py`) | `python build_exe_int.py` | `python build_exe_por.py` |
-| folder | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_POR/`, `Triton_POR.exe` |
-| installer | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_POR_Setup_1_0_0.exe` (`/DEdition=POR`) |
+| entry point | `main.py` in `triton_brl` | `main.py` in `triton_int` | `main.py` in `triton_prt` |
+| build | `python build_exe.py`, inside each folder | same | same |
+| folder | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_PRT/`, `Triton_PRT.exe` |
+| installer | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_1_0_0.exe` (`/DEdition=PRT`) |
 | installation folder | `Triton` | `Triton International` | `Triton Portugal` |
 | `.triton` file association | ticked | unticked | unticked |
 | CLIMBra database (`data/climbra.db`, ~784 MB) | embedded; the build stops if it is missing | removed after PyInstaller | removed after PyInstaller |

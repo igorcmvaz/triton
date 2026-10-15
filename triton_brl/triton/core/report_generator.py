@@ -1929,7 +1929,7 @@ li {{ margin-bottom: 2px; }}
     </div>
 
     <div class='cover-center'>
-        <div class='cover-tag'>TRITON 5 — {'COMPARATIVE SYSTEMS STUDY' if is_en else 'ESTUDO COMPARATIVO DE SISTEMAS'}</div>
+        <div class='cover-tag'>TRITON — {'COMPARATIVE SYSTEMS STUDY' if is_en else 'ESTUDO COMPARATIVO DE SISTEMAS'}</div>
         <h1 class='cover-title'>{t('title').upper()}</h1>
         <p class='cover-subtitle'>
             {"Comparação integrada de configurações de aproveitamento de água de chuva: desempenho hídrico, diferenças econômico-financeiras, impactos ambientais e trade-offs multicritério" if not is_en else "Integrated comparison of rainwater harvesting configurations: hydraulic performance, economic and financial differences, environmental impacts, and multi-criteria trade-offs"}

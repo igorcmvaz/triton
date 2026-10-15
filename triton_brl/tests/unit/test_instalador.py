@@ -24,11 +24,13 @@ def test_a_base_compilada_e_exigida_antes_de_gerar_o_instalador():
     assert any("climbra.db" in item for item in faltando)
 
 
-def test_a_licenca_mostrada_e_o_texto_integral_da_gpl_v3():
-    assert "LicenseFile=LICENSE" in ISS
-    texto = (RAIZ / "LICENSE").read_text(encoding="utf-8")
-    assert "GNU GENERAL PUBLIC LICENSE" in texto and "Version 3, 29 June 2007" in texto
-    assert "END OF TERMS AND CONDITIONS" in texto
+def test_a_licenca_mostrada_e_o_texto_do_codigo_fonte_academico():
+    assert "LicenseFile=LICENSE.md" in ISS
+    texto = (RAIZ / "LICENSE.md").read_text(encoding="utf-8")
+    assert "CÓDIGO FONTE DISPONÍVEL PARA FINS ACADÊMICOS" in texto
+    assert "ACADEMIC SOURCE-AVAILABLE" in texto
+    assert "GNU GENERAL PUBLIC LICENSE" not in texto
+    assert "Triton 5" not in texto and "TRITON 5" not in texto
 
 
 def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
@@ -47,7 +49,6 @@ def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
 
 
 def test_a_licenca_e_instalada_com_o_programa():
-    assert 'Source: "Licence.txt"; DestDir: "{app}"; DestName: "LICENSE.txt"' in ISS
-    aviso = (RAIZ / "Licence.txt").read_text(encoding="utf-8")
-    assert "SPDX-License-Identifier: GPL-3.0-or-later" in aviso
-    assert "END OF TERMS AND CONDITIONS" in aviso
+    assert 'Source: "LICENSE.md"; DestDir: "{app}"' in ISS
+    assert (RAIZ / "LICENSE.md").is_file()
+    assert not (RAIZ / "LICENSE").exists() and not (RAIZ / "Licence.txt").exists()

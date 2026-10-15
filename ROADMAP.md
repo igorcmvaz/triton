@@ -1,6 +1,6 @@
 # Roadmap Estratégico Oficial do Triton
 
-Este documento consolida o planejamento evolutivo do **Triton**, integrando as evidências científicas da revisão sistemática de literatura (762 estudos quantitativos sobre simulação de aproveitamento de água de chuva, dos quais 56 usam o Triton) com as diretrizes de governança, robustecimento metodológico e expansão da plataforma.
+Este documento consolida o planejamento evolutivo de **todas as edições do Triton** (Brasil, International e Portugal), a partir das evidências da revisão sistemática de literatura sobre simulação de aproveitamento de água de chuva e das diretrizes de governança, robustecimento metodológico e expansão da plataforma. As edições compartilham o mesmo motor de cálculo e a mesma numeração de versões: uma versão sai ao mesmo tempo nas três pastas (`triton_brl/`, `triton_int/`, `triton_prt/`), e cada item abaixo vale para todas, salvo onde indicado.
 
 ---
 
@@ -8,7 +8,7 @@ Este documento consolida o planejamento evolutivo do **Triton**, integrando as e
 
 ```mermaid
 flowchart TD
-    V50["Triton 1.0 (Base Estável)<br>• 652 Cidades CLIMBra CMIP6<br>• Balanço diário auditado pela regra do Triton (YAS estrita, YBS e φ de Fewkes como opções)<br>• Catálogo 652 Tarifas BRL<br>• TOPSIS & SMAA-VIKOR"]
+    V50["Triton 1.0 (Base Estável)<br>• Três edições: BRL, INT e PRT<br>• Balanço diário auditado pela regra do Triton (YAS estrita, YBS e φ de Fewkes como opções)<br>• BRL: 652 cidades (CLIMBra CMIP6) e tarifas<br>• TOPSIS & SMAA-VIKOR"]
     
     V50 --> V51["Triton 1.1 (Consolidação & Confiabilidade)<br>• Paridade e Robustecimento da Edição INT<br>• Detalhamento Geotécnico & Custos de Instalação<br>• Modelagem Probabilística e Cópulas<br>• Novos Métodos MCDM (PROMETHEE, BWM)"]
     
@@ -76,18 +76,18 @@ Tornar o módulo econômico executável e aderente aos desafios reais de canteir
 
 | Eixo / Funcionalidade | Requisito Técnico | Método / Algoritmo | Versão |
 |---|---|---|:---:|
-| **Internacional (INT)** | Provedores globais de chuva | Reanálise ERA5-Land & NOAA GHCN | 5.1 |
-| **Internacional (INT)** | Sistema unificado métrico/imperial | Conversão dimensional sem resíduo | 5.1 |
-| **Internacional (INT)** | Tarifas sazonais e de escassez | Estruturas tarifárias por blocos dinâmicos | 5.1 |
-| **Decisão Multicritério** | Ordenação completa com GAIA | PROMETHEE II | 5.1 |
-| **Decisão Multicritério** | Limiares de veto e classificação | ELECTRE Tri / IS | 5.1 |
-| **Decisão Multicritério** | Ponderação robusta de pesos | Best-Worst Method (BWM) | 5.1 |
-| **Probabilidade & Risco** | Dependência não linear chuva-demanda | Cópulas bivariadas (Clayton/Gumbel) | 5.1 |
-| **Probabilidade & Risco** | Análise de sensibilidade de variância | Índices de Sobol ($S_i, S_{Ti}$) | 5.1 |
-| **Probabilidade & Risco** | Chuva sintética | Bootstrap em blocos + Markov | 5.1 |
-| **Custos & Engenharia** | CAPEX por material e escavação | Curvas paramétricas por classe de solo | 5.1 |
-| **Custos & Engenharia** | OPEX detalhado com consumíveis | Filtros, desinfecção e reposição de bomba | 5.1 |
-| **Física do Sistema** | Passo de tempo sub-diário | Modelo horário com dados de pluviógrafo | 6.0 |
-| **Física do Sistema** | Balanço hídrico na zona radicular | FAO-56 Penman-Monteith (irrigação) | 6.0 |
-| **Física do Sistema** | Coeficiente $C$ dependente de ADWP | Runoff variável com lâmina e estiagem | 6.0 |
-| **Territorial** | Integração SIG urbana | Vetores GeoJSON e análise em escala de bacia | 6.0 |
+| **Internacional (INT)** | Provedores globais de chuva | Reanálise ERA5-Land & NOAA GHCN | 1.1 |
+| **Internacional (INT)** | Sistema unificado métrico/imperial | Conversão dimensional sem resíduo | 1.1 |
+| **Internacional (INT)** | Tarifas sazonais e de escassez | Estruturas tarifárias por blocos dinâmicos | 1.1 |
+| **Decisão Multicritério** | Ordenação completa com GAIA | PROMETHEE II | 1.1 |
+| **Decisão Multicritério** | Limiares de veto e classificação | ELECTRE Tri / IS | 1.1 |
+| **Decisão Multicritério** | Ponderação robusta de pesos | Best-Worst Method (BWM) | 1.1 |
+| **Probabilidade & Risco** | Dependência não linear chuva-demanda | Cópulas bivariadas (Clayton/Gumbel) | 1.1 |
+| **Probabilidade & Risco** | Análise de sensibilidade de variância | Índices de Sobol ($S_i, S_{Ti}$) | 1.1 |
+| **Probabilidade & Risco** | Chuva sintética | Bootstrap em blocos + Markov | 1.1 |
+| **Custos & Engenharia** | CAPEX por material e escavação | Curvas paramétricas por classe de solo | 1.1 |
+| **Custos & Engenharia** | OPEX detalhado com consumíveis | Filtros, desinfecção e reposição de bomba | 1.1 |
+| **Física do Sistema** | Passo de tempo sub-diário | Modelo horário com dados de pluviógrafo | 2.0 |
+| **Física do Sistema** | Balanço hídrico na zona radicular | FAO-56 Penman-Monteith (irrigação) | 2.0 |
+| **Física do Sistema** | Coeficiente $C$ dependente de ADWP | Runoff variável com lâmina e estiagem | 2.0 |
+| **Territorial** | Integração SIG urbana | Vetores GeoJSON e análise em escala de bacia | 2.0 |

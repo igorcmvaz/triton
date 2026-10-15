@@ -1,4 +1,4 @@
-# TECHNICAL AND COMPUTATIONAL VERIFICATION REPORT — TRITON 5
+# TECHNICAL AND COMPUTATIONAL VERIFICATION REPORT — TRITON
 
 **Sustainable Environments Research Group**  
 *Faithful Replication and Engineering Validation of Triton*  

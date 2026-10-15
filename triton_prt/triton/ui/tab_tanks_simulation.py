@@ -777,12 +777,12 @@ class TabTanksSimulation(QWidget):
     MOEDAS_DA_INTERNACIONAL = ("EUR", "USD", "GBP", "CNY", "BRL")
 
     def _preencher_moedas_da_edicao(self):
-        from triton.core.edition import is_por_edition, usa_dados_do_brasil
+        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
         simbolos = dict(self.MOEDAS)
         # Brasil: só o real; Portugal: só o euro; International: euro primeiro e as demais.
         if usa_dados_do_brasil():
             codigos = ("BRL",)
-        elif is_por_edition():
+        elif is_prt_edition():
             codigos = ("EUR",)
         else:
             codigos = self.MOEDAS_DA_INTERNACIONAL

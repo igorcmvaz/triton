@@ -389,7 +389,7 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR")
-    department = str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON 5")
+    department = str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON")
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     # Os números abaixo dão a geometria do desenho; o que a prancha escreve sai de
@@ -760,7 +760,7 @@ def _generate_simple_ezdxf(project_data: Dict[str, Any], output_path: str):
 
     proj_name = project_data.get("project_name", "Projeto Triton")
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = str(project_data.get("organization") or "TRITON 5")
+    organization = str(project_data.get("organization") or "TRITON")
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     tx = textos_do_quadro(project_data)
@@ -853,7 +853,7 @@ def _generate_technical_a3_svg(project_data: Dict[str, Any]) -> str:
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = escape(str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR"))
-    department = escape(str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON 5"))
+    department = escape(str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON"))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))
@@ -1182,7 +1182,7 @@ def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
     """Gera esquema unifilar simples e moderno em SVG."""
     proj_name = project_data.get("project_name", "Projeto Sem Nome") or "Projeto Triton"
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = escape(str(project_data.get("organization") or "TRITON 5"))
+    organization = escape(str(project_data.get("organization") or "TRITON"))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))

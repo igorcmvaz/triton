@@ -1,4 +1,4 @@
-"""Edições do Triton: Brasil (BRL), Internacional (INT) e Portugal (POR).
+"""Edições do Triton: Brasil (BRL), Internacional (INT) e Portugal (PRT).
 
 As três edições partem do mesmo código. A Brasil traz os dados brasileiros
 auditados: base climática CLIMBra, tarifas de 652 municípios, energia da ANEEL,
@@ -20,25 +20,33 @@ import os
 
 EDITION_BRL = "BRL"
 EDITION_INT = "INT"
-EDITION_POR = "POR"
-EDICOES = (EDITION_BRL, EDITION_INT, EDITION_POR)
+EDITION_PRT = "PRT"
+EDICOES = (EDITION_BRL, EDITION_INT, EDITION_PRT)
 
 ENV_VAR_EDITION = "TRITON_EDITION"
 
+#: «POR» foi o código da Edição Portugal antes de ela passar a PRT; projetos e scripts antigos ainda o usam.
+_SINONIMOS = {"POR": EDITION_PRT}
+
+
+def _normalizar(codigo) -> str:
+    cod = str(codigo).strip().upper()
+    return _SINONIMOS.get(cod, cod)
+
 
 def get_current_edition() -> str:
-    """Retorna o código da edição ativa ('BRL', 'INT' ou 'POR'). Padrão: 'BRL'."""
-    val = os.environ.get(ENV_VAR_EDITION, EDITION_BRL).strip().upper()
+    """Retorna o código da edição ativa ('BRL', 'INT' ou 'PRT'). Padrão: 'BRL'."""
+    val = _normalizar(os.environ.get(ENV_VAR_EDITION, EDITION_BRL))
     if val in EDICOES:
         return val
     return EDITION_BRL
 
 
 def set_current_edition(edition: str) -> None:
-    """Define a edição ativa ('BRL', 'INT' ou 'POR')."""
-    ed = str(edition).strip().upper()
+    """Define a edição ativa ('BRL', 'INT' ou 'PRT')."""
+    ed = _normalizar(edition)
     if ed not in EDICOES:
-        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'POR'.")
+        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'PRT' (aceita também 'POR', o código antigo).")
     os.environ[ENV_VAR_EDITION] = ed
 
 
@@ -52,9 +60,9 @@ def is_int_edition() -> bool:
     return get_current_edition() == EDITION_INT
 
 
-def is_por_edition() -> bool:
+def is_prt_edition() -> bool:
     """Verifica se a edição Portugal está ativa."""
-    return get_current_edition() == EDITION_POR
+    return get_current_edition() == EDITION_PRT
 
 
 def usa_dados_do_brasil() -> bool:
@@ -63,8 +71,8 @@ def usa_dados_do_brasil() -> bool:
 
 
 def usa_dados_de_portugal() -> bool:
-    """Precipitação por concelho e tarifários portugueses aparecem só na POR."""
-    return is_por_edition()
+    """Precipitação por concelho e tarifários portugueses aparecem só na PRT."""
+    return is_prt_edition()
 
 
 #: O manual completo em cada língua, relativo à raiz do programa.
@@ -86,11 +94,11 @@ def manual_do_usuario(idioma: str) -> str:
 
 
 def rotulo_da_edicao(curto: bool = False) -> str:
-    """«Edição Brasil (BRL)», «International Edition (INT)» ou «Edição Portugal (POR)»."""
+    """«Edição Brasil (BRL)», «International Edition (INT)» ou «Edição Portugal (PRT)»."""
     if is_int_edition():
         return "INT" if curto else "International Edition (INT)"
-    if is_por_edition():
-        return "POR" if curto else "Edição Portugal (POR)"
+    if is_prt_edition():
+        return "PRT" if curto else "Edição Portugal (PRT)"
     return "BRL" if curto else "Edição Brasil (BRL)"
 
 
@@ -127,7 +135,7 @@ def get_edition_default_language() -> str:
     """Retorna o idioma padrão da edição."""
     if is_int_edition():
         return "en_US"
-    if is_por_edition():
+    if is_prt_edition():
         return "pt_PT"
     return "pt_BR"
 
@@ -139,6 +147,10 @@ MOEDA_DA_INTERNACIONAL = "\u20ac"
 
 def get_edition_currency_symbol() -> str:
     """Retorna o símbolo monetário padrão da edição: real na Brasil, euro na International e na Portugal."""
-    if is_int_edition() or is_por_edition():
+    if is_int_edition() or is_prt_edition():
         return MOEDA_DA_INTERNACIONAL
     return "R$"
+
+
+#: Nome antigo de ``is_prt_edition``, mantido para quem ainda o chama.
+is_por_edition = is_prt_edition

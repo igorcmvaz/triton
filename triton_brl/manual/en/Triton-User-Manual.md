@@ -24,7 +24,7 @@ Version 1.0.0 · revised 2026-10-14
 | **Publisher** | Federal University of Santa Catarina |
 | **Research group** | Sustainable Environments |
 | **Year** | 2026 |
-| **Licence** | GNU General Public License v3.0 |
+| **Licence** | Academic source-available (non-commercial use), see LICENSE.md |
 
 ### How to cite
 
@@ -699,9 +699,9 @@ Table 151 — **Table 99** — Overview of the published versions
 
 Table 152 — Fixes that change results in version 1.0.0
 
-Table 153 — Items planned for version 5.1
+Table 153 — Items planned for version 1.1
 
-Table 154 — Items planned for version 6.0
+Table 154 — Items planned for version 2.0
 
 Table 155 — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes
 
@@ -1254,7 +1254,7 @@ standard EN 16941-1:2024 are listed, item by item, in the repository document
 1. Run **`Triton_Setup_1_0_0.exe`** (Brazil Edition) or **`Triton_INT_Setup_1_0_0.exe`**
    (International Edition). The installer asks whether the installation is for all
    users, which requires administrator rights, or only for you.
-2. Choose the installation language and accept the licence, the GPL version 3.
+2. Choose the installation language and read and accept the licence (academic source-available, non-commercial use).
 3. Choose the installation type. The **standard** one brings the program, the manual,
    the cases, the examples and all the languages. The **custom** one lets you untick the
    Spanish and Chinese language packs. In the Brazil Edition, the national climate
@@ -8962,7 +8962,8 @@ research group at every change, before any version is released. What this means 
 installed program is that the version on their machine has passed the 1,544 tests described here,
 including those that check each number printed in this manual.
 
-> **In depth: checking for yourself.** The source code is public, under the GPL v3 licence, and the
+> **In depth: checking for yourself.** The source code is public, under an academic source-available licence
+> (non-commercial use; `LICENSE.md`), and the
 > suite runs with a single command in the development environment. A reviewer who wants to check the
 > invariants — mass closure, monotonicity, parity between the two calculation engines — finds the
 > test files organised by subject, and appendix B links each process of the program to what
@@ -9551,7 +9552,7 @@ be given to whoever reported — the problem was not only fixed, it is now watch
 > from what is intended lets users plan a study with the version they have today, not the one they
 > would like to have.
 
-This section summarises the `ROADMAP.md` file of the repository and reflects the state of version
+This section summarises the `ROADMAP.md` at the root of the Triton repository, which covers all three editions and reflects the state of version
 1.0.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
 group, with no delivery date. When an item is implemented, it leaves this list and enters the version
 history, with a note on whether it changes the results of studies already done.
@@ -9575,9 +9576,9 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 
 ---
 
-### 6.5.2. Version 5.1: consolidation and reliability
+### 6.5.2. Version 1.1: consolidation and reliability
 
-<!-- tabela: **Table 153** — Items planned for version 5.1 -->
+<!-- tabela: **Table 153** — Items planned for version 1.1 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | International Edition | Global rainfall providers | ERA5-Land and NOAA GHCN-Daily reanalyses |
@@ -9592,9 +9593,9 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 | Costs and engineering | Installation cost by material and soil | Parametric curves by technology and soil class |
 | Costs and engineering | Detailed operating cost | Filters, disinfection, pump degradation curve |
 
-### 6.5.3. Version 6.0: methodological frontier
+### 6.5.3. Version 2.0: methodological frontier
 
-<!-- tabela: **Table 154** — Items planned for version 6.0 -->
+<!-- tabela: **Table 154** — Items planned for version 2.0 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | System physics | Hourly time step | Hourly model with rain-gauge data |
@@ -9607,7 +9608,7 @@ modulation is»). **Editions.** Brazil, International and Portugal.
 ### 6.5.4. How to read this roadmap
 
 **The order is not a commitment of dates.** The order follows the consequence for the result of a
-study. The hourly step, for example, only arrives in 6.0 because it needs rain-gauge data that most
+study. The hourly step, for example, only arrives in 2.0 because it needs rain-gauge data that most
 municipalities do not have.
 
 **An item enters on evidence.** Each method listed answers a gap measured in the literature review,

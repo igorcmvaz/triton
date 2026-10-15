@@ -4,7 +4,7 @@ Invariantes de negócio (conservação de massa, sentido do VPL, «economizar nu
 limites críticos (zero, vazio, extremos, entradas impossíveis) e modos de falha reais (série com
 falha, base ausente, download interrompido, registro corrompido). Roda na integração contínua,
 que não instala o PySide6. Os testes de dado com procedência, de manual e de distribuição
-continuam nos seus arquivos; ver tests/AUDITORIA_DE_TESTES.md.
+continuam nos seus arquivos.
 """
 import pathlib as _pathlib
 import numpy as np
@@ -6530,7 +6530,7 @@ def test_forchheimer_calculation_and_materials_list(tmp_path):
 
 
 # ==================================================================================================
-# Edições: português de Portugal (Edição POR)
+# Edições: português de Portugal (Edição PRT)
 # ==================================================================================================
 
 @pytest.mark.parametrize('brasil, portugal', [
@@ -6560,9 +6560,9 @@ def test_glossario_de_portugal_respeita_a_fronteira_de_palavra(texto):
 
 def test_edicao_portugal_pede_dados_de_portugal_e_nao_do_brasil(monkeypatch):
     from triton.core import edition as E
-    monkeypatch.setenv('TRITON_EDITION', 'POR')
-    assert E.is_por_edition() and E.usa_dados_de_portugal() and not E.usa_dados_do_brasil()
-    assert E.rotulo_da_edicao() == 'Edição Portugal (POR)' and E.rotulo_da_edicao(curto=True) == 'POR'
+    monkeypatch.setenv('TRITON_EDITION', 'PRT')
+    assert E.is_prt_edition() and E.usa_dados_de_portugal() and not E.usa_dados_do_brasil()
+    assert E.rotulo_da_edicao() == 'Edição Portugal (PRT)' and E.rotulo_da_edicao(curto=True) == 'PRT'
     assert E.get_edition_currency_symbol() == '€'
     assert E.manual_do_usuario('pt') == E.MANUAL_PT
     monkeypatch.setenv('TRITON_EDITION', 'XYZ')
@@ -6894,7 +6894,7 @@ def test_laudo_ambiental_so_mostra_selos_brasileiros_na_brasil(monkeypatch):
     from triton.core.report_service import generate_report_html
     monkeypatch.setenv('TRITON_EDITION', 'BRL')
     assert 'AQUA-HQE Residencial' in generate_report_html("environmental", {}, lang="pt")
-    for edicao in ('INT', 'POR'):
+    for edicao in ('INT', 'PRT'):
         monkeypatch.setenv('TRITON_EDITION', edicao)
         html = generate_report_html("environmental", {}, lang="pt")
         assert 'AQUA-HQE Residencial' not in html and 'Casa Azul + CAIXA' not in html, edicao

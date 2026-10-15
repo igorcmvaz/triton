@@ -1762,7 +1762,7 @@ def brasil(monkeypatch):
 
 @pytest.fixture
 def portugal(monkeypatch):
-    monkeypatch.setenv('TRITON_EDITION', 'POR')
+    monkeypatch.setenv('TRITON_EDITION', 'PRT')
 
 
 def test_janela_da_portugal(qapp, portugal):
@@ -1771,7 +1771,7 @@ def test_janela_da_portugal(qapp, portugal):
     from triton.ui.translation import get_available_languages, tr
     janela = MainWindow()
     try:
-        assert janela.sidebar.lbl_edicao.text() == 'Edição Portugal (POR)'
+        assert janela.sidebar.lbl_edicao.text() == 'Edição Portugal (PRT)'
         assert not any('Tarif' in b.text() for b in janela.sidebar.btn_group.buttons())
         ts = janela.tab_tanks_simulation
         assert ts.get_currency_symbol() == '€'
@@ -1900,7 +1900,7 @@ def test_relatorios_e_prancha_trazem_a_edicao(internacional):
 def test_instalador_por_edicao():
     from pathlib import Path
     iss = (Path(_ARQUIVO_EDICOES).resolve().parents[2] / 'setup_script.iss').read_text(encoding='utf-8')
-    assert '#if Edition == "INT"' in iss and '#elif Edition == "POR"' in iss
+    assert '#if Edition == "INT"' in iss and '#elif Edition == "PRT"' in iss
     assert iss.count('#define AppGuid') == 3  # BRL, INT e POR instalam-se lado a lado
     guids = [l.split('"')[1] for l in iss.splitlines() if l.strip().startswith('#define AppGuid')]
     assert len(set(guids)) == 3

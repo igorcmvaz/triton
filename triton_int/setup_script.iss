@@ -7,7 +7,7 @@
 ; versão lida de triton/__init__.py. Para compilar à mão:
 ;   ISCC /DMyAppVersion=1.0.0 setup_script.iss                 (Edição Brasil)
 ;   ISCC /DMyAppVersion=1.0.0 /DEdition=INT setup_script.iss   (International Edition)
-;   ISCC /DMyAppVersion=1.0.0 /DEdition=POR setup_script.iss   (Edição Portugal)
+;   ISCC /DMyAppVersion=1.0.0 /DEdition=PRT setup_script.iss   (Edição Portugal)
 ;
 ; As três edições têm AppId, pasta, atalhos e associação próprios: instalam-se
 ; lado a lado. A Brasil empacota dist\Triton; a Internacional, dist\Triton_INT; a
@@ -33,12 +33,12 @@
   #define AssocFlags "; Flags: unchecked"
   #define ManualPdf "_internal\manual\en\Triton-User-Manual.pdf"
   #define ManualLink "Triton User Manual"
-#elif Edition == "POR"
+#elif Edition == "PRT"
   #define MyAppName "Triton — Edição Portugal"
   #define MyAppDir "Triton Portugal"
   #define MyAppExeName "Triton_POR.exe"
   #define DistDir "dist\Triton_POR"
-  #define ProgId "Triton.Projeto.POR"
+  #define ProgId "Triton.Projeto.PRT"
   #define AppGuid "{{D8490C72-38B2-5531-8669-4234542A0979}"
   #define SetupName "Triton_POR_Setup_"
   #define CoreDesc "Aplicação Triton (Edição Portugal: português de Portugal, valores em euros), manual, casos e exemplos"
@@ -95,8 +95,8 @@ MinVersion=10.0
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 
-; Licença (GPL v3) e avisos antes e depois da instalação
-LicenseFile=LICENSE
+; Licença (código-fonte acadêmico) e avisos antes e depois da instalação
+LicenseFile=LICENSE.md
 InfoBeforeFile=infos_licenses\info_before.txt
 InfoAfterFile=infos_licenses\info_after.txt
 
@@ -135,10 +135,8 @@ Source: "{#DistDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs cr
 Source: "{#DistDir}\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
 Source: "{#DistDir}\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
 
-; A licença acompanha o programa instalado, e não só a página do instalador: a GPL
-; pede que quem recebe o executável receba também o texto dela. Licence.txt traz o
-; aviso de copyright do Triton seguido do texto integral da GPL v3.
-Source: "Licence.txt"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+; A licença acompanha o programa instalado, e não só a página do instalador.
+Source: "LICENSE.md"; DestDir: "{app}"; Flags: ignoreversion
 ; Licenças do Python, do Qt (LGPL) e das bibliotecas empacotadas, geradas no build.
 Source: "infos_licenses\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"; Flags: ignoreversion
 

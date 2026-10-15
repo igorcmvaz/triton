@@ -606,7 +606,7 @@ passou pelos 1.544 testes aqui descritos, incluindo as que conferem cada número
 impresso neste manual.
 
 > **Aprofundamento: verificar por conta própria.** O código-fonte é público, sob licença
-> GPL v3, e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
+> acadêmica (uso não comercial; `LICENSE.md`), e a suíte é executada com um único comando no ambiente de desenvolvimento. Um
 > revisor que queira conferir as invariantes — fechamento de massa, monotonicidade,
 > paridade entre os dois motores de cálculo — encontra os arquivos de teste organizados
 > por tema, e o apêndice B (volume Apêndices) liga cada processo do programa ao que o verifica.

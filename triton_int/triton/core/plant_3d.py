@@ -93,7 +93,7 @@ def _add_notes(msp, manifest: Dict[str, Any]) -> None:
     xs, ys, zs = _bounds(manifest)
     x0, y0, z0 = xs[0], ys[0] - 1500.0, zs[0]
     lines = [
-        f"TRITON 5 — PLANTA 3D | {manifest['project']['name']} | Ref.: {manifest['project']['reference']}",
+        f"TRITON — PLANTA 3D | {manifest['project']['name']} | Ref.: {manifest['project']['reference']}",
         "Unidades: mm | eixo z para cima | coordenadas locais não georreferenciadas.",
         "Trechos desenhados na sequência organizada pelo projetista; confirmar interferências no projeto executivo.",
     ]

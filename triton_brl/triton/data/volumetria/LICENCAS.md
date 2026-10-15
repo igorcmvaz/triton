@@ -5,7 +5,7 @@ programa para a volumetria funcionar sem internet.
 
 | Arquivo | Origem | Licença |
 | :--- | :--- | :--- |
-| `triton_volumetria.js` | código do Triton (`web/volumetria/src/viewer.js`) empacotado com o [three.js](https://threejs.org) 0.186.1 | Triton: GPL-3.0; three.js: MIT (texto abaixo) |
+| `triton_volumetria.js` | código do Triton (`web/volumetria/src/viewer.js`) empacotado com o [three.js](https://threejs.org) 0.186.1 | Triton: ver LICENSE.md (código-fonte acadêmico); three.js: MIT (texto abaixo) |
 | `ceu_quarry_01_1k.hdr` | céu «Quarry» do [Poly Haven](https://polyhaven.com/a/quarry_01) (antigo HDRI Haven), obtido do repositório do three.js (`examples/textures/equirectangular/quarry_01_1k.hdr`) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) (domínio público) |
 
 O acervo do Poly Haven é inteiro CC0: o uso, a modificação e a redistribuição

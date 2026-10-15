@@ -1,0 +1,93 @@
+name: Verificação
+
+# Um repositório, três edições (triton_brl, triton_int, triton_prt). Cada edição roda a
+# própria suíte, na própria pasta. A suíte numérica roda sem a stack gráfica (ver
+# tests/conftest.py). A matriz com e sem `numba` existe porque o programa alterna entre
+# dois kernels de balanço hídrico conforme a biblioteca esteja instalada: sem ela, a
+# paridade entre eles só seria verificada sob demanda.
+
+on:
+  push:
+    branches: [main, revisao-geral, monorepo-triton]
+  pull_request:
+    branches: [main, revisao-geral, monorepo-triton]
+  workflow_dispatch:
+
+jobs:
+  nucleo:
+    name: ${{ matrix.dir }} (${{ matrix.kernel }}, Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    # Limite folgado: a suíte leva de 3 a 15 minutos por job e uma fonte externa lenta
+    # não pode prender a verificação por horas.
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    env:
+      TRITON_EDITION: ${{ fromJSON('{"triton_brl":"BRL","triton_int":"INT","triton_prt":"PRT"}')[matrix.dir] }}
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [triton_brl, triton_int, triton_prt]
+        python: ["3.13"]
+        kernel: [python, jit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Instalar dependências do núcleo
+        run: |
+          python -m pip install --upgrade pip
+          # PySide6 fica de fora: os módulos de interface não são coletados sem Qt.
+          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install pytest pytest-cov
+
+      - name: Instalar o kernel acelerado
+        if: matrix.kernel == 'jit'
+        run: pip install "numba>=0.62"
+
+      - name: Verificar que o kernel esperado está ativo
+        run: |
+          python - <<'PY'
+          import sys
+          from triton.core import simulation
+          esperado = "${{ matrix.kernel }}" == "jit"
+          if simulation.HAS_NUMBA != esperado:
+              sys.exit(f"kernel inesperado: HAS_NUMBA={simulation.HAS_NUMBA}, esperado {esperado}")
+          print("kernel conforme a matriz")
+          PY
+
+      # Os testes marcados "rede" baixam dados da ANEEL e rodam só sob demanda
+      # (pytest -m rede); o -m explícito repete o «not rede» do pyproject.toml.
+      - name: Suíte de verificação
+        run: python -m pytest -m "not replicacao and not rede" --durations=15
+
+  rede:
+    name: Fontes oficiais (ANEEL, só BRL)
+    runs-on: ubuntu-latest
+    # Só quando pedido: Actions → Verificação → Run workflow. Nunca em push ou PR.
+    if: github.event_name == 'workflow_dispatch'
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: triton_brl
+    env:
+      TRITON_EDITION: BRL
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install pytest
+
+      - name: Testes de rede
+        run: python -m pytest -m rede -v

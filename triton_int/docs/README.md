@@ -13,7 +13,6 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | **saber o que é da Edição Brasil e o que é da International** | [`edicoes.md`](edicoes.md) |
 | entender as equações e as fronteiras do modelo | [`metodologia.md`](metodologia.md) |
 | saber o que foi verificado e o que não foi | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) |
-| gerar novos casos de referência no Netuno 4 | [`protocolo_netuno4.md`](protocolo_netuno4.md) |
 | **conferir as contas dos casos analíticos** | [`conferencia_dos_casos_analiticos.md`](conferencia_dos_casos_analiticos.md) |
 | ver o encadeamento do cálculo em diagramas | [`../triton/docs/fluxogramas_metodologicos.md`](../triton/docs/fluxogramas_metodologicos.md) |
 | conferir um cálculo à mão | [`../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md`](../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) |
@@ -39,7 +38,6 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | Documento | Conteúdo |
 | :--- | :--- |
 | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) | **Relatório principal de V&V**: propriedades científicas, cobertura, replicação, defeitos, limitações |
-| [`protocolo_netuno4.md`](protocolo_netuno4.md) | Roteiro para gerar casos de referência na interface do Netuno 4 |
 | [`conferencia_dos_casos_analiticos.md`](conferencia_dos_casos_analiticos.md) | **Pede revisão humana** — as nove derivações analíticas em forma conferível |
 | [`../triton/docs/relatorio_validacao.md`](../triton/docs/relatorio_validacao.md) | Relatório de verificação técnica dos algoritmos (PT) |
 | [`../triton/docs/relatorio_validacao_en.md`](../triton/docs/relatorio_validacao_en.md) | Idem, em inglês |
@@ -80,7 +78,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | :--- | :--- |
 | [`../infos_licenses/CLI_USAGE.md`](../infos_licenses/CLI_USAGE.md) | Uso da interface de linha de comando |
 | [`../templates/README.md`](../templates/README.md) | Modelos de projeto e planilhas de entrada |
-| [`../integrations/revit/README.md`](../integrations/revit/README.md) | Integração BIM com Revit |
+| [`../additional_material/integrations/revit/README.md`](../additional_material/integrations/revit/README.md) | Integração BIM com Revit |
 
 ### Material de referência externo
 

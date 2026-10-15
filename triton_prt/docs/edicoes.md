@@ -1,4 +1,4 @@
-# As três edições: Brasil (BRL), International (INT) e Portugal (POR)
+# As três edições: Brasil (BRL), International (INT) e Portugal (PRT)
 
 O Triton sai em três edições a partir do **mesmo código**. O motor de cálculo — balanço
 diário, descarte inicial, coeficientes de escoamento, análise econômica, ACV, TOPSIS — é
@@ -16,10 +16,10 @@ seção 2 do manual («As duas edições»), em português e em inglês. English
 
 ## 1. O que o usuário vê
 
-| | Edição Brasil (BRL) | International Edition (INT) | Edição Portugal (POR) |
+| | Edição Brasil (BRL) | International Edition (INT) | Edição Portugal (PRT) |
 | :--- | :--- | :--- | :--- |
 | idioma ao abrir | português do Brasil | inglês | português de Portugal (VAL, entidade gestora, ficheiro, escalões) |
-| selo na barra lateral, título da janela, rodapé de relatórios e exportações | «Edição Brasil (BRL)», verde | «International Edition (INT)», azul | «Edição Portugal (POR)», vermelho |
+| selo na barra lateral, título da janela, rodapé de relatórios e exportações | «Edição Brasil (BRL)», verde | «International Edition (INT)», azul | «Edição Portugal (PRT)», vermelho |
 | chuva | base CLIMBra (652 cidades, CMIP6) ou série própria | série própria | base E-OBS por concelho (278 do Continente, observada, 1950–2025) ou série própria; Açores e Madeira só com série própria |
 | tarifas de água e esgoto | catálogo de 652 municípios, com procedência por documento, ou digitadas | digitadas | digitadas; tarifários das capitais de distrito em construção |
 | etapa 12, Gestor de Tarifas | presente | ausente | ausente até haver tarifários |
@@ -31,7 +31,7 @@ seção 2 do manual («As duas edições»), em português e em inglês. English
 | fator de emissão da rede e da água potável | MCTI e rotas por região | do país do projeto; sem ele, a ACV não é calculada | digitado, como na International |
 | certificações | LEED, EDGE, GRI, AQUA-HQE, Selo Casa Azul | LEED, EDGE, GRI | LEED, EDGE, GRI |
 | manual que o programa abre | português; inglês nas demais línguas da interface | inglês | português |
-| preferências (QSettings) | `UFSC/Triton` | `UFSC/Triton-INT` | `UFSC/Triton-POR` |
+| preferências (QSettings) | `UFSC/Triton` | `UFSC/Triton-INT` | `UFSC/Triton-PRT` |
 
 ---
 
@@ -40,8 +40,8 @@ seção 2 do manual («As duas edições»), em português e em inglês. English
 A pergunta que cada tela faz antes de oferecer um dado brasileiro é
 `usa_dados_do_brasil()`, em `triton/core/edition.py`; a de um dado português,
 `usa_dados_de_portugal()`. A edição vem da variável de ambiente `TRITON_EDITION` (`BRL` por
-padrão), que `main_brl.py`, `main_int.py`, `main_por.py` e a opção
-`main.py --edition brl|int|por` fixam. Fora da Brasil, a Portugal se comporta como a
+padrão), que o `main.py` de cada pasta fixa (ou a opção
+`main.py --edition brl|int|por`). Fora da Brasil, a Portugal se comporta como a
 International (núcleo neutro), salvo onde a tabela diz outra coisa.
 
 | Arquivo | O que muda na International e na Portugal |
@@ -52,15 +52,15 @@ International (núcleo neutro), salvo onde a tabela diz outra coisa.
 | `triton/core/report_generator.py` | laudo ambiental sem AQUA-HQE e Selo Casa Azul (certificações brasileiras) |
 | `triton/core/tariff_category.py` | sem aviso de categoria tarifária (não há catálogo) |
 | `triton/ui/main_window.py` | projeto novo sem custo do arranjo nem mão de obra automática; chama a neutralização; os textos fixos em reais («CAPEX (R$)», «Imposto fixo (R$/mês)») das etapas e dos diálogos passam à moeda do projeto (`triton/ui/moeda_na_interface.py`) |
-| `triton/ui/sidebar.py` | selo azul (INT) ou vermelho (POR); sem a etapa 12, Gestor de Tarifas |
-| `triton/ui/tab_project.py` | sem o quadro de tarifas da cidade; a cidade escolhida não carrega tarifa nem energia; a base nacional de chuva é a CLIMBra (BRL), a E-OBS por distrito e concelho (POR) ou nenhuma (INT: abre a série de exemplo do tutorial em arquivo, mesmo com a CLIMBra na pasta, e o local da tarifa é «CUSTOM») |
+| `triton/ui/sidebar.py` | selo azul (INT) ou vermelho (PRT); sem a etapa 12, Gestor de Tarifas |
+| `triton/ui/tab_project.py` | sem o quadro de tarifas da cidade; a cidade escolhida não carrega tarifa nem energia; a base nacional de chuva é a CLIMBra (BRL), a E-OBS por distrito e concelho (PRT) ou nenhuma (INT: abre a série de exemplo do tutorial em arquivo, mesmo com a CLIMBra na pasta, e o local da tarifa é «CUSTOM») |
 | `triton/ui/tab_water_quality.py` | ETAP e descarte sem os preços de catálogo em reais (só o cloro, pelo preço informado, na moeda do projeto); a energia do reator UV emite pelo fator da rede informado na ACV, e não pelo do MCTI |
 | `triton/ui/tab_modulacao_estocastica.py` | sem o sorteio entre modelos climáticos da base CLIMBra (etapa 13); valores na moeda do projeto (euro ao abrir) |
 | `triton/ui/dialogs/dialog_economic.py` | sem o seletor de município da tarifa e da energia |
 | `triton/ui/tab_economic_integrated.py` | sem IPTU Verde e bandeiras tarifárias |
 | `triton/ui/tab_tanks_simulation.py` | moedas: na International, euro primeiro e padrão, as demais à escolha; na Portugal, só o euro; na Brasil, só o real; o projeto grava o código da moeda |
 | `triton/ui/tab_environmental.py` | fatores de emissão vazios e obrigatórios; sem AQUA-HQE e Casa Azul |
-| `triton/ui/translation.py` | inglês ao abrir (INT) ou português de Portugal (POR, glossário em `triton/ui/portugues_de_portugal.py`); preferências separadas |
+| `triton/ui/translation.py` | inglês ao abrir (INT) ou português de Portugal (PRT, glossário em `triton/ui/portugues_de_portugal.py`); preferências separadas |
 
 `tests/unit/test_edicoes_documentadas.py` falha se um arquivo passar a perguntar pela
 edição sem constar desta tabela.
@@ -78,10 +78,10 @@ na Portugal) é relido da base em qualquer edição e na CLI.
 
 | | Brasil | International | Portugal |
 | :--- | :--- | :--- | :--- |
-| ponto de entrada | `main_brl.py` | `main_int.py` | `main_por.py` |
-| compilação | `python build_exe.py` (ou `build_exe_brl.py`) | `python build_exe_int.py` | `python build_exe_por.py` |
-| pasta | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_POR/`, `Triton_POR.exe` |
-| instalador | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_POR_Setup_1_0_0.exe` (`/DEdition=POR`) |
+| ponto de entrada | `main.py` em `triton_brl` | `main.py` em `triton_int` | `main.py` em `triton_prt` |
+| compilação | `python build_exe.py`, dentro de cada pasta | idem | idem |
+| pasta | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_PRT/`, `Triton_PRT.exe` |
+| instalador | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_1_0_0.exe` (`/DEdition=PRT`) |
 | pasta de instalação | `Triton` | `Triton International` | `Triton Portugal` |
 | associação dos `.triton` | marcada | desmarcada | desmarcada |
 | base CLIMBra (`data/climbra.db`, ~784 MB) | embutida; o build para se faltar | retirada após o PyInstaller | retirada após o PyInstaller |

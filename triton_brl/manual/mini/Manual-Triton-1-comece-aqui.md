@@ -403,7 +403,7 @@ nenhum aviso.
 1. Execute **`Triton_Setup_1_0_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_1_0_0.exe`**
    (International Edition). O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
-2. Escolha o idioma da instalação e aceite a licença, a GPL versão 3.
+2. Escolha o idioma da instalação e leia e aceite a licença (código-fonte acadêmico, uso não comercial).
 3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
    exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
    idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre

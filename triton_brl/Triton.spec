@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['D:\\AAAA_TEMPORARIO_AREATRABALHO\\TritonReplicacao\\Triton_0_0\\main.py'],
+    ['main.py'],
     pathex=[],
     binaries=[],
     datas=[('data', 'data'), ('templates', 'templates'), ('tarifas', 'tarifas'), ('icons', 'icons'), ('triton/data', 'triton/data'), ('additional_material', 'additional_material'), ('manual/casos', 'casos'), ('examples', 'exemplos'), ('docs', 'docs'), ('manual/Manual-Triton.pdf', 'manual'), ('manual/en/Triton-User-Manual.pdf', 'manual/en'), ('manual/mini', 'manual/mini'), ('manual/site', 'manual/site')],
@@ -32,7 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['D:\\AAAA_TEMPORARIO_AREATRABALHO\\TritonReplicacao\\Triton_0_0\\icons\\triton.ico'],
+    icon=['icons\\triton.ico'],
 )
 coll = COLLECT(
     exe,

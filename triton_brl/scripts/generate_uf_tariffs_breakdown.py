@@ -1,6 +1,6 @@
 """
 =======================================================================================
-TRITON 5 -- AUDITORIA VISUAL DETALHADA DAS TARIFAS DE SANEAMENTO E ENERGIA (27 UFs)
+TRITON -- AUDITORIA VISUAL DETALHADA DAS TARIFAS DE SANEAMENTO E ENERGIA (27 UFs)
 =======================================================================================
 Gera gráfico de alta resolução com 4 painéis detalhando por Unidade da Federação:
 1. Estrutura da Tarifa de Água (R$/m³) - Faixa Inicial (Mínima) vs Faixa Típica (10-15 m³)

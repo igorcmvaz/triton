@@ -327,7 +327,7 @@ def run_mass_simulations(
     chunks_dir = os.path.join(os.path.dirname(os.path.abspath(output_csv)), f"_tmp_parquet_chunks_{int(time.time())}")
 
     print("=" * 90)
-    print("TRITON 5 -- MOTOR DE SIMULACAO PARALELA MASSIVA MULTI-CORE (STREAMING & PARQUET)")
+    print("TRITON -- MOTOR DE SIMULACAO PARALELA MASSIVA MULTI-CORE (STREAMING & PARQUET)")
     print("=" * 90)
     print(f" [+] Arquivos de Chuva Encontrados: {total_files:,}")
     print(f" [*] Configuracoes Fatoriais: {total_tasks // total_files:,} por arquivo")

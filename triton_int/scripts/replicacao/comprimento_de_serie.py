@@ -15,7 +15,7 @@ import sys
 
 import numpy as np
 
-RAIZ = "D:/AAAA_TEMPORARIO_AREATRABALHO/TritonReplicacao/Triton_0_0"
+RAIZ = str(__import__("pathlib").Path(__file__).resolve().parents[2])
 sys.path.insert(0, RAIZ)
 
 from triton.core.parser import load_precipitation          # noqa: E402
