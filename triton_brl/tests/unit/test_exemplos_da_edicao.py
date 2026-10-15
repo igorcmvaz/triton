@@ -94,10 +94,10 @@ def _londres_a_mao(m3: D) -> D:
 
 
 def _cidade_do_cabo_a_mao(m3: D) -> D:
-    """Água por faixas (R/kl); esgoto: 70% do consumo, por faixas, até 35 kl de esgoto."""
-    agua = _escalonado([(0, 6, "25.05"), (6, "10.5", "34.42"), ("10.5", 35, "54.60"), (35, None, "109.98")], m3)
-    esgoto = _escalonado([(0, "4.2", "18.28"), ("4.2", "7.35", "25.11"), ("7.35", "24.5", "42.18"),
-                          ("24.5", 35, "73.91")], m3 * D("0.7"))
+    """Água por faixas (R/kl) + R 103,65 fixos; esgoto: 70% do consumo, por faixas, até 35 kl + R 56,66 fixos."""
+    agua = D("103.65") + _escalonado([(0, 6, "25.05"), (6, "10.5", "34.42"), ("10.5", 35, "54.60"), (35, None, "109.98")], m3)
+    esgoto = D("56.66") + _escalonado([(0, "4.2", "18.28"), ("4.2", "7.35", "25.11"), ("7.35", "24.5", "42.18"),
+                                       ("24.5", 35, "73.91")], m3 * D("0.7"))
     return agua + esgoto
 
 
@@ -121,9 +121,9 @@ def test_contas_de_18_m3_calculadas_a_mao_e_escritas_por_extenso():
     assert _conta(ny, 18) == pytest.approx(88.0808, abs=2e-3)
     # Londres: 5,5725 + 49,2228 de água; 26,4978 + 10,6775 de águas residuais = 91,9706
     assert _conta(ld, 18) == pytest.approx(91.9706, abs=1e-3)
-    # Cidade do Cabo: água 6×25,05 + 4,5×34,42 + 7,5×54,60 = 714,69; esgoto (12,6 kl)
-    # 4,2×18,28 + 3,15×25,11 + 5,25×42,18 = 377,3175; total 1092,0075
-    assert _conta(ct, 18) == pytest.approx(1092.0075, abs=1e-3)
+    # Cidade do Cabo: água 103,65 + 6×25,05 + 4,5×34,42 + 7,5×54,60 = 818,34; esgoto (12,6 kl)
+    # 56,66 + 4,2×18,28 + 3,15×25,11 + 5,25×42,18 = 433,9775; total 1252,3175
+    assert _conta(ct, 18) == pytest.approx(1252.3175, abs=1e-3)
 
 
 @so_int

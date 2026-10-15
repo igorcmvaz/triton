@@ -117,19 +117,22 @@ def _cidade_do_cabo():
         fonte=("City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, "
                "VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. "
                "Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; "
-               "7.35-24.5 kl 42.18; 24.5-35 kl 73.91."),
+               "7.35-24.5 kl 42.18; 24.5-35 kl 73.91. "
+               "Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65, sanitation R 56.66 (total R 160.31)."),
         campos=dict(
-            water_tariffs=[(0.0, 6.0, 25.05, 1), (6.0, 10.5, 34.42, 1),
+            water_tariffs=[(0.0, 0.0, 103.65, -1),
+                           (0.0, 6.0, 25.05, 1), (6.0, 10.5, 34.42, 1),
                            (10.5, 35.0, 54.60, 1), (35.0, SEM_TETO, 109.98, 1)],
             sewage_mode=3, sewage_rate=0.0,
             sewage_tariffs=[(0.0, 4.2, 18.28), (4.2, 7.35, 25.11), (7.35, 24.5, 42.18), (24.5, 35.0, 73.91)],
-            sewage_volume_factor=0.7, water_tax_fixed=0.0, water_tax_var=0.0),
+            sewage_volume_factor=0.7, water_tax_fixed=56.66, water_tax_var=0.0),
         hipoteses=[
             "1 kl = 1 m3; prices already include VAT (no extra tax is added).",
             "Sanitation volume = 70% of the water consumed, charged by the four steps up to 35 kl "
             "of sanitation volume; above that nothing more is charged (the cap is read from "
             "'up to 35 kl'; confirm).",
-            "No fixed monthly charge was supplied, so none is entered.",
+            "Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65 on the water parcel "
+            "and sanitation R 56.66 as a fixed amount (total R 160.31 per month; they cancel in the saving).",
             "Tariff year 2026/27 taken to start on 1 July 2026 (inferred; confirm).",
         ])
 

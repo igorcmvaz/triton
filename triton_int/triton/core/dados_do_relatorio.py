@@ -279,10 +279,9 @@ def texto_de_planilha(texto: Any, moeda: str = "") -> Any:
     """
     if not isinstance(texto, str) or not texto:
         return texto
-    from triton.core.edition import usa_dados_do_brasil
+    from triton.core.edition import sem_marcas_do_brasil, usa_dados_do_brasil
     if usa_dados_do_brasil():
         return texto
-    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
     from triton.core.environmental_justifications import _sem_residuos_do_brasil
     texto = _sem_residuos_do_brasil(sem_marcas_do_brasil(texto, "pt"))
     texto = texto_de_exportacao(texto)

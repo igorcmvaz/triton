@@ -1241,7 +1241,7 @@ def e_do_brasil(ref: Referencia) -> bool:
     Vale só para decidir o que a Edição Internacional e a Portugal mostram: a lista completa
     fica em ``REFERENCIAS`` e a Edição Brasil mostra tudo.
     """
-    from triton.ui.textos_da_edicao import cita_o_brasil
+    from triton.core.edition import cita_o_brasil
     texto = " ".join((ref.titulo, ref.veiculo, ref.detalhe, ref.nota_pt, ref.nota_en, ref.chave))
     return cita_o_brasil(texto) or ref.chave.startswith(("abnt_", "mcti_", "snis_", "sidac_", "inmet_"))
 

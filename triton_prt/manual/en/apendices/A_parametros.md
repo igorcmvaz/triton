@@ -281,7 +281,7 @@ Notes from the code:
 | `sewage_tariff_escalation` | 5 | % per period | Economic, Optimiser, Tariffs and costs | Automation, Economic |
 | `elec_tariff_escalation` | 5 | % per period | Economic, Optimiser, Sweep | Automation, Economic |
 | `tariff_flag` | verde | — | Economic | Automation, Economic |
-| `elec_tariff` | 0.6957 | R$/kWh | Charts, Economic, Optimiser, Project, Sweep, Tariffs and costs | Automation, Economic |
+| `elec_tariff` | 0.6957 | R$/kWh | Charts, Economic, Optimiser, Project, Reports, Sweep, Tariffs and costs | Automation, Economic |
 
 Notes from the code:
 

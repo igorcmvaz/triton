@@ -1864,9 +1864,9 @@ def test_janela_da_internacional(qapp, internacional):
         assert janela.sidebar.lbl_edicao.text() == 'International Edition (INT)'
         assert not any(('Tarif' in b.text() for b in janela.sidebar.btn_group.buttons()))
         ts = janela.tab_tanks_simulation
-        assert ts.get_currency_symbol() == '€'
+        assert ts.get_currency_symbol() == '¤'
         assert ts.combo_currency.isEnabled()
-        assert [ts.combo_currency.itemData(i) for i in range(ts.combo_currency.count())] == ['EUR', 'USD', 'GBP', 'CNY', 'BRL']
+        assert [ts.combo_currency.itemData(i) for i in range(ts.combo_currency.count())] == ['XXX', 'USD', 'EUR', 'GBP', 'CNY', 'ZAR', 'INR', 'AUD', 'CAD', 'CHF']
         assert janela.config.water_tariffs == [] and janela.config.capex_do_arranjo is False
         ambiental = janela.tab_environmental
         assert ambiental.faltam_fatores_do_pais()
@@ -1949,11 +1949,19 @@ def test_modulacao_da_internacional_fala_em_euro(qapp, internacional):
     try:
         t = janela.tab_modulacao_estocastica
         t.atualizar_moeda()
-        assert '€/kWh' in t.checks['tarifa_energia'].text()
+        # Sem escolha prévia, inicia com o sinal genérico de moeda (¤)
+        assert '¤/kWh' in t.checks['tarifa_energia'].text()
         assert 'R$' not in t.cartoes['tarifa_energia'].title()
         cabecalhos = [t.tabela.horizontalHeaderItem(j).text() for j in range(t.tabela.columnCount())]
-        assert any(('(€)' in c for c in cabecalhos)) and (not any(('R$' in c for c in cabecalhos)))
+        assert any(('(¤)' in c for c in cabecalhos)) and (not any(('R$' in c for c in cabecalhos)))
         assert not t.caixa_modelos.isVisibleTo(janela)
+        # Ao selecionar o Euro na simulação, passa a falar em euro
+        ts = janela.tab_tanks_simulation
+        ts.combo_currency.setCurrentIndex(ts.combo_currency.findData('EUR'))
+        t.atualizar_moeda()
+        assert '€/kWh' in t.checks['tarifa_energia'].text()
+        cabecalhos_eur = [t.tabela.horizontalHeaderItem(j).text() for j in range(t.tabela.columnCount())]
+        assert any(('(€)' in c for c in cabecalhos_eur))
     finally:
         janela.close()
 
@@ -2705,11 +2713,11 @@ def test_a_moeda_troca_de_novo_nos_cabecalhos(qapp, internacional):
         def cab():
             t = eco.table_mat_impact
             return [t.horizontalHeaderItem(j).text() for j in range(t.columnCount())]
-        assert any('(€)' in c for c in cab())
+        assert any('(¤)' in c for c in cab())
         ts.combo_currency.setCurrentIndex(ts.combo_currency.findData('USD'))
-        assert any('($)' in c for c in cab()) and not any('€' in c for c in cab())
-        ts.combo_currency.setCurrentIndex(ts.combo_currency.findData('BRL'))
-        assert any('(R$)' in c for c in cab())
+        assert any('($)' in c for c in cab()) and not any('¤' in c for c in cab())
+        ts.combo_currency.setCurrentIndex(ts.combo_currency.findData('EUR'))
+        assert any('(€)' in c for c in cab()) and not any('$' in c for c in cab())
     finally:
         janela.close()
 

@@ -5,10 +5,10 @@
   },
   "version": "1.0.0",
   "metadata": {
-    "project_id": "N5-20261015-085015-02A1251C",
+    "project_id": "N5-20261015-095736-0B9021AD",
     "name": "Example - tutorial house in Cape Town (ERA5 1991-2020) [costs to be entered by the user]",
     "created_at": "14/10/2026 00:00",
-    "saved_at": "15/10/2026 08:50:15"
+    "saved_at": "15/10/2026 09:57:36"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11070,9 +11070,15 @@
         ]
       ],
       "sewage_volume_factor": 0.7,
-      "water_tax_fixed": 0.0,
+      "water_tax_fixed": 56.66,
       "water_tax_var_pct": 0.0,
       "water_tariffs": [
+        [
+          0.0,
+          0.0,
+          103.65,
+          -1
+        ],
         [
           0.0,
           6.0,
@@ -11198,11 +11204,11 @@
     "costs": "Costs of works, pump and maintenance are not set: enter your own (stage 5). Until then the analysis shows only the saving on the bill.",
     "tariff_entity": "City of Cape Town",
     "tariff_validity": "01/07/2026",
-    "tariff_source": "City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91.",
+    "tariff_source": "City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91. Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65, sanitation R 56.66 (total R 160.31).",
     "tariff_assumptions": [
       "1 kl = 1 m3; prices already include VAT (no extra tax is added).",
       "Sanitation volume = 70% of the water consumed, charged by the four steps up to 35 kl of sanitation volume; above that nothing more is charged (the cap is read from 'up to 35 kl'; confirm).",
-      "No fixed monthly charge was supplied, so none is entered.",
+      "Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65 on the water parcel and sanitation R 56.66 as a fixed amount (total R 160.31 per month; they cancel in the saving).",
       "Tariff year 2026/27 taken to start on 1 July 2026 (inferred; confirm)."
     ],
     "tariffs_collected_on": "14/10/2026",

@@ -17,6 +17,7 @@ por `usa_dados_de_portugal`, à medida que são coletados e conferidos.
 from __future__ import annotations
 
 import os
+import re
 
 EDITION_BRL = "BRL"
 EDITION_INT = "INT"
@@ -279,3 +280,90 @@ def cidade_de_exemplo_da_edicao() -> str:
     if is_int_edition():
         return "New York, USA"
     return "Florianópolis, Brasil"
+
+
+# ── Neutralidade de textos e marcas da Edição Brasil ─────────────────────────────
+
+_NORMA_NBR = re.compile(
+    r"(?:ABNT\s+)?NBR\s*\d{3,5}(?::\d{4})?(?:\s*(?:/|e|and|y)\s*(?:ABNT\s+)?NBR\s*\d{3,5}(?::\d{4})?)*",
+    re.IGNORECASE)
+_NORMA_DE_REFERENCIA = {
+    "pt": "norma de referência", "en": "the reference standard",
+    "es": "la norma de referencia", "zh": "参考标准",
+}
+
+
+def sem_norma_do_brasil(texto: str, idioma: str | None = None) -> str:
+    """Troca «ABNT NBR n» por «norma de referência» em textos do núcleo."""
+    if not texto or usa_dados_do_brasil() or not isinstance(texto, str):
+        return texto
+    ref = _NORMA_DE_REFERENCIA.get(idioma or "pt", _NORMA_DE_REFERENCIA["pt"])
+    return _NORMA_NBR.sub(ref, texto)
+
+
+_MARCAS_DO_BRASIL = (
+    ("Ressalva de escopo: a resina consumida no Brasil tem matriz eletrica e cadeia de materia-prima diferentes das norte-americanas.",
+     "Ressalva de escopo: a resina consumida no local do projeto pode ter matriz eletrica e cadeia de materia-prima diferentes das norte-americanas."),
+    ("O SIDAC, inventário brasileiro da construção, publica para concreto dosado em central cerca de",
+     "Inventários públicos da construção publicam, para concreto dosado em central, cerca de"),
+    ("SIDAC (Sistema de Informação do Desempenho Ambiental da Construção): concreto dosado em central, 310 a 480 kg CO2/m³ entre 20 e 40 MPa",
+     "Inventário público da construção: concreto dosado em central, 310 a 480 kg CO2/m³ entre 20 e 40 MPa (valor de triagem; prefira o inventário do seu país)"),
+    ("Faixa do SIDAC por resistência", "Faixa do inventário por resistência"),
+    ("a 40 MPa o SIDAC chega a", "a 40 MPa o inventário chega a"),
+    ("no catálogo técnico da Fortlev (reservatórios conforme ABNT NBR 13210):", "no catálogo técnico de um fabricante de reservatórios em PRFV:"),
+    ("massa por capacidade do catálogo Fortlev;", "massa por capacidade do catálogo de um fabricante;"),
+    ("Catálogo técnico Fortlev, «Caixa d'água em fibra de vidro», peso da caixa vazia por capacidade",
+     "Catálogo técnico de fabricante, caixa em fibra de vidro, peso da caixa vazia por capacidade"),
+    ("Massa linear: Amanco Wavin FTC000021 (out/2025) ou geometria das ABNT NBR 5648 e 5688.",
+     "Massa linear: ficha técnica de fabricante (2025) ou geometria normalizada do tubo."),
+    ("Amanco Wavin FTC000021 (out/2025), tubo soldável", "Ficha técnica de fabricante (2025), tubo soldável"),
+    ("ABNT NBR 5688:2018 Tab. 1, série reforçada:", "Geometria normalizada do tubo, série reforçada:"),
+    ("(catálogo geral 60 Hz da Dancor, séries CAM W-4C e CAM W-10, motor monofásico de 2 polos)",
+     "(catálogo geral 60 Hz de fabricante de motobombas, motor monofásico de 2 polos)"),
+    ("(catálogo geral 60 Hz da Dancor, séries CAM W-4C e CAM W-10)", "(catálogo geral 60 Hz de fabricante de motobombas)"),
+    ("Massa de catálogo Dancor (60 Hz)", "Massa de catálogo de fabricante (60 Hz)"),
+    ("e não uma centrífuga brasileira", "e não uma centrífuga convencional"),
+    ("ABNT NBR 15527:2019, item 4.6.5: cloro residual livre de 0,5 a 2,0 mg/L", "Faixa usual de cloro residual livre de 0,5 a 2,0 mg/L"),
+    ("ABNT NBR 15527:2019 (Descarte inicial) / Inventário de Polímeros & Inox", "Descarte inicial / Inventário de Polímeros & Inox"),
+    ("Fator de rede editável; usar a série MCTI/SIRENE do período do estudo", "Fator de rede editável; usar o fator do local e do período do estudo"),
+    ("Fator de água potável editável; substituir pelo inventário da concessionária", "Fator de água potável editável; substituir pelo inventário da entidade que abastece o local"),
+    ("Prefira o inventário da concessionária, quando existir", "Prefira o inventário da entidade que abastece o local, quando existir"),
+    ("da concessionária", "da entidade que abastece o local"),
+    ("matriz regional da concessionária", "matriz regional do local"),
+)
+
+
+def sem_marcas_do_brasil(texto: str, idioma: str | None = None) -> str:
+    """O texto de ACV sem fabricantes, normas e inventários do Brasil (só fora da Edição Brasil)."""
+    if not texto or usa_dados_do_brasil() or not isinstance(texto, str):
+        return texto
+    for fonte, alvo in _MARCAS_DO_BRASIL:
+        if fonte in texto:
+            texto = texto.replace(fonte, alvo)
+    return sem_norma_do_brasil(texto, idioma or "pt")
+
+
+TERMOS_DO_BRASIL = (
+    r"Florian[oó]polis", r"Bras[ií]lia", r"Manaus", r"S[aã]o Paulo", r"Santa Catarina",
+    r"R\$", r"\bBRL\b", r"\breais\b", r"\breal brasileiro",
+    r"\bCASAN\b", r"\bCELESC\b", r"\bSABESP\b", r"\bCOPASA\b", r"\bCORSAN\b", r"\bSANEPAR\b",
+    r"\bANEEL\b", r"bandeira tarif", r"tariff flag",
+    r"\bCLIMBra\b", r"\bCMIP6\b", r"\bINMET\b", r"\bIBGE\b", r"\bMCTI\b", r"\bSIRENE\b",
+    r"\bSINAPI\b", r"\bSNIS\b", r"\bSIDAC\b", r"\bABNT\b", r"\bNBR\b", r"\bCREA\b",
+    r"\bIPTU\b", r"\bSelic\b", r"\bIPCA\b", r"\bINPC\b", r"\bIGP-?(?:DI|M)\b",
+    r"Casa Azul", r"AQUA-?HQE", r"GBC Brasil",
+    r"\bSchneider\b", r"\bDancor\b", r"\bLepono\b", r"\bKomeco\b", r"\bAmanco\b", r"\bFortlev\b",
+    r"Netuno\s*4", r"\b652\b", r"Brasil\b", r"Brazil", r"Brasileir", r"Brazilian",
+    r"\bUF\b", r"concession[aá]ri", r"\bconcessionaire", r"\bTFDI\b",
+)
+PADRAO_DO_BRASIL = re.compile("|".join(f"(?:{t})" for t in TERMOS_DO_BRASIL), re.IGNORECASE)
+
+_AUTORIA = re.compile(
+    r"UFSC|Universidade Federal de Santa Catarina|Grupo de Pesquisa em Ambientes Sustent"
+    r"|Sustainable Environments Research Group", re.IGNORECASE)
+
+
+def cita_o_brasil(texto: str) -> bool:
+    """O texto (puro) cita algum termo do Brasil fora da autoria institucional."""
+    return bool(PADRAO_DO_BRASIL.search(_AUTORIA.sub("", texto)))
+

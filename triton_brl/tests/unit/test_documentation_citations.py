@@ -136,12 +136,13 @@ def test_toda_referencia_diz_o_que_sustenta():
 def test_bloco_renderiza_nos_dois_idiomas(lang):
     for secao in bib.REFERENCIAS_POR_SECAO:
         bloco = bib.render_bloco_da_secao(secao, lang)
-        if secao in bib.SECOES_ISENTAS:
+        refs = bib._visiveis(bib.referencias_da_secao(secao))
+        if secao in bib.SECOES_ISENTAS or not refs:
             assert bloco == ""
             continue
         assert "<ol" in bloco and "</ol>" in bloco
-        # Uma entrada <li> por referência declarada.
-        assert bloco.count("<li") == len(bib.REFERENCIAS_POR_SECAO[secao])
+        # Uma entrada <li> por referência visível na edição.
+        assert bloco.count("<li") == len(refs)
 
 
 def test_os_dois_idiomas_listam_a_mesma_quantidade():
@@ -168,7 +169,7 @@ def test_html_gerado_e_compativel_com_qtextbrowser():
 
 def test_bibliografia_completa_cobre_todos_os_registros():
     completa = bib.render_bibliografia_completa("pt")
-    assert completa.count("<li") == len(bib.REFERENCIAS)
+    assert completa.count("<li") == len(bib._visiveis(bib.REFERENCIAS.values()))
 
 
 def test_atribuicao_do_hammond_jones_registra_o_limite():

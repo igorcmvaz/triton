@@ -415,10 +415,9 @@ def _para_a_edicao(j: Optional[ParameterJustification]) -> Optional[ParameterJus
     """A justificativa sem fabricantes, normas e inventários do Brasil, fora da Edição Brasil."""
     if j is None:
         return j
-    from triton.core.edition import usa_dados_do_brasil
+    from triton.core.edition import sem_marcas_do_brasil, usa_dados_do_brasil
     if usa_dados_do_brasil():
         return j
-    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
     def limpa(texto):
         return _sem_residuos_do_brasil(sem_marcas_do_brasil(texto, "pt"))
 
@@ -469,10 +468,9 @@ _FATORES_DO_LOCAL: Dict[str, ParameterJustification] = {
 
 def _html_da_edicao(html: str) -> str:
     """O HTML de justificativas sem as marcas do Brasil, fora da Edição Brasil."""
-    from triton.core.edition import usa_dados_do_brasil
+    from triton.core.edition import sem_marcas_do_brasil, usa_dados_do_brasil
     if usa_dados_do_brasil():
         return html
-    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
     for fonte, alvo in (
         ("<b>Matriz Elétrica Brasileira</b>", "<b>Fator da Rede Elétrica</b>"),
         ("<b>0,085 kg CO2e/kWh</b>", "<b>Informado pelo usuário</b>"),
@@ -555,17 +553,18 @@ def _mark_as_screening(justification: Optional[ParameterJustification]) -> Optio
     )
 
 
-def format_justification_as_tooltip(justification: ParameterJustification) -> str:
+def format_justification_as_tooltip(justification: ParameterJustification, tr=None) -> str:
     """
     Formata uma justificativa como HTML rico para exibição em tooltip.
     
     Args:
         justification: Objeto ParameterJustification
+        tr: Função de tradução opcional
     
     Returns:
         String HTML formatada para tooltip rico
     """
-    from triton.ui.translation import tr
+    _tr = tr if tr is not None else (lambda s: s)
     html = f"""
     <html style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 450px;">
     <head><style>
@@ -586,20 +585,20 @@ def format_justification_as_tooltip(justification: ParameterJustification) -> st
         <div class="short">{justification.short_description}</div>
         
         <div class="section">
-            <div class="section-title">{tr("🔍 Explicação Detalhada:")}</div>
+            <div class="section-title">{_tr("🔍 Explicação Detalhada:")}</div>
             <div class="section-content">{justification.detailed_explanation.replace(chr(10), '<br>')}</div>
         </div>
         
         <div class="section">
-            <div class="section-title">{tr("📐 Base do Cálculo:")}</div>
+            <div class="section-title">{_tr("📐 Base do Cálculo:")}</div>
             <div class="section-content">{justification.calculation_basis}</div>
         </div>
         
-        <div class="source">{tr("📚 Referência:")} {justification.source_reference}</div>
+        <div class="source">{_tr("📚 Referência:")} {justification.source_reference}</div>
     """
     
     if justification.notes:
-        html += f'<div class="notes"><strong>{tr("📌 Notas:")}</strong> {justification.notes.replace(chr(10), "<br>")}</div>'
+        html += f'<div class="notes"><strong>{_tr("📌 Notas:")}</strong> {justification.notes.replace(chr(10), "<br>")}</div>'
     
     html += "</body></html>"
     return html

@@ -61,12 +61,11 @@ to be added by the maintainer next to each source below).
 
 - Source: City of Cape Town, Tariffs 2026/27, domestic, non-indigent, no water restrictions; values include VAT; R per kl (1 kl = 1 m³).
 - In force: tariff year 2026/27, taken to start on 1 July 2026 (inferred; confirm).
-- Water: 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; above 35 kl 109.98.
-- Sanitation, on 70% of the water consumed, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91.
-- Entered as printed (sanitation by steps on 0.7 × the water volume).
-- Assumptions to confirm: above 35 kl of sanitation volume (50 kl of water) nothing more is charged; no fixed monthly
-  charge was supplied, so none is entered.
+- Water: 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; above 35 kl 109.98; monthly standing charge R 103.65 (domestic 12–20 mm, with VAT).
+- Sanitation, on 70% of the water consumed, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91; monthly standing charge R 56.66 (domestic 12–20 mm, with VAT).
+- Entered as: water standing charge R 103.65 per month and volumetric steps; sanitation by steps on 0.7 × the water volume plus R 56.66 per month as a fixed amount (the standing charges cancel in the saving).
+- Assumptions to confirm: above 35 kl of sanitation volume (50 kl of water) nothing more is charged.
 
 ## Hand-checked bills (what the tests assert)
 
-For the house's consumption, 18 m³ per month: New York US$ 88.08; London £ 91.97; Cape Town R 1,092.01.
+For the house's consumption, 18 m³ per month: New York US$ 88.08; London £ 91.97; Cape Town R 1,252.32 (R 1,092.01 variable + R 160.31 fixed).
