@@ -100,17 +100,6 @@ TESTES_QUE_EXIGEM_BASE_CLIMATICA = {
 }
 
 
-def pytest_collection_modifyitems(config, items):
-    """Ignora, sem falhar, o que depende de dados não distribuídos com o código."""
-    if TEM_BASE_CLIMATICA:
-        return
-
-    motivo = pytest.mark.skip(
-        reason="base climática CMIP6 ausente (distribuída separadamente, ~6,5 GB)"
-    )
-    for item in items:
-        if item.name.split("[")[0] in TESTES_QUE_EXIGEM_BASE_CLIMATICA:
-            item.add_marker(motivo)
 
 
 def pytest_report_header(config):
@@ -187,11 +176,21 @@ def _so_da_brl():
 
 
 # arquivos inteiros: nem são importados (o import falharia sem os dados)
-collect_ignore = [p[len("tests/"):] for p in _so_da_brl() if "::" not in p]
+collect_ignore.extend([p[len("tests/"):] for p in _so_da_brl() if "::" not in p])
 
 
 def pytest_collection_modifyitems(config, items):
+    """Ignora, sem falhar, o que depende de dados não distribuídos com o código ou exclusivos da BRL."""
+    if not TEM_BASE_CLIMATICA:
+        motivo = pytest.mark.skip(
+            reason="base climática CMIP6 ausente (distribuída separadamente, ~6,5 GB)"
+        )
+        for item in items:
+            if item.name.split("[")[0] in TESTES_QUE_EXIGEM_BASE_CLIMATICA:
+                item.add_marker(motivo)
+
     prefixos = _so_da_brl()
-    saltados = [i for i in items if any(i.nodeid.replace("\\", "/").startswith(p) for p in prefixos)]
-    config.hook.pytest_deselected(items=saltados)
-    items[:] = [i for i in items if i not in saltados]
+    if prefixos:
+        saltados = [i for i in items if any(i.nodeid.replace("\\", "/").startswith(p) for p in prefixos)]
+        config.hook.pytest_deselected(items=saltados)
+        items[:] = [i for i in items if i not in saltados]

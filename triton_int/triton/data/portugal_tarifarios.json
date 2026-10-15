@@ -1,5 +1,40 @@
 {
   "_formato": "Uma entrada por concelho. Valores transcritos dos documentos em tarifas_portugal/fontes (endereço e SHA-256 em FONTES.tsv). Utilizador doméstico, tarifário geral, contador até 25 mm. 'conferencia' traz contas mensais calculadas só com números impressos nos documentos; tests/test_essencial.py exige que a fatura as reproduza.",
+  "Funchal": {
+    "distrito": "Madeira",
+    "entidades": "Câmara Municipal do Funchal",
+    "vigencia": "01/01/2026",
+    "fontes": [
+      "Câmara Municipal do Funchal, Tabela de Taxas e Outras Receitas Municipais 2026 (tarifas_portugal/fontes/CM_Funchal/Tabela_de_Taxas_Municipais_2026_.pdf)"
+    ],
+    "agua": {
+      "fixa_mes": 4.12,
+      "escaloes": [[0, 5, 0.39], [5, 15, 0.69], [15, 25, 1.28], [25, 50, 2.87], [50, null, 5.02]],
+      "iva_pct": 4.0
+    },
+    "saneamento": {
+      "fixa_mes": 1.97,
+      "escaloes": [[0, 5, 0.0], [5, 15, 0.55], [15, null, 1.01]],
+      "coef_recolha": 1.0,
+      "trh_m3": 0.0,
+      "iva_pct": 4.0
+    },
+    "parcelas": [
+      {"nome": "Resíduos urbanos (tarifa fixa)", "fixa": 2.19, "por_m3": 0.0, "iva_pct": 4.0}
+    ],
+    "notas": [
+      "Tarifa de disponibilidade de água: 4,12 €/mês para contador até 15 mm (artigo 57.º).",
+      "Água por escalões: até 5 m³ (0,39 €/m³), 6 a 15 m³ (0,69 €/m³), 16 a 25 m³ (1,28 €/m³), 26 a 50 m³ (2,87 €/m³) e > 50 m³ (5,02 €/m³) (artigo 56.º).",
+      "Saneamento e resíduos urbanos têm escalões com cortes idênticos (0–5 m³ com valor zero, 6–15 m³ e > 15 m³). Como incidem sobre o volume de água consumida com a mesma taxa de IVA (4%), os componentes variáveis foram somados nos escalões de águas residuais: 0 a 5 m³ (0,00 €/m³), 5 a 15 m³ (0,33 + 0,22 = 0,55 €/m³) e > 15 m³ (0,41 + 0,60 = 1,01 €/m³).",
+      "Tarifa fixa de saneamento: 1,97 €/mês (artigo 10.º); tarifa fixa de resíduos urbanos: 2,19 €/mês (artigo 6.º).",
+      "O 1.º escalão de saneamento e de resíduos vem sem valor impresso na tabela oficial e é tratado como zero.",
+      "IVA: taxa reduzida em vigor na Região Autónoma da Madeira de 4% (reduzida de 5% para 4% pelo Orçamento da Região a partir de 01/10/2024, DLR n.º 6/2024/M)."
+    ],
+    "conferencia": [
+      {"m3": 10, "descricao": "água (4,12 + 5×0,39 + 5×0,69) × 1,04 + saneamento (1,97 + 5×0,0 + 5×0,55) × 1,04 + resíduos fixa 2,19 × 1,04", "conta": 17.0872},
+      {"m3": 30, "descricao": "água (4,12 + 5×0,39 + 10×0,69 + 10×1,28 + 5×2,87) × 1,04 + saneamento (1,97 + 5×0,0 + 10×0,55 + 15×1,01) × 1,04 + resíduos fixa 2,19 × 1,04", "conta": 67.5272}
+    ]
+  },
   "Lisboa": {
     "distrito": "Lisboa",
     "entidades": "EPAL (água); Câmara Municipal de Lisboa (saneamento e resíduos urbanos)",
@@ -36,6 +71,39 @@
     "conferencia": [
       {"m3": 10, "descricao": "água (5,82 + 5×0,4634 + 5×0,8666) × 1,06 + saneamento 2,9990 + 5×0,2198 + 4×0,5787 + 9×0,0320 + adicional 10×0,1483 + resíduos 2,2333 + 10×0,1710 + TGR 10×0,0523", "conta": 25.8683},
       {"m3": 30, "descricao": "água (5,82 + 5×0,4634 + 10×0,8666 + 10×2,0398 + 5×2,5961) × 1,06 + saneamento 2,9990 + 5×0,2198 + 10×0,5787 + 10×1,3621 + 2×1,7165 + 27×0,0320 + adicional 30×0,1483 + resíduos 2,2333 + 30×0,1710 + TGR 30×0,0523", "conta": 94.3767}
+    ]
+  },
+  "Porto": {
+    "distrito": "Porto",
+    "entidades": "Águas e Energia do Porto, EM",
+    "vigencia": "01/01/2026",
+    "fontes": [
+      "Águas e Energia do Porto, Tarifário Geral 2026 (tarifas_portugal/fontes/Aguas_do_Porto/Tarifario_Geral_2026.pdf)"
+    ],
+    "agua": {
+      "fixa_mes": 4.101,
+      "escaloes": [[0, 5, 0.4945], [5, 15, 0.9649], [15, 25, 1.7657], [25, null, 3.0016]],
+      "iva_pct": 6.0
+    },
+    "saneamento": {
+      "fixa_mes": 1.995,
+      "escaloes": [[0, 5, 0.3875], [5, 15, 0.7606], [15, 25, 1.4608], [25, null, 2.4423]],
+      "coef_recolha": 1.0,
+      "trh_m3": 0.0,
+      "iva_pct": 6.0
+    },
+    "parcelas": [
+      {"nome": "Taxa de Recursos Hídricos (TRH)", "fixa": 0.0, "por_m3": 0.0392, "iva_pct": 6.0}
+    ],
+    "notas": [
+      "Tarifa de disponibilidade de água: o PDF traz dois valores (0,1242 €/dia na pág. 2 e 0,1367 €/dia na pág. 3). Adotou-se o segundo (0,1367 €/dia × 30 = 4,101 €/mês).",
+      "Tarifa de disponibilidade de águas residuais: 0,0665 €/dia × 30 = 1,995 €/mês.",
+      "IVA: 6% na água e nas águas residuais (Águas e Energia do Porto, EM).",
+      "Taxa de Recursos Hídricos (TRH) da água: 0,0392 €/m³ devida à APA, com IVA a 6%."
+    ],
+    "conferencia": [
+      {"m3": 10, "descricao": "água (4,101 + 5×0,4945 + 5×0,9649) × 1,06 + saneamento (1,995 + 5×0,3875 + 5×0,7606) × 1,06 + TRH 10×0,0392 × 1,06", "conta": 20.6970},
+      {"m3": 30, "descricao": "água (4,101 + 5×0,4945 + 10×0,9649 + 10×1,7657 + 5×3,0016) × 1,06 + saneamento (1,995 + 5×0,3875 + 10×0,7606 + 10×1,4608 + 5×2,4423) × 1,06 + TRH 30×0,0392 × 1,06", "conta": 93.7268}
     ]
   }
 }
