@@ -103,12 +103,17 @@ def rotulo_da_edicao(curto: bool = False) -> str:
 
 
 def neutralizar_para_a_internacional(config) -> None:
-    """Projeto novo da Internacional: nenhum preço, tarifa ou incentivo brasileiro.
+    """Projeto novo fora da Brasil: nenhum preço, tarifa ou incentivo brasileiro.
 
     Os padrões do TritonConfig são os de um projeto em Florianópolis (tarifa da
-    CASAN, energia da CELESC, motobomba, cloro e manutenções em reais). Na
-    Internacional, ficam zerados para o usuário informar os da sua obra, na moeda
-    escolhida; os nomes das manutenções continuam, como roteiro.
+    CASAN, energia da CELESC, motobomba, cloro e manutenções em reais). Fora da Brasil,
+    ficam zerados para o usuário informar os da sua obra, na moeda escolhida; os nomes
+    das manutenções continuam, como roteiro. A localidade climática também sai de
+    Florianópolis: na Internacional fica vazia (o usuário carrega a série do seu local) e na
+    Portugal parte do concelho padrão da base E-OBS.
+
+    Faz a mesma coisa nas duas edições; é chamada por ``configuracao_da_edicao`` e
+    ``projeto_novo_da_edicao``, que são o caminho recomendado. O nome é antigo.
     """
     config.water_tariffs = []
     config.tariff_city_uf = config.tariff_city_name = "CUSTOM"
@@ -122,11 +127,83 @@ def neutralizar_para_a_internacional(config) -> None:
     # A ETAP continua dimensionada, mas os preços de catálogo dela são em reais.
     config.precos_de_catalogo = False
     config.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in (config.op_costs or [])]
-    config.climate_source_mode = "custom_file"
-    config.climate_city_uf = ""
-    config.climate_city_name = ""
-    config.climate_model = ""
-    config.climate_scenario = ""
+    if is_prt_edition():
+        from triton.core import base_climatica_portugal as _pt
+        config.climate_source_mode = "national_db"
+        config.climate_city_uf = _pt.DISTRITO_PADRAO
+        config.climate_city_name = _pt.CONCELHO_PADRAO
+        config.climate_model = _pt.MODELO_EOBS
+        config.climate_scenario = _pt.CENARIO_EOBS
+        config.climate_start_date = _pt.INICIO_PADRAO
+        config.climate_end_date = _pt.FIM_PADRAO
+    else:
+        config.climate_source_mode = "custom_file"
+        config.climate_city_uf = ""
+        config.climate_city_name = ""
+        config.climate_model = ""
+        config.climate_scenario = ""
+
+
+#: CASAN residencial (Florianópolis), vigente a partir de 01/04/2026: a tarifa de reserva da Brasil.
+#: (início m³, fim m³, tarifa, tipo): tipo -1 é a tarifa fixa mensal; 1, a faixa de consumo.
+_TARIFA_DE_RESERVA_BRL = (
+    (0.0, 0.0, 46.34, -1),
+    (0.0, 10.0, 3.08, 1),
+    (10.0, 25.0, 14.31, 1),
+    (25.0, 50.0, 19.14, 1),
+    (50.0, 999999.0, 24.08, 1),
+)
+
+
+def valor_de_partida_da_edicao(historico: float) -> float:
+    """Valor inicial de um parâmetro que é dado do Brasil: o histórico na BRL, zero nas demais.
+
+    Serve onde o motor precisa de um número de partida (por exemplo, a emissão da água potável da
+    rede, que é a de uma rota do Brasil) e o usuário de outra edição deve informar o dele.
+    """
+    return float(historico) if usa_dados_do_brasil() else 0.0
+
+
+def tarifa_de_agua_de_reserva():
+    """Faixas de água que o motor usa quando o projeto chega sem tarifa nenhuma.
+
+    Na Brasil, a CASAN residencial (o comportamento histórico, que não muda). Nas outras
+    edições, nenhuma: a conta de água sai zero até o usuário informar a tarifa da sua obra, em
+    vez de cobrar, calado, a tarifa de uma concessionária brasileira.
+    """
+    return [tuple(f) for f in _TARIFA_DE_RESERVA_BRL] if usa_dados_do_brasil() else []
+
+
+def configuracao_da_edicao():
+    """``TritonConfig`` com os padrões da edição ativa.
+
+    É a fábrica que a interface, a linha de comando e os leitores de projeto usam. Na Brasil
+    devolve o ``TritonConfig()`` histórico, sem nenhuma diferença; na Internacional e na
+    Portugal, o mesmo objeto sem os preços, tarifas e localidade de Florianópolis
+    (``neutralizar_para_a_internacional``). O ``TritonConfig()`` cru continua devolvendo os
+    padrões históricos em qualquer edição, e é o que os testes do motor usam: o motor não
+    conhece edição.
+    """
+    from triton.core.parser import TritonConfig
+    config = TritonConfig()
+    if not usa_dados_do_brasil():
+        neutralizar_para_a_internacional(config)
+    return config
+
+
+def projeto_novo_da_edicao():
+    """O projeto novo da edição: ``configuracao_da_edicao`` mais o que o projeto novo liga.
+
+    CAPEX e mão de obra do arranjo só na Brasil (catálogos em reais). Na Portugal, o
+    tarifário de Lisboa (EPAL e Câmara Municipal), se estiver transcrito nesta instalação.
+    """
+    config = configuracao_da_edicao()
+    config.capex_do_arranjo = usa_dados_do_brasil()
+    config.mao_de_obra_automatica = usa_dados_do_brasil()
+    if usa_dados_de_portugal():
+        from triton.core import tarifarios_portugal as _tp
+        _tp.aplicar("Lisboa", config)
+    return config
 
 
 def get_edition_title() -> str:
@@ -170,6 +247,29 @@ def serie_de_exemplo_da_edicao() -> str:
     if is_int_edition():
         return "NewYork.csv"
     return "Florianopolis1.csv"
+
+
+def cenarios_de_exemplo_da_edicao() -> list:
+    """Linhas do modelo de planilha de cenários (``excel_scenarios.generate_sample_scenario_excel``).
+
+    Cada edição cita só séries de chuva que ela distribui em ``data/rainfall``. Chaves: as
+    colunas da planilha, sem o que é igual em todas (descarte, escoamento e reservatórios).
+    """
+    if is_int_edition():
+        return [
+            {"nome": "Residence New York, 3 residents", "serie": "NewYork.csv", "area": 100, "moradores": 3, "demanda": 100, "percentual": 40},
+            {"nome": "Residence London, 4 residents", "serie": "London.csv", "area": 150, "moradores": 4, "demanda": 120, "percentual": 50},
+            {"nome": "School Cape Town", "serie": "CapeTown.csv", "area": 300, "moradores": 10, "demanda": 50, "percentual": 30},
+        ]
+    if is_prt_edition():
+        return [
+            {"nome": "Moradia no Funchal, 3 residentes", "serie": "Funchal.csv", "area": 100, "moradores": 3, "demanda": 100, "percentual": 40},
+        ]
+    return [
+        {"nome": "Residência Florianópolis 3 hab", "serie": "Florianopolis1.csv", "area": 100, "moradores": 3, "demanda": 100, "percentual": 40},
+        {"nome": "Residência São Paulo 4 hab", "serie": "SaoPaulo1.csv", "area": 150, "moradores": 4, "demanda": 120, "percentual": 50},
+        {"nome": "Escola Brasília", "serie": "Brasilia1.csv", "area": 300, "moradores": 10, "demanda": 50, "percentual": 30},
+    ]
 
 
 def cidade_de_exemplo_da_edicao() -> str:

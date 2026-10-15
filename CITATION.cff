@@ -1,0 +1,63 @@
+cff-version: 1.2.0
+title: "Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings"
+message: "If you use this software in academic work, cite it as below (mandatory under clause 4 of LICENSE.md). Se usar este software em trabalho académico, cite-o como indicado."
+type: software
+authors:
+  - family-names: Vaz
+    given-names: "Igor Catão Martins"
+    affiliation: "Universidade Federal de Santa Catarina"
+  - family-names: Ghisi
+    given-names: Enedir
+    affiliation: "Universidade Federal de Santa Catarina"
+version: "1.0.0"
+date-released: "2026-10-14"
+# O DOI do registro no Zenodo entra aqui quando existir (um só registro para os instaladores das três edições):
+# doi: 10.5281/zenodo.XXXXXXX
+license-url: https://github.com/igorcmvaz/triton/blob/main/triton_brl/LICENSE.md
+url: "https://github.com/igorcmvaz/triton"
+repository-code: "https://github.com/igorcmvaz/triton"
+abstract: >-
+  Software for the design and simulation of rainwater harvesting systems in buildings: daily water balance (Yield-After-Spill),
+  economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS and SMAA-VIKOR).
+  Developed by the Sustainable Environments Research Group (GPAS) at the Federal University of Santa Catarina (UFSC),
+  as the successor of Netuno 4.
+  Three editions share one calculation engine and one version number: Brasil (BRL), International (INT) and Portugal (PRT).
+  The Brasil edition adds Brazilian rainfall (CLIMBra), audited tariffs of 652 municipalities and costs in reais;
+  the International edition is region-neutral; the Portugal edition adds E-OBS rainfall by municipality and Portuguese tariffs in euros.
+keywords:
+  - rainwater-harvesting
+  - water-conservation
+  - sustainability
+  - life-cycle-assessment
+  - multi-criteria-decision-making
+  - topsis
+  - engineering-economics
+  - cmip6
+preferred-citation:
+  type: software
+  title: "Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings"
+  authors:
+    - family-names: Vaz
+      given-names: "Igor Catão Martins"
+    - family-names: Ghisi
+      given-names: Enedir
+  version: "1.0.0"
+  year: 2026
+  institution:
+    name: "Universidade Federal de Santa Catarina (UFSC)"
+    city: "Florianópolis"
+    country: BR
+references:
+  - type: manual
+    title: "Triton: user manual"
+    authors:
+      - family-names: Vaz
+        given-names: "Igor Catão Martins"
+      - family-names: Ghisi
+        given-names: Enedir
+    version: "1.0.0"
+    year: 2026
+    publisher:
+      name: "Universidade Federal de Santa Catarina"
+      city: "Florianópolis"
+      country: BR

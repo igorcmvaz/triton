@@ -2362,6 +2362,16 @@ for _fonte, (_en, _es, _zh) in _COMPLEMENTO.items():
     _CHINESE_DICTIONARY.setdefault(_fonte, _zh)
 
 
+# Textos neutros das edições INT e PRT (rodada 4): estes SUBSTITUEM o que o catálogo tiver para a
+# mesma chave, porque reescrevem frases que citavam normas e índices do Brasil.
+from triton.ui.translation_neutralidade import COMPLEMENTO_NEUTRO as _COMPLEMENTO_NEUTRO  # noqa: E402
+
+for _fonte, (_en, _es, _zh) in _COMPLEMENTO_NEUTRO.items():
+    _DICTIONARY[_fonte] = _en
+    _SPANISH_DICTIONARY[_fonte] = _es
+    _CHINESE_DICTIONARY[_fonte] = _zh
+
+
 # Rotulos que a composicao do chines deixava em duas linguas: com a frase
 # inteira no catalogo, a composicao nao e mais acionada para eles.
 _CHINESE_DICTIONARY.update({

@@ -90,14 +90,14 @@ def test_nonexistent_city_raises():
 
 
 def test_climbra_db_integration():
-    """Valida integração e leitura direta da base compilada climbra.db."""
+    """Valida integração e leitura direta da base compilada (um banco por modelo, ou o climbra.db único antigo)."""
     from triton.core.climate_database import get_climate_db_path, get_available_climate_cities
     import os
 
     db_path = get_climate_db_path()
     assert db_path is not None
     assert os.path.isfile(db_path)
-    assert os.path.getsize(db_path) > 100 * 1024 * 1024  # Maior que 100 MB
+    assert os.path.getsize(db_path) > 10 * 1024 * 1024  # uma parte tem ~40 MB; o banco único, ~820 MB
 
     cities = get_available_climate_cities()
     assert len(cities) == 652

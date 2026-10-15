@@ -31,6 +31,8 @@ from triton.core.cost_estimates import (
     annualize_operational_costs,
 )
 from triton.ui.charts import SensitivityChart, VplVsVolumeChart
+from triton.core.edition import usa_dados_do_brasil
+from triton.ui.textos_da_edicao import por_edicao
 from triton.ui.translation import tr, get_current_lang, get_current_theme
 import csv
 
@@ -284,7 +286,7 @@ class TabEconomicIntegrated(QWidget):
         self.table_mat_impact.verticalHeader().setDefaultSectionSize(32)
 
         lay_mat.addWidget(self.table_mat_impact, stretch=1)
-        self.sub_tabs.addTab(sub_tab_materials, tr("🌿 IPTU Verde & Detalhamento de Custos"))
+        self.sub_tabs.addTab(sub_tab_materials, tr(por_edicao("🌿 IPTU Verde & Detalhamento de Custos", "🌿 Detalhamento de Custos")))
 
         # Sub-aba 1: Tabela do Fluxo de Caixa Anual
         sub_tab_cashflow = QWidget()
@@ -322,6 +324,8 @@ class TabEconomicIntegrated(QWidget):
             }
         """)
         self.table_cashflow.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        # A coluna do IPTU Verde (incentivo municipal brasileiro) só existe na Edição Brasil.
+        self.table_cashflow.setColumnHidden(6, not usa_dados_do_brasil())
         lay_cf.addWidget(self.table_cashflow)
         self.sub_tabs.addTab(sub_tab_cashflow, tr("📊 Tabela de Fluxo de Caixa Anual"))
 
@@ -1451,14 +1455,23 @@ class TabEconomicIntegrated(QWidget):
         try:
             with open(file_path, mode='w', newline='', encoding='utf-8-sig') as f:
                 writer = csv.writer(f, delimiter=';')
-                writer.writerow([
+                brasil = usa_dados_do_brasil()
+                cabecalho = [
                     "Ano", "Investimento Inicial (R$)", "Água Economizada (m³)", "Tarifa Água (R$/m³)",
                     "Economia Água (R$)", "Economia Esgoto (R$)", "Benefício IPTU Verde (R$)", "Economia Bruta (R$)",
                     "Energia Bomba (R$)", "Custos O&M (R$)", "Cloração (R$)", "Fluxo Líquido (R$)",
                     "Fator Desconto", "Fluxo Descontado (R$)", "Fluxo Acumulado Descontado (R$)"
-                ])
+                ]
+                if brasil:
+                    writer.writerow(cabecalho)
+                else:
+                    # Fora da Brasil: na moeda do projeto, no idioma da interface e sem o IPTU Verde.
+                    sim = self.get_currency_symbol()
+                    cabecalho = [tr(c).replace("R$", sim) for c in cabecalho]
+                    del cabecalho[6]
+                    writer.writerow(cabecalho)
                 for cf in self.last_result.annual_cash_flows:
-                    writer.writerow([
+                    linha = [
                         cf.year,
                         f"{cf.initial_investment:.2f}".replace('.', ','),
                         f"{cf.water_saved_m3:.2f}".replace('.', ','),
@@ -1474,7 +1487,10 @@ class TabEconomicIntegrated(QWidget):
                         f"{cf.discount_factor:.4f}".replace('.', ','),
                         f"{cf.discounted_cash_flow_brl:.2f}".replace('.', ','),
                         f"{cf.cumulative_discounted_cash_flow_brl:.2f}".replace('.', ',')
-                    ])
+                    ]
+                    if not brasil:
+                        del linha[6]
+                    writer.writerow(linha)
             QMessageBox.information(self, tr("Sucesso"), tr("Fluxo de caixa exportado com sucesso!"))
         except Exception as e:
             QMessageBox.critical(self, tr("Erro"), f"{tr('Falha ao salvar CSV:')} {str(e)}")

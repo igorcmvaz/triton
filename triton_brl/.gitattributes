@@ -13,6 +13,7 @@
 *.dbf  binary
 *.prj  binary
 *.tar.xz binary
+*.db  binary
 
 # Dados da comparação de replicação: preservados byte a byte.
 #

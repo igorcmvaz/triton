@@ -1,14 +1,14 @@
 TRITON — AVISOS DE TERCEIROS
 
-O Triton é distribuído como código-fonte disponível para fins acadêmicos (LICENSE.md,
+O Triton é distribuído como código-fonte disponível para fins académicos (LICENSE.md,
 na pasta do programa). O executável inclui os componentes abaixo, cada um sob a sua própria
-licença, reproduzida neste arquivo. Arquivo gerado por
-scripts/gerar_avisos_de_terceiros.py a partir dos pacotes empacotados.
+licença, reproduzida neste ficheiro. Ficheiro gerado por
+scripts/gerar_avisos_de_terceiros.py a partir das bibliotecas empacotadas.
 
 RESUMO
 
   Componente                       Versão         Licença
-  Python (interpretador embutido)  3.13.1         PSF-2.0
+  Python (interpretador incorporado) 3.13.1         PSF-2.0
   annotated-types                  0.8.0          MIT
   beautifulsoup4                   4.14.3         MIT License
   certifi                          2025.4.26      Mozilla Public License 2.0 (MPL 2.0)
@@ -46,16 +46,17 @@ RESUMO
   urllib3                          2.4.0          MIT
   three.js                         0.186.1        MIT
   Céu «Quarry» (Poly Haven)        1k HDR         CC0-1.0
-  Base climática CLIMBra           2023           CC0-1.0
+  Precipitação E-OBS (ECA&D / Copernicus) —              ver abaixo
+  Limites administrativos CAOP (DGT) —              ver abaixo
 
 ==============================================================================
 Qt for Python (PySide6, Shiboken6) e Qt — LGPL-3.0-only
 ==============================================================================
 
-O Qt e o Qt for Python são usados sob a GNU Lesser General Public License v3.
-As bibliotecas do Qt vão como arquivos separados na pasta _internal do programa
+O Qt e o Qt for Python são usados ao abrigo da GNU Lesser General Public License v3.
+As bibliotecas do Qt seguem como ficheiros separados na pasta _internal do programa
 e podem ser substituídas por outra versão compatível. O código-fonte está em
-https://code.qt.io (qt/qtbase e demais módulos; pyside/pyside-setup) e em
+https://code.qt.io (qt/qtbase e restantes módulos; pyside/pyside-setup) e em
 https://download.qt.io/official_releases/. A LGPL v3 vale para o Qt e não altera a
 licença do Triton, que está em LICENSE.md.
 
@@ -8864,10 +8865,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ==============================================================================
-Base climática CLIMBra — CC0 1.0 Universal (domínio público)
+Precipitação diária E-OBS (ECA&D / Copernicus) e CAOP (DGT)
 ==============================================================================
 
-Ballarin, A. S. et al. (2023). CLIMBra — Climate Change Dataset for Brazil.
-Scientific Data 10, 47. doi:10.1038/s41597-023-01956-z. Dados no Science Data
-Bank, doi:10.57760/sciencedb.02316, sob CC0 1.0 Universal. O Triton os compila em
-data/climbra.db sem alterar os valores além da compactação.
+Precipitação diária por concelho: conjunto E-OBS, agradecendo-se ao projeto UERRA do 6.º
+Programa-Quadro da UE (https://www.uerra.eu), ao Copernicus Climate Change Service e aos
+fornecedores de dados do projeto ECA&D (https://www.ecad.eu). Cornes, R. C. et al. (2018). An
+ensemble version of the E-OBS temperature and precipitation data sets. Journal of Geophysical
+Research: Atmospheres 123, 9391–9409. doi:10.1029/2017JD028200.
+Concelhos: Carta Administrativa Oficial de Portugal (CAOP), Direção-Geral do Território.

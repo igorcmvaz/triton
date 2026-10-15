@@ -12,10 +12,19 @@ Não há janelas fixas: versões antigas separavam futuro próximo, médio e
 distante em arquivos próprios. O usuário recorta o período que quiser, e
 `RECORTES_SUGERIDOS` oferece atalhos de trinta anos, a duração das normais
 climatológicas.
+
+Onde ficam as séries compiladas: um banco SQLite por modelo, `data/climbra_<modelo>.db`
+(cerca de 40 a 44 MB cada, abaixo do limite de arquivo do GitHub). Se algum modelo
+passar do limite, o banco do modelo pode ser dividido por cenário, em
+`climbra_<modelo>__<cenário>.db`. O `data/climbra.db` único das versões anteriores
+continua sendo lido, quando existe. Ver `scripts/dividir_base_climbra.py`.
 """
 
 import os
+import re
+import sqlite3
 import unicodedata
+import zlib
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 import numpy as np
@@ -93,6 +102,11 @@ ANOS_MINIMOS_RECOMENDADOS = 10.0
 _BASE_DIR_CACHE: Optional[str] = None
 _CITY_FILENAME_MAP: Optional[Dict[str, str]] = None
 _DB_PATH_CACHE: Optional[str] = None
+_LAYOUT_CACHE: Optional[Dict[str, Any]] = None
+
+#: `climbra_<modelo>.db` ou `climbra_<modelo>__<cenário>.db`.
+_PADRAO_DA_PARTE = re.compile(r"^climbra_(?P<modelo>.+?)(?:__(?P<cenario>HIST|SSP245|SSP585))?\.db$")
+_NOME_DO_BANCO_UNICO = "climbra.db"
 
 
 def _normalize_name(name: str) -> str:
@@ -104,33 +118,178 @@ def _normalize_name(name: str) -> str:
     return cleaned.lower().replace(" ", "").replace("-", "").replace("'", "").replace("_", "")
 
 
-def get_climate_db_path() -> Optional[str]:
-    """Localiza o arquivo do banco de dados SQLite compilado (climbra.db), se existir."""
-    global _DB_PATH_CACHE
-    if _DB_PATH_CACHE and os.path.isfile(_DB_PATH_CACHE):
-        return _DB_PATH_CACHE
+def limpar_cache_da_base() -> None:
+    """Esquece onde estão os bancos e o índice de cidades (após mudar a pasta ou as variáveis de ambiente)."""
+    global _BASE_DIR_CACHE, _CITY_FILENAME_MAP, _DB_PATH_CACHE, _LAYOUT_CACHE
+    _BASE_DIR_CACHE = _CITY_FILENAME_MAP = _DB_PATH_CACHE = _LAYOUT_CACHE = None
 
+
+def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
+    """Bancos CLIMBra de uma pasta: as partes por modelo e, se houver, o banco único antigo."""
+    try:
+        nomes = sorted(os.listdir(pasta))
+    except OSError:
+        return None
+    partes: Dict[str, Dict[Optional[str], str]] = {}
+    legado: Optional[str] = None
+    for nome in nomes:
+        caminho = os.path.join(pasta, nome)
+        if not os.path.isfile(caminho):
+            continue
+        if nome == _NOME_DO_BANCO_UNICO:
+            legado = os.path.abspath(caminho)
+            continue
+        achado = _PADRAO_DA_PARTE.match(nome)
+        if achado:
+            partes.setdefault(achado.group("modelo"), {})[achado.group("cenario")] = os.path.abspath(caminho)
+    if not partes and not legado:
+        return None
+    return {"pasta": os.path.abspath(pasta), "partes": partes, "legado": legado}
+
+
+def _pastas_de_busca() -> List[str]:
+    """Pastas onde procurar os bancos, da mais específica para a mais genérica."""
     import sys
     pasta_do_executavel = (os.path.dirname(sys.executable)
                            if getattr(sys, "frozen", False) else "")
     raiz_do_programa = os.path.join(os.path.dirname(__file__), "..", "..")
-
-    candidates = [
-        os.environ.get("TRITON_CLIMBRA_DB", ""),
-        os.environ.get("TRITON_CLIMATE_DB", ""),
-        os.path.join(pasta_do_executavel, "data", "climbra.db") if pasta_do_executavel else "",
-        os.path.join(pasta_do_executavel, "climbra.db") if pasta_do_executavel else "",
-        os.path.join(raiz_do_programa, "data", "climbra.db"),
-        os.path.join(raiz_do_programa, "climbra.db"),
-        os.path.join(os.getcwd(), "data", "climbra.db"),
-        os.path.join(os.getcwd(), "climbra.db"),
+    pastas = [
+        os.environ.get("TRITON_CLIMBRA_DIR", ""),
+        os.path.join(pasta_do_executavel, "data") if pasta_do_executavel else "",
+        pasta_do_executavel,
+        os.path.join(raiz_do_programa, "data"),
+        raiz_do_programa,
+        os.path.join(os.getcwd(), "data"),
+        os.getcwd(),
     ]
-    for cand in candidates:
-        if cand and os.path.isfile(cand):
-            _DB_PATH_CACHE = os.path.abspath(cand)
-            return _DB_PATH_CACHE
+    return [p for p in pastas if p]
 
+
+def _arquivos_do_layout(layout: Dict[str, Any]) -> List[str]:
+    arquivos = [c for por_cenario in layout["partes"].values() for c in por_cenario.values()]
+    if layout["legado"]:
+        arquivos.append(layout["legado"])
+    return arquivos
+
+
+def _layout_dos_bancos() -> Optional[Dict[str, Any]]:
+    """Descobre os bancos CLIMBra: `{"pasta", "partes": {modelo: {cenário|None: caminho}}, "legado"}`.
+
+    Ordem: variáveis de ambiente (TRITON_CLIMBRA_DB e TRITON_CLIMATE_DB, que aceitam um arquivo
+    ou uma pasta; TRITON_CLIMBRA_DIR, uma pasta), depois as pastas do programa. Vale a primeira
+    pasta que tiver bancos. O resultado fica em cache enquanto os arquivos existirem.
+    """
+    global _LAYOUT_CACHE
+    if _LAYOUT_CACHE:
+        if all(os.path.isfile(a) for a in _arquivos_do_layout(_LAYOUT_CACHE)):
+            return _LAYOUT_CACHE
+        _LAYOUT_CACHE = None
+
+    for variavel in ("TRITON_CLIMBRA_DB", "TRITON_CLIMATE_DB"):
+        valor = os.environ.get(variavel, "")
+        if not valor:
+            continue
+        achado = None
+        if os.path.isdir(valor):
+            achado = _varrer_pasta(valor)
+        elif os.path.isfile(valor):
+            nome = os.path.basename(valor)
+            parte = _PADRAO_DA_PARTE.match(nome)
+            achado = {"pasta": os.path.dirname(os.path.abspath(valor)), "partes": {}, "legado": None}
+            if parte and nome != _NOME_DO_BANCO_UNICO:
+                achado["partes"] = {parte.group("modelo"): {parte.group("cenario"): os.path.abspath(valor)}}
+            else:
+                achado["legado"] = os.path.abspath(valor)
+        if achado:
+            _LAYOUT_CACHE = achado
+            return achado
+
+    for pasta in _pastas_de_busca():
+        achado = _varrer_pasta(pasta)
+        if achado:
+            _LAYOUT_CACHE = achado
+            return achado
     return None
+
+
+def _caminhos_dos_bancos(model_name: str, scenario_key: str) -> List[str]:
+    """Bancos que podem ter a série (modelo, cenário), na ordem de preferência.
+
+    Primeiro o banco do modelo dividido por cenário, depois o banco do modelo inteiro e, por
+    último, o `climbra.db` único antigo.
+    """
+    layout = _layout_dos_bancos()
+    if not layout:
+        return []
+    por_cenario = layout["partes"].get(model_name, {})
+    caminhos = [por_cenario[c] for c in (scenario_key, None) if c in por_cenario]
+    if layout["legado"]:
+        caminhos.append(layout["legado"])
+    return caminhos
+
+
+def _abrir_somente_leitura(caminho: str) -> sqlite3.Connection:
+    """Abre o banco só para leitura (a pasta de instalação pode ser protegida)."""
+    from pathlib import Path
+    try:
+        return sqlite3.connect(Path(caminho).resolve().as_uri() + "?mode=ro", uri=True)
+    except (sqlite3.Error, ValueError):
+        return sqlite3.connect(caminho)
+
+
+def get_climate_db_path() -> Optional[str]:
+    """Caminho de um banco SQLite CLIMBra compilado, se existir.
+
+    Com a base dividida por modelo, devolve o banco do modelo padrão (ou do primeiro disponível);
+    com o `climbra.db` único antigo, devolve-o. Para todos os arquivos, use `get_climate_db_paths()`.
+    """
+    global _DB_PATH_CACHE
+    if _DB_PATH_CACHE and os.path.isfile(_DB_PATH_CACHE):
+        return _DB_PATH_CACHE
+    layout = _layout_dos_bancos()
+    if not layout:
+        return None
+    if layout["partes"]:
+        modelo = DEFAULT_CLIMATE_MODEL if DEFAULT_CLIMATE_MODEL in layout["partes"] else sorted(layout["partes"])[0]
+        por_cenario = layout["partes"][modelo]
+        _DB_PATH_CACHE = por_cenario.get(None) or por_cenario[sorted(c for c in por_cenario if c)[0]]
+    else:
+        _DB_PATH_CACHE = layout["legado"]
+    return _DB_PATH_CACHE
+
+
+def get_climate_db_paths() -> List[str]:
+    """Todos os bancos CLIMBra encontrados (as partes por modelo e o banco único antigo, se houver)."""
+    layout = _layout_dos_bancos()
+    if not layout:
+        return []
+    return sorted(_arquivos_do_layout(layout))
+
+
+def get_available_climate_models() -> List[str]:
+    """Modelos CMIP6 que têm série nos bancos encontrados, na ordem de `CLIMATE_MODELS`.
+
+    Com o banco único antigo, são os modelos que ele contém. Sem banco nenhum, a lista é vazia.
+    """
+    layout = _layout_dos_bancos()
+    if not layout:
+        return []
+    modelos = set(layout["partes"])
+    if layout["legado"]:
+        try:
+            conn = _abrir_somente_leitura(layout["legado"])
+            try:
+                modelos.update(m for (m,) in conn.execute("SELECT DISTINCT model FROM climbra_series;"))
+            finally:
+                conn.close()
+        except sqlite3.Error:
+            pass
+    return [m for m in CLIMATE_MODELS if m in modelos] + sorted(m for m in modelos if m not in CLIMATE_MODELS)
+
+
+def climate_database_available() -> bool:
+    """Há base CLIMBra utilizável: bancos compilados ou a pasta de CSV soltos?"""
+    return bool(_layout_dos_bancos()) or os.path.isdir(get_climate_database_dir())
 
 
 def get_climate_database_dir() -> str:
@@ -191,22 +350,28 @@ def _build_city_filename_map() -> Dict[str, str]:
 
     city_map = {}
 
-    # 1. Prioriza o banco SQLite compilado (climbra.db)
-    db_path = get_climate_db_path()
-    if db_path:
+    # 1. Prioriza os bancos SQLite compilados (um por modelo, ou o climbra.db único antigo).
+    #    Todos os bancos trazem a tabela completa de cidades; basta ler o primeiro que responder.
+    layout = _layout_dos_bancos()
+    candidatos = []
+    if layout:
+        if get_climate_db_path():
+            candidatos.append(get_climate_db_path())
+        candidatos += [c for c in _arquivos_do_layout(layout) if c not in candidatos]
+    for db_path in candidatos:
         try:
-            import sqlite3
-            conn = sqlite3.connect(db_path)
-            cur = conn.cursor()
-            cur.execute("SELECT city_norm, city FROM climbra_cities;")
-            for norm, city in cur.fetchall():
-                city_map[norm] = city
-            conn.close()
-            if city_map:
-                _CITY_FILENAME_MAP = city_map
-                return city_map
+            conn = _abrir_somente_leitura(db_path)
+            try:
+                for norm, city in conn.execute("SELECT city_norm, city FROM climbra_cities;"):
+                    city_map[norm] = city
+            finally:
+                conn.close()
         except Exception:
-            pass
+            city_map = {}
+            continue
+        if city_map:
+            _CITY_FILENAME_MAP = city_map
+            return city_map
 
     # 2. Fallback: lê do diretório de arquivos CSV soltos
     base_dir = get_climate_database_dir()
@@ -318,7 +483,7 @@ def load_national_climate_series(
     end_date_str: Optional[str] = None,
 ) -> Tuple[np.ndarray, str, str, int, int, str]:
     """
-    Carrega a série diária de chuva da Base Nacional (priorizando climbra.db),
+    Carrega a série diária de chuva da Base Nacional (priorizando os bancos compilados),
     aplicando recorte de datas opcional.
 
     Retorna:
@@ -339,20 +504,17 @@ def load_national_climate_series(
     raw_data: Optional[np.ndarray] = None
     file_path: Optional[str] = None
 
-    # 1. Tenta carregar do banco SQLite compilado climbra.db
-    db_path = get_climate_db_path()
-    if db_path:
+    # 1. Tenta carregar dos bancos SQLite compilados (um por modelo; ou o climbra.db único antigo)
+    for db_path in _caminhos_dos_bancos(model_name, scenario_key):
         try:
-            import sqlite3
-            import zlib
-            conn = sqlite3.connect(db_path)
-            cur = conn.cursor()
-            cur.execute(
-                "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?;",
-                (matched_city, model_name, scenario_key),
-            )
-            row = cur.fetchone()
-            conn.close()
+            conn = _abrir_somente_leitura(db_path)
+            try:
+                row = conn.execute(
+                    "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?;",
+                    (matched_city, model_name, scenario_key),
+                ).fetchone()
+            finally:
+                conn.close()
             if row:
                 cnt, blob = row
                 raw_decomp = zlib.decompress(blob)
@@ -366,6 +528,7 @@ def load_national_climate_series(
                 else:
                     suffix = scenario_info["file_suffix"]
                     file_path = os.path.join(os.path.dirname(db_path), f"(Triton){matched_city}_{model_name}_{suffix}")
+                break
         except Exception:
             raw_data = None
 

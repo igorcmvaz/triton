@@ -8870,4 +8870,5 @@ Base climática CLIMBra — CC0 1.0 Universal (domínio público)
 Ballarin, A. S. et al. (2023). CLIMBra — Climate Change Dataset for Brazil.
 Scientific Data 10, 47. doi:10.1038/s41597-023-01956-z. Dados no Science Data
 Bank, doi:10.57760/sciencedb.02316, sob CC0 1.0 Universal. O Triton os compila em
-data/climbra.db sem alterar os valores além da compactação.
+um banco SQLite por modelo (data/climbra_<modelo>.db) sem alterar os valores além da
+compactação.

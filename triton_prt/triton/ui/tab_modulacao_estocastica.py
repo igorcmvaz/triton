@@ -906,7 +906,7 @@ class TabModulacaoEstocastica(QWidget):
             for j in range(tabela.columnCount()):
                 item = tabela.horizontalHeaderItem(j)
                 if item is not None:
-                    item.setText(re.sub(r"\((?:R\$|\$|\u20ac|\u00a3|\u00a5)\)", f"({simbolo})", item.text()))
+                    item.setText(re.sub(r"\((?:R\$|\$|\u20ac|\u00a3|\u00a5|\u00a4|\u20b9|A\$|C\$|CHF|R)\)", f"({simbolo})", item.text()))
 
     def showEvent(self, event):
         super().showEvent(event)

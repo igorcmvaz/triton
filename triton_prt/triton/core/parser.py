@@ -464,64 +464,6 @@ class TritonConfig:
     def labor_installation_cost(self, val: float):
         self.cost_labor = float(val)
 
-    def __post_init__(self):
-        """Aplica neutralidade automática quando a edição não for a Edição Brasil (U-23)."""
-        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-        if usa_dados_do_brasil():
-            return
-
-        # Fora da BRL, os catálogos e cálculos automáticos brasileiros não se aplicam
-        self.capex_do_arranjo = False
-        self.mao_de_obra_automatica = False
-        self.precos_de_catalogo = False
-        self.iptu_green_enabled = False
-
-        # Se os campos de energia e equipamentos ainda estiverem com os defaults brasileiros de Florianópolis, neutraliza
-        if abs(self.elec_tariff - 0.6957) < 1e-4:
-            self.elec_tariff = 0.0
-        if abs(self.pump_unit_cost - 300.0) < 1e-4:
-            self.pump_unit_cost = 0.0
-        if abs(self.chlorine_cost_per_kg - 25.0) < 1e-4:
-            self.chlorine_cost_per_kg = 0.0
-
-        # Tarifas de água: se for o padrão CASAN, zera fora da Brasil
-        if len(self.water_tariffs) == 5 and any(abs(t[2] - 46.34) < 1e-2 for t in self.water_tariffs):
-            self.water_tariffs = []
-
-        # Custos operacionais: mantém os nomes dos itens, mas zera os valores em reais
-        if self.op_costs and any(c[2] > 0 for c in self.op_costs):
-            self.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in self.op_costs]
-
-        if is_prt_edition():
-            if self.climate_city_name == "Florianópolis" and self.climate_city_uf == "SC":
-                self.climate_source_mode = "national_db"
-                self.climate_city_uf = "PRT"
-                self.climate_city_name = "Lisboa"
-                self.climate_model = "E-OBS v33.0e"
-                self.climate_scenario = "EOBS"
-                self.climate_start_date = "01/01/1991"
-                self.climate_end_date = "31/12/2020"
-            if self.tariff_city_name == "Florianópolis" and self.tariff_city_uf == "SC":
-                self.tariff_city_uf = "PRT"
-                self.tariff_city_name = "Lisboa"
-            if self.elec_city_name == "Florianópolis" and self.elec_city_uf == "SC":
-                self.elec_city_uf = "PRT"
-                self.elec_city_name = "Lisboa"
-        else:
-            # Edição Internacional (INT): nenhum dado geográfico ou tarifário pré-definido
-            if self.climate_city_name == "Florianópolis" and self.climate_city_uf == "SC":
-                self.climate_source_mode = "custom_file"
-                self.climate_city_uf = ""
-                self.climate_city_name = ""
-                self.climate_model = ""
-                self.climate_scenario = ""
-            if self.tariff_city_name == "Florianópolis" and self.tariff_city_uf == "SC":
-                self.tariff_city_uf = "CUSTOM"
-                self.tariff_city_name = "CUSTOM"
-            if self.elec_city_name == "Florianópolis" and self.elec_city_uf == "SC":
-                self.elec_city_uf = "CUSTOM"
-                self.elec_city_name = "CUSTOM"
-
 
 def parametros_do_nome_do_arquivo(caminho: str) -> Dict[str, float]:
     """Extrai os parâmetros codificados no nome de uma exportação do Netuno 4.
@@ -584,6 +526,17 @@ def regra_operacional_efetiva(cfg) -> Optional[float]:
     return float(phi)
 
 
+def _configuracao_da_edicao() -> TritonConfig:
+    """``TritonConfig`` com os padrões da edição ativa (ver ``edition.configuracao_da_edicao``)."""
+    from triton.core.edition import configuracao_da_edicao
+    return configuracao_da_edicao()
+
+
+def _edicao_com_dados_do_brasil() -> bool:
+    from triton.core.edition import usa_dados_do_brasil
+    return usa_dados_do_brasil()
+
+
 def parse_netuno_csv(file_path: str) -> TritonConfig:
     """Lê uma exportação .csv do Netuno 4 e devolve a configuração correspondente.
 
@@ -591,7 +544,7 @@ def parse_netuno_csv(file_path: str) -> TritonConfig:
     modo que a leitura começa por ali. O que estiver também no corpo do arquivo
     prevalece sobre o nome, porque é mais específico.
     """
-    config = TritonConfig()
+    config = _configuracao_da_edicao()
 
     for chave, valor in parametros_do_nome_do_arquivo(file_path).items():
         if hasattr(config, chave):
@@ -1221,7 +1174,7 @@ def load_triton_project(file_path: str) -> dict:
     import os
 
     res = {
-        "config": TritonConfig(),
+        "config": _configuracao_da_edicao(),
         "precip_data": None,
         "precip_filename": os.path.basename(file_path),
         "building_data": {},
@@ -1257,19 +1210,27 @@ def load_triton_project(file_path: str) -> dict:
                     "arquivo."
                 )
 
-            cfg = TritonConfig()
+            cfg = _configuracao_da_edicao()
+            # O que o arquivo não traz cai no padrão da edição: o histórico na Brasil (os
+            # valores abaixo, idênticos aos de sempre) e o neutro nas demais. Ver
+            # ``triton.core.edition.configuracao_da_edicao``.
+            _brl = _edicao_com_dados_do_brasil()
+
+            def _padrao(campo, historico):
+                return historico if _brl else getattr(cfg, campo)
+
             cfg.project_id = meta.get("project_id", "N5-PROJ")
             cfg.project_name = meta.get("name", "Projeto Triton")
             cfg.created_at = meta.get("created_at", "")
             cfg.precip_file = rainfall.get("file_name", os.path.basename(file_path))
             cfg.start_date = rainfall.get("start_date", "01/01/1980")
-            cfg.climate_source_mode = rainfall.get("source_mode", "national_db")
-            cfg.climate_city_uf = rainfall.get("climate_city_uf", "SC")
-            cfg.climate_city_name = rainfall.get("climate_city_name", "Florianópolis")
-            cfg.climate_model = rainfall.get("climate_model", "ACCESS-CM2")
-            cfg.climate_scenario = rainfall.get("climate_scenario", "HIST")
-            cfg.climate_start_date = rainfall.get("climate_start_date", "01/01/1980")
-            cfg.climate_end_date = rainfall.get("climate_end_date", "31/12/2014")
+            cfg.climate_source_mode = rainfall.get("source_mode", _padrao("climate_source_mode", "national_db"))
+            cfg.climate_city_uf = rainfall.get("climate_city_uf", _padrao("climate_city_uf", "SC"))
+            cfg.climate_city_name = rainfall.get("climate_city_name", _padrao("climate_city_name", "Florianópolis"))
+            cfg.climate_model = rainfall.get("climate_model", _padrao("climate_model", "ACCESS-CM2"))
+            cfg.climate_scenario = rainfall.get("climate_scenario", _padrao("climate_scenario", "HIST"))
+            cfg.climate_start_date = rainfall.get("climate_start_date", _padrao("climate_start_date", "01/01/1980"))
+            cfg.climate_end_date = rainfall.get("climate_end_date", _padrao("climate_end_date", "31/12/2014"))
 
             # Precipitação: incorporada ao arquivo, ou recomposta da base CLIMBra pela
             # referência gravada, conferida pela impressão da série.
@@ -1350,7 +1311,7 @@ def load_triton_project(file_path: str) -> dict:
             cfg.pump_startup_time_h = pump.get("startup_time_h", 0.03)
             cfg.pump_motor_efficiency = pump.get(
                 "motor_efficiency", cfg.pump_motor_efficiency)
-            cfg.pump_unit_cost = pump.get("unit_cost", 320.0)
+            cfg.pump_unit_cost = pump.get("unit_cost", _padrao("pump_unit_cost", 320.0))
             # Zero significa «não informada»: é o que faz a precedência do
             # cálculo de energia funcionar. Sem persistir, o desnível levantado
             # pelo assistente se perdia ao reabrir o projeto.
@@ -1379,18 +1340,18 @@ def load_triton_project(file_path: str) -> dict:
             cfg.tariff_escalation = fe.get("tariff_escalation_months", 12)
             cfg.water_tariff_escalation = fe.get("water_tariff_escalation_pct", 5.0)
             cfg.sewage_tariff_escalation = fe.get("sewage_tariff_escalation_pct", 5.0)
-            cfg.elec_tariff = fe.get("elec_tariff", 1.0)
+            cfg.elec_tariff = fe.get("elec_tariff", _padrao("elec_tariff", 1.0))
             cfg.elec_tax_fixed = fe.get("elec_tax_fixed", 0.0)
             cfg.elec_tax_var = fe.get("elec_tax_var_pct", 0.0)
             cfg.elec_tariff_escalation = fe.get("elec_tariff_escalation_pct", 5.0)
 
             # CAPEX & OPEX
             co = inputs.get("capex_and_opex", {})
-            cfg.cost_lower_tank = co.get("cost_lower_tank", 2500.0)
-            cfg.cost_upper_tank = co.get("cost_upper_tank", 380.0)
-            cfg.cost_labor = co.get("cost_labor", 1500.0)
-            cfg.cost_piping = co.get("cost_piping", 950.0)
-            cfg.cost_accessories = co.get("cost_accessories", 500.0)
+            cfg.cost_lower_tank = co.get("cost_lower_tank", _padrao("cost_lower_tank", 2500.0))
+            cfg.cost_upper_tank = co.get("cost_upper_tank", _padrao("cost_upper_tank", 380.0))
+            cfg.cost_labor = co.get("cost_labor", _padrao("cost_labor", 1500.0))
+            cfg.cost_piping = co.get("cost_piping", _padrao("cost_piping", 950.0))
+            cfg.cost_accessories = co.get("cost_accessories", _padrao("cost_accessories", 500.0))
             # Arquivo anterior ao quantitativo do arranjo: os custos gravados são os
             # do estudo e continuam valendo. Só o projeto novo parte do arranjo.
             cfg.capex_do_arranjo = bool(co.get("capex_do_arranjo", False))
@@ -1405,7 +1366,7 @@ def load_triton_project(file_path: str) -> dict:
             cfg.water_quality_polishing = bool(wq.get("polishing_filter", False))
             cfg.first_flush_system_enabled = bool(wq.get("first_flush_system_enabled", False))
             cfg.etap_enabled = bool(wq.get("etap_enabled", True))
-            cfg.precos_de_catalogo = bool(wq.get("precos_de_catalogo", True))
+            cfg.precos_de_catalogo = bool(wq.get("precos_de_catalogo", _padrao("precos_de_catalogo", True)))
             cfg.chlorine_treatment_enabled = bool(wq.get("chlorine_treatment_enabled", True))
             cfg.chlorine_dose_mg_l = wq.get("chlorine_dose_mg_l", cfg.chlorine_dose_mg_l)
             cfg.chlorine_product_purity = wq.get("chlorine_product_purity", cfg.chlorine_product_purity)

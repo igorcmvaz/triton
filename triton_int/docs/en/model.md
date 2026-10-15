@@ -232,7 +232,7 @@ carbon balance is convex and has a unique minimum — and that minimum is freque
 capacity, each additional litre of storage emits more than it avoids.
 
 Emission factors have declared sources, item by item, in
-[`../procedencia_fatores_co2.md`](../procedencia_fatores_co2.md). Two reservations stand:
+`../procedencia_fatores_co2.md`. Two reservations stand:
 
 - The grid factor is **CO₂-equivalent, not CO₂**. The MCTI/SIRENE series covers carbon
   dioxide only and generation only; using it here would underestimate pumping.

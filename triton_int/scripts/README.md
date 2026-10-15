@@ -1,26 +1,13 @@
 # Scripts
 
-Ferramentas de linha de comando que acompanham o programa. Nenhuma é importada
-por `triton/`: rodam por fora, sobre o projeto.
+Command-line tools that ship with the source. None is imported by `triton/`; they run from outside,
+on the project. Run them from this folder (`triton_int/`).
 
-## Raiz — operação e manutenção
-
-Referenciadas pela documentação, pela integração contínua ou umas pelas outras.
-
-| Script | O que faz |
+| Script | What it does |
 | :--- | :--- |
-| `qa_runner.py` | executa as camadas de verificação; `--layer replicacao` roda a comparação completa contra o Netuno 4 |
-| `reconciliar_tarifas.py` | conciliação entre a coleta e a evidência primária |
-| `completar_tarifas_faltantes.py` | preenche municípios sem estrutura |
-| `run_batch_validation.py` | validação em lote |
-| `bench_kernels.py` | comparação de desempenho entre o kernel Python e o compilado |
-| `run_mass_simulations.py` | simulações em massa |
-| `generate_reference_case_studies.py` | casos de referência |
-| `verificar_custos_calibrados.py` | imprime o CAPEX e o OPEX calibrados por tipologia e UF, para conferência visual (relatório, sem asserções) |
-| `gerar_relatorios_exemplo.py` | regera os laudos de `reports/exemplos/` pela própria interface |
-| `replicacao/` | cenários climáticos e comprimento de série usados na replicação dos artigos do grupo |
+| `qa_runner.py` | runs the verification layers (full suite and gates; see `--help`) |
+| `bench_kernels.py` | compares the reference Python kernel with the compiled one |
+| `gerar_avisos_de_terceiros.py` | writes `infos_licenses/AVISOS_DE_TERCEIROS.txt` (third-party notices) for this edition; `build_exe.py` runs it before packaging |
 
-## Estudos e artigos
-
-Os scripts que produzem os dados e as figuras dos artigos não ficam aqui. Estão na
-pasta `Estudos/`, ao lado deste repositório, junto dos dados de cada estudo.
+Scripts for building region-specific data (rainfall databases, tariff tables, worked-example
+generators) belong to the regional editions and are not part of this one.

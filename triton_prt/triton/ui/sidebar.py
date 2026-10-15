@@ -127,6 +127,9 @@ class Sidebar(QWidget):
         if not usa_dados_do_brasil():
             # Sai só o Gestor de Tarifas; a Modulação Probabilística fica nas duas edições.
             steps_sections[-1][2].pop(-2)
+            # a numeração segue sem salto: a Modulação Probabilística passa de 13 a 12
+            texto_13 = f"🎲 {tr('13. Modulação Probabilística')}"
+            steps_sections[-1][2][-1] = (texto_13.replace("13.", "12.", 1), 12)
 
         # Estilo unificado, robusto e destacado para as etapas
         btn_style = """

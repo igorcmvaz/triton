@@ -13,6 +13,14 @@ on:
     branches: [main, revisao-geral, monorepo-triton]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+# Um push novo cancela a verificação anterior da mesma ramificação.
+concurrency:
+  group: verificacao-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   nucleo:
     name: ${{ matrix.dir }} (${{ matrix.kernel }}, Python ${{ matrix.python }})
@@ -29,10 +37,19 @@ jobs:
       fail-fast: false
       matrix:
         dir: [triton_brl, triton_int, triton_prt]
-        python: ["3.13"]
+        python: ["3.12", "3.13"]
         kernel: [python, jit]
+        exclude:
+          # O kernel acelerado é conferido uma vez, na versão mais nova.
+          - python: "3.12"
+            kernel: jit
     steps:
+      # Só a pasta da edição: a Brasil leva a base CLIMBra versionada (19 bancos, ~785 MB),
+      # que as outras duas não precisam baixar.
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{ matrix.dir }}
 
       - uses: actions/setup-python@v5
         with:
@@ -42,7 +59,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           # PySide6 fica de fora: os módulos de interface não são coletados sem Qt.
-          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install numpy pandas openpyxl reportlab ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
           pip install pytest pytest-cov
 
       - name: Instalar o kernel acelerado
@@ -65,6 +82,27 @@ jobs:
       - name: Suíte de verificação
         run: python -m pytest -m "not replicacao and not rede" --durations=15
 
+  # A base CLIMBra (um banco por modelo, data/climbra_<modelo>.db) está no Git. Este job confere que
+  # os 19 arquivos estão íntegros (SHA-256 do manifesto, hash do conteúdo, contagens) e que nenhum
+  # passa do limite de 100 MB do GitHub. Só usa a biblioteca padrão.
+  base-climatica:
+    name: Base CLIMBra (BRL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: triton_brl
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            triton_brl
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Conferir as partes
+        run: python scripts/dividir_base_climbra.py --verificar --sem-comparar
+
   rede:
     name: Fontes oficiais (ANEEL, só BRL)
     runs-on: ubuntu-latest
@@ -78,6 +116,9 @@ jobs:
       TRITON_EDITION: BRL
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            triton_brl
 
       - uses: actions/setup-python@v5
         with:
@@ -86,7 +127,7 @@ jobs:
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pandas openpyxl reportlab pydantic ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install numpy pandas openpyxl reportlab ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
           pip install pytest
 
       - name: Testes de rede

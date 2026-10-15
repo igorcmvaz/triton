@@ -104,7 +104,16 @@ To run the tests of one edition (the edition is set by `TRITON_EDITION`):
 cd triton_brl                 # or triton_int / triton_prt
 pip install -r requirements.txt -r requirements-dev.txt
 TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, PRT for the others
+# Windows PowerShell: $env:TRITON_EDITION = "BRL"; python -m pytest tests/unit tests/test_essencial.py
 ```
+
+## Cite
+
+If you use Triton in academic work, you must cite it (clause 4 of the licence):
+
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings.* Federal University of Santa Catarina (UFSC), Florianópolis, Brazil.
+
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff); the Zenodo DOI will be added to it with the first release.
 
 ## Roadmap
 
@@ -118,9 +127,13 @@ work that uses its results. The full terms are in `LICENSE.md` inside each editi
 
 ## Notes
 
-- `triton_brl/data/climbra.db` (about 820 MB) is not versioned. It is built locally from the source data.
+- The Brasil edition's climate database is versioned as one SQLite file per CMIP6 model,
+  `triton_brl/data/climbra_<model>.db` (19 files of 40 to 44 MB, 785 MB in all, each below GitHub's 100 MB limit). The
+  single 820 MB `climbra.db` of earlier builds is not in Git; the program still reads it if present. See
+  [`triton_brl/scripts/README.md`](triton_brl/scripts/README.md).
 - «Netuno 1» to «Netuno 4» are the previous programme, kept as history in the manuals and in the comparisons.
-- Citation metadata is in `CITATION.cff` inside each edition.
+- To cite Triton, use **Cite this repository** on GitHub (the root [`CITATION.cff`](CITATION.cff)); each edition also has its own
+  `CITATION.cff` with the edition's abstract.
 
 <div align="center">
 <sub>Igor Catão Martins Vaz and Enedir Ghisi · Sustainable Environments Research Group (GPAS) ·

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "Triton"
-message: "Se este software for usado em trabalho acadêmico, por favor cite-o conforme abaixo."
+title: "Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações (Edição Brasil)"
+message: "Se este software for usado em trabalho acadêmico, cite-o conforme abaixo (obrigatório pela cláusula 4 da LICENSE.md)."
 type: software
 authors:
   - family-names: Vaz
@@ -11,15 +11,19 @@ authors:
     affiliation: "Universidade Federal de Santa Catarina"
 version: "1.0.0"
 date-released: "2026-10-14"
+# O DOI do registro no Zenodo entra aqui quando existir (um só registro para os instaladores das três edições):
+# doi: 10.5281/zenodo.XXXXXXX
 license-url: https://github.com/igorcmvaz/triton/blob/main/triton_brl/LICENSE.md
+url: "https://github.com/igorcmvaz/triton"
+repository-code: "https://github.com/igorcmvaz/triton"
 abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
   aproveitamento de água de chuva em edificações, com balanço hídrico diário
   Yield-After-Spill, análise econômico-financeira sobre base tarifária auditada
-  de 652 municípios brasileiros, avaliação simplificada de ciclo de vida e
-  tomada de decisão multicritério por TOPSIS e SMAA-VIKOR. Desenvolvida pelo
-  Grupo de Pesquisa em Ambientes Sustentáveis da UFSC como evolução e
-  replicação do Netuno 4.
+  de 652 municípios brasileiros, chuva da base CLIMBra (CMIP6), avaliação
+  simplificada de ciclo de vida e tomada de decisão multicritério por TOPSIS e
+  SMAA-VIKOR. Edição Brasil. Desenvolvida pelo Grupo de Pesquisa em Ambientes
+  Sustentáveis da UFSC como sucessora do Netuno 4.
 keywords:
   - rainwater-harvesting
   - water-conservation
@@ -28,7 +32,22 @@ keywords:
   - multi-criteria-decision-making
   - topsis
   - engineering-economics
-repository-code: "https://github.com/igorcmvaz/triton"
+  - cmip6
+  - brazil
+preferred-citation:
+  type: software
+  title: "Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações"
+  authors:
+    - family-names: Vaz
+      given-names: "Igor Catão Martins"
+    - family-names: Ghisi
+      given-names: Enedir
+  version: "1.0.0"
+  year: 2026
+  institution:
+    name: "Universidade Federal de Santa Catarina (UFSC)"
+    city: "Florianópolis"
+    country: BR
 references:
   - type: manual
     title: "Triton: manual do usuário"

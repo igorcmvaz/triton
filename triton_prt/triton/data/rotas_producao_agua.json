@@ -5,14 +5,16 @@
     "Substituir agua dessalinizada e muito mais vantajoso do que substituir agua de manancial",
     "tratada por gravidade, e o programa permite declarar qual e o caso.",
     "",
-    "A BASE DO PROGRAMA e 0,35 kg CO2e/m3, da rota 'convencional_br'. E o valor de partida,",
-    "escolhido por ficar logo abaixo das faixas publicadas para tratamento convencional",
-    "tanto com matriz europeia quanto com matriz brasileira, e portanto ser conservador.",
+    "Nesta edicao o fator da agua de rede e do LOCAL DO PROJETO: o ideal e o usuario informar o",
+    "valor da entidade que o abastece (opcao 'rede com fator informado', ou 'personalizada').",
+    "A rota 'convencional_br' guarda o nome historico da chave, mas aqui e so o valor de partida",
+    "do programa, 0,35 kg CO2e/m3, escolhido por ficar logo abaixo da faixa publicada para",
+    "tratamento convencional (Garfi et al., 2016: 0,41 a 0,47), e portanto ser conservador.",
     "",
     "FRONTEIRA. O sistema pluvial substitui agua ENTREGUE na edificacao, e nao agua produzida",
-    "na estacao. Entre uma e outra estao as perdas de distribuicao: no Brasil, de 33,9% no",
-    "sudeste a 46,9% no norte. Para entregar 1 m3 e preciso produzir de 1,51 a 1,88 m3. Rotas",
-    "publicadas na porta da ETA levam 'fronteira_incompleta': true, e subestimam o beneficio.",
+    "na estacao. Entre uma e outra estao as perdas de distribuicao, que variam muito de um lugar",
+    "para outro. Rotas publicadas na porta da ETA levam 'fronteira_incompleta': true, e",
+    "subestimam o beneficio.",
     "",
     "Dois tipos de rota:",
     "  'energia_mais_outros' - a rota declara intensidade energetica (kWh/m3) e uma parcela",
@@ -27,20 +29,20 @@
   "rota_padrao": "convencional_br",
   "rotas": {
     "convencional_br": {
-      "nome_pt": "Rede publica, tratamento convencional (BASE DO PROGRAMA - 0,35)",
-      "nome_en": "Mains supply, conventional treatment (PROGRAMME BASE - 0.35)",
+      "nome_pt": "Rede pública, tratamento convencional (valor de partida do programa — 0,35)",
+      "nome_en": "Mains supply, conventional treatment (programme starting value — 0.35)",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.35,
-      "fonte": "Valor de base adotado pelo programa, mantido para preservar a comparabilidade com os estudos ja publicados com o Triton. Corroborado por duas vias independentes. (1) Garfi, Cadena, Sanchez-Ramos & Ferrer (2016): o cenario 1, de tratamento convencional, fica entre 0,41 e 0,47 kg CO2e/m3, deduzido do cenario 3 (0,512) e da afirmacao de que o cenario 3 e 10 a 24% maior que o cenario 1 - matriz espanhola. (2) Vaz, Ghisi, Scolaro & Schaefer (2025), com inventario brasileiro e matriz brasileira: de 0,336 a 0,461 kg CO2e/m3 por macrorregiao, media de 0,394. Os 0,35 adotados ficam logo abaixo das duas faixas, o que e conservador: subestima o beneficio do sistema pluvial.",
+      "fonte": "Valor de partida adotado pelo programa, mantido para preservar a comparabilidade com os estudos ja publicados com o Triton. Fica logo abaixo da faixa publicada por Garfi, Cadena, Sanchez-Ramos & Ferrer (2016) para o tratamento convencional, de 0,41 a 0,47 kg CO2e/m3 (cenario 1, deduzido do cenario 3, de 0,512, e da afirmacao de que o cenario 3 e 10 a 24% maior que o cenario 1), o que e conservador: subestima o beneficio do sistema pluvial. Substitua pelo fator da entidade que abastece o seu local, se o conhecer.",
       "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
       "matriz_da_fonte": "Espanha; a parcela eletrica responde por cerca de 80% do impacto segundo a fonte",
       "conservador": true,
       "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
       "tecnologia": "Convencional (floculacao, decantacao, filtracao, cloracao)",
-      "observacao": "E o valor de partida, e nao uma constante da fisica. A emissao evitada e propriedade da agua que o sistema desloca, nao do sistema: onde a agua vem de dessalinizacao, vale dezenas de vezes mais; onde vem de manancial por gravidade com desinfeccao simples, vale bem menos. Escolha a rota que corresponde ao tratamento do seu local."
+      "observacao": "E o valor de partida, e nao uma constante da fisica. A emissao evitada e propriedade da agua que o sistema desloca, nao do sistema: onde a agua vem de dessalinizacao, vale dezenas de vezes mais; onde vem de manancial por gravidade com desinfeccao simples, vale bem menos. Escolha a rota que corresponde ao tratamento do seu local, ou informe o fator da rede do seu local."
     },
     "convencional_garfi": {
-      "nome_pt": "Rede publica, tratamento convencional (valor deduzido da fonte)",
+      "nome_pt": "Rede pública, tratamento convencional (valor deduzido da fonte)",
       "nome_en": "Mains supply, conventional treatment (value derived from the source)",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.44,
@@ -55,7 +57,7 @@
       "fronteira": "Berco a portao da edificacao, por m3 entregue: producao, produtos quimicos, infraestrutura e distribuicao."
     },
     "convencional_com_osmose_domiciliar": {
-      "nome_pt": "Rede publica + osmose reversa domiciliar",
+      "nome_pt": "Rede pública + osmose reversa domiciliar",
       "nome_en": "Mains supply + domestic reverse osmosis",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.512,
@@ -66,7 +68,7 @@
       "fronteira": "Berco a portao da edificacao, por m3 entregue: producao, produtos quimicos, infraestrutura e distribuicao. Inclui o equipamento domiciliar e seu consumo."
     },
     "osmose_reversa_na_eta": {
-      "nome_pt": "Osmose reversa na estacao de tratamento",
+      "nome_pt": "Osmose reversa na estação de tratamento",
       "nome_en": "Reverse osmosis at the treatment plant",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 1.02,
@@ -78,7 +80,7 @@
       "fronteira": "Berco a portao da edificacao, por m3 entregue: producao, produtos quimicos, infraestrutura e distribuicao."
     },
     "dessalinizacao_osmose_reversa": {
-      "nome_pt": "Dessalinizacao de agua do mar por osmose reversa",
+      "nome_pt": "Dessalinização de água do mar por osmose reversa",
       "nome_en": "Seawater desalination by reverse osmosis",
       "tipo": "energia_mais_outros",
       "kwh_por_m3": 3.75,
@@ -90,7 +92,7 @@
       "fronteira": "Captacao, pre-tratamento, osmose reversa e pos-tratamento. A parcela nao energetica cobre produtos quimicos, membranas e infraestrutura."
     },
     "agua_mineral_pet": {
-      "nome_pt": "Agua mineral engarrafada em PET",
+      "nome_pt": "Água mineral engarrafada em PET",
       "nome_en": "Bottled mineral water in PET",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 75.1,
@@ -102,7 +104,7 @@
       "fronteira": "Berco a portao do consumidor: captacao, envase, embalagem e transporte. A embalagem domina o resultado, e nao o tratamento."
     },
     "agua_mineral_vidro": {
-      "nome_pt": "Agua mineral engarrafada em vidro",
+      "nome_pt": "Água mineral engarrafada em vidro",
       "nome_en": "Bottled mineral water in glass",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 60.8,
@@ -112,100 +114,8 @@
       "tecnologia": "Agua mineral envasada em vidro",
       "fronteira": "Berco a portao do consumidor: captacao, envase, embalagem e transporte. A embalagem domina o resultado, e nao o tratamento."
     },
-    "rede_publica_brasil_snis": {
-      "nome_pt": "Rede publica brasileira - limite INFERIOR, fronteira incompleta (SNIS)",
-      "nome_en": "Brazilian mains supply - LOWER BOUND, incomplete boundary (SNIS)",
-      "tipo": "energia_mais_outros",
-      "kwh_por_m3": 0.67,
-      "co2_nao_energetico_kg_m3": 0.09,
-      "fonte": "Intensidade energetica: SNIS, Diagnostico Tematico dos Servicos de Agua e Esgoto 2023 (ano-base 2022), indicador IN058 - consumo de energia eletrica em sistemas de abastecimento de agua: 0,67 kWh/m3 no Brasil. Por macrorregiao vai de 0,61 a 0,78, e por natureza do prestador de 0,64 (empresa privada) a 0,73 (regional). Parcela nao energetica (produtos quimicos, infraestrutura, lodo): 0,09 kg CO2e/m3, deduzida de Garfi et al. (2016), que atribui cerca de 80% do impacto do tratamento convencional a eletricidade.",
-      "doi_da_fonte": "10.1016/j.jclepro.2016.07.218",
-      "observacao": "Montada a partir de um indicador de ENERGIA (IN058 do SNIS), e uma ACV e mais do que energia. Use como LIMITE INFERIOR do que a agua de rede custa no Brasil, e nao como estimativa central: por construcao, omite parcelas que existem. Para o valor com inventario completo e matriz brasileira, use as rotas de Vaz et al. (2025).",
-      "fronteira": "Energia do abastecimento mais uma parcela nao energetica deduzida por proporcao. NAO e uma ACV: nao ha inventario proprio de produtos quimicos, infraestrutura, lodo nem construcao da rede.",
-      "fronteira_incompleta": true,
-      "tecnologia": "Media nacional, tecnologias mistas"
-    },
-    "vaz_2025_brasil": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil, media das cinco macrorregioes",
-      "nome_en": "Mains supply, conventional treatment - Brazil, mean of the five macroregions",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.394,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. Media aritmetica das cinco macrorregioes derivadas abaixo. Coerente com os 0,35 adotados por padrao, que ficam logo abaixo e portanto conservadores.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_norte": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil - regiao Norte",
-      "nome_en": "Mains supply, conventional treatment - Brazil - North region",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.426,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. 81,1 kg CO2e/domicilio/ano (Tabela 3) sobre 190,50 m3/ano (Tabela 2). Perdas de 46,9%.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_nordeste": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil - regiao Nordeste",
-      "nome_en": "Mains supply, conventional treatment - Brazil - Northeast region",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.461,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. 84,7 kg CO2e/domicilio/ano sobre 183,61 m3/ano. Perdas de 46,7%, as maiores do pais, o que faz desta a regiao com maior emissao por m3 apesar do menor consumo.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_centro_oeste": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil - regiao Centro-Oeste",
-      "nome_en": "Mains supply, conventional treatment - Brazil - Central-West region",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.379,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. 88,5 kg CO2e/domicilio/ano sobre 233,53 m3/ano. Perdas de 35,1%.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_sudeste": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil - regiao Sudeste",
-      "nome_en": "Mains supply, conventional treatment - Brazil - Southeast region",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.336,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. 91,1 kg CO2e/domicilio/ano sobre 271,39 m3/ano. Perdas de 33,9%, as menores do pais.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_sul": {
-      "nome_pt": "Rede publica, tratamento convencional - Brasil - regiao Sul",
-      "nome_en": "Mains supply, conventional treatment - Brazil - South region",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.368,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. 81,6 kg CO2e/domicilio/ano sobre 221,47 m3/ano. Perdas de 36,7%.",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Berco a portao da edificacao, por m3 ENTREGUE: inclui produtos quimicos, infraestrutura, rede de distribuicao e a sobreproducao necessaria para cobrir as perdas. E a fronteira correta para emissao evitada, porque o sistema pluvial substitui agua entregue, nao agua produzida.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)"
-    },
-    "vaz_2025_porta_da_eta": {
-      "nome_pt": "Rede publica, convencional - por m3 PRODUZIDO (fronteira de comparacao)",
-      "nome_en": "Mains supply, conventional - per m3 PRODUCED (comparison boundary)",
-      "tipo": "total_publicado",
-      "co2_total_kg_m3": 0.236,
-      "fonte": "Vaz, Ghisi, Scolaro & Schaefer (2025), Building and Environment 279:113085. ACV do consumo operacional de agua em habitacoes brasileiras (fase B7 da EN 15978), Ecoinvent 3.8 adaptado ao Brasil: tratamento convencional com floculacao, decantacao, filtracao, fluoretacao e cloracao, a partir da ETA de Feira de Santana (Guanais et al.), com intensidade energetica e perdas de distribuicao do SNIS 2022 por macrorregiao. Valor declarado no proprio texto: 0,236 kg CO2e/m3, verificado contra o total nacional de 2,71 MtCO2e/ano informado pelos autores (0,236 x 54,1 m3/hab/ano x 212,6 milhoes de habitantes).",
-      "doi_da_fonte": "10.1016/j.buildenv.2025.113085",
-      "matriz_da_fonte": "Brasil, matriz de 2022",
-      "fronteira": "Por m3 PRODUZIDO na estacao, ANTES das perdas de distribuicao.",
-      "tecnologia": "Convencional (floculacao, decantacao, filtracao, fluoretacao, cloracao)",
-      "fronteira_incompleta": true,
-      "observacao": "Nao use esta rota para emissao evitada. O sistema pluvial substitui agua ENTREGUE, e entre produzida e entregue ha as perdas: de 33,9% no sudeste a 46,9% no norte. Dividindo 0,236 por (1 - perda) chega-se as rotas regionais acima, entre 0,34 e 0,46. Esta entrada existe para comparacao com estudos que publicam na porta da ETA."
-    },
     "convencional_paquistao_jamil": {
-      "nome_pt": "Rede publica, convencional - ETAs urbanas do Paquistao",
+      "nome_pt": "Rede pública, convencional — ETAs urbanas do Paquistão",
       "nome_en": "Mains supply, conventional - urban WTPs in Pakistan",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.45,
@@ -220,7 +130,7 @@
       "tecnologia": "Convencional com coagulacao, cloro gasoso e correcao de pH"
     },
     "eta_matriz_limpa_escocia": {
-      "nome_pt": "Rede publica, ETAs em matriz eletrica limpa (Escocia)",
+      "nome_pt": "Rede pública, ETAs em matriz elétrica limpa (Escócia)",
       "nome_en": "Mains supply, WTPs on a low-carbon grid (Scotland)",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.18,
@@ -233,10 +143,10 @@
       "matriz_da_fonte": "Reino Unido, matriz de baixa intensidade de carbono",
       "fronteira": "Tratamento; a fonte reporta o tratamento separado da distribuicao.",
       "tecnologia": "Convencional, varios portes",
-      "observacao": "Referencia util para o Brasil pela semelhanca de matriz limpa, e nao pela semelhanca de tecnologia ou de perdas."
+      "observacao": "Referencia util para locais com matriz eletrica limpa, pela semelhanca de matriz, e nao pela semelhanca de tecnologia ou de perdas."
     },
     "abastecimento_urbano_china": {
-      "nome_pt": "Rede publica urbana em matriz carvoeira (China)",
+      "nome_pt": "Rede pública urbana em matriz carvoeira (China)",
       "nome_en": "Urban mains supply on a coal-heavy grid (China)",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 0.213,
@@ -249,7 +159,7 @@
       "observacao": "Fronteira de energia apenas: produtos quimicos e infraestrutura ficam de fora. Serve para mostrar que mesmo com matriz carvoeira o valor so de energia fica abaixo dos totais publicados com fronteira completa."
     },
     "dessalinizacao_termica": {
-      "nome_pt": "Dessalinizacao termica (destilacao multiplo efeito ou flash)",
+      "nome_pt": "Dessalinização térmica (destilação de múltiplo efeito ou flash)",
       "nome_en": "Thermal desalination (multi-effect or multi-stage flash)",
       "tipo": "total_publicado",
       "co2_total_kg_m3": 12.0,
@@ -268,16 +178,13 @@
   "_nota_sobre_intensidade_energetica": [
     "A intensidade energetica (kWh/m3) NAO e um indicador do merito da agua substituida,",
     "e nao aparece como rota selecionavel. Representar a agua da rede so pela eletricidade",
-    "ignora produtos quimicos, infraestrutura, perdas e lodo, e daria 0,041 kg CO2e/m3 -",
-    "cerca de um oitavo do valor completo. Quem escolhesse essa opcao destruiria a analise.",
+    "ignora produtos quimicos, infraestrutura, perdas e lodo, e daria cerca de um oitavo do",
+    "valor completo. Quem escolhesse essa opcao destruiria a analise.",
     "",
     "kWh/m3 permanece em dois lugares legitimos:",
     "  1. Consumo da bomba DO SISTEMA PLUVIAL (PumpInput.specific_kwh_per_m3). E entrada do",
     "     modelo, nao indicador: a bomba consome energia e isso emite.",
     "  2. Dentro da rota de dessalinizacao, porque ela e ~95% eletricidade e o impacto tem",
-    "     de acompanhar a matriz local. Ainda assim e aproximacao declarada.",
-    "",
-    "Para comparar a intensidade energetica do abastecimento brasileiro, a fonte adequada",
-    "e o SINISA (antigo SNIS), que publica consumo especifico por prestador."
+    "     de acompanhar a matriz local. Ainda assim e aproximacao declarada."
   ]
 }

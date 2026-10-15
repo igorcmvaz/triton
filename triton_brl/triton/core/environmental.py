@@ -58,9 +58,11 @@ def potable_water_factor_default() -> float:
     agua que se deixa de consumir. Substituir agua dessalinizada, agua tratada
     convencionalmente ou agua engarrafada sao coisas separadas por ordens de
     grandeza. O catalogo de rotas esta em
-    :mod:`triton.core.water_supply_routes`.
+    :mod:`triton.core.water_supply_routes`. Fora da Edição Brasil a rota padrão é uma rota do
+    Brasil, e o valor de partida é zero: o usuário informa o da água da sua rede.
     """
-    return _co2_evitado_por_m3(ROTA_PADRAO_DA_AGUA)
+    from triton.core.edition import valor_de_partida_da_edicao
+    return valor_de_partida_da_edicao(_co2_evitado_por_m3(ROTA_PADRAO_DA_AGUA))
 
 
 @dataclass

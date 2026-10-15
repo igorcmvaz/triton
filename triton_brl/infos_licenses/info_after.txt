@@ -1,16 +1,18 @@
-INSTALAÇÃO CONCLUÍDA COM SUCESSO!
+﻿INSTALAÇÃO CONCLUÍDA COM SUCESSO!
 
-O Triton foi instalado em seu computador e está pronto para uso.
+O Triton — Edição Brasil foi instalado no seu computador e está pronto para uso.
 
 LEMBRETES IMPORTANTES:
-1. Atalhos para execução foram criados na sua Área de Trabalho e no Menu Iniciar.
-2. Lembre-se de que esta é uma versão BETA e seu feedback é fundamental para
-   o aprimoramento da ferramenta.
+1. Um atalho foi criado no Menu Iniciar. O atalho na Área de Trabalho e a
+   associação dos arquivos .triton são opcionais e foram oferecidos durante a
+   instalação.
+2. Se usar o Triton em um trabalho acadêmico, cite-o conforme a cláusula 4 da
+   licença (LICENSE.md, na pasta do programa).
 
 CANAIS DE CONTATO:
-Para relatar bugs, enviar sugestões ou esclarecer dúvidas metodológicas:
+Para relatar erros, enviar sugestões ou esclarecer dúvidas metodológicas:
   - E-mail: igor.catao@posgrad.ufsc.br
 
 Responsáveis: Profs. Enedir Ghisi e Igor Catão
 
-Agradecemos por utilizar e testar o Triton!
+Agradecemos por utilizar o Triton!

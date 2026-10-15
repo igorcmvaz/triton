@@ -13,7 +13,9 @@ from PySide6.QtGui import QFont
 import math
 from triton.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
 from triton.core.fracao_atendivel import validar_fracao
+from triton.core.dados_do_relatorio import MOEDAS as _MOEDAS, MOEDAS_DA_INTERNACIONAL as _MOEDAS_DA_INTERNACIONAL
 from triton.ui.translation import tr, get_current_theme
+from triton.ui.textos_da_edicao import dica_modelos_de_pressurizador, dica_potencia_de_placa
 
 from triton.core.simulation import (
     SWEEP_STEP_QUANTUM_L,
@@ -179,10 +181,7 @@ class TabTanksSimulation(QWidget):
         for modelo in CATALOGO:
             self.combo_pressurizer_model.addItem(modelo.rotulo, modelo.chave)
         self.combo_pressurizer_model.addItem(tr("Personalizado — dados do fabricante"), PERSONALIZADO)
-        self.combo_pressurizer_model.setToolTip(tr(
-            "Modelos com curva de catálogo publicada pelo fabricante. A energia é o tempo "
-            "ligado vezes a potência elétrica: a potência de placa dividida pelo rendimento "
-            "do motor da ABNT NBR 17094-2."))
+        self.combo_pressurizer_model.setToolTip(tr(dica_modelos_de_pressurizador()))
         self.combo_pressurizer_model.currentIndexChanged.connect(self._on_supply_changed)
         grid_pr.addWidget(self.combo_pressurizer_model, 0, 1)
         grid_pr.addWidget(QLabel(tr("Pressao de trabalho (m.c.a.):")), 1, 0)
@@ -215,9 +214,7 @@ class TabTanksSimulation(QWidget):
         self.lbl_pr_power = QLabel(tr("Potência de placa (kW):"))
         grid_pr.addWidget(self.lbl_pr_power, 4, 0)
         self.txt_pressurizer_power = QLineEdit("0,18")
-        self.txt_pressurizer_power.setToolTip(tr(
-            "Potência de placa, que é mecânica, no eixo. O programa a divide pelo rendimento "
-            "do motor da ABNT NBR 17094-2 para chegar à potência elétrica."))
+        self.txt_pressurizer_power.setToolTip(tr(dica_potencia_de_placa()))
         self.txt_pressurizer_power.textChanged.connect(self._on_supply_changed)
         grid_pr.addWidget(self.txt_pressurizer_power, 4, 1)
         self.lbl_pr_flow = QLabel(tr("Vazão na pressão de trabalho (L/min):"))
@@ -360,11 +357,8 @@ class TabTanksSimulation(QWidget):
         self.btn_inf_toggle.clicked.connect(self._on_inf_toggle)
         row_inf.addWidget(self.btn_inf_toggle)
         self.combo_inflation_profile = QComboBox()
-        self.combo_inflation_profile.addItem(tr("Inflação personalizada"), {"description": tr("Informe a taxa compatível com o contrato e o período analisado.")})
-        self.combo_inflation_profile.addItem(tr("Referência IPCA — 4,5% a.a. (O&M)"), {"annual_rate": 4.5, "description": tr("Referência de longo prazo para O&M; revise antes de usar em um orçamento real.")})
-        self.combo_inflation_profile.addItem(tr("Referência INPC — 4,5% a.a. (O&M)"), {"annual_rate": 4.5, "description": tr("Referência para despesas familiares e serviços; revise antes de usar em um orçamento real.")})
-        self.combo_inflation_profile.addItem(tr("Referência IGP-DI — 5,0% a.a. (O&M)"), {"annual_rate": 5.0, "description": tr("Referência contratual ampla; mais sensível a atacado, insumos e câmbio.")})
-        self.combo_inflation_profile.addItem(tr("Referência IGP-M — 5,0% a.a. (O&M)"), {"annual_rate": 5.0, "description": tr("Referência contratual para O&M; mais sensível a insumos e câmbio.")})
+        for rotulo, dado in self._perfis_de_inflacao():
+            self.combo_inflation_profile.addItem(rotulo, dado)
         self.combo_inflation_profile.currentIndexChanged.connect(self._apply_inflation_profile)
         self.combo_inflation_profile.setMinimumWidth(300)
         row_inf.addWidget(self.combo_inflation_profile)
@@ -392,12 +386,8 @@ class TabTanksSimulation(QWidget):
         self.btn_tma_toggle.clicked.connect(self._on_tma_toggle)
         row_tma.addWidget(self.btn_tma_toggle)
         self.combo_tma_profile = QComboBox()
-        self.combo_tma_profile.addItem(tr("TMA personalizada"), None)
-        self.combo_tma_profile.addItem(tr("Referência real (IPCA + spread) — 6,0% a.a."), 6.0)
-        self.combo_tma_profile.addItem(tr("Referência neutra de mercado — 10,0% a.a."), 10.0)
-        self.combo_tma_profile.addItem(tr("Custo de capital conservador — 12,0% a.a."), 12.0)
-        self.combo_tma_profile.addItem(tr("Taxa Selic / Custo de oportunidade atual — 14,0% a.a."), 14.0)
-        self.combo_tma_profile.addItem(tr("Capital próprio com risco / Comercial — 16,0% a.a."), 16.0)
+        for rotulo, dado in self._perfis_de_tma():
+            self.combo_tma_profile.addItem(rotulo, dado)
         self.combo_tma_profile.currentIndexChanged.connect(self._apply_tma_profile)
         self.combo_tma_profile.setMinimumWidth(260)
         row_tma.addWidget(self.combo_tma_profile)
@@ -414,12 +404,8 @@ class TabTanksSimulation(QWidget):
         # Linha 2: perfil antes dos valores que ele pode preencher
         grid_fin.addWidget(QLabel(tr("Perfil de reajuste tarifario:")), 2, 0)
         self.combo_tariff_profile = QComboBox()
-        self.combo_tariff_profile.addItem(tr("Tarifas personalizadas"), None)
-        self.combo_tariff_profile.addItem(tr("Sem projecao — 0,0% a.a."), (12, 0.0, 0.0))
-        self.combo_tariff_profile.addItem(tr("Referência de planejamento 2025 — energia 3,5%; água contratual 4,5% a.a."), (12, 4.5, 3.5))
-        self.combo_tariff_profile.addItem(tr("Referência regulatória — água/esgoto 5,0%; energia 6,0% a.a."), (12, 5.0, 6.0))
-        self.combo_tariff_profile.addItem(tr("Cenário inflacionário moderado — água 6,5% a.a.; energia 7,5% a.a."), (12, 6.5, 7.5))
-        self.combo_tariff_profile.addItem(tr("Escalada de escassez hídrica — água 8,5% a.a.; energia 9,0% a.a."), (12, 8.5, 9.0))
+        for rotulo, dado in self._perfis_de_reajuste():
+            self.combo_tariff_profile.addItem(rotulo, dado)
         self.combo_tariff_profile.currentIndexChanged.connect(self._apply_tariff_profile)
         grid_fin.addWidget(self.combo_tariff_profile, 2, 1)
         grid_fin.addWidget(QLabel(tr("Moeda / Currency:")), 1, 2)
@@ -769,17 +755,77 @@ class TabTanksSimulation(QWidget):
         """Inflação em % ao mês, a unidade em que o projeto a grava."""
         return anual_pct_para_mensal_pct(self.get_inflation_annual_pct())
 
+    # ── Perfis de referência da Etapa 4 ─────────────────────────────────────────────────────
+    # Os índices IPCA/INPC/IGP e a Selic são do Brasil: só a Edição Brasil os oferece. Nas outras,
+    # os perfis são taxas genéricas, a serem substituídas pelo usuário (o campo continua livre).
+
+    def _perfis_de_inflacao(self):
+        from triton.core.edition import usa_dados_do_brasil
+        if usa_dados_do_brasil():
+            return [
+                (tr("Inflação personalizada"), {"description": tr("Informe a taxa compatível com o contrato e o período analisado.")}),
+                (tr("Referência IPCA — 4,5% a.a. (O&M)"), {"annual_rate": 4.5, "description": tr("Referência de longo prazo para O&M; revise antes de usar em um orçamento real.")}),
+                (tr("Referência INPC — 4,5% a.a. (O&M)"), {"annual_rate": 4.5, "description": tr("Referência para despesas familiares e serviços; revise antes de usar em um orçamento real.")}),
+                (tr("Referência IGP-DI — 5,0% a.a. (O&M)"), {"annual_rate": 5.0, "description": tr("Referência contratual ampla; mais sensível a atacado, insumos e câmbio.")}),
+                (tr("Referência IGP-M — 5,0% a.a. (O&M)"), {"annual_rate": 5.0, "description": tr("Referência contratual para O&M; mais sensível a insumos e câmbio.")}),
+            ]
+        aviso = tr("Valor genérico de referência; substitua pela inflação esperada no local e no período do projeto.")
+        return [
+            (tr("Inflação personalizada"), {"description": tr("Informe a taxa compatível com o contrato e o período analisado.")}),
+            (tr("Inflação genérica baixa — 2,0% a.a. (O&M)"), {"annual_rate": 2.0, "description": aviso}),
+            (tr("Inflação genérica moderada — 3,0% a.a. (O&M)"), {"annual_rate": 3.0, "description": aviso}),
+            (tr("Inflação genérica alta — 4,5% a.a. (O&M)"), {"annual_rate": 4.5, "description": aviso}),
+            (tr("Inflação genérica muito alta — 6,0% a.a. (O&M)"), {"annual_rate": 6.0, "description": aviso}),
+        ]
+
+    def _perfis_de_tma(self):
+        from triton.core.edition import usa_dados_do_brasil
+        if usa_dados_do_brasil():
+            return [
+                (tr("TMA personalizada"), None),
+                (tr("Referência real (IPCA + spread) — 6,0% a.a."), 6.0),
+                (tr("Referência neutra de mercado — 10,0% a.a."), 10.0),
+                (tr("Custo de capital conservador — 12,0% a.a."), 12.0),
+                (tr("Taxa Selic / Custo de oportunidade atual — 14,0% a.a."), 14.0),
+                (tr("Capital próprio com risco / Comercial — 16,0% a.a."), 16.0),
+            ]
+        return [
+            (tr("TMA personalizada"), None),
+            (tr("Taxa de desconto baixa — 6,0% a.a."), 6.0),
+            (tr("Referência neutra de mercado — 10,0% a.a."), 10.0),
+            (tr("Custo de capital conservador — 12,0% a.a."), 12.0),
+            (tr("Custo de oportunidade elevado — 14,0% a.a."), 14.0),
+            (tr("Capital próprio com risco / Comercial — 16,0% a.a."), 16.0),
+        ]
+
+    def _perfis_de_reajuste(self):
+        from triton.core.edition import usa_dados_do_brasil
+        comuns_fim = [
+            (tr("Cenário inflacionário moderado — água 6,5% a.a.; energia 7,5% a.a."), (12, 6.5, 7.5)),
+            (tr("Escalada de escassez hídrica — água 8,5% a.a.; energia 9,0% a.a."), (12, 8.5, 9.0)),
+        ]
+        if usa_dados_do_brasil():
+            meio = [
+                (tr("Referência de planejamento 2025 — energia 3,5%; água contratual 4,5% a.a."), (12, 4.5, 3.5)),
+                (tr("Referência regulatória — água/esgoto 5,0%; energia 6,0% a.a."), (12, 5.0, 6.0)),
+            ]
+        else:
+            meio = [
+                (tr("Reajuste baixo — água 4,5%; energia 3,5% a.a."), (12, 4.5, 3.5)),
+                (tr("Reajuste médio — água/saneamento 5,0%; energia 6,0% a.a."), (12, 5.0, 6.0)),
+            ]
+        return [(tr("Tarifas personalizadas"), None), (tr("Sem projecao — 0,0% a.a."), (12, 0.0, 0.0))] + meio + comuns_fim
+
     #: As moedas, com o código gravado no projeto. A ordem é a dos arquivos antigos, que
     #: gravavam a posição na lista («currency»): continua a ser lida.
-    MOEDAS = (("BRL", "R$"), ("USD", "$"), ("EUR", "\u20ac"), ("GBP", "\u00a3"), ("CNY", "\u00a5"))
-    #: Na International o euro vem primeiro — a edição fala com a União Europeia —, e as
-    #: demais continuam à escolha. Na Brasil, só o real.
-    MOEDAS_DA_INTERNACIONAL = ("EUR", "USD", "GBP", "CNY", "BRL")
+    MOEDAS = _MOEDAS
+    MOEDAS_DA_INTERNACIONAL = _MOEDAS_DA_INTERNACIONAL
 
     def _preencher_moedas_da_edicao(self):
         from triton.core.edition import is_prt_edition, usa_dados_do_brasil
         simbolos = dict(self.MOEDAS)
-        # Brasil: só o real; Portugal: só o euro; International: euro primeiro e as demais.
+        # Brasil: só o real; Portugal: só o euro; International: sem moeda predefinida (U-21),
+        # com «sem moeda definida (¤)» à frente e as demais à escolha. O real não é oferecido.
         if usa_dados_do_brasil():
             codigos = ("BRL",)
         elif is_prt_edition():
@@ -789,20 +835,31 @@ class TabTanksSimulation(QWidget):
         self.combo_currency.blockSignals(True)
         self.combo_currency.clear()
         for codigo in codigos:
-            self.combo_currency.addItem(f"{simbolos[codigo]} ({codigo})", codigo)
+            if codigo == "XXX":
+                self.combo_currency.addItem(tr("Moeda não definida (¤)"), codigo)
+            else:
+                self.combo_currency.addItem(f"{simbolos[codigo]} ({codigo})", codigo)
         self.combo_currency.setCurrentIndex(0)
         self.combo_currency.blockSignals(False)
         self.combo_currency.setEnabled(len(codigos) > 1)
         if len(codigos) == 1:
-            self.combo_currency.setToolTip(tr("Na Edição Brasil a moeda é o real."))
+            self.combo_currency.setToolTip(
+                tr("Na Edição Brasil a moeda é o real.") if usa_dados_do_brasil()
+                else tr("Na Edição Portugal a moeda é o euro."))
+        else:
+            self.combo_currency.setToolTip(tr(
+                "Escolha a moeda do projeto: todos os valores informados e calculados passam a usá-la. "
+                "Sem escolha, aparece o sinal genérico de moeda (¤)."))
 
     def get_currency_code(self) -> str:
+        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
+        padrao = "BRL" if usa_dados_do_brasil() else ("EUR" if is_prt_edition() else "XXX")
         if not hasattr(self, "combo_currency"):
-            return "BRL"
-        return self.combo_currency.currentData() or "BRL"
+            return padrao
+        return self.combo_currency.currentData() or padrao
 
     def get_currency_symbol(self):
-        return dict(self.MOEDAS).get(self.get_currency_code(), "R$")
+        return dict(self.MOEDAS).get(self.get_currency_code(), "¤")
 
     def _selecionar_moeda(self, state: dict):
         """A moeda gravada no projeto, se a edição a oferece; senão, a primeira da edição."""
@@ -820,7 +877,8 @@ class TabTanksSimulation(QWidget):
         if main_win and hasattr(main_win, "config"):
             cfg = main_win.config
             self.verified_dialogs.clear()
-            if self.get_currency_symbol() != "R$":
+            from triton.core.edition import usa_dados_do_brasil
+            if usa_dados_do_brasil() and self.get_currency_symbol() != "R$":
                 # Os preços do arranjo 3D e a mão de obra automática são em reais:
                 # em outra moeda, os custos passam a ser os digitados.
                 cfg.capex_do_arranjo = False

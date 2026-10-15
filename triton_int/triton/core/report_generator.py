@@ -15,91 +15,211 @@ from html import escape
 from datetime import datetime
 from typing import Dict, Any, Optional
 
-from triton.core.parser import format_ptbr
+from triton.core.parser import format_ptbr as _format_ptbr_do_nucleo
 from triton import APP_VERSION_LABEL
-from triton.ui.translation import (
-    tr, get_current_lang, _translate_composite,
-    _SPANISH_PHRASES, _CHINESE_PHRASES, _ENGLISH_PHRASES
-)
+from triton.ui.translation import tr, get_current_lang, _translate_composite, _SPANISH_PHRASES, _CHINESE_PHRASES
+from triton.ui import textos_da_edicao as _ed
+from triton.ui.laudo_em_ingles import laudo_em_ingles, laudo_em_portugal
+
+
+def _brasil() -> bool:
+    from triton.core.edition import usa_dados_do_brasil
+    return usa_dados_do_brasil()
+
+
+def format_ptbr(val, decimals: int = 2, thousands: bool = True) -> str:
+    """O número do laudo no separador do idioma.
+
+    Português e espanhol: ponto de milhar e vírgula decimal («1.234,56»). Fora da Edição Brasil, o
+    inglês e o chinês usam a vírgula de milhar e o ponto decimal («1,234.56»). Na Brasil nada
+    muda: o laudo em inglês dela segue o formato brasileiro.
+    """
+    if val is None:
+        return "-"
+    if not _brasil() and get_current_lang() in ("en", "zh"):
+        try:
+            v = float(val)
+            return f"{v:,.{decimals}f}" if thousands else f"{v:.{decimals}f}"
+        except Exception:
+            return str(val)
+    return _format_ptbr_do_nucleo(val, decimals, thousands)
+
+
 
 
 def _edicao() -> str:
     """Edição do programa que gerou o documento: «Edição Brasil (BRL)» ou «International Edition (INT)»."""
     from triton.core.edition import rotulo_da_edicao
 
-    return rotulo_da_edicao()
+    rotulo = rotulo_da_edicao()
+    if get_current_lang() == "en":
+        return {"Edição Portugal (PRT)": "Portugal Edition (PRT)", "Edição Brasil (BRL)": "Brazil Edition (BRL)"}.get(rotulo, rotulo)
+    return rotulo
 
 
-def _normas_aplicaveis(is_en: bool = False) -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
-        return "ABNT NBR 15527:2019 & NBR 5626"
+# ── Textos que dependem da edição (normas, registro profissional, referências) ─────────────
+# Na Brasil, as cadeias de sempre; na Portugal, EN 16941-1; na Internacional, texto genérico
+# («normas e regulamentos aplicáveis no local do projeto»): nenhum número de norma é inventado.
+
+def _normas_do_laudo(is_en: bool = False) -> str:
+    """O campo «Conformidade Normativa»: Brasil como sempre; Portugal EN 16941-1; Internacional sem norma citada."""
+    from triton.core.edition import is_prt_edition
+    if _brasil():
+        return _ed.normas_do_laudo(is_en)
     if is_prt_edition():
-        return "NP EN 16941-1 & Decreto Regulamentar n.º 23/95"
-    return "EN 16941-1 / Local Guidelines" if is_en else "Diretrizes Técnicas Internacionais"
+        return ("EN 16941-1 and applicable national regulations" if is_en
+                else "EN 16941-1 e regulamentação nacional aplicável")
+    return ("Codes and standards applicable at the project site, to be stated by the responsible engineer" if is_en
+            else "Normas e regulamentos aplicáveis no local do projeto, a indicar pelo(a) engenheiro(a) responsável")
 
 
-def _registro_profissional(is_en: bool = False) -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
-        return "CREA / CAU / Registro Profissional"
+def _ref_padrao() -> str:
+    """Código de referência quando o projeto não traz um: o da UFSC só na Brasil."""
+    return "NET-5026-UFSC" if _brasil() else "TRITON-REF"
+
+
+def _credito_do_grupo(is_en: bool = False, com_ufsc: bool = True) -> str:
+    """Crédito do grupo de pesquisa no rodapé (autoria do usuário: vale em todas as edições)."""
+    if is_en:
+        return "Sustainable Environments Research Group" + (" | UFSC" if com_ufsc else "")
+    return "Grupo de Pesquisa em Ambientes Sustentáveis" + (" | UFSC" if com_ufsc else "")
+
+
+def _aviso_de_custos(project_data: Dict[str, Any], is_en: bool = False) -> str:
+    """Aviso de custos em branco (INT e PRT): investimento, manutenção e eletricidade não informados.
+
+    Os exemplos das edições Internacional e Portugal não trazem custos locais, e o programa não os
+    inventa. Sem eles, a economia é só a da conta de água: payback e VPL não têm sentido, e o laudo
+    não os mostra como resultado. Na Brasil nunca há aviso.
+    """
+    if _brasil():
+        return ""
+    capex = _numero_ou_none((project_data or {}).get("capex"))
+    if not ((project_data or {}).get("custos_nao_informados") or not capex):
+        return ""
+    from triton.core.edition import is_prt_edition
+    if is_en:
+        return ("Investment, maintenance and electricity costs were not informed: the economic result shows only the savings "
+                "on the water bill; payback and NPV are not meaningful until costs are entered.")
     if is_prt_edition():
-        return "Ordem dos Engenheiros / Arquitectos"
-    return "Professional License / Registration" if is_en else "Registro Profissional"
+        return ("Os custos de investimento, manutenção e eletricidade não foram indicados: o resultado económico mostra apenas "
+                "a poupança na fatura da água; o período de retorno e o VAL não têm significado até que os custos sejam introduzidos.")
+    return ("Os custos de investimento, manutenção e eletricidade não foram informados: o resultado econômico mostra apenas "
+            "a economia na conta de água; o payback e o VPL não têm significado até que os custos sejam informados.")
+
+
+def _aviso_de_rede(project_data: Dict[str, Any], is_en: bool = False) -> str:
+    """Aviso de fator de emissão da rede elétrica em branco (INT e PRT)."""
+    if _brasil() or not (project_data or {}).get("fator_rede_nao_informado"):
+        return ""
+    from triton.core.edition import is_prt_edition
+    if is_en:
+        return ("The grid emission factor was not informed: the emissions from pumping electricity are not meaningful "
+                "until it is entered.")
+    if is_prt_edition():
+        return ("O fator de emissão da rede elétrica não foi indicado: as emissões da eletricidade de bombagem não têm "
+                "significado até que seja introduzido.")
+    return ("O fator de emissão da rede elétrica não foi informado: as emissões da eletricidade de bombeamento não têm "
+            "significado até que seja informado.")
+
+
+_CHAVES_ECONOMICAS = ("capex", "vpl", "npv", "tir", "irr", "payback_s", "payback_d", "payback", "discounted_payback")
+
+
+def _sem_resultados_economicos(dados: Any) -> Any:
+    """Cópia de ``dados`` com os resultados econômicos em ``None`` (custos em branco: não há VPL nem payback)."""
+    if isinstance(dados, dict):
+        return {k: (None if k in _CHAVES_ECONOMICAS and not isinstance(v, (dict, list)) else _sem_resultados_economicos(v))
+                for k, v in dados.items()}
+    if isinstance(dados, list):
+        return [_sem_resultados_economicos(v) for v in dados]
+    return dados
+
+
+def _caixa_de_aviso(texto: str) -> str:
+    return (f"<div style='border:1.5px solid #b91c1c;background:#fef2f2;color:#7f1d1d;padding:6px 10px;margin:8px 0;"
+            f"font-size:9pt;font-weight:700;'>⚠ {texto}</div>") if texto else ""
+
+
+def _aviso_de_moeda(project_data: Dict[str, Any], is_en: bool = False) -> str:
+    """Linha «moeda não definida» quando o projeto não escolheu moeda e a edição não tem uma (Internacional)."""
+    if _moeda(project_data):
+        return ""
+    return ("Currency: not set in the project (values shown without a symbol)" if is_en
+            else "Moeda: não definida no projeto (valores sem símbolo)")
+
+
+def _registro_profissional(is_en: bool = False, tipo: str = "executivo") -> str:
+    return _ed.registro_profissional(is_en, tipo)
 
 
 def _rodape_cidade() -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
-        return "Florianópolis – SC"
-    if is_prt_edition():
-        return "Lisboa – Portugal"
-    return "Triton Engine"
+    """O local de emissão na capa do dossiê: «Florianópolis – SC» só na Brasil."""
+    return "Florianópolis – SC<br/>" if _brasil() else ""
 
 
-def _referencia_norma_li() -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
+def _norma_do_cabecalho(prefixo: str = "", sufixo: str = "") -> str:
+    """A norma de aproveitamento de água de chuva entre prefixo e sufixo; nada onde não há."""
+    norma = _ed.norma_pluvial(com_ano=True)
+    return f"{prefixo}{norma}{sufixo}" if norma else ""
+
+
+def _frase_da_norma(is_en: bool, contexto: str) -> str:
+    """Trecho de frase que cita a base normativa do dossiê, por edição e idioma."""
+    from triton.core.edition import is_prt_edition
+    if _brasil():
+        pt = {"diretrizes": "as diretrizes da norma ABNT NBR 15527:2019", "parametros": "a norma ABNT NBR 15527:2019"}
+        en = {"diretrizes": "ABNT NBR 15527:2019 guidelines", "parametros": "ABNT NBR 15527:2019"}
+    elif is_prt_edition():
+        pt = {"diretrizes": "as diretrizes da norma EN 16941-1", "parametros": "a norma EN 16941-1"}
+        en = {"diretrizes": "EN 16941-1 guidelines", "parametros": "EN 16941-1"}
+    else:
+        pt = {"diretrizes": "as normas técnicas e os regulamentos aplicáveis no local do projeto",
+              "parametros": "as normas técnicas e os regulamentos aplicáveis no local do projeto"}
+        en = {"diretrizes": "the technical standards and regulations applicable at the project site",
+              "parametros": "the technical standards and regulations applicable at the project site"}
+    return (en if is_en else pt)[contexto]
+
+
+def _referencia_norma_li(is_en: bool = False) -> str:
+    from triton.core.edition import is_prt_edition
+    if _brasil():
         return "<li><b>ABNT NBR 15527:2019</b> — Aproveitamento de água de chuva de coberturas para fins não potáveis — Requisitos.</li>"
     if is_prt_edition():
-        return "<li><b>NP EN 16941-1:2019</b> — Sistemas no local para recolha e utilização de água de chuva.</li>"
-    return "<li><b>EN 16941-1:2019</b> — On-site systems for non-potable water use — Rainwater harvesting.</li>"
+        return ("<li><b>EN 16941-1</b> — " + ("On-site non-potable water systems — Part 1: Systems for the use of rainwater."
+                if is_en else "Sistemas locais de água não potável — Parte 1: sistemas de aproveitamento de água da chuva.") + "</li>")
+    return ""
 
 
-def _referencia_grid_li() -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
+def _referencia_grid_li(is_en: bool = False) -> str:
+    if _brasil():
         return "<li><b>MCTI/SIRENE</b> — Série oficial de fatores médios de emissão do SIN; selecionar o arquivo correspondente ao período do estudo.</li>"
-    if is_prt_edition():
-        return "<li><b>APA / E-OBS</b> — Dados climáticos e ambientais de referência para Portugal.</li>"
-    return "<li><b>National / Regional Grid Emission Factors</b> — Official electricity and water emission factors for the project location.</li>"
+    if is_en:
+        return ("<li><b>Emission factors of the grid and of the water supply</b> — Values entered by the user for the project site; "
+                "record the source, the year and the system boundary.</li>")
+    return ("<li><b>Fatores de emissão da rede elétrica e da água de abastecimento</b> — Valores informados pelo usuário para o local "
+            "do projeto; registrar a fonte, o ano e a fronteira.</li>")
 
 
 def _aviso_responsabilidade_ambiental(is_en: bool = False) -> str:
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
-        return (
-            "Este laudo ambiental foi gerado pelo Triton seguindo as diretrizes das normas ABNT NBR 15527:2019 e "
-            "ISO 14040/14044 (ACV simplificada). Os fatores de emissão adotados representam cenários médios de "
-            "triagem de engenharia e devem ser validados pelo(a) especialista ambiental e projetista responsável "
-            "de acordo com as EPDs dos fornecedores e matriz regional da concessionária."
-        )
-    if is_prt_edition():
-        return (
-            "Este laudo ambiental foi gerado pelo Triton seguindo as diretrizes da norma NP EN 16941-1 e "
-            "ISO 14040/14044 (ACV simplificada). Os fatores de emissão adotados representam cenários médios de "
-            "triagem de engenharia e devem ser validados pelo(a) especialista ambiental e projetista responsável."
-        )
-    return (
-        "This environmental report was generated by Triton following international technical standards "
-        "(EN 16941-1) and ISO 14040/14044 guidelines. Emission factors represent screening engineering "
-        "scenarios and must be validated by the responsible environmental professional against supplier "
-        "EPDs and local utility grid parameters." if is_en else
-        "Este laudo ambiental foi gerado pelo Triton seguindo diretrizes técnicas internacionais e "
-        "ISO 14040/14044 (ACV simplificada)."
-    )
-
-
+    from triton.core.edition import is_prt_edition
+    if _brasil():
+        if is_en:
+            return ("This environmental report was generated by Triton following ABNT NBR 15527:2019 and ISO 14040/14044 guidelines. "
+                    "Emission factors represent screening engineering scenarios and must be validated by the responsible environmental "
+                    "professional against supplier EPDs and local utility grid parameters.")
+        return ("Este laudo ambiental foi gerado pelo Triton seguindo as diretrizes das normas ABNT NBR 15527:2019 e ISO 14040/14044 "
+                "(ACV simplificada). Os fatores de emissão adotados representam cenários médios de triagem de engenharia e devem ser "
+                "validados pelo(a) especialista ambiental e projetista responsável de acordo com as EPDs dos fornecedores e matriz regional da concessionária.")
+    if is_en:
+        base = "EN 16941-1 and ISO 14040/14044 guidelines" if is_prt_edition() else "the applicable technical standards and the ISO 14040/14044 guidelines"
+        return (f"This environmental report was generated by Triton following {base}. Emission factors represent screening "
+                "engineering scenarios and must be validated by the responsible environmental professional against supplier EPDs "
+                "and the parameters of the local grid and water supply.")
+    base = "da norma EN 16941-1 e da ISO 14040/14044" if is_prt_edition() else "das normas técnicas aplicáveis e da ISO 14040/14044"
+    return (f"Este laudo ambiental foi gerado pelo Triton seguindo as diretrizes {base} (ACV simplificada). Os fatores de emissão "
+            "adotados representam cenários médios de triagem de engenharia e devem ser validados pelo(a) especialista ambiental e "
+            "projetista responsável de acordo com as EPDs dos fornecedores e os parâmetros da rede elétrica e do abastecimento locais.")
 
 
 def _localize_report_markup(html: str) -> str:
@@ -109,27 +229,49 @@ def _localize_report_markup(html: str) -> str:
         html = _translate_composite(html, _SPANISH_PHRASES)
     elif lang == "zh":
         html = _translate_composite(html, _CHINESE_PHRASES)
-    elif lang == "en":
-        html = _translate_composite(html, _ENGLISH_PHRASES)
-
     from triton.core.edition import is_prt_edition
-    if is_prt_edition():
+    if is_prt_edition() and lang == "pt":
+        # Na Portugal o laudo em português é o de Portugal: vocabulário do glossário da interface.
         from triton.ui.portugues_de_portugal import para_portugal
-        html = para_portugal(html)
-
-
-    return html.replace('lang="pt-BR"', f'lang="{lang}"')
-
+        html = laudo_em_portugal(para_portugal(html))
+    return html.replace('lang="pt-BR"', f'lang="{"pt-PT" if (is_prt_edition() and lang == "pt") else lang}"')
 
 
 def _moeda(project_data: Dict[str, Any]) -> str:
-    """Símbolo da moeda do projeto; sem ele, o da edição (o «R$» era fixo nos laudos)."""
+    """Símbolo da moeda do projeto; sem ele, o da edição (o «R$» era fixo nos laudos).
+
+    A Internacional não tem moeda predefinida: sem escolha do usuário, o valor sai sem símbolo
+    (e o laudo diz «moeda não definida», ver ``_aviso_de_moeda``); nunca «R$» nem «BRL».
+    """
     moeda = str((project_data or {}).get("moeda") or "").strip()
     if moeda:
         return escape(moeda)
     from triton.core.edition import get_edition_currency_symbol
 
-    return escape(get_edition_currency_symbol())
+    return escape(get_edition_currency_symbol() or "")
+
+
+def _sem_residuos(texto: str) -> str:
+    """Tira de uma fonte de ACV o que sobra do Brasil (inventário nacional, fabricante) fora da Edição Brasil."""
+    from triton.core.environmental_justifications import _sem_residuos_do_brasil
+    return _sem_residuos_do_brasil(texto)
+
+
+def _instituicao_da_capa() -> str:
+    """O timbre da capa do dossiê (autoria do usuário: vale em todas as edições)."""
+    return ("UNIVERSIDADE FEDERAL DE SANTA CATARINA — UFSC<br/>\n        CENTRO TECNOLÓGICO — CTC<br/>\n"
+            "        GRUPO DE PESQUISA EM AMBIENTES SUSTENTÁVEIS")
+
+
+def _linha_de_moeda_da_capa(project_data: Dict[str, Any], is_en: bool) -> str:
+    aviso = _aviso_de_moeda(project_data, is_en)
+    return (f"\n            <tr><td style='font-weight: bold;'>{'Currency' if is_en else 'Moeda'}:</td><td>{aviso.split(': ', 1)[1]}</td></tr>"
+            if aviso else "")
+
+
+def _moeda_em_ingles(moeda: str) -> str:
+    """A moeda nos textos corridos em inglês do dossiê: «BRL» na Brasil (como sempre), o símbolo do projeto nas demais."""
+    return "BRL" if _brasil() else moeda
 
 
 def _numero_ou_none(valor: Any) -> Optional[float]:
@@ -166,11 +308,12 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     Gera um Relatório Gerencial Executivo em Página Única A4 (1-Page Dashboard),
     diagramado profissionalmente para apresentação a clientes, diretoria, órgãos ambientais e prefeituras.
     """
-    date_str = datetime.now().strftime("%d/%m/%Y")
+    date_str = datetime.now().strftime("%d/%m/%Y" if (_brasil() or get_current_lang() != "en") else "%Y-%m-%d")
+    is_en = get_current_lang() == "en"
     
     # Extração e formatação de dados da edificação e projeto
     project_name = escape(str(project_data.get("project_name", "Projeto Triton")))
-    ref_code = escape(str(project_data.get("ref_code", "NET-5026-UFSC")))
+    ref_code = escape(str(project_data.get("ref_code", _ref_padrao())))
     rain_file = escape(str(project_data.get("rain_file", "Série Climatológica")))
     audit = project_data.get("audit_context", {}) or {}
     climate_location = escape(str(audit.get("climate_location", "-")))
@@ -209,12 +352,16 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
 
     raw_payback_s = _numero_ou_none(project_data.get("payback_s"))
     raw_payback_d = _numero_ou_none(project_data.get("payback_d"))
+    aviso_custos = _aviso_de_custos(project_data, is_en)
+    if aviso_custos:
+        # Sem custos, o investimento, o VPL, a TIR e o payback não são resultado: «Não calculado».
+        capex = vpl = tir = raw_payback_s = raw_payback_d = None
 
     def fmt(valor, casas, unidade=""):
         return nc if valor is None else f"{format_ptbr(valor, casas)}{unidade}"
 
     def din(valor, unidade=""):
-        return nc if valor is None else f"{moeda} {format_ptbr(valor, 2)}{unidade}"
+        return nc if valor is None else f"{moeda} {format_ptbr(valor, 2)}{unidade}".strip()
 
     # Formatação estrita em pt-BR (ponto milhar, vírgula decimal)
     lower_vol_str = fmt(lower_vol, 0, " L")
@@ -258,15 +405,23 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     else:
         parecer_economico = (f"VPL de <b>{vpl_str}</b>: nas premissas adotadas, o investimento "
                              "não se paga no horizonte de análise")
-    from triton.core.edition import usa_dados_do_brasil, is_prt_edition
-    if usa_dados_do_brasil():
+    if _brasil():
         norma_exec = "O dimensionamento segue as diretrizes da ABNT NBR 15527."
-    elif is_prt_edition():
-        norma_exec = "O dimensionamento segue as diretrizes da NP EN 16941-1."
     else:
-        norma_exec = "Sizing follows international technical standards (EN 16941-1)."
-    reg_prof = _registro_profissional()
-
+        norma_exec = "O dimensionamento segue " + _frase_da_norma(False, "diretrizes") + "."
+    conformidade = (f"<p>Conformidade Normativa: <b>{_normas_do_laudo(is_en)}</b></p>")
+    aviso_moeda = _aviso_de_moeda(project_data, is_en)
+    if aviso_moeda:
+        conformidade += f"<p>{aviso_moeda}</p>"
+    if aviso_custos:
+        conformidade += f"<p style='color:#b91c1c;font-weight:700;'>⚠ {aviso_custos}</p>"
+    aviso_rede_exec = _aviso_de_rede(project_data, is_en)
+    if aviso_rede_exec:
+        conformidade += f"<p style='color:#b91c1c;font-weight:700;'>⚠ {aviso_rede_exec}</p>"
+    reg_prof = _registro_profissional(is_en, "executivo")
+    if _brasil():
+        reg_prof = tr('CREA / Registro Profissional')
+    substituicao = "Substituição da Concessionária" if _brasil() else "Substituição de Água da Rede"
 
     html = f"""<!DOCTYPE html>
 <html lang="pt-BR">
@@ -387,7 +542,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
                 </td>
                 <td class="doc-meta" style="width: 45%;">
                     <p>Ref. Projeto: <b>{ref_code}</b> | Emissão: <b>{date_str}</b> | <b>{_edicao()}</b></p>
-                    <p>Conformidade Normativa: <b>{_normas_aplicaveis()}</b></p>
+                    {conformidade}
                 </td>
             </tr>
         </table>
@@ -408,7 +563,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
             <div class="kpi-card green">
                 <div class="kpi-label">Economia Potável</div>
                 <div class="kpi-value">{potential_pct_str}</div>
-                <div class="kpi-sub">Substituição da Concessionária</div>
+                <div class="kpi-sub">{substituicao}</div>
             </div>
             <div class="kpi-card blue">
                 <div class="kpi-label">VPL ({periodo_str} anos)</div>
@@ -503,6 +658,8 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
     </div>
 </body>
 </html>"""
+    if is_en:
+        html = laudo_em_ingles(html)
     return _localize_report_markup(html)
 
 
@@ -531,7 +688,7 @@ def generate_environmental_html_report(
 
     # Extração de dados da edificação e simulação
     project_name = escape(str(project_data.get("project_name", "Projeto Triton")))
-    ref_code = escape(str(project_data.get("ref_code", "NET-5026-UFSC")))
+    ref_code = escape(str(project_data.get("ref_code", _ref_padrao())))
     rain_file = escape(str(project_data.get("rain_file", "Série Climatológica")))
     audit = project_data.get("audit_context", {}) or {}
     climate_location = escape(str(audit.get("climate_location", "-")))
@@ -672,7 +829,7 @@ def generate_environmental_html_report(
             net_val = "--"
             net_class = ""
 
-        src_name = escape(tr(item.source_reference, lang=report_lang))
+        src_name = escape(tr(item.source_reference, lang=report_lang) if _brasil() else _ed.traduz_descritivo(_sem_residuos(item.source_reference)))
         qty_name = escape(item.quantity_str)
         icv_rows.append(
             f"<tr>"
@@ -863,8 +1020,8 @@ def generate_environmental_html_report(
                 <td class="doc-title" style="width: 70%;">
                     <h1>{doc_title}</h1>
                     <p style="font-size: 8.5pt; color: #0f172a;">{'Projeto' if not is_en else 'Project'}: <b>{project_name}</b></p>
-                    <p>{doc_subtitle}</p>
-                    <p><b>ISO 14040 / ISO 14044 · {_normas_aplicaveis(is_en)} · GHG Protocol</b></p>
+                    <p>{doc_subtitle}</p>{_caixa_de_aviso(_aviso_de_rede(project_data, is_en))}{_caixa_de_aviso(_aviso_de_custos(project_data, is_en))}
+                    <p><b>ISO 14040 / ISO 14044{_norma_do_cabecalho(' · ')} · GHG Protocol</b></p>
                 </td>
                 <td style="width: 30%; text-align: right; font-size: 7pt; color: #475569;">
                     <div>Ref: <b style="color: #0f172a;">{ref_code}</b></div>
@@ -1040,7 +1197,6 @@ def generate_environmental_html_report(
             </p>
         </div>
 
-
         <table class="footer-table">
             <tr>
                 <td style="width: 50%;">
@@ -1051,7 +1207,7 @@ def generate_environmental_html_report(
                     <div style="display: inline-block; text-align: center;">
                         <div class="sig-line"></div>
                         <div><b>{'Responsável Técnico(a) / Especialista Ambiental' if not is_en else 'Responsible Technical Engineer / Environmental Analyst'}</b></div>
-                        <div>{_registro_profissional(is_en)}</div>
+                        <div>{_registro_profissional(is_en, 'ambiental')}</div>
                     </div>
                 </td>
             </tr>
@@ -1059,6 +1215,8 @@ def generate_environmental_html_report(
     </div>
 </body>
 </html>"""
+    if is_en:
+        html = laudo_em_ingles(html)
     return _localize_report_markup(_sem_unidade_no_nao_calculado(html))
 
 
@@ -1077,6 +1235,8 @@ def generate_research_html_report(
     """
     from triton.core.environmental import empty_environmental_result
 
+    if _aviso_de_custos(project_data, get_current_lang() == "en"):
+        project_data = _sem_resultados_economicos(project_data)
     report_lang = get_current_lang()
     is_en = report_lang == "en"
     # Moeda e horizonte do projeto: o «R$» e os «20 anos» eram fixos no dossiê.
@@ -1094,13 +1254,13 @@ def generate_research_html_report(
             "Este relatório consolida a análise técnico-científica do sistema de aproveitamento de água de chuva, "
             "integrando a simulação hidrológica contínua (Modelo YAS — Yield After Spillage), a avaliação de viabilidade "
             "econômico-financeira por fluxo de caixa descontado e a Análise do Ciclo de Vida (ACV) simplificada. Os dados "
-            f"fornecem rastreabilidade completa das premissas de projeto conforme as diretrizes da norma {_normas_aplicaveis(False)}. "
+            f"fornecem rastreabilidade completa das premissas de projeto conforme {_frase_da_norma(False, 'diretrizes')}. "
             "Em vez de declarar uma solução universalmente ótima, o documento compara configurações de reservatório e explicita como "
             "cada critério altera o desempenho hídrico, o retorno financeiro e o balanço de gases de efeito estufa (GEE).",
             "This report consolidates the technical-scientific analysis of the rainwater harvesting system, integrating continuous "
             "hydrological simulation (YAS Model — Yield After Spillage), economic-financial feasibility via discounted cash flow, "
-            f"and simplified Life Cycle Assessment (LCA). The data provides complete traceability of project assumptions according "
-            f"to {_normas_aplicaveis(True)} guidelines. Decision-making balances technical supply reliability, financial returns, and "
+            "and simplified Life Cycle Assessment (LCA). The data provides complete traceability of project assumptions according "
+            f"to {_frase_da_norma(True, 'diretrizes')}. Decision-making balances technical supply reliability, financial returns, and "
             "greenhouse gas (GHG) emission mitigation. Rather than declaring one universally optimal solution, the report compares "
             "storage configurations and makes the consequences of each decision criterion explicit."
         ),
@@ -1774,7 +1934,7 @@ def generate_research_html_report(
             "nenhum indicador, isoladamente, representa todos os objetivos.",
             f"The references correspond to {distinct_system_count} distinct configurations between <b>{num(volume_range[0], 0)} and {num(volume_range[1], 0)} L</b>. "
             f"Within this set, savings range from <b>{num(saving_range[0], 1)}% to {num(saving_range[1], 1)}%</b>, CAPEX from "
-            f"<b>{moeda} {num(capex_range[0], 2)} to {moeda} {num(capex_range[1], 2)}</b>, NPV from <b>{moeda} {num(vpl_range[0], 2)} to {moeda} {num(vpl_range[1], 2)}</b>, "
+            f"<b>{_moeda_em_ingles(moeda)} {num(capex_range[0], 2)} to {_moeda_em_ingles(moeda)} {num(capex_range[1], 2)}</b>, NPV from <b>{_moeda_em_ingles(moeda)} {num(vpl_range[0], 2)} to {_moeda_em_ingles(moeda)} {num(vpl_range[1], 2)}</b>, "
             f"and the climate balance from <b>{num(co2_range[0], 1)} to {num(co2_range[1], 1)} kg CO2e</b>. These ranges are the core of the decision; "
             "no single indicator represents all objectives."
         )
@@ -1820,7 +1980,7 @@ def generate_research_html_report(
     current_year = datetime.now().year
 
     html = f"""<!DOCTYPE html>
-<html lang='{lang}'>
+<html lang='{'pt-PT' if (lang == 'pt' and not _brasil() and _ed.is_prt_edition()) else lang}'>
 <head>
 <meta charset='UTF-8'>
 <title>{t('title')} - Triton</title>
@@ -2017,9 +2177,7 @@ li {{ margin-bottom: 2px; }}
      ══════════════════════════════════════════════════════════ -->
 <div class='cover-page'>
     <div class='cover-institution'>
-        UNIVERSIDADE FEDERAL DE SANTA CATARINA — UFSC<br/>
-        CENTRO TECNOLÓGICO — CTC<br/>
-        GRUPO DE PESQUISA EM AMBIENTES SUSTENTÁVEIS
+        {_instituicao_da_capa()}
     </div>
 
     <div class='cover-center'>
@@ -2032,20 +2190,19 @@ li {{ margin-bottom: 2px; }}
 
     <div class='cover-meta'>
         <table class='cover-meta-table'>
-            <tr><td style='width: 38%; font-weight: bold;'>{'Reference code' if is_en else 'Código de Referência'}:</td><td>{safe(project_data.get('ref_code', '-'))}</td></tr>
-            <tr><td style='font-weight: bold;'>{'Project name' if is_en else 'Nome do Projeto'}:</td><td>{safe(project_data.get('project_name', 'Projeto Triton'))}</td></tr>
-            <tr><td style='font-weight: bold;'>{'Standards basis' if is_en else 'Diretrizes Normativas'}:</td><td>{_normas_aplicaveis(is_en)} | ISO 14040/14044</td></tr>
-            <tr><td style='font-weight: bold;'>{'Issue date' if is_en else 'Data de Emissão'}:</td><td>{date_str}</td></tr>
+            <tr><td style='width: 38%; font-weight: bold;'>Código de Referência:</td><td>{safe(project_data.get('ref_code', '-'))}</td></tr>
+            <tr><td style='font-weight: bold;'>Nome do Projeto:</td><td>{safe(project_data.get('project_name', 'Projeto Triton'))}</td></tr>
+            <tr><td style='font-weight: bold;'>{'Standards basis' if is_en else 'Diretrizes Normativas'}:</td><td>{_norma_do_cabecalho('', ' | ')}ISO 14040/14044</td></tr>
+            <tr><td style='font-weight: bold;'>Data de Emissão:</td><td>{date_str}</td></tr>{_linha_de_moeda_da_capa(project_data, is_en)}
             <tr><td style='font-weight: bold;'>{'Program edition' if is_en else 'Edição do programa'}:</td><td>{_edicao()}</td></tr>
-            <tr><td style='font-weight: bold;'>{'Technical responsibility' if is_en else 'Responsabilidade Técnica'}:</td><td>{'Responsible Researcher / Engineer' if is_en else 'Pesquisador(a) / Engenheiro(a) Responsável'}</td></tr>
+            <tr><td style='font-weight: bold;'>Responsabilidade Técnica:</td><td>Pesquisador(a) / Engenheiro(a) Responsável</td></tr>
         </table>
     </div>
 
     <div class='cover-footer'>
-        {_rodape_cidade()}<br/>
+        {_rodape_cidade()}
         {current_year}
     </div>
-
 </div>
 
 {figure_catalog_html}
@@ -2064,7 +2221,7 @@ li {{ margin-bottom: 2px; }}
         <tr>
             <td><b>{t('reference')}</b><br/>{safe(project_data.get('ref_code', '-'))}</td>
             <td><b>{t('issued')}</b><br/>{date_str}</td>
-            <td><b>{t('standard')}</b><br/>{_normas_aplicaveis(is_en)}</td>
+            <td><b>{t('standard')}</b><br/>{_norma_do_cabecalho() or 'ISO 14040/14044'}</td>
             <td><b>Motor / Engine</b><br/>Triton (YAS)</td>
         </tr>
         <tr>
@@ -2144,9 +2301,9 @@ li {{ margin-bottom: 2px; }}
      ══════════════════════════════════════════════════════════ -->
 <div style='page-break-before: always;'></div>
 <section class='section'>
-    <h2>{t('scope')}</h2>
+    <h2>{t('scope')}</h2>{_caixa_de_aviso(_aviso_de_custos(project_data, is_en))}{_caixa_de_aviso(_aviso_de_rede(project_data, is_en))}
     <p style='margin-bottom: 6px; font-size: 8pt; color: #475569;'>
-        {("Este capítulo detalha as premissas físicas e operacionais da edificação, os dados pluviométricos históricos adotados para a localidade e os parâmetros normativos de captação conforme a norma " + _normas_aplicaveis(False) + ".") if not is_en else ("This chapter details the physical and operational premises of the building, the historical rainfall data adopted for the location, and the normative catchment parameters according to " + _normas_aplicaveis(True) + ".")}
+        {("Este capítulo detalha as premissas físicas e operacionais da edificação, os dados pluviométricos históricos adotados para a localidade e os parâmetros normativos de captação conforme " + _frase_da_norma(False, "parametros") + ".") if not is_en else ("This chapter details the physical and operational premises of the building, the historical rainfall data adopted for the location, and the normative catchment parameters according to " + _frase_da_norma(True, "parametros") + ".")}
     </p>
     <table>
         <thead>
@@ -2467,12 +2624,11 @@ li {{ margin-bottom: 2px; }}
 <section class='section'>
     <h2>{t('references')}</h2>
     <ul>
-        {_referencia_norma_li()}
+        {_referencia_norma_li(is_en)}
         <li><b>ISO 14040/14044</b> — {('Gestão Ambiental — Avaliação do Ciclo de Vida — Princípios, estrutura e requisitos.' if not is_en else 'Environmental management — Life cycle assessment — Principles and framework.')}</li>
-        {_referencia_grid_li()}
-        <li><b>{('Fatores de materiais/equipamentos' if not is_en else 'Materials and equipment factors')}</b> — {('Premissas editáveis de triagem; registrar EPD/inventário, versão, geografia, fronteira e transformação adotados.' if not is_en else 'Screening parameters; document supplier EPD/inventory, version, boundary and dataset.')}</li>
-
-        <li><b>Hwang & Yoon (1981)</b> — <i>Multiple Attribute Decision Making</i>; {('fundamento do TOPSIS.' if not is_en else 'foundation of the TOPSIS method.')}</li>
+        {_referencia_grid_li(is_en)}
+        <li><b>Fatores de materiais/equipamentos</b> — Premissas editáveis de triagem; registrar EPD/inventário, versão, geografia, fronteira e transformação adotados.</li>
+        <li><b>Hwang & Yoon (1981)</b> — <i>Multiple Attribute Decision Making</i>; fundamento do TOPSIS.</li>
     </ul>
 
     <div class='disc-box' style='margin-top: 15px; border-left-color: #0284c7; background-color: #f0f9ff;'>
@@ -2484,22 +2640,23 @@ li {{ margin-bottom: 2px; }}
 
     <div class='footer-sig'>
         <div>
-            <b>{"Grupo de Pesquisa em Ambientes Sustentáveis" if not is_en else "Sustainable Environments Research Group"} (UFSC)</b><br/>
+            <b>{_credito_do_grupo(is_en, com_ufsc=False) + " (UFSC)"}</b><br/>
             {APP_VERSION_LABEL} Engine · {_edicao()} — {t('prepared')}
         </div>
         <div style='text-align: right;'>
             <br/><br/><br/><br/>
             ___________________________________________________<br/>
             <b>{"Pesquisador(a) / Engenheiro(a) Responsável" if not is_en else "Responsible Researcher / Engineer"}</b><br/>
-            {_registro_profissional(is_en)}
+            {_registro_profissional(is_en, 'pesquisa')}
         </div>
     </div>
 </section>
 
-
 </main>
 </body>
 </html>"""
+    if is_en:
+        html = laudo_em_ingles(html)
     return _localize_report_markup(_sem_unidade_no_nao_calculado(html))
 
 

@@ -59,6 +59,10 @@ TERMOS = _CONCORDANCIA + (
     ("econômico", "económico"),
     ("econômica", "económica"),
     # informática e interface
+    ("vazões", "caudais"),
+    ("vazão", "caudal"),
+    ("tubulações", "tubagens"),
+    ("tubulação", "tubagem"),
     ("arquivos", "ficheiros"),
     ("arquivo", "ficheiro"),
     ("usuários", "utilizadores"),

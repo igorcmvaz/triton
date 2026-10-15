@@ -22,6 +22,7 @@ from triton.core.grid_emission_factors import BASE_PADRAO, bases_disponiveis, fa
 from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
 from triton.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport, LeedWaterCredits, AquaHqeRating, CasaAzulRating
 import json
+import re
 import sys
 from pathlib import Path
 from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox
@@ -182,7 +183,8 @@ def test_step5_and_step7_exact_parity():
     assert table7.rowCount() > 0
     target_row = next((r for r in range(table7.rowCount()) if '5000' in table7.item(r, 1).text()))
     vpl_step7_str = table7.item(target_row, 8).text()
-    vpl_step7 = float(vpl_step7_str.replace('R$', '').replace('$', '').replace('.', '').replace(',', '.').strip())
+    # Qualquer símbolo de moeda (R$, €, $...): fica só o número no formato da interface.
+    vpl_step7 = float(re.sub(r'[^0-9,.\-]', '', vpl_step7_str).replace('.', '').replace(',', '.'))
     vpl_step5_5000 = window.tab_economic.last_sweep_econ_results[5000.0]['vpl']
     assert vpl_step5_5000 == pytest.approx(vpl_step7, abs=200.0)
 
@@ -1103,6 +1105,10 @@ def _simulacao(pluvial_l_dia: float=330.0, potavel_l_dia: float=330.0):
 def propagacao_de_entradas_janela(qapp):
     from triton.ui.main_window import MainWindow
     win = MainWindow()
+    # Estes testes verificam que a escolha da tela move o investimento pelo catálogo de preços do
+    # motor. Fora da Brasil o projeto novo parte com o catálogo desligado (neutralidade); aqui
+    # ele é ligado de propósito.
+    win.config.precos_de_catalogo = True
     win.tab_tanks_simulation.last_single_result = _simulacao()
     win.tab_tanks_simulation._is_technical_only = False
     return win
@@ -1140,13 +1146,15 @@ def test_a_area_de_captacao_dimensiona_o_filtro_de_entrada(propagacao_de_entrada
 
 def test_a_tipologia_chega_a_configuracao_e_ao_aviso(propagacao_de_entradas_janela):
     """Ficava presa num dicionário local da aba de edificação."""
+    from triton.core.edition import usa_dados_do_brasil
     from triton.core.tariff_category import incompatibilidade_de_categoria
     aba = propagacao_de_entradas_janela.tab_building
     for tid, avisa in (('res_medio', False), ('hospital', True), ('comercial', True)):
         aba.combo_building_template.setCurrentIndex(aba.combo_building_template.findData(tid))
         aba.get_building_config()
         assert propagacao_de_entradas_janela.config.building_template_id == tid
-        assert bool(incompatibilidade_de_categoria(propagacao_de_entradas_janela.config)) is avisa, tid
+        # O aviso fala do catálogo tarifário do Brasil: fora dele não existe catálogo, e não há aviso.
+        assert bool(incompatibilidade_de_categoria(propagacao_de_entradas_janela.config)) is (avisa and usa_dados_do_brasil()), tid
 
 
 def test_o_volume_pluvial_simulado_rege_o_dimensionamento_da_etap(propagacao_de_entradas_janela):

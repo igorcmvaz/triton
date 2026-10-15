@@ -28,6 +28,7 @@ from triton.core.climate_database import (
     RECORTES_SUGERIDOS, ANOS_MINIMOS_RECOMENDADOS,
     get_available_climate_cities
 )
+from triton.core.edition import usa_dados_do_brasil
 from triton.ui.translation import tr, get_current_theme
 from triton.ui.date_picker import DatePickerLineEdit
 from triton.ui.charts import PrcptotAnnualChart, SdiiVsR95pChart, CddCwdAnnualChart, SeasonalPrecipChart
@@ -117,12 +118,7 @@ class TabProject(QWidget):
             self.precip_data = None
             self.precip_file_path = ""
         base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        if is_int_edition():
-            serie_nome = "NewYork.csv"
-        elif is_prt_edition():
-            serie_nome = "Funchal.csv"
-        else:
-            serie_nome = getattr(self, "SERIE_DE_EXEMPLO", "Florianopolis1.csv")
+        serie_nome = self.SERIE_DE_EXEMPLO   # a série que a edição distribui (edition.serie_de_exemplo_da_edicao)
         exemplo = os.path.join(base, "data", "rainfall", serie_nome)
         if os.path.isfile(exemplo) or not usa_dados_do_brasil():
             self.rb_source_custom.setChecked(True)
@@ -629,19 +625,27 @@ class TabProject(QWidget):
             "ali as estações em funcionamento, com falhas em mais de 20% dos dias) não têm série na base: "
             "importe uma série própria."))
 
+    @staticmethod
+    def _uf_padrao() -> str:
+        """«SC» é o estado de Florianópolis, o padrão da Edição Brasil; nas outras não há estado."""
+        return "SC" if usa_dados_do_brasil() else ""
+
     def init_climate_and_tariff_ui(self):
         self._is_populating = True
         try:
             self.combo_climate_uf.clear()
             if getattr(self, "_base_portugal", False):
                 self._preparar_painel_portugal()
-            else:
+            elif usa_dados_do_brasil():
                 for uf_code, state_name in get_available_ufs():
                     self.combo_climate_uf.addItem(f"{uf_code} - {state_name}", uf_code)
 
             cfg = self._get_config()
-            saved_uf = getattr(cfg, 'climate_city_uf', getattr(cfg, 'tariff_city_uf', 'SC'))
-            saved_city = getattr(cfg, 'climate_city_name', getattr(cfg, 'tariff_city_name', 'Florianópolis'))
+            # Os padrões de Florianópolis valem só na Edição Brasil; nas outras, o seletor de
+            # cidades nem é oferecido (a Internacional carrega o arquivo de chuva do usuário).
+            padrao_uf, padrao_cidade = ('SC', 'Florianópolis') if usa_dados_do_brasil() else ('', '')
+            saved_uf = getattr(cfg, 'climate_city_uf', getattr(cfg, 'tariff_city_uf', padrao_uf))
+            saved_city = getattr(cfg, 'climate_city_name', getattr(cfg, 'tariff_city_name', padrao_cidade))
             if getattr(self, "_base_portugal", False) and self.combo_climate_uf.findData(saved_uf) < 0:
                 from triton.core import base_climatica_portugal as _pt
                 saved_uf, saved_city = _pt.DISTRITO_PADRAO, _pt.CONCELHO_PADRAO
@@ -670,7 +674,7 @@ class TabProject(QWidget):
         self.load_active_national_series()
 
     def populate_climate_cities(self, select_city=None):
-        uf_code = self.combo_climate_uf.currentData() or "SC"
+        uf_code = self.combo_climate_uf.currentData() or ("SC" if usa_dados_do_brasil() else "")
         prev_blocked = self.combo_climate_city.blockSignals(True)
         self.combo_climate_city.clear()
         if getattr(self, "_base_portugal", False):
@@ -679,6 +683,10 @@ class TabProject(QWidget):
                 self.combo_climate_city.addItem(c, c)
             idx = self.combo_climate_city.findData(select_city) if select_city else -1
             self.combo_climate_city.setCurrentIndex(idx if idx >= 0 else 0)
+            self.combo_climate_city.blockSignals(prev_blocked)
+            return
+
+        if not usa_dados_do_brasil():
             self.combo_climate_city.blockSignals(prev_blocked)
             return
 
@@ -782,7 +790,7 @@ class TabProject(QWidget):
         if not self.rb_source_national.isChecked():
             return
         city_name = self.combo_climate_city.currentText().strip()
-        uf_code = self.combo_climate_uf.currentData() or "SC"
+        uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         model_name = self.combo_climate_model.currentText().strip() or "ACCESS-CM2"
         scenario_key = self.combo_climate_scenario.currentData() or "HIST"
 
@@ -888,7 +896,7 @@ class TabProject(QWidget):
             self.lbl_tariff_status.setStyleSheet("font-size: 11px; font-weight: bold; color: #10b981; background-color: transparent;")
 
     def update_tariff_location_preview(self):
-        uf_code = self.combo_climate_uf.currentData() or "SC"
+        uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         city_name = self.combo_climate_city.currentText().strip()
         if getattr(self, "_tarifas_portugal", False):
             self._preview_portugal(city_name)
@@ -936,7 +944,7 @@ class TabProject(QWidget):
 
     def on_restore_official_tariffs(self, show_dialog=True):
         self._tariff_is_customized = False
-        uf_code = self.combo_climate_uf.currentData() or "SC"
+        uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         city_name = self.combo_climate_city.currentText().strip()
         if getattr(self, "_tarifas_portugal", False):
             from triton.core import tarifarios_portugal as _tp
@@ -964,7 +972,7 @@ class TabProject(QWidget):
             # Na International, a lista é a das cidades brasileiras da CLIMBra, oculta: o
             # projeto gravava Florianópolis (SC) como local da tarifa e do fator regional.
             return ("CUSTOM", "CUSTOM")
-        return (self.combo_climate_uf.currentData() or "SC", self.combo_climate_city.currentText().strip())
+        return (self.combo_climate_uf.currentData() or self._uf_padrao(), self.combo_climate_city.currentText().strip())
 
     def set_tariff_location(self, uf_code: str, city_name: str):
         self._is_populating = True
@@ -1143,9 +1151,9 @@ class TabProject(QWidget):
             self.card_rx1day.set_value(f"{summary['RX1day']['mean']:.1f} mm")
             self.card_rx5day.set_value(f"{summary['RX5day']['mean']:.1f} mm")
             self.card_sdii.set_value(f"{summary['SDII']['mean']:.2f} mm/d")
-            self.card_r20mm.set_value(f"{summary['R20mm']['mean']:.1f} dias")
-            self.card_cdd.set_value(f"{summary['CDD']['mean']:.1f} dias")
-            self.card_cwd.set_value(f"{summary['CWD']['mean']:.1f} dias")
+            self.card_r20mm.set_value(f"{summary['R20mm']['mean']:.1f} {tr('dias')}")
+            self.card_cdd.set_value(f"{summary['CDD']['mean']:.1f} {tr('dias')}")
+            self.card_cwd.set_value(f"{summary['CWD']['mean']:.1f} {tr('dias')}")
             self.card_saz.set_value(f"{summary['Seasonality_Index']['mean']:.2f}")
 
             self.chart_prcptot.plot_data(df_indices)
@@ -1399,7 +1407,7 @@ class TabProject(QWidget):
     def get_project_state(self) -> dict:
         return {
             "source_mode": "national_db" if self.rb_source_national.isChecked() else "custom_file",
-            "climate_uf": self.combo_climate_uf.currentData() or "SC",
+            "climate_uf": self.combo_climate_uf.currentData() or self._uf_padrao(),
             "climate_city": self.combo_climate_city.currentText().strip(),
             "climate_model": self.combo_climate_model.currentText().strip(),
             "climate_scenario": self.combo_climate_scenario.currentData() or "HIST",

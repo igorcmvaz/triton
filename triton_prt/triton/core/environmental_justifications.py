@@ -386,6 +386,104 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
 }
 
 
+import re as _re
+
+#: Grafias que as trocas de ``textos_da_edicao`` não pegam (sem acento, quebra de linha no meio, marca
+#: avulsa). Aplicadas só fora da Edição Brasil, depois de ``sem_marcas_do_brasil``.
+_RESIDUOS_DO_BRASIL = (
+    (_re.compile(r"Fator corroborado pelo SIDAC \(invent[aá]rio brasileiro da constru[cç][aã]o\)", _re.I),
+     "Fator corroborado por inventário público da construção"),
+    (_re.compile(r"cat[aá]logo\s+t[eé]cnico\s+Fortlev,\s*['«]Caixa d['’]?[aá]gua em fibra de vidro['»]", _re.I),
+     "catálogo técnico de fabricante, caixa em fibra de vidro"),
+    (_re.compile(r"\bFortlev\b"), "um fabricante"),
+    (_re.compile(r"centr[ií]fuga\s+brasileira", _re.I), "centrífuga convencional"),
+    (_re.compile(r"invent[aá]rio\s+brasileiro", _re.I), "inventário público"),
+    (_re.compile(r"\bSIDAC\b"), "inventário público"),
+    (_re.compile(r"\bbrasileir[oa]s?\b", _re.I), "do local"),
+)
+
+
+def _sem_residuos_do_brasil(texto: Optional[str]) -> Optional[str]:
+    if not texto:
+        return texto
+    for padrao, alvo in _RESIDUOS_DO_BRASIL:
+        texto = padrao.sub(alvo, texto)
+    return texto
+
+
+def _para_a_edicao(j: Optional[ParameterJustification]) -> Optional[ParameterJustification]:
+    """A justificativa sem fabricantes, normas e inventários do Brasil, fora da Edição Brasil."""
+    if j is None:
+        return j
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return j
+    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
+    def limpa(texto):
+        return _sem_residuos_do_brasil(sem_marcas_do_brasil(texto, "pt"))
+
+    return replace(
+        j,
+        title=limpa(j.title),
+        short_description=limpa(j.short_description),
+        detailed_explanation=limpa(j.detailed_explanation),
+        source_reference=limpa(j.source_reference),
+        calculation_basis=limpa(j.calculation_basis),
+        notes=limpa(j.notes) if j.notes else j.notes,
+    )
+
+
+#: Fora da Brasil, o fator da rede elétrica e o da água de rede são do local do projeto: o
+#: programa não traz valor de partida nem cita a matriz ou as perdas de um país.
+_FATORES_DO_LOCAL: Dict[str, ParameterJustification] = {
+    "grid_co2": ParameterJustification(
+        title="Fator de Emissão da Rede Elétrica do Local",
+        short_description="Informado pelo usuário, em kg CO2e/kWh",
+        detailed_explanation=(
+            "O fator converte a energia de bombeamento em kg CO2e, e precisa ser de CO2-equivalente, "
+            "do local do projeto e do ano do estudo.\n\n"
+            "O programa não traz valor de partida: informe o fator da rede elétrica do seu local, de "
+            "uma fonte que você possa citar (operador da rede, agência de energia ou inventário "
+            "nacional), e declare a base e o ano da matriz a que ele se refere."
+        ),
+        source_reference="Informado pelo usuário; registrar a fonte, o ano e o escopo (CO2 ou CO2e)",
+        calculation_basis="CO2_bomba = energia anual (kWh) × fator da rede (kg CO2e/kWh)",
+        notes="Declare a base escolhida e o ano da matriz a que ela se refere.",
+    ),
+    "potable_co2": ParameterJustification(
+        title="Fator de Emissão de Água Potável Evitada",
+        short_description="Informado pelo usuário, em kg CO2e por m³ entregue",
+        detailed_explanation=(
+            "O fator é por metro cúbico ENTREGUE na edificação, e não produzido na estação: as perdas "
+            "de distribuição fazem cada m³ entregue exigir mais de 1 m³ produzido.\n\n"
+            "Informe o valor da entidade que abastece o seu local ou de um inventário local; na falta "
+            "dele, o programa oferece rotas publicadas, cada uma com fonte e fronteira próprias, e a "
+            "opção de digitar um valor personalizado."
+        ),
+        source_reference="Informado pelo usuário, ou rota publicada escolhida na janela de parâmetros da ACV",
+        calculation_basis="CO2_água_evitado = volume pluvial consumido × fator por m³ entregue",
+        notes="Prefira o inventário da entidade que abastece o local, quando existir, e declare a rota adotada.",
+    ),
+}
+
+
+def _html_da_edicao(html: str) -> str:
+    """O HTML de justificativas sem as marcas do Brasil, fora da Edição Brasil."""
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return html
+    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
+    for fonte, alvo in (
+        ("<b>Matriz Elétrica Brasileira</b>", "<b>Fator da Rede Elétrica</b>"),
+        ("<b>0,085 kg CO2e/kWh</b>", "<b>Informado pelo usuário</b>"),
+        ("Hipótese editável. Selecionar e arquivar o fator MCTI/SIRENE correspondente ao período e escopo do estudo.",
+         "Valor informado pelo usuário. Registrar a fonte, o ano e o escopo do fator do local do estudo."),
+        ("<b>0,35 kg CO2e/m³</b>", "<b>Informado pelo usuário</b>"),
+    ):
+        html = html.replace(fonte, alvo)
+    return _sem_residuos_do_brasil(sem_marcas_do_brasil(html, "pt"))
+
+
 def get_material_justification(material_key: str, param: str) -> Optional[ParameterJustification]:
     """
     Obtém a justificativa de um parâmetro de material.
@@ -397,24 +495,27 @@ def get_material_justification(material_key: str, param: str) -> Optional[Parame
     Returns:
         ParameterJustification ou None se não encontrado
     """
-    return _mark_as_screening(MATERIAL_JUSTIFICATIONS.get(material_key, {}).get(param))
+    return _para_a_edicao(_mark_as_screening(MATERIAL_JUSTIFICATIONS.get(material_key, {}).get(param)))
 
 
 def get_pipe_justification(diameter_mm: int) -> Optional[ParameterJustification]:
     """Obtém a justificativa para um fator de emissão de tubulação."""
-    return _mark_as_screening(PIPE_JUSTIFICATIONS.get(diameter_mm))
+    return _para_a_edicao(_mark_as_screening(PIPE_JUSTIFICATIONS.get(diameter_mm)))
 
 
 def get_pump_justification(power_cv: float) -> Optional[ParameterJustification]:
     """Obtém a justificativa para uma emissão de bomba."""
     # Com fonte declarada, a justificativa não recebe o carimbo de triagem, que
     # sobrescreveria a referência pela frase genérica de cenário interno.
-    return PUMP_JUSTIFICATIONS.get(power_cv)
+    return _para_a_edicao(PUMP_JUSTIFICATIONS.get(power_cv))
 
 
 def get_operational_justification(param_name: str) -> Optional[ParameterJustification]:
     """Obtém a justificativa para um fator operacional (matriz elétrica, tratamento, etc.)."""
-    return _mark_as_screening(OPERATIONAL_JUSTIFICATIONS.get(param_name))
+    from triton.core.edition import usa_dados_do_brasil
+    if not usa_dados_do_brasil() and param_name in _FATORES_DO_LOCAL:
+        return _FATORES_DO_LOCAL[param_name]
+    return _para_a_edicao(_mark_as_screening(OPERATIONAL_JUSTIFICATIONS.get(param_name)))
 
 
 #: Começos de referência que indicam cenário interno ou orientação, e não fonte.
@@ -464,6 +565,7 @@ def format_justification_as_tooltip(justification: ParameterJustification) -> st
     Returns:
         String HTML formatada para tooltip rico
     """
+    from triton.ui.translation import tr
     html = f"""
     <html style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 450px;">
     <head><style>
@@ -484,20 +586,20 @@ def format_justification_as_tooltip(justification: ParameterJustification) -> st
         <div class="short">{justification.short_description}</div>
         
         <div class="section">
-            <div class="section-title">🔍 Explicação Detalhada:</div>
+            <div class="section-title">{tr("🔍 Explicação Detalhada:")}</div>
             <div class="section-content">{justification.detailed_explanation.replace(chr(10), '<br>')}</div>
         </div>
         
         <div class="section">
-            <div class="section-title">📐 Base do Cálculo:</div>
+            <div class="section-title">{tr("📐 Base do Cálculo:")}</div>
             <div class="section-content">{justification.calculation_basis}</div>
         </div>
         
-        <div class="source">📚 Referência: {justification.source_reference}</div>
+        <div class="source">{tr("📚 Referência:")} {justification.source_reference}</div>
     """
     
     if justification.notes:
-        html += f'<div class="notes"><strong>📌 Notas:</strong> {justification.notes.replace(chr(10), "<br>")}</div>'
+        html += f'<div class="notes"><strong>{tr("📌 Notas:")}</strong> {justification.notes.replace(chr(10), "<br>")}</div>'
     
     html += "</body></html>"
     return html
@@ -551,7 +653,7 @@ def generate_html_justifications_materials() -> str:
     </div>
     """
     
-    return html
+    return _html_da_edicao(html)
 
 
 def generate_html_justifications_pipes() -> str:
@@ -598,7 +700,7 @@ def generate_html_justifications_pipes() -> str:
     </div>
     """
     
-    return html
+    return _html_da_edicao(html)
 
 
 def generate_html_justifications_pumps() -> str:
@@ -642,7 +744,7 @@ def generate_html_justifications_pumps() -> str:
     </div>
     """
     
-    return html
+    return _html_da_edicao(html)
 
 
 def generate_html_justifications_operational() -> str:
@@ -695,4 +797,4 @@ def generate_html_justifications_operational() -> str:
     </div>
     """
     
-    return html
+    return _html_da_edicao(html)

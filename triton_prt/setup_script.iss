@@ -11,12 +11,16 @@
 ;
 ; As três edições têm AppId, pasta, atalhos e associação próprios: instalam-se
 ; lado a lado. A Brasil empacota dist\Triton; a Internacional, dist\Triton_INT; a
-; Portugal, dist\Triton_POR.
+; Portugal, dist\Triton_PRT.
 ;
-; Base climática CLIMBra: o banco compilado data/climbra.db (652 cidades, todos os
-; modelos e cenários) vai embutido no programa, em _internal\data\climbra.db. Os CSV
-; brutos de origem (~6,5 GB) não são oferecidos: o programa lê o banco, e eles só
-; serviriam para recompilá-lo (scripts/compilar_base_climbra.py).
+; Bases climáticas embutidas (só nas edições a que pertencem):
+;  - Brasil: a base CLIMBra compilada, um banco por modelo CMIP6 (data\climbra_<modelo>.db,
+;    19 arquivos, 652 cidades, todos os cenários), em _internal\data. O climbra.db único das
+;    versões antigas não vai (seria o mesmo conteúdo em dobro). Os CSV brutos de origem
+;    (~6,5 GB) não são oferecidos: o programa lê os bancos, e os CSV só servem para
+;    recompilá-los (scripts/compilar_base_climbra.py).
+;  - Portugal: a base E-OBS por concelho (data\portugal_eobs.db).
+; Os bancos de documentos de terceiros (tarifas_fontes.db e semelhantes) não vão em nenhuma edição.
 
 #ifndef Edition
   #define Edition "BRL"
@@ -31,18 +35,22 @@
   #define SetupName "Triton_INT_Setup_"
   #define CoreDesc "Triton application (International Edition: no Brazilian data), manual, cases and examples"
   #define AssocFlags "; Flags: unchecked"
+  #define ExcluirBases "*\climbra.db,*\climbra_*.db,*\climbra_partes.json,*\portugal_eobs.db"
+  #define ExcluirIcones "CLIMBra.*"
   #define ManualPdf "_internal\manual\en\Triton-User-Manual.pdf"
   #define ManualLink "Triton User Manual"
 #elif Edition == "PRT"
   #define MyAppName "Triton — Edição Portugal"
   #define MyAppDir "Triton Portugal"
-  #define MyAppExeName "Triton_POR.exe"
-  #define DistDir "dist\Triton_POR"
+  #define MyAppExeName "Triton_PRT.exe"
+  #define DistDir "dist\Triton_PRT"
   #define ProgId "Triton.Projeto.PRT"
   #define AppGuid "{{D8490C72-38B2-5531-8669-4234542A0979}"
-  #define SetupName "Triton_POR_Setup_"
+  #define SetupName "Triton_PRT_Setup_"
   #define CoreDesc "Aplicação Triton (Edição Portugal: português de Portugal, valores em euros), manual, casos e exemplos"
   #define AssocFlags "; Flags: unchecked"
+  #define ExcluirBases "*\climbra.db,*\climbra_*.db,*\climbra_partes.json"
+  #define ExcluirIcones "CLIMBra.*"
   #define ManualPdf "_internal\manual\Manual-Triton.pdf"
   #define ManualLink "Manual do Triton"
 #else
@@ -55,6 +63,8 @@
   #define SetupName "Triton_Setup_"
   #define CoreDesc "Aplicativo Triton, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"
   #define AssocFlags ""
+  #define ExcluirBases "*\climbra.db,*\portugal_eobs.db"
+  #define ExcluirIcones ""
   #define ManualPdf "_internal\manual\Manual-Triton.pdf"
   #define ManualLink "Manual do Triton"
 #endif
@@ -131,7 +141,7 @@ Name: "assoctriton"; Description: "Abrir arquivos .triton com o {#MyAppName}"; G
 ; Programa compilado pelo PyInstaller. Os pacotes de idioma opcionais saem
 ; daqui e entram pelos componentes abaixo.
 Source: "{#DistDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; \
-  Excludes: "simulation_outputs\*,\simulation_outputs,Dados.txt,\_internal\data\languages\es.json,\_internal\data\languages\zh.json,exemplos\triton-cli-template.triton,avisos_qt.log,*TARIFAS-DE-AGUA-E-ESGOTO*,brazilSHP\*,*\brazilSHP\*,manual\site\pdf\*,*\manual\site\pdf\*,tarifas\fontes\*,*\tarifas\fontes\*,tarifas\entrada\*,*\tarifas\entrada\*,*.db,*.sqlite"
+  Excludes: "simulation_outputs\*,\simulation_outputs,Dados.txt,\_internal\data\languages\es.json,\_internal\data\languages\zh.json,exemplos\triton-cli-template.triton,avisos_qt.log,*TARIFAS-DE-AGUA-E-ESGOTO*,brazilSHP\*,*\brazilSHP\*,manual\site\pdf\*,*\manual\site\pdf\*,tarifas\fontes\*,*\tarifas\fontes\*,tarifas\entrada\*,*\tarifas\entrada\*,*\tarifas_fontes.db,*\tarifas_portugal_fontes.db,{#ExcluirBases}"
 
 Source: "{#DistDir}\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
 Source: "{#DistDir}\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
@@ -142,7 +152,8 @@ Source: "LICENSE.md"; DestDir: "{app}"; Flags: ignoreversion
 Source: "infos_licenses\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Ícones para os atalhos e sistema
-Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs createallsubdirs
+; O logotipo da CLIMBra acompanha só a Edição Brasil, que traz a base.
+Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "{#ExcluirIcones}"
 
 [Registry]
 ; Associação dos arquivos .triton. HKA grava em HKLM numa instalação para todos

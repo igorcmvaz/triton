@@ -8,6 +8,10 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QColor, QFont, QDesktopServices
 
+from triton.ui.textos_da_edicao import (
+    rotulo_rendimento_do_motor, dica_rendimento_do_motor, guia_de_custos_de_tubulacao,
+    subtotal_de_tubulacoes, aviso_de_regime_de_cobranca, traduz_descritivo,
+)
 from triton.ui.translation import tr, get_current_theme
 from triton.core.parser import TritonConfig, format_ptbr
 from triton.core.economic import run_economic_analysis, calculate_water_bill
@@ -650,11 +654,7 @@ class DialogTariffs(QDialog):
             self.lbl_confianca.setText(f"⭐ <b>{tr('Modo:')}</b> {tr('Personalizado')}")
             self.btn_open_url.setVisible(False)
             self.lbl_elec_info.setText("")
-            self.lbl_regime.setText(tr(
-                "💧 <b>Regime de cobrança:</b> defina você mesmo. Se a sua concessionária cobra um "
-                "mínimo que já dá direito a alguns m³, lance-o como faixa de R$ 0,00/m³ até esse "
-                "volume: abaixo dele economizar água não reduz a conta."
-            ))
+            self.lbl_regime.setText(tr(aviso_de_regime_de_cobranca()))
             self.lbl_estrutura_aviso.setText("")
             self.lbl_estrutura_aviso.setVisible(False)
             self.lbl_disclaimer.setText(tr(
@@ -834,7 +834,7 @@ class DialogTariffs(QDialog):
             tariff_escalation=getattr(self.config, "tariff_escalation", 12),
             water_tariff_escalation=getattr(self.config, "water_tariff_escalation", 5.0),
             sewage_tariff_escalation=getattr(self.config, "sewage_tariff_escalation", 5.0))
-        self.lbl_reajuste_vigencia.setText(f"📅 <b>{tr('Reajuste desde a vigência:')}</b> {resumo_da_atualizacao(cfg)}")
+        self.lbl_reajuste_vigencia.setText(f"📅 <b>{tr('Reajuste desde a vigência:')}</b> {traduz_descritivo(resumo_da_atualizacao(cfg))}")
 
     def on_open_source_url(self):
         if self._current_city_data:
@@ -1463,7 +1463,7 @@ class DialogInitialCosts(QDialog):
         lay_pipes_v.addWidget(self.lbl_pipe_network_total)
 
         lbl_pipe_guidance = QLabel(
-            tr("💡 <b>Custos de Referência SINAPI:</b> Tubulações comerciais de PVC Soldável Água Fria (DN 20 a 110 mm) e Pluvial (DN 100 e 150 mm) com acréscimo normativo de 25% para conexões e registros.<br>Os comprimentos informados aqui são automaticamente sincronizados com o Módulo Ambiental (ACV).")
+            tr(guia_de_custos_de_tubulacao())
         )
         lbl_pipe_guidance.setWordWrap(True)
         lbl_pipe_guidance.setStyleSheet("color: #475569; font-size: 10.5px; padding: 2px 0;" if not is_dark else "color: #94a3b8; font-size: 10.5px; padding: 2px 0;")
@@ -1575,7 +1575,7 @@ class DialogInitialCosts(QDialog):
         is_brl = (self._sym == "R$")
         def _fmt_est(v): return f"(est. R$ {v:,.0f})".replace(',', 'X').replace('.', ',').replace('X', '.') if is_brl else ""
         if hasattr(self, "lbl_pipe_network_total"):
-            self.lbl_pipe_network_total.setText(f"⚡ {tr('Subtotal Calculado de Tubulações (SINAPI + conexões):')} {self._sym} {format_ptbr(est_piping, 2)}")
+            self.lbl_pipe_network_total.setText(f"⚡ {tr(subtotal_de_tubulacoes())} {self._sym} {format_ptbr(est_piping, 2)}")
         if hasattr(self, "lbl_est_piping"):
             self.lbl_est_piping.setText(_fmt_est(est_piping))
         if hasattr(self, "lbl_est_labor"):
@@ -1884,13 +1884,12 @@ class DialogElectricity(QDialog):
         lay_p.addWidget(self.txt_eff)
 
         # O rendimento do motor separa a energia de eixo da energia faturada.
-        lay_p.addWidget(QLabel(tr("Rendimento do motor (%, em branco usa a NBR 17094-2):")))
+        lay_p.addWidget(QLabel(tr(rotulo_rendimento_do_motor())))
         _mot = float(getattr(self.config, 'pump_motor_efficiency', 0.0) or 0.0)
         self.txt_motor_eff = QLineEdit(
             f"{_mot:.1f}".replace('.', ',') if _mot > 0 else "")
         self.txt_motor_eff.setPlaceholderText(tr("Ex: 60,5 para meio CV"))
-        self.txt_motor_eff.setToolTip(tr(
-            "A potência de placa é a potência mecânica no eixo, e a ABNT NBR 17094-2 manda marcar o rendimento na placa como grandeza separada. Em branco, o programa adota a Tabela 13 da norma para a potência escolhida: 60,5% em meio CV, 69,3% em um CV."))
+        self.txt_motor_eff.setToolTip(tr(dica_rendimento_do_motor()))
         lay_p.addWidget(self.txt_motor_eff)
 
         lay_p.addWidget(QLabel(tr("Vazão nominal (litros/hora):")))

@@ -18,6 +18,7 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor
 
 from triton.ui.translation import tr, get_current_theme, get_current_lang
+from triton.ui.textos_da_edicao import traduz_descritivo
 from triton.core.parser import format_ptbr
 from triton.core.environmental import (
     EnvironmentalConfig, EnvironmentalResult, EnvironmentalSweepResult,
@@ -26,6 +27,11 @@ from triton.core.environmental import (
 )
 from triton.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
 from triton.core import water_supply_routes as rotas_de_agua
+
+#: Entradas do combo «Água substituída» fora da Edição Brasil: não são rotas do catálogo, e sim
+#: a escolha de o usuário informar o fator (da rede do local, ou um valor próprio).
+ROTA_INFORMADA = "__informado__"
+ROTA_PERSONALIZADA = "__personalizado__"
 from triton.core.grid_emission_factors import (
     BASE_PADRAO as BASE_PADRAO_DA_REDE,
     bases_disponiveis as bases_de_rede_disponiveis,
@@ -369,18 +375,32 @@ class LCAParametersDialog(QDialog):
         # O combo ja existia e reescrevia o numero em silencio. Quem nao
         # conhecesse a literatura nao tinha como saber por que escolher uma rota
         # e nao outra, nem qual e a base do programa.
-        _lbl_rota_ajuda = QLabel(tr(
-            "<b>Qual água o sistema substitui?</b> O CO₂ evitado por m³ não é uma constante "
-            "do sistema pluvial: é propriedade da água que ele deixa de consumir. Substituir "
-            "água dessalinizada vale dezenas de vezes mais do que substituir água de manancial "
-            "tratada por gravidade.<br><br>"
-            "A <b>base do programa é {base:.2f} kg CO₂e/m³</b>, de tratamento convencional. Foi "
-            "escolhida por ficar logo abaixo das faixas publicadas tanto com matriz europeia "
-            "(0,41 a 0,47, Garfí et al., 2016) quanto com matriz brasileira (0,336 a 0,461 por "
-            "macrorregião, Vaz et al., 2025): subestimar o benefício é o erro conservador.<br><br>"
-            "Escolha abaixo a rota que corresponde ao <b>tratamento do seu local</b>. Cada uma "
-            "declara fonte, tecnologia, matriz elétrica e fronteira do sistema."
-        ).format(base=rotas_de_agua.BASE_DO_PROGRAMA_KG_M3))
+        from triton.core.edition import usa_dados_do_brasil as _brasil
+        if _brasil():
+            _lbl_rota_ajuda = QLabel(tr(
+                "<b>Qual água o sistema substitui?</b> O CO₂ evitado por m³ não é uma constante "
+                "do sistema pluvial: é propriedade da água que ele deixa de consumir. Substituir "
+                "água dessalinizada vale dezenas de vezes mais do que substituir água de manancial "
+                "tratada por gravidade.<br><br>"
+                "A <b>base do programa é {base:.2f} kg CO₂e/m³</b>, de tratamento convencional. Foi "
+                "escolhida por ficar logo abaixo das faixas publicadas tanto com matriz europeia "
+                "(0,41 a 0,47, Garfí et al., 2016) quanto com matriz brasileira (0,336 a 0,461 por "
+                "macrorregião, Vaz et al., 2025): subestimar o benefício é o erro conservador.<br><br>"
+                "Escolha abaixo a rota que corresponde ao <b>tratamento do seu local</b>. Cada uma "
+                "declara fonte, tecnologia, matriz elétrica e fronteira do sistema."
+            ).format(base=rotas_de_agua.BASE_DO_PROGRAMA_KG_M3))
+        else:
+            _lbl_rota_ajuda = QLabel(tr(
+                "<b>Qual água o sistema substitui?</b> O CO₂ evitado por m³ não é uma constante "
+                "do sistema pluvial: é propriedade da água que ele deixa de consumir. Substituir "
+                "água dessalinizada vale dezenas de vezes mais do que substituir água de manancial "
+                "tratada por gravidade.<br><br>"
+                "O ideal é <b>informar o fator da água de rede do seu local</b> (kg CO₂e/m³ entregue "
+                "na edificação), obtido da entidade que abastece o projeto ou de um inventário local. "
+                "Na falta dele, escolha abaixo uma rota publicada que se aproxime do tratamento do seu "
+                "local, ou digite um valor personalizado. Cada rota declara fonte, tecnologia, matriz "
+                "elétrica e fronteira do sistema."
+            ))
         _lbl_rota_ajuda.setWordWrap(True)
         _lbl_rota_ajuda.setStyleSheet(
             "color: #334155; font-size: 11px; font-weight: normal; "
@@ -389,11 +409,20 @@ class LCAParametersDialog(QDialog):
         )
         form_r.addRow(_lbl_rota_ajuda)
         self.cmb_rota_agua = QComboBox()
-        for _chave in rotas_de_agua.chaves_das_rotas():
-            self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
-        _padrao = self.cmb_rota_agua.findData(rotas_de_agua.ROTA_PADRAO)
-        if _padrao >= 0:
-            self.cmb_rota_agua.setCurrentIndex(_padrao)
+        if _brasil():
+            for _chave in rotas_de_agua.chaves_das_rotas():
+                self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
+            _padrao = self.cmb_rota_agua.findData(rotas_de_agua.ROTA_PADRAO)
+            if _padrao >= 0:
+                self.cmb_rota_agua.setCurrentIndex(_padrao)
+        else:
+            # Fora da Brasil: «rede com fator informado» à frente, as rotas publicadas e
+            # «personalizada» no fim. O fator da água de rede é do local do projeto.
+            self.cmb_rota_agua.addItem(tr("Rede pública, com fator informado pelo usuário"), ROTA_INFORMADA)
+            for _chave in rotas_de_agua.chaves_das_rotas():
+                self.cmb_rota_agua.addItem(rotas_de_agua.nome_da_rota(_chave, get_current_lang()), _chave)
+            self.cmb_rota_agua.addItem(tr("Personalizada (digite o fator acima)"), ROTA_PERSONALIZADA)
+            self.cmb_rota_agua.setCurrentIndex(0)
         self.cmb_rota_agua.currentIndexChanged.connect(self._aplicar_rota_de_agua)
         form_r.addRow(QLabel(tr("Água substituída pelo sistema:")), self.cmb_rota_agua)
 
@@ -463,6 +492,10 @@ class LCAParametersDialog(QDialog):
             # O combo e montado antes do campo; durante a construcao nao ha o
             # que reescrever ainda.
             return
+        if chave in (ROTA_INFORMADA, ROTA_PERSONALIZADA):
+            # O fator é o que o usuário digitar: nada a reescrever.
+            self._mostrar_procedencia_da_rota()
+            return
 
         try:
             fator_da_rede = float(str(self.txt_grid_co2.text()).replace(",", "."))
@@ -481,6 +514,15 @@ class LCAParametersDialog(QDialog):
         """
         chave = self.cmb_rota_agua.currentData()
         if not chave or not hasattr(self, "lbl_rota_fonte"):
+            return
+        if chave in (ROTA_INFORMADA, ROTA_PERSONALIZADA):
+            self.lbl_rota_fonte.setText(tr(
+                "O fator da água de rede é o que estiver no campo «Abatimento Água Potável» acima. "
+                "Informe o valor do seu local, em kg CO2e por m³ entregue na edificação (produção, "
+                "produtos químicos, infraestrutura e distribuição)."))
+            if hasattr(self, "lbl_rota_aviso"):
+                self.lbl_rota_aviso.setVisible(False)
+                self.lbl_rota_aviso.setText("")
             return
 
         procedencia = rotas_de_agua.procedencia_da_rota(chave)
@@ -1635,7 +1677,7 @@ class TabEnvironmental(QWidget):
             else:
                 op_item = QTableWidgetItem("--")
             self.table_icv.setItem(row, 3, op_item)
-            self.table_icv.setItem(row, 4, QTableWidgetItem(item.source_reference))
+            self.table_icv.setItem(row, 4, QTableWidgetItem(traduz_descritivo(item.source_reference)))
 
         tot_demand_m3 = 100.0
         if mw and hasattr(mw, 'tab_building'):
@@ -1926,11 +1968,89 @@ class TabEnvironmental(QWidget):
         """
         from triton.core.edition import usa_dados_do_brasil
         if not usa_dados_do_brasil():
-            # AQUA-HQE e Casa Azul são brasileiros: a Internacional mostra só os referenciais internacionais.
+            # AQUA-HQE e Casa Azul são brasileiros: fora da Brasil só ficam os referenciais internacionais.
             inicio = html.find('<div style="background-color: {}'.format(card_bg)
                                + '; border: 1px solid {}; border-left: 4px solid #0284c7'.format(card_border))
             fim = html.find("5. Certificação EDGE")
             fim = html.rfind("<div", 0, fim) if fim > 0 else -1
             if 0 <= inicio < fim:
                 html = html[:inicio] + html[fim:]
+            # a numeração dos referenciais acompanha o que sobrou
+            html = html.replace("5. Certificação EDGE", "3. Certificação EDGE").replace("6. GRI Standard 303", "4. GRI Standard 303")
+            html = html.replace("(USGBC / GBC Brasil)", "(USGBC)")
+            html = html.replace("e da concessionária", "e da rede de abastecimento")
+            html = html.replace(" nos principais referenciais nacionais e internacionais:", " nos principais referenciais internacionais:")
+            html = html.replace("em relação ao consumo de referência da planilha da Fundação Vanzolini", "em relação ao consumo de referência")
+        if get_current_lang() != "pt":
+            html = self._metodologia_esg_em_ingles(text_col, sub_col, h_col, card_bg, card_border, tag_bg, tag_col)
+        elif not usa_dados_do_brasil():
+            from triton.ui.translation import em_portugues_da_edicao
+            html = em_portugues_da_edicao(html)
         return html
+
+    def _metodologia_esg_em_ingles(self, text_col, sub_col, h_col, card_bg, card_border, tag_bg, tag_col):
+        """A metodologia dos referenciais ESG em inglês (também para o espanhol e o chinês).
+
+        O texto-fonte é português e não passa por ``tr``; a versão inglesa traz as mesmas seções.
+        Fora da Edição Brasil, sem AQUA-HQE e Casa Azul, e sem entidades nacionais.
+        """
+        from triton.core.edition import usa_dados_do_brasil
+        brasil = usa_dados_do_brasil()
+
+        def cartao(borda, titulo, corpo, ultimo=False):
+            margem = "" if ultimo else " margin-bottom: 12px;"
+            return (f'<div style="background-color: {card_bg}; border: 1px solid {card_border}; border-left: 4px solid {borda}; '
+                    f'padding: 10px 14px; border-radius: 6px;{margem}"><h4 style="margin: 0 0 6px 0; color: {h_col}; font-size: 13px;">'
+                    f'{titulo}</h4>{corpo}</div>')
+
+        secoes = []
+        secoes.append(cartao("#16a34a", "1. LEED v4 / v4.1 BD+C (USGBC) — WE category (Water Efficiency)", (
+            '<p style="margin: 0 0 6px 0;"><b>Maximum score: 8 points</b> in the water-efficiency category, split strictly between outdoor and indoor use:</p>'
+            '<ul style="margin: 0 0 6px 0; padding-left: 18px;">'
+            '<li><b>Credit WEc1 — Outdoor Water Use Reduction (max. 2 points):</b> assesses landscape irrigation. With modelled outdoor demand: ≥ 50% reduction = <b>1 point</b>; ≥ 100% (or no potable irrigation) = <b>2 points</b>.</li>'
+            '<li><b>Credit WEc2 — Indoor Water Use Reduction (max. 6 points):</b> preceded by prerequisite WEp2 (mandatory 20% reduction). Progressive score by non-potable substitution:'
+            '<br/>&nbsp;&nbsp;• <b>25%</b>: 1 pt &nbsp;|&nbsp; <b>30%</b>: 2 pts &nbsp;|&nbsp; <b>35%</b>: 3 pts &nbsp;|&nbsp; <b>40%</b>: 4 pts &nbsp;|&nbsp; <b>45%</b>: 5 pts &nbsp;|&nbsp; <b>≥ 50%</b>: <b>6 pts (maximum)</b>.</li></ul>'
+            f'<p style="margin: 0; font-size: 11px; color: {sub_col};"><i>Transition: LEED v4/v4.1 accepts new project registrations until 30 June 2027 and certifications until 2033.</i></p>')))
+        secoes.append(cartao("#059669", "2. LEED v5 BD+C (USGBC) — Credit WEc2: Enhanced Water Efficiency", (
+            '<p style="margin: 0 0 6px 0;">The <b>LEED v5</b> rating system reshaped the water category towards <b>Decarbonisation</b> and <b>Water Resilience</b>. Indoor and outdoor use were consolidated in credit <b>WEc2 (Enhanced Water Efficiency)</b>, worth up to <b>8 points</b> in BD+C New Construction:</p>'
+            '<ul style="margin: 0 0 8px 0; padding-left: 18px;">'
+            '<li><b>Mandatory prerequisites:</b> <b>WEp1 (Water Metering and Reporting)</b> requires sectorised metering for alternative water sources (such as the rainwater cistern). <b>WEp2 (Minimum Water Efficiency)</b> requires an initial 20% reduction in fixture and fitting consumption.</li>'
+            '<li><b>Two scoring paths in WEc2 (Triton assesses both and selects the more favourable):</b>'
+            '<ul style="margin-top: 4px; padding-left: 16px;">'
+            '<li><b>Option 1 — Whole-Project Water Use:</b> assesses the total water reduction of the project against the baseline (30% = 1 pt up to 65% = 8 pts). <b>Highlight for rainwater systems:</b> an on-site alternative source gives a <b>bonus of +1 additional point</b> in each percentage band reached (up to the 8-point ceiling).</li>'
+            '<li><b>Sum of Options 2 to 6 (component-by-component approach):</b>'
+            '<br/>• <i>Option 2 (Indoor Fixtures and Fittings):</i> 30% = 1 pt | 35% = 2 pts | ≥ 40% = 3 pts.'
+            '<br/>• <i>Option 4 (Outdoor Use / Irrigation, Path 2):</i> 50% = 1 pt | 100% = 2 pts.'
+            '<br/>• <i>Option 6 (On-site Reuse and Alternative Source, Path 2):</i> an active rainwater system serving flushing, irrigation or cooling gives <b>2 direct points</b>.</li></ul></li>'
+            '<li><b>Credit SSc3 — Rainwater Management:</b> worth up to 3 points for retaining rain events on the site (80th, 85th and 90th percentiles), with a +1 point bonus when the retained water is used in the building. Triton identifies this credit and classes it as not directly assessed, because compliance needs topographic and permeability data for the whole plot, not only the roof area.</li></ul>'
+            f'<span style="display: inline-block; background: {tag_bg}; color: {tag_col}; font-weight: bold; font-size: 11px; padding: 2px 8px; border-radius: 4px;">'
+            'How Triton treats it: it simulates Option 1 and the Sum of Options 2 to 6 together and assigns the highest possible score (up to 8 points).</span>')))
+        if brasil:
+            secoes.append(cartao("#0284c7", "3. AQUA-HQE Residential Process (Fundação Vanzolini / CERQUAL) — Water Consumption theme", (
+                '<p style="margin: 0 0 6px 0;">Under the <b>current AQUA-HQE 2024 reference</b>, water management and rainwater use are assessed by specific items of the Water category:</p>'
+                '<ul style="margin: 0; padding-left: 18px;">'
+                '<li><b>Item EAU.1.2 (HQE level):</b> at least 20% lower potable-water consumption than the reference consumption of the Fundação Vanzolini spreadsheet.</li>'
+                '<li><b>Item EAU.1.3 (HQE level 3):</b> minimum potable-water saving of 40% in the project.</li>'
+                '<li><b>Item EAU.1.5 (HQE level 3):</b> a rainwater collection and use system sized according to the standards <b>ABNT NBR 15527</b> and <b>NBR 16783</b>.</li></ul>')))
+            secoes.append(cartao("#0ea5e9", "4. Selo Casa Azul + CAIXA — Criterion 3.6 (Rainwater Use)", (
+                '<p style="margin: 0 0 6px 0;">Under the <b>Selo Casa Azul + CAIXA guide (V023, 2026)</b> and Selo Casa Azul Uni, the criterion scores for the existence of the system and the breadth of its use:</p>'
+                '<ul style="margin: 0; padding-left: 18px;">'
+                '<li><b>Common areas of the development:</b> 2 CAIXA points.</li>'
+                '<li><b>Housing units:</b> 4 CAIXA points.</li>'
+                '<li><b>Units and common areas:</b> 5 CAIXA points (mandatory for the Diamond level).</li>'
+                '<li><b>Houses in a subdivision:</b> 2 points for the infrastructure and preparation carried out.</li></ul>')))
+        n = len(secoes) + 1
+        secoes.append(cartao("#b45309", f"{n}. EDGE certification (IFC / World Bank) — Measure WEM14", (
+            '<p style="margin: 0 0 6px 0;">EDGE does not award graded points: it requires exceeding a <b>minimum bar of 20% savings</b> in three pillars (Energy, Water and Materials). Rainwater use scores under <b>Measure WEM14 (Rainwater Harvesting System)</b>, comparing the cistern production with the audited local base case.</p>')))
+        secoes.append(cartao("#8b5cf6", f"{n + 1}. GRI Standard 303 (Global Reporting Initiative) & Water-Positive Footprint", (
+            '<p style="margin: 0 0 6px 0;">International standard for corporate ESG reports and green-bond issuance:</p>'
+            '<ul style="margin: 0; padding-left: 18px;">'
+            '<li><b>GRI 303-3 (Water Withdrawal Saved):</b> total volume in m³/year that the building no longer withdraws from public sources and from the supply network.</li>'
+            '<li><b>GRI 303-5 (Water Circularity / Water Positive Ratio):</b> share of the total demand supplied by a circular rainwater source:'
+            '<br/><code>Water Positive Ratio = (Annual Rainwater Volume Used / Total Annual Demand) × 100%</code>.</li></ul>'), ultimo=True))
+        abertura = ('Rainwater harvesting is one of the highest-scoring levers in building environmental certifications. '
+                    '<b>Triton</b> runs the continuous daily water-balance simulation (YAS model) and automatically converts the '
+                    'savings rate and the resource conservation into auditable scores in the main '
+                    + ('national and ' if brasil else '') + 'international frameworks:')
+        return (f'<div style="color: {text_col}; font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Helvetica, Arial, sans-serif; '
+                f'font-size: 12px; line-height: 1.55;"><p style="margin-top: 0; font-size: 12.5px;">{abertura}</p>' + "".join(secoes) + '</div>')

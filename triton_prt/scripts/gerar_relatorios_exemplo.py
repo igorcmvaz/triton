@@ -1,48 +1,85 @@
 # -*- coding: utf-8 -*-
-"""Gera os relatórios de exemplo em reports/exemplos/, pela própria interface.
+"""Gera os relatórios de exemplo (INT e PRT) em reports/exemplos/<cidade>/, pela própria interface.
 
-Os exemplos precisam sair do mesmo caminho que o usuário percorre: carregar o
-projeto, simular, rodar a economia, a ACV e a decisão multicritério, e exportar
-os três laudos oficiais. Este script faz exatamente isso, com a janela
-principal criada mas não exibida, sobre os três estudos de caso de examples/.
+Os exemplos saem do mesmo caminho que o utilizador percorre: abrir o projeto, simular, correr a economia,
+a ACV e a decisão multicritério, e exportar os três relatórios oficiais (executivo, ambiental e dossiê).
+A janela principal é criada mas não é exibida. Não use QT_QPA_PLATFORM=offscreen: nessa plataforma
+não há fontes e o PDF sai com os caracteres em quadrados (sem texto extraível).
 
-Cada etapa é conferida, e o script interrompe em vez de gravar um laudo vazio:
-a simulação tem de rodar, a economia de água tem de ser positiva, e cada PDF
-tem de citar a cidade do caso e trazer algum percentual diferente de zero.
+A lista de cidades vem do gerador de exemplos da edição (``gerar_exemplos_int.py`` ou
+``gerar_exemplos_prt.py``); a edição vem de ``TRITON_EDITION`` ou, sem ela, do nome da pasta.
+INT sai em inglês; PRT em português de Portugal. Cada etapa é conferida e o script pára em vez de
+gravar um relatório vazio: a simulação tem de correr, a economia de água tem de ser positiva, e cada PDF
+tem de citar a cidade do caso e trazer algum percentual diferente de zero. Se o QtWebEngine
+devolver um PDF em branco (acontece fora de uma sessão gráfica completa), grava-se pelo caminho de reserva (QTextDocument).
 
-Rodar de novo sempre que o programa mudar algo que apareça num laudo — do
-contrário os exemplos passam a mostrar números que a versão atual não produz.
+Termos do Brasil encontrados nos PDFs são listados no fim (e fazem o script falhar com ``--estrito``).
 
-    python scripts/gerar_relatorios_exemplo.py
+Voltar a correr sempre que o programa mudar algo que apareça num relatório.
+
+    python scripts/gerar_relatorios_exemplo.py [--estrito] [cidade ...]
 """
 from __future__ import annotations
 
+import importlib.util
+import os
 import re
 import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
+
+
+def _edicao() -> str:
+    pedida = os.environ.get("TRITON_EDITION", "").strip().upper()
+    if pedida == "POR":
+        pedida = "PRT"
+    if pedida in ("INT", "PRT"):
+        return pedida
+    return "PRT" if RAIZ.name.endswith("prt") else "INT"
+
+
+EDICAO = _edicao()
+os.environ["TRITON_EDITION"] = EDICAO
 if str(RAIZ) not in sys.path:
     sys.path.insert(0, str(RAIZ))
 
 SAIDA = RAIZ / "reports" / "exemplos"
 
-CASOS = [  # arquivo, pasta de saída, idiomas, cidade que o laudo tem de citar
-    ("estudo_caso_1_florianopolis1.triton", "01_Florianopolis", ("pt", "en"), "Florian"),
-    ("estudo_caso_2_brasilia2.triton", "02_Brasilia", ("pt",), "Bras"),
-    ("estudo_caso_3_manaus3.triton", "03_Manaus", ("pt",), "Manaus"),
-]
-LAUDOS = [
-    ("economic", "Laudo_Executivo", "Executive_Report"),
-    ("environmental", "Auditoria_Ambiental_ESG", "Environmental_ESG_Audit"),
-    ("research", "Dossie_Tecnico", "Technical_Dossier"),
-]
+#: Idioma e nomes dos ficheiros por edição: (tipo do relatório, nome do ficheiro).
+IDIOMA = {"INT": "en", "PRT": "pt"}[EDICAO]
+RELATORIOS = {
+    "INT": [("economic", "Executive_Report"), ("environmental", "Environmental_ESG_Audit"),
+            ("research", "Technical_Dossier")],
+    "PRT": [("economic", "Relatorio_Executivo"), ("environmental", "Auditoria_Ambiental_ESG"),
+            ("research", "Dossie_Tecnico")],
+}[EDICAO]
+#: Palavras que denunciam o Brasil (ou, na INT, também Portugal) num relatório de exemplo.
+TERMOS_DO_BRASIL = ("Florianópolis", "Florianopolis", "Brasília", "Manaus", "São Paulo", "R$", "CASAN", "CELESC",
+                    "CLIMBra", "SABESP", "ANEEL", "NBR", "ABNT", "IPTU", "Selic", "Netuno 4", "UFSC",
+                    "CREA", "SNIS", "MCTI", "INMET", "Casa Azul", "AQUA-HQE")
+TERMOS_DE_PORTUGAL = ("E-OBS", "EPAL", "ERSAR", "Lisboa", "Funchal")
+
+
+def _cidades():
+    """(arquivo do projeto, pasta de saída, texto que o relatório tem de citar) por cidade da edição."""
+    nome = "gerar_exemplos_int.py" if EDICAO == "INT" else "gerar_exemplos_prt.py"
+    spec = importlib.util.spec_from_file_location("_gerador_de_exemplos", RAIZ / "scripts" / nome)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    pasta = Path(modulo.PASTA_EXEMPLOS)
+    casos = []
+    for fabrica in modulo.CIDADES:
+        c = fabrica()
+        cita = c["cidade"] if EDICAO == "INT" else c["concelho"]
+        casos.append((pasta / c["arquivo"], c["pasta"], cita))
+    return casos
 
 
 def _silenciar_dialogos():
-    """Os avisos modais travariam a automação; aqui viram linhas de log.
+    """Os avisos modais travariam a automação; aqui viram linhas de registo.
 
-    Um aviso de erro interrompe: não se grava laudo de uma rodada que falhou.
+    Um aviso de erro interrompe: não se grava relatório de uma corrida que falhou.
     """
     from PySide6.QtWidgets import QMessageBox
 
@@ -60,65 +97,102 @@ def _silenciar_dialogos():
     QMessageBox.question = staticmethod(lambda *a, **k: QMessageBox.StandardButton.Yes)
 
 
-def _conferir_pdf(caminho: Path, cidade: str):
+def _texto_do_pdf(caminho: Path) -> str:
     import fitz
-    texto = " ".join(pg.get_text() for pg in fitz.open(caminho))
+    with fitz.open(caminho) as pdf:
+        return " ".join(pg.get_text() for pg in pdf)
+
+
+def _em_branco(caminho: Path, cidade: str) -> bool:
+    try:
+        return cidade.lower() not in _texto_do_pdf(caminho).lower()
+    except Exception:
+        return True
+
+
+def _gravar(caminho: Path, html: str, cidade: str):
+    """Grava o PDF; se o QtWebEngine o devolver em branco, regrava pelo QTextDocument."""
+    from triton.core import report_generator as rg
+    rg.save_pdf_report(str(caminho), html)
+    if _em_branco(caminho, cidade):
+        original = rg._save_pdf_report_with_webengine
+        rg._save_pdf_report_with_webengine = lambda *a, **k: False
+        try:
+            rg.save_pdf_report(str(caminho), html)
+        finally:
+            rg._save_pdf_report_with_webengine = original
+        print("      (QtWebEngine em branco: gravado pelo QTextDocument)")
+
+
+def _conferir_pdf(caminho: Path, cidade: str) -> list:
+    texto = _texto_do_pdf(caminho)
     if cidade.lower() not in texto.lower():
-        raise RuntimeError(f"{caminho.name}: o laudo não cita {cidade}")
+        raise RuntimeError(f"{caminho.name}: o relatório não cita {cidade}")
     if not re.search(r"[1-9]\d*[.,]\d+\s*%", texto):
         raise RuntimeError(f"{caminho.name}: nenhum percentual diferente de zero")
+    termos = TERMOS_DO_BRASIL + (TERMOS_DE_PORTUGAL if EDICAO == "INT" else ())
+    return sorted({t for t in termos if t in texto})
 
 
-def gerar():
+def gerar(cidades=None, estrito: bool = False):
     from PySide6.QtWidgets import QApplication
-    from triton.core.report_generator import save_pdf_report
+    from triton.core.report_generator import save_pdf_report  # noqa: F401 (falha cedo se faltar o núcleo)
     from triton.ui.main_window import MainWindow
 
+    casos = _cidades()
+    if cidades:
+        casos = [c for c in casos if c[1] in cidades]
     app = QApplication.instance() or QApplication(sys.argv)
     _silenciar_dialogos()
-    gerados = []
-    # O idioma global NÃO muda aqui. Trocá-lo para gerar o laudo em inglês
-    # deixava o caso seguinte carregando em inglês, a simulação recusava rodar
-    # e os laudos saíam vazios. O idioma vai só para cada relatório.
-    for arquivo, pasta, idiomas, cidade in CASOS:
-        print(f"\n{arquivo}")
+    gerados, achados = [], {}
+    # O idioma global NÃO muda aqui: trocá-lo para gerar o relatório noutra língua deixava o caso
+    # seguinte a carregar nessa língua. O idioma vai só para cada relatório.
+    for arquivo, pasta, cidade in casos:
+        print(f"\n{arquivo.name}")
         janela = MainWindow()
-        janela.on_load_simulation(str(RAIZ / "examples" / arquivo))
+        janela.on_load_simulation(str(arquivo))
         sim = janela.tab_tanks_simulation
         sim.verified_dialogs = {"capex", "motobomba", "opex", "tariffs"}
         sim.run_simulation(force=True)
         if sim.last_single_result is None or sim.last_sweep_result is None:
-            raise RuntimeError(f"{arquivo}: a simulação não rodou")
+            raise RuntimeError(f"{arquivo.name}: a simulação não correu")
         economia = sim.last_single_result.potential_potable_savings_pct
         if not economia > 0:
-            raise RuntimeError(f"{arquivo}: economia de água potável nula")
+            raise RuntimeError(f"{arquivo.name}: economia de água potável nula")
         janela.tab_economic.calculate_economics(force=True)
         janela.tab_environmental.recalculate_and_update()
         janela.tab_global_optimizer.recalculate_all()
         app.processEvents()
-        print(f"    simulado: economia de água potável de {economia:.2f}%")
+        print(f"    simulado: poupança de água potável de {economia:.2f}%")
 
         destino = SAIDA / pasta
         destino.mkdir(parents=True, exist_ok=True)
         rel = janela.tab_reports
-        for lang in idiomas:
-            for tipo, nome_pt, nome_en in LAUDOS:
-                rel.combo_report_type.setCurrentIndex(rel.combo_report_type.findData(tipo))
-                rel.update_report_preview()
-                html = rel.generate_html_content(lang=lang)
-                caminho = destino / f"{nome_pt if lang == 'pt' else nome_en}_{lang}.pdf"
-                save_pdf_report(str(caminho), html)
-                app.processEvents()
-                _conferir_pdf(caminho, cidade)
-                print(f"    {caminho.relative_to(RAIZ)}  {caminho.stat().st_size // 1024} KB")
-                gerados.append(caminho)
+        for tipo, nome in RELATORIOS:
+            rel.combo_report_type.setCurrentIndex(rel.combo_report_type.findData(tipo))
+            rel.update_report_preview()
+            html = rel.generate_html_content(lang=IDIOMA)
+            caminho = destino / f"{nome}_{IDIOMA}.pdf"
+            _gravar(caminho, html, cidade)
+            app.processEvents()
+            termos = _conferir_pdf(caminho, cidade)
+            if termos:
+                achados[str(caminho.relative_to(RAIZ))] = termos
+            print(f"    {caminho.relative_to(RAIZ)}  {caminho.stat().st_size // 1024} KB"
+                  + (f"  TERMOS A NEUTRALIZAR: {', '.join(termos)}" if termos else ""))
+            gerados.append(caminho)
         janela.close()
         janela.deleteLater()
         app.processEvents()
 
-    print(f"\n{len(gerados)} relatórios em {SAIDA.relative_to(RAIZ)}, todos conferidos")
+    print(f"\n{len(gerados)} relatórios em {SAIDA.relative_to(RAIZ)}")
+    if achados:
+        print(f"{len(achados)} com termos que não deviam estar na edição {EDICAO}: {achados}")
+        if estrito:
+            raise SystemExit(1)
     return gerados
 
 
 if __name__ == "__main__":
-    gerar()
+    argumentos = [a for a in sys.argv[1:] if not a.startswith("--")]
+    gerar(argumentos or None, estrito="--estrito" in sys.argv)

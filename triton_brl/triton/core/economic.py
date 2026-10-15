@@ -5,6 +5,7 @@ from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 
 from triton.core.parser import TritonConfig
+from triton.core.edition import tarifa_de_agua_de_reserva
 from triton.core.pump_energy import compute_annual_pump_energy
 from triton.core.supply_arrangement import GRAVIDADE, arranjo_de
 from triton.core.pump_hydraulics import (
@@ -185,13 +186,9 @@ def calculate_water_bill(
     vol_m3_unit = (vol_liters / 1000.0) / float(n_units)
     c_agua_unit = 0.0
     
-    effective_tariffs = tariffs if tariffs else [
-        (0.0, 0.0, 46.34, -1),
-        (0.0, 10.0, 3.08, 1),
-        (10.0, 25.0, 14.31, 1),
-        (25.0, 50.0, 19.14, 1),
-        (50.0, 999999.0, 24.08, 1),
-    ]
+    # Projeto sem tarifa de água: na Brasil vale a de reserva histórica (CASAN); nas demais edições
+    # não há tarifa de reserva (a conta sai zero até o usuário informar a dele).
+    effective_tariffs = tariffs if tariffs else tarifa_de_agua_de_reserva()
     
     # 1. Identifica se existe franquia de consumo mínimo com taxa fixa inclusa (is_fix == -2)
     # Ex.: «Tarifa 1» da CEDAE: até 15 m³, a conta mínima; acima, todo o volume desde 0 m³ pelas faixas

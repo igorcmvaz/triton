@@ -2,7 +2,7 @@
   "_metadata": {
     "description": "Base de dados de custos de referência para pré-dimensionamento de aproveitamento de água de chuva (Triton)",
     "updated_at": "2026-08",
-    "source_references": "Valores de mercado Brasil (Fortlev, Acqualimp, Dancor, Schneider, SINAPI Caixa, CUB CBIC, ANEEL)",
+    "source_references": "Valores de referência do catálogo interno; só são usados quando o projeto liga os preços de catálogo. Substitua pelos do seu fornecedor.",
     "currency": "BRL",
     "notes": "Parâmetros calibrados para as 5 tipologias residenciais (UTI, UTG, MSG, MFH, MFL) e regionalizados para as 27 UFs."
   },

@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QMenuBar, QMenu, QMessageBox, QFileDialog,
     QToolBar, QLabel, QVBoxLayout, QFrame, QPushButton, QDialog, QApplication
 )
-from PySide6.QtCore import Qt, QObject, QEvent
+from PySide6.QtCore import Qt, QObject, QEvent, Signal
 from PySide6.QtGui import QAction, QActionGroup, QIcon
 
 from triton.ui.theme import NETUNO4_CLASSIC_QSS
@@ -17,6 +17,7 @@ from triton import APP_TITLE, APP_VERSION_LABEL, __version__
 from triton.ui.sidebar import Sidebar
 from triton.core.parser import TritonConfig
 from triton.ui.translation import tr, get_current_lang, get_available_languages, get_resource_path, restart_app
+from triton.ui.textos_da_edicao import nome_sugerido
 
 from triton.ui.tab_project import TabProject
 from triton.ui.tab_building import TabBuilding
@@ -29,6 +30,17 @@ from triton.ui.tab_reports_pdf import TabReportsPdf
 from triton.ui.tab_export import TabExport
 from triton.ui.tab_documentation import TabDocumentation
 from triton.ui.tab_tariffs_manager import TabTariffsManager
+
+class _PaginaSemGestor(QWidget):
+    """Lugar do Gestor de Tarifas fora da Edição Brasil.
+
+    O Gestor é o catálogo das 652 cidades brasileiras: nas outras edições nem é construído
+    (não há banco para ler) e a barra lateral e o menu não têm acesso a ele. A página existe
+    para que os índices das etapas continuem os mesmos nas três edições.
+    """
+
+    tariffs_changed = Signal()
+
 
 class _MoedaNosDialogos(QObject):
     """Fora da Edição Brasil, os diálogos abertos pela janela mostram a moeda do projeto.
@@ -75,19 +87,14 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(tr(APP_TITLE))
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
-        self.config = TritonConfig()
-        # Projeto novo: tubulação e acessórios saem do arranjo 3D, peça a peça.
-        # Os preços do catálogo são em reais: só a Edição Brasil os pré-preenche.
-        from triton.core.edition import usa_dados_do_brasil
-        self.config.capex_do_arranjo = usa_dados_do_brasil()
-        # e a mão de obra acompanha os materiais, inclusive o volume da cisterna.
-        self.config.mao_de_obra_automatica = usa_dados_do_brasil()
-        if not usa_dados_do_brasil():
-            from triton.core.edition import neutralizar_para_a_internacional, is_prt_edition
-            neutralizar_para_a_internacional(self.config)
-            if is_prt_edition():
-                from triton.core import tarifarios_portugal as tp_
-                tp_.aplicar('Lisboa', self.config)
+        # Projeto novo da edição: na Brasil, os padrões históricos (tubulação e acessórios do arranjo
+        # 3D, mão de obra automática, tarifas de Florianópolis); na Internacional, nada de preço,
+        # tarifa nem localidade; na Portugal, o tarifário de Lisboa. A fábrica é do núcleo
+        # (``projeto_novo_da_edicao``), a mesma da linha de comando.
+        from triton.core.edition import usa_dados_do_brasil, projeto_novo_da_edicao
+        self.config = projeto_novo_da_edicao()
+        if not usa_dados_do_brasil() and self.config.project_name == "Novo projeto Triton":
+            self.config.project_name = tr("Novo projeto Triton")
         
         # Ícone da janela principal
         for icone_rel in (
@@ -119,6 +126,9 @@ class MainWindow(QMainWindow):
             if QApplication.instance() is not None:
                 QApplication.instance().installEventFilter(_MoedaNosDialogos(self))
             self._aplicar_moeda()
+            # a Modulação Probabilística escreve as dicas na moeda do projeto ao ser exibida;
+            # antes disso o catálogo falaria em reais
+            self.tab_modulacao_estocastica.atualizar_moeda()
 
     def _aplicar_moeda(self, raiz=None):
         """Troca «R$» pelo símbolo da moeda do projeto nos textos fixos (moeda_na_interface)."""
@@ -126,7 +136,8 @@ class MainWindow(QMainWindow):
         if usa_dados_do_brasil() or not hasattr(self, "tab_tanks_simulation"):
             return
         from triton.ui.moeda_na_interface import aplicar_moeda
-        aplicar_moeda(raiz if raiz is not None else self, self.tab_tanks_simulation.get_currency_symbol())
+        ts = self.tab_tanks_simulation
+        aplicar_moeda(raiz if raiz is not None else self, ts.get_currency_symbol(), ts.get_currency_code())
 
     def init_menu_bar(self):
         menu_bar = self.menuBar()
@@ -135,7 +146,7 @@ class MainWindow(QMainWindow):
         menu_file = menu_bar.addMenu(tr("Arquivo"))
         
         action_new = QAction(tr("Novo Projeto"), self)
-        action_new.triggered.connect(self.on_new_project)
+        action_new.triggered.connect(lambda *_: self.on_new_project())
         menu_file.addAction(action_new)
 
         action_open = QAction(tr("Carregar Projeto CSV"), self)
@@ -345,7 +356,8 @@ class MainWindow(QMainWindow):
         self.tab_reports = TabReportsPdf(self)
         self.tab_export = TabExport(self)
         self.tab_documentation = TabDocumentation(self)
-        self.tab_tariffs_manager = TabTariffsManager(self)
+        from triton.core.edition import usa_dados_do_brasil as _brasil
+        self.tab_tariffs_manager = TabTariffsManager(self) if _brasil() else _PaginaSemGestor(self)
         from triton.ui.tab_modulacao_estocastica import TabModulacaoEstocastica
         self.tab_modulacao_estocastica = TabModulacaoEstocastica(self)
 
@@ -428,7 +440,7 @@ class MainWindow(QMainWindow):
     def _on_project_name_changed(self, value: str):
         """Mantém o nome visível sincronizado com o contrato persistido."""
         clean = " ".join(value.split())
-        self.config.project_name = clean or "Novo projeto Triton"
+        self.config.project_name = clean or tr("Novo projeto Triton")
 
 
     def sync_project_state(self):
@@ -612,81 +624,36 @@ class MainWindow(QMainWindow):
         if modulacao and state.get("modulacao_estocastica"):
             modulacao.apply_project_state(state["modulacao_estocastica"])
 
-    def on_new_project(self):
-        """Reinicia a aplicação para um novo projeto limpo de acordo com a edição ativa (UI-20)."""
-        from triton.core.parser import TritonConfig
-        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
+    def on_new_project(self, confirmar: bool = True):
+        """Arquivo > Novo Projeto: troca esta janela por uma nova, com os padrões da edição.
 
-        cfg = TritonConfig()
-        cfg.project_name = tr("Novo projeto Triton")
-        cfg.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
-        cfg.capex_do_arranjo = usa_dados_do_brasil()
-        cfg.mao_de_obra_automatica = usa_dados_do_brasil()
-        if not usa_dados_do_brasil():
-            from triton.core.edition import neutralizar_para_a_internacional
-            neutralizar_para_a_internacional(cfg)
-            if is_prt_edition():
-                from triton.core import tarifarios_portugal as tp_
-                tp_.aplicar('Lisboa', cfg)
-        self.config = cfg
-        self.txt_workspace_project.setText(cfg.project_name)
+        Reiniciar etapa por etapa deixava resquícios (séries, tarifas, escolhas de diálogo) e
+        divergia do que o programa mostra ao abrir. Uma janela nova passa pelo mesmo caminho da
+        abertura: na Brasil, o projeto de Florianópolis; na Internacional, sem preços, tarifas
+        nem localidade; na Portugal, o tarifário de Lisboa. O idioma e o tamanho da janela ficam.
 
-        if hasattr(self, 'tab_economic'):
-            self.tab_economic._internal_config = cfg
-
-        # 1. Reset da chuva e localização
-        if hasattr(self, 'tab_project'):
-            self.tab_project.clear_climate_cards_and_tables()
-            if hasattr(self.tab_project, '_base_portugal') and self.tab_project._base_portugal:
-                self.tab_project.rb_source_national.setChecked(True)
-                self.tab_project.panel_custom.hide()
-                self.tab_project.panel_national.show()
-                self.tab_project.load_active_national_series()
-            elif usa_dados_do_brasil() and self.tab_project.rb_source_national.isVisible():
-                self.tab_project.rb_source_national.setChecked(True)
-                self.tab_project.panel_custom.hide()
-                self.tab_project.panel_national.show()
-                self.tab_project.load_active_national_series()
-            else:
-                self.tab_project._abrir_sem_base_climatica()
-
-            if hasattr(self.tab_project, 'set_tariff_location'):
-                uf = getattr(cfg, 'tariff_city_uf', 'SC' if usa_dados_do_brasil() else ('PRT' if is_prt_edition() else 'CUSTOM'))
-                city = getattr(cfg, 'tariff_city_name', 'Florianópolis' if usa_dados_do_brasil() else ('Lisboa' if is_prt_edition() else 'CUSTOM'))
-                self.tab_project.set_tariff_location(uf, city)
-
-        # 2. Reset da edificação
-        if hasattr(self, 'tab_building') and hasattr(self.tab_building, 'set_building_config'):
-            self.tab_building.set_building_config({
-                'area': 100.0,
-                'demand': 200.0,
-                'residents': 3,
-                'share': 0.4,
-                'non_potable_indoor_share': 0.4,
-                'irrigation_liters_per_day': 0.0,
-                'irrigation_rain_threshold_mm': 2.0,
-                'irrigation_potable_backup': True,
-                'runoff': 0.85,
-                'demand_mode': 'constant',
-            })
-
-        # 3. Reset do estado das demais abas
-        self._apply_project_ui_state({}, cfg)
-
-        # 4. Otimizador global
-        if hasattr(self, 'tab_global_optimizer'):
-            self.tab_global_optimizer.scenarios = []
-            self.tab_global_optimizer.refresh_table_rows()
-
-        # 5. Modulação estocástica
-        modulacao = getattr(self, "tab_modulacao_estocastica", None)
-        if modulacao:
-            modulacao.restaurar_padroes()
-
-        # 6. Sincroniza e posiciona na etapa inicial
-        self.sync_project_state()
-        self._aplicar_moeda()
-        self.on_step_changed(0)
+        Devolve a janela nova, ou ``None`` se o usuário desistiu.
+        """
+        if confirmar:
+            resposta = QMessageBox.question(
+                self, tr("Novo Projeto"),
+                tr("Descartar o projeto atual e começar um novo? As alterações não salvas serão perdidas."),
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if resposta != QMessageBox.Yes:
+                return None
+        nova = MainWindow()
+        nova.resize(self.size())
+        if self.isMaximized():
+            nova.showMaximized()
+        else:
+            nova.move(self.pos())
+            nova.show()
+        app = QApplication.instance()
+        if app is not None:
+            # a referência impede que a janela nova seja coletada enquanto o programa roda
+            app._triton_janela_atual = nova
+        self.close()
+        return nova
 
     def on_load_simulation(self, file_path=None):
         # Recebe o caminho quando o programa é aberto por um arquivo .triton
@@ -837,10 +804,19 @@ class MainWindow(QMainWindow):
             if hasattr(self.tab_project, 'get_project_state'):
                 chuva = self.tab_project.get_project_state()
                 cfg.climate_source_mode = chuva.get("source_mode") or cfg.climate_source_mode
-                cfg.climate_city_uf = chuva.get("climate_uf") or cfg.climate_city_uf
-                cfg.climate_city_name = chuva.get("climate_city") or cfg.climate_city_name
-                cfg.climate_model = chuva.get("climate_model") or cfg.climate_model
-                cfg.climate_scenario = chuva.get("climate_scenario") or cfg.climate_scenario
+                from triton.core.edition import usa_dados_do_brasil as _brasil
+                if _brasil() or chuva.get("source_mode") == "national_db":
+                    cfg.climate_city_uf = chuva.get("climate_uf") or cfg.climate_city_uf
+                    cfg.climate_city_name = chuva.get("climate_city") or cfg.climate_city_name
+                    cfg.climate_model = chuva.get("climate_model") or cfg.climate_model
+                    cfg.climate_scenario = chuva.get("climate_scenario") or cfg.climate_scenario
+                else:
+                    # série de arquivo fora da Brasil: sem cidade, modelo nem cenário da CLIMBra
+                    # (voltavam ao padrão do TritonConfig, INM-CM4/HIST)
+                    cfg.climate_city_uf = chuva.get("climate_uf") or ""
+                    cfg.climate_city_name = chuva.get("climate_city") or ""
+                    cfg.climate_model = chuva.get("climate_model") or ""
+                    cfg.climate_scenario = chuva.get("climate_scenario") or ""
                 cfg.climate_start_date = chuva.get("start_date") or cfg.climate_start_date
                 cfg.climate_end_date = chuva.get("end_date") or cfg.climate_end_date
             if hasattr(self.tab_project, 'get_tariff_location'):
@@ -877,10 +853,11 @@ class MainWindow(QMainWindow):
         return cfg
 
     def on_save_simulation(self):
-        from triton import get_project_filename
+        from triton import get_auditable_filename
+        from triton.ui.textos_da_edicao import artefato_de_projeto
         project_name = " ".join(self.txt_workspace_project.text().split()) or tr("Novo projeto Triton")
         self.config.project_name = project_name
-        def_name = get_project_filename(project_name, self.config.project_id, "triton")
+        def_name = get_auditable_filename(project_name, self.config.project_id, artefato_de_projeto(), "triton")
         file_path, selected_filter = QFileDialog.getSaveFileName(
             self,
             tr("Salvar Projeto Completo"),
@@ -950,25 +927,32 @@ class MainWindow(QMainWindow):
         )
 
     def on_show_citation(self):
+        from triton.core.edition import usa_dados_do_brasil
+        brasil = usa_dados_do_brasil()
+        # O local de publicação (Florianópolis/Brasil) é da Edição Brasil; as outras citam só a
+        # instituição, sem país, e não nomeiam norma de citação.
+        local = "Florianópolis: " if brasil else ""
         citation = (
             f"VAZ, I. C. M.; GHISI, E. <b>Triton {__version__}</b>: "
             f"{tr('Programa computacional para simulação de aproveitamento de água de chuva em edificações')}. "
-            f"Florianópolis: Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa em Ambientes Sustentáveis')}, 2026. "
-            f"Software de computador, versão {__version__}."
+            f"{local}Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa em Ambientes Sustentáveis')}, 2026. "
+            f"{tr('Software de computador, versão')} {__version__}."
         )
+        endereco = "&nbsp;&nbsp;address = {Florianópolis, Brasil},<br>" if brasil else ""
         bibtex = (
             f"@software{{triton_{__version__.replace('.', '_')},<br>"
             f"&nbsp;&nbsp;author = {{Vaz, Igor Catão Martins and Ghisi, Enedir}},<br>"
             f"&nbsp;&nbsp;title = {{Triton {__version__}: Programa computacional para simulação de aproveitamento de água de chuva em edificações}},<br>"
             f"&nbsp;&nbsp;year = {{2026}},<br>"
             f"&nbsp;&nbsp;publisher = {{Universidade Federal de Santa Catarina (UFSC)}},<br>"
-            f"&nbsp;&nbsp;address = {{Florianópolis, Brasil}},<br>"
+            f"{endereco}"
             f"&nbsp;&nbsp;version = {{{__version__}}}<br>}}"
         )
+        titulo_da_referencia = "Referência recomendada (ABNT NBR 6023)" if brasil else "Referência recomendada"
         QMessageBox.information(
             self,
             tr("Como Citar o Triton"),
-            f"<p><b>{tr('Referência recomendada (ABNT NBR 6023)')}</b></p><p>{citation}</p>"
+            f"<p><b>{tr(titulo_da_referencia)}</b></p><p>{citation}</p>"
             f"<p><b>BibTeX</b></p><p><tt>{bibtex}</tt></p>"
         )
 
@@ -978,10 +962,11 @@ class MainWindow(QMainWindow):
         dlg.exec()
 
     def on_show_about(self):
+        from triton.core.edition import usa_dados_do_brasil
         QMessageBox.information(
             self,
             tr(f"Sobre o Triton {__version__}"),
-            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.'))
+            tr('<b>{0}</b><br><br>{1}<br><b>{2}:</b> Eng. Igor Catão Martins Vaz &amp; Prof. Enedir Ghisi, PhD<br>{3}<br><br><i>{4}</i>').format(APP_VERSION_LABEL, tr('Plataforma para Aproveitamento de Água de Chuva em Edificações.'), tr('Autores'), tr('Desenvolvido no Grupo de Pesquisa em Ambientes Sustentáveis (UFSC).'), tr('Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV), tomada de decisão multicritério (TOPSIS/SMAA-VIKOR) e catálogo tarifário nacional.' if usa_dados_do_brasil() else 'Versão científica e operacional com modelagem diária YAS, análise de ciclo de vida (ACV) e tomada de decisão multicritério (TOPSIS/SMAA-VIKOR).'))
         )
 
     def on_download_excel_sample(self):
@@ -1008,7 +993,7 @@ class MainWindow(QMainWindow):
         if msg.clickedButton() != btn_download:
             return
 
-        def_name = self.get_kebab_filename("triton-modelo-cenarios", "xlsx")
+        def_name = self.get_kebab_filename(nome_sugerido("triton-modelo-cenarios"), "xlsx")
         file_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Modelo Excel de Cenários"), def_name, "Planilha Excel (*.xlsx)")
         if file_path:
             from triton.core.excel_scenarios import generate_sample_scenario_excel
@@ -1042,7 +1027,7 @@ class MainWindow(QMainWindow):
                         + "\n".join(avisos) + "\n\n" + tr("Simular mesmo assim?")) != QMessageBox.Yes:
                     return
                 results = run_parsed_scenarios(scenarios)
-                def_out = self.get_kebab_filename("triton-resultados-cenarios", "xlsx")
+                def_out = self.get_kebab_filename(nome_sugerido("triton-resultados-cenarios"), "xlsx")
                 out_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Resultados dos Cenários"), def_out, "Planilha Excel (*.xlsx)")
                 if out_path:
                     excel_bytes = export_scenarios_to_excel_bytes(results)

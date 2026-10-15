@@ -21,6 +21,7 @@ _ARQUIVO = os.path.join(os.path.dirname(__file__), "..", "data", "portugal_tarif
 
 @lru_cache(maxsize=1)
 def carregar() -> Dict[str, dict]:
+    # Só a Edição Portugal traz o arquivo; nas demais, nenhum concelho e nenhum erro.
     if not os.path.isfile(_ARQUIVO):
         return {}
     with open(_ARQUIVO, encoding="utf-8") as f:
@@ -30,9 +31,7 @@ def carregar() -> Dict[str, dict]:
 
 def concelhos() -> List[str]:
     """Concelhos com tarifário transcrito."""
-    c = sorted(carregar())
-    return c or ["_nenhum_"]
-
+    return sorted(carregar())
 
 
 def _escaloes(lista) -> List[Escalao]:

@@ -1200,13 +1200,8 @@ SIMULATION_WORKSPACE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(_ARQU
 
 @pytest.fixture
 def fpolis_precip():
-    caminho = os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', 'Florianopolis1.csv')
-    if not os.path.isfile(caminho):
-        from triton.core.edition import serie_de_exemplo_da_edicao
-        caminho = os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', serie_de_exemplo_da_edicao())
-    return load_precipitation(caminho)
-
-
+    # Série da Edição Brasil: os testes que a usam estão em tests/so_da_brl.txt.
+    return load_precipitation(os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', 'Florianopolis1.csv'))
 
 def test_extreme_rain_simulation():
     """Verify that constant high rain fills tank, maximizes potential savings, and generates spillover."""
@@ -1235,6 +1230,31 @@ def test_higher_pump_threshold_increases_starts_and_reduces_batch_size():
     assert conservative.total_pump_cycles > responsive.total_pump_cycles
     assert conservative.average_pumped_liters_per_cycle < responsive.average_pumped_liters_per_cycle
     assert abs(conservative.total_pumped_liters - responsive.total_pumped_liters) <= 500.0
+
+
+def _chuva_sintetica_umida(anos=10):
+    """Série diária determinística (sem arquivo): um aguaceiro de 25 mm a cada 8 dias, outro de 6 mm a meio."""
+    ciclo = np.array([0.0, 0.0, 0.0, 6.0, 0.0, 0.0, 0.0, 25.0], dtype=np.float64)
+    return np.tile(ciclo, int(anos * 365.25 / 8))
+
+
+def test_dual_tank_pumping_com_chuva_sintetica():
+    """O mesmo teste do reservatório duplo, com uma série que não é de nenhum local (roda em todas as edições)."""
+    res = run_single_simulation(precip_data=_chuva_sintetica_umida(), lower_tank_vol=2000.0, area=100.0, runoff_coeff=0.9, discard_mm=1.0, total_demand_per_day=300.0, rainwater_share=0.4, upper_tank_vol=500.0, upper_tank_used=True, pumping_threshold=375.0)
+    assert res.total_pumped_liters > 0.0
+    assert res.total_pump_cycles > 0
+    assert 0.0 < res.potential_potable_savings_pct <= 40.0 + 1e-9  # nunca passa da fração atendida pela chuva
+
+
+def test_varredura_de_volumes_com_chuva_sintetica():
+    """Varredura do reservatório inferior: grade, passo e ótimo coerentes, sem depender de série real."""
+    sweep = run_sweep_simulation(precip_data=_chuva_sintetica_umida(), lower_tank_max=10000.0, lower_tank_step=250.0, area=100.0, runoff_coeff=0.9, discard_mm=1.0, total_demand_per_day=300.0, rainwater_share=0.4, delta_ideal_threshold=1.0)
+    assert sweep.optimal_lower_tank_vol is not None and 0.0 < sweep.optimal_lower_tank_vol <= 10000.0
+    assert sweep.optimal_lower_tank_vol % 250.0 == 0.0
+    assert len(sweep.results_by_volume) == 41
+    assert sweep.effective_step_l == 250.0 and sweep.step_adjusted is False
+    pct = [r.potential_potable_savings_pct for r in sweep.results_by_volume]
+    assert all(b >= a - 1e-9 for a, b in zip(pct, pct[1:])), 'mais reservatório nunca economiza menos água potável'
 
 
 @pytest.mark.parametrize('threshold', [0.0, 50.0, 250.0, 500.0, 900.0])
@@ -1981,14 +2001,10 @@ def test_invariant_cash_flow_equation_balance():
             assert math.isclose(item.net_cash_flow_nominal_brl, expected_net, abs_tol=0.0001)
 
 
-def _obter_cidades_db():
-    try:
-        return load_tariffs_db()['cities']
-    except (FileNotFoundError, Exception):
-        return {}
+# ---- origem: tests/unit/test_regimes_tarifarios.py
+# Fora da Edição Brasil o banco vem vazio, e os testes que percorrem os municípios estão em tests/so_da_brl.txt.
 
-
-CIDADES = _obter_cidades_db()
+CIDADES = load_tariffs_db()['cities']
 
 
 def conta(faixas, m3: float) -> float:
@@ -2125,8 +2141,6 @@ def test_toda_conta_cresce_com_o_consumo():
     Se a conta não sobe com o consumo, economizar água não a reduz, e o
     aproveitamento pluvial aparece sem retorno nenhum por defeito de dado.
     """
-    if not CIDADES:
-        pytest.skip("base de tarifas brasileira ausente")
     quebrados = []
     for c in CIDADES.values():
         if c.get('estrutura_incompleta'):
@@ -2146,8 +2160,6 @@ def test_toda_conta_cresce_com_o_consumo():
 
 def test_economizar_nunca_aumenta_a_conta():
     """Invariante mais forte: a economia creditada nunca é negativa."""
-    if not CIDADES:
-        pytest.skip("base de tarifas brasileira ausente")
     negativas = []
     for c in CIDADES.values():
         faixas = c.get('faixas') or []
@@ -2167,8 +2179,6 @@ def test_o_minimo_usual_brasileiro_e_referencia_e_nao_regra():
     a base tem municípios com 6 e com 15: é referência de conferência, não valor
     a impor.
     """
-    if not CIDADES:
-        pytest.skip("base de tarifas brasileira ausente")
     minimos = {float(c.get('consumo_minimo_faturado_m3', 0.0)) for c in CIDADES.values() if c.get('regime_tarifario') == FRANQUIA_NO_MINIMO}
     assert CONSUMO_MINIMO_USUAL_M3 in minimos
     assert len(minimos) > 1, 'todos os mínimos iguais indicaria valor imposto, não coletado'
@@ -2604,6 +2614,10 @@ def load_project_file(caminho):
 @pytest.fixture(scope='module')
 def relatorio():
     cfg, precip = load_project_file(CAPEX_POR_VOLUME_NA_CLI_CASO)
+    # Estes testes verificam o catálogo de preços do motor (cisterna por volume). Fora da
+    # Brasil o projeto lido sem o campo nasce com o catálogo desligado (premissa de
+    # neutralidade, edition.configuracao_da_edicao); aqui ele é ligado de propósito.
+    cfg.precos_de_catalogo = True
     return (run_analysis(cfg, precip, 'economic'), cfg)
 
 
@@ -2642,8 +2656,13 @@ def test_volume_unico_mantem_o_preco_declarado():
 VOLUME_M3 = 120.0
 
 
+#: Fatores da rede e da água potável dados de propósito: fora da Edição Brasil o padrão do motor é zero (o usuário informa os dele).
+FATOR_DA_REDE_DE_TESTE = 0.085
+FATOR_DA_AGUA_DE_TESTE = 0.35
+
+
 def _config_ambiental(**kwargs) -> EnvironmentalConfig:
-    base = dict(annual_water_saved_m3=VOLUME_M3)
+    base = dict(annual_water_saved_m3=VOLUME_M3, grid_co2_factor_kg_kwh=FATOR_DA_REDE_DE_TESTE, potable_water_co2_kg_m3=FATOR_DA_AGUA_DE_TESTE)
     base.update(kwargs)
     return EnvironmentalConfig(**base)
 
@@ -5123,6 +5142,9 @@ CHUVA = SCENARIOS_MATRIX_RAIZ / 'data' / 'rainfall'
 REFERENCIA_NETUNO4 = SCENARIOS_MATRIX_RAIZ / 'data' / 'simulation_outputs' / 'SimulacaoManausSaoPaulo' / 'Planilha.csv'
 
 
+from triton.core.edition import serie_de_exemplo_da_edicao  # a série de chuva distribuída com a edição
+
+
 def _series(*nomes):
     disponiveis = [(nome.split('.')[0], str(CHUVA / nome)) for nome in nomes if (CHUVA / nome).exists()]
     if not disponiveis:
@@ -5133,7 +5155,7 @@ def _series(*nomes):
 @pytest.fixture(scope='module')
 def matriz_pequena():
     """Matriz fatorial mínima, executada em modo sequencial."""
-    return run_multi_scenario_matrix(precip_files=_series('Florianopolis1.csv'), areas=[100.0, 200.0], residents_list=[4], demands_per_capita=[150.0], rainwater_shares=[0.4], lower_tanks=[5000.0], run_as_sweeps=False, parallel=False)
+    return run_multi_scenario_matrix(precip_files=_series(serie_de_exemplo_da_edicao()), areas=[100.0, 200.0], residents_list=[4], demands_per_capita=[150.0], rainwater_shares=[0.4], lower_tanks=[5000.0], run_as_sweeps=False, parallel=False)
 
 
 def test_matriz_executa_o_produto_cartesiano(matriz_pequena):
@@ -5176,7 +5198,7 @@ def test_area_maior_nao_reduz_a_economia(matriz_pequena):
 def test_callback_de_progresso_e_chamado_uma_vez_por_cenario():
     """A interface depende do callback para a barra de progresso do lote."""
     chamadas = []
-    run_multi_scenario_matrix(precip_files=_series('Florianopolis1.csv'), areas=[100.0, 150.0, 200.0], residents_list=[4], demands_per_capita=[150.0], rainwater_shares=[0.4], lower_tanks=[5000.0], run_as_sweeps=False, parallel=False, progress_callback=lambda atual, total, saida, resumo: chamadas.append((atual, total)))
+    run_multi_scenario_matrix(precip_files=_series(serie_de_exemplo_da_edicao()), areas=[100.0, 150.0, 200.0], residents_list=[4], demands_per_capita=[150.0], rainwater_shares=[0.4], lower_tanks=[5000.0], run_as_sweeps=False, parallel=False, progress_callback=lambda atual, total, saida, resumo: chamadas.append((atual, total)))
     assert len(chamadas) == 3, f'callback chamado {len(chamadas)} vezes para 3 cenários'
     assert all((total == 3 for _, total in chamadas)), 'o total informado ao callback oscilou'
     assert [atual for atual, _ in chamadas] == [1, 2, 3], f'a contagem de progresso não foi sequencial: {chamadas}'
@@ -5241,13 +5263,14 @@ def planilha(tmp_path_factory):
     rng = np.random.default_rng(7)
     chuva = np.where(rng.random(730) < 0.35, rng.exponential(12, 730), 0.0)
     cfg = TritonConfig()
-    try:
-        alegrete = get_city_data('RS', 'Alegrete')
+    alegrete = get_city_data('RS', 'Alegrete')  # None fora da Edição Brasil (banco vazio)
+    if alegrete is not None:
         cfg.water_tariffs = [tuple(f) for f in alegrete['faixas']]
         cfg.sewage_mode, cfg.sewage_rate = esgoto_do_municipio(alegrete)
-    except Exception:
-        cfg.water_tariffs = [(0.0, 10.0, 4.0), (10.0, 20.0, 6.0), (20.0, None, 8.0)]
-        cfg.sewage_mode, cfg.sewage_rate = 1, 0.8
+    else:
+        # Escalões de água sintéticos, só para o teste (não são de nenhuma entidade).
+        cfg.water_tariffs = [(0.0, 0.0, 12.0, -1), (0.0, 10.0, 4.0, 1), (10.0, 20.0, 6.0, 1), (20.0, 999999.0, 8.0, 1)]
+        cfg.sewage_mode, cfg.sewage_rate = 1, 80.0
 
     sim = run_single_simulation(chuva, 5000.0, area=150, total_demand_per_day=400, rainwater_share=0.4, store_daily_details=True)
     economia = run_economic_analysis(cfg, sim)
@@ -5566,7 +5589,9 @@ def test_fator_do_esgoto_vale_em_todos_os_modos(estudo, modo):
 def test_fatores_de_emissao_movem_o_saldo_de_carbono(estudo, chave, sentido):
     cfg, precip = estudo
     par = M.ParametrosIncertos(variaveis={chave: M.Distribuicao('uniforme', minimo=3.0, maximo=3.0)})
-    r = M.simular(cfg, precip, par, amostras=1, semente=1)
+    # Fatores da rede e da água dados de propósito: fora da Brasil o padrão do motor é zero, e um
+    # multiplicador de zero não move o saldo de carbono.
+    r = M.simular(cfg, precip, par, amostras=1, semente=1, ambiental={'grid_co2_factor_kg_kwh': FATOR_DA_REDE_DE_TESTE, 'potable_water_co2_kg_m3': 0.35})
     ref = r['referencia']
     assert (ref['co2_kg']['media'] - ref['base']['co2_kg']) * sentido > 0
 
@@ -6707,8 +6732,6 @@ def test_fatura_portuguesa_recusa_escaloes_com_buraco():
 @pytest.mark.parametrize('concelho', __import__('triton.core.tarifarios_portugal', fromlist=['x']).concelhos())
 def test_tarifario_portugues_reproduz_as_contas_impressas(concelho):
     """Fatura e motor reproduzem cada conta de conferência feita com os números do documento."""
-    if concelho == "_nenhum_":
-        pytest.skip("portugal_tarifarios.json não está presente nesta edição")
     from triton.core import tarifarios_portugal as T
     from triton.core.economic import calculate_water_bill, esgoto_do_projeto
     from triton.core.fatura_portuguesa import conta_mensal
@@ -6726,8 +6749,7 @@ def test_esgoto_por_escaloes_sobrevive_ao_arquivo_e_entra_na_economia(tmp_path):
     from triton.core import tarifarios_portugal as T
     from triton.core.economic import calculate_effective_tariff
     cfg = TritonConfig()
-    if not T.aplicar('Lisboa', cfg):
-        pytest.skip("Tarifário de Lisboa não disponível nesta edição")
+    assert T.aplicar('Lisboa', cfg)
     destino = tmp_path / 'l.triton'
     export_triton_json(cfg, str(destino), precip_data=np.zeros(365))
     lido = load_triton_project(str(destino))['config']

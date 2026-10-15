@@ -12,6 +12,7 @@ relatório; o que não foi calculado fica ``None``, e o documento diz «Não cal
 
 from __future__ import annotations
 
+import re
 from typing import Any, Dict, Iterable, Optional
 
 #: Texto dos documentos quando o indicador não foi calculado para o volume.
@@ -197,8 +198,145 @@ def demanda_total_diaria(config: Any) -> Optional[float]:
     return valor
 
 
-#: As moedas que a Etapa 3 oferece, na ordem da lista antiga (o índice ``currency``).
-MOEDAS = (("BRL", "R$"), ("USD", "$"), ("EUR", "€"), ("GBP", "£"), ("CNY", "¥"))
+# ── Texto das exportações (DXF, SVG, planilhas) fora da Edição Brasil ──────────────────────
+#
+# As pranchas e os diagramas citam normas brasileiras (ABNT NBR 15527, 5626, 6492, 12214) em
+# títulos, quadros e notas. Fora da Brasil, a citação sai e a frase continua inteira; onde a
+# frase só existia para citar a norma, o texto fica genérico («normas aplicáveis»). Nenhum
+# número de norma é posto no lugar.
+
+_NBR = r"(?:ABNT\s+)?NBR\s*\d{3,5}(?::\d{4})?"
+_NBR_LISTA = _NBR + r"(?:\s*(?:/|,|E|e|and)\s*" + _NBR + r")*"
+_REGRAS_DE_EXPORTACAO = (
+    (re.compile(r"e\s+" + _NBR + r"\s*\(suc[cç][aã]o\)"), "e por limite de velocidade (sucção)"),
+    # «CONFORME ABNT NBR 15527:2019 E NBR 5626 | ESCALA INDICADA»
+    (re.compile(r"CONFORME\s+" + _NBR_LISTA), "CONFORME AS NORMAS APLICÁVEIS"),
+    (re.compile(r"conforme\s+" + _NBR_LISTA), "conforme as normas aplicáveis"),
+    # «(NBR 15527)», «(ABNT NBR 15527 / NBR 5626)», «(NBR 15527:2019)» inteiros
+    (re.compile(r"\s*\(\s*" + _NBR_LISTA + r"\s*\)"), ""),
+    # «(NBR 5626, D_suc > D_rec)» -> «(D_suc > D_rec)»
+    (re.compile(r"\(\s*" + _NBR_LISTA + r"\s*,\s*"), "("),
+    # «(Sucção — NBR 5626)» -> «(Sucção)»
+    (re.compile(r"\s*[—–-]\s*" + _NBR_LISTA + r"(?=\s*\))"), ""),
+    # «ESCALA 1:10 | NBR 15527», «ESCALA 1:15 | NBR 5626 E NBR 15527»
+    (re.compile(r"\s*\|\s*" + _NBR_LISTA), ""),
+    # «e NBR 5626 (sucção)» numa nota
+    (re.compile(r"\s+e\s+" + _NBR_LISTA), ""),
+    # «Norma de referência: ABNT NBR 5626:2020 item 4.4»
+    (re.compile(r"Normas? de refer[eê]ncia:\s*" + _NBR_LISTA + r"(?:\s*item\s*[\d.]+)?(?:\s*\([^)]*\))?(?:\s*e\s*" + _NBR + r"(?:\s*item\s*[\d.]+)?)?"), "Norma de referência: a do local do projeto"),
+    (re.compile(_NBR_LISTA), "norma de referência"),
+    (re.compile(r"\bABNT\b"), ""),
+    (re.compile(r"MUNICÍPIO:"), "LOCAL:"),
+    (re.compile(r"CELESC|CASAN"), "entidade local"),
+)
+
+
+def texto_de_exportacao(texto: str) -> str:
+    """O texto de uma exportação sem as normas e entidades do Brasil, fora da Edição Brasil.
+
+    Na Brasil o texto volta como veio (as exportações da BRL não mudam).
+    """
+    if not texto or not isinstance(texto, str):
+        return texto
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return texto
+    for padrao, alvo in _REGRAS_DE_EXPORTACAO:
+        texto = padrao.sub(alvo, texto)
+    return re.sub(r"[ \t]{2,}", " ", texto).replace(" )", ")").replace("( ", "(")
+
+
+def simbolo_da_moeda(dados: Optional[Dict[str, Any]]) -> str:
+    """O símbolo de moeda das exportações: o do projeto; senão o da edição («R$» na Brasil, «€» na Portugal).
+
+    Na Internacional, sem moeda escolhida, devolve ``""``: o chamador escreve «moeda não definida»
+    (nunca «R$» nem «BRL»). O sinal «¤» da tela vale como «não escolhida».
+    """
+    simbolo = str((dados or {}).get("moeda") or "").replace("¤", "").strip()
+    if simbolo:
+        return simbolo
+    from triton.core.edition import get_edition_currency_symbol
+    return get_edition_currency_symbol() or ""
+
+
+#: Texto que o núcleo escreve com entidades do Brasil e que as planilhas repetem (fora da Brasil).
+_REGRAS_DE_PLANILHA = (
+    (re.compile(r"\((?:[Tt]arifa [^)]*)?CELESC[^)]*\)"), "(tarifa de eletricidade do local)"),
+    (re.compile(r"IPTU Verde"), "incentivo municipal ao imposto predial"),
+    (re.compile(r"IPTU"), "imposto predial"),
+    (re.compile(r"\(SINAPI\)"), "(catálogo de preços de referência)"),
+    (re.compile(r"SINAPI"), "catálogo de preços de referência"),
+    (re.compile(r"Florianópolis"), "o local do projeto"),
+    (re.compile(r"ANEEL"), "regulador de energia"),
+)
+
+
+def texto_de_planilha(texto: Any, moeda: str = "") -> Any:
+    """O texto de uma célula sem marcas do Brasil, fora da Edição Brasil (na Brasil volta como veio).
+
+    ``moeda`` é o símbolo do projeto; vazio, «R$» vira «moeda» (a Internacional não tem moeda
+    predefinida).
+    """
+    if not isinstance(texto, str) or not texto:
+        return texto
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return texto
+    from triton.ui.textos_da_edicao import sem_marcas_do_brasil
+    from triton.core.environmental_justifications import _sem_residuos_do_brasil
+    texto = _sem_residuos_do_brasil(sem_marcas_do_brasil(texto, "pt"))
+    texto = texto_de_exportacao(texto)
+    for padrao, alvo in _REGRAS_DE_PLANILHA:
+        texto = padrao.sub(alvo, texto)
+    return texto.replace("R$", moeda or "moeda")
+
+
+def planilha_de_exportacao(wb: Any, moeda: str = "") -> None:
+    """Aplica ``texto_de_planilha`` a toda célula de texto da pasta de trabalho (fora da Edição Brasil)."""
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return
+    for ws in wb.worksheets:
+        for linha in ws.iter_rows():
+            for celula in linha:
+                if isinstance(celula.value, str):
+                    celula.value = texto_de_planilha(celula.value, moeda)
+
+
+def svg_de_exportacao(svg: str) -> str:
+    """O SVG sem as normas do Brasil (e sem os comentários do gerador), fora da Edição Brasil."""
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil() or not svg:
+        return svg
+    svg = re.sub(r"<!--.*?-->", "", svg, flags=re.S)
+    return texto_de_exportacao(svg)
+
+
+def documento_dxf_de_exportacao(doc: Any) -> None:
+    """Tira as normas do Brasil dos textos de um desenho ezdxf antes de gravá-lo (fora da Brasil)."""
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return
+    espacos = [doc.modelspace()] + [bloco for bloco in doc.blocks if not bloco.name.startswith("*")]
+    for espaco in espacos:
+        for entidade in espaco.query("TEXT MTEXT ATTDEF"):
+            if entidade.dxftype() == "MTEXT":
+                entidade.text = texto_de_exportacao(entidade.text)
+            else:
+                entidade.dxf.text = texto_de_exportacao(entidade.dxf.text)
+        for entidade in espaco.query("INSERT"):
+            for atributo in entidade.attribs:
+                atributo.dxf.text = texto_de_exportacao(atributo.dxf.text)
+
+
+#: As moedas que a Etapa 3 oferece, na ordem da lista antiga (o índice ``currency``): as cinco
+#: primeiras não mudam de lugar, para que os arquivos antigos continuem lidos. ``XXX`` é o
+#: código ISO 4217 de «sem moeda»: a Internacional não tem moeda predefinida (decisão U-21) e
+#: mostra o sinal genérico de moeda («¤») até o usuário escolher a sua.
+MOEDAS = (("BRL", "R$"), ("USD", "$"), ("EUR", "€"), ("GBP", "£"), ("CNY", "¥"),
+          ("XXX", "¤"), ("ZAR", "R"), ("INR", "₹"), ("AUD", "A$"), ("CAD", "C$"), ("CHF", "CHF"))
+#: A ordem em que a Internacional as oferece: primeiro «sem moeda definida». O real não entra.
+MOEDAS_DA_INTERNACIONAL = ("XXX", "USD", "EUR", "GBP", "CNY", "ZAR", "INR", "AUD", "CAD", "CHF")
 
 
 def moeda_do_projeto(ui_state: Optional[Dict[str, Any]]) -> Optional[Dict[str, str]]:

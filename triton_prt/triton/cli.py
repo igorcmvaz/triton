@@ -32,6 +32,10 @@ if sys.stdout is not None and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from triton.cli_textos import t as _t
+from triton.core.edition import (
+    configuracao_da_edicao, serie_de_exemplo_da_edicao, usa_dados_do_brasil, valor_de_partida_da_edicao,
+)
 from triton.core.economic import (
     calculate_effective_tariff,
     run_economic_analysis,
@@ -213,8 +217,8 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
             alto, value("txt_upper_density", 0.0) or None, "material_density_kg_per_m3_tank"),
         "custom_upper_co2_per_kg": valor_personalizado_ou_none(
             alto, value("txt_upper_co2_kg", 0.0) or None, "co2_factor_kg_per_kg"),
-        "grid_co2_factor_kg_kwh": value("txt_grid_co2", grid_factor_default()),
-        "potable_water_co2_kg_m3": value("txt_potable_co2", 0.35),
+        "grid_co2_factor_kg_kwh": value("txt_grid_co2", _fator_de_rede_de_partida()),
+        "potable_water_co2_kg_m3": value("txt_potable_co2", _emissao_da_agua_de_partida()),
         "chlorine_dose_mg_l": chlorine_dose,
         "chlorine_co2_kg_per_kg": chlorine_factor,
         "system_lifespan_years": value("txt_lifespan", 20.0),
@@ -609,15 +613,29 @@ def _fator_sorteado(cfg: TritonConfig, atributo: str) -> float:
     return 1.0 if valor is None else float(valor)
 
 
-#: Emissão da água potável da rede quando a avaliação ambiental não a declara, kg CO₂e/m³.
-EMISSAO_DA_AGUA_POTAVEL_PADRAO = 0.35
+#: Emissão da água potável da rede quando a avaliação ambiental não a declara, kg CO₂e/m³ (o valor do Brasil).
+EMISSAO_DA_AGUA_POTAVEL_BRASIL = 0.35
+
+
+def _emissao_da_agua_de_partida() -> float:
+    """Zero fora da Brasil: o usuário informa o fator da água da rede do seu local."""
+    return valor_de_partida_da_edicao(EMISSAO_DA_AGUA_POTAVEL_BRASIL)
+
+
+def _fator_de_rede_de_partida() -> float:
+    """O fator da rede quando o projeto não o declara: o do Brasil na Brasil, zero nas outras edições.
+
+    Nas outras edições o usuário informa o fator da rede do seu local; gravar 0,085 (o do
+    sistema interligado brasileiro) num modelo de INT ou PRT seria dar-lhe um dado de outro país.
+    """
+    return valor_de_partida_da_edicao(grid_factor_default())
 
 
 def fatores_de_emissao(raw: Optional[Dict[str, Any]]) -> Dict[str, float]:
     """Os fatores de emissão da avaliação ambiental: os declarados ou os padrões."""
     raw = raw or {}
-    return {"grid_co2_factor_kg_kwh": float(raw.get("grid_co2_factor_kg_kwh", grid_factor_default())),
-            "potable_water_co2_kg_m3": float(raw.get("potable_water_co2_kg_m3", EMISSAO_DA_AGUA_POTAVEL_PADRAO))}
+    return {"grid_co2_factor_kg_kwh": float(raw.get("grid_co2_factor_kg_kwh", _fator_de_rede_de_partida())),
+            "potable_water_co2_kg_m3": float(raw.get("potable_water_co2_kg_m3", _emissao_da_agua_de_partida()))}
 
 
 def _economic_row(cfg: TritonConfig, result: SingleTankSimulationResult,
@@ -933,9 +951,9 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
     if output_format == "text":
         technical = report["technical"]
         summary = technical["summary"]
-        print(f"=== Triton | {summary['mode']} | {len(technical['alternatives'])} alternativa(s) ===")
+        print(f"=== Triton | {summary['mode']} | {len(technical['alternatives'])} {_t('alternativa(s)')} ===")
         if summary.get("optimal_volume_l") is not None:
-            print(f"Volume técnico indicado: {summary['optimal_volume_l']:.0f} L ({summary['optimal_potential_pct']:.2f}% de economia)")
+            print(f"{_t('Volume técnico indicado:')} {summary['optimal_volume_l']:.0f} L ({summary['optimal_potential_pct']:.2f}% {_t('de economia')})")
         if "economic" in report:
             econ_alts = [row for row in report["economic"]["alternatives"] if row["lower_tank_volume_l"] > 0]
             if econ_alts:
@@ -946,17 +964,17 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
                     best_econ = max(econ_alts, key=lambda row: row["npv_brl"])
                 pb_yrs = best_econ.get("discounted_payback_months") / 12.0 if best_econ.get("discounted_payback_months") else None
                 pb_txt = f" | Payback: {pb_yrs:.1f}a" if pb_yrs else ""
-                print(f"Melhor alternativa econômica (Menor Payback): {best_econ['lower_tank_volume_l']:.0f} L | VPL {_simbolo(report)} {best_econ['npv_brl']:.2f}{pb_txt}")
+                print(f"{_t('Melhor alternativa econômica (Menor Payback):')} {best_econ['lower_tank_volume_l']:.0f} L | {_t('VPL')} {_simbolo(report)} {best_econ['npv_brl']:.2f}{pb_txt}")
         if "environmental" in report:
             env_alts = [row for row in report["environmental"]["alternatives"] if row["lower_tank_volume_l"] > 0]
             if env_alts:
                 best_env = max(env_alts, key=lambda row: row["lifetime_net_co2_saved_kg"])
-                print(f"Melhor alternativa ambiental: {best_env['lower_tank_volume_l']:.0f} L | {best_env['lifetime_net_co2_saved_kg']:.2f} kg CO2e")
+                print(f"{_t('Melhor alternativa ambiental:')} {best_env['lower_tank_volume_l']:.0f} L | {best_env['lifetime_net_co2_saved_kg']:.2f} kg CO2e")
         if "topsis" in report:
             print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
         if "smaa_vikor" in report:
             sv = report["smaa_vikor"]
-            print(f"SMAA-VIKOR: {sv['best_volume_l']:.0f} L | {sv['best_acceptability_pct']:.1f}% em {sv['samples']} simulações")
+            print(f"SMAA-VIKOR: {sv['best_volume_l']:.0f} L | {sv['best_acceptability_pct']:.1f}% {_t('em')} {sv['samples']} {_t('simulações')}")
         return
     if not output_file:
         raise ValueError(f"--output é obrigatório quando --format {output_format} é usado")
@@ -993,7 +1011,8 @@ def _template_analysis() -> Dict[str, Any]:
         "topsis_weights": list(PESOS_PADRAO),
         "environmental": {
             "lower_material_key": "PEAD", "upper_material_key": "PEAD",
-            "grid_co2_factor_kg_kwh": grid_factor_default(), "potable_water_co2_kg_m3": 0.35,
+            "grid_co2_factor_kg_kwh": _fator_de_rede_de_partida(),
+            "potable_water_co2_kg_m3": _emissao_da_agua_de_partida(),
             "chlorine_dose_mg_l": DOSE_PADRAO_MG_POR_LITRO,
             "chlorine_co2_kg_per_kg": FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
             "system_lifespan_years": 20,
@@ -1004,9 +1023,16 @@ def _template_analysis() -> Dict[str, Any]:
 
 
 def _create_template(path: str, rainfall_file: str, embed_rainfall: bool) -> Path:
-    cfg = TritonConfig(precip_file=rainfall_file, area=100.0, demand_value=120.0, residents_count=4,
-                       rainwater_share=0.40, runoff_coeff=COEFICIENTE_DE_ESCOAMENTO_PADRAO, lower_tank_max=10000.0,
-                       lower_tank_step=500.0, upper_tank_vol=500.0, upper_tank_used=1)
+    # Os padrões da edição: na Brasil, os históricos; nas outras, sem tarifa, preço nem localidade do Brasil.
+    cfg = configuracao_da_edicao()
+    for campo, valor in dict(precip_file=rainfall_file, area=100.0, demand_value=120.0, residents_count=4,
+                             rainwater_share=0.40, runoff_coeff=COEFICIENTE_DE_ESCOAMENTO_PADRAO, lower_tank_max=10000.0,
+                             lower_tank_step=500.0, upper_tank_vol=500.0, upper_tank_used=1).items():
+        setattr(cfg, campo, valor)
+    if not usa_dados_do_brasil():
+        # o IPTU Verde é incentivo municipal do Brasil: o valor venal e o desconto de partida não vão no modelo
+        cfg.iptu_annual_value = 0.0
+        cfg.iptu_discount_pct = 0.0
     precipitation = load_precipitation(rainfall_file) if embed_rainfall else None
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -1019,12 +1045,24 @@ def _create_template(path: str, rainfall_file: str, embed_rainfall: bool) -> Pat
     return target
 
 
+def _clima_de_exemplo() -> Dict[str, Any]:
+    """A série de chuva de exemplo da edição: a de Florianópolis na Brasil, a que a edição distribui nas outras."""
+    from triton.core.edition import cidade_de_exemplo_da_edicao
+    serie = serie_de_exemplo_da_edicao()
+    if usa_dados_do_brasil():
+        return {"id": "florianopolis-1", "name": "Florianópolis — série 1",
+                "rainfall_file": serie, "start_date": "01/01/2002"}
+    local = cidade_de_exemplo_da_edicao().split(",")[0]
+    return {"id": local.lower().replace(" ", "-") + "-1", "name": f"{local} — 1",
+            "rainfall_file": serie, "start_date": "01/01/1991"}
+
+
 def _create_catalog(kind: str, path: str) -> Path:
     if kind == "premises":
         content = {
             "schema": {"name": "triton-premises-catalog", "version": 1},
             "premises": [{
-                "id": "residencia-base", "name": "Residência base",
+                "id": "residencia-base", "name": _t("Residência base"),
                 "config": {"area": 100.0, "demand_value": 120.0, "residents_count": 4,
                            "rainwater_share": 0.40, "runoff_coeff": COEFICIENTE_DE_ESCOAMENTO_PADRAO, "discard": 1.0,
                            "lower_tank_mode": 1, "lower_tank_max": 10000.0, "lower_tank_step": 500.0,
@@ -1036,8 +1074,7 @@ def _create_catalog(kind: str, path: str) -> Path:
     else:
         content = {
             "schema": {"name": "triton-climate-catalog", "version": 1},
-            "climates": [{"id": "florianopolis-1", "name": "Florianópolis — série 1",
-                          "rainfall_file": "Florianopolis1.csv", "start_date": "01/01/2002"}],
+            "climates": [_clima_de_exemplo()],
         }
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -1076,7 +1113,7 @@ def _run_batch(args: argparse.Namespace) -> None:
     for scenario in scenarios:
         for aviso in scenario.get("avisos", []):
             print(f"aviso: {aviso}", file=sys.stderr)
-    base_bundle = _load_bundle(args.base) if args.base else {"config": TritonConfig(), "analysis": {}}
+    base_bundle = _load_bundle(args.base) if args.base else {"config": configuracao_da_edicao(), "analysis": {}}
     base_cfg = base_bundle["config"]
     base_analysis = base_bundle.get("analysis", {}) or {}
     reports = []
@@ -1172,7 +1209,7 @@ def _config_from_premise(raw: Dict[str, Any]) -> Tuple[TritonConfig, Dict[str, A
     data = raw.get("config", {})
     if not isinstance(data, dict):
         raise ValueError(f"Premissa '{raw.get('id', '?')}' deve conter um objeto config.")
-    cfg = TritonConfig()
+    cfg = configuracao_da_edicao()
     invalid = set(data) - set(TritonConfig.__dataclass_fields__)
     if invalid:
         raise ValueError(f"Premissa '{raw.get('id', '?')}' contém campos inválidos: {', '.join(sorted(invalid))}")
@@ -2575,9 +2612,31 @@ def _run_vaz_study(args: argparse.Namespace) -> None:
     print("=" * 80)
 
 
+class _AnalisadorDaEdicao(argparse.ArgumentParser):
+    """``ArgumentParser`` cuja ajuda sai no idioma da edição (``cli_textos.t``): igual ao original na Brasil."""
+
+    def __init__(self, *args, **kwargs):
+        if isinstance(kwargs.get("description"), str):
+            kwargs["description"] = _t(kwargs["description"])
+        super().__init__(*args, **kwargs)
+
+    def add_argument(self, *args, **kwargs):
+        if isinstance(kwargs.get("help"), str):
+            kwargs["help"] = _t(kwargs["help"])
+        return super().add_argument(*args, **kwargs)
+
+
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Triton CLI: simulação, economia, ACV, TOPSIS e automação reproduzível.")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    parser = _AnalisadorDaEdicao(description="Triton CLI: simulação, economia, ACV, TOPSIS e automação reproduzível.")
+    subparsers = parser.add_subparsers(dest="command", required=True, parser_class=_AnalisadorDaEdicao)
+    _adicionar = subparsers.add_parser
+
+    def _adicionar_traduzido(nome, **kwargs):
+        if isinstance(kwargs.get("help"), str):
+            kwargs["help"] = _t(kwargs["help"])
+        return _adicionar(nome, **kwargs)
+
+    subparsers.add_parser = _adicionar_traduzido
 
     def add_analysis_arguments(command_parser: argparse.ArgumentParser, default_analysis: str) -> None:
         command_parser.add_argument("file", help="Projeto CSV legado, .triton ou JSON estruturado")
@@ -2604,7 +2663,7 @@ def main() -> None:
 
     init_parser = subparsers.add_parser("init", help="Cria um template .triton estruturado e editável")
     init_parser.add_argument("file", help="Destino .triton")
-    init_parser.add_argument("--rainfall", default="Florianopolis1.csv", help="Arquivo de chuva de referência")
+    init_parser.add_argument("--rainfall", default=serie_de_exemplo_da_edicao(), help="Arquivo de chuva de referência")
     init_parser.add_argument("--embed-rainfall", action="store_true", help="Incorpora a série no .triton")
 
     catalog_parser = subparsers.add_parser("init-catalog", help="Cria catálogo JSON de premissas ou de climas")
@@ -2722,8 +2781,9 @@ def main() -> None:
     study_parser.add_argument("--seed", type=int, help="Semente; padrão: a salva no projeto ou 42")
     for opcao, ajuda in (("--per-capita", "consumo per capita, L/hab.dia"), ("--people", "número de pessoas"),
                          ("--non-potable", "fração não potável interna, %%")):
-        study_parser.add_argument(opcao, help=f"Distribuição do {ajuda}: normal:média:desvio, lognormal:média:desvio, "
-                                              "triangular:mín:moda:máx, uniforme:mín:máx ou fixo")
+        study_parser.add_argument(opcao, help=f"{_t(f'Distribuição do {ajuda}')}: "
+                                              + _t("normal:média:desvio, lognormal:média:desvio, "
+                                                   "triangular:mín:moda:máx, uniforme:mín:máx ou fixo"))
     study_parser.add_argument("--var", dest="variables", action="append", default=[], metavar="VARIÁVEL=DISTRIBUIÇÃO",
                               help="Qualquer variável do catálogo (per_capita_l_dia, pessoas, fracao_nao_potavel_pct, "
                                    "demanda_externa_l_dia, area_m2, coef_escoamento, descarte_mm, fator_chuva, "
@@ -2731,8 +2791,8 @@ def main() -> None:
                                    "pode ser repetida. Ex.: --var fator_chuva=normal:1:0,1")
     study_parser.add_argument("--list-variables", action="store_true", help="Lista o catálogo e sai")
     study_parser.add_argument("--climate-models", metavar="MODELO,MODELO,…",
-                              help="Modelos CLIMBra entre os quais cada realização sorteia a chuva (mesma cidade, "
-                                   "cenário e recorte do projeto); «todos» usa os 19; «nenhum» desliga")
+                              help=(argparse.SUPPRESS if not usa_dados_do_brasil() else "Modelos CLIMBra entre os quais cada realização sorteia a chuva (mesma cidade, "
+                                   "cenário e recorte do projeto); «todos» usa os 19; «nenhum» desliga"))
     study_parser.add_argument("--daily-cv", type=float, help="Variação de um dia para o outro, em %% (padrão 0)")
     study_parser.add_argument("--weights", type=_parse_weights)
     study_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
@@ -2740,37 +2800,39 @@ def main() -> None:
     study_parser.add_argument("--output")
     study_parser.add_argument("--quiet", action="store_true", help="Oculta o progresso")
 
-    compare_mass_parser = subparsers.add_parser(
-        "compare-mass",
-        help="Executa simulação paralela em massa dos 4 casos de reservatórios combinados e compara com TesteMassivo",
-    )
-    compare_mass_parser.add_argument("--input-dir", help="Pasta com os arquivos de chuva divididos (Triton_future_files_split)")
-    compare_mass_parser.add_argument("--reference-dir", help="Pasta com os CSVs consolidados de referência (TesteMassivo)")
-    compare_mass_parser.add_argument("--output-dir", help="Pasta para gravar novos resultados e relatório (TesteMassivo/nova_versao)")
-    compare_mass_parser.add_argument("--area", type=float, default=60.0, help="Área de captação em m² (padrão Tabela 2: 60)")
-    compare_mass_parser.add_argument("--residents", type=int, default=4, help="Número de moradores (padrão Tabela 2: 4)")
-    compare_mass_parser.add_argument("--demand", type=float, default=150.0, help="Demanda diária per capita L/hab/dia (padrão Tabela 2: 150)")
-    compare_mass_parser.add_argument("--share", type=float, default=30.0, help="Percentual não potável, de 0 a 100: 30 é 30%% (padrão Tabela 2: 30)")
-    compare_mass_parser.add_argument("--runoff", type=float, default=0.80, help="Coeficiente de escoamento (padrão Tabela 2: 0.80)")
-    compare_mass_parser.add_argument("--discard", type=float, default=2.0, help="Descarte inicial first-flush em mm (padrão Tabela 2: 2.0)")
-    compare_mass_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")
+    # Estudos da replicação do Brasil (TesteMassivo, estudo de Vaz): só existem na Edição Brasil.
+    if usa_dados_do_brasil():
+        compare_mass_parser = subparsers.add_parser(
+            "compare-mass",
+            help="Executa simulação paralela em massa dos 4 casos de reservatórios combinados e compara com TesteMassivo",
+        )
+        compare_mass_parser.add_argument("--input-dir", help="Pasta com os arquivos de chuva divididos (Triton_future_files_split)")
+        compare_mass_parser.add_argument("--reference-dir", help="Pasta com os CSVs consolidados de referência (TesteMassivo)")
+        compare_mass_parser.add_argument("--output-dir", help="Pasta para gravar novos resultados e relatório (TesteMassivo/nova_versao)")
+        compare_mass_parser.add_argument("--area", type=float, default=60.0, help="Área de captação em m² (padrão Tabela 2: 60)")
+        compare_mass_parser.add_argument("--residents", type=int, default=4, help="Número de moradores (padrão Tabela 2: 4)")
+        compare_mass_parser.add_argument("--demand", type=float, default=150.0, help="Demanda diária per capita L/hab/dia (padrão Tabela 2: 150)")
+        compare_mass_parser.add_argument("--share", type=float, default=30.0, help="Percentual não potável, de 0 a 100: 30 é 30%% (padrão Tabela 2: 30)")
+        compare_mass_parser.add_argument("--runoff", type=float, default=0.80, help="Coeficiente de escoamento (padrão Tabela 2: 0.80)")
+        compare_mass_parser.add_argument("--discard", type=float, default=2.0, help="Descarte inicial first-flush em mm (padrão Tabela 2: 2.0)")
+        compare_mass_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")
 
-    run_vaz_parser = subparsers.add_parser(
-        "run-vaz-study",
-        help="Executa estudo massivo de tipologias residenciais de Vaz em Parquet com ACV, Financeiro e TOPSIS",
-    )
-    run_vaz_parser.add_argument("--input-dir", help="Pasta com as 86.716 séries climáticas divididas (TesteMassivo/Triton_vaz_files_split)")
-    run_vaz_parser.add_argument("--output-dir", help="Pasta para gravar arquivo Parquet e relatórios (TesteMassivo/estudo_vaz)")
-    run_vaz_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")
+        run_vaz_parser = subparsers.add_parser(
+            "run-vaz-study",
+            help="Executa estudo massivo de tipologias residenciais de Vaz em Parquet com ACV, Financeiro e TOPSIS",
+        )
+        run_vaz_parser.add_argument("--input-dir", help="Pasta com as 86.716 séries climáticas divididas (TesteMassivo/Triton_vaz_files_split)")
+        run_vaz_parser.add_argument("--output-dir", help="Pasta para gravar arquivo Parquet e relatórios (TesteMassivo/estudo_vaz)")
+        run_vaz_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")
 
     args = parser.parse_args()
     try:
         if args.command == "init":
             target = _create_template(args.file, args.rainfall, args.embed_rainfall)
-            print(f"Template .triton criado em: {target.resolve()}")
+            print(f"{_t('Template .triton criado em:')} {target.resolve()}")
         elif args.command == "init-catalog":
             target = _create_catalog(args.kind, args.file)
-            print(f"Catálogo de {args.kind} criado em: {target.resolve()}")
+            print(f"{_t('Catálogo de')} {args.kind} {_t('criado em:')} {target.resolve()}")
         elif args.command == "matrix":
             _run_matrix(args)
         elif args.command == "matrix-projects":
@@ -2783,7 +2845,7 @@ def main() -> None:
             errors.extend(_validate_analysis_config(bundle.get("analysis")))
             if errors:
                 raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
-            print("Projeto válido: estrutura, chuva e premissas essenciais verificadas.")
+            print(_t("Projeto válido: estrutura, chuva e premissas essenciais verificadas."))
         elif args.command == "batch":
             _run_batch(args)
         elif args.command == "uncertainty":
@@ -2794,14 +2856,14 @@ def main() -> None:
             _run_stochastic_demand(args)
         elif args.command in ("probabilistic-study", "stochastic-study"):
             _run_stochastic_study(args)
-        elif args.command == "compare-mass":
+        elif args.command == "compare-mass" and usa_dados_do_brasil():
             _run_compare_mass(args)
-        elif args.command == "run-vaz-study":
+        elif args.command == "run-vaz-study" and usa_dados_do_brasil():
             _run_vaz_study(args)
         else:
             _run_project(args)
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
-        parser.exit(2, f"Erro: {exc}\n")
+        parser.exit(2, f"{_t('Erro:')} {exc}\n")
 
 
 

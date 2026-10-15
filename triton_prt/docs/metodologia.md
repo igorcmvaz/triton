@@ -10,7 +10,7 @@ não devem ser lidos.
   equações, com que método e com que limitações.
 - [`../triton/docs/fluxogramas_metodologicos.md`](../triton/docs/fluxogramas_metodologicos.md) —
   os mesmos encadeamentos em forma de diagrama.
-- [`../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md`](../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md) —
+- `../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md` —
   detalhamento do que depende do volume da cisterna.
 
 > **Premissas, não normas.** Valores de custos, tarifas, doses de cloro e fatores
@@ -72,7 +72,7 @@ Atendimento,t = min(Dpl,t, Santes,t)
 St = Santes,t − Atendimento,t
 ```
 
-Por isso o modelo não é a YAS estrita de Fewkes e Butler (2000), em que a retirada do dia sai só do estoque da véspera (`Atendimento,t = min(Dpl,t, St−1)`), nem a YBS, em que a demanda sai antes do extravasamento. O consumo calculado fica sempre entre os dois, e mais longe da YAS nos reservatórios pequenos. A EN 16941-1:2024 (Anexo A.3) usa a YAS estrita; a comparação está em [`normas_nbr_x_en16941.md`](normas_nbr_x_en16941.md).
+Por isso o modelo não é a YAS estrita de Fewkes e Butler (2000), em que a retirada do dia sai só do estoque da véspera (`Atendimento,t = min(Dpl,t, St−1)`), nem a YBS, em que a demanda sai antes do extravasamento. O consumo calculado fica sempre entre os dois, e mais longe da YAS nos reservatórios pequenos. A EN 16941-1:2024 (Anexo A.3) usa a YAS estrita; a comparação está em `normas_nbr_x_en16941.md`.
 
 Quando há reservatório superior, o recalque é uma transferência interna adicional, limitada pelos estoques, pelo volume superior e pelo limiar de acionamento. O balanço auditável dos dois reservatórios é `estoque inicial + captação = estoque final + consumo pluvial + extravasamento`.
 
@@ -168,7 +168,7 @@ CO2líquido,vida = anos × (CO2água_evitado,anual
 
 Os fatores têm fonte declarada, e não são mais hipóteses
 internas. O detalhe valor a valor está em
-[`procedencia_fatores_co2.md`](procedencia_fatores_co2.md):
+`procedencia_fatores_co2.md`:
 
 | Item | Fonte |
 | :--- | :--- |
@@ -223,7 +223,7 @@ No gráfico, 100% significa o melhor resultado observado naquele critério e 0% 
 
 ## 9. Reprodutibilidade e validação
 
-O [DETALHAMENTO_COMPLETO_TRES_MODELOS.md](../examples/DETALHAMENTO_COMPLETO_TRES_MODELOS.md) preserva o diagrama causal, compara todas as entradas dos três modelos e fornece as varreduras técnica, econômica, ambiental e TOPSIS completas, volume a volume. O estudo [ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md](../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) apresenta a conta manual e o resíduo item a item. Ambos são gerados diretamente pelo script [generate_reference_case_studies.py](../scripts/generate_reference_case_studies.py), evitando números copiados que possam divergir após uma alteração do motor. A concordância apenas demonstra verificação interna das mesmas equações; validação externa exige dados medidos e comparação independente.
+O DETALHAMENTO_COMPLETO_TRES_MODELOS.md preserva o diagrama causal, compara todas as entradas dos três modelos e fornece as varreduras técnica, econômica, ambiental e TOPSIS completas, volume a volume. O estudo ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md apresenta a conta manual e o resíduo item a item. Ambos são gerados diretamente pelo script generate_reference_case_studies.py, evitando números copiados que possam divergir após uma alteração do motor. A concordância apenas demonstra verificação interna das mesmas equações; validação externa exige dados medidos e comparação independente.
 
-Premissas e critérios de qualidade dos dados estão detalhados em [PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md](../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md). A base histórica do algoritmo pode ser consultada no [Manual do Netuno 4](../additional_material/documentation/Manual-Triton-4_Junho2014.pdf), e a validação acadêmica do algoritmo original na dissertação de Rocha (2009): ROCHA, V. L. *Validação do algoritmo do programa Triton para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966).
+Premissas e critérios de qualidade dos dados estão detalhados em PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md. A base histórica do algoritmo pode ser consultada no [Manual do Netuno 4](../additional_material/documentation/Manual-Triton-4_Junho2014.pdf), e a validação acadêmica do algoritmo original na dissertação de Rocha (2009): ROCHA, V. L. *Validação do algoritmo do programa Triton para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966).
 

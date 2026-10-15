@@ -105,37 +105,61 @@ def _build_exe():
     return modulo
 
 
-def test_a_edicao_brasil_nao_sai_sem_a_base_climbra(tmp_path):
-    """Sem data/climbra.db nem os CSV, a compilação da Edição Brasil é recusada.
+def _criar_partes(pasta, b, unico=False):
+    pasta.mkdir(parents=True, exist_ok=True)
+    for modelo in b.modelos_climbra():
+        (pasta / f"climbra_{modelo}.db").write_bytes(b"SQLite")
+    (pasta / "climbra_partes.json").write_text("{}", encoding="utf-8")
+    if unico:
+        (pasta / "climbra.db").write_bytes(b"SQLite")
 
-    Antes, o PyInstaller copiava a pasta `data` sem o banco e o instalador saía
-    sem as 652 cidades, sem aviso algum.
+
+def test_a_edicao_brasil_nao_sai_sem_a_base_climbra(tmp_path):
+    """Sem os bancos data/climbra_<modelo>.db (nem o climbra.db nem os CSV), a Edição Brasil é recusada.
+
+    Antes, o PyInstaller copiava a pasta `data` sem a base e o instalador saía sem as 652 cidades,
+    sem aviso algum. Com uma parte faltando, o pacote também é recusado.
     """
     b = _build_exe()
+    assert len(b.modelos_climbra()) == 19
     assert b.garantir_base_climatica(tmp_path) is False
-    (tmp_path / "data").mkdir()
-    (tmp_path / "data" / "climbra.db").write_bytes(b"SQLite")
+    _criar_partes(tmp_path / "data", b)
     assert b.garantir_base_climatica(tmp_path) is True
+    (tmp_path / "data" / "climbra_KACE.db").unlink()
+    assert b.garantir_base_climatica(tmp_path) is False
 
 
 def test_o_instalador_confere_a_base_climbra_no_pacote(tmp_path):
     b = _build_exe()
-    faltam = b.verificar_pasta_para_instalador(tmp_path)
-    assert os.path.join("dist", "Triton", "_internal", "data", "climbra.db") in [os.path.normpath(f) for f in faltam]
-    # E a pasta `data` inteira entra no executável, levando o banco junto.
+    faltam = [os.path.normpath(f) for f in b.verificar_pasta_para_instalador(tmp_path)]
+    for modelo in b.modelos_climbra():
+        assert os.path.join("dist", "Triton", "_internal", "data", f"climbra_{modelo}.db") in faltam
+    # E a pasta `data` inteira entra no executável, levando os bancos junto.
     assert "('data', 'data')" in open(os.path.join(RAIZ, "Triton.spec"), encoding="utf-8").read()
+    # Fora da Brasil, a base não é exigida.
+    assert not [f for f in b.verificar_pasta_para_instalador(tmp_path, "int") if "climbra" in f]
 
 
 def test_a_edicao_internacional_sai_sem_a_base_climbra(tmp_path):
-    """A CLIMBra cobre só o Brasil: vai na BRL e é retirada do pacote da INT."""
+    """A CLIMBra cobre só o Brasil: as partes vão na BRL e saem do pacote da INT e da PRT."""
     b = _build_exe()
-    for edicao in ("brl", "int"):
-        db = tmp_path / edicao / "_internal" / "data" / "climbra.db"
-        db.parent.mkdir(parents=True)
-        db.write_bytes(b"SQLite")
+    for edicao in ("brl", "int", "prt"):
+        _criar_partes(tmp_path / edicao / "_internal" / "data", b, unico=True)
         b.remover_base_climatica_fora_da_brl(tmp_path / edicao, edicao)
-    assert (tmp_path / "brl" / "_internal" / "data" / "climbra.db").exists()
-    assert not (tmp_path / "int" / "_internal" / "data" / "climbra.db").exists()
+    brl = tmp_path / "brl" / "_internal" / "data"
+    assert all(p.exists() for p in b.partes_da_base_climatica(tmp_path / "brl" / "_internal"))
+    assert not (brl / "climbra.db").exists()          # as partes bastam: o banco único seria o mesmo conteúdo em dobro
+    for edicao in ("int", "prt"):
+        sobra = [p.name for p in (tmp_path / edicao / "_internal" / "data").iterdir() if p.name.startswith("climbra")]
+        assert sobra == [], sobra
+
+
+def test_o_banco_unico_antigo_fica_se_as_partes_estao_incompletas(tmp_path):
+    b = _build_exe()
+    _criar_partes(tmp_path / "_internal" / "data", b, unico=True)
+    (tmp_path / "_internal" / "data" / "climbra_KACE.db").unlink()
+    b.remover_base_climatica_fora_da_brl(tmp_path, "brl")
+    assert (tmp_path / "_internal" / "data" / "climbra.db").exists()
 
 
 def test_a_pasta_de_tarifas_so_vai_na_brl_e_sem_material_de_terceiros(tmp_path):
@@ -162,3 +186,27 @@ def test_a_pasta_de_tarifas_so_vai_na_brl_e_sem_material_de_terceiros(tmp_path):
         assert not (brl / "tarifas" / fora).exists(), fora
     assert not (brl / "additional_material" / "documentation").exists()
     assert not (tmp_path / "int" / "_internal" / "tarifas").exists()
+
+
+def test_o_pacote_nao_copia_o_que_nao_pode_ir(tmp_path):
+    """`data` e `tarifas` entram item a item: nada de saídas do Netuno 4, banco antigo ou documentos de terceiros."""
+    b = _build_exe()
+    for rel in ("data/simulation_outputs/x.csv", "data/brazilSHP/m.shp", "data/portugal/fonte.nc", "data/languages/es.json",
+                "data/climbra.db", "data/climbra_KACE.db", "data/climbra_partes.json", "data/portugal_eobs.db",
+                "tarifas/fontes/doc.pdf", "tarifas/entrada/x.pdf", "tarifas/tarifas_fontes.db", "tarifas/transcricoes/a.json",
+                "tarifas/catalogo_tarifas_auditado_652.csv", "additional_material/documentation/manual.pdf",
+                "additional_material/cad_bim/a.dxf"):
+        arquivo = tmp_path / rel
+        arquivo.parent.mkdir(parents=True, exist_ok=True)
+        arquivo.write_bytes(b"x")
+    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "prt")}
+    for e, itens in por_edicao.items():
+        for proibido in ("data/simulation_outputs", "data/brazilSHP", "data/portugal", "data/climbra.db",
+                         "tarifas/fontes", "tarifas/entrada", "tarifas/tarifas_fontes.db", "additional_material/documentation"):
+            assert proibido not in itens, (e, proibido)
+        assert "data/languages" in itens and "additional_material/cad_bim" in itens
+    assert {"data/climbra_KACE.db", "data/climbra_partes.json", "tarifas/transcricoes"} <= por_edicao["brl"]
+    assert "data/portugal_eobs.db" not in por_edicao["brl"] and "data/portugal_eobs.db" in por_edicao["prt"]
+    for e in ("int", "prt"):
+        assert not [i for i in por_edicao[e] if i.startswith(("data/climbra", "tarifas"))], e
+    assert "data/portugal_eobs.db" not in por_edicao["int"]

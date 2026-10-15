@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "Triton"
-message: "Se este software for usado em trabalho acadêmico, por favor cite-o conforme abaixo."
+title: "Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings (International Edition)"
+message: "If you use this software in academic work, please cite it as below (mandatory under clause 4 of LICENSE.md)."
 type: software
 authors:
   - family-names: Vaz
@@ -11,15 +11,17 @@ authors:
     affiliation: "Universidade Federal de Santa Catarina"
 version: "1.0.0"
 date-released: "2026-10-14"
+# O DOI do registro no Zenodo entra aqui quando existir (um só registro para os instaladores das três edições):
+# doi: 10.5281/zenodo.XXXXXXX
 license-url: https://github.com/igorcmvaz/triton/blob/main/triton_int/LICENSE.md
+url: "https://github.com/igorcmvaz/triton"
+repository-code: "https://github.com/igorcmvaz/triton"
 abstract: >-
-  Plataforma computacional para dimensionamento e simulação de sistemas de
-  aproveitamento de água de chuva em edificações, com balanço hídrico diário
-  Yield-After-Spill, análise econômico-financeira sobre base tarifária auditada
-  de 652 municípios brasileiros, avaliação simplificada de ciclo de vida e
-  tomada de decisão multicritério por TOPSIS e SMAA-VIKOR. Desenvolvida pelo
-  Grupo de Pesquisa em Ambientes Sustentáveis da UFSC como evolução e
-  replicação do Netuno 4.
+  Software for the design and simulation of rainwater harvesting systems in buildings: daily water balance (Yield-After-Spill),
+  economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS and SMAA-VIKOR).
+  Developed by the Sustainable Environments Research Group (GPAS) at the Federal University of Santa Catarina (UFSC),
+  as the successor of Netuno 4.
+  International Edition: region-neutral, with rainfall, tariffs, costs and currency supplied by the user.
 keywords:
   - rainwater-harvesting
   - water-conservation
@@ -28,10 +30,23 @@ keywords:
   - multi-criteria-decision-making
   - topsis
   - engineering-economics
-repository-code: "https://github.com/igorcmvaz/triton"
+preferred-citation:
+  type: software
+  title: "Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings"
+  authors:
+    - family-names: Vaz
+      given-names: "Igor Catão Martins"
+    - family-names: Ghisi
+      given-names: Enedir
+  version: "1.0.0"
+  year: 2026
+  institution:
+    name: "Universidade Federal de Santa Catarina (UFSC)"
+    city: "Florianópolis"
+    country: BR
 references:
   - type: manual
-    title: "Triton: manual do usuário"
+    title: "Triton: user manual (International Edition)"
     authors:
       - family-names: Vaz
         given-names: "Igor Catão Martins"

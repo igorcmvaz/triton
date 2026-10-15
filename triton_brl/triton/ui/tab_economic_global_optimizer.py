@@ -417,10 +417,10 @@ class TabEconomicGlobalOptimizer(QWidget):
             self.gb_best.setTitle(tr("🏆 Conclusão da Decisão Multi-Critério"))
         if hasattr(self, "gb_chart"):
             method_name = "SMAA-VIKOR" if is_smaa_vikor else "TOPSIS"
-            self.gb_chart.setTitle(tr(f"📊 Gráfico de Decisão Multi-Critério por Volume ({method_name})"))
+            self.gb_chart.setTitle(tr("📊 Gráfico de Decisão Multi-Critério por Volume") + f" ({method_name})")
         if hasattr(self, "tab_charts_topsis"):
             method_name = "SMAA-VIKOR" if is_smaa_vikor else "TOPSIS"
-            self.tab_charts_topsis.setTabText(0, tr(f"📊 Gráfico Decisão Multi-Critério ({method_name})"))
+            self.tab_charts_topsis.setTabText(0, tr("📊 Gráfico Decisão Multi-Critério") + f" ({method_name})")
         self._update_weight_validation()
 
     def on_preset_changed(self, index: int):

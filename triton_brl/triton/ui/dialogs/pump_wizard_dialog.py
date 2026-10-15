@@ -2,7 +2,8 @@
 Diálogo Modal do Mini Simulador / Assistente de Seleção de Motobomba do Triton.
 Inclui dimensionamento hidroenergético de tubulações (diâmetro econômico),
 sucção uma bitola comercial acima do recalque, verificação de velocidade de escoamento,
-e catálogo de motobombas comerciais brasileiras (Schneider, Dancor, Lepono) com bocais compatíveis.
+e catálogo de motobombas com bocais compatíveis: na Edição Brasil, modelos comerciais brasileiros
+(Schneider, Dancor, Lepono); nas outras, modelos de referência sem marca nem preço.
 """
 
 import math
@@ -202,6 +203,38 @@ PUMP_CATALOG = [
 ]
 
 
+#: Fora da Edição Brasil o catálogo traz as mesmas classes de desempenho (curvas H × Q, bocais e
+#: potências), sem marca de fabricante e sem preço: o programa dimensiona, e o usuário especifica a
+#: bomba do seu fornecedor. Os rótulos são de classe de serviço.
+_ROTULOS_DE_REFERENCIA = (
+    ("Modelo de referência A — 0,18 kW — Serviço leve", "Modelo de referência A"),
+    ("Modelo de referência B — 0,25 kW — Serviço padrão", "Modelo de referência B"),
+    ("Modelo de referência C — 0,37 kW — Centrífuga de vazão média", "Modelo de referência C"),
+    ("Modelo de referência D — 0,55 kW — Média elevação", "Modelo de referência D"),
+    ("Modelo de referência E — 2,20 kW — Multiestágio de alta pressão", "Modelo de referência E"),
+)
+
+
+def _catalogo_de_referencia():
+    saida = []
+    for modelo, (rotulo, marca) in zip(PUMP_CATALOG, _ROTULOS_DE_REFERENCIA):
+        item = dict(modelo)
+        item["label"] = rotulo
+        item["brand"] = marca
+        item["cost"] = 0.0   # sem preço de catálogo fora da Edição Brasil
+        saida.append(item)
+    return saida
+
+
+PUMP_CATALOG_DE_REFERENCIA = _catalogo_de_referencia()
+
+
+def catalogo_de_bombas():
+    """O catálogo da edição: marcas e preços brasileiros só na Brasil."""
+    from triton.core.edition import usa_dados_do_brasil
+    return PUMP_CATALOG if usa_dados_do_brasil() else PUMP_CATALOG_DE_REFERENCIA
+
+
 class PumpSelectionWizardDialog(QDialog):
     """
     Assistente técnico para dimensionamento e seleção de motobombas e tubulações.
@@ -219,6 +252,7 @@ class PumpSelectionWizardDialog(QDialog):
             target_h = min(target_h, max(600, int(avail.height() * 0.86)))
         self.resize(target_w, target_h)
 
+        self._catalogo = catalogo_de_bombas()
         self.upper_tank_vol = upper_tank_vol
         self.sweep_volumes = sweep_volumes or [1000, 2000, 3000, 5000, 7500, 10000, 15000, 20000]
         self.selected_pump_data = None
@@ -262,7 +296,11 @@ class PumpSelectionWizardDialog(QDialog):
         lbl_title.setStyleSheet(f"color: {sub_color};")
         h_lay.addWidget(lbl_title)
 
-        lbl_sub = QLabel(tr("Dimensiona o diâmetro econômico de recalque, adota sucção uma bitola acima e cruza com motobombas comerciais (Schneider, Dancor, Lepono)."))
+        from triton.core.edition import usa_dados_do_brasil as _brasil
+        lbl_sub = QLabel(tr(
+            "Dimensiona o diâmetro econômico de recalque, adota sucção uma bitola acima e cruza com motobombas comerciais (Schneider, Dancor, Lepono)."
+            if _brasil() else
+            "Dimensiona o diâmetro econômico de recalque, adota sucção uma bitola acima e cruza com modelos de motobomba de referência."))
         lbl_sub.setStyleSheet("font-size: 11px; color: #64748b;")
         h_lay.addWidget(lbl_sub)
         layout.addWidget(header_frame)
@@ -393,8 +431,8 @@ class PumpSelectionWizardDialog(QDialog):
         vlay_rec.setSpacing(8)
 
         self.combo_pump = QComboBox()
-        for p in PUMP_CATALOG:
-            self.combo_pump.addItem(p["label"], p)
+        for p in self._catalogo:
+            self.combo_pump.addItem(tr(p["label"]) if not _brasil() else p["label"], p)
         self.combo_pump.currentIndexChanged.connect(self.on_pump_selection_changed)
         vlay_rec.addWidget(self.combo_pump)
 
@@ -467,7 +505,11 @@ class PumpSelectionWizardDialog(QDialog):
         b_lay.setContentsMargins(4, 4, 4, 4)
         b_lay.setSpacing(2)
 
-        self.lbl_curve_model_title = QLabel(tr("📌 Modelo de Referência Comercial: Schneider BC-98"))
+        if _brasil():
+            _titulo_do_modelo = tr("📌 Modelo de Referência Comercial: Schneider BC-98")
+        else:
+            _titulo_do_modelo = tr("📌 Modelo de Referência: {0}").format(tr(self._catalogo[0]["brand"]))
+        self.lbl_curve_model_title = QLabel(_titulo_do_modelo)
         self.lbl_curve_model_title.setFont(QFont("Segoe UI", 11, QFont.Bold))
         self.lbl_curve_model_title.setStyleSheet("color: #d97706;")
         b_lay.addWidget(self.lbl_curve_model_title)
@@ -580,13 +622,13 @@ class PumpSelectionWizardDialog(QDialog):
         p_teor_est_kw = (9810.0 * q_rec_m3s * h_man_est) / (1000.0 * eta) if eta > 0 else 0.37
 
         best_idx = 0
-        for i, p in enumerate(PUMP_CATALOG):
+        for i, p in enumerate(self._catalogo):
             if p["flow_lh"] >= q_rec_lh and p["max_h"] >= h_man_est and p["kw"] >= (p_teor_est_kw * 0.90):
                 best_idx = i
                 break
             best_idx = i
 
-        candidate_pump = PUMP_CATALOG[best_idx]
+        candidate_pump = self._catalogo[best_idx]
 
         # 4. A MOTOBOMBA REGE O DIMENSIONAMENTO:
         # Tubulações não podem ser inferiores aos bocais e especificações do modelo da motobomba.
@@ -755,8 +797,8 @@ class PumpSelectionWizardDialog(QDialog):
             d_f = calculate_forchheimer_diameter(q_m3s, 2.0)
             rec_p = find_commercial_recalque(d_f)
 
-            rec_pump = PUMP_CATALOG[0]
-            for p in PUMP_CATALOG:
+            rec_pump = self._catalogo[0]
+            for p in self._catalogo:
                 if p["flow_lh"] >= q_nec_lh and p["max_h"] >= h_man:
                     rec_pump = p
                     break
@@ -775,7 +817,7 @@ class PumpSelectionWizardDialog(QDialog):
             self.table_sweep.setItem(r, 0, QTableWidgetItem(f"{vol:,.0f} L".replace(',', '.')))
             self.table_sweep.setItem(r, 1, QTableWidgetItem(f"{q_nec_lh:.0f} L/h"))
             self.table_sweep.setItem(r, 2, QTableWidgetItem(f"DN {dn_rec_eff} (Rec) / DN {dn_suc_eff} (Suc)"))
-            self.table_sweep.setItem(r, 3, QTableWidgetItem(rec_pump["brand"]))
+            self.table_sweep.setItem(r, 3, QTableWidgetItem(rec_pump["brand"] if rec_pump in PUMP_CATALOG else tr(rec_pump["brand"])))
             self.table_sweep.setItem(r, 4, QTableWidgetItem(f"R$ {rec_pump['cost']:.2f}" if self._com_precos else "—"))
             self.table_sweep.setItem(r, 5, QTableWidgetItem(f"{runtime_h_year:.1f} h"))
             self.table_sweep.setItem(r, 6, QTableWidgetItem(f"{energy_kwh:.1f} kWh"))
@@ -792,11 +834,12 @@ class PumpSelectionWizardDialog(QDialog):
             return
 
         # 1. Atualiza cabeçalho explicativo da aba de curva
+        from triton.core.edition import usa_dados_do_brasil as _brasil
         self.lbl_curve_model_title.setText(
-            tr('📌 Modelo de Referência Comercial: {0}').format(p_data['label'])
+            (tr('📌 Modelo de Referência Comercial: {0}') if _brasil() else tr('📌 Modelo de Referência: {0}')).format(tr(p_data['label']) if not _brasil() else p_data['label'])
         )
         self.lbl_curve_model_desc.setText(
-            tr('A curva azul contínua representa o ensaio de bancada do fabricante para o modelo <b>{0} ({1} CV / {2} kW)</b> com bocal de recalque {3}. O ponto vermelho indica a solicitação calculada para a sua instalação ({4:,.0f} L/h @ {5:.1f} mca). Você pode ajustar livremente a vazão, altura geométrica, rendimento e tubulações de acordo com qualquer modelo comercial.').format(p_data['brand'], p_data['cv'], p_data['kw'], p_data.get('bocal_rec', ''), q_rec_lh, h_man)
+            tr('A curva azul contínua representa o ensaio de bancada do fabricante para o modelo <b>{0} ({1} CV / {2} kW)</b> com bocal de recalque {3}. O ponto vermelho indica a solicitação calculada para a sua instalação ({4:,.0f} L/h @ {5:.1f} mca). Você pode ajustar livremente a vazão, altura geométrica, rendimento e tubulações de acordo com qualquer modelo comercial.').format(p_data['brand'] if p_data in PUMP_CATALOG else tr(p_data['brand']), p_data['cv'], p_data['kw'], p_data.get('bocal_rec', ''), q_rec_lh, h_man)
         )
 
         # 2. Configura visual (tema dark / light)

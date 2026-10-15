@@ -48,19 +48,22 @@ tmp/
 outputs/
 
 # ---------------------------------------------------------------------------
-# Base climática CMIP6 (~6,5 GB, 37.164 arquivos)
+# Base climática CMIP6 (~6,5 GB, 37.164 arquivos CSV)
 #
-# Exigida em tempo de execução por triton/core/climate_database.py, mas grande
+# Exigida só para recompilar os bancos (scripts/compilar_base_climbra.py); grande
 # demais para controle de versão. Distribuída separadamente.
 # ---------------------------------------------------------------------------
 climbra_data/
 Triton future files for 652 cities/
-
-# Base climatica compilada: 784 MB, gerada por scripts/compilar_base_climbra.py
-# a partir da pasta acima. O GitHub recusa arquivo com mais de 100 MB, e a base
-# e um download a parte, como a pasta de origem.
-data/climbra.db
 Triton_future_files_split/
+
+# Base climática compilada: um banco por modelo, data/climbra_<modelo>.db (40 a 44 MB cada,
+# 19 arquivos, ~785 MB), VERSIONADOS. O GitHub avisa a partir de 50 MB e recusa acima de 100 MB
+# por arquivo, e nenhuma parte chega perto (ver scripts/README.md). Não os apague nem os
+# regere sem necessidade: cada regeração grava no histórico outra cópia de ~785 MB.
+# O climbra.db ÚNICO das versões antigas (~820 MB) passa do limite e fica fora do Git; o
+# programa ainda o lê, e scripts/dividir_base_climbra.py o converte nas partes.
+data/climbra.db
 
 # ---------------------------------------------------------------------------
 # Saídas de simulação em lote (~514 MB, 4.055 arquivos gerados)

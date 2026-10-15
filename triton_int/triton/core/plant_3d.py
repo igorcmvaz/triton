@@ -21,6 +21,7 @@ from ezdxf.render import forms
 
 from .bim_exporter import COMPONENT_TYPES, build_bim_manifest, validate_bim_manifest, write_bim_manifest
 from .cad_block_library import APP_ID, configure_cad_document, register_plan_blocks
+from .dados_do_relatorio import documento_dxf_de_exportacao
 from .pipe_network import SYSTEMS_BY_ID, lengths_by_dn
 
 
@@ -84,6 +85,7 @@ def generate_plant_3d_dxf(project_data: Dict[str, Any], output_path: str) -> str
     _add_notes(msp, manifest)
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    documento_dxf_de_exportacao(doc)
     doc.saveas(path)
     write_bim_manifest(project_data, str(path.with_name(path.stem + "_triton-bim.json")))
     return str(path)

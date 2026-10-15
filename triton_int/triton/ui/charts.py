@@ -17,6 +17,7 @@ from math import ceil, floor
 import os
 
 from triton.ui.translation import tr, get_current_lang
+from triton.ui.textos_da_edicao import nome_sugerido
 from triton.core.parser import format_ptbr
 
 # Proporção padrão dos gráficos (16:9)
@@ -169,7 +170,7 @@ class TritonBaseChart(QWidget):
 
         base_t = self.chart_title or "triton-grafico"
         first_extension = selected_formats[0]
-        def_name = get_kebab_filename(f"triton-grafico-{base_t}", first_extension)
+        def_name = get_kebab_filename(f"{nome_sugerido('triton-grafico')}-{base_t}", first_extension)
         file_path, _ = QFileDialog.getSaveFileName(
             self, tr("Exportar Figura do Grafico"), def_name,
             f"{tr('Arquivos de figura')} (*.{first_extension})"

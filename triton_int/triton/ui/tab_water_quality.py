@@ -14,6 +14,10 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor
 
 from triton.ui.translation import tr, get_current_theme
+from triton.ui.textos_da_edicao import (
+    descricao_da_qualidade, titulo_classe_de_uso, recomendacao_de_polimento, por_edicao, sem_norma_do_brasil,
+    traduz_descritivo,
+)
 from triton.core.parser import TritonConfig, parse_float, format_ptbr
 from triton.core.chlorination import FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from triton.core.water_quality import (
@@ -60,10 +64,7 @@ class TabWaterQuality(QWidget):
         lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; color: #133c32;")
         lay.addWidget(lbl_title)
 
-        lbl_desc = QLabel(tr(
-            "Análise do impacto físico do descarte de primeira chuva (wash-off), metas normativas da ABNT NBR 15527:2019 / NBR 16783 "
-            "e dimensionamento paramétrico de filtros mecânicos, desinfecção e polimento."
-        ))
+        lbl_desc = QLabel(tr(descricao_da_qualidade()))
         lbl_desc.setWordWrap(True)
         lbl_desc.setStyleSheet(f"font-size: 11.5px; color: {sub_text_color}; margin-bottom: 4px;")
         lay.addWidget(lbl_desc)
@@ -217,7 +218,7 @@ class TabWaterQuality(QWidget):
         lay.addWidget(gb_ff_sys)
 
         # ── SEÇÃO B: USOS FINAIS & LIMITES NORMATIVOS NBR 15527 ──
-        gb_uses = QGroupBox(tr("📋 B. Classe de Uso Final e Parâmetros da Qualidade (ABNT NBR 15527)"))
+        gb_uses = QGroupBox(tr(titulo_classe_de_uso()))
         gb_uses.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {text_color}; }}")
         lay_uses = QVBoxLayout(gb_uses)
         lay_uses.setSpacing(10)
@@ -227,7 +228,7 @@ class TabWaterQuality(QWidget):
         self.combo_class = QComboBox()
         self.combo_class.setMinimumWidth(320)
         for class_id, class_info in WATER_QUALITY_CLASSES.items():
-            self.combo_class.addItem(tr(class_info.nome), class_id)
+            self.combo_class.addItem(traduz_descritivo(class_info.nome), class_id)
         self.combo_class.currentIndexChanged.connect(self.on_class_changed)
         row_class_sel.addWidget(self.combo_class)
         row_class_sel.addStretch()
@@ -458,9 +459,7 @@ class TabWaterQuality(QWidget):
         self.lbl_polishing_reco.setText("")
         if recomenda and not self.chk_polishing.isChecked():
             self.lbl_polishing_reco.setText(tr(
-                "A classe selecionada recomenda filtração fina. A recomendação é do "
-                "programa, e não da NBR 15527:2019 — as classes 2 a 4 são adaptadas. "
-                "Sem o filtro, o investimento e o custeio da linha de tratamento não o incluem."
+                recomendacao_de_polimento()
             ))
         elif recomenda:
             self.lbl_polishing_reco.setText(tr(
@@ -585,8 +584,8 @@ class TabWaterQuality(QWidget):
         self._set_card_value(self.card_rem_turb, f"{ff_res.removal_turbidity_pct:.1f} %")
         self._set_card_value(self.card_rem_bact, f"{ff_res.removal_bacteria_pct:.1f} %")
 
-        self.lbl_diag_class.setText(tr('<b>{0}</b> {1} (Turbidez Bruta Pós-Descarte Estimada: ~{2:.1f} NTU)').format(tr('Classificação:'), ff_res.cleanliness_classification, ff_res.estimated_post_discard_turbidity_ntu))
-        self.lbl_diag_text.setText(ff_res.recommendation_text)
+        self.lbl_diag_class.setText(tr('<b>{0}</b> {1} (Turbidez Bruta Pós-Descarte Estimada: ~{2:.1f} NTU)').format(tr('Classificação:'), traduz_descritivo(ff_res.cleanliness_classification), ff_res.estimated_post_discard_turbidity_ntu))
+        self.lbl_diag_text.setText(traduz_descritivo(ff_res.recommendation_text))
 
         # 2. Dimensionamento ETAP
         class_id = self.combo_class.currentData() or "classe_1"
@@ -625,7 +624,7 @@ class TabWaterQuality(QWidget):
             include_first_flush=include_ff,
         )
 
-        self.lbl_filter_type.setText(f"{etap_res.pre_filter_type} (Malha {etap_res.pre_filter_mesh_microns} µm)")
+        self.lbl_filter_type.setText(f"{traduz_descritivo(etap_res.pre_filter_type)} ({traduz_descritivo('Malha')} {etap_res.pre_filter_mesh_microns} µm)")
 
         # Os preços da ETAP e do descarte são de catálogo brasileiro, em reais: fora da
         # Brasil (precos_de_catalogo do projeto), não são mostrados nem entram no custo, e
@@ -637,13 +636,13 @@ class TabWaterQuality(QWidget):
         # Atualiza subsistema de descarte físico
         if hasattr(self, 'lbl_ff_filter_desc') and etap_res.first_flush:
             ff = etap_res.first_flush
-            self.lbl_ff_filter_desc.setText(ff.leaf_filter_type)
+            self.lbl_ff_filter_desc.setText(traduz_descritivo(ff.leaf_filter_type))
             self.lbl_ff_filter_cost.setText(_preco(ff.leaf_filter_capex))
-            self.lbl_ff_tank_desc.setText(tr('{0} (Volume = {1:.0f} L)').format(ff.diverter_tank_type, ff.diverter_volume_liters))
+            self.lbl_ff_tank_desc.setText(tr('{0} (Volume = {1:.0f} L)').format(traduz_descritivo(ff.diverter_tank_type), ff.diverter_volume_liters))
             self.lbl_ff_tank_cost.setText(_preco(ff.diverter_tank_capex))
-            self.lbl_ff_purge_desc.setText(ff.purge_drain_description)
+            self.lbl_ff_purge_desc.setText(traduz_descritivo(ff.purge_drain_description))
             self.lbl_ff_materials.setText(
-                tr('{0} — Massa total: {1:.1f} kg | Carbono de Fabricação: ~{2:.1f} kg CO2e').format(ff.material_description, ff.diverter_mass_kg + ff.leaf_filter_mass_kg, ff.first_flush_embodied_co2_kg)
+                tr('{0} — Massa total: {1:.1f} kg | Carbono de Fabricação: ~{2:.1f} kg CO2e').format(traduz_descritivo(ff.material_description), ff.diverter_mass_kg + ff.leaf_filter_mass_kg, ff.first_flush_embodied_co2_kg)
             )
             self.lbl_ff_total_capex.setText(_preco(ff.first_flush_total_capex))
             if hasattr(self, 'card_ff_capex'):
@@ -682,9 +681,9 @@ class TabWaterQuality(QWidget):
                 self.lbl_cl_calc_cost.setText(tr('R$ {0:,.2f}/ano (base R$ {1:,.2f}/kg)').format(cost_yr, preco_kg).replace(',', 'X').replace('.', ',').replace('X', '.').replace('R$', self._moeda()))
                 
                 if dose_cl < 0.5:
-                    self.lbl_cl_calc_norm.setText(tr("<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>").format())
+                    self.lbl_cl_calc_norm.setText(tr(por_edicao("<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>", "<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente.</span>")).format())
                 elif dose_cl <= 2.0:
-                    self.lbl_cl_calc_norm.setText(f"<span style='color: #16a34a;'>✅ Atende plenamente à NBR 15527 / NBR 16783 (Residual livre esperado: 0,5 a 2,0 mg/L).</span>")
+                    self.lbl_cl_calc_norm.setText(tr(por_edicao("<span style='color: #16a34a;'>✅ Atende plenamente à NBR 15527 / NBR 16783 (Residual livre esperado: 0,5 a 2,0 mg/L).</span>", "<span style='color: #16a34a;'>✅ Atende plenamente à faixa de referência (Residual livre esperado: 0,5 a 2,0 mg/L).</span>")))
                 else:
                     self.lbl_cl_calc_norm.setText(tr("<span style='color: #0284c7;'>ℹ️ Hipercloração (> 2,0 mg/L). Recomendado para desinfecção de choque ou águas com alta matéria orgânica.</span>").format())
 
