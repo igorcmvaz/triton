@@ -26,6 +26,7 @@ import sqlite3
 import unicodedata
 import zlib
 from datetime import datetime, timedelta
+from functools import lru_cache
 from typing import Dict, List, Optional, Tuple, Any
 import numpy as np
 
@@ -118,10 +119,27 @@ def _normalize_name(name: str) -> str:
     return cleaned.lower().replace(" ", "").replace("-", "").replace("'", "").replace("_", "")
 
 
+_CONNECTION_CACHE: Dict[str, sqlite3.Connection] = {}
+
+
+def _fechar_conexoes_em_cache() -> None:
+    """Fecha todas as conexões SQLite mantidas em cache e limpa o dicionário."""
+    global _CONNECTION_CACHE
+    for conn in list(_CONNECTION_CACHE.values()):
+        try:
+            conn.close()
+        except Exception:
+            pass
+    _CONNECTION_CACHE.clear()
+
+
 def limpar_cache_da_base() -> None:
     """Esquece onde estão os bancos e o índice de cidades (após mudar a pasta ou as variáveis de ambiente)."""
     global _BASE_DIR_CACHE, _CITY_FILENAME_MAP, _DB_PATH_CACHE, _LAYOUT_CACHE
     _BASE_DIR_CACHE = _CITY_FILENAME_MAP = _DB_PATH_CACHE = _LAYOUT_CACHE = None
+    _fechar_conexoes_em_cache()
+    if "_carregar_array_serie" in globals() and hasattr(_carregar_array_serie, "cache_clear"):
+        _carregar_array_serie.cache_clear()
 
 
 def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
@@ -235,6 +253,45 @@ def _abrir_somente_leitura(caminho: str) -> sqlite3.Connection:
         return sqlite3.connect(Path(caminho).resolve().as_uri() + "?mode=ro", uri=True)
     except (sqlite3.Error, ValueError):
         return sqlite3.connect(caminho)
+
+
+def _obter_conexao_ro(caminho: str) -> sqlite3.Connection:
+    """Retorna uma conexão somente leitura reutilizável com PRAGMA mmap e query_only."""
+    abs_path = os.path.abspath(caminho)
+    conn = _CONNECTION_CACHE.get(abs_path)
+    if conn is not None:
+        try:
+            conn.total_changes
+            return conn
+        except (sqlite3.Error, AttributeError):
+            _CONNECTION_CACHE.pop(abs_path, None)
+    conn = _abrir_somente_leitura(abs_path)
+    try:
+        conn.execute("PRAGMA query_only = ON;")
+        conn.execute("PRAGMA mmap_size = 268435456;")
+    except sqlite3.Error:
+        pass
+    _CONNECTION_CACHE[abs_path] = conn
+    return conn
+
+
+@lru_cache(maxsize=128)
+def _carregar_array_serie(db_path: str, city: str, model: str, scenario: str) -> Optional[np.ndarray]:
+    """Lê, descomprime e converte para float64 a série do banco, com cache LRU em memória."""
+    try:
+        conn = _obter_conexao_ro(db_path)
+        row = conn.execute(
+            "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?;",
+            (city, model, scenario),
+        ).fetchone()
+        if row:
+            cnt, blob = row
+            raw_decomp = zlib.decompress(blob)
+            target_dtype = np.float16 if len(raw_decomp) == cnt * 2 else np.float32
+            return np.frombuffer(raw_decomp, dtype=target_dtype).astype(np.float64)
+    except Exception:
+        pass
+    return None
 
 
 def get_climate_db_path() -> Optional[str]:
@@ -360,12 +417,9 @@ def _build_city_filename_map() -> Dict[str, str]:
         candidatos += [c for c in _arquivos_do_layout(layout) if c not in candidatos]
     for db_path in candidatos:
         try:
-            conn = _abrir_somente_leitura(db_path)
-            try:
-                for norm, city in conn.execute("SELECT city_norm, city FROM climbra_cities;"):
-                    city_map[norm] = city
-            finally:
-                conn.close()
+            conn = _obter_conexao_ro(db_path)
+            for norm, city in conn.execute("SELECT city_norm, city FROM climbra_cities;"):
+                city_map[norm] = city
         except Exception:
             city_map = {}
             continue
@@ -506,31 +560,17 @@ def load_national_climate_series(
 
     # 1. Tenta carregar dos bancos SQLite compilados (um por modelo; ou o climbra.db único antigo)
     for db_path in _caminhos_dos_bancos(model_name, scenario_key):
-        try:
-            conn = _abrir_somente_leitura(db_path)
-            try:
-                row = conn.execute(
-                    "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?;",
-                    (matched_city, model_name, scenario_key),
-                ).fetchone()
-            finally:
-                conn.close()
-            if row:
-                cnt, blob = row
-                raw_decomp = zlib.decompress(blob)
-                target_dtype = np.float16 if len(raw_decomp) == cnt * 2 else np.float32
-                raw_data = np.frombuffer(raw_decomp, dtype=target_dtype).astype(np.float64)
-
-                # Identifica file_path (se existir no disco ou caminho canônico para metadados e relatórios)
-                candidate_csv = get_climate_file_path(city_name, model_name, scenario_key)
-                if candidate_csv and os.path.exists(candidate_csv):
-                    file_path = candidate_csv
-                else:
-                    suffix = scenario_info["file_suffix"]
-                    file_path = os.path.join(os.path.dirname(db_path), f"(Triton){matched_city}_{model_name}_{suffix}")
-                break
-        except Exception:
-            raw_data = None
+        arr = _carregar_array_serie(db_path, matched_city, model_name, scenario_key)
+        if arr is not None:
+            raw_data = arr
+            # Identifica file_path (se existir no disco ou caminho canônico para metadados e relatórios)
+            candidate_csv = get_climate_file_path(city_name, model_name, scenario_key)
+            if candidate_csv and os.path.exists(candidate_csv):
+                file_path = candidate_csv
+            else:
+                suffix = scenario_info["file_suffix"]
+                file_path = os.path.join(os.path.dirname(db_path), f"(Triton){matched_city}_{model_name}_{suffix}")
+            break
 
     # 2. Fallback para arquivo CSV solto no disco
     if raw_data is None:

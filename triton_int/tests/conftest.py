@@ -101,14 +101,13 @@ collect_ignore = [] if TEM_INTERFACE_GRAFICA else list(MODULOS_QUE_EXIGEM_INTERF
 def _base_climatica_disponivel() -> bool:
     """A base CMIP6 das 652 cidades está presente nesta instalação?
 
-    São ~6,5 GB e 37 mil arquivos, distribuídos separadamente do código: não cabem em
-    repositório. Um clone limpo — e portanto qualquer execução de integração contínua —
-    não os tem.
+    Com as 19 partes `climbra_<modelo>.db` versionadas na Edição Brasil, a base compilada
+    está presente e utilizável diretamente.
     """
     try:
-        from triton.core.climate_database import get_climate_database_dir
+        from triton.core.climate_database import climate_database_available
 
-        return os.path.isdir(get_climate_database_dir())
+        return climate_database_available()
     except Exception:
         return False
 
