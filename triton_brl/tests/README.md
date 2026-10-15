@@ -51,9 +51,24 @@ python -m pytest tests -k topsis -v
 
 Os testes devem ser iniciados na raiz porque usam módulos do repositório e dados em `data/`. Arquivos temporários pertencem ao diretório fornecido pelo `pytest`; saídas científicas permanentes não devem ser atualizadas silenciosamente durante uma execução comum.
 
+## Edições: o que roda em cada uma
+
+O pacote `triton/` e a pasta `tests/` são **idênticos** nas três edições (`triton_brl`, `triton_int`, `triton_prt`); só os dados e o `main.py` diferem. A edição da suíte vem de `TRITON_EDITION` (`BRL`, `INT`, `PRT`; `POR` é o código antigo da PRT) e, sem a variável, do nome da pasta (`triton_int` roda como INT, qualquer outro nome como BRL). O `tests/conftest.py` é o mesmo nas três e grava a edição escolhida na variável, de modo que a suíte e o código testado concordam.
+
+O **motor** (simulação, economia, ACV, decisão multicritério) roda em todas as edições, com o `TritonConfig()` cru, que traz os padrões históricos em qualquer uma: o motor não conhece edição. Quem conhece é a fábrica `triton.core.edition.configuracao_da_edicao` (leitores de projeto e linha de comando) e `projeto_novo_da_edicao` (interface); `tests/unit/test_fabrica_da_edicao.py` fixa o desenho.
+
+Só o que depende de dado de uma edição fica fora das outras, por duas listas ao lado do `conftest.py`:
+
+| Arquivo | O que lista | Fora de qual edição é saltado |
+| --- | --- | --- |
+| `so_da_brl.txt` | banco de 652 municípios, CLIMBra, tarifas CASAN/CORSAN, casos e séries do manual do Brasil, série do MCTI | INT e PRT |
+| `so_da_prt.txt` | base E-OBS por concelho e tarifários portugueses transcritos | BRL e INT |
+
+Cada linha é um arquivo inteiro (`tests/unit/x.py`, que nem é importado) ou um teste (`tests/unit/x.py::test_y`, que vale também para as variantes parametrizadas); `#` abre um comentário. **Não ponha aqui um teste só porque ele falha fora da BRL**: se o que falta é uma configuração, monte-a no teste (como em `test_dual_tank_pumping_com_chuva_sintetica`); a lista é só para o que lê dado que a edição não traz. `tests/unit/test_fabrica_da_edicao.py` confere que toda entrada das listas aponta para um teste que existe.
+
 ## Mapa da suíte
 
-A suíte foi consolidada em 06/10/2026 (ver `AUDITORIA_DE_TESTES.md`): o que testa o
+A suíte foi consolidada: o que testa o
 programa está em dois arquivos; o que testa dado, manual e pacote continua nos seus.
 
 | Grupo | Arquivos e escopo principal |

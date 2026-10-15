@@ -1,17 +1,107 @@
-# testes que dependem de dados só da Edição Brasil; saltados fora dela
-tests/unit/test_climate_database.py
+# Testes que dependem de dado só da Edição Brasil; fora dela não rodam (ver tests/conftest.py).
+# Critério: entra aqui só o que lê o banco de 652 municípios, a base CLIMBra, as tabelas CASAN/CORSAN,
+# os documentos de exemplo do Brasil ou números de Florianópolis. O motor (simulação, economia, ACV,
+# decisão multicritério) NÃO entra: roda em todas as edições com o TritonConfig() cru.
+# Arquivo inteiro: tests/unit/x.py (nem é importado). Um teste: tests/unit/x.py::test_y.
+
+# --- Banco tarifário brasileiro (brazil_cities_tariffs.json) e as tarifas CASAN/CORSAN ---
 tests/unit/test_tarifa_exponencial.py
 tests/unit/test_categoria_tarifaria.py
 tests/unit/test_processar_entrada.py
 tests/unit/test_processo_tarifario.py
 tests/unit/test_registro_de_fontes.py
 tests/unit/test_transcricoes.py
+tests/unit/test_percentual_de_esgoto.py
+tests/unit/test_regimes_tarifarios.py
+tests/unit/test_tariffs_structure.py
+tests/unit/test_tariffs_database.py
+tests/unit/test_categorias_casan.py
+tests/unit/test_categorias_corsan.py
+tests/unit/test_tabela_de_faixas.py
+tests/benchmarking/test_replicacao_netuno4.py
+tests/integration/test_batch_validation.py
+
+# --- Base climática CLIMBra ---
+tests/unit/test_climate_database.py
+
+# --- Séries, estudos e figuras do manual do Brasil (Florianópolis, Brasília, Manaus, São Paulo) ---
+tests/unit/test_figuras_interativas_validacao.py
+tests/unit/test_figuras_interativas.py
+tests/unit/test_figuras_do_manual_cabem.py
+tests/unit/test_figuras_sem_corte.py
+tests/unit/test_reference_documents.py
+
+# --- Série oficial de fatores de emissão do MCTI ---
+tests/unit/test_grid_emission_factors.py::test_serie_cobre_o_periodo_publicado
+tests/unit/test_grid_emission_factors.py::test_toda_base_declara_gas_fronteira_e_fonte
+tests/unit/test_grid_emission_factors.py::test_procedencia_declara_o_essencial
+tests/unit/test_grid_emission_factors.py::test_arquivo_fonte_arquivado_confere_com_o_hash_registrado
+tests/unit/test_environmental_params_ui.py::test_cada_base_nomeada_declara_gas_e_fronteira
+tests/test_essencial.py::test_ano_fora_da_serie_falha_alto
+tests/test_essencial.py::test_o_fator_da_acv_nao_e_o_do_mcti
+
+# --- Busca de município e seletor de 652 cidades ---
 tests/unit/test_funcoes_orfas.py::test_a_busca_posiciona_os_dois_combos
 tests/unit/test_funcoes_orfas.py::test_a_busca_pela_prestadora_tambem_move_os_combos
 tests/unit/test_funcoes_orfas.py::test_toda_cidade_ofertada_no_combo_tem_serie_climatica
-tests/unit/test_tariffs_database.py::TestTariffsDatabase::test_tab_project_tariff_location
+tests/unit/test_funcoes_orfas.py::test_a_busca_encontra_municipio_pelo_nome
+tests/unit/test_funcoes_orfas.py::test_a_busca_encontra_pela_prestadora
+tests/unit/test_funcoes_orfas.py::test_a_busca_respeita_o_limite_e_a_consulta_vazia
+tests/unit/test_funcoes_orfas.py::test_a_busca_devolve_o_que_o_combo_precisa
+tests/unit/test_funcoes_orfas.py::test_a_busca_ignora_consulta_curta_demais
+tests/unit/test_funcoes_orfas.py::test_a_busca_avisa_quando_nao_encontra
 tests/unit/test_manual_confere_com_o_programa.py::test_o_historico_cita_a_conferencia_atual_da_base
+tests/unit/test_manual_confere_com_o_programa.py::test_as_cidades_do_guia_14
+tests/unit/test_manual_confere_com_o_programa.py::test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D
+
+# --- Casos do manual e estudos de exemplo do Brasil ---
 tests/unit/test_projeto_sobrevive_ao_arquivo.py::test_todo_caso_do_manual_abre_e_traz_a_chuva_dentro
 tests/unit/test_projeto_sobrevive_ao_arquivo.py::test_todo_caso_do_manual_reproduz_o_numero_publicado
+tests/test_essencial_interface.py::test_national_climate_and_tariff_integration_flow
+tests/test_essencial_interface.py::test_projeto_distribuido
 tests/test_essencial.py::test_o_investimento_e_a_manutencao_exibidos_acompanham_a_caixa
 tests/test_essencial.py::test_o_payback_exibido_piora_com_o_filtro
+tests/test_essencial.py::test_a_serie_do_tutorial_estabiliza_dentro_dos_trinta_anos
+tests/test_essencial.py::test_load_precipitation_file
+tests/test_essencial.py::test_parse_triton_project_csv
+tests/test_essencial.py::test_fracoes_do_exemplo
+tests/test_essencial.py::test_os_estudos_de_exemplo_estao_no_esquema_corrente
+
+# --- Tarifas CASAN/CORSAN e conta com municípios do banco, dentro de test_essencial.py ---
+tests/test_essencial.py::test_cada_consumo_le_o_expoente_da_sua_linha
+tests/test_essencial.py::test_o_esgoto_e_cobrado_por_m3_consumido
+tests/test_essencial.py::test_categoria_sem_tabela_da_corsan_nao_e_derivada_da_residencial
+tests/test_essencial.py::test_entre_dois_inteiros_a_conta_e_a_reta_que_os_une
+tests/test_essencial.py::test_toda_conta_cresce_com_o_consumo
+tests/test_essencial.py::test_economizar_nunca_aumenta_a_conta
+tests/test_essencial.py::test_o_minimo_usual_brasileiro_e_referencia_e_nao_regra
+tests/test_essencial.py::test_dual_tank_pumping
+tests/test_essencial.py::test_sweep_optimal_volume_determination
+tests/test_essencial.py::test_a_tarifa_sai_com_o_significado_de_cada_codigo_e_o_esgoto
+tests/test_essencial.py::test_quatro_otimos_distintos
+
+# --- Catálogo de rotas de água de rede do Brasil (SNIS, cinco macrorregiões), que INT e PRT não trazem ---
+tests/unit/test_rotas_por_tecnologia.py::test_a_base_e_conservadora_perante_as_duas_faixas_publicadas
+tests/unit/test_rotas_por_tecnologia.py::test_o_padrao_declara_as_duas_corroboracoes
+tests/unit/test_rotas_por_tecnologia.py::test_as_rotas_de_fronteira_parcial_sao_marcadas
+tests/unit/test_rotas_por_tecnologia.py::test_a_rota_do_snis_nao_pode_voltar_a_ser_padrao
+tests/unit/test_rotas_por_tecnologia.py::test_a_porta_da_eta_e_menor_que_o_valor_entregue
+tests/unit/test_rotas_por_tecnologia.py::test_as_cinco_macrorregioes_estao_no_catalogo
+tests/unit/test_rotas_por_tecnologia.py::test_o_nordeste_emite_mais_por_m3_apesar_de_consumir_menos
+tests/unit/test_rotas_por_tecnologia.py::test_a_media_brasileira_fica_dentro_da_faixa_das_regioes
+tests/unit/test_rotas_por_tecnologia.py::test_as_rotas_de_total_publicado_nao_se_movem_com_a_matriz
+
+# --- Interface: IPTU Verde (só do Brasil) e escolha entre bases brasileiras de fator da rede (sidac, CaDI, Vaz et al.) ---
+tests/test_essencial_interface.py::test_iptu_green_year_over_year_cashflow_and_savings
+tests/test_essencial_interface.py::test_escolher_a_base_muda_o_resultado_da_acv
+tests/test_essencial_interface.py::test_a_aba_entrega_a_pureza_e_a_base_escolhidas
+tests/test_essencial_interface.py::test_o_dialogo_constroi_com_os_controles_novos
+tests/test_essencial_interface.py::test_escolher_a_base_reescreve_o_fator_e_mostra_a_procedencia
+
+# --- Interface: janelas da Edição Brasil com dados exclusivos (banco de 652 cidades, tarifas CORSAN/RJ, MCTI) ---
+tests/test_essencial_interface.py::test_janela_da_brasil_continua_como_era
+tests/test_essencial_interface.py::test_brasil_mostra_so_o_real
+tests/test_essencial_interface.py::test_brasil_continua_com_a_etap_e_os_cabecalhos_em_reais
+tests/test_essencial_interface.py::test_o_gestor_mostra_a_formula_e_simula_com_o_motor
+tests/test_essencial_interface.py::test_a_etapa_economica_traz_o_esgoto_por_m3_da_corsan
+tests/test_essencial_interface.py::test_municipio_com_tarifa_por_bairro_oferece_as_alternativas

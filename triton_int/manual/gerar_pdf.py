@@ -469,7 +469,7 @@ def capa(canvas, doc):
     # cabeçalho do painel
     canvas.setFillColor(colors.white)
     canvas.setFont(F["titulo"], 10)
-    canvas.drawString(MARGEM_E, ALTURA - 18 * mm, "TRITON 5")
+    canvas.drawString(MARGEM_E, ALTURA - 18 * mm, "TRITON")
     canvas.setFont(F["titulo_r"], 10)
     canvas.drawRightString(LARGURA - MARGEM_D, ALTURA - 18 * mm, T("capa"))
     canvas.setStrokeColor(colors.Color(1, 1, 1, alpha=0.35))

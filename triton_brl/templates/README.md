@@ -8,10 +8,10 @@ Esta pasta reúne todos os arquivos de template e modelos estruturados utilizado
 
 | Arquivo | Formato | Descrição e Finalidade |
 |---|---|---|
-| [`template_consumo_diario_365dias.csv`](file:///d:/AAAA_TEMPORARIO_AREATRABALHO/TritonReplicacao/templates/template_consumo_diario_365dias.csv) | CSV (ponto e vírgula `;`) | Série diária de 365 dias de consumo de água (litros/dia) para importação na aba **Edificação** da interface gráfica. |
-| [`template_projeto_base.triton`](file:///d:/AAAA_TEMPORARIO_AREATRABALHO/TritonReplicacao/templates/template_projeto_base.triton) | JSON (.triton) | Estrutura canônica de arquivo de projeto do Triton contendo localização, dados prediais, dimensionamento e parâmetros econômicos. |
-| [`template_cenarios_simulacao.csv`](file:///d:/AAAA_TEMPORARIO_AREATRABALHO/TritonReplicacao/templates/template_cenarios_simulacao.csv) | CSV (ponto e vírgula `;`) | Matriz de múltiplos cenários para execução automatizada de simulações em lote via CLI (`triton cli batch`). |
-| [`template_serie_pluviometrica.csv`](file:///d:/AAAA_TEMPORARIO_AREATRABALHO/TritonReplicacao/templates/template_serie_pluviometrica.csv) | CSV (ponto e vírgula `;`) | Modelo padrão para importação de séries históricas personalizadas de precipitação diária (`Data;Chuva_mm`). |
+| [`template_consumo_diario_365dias.csv`](template_consumo_diario_365dias.csv) | CSV (ponto e vírgula `;`) | Série diária de 365 dias de consumo de água (litros/dia) para importação na aba **Edificação** da interface gráfica. |
+| [`template_projeto_base.triton`](template_projeto_base.triton) | JSON (.triton) | Estrutura canônica de arquivo de projeto do Triton contendo localização, dados prediais, dimensionamento e parâmetros econômicos. |
+| [`template_cenarios_simulacao.csv`](template_cenarios_simulacao.csv) | CSV (ponto e vírgula `;`) | Matriz de múltiplos cenários para execução automatizada de simulações em lote via CLI (`triton cli batch`). |
+| [`template_serie_pluviometrica.csv`](template_serie_pluviometrica.csv) | CSV (ponto e vírgula `;`) | Modelo padrão para importação de séries históricas personalizadas de precipitação diária (`Data;Chuva_mm`). |
 
 ---
 

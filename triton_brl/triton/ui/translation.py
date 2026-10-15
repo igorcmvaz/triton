@@ -12,7 +12,7 @@ def _preferencias() -> QSettings:
     """Preferências separadas por edição: instaladas lado a lado, não dividem idioma."""
     from triton.core.edition import get_current_edition
 
-    sufixo = {"INT": "-INT", "POR": "-POR"}.get(get_current_edition(), "")
+    sufixo = {"INT": "-INT", "PRT": "-PRT"}.get(get_current_edition(), "")
     return QSettings("UFSC", "Triton" + sufixo)
 
 
@@ -67,9 +67,9 @@ def get_resource_path(relative_path):
 
 def _variante_portugal() -> bool:
     """Na Edição Portugal, o português da interface é o de Portugal (ver portugues_de_portugal)."""
-    from triton.core.edition import is_por_edition
+    from triton.core.edition import is_prt_edition
 
-    return is_por_edition()
+    return is_prt_edition()
 
 
 def em_portugues_da_edicao(texto: str) -> str:
@@ -1331,11 +1331,15 @@ _DICTIONARY = {
     "normalizada automaticamente": "automatically normalized",
     "Evidências de Validação e Rastreabilidade": "Validation Evidence and Traceability",
     "VERIFICAÇÃO AUTOMATIZADA": "AUTOMATED VERIFICATION",
-    "A suíte cobre balanço hídrico, tarifas, bombeamento, economia, ACV, TOPSIS, persistência e interface.": "The suite covers water balance, tariffs, pumping, economics, LCA, TOPSIS, persistence and interface.",
     "Relatório de validação não encontrado. Execute `python -m pytest tests -v` para gerar evidências atuais.": "Validation report not found. Run `python -m pytest tests -v` to generate current evidence.",
     "Uso pela Linha de Comando": "Command-line Usage",
+
     "Executa a simulação com os parâmetros atuais": "Runs the simulation with the current parameters",
+    "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil.": "CLIMBra climate database unavailable in this edition: opened Florianópolis sample series. Load your project series; the 652 cities are included in the Brazil Edition.",
+    "Base E-OBS indisponível: aberta a série de exemplo do Funchal. Carregue a série diária de chuva do seu concelho.": "E-OBS database unavailable: opened Funchal sample series. Load the daily rainfall series for your municipality.",
+    "Aberta a série de exemplo do tutorial do manual (Nova York, ERA5). Carregue a série diária de chuva do local do seu projeto.": "Opened manual tutorial example series (New York, ERA5). Load the daily rainfall series for your project location.",
 }
+
 
 
 # Este catálogo cobre a navegação, a barra superior, mensagens e indicadores
@@ -1376,7 +1380,11 @@ _SPANISH_DICTIONARY = {
     "Relatório de Verificação": "Informe de verificación",
     "Relatório de Verificação — Triton 1.0.0": "Informe de verificación — Triton 1.0.0",
     "Uso pela Linha de Comando": "Uso por línea de comandos",
+    "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil.": "Base climática CLIMBra no disponible en esta edición: se abrió la serie de ejemplo de Florianópolis. Cargue la serie de su proyecto; las 652 ciudades vienen incluidas en la Edición Brasil.",
+    "Base E-OBS indisponível: aberta a série de exemplo do Funchal. Carregue a série diária de chuva do seu concelho.": "Base de datos E-OBS no disponible: se abrió la serie de ejemplo de Funchal. Cargue la serie de lluvia diaria de su municipio.",
+    "Aberta a série de exemplo do tutorial do manual (Nova York, ERA5). Carregue a série diária de chuva do local do seu projeto.": "Abierta la serie de ejemplo del manual (Nueva York, ERA5). Cargue la serie de lluvia diaria del sitio de su proyecto.",
 }
+
 
 _CHINESE_DICTIONARY = {
     # Análise de comprimento representativo da série de chuva.
@@ -1683,7 +1691,11 @@ _EXTRA_CHINESE = {
     "<i>As tarifas oficiais das concessionárias brasileiras já englobam a cobrança do serviço. Mantenha em 0,00 caso não haja taxas municipais extraordinárias avulsas (ex.: COSIP/taxa de expediente).</i>": "<i>巴西供水企业的官方费率已包含全部服务收费。除非有单独的市政特别规费，否则请保持为 0.00。</i>",
     "Concluir e Aplicar": "保存并应用",
     "Dados tarifários não encontrados para a cidade selecionada.": "未找到所选城市的费率数据。",
+    "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil.": "CLIMBra气候数据库在此版本中不可用：已打开弗洛里亚诺波利斯示例序列。请加载您的项目序列；巴西版本内置了652个城市。",
+    "Base E-OBS indisponível: aberta a série de exemplo do Funchal. Carregue a série diária de chuva do seu concelho.": "E-OBS数据库不可用：已打开丰沙尔示例序列。请加载您所在市镇的每日降雨序列。",
+    "Aberta a série de exemplo do tutorial do manual (Nova York, ERA5). Carregue a série diária de chuva do local do seu projeto.": "已打开使用手册教程示例序列（纽约，ERA5）。请加载您项目所在地的每日降雨序列。",
 }
+
 
 _CHINESE_DICTIONARY.update(_EXTRA_CHINESE)
 
@@ -1752,6 +1764,67 @@ _CHINESE_PHRASES.update({
     "Captação": "集水", "Descarte": "弃流", "Escoamento": "径流", "Moradores": "居民",
     "Cobertura": "屋顶", "Material": "材料", "Coeficiente": "系数", "Variação": "变化",
 })
+
+_ENGLISH_PHRASES = {
+    "Laudo Técnico Executivo (Paisagem A4)": "Executive Technical Report (A4 Landscape)",
+    "Aproveitamento de Água de Chuva | Empreendimento:": "Rainwater Harvesting | Project:",
+    "Ref. Projeto:": "Project Ref.:",
+    "Emissão:": "Issued:",
+    "Conformidade Normativa:": "Normative Compliance:",
+    "Localidade climática": "Climate site",
+    "Base climática": "Climate database",
+    "Período da série": "Series period",
+    "Horizonte econômico": "Economic horizon",
+    "Volume Recomendado": "Recommended Capacity",
+    "Reservatório Inferior": "Lower Cistern",
+    "Economia Potável": "Potable Savings",
+    "Substituição da Concessionária": "Mains Water Offset",
+    "Retorno Líquido Atualizado": "Net Present Value",
+    "Payback Estimado": "Estimated Payback",
+    "(descontado)": "(discounted)",
+    "1. Edificação & Hidrologia": "1. Building & Hydrology",
+    "Parâmetro Técnico": "Technical Parameter",
+    "Valor": "Value",
+    "Série Pluviométrica": "Rainfall Series",
+    "Área de Captação": "Catchment Area",
+    "Coef. Escoamento (C)": "Runoff Coeff. (C)",
+    "Descarte First Flush": "First-Flush Diverter",
+    "População Atendida": "Building Occupancy",
+    "Demanda Pluvial Alvo": "Target Rainwater Demand",
+    "2. Balanço Hídrico Simulado": "2. Simulated Water Balance",
+    "Indicador Operacional": "Operational Indicator",
+    "Desempenho": "Performance",
+    "Volume Cisterna": "Cistern Storage",
+    "Economia de Potável": "Potable Water Savings",
+    "Consumo Médio Pluvial": "Avg Rainwater Use",
+    "Consumo Médio Potável": "Avg Potable Water Use",
+    "Volume Extravasado": "Overflow Volume",
+    "Garantia Plena (100%)": "Full Reliability (100%)",
+    "Atendimento Nulo (0%)": "Zero Reliability (0%)",
+    "3. Viabilidade Econômica": "3. Financial Feasibility",
+    "Indicador Financeiro": "Financial Indicator",
+    "Resultado": "Result",
+    "Investimento CAPEX": "CAPEX Investment",
+    "Economia Bruta 1º Ano": "Gross Savings 1st Year",
+    "Payback Simples": "Simple Payback",
+    "Payback Descontado": "Discounted Payback",
+    "VPL": "NPV",
+    "TIR (% a.a.)": "IRR (% p.a.)",
+    "📌 Parecer Técnico de Engenharia Hídrica & Sustentabilidade": "📌 Technical Statement on Water Engineering & Sustainability",
+    "⚠️ Termo de Responsabilidade Técnica & Validação": "⚠️ Disclaimer & Technical Validation",
+    "O dimensionamento segue as diretrizes da ABNT NBR 15527.": "The sizing follows applicable technical standard guidelines.",
+    "Nas premissas registradas, o sistema pluvial apresenta economia potável modelada de": "Under the registered premises, the rainwater system presents a modelled potable savings of",
+    "O Triton é uma ferramenta computacional de auxílio ao dimensionamento. <b>Cabe ao(à) profissional habilitado(a)</b> validar as premissas executivas, interferências de rede e conformidade com a legislação local.": "Triton is a computational decision-support tool. <b>The licensed engineer or professional is responsible</b> for validating executive assumptions, site constraints, and local regulatory compliance.",
+    "Grupo de Pesquisa em Ambientes Sustentáveis | UFSC": "Sustainable Environments Research Group | UFSC",
+    "Documento Executivo A4 Paisagem": "A4 Landscape Executive Report",
+    "Responsável Técnico(a) / Engenheiro(a)": "Responsible Engineer / Professional",
+    "CREA / Registro Profissional": "Professional License / Registration",
+    "pessoas": "people",
+    "anos": "years",
+    "L/dia": "L/day",
+    "% dos dias": "% of days",
+    " / ano": " / yr",
+}
 
 _SPANISH_DICTIONARY.update({
     "Série Histórica de Precipitação (Arquivo CSV)": "Serie histórica de precipitaciones (archivo CSV)",
@@ -2287,6 +2360,16 @@ for _fonte, (_en, _es, _zh) in _COMPLEMENTO.items():
     _DICTIONARY.setdefault(_fonte, _en)
     _SPANISH_DICTIONARY.setdefault(_fonte, _es)
     _CHINESE_DICTIONARY.setdefault(_fonte, _zh)
+
+
+# Textos neutros das edições INT e PRT (rodada 4): estes SUBSTITUEM o que o catálogo tiver para a
+# mesma chave, porque reescrevem frases que citavam normas e índices do Brasil.
+from triton.ui.translation_neutralidade import COMPLEMENTO_NEUTRO as _COMPLEMENTO_NEUTRO  # noqa: E402
+
+for _fonte, (_en, _es, _zh) in _COMPLEMENTO_NEUTRO.items():
+    _DICTIONARY[_fonte] = _en
+    _SPANISH_DICTIONARY[_fonte] = _es
+    _CHINESE_DICTIONARY[_fonte] = _zh
 
 
 # Rotulos que a composicao do chines deixava em duas linguas: com a frase

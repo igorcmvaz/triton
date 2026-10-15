@@ -23,6 +23,7 @@ from triton.core.pump_hydraulics import vazao_l_por_h
 from triton.core.pump_energy import CV_TO_KW
 
 from .cad_block_library import configure_cad_document, generate_block_library_dxf
+from .dados_do_relatorio import documento_dxf_de_exportacao, svg_de_exportacao
 from .plant_3d import generate_plant_3d_dxf
 from .schematic_3d import generate_schematic_3d_svg
 
@@ -353,9 +354,15 @@ def _setup_technical_blocks(doc: ezdxf.document.Drawing):
         b.add_text("N", height=2.2, dxfattribs={"layer": "09_TEXTOS_E_NOTAS"}).set_placement((0, 4.8), align=TextEntityAlignment.BOTTOM_CENTER)
 
 
+def _estilo_de_cota() -> str:
+    """O nome do estilo de cotas: «ABNT_TRITON» na Brasil (como sempre); «TRITON_COTAS» fora dela."""
+    from triton.core.edition import usa_dados_do_brasil
+    return "ABNT_TRITON" if usa_dados_do_brasil() else "TRITON_COTAS"
+
+
 def _setup_dimension_style(doc: ezdxf.document.Drawing):
     """Configura o estilo de cotas normativo ABNT com vírgula como separador decimal."""
-    dimstyle = doc.dimstyles.new("ABNT_TRITON")
+    dimstyle = doc.dimstyles.new(_estilo_de_cota())
     dimstyle.dxf.dimtxt = 1.8
     dimstyle.dxf.dimasz = 1.5
     dimstyle.dxf.dimexe = 1.0
@@ -389,7 +396,7 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR")
-    department = str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON 5")
+    department = str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON")
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     # Os números abaixo dão a geometria do desenho; o que a prancha escreve sai de
@@ -697,7 +704,7 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
         base=(xd1 + 18.0, yd1 + 14.0),
         p1=(xd1 + 25.0, yd1 + 8.0),
         p2=(xd1 + 25.0, yd1 + 9.0),
-        dimstyle="ABNT_TRITON",
+        dimstyle=_estilo_de_cota(),
         dxfattribs={"layer": "08_COTAS"}
     )
     dim1.render()
@@ -733,7 +740,7 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
         base=(xd3 + 48.0, yd3 + 35.0),
         p1=(xd3 + 40.0, yd3 + 42.0),
         p2=(xd3 + 40.0, yd3 + 28.0),
-        dimstyle="ABNT_TRITON",
+        dimstyle=_estilo_de_cota(),
         dxfattribs={"layer": "08_COTAS"}
     )
     dim3.render()
@@ -741,6 +748,7 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
     msp.add_text("Sem contato direto (anti-contaminação)", height=1.1, dxfattribs={"layer": "09_TEXTOS_E_NOTAS"}).set_placement((xd3 + 40.0, yd3 + 22.0), align=TextEntityAlignment.TOP_CENTER)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    documento_dxf_de_exportacao(doc)
     doc.saveas(output_path)
     return output_path
 
@@ -760,7 +768,7 @@ def _generate_simple_ezdxf(project_data: Dict[str, Any], output_path: str):
 
     proj_name = project_data.get("project_name", "Projeto Triton")
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = str(project_data.get("organization") or "TRITON 5")
+    organization = str(project_data.get("organization") or "TRITON")
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     tx = textos_do_quadro(project_data)
@@ -812,6 +820,7 @@ def _generate_simple_ezdxf(project_data: Dict[str, Any], output_path: str):
     msp.add_text("Distribuição Não Potável", height=1.4, dxfattribs={"layer": "04_TUB_DISTRIBUICAO"}).set_placement((187.0, 65.0))
 
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+    documento_dxf_de_exportacao(doc)
     doc.saveas(output_path)
     return output_path
 
@@ -853,7 +862,7 @@ def _generate_technical_a3_svg(project_data: Dict[str, Any]) -> str:
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = escape(str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR"))
-    department = escape(str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON 5"))
+    department = escape(str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON"))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))
@@ -1182,7 +1191,7 @@ def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
     """Gera esquema unifilar simples e moderno em SVG."""
     proj_name = project_data.get("project_name", "Projeto Sem Nome") or "Projeto Triton"
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = escape(str(project_data.get("organization") or "TRITON 5"))
+    organization = escape(str(project_data.get("organization") or "TRITON"))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))
@@ -1276,6 +1285,8 @@ def generate_project_svg_diagram(project_data: Dict[str, Any], output_path: Opti
         svg_content = _generate_simple_svg(project_data)
     else:
         svg_content = _generate_technical_a3_svg(project_data)
+
+    svg_content = svg_de_exportacao(svg_content)
 
     if output_path:
         os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)

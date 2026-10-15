@@ -33,6 +33,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 from .component_geometry import component_envelope, fallback_volumes
 from .pipe_network import SYSTEMS_BY_ID, lengths_by_dn
 from .plant_3d import _checked_manifest
+from .dados_do_relatorio import svg_de_exportacao
 
 
 # Coordenadas a menos disto (a partir do início do grupo) ocupam a mesma posição.
@@ -547,7 +548,7 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
                    f'<text x="{lx + 28}" y="{_HEIGHT - 16}" font-size="11" fill="#334155">{escape(system["label"])}</text>')
         lx += 36 + 6.2 * len(system["label"])
     out.append("</svg>")
-    svg = "\n".join(out)
+    svg = svg_de_exportacao("\n".join(out))
     if output_path:
         Path(output_path).write_text(svg, encoding="utf-8")
     return svg

@@ -21,6 +21,9 @@ _ARQUIVO = os.path.join(os.path.dirname(__file__), "..", "data", "portugal_tarif
 
 @lru_cache(maxsize=1)
 def carregar() -> Dict[str, dict]:
+    # Só a Edição Portugal traz o arquivo; nas demais, nenhum concelho e nenhum erro.
+    if not os.path.isfile(_ARQUIVO):
+        return {}
     with open(_ARQUIVO, encoding="utf-8") as f:
         dados = json.load(f)
     return {k: v for k, v in dados.items() if not k.startswith("_")}

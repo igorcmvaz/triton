@@ -80,7 +80,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | :--- | :--- |
 | [`../infos_licenses/CLI_USAGE.md`](../infos_licenses/CLI_USAGE.md) | Uso da interface de linha de comando |
 | [`../templates/README.md`](../templates/README.md) | Modelos de projeto e planilhas de entrada |
-| [`../integrations/revit/README.md`](../integrations/revit/README.md) | Integração BIM com Revit |
+| [`../additional_material/integrations/revit/README.md`](../additional_material/integrations/revit/README.md) | Integração BIM com Revit |
 
 ### Material de referência externo
 

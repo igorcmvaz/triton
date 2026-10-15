@@ -222,7 +222,7 @@ def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -
     msp = doc.modelspace()
     title = str(project_data.get("project_name") or "Projeto Triton")
     ref = str(project_data.get("ref_code") or "SEM-REFERENCIA")
-    msp.add_text("TRITON 5 — BIBLIOTECA DE BLOCOS PARA PLANTAS", height=260, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3500))
+    msp.add_text("TRITON — BIBLIOTECA DE BLOCOS PARA PLANTAS", height=260, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3500))
     msp.add_text(f"Projeto: {title} | Ref.: {ref} | Unidades: mm | Blocos em escala 1:1", height=140, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3150))
     msp.add_text("Geometria esquemática. Confirmar dimensões, famílias e especificações no projeto executivo.", height=120, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 2850))
 
@@ -250,6 +250,8 @@ def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -
 
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    from .dados_do_relatorio import documento_dxf_de_exportacao
+    documento_dxf_de_exportacao(doc)
     doc.saveas(path)
     write_bim_manifest(project_data, str(path.with_name(path.stem + "_triton-bim.json")))
     return str(path)

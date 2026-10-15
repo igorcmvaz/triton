@@ -4,12 +4,20 @@ O ``addopts`` do pyproject.toml já deseleciona ``rede``, mas um ``-m`` explíci
 linha de comando **substitui** o do addopts. O workflow chamava
 ``pytest -m "not replicacao"`` e, com isso, baixava ~90 MB da ANEEL a cada push —
 e uma conexão cortada no meio derrubou o CI do main.
+
+O workflow fica na raiz do repositório (uma pasta acima da edição). Num clone que
+traga só a pasta da edição ele não existe, e os testes que o leem são pulados.
 """
 
 import re
 from pathlib import Path
 
-WORKFLOW = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "verificacao.yml"
+import pytest
+
+EDICAO = Path(__file__).resolve().parents[2]
+WORKFLOW = EDICAO.parent / ".github" / "workflows" / "verificacao.yml"
+
+pytestmark = pytest.mark.skipif(not WORKFLOW.is_file(), reason="workflow do GitHub ausente neste clone")
 
 
 def _chamadas_do_pytest():
@@ -30,11 +38,13 @@ def test_toda_selecao_explicita_do_ci_exclui_a_rede():
 
 def test_o_job_de_rede_so_roda_quando_disparado_a_mao():
     texto = WORKFLOW.read_text(encoding="utf-8")
+    if "\n  rede:" not in texto:
+        pytest.skip("o workflow não tem job de rede")
     job = texto[texto.index("\n  rede:"):]
     assert "if: github.event_name == 'workflow_dispatch'" in job
     assert "pytest -m rede" in job
 
 
 def test_o_addopts_exclui_a_rede():
-    pyproject = (WORKFLOW.parents[2] / "pyproject.toml").read_text(encoding="utf-8")
-    assert "not rede" in re.search(r"addopts\s*=\s*\"([^\"]+)\"", pyproject).group(1)
+    pyproject = (EDICAO / "pyproject.toml").read_text(encoding="utf-8")
+    assert "not rede" in re.search(r'addopts\s*=\s*"([^"]+)"', pyproject).group(1)

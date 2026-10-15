@@ -3,7 +3,7 @@
 O instalador é gerado em duas etapas: o PyInstaller compila o programa na pasta
 `dist\Triton`, e o Inno Setup 6 empacota essa pasta em `dist\Triton_Setup_<versão>.exe`.
 O script `build_exe.py` faz as duas. Isto vale para a Edição Brasil; a International
-segue os mesmos passos com `build_exe_int.py` (seção «A base climática» abaixo, e o mapa
+segue os mesmos passos com `build_exe.py`, dentro de `triton_int` (seção «A base climática» abaixo, e o mapa
 das edições em [`edicoes.md`](edicoes.md)).
 
 ## Pré-requisitos
@@ -40,7 +40,7 @@ Para compilar só o instalador, com `dist\Triton` já pronto:
 | Item | Comportamento |
 | :--- | :--- |
 | pasta | `C:\Program Files\Triton`, ou a pasta do usuário se a instalação for feita sem administrador (o instalador pergunta) |
-| licença | GPL v3: o texto integral, do arquivo `LICENSE`, na página de licença; e o aviso de copyright com o texto integral (`Licence.txt`) instalado como `LICENSE.txt` na pasta do programa, com as licenças de terceiros (Python, Qt sob LGPL e bibliotecas) em `AVISOS_DE_TERCEIROS.txt`, gerado no build por `scripts/gerar_avisos_de_terceiros.py` |
+| licença | o texto de `LICENSE.md` (código-fonte disponível para fins acadêmicos), na página de licença e instalado na pasta do programa, com as licenças de terceiros (`AVISOS_DE_TERCEIROS.txt`) |
 | idiomas do instalador | português, inglês e espanhol |
 | componentes | programa (na Edição Brasil, com a base CLIMBra compilada e a pasta `tarifas` sem a `entrada`), manual, casos e exemplos (obrigatório); pacotes de idioma espanhol e chinês |
 | atalhos | Menu Iniciar (programa e manual em PDF); área de trabalho, opcional |
@@ -50,7 +50,7 @@ Para compilar só o instalador, com `dist\Triton` já pronto:
 ## A base climática
 
 Cada edição tem o seu instalador, gerado pelo mesmo `setup_script.iss` com
-`/DEdition=BRL` ou `/DEdition=INT`. O `python build_exe_int.py --installer` gera o
+`/DEdition=BRL` ou `/DEdition=INT`. O `python build_exe.py --installer`, dentro de `triton_int`, gera o
 `Triton_INT_Setup_*.exe`, a partir de `dist\Triton_INT`. As duas edições têm AppId,
 pasta (`Triton` e `Triton International`), atalhos e ProgId próprios, e por isso
 instalam-se lado a lado. Na Internacional, a associação dos `.triton` vem desmarcada.

@@ -28,6 +28,10 @@ from typing import Any, Dict, Optional
 
 NOME_DO_ARQUIVO = "fatores_emissao_rede_mcti.json"
 
+#: Onde o arquivo do MCTI não vai (Internacional e Portugal): um arquivo sem série oficial e
+#: com uma só base, de valor zero, que o usuário substitui pelo fator da rede do seu projeto.
+NOME_DO_ARQUIVO_PADRAO = "fatores_emissao_rede_padrao.json"
+
 # Ano adotado como padrão quando se pede um fator **de CO₂** por ano. É o último
 # ano completo da série publicada — não o mais favorável, nem uma média de
 # conveniência.
@@ -38,8 +42,24 @@ BASE_PADRAO = "adotado_triton"
 
 _CACHE: Optional[Dict[str, Any]] = None
 
+#: Último recurso fora da Brasil, se nem o arquivo padrão estiver presente: nenhuma série e nenhuma
+#: base com valor (fator zero).
+_SERIE_NEUTRA: Dict[str, Any] = {
+    "_fonte": {"orgao": "", "serie": "sem série oficial nesta edição", "unidade": "kgCO2e/kWh"},
+    "fator_medio_anual_tco2_por_mwh": {},
+    "fator_medio_mensal_tco2_por_mwh": {},
+    "bases_co2eq": {
+        "adotado_triton": {
+            "valor": 0.0,
+            "gas": "CO2e",
+            "fronteira": "informada pelo usuário",
+            "fonte": "Sem valor predefinido: informe o fator de emissão da rede elétrica do projeto.",
+        }
+    },
+}
 
-def _localizar_arquivo() -> str:
+
+def _localizar_arquivo(nome: str = NOME_DO_ARQUIVO) -> str:
     """Localiza a série, em execução normal ou empacotada com PyInstaller.
 
     Segue o mesmo desenho de :func:`triton.core.tariffs_database._find_database_file`:
@@ -49,24 +69,40 @@ def _localizar_arquivo() -> str:
 
     candidatos = []
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-        candidatos.append(os.path.join(sys._MEIPASS, "triton", "data", NOME_DO_ARQUIVO))
-    candidatos.append(os.path.join(diretorio_do_pacote, "data", NOME_DO_ARQUIVO))
+        candidatos.append(os.path.join(sys._MEIPASS, "triton", "data", nome))
+    candidatos.append(os.path.join(diretorio_do_pacote, "data", nome))
 
     for caminho in candidatos:
         if os.path.isfile(caminho):
             return os.path.normpath(caminho)
 
     raise FileNotFoundError(
-        f"Série de fatores de emissão '{NOME_DO_ARQUIVO}' não encontrada. "
+        f"Série de fatores de emissão '{nome}' não encontrada. "
         f"Caminhos consultados: {candidatos}"
     )
 
 
 def carregar_serie() -> Dict[str, Any]:
-    """Carrega e mantém em cache a série completa do MCTI."""
+    """Carrega e mantém em cache a série do MCTI, ou a série padrão onde ela não existe.
+
+    Só a Edição Brasil traz o arquivo do MCTI. Nas outras, vale o arquivo padrão (sem anos
+    publicados e com fator zero), ou, na falta dele, a mesma série neutra embutida.
+    Na Brasil, faltar o arquivo continua sendo erro: um fator silencioso falsearia a ACV.
+    """
     global _CACHE
     if _CACHE is None:
-        with open(_localizar_arquivo(), "r", encoding="utf-8") as arquivo:
+        try:
+            caminho = _localizar_arquivo()
+        except FileNotFoundError:
+            from triton.core.edition import EDITION_BRL, get_current_edition
+            if get_current_edition() == EDITION_BRL:
+                raise
+            try:
+                caminho = _localizar_arquivo(NOME_DO_ARQUIVO_PADRAO)
+            except FileNotFoundError:
+                _CACHE = _SERIE_NEUTRA
+                return _CACHE
+        with open(caminho, "r", encoding="utf-8") as arquivo:
             _CACHE = json.load(arquivo)
     return _CACHE
 
@@ -89,6 +125,8 @@ def fator_anual(ano: int = ANO_PADRAO) -> float:
     chave = str(int(ano))
     if chave not in serie:
         disponiveis = anos_disponiveis()
+        if not disponiveis:
+            raise KeyError("Esta edição não traz série anual de fatores de emissão da rede.")
         raise KeyError(
             f"Não há fator publicado para {ano}. "
             f"A série cobre {disponiveis[0]}–{disponiveis[-1]}."

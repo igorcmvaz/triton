@@ -195,6 +195,11 @@ class Solid:
     system: str = ""
     dn_mm: float = 0.0  # diâmetro nominal real do tubo (o prisma pode estar ampliado)
 
+    def __post_init__(self):
+        from triton.core.edition import sem_norma_do_brasil
+        if self.info:
+            self.info = [sem_norma_do_brasil(s) for s in self.info]
+
 
 @dataclass
 class Scene:

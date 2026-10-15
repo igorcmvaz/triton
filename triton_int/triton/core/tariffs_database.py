@@ -78,7 +78,17 @@ def load_tariffs_db() -> Dict[str, Any]:
     if _DB_CACHE is not None:
         return _DB_CACHE
         
-    db_path = _find_database_file()
+    try:
+        db_path = _find_database_file()
+    except FileNotFoundError:
+        # Só a Edição Brasil traz o banco de 652 municípios. Nas outras, ele não existe, e as
+        # telas e rotinas que o consultam recebem um banco vazio em vez de um erro. Na Brasil a
+        # falta do arquivo continua sendo erro (instalação quebrada).
+        from triton.core.edition import EDITION_BRL, get_current_edition
+        if get_current_edition() == EDITION_BRL:
+            raise
+        _DB_CACHE = {"ufs": {}, "cities": {}}
+        return _DB_CACHE
     with open(db_path, 'r', encoding='utf-8') as f:
         _DB_CACHE = json.load(f)
         

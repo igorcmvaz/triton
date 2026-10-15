@@ -1,28 +1,27 @@
-# Triton — Dimensionamento e Simulação de Aproveitamento de Água de Chuva
+# Triton — Edição Brasil
+
+*Dimensionamento e simulação de aproveitamento de água de chuva*
 
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![GUI Framework](https://img.shields.io/badge/GUI-PySide6%20(Qt6)-green)](https://www.qt.io/)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Licence: academic source-available](https://img.shields.io/badge/Licence-academic%20source--available-lightgrey.svg)](LICENSE.md)
 [![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
 
-*English: [README.en.md](README.en.md) — resumo em inglês, com a documentação técnica em [`docs/en/`](docs/en/).*
+*English: [docs/en/README.md](docs/en/README.md) — resumo em inglês, com a documentação técnica em [`docs/en/`](docs/en/).*
 
 O **Triton** é uma plataforma computacional avançada desenvolvida pelo **Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC)** para dimensionamento, simulação hidrológica diária, análise de viabilidade econômico-financeira de alta fidelidade, avaliação de ciclo de vida ambiental (ACV) e tomada de decisão multicritério robusta (**TOPSIS** e **SMAA-VIKOR**).
 
 ---
 
-## Duas edições: Brasil (BRL) e International (INT)
+## Esta é a Edição Brasil (BRL)
 
-O programa sai em duas edições, do mesmo código e com o mesmo motor de cálculo. A
-**Edição Brasil** traz os dados brasileiros auditados: base climática CLIMBra (652
-cidades, CMIP6), tarifas de água e esgoto de 652 municípios com procedência por documento,
-energia da ANEEL, custos em reais, fatores de emissão do MCTI e as certificações e
-incentivos nacionais (AQUA-HQE, Selo Casa Azul, IPTU Verde). A **International Edition**
-é o núcleo neutro: abre em inglês, com a moeda escolhida pelo usuário e tarifa, custos e
-fatores de emissão informados por ele, e só as certificações internacionais (LEED, EDGE,
-GRI). Os recursos 2 e 3 abaixo, a base climática nacional e os fatores brasileiros são da
-Edição Brasil. O mapa completo — o que o usuário vê, onde está no código, o que vai em
-cada pacote — está em [`docs/edicoes.md`](docs/edicoes.md).
+O programa sai em três edições, do mesmo código e com o mesmo motor de cálculo e número de versão (ver o
+[README do repositório](../README.md)). A **Edição Brasil** traz os dados brasileiros auditados: base
+climática CLIMBra (652 cidades, CMIP6, 19 modelos), tarifas de água e esgoto de 652 municípios com procedência
+por documento, energia da ANEEL, custos em reais, fatores de emissão do MCTI e as certificações e incentivos
+nacionais (AQUA-HQE, Selo Casa Azul, IPTU Verde). Os recursos 2 e 3 abaixo, a base climática nacional e os
+fatores brasileiros são desta edição. O mapa do que cada edição mostra, onde está no código e o que vai em cada
+pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ---
 
@@ -63,7 +62,7 @@ cada pacote — está em [`docs/edicoes.md`](docs/edicoes.md).
 7. **Planta 3D, Esquema e Volumetria da Tubulação:**
    - Trechos organizados pelo projetista na ordem de montagem, a partir de pontos de conexão dos componentes (`RS-01:topo`, `RS-01:fundo`, laterais superior e inferior).
    - Conferência do destino de cada trecho, declividade mínima dos sistemas por gravidade (ABNT NBR 10844) e recusa de tubos que ocupam o mesmo espaço.
-   - Planta 3D em DXF, esquema 3D com as medidas reais, volumetria girável no programa e exportação em glTF (`.glb`) e HTML interativo, além do manifesto BIM lido pelo Revit ([`integrations/revit`](integrations/revit/README.md)).
+   - Planta 3D em DXF, esquema 3D com as medidas reais, volumetria girável no programa e exportação em glTF (`.glb`) e HTML interativo, além do manifesto BIM lido pelo Revit ([`integrations/revit`](additional_material/integrations/revit/README.md)).
    - Arranjo pré-preenchido pelo estudo conforme ABNT NBR 15527:2019 e NBR 5626:2020: filtro, descarte inicial, freio d'água, sucção flutuante com válvula de pé e crivo, chaves de nível, respiros com tela, extravasores (ladrão sifonado com antirrefluxo na cisterna; aviso visível na caixa), limpeza com registro, registros de manutenção dos dois lados da bomba, retenção no recalque, quadro de comando e backup potável (hidrômetro, registro e válvula solenoide) descarregando por *air gap* na caixa superior.
    - Volumetria em WebGL ([three.js](https://threejs.org)), a mesma no programa e no HTML exportado: peças detalhadas (tanques, motobomba, filtro, descarte, registros, válvula solenoide, hidrômetro, freio d'água, sucção flutuante), materiais físicos, céu HDRI do Poly Haven (CC0), sombras, fluxo animado por sistema, corte por cota, raio-X, medição e imagem PNG. Funciona sem internet; sem WebGL, a aba usa o visualizador simples. Código em [`web/volumetria`](web/volumetria/README.md).
 
@@ -97,7 +96,7 @@ cada pacote — está em [`docs/edicoes.md`](docs/edicoes.md).
 ## 📂 Estrutura do Repositório
 
 ```text
-triton/
+triton_brl/
 ├── triton/                     # Pacote Python: motor de cálculo, interface e linha de comando
 │   ├── core/                   # Hidrologia, economia, ACV, decisão multicritério, tarifas, unidades
 │   ├── ui/                     # Interface desktop PySide6 (abas, gráficos, diálogos, traduções)
@@ -105,19 +104,17 @@ triton/
 │   ├── docs/                   # Relatórios de validação e fluxogramas distribuídos com o programa
 │   └── cli.py                  # Interface de linha de comando
 ├── tests/                      # Suíte automatizada: unit, integration, invariants, ui, benchmarking
-├── manual/                     # Fonte do manual: partes/, apendices/, casos/, figuras/ e geradores
-│                               #   (Manual-Triton.md e .pdf são gerados e não são versionados)
+├── manual/                     # O manual pronto: PDFs, site offline, volumes avulsos e casos
+│                               #   (os geradores e as partes ficam no disco do mantenedor, fora do Git)
 ├── docs/                       # Documentação técnica: metodologia, verificação, procedência dos fatores
 ├── examples/                   # Estudos de caso e projetos de exemplo (.triton)
 ├── templates/                  # Modelos de projeto e planilhas de entrada
-├── data/                       # Séries pluviométricas e planilhas de referência do Netuno 4
+├── data/                       # Base CLIMBra (climbra_<modelo>.db), séries pluviométricas e referências do Netuno 4
 ├── tarifas/                    # Base tarifária auditada das 652 cidades
-├── scripts/                    # Auditoria, estudos em lote e geração de artigos (não vão ao instalador)
-├── integrations/               # Integração com Revit
-├── additional_material/        # Biblioteca CAD/BIM e documentos de referência
+├── scripts/                    # Base CLIMBra, tarifas, auditoria e estudos em lote (não vão ao instalador)
+├── additional_material/        # Biblioteca CAD/BIM, integração com Revit e documentos de referência
 ├── icons/                      # Ícones da aplicação
 ├── infos_licenses/             # Licença, textos do instalador e README distribuído
-├── .github/workflows/          # Integração contínua: núcleo com e sem numba, replicação do Netuno 4
 ├── pyproject.toml              # Metadados do pacote (PEP 621); o estado de lançamento é declarado aqui
 ├── requirements.txt            # Dependências de produção
 ├── requirements-dev.txt        # Dependências de desenvolvimento e testes
@@ -125,15 +122,19 @@ triton/
 ├── Triton.spec                 # Especificação do PyInstaller
 ├── setup_script.iss            # Script do instalador Inno Setup 6
 ├── CITATION.cff                # Como citar o programa
+├── LICENSE.md                  # Licença: código-fonte disponível para fins acadêmicos
 └── main.py                     # Ponto de entrada da aplicação desktop
 ```
 
-Fora do controle de versão, por tamanho ou por serem regeneráveis: a base climática
-CMIP6 — os CSV brutos (`climbra_data/`, ~6,5 GB) e o banco compilado `data/climbra.db`
-(~784 MB, gerado por `scripts/compilar_base_climbra.py` e embutido no executável da Edição
-Brasil pelo `build_exe.py`) —, as saídas de
-simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de referência),
-`tmp/`, os laudos gerados em `reports/` (exceto `reports/exemplos/`), o manual montado e o PDF.
+A base climática compilada está **no Git**: um banco SQLite por modelo CMIP6, `data/climbra_<modelo>.db`
+(19 arquivos de 40 a 44 MB, 785 MB no total, abaixo do limite de 100 MB por arquivo do GitHub), mais o manifesto
+`data/climbra_partes.json`. O programa as lê direto e, se existir, ainda lê o `data/climbra.db` único das versões
+anteriores (~820 MB, fora do Git). Como foram geradas, divididas e verificadas: [`scripts/README.md`](scripts/README.md).
+
+Fora do controle de versão, por tamanho, por serem regeneráveis ou por serem de terceiros: os CSV brutos da
+CLIMBra (`climbra_data/`, ~6,5 GB), os documentos dos prestadores de saneamento (`tarifas/fontes/`) e o banco
+que os reúne, as saídas de simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de
+referência), `tmp/`, e os laudos gerados em `reports/` (exceto `reports/exemplos/`).
 
 ---
 
@@ -146,7 +147,7 @@ simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de r
 ### 1. Instalação em Modo de Desenvolvimento
 ```bash
 # Acesse a pasta raiz do programa
-cd triton
+cd triton_brl
 
 # Instale o pacote e suas dependências
 pip install -e .
@@ -157,12 +158,8 @@ pip install -r requirements-dev.txt
 
 ### 2. Executando a Versão Desktop
 ```bash
-# Via script principal (Edição Brasil):
+# A edição desta pasta já é o padrão:
 python main.py
-
-# Edição Brasil ou Internacional explicitamente:
-python main_brl.py          # ou: python main.py --edition brl
-python main_int.py          # ou: python main.py --edition int
 
 # Ou via comando registrado no PATH:
 triton-gui
@@ -196,21 +193,22 @@ python build_exe.py --clean --onefile
 # Compilação com geração automática do instalador Inno Setup (.exe):
 python build_exe.py --clean --installer
 
-# Edição Internacional (dist/Triton_INT/) ou as duas edições:
-python build_exe.py --edition int
-python build_exe.py --edition both --clean
+# Outras edições (dist/Triton_INT/, dist/Triton_PRT/), cada uma no seu repositório de código:
+python build_exe.py --edition int         # só faz sentido a partir de triton_int/
+python build_exe.py --edition all --clean # as três
 ```
 
-O instalador compilado será gerado em `dist/Triton_Setup_1_0_0.exe`, a partir da Edição
-Brasil em `dist/Triton/`, e o da International em `dist/Triton_INT_Setup_1_0_0.exe`, a
-partir de `dist/Triton_INT/`. A International sai sem a base CLIMBra e sem a pasta
-`tarifas/`; o que mais muda entre os pacotes está em [`docs/edicoes.md`](docs/edicoes.md).
-A compilação exige Python 3.12 ou superior.
+O instalador compilado sai em `dist/Triton_Setup_1_0_0.exe`, a partir de `dist/Triton/`. A compilação exige
+Python 3.12 ou superior, PyInstaller e [Inno Setup 6](https://jrsoftware.org/isinfo.php) (para `--installer`).
+O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
 
-A Edição Brasil sai com a base CLIMBra compilada embutida (`data/climbra.db`, 652 cidades):
-o `build_exe.py` a compila a partir de `climbra_data/` se o banco faltar e interrompe se
-não houver nenhum dos dois, em vez de gerar um instalador sem a base. Detalhes em
-[`docs/instalador.md`](docs/instalador.md).
+A Edição Brasil sai com a base CLIMBra embutida (os 19 bancos `data/climbra_<modelo>.db`, 652 cidades): o
+`build_exe.py` confere os 19; se faltarem e houver o `climbra.db` único, divide-o
+(`scripts/dividir_base_climbra.py`); se não, compila-os a partir de `climbra_data/` (CSV brutos) e interrompe se não
+houver nenhum, em vez de gerar um instalador sem a base. Documentos de terceiros (`tarifas/fontes/`, o
+manual do Netuno 4) e as saídas do Netuno 4 não vão no pacote. O manual embarcado é o PDF versionado em
+`manual/`; se os geradores estiverem na máquina de compilação, o `build_exe.py` o regera antes de empacotar.
+Detalhes em [`docs/instalador.md`](docs/instalador.md).
 
 ---
 
@@ -222,13 +220,20 @@ Para executar a suíte de testes unitários, testes de interface e validações 
 # Executar todos os testes:
 pytest
 
-# Executar testes específicos com cobertura detalhada:
+# Só a base climática dividida por modelo (equivalência com o climbra.db):
+pytest tests/unit/test_climbra_particionada.py tests/unit/test_climate_database.py -v
+
+# Testes específicos com cobertura detalhada:
 pytest tests/test_essencial.py tests/test_essencial_interface.py -v
 ```
 
 ---
 
-## 📄 Licença e Créditos
+## 📄 Licença, citação e créditos
 
-Desenvolvido pelo **Grupo de Pesquisa em Ambientes Sustentáveis** — Universidade Federal de Santa Catarina (UFSC).  
-Distribuído sob a **GNU General Public License v3.0 ou posterior**. Consulte o arquivo [`LICENSE`](LICENSE) para o texto integral.
+Desenvolvido pelo **Grupo de Pesquisa em Ambientes Sustentáveis** — Universidade Federal de Santa Catarina (UFSC).
+Código-fonte disponível para fins acadêmicos, com todos os direitos reservados e uso gratuito não comercial. Consulte o arquivo [`LICENSE.md`](LICENSE.md) para os termos completos. A citação do programa é obrigatória em qualquer trabalho que use os seus resultados ([`CITATION.cff`](CITATION.cff)):
+
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC), Florianópolis, Brasil.
+
+Dados: CLIMBra (Ballarin et al., 2023, *Scientific Data*, doi:10.1038/s41597-023-01956-z; CC0 1.0). Dúvidas e erros: igor.catao@posgrad.ufsc.br.

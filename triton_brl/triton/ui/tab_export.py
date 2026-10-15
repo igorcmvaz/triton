@@ -16,6 +16,16 @@ from PySide6.QtCore import Qt, QUrl, QByteArray
 from PySide6.QtGui import QFont, QDesktopServices, QPixmap, QPainter, QColor, QImage
 from PySide6.QtSvg import QSvgRenderer
 
+from triton.ui.textos_da_edicao import prancha_a3, nome_da_prancha_a3, nome_sugerido as _nome_sugerido
+
+
+def nome_sugerido(nome: str) -> str:
+    """Nome de arquivo sugerido ao salvar: no idioma da interface e, fora da Brasil, com a edição («_INT», «_PRT»)."""
+    from triton.core.edition import rotulo_da_edicao, usa_dados_do_brasil
+    sugerido = _nome_sugerido(nome)
+    if usa_dados_do_brasil() or nome == "Simulacao_Triton":
+        return sugerido
+    return f"{sugerido}_{rotulo_da_edicao(curto=True)}"
 from triton.ui.translation import tr, get_current_theme
 from triton.core.cad_exporter import generate_project_dxf, generate_project_svg_diagram
 from triton.core.simulation_excel_exporter import export_simulation_to_excel, export_simulation_to_csv
@@ -171,7 +181,12 @@ class TabExport(QWidget):
         # Delimitador CSV (visível apenas se CSV for selecionado)
         self.lbl_delim = QLabel(tr("<b>Separador:</b>"))
         self.combo_delim = QComboBox()
-        self.combo_delim.addItem(tr("Ponto e vírgula (;) [Padrão Brasil/Excel]"), ";")
+        from triton.core.edition import usa_dados_do_brasil as _brl
+        rotulo_pv = tr("Ponto e vírgula (;) [Padrão Brasil/Excel]")
+        if not _brl():  # o separador é o do Excel; o país não entra no rótulo
+            for pais in ("Brasil/", "Brazil/", "巴西/"):
+                rotulo_pv = rotulo_pv.replace(pais, "")
+        self.combo_delim.addItem(rotulo_pv, ";")
         self.combo_delim.addItem(tr("Vírgula (,) [Padrão Internacional/R]"), ",")
         lay_opts.addWidget(self.lbl_delim)
         lay_opts.addWidget(self.combo_delim)
@@ -307,7 +322,7 @@ class TabExport(QWidget):
         lbl_cad_mode = QLabel(tr("Padrão do Desenho:"))
         lbl_cad_mode.setStyleSheet("font-size: 12px; font-weight: 600; color: #334155; border: none; background: transparent;")
         self.combo_cad_mode = QComboBox()
-        self.combo_cad_mode.addItem(tr("📐 Prancha Técnica Completa em A3 (Engenharia NBR 15527)"), "technical_a3")
+        self.combo_cad_mode.addItem(tr(prancha_a3()), "technical_a3")
         self.combo_cad_mode.addItem(tr("✏️ Esquemático Unifilar Simples (Apresentação Rápida)"), "simple")
         self.combo_cad_mode.addItem(tr("🧩 Biblioteca de Blocos para Plantas + BIM JSON"), "block_library")
         self.combo_cad_mode.addItem(tr("🧭 Planta 3D dos Trechos Organizados + BIM JSON"), "plant_3d")
@@ -529,12 +544,12 @@ class TabExport(QWidget):
 
         horizon = int(self.combo_horizon.currentData() or 20)
         daily_mode = str(self.combo_daily_mode.currentData() or "all")
-        proj_slug = str(data.get("project_name", "Simulacao_Triton")).replace(" ", "_")
+        proj_slug = str(data.get("project_name", nome_sugerido("Simulacao_Triton"))).replace(" ", "_")
 
         if fmt == "xlsx":
             file_path, _ = QFileDialog.getSaveFileName(
                 self, tr("Exportar Planilha Excel Personalizada"),
-                f"{proj_slug}_Dados_Simulados.xlsx",
+                f"{proj_slug}{nome_sugerido('_Dados_Simulados')}.xlsx",
                 "Planilhas Excel (*.xlsx)"
             )
             if not file_path:
@@ -621,9 +636,9 @@ class TabExport(QWidget):
         data = self._collect_project_data()
         mw = self._get_main_window()
         if not file_path:
-            proj_slug = str(data.get("project_name", "Simulacao_Triton")).replace(" ", "_")
+            proj_slug = str(data.get("project_name", nome_sugerido("Simulacao_Triton"))).replace(" ", "_")
             file_path, _ = QFileDialog.getSaveFileName(
-                self, tr("Exportar TUDO para auditoria"), f"{proj_slug}_Auditoria_Completa.xlsx",
+                self, tr("Exportar TUDO para auditoria"), f"{proj_slug}{nome_sugerido('_Auditoria_Completa')}.xlsx",
                 "Planilhas Excel (*.xlsx)")
             if not file_path:
                 return
@@ -657,7 +672,7 @@ class TabExport(QWidget):
     def _export_project_json(self):
         data = self._collect_project_data()
         file_path, _ = QFileDialog.getSaveFileName(
-            self, tr("Exportar Dados em JSON"), "projeto_triton.json", "Arquivos JSON (*.json)"
+            self, tr("Exportar Dados em JSON"), nome_sugerido("projeto_triton") + ".json", "Arquivos JSON (*.json)"
         )
         if not file_path:
             return
@@ -683,7 +698,7 @@ class TabExport(QWidget):
             QMessageBox.warning(self, tr("Erro"), tr("Falha ao exportar CSV: projeto indisponível."))
             return
         file_path, _ = QFileDialog.getSaveFileName(
-            self, tr("Exportar Projeto em CSV legado"), "projeto_triton.csv", "CSV (*.csv)"
+            self, tr("Exportar Projeto em CSV legado"), nome_sugerido("projeto_triton") + ".csv", "CSV (*.csv)"
         )
         if not file_path:
             return
@@ -710,7 +725,7 @@ class TabExport(QWidget):
             self._set_status(tr("✓ Modelo de cenários em lote gerado com sucesso."))
         else:
             from triton.core.excel_scenarios import generate_sample_scenario_excel
-            file_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Modelo Excel de Cenários"), "triton-modelo-cenarios.xlsx", "Planilha Excel (*.xlsx)")
+            file_path, _ = QFileDialog.getSaveFileName(self, tr("Salvar Modelo Excel de Cenários"), nome_sugerido("triton-modelo-cenarios") + ".xlsx", "Planilha Excel (*.xlsx)")
             if file_path:
                 generate_sample_scenario_excel(file_path)
                 self._set_status(tr(f"✓ Modelo de cenários salvo em: {Path(file_path).name}"))
@@ -805,7 +820,7 @@ class TabExport(QWidget):
             dlg_lay.setSpacing(10)
 
             top_bar = QHBoxLayout()
-            mode_name = {"technical_a3": tr("Prancha Técnica A3 (ABNT NBR 15527)"), "plant_3d": tr("Esquema 3D dos trechos (fora de escala)")}.get(mode, tr("Esquema Unifilar Simples"))
+            mode_name = {"technical_a3": tr(nome_da_prancha_a3()), "plant_3d": tr("Esquema 3D dos trechos (fora de escala)")}.get(mode, tr("Esquema Unifilar Simples"))
             organization = str(data.get("organization") or tr("Organização a definir"))
             responsible = str(data.get("technical_responsible") or tr("Responsável técnico a definir"))
             lbl_info = QLabel(f"<b>{tr('Padrão:')}</b> {mode_name} | <b>{tr('Organização:')}</b> {organization} | <b>{tr('Responsável:')}</b> {responsible}")

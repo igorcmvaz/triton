@@ -57,7 +57,7 @@ def test_readme_so_cita_a_versao_atual():
 def test_readme_descreve_o_leed_que_o_codigo_pontua():
     texto = _ler("README.md")
     assert "20% a 45%" not in texto
-    assert "25% a 50%" in texto
+    assert "25% a 50%" in texto or "25% to 50%" in texto   # o README da International é em inglês
 
 
 # ══════════════════════════════════════════════════════════════════════════════

@@ -194,7 +194,7 @@ def frontmatter(sumario_linhas, palavras):
         "| **Publisher** | Federal University of Santa Catarina |",
         "| **Research group** | Sustainable Environments |",
         "| **Year** | 2026 |",
-        "| **Licence** | GNU General Public License v3.0 |",
+        "| **Licence** | Academic source-available (non-commercial use), see LICENSE.md |",
         "",
         "### How to cite",
         "",

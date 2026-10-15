@@ -52,7 +52,8 @@ def test_generate_executive_html_report():
 
     html = generate_executive_html_report(project_data)
     assert isinstance(html, str)
-    assert "Laudo Técnico Executivo" in html
+    # Na Edição Portugal o laudo é «Relatório» (português de Portugal)
+    assert "Laudo Técnico Executivo" in html or "Relatório Técnico Executivo" in html
     assert "NET-TEST-001" in html
     assert "5.000 L" in html or "5000" in html
     assert "35,5%" in html
@@ -131,7 +132,7 @@ def test_generate_research_html_report():
     assert "Conclusões e Protocolo de Escolha" in html
     assert "Compromisso TOPSIS" in html
     assert "Referência técnica" in html
-    assert "Dif. para maior VPL" in html
+    assert ("Dif. para maior VPL" in html) or ("Dif. para maior VAL" in html)
     assert "Figura 1 — Economia de água potável por capacidade" in html or "Figura 1" in html
     assert "Figura 2 — VPL por capacidade" in html or "Figura 2" in html
     assert "Figura 3 — Desempenho TOPSIS por capacidade" in html or "Figura 3" in html

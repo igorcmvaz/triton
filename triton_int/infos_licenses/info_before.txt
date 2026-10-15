@@ -1,31 +1,28 @@
-BEM-VINDO AO INSTALADOR DO TRITON
+﻿WELCOME TO THE TRITON INSTALLER — INTERNATIONAL EDITION
 
-SOBRE O SOFTWARE:
-O Triton simula sistemas de aproveitamento de água pluvial em edificações.
-A partir do regime de chuva do local, da cobertura e do consumo da edificação,
-ele dimensiona o reservatório e avalia o desempenho hídrico, o retorno
-financeiro, o impacto de carbono e o enquadramento em certificações.
+ABOUT THE SOFTWARE:
+Triton simulates rainwater harvesting systems in buildings. From the local
+rainfall, the roof catchment and the building's water demand, it sizes the
+tank and assesses water performance, financial return, carbon impact and
+certification scoring. This edition is region-neutral: you supply the
+rainfall series, the tariffs and the costs, in the currency of your choice.
 
-AUTORIA:
-Igor Catão Martins Vaz e Enedir Ghisi
-Grupo de Pesquisa em Ambientes Sustentáveis
-Universidade Federal de Santa Catarina (UFSC)
+AUTHORS:
+Igor Catão Martins Vaz and Enedir Ghisi
+Sustainable Environments Research Group (GPAS)
+Federal University of Santa Catarina (UFSC), Brazil
 
-AVISO DE VERSÃO BETA:
-Esta aplicação encontra-se atualmente em ESTÁGIO BETA de desenvolvimento. 
-Isso significa que o sistema pode conter instabilidades, comportamentos 
-inesperados ou pequenas divergências nos resultados.
+DISCLAIMER:
+Use of the software and the interpretation of its results are the sole
+responsibility of the user. Critically validate the data before applying
+the results to official projects or publications. The program does not
+replace detailed design or the professional liability of a qualified engineer.
 
-ISENÇÃO DE RESPONSABILIDADE:
-O uso do software e a interpretação dos resultados gerados são de inteira 
-e exclusiva responsabilidade do usuário. Recomenda-se a validação crítica 
-dos dados antes de sua aplicação em projetos oficiais ou publicações.
+SUPPORT, QUESTIONS AND SUGGESTIONS:
+If you find an error, have questions about use, or wish to suggest
+improvements, contact the technical lead directly:
 
-SUPORTE, DÚVIDAS E SUGESTÕES:
-Caso encontre algum erro, tenha dúvidas sobre o uso ou queira enviar sugestões 
-de melhorias, entre em contato diretamente com o responsável técnico:
-
-  - Contato: Igor Catão
+  - Contact: Igor Catão
   - E-mail:  igor.catao@posgrad.ufsc.br
 
-Clique em "Avançar" para continuar com a instalação.
+Click "Next" to continue with the installation.

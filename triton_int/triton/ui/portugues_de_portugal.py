@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Português de Portugal para a Edição Portugal (POR).
+"""Português de Portugal para a Edição Portugal (PRT).
 
 O catálogo da interface é escrito em português do Brasil. Na Edição Portugal, o mesmo
 texto passa por este glossário, que troca o vocabulário — e não a gramática — pelo de
@@ -59,6 +59,10 @@ TERMOS = _CONCORDANCIA + (
     ("econômico", "económico"),
     ("econômica", "económica"),
     # informática e interface
+    ("vazões", "caudais"),
+    ("vazão", "caudal"),
+    ("tubulações", "tubagens"),
+    ("tubulação", "tubagem"),
     ("arquivos", "ficheiros"),
     ("arquivo", "ficheiro"),
     ("usuários", "utilizadores"),

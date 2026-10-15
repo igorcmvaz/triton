@@ -51,7 +51,7 @@ class JustifiedLineEdit(QLineEdit):
     def enterEvent(self, event):
         """Ao entrar com mouse, mostra a justificativa completa em tooltip."""
         if self.justification:
-            tooltip_html = format_justification_as_tooltip(self.justification)
+            tooltip_html = format_justification_as_tooltip(self.justification, tr=tr)
             QToolTip.showText(
                 self.mapToGlobal(self.rect().center()),
                 tooltip_html,
@@ -89,7 +89,7 @@ class JustifiedComboBox(QComboBox):
         data = self.currentData()
         if data and data in self.justifications:
             justification = self.justifications[data]
-            tooltip_html = format_justification_as_tooltip(justification)
+            tooltip_html = format_justification_as_tooltip(justification, tr=tr)
             QToolTip.showText(
                 self.mapToGlobal(self.rect().center()),
                 tooltip_html,
@@ -137,7 +137,7 @@ class JustifiedCheckBox(QCheckBox):
     def enterEvent(self, event):
         """Mostra justificativa completa ao passar o mouse."""
         if self.justification:
-            tooltip_html = format_justification_as_tooltip(self.justification)
+            tooltip_html = format_justification_as_tooltip(self.justification, tr=tr)
             QToolTip.showText(
                 self.mapToGlobal(self.rect().center()),
                 tooltip_html,
@@ -179,7 +179,7 @@ class LabelWithTooltip(QLabel):
     def enterEvent(self, event):
         """Mostra justificativa completa ao passar o mouse."""
         if self.justification:
-            tooltip_html = format_justification_as_tooltip(self.justification)
+            tooltip_html = format_justification_as_tooltip(self.justification, tr=tr)
             QToolTip.showText(
                 self.mapToGlobal(self.rect().center()),
                 tooltip_html,

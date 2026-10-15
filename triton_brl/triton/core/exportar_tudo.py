@@ -31,6 +31,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 from triton.core.simulation_excel_exporter import export_simulation_to_excel
+from triton.core.dados_do_relatorio import planilha_de_exportacao, simbolo_da_moeda
 
 #: Sequências com mais itens que isto viram aba própria em vez de célula.
 _SEQUENCIA_LONGA = 12
@@ -402,7 +403,7 @@ def exportar_tudo(
     if quantitativo:
         indice.append((quantitativo, "quantitativo do arranjo 3D: cada item, onde entra no CAPEX e na ACV, "
                                      "e a conferência de que nada ficou de fora"))
-    tarifa = _aba_da_tarifa(wb, config, str(dados.get("moeda") or "R$")) if config is not None else None
+    tarifa = _aba_da_tarifa(wb, config, simbolo_da_moeda(dados) or "moeda") if config is not None else None
     if tarifa:
         indice.append((tarifa, "estrutura tarifária aplicada, regime, esgoto e conta por consumo"))
     for aba in _aba_do_arranjo(wb, dados):
@@ -411,7 +412,7 @@ def exportar_tudo(
     # Tarifa e quantitativo falam em reais nos rótulos herdados do catálogo brasileiro; num
     # projeto em outra moeda, o símbolo é o do projeto (as premissas guardam as descrições
     # dos campos, que documentam os padrões brasileiros, e ficam como estão).
-    moeda = str(dados.get("moeda") or "R$")
+    moeda = simbolo_da_moeda(dados)
     if moeda != "R$":
         for nome in (tarifa, quantitativo):
             if nome and nome in wb.sheetnames:
@@ -419,6 +420,8 @@ def exportar_tudo(
                     for celula in linha:
                         if isinstance(celula.value, str) and "R$" in celula.value:
                             celula.value = celula.value.replace("R$", moeda)
+
+    planilha_de_exportacao(wb, moeda)
 
     leia = wb.create_sheet("0_Leia_me", 0)
     try:

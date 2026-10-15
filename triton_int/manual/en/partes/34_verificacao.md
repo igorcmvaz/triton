@@ -152,7 +152,8 @@ research group at every change, before any version is released. What this means 
 installed program is that the version on their machine has passed the 1,544 tests described here,
 including those that check each number printed in this manual.
 
-> **In depth: checking for yourself.** The source code is public, under the GPL v3 licence, and the
+> **In depth: checking for yourself.** The source code is public, under an academic source-available licence
+> (non-commercial use; `LICENSE.md`), and the
 > suite runs with a single command in the development environment. A reviewer who wants to check the
 > invariants — mass closure, monotonicity, parity between the two calculation engines — finds the
 > test files organised by subject, and appendix {{n:B}} links each process of the program to what

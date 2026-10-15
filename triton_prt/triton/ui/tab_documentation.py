@@ -90,9 +90,11 @@ PAGINAS_DO_MANUAL_COMPLETO = {
 
 def caminho_do_manual_completo() -> str:
     """O manual completo desta edição e língua; o português, se o inglês não veio no pacote."""
-    from triton.core.edition import MANUAL_PT, manual_do_usuario
+    from triton.core.edition import MANUAL_PT, manual_do_usuario, usa_dados_do_brasil
     escolhido = manual_do_usuario(get_current_lang())
-    if os.path.isfile(get_resource_path(escolhido)):
+    if os.path.isfile(get_resource_path(escolhido)) or not usa_dados_do_brasil():
+        # Fora da Brasil não há manual de reserva: o PT é o do Brasil, e abri-lo em silêncio seria
+        # entregar a quem pediu o manual da sua edição o de outro país. Falta o arquivo, o aviso diz.
         return escolhido
     return MANUAL_PT
 
@@ -122,7 +124,14 @@ def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: b
     if not os.path.isfile(caminho):
         if parent:
             title = "Manual" if not ingles else "Manual"
-            msg = ("Arquivo do manual não encontrado:" if not ingles else "Manual file not found:") + f"\n{rel_path}"
+            from triton.core.edition import usa_dados_do_brasil
+            if usa_dados_do_brasil():
+                msg = ("Arquivo do manual não encontrado:" if not ingles else "Manual file not found:") + f"\n{rel_path}"
+            else:
+                # o caminho seria o do manual do Brasil; a mensagem não o cita
+                from triton.ui.translation import em_portugues_da_edicao
+                msg = (em_portugues_da_edicao("O manual desta edição não está instalado.") if not ingles
+                       else "The manual for this edition is not installed.")
             QMessageBox.warning(parent, title, msg)
         return False
 
@@ -285,6 +294,10 @@ class _DocTabsProxy:
 
 
 class TabDocumentation(QWidget):
+    #: Fora da Edição Brasil, a página que perde quase todo o texto ao tirar o que cita o Brasil
+    #: (menos de tantos caracteres) não é oferecida: melhor sem a página do que uma página oca.
+    MINIMO_DE_TEXTO_DA_PAGINA = 600
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground, True)
@@ -403,31 +416,28 @@ class TabDocumentation(QWidget):
         """)
         self.list_topics.setCursor(Qt.PointingHandCursor)
 
-        topics = [
-            "📚 " + tr("Manuais Oficiais & Acervo Técnico"),
-            "🧭 " + tr("Metodologia de Cálculo por Etapa"),
-            "🏆 " + tr("TOPSIS: Decisão Multicritério"),
-            "🏠 " + tr("Coeficientes de Telhados (MIX)"),
-            "📊 " + tr("9 Índices Pluviométricos (ETCCDI + Sazonalidade)"),
-            "🌧️ " + tr("Precipitação & Hidrologia"),
-            "🏢 " + tr("Edificação & Demanda"),
-            "🚰 " + tr("Reservatórios & Bombeamento"),
-            "🧪 " + tr("Qualidade da Água & Linha de Tratamento (ETAP)"),
-            "📈 " + tr("Indicadores de Eficiência"),
-            "💰 " + tr("Análise Econômico-Financeira"),
-            "💡 " + tr("Discussão: Valores Médios vs Simulação"),
-            "⚙️ " + tr("Tarifas, Impostos & OPEX"),
-            "🍃 " + tr("Análise do Ciclo de Vida (ACV): Premissas e Justificativas"),
-            "🌿 " + tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, EDGE, GRI)"),
-            "📖 " + tr("Referências Bibliográficas"),
-            "⌨️ " + tr("Uso pela Linha de Comando"),
+        from triton.core.edition import usa_dados_do_brasil as _brasil
+        titulo_esg = (tr("Certificações Sustentáveis & Critérios ESG (LEED, AQUA, Casa Azul, EDGE, GRI)") if _brasil()
+                      else tr("Certificações Sustentáveis & Critérios ESG (LEED, EDGE, GRI)"))
+        paginas = [
+            ("📚 " + tr("Manuais Oficiais & Acervo Técnico"), self.create_tab_manuals_overview),
+            ("🧭 " + tr("Metodologia de Cálculo por Etapa"), self.create_tab_calculation_method),
+            ("🏆 " + tr("TOPSIS: Decisão Multicritério"), self.create_tab_topsis_method),
+            ("🏠 " + tr("Coeficientes de Telhados (MIX)"), self.create_tab_roof_materials),
+            ("📊 " + tr("9 Índices Pluviométricos (ETCCDI + Sazonalidade)"), self.create_tab_rain_indices),
+            ("🌧️ " + tr("Precipitação & Hidrologia"), self.create_tab_rainfall_hydrology),
+            ("🏢 " + tr("Edificação & Demanda"), self.create_tab_building_demand),
+            ("🚰 " + tr("Reservatórios & Bombeamento"), self.create_tab_tanks_pumping),
+            ("🧪 " + tr("Qualidade da Água & Linha de Tratamento (ETAP)"), self.create_tab_water_quality_etap),
+            ("📈 " + tr("Indicadores de Eficiência"), self.create_tab_indicators_performance),
+            ("💰 " + tr("Análise Econômico-Financeira"), self.create_tab_economics),
+            ("💡 " + tr("Discussão: Valores Médios vs Simulação"), self.create_tab_discussion_average_values),
+            ("⚙️ " + tr("Tarifas, Impostos & OPEX"), self.create_tab_tariffs_and_opex),
+            ("🍃 " + tr("Análise do Ciclo de Vida (ACV): Premissas e Justificativas"), self.create_tab_acv_justifications),
+            ("🌿 " + titulo_esg, self.create_tab_esg_certifications),
+            ("📖 " + tr("Referências Bibliográficas"), self.create_tab_references),
+            ("⌨️ " + tr("Uso pela Linha de Comando"), self.create_tab_cli_usage),
         ]
-
-        for topic in topics:
-            item = QListWidgetItem(topic)
-            self.list_topics.addItem(item)
-
-        body_layout.addWidget(self.list_topics)
 
         # Coluna Direita: QStackedWidget com os Painéis de Conteúdo
         self.stack_content = QStackedWidget()
@@ -438,24 +448,17 @@ class TabDocumentation(QWidget):
             }
         """)
 
-        # O Manual Oficial e Acervo Técnico é agora a primeira página
-        self.stack_content.addWidget(self.create_tab_manuals_overview())
-        self.stack_content.addWidget(self.create_tab_calculation_method())
-        self.stack_content.addWidget(self.create_tab_topsis_method())
-        self.stack_content.addWidget(self.create_tab_roof_materials())
-        self.stack_content.addWidget(self.create_tab_rain_indices())
-        self.stack_content.addWidget(self.create_tab_rainfall_hydrology())
-        self.stack_content.addWidget(self.create_tab_building_demand())
-        self.stack_content.addWidget(self.create_tab_tanks_pumping())
-        self.stack_content.addWidget(self.create_tab_water_quality_etap())
-        self.stack_content.addWidget(self.create_tab_indicators_performance())
-        self.stack_content.addWidget(self.create_tab_economics())
-        self.stack_content.addWidget(self.create_tab_discussion_average_values())
-        self.stack_content.addWidget(self.create_tab_tariffs_and_opex())
-        self.stack_content.addWidget(self.create_tab_acv_justifications())
-        self.stack_content.addWidget(self.create_tab_esg_certifications())
-        self.stack_content.addWidget(self.create_tab_references())
-        self.stack_content.addWidget(self.create_tab_cli_usage())
+        # O Manual Oficial e Acervo Técnico é a primeira página. Fora da Edição Brasil as páginas
+        # saem sem o que cita o Brasil; a que não sobra com conteúdo seguro não é oferecida.
+        for titulo, criar in paginas:
+            pagina = criar()
+            if not _brasil() and isinstance(pagina, QTextBrowser) and int(pagina.property("texto_do_corpo") or 0) < self.MINIMO_DE_TEXTO_DA_PAGINA:
+                pagina.deleteLater()
+                continue
+            self.list_topics.addItem(QListWidgetItem(titulo))
+            self.stack_content.addWidget(pagina)
+
+        body_layout.addWidget(self.list_topics)
 
         body_layout.addWidget(self.stack_content, stretch=1)
         main_layout.addLayout(body_layout, stretch=1)
@@ -523,6 +526,18 @@ class TabDocumentation(QWidget):
                     if en else "Onde: energia é o consumo anual de eletricidade; potência é a potência da bomba; horas de recalque são as horas de transferência; partidas são os acionamentos; tempo de partida é a duração de cada acionamento; e η é o rendimento da bomba.")
         return "Where: all symbols are defined by the immediately associated calculation step." if en else "Onde: todos os símbolos são definidos pela etapa de cálculo imediatamente associada."
 
+    @staticmethod
+    def _html_da_edicao(html: str) -> str:
+        """Fora da Edição Brasil, a página sem o que cita o Brasil (``textos_da_edicao.html_da_edicao``).
+
+        A série de exemplo dos comandos de linha de comando é a da edição, e não a de Florianópolis.
+        """
+        from triton.core.edition import usa_dados_do_brasil, serie_de_exemplo_da_edicao
+        if usa_dados_do_brasil():
+            return html
+        from triton.ui.textos_da_edicao import html_da_edicao
+        return html_da_edicao(html.replace("Florianopolis1.csv", serie_de_exemplo_da_edicao()))
+
     def _create_browser(self, html_content: str, secao: str | None = None) -> QTextBrowser:
         """Aplica tipografia editorial e transforma equações em blocos científicos numerados.
 
@@ -538,6 +553,9 @@ class TabDocumentation(QWidget):
         com ``=`` — uma citação apanhada por ele sairia reempacotada.
         """
         equation_number = 0
+        html_content = self._html_da_edicao(html_content)
+        from triton.ui.textos_da_edicao import texto_do_html
+        corpo_da_pagina = len(texto_do_html(html_content))   # sem o bloco de referências, anexado depois
 
         def equation_block(raw_equation: str) -> str:
             nonlocal equation_number
@@ -638,7 +656,8 @@ class TabDocumentation(QWidget):
         </style>
         """
         if secao:
-            content += render_bloco_da_secao(secao, get_current_lang() if get_current_lang() == "pt" else "en")
+            content += self._html_da_edicao(
+                render_bloco_da_secao(secao, get_current_lang() if get_current_lang() == "pt" else "en"))
 
         browser = QTextBrowser()
         browser.setOpenLinks(False)
@@ -680,6 +699,7 @@ class TabDocumentation(QWidget):
             }}
         """)
         browser.setHtml(f"<html><head>{style}</head><body>{content}</body></html>")
+        browser.setProperty("texto_do_corpo", corpo_da_pagina)
         return browser
 
     def _on_anchor_clicked(self, qurl: QUrl):
@@ -1591,7 +1611,9 @@ class TabDocumentation(QWidget):
 
     def create_tab_rainfall_hydrology(self) -> QWidget:
         climbra_uri = _get_asset_data_uri("icons/CLIMBra.png") or _get_asset_data_uri("manual/figuras/CLIMBra.jpg")
-        img_climbra_tag = f"<div style='margin: 12px 0;'><img src='{climbra_uri}' width='260' alt='CLIMbra Dataset'/></div>" if climbra_uri else ""
+        from triton.core.edition import usa_dados_do_brasil as _brasil
+        img_climbra_tag = (f"<div style='margin: 12px 0;'><img src='{climbra_uri}' width='260' alt='CLIMbra Dataset'/></div>"
+                           if climbra_uri and _brasil() else "")
 
         if get_current_lang() != "pt":
             html = """
@@ -1617,7 +1639,7 @@ class TabDocumentation(QWidget):
 
             <h3 style='color: #0369a1;'>First Flush / Initial Discard ($d_f$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtraída</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
+                When the discard rule applies on a given day, <i>d<sub>f</sub></i> is <b>subtracted</b> from the gross daily rainfall: the effective rainfall is <i>P<sub>t</sub> − d<sub>f</sub></i> when <i>P<sub>t</sub> &gt; d<sub>f</sub></i>, and <b>zero</b> otherwise — a day that does not exceed the depth is lost in full, not in part. On days when the rule does not apply, the whole daily rainfall is capturable. Note that <i>d<sub>f</sub></i> is a <b>depth</b> (mm), not the hydraulic volume of the physical first-flush device, <i>A × d<sub>f</sub></i>, which requires a separate design.
             </p>
 
             <h3 style='color: #0369a1;'>Daily Capturable Volume ($V_{cap, t}$)</h3>
@@ -2422,6 +2444,7 @@ class TabDocumentation(QWidget):
 
     def create_tab_manuals_overview(self) -> QWidget:
         """Painel técnico dos Manuais Oficiais do Triton e do Manual Interativo Web."""
+        from triton.core.edition import usa_dados_do_brasil as _brasil_
         ingles = get_current_lang() != "pt"
         is_dark = get_current_theme() == "dark"
 
@@ -2712,9 +2735,13 @@ class TabDocumentation(QWidget):
             (6, 24,
              "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
              "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
-             "Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."
+             ("Evolução do software, protocolo de verificação frente ao Netuno 4, invariantes de conservação de massa e testes analíticos."
+              if _brasil_() else
+              "Evolução do software, protocolo de verificação, invariantes de conservação de massa e testes analíticos.")
              if not ingles else
-             "Software evolution, verification against Netuno 4, mass conservation invariants, and analytical benchmarks.",
+             ("Software evolution, verification against Netuno 4, mass conservation invariants, and analytical benchmarks."
+              if _brasil_() else
+              "Software evolution, verification protocol, mass conservation invariants, and analytical benchmarks."),
              ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
              "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
              "manual/mini/Manual-Triton-6-versoes.pdf"),

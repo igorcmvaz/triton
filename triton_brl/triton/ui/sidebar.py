@@ -47,7 +47,7 @@ class Sidebar(QWidget):
         v_title.setSpacing(1)
 
         lbl_title = QLabel(APP_VERSION_LABEL)
-        lbl_title.setText("TRITON 5")
+        lbl_title.setText("TRITON")
         lbl_title.setStyleSheet("""
             font-family: 'Segoe UI', 'Montserrat', 'Inter', 'Arial', sans-serif;
             font-size: 18px;
@@ -68,13 +68,13 @@ class Sidebar(QWidget):
         v_title.addWidget(lbl_sub)
         # Selo da edição: a Brasil traz os dados brasileiros; a Internacional, não; a
         # Portugal, os portugueses à medida que são conferidos.
-        from triton.core.edition import is_int_edition, is_por_edition, rotulo_da_edicao
+        from triton.core.edition import is_int_edition, is_prt_edition, rotulo_da_edicao
         self.lbl_edicao = QLabel(rotulo_da_edicao())
         self.lbl_edicao.setObjectName("selo_edicao")
         if is_int_edition():
             dica = tr("Edição Internacional: tarifas, custos, moeda e fator de emissão informados pelo usuário.")
             cor = "background-color: #1d4ed8; color: #ffffff;"
-        elif is_por_edition():
+        elif is_prt_edition():
             dica = tr("Edição Portugal: precipitação por concelho (E-OBS), tarifários das entidades gestoras "
                       "e valores em euros.")
             cor = "background-color: #b91c1c; color: #ffffff;"
@@ -127,6 +127,9 @@ class Sidebar(QWidget):
         if not usa_dados_do_brasil():
             # Sai só o Gestor de Tarifas; a Modulação Probabilística fica nas duas edições.
             steps_sections[-1][2].pop(-2)
+            # a numeração segue sem salto: a Modulação Probabilística passa de 13 a 12
+            texto_13 = f"🎲 {tr('13. Modulação Probabilística')}"
+            steps_sections[-1][2][-1] = (texto_13.replace("13.", "12.", 1), 12)
 
         # Estilo unificado, robusto e destacado para as etapas
         btn_style = """

@@ -20,7 +20,7 @@ O Triton é uma aplicação desktop voltada a estudos de viabilidade e apoio ao 
 | Quero... | Caminho recomendado |
 | --- | --- |
 | Fazer meu primeiro estudo | siga a [instalação](#instalação-e-execução) e o [primeiro uso](#primeiro-uso-na-interface-desktop) |
-| Entender ou auditar as equações | leia a [metodologia](#metodologia-equações-e-fronteiras-do-modelo) e o [estudo de caso manual](../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) |
+| Entender ou auditar as equações | leia a [metodologia](#metodologia-equações-e-fronteiras-do-modelo) e o estudo de caso manual |
 | Automatizar estudos ou processar lotes | use o [guia completo da CLI](CLI_USAGE.md) |
 | Executar ou ampliar a suíte de testes | consulte o [guia de testes](../tests/README.md) |
 | Planejar Monte Carlo, Pareto e outras extensões | consulte os [próximos passos](../triton/docs/proximos_passos_decisao_robusta.md) |
@@ -89,9 +89,9 @@ flowchart LR
 | Documento | Use para |
 | --- | --- |
 | [Atlas de fluxogramas](../triton/docs/fluxogramas_metodologicos.md) | acompanhar cálculos, decisões lógicas e fronteiras dos modelos |
-| [Parâmetros dependentes do volume](../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md) | distinguir relações diretas, endógenas e independentes |
-| [Detalhamento dos três modelos](../examples/DETALHAMENTO_COMPLETO_TRES_MODELOS.md) | comparar entradas e resultados de todas as capacidades |
-| [Estudo de caso e verificação manual](../examples/ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) | auditar equações, fluxos e resíduos item a item |
+| Parâmetros dependentes do volume | distinguir relações diretas, endógenas e independentes |
+| Detalhamento dos três modelos | comparar entradas e resultados de todas as capacidades |
+| Estudo de caso e verificação manual | auditar equações, fluxos e resíduos item a item |
 | [Próximos passos para decisão robusta](../triton/docs/proximos_passos_decisao_robusta.md) | acompanhar a evolução planejada de premissas, Monte Carlo, Pareto e robustez |
 
 ## Metodologia, equações e fronteiras do modelo
@@ -248,7 +248,7 @@ O progresso apresenta barra, combinações concluídas, tempo decorrido e ETA. A
 ## Estrutura do projeto
 
 ```text
-TritonReplicacao/
+triton_prt/
 ├── main.py                  # Inicialização da aplicação desktop
 ├── build_exe.py             # Empacotamento com PyInstaller
 ├── triton/

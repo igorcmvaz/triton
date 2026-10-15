@@ -83,7 +83,7 @@ class TabTariffsManager(QWidget):
 
         contact_lbl = QLabel(
             tr("📌 Caso este valor esteja defasado, contatar: ") +
-            "<a href='mailto:igorcmvaz@gmail.com?subject=Triton%205%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7; font-weight:bold; text-decoration:underline;'>igorcmvaz@gmail.com</a>"
+            "<a href='mailto:igorcmvaz@gmail.com?subject=Triton%20-%20Ajuste%20de%20Tarifa' style='color:#0284c7; font-weight:bold; text-decoration:underline;'>igorcmvaz@gmail.com</a>"
         )
         contact_lbl.setStyleSheet("font-size: 11.5px; color: #0369a1; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 4px 10px;")
         contact_lbl.setOpenExternalLinks(False)

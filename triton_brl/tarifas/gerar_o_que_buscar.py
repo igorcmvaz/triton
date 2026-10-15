@@ -48,7 +48,7 @@ GRUPO = {"sem_documento": "lote", "ruim": "corrigir", "a_confirmar": "confirmar"
 ORDEM_GRUPO = {"lote": 0, "corrigir": 1, "confirmar": 2}
 #: Nomes de prestador que não ajudam numa busca.
 #: «Dado ruim» que não se resolve com documento: a forma de cobrança é que o banco não
-#: representa (docs/pendencias_e_evolucao.md, seção 21). Não é busca, é programa.
+#: representa. Não é busca, é programa.
 LIMITACAO = re.compile(r"não representa|forma direta", re.I)
 GENERICOS = re.compile(r"prestador municipal|prestação local|servi[çc]o local|validar|confirmar", re.I)
 
@@ -261,7 +261,7 @@ code { font-size: 13px; }
     <ol id="l-confirmar"></ol></section>
   <section><h2>Não depende de busca</h2>
     <p class="nota">O documento destes já está guardado; a forma de cobrança é que o programa ainda não representa
-      (pendência 21 de <code>docs/pendencias_e_evolucao.md</code>). Ficam marcados como dado ruim até o programa ser ajustado.</p>
+      (ainda não suportado). Ficam marcados como dado ruim até o programa ser ajustado.</p>
     <ul id="l-nao" class="porque"></ul></section>
   <p class="nota" id="antigos"></p>
   <footer>Gerada em {{GERADO_EM}} por <code>tarifas/gerar_o_que_buscar.py</code> a partir do banco tarifário e de

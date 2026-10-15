@@ -1,6 +1,7 @@
 # Triton — Dependências de Desenvolvimento, Testes e Compilação
 -r requirements.txt
 
+reportlab>=4.0.0     # geração do PDF do manual (não usada pelo programa em execução)
 pytest>=7.4.0
 pypdf>=4.0.0          # conferência das páginas dos PDFs do manual
 pytest-cov>=4.1.0

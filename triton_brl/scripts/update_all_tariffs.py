@@ -97,7 +97,7 @@ def main():
         mode = "sanitation"
 
     print("=" * 80)
-    print(" [TRITON 5] ATUALIZADOR, DETECTOR DE MUDANÇAS & DASHBOARD DE TARIFAS")
+    print(" [TRITON] ATUALIZADOR, DETECTOR DE MUDANÇAS & DASHBOARD DE TARIFAS")
     print(f" Modo de Execução : {mode.upper()}")
     print(f" Simulação/Dry-run: {'SIM (Somente Leitura)' if args.check else 'NÃO (Gravação Oficial)'}")
     if args.uf:

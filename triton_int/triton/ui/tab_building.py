@@ -20,6 +20,7 @@ import numpy as np
 from triton.core.parser import parse_float, parse_int, format_ptbr
 from triton.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual, fracao_total
 from triton.ui.translation import tr, get_current_theme, get_current_lang
+from triton.ui.textos_da_edicao import titulo_tipologia
 
 
 # Catálogo oficial unificado de tipologias de edificação (NBR 5626 / ANA / NBR 15527 / ANVISA)
@@ -458,7 +459,7 @@ class TabBuilding(QWidget):
         self.txt_irrigation_l_day.textChanged.connect(self._on_irrigation_changed)
 
         # ── 1. Seletor Unificado de Tipologia / Template ──
-        gb_tpl = QGroupBox(tr("🎯 Tipologia & Padrão de Referência da Edificação (NBR 5626 / ANA)"))
+        gb_tpl = QGroupBox(tr(titulo_tipologia()))
         gb_tpl.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {heading_color}; }}")
         lay_tpl = QVBoxLayout(gb_tpl)
         lay_tpl.setSpacing(8)

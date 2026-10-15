@@ -17,6 +17,8 @@ import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
+from triton.core.dados_do_relatorio import planilha_de_exportacao, simbolo_da_moeda
+
 
 def _safe_float(val: Any, default: float = 0.0) -> float:
     """Converte valores com segurança prevenindo erros em strings vazias, '-' ou nulas."""
@@ -165,13 +167,13 @@ def export_simulation_to_excel(
     lado = Side(style="thin", color="E2E8F0")
     borda = Border(left=lado, right=lado, top=lado, bottom=lado)
     zebra = PatternFill(start_color="F8FAFC", end_color="F8FAFC", fill_type="solid")
-    moeda = str(project_data.get("moeda") or "R$")
+    moeda = simbolo_da_moeda(project_data) or "moeda não definida"
 
     # 1. Resumo
     if selected_sheets.get("resumo", True):
         ws = wb.create_sheet(title="1_Resumo_Projeto")
         ws.merge_cells("A1:D1")
-        ws["A1"] = "TRITON 5 — RESUMO DO ESTUDO"
+        ws["A1"] = "TRITON — RESUMO DO ESTUDO"
         ws["A1"].font = Font(name="Segoe UI", size=14, bold=True, color="FFFFFF")
         ws["A1"].fill = PatternFill(start_color="064E3B", end_color="064E3B", fill_type="solid")
         ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
@@ -304,6 +306,7 @@ def export_simulation_to_excel(
 
     if not wb.sheetnames:
         wb.create_sheet(title="Sem_Dados")["A1"] = "Nenhuma aba selecionada para exportação."
+    planilha_de_exportacao(wb, simbolo_da_moeda(project_data))
     wb.save(file_path)
     return file_path
 

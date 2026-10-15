@@ -1,31 +1,30 @@
-BEM-VINDO AO INSTALADOR DO TRITON
+﻿BEM-VINDO AO INSTALADOR DO TRITON — EDIÇÃO PORTUGAL
 
 SOBRE O SOFTWARE:
-O Triton simula sistemas de aproveitamento de água pluvial em edificações.
-A partir do regime de chuva do local, da cobertura e do consumo da edificação,
-ele dimensiona o reservatório e avalia o desempenho hídrico, o retorno
+O Triton simula sistemas de aproveitamento de água da chuva em edifícios.
+A partir do regime de precipitação do local, da cobertura e do consumo do
+edifício, dimensiona o reservatório e avalia o desempenho hídrico, o retorno
 financeiro, o impacto de carbono e o enquadramento em certificações.
+Esta edição traz a precipitação E-OBS por concelho e tarifários de água
+portugueses, em euros.
 
 AUTORIA:
 Igor Catão Martins Vaz e Enedir Ghisi
 Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina (UFSC)
 
-AVISO DE VERSÃO BETA:
-Esta aplicação encontra-se atualmente em ESTÁGIO BETA de desenvolvimento. 
-Isso significa que o sistema pode conter instabilidades, comportamentos 
-inesperados ou pequenas divergências nos resultados.
-
 ISENÇÃO DE RESPONSABILIDADE:
-O uso do software e a interpretação dos resultados gerados são de inteira 
-e exclusiva responsabilidade do usuário. Recomenda-se a validação crítica 
-dos dados antes de sua aplicação em projetos oficiais ou publicações.
+A utilização do software e a interpretação dos resultados são da inteira e
+exclusiva responsabilidade do utilizador. Recomenda-se a validação crítica
+dos dados antes da sua aplicação em projetos oficiais ou publicações. O
+programa não substitui o projeto de execução nem a responsabilidade técnica
+do profissional habilitado.
 
-SUPORTE, DÚVIDAS E SUGESTÕES:
-Caso encontre algum erro, tenha dúvidas sobre o uso ou queira enviar sugestões 
-de melhorias, entre em contato diretamente com o responsável técnico:
+APOIO, DÚVIDAS E SUGESTÕES:
+Se encontrar algum erro, tiver dúvidas sobre a utilização ou quiser enviar
+sugestões de melhoria, contacte diretamente o responsável técnico:
 
-  - Contato: Igor Catão
-  - E-mail:  igor.catao@posgrad.ufsc.br
+  - Contacto: Igor Catão
+  - E-mail:   igor.catao@posgrad.ufsc.br
 
-Clique em "Avançar" para continuar com a instalação.
+Clique em "Seguinte" para continuar com a instalação.

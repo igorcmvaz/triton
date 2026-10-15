@@ -6890,7 +6890,7 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 21 | 29/05/2026 | — | auditada |
 | 🟢 22 | 29/05/2026 | — | auditada |
 | 🟢 23 | 29/05/2026 | — | auditada |
-| 🟡 24 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 24 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 25 | 11/12/2025 | — | auditada |
 | 🟢 26 | 11/12/2025 | — | auditada |
 | 🟢 27 | 11/12/2025 | — | auditada |
@@ -6909,13 +6909,13 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 40 | 05/01/2024 | — | auditada |
 | 🟢 41 | 05/01/2024 | — | auditada |
 | 🟢 42 | 05/01/2024 | — | auditada |
-| 🟡 43 | Estrutura Tarifária CAER Oficial | 31/08/2026 | a confirmar |
+| 🟡 43 | Estrutura Tarifária CAER Oficial | — | a confirmar |
 | 🟢 44 | 19/06/2025 | — | auditada |
 | 🟢 45 | 19/06/2025 | — | auditada |
 | 🟢 46 | 19/06/2025 | — | auditada |
 | 🟢 47 | 19/06/2025 | — | auditada |
 | 🟢 48 | 19/06/2025 | — | auditada |
-| 🟢 49 | Vigente desde 01/04/2025 | 31/08/2026 | auditada |
+| 🟢 49 | Vigente desde 01/04/2025 | — | auditada |
 | 🟢 50 | 27/08/2026 | — | auditada |
 | 🟢 51 | 27/08/2026 | — | auditada |
 | 🟢 52 | 27/08/2026 | — | auditada |
@@ -6926,11 +6926,11 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 57 | 01/06/2026 | — | auditada |
 | 🟢 58 | 01/06/2026 | — | auditada |
 | 🟢 59 | 01/06/2026 | — | auditada |
-| 🟡 60 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
-| 🟢 61 | 05/11/2025 | 31/08/2026 | auditada |
-| 🟢 62 | 05/11/2025 | 31/08/2026 | auditada |
-| 🟢 63 | 05/11/2025 | 31/08/2026 | auditada |
-| 🟢 64 | 05/11/2025 | 31/08/2026 | auditada |
+| 🟡 60 | Estrutura Municipal Vigente | — | a confirmar |
+| 🟢 61 | 05/11/2025 | — | auditada |
+| 🟢 62 | 05/11/2025 | — | auditada |
+| 🟢 63 | 05/11/2025 | — | auditada |
+| 🟢 64 | 05/11/2025 | — | auditada |
 | 🟢 65 | 30/06/2025 | — | auditada |
 | 🟢 66 | 30/06/2025 | — | auditada |
 | 🟢 67 | 30/06/2025 | — | auditada |
@@ -6940,16 +6940,16 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 71 | 08/12/2025 | — | auditada |
 | 🟢 72 | 08/12/2025 | — | auditada |
 | 🟢 73 | 08/12/2025 | — | auditada |
-| 🟢 74 | 01/04/2026 | 31/08/2026 | auditada |
-| 🟢 75 | 01/04/2026 | 31/08/2026 | auditada |
-| 🟢 76 | 01/04/2026 | 31/08/2026 | auditada |
-| 🟢 77 | 01/04/2026 | 31/08/2026 | auditada |
-| 🟢 78 | 01/04/2026 | 31/08/2026 | auditada |
+| 🟢 74 | 01/04/2026 | — | auditada |
+| 🟢 75 | 01/04/2026 | — | auditada |
+| 🟢 76 | 01/04/2026 | — | auditada |
+| 🟢 77 | 01/04/2026 | — | auditada |
+| 🟢 78 | 01/04/2026 | — | auditada |
 | 🟢 79 | 22/01/2026 | — | auditada |
 | 🟢 80 | 22/01/2026 | — | auditada |
 | 🟢 81 | 22/01/2026 | — | auditada |
 | 🟢 82 | 22/01/2026 | — | auditada |
-| 🟡 83 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 83 | Regulação Oficial | — | a confirmar |
 | 🟢 84 | 01/05/2026 | — | auditada |
 | 🟢 85 | 01/05/2026 | — | auditada |
 | 🟢 86 | 01/05/2026 | — | auditada |
@@ -6981,15 +6981,15 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 112 | 26/03/2025 | — | auditada |
 | 🟢 113 | 26/03/2025 | — | auditada |
 | 🟢 114 | 22/01/2026 | — | auditada |
-| 🟢 115 | 22/01/2026 | 31/08/2026 | auditada |
+| 🟢 115 | 22/01/2026 | — | auditada |
 | 🟢 116 | 22/01/2026 | — | auditada |
-| 🟢 117 | 22/01/2026 | 31/08/2026 | auditada |
+| 🟢 117 | 22/01/2026 | — | auditada |
 | 🟢 118 | 22/01/2026 | — | auditada |
-| 🟢 119 | 22/01/2026 | 31/08/2026 | auditada |
+| 🟢 119 | 22/01/2026 | — | auditada |
 | 🟢 120 | 22/01/2026 | — | auditada |
-| 🟢 121 | 22/01/2026 | 31/08/2026 | auditada |
+| 🟢 121 | 22/01/2026 | — | auditada |
 | 🟢 122 | 22/01/2026 | — | auditada |
-| 🟢 123 | 22/01/2026 | 31/08/2026 | auditada |
+| 🟢 123 | 22/01/2026 | — | auditada |
 | 🟢 124 | 2025 | — | auditada |
 | 🟢 125 | 2025 | — | auditada |
 | 🟢 126 | 2025 | — | auditada |
@@ -7029,13 +7029,13 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 160 | 01/12/2025 | — | auditada |
 | 🟢 161 | 01/12/2025 | — | auditada |
 | 🟢 162 | 01/12/2025 | — | auditada |
-| 🟡 163 | Referência vigente pesquisada em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 163 | Referência vigente pesquisada em 19/08/2026 | — | a confirmar |
 | 🟢 164 | 17/09/2025 | — | auditada |
 | 🟢 165 | 17/09/2025 | — | auditada |
 | 🟢 166 | 17/09/2025 | — | auditada |
 | 🟢 167 | 17/09/2025 | — | auditada |
 | 🟢 168 | 17/09/2025 | — | auditada |
-| 🟡 169 | Estrutura Tarifária DAE/VG | 31/08/2026 | a confirmar |
+| 🟡 169 | Estrutura Tarifária DAE/VG | — | a confirmar |
 | 🟢 170 | 2026 | — | auditada |
 | 🟢 171 | 2026 | — | auditada |
 | 🟢 172 | 2026 | — | auditada |
@@ -7045,27 +7045,27 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 176 | 01/03/2026 | — | auditada |
 | 🟢 177 | 01/03/2026 | — | auditada |
 | 🟢 178 | 01/03/2026 | — | auditada |
-| 🟡 179 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
-| 🟡 180 | Resolução ARSAL Nº 233 | 31/08/2026 | a confirmar |
-| 🟡 181 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
-| 🟡 182 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 179 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
+| 🟡 180 | Resolução ARSAL Nº 233 | — | a confirmar |
+| 🟡 181 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
+| 🟡 182 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
 | 🟢 183 | 01/06/2026 | — | auditada |
 | 🟢 184 | 01/06/2026 | — | auditada |
 | 🟢 185 | 01/06/2026 | — | auditada |
 | 🟢 186 | 01/06/2026 | — | auditada |
 | 🟢 187 | 01/06/2026 | — | auditada |
-| 🟡 188 | Estrutura Tarifária DMAE / ARESAN | 31/08/2026 | a confirmar |
-| 🟡 189 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 188 | Estrutura Tarifária DMAE / ARESAN | — | a confirmar |
+| 🟡 189 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
 | 🟢 190 | 04/05/2026 | — | auditada |
 | 🟢 191 | 04/05/2026 | — | auditada |
 | 🟢 192 | 04/05/2026 | — | auditada |
 | 🟢 193 | 04/05/2026 | — | auditada |
 | 🟢 194 | 04/05/2026 | — | auditada |
-| 🟢 195 | 20/07/2026 | 31/08/2026 | auditada |
-| 🟢 196 | 20/07/2026 | 31/08/2026 | auditada |
-| 🟢 197 | 20/07/2026 | 31/08/2026 | auditada |
-| 🟢 198 | 20/07/2026 | 31/08/2026 | auditada |
-| 🟢 199 | 20/07/2026 | 31/08/2026 | auditada |
+| 🟢 195 | 20/07/2026 | — | auditada |
+| 🟢 196 | 20/07/2026 | — | auditada |
+| 🟢 197 | 20/07/2026 | — | auditada |
+| 🟢 198 | 20/07/2026 | — | auditada |
+| 🟢 199 | 20/07/2026 | — | auditada |
 | 🟢 200 | 01/03/2026 | — | auditada |
 | 🟢 201 | 01/03/2026 | — | auditada |
 | 🟢 202 | 01/03/2026 | — | auditada |
@@ -7085,20 +7085,20 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 216 | 01/11/2025 | — | auditada |
 | 🟢 217 | 01/11/2025 | — | auditada |
 | 🟢 218 | 01/11/2025 | — | auditada |
-| 🟡 219 | Desde 03/2026 | 31/08/2026 | a confirmar |
+| 🟡 219 | Desde 03/2026 | — | a confirmar |
 | 🟢 220 | 01/06/2025 | — | auditada |
 | 🟢 221 | 01/06/2025 | — | auditada |
 | 🟢 222 | 01/06/2025 | — | auditada |
 | 🟢 223 | 01/06/2025 | — | auditada |
-| 🟡 224 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
-| 🟡 225 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
-| 🟡 226 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 224 | Estrutura Municipal Vigente | — | a confirmar |
+| 🟡 225 | Estrutura Municipal Vigente | — | a confirmar |
+| 🟡 226 | Estrutura Municipal Vigente | — | a confirmar |
 | 🟡 227 | Estrutura Municipal Vigente | — | a confirmar |
-| 🟢 228 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 229 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 230 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 231 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 232 | 01/12/2025 | 31/08/2026 | auditada |
+| 🟢 228 | 01/12/2025 | — | auditada |
+| 🟢 229 | 01/12/2025 | — | auditada |
+| 🟢 230 | 01/12/2025 | — | auditada |
+| 🟢 231 | 01/12/2025 | — | auditada |
+| 🟢 232 | 01/12/2025 | — | auditada |
 | 🟢 233 | 01/05/2024 | — | auditada |
 | 🟢 234 | 01/05/2024 | — | auditada |
 | 🟢 235 | 01/05/2024 | — | auditada |
@@ -7107,13 +7107,13 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 238 | 01/12/2025 | — | auditada |
 | 🟢 239 | 01/12/2025 | — | auditada |
 | 🟢 240 | 01/12/2025 | — | auditada |
-| 🟡 241 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 241 | Estrutura Municipal Vigente | — | a confirmar |
 | 🟢 242 | 24/04/2026 | — | auditada |
 | 🟢 243 | 24/04/2026 | — | auditada |
 | 🟢 244 | 24/04/2026 | — | auditada |
 | 🟢 245 | 24/04/2026 | — | auditada |
 | 🟢 246 | 24/04/2026 | — | auditada |
-| 🟡 247 | Regulação Oficial | 31/08/2026 | a confirmar |
+| 🟡 247 | Regulação Oficial | — | a confirmar |
 | 🟢 248 | 09/06/2026 | — | auditada |
 | 🟢 249 | 09/06/2026 | — | auditada |
 | 🟢 250 | 09/06/2026 | — | auditada |
@@ -7137,13 +7137,13 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 268 | 29/05/2026 | — | auditada |
 | 🟢 269 | 29/05/2026 | — | auditada |
 | 🟢 270 | 29/05/2026 | — | auditada |
-| 🟡 271 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 271 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 272 | 01/09/2026 | — | auditada |
 | 🟢 273 | 01/09/2026 | — | auditada |
 | 🟢 274 | 01/09/2026 | — | auditada |
 | 🟢 275 | 01/09/2026 | — | auditada |
 | 🟢 276 | 01/09/2026 | — | auditada |
-| 🟡 277 | Vigente em 19/08/2026 | 31/08/2026 | a confirmar |
+| 🟡 277 | Vigente em 19/08/2026 | — | a confirmar |
 | 🟢 278 | 01/06/2026 | — | auditada |
 | 🟢 279 | 01/06/2026 | — | auditada |
 | 🟢 280 | 01/06/2026 | — | auditada |
@@ -7159,7 +7159,7 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 290 | 01/07/2026 | — | auditada |
 | 🟢 291 | 01/07/2026 | — | auditada |
 | 🟢 292 | 01/07/2026 | — | auditada |
-| 🟡 293 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 293 | Estrutura Municipal Vigente | — | a confirmar |
 | 🟢 294 | 01/06/2026 | — | auditada |
 | 🟢 295 | 01/06/2026 | — | auditada |
 | 🟢 296 | 01/06/2026 | — | auditada |
@@ -7170,20 +7170,20 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 301 | 01/08/2026 | — | auditada |
 | 🟢 302 | 01/08/2026 | — | auditada |
 | 🟢 303 | 01/08/2026 | — | auditada |
-| 🟡 304 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 304 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 305 | 30/12/2025 | — | auditada |
 | 🟢 306 | 30/12/2025 | — | auditada |
 | 🟢 307 | 30/12/2025 | — | auditada |
 | 🟢 308 | 30/12/2025 | — | auditada |
 | 🟢 309 | 30/12/2025 | — | auditada |
-| 🟡 310 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 310 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 311 | 19/01/2026 | — | auditada |
 | 🟢 312 | 19/01/2026 | — | auditada |
 | 🟢 313 | 19/01/2026 | — | auditada |
 | 🟢 314 | 19/01/2026 | — | auditada |
-| 🟡 315 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
-| 🟡 316 | Desde 01/2026 | 31/08/2026 | a confirmar |
-| 🟡 317 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 315 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
+| 🟡 316 | Desde 01/2026 | — | a confirmar |
+| 🟡 317 | Estrutura Municipal Vigente | — | a confirmar |
 | 🟢 318 | 01/07/2026 | — | auditada |
 | 🟢 319 | 01/07/2026 | — | auditada |
 | 🟢 320 | 01/07/2026 | — | auditada |
@@ -7192,7 +7192,7 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 323 | 01/10/2026 | — | auditada |
 | 🟢 324 | 01/10/2026 | — | auditada |
 | 🟢 325 | 01/10/2026 | — | auditada |
-| 🟡 326 | Estrutura Municipal Vigente | 31/08/2026 | a confirmar |
+| 🟡 326 | Estrutura Municipal Vigente | — | a confirmar |
 | 🟢 327 | 01/06/2026 | — | auditada |
 | 🟢 328 | 01/06/2026 | — | auditada |
 | 🟢 329 | 01/06/2026 | — | auditada |
@@ -7229,10 +7229,10 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 360 | 26/02/2026 | — | auditada |
 | 🟢 361 | 26/02/2026 | — | auditada |
 | 🟢 362 | 26/02/2026 | — | auditada |
-| 🟡 363 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
+| 🟡 363 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
 | 🟡 364 | Regulação Oficial | — | a confirmar |
-| 🟡 365 | Resoluções AGERO / CAERD | 31/08/2026 | a confirmar |
-| 🟡 366 | Resolução ARIS-MG nº 227/2026 | 31/08/2026 | a confirmar |
+| 🟡 365 | Resoluções AGERO / CAERD | — | a confirmar |
+| 🟡 366 | Resolução ARIS-MG nº 227/2026 | — | a confirmar |
 | 🟡 367 | Decreto Municipal | — | a confirmar |
 | 🟢 368 | 01/04/2026 | — | auditada |
 | 🟢 369 | 01/04/2026 | — | auditada |
@@ -7246,7 +7246,7 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 377 | 01/06/2026 | — | auditada |
 | 🟢 378 | 01/06/2026 | — | auditada |
 | 🟢 379 | 01/06/2026 | — | auditada |
-| 🟡 380 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 380 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 381 | 01/01/2026 | — | auditada |
 | 🟢 382 | 01/01/2026 | — | auditada |
 | 🟢 383 | 01/01/2026 | — | auditada |
@@ -7292,43 +7292,43 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 423 | 29/12/2025 | — | auditada |
 | 🟢 424 | 29/12/2025 | — | auditada |
 | 🟢 425 | 29/12/2025 | — | auditada |
-| 🟢 426 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 427 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 428 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 429 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 430 | 01/03/2026 | 31/08/2026 | auditada |
+| 🟢 426 | 01/03/2026 | — | auditada |
+| 🟢 427 | 01/03/2026 | — | auditada |
+| 🟢 428 | 01/03/2026 | — | auditada |
+| 🟢 429 | 01/03/2026 | — | auditada |
+| 🟢 430 | 01/03/2026 | — | auditada |
 | 🟢 431 | 01/10/2026 | — | auditada |
 | 🟢 432 | 01/10/2026 | — | auditada |
 | 🟢 433 | 01/10/2026 | — | auditada |
 | 🟢 434 | 01/10/2026 | — | auditada |
 | 🟢 435 | 01/10/2026 | — | auditada |
-| 🟢 436 | 19/12/2025 | 31/08/2026 | auditada |
-| 🟢 437 | 19/12/2025 | 31/08/2026 | auditada |
-| 🟢 438 | 01/01/2026 | 31/08/2026 | auditada |
-| 🟢 439 | 01/01/2026 | 31/08/2026 | auditada |
-| 🟢 440 | 15/03/2026 | 31/08/2026 | auditada |
-| 🟢 441 | 15/03/2026 | 31/08/2026 | auditada |
-| 🟢 442 | 15/03/2026 | 31/08/2026 | auditada |
-| 🟢 443 | 15/03/2026 | 31/08/2026 | auditada |
-| 🟢 444 | 15/03/2026 | 31/08/2026 | auditada |
-| 🟢 445 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 446 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 447 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 448 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 449 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 450 | 01/02/2026 | 31/08/2026 | auditada |
-| 🟢 451 | 01/02/2026 | 31/08/2026 | auditada |
-| 🟢 452 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 453 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 454 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 455 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 456 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 457 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 458 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 459 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 460 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 461 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟡 462 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟢 436 | 19/12/2025 | — | auditada |
+| 🟢 437 | 19/12/2025 | — | auditada |
+| 🟢 438 | 01/01/2026 | — | auditada |
+| 🟢 439 | 01/01/2026 | — | auditada |
+| 🟢 440 | 15/03/2026 | — | auditada |
+| 🟢 441 | 15/03/2026 | — | auditada |
+| 🟢 442 | 15/03/2026 | — | auditada |
+| 🟢 443 | 15/03/2026 | — | auditada |
+| 🟢 444 | 15/03/2026 | — | auditada |
+| 🟢 445 | 01/12/2025 | — | auditada |
+| 🟢 446 | 01/12/2025 | — | auditada |
+| 🟢 447 | 01/12/2025 | — | auditada |
+| 🟢 448 | 01/12/2025 | — | auditada |
+| 🟢 449 | 01/12/2025 | — | auditada |
+| 🟢 450 | 01/02/2026 | — | auditada |
+| 🟢 451 | 01/02/2026 | — | auditada |
+| 🟢 452 | 01/05/2026 | — | auditada |
+| 🟢 453 | 01/05/2026 | — | auditada |
+| 🟢 454 | 01/05/2026 | — | auditada |
+| 🟢 455 | 01/05/2026 | — | auditada |
+| 🟢 456 | 01/05/2026 | — | auditada |
+| 🟢 457 | 01/05/2026 | — | auditada |
+| 🟢 458 | 01/05/2026 | — | auditada |
+| 🟢 459 | 01/05/2026 | — | auditada |
+| 🟢 460 | 01/05/2026 | — | auditada |
+| 🟢 461 | 01/05/2026 | — | auditada |
+| 🟡 462 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 463 | 01/03/2026 | — | auditada |
 | 🟢 464 | 01/03/2026 | — | auditada |
 | 🟢 465 | 01/03/2026 | — | auditada |
@@ -7338,33 +7338,33 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 469 | 01/01/2026 | — | auditada |
 | 🟢 470 | 01/01/2026 | — | auditada |
 | 🟢 471 | 01/01/2026 | — | auditada |
-| 🟢 472 | 17/05/2026 | 31/08/2026 | auditada |
-| 🟢 473 | 17/05/2026 | 31/08/2026 | auditada |
-| 🟢 474 | 17/05/2026 | 31/08/2026 | auditada |
-| 🟢 475 | 17/05/2026 | 31/08/2026 | auditada |
+| 🟢 472 | 17/05/2026 | — | auditada |
+| 🟢 473 | 17/05/2026 | — | auditada |
+| 🟢 474 | 17/05/2026 | — | auditada |
+| 🟢 475 | 17/05/2026 | — | auditada |
 | 🟢 476 | 01/07/2026 | — | auditada |
 | 🟢 477 | 01/07/2026 | — | auditada |
 | 🟢 478 | 01/07/2026 | — | auditada |
 | 🟢 479 | 01/07/2026 | — | auditada |
-| 🟢 480 | 01/07/2026 | 31/08/2026 | auditada |
-| 🟢 481 | 01/07/2026 | 31/08/2026 | auditada |
-| 🟢 482 | 01/07/2026 | 31/08/2026 | auditada |
-| 🟢 483 | 01/07/2026 | 31/08/2026 | auditada |
-| 🟢 484 | 01/07/2026 | 31/08/2026 | auditada |
-| 🟢 485 | 2026 | 31/08/2026 | auditada |
-| 🟢 486 | 2026 | 31/08/2026 | auditada |
-| 🟢 487 | 2026 | 31/08/2026 | auditada |
-| 🟢 488 | 2026 | 31/08/2026 | auditada |
-| 🟢 489 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 490 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 491 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 492 | 01/03/2026 | 31/08/2026 | auditada |
-| 🟢 493 | 01/03/2026 | 31/08/2026 | auditada |
+| 🟢 480 | 01/07/2026 | — | auditada |
+| 🟢 481 | 01/07/2026 | — | auditada |
+| 🟢 482 | 01/07/2026 | — | auditada |
+| 🟢 483 | 01/07/2026 | — | auditada |
+| 🟢 484 | 01/07/2026 | — | auditada |
+| 🟢 485 | 2026 | — | auditada |
+| 🟢 486 | 2026 | — | auditada |
+| 🟢 487 | 2026 | — | auditada |
+| 🟢 488 | 2026 | — | auditada |
+| 🟢 489 | 01/03/2026 | — | auditada |
+| 🟢 490 | 01/03/2026 | — | auditada |
+| 🟢 491 | 01/03/2026 | — | auditada |
+| 🟢 492 | 01/03/2026 | — | auditada |
+| 🟢 493 | 01/03/2026 | — | auditada |
 | 🟢 494 | 01/08/2025 | — | auditada |
 | 🟢 495 | 01/08/2025 | — | auditada |
-| 🟡 496 | Resoluções AGER-MT / Concessões | 31/08/2026 | a confirmar |
-| 🟢 497 | 01/12/2025 | 31/08/2026 | auditada |
-| 🟢 498 | 01/12/2025 | 31/08/2026 | auditada |
+| 🟡 496 | Resoluções AGER-MT / Concessões | — | a confirmar |
+| 🟢 497 | 01/12/2025 | — | auditada |
+| 🟢 498 | 01/12/2025 | — | auditada |
 | 🟢 499 | 14/04/2025 | — | auditada |
 | 🟢 500 | 14/04/2025 | — | auditada |
 | 🟢 501 | 14/04/2025 | — | auditada |
@@ -7382,12 +7382,12 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 513 | 01/12/2025 | — | auditada |
 | 🟢 514 | 01/12/2025 | — | auditada |
 | 🟢 515 | 01/12/2025 | — | auditada |
-| 🟡 516 | Estrutura Tarifária SANEAR | 31/08/2026 | a confirmar |
-| 🟢 517 | 26/06/2026 | 31/08/2026 | auditada |
-| 🟢 518 | 26/06/2026 | 31/08/2026 | auditada |
-| 🟢 519 | 26/06/2026 | 31/08/2026 | auditada |
-| 🟢 520 | 26/06/2026 | 31/08/2026 | auditada |
-| 🟢 521 | 26/06/2026 | 31/08/2026 | auditada |
+| 🟡 516 | Estrutura Tarifária SANEAR | — | a confirmar |
+| 🟢 517 | 26/06/2026 | — | auditada |
+| 🟢 518 | 26/06/2026 | — | auditada |
+| 🟢 519 | 26/06/2026 | — | auditada |
+| 🟢 520 | 26/06/2026 | — | auditada |
+| 🟢 521 | 26/06/2026 | — | auditada |
 | 🟢 522 | 01/01/2026 | — | auditada |
 | 🟢 523 | 01/01/2026 | — | auditada |
 | 🟢 524 | 2022 | — | auditada |
@@ -7404,7 +7404,7 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 535 | 15/04/2026 | — | auditada |
 | 🟢 536 | 15/04/2026 | — | auditada |
 | 🟢 537 | 15/04/2026 | — | auditada |
-| 🟡 538 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 538 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 539 | 01/01/2026 | — | auditada |
 | 🟢 540 | 01/01/2026 | — | auditada |
 | 🟢 541 | 01/01/2026 | — | auditada |
@@ -7422,12 +7422,12 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 553 | 01/10/2026 | — | auditada |
 | 🟢 554 | 01/08/2026 | — | auditada |
 | 🟢 555 | 01/08/2026 | — | auditada |
-| 🟢 556 | 01/08/2026 | 31/08/2026 | auditada |
-| 🟢 557 | 2026 | 31/08/2026 | auditada |
-| 🟢 558 | 2026 | 31/08/2026 | auditada |
-| 🟢 559 | 2026 | 31/08/2026 | auditada |
-| 🟢 560 | 2026 | 31/08/2026 | auditada |
-| 🟢 561 | 2026 | 31/08/2026 | auditada |
+| 🟢 556 | 01/08/2026 | — | auditada |
+| 🟢 557 | 2026 | — | auditada |
+| 🟢 558 | 2026 | — | auditada |
+| 🟢 559 | 2026 | — | auditada |
+| 🟢 560 | 2026 | — | auditada |
+| 🟢 561 | 2026 | — | auditada |
 | 🟢 562 | 02/09/2025 | — | auditada |
 | 🟢 563 | 02/09/2025 | — | auditada |
 | 🟢 564 | 02/09/2025 | — | auditada |
@@ -7436,12 +7436,12 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 567 | 2026 | — | auditada |
 | 🟢 568 | 2026 | — | auditada |
 | 🟢 569 | 2026 | — | auditada |
-| 🟡 570 | 2026 vigente em 19/08/2026 | 31/08/2026 | a confirmar |
-| 🟢 571 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 572 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 573 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 574 | 01/05/2026 | 31/08/2026 | auditada |
-| 🟢 575 | 01/05/2026 | 31/08/2026 | auditada |
+| 🟡 570 | 2026 vigente em 19/08/2026 | — | a confirmar |
+| 🟢 571 | 01/05/2026 | — | auditada |
+| 🟢 572 | 01/05/2026 | — | auditada |
+| 🟢 573 | 01/05/2026 | — | auditada |
+| 🟢 574 | 01/05/2026 | — | auditada |
+| 🟢 575 | 01/05/2026 | — | auditada |
 | 🟢 576 | 08/03/2026 | — | auditada |
 | 🟢 577 | 08/03/2026 | — | auditada |
 | 🟢 578 | 08/03/2026 | — | auditada |
@@ -7451,69 +7451,69 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 582 | 01/04/2026 | — | auditada |
 | 🟢 583 | 01/04/2026 | — | auditada |
 | 🟢 584 | 01/04/2026 | — | auditada |
-| 🟢 585 | 20/03/2025 | 31/08/2026 | auditada |
-| 🟢 586 | 20/03/2025 | 31/08/2026 | auditada |
-| 🟢 587 | 20/03/2025 | 31/08/2026 | auditada |
-| 🟢 588 | 20/03/2025 | 31/08/2026 | auditada |
+| 🟢 585 | 20/03/2025 | — | auditada |
+| 🟢 586 | 20/03/2025 | — | auditada |
+| 🟢 587 | 20/03/2025 | — | auditada |
+| 🟢 588 | 20/03/2025 | — | auditada |
 | 🟢 589 | 06/01/2026 | — | auditada |
 | 🟢 590 | 06/01/2026 | — | auditada |
 | 🟢 591 | 06/01/2026 | — | auditada |
 | 🟢 592 | 06/01/2026 | — | auditada |
-| 🟡 593 | Regulação Oficial | 31/08/2026 | a confirmar |
-| 🟡 594 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 593 | Regulação Oficial | — | a confirmar |
+| 🟡 594 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 595 | 2026 | — | auditada |
 | 🟢 596 | 2026 | — | auditada |
 | 🟢 597 | 2026 | — | auditada |
 | 🟢 598 | 2026 | — | auditada |
-| 🟡 599 | Resoluções ARES-PCJ / ARSESP | 31/08/2026 | a confirmar |
+| 🟡 599 | Resoluções ARES-PCJ / ARSESP | — | a confirmar |
 | 🟢 600 | 01/12/2025 | — | auditada |
 | 🟢 601 | 01/12/2025 | — | auditada |
 | 🟢 602 | 01/12/2025 | — | auditada |
 | 🟢 603 | 01/12/2025 | — | auditada |
-| 🟢 604 | 2026 | 31/08/2026 | auditada |
-| 🟢 605 | 2026 | 31/08/2026 | auditada |
-| 🟢 606 | 2026 | 31/08/2026 | auditada |
-| 🟢 607 | 2026 | 31/08/2026 | auditada |
-| 🟢 608 | 2026 | 31/08/2026 | auditada |
+| 🟢 604 | 2026 | — | auditada |
+| 🟢 605 | 2026 | — | auditada |
+| 🟢 606 | 2026 | — | auditada |
+| 🟢 607 | 2026 | — | auditada |
+| 🟢 608 | 2026 | — | auditada |
 | 🟢 609 | 01/01/2026 | — | auditada |
 | 🟢 610 | 01/01/2026 | — | auditada |
 | 🟢 611 | 01/01/2026 | — | auditada |
-| 🟡 612 | Deliberação AGENERSA | 31/08/2026 | a confirmar |
-| 🟡 613 | Deliberação AGENERSA | 31/08/2026 | a confirmar |
-| 🟡 614 | Resoluções ARISB-MG / Prestadores Locais | 31/08/2026 | a confirmar |
-| 🟢 615 | 2026 | 31/08/2026 | auditada |
-| 🟢 616 | 2026 | 31/08/2026 | auditada |
-| 🟢 617 | 2026 | 31/08/2026 | auditada |
-| 🟢 618 | 2026 | 31/08/2026 | auditada |
-| 🟢 619 | 2026 | 31/08/2026 | auditada |
-| 🟢 620 | 2026 | 31/08/2026 | auditada |
-| 🟢 621 | 2026 | 31/08/2026 | auditada |
-| 🟢 622 | 2026 | 31/08/2026 | auditada |
-| 🟢 623 | 01/11/2025 | 31/08/2026 | auditada |
-| 🟢 624 | 01/11/2025 | 31/08/2026 | auditada |
-| 🟢 625 | 01/11/2025 | 31/08/2026 | auditada |
-| 🟢 626 | 01/11/2025 | 31/08/2026 | auditada |
-| 🟢 627 | 28/06/2026 | 31/08/2026 | auditada |
-| 🟢 628 | 28/06/2026 | 31/08/2026 | auditada |
-| 🟢 629 | 28/06/2026 | 31/08/2026 | auditada |
-| 🟢 630 | 28/06/2026 | 31/08/2026 | auditada |
-| 🟢 631 | 28/06/2026 | 31/08/2026 | auditada |
-| 🟢 632 | 2026 | 31/08/2026 | auditada |
-| 🟢 633 | 2026 | 31/08/2026 | auditada |
-| 🟢 634 | 2026 | 31/08/2026 | auditada |
-| 🟢 635 | 2026 | 31/08/2026 | auditada |
-| 🟢 636 | 2026 | 31/08/2026 | auditada |
+| 🟡 612 | Deliberação AGENERSA | — | a confirmar |
+| 🟡 613 | Deliberação AGENERSA | — | a confirmar |
+| 🟡 614 | Resoluções ARISB-MG / Prestadores Locais | — | a confirmar |
+| 🟢 615 | 2026 | — | auditada |
+| 🟢 616 | 2026 | — | auditada |
+| 🟢 617 | 2026 | — | auditada |
+| 🟢 618 | 2026 | — | auditada |
+| 🟢 619 | 2026 | — | auditada |
+| 🟢 620 | 2026 | — | auditada |
+| 🟢 621 | 2026 | — | auditada |
+| 🟢 622 | 2026 | — | auditada |
+| 🟢 623 | 01/11/2025 | — | auditada |
+| 🟢 624 | 01/11/2025 | — | auditada |
+| 🟢 625 | 01/11/2025 | — | auditada |
+| 🟢 626 | 01/11/2025 | — | auditada |
+| 🟢 627 | 28/06/2026 | — | auditada |
+| 🟢 628 | 28/06/2026 | — | auditada |
+| 🟢 629 | 28/06/2026 | — | auditada |
+| 🟢 630 | 28/06/2026 | — | auditada |
+| 🟢 631 | 28/06/2026 | — | auditada |
+| 🟢 632 | 2026 | — | auditada |
+| 🟢 633 | 2026 | — | auditada |
+| 🟢 634 | 2026 | — | auditada |
+| 🟢 635 | 2026 | — | auditada |
+| 🟢 636 | 2026 | — | auditada |
 | 🟢 637 | 01/09/2026 | — | auditada |
 | 🟢 638 | 01/09/2026 | — | auditada |
 | 🟢 639 | 01/09/2026 | — | auditada |
 | 🟢 640 | 01/09/2026 | — | auditada |
 | 🟢 641 | 01/09/2026 | — | auditada |
-| 🟡 642 | Decreto Municipal | 31/08/2026 | a confirmar |
+| 🟡 642 | Decreto Municipal | — | a confirmar |
 | 🟢 643 | 27/09/2026 | — | auditada |
 | 🟢 644 | 27/09/2026 | — | auditada |
 | 🟢 645 | 27/09/2026 | — | auditada |
 | 🟢 646 | 27/09/2026 | — | auditada |
-| 🟡 647 | Decreto Municipal | 31/08/2026 | a confirmar |
+| 🟡 647 | Decreto Municipal | — | a confirmar |
 | 🟢 648 | 2025 | — | auditada |
 | 🟢 649 | 2025 | — | auditada |
 | 🟢 650 | 2025 | — | auditada |
@@ -7545,11 +7545,11 @@ A segunda tabela traz, para as mesmas linhas, a vigência declarada pela fonte e
 | 🟢 676 | 04/02/2026 | — | auditada |
 | 🟢 677 | 04/02/2026 | — | auditada |
 | 🟢 678 | 04/02/2026 | — | auditada |
-| 🟢 679 | 03/01/2026 | 31/08/2026 | auditada |
-| 🟢 680 | 03/01/2026 | 31/08/2026 | auditada |
-| 🟢 681 | 03/01/2026 | 31/08/2026 | auditada |
-| 🟢 682 | 03/01/2026 | 31/08/2026 | auditada |
-| 🟢 683 | Estrutura tarifária 2026; aplicação publicada para março de 2026 | 31/08/2026 | auditada |
+| 🟢 679 | 03/01/2026 | — | auditada |
+| 🟢 680 | 03/01/2026 | — | auditada |
+| 🟢 681 | 03/01/2026 | — | auditada |
+| 🟢 682 | 03/01/2026 | — | auditada |
+| 🟢 683 | Estrutura tarifária 2026; aplicação publicada para março de 2026 | — | auditada |
 
 Os municípios da CORSAN cobram pela fórmula exponencial `PB × Cⁿ + SB` (seção 3.3), sem preço por faixa; o expoente `n` é o da coluna da categoria na Tabela de Exponenciais.
 

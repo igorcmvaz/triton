@@ -7,12 +7,13 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
+os.environ.setdefault("TRITON_EDITION", "BRL")   # a edição desta pasta
 
 # No Windows, define o AppId para que a Barra de Tarefas exiba o ícone correto do Triton
 if sys.platform.startswith("win"):
     import ctypes
     try:
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ufsc.ges.triton.5.0")
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ufsc.ges.triton.1.0")
     except Exception:
         pass
 
@@ -64,13 +65,13 @@ def diagnosticar(argumentos_qt) -> int:
 
 
 def main():
-    # Edição (--edition brl|int|por); main_brl.py, main_int.py e main_por.py a fixam pela variável
+    # Edição (--edition brl|int|prt); o main.py de cada pasta fixa a edição pela variável
     # de ambiente TRITON_EDITION. Os demais argumentos seguem para o Qt.
     import argparse
     from triton.core.edition import get_edition_title, rotulo_da_edicao, set_current_edition
 
     arg_parser = argparse.ArgumentParser(add_help=False)
-    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "por", "BRL", "INT", "POR"], default=None)
+    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "prt", "por", "BRL", "INT", "PRT", "POR"], default=None)
     arg_parser.add_argument("--diagnostico", action="store_true")
     parsed_args, remaining = arg_parser.parse_known_args()
     if parsed_args.edition:

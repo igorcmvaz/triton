@@ -42,7 +42,7 @@ renovar); auditado pelo catálogo antigo, sem documento guardado; a confirmar; d
 O mapa da lista de coleta mostra a classe de cada cidade e, ao clicar, o documento-base.
 
 Formas tarifárias que o banco ainda não representa ficam como «dado ruim», com o motivo,
-e estão em `docs/pendencias_e_evolucao.md` (seção 21): parcela fixa que muda com a faixa
+e ainda não são suportadas: parcela fixa que muda com a faixa
 (CESAN, desde 01/09/2026) e cobrança direta de todo o volume pelo preço da faixa (Valinhos,
 Americana, Lucas do Rio Verde). A fórmula exponencial (CORSAN, COMUSA, DMAE de Porto Alegre)
 se transcreve com o campo `exponencial` (docstring de `aplicar_transcricoes.py`).
@@ -67,7 +67,7 @@ Recomenda-se executar a rotina de atualização nos seguintes momentos:
 
 ## 🚀 Como Atualizar as Tarifas (Linha de Comando)
 
-Abra o terminal na pasta raiz do projeto (`TritonReplicacao`) e execute os comandos abaixo conforme a sua necessidade:
+Abra o terminal na pasta raiz da edição (`triton_brl`) e execute os comandos abaixo conforme a sua necessidade:
 
 ### 1. Atualização Completa (Energia ANEEL + Saneamento + Dashboard Interativo)
 Executa o download dos dados da ANEEL, faz a varredura das fontes de saneamento, detecta alterações nas páginas oficiais e gera o relatório Markdown e o Dashboard HTML:

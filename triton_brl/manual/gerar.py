@@ -471,7 +471,7 @@ def frontmatter(sumario_linhas, palavras):
         "| **Editora** | Universidade Federal de Santa Catarina |",
         "| **Grupo de pesquisa** | Ambientes Sustentáveis |",
         "| **Ano de publicação** | 2026 |",
-        "| **Licença** | GNU General Public License v3.0 |",
+        "| **Licença** | Código-fonte acadêmico (uso não comercial), ver LICENSE.md |",
         "",
         "### Como citar",
         "",

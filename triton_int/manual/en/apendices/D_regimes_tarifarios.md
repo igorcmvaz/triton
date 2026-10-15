@@ -5053,7 +5053,7 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 21 | 29/05/2026 | — | audited |
 | 🟢 22 | 29/05/2026 | — | audited |
 | 🟢 23 | 29/05/2026 | — | audited |
-| 🟡 24 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 24 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 25 | 11/12/2025 | — | audited |
 | 🟢 26 | 11/12/2025 | — | audited |
 | 🟢 27 | 11/12/2025 | — | audited |
@@ -5072,13 +5072,13 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 40 | 05/01/2024 | — | audited |
 | 🟢 41 | 05/01/2024 | — | audited |
 | 🟢 42 | 05/01/2024 | — | audited |
-| 🟡 43 | Estrutura Tarifária CAER Oficial | 2026-08-31 | to be confirmed |
+| 🟡 43 | Estrutura Tarifária CAER Oficial | — | to be confirmed |
 | 🟢 44 | 19/06/2025 | — | audited |
 | 🟢 45 | 19/06/2025 | — | audited |
 | 🟢 46 | 19/06/2025 | — | audited |
 | 🟢 47 | 19/06/2025 | — | audited |
 | 🟢 48 | 19/06/2025 | — | audited |
-| 🟢 49 | Vigente desde 01/04/2025 | 2026-08-31 | audited |
+| 🟢 49 | Vigente desde 01/04/2025 | — | audited |
 | 🟢 50 | 27/08/2026 | — | audited |
 | 🟢 51 | 27/08/2026 | — | audited |
 | 🟢 52 | 27/08/2026 | — | audited |
@@ -5089,11 +5089,11 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 57 | 01/06/2026 | — | audited |
 | 🟢 58 | 01/06/2026 | — | audited |
 | 🟢 59 | 01/06/2026 | — | audited |
-| 🟡 60 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
-| 🟢 61 | 05/11/2025 | 2026-08-31 | audited |
-| 🟢 62 | 05/11/2025 | 2026-08-31 | audited |
-| 🟢 63 | 05/11/2025 | 2026-08-31 | audited |
-| 🟢 64 | 05/11/2025 | 2026-08-31 | audited |
+| 🟡 60 | Estrutura Municipal Vigente | — | to be confirmed |
+| 🟢 61 | 05/11/2025 | — | audited |
+| 🟢 62 | 05/11/2025 | — | audited |
+| 🟢 63 | 05/11/2025 | — | audited |
+| 🟢 64 | 05/11/2025 | — | audited |
 | 🟢 65 | 30/06/2025 | — | audited |
 | 🟢 66 | 30/06/2025 | — | audited |
 | 🟢 67 | 30/06/2025 | — | audited |
@@ -5103,16 +5103,16 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 71 | 08/12/2025 | — | audited |
 | 🟢 72 | 08/12/2025 | — | audited |
 | 🟢 73 | 08/12/2025 | — | audited |
-| 🟢 74 | 01/04/2026 | 2026-08-31 | audited |
-| 🟢 75 | 01/04/2026 | 2026-08-31 | audited |
-| 🟢 76 | 01/04/2026 | 2026-08-31 | audited |
-| 🟢 77 | 01/04/2026 | 2026-08-31 | audited |
-| 🟢 78 | 01/04/2026 | 2026-08-31 | audited |
+| 🟢 74 | 01/04/2026 | — | audited |
+| 🟢 75 | 01/04/2026 | — | audited |
+| 🟢 76 | 01/04/2026 | — | audited |
+| 🟢 77 | 01/04/2026 | — | audited |
+| 🟢 78 | 01/04/2026 | — | audited |
 | 🟢 79 | 22/01/2026 | — | audited |
 | 🟢 80 | 22/01/2026 | — | audited |
 | 🟢 81 | 22/01/2026 | — | audited |
 | 🟢 82 | 22/01/2026 | — | audited |
-| 🟡 83 | Regulação Oficial | 2026-08-31 | to be confirmed |
+| 🟡 83 | Regulação Oficial | — | to be confirmed |
 | 🟢 84 | 01/05/2026 | — | audited |
 | 🟢 85 | 01/05/2026 | — | audited |
 | 🟢 86 | 01/05/2026 | — | audited |
@@ -5144,15 +5144,15 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 112 | 26/03/2025 | — | audited |
 | 🟢 113 | 26/03/2025 | — | audited |
 | 🟢 114 | 22/01/2026 | — | audited |
-| 🟢 115 | 22/01/2026 | 2026-08-31 | audited |
+| 🟢 115 | 22/01/2026 | — | audited |
 | 🟢 116 | 22/01/2026 | — | audited |
-| 🟢 117 | 22/01/2026 | 2026-08-31 | audited |
+| 🟢 117 | 22/01/2026 | — | audited |
 | 🟢 118 | 22/01/2026 | — | audited |
-| 🟢 119 | 22/01/2026 | 2026-08-31 | audited |
+| 🟢 119 | 22/01/2026 | — | audited |
 | 🟢 120 | 22/01/2026 | — | audited |
-| 🟢 121 | 22/01/2026 | 2026-08-31 | audited |
+| 🟢 121 | 22/01/2026 | — | audited |
 | 🟢 122 | 22/01/2026 | — | audited |
-| 🟢 123 | 22/01/2026 | 2026-08-31 | audited |
+| 🟢 123 | 22/01/2026 | — | audited |
 | 🟢 124 | 2025 | — | audited |
 | 🟢 125 | 2025 | — | audited |
 | 🟢 126 | 2025 | — | audited |
@@ -5192,13 +5192,13 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 160 | 01/12/2025 | — | audited |
 | 🟢 161 | 01/12/2025 | — | audited |
 | 🟢 162 | 01/12/2025 | — | audited |
-| 🟡 163 | Referência vigente pesquisada em 19/08/2026 | 2026-08-31 | to be confirmed |
+| 🟡 163 | Referência vigente pesquisada em 19/08/2026 | — | to be confirmed |
 | 🟢 164 | 17/09/2025 | — | audited |
 | 🟢 165 | 17/09/2025 | — | audited |
 | 🟢 166 | 17/09/2025 | — | audited |
 | 🟢 167 | 17/09/2025 | — | audited |
 | 🟢 168 | 17/09/2025 | — | audited |
-| 🟡 169 | Estrutura Tarifária DAE/VG | 2026-08-31 | to be confirmed |
+| 🟡 169 | Estrutura Tarifária DAE/VG | — | to be confirmed |
 | 🟢 170 | 2026 | — | audited |
 | 🟢 171 | 2026 | — | audited |
 | 🟢 172 | 2026 | — | audited |
@@ -5208,27 +5208,27 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 176 | 01/03/2026 | — | audited |
 | 🟢 177 | 01/03/2026 | — | audited |
 | 🟢 178 | 01/03/2026 | — | audited |
-| 🟡 179 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
-| 🟡 180 | Resolução ARSAL Nº 233 | 2026-08-31 | to be confirmed |
-| 🟡 181 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
-| 🟡 182 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
+| 🟡 179 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
+| 🟡 180 | Resolução ARSAL Nº 233 | — | to be confirmed |
+| 🟡 181 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
+| 🟡 182 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
 | 🟢 183 | 01/06/2026 | — | audited |
 | 🟢 184 | 01/06/2026 | — | audited |
 | 🟢 185 | 01/06/2026 | — | audited |
 | 🟢 186 | 01/06/2026 | — | audited |
 | 🟢 187 | 01/06/2026 | — | audited |
-| 🟡 188 | Estrutura Tarifária DMAE / ARESAN | 2026-08-31 | to be confirmed |
-| 🟡 189 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
+| 🟡 188 | Estrutura Tarifária DMAE / ARESAN | — | to be confirmed |
+| 🟡 189 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
 | 🟢 190 | 04/05/2026 | — | audited |
 | 🟢 191 | 04/05/2026 | — | audited |
 | 🟢 192 | 04/05/2026 | — | audited |
 | 🟢 193 | 04/05/2026 | — | audited |
 | 🟢 194 | 04/05/2026 | — | audited |
-| 🟢 195 | 20/07/2026 | 2026-08-31 | audited |
-| 🟢 196 | 20/07/2026 | 2026-08-31 | audited |
-| 🟢 197 | 20/07/2026 | 2026-08-31 | audited |
-| 🟢 198 | 20/07/2026 | 2026-08-31 | audited |
-| 🟢 199 | 20/07/2026 | 2026-08-31 | audited |
+| 🟢 195 | 20/07/2026 | — | audited |
+| 🟢 196 | 20/07/2026 | — | audited |
+| 🟢 197 | 20/07/2026 | — | audited |
+| 🟢 198 | 20/07/2026 | — | audited |
+| 🟢 199 | 20/07/2026 | — | audited |
 | 🟢 200 | 01/03/2026 | — | audited |
 | 🟢 201 | 01/03/2026 | — | audited |
 | 🟢 202 | 01/03/2026 | — | audited |
@@ -5248,20 +5248,20 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 216 | 01/11/2025 | — | audited |
 | 🟢 217 | 01/11/2025 | — | audited |
 | 🟢 218 | 01/11/2025 | — | audited |
-| 🟡 219 | Desde 03/2026 | 2026-08-31 | to be confirmed |
+| 🟡 219 | Desde 03/2026 | — | to be confirmed |
 | 🟢 220 | 01/06/2025 | — | audited |
 | 🟢 221 | 01/06/2025 | — | audited |
 | 🟢 222 | 01/06/2025 | — | audited |
 | 🟢 223 | 01/06/2025 | — | audited |
-| 🟡 224 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
-| 🟡 225 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
-| 🟡 226 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
+| 🟡 224 | Estrutura Municipal Vigente | — | to be confirmed |
+| 🟡 225 | Estrutura Municipal Vigente | — | to be confirmed |
+| 🟡 226 | Estrutura Municipal Vigente | — | to be confirmed |
 | 🟡 227 | Estrutura Municipal Vigente | — | to be confirmed |
-| 🟢 228 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 229 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 230 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 231 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 232 | 01/12/2025 | 2026-08-31 | audited |
+| 🟢 228 | 01/12/2025 | — | audited |
+| 🟢 229 | 01/12/2025 | — | audited |
+| 🟢 230 | 01/12/2025 | — | audited |
+| 🟢 231 | 01/12/2025 | — | audited |
+| 🟢 232 | 01/12/2025 | — | audited |
 | 🟢 233 | 01/05/2024 | — | audited |
 | 🟢 234 | 01/05/2024 | — | audited |
 | 🟢 235 | 01/05/2024 | — | audited |
@@ -5270,13 +5270,13 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 238 | 01/12/2025 | — | audited |
 | 🟢 239 | 01/12/2025 | — | audited |
 | 🟢 240 | 01/12/2025 | — | audited |
-| 🟡 241 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
+| 🟡 241 | Estrutura Municipal Vigente | — | to be confirmed |
 | 🟢 242 | 24/04/2026 | — | audited |
 | 🟢 243 | 24/04/2026 | — | audited |
 | 🟢 244 | 24/04/2026 | — | audited |
 | 🟢 245 | 24/04/2026 | — | audited |
 | 🟢 246 | 24/04/2026 | — | audited |
-| 🟡 247 | Regulação Oficial | 2026-08-31 | to be confirmed |
+| 🟡 247 | Regulação Oficial | — | to be confirmed |
 | 🟢 248 | 09/06/2026 | — | audited |
 | 🟢 249 | 09/06/2026 | — | audited |
 | 🟢 250 | 09/06/2026 | — | audited |
@@ -5300,13 +5300,13 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 268 | 29/05/2026 | — | audited |
 | 🟢 269 | 29/05/2026 | — | audited |
 | 🟢 270 | 29/05/2026 | — | audited |
-| 🟡 271 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 271 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 272 | 01/09/2026 | — | audited |
 | 🟢 273 | 01/09/2026 | — | audited |
 | 🟢 274 | 01/09/2026 | — | audited |
 | 🟢 275 | 01/09/2026 | — | audited |
 | 🟢 276 | 01/09/2026 | — | audited |
-| 🟡 277 | Vigente em 19/08/2026 | 2026-08-31 | to be confirmed |
+| 🟡 277 | Vigente em 19/08/2026 | — | to be confirmed |
 | 🟢 278 | 01/06/2026 | — | audited |
 | 🟢 279 | 01/06/2026 | — | audited |
 | 🟢 280 | 01/06/2026 | — | audited |
@@ -5322,7 +5322,7 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 290 | 01/07/2026 | — | audited |
 | 🟢 291 | 01/07/2026 | — | audited |
 | 🟢 292 | 01/07/2026 | — | audited |
-| 🟡 293 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
+| 🟡 293 | Estrutura Municipal Vigente | — | to be confirmed |
 | 🟢 294 | 01/06/2026 | — | audited |
 | 🟢 295 | 01/06/2026 | — | audited |
 | 🟢 296 | 01/06/2026 | — | audited |
@@ -5333,20 +5333,20 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 301 | 01/08/2026 | — | audited |
 | 🟢 302 | 01/08/2026 | — | audited |
 | 🟢 303 | 01/08/2026 | — | audited |
-| 🟡 304 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 304 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 305 | 30/12/2025 | — | audited |
 | 🟢 306 | 30/12/2025 | — | audited |
 | 🟢 307 | 30/12/2025 | — | audited |
 | 🟢 308 | 30/12/2025 | — | audited |
 | 🟢 309 | 30/12/2025 | — | audited |
-| 🟡 310 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 310 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 311 | 19/01/2026 | — | audited |
 | 🟢 312 | 19/01/2026 | — | audited |
 | 🟢 313 | 19/01/2026 | — | audited |
 | 🟢 314 | 19/01/2026 | — | audited |
-| 🟡 315 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
-| 🟡 316 | Desde 01/2026 | 2026-08-31 | to be confirmed |
-| 🟡 317 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
+| 🟡 315 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
+| 🟡 316 | Desde 01/2026 | — | to be confirmed |
+| 🟡 317 | Estrutura Municipal Vigente | — | to be confirmed |
 | 🟢 318 | 01/07/2026 | — | audited |
 | 🟢 319 | 01/07/2026 | — | audited |
 | 🟢 320 | 01/07/2026 | — | audited |
@@ -5355,7 +5355,7 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 323 | 01/10/2026 | — | audited |
 | 🟢 324 | 01/10/2026 | — | audited |
 | 🟢 325 | 01/10/2026 | — | audited |
-| 🟡 326 | Estrutura Municipal Vigente | 2026-08-31 | to be confirmed |
+| 🟡 326 | Estrutura Municipal Vigente | — | to be confirmed |
 | 🟢 327 | 01/06/2026 | — | audited |
 | 🟢 328 | 01/06/2026 | — | audited |
 | 🟢 329 | 01/06/2026 | — | audited |
@@ -5392,10 +5392,10 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 360 | 26/02/2026 | — | audited |
 | 🟢 361 | 26/02/2026 | — | audited |
 | 🟢 362 | 26/02/2026 | — | audited |
-| 🟡 363 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
+| 🟡 363 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
 | 🟡 364 | Regulação Oficial | — | to be confirmed |
-| 🟡 365 | Resoluções AGERO / CAERD | 2026-08-31 | to be confirmed |
-| 🟡 366 | Resolução ARIS-MG nº 227/2026 | 2026-08-31 | to be confirmed |
+| 🟡 365 | Resoluções AGERO / CAERD | — | to be confirmed |
+| 🟡 366 | Resolução ARIS-MG nº 227/2026 | — | to be confirmed |
 | 🟡 367 | Decreto Municipal | — | to be confirmed |
 | 🟢 368 | 01/04/2026 | — | audited |
 | 🟢 369 | 01/04/2026 | — | audited |
@@ -5409,7 +5409,7 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 377 | 01/06/2026 | — | audited |
 | 🟢 378 | 01/06/2026 | — | audited |
 | 🟢 379 | 01/06/2026 | — | audited |
-| 🟡 380 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 380 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 381 | 01/01/2026 | — | audited |
 | 🟢 382 | 01/01/2026 | — | audited |
 | 🟢 383 | 01/01/2026 | — | audited |
@@ -5455,43 +5455,43 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 423 | 29/12/2025 | — | audited |
 | 🟢 424 | 29/12/2025 | — | audited |
 | 🟢 425 | 29/12/2025 | — | audited |
-| 🟢 426 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 427 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 428 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 429 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 430 | 01/03/2026 | 2026-08-31 | audited |
+| 🟢 426 | 01/03/2026 | — | audited |
+| 🟢 427 | 01/03/2026 | — | audited |
+| 🟢 428 | 01/03/2026 | — | audited |
+| 🟢 429 | 01/03/2026 | — | audited |
+| 🟢 430 | 01/03/2026 | — | audited |
 | 🟢 431 | 01/10/2026 | — | audited |
 | 🟢 432 | 01/10/2026 | — | audited |
 | 🟢 433 | 01/10/2026 | — | audited |
 | 🟢 434 | 01/10/2026 | — | audited |
 | 🟢 435 | 01/10/2026 | — | audited |
-| 🟢 436 | 19/12/2025 | 2026-08-31 | audited |
-| 🟢 437 | 19/12/2025 | 2026-08-31 | audited |
-| 🟢 438 | 01/01/2026 | 2026-08-31 | audited |
-| 🟢 439 | 01/01/2026 | 2026-08-31 | audited |
-| 🟢 440 | 15/03/2026 | 2026-08-31 | audited |
-| 🟢 441 | 15/03/2026 | 2026-08-31 | audited |
-| 🟢 442 | 15/03/2026 | 2026-08-31 | audited |
-| 🟢 443 | 15/03/2026 | 2026-08-31 | audited |
-| 🟢 444 | 15/03/2026 | 2026-08-31 | audited |
-| 🟢 445 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 446 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 447 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 448 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 449 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 450 | 01/02/2026 | 2026-08-31 | audited |
-| 🟢 451 | 01/02/2026 | 2026-08-31 | audited |
-| 🟢 452 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 453 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 454 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 455 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 456 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 457 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 458 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 459 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 460 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 461 | 01/05/2026 | 2026-08-31 | audited |
-| 🟡 462 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟢 436 | 19/12/2025 | — | audited |
+| 🟢 437 | 19/12/2025 | — | audited |
+| 🟢 438 | 01/01/2026 | — | audited |
+| 🟢 439 | 01/01/2026 | — | audited |
+| 🟢 440 | 15/03/2026 | — | audited |
+| 🟢 441 | 15/03/2026 | — | audited |
+| 🟢 442 | 15/03/2026 | — | audited |
+| 🟢 443 | 15/03/2026 | — | audited |
+| 🟢 444 | 15/03/2026 | — | audited |
+| 🟢 445 | 01/12/2025 | — | audited |
+| 🟢 446 | 01/12/2025 | — | audited |
+| 🟢 447 | 01/12/2025 | — | audited |
+| 🟢 448 | 01/12/2025 | — | audited |
+| 🟢 449 | 01/12/2025 | — | audited |
+| 🟢 450 | 01/02/2026 | — | audited |
+| 🟢 451 | 01/02/2026 | — | audited |
+| 🟢 452 | 01/05/2026 | — | audited |
+| 🟢 453 | 01/05/2026 | — | audited |
+| 🟢 454 | 01/05/2026 | — | audited |
+| 🟢 455 | 01/05/2026 | — | audited |
+| 🟢 456 | 01/05/2026 | — | audited |
+| 🟢 457 | 01/05/2026 | — | audited |
+| 🟢 458 | 01/05/2026 | — | audited |
+| 🟢 459 | 01/05/2026 | — | audited |
+| 🟢 460 | 01/05/2026 | — | audited |
+| 🟢 461 | 01/05/2026 | — | audited |
+| 🟡 462 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 463 | 01/03/2026 | — | audited |
 | 🟢 464 | 01/03/2026 | — | audited |
 | 🟢 465 | 01/03/2026 | — | audited |
@@ -5501,33 +5501,33 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 469 | 01/01/2026 | — | audited |
 | 🟢 470 | 01/01/2026 | — | audited |
 | 🟢 471 | 01/01/2026 | — | audited |
-| 🟢 472 | 17/05/2026 | 2026-08-31 | audited |
-| 🟢 473 | 17/05/2026 | 2026-08-31 | audited |
-| 🟢 474 | 17/05/2026 | 2026-08-31 | audited |
-| 🟢 475 | 17/05/2026 | 2026-08-31 | audited |
+| 🟢 472 | 17/05/2026 | — | audited |
+| 🟢 473 | 17/05/2026 | — | audited |
+| 🟢 474 | 17/05/2026 | — | audited |
+| 🟢 475 | 17/05/2026 | — | audited |
 | 🟢 476 | 01/07/2026 | — | audited |
 | 🟢 477 | 01/07/2026 | — | audited |
 | 🟢 478 | 01/07/2026 | — | audited |
 | 🟢 479 | 01/07/2026 | — | audited |
-| 🟢 480 | 01/07/2026 | 2026-08-31 | audited |
-| 🟢 481 | 01/07/2026 | 2026-08-31 | audited |
-| 🟢 482 | 01/07/2026 | 2026-08-31 | audited |
-| 🟢 483 | 01/07/2026 | 2026-08-31 | audited |
-| 🟢 484 | 01/07/2026 | 2026-08-31 | audited |
-| 🟢 485 | 2026 | 2026-08-31 | audited |
-| 🟢 486 | 2026 | 2026-08-31 | audited |
-| 🟢 487 | 2026 | 2026-08-31 | audited |
-| 🟢 488 | 2026 | 2026-08-31 | audited |
-| 🟢 489 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 490 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 491 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 492 | 01/03/2026 | 2026-08-31 | audited |
-| 🟢 493 | 01/03/2026 | 2026-08-31 | audited |
+| 🟢 480 | 01/07/2026 | — | audited |
+| 🟢 481 | 01/07/2026 | — | audited |
+| 🟢 482 | 01/07/2026 | — | audited |
+| 🟢 483 | 01/07/2026 | — | audited |
+| 🟢 484 | 01/07/2026 | — | audited |
+| 🟢 485 | 2026 | — | audited |
+| 🟢 486 | 2026 | — | audited |
+| 🟢 487 | 2026 | — | audited |
+| 🟢 488 | 2026 | — | audited |
+| 🟢 489 | 01/03/2026 | — | audited |
+| 🟢 490 | 01/03/2026 | — | audited |
+| 🟢 491 | 01/03/2026 | — | audited |
+| 🟢 492 | 01/03/2026 | — | audited |
+| 🟢 493 | 01/03/2026 | — | audited |
 | 🟢 494 | 01/08/2025 | — | audited |
 | 🟢 495 | 01/08/2025 | — | audited |
-| 🟡 496 | Resoluções AGER-MT / Concessões | 2026-08-31 | to be confirmed |
-| 🟢 497 | 01/12/2025 | 2026-08-31 | audited |
-| 🟢 498 | 01/12/2025 | 2026-08-31 | audited |
+| 🟡 496 | Resoluções AGER-MT / Concessões | — | to be confirmed |
+| 🟢 497 | 01/12/2025 | — | audited |
+| 🟢 498 | 01/12/2025 | — | audited |
 | 🟢 499 | 14/04/2025 | — | audited |
 | 🟢 500 | 14/04/2025 | — | audited |
 | 🟢 501 | 14/04/2025 | — | audited |
@@ -5545,12 +5545,12 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 513 | 01/12/2025 | — | audited |
 | 🟢 514 | 01/12/2025 | — | audited |
 | 🟢 515 | 01/12/2025 | — | audited |
-| 🟡 516 | Estrutura Tarifária SANEAR | 2026-08-31 | to be confirmed |
-| 🟢 517 | 26/06/2026 | 2026-08-31 | audited |
-| 🟢 518 | 26/06/2026 | 2026-08-31 | audited |
-| 🟢 519 | 26/06/2026 | 2026-08-31 | audited |
-| 🟢 520 | 26/06/2026 | 2026-08-31 | audited |
-| 🟢 521 | 26/06/2026 | 2026-08-31 | audited |
+| 🟡 516 | Estrutura Tarifária SANEAR | — | to be confirmed |
+| 🟢 517 | 26/06/2026 | — | audited |
+| 🟢 518 | 26/06/2026 | — | audited |
+| 🟢 519 | 26/06/2026 | — | audited |
+| 🟢 520 | 26/06/2026 | — | audited |
+| 🟢 521 | 26/06/2026 | — | audited |
 | 🟢 522 | 01/01/2026 | — | audited |
 | 🟢 523 | 01/01/2026 | — | audited |
 | 🟢 524 | 2022 | — | audited |
@@ -5567,7 +5567,7 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 535 | 15/04/2026 | — | audited |
 | 🟢 536 | 15/04/2026 | — | audited |
 | 🟢 537 | 15/04/2026 | — | audited |
-| 🟡 538 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 538 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 539 | 01/01/2026 | — | audited |
 | 🟢 540 | 01/01/2026 | — | audited |
 | 🟢 541 | 01/01/2026 | — | audited |
@@ -5585,12 +5585,12 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 553 | 01/10/2026 | — | audited |
 | 🟢 554 | 01/08/2026 | — | audited |
 | 🟢 555 | 01/08/2026 | — | audited |
-| 🟢 556 | 01/08/2026 | 2026-08-31 | audited |
-| 🟢 557 | 2026 | 2026-08-31 | audited |
-| 🟢 558 | 2026 | 2026-08-31 | audited |
-| 🟢 559 | 2026 | 2026-08-31 | audited |
-| 🟢 560 | 2026 | 2026-08-31 | audited |
-| 🟢 561 | 2026 | 2026-08-31 | audited |
+| 🟢 556 | 01/08/2026 | — | audited |
+| 🟢 557 | 2026 | — | audited |
+| 🟢 558 | 2026 | — | audited |
+| 🟢 559 | 2026 | — | audited |
+| 🟢 560 | 2026 | — | audited |
+| 🟢 561 | 2026 | — | audited |
 | 🟢 562 | 02/09/2025 | — | audited |
 | 🟢 563 | 02/09/2025 | — | audited |
 | 🟢 564 | 02/09/2025 | — | audited |
@@ -5599,12 +5599,12 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 567 | 2026 | — | audited |
 | 🟢 568 | 2026 | — | audited |
 | 🟢 569 | 2026 | — | audited |
-| 🟡 570 | 2026 vigente em 19/08/2026 | 2026-08-31 | to be confirmed |
-| 🟢 571 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 572 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 573 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 574 | 01/05/2026 | 2026-08-31 | audited |
-| 🟢 575 | 01/05/2026 | 2026-08-31 | audited |
+| 🟡 570 | 2026 vigente em 19/08/2026 | — | to be confirmed |
+| 🟢 571 | 01/05/2026 | — | audited |
+| 🟢 572 | 01/05/2026 | — | audited |
+| 🟢 573 | 01/05/2026 | — | audited |
+| 🟢 574 | 01/05/2026 | — | audited |
+| 🟢 575 | 01/05/2026 | — | audited |
 | 🟢 576 | 08/03/2026 | — | audited |
 | 🟢 577 | 08/03/2026 | — | audited |
 | 🟢 578 | 08/03/2026 | — | audited |
@@ -5614,69 +5614,69 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 582 | 01/04/2026 | — | audited |
 | 🟢 583 | 01/04/2026 | — | audited |
 | 🟢 584 | 01/04/2026 | — | audited |
-| 🟢 585 | 20/03/2025 | 2026-08-31 | audited |
-| 🟢 586 | 20/03/2025 | 2026-08-31 | audited |
-| 🟢 587 | 20/03/2025 | 2026-08-31 | audited |
-| 🟢 588 | 20/03/2025 | 2026-08-31 | audited |
+| 🟢 585 | 20/03/2025 | — | audited |
+| 🟢 586 | 20/03/2025 | — | audited |
+| 🟢 587 | 20/03/2025 | — | audited |
+| 🟢 588 | 20/03/2025 | — | audited |
 | 🟢 589 | 06/01/2026 | — | audited |
 | 🟢 590 | 06/01/2026 | — | audited |
 | 🟢 591 | 06/01/2026 | — | audited |
 | 🟢 592 | 06/01/2026 | — | audited |
-| 🟡 593 | Regulação Oficial | 2026-08-31 | to be confirmed |
-| 🟡 594 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 593 | Regulação Oficial | — | to be confirmed |
+| 🟡 594 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 595 | 2026 | — | audited |
 | 🟢 596 | 2026 | — | audited |
 | 🟢 597 | 2026 | — | audited |
 | 🟢 598 | 2026 | — | audited |
-| 🟡 599 | Resoluções ARES-PCJ / ARSESP | 2026-08-31 | to be confirmed |
+| 🟡 599 | Resoluções ARES-PCJ / ARSESP | — | to be confirmed |
 | 🟢 600 | 01/12/2025 | — | audited |
 | 🟢 601 | 01/12/2025 | — | audited |
 | 🟢 602 | 01/12/2025 | — | audited |
 | 🟢 603 | 01/12/2025 | — | audited |
-| 🟢 604 | 2026 | 2026-08-31 | audited |
-| 🟢 605 | 2026 | 2026-08-31 | audited |
-| 🟢 606 | 2026 | 2026-08-31 | audited |
-| 🟢 607 | 2026 | 2026-08-31 | audited |
-| 🟢 608 | 2026 | 2026-08-31 | audited |
+| 🟢 604 | 2026 | — | audited |
+| 🟢 605 | 2026 | — | audited |
+| 🟢 606 | 2026 | — | audited |
+| 🟢 607 | 2026 | — | audited |
+| 🟢 608 | 2026 | — | audited |
 | 🟢 609 | 01/01/2026 | — | audited |
 | 🟢 610 | 01/01/2026 | — | audited |
 | 🟢 611 | 01/01/2026 | — | audited |
-| 🟡 612 | Deliberação AGENERSA | 2026-08-31 | to be confirmed |
-| 🟡 613 | Deliberação AGENERSA | 2026-08-31 | to be confirmed |
-| 🟡 614 | Resoluções ARISB-MG / Prestadores Locais | 2026-08-31 | to be confirmed |
-| 🟢 615 | 2026 | 2026-08-31 | audited |
-| 🟢 616 | 2026 | 2026-08-31 | audited |
-| 🟢 617 | 2026 | 2026-08-31 | audited |
-| 🟢 618 | 2026 | 2026-08-31 | audited |
-| 🟢 619 | 2026 | 2026-08-31 | audited |
-| 🟢 620 | 2026 | 2026-08-31 | audited |
-| 🟢 621 | 2026 | 2026-08-31 | audited |
-| 🟢 622 | 2026 | 2026-08-31 | audited |
-| 🟢 623 | 01/11/2025 | 2026-08-31 | audited |
-| 🟢 624 | 01/11/2025 | 2026-08-31 | audited |
-| 🟢 625 | 01/11/2025 | 2026-08-31 | audited |
-| 🟢 626 | 01/11/2025 | 2026-08-31 | audited |
-| 🟢 627 | 28/06/2026 | 2026-08-31 | audited |
-| 🟢 628 | 28/06/2026 | 2026-08-31 | audited |
-| 🟢 629 | 28/06/2026 | 2026-08-31 | audited |
-| 🟢 630 | 28/06/2026 | 2026-08-31 | audited |
-| 🟢 631 | 28/06/2026 | 2026-08-31 | audited |
-| 🟢 632 | 2026 | 2026-08-31 | audited |
-| 🟢 633 | 2026 | 2026-08-31 | audited |
-| 🟢 634 | 2026 | 2026-08-31 | audited |
-| 🟢 635 | 2026 | 2026-08-31 | audited |
-| 🟢 636 | 2026 | 2026-08-31 | audited |
+| 🟡 612 | Deliberação AGENERSA | — | to be confirmed |
+| 🟡 613 | Deliberação AGENERSA | — | to be confirmed |
+| 🟡 614 | Resoluções ARISB-MG / Prestadores Locais | — | to be confirmed |
+| 🟢 615 | 2026 | — | audited |
+| 🟢 616 | 2026 | — | audited |
+| 🟢 617 | 2026 | — | audited |
+| 🟢 618 | 2026 | — | audited |
+| 🟢 619 | 2026 | — | audited |
+| 🟢 620 | 2026 | — | audited |
+| 🟢 621 | 2026 | — | audited |
+| 🟢 622 | 2026 | — | audited |
+| 🟢 623 | 01/11/2025 | — | audited |
+| 🟢 624 | 01/11/2025 | — | audited |
+| 🟢 625 | 01/11/2025 | — | audited |
+| 🟢 626 | 01/11/2025 | — | audited |
+| 🟢 627 | 28/06/2026 | — | audited |
+| 🟢 628 | 28/06/2026 | — | audited |
+| 🟢 629 | 28/06/2026 | — | audited |
+| 🟢 630 | 28/06/2026 | — | audited |
+| 🟢 631 | 28/06/2026 | — | audited |
+| 🟢 632 | 2026 | — | audited |
+| 🟢 633 | 2026 | — | audited |
+| 🟢 634 | 2026 | — | audited |
+| 🟢 635 | 2026 | — | audited |
+| 🟢 636 | 2026 | — | audited |
 | 🟢 637 | 01/09/2026 | — | audited |
 | 🟢 638 | 01/09/2026 | — | audited |
 | 🟢 639 | 01/09/2026 | — | audited |
 | 🟢 640 | 01/09/2026 | — | audited |
 | 🟢 641 | 01/09/2026 | — | audited |
-| 🟡 642 | Decreto Municipal | 2026-08-31 | to be confirmed |
+| 🟡 642 | Decreto Municipal | — | to be confirmed |
 | 🟢 643 | 27/09/2026 | — | audited |
 | 🟢 644 | 27/09/2026 | — | audited |
 | 🟢 645 | 27/09/2026 | — | audited |
 | 🟢 646 | 27/09/2026 | — | audited |
-| 🟡 647 | Decreto Municipal | 2026-08-31 | to be confirmed |
+| 🟡 647 | Decreto Municipal | — | to be confirmed |
 | 🟢 648 | 2025 | — | audited |
 | 🟢 649 | 2025 | — | audited |
 | 🟢 650 | 2025 | — | audited |
@@ -5708,11 +5708,11 @@ The second table gives, for the same rows, the effective date declared by the so
 | 🟢 676 | 04/02/2026 | — | audited |
 | 🟢 677 | 04/02/2026 | — | audited |
 | 🟢 678 | 04/02/2026 | — | audited |
-| 🟢 679 | 03/01/2026 | 2026-08-31 | audited |
-| 🟢 680 | 03/01/2026 | 2026-08-31 | audited |
-| 🟢 681 | 03/01/2026 | 2026-08-31 | audited |
-| 🟢 682 | 03/01/2026 | 2026-08-31 | audited |
-| 🟢 683 | Estrutura tarifária 2026; aplicação publicada para março de 2026 | 2026-08-31 | audited |
+| 🟢 679 | 03/01/2026 | — | audited |
+| 🟢 680 | 03/01/2026 | — | audited |
+| 🟢 681 | 03/01/2026 | — | audited |
+| 🟢 682 | 03/01/2026 | — | audited |
+| 🟢 683 | Estrutura tarifária 2026; aplicação publicada para março de 2026 | — | audited |
 
 The CORSAN municipalities charge by the exponential formula `PB × Cⁿ + SB` (section {{n:16}}), with no price per block; the exponent `n` is that of the category's column in the Exponent Table.
 

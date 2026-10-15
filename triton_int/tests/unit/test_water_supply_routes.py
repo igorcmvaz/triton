@@ -83,7 +83,9 @@ def test_comparacao_vem_ordenada():
 def test_config_ambiental_parte_da_rota_padrao():
     config = EnvironmentalConfig()
     assert config.water_supply_route == rotas.ROTA_PADRAO
-    assert config.potable_water_co2_kg_m3 == rotas.co2_evitado_por_m3(rotas.ROTA_PADRAO)
+    # Fora da Brasil a rota padrão é do Brasil e o valor de partida é zero (edition.valor_de_partida_da_edicao).
+    from triton.core.edition import valor_de_partida_da_edicao
+    assert config.potable_water_co2_kg_m3 == valor_de_partida_da_edicao(rotas.co2_evitado_por_m3(rotas.ROTA_PADRAO))
 
 
 def test_a_rota_muda_o_resultado_da_acv():
@@ -119,7 +121,8 @@ def test_nao_existe_rota_definida_so_por_energia():
     """
     assert "abastecimento_publico_energia" not in rotas.chaves_das_rotas()
     for chave in rotas.chaves_das_rotas():
-        assert rotas.co2_evitado_por_m3(chave) > 0.1, (
+        # Fator da rede dado de propósito: fora da Brasil o padrão é zero, e a rota «só energia» pareceria vazia.
+        assert rotas.co2_evitado_por_m3(chave, fator_da_rede_kg_kwh=0.085) > 0.1, (
             f"rota {chave} devolve valor baixo demais para representar agua tratada"
         )
 

@@ -11,10 +11,15 @@ def test_o_diagnostico_cobre_o_3d_a_base_e_as_tarifas():
 
 
 def test_o_arranjo_3d_e_as_tarifas_passam_no_codigo_fonte():
+    from triton.core.edition import usa_dados_do_brasil
     itens = {nome: (ok, detalhe) for nome, ok, detalhe in diagnostico.verificacoes()}
     assert itens["Arranjo 3D e volumetria"][0] is True, itens["Arranjo 3D e volumetria"][1]
     ok, detalhe = itens["Banco tarifário"]
-    assert ok is True and "CORSAN na fórmula exponencial: 34 de 34" in detalhe
+    if usa_dados_do_brasil():
+        assert ok is True and "CORSAN na fórmula exponencial: 34 de 34" in detalhe
+    else:
+        assert ok is None
+
 
 
 def test_falta_do_visualizador_reprova_o_pacote(monkeypatch, tmp_path):

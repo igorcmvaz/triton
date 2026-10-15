@@ -2,3 +2,27 @@ __pycache__/
 *.pyc
 .pytest_cache/
 *.log
+auditoria/
+manual_fonte/
+.claude/
+
+# Malha de shapefiles brutos do IBGE (18,2 MB)
+**/data/brazilSHP/
+
+# Arquivo legado do Netuno 4
+**/data/Dados.txt
+
+# PDFs redundantes gerados dinamicamente para o site offline
+**/manual/site/pdf/
+
+# Bancos compilados de fontes e material bruto de terceiros de tarifas
+**/tarifas/tarifas_fontes.db
+**/tarifas_portugal/tarifas_portugal_fontes.db
+**/tarifas/entrada/*
+!**/tarifas/entrada/LEIAME.md
+**/tarifas/fontes/*
+!**/tarifas/fontes/LEIAME.md
+
+# Builds locais
+build/
+dist/

@@ -482,7 +482,7 @@ faixa onde se concentra o consumo residencial típico.
 
 ### 6.3 A correção
 
-`scripts/reconciliar_tarifas.py` reconstrói a primeira faixa a partir de
+o script de reconciliar_tarifas (só da Edição Brasil) reconstrói a primeira faixa a partir de
 `tarifas/tarifas_detalhadas_auditadas.csv`, a base auditada com procedência e grau de
 confiança por município. O critério é documental, não aritmético:
 
@@ -526,7 +526,7 @@ Os 34 municípios da CORSAN da base estão agora no regime `exponencial`
 tabela. A tabela foi transcrita da fonte primária — a Tabela de Exponenciais do sistema
 tarifário da CORSAN, com as tabelas tarifárias de 2026 (ANEXO-5, Erechim e Santa Cruz do
 Sul) — em `tarifas/tabela_exponencial_corsan.json`, com as seis categorias; a coluna
-Básica (Residencial B) é aplicada por `scripts/aplicar_tarifa_exponencial.py`. O esgoto
+Básica (Residencial B) é aplicada por o script de aplicar_tarifa_exponencial (só da Edição Brasil). O esgoto
 passou ao modo 2, preço por m³ consumido: R$ 6,40 (ANEXO-5), R$ 4,86 (Erechim) e
 R$ 5,53 (Santa Cruz do Sul), 70% do PB truncado no centavo.
 

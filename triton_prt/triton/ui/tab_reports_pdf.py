@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal, Qt
 from triton.ui.translation import tr, get_current_theme, get_current_lang, set_current_lang
+from triton.ui.textos_da_edicao import artefato_de_laudo
 from triton.core.report_generator import save_pdf_report
 from triton.core.report_service import generate_report_html
 
@@ -165,8 +166,16 @@ class TabReportsPdf(QWidget):
         row_controls.addWidget(lbl_lang)
 
         self.combo_report_lang = QComboBox()
-        self.combo_report_lang.addItem(tr("🇧🇷 Português (Brasil)"), "pt")
-        self.combo_report_lang.addItem("🇺🇸 English (US)", "en")
+        from triton.core.edition import is_prt_edition as _prt, usa_dados_do_brasil as _brl
+        # O laudo em português é o da edição: do Brasil na BRL, de Portugal na PRT; a Internacional
+        # não cita país. O inglês é «US» só na Brasil (o texto de lá segue o formato brasileiro).
+        if _prt():
+            self.combo_report_lang.addItem(tr("🇵🇹 Português (Portugal)"), "pt")
+        elif _brl():
+            self.combo_report_lang.addItem(tr("🇧🇷 Português (Brasil)"), "pt")
+        else:
+            self.combo_report_lang.addItem("Português", "pt")
+        self.combo_report_lang.addItem("🇺🇸 English (US)" if _brl() else "English", "en")
         self.combo_report_lang.addItem("🇪🇸 Español", "es")
         self.combo_report_lang.addItem("🇨🇳 中文（简体）", "zh")
         self.combo_report_lang.setMinimumWidth(130)
@@ -440,6 +449,81 @@ class TabReportsPdf(QWidget):
             self.web_preview.setZoomFactor(self._zoom_factor)
             self.lbl_zoom.setText("100%")
 
+    @staticmethod
+    def _marcar_custos_em_branco(data: dict, cfg, mw) -> None:
+        """Fora da Brasil, os exemplos não trazem custos locais: o laudo avisa em vez de calcular com zeros."""
+        from triton.core.edition import usa_dados_do_brasil
+        if usa_dados_do_brasil():
+            return
+        if not data.get("capex") or not float(getattr(cfg, "elec_tariff", 0.0) or 0.0):
+            data["custos_nao_informados"] = True
+        try:
+            tab_env = getattr(mw, "tab_environmental", None)
+            amb = tab_env.get_config() if tab_env is not None and callable(getattr(tab_env, "get_config", None)) else None
+            fator = float(getattr(amb, "grid_co2_factor_kg_kwh", 0.0) or 0.0) if amb is not None else 0.0
+        except Exception:
+            fator = 0.0
+        if fator <= 0.0:
+            data["fator_rede_nao_informado"] = True
+
+    @staticmethod
+    def _etiqueta_da_edicao() -> str:
+        """«-INT» ou «-PRT» no nome sugerido do laudo; nada na Brasil (o nome de sempre)."""
+        from triton.core.edition import rotulo_da_edicao, usa_dados_do_brasil
+        return "" if usa_dados_do_brasil() else "-" + rotulo_da_edicao(curto=True)
+
+    @staticmethod
+    def _base_climatica(cfg) -> str:
+        """A base da série de chuva. O modelo e o cenário (CLIMBra) só valem na Brasil; na Portugal a base é a
+        E-OBS; na Internacional a série é a do arquivo do usuário e o laudo não inventa modelo."""
+        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
+        if usa_dados_do_brasil():
+            return " · ".join(filter(None, [
+                str(getattr(cfg, "climate_model", "") or ""),
+                str(getattr(cfg, "climate_scenario", "") or ""),
+            ])) or "Série observada"
+        return "E-OBS" if is_prt_edition() else "Série observada"
+
+    @staticmethod
+    def _periodo_climatico(cfg) -> str:
+        """«início a fim» na Brasil (como sempre); fora dela, com travessão, que vale em qualquer idioma."""
+        from triton.core.edition import usa_dados_do_brasil
+        separador = " a " if usa_dados_do_brasil() else " – "
+        return separador.join(filter(None, [
+            str(getattr(cfg, "climate_start_date", "") or ""),
+            str(getattr(cfg, "climate_end_date", "") or ""),
+        ])) or "-"
+
+    @staticmethod
+    def _juntar_locais(*partes) -> str:
+        """«Cidade / UF» sem repetir: na Portugal concelho e distrito podem ser iguais («Lisboa / Lisboa»).
+
+        «CUSTOM» é o marcador interno de «tarifa digitada pelo usuário», e não um lugar."""
+        vistas = []
+        for parte in partes:
+            texto = str(parte or "").strip()
+            if texto.upper() == "CUSTOM":
+                continue
+            if texto and texto not in vistas:
+                vistas.append(texto)
+        return " / ".join(vistas)
+
+    @staticmethod
+    def _nome_da_serie_sem_arquivo(mw) -> str:
+        """O nome do local no lugar do identificador da série.
+
+        Na Portugal a série vem da base E-OBS por concelho e o «arquivo» é o código do concelho
+        («1106»): o laudo diz o nome do local («Lisboa (E-OBS)»), e não o código.
+        """
+        from triton.core.edition import is_prt_edition
+        if not is_prt_edition():
+            return ""
+        cfg = getattr(mw, "config", None)
+        nome = str(getattr(cfg, "climate_city_name", "") or "").strip()
+        if not nome:
+            return ""
+        return f"{nome} (E-OBS)"
+
     def _generate_ref_code(self) -> str:
         mw = self.window()
         config = getattr(mw, "config", None) if mw else None
@@ -711,6 +795,9 @@ class TabReportsPdf(QWidget):
             tp = mw.tab_project
             if getattr(tp, 'precip_file_path', None):
                 data["rain_file"] = os.path.basename(tp.precip_file_path)
+            nome_da_serie = self._nome_da_serie_sem_arquivo(mw)
+            if nome_da_serie:
+                data["rain_file"] = nome_da_serie
             try:
                 disc = tp.txt_discard.text().strip()
                 if disc and disc != "-":
@@ -768,7 +855,9 @@ class TabReportsPdf(QWidget):
         )
         # Moeda e demanda total do projeto (o desenho supunha 1.000 L/dia).
         if ts is not None and hasattr(ts, 'get_currency_symbol'):
-            data["moeda"] = ts.get_currency_symbol()
+            # «¤» é o sinal da tela para «moeda ainda não escolhida» (Internacional): o laudo
+            # então diz que a moeda não foi definida, em vez de imprimir o sinal.
+            data["moeda"] = (ts.get_currency_symbol() or "").replace("¤", "")
         tot = demanda_total_diaria(cfg_mw)
         if tot is not None:
             data["tot_demand"] = tot
@@ -889,24 +978,15 @@ class TabReportsPdf(QWidget):
         if cfg:
             data["project_name"] = getattr(cfg, "project_name", "Novo projeto Triton")
             data["audit_context"] = {
-                "climate_location": " / ".join(filter(None, [
-                    str(getattr(cfg, "climate_city_name", "") or ""),
-                    str(getattr(cfg, "climate_city_uf", "") or ""),
-                ])) or "-",
-                "climate_basis": " · ".join(filter(None, [
-                    str(getattr(cfg, "climate_model", "") or ""),
-                    str(getattr(cfg, "climate_scenario", "") or ""),
-                ])) or "Série observada",
-                "climate_period": " a ".join(filter(None, [
-                    str(getattr(cfg, "climate_start_date", "") or ""),
-                    str(getattr(cfg, "climate_end_date", "") or ""),
-                ])) or "-",
+                "climate_location": self._juntar_locais(
+                    getattr(cfg, "climate_city_name", ""), getattr(cfg, "climate_city_uf", "")) or "-",
+                "climate_basis": self._base_climatica(cfg),
+                "climate_period": self._periodo_climatico(cfg),
                 "analysis_period_years": getattr(cfg, "analysis_period_years", 20),
-                "tariff_location": " / ".join(filter(None, [
-                    str(getattr(cfg, "tariff_city_name", "") or ""),
-                    str(getattr(cfg, "tariff_city_uf", "") or ""),
-                ])) or "-",
+                "tariff_location": self._juntar_locais(
+                    getattr(cfg, "tariff_city_name", ""), getattr(cfg, "tariff_city_uf", "")) or "-",
             }
+            self._marcar_custos_em_branco(data, cfg, mw)
             up_vol = float(getattr(cfg, "upper_tank_vol", 0.0) or 0.0)
             if up_vol <= 0:
                 if mw and hasattr(mw, "tab_tanks_simulation") and hasattr(mw.tab_tanks_simulation, "txt_upper_vol"):
@@ -1101,6 +1181,18 @@ class TabReportsPdf(QWidget):
                 self._project_data.get("area"), 0.0),
         )
 
+    @staticmethod
+    def _linhas_dos_selos_brasileiros(esg, tr) -> list:
+        """AQUA-HQE e Casa Azul são certificações brasileiras: só na Edição Brasil."""
+        from triton.core.edition import usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            return []
+        return [
+            f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
+            f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
+            f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",
+        ]
+
     def _update_report_preview_text_legacy(self):
         self._project_data = self._collect_project_data()
         d = self._project_data
@@ -1118,16 +1210,17 @@ class TabReportsPdf(QWidget):
             except Exception:
                 return str(v)
 
-        sym = "R$"
+        from triton.core.edition import get_edition_currency_symbol
+        sym = get_edition_currency_symbol()
         mw = self.window()
         if mw and hasattr(mw, 'tab_economic'):
-            sym = mw.tab_tanks_simulation.get_currency_symbol()
+            sym = mw.tab_tanks_simulation.get_currency_symbol().replace("¤", "")
 
         if rep_type == "economic":
             title_mode = tr("Relatório Econômico (Clientes)")
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('KPIs EXECUTIVOS COMERCIAIS')} ─────────────────────────────────────┐",
@@ -1168,7 +1261,7 @@ class TabReportsPdf(QWidget):
 
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG')} ─────────────┐",
@@ -1194,9 +1287,7 @@ class TabReportsPdf(QWidget):
                 f"  3. {tr('MATRIZ DE CERTIFICAÇÕES VERDES & ENQUADRAMENTO ESG')}",
                 f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
                 f"     {tr('LEED v5 BD+C, WEc2')}           : {esg.leed_v5.total_pts} / 8 pts ({esg.leed_v5.caminho})",
-                f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
-                f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
-                f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",
+                *self._linhas_dos_selos_brasileiros(esg, tr),
                 f"     {tr('EDGE (IFC) — barra de água')} : {br(esg.edge.economia_de_agua_pct,1)}% "
                 f"({tr('atende ao padrão') if esg.edge.atende_o_padrao_de_agua else tr('abaixo do limiar de 20%')})"
                 f" — {tr('WEM14, área de captação')} {br(esg.edge.area_de_captacao_m2,0)} m²",
@@ -1208,7 +1299,7 @@ class TabReportsPdf(QWidget):
             lca = self.get_lca_result()
             lines = [
                 "═" * 72,
-                f"  TRITON 5 ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
+                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
                 "═" * 72,
                 "",
                 f"  ┌── {tr('RESUMO TÉCNICO-CIENTÍFICO & ACV')} ─────────────────────────────────┐",
@@ -1290,10 +1381,7 @@ class TabReportsPdf(QWidget):
         try:
             self.update_report_preview()
             rep_type = self.combo_report_type.currentData() or "economic"
-            suffix = (
-                "relatorio-cliente" if rep_type == "economic"
-                else ("relatorio-ambiental" if rep_type == "environmental" else "relatorio-pesquisa")
-            )
+            suffix = artefato_de_laudo(rep_type) + self._etiqueta_da_edicao()
             project_name = self._project_data.get("project_name", "Projeto Triton")
             def_name = get_auditable_filename(
                 project_name, self._project_data["ref_code"], f"{suffix}-{selected_lang}", "pdf"
@@ -1325,10 +1413,7 @@ class TabReportsPdf(QWidget):
         try:
             self.update_report_preview()
             rep_type = self.combo_report_type.currentData() or "economic"
-            suffix = (
-                "relatorio-cliente" if rep_type == "economic"
-                else ("relatorio-ambiental" if rep_type == "environmental" else "relatorio-pesquisa")
-            )
+            suffix = artefato_de_laudo(rep_type) + self._etiqueta_da_edicao()
             project_name = self._project_data.get("project_name", "Projeto Triton")
             def_name = get_auditable_filename(
                 project_name, self._project_data["ref_code"], f"{suffix}-{selected_lang}", "html"

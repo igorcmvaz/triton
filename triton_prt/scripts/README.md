@@ -1,33 +1,20 @@
 # Scripts
 
-Ferramentas de linha de comando que acompanham o programa. Nenhuma é importada
-por `triton/`: rodam por fora, sobre o projeto.
+Ferramentas de linha de comandos que acompanham o código. Nenhuma é importada por `triton/`: correm
+por fora, sobre o projeto. Corra-as a partir desta pasta (`triton_prt/`).
 
-## Raiz — operação e manutenção
-
-Referenciadas pela documentação, pela integração contínua ou umas pelas outras.
+## Dados de Portugal
 
 | Script | O que faz |
 | :--- | :--- |
-| `qa_runner.py` | executa as camadas de verificação; `--layer replicacao` roda a comparação completa contra o Netuno 4 |
-| `audit_tariffs.py` | auditoria da base tarifária |
-| `update_all_tariffs.py` | atualização das 652 estruturas a partir das fontes |
-| `reconciliar_tarifas.py` | conciliação entre a coleta e a evidência primária |
-| `completar_tarifas_faltantes.py` | preenche municípios sem estrutura |
-| `comparar_exportacao_netuno4.py` | confronta a exportação com a do Netuno 4 |
-| `run_batch_validation.py` | validação em lote |
-| `bench_kernels.py` | comparação de desempenho entre o kernel Python e o compilado |
-| `split_climates.py`, `split_climates_vaz.py` | fatiamento da base climática CMIP6 |
-| `run_mass_simulations.py` | simulações em massa |
-| `generate_reference_case_studies.py` | casos de referência |
-| `generate_uf_tariffs_breakdown.py` | recorte tarifário por unidade da federação |
-| `plot_tariff_tiers_summary.py` | figura-resumo das faixas tarifárias |
-| `build_tariff_workbook.mjs` | planilha tarifária (Node) |
-| `verificar_custos_calibrados.py` | imprime o CAPEX e o OPEX calibrados por tipologia e UF, para conferência visual (relatório, sem asserções) |
-| `gerar_relatorios_exemplo.py` | regera os laudos de `reports/exemplos/` pela própria interface |
-| `replicacao/` | cenários climáticos e comprimento de série citados em `docs/replicacao_dos_artigos.md` |
+| `compilar_base_eobs_portugal.py` | precipitação diária E-OBS por concelho (fontes brutas E-OBS e CAOP, ~3 GB, fora do Git) -> `data/portugal_eobs.db`, que o instalador leva; `--so-completude` confere o critério na base pronta |
+| `compilar_base_tarifas_fontes.py` | reúne os documentos de terceiros dos tarifários num banco local (`tarifas_portugal/tarifas_portugal_fontes.db`, fora do Git) |
+| `gerar_exemplo_portugal.py` | gera os projetos de exemplo (Lisboa, Porto, Funchal). Depende de `gerar_tabelas.py`, do manual-fonte, que fica no disco do mantenedor e fora do Git |
 
-## Estudos e artigos
+## Verificação e construção
 
-Os scripts que produzem os dados e as figuras dos artigos não ficam aqui. Estão na
-pasta `Estudos/`, ao lado deste repositório, junto dos dados de cada estudo.
+| Script | O que faz |
+| :--- | :--- |
+| `qa_runner.py` | executa as camadas de verificação (suíte completa e portões; ver `--help`) |
+| `bench_kernels.py` | compara o núcleo de referência em Python com o compilado |
+| `gerar_avisos_de_terceiros.py` | gera `infos_licenses/AVISOS_DE_TERCEIROS.txt` desta edição (com a atribuição E-OBS e CAOP); o `build_exe.py` corre-o antes de empacotar |

@@ -1,10 +1,15 @@
 """
 Compilador da Base Climatológica Nacional (CLIMBra / CMIP6) para SQLite.
 
-Converte os 37.164 arquivos CSV (~6,24 GB) em um único banco de dados SQLite
-compactado (`data/climbra.db`, ~1,1 GB com float16 + zlib), otimizado para
-leitura de alta velocidade (sub-milissegundo) e empacotamento no executável
-do Triton.
+Converte os 37.164 arquivos CSV (~6,5 GB) em bancos SQLite com cada série em float16
+compactado por zlib, otimizados para leitura de alta velocidade (sub-milissegundo) e para o
+empacotamento no executável do Triton.
+
+Formato padrão (`--formato partes`): um banco por modelo, `data/climbra_<modelo>.db`, cada
+um com 40 a 44 MB (cabe no GitHub, que recusa arquivos acima de 100 MB), mais o manifesto
+`data/climbra_partes.json`. O formato antigo (`--formato unico`) gera o `data/climbra.db`,
+de ~820 MB, que o programa ainda lê. Para dividir um `climbra.db` já compilado, sem refazer a
+leitura dos CSV, use `scripts/dividir_base_climbra.py`.
 
 Referência dos dados:
 - Artigo: BALLARIN et al. (2023), Nature Scientific Data, doi:10.1038/s41597-023-01956-z
@@ -23,6 +28,9 @@ import zlib
 from typing import List, Tuple, Optional
 
 import numpy as np
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import dividir_base_climbra as partes  # noqa: E402  (gravação e verificação das partes)
 
 CLIMATE_MODELS = [
     "INM-CM4",
@@ -266,6 +274,101 @@ def compile_database(
     print(f"[OK] Banco gerado com sucesso: '{output_db_path}' ({db_size_mb:.1f} MB)")
 
 
+def compile_partes(
+    input_dir: str,
+    output_dir: str,
+    dtype_str: str = "float16",
+    num_workers: Optional[int] = None,
+    modelos: Optional[List[str]] = None,
+) -> List[dict]:
+    """Compila os CSV direto em `output_dir/climbra_<modelo>.db`, um modelo por vez.
+
+    Devolve os registros do manifesto. Cada modelo precisa de 652 cidades x 3 cenários; o que
+    faltar é avisado, e a verificação final recusa partes incompletas.
+    """
+    if not os.path.isdir(input_dir):
+        raise FileNotFoundError(f"Diretório de arquivos climáticos não encontrado: {input_dir}")
+    os.makedirs(output_dir, exist_ok=True)
+
+    por_modelo: dict = {}
+    cidades = set()
+    for fname in os.listdir(input_dir):
+        if not (fname.startswith("(Triton)") and fname.endswith(".csv")):
+            continue
+        parsed = parse_filename(fname)
+        if not parsed:
+            continue
+        city, model, scenario = parsed
+        cidades.add(city)
+        por_modelo.setdefault(model, []).append((os.path.join(input_dir, fname), city, model, scenario, dtype_str))
+
+    escolhidos = [m for m in CLIMATE_MODELS if m in por_modelo and (not modelos or m in modelos)]
+    print(f"[*] {sum(len(v) for v in por_modelo.values())} arquivos válidos, {len(cidades)} municípios, "
+          f"{len(por_modelo)} modelos; compilando {len(escolhidos)}")
+    linhas_de_cidade = [(c, normalize_name(c)) for c in sorted(cidades)]
+    meta_base = {
+        "source_article": "BALLARIN et al. (2023), Nature Scientific Data, 10, art. 48",
+        "article_doi": "10.1038/s41597-023-01956-z",
+        "repository_doi": "10.57760/sciencedb.02316",
+        "license": "Creative Commons Zero v1.0 Universal (CC0)",
+        "dtype": dtype_str,
+        "compression": "zlib-level-6",
+    }
+
+    workers = num_workers or max(1, mp.cpu_count())
+    registros = []
+    t0 = time.time()
+    with mp.Pool(processes=workers) as pool:
+        for i, modelo in enumerate(escolhidos, 1):
+            series = {}
+            for resultado in pool.imap_unordered(process_csv_file, por_modelo[modelo], chunksize=20):
+                if resultado:
+                    city, _m, scenario, count, blob = resultado
+                    series[(city, scenario)] = (count, blob)
+            faltam = [(c, sc) for c in sorted(cidades) for sc in partes.CENARIOS if (c, sc) not in series]
+            if faltam:
+                print(f"[AVISO] {modelo}: faltam {len(faltam)} série(s), por exemplo {faltam[:3]}")
+            ordenadas = ((c, sc, series[(c, sc)][0], series[(c, sc)][1]) for c, sc in sorted(series))
+            destino = os.path.join(output_dir, partes.nome_da_parte(modelo))
+            registro = partes.gravar_parte(destino, modelo, linhas_de_cidade, ordenadas, meta_base)
+            registros.append(registro)
+            print(f"    [{i:2d}/{len(escolhidos)}] {modelo}: {registro['series']} séries, {registro['mb']} MB "
+                  f"({time.time() - t0:.0f} s)")
+    partes.escrever_manifesto(output_dir, registros,
+                              {"arquivo": os.path.basename(os.path.abspath(input_dir)),
+                               "compilado_a_partir_de": "CSV do CLIMBra"})
+    print(f"[OK] {len(registros)} parte(s) em '{output_dir}', {sum(r['mb'] for r in registros):.1f} MB no total.")
+    return registros
+
+
+def verify_partes(output_dir: str) -> bool:
+    """Confere integridade (hashes, contagens, limite do GitHub) e lê uma amostra de séries."""
+    print(f"[*] Verificando as partes de '{output_dir}'...")
+    problemas = partes.verificar(output_dir, None, verbose=False)
+    for p in problemas:
+        print(f"[ERRO] {p}")
+    if problemas:
+        return False
+    arquivos = sorted(f for f in os.listdir(output_dir)
+                      if f.startswith("climbra_") and f.endswith(".db") and f != "climbra.db")
+    for arquivo in arquivos[:2]:
+        conn = sqlite3.connect(os.path.join(output_dir, arquivo))
+        for city in ("São Paulo", "Florianópolis"):
+            row = conn.execute(
+                "SELECT s.count, s.data FROM climbra_series s JOIN climbra_cities c ON c.city = s.city "
+                "WHERE c.city_norm = ? AND s.scenario = 'HIST';", (normalize_name(city),)).fetchone()
+            if not row:
+                print(f"[ERRO] {arquivo}: '{city}' sem série histórica")
+                conn.close()
+                return False
+            bruto = zlib.decompress(row[1])
+            arr = np.frombuffer(bruto, dtype=np.float16 if len(bruto) == row[0] * 2 else np.float32)
+            print(f"    - {arquivo} / {city}: {row[0]} dias, média {arr.astype(float).mean():.2f} mm/dia")
+        conn.close()
+    print("[OK] Partes verificadas.")
+    return True
+
+
 def verify_database(db_path: str, sample_csv_dir: Optional[str] = None) -> bool:
     """Verifica a integridade e precisão numérica do banco de dados gerado."""
     print(f"[*] Verificando integridade de '{db_path}'...")
@@ -329,6 +432,11 @@ def verify_database(db_path: str, sample_csv_dir: Optional[str] = None) -> bool:
 
 
 if __name__ == "__main__":
+    for _fluxo in (sys.stdout, sys.stderr):
+        try:
+            _fluxo.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
     _default_input = os.path.join(os.path.dirname(__file__), "..", "climbra_data")
     if not os.path.isdir(_default_input):
         _legacy_input = os.path.join(os.path.dirname(__file__), "..", "Triton future files for 652 cities")
@@ -343,16 +451,27 @@ if __name__ == "__main__":
         help="Diretório contendo os arquivos CSV brutos",
     )
     parser.add_argument(
+        "--formato",
+        choices=["partes", "unico"],
+        default="partes",
+        help="partes: um banco por modelo (data/climbra_<modelo>.db, padrão); unico: data/climbra.db (formato antigo)",
+    )
+    parser.add_argument(
         "--output",
         "-o",
-        default=os.path.join(os.path.dirname(__file__), "..", "data", "climbra.db"),
-        help="Caminho de destino do arquivo SQLite",
+        default=None,
+        help="destino: a pasta das partes (padrão: data/) ou, com --formato unico, o arquivo (padrão: data/climbra.db)",
+    )
+    parser.add_argument(
+        "--modelo",
+        action="append",
+        help="compila só este modelo (repetível; só com --formato partes)",
     )
     parser.add_argument(
         "--dtype",
         choices=["float16", "float32"],
         default="float16",
-        help="Precisão numérica (float16: ~1,1 GB, float32: ~1,8 GB)",
+        help="Precisão numérica (float16: ~0,8 GB no total; float32: ~1,5 GB, com partes maiores)",
     )
     parser.add_argument(
         "--workers",
@@ -368,16 +487,22 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+    pasta_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+    saida = args.output or (pasta_data if args.formato == "partes" else os.path.join(pasta_data, "climbra.db"))
 
     if args.verify_only:
-        success = verify_database(args.output)
+        success = verify_partes(saida) if args.formato == "partes" else verify_database(saida)
         sys.exit(0 if success else 1)
+
+    if args.formato == "partes":
+        compile_partes(args.input, saida, args.dtype, args.workers, args.modelo)
+        sys.exit(0 if verify_partes(saida) else 1)
 
     compile_database(
         input_dir=args.input,
-        output_db_path=args.output,
+        output_db_path=saida,
         dtype_str=args.dtype,
         num_workers=args.workers,
     )
 
-    verify_database(args.output, sample_csv_dir=args.input)
+    verify_database(saida, sample_csv_dir=args.input)

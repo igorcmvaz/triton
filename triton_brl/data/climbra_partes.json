@@ -1,0 +1,298 @@
+{
+  "schema_version": "2",
+  "gerado_em": "2026-10-15T01:34:57",
+  "limite_github_mb": 100,
+  "origem": {
+    "arquivo": "climbra.db",
+    "bytes": 821805056,
+    "compiled_at": "2026-09-22T16:48:58.581864",
+    "total_series": "37164"
+  },
+  "partes": [
+    {
+      "arquivo": "climbra_ACCESS-CM2.db",
+      "modelo": "ACCESS-CM2",
+      "cenario": null,
+      "bytes": 44548096,
+      "mb": 42.48,
+      "series": 1956,
+      "content_sha256": "926a31a146dab7ea2119615bdd0700776e5b34032e95087127321efc1ccebe31",
+      "sha256": "a919968399fb86a16ac3208b8ec9b1ddd372bd051c0f9205091cb2ae44c68d51",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_ACCESS-ESM1-5.db",
+      "modelo": "ACCESS-ESM1-5",
+      "cenario": null,
+      "bytes": 44269568,
+      "mb": 42.22,
+      "series": 1956,
+      "content_sha256": "8bcf7cbbf1785f1c70cabe87e926fd4435d9a4b5fc6b40a53de385164400ddf0",
+      "sha256": "1ce6e8f9150767de2d7869670c4ba0762b1ac4669e9281ead53c2a0e03c919e5",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_CMCC-ESM2.db",
+      "modelo": "CMCC-ESM2",
+      "cenario": null,
+      "bytes": 42545152,
+      "mb": 40.57,
+      "series": 1956,
+      "content_sha256": "0db7de5b835c0b69c8dc37a9c7e4c11bca62bedd27a570426ab472c0064b245a",
+      "sha256": "d38a349fb404d67a04e20fab15bdbe99e1d5505c32e978d8865f5d06d58dc96a",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_EC-EARTH3.db",
+      "modelo": "EC-EARTH3",
+      "cenario": null,
+      "bytes": 42184704,
+      "mb": 40.23,
+      "series": 1956,
+      "content_sha256": "b13c36320ebad134c26b1a618bed696c1e1890f7147be192056f5cdc8a370f8f",
+      "sha256": "b4a062394da29997007dc51b3d1fcd05c90c12366259056d1c843f91809d207b",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_GFDL-CM4.db",
+      "modelo": "GFDL-CM4",
+      "cenario": null,
+      "bytes": 42442752,
+      "mb": 40.48,
+      "series": 1956,
+      "content_sha256": "379cf74ab9a8db0ea7e9597699f968cdd665d59883bb90b6186f6c0d33a0ceb9",
+      "sha256": "b9bd3b55cd4de49409840d8bde11dce16efb34dd4149a82d437a309220cbfa48",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_GFDL-ESM4.db",
+      "modelo": "GFDL-ESM4",
+      "cenario": null,
+      "bytes": 42131456,
+      "mb": 40.18,
+      "series": 1956,
+      "content_sha256": "84351a03dd73595b0cecc9cf6022749ffb8a9b6db3370c85d55d27bf06b125b4",
+      "sha256": "471b9acbeb43af102125e97ec5c2f44e943d7b3218abc7675edd048c4c743cf5",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_HadGEM3-GC31-LL.db",
+      "modelo": "HadGEM3-GC31-LL",
+      "cenario": null,
+      "bytes": 43438080,
+      "mb": 41.43,
+      "series": 1956,
+      "content_sha256": "76e28a5251eb6f22da5ee0249675173fc4bf835a45fb124261f9f3ee3b9fab06",
+      "sha256": "5e9094bcd4e31eccd39168c29fdb460d0c9ed94c439f6935e42647156fec8bfc",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_INM-CM4.db",
+      "modelo": "INM-CM4",
+      "cenario": null,
+      "bytes": 43384832,
+      "mb": 41.38,
+      "series": 1956,
+      "content_sha256": "0fac2d2eadb21e85c500c11831aba8138e9a1da2a0b0494b5a13d4f8c250a3ec",
+      "sha256": "22c2453ec2816c31f072da24f098a93c99875d1689746a99dc60b5d8f7d1994d",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_INM-CM5.db",
+      "modelo": "INM-CM5",
+      "cenario": null,
+      "bytes": 44183552,
+      "mb": 42.14,
+      "series": 1956,
+      "content_sha256": "efc4e7bbc7fa4b722dc0a3c4eb97fec15ff7eb4d7bb616b27866ffb251c80abc",
+      "sha256": "1faf00e9d77885591cf688de285795ef0612722b15b74ecc6f3d97797d46f912",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_IPSL-CM6A-LR.db",
+      "modelo": "IPSL-CM6A-LR",
+      "cenario": null,
+      "bytes": 41926656,
+      "mb": 39.98,
+      "series": 1956,
+      "content_sha256": "b4fba1f332e2cb60da34593d3c480357efdd7d55ce01671d8cb22c5830a835e3",
+      "sha256": "0c4eac51d3e2f08e82fa9db63f8b547a22670373f22a6cee580bb982844d8723",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_KACE.db",
+      "modelo": "KACE",
+      "cenario": null,
+      "bytes": 45105152,
+      "mb": 43.02,
+      "series": 1956,
+      "content_sha256": "fa4d2f0006fb2d177bb0ada2f7a0b2aaa56fd6c1c15db8e56e800d0e05471bbc",
+      "sha256": "f367d09eb2d2cb7fe0dced4c57722fbe6b35e08691b6819ebf83966021cdc588",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_KIOST.db",
+      "modelo": "KIOST",
+      "cenario": null,
+      "bytes": 44236800,
+      "mb": 42.19,
+      "series": 1956,
+      "content_sha256": "5f6743d5493043c166804510d408c7a4c261e2da822eaf9a60f2e43242f86100",
+      "sha256": "e6a376e8963dc2582cbe179f3e5fe6c7ecf3b8fd3c2e0ae235af332d6c81e6fa",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_MIROC6.db",
+      "modelo": "MIROC6",
+      "cenario": null,
+      "bytes": 44642304,
+      "mb": 42.57,
+      "series": 1956,
+      "content_sha256": "03dda5a4295e97d023cc962bf527234155a3dca0c90d2737cbd9dbed9205b0fd",
+      "sha256": "a899fa835b84acd6e79a305155c2e7ef97304fdb95f51178a246aa7c6391b923",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_MPI-ESM1-2.db",
+      "modelo": "MPI-ESM1-2",
+      "cenario": null,
+      "bytes": 43663360,
+      "mb": 41.64,
+      "series": 1956,
+      "content_sha256": "3a9e4380559795d73032e7cb5c36f20152fec52a922e70bc4db0f8436b6c274b",
+      "sha256": "c374741e0a545b930b2f4644150d6fec400e803ef8bea7be92e833e0854f9395",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_MRI-ESM2.db",
+      "modelo": "MRI-ESM2",
+      "cenario": null,
+      "bytes": 43741184,
+      "mb": 41.71,
+      "series": 1956,
+      "content_sha256": "cad77c168d436ea5b812da485506813cecf1de454b25b76a894c0579d1706758",
+      "sha256": "52c68b24c9b85a34075409f43287de9ff8481b37d6a62320fb5fd94efa3d6bb9",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_NESM3.db",
+      "modelo": "NESM3",
+      "cenario": null,
+      "bytes": 42950656,
+      "mb": 40.96,
+      "series": 1956,
+      "content_sha256": "3d5de1383a01f04bf6d2eb5d3be2c4fa08f4f124e46d426910ef630826abf341",
+      "sha256": "1fb833256e6be626795f03582c92ece245c677d7d5290db07e1873def5dfb665",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_NorESM2-MM.db",
+      "modelo": "NorESM2-MM",
+      "cenario": null,
+      "bytes": 41988096,
+      "mb": 40.04,
+      "series": 1956,
+      "content_sha256": "dba1ceb24f5ab23e3a192064a65b210e8280590f1e8298eb55501cc4a9045dc9",
+      "sha256": "6df9558358fe77c86d0322c6934f743f4809beb8d7d84d267bfd0de507d03171",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_TaiESM1.db",
+      "modelo": "TaiESM1",
+      "cenario": null,
+      "bytes": 43069440,
+      "mb": 41.07,
+      "series": 1956,
+      "content_sha256": "0ff7c58c560acba5d2270bfb405754683034cf050a2319e283010115b27a8034",
+      "sha256": "7c8651e8d44406851d81734e814b8c8da92ac7e1bd64152b441cbfb65ba6a050",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    },
+    {
+      "arquivo": "climbra_UKESM1-0-LL.db",
+      "modelo": "UKESM1-0-LL",
+      "cenario": null,
+      "bytes": 42811392,
+      "mb": 40.83,
+      "series": 1956,
+      "content_sha256": "2e19e2261e719146f033d9f9877eb129ad6c2b74a6d9563410f129b66b03e31e",
+      "sha256": "3813ab7ad7647b3ae4af71958367a5d166d90e53784ca0360602d10b63e0c850",
+      "cenarios": [
+        "HIST",
+        "SSP245",
+        "SSP585"
+      ]
+    }
+  ]
+}

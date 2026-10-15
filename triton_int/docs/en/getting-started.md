@@ -78,16 +78,16 @@ keeping a stale result.
 Everything else has a documented default. These five do not:
 
 1. **A daily precipitation series** — two columns, date and depth in millimetres, as CSV.
-   Or a municipality from the embedded climate base.
+   Or a municipality from the embedded climate base (in editions that ship with one).
 2. **Catchment area**, in square metres, *in horizontal projection* — not the sloped area
    of the roof. Rain falls vertically; using the sloped area overestimates the yield.
 3. **Runoff coefficient** — the fraction of rainfall that reaches the tank. The default is
-   0.75 for the ceramic tile that dominates Brazilian residential roofs.
+   0.75 for standard ceramic tile.
 4. **Non-potable demand** — occupants and per-capita consumption, or a measured series.
 5. **The range of tank capacities** to test.
 
-The first-flush discard depth defaults to **2.0 mm**, the value of ABNT NBR 15527:2019
-item 4.1.5, when it is not declared. Declare the depth measured on the actual roof
+The first-flush discard depth defaults to **2.0 mm**, the standard reference value,
+when it is not declared. Declare the depth measured on the actual roof
 whenever you have it.
 
 ---

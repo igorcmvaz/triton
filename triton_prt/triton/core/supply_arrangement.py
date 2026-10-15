@@ -6,7 +6,6 @@ sem kWh informado, cobrava bombeamento de todo o volume pluvial; e a cloração 
 ACV sumia ao desmarcar a caixa. Este módulo é o lugar único da resposta, e os
 três consumidores — econômico, ACV e relatórios — a leem daqui.
 
-Proposta e decisões em ``docs/proposta_arranjo_de_abastecimento.md``.
 """
 
 from __future__ import annotations

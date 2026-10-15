@@ -1,21 +1,36 @@
 """
 Configuração global do Pytest para a suíte do Triton.
 
+Este arquivo é IDÊNTICO nas três edições (triton_brl, triton_int, triton_prt): a edição
+vem da variável TRITON_EDITION e, se ela não estiver definida, do nome da pasta em que a
+suíte está (`triton_brl` -> BRL, `triton_int` -> INT, `triton_prt` -> PRT; qualquer outro
+nome -> BRL, o padrão do programa). Assim `python -m pytest` dentro de uma pasta de edição
+testa aquela edição, com ou sem a variável.
+
 Garante execução headless para Qt/PySide6 e Matplotlib (Agg) e permite que a
 verificação numérica do núcleo seja executada num ambiente mínimo, sem a stack
 gráfica instalada.
 
 Por que a degradação importa
 ----------------------------
-Os testes de invariantes e propriedades científicas não dependem de interface, mas
-o `conftest` já importou PySide6 no topo e instalava um
-`QApplication` com `autouse=True`. Consequência: *todo* teste, inclusive os
-puramente numéricos, exigia Qt instalado. Isso impedia rodar a verificação em
-contêineres mínimos de integração contínua e obrigava `--noconftest` para exercitar
-os kernels acelerados num ambiente isolado com `numba`.
+Os testes de invariantes e propriedades científicas não dependem de interface. Sem
+PySide6 instalado, os módulos que dependem da interface simplesmente não são coletados
+(`MODULOS_QUE_EXIGEM_INTERFACE`), e o restante da suíte executa normalmente, o que permite
+rodar a verificação em contêineres mínimos de integração contínua.
 
-Sem PySide6 disponível, os módulos que dependem de interface simplesmente não são
-coletados, e o restante da suíte executa normalmente.
+Listas por edição
+-----------------
+Dois arquivos de texto, ao lado deste, dizem o que só faz sentido com os dados de uma edição:
+
+- ``so_da_brl.txt``: depende de dado brasileiro (banco de 652 municípios, CLIMBra, CASAN...).
+  Fora da BRL, é saltado.
+- ``so_da_prt.txt``: depende de dado de Portugal (tarifários, base E-OBS). Fora da PRT, é saltado.
+
+Cada linha é um arquivo inteiro (``tests/unit/x.py``, que nem é importado) ou um teste
+(``tests/unit/x.py::test_y``, ``tests/x.py::Classe::test_y``; vale também para as variantes
+parametrizadas). Linhas em branco e iniciadas por ``#`` são comentários.
+O motor (simulação, economia, ACV, decisão multicritério) NÃO está nessas listas: ele roda em
+todas as edições, com o ``TritonConfig()`` cru, que traz os padrões históricos em qualquer uma.
 """
 
 import os
@@ -23,8 +38,25 @@ import sys
 
 import pytest
 
+_SINONIMOS = {"POR": "PRT"}
+_PASTAS = {"triton_brl": "BRL", "triton_int": "INT", "triton_prt": "PRT"}
+
+
+def _edicao_da_suite() -> str:
+    """A edição da suíte: TRITON_EDITION, ou a da pasta, ou BRL."""
+    ed = (os.environ.get("TRITON_EDITION") or "").strip().upper()
+    if not ed:
+        pasta = os.path.basename(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).lower()
+        ed = _PASTAS.get(pasta, "BRL")
+    return _SINONIMOS.get(ed, ed)
+
+
+EDICAO = _edicao_da_suite()
+
 # Renderização offscreen antes de qualquer importação de Qt.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+# O programa lê a edição da mesma variável: a suíte e o código testado concordam.
+os.environ["TRITON_EDITION"] = EDICAO
 # A aba de volumetria usa o visualizador WebGL (QtWebEngine) no programa; nos
 # testes, o de QPainter, que não sobe um Chromium nem depende de GPU. O WebGL é
 # verificado por tests/unit/test_volumetria_web.py e pela conferência manual.
@@ -69,14 +101,13 @@ collect_ignore = [] if TEM_INTERFACE_GRAFICA else list(MODULOS_QUE_EXIGEM_INTERF
 def _base_climatica_disponivel() -> bool:
     """A base CMIP6 das 652 cidades está presente nesta instalação?
 
-    São ~6,5 GB e 37 mil arquivos, distribuídos separadamente do código: não cabem em
-    repositório. Um clone limpo — e portanto qualquer execução de integração contínua —
-    não os tem.
+    Com as 19 partes `climbra_<modelo>.db` versionadas na Edição Brasil, a base compilada
+    está presente e utilizável diretamente.
     """
     try:
-        from triton.core.climate_database import get_climate_database_dir
+        from triton.core.climate_database import climate_database_available
 
-        return os.path.isdir(get_climate_database_dir())
+        return climate_database_available()
     except Exception:
         return False
 
@@ -100,21 +131,65 @@ TESTES_QUE_EXIGEM_BASE_CLIMATICA = {
 }
 
 
-def pytest_collection_modifyitems(config, items):
-    """Ignora, sem falhar, o que depende de dados não distribuídos com o código."""
-    if TEM_BASE_CLIMATICA:
-        return
+# --- testes que dependem de dados de uma edição só ---------------------------------------
 
-    motivo = pytest.mark.skip(
-        reason="base climática CMIP6 ausente (distribuída separadamente, ~6,5 GB)"
-    )
-    for item in items:
-        if item.name.split("[")[0] in TESTES_QUE_EXIGEM_BASE_CLIMATICA:
-            item.add_marker(motivo)
+_PASTA = os.path.dirname(os.path.abspath(__file__))
+#: Nome do arquivo de lista -> a edição que tem os dados.
+LISTAS_POR_EDICAO = {"so_da_brl.txt": "BRL", "so_da_prt.txt": "PRT"}
+
+
+def ler_lista(nome_do_arquivo: str):
+    """As entradas de uma lista (arquivo ausente = lista vazia)."""
+    caminho = os.path.join(_PASTA, nome_do_arquivo)
+    if not os.path.isfile(caminho):
+        return []
+    with open(caminho, encoding="utf-8") as f:
+        linhas = [l.strip() for l in f]
+    return [l for l in linhas if l and not l.startswith("#")]
+
+
+def entradas_que_nao_se_aplicam(edicao: str = EDICAO):
+    """Entradas das listas cujos dados esta edição não tem."""
+    fora = []
+    for nome, dona in LISTAS_POR_EDICAO.items():
+        if edicao != dona:
+            fora.extend(ler_lista(nome))
+    return fora
+
+
+_FORA = entradas_que_nao_se_aplicam()
+
+# Arquivos inteiros: nem são importados (o import falharia sem os dados).
+collect_ignore.extend(p[len("tests/"):] for p in _FORA if "::" not in p and p.startswith("tests/"))
+_TESTES_FORA = [p for p in _FORA if "::" in p]
+
+
+def _casa(nodeid: str, entrada: str) -> bool:
+    """O nodeid é a entrada, um teste dentro dela (classe) ou uma variante parametrizada dela."""
+    return nodeid == entrada or nodeid.startswith((entrada + "::", entrada + "["))
+
+
+def pytest_collection_modifyitems(config, items):
+    """Ignora, sem falhar, o que depende de dados não distribuídos com o código ou de outra edição."""
+    if not TEM_BASE_CLIMATICA:
+        motivo = pytest.mark.skip(
+            reason="base climática CMIP6 ausente (distribuída separadamente, ~6,5 GB)"
+        )
+        for item in items:
+            if item.name.split("[")[0] in TESTES_QUE_EXIGEM_BASE_CLIMATICA:
+                item.add_marker(motivo)
+
+    if _TESTES_FORA:
+        saltados = [i for i in items
+                    if any(_casa(i.nodeid.replace("\\", "/"), p) for p in _TESTES_FORA)]
+        if saltados:
+            config.hook.pytest_deselected(items=saltados)
+            ids = {id(i) for i in saltados}
+            items[:] = [i for i in items if id(i) not in ids]
 
 
 def pytest_report_header(config):
-    """Registra no cabeçalho qual kernel e qual stack estão sendo exercitados."""
+    """Registra no cabeçalho a edição, qual kernel e qual stack estão sendo exercitados."""
     try:
         from triton.core import simulation
 
@@ -126,7 +201,8 @@ def pytest_report_header(config):
         f"sem Qt — {len(MODULOS_QUE_EXIGEM_INTERFACE)} módulos de interface não coletados"
     )
     clima = "base climática presente" if TEM_BASE_CLIMATICA else "sem base climática"
-    return f"triton: kernel {kernel} | {interface} | {clima}"
+    return (f"triton: edição {EDICAO} | kernel {kernel} | {interface} | {clima} | "
+            f"{len(_FORA)} entradas de outra edição fora da execução")
 
 
 @pytest.fixture(autouse=True)
@@ -162,8 +238,8 @@ def idioma_portugues_isolado():
 def qapp():
     """Instância única de QApplication para os testes de interface.
 
-    Continua `autouse` para não exigir alteração nos testes existentes, mas agora
-    é inerte quando a stack gráfica não está presente.
+    Continua `autouse` para não exigir alteração nos testes existentes, mas é
+    inerte quando a stack gráfica não está presente.
     """
     if not TEM_INTERFACE_GRAFICA:
         yield None

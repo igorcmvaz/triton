@@ -40,7 +40,7 @@ fires:
 
 `d` is a **depth** in millimetres, not the hydraulic volume of the physical first-flush
 device, which is `A × d` litres and must be sized separately. When it is not declared, `d`
-defaults to **2.0 mm**, the value of ABNT NBR 15527:2019, item 4.1.5.
+defaults to **2.0 mm**, the reference standard value (e.g. ABNT NBR 15527 in Brazil or recommended practice).
 
 > **A deliberate difference from Netuno 4.** Netuno 4 treated `d` as an event threshold,
 > capturing `P_t` in full whenever `P_t ≥ d`. Triton subtracts the depth, which is
@@ -166,7 +166,7 @@ E = P × [(V_pumped / Q) + (n_starts × t_start)] / η
 with `P` in kW, the bracketed term in hours and `η` the overall efficiency as a fraction.
 With no upper tank, pumping energy is zero.
 
-Note that `P` is the **shaft** power. ABNT NBR 17094-2:2016 requires the motor efficiency
+Note that `P` is the **shaft** power. Standards (such as IEC 60034-30 or national motor standards) require the motor efficiency
 to be marked on the nameplate *separately* from the power, so the nameplate figure is the
 power available at the shaft, not the power drawn at the socket. Treating one as the other
 underestimates consumption by a factor equal to the motor efficiency — 60.5% for a
@@ -232,7 +232,7 @@ carbon balance is convex and has a unique minimum — and that minimum is freque
 capacity, each additional litre of storage emits more than it avoids.
 
 Emission factors have declared sources, item by item, in
-[`../procedencia_fatores_co2.md`](../procedencia_fatores_co2.md). Two reservations stand:
+`../procedencia_fatores_co2.md`. Two reservations stand:
 
 - The grid factor is **CO₂-equivalent, not CO₂**. The MCTI/SIRENE series covers carbon
   dioxide only and generation only; using it here would underestimate pumping.

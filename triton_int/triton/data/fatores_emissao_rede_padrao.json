@@ -1,0 +1,18 @@
+{
+  "_fonte": {
+    "orgao": "",
+    "serie": "sem série oficial nesta edição",
+    "unidade": "kgCO2e/kWh"
+  },
+  "fator_medio_anual_tco2_por_mwh": {},
+  "fator_medio_mensal_tco2_por_mwh": {},
+  "bases_co2eq": {
+    "_nota": "Fatores em kgCO2e/kWh para uso em ACV. Esta edição não traz série oficial da rede nem valor predefinido: o fator é 0 até o usuário informar o da rede elétrica do projeto.",
+    "adotado_triton": {
+      "valor": 0.0,
+      "gas": "CO2e",
+      "fronteira": "informada pelo usuário",
+      "fonte": "Sem valor predefinido: informe o fator de emissão da rede elétrica do seu projeto."
+    }
+  }
+}

@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from triton.core.parser import load_precipitation, parse_float, parse_int
+from triton.core.edition import serie_de_exemplo_da_edicao
 from triton.core.fracao_atendivel import percentual_para_fracao, aviso_percentual_pequeno
 from triton.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
 from triton.core.scenarios import ScenarioItem, ScenarioOutput, MultiScenarioMatrixResult
@@ -18,53 +19,28 @@ def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_triton.xl
     Generates a sample Excel file (.xlsx) with pre-populated scenario parameters.
     User can open this template, edit values, and re-upload to Triton.
     """
-    sample_data = [
-        {
-            "Cenario": "Residência Florianópolis 3 hab",
-            "Chuva_Arquivo": "Florianopolis1.csv",
-            "Area_m2": 100,
-            "Moradores": 3,
-            "Demanda_L_hab_dia": 100,
-            "Substituicao_Percentual": 40,
-            "Descarte_mm": 1.0,
-            "Coef_Escoamento": 0.9,
-            "Modo_Reservatorio": "Varredura",
-            "Reservatorio_Inferior_L": 10000,
-            "Passo_Varredura_L": 250,
-            "Reservatorio_Superior_L": 500,
-            "Limiar_Recalque_L": 375
-        },
-        {
-            "Cenario": "Residência São Paulo 4 hab",
-            "Chuva_Arquivo": "SaoPaulo1.csv",
-            "Area_m2": 150,
-            "Moradores": 4,
-            "Demanda_L_hab_dia": 120,
-            "Substituicao_Percentual": 50,
-            "Descarte_mm": 1.0,
-            "Coef_Escoamento": 0.9,
-            "Modo_Reservatorio": "Varredura",
-            "Reservatorio_Inferior_L": 10000,
-            "Passo_Varredura_L": 250,
-            "Reservatorio_Superior_L": 500,
-            "Limiar_Recalque_L": 375
-        },
-        {
-            "Cenario": "Escola Brasília",
-            "Chuva_Arquivo": "Brasilia1.csv",
-            "Area_m2": 300,
-            "Moradores": 10,
-            "Demanda_L_hab_dia": 50,
-            "Substituicao_Percentual": 30,
-            "Descarte_mm": 2.0,
-            "Coef_Escoamento": COEFICIENTE_DE_ESCOAMENTO_PADRAO,
-            "Modo_Reservatorio": "Fixo",
-            "Reservatorio_Inferior_L": 5000,
-            "Passo_Varredura_L": 0,
-            "Reservatorio_Superior_L": 0,
-            "Limiar_Recalque_L": 0
-        }
-    ]
+    from triton.core.edition import cenarios_de_exemplo_da_edicao
+
+    # As linhas de exemplo são da edição ativa (séries que ela distribui). A terceira linha da
+    # Brasil (escola) tem reservatório fixo e as demais, varredura: a mesma regra vale nas outras.
+    sample_data = []
+    for ex in cenarios_de_exemplo_da_edicao():
+        fixo = ex["moradores"] >= 10
+        sample_data.append({
+            "Cenario": ex["nome"],
+            "Chuva_Arquivo": ex["serie"],
+            "Area_m2": ex["area"],
+            "Moradores": ex["moradores"],
+            "Demanda_L_hab_dia": ex["demanda"],
+            "Substituicao_Percentual": ex["percentual"],
+            "Descarte_mm": 2.0 if fixo else 1.0,
+            "Coef_Escoamento": COEFICIENTE_DE_ESCOAMENTO_PADRAO if fixo else 0.9,
+            "Modo_Reservatorio": "Fixo" if fixo else "Varredura",
+            "Reservatorio_Inferior_L": 5000 if fixo else 10000,
+            "Passo_Varredura_L": 0 if fixo else 250,
+            "Reservatorio_Superior_L": 0 if fixo else 500,
+            "Limiar_Recalque_L": 0 if fixo else 375,
+        })
     df = pd.DataFrame(sample_data)
     df.to_excel(output_path, index=False, engine='openpyxl')
     return output_path
@@ -101,7 +77,7 @@ def parse_excel_scenarios(file_input: Union[str, bytes, io.BytesIO]) -> List[Dic
             return default
             
         c_name = get_val(["cenario", "nome", "scenario", "name"], f"Cenario_{idx+1}")
-        c_file = get_val(["chuva", "arquivo", "precip", "file", "cidade"], "Florianopolis1.csv")
+        c_file = get_val(["chuva", "arquivo", "precip", "file", "cidade"], serie_de_exemplo_da_edicao())
         area = parse_float(get_val(["area"], 100.0), 100.0)
         residents = parse_int(get_val(["moradores", "habitants", "residents"], 3), 3)
         demand_capita = parse_float(get_val(["demanda", "demand"], 100.0), 100.0)

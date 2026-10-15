@@ -54,7 +54,7 @@ CAMADAS = {
     "unit": ["tests/unit"],
     "integration": ["tests/integration"],
     "invariants": ["tests/invariants"],
-    # A suíte essencial: invariantes, limites e modos de falha (ver tests/AUDITORIA_DE_TESTES.md).
+    # A suíte essencial: invariantes, limites e modos de falha.
     "essencial": ["tests/test_essencial.py", "tests/test_essencial_interface.py"],
     "ciencia": ["tests/test_essencial.py"],
     "ui": ["tests/test_essencial_interface.py"],

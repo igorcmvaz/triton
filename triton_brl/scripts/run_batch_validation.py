@@ -18,7 +18,7 @@ from triton.core.scenarios import run_multi_scenario_matrix
 
 def run_full_validation():
     print("=" * 95)
-    print("TRITON 5 - EXERCÍCIO DE REGRESSÃO DE CENÁRIOS EM LOTE")
+    print("TRITON - EXERCÍCIO DE REGRESSÃO DE CENÁRIOS EM LOTE")
     print("=" * 95)
 
     precip_dir = os.path.join(BASE_DIR, "data", "rainfall")

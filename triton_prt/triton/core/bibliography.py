@@ -1235,6 +1235,23 @@ def _formatar(ref: Referencia, lang: str) -> str:
     return "".join(partes)
 
 
+def e_do_brasil(ref: Referencia) -> bool:
+    """O registro cita o Brasil (norma da ABNT, base do INMET, fabricante brasileiro, inventário do país).
+
+    Vale só para decidir o que a Edição Internacional e a Portugal mostram: a lista completa
+    fica em ``REFERENCIAS`` e a Edição Brasil mostra tudo.
+    """
+    from triton.core.edition import cita_o_brasil
+    texto = " ".join((ref.titulo, ref.veiculo, ref.detalhe, ref.nota_pt, ref.nota_en, ref.chave))
+    return cita_o_brasil(texto) or ref.chave.startswith(("abnt_", "mcti_", "snis_", "sidac_", "inmet_"))
+
+
+def _visiveis(refs):
+    """As referências que a edição ativa mostra."""
+    from triton.core.edition import usa_dados_do_brasil
+    return tuple(refs) if usa_dados_do_brasil() else tuple(r for r in refs if not e_do_brasil(r))
+
+
 def referencias_da_secao(secao: str) -> Tuple[Referencia, ...]:
     """As referências de uma seção, na ordem declarada."""
     if secao not in REFERENCIAS_POR_SECAO:
@@ -1248,7 +1265,7 @@ def render_bloco_da_secao(secao: str, lang: str = "pt") -> str:
     Vai **depois** do conteúdo, fora do alcance do pré-processador de equações
     de `_create_browser`, que reescreve parágrafos contendo `<code>` com `=`.
     """
-    refs = referencias_da_secao(secao)
+    refs = _visiveis(referencias_da_secao(secao))
     if not refs:
         return ""
 
@@ -1265,7 +1282,7 @@ def render_bloco_da_secao(secao: str, lang: str = "pt") -> str:
 
 def render_bibliografia_completa(lang: str = "pt") -> str:
     """Lista geral, ordenada por autor e ano, para a página de Referências."""
-    ordenadas = sorted(REFERENCIAS.values(), key=lambda r: (r.autores.lower(), r.ano))
+    ordenadas = sorted(_visiveis(REFERENCIAS.values()), key=lambda r: (r.autores.lower(), r.ano))
     itens = "".join(
         f"<li style='margin-bottom: 10px;'>{_formatar(ref, lang)}</li>" for ref in ordenadas
     )

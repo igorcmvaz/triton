@@ -1,17 +1,14 @@
 {
-  "schema": {"name": "triton-climate-catalog", "version": 1},
+  "schema": {
+    "name": "triton-climate-catalog",
+    "version": 1
+  },
   "climates": [
     {
-      "id": "florianopolis-1",
-      "name": "Florianópolis — série 1",
-      "rainfall_file": "Florianopolis1.csv",
-      "start_date": "01/01/2002"
-    },
-    {
-      "id": "brasilia-1",
-      "name": "Brasília — série 1",
-      "rainfall_file": "Brasilia1.csv",
-      "start_date": "01/01/2002"
+      "id": "funchal-1",
+      "name": "Funchal — 1",
+      "rainfall_file": "Funchal.csv",
+      "start_date": "01/01/1991"
     }
   ]
 }
