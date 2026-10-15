@@ -281,6 +281,7 @@ def _com_idioma(idioma: str):
 
 @pytest.fixture
 def idioma_restaurado():
+    pytest.importorskip("PySide6", reason="a interface exige PySide6 (a CI não o instala)")
     from triton.ui import translation as T
     anterior = T.get_current_lang()
     yield

@@ -86,7 +86,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 
 | Documento | Conteúdo |
 | :--- | :--- |
-| [`../additional_material/documentation/Manual-Triton-4_Junho2014.pdf`](../additional_material/documentation/Manual-Triton-4_Junho2014.pdf) | Manual do Netuno 4, software antecessor |
+| Manual do Netuno 4 (junho de 2014; documento de terceiros, fora do repositório) | Manual do Netuno 4, software antecessor |
 | ROCHA, V. L. *Validação do algoritmo do programa Triton para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966). | Dissertação de referência (validação do algoritmo original) |
 
 ---

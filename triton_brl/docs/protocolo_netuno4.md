@@ -8,7 +8,7 @@ comparação verifica.
 
 ## 1. O que o Netuno 4 pode e não pode verificar
 
-Levantado no [Manual do Usuário do Netuno 4](../additional_material/documentation/Manual-Triton-4_Junho2014.pdf)
+Levantado no Manual do Usuário do Netuno 4 (documento de terceiros, fora do repositório)
 (junho/2014). Nem toda lacuna do Triton tem antecessor com que comparar:
 
 | Recurso do Triton | Netuno 4 tem? | Consequência |
