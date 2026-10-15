@@ -23,8 +23,11 @@ for _p in (MANUAL, EN):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-import conferir  # noqa: E402
-import gerar  # noqa: E402
+try:
+    import conferir
+    import gerar
+except ModuleNotFoundError:
+    pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
 
 
 def _ler(caminho):
