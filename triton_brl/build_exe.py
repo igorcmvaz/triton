@@ -136,7 +136,8 @@ def entradas_do_pacote(base_dir: Path, edicao: str) -> list:
         raiz = base_dir / pasta
         if not raiz.is_dir():
             return []
-        return [(f"{pasta}/{f.name}", f"{destino}/{f.name}") for f in sorted(raiz.iterdir())
+        return [(f"{pasta}/{f.name}", destino if f.is_file() else f"{destino}/{f.name}")
+                for f in sorted(raiz.iterdir())
                 if f.name != "__pycache__" and not pular(f.name)]
 
     def pular_data(nome: str) -> bool:

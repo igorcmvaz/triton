@@ -178,10 +178,13 @@ def _pastas_de_busca() -> List[str]:
     import sys
     pasta_do_executavel = (os.path.dirname(sys.executable)
                            if getattr(sys, "frozen", False) else "")
+    meipass = getattr(sys, "_MEIPASS", "")
     raiz_do_programa = os.path.join(os.path.dirname(__file__), "..", "..")
     pastas = [
         os.environ.get("TRITON_CLIMBRA_DIR", ""),
         os.path.join(pasta_do_executavel, "data") if pasta_do_executavel else "",
+        os.path.join(pasta_do_executavel, "_internal", "data") if pasta_do_executavel else "",
+        os.path.join(meipass, "data") if meipass else "",
         pasta_do_executavel,
         os.path.join(raiz_do_programa, "data"),
         raiz_do_programa,
