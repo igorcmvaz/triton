@@ -89,9 +89,11 @@ class TabProject(QWidget):
         self.clear_climate_cards_and_tables()
         self._abrir_sem_base_climatica()
 
-    #: Série distribuída com o programa, usada quando a base CLIMBra não está
-    #: instalada (o instalador não a inclui: ela é copiada à parte).
-    SERIE_DE_EXEMPLO = "Florianopolis1.csv"
+    @property
+    def SERIE_DE_EXEMPLO(self) -> str:
+        from triton.core.edition import serie_de_exemplo_da_edicao
+        return serie_de_exemplo_da_edicao()
+
 
     def _abrir_sem_base_climatica(self):
         """Sem a base CLIMBra, abre a série de exemplo em vez de uma Etapa 1 vazia.
@@ -99,7 +101,7 @@ class TabProject(QWidget):
         A base das 652 cidades é distribuída separadamente. Sem ela, a janela
         abria sem chuva nenhuma, e todas as etapas seguintes ficavam sem dados.
         """
-        from triton.core.edition import usa_dados_do_brasil
+        from triton.core.edition import usa_dados_do_brasil, is_prt_edition, is_int_edition
         # A base nacional da edição: a CLIMBra na Brasil, a E-OBS na Portugal. Na
         # International não há nenhuma, ainda que a CLIMBra esteja na pasta (rodando do
         # código-fonte): o botão da base fica oculto, e a etapa abria com o painel e a
@@ -115,20 +117,34 @@ class TabProject(QWidget):
             self.precip_data = None
             self.precip_file_path = ""
         base = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        exemplo = os.path.join(base, "data", "rainfall", self.SERIE_DE_EXEMPLO)
+        if is_int_edition():
+            serie_nome = "NewYork.csv"
+        elif is_prt_edition():
+            serie_nome = "Funchal.csv"
+        else:
+            serie_nome = getattr(self, "SERIE_DE_EXEMPLO", "Florianopolis1.csv")
+        exemplo = os.path.join(base, "data", "rainfall", serie_nome)
         if os.path.isfile(exemplo) or not usa_dados_do_brasil():
             self.rb_source_custom.setChecked(True)
         if not os.path.isfile(exemplo):
             return
         self.load_rain_file(exemplo)
         # O aviso vai no painel de arquivo, o que fica visível neste modo.
-        aviso = tr(
-            "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. "
-            "Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil."
-        ) if usa_dados_do_brasil() else tr(
-            "Aberta a série de exemplo do tutorial do manual (Florianópolis, Brasil). "
-            "Carregue a série diária de chuva do local do seu projeto."
-        )
+        if usa_dados_do_brasil():
+            aviso = tr(
+                "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. "
+                "Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil."
+            )
+        elif is_prt_edition():
+            aviso = tr(
+                "Base E-OBS indisponível: aberta a série de exemplo do Funchal. "
+                "Carregue a série diária de chuva do seu concelho."
+            )
+        else:
+            aviso = tr(
+                "Aberta a série de exemplo do tutorial do manual (Nova York, ERA5). "
+                "Carregue a série diária de chuva do local do seu projeto."
+            )
         self.lbl_stats.setText(self.lbl_stats.text() + "<br/>ℹ️ " + aviso)
 
     def clear_climate_cards_and_tables(self):

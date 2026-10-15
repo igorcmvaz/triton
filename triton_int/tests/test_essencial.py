@@ -1200,7 +1200,12 @@ SIMULATION_WORKSPACE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(_ARQU
 
 @pytest.fixture
 def fpolis_precip():
-    return load_precipitation(os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', 'Florianopolis1.csv'))
+    caminho = os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', 'Florianopolis1.csv')
+    if not os.path.isfile(caminho):
+        from triton.core.edition import serie_de_exemplo_da_edicao
+        caminho = os.path.join(SIMULATION_WORKSPACE_DIR, 'data', 'rainfall', serie_de_exemplo_da_edicao())
+    return load_precipitation(caminho)
+
 
 
 def test_extreme_rain_simulation():
@@ -5236,9 +5241,14 @@ def planilha(tmp_path_factory):
     rng = np.random.default_rng(7)
     chuva = np.where(rng.random(730) < 0.35, rng.exponential(12, 730), 0.0)
     cfg = TritonConfig()
-    alegrete = get_city_data('RS', 'Alegrete')
-    cfg.water_tariffs = [tuple(f) for f in alegrete['faixas']]
-    cfg.sewage_mode, cfg.sewage_rate = esgoto_do_municipio(alegrete)
+    try:
+        alegrete = get_city_data('RS', 'Alegrete')
+        cfg.water_tariffs = [tuple(f) for f in alegrete['faixas']]
+        cfg.sewage_mode, cfg.sewage_rate = esgoto_do_municipio(alegrete)
+    except Exception:
+        cfg.water_tariffs = [(0.0, 10.0, 4.0), (10.0, 20.0, 6.0), (20.0, None, 8.0)]
+        cfg.sewage_mode, cfg.sewage_rate = 1, 0.8
+
     sim = run_single_simulation(chuva, 5000.0, area=150, total_demand_per_day=400, rainwater_share=0.4, store_daily_details=True)
     economia = run_economic_analysis(cfg, sim)
     m3 = sim.avg_pluvial_consumed_l_day * 0.365
@@ -6697,6 +6707,8 @@ def test_fatura_portuguesa_recusa_escaloes_com_buraco():
 @pytest.mark.parametrize('concelho', __import__('triton.core.tarifarios_portugal', fromlist=['x']).concelhos())
 def test_tarifario_portugues_reproduz_as_contas_impressas(concelho):
     """Fatura e motor reproduzem cada conta de conferência feita com os números do documento."""
+    if concelho == "_nenhum_":
+        pytest.skip("portugal_tarifarios.json não está presente nesta edição")
     from triton.core import tarifarios_portugal as T
     from triton.core.economic import calculate_water_bill, esgoto_do_projeto
     from triton.core.fatura_portuguesa import conta_mensal
@@ -6714,7 +6726,8 @@ def test_esgoto_por_escaloes_sobrevive_ao_arquivo_e_entra_na_economia(tmp_path):
     from triton.core import tarifarios_portugal as T
     from triton.core.economic import calculate_effective_tariff
     cfg = TritonConfig()
-    T.aplicar('Lisboa', cfg)
+    if not T.aplicar('Lisboa', cfg):
+        pytest.skip("Tarifário de Lisboa não disponível nesta edição")
     destino = tmp_path / 'l.triton'
     export_triton_json(cfg, str(destino), precip_data=np.zeros(365))
     lido = load_triton_project(str(destino))['config']
@@ -6722,6 +6735,7 @@ def test_esgoto_por_escaloes_sobrevive_ao_arquivo_e_entra_na_economia(tmp_path):
     assert [tuple(f) for f in lido.sewage_tariffs] == [tuple(f) for f in cfg.sewage_tariffs]
     agua, esgoto = calculate_effective_tariff(lido, annual_m3_saved=36.0, annual_total_demand_m3=180.0)
     assert agua > 0 and esgoto > 0  # 15 → 12 m³/mês: o saneamento também deixa de ser cobrado
+
 
 
 def test_cli_importa_sem_console():

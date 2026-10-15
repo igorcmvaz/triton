@@ -47,6 +47,7 @@ International (núcleo neutro), salvo onde a tabela diz outra coisa.
 | Arquivo | O que muda na International e na Portugal |
 | :--- | :--- |
 | `triton/core/edition.py` | `neutralizar_para_a_internacional` zera tarifas, energia, motobomba, cloro, custos de manutenção e IPTU Verde do projeto novo; rótulo, idioma, moeda e manual da edição |
+| `triton/core/parser.py` | `TritonConfig.__post_init__` neutraliza premissas e tarifas padrão brasileiras fora da BRL; ajusta a moeda padrão para a edição ativa |
 | `triton/core/diagnostico.py` | a base CLIMBra «não se aplica» fora da Brasil; o diagnóstico diz a edição |
 | `triton/core/esg_certifications.py` | síntese ESG e matriz de créditos sem AQUA-HQE e Selo Casa Azul |
 | `triton/core/report_generator.py` | laudo ambiental sem AQUA-HQE e Selo Casa Azul (certificações brasileiras) |

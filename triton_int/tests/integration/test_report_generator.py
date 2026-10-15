@@ -131,7 +131,7 @@ def test_generate_research_html_report():
     assert "Conclusões e Protocolo de Escolha" in html
     assert "Compromisso TOPSIS" in html
     assert "Referência técnica" in html
-    assert "Dif. para maior VPL" in html
+    assert ("Dif. para maior VPL" in html) or ("Dif. para maior VAL" in html)
     assert "Figura 1 — Economia de água potável por capacidade" in html or "Figura 1" in html
     assert "Figura 2 — VPL por capacidade" in html or "Figura 2" in html
     assert "Figura 3 — Desempenho TOPSIS por capacidade" in html or "Figura 3" in html

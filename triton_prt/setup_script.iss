@@ -131,7 +131,8 @@ Name: "assoctriton"; Description: "Abrir arquivos .triton com o {#MyAppName}"; G
 ; Programa compilado pelo PyInstaller. Os pacotes de idioma opcionais saem
 ; daqui e entram pelos componentes abaixo.
 Source: "{#DistDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; \
-  Excludes: "simulation_outputs\*,\simulation_outputs,Dados.txt,\_internal\data\languages\es.json,\_internal\data\languages\zh.json,exemplos\triton-cli-template.triton,avisos_qt.log,*TARIFAS-DE-AGUA-E-ESGOTO*"
+  Excludes: "simulation_outputs\*,\simulation_outputs,Dados.txt,\_internal\data\languages\es.json,\_internal\data\languages\zh.json,exemplos\triton-cli-template.triton,avisos_qt.log,*TARIFAS-DE-AGUA-E-ESGOTO*,brazilSHP\*,*\brazilSHP\*,manual\site\pdf\*,*\manual\site\pdf\*,tarifas\fontes\*,*\tarifas\fontes\*,tarifas\entrada\*,*\tarifas\entrada\*,*.db,*.sqlite"
+
 Source: "{#DistDir}\_internal\data\languages\es.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_es; Flags: ignoreversion
 Source: "{#DistDir}\_internal\data\languages\zh.json"; DestDir: "{app}\_internal\data\languages"; Components: lang_zh; Flags: ignoreversion
 

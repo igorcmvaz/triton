@@ -83,8 +83,11 @@ class MainWindow(QMainWindow):
         # e a mão de obra acompanha os materiais, inclusive o volume da cisterna.
         self.config.mao_de_obra_automatica = usa_dados_do_brasil()
         if not usa_dados_do_brasil():
-            from triton.core.edition import neutralizar_para_a_internacional
+            from triton.core.edition import neutralizar_para_a_internacional, is_prt_edition
             neutralizar_para_a_internacional(self.config)
+            if is_prt_edition():
+                from triton.core import tarifarios_portugal as tp_
+                tp_.aplicar('Lisboa', self.config)
         
         # Ícone da janela principal
         for icone_rel in (
@@ -132,6 +135,7 @@ class MainWindow(QMainWindow):
         menu_file = menu_bar.addMenu(tr("Arquivo"))
         
         action_new = QAction(tr("Novo Projeto"), self)
+        action_new.triggered.connect(self.on_new_project)
         menu_file.addAction(action_new)
 
         action_open = QAction(tr("Carregar Projeto CSV"), self)
@@ -607,6 +611,82 @@ class MainWindow(QMainWindow):
         modulacao = getattr(self, "tab_modulacao_estocastica", None)
         if modulacao and state.get("modulacao_estocastica"):
             modulacao.apply_project_state(state["modulacao_estocastica"])
+
+    def on_new_project(self):
+        """Reinicia a aplicação para um novo projeto limpo de acordo com a edição ativa (UI-20)."""
+        from triton.core.parser import TritonConfig
+        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
+
+        cfg = TritonConfig()
+        cfg.project_name = tr("Novo projeto Triton")
+        cfg.bim_layout = {"bim_components": [], "pipe_runs": [], "building_volume": {}}
+        cfg.capex_do_arranjo = usa_dados_do_brasil()
+        cfg.mao_de_obra_automatica = usa_dados_do_brasil()
+        if not usa_dados_do_brasil():
+            from triton.core.edition import neutralizar_para_a_internacional
+            neutralizar_para_a_internacional(cfg)
+            if is_prt_edition():
+                from triton.core import tarifarios_portugal as tp_
+                tp_.aplicar('Lisboa', cfg)
+        self.config = cfg
+        self.txt_workspace_project.setText(cfg.project_name)
+
+        if hasattr(self, 'tab_economic'):
+            self.tab_economic._internal_config = cfg
+
+        # 1. Reset da chuva e localização
+        if hasattr(self, 'tab_project'):
+            self.tab_project.clear_climate_cards_and_tables()
+            if hasattr(self.tab_project, '_base_portugal') and self.tab_project._base_portugal:
+                self.tab_project.rb_source_national.setChecked(True)
+                self.tab_project.panel_custom.hide()
+                self.tab_project.panel_national.show()
+                self.tab_project.load_active_national_series()
+            elif usa_dados_do_brasil() and self.tab_project.rb_source_national.isVisible():
+                self.tab_project.rb_source_national.setChecked(True)
+                self.tab_project.panel_custom.hide()
+                self.tab_project.panel_national.show()
+                self.tab_project.load_active_national_series()
+            else:
+                self.tab_project._abrir_sem_base_climatica()
+
+            if hasattr(self.tab_project, 'set_tariff_location'):
+                uf = getattr(cfg, 'tariff_city_uf', 'SC' if usa_dados_do_brasil() else ('PRT' if is_prt_edition() else 'CUSTOM'))
+                city = getattr(cfg, 'tariff_city_name', 'Florianópolis' if usa_dados_do_brasil() else ('Lisboa' if is_prt_edition() else 'CUSTOM'))
+                self.tab_project.set_tariff_location(uf, city)
+
+        # 2. Reset da edificação
+        if hasattr(self, 'tab_building') and hasattr(self.tab_building, 'set_building_config'):
+            self.tab_building.set_building_config({
+                'area': 100.0,
+                'demand': 200.0,
+                'residents': 3,
+                'share': 0.4,
+                'non_potable_indoor_share': 0.4,
+                'irrigation_liters_per_day': 0.0,
+                'irrigation_rain_threshold_mm': 2.0,
+                'irrigation_potable_backup': True,
+                'runoff': 0.85,
+                'demand_mode': 'constant',
+            })
+
+        # 3. Reset do estado das demais abas
+        self._apply_project_ui_state({}, cfg)
+
+        # 4. Otimizador global
+        if hasattr(self, 'tab_global_optimizer'):
+            self.tab_global_optimizer.scenarios = []
+            self.tab_global_optimizer.refresh_table_rows()
+
+        # 5. Modulação estocástica
+        modulacao = getattr(self, "tab_modulacao_estocastica", None)
+        if modulacao:
+            modulacao.restaurar_padroes()
+
+        # 6. Sincroniza e posiciona na etapa inicial
+        self.sync_project_state()
+        self._aplicar_moeda()
+        self.on_step_changed(0)
 
     def on_load_simulation(self, file_path=None):
         # Recebe o caminho quando o programa é aberto por um arquivo .triton

@@ -25,7 +25,9 @@ import pytest
 
 # Renderização offscreen antes de qualquer importação de Qt.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+os.environ.setdefault("TRITON_EDITION", "PRT")
 # A aba de volumetria usa o visualizador WebGL (QtWebEngine) no programa; nos
+
 # testes, o de QPainter, que não sobe um Chromium nem depende de GPU. O WebGL é
 # verificado por tests/unit/test_volumetria_web.py e pela conferência manual.
 os.environ.setdefault("TRITON_VOLUMETRIA_SIMPLES", "1")
@@ -167,12 +169,22 @@ def qapp():
 # --- gerado por scripts/separar_edicoes.py: testes que dependem de dados só da Edição Brasil ---
 def _so_da_brl():
     import os
-    if os.environ.get("TRITON_EDITION", "BRL").upper() == "BRL":
+    ed = os.environ.get("TRITON_EDITION")
+    if not ed:
+        caminho_atual = os.path.abspath(__file__).replace("\\", "/")
+        if "triton_int" in caminho_atual:
+            ed = "INT"
+        elif "triton_prt" in caminho_atual:
+            ed = "PRT"
+        else:
+            ed = "BRL"
+    if ed.upper() == "BRL":
         return []
     lista = os.path.join(os.path.dirname(__file__), "so_da_brl.txt")
     if not os.path.isfile(lista):
         return []
     return [l.strip() for l in open(lista, encoding="utf-8") if l.strip() and not l.startswith("#")]
+
 
 
 # arquivos inteiros: nem são importados (o import falharia sem os dados)

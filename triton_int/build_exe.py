@@ -264,6 +264,13 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
                     temp_dados.unlink()
                 except Exception:
                     pass
+            shp_dir = base / "data" / "brazilSHP"
+            if shp_dir.exists():
+                shutil.rmtree(shp_dir, ignore_errors=True)
+            site_pdf = base / "manual" / "site" / "pdf"
+            if site_pdf.exists():
+                shutil.rmtree(site_pdf, ignore_errors=True)
+
 
         remover_base_climatica_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
         remover_dados_de_portugal_fora_da_prt(dist_dir, getattr(args, "edicao", "brl"))

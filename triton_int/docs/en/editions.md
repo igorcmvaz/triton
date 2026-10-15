@@ -48,6 +48,7 @@ the International one (neutral core), except where the table says otherwise.
 | File | What changes in the International and Portugal Editions |
 | :--- | :--- |
 | `triton/core/edition.py` | `neutralizar_para_a_internacional` clears the tariffs, electricity, pump, chlorine, maintenance costs and IPTU Verde of a new project; label, language, currency and manual of the edition |
+| `triton/core/parser.py` | `TritonConfig.__post_init__` neutralises Brazilian default premises and tariffs outside BRL; sets active edition default currency |
 | `triton/core/diagnostico.py` | the CLIMBra database «does not apply» outside Brazil; the diagnosis states the edition |
 | `triton/core/esg_certifications.py` | ESG summary and credit matrix without AQUA-HQE and Selo Casa Azul |
 | `triton/core/report_generator.py` | environmental report without AQUA-HQE and Selo Casa Azul (Brazilian certifications) |

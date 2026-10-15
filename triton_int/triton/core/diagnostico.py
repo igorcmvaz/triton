@@ -74,6 +74,9 @@ def _base_climatica() -> Verificacao:
 
 
 def _tarifas() -> Verificacao:
+    from triton.core.edition import rotulo_da_edicao, usa_dados_do_brasil
+    if not usa_dados_do_brasil():
+        return ("Banco tarifário", None, f"não se aplica à {rotulo_da_edicao()}")
     try:
         from triton.core.tariff_regimes import EXPONENCIAL
         from triton.core.tariffs_database import _find_database_file, load_tariffs_db
@@ -82,6 +85,7 @@ def _tarifas() -> Verificacao:
         cidades = load_tariffs_db().get("cities", {})
     except Exception as erro:
         return ("Banco tarifário", False, f"{type(erro).__name__}: {erro}")
+
     corsan = [d for d in cidades.values() if "CORSAN" in str(d.get("prestador_saneamento", "")).upper()]
     exponencial = sum(1 for d in corsan if d.get("regime_tarifario") == EXPONENCIAL)
     ok = bool(cidades) and exponencial == len(corsan)

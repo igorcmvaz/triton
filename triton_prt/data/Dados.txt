@@ -1,8 +1,0 @@
-Descarte Escoamento Inicial (mm) = 0
-Área de Captação = 50, 100, 300
-Demanda total de água (litros/capita/dia) = 100, 150, 200
-Número de moradores = 1, 2, 4
-Percentual da demanda total a ser substituída por água pluvial (%) = 20, 40, 60
-Coeficiente de escoamento superficial (adimensional) = 0.7, 0.8, 0.9
-Reservatório superior = Volume igual a demanda média diária de água pluvial (recalque quando o volume do reservatório superior for menor que 10% do volume total)
-Reservatório inferior = Intervalo de 0 a 5000 litros com passo de 500 litros. Diferença entre potenciais de economia para gerar o reservatório ótimo (2%/m³)

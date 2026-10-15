@@ -464,6 +464,64 @@ class TritonConfig:
     def labor_installation_cost(self, val: float):
         self.cost_labor = float(val)
 
+    def __post_init__(self):
+        """Aplica neutralidade automática quando a edição não for a Edição Brasil (U-23)."""
+        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
+        if usa_dados_do_brasil():
+            return
+
+        # Fora da BRL, os catálogos e cálculos automáticos brasileiros não se aplicam
+        self.capex_do_arranjo = False
+        self.mao_de_obra_automatica = False
+        self.precos_de_catalogo = False
+        self.iptu_green_enabled = False
+
+        # Se os campos de energia e equipamentos ainda estiverem com os defaults brasileiros de Florianópolis, neutraliza
+        if abs(self.elec_tariff - 0.6957) < 1e-4:
+            self.elec_tariff = 0.0
+        if abs(self.pump_unit_cost - 300.0) < 1e-4:
+            self.pump_unit_cost = 0.0
+        if abs(self.chlorine_cost_per_kg - 25.0) < 1e-4:
+            self.chlorine_cost_per_kg = 0.0
+
+        # Tarifas de água: se for o padrão CASAN, zera fora da Brasil
+        if len(self.water_tariffs) == 5 and any(abs(t[2] - 46.34) < 1e-2 for t in self.water_tariffs):
+            self.water_tariffs = []
+
+        # Custos operacionais: mantém os nomes dos itens, mas zera os valores em reais
+        if self.op_costs and any(c[2] > 0 for c in self.op_costs):
+            self.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in self.op_costs]
+
+        if is_prt_edition():
+            if self.climate_city_name == "Florianópolis" and self.climate_city_uf == "SC":
+                self.climate_source_mode = "national_db"
+                self.climate_city_uf = "PRT"
+                self.climate_city_name = "Lisboa"
+                self.climate_model = "E-OBS v33.0e"
+                self.climate_scenario = "EOBS"
+                self.climate_start_date = "01/01/1991"
+                self.climate_end_date = "31/12/2020"
+            if self.tariff_city_name == "Florianópolis" and self.tariff_city_uf == "SC":
+                self.tariff_city_uf = "PRT"
+                self.tariff_city_name = "Lisboa"
+            if self.elec_city_name == "Florianópolis" and self.elec_city_uf == "SC":
+                self.elec_city_uf = "PRT"
+                self.elec_city_name = "Lisboa"
+        else:
+            # Edição Internacional (INT): nenhum dado geográfico ou tarifário pré-definido
+            if self.climate_city_name == "Florianópolis" and self.climate_city_uf == "SC":
+                self.climate_source_mode = "custom_file"
+                self.climate_city_uf = ""
+                self.climate_city_name = ""
+                self.climate_model = ""
+                self.climate_scenario = ""
+            if self.tariff_city_name == "Florianópolis" and self.tariff_city_uf == "SC":
+                self.tariff_city_uf = "CUSTOM"
+                self.tariff_city_name = "CUSTOM"
+            if self.elec_city_name == "Florianópolis" and self.elec_city_uf == "SC":
+                self.elec_city_uf = "CUSTOM"
+                self.elec_city_name = "CUSTOM"
+
 
 def parametros_do_nome_do_arquivo(caminho: str) -> Dict[str, float]:
     """Extrai os parâmetros codificados no nome de uma exportação do Netuno 4.

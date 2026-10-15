@@ -21,6 +21,8 @@ _ARQUIVO = os.path.join(os.path.dirname(__file__), "..", "data", "portugal_tarif
 
 @lru_cache(maxsize=1)
 def carregar() -> Dict[str, dict]:
+    if not os.path.isfile(_ARQUIVO):
+        return {}
     with open(_ARQUIVO, encoding="utf-8") as f:
         dados = json.load(f)
     return {k: v for k, v in dados.items() if not k.startswith("_")}
@@ -28,7 +30,9 @@ def carregar() -> Dict[str, dict]:
 
 def concelhos() -> List[str]:
     """Concelhos com tarifário transcrito."""
-    return sorted(carregar())
+    c = sorted(carregar())
+    return c or ["_nenhum_"]
+
 
 
 def _escaloes(lista) -> List[Escalao]:

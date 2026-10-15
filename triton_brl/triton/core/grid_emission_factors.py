@@ -62,13 +62,64 @@ def _localizar_arquivo() -> str:
     )
 
 
+_BASES_PADRAO_FALLBACK = {
+    "_nota": "Fatores em kgCO2e/kWh para uso em ACV. Cada um declara fonte, gas e fronteira. O padrao do programa e 'adotado_triton'.",
+    "sidac": {
+        "valor": 0.07,
+        "gas": "CO2",
+        "fronteira": "geracao, base de dados de construcao civil brasileira",
+        "fonte": "SIDAC - Sistema de Informacao da Construcao Civil",
+    },
+    "cadi_brasil": {
+        "valor": 0.074,
+        "gas": "CO2e",
+        "fronteira": "geracao de eletricidade, Brasil",
+        "fonte": "Carbon Database Initiative (CaDI, 2025)",
+    },
+    "adotado_triton": {
+        "valor": 0.085,
+        "gas": "CO2e (aproximado)",
+        "fronteira": "geracao, com margem para processos a montante",
+        "fonte": "Valor adotado pelo programa",
+    },
+    "vaz_2025_matriz_2022_fossil": {
+        "valor": 0.1043,
+        "faixa_5_95": [0.0752, 0.1455],
+        "gas": "CO2e, indicador fossil",
+        "fronteira": "geracao + transmissao + distribuicao + construcao das usinas",
+        "fonte": "Vaz, Scolaro & Ghisi (2025)",
+    },
+    "vaz_2025_matriz_2022_total": {
+        "valor": 0.1513,
+        "faixa_5_95": [0.1077, 0.214],
+        "gas": "CO2e, fossil + biogenico + LULUC",
+        "fronteira": "geracao + transmissao + distribuicao + construcao das usinas",
+        "fonte": "Vaz, Scolaro & Ghisi (2025)",
+    },
+}
+
+
 def carregar_serie() -> Dict[str, Any]:
-    """Carrega e mantém em cache a série completa do MCTI."""
+    """Carrega e mantém em cache a série completa do MCTI ou o fallback padrão fora do Brasil."""
     global _CACHE
     if _CACHE is None:
-        with open(_localizar_arquivo(), "r", encoding="utf-8") as arquivo:
-            _CACHE = json.load(arquivo)
+        try:
+            caminho = _localizar_arquivo()
+            with open(caminho, "r", encoding="utf-8") as arquivo:
+                _CACHE = json.load(arquivo)
+        except FileNotFoundError:
+            _CACHE = {
+                "_fonte": {
+                    "orgao": "Fatores de Referência Triton (ACV)",
+                    "serie": "Fatores padrão de triagem",
+                    "unidade": "kgCO2/kWh",
+                },
+                "fator_medio_anual_tco2_por_mwh": {"2024": 0.0545, "2025": 0.0461},
+                "fator_medio_mensal_tco2_por_mwh": {},
+                "bases_co2eq": _BASES_PADRAO_FALLBACK,
+            }
     return _CACHE
+
 
 
 def anos_disponiveis() -> list[int]:

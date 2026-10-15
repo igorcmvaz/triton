@@ -122,6 +122,11 @@ def neutralizar_para_a_internacional(config) -> None:
     # A ETAP continua dimensionada, mas os preços de catálogo dela são em reais.
     config.precos_de_catalogo = False
     config.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in (config.op_costs or [])]
+    config.climate_source_mode = "custom_file"
+    config.climate_city_uf = ""
+    config.climate_city_name = ""
+    config.climate_model = ""
+    config.climate_scenario = ""
 
 
 def get_edition_title() -> str:
@@ -140,17 +145,37 @@ def get_edition_default_language() -> str:
     return "pt_BR"
 
 
-#: A International fala com a União Europeia: o euro é a sua moeda padrão (as demais
-#: continuam à escolha na Etapa 4).
-MOEDA_DA_INTERNACIONAL = "\u20ac"
+#: Na Edição Portugal a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).
+MOEDA_DE_PORTUGAL = "\u20ac"
+MOEDA_DA_INTERNACIONAL = ""
 
 
 def get_edition_currency_symbol() -> str:
-    """Retorna o símbolo monetário padrão da edição: real na Brasil, euro na International e na Portugal."""
-    if is_int_edition() or is_prt_edition():
+    """Retorna o símbolo monetário padrão da edição: real na Brasil, euro na Portugal e neutro na International (U-21)."""
+    if is_prt_edition():
+        return MOEDA_DE_PORTUGAL
+    if is_int_edition():
         return MOEDA_DA_INTERNACIONAL
     return "R$"
 
 
 #: Nome antigo de ``is_prt_edition``, mantido para quem ainda o chama.
 is_por_edition = is_prt_edition
+
+
+def serie_de_exemplo_da_edicao() -> str:
+    """Nome do arquivo CSV de precipitação de exemplo para a edição ativa."""
+    if is_prt_edition():
+        return "Funchal.csv"
+    if is_int_edition():
+        return "NewYork.csv"
+    return "Florianopolis1.csv"
+
+
+def cidade_de_exemplo_da_edicao() -> str:
+    """Nome legível da localidade da série de exemplo."""
+    if is_prt_edition():
+        return "Funchal, Portugal"
+    if is_int_edition():
+        return "New York, USA"
+    return "Florianópolis, Brasil"
