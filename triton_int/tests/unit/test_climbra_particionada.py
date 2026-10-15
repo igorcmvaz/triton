@@ -96,6 +96,29 @@ def test_le_um_banco_por_modelo(pasta_de_bancos):
         assert total == selecionados == DIAS[s]
     assert cd.load_national_climate_series("Belém", "INM-CM4", "SSP245")[1:3] == ("01/01/2015", "31/12/2100")
 
+def test_a_serie_e_lida_em_outra_thread_e_o_cache_nao_se_corrompe(pasta_de_bancos):
+    """Regressão: a conexão aberta na thread da interface falhava na thread de simulação (a série
+    «não existia»), e quem alterava o array devolvido corrompia o cache compartilhado."""
+    import threading
+    _criar_banco(pasta_de_bancos / "climbra_INM-CM4.db", ["INM-CM4"])
+    primeira = _ler("Belém", "INM-CM4", "HIST")
+    esperado = primeira.copy()
+    resultado = {}
+
+    def _na_thread():
+        try:
+            resultado["serie"] = _ler("Belém", "INM-CM4", "SSP245")
+        except Exception as erro:  # pragma: no cover - o que se quer evitar
+            resultado["erro"] = repr(erro)
+
+    t = threading.Thread(target=_na_thread)
+    t.start()
+    t.join()
+    assert "erro" not in resultado, resultado.get("erro")
+    assert len(resultado["serie"]) == DIAS["SSP245"]
+    primeira[:] = 0.0                                   # o chamador altera a sua cópia...
+    assert np.array_equal(_ler("Belém", "INM-CM4", "HIST"), esperado)   # ...e o cache segue intacto
+
 
 def test_caminho_do_banco_aponta_para_uma_parte(pasta_de_bancos):
     _criar_banco(pasta_de_bancos / "climbra_ACCESS-CM2.db", ["ACCESS-CM2"])

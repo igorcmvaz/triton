@@ -23,6 +23,7 @@ continua sendo lido, quando existe. Ver `scripts/dividir_base_climbra.py`.
 import os
 import re
 import sqlite3
+import threading
 import unicodedata
 import zlib
 from datetime import datetime, timedelta
@@ -120,17 +121,20 @@ def _normalize_name(name: str) -> str:
 
 
 _CONNECTION_CACHE: Dict[str, sqlite3.Connection] = {}
+#: As conexões em cache são usadas por qualquer thread (a interface simula em threads de trabalho);
+#: o acesso é serializado por este trinco.
+_TRINCO_DAS_CONEXOES = threading.RLock()
 
 
 def _fechar_conexoes_em_cache() -> None:
     """Fecha todas as conexões SQLite mantidas em cache e limpa o dicionário."""
-    global _CONNECTION_CACHE
-    for conn in list(_CONNECTION_CACHE.values()):
-        try:
-            conn.close()
-        except Exception:
-            pass
-    _CONNECTION_CACHE.clear()
+    with _TRINCO_DAS_CONEXOES:
+        for conn in list(_CONNECTION_CACHE.values()):
+            try:
+                conn.close()
+            except Exception:
+                pass
+        _CONNECTION_CACHE.clear()
 
 
 def limpar_cache_da_base() -> None:
@@ -152,6 +156,10 @@ def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
     legado: Optional[str] = None
     for nome in nomes:
         caminho = os.path.join(pasta, nome)
+        if os.path.isdir(caminho):
+            sub = os.path.join(caminho, nome)
+            if os.path.isfile(sub):
+                caminho = sub
         if not os.path.isfile(caminho):
             continue
         if nome == _NOME_DO_BANCO_UNICO:
@@ -256,42 +264,59 @@ def _abrir_somente_leitura(caminho: str) -> sqlite3.Connection:
 
 
 def _obter_conexao_ro(caminho: str) -> sqlite3.Connection:
-    """Retorna uma conexão somente leitura reutilizável com PRAGMA mmap e query_only."""
+    """Retorna uma conexão somente leitura reutilizável com PRAGMA mmap e query_only.
+
+    Abre com `check_same_thread=False`: sem isso, uma conexão aberta na thread da interface falha
+    ao ser usada numa thread de simulação e a série parecia inexistente.
+    """
     abs_path = os.path.abspath(caminho)
-    conn = _CONNECTION_CACHE.get(abs_path)
-    if conn is not None:
-        try:
-            conn.total_changes
+    with _TRINCO_DAS_CONEXOES:
+        conn = _CONNECTION_CACHE.get(abs_path)
+        if conn is not None:
             return conn
-        except (sqlite3.Error, AttributeError):
-            _CONNECTION_CACHE.pop(abs_path, None)
-    conn = _abrir_somente_leitura(abs_path)
-    try:
-        conn.execute("PRAGMA query_only = ON;")
-        conn.execute("PRAGMA mmap_size = 268435456;")
-    except sqlite3.Error:
-        pass
-    _CONNECTION_CACHE[abs_path] = conn
-    return conn
+        from pathlib import Path
+        try:
+            conn = sqlite3.connect(Path(abs_path).resolve().as_uri() + "?mode=ro", uri=True, check_same_thread=False)
+        except (sqlite3.Error, ValueError):
+            conn = sqlite3.connect(abs_path, check_same_thread=False)
+        try:
+            conn.execute("PRAGMA query_only = ON;")
+            conn.execute("PRAGMA mmap_size = 268435456;")
+        except sqlite3.Error:
+            pass
+        _CONNECTION_CACHE[abs_path] = conn
+        return conn
 
 
 @lru_cache(maxsize=128)
-def _carregar_array_serie(db_path: str, city: str, model: str, scenario: str) -> Optional[np.ndarray]:
-    """Lê, descomprime e converte para float64 a série do banco, com cache LRU em memória."""
-    try:
+def _ler_array_da_serie(db_path: str, city: str, model: str, scenario: str) -> np.ndarray:
+    """Lê, descomprime e converte para float64 a série do banco. Levanta LookupError se não houver
+    (exceções não entram no cache: uma falha passageira não vira «série inexistente» para sempre)."""
+    with _TRINCO_DAS_CONEXOES:
         conn = _obter_conexao_ro(db_path)
         row = conn.execute(
             "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?;",
             (city, model, scenario),
         ).fetchone()
-        if row:
-            cnt, blob = row
-            raw_decomp = zlib.decompress(blob)
-            target_dtype = np.float16 if len(raw_decomp) == cnt * 2 else np.float32
-            return np.frombuffer(raw_decomp, dtype=target_dtype).astype(np.float64)
+    if not row:
+        raise LookupError(city)
+    cnt, blob = row
+    raw_decomp = zlib.decompress(blob)
+    target_dtype = np.float16 if len(raw_decomp) == cnt * 2 else np.float32
+    arr = np.frombuffer(raw_decomp, dtype=target_dtype).astype(np.float64)
+    arr.flags.writeable = False                     # o cache compartilha o array: ninguém o altera
+    return arr
+
+
+def _carregar_array_serie(db_path: str, city: str, model: str, scenario: str) -> Optional[np.ndarray]:
+    """Série diária (cópia gravável) do banco, ou None se o banco não a tem."""
+    try:
+        return _ler_array_da_serie(db_path, city, model, scenario).copy()
     except Exception:
-        pass
-    return None
+        return None
+
+
+_carregar_array_serie.cache_clear = _ler_array_da_serie.cache_clear  # type: ignore[attr-defined]
 
 
 def get_climate_db_path() -> Optional[str]:
@@ -417,9 +442,10 @@ def _build_city_filename_map() -> Dict[str, str]:
         candidatos += [c for c in _arquivos_do_layout(layout) if c not in candidatos]
     for db_path in candidatos:
         try:
-            conn = _obter_conexao_ro(db_path)
-            for norm, city in conn.execute("SELECT city_norm, city FROM climbra_cities;"):
-                city_map[norm] = city
+            with _TRINCO_DAS_CONEXOES:
+                conn = _obter_conexao_ro(db_path)
+                for norm, city in conn.execute("SELECT city_norm, city FROM climbra_cities;"):
+                    city_map[norm] = city
         except Exception:
             city_map = {}
             continue

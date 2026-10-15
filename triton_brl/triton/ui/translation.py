@@ -117,6 +117,9 @@ class FirstRunLangDialog(QDialog):
         for icone_rel in (
             os.path.join("icons", "triton.ico"),
             os.path.join("icons", "icon.ico"),
+            os.path.join("icons", "triton_brl.png"),
+            os.path.join("icons", "triton_int.png"),
+            os.path.join("icons", "triton_prt.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "Triton2.png"),
@@ -135,6 +138,9 @@ class FirstRunLangDialog(QDialog):
         logo_label = QLabel()
         logo_label.setAlignment(Qt.AlignCenter)
         for icone_rel in (
+            os.path.join("icons", "triton_brl.png"),
+            os.path.join("icons", "triton_int.png"),
+            os.path.join("icons", "triton_prt.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "triton.ico"),

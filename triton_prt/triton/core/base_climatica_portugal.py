@@ -47,6 +47,7 @@ def caminho_da_base() -> Optional[str]:
     candidatos = [
         os.environ.get("TRITON_PORTUGAL_DB", ""),
         os.path.join(pasta_do_executavel, "_internal", "data", _ARQUIVO) if pasta_do_executavel else "",
+        os.path.join(pasta_do_executavel, "_internal", "data", _ARQUIVO, _ARQUIVO) if pasta_do_executavel else "",
         os.path.join(pasta_do_executavel, "data", _ARQUIVO) if pasta_do_executavel else "",
         os.path.join(raiz, "data", _ARQUIVO),
         os.path.join(os.getcwd(), "data", _ARQUIVO),
