@@ -106,6 +106,8 @@ avisos_qt.log
 #   python manual/gerar.py && python manual/gerar_pdf.py
 #   python manual/gerar_mini_manuais.py && python manual/gerar_site.py
 manual/Manual-Triton.pdf.novo
+manual/*.py
+manual/**/*.py
 
 # ---------------------------------------------------------------------------
 # Material de terceiros: usado para escrever o manual, nao redistribuido.
