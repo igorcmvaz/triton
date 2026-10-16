@@ -216,7 +216,7 @@ Os R$ 134,89 de 10 m³ são exatamente a «tarifa mínima sem hidrômetro» da t
 CORSAN, 43,39 + 9,15 × 10, o que confere a transcrição. Para o aproveitamento pluvial,
 a consequência é que **toda economia desconta desde o primeiro metro cúbico**, e desconta
 mais onde o expoente é maior: uma residência que desce de 30 para 20 m³ economiza
-R$ 253,81 por mês. A reta usada até a 1.0.0, com esgoto de 70% sobre a conta inteira,
+R$ 253,81 por mês. A reta usada antes da 0.1.0, com esgoto de 70% sobre a conta inteira,
 dava R$ 155,55 para a mesma redução.
 
 No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A

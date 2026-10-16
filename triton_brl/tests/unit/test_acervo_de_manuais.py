@@ -101,6 +101,10 @@ def test_nenhum_numero_de_paginas_escrito_a_mao_no_volume_geral():
 
 def test_todo_pdf_prometido_existe():
     """Botão que promete um arquivo ausente é o defeito mais visível de todos."""
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT":
+        pytest.skip("a edição INT publica apenas o manual completo em inglês")
     faltam = [a for _, _, a in _volumes_anunciados()
               if not os.path.isfile(os.path.join(RAIZ, a))]
     assert not faltam, "a aba oferece PDFs que não existem: " + ", ".join(faltam)
+

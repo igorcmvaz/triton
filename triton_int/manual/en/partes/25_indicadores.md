@@ -129,12 +129,12 @@ rainwater demand is small, and the opposite also happens.
 ## Overflow
 
 ```equacao:extravasamento_medio
-V_ext,med = ( Σ V_ext,t ) ÷ n
+V_ext,avg = ( Σ V_ext,t ) ÷ n
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_ext,med` | mean daily overflow | L/day |
+| `V_ext,avg` | mean daily overflow | L/day |
 | `V_ext,t` | volume overflowed on day `t` | L |
 | `n` | number of days of the simulated series | day |
 
@@ -202,13 +202,13 @@ are of this kind: the cistern is empty, not slightly short.
 ## Annual volume saved
 
 ```equacao:volume_poupado
-V_poup = ( V_con,med × 365.25 ) ÷ 1000
+V_sav = ( V_con,avg × 365.25 ) ÷ 1000
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_poup` | volume of potable water saved per year | m³/year |
-| `V_con,med` | mean daily rainwater consumption | L/day |
+| `V_sav` | volume of potable water saved per year | m³/year |
+| `V_con,avg` | mean daily rainwater consumption | L/day |
 | `365.25` | length of the mean year, including leap years (365.25) | day/year |
 | `1000` | conversion from litres to cubic metres | L/m³ |
 
@@ -234,13 +234,13 @@ exists in a sweep** — a single-volume simulation does not produce it.
 ## Unmet demand
 
 ```equacao:nao_atendida
-V_nao,med = ( Σ V_nao,t ) ÷ n
+V_unmet,avg = ( Σ V_unmet,t ) ÷ n
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_nao,med` | mean daily demand met by no source | L/day |
-| `V_nao,t` | unmet demand on day `t` | L |
+| `V_unmet,avg` | mean daily demand met by no source | L/day |
+| `V_unmet,t` | unmet demand on day `t` | L |
 | `n` | number of days of the simulated series | day |
 
 The third part of the demand balance. It is zero in the default configuration and stops being zero

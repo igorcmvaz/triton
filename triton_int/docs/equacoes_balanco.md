@@ -34,7 +34,7 @@ onde:
   - $\phi = 1 \implies$ **YBS** (*Yield Before Spillage*): a retirada pode usar toda a chuva do dia, antes do extravasamento;
   - $0 < \phi < 1 \implies$ regras intermediárias definidas pelo autor do projeto.
 
-> **Regra do Triton (padrão).** Sem $\phi$, o programa aplica a regra que o manual da 1.0.0 documenta: o extravasamento é calculado antes do consumo, mas a chuva do dia já atende o consumo do dia. Ela fica entre a YAS e a YBS e **não é um ponto da família de $\phi$** (nem $\phi = 0{,}5$ a reproduz). Por isso o campo `phi_operation_rule` vale `None` por padrão, e os números publicados do manual e dos estudos de caso seguem a regra do Triton.
+> **Regra do Triton (padrão).** Sem $\phi$, o programa aplica a regra que o manual da 0.1.0 documenta: o extravasamento é calculado antes do consumo, mas a chuva do dia já atende o consumo do dia. Ela fica entre a YAS e a YBS e **não é um ponto da família de $\phi$** (nem $\phi = 0{,}5$ a reproduz). Por isso o campo `phi_operation_rule` vale `None` por padrão, e os números publicados do manual e dos estudos de caso seguem a regra do Triton.
 
 ### Equação 3: Volume Armazenado Final ($V_t$)
 $$

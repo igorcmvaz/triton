@@ -201,12 +201,6 @@ class PontoDeOperacao:
     vazao_l_h: float
     energia_especifica_kwh_m3: float
 
-    @property
-    def horas_por_m3(self) -> float:
-        if self.vazao_l_h <= 0:
-            return 0.0
-        return 1000.0 / self.vazao_l_h
-
 
 def ponto_de_operacao(
     potencia_kw: float,

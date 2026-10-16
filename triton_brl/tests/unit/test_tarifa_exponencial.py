@@ -4,11 +4,10 @@ A CORSAN não cobra por faixas. O expoente ``n`` sai da Tabela de Exponenciais p
 consumo do mês inteiro e se aplica a todo o volume: 1,00 até 20 m³, subindo até
 1,13 entre 101 e 150 m³. Só a categoria industrial tem teto (1.000 m³); a tabela
 sintética abaixo usa um teto para exercitar o excedente. O esgoto é cobrado por m³
-consumido, sem serviço básico nem expoente. Até a 1.0.0 esses municípios estavam
+consumido, sem serviço básico nem expoente. Antes da 0.1.0 esses municípios estavam
 gravados como uma reta, ``PB × C + SB``, com esgoto de 70% sobre a conta inteira.
 """
 
-import importlib.util
 import json
 from pathlib import Path
 
@@ -74,20 +73,12 @@ def test_a_tarifa_minima_sem_hidrometro_bate_com_cada_tabela(uf, cidade, minima)
     assert calculate_water_bill(10_000.0, faixas, sewage_mode=1, sewage_rate=0.0) == pytest.approx(minima)
 
 
-def test_o_script_de_aplicacao_e_idempotente():
-    spec = importlib.util.spec_from_file_location("aplicar", RAIZ / "scripts" / "aplicar_tarifa_exponencial.py")
-    modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
-    base = json.loads(modulo.BANCO.read_text(encoding="utf-8"))
-    antes = json.dumps(base["cities"], sort_keys=True)
-    assert len(modulo.aplicar(base["cities"], modulo.carregar_tabela())) == 34
-    assert json.dumps(base["cities"], sort_keys=True) == antes
-
-
 def test_o_manual_compoe_o_expoente_sobrescrito():
     """Com espaço em volta do ^, o mathtext punha o expoente na linha de base."""
     import sys
 
+    if not (RAIZ / "manual" / "gerar_equacoes.py").is_file():
+        pytest.skip("gerador do manual ausente neste clone (fica no disco do mantenedor)")
     sys.path.insert(0, str(RAIZ / "manual"))
     import gerar_equacoes
 

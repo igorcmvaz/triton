@@ -81,17 +81,15 @@ MANUAL_PT = "manual/Manual-Triton.pdf"
 MANUAL_EN = "manual/en/Triton-User-Manual.pdf"
 
 
-def manual_do_usuario(idioma: str) -> str:
-    """O manual completo que o programa abre: o inglês na Internacional ou fora do português.
+def manual_do_usuario(idioma: str = "") -> str:
+    """O manual completo que o programa abre: o inglês na Internacional, o português nas outras.
 
-    A Internacional abre em inglês e não traz dados brasileiros; o manual dela é o
-    inglês, qualquer que seja a língua escolhida. Na Brasil, segue a língua da interface:
-    espanhol e chinês não têm manual próprio, e o inglês lhes serve melhor que o português.
-    Na Portugal, o português de Portugal lê o manual em português.
+    A Internacional não traz dados nem texto do Brasil nem de Portugal; o manual dela é o
+    inglês (``manual/en``), qualquer que seja a língua escolhida. A Brasil e a Portugal têm um
+    só manual, em português, e não trazem ``manual/en``: o argumento ``idioma`` é mantido só
+    por compatibilidade e não muda a escolha.
     """
-    if is_int_edition() or idioma not in ("pt", "pt_pt"):
-        return MANUAL_EN
-    return MANUAL_PT
+    return MANUAL_EN if is_int_edition() else MANUAL_PT
 
 
 def rotulo_da_edicao(curto: bool = False) -> str:
@@ -214,15 +212,6 @@ def get_edition_title() -> str:
     return f"{APP_TITLE} — {rotulo_da_edicao()}"
 
 
-def get_edition_default_language() -> str:
-    """Retorna o idioma padrão da edição."""
-    if is_int_edition():
-        return "en_US"
-    if is_prt_edition():
-        return "pt_PT"
-    return "pt_BR"
-
-
 #: Na Edição Portugal a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).
 MOEDA_DE_PORTUGAL = "\u20ac"
 MOEDA_DA_INTERNACIONAL = ""
@@ -235,10 +224,6 @@ def get_edition_currency_symbol() -> str:
     if is_int_edition():
         return MOEDA_DA_INTERNACIONAL
     return "R$"
-
-
-#: Nome antigo de ``is_prt_edition``, mantido para quem ainda o chama.
-is_por_edition = is_prt_edition
 
 
 def serie_de_exemplo_da_edicao() -> str:

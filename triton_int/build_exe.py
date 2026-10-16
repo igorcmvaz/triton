@@ -70,7 +70,7 @@ def clean_build_dirs(base_dir: Path):
                 print(f"[!] Aviso ao limpar {folder}/: {exc}")
 
 
-def build_manual(base_dir: Path) -> bool:
+def build_manual(base_dir: Path, com_ingles: bool = False) -> bool:
     """Monta o manual e compõe o PDF antes de empacotar.
 
     O PDF é derivado: sai do Markdown, que sai dos capítulos, das tabelas e das
@@ -100,12 +100,15 @@ def build_manual(base_dir: Path) -> bool:
         ("PDF", "manual/gerar_pdf.py"),
         ("mini manuais", "manual/gerar_mini_manuais.py"),
         ("site de documentação", "manual/gerar_site.py"),
-        # O manual em inglês, que a Internacional abre.
-        ("tabelas em inglês", "manual/en/traduzir_tabelas.py"),
-        ("apêndices em inglês", "manual/en/apendices_en.py"),
-        ("montagem em inglês", "manual/gerar.py", "--idioma", "en"),
-        ("PDF em inglês", "manual/gerar_pdf.py", "--idioma", "en"),
     ]
+    if com_ingles:
+        # O manual em inglês é só da Internacional (manual/en); a Brasil e a Portugal não o têm.
+        etapas += [
+            ("tabelas em inglês", "manual/en/traduzir_tabelas.py"),
+            ("apêndices em inglês", "manual/en/apendices_en.py"),
+            ("montagem em inglês", "manual/gerar.py", "--idioma", "en"),
+            ("PDF em inglês", "manual/gerar_pdf.py", "--idioma", "en"),
+        ]
     geradas = 0
     for rotulo, script, *argumentos in etapas:
         caminho = base_dir / script
@@ -165,13 +168,14 @@ def entradas_do_pacote(base_dir: Path, edicao: str) -> list:
         ("examples", "exemplos"),
         ("docs", "docs"),
         ("manual/Manual-Triton.pdf", "manual"),
-        # O manual em inglês: o que a Internacional abre, e o da Brasil fora do português.
-        ("manual/en/Triton-User-Manual.pdf", "manual/en"),
         # Os sete volumes avulsos, para mandar só uma parte do manual.
         ("manual/mini", "manual/mini"),
         # Manual interativo offline (HTML/JS/CSS)
         ("manual/site", "manual/site"),
     ]
+    if edicao == "int":
+        # O manual em inglês é o que a Internacional abre; a Brasil e a Portugal não têm manual/en.
+        entradas.append(("manual/en/Triton-User-Manual.pdf", "manual/en"))
     return entradas
 
 
@@ -423,7 +427,7 @@ def versao_do_programa(base_dir: Path) -> str:
     import re
     texto = (base_dir / "triton" / "__init__.py").read_text(encoding="utf-8")
     achado = re.search(r'__version__\s*=\s*["\']([^"\']+)["\']', texto)
-    return achado.group(1) if achado else "1.0.0"
+    return achado.group(1) if achado else "0.1.0"
 
 
 def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list:
@@ -459,7 +463,6 @@ PYTHON_MINIMO = (3, 12)
 #: no GitHub), mais o manifesto `data/climbra_partes.json`. Entra no executável com a pasta `data` e é lida de
 #: `_internal/data` (triton/core/climate_database.py). O `data/climbra.db` único das versões anteriores ainda
 #: é lido pelo programa, mas não vai no pacote quando as partes existem (seria o mesmo conteúdo em dobro).
-#: Veja scripts/dividir_base_climbra.py e scripts/compilar_base_climbra.py.
 BASE_CLIMATICA_UNICA = Path("data") / "climbra.db"
 MANIFESTO_CLIMBRA = Path("data") / "climbra_partes.json"
 
@@ -476,11 +479,9 @@ def partes_da_base_climatica(raiz: Path) -> list:
     return [raiz / "data" / f"climbra_{modelo}.db" for modelo in modelos_climbra()]
 
 
-PASTAS_DE_CSV_CLIMBRA = ("climbra_data", "Triton future files for 652 cities")
-
-#: A base E-OBS por concelho da Edição Portugal (triton/core/base_climatica_portugal.py),
-#: compilada por scripts/compilar_base_eobs_portugal.py. As fontes brutas (E-OBS, CAOP; 3 GB)
-#: ficam em data/portugal e não vão em nenhum pacote.
+#: A base E-OBS por concelho da Edição Portugal (triton/core/base_climatica_portugal.py), versionada em
+#: data/portugal_eobs.db. As fontes brutas (E-OBS, CAOP; 3 GB) ficam em data/portugal, no disco do
+#: mantenedor, e não vão em nenhum pacote.
 BASE_PORTUGAL = Path("data") / "portugal_eobs.db"
 FONTES_DE_PORTUGAL = Path("data") / "portugal"
 
@@ -577,8 +578,7 @@ def garantir_base_portugal(base_dir: Path) -> bool:
         print(f"[+] Base E-OBS de Portugal embutida: {BASE_PORTUGAL} ({db.stat().st_size / 1e6:.1f} MB)")
         return True
     print(f"[ERRO] A Edição Portugal embute a base E-OBS, e {BASE_PORTUGAL} não foi encontrado.")
-    print("        Gere-a com scripts/compilar_base_eobs_portugal.py (fontes em data/portugal/fontes,")
-    print("        ver LEIA.txt). Para um pacote de teste sem a base, use --sem-base-climatica.")
+    print("        Ela é versionada no repositório. Para um pacote de teste sem a base, use --sem-base-climatica.")
     return False
 
 
@@ -586,8 +586,7 @@ def garantir_base_climatica(base_dir: Path) -> bool:
     """A Edição Brasil sai com a base CLIMBra embutida, ou não sai.
 
     Sem este passo, uma base ausente passava calada: o PyInstaller copiava a pasta `data` sem ela e o
-    instalador abria sem as 652 cidades. Vale ter os 19 bancos por modelo ou o `climbra.db` único antigo
-    (que o build, nesse caso, divide em partes). Se faltar tudo e houver os CSV brutos, compila as partes.
+    instalador abria sem as 652 cidades. Vale ter os 19 bancos por modelo, versionados em `data/`.
     """
     partes = partes_da_base_climatica(base_dir)
     faltam = [p for p in partes if not (p.is_file() and p.stat().st_size > 0)]
@@ -595,24 +594,10 @@ def garantir_base_climatica(base_dir: Path) -> bool:
         tamanho = sum(p.stat().st_size for p in partes) / 1e6
         print(f"[+] Base climática CLIMBra embutida: {len(partes)} bancos em data/ ({tamanho:.0f} MB)")
         return True
-    unico = base_dir / BASE_CLIMATICA_UNICA
-    if unico.is_file() and unico.stat().st_size > 0:
-        print(f"[*] Só o {BASE_CLIMATICA_UNICA} existe: dividindo em um banco por modelo (scripts/dividir_base_climbra.py)...")
-        res = subprocess.run([sys.executable, str(base_dir / "scripts" / "dividir_base_climbra.py"),
-                              "--origem", str(unico), "--destino", str(base_dir / "data"), "--sobrescrever"], cwd=base_dir)
-        return res.returncode == 0 and all(p.is_file() for p in partes)
-    for pasta in PASTAS_DE_CSV_CLIMBRA:
-        csv = base_dir / pasta
-        if csv.is_dir():
-            print(f"[*] Partes da base climática ausentes: compilando a partir de '{pasta}'...")
-            res = subprocess.run([sys.executable, str(base_dir / "scripts" / "compilar_base_climbra.py"),
-                                  "--input", str(csv), "--output", str(base_dir / "data")], cwd=base_dir)
-            return res.returncode == 0 and all(p.is_file() for p in partes)
     print("[ERRO] A Edição Brasil embute a base CLIMBra, e os bancos data/climbra_<modelo>.db não foram encontrados.")
     print(f"        Faltam {len(faltam)} de {len(partes)} (o primeiro: {faltam[0].name if faltam else '-'}).")
-    print("        Obtenha-os (estão versionados no repositório), gere-os a partir do climbra.db com")
-    print("        scripts/dividir_base_climbra.py, ou a partir da pasta 'climbra_data' (CSV brutos) com")
-    print("        scripts/compilar_base_climbra.py. Para um pacote de teste sem a base, use --sem-base-climatica.")
+    print("        Obtenha-os (estão versionados no repositório). Para um pacote de teste sem a base, use")
+    print("        --sem-base-climatica.")
     return False
 
 
@@ -664,14 +649,20 @@ def main():
         if args.clean:
             clean_build_dirs(base_dir)
 
+        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "prt"]}.get(args.edition, [args.edition])
+
         # O manual entra no pacote, e por isso é gerado antes dele.
-        if not args.sem_manual and not build_manual(base_dir):
+        if not args.sem_manual and not build_manual(base_dir, com_ingles="int" in edicoes):
             print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
 
-        # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote.
-        subprocess.run([sys.executable, str(base_dir / "scripts" / "gerar_avisos_de_terceiros.py")], cwd=base_dir)
+        # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote. O gerador
+        # é ferramenta de desenvolvimento (fica no disco do mantenedor); sem ele, vale o arquivo versionado.
+        gerador_de_avisos = base_dir / "scripts" / "gerar_avisos_de_terceiros.py"
+        if gerador_de_avisos.is_file():
+            subprocess.run([sys.executable, str(gerador_de_avisos)], cwd=base_dir)
+        else:
+            print("[*] Sem scripts/gerar_avisos_de_terceiros.py: o pacote leva infos_licenses/AVISOS_DE_TERCEIROS.txt como está.")
 
-        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "prt"]}.get(args.edition, [args.edition])
         if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):
             sys.exit(1)
         if "prt" in edicoes and not args.sem_base_climatica and not garantir_base_portugal(base_dir):

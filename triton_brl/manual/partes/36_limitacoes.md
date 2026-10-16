@@ -5,7 +5,7 @@
 > usuário a tarefa de descobri-los por conta própria.
 
 Esta seção deriva do registro de pendências que o grupo de pesquisa mantém, e reflete o
-estado da versão 1.0.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+estado da versão 0.1.0 (beta). Uma limitação sai desta lista quando é efetivamente resolvida, e
 não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação de
 programas científicos frequentemente não observa.
 

@@ -1,7 +1,7 @@
 """
 Suíte de testes de verificação e auditoria da regra operacional do balanço hídrico.
 
-A regra padrão (phi_rule=None) é a do Triton, a que o manual da 1.0.0 documenta: o
+A regra padrão (phi_rule=None) é a do Triton, a que o manual da 0.1.0 documenta: o
 extravasamento sai antes do consumo e a chuva do dia já atende o consumo do dia. Um phi
 numérico seleciona a família de Fewkes (2000b) para reservatório único: 0 é a YAS estrita
 e 1 é a YBS.

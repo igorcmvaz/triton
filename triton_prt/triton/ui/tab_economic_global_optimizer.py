@@ -15,12 +15,15 @@ from PySide6.QtGui import QFont, QColor
 
 from triton.core.taxas import mensal_pct_para_anual_fracao
 from triton.core.parser import TritonConfig, format_ptbr, parse_float
-from triton.core.simulation import run_single_simulation
 from triton.core.economic import run_robust_economic_analysis, calculate_effective_tariff
-from triton.core.environmental import EnvironmentalConfig, calculate_lca, run_environmental_sweep
+from triton.core.environmental import EnvironmentalConfig, run_environmental_sweep
 from triton.core.topsis import PESOS_PADRAO, payback_do_criterio, TopsisCandidate, calculate_topsis_scores
 from triton.core.mcdm_methods import run_smaa_vikor
-from triton.core.cost_estimates import estimate_preliminary_capex, precos_de_catalogo, annualize_operational_costs, estimate_annual_chlorination_cost
+from triton.core.cost_estimates import (
+    precos_de_catalogo,
+    annualize_operational_costs,
+    estimate_annual_chlorination_cost,
+)
 from triton.ui.charts import TOPSISComparisonChart, TOPSISProximityChart
 from triton.ui.translation import tr, get_current_lang, get_current_theme
 

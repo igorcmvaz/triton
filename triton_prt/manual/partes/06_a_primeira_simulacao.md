@@ -1,17 +1,12 @@
 # A primeira simulação
 
-> Ao terminar esta seção você terá o primeiro resultado na tela e saberá **ler**
-> os quatro números que importam. Ler é a parte difícil: o programa entrega muitos
-> números, e três deles respondem perguntas diferentes.
+> No fim desta secção, tem o primeiro resultado no ecrã e sabe **ler** os quatro números que importam. Ler é a parte difícil: o programa entrega muitos números, e três deles respondem a perguntas diferentes.
 
-Falta um dado para simular: o volume do reservatório. Vamos chutar.
+Falta um dado para simular: o volume do reservatório. Vamos arriscar um palpite.
 
-**3.000 litros.** Uma cisterna de concreto de 3 m³ é um tamanho comum de quintal,
-cabe no orçamento e é o que um projetista proporia sem pensar muito. A seção {{n:7}}
-vai perguntar se é o volume certo. Aqui só queremos ver o programa rodar.
+**3 000 litros.** Uma cisterna de betão de 3 m³ é um tamanho comum de logradouro e é o que um projetista proporia sem pensar muito. A secção {{n:7}} vai perguntar se é o volume certo. Aqui só queremos ver o programa a correr.
 
-Na etapa **4. Reservatório & Custos**, escolha volume fixo, informe 3.000 L, deixe o reservatório
-superior desmarcado, e rode.
+Na etapa **4. Reservatório & Custos**, escolha volume fixo, indique 3 000 L, deixe o reservatório superior por assinalar e simule.
 
 ---
 
@@ -19,136 +14,90 @@ superior desmarcado, e rode.
 
 <!-- inclui: _tabelas/cap06_primeira_simulacao.md -->
 
-A tela devolve várias dezenas de valores, e quatro deles bastam para julgar o projeto
-nesta etapa. Cada um responde a uma pergunta distinta, e é precisamente por responderem
-a perguntas distintas que eles não se substituem: um projeto pode ser bom pelo primeiro
-e ruim pelo terceiro, e a leitura conjunta é o que evita conclusão apressada.
+O ecrã devolve várias dezenas de valores, e quatro bastam para julgar o projeto nesta etapa. Cada um responde a uma pergunta distinta, e é justamente por isso que não se substituem: um projeto pode ser bom pelo primeiro e mau pelo terceiro, e a leitura conjunta é o que evita conclusões apressadas.
 
 ---
 
-## O potencial de economia: 26,48%
+## O potencial de economia: 15,39%
 
-Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da
-fatura de água e esgoto se deixa de pagar. É o valor central produzido pelo programa e o que
-figura no resumo de qualquer estudo, e corresponde à razão entre a água pluvial
-consumida e a demanda total da edificação ao longo de toda a série, conforme a Equação
-{{eq:potencial}}.
+Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da fatura da água e do saneamento deixa de se pagar. É o valor central do programa e o que consta do resumo de qualquer estudo. Corresponde à razão entre a água da chuva consumida e a procura total do edifício ao longo de toda a série, como na Equação {{eq:potencial}}.
 
-O denominador merece atenção, porque dele decorre todo o resto: trata-se da demanda
-**total**, e não da demanda pluvial. É essa escolha que fixa o teto do indicador em 28%,
-que é a fração atendível definida na seção {{n:5}}, e não em cem por cento.
+O denominador merece atenção, porque dele decorre tudo o resto: é a procura **total**, não a procura pluvial. É esta escolha que fixa o teto do indicador nos 28%, a fração atendível definida na secção {{n:5}}, e não em cem por cento.
 
-O sistema alcançou 26,48% contra um teto de 28%, o que significa que ele entrega 95% do
-que se propunha a entregar. Os 5% restantes correspondem aos dias em que a cisterna não
-dispunha de água suficiente para atender à demanda pluvial daquele dia.
+O sistema alcançou 15,39% contra um teto de 28%, o que significa que entrega 55% do que se propunha entregar (92,3 L/dia de chuva consumida, contra 168 L/dia de procura pluvial). Os 45% em falta correspondem aos dias em que a cisterna não tinha água suficiente para atender à procura pluvial do dia.
 
-> **Não confunda os dois percentuais.** «Economia de 26%» e «atendimento de 95% da
-> demanda pluvial» descrevem o mesmo sistema e são números diferentes. Estudos
-> publicados às vezes trocam um pelo outro. Declare qual está usando.
+> **Não confunda as duas percentagens.** «Economia de 15%» e «atendimento de 55% da procura pluvial» descrevem o mesmo sistema e são números diferentes. Estudos publicados trocam por vezes um pelo outro. Declare qual está a usar.
 
 ---
 
-## O extravasamento: 354 L/dia
+## O extravasamento: 106,4 L/dia
 
-**Responde: o reservatório é grande o bastante?**
+**Responde: o reservatório é suficientemente grande?**
 
-Trezentos e cinquenta e quatro litros por dia, em média ao longo dos trinta anos,
-extravasam da cisterna e seguem para a rede de drenagem. ==O volume extravasado é mais
-que o dobro dos 168 L/dia que o sistema pretende consumir,== e o reservatório deixa
-passar mais água do que aproveita.
+Em média, ao longo dos trinta anos, extravasam da cisterna 106,4 litros por dia, que seguem para a rede de drenagem. Menos do que os 168 L/dia que o sistema pretende consumir, mas ainda assim muita água a perder.
 
-Parece o argumento definitivo a favor de aumentar o reservatório, e não é. A cobertura
-oferece o triplo do que a casa consome (seção {{n:5}}), e boa parte desse excedente
-extravasaria de qualquer cisterna: a seção {{n:7}} mostra que nem 20.000 L o reduzem
-abaixo de 340 L/dia. O extravasamento só diz algo sobre o volume quando comparado ao de
-outros volumes, e é essa comparação que a seção {{n:7}} faz.
+Parece o argumento definitivo a favor de aumentar o reservatório, e é um argumento fraco. A cobertura oferece 1,5 vez o que a casa consome (secção {{n:5}}), e boa parte desse excedente extravasaria de qualquer cisterna: a secção {{n:7}} mostra que nem 20 000 L o reduzem abaixo de 54 L/dia. O extravasamento só diz algo sobre o volume quando comparado com o de outros volumes, e é essa comparação que a secção {{n:7}} faz.
 
-> Um extravasamento alto não é defeito do programa nem do projeto. É a assinatura do
-> descasamento entre a chuva, que chega concentrada em poucos dias, e a demanda, que
-> é constante. O reservatório existe para amortecer isso, e todo reservatório
-> finito falha em algum evento.
+> Um extravasamento elevado não é defeito do programa nem do projeto. É a assinatura do desencontro entre a chuva, que chega concentrada em poucos dias, e a procura, que é constante. O reservatório existe para amortecer isso, e todo o reservatório finito falha em algum episódio.
 
 ---
 
-## Os dias de atendimento: 93,9% plenos
+## Os dias de atendimento: 53,3% plenos
 
 **Responde: com que frequência posso contar com o sistema?**
 
-Trata-se da confiabilidade **temporal** do sistema, e ela responde a uma pergunta que o
-potencial de economia não alcança: com que frequência se pode contar com a água pluvial.
-Cada dia da simulação recebe uma de três classificações, segundo o grau de atendimento
-alcançado.
+É a fiabilidade **temporal** do sistema, e responde a uma pergunta que o potencial de economia não alcança: com que frequência se pode contar com a água da chuva. Cada dia da simulação recebe uma de três classificações, conforme o grau de atendimento alcançado.
 
 <!-- tabela: Classificação de cada dia da simulação quanto ao grau de atendimento -->
 | Classe | O que significa |
 | :--- | :--- |
-| pleno | a chuva atendeu **toda** a demanda pluvial do dia |
+| pleno | a chuva atendeu **toda** a procura pluvial do dia |
 | parcial | atendeu parte, e a rede completou |
 | nulo | a cisterna estava vazia; tudo veio da rede |
 
-Em 93,9% dos dias o sistema deu conta sozinho da demanda pluvial, e nos 6,1% restantes
-a rede pública entrou, integral ou parcialmente. A distinção tem consequência direta
-sobre o projeto hidráulico: um sistema com muitos dias de atendimento nulo exige
-alimentação automática de reserva bem dimensionada, e o usuário percebe a alternância
-entre as duas fontes ao longo do ano. Um sistema com 99% de dias plenos é, na prática,
-independente da rede para os usos que atende.
+Em 53,3% dos dias o sistema deu conta sozinho da procura pluvial. Nos restantes 46,7%, a rede pública entrou, total ou parcialmente: 2,9% dos dias foram parciais e 43,8% nulos. A distinção tem consequência direta no projeto hidráulico. Um sistema com muitos dias de atendimento nulo exige um abastecimento automático de reserva bem dimensionado, e o utilizador nota a alternância entre as duas origens ao longo do ano. Um sistema com 99% de dias plenos é, na prática, independente da rede para os usos que atende.
 
-> **Potencial e confiabilidade não andam juntos.** É possível ter potencial alto com
-> confiabilidade baixa: um reservatório que se enche na estação chuvosa e seca na
-> estiagem entrega muito volume no ano e falha metade dos dias. A tabela da seção {{n:7}} mostra as duas colunas divergindo.
+> **Potencial e fiabilidade não andam juntos.** É possível ter um potencial alto com fiabilidade baixa: um reservatório que enche na estação chuvosa e seca na estiagem entrega muito volume no ano e falha metade dos dias. A tabela da secção {{n:7}} mostra as duas colunas a divergir.
 
 ---
 
 ## O volume anual poupado
 
-**Responde: quanto vale isso em dinheiro e em carbono?**
+**Responde: quanto vale isto em dinheiro e em carbono?**
 
-Este é o valor que atravessa para as seções {{n:10}} e {{n:11}}, porque tanto a economia na fatura de água e esgoto quanto a emissão de carbono evitada são calculadas a partir dele. Ele
-vale 58,0 m³/ano, menos de um terço dos 187 m³/ano que a cobertura disponibiliza depois
-do descarte, e a diferença inteira corresponde ao que extravasou.
+É o valor que passa para as secções {{n:10}} e {{n:11}}, porque tanto a poupança na fatura da água e do saneamento como a emissão de carbono evitada se calculam a partir dele. Vale 33,7 m³/ano, bem menos de metade dos 92 m³/ano que a cobertura disponibiliza antes do descarte; o descarte e o extravasamento explicam a diferença.
 
 ---
 
-Antes de discutir por que o potencial não chega aos 28%, convém ver o reservatório trabalhando. A aba de resultados traz a série diária do nível da cisterna, e é nela que se enxergam de uma vez os dois regimes que limitam o aproveitamento: o extravasamento e a falta ({{fig:fig48_programa_serie_diaria}}).
+Antes de discutir porque o potencial não chega aos 28%, convém ver o reservatório a trabalhar. O separador de resultados traz a série diária do nível da cisterna, e é nela que se veem de uma só vez os dois regimes que limitam o aproveitamento: o extravasamento e a falta ({{fig:fig48_programa_serie_diaria}}).
 
 ![O nível da cisterna, dia a dia, ao longo de um ano](../figuras/fig48_programa_serie_diaria.png)
 
-*Figura 99 — O nível da cisterna ao longo do primeiro ano da série, com a chuva diária ao fundo. Os platôs no alto são os dias em que o reservatório está cheio e extravasa; os vales no zero são os dias em que ele secou e a rede atendeu tudo. Figura gerada pelo próprio programa.*
+*Figura 99 — O nível da cisterna ao longo do primeiro ano da série de Lisboa, com a chuva diária ao fundo. Os planaltos no topo são os dias em que o reservatório está cheio e extravasa; os vales no zero são os dias em que secou e a rede atendeu tudo. Em Lisboa, os vales concentram-se no verão. Figura gerada pelo próprio programa.*
 
 ---
-## Por que não chegamos aos 28%
+## Porque não chegamos aos 28%
 
-A seção {{n:5}} encerrou com um confronto aparentemente favorável: 187 m³ anuais de
-oferta contra 61 m³ de demanda pluvial, isto é, o triplo do necessário. Diante desse
-excedente, seria razoável esperar atendimento integral, e ainda assim o sistema entrega
-95% do pretendido.
+A secção {{n:5}} terminou com uma comparação aparentemente favorável: 92 m³ anuais de oferta contra 61 m³ de procura pluvial, isto é, 1,5 vez o necessário. Perante este excedente, seria razoável esperar atendimento integral, e no entanto o sistema entrega apenas 55% do pretendido.
 
-A explicação está inteiramente no **tempo**. O excedente não ocorre no momento em que a água é
-necessária: a precipitação chega concentrada, enche a cisterna de 3.000 L num único dia
-de chuva intensa, extravasa no mesmo dia, e falta duas semanas depois. O excedente anual e o
-atendimento diário são grandezas que não se comunicam, e é justamente essa
-incomunicabilidade que torna a simulação diária indispensável.
+A explicação está inteiramente no **tempo**. O excedente não ocorre quando a água faz falta: a precipitação chega concentrada, enche a cisterna de 3 000 L num único dia de chuva intensa, extravasa no mesmo dia, e falta duas semanas depois. Em Lisboa, a falta é longa: o verão quase não tem chuva. O excedente anual e o atendimento diário são grandezas que não comunicam, e é precisamente esta incomunicabilidade que torna a simulação diária indispensável.
 
-O reservatório de 3.000 L armazena o equivalente a dezoito dias de demanda pluvial.
-Qualquer estiagem mais longa que isso o esvazia, e a partir daí o sistema passa a
-depender integralmente da rede até a chuva seguinte.
+A cisterna de 3 000 L armazena o equivalente a dezoito dias de procura pluvial. Qualquer estiagem mais longa esvazia-a, e a partir daí o sistema depende inteiramente da rede até à chuva seguinte.
 
-É por isso que aumentar o reservatório funciona — e é por isso que aumentar tem
-limite. A seção {{n:7}} mede exatamente onde fica esse limite.
+É por isso que aumentar o reservatório funciona — e é por isso que aumentar tem limite. A secção {{n:7}} mede exatamente onde fica esse limite.
 
 ---
 
 ## O que temos até aqui
 
-<!-- tabela: Estado do projeto do tutorial após a primeira simulação -->
-| Resultado com 3.000 L | |
+<!-- tabela: Estado do projeto do tutorial depois da primeira simulação -->
+| Resultado com 3 000 L | |
 | :--- | ---: |
-| potencial de economia | 26,48% |
+| potencial de economia | 15,39% |
 | de um teto de | 28% |
-| extravasamento | 354 L/dia |
-| dias de atendimento pleno | 93,9% |
+| extravasamento | 106,4 L/dia |
+| dias de atendimento pleno | 53,3% |
 
-Um resultado defensável, e já perto do teto. Mas escolhemos 3.000 L por palpite: pode
-ser pouco, e pode ser demais.
+Um resultado defensável, mas longe do teto. E escolhemos 3 000 L por palpite: pode ser pouco, e pode ser demais.
 
 Quanto seria o certo?

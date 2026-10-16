@@ -89,7 +89,7 @@ pip install -r requirements-dev.txt
 ```
 
 Runtime dependencies: PySide6, NumPy, pandas, Matplotlib, openpyxl, ReportLab, pydantic,
-ezdxf, requests, BeautifulSoup, PyArrow. All are installed by the commands above.
+ezdxf, PyArrow. All are installed by the commands above.
 
 Full instructions, including a worked example and the Windows installer, are in
 [`docs/en/getting-started.md`](../../docs/en/getting-started.md).
@@ -188,7 +188,7 @@ marker; run it with `pytest -m replicacao`.
 If you use Triton in academic work, please cite it as declared in
 [`CITATION.cff`](../../CITATION.cff):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton* (version 1.0.0) [Computer software].
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton* (version 0.1.0) [Computer software].
 > Universidade Federal de Santa Catarina. https://github.com/igorcmvaz/triton
 
 ---

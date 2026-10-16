@@ -59,7 +59,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           # PySide6 fica de fora: os módulos de interface não são coletados sem Qt.
-          pip install numpy pandas openpyxl reportlab ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
+          pip install numpy pandas openpyxl reportlab ezdxf pyarrow matplotlib pypdf
           pip install pytest pytest-cov
 
       - name: Instalar o kernel acelerado
@@ -77,38 +77,19 @@ jobs:
           print("kernel conforme a matriz")
           PY
 
-      # Os testes marcados "rede" baixam dados da ANEEL e rodam só sob demanda
-      # (pytest -m rede); o -m explícito repete o «not rede» do pyproject.toml.
+      # O -m explícito repete o «not replicacao and not rede» do pyproject.toml (um -m na linha de
+      # comando substitui o do addopts).
       - name: Suíte de verificação
         run: python -m pytest -m "not replicacao and not rede" --durations=15
 
   # A base CLIMBra (um banco por modelo, data/climbra_<modelo>.db) está no Git. Este job confere que
-  # os 19 arquivos estão íntegros (SHA-256 do manifesto, hash do conteúdo, contagens) e que nenhum
-  # passa do limite de 100 MB do GitHub. Só usa a biblioteca padrão.
+  # os 19 arquivos estão íntegros (SHA-256 do manifesto data/climbra_partes.json, contagem de séries) e
+  # que nenhum passa do limite de 100 MB do GitHub. Sem script de apoio: é o teste
+  # test_as_partes_reais_batem_com_o_manifesto, do mesmo arquivo que cobre o leitor das partes.
   base-climatica:
     name: Base CLIMBra (BRL)
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: triton_brl
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            triton_brl
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Conferir as partes
-        run: python scripts/dividir_base_climbra.py --verificar --sem-comparar
-
-  rede:
-    name: Fontes oficiais (ANEEL, só BRL)
-    runs-on: ubuntu-latest
-    # Só quando pedido: Actions → Verificação → Run workflow. Nunca em push ou PR.
-    if: github.event_name == 'workflow_dispatch'
-    timeout-minutes: 20
     defaults:
       run:
         working-directory: triton_brl
@@ -119,16 +100,12 @@ jobs:
         with:
           sparse-checkout: |
             triton_brl
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pandas openpyxl reportlab ezdxf requests beautifulsoup4 pyarrow matplotlib pypdf
-          pip install pytest
-
-      - name: Testes de rede
-        run: python -m pytest -m rede -v
+          pip install numpy pandas openpyxl pytest
+      - name: Conferir as partes
+        run: python -m pytest tests/unit/test_climbra_particionada.py -k "reais" -p no:cacheprovider

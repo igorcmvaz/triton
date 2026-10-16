@@ -24,7 +24,7 @@ EDICAO = get_current_edition()
 if EDICAO == "INT":
     PASTAS, PROIBIDOS = ["en/partes", "en/apendices"], BRASIL + PORTUGAL
 elif EDICAO == "PRT":
-    pytest.skip("manual PRT ainda em reescrita (ativar quando a edicao estiver em portugues de Portugal)", allow_module_level=True)
+    PASTAS, PROIBIDOS = ["partes", "apendices"], BRASIL
 else:
     pytest.skip("a BRL nao tem restricao de conteudo no manual", allow_module_level=True)
 

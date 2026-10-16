@@ -8,7 +8,7 @@ import hashlib
 import re
 import unicodedata
 
-__version__ = "1.0.0"
+__version__ = "0.1.0"
 APP_NAME = "Triton"
 APP_VERSION_LABEL = f"Triton {__version__}"
 APP_TITLE = f"Triton {__version__} — Dimensionamento e Aproveitamento de Água de Chuva"

@@ -8,7 +8,6 @@ Gráficos 2x2 com Identidade Visual UFSC Sustentável:
 """
 
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QLabel, QComboBox, QScrollArea, QFrame, QSizePolicy, QDialog, QFormLayout, QDialogButtonBox, QCheckBox
-from PySide6.QtCore import Qt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib import rcParams
@@ -225,47 +224,6 @@ class TritonBaseChart(QWidget):
         self.safe_draw()
 
 
-
-class MultiScenarioSweepChart(TritonBaseChart):
-    """Gráfico de Comparação de Potencial de Economia (%) vs Volume do Reservatório Inferior para Múltiplos Cenários."""
-    def __init__(self, parent=None):
-        super().__init__("Curvas de Potencial de Economia (%) vs Volume do Reservatório Inferior", parent)
-
-    def update_chart(self, scenarios_data=None):
-        if not scenarios_data:
-            self.plot_empty(tr("Adicione cenários e execute a simulação para visualizar as curvas de potencial"))
-            return
-
-        self.figure.clear()
-        ax = self.figure.add_subplot(111)
-        ax.set_facecolor('#f8fafc')
-
-        palette = ['#005a36', '#0284c7', '#d97706', '#dc2626', '#8b5cf6', '#059669', '#ec4899', '#6366f1']
-        styles = ['-', '--', '-.', ':']
-
-        for idx, sc in enumerate(scenarios_data):
-            vols = sc.get("vols", [])
-            pots = sc.get("pots", [])
-            name = sc.get("name", f"{tr('Cenário')} {idx+1}")
-            color = palette[idx % len(palette)]
-            style = styles[idx % len(styles)]
-            
-            if vols and pots:
-                ax.plot(vols, pots, color=color, linestyle=style, linewidth=2.0, marker='o', markersize=3, label=name)
-
-        ax.set_xlabel(tr("Volume do Reservatório Inferior (L)"), color='#334155', fontsize=8, fontweight='bold')
-        ax.set_ylabel(tr("Economia Potencial (%)"), color='#005a36', fontsize=8, fontweight='bold')
-        ax.tick_params(colors='#334155', labelsize=7.5)
-        ax.grid(True, linestyle=':', alpha=0.6, color='#cbd5e1')
-
-        ax.legend(loc='lower right', facecolor='#ffffff', edgecolor='#cbd5e1', framealpha=0.95, fontsize=7.5)
-        for spine in ax.spines.values():
-            spine.set_color('#cbd5e1')
-
-        self.figure.tight_layout(pad=1.0)
-        self.safe_draw()
-
-
 class SensitivityChart(TritonBaseChart):
     """Gráfico de Sensibilidade Multivariável (VPL vs Variação %)."""
     def __init__(self, parent=None):
@@ -329,9 +287,6 @@ class SensitivityChart(TritonBaseChart):
 
         self.figure.subplots_adjust(left=0.14, bottom=0.16, right=0.62, top=0.92)
         self.safe_draw()
-
-
-
 
 
 class PotentialVsVolumeChart(TritonBaseChart):

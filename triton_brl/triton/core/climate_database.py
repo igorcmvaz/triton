@@ -406,7 +406,7 @@ def get_climate_database_dir() -> str:
         os.path.join(os.getcwd(), "climbra_data"),
         os.path.join(raiz_do_programa, "data", "climbra_data"),
         os.path.join(os.getcwd(), "data", "climbra_data"),
-        # Compatibilidade com instalações existentes da 1.0.0
+        # Compatibilidade com instalações existentes da 0.1.0
         os.path.join(pasta_do_executavel, "Triton future files for 652 cities") if pasta_do_executavel else "",
         os.path.join(raiz_do_programa, "Triton future files for 652 cities"),
         os.path.join(os.getcwd(), "Triton future files for 652 cities"),

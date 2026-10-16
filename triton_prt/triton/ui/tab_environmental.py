@@ -15,15 +15,21 @@ from PySide6.QtWidgets import (
     QMessageBox, QTextBrowser
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QColor
 
 from triton.ui.translation import tr, get_current_theme, get_current_lang
 from triton.ui.textos_da_edicao import traduz_descritivo
 from triton.core.parser import format_ptbr
 from triton.core.environmental import (
-    EnvironmentalConfig, EnvironmentalResult, EnvironmentalSweepResult,
-    PipeInput, PumpInput, MATERIAL_PRESETS, PIPE_EMISSION_FACTORS_PER_METER, PUMP_EMBEDDED_CO2,
-    calculate_lca, run_environmental_sweep, grid_factor_default
+    EnvironmentalConfig,
+    PipeInput,
+    PumpInput,
+    MATERIAL_PRESETS,
+    PIPE_EMISSION_FACTORS_PER_METER,
+    PUMP_EMBEDDED_CO2,
+    calculate_lca,
+    run_environmental_sweep,
+    grid_factor_default,
 )
 from triton.core.environmental_sync import build_sync_snapshot, material_preset_values, pipe_co2_factor
 from triton.core import water_supply_routes as rotas_de_agua
@@ -43,13 +49,10 @@ from triton.core.etap_integration import AREA_DE_RECURSO_M2
 from triton.core.environmental import pump_embodied_co2_is_extrapolated
 from dataclasses import replace
 from triton.core.chlorination import DOSE_PADRAO_MG_POR_LITRO, FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
-from triton.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3, CV_TO_KW
-from triton.core.esg_certifications import calculate_esg_certifications, EsgConsolidatedReport, irrigacao_atendida_m3
+from triton.core.pump_energy import compute_annual_pump_energy, consumo_especifico_padrao_kwh_por_m3
+from triton.core.esg_certifications import calculate_esg_certifications, irrigacao_atendida_m3
 from triton.core.edge_certification import consumo_base_anual_m3
-from triton.ui.charts import (
-    TritonBaseChart, CO2ComparisonChart, EnvironmentalBalanceSummaryChart,
-    LCAComponentBreakdownChart, WaterAndCarbonComparisonChart
-)
+from triton.ui.charts import CO2ComparisonChart, EnvironmentalBalanceSummaryChart, LCAComponentBreakdownChart
 from triton.ui.justified_widgets import (
     JustifiedLineEdit, JustifiedComboBox, JustifiedCheckBox
 )

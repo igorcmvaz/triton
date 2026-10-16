@@ -101,14 +101,14 @@ other alternatives are compared.
 ## Embodied carbon
 
 ```equacao:emissao_componente
-E_comp = m_comp × FE_mat
+E_comp = m_comp × EF_mat
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `E_comp` | embodied emission of the component | kg CO₂e |
 | `m_comp` | mass of the component | kg |
-| `FE_mat` | emission factor of the material, cradle to gate | kg CO₂e/kg |
+| `EF_mat` | emission factor of the material, cradle to gate | kg CO₂e/kg |
 
 The mass of each component follows from its sizing. For the tank, it is obtained from the useful
 volume multiplied by the characteristic mass density of the material, which varies by more than an
@@ -151,14 +151,14 @@ the right material, the manufacturing debt pays off.
 **Pumping:**
 
 ```equacao:emissao_energia
-E_ener = C_ano × FE_rede
+E_energy = E_yr × EF_grid
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_ener` | annual emission of the pumping energy | kg CO₂e/year |
-| `C_ano` | annual energy consumption of the pump set | kWh/year |
-| `FE_rede` | emission factor of the electricity grid, by region and year | kg CO₂e/kWh |
+| `E_energy` | annual emission of the pumping energy | kg CO₂e/year |
+| `E_yr` | annual energy consumption of the pump set | kWh/year |
+| `EF_grid` | emission factor of the electricity grid, by region and year | kg CO₂e/kWh |
 
 The annual energy consumption comes from the calculation presented in section {{n:28}}, according
 to the supply arrangement declared, and the grid emission factor is typed in, for the place and the year
@@ -227,27 +227,27 @@ boundary of each one.
 **Net annual balance:**
 
 ```equacao:saldo_liquido
-E_liq = E_evit − E_ener − E_trat
+E_net = E_avoid − E_energy − E_treat
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_liq` | net annual emission balance | kg CO₂e/year |
-| `E_evit` | emission avoided by the utility water no longer consumed | kg CO₂e/year |
-| `E_ener` | annual emission of the pumping energy | kg CO₂e/year |
-| `E_trat` | annual emission of the treatment consumables | kg CO₂e/year |
+| `E_net` | net annual emission balance | kg CO₂e/year |
+| `E_avoid` | emission avoided by the utility water no longer consumed | kg CO₂e/year |
+| `E_energy` | annual emission of the pumping energy | kg CO₂e/year |
+| `E_treat` | annual emission of the treatment consumables | kg CO₂e/year |
 
 **Carbon payback:**
 
 ```equacao:payback_carbono
-PB_amb = E_inc ÷ E_liq
+PB_env = E_emb ÷ E_net
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `PB_amb` | environmental payback time of the system | year |
-| `E_inc` | carbon embodied in the manufacture of the components | kg CO₂e |
-| `E_liq` | net annual emission balance, from Equation {{eq:saldo_liquido}} | kg CO₂e/year |
+| `PB_env` | environmental payback time of the system | year |
+| `E_emb` | carbon embodied in the manufacture of the components | kg CO₂e |
+| `E_net` | net annual emission balance, from Equation {{eq:saldo_liquido}} | kg CO₂e/year |
 
 When the net annual balance is not positive — a real situation, not a hypothetical one, in systems
 with a large concrete tank — there is no environmental payback, because the debt is never paid off.
@@ -258,15 +258,15 @@ carbon.
 **Balance at the end of life:**
 
 ```equacao:saldo_vida
-S_vida = ( E_liq × n_anos ) − E_inc
+B_life = ( E_net × n_yr ) − E_emb
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `S_vida` | carbon balance at the end of the adopted service life | kg CO₂e |
-| `E_liq` | net annual emission balance, from Equation {{eq:saldo_liquido}} | kg CO₂e/year |
-| `n_anos` | service life adopted for the system | year |
-| `E_inc` | carbon embodied in the manufacture of the components | kg CO₂e |
+| `B_life` | carbon balance at the end of the adopted service life | kg CO₂e |
+| `E_net` | net annual emission balance, from Equation {{eq:saldo_liquido}} | kg CO₂e/year |
+| `n_yr` | service life adopted for the system | year |
+| `E_emb` | carbon embodied in the manufacture of the components | kg CO₂e |
 
 Negative means the system **emitted more than it avoided** over the adopted life. It is not a
 theoretical hypothesis: it happens with a concrete cistern and a twenty-year service life, as
@@ -275,14 +275,14 @@ section {{n:11}} shows.
 **Specific avoided emission:**
 
 ```equacao:emissao_especifica
-E_esp = S_vida ÷ V_vida
+E_spec = B_life ÷ V_life
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_esp` | specific emission of the system over the service life | g CO₂e/L |
-| `S_vida` | carbon balance at the end of the service life, from Equation {{eq:saldo_vida}} | kg CO₂e |
-| `V_vida` | total volume of rainwater delivered over the service life | m³ |
+| `E_spec` | specific emission of the system over the service life | g CO₂e/L |
+| `B_life` | carbon balance at the end of the service life, from Equation {{eq:saldo_vida}} | kg CO₂e |
+| `V_life` | total volume of rainwater delivered over the service life | m³ |
 
 ---
 

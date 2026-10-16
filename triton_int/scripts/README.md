@@ -1,5 +1,7 @@
 # Scripts
 
+> **Development tools.** The scripts described below stay on the maintainer's disk and are **not in Git** (`.gitignore`). This file records what each one does; the program, the installer and the tests do not depend on them.
+
 Command-line tools that ship with the source. None is imported by `triton/`; they run from outside,
 on the project. Run them from this folder (`triton_int/`).
 

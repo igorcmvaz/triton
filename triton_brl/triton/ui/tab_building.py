@@ -14,10 +14,9 @@ from PySide6.QtWidgets import (
     QTabWidget, QFrame, QComboBox, QCheckBox, QScrollArea, QDoubleSpinBox, QSizePolicy
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QColor, QFont
-import numpy as np
+from PySide6.QtGui import QColor
 
-from triton.core.parser import parse_float, parse_int, format_ptbr
+from triton.core.parser import parse_float, parse_int
 from triton.core.fracao_atendivel import aviso_percentual_pequeno, fracao_para_percentual, fracao_total
 from triton.ui.translation import tr, get_current_theme, get_current_lang
 from triton.ui.textos_da_edicao import titulo_tipologia

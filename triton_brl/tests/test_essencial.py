@@ -109,11 +109,7 @@ from triton import __version__
 from triton.cli import _get_precipitation, _load_bundle
 from triton.core import modulacao_estocastica as M
 from triton.core.fracao_atendivel import fracao_total
-from triton.core.tariff_updater.change_detector import TariffChangeDetector
-import unittest
-from triton.core.tariff_updater import AneelTariffUpdater, SanitationScraperRegistry, TariffUpdateEngine, generate_update_report
 from triton.core.tariff_regimes import validar_estrutura
-from triton.core.tariff_updater import TariffChangeDetector, generate_interactive_dashboard
 import ezdxf
 from triton.core.bim_exporter import build_bim_manifest, validate_bim_manifest
 from triton.core.cad_exporter import generate_project_dxf, generate_project_svg_diagram
@@ -1044,7 +1040,7 @@ def _tres_fracoes_arquivo(tmp_path, interna, externa, jardim=0.0):
 
 
 def test_arquivo_antigo_com_padroes_vazados_vale_a_total(tmp_path):
-    """Até a 1.0.0 a interna e a externa eram gravadas com os padrões."""
+    """Antes da 0.1.0 a interna e a externa eram gravadas com os padrões."""
     r = load_triton_project(str(_tres_fracoes_arquivo(tmp_path, 0.35, 50.0)))
     c = r['config']
     assert (c.rainwater_share, c.non_potable_indoor_share, c.irrigation_liters_per_day) == (0.28, 0.28, 0.0)
@@ -5345,7 +5341,9 @@ _ARQUIVO_MODULACAO_ESTOCASTICA = str(_TESTES / 'unit/test_modulacao_estocastica.
 MODULACAO_ESTOCASTICA_RAIZ = Path(_ARQUIVO_MODULACAO_ESTOCASTICA).resolve().parents[2]
 
 
-MODULACAO_ESTOCASTICA_CASO = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+_caso_04 = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '04_tutorial_varredura.triton'
+_caso_02 = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+MODULACAO_ESTOCASTICA_CASO = _caso_04 if _caso_04.exists() else _caso_02
 
 
 @pytest.fixture(scope='module')
@@ -5679,314 +5677,8 @@ def test_linha_de_comando_recusa_modelos_com_arquivo_proprio():
 
 
 # ==================================================================================================
-# Fontes externas que falham: atualizador, detector de mudança e porta de validação
+# Porta de validação da estrutura tarifária
 # ==================================================================================================
-
-# ---- origem: tests/unit/test_change_detector_offline.py
-
-URL = 'https://exemplo.gov.br/tarifas/resolucao.pdf'
-
-
-class RespostaFalsa:
-    """Substituto mínimo de `requests.Response` para o caminho usado pelo detector."""
-
-    def __init__(self, conteudo: bytes=b'', status_code: int=200, headers=None):
-        self._conteudo = conteudo
-        self.status_code = status_code
-        self.headers = headers or {}
-
-    def iter_content(self, chunk_size: int=65536):
-        for inicio in range(0, len(self._conteudo), chunk_size):
-            yield self._conteudo[inicio:inicio + chunk_size]
-
-
-class SessaoFalsa:
-    """Sessão que devolve respostas programadas e registra as chamadas feitas."""
-
-    def __init__(self, *respostas):
-        self._respostas = list(respostas)
-        self.headers = {}
-        self.urls_consultadas = []
-
-    def get(self, url, **kwargs):
-        self.urls_consultadas.append(url)
-        if not self._respostas:
-            raise AssertionError('a sessão recebeu mais chamadas do que respostas programadas')
-        resposta = self._respostas.pop(0)
-        if isinstance(resposta, Exception):
-            raise resposta
-        return resposta
-
-    def update(self, *args, **kwargs):
-        pass
-
-
-@pytest.fixture
-def detector(tmp_path):
-    """Detector com registro isolado, sem tocar nos dados do repositório."""
-    return TariffChangeDetector(root_dir=tmp_path)
-
-
-def test_hash_e_estavel_e_sensivel():
-    """A assinatura identifica o conteúdo: igual para o mesmo, distinta para diferente."""
-    assert TariffChangeDetector.compute_sha256(b'tarifa 2026') == TariffChangeDetector.compute_sha256(b'tarifa 2026')
-    assert TariffChangeDetector.compute_sha256(b'tarifa 2026') != TariffChangeDetector.compute_sha256(b'tarifa 2027')
-    assert len(TariffChangeDetector.compute_sha256(b'')) == 64
-
-
-def test_registro_ausente_produz_estrutura_inicial(detector):
-    """Sem arquivo prévio, o detector parte de um registro vazio e válido."""
-    registro = detector.load_registry()
-    assert registro['monitored_urls'] == {}
-    assert 'version' in registro
-
-
-def test_registro_sobrevive_a_ida_e_volta(detector):
-    """O que é salvo é relido — o histórico de assinaturas não pode se perder."""
-    detector._registry['monitored_urls'][URL] = {'content_sha256': 'abc123'}
-    detector.save_registry()
-    assert detector.registry_path.exists()
-    relido = json.loads(detector.registry_path.read_text(encoding='utf-8'))
-    assert relido['monitored_urls'][URL]['content_sha256'] == 'abc123'
-
-
-def test_registro_corrompido_nao_derruba_o_detector(tmp_path):
-    """Um JSON inválido em disco degrada para registro vazio, sem exceção.
-
-    O detector é usado em rotina de atualização em lote; abortar por causa de um
-    arquivo corrompido interromperia a verificação de todas as demais cidades.
-    """
-    caminho = tmp_path / 'data' / 'tarifas' / 'change_tracking_registry.json'
-    caminho.parent.mkdir(parents=True, exist_ok=True)
-    caminho.write_text('{ isto não é json válido', encoding='utf-8')
-    detector = TariffChangeDetector(root_dir=tmp_path)
-    assert detector.load_registry()['monitored_urls'] == {}
-
-
-def test_url_invalida_e_sinalizada_sem_requisicao(detector):
-    """URL ausente ou malformada exige ação manual e não gera tráfego."""
-    detector.session = SessaoFalsa()
-    for invalida in ('', 'ftp://arquivo', 'nao-e-url'):
-        resultado = detector.check_url(invalida, 'CASAN', 'SC')
-        assert resultado['status'] == 'INVALID_URL'
-        assert resultado['requires_manual_action'] is True
-    assert detector.session.urls_consultadas == [], 'houve requisição para URL inválida'
-
-
-def test_primeira_verificacao_registra_a_assinatura_inicial(detector):
-    """Na primeira vez a URL é apenas registrada, sem alarme de mudança."""
-    detector.session = SessaoFalsa(RespostaFalsa(b'conteudo tarifario original'))
-    resultado = detector.check_url(URL, 'CASAN', 'SC')
-    assert resultado['status'] == 'INITIALIZED'
-    assert resultado['requires_manual_action'] is False
-    assert resultado['content_sha256'] == TariffChangeDetector.compute_sha256(b'conteudo tarifario original')
-    assert resultado['content_length'] == len(b'conteudo tarifario original')
-
-
-def test_conteudo_identico_nao_dispara_alarme(detector):
-    """Mesma assinatura em duas verificações significa documento inalterado."""
-    conteudo = b'resolucao tarifaria 2026'
-    detector.session = SessaoFalsa(RespostaFalsa(conteudo), RespostaFalsa(conteudo))
-    primeira = detector.check_url(URL, 'CASAN', 'SC')
-    segunda = detector.check_url(URL, 'CASAN', 'SC')
-    assert primeira['status'] == 'INITIALIZED'
-    assert segunda['status'] == 'UNCHANGED'
-    assert segunda['requires_manual_action'] is False
-    assert segunda['content_sha256'] == primeira['content_sha256']
-
-
-def test_conteudo_alterado_exige_acao_manual(detector):
-    """Assinatura diferente indica que a concessionária publicou nova tarifa.
-
-    Esta é a razão de existir do módulo: sem a sinalização, o catálogo de 652
-    municípios envelheceria silenciosamente.
-    """
-    detector.session = SessaoFalsa(RespostaFalsa(b'resolucao tarifaria 2026'), RespostaFalsa(b'resolucao tarifaria 2027 - valores reajustados'))
-    antes = detector.check_url(URL, 'CASAN', 'SC')
-    depois = detector.check_url(URL, 'CASAN', 'SC')
-    assert depois['status'] == 'PAGE_CHANGED_MANUAL_REVIEW_REQUIRED'
-    assert depois['requires_manual_action'] is True
-    assert depois['content_sha256'] != antes['content_sha256'], 'a nova assinatura não substituiu a anterior no resultado'
-    assert depois['change_history'], 'a alteração não foi registrada no histórico'
-
-
-def test_erro_http_e_sinalizado_para_acao_manual(detector):
-    """Link quebrado no site da concessionária precisa chegar ao operador."""
-    detector.session = SessaoFalsa(RespostaFalsa(b'', status_code=404))
-    resultado = detector.check_url(URL, 'CASAN', 'SC')
-    assert resultado['status'] == 'HTTP_ERROR'
-    assert resultado['http_status'] == 404
-    assert resultado['requires_manual_action'] is True
-
-
-def test_cabecalhos_de_validacao_sao_preservados(detector):
-    """ETag e Last-Modified são guardados para diagnóstico da origem."""
-    detector.session = SessaoFalsa(RespostaFalsa(b'documento', headers={'ETag': '"abc-123"', 'Last-Modified': 'Mon, 01 Sep 2026 10:00:00 GMT'}))
-    resultado = detector.check_url(URL, 'CASAN', 'SC')
-    assert resultado['etag'] == '"abc-123"'
-    assert resultado['last_modified_header'] == 'Mon, 01 Sep 2026 10:00:00 GMT'
-
-
-def test_documento_gigante_e_truncado_no_limite(detector):
-    """O hash usa no máximo 2 MB, para que um arquivo enorme não trave a rotina."""
-    detector.session = SessaoFalsa(RespostaFalsa(b'x' * (3 * 1024 * 1024)))
-    resultado = detector.check_url(URL, 'CASAN', 'SC')
-    assert resultado['content_length'] <= 2 * 1024 * 1024 + 64 * 1024, f'leu {resultado['content_length']} bytes, acima do limite previsto'
-    assert resultado['status'] == 'INITIALIZED'
-
-
-# ---- origem: tests/unit/test_tariff_updater.py
-
-def _pula_se_a_aneel_nao_responde(erro: Exception) -> None:
-    """Servidor da ANEEL fora do ar não é defeito do Triton.
-
-    Conexão recusada, SSL cortado, conexão interrompida no meio do download ou
-    prazo estourado viram teste pulado. Se a ANEEL responder com erro HTTP
-    (endereço do CSV mudou) ou o arquivo não for lido, o teste falha: esse é o
-    sinal que o teste de rede existe para dar.
-    """
-    import requests
-    origem = erro.__cause__ or erro.__context__
-    rede = (requests.ConnectionError, requests.Timeout, requests.exceptions.ChunkedEncodingError, TimeoutError)
-    if isinstance(origem, rede):
-        pytest.skip(f'ANEEL inacessível neste momento: {origem}')
-    raise erro
-
-
-class TestTariffUpdater(unittest.TestCase):
-
-    def setUp(self):
-        self.engine = TariffUpdateEngine()
-
-    @pytest.mark.rede
-    def test_aneel_distributor_matching(self):
-        """Valida que distribuidoras conhecidas são mapeadas corretamente."""
-        updater = AneelTariffUpdater()
-        try:
-            updater.load_and_parse(force_download=False)
-        except RuntimeError as erro:
-            _pula_se_a_aneel_nao_responde(erro)
-        sp_res = updater.get_tariff_for_distributor('ENEL Distribuição São Paulo')
-        self.assertIsNotNone(sp_res)
-        self.assertEqual(sp_res['distribuidora'], 'ELETROPAULO')
-        self.assertGreater(sp_res['energia_r_kwh'], 0.5)
-        pr_res = updater.get_tariff_for_distributor('COPEL Distribuição')
-        self.assertIsNotNone(pr_res)
-        self.assertEqual(pr_res['distribuidora'], 'COPEL-DIS')
-        self.assertGreater(pr_res['energia_r_kwh'], 0.5)
-        sc_res = updater.get_tariff_for_distributor('CELESC Distribuição')
-        self.assertIsNotNone(sc_res)
-        self.assertEqual(sc_res['distribuidora'], 'CELESC')
-
-    def test_sanitation_registry_matching(self):
-        """Valida identificação de concessionárias estaduais no registro."""
-        registry = SanitationScraperRegistry()
-        sample_city = {'prestador_saneamento': 'SABESP', 'agencia_reguladora': 'ARSESP', 'tarifa_fixa_mensal': 40.42, 'esgoto_pct': 100.0, 'confianca_grau': 'A — alta'}
-        res = registry.update_city_sanitation('São Paulo', 'SP', sample_city)
-        self.assertIn(res['update_status_sanitation'], ['AUTO_SCRAPED', 'VERIFIED_AUDIT'])
-        self.assertEqual(res['agencia_reguladora'], 'ARSESP')
-
-    @pytest.mark.rede
-    def test_dry_run_execution(self):
-        """Valida execução em modo dry-run para um estado específico (SC)."""
-        try:
-            res = self.engine.run_update(mode='all', target_uf='SC', dry_run=True)
-        except RuntimeError as erro:
-            _pula_se_a_aneel_nao_responde(erro)
-        self.assertTrue(res['dry_run'])
-        stats = res['stats']
-        self.assertGreater(stats['processed'], 0)
-        self.assertGreater(stats['overall_auto_or_verified'], 0)
-        report = generate_update_report(res)
-        self.assertIn('Relatório Executivo de Atualização Tarifária', report)
-        self.assertIn('Dry Run', report)
-
-
-class _RespostaFalsa:
-
-    def __init__(self, pedacos, relogio, passo_s):
-        self._pedacos, self._relogio, self._passo = (pedacos, relogio, passo_s)
-
-    def raise_for_status(self):
-        pass
-
-    def iter_content(self, chunk_size):
-        for pedaco in self._pedacos:
-            self._relogio[0] += self._passo
-            if isinstance(pedaco, Exception):
-                raise pedaco
-            yield pedaco
-
-
-def _preparar(monkeypatch, pedacos, passo_s):
-    from triton.core.tariff_updater import aneel_updater
-    relogio = [0.0]
-    monkeypatch.setattr(aneel_updater.time, 'monotonic', lambda: relogio[0])
-    monkeypatch.setattr(aneel_updater.requests, 'get', lambda *a, **k: _RespostaFalsa(pedacos, relogio, passo_s))
-    return aneel_updater
-
-
-def test_download_lento_para_no_prazo_e_preserva_o_cache(tmp_path, monkeypatch):
-    """Um servidor que manda um pouco por minuto não prende o programa.
-
-    O timeout do requests só vale entre pacotes; sem prazo total, a atualização
-    de tarifas (e a integração contínua) esperariam indefinidamente.
-    """
-    modulo = _preparar(monkeypatch, [b'x' * 10] * 1000, passo_s=30.0)
-    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
-    atualizador.cache_file.write_bytes(b'cache bom' * 200)
-    assert atualizador.fetch_latest_csv(force_download=True) == str(atualizador.cache_file)
-    assert atualizador.cache_file.read_bytes() == b'cache bom' * 200
-    assert not list(tmp_path.glob('*.part'))
-
-
-def test_download_interrompido_sem_cache_e_erro_claro(tmp_path, monkeypatch):
-    modulo = _preparar(monkeypatch, [b'cabecalho;', ConnectionError('queda')], passo_s=1.0)
-    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
-    with pytest.raises(RuntimeError, match='Não foi possível obter dados da ANEEL: queda'):
-        atualizador.fetch_latest_csv(force_download=True)
-    assert not atualizador.cache_file.exists()
-    assert not list(tmp_path.glob('*.part'))
-
-
-def test_download_completo_substitui_o_cache(tmp_path, monkeypatch):
-    modulo = _preparar(monkeypatch, [b'novo;' * 300, b'fim'], passo_s=1.0)
-    atualizador = modulo.AneelTariffUpdater(cache_dir=tmp_path)
-    atualizador.cache_file.write_bytes(b'antigo' * 300)
-    atualizador.fetch_latest_csv(force_download=True)
-    assert atualizador.cache_file.read_bytes() == b'novo;' * 300 + b'fim'
-
-
-def test_aneel_fora_do_ar_pula_e_erro_http_falha(monkeypatch, tmp_path):
-    """O teste de rede distingue servidor inacessível de endereço quebrado."""
-    import requests
-    from triton.core.tariff_updater import aneel_updater
-
-    def sem_conexao(*a, **k):
-        raise requests.exceptions.SSLError('EOF occurred in violation of protocol')
-    monkeypatch.setattr(aneel_updater.requests, 'get', sem_conexao)
-    updater = AneelTariffUpdater(cache_dir=tmp_path)
-    with pytest.raises(RuntimeError) as capturado:
-        updater.fetch_latest_csv(force_download=True)
-    with pytest.raises(pytest.skip.Exception):
-        _pula_se_a_aneel_nao_responde(capturado.value)
-
-    def erro_http(*a, **k):
-        raise requests.exceptions.HTTPError('404 Not Found')
-    monkeypatch.setattr(aneel_updater.requests, 'get', erro_http)
-    with pytest.raises(RuntimeError) as capturado:
-        updater.fetch_latest_csv(force_download=True)
-    with pytest.raises(RuntimeError):
-        _pula_se_a_aneel_nao_responde(capturado.value)
-
-    def conexao_cortada(*a, **k):
-        raise requests.exceptions.ChunkedEncodingError('Connection broken: IncompleteRead(9944387 bytes read, 79291328 more expected)')
-    monkeypatch.setattr(aneel_updater.requests, 'get', conexao_cortada)
-    with pytest.raises(RuntimeError) as capturado:
-        updater.fetch_latest_csv(force_download=True)
-    with pytest.raises(pytest.skip.Exception):
-        _pula_se_a_aneel_nao_responde(capturado.value)
-
 
 # ---- origem: tests/unit/test_porta_de_validacao_tarifaria.py
 
@@ -6012,58 +5704,12 @@ def test_a_porta_deixa_passar_estrutura_correta():
     assert [a for a in validar_estrutura(BOA) if a.gravidade == 'erro'] == []
 
 
-def test_o_motor_de_atualizacao_chama_a_porta():
-    """A ligação em si, que é o que faltava.
-
-    Um validador que ninguém chama não protege nada, e foi assim que o
-    atualizador passou a existir sem conferir o que grava.
-    """
-    import inspect
-    from triton.core.tariff_updater import updater_engine
-    fonte = inspect.getsource(updater_engine)
-    assert 'validar_estrutura' in fonte
-    assert fonte.index('validar_estrutura(updated_city)') < fonte.index('json.dump(db_data')
-
-
-def test_a_rejeicao_conserva_o_registro_anterior_e_pede_revisao():
-    """Uma raspagem quebrada não pode derrubar a base nem entrar nela calada."""
-    import inspect
-    from triton.core.tariff_updater import updater_engine
-    fonte = inspect.getsource(updater_engine)
-    trecho = fonte[fonte.index('PORTA DE VALIDACAO'):fonte.index('# Atualiza no dicionário mestre')]
-    assert 'manual_reviews.append' in trecho
-    assert 'anterior' in trecho
-    assert 'structure_rejected' in trecho
-
-
 def test_um_aviso_nao_barra_a_atualizacao():
     """Tarifa não progressiva existe em tarifa social, e não é motivo de rejeição."""
     social = {'municipio': 'Teste', 'faixas': [[0.0, 5.0, 8.0, 1], [5.0, 999999.0, 3.0, 1]]}
     achados = validar_estrutura(social)
     assert achados
     assert [a for a in achados if a.gravidade == 'erro'] == []
-
-
-# ---- origem: tests/unit/test_change_detector.py
-_ARQUIVO_CHANGE_DETECTOR = str(_TESTES / 'unit/test_change_detector.py')
-
-class TestChangeDetector(unittest.TestCase):
-
-    def setUp(self):
-        self.detector = TariffChangeDetector()
-
-    def test_dashboard_generation(self):
-        """Valida geração do arquivo HTML autônomo do dashboard."""
-        sample_cities = {'SP - São Paulo': {'uf': 'SP', 'municipio': 'São Paulo', 'regiao': 'Sudeste', 'prestador_saneamento': 'SABESP', 'agencia_reguladora': 'ARSESP', 'tarifa_fixa_mensal': 40.42, 'esgoto_pct': 100.0, 'faixas': [[0.0, 10.0, 4.042, 1]], 'distribuidora_energia': 'ENEL Distribuição São Paulo', 'energia_r_kwh': 0.78938, 'fonte_url': 'https://www.sabesp.com.br/tarifas', 'status_global': 'AUTO_OR_VERIFIED'}}
-        sample_registry = {'monitored_urls': {'https://www.sabesp.com.br/tarifas': {'content_sha256': 'abcdef123456', 'status': 'UNCHANGED', 'requires_manual_action': False}}}
-        out_file = Path(_ARQUIVO_CHANGE_DETECTOR).resolve().parents[2] / 'outputs' / 'test_dashboard.html'
-        html = generate_interactive_dashboard(sample_cities, sample_registry, output_path=out_file)
-        self.assertIn('<!DOCTYPE html>', html)
-        self.assertIn('São Paulo', html)
-        self.assertIn('SABESP', html)
-        self.assertTrue(out_file.exists())
-        if out_file.exists():
-            os.remove(out_file)
 
 
 # ==================================================================================================
@@ -6764,8 +6410,9 @@ def test_cli_importa_sem_console():
     """No executável de janela, sys.stdout é None; importar a CLI não pode derrubar a interface."""
     import subprocess
     import sys as _sys
+    pasta_edicao = str(Path(__file__).resolve().parent.parent)
     codigo = "import sys; sys.stdout = None; import triton.cli; sys.stderr.write('ok')"
-    r = subprocess.run([_sys.executable, "-c", codigo], capture_output=True, text=True, timeout=120)
+    r = subprocess.run([_sys.executable, "-c", codigo], cwd=pasta_edicao, capture_output=True, text=True, timeout=120)
     assert r.returncode == 0 and r.stderr.endswith('ok'), r.stderr[-800:]
 
 

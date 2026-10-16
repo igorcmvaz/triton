@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 1.0.0 · revised 2026-10-15
+Version 0.1.0 · revised 2026-10-16
 
 ---
 
@@ -19,7 +19,7 @@ Version 1.0.0 · revised 2026-10-15
 | :--- | :--- |
 | **Title** | Triton: user manual |
 | **Authors** | Igor Catão Martins Vaz; Enedir Ghisi |
-| **Edition** | Version 1.0.0, International Edition |
+| **Edition** | Version 0.1.0, International Edition |
 | **Publisher** | Federal University of Santa Catarina |
 | **Research group** | Sustainable Environments |
 | **Year** | 2026 |
@@ -30,7 +30,7 @@ Version 1.0.0 · revised 2026-10-15
 **Author-date style**
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Triton: user manual*
-> (Version 1.0.0). Federal University of Santa Catarina.
+> (Version 0.1.0). Federal University of Santa Catarina.
 
 **BibTeX**
 
@@ -38,7 +38,7 @@ Version 1.0.0 · revised 2026-10-15
 @manual{tritonmanual2026en,
   title     = {Triton: user manual},
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  edition   = {Version 1.0.0},
+  edition   = {Version 0.1.0},
   publisher = {Federal University of Santa Catarina},
   year      = {2026}
 }
@@ -1828,7 +1828,7 @@ partial a day that was fully supplied.
 The total demand of a day splits into three, not two:
 
 ```equacao:demanda_tres:10
-D_t = V_con,t + V_pot,t + V_nao,t
+D_t = V_con,t + V_pot,t + V_unmet,t
 ```
 
 <!-- tabela: **Table 20** — Variables of Equation 10 -->
@@ -1837,7 +1837,7 @@ D_t = V_con,t + V_pot,t + V_nao,t
 | `D_t` | total demand of the building on day `t` | L |
 | `V_con,t` | part supplied with rainwater | L |
 | `V_pot,t` | part bought from the mains | L |
-| `V_nao,t` | part nobody supplied, that is, unmet demand | L |
+| `V_unmet,t` | part nobody supplied, that is, unmet demand | L |
 
 The three parts are the rainwater consumption, the mains consumption and the **unmet demand**.
 The third is zero in the default configuration, in which the mains comes to the rescue of
@@ -2373,13 +2373,13 @@ rainwater demand is small, and the opposite also happens.
 ### 2.3.4. Overflow
 
 ```equacao:extravasamento_medio:17
-V_ext,med = ( Σ V_ext,t ) ÷ n
+V_ext,avg = ( Σ V_ext,t ) ÷ n
 ```
 
 <!-- tabela: **Table 29** — Variables of Equation 17 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_ext,med` | mean daily overflow | L/day |
+| `V_ext,avg` | mean daily overflow | L/day |
 | `V_ext,t` | volume overflowed on day `t` | L |
 | `n` | number of days of the simulated series | day |
 
@@ -2448,14 +2448,14 @@ are of this kind: the cistern is empty, not slightly short.
 ### 2.3.7. Annual volume saved
 
 ```equacao:volume_poupado:19
-V_poup = ( V_con,med × 365.25 ) ÷ 1000
+V_sav = ( V_con,avg × 365.25 ) ÷ 1000
 ```
 
 <!-- tabela: **Table 31** — Variables of Equation 19 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_poup` | volume of potable water saved per year | m³/year |
-| `V_con,med` | mean daily rainwater consumption | L/day |
+| `V_sav` | volume of potable water saved per year | m³/year |
+| `V_con,avg` | mean daily rainwater consumption | L/day |
 | `365.25` | length of the mean year, including leap years (365.25) | day/year |
 | `1000` | conversion from litres to cubic metres | L/m³ |
 
@@ -2481,14 +2481,14 @@ exists in a sweep** — a single-volume simulation does not produce it.
 ### 2.3.9. Unmet demand
 
 ```equacao:nao_atendida:20
-V_nao,med = ( Σ V_nao,t ) ÷ n
+V_unmet,avg = ( Σ V_unmet,t ) ÷ n
 ```
 
 <!-- tabela: **Table 32** — Variables of Equation 20 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `V_nao,med` | mean daily demand met by no source | L/day |
-| `V_nao,t` | unmet demand on day `t` | L |
+| `V_unmet,avg` | mean daily demand met by no source | L/day |
+| `V_unmet,t` | unmet demand on day `t` | L |
 | `n` | number of days of the simulated series | day |
 
 The third part of the demand balance. It is zero in the default configuration and stops being zero
@@ -2924,7 +2924,7 @@ is a subsystem with its own investment, running cost and embodied carbon, made u
 separator and the first-flush chamber.
 
 The volume of the first-flush chamber is the product of the first-flush depth and the catchment
-area, `V_desc = d × A`, in litres, with `d` in millimetres and `A` in square metres. The program
+area, `V_ff = d × A`, in litres, with `d` in millimetres and `A` in square metres. The program
 sizes a vertical diversion column for small volumes and a tank for larger ones, adds a leaf
 separator sized by the catchment area, and gives the subsystem an annual running cost. In the
 International Edition the prices are typed in; the manual's cases leave the first-flush subsystem
@@ -2955,14 +2955,14 @@ form of filtering. Adding the detailed line on top of that allowance would charg
 and so the program deducts the generic allowance and adds only the increment.
 
 ```equacao:capex_etap:31
-CAPEX_inc = CAPEX_linha − V_gen
+CAPEX_inc = CAPEX_line − V_gen
 ```
 
 <!-- tabela: **Table 47** — Variables of Equation 31 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `CAPEX_inc` | incremental investment of the treatment line | currency |
-| `CAPEX_linha` | total investment in the equipment of the sized line | currency |
+| `CAPEX_line` | total investment in the equipment of the sized line | currency |
 | `V_gen` | generic treatment allowance already included in the accessories item | currency |
 
 **In the running cost.** Chlorination is already paid in the chemical consumables line of the cash
@@ -3099,15 +3099,15 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 **Energy of the start-ups:**
 
 ```equacao:energia_partida:35
-E_part = ( P × t_part ) ÷ η_m
+E_start = ( P × t_start ) ÷ η_m
 ```
 
 <!-- tabela: **Table 52** — Variables of Equation 35 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_part` | energy consumed by all the start-ups of the period | kWh |
+| `E_start` | energy consumed by all the start-ups of the period | kWh |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the period | h |
+| `t_start` | total start-up time accumulated in the period | h |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 The pump efficiency is absent from Equation 35 for the physical reason that
@@ -3119,17 +3119,17 @@ The annual energy of the pump set is the sum of the two parts: that of the actua
 depends on the volume lifted, and that of the start-ups, which depends on the number of starts.
 
 ```equacao:energia_anual:36
-E_ano = e × V_rec + ( P × t_part ) ÷ η_m
+E_yr = e × V_pump + ( P × t_start ) ÷ η_m
 ```
 
 <!-- tabela: **Table 53** — Variables of Equation 36 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_ano` | electrical energy consumed by the pump set in the year | kWh/year |
+| `E_yr` | electrical energy consumed by the pump set in the year | kWh/year |
 | `e` | specific energy consumption per volume pumped | kWh/m³ |
-| `V_rec` | volume pumped in the year | m³/year |
+| `V_pump` | volume pumped in the year | m³/year |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the year | h/year |
+| `t_start` | total start-up time accumulated in the year | h/year |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 ---
@@ -3197,16 +3197,16 @@ When the power, flow rate and manometric head of the pump set are not known, the
 button, in step **4. Reservoir & Costs** and in the economic dialog, estimates the three values and
 selects a commercial model. The wizard follows the usual sizing sequence of a building rising main:
 
-1. **Pumping flow rate.** `Q = V_sup ÷ t_ench`, with the volume of the upper tank and the desired
+1. **Pumping flow rate.** `Q = V_sup ÷ t_fill`, with the volume of the upper tank and the desired
    filling time, 45 minutes by default.
-2. **Economic diameter.** By Forchheimer's formula, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q` (1.3 and 0.25
-   in decimal-point notation), with `D` in metres, `Q` in m³/s and `t_op` the daily operating time,
-   2 h by default. The diameter adopted is the smallest commercial solvent-weld PVC pipe whose internal
-   diameter meets the calculated value, and never smaller than the outlet of the selected pump set;
-   the suction gets one commercial size above the delivery.
+2. **Economic diameter.** By Forchheimer's formula, `D = 1.3 · (t_op ÷ 24)^0.25 · √Q`, with `D` in
+   metres, `Q` in m³/s and `t_op` the daily operating time, 2 h by default. The diameter adopted is the
+   smallest commercial solvent-weld PVC pipe whose internal diameter meets the calculated value, and
+   never smaller than the outlet of the selected pump set; the suction gets one commercial size above the
+   delivery.
 3. **Velocity.** `v = Q ÷ (π · D_i² ÷ 4)`, highlighted when it falls outside the range of 0.6 m/s to
    2.5 m/s.
-4. **Head loss.** By the Hazen-Williams formula, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, with
+4. **Head loss.** By the Hazen-Williams formula, `J = 10.643 · Q^1.852 · C^−1.852 · D_i^−4.87`, with
    `C = 140` for PVC, multiplied by the length of the piping and increased by 30% for the local losses.
 5. **Manometric head and power.** `H_man = H_geo + h_f` and `P = ρ · g · Q · H_man ÷ η`, with a set
    efficiency of 55% by default.
@@ -3366,13 +3366,13 @@ the rainwater system and another with the potable water actually bought, and tak
 between them.
 
 ```equacao:economia_mensal:38
-E_mês = F(V_tot) − F(V_pot)
+S_mo = F(V_tot) − F(V_pot)
 ```
 
 <!-- tabela: **Table 57** — Variables of Equation 38 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_mês` | saving obtained in the month | currency |
+| `S_mo` | saving obtained in the month | currency |
 | `F(·)` | function that calculates the water and sewage bill for a volume | currency |
 | `V_tot` | monthly volume the building would consume without the rainwater system | m³ |
 | `V_pot` | monthly volume of potable water actually bought from the mains | m³ |
@@ -3436,13 +3436,13 @@ regime explicitly instead of treating it as a detail of the table.
 Some utilities do not charge water as a sum of blocks but as a power of the month's consumption:
 
 ```equacao:exponencial:39
-T_agua = PB × C^n + SB
+B_water = PB × C^n + SB
 ```
 
 <!-- tabela: **Table 58** — Variables of Equation 39 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_agua` | water part of the bill | currency |
+| `B_water` | water part of the bill | currency |
 | `PB` | base price | currency/m³ |
 | `C` | consumption of the month per dwelling unit | m³ |
 | `n` | exponent from the utility's table of exponents for consumption `C`; 1.00 up to a threshold, and rising above it | dimensionless |
@@ -3472,14 +3472,14 @@ twenty units actually pays.
 #### 2.7.2.3. Sewage
 
 ```equacao:esgoto:40
-T_esg = T_agua × s
+B_sew = B_water × s
 ```
 
 <!-- tabela: **Table 59** — Variables of Equation 40 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_esg` | sewage part of the bill | currency |
-| `T_agua` | water part of the bill, already calculated by the progressive blocks | currency |
+| `B_sew` | sewage part of the bill | currency |
+| `B_water` | water part of the bill, already calculated by the progressive blocks | currency |
 | `s` | sewage percentage charged by the utility | dimensionless |
 
 The sewage percentage applies to the water part of the bill, not to the total bill, and confusing
@@ -3487,7 +3487,7 @@ the two denominators doubles or halves the part calculated. One hundred per cent
 means that the sewage part equals the water part, and therefore that sewage accounts for half of
 the total bill. In New York the percentage is 159%, so that the sewer part is the larger of the two.
 
-There are two more modes: sewage charged **per cubic metre consumed**, `T_esg = C × p_esg`, as
+There are two more modes: sewage charged **per cubic metre consumed**, `B_sew = C × p_sew`, as
 in London, and sewage charged **by blocks of its own on a fraction of the water volume**, as in
 Cape Town (70% of the water consumed, four steps). With the exponential formula, the per cubic
 metre mode has no basic service charge and no exponent, and applying the percentage on the water
@@ -3527,7 +3527,7 @@ an allowance regime, saving water below the allowance volume earns no discount a
 ### 2.7.4. The investment
 
 ```equacao:capex:41
-CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
+CAPEX = C_cist + C_sup + C_lab + C_pipe + C_acc + ( C_pump × n_b ) + CAPEX_inc
 ```
 
 <!-- tabela: **Table 61** — Variables of Equation 41 -->
@@ -3536,14 +3536,14 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `CAPEX` | total initial investment of the system | currency |
 | `C_cist` | cost of the lower tank | currency |
 | `C_sup` | cost of the upper tank, when there is one | currency |
-| `C_mo` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
-| `C_tub` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
-| `C_ace` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
-| `C_bomba` | unit cost of the pump set | currency |
+| `C_lab` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
+| `C_pipe` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
+| `C_acc` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
+| `C_pump` | unit cost of the pump set | currency |
 | `n_b` | number of pump sets, including the standby when there is one | unit |
 | `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | currency |
 
-In a new project, `C_tub` and `C_ace` are not allowances: they come from the **bill of quantities
+In a new project, `C_pipe` and `C_acc` are not allowances: they come from the **bill of quantities
 of the 3D layout** (section 3.9). Each metre of pipe, each bend, each end fitting, each part —
 valves, check and foot valves, solenoid, water meter, level switches, control panel, inlet
 calming device, floating suction, vents, overflow, air gap, point of use — and each metre of
@@ -3673,16 +3673,16 @@ performance of the system. The manual's cases enter no such incentive.
 **Net present value:**
 
 ```equacao:vpl:45
-VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
+NPV = − CAPEX + Σ [ CF_m ÷ ( 1 + MARR )^m ]
 ```
 
 <!-- tabela: **Table 65** — Variables of Equation 45 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `VPL` | net present value of the investment | currency |
+| `NPV` | net present value of the investment | currency |
 | `CAPEX` | total initial investment, from Equation 41 | currency |
-| `FC_m` | net cash flow of month `m` | currency |
-| `TMA` | monthly minimum attractive rate of return, as a fraction: 0.5% a month enters as 0.005 | dimensionless |
+| `CF_m` | net cash flow of month `m` | currency |
+| `MARR` | monthly minimum attractive rate of return, as a fraction: 0.5% a month enters as 0.005 | dimensionless |
 | `m` | month of the cash flow, from 1 to the end of the analysis period | month |
 
 **Internal rate of return:** the rate that makes the NPV zero. When there is no real root — which
@@ -3822,7 +3822,7 @@ other alternatives are compared.
 ### 2.8.4. Embodied carbon
 
 ```equacao:emissao_componente:46
-E_comp = m_comp × FE_mat
+E_comp = m_comp × EF_mat
 ```
 
 <!-- tabela: **Table 67** — Variables of Equation 46 -->
@@ -3830,7 +3830,7 @@ E_comp = m_comp × FE_mat
 | :--- | :--- | :--- |
 | `E_comp` | embodied emission of the component | kg CO₂e |
 | `m_comp` | mass of the component | kg |
-| `FE_mat` | emission factor of the material, cradle to gate | kg CO₂e/kg |
+| `EF_mat` | emission factor of the material, cradle to gate | kg CO₂e/kg |
 
 The mass of each component follows from its sizing. For the tank, it is obtained from the useful
 volume multiplied by the characteristic mass density of the material, which varies by more than an
@@ -3886,15 +3886,15 @@ the right material, the manufacturing debt pays off.
 **Pumping:**
 
 ```equacao:emissao_energia:47
-E_ener = C_ano × FE_rede
+E_energy = E_yr × EF_grid
 ```
 
 <!-- tabela: **Table 70** — Variables of Equation 47 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_ener` | annual emission of the pumping energy | kg CO₂e/year |
-| `C_ano` | annual energy consumption of the pump set | kWh/year |
-| `FE_rede` | emission factor of the electricity grid, by region and year | kg CO₂e/kWh |
+| `E_energy` | annual emission of the pumping energy | kg CO₂e/year |
+| `E_yr` | annual energy consumption of the pump set | kWh/year |
+| `EF_grid` | emission factor of the electricity grid, by region and year | kg CO₂e/kWh |
 
 The annual energy consumption comes from the calculation presented in section 2.6, according
 to the supply arrangement declared, and the grid emission factor is typed in, for the place and the year
@@ -3963,29 +3963,29 @@ boundary of each one.
 **Net annual balance:**
 
 ```equacao:saldo_liquido:48
-E_liq = E_evit − E_ener − E_trat
+E_net = E_avoid − E_energy − E_treat
 ```
 
 <!-- tabela: **Table 71** — Variables of Equation 48 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_liq` | net annual emission balance | kg CO₂e/year |
-| `E_evit` | emission avoided by the utility water no longer consumed | kg CO₂e/year |
-| `E_ener` | annual emission of the pumping energy | kg CO₂e/year |
-| `E_trat` | annual emission of the treatment consumables | kg CO₂e/year |
+| `E_net` | net annual emission balance | kg CO₂e/year |
+| `E_avoid` | emission avoided by the utility water no longer consumed | kg CO₂e/year |
+| `E_energy` | annual emission of the pumping energy | kg CO₂e/year |
+| `E_treat` | annual emission of the treatment consumables | kg CO₂e/year |
 
 **Carbon payback:**
 
 ```equacao:payback_carbono:49
-PB_amb = E_inc ÷ E_liq
+PB_env = E_emb ÷ E_net
 ```
 
 <!-- tabela: **Table 72** — Variables of Equation 49 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `PB_amb` | environmental payback time of the system | year |
-| `E_inc` | carbon embodied in the manufacture of the components | kg CO₂e |
-| `E_liq` | net annual emission balance, from Equation 48 | kg CO₂e/year |
+| `PB_env` | environmental payback time of the system | year |
+| `E_emb` | carbon embodied in the manufacture of the components | kg CO₂e |
+| `E_net` | net annual emission balance, from Equation 48 | kg CO₂e/year |
 
 When the net annual balance is not positive — a real situation, not a hypothetical one, in systems
 with a large concrete tank — there is no environmental payback, because the debt is never paid off.
@@ -3996,16 +3996,16 @@ carbon.
 **Balance at the end of life:**
 
 ```equacao:saldo_vida:50
-S_vida = ( E_liq × n_anos ) − E_inc
+B_life = ( E_net × n_yr ) − E_emb
 ```
 
 <!-- tabela: **Table 73** — Variables of Equation 50 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `S_vida` | carbon balance at the end of the adopted service life | kg CO₂e |
-| `E_liq` | net annual emission balance, from Equation 48 | kg CO₂e/year |
-| `n_anos` | service life adopted for the system | year |
-| `E_inc` | carbon embodied in the manufacture of the components | kg CO₂e |
+| `B_life` | carbon balance at the end of the adopted service life | kg CO₂e |
+| `E_net` | net annual emission balance, from Equation 48 | kg CO₂e/year |
+| `n_yr` | service life adopted for the system | year |
+| `E_emb` | carbon embodied in the manufacture of the components | kg CO₂e |
 
 Negative means the system **emitted more than it avoided** over the adopted life. It is not a
 theoretical hypothesis: it happens with a concrete cistern and a twenty-year service life, as
@@ -4014,15 +4014,15 @@ section 4.8 shows.
 **Specific avoided emission:**
 
 ```equacao:emissao_especifica:51
-E_esp = S_vida ÷ V_vida
+E_spec = B_life ÷ V_life
 ```
 
 <!-- tabela: **Table 74** — Variables of Equation 51 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_esp` | specific emission of the system over the service life | g CO₂e/L |
-| `S_vida` | carbon balance at the end of the service life, from Equation 50 | kg CO₂e |
-| `V_vida` | total volume of rainwater delivered over the service life | m³ |
+| `E_spec` | specific emission of the system over the service life | g CO₂e/L |
+| `B_life` | carbon balance at the end of the service life, from Equation 50 | kg CO₂e |
+| `V_life` | total volume of rainwater delivered over the service life | m³ |
 
 ---
 

@@ -70,7 +70,7 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ## 📚 Documentação e Artigos Técnicos
 
-- [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — em inglês, [`manual/en/Triton-User-Manual.pdf`](manual/en/Triton-User-Manual.pdf), o que a International Edition abre
+- [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — a Edição Internacional publica o manual em inglês
 - [As duas edições, Brasil e International](docs/edicoes.md)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
 - [Relatório de Verificação e Validação](docs/verificacao_e_validacao.md)
@@ -198,7 +198,7 @@ python build_exe.py --edition int         # só faz sentido a partir de triton_i
 python build_exe.py --edition all --clean # as três
 ```
 
-O instalador compilado sai em `dist/Triton_Setup_1_0_0.exe`, a partir de `dist/Triton/`. A compilação exige
+O instalador compilado sai em `dist/Triton_Setup_0_1_0.exe`, a partir de `dist/Triton/`. A compilação exige
 Python 3.12 ou superior, PyInstaller e [Inno Setup 6](https://jrsoftware.org/isinfo.php) (para `--installer`).
 O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
 

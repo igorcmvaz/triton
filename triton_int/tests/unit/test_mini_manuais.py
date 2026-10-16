@@ -14,6 +14,10 @@ try:
 except ModuleNotFoundError:
     pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
 
+from triton.core.edition import get_current_edition
+if get_current_edition() == "INT":
+    pytest.skip("a edição INT não publica mini manuais em português", allow_module_level=True)
+
 
 @pytest.fixture(scope="module")
 def volumes(tmp_path_factory):

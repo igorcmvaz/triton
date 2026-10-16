@@ -360,11 +360,6 @@ def _validar_exponencial(est: Estrutura, registro: Dict[str, Any]) -> List[Achad
     return achados
 
 
-def estrutura_confiavel(registro: Dict[str, Any]) -> bool:
-    """Diz se a estrutura pode ser usada sem ressalva num estudo."""
-    return not any(a.gravidade == "erro" for a in validar_estrutura(registro))
-
-
 def auditar_base(cidades: Dict[str, Dict[str, Any]]) -> Dict[str, List[Achado]]:
     """Roda a validação sobre a base inteira e devolve só o que tem achado."""
     saida: Dict[str, List[Achado]] = {}

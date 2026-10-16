@@ -9,8 +9,8 @@ authors:
   - family-names: Ghisi
     given-names: Enedir
     affiliation: "Universidade Federal de Santa Catarina"
-version: "1.0.0"
-date-released: "2026-10-14"
+version: "0.1.0"
+date-released: "2026-10-15"
 # O DOI do registro no Zenodo entra aqui quando existir (um só registro para os instaladores das três edições):
 # doi: 10.5281/zenodo.XXXXXXX
 license-url: https://github.com/igorcmvaz/triton/blob/main/triton_int/LICENSE.md
@@ -38,7 +38,7 @@ preferred-citation:
       given-names: "Igor Catão Martins"
     - family-names: Ghisi
       given-names: Enedir
-  version: "1.0.0"
+  version: "0.1.0"
   year: 2026
   institution:
     name: "Universidade Federal de Santa Catarina (UFSC)"
@@ -52,7 +52,7 @@ references:
         given-names: "Igor Catão Martins"
       - family-names: Ghisi
         given-names: Enedir
-    version: "1.0.0"
+    version: "0.1.0"
     year: 2026
     publisher:
       name: "Universidade Federal de Santa Catarina"

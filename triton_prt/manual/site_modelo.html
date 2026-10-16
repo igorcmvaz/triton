@@ -403,7 +403,7 @@ table { font-size: inherit; }
 const DADOS = /*__DADOS__*/null;
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
-const fmt = (v, d = 0) => Number(v).toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d});
+const fmt = (v, d = 0) => Number(v).toLocaleString("pt-PT", {minimumFractionDigits: d, maximumFractionDigits: d});
 const CORES = {};
 DADOS.volumes.forEach(v => { CORES[v.capitulo] = v.cor; });
 const SECOES = [];
@@ -435,7 +435,7 @@ $("#menu-btn").addEventListener("click", () => { const l = $(".lateral"); if (l)
 /* busca: seções, subseções, figuras, tabelas e as figuras interativas */
 const semAcento = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 const TIPOS = {
-  secao: ["seção", "t-secao"], sub: ["nesta seção", "t-sub"], figura: ["figura", "t-figura"],
+  secao: ["secção", "t-secao"], sub: ["nesta secção", "t-sub"], figura: ["figura", "t-figura"],
   interativa: ["figura interativa", "t-interativa"], tabela: ["tabela", "t-tabela"],
 };
 const INDICE = (DADOS.busca || []).map(i => {
@@ -448,10 +448,10 @@ const PESO = {interativa: 8, secao: 6, figura: 4, tabela: 4, sub: 3};
 const SUGESTOES = [
   ["Quanta água a minha cobertura capta?", "captação cobertura"],
   ["Que volume de cisterna escolher?", "volume ideal"],
-  ["Quando o investimento se paga?", "tempo de retorno"],
-  ["A economia de água reduz a fatura?", "regime de mínimo"],
+  ["Quando o investimento se paga?", "período de recuperação"],
+  ["A poupança de água reduz a fatura?", "quota de serviço"],
   ["Quanto carbono o sistema evita?", "carbono ciclo de vida"],
-  ["Que qualidade o uso exige?", "classes de qualidade"],
+  ["Que qualidade o uso exige?", "níveis de qualidade"],
 ];
 let selecionado = -1;
 
@@ -487,7 +487,7 @@ function buscar(q) {
   achados.sort((a, b) => b[0] - a[0] || (PESO[b[1].t] || 0) - (PESO[a[1].t] || 0));
   selecionado = -1;
   if (!achados.length) {
-    caixa.innerHTML = `<div class="vazio">Nada encontrado para «${esc(q)}». A busca cobre o texto das seções, os títulos internos, as figuras e as tabelas.</div>`;
+    caixa.innerHTML = `<div class="vazio">Nada encontrado para «${esc(q)}». A pesquisa cobre o texto das secções, os títulos internos, as figuras e as tabelas.</div>`;
     caixa.hidden = false;
     return;
   }
@@ -535,8 +535,8 @@ function inicio() {
   const v = DADOS.volumes;
   const interativas = Object.keys(DADOS.onde_interativas || {}).length;
   const fatos = [
-    ["Versão", `<a href="#/versoes" style="color:inherit">${DADOS.versao}</a>`], ["Base climática", "652 cidades"],
-    ["Seções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
+    ["Versão", `<a href="#/versoes" style="color:inherit">${DADOS.versao}</a>`], ["Base climática", "278 concelhos"],
+    ["Secções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
     ["Figuras interativas", fmt(interativas)],
     ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
   ];
@@ -544,10 +544,10 @@ function inicio() {
     ["Chuva diária", "série de 30 anos", "2.4", 20, 40],
     ["Descarte", "primeiras águas", "2.1", 190, 40],
     ["Cisterna", "balanço YAS, dia a dia", "2.1", 360, 40],
-    ["Consumo pluvial", "até a demanda do dia", "2.1", 530, 40],
-    ["Volume ideal", "varredura e ganho marginal", "2.2", 20, 150],
+    ["Consumo pluvial", "até à procura do dia", "2.1", 530, 40],
+    ["Volume ideal", "varrimento e ganho marginal", "2.2", 20, 150],
     ["Indicadores", "potencial · dias plenos", "2.3", 190, 150],
-    ["Fatura e VPL", "tarifa do município", "2.7", 360, 150],
+    ["Fatura e VAL", "tarifário do concelho", "2.7", 360, 150],
     ["Carbono", "ciclo de vida", "2.8", 530, 150],
     ["Decisão", "TOPSIS · SMAA-VIKOR", "2.10", 700, 95],
   ];
@@ -557,9 +557,9 @@ function inicio() {
   <section class="hero">
     <div class="hero-in">
       <div>
-        <p class="eyebrow">Programa de simulação · UFSC</p>
-        <h1>Aproveitamento de água de chuva, simulado dia a dia</h1>
-        <p class="lead">O Triton simula o balanço diário de uma cisterna com a série de chuva do lugar e responde quanto de água potável o sistema economiza, quanto custa, quanto carbono evita e que volume escolher. Esta documentação traz o método, o tutorial, os guias e as referências — as mesmas do manual em PDF.</p>
+        <p class="eyebrow">Programa de simulação · Edição Portugal</p>
+        <h1>Aproveitamento de água pluvial, simulado dia a dia</h1>
+        <p class="lead">O Triton simula o balanço diário de uma cisterna com a série de precipitação do concelho e responde quanta água potável o sistema poupa, quanto custa, quanto carbono evita e que volume escolher. Esta documentação reúne o método, o tutorial, os guias e as referências — as mesmas do manual em PDF.</p>
         <div class="botoes">
           <a class="botao cheio" href="#/4.1">Começar pelo tutorial</a>
           <a class="botao" href="#/2.1">Ler o método</a>
@@ -572,29 +572,29 @@ function inicio() {
 
   <section class="faixa">
     <h2>Escolha um caminho</h2>
-    <p class="sub">O manual é distribuído em sete volumes e num livro completo. Cada um abre aqui na primeira seção do capítulo, e existe também em PDF avulso, para mandar só a parte que interessa.</p>
+    <p class="sub">O manual é distribuído em sete volumes e num livro completo. Cada um abre aqui na primeira secção do capítulo, e existe também em PDF autónomo, para partilhar apenas a parte que interessa.</p>
     <div class="volumes">${v.map((x, k) => {
       const cap = DADOS.capitulos.find(c => c.n === x.capitulo);
       const alvo = cap && cap.secoes[0] ? cap.secoes[0].id : "1.1";
       return `<a class="volume" href="#/${alvo}" style="--c:${x.cor}"><div class="painel" style="background-image:url('img/capa_${x.arquivo}.jpg')"><b style="color:${x.cor}">${String(k + 1).padStart(2, "0")}</b></div><div class="txt"><h3>${esc(x.titulo)}</h3><p>${esc(x.frase)}</p></div></a>`;
-    }).join("")}<a class="volume" href="pdf/Manual-Triton.pdf" target="_blank" rel="noopener" style="--c:#8ecae6"><div class="painel" style="background-image:url('img/capa_completo.jpg')"><b style="color:#8ecae6">PDF</b></div><div class="txt"><h3>Manual completo</h3><p>Os sete volumes num só arquivo, com sumário, índice de figuras e todas as referências.</p></div></a></div>
+    }).join("")}<a class="volume" href="pdf/Manual-Triton.pdf" target="_blank" rel="noopener" style="--c:#8ecae6"><div class="painel" style="background-image:url('img/capa_completo.jpg')"><b style="color:#8ecae6">PDF</b></div><div class="txt"><h3>Manual completo</h3><p>Os sete volumes num só ficheiro, com índice, lista de figuras e todas as referências.</p></div></a></div>
   </section>
 
   <section class="faixa">
     <h2>A curva de retorno, ao vivo</h2>
-    <p class="sub">O projeto do tutorial — casa em Florianópolis, 150 m² de cobertura, quatro moradores, 600 L/dia, 30 anos de chuva diária — simulado para cada volume e cada fração atendível. Arraste e veja por que o potencial nunca passa da fração, e por que o metro cúbico a mais rende cada vez menos.</p>
+    <p class="sub">O projeto do tutorial — moradia em Lisboa, 150 m² de cobertura, quatro moradores, 600 L/dia, 30 anos de chuva diária (ERA5-Land, 1991–2020) — simulado para cada volume e cada fração atendível. Arraste e veja por que o potencial nunca passa da fração, e por que cada metro cúbico adicional rende cada vez menos.</p>
     <div class="curva">
-      <div style="position:relative"><svg id="grafico" viewBox="0 0 640 320" role="img" aria-label="Potencial de economia em função do volume da cisterna"></svg></div>
+      <div style="position:relative"><svg id="grafico" viewBox="0 0 640 320" role="img" aria-label="Potencial de poupança em função do volume da cisterna"></svg></div>
       <div class="controles">
         <div class="controle"><label for="c-fracao">Fração atendível por chuva <output id="o-fracao"></output></label><input id="c-fracao" type="range" min="0" max="${DADOS.curva.fracoes.length - 1}" step="1"></div>
         <div class="controle"><label for="c-volume">Volume da cisterna <output id="o-volume"></output></label><input id="c-volume" type="range" min="0" max="${DADOS.curva.volumes.length - 1}" step="1"></div>
         <div class="leituras">
-          <div class="leitura"><small>Potencial de economia</small><b id="l-pot"></b> <span id="l-teto"></span></div>
+          <div class="leitura"><small>Potencial de poupança</small><b id="l-pot"></b> <span id="l-teto"></span></div>
           <div class="leitura"><small>Dias de atendimento pleno</small><b id="l-dias"></b></div>
           <div class="leitura"><small>Extravasamento médio</small><b id="l-extra"></b> <span>L/dia</span></div>
           <div class="leitura"><small>Ganho do último m³</small><b id="l-ganho"></b> <span>pontos/m³</span></div>
         </div>
-        <p class="nota-curva">Números calculados pelo próprio programa, na montagem desta página. O tutorial usa 28% e 4.000 L; a seção <a href="#/4.4">4.4</a> explica a leitura da curva.</p>
+        <p class="nota-curva">Números calculados pelo próprio programa, na montagem desta página. O tutorial usa 28% e 5 000 L; a secção <a href="#/4.4">4.4</a> explica a leitura da curva.</p>
       </div>
     </div>
   </section>
@@ -603,7 +603,7 @@ function inicio() {
 
   <section class="faixa">
     <h2>Como o programa calcula</h2>
-    <p class="sub">Do dado de chuva à decisão. Cada etapa leva à seção do método que a descreve.</p>
+    <p class="sub">Do dado de precipitação à decisão. Cada etapa leva à secção do método que a descreve.</p>
     <div class="fluxo"><svg viewBox="0 0 880 225" role="img" aria-label="Fluxo de cálculo do Triton, da chuva diária à decisão multicritério">
       <defs><marker id="ponta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="fill:var(--ink3)"/></marker></defs>
       ${seta(170, 66, 188, 66)}${seta(340, 66, 358, 66)}${seta(510, 66, 528, 66)}
@@ -618,10 +618,10 @@ function inicio() {
   <section class="faixa">
     <h2>Princípios da documentação</h2>
     <div class="principios">
-      <div class="principio"><h3>Todo número é calculado</h3><p>Tabelas e figuras saem do próprio programa, e cada valor impresso tem uma verificação automática. Uma correção no código não deixa o texto mentindo.</p></div>
-      <div class="principio"><h3>Fonte declarada</h3><p>Normas, fatores de emissão, tarifas e catálogos de fabricante aparecem com a origem, a edição e o item. O que é premissa do programa é dito como premissa.</p></div>
-      <div class="principio"><h3>Uma fonte, três formatos</h3><p>O manual completo, os sete volumes e este site são montados das mesmas partes. A numeração das seções e das equações é a mesma em todos.</p></div>
-      <div class="principio"><h3>Limites às claras</h3><p>O que o modelo não faz — calhas, perda de carga real, amortecimento de cheias — está escrito, com a norma ou a ferramenta que faz.</p></div>
+      <div class="principio"><h3>Todo o número é calculado</h3><p>Tabelas e figuras saem do próprio programa, e cada valor impresso tem uma verificação automática. Uma correção no código não deixa o texto desatualizado.</p></div>
+      <div class="principio"><h3>Fonte declarada</h3><p>Especificações técnicas, fatores de emissão, tarifários e curvas aparecem com a origem declarada. O que é premissa ilustrativa é explicitado como premissa.</p></div>
+      <div class="principio"><h3>Uma fonte, três formatos</h3><p>O manual completo, os sete volumes e este site são montados das mesmas partes. A numeração das secções e das equações é a mesma em todos.</p></div>
+      <div class="principio"><h3>Limites às claras</h3><p>O que o modelo não faz — caleiras, perda de carga real, laminagem de cheias — está escrito, com a especificação ou a ferramenta que o faz.</p></div>
     </div>
   </section>
 
@@ -634,7 +634,7 @@ function inicio() {
 }
 
 function rodape() {
-  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa em Ambientes Sustentáveis · Universidade Federal de Santa Catarina</span><span><a href="#/versoes">Triton ${DADOS.versao}</a> · licença acadêmica, uso não comercial · revisão de ${DADOS.revisao}</span></footer>`;
+  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa em Ambientes Sustentáveis</span><span><a href="#/versoes">Triton ${DADOS.versao}</a> · licença académica, uso não comercial · revisão de ${DADOS.revisao}</span></footer>`;
 }
 
 /* a curva */
@@ -642,7 +642,7 @@ let fi = 0, vi = 0;
 function iniciarCurva() {
   const C = DADOS.curva;
   fi = Math.max(0, C.fracoes.findIndex(f => Math.abs(f - 0.28) < 1e-6));
-  vi = Math.max(0, C.volumes.indexOf(4000));
+  vi = Math.max(0, C.volumes.indexOf(5000));
   $("#c-fracao").value = fi; $("#c-volume").value = vi;
   $("#c-fracao").addEventListener("input", e => { fi = +e.target.value; desenharCurva(); });
   $("#c-volume").addEventListener("input", e => { vi = +e.target.value; desenharCurva(); });

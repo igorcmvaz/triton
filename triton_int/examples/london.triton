@@ -3,7 +3,7 @@
     "name": "triton-project",
     "version": 2
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "metadata": {
     "project_id": "N5-20261015-095736-4F383D0B",
     "name": "Example - tutorial house in London (ERA5 1991-2020) [costs to be entered by the user]",

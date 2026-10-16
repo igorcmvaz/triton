@@ -328,7 +328,7 @@ partial a day that was fully supplied.
 The total demand of a day splits into three, not two:
 
 ```equacao:demanda_tres
-D_t = V_con,t + V_pot,t + V_nao,t
+D_t = V_con,t + V_pot,t + V_unmet,t
 ```
 
 | Symbol | Meaning | Unit |
@@ -336,7 +336,7 @@ D_t = V_con,t + V_pot,t + V_nao,t
 | `D_t` | total demand of the building on day `t` | L |
 | `V_con,t` | part supplied with rainwater | L |
 | `V_pot,t` | part bought from the mains | L |
-| `V_nao,t` | part nobody supplied, that is, unmet demand | L |
+| `V_unmet,t` | part nobody supplied, that is, unmet demand | L |
 
 The three parts are the rainwater consumption, the mains consumption and the **unmet demand**.
 The third is zero in the default configuration, in which the mains comes to the rescue of

@@ -99,9 +99,9 @@ def _idioma_restaurado():
 #: SHA-256 do texto normalizado de cada laudo em português da BRL, gerado a partir de ``_dados()``
 #: no commit ce458c3. Se uma mudança intencional na BRL mexer num laudo, recalcule e justifique.
 IMPRESSAO_DIGITAL_BRL_PT = {
-    "economic": "9541d31d4ea2be1dd4f881517132f6889f64f8ecd1566907ed21410393a0be31",
-    "environmental": "ab45e8788fe49bfb8aa646ed974fdc0182dc125f1565461362901f36efe437e5",
-    "research": "cdecde922de69f1d59c2de58e517820233b149a0368d4ffa9f7ab28a0b22f8a1",
+    "economic": "3e3c39bd534a806b40d88ad238aa0ac7f433bc7c92cd8796eb231418e32ee124",
+    "environmental": "7e415b86be0a403898f00ab4cc91f9d86fb77cfedda9c2841eb2548bbf4600d8",
+    "research": "f28373921adbaca5f5947ec989066ab7ffcf0d39929e43e75c0c586387adbfe8",
 }
 
 

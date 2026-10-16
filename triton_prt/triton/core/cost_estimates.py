@@ -379,11 +379,6 @@ def estimate_tank_price(
     return base_price * mult
 
 
-def estimate_tank_price_linear(volume_l: float, material_key: str = "PEAD") -> float:
-    """Compatibilidade de API: usa a interpolação linear contínua."""
-    return estimate_tank_price(volume_l, material_key, LOWER_TANK_PRICE_TABLE)
-
-
 def compute_pipe_item_cost(diameter_mm: int, length_m: float, include_fittings: bool = True) -> float:
     """Calcula o custo de tubulação para um diâmetro nominal e comprimento com base nas referências SINAPI."""
     unit = PIPE_COST_PER_METER.get(int(diameter_mm), 35.0)

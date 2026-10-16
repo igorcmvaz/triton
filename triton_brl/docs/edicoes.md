@@ -89,7 +89,7 @@ edição sem constar desta tabela.
 | ponto de entrada | `main.py` em `triton_brl` | `main.py` em `triton_int` | `main.py` em `triton_prt` |
 | compilação | `python build_exe.py`, dentro de cada pasta | idem | idem |
 | pasta | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_PRT/`, `Triton_PRT.exe` |
-| instalador | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_1_0_0.exe` (`/DEdition=PRT`) |
+| instalador | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_0_1_0.exe` (`/DEdition=PRT`) |
 | pasta de instalação | `Triton` | `Triton International` | `Triton Portugal` |
 | associação dos `.triton` | marcada | desmarcada | desmarcada |
 | base CLIMBra (`data/climbra.db`, ~784 MB) | embutida; o build para se faltar | retirada após o PyInstaller | retirada após o PyInstaller |

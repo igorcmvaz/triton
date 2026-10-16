@@ -5,9 +5,9 @@
 ;   python build_exe.py --installer
 ; compila o programa com o PyInstaller em dist\Triton e chama o ISCC com a
 ; versão lida de triton/__init__.py. Para compilar à mão:
-;   ISCC /DMyAppVersion=1.0.0 setup_script.iss                 (Edição Brasil)
-;   ISCC /DMyAppVersion=1.0.0 /DEdition=INT setup_script.iss   (International Edition)
-;   ISCC /DMyAppVersion=1.0.0 /DEdition=PRT setup_script.iss   (Edição Portugal)
+;   ISCC /DMyAppVersion=0.1.0 setup_script.iss                 (Edição Brasil)
+;   ISCC /DMyAppVersion=0.1.0 /DEdition=INT setup_script.iss   (International Edition)
+;   ISCC /DMyAppVersion=0.1.0 /DEdition=PRT setup_script.iss   (Edição Portugal)
 ;
 ; As três edições têm AppId, pasta, atalhos e associação próprios: instalam-se
 ; lado a lado. A Brasil empacota dist\Triton; a Internacional, dist\Triton_INT; a
@@ -69,7 +69,7 @@
   #define ManualLink "Manual do Triton"
 #endif
 #ifndef MyAppVersion
-  #define MyAppVersion "1.0.0"
+  #define MyAppVersion "0.1.0"
 #endif
 #define MyAppPublisher "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)"
 #define MyAppURL "https://sustainability.ufsc.br/"

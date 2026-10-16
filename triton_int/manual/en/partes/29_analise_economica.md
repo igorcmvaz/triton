@@ -14,12 +14,12 @@ the rainwater system and another with the potable water actually bought, and tak
 between them.
 
 ```equacao:economia_mensal
-E_mês = F(V_tot) − F(V_pot)
+S_mo = F(V_tot) − F(V_pot)
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_mês` | saving obtained in the month | currency |
+| `S_mo` | saving obtained in the month | currency |
 | `F(·)` | function that calculates the water and sewage bill for a volume | currency |
 | `V_tot` | monthly volume the building would consume without the rainwater system | m³ |
 | `V_pot` | monthly volume of potable water actually bought from the mains | m³ |
@@ -83,12 +83,12 @@ regime explicitly instead of treating it as a detail of the table.
 Some utilities do not charge water as a sum of blocks but as a power of the month's consumption:
 
 ```equacao:exponencial
-T_agua = PB × C^n + SB
+B_water = PB × C^n + SB
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_agua` | water part of the bill | currency |
+| `B_water` | water part of the bill | currency |
 | `PB` | base price | currency/m³ |
 | `C` | consumption of the month per dwelling unit | m³ |
 | `n` | exponent from the utility's table of exponents for consumption `C`; 1.00 up to a threshold, and rising above it | dimensionless |
@@ -118,13 +118,13 @@ twenty units actually pays.
 ### Sewage
 
 ```equacao:esgoto
-T_esg = T_agua × s
+B_sew = B_water × s
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_esg` | sewage part of the bill | currency |
-| `T_agua` | water part of the bill, already calculated by the progressive blocks | currency |
+| `B_sew` | sewage part of the bill | currency |
+| `B_water` | water part of the bill, already calculated by the progressive blocks | currency |
 | `s` | sewage percentage charged by the utility | dimensionless |
 
 The sewage percentage applies to the water part of the bill, not to the total bill, and confusing
@@ -132,7 +132,7 @@ the two denominators doubles or halves the part calculated. One hundred per cent
 means that the sewage part equals the water part, and therefore that sewage accounts for half of
 the total bill. In New York the percentage is 159%, so that the sewer part is the larger of the two.
 
-There are two more modes: sewage charged **per cubic metre consumed**, `T_esg = C × p_esg`, as
+There are two more modes: sewage charged **per cubic metre consumed**, `B_sew = C × p_sew`, as
 in London, and sewage charged **by blocks of its own on a fraction of the water volume**, as in
 Cape Town (70% of the water consumed, four steps). With the exponential formula, the per cubic
 metre mode has no basic service charge and no exponent, and applying the percentage on the water
@@ -172,7 +172,7 @@ an allowance regime, saving water below the allowance volume earns no discount a
 ## The investment
 
 ```equacao:capex
-CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
+CAPEX = C_cist + C_sup + C_lab + C_pipe + C_acc + ( C_pump × n_b ) + CAPEX_inc
 ```
 
 | Symbol | Meaning | Unit |
@@ -180,14 +180,14 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `CAPEX` | total initial investment of the system | currency |
 | `C_cist` | cost of the lower tank | currency |
 | `C_sup` | cost of the upper tank, when there is one | currency |
-| `C_mo` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
-| `C_tub` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
-| `C_ace` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
-| `C_bomba` | unit cost of the pump set | currency |
+| `C_lab` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
+| `C_pipe` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
+| `C_acc` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
+| `C_pump` | unit cost of the pump set | currency |
 | `n_b` | number of pump sets, including the standby when there is one | unit |
 | `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | currency |
 
-In a new project, `C_tub` and `C_ace` are not allowances: they come from the **bill of quantities
+In a new project, `C_pipe` and `C_acc` are not allowances: they come from the **bill of quantities
 of the 3D layout** (section {{n:22}}). Each metre of pipe, each bend, each end fitting, each part —
 valves, check and foot valves, solenoid, water meter, level switches, control panel, inlet
 calming device, floating suction, vents, overflow, air gap, point of use — and each metre of
@@ -315,15 +315,15 @@ performance of the system. The manual's cases enter no such incentive.
 **Net present value:**
 
 ```equacao:vpl
-VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
+NPV = − CAPEX + Σ [ CF_m ÷ ( 1 + MARR )^m ]
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `VPL` | net present value of the investment | currency |
+| `NPV` | net present value of the investment | currency |
 | `CAPEX` | total initial investment, from Equation {{eq:capex}} | currency |
-| `FC_m` | net cash flow of month `m` | currency |
-| `TMA` | monthly minimum attractive rate of return, as a fraction: 0.5% a month enters as 0.005 | dimensionless |
+| `CF_m` | net cash flow of month `m` | currency |
+| `MARR` | monthly minimum attractive rate of return, as a fraction: 0.5% a month enters as 0.005 | dimensionless |
 | `m` | month of the cash flow, from 1 to the end of the analysis period | month |
 
 **Internal rate of return:** the rate that makes the NPV zero. When there is no real root — which

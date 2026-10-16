@@ -8,14 +8,6 @@ from triton.core.parser import TritonConfig
 from triton.core.edition import tarifa_de_agua_de_reserva
 from triton.core.pump_energy import compute_annual_pump_energy
 from triton.core.supply_arrangement import GRAVIDADE, arranjo_de
-from triton.core.pump_hydraulics import (
-    ALTURA_MANOMETRICA_PADRAO_M,
-    energia_especifica_a_partir_da_vazao,
-    energia_especifica_kwh_por_m3,
-    rendimento_do_motor,
-    rendimento_tipico,
-    vazao_l_por_h,
-)
 from triton.core.chlorination import Cloracao, DOSE_PADRAO_MG_POR_LITRO, PUREZA_PADRAO
 from triton.core.etap_integration import (
     capex_incremental_da_etap,

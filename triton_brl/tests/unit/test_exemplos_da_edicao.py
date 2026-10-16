@@ -8,14 +8,12 @@ O arquivo é o mesmo nas três edições; cada bloco pula-se fora da sua ediçã
 porque os exemplos dela são outros). As contas esperadas saem **à mão**, com ``Decimal``, dos números
 impressos nos tarifários oficiais (os mesmos que ``examples/LEIA.md`` cita), sem chamar o motor.
 
-Os exemplos são gerados por ``scripts/gerar_exemplos_int.py`` e ``scripts/gerar_exemplos_prt.py``; um teste
-gera de novo numa pasta temporária e confere que sai o mesmo (o arquivo no disco é reproduzível).
+Os exemplos são gerados por ferramentas de desenvolvimento (``scripts/gerar_exemplos_int.py`` e
+``scripts/gerar_exemplos_prt.py``), que ficam no disco do mantenedor; aqui se confere o arquivo gravado.
 """
 
 from __future__ import annotations
 
-import importlib.util
-import json
 from decimal import Decimal as D
 from pathlib import Path
 
@@ -173,13 +171,6 @@ def test_o_exemplo_da_int_nao_traz_brasil_nem_portugal(cidade):
     assert not achados, achados
 
 
-@so_int
-def test_os_exemplos_da_int_saem_iguais_ao_gerar_de_novo(tmp_path):
-    novo = _gerar("gerar_exemplos_int.py", tmp_path)
-    for cidade in CIDADES_INT:
-        assert _sem_o_relogio(novo / f"{cidade}.triton") == _sem_o_relogio(INT_EXEMPLOS / f"{cidade}.triton"), cidade
-
-
 # ---------------------------------------------------------------------------------------------
 # PRT: contas à mão (números impressos nos tarifários de 2026; IVA conforme a nota de cada um)
 # ---------------------------------------------------------------------------------------------
@@ -300,32 +291,3 @@ def test_o_exemplo_da_prt_nao_traz_o_brasil(cidade):
     texto = (PRT_EXEMPLOS / f"{cidade}.triton").read_text(encoding="utf-8")
     achados = [t for t in TERMOS_DO_BRASIL if t in texto]
     assert not achados, achados
-
-
-@so_prt
-def test_os_exemplos_da_prt_saem_iguais_ao_gerar_de_novo(tmp_path):
-    novo = _gerar("gerar_exemplos_prt.py", tmp_path)
-    for cidade in CIDADES_PRT:
-        assert _sem_o_relogio(novo / f"{cidade}.triton") == _sem_o_relogio(PRT_EXEMPLOS / f"{cidade}.triton"), cidade
-
-
-# ---------------------------------------------------------------------------------------------
-# Reprodutibilidade
-# ---------------------------------------------------------------------------------------------
-
-def _gerar(nome_do_script: str, destino: Path) -> Path:
-    caminho = RAIZ / "scripts" / nome_do_script
-    spec = importlib.util.spec_from_file_location(f"_gerador_{caminho.stem}", caminho)
-    modulo = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(modulo)
-    modulo.gerar(str(destino))
-    return destino
-
-
-def _sem_o_relogio(caminho: Path) -> dict:
-    """O projeto sem o que muda a cada execução (identificador e instante da gravação)."""
-    dados = json.loads(caminho.read_text(encoding="utf-8"))
-    for chave in ("project_id", "saved_at"):
-        dados["metadata"].pop(chave, None)
-    return dados
-

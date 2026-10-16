@@ -1,4 +1,4 @@
-# Parâmetros dependentes do volume e premissas científicas — Triton 1.0.0
+# Parâmetros dependentes do volume e premissas científicas — Triton 0.1.0
 
 Este documento separa três relações que não devem ser confundidas: dependência **direta** da capacidade da cisterna, dependência **endógena** obtida pela simulação e entradas **independentes** que só mudam se o pesquisador definir outro cenário físico. Essa distinção evita relações espúrias, como supor que todo custo de manutenção, tubo ou bomba cresce automaticamente com os litros armazenáveis.
 

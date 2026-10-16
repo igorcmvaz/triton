@@ -8,9 +8,11 @@ Este documento consolida o planejamento evolutivo de **todas as edições do Tri
 
 ```mermaid
 flowchart TD
-    V50["Triton 1.0 (Base Estável)<br>• Três edições: BRL, INT e PRT<br>• Balanço diário auditado pela regra do Triton (YAS estrita, YBS e φ de Fewkes como opções)<br>• BRL: 652 cidades (CLIMBra CMIP6) e tarifas<br>• TOPSIS & SMAA-VIKOR"]
+    V50["Triton 0.1 (Beta atual)<br>• Três edições: BRL, INT e PRT<br>• Balanço diário auditado pela regra do Triton (YAS estrita, YBS e φ de Fewkes como opções)<br>• BRL: 652 cidades (CLIMBra CMIP6) e tarifas<br>• TOPSIS & SMAA-VIKOR"]
     
-    V50 --> V51["Triton 1.1 (Consolidação & Confiabilidade)<br>• Paridade e Robustecimento da Edição INT<br>• Detalhamento Geotécnico & Custos de Instalação<br>• Modelagem Probabilística e Cópulas<br>• Novos Métodos MCDM (PROMETHEE, BWM)"]
+    V50 --> V10["Triton 1.0 (Primeira versão oficial)<br>• Saída do beta, depois dos ajustes das versões 0.x (0.2.0, 0.3.0…)"]
+
+    V10 --> V51["Triton 1.1 (Consolidação & Confiabilidade)<br>• Paridade e Robustecimento da Edição INT<br>• Detalhamento Geotécnico & Custos de Instalação<br>• Modelagem Probabilística e Cópulas<br>• Novos Métodos MCDM (PROMETHEE, BWM)"]
     
     V51 --> V60["Triton 2.0 (Fronteira Metodológica)<br>• Passo de Tempo Sub-diário (Horário)<br>• Balanço Hídrico do Solo (FAO-56)<br>• Coeficiente C Dinâmico com ADWP<br>• Módulo SIG Territorial"]
 ```

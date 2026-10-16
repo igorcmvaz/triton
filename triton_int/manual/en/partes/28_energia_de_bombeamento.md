@@ -86,14 +86,14 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 **Energy of the start-ups:**
 
 ```equacao:energia_partida
-E_part = ( P × t_part ) ÷ η_m
+E_start = ( P × t_start ) ÷ η_m
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_part` | energy consumed by all the start-ups of the period | kWh |
+| `E_start` | energy consumed by all the start-ups of the period | kWh |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the period | h |
+| `t_start` | total start-up time accumulated in the period | h |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 The pump efficiency is absent from Equation {{eq:energia_partida}} for the physical reason that
@@ -105,16 +105,16 @@ The annual energy of the pump set is the sum of the two parts: that of the actua
 depends on the volume lifted, and that of the start-ups, which depends on the number of starts.
 
 ```equacao:energia_anual
-E_ano = e × V_rec + ( P × t_part ) ÷ η_m
+E_yr = e × V_pump + ( P × t_start ) ÷ η_m
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_ano` | electrical energy consumed by the pump set in the year | kWh/year |
+| `E_yr` | electrical energy consumed by the pump set in the year | kWh/year |
 | `e` | specific energy consumption per volume pumped | kWh/m³ |
-| `V_rec` | volume pumped in the year | m³/year |
+| `V_pump` | volume pumped in the year | m³/year |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the year | h/year |
+| `t_start` | total start-up time accumulated in the year | h/year |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 ---
@@ -182,16 +182,16 @@ When the power, flow rate and manometric head of the pump set are not known, the
 button, in step **4. Reservoir & Costs** and in the economic dialog, estimates the three values and
 selects a commercial model. The wizard follows the usual sizing sequence of a building rising main:
 
-1. **Pumping flow rate.** `Q = V_sup ÷ t_ench`, with the volume of the upper tank and the desired
+1. **Pumping flow rate.** `Q = V_sup ÷ t_fill`, with the volume of the upper tank and the desired
    filling time, 45 minutes by default.
-2. **Economic diameter.** By Forchheimer's formula, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q` (1.3 and 0.25
-   in decimal-point notation), with `D` in metres, `Q` in m³/s and `t_op` the daily operating time,
-   2 h by default. The diameter adopted is the smallest commercial solvent-weld PVC pipe whose internal
-   diameter meets the calculated value, and never smaller than the outlet of the selected pump set;
-   the suction gets one commercial size above the delivery.
+2. **Economic diameter.** By Forchheimer's formula, `D = 1.3 · (t_op ÷ 24)^0.25 · √Q`, with `D` in
+   metres, `Q` in m³/s and `t_op` the daily operating time, 2 h by default. The diameter adopted is the
+   smallest commercial solvent-weld PVC pipe whose internal diameter meets the calculated value, and
+   never smaller than the outlet of the selected pump set; the suction gets one commercial size above the
+   delivery.
 3. **Velocity.** `v = Q ÷ (π · D_i² ÷ 4)`, highlighted when it falls outside the range of 0.6 m/s to
    2.5 m/s.
-4. **Head loss.** By the Hazen-Williams formula, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, with
+4. **Head loss.** By the Hazen-Williams formula, `J = 10.643 · Q^1.852 · C^−1.852 · D_i^−4.87`, with
    `C = 140` for PVC, multiplied by the length of the piping and increased by 30% for the local losses.
 5. **Manometric head and power.** `H_man = H_geo + h_f` and `P = ρ · g · Q · H_man ÷ η`, with a set
    efficiency of 55% by default.

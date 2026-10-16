@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QMenu
 )
 from PySide6.QtCore import Qt, QUrl
-from PySide6.QtGui import QFont, QPixmap, QDesktopServices
+from PySide6.QtGui import QPixmap, QDesktopServices
 
 from triton.ui.translation import get_current_lang, tr, get_current_theme, get_resource_path
 
@@ -83,20 +83,19 @@ def open_url_in_browser(url: str):
 #: Páginas de cada manual completo, que a aba anuncia; `test_acervo_de_manuais` confere
 #: contra os PDFs.
 PAGINAS_DO_MANUAL_COMPLETO = {
-    "manual/Manual-Triton.pdf": 461,
+    "manual/Manual-Triton.pdf": 292,
     "manual/en/Triton-User-Manual.pdf": 459,
 }
 
 
 def caminho_do_manual_completo() -> str:
-    """O manual completo desta edição e língua; o português, se o inglês não veio no pacote."""
-    from triton.core.edition import MANUAL_PT, manual_do_usuario, usa_dados_do_brasil
-    escolhido = manual_do_usuario(get_current_lang())
-    if os.path.isfile(get_resource_path(escolhido)) or not usa_dados_do_brasil():
-        # Fora da Brasil não há manual de reserva: o PT é o do Brasil, e abri-lo em silêncio seria
-        # entregar a quem pediu o manual da sua edição o de outro país. Falta o arquivo, o aviso diz.
-        return escolhido
-    return MANUAL_PT
+    """O manual completo desta edição: o inglês na Internacional, o português na Brasil e na Portugal.
+
+    Não há manual de reserva de outra edição: abri-lo em silêncio seria entregar a quem pediu o manual
+    da sua edição o de outro país. Se o arquivo faltar, o aviso diz.
+    """
+    from triton.core.edition import manual_do_usuario
+    return manual_do_usuario(get_current_lang())
 
 
 def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: bool = False):
@@ -111,7 +110,6 @@ def abrir_ou_baixar_manual(rel_path: str, parent: QWidget = None, salvar_como: b
         basename = os.path.basename(rel_path)
         alternativas = [
             os.path.join("manual", basename),
-            os.path.join("manual", "en", basename),
             os.path.join("manual", "mini", basename),
             os.path.join("manual", "site", "pdf", basename),
         ]
@@ -2897,26 +2895,6 @@ class TabDocumentation(QWidget):
         return self._create_browser(html)
 
 
-    def create_tab_acv_materials(self) -> QWidget:
-        """Aba de justificativas de materiais para ACV."""
-        html = generate_html_justifications_materials()
-        return self._create_browser(html)
-
-    def create_tab_acv_pipes(self) -> QWidget:
-        """Aba de justificativas de tubulações para ACV."""
-        html = generate_html_justifications_pipes()
-        return self._create_browser(html)
-
-    def create_tab_acv_pumps(self) -> QWidget:
-        """Aba de justificativas de motobombas para ACV."""
-        html = generate_html_justifications_pumps()
-        return self._create_browser(html)
-
-    def create_tab_acv_operational(self) -> QWidget:
-        """Aba de justificativas de fatores operacionais para ACV."""
-        html = generate_html_justifications_operational()
-        return self._create_browser(html)
-
     def create_tab_cli_usage(self) -> QWidget:
         """Guia conciso do fluxo reproduzível da CLI e de suas análises integradas."""
         if get_current_lang() == "pt":
@@ -2975,50 +2953,3 @@ python -m triton.cli matrix-projects --projects building.triton --rainfall-dir c
             """
         return self._create_browser(html)
 
-        if get_current_lang() != "pt":
-            html = """
-            <h2>⌨️ Command-line simulation and integrated analyses</h2>
-            <p>The command line reads legacy Triton CSV files or structured <code>.triton</code>/JSON projects and uses their rainfall series, demand, reservoir mode and financial configuration. It is useful for reproducible runs and integration with external workflows.</p>
-            <h3>Structured project (.triton)</h3>
-            <p><code>python -m triton.cli init project.triton --rainfall Florianopolis1.csv --embed-rainfall</code></p>
-            <p>A <code>.triton</code> file is structured JSON that preserves inputs, monthly seasonality, environmental inventory and TOPSIS weights. With <code>--embed-rainfall</code>, the daily series is included and the project is portable. Validate it before processing with <code>python -m triton.cli validate project.triton</code>.</p>
-            <h3>Technical simulation (legacy-compatible)</h3>
-            <p><code>python -m triton.cli run project.csv</code></p>
-            <p>This respects the saved fixed-volume or sweep mode. A sweep evaluates every lower-reservoir alternative and reports the technical indicated volume from the marginal-gain threshold.</p>
-            <h3>Integrated analysis chain</h3>
-            <p><code>python -m triton.cli analyze project.csv --analysis all</code></p>
-            <p>For every technical alternative, Triton calculates discounted cash flow (economic), simplified life-cycle balance (environmental), then ranks the same alternatives with TOPSIS. Thus the selected financial, environmental and multi-criteria alternatives are traceable to the same daily water-balance results.</p>
-            <h3>Automation options</h3>
-            <p><code>python -m triton.cli run project.csv --volume 5000 --analysis all --format json</code></p>
-            <p><code>python -m triton.cli analyze project.csv --analysis topsis --weights 0.40,0.35,0.25</code></p>
-            <p><b>Options:</b> <code>--analysis</code> accepts <code>technical</code>, <code>economic</code>, <code>environmental</code>, <code>topsis</code> and <code>all</code>; <code>--volume</code> forces one lower-tank volume in litres; <code>--format json</code> produces machine-readable output. TOPSIS weights are technical, economic and environmental and are normalised automatically.</p>
-            <p><code>batch scenarios.xlsx --base project.triton --analysis all --format xlsx --output results.xlsx</code> processes CSV/XLSX scenario sheets while reusing the economic and environmental assumptions from the base project. Outputs can be text, JSON, CSV, HTML or XLSX.</p>
-            <h3>Building × climate matrix</h3>
-            <p><code>python -m triton.cli matrix premises.json climates.json --analysis all --output-dir results-matrix</code></p>
-            <p>Use separate JSON catalogs for building premises and climate files. Triton evaluates their complete combination, displays a terminal progress bar with elapsed time and ETA, and writes a decision summary CSV, an all-alternatives CSV, an auditable detailed JSON and a consolidated HTML panel.</p>
-            <p>The legacy <code>econ</code> command remains available. Environmental inventory defaults should be reviewed in the graphical interface when project-specific material factors are required.</p>
-            """
-        else:
-            html = """
-            <h2>⌨️ Simulação em linha de comando e análises integradas</h2>
-            <p>A linha de comando lê CSVs legados ou projetos estruturados <code>.triton</code>/JSON e usa sua série de chuva, demanda, modo de reservatório e configuração financeira. É indicada para execuções reproduzíveis e integração com fluxos externos.</p>
-            <h3>Projeto estruturado (.triton)</h3>
-            <p><code>python -m triton.cli init projeto.triton --rainfall Florianopolis1.csv --embed-rainfall</code></p>
-            <p>O <code>.triton</code> é um JSON estruturado que preserva entradas, sazonalidade mensal, inventário ambiental e pesos TOPSIS. Com <code>--embed-rainfall</code>, a série diária é incorporada e o projeto se torna portátil. Valide-o antes do processamento com <code>python -m triton.cli validate projeto.triton</code>.</p>
-            <h3>Simulação técnica (compatível com o fluxo legado)</h3>
-            <p><code>python -m triton.cli run projeto.csv</code></p>
-            <p>O comando respeita o modo de volume fixo ou de varredura salvo no projeto. Na varredura, cada alternativa de reservatório inferior é avaliada e o volume técnico indicado é obtido pelo limiar de ganho marginal.</p>
-            <h3>Cadeia de análises integrada</h3>
-            <p><code>python -m triton.cli analyze projeto.csv --analysis all</code></p>
-            <p>Para cada alternativa técnica, o Triton calcula o fluxo de caixa descontado (econômico), o balanço simplificado de ciclo de vida (ambiental) e, então, classifica as mesmas alternativas pelo TOPSIS. Assim, as escolhas financeira, ambiental e multicritério são rastreáveis ao mesmo balanço hídrico diário.</p>
-            <h3>Opções para automação</h3>
-            <p><code>python -m triton.cli run projeto.csv --volume 5000 --analysis all --format json</code></p>
-            <p><code>python -m triton.cli analyze projeto.csv --analysis topsis --weights 0.40,0.35,0.25</code></p>
-            <p><b>Opções:</b> <code>--analysis</code> aceita <code>technical</code>, <code>economic</code>, <code>environmental</code>, <code>topsis</code> e <code>all</code>; <code>--volume</code> força um volume de cisterna em litros; <code>--format json</code> gera saída estruturada. Os pesos TOPSIS são técnico, econômico e ambiental e são normalizados automaticamente.</p>
-            <p><code>batch cenarios.xlsx --base projeto.triton --analysis all --format xlsx --output resultados.xlsx</code> processa planilhas CSV/XLSX de cenários e reutiliza as premissas econômicas e ambientais do projeto-base. As saídas podem ser texto, JSON, CSV, HTML ou XLSX.</p>
-            <h3>Matriz de edifícios × climas</h3>
-            <p><code>python -m triton.cli matrix premissas.json climas.json --analysis all --output-dir resultados-matriz</code></p>
-            <p>Use catálogos JSON independentes para as premissas de edifícios e para os arquivos climáticos. O Triton avalia todas as combinações, mostra no terminal uma barra de progresso com tempo decorrido e ETA e grava CSV decisório, CSV com todas as alternativas, JSON detalhado auditável e painel HTML consolidado.</p>
-            <p>O atalho legado <code>econ</code> continua disponível. Quando forem necessários fatores específicos de materiais, revise o inventário ambiental na interface gráfica.</p>
-            """
-        return self._create_browser(html)

@@ -1,5 +1,7 @@
 # Scripts
 
+> **Ferramentas de desenvolvimento.** Os scripts descritos abaixo ficam no disco do mantenedor e **não estão no Git** (`.gitignore`). Este arquivo registra o que cada um faz e como foi usado; o programa, o instalador e os testes não dependem deles.
+
 Ferramentas de linha de comando que acompanham o programa. Nenhuma é importada
 por `triton/`: rodam por fora, sobre o projeto. Rode-as a partir desta pasta
 (`triton_brl/`). Esta é a pasta da **Edição Brasil**: as outras duas edições levam só

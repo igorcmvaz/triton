@@ -20,6 +20,8 @@ try:
     import gerar_changelog as gc
 except ModuleNotFoundError:
     pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
+if not os.path.isfile(gc.CAPITULO):
+    pytest.skip("o capítulo em português do histórico de versões não existe nesta edição", allow_module_level=True)
 from triton import __version__  # noqa: E402
 
 

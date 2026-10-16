@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Tutorial. Versão 1.0.0. Florianópolis: Universidade Federal de Santa
+> Tutorial. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -586,7 +586,7 @@ e aparece num campo que não se edita, porque é resultado e não dado. Sem dema
 a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
 suficiente para a maior parte dos estudos.
 
-> **Por que a total não se digita.** Até a versão 1.0.0 o campo da fração total era
+> **Por que a total não se digita.** Antes da versão 0.1.0 o campo da fração total era
 > editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
 > a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
 > que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é
@@ -2163,7 +2163,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Triton 1.0.0, com modelo comportamental de base
+> A simulação foi conduzida no Triton 0.1.0, com modelo comportamental de base
 > diária (extravasamento calculado antes da retirada da demanda, com a chuva do dia
 > disponível para o consumo do dia, ordem intermediária entre YAS e YBS), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).

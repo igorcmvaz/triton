@@ -119,11 +119,12 @@ def test_a_internacional_abre_o_manual_ingles_em_qualquer_lingua(edicao):
     assert ed.manual_do_usuario("pt") == ed.MANUAL_EN
 
 
-def test_a_brasil_segue_a_lingua_da_interface(edicao):
-    ed = edicao("BRL")
-    assert ed.manual_do_usuario("pt") == ed.MANUAL_PT
-    for lingua in ("en", "es", "zh"):
-        assert ed.manual_do_usuario(lingua) == ed.MANUAL_EN
+def test_a_brasil_e_a_portugal_so_tem_o_manual_em_portugues(edicao):
+    """Só a Internacional tem `manual/en`: nas outras duas, qualquer língua da interface abre o PT."""
+    for sigla in ("BRL", "PRT"):
+        ed = edicao(sigla)
+        for lingua in ("pt", "pt_pt", "en", "es", "zh"):
+            assert ed.manual_do_usuario(lingua) == ed.MANUAL_PT, (sigla, lingua)
 
 
 def test_o_manual_ingles_existe_e_e_o_que_o_textos_en_declara():

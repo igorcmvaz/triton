@@ -210,3 +210,21 @@ def test_o_pacote_nao_copia_o_que_nao_pode_ir(tmp_path):
     for e in ("int", "prt"):
         assert not [i for i in por_edicao[e] if i.startswith(("data/climbra", "tarifas"))], e
     assert "data/portugal_eobs.db" not in por_edicao["int"]
+
+
+def test_so_a_internacional_leva_o_manual_ingles(tmp_path):
+    """`manual/en` é da Internacional; a Brasil e a Portugal não o procuram nem o empacotam."""
+    b = _build_exe()
+    for rel in ("manual/Manual-Triton.pdf", "manual/en/Triton-User-Manual.pdf"):
+        arquivo = tmp_path / rel
+        arquivo.parent.mkdir(parents=True, exist_ok=True)
+        arquivo.write_bytes(b"%PDF")
+    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "prt")}
+    assert "manual/en/Triton-User-Manual.pdf" in por_edicao["int"]
+    for e in ("brl", "prt"):
+        assert not [i for i in por_edicao[e] if i.startswith("manual/en")], e
+        assert "manual/Manual-Triton.pdf" in por_edicao[e]
+    # a conferência do instalador também só espera o manual inglês na Internacional
+    esperado = {e: [f for f in b.verificar_pasta_para_instalador(tmp_path, e) if "Triton-User-Manual" in f]
+                for e in ("brl", "int", "prt")}
+    assert esperado["int"] and not esperado["brl"] and not esperado["prt"]

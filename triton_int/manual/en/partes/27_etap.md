@@ -138,7 +138,7 @@ is a subsystem with its own investment, running cost and embodied carbon, made u
 separator and the first-flush chamber.
 
 The volume of the first-flush chamber is the product of the first-flush depth and the catchment
-area, `V_desc = d × A`, in litres, with `d` in millimetres and `A` in square metres. The program
+area, `V_ff = d × A`, in litres, with `d` in millimetres and `A` in square metres. The program
 sizes a vertical diversion column for small volumes and a tank for larger ones, adds a leaf
 separator sized by the catchment area, and gives the subsystem an annual running cost. In the
 International Edition the prices are typed in; the manual's cases leave the first-flush subsystem
@@ -169,13 +169,13 @@ form of filtering. Adding the detailed line on top of that allowance would charg
 and so the program deducts the generic allowance and adds only the increment.
 
 ```equacao:capex_etap
-CAPEX_inc = CAPEX_linha − V_gen
+CAPEX_inc = CAPEX_line − V_gen
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `CAPEX_inc` | incremental investment of the treatment line | currency |
-| `CAPEX_linha` | total investment in the equipment of the sized line | currency |
+| `CAPEX_line` | total investment in the equipment of the sized line | currency |
 | `V_gen` | generic treatment allowance already included in the accessories item | currency |
 
 **In the running cost.** Chlorination is already paid in the chemical consumables line of the cash

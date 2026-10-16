@@ -27,12 +27,12 @@ das edições em [`edicoes.md`](edicoes.md)).
    instalador. Para pular a regeneração do manual, acrescente `--sem-manual`.
 3. Antes de chamar o Inno Setup, o script confere se a compilação trouxe o executável,
    os pacotes de idioma, o PDF do manual e a base CLIMBra (`_internal\data\climbra.db`), e interrompe com a lista do que falta.
-4. O instalador sai em `dist\Triton_Setup_1_0_0.exe` (para a versão 1.0.0).
+4. O instalador sai em `dist\Triton_Setup_0_1_0.exe` (para a versão 0.1.0).
 
 Para compilar só o instalador, com `dist\Triton` já pronto:
 
 ```
-"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyAppVersion=1.0.0 setup_script.iss
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /DMyAppVersion=0.1.0 setup_script.iss
 ```
 
 ## O que o instalador faz

@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Modulação probabilística. Versão 1.0.0. Florianópolis: Universidade Federal de Santa
+> Modulação probabilística. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---

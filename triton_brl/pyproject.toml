@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "triton-brl"
-version = "1.0.0"
+version = "0.1.0"
 description = "Plataforma computacional para simulação de aproveitamento de água de chuva em edificações, análise econômico-financeira, avaliação ambiental e decisão multicritério."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -46,11 +46,6 @@ dependencies = [
     "pandas>=2.0.0",
     "openpyxl>=3.1.0",
     "ezdxf>=1.3.0",
-    # Usado pelo atualizador tarifário (triton/core/tariff_updater/) para consultar
-    # ANEEL e prestadores de saneamento. Importado no topo desses módulos, portanto
-    # obrigatório — não opcional.
-    "requests>=2.31.0",
-    "beautifulsoup4>=4.12.0",
     # Motor parquet da exportação em lote da CLI (triton/cli.py), usada pelos
     # estudos de simulação em massa.
     "pyarrow>=14.0.0",
@@ -113,15 +108,12 @@ python_functions = ["test_*"]
 # varreduras e leva de 40 s (com numba) a mais de dez minutos (sem). Fica fora da
 # execução padrão e é chamada sob demanda:
 #     pytest -m replicacao
-#     python scripts/qa_runner.py --layer replicacao
-# Os testes marcados como "rede" consultam fontes oficiais (ANEEL) e só passam
-# com internet; ficam fora da execução local e rodam na integração contínua:
-#     pytest -m rede
-#     python scripts/qa_runner.py --layer rede
+# O marcador "rede" é reservado a testes que dependem de internet (hoje não há nenhum) e
+# também fica fora da execução padrão.
 addopts = "-q -m 'not replicacao and not rede'"
 markers = [
     "replicacao: comparação completa contra os resultados oficiais do Netuno 4 (lenta)",
-    "rede: depende de acesso à internet (fontes oficiais de tarifas)",
+    "rede: depende de acesso à internet (reservado; nenhum teste o usa hoje)",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

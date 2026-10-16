@@ -13,15 +13,13 @@ from PySide6.QtWidgets import (
     QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QWidget,
     QApplication
 )
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont
 
 import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
 from triton.ui.translation import tr, get_current_theme
-from triton.core.parser import format_ptbr
 
 
 # ── TABELA DE TUBULAÇÕES COMERCIAIS DE PVC SOLDÁVEL (NBR 5648) ──

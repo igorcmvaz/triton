@@ -1,33 +1,37 @@
-# Energia de bombeamento
+# Energia de bombagem
 
-> Esta seção traz a cadeia completa do eixo à tomada, e explica por que a
-> potência de placa **não** é o que o medidor registra.
+> Esta secção formaliza a cadeia energética completa do eixo à tomada elétrica e explica por que a
+> potência nominal de placa **não** é o valor medido pelo contador de energia.
 
-Três versões desta conta já existiram no programa, e as duas primeiras cometiam os enganos descritos no item «Por que a cadeia completa importa»: tratar a potência de placa como potência elétrica e descontar o rendimento da bomba duas vezes. Quem lê um estudo feito numa versão antiga precisa saber disso.
+Três versões deste modelo existiram ao longo da evolução do programa, e as versões preliminares
+cometiam os enganos descritos no item «Por que a cadeia completa importa»: tomar a potência mecânica
+de placa como consumo elétrico e descontar o rendimento da bomba duas vezes. Quem consulta estudos
+elaborados em versões antigas necessita de ter presente esta distinção.
 
 ---
 
-## A potência de placa é de eixo
+## A potência de placa é a potência de eixo
 
-A ABNT NBR 17094-2:2016 manda marcar o **rendimento** na placa de identificação do
-motor, como grandeza separada da potência. Isso só faz sentido se a potência de
-placa for a potência mecânica **no eixo**.
+As normas de motores elétricos (norma internacional IEC 60034-30-1 e norma europeia EN 60034-1)
+estipulam que o **rendimento** venha expressamente indicado na placa de identificação do motor,
+como grandeza distinta da potência nominal. Esta distinção reflete o facto físico de a potência
+de placa representar a potência mecânica disponível **no veio (eixo)**.
 
-Daí a cadeia ter dois rendimentos, e não um:
+A cadeia de bombagem integra, por conseguinte, dois rendimentos complementares:
 
 <!-- tabela: Os dois rendimentos da cadeia de bombeamento e o que cada um converte -->
-| Rendimento | O que converte |
+| Rendimento | Conversão efetuada |
 | :--- | :--- |
-| **da bomba**, `η_b` | potência de eixo em potência hidráulica entregue à água |
-| **do motor**, `η_m` | potência elétrica da tomada em potência mecânica no eixo |
+| **da bomba**, `η_b` | potência mecânica no veio em potência hidráulica transmitida ao fluido |
+| **do motor elétrico**, `η_m` | potência elétrica absorvida da rede em potência mecânica no veio |
 
-O programa pede os dois, em campos separados.
+O programa solicita ambos os parâmetros em campos diferenciados.
 
 ---
 
-## As equações
+## As equações de cálculo
 
-**Energia específica do recalque**, por metro cúbico elevado:
+**Consumo específico de energia na elevação**, por metro cúbico bombeado:
 
 ```equacao:energia_especifica
 e = ( ρ × g × H ) ÷ ( η_b × η_m )
@@ -35,19 +39,19 @@ e = ( ρ × g × H ) ÷ ( η_b × η_m )
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
-| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
+| `e` | consumo específico de energia por volume elevado | kWh/m³ |
+| `ρ` | massa volúmica da água, adotada como 1.000 | kg/m³ |
 | `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
-| `H` | altura manométrica total do recalque | m.c.a. |
+| `H` | altura manométrica total da instalação | m c.a. |
 | `η_b` | rendimento hidráulico da bomba | adimensional |
 | `η_m` | rendimento do motor elétrico | adimensional |
 
-==A Equação {{eq:energia_especifica}} não depende da vazão nem da potência instalada.==
-Elevar um metro cúbico de água a uma dada altura custa a mesma energia com bomba grande
-ou pequena, porque o trabalho realizado é o mesmo; o que muda com a potência é o tempo
-gasto para realizá-lo, e não o consumo específico.
+==A Equação {{eq:energia_especifica}} é independente do caudal de serviço e da potência instalada.==
+Elevar um metro cúbico de água a uma dada altura manométrica requer a mesma quantidade de energia
+teórica quer se utilize um grupo elevatório pequeno ou sobredimensionado; a variação na potência
+determina o tempo necessário para completar a bombagem, não o consumo específico do processo.
 
-**Quando a vazão de operação é declarada**, a forma equivalente:
+**Quando o caudal de funcionamento é expressamente declarado:**
 
 ```equacao:energia_por_vazao
 e = P ÷ ( Q × η_m )
@@ -55,17 +59,16 @@ e = P ÷ ( Q × η_m )
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
-| `P` | potência de placa da motobomba, que é potência de eixo | kW |
-| `Q` | vazão de recalque informada ou deduzida | m³/h |
+| `e` | consumo específico de energia por volume elevado | kWh/m³ |
+| `P` | potência de placa da eletrobomba, medida no veio | kW |
+| `Q` | caudal de bombagem introduzido ou deduzido | m³/h |
 | `η_m` | rendimento do motor elétrico | adimensional |
 
-O rendimento hidráulico da bomba não comparece na Equação {{eq:energia_por_vazao}}, e a
-ausência é proposital: ele já está embutido no fato de um motor de `P` quilowatts no
-eixo fazer a bomba entregar `Q` metros cúbicos por hora naquela altura. Dividir por ele
-outra vez contabilizaria a perda hidráulica duas vezes.
+O rendimento da bomba hidráulica não surge na Equação {{eq:energia_por_vazao}} porque
+já está implicitamente refletido no facto de um veio com potência `P` permitir fornecer o caudal `Q`
+à altura manométrica considerada. Dividir novamente por `η_b` duplicaria as perdas hidráulicas.
 
-**Vazão, quando não declarada:**
+**Caudal deduzido, quando não declarado:**
 
 ```equacao:vazao_deduzida
 Q = ( P × η_b ) ÷ ( ρ × g × H )
@@ -73,14 +76,14 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `Q` | vazão de recalque deduzida | m³/h |
-| `P` | potência de placa da motobomba, que é potência de eixo | kW |
+| `Q` | caudal de bombagem deduzido | m³/h |
+| `P` | potência de placa do grupo elevatório | kW |
 | `η_b` | rendimento hidráulico da bomba | adimensional |
-| `ρ` | massa específica da água, adotada como 1.000 | kg/m³ |
-| `g` | aceleração da gravidade, adotada como 9,81 | m/s² |
-| `H` | altura manométrica total do recalque | m.c.a. |
+| `ρ` | massa volúmica da água (1.000) | kg/m³ |
+| `g` | aceleração da gravidade (9,81) | m/s² |
+| `H` | altura manométrica total | m c.a. |
 
-**Energia das partidas:**
+**Energia consumida nos arranques:**
 
 ```equacao:energia_partida
 E_part = ( P × t_part ) ÷ η_m
@@ -88,18 +91,17 @@ E_part = ( P × t_part ) ÷ η_m
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `E_part` | energia consumida no conjunto das partidas do período | kWh |
-| `P` | potência de placa da motobomba, que é potência de eixo | kW |
-| `t_part` | tempo total de partida acumulado no período | h |
+| `E_part` | energia consumida nos arranques acumulados do período | kWh |
+| `P` | potência nominal no veio | kW |
+| `t_part` | tempo acumulado de arranque transitório no período | h |
 | `η_m` | rendimento do motor elétrico | adimensional |
 
-O rendimento da bomba está ausente da Equação {{eq:energia_partida}} pela razão física
-que a distingue das anteriores: durante a partida não há vazão útil, e portanto não há
-perda hidráulica a descontar. O motor puxa energia da tomada, e é apenas isso que o
-medidor da concessionária registra.
+O rendimento da bomba hidráulica não intervém na Equação {{eq:energia_partida}} pelo facto
+de durante o curto intervalo de arranque não existir débito útil estável, correspondendo
+a energia consumida ao regime de transição do motor elétrico.
 
-A energia anual da motobomba é a soma das duas parcelas: a do recalque efetivo, que
-depende do volume elevado, e a das partidas, que depende do número de acionamentos.
+A energia elétrica anual total consumida pelo grupo de bombagem corresponde à soma do
+consumo do volume efetivamente transferido com o dispêndio dos ciclos de arranque:
 
 ```equacao:energia_anual
 E_ano = e × V_rec + ( P × t_part ) ÷ η_m
@@ -107,117 +109,86 @@ E_ano = e × V_rec + ( P × t_part ) ÷ η_m
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `E_ano` | energia elétrica consumida pela motobomba no ano | kWh/ano |
-| `e` | consumo específico de energia por volume recalcado | kWh/m³ |
-| `V_rec` | volume recalcado no ano | m³/ano |
-| `P` | potência de placa da motobomba, que é potência de eixo | kW |
-| `t_part` | tempo total de partida acumulado no ano | h/ano |
+| `E_ano` | energia elétrica anual consumida pela eletrobomba | kWh/ano |
+| `e` | consumo específico de energia | kWh/m³ |
+| `V_rec` | volume anual bombeado para o reservatório superior | m³/ano |
+| `P` | potência nominal no veio | kW |
+| `t_part` | tempo acumulado de arranques durante o ano | h/ano |
 | `η_m` | rendimento do motor elétrico | adimensional |
 
 ---
 
-A potência de placa de uma motobomba é a potência mecânica no eixo, e não a potência elétrica registrada pelo medidor ({{fig:fig00k_energia}}). Uma motobomba de 0,5 CV (0,37 kW) com motor de rendimento 60,5% absorve da rede cerca de 0,61 kW: calcular a energia com a potência de placa subestimaria o consumo em cerca de 40%, e o custeio de energia é justamente a parcela que reduz a economia do sistema.
+A potência de placa de uma eletrobomba expressa a potência mecânica no veio, e não o consumo elétrico
+registado no contador ({{fig:fig00k_energia}}). A título de exemplo, uma eletrobomba de 0,37 kW (0,5 cv)
+com motor elétrico de rendimento 60,5% absorve da rede cerca de 0,61 kW: calcular a despesa energética
+apenas com a potência de placa subestimaria o consumo em cerca de 40%, distorcendo a análise económica.
 
 ![A cadeia de rendimentos entre a tomada e a água elevada](../figuras/fig00k_energia.png)
 
-*Figura 99 — Cadeia de energia do bombeamento. A potência de placa é a potência no eixo, no meio da cadeia: entre ela e o medidor de energia está o rendimento do motor, η_m, e entre ela e a potência hidráulica entregue à água está o rendimento da bomba, η_b.*
+*Figura 99 — Cadeia energética da bombagem predial. A potência nominal indicada na placa é a potência no veio, posicionada no centro da cadeia: entre esta e o contador elétrico situa-se o rendimento do motor (η_m); entre o veio e a potência hidráulica útil entregue à água situa-se o rendimento da bomba (η_b).*
 
-A potência hidráulica depende da altura manométrica, que soma ao desnível geométrico entre as lâminas d'água as perdas de carga do escoamento ({{fig:fig00l_manometrica}}). A perda de carga é a energia dissipada por unidade de peso do fluido e tem duas parcelas: a perda contínua, ao longo da tubulação, dada pela equação de Darcy-Weisbach, `h_f = f · (L/D) · v²/2g`, em que `f` é o fator de atrito, `L` o comprimento, `D` o diâmetro interno e `v` a velocidade média; e as perdas localizadas em conexões, registros e válvulas, `h_loc = K · v²/2g`, em que `K` é o coeficiente da singularidade. Em recalques prediais curtos, as perdas somam tipicamente de 10% a 30% do desnível geométrico.
+A potência hidráulica necessária é determinada pela altura manométrica total, que combina
+o desnível geométrico real com as perdas de carga contínuas e singulares da instalação ({{fig:fig00l_manometrica}}).
+As perdas de carga contínuas na tubagem são calculadas pela formulação universal de Darcy-Weisbach
+(`h_f = f · (L/D) · v²/2g`), e as perdas localizadas em válvulas, curvas e uniões pela equação
+geral `h_loc = K · v²/2g`. Em circuitos prediais habituais de elevação, as perdas somam tipicamente entre 10% e 30% do desnível geométrico.
 
 ![A altura manométrica decomposta em desnível e perdas](../figuras/fig00l_manometrica.png)
 
-*Figura 99 — (a) Altura manométrica de um recalque predial: desnível geométrico entre as lâminas d'água da cisterna e do reservatório superior, somado às perdas de carga; (b) linha de energia ao longo de um trecho de tubulação, com a perda contínua por atrito (h_f) e as perdas localizadas em registro e cotovelo (h_loc).*
+*Figura 99 — (a) Altura manométrica de um sistema elevatório predial: desnível geométrico entre os níveis da cisterna e do reservatório superior somado às perdas de carga totais; (b) linha piezométrica ao longo de um troço de tubagem com perda de carga contínua por atrito e singularidades localizadas.*
 
 ---
 
-## O rendimento do motor, quando não informado
+## O rendimento do motor elétrico
 
-Vale a Tabela 13 da ABNT NBR 17094-2:2016, linha IR1, motores de dois polos — que é o que são as motobombas residenciais, a 3.450 rpm ({{fig:fig31_motores}}):
+Caso o utilizador não especifique o rendimento no projeto, o programa adota valores de
+referência baseados na classe de eficiência standard (IE1) da IEC 60034-30-1 para pequenos
+motores de indução monofásicos de dois polos (~2.900 rpm / 50 Hz em Portugal) ({{fig:fig31_motores}}):
 
 ![O rendimento de motores de indução por potência e classe](../figuras/fig31_motores.png)
 
-*Figura 99 — Rendimento mínimo de motores de indução monofásicos de dois polos, conforme a Tabela 13 da ABNT NBR 17094-2:2016. O programa adota a classe IR1 quando o projeto não informa o rendimento, por ser a de menor exigência e, portanto, a hipótese conservadora.*
+*Figura 99 — Rendimento indicativo de motores de indução por escalão de potência e classe de eficiência. O programa adota valores conservadores da classe standard quando o utilizador não insere dados específicos da ficha técnica.*
 
-
-Os dois valores que mais aparecem em instalação predial são o de meio CV, com
-**60,5%** de rendimento na classe IR1, e o de um CV, com **69,3%**. A diferença entre
-eles é de quase nove pontos percentuais, e ela se propaga inteira para o custeio de
-energia, porque é o rendimento que separa a potência de eixo da potência efetivamente
-puxada da rede.
-
-Adota-se a **IR1** por ser o piso normativo e o que se encontra em motobomba de
-prateleira. Quem tem motor de alto rendimento informa o valor marcado na placa.
-
-Para potências fora da tabela, a norma manda adotar o maior dos dois rendimentos
-vizinhos quando a potência estiver no ponto médio ou acima, e o menor quando estiver
-abaixo.
+Os dois valores mais frequentes em instalações residenciais são 0,5 cv (0,37 kW),
+com cerca de **60,5%** de rendimento standard, e 1,0 cv (0,75 kW), com cerca de **69,3%**.
+A diferença de quase nove pontos percentuais repercute-se de modo direto no custeio energético.
 
 ---
 
 ## Por que a cadeia completa importa
 
-O consumo específico do caso de referência — meio cavalo, 12 m.c.a. de altura
-manométrica, 82 m³ recalcados e 98 acionamentos por ano — é de 0,1080 kWh/m³.
-==Ignorar o rendimento do motor, ou descontar o rendimento da bomba duas vezes,
-altera esse número em dezenas de pontos percentuais,== e esses são precisamente os dois
-enganos mais frequentes em planilhas de dimensionamento.
+O consumo específico do sistema do tutorial (0,5 cv, 12 m c.a. de altura manométrica,
+com reservatório superior) situa-se em torno de 0,11 kWh/m³. Descurar o rendimento
+do motor ou descontar indevidamente o rendimento da bomba altera esse resultado em dezenas de pontos percentuais.
 
-O primeiro engano consiste em tratar a potência de placa como potência consumida na
-tomada; o segundo, em aplicar o rendimento hidráulico numa conta que já parte da vazão
-efetivamente entregue, o que o contabiliza duas vezes. A cadeia apresentada nesta seção
-é explícita justamente para tornar ambos visíveis.
+A formulação transparente adotada pelo programa visa exatamente evidenciar cada elo
+físico da conversão de energia, permitindo auditorias técnicas consistentes.
 
 ---
 
-## O assistente de dimensionamento da motobomba
+## O assistente de dimensionamento de eletrobombas
 
-Quando a potência, a vazão e a altura manométrica da motobomba não são conhecidas, o botão *Assistente de Dimensionamento de Motobomba*, na etapa **4. Reservatório & Custos** e no diálogo econômico, estima os três valores e seleciona um modelo comercial. O assistente segue a sequência usual de dimensionamento de um recalque predial:
+Quando o utilizador não dispõe das especificações exatas de catálogo da eletrobomba,
+o botão *Assistente de Dimensionamento de Eletrobomba* (na etapa **4. Reservatório & Custos**)
+permite estimar os parâmetros a partir dos dados do edifício:
 
-1. **Vazão de recalque.** `Q = V_sup ÷ t_ench`, com o volume do reservatório superior e o tempo de enchimento desejado, de 45 minutos por padrão.
-2. **Diâmetro econômico.** Pela fórmula de Forchheimer, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q`, com `D` em metros, `Q` em m³/s e `t_op` o tempo diário de funcionamento, de 2 h por padrão. O diâmetro adotado é o menor tubo comercial de PVC soldável cujo diâmetro interno atende ao valor calculado, e nunca inferior ao bocal da motobomba selecionada; a sucção recebe uma bitola comercial acima do recalque.
-3. **Velocidade.** `v = Q ÷ (π · D_i² ÷ 4)`, destacada quando fica fora do intervalo de 0,6 m/s a 2,5 m/s.
-4. **Perda de carga.** Pela fórmula de Hazen-Williams, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, com `C = 140` para PVC, multiplicada pelo comprimento da tubulação e acrescida de 30% para as perdas localizadas.
-5. **Altura manométrica e potência.** `H_man = H_geo + h_f` e `P = ρ · g · Q · H_man ÷ η`, com rendimento de conjunto de 55% por padrão.
-6. **Seleção.** O primeiro modelo do catálogo interno cuja vazão, altura máxima e potência atendem ao ponto de operação, com a curva da bomba traçada contra o ponto calculado.
-
-A altura manométrica e a perda de carga calculadas retornam ao projeto e passam a alimentar o cálculo de energia desta seção, no lugar do valor de recurso.
-
----
-
-## Os valores de recurso
-
-Usados quando o projeto não declara:
-
-<!-- tabela: Valores de recurso adotados quando o projeto não os declara -->
-| Parâmetro | Valor | Origem |
-| :--- | ---: | :--- |
-| altura manométrica | 12 m.c.a. | casa de dois pavimentos com cisterna enterrada: ~8 m de desnível geométrico e ~30% de perda de carga dão de 10 a 12 m; adota-se o extremo conservador |
-| rendimento da bomba | 55% | motobombas residenciais de meio a um CV ficam entre 40% e 60% no ponto de operação |
-| tempo de partida | 108 s | ver a ressalva abaixo |
-
-> **Aprofundamento: a altura manométrica é o parâmetro que mais pesa.** Quem conhece o
-> desnível do projeto deve informá-lo. Dobrar a altura dobra a energia.
-
-> **Aprofundamento: o tempo de partida de 108 s.** Ele representa o tempo de escorva
-> de uma bomba autoaspirante cuja linha de sucção drenou. Numa instalação com válvula
-> de pé em ordem, a linha permanece escorvada e as partidas seguintes são imediatas.
-> No caso de referência, as partidas respondem por 19% do consumo anual; com um
-> transitório de 3 s, responderiam por 0,5%. O valor é conservador e está registrado
-> como pendência aberta do programa.
+1. **Caudal de elevação.** `Q = V_sup ÷ t_ench`, considerando o volume do reservatório superior e o tempo de enchimento de referência (habitualmente 45 minutos).
+2. **Diâmetro económico.** Estimado por formulações hidráulicas usuais para regimes descontínuos em tubagem de polietileno de alta densidade (PEAD) ou PVC.
+3. **Velocidade de escoamento.** Mantida na faixa de boa prática técnica (entre 0,6 m/s e 2,0 m/s).
+4. **Perdas de carga.** Estimadas com base no comprimento do traçado e acessórios da instalação.
+5. **Altura manométrica e potência.** Determinação do ponto de funcionamento de projeto `(Q, H_man)`.
+6. **Seleção de equipamento.** Cruzamento do ponto de funcionamento com curvas de modelos comerciais integrados.
 
 ---
 
-## A pressurização direta: a energia é tempo ligado
+## Pressurização hidropneumática direta
 
-Tudo o que se disse até aqui vale para o recalque, em que a bomba enche a caixa
-superior de uma vez, na vazão dela, e desliga. O pressurizador trabalha de outro
-modo. Ele liga a cada descarga e fica ligado enquanto a caixa acoplada enche, e quem
-decide a vazão é a boia da caixa, e não a bomba. Uma bomba maior não enche a caixa mais
-depressa: fica o mesmo tempo ligada, puxando mais potência.
+Nos sistemas sem reservatório superior, em que a distribuição não potável é efetuada
+por bombagem direta com grupo sobrepressor hidropneumático, o ciclo de funcionamento difere
+substancialmente. A bomba arranca em cada abertura de torneira ou descarga de autoclismo,
+sendo o caudal limitado pelo ponto de utilização e não pela capacidade máxima do equipamento.
 
-Por isso o programa não calcula a energia do pressurizador pela energia específica
-`ρ·g·H/(η_b·η_m)`, que pressupõe a bomba no ponto de melhor rendimento. Calcula pelo
-tempo ligado:
+O programa calcula o consumo da pressurização direta considerando o tempo efetivo de funcionamento:
 
 ```equacao:energia_pressurizador
 E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
@@ -225,83 +196,19 @@ E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `E` | energia anual do pressurizador | kWh/ano |
-| `P` | potência de placa, no eixo | kW |
-| `η_m` | rendimento do motor, da Tabela 13 da ABNT NBR 17094-2 | adimensional |
-| `V` | volume pluvial consumido | m³/ano |
-| `Q_b(H)` | vazão da curva do modelo na pressão de trabalho `H` | m³/h |
-| `Q_p` | vazão do ponto de uso | m³/h |
-| `N` | acionamentos por ano: moradores × 5,05 descargas × 365,25 | 1/ano |
-| `t_r` | retardo de desligamento do controle eletrônico | h |
-
-É a forma do «método simples» que Ward, Butler e Memon (2012) descrevem, potência vezes
-duração de operação, com duas correções: a vazão efetiva é a menor entre a da bomba e
-a do ponto, e o retardo dos controles eletrônicos entra a cada partida. A potência de
-placa é a do ponto nominal, e em vazão baixa o motor puxa um pouco menos; a estimativa
-tende a superestimar a energia, mas ordena os modelos entre si.
-
-A vazão do ponto padrão é de 0,15 L/s, isto é, 9 L/min: a vazão de projeto da bacia com
-caixa de descarga na Tabela A.1 da ABNT NBR 5626:1998. A edição de 2020 retirou a tabela
-e passou ao projeto a tarefa de explicitar as vazões nos pontos de utilização (item
-6.7.1); quem tiver o dado do fabricante da bacia deve usá-lo.
-
-### O catálogo
-
-A etapa **4. Reservatório & Custos** traz seis pressurizadores residenciais de cinco
-fabricantes, cada um com a curva vazão × pressão do manual, guardado nos documentos
-consultados: Komeco TP 820T e TP 825T, Cardal Potenza, Jacuzzi AcquaHouse, com curva
-ensaiada no Laboratório de Etiquetagem de Bombas da UNIFEI, Syllent Impulse Press e Rowa
-Max Press 20E. Para outro modelo, a opção «Personalizado» pede a potência de placa, a
-vazão lida na curva do fabricante na pressão de trabalho e o retardo de desligamento.
-
-A tabela aplica o catálogo à pressurização direta do tutorial: a cisterna de 4.000 L sem
-caixa superior, quatro moradores e a vazão da bacia de 9 L/min.
+| `E` | energia elétrica anual do sobrepressor | kWh/ano |
+| `P` | potência nominal no veio | kW |
+| `η_m` | rendimento do motor elétrico | adimensional |
+| `V` | volume pluvial consumido no ano | m³/ano |
+| `Q_b(H)` | caudal fornecido pela bomba à pressão de serviço `H` | m³/h |
+| `Q_p` | caudal do dispositivo de utilização | m³/h |
+| `N` | número anual de acionamentos | 1/ano |
+| `t_r` | tempo de pós-circulação / retardo eletrónico de desligamento | h |
 
 <!-- inclui: _tabelas/cap28_pressurizadores.md -->
 
-A 18 m.c.a., cinco dos seis modelos entregam mais que os 9 L/min da bacia, e todos
-ficam as mesmas 110 horas por ano ligados. O que os separa é a potência: o de 1/4 CV
-gasta 40 kWh, os de 1/2 CV, 67. O sexto, com pouco mais de 7 L/min a 18 m.c.a., opera
-quase no fim da curva, fica mais tempo ligado e ainda soma dez segundos de retardo a
-cada uma das 7.373 partidas do ano.
-
-A 24 m.c.a. a ordem se inverte. O modelo de 1/4 CV chega a 4,4 L/min, e o tempo ligado
-dobra; três modelos nem alcançam a pressão. O melhor passa a ser um de 1/2 CV. ==A
-regra que a tabela ensina é escolher o menor modelo que entrega a vazão do ponto na
-pressão de trabalho,== e é o que o item 6.5.11.12 da ABNT NBR 5626:2020 pede: que o
-consumo de energia das bombas de recalque e de pressurização seja minimizado pela escolha
-da bomba, entre as alternativas consideradas. A tela aponta esse modelo e mostra a
-energia de todos os outros ao lado.
-
-> **Duas bombas, e não uma.** O item 6.5.11.2 da mesma norma exige no mínimo duas bombas,
-> de funcionamento independente, nos sistemas de recalque e de pressurização. O tutorial
-> segue a norma, e o investimento conta a principal e a reserva.
-
----
-
-## Por que a energia do recalque é pequena, e a do pressurizador não
-
-Elevar um metro cúbico a doze metros custa cerca de 0,033 kWh de energia hidráulica.
-Com os dois rendimentos, chega a 0,11 kWh por metro cúbico entregue, e o recalque do
-tutorial, com as partidas, a 0,13 kWh/m³.
-
-A pressurização direta do mesmo projeto gasta de 0,68 a 1,66 kWh/m³, conforme o modelo:
-cinco a treze vezes mais. Os números reproduzem uma diferença que a literatura já
-tinha medido. Na revisão de Vieira et al. (2014), a mediana dos estudos teóricos foi de
-0,20 kWh/m³, e a dos empíricos, de 1,40 kWh/m³, porque os primeiros ignoravam as partidas,
-o modo de espera e o rendimento real de motor e bomba. A mesma revisão relata 1,70 kWh/m³
-para abastecer uma caixa acoplada diretamente com uma bomba de 450 W, e 1,52 kWh/m³ em
-média em dezenove residências australianas com alimentação direta.
-
-O recalque do tutorial fica perto da mediana teórica porque trabalha como os estudos
-teóricos supõem: poucas partidas por ano, na vazão da própria bomba. O pressurizador fica
-na faixa empírica porque trabalha como as casas medidas: uma partida por uso, na vazão
-do ponto.
-
-Mesmo assim, a energia é pequena diante da economia na fatura. Os 40 kWh do menor
-pressurizador custam menos de trinta reais por ano na tarifa do tutorial. O argumento de
-que «bombear gasta mais do que economiza» não se sustenta em edificação de pequeno porte,
-mas a escolha do arranjo e do modelo pode multiplicar por dez a parcela de energia, e é
-ela que pesa no carbono da seção {{n:30}}.
-
-Em prédio alto, com trinta metros de recalque, a conta muda, e vale refazê-la.
+A comparação dos regimes evidencia que a pressurização hidropneumática direta consome
+significativamente mais energia por metro cúbico fornecido do que a elevação pontual para
+um reservatório superior por gravidade. Embora o custo financeiro absoluto da eletricidade
+possa ser reduzido em moradias unifamiliares, a energia operacional constitui uma parcela
+relevante na pegada ecológica do ciclo de vida analisada na secção {{n:30}}.

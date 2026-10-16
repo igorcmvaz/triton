@@ -75,12 +75,12 @@ class Pressurizador:
         return self.potencia_cv * CV_TO_KW
 
     @property
-    def pressao_maxima_m(self) -> float:
-        return max(h for _, h in self.curva)
-
-    @property
     def potencia_eletrica_kw(self) -> float:
         return self.potencia_kw / rendimento_do_motor(self.potencia_kw)
+
+    @property
+    def pressao_maxima_m(self) -> float:
+        return max(h for _, h in self.curva) if self.curva else 0.0
 
     def vazao_l_min(self, pressao_m: float) -> float:
         """Vazão da curva na pressão pedida; zero acima da pressão máxima."""

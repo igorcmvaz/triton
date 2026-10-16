@@ -13,7 +13,7 @@ from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 import os
 import math
 from html import escape
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Dict, Any, Optional
 from datetime import datetime
 from pathlib import Path
 

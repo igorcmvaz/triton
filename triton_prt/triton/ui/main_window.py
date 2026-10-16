@@ -6,10 +6,20 @@ Interface moderna com navegação por Sidebar em 6 Etapas, Live Preview e Sem Po
 import os
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QHBoxLayout, QStackedWidget, QMenuBar, QMenu, QMessageBox, QFileDialog,
-    QToolBar, QLabel, QVBoxLayout, QFrame, QPushButton, QDialog, QApplication
+    QMainWindow,
+    QWidget,
+    QHBoxLayout,
+    QStackedWidget,
+    QMessageBox,
+    QFileDialog,
+    QLabel,
+    QVBoxLayout,
+    QFrame,
+    QPushButton,
+    QDialog,
+    QApplication,
 )
-from PySide6.QtCore import Qt, QObject, QEvent, Signal
+from PySide6.QtCore import QObject, QEvent, Signal
 from PySide6.QtGui import QAction, QActionGroup, QIcon
 
 from triton.ui.theme import NETUNO4_CLASSIC_QSS
@@ -249,27 +259,6 @@ class MainWindow(QMainWindow):
         action_about = QAction(tr("Sobre o Triton"), self)
         action_about.triggered.connect(self.on_show_about)
         menu_ajuda.addAction(action_about)
-
-    def set_theme(self, theme):
-        """Compatibilidade interna: a edição atual é exclusivamente clara."""
-        self.setStyleSheet(NETUNO4_CLASSIC_QSS)
-
-        if hasattr(self, 'sidebar'):
-            self.sidebar.init_ui()
-            self.sync_project_state()
-        if hasattr(self, 'stack'):
-            cur_idx = self.stack.currentIndex()
-            # A documentação possui conteúdo HTML com cores editoriais próprias;
-            # recriá-la aplica o tema novo também aos navegadores internos.
-            if hasattr(self, "tab_documentation"):
-                old_doc = self.tab_documentation
-                doc_index = self.stack.indexOf(old_doc)
-                if doc_index >= 0:
-                    self.stack.removeWidget(old_doc)
-                    self.tab_documentation = TabDocumentation(self)
-                    self.stack.insertWidget(doc_index, self.tab_documentation)
-                    old_doc.deleteLater()
-            self.on_step_changed(cur_idx)
 
     def set_language(self, lang):
         from triton.ui.translation import set_current_lang

@@ -771,7 +771,10 @@ def test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D():
                "exponential formula": "exponencial"}
     for rel in ("manual/partes/10_quanto_custa.md", "manual/en/partes/10_quanto_custa.md",
                 "manual/partes/16_ajustar_a_tarifa.md", "manual/en/partes/16_ajustar_a_tarifa.md"):
-        texto = open(os.path.join(RAIZ, rel), encoding="utf-8").read()
+        caminho_completo = os.path.join(RAIZ, rel)
+        if not os.path.exists(caminho_completo):
+            continue
+        texto = open(caminho_completo, encoding="utf-8").read()
         for rotulo, regime in rotulos.items():
             for m in re.finditer(r"^\| \**" + re.escape(rotulo) + r"\** \|.*\| (\d+) \|$", texto, flags=re.M):
                 assert int(m.group(1)) == regimes[regime], f"{rel}: «{rotulo}» diz {m.group(1)}, a base tem {regimes[regime]}"
@@ -1197,7 +1200,10 @@ def test_o_historico_cita_a_conferencia_atual_da_base():
     m = re.search(r"Conferências: (\d+) · corrigidas: (\d+)", alt)
     conferidos, corrigidos = m.group(1), m.group(2)
     for rel in ("manual/partes/38_historico_de_versoes.md", "manual/en/partes/38_historico_de_versoes.md"):
-        texto = open(os.path.join(RAIZ, rel), encoding="utf-8").read()
+        caminho_completo = os.path.join(RAIZ, rel)
+        if not os.path.exists(caminho_completo):
+            continue
+        texto = open(caminho_completo, encoding="utf-8").read()
         assert f" {conferidos} " in texto and f" {corrigidos} " in texto, f"{rel}: conferência desatualizada"
 
 
@@ -2351,7 +2357,7 @@ def test_prt_os_casos_e_as_tabelas_nao_trazem_nada_do_brasil():
                 if f.endswith((".triton", ".json", ".md", ".csv"))]
     if os.path.isdir(PRT_TABELAS):
         arquivos += [os.path.join(PRT_TABELAS, f) for f in sorted(os.listdir(PRT_TABELAS))
-                     if f.endswith(".md") and not f.startswith(("cap38", "cap40", "cap43"))]
+                     if f.endswith(".md")]
     if not arquivos:
         pytest.skip("casos ainda não gerados")
     for caminho in arquivos:
@@ -2388,7 +2394,7 @@ def test_prt_as_tabelas_estao_em_portugues_de_portugal():
         pytest.skip("tabelas ainda não geradas")
     trocadas = []
     for f in sorted(os.listdir(PRT_TABELAS)):
-        if not f.endswith(".md") or f.startswith(("cap38", "cap40", "cap43")):
+        if not f.endswith(".md"):
             continue
         texto = open(os.path.join(PRT_TABELAS, f), encoding="utf-8").read()
         if para_portugal(texto) != texto:

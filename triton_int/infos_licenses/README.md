@@ -268,16 +268,16 @@ triton_int/
 
 ## Citação
 
-> VAZ, I. C. M.; GHISI, E. Triton 1.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações. Florianópolis: Universidade Federal de Santa Catarina, Grupo de Pesquisa em Ambientes Sustentáveis, 2026. Software de computador, versão 1.0.0.
+> VAZ, I. C. M.; GHISI, E. Triton 0.1.0: programa computacional para simulação de aproveitamento de água de chuva em edificações. Florianópolis: Universidade Federal de Santa Catarina, Grupo de Pesquisa em Ambientes Sustentáveis, 2026. Software de computador, versão 0.1.0.
 
 ```bibtex
 @software{triton_0_1,
   author  = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  title   = {Triton 1.0.0: programa computacional para simulação de aproveitamento de água de chuva em edificações},
+  title   = {Triton 0.1.0: programa computacional para simulação de aproveitamento de água de chuva em edificações},
   year    = {2026},
   publisher = {Universidade Federal de Santa Catarina},
   address = {Florianópolis},
-  version = {1.0.0}
+  version = {0.1.0}
 }
 ```
 

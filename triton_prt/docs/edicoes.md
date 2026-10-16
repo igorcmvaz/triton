@@ -91,7 +91,7 @@ outras e na CLI.
 | ponto de entrada | `main.py` em `triton_prt` |
 | compilação | `python build_exe.py`, dentro da pasta |
 | pasta | `dist/Triton_PRT/`, `Triton_PRT.exe` |
-| instalador | `Triton_PRT_Setup_1_0_0.exe` (`/DEdition=PRT`) |
+| instalador | `Triton_PRT_Setup_0_1_0.exe` (`/DEdition=PRT`) |
 | pasta de instalação | `Triton Portugal` |
 | associação dos `.triton` | desmarcada |
 | base E-OBS de Portugal (`data/portugal_eobs.db`, ~6 MB, no git) | embutida; a compilação para se faltar |

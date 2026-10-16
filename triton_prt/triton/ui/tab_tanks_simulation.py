@@ -4,13 +4,21 @@ Todos os inputs: varredura, reservatorios, parametros financeiros, CAPEX, OPEX e
 """
 
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea, QInputDialog,
-    QApplication
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QGridLayout,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QComboBox,
+    QMessageBox,
+    QFrame,
+    QScrollArea,
+    QApplication,
 )
 from PySide6.QtCore import Signal, Qt, QTimer
-from PySide6.QtGui import QFont
-import math
 from triton.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
 from triton.core.fracao_atendivel import validar_fracao
 from triton.core.dados_do_relatorio import MOEDAS as _MOEDAS, MOEDAS_DA_INTERNACIONAL as _MOEDAS_DA_INTERNACIONAL
@@ -18,13 +26,12 @@ from triton.ui.translation import tr, get_current_theme
 from triton.ui.textos_da_edicao import dica_modelos_de_pressurizador, dica_potencia_de_placa
 
 from triton.core.simulation import (
-    SWEEP_STEP_QUANTUM_L,
     build_sweep_volume_grid,
     run_single_simulation,
     run_sweep_simulation,
     nome_regra_operacional,
 )
-from triton.core.parser import parse_float, parse_int, format_ptbr
+from triton.core.parser import parse_float, format_ptbr
 from triton.core.cost_estimates import precos_de_catalogo
 
 
@@ -1398,63 +1405,6 @@ class TabTanksSimulation(QWidget):
             "positive_volume_count": grid_plan.positive_volume_count,
         }
 
-    def suggest_sweep_parameters(self):
-        """Preenche referências opcionais e editáveis de varredura."""
-        if self.precip_data is None or len(self.precip_data) == 0:
-            main_win = self.window()
-            if main_win and hasattr(main_win, "tab_project"):
-                self.precip_data = getattr(main_win.tab_project, "precip_data", None)
-        if self.precip_data is None or len(self.precip_data) == 0:
-            QMessageBox.warning(self, tr("Aviso"), tr("Carregue um arquivo de precipitacao na Etapa 1 antes de solicitar a sugestao."))
-            return
-
-        main_win = self.window()
-        building = None
-        if main_win and hasattr(main_win, "tab_building"):
-            building = main_win.tab_building.get_building_config()
-        if not building:
-            QMessageBox.warning(self, tr("Aviso"), tr("Preencha os dados da edificacao na Etapa 2 antes de solicitar a sugestao."))
-            return
-
-        sdii_mm_day = 0.0
-        project_tab = getattr(main_win, "tab_project", None) if main_win else None
-        indices = getattr(project_tab, "climate_indices_df", None)
-        try:
-            values = [float(value) for value in indices["SDII"].dropna().tolist()]
-            sdii_mm_day = sum(values) / len(values) if values else 0.0
-        except Exception:
-            wet_days = [float(value) for value in self.precip_data if float(value) >= 1.0]
-            sdii_mm_day = sum(wet_days) / len(wet_days) if wet_days else 0.0
-        if sdii_mm_day <= 0:
-            QMessageBox.warning(self, tr("Aviso"), tr("A serie de chuva nao possui dias umidos suficientes para calcular o SDII."))
-            return
-
-        res = self._calculate_suggested_sweep(building, sdii_mm_day)
-        sweep_max_l = res["sweep_max_l"]
-        sweep_step_l = res["sweep_step_l"]
-
-        self._setting_auto_sweep = True
-        try:
-            self.txt_sweep_max.setText(format_ptbr(sweep_max_l, 0, thousands=False))
-            self.txt_sweep_step.setText(format_ptbr(sweep_step_l, 0, thousands=False))
-            self._auto_sweep_max_value = sweep_max_l
-            self._auto_sweep_step_value = sweep_step_l
-        finally:
-            self._setting_auto_sweep = False
-        # Mantém txt_delta_ideal e txt_pump_thresh_pct em Personalizado com destaque amarelo para o usuário definir
-        if not self.txt_delta_ideal.text().strip():
-            self.check_input_highlight(self.txt_delta_ideal)
-        if not self.txt_pump_thresh_pct.text().strip():
-            self.check_pump_threshold_highlight()
-
-        self.lbl_sweep_guidance.setText(
-            tr("💡 Sugestão automática: Demanda pluvial de {dem} L/dia ({days:.0f} dias de autonomia com SDII = {sdii} mm/d) | Volume máx: {maximum} L (passo de {step} L, {points} volumes).").format(
-                dem=format_ptbr(res["pluvial_demand_day"], 0), days=res["autonomy_days"],
-                sdii=format_ptbr(sdii_mm_day, 1), maximum=format_ptbr(sweep_max_l, 0),
-                step=format_ptbr(sweep_step_l, 0), points=res["positive_volume_count"],
-            )
-        )
-
     def _on_sweep_max_changed(self):
         if not self._setting_auto_sweep:
             self._auto_sweep_max_value = None
@@ -1733,56 +1683,6 @@ class TabTanksSimulation(QWidget):
                 QMessageBox.critical(self, tr("Erro na Simulacao"), f"{tr('Falha ao executar simulacao')}:\n{str(e)}")
         finally:
             self._is_simulating = False
-
-    def on_select_threshold_volume(self):
-        if not self.last_sweep_result or not self.last_sweep_result.optimal_lower_tank_vol:
-            QMessageBox.information(self, tr("Aviso"), tr("Execute a Varredura de Volumes primeiro."))
-            return
-        self.selected_volume_mode = "threshold"
-        self._recalculate_selected_volume(self.last_sweep_result.optimal_lower_tank_vol)
-
-    def on_select_custom_volume(self):
-        curr = self.last_single_result.lower_tank_vol if self.last_single_result else 5000.0
-        val, ok = QInputDialog.getDouble(
-            self, tr("Volume Fixo Customizado"),
-            tr("Volume do reservatorio inferior (Litros):"), curr, 100.0, 500000.0, 0
-        )
-        if ok:
-            self.selected_volume_mode = "custom"
-            self.custom_selected_vol = val
-            self._recalculate_selected_volume(val)
-
-    def _recalculate_selected_volume(self, target_vol=None):
-        if target_vol is None:
-            target_vol = self.last_single_result.lower_tank_vol if self.last_single_result else 5000.0
-        if self.precip_data is None or len(self.precip_data) == 0:
-            return
-        upper_vol = float(self.txt_upper_vol.text().replace(",", "."))
-        upper_used = (self.combo_upper_mode.currentIndex() != 2)
-        try:
-            pump_thresh_pct = float(self.txt_pump_thresh_pct.text().replace(",", "."))
-        except Exception:
-            pump_thresh_pct = 10.0
-        pump_thresh_vol = (upper_vol * (pump_thresh_pct / 100.0)) if upper_used else 0.0
-        b_cfg = {"area": 100.0, "demand": 200.0, "residents": 4, "runoff": 0.75, "share": 0.4,
-                 "monthly_demands": None, "monthly_residents": None}
-        discard_mm = 2.0; start_date_str = "01/01/1980"; discard_mode = 1; discard_days = 7
-        main_win = self.window()
-        if main_win and hasattr(main_win, "tab_building"):
-            b_cfg = main_win.tab_building.get_building_config()
-        if main_win and hasattr(main_win, "tab_project"):
-            try:
-                discard_mm = float(main_win.tab_project.txt_discard.text().replace(",", "."))
-            except Exception:
-                discard_mm = 2.0
-            discard_mode = main_win.tab_project.get_discard_mode()
-            discard_days = main_win.tab_project.get_discard_days()
-            start_date_str = main_win.tab_project.txt_start_date.text()
-        self._run_single_sim_for_target_volume(
-            target_vol, b_cfg["area"], b_cfg, discard_mm,
-            upper_vol, upper_used, pump_thresh_vol, pump_thresh_pct,
-            start_date_str, discard_mode, discard_days
-        )
 
     def _run_single_sim_for_target_volume(self, target_vol, area, b_cfg, discard_mm,
                                            upper_vol, upper_used, pump_thresh_vol, pump_thresh_pct,

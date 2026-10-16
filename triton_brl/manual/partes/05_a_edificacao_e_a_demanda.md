@@ -135,7 +135,7 @@ e aparece num campo que não se edita, porque é resultado e não dado. Sem dema
 a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
 suficiente para a maior parte dos estudos.
 
-> **Por que a total não se digita.** Até a versão 1.0.0 o campo da fração total era
+> **Por que a total não se digita.** Antes da versão 0.1.0 o campo da fração total era
 > editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
 > a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
 > que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é

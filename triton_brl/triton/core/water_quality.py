@@ -50,7 +50,7 @@ from triton.core.grid_emission_factors import BASE_PADRAO, fator_co2eq
 # Preco medio da energia eletrica residencial usado para o custo operacional
 # do reator UV. Permanece premissa interna, editavel.
 ENERGY_PRICE_BRL_PER_KWH = 0.95
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 @dataclass
