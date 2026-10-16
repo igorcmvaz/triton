@@ -5,10 +5,10 @@
   },
   "version": "1.0.0",
   "metadata": {
-    "project_id": "N5-20261015-095736-0B9021AD",
-    "name": "Example - tutorial house in Cape Town (ERA5 1991-2020) [costs to be entered by the user]",
+    "project_id": "N5-20261015-212326-83DD8C10",
+    "name": "Manual, section 3.1 - the same project in Cape Town",
     "created_at": "14/10/2026 00:00",
-    "saved_at": "15/10/2026 09:57:36"
+    "saved_at": "15/10/2026 21:23:26"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11012,15 +11012,15 @@
       "discard_days_interval": 7
     },
     "reservoirs_and_pumping": {
-      "lower_tank_fixed_l": 2000.0,
+      "lower_tank_fixed_l": 4000.0,
       "lower_tank_max_l": 20000.0,
       "lower_tank_step_l": 1000.0,
-      "lower_tank_mode": 1,
+      "lower_tank_mode": 0,
       "delta_ideal_pct": 1.0,
       "phi_operation_rule": null,
       "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
-      "pumping_threshold_l": 50.0,
+      "pumping_threshold_l": 0.0,
       "supply_arrangement": "pressurizacao",
       "pressurizer_pressure_m": 18.0,
       "pressurizer_starts_per_person_day": 5.05,
@@ -11200,8 +11200,8 @@
     }
   },
   "analysis": {
-    "example": "Example - tutorial house in Cape Town (ERA5 1991-2020) [costs to be entered by the user]",
-    "costs": "Costs of works, pump and maintenance are not set: enter your own (stage 5). Until then the analysis shows only the saving on the bill.",
+    "example": "Manual, section 3.1 - the same project in Cape Town",
+    "costs": "This case compares rainfall, demand and tariff; costs of works, pump and maintenance are not set (stage 5). Enter your own to run the economic analysis.",
     "tariff_entity": "City of Cape Town",
     "tariff_validity": "01/07/2026",
     "tariff_source": "City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91. Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65, sanitation R 56.66 (total R 160.31).",

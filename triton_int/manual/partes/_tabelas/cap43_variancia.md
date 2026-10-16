@@ -5,6 +5,6 @@
 | Consumo per capita | 0,02 | 0,27 | 0,25 |
 | Fração não potável interna | 0,89 | 0,10 | 0,23 |
 | Fator das tarifas de água e esgoto | 0,01 | 0,05 | 0,01 |
-| Fator do investimento | 0,01 | 0,01 | 0,01 |
 | Fator da chuva | 0,02 | 0,01 | 0,01 |
+| Fator do investimento | 0,01 | 0,01 | 0,01 |
 | Soma | 0,99 | 0,96 | 1,01 |

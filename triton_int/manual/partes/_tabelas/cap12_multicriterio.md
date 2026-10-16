@@ -1,18 +1,18 @@
-<!-- tabela: Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
-| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
+<!-- tabela: Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
+| Volume | Potential | NPV (illustrative, not a market price) | Payback | 20-year carbon balance | Investment (illustrative, not a market price) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
-| 2 000 L | 25,89% | R$ 5 374 | 12,4 anos | 124 kg | R$ 9 897 |
-| 3 000 L | 26,80% | R$ 5 453 | 12,7 anos | 102 kg | R$ 10 809 |
-| 4 000 L | 27,30% | R$ 5 524 | 12,8 anos | 74 kg | R$ 11 283 |
-| 5 000 L | 27,58% | R$ 5 354 | 12,9 anos | 42 kg | R$ 11 757 |
-| 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
-| 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
+| 1,000 L | 21.57% | −US$ 2,338 | no payback | 196 kg | US$ 4,700 |
+| 2,000 L | 25.26% | −US$ 2,241 | no payback | 234 kg | US$ 5,250 |
+| 3,000 L | 26.39% | −US$ 2,592 | no payback | 222 kg | US$ 5,800 |
+| 4,000 L | 27.09% | −US$ 3,020 | no payback | 200 kg | US$ 6,350 |
+| 5,000 L | 27.40% | −US$ 3,516 | no payback | 171 kg | US$ 6,900 |
+| 8,000 L | 27.79% | −US$ 5,098 | no payback | 72 kg | US$ 8,550 |
+| 12,000 L | 27.96% | −US$ 7,269 | no payback | −66 kg | US$ 10,750 |
 
-<!-- tabela: Volume vencedor segundo cada critério isolado -->
-| Critério isolado | Volume que vence |
+<!-- tabela: Winning volume under each criterion taken alone -->
+| Single criterion | Winning volume |
 | :--- | ---: |
-| maior potencial de economia | 12 000 L |
-| menor payback descontado, desempate pelo VPL | 2 000 L |
-| maior saldo de carbono | 2 000 L |
-| **compromisso, pesos iguais** | **4 000 L** |
+| highest saving potential | 12,000 L |
+| shortest discounted payback, ties broken by NPV | 2,000 L |
+| highest carbon balance | 2,000 L |
+| **compromise, equal weights** | **4,000 L** |

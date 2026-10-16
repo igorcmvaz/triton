@@ -5,10 +5,10 @@
   },
   "version": "1.0.0",
   "metadata": {
-    "project_id": "N5-20261015-095736-4F383D0B",
-    "name": "Example - tutorial house in London (ERA5 1991-2020) [costs to be entered by the user]",
+    "project_id": "N5-20261015-212326-BCAB5001",
+    "name": "Manual, section 3.1 - the same project in London",
     "created_at": "14/10/2026 00:00",
-    "saved_at": "15/10/2026 09:57:36"
+    "saved_at": "15/10/2026 21:23:26"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11012,15 +11012,15 @@
       "discard_days_interval": 7
     },
     "reservoirs_and_pumping": {
-      "lower_tank_fixed_l": 2000.0,
+      "lower_tank_fixed_l": 4000.0,
       "lower_tank_max_l": 20000.0,
       "lower_tank_step_l": 1000.0,
-      "lower_tank_mode": 1,
+      "lower_tank_mode": 0,
       "delta_ideal_pct": 1.0,
       "phi_operation_rule": null,
       "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
-      "pumping_threshold_l": 50.0,
+      "pumping_threshold_l": 0.0,
       "supply_arrangement": "pressurizacao",
       "pressurizer_pressure_m": 18.0,
       "pressurizer_starts_per_person_day": 5.05,
@@ -11161,8 +11161,8 @@
     }
   },
   "analysis": {
-    "example": "Example - tutorial house in London (ERA5 1991-2020) [costs to be entered by the user]",
-    "costs": "Costs of works, pump and maintenance are not set: enter your own (stage 5). Until then the analysis shows only the saving on the bill.",
+    "example": "Manual, section 3.1 - the same project in London",
+    "costs": "This case compares rainfall, demand and tariff; costs of works, pump and maintenance are not set (stage 5). Enter your own to run the economic analysis.",
     "tariff_entity": "Thames Water",
     "tariff_validity": "01/04/2026",
     "tariff_source": "Thames Water, charges 2026-27, metered household: water GBP 2.7346 per m3 and wastewater GBP 1.4721 per m3; standing charges GBP 66.87 per year (water) and GBP 128.13 per year (wastewater; GBP 80.43 with the surface-water drainage rebate). No VAT on household water and sewerage.",

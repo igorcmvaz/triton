@@ -1,20 +1,19 @@
-<!-- tabela: Volumes dados pelos métodos do Anexo A da ABNT NBR 15527:2007 para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
-| Método | Regra | Volume | Potencial simulado |
+<!-- tabela: Volumes given by classical sizing rules for the tutorial project, rounded to 250 L, and the potential each one yields in the daily simulation -->
+| Method | Rule | Volume | Simulated potential |
 | :--- | :--- | ---: | ---: |
-| prático alemão | 6% do menor entre oferta e demanda anuais | 3 750 L | 27,00% |
-| Rippl, série mensal | maior déficit acumulado, meses | 4 500 L | 27,32% |
-| Azevedo Neto, T = 1 mês | 0,042 × P × A × T | 11 250 L | 28,00% |
-| Rippl, série diária | maior déficit acumulado, dias | 7 000 L | 27,83% |
-| prático inglês | 0,05 × P × A | 13 500 L | 28,00% |
-| **simulação diária, ganho marginal de 1 %/m³** | varredura | **4 000 L** | **27,12%** |
+| German practical rule | 6% of the smaller of annual supply and demand | 3,750 L | 26.66% |
+| Rippl, monthly series | largest accumulated deficit, months | 5,750 L | 27.43% |
+| Rippl, daily series | largest accumulated deficit, days | 8,000 L | 27.74% |
+| British practical rule | 0.05 × P × A | 8,500 L | 27.78% |
+| **daily simulation, marginal gain of 1 %/m³** | sweep | **4,000 L** | **26.83%** |
 
-<!-- tabela: Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada faixa -->
-| Volume | Fração de armazenamento S/(A·R) | Passo recomendado por Fewkes e Butler |
+<!-- tabela: Storage fraction of the sweep volumes and the simulation time step Fewkes and Butler (2000) recommend for each range -->
+| Volume | Storage fraction S/(A·R) | Time step recommended by Fewkes and Butler |
 | ---: | ---: | :--- |
-| 1 000 L | 0,0037 | horário |
-| 2 000 L | 0,0074 | horário |
-| 3 000 L | 0,0111 | diário |
-| 4 000 L | 0,0149 | diário |
-| 8 000 L | 0,0297 | diário |
-| 12 000 L | 0,0446 | diário |
-| 20 000 L | 0,0743 | diário |
+| 1,000 L | 0.0059 | hourly |
+| 2,000 L | 0.0118 | daily |
+| 3,000 L | 0.0178 | daily |
+| 4,000 L | 0.0237 | daily |
+| 8,000 L | 0.0474 | daily |
+| 12,000 L | 0.0711 | daily |
+| 20,000 L | 0.1185 | daily |
