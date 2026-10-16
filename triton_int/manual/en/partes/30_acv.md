@@ -11,7 +11,7 @@ utility.
 
 ==Triton's assessment is a screening one, not a full inventory.== The distinction matters and the
 standard recognises it: a screening assessment ranks alternatives and identifies what dominates
-the result, whereas an inventory conforming to ISO 14040 documents each elementary flow with
+the result, whereas an inventory conforming to the ISO life cycle assessment standards documents each elementary flow with
 traceable provenance and undergoes external critical review. The first serves to decide between
 polyethylene and concrete; the second, to declare an environmental performance publicly.
 
@@ -19,8 +19,8 @@ polyethylene and concrete; the second, to declare an environmental performance p
 
 ## The four phases of the standard, and where the program stands
 
-The ISO 14040 and ISO 14044 standards, published in Brazil as ABNT NBR ISO 14040 and ABNT NBR ISO
-14044, organise every life cycle assessment into four phases that feed back into one another. It is
+The international standards for life cycle assessment (the ISO 14040 series) organise every
+life cycle assessment into four phases that feed back into one another. It is
 worth going through them, because each one corresponds to a decision the program has already made
 for you, and that a published study needs to declare.
 
@@ -48,12 +48,12 @@ and {{n:20}} do with the tank material and with the other assumptions.
 
 ## The building modules
 
-For buildings, the European standard EN 15978 subdivides the life cycle into modules, and the same
-nomenclature is used in environmental product declarations according to EN 15804. Declaring which
+For buildings, the life cycle is commonly subdivided into modules A to D, a nomenclature that
+building standards and environmental product declarations share. Declaring which
 modules the study covers is the shortest and most precise way of declaring the boundary, and it is
 what a reviewer expects to find.
 
-<!-- tabela: EN 15978 life cycle modules and what the program's assessment covers in each one -->
+<!-- tabela: Building life cycle modules and what the program's assessment covers in each one -->
 | Module | Stage | Covered by the program |
 | :--- | :--- | :--- |
 | A1 to A3 | product: raw material, transport to the factory, manufacture | yes, for tanks, piping, pump sets, first flush and all the parts, fittings and cables of the 3D layout |
@@ -119,13 +119,15 @@ environmental result of the project follows from that variation.
 | Material | Mass per useful m³ | What this means in 5 m³ |
 | :--- | ---: | ---: |
 | polyethylene | 22 kg/m³ | 110 kg |
-| fibreglass | 15 kg/m³ | 75 kg |
+| fibreglass | 14.25 kg/m³ | 71 kg |
 | stainless steel | 38 kg/m³ | 190 kg |
 | reinforced concrete | 1,200 kg/m³ | 6,000 kg |
 
 > **Mass is carbon.** Reinforced concrete is by far the most massive material on the list, and
 > that is why it dominates the inventory when chosen. Section {{n:11}} shows the consequence: with
-> concrete, the tutorial system does not pay off its carbon debt within the service life.
+> a 4,000 L concrete cistern (4,800 kg, 858 kg CO₂e embodied) the tutorial system takes 32.5 years
+> to pay off its carbon debt, longer than the twenty-year service life, whereas with polyethylene
+> (88 kg, 327 kg CO₂e) it takes 12.4 years. The factors behind these figures are illustrative.
 
 ### The inventory of the tutorial project, item by item
 
@@ -134,12 +136,12 @@ cistern, a 1,000 L upper tank, two pump sets, the standard piping and the first 
 
 <!-- inclui: _tabelas/cap30_inventario.md -->
 
-Three readings matter. The first is that, even in polyethylene, the cistern accounts for almost
-half of the embodied carbon, and the tanks together for more than half. The second is that the
+Three readings matter. The first is that, even in polyethylene, the cistern accounts for more than
+two fifths of the embodied carbon (43.3%), and the tanks together for more than half (54.1%). The second is that the
 piping and the pump sets, which are usually forgotten in simplified calculations, add up to almost
 two fifths of the total: a study that counted only the tank would underestimate the embodied carbon
-by almost half. The third is in the annual column: the credit of the water avoided is about 23
-times larger than the annual emissions of pumping and chlorination together, and that is why, with
+by almost half. The third is in the annual column: the credit of the water avoided (29.69 kg a year) is about nine
+times larger than the annual emissions of pumping and chlorination together (3.31 kg), and that is why, with
 the right material, the manufacturing debt pays off.
 
 ---
@@ -159,13 +161,11 @@ E_ener = C_ano × FE_rede
 | `FE_rede` | emission factor of the electricity grid, by region and year | kg CO₂e/kWh |
 
 The annual energy consumption comes from the calculation presented in section {{n:28}}, according
-to the supply arrangement declared, and the grid emission factor comes from one of the program's
-databases. The default database, at 0.085 kg CO₂e/kWh, is a declared choice among the values
-published for the Brazilian grid: it is close to the SIDAC and CaDI values, and above the annual
-MCTI series, which covers only the carbon dioxide of generation. The alternative databases include
-the values of Vaz, Scolaro and Ghisi (2025) for the 2022 grid, 0.104 kg CO₂e/kWh for the fossil
-indicator and 0.151 for the total indicator, useful for the sensitivity analysis. In the
-International Edition the factor is typed in.
+to the supply arrangement declared, and the grid emission factor is typed in, for the place and the year
+of the study: the program carries no grid factor of its own in the International Edition. The
+manual's tutorial uses a round figure of 0.40 kg CO₂e/kWh, illustrative and not a measured value, so
+that the reader can follow the method; a real study takes the factor from the published inventory of
+the national or regional grid, states the year and shows the result for a low and a high value.
 
 Energy is small in the program, but it is worth knowing that it tends to be larger in practice.
 Vieira et al. (2014), in a review of the energy intensity of rainwater harvesting systems, found a
@@ -176,12 +176,12 @@ et al. (2014, 2017) reached a converging conclusion by life cycle assessment: in
 analysed, the pump set and the pumping energy were the components that weighed most in most of the
 impact categories, and the pumpless version outperformed the public supply in almost all of them.
 
-> **When energy decides.** With the Brazilian grid factor, multiplying the tutorial's energy by
-> ten, taking it close to the empirical median of Vieira et al., would add about 6 kg CO₂e a year
-> to the emissions and reduce the annual balance from 20.1 to about 14.1 kg CO₂e. The annual
-> balance would remain positive, but the carbon payback would go from 16.3 to about 23 years,
-> beyond the twenty years of service life adopted: the system would end its life owing carbon. On
-> grids more fossil-based than the Brazilian one, the effect is even larger.
+> **When energy decides.** With the illustrative grid factor, multiplying the tutorial's pumping
+> energy by ten, taking it close to the empirical median of Vieira et al., would raise the pumping
+> emission from 3.07 to about 30.7 kg CO₂e a year, which is more than the 29.69 kg credit of the
+> water avoided. The annual balance would turn from a net benefit of 26.38 kg to a small net
+> emission, and the system would never pay off its embodied carbon: it would end its life owing
+> carbon. On grids more fossil-based than the one assumed, the effect is even larger.
 
 **Treatment:** the treatment line **replaces** the chlorination term instead of adding to it. It is
 the same rule as in section {{n:27}}, and it exists so that the hypochlorite is not counted twice.
@@ -209,15 +209,16 @@ and the assessment does not record it.
 The emission factor of potable water is per cubic metre **delivered to the building**, not per
 cubic metre produced at the treatment works.
 
-The difference is the distribution losses, which in Brazil range from **33.9% in the Southeast to
-46.9% in the North**. Producing one cubic metre delivers between 0.53 and 0.66.
+The difference is the distribution losses, which vary from one supply system to another. If a
+system loses 20% between the works and the tap, producing one cubic metre delivers 0.8 (an
+illustrative figure, not a measured one).
 
 A published factor at the outlet of the works, applied to the volume delivered, **underestimates
-the avoided emission by up to a third**. The program makes the conversion and declares the
-macro-region adopted.
+the avoided emission** by the share lost. Declare whether the factor you use is per cubic metre
+delivered or produced, and convert it if it is not.
 
-Appendix {{n:C}} lists the 19 water production routes available, with the provenance and boundary
-of each one.
+Appendix {{n:C}} lists the water production routes the program offers, with the provenance and
+boundary of each one.
 
 ---
 
@@ -314,8 +315,7 @@ analytical framework; that several benefits of rainwater, such as runoff reducti
 the assessment; and that integration with life cycle costing is a promising way of showing the
 benefits more directly.
 
-For the Brazilian case, Marinoski and Ghisi (2018) assessed a social housing unit in Florianópolis
-and compared fibreglass, high-density polyethylene and reinforced concrete tanks. The fibreglass
+Marinoski and Ghisi (2018) assessed a social housing unit and compared fibreglass, high-density polyethylene and reinforced concrete tanks. The fibreglass
 ones were the most favourable from the environmental point of view, and the concrete ones, from the
 point of view of investment. The result converges with that of section {{n:11}} in the essentials:
 the tank material weighs on the carbon, and the environmental and economic dimensions can point in

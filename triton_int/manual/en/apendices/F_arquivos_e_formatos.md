@@ -11,8 +11,8 @@ Everything the program reads and writes, and where each thing is kept.
 | :--- | :--- | :--- | :--- |
 | project | `.triton` | a complete study, with the rain inside | Open Project |
 | old project | `.json` | project from an earlier version, same content | Open Project |
-| legacy project | `.csv` | project from Netuno 4 or the early 5.0 series | Open Project |
-| rainfall series | `.csv` | one column of millimetres per day | step 1. Project & Rainfall |
+| legacy project | `.csv` | project saved by an early version of the program, as a table | Open Project |
+| rainfall series | `.csv` | one column of millimetres per day (the edition ships three examples in `data/rainfall`) | step 1. Project & Rainfall |
 | daily demand | `.csv` | measured consumption, day by day | step 2. Building & Demand |
 | scenarios | `.xlsx` | one row per scenario | Scenarios & Tools menu |
 
@@ -41,8 +41,8 @@ totals.
 | drawing | `.dxf` | the hydraulic schematic, for CAD | step 10. Export |
 | drawing | `.svg` | the same schematic, as a vector image | step 10. Export |
 
-In CSV export you choose the separator: **semicolon** to open in Excel set to Portuguese or another
-language that uses the decimal comma, **comma** for the international standard. Choosing wrongly
+In CSV export you choose the separator: **semicolon** to open in a spreadsheet set to a language
+that uses the decimal comma, **comma** for the international standard. Choosing wrongly
 makes the spreadsheet open everything in a single column.
 
 The drawing comes in three presentations: **A3 technical sheet**, **simple schematic** and **block
@@ -72,7 +72,7 @@ It has seven sections:
 Appendix {{n:A}} lists all the parameters, with the exact name of each field.
 
 > **The rainfall series goes inside the file.** That is what makes the project reproducible: whoever
-> receives the file obtains exactly your numbers, even without the climate database installed. On the
+> receives the file obtains exactly your numbers, without needing the original rainfall file. On the
 > other hand, a project with thirty years of series takes up about 160 kB — little for a file and a
 > lot for an e-mail attachment with twenty of them.
 
@@ -84,11 +84,9 @@ Appendix {{n:A}} lists all the parameters, with the exact name of each field.
 | What | Where |
 | :--- | :--- |
 | the program | `C:\Program Files\Triton` |
-| the rainfall series that come with it | in the program folder, in `data\rainfall` |
-| the tariff database of the 652 municipalities | inside the program (Brazil Edition) |
+| the rainfall series that come with it (New York, London, Cape Town) | in the program folder, in `data\rainfall` |
 | the manual's cases | in the program folder, in `casos` |
-| the three reference studies | in the program folder, in `exemplos` |
-| the national climate database, if installed | wherever its installer indicates |
+| the three example projects (New York, London, Cape Town) | in the program folder, in `examples` |
 | **your projects and reports** | **wherever you choose when saving** |
 
 The program does not create a working folder or keep hidden files. Each save asks for the
@@ -104,7 +102,7 @@ reinstalling or updating the program deletes nothing of yours.
 | :--- | :--- |
 | project from an earlier version | opens; new fields take the default |
 | project from this version in an earlier version | may not open, or may lose fields |
-| Netuno 4 project in CSV | opens with a warning; check what section {{n:21}} lists |
+| legacy project in CSV | opens with a warning; check what section {{n:21}} lists |
 | JSON file from another program | **rejected**, with a message of its own |
 
 The last row deserves an explanation. A JSON file that is not a Triton project could, in principle,

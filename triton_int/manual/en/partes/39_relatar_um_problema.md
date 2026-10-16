@@ -1,7 +1,7 @@
 # How to report a problem
 
 Simulation programs have defects, and Triton is no exception. The review carried out before this
-release found a dozen calculation defects, none of them accompanied by an error message, and most of
+beta found a dozen calculation defects, none of them accompanied by an error message, and most of
 them discovered not by reading the code but by comparing two points of the program itself that
 should agree and did not. The practical lesson is that the attentive user is the best source of
 detection a scientific program has, and that is why this section exists.
@@ -18,8 +18,7 @@ into an exchange of messages that takes more of everyone's time than the fix its
 
 **The project file.** It is the most important item, and on its own it replaces pages of
 description. The `.triton` file is self-contained: it carries all the parameters and the whole
-rainfall series inside it — or, with CLIMBra rainfall, the exact reference of the series, which
-the program rebuilds — so whoever receives it reproduces your simulation exactly, on the same
+rainfall series inside it  so whoever receives it reproduces your simulation exactly, on the same
 machine or any other. Without it, the investigation starts by trying to guess the inputs, and
 guessing inputs is the most efficient way of not finding a defect.
 
@@ -32,8 +31,7 @@ to discover which of the forty numbers on the screen is the wrong one.
 **The version of the program.** It appears in the sidebar, in the footer and in the **About Triton**
 menu, and is already saved inside the project file and any exported report. State it anyway, because
 it is the first filter of the investigation: half the problems reported in scientific programs are
-defects already fixed in a version later than the one the user has installed. State the edition too,
-Brazil or International.
+defects already fixed in a version later than the one the user has installed. State the edition too.
 
 **The error message, if there is one.** Copy the full text, not a summary. Section {{n:37}} lists the
 messages the program raises deliberately, with the meaning of and the action for each one; if your
@@ -50,24 +48,22 @@ of whoever investigates is spent on what really is a defect.
 Start with section {{n:33}}, which gathers the ten design mistakes the program has no way of
 preventing. Three of them account for most unexpected results: the catchment area entered as the
 sloping area of the roof instead of the horizontal projection, the first-flush depth entered in
-litres instead of millimetres, and the municipality's tariff regime treated as a minimum consumption
+litres instead of millimetres, and the tariff regime treated as a minimum consumption
 when it is an availability charge — or the reverse.
 
 Then check whether the behaviour observed is not a declared limitation. Section {{n:36}} lists what
 the program admittedly does not do, and some of those limitations give exactly the impression of a
-defect. The most frequent case involves the tariff category: the catalogue covers the residential
-category of the 652 municipalities and the others only where the provider's official table has been
-transcribed, so that, in the other municipalities, a study of a school or a shop comes out with the
-residential tariff until the user enters that of the right category. The program warns about this
-instead of correcting it on its own, because the right table is public and specific to each utility.
+defect. The most frequent case involves the tariff category: the program uses the structure typed in, so a
+study of a school or a shop comes out with the residential tariff until the user enters that of the
+right category. The program warns about this instead of correcting it on its own, because the right
+table is public and specific to each utility.
 
 ---
 
 ## Where to send it
 
-Triton is developed by the Sustainable Environments Research Group, in the Department of Civil
-Engineering of the Federal University of Santa Catarina. The group's contact is the reporting
-channel, and it serves for defects as well as for feature suggestions and requests for clarification
+Triton is developed by a university research group. The contact given with the program
+menu and in the repository is the reporting channel, and it serves for defects as well as for feature suggestions and requests for clarification
 of the method. Reports may be written in English.
 
 Reports that come with the project file go straight into the verification suite described in section

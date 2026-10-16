@@ -31,12 +31,13 @@ from collection to the point of use.
 Following the drawing, from left to right:
 
 **The roof** is the catchment area. What counts is the **horizontal projection** of the
-roof, not the sloping area, as item 3.6 of ABNT NBR 15527:2019 defines it — it is the
-roof's shadow on the ground that receives the rain. Getting this wrong is the first of
+roof, not the sloping area: it is the roof's shadow on the ground that receives the
+rain. Getting this wrong is the first of
 the ten mistakes in section {{n:33}}.
 
 **The gutters and downpipes** carry the water to the cistern. The program does not size
-them; that is hydraulic design, and in Brazil it follows ABNT NBR 10844.
+them; that is hydraulic design, and it follows the rainwater drainage standard that
+applies where the building stands.
 
 **The first-flush device** diverts the first millimetres of each event, which carry the
 dust, leaves and bird droppings accumulated on the roof. It is the cheapest quality
@@ -200,26 +201,17 @@ reader sees the study taking shape instead of receiving it finished.
 
 ---
 
-## What changed from Netuno 4
+## How the engine is checked
 
-Netuno 4 is the predecessor, published in 2014 by the same group. Triton keeps the
-conceptual model — a daily behavioural balance — and adds six dimensions of analysis
-that did not exist.
+Triton is a daily behavioural balance with six dimensions of analysis built around it.
+Section {{n:34}} describes how the engine is verified.
 
-> **In depth: the two deliberate differences of method.** Anyone comparing results of
-> the two versions must declare them.
->
-> **The treatment of the first flush.** Netuno 4 treats the depth as an **event
-> threshold**: below it nothing is collected, above it the whole rain is collected.
-> Triton **subtracts** the depth, which is physically more faithful.
->
-> **The optimal volume criterion.** The implementations and the search grids differ.
->
-> Together, the two account for 91% of the divergence measured between the programs.
-> Over 4,050 reference cases, Triton estimates 2.3 to 2.7 percentage points less
-> saving. **With both neutralised, the engine reproduces Netuno 4 with a mean error of
-> 0.25 percentage points and 100% of the cases within 5 points.** Section {{n:35}} has
-> the complete breakdown.
+> **In depth: the first flush is subtracted, not used as a threshold.** Some tools treat
+> the first-flush depth as an **event threshold**: below it nothing is collected, above
+> it the whole rain is collected. Triton **subtracts** the depth from each day's
+> precipitation, which is physically more faithful. Anyone comparing results with
+> another tool must declare which treatment each one uses, together with the search
+> grid of the optimal volume, because either choice changes the result.
 
 ---
 

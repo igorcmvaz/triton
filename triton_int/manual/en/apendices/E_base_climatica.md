@@ -1,86 +1,70 @@
 # Climate database
 
-![Logo of the CLIMBra dataset](../figuras/CLIMBra.jpg)
-
-> **Brazil Edition only.** The International Edition does not ship this database; there, the user
-> loads the rainfall series of the site as a file of their own (section {{n:4}}).
-
----
-
-## What the database contains
-
-<!-- tabela: Contents of the national climate database -->
-| What the database holds | Quantity |
-| :--- | ---: |
-| Brazilian cities | 652 |
-| CMIP6 climate models | 19 |
-| emission scenarios | 2, SSP2-4.5 and SSP5-8.5 |
-| simulations per city and model | 3: historical, SSP2-4.5 and SSP5-8.5 |
-| total time series | 37,164 series |
-| original uncompressed format | ~6.5 GB (CSVs) |
-| compiled Triton format | compressed SQLite database (`climbra.db`) |
-
-Each series is a continuous daily record of precipitation, in millimetres, for a combination of
-city, model and simulation: 652 cities × 19 models × 3 simulations give the 37,164 series. The series
-come from **CLIMBra** (Ballarin et al., 2023, [*Scientific Data / Nature*](https://www.nature.com/articles/s41597-023-01956-z), [doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z); repository [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316), [doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)),
-bias-corrected by *Quantile Delta Mapping* against the daily grid of Xavier, King and Scanlon (2016),
-at a resolution of 0.25°. The historical series covers 1980 to 2013 (12,419 days) and the future
-ones, 2015 to 2100 (31,411 days); the study windows are free cuts of these series. All are in the
-Gregorian calendar. The HadGEM3-GC31-LL, KACE and UKESM1-0-LL models, which originally use 360-day
-years, have one day fewer at the end of each series, which does not affect the cut.
+> **The International Edition ships no regional climate database.** The rainfall series of a project
+> is always a file of the user (section {{n:4}}). Three example series come with the program, so that
+> the manual's cases can be reproduced.
 
 ---
 
-## Shipping in the executable and optimised format
+## The series that come with the program
 
-To avoid the slow handling of tens of thousands of text files and to allow direct distribution in the
-Triton installer and executable, the 37,164 series were compiled and indexed in a **high-efficiency
-SQLite** database (`climbra.db`), with binary compression per series via `zlib`.
+Three daily series are installed in the program's `data/rainfall` folder. They are **reanalysis**
+data, not rain-gauge records.
 
-- **Access speed:** indexed access to the database takes **less than 1 millisecond** per series,
-  against tens of milliseconds to open and parse CSV files on disk.
-- **Transparency:** the Triton climate data engine gives priority to the compiled database and falls
-  back automatically to the folder of loose `.csv` files if the database is not found.
-- **Portability:** it lets the Triton installer provide the national database ready to use, without
-  requiring the user to download and unpack 6.5 GB by hand.
+<!-- tabela: Rainfall series distributed with the International Edition -->
+| File | Place | Period | Days | Mean annual rain | Source |
+| :--- | :--- | :--- | ---: | ---: | :--- |
+| `NewYork.csv` | New York (grid point over Manhattan, 40.81 N, 74.02 W) | 01/01/1991 to 31/12/2020 | 10,958 | 1,125 mm | ERA5 reanalysis via Open-Meteo |
+| `London.csv` | London (51.49 N, 0.16 W) | same | 10,958 | 649 mm | same |
+| `CapeTown.csv` | Cape Town (33.99 S, 18.43 E) | same | 10,958 | 495 mm | same |
+
+The format is one value per line: daily precipitation in millimetres, with no date. The date of the
+first day comes from the project (1 January 1991 for these three files).
+
+**What they are.** ERA5 is the fifth-generation global reanalysis of the European Centre for
+Medium-Range Weather Forecasts (ECMWF), produced by the Copernicus Climate Change Service (Hersbach
+et al., 2020, *Quarterly Journal of the Royal Meteorological Society*, 146, 1999-2049). The series
+were extracted for one grid point of about 9 km through the archive interface of Open-Meteo.com
+(licence CC BY 4.0) on 14/10/2026. A grid cell is an area average: it smooths intense showers and
+overstates the number of days with light rain, so it is a starting point and not a substitute for
+a measured record.
+
+**Use for a real design.** Replace the example series with the record of a rain gauge near the site,
+or declare explicitly that you use reanalysis and why.
 
 ---
 
-## The scenarios
+## Using your own series
 
-The two CMIP6 Shared Socioeconomic Pathways available in the database are drawn in section {{n:15}}:
-SSP2-4.5 is the intermediate pathway and SSP5-8.5 assumes high emissions without mitigation. CLIMBra
-does not include strong mitigation scenarios, such as SSP1-2.6.
+1. Obtain a daily record, in millimetres, from the meteorological service or the gauge closest to
+   the site. Record the station, its distance from the site, the period and the source.
+2. Save it as a CSV with one value per day. A point or a comma is accepted as the decimal separator,
+   and a header line is ignored.
+3. Open it in step 1 (Project & Rainfall) and set the date of the first day.
 
+An incomplete year is dropped on reading, so as not to bias the annual totals. Daily data are
+required: monthly means hide the dry spells that decide the volume (section {{n:33.2}}).
+
+**How long a series.** The length needed to stabilise the ideal volume is not a geographical
+constant: it grows with the suppliable fraction and with the demand of the building (glossary,
+appendix {{n:G}}). The three example series have thirty years each.
 
 ---
 
-## The historical series that come with the program
+## Future scenarios
 
-Independently of the CMIP6 database, four long historical series come with the installation, in the
-program's `data/rainfall` folder:
-
-<!-- tabela: Historical precipitation series distributed with the program -->
-| City | Files |
-| :--- | ---: |
-| Florianópolis | 3 |
-| Brasília | 3 |
-| Manaus | 3 |
-| São Paulo | 3 |
-
-The Florianópolis series used in the tutorial has 86 years; the first thirty years add up to a mean of
-1,795 mm a year, with rain on 46% of the days.
+The International Edition carries no climate-model projections. To study a future climate, prepare
+the projected daily series yourself, from the source you choose, and load it as any other file. The
+rain factor of the probabilistic modulation (chapter {{c:7}}) offers a simple way to test a drier or
+wetter series by a declared percentage. Section {{n:15}} deals with conducting the study.
 
 ---
 
 ## What to declare in a study
 
-- the **model or models**, by name, and the selection criterion;
-- the SSP **scenario**;
-- the **time window**, with the years;
-- the **historical series** used as reference;
-- whether there was downscaling or bias correction, and which;
-- the **provenance and version** of the database.
-
-Section {{n:15}} deals with conducting the study with future scenarios, and warns against the mistake
-of choosing the model by the result.
+- the **source** of the series (station or reanalysis product) and its version;
+- the **location**, and for a gauge the distance from the site;
+- the **period**, with the first and last years;
+- whether the series was **corrected, filled or downscaled**, and how;
+- for a projection, the model, the scenario and the window, and the method used to correct bias;
+- the number of **years** of data.

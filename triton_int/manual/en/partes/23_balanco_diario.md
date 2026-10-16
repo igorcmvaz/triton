@@ -64,14 +64,18 @@ and the 80 L of rainwater demand are not met by a single drop: the day is one of
 supply, and the 200 L of the whole day come from the mains.
 
 This is not a defect of the chosen series. It is the initial condition of the model, and it
-matters: in short series, the first days penalise the result. With ten years of series the
-effect disappears; with ten days, it accounts for the whole gap between the potential
-obtained, 36.0%, and the suppliable fraction of 40%.
+matters: in short series, the first days penalise the result. With thirty years of series the
+effect disappears; with ten days, it is one of the reasons the potential obtained, 25.7%,
+falls so far below the suppliable fraction of 40%. Days 3 and 4 add two more days of no supply.
 
-### Day 3: the rain that is lost entirely
+### Days 2 and 3: the first flush at work
 
-It rained 1.6 mm. The first-flush depth is 2.0 mm. The program does not subtract 1.6 and
-collect zero: it **diverts the whole day**.
+On day 2 it rained 2.4 mm. After the 2.0 mm first flush, 0.4 mm remain, which on 100 m² at a
+coefficient of 0.85 give 34 L. All 34 L are consumed, and the day is one of **partial**
+supply: 34 L of the 80 L wanted.
+
+On day 3 it rained 1.9 mm, less than the first-flush depth of 2.0 mm. The program does not
+subtract 1.9 and collect zero: it **diverts the whole day**.
 
 > **Warning.** When the first-flush rule applies and the day's rain does not exceed the depth,
 > the **whole** day is lost, not the difference. The calculation is `P_ef = P − d_f` when
@@ -79,24 +83,23 @@ collect zero: it **diverts the whole day**.
 
 The reason is physical: the diversion device has to fill before the water reaches the
 cistern. If the rain does not fill the device, nothing passes. In climates of light, frequent
-rain, this weighs far more than intuition suggests, and that is why the first-flush mode
+rain, this weighs far more than intuition suggests: in the New York series of the tutorial,
+17% of the days are below the first-flush depth, and that is why the first-flush mode
 deserves attention in section {{n:4}}.
 
-> **Difference from Netuno 4.** Netuno 4 treats `d_f` as an **event threshold**: below it
-> nothing is collected, above it the **whole** rain is collected, without subtraction. Triton
-> 5 subtracts the depth. The difference is deliberate and is quantified in section {{n:35}}:
-> Triton estimates, on average, 2.3 to 2.7 percentage points less saving over 4,050
-> reference cases, and **half** of that difference comes from here. Studies comparing the two
-> versions must declare it.
+> **A note for those who compare tools.** Some simulation tools treat `d_f` as an **event
+> threshold**: below it nothing is collected, above it the **whole** rain is collected, without
+> subtraction. Triton subtracts the depth. The difference is deliberate, it lowers the estimated
+> saving, and studies comparing the two rules must declare it. Section {{n:35}} deals with the
+> comparison.
 
-### Day 6: overflow comes before consumption
+### Day 5: overflow comes before consumption
 
-It rained 28 mm. After the 2 mm first flush, 26 mm of effective rain remain, which on 100 m²
-at a coefficient of 0.85 give 2,210 L collected.
+It rained 59.8 mm. After the 2.0 mm first flush, 57.8 mm of effective rain remain, which on
+100 m² at a coefficient of 0.85 give 4,913 L collected.
 
-The tank held 564 L. Added together, 2,774 L. The tank holds 2,000 L, so **774 L overflow**.
-Only after that does the program withdraw the 80 L of demand, leaving 1,920 L for the next
-day.
+The tank was empty. The tank holds 2,000 L, so **2,913 L overflow**. Only after that does the
+program withdraw the 80 L of demand, leaving 1,920 L for the next day.
 
 > **Warning.** This order defines the model. The overflow is calculated **before** the demand
 > is withdrawn, as in the **YAS** rule (*yield after spillage*), but the day's own rain can
@@ -107,20 +110,23 @@ day.
 > have overflowed already, and the program would overestimate the yield. The difference shows
 > up precisely on days of heavy rain, which are those that weigh most in the annual total.
 
-### Day 9: a tank too small for the event
+Day 6 follows the same rule: the tank holds 1,920 L, receives 612 L, and 532 L overflow. On day 7
+the tank is already full, and 218 L of a 298 L collection overflow.
 
-It rained 41 mm, and the system collected 3,315 L. The tank held 1,840 L and holds 2,000.
-**3,155 L overflowed** — more than the whole tank can hold.
+### Day 8: a tank too small for the event
 
-In a single day, the system threw away the equivalent of thirty-nine days of rainwater demand.
-It is the portrait of the mismatch between the rain, which arrives concentrated, and the
+It rained 32.9 mm, and the system collected 2,626 L. The tank was already at 1,920 L and holds
+2,000. **2,546 L overflowed**, nearly the whole collection.
+
+In a single day, the system threw away the equivalent of almost thirty-two days of rainwater
+demand. It is the portrait of the mismatch between the rain, which arrives concentrated, and the
 demand, which is constant. Enlarging the tank recovers part of it, and that is exactly the
 question the volume sweep of section {{n:24}} answers. {{fig:fig01_dez_dias}} sums up the ten
 days.
 
 ![Collected and overflowed volumes and stored volume over the ten days](../figuras/fig01_dez_dias.png)
 
-*Figure 1 — The ten days of the worked case: (a) collected volume, in blue, and overflowed volume, in orange, by day — on day 9 the overflow almost equals the collection; (b) volume stored in the lower tank at the end of each day, after consumption, with the 2,000 L capacity dashed; on days 6, 7 and 9 the tank reaches capacity, overflows and ends the day with 1,920 L.*
+*Figure 1 — The ten days of the worked case: (a) collected volume, in blue, and overflowed volume, in orange, by day: on day 8 the overflow almost equals the collection; (b) volume stored in the lower tank at the end of each day, after consumption, with the 2,000 L capacity dashed; on days 5 to 8 the tank reaches capacity, overflows and ends the day with 1,920 L.*
 
 ### The sum: the balance closes
 
@@ -137,8 +143,8 @@ V_cap = V_ext + V_con + V_res
 | `V_con` | total rainwater volume consumed in the period | L |
 | `V_res` | volume left in the tank at the end of the period | L |
 
-In the ten days of the worked case, Equation {{eq:fechamento}} holds with 6,681 L collected,
-4,121 L overflowed, 720 L consumed and 1,840 L left.
+In the ten days of the worked case, Equation {{eq:fechamento}} holds with 8,483 L collected,
+6,209 L overflowed, 514 L consumed and 1,760 L left.
 
 Zero residual. The program neither creates nor loses water, and this check is made
 automatically by the test suite at every change of the code, on ten-year series, with a
@@ -244,11 +250,10 @@ An inequality follows that holds for any series: the volume consumed by Triton i
 smaller than that of strict YAS nor larger than that of strict YBS. The result lies **between
 the two**, closer to YAS for large tanks, where the previous day almost always suffices, and
 further from it for small ones, where the day's rain weighs. Anyone comparing Triton with a
-program or a standard that uses strict YAS, such as the detailed method of EN 16941-1:2024
-(Annex A), should expect from Triton a slightly higher saving potential for the same volume.
+program or a standard that uses strict YAS should expect from Triton a slightly higher saving potential for the same volume.
 
-The program keeps this order by decision: it reproduces Netuno 4 and the studies of the
-research group that used it, and a change here would shift every published result.
+The program keeps this order by decision: it keeps continuity with the earlier studies of the
+research group, and a change here would shift every published result.
 
 ### Supplying the demand
 
@@ -387,7 +392,7 @@ Section {{n:36}} brings together these and the other known limitations.
 
 ## To check
 
-The worked case of this section is in the file `03_dez_dias.triton`, in the cases folder that
+The worked case of this section is in the file `05_ten_days.triton`, in the cases folder that
 comes with the program. Open it, run it, and compare with the printed table.
 
 If any number differs, it is the manual that is out of date relative to the program. And in that

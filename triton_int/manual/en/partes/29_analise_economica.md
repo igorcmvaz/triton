@@ -1,7 +1,7 @@
 # Economic analysis and tariff regimes
 
 > This section formalises the cash flow and details the six tariff regimes — the data that most
-> decides the viability of a rainwater system in Brazil.
+> decides the viability of a rainwater system.
 
 ---
 
@@ -19,22 +19,24 @@ E_mês = F(V_tot) − F(V_pot)
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_mês` | saving obtained in the month | R$ |
-| `F(·)` | function that calculates the water and sewage bill for a volume | R$ |
+| `E_mês` | saving obtained in the month | currency |
+| `F(·)` | function that calculates the water and sewage bill for a volume | currency |
 | `V_tot` | monthly volume the building would consume without the rainwater system | m³ |
 | `V_pot` | monthly volume of potable water actually bought from the mains | m³ |
 
-The reason for proceeding this way lies in the progressiveness of Brazilian tariff structures.
-==The cubic metre no longer consumed is always the last one on the bill, which is the most
-expensive, and never the mean one.== In a municipality whose first block costs R$ 3.08/m³ and
-whose second block costs R$ 14.31/m³, calculating the saving by the mean tariff underestimates it
-by more than half, and the error grows with the consumption of the building.
+The reason for proceeding this way lies in the structure of the tariff: progressive blocks, a
+sewage part that follows the water part, a standing charge that does not respond to
+consumption. ==The cubic metre no longer consumed is always the last one on the bill, which is
+the most expensive in a progressive tariff, and never the mean one.== In the New York tutorial, the
+monthly saving of US$ 24.21 for 4.95 m³ is US$ 4.89 per cubic metre, because each cubic metre
+saved earns both the water charge and the sewer charge, which is a percentage of it. Multiplying
+the volume saved by the water price alone would understate the saving by more than half.
 
 ---
 
 ## The water and sewage bill
 
-The tariff structure of each municipality is represented in the program by a sequence of blocks,
+The tariff structure of each city is represented in the program by a sequence of blocks,
 and each block is a quadruple made up of the minimum volume, the maximum volume, a value and a
 code. The code is what gives meaning to the value, because apparently similar structures charge in
 very different ways.
@@ -42,7 +44,7 @@ very different ways.
 Before the codes, it is worth seeing what the bill is made of. The monthly water and sewage bill
 is the sum of parts that behave differently: a fixed part, which does not respond to consumption;
 one or more consumption blocks, in which the price per volume applies to the volume allocated
-within each block; and sewage, which in much of Brazil is a percentage of the water charge and
+within each block; and sewage, which is often a percentage of the water charge and
 therefore follows everything it does. Saving water affects each of these parts in a different way,
 and it is this asymmetry that {{fig:fig07_fatura}} shows.
 
@@ -66,10 +68,10 @@ exponents.
 Two of these regimes are often confused with each other, although they have opposite effects on
 the viability of a rainwater system. It is worth examining them with numbers.
 
-- **The availability charge adds.** A consumption part of R$ 55 plus R$ 46 of availability charge
-  gives a bill of R$ 101, and saving R$ 15 of consumption leaves the bill at R$ 86.
-- **The floor limits from below.** With a floor of R$ 40 and a billed consumption of R$ 55,
-  saving up to R$ 15 **reduces nothing**.
+- **The availability charge adds.** A consumption part of 55 currency units plus 46 of availability charge
+  gives a bill of 101, and saving 15 of consumption leaves the bill at 86.
+- **The floor limits from below.** With a floor of 40 and a billed consumption of 55,
+  saving up to 15 **reduces nothing**.
 
 The difference between the two regimes decides whether each cubic metre saved earns a discount
 from the first one or whether the saving only starts to count after a threshold is passed, and a
@@ -78,8 +80,7 @@ regime explicitly instead of treating it as a detail of the table.
 
 ### The exponential formula
 
-In the CORSAN municipalities the water part is not a sum of blocks but a power of the month's
-consumption:
+Some utilities do not charge water as a sum of blocks but as a power of the month's consumption:
 
 ```equacao:exponencial
 T_agua = PB × C^n + SB
@@ -87,20 +88,23 @@ T_agua = PB × C^n + SB
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_agua` | water part of the bill | R$ |
-| `PB` | base price of the municipality | R$/m³ |
+| `T_agua` | water part of the bill | currency |
+| `PB` | base price | currency/m³ |
 | `C` | consumption of the month per dwelling unit | m³ |
-| `n` | exponent from the Table of Exponents for consumption `C`: 1.00 up to 20 m³, 1.13 between 101 and 150 m³ | dimensionless |
-| `SB` | basic service charge | R$ |
+| `n` | exponent from the utility's table of exponents for consumption `C`; 1.00 up to a threshold, and rising above it | dimensionless |
+| `SB` | basic service charge | currency |
 
 The exponent is read from the **total** consumption of the month and applied to the whole volume.
-In the residential category there is no cap; only the industrial category, above 1,000 m³, charges
-the excess at prices of its own, and the program represents that cap with an ordinary block from
-there on. The monthly saving is the difference between the two bills, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, each
-consumption with its own exponent, and not the product of a unit price by the volume saved; with
-`n` above 1, the cubic metre saved is worth more than the base price.
+Where the table ends with a cap, the program represents it with an ordinary block from there on. The
+monthly saving is the difference between the two bills, `PB × (C₁ⁿ¹ − C₂ⁿ²)`, each consumption with
+its own exponent, and not the product of a unit price by the volume saved; with `n` above 1, the
+cubic metre saved is worth more than the base price.
 
-Because the meter bills whole cubic metres and the fraction carries over to the next reading, a simulation's fractional average consumption is charged along the straight line between the bills of the two neighbouring integers: 20.5 m³ lies between 20 m³ (n = 1.00) and 21 m³ (n = 1.01). Without this rule the exponent would jump inside the cubic metre, and the value of the cubic metre saved would swing with the decimal place of the average consumption — in Alegrete, from R$ 25.42 to R$ 13.55 between 30 and 30.5 m³ of consumption.
+Because the meter bills whole cubic metres and the fraction carries over to the next reading, a
+simulation's fractional average consumption is charged along the straight line between the bills of
+the two neighbouring integers. Without this rule the exponent would jump inside the cubic metre,
+and the value of the cubic metre saved would swing with the decimal place of the average
+consumption. None of the three example cities uses this regime.
 
 ### Individual metering
 
@@ -119,55 +123,49 @@ T_esg = T_agua × s
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `T_esg` | sewage part of the bill | R$ |
-| `T_agua` | water part of the bill, already calculated by the progressive blocks | R$ |
+| `T_esg` | sewage part of the bill | currency |
+| `T_agua` | water part of the bill, already calculated by the progressive blocks | currency |
 | `s` | sewage percentage charged by the utility | dimensionless |
 
 The sewage percentage applies to the water part of the bill, not to the total bill, and confusing
-the two denominators doubles or halves the part calculated. One hundred per cent, the value
-charged by many Brazilian utilities, means that the sewage part equals the water part, and
-therefore that sewage accounts for half of the total bill.
+the two denominators doubles or halves the part calculated. One hundred per cent
+means that the sewage part equals the water part, and therefore that sewage accounts for half of
+the total bill. In New York the percentage is 159%, so that the sewer part is the larger of the two.
 
-There is a third mode, CORSAN's: sewage charged **per cubic metre consumed**, `T_esg = C × p_esg`,
-without the basic service charge and without the exponent of the water part. Applying the
-percentage on the water part there would charge sewage on the basic service and on the power, and
-the bill would come out higher than the utility charges.
+There are two more modes: sewage charged **per cubic metre consumed**, `T_esg = C × p_esg`, as
+in London, and sewage charged **by blocks of its own on a fraction of the water volume**, as in
+Cape Town (70% of the water consumed, four steps). With the exponential formula, the per cubic
+metre mode has no basic service charge and no exponent, and applying the percentage on the water
+part there would charge sewage on the basic service and on the power.
 
 ---
 
-## The six regimes in the database
+## The six regimes
 
-The catalogue spreads its 652 municipalities very unevenly across the six regimes. The allowance
-within the minimum alone accounts for **371** of them, more than half; then come 122 with an
-availability charge, 100 with no minimum at all, 36 on the exponential formula (CORSAN, COMUSA and DMAE Porto Alegre) and 23 on the
-retroactive allowance — the 15 m³ minimum bill of CEDAE and of the concessionaires that inherited its
-structure in Rio de Janeiro —, whereas the payment floor appears in none
-({{fig:fig33_regimes_base}}). The table below shows how each regime is coded and applied in the
-calculation of the bill.
+The program distinguishes six minimum-charge regimes, and which one applies to a building is a fact
+about its tariff document, not a choice. The table below shows how each regime is coded and applied
+in the calculation of the bill. The three example cities fall in two of them: London and Cape Town
+have an availability charge (a standing charge), and New York has a payment floor in the form of a
+minimum daily charge, which does not bind at the tutorial consumption. The other three regimes are
+supported by the engine and described in section {{n:16}}.
 
 <!-- tabela: Coding and application of each minimum-charge regime in the calculation of the bill -->
 | Regime | Coding of the blocks | Calculation of the water part | Effect of reducing consumption |
 | :--- | :--- | :--- | :--- |
 | no minimum charge | consumption blocks only (code 1 or 0) | sum, in each block, of the price per m³ applied to the volume allocated within it | every reduction in consumption reduces the bill |
 | availability charge | fixed value (−1) and consumption blocks from 0 m³, with a positive price | fixed value added to the consumption part, billed from the first m³ | every reduction in consumption reduces the bill; the fixed value remains |
-| allowance within the minimum | fixed value (−1) and a first block from 0 to N m³ at R$ 0.00/m³ | fixed value that includes the N m³ of the allowance; above them, consumption blocks | a reduction below N m³ does not change the bill |
+| allowance within the minimum | fixed value (−1) and a first block from 0 to N m³ at a zero price | fixed value that includes the N m³ of the allowance; above them, consumption blocks | a reduction below N m³ does not change the bill |
 | retroactive allowance | allowance (−2) from 0 to N m³ with a fixed value, and consumption blocks | up to N m³, fixed value; above, the whole volume billed from 0 m³ by the blocks | reducing consumption to N m³ or less replaces the consumption part by the fixed value |
 | payment floor | floor (−3) and consumption blocks | consumption part by the blocks, limited from below to the value of the floor | a reduction that takes the part below the floor does not reduce the bill |
 | exponential formula | basic service (−1), base price (2) and table of exponents (3) covering all consumption | basic service added to `PB × Cⁿ`, with `n` from the whole month's consumption | every reduction in consumption reduces the bill, by the difference between the two powers |
 
-![The municipalities of the catalogue, by minimum-charge regime](../figuras/fig33_regimes_base.png)
+![The tariff regimes of the example cities](../figuras/fig33_regimes_base.png)
 
-*Figure 99 — Distribution of the 652 municipalities of the catalogue among the six tariff regimes. Half of them apply an allowance within the minimum, a regime in which reducing consumption below the allowance does not reduce the bill.*
+*Figure 99 — Distribution of the example tariffs among the six tariff regimes. The allowance within the minimum is the regime in which reducing consumption below the allowance does not reduce the bill; none of the three example cities has it.*
 
-
-The payment floor is implemented in the calculation engine and no municipality of the database
-has so far been classified under it, a situation recorded here for transparency: the absence of
-occurrences does not mean the regime does not exist in the country, only that the survey did not
-find it among the 652 municipalities catalogued.
-
-Section {{n:16}} presents the numerical example comparing Floriano and Florianópolis, from which
-follows the most important practical lesson of this section: under an allowance regime, saving
-water below the allowance volume earns no discount at all on the bill.
+Section {{n:16}} presents the numerical example that compares an allowance regime with an
+availability charge, from which follows the most important practical lesson of this section: under
+an allowance regime, saving water below the allowance volume earns no discount at all on the bill.
 
 ---
 
@@ -179,15 +177,15 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `CAPEX` | total initial investment of the system | R$ |
-| `C_cist` | cost of the lower tank | R$ |
-| `C_sup` | cost of the upper tank, when there is one | R$ |
-| `C_mo` | cost of installation labour: in a new project, 30% of the materials, with a floor of R$ 1,400 | R$ |
-| `C_tub` | cost of the piping: pipes, bends and fittings of the 3D layout | R$ |
-| `C_ace` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | R$ |
-| `C_bomba` | unit cost of the pump set | R$ |
+| `CAPEX` | total initial investment of the system | currency |
+| `C_cist` | cost of the lower tank | currency |
+| `C_sup` | cost of the upper tank, when there is one | currency |
+| `C_mo` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
+| `C_tub` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
+| `C_ace` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
+| `C_bomba` | unit cost of the pump set | currency |
 | `n_b` | number of pump sets, including the standby when there is one | unit |
-| `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | R$ |
+| `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | currency |
 
 In a new project, `C_tub` and `C_ace` are not allowances: they come from the **bill of quantities
 of the 3D layout** (section {{n:22}}). Each metre of pipe, each bend, each end fitting, each part —
@@ -199,9 +197,9 @@ sizes them. The designer can type other values in the economic step; the project
 typed ones, and the audit spreadsheet records the change. Projects saved before this rule keep the
 costs they declare.
 
-The labour of a new project is also recalculated at each run: 30% of the sum of cistern, upper
-tank, pump sets, piping and accessories, with a floor of R$ 1,400 (key `labor_percentage` of
-`costs_database.json`). It thus grows with the tank: in the volume sweep, each volume has its own
+The labour of a new project is also recalculated at each run: a percentage of the sum of cistern,
+upper tank, pump sets, piping and accessories, with a floor. In the manual's tutorial the labour is
+a round figure of US$ 1,500, illustrative, not a market price. It thus grows with the tank: in the volume sweep, each volume has its own
 cistern, its own usual layout and its own labour. Previously, labour was fixed once, on generic
 allowances for piping and accessories, and was the same for all volumes. A value typed in the
 economic step prevails, as in the other items.
@@ -210,8 +208,12 @@ The last term follows the incremental rule of section {{n:27}} and includes, whe
 sizing of the first flush is enabled, the first-flush chamber and the leaf separator; the annual
 running cost of that subsystem enters the running cost of the treatment line.
 
-Tank prices come from the program's cost database, with the source declared for each material.
-When the requested volume is not in the table, the program interpolates linearly between the
+Tank prices are typed in, as a fixed part plus a price per litre for each material. In the
+manual's tutorial the figures are round numbers, illustrative and not market prices: polyethylene
+100 plus 0.55 per litre, concrete 600 plus 0.40, fibreglass 120 plus 0.65 and stainless steel 300 plus
+2.00, in US$. With them a 4,000 L polyethylene cistern costs US$ 2,300 and a concrete one US$ 2,200;
+with the labour, the piping, the accessories and the two pumps, the investment of the tutorial is
+US$ 6,250 (illustrative, not a market price). When the requested volume is not in the table, the program interpolates linearly between the
 neighbouring points; when the volume exceeds the largest tabulated value, extrapolation is only
 done if the regression over the known points has a coefficient of determination above 0.90, and
 the program warns when that criterion is not met, instead of extrapolating silently.
@@ -236,15 +238,14 @@ interior maximum ({{fig:fig21_investimento}}).
 <!-- tabela: Parts of the annual running cost and the origin of each one -->
 | Part | Origin |
 | :--- | :--- |
-| pumping energy | section {{n:28}}, with the tariff flag applied |
+| pumping energy | section {{n:28}}, at the electricity tariff entered |
 | chlorination | mass of **product**, not of active chlorine |
 | treatment plant | incremental running cost, without counting chlorination twice |
 | first flush | annual maintenance of the first-flush chamber and of the leaf separator, when sized |
 | declared operating costs | the user's free list |
 
-The tariff flag (*bandeira tarifária*) adjusts the electricity tariff according to the operating
-condition of the Brazilian power system, and the program accepts the four current modes: yellow,
-red level 1, red level 2 and white, the last with a discount in off-peak periods.
+The electricity tariff is typed in, in the currency of the project. In the manual's tutorial it is
+US$ 0.20 per kWh, illustrative, not a market price.
 
 ---
 
@@ -261,7 +262,7 @@ cumulative balance, which crosses zero at the payback time.
 
 ![The discounted cumulative balance over twenty years](../figuras/fig08_fluxo_de_caixa.png)
 
-*Figure 99 — Cash flow of the tutorial project over twenty years: annual saving on the water and sewage bill and annual costs, with the initial investment in year zero, in nominal values; and cumulative balance discounted at the minimum attractive rate of return, which crosses zero at the payback time of 16.3 years. 4,000 L concrete cistern with an upper tank, as in section {{n:10}}.*
+*Figure 99 — Cash flow of the tutorial project over twenty years: annual saving on the water and sewage bill and annual costs, with the initial investment in year zero, in nominal values; and cumulative balance discounted at the minimum attractive rate of return, which does not cross zero within the twenty years: there is no payback. 4,000 L concrete cistern with an upper tank, as in section {{n:10}}; costs illustrative, not market prices.*
 
 **Inflation applies only to the running cost:**
 
@@ -301,11 +302,11 @@ own, and the following remark is about that separation.
 > bill. The two parts are the subject of separate acts of the utility, and treating them together
 > indexes half the bill by the wrong index.
 
-The green property tax incentive (*IPTU verde*), when the municipality offers it and the user
-enables it, enters the cash flow as an annual saving divided by twelve, which spreads it evenly
-over the months of the year. The simplification is deliberate: the discount is granted all at
-once, when the tax is assessed each year, but spreading it keeps the cash flow from showing a step
-that has nothing to do with the performance of the system.
+A tax or fee incentive for rainwater systems, where one exists and the user enters it, can be
+added to the cash flow as an annual saving divided by twelve, which spreads it evenly over the
+months of the year. The simplification is deliberate: such a discount is usually granted all at
+once, but spreading it keeps the cash flow from showing a step that has nothing to do with the
+performance of the system. The manual's cases enter no such incentive.
 
 ---
 
@@ -319,9 +320,9 @@ VPL = − CAPEX + Σ [ FC_m ÷ ( 1 + TMA )^m ]
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `VPL` | net present value of the investment | R$ |
-| `CAPEX` | total initial investment, from Equation {{eq:capex}} | R$ |
-| `FC_m` | net cash flow of month `m` | R$ |
+| `VPL` | net present value of the investment | currency |
+| `CAPEX` | total initial investment, from Equation {{eq:capex}} | currency |
+| `FC_m` | net cash flow of month `m` | currency |
 | `TMA` | monthly minimum attractive rate of return, as a fraction: 0.5% a month enters as 0.005 | dimensionless |
 | `m` | month of the cash flow, from 1 to the end of the analysis period | month |
 
@@ -330,6 +331,17 @@ happens when the flow never becomes positive — the program returns null, inste
 number.
 
 **Discounted payback:** the first month in which the discounted cumulative balance crosses zero.
+When it never does within the analysis period, the program reports «no payback».
+
+**What the tutorial shows.** With the New York tariff and the illustrative costs of the manual, the
+tutorial (a 4,000 L concrete cistern with the 1,000 L upper tank) has an investment of US$ 6,250, an
+annual saving of US$ 290.53, an annual running cost of US$ 2.63, a net present value of
+−US$ 2,919.90 over twenty years, an internal rate of return of −1.23% a year and no payback. These
+costs are illustrative, not market prices, and the result is not a verdict on New York; it shows how
+the method works and what it takes for a rainwater system to pay for itself. Cheap water is the
+reason: a saving of US$ 24.21 a month does not repay US$ 6,250 within twenty years at the minimum attractive rate adopted.
+The method is the same where water is dearer or the works cheaper, and the program will show that
+as well; enter your own tariff and costs before drawing any conclusion for a real building.
 
 ---
 

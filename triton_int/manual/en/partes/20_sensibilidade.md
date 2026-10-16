@@ -72,31 +72,39 @@ number.
 
 ### The tutorial, assumption by assumption
 
-The table below applies the procedure to the final tutorial project — 4,000 L in
-polyethylene, pumping to a 1,000 L tank, a likely NPV of R$ 5,524 — and varies five
-assumptions, one at a time, between a low and a high value.
+The table below applies the procedure to the final tutorial project, in New York: 4,000 L in
+polyethylene, pumping to a 1,000 L tank, with the illustrative costs of the manual (illustrative,
+not market prices). The likely net present value is negative, about −US$ 3,020. The table varies
+five assumptions, one at a time, between a low and a high value.
 
 <!-- inclui: _tabelas/cap20_sensibilidade.md -->
 
-The reading separates the assumptions into three groups.
+The first thing to read is what does **not** happen: no assumption, at the low or at the high
+value, makes the net present value positive, and none produces a payback. With the New York
+tariff and these costs, the tutorial system does not pay for itself within twenty years, and no
+single doubt in the inputs changes that. The reason is the price of water, which is low relative
+to the cost of the works; it is not a defect of the example. Read the rest of the table with this
+in mind: the question is not which assumption makes the project viable, but which one moves the
+result most.
 
-**The one that decides the project is the suppliable fraction.** From 20% to 40%, the NPV
-goes from negative to almost three times the likely value, and the payback from «no
-payback» to less than eight years. It is the assumption section {{n:5}} fixed and that
-depends on the decision about uses, not on measurement: including or not the washing
-machine, with the quality criterion item 4.1.8 of NBR 15527:2019 requires, moves the result
-more than any economic parameter.
+**The one that moves it most is the suppliable fraction.** From 20% to 40%, the potential goes
+from 19.84% to 35.26% and the net present value from −US$ 4,289 to −US$ 1,590, the widest range
+of the five. It is the assumption section {{n:5}} fixed and that depends on the decision about
+uses, not on measurement: including or not the washing machine, against the quality criterion
+applicable to the case, moves the result more than any economic parameter.
 
-**Those decided by the market weigh next.** The tariff escalation and the minimum
-attractive rate of return shift the NPV by thousands of reais each, but do not touch the
-potential. Per capita consumption moves both: with less consumption, the suppliable
-fraction applies to a smaller demand, the cistern almost never runs short, and the potential
-rises a little while the saving in money falls.
+**Those decided by the market and the household weigh next.** The tariff escalation moves the net
+present value from −US$ 3,760 (1% a year) to −US$ 2,093 (5% a year), and the minimum attractive
+rate of return from −US$ 2,149 (0.2% a month) to −US$ 3,659 (0.6% a month); neither touches the
+potential. Per capita consumption moves both: from 120 to 180 L per person per day, the
+potential falls from 27.64% to 26.09% while the net present value rises from −US$ 3,892 to
+−US$ 2,282. With more consumption the suppliable fraction applies to a larger demand, the
+cistern runs short more often, the potential falls a little, and the saving in money rises.
 
-**The one that seemed important hardly weighs.** Thirty per cent more or less on the price
-of the cistern changes the NPV by R$ 760 and the payback by one year. The polyethylene
-cistern is a small share of the investment, and labour, piping and accessories, which do not
-vary with the volume, dominate the account.
+**The one that seemed important hardly weighs.** Between 70% and 130% of the cistern price, the
+net present value goes from −US$ 2,330 to −US$ 3,710, a range smaller than the others. The
+polyethylene cistern is a small share of the investment, and labour, piping and accessories,
+which do not vary with the volume, dominate the account.
 
 The result reverses the intuition of anyone who prices before simulating: spending time
 quoting the cistern is worth less than spending time defining the uses.
@@ -124,7 +132,9 @@ Read it like this:
 
 The distinction this column allows is epistemological, not only statistical: a volume that
 wins in 80% of the weight draws is a recommendation, whereas a volume that wins in 30% is a
-preference of the analyst, legitimate as long as it is presented as such. Section {{n:32}}
+preference of the analyst, legitimate as long as it is presented as such. In the New York
+tutorial the winning volume, 4,000 L, has an acceptability of 44.7%, with 5,000 L second at
+19.9%: a reasonable recommendation, for which the second option is worth declaring. Section {{n:32}}
 sets out the method that produces this number.
 
 ---

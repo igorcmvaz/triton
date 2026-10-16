@@ -19,11 +19,13 @@ The first table is the portrait of the problem. Notice how the columns disagree:
 
 - The **potential** grows monotonically: the larger the cistern, the more water. Maximum
   at 12,000 L.
-- The **NPV** rises, flattens and starts to fall: maximum at 4,000 L, practically tied
-  with 2,000 and 3,000 L, and falling from 5,000 L on, because the additional investment
-  no longer pays for itself.
+- The **NPV** is negative at every volume (the costs are illustrative, not market prices).
+  Its best value, the smallest loss, is at 2,000 L, and it worsens steadily beyond that
+  point, because each additional cubic metre of tank costs more than the saving it adds. No
+  volume has a payback.
 - The **carbon** rises and falls much earlier: maximum at 2,000 L, practically tied with
-  1,000 L. After that, each cubic metre of polyethylene adds more debt than credit.
+  3,000 L. After that, each cubic metre of polyethylene adds more debt than credit, and
+  at 12,000 L the balance turns to emission.
 
 ==There is no volume that wins on all three criteria at once.== Each one has its optimum
 at a different point of the curve, and the choice between them is not a technical
@@ -94,10 +96,17 @@ already close to the ceiling, and the extra cubic metre yields little. The econo
 environmental criteria, in turn, both converge to 4,000 L.
 
 That convergence, however, is not a general rule, and reading it as one would wrongly
-generalise a particular case. It happens here because the 4,000 L volume sits at the
-shallow maximum of the net present value curve and still ends its service life removing
-carbon. In a municipality with a lower tariff, the economic optimum would move down and
-the divergence between the two criteria would show clearly.
+generalise a particular case. Taken alone, the economic and the environmental criteria
+both prefer 2,000 L; the ranking lands on 4,000 L because TOPSIS also weighs the other
+criteria of each dimension, and because 4,000 L still ends its service life removing
+carbon. With a different tariff or different costs the economic optimum would move, and
+the divergence between the criteria would show clearly.
+
+The multi-criteria ranking chooses a volume; it does not say whether to build. In this
+tutorial every volume has a negative NPV and no payback at the illustrative costs, so the
+financial dimension argues against building at all. If the project goes ahead, it is for
+the reasons the other dimensions give or for a purpose the cash flow does not measure,
+and the report must say so.
 
 > **Declare the weights.** «Optimal volume by TOPSIS» without the weights is an
 > impossible statement to reproduce. Two papers with different weights reach different
@@ -117,10 +126,11 @@ the chosen alternative from the best value reached in each of them
 ---
 ## The tutorial's recommendation
 
-The tutorial's recommendation is the **4,000 L polyethylene** tank, and the reason to
-adopt it is not only that it wins under equal weights. It also wins under a dominant
-economic weight and under a dominant environmental weight, and comes second by a narrow
-margin under a dominant technical weight. ==A recommendation that survives four different
+The tutorial's recommendation, if the project is built, is the **4,000 L polyethylene**
+tank, and the reason to adopt it is not only that it wins under equal weights. It is the
+compromise volume, not the financial optimum, which lies at 2,000 L. It also wins under a dominant
+economic weight and under a dominant environmental weight, and comes second under a dominant
+technical weight. Under the simulated weight uncertainty (SMAA), it ranks first in 44.7% of the draws, against 19.9% for 5,000 L. ==A recommendation that survives four different
 weightings is robust precisely because it does not depend on any of them.==
 
 It is also worth recording that this is the same volume the hydraulic criterion of section
@@ -139,9 +149,9 @@ assuming they always agree.
 ## The project, closed
 
 <!-- tabela: Summary of the tutorial project, with all the parameters and results -->
-| Triton · single-family house in Florianópolis | |
+| Triton · single-family house in New York (costs illustrative, not market prices) | |
 | :--- | ---: |
-| precipitation series | Florianópolis, 30 years, 1,795 mm/year |
+| precipitation series | New York, 30 years, 1,125 mm/year |
 | catchment area | 150 m² |
 | runoff coefficient | 0.85 |
 | first flush | 2.0 mm, every event |
@@ -153,15 +163,15 @@ assuming they always agree.
 | upper tank | 1,000 L, 100 L trigger level |
 | quality class | 1, tablet chlorination |
 | first-flush chamber | 300 L |
-| **potable water saving potential** | **27.30%** |
-| days of full supply | 97.3% |
-| water saved | 59.8 m³/year |
+| **potable water saving potential** | **27.09%** |
+| days of full supply | 96.4% |
+| rainwater consumed | 59.4 m³/year |
 | pumping energy | 7.7 kWh/year |
-| investment | R$ 11,283 |
-| **net present value over 20 years** | **R$ 5,524** |
-| discounted payback | 12.8 years |
-| **net emissions over 20 years** | **−74 kg CO₂e** |
-| carbon payback | 16.3 years |
+| investment (illustrative) | US$ 6,350 |
+| **net present value over 20 years (illustrative)** | **−US$ 3,020** |
+| discounted payback | none |
+| **net emissions over 20 years** | **−200 kg CO₂e** |
+| carbon payback | 12.4 years |
 
 One step remains, which is to communicate the result: a study that is not reported in a
 verifiable way is indistinguishable, for whoever reads it, from a well-presented guess.

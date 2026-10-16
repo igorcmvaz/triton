@@ -34,8 +34,8 @@ tariff.
 
 **Four residents, 150 L/person·day.** A total of **600 L/day**.
 
-The value of 150 L/person·day is the consumption of a middle-class Brazilian house with
-a regular supply. If you have the building's water and sewage bill, use it: divide the
+The value of 150 L/person·day is a round reference for a house with a regular supply,
+not a measurement. If you have the building's water and sewage bill, use it: divide the
 monthly consumption in litres by thirty and by the number of residents. The measured
 number is worth more than any reference.
 
@@ -60,23 +60,19 @@ rest, stay on potable water.
 
 Adding the two that rain supplies gives the 28% of the tutorial. It is a conservative
 value for a single-family house without a large garden, and it is conservative on
-purpose: it keeps to the uses the standard admits.
+purpose: it keeps to the uses that rainwater guidance most widely admits.
 
-> **The washing machine is not on the standard's list.** ABNT NBR 15527:2019, in item
-> 4.1.7, admits seven non-potable uses for rainwater: cooling systems, flushing of
-> toilets and urinals, vehicle washing, floor washing, fire-fighting reserve, ornamental
-> use and landscape irrigation. ABNT NBR 16783:2019, which deals with alternative sources
-> in general, also leaves laundry out of item 4.2.1. For any other use, item 4.1.8 of
-> NBR 15527 requires the responsible professional to study the specific quality
-> parameters and treatment. Use in the washing machine is common in the literature and in
-> practice, and that is why many studies work with suppliable fractions larger than this
-> tutorial's. In Joinville, Ghisi and Custódio (2019) obtained a mean potential of 18.5%
-> with rainwater only in toilets, and of 40.8% with toilets and the washing machine. The
-> tutorial does **not** adopt it: the machine stays on potable water, and the suppliable
-> fraction falls to the 28% of the toilet and the outdoor uses. A project that includes
-> laundry must declare that it is outside the normative list and which quality criterion
-> was adopted for it. The European standard EN 16941-1:2024, by contrast, lists laundry
-> among the basic uses, together with toilet flushing and garden watering.
+> **The washing machine is a choice that guidance does not settle.** National rainwater
+> standards differ on laundry. Some list it among the permitted non-potable uses; others
+> leave it out and ask the responsible professional to study the quality parameters and
+> treatment for any use not listed. Use in the washing machine is common in the
+> literature and in practice, and that is why many studies work with suppliable fractions
+> larger than this tutorial's. The tutorial does **not** adopt it: the machine stays on
+> potable water, and the suppliable fraction falls to the 28% of the toilet and the
+> outdoor uses. A project that includes laundry must declare that choice and the quality
+> criterion adopted for it, and check it against the standard that applies where the
+> building stands.
+
 
 ![The split of consumption in a house, and the part rain can supply](../figuras/fig00c_fracao.png)
 
@@ -87,8 +83,7 @@ purpose: it keeps to the uses the standard admits.
 > section {{n:7}} shows the curve approaching exactly this limit and never crossing it.
 >
 > Anyone who wants to go beyond 28% must change the **use**, not the tank: add a use,
-> such as laundry, with the declared quality criterion that item 4.1.8 of the standard
-> requires, or reduce potable consumption.
+> such as laundry, with a declared quality criterion, or reduce potable consumption.
 
 ### Percentage on screen, fraction in the file
 
@@ -207,12 +202,11 @@ keeping:
 <!-- tabela: Comparison between the annual rainwater supply and the suppliable demand -->
 | | m³/year |
 | :--- | ---: |
-| precipitation falling on the catchment area | 229 |
-| volume left after the first flush | 187 |
+| gross rainwater supply (precipitation × area × coefficient) | 143 |
 | **rainwater demand of the year** | **61** |
 
-Supply exceeds demand: the available volume is **three times** what is intended to be
-used. If supply were the only limit, the system would meet 100% of the rainwater demand
+Supply exceeds demand: the gross volume is **2.3 times** what is intended to be
+used, before the first flush is deducted. If supply were the only limit, the system would meet 100% of the rainwater demand
 and reach the 28% ceiling.
 
 It does not, and section {{n:6}} shows why.

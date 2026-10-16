@@ -6,8 +6,7 @@
 
 The water running off a roof carries dust, leaves, soot and bird droppings, and no use — not even
 toilet flushing — admits it reaching the point of use as it left the roof. The rainwater
-treatment plant, called ETAP in the program (from the Portuguese *estação de tratamento de água
-pluvial*), is the set of equipment that does this conditioning, and the program sizes it from three
+treatment plant of the program is the set of equipment that does this conditioning, and the program sizes it from three
 inputs: the quality class the use requires, the roof area and the annual volume of rainwater
 actually consumed, the latter a result of the daily balance presented in section {{n:23}}.
 
@@ -37,8 +36,8 @@ aesthetic parameter.
 
 The inlet filter is sized by the roof area, not by the intended quality class, because what it has
 to cope with is the peak flow the roof produces — a quantity that does not depend on the final
-destination of the water. The three ranges adopted by the program correspond to the capacities
-manufacturers themselves declare for the equipment common on the Brazilian market.
+destination of the water. The three ranges adopted by the program are generic reference ranges, one equipment class per
+range; check the capacity declared by the manufacturer of the equipment you specify.
 
 <!-- tabela: Mechanical inlet filter sized by the roof area -->
 | Roof | Equipment | Mesh |
@@ -47,9 +46,9 @@ manufacturers themselves declare for the equipment common on the Brazilian marke
 | up to 500 m² | self-cleaning vortex DN 150 | 400 µm |
 | above 500 m² | basket or cyclonic DN 200 | 500 µm |
 
-> The range limits follow the area the product itself declares it serves, not an arbitrary margin
-> over it. That is why a 180 m² roof receives the DN 100 filter: the manufacturer declares the
-> equipment enough for up to 200 m², and imposing that of the next range would make the
+> The range limits follow the area a product of that class is declared to serve, not an
+> arbitrary margin over it. That is why a 180 m² roof receives the DN 100 filter: the class is
+> declared enough for up to 200 m², and imposing that of the next range would make the
 > installation more expensive without technical grounds.
 
 ---
@@ -68,10 +67,15 @@ the moment of passage and leave nothing behind ({{fig:fig30_desinfeccao}}).
 
 ==Ultraviolet and ozone come in as a barrier additional to chlorination, not as substitutes for
 it.== Without a residual, the treated water becomes contaminated again on the way to the point of
-use, and the right practice — in line with item 4.6.5 of ABNT NBR 15527:2019, which works with free
-residual chlorine — keeps chlorination to protect the tank and the internal network. The economic
+use, and the right practice, which is to keep a free chlorine residual according to the applicable
+guideline for the use, keeps chlorination to protect the tank and the internal network. The economic
 consequence is direct: both options add the cost of chlorine to their own, and choosing either of
-them never reduces the running cost.
+them never reduces the running cost. In the tutorial, tablet chlorination alone is a single stage
+with no ultraviolet energy and 0.2 kg CO₂e a year; chlorination plus ultraviolet is two stages,
+37.5 kWh a year and 18.2 kg CO₂e; chlorination plus ozonation is two stages and 15.2 kg CO₂e
+(illustrative grid factor, not a measured value). The program carries no price catalogue for this
+equipment in the International Edition, so these comparisons are about energy and carbon: enter
+your own prices if you want cost.
 
 ### The mass of chlorine
 
@@ -108,7 +112,7 @@ satisfied with a sand filter or a twenty-micrometre cartridge.
 <!-- tabela: Polishing filter recommendation by target quality class -->
 | Class | Polishing recommended? | Equipment when ticked |
 | :--- | :---: | :--- |
-| 1 — NBR 15527:2019 | no | sand filter or 20 µm cartridge |
+| 1 — toilet flushing and general non-potable uses | no | sand filter or 20 µm cartridge |
 | 2 — irrigation and washing | yes | likewise |
 | 3 — cooling towers and boilers | yes | likewise |
 | 4 — laundry | yes | **block activated carbon** |
@@ -118,10 +122,10 @@ actually ticks it. When the class recommends it and the user declines, the progr
 refusal in a field of its own and the report shows it, so that the decision is documented instead
 of disappearing.
 
-> **Classes 2 to 4 are adaptations made by the program, not by NBR 15527.** The matrix of
-> parameters by end use is a feature of the 2007 version of the standard and did not survive the
-> 2019 revision. In a published study, present them as a criterion adopted by the author, never as
-> a normative requirement.
+> **Classes 2 to 4 are criteria adopted by the program, not by a standard.** The quality required
+> for each end use is set by the health authority and the guideline that applies to the case. In a
+> published study, present the classes as a criterion adopted by the author, never as a normative
+> requirement.
 
 ---
 
@@ -134,24 +138,19 @@ is a subsystem with its own investment, running cost and embodied carbon, made u
 separator and the first-flush chamber.
 
 The volume of the first-flush chamber is the product of the first-flush depth and the catchment
-area, `V_desc = d × A`, in litres, with `d` in millimetres and `A` in square metres. Up to 250 L, the
-program prices a vertical PVC diversion column, at R$ 2.20 per litre plus R$ 120 in fittings and a
-slow purge valve; above 250 L, a rotomoulded polyethylene tank, with the price interpolated in the
-cost database plus R$ 150 for a sealing float and purge device. The leaf separator costs R$ 220 for
-up to 200 m² of catchment, R$ 440 for up to 500 m² and R$ 220 per unit, every 250 m², above that.
-The annual running cost of the subsystem is R$ 40, and all values are multiplied by the regional
-factor. These are Brazilian reference prices; in the International Edition the costs are typed in.
+area, `V_desc = d × A`, in litres, with `d` in millimetres and `A` in square metres. The program
+sizes a vertical diversion column for small volumes and a tank for larger ones, adds a leaf
+separator sized by the catchment area, and gives the subsystem an annual running cost. In the
+International Edition the prices are typed in; the manual's cases leave the first-flush subsystem
+out of the cost table and count it in the carbon.
 
-<!-- tabela: Sizing and pricing of the first flush in the tutorial project -->
+<!-- tabela: Sizing of the first flush in the tutorial project -->
 | Item | Value |
 | :--- | ---: |
 | first-flush depth | 2 mm |
 | catchment area | 150 m² |
 | volume of the first-flush chamber | 300 L |
-| polyethylene first-flush chamber | R$ 396.90 |
-| DN 100 leaf separator | R$ 220.00 |
-| investment of the subsystem | R$ 616.90 |
-| annual running cost | R$ 40.00 |
+| embodied carbon of the chamber and the leaf separator | 21.1 kg CO₂e (6.5% of the project's embodied carbon) |
 
 The investment of the subsystem is part of the investment of the treatment line and therefore enters
 the cash flow through the incremental rule below.
@@ -175,9 +174,9 @@ CAPEX_inc = CAPEX_linha − V_gen
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `CAPEX_inc` | incremental investment of the treatment line | R$ |
-| `CAPEX_linha` | total investment in the equipment of the sized line | R$ |
-| `V_gen` | generic treatment allowance already included in the accessories item | R$ |
+| `CAPEX_inc` | incremental investment of the treatment line | currency |
+| `CAPEX_linha` | total investment in the equipment of the sized line | currency |
+| `V_gen` | generic treatment allowance already included in the accessories item | currency |
 
 **In the running cost.** Chlorination is already paid in the chemical consumables line of the cash
 flow, so the incremental running cost of the treatment line deducts that part and the hypochlorite
@@ -215,6 +214,7 @@ vortex, replacing tablets — is not planned by the program, although it determi
 real running cost. And **quality control** remains entirely outside the scope: the program sizes
 equipment from assumptions, and does not replace laboratory testing.
 
-ABNT NBR 15527 deals with control and maintenance, and the corresponding plan is the designer's
-responsibility. EN 16941-1:2024, in its Annex E, suggests maintenance intervals of six months for
-pre-treatment, gutters, filters and pumps, and twelve months for the tank.
+Standards for rainwater systems deal with control and maintenance, and the corresponding plan is
+the designer's responsibility. Typical practice is to inspect and clean the pre-treatment, the
+gutters, the filters and the pumps at intervals of months, and the tank at intervals of a year;
+set the intervals from the manufacturer's instructions and the rule that applies to the building.

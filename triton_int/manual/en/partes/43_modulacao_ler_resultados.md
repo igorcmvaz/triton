@@ -3,8 +3,8 @@
 > **Question this section answers:** what does each table and each figure say, and what
 > should be declared in a report or a paper?
 
-The example in this section is the tutorial project, saved with the tool already set up in the
-file `10_modulacao_tutorial.triton` (appendix J), with six variables drawn: the three
+The example in this section is the New York tutorial project, saved with the tool already set up in the
+file `09_modulation_tutorial.triton` (appendix J), with six variables drawn: the three
 consumption ones, the rainfall factor, the tariff factor and the investment factor, with the
 screening distributions, in a thousand realisations and seed 42. The numbers in the tables
 are those the program computes; running the tool with the same project and the same seed
@@ -91,13 +91,13 @@ and is not distorted by extreme realisations.
 
 *Figure 99 — Spearman rank correlation of each drawn variable with potable water savings and with the net present value at the volume chosen by the tutorial study, from the largest to the smallest influence on the net present value.*
 
-The example shows an effect that one-at-a-time analysis hides. The non-potable fraction is
-the variable that moves the **percentage** saving most, because it defines the demand that
-rainwater can supply. The number of occupants and the per capita consumption move the
-percentage little — and in the opposite direction, because they raise total consumption —
-but they are the ones that move the net present value most: more consumption pushes the bill
-into the expensive bands of the progressive tariff, and every cubic metre saved becomes worth
-more.
+Rank correlation can show an effect that one-at-a-time analysis hides. The non-potable fraction
+defines the demand that rainwater can supply, so it is the natural candidate to move the
+**percentage** saving most. The number of occupants and the per capita consumption raise total
+consumption: they tend to move the percentage little, and in the opposite direction, but they can
+move the net present value a great deal, because more consumption pushes the bill into the
+dearer bands of a progressive tariff and every cubic metre saved becomes worth more. Read the
+table for your own case, and check which of these effects the tariff you typed in allows.
 
 ## How much of the uncertainty comes from each source
 
@@ -110,42 +110,27 @@ the climate model by their own values. η² estimates the first-order sensitivit
 
 <!-- inclui: _tabelas/cap43_variancia.md -->
 
-In the example, the number of occupants and the per capita consumption account for about
-four fifths of the variance of the net present value, and the non-potable fraction for
-almost all the variance of the savings. The three economic factors and the rainfall factor,
-with the screening widths, weigh little. With independent variables and additive effects,
+In the example, compare the columns: the variables that dominate the variance of the savings are
+rarely those that dominate the variance of the net present value, and factors drawn with narrow
+screening widths, such as the tariff, investment and rainfall factors, usually weigh little. With independent variables and additive effects,
 the sum is close to 1; a sum well below 1 indicates interaction between the variables. The
 class-based estimate has a small upward bias, of the order of the number of classes divided
 by the number of realisations, so the sum may slightly exceed 1.
 
-## The climate model
+## Catchment and rainfall
 
-> **Brazil Edition (BRL) only.**
+The second example, saved in the file `10_modulation_catchment.triton`, uses the same New York
+sweep but draws the uncertainty of the **catchment** — area, runoff coefficient and first-flush
+depth — together with the rainfall factor, the tariff factor and the investment factor, in a
+thousand realisations and seed 42. The International Edition has no per-model table, because it has
+no climate-model database: rainfall uncertainty enters through the rainfall factor, and the
+variance table lists the drawn variables, the rainfall factor among them.
 
-When climate models are drawn, the screen adds a table with the result at the chosen volume
-by model — how many realisations drew it, the mean savings, the mean NPV and the probability
-that the investment pays back — and the η² of the model. The following example, saved in the
-file `11_modulacao_climbra.triton`, uses the tutorial project with CLIMBra rainfall for Florianópolis, scenario SSP2-4.5, from 2025 to
-2054, all nineteen models ticked and the three consumption variables drawn, in a thousand
-realisations and seed 42.
-
-<!-- inclui: _tabelas/cap43_modelos.md -->
-
-<!-- inclui: _tabelas/cap43_modelos_variancia.md -->
-
-The models disagree by more than a quarter of the annual rainfall, and yet the model
-explains only a small share of the variance. In Florianópolis, rain is plentiful for a
-cistern of this size: what limits the savings is the demand that rainwater can supply, not
-the rain that arrives. With about fifty realisations per model, the standard error of each
-model's mean NPV is of the order of R$ 1,900, and the differences between the means in the
-table are mostly noise from the consumption draw. η² separates the two; reading the table
-model by model, without it, would attribute to climate what is an effect of occupancy. In a
-drier climate, or with a larger cistern, the weight of the model may differ, and the table
-shows it.
-
-> **In the International Edition (INT).** Without the CLIMBra database, the per-model table
-> does not appear; the variance table lists the drawn variables, the rainfall factor among
-> them.
+Read this example for what it separates. A runoff coefficient or an area off by a few per cent
+changes every day of the series by the same proportion, so these variables shift the savings
+roughly in step with the rainfall factor; a deeper first flush acts mainly on small rains, which
+are the days that fill an empty tank. The η² table shows which of them the savings and the net
+present value actually respond to.
 
 ## What to declare
 
@@ -153,5 +138,5 @@ In a report or a paper, declare: the drawn variables and their distributions (th
 table), the number of realisations and the seed, the P5–P95 band and the median of the result
 at the chosen volume, the probability that the investment pays back with its interval, the
 frequency with which the chosen volume wins and the share of variance each source explains.
-With climate models drawn, also declare the list of models, the scenario and the period. The **Export** button writes all of this to
+The **Export** button writes all of this to
 JSON, and the CSV of the samples allows any statistic to be recomputed outside the program.

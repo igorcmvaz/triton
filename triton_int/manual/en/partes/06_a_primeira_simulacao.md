@@ -6,8 +6,8 @@
 
 One input is missing before simulating: the volume of the tank. Let us guess.
 
-**3,000 litres.** A 3 m³ concrete cistern is a common back-yard size, it fits the budget
-and it is what a designer would propose without much thought. Section {{n:7}} will ask
+**3,000 litres.** A 3 m³ cistern is a common back-yard size, and what a designer would propose
+without much thought. Section {{n:7}} will ask
 whether it is the right volume. Here we only want to see the program run.
 
 In step **4. Reservoir & Costs**, choose a fixed volume, enter 3,000 L, leave the upper
@@ -27,7 +27,7 @@ conclusion.
 
 ---
 
-## The saving potential: 26.48%
+## The saving potential: 25.99%
 
 This indicator answers the question that motivates most projects: how much of the water
 and sewage bill stops being paid. It is the central value the program produces and the
@@ -40,29 +40,27 @@ The denominator deserves attention, because everything else follows from it: it 
 the indicator at 28%, which is the suppliable fraction defined in section {{n:5}}, and
 not at one hundred per cent.
 
-The system reached 26.48% against a ceiling of 28%, which means it delivers 95% of what
-it set out to deliver. The remaining 5% correspond to the days when the cistern did not
+The system reached 25.99% against a ceiling of 28%, which means it delivers 93% of what
+it set out to deliver. The remaining 7% correspond to the days when the cistern did not
 have enough water to meet that day's rainwater demand.
 
-> **Do not confuse the two percentages.** «A saving of 26%» and «95% of the rainwater
+> **Do not confuse the two percentages.** «A saving of 26%» and «93% of the rainwater
 > demand met» describe the same system and are different numbers. Published studies
 > sometimes swap one for the other. Declare which one you are using.
 
 ---
 
-## The overflow: 354 L/day
+## The overflow: 150.8 L/day
 
 **It answers: is the tank big enough?**
 
-Three hundred and fifty-four litres per day, on average over the thirty years, overflow
-from the cistern and go to the drainage system. ==The overflow is more than twice the
-168 L/day the system intends to consume,== and the tank lets through more water than it
-uses.
+About 151 litres per day, on average over the thirty years, overflow from the cistern
+and go to the drainage system. ==That is almost as much as the 168 L/day the system
+intends to consume,== and the tank lets through nearly as much water as it uses.
 
-It looks like the definitive argument for enlarging the tank, and it is not. The roof
-offers three times what the house consumes (section {{n:5}}), and a good part of that
-surplus would overflow from any cistern: section {{n:7}} shows that not even 20,000 L
-brings it below 340 L/day. The overflow only says something about the volume when
+It looks like an argument for enlarging the tank, and it is a weak one. The roof offers
+2.3 times what the house intends to use (section {{n:5}}), so a good part of that surplus
+would overflow from any cistern, however large. The overflow only says something about the volume when
 compared with that of other volumes, and that comparison is what section {{n:7}} does.
 
 > A high overflow is not a defect of the program or of the project. It is the signature
@@ -72,7 +70,7 @@ compared with that of other volumes, and that comparison is what section {{n:7}}
 
 ---
 
-## The days of supply: 93.9% full
+## The days of supply: 91.9% full
 
 **It answers: how often can I count on the system?**
 
@@ -88,8 +86,8 @@ achieved.
 | partial | it met part of it, and the mains made up the rest |
 | none | the cistern was empty; everything came from the mains |
 
-On 93.9% of the days the system met the rainwater demand on its own, and on the
-remaining 6.1% the mains came in, fully or partly. The distinction has a direct
+On 91.9% of the days the system met the rainwater demand on its own, and on the
+remaining 8.1% the mains came in, fully or partly (1.7% of the days partial, 6.4% none). The distinction has a direct
 consequence on the plumbing design: a system with many days of no supply needs a
 well-sized automatic backup supply, and the user notices the switching between the two
 sources over the year. A system with 99% full days is, in practice, independent of the
@@ -108,8 +106,9 @@ mains for the uses it supplies.
 
 This is the value that carries over to sections {{n:10}} and {{n:11}}, because both the
 saving on the water and sewage bill and the avoided carbon emission are calculated from
-it. It is 58.0 m³/year, less than a third of the 187 m³/year the roof makes available
-after the first flush, and the whole difference corresponds to what overflowed.
+it. It is 57.0 m³/year, less than half of the 143 m³/year the roof makes available
+before the first flush; the first flush and the overflow account for most of the
+difference.
 
 ---
 
@@ -125,9 +124,9 @@ the two regimes limiting the yield can be seen at once: overflow and shortage
 ---
 ## Why we do not reach 28%
 
-Section {{n:5}} ended with an apparently favourable comparison: 187 m³ per year of supply
-against 61 m³ of rainwater demand, that is, three times what is needed. Faced with this
-surplus, it would be reasonable to expect full supply, and yet the system delivers 95% of
+Section {{n:5}} ended with an apparently favourable comparison: 143 m³ per year of supply
+against 61 m³ of rainwater demand, that is, 2.3 times what is needed. Faced with this
+surplus, it would be reasonable to expect full supply, and yet the system delivers 93% of
 what was intended.
 
 The explanation lies entirely in **time**. The surplus does not occur when the water is
@@ -150,10 +149,10 @@ That is why enlarging the tank works — and that is why enlarging has a limit. 
 <!-- tabela: State of the tutorial project after the first simulation -->
 | Result with 3,000 L | |
 | :--- | ---: |
-| saving potential | 26.48% |
+| saving potential | 25.99% |
 | out of a ceiling of | 28% |
-| overflow | 354 L/day |
-| days of full supply | 93.9% |
+| overflow | 150.8 L/day |
+| days of full supply | 91.9% |
 
 A defensible result, and already close to the ceiling. But we chose 3,000 L by guesswork:
 it may be too little, and it may be too much.

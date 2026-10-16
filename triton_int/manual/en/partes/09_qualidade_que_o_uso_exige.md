@@ -1,7 +1,7 @@
 # What quality the use requires
 
 > By the end of this section the project will have a treatment line defined, and you will
-> be able to tell what the standard requires from what the program recommends.
+> be able to tell what a standard requires from what the program recommends.
 
 Up to this point the tutorial has treated rainwater only as volume: how much is
 collected, how much is stored, how much is consumed. Water, however, is also a quality,
@@ -11,39 +11,35 @@ treatment line.
 
 ---
 
-## What the standard says, and what it does not say
+## What standards say, and what they do not say
 
-ABNT NBR 15527 is the Brazilian standard for rainwater harvesting for non-potable uses.
-In the 2019 edition, its Table 1 sets three minimum parameters: *E. coli* below 200 per
-100 mL, turbidity below 5.0 NTU and pH between 6.0 and 9.0 (item 4.6.3). Disinfection is
-at the designer's discretion (4.6.4); if chlorine is used, the standard recommends a free
-residual between 0.5 and 2.0 mg/L, with a maximum of 5 mg/L (4.6.5), and asks for
-monitoring at least every six months (4.6.7). Apparent colour and total coliforms, which
-the 2007 edition limited, left the table.
-
-What the current standard does **not** do is divide non-potable uses into classes with
-different requirements. That division existed in the 2007 version and did not survive the
-2019 revision, which chose a single set of parameters applicable to all non-potable uses.
+Rainwater harvesting standards differ from one country to another, and the program does
+not decide which one applies to your project. In general, a standard for non-potable use
+sets a short list of minimum parameters: a microbiological indicator such as *E. coli*,
+turbidity and pH, and, if chlorine is used, a range for the free residual. Disinfection
+is often left to the designer's discretion, and monitoring is asked for at a stated
+interval. Some standards divide the non-potable uses into classes with different
+requirements; others set a single set of parameters for all of them; others set no
+quality table and let the use and a risk assessment decide whether treatment beyond the
+filter is needed. Check the standard of the jurisdiction of the project and enter its
+limits as the criterion.
 
 The program, in turn, offers four classes, and the reason is practical: toilet flushing
-and garden watering do not expose the user in the same way, even if the standard does not
+and garden watering do not expose the user in the same way, even if a standard does not
 distinguish them ({{fig:fig36_classes}}).
 
-> **Reuse is not harvesting.** ABNT NBR 15575-1:2025, in Table 26 of item 18.4.2, has much
-> stricter parameters for non-potable uses — absence of total and thermotolerant
-> coliforms, residual chlorine of 0.5 to 3.0 mg/L, turbidity below 2.0 NTU and colour below
-> 15 Hazen units —, but they apply to the **reuse** of wastewater. Rainwater is not reuse:
-> NBR 15527:2019 distinguishes the two terms (items 3.5 and 3.18), and it is its Table 1
-> that applies to rainwater harvesting. The European standard EN 16941-1:2024 sets no
-> quality table: it lets the use and a risk assessment decide whether treatment beyond the
-> filter is needed.
+> **Reuse is not harvesting.** Parameters set for the **reuse** of wastewater are usually
+> much stricter than those for rainwater harvesting: absence of coliforms, a higher
+> residual chlorine and lower turbidity. Rainwater is not reuse, and the table that
+> applies to harvesting is the one in the rainwater standard, not the one in the reuse
+> standard.
 
 ![The program's four quality classes](../figuras/fig36_classes.png)
 
-*Figure 99 — The program's four quality classes and the normative status of each one. Only class 1 corresponds to the parameters of ABNT NBR 15527:2019; classes 2 to 4 are adaptations made by the program, suitable for comparing treatments and unsuitable for presentation as a normative requirement.*
+*Figure 99 — The program's four quality classes and the status of each one. Class 1 is the minimum reference set, with the least demanding parameters; classes 2 to 4 are adaptations made by the program, suitable for comparing treatments and unsuitable for presentation as a normative requirement.*
 
 
-> **Classes 2 to 4 are adaptations made by the program, not by the standard.** Triton
+> **Classes 2 to 4 are adaptations made by the program, not by a standard.** Triton
 > itself says so on the screen and in the report. In a published study, do not present
 > them as a normative requirement: present them as the criterion adopted, and cite the
 > source.
@@ -77,32 +73,31 @@ depends, and the program offers three technologies. The difference between them 
 both in cost and in behaviour, and the criterion that separates them is not the
 effectiveness of disinfection — all three disinfect — but the persistence of the effect.
 
-**Tablet chlorination.** A feeder with calcium hypochlorite tablets in the line. It is the
-default option. For the 82 m³ of our project, the treatment line with chlorination costs
-R$ 1,547 of investment and R$ 47 per year of running cost, values that include the first
-flush sized in the same step — R$ 617 of investment and R$ 40 per year, as section {{n:27}}
-details — and the tablets. It leaves a **residual** in the water, which protects the tank
-and the internal network against recontamination.
+**Tablet chlorination.** A feeder with calcium hypochlorite tablets in the line, in one
+stage. It is the default option. It leaves a **residual** in the water, which protects
+the tank and the internal network against recontamination. The edition carries no
+equipment catalogue, so the cost of the line is whatever you enter in the economic step,
+from your own quotations; this manual quotes no price for treatment equipment.
 
-**Ultraviolet.** A reactor with a UV lamp. The line rises to R$ 2,747 of investment and
-R$ 263 per year of running cost, with the lamp and the reactor's energy. **It leaves no
-residual**: it disinfects what passes through it, and nothing protects the water
-afterwards.
+**Ultraviolet.** A reactor with a UV lamp, in a second stage after chlorination. The lamp
+and the reactor use 37.5 kWh per year in this project. **It leaves no residual**: it
+disinfects what passes through it, and nothing protects the water afterwards.
 
-**Ozonation.** The line rises to R$ 5,047 of investment and R$ 247 per year of running
-cost. Also without residual.
+**Ozonation.** Also a second stage after chlorination, also without residual.
 
 > **Warning.** In the program, ultraviolet and ozone enter as an **additional** barrier to
 > chlorination, not as substitutes. It is the right practice: without a residual, the
 > treated water becomes contaminated again on the way to the point of use.
 >
-> That is why the UV and ozone lines add the cost of chlorine. Anyone who expected that
-> replacing chlorine with UV would **reduce** the cost will see the opposite.
+> That is why the UV and ozone lines add to the chlorine line instead of replacing it.
+> Anyone who expected that replacing chlorine with UV would **reduce** the cost will see
+> the opposite.
 
-The carbon impact follows the same order: 0.4 kg CO₂e per year with chlorination, 6.5
-with ultraviolet and 15.4 with ozonation, for the volume treated in this project. The
-whole difference is in the electricity consumed by the lamp and the ozone generator, since
-the chemical consumable of chlorination has a modest manufacturing emission by comparison.
+The carbon impact follows the same order: 0.2 kg CO₂e per year with chlorination, 18.2
+with ultraviolet and 15.2 with ozonation, for the volume treated in this project, at the
+illustrative grid factor of 0.40 kg CO₂e/kWh. The difference is in the electricity
+consumed by the lamp and the ozone generator, since the chemical consumable of
+chlorination has a modest manufacturing emission by comparison.
 
 ---
 
@@ -120,8 +115,8 @@ flow of the roof — a quantity that does not depend on the final destination of
 | up to 500 m² | self-cleaning vortex DN 150 | 400 µm |
 | above | basket or cyclonic DN 200 | 500 µm |
 
-Our 150 m² roof is in the first range. These filters retain particles well below the 1 mm
-that EN 16941-1:2024 asks of the pre-treatment.
+Our 150 m² roof is in the first range. These filters retain particles of a few hundred
+micrometres, well below a millimetre.
 
 ---
 
@@ -147,24 +142,22 @@ instead of adding to it. Section {{n:27}} details the rule.
 
 **Class 1, tablet chlorination, no polishing filter.**
 
-The water goes to the toilet and the outdoor area. Class 1, which reproduces Table 1 of
-ABNT NBR 15527:2019 (*E. coli* below 200 per 100 mL, turbidity below 5.0 NTU and pH between
-6.0 and 9.0), covers both, which are on the list of item 4.1.7 of the standard. A project
-that adds the washing machine goes beyond that list, and item 4.1.8 asks the responsible
-professional to define and declare the quality criterion for it, as section {{n:5}}
-records. Chlorination leaves a residual, and its cost is the lowest of the three. An
-incremental investment of R$ 1,197 over the allowance already planned, of which R$ 617 is
-the first flush, and R$ 43.45 per year of running cost: R$ 3.45 of tablets and R$ 40 of
-first-flush maintenance.
+The water goes to the toilet and the outdoor area. Class 1, the program's minimum
+reference set (an *E. coli* limit, turbidity and pH, with a free-chlorine range),
+covers both. A project that adds the washing machine goes beyond the uses most standards
+list, and the responsible professional must define and declare the quality criterion for
+it, as section {{n:5}} records. Chlorination leaves a residual, it is the simplest of the
+three lines, and it has the lowest energy and carbon: 0.2 kg CO₂e per year. The first
+flush is sized in the same step; its chamber is the 300 L of section {{n:4}}.
 
 <!-- tabela: State of the tutorial project after defining the quality class -->
 | Project so far | |
 | :--- | ---: |
 | volume | 4,000 L |
-| quality class | 1, normative |
+| quality class | 1, minimum reference set |
 | disinfection | tablet chlorination |
 | polishing filter | no |
-| incremental treatment investment, with the first flush | R$ 1,197 |
+| annual carbon of the treatment line | 0.2 kg CO₂e |
 
 We have volume, arrangement and quality. Now the question that decides whether the
 project leaves the drawing board.

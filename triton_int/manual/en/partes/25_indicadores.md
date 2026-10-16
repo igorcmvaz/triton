@@ -73,18 +73,18 @@ Epot = Rv × f
 | `Rv` | volumetric reliability | % |
 | `f` | fraction of the total demand suppliable by rainwater | dimensionless |
 
-==A system with 97% reliability and a 28% suppliable fraction saves 27.1% of the total
-consumption, and the three numbers say the same thing in three ways.== That is exactly the case
-of the tutorial's 4,000 L cistern, before the upper tank: the volumetric reliability is 96.86%,
-and 96.86% × 0.28 = 27.12%, the potential printed in section {{n:7}}. Reporting only one of them,
-without declaring the suppliable fraction adopted, makes the result impossible to compare with
-that of another study — and it is the most frequent cause of improper comparisons in the
-literature of the field.
+==A system with 93% reliability and a 28% suppliable fraction saves 26% of the total
+consumption, and the three numbers say the same thing in three ways.== That is the case of the
+New York tutorial with a 3,000 L cistern, the first simulation of section {{n:6}}: the saving
+potential is 25.99%, and dividing by the suppliable fraction of 0.28 gives a volumetric
+reliability of about 92.8%. Reporting only one of them, without declaring the suppliable
+fraction adopted, makes the result impossible to compare with that of another study, and it is
+the most frequent cause of improper comparisons in the literature of the field.
 
 The literature uses different names for the same ratio. Fewkes and Butler (2000) call **water
 saving efficiency** the quotient between the rainwater volume supplied and the demand the system
 should meet, which is the volumetric reliability of this section. Other authors call efficiency
-what here is saving potential; EN 16941-1:2024 calls it the coverage rate. When comparing with
+what here is saving potential; some standards call it the coverage rate. When comparing with
 another work, check the denominator, not the name.
 
 ---
@@ -108,12 +108,12 @@ Formally, the day is **full** when `V_con,t = D_pl,t`, with a tolerance of 10⁻
 when `0 < V_con,t < D_pl,t`; and **none** when `V_con,t = 0`.
 
 
-In the tutorial, the 4,000 L cistern has 96.6% of full days, 0.6% of partial days and 2.8% of days
-with no supply. Notice that the time reliability, 96.6%, is lower than the volumetric one,
-96.86%. There is no contradiction: partial days do not count as full, but they contribute volume,
-and it is that water the volumetric reliability adds and the time reliability does not. The
-difference between the two is therefore an indirect measure of how far the failure days are
-partial failures.
+In the tutorial with a 3,000 L cistern, 91.9% of the days are full, 1.7% partial and 6.4% with no
+supply. Notice that the time reliability, 91.9%, is lower than the volumetric one, about 92.8%.
+There is no contradiction: partial days do not count as full, but they contribute volume, and it
+is that water the volumetric reliability adds and the time reliability does not. The difference
+between the two is therefore an indirect measure of how far the failure days are partial
+failures. With a 4,000 L cistern the full days rise to 95.3%.
 
 **What it measures:** how often the user can count on the system.
 
@@ -145,8 +145,8 @@ would without the system. There is no loss compared with the no-system scenario 
 opportunity not taken.
 
 > The overflow **never reaches zero** in a real system. It tends to a floor that is the difference
-> between what the roof collects and what the demand consumes, and in the tutorial that floor is
-> more than half of the water collected. Anyone who wants flood retention needs a detention tank,
+> between what the roof collects and what the demand consumes, and in the tutorial the roof supplies 2.3 times
+> the rainwater demand, so that the floor is a large share of the water collected. Anyone who wants flood retention needs a detention tank,
 > which is another project with another logic.
 
 ---
@@ -168,12 +168,13 @@ the first flush, that ended up consumed.
 | `V_cap,t` | volume collected on day `t`, after the first flush | L |
 | `Σ` | sum over all the days of the simulated series | — |
 
-In the tutorial's 4,000 L cistern, the roof delivers 187.4 m³ per year to the cistern; the system
-consumes 59.4 m³ and overflows 127.9 m³, and the two parts close the mass balance. The efficiency
-of use of the collected water is therefore 31.7%. The number explains why enlarging the cistern
-yields so little beyond a certain point: water is not missing on the roof, **demand** to consume it
-is. When supply greatly exceeds the rainwater demand, as in Florianópolis, the efficiency of use of
-the collected water is necessarily low, whatever the volume.
+In the tutorial's 3,000 L cistern, the system consumes 57.0 m³ a year and overflows a mean of
+150.8 L/day, about 55 m³ a year; the mass balance closes with what stays in the tank, which is
+small. About half of the water that reached the cistern is therefore consumed. The number
+explains why enlarging the cistern yields so little beyond a certain point: water is not
+missing on the roof, **demand** to consume it is. The gross supply of the roof, 143 m³ a year,
+is 2.3 times the rainwater demand of 61 m³ a year; when supply greatly exceeds the rainwater
+demand, the efficiency of use of the collected water is necessarily low, whatever the volume.
 
 ---
 
@@ -187,17 +188,14 @@ quickly it recovers from a failure; and **vulnerability**, which measures the se
 when they occur.
 
 The program reports the first and not the other two, but both can be calculated from the detailed
-daily series, exported to a spreadsheet. For the tutorial's 4,000 L cistern, over thirty years:
+daily series, exported to a spreadsheet: count the sequences of days that are not full and take
+their mean duration, whose inverse is a measure of resilience; and take the mean shortfall on the
+failure days as a fraction of the rainwater demand, a measure of vulnerability.
 
-- there were 60 sequences of days that were not full, with a mean duration of 6.3 days and a
-  maximum of 23 days. The resilience, taken as the inverse of the mean duration of a failure, is
-  0.16 per day;
-- on failure days, a mean of 153 L was missing from a rainwater demand of 168 L, that is, about
-  90%. The typical failure, therefore, is not a small deficit: it is an empty cistern.
-
-The design reading is direct. Long, almost total failures mean that the backup supply from the
+The design reading is direct. If the failures are long and almost total, the backup supply from the
 mains must be automatic and sized for the full flow of the rainwater points of use, not just to top
-up small shortfalls.
+up small shortfalls. The tutorial's days of no supply (6.4% with 3,000 L)
+are of this kind: the cistern is empty, not slightly short.
 
 ---
 

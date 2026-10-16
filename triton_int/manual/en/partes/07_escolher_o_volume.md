@@ -4,8 +4,8 @@
 > stops paying off, and will understand why there is **no** absolute optimal volume —
 > there is an optimal volume for a declared criterion.
 
-Section {{n:6}} took 3,000 L as a first guess and found 354 L/day overflowing, more than
-two thirds of everything the roof collects, and a supply already close to the ceiling.
+Section {{n:6}} took 3,000 L as a first guess and found 150.8 L/day overflowing, almost
+as much as the house intends to use, and a supply already close to the ceiling.
 The two readings pull in opposite directions, and the question that arises is how much
 tank is worth having. It cannot be answered by an isolated attempt: it is answered by
 simulating the same project for many volumes and watching how the result evolves. That
@@ -57,21 +57,21 @@ reveals is the central argument of this section.
 <!-- tabela: Marginal saving gain for each cubic metre added to the tank -->
 | From → to | Gain per m³ |
 | :--- | ---: |
-| 0 → 1,000 L | 21.03 %/m³ |
-| 1,000 → 2,000 L | 3.99 %/m³ |
-| 2,000 → 3,000 L | 1.45 %/m³ |
-| 3,000 → 4,000 L | 0.64 %/m³ |
-| 4,000 → 5,000 L | 0.35 %/m³ |
-| 10,000 → 12,000 L | 0.005 %/m³ |
-| 16,000 → 20,000 L | 0 |
+| 0 → 1,000 L | 19.14 %/m³ |
+| 1,000 → 2,000 L | 5.10 %/m³ |
+| 2,000 → 3,000 L | 1.75 %/m³ |
+| 3,000 → 4,000 L | 0.84 %/m³ |
+| 4,000 → 5,000 L | 0.41 %/m³ |
+| 10,000 → 12,000 L | 0.04 %/m³ |
+| 16,000 → 20,000 L | 0.00 %/m³ |
 
-==The first cubic metre of tank delivers 21 percentage points of saving; those from 10 to
-12 m³ deliver five thousandths of a point each, and those from 12 to 20 m³, nothing.==
-The difference is four orders of magnitude, and the cubic metres cost the same concrete,
-the same excavation and the same labour. From 12 m³ on, the system supplies every day of
-the series, and no further volume has anything to add.
+==The first cubic metre of tank delivers 19 percentage points of saving; those from 10 to
+12 m³ deliver four hundredths of a point each, and those from 16 to 20 m³, nothing.==
+The difference is more than two orders of magnitude, and the cubic metres cost the same
+concrete, the same excavation and the same labour. From 12 m³ on, 99.8% of the days are
+fully supplied, and no further volume has much to add.
 
-This behaviour is not a peculiarity of the Florianópolis rainfall regime. It is the
+This behaviour is not a peculiarity of the New York rainfall regime. It is the
 characteristic shape of every rainwater harvesting curve, and it follows from two facts
 acting together. The first litres of storage capture the small, frequent events, which
 make up most of the rains in any regime; and the ceiling imposed by the suppliable
@@ -117,17 +117,17 @@ user, as formulated in section {{n:24}}.
 
 The program opens with a threshold of 5 %/m³, and the tutorial adopts a stricter one, of
 1 %/m³. The difference is not a detail: with the default, the ideal volume of this
-project would be 2,000 L; with the tutorial's threshold, the first volume to fall below
-it is 4,000 L, with a marginal gain of 0.64 %/m³. Anyone redoing the tutorial must
+project would be 3,000 L; with the tutorial's threshold, the first volume to fall below
+it is 4,000 L, with a marginal gain of 0.84 %/m³. Anyone redoing the tutorial must
 therefore change the threshold in the program before running the sweep.
 
 <!-- tabela: Indicators of the ideal volume obtained with the 1 %/m³ threshold adopted in the tutorial -->
 | Indicator | Value |
 | :--- | ---: |
 | ideal volume, 1 %/m³ threshold | 4,000 L |
-| potential at that volume | 27.12% |
+| potential at that volume | 26.83% |
 | out of a ceiling of | 28% |
-| days of full supply | 96.6% |
+| days of full supply | 95.3% |
 
 The threshold, however, is the analyst's choice, and it decides the result as much as
 the input data. The table below shows the ideal volume each plausible threshold would
@@ -136,14 +136,13 @@ produce for this same project.
 <!-- inclui: _tabelas/cap07_limiar_e_custo.md -->
 
 The program gives no opinion on which threshold would be right, and it could not: the
-choice depends on the cost of the tank, the value of water in the municipality and the
+choice depends on the cost of the tank, the value of water at the site and the
 space available on the plot, none of which is hydrological data. What the program does
 is apply the declared threshold faithfully and record it in the report.
 
 > **In a published study, declare the threshold.** Two papers with an «ideal volume»
 > from different thresholds are not comparable. Between the thresholds of the table, the
-> difference is 2,000 L, and the 5,000 L volume costs a third more than the 3,000 L one
-> to deliver one percentage point.
+> difference is 2,000 L of tank, and it buys 1.25 percentage points of saving.
 
 ---
 
@@ -151,11 +150,11 @@ is apply the declared threshold faithfully and record it in the report.
 
 The marginal-gain criterion is purely hydraulic: it looks at the yield curve and nothing
 else. It does not know how much the tank costs, how much a cubic metre of water is worth
-in the municipality in question or how much carbon the chosen material carries with it.
+at the site in question or how much carbon the chosen material carries with it.
 Three consequences follow from this blindness, and each one can move the recommendation
 in a different direction.
 
-- If water is very expensive, the gain of 0.35 %/m³ of the fifth cubic metre may pay for
+- If water is very expensive, the gain of 0.41 %/m³ of the fifth cubic metre may pay for
   itself well, and the economic volume will be **larger** than the hydraulic one.
 - If the cistern is expensive or space is scarce, the opposite.
 - A 20 m³ concrete cistern weighs twenty-four tonnes and carries, with the rest of the
@@ -171,9 +170,9 @@ compromise volume that can be defended.
 
 > **The most common mistake, and it is in section {{n:33}}.** Publishing the volume with
 > the largest water saving as if it were the recommended volume. According to the table,
-> 20,000 L gives the largest potential, 28.00%, the same as 12,000 L already gave. It
-> also costs **3.9 times more** than 4,000 L, and carries **4.1 times more embodied
-> carbon**, to deliver 0.88 percentage points more.
+> 20,000 L gives the largest potential, 27.98%, the same as 16,000 L already gave. It
+> also costs **3.9 times more** than 4,000 L (illustrative prices, not market prices), and
+> carries **4.1 times more embodied carbon**, to deliver 1.15 percentage points more.
 
 ---
 
@@ -187,11 +186,11 @@ daily rainwater demand of 168 L, shown as a duration curve. The second is the nu
 capacity, which says how many times the volume of the cistern is actually consumed and
 replenished.
 
-The 2 m³ cistern turns its volume over 27 times a year and ends the day empty on 13% of
-the days: the capacity is fully used, and water runs short. The 4 m³ one turns over 15
-times and empties on 4% of the days. The 20 m³ one turns over only 3 times a year and
-never empties, but on half of the days it holds more than 110 days of demand, far beyond
-the dry spell the series records. That reserve the consumption never mobilises is what
+The 2 m³ cistern turns its volume over many times a year and often ends the day empty:
+the capacity is fully used, and water runs short. The 4 m³ one turns over fewer times and
+empties on far fewer days. The 20 m³ one turns over only a few times a year and almost
+never empties, but on most days it holds many weeks of demand, far beyond the dry spell
+the series records. That reserve the consumption never mobilises is what
 the additional investment buys, and it is the physical reading of the diminishing
 returns of the potential curve.
 
@@ -202,16 +201,16 @@ returns of the potential curve.
 ---
 ## Two more readings of the table
 
-**The overflow never reaches zero.** It starts at 513 L/day without a tank, falls to
-343 L/day with twenty cubic metres and levels off there. Two thirds of the water the
-roof collects will keep going to the drainage, for a reason no enlargement of the tank
-solves: the demand simply does not consume it. Rainwater harvesting systems do not hold
+**The overflow never reaches zero.** It starts at 307 L/day without a tank, falls to
+137 L/day with twenty cubic metres and levels off there. That water will keep going to
+the drainage, for a reason no enlargement of the tank solves: the demand simply does
+not consume it. Rainwater harvesting systems do not hold
 water for the sake of holding it, and anyone seeking flood attenuation needs a detention
 tank, which is another project, with another sizing criterion.
 
 **Reliability grows faster than the potential.** Going from 3,000 to 4,000 L, the saving
-potential gains 0.64 percentage points, while the days of full supply rise from 93.9% to
-96.6%, and the days of shortage fall almost by half. When the design criterion is comfort
+potential gains 0.84 percentage points, while the days of full supply rise from 91.9% to
+95.3%, and the days of shortage fall by two fifths. When the design criterion is comfort
 of use — rainwater never running out at the points that use it — and not the saving on
 the bill, reading the same table leads to another choice.
 
@@ -227,13 +226,13 @@ included in the analysis.
 <!-- tabela: State of the tutorial project after choosing the volume -->
 | Project so far | |
 | :--- | ---: |
-| series | Florianópolis, 30 years |
+| series | New York, 30 years |
 | catchment area | 150 m² |
 | total demand | 600 L/day |
 | suppliable fraction | 28% |
 | **tank volume** | **4,000 L** |
-| saving potential | 27.12% |
-| days of full supply | 96.6% |
+| saving potential | 26.83% |
+| days of full supply | 95.3% |
 
 One hydraulic decision remains before money can be discussed: does this water need to go
 up to an elevated tank, or can it be pressurised directly from the cistern? That is the

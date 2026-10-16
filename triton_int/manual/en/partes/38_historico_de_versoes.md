@@ -22,11 +22,12 @@ usually comes up months later, when nobody remembers.
 The numbering scheme follows the usual software engineering convention. The first number indicates
 the generation of the program, and changing it means a reformulation of the conceptual model; the
 second indicates a set of new features; and the third indicates fixes and adjustments that do not
-change the architecture. The move from Netuno 4 to Triton, dealt with in section {{n:35}}, is the
-only case of a change in the first number in the history of the program.
+change the architecture. A first number of zero marks a beta: the program is usable and verified as section {{n:34}}
+describes, but its interface, file format and defaults may still change, and a change may alter
+results.
 
-Version 1.0.0 is the first public release of Triton. The numbers before it were development ones,
-and never circulated; no study was done with them.
+The current version is the beta **0.1.0**. No earlier version circulated, and no study was done
+with one.
 
 ---
 
@@ -41,42 +42,37 @@ one-sentence summary, the new features, the fixes that alter results, those that
 changed in the documentation. Sections with no content in that version simply do not appear.
 
 The same list is distributed with the code, in the `CHANGELOG.md` file at the root of the
-repository, and feeds the versions page of the documentation site. It is not written three times:
+repository, and feeds the versions page of the documentation site.  It is not written three times:
 all three come from this section, and an automatic check refuses the build if they diverge. Those
-following the program through the repository, the site or the manual read the same record. The
-`CHANGELOG.md` is in Portuguese; this section is its translation.
+following the program through the repository, the site or the manual read the same record.
 
 <!-- inclui: _tabelas/cap38_versoes.md -->
 
 ---
 
-## Version 1.0.0 — 14 October 2026
+## Version 0.1.0 (beta) — October 2026
 
-> **In one sentence.** First official release of Triton, a program derived from Netuno 5.0.1, with its
-> own name, versioning and repository for each edition.
+> **In one sentence.** First beta of Triton, with its own name, versioning and repository for
+> each edition.
 
 ### What is new
 
-Triton is the child of Netuno. It keeps the simulation engine, the life-cycle assessment, the treatment
-line, the multi-criteria decision and the probabilistic modulation of Netuno 5.0.1, and is distributed
-as three independent programs, one per edition: Brazil, International and Portugal. Each has its own
-repository, logo and numbering, and this is the first version of all of them: 1.0.0.
-
-The history of Netuno (versions 5.0.0 and 5.0.1) stays in the Netuno manual. Triton 1.0.0 already
-includes the fixes made up to Netuno 5.0.1, among them the fix for monthly and weekly demand equal to
-zero, and the Fewkes operating rule (φ) as an option in every module.
+Triton simulates rainwater harvesting day by day and carries the simulation engine, the life-cycle
+assessment, the treatment line, the multi-criteria decision and the probabilistic modulation. This is
+the first version of the International Edition, which has its own repository, logo and numbering.
+The Fewkes operating rule (φ) is available as an option in every module.
 
 ### Fixes that change results
 
-None relative to Netuno 5.0.1, from which Triton 1.0.0 starts.
+None: this is the first beta, and there is no earlier version to correct.
 
-<!-- tabela: Fixes that change results in version 1.0.0 -->
+<!-- tabela: Fixes that change results in version 0.1.0 -->
 | What was corrected | Effect on the result |
 | :--- | :--- |
 
 ### Fixes that do not change results
 
-The name, the logo, the package (`triton`) and the project file extension (`.triton`) changed; the calculation did not.
+None.
 
 ---
 
@@ -105,6 +101,5 @@ date; and a statement of which parameters were changed from the default values. 
 gives the full list, with a ready-made method paragraph to adapt.
 
 Attaching the `.triton` file to the supplementary material settles all four at once, because the file
-is self-contained and carries the rainfall series inside it or, with CLIMBra rainfall, the reference
-of the series with its fingerprint. It is the most economical way of making a study verifiable by
-others, and costs an attachment of about 160 kB — much less with CLIMBra.
+is self-contained and carries the rainfall series inside it. It is the most economical way of
+making a study verifiable by others, and costs a small attachment.

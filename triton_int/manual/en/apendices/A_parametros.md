@@ -1,7 +1,7 @@
 # The project parameters
 
-There are **122 parameters**. This is the complete list of what a project
-stores, with the exact name of each field inside the `.triton` file.
+There are **118 parameters**. This is the complete list of what a project
+stores in this edition, with the exact name of each field inside the `.triton` file.
 
 The list was not transcribed by hand: it is extracted from the program itself for
 each version, and therefore cannot diverge from it.
@@ -10,9 +10,13 @@ The column **where it is entered** says on which screen the field appears; the
 column **who consumes it** says which calculation uses it. A field with neither is a
 field stored in the file and never read, and is listed in section {{n:36}}.
 
-Defaults in currency are the Brazil Edition ones, in reais (R$); the International
-Edition starts the costs and tariffs at zero, for the user to enter in the currency
-of the project.
+The defaults are those of the project the International Edition opens with. Costs, prices,
+tariffs and the rainfall series start empty or at zero: you enter them, in the currency
+of the project, and the program never assumes a currency. A dash means that the field
+has no starting value.
+
+The project file also holds 4 fields that belong to national schemes of other
+editions. They have no effect in this one and are not listed.
 
 ## Identification
 
@@ -33,18 +37,18 @@ of the project.
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Main window, Project | Automation, Scenarios, Spreadsheets |
-| `climate_source_mode` | national_db | — | Main window, Project | — |
-| `climate_city_uf` | SC | — | Main window, Project, Reports | — |
-| `climate_city_name` | Florianópolis | — | Main window, Project, Reports | — |
-| `climate_model` | INM-CM4 | — | Main window, Project, Reports | — |
-| `climate_scenario` | HIST | — | Main window, Project, Reports | — |
+| `climate_source_mode` | custom_file | — | Main window, Project | — |
+| `climate_city_uf` | — | — | Main window, Project, Reports | — |
+| `climate_city_name` | — | — | Main window, Project, Reports | — |
+| `climate_model` | — | — | Main window, Project, Reports | — |
+| `climate_scenario` | — | — | Main window, Project, Reports | — |
 | `climate_start_date` | 1980-01-01 | — | Main window, Project, Reports | — |
 | `climate_end_date` | 2013-12-31 | — | Main window, Project, Reports | — |
 | `start_date` | 1980-01-01 | — | Export, Main window, Project, Tariffs and costs | Automation, Climate, Spreadsheets |
 
 Notes from the code:
 
-- `climate_source_mode`: "national_db" (national database, Brazil Edition) or "custom_file" (own file)
+- `climate_source_mode`: "custom_file" (own file): in this edition the rainfall series always comes from a file of the user
 
 ## Catchment
 
@@ -150,7 +154,7 @@ Notes from the code:
 | `chlorine_treatment_enabled` | yes | — | Economic, Environmental, Optimiser, Quality | Automation, Economic, LCA |
 | `chlorine_dose_mg_l` | — | mg Cl₂/L | Economic, Environmental, Optimiser, Quality | Automation, Economic, LCA, Reports, Treatment line |
 | `chlorine_product_purity` | — | kg/kg | Environmental, Quality | Automation, Economic, LCA, Treatment line |
-| `chlorine_cost_per_kg` | 25 | R$/kg | Economic, Optimiser, Quality | Automation, Economic, Prices, Treatment line |
+| `chlorine_cost_per_kg` | 0 | currency/kg | Economic, Optimiser, Quality | Automation, Economic, Prices, Treatment line |
 | `chlorine_co2_kg_per_kg` | — | kg CO₂e/kg | Environmental, Quality | Automation, LCA, Treatment line |
 
 Notes from the code:
@@ -158,7 +162,7 @@ Notes from the code:
 - `water_quality_disinfection`: "cloro" (chlorine), "uv", "ozonio" (ozone), "nenhum" (none)
 - `chlorine_dose_mg_l`: mg of active Cl2 per litre
 - `chlorine_product_purity`: kg of active Cl2 per kg of product
-- `chlorine_cost_per_kg`: price per kg of commercial PRODUCT
+- `chlorine_cost_per_kg`: price per kg of commercial PRODUCT, in the currency of the project
 
 ## Tanks
 
@@ -177,8 +181,8 @@ Notes from the code:
 | `econ_lower_tank_vol` | 2000 | L | Economic, Environmental, Sweep, Tariffs and costs | Automation |
 | `lower_tank_material` | PEAD | — | Economic, Optimiser, Tariffs and costs | Automation, LCA, Prices |
 | `upper_tank_material` | PEAD | — | Economic, Optimiser, Tariffs and costs | Automation, LCA, Prices |
-| `cost_lower_tank` | 0 | R$ | Economic, Sweep, Tariffs and costs | Automation, Economic, Prices |
-| `cost_upper_tank` | 0 | R$ | Economic, Sweep, Tariffs and costs | Automation, Economic |
+| `cost_lower_tank` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic, Prices |
+| `cost_upper_tank` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
 
 Notes from the code:
 
@@ -203,7 +207,7 @@ Notes from the code:
 | `supply_arrangement` | — | code | Economic, Environmental, Sweep | Automation, Economic, LCA, Pump set |
 | `pressurizer_pressure_m` | 18 | m head | Sweep | Pump set |
 | `pressurizer_starts_per_person_day` | 5.05 | 1/person·day | Sweep | Pump set |
-| `pressurizer_model` | komeco_tp820t | code | Sweep | Pump set |
+| `pressurizer_model` | — | code | Sweep | Pump set |
 | `pressurizer_point_flow_l_min` | 9 | L/min | Sweep | Pump set |
 | `pressurizer_power_kw` | 0.18 | kW | Sweep | Pump set |
 | `pressurizer_flow_l_min` | 13.3 | L/min | Sweep | Pump set |
@@ -216,7 +220,7 @@ Notes from the code:
 | `pump_flow_rate` | 0 | L/h | Charts, Economic, Optimiser, Reports, Sweep, Tariffs and costs | Automation, Pump set |
 | `pump_startup_time_h` | 0.03 | h | Charts, Economic, Optimiser, Tariffs and costs | Automation, Pump set |
 | `pump_motor_efficiency` | 0 | % | Tariffs and costs | Automation, Pump set |
-| `pump_unit_cost` | 300 | R$ | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic, Prices |
+| `pump_unit_cost` | 0 | currency | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic, Prices |
 
 Notes from the code:
 
@@ -226,7 +230,7 @@ Notes from the code:
 - `pump_efficiency`: %, 0 = deduce from the size
 - `pump_startup_time_h`: h
 - `pump_motor_efficiency`: %
-- `pump_unit_cost`: R$, Brazilian market reference for a 1/2 hp peripheral pump (zero in the International Edition)
+- `pump_unit_cost`: price of one pump set, in the currency of the project (zero until you enter it)
 
 ## Piping
 
@@ -244,9 +248,9 @@ Notes from the code:
 <!-- tabela: Project parameters: investment -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
-| `cost_labor` | 0 | R$ | Economic, Sweep, Tariffs and costs | Automation, Economic |
-| `cost_piping` | 0 | R$ | Economic, Sweep, Tariffs and costs | Automation, Economic |
-| `cost_accessories` | 0 | R$ | Economic, Sweep, Tariffs and costs | Automation, Economic, Treatment line |
+| `cost_labor` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
+| `cost_piping` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
+| `cost_accessories` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic, Treatment line |
 
 ## Operation
 
@@ -259,42 +263,40 @@ Notes from the code:
 
 ## Tariffs
 
-18 parameters.
+17 parameters.
 
 <!-- tabela: Project parameters: tariffs -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | no | — | Project | — |
 | `water_tariffs` | — | — | Project, Sweep, Tariffs, Tariffs and costs | Economic |
-| `tariff_city_uf` | SC | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
-| `tariff_city_name` | Florianópolis | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
+| `tariff_city_uf` | custom | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
+| `tariff_city_name` | custom | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
 | `tariff_vigencia` | — | — | Project, Tariffs and costs | — |
 | `tariff_category` | residencial | — | Economic, Tariffs, Tariffs and costs | Tariffs |
 | `sewage_rate` | 100 | % of water | Project, Tariffs, Tariffs and costs | Automation, Economic, Tariffs |
 | `sewage_mode` | 1 | code | Economic, Optimiser, Project, Tariffs, Tariffs and costs | Automation, Economic, Tariffs |
 | `sewage_tariffs` | — | — | — | Economic, Tariffs |
 | `sewage_volume_factor` | 1 | — | — | Automation, Economic, Tariffs |
-| `water_tax_fixed` | 0 | R$/month | Tariffs and costs | Automation, Economic |
+| `water_tax_fixed` | 0 | currency/month | Tariffs and costs | Automation, Economic |
 | `water_tax_var` | 0 | % | Tariffs and costs | Automation, Economic |
 | `tariff_escalation` | 12 | months | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
 | `water_tariff_escalation` | 5 | % per period | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
 | `sewage_tariff_escalation` | 5 | % per period | Economic, Optimiser, Tariffs and costs | Automation, Economic |
 | `elec_tariff_escalation` | 5 | % per period | Economic, Optimiser, Sweep | Automation, Economic |
-| `tariff_flag` | verde | — | Economic | Automation, Economic |
-| `elec_tariff` | 0.6957 | R$/kWh | Charts, Economic, Optimiser, Project, Reports, Sweep, Tariffs and costs | Automation, Economic |
+| `elec_tariff` | 0 | currency/kWh | Charts, Economic, Optimiser, Project, Reports, Sweep, Tariffs and costs | Automation, Economic |
 
 Notes from the code:
 
 - `tariff_category`: category of the tariff table applied; "personalizada" (custom) when typed in
 - `sewage_mode`: 0 = fixed amount, 1 = percentage of the water part, 2 = amount per m³ consumed, 3 = tiers
-- `water_tax_fixed`: currency
+- `water_tax_fixed`: currency per month
 - `water_tax_var`: %
 - `tariff_escalation`: months; length of the escalation period
 - `water_tariff_escalation`: % per escalation period; with 12 months, % per year
 - `sewage_tariff_escalation`: % per escalation period; with 12 months, % per year
 - `elec_tariff_escalation`: % per escalation period; with 12 months, % per year
-- `tariff_flag`: "verde" (green), "amarela" (yellow), "vermelha_1" (red 1), "vermelha_2" (red 2), "branca" (white); Brazil Edition
-- `elec_tariff`: per kWh (Brazil Edition default: residential B1 tariff, CELESC, Florianópolis)
+- `elec_tariff`: price of electricity per kWh, in the currency of the project (zero until you enter it)
 
 ## Energy
 
@@ -303,31 +305,15 @@ Notes from the code:
 <!-- tabela: Project parameters: energy -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
-| `elec_city_uf` | SC | — | Main window, Project, Tariffs and costs | — |
-| `elec_city_name` | Florianópolis | — | Main window, Project, Tariffs and costs | — |
-| `elec_tax_fixed` | 0 | R$/month | Tariffs and costs | Automation, Economic |
+| `elec_city_uf` | custom | — | Main window, Project, Tariffs and costs | — |
+| `elec_city_name` | custom | — | Main window, Project, Tariffs and costs | — |
+| `elec_tax_fixed` | 0 | currency/month | Tariffs and costs | Automation, Economic |
 | `elec_tax_var` | 0 | % | Tariffs and costs | Automation, Economic |
 
 Notes from the code:
 
-- `elec_tax_fixed`: currency
+- `elec_tax_fixed`: currency per month
 - `elec_tax_var`: %
-
-## Incentives
-
-3 parameters.
-
-<!-- tabela: Project parameters: incentives -->
-| Parameter | Default | Unit | Where it is entered | Who consumes it |
-| :--- | ---: | :--- | :--- | :--- |
-| `iptu_green_enabled` | no | — | Economic, Optimiser | Automation, Economic |
-| `iptu_annual_value` | 4000 | R$/year | Economic, Optimiser | Automation, Economic |
-| `iptu_discount_pct` | 5 | % | Economic, Optimiser | Automation, Economic |
-
-Notes from the code:
-
-- `iptu_annual_value`: Annual municipal property tax (IPTU) of the building, per year; Brazil Edition
-- `iptu_discount_pct`: Municipal green property-tax discount (IPTU Verde, %); Brazil Edition
 
 ## Financial
 
@@ -365,7 +351,7 @@ Notes from the code:
 | :--- | ---: | :--- | :--- | :--- |
 | `phi_operation_rule` | — | — | Main window, Sweep | Automation, Daily balance, Spreadsheets |
 | `data_base_estudo` | — | — | Tariffs and costs | — |
-| `precos_de_catalogo` | yes | — | Economic, Optimiser, Pump wizard, Quality, Sweep, Tariffs and costs | Automation, Prices, Treatment line |
+| `precos_de_catalogo` | no | — | Economic, Optimiser, Pump wizard, Quality, Sweep, Tariffs and costs | Automation, Prices, Treatment line |
 | `bim_layout` | — | — | Export, Main window | — |
 | `capex_do_arranjo` | no | — | Main window, Sweep, Tariffs and costs | Treatment line |
 | `mao_de_obra_automatica` | no | — | Main window, Sweep, Tariffs and costs | — |

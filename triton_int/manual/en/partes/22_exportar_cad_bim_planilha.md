@@ -25,8 +25,8 @@ The `.triton` format is the only one that keeps the whole study: the nine steps,
 multi-criteria weights, the LCA routes and the **daily rainfall series**, embedded in the
 file itself. A `.triton` file reopens on another computer without the source CSV and
 reproduces the same number; it is with it that the cases of appendix {{n:J}} are
-distributed. The Netuno 4 CSV is still available in the export, marked as legacy, because it
-does not keep the steps added since then.
+distributed. The legacy CSV format of the earlier tool is still available in the export, marked as legacy,
+because it does not keep the steps added since then.
 
 ---
 
@@ -58,7 +58,7 @@ Three choices complete the export:
 | format | XLSX, CSV or JSON | XLSX to open in Excel; CSV for R, Python or another program; JSON for integration |
 | CSV separator | semicolon or comma | semicolon in Excel set to a decimal-comma locale; comma in R and most international tools |
 | time filter | first typical year or full series | the year to illustrate; the full series for any statistic |
-| economic horizon | 10, 20, 25 or 30 years | 20 years, the minimum design life of the plumbing system (ABNT NBR 15575-1:2025, Table 25), unless justified |
+| economic horizon | 10, 20, 25 or 30 years | 20 years, a common design life for plumbing components, unless the study justifies another |
 
 ### Exporting everything, for audit
 
@@ -94,24 +94,20 @@ adopted, and serves as a basis for the designer to draw the installation in plan
 levels, the routing and the real clashes of the building. ==A diagram does not replace a
 plumbing design, and delivering it as one would be an error of professional responsibility.==
 
-Nor does the diagram carry — and the construction design must add — the building
-installation requirements of ABNT NBR 15527:2019 for non-potable water:
+Nor does the diagram carry, and the construction design must add, the installation
+requirements that the applicable national rules set for non-potable water:
 
-- rainwater piping painted or identified in **purple** (Munsell 2.5RP 3/10 or similar), with
-  the inscription «ÁGUA NÃO POTÁVEL» (non-potable water) every 3 m on exposed pipes (item
-  4.5.5);
-- a distribution system independent of the potable one, without cross-connection (4.5.8),
-  with an air gap on the backup supply from the mains, according to ABNT NBR 5626:2020
-  (6.15.2);
-- restricted-use points, such as the garden tap, with a «ÁGUA NÃO POTÁVEL» sign (4.5.9);
-- separate potable and non-potable tanks, at least 60 cm apart between outer faces when side
-  by side, and the non-potable one below when stacked (4.5.10 and 4.5.11);
-- pumping according to ABNT NBR 5626 (4.5.2), which includes the two pumps of item 6.5.11.2 of
-  that standard.
+- rainwater piping identified by colour and by an inscription such as «NON-POTABLE WATER», at
+  regular intervals on exposed pipes;
+- a distribution system independent of the potable one, without cross-connection, with an air gap
+  on the backup supply from the mains;
+- restricted-use points, such as the garden tap, with a non-potable sign;
+- separate potable and non-potable tanks, with a clear separation between them;
+- pumping according to the rules for building water supply, which usually call for a standby
+  pump.
 
-In a European project, the identification follows the national rule called for by EN
-16941-1:2024 instead, and the repository document `docs/normas_nbr_x_en16941.md` lists the
-differences.
+The colours, the wording and the distances differ from one country to the next; check the rule of
+the place of the building and write it on the drawing.
 
 What the program does **not** size:
 
@@ -149,7 +145,7 @@ rising main and a control panel; an upper tank with a level switch, screened ven
 with visible discharge, cleaning outlet with a valve and distribution with a valve to an
 identified point of use; and the potable backup supply — water meter, valve and solenoid
 valve — which only opens when rainwater runs out and discharges into the upper tank through an
-air gap, as ABNT NBR 5626:2020 requires. The control panel decides: with the upper tank at the
+air gap, as good practice requires. The control panel decides: with the upper tank at the
 start level and water in the cistern, it starts the pump; with the cistern at the minimum, it
 blocks the pump and opens the solenoid, which fills the tank only up to the backup float,
 lower, so as to leave room for the next rain. Pump and solenoid never run together. In the
@@ -215,9 +211,10 @@ The prices and masses of the parts are a reference scenario, not a quotation. Th
 `costs_database.json`, under the `pecas_do_arranjo` key, and can be changed there. In the
 economic step, the designer can also type other piping and accessory values: from then on the
 program uses the typed values. A new project starts from the arrangement. An old file keeps
-the costs it already declared. The reference prices are Brazilian, in reais; in the
-International Edition, and whenever the currency of the project is not the real, the program
-does not apply them, and the costs are typed in.
+the costs it already declared. The reference prices of the cost
+database are not applied in the International Edition: the costs are typed in, in the currency
+of the project, and the manual's own cases use round figures stated as illustrative, not market
+prices.
 
 ---
 
