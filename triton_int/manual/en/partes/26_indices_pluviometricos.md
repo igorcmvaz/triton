@@ -24,7 +24,7 @@ by excluding days of negligible depth, which keeps instrument noise from accumul
 total.
 
 ```equacao:prcptot
-PRCPTOT = Σ P_i , para P_i ≥ 1 mm
+PRCPTOT = Σ P_i , for P_i ≥ 1 mm
 ```
 
 | Symbol | Meaning | Unit |
@@ -40,7 +40,7 @@ measures how much of the annual total arrives in extreme events, and it is the i
 linked to cistern overflow.
 
 ```equacao:r95p
-R95p = Σ P_i , para P_i > q_95
+R95p = Σ P_i , for P_i > q_95
 ```
 
 | Symbol | Meaning | Unit |
@@ -70,7 +70,7 @@ The largest five-consecutive-day total of the year. It matters more to rainwater
 RX1day, because a tank fills over a prolonged event and not only at the daily peak.
 
 ```equacao:rx5day
-RX5day = max ( Σ P_j ) , para j de i a i + 4
+RX5day = max ( Σ P_j ) , for j from i to i + 4
 ```
 
 | Symbol | Meaning | Unit |
@@ -86,14 +86,14 @@ Mean precipitation of the wet days. It separates two regimes the annual total co
 on few days and little rain on many days can produce the same PRCPTOT and very different SDII.
 
 ```equacao:sdii
-SDII = PRCPTOT ÷ n_úmidos
+SDII = PRCPTOT ÷ n_wet
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `SDII` | mean intensity of the wet days | mm/day |
 | `PRCPTOT` | total precipitation of the wet days, from Equation {{eq:prcptot}} | mm |
-| `n_úmidos` | number of wet days of the year | day |
+| `n_wet` | number of wet days of the year | day |
 
 ### Days of heavy precipitation, R20mm
 
@@ -117,7 +117,7 @@ that best predicts the performance of a rainwater system,== because the longest 
 empties the cistern.
 
 ```equacao:cdd
-CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
+CDD = max ( L ) , with P_i < 1 mm throughout the sequence L
 ```
 
 | Symbol | Meaning | Unit |
@@ -132,7 +132,7 @@ Longest sequence of consecutive days with precipitation equal to or above one mi
 characterises the persistence of rain, and long sequences favour the complete filling of the tank.
 
 ```equacao:cwd
-CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
+CWD = max ( L ) , with P_i ≥ 1 mm throughout the sequence L
 ```
 
 | Symbol | Meaning | Unit |

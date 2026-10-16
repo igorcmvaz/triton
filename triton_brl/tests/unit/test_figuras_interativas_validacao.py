@@ -28,7 +28,21 @@ import gerar_figuras_interativas as gi  # noqa: E402
 from gerar_tabelas import (  # noqa: E402
     TARIFA_CASAN, TUTORIAL, _config_economica, _config_projeto, _config_tutorial, _serie,
 )
+from triton.core.edition import get_current_edition  # noqa: E402
 from triton.core.simulation import run_single_simulation  # noqa: E402
+
+EDICAO = get_current_edition()
+#: Os dias da série de cada cidade: a INT usa os 10.958 dias de data/rainfall (30 anos de 1991 a 2020).
+DIAS_DA_SERIE = getattr(gi, "DIAS_DA_SERIE", 30 * 365)
+
+
+def texto_do_manual():
+    """O manual montado da edição: o inglês na INT (é o que ela publica), o principal nas demais."""
+    if EDICAO == "INT":
+        caminho = os.path.join(MANUAL, "en", "Triton-User-Manual.md")
+        if os.path.exists(caminho):
+            return open(caminho, encoding="utf-8").read()
+    return open(os.path.join(MANUAL, "Manual-Triton.md"), encoding="utf-8").read()
 
 APROX = dict(rel=1e-6, abs=0.51)   # os dados do site vão arredondados
 
@@ -86,7 +100,7 @@ def test_a_curva_das_cidades_e_a_do_programa():
     d = gi.cidades()
     cidade = d["cidades"][0]
     caminho = os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv")
-    serie_cidade = load_precipitation(caminho)[: 30 * 365]
+    serie_cidade = load_precipitation(caminho)[: DIAS_DA_SERIE]
     for k in (2, 4, 20):
         r = run_single_simulation(precip_data=serie_cidade,
                                   lower_tank_vol=float(d["volumes"][k]), **_config_tutorial())
@@ -96,7 +110,7 @@ def test_a_curva_das_cidades_e_a_do_programa():
 def test_as_tres_tarifas_batem_com_a_funcao_da_fatura():
     from triton.core.economic import calculate_water_bill
     d = gi.regimes()
-    tarifas = {
+    tarifas = getattr(gi, "TARIFAS_DOS_REGIMES", None) or {
         "disp": [(0.0, 0.0, 46.34, -1), (0.0, 10.0, 3.08, 1), (10.0, 25.0, 14.31, 1),
                  (25.0, 50.0, 19.14, 1), (50.0, 999999.0, 24.08, 1)],
         "franq": [(0.0, 0.0, 52.89, -1), (0.0, 10.0, 0.0, 1), (10.0, 15.0, 9.815, 1),
@@ -119,9 +133,11 @@ def test_a_fatura_aberta_soma_o_que_a_funcao_do_programa_cobra():
         agua = sum(d["parcelas"][i][:-1])
         assert agua == pytest.approx(
             calculate_water_bill(consumo * 1000.0, TARIFA_CASAN, 1, 0.0, 0.0, 0.0), abs=0.011)
-        # Com esgoto a 100%, a parcela de esgoto iguala a de água.
+        # O esgoto é uma percentagem da parcela de água (100% na tarifa brasileira do tutorial; 159% na de
+        # Nova York, e é o que o painel declara em ``esgoto_pct``).
         assert sum(d["parcelas"][i]) == pytest.approx(
-            calculate_water_bill(consumo * 1000.0, TARIFA_CASAN, 1, 100.0, 0.0, 0.0), abs=0.011)
+            calculate_water_bill(consumo * 1000.0, TARIFA_CASAN, 1, d.get("esgoto_pct", 100.0), 0.0, 0.0),
+            abs=0.011)
 
 
 def test_o_fluxo_de_caixa_e_o_da_analise_economica(serie):
@@ -174,7 +190,7 @@ def test_os_indices_sao_os_do_calculador_do_programa():
     d = gi.indices_pluviometricos()
     cidade = d["cidades"][0]
     serie_cidade = load_precipitation(
-        os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv"))[: 30 * 365]
+        os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv"))[: DIAS_DA_SERIE]
     datas = [gi.INICIO + timedelta(days=i) for i in range(len(serie_cidade))]
     tabela = IndicesCalculator(
         pd.DataFrame({"date": datas, "precipitation": [float(x) for x in serie_cidade]}),
@@ -252,10 +268,11 @@ def test_a_captacao_e_a_lamina_da_serie_com_o_descarte_do_programa():
     from triton.core.hydrology_defaults import COEFICIENTES_POR_MATERIAL
     from triton.core.parser import load_precipitation
     d = gi.captacao()
-    assert [list(x) for x in COEFICIENTES_POR_MATERIAL] == d["materiais"]
+    # Os nomes podem estar traduzidos (INT); os coeficientes são os do programa, na mesma ordem.
+    assert [c for _, c in COEFICIENTES_POR_MATERIAL] == [c for _, c in d["materiais"]]
     cidade = d["cidades"][0]
     serie_cidade = load_precipitation(
-        os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv"))[: 30 * 365]
+        os.path.join(RAIZ, "data", "rainfall", f"{cidade['chave']}.csv"))[: DIAS_DA_SERIE]
     anos = len(serie_cidade) / 365.25
     for descarte in ("0", "2"):
         meses = np.zeros(12)
@@ -268,6 +285,9 @@ def test_a_captacao_e_a_lamina_da_serie_com_o_descarte_do_programa():
 
 def test_os_pressurizadores_sao_os_do_catalogo_do_programa():
     from triton.core.pressurizer_catalog import CATALOGO, comparar
+    # A INT não traz catálogo de fabricante: o painel usa os seis modelos genéricos da seção do bombeamento.
+    CATALOGO = getattr(gi, "CATALOGO_DO_SITE", CATALOGO)
+    comparar = getattr(gi, "comparar_do_site", comparar)
     d = gi.pressurizadores()
     assert [m["chave"] for m in d["modelos"]] == [p.chave for p in CATALOGO]
     for pressao, volume, partidas in ((5, 50, 500), (15, 150, 1200), (40, 400, 5000)):
@@ -325,17 +345,23 @@ def test_os_tres_criterios_do_manual_continuam_apontando_volumes_diferentes(seri
     marginal[1:] = np.diff(pots) / np.diff(vols)
     ideais = np.where((vols > 0) & (marginal <= 1.0))[0]
     i_ideal = int(ideais[0]) if len(ideais) else len(vols) - 1
-    escolhas = {i_ideal, int(np.argmax(vpls)), int(np.argmax(pots))}
+    # O volume zero não tem VPL a comparar: o critério vale para os volumes com sistema.
+    i_vpl = 1 + int(np.argmax(vpls[1:]))
+    escolhas = {i_ideal, i_vpl, int(np.argmax(pots))}
     assert len(escolhas) == 3, f"os três critérios coincidiram em {escolhas}"
     assert vols[int(np.argmax(pots))] == max(vols[i] for i in escolhas)
-    texto = open(os.path.join(MANUAL, "partes", "24_volume_ideal.md"), encoding="utf-8").read()
-    assert "eles apontam três volumes diferentes" in texto
+    if EDICAO == "INT":
+        texto = open(os.path.join(MANUAL, "en", "partes", "24_volume_ideal.md"), encoding="utf-8").read()
+        assert "three different volumes" in " ".join(texto.split())
+    else:
+        texto = open(os.path.join(MANUAL, "partes", "24_volume_ideal.md"), encoding="utf-8").read()
+        assert "eles apontam três volumes diferentes" in texto
     # A legenda não repete números que dependem da grade e das premissas.
     assert "ambos em 5 m³" not in texto
 
 
 def test_nenhum_painel_ficou_sem_figura_no_manual():
-    texto = open(os.path.join(MANUAL, "Manual-Triton.md"), encoding="utf-8").read()
+    texto = texto_do_manual()
     js = open(os.path.join(MANUAL, "site_interativas.js"), encoding="utf-8").read()
     desenhadas = set(re.findall(r'FI\["([^"]+)"\] = \{', js))
     # A curva de retorno usa a grade da página inicial e não tem entrada própria.

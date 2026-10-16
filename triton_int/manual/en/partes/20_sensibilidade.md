@@ -133,8 +133,8 @@ Read it like this:
 The distinction this column allows is epistemological, not only statistical: a volume that
 wins in 80% of the weight draws is a recommendation, whereas a volume that wins in 30% is a
 preference of the analyst, legitimate as long as it is presented as such. In the New York
-tutorial the winning volume, 4,000 L, has an acceptability of 44.7%, with 5,000 L second at
-19.9%: a reasonable recommendation, for which the second option is worth declaring. Section {{n:32}}
+tutorial the winning volume, 4,000 L, has an acceptability of 45.8%, with 5,000 L second at
+21.5%: a reasonable recommendation, for which the second option is worth declaring. Section {{n:32}}
 sets out the method that produces this number.
 
 ---

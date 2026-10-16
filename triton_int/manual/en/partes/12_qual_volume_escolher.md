@@ -130,7 +130,7 @@ The tutorial's recommendation, if the project is built, is the **4,000 L polyeth
 tank, and the reason to adopt it is not only that it wins under equal weights. It is the
 compromise volume, not the financial optimum, which lies at 2,000 L. It also wins under a dominant
 economic weight and under a dominant environmental weight, and comes second under a dominant
-technical weight. Under the simulated weight uncertainty (SMAA), it ranks first in 44.7% of the draws, against 19.9% for 5,000 L. ==A recommendation that survives four different
+technical weight. Under the simulated weight uncertainty (SMAA), it ranks first in 45.8% of the draws, against 21.5% for 5,000 L. ==A recommendation that survives four different
 weightings is robust precisely because it does not depend on any of them.==
 
 It is also worth recording that this is the same volume the hydraulic criterion of section

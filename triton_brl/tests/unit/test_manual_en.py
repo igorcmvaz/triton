@@ -29,6 +29,11 @@ try:
 except ModuleNotFoundError:
     pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
 
+from triton.core.edition import get_current_edition  # noqa: E402
+
+if get_current_edition() != "BRL":
+    pytest.skip("so a BRL traduz o manual do portugues; INT escreve em ingles e PRT em portugues de Portugal", allow_module_level=True)
+
 
 def _ler(caminho):
     with open(caminho, encoding="utf-8") as f:

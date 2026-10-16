@@ -82,7 +82,7 @@ balance code. Measuring a divergence with modified code would verify a program t
 distributed to the user.
 
 ```equacao:emulacao
-P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
+P′ = P + d_f if P ≥ d_f ; P′ = 0 otherwise
 ```
 
 | Symbol | Meaning | Unit |

@@ -310,7 +310,7 @@ classification that the percentages of days of full, partial and no supply repor
 {{n:25}} are calculated.
 
 ```equacao:classificacao
-pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
+full: V_con,t = D_pl,t ; partial: 0 < V_con,t < D_pl,t ; none: V_con,t = 0
 ```
 
 | Symbol | Meaning | Unit |
@@ -318,8 +318,7 @@ pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
 | `V_con,t` | rainwater volume consumed on day `t` | L |
 | `D_pl,t` | rainwater demand of day `t` | L |
 
-In the equation, «pleno», «parcial» and «nulo» are the program's labels for full, partial and
-no supply. The comparison of Equation {{eq:classificacao}} is made with a tolerance of
+In the equation, «full», «partial» and «none» are the three supply classes of a day. The comparison of Equation {{eq:classificacao}} is made with a tolerance of
 10⁻⁵ L, not by exact equality. The reason is arithmetic, not conceptual: the balance works with
 floating-point numbers, and a difference of the order of the rounding error would classify as
 partial a day that was fully supplied.

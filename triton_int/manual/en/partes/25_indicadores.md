@@ -202,14 +202,14 @@ are of this kind: the cistern is empty, not slightly short.
 ## Annual volume saved
 
 ```equacao:volume_poupado
-V_poup = ( V_con,med × 365,25 ) ÷ 1000
+V_poup = ( V_con,med × 365.25 ) ÷ 1000
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `V_poup` | volume of potable water saved per year | m³/year |
 | `V_con,med` | mean daily rainwater consumption | L/day |
-| `365,25` | length of the mean year, including leap years (365.25) | day/year |
+| `365.25` | length of the mean year, including leap years (365.25) | day/year |
 | `1000` | conversion from litres to cubic metres | L/m³ |
 
 **What it measures:** the basis of calculation of the economic analysis and the life cycle

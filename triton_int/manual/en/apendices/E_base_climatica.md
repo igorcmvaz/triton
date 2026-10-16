@@ -55,7 +55,7 @@ appendix {{n:G}}). The three example series have thirty years each.
 
 The International Edition carries no climate-model projections. To study a future climate, prepare
 the projected daily series yourself, from the source you choose, and load it as any other file. The
-rain factor of the probabilistic modulation (chapter {{c:7}}) offers a simple way to test a drier or
+rain factor of the probabilistic modulation (section {{n:40}}) offers a simple way to test a drier or
 wetter series by a declared percentage. Section {{n:15}} deals with conducting the study.
 
 ---
