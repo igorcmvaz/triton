@@ -1,18 +1,18 @@
-<!-- tabela: Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
-| Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
+<!-- tabela: Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado) -->
+| Volume | Potencial | VAL (ilustrativo, não é preço de mercado) | Período de recuperação | Saldo de carbono em 20 anos | Investimento (ilustrativo, não é preço de mercado) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
-| 2 000 L | 25,89% | R$ 5 374 | 12,4 anos | 124 kg | R$ 9 897 |
-| 3 000 L | 26,80% | R$ 5 453 | 12,7 anos | 102 kg | R$ 10 809 |
-| 4 000 L | 27,30% | R$ 5 524 | 12,8 anos | 74 kg | R$ 11 283 |
-| 5 000 L | 27,58% | R$ 5 354 | 12,9 anos | 42 kg | R$ 11 757 |
-| 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
-| 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
+| 1 000 L | 11,91% | −4 548 € | sem recuperação | 9 kg | 4 700 € |
+| 2 000 L | 14,52% | −4 805 € | sem recuperação | 25 kg | 5 250 € |
+| 3 000 L | 16,00% | −5 189 € | sem recuperação | 19 kg | 5 800 € |
+| 4 000 L | 17,10% | −5 615 € | sem recuperação | 5 kg | 6 350 € |
+| 5 000 L | 17,88% | −6 079 € | sem recuperação | −15 kg | 6 900 € |
+| 8 000 L | 19,65% | −7 611 € | sem recuperação | −87 kg | 8 550 € |
+| 12 000 L | 21,43% | −9 694 € | sem recuperação | −194 kg | 10 750 € |
 
 <!-- tabela: Volume vencedor segundo cada critério isolado -->
-| Critério isolado | Volume que vence |
+| Critério isolado | Volume vencedor |
 | :--- | ---: |
-| maior potencial de economia | 12 000 L |
-| menor payback descontado, desempate pelo VPL | 2 000 L |
+| maior potencial de poupança | 12 000 L |
+| menor período de recuperação descontado, desempate pelo VAL | 1 000 L |
 | maior saldo de carbono | 2 000 L |
-| **compromisso, pesos iguais** | **4 000 L** |
+| **compromisso, pesos iguais** | **5 000 L** |

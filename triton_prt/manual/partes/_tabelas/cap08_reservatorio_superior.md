@@ -1,11 +1,11 @@
-<!-- tabela: Comparação entre reservatório único e reservatório duplo, mantido o mesmo armazenamento total -->
-| Mesmo armazenamento de 5.000 L | Um tanque só | 4.000 embaixo + 1.000 em cima |
+<!-- tabela: Reservatório único comparado com dois reservatórios, mantido o mesmo armazenamento total (o custo da energia é ilustrativo, não é preço de mercado) -->
+| Mesmo armazenamento de 6 000 L | Um só reservatório | 5 000 em baixo + 1 000 em cima |
 | :--- | ---: | ---: |
-| potencial de economia | 27,47% | 27,30% |
-| dias de atendimento pleno | 97,9% | 97,3% |
-| volume recalcado | — | 59,8 m³/ano |
-| acionamentos da bomba | — | 68 por ano |
-| horas de bomba | — | 12,6 h/ano |
-| energia | — | 7,7 kWh/ano |
-| custo da energia | — | R$ 5,37/ano |
-| **diferença de potencial** | | **-0,17 pontos** |
+| potencial de poupança | 18,19% | 17,88% |
+| dias de abastecimento pleno | 64,0% | 62,8% |
+| volume elevado | — | 39,2 m³/ano |
+| arranques da bomba | — | 49 por ano |
+| horas de bomba | — | 8,4 h/ano |
+| energia | — | 5,1 kWh/ano |
+| custo da energia (ilustrativo, não é preço de mercado) | — | 1,03 €/ano |
+| **diferença de potencial** | | **−0,31 pontos** |
