@@ -81,6 +81,11 @@ def test_a_aba_anuncia_o_manual_completo_nas_duas_linguas():
 
 @pytest.mark.parametrize("arquivo,paginas", _manuais_completos_anunciados())
 def test_o_volume_geral_tambem_confere(arquivo, paginas):
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT" and arquivo == "manual/Manual-Triton.pdf":
+        # A edição internacional publica só o manual em inglês; o PDF em português que sobrou
+        # na pasta é rastro da edição brasileira e não é o que a aba abre.
+        pytest.skip("a edição INT não publica o manual em português")
     reais = _paginas_do_pdf(arquivo)
     if reais is None:
         pytest.skip(f"{arquivo} não foi gerado nesta árvore")
