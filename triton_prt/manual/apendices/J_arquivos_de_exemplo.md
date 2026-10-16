@@ -1,93 +1,91 @@
-# Arquivos de exemplo
+# Ficheiros de exemplo
 
-O manual imprime resultados; estes arquivos são o que se abre para
+O manual imprime resultados; estes ficheiros são o que se abre para
 reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva
-incorporada: abrem sem o CSV de origem, em qualquer máquina. A exceção é o
-`11_modulacao_climbra.triton`, que usa a chuva da base CLIMBra: ele guarda a
-referência da série — cidade, modelo, cenário e recorte — e o programa a recompõe
-da base ao abrir.
+incorporada: abrem sem o CSV de origem, em qualquer computador. A chuva provém da base
+E-OBS por concelho (1991–2020) para Lisboa e Porto, e da reanálise ERA5 para o Funchal,
+que acompanham o programa (apêndice {{n:E}}); cada ficheiro traz o tarifário oficial da
+sua localidade (apêndice {{n:D}}).
+
+**Os custos são ilustrativos, não são preços de mercado.** Apenas os ficheiros do
+tutorial de Lisboa (01, 04, 06, 09 e 10) trazem custos, em euros, com valores
+arredondados que permitem acompanhar o método. Os restantes comparam chuva, procura e
+tarifário, mantendo o investimento a zero. Antes de extrair qualquer conclusão económica,
+introduza os seus próprios custos na etapa 5.
 
 ---
 
 ## Os casos do manual
 
 <!-- tabela: Os casos de exemplo e o que cada um demonstra -->
-| Arquivo | Seção | O que demonstra |
+| Ficheiro | Secção | O que demonstra |
 | :--- | :--- | :--- |
-| `01_tutorial_florianopolis.triton` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
-| `02_tutorial_varredura.triton` | 4.4 e 2.2 | o projeto antes da caixa superior, em modo varredura, de 0 a 20.000 L, passo de 1.000 L |
-| `03_dez_dias.triton` | 2.1 | o caso didático de dez dias, que cabe numa planilha |
-| `04_reservatorio_superior.triton` | 4.5 | 4.000 L embaixo mais 1.000 em cima, a comparação da seção 4.5 contra os 5.000 L de um tanque só |
-| `05_manaus.triton` | 3.1 | o projeto do tutorial levado a Manaus, que chove mais e rende menos |
-| `06_brasilia.triton` | 3.1 | o projeto do tutorial levado a Brasília, de estação seca marcada |
-| `07_saopaulo.triton` | 3.1 | o projeto do tutorial levado a São Paulo |
-| `08_escola_semanal.triton` | 3.4 e 3.5 | escola de 300 alunos com demanda modulada por dia da semana |
-| `09_hotel_mensal.triton` | 3.4 | hotel de litoral com ocupação mensal em fase com a chuva |
-| `10_modulacao_tutorial.triton` | 7.3 e 7.4 | a varredura do tutorial com a Modulação Probabilística montada: as três variáveis de consumo, a chuva, a tarifa e o investimento, mil realizações, semente 42 |
-| `11_modulacao_climbra.triton` | 7.4 | a mesma varredura com a chuva da CLIMBra (Florianópolis, SSP2-4.5, 2025 a 2054) e os dezenove modelos climáticos marcados; o arquivo guarda a referência da série, e não os valores |
+| `01_tutorial_lisboa.triton` | 4.1 a 4.10 | o projeto fechado do tutorial em Lisboa: cisterna de 5.000 L em polietileno e elevação para um reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado) |
+| `02_porto.triton` | 3.1 | a moradia do tutorial levada ao Porto, com a chuva E-OBS do Porto e o tarifário da Águas e Energia do Porto (sem custos definidos) |
+| `03_funchal.triton` | 3.1 | a moradia do tutorial levada ao Funchal, com a chuva ERA5 do Funchal, o tarifário da Câmara Municipal do Funchal e a eletricidade da EEM (sem custos definidos) |
+| `04_tutorial_varredura.triton` | 4.4 e 2.2 | o projeto antes do reservatório superior, em modo varredura, de 0 a 20.000 L em passos de 1.000 L (Lisboa) |
+| `05_dez_dias.triton` | 2.1 | o caso didático de dez dias, 11 a 20 de dezembro de 2019 da série de Lisboa, que cabe numa folha de cálculo |
+| `06_reservatorio_superior.triton` | 4.5 | 5.000 L em baixo mais 1.000 em cima, a comparação da secção 4.5 contra os 6.000 L de um reservatório só (Lisboa) |
+| `07_escola_semanal.triton` | 3.4 e 3.5 | uma escola do Porto, com 300 alunos e procura modulada por dia da semana |
+| `08_hotel_mensal.triton` | 3.4 | um hotel de Lisboa com ocupação mensal ilustrativa, concentrada no verão seco |
+| `09_modulacao_tutorial.triton` | 7.3 e 7.4 | a varredura do tutorial com a Modulação Probabilística montada: as três variáveis de consumo, a chuva, o tarifário e o investimento, mil realizações, semente 42 |
+| `10_modulacao_captacao.triton` | 7.4 | a mesma varredura com a incerteza na captação (área, coeficiente de escoamento, descarte), o fator de chuva sobre a série de Lisboa, o tarifário e o investimento; mil realizações, semente 42 |
 
 ## O que cada um produz
 
-Os valores abaixo são obtidos **relendo o arquivo gravado** e simulando o
+Os valores abaixo são obtidos **relendo o ficheiro gravado** e simulando o
 que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
 <!-- tabela: Resultado que cada caso de exemplo produz ao ser relido e simulado -->
-| Arquivo | Modo | Volume | Potencial | Pluvial consumida |
+| Ficheiro | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
-| `01_tutorial_florianopolis.triton` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
-| `02_tutorial_varredura.triton` | varredura | ideal: 4.000 L | 27,12% | 21 volumes |
-| `03_dez_dias.triton` | volume fixo | 2.000 L | 36,00% | 72,0 L/dia |
-| `04_reservatorio_superior.triton` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |
-| `05_manaus.triton` | volume fixo | 4.000 L | 20,96% | 125,8 L/dia |
-| `06_brasilia.triton` | volume fixo | 4.000 L | 15,45% | 92,7 L/dia |
-| `07_saopaulo.triton` | volume fixo | 4.000 L | 25,74% | 154,4 L/dia |
-| `08_escola_semanal.triton` | volume fixo | 30.000 L | 34,34% | 3.095,8 L/dia |
-| `09_hotel_mensal.triton` | volume fixo | 25.000 L | 32,11% | 1.854,9 L/dia |
-| `10_modulacao_tutorial.triton` | varredura | ideal: 4.000 L | 27,12% | 21 volumes |
-| `11_modulacao_climbra.triton` | varredura | ideal: 4.000 L | 26,57% | 21 volumes |
+| `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
+| `02_porto.triton` | volume fixo | 5.000 L | 22,04% | 132,3 L/dia |
+| `03_funchal.triton` | volume fixo | 5.000 L | 12,98% | 77,9 L/dia |
+| `04_tutorial_varredura.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
+| `05_dez_dias.triton` | volume fixo | 2.000 L | 24,43% | 48,9 L/dia |
+| `06_reservatorio_superior.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
+| `07_escola_semanal.triton` | volume fixo | 30.000 L | 23,03% | 2.076,2 L/dia |
+| `08_hotel_mensal.triton` | volume fixo | 25.000 L | 10,36% | 866,7 L/dia |
+| `09_modulacao_tutorial.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
+| `10_modulacao_captacao.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
+
+O caso 01 inclui o reservatório superior de 1.000 L, e o caso 06 compara-o com um único reservatório de 6.000 L, que obtém 18,19% (secção {{n:8}}).
 
 ---
 
-## Como rodar
+## Como abrir e simular
 
-**Arquivo, Abrir projeto**, escolha o arquivo, e o programa carrega tudo: a
-chuva, a edificação, os custos e a configuração das análises. Percorra as
-etapas de resultado na barra lateral para ver cada dimensão.
+**Ficheiro, Abrir projeto**, escolha o ficheiro pretendido, e o programa carrega tudo:
+a precipitação, a edificação, o tarifário, os custos e a configuração dos módulos de análise.
+Percorra as etapas de resultado na barra lateral para analisar cada dimensão.
 
-Os casos 10 e 11 abrem com a **Modulação Probabilística** já montada — as
-variáveis, as distribuições, os modelos climáticos, o número de realizações e
-a semente da seção {{n:43}}: vá à etapa 13 e clique em **Simular**. Os dois estão
-em modo varredura, que é o que dá sentido às figuras por volume; num caso de
-volume fixo, a ferramenta mostra só o volume do estudo.
+Os casos 09 e 10 abrem com a **Modulação Probabilística** configurada — as
+variáveis, distribuições, número de realizações (1.000) e semente determinística (42) da
+secção {{n:43}}: vá à etapa 13 e clique em **Simular**. Ambos estão em modo varredura,
+que permite traçar as curvas por volume; num caso de volume fixo, o módulo apresenta
+apenas o volume de dimensionamento.
 
-Os arquivos ficam na pasta `casos`, dentro da pasta de instalação do
-programa. Se quiser modificá-los, **salve com outro nome**: assim o caso
-original continua reproduzindo o número impresso no manual.
-
----
-
-## Os três estudos de `exemplos`
-
-Além dos casos do manual, o programa traz três estudos de referência em
-`exemplos`: residência unifamiliar em Florianópolis, edifício
-corporativo em Brasília e escola pública em Manaus. São maiores e menos
-didáticos que os do manual, e servem de ponto de partida para projetos
-reais.
-
-> **Eles foram regravados nesta versão.** Estavam num esquema plano
-> anterior, que o programa lia sem reconhecer: abriam como projeto
-> padrão, com 100 m² e três moradores, e nada avisava. A abertura agora
-> recusa formato desconhecido com mensagem própria, e os três foram
-> convertidos para o esquema corrente, com a chuva incorporada.
+Os ficheiros situam-se na pasta `casos`, no diretório de instalação do programa.
+Para modificá-los, **grave com outro nome**: dessa forma o ficheiro original continua a
+reproduzir exatamente os números apresentados no manual.
 
 ---
 
-## O que estes arquivos não são
+## Os estudos de `exemplos`
 
-Não são gabarito de projeto. São **casos de demonstração**: os custos são
-os do tutorial, a tarifa é a da CASAN e a categoria é residencial em
-todos, inclusive na escola e no hotel, pela limitação que a seção {{n:36}}
-descreve. Para um estudo real, troque tarifa, custos e série de chuva
-pelos do seu caso.
+Além dos casos didáticos do manual, o programa disponibiliza em `examples/portugal/` os
+projetos de referência para Lisboa, Porto e Funchal. Permitem explorar a aplicação direta
+dos tarifários locais em moradias unifamiliares completas.
+
+---
+
+## O que estes ficheiros não são
+
+Não são modelos fechados de projeto de execução. São **casos de demonstração metodológica**:
+os custos do tutorial são estritamente ilustrativos, o tarifário de base é o de Lisboa e as
+categorias refletem as condições domésticas convencionais. Num projeto real de engenharia,
+introduza a série pluviométrica local, os orçamentos reais de fornecedores e a tabela tarifária
+em vigor do município.

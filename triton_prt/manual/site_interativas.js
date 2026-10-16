@@ -10,9 +10,9 @@ const S = n => `var(--s${n})`;
 /* Rampa de um tom só, para as parcelas de uma barra empilhada. */
 const R = n => `var(--r${n})`;
 const menos = (v, d = 0) => (v < 0 ? "−" : "") + fmt(Math.abs(v), d);
-const reais = (v, d = 0) => (v < 0 ? "−" : "") + "R$ " + fmt(Math.abs(v), d);
+const reais = (v, d = 0) => (v < 0 ? "−" : "") + fmt(Math.abs(v), d) + "\u00a0€";
 const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-const TUTORIAL = "Projeto do tutorial: casa em Florianópolis, 150 m² de cobertura, coeficiente de escoamento 0,85, descarte de 2 mm, quatro moradores com 150 L/dia cada, 28% da demanda atendível por chuva, 30 anos de chuva diária.";
+const TUTORIAL = "Projeto do tutorial: moradia em Lisboa, 150 m² de cobertura, coeficiente de escoamento 0,85, descarte de 2 mm, quatro moradores com 150 L/dia cada, 28% da procura suprível por chuva, 30 anos de chuva diária.";
 
 /* escalas e eixos */
 function passoBonito(b) {
@@ -223,7 +223,7 @@ FI["fig48_programa_serie_diaria.png"] = {
   pergunta: "Como a cisterna enche e esvazia ao longo de um ano?",
   controles: "capacidade · ano da série",
   experimente: "Clique em «Ano mais seco» e troque a capacidade: veja em que meses a cisterna de 1 m³ passa vazia e quanto disso uma de 8 m³ resolve. Clique numa barra da faixa de anos para ir direto a ele.",
-  fonte: TUTORIAL + " O ano é o do calendário da série, a partir de 1º de janeiro de 1980.",
+  fonte: TUTORIAL + " O ano é o do calendário da série, a partir de 1 de janeiro de 1991.",
   montar(p, D, id) {
     let vol = D.padrao, yi = 0;
     const N = D.anos.length, W = 720, H = 372;
@@ -240,7 +240,7 @@ FI["fig48_programa_serie_diaria.png"] = {
       ${legenda([[S(1), "chuva diária"], [S(3), "volume armazenado"], [S(2), "dia com a cisterna vazia (até 5% da capacidade)"], ["var(--ink3)", "capacidade", "trac"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const faixa = p.querySelector(`#${id}f`), svg = p.querySelector(`#${id}g`), leit = p.querySelector(`#${id}l`), sel = p.querySelector(`#${id}a`);
-    const dataDe = i => new Date(Date.UTC(1980, 0, 1) + i * 864e5);
+    const dataDe = i => new Date(Date.UTC(1991, 0, 1) + i * 864e5);
     const desenhar = () => {
       const R = D.resumo[vol];
       /* faixa dos anos */
@@ -379,10 +379,10 @@ FI["fig47_permanencia.png"] = {
 /* ─── figura: a fatura nos três regimes ────────────────────────────────── */
 FI["fig05_regimes.png"] = {
   curto: "A fatura em três regimes de mínimo",
-  pergunta: "Quanto da água economizada vira economia na fatura?",
+  pergunta: "Quanto da água poupada se transforma em poupança na fatura?",
   controles: "consumo sem e com o sistema",
-  experimente: "No regime de franquia, baixe o consumo com o sistema para menos de 10 m³: a fatura para de cair, porque os primeiros 10 m³ já estão pagos no valor mínimo. No regime de disponibilidade, a mesma economia rende mais.",
-  fonte: "Estruturas tarifárias reais: disponibilidade como na CASAN (Florianópolis), franquia como em Floriano (PI), e a de Floriano sem a franquia, para isolar o efeito dela. Parcela de água calculada pela mesma função do programa; o esgoto é cobrado como percentual dela e apenas multiplica as três curvas, sem mudar o formato — é o formato que distingue os regimes. A figura 28, na seção 2.7, abre a fatura inteira. O ponto de partida é o consumo médio do tutorial.",
+  experimente: "No regime de franquia, desça o consumo com o sistema para menos de 10 m³: a fatura deixa de descer, porque os primeiros 10 m³ já estão pagos no valor mínimo. No regime de disponibilidade, a mesma poupança rende mais.",
+  fonte: "Três estruturas tarifárias hipotéticas, em unidades monetárias (u.m.) e sem vínculo com nenhuma entidade real: tarifa de disponibilidade, franquia no valor mínimo e sem valor mínimo. A parte da água é calculada pela mesma função do programa; o saneamento apenas multiplicaria as três curvas, sem lhes mudar a forma — e é a forma que distingue os regimes. O ponto de partida é o consumo médio do tutorial.",
   montar(p, D, id) {
     const passo = 0.25, n = Math.round(30 / passo) + 1;
     const idx = v => Math.round(v / passo);
@@ -394,8 +394,8 @@ FI["fig05_regimes.png"] = {
       ${ctlFaixa(id + "c", "Consumo com o sistema", n, iCom)}
     </div>
     <div class="fi-corpo emp"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} ${H}" role="img" aria-label="Fatura mensal de água e esgoto em função do consumo, em três estruturas tarifárias"></svg>
-      ${legenda(D.curvas.map((c, k) => [cores[k], c.nome, k === 1 ? "trac" : "linha"]).concat([["var(--accent-soft)", "água economizada pelo sistema"]]))}
+      <svg id="${id}g" viewBox="0 0 ${W} ${H}" role="img" aria-label="Fatura mensal de água em função do consumo, em três estruturas tarifárias"></svg>
+      ${legenda(D.curvas.map((c, k) => [cores[k], c.nome, k === 1 ? "trac" : "linha"]).concat([["var(--accent-soft)", "água poupada pelo sistema"]]))}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const svg = p.querySelector(`#${id}g`), leit = p.querySelector(`#${id}l`);
     const desenhar = () => {
@@ -403,7 +403,7 @@ FI["fig05_regimes.png"] = {
       const cs = D.consumos.slice(0, n);
       const ymax = Math.max(...D.curvas.map(c => c.fatura[n - 1]));
       const ey = escala(0, ymax, 5);
-      const A = plano({W, H, l: 58, r: 150, t: 34, b: 44, x: [0, 30], y: [0, ey.max], ym: ey.marcas, yf: v => "R$ " + fmt(v), yr: "parcela de água da fatura mensal",
+      const A = plano({W, H, l: 58, r: 150, t: 34, b: 44, x: [0, 30], y: [0, ey.max], ym: ey.marcas, yf: v => fmt(v), yr: "parcela de água da fatura mensal (u.m.)",
         xm: [0, 5, 10, 15, 20, 25, 30], xf: v => v + " m³", xr: "consumo mensal de água potável"});
       let s = `<rect x="${A.X(cs[iCom])}" y="${A.Y(ey.max)}" width="${Math.max(0, A.X(cs[iSem]) - A.X(cs[iCom]))}" height="${A.Y(0) - A.Y(ey.max)}" style="fill:var(--accent-soft)"/>` + A.s;
       const rot = [];
@@ -420,18 +420,18 @@ FI["fig05_regimes.png"] = {
       s += `<line class="g-guia" x1="0" x2="0" y1="${A.Y(ey.max)}" y2="${A.Y(0)}" style="display:none"/>`;
       svg.innerHTML = s;
       pairar(svg, W, cs.map(x => A.X(x)), i => dicaHTML(`Consumo de ${fmt(cs[i], 2)} m³/mês · parcela de água`,
-        D.curvas.map((c, k) => [cores[k], c.nome, reais(c.fatura[i], 2)])));
+        D.curvas.map((c, k) => [cores[k], c.nome, fmt(c.fatura[i], 2) + " u.m."])));
       p.querySelector(`#${id}s-o`).textContent = fmt(cs[iSem], 2) + " m³/mês";
       p.querySelector(`#${id}c-o`).textContent = fmt(cs[iCom], 2) + " m³/mês";
       const agua = cs[iSem] - cs[iCom];
-      leit.innerHTML = `<p class="fi-sub">Água potável economizada: ${fmt(agua, 2)} m³/mês</p>
-        <table class="fi-tabela"><thead><tr><th>Regime</th><th class="n">Sem</th><th class="n">Com</th><th class="n">Economia</th></tr></thead><tbody>
+      leit.innerHTML = `<p class="fi-sub">Água potável poupada: ${fmt(agua, 2)} m³/mês</p>
+        <table class="fi-tabela"><thead><tr><th>Regime</th><th class="n">Sem</th><th class="n">Com</th><th class="n">Poupança</th></tr></thead><tbody>
         ${D.curvas.map((c, k) => {
           const a = c.fatura[iSem], b = c.fatura[iCom], e = a - b;
-          return `<tr><td><i style="--c:${cores[k]}"></i>${c.nome}<small>${c.exemplo}</small></td><td class="n">${reais(a)}</td><td class="n">${reais(b)}</td>
-            <td class="n"><b>${reais(e)}</b><small>${a > 0 ? fmt(100 * e / a, 0) + "% da fatura" : ""}${agua > 0 ? " · " + reais(e / agua, 2) + "/m³" : ""}</small></td></tr>`;
+          return `<tr><td><i style="--c:${cores[k]}"></i>${c.nome}<small>${c.exemplo}</small></td><td class="n">${fmt(a)} u.m.</td><td class="n">${fmt(b)} u.m.</td>
+            <td class="n"><b>${fmt(e)} u.m.</b><small>${a > 0 ? fmt(100 * e / a, 0) + "% da fatura" : ""}${agua > 0 ? " · " + fmt(e / agua, 2) + " u.m./m³" : ""}</small></td></tr>`;
         }).join("")}</tbody></table>
-        <p class="fi-nota">Acima de 10 m³, a franquia e a tarifa sem mínimo cobram o mesmo, e as duas linhas se sobrepõem (a franquia está tracejada); a diferença entre elas está toda abaixo de 10 m³. O que decide a economia não é o preço médio, e sim a faixa em que o consumo cai e o que fica fixo. Uma fatura que não se mexe com a economia de água torna inviável um sistema que, noutra cidade, se pagaria.</p>`;
+        <p class="fi-nota">Acima de 10 m³, a franquia e a tarifa sem mínimo cobram o mesmo, e as duas linhas sobrepõem-se (a franquia está tracejada); a diferença entre elas está toda abaixo de 10 m³. O que decide a poupança não é o preço médio, e sim o escalão em que o consumo cai e o que fica fixo.</p>`;
     };
     p.querySelector(`#${id}s`).addEventListener("input", e => { iSem = +e.target.value; if (iCom > iSem) iCom = iSem; desenhar(); });
     p.querySelector(`#${id}c`).addEventListener("input", e => { iCom = Math.min(+e.target.value, iSem); desenhar(); });
@@ -441,11 +441,11 @@ FI["fig05_regimes.png"] = {
 
 /* ─── figura: o fluxo de caixa ─────────────────────────────────────────── */
 FI["fig08_fluxo_de_caixa.png"] = {
-  curto: "Quando o investimento se paga",
-  pergunta: "Quando o investimento na cisterna se paga?",
+  curto: "Quando o investimento se recupera",
+  pergunta: "Como evolui o saldo descontado da cisterna ao longo de 20 anos?",
   controles: "volume · material",
-  experimente: "Com 4 m³, troque o concreto pelo polietileno: o VPL dobra, de R$ 2.745 para R$ 5.524. Em aço inoxidável, o investimento não se paga em 20 anos. Aumente o volume e veja o investimento crescer mais depressa que a economia.",
-  fonte: TUTORIAL + " Recalque para caixa superior de 1.000 L, tarifa da CASAN, esgoto a 100% da água, taxa mínima de atratividade de 0,5% ao mês, horizonte de 20 anos, preços de referência do programa.",
+  experimente: "Com 5 m³, troque o betão pelo polietileno: veja o investimento descer e o saldo descontado melhorar. Aumente o volume e veja o investimento crescer mais depressa do que a poupança na fatura.",
+  fonte: TUTORIAL + " Elevação para reservatório superior de 1 000 L, tarifário de Lisboa, taxa de atualização de 0,4% ao mês, horizonte de 20 anos, custos ilustrativos (não são preços de mercado).",
   montar(p, D, id) {
     let vi = D.volumes.indexOf(D.padrao[0]), mat = D.padrao[1];
     const W = 700, H = 370;
@@ -454,15 +454,15 @@ FI["fig08_fluxo_de_caixa.png"] = {
       ${ctlSeg(id + "m", "Material da cisterna", D.materiais, mat)}
     </div>
     <div class="fi-corpo"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} ${H}" role="img" aria-label="Economia e custos de cada ano, e o saldo acumulado descontado ao longo de 20 anos"></svg>
-      ${legenda([[S(4), "economia na fatura de água e esgoto"], [S(2), "investimento (ano 0) e custeio anual"], [S(3), "saldo acumulado descontado", "linha"]])}
+      <svg id="${id}g" viewBox="0 0 ${W} ${H}" role="img" aria-label="Poupança e custos de cada ano, e o saldo acumulado descontado ao longo de 20 anos"></svg>
+      ${legenda([[S(4), "poupança na fatura de água e saneamento"], [S(2), "investimento (ano 0) e exploração anual"], [S(3), "saldo acumulado descontado", "linha"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const svg = p.querySelector(`#${id}g`), leit = p.querySelector(`#${id}l`);
     const desenhar = () => {
       const v = D.volumes[vi], c = D.casos[`${v}|${mat}`], n = c.economia.length;
       const lo = Math.min(-c.custo[0], ...c.acumulado), hi = Math.max(...c.economia, ...c.acumulado, 0);
       const ey = escala(lo, hi, 6);
-      const A = plano({W, H, l: 70, r: 14, t: 34, b: 44, x: [-0.7, n - 0.3], y: [ey.min, ey.max], ym: ey.marcas, yf: v => menos(v), yr: "valor (R$)",
+      const A = plano({W, H, l: 70, r: 14, t: 34, b: 44, x: [-0.7, n - 0.3], y: [ey.min, ey.max], ym: ey.marcas, yf: v => menos(v), yr: "valor (€)",
         xm: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20].filter(a => a < n), xr: "ano de operação"});
       let s = A.s;
       const w = (A.X(1) - A.X(0)) * 0.36;
@@ -475,27 +475,27 @@ FI["fig08_fluxo_de_caixa.png"] = {
       if (c.retorno) {
         const esq = c.retorno > n / 2;
         s += `<line x1="${A.X(c.retorno)}" x2="${A.X(c.retorno)}" y1="${A.Y(ey.max)}" y2="${A.Y(ey.min)}" style="stroke:${S(3)};stroke-dasharray:3 4"/>`;
-        s += `<text class="g-rot" x="${A.X(c.retorno) + (esq ? -6 : 6)}" y="${A.Y(ey.min) - 8}" text-anchor="${esq ? "end" : "start"}" style="fill:var(--ink)">se paga em ${fmt(c.retorno, 1)} anos</text>`;
+        s += `<text class="g-rot" x="${A.X(c.retorno) + (esq ? -6 : 6)}" y="${A.Y(ey.min) - 8}" text-anchor="${esq ? "end" : "start"}" style="fill:var(--ink)">recupera em ${fmt(c.retorno, 1)} anos</text>`;
       }
       s += `<line class="g-guia" x1="0" x2="0" y1="${A.Y(ey.max)}" y2="${A.Y(ey.min)}" style="display:none"/>`;
       svg.innerHTML = s;
       pairar(svg, W, c.economia.map((_, a) => A.X(a)), a => dicaHTML(a ? `Ano ${a}` : "Ano 0 · instalação", [
-        [S(4), "economia", reais(c.economia[a])], [S(2), a ? "custeio" : "investimento", reais(-c.custo[a])],
+        [S(4), "poupança", reais(c.economia[a])], [S(2), a ? "exploração" : "investimento", reais(-c.custo[a])],
         [S(3), "saldo acumulado descontado", reais(c.acumulado[a])]]));
       p.querySelector(`#${id}v-o`).textContent = fmt(v) + " L";
       const tma = (Math.pow(1 + D.tma / 100, 12) - 1) * 100;
       const nomeMat = D.materiais.find(m => m[0] === mat)[1];
       leit.innerHTML = `<p class="fi-sub">${fmt(v)} L em ${nomeMat.toLowerCase()}</p><div class="fi-n">
         ${cartao("Investimento inicial", reais(c.capex))}
-        ${cartao("Economia líquida no 1º ano", reais(c.economia[1] - c.custo[1]))}
-        ${cartao("VPL em 20 anos", reais(c.vpl), c.vpl >= 0 ? "✓ positivo" : "✕ negativo")}
-        ${cartao("Tempo de retorno descontado", c.retorno ? fmt(c.retorno, 1) + " anos" : "mais de 20 anos")}
+        ${cartao("Poupança líquida no 1.º ano", reais(c.economia[1] - c.custo[1]))}
+        ${cartao("VAL em 20 anos", reais(c.vpl), c.vpl >= 0 ? "✓ positivo" : "✕ negativo")}
+        ${cartao("Período de recuperação descontado", c.retorno ? fmt(c.retorno, 1) + " anos" : "sem recuperação")}
         ${cartao("TIR", c.tir === null ? "—" : fmt(c.tir, 1) + "% a.a.", `TMA: ${fmt(tma, 1)}% a.a.`)}
-        ${cartao("Potencial de economia", fmt(c.potencial, 2) + "%")}</div>
-        <p class="fi-sub">VPL em 20 anos, neste volume, por material</p>
+        ${cartao("Potencial de poupança", fmt(c.potencial, 2) + "%")}</div>
+        <p class="fi-sub">VAL em 20 anos, neste volume, por material</p>
         <table class="fi-tabela"><tbody>${D.materiais.map(([k, t]) => {
           const x = D.casos[`${v}|${k}`];
-          return `<tr${k === mat ? ' class="atual"' : ""}><td>${t}</td><td class="n">${reais(x.vpl)}</td><td class="n">${x.retorno ? fmt(x.retorno, 1) + " anos" : "não se paga"}</td></tr>`;
+          return `<tr${k === mat ? ' class="atual"' : ""}><td>${t}</td><td class="n">${reais(x.vpl)}</td><td class="n">${x.retorno ? fmt(x.retorno, 1) + " anos" : "sem recuperação"}</td></tr>`;
         }).join("")}</tbody></table>`;
     };
     p.querySelector(`#${id}v`).addEventListener("input", e => { vi = +e.target.value; desenhar(); });
@@ -509,8 +509,8 @@ FI["fig06_carbono_no_tempo.png"] = {
   curto: "O retorno de carbono",
   pergunta: "Em quantos anos a cisterna devolve o carbono gasto para fabricá-la?",
   controles: "volume · material",
-  experimente: "Com 4 m³, o polietileno e a fibra de vidro devolvem o carbono antes dos 20 anos; concreto e aço inoxidável, não. Diminua o volume: o carbono de fabricação cai, mas a água economizada também.",
-  fonte: TUTORIAL + " Carbono incorporado de todo o sistema (cisterna, caixa superior, tubulações, motobomba e descarte) e crédito anual da água potável evitada, descontados o bombeamento e o tratamento. Positivo emite, negativo retira: a curva parte da dívida de fabricação e desce. Fatores de emissão da seção de avaliação de ciclo de vida.",
+  experimente: "Compare os quatro materiais em 5 m³: o polietileno e a fibra de vidro partem de uma dívida de fabrico muito menor do que o betão e o aço inoxidável. Diminua o volume: o carbono de fabrico desce, mas a água poupada também.",
+  fonte: TUTORIAL + " Carbono incorporado de todo o sistema (cisterna, reservatório superior, tubagens, eletrobomba e descarte) e crédito anual da água potável evitada, descontados a elevação e o tratamento. Positivo emite, negativo retira: a curva parte da dívida de fabrico e desce. Fatores de emissão ilustrativos da secção de avaliação do ciclo de vida.",
   montar(p, D, id) {
     let vi = D.volumes.indexOf(D.padrao), ativos = D.materiais.map(m => m[0]);
     const W = 640, H = 350;
@@ -561,8 +561,8 @@ FI["fig06_carbono_no_tempo.png"] = {
             <td class="n">${fmt(c[0])} kg</td><td class="n">${ret <= anos ? fmt(ret, 1) + " anos" : "mais de 20 anos"}</td><td class="n">${menos(c[1] * anos - c[0])} kg</td></tr>`;
         }).join("")}</tbody></table>
         <p class="fi-nota">${creditos.length === 1
-          ? `O crédito líquido da operação é de ${fmt(creditos[0], 1)} kg CO₂e por ano para os quatro materiais: a água economizada não depende do material. O que muda é o carbono de fabricação, e é ele que decide o retorno.`
-          : "O crédito líquido da operação varia pouco entre os materiais; o carbono de fabricação é o que decide o retorno."}
+          ? `O crédito líquido da operação é de ${fmt(creditos[0], 1)} kg CO₂e por ano para os quatro materiais: a água poupada não depende do material. O que muda é o carbono de fabrico, e é ele que decide o retorno.`
+          : "O crédito líquido da operação varia pouco entre os materiais; o carbono de fabrico é o que decide o retorno."}
           Valores em kg CO₂e; o saldo parte do carbono incorporado, com sinal negativo.</p>`;
     };
     p.querySelector(`#${id}v`).addEventListener("input", e => { vi = +e.target.value; desenhar(); });
@@ -571,25 +571,25 @@ FI["fig06_carbono_no_tempo.png"] = {
   }
 };
 
-/* ─── figura: quatro capitais ──────────────────────────────────────────── */
+/* ─── figura: três concelhos ───────────────────────────────────────────── */
 FI["fig03_cidades.png"] = {
-  curto: "Quatro capitais, a mesma casa",
-  pergunta: "O que muda quando a mesma casa está noutra cidade?",
-  controles: "cidades · volume",
-  experimente: "Compare Brasília e Florianópolis: Brasília quase não tem chuva de maio a setembro e precisa de 15 m³ para chegar a 90% do seu potencial máximo; Florianópolis chega lá com 3 m³. Chover mais no ano, como em Manaus, não basta: conta como a chuva se distribui.",
-  fonte: "A casa do tutorial (150 m² de cobertura, quatro moradores, 28% da demanda atendível por chuva), simulada com 30 anos da série de cada capital. Chuva mensal média da própria série.",
+  curto: "Três concelhos, a mesma moradia",
+  pergunta: "O que muda quando a mesma moradia está noutro concelho?",
+  controles: "concelhos · volume",
+  experimente: "Compare o Porto e Lisboa: o Porto chove quase o dobro de Lisboa no ano, mas ambos têm verão seco; já o Funchal chove menos na costa sul e aproveita menos água com a mesma cisterna. Chover mais no ano não basta: conta como a chuva se distribui.",
+  fonte: "A moradia do tutorial (150 m² de cobertura, quatro moradores, 28% da procura suprível por chuva), simulada com 30 anos da série de cada concelho. Chuva mensal média da própria série.",
   montar(p, D, id) {
     let vi = D.volumes.indexOf(D.padrao), ativos = D.cidades.map(c => c.chave);
     const W = 640;
     const corDe = k => S(D.cidades.findIndex(c => c.chave === k) + 1);
     p.innerHTML = `<div class="fi-ctls">
-      ${ctlChips(id + "c", "Cidades", D.cidades.map(c => [c.chave, c.nome, corDe(c.chave)]), ativos)}
+      ${ctlChips(id + "c", "Concelhos", D.cidades.map(c => [c.chave, c.nome, corDe(c.chave)]), ativos)}
       ${ctlFaixa(id + "v", "Volume da cisterna", D.volumes.length, vi)}
     </div>
     <div class="fi-corpo emp"><div>
-      <svg id="${id}a" viewBox="0 0 ${W} 250" role="img" aria-label="Chuva média de cada mês nas cidades escolhidas"></svg>
-      <svg id="${id}b" viewBox="0 0 ${W} 290" role="img" aria-label="Potencial de economia de água potável em função do volume da cisterna, por cidade"></svg>
-      ${legenda(D.cidades.map(c => [corDe(c.chave), c.nome, "linha"]).concat([["var(--ink3)", "teto: fração atendível de 28%", "trac"]]))}
+      <svg id="${id}a" viewBox="0 0 ${W} 250" role="img" aria-label="Chuva média de cada mês nos concelhos escolhidos"></svg>
+      <svg id="${id}b" viewBox="0 0 ${W} 290" role="img" aria-label="Potencial de poupança de água potável em função do volume da cisterna, por concelho"></svg>
+      ${legenda(D.cidades.map(c => [corDe(c.chave), c.nome, "linha"]).concat([["var(--ink3)", "teto: fração suprível de 28%", "trac"]]))}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const sa = p.querySelector(`#${id}a`), sb = p.querySelector(`#${id}b`), leit = p.querySelector(`#${id}l`);
     const desenhar = () => {
@@ -607,7 +607,7 @@ FI["fig03_cidades.png"] = {
       pairar(sa, W, MESES.map((_, m) => A.X(m + 1)), m => dicaHTML(`Chuva média de ${MESES[m]}`, cs.map(c => [corDe(c.chave), c.nome, fmt(c.mensal[m]) + " mm"])));
 
       const teto = D.fracao * 100;
-      const B = plano({W, H: 290, l: 58, r: 100, t: 34, b: 44, x: [0, 20000], y: [0, 30], ym: [0, 5, 10, 15, 20, 25, 30], yf: v => v + "%", yr: "potencial de economia de água potável", painel: "(b)",
+      const B = plano({W, H: 290, l: 58, r: 100, t: 34, b: 44, x: [0, 20000], y: [0, 30], ym: [0, 5, 10, 15, 20, 25, 30], yf: v => v + "%", yr: "potencial de poupança de água potável", painel: "(b)",
         xm: [0, 5000, 10000, 15000, 20000], xf: x => fmt(x / 1000) + " m³", xr: "volume da cisterna"});
       let t = B.s + `<line class="g-ref" x1="${B.X(0)}" x2="${B.X(20000)}" y1="${B.Y(teto)}" y2="${B.Y(teto)}"/>`;
       t += `<line x1="${B.X(v)}" x2="${B.X(v)}" y1="${B.Y(30)}" y2="${B.Y(0)}" style="stroke:var(--ink3);stroke-width:1"/>`;
@@ -624,7 +624,7 @@ FI["fig03_cidades.png"] = {
         k => { vi = k; p.querySelector(`#${id}v`).value = k; desenhar(); });
       p.querySelector(`#${id}v-o`).textContent = fmt(v) + " L";
       leit.innerHTML = `<p class="fi-sub">Cisterna de ${fmt(v)} L</p>
-        <table class="fi-tabela"><thead><tr><th>Cidade</th><th class="n">Chuva anual</th><th class="n">Potencial</th><th class="n">90% do máximo com</th></tr></thead><tbody>
+        <table class="fi-tabela"><thead><tr><th>Concelho</th><th class="n">Chuva anual</th><th class="n">Potencial</th><th class="n">90% do máximo com</th></tr></thead><tbody>
         ${D.cidades.map(c => {
           const max = c.potencial[c.potencial.length - 1];
           const k90 = c.potencial.findIndex(q => q >= 0.9 * max);
@@ -643,11 +643,11 @@ FI["fig03_cidades.png"] = {
 FI["fig02_curva_de_retorno.png"] = {
   curto: "A curva de retorno e o volume ideal",
   pergunta: "Até onde vale aumentar a cisterna?",
-  controles: "fração atendível · limiar · passo da grade",
-  experimente: "Com 28% e o limiar de 1 %/m³, o volume ideal é 4.000 L. Troque o passo da grade para 500 L e ele vira 3.500 L; para 2.000 L, vira 6.000 L. Nada no projeto mudou: é o efeito do passo que a seção discute. Suba o limiar para 5 %/m³, o valor com que o programa abre, e o ideal cai para 2.000 L.",
-  fonte: TUTORIAL + " Uma simulação por volume, de 0 a 20.000 L em passos de 500 L, para cada fração atendível de 10% a 60%.",
+  controles: "fração suprível · limiar · passo da grelha",
+  experimente: "Com 28% e o limiar de 1 %/m³, o volume ideal é 5 000 L. Troque o passo da grelha para 500 L ou 2 000 L e veja o volume ideal deslocar-se sem que nada no projeto mude: é o efeito do passo que a secção discute. Suba o limiar para 5 %/m³ e o ideal desce.",
+  fonte: TUTORIAL + " Uma simulação por volume, de 0 a 20 000 L em passos de 500 L, para cada fração suprível de 10% a 60%.",
   montar(p, D, id) {
-    let fi = D.fracoes.findIndex(f => Math.abs(f - 0.28) < 1e-6), passo = 1000, lim = 1, vsel = 4000;
+    let fi = D.fracoes.findIndex(f => Math.abs(f - 0.28) < 1e-6), passo = 1000, lim = 1, vsel = 5000;
     const W = 640, LIMIARES = [0.5, 1, 2, 5];
     p.innerHTML = `<div class="fi-ctls">
       ${ctlFaixa(id + "f", "Fração da demanda atendível por chuva", D.fracoes.length, fi)}
@@ -769,11 +769,11 @@ function topsisEscores(matriz, pesos, beneficio, volumes) {
 FI["fig51_programa_topsis.png"] = {
   curto: "A decisão multicritério",
   pergunta: "Que volume o multicritério elege, e com que pesos?",
-  controles: "peso técnico · econômico · ambiental",
-  experimente: "Com os três eixos iguais, como o programa abre, vence a cisterna de 4.000 L. Leve o peso ambiental ao máximo e veja a escolha subir de volume; leve o econômico e ela desce. O critério que muda a decisão fica visível nas barras de proximidade.",
-  fonte: "Os sete critérios do programa, calculados para sete volumes candidatos com o projeto do tutorial e cisterna de polietileno. O escore é calculado na página pela mesma conta de triton/core/topsis.py, conferida contra o programa por teste automático.",
+  controles: "peso técnico · económico · ambiental",
+  experimente: "Com os três eixos iguais, como o programa abre, vence a cisterna de 5 000 L. Leve o peso ambiental ao máximo e veja a escolha mudar; leve o económico e ela desce para a menor cisterna. O critério que muda a decisão fica visível nas barras de proximidade.",
+  fonte: "Os sete critérios do programa, calculados para sete volumes candidatos com o projeto do tutorial e cisterna de polietileno. A pontuação é calculada na página pela mesma conta de triton/core/topsis.py, conferida contra o programa por teste automático.",
   montar(p, D, id) {
-    let pesos = [1 / 3, 1 / 3, 1 / 3], sete = false, pc = null, sel = D.volumes.indexOf(4000);
+    let pesos = [1 / 3, 1 / 3, 1 / 3], sete = false, pc = null, sel = D.volumes.indexOf(5000);
     const W = 640, EIXOS = D.eixos, benef = D.criterios.map(c => c.beneficio);
     const desenha = () => {
       const w7 = sete ? pc.slice() : [pesos[0] / 2, pesos[0] / 2, pesos[1] / 3, pesos[1] / 3, pesos[1] / 3, pesos[2] / 2, pesos[2] / 2];
@@ -781,7 +781,7 @@ FI["fig51_programa_topsis.png"] = {
       const vencedor = Res.postos.indexOf(1);
       const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
       const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
-        yf: v => fmt(v, 2), yr: "escore TOPSIS (1 = ideal)", painel: "(a)",
+        yf: v => fmt(v, 2), yr: "pontuação TOPSIS (1 = ideal)", painel: "(a)",
         xm: D.volumes.map((_, i) => i), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume candidato"});
       let s = A.s;
       const bw = (A.X(1) - A.X(0)) * 0.55;
@@ -794,7 +794,7 @@ FI["fig51_programa_topsis.png"] = {
       s += `<text class="g-rot" x="${A.X(vencedor)}" y="${A.Y(ey.max) + 2}" text-anchor="middle" style="fill:var(--accent)">eleito</text>`;
       p.querySelector(`#${id}g`).innerHTML = s;
       pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
-        i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "escore", fmt(Res.escores[i], 4)], ["", "posição", `${Res.postos[i]}º`]]),
+        i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "pontuação", fmt(Res.escores[i], 4)], ["", "posição", `${Res.postos[i]}.º`]]),
         i => { sel = i; desenha(); });
 
       const B = plano({W, H: 250, l: 268, r: 60, t: 34, b: 36, x: [0, 1], y: [D.criterios.length - 0.4, -0.6],
@@ -812,21 +812,21 @@ FI["fig51_programa_topsis.png"] = {
       EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] * 100, 0) + "%"; });
       if (sete) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(Res.pesos[j] * 100, 1) + "%"; });
       p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Eleito: ${fmt(D.volumes[vencedor])} L</p>
-        <div class="fi-n">${cartao("Escore do eleito", fmt(Res.escores[vencedor], 3))}
-        ${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `${Res.postos[sel]}º lugar, escore ${fmt(Res.escores[sel], 3)}`)}</div>
+        <div class="fi-n">${cartao("Pontuação do eleito", fmt(Res.escores[vencedor], 3))}
+        ${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `${Res.postos[sel]}.º lugar, pontuação ${fmt(Res.escores[sel], 3)}`)}</div>
         <p class="fi-sub">Os sete critérios do volume em destaque</p>
         <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.beneficio ? "maior é melhor" : "menor é melhor"}</small></td>
-          <td class="n">${c.unidade === "R$" ? reais(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
-        <p class="fi-nota">O escore mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se pagam no horizonte recebem a penalidade de retorno que o programa aplica, e não ficam de fora da conta. " : ""}Pesos iguais nos três eixos reproduzem o resultado do programa.</p>`;
+          <td class="n">${c.unidade === "€" ? reais(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
+        <p class="fi-nota">A pontuação mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se recuperam no horizonte recebem a penalização de recuperação que o programa aplica, e não ficam de fora da conta. " : ""}Pesos iguais nos três eixos reproduzem o resultado do programa.</p>`;
     };
     p.innerHTML = `<div class="fi-ctls">
       ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, "Peso " + r.toLowerCase(), 101, Math.round(pesos[i] * 100))).join("")}
       <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Pesos iguais</button><button type="button" class="bt" id="${id}sete">Abrir nos sete critérios</button></div></div>
     </div><div class="fi-ctls" id="${id}s7" hidden></div>
     <div class="fi-corpo"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Escore TOPSIS de cada volume candidato"></svg>
+      <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Pontuação TOPSIS de cada volume candidato"></svg>
       <svg id="${id}h" viewBox="0 0 ${W} 250" role="img" aria-label="Proximidade do volume em destaque ao ótimo observado em cada critério"></svg>
-      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo econômico"], [S(4), "(b) eixo ambiental"]])}
+      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo económico"], [S(4), "(b) eixo ambiental"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const ajustar = () => {
       const soma = pesos.reduce((a, b) => a + b, 0);
@@ -941,21 +941,21 @@ FI["fig23_smaa.png"] = {
 /* ─── os índices pluviométricos ────────────────────────────────────────── */
 FI["fig16_indices.png"] = {
   curto: "Os índices pluviométricos, ano a ano",
-  pergunta: "O que os nove índices dizem sobre a chuva de cada cidade?",
-  controles: "cidade · índice",
-  experimente: "Escolha «Maior estiagem» e compare Brasília com Florianópolis: a maior sequência seca de Brasília passa de 100 dias em vários anos, e é ela, não a chuva total, que obriga a cisterna maior. Depois veja o índice de sazonalidade das quatro cidades.",
-  fonte: "Índices calculados pelo próprio programa (triton/core/calculator.py) sobre 30 anos da série de cada capital, com o mesmo período-base de percentil que o programa usa.",
+  pergunta: "O que os nove índices dizem sobre a chuva de cada concelho?",
+  controles: "concelho · índice",
+  experimente: "Escolha «Maior estiagem» e compare o Funchal com o Porto: a maior sequência seca do Funchal passa de 80 dias em vários anos, e é ela, não a chuva total, que obriga a cisterna maior. Depois veja o índice de sazonalidade dos três concelhos.",
+  fonte: "Índices calculados pelo próprio programa (triton/core/calculator.py) sobre 30 anos da série de cada concelho (ERA5-Land, 1991–2020), com o mesmo período-base de percentil que o programa usa.",
   montar(p, D, id) {
     let cidade = D.padrao[0], indice = D.padrao[1];
     const W = 640;
     p.innerHTML = `<div class="fi-ctls">
-      ${ctlSeg(id + "c", "Cidade", D.cidades.map(c => [c.chave, c.nome]), cidade)}
+      ${ctlSeg(id + "c", "Concelho", D.cidades.map(c => [c.chave, c.nome]), cidade)}
       <div class="fi-ctl largo"><label class="fi-rot" for="${id}i">Índice</label>
       <select id="${id}i">${D.indices.map(x => `<option value="${x.chave}"${x.chave === indice ? " selected" : ""}>${x.nome} (${x.chave.replace("Seasonality_Index", "SI")})</option>`).join("")}</select></div>
     </div>
     <div class="fi-corpo emp"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 260" role="img" aria-label="Valor do índice em cada ano da série"></svg>
-      <svg id="${id}h" viewBox="0 0 ${W} 190" role="img" aria-label="Média do índice nas quatro capitais"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 190" role="img" aria-label="Média do índice nos três concelhos"></svg>
       ${legenda([[S(1), "valor do ano"], ["var(--ink3)", "média dos 30 anos", "trac"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
@@ -1010,8 +1010,8 @@ FI["fig21_investimento.png"] = {
   curto: "De que é feito o investimento",
   pergunta: "De que é feito o investimento inicial, e o que muda com o volume?",
   controles: "volume · material",
-  experimente: "Dobre o volume de 4 para 8 m³: o investimento total sobe bem menos que o dobro, porque só o reservatório inferior cresce. Trocar o material mexe só nessa parcela, e é por isso que o concreto, mais caro por litro, pesa mais nas cisternas grandes.",
-  fonte: "As sete parcelas que o programa soma no investimento inicial, com os preços de referência dele e os custos declarados no tutorial. A soma reproduz, para cada volume e material, o mesmo investimento que a análise econômica usa no fluxo de caixa.",
+  experimente: "Dobre o volume de 5 para 10 m³: o investimento total sobe menos que o dobro, porque só o reservatório inferior cresce. Trocar o material mexe só nessa parcela, e é por isso que o betão armado, mais caro por litro, pesa mais nas cisternas grandes.",
+  fonte: "As sete parcelas que o programa soma no investimento inicial, com os preços ilustrativos do tutorial em euros. A soma reproduz, para cada volume e material, o mesmo investimento que a análise económica usa no fluxo de caixa.",
   montar(p, D, id) {
     let vi = D.volumes.indexOf(D.padrao[0]), mat = D.padrao[1];
     const W = 640, cores = [1, 2, 3, 4, 5, 6, 7].map(R);
@@ -1028,7 +1028,7 @@ FI["fig21_investimento.png"] = {
       const totais = D.volumes.map(x => D.casos[`${x}|${mat}`].reduce((a, b) => a + b, 0));
       const ey = escala(0, Math.max(...totais) * 1.08, 5);
       const A = plano({W, H: 300, l: 70, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
-        yf: x => fmt(x), yr: "investimento inicial (R$)",
+        yf: x => fmt(x), yr: "investimento inicial (€)",
         xm: D.volumes.map((_, i) => i).filter(i => i % 2 === 0), xf: i => fmt(D.volumes[i] / 1000) + " m³", xr: "volume da cisterna"});
       let s = A.s;
       const bw = (A.X(1) - A.X(0)) * 0.62;
@@ -1054,7 +1054,7 @@ FI["fig21_investimento.png"] = {
         <tr class="tot"><td>Total</td><td class="n">${reais(total)}</td><td class="n">100%</td></tr></tbody></table>
         <div class="fi-n">${cartao("Custo por litro de cisterna", reais(partes[0] / v, 2), "só o reservatório")}
         ${cartao("Parcela que não depende do volume", fmt(100 * (total - partes[0]) / total, 0) + "%")}</div>
-        <p class="fi-nota">A soma das sete rubricas é o investimento inicial que a análise econômica usa${D.fecha_com_o_capex ? ", conferido a cada montagem do site" : ""}. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para o filtro não ser contado duas vezes.</p>`;
+        <p class="fi-nota">A soma das sete rubricas é o investimento inicial que a análise económica usa${D.fecha_com_o_capex ? ", conferido a cada montagem do site" : ""}. A linha de tratamento entra pelo que acrescenta além da verba de filtração já embutida nos acessórios, para o filtro não ser contado duas vezes.</p>`;
     };
     p.querySelector(`#${id}v`).addEventListener("input", e => { vi = +e.target.value; desenha(); });
     ligarSeg(p, id + "m", x => { mat = x; desenha(); });
@@ -1065,10 +1065,10 @@ FI["fig21_investimento.png"] = {
 /* ─── a fatura aberta em parcelas ──────────────────────────────────────── */
 FI["fig07_fatura.png"] = {
   curto: "A fatura aberta em parcelas",
-  pergunta: "De que é feita a conta de água, e que parte o sistema pluvial consegue mexer?",
-  controles: "consumo sem e com o sistema · esgoto",
-  experimente: "Baixe o consumo com o sistema: a tarifa de disponibilidade não se move, e só a faixa mais cara encolhe. Zere o percentual de esgoto e veja a economia mensal cair pela metade — em Florianópolis o esgoto iguala a água, e é ele que torna o sistema viável.",
-  fonte: "Tarifa da CASAN vigente no tutorial, aberta nas parcelas que o programa calcula: disponibilidade, faixas de consumo e esgoto como percentual da parcela de água. O ponto de partida é o consumo médio do projeto do tutorial.",
+  pergunta: "De que é feita a fatura da água, e que parte o sistema pluvial consegue mexer?",
+  controles: "consumo sem e com o sistema · saneamento e resíduos",
+  experimente: "Baixe o consumo com o sistema: a quota fixa de serviço não se move, e só o escalão marginal e as componentes variáveis de saneamento e resíduos encolhem. Desligue o saneamento e resíduos e veja como a poupança mensal diminui.",
+  fonte: "Estrutura tarifária doméstica ilustrativa de Lisboa usada no tutorial, aberta nas parcelas que o programa calcula: quota de serviço fixa, escalões de consumo de água (com IVA de 6%) e saneamento e resíduos.",
   montar(p, D, id) {
     const n = D.consumos.length, idx = v => Math.round(v / 0.25);
     let iSem = idx(D.padrao[0]), iCom = idx(D.padrao[1]), esgoto = 100;
@@ -1076,7 +1076,7 @@ FI["fig07_fatura.png"] = {
     p.innerHTML = `<div class="fi-ctls">
       ${ctlFaixa(id + "s", "Consumo sem o sistema", n, iSem)}
       ${ctlFaixa(id + "c", "Consumo com o sistema", n, iCom)}
-      ${ctlSeg(id + "e", "Esgoto", [[0, "sem esgoto"], [40, "40%"], [80, "80%"], [100, "100%"]], esgoto)}
+      ${ctlSeg(id + "e", "Saneamento e resíduos", [[0, "sem san./res."], [40, "40%"], [80, "80%"], [100, "100%"]], esgoto)}
     </div>
     <div class="fi-corpo"><div>
       <svg id="${id}g" class="estreito" viewBox="0 0 ${W} 330" role="img" aria-label="A fatura mensal aberta em parcelas, sem e com o sistema pluvial"></svg>
@@ -1086,14 +1086,14 @@ FI["fig07_fatura.png"] = {
       if (iCom > iSem) { iCom = iSem; p.querySelector(`#${id}c`).value = iCom; }
       const monta = i => {
         const linha = D.parcelas[i].slice();
-        linha[linha.length - 1] = linha[linha.length - 1] * esgoto / 100;   // esgoto sobre a água
+        linha[linha.length - 1] = linha[linha.length - 1] * esgoto / 100;
         return linha;
       };
       const casos = [["sem o sistema", monta(iSem), D.consumos[iSem]], ["com o sistema", monta(iCom), D.consumos[iCom]]];
       const totais = casos.map(([, l]) => l.reduce((a, b) => a + b, 0));
       const ey = escala(0, Math.max(...totais) * 1.12, 5);
       const A = plano({W, H: 330, l: 70, r: 14, t: 34, b: 52, x: [-0.6, 1.6], y: [0, ey.max], ym: ey.marcas,
-        yf: x => fmt(x), yr: "fatura mensal (R$)", xm: [0, 1], xf: i => casos[i][0]});
+        yf: x => fmt(x), yr: "fatura mensal (€)", xm: [0, 1], xf: i => casos[i][0]});
       let s = A.s;
       const bw = (A.X(1) - A.X(0)) * 0.46;
       casos.forEach(([rot, linha, consumo], i) => {
@@ -1117,7 +1117,7 @@ FI["fig07_fatura.png"] = {
       p.querySelector(`#${id}s-o`).textContent = fmt(D.consumos[iSem], 2) + " m³/mês";
       p.querySelector(`#${id}c-o`).textContent = fmt(D.consumos[iCom], 2) + " m³/mês";
       const agua = D.consumos[iSem] - D.consumos[iCom], economia = totais[0] - totais[1];
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Água potável economizada: ${fmt(agua, 2)} m³/mês</p>
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Água potável poupada: ${fmt(agua, 2)} m³/mês</p>
         <table class="fi-tabela"><thead><tr><th>Parcela</th><th class="n">Sem</th><th class="n">Com</th><th class="n">Diferença</th></tr></thead><tbody>
         ${D.rubricas.map((r, j) => {
           const a = casos[0][1][j], b = casos[1][1][j];
@@ -1126,8 +1126,8 @@ FI["fig07_fatura.png"] = {
         }).join("")}
         <tr class="tot"><td>Total</td><td class="n">${reais(totais[0])}</td><td class="n">${reais(totais[1])}</td><td class="n">−${reais(economia)}</td></tr></tbody></table>
         <div class="fi-n">${cartao("Redução da fatura", fmt(100 * economia / totais[0], 1) + "%", `de ${fmt(100 * agua / (D.consumos[iSem] || 1), 1)}% do consumo`)}
-        ${cartao("Economia por m³ poupado", agua > 0 ? reais(economia / agua, 2) : "—", "R$/m³")}</div>
-        <p class="fi-nota">A tarifa de disponibilidade é a mesma nos dois casos: é o que se paga por estar ligado à rede. Por isso a fatura cai menos, em proporção, do que o consumo.</p>`;
+        ${cartao("Poupança por m³ poupado", agua > 0 ? reais(economia / agua, 2) : "—", "€/m³")}</div>
+        <p class="fi-nota">As quotas fixas de água, saneamento e resíduos são as mesmas nos dois casos: é o que se paga por estar ligado à rede. Por isso a fatura cai menos, em proporção, do que o consumo.</p>`;
     };
     p.querySelector(`#${id}s`).addEventListener("input", e => { iSem = +e.target.value; if (iCom > iSem) iCom = iSem; desenha(); });
     p.querySelector(`#${id}c`).addEventListener("input", e => { iCom = Math.min(+e.target.value, iSem); desenha(); });
@@ -1141,8 +1141,8 @@ FI["fig24_tornado.png"] = {
   curto: "O tornado de sensibilidade",
   pergunta: "Que premissa move mais o resultado do projeto?",
   controles: "amplitude da variação",
-  experimente: "Com ±30%, nenhuma premissa sozinha derruba o projeto. Suba para ±50% e duas passam a zerar o valor presente líquido: o volume de água captada e o período de análise. São as duas que precisam de dado local — série de chuva medida e vida útil declarada — antes de o estudo ser publicado.",
-  fonte: "Análise de sensibilidade do próprio programa (run_sensitivity_analysis) sobre o caso-base do tutorial — cisterna de 4.000 L em concreto, 20 anos, tarifa da CASAN —, a mesma definição de caso-base que a figura do manual usa.",
+  experimente: "Mesmo com ±50%, nenhuma premissa isolada torna o valor atual líquido positivo em Lisboa: o investimento inicial e o volume de água captada são as duas variáveis que mais deslocam o resultado.",
+  fonte: "Análise de sensibilidade do próprio programa (run_sensitivity_analysis) sobre o caso-base do tutorial — cisterna de 5 000 L em betão armado, 20 anos, tarifário ilustrativo de Lisboa —, a mesma definição de caso-base que a figura do manual usa.",
   montar(p, D, id) {
     let amp = D.padrao, sel = null;
     const W = 640;
@@ -1150,8 +1150,8 @@ FI["fig24_tornado.png"] = {
       ${ctlSeg(id + "a", "Amplitude da variação de cada premissa", D.amplitudes.map(a => [a, "±" + a + "%"]), amp)}
     </div>
     <div class="fi-corpo emp"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} 380" role="img" aria-label="Variação do valor presente líquido quando cada premissa sobe e desce"></svg>
-      ${legenda([[S(4), "premissa para cima"], [S(2), "premissa para baixo"], ["var(--ink3)", "VPL do caso-base", "trac"]])}
+      <svg id="${id}g" viewBox="0 0 ${W} 380" role="img" aria-label="Variação do valor atual líquido quando cada premissa sobe e desce"></svg>
+      ${legenda([[S(4), "premissa para cima"], [S(2), "premissa para baixo"], ["var(--ink3)", "VAL do caso-base", "trac"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
       const C = D.casos[String(amp)];
@@ -1162,7 +1162,7 @@ FI["fig24_tornado.png"] = {
       const todos = itens.flatMap(x => [x.baixo, x.alto, D.vpl_base]);
       const ex = escala(Math.min(...todos), Math.max(...todos), 5);
       const A = plano({W, H: 380, l: 240, r: 20, t: 34, b: 48, x: [ex.min, ex.max], y: [itens.length - 0.4, -0.6],
-        xm: ex.marcas, xf: v => menos(v), xr: "valor presente líquido em 20 anos (R$)"});
+        xm: ex.marcas, xf: v => menos(v), xr: "valor atual líquido em 20 anos (€)"});
       let s = A.s;
       const h = 18, x0 = A.X(D.vpl_base);
       itens.forEach((x, i) => {
@@ -1199,18 +1199,18 @@ FI["fig24_tornado.png"] = {
         itens.forEach((x, i) => { const q = Math.abs(A.Y(i) - y); if (q < d) { d = q; k = i; } });
         sel = itens[k].nome; desenha();
       };
-      const viram = itens.filter(x => Math.min(x.alto, x.baixo) < 0);
+      const viram = itens.filter(x => (D.vpl_base >= 0 ? Math.min(x.alto, x.baixo) < 0 : Math.max(x.alto, x.baixo) > 0));
       const s1 = itens.find(x => x.nome === sel);
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Caso-base: cisterna de ${fmt(D.volume)} L, VPL de ${reais(D.vpl_base)}</p>
-        <div class="fi-n">${cartao("Premissa que mais move o VPL", itens[0].nome.replace(/ \(.*/, ""), `faixa de ${reais(itens[0].amplitude)}`)}
-        ${cartao("Premissas que chegam a zerar o VPL", viram.length ? viram.length + " de " + itens.length : "nenhuma", viram.length ? viram.map(x => x.nome.replace(/ \(.*/, "")).join(", ") : `com ±${amp}%`)}</div>
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Caso-base: cisterna de ${fmt(D.volume)} L, VAL de ${reais(D.vpl_base)}</p>
+        <div class="fi-n">${cartao("Premissa que mais move o VAL", itens[0].nome.replace(/ \(.*/, ""), `faixa de ${reais(itens[0].amplitude)}`)}
+        ${cartao("Premissas que invertem o sinal do VAL", viram.length ? viram.length + " de " + itens.length : "nenhuma", viram.length ? viram.map(x => x.nome.replace(/ \(.*/, "")).join(", ") : `com ±${amp}%`)}</div>
         <p class="fi-sub">Premissa em destaque: ${s1.nome}</p>
         <table class="fi-tabela"><tbody>
         <tr><td><i style="--c:${S(4)}"></i>Premissa ${amp}% maior</td><td class="n">${reais(s1.alto)}</td><td class="n">${reais(s1.alto - D.vpl_base)}</td></tr>
         <tr><td>Caso-base</td><td class="n">${reais(D.vpl_base)}</td><td class="n">—</td></tr>
         <tr><td><i style="--c:${S(2)}"></i>Premissa ${amp}% menor</td><td class="n">${reais(s1.baixo)}</td><td class="n">${reais(s1.baixo - D.vpl_base)}</td></tr>
         </tbody></table>
-        <p class="fi-nota">O caso-base sai do modelo econômico simplificado do programa, que desconta um fluxo anual com tarifa marginal única; por isso o valor presente aqui não é o mesmo do fluxo de caixa mensal da figura 28. O que o tornado mede é a sensibilidade relativa. Cada barra move uma premissa de cada vez, mantendo as outras no caso-base. A ordem é a da amplitude: quem está no alto decide o resultado, e é onde vale gastar esforço para conseguir dado local. Uma premissa cuja barra cruza o zero pode, sozinha, tornar o projeto inviável.</p>`;
+        <p class="fi-nota">O caso-base sai do modelo económico simplificado do programa, que desconta um fluxo anual com tarifa marginal única; por isso o valor atual aqui não é o mesmo do fluxo de caixa mensal. O que o tornado mede é a sensibilidade relativa. Cada barra move uma premissa de cada vez, mantendo as outras no caso-base.</p>`;
     };
     ligarSeg(p, id + "a", x => { amp = +x; desenha(); });
     desenha();
@@ -1221,15 +1221,15 @@ FI["fig24_tornado.png"] = {
 FI["fig35_escoamento.png"] = {
   curto: "A captação da cobertura",
   pergunta: "Quanta água a sua cobertura capta por mês?",
-  controles: "cidade · material · área · descarte",
-  experimente: "Troque a telha cerâmica pelo telhado verde: o coeficiente cai de 0,75 para 0,24 e a captação despenca a um terço. Suba o descarte de 0 para 3 mm e veja quanto some — em Florianópolis, um quarto da chuva do ano.",
-  fonte: "Chuva diária de 30 anos da série de cada capital, com o descarte aplicado a cada evento como no programa, e o coeficiente de escoamento do material da cobertura. A captação é V = P × A × C, a mesma conta da NBR 15527:2019 e do motor de simulação.",
+  controles: "concelho · material · área · descarte",
+  experimente: "Troque a telha cerâmica pela cobertura ajardinada (telhado verde): o coeficiente cai de 0,75 para 0,24 e a captação reduz-se a um terço. Suba o descarte de 0 para 3 mm e veja quanto se perde nos meses de verão.",
+  fonte: "Chuva diária de 30 anos da série de cada concelho (ERA5-Land, 1991–2020), com o descarte aplicado a cada evento como no programa, e o coeficiente de escoamento do material da cobertura. A captação é V = P × A × C.",
   montar(p, D, id) {
     let cidade = D.padrao[0], desc = D.padrao[1], area = D.padrao[2], material = D.padrao[3];
     const W = 640;
     const coefDe = () => (D.materiais.find(m => m[0] === material) || D.materiais[0])[1];
     p.innerHTML = `<div class="fi-ctls">
-      ${ctlSeg(id + "c", "Cidade", D.cidades.map(c => [c.chave, c.nome]), cidade)}
+      ${ctlSeg(id + "c", "Concelho", D.cidades.map(c => [c.chave, c.nome]), cidade)}
       <div class="fi-ctl largo"><label class="fi-rot" for="${id}m">Material da cobertura <output id="${id}m-o"></output></label>
       <select id="${id}m">${D.materiais.map(([n, c]) => `<option value="${esc(n)}"${n === material ? " selected" : ""}>${esc(n)} — coeficiente ${fmt(c, 2)}</option>`).join("")}</select></div>
       ${ctlFaixa(id + "a", "Área de cobertura (projeção horizontal)", D.areas.length, D.areas.indexOf(area))}
@@ -1237,7 +1237,7 @@ FI["fig35_escoamento.png"] = {
     </div>
     <div class="fi-corpo"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 300" role="img" aria-label="Volume captado em cada mês do ano, em média"></svg>
-      ${legenda([[S(1), "captação do mês"], [S(2), "parte retida pelo descarte"], ["var(--ink3)", "demanda pluvial do tutorial", "trac"]])}
+      ${legenda([[S(1), "captação do mês"], [S(2), "parte retida pelo descarte"], ["var(--ink3)", "procura pluvial do tutorial", "trac"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
       const c = D.cidades.find(x => x.chave === cidade), coef = coefDe();
@@ -1257,7 +1257,7 @@ FI["fig35_escoamento.png"] = {
         s += `<rect x="${x}" y="${A.Y(v)}" width="${bw}" height="${Math.max(0, A.Y(0) - A.Y(v))}" rx="2" style="fill:${S(1)}"/>`;
       });
       s += `<line class="g-ref" x1="${A.X(0.4)}" x2="${A.X(12.6)}" y1="${A.Y(demandaMes)}" y2="${A.Y(demandaMes)}"/>`;
-      s += `<text class="g-t" x="${A.X(12.6)}" y="${A.Y(demandaMes) - 6}" text-anchor="end">demanda pluvial do tutorial: ${fmt(demandaMes / 1000, 1)} m³/mês</text>`;
+      s += `<text class="g-t" x="${A.X(12.6)}" y="${A.Y(demandaMes) - 6}" text-anchor="end">procura pluvial do tutorial: ${fmt(demandaMes / 1000, 1)} m³/mês</text>`;
       p.querySelector(`#${id}g`).innerHTML = s;
       pairar(p.querySelector(`#${id}g`), W, mensal.map((_, m) => A.X(m + 1)),
         m => dicaHTML(`${MESES[m]} · média de 30 anos`, [
@@ -1273,9 +1273,9 @@ FI["fig35_escoamento.png"] = {
         ${cartao("Média diária", fmt(anual / 365.25) + " L/dia")}
         ${cartao("Lâmina aproveitável", fmt(c.anual[String(desc)]) + " mm/ano", `chuva de ${fmt(c.anual["0"])} mm`)}
         ${cartao("Retido pelo descarte", fmt(100 * (1 - anual / anualBruto), 1) + "%", `com ${fmt(desc)} mm por evento`)}
-        ${cartao("Meses que cobrem a demanda", cobertos, "de 12, no tutorial")}
+        ${cartao("Meses que cobrem a procura", cobertos, "de 12, no tutorial")}
         ${cartao("Coeficiente de escoamento", fmt(coefDe(), 2), esc(material))}</div>
-        <p class="fi-nota">Esta é a oferta bruta da cobertura, antes da cisterna: o que o reservatório consegue guardar depende do volume e do consumo, e é o que as figuras do balanço diário mostram. Coeficientes de ${esc(D.fonte_coeficientes)}</p>`;
+        <p class="fi-nota">Esta é a oferta bruta da cobertura, antes da cisterna: o que o reservatório consegue guardar depende do volume e do consumo, e é o que as figuras do balanço diário mostram. ${esc(D.fonte_coeficientes)}</p>`;
     };
     ligarSeg(p, id + "c", x => { cidade = x; desenha(); });
     ligarSeg(p, id + "d", x => { desc = +x; desenha(); });
@@ -1287,23 +1287,23 @@ FI["fig35_escoamento.png"] = {
 
 /* ─── qual pressurizador gasta menos ───────────────────────────────────── */
 FI["fig00k_energia.png"] = {
-  curto: "A escolha do pressurizador",
-  pergunta: "Qual motobomba gasta menos para pressurizar a água de chuva?",
-  controles: "pressão · volume recalcado · partidas",
-  experimente: "Suba a pressão de trabalho: acima de 20 m.c.a. os modelos de menor potência deixam de entregar a vazão do ponto e saem da disputa. Repare que o modelo mais potente não é o que gasta mais por metro cúbico — o que decide é o tempo ligado.",
-  fonte: "Catálogo de seis pressurizadores do programa, com curva de vazão × pressão de cada fabricante. A energia é a potência elétrica multiplicada pelo tempo ligado, e a vazão efetiva é a menor entre a curva da bomba e a vazão do ponto de uso de 9 L/min.",
+  curto: "A escolha do grupo hidropressor",
+  pergunta: "Qual eletrobomba gasta menos para pressurizar a água de chuva?",
+  controles: "pressão · volume bombeado · arranques",
+  experimente: "Suba a pressão de serviço: acima de 20 m.c.a. os modelos de menor potência deixam de entregar o caudal do ponto e saem da disputa. Repare que o modelo mais potente não é o que gasta mais por metro cúbico — o que decide é o tempo ligado.",
+  fonte: "Seis curvas ilustrativas de grupos hidropressores (A a F). A energia é a potência elétrica multiplicada pelo tempo ligado, e o caudal efetivo é o menor entre a curva da bomba e o caudal do ponto de utilização de 9 L/min.",
   montar(p, D, id) {
     let pi = D.pressoes.indexOf(D.padrao[0]), vol = D.padrao[1], part = D.padrao[2], sel = 0;
     const W = 640;
     p.innerHTML = `<div class="fi-ctls">
-      ${ctlFaixa(id + "p", "Pressão de trabalho", D.pressoes.length, pi)}
-      ${ctlSeg(id + "v", "Volume recalcado por ano", D.volumes.map(v => [v, fmt(v) + " m³"]), vol)}
-      ${ctlSeg(id + "n", "Partidas por ano", D.partidas.map(n => [n, fmt(n)]), part)}
+      ${ctlFaixa(id + "p", "Pressão de serviço", D.pressoes.length, pi)}
+      ${ctlSeg(id + "v", "Volume bombeado por ano", D.volumes.map(v => [v, fmt(v) + " m³"]), vol)}
+      ${ctlSeg(id + "n", "Arranques por ano", D.partidas.map(n => [n, fmt(n)]), part)}
     </div>
     <div class="fi-corpo emp"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} 260" role="img" aria-label="Energia anual de cada modelo do catálogo"></svg>
-      <svg id="${id}h" viewBox="0 0 ${W} 260" role="img" aria-label="Curva de vazão contra pressão de cada modelo"></svg>
-      ${legenda([[S(4), "modelo que menos gasta"], [S(1), "modelo em destaque"], [S(2), "não entrega a vazão do ponto"], ["var(--ink3)", "vazão do ponto de uso", "trac"]])}
+      <svg id="${id}g" viewBox="0 0 ${W} 260" role="img" aria-label="Energia anual de cada curva ilustrativa"></svg>
+      <svg id="${id}h" viewBox="0 0 ${W} 260" role="img" aria-label="Curva de caudal contra pressão de cada modelo"></svg>
+      ${legenda([[S(4), "curva que menos gasta"], [S(1), "curva em destaque"], [S(2), "não entrega o caudal do ponto"], ["var(--ink3)", "caudal do ponto de utilização", "trac"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
       const pressao = D.pressoes[pi];
@@ -1339,37 +1339,37 @@ FI["fig00k_energia.png"] = {
       const hmax = Math.max(...D.modelos.flatMap(m => m.curva.map(c => c[1])));
       const ex = escala(0, qmax * 1.02, 5), eh = escala(0, hmax * 1.05, 4);
       const B = plano({W, H: 260, l: 66, r: 120, t: 34, b: 44, x: [0, ex.max], y: [0, eh.max], ym: eh.marcas,
-        yf: v => fmt(v), yr: "pressão (m.c.a.)", xm: ex.marcas, xf: v => fmt(v), xr: "vazão (L/min)"});
+        yf: v => fmt(v), yr: "pressão (m.c.a.)", xm: ex.marcas, xf: v => fmt(v), xr: "caudal (L/min)"});
       let t = B.s;
       const rot = [];
       lista.forEach((x, i) => {
         const m = meta(x.chave), pontos = m.curva.slice().sort((a, b) => a[0] - b[0]);
         const cor = i === sel ? S(1) : "var(--ink3)";
         t += `<polyline points="${pontos.map(([q, hh]) => `${B.X(q)},${B.Y(hh)}`).join(" ")}" style="fill:none;stroke:${cor};stroke-width:${i === sel ? 2.6 : 1.2};opacity:${i === sel ? 1 : 0.5}"/>`;
-        if (i === sel) rot.push({y: B.Y(pontos[pontos.length - 1][1]), t: m.rotulo.split(",")[0], c: S(1)});
+        if (i === sel) rot.push({y: B.Y(pontos[pontos.length - 1][1]), t: m.rotulo.split(" (")[0], c: S(1)});
       });
       t += `<line class="g-ref" x1="${B.X(D.vazao_do_ponto)}" x2="${B.X(D.vazao_do_ponto)}" y1="${B.Y(eh.max)}" y2="${B.Y(0)}"/>`;
-      t += `<text class="g-t" x="${B.X(D.vazao_do_ponto) + 6}" y="${B.Y(eh.max) + 12}">vazão do ponto: ${fmt(D.vazao_do_ponto)} L/min</text>`;
+      t += `<text class="g-t" x="${B.X(D.vazao_do_ponto) + 6}" y="${B.Y(eh.max) + 12}">caudal do ponto: ${fmt(D.vazao_do_ponto)} L/min</text>`;
       t += `<line x1="${B.X(0)}" x2="${B.X(ex.max)}" y1="${B.Y(pressao)}" y2="${B.Y(pressao)}" style="stroke:${S(4)};stroke-dasharray:4 4"/>`;
-      t += `<text class="g-t" x="${B.X(ex.max)}" y="${B.Y(pressao) - 6}" text-anchor="end" style="fill:${S(4)}">pressão de trabalho: ${fmt(pressao, 1)} m.c.a.</text>`;
+      t += `<text class="g-t" x="${B.X(ex.max)}" y="${B.Y(pressao) - 6}" text-anchor="end" style="fill:${S(4)}">pressão de serviço: ${fmt(pressao, 1)} m.c.a.</text>`;
       t += rotulosNaPonta(rot, B.X(ex.max) + 8, B.Y(eh.max), B.Y(0));
       p.querySelector(`#${id}h`).innerHTML = t;
 
       p.querySelector(`#${id}p-o`).textContent = fmt(pressao, 1) + " m.c.a.";
       const x = lista[sel], m = meta(x.chave);
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${melhor ? "Menor consumo: " + esc(meta(melhor).rotulo) : "Nenhum modelo entrega a vazão do ponto nesta pressão"}</p>
-        <div class="fi-n">${cartao("Energia do modelo em destaque", x.atende ? fmt(x.kwh) + " kWh/ano" : "—", esc(m.rotulo))}
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${melhor ? "Menor consumo: " + esc(meta(melhor).rotulo) : "Nenhuma curva entrega o caudal do ponto nesta pressão"}</p>
+        <div class="fi-n">${cartao("Energia da curva em destaque", x.atende ? fmt(x.kwh) + " kWh/ano" : "—", esc(m.rotulo))}
         ${cartao("Consumo específico", x.atende ? fmt(x.kwh_m3, 3) + " kWh/m³" : "—")}
-        ${cartao("Custo anual de energia", x.atende ? reais(x.kwh * D.tarifa) : "—", `tarifa de ${reais(D.tarifa, 5)}/kWh`)}
-        ${cartao("Tempo ligado", x.atende ? fmt(x.horas) + " h/ano" : "—", `${fmt(part)} partidas`)}</div>
-        <p class="fi-sub">Todos os modelos nesta condição</p>
-        <table class="fi-tabela"><thead><tr><th>Modelo</th><th class="n">Vazão</th><th class="n">kWh/ano</th><th class="n">kWh/m³</th></tr></thead><tbody>
+        ${cartao("Custo anual de energia", x.atende ? reais(x.kwh * D.tarifa) : "—", `tarifa de ${reais(D.tarifa, 2)}/kWh`)}
+        ${cartao("Tempo ligado", x.atende ? fmt(x.horas) + " h/ano" : "—", `${fmt(part)} arranques`)}</div>
+        <p class="fi-sub">Todas as curvas nesta condição</p>
+        <table class="fi-tabela"><thead><tr><th>Curva</th><th class="n">Caudal</th><th class="n">kWh/ano</th><th class="n">kWh/m³</th></tr></thead><tbody>
         ${lista.map((y, i) => {
           const mm = meta(y.chave);
-          return `<tr${i === sel ? ' class="atual"' : ""}><td>${esc(mm.rotulo)}<small>${esc({eletronico: "eletrônico"}[mm.controle] || mm.controle)} · ${fmt(mm.kw_eletrico, 3)} kW elétricos</small></td>
+          return `<tr${i === sel ? ' class="atual"' : ""}><td>${esc(mm.rotulo)}<small>${esc({eletronico: "eletrónico"}[mm.controle] || mm.controle)} · ${fmt(mm.kw_eletrico, 3)} kW elétricos</small></td>
             <td class="n">${y.atende ? fmt(y.vazao, 1) + " L/min" : "não atende"}</td><td class="n">${y.atende ? fmt(y.kwh) : "—"}</td><td class="n">${y.atende ? fmt(y.kwh_m3, 3) : "—"}</td></tr>`;
         }).join("")}</tbody></table>
-        <p class="fi-nota">A vazão efetiva é a menor entre a curva da bomba e a vazão do ponto de uso: uma bomba que entrega 40 L/min não enche mais depressa uma bacia que pede 9 L/min, apenas fica ligada o mesmo tempo com mais potência. Fonte da curva: ${esc(m.fonte)}.</p>`;
+        <p class="fi-nota">O caudal efetivo é o menor entre a curva da bomba e o caudal do ponto de utilização: uma bomba que entrega 40 L/min não enche mais depressa um autoclismo que pede 9 L/min, apenas fica ligada o mesmo tempo com mais potência. ${esc(m.fonte)}.</p>`;
     };
     p.querySelector(`#${id}p`).addEventListener("input", e => { pi = +e.target.value; desenha(); });
     ligarSeg(p, id + "v", x => { vol = +x; desenha(); });
@@ -1380,20 +1380,20 @@ FI["fig00k_energia.png"] = {
 
 /* ─── as classes de qualidade da água ──────────────────────────────────── */
 FI["fig36_classes.png"] = {
-  curto: "As classes de qualidade",
-  pergunta: "Que qualidade cada uso exige, e o que é norma e o que é adaptação?",
-  controles: "classe de qualidade",
-  experimente: "Compare a classe 1, que é a da norma, com a classe 4: a turbidez cai de 5 para 2 uT e a cor de 15 para 5 uH. Repare no selo de cada uma — só a primeira pode ser apresentada como requisito normativo.",
-  fonte: "As quatro classes como o programa as define (triton/core/water_quality.py). A classe 1 reproduz a Tabela 1 e o item 4.6.5 da ABNT NBR 15527:2019; as classes 2 a 4 são adaptação do programa, coerente com a edição de 2007 da norma, e assim são declaradas na tela e no relatório.",
+  curto: "Os níveis de qualidade",
+  pergunta: "Que qualidade cada uso exige no motor de dimensionamento?",
+  controles: "nível de qualidade",
+  experimente: "Compare a classe 1 com a classe 4: a turvação cai de 5 para 2 uT e a cor aparente de 15 para 5 uH. Em Portugal, a especificação técnica de referência é a ETA 0701 (ANQIP).",
+  fonte: "As quatro classes de qualidade implementadas no motor de dimensionamento da estação de tratamento (triton/core/water_quality.py).",
   montar(p, D, id) {
     let sel = D.padrao;
     const W = 640;
     p.innerHTML = `<div class="fi-ctls">
-      ${ctlSeg(id + "c", "Classe de qualidade", D.classes.map(c => [c.chave, c.nome.split(":")[0].replace(" (adaptada, não normativa)", "")]), sel)}
+      ${ctlSeg(id + "c", "Nível de qualidade", D.classes.map(c => [c.chave, c.nome.split(":")[0].replace(" (referência base do motor)", "").replace(" (adaptada, não normativa)", "")]), sel)}
     </div>
     <div class="fi-corpo emp"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 300" role="img" aria-label="Limite de cada parâmetro nas quatro classes"></svg>
-      ${legenda([[S(1), "classe em destaque"], ["var(--grid)", "demais classes"], [S(4), "classe normativa (NBR 15527:2019)"]])}
+      ${legenda([[S(1), "classe em destaque"], ["var(--grid)", "demais classes"], [S(4), "classe de referência base"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
       const c = D.classes.find(x => x.chave === sel);
@@ -1415,14 +1415,14 @@ FI["fig36_classes.png"] = {
       });
       p.querySelector(`#${id}g`).innerHTML = s;
       p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${esc(c.nome.split(":")[0])}
-        <span class="pill ${c.normativa ? "pleno" : "parcial"}">${c.normativa ? "✓ parâmetros da norma" : "◐ adaptação do programa"}</span></p>
+        <span class="pill ${c.normativa ? "pleno" : "parcial"}">${c.normativa ? "✓ referência base do motor" : "◐ adaptação graduada do programa"}</span></p>
         <table class="fi-tabela"><tbody>
-        <tr><td>Turbidez</td><td class="n">até ${fmt(c.turbidez, 1)} uT</td></tr>
+        <tr><td>Turvação</td><td class="n">até ${fmt(c.turbidez, 1)} uT</td></tr>
         <tr><td>Cor aparente</td><td class="n">até ${fmt(c.cor, 1)} uH</td></tr>
         <tr><td>pH</td><td class="n">${fmt(c.ph[0], 1)} a ${fmt(c.ph[1], 1)}</td></tr>
         <tr><td>Cloro residual livre</td><td class="n">${fmt(c.cloro[0], 2)} a ${fmt(c.cloro[1], 2)} mg/L</td></tr>
         <tr><td>Coliformes termotolerantes</td><td class="n">${c.coliformes > 0 ? "até " + fmt(c.coliformes) + " UFC/100 mL" : "ausentes"}</td></tr>
-        <tr><td>Desinfecção</td><td class="n">${c.desinfeccao ? "exigida" : "dispensada"}</td></tr>
+        <tr><td>Desinfeção</td><td class="n">${c.desinfeccao ? "exigida" : "dispensada"}</td></tr>
         <tr><td>Filtração fina</td><td class="n">${c.filtracao ? "exigida" : "dispensada"}</td></tr>
         </tbody></table>
         <p class="fi-nota">${esc(c.descricao)}</p>
@@ -1433,28 +1433,28 @@ FI["fig36_classes.png"] = {
   }
 };
 
-/* ─── o valor presente líquido contra o volume ─────────────────────────── */
+/* ─── o valor atual líquido contra o volume ────────────────────────────── */
 FI["fig49_programa_vpl.png"] = {
-  curto: "O VPL contra o volume",
-  pergunta: "Que volume dá o melhor retorno financeiro?",
+  curto: "O VAL contra o volume",
+  pergunta: "Que volume dá o melhor resultado financeiro?",
   controles: "material da cisterna",
-  experimente: "O máximo do valor presente líquido não cai no mesmo volume do critério hidráulico: em concreto ele fica em 2 m³, contra os 4 m³ do ganho marginal. Troque o material e veja o máximo se deslocar — é o preço por litro que o move.",
-  fonte: "Uma rodada da análise econômica por volume e material, com o projeto do tutorial, a tarifa da CASAN e horizonte de 20 anos. O volume de VPL máximo é lido da própria curva.",
+  experimente: "Em Lisboa, com os custos ilustrativos do tutorial, o VAL é negativo em todos os volumes porque a poupança mensal na fatura não compensa o investimento inicial; o ponto menos negativo ocorre no menor volume (1 m³). Troque o material e veja a curva deslocar-se.",
+  fonte: "Uma simulação da análise económica por volume e material, com o projeto do tutorial em Lisboa, o tarifário ilustrativo e horizonte de 20 anos.",
   montar(p, D, id) {
-    let mat = D.padrao, sel = D.volumes.indexOf(4000);
+    let mat = D.padrao, sel = D.volumes.indexOf(5000);
     const W = 640;
     p.innerHTML = `<div class="fi-ctls">
       ${ctlSeg(id + "m", "Material da cisterna", D.materiais, mat)}
     </div>
     <div class="fi-corpo"><div>
-      <svg id="${id}g" viewBox="0 0 ${W} 320" role="img" aria-label="Valor presente líquido em função do volume da cisterna, por material"></svg>
+      <svg id="${id}g" viewBox="0 0 ${W} 320" role="img" aria-label="Valor atual líquido em função do volume da cisterna, por material"></svg>
       ${legenda(D.materiais.map(([k, t], i) => [S(i + 1), t, "linha"]).concat([["var(--ink2)", "volume em destaque", "trac"]]))}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const desenha = () => {
       const todos = D.materiais.flatMap(([k]) => D.casos[k].map(x => x[0]));
-      const ey = escala(Math.min(...todos, 0), Math.max(...todos) * 1.08, 5);
+      const ey = escala(Math.min(...todos, 0), Math.max(...todos, 0) * 1.08, 5);
       const A = plano({W, H: 320, l: 74, r: 120, t: 34, b: 46, x: [0, 20000], y: [ey.min, ey.max], ym: ey.marcas,
-        yf: v => menos(v), yr: "valor presente líquido em 20 anos (R$)",
+        yf: v => menos(v), yr: "valor atual líquido em 20 anos (€)",
         xm: [0, 5000, 10000, 15000, 20000], xf: v => fmt(v / 1000) + " m³", xr: "volume da cisterna"});
       let s = A.s;
       const rot = [];
@@ -1478,18 +1478,18 @@ FI["fig49_programa_vpl.png"] = {
       const linha = D.casos[mat], melhor = linha.reduce((a, x, j) => x[0] > linha[a][0] ? j : a, 0);
       const x = linha[sel];
       p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">${esc(D.materiais.find(m => m[0] === mat)[1])}</p>
-        <div class="fi-n">${cartao("Volume de VPL máximo", fmt(D.volumes[melhor]) + " L", reais(linha[melhor][0]))}
+        <div class="fi-n">${cartao("Volume de VAL máximo", fmt(D.volumes[melhor]) + " L", reais(linha[melhor][0]))}
         ${cartao("Volume em destaque", fmt(D.volumes[sel]) + " L", "clique no gráfico para trocar")}
-        ${cartao("VPL", reais(x[0]), x[0] >= 0 ? "✓ positivo" : "✕ negativo")}
-        ${cartao("Tempo de retorno", x[1] ? fmt(x[1], 1) + " anos" : "mais de 20 anos")}
-        ${cartao("Potencial de economia", fmt(x[2], 2) + "%")}
+        ${cartao("VAL", reais(x[0]), x[0] >= 0 ? "✓ positivo" : "✕ negativo")}
+        ${cartao("Período de recuperação", x[1] ? fmt(x[1], 1) + " anos" : "mais de 20 anos")}
+        ${cartao("Potencial de poupança", fmt(x[2], 2) + "%")}
         ${cartao("Diferença para o máximo", reais(x[0] - linha[melhor][0]))}</div>
         <p class="fi-sub">O melhor volume de cada material</p>
         <table class="fi-tabela"><tbody>${D.materiais.map(([k, t], i) => {
           const l = D.casos[k], m = l.reduce((a, y, j) => y[0] > l[a][0] ? j : a, 0);
           return `<tr${k === mat ? ' class="atual"' : ""}><td><i style="--c:${S(i + 1)}"></i>${t}</td><td class="n">${fmt(D.volumes[m])} L</td><td class="n">${reais(l[m][0])}</td></tr>`;
         }).join("")}</tbody></table>
-        <p class="fi-nota">A curva tem máximo interior porque o investimento cresce com o volume enquanto a economia de água satura. Um volume à direita do máximo continua economizando mais água, e rendendo menos dinheiro.</p>`;
+        <p class="fi-nota">Quando o custo marginal do reservatório supera o valor presente da água adicional poupada, o VAL desce à medida que o volume cresce.</p>`;
     };
     ligarSeg(p, id + "m", x => { mat = x; desenha(); });
     desenha();

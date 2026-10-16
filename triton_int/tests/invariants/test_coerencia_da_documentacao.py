@@ -124,7 +124,8 @@ def test_caminhos_de_codigo_citados_existem():
     `tests/invariants/...`). Quando um arquivo é renomeado, a citação passa a apontar
     para o nada sem que nada acuse.
     """
-    padrao = re.compile(r"`((?:triton|tests|scripts|docs)/[\w/.-]+\.(?:py|md|json|csv))`")
+    # `scripts/` fica de fora: são ferramentas de desenvolvimento, no disco do mantenedor e fora do Git.
+    padrao = re.compile(r"`((?:triton|tests|docs)/[\w/.-]+\.(?:py|md|json|csv))`")
     ausentes = {}
 
     for documento in DOCS.glob("*.md"):

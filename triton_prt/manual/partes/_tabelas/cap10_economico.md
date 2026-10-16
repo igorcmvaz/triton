@@ -1,16 +1,16 @@
-<!-- tabela: Composição da fatura de água e esgoto antes e depois do sistema pluvial -->
-| A fatura da CASAN | Consumo | Valor |
+<!-- tabela: Composição da fatura de água, saneamento e resíduos de Lisboa antes e depois do sistema pluvial -->
+| A fatura de água, saneamento e resíduos de Lisboa | Consumo | Valor |
 | :--- | ---: | ---: |
-| sem o sistema | 18,26 m³/mês | R$ 390,75 |
-| com o sistema | 13,28 m³/mês | R$ 248,06 |
-| **economia** | 4,99 m³/mês | **R$ 142,69** |
+| sem o sistema | 18,26 m³/mês | 46,25 € |
+| com o sistema | 15,00 m³/mês | 35,06 € |
+| **poupança** | 3,27 m³/mês | **11,19 €** |
 
-<!-- tabela: Indicadores econômicos do projeto do tutorial em vinte anos de análise -->
-| Análise de 20 anos | Valor |
+<!-- tabela: Indicadores económicos do projeto do tutorial em vinte anos de análise (todos os custos são ilustrativos, não são preços de mercado) -->
+| Análise a vinte anos (custos ilustrativos, não são preços de mercado) | Valor |
 | :--- | ---: |
-| investimento inicial | R$ 14 061,19 |
-| economia anual com água | R$ 1 712,26 |
-| custeio anual | R$ 48,82 |
-| valor presente líquido | R$ 2 745,40 |
-| taxa interna de retorno | 7,54% ao ano |
-| payback descontado | 16,3 anos |
+| investimento inicial | 6 650,00 € |
+| poupança anual na água | 134,28 € |
+| custo anual de exploração | 1,75 € |
+| valor atual líquido | −5 828,77 € |
+| taxa interna de rentabilidade | −11,30% ao ano |
+| período de recuperação descontado | sem recuperação |

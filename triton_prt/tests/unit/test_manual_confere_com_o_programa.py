@@ -11,6 +11,15 @@ passar a mentir.
 Este arquivo cobre o capítulo 23, que é o caso resolvido dia a dia — o capítulo do
 qual todos os outros dependem. Os demais capítulos entram aqui conforme forem
 escritos.
+
+O arquivo é IDÊNTICO nas três edições (`auditoria/ferramentas/sync_nucleo.py`) e vale
+sempre: o conjunto de testes sai da edição ativa (`TRITON_EDITION`).
+
+- **BRL**: o conjunto original (tutorial de Florianópolis, texto em português), sem mudança.
+- **INT**: o conjunto `test_int_*`, no fim do arquivo (tutorial de Nova York, Londres e Cidade
+  do Cabo, custos ilustrativos, texto em inglês); o resto é saltado, exceto os `NEUTROS`.
+- **PRT**: o conjunto `test_prt_*`, no fim do arquivo (tutorial de Lisboa, Porto e Funchal, custos
+  ilustrativos em euros, texto em português de Portugal); o resto é saltado, exceto os `NEUTROS`.
 """
 
 from __future__ import annotations
@@ -21,7 +30,36 @@ import re
 import numpy as np
 import pytest
 
+from triton.core.edition import get_current_edition
 from triton.core.simulation import run_single_simulation
+
+EDICAO = get_current_edition()
+
+#: Testes do motor, sem dado de nenhuma edição: rodam nas três edições.
+NEUTROS = {
+    "test_a_classe_alvo_sozinha_nao_muda_o_custo_da_etap",
+    "test_a_recusa_do_polimento_fica_registrada",
+    "test_uv_e_ozonio_somam_a_cloracao_em_vez_de_substitui_la",
+    "test_o_rendimento_do_motor_do_capitulo_28",
+    "test_as_densidades_do_apendice_C",
+    "test_a_franquia_para_de_descontar_como_o_guia_16_mostra",
+}
+
+
+@pytest.fixture(autouse=True)
+def _conjunto_da_edicao(request):
+    """Escolhe o conjunto de testes pela edição: BRL o original, INT os `test_int_*`, PRT os `test_prt_*`."""
+    nome = request.node.name.split("[")[0]
+    if EDICAO == "BRL":
+        if nome.startswith(("test_int_", "test_prt_")):
+            pytest.skip("conjunto de outra edição")
+    elif EDICAO == "INT":
+        if not nome.startswith("test_int_") and nome not in NEUTROS:
+            pytest.skip("conjunto da Edição Brasil; a INT usa os test_int_* (fim do arquivo)")
+    else:
+        if not nome.startswith("test_prt_") and nome not in NEUTROS:
+            pytest.skip("conjunto da Edição Brasil; a PRT usa os test_prt_* (fim do arquivo)")
+
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MANUAL = os.path.join(RAIZ, "manual")
@@ -554,7 +592,7 @@ def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
         "10_quanto_custa.md": ("R$ 142,69", "R$ 2.745", "16,3 anos", "R$ 28,60", "R$ 5,36"),
         "11_quanto_carbono_evita.md": ("858 kg", "42,8 anos", "16,3 anos", "74 kg"),
         "12_qual_volume_escolher.md": ("4.000 L", "12.000 L", "2.000 L", "27,30%"),
-        "13_o_relatorio_e_o_artigo.md": ("1.0.0", "2,3 a 2,7", "1 %/m"),
+        "13_o_relatorio_e_o_artigo.md": ("0.1.0", "2,3 a 2,7", "1 %/m"),
     }
     for arquivo, termos in esperados.items():
         texto = _capitulo(arquivo)
@@ -733,7 +771,10 @@ def test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D():
                "exponential formula": "exponencial"}
     for rel in ("manual/partes/10_quanto_custa.md", "manual/en/partes/10_quanto_custa.md",
                 "manual/partes/16_ajustar_a_tarifa.md", "manual/en/partes/16_ajustar_a_tarifa.md"):
-        texto = open(os.path.join(RAIZ, rel), encoding="utf-8").read()
+        caminho_completo = os.path.join(RAIZ, rel)
+        if not os.path.exists(caminho_completo):
+            continue
+        texto = open(caminho_completo, encoding="utf-8").read()
         for rotulo, regime in rotulos.items():
             for m in re.finditer(r"^\| \**" + re.escape(rotulo) + r"\** \|.*\| (\d+) \|$", texto, flags=re.M):
                 assert int(m.group(1)) == regimes[regime], f"{rel}: «{rotulo}» diz {m.group(1)}, a base tem {regimes[regime]}"
@@ -1159,5 +1200,1229 @@ def test_o_historico_cita_a_conferencia_atual_da_base():
     m = re.search(r"Conferências: (\d+) · corrigidas: (\d+)", alt)
     conferidos, corrigidos = m.group(1), m.group(2)
     for rel in ("manual/partes/38_historico_de_versoes.md", "manual/en/partes/38_historico_de_versoes.md"):
-        texto = open(os.path.join(RAIZ, rel), encoding="utf-8").read()
+        caminho_completo = os.path.join(RAIZ, rel)
+        if not os.path.exists(caminho_completo):
+            continue
+        texto = open(caminho_completo, encoding="utf-8").read()
         assert f" {conferidos} " in texto and f" {corrigidos} " in texto, f"{rel}: conferência desatualizada"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Edição Internacional (INT): Nova York, Londres e Cidade do Cabo
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# O tutorial da INT é a mesma casa (150 m², 4 moradores, 150 L/hab·dia, 28% não potável) em Nova York,
+# com a chuva ERA5 1991-2020 de `data/rainfall` e a tarifa de `examples/new_york.triton`; Londres e
+# Cidade do Cabo são as cidades de comparação. Os custos são ILUSTRATIVOS (US$, números redondos
+# declarados em `manual/gerar_tabelas.py`), nunca preços de mercado. Os valores abaixo são os que
+# `manual/gerar_tabelas.py` e `manual/gerar_casos.py` produzem; o texto em inglês cita os mesmos.
+
+INT_CHUVAS = os.path.join(RAIZ, "data", "rainfall")
+INT_CASOS = os.path.join(MANUAL, "casos")
+INT_TABELAS = os.path.join(MANUAL, "en", "partes", "_tabelas")
+INT_PARTES = os.path.join(MANUAL, "en", "partes")
+INT_VOLUME = 4000.0
+INT_TUTORIAL = dict(
+    area=150.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
+    total_demand_per_day=600.0, rainwater_share=0.28,
+)
+#: O caso dos dez dias: 21 a 30 de setembro de 2018 da série de Nova York (dia 10125 de NewYork.csv).
+INT_DEZ_DIAS_CHUVA = [0.0, 2.4, 1.9, 0.0, 59.8, 9.2, 5.5, 32.9, 0.0, 0.0]
+INT_DEZ_DIAS = dict(
+    lower_tank_vol=2000.0, area=100.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
+    total_demand_per_day=200.0, rainwater_share=0.40,
+)
+#: Custos ilustrativos do tutorial (US$): não são preços de mercado.
+INT_CUSTOS = dict(cost_labor=1500.0, cost_piping=600.0, cost_accessories=800.0, pump_unit_cost=250.0,
+                  elec_tariff=0.20, chlorine_cost_per_kg=8.0, tma=0.4, inflation=0.2,
+                  analysis_period_years=20, tariff_escalation=12, water_tariff_escalation=3.0,
+                  sewage_tariff_escalation=3.0, elec_tariff_escalation=3.0)
+INT_PRECO_DO_TANQUE = {"PEAD": (100.0, 0.55), "CONCRETO": (600.0, 0.40)}   # base + por litro, ilustrativo
+INT_FATOR_REDE, INT_FATOR_AGUA = 0.40, 0.50                                # kg CO2e, ilustrativos
+#: Termos do Brasil e de Portugal que não podem aparecer nos arquivos de caso e nas tabelas da INT.
+INT_TERMOS_PROIBIDOS = ("Florianópolis", "Florianopolis", "Manaus", "Brasília", "São Paulo", "CLIMBra",
+                        "CMIP6", "CASAN", "R$", "NBR", "Netuno", "Santa Catarina", "Lisboa", "Funchal")
+
+
+def _int_serie(nome):
+    from triton.core.parser import load_precipitation
+    caminho = os.path.join(INT_CHUVAS, nome + ".csv")
+    if not os.path.exists(caminho):
+        pytest.skip(f"série {nome} não instalada")
+    return load_precipitation(caminho)
+
+
+@pytest.fixture(scope="module")
+def int_serie():
+    return _int_serie("NewYork")
+
+
+def _int_sim(serie, volume, **extra):
+    return run_single_simulation(precip_data=serie, lower_tank_vol=float(volume),
+                                 **{**INT_TUTORIAL, **extra})
+
+
+def _int_preco(volume, material):
+    base, por_litro = INT_PRECO_DO_TANQUE[material]
+    return base + por_litro * float(volume)
+
+
+def _int_exemplo_de_nova_york():
+    from triton.core.parser import load_triton_project
+    exemplo = os.path.join(RAIZ, "examples", "new_york.triton")
+    if not os.path.exists(exemplo):
+        pytest.skip("examples/new_york.triton ausente")
+    return load_triton_project(exemplo)["config"]
+
+
+def _int_economico(serie, volume, material):
+    """A análise econômica do tutorial de Nova York, com a tarifa do exemplo e os custos ilustrativos."""
+    from triton.core.economic import run_economic_analysis
+    from triton.core.edition import configuracao_da_edicao
+    ny = _int_exemplo_de_nova_york()
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=float(volume), upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **INT_TUTORIAL)
+    cfg = configuracao_da_edicao()
+    for campo in ("water_tariffs", "sewage_mode", "sewage_rate", "sewage_tariffs",
+                  "sewage_volume_factor", "water_tax_fixed", "water_tax_var"):
+        setattr(cfg, campo, getattr(ny, campo))
+    for k, v in INT_CUSTOS.items():
+        setattr(cfg, k, v)
+    cfg.op_costs = [("Gutter and pre-filter inspection and cleaning", 12, 20.0, 0.0),
+                    ("Cistern cleaning and inspection", 12, 40.0, 0.0),
+                    ("Preventive pump maintenance", 12, 30.0, 0.0)]
+    cfg.cost_lower_tank = _int_preco(volume, material)
+    cfg.cost_upper_tank = _int_preco(1000.0, "PEAD")
+    cfg.supply_arrangement, cfg.upper_tank_used = "recalque", True
+    cfg.upper_tank_vol, cfg.pumping_threshold, cfg.pump_count = 1000.0, 100.0, 2
+    cfg.residents_count = 4
+    cfg.area, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
+    return r, run_economic_analysis(cfg, r)
+
+
+def _int_ambiental(material, resultado=None):
+    from triton.core.environmental import EnvironmentalConfig
+    from triton.core.parser import TritonConfig
+    from triton.core.pump_energy import compute_annual_pump_energy
+    cfg = EnvironmentalConfig()
+    cfg.lower_material_key = material
+    cfg.grid_co2_factor_kg_kwh = INT_FATOR_REDE
+    cfg.potable_water_co2_kg_m3 = INT_FATOR_AGUA
+    cfg.roof_area_m2, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
+    cfg.supply_arrangement, cfg.upper_tank_vol_liters = "recalque", 1000.0
+    if resultado is not None:
+        bomba = TritonConfig()
+        bomba.supply_arrangement = "recalque"
+        cfg.annual_pump_kwh = compute_annual_pump_energy(bomba, resultado).annual_kwh
+    return cfg
+
+
+def _int_lido(caminho):
+    if not os.path.exists(caminho):
+        pytest.skip(f"{os.path.relpath(caminho, RAIZ)} ainda não gerado")
+    return open(caminho, encoding="utf-8").read()
+
+
+def _int_capitulo(arquivo):
+    """Capítulo em inglês com as tabelas incluídas; salta se o texto ainda não foi reapoiado nas cidades da INT.
+
+    O texto da INT é escrito à parte (`manual/en/partes`). Enquanto o capítulo ainda cita algo do Brasil
+    (`INT_TERMOS_PROIBIDOS`: cidades, CLIMBra, R$, NBR...), as asserções sobre o que ele cita ficam saltadas;
+    assim que o capítulo deixa de citá-lo e passa a falar de Nova York, elas valem.
+    """
+    caminho = os.path.join(INT_PARTES, arquivo)
+    if not os.path.exists(caminho):
+        pytest.skip(f"{arquivo} ainda não escrito")
+    saida = []
+    for linha in open(caminho, encoding="utf-8").read().split(chr(10)):
+        m = re.match(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$", linha)
+        alvo = os.path.join(INT_PARTES, m.group(1)) if m else None
+        saida.append(open(alvo, encoding="utf-8").read() if alvo and os.path.exists(alvo) else linha)
+    texto = chr(10).join(saida)
+    ainda = [x for x in INT_TERMOS_PROIBIDOS if x in texto]
+    if ainda:
+        pytest.skip(f"{arquivo} ainda não foi reapoiado nas cidades da INT (cita {', '.join(ainda[:3])})")
+    return texto
+
+
+# ── seção 2.1: o caso dos dez dias, com a chuva real de Nova York ───────────────────────────────
+
+@pytest.fixture(scope="module")
+def int_dez_dias():
+    return run_single_simulation(precip_data=np.array(INT_DEZ_DIAS_CHUVA), store_daily_details=True,
+                                 **INT_DEZ_DIAS)
+
+
+def test_int_os_dez_dias_sao_os_de_nova_york(int_serie):
+    """A janela está na série distribuída: 21/09/2018 é o dia 10125 de NewYork.csv (01/01/1991 = dia 0)."""
+    import datetime as dt
+    assert (dt.date(2018, 9, 21) - dt.date(1991, 1, 1)).days == 10125
+    assert list(int_serie[10125:10135]) == pytest.approx(INT_DEZ_DIAS_CHUVA)
+
+
+def test_int_o_potencial_e_os_indicadores_dos_dez_dias(int_dez_dias):
+    """Impresso na seção 2.1: potencial 25,7%, 51,4 L/dia pluviais, 620,9 L/dia extravasados, dias 60/10/30%."""
+    r = int_dez_dias
+    assert r.potential_potable_savings_pct == pytest.approx(25.7, abs=0.05)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(51.4, abs=0.05)
+    assert r.avg_potable_consumed_l_day == pytest.approx(148.6, abs=0.05)
+    assert r.avg_spilled_l_day == pytest.approx(620.9, abs=0.05)
+    assert r.pct_days_full_satisfaction == pytest.approx(60.0, abs=0.5)
+    assert r.pct_days_partial_satisfaction == pytest.approx(10.0, abs=0.5)
+    assert r.pct_days_null_satisfaction == pytest.approx(30.0, abs=0.5)
+
+
+def test_int_o_dia_2_e_parcial_e_o_dia_3_se_perde_inteiro(int_dez_dias):
+    """Dia 2: 2,4 mm, 0,4 mm efetivos, 34 L e atendimento parcial. Dia 3: 1,9 mm < 2,0 mm, capta-se zero."""
+    d2, d3 = int_dez_dias.daily_results[1], int_dez_dias.daily_results[2]
+    assert d2.satisfaction_type == 1
+    assert d2.harvested_liters == pytest.approx(34.0, abs=1.0)
+    assert d2.pluvial_consumed_liters == pytest.approx(34.0, abs=1.0)
+    assert d3.precip_mm == pytest.approx(1.9)
+    assert d3.eff_precip_mm == pytest.approx(0.0)
+    assert d3.harvested_liters == pytest.approx(0.0)
+    assert d3.satisfaction_type == 0
+
+
+def test_int_o_dia_5_extravasa_mais_que_o_reservatorio(int_dez_dias):
+    """Dia 5 (59,8 mm): 4.913 L captados, 2.913 L extravasados, 1.920 L no reservatório."""
+    d = int_dez_dias.daily_results[4]
+    assert d.harvested_liters == pytest.approx(4913.0, abs=1.0)
+    assert d.spilled_liters == pytest.approx(2913.0, abs=1.0)
+    assert d.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
+    assert d.spilled_liters > INT_DEZ_DIAS["lower_tank_vol"]
+
+
+def test_int_o_dia_8_extravasa_antes_de_consumir(int_dez_dias):
+    """Dia 8 (32,9 mm): 2.626 L captados e 2.546 L extravasados; o reservatório já estava cheio no dia 7."""
+    d7, d8 = int_dez_dias.daily_results[6], int_dez_dias.daily_results[7]
+    assert d7.spilled_liters == pytest.approx(218.0, abs=1.0)
+    assert d8.harvested_liters == pytest.approx(2626.0, abs=1.0)
+    assert d8.spilled_liters == pytest.approx(2546.0, abs=1.0)
+
+
+def test_int_as_somas_dos_dez_dias_fecham(int_dez_dias):
+    """Impresso: 8.483 L captados, 6.209 L extravasados, 514 L consumidos, 1.760 L ao fim; resíduo zero."""
+    d = int_dez_dias.daily_results
+    captado = sum(x.harvested_liters for x in d)
+    extravasado = sum(x.spilled_liters for x in d)
+    consumido = sum(x.pluvial_consumed_liters for x in d)
+    final = d[-1].lower_tank_end_liters
+    assert captado == pytest.approx(8483.0, abs=1.0)
+    assert extravasado == pytest.approx(6209.0, abs=1.0)
+    assert consumido == pytest.approx(514.0, abs=1.0)
+    assert final == pytest.approx(1760.0, abs=1.0)
+    assert captado - extravasado - consumido - final == pytest.approx(0.0, abs=0.5)
+
+
+def test_int_a_tabela_publicada_dos_dez_dias_bate_com_a_simulacao(int_dez_dias):
+    """Se alguém editar a tabela à mão, este teste pega."""
+    texto = _int_lido(os.path.join(INT_TABELAS, "cap23_dez_dias.md"))
+    dias = []
+    for linha in texto.split(chr(10)):
+        celulas = [c.strip() for c in linha.strip("|").split("|")] if linha.startswith("| ") else []
+        if celulas and celulas[0].isdigit():
+            dias.append([c.replace(",", "") for c in celulas])
+    assert len(dias) == 10
+    for i, c in enumerate(dias):
+        d = int_dez_dias.daily_results[i]
+        assert float(c[1]) == pytest.approx(d.precip_mm, abs=0.05), f"dia {i+1} chuva"
+        assert float(c[3]) == pytest.approx(d.eff_precip_mm, abs=0.05), f"dia {i+1} efetiva"
+        assert float(c[4]) == pytest.approx(d.harvested_liters, abs=1.0), f"dia {i+1} captado"
+        assert float(c[6]) == pytest.approx(d.pluvial_consumed_liters, abs=1.0), f"dia {i+1} consumido"
+        assert float(c[7]) == pytest.approx(d.spilled_liters, abs=1.0), f"dia {i+1} extravasado"
+
+
+# ── o tutorial de Nova York: capítulos 4 a 7 ────────────────────────────────────────────────────
+
+def test_int_a_serie_do_tutorial_e_a_que_o_capitulo_4_descreve(int_serie):
+    """Impresso: 30 anos, 1.125 mm/ano, chuva em 44% dos dias, maior chuva diária 128,2 mm."""
+    anos = len(int_serie) / 365.25
+    assert anos == pytest.approx(30.0, abs=0.1)
+    assert int_serie.sum() / anos == pytest.approx(1125.0, abs=3.0)
+    assert (int_serie > 0.1).mean() * 100 == pytest.approx(44.0, abs=1.0)
+    assert int_serie.max() == pytest.approx(128.2, abs=0.05)
+
+
+def test_int_o_descarte_atinge_dezessete_por_cento_dos_dias(int_serie):
+    """Impresso: 17% dos dias têm chuva (acima de 0,1 mm) mas abaixo da lâmina de descarte de 2 mm."""
+    abaixo = ((int_serie > 0.1) & (int_serie <= 2.0)).mean() * 100
+    assert abaixo == pytest.approx(17.0, abs=1.0)
+
+
+def test_int_a_oferta_bruta_e_mais_que_o_dobro_da_demanda(int_serie):
+    """Impresso no capítulo 5: 143 m³/ano de oferta bruta contra 61 m³/ano de demanda pluvial."""
+    anos = len(int_serie) / 365.25
+    bruta = int_serie.sum() / anos * INT_TUTORIAL["area"] * INT_TUTORIAL["runoff_coeff"] / 1000.0
+    demanda = INT_TUTORIAL["total_demand_per_day"] * INT_TUTORIAL["rainwater_share"] * 365.25 / 1000.0
+    assert bruta == pytest.approx(143.0, abs=1.0)
+    assert demanda == pytest.approx(61.0, abs=1.0)
+    assert bruta > 2 * demanda
+
+
+def test_int_a_primeira_simulacao_do_capitulo_6(int_serie):
+    """Impresso: 25,99% com 3.000 L, 150,8 L/dia extravasados, 91,9% de dias plenos, 57,0 m³/ano."""
+    r = _int_sim(int_serie, 3000)
+    assert r.potential_potable_savings_pct == pytest.approx(25.99, abs=0.05)
+    assert r.avg_spilled_l_day == pytest.approx(150.8, abs=0.1)
+    assert r.pct_days_full_satisfaction == pytest.approx(91.9, abs=0.1)
+    assert r.annual_pluvial_consumed_m3 == pytest.approx(57.0, abs=0.1)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(155.9, abs=0.1)
+
+
+@pytest.mark.parametrize(("volume", "potencial"), [
+    (1000, 19.14), (2000, 24.24), (3000, 25.99), (4000, 26.83), (5000, 27.24),
+    (8000, 27.74), (12000, 27.94), (20000, 27.98),
+])
+def test_int_a_curva_de_varredura_do_capitulo_7(int_serie, volume, potencial):
+    """Cada linha da tabela impressa no capítulo 7."""
+    assert _int_sim(int_serie, volume).potential_potable_savings_pct == pytest.approx(potencial, abs=0.05)
+
+
+def test_int_o_potencial_nunca_passa_da_fracao_atendivel(int_serie):
+    teto = INT_TUTORIAL["rainwater_share"] * 100.0
+    for v in (1000, 4000, 20000, 100000):
+        assert _int_sim(int_serie, v).potential_potable_savings_pct <= teto + 1e-9
+
+
+@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 3000), (1.0, 4000), (0.5, 5000)])
+def test_int_o_limiar_decide_o_volume_ideal(int_serie, limiar, ideal):
+    from triton.core.simulation import run_sweep_simulation
+    r = run_sweep_simulation(precip_data=int_serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
+                             delta_ideal_threshold=limiar, **INT_TUTORIAL)
+    assert r.optimal_lower_tank_vol == pytest.approx(ideal)
+
+
+def test_int_o_volume_maior_custa_muito_mais_por_pouco_ganho(int_serie):
+    """Impresso: 3,9× o preço (ilustrativo) e 4,1× o carbono por 1,15 ponto."""
+    from triton.core.environmental import calculate_lca
+    r4, r20 = _int_sim(int_serie, INT_VOLUME), _int_sim(int_serie, 20000)
+    assert r20.potential_potable_savings_pct - r4.potential_potable_savings_pct == pytest.approx(1.15, abs=0.05)
+    assert _int_preco(20000, "CONCRETO") / _int_preco(INT_VOLUME, "CONCRETO") == pytest.approx(3.9, abs=0.1)
+    cfg = _int_ambiental("CONCRETO")
+    c4 = calculate_lca(INT_VOLUME, r4.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
+    c20 = calculate_lca(20000.0, r20.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
+    assert c20 / c4 == pytest.approx(4.1, abs=0.1)
+
+
+# ── capítulos 8 a 12: a caixa superior, o custo (ilustrativo), o carbono, a decisão ──────────────
+
+def test_int_a_caixa_superior_nao_aumenta_a_economia(int_serie):
+    """Impresso no capítulo 8: com o mesmo armazenamento (5.000 L), o arranjo duplo perde 0,15 ponto."""
+    unico = _int_sim(int_serie, INT_VOLUME + 1000.0)
+    duplo = _int_sim(int_serie, INT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
+    assert unico.potential_potable_savings_pct == pytest.approx(27.24, abs=0.05)
+    assert duplo.potential_potable_savings_pct == pytest.approx(27.09, abs=0.05)
+    assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct == pytest.approx(0.15, abs=0.03)
+
+
+def test_int_a_energia_do_recalque_do_capitulo_8(int_serie):
+    """Impresso: 7,7 kWh/ano e 69 acionamentos por ano."""
+    from triton.core.parser import TritonConfig
+    from triton.core.pump_energy import compute_annual_pump_energy
+    duplo = _int_sim(int_serie, INT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
+    cfg = TritonConfig()
+    cfg.upper_tank_used = True
+    cfg.pump_power_kw, cfg.pump_efficiency, cfg.pump_flow_rate = 0.37, 0.0, 0.0
+    cfg.pump_manometric_head_m, cfg.pump_startup_time_h = 12.0, 0.03
+    e = compute_annual_pump_energy(cfg, duplo)
+    assert e.annual_kwh == pytest.approx(7.7, abs=0.3)
+    assert e.annual_cycles == pytest.approx(69, abs=3)
+
+
+def test_int_o_limiar_de_acionamento_troca_potencial_por_desgaste(int_serie):
+    anterior, potencial = None, None
+    for limiar in (0, 100, 300, 500):
+        r = _int_sim(int_serie, INT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True,
+                     pumping_threshold=float(limiar))
+        ciclos = r.total_pump_cycles / (r.total_days / 365.25)
+        if anterior is not None:
+            assert ciclos >= anterior
+            assert r.potential_potable_savings_pct >= potencial - 1e-9
+        anterior, potencial = ciclos, r.potential_potable_savings_pct
+
+
+def test_int_o_resultado_economico_do_capitulo_10(int_serie):
+    """Impresso (custos ILUSTRATIVOS, US$): investimento 6.250; economia anual 290,53; VPL -2.919,90; sem payback.
+
+    A tarifa de Nova York é a publicada (`examples/new_york.triton`); a análise não se paga com estes
+    custos, e o capítulo diz isso em vez de ajustar os custos até o payback aparecer.
+    """
+    _, e = _int_economico(int_serie, INT_VOLUME, "CONCRETO")
+    assert e.capex_total == pytest.approx(6250.0, abs=1.0)
+    assert e.annual_water_savings_brl == pytest.approx(290.53, abs=3.0)
+    assert e.vpl == pytest.approx(-2919.9, abs=50.0)
+    assert not e.payback_years
+
+
+def test_int_a_conta_de_nova_york_com_e_sem_o_sistema(int_serie):
+    """Impresso: US$ 89,37 sem o sistema, US$ 65,15 com ele, economia de US$ 24,21 por mês."""
+    from triton.core.economic import calculate_water_bill
+    ny = _int_exemplo_de_nova_york()
+    r = run_single_simulation(precip_data=int_serie, lower_tank_vol=INT_VOLUME, upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **INT_TUTORIAL)
+    dias = 30.4375
+
+    def conta(l_dia):
+        return calculate_water_bill(l_dia * dias, ny.water_tariffs, ny.sewage_mode, ny.sewage_rate,
+                                    ny.water_tax_fixed, ny.water_tax_var,
+                                    sewage_tariffs=ny.sewage_tariffs, sewage_volume_factor=ny.sewage_volume_factor)
+    sem = conta(r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day)
+    com = conta(r.avg_potable_consumed_l_day)
+    assert sem == pytest.approx(89.37, abs=0.05)
+    assert com == pytest.approx(65.15, abs=0.05)
+    assert sem - com == pytest.approx(24.21, abs=0.05)
+
+
+def test_int_a_troca_para_polietileno_inverte_o_sinal_do_carbono(int_serie):
+    """Impresso no capítulo 11: em polietileno o carbono se paga em 12,4 anos; em concreto, em 32,5 (> 20)."""
+    from triton.core.environmental import calculate_lca
+    r = run_single_simulation(precip_data=int_serie, lower_tank_vol=INT_VOLUME, upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **INT_TUTORIAL)
+    lca = {k: calculate_lca(INT_VOLUME, r.annual_pluvial_consumed_m3, _int_ambiental(k, r))
+           for k in ("PEAD", "CONCRETO")}
+    assert lca["PEAD"].lifetime_net_co2_saved_kg > 0
+    assert lca["CONCRETO"].lifetime_net_co2_saved_kg < 0
+    assert lca["PEAD"].environmental_payback_years == pytest.approx(12.4, abs=0.3)
+    assert lca["CONCRETO"].environmental_payback_years == pytest.approx(32.5, abs=0.5)
+    assert lca["PEAD"].total_embodied_co2_kg == pytest.approx(327.0, abs=2.0)
+    assert lca["CONCRETO"].total_embodied_co2_kg == pytest.approx(858.0, abs=2.0)
+
+
+def test_int_os_tres_criterios_do_capitulo_12_discordam(int_serie):
+    """Impresso: técnico 12.000 L, econômico 2.000 L, ambiental 2.000 L, compromisso 4.000 L."""
+    from triton.core.environmental import calculate_lca
+    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    cands = []
+    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
+        r, e = _int_economico(int_serie, v, "PEAD")
+        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, _int_ambiental("PEAD", r))
+        cands.append(TopsisCandidate(
+            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
+            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg, capex_brl=e.capex_total,
+            potential_savings_pct=r.potential_potable_savings_pct, overflow_m3_yr=r.annual_spill_m3,
+            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
+            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    res = calculate_topsis_scores(cands)
+    assert cands[res.technical_best_index].lower_tank_vol == 12000.0
+    assert cands[res.financial_best_index].lower_tank_vol == 2000.0
+    assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
+    assert cands[res.best_index].lower_tank_vol == INT_VOLUME
+
+
+# ── seção 3.1: as cidades de comparação ─────────────────────────────────────────────────────────
+
+def test_int_as_cidades_da_secao_3_1():
+    """Impresso: o mesmo projeto rende 26,83% em Nova York, 20,08% em Londres e 14,52% na Cidade do Cabo.
+
+    A Cidade do Cabo chove menos que Londres e rende menos porque a chuva é de inverno: a razão entre o
+    mês mais e o menos chuvoso é 8,3×, contra 1,4× e 1,5×. O volume ideal é 4.000 L nas três.
+    """
+    from datetime import datetime, timedelta
+
+    from triton.core.simulation import run_sweep_simulation
+    res = {}
+    for chave in ("NewYork", "London", "CapeTown"):
+        serie = _int_serie(chave)
+        anos = len(serie) / 365.25
+        r = _int_sim(serie, INT_VOLUME)
+        sw = run_sweep_simulation(precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
+                                  delta_ideal_threshold=1.0, **INT_TUTORIAL)
+        d0, meses = datetime(1991, 1, 1), np.zeros(12)
+        for i, v in enumerate(serie):
+            meses[(d0 + timedelta(days=i)).month - 1] += float(v)
+        meses /= anos
+        res[chave] = (serie.sum() / anos, r.potential_potable_savings_pct, meses.max() / max(meses.min(), 0.1),
+                      sw.optimal_lower_tank_vol)
+    ny, lo, ct = res["NewYork"], res["London"], res["CapeTown"]
+    assert ny[0] > lo[0] > ct[0]
+    assert ny[1] == pytest.approx(26.83, abs=0.05)
+    assert lo[1] == pytest.approx(20.08, abs=0.05)
+    assert ct[1] == pytest.approx(14.52, abs=0.05)
+    assert ny[0] == pytest.approx(1125.0, abs=3.0) and lo[0] == pytest.approx(649.0, abs=3.0) \
+        and ct[0] == pytest.approx(495.0, abs=3.0)
+    assert ct[2] > 5 * max(ny[2], lo[2])
+    assert ny[2] == pytest.approx(1.4, abs=0.1) and lo[2] == pytest.approx(1.5, abs=0.1) \
+        and ct[2] == pytest.approx(8.3, abs=0.2)
+    assert ny[3] == lo[3] == ct[3] == 4000.0
+
+
+# ── os arquivos de caso e as tabelas ────────────────────────────────────────────────────────────
+
+INT_CASOS_ESPERADOS = {
+    "01_tutorial_new_york.triton": ("volume fixo", 27.09),
+    "02_london.triton": ("volume fixo", 20.08),
+    "03_cape_town.triton": ("volume fixo", 14.52),
+    "04_tutorial_sweep.triton": ("varredura", 26.83),
+    "05_ten_days.triton": ("volume fixo", 25.70),
+    "06_upper_tank.triton": ("volume fixo", 27.09),
+    "07_school_weekly.triton": ("volume fixo", 12.58),
+    "08_hotel_monthly.triton": ("volume fixo", 9.83),
+    "09_modulation_tutorial.triton": ("varredura", 26.83),
+    "10_modulation_catchment.triton": ("varredura", 26.83),
+}
+
+
+def _int_resultados():
+    import json
+    return json.loads(_int_lido(os.path.join(INT_CASOS, "resultados.json")))
+
+
+def test_int_os_casos_publicados_sao_os_da_edicao():
+    pub = _int_resultados()
+    assert sorted(pub) == sorted(INT_CASOS_ESPERADOS)
+    for arquivo, (modo, potencial) in INT_CASOS_ESPERADOS.items():
+        assert pub[arquivo]["modo"] == modo, arquivo
+        assert pub[arquivo]["potencial_pct"] == pytest.approx(potencial, abs=0.01), arquivo
+        assert os.path.exists(os.path.join(INT_CASOS, arquivo)), arquivo
+
+
+def test_int_os_casos_batem_com_as_tabelas_e_os_capitulos():
+    """O caso de Nova York com volume fixo é o da tabela de varredura; o de dez dias, o da tabela dos dez dias."""
+    pub = _int_resultados()
+    assert pub["04_tutorial_sweep.triton"]["volume_ideal_l"] == 4000.0
+    assert pub["04_tutorial_sweep.triton"]["volumes_simulados"] == 21
+    d = pub["05_ten_days.triton"]
+    assert (d["volume_l"], d["dias_de_chuva"]) == (2000.0, 10)
+    assert d["pluvial_l_dia"] == pytest.approx(51.4) and d["extravasado_l_dia"] == pytest.approx(620.9)
+    assert d["atendimento_pleno_pct"] == pytest.approx(60.0)
+    # A caixa superior de 1.000 L perde 0,15 ponto contra um tanque só de 5.000 L.
+    u = pub["06_upper_tank.triton"]
+    assert u["potencial_tanque_unico_pct"] - u["potencial_pct"] == pytest.approx(0.15, abs=0.01)
+    # O mesmo projeto em três chuvas.
+    assert pub["01_tutorial_new_york.triton"]["atendimento_pleno_pct"] == pytest.approx(96.4)
+    assert pub["02_london.triton"]["atendimento_pleno_pct"] == pytest.approx(69.1)
+    assert pub["03_cape_town.triton"]["atendimento_pleno_pct"] == pytest.approx(49.9)
+
+
+def test_int_o_calendario_concentrado_rende_menos_que_a_demanda_constante():
+    """Seção 3.4: o hotel (cheio de dezembro a fevereiro, estação seca da Cidade do Cabo) perde 1,14 ponto
+    contra a mesma demanda anual espalhada; a escola semanal de Londres, que só fecha no fim de semana, quase não muda."""
+    pub = _int_resultados()
+    hotel, escola = pub["08_hotel_monthly.triton"], pub["07_school_weekly.triton"]
+    assert hotel["potencial_demanda_constante_pct"] - hotel["potencial_pct"] == pytest.approx(1.14, abs=0.02)
+    assert hotel["demanda_media_l_dia"] == pytest.approx(5779.9, abs=0.1)
+    assert abs(escola["potencial_demanda_constante_pct"] - escola["potencial_pct"]) < 0.2
+    assert escola["demanda_media_l_dia"] == pytest.approx(9014.3, abs=0.1)
+
+
+def test_int_todo_caso_do_manual_reproduz_o_numero_publicado():
+    """O arquivo gravado, relido e simulado dá o número publicado (o campo que se perca aparece aqui)."""
+    import sys
+    sys.path.insert(0, MANUAL)
+    try:
+        from gerar_casos import simular_do_arquivo
+    except ImportError:
+        pytest.skip("gerador de casos ausente")
+    for arquivo, publicado in sorted(_int_resultados().items()):
+        obtido = simular_do_arquivo(os.path.join(INT_CASOS, arquivo))
+        assert obtido["potencial_pct"] == pytest.approx(publicado["potencial_pct"], abs=0.05), arquivo
+        assert obtido["modo"] == publicado["modo"], arquivo
+
+
+def test_int_os_casos_de_modulacao_abrem_com_a_modulacao_montada():
+    import json
+    for arquivo, chaves in (("09_modulation_tutorial.triton", {"per_capita_l_dia", "pessoas", "fator_chuva"}),
+                            ("10_modulation_catchment.triton", {"area_m2", "coef_escoamento", "fator_chuva"})):
+        d = json.loads(_int_lido(os.path.join(INT_CASOS, arquivo)))
+        mod = d["ui_state"]["modulacao_estocastica"]
+        marcadas = {k for k, v in mod["parametros"]["variaveis"].items() if v.get("variar")}
+        assert chaves <= marcadas, arquivo
+        assert (mod["amostras"], mod["semente"]) == (1000, 42), arquivo
+        assert not mod["parametros"].get("modelos_climaticos"), arquivo
+
+
+def test_int_os_casos_e_as_tabelas_nao_trazem_nada_do_brasil_nem_de_portugal():
+    """Nenhum arquivo de caso, README, resultado ou tabela da INT cita cidade, norma ou moeda da BRL/PRT."""
+    achados = []
+    arquivos = [os.path.join(INT_CASOS, f) for f in sorted(os.listdir(INT_CASOS))
+                if f.endswith((".triton", ".json", ".md", ".csv"))]
+    if os.path.isdir(INT_TABELAS):
+        arquivos += [os.path.join(INT_TABELAS, f) for f in sorted(os.listdir(INT_TABELAS))
+                     if f.endswith(".md") and not f.startswith(("cap38", "cap40", "cap43"))]
+    if not arquivos:
+        pytest.skip("casos ainda não gerados")
+    for caminho in arquivos:
+        texto = open(caminho, encoding="utf-8").read()
+        for termo in INT_TERMOS_PROIBIDOS:
+            if termo in texto:
+                achados.append(f"{os.path.relpath(caminho, MANUAL)}: {termo}")
+    assert not achados, achados
+
+
+def test_int_todo_valor_em_dinheiro_das_tabelas_e_ilustrativo_e_rotulado():
+    """Regra 6: custo de obra, energia e preço de tanque levam «illustrative, not a market price» na legenda ou na linha."""
+    if not os.path.isdir(INT_TABELAS):
+        pytest.skip("tabelas ainda não geradas")
+    faltando = []
+    for nome in ("cap07_limiar_e_custo.md", "cap08_reservatorio_superior.md", "cap10_economico.md",
+                 "cap11_materiais.md", "cap12_multicriterio.md", "cap20_sensibilidade.md"):
+        texto = _int_lido(os.path.join(INT_TABELAS, nome))
+        for bloco in texto.split("<!-- tabela: ")[1:]:
+            legenda, _, corpo = bloco.partition(" -->")
+            cabeca = corpo.split(chr(10))[1]
+            if "New York water and sewer bill" in legenda:
+                continue          # a tarifa publicada, e não um custo
+            if "US$" in corpo and "illustrative" not in (legenda + cabeca):
+                faltando.append(f"{nome}: {legenda[:50]}")
+    assert not faltando, faltando
+
+
+# ── o que o texto em inglês cita ────────────────────────────────────────────────────────────────
+
+#: Para cada capítulo, o que ele tem de citar do programa. Cada capítulo vale a partir do momento em que
+#: deixa de citar o Brasil (`_int_capitulo`); antes disso, é saltado, sem esconder os demais.
+INT_CITACOES = {
+    "23_balanco_diario.md": ("25.7%", "8,483 L", "6,209 L", "514 L", "4,913 L", "2,913 L", "2,546 L",
+                             "34 L", "1,760 L"),
+    "04_o_projeto_e_a_chuva.md": ("150 m²", "0.85", "2.0 mm", "1,125 mm", "New York"),
+    "05_a_edificacao_e_a_demanda.md": ("600 L/day", "168 L/day", "28%", "61"),
+    "06_a_primeira_simulacao.md": ("25.99%", "150.8 L/day", "91.9%", "3,000"),
+    "07_escolher_o_volume.md": ("4,000 L", "26.83%", "95.3%", "27.98%"),
+    "08_reservatorio_superior.md": ("7.7 kWh", "5,000 L"),
+    "10_quanto_custa.md": ("US$ 24.21", "illustrative"),
+    "11_quanto_carbono_evita.md": ("858 kg", "32.5 years", "12.4 years"),
+    "12_qual_volume_escolher.md": ("4,000 L", "12,000 L", "2,000 L", "27.09%"),
+    "14_comparar_cidades.md": ("London", "Cape Town", "26.83%", "20.08%", "14.52%", "8.3"),
+}
+
+
+@pytest.mark.parametrize("arquivo", sorted(INT_CITACOES))
+def test_int_o_capitulo_cita_os_numeros_do_programa(arquivo):
+    texto = _int_capitulo(arquivo)
+    for termo in INT_CITACOES[arquivo]:
+        assert termo in texto, f"{arquivo} não cita {termo}"
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Edição Portugal (PRT): Lisboa, Porto e Funchal
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# O tutorial da PRT é a mesma casa (150 m², 4 residentes, 150 L/hab·dia, 28% não potável) em Lisboa,
+# com a chuva E-OBS por concelho (normal 1991-2020, `data/portugal_eobs.db`) e o tarifário transcrito
+# em `triton/data/portugal_tarifarios.json`; o Porto (E-OBS) e o Funchal (ERA5, `data/rainfall/Funchal.csv`)
+# são as cidades de comparação. Os custos são ILUSTRATIVOS (euros, números redondos declarados em
+# `manual/gerar_tabelas.py`), nunca preços de mercado. Os valores abaixo são os que `manual/gerar_tabelas.py`
+# e `manual/gerar_casos.py` produzem; o texto em português de Portugal cita os mesmos.
+#
+# Os números de texto levam o espaço inseparável do milhar (U+00A0): as tabelas e os capítulos são lidos
+# com ele trocado por espaço comum, de modo que o teste não dependa de qual espaço o redator usou.
+
+PRT_CHUVAS = os.path.join(RAIZ, "data", "rainfall")
+PRT_CASOS = os.path.join(MANUAL, "casos")
+PRT_TABELAS = os.path.join(MANUAL, "partes", "_tabelas")
+PRT_PARTES = os.path.join(MANUAL, "partes")
+PRT_VOLUME = 5000.0
+PRT_TUTORIAL = dict(
+    area=150.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
+    total_demand_per_day=600.0, rainwater_share=0.28,
+)
+#: O caso dos dez dias: 11 a 20 de dezembro de 2019 da série de Lisboa (dia 10571; 01/01/1991 = dia 0).
+PRT_DEZ_DIAS_CHUVA = [0.0, 2.1, 0.0, 1.2, 6.0, 13.5, 0.7, 8.1, 35.7, 25.8]
+PRT_DEZ_DIAS = dict(
+    lower_tank_vol=2000.0, area=100.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
+    total_demand_per_day=200.0, rainwater_share=0.40,
+)
+#: Custos ilustrativos do tutorial (euros): não são preços de mercado.
+PRT_CUSTOS = dict(cost_labor=1500.0, cost_piping=600.0, cost_accessories=800.0, pump_unit_cost=250.0,
+                  elec_tariff=0.20, chlorine_cost_per_kg=8.0, tma=0.4, inflation=0.2,
+                  analysis_period_years=20, tariff_escalation=12, water_tariff_escalation=3.0,
+                  sewage_tariff_escalation=3.0, elec_tariff_escalation=3.0)
+PRT_PRECO_DO_TANQUE = {"PEAD": (100.0, 0.55), "CONCRETO": (600.0, 0.40)}   # base + por litro, ilustrativo
+PRT_FATOR_REDE, PRT_FATOR_AGUA = 0.40, 0.50                                # kg CO2e, ilustrativos
+#: Termos do Brasil que não podem aparecer nos ficheiros de caso e nas tabelas da PRT.
+PRT_TERMOS_PROIBIDOS = ("Florianópolis", "Florianopolis", "Manaus", "Brasília", "São Paulo", "CLIMBra",
+                        "CMIP6", "CASAN", "R$", "NBR", "Netuno", "Santa Catarina", "IPTU", "SABESP")
+
+
+def _prt_serie(nome):
+    """A série diária de 1991-2020 da cidade: E-OBS por concelho (Lisboa, Porto) ou ERA5 (Funchal)."""
+    if nome == "Funchal":
+        from triton.core.parser import load_precipitation
+        caminho = os.path.join(PRT_CHUVAS, "Funchal.csv")
+        if not os.path.exists(caminho):
+            pytest.skip("série do Funchal não instalada")
+        return load_precipitation(caminho)
+    from triton.core import base_climatica_portugal as pt
+    if not pt.disponivel():
+        pytest.skip("base E-OBS de Portugal (data/portugal_eobs.db) não instalada")
+    return pt.carregar_serie(nome, "01/01/1991", "31/12/2020")[0]
+
+
+@pytest.fixture(scope="module")
+def prt_serie():
+    return _prt_serie("Lisboa")
+
+
+def _prt_sim(serie, volume, **extra):
+    return run_single_simulation(precip_data=serie, lower_tank_vol=float(volume),
+                                 **{**PRT_TUTORIAL, **extra})
+
+
+def _prt_preco(volume, material):
+    base, por_litro = PRT_PRECO_DO_TANQUE[material]
+    return base + por_litro * float(volume)
+
+
+def _prt_config_de_lisboa():
+    """A configuração da edição com o tarifário de Lisboa transcrito."""
+    from triton.core import tarifarios_portugal as tarifas
+    from triton.core.edition import configuracao_da_edicao
+    cfg = configuracao_da_edicao()
+    assert tarifas.aplicar("Lisboa", cfg), "tarifário de Lisboa ausente"
+    return cfg
+
+
+def _prt_economico(serie, volume, material):
+    """A análise económica do tutorial de Lisboa, com o tarifário transcrito e os custos ilustrativos."""
+    from triton.core.economic import run_economic_analysis
+    r = run_single_simulation(precip_data=serie, lower_tank_vol=float(volume), upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **PRT_TUTORIAL)
+    cfg = _prt_config_de_lisboa()
+    for k, v in PRT_CUSTOS.items():
+        setattr(cfg, k, v)
+    cfg.op_costs = [("Inspeção e limpeza das caleiras e do pré-filtro", 12, 20.0, 0.0),
+                    ("Limpeza e inspeção da cisterna", 12, 40.0, 0.0),
+                    ("Manutenção preventiva da bomba", 12, 30.0, 0.0)]
+    cfg.cost_lower_tank = _prt_preco(volume, material)
+    cfg.cost_upper_tank = _prt_preco(1000.0, "PEAD")
+    cfg.supply_arrangement, cfg.upper_tank_used = "recalque", True
+    cfg.upper_tank_vol, cfg.pumping_threshold, cfg.pump_count = 1000.0, 100.0, 2
+    cfg.residents_count = 4
+    cfg.area, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
+    return r, run_economic_analysis(cfg, r)
+
+
+def _prt_ambiental(material, resultado=None):
+    from triton.core.environmental import EnvironmentalConfig
+    from triton.core.parser import TritonConfig
+    from triton.core.pump_energy import compute_annual_pump_energy
+    cfg = EnvironmentalConfig()
+    cfg.lower_material_key = material
+    cfg.grid_co2_factor_kg_kwh = PRT_FATOR_REDE
+    cfg.potable_water_co2_kg_m3 = PRT_FATOR_AGUA
+    cfg.roof_area_m2, cfg.discard, cfg.first_flush_system_enabled = 150.0, 2.0, True
+    cfg.supply_arrangement, cfg.upper_tank_vol_liters = "recalque", 1000.0
+    if resultado is not None:
+        bomba = TritonConfig()
+        bomba.supply_arrangement = "recalque"
+        cfg.annual_pump_kwh = compute_annual_pump_energy(bomba, resultado).annual_kwh
+    return cfg
+
+
+def _prt_normalizado(texto):
+    """O texto com os espaços inseparáveis (milhar, antes de «€») trocados por espaço comum."""
+    return texto.replace(chr(160), " ").replace(chr(0x202F), " ")
+
+
+def _prt_lido(caminho):
+    if not os.path.exists(caminho):
+        pytest.skip(f"{os.path.relpath(caminho, RAIZ)} ainda não gerado")
+    return _prt_normalizado(open(caminho, encoding="utf-8").read())
+
+
+def _prt_capitulo(arquivo):
+    """Capítulo em português de Portugal com as tabelas incluídas; salta se o texto ainda cita o Brasil.
+
+    O texto da PRT é escrito à parte (`manual/partes`). Enquanto o capítulo ainda cita algo do Brasil
+    (`PRT_TERMOS_PROIBIDOS`: cidades, CLIMBra, R$, NBR...), as asserções sobre o que ele cita ficam
+    saltadas; assim que o capítulo deixa de o citar e passa a falar de Lisboa, elas valem.
+    """
+    caminho = os.path.join(PRT_PARTES, arquivo)
+    if not os.path.exists(caminho):
+        pytest.skip(f"{arquivo} ainda não escrito")
+    saida = []
+    for linha in open(caminho, encoding="utf-8").read().split(chr(10)):
+        m = re.match(r"^<!--\s*inclui:\s*(\S+)\s*-->\s*$", linha)
+        alvo = os.path.join(PRT_PARTES, m.group(1)) if m else None
+        saida.append(open(alvo, encoding="utf-8").read() if alvo and os.path.exists(alvo) else linha)
+    texto = _prt_normalizado(chr(10).join(saida))
+    ainda = [x for x in PRT_TERMOS_PROIBIDOS if x in texto]
+    if ainda:
+        pytest.skip(f"{arquivo} ainda não foi reapoiado nas cidades da PRT (cita {', '.join(ainda[:3])})")
+    return texto
+
+
+# ── secção 2.1: o caso dos dez dias, com a chuva real de Lisboa ─────────────────────────────────
+
+@pytest.fixture(scope="module")
+def prt_dez_dias():
+    return run_single_simulation(precip_data=np.array(PRT_DEZ_DIAS_CHUVA), store_daily_details=True,
+                                 **PRT_DEZ_DIAS)
+
+
+def test_prt_os_dez_dias_sao_os_de_lisboa(prt_serie):
+    """A janela está na série da base E-OBS: 11/12/2019 é o dia 10571 (01/01/1991 = dia 0), ao décimo de mm."""
+    import datetime as dt
+    assert (dt.date(2019, 12, 11) - dt.date(1991, 1, 1)).days == 10571
+    assert [round(float(x), 1) for x in prt_serie[10571:10581]] == pytest.approx(PRT_DEZ_DIAS_CHUVA)
+
+
+def test_prt_o_potencial_e_os_indicadores_dos_dez_dias(prt_dez_dias):
+    """Impresso na secção 2.1: potencial 24,4%, 48,9 L/dia pluviais, 432,4 L/dia extravasados, dias 60/10/30%."""
+    r = prt_dez_dias
+    assert r.potential_potable_savings_pct == pytest.approx(24.4, abs=0.05)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(48.9, abs=0.05)
+    assert r.avg_potable_consumed_l_day == pytest.approx(151.1, abs=0.15)
+    assert r.avg_spilled_l_day == pytest.approx(432.4, abs=0.05)
+    assert r.pct_days_full_satisfaction == pytest.approx(60.0, abs=0.5)
+    assert r.pct_days_partial_satisfaction == pytest.approx(10.0, abs=0.5)
+    assert r.pct_days_null_satisfaction == pytest.approx(30.0, abs=0.5)
+
+
+def test_prt_o_dia_2_e_parcial_e_o_dia_4_se_perde_inteiro(prt_dez_dias):
+    """Dia 2: 2,1 mm, 0,1 mm efetivo, 9 L e abastecimento parcial. Dia 4: 1,2 mm < 2,0 mm, capta-se zero."""
+    d2, d4 = prt_dez_dias.daily_results[1], prt_dez_dias.daily_results[3]
+    assert d2.satisfaction_type == 1
+    assert d2.eff_precip_mm == pytest.approx(0.1, abs=0.01)
+    assert d2.harvested_liters == pytest.approx(9.0, abs=1.0)
+    assert d2.pluvial_consumed_liters == pytest.approx(9.0, abs=1.0)
+    assert d4.precip_mm == pytest.approx(1.2)
+    assert d4.eff_precip_mm == pytest.approx(0.0)
+    assert d4.harvested_liters == pytest.approx(0.0)
+    assert d4.satisfaction_type == 0
+
+
+def test_prt_o_dia_9_extravasa_mais_que_o_reservatorio(prt_dez_dias):
+    """Dia 9 (35,7 mm): 2.865 L captados, 2.380 L extravasados, 1.920 L no reservatório."""
+    d = prt_dez_dias.daily_results[8]
+    assert d.harvested_liters == pytest.approx(2865.0, abs=1.0)
+    assert d.spilled_liters == pytest.approx(2380.0, abs=1.0)
+    assert d.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
+    assert d.spilled_liters > PRT_DEZ_DIAS["lower_tank_vol"]
+
+
+def test_prt_o_dia_10_extravasa_com_o_reservatorio_ja_cheio(prt_dez_dias):
+    """Dia 10 (25,8 mm): 2.023 L captados e 1.943 L extravasados; o reservatório acabara o dia 9 com 1.920 L."""
+    d9, d10 = prt_dez_dias.daily_results[8], prt_dez_dias.daily_results[9]
+    assert d9.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
+    assert d10.harvested_liters == pytest.approx(2023.0, abs=1.0)
+    assert d10.spilled_liters == pytest.approx(1943.0, abs=1.0)
+
+
+def test_prt_as_somas_dos_dez_dias_fecham(prt_dez_dias):
+    """Impresso: 6.732 L captados, 4.324 L extravasados, 488 L consumidos, 1.920 L ao fim; resíduo zero."""
+    d = prt_dez_dias.daily_results
+    captado = sum(x.harvested_liters for x in d)
+    extravasado = sum(x.spilled_liters for x in d)
+    consumido = sum(x.pluvial_consumed_liters for x in d)
+    final = d[-1].lower_tank_end_liters
+    assert captado == pytest.approx(6732.0, abs=1.0)
+    assert extravasado == pytest.approx(4324.0, abs=1.0)
+    assert consumido == pytest.approx(488.0, abs=1.0)
+    assert final == pytest.approx(1920.0, abs=1.0)
+    assert captado - extravasado - consumido - final == pytest.approx(0.0, abs=0.5)
+
+
+def test_prt_a_tabela_publicada_dos_dez_dias_bate_com_a_simulacao(prt_dez_dias):
+    """Se alguém editar a tabela à mão, este teste apanha-o."""
+    texto = _prt_lido(os.path.join(PRT_TABELAS, "cap23_dez_dias.md"))
+    dias = []
+    for linha in texto.split(chr(10)):
+        celulas = [c.strip() for c in linha.strip("|").split("|")] if linha.startswith("| ") else []
+        if celulas and celulas[0].isdigit():
+            dias.append([c.replace(" ", "").replace(",", ".") for c in celulas])
+    assert len(dias) == 10
+    for i, c in enumerate(dias):
+        d = prt_dez_dias.daily_results[i]
+        assert float(c[1]) == pytest.approx(d.precip_mm, abs=0.05), f"dia {i+1} chuva"
+        assert float(c[3]) == pytest.approx(d.eff_precip_mm, abs=0.05), f"dia {i+1} efetiva"
+        assert float(c[4]) == pytest.approx(d.harvested_liters, abs=1.0), f"dia {i+1} captado"
+        assert float(c[6]) == pytest.approx(d.pluvial_consumed_liters, abs=1.0), f"dia {i+1} consumido"
+        assert float(c[7]) == pytest.approx(d.spilled_liters, abs=1.0), f"dia {i+1} extravasado"
+
+
+# ── o tutorial de Lisboa: capítulos 4 a 7 ───────────────────────────────────────────────────────
+
+def test_prt_a_serie_do_tutorial_e_a_que_o_capitulo_4_descreve(prt_serie):
+    """Impresso: 30 anos, 719 mm/ano, chuva em 22% dos dias, 9,0 mm nos dias chuvosos, máximo 91,2 mm."""
+    anos = len(prt_serie) / 365.25
+    assert len(prt_serie) == 10958
+    assert anos == pytest.approx(30.0, abs=0.1)
+    assert prt_serie.sum() / anos == pytest.approx(719.0, abs=3.0)
+    assert (prt_serie > 0.1).mean() * 100 == pytest.approx(22.0, abs=1.0)
+    assert prt_serie[prt_serie > 0.1].mean() == pytest.approx(9.0, abs=0.1)
+    assert prt_serie.max() == pytest.approx(91.2, abs=0.05)
+
+
+def test_prt_o_descarte_atinge_quatro_por_cento_dos_dias(prt_serie):
+    """Impresso: 4% dos dias têm chuva (acima de 0,1 mm) mas abaixo da lâmina de descarte de 2 mm."""
+    abaixo = ((prt_serie > 0.1) & (prt_serie <= 2.0)).mean() * 100
+    assert abaixo == pytest.approx(4.0, abs=1.0)
+
+
+def test_prt_a_oferta_bruta_e_uma_vez_e_meia_a_procura(prt_serie):
+    """Impresso no capítulo 5: 92 m³/ano de oferta bruta contra 61 m³/ano de procura pluvial (1,5×)."""
+    anos = len(prt_serie) / 365.25
+    bruta = prt_serie.sum() / anos * PRT_TUTORIAL["area"] * PRT_TUTORIAL["runoff_coeff"] / 1000.0
+    procura = PRT_TUTORIAL["total_demand_per_day"] * PRT_TUTORIAL["rainwater_share"] * 365.25 / 1000.0
+    assert bruta == pytest.approx(92.0, abs=1.0)
+    assert procura == pytest.approx(61.0, abs=1.0)
+    assert bruta / procura == pytest.approx(1.5, abs=0.05)
+
+
+def test_prt_a_primeira_simulacao_do_capitulo_6(prt_serie):
+    """Impresso: 15,39% com 3.000 L, 106,4 L/dia extravasados, 53,3% de dias plenos, 33,7 m³/ano."""
+    r = _prt_sim(prt_serie, 3000)
+    assert r.potential_potable_savings_pct == pytest.approx(15.39, abs=0.05)
+    assert r.avg_spilled_l_day == pytest.approx(106.4, abs=0.1)
+    assert r.pct_days_full_satisfaction == pytest.approx(53.3, abs=0.1)
+    assert r.pct_days_partial_satisfaction == pytest.approx(2.9, abs=0.1)
+    assert r.pct_days_null_satisfaction == pytest.approx(43.8, abs=0.1)
+    assert r.annual_pluvial_consumed_m3 == pytest.approx(33.7, abs=0.1)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(92.3, abs=0.1)
+
+
+@pytest.mark.parametrize(("volume", "potencial"), [
+    (1000, 10.39), (2000, 13.55), (3000, 15.39), (4000, 16.60), (5000, 17.49),
+    (8000, 19.39), (12000, 21.23), (20000, 24.01),
+])
+def test_prt_a_curva_de_varredura_do_capitulo_7(prt_serie, volume, potencial):
+    """Cada linha da tabela impressa no capítulo 7."""
+    assert _prt_sim(prt_serie, volume).potential_potable_savings_pct == pytest.approx(potencial, abs=0.05)
+
+
+def test_prt_o_potencial_nunca_passa_da_fracao_suprivel(prt_serie):
+    teto = PRT_TUTORIAL["rainwater_share"] * 100.0
+    for v in (1000, 5000, 20000, 100000):
+        assert _prt_sim(prt_serie, v).potential_potable_savings_pct <= teto + 1e-9
+
+
+@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 3000), (1.0, 5000), (0.5, 10000)])
+def test_prt_o_limiar_decide_o_volume_ideal(prt_serie, limiar, ideal):
+    from triton.core.simulation import run_sweep_simulation
+    r = run_sweep_simulation(precip_data=prt_serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
+                             delta_ideal_threshold=limiar, **PRT_TUTORIAL)
+    assert r.optimal_lower_tank_vol == pytest.approx(ideal)
+
+
+def test_prt_o_volume_maior_custa_muito_mais_por_pouco_ganho(prt_serie):
+    """Impresso: 3,3× o preço (ilustrativo) e 3,5× o carbono por 6,52 pontos (de 5.000 a 20.000 L)."""
+    from triton.core.environmental import calculate_lca
+    r5, r20 = _prt_sim(prt_serie, PRT_VOLUME), _prt_sim(prt_serie, 20000)
+    assert r20.potential_potable_savings_pct - r5.potential_potable_savings_pct == pytest.approx(6.52, abs=0.05)
+    assert _prt_preco(20000, "CONCRETO") / _prt_preco(PRT_VOLUME, "CONCRETO") == pytest.approx(3.3, abs=0.1)
+    cfg = _prt_ambiental("CONCRETO")
+    c5 = calculate_lca(PRT_VOLUME, r5.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
+    c20 = calculate_lca(20000.0, r20.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
+    assert c5 == pytest.approx(1026.0, abs=2.0)
+    assert c20 / c5 == pytest.approx(3.5, abs=0.1)
+
+
+# ── capítulos 8 a 12: o reservatório superior, o custo (ilustrativo), o carbono, a decisão ───────
+
+def test_prt_o_reservatorio_superior_nao_aumenta_a_poupanca(prt_serie):
+    """Impresso no capítulo 8: com o mesmo armazenamento (6.000 L), o arranjo duplo perde 0,31 ponto."""
+    unico = _prt_sim(prt_serie, PRT_VOLUME + 1000.0)
+    duplo = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
+    assert unico.potential_potable_savings_pct == pytest.approx(18.19, abs=0.05)
+    assert duplo.potential_potable_savings_pct == pytest.approx(17.88, abs=0.05)
+    assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct == pytest.approx(0.31, abs=0.03)
+    assert unico.pct_days_full_satisfaction == pytest.approx(64.0, abs=0.1)
+    assert duplo.pct_days_full_satisfaction == pytest.approx(62.8, abs=0.1)
+
+
+def test_prt_a_energia_da_elevacao_do_capitulo_8(prt_serie):
+    """Impresso: 5,1 kWh/ano e 49 arranques por ano."""
+    from triton.core.parser import TritonConfig
+    from triton.core.pump_energy import compute_annual_pump_energy
+    duplo = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
+    cfg = TritonConfig()
+    cfg.upper_tank_used = True
+    cfg.pump_power_kw, cfg.pump_efficiency, cfg.pump_flow_rate = 0.37, 0.0, 0.0
+    cfg.pump_manometric_head_m, cfg.pump_startup_time_h = 12.0, 0.03
+    e = compute_annual_pump_energy(cfg, duplo)
+    assert e.annual_kwh == pytest.approx(5.1, abs=0.3)
+    assert e.annual_cycles == pytest.approx(49, abs=3)
+
+
+@pytest.mark.parametrize(("limiar", "potencial", "arranques"), [
+    (0, 17.78, 45), (100, 17.88, 49), (300, 17.95, 61), (500, 18.01, 80),
+])
+def test_prt_o_limiar_de_arranque_troca_potencial_por_desgaste(prt_serie, limiar, potencial, arranques):
+    r = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True,
+                 pumping_threshold=float(limiar))
+    assert r.potential_potable_savings_pct == pytest.approx(potencial, abs=0.05)
+    assert r.total_pump_cycles / (r.total_days / 365.25) == pytest.approx(arranques, abs=1.5)
+
+
+def test_prt_o_resultado_economico_do_capitulo_10(prt_serie):
+    """Impresso (custos ILUSTRATIVOS, euros): investimento 6.650; poupança anual 134,28; VAL -5.828,77; sem recuperação.
+
+    O tarifário de Lisboa é o transcrito (EPAL e Câmara); o sistema não se paga com estes custos, e o
+    capítulo diz isso em vez de ajustar os custos até a recuperação aparecer.
+    """
+    _, e = _prt_economico(prt_serie, PRT_VOLUME, "CONCRETO")
+    assert e.capex_total == pytest.approx(6650.0, abs=1.0)
+    assert e.annual_water_savings_brl == pytest.approx(134.28, abs=3.0)
+    assert e.vpl == pytest.approx(-5828.8, abs=60.0)
+    assert not e.payback_years
+
+
+def test_prt_a_fatura_de_lisboa_com_e_sem_o_sistema(prt_serie):
+    """Impresso: 46,25 € sem o sistema, 35,06 € com ele, poupança de 11,19 € por mês."""
+    from triton.core.economic import calculate_water_bill, esgoto_do_projeto
+    cfg = _prt_config_de_lisboa()
+    r = run_single_simulation(precip_data=prt_serie, lower_tank_vol=PRT_VOLUME, upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **PRT_TUTORIAL)
+    dias = 30.4375
+
+    def conta(l_dia):
+        return calculate_water_bill(l_dia * dias, cfg.water_tariffs, cfg.sewage_mode, cfg.sewage_rate,
+                                    cfg.water_tax_fixed, cfg.water_tax_var, **esgoto_do_projeto(cfg))
+    sem = conta(r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day)
+    com = conta(r.avg_potable_consumed_l_day)
+    assert sem == pytest.approx(46.25, abs=0.05)
+    assert com == pytest.approx(35.06, abs=0.05)
+    assert sem - com == pytest.approx(11.19, abs=0.05)
+
+
+def test_prt_o_tarifario_de_lisboa_e_o_impresso_na_base():
+    """A conta de 10 m³ por mês (25,8683 €) é a do exemplo conferido à mão em `examples/LEIA.md`."""
+    from triton.core.economic import calculate_water_bill, esgoto_do_projeto
+    cfg = _prt_config_de_lisboa()
+    conta = calculate_water_bill(10000.0, cfg.water_tariffs, cfg.sewage_mode, cfg.sewage_rate,
+                                 cfg.water_tax_fixed, cfg.water_tax_var, **esgoto_do_projeto(cfg))
+    assert conta == pytest.approx(25.8683, abs=0.0005)
+
+
+def test_prt_a_troca_para_polietileno_muda_o_retorno_do_carbono(prt_serie):
+    """Impresso no capítulo 11: o carbono retorna em 20,9 anos em polietileno e em 59,0 em betão.
+
+    Com a chuva de Lisboa e os fatores ilustrativos, nenhum dos dois cumpre 20 anos com folga: o polietileno
+    fica na fronteira (emite 15 kg em 20 anos), o betão emite 678 kg.
+    """
+    from triton.core.environmental import calculate_lca
+    r = run_single_simulation(precip_data=prt_serie, lower_tank_vol=PRT_VOLUME, upper_tank_vol=1000.0,
+                              upper_tank_used=True, pumping_threshold=100.0, **PRT_TUTORIAL)
+    lca = {k: calculate_lca(PRT_VOLUME, r.annual_pluvial_consumed_m3, _prt_ambiental(k, r))
+           for k in ("PEAD", "CONCRETO")}
+    assert lca["PEAD"].environmental_payback_years == pytest.approx(20.9, abs=0.3)
+    assert lca["CONCRETO"].environmental_payback_years == pytest.approx(59.0, abs=0.5)
+    assert lca["PEAD"].total_embodied_co2_kg == pytest.approx(363.0, abs=2.0)
+    assert lca["CONCRETO"].total_embodied_co2_kg == pytest.approx(1026.0, abs=2.0)
+    assert -lca["PEAD"].lifetime_net_co2_saved_kg == pytest.approx(15.0, abs=3.0)
+    assert -lca["CONCRETO"].lifetime_net_co2_saved_kg == pytest.approx(678.0, abs=5.0)
+
+
+def test_prt_os_tres_criterios_do_capitulo_12_discordam(prt_serie):
+    """Impresso: técnico 12.000 L, financeiro 1.000 L, ambiental 2.000 L, compromisso 5.000 L."""
+    from triton.core.environmental import calculate_lca
+    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    cands = []
+    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
+        r, e = _prt_economico(prt_serie, v, "PEAD")
+        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, _prt_ambiental("PEAD", r))
+        cands.append(TopsisCandidate(
+            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
+            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg, capex_brl=e.capex_total,
+            potential_savings_pct=r.potential_potable_savings_pct, overflow_m3_yr=r.annual_spill_m3,
+            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
+            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    res = calculate_topsis_scores(cands)
+    assert cands[res.technical_best_index].lower_tank_vol == 12000.0
+    assert cands[res.financial_best_index].lower_tank_vol == 1000.0
+    assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
+    assert cands[res.best_index].lower_tank_vol == PRT_VOLUME
+
+
+# ── secção 3.1: as cidades de comparação ────────────────────────────────────────────────────────
+
+def test_prt_as_cidades_da_secao_3_1():
+    """Impresso: o mesmo projeto rende 17,49% em Lisboa, 22,04% no Porto e 12,98% no Funchal (com 5.000 L).
+
+    O Porto chove 1,7 vez o que chove Lisboa e rende 4,6 pontos mais; o Funchal, com menos chuva, rende menos.
+    O volume ideal é 5.000 L em Lisboa e no Porto e 4.000 L no Funchal. A razão entre o mês mais e o menos
+    chuvoso é 47,3× em Lisboa (verão seco), 9,8× no Porto e 14,8× no Funchal.
+    """
+    from datetime import datetime, timedelta
+
+    from triton.core.simulation import run_sweep_simulation
+    res = {}
+    for chave in ("Lisboa", "Porto", "Funchal"):
+        serie = _prt_serie(chave)
+        anos = len(serie) / 365.25
+        r = _prt_sim(serie, PRT_VOLUME)
+        sw = run_sweep_simulation(precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
+                                  delta_ideal_threshold=1.0, **PRT_TUTORIAL)
+        d0, meses = datetime(1991, 1, 1), np.zeros(12)
+        for i, v in enumerate(serie):
+            meses[(d0 + timedelta(days=i)).month - 1] += float(v)
+        meses /= anos
+        res[chave] = (serie.sum() / anos, r.potential_potable_savings_pct, meses.max() / max(meses.min(), 0.1),
+                      sw.optimal_lower_tank_vol, (serie > 0.1).mean() * 100)
+    li, po, fu = res["Lisboa"], res["Porto"], res["Funchal"]
+    assert po[0] > li[0] > fu[0]
+    assert li[1] == pytest.approx(17.49, abs=0.05)
+    assert po[1] == pytest.approx(22.04, abs=0.05)
+    assert fu[1] == pytest.approx(12.98, abs=0.05)
+    assert li[0] == pytest.approx(719.0, abs=3.0) and po[0] == pytest.approx(1199.0, abs=3.0) \
+        and fu[0] == pytest.approx(538.0, abs=3.0)
+    assert li[2] == pytest.approx(47.3, abs=0.5) and po[2] == pytest.approx(9.8, abs=0.2) \
+        and fu[2] == pytest.approx(14.8, abs=0.3)
+    assert (li[4], po[4], fu[4]) == pytest.approx((22.0, 31.0, 42.0), abs=1.0)
+    assert (li[3], po[3], fu[3]) == (5000.0, 5000.0, 4000.0)
+
+
+# ── os ficheiros de caso e as tabelas ───────────────────────────────────────────────────────────
+
+PRT_CASOS_ESPERADOS = {
+    "01_tutorial_lisboa.triton": ("volume fixo", 17.88),
+    "02_porto.triton": ("volume fixo", 22.04),
+    "03_funchal.triton": ("volume fixo", 12.98),
+    "04_tutorial_varredura.triton": ("varredura", 17.49),
+    "05_dez_dias.triton": ("volume fixo", 24.43),
+    "06_reservatorio_superior.triton": ("volume fixo", 17.88),
+    "07_escola_semanal.triton": ("volume fixo", 23.03),
+    "08_hotel_mensal.triton": ("volume fixo", 10.36),
+    "09_modulacao_tutorial.triton": ("varredura", 17.49),
+    "10_modulacao_captacao.triton": ("varredura", 17.49),
+}
+
+
+def _prt_resultados():
+    import json
+    return json.loads(_prt_lido(os.path.join(PRT_CASOS, "resultados.json")))
+
+
+def test_prt_os_casos_publicados_sao_os_da_edicao():
+    pub = _prt_resultados()
+    assert sorted(pub) == sorted(PRT_CASOS_ESPERADOS)
+    for arquivo, (modo, potencial) in PRT_CASOS_ESPERADOS.items():
+        assert pub[arquivo]["modo"] == modo, arquivo
+        assert pub[arquivo]["potencial_pct"] == pytest.approx(potencial, abs=0.01), arquivo
+        assert os.path.exists(os.path.join(PRT_CASOS, arquivo)), arquivo
+
+
+def test_prt_os_casos_batem_com_as_tabelas_e_os_capitulos():
+    """O caso de Lisboa com volume fixo é o da tabela de varredura; o de dez dias, o da tabela dos dez dias."""
+    pub = _prt_resultados()
+    assert pub["04_tutorial_varredura.triton"]["volume_ideal_l"] == 5000.0
+    assert pub["04_tutorial_varredura.triton"]["volumes_simulados"] == 21
+    d = pub["05_dez_dias.triton"]
+    assert (d["volume_l"], d["dias_de_chuva"]) == (2000.0, 10)
+    assert d["pluvial_l_dia"] == pytest.approx(48.9) and d["extravasado_l_dia"] == pytest.approx(432.4)
+    assert d["atendimento_pleno_pct"] == pytest.approx(60.0)
+    # O reservatório superior de 1.000 L perde 0,31 ponto contra um reservatório só de 6.000 L.
+    u = pub["06_reservatorio_superior.triton"]
+    assert u["volume_tanque_unico_l"] == 6000.0
+    assert u["potencial_tanque_unico_pct"] - u["potencial_pct"] == pytest.approx(0.31, abs=0.01)
+    # O mesmo projeto em três chuvas.
+    assert pub["01_tutorial_lisboa.triton"]["atendimento_pleno_pct"] == pytest.approx(62.8)
+    assert pub["02_porto.triton"]["atendimento_pleno_pct"] == pytest.approx(77.9)
+    assert pub["03_funchal.triton"]["atendimento_pleno_pct"] == pytest.approx(44.5)
+
+
+def test_prt_o_calendario_concentrado_rende_menos_que_a_procura_constante():
+    """Secção 3.4: o hotel de Lisboa (cheio de junho a setembro, o verão seco) perde 0,71 ponto contra a mesma
+    procura anual espalhada; a escola semanal do Porto, que só fecha ao fim de semana, quase não muda."""
+    pub = _prt_resultados()
+    hotel, escola = pub["08_hotel_mensal.triton"], pub["07_escola_semanal.triton"]
+    assert hotel["potencial_demanda_constante_pct"] - hotel["potencial_pct"] == pytest.approx(0.71, abs=0.02)
+    assert hotel["demanda_media_l_dia"] == pytest.approx(8365.1, abs=0.1)
+    assert abs(escola["potencial_demanda_constante_pct"] - escola["potencial_pct"]) < 0.2
+    assert escola["demanda_media_l_dia"] == pytest.approx(9014.3, abs=0.1)
+
+
+def test_prt_todo_o_caso_do_manual_reproduz_o_numero_publicado():
+    """O ficheiro gravado, relido e simulado dá o número publicado (o campo que se perca aparece aqui)."""
+    import sys
+    sys.path.insert(0, MANUAL)
+    try:
+        from gerar_casos import simular_do_arquivo
+    except ImportError:
+        pytest.skip("gerador de casos ausente")
+    for arquivo, publicado in sorted(_prt_resultados().items()):
+        obtido = simular_do_arquivo(os.path.join(PRT_CASOS, arquivo))
+        assert obtido["potencial_pct"] == pytest.approx(publicado["potencial_pct"], abs=0.05), arquivo
+        assert obtido["modo"] == publicado["modo"], arquivo
+
+
+def test_prt_os_casos_de_modulacao_abrem_com_a_modulacao_montada():
+    import json
+    for arquivo, chaves in (("09_modulacao_tutorial.triton", {"per_capita_l_dia", "pessoas", "fator_chuva"}),
+                            ("10_modulacao_captacao.triton", {"area_m2", "coef_escoamento", "fator_chuva"})):
+        d = json.loads(_prt_lido(os.path.join(PRT_CASOS, arquivo)))
+        mod = d["ui_state"]["modulacao_estocastica"]
+        marcadas = {k for k, v in mod["parametros"]["variaveis"].items() if v.get("variar")}
+        assert chaves <= marcadas, arquivo
+        assert (mod["amostras"], mod["semente"]) == (1000, 42), arquivo
+        assert not mod["parametros"].get("modelos_climaticos"), arquivo
+
+
+def test_prt_os_casos_e_as_tabelas_nao_trazem_nada_do_brasil():
+    """Nenhum ficheiro de caso, README, resultado ou tabela da PRT cita cidade, norma ou moeda da BRL."""
+    achados = []
+    arquivos = [os.path.join(PRT_CASOS, f) for f in sorted(os.listdir(PRT_CASOS))
+                if f.endswith((".triton", ".json", ".md", ".csv"))]
+    if os.path.isdir(PRT_TABELAS):
+        arquivos += [os.path.join(PRT_TABELAS, f) for f in sorted(os.listdir(PRT_TABELAS))
+                     if f.endswith(".md")]
+    if not arquivos:
+        pytest.skip("casos ainda não gerados")
+    for caminho in arquivos:
+        texto = open(caminho, encoding="utf-8").read()
+        for termo in PRT_TERMOS_PROIBIDOS:
+            if termo in texto:
+                achados.append(f"{os.path.relpath(caminho, MANUAL)}: {termo}")
+    assert not achados, achados
+
+
+def test_prt_todo_o_valor_em_dinheiro_das_tabelas_e_ilustrativo_e_rotulado():
+    """Regra 6: custo de obra, energia e preço de reservatório levam «ilustrativo, não é preço de mercado» na
+    legenda ou no cabeçalho (a fatura de Lisboa é o tarifário transcrito, e não um custo)."""
+    if not os.path.isdir(PRT_TABELAS):
+        pytest.skip("tabelas ainda não geradas")
+    faltando = []
+    for nome in ("cap07_limiar_e_custo.md", "cap08_reservatorio_superior.md", "cap10_economico.md",
+                 "cap11_materiais.md", "cap12_multicriterio.md", "cap20_sensibilidade.md"):
+        texto = _prt_lido(os.path.join(PRT_TABELAS, nome))
+        for bloco in texto.split("<!-- tabela: ")[1:]:
+            legenda, _, corpo = bloco.partition(" -->")
+            cabeca = corpo.split(chr(10))[1]
+            if "fatura de água, saneamento e resíduos de Lisboa" in legenda:
+                continue          # o tarifário publicado, e não um custo
+            if "€" in corpo and "ilustrativ" not in (legenda + cabeca):
+                faltando.append(f"{nome}: {legenda[:50]}")
+    assert not faltando, faltando
+
+
+def test_prt_as_tabelas_estao_em_portugues_de_portugal():
+    """O glossário da edição não troca nada nas tabelas geradas (já saem em português de Portugal)."""
+    from triton.ui.portugues_de_portugal import para_portugal
+    if not os.path.isdir(PRT_TABELAS):
+        pytest.skip("tabelas ainda não geradas")
+    trocadas = []
+    for f in sorted(os.listdir(PRT_TABELAS)):
+        if not f.endswith(".md"):
+            continue
+        texto = open(os.path.join(PRT_TABELAS, f), encoding="utf-8").read()
+        if para_portugal(texto) != texto:
+            trocadas.append(f)
+    assert not trocadas, trocadas
+
+
+# ── o que o texto em português de Portugal cita ─────────────────────────────────────────────────
+
+#: Para cada capítulo, o que ele tem de citar do programa. Cada capítulo vale a partir do momento em que
+#: deixa de citar o Brasil (`_prt_capitulo`); antes disso, é saltado, sem esconder os demais.
+PRT_CITACOES = {
+    "23_balanco_diario.md": ("24,4%", "6 732 L", "4 324 L", "488 L", "2 865 L", "2 380 L", "1 943 L",
+                             "9 L", "1 920 L"),
+    "04_o_projeto_e_a_chuva.md": ("150 m²", "0,85", "2,0 mm", "719 mm", "Lisboa"),
+    "05_a_edificacao_e_a_demanda.md": ("600 L/dia", "168 L/dia", "28%", "61"),
+    "06_a_primeira_simulacao.md": ("15,39%", "106,4 L/dia", "53,3%", "3 000"),
+    "07_escolher_o_volume.md": ("5 000 L", "17,49%", "61,3%", "24,01%"),
+    "08_reservatorio_superior.md": ("5,1 kWh", "6 000 L"),
+    "10_quanto_custa.md": ("11,19 €", "ilustrativo"),
+    "11_quanto_carbono_evita.md": ("1 026 kg", "59,0 anos", "20,9 anos"),
+    "12_qual_volume_escolher.md": ("5 000 L", "12 000 L", "1 000 L", "2 000 L", "17,88%"),
+    "14_comparar_cidades.md": ("Porto", "Funchal", "17,49%", "22,04%", "12,98%", "47,3"),
+}
+
+
+@pytest.mark.parametrize("arquivo", sorted(PRT_CITACOES))
+def test_prt_o_capitulo_cita_os_numeros_do_programa(arquivo):
+    texto = _prt_capitulo(arquivo)
+    for termo in PRT_CITACOES[arquivo]:
+        assert termo in texto, f"{arquivo} não cita {termo}"

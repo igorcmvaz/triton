@@ -26,7 +26,7 @@ from __future__ import annotations
 import html
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Dict, Iterable, Literal, Optional, Tuple
+from typing import Dict, Literal, Optional, Tuple
 
 TipoDeRegistro = Literal["artigo", "norma", "base_de_dados", "software", "relatorio", "livro"]
 

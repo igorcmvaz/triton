@@ -1,149 +1,94 @@
 # Comparar cidades
 
-> **Pergunta que este guia responde:** o mesmo projeto renderia o mesmo em outra cidade?
+> **Pergunta a que este guia responde:** o mesmo projeto renderia o mesmo noutra cidade?
 
-Não renderia, e a diferença não segue a direção que a intuição sugere. A expectativa
-corrente é a de que mais chuva implique mais aproveitamento, e essa expectativa está
-errada com frequência suficiente para merecer uma seção inteira.
+Não renderia, e a diferença não é a que a chuva sozinha sugere. A expectativa corrente é que mais chuva dê mais aproveitamento. Isso vale como ordenação, mas falha como proporção, e falha por uma razão que merece uma secção inteira.
 
-> **Só na Edição Brasil (BRL).** As cidades brasileiras deste guia vêm da base climática
-> nacional da Edição Brasil. Na International Edition, a mesma comparação se faz com
-> arquivos de chuva próprios, um por cidade; todo o resto do guia vale como está escrito.
+> **As suas cidades.** O programa traz a chuva diária de 278 concelhos do Continente (E-OBS) e a série de exemplo do Funchal. Para qualquer outro local, use um ficheiro de chuva próprio, um por cidade; tudo o resto do guia vale como está escrito.
 
 ---
 
 ## Como fazer a comparação
 
-O procedimento é simples e consiste em manter todos os parâmetros do projeto e trocar
-apenas a série de precipitação. Na etapa **1. Projeto e Chuva**, escolha outra cidade da
-base climática nacional ou carregue um arquivo próprio, e execute novamente a simulação.
-Para comparar várias cidades sem refazer o projeto a cada uma, salve um arquivo por
-cidade, conforme a seção {{n:19}} recomenda.
+O procedimento é simples: manter todos os parâmetros do projeto e mudar apenas a série de precipitação. Na etapa **1. Projeto e Chuva**, escolha outro concelho da base ou carregue um ficheiro próprio, e execute de novo a simulação. Para comparar várias cidades sem refazer o projeto de cada vez, guarde um ficheiro por cidade, como a secção {{n:19}} recomenda.
 
 ---
 
 ## O resultado
 
-O projeto do tutorial — 150 m² de captação, 600 L/dia de demanda, 28% de fração
-atendível e cisterna de 4.000 L — levado a quatro capitais brasileiras produz a tabela
-abaixo.
+O projeto do tutorial — 150 m² de captação, 600 L/dia de procura, 28% de fração atendível e cisterna de 5 000 L — levado ao Porto e ao Funchal dá a tabela abaixo, ao lado de Lisboa.
 
 <!-- inclui: _tabelas/cap14_cidades.md -->
 
 A {{fig:fig03_cidades}} separa as duas grandezas, cada uma na sua escala.
 
-![Chuva anual e potencial de economia nas quatro capitais](../figuras/fig03_cidades.png)
+![Chuva anual e potencial de economia nas três cidades](../figuras/fig03_cidades.png)
 
-*Figura 99 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de demanda, fração atendível de 28% e cisterna de 4.000 L, em quatro capitais. Manaus tem a maior precipitação anual e não tem o maior potencial de economia.*
+*Figura 99 — (a) Precipitação média anual e (b) potencial de economia de água potável do projeto do tutorial, com 150 m² de captação, 600 L/dia de procura, fração atendível de 28% e cisterna de 5 000 L, em Lisboa, no Porto e no Funchal. O potencial acompanha a chuva anual, mas não proporcionalmente.*
 
 ---
 
-## O regime manda mais que a lâmina
+## A oferta em relação à procura, e o seu calendário
 
-Lidas lado a lado, as colunas de chuva anual e de potencial de economia não andam
-juntas, e os dois casos extremos da tabela mostram por quê. Manaus recebe 20% mais chuva
-que Florianópolis — 2.155 mm anuais contra 1.795 mm — e ainda assim rende 23% menos:
-20,96% contra 27,12% de potencial. Brasília, no extremo oposto, recebe 23% menos chuva
-que Florianópolis e rende pouco mais da metade, com 15,45%.
+Lidas lado a lado, as colunas de chuva anual e de potencial de economia ordenam as cidades da mesma maneira, mas não andam em proporção. O Porto recebe 67% mais chuva do que Lisboa (1 199 mm contra 719 mm) e rende 4,55 pontos percentuais a mais: 22,04% contra 17,49%. Lisboa recebe 34% mais chuva do que o Funchal (719 mm contra 538 mm) e rende 4,51 pontos a mais, 17,49% contra 12,98%. Face ao teto de 28%, o Porto chega a 79%, Lisboa a 62% e o Funchal a 46%.
 
-A explicação está na razão entre o mês mais chuvoso e o mês menos chuvoso de cada
-cidade, que mede o quanto a chuva se concentra ao longo do ano.
+A explicação está em dois eixos. O primeiro é a **oferta em relação à procura**. Com 150 m² e coeficiente de 0,85, a chuva anual dá cerca de 153 m³ no Porto, 92 m³ em Lisboa e 69 m³ no Funchal, contra uma procura pluvial de 61 m³ por ano. O Porto tem 2,5 vezes o que precisa, Lisboa 1,5 vez e o Funchal pouco mais do que 1 vez. Onde a oferta sobra, a cisterna enche com facilidade e o potencial aproxima-se do teto; onde mal chega, a oferta limita-o, por maior que seja o reservatório.
 
-<!-- tabela: Razão entre o mês mais chuvoso e o menos chuvoso nas quatro capitais -->
+O segundo eixo é o **calendário**. A tabela acima mostra-o duas vezes. A fração de dias com chuva é de 31% no Porto, 22% em Lisboa e 42% no Funchal. E a razão entre o mês mais chuvoso e o menos chuvoso, que mede quanto a chuva se concentra ao longo do ano, é de 9,8 no Porto, 14,8 no Funchal e 47,3 em Lisboa.
+
+<!-- tabela: Razão entre o mês mais chuvoso e o menos chuvoso nas três cidades -->
 | Cidade | Razão | O que significa |
 | :--- | ---: | :--- |
-| Florianópolis | 3,2× | chove o ano inteiro, com estação mais úmida |
-| São Paulo | 4,0× | idem, um pouco mais marcado |
-| Manaus | 17,3× | seca amazônica curta mas real |
-| Brasília | 1.192× | **o mês mais seco é seco de verdade** |
+| Porto | 9,8× | chove o ano todo, com uma estação mais húmida marcada |
+| Funchal | 14,8× | chuva frequente, mas com um verão claramente mais seco |
+| Lisboa | 47,3× | **um verão quase sem chuva depois de um inverno húmido** |
 
-Em Brasília, os meses de junho, julho e agosto praticamente não registram chuva. Um
-reservatório dimensionado para atravessar noventa dias de estiagem precisaria armazenar
-noventa dias de demanda pluvial, o que neste projeto corresponderia a 15.120 litros —
-volume que nenhuma cisterna residencial comporta. A consequência é que o sistema
-permanece ocioso durante um trimestre inteiro por ano, e o potencial anual reflete essa
-ociosidade.
+Em Lisboa, o verão é o que pesa. A cisterna enche no inverno e seca na estiagem: o atendimento pleno chega a 61,3% dos dias com 5 000 L, contra 77,9% no Porto e 44,5% no Funchal com o mesmo reservatório. Um reservatório dimensionado para atravessar noventa dias de estiagem teria de armazenar noventa dias de procura pluvial, o que neste projeto são 15 120 litros — um volume que nenhuma cisterna residencial comporta. É por isso que a curva de volume de Lisboa não satura (secção {{n:7}}) e que o sistema fica parado durante parte de cada ano.
 
-> **A conclusão prática.** ==O aproveitamento pluvial rende mais onde a chuva é
-> frequente do que onde ela é abundante.== Cidades de clima subtropical úmido com chuva
-> bem distribuída constituem o melhor caso brasileiro; cidades de clima tropical com
-> estação seca marcada constituem o pior, por mais intensa que seja a chuva da estação
-> úmida.
+> **A conclusão prática.** ==O potencial do aproveitamento pluvial depende de a chuva chegar, e de chegar quando é precisa.== O Porto mostra o que a abundância faz; Lisboa mostra o que um verão seco tira a uma chuva razoável; o Funchal mostra o que acontece quando a chuva, mesmo frequente, quase não excede a procura.
 
 ---
 
-A {{fig:fig18_capitais}} apresenta o regime mensal das quatro capitais na mesma escala.
+A {{fig:fig18_capitais}} apresenta o regime mensal das três cidades na mesma escala.
 
-![O regime mensal das quatro capitais](../figuras/fig18_capitais.png)
+![O regime mensal das três cidades](../figuras/fig18_capitais.png)
 
-*Figura 99 — Precipitação média mensal em (a) Florianópolis, (b) São Paulo, (c) Brasília e (d) Manaus, na mesma escala; a linha tracejada é a média mensal de cada série. Florianópolis e São Paulo distribuem a chuva ao longo de todo o ano; Manaus tem estação seca curta, de julho a outubro; e Brasília praticamente não recebe chuva de maio a setembro. É essa distribuição, e não o total anual, que decide o desempenho do reservatório.*
+*Figura 99 — Precipitação média mensal em (a) Lisboa, (b) Porto e (c) Funchal, na mesma escala; a linha a tracejado é a média mensal de cada série. Lisboa concentra a chuva no inverno e tem um verão quase seco (a razão entre o mês mais e o menos chuvoso é de 47,3); o Porto é mais repartido (9,8); o Funchal fica entre os dois (14,8). É esta distribuição, e não o total anual sozinho, que decide o comportamento do reservatório.*
 
 ---
 
-## O que a literatura já tinha encontrado
+## Atenção ao Funchal
 
-O resultado das quatro capitais não é peculiaridade deste tutorial. Ghisi e Souza (2012)
-simularam casas em treze cidades de países diferentes, com o próprio Triton, e chegaram à
-mesma conclusão por outro caminho: o maior potencial de economia aparece onde a chuva é
-constante, o que nem sempre coincide com a maior lâmina anual, e as cidades com
-estiagem bem definida exigem reservatórios maiores para o mesmo desempenho.
+A série do Funchal é de natureza diferente das outras duas. Lisboa e o Porto usam a E-OBS, uma grelha interpolada de observações, média das células dentro do concelho. A E-OBS não dá uma série utilizável para o Funchal (faltam dados em 22% dos dias de 1991 a 2020, e o critério admite no máximo 1%), pelo que o exemplo usa a reanálise ERA5, uma célula de grelha de cerca de 9 km, e não um registo de estação. Comparar o Funchal com Lisboa e o Porto mistura, por isso, dois produtos. É a série menos fiável das três, e o seu valor serve para ilustrar o método, não para dimensionar. Num projeto real, use a série medida no local.
 
-No Brasil, dois levantamentos mostram a amplitude da variação dentro de um só estado ou
-de uma só cidade. Ghisi, Lopes e Rupp (2016) fizeram 2.700 simulações para casas em 60
-cidades de Santa Catarina, com séries diárias longas, e obtiveram reservatórios ideais de
-1.000 a 16.000 L e economias médias de 75 a 461 litros por dia por casa. Ghisi e Custódio
-(2019), com 33.720 cenários para o setor residencial de Joinville, encontraram potencial
-médio de 18,5% com água de chuva só nas bacias sanitárias, e de 40,8% quando a máquina de
-lavar roupa também a recebe — a mesma escolha de uso que a seção {{n:5}} discute.
+---
 
-A lição para quem compara cidades é a mesma dos dois estudos: a série local decide, e um
-volume ou um potencial trazido de outra cidade, mesmo vizinha, não substitui a simulação.
+## Não leve um resultado de outra cidade
+
+A comparação acima não é peculiaridade deste tutorial, e a lição para quem compara cidades é a mesma em qualquer estudo: a série local decide, e um volume ou um potencial trazido de outra cidade, ainda que vizinha, não substitui a simulação. Um número publicado para um clima que não é o seu é uma hipótese a testar, não um resultado a adotar.
 
 ### Muitas cidades de uma vez
 
-Para comparar mais de três ou quatro cidades, trocar a série à mão deixa de ser prático.
-A base climática nacional traz séries para 652 municípios, e a planilha de cenários da
-seção {{n:19}} roda o mesmo projeto contra várias delas numa única execução, gravando um
-resultado por linha. Mantenha na planilha os mesmos parâmetros de edificação e de
-reservatório em todas as linhas, e varie só a cidade: é o que isola o efeito do clima.
+Para comparar mais de três ou quatro cidades, trocar a série à mão deixa de ser prático. A folha de cenários da secção {{n:19}} corre o mesmo projeto contra várias séries numa única execução, gravando um resultado por linha. Mantenha na folha os mesmos parâmetros de edifício e de reservatório em todas as linhas, e varie apenas a série: é o que isola o efeito do clima.
 
 ---
 
 ## O que mais muda entre cidades
 
-A precipitação não é a única grandeza que varia entre municípios, e as outras duas podem
-inverter a conclusão econômica de um estudo comparativo.
+A precipitação não é a única grandeza que varia entre cidades, e as outras duas podem inverter a conclusão económica de um estudo comparativo.
 
-A primeira é a **tarifa**. O preço do metro cúbico varia consideravelmente pelo país, e o
-regime de mínimo varia ainda mais. Um potencial de 15% em município de tarifa elevada e
-regime de disponibilidade pode render mais dinheiro que um potencial de 27% em município
-que pratique franquia sobre o consumo mínimo, e a seção {{n:16}} trata dessa mecânica em
-detalhe.
+A primeira é a **tarifa**. O preço do metro cúbico varia de uma entidade gestora para outra, e a estrutura também: Lisboa soma à água da EPAL o saneamento e os resíduos da Câmara Municipal; o Porto tem o tarifário da Águas e Energia do Porto; o Funchal, o da Câmara Municipal do Funchal (os três de 2026, transcritos em `triton/data/portugal_tarifarios.json`). Um potencial de 15% sob uma tarifa íngreme pode render mais dinheiro do que um de 27% sob uma tarifa baixa, e a secção {{n:16}} trata do mecanismo em pormenor. As cidades de exemplo levam os seus tarifários publicados, mas só o tutorial de Lisboa leva custos, pelo que este guia as compara pelo potencial de poupança, e não pelo período de recuperação. O IVA do Funchal (4%) está por confirmar; ver `examples/LEIA.md`.
 
-A segunda é o **fator de emissão da rede elétrica**, que altera simultaneamente a
-emissão evitada por metro cúbico de água substituída e o custo ambiental do bombeamento.
-A Edição Brasil traz o fator discriminado por região; na International Edition, ele é
-informado em cada projeto.
+A segunda é o **fator de emissão da rede elétrica**, que altera em simultâneo a emissão evitada por metro cúbico de água substituída e o custo ambiental da bombagem. Na Edição Portugal, introduz-se em cada projeto. A eletricidade só vem tabelada para o Funchal (tarifa da Empresa de Eletricidade da Madeira, fonte secundária, a confirmar).
 
-> **Ao comparar cidades num estudo, deixe claro o que variou.** Comparar apenas a
-> precipitação, mantendo tarifa e fator de emissão fixos, isola o efeito climático e
-> constitui comparação legítima, desde que declarada como tal. Variar todas as grandezas
-> simultaneamente produz um número que não se consegue explicar, porque nele se somam
-> efeitos de sinais possivelmente opostos.
+> **Ao comparar cidades num estudo, deixe claro o que variou.** Comparar só a precipitação, mantendo fixos a tarifa e o fator de emissão, isola o efeito climático e é uma comparação legítima, desde que declarada como tal. Variar todas as grandezas ao mesmo tempo produz um número que não se consegue explicar, porque nele se somam efeitos de sinais possivelmente opostos.
 
 ---
 
 ## O volume ideal também muda, mas pouco
 
-A última coluna da tabela reserva uma surpresa: o volume ideal varia de 4.000 a 5.000 L
-entre as quatro capitais, uma amplitude modesta diante da diferença de regime que as
-separa.
+A última coluna da tabela guarda uma surpresa menor: com o limiar de 1 %/m³, o volume ideal é de 5 000 L em Lisboa e no Porto e de 4 000 L no Funchal, uma amplitude modesta perante a diferença de regimes que as separa.
 
-A explicação está na natureza do critério. O volume ideal pelo ganho marginal localiza o
-joelho da curva de aproveitamento, e a posição desse joelho é governada pelo **tamanho
-típico dos eventos de chuva**, que é razoavelmente parecido entre as quatro cidades. O
-que varia fortemente é o **patamar** que a curva atinge depois do joelho, e não o ponto
-em que ela dobra.
+A explicação está na natureza do critério. O volume ideal pelo ganho marginal localiza o joelho da curva de aproveitamento, e a posição desse joelho depende de como os primeiros metros cúbicos de armazenamento enchem e esvaziam contra uma procura diária de 168 L, que é a mesma nas três cidades. O que varia fortemente é o **patamar** que a curva atinge depois do joelho (17,49%, 22,04% e 12,98%), e não o ponto em que dobra. A coincidência pertence a esta casa, a este limiar e a estas três cidades; não é uma lei, e outra procura ou outro limiar podem separá-las.
 
-Dito de outro modo: em Brasília acerta-se o mesmo volume que em Florianópolis e colhe-se
-consideravelmente menos água com ele.
+Dito de outro modo: no Funchal acerta-se quase o mesmo volume que no Porto e colhe-se bastante menos água com ele.

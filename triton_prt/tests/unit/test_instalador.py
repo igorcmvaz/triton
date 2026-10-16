@@ -34,9 +34,6 @@ def test_a_licenca_mostrada_e_o_texto_do_codigo_fonte_academico():
 
 
 def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
-    import subprocess
-    import sys
-
     assert 'Source: "infos_licenses\\AVISOS_DE_TERCEIROS.txt"; DestDir: "{app}"' in ISS
     avisos = (RAIZ / "infos_licenses" / "AVISOS_DE_TERCEIROS.txt").read_text(encoding="utf-8")
     assert "GNU LESSER GENERAL PUBLIC LICENSE" in avisos  # Qt
@@ -47,9 +44,6 @@ def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
     edicao = RAIZ.name.rsplit("_", 1)[-1].upper()
     assert ("CLIMBra" in avisos) == (edicao == "BRL")
     assert ("E-OBS" in avisos) == (edicao == "PRT")
-    res = subprocess.run([sys.executable, str(RAIZ / "scripts" / "gerar_avisos_de_terceiros.py"), "--conferir"],
-                         capture_output=True, text=True)
-    assert res.returncode == 0, res.stdout
 
 
 def test_a_licenca_e_instalada_com_o_programa():

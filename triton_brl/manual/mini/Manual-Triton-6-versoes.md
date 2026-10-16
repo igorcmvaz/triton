@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Correções, bugs e versionamento. Versão 1.0.0. Florianópolis: Universidade Federal de Santa
+> Correções, bugs e versionamento. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -97,7 +97,7 @@ Tabela 15 — Avisos que não interrompem o cálculo e precisam constar do estud
 
 Tabela 16 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 17 — Correções que alteram resultados na versão 1.0.0
+Tabela 17 — Correções que alteram resultados na versão 0.1.0
 
 Tabela 18 — Itens previstos para a versão 1.1
 
@@ -517,9 +517,10 @@ indica correções e ajustes que não alteram a arquitetura. A passagem do Netun
 o Triton, tratada na seção 6.1, é o único caso de troca do primeiro número na
 história do programa.
 
-A versão 1.0.0 é o primeiro lançamento público do Triton. Os números anteriores a
-ela foram de desenvolvimento, e nunca chegaram a circular; nenhum estudo foi feito com
-eles.
+A versão 0.1.0 é a primeira versão pública do Triton e é um beta: o programa ainda está em
+desenvolvimento, e a numeração sobe (0.2.0, 0.3.0 e assim por diante) até a 1.0.0, que será a
+primeira versão oficial. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
+a circular; nenhum estudo foi feito com eles.
 
 ---
 
@@ -544,23 +545,23 @@ mesmo registro.
 <!-- tabela: **Tabela 16** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **1.0.0** | 14 de outubro de 2026 | Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição. | 0 |
+| **0.1.0 (beta)** | 15 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois. | 0 |
 
 ---
 
-### 6.3.3. Versão 1.0.0 — 14 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
 
-> **Em uma frase.** Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com
-> nome, versionamento e repositório próprios para cada edição.
+> **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
+> nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois.
 
 #### 6.3.3.1. Novidades
 
 O Triton é o filho do Netuno. Mantém o motor de simulação, a avaliação de ciclo de vida, a linha de
 tratamento, a decisão multicritério e a modulação probabilística do Netuno 5.0.1, e passa a ser
 distribuído em três programas independentes, um por edição: Brasil, Internacional e Portugal. Cada um
-tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 1.0.0.
+tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 0.1.0, ainda em beta.
 
-O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 1.0.0 já inclui as
+O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 0.1.0 já inclui as
 correções feitas até o Netuno 5.0.1, entre elas a da demanda mensal e semanal igual a zero, e a regra de
 operação de Fewkes (φ) como opção em todos os módulos.
 
@@ -568,9 +569,9 @@ Na Edição Brasil, a base de tarifas de 652 municípios traz 617 conferências 
 
 #### 6.3.3.2. Correções que alteram resultados
 
-Nenhuma em relação ao Netuno 5.0.1, de que o Triton 1.0.0 parte.
+Nenhuma em relação ao Netuno 5.0.1, de que o Triton 0.1.0 parte.
 
-<!-- tabela: **Tabela 17** — Correções que alteram resultados na versão 1.0.0 -->
+<!-- tabela: **Tabela 17** — Correções que alteram resultados na versão 0.1.0 -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 
@@ -717,7 +718,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 > e não com a que gostaria de ter.
 
 Esta seção resume o `ROADMAP.md` da raiz do repositório Triton, que vale para as três edições e reflete o estado da versão
-1.0.0. Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
+0.1.0 (beta). Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
 grupo de pesquisa, sem data de entrega. Quando um item é implementado, ele sai daqui e
 entra no histórico de versões, com a indicação de se muda o resultado de estudos já
 feitos.
@@ -730,7 +731,7 @@ do próprio programa, descrito na seção «Limitações conhecidas».
 
 ---
 
-### 6.5.1. O que já é estável na 1.0.0
+### 6.5.1. O que já é estável na 0.1.0 (beta)
 
 **Série climática.** 652 municípios brasileiros com séries contínuas projetadas (base
 CLIMBra, CMIP6). **Tarifas.** 652 municípios com catálogo de tarifas transcritas de fontes

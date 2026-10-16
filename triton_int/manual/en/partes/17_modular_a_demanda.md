@@ -2,7 +2,7 @@
 
 > **Question this guide answers:** and when consumption is not the same every day?
 
-Schools close in January and July, beach hotels fill up in summer and offices empty at
+Schools close for holidays, beach hotels fill up in summer and offices empty at
 weekends. Treating any of these buildings as if it had a uniform consumption errs in both
 directions at once: it overestimates the demand in the empty periods and underestimates it
 at the peaks. ==The error does not cancel out over the year, because what matters to the
@@ -48,42 +48,43 @@ In step **2. Building & Demand**, choose the mode. The table of the period opens
 
 Modulating the demand does not change only the annual total consumed; it changes the timing
 match between supply and demand, which is precisely the problem the tank exists to solve. Two
-opposite cases illustrate the reach of this effect, and both are common in Brazil.
+cases from the manual illustrate the reach of this effect.
 
-**For.** A school that closes in July, in the south of the country, closes precisely when it
-rains least. The cistern gets through the dry spell without being drawn on and arrives full
-in August. The system yields **more** than the annual mean would suggest.
+**A school that closes for holidays.** The cistern is not drawn on while the pupils are away.
+Whether that helps depends on when the holiday falls relative to the rain. In the London school
+of the manual (300 pupils, 40 L per pupil per day, demand modulated by day of the week, a
+30,000 L tank), the weekly profile yields 12.58%, against 12.63% for the same annual demand
+spread evenly: 0.05 percentage points. Rain in London is well distributed through the year, so
+the weekly rhythm of a school changes almost nothing. A school profile with term and holiday
+months would test the idea of a closing during the dry season; the manual has no such case.
 
-**Against.** A beach hotel fills up in January and February, when it rains most on the
-southern coast. It looks good, but the concentrated demand empties the cistern in days, and
-for the rest of the year it stays idle. The system yields **less**.
+**A beach hotel with concentrated occupancy.** In the Cape Town hotel of the manual (800 m² of
+roof, 60 guests, 200 L per guest per day, 45% suppliable by rainwater, a 25,000 L tank),
+occupancy runs from 95% in January to 20% in June, and the hotel is fullest from December to
+February, the dry season. Run with the Cape Town series, the monthly profile yields 9.83%
+against 10.97% for the same annual demand spread evenly (a mean of 5,779.9 L/day): 1.14
+percentage points less. The demand is concentrated in the months with the least rain, and the
+tank, which fills in winter, is drawn down in the dry summer.
 
-The two cases look opposite and are not, and it is worth stating the rule carefully, because
-the intuitive wording — «demand in phase with the rain yields more» — does not survive the
-second example. The hotel has a demand **in phase** with the rain, since both peak in summer,
-and still yields less. What separates the two cases is not the phase, it is the
-**concentration**.
+The two cases look different, and the rule they support has two parts. ==A demand spread over the
+year makes better use of the same tank; a demand concentrated in a few months loses yield, and
+loses more when those months are the dry ones.== The Cape Town hotel combines both effects,
+concentration and phase: its peak falls in the dry season, and it is not possible to separate the
+two with this one run. To isolate the effect of concentration, compare the same profile shifted by
+six months, or against a constant demand.
 
-==A demand spread over the year makes better use of the same tank; a demand concentrated in a
-few months empties it in days and leaves it idle for the rest of the year, even if those
-months are the wettest.== The school benefits because its idle period coincides with the dry
-spell, not because it is in phase with the rain.
-
-Run with the Florianópolis series, the same annual consumption and the same 4,000 L tank, the
-three hypotheses separate: a constant demand yields 27.1%, the school profile yields 27.3% and
-the beach hotel profile yields 25.7%. A difference of almost one and a half percentage points,
-against a ceiling of 28%, is large for a change that does not alter a single litre of the
-annual consumption, and it is entirely invisible to any calculation made on means — which is
-exactly why Triton simulates day by day. The three profiles are in
+A difference of more than one percentage point is large for a change that does not alter a
+single litre of the annual consumption, and it is entirely invisible to any calculation made on
+means, which is exactly why Triton simulates day by day. The profiles are in
 {{fig:fig19_modulacao}}, and the yield of each one in {{fig:fig20_tipologias}}.
 
 ![Three demand profiles with the same annual consumption](../figuras/fig19_modulacao.png)
 
-*Figure 36 — The three demand profiles used in the comparison, expressed as the ratio between the month's demand and the mean demand. All three have exactly the same annual consumption; what changes is how it is spread over the twelve months.*
+*Figure 36 — Demand profiles used in the comparison, expressed as the ratio between the month's demand and the mean demand. All have exactly the same annual consumption; what changes is how it is spread over the twelve months.*
 
 ![The demand against the rain, and what each profile yields](../figuras/fig20_tipologias.png)
 
-*Figure 99 — (a) Monthly demand profiles of the school and the beach hotel over the mean monthly precipitation of Florianópolis; (b) saving potential of each profile with the same 4,000 L tank. The hotel profile concentrates almost a third of the annual consumption in two months, and it is this concentration, not the phase, that costs it almost one and a half percentage points.*
+*Figure 99 — (a) Demand profiles of the school and the hotel over the mean monthly precipitation of the city of each case; (b) saving potential of each profile against the same annual demand spread evenly. The hotel profile concentrates the demand in the dry months, and it is this concentration that costs it 1.14 percentage points.*
 
 ---
 

@@ -1,33 +1,32 @@
-# Modular a demanda por calendário
+# Modular a procura por calendário
 
-> **Pergunta que este guia responde:** e quando o consumo não é o mesmo todo dia?
+> **Pergunta que este guia responde:** e quando o consumo não é o mesmo todos os dias?
 
-Escolas fecham em janeiro e julho, hotéis de praia enchem no verão e escritórios esvaziam
-nos fins de semana. Tratar qualquer uma dessas edificações como se tivesse consumo
-uniforme erra nos dois sentidos simultaneamente: superestima a demanda nos períodos
-vazios e a subestima nos períodos de pico. ==O erro não se compensa ao longo do ano,
-porque o que importa ao sistema pluvial não é o total consumido e sim o encontro entre o
-consumo e a chuva disponível naquele dia.==
+As escolas fecham para férias, os hotéis enchem no verão e os escritórios esvaziam ao fim de
+semana. Tratar qualquer um destes edifícios como se tivesse um consumo uniforme erra nos dois
+sentidos ao mesmo tempo: sobrestima a procura nos períodos vazios e subestima-a nos picos.
+==O erro não se compensa ao longo do ano, porque o que importa ao sistema pluvial não é o total
+consumido, e sim o encontro entre o consumo e a chuva disponível nesse dia.==
 
 ---
 
 ## Os quatro modos
 
-O programa oferece quatro modos de modulação da demanda, que diferem no número de valores que o usuário informa e na situação em que cada um se justifica ({{fig:fig40_modos}}).
+O programa oferece quatro modos de modulação da procura, que diferem no número de valores que o
+utilizador informa e na situação em que cada um se justifica ({{fig:fig40_modos}}).
 
 
 
-![Os quatro modos de modulação da demanda](../figuras/fig40_modos.png)
+![Os quatro modos de modulação da procura](../figuras/fig40_modos.png)
 
-*Figura 99 — Os quatro modos de modulação, o que cada um pede ao usuário e a situação em que cada um se justifica. O modo diário só faz sentido quando existe medição real, porque inventar uma série diária acrescenta precisão aparente sem acrescentar informação.*
+*Figura 99 — Os quatro modos de modulação, o que cada um pede ao utilizador e a situação em que cada um se justifica. O modo diário só faz sentido quando existe medição real, porque inventar uma série diária acrescenta precisão aparente sem acrescentar informação.*
 
 
-Em qualquer um deles você pode modular três coisas de forma independente: a
-**demanda per capita**, o **número de ocupantes** e a **fração atendível por água
-pluvial**.
+Em qualquer um deles pode modular três coisas de forma independente: a **procura per capita**, o
+**número de ocupantes** e a **fração suprível por água da chuva**.
 
-Modular a ocupação costuma ser mais fiel que modular a demanda: numa escola em
-férias não é o aluno que bebe menos água, é que não há aluno.
+Modular a ocupação costuma ser mais fiel do que modular a procura: numa escola em férias, não é
+o aluno que bebe menos água, é que não há aluno.
 
 ---
 
@@ -35,93 +34,93 @@ férias não é o aluno que bebe menos água, é que não há aluno.
 
 Na etapa **2. Edificação e Consumo**, escolha o modo. Abre-se a tabela do período.
 
-- Célula vazia ou zerada **cai para o valor constante**. Isso é deliberado: permite
-  modular só os meses que interessam e deixar o resto no padrão.
-- Os valores podem ser digitados ou carregados de CSV.
-- No modo diário, o primeiro dia da série de demanda alinha com o primeiro dia da
-  **série de chuva**. Se as duas tiverem tamanhos diferentes, a de demanda é
-  reciclada ciclicamente.
+- Uma célula vazia ou a zero **cai para o valor constante**. É deliberado: permite modular só os
+  meses que interessam e deixar o resto no valor de partida.
+- Os valores podem ser digitados ou carregados de um ficheiro CSV.
+- No modo diário, o primeiro dia da série de procura alinha com o primeiro dia da **série de
+  chuva**. Se as duas tiverem comprimentos diferentes, a de procura é reciclada ciclicamente.
 
 ---
 
-## Por que isso muda o resultado
+## Por que isto muda o resultado
 
-Modular a demanda não altera apenas o total anual consumido; altera o casamento temporal
-entre oferta e demanda, que é precisamente o problema que o reservatório existe para
-resolver. Dois casos opostos ilustram o alcance desse efeito, e ambos são comuns no
-Brasil.
+Modular a procura não altera apenas o total anual consumido; altera o encontro no tempo entre
+oferta e procura, que é precisamente o problema que o reservatório existe para resolver. Dois
+casos do manual ilustram o alcance deste efeito.
 
-**A favor.** Uma escola que fecha em julho, no sul do país, fecha justamente quando
-chove menos. A cisterna atravessa a estiagem sem ser solicitada e chega cheia em
-agosto. O sistema rende **mais** do que a média anual sugeriria.
+**Uma escola com perfil semanal.** Na escola do Porto do manual (300 alunos, 40 L por aluno e por
+dia, procura modulada por dia da semana, reservatório de 30 000 L), o perfil semanal rende 23,03%,
+contra 23,16% para a mesma procura anual repartida por igual: 0,13 pontos percentuais. O ritmo
+semanal de uma escola quase nada muda neste caso. O ganho que se imagina quando a escola fecha na estação seca
+exigiria um perfil mensal de escola, com períodos letivos e férias, e o manual não tem esse caso.
 
-**Contra.** Um hotel de praia enche em janeiro e fevereiro, quando chove mais no
-litoral sul. Parece bom, mas a demanda concentrada esvazia a cisterna em dias, e o
-resto do ano ela fica ociosa. O sistema rende **menos**.
+**Um hotel com ocupação concentrada.** No hotel de Lisboa do manual (800 m² de cobertura, 60
+hóspedes, 200 L por hóspede e por dia, 45% suprível por água da chuva, reservatório de 25 000 L),
+a ocupação, ilustrativa, vai de 40% em janeiro a 100% em agosto e volta a 45% em dezembro. Com a
+série de chuva de Lisboa, o perfil mensal rende 10,36%, contra 11,07% para a mesma procura anual
+repartida por igual (média de 8 365,1 L/dia): menos 0,71 pontos percentuais. A procura concentra-se
+de junho a setembro, o verão seco de Lisboa, enquanto a chuva cai sobretudo de outubro a março. O
+reservatório enche no inverno, quando o hotel está meio vazio, e esvazia-se no verão, quando a
+procura é máxima e já não chove.
 
-Os dois casos parecem opostos e não o são, e convém enunciar a regra com cuidado,
-porque a formulação intuitiva — «demanda em fase com a chuva rende mais» — não
-sobrevive ao segundo exemplo. O hotel tem demanda **em fase** com a chuva, já que
-ambas culminam no verão, e ainda assim rende menos. O que separa os dois casos não é a
-fase, é a **concentração**.
+Os dois casos parecem diferentes, e a regra que sustentam tem duas partes. ==Uma procura repartida
+ao longo do ano aproveita melhor o mesmo reservatório; uma procura concentrada em poucos meses
+perde rendimento, e perde mais quando esses meses são os secos.== O hotel de Lisboa junta os dois
+efeitos, concentração e desfasamento: o pico cai na estação seca, e uma só simulação não consegue
+separar um do outro. Para isolar o efeito da concentração, compare o mesmo perfil deslocado seis
+meses, ou contra uma procura constante.
 
-==Uma demanda distribuída ao longo do ano aproveita melhor um mesmo reservatório;
-uma demanda concentrada em poucos meses o esvazia em dias e o deixa ocioso no resto do
-ano, ainda que esses meses sejam os mais chuvosos.== A escola se beneficia porque o seu
-período ocioso coincide com a estiagem, e não porque esteja em fase com a chuva.
+Uma diferença de 0,71 pontos é considerável para uma alteração que não muda um único litro do
+consumo anual, e é totalmente invisível a qualquer cálculo feito sobre médias, que é justamente
+por isso que o Triton simula dia a dia. Os perfis estão na {{fig:fig19_modulacao}}, e o rendimento
+de cada um, na {{fig:fig20_tipologias}}.
 
-Rodadas com a série de Florianópolis, o mesmo consumo anual e o mesmo reservatório de
-4.000 L, as três hipóteses se separam: demanda constante rende 27,1%, o perfil escolar
-rende 27,3% e o perfil de hotel de praia rende 25,7%. A diferença de quase um ponto e
-meio percentual, num teto de 28%, é grande para uma mudança que não altera um único litro do consumo anual, e
-é inteiramente invisível a qualquer cálculo feito sobre médias — que é justamente por que o Triton simula dia a dia. Os três perfis estão na {{fig:fig19_modulacao}}, e o rendimento de cada um, na {{fig:fig20_tipologias}}.
+![Três perfis de procura com o mesmo consumo anual](../figuras/fig19_modulacao.png)
 
-![Três perfis de demanda com o mesmo consumo anual](../figuras/fig19_modulacao.png)
+*Figura 36 — Perfis de procura usados na comparação, expressos como a razão entre a procura do mês e a procura média. Todos têm exatamente o mesmo consumo anual; o que muda é a forma como se reparte pelos doze meses.*
 
-*Figura 36 — Os três perfis de demanda usados na comparação, expressos como a razão entre a demanda do mês e a demanda média. Os três têm exatamente o mesmo consumo anual; o que muda é a distribuição dele ao longo dos doze meses.*
+![A procura contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
 
-![A demanda contra a chuva, e o que cada perfil rende](../figuras/fig20_tipologias.png)
-
-*Figura 99 — (a) Perfis mensais de demanda da escola e do hotel de praia sobre a precipitação média mensal de Florianópolis; (b) potencial de economia de cada perfil com o mesmo reservatório de 4.000 L. O perfil de hotel concentra em dois meses quase um terço do consumo anual, e é essa concentração, e não a fase, que lhe custa quase um ponto e meio percentual.*
+*Figura 99 — (a) Perfis de procura da escola e do hotel sobre a precipitação média mensal da cidade de cada caso; (b) potencial de poupança de cada perfil contra a mesma procura anual repartida por igual. O perfil do hotel concentra a procura nos meses secos, e é essa concentração que lhe custa 0,71 pontos percentuais. A ocupação do hotel é ilustrativa.*
 
 ---
 
-## A fração atendível também pode variar
+## A fração suprível também pode variar
 
-Menos óbvio e às vezes mais importante. Numa escola, o percentual de uso não potável
-muda entre período letivo e férias: em férias permanecem a lavagem de piso e a rega de
-jardim, que são usos **integralmente** atendíveis por chuva.
+Menos óbvio e, por vezes, mais importante. Numa escola, a percentagem de uso não potável muda
+entre o período letivo e as férias: nas férias mantêm-se a lavagem de pavimentos e a rega do
+jardim, que são usos **inteiramente** supríveis por chuva.
 
-Modular a fração captura isso. Manter fração constante subestima o aproveitamento no
-período de baixa ocupação.
+Modular a fração capta isto. Manter a fração constante subestima o aproveitamento no período de
+baixa ocupação.
 
-Na tabela, a coluna «Não-Potável Interno (%)» é percentual, como todo campo digitado:
-28 significa 28%. No arquivo de projeto, a mesma coluna é gravada como fração, 0,28,
-e a seção {{n:5}} explica por quê. Uma célula com valor entre 0 e 1 fica laranja.
+Na tabela, a coluna «Não Potável Interno (%)» é uma percentagem, como todos os campos digitados:
+28 significa 28%. No ficheiro de projeto, a mesma coluna é guardada como fração, 0,28, e a secção
+{{n:5}} explica porquê. Uma célula com um valor entre 0 e 1 fica laranja.
 
 ---
 
 ## Cuidados
 
-**Não module o que você não mediu.** Uma modulação inventada acrescenta precisão
-aparente sem acrescentar informação alguma, e transfere ao leitor a impressão de um rigor
-que o dado não tem. Na dúvida, demanda constante explicitamente declarada é mais honesta
-que um perfil mensal arbitrado.
+**Não module o que não mediu.** Uma modulação inventada acrescenta precisão aparente sem
+acrescentar informação alguma, e transmite ao leitor a impressão de um rigor que os dados não
+têm. Na dúvida, uma procura constante declarada com clareza é mais honesta do que um perfil mensal
+arbitrado. Foi o que se fez com a ocupação do hotel: está declarada como ilustrativa.
 
-**Declare a origem do perfil.** Ele pode vir de medição própria, de doze faturas de água e esgoto
-mensais, de referência bibliográfica ou de estimativa, e essas quatro origens não têm o
-mesmo peso probatório num estudo publicado.
+**Declare a origem do perfil.** Pode vir de medição própria, de doze faturas mensais de água, de
+uma referência bibliográfica ou de uma estimativa, e estas quatro origens não têm o mesmo peso
+como prova num estudo publicado.
 
-**Confira o total anual depois de modular.** O programa exibe a demanda média diária
-resultante da modulação, e a divergência entre esse valor e o que se esperava é o
-indicador mais rápido de erro de preenchimento da tabela.
+**Confira o total anual depois de modular.** O programa mostra a procura média diária resultante
+da modulação, e a divergência entre esse valor e o que se esperava é o indicador mais rápido de
+um erro de preenchimento da tabela.
 
 ---
 
 ## O caminho mais simples, quando existe
 
-Se você tem **doze faturas de água e esgoto** da edificação, tem o perfil mensal medido,
-que é a melhor fonte possível. Divida o consumo de cada mês pelo número de dias e
-pelo número de ocupantes, e use o modo mensal.
+Se tem **doze faturas de água** do edifício, tem o perfil mensal medido, que é a melhor fonte
+possível. Divida o consumo de cada mês pelo número de dias e pelo número de ocupantes, e use o
+modo mensal.
 
-Doze faturas valem mais que qualquer referência de literatura.
+Doze faturas valem mais do que qualquer referência da literatura.

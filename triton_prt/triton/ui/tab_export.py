@@ -8,12 +8,23 @@ import os
 import json
 from pathlib import Path
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame,
-    QFileDialog, QMessageBox, QScrollArea, QGridLayout, QGroupBox,
-    QCheckBox, QComboBox, QRadioButton, QButtonGroup, QDialog
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QFrame,
+    QFileDialog,
+    QMessageBox,
+    QScrollArea,
+    QGridLayout,
+    QGroupBox,
+    QCheckBox,
+    QComboBox,
+    QDialog,
 )
 from PySide6.QtCore import Qt, QUrl, QByteArray
-from PySide6.QtGui import QFont, QDesktopServices, QPixmap, QPainter, QColor, QImage
+from PySide6.QtGui import QDesktopServices, QPixmap, QPainter, QColor, QImage
 from PySide6.QtSvg import QSvgRenderer
 
 from triton.ui.textos_da_edicao import prancha_a3, nome_da_prancha_a3, nome_sugerido as _nome_sugerido

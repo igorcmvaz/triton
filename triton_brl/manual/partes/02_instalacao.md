@@ -32,7 +32,7 @@ rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
 <!-- tabela: O que muda entre a Edição Brasil e a International Edition -->
 | | Edição Brasil (BRL) | International Edition (INT) |
 | :--- | :--- | :--- |
-| instalador | `Triton_Setup_1_0_0.exe` | `Triton_INT_Setup_1_0_0.exe` |
+| instalador | `Triton_Setup_0_1_0.exe` | `Triton_INT_Setup_0_1_0.exe` |
 | idioma ao abrir | português | inglês |
 | chuva | base CLIMBra (652 cidades) ou série própria | série própria |
 | tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
@@ -64,7 +64,7 @@ nenhum aviso.
 
 ## A instalação
 
-1. Execute **`Triton_Setup_1_0_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_1_0_0.exe`**
+1. Execute **`Triton_Setup_0_1_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_0_1_0.exe`**
    (International Edition). O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e leia e aceite a licença (código-fonte acadêmico, uso não comercial).

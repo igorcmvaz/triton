@@ -5,8 +5,7 @@
 
 ## The catalogue of variables
 
-The tool draws twenty assumptions, organised in seven groups, and can also draw the climate
-model that supplies the rainfall. On opening, only the three consumption ones are ticked —
+The tool draws twenty assumptions, organised in seven groups. On opening, only the three consumption ones are ticked —
 per capita consumption, number of occupants and non-potable fraction — because they are the
 most uncertain in a new project and the ones the literature shows to move the result (Silva
 and Ghisi, 2016). The others keep the study value until the user ticks them.
@@ -41,7 +40,7 @@ it leaves out.
 <!-- tabela: What each economic and environmental variable does in the calculation, and what it does not touch -->
 | Variable | Acts on | Does not touch |
 | :--- | :--- | :--- |
-| Water and sewerage tariff factor | every monetary value of the water structure — bands, fixed charge, minimum bill, base price of the exponential curve — and sewerage charged in reais (fixed or per m³) | the exponent of the exponential curve; sewerage as a % of water, which already follows the water |
+| Water and sewerage tariff factor | every monetary value of the water structure — bands, fixed charge, minimum bill, base price of the exponential curve — and sewerage charged in currency units (fixed or per m³) | the exponent of the exponential curve; sewerage as a % of water, which already follows the water |
 | Sewerage factor | the sewerage tariff, in the mode the project declares: the percentage, the fixed value or the price per m³ | the water tariff |
 | Tariff escalation | the escalation of water and sewerage in each escalation period, instead of the declared one | the electricity escalation |
 | Electricity tariff | the price of the pumping kWh, instead of the declared one; the tariff flag is still added | — |
@@ -62,29 +61,15 @@ contingencies — and the cistern factor that of the item that defines the optim
 cistern price is the part of the cost that grows with volume, it is the one that shifts the
 volume with the shortest payback.
 
-## The climate models
+## Rainfall uncertainty
 
-> **Brazil Edition (BRL) only.**
-
-When the project rainfall comes from the CLIMBra database (section {{n:15}}), the tool
-offers the list of the database's nineteen climate models. Each realisation draws, with
-equal probability, the series of one of the ticked models, for the same city, the same
-scenario and the same date window as the project. The rainfall factor, if ticked,
-multiplies the drawn series.
-
-Drawing amongst models represents the uncertainty that a single factor cannot capture: the
-models disagree not only on the annual total but on the sequence of dry spells and rainy
-days, which is what empties or fills the cistern. Ticking every model gives each the same
-weight — the usual convention when there is no reason to prefer one of them. With none
-ticked, every realisation uses the project series. The base case always uses the project
-series.
-
-With rainfall read from the user's own file, the list is disabled: the nineteen models only
-exist, for the same city, in the CLIMBra database.
-
-> **In the International Edition (INT).** The CLIMBra database does not exist in this
-> edition, and the list of models does not appear. Rainfall uncertainty is represented by
-> the rainfall factor.
+The International Edition has no database of climate-model series, so rainfall uncertainty enters
+through the **rainfall factor**. The factor multiplies the whole daily series of the project — a
+file the user supplies, or one of the bundled example series — and so keeps its temporal
+structure: the sequence of dry spells and rainy days does not change, only the level. A factor
+drawn with mean 1 and a deviation of 0.10 represents rain 10% wetter or drier than the record, which
+is how to represent a future climate drier or wetter than the past. To test a different sequence of
+dry spells, run the study once with each alternative series and compare.
 
 ## The four distributions
 

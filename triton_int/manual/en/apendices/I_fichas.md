@@ -39,7 +39,7 @@ mistakes. Section {{n:36}}, the limitations that affect your case.
 | expecting more **water** from the upper tank | {{n:33.6}} |
 | too **short a series** | {{n:33.7}} |
 | quality class chosen by **cost** | {{n:33.8}} |
-| comparing with **Netuno 4** without declaring the divergence | {{n:33.9}} |
+| comparing with **another program** without declaring the differences of method | {{n:33.9}} |
 | publishing the volume with the **highest saving** as the recommendation | {{n:33.10}} |
 
 ---
@@ -47,20 +47,20 @@ mistakes. Section {{n:36}}, the limitations that affect your case.
 ## Sheet 3 — The six tariff regimes
 
 <!-- tabela: Reference sheet: the six tariff regimes and the effect of saving -->
-| Regime | When saving | Municipalities |
-| :--- | :--- | ---: |
-| no minimum | every m³ earns a discount | 165 |
-| availability charge | every m³ earns a discount; the fixed part remains | 122 |
-| exponential formula (CORSAN) | every m³ earns a discount; the bill is PB × Cⁿ + basic service | 34 |
-| **allowance within the minimum** | **below the allowance there is no discount at all** | **329** |
-| retroactive allowance | going past it, everything is billed from zero | 2 |
-| payment floor | the bill does not go below the floor | 0 |
+| Regime | When saving |
+| :--- | :--- |
+| no minimum | every m³ earns a discount |
+| availability charge | every m³ earns a discount; the fixed part remains |
+| exponential formula | every m³ earns a discount; the bill is PB × Cⁿ + basic service |
+| **allowance within the minimum** | **below the allowance there is no discount at all** |
+| retroactive allowance | going past it, everything is billed from zero |
+| payment floor | the bill does not go below the floor |
 
 **Quick test:** simulate two consumptions, one inside and one outside the minimum block, and compare
 them with a real bill. If only one matches, the regime is wrong.
 
-The municipality counts are those of the Brazil Edition catalogue; in the International Edition, the
-regime is the one you enter.
+The International Edition has no tariff catalogue: the regime is the one of the table you enter
+(appendix {{n:D}}).
 
 ---
 
@@ -87,7 +87,8 @@ start-ups: E = plate × time ÷ η_motor              kWh
 ```
 
 The plate gives the power **at the shaft**. The motor efficiency separates the shaft from the socket.
-If left blank, Table 13 of NBR 17094-2 applies: 60.5% at half a hp, 69.3% at one hp.
+If left blank, the typical value for the rated power applies; enter the efficiency of your motor when
+you have its data sheet.
 
 ---
 
@@ -100,15 +101,15 @@ If left blank, Table 13 of NBR 17094-2 applies: 60.5% at half a hp, 69.3% at one
 **Building:** area and how it was obtained, coefficient, per capita consumption and its source,
 **suppliable fraction** and the uses that make it up.
 
-**First flush:** depth and mode; the divergence from Netuno 4, if comparing versions.
+**First flush:** depth and mode; and how it differs from the other program, if you compare programs.
 
 **Volume:** selection criterion — marginal-gain threshold, or multi-criteria weights.
 
-**Economics:** municipality, utility, effective date of the table, **minimum-charge regime**, sewage
-percentage, minimum attractive rate of return, inflation, adjustments and period; in the
-International Edition, the currency.
+**Economics:** utility, effective date of the table, **minimum-charge regime**, sewage
+percentage, minimum attractive rate of return, inflation, adjustments and period, and the
+currency.
 
-**Carbon:** boundary (water delivered), service life, tank material, grid database with the year,
+**Carbon:** boundary (water delivered), service life, tank material, grid factor with its source and year,
 **approximate** factors or those with a **screening label**.
 
 **Certification:** that classes 2 to 4 are adaptations of the program; for LEED, the version; for

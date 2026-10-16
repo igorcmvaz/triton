@@ -90,7 +90,7 @@ without being listed in this table.
 | entry point | `main.py` in `triton_brl` | `main.py` in `triton_int` | `main.py` in `triton_prt` |
 | build | `python build_exe.py`, inside each folder | same | same |
 | folder | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_PRT/`, `Triton_PRT.exe` |
-| installer | `Triton_Setup_1_0_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_1_0_0.exe` (`/DEdition=PRT`) |
+| installer | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_PRT_Setup_0_1_0.exe` (`/DEdition=PRT`) |
 | installation folder | `Triton` | `Triton International` | `Triton Portugal` |
 | `.triton` file association | ticked | unticked | unticked |
 | CLIMBra database (`data/climbra.db`, ~784 MB) | embedded; the build stops if it is missing | removed after PyInstaller | removed after PyInstaller |

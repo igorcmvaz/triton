@@ -41,7 +41,7 @@ examples.
 ## Install and run
 
 **Windows installer.** Published on [Zenodo](../README.md#download), together with its SHA-256 checksum:
-`Triton_INT_Setup_1_0_0.exe`. No Python is needed.
+`Triton_INT_Setup_0_1_0.exe`. No Python is needed.
 
 **From source** (Python 3.12 or later):
 
@@ -69,7 +69,7 @@ The Qt interface tests are collected only when PySide6 is installed.
 ## Build the installer
 
 ```bash
-python build_exe.py --installer      # dist/Triton_INT/ and dist/Triton_INT_Setup_1_0_0.exe
+python build_exe.py --installer      # dist/Triton_INT/ and dist/Triton_INT_Setup_0_1_0.exe
 ```
 
 It needs Python 3.12 or later, PyInstaller (`requirements-dev.txt`) and [Inno Setup 6](https://jrsoftware.org/isinfo.php).

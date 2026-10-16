@@ -1,5 +1,7 @@
 # Scripts
 
+> **Ferramentas de desenvolvimento.** Os scripts descritos abaixo ficam no disco do responsável pela manutenção e **não estão no Git** (`.gitignore`). Este ficheiro regista o que cada um faz; o programa, o instalador e os testes não dependem deles.
+
 Ferramentas de linha de comandos que acompanham o código. Nenhuma é importada por `triton/`: correm
 por fora, sobre o projeto. Corra-as a partir desta pasta (`triton_prt/`).
 

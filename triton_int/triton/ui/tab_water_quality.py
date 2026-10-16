@@ -6,23 +6,39 @@ dimensionamento paramétrico de filtros autolimpantes, dosagem de cloro, reatore
 
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QLineEdit, QPushButton, QComboBox, QMessageBox, QFrame, QScrollArea,
-    QCheckBox, QTableWidget, QTableWidgetItem, QHeaderView, QRadioButton
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QGridLayout,
+    QGroupBox,
+    QLabel,
+    QLineEdit,
+    QComboBox,
+    QMessageBox,
+    QFrame,
+    QScrollArea,
+    QCheckBox,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
 )
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont, QColor
 
 from triton.ui.translation import tr, get_current_theme
 from triton.ui.textos_da_edicao import (
-    descricao_da_qualidade, titulo_classe_de_uso, recomendacao_de_polimento, por_edicao, sem_norma_do_brasil,
+    descricao_da_qualidade,
+    titulo_classe_de_uso,
+    recomendacao_de_polimento,
+    por_edicao,
     traduz_descritivo,
 )
 from triton.core.parser import TritonConfig, parse_float, format_ptbr
 from triton.core.chlorination import FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO
 from triton.core.water_quality import (
-    calculate_first_flush_washoff, size_etap, size_first_flush_system,
-    WATER_QUALITY_CLASSES, FirstFlushAnalysis, FirstFlushSizingResult
+    calculate_first_flush_washoff,
+    size_etap,
+    WATER_QUALITY_CLASSES,
+    FirstFlushAnalysis,
 )
 from triton.core.etap_integration import volume_pluvial_anual_m3
 from triton.core.cost_estimates import precos_de_catalogo

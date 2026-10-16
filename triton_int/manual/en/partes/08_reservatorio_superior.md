@@ -3,7 +3,7 @@
 > By the end of this section you will be able to answer the question with a number, not
 > with habit. The answer usually surprises.
 
-The classic Brazilian rainwater harvesting arrangement uses two tanks: a buried cistern,
+The classic rainwater harvesting arrangement uses two tanks: a buried cistern,
 which receives the water from the roof, and an elevated water tank, which feeds the points
 of use by gravity; between the two, a pump lifts the water. The arrangement is so
 widespread that almost every project adopts it without examining why, and this section
@@ -39,12 +39,13 @@ in the carbon.
 | gravity | none | none |
 
 In direct pressurisation, step 4 asks for the model of the pressure pump, chosen from a
-catalogue of six models with the manufacturer's flow × pressure curve, the working
-pressure and the flow at the point of use. The pressure pump starts at each flush, 5.05
-per person per day according to the end-use survey of Mayer et al. (1999), and stays on
-while the cistern of the toilet fills, at the pace of its float valve. The energy is that
-time multiplied by the electrical power. In the tutorial, the smallest model of the
-catalogue would use 40.5 kWh per year, five times the 7.7 kWh of pumping to a tank;
+catalogue of six generic reference models, A to F, each with an illustrative flow × pressure
+curve (none is a real product), the working pressure and the flow at the point of use. The
+pressure pump starts at each flush, 5.05 per person per day according to the end-use
+survey of Mayer et al. (1999), and stays on while the cistern of the toilet fills, at the
+pace of its float valve. The energy is that time multiplied by the electrical power. In
+the tutorial, at a head of 18 m, the smallest model would use 40.0 kWh per year, about
+five times the 7.7 kWh of pumping to a tank;
 section {{n:28}} explains why, and shows that the model chosen weighs more than the
 pressure.
 
@@ -67,8 +68,8 @@ with 4,000 L below plus 1,000 L above.
 
 <!-- inclui: _tabelas/cap08_reservatorio_superior.md -->
 
-Keeping the same storage, the arrangement with an elevated tank delivers about a sixth of
-a percentage point less saving than the single tank. The difference is not a rounding
+Keeping the same storage, the arrangement with an elevated tank delivers 0.15 percentage
+points less saving than the single tank. The difference is not a rounding
 error, and it has a cause: **the cistern overflows while the upper tank still has room**.
 
 Rain enters only through the cistern, and the overflow is calculated there before the
@@ -83,8 +84,8 @@ below the trigger level is not locked away, because it is consumed right after e
 pumping and when the cistern runs dry.
 
 > **The upper tank does not increase the water saving. It costs.** In our project it
-> costs the tank, it costs the pump, it costs 7.7 kWh per year of energy, and it costs a
-> sixth of a point of potential compared with a single tank of the same total volume.
+> costs the tank, it costs the pump, it costs 7.7 kWh per year of energy, and it costs
+> 0.15 points of potential compared with a single tank of the same total volume.
 >
 > That does not make it wrong. It makes the decision **hydraulic**, not one of water
 > yield: adopt it if the project needs gravity pressure or a reserve against power cuts,
@@ -100,12 +101,12 @@ consumed, below which the pump starts.
 <!-- inclui: _tabelas/cap08_limiar.md -->
 
 A higher trigger level means **more potential and more starts**, for the reason above.
-From 0 to 500 L, the potential rises by 0.15 points and the starts almost double, from 62
-to 121 per year.
+From 0 to 500 L, the potential rises by 0.11 points and the starts almost double, from 62
+to 120 per year.
 
 The trade-off is between a marginal water gain and the wear of the pump. Residential pump
 sets cope well with a few starts a day; what kills them is continuous on-off cycling. One
-hundred and twenty-one starts a year is one every three days, and none of the values in
+hundred and twenty starts a year is one every three days, and none of the values in
 the table comes close to being a problem.
 
 > **Where the trigger level really matters** is in buildings with concentrated demand,
@@ -116,7 +117,7 @@ the table comes close to being a problem.
 
 ## The energy, and why it is small
 
-Seven point seven kilowatt-hours a year. Five reais and thirty-seven centavos.
+Seven point seven kilowatt-hours a year. At an illustrative US$ 0.20 per kilowatt-hour, that is US$ 1.54 a year (illustrative, not a market price).
 
 It looks too little, and it is worth understanding why. Lifting one cubic metre of water
 twelve metres costs, in hydraulic energy, about 0.033 kWh. With the efficiency of the pump
@@ -131,8 +132,9 @@ hold in small buildings.
 > **Warning about the nameplate power.** The program asks for the efficiency **of the
 > pump** and the efficiency **of the motor** separately. The nameplate power is the
 > mechanical power at the shaft, and the motor efficiency is what separates what the shaft
-> delivers from what the meter records. Left blank, the program adopts Table 13 of ABNT NBR
-> 17094-2: 60.5% for half a horsepower. Section {{n:28}} gives the details.
+> delivers from what the meter records. Left blank, the program adopts a default motor
+> efficiency that depends on the rated power; replace it with the figure on the motor
+> data sheet. Section {{n:28}} gives the details.
 
 ---
 
@@ -142,14 +144,14 @@ hold in small buildings.
 
 The decision is hydraulic, not one of water yield. The elevated tank gives constant
 pressure at the points of use without depending on the pump at each flush, keeps water
-available during a power cut and makes the pump start 68 times a year, instead of the more
+available during a power cut and makes the pump start 69 times a year, instead of the more
 than seven thousand starts of a pressure pump triggered at each flush by four residents,
-which would use 40 to 99 kWh per year depending on the model. The price is what the table
-shows: the tank, the pumps, 7.7 kWh per year and a sixth of a point of potential compared
-with a single 5,000 L tank. There are two pumps, the duty pump and the standby, as item
-6.5.11.2 of ABNT NBR 5626:2020 requires for pumping and pressurisation systems.
+which would use 40 to 98 kWh per year depending on the generic model. The price is what the table
+shows: the tank, the pumps, 7.7 kWh per year and 0.15 points of potential compared
+with a single 5,000 L tank. There are two pumps, the duty pump and the standby, the usual
+precaution for a pumped system that the building cannot do without.
 
-Compared with the 4,000 L cistern on its own, the potential rises from 27.12% to 27.30%,
+Compared with the 4,000 L cistern on its own, the potential rises from 26.83% to 27.09%,
 because the tank adds 1,000 L of storage. From here on, the cost, the carbon and the
 tutorial's decision include the tank, the two pump sets and the pumping energy.
 
@@ -159,6 +161,6 @@ tutorial's decision include the tank, the two pump sets and the pumping energy.
 | lower tank volume | 4,000 L |
 | arrangement | pumping to an upper tank |
 | upper tank | 1,000 L, 100 L trigger level |
-| saving potential | 27.30% |
+| saving potential | 27.09% |
 
 Now we know how much water the system delivers. It remains to know **what water** it is.

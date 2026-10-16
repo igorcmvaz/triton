@@ -1726,7 +1726,7 @@ def test_cartao_nao_editado_acompanha_a_etapa_2_e_o_editado_fica(modulacao_estoc
 class TestTariffsMultiCategoryAndTab(unittest.TestCase):
 
     def test_categoria_sem_tabela_coletada_nao_e_estimada(self):
-        """Até a 1.0.0 a comercial era a residencial vezes 1,85, sem fonte.
+        """Antes da 0.1.0 a comercial era a residencial vezes 1,85, sem fonte.
 
         Uma categoria sem tabela oficial no registro do município não devolve nada:
         o programa não inventa a tarifa de uma categoria a partir de outra.

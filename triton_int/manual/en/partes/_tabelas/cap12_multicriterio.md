@@ -1,18 +1,18 @@
-<!-- tabela: Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis -->
-| Volume | Potential | NPV | Payback | Carbon balance over 20 years | Investment |
+<!-- tabela: Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
+| Volume | Potential | NPV (illustrative, not a market price) | Payback | 20-year carbon balance | Investment (illustrative, not a market price) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1,000 L | 23.30% | R$ 3,228 | 13.9 years | 121 kg | R$ 9,217 |
-| 2,000 L | 25.89% | R$ 5,374 | 12.4 years | 124 kg | R$ 9,897 |
-| 3,000 L | 26.80% | R$ 5,453 | 12.7 years | 102 kg | R$ 10,809 |
-| 4,000 L | 27.30% | R$ 5,524 | 12.8 years | 74 kg | R$ 11,283 |
-| 5,000 L | 27.58% | R$ 5,354 | 12.9 years | 42 kg | R$ 11,757 |
-| 8,000 L | 27.94% | R$ 4,245 | 14.6 years | -59 kg | R$ 13,257 |
-| 12,000 L | 28.00% | R$ 2,737 | 16.5 years | -200 kg | R$ 14,831 |
+| 1,000 L | 21.57% | −US$ 2,338 | no payback | 196 kg | US$ 4,700 |
+| 2,000 L | 25.26% | −US$ 2,241 | no payback | 234 kg | US$ 5,250 |
+| 3,000 L | 26.39% | −US$ 2,592 | no payback | 222 kg | US$ 5,800 |
+| 4,000 L | 27.09% | −US$ 3,020 | no payback | 200 kg | US$ 6,350 |
+| 5,000 L | 27.40% | −US$ 3,516 | no payback | 171 kg | US$ 6,900 |
+| 8,000 L | 27.79% | −US$ 5,098 | no payback | 72 kg | US$ 8,550 |
+| 12,000 L | 27.96% | −US$ 7,269 | no payback | −66 kg | US$ 10,750 |
 
 <!-- tabela: Winning volume under each criterion taken alone -->
-| Criterion alone | Winning volume |
+| Single criterion | Winning volume |
 | :--- | ---: |
-| largest saving potential | 12,000 L |
-| shortest discounted payback, NPV as tie-breaker | 2,000 L |
-| largest carbon balance | 2,000 L |
+| highest saving potential | 12,000 L |
+| shortest discounted payback, ties broken by NPV | 2,000 L |
+| highest carbon balance | 2,000 L |
 | **compromise, equal weights** | **4,000 L** |

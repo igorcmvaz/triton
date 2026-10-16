@@ -16,7 +16,7 @@ economia na mesma proporção**: um estudo de escola com tarifa residencial most
 menos da metade do retorno que o projeto teria.
 
 Não dá para corrigir o dado aqui: onde a categoria não foi coletada, inventá-la
-(multiplicando a residencial, como o programa fazia até a 1.0.0) seria pior que a lacuna. Dá para tornar a
+(multiplicando a residencial, como o programa fazia antes da 0.1.0) seria pior que a lacuna. Dá para tornar a
 incompatibilidade **visível**, que é o que impede o estudo errado de sair calado.
 
 Este módulo é o mapa entre as duas coisas, e a função que diz quando elas não

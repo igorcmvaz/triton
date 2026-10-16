@@ -7,11 +7,18 @@ from datetime import datetime, date
 from typing import Optional, Union
 
 from PySide6.QtWidgets import (
-    QLineEdit, QCalendarWidget, QDialog, QVBoxLayout, QHBoxLayout, 
-    QPushButton, QLabel, QFrame, QApplication, QWidget
+    QLineEdit,
+    QCalendarWidget,
+    QDialog,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QFrame,
+    QApplication,
+    QWidget,
 )
-from PySide6.QtCore import Qt, QDate, Signal, QPoint, QRect, QRectF, QSize
-from PySide6.QtGui import QIcon, QPixmap, QPainter, QColor, QPen, QBrush, QAction, QKeyEvent
+from PySide6.QtCore import Qt, QDate, Signal, QPoint, QRect, QRectF
+from PySide6.QtGui import QIcon, QPixmap, QPainter, QColor, QPen, QBrush, QKeyEvent
 
 from triton.ui.translation import tr, get_current_theme
 
@@ -397,32 +404,6 @@ class DatePickerLineEdit(QLineEdit):
         """Retorna a data atual como objeto datetime.date ou None se inválida."""
         dt = self._parse_date_string(self.text())
         return dt.date() if dt else None
-
-    def get_datetime(self) -> Optional[datetime]:
-        """Retorna a data atual como objeto datetime ou None se inválida."""
-        return self._parse_date_string(self.text())
-
-    def set_date(self, val: Union[datetime, date, QDate, str]):
-        """Define a data no campo formatada como dd/MM/yyyy."""
-        if isinstance(val, (datetime, date)):
-            self.setText(f"{val.day:02d}/{val.month:02d}/{val.year:04d}")
-        elif isinstance(val, QDate) and val.isValid():
-            self.setText(val.toString("dd/MM/yyyy"))
-        elif isinstance(val, str):
-            self.setText(val)
-
-    def set_date_range(
-        self, 
-        min_date: Optional[Union[datetime, date, QDate, str]], 
-        max_date: Optional[Union[datetime, date, QDate, str]]
-    ):
-        """Define limites mínimo e máximo para o calendário."""
-        self._min_date = self._to_qdate(min_date)
-        self._max_date = self._to_qdate(max_date)
-
-    def set_default_preset_date(self, preset_date: Union[datetime, date, QDate, str]):
-        """Define uma data padrão de contexto para o calendário."""
-        self._default_preset = self._to_qdate(preset_date) or QDate(1980, 1, 1)
 
     def show_calendar_popup(self):
         """Abre o diálogo popup de calendário ancorado abaixo do campo de texto."""

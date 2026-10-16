@@ -1,43 +1,43 @@
 # Certifications
 
-> This section gathers the qualification rules of five sustainability rating systems and
-> distinguishes, in each one, what is a normative requirement from what is a criterion adopted by
-> the program.
+> This section gathers the qualification rules of the sustainability rating systems the program
+> assesses and distinguishes, in each one, what is a requirement of the rating system from what is
+> a criterion adopted by the program.
 
 Rainwater harvesting systems appear in practically every environmental certification system for
 buildings, and in each one with a metric of its own. Some measure the saving against the total
 consumption of the building, others against a reference baseline, and others still require the
-comparison in more than one dimension at once. The program calculates the qualification in five of
-these rating systems from the simulation results, and always with the same caveat: ==the program
+comparison in more than one dimension at once. The program calculates the qualification in the
+international rating systems below from the simulation results, and always with the same caveat: ==the program
 shows where the project would qualify, and certifies nothing.== Certification is decided by the
 certification body, with the complete documentation of the development, of which water performance
 is only one piece.
 
-In the International Edition, the program shows LEED, EDGE and GRI only; the two Brazilian rating
-systems, AQUA-HQE and Selo Casa Azul, are described here because the Brazil Edition evaluates them.
+The International Edition shows LEED, EDGE and GRI only. National rating systems are not built
+in; where a project is bound to one, take its saving from the simulation and apply that system's
+own rules outside the program.
 
 Before going through them one by one, it is worth seeing them side by side. The thresholds of each
 rating system are on scales that seem incomparable while they stay in separate tables, and become
-comparable when placed on the same saving ruler ({{fig:fig37_certificacoes}}). LEED v4 scores the
+comparable when placed on the same saving ruler ({{fig:fig37_certificacoes}}). The thresholds below are those coded in the program; confirm them
+against the current text of each rating system before citing them. LEED v4 scores the
 reduction of outdoor use (WEc1: 1 point from 50% and 2 points at 100%) and of indoor use (WEc2: 1
 to 6 points between 25% and 50%) separately; LEED v5 gathers the category in credit WEc2, in which
 the reduction in fixtures and fittings is worth 1 to 3 points between 30% and 40% and the reduction
-of the whole project, 1 to 8 points between 30% and 65%; AQUA-HQE Residential awards item EAU.1.2
-from 20% and EAU.1.3 from 40%; and EDGE requires a minimum reduction of 20% at the same time in
-water, energy and the energy embodied in materials, without points.
+of the whole project, 1 to 8 points between 30% and 65%; and EDGE requires a minimum reduction of
+20% at the same time in water, energy and the energy embodied in materials, without points.
 
 ![The saving thresholds of the rating systems, on the same ruler](../figuras/fig37_certificacoes.png)
 
-*Figure 99 — The thresholds of reduction in potable water consumption with which the program places the project in LEED v4 (credits WEc1 and WEc2), LEED v5 (credit WEc2, options 1, 2 and 4), AQUA-HQE Residential and EDGE, on the same scale. Selo Casa Azul is not on the ruler, because its criterion scores the existence of the system and the scope of use, not a percentage. The same project crosses different rating systems at different points, which is why declaring the saving obtained is worth more than declaring the certification intended.*
+*Figure 99 — The thresholds of reduction in potable water consumption with which the program places the project in LEED v4 (credits WEc1 and WEc2), LEED v5 (credit WEc2, options 1, 2 and 4) and EDGE, on the same scale. Rating systems whose criterion scores the existence of a system, not a percentage, are not on the ruler. The same project crosses different rating systems at different points, which is why declaring the saving obtained is worth more than declaring the certification intended.*
 
 ---
 
 ## LEED v4 and v4.1, Water Efficiency category
 
-LEED is the North American rating system most widespread internationally. Version 5, launched in
-April 2025 for commercial buildings, coexists with versions 4 and 4.1, which accept registration of
-new commercial projects until 30 June 2027 and certification until 30 June 2033; the program
-places the project in both. In versions 4 and 4.1, water efficiency has a category of its own worth
+LEED is the rating system of the U.S. Green Building Council (<https://www.usgbc.org/leed>, accessed
+15 October 2026), the most widespread internationally. Version 5 coexists with versions 4 and 4.1;
+the program places the project in both, and the study must declare which one it used. In versions 4 and 4.1, water efficiency has a category of its own worth
 eight points spread over two credits. The fundamental distinction it imposes is between indoor and
 outdoor water use, and the whole score follows from that separation.
 
@@ -68,7 +68,7 @@ for certification, and it awards no points itself.
 
 ## LEED v5, credit WEc2 Enhanced Water Efficiency
 
-In version 5, checked against the *LEED v5 BD+C Rating System* of November 2025, the indoor and
+In version 5, the indoor and
 outdoor use credits were gathered in credit WEc2, *Enhanced Water Efficiency*, worth up to eight
 points in new construction and up to seven in *Core and Shell*; the program assesses only new
 construction. Code WEc1 now designates another credit, *Water Metering and Leak Detection*, of
@@ -106,61 +106,14 @@ roof; the criteria matrix records it as not assessed.
 
 ---
 
-## AQUA-HQE Residential, water consumption theme
+## National rating systems
 
-AQUA-HQE is the Brazilian adaptation, led by Fundação Vanzolini with CERQUAL Qualitel, of the French
-HQE rating system. In the current residential buildings scheme, version 00 of 22 November 2024,
-water is dealt with in the «Water consumption» theme, by items, and each item is classified into a
-level: prerequisite (PR), HQE, HQE 2 or HQE 3. Three items concern rainwater harvesting:
-
-<!-- tabela: Items of the water consumption theme of AQUA-HQE Residential related to rainwater harvesting -->
-| Item | Level | Requirement |
-| :--- | :--- | :--- |
-| EAU.1.2 | HQE | reduction of at least 20% in potable water consumption relative to the reference consumption |
-| EAU.1.3 | HQE 3 | saving of 40% of potable water in the development |
-| EAU.1.5 | HQE 3 | rainwater recovery system, according to ABNT NBR 15527 and 16783 |
-
-The program compares the simulated potable water saving with the thresholds of 20% and 40%, and
-records item EAU.1.5 whenever there is a system. ==The program's percentage is indicative:== the
-rating system measures the saving against a reference scenario of flow rates and uses per device,
-calculated in the Fundação Vanzolini auxiliary spreadsheet, which adds the effect of water-saving
-fixtures to that of non-potable water.
-
-> **Correction in this version.** Until the September 2026 revision the program placed the project
-> in «Base», «Good Practice» and «Excellent» profiles, at 10, 25 and 40% saving. The 2024 scheme has
-> no such profiles, and the qualification was redone by items.
-
----
-
-## Selo Casa Azul + CAIXA, criterion 3.6
-
-Selo Casa Azul is the housing rating system of Caixa Econômica Federal, the Brazilian federal
-savings bank. In the current guide, version V023 of 29 April 2026, rainwater harvesting is
-criterion 3.6, of the «Efficient water management» category, and its indicator is not a
-percentage: it is the **existence** of a harvesting system, with catchment, treatment, storage and
-points of use shown in the design. The score depends on the scope of use:
-
-<!-- tabela: Score of criterion 3.6 of Selo Casa Azul + CAIXA according to the scope of use -->
-| Scope of rainwater use | Points |
-| :--- | ---: |
-| common areas of the development | 2 |
-| houses in a subdivision, with the required provision | 2 |
-| dwelling units | 4 |
-| dwelling units and common areas | 5 |
-
-The criterion is optional for the Cristal/Bronze, Topázio/Prata and Safira/Ouro levels, and
-mandatory for Diamante. For the single dwelling, Selo Casa Azul Uni applies, version V001 of
-December 2025, in which criterion 7, «Rainwater harvesting», is worth 1 point and is mandatory for
-the Ouro seal. The program records the criterion as met when there is a system, and awards the
-points only when the scope is given.
-
-> **Correction in this version.** Until the September 2026 revision the program graded the project
-> as «Prata», «Ouro» and «Diamante» at 10, 20 and 30% saving. The guide does not link the criterion
-> to a percentage, and the qualification was redone by existence and scope.
+The International Edition does not assess national rating systems. A project bound to one takes the
+simulated potable water saving from the report and applies the rules of that system, in their
+current version, outside the program.
 
 > **Declare it in the study.** The qualification is only defensible with the current version of the
 > rating system in hand, and the program does not replace that check.
-
 
 ---
 
@@ -192,9 +145,9 @@ by measure WEM14, whose input in the IFC application is the catchment area in sq
 > limitation in the report. Claiming that a project is EDGE Certified with a third of the necessary
 > evidence would be irresponsible.
 
-The thresholds above were taken from the IFC document *EDGE Certification Process*, and the codes of
-the water measures were checked against an EDGE v3.0.0 assessment report of a project already
-certified.
+The thresholds above are those the program applies, taken from the EDGE documentation published
+by the IFC (<https://edgebuildings.com/certify/certification/>); check them against the current text
+before citing them.
 
 ---
 
@@ -212,8 +165,7 @@ expresses the water circularity rate of the development.
 
 Any study reporting qualification in certification systems needs to make four points explicit, and
 omitting any of them compromises the verifiability of the result. The first is that the water
-quality classes 2 to 4 adopted by the program are internal adaptations, not classes of ABNT NBR
-15527. The second concerns EDGE, and consists in declaring that only the water bar was assessed,
+quality classes 2 to 4 adopted by the program are internal adaptations, not classes of a standard. The second concerns EDGE, and consists in declaring that only the water bar was assessed,
 identifying the baseline used. The third applies to LEED, and consists in declaring the version of
 the rating system adopted and stating whether the split between indoor and outdoor use was broken
 down from project data or whether, in its absence, the indoor saving was taken as equal to the total

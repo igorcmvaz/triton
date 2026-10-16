@@ -3,34 +3,34 @@
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
 | | mm | mm | mm | L | L | L | L | L | |
 | 1 | 0.0 | 0.0 | 0.0 | 0 | 80 | 0 | 0 | 0 | none |
-| 2 | 12.4 | 2.0 | 10.4 | 884 | 80 | 80 | 0 | 804 | full |
-| 3 | 1.6 | 1.6 | 0.0 | 0 | 80 | 80 | 0 | 724 | full |
-| 4 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 644 | full |
-| 5 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 564 | full |
-| 6 | 28.0 | 2.0 | 26.0 | 2,210 | 80 | 80 | 774 | 1,920 | full |
-| 7 | 5.2 | 2.0 | 3.2 | 272 | 80 | 80 | 192 | 1,920 | full |
-| 8 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 1,840 | full |
-| 9 | 41.0 | 2.0 | 39.0 | 3,315 | 80 | 80 | 3,155 | 1,920 | full |
-| 10 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 1,840 | full |
-| **sum** | | | | **6,681** | | **720** | **4,121** | 1,840 | |
+| 2 | 2.4 | 2.0 | 0.4 | 34 | 80 | 34 | 0 | 0 | partial |
+| 3 | 1.9 | 1.9 | 0.0 | 0 | 80 | 0 | 0 | 0 | none |
+| 4 | 0.0 | 0.0 | 0.0 | 0 | 80 | 0 | 0 | 0 | none |
+| 5 | 59.8 | 2.0 | 57.8 | 4,913 | 80 | 80 | 2,913 | 1,920 | full |
+| 6 | 9.2 | 2.0 | 7.2 | 612 | 80 | 80 | 532 | 1,920 | full |
+| 7 | 5.5 | 2.0 | 3.5 | 298 | 80 | 80 | 218 | 1,920 | full |
+| 8 | 32.9 | 2.0 | 30.9 | 2,626 | 80 | 80 | 2,546 | 1,920 | full |
+| 9 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 1,840 | full |
+| 10 | 0.0 | 0.0 | 0.0 | 0 | 80 | 80 | 0 | 1,760 | full |
+| **sum** | | | | **8,483** | | **514** | **6,209** | 1,760 | |
 
 <!-- tabela: Check of the mass balance closure over the ten days -->
 | Closure check | Litres |
 | :--- | ---: |
-| collected in the period | 6,681 |
-| minus the overflow | −4,121 |
-| minus the consumption | −720 |
-| minus what stayed in the tank | −1,840 |
+| collected in the period | 8,483 |
+| minus the overflow | −6,209 |
+| minus the consumption | −514 |
+| minus what stayed in the tank | −1,760 |
 | **residual** | **0** |
 
 <!-- tabela: Indicators of the ten-day worked case -->
 | Ten-day indicator | Value |
 | :--- | ---: |
-| potable water saving potential | 36.0% |
-| daily mean of rainwater consumed | 72.0 L/day |
-| daily mean of potable water consumed | 128.0 L/day |
-| daily mean overflow | 412.1 L/day |
-| days of full supply | 90% |
-| days of partial supply | 0% |
-| days of no supply | 10% |
+| potable water saving potential | 25.7% |
+| daily mean of rainwater consumed | 51.4 L/day |
+| daily mean of potable water consumed | 148.6 L/day |
+| daily mean overflow | 620.9 L/day |
+| days of full supply | 60% |
+| days of partial supply | 10% |
+| days of no supply | 30% |
 

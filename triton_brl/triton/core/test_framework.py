@@ -5,10 +5,10 @@ e verificar com precisão os resultados agregados e diários.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Any, Optional
+from typing import List, Optional
 import numpy as np
 
-from triton.core.simulation import run_single_simulation, SingleTankSimulationResult, SimulationDayResult
+from triton.core.simulation import run_single_simulation
 
 
 @dataclass

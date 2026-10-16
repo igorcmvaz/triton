@@ -1,131 +1,91 @@
-# Comparação com o Netuno 4
+# Verificação contra soluções analíticas e referências
 
-> Esta seção traz a medição contra 4.050 casos de referência e, mais importante,
-> a **decomposição** da diferença por causa.
+> Esta secção mostra como o motor é conferido contra resultados que não produziu: soluções de
+> forma fechada, um caso que se confere à mão, regras de dimensionamento publicadas e programas
+> independentes, e o que cada conferência pode e não pode provar.
 
 ---
 
 ## O papel da comparação
 
-Convém começar esclarecendo o que esta comparação **não** é. ==O Netuno 4 não constitui
-alvo de fidelidade para o Triton.== A versão atual adota decisões de modelagem distintas,
-deliberadas e documentadas, e seria motivo de preocupação, e não de satisfação, se os
-resultados coincidissem exatamente.
+Uma comparação com outra ferramenta não é um alvo de fidelidade. ==Dois programas que coincidem até
+à última casa decimal podem partilhar o mesmo erro; dois programas que diferem podem diferir por
+boas razões.== O que a comparação oferece é um conjunto independente de resultados, produzido por
+outras mãos, e a oportunidade de explicar cada diferença por uma causa. Sem uma referência externa
+desta natureza, a verificação limitar-se-ia às propriedades internas da secção {{n:34}} —
+necessárias, e incapazes de detetar um erro sistemático que as respeitasse todas.
 
-O valor do Netuno 4 nesta verificação é outro, e é maior: ele oferece um conjunto
-independente de resultados, produzido por outra implementação do mesmo modelo conceitual,
-por outras mãos e em outra linguagem. Sem uma referência externa dessa natureza, a
-verificação se limitaria a propriedades internas do programa — necessárias, conforme a
-seção {{n:34}} descreve, e incapazes de detectar um erro sistemático que as respeitasse
-todas.
+As conferências abaixo vão da mais forte à mais fraca. As mais fortes dispensam qualquer programa
+de referência.
 
 ---
 
-## Os dados de referência
+## Soluções de forma fechada
 
-A comparação entre as duas versões apoia-se em quatro mil e cinquenta casos exportados do
-Netuno 4 e preservados desde então, byte a byte, justamente para que a referência não se
-alterasse ao longo do desenvolvimento. Eles se distribuem por dois conjuntos, com
-cidades e faixas de parâmetros distintas.
-
-<!-- tabela: Os conjuntos de casos de referência exportados do Netuno 4 -->
-| Conjunto | Casos | Cidades |
-| :--- | ---: | :--- |
-| Floripa/Brasília | 1.458 | Florianópolis, Brasília |
-| Manaus/São Paulo | 2.592 | Manaus, São Paulo |
+Em algumas situações a resposta correta decorre das equações, sem simulação. Com chuva constante e
+procura constante, o reservatório enche até um nível conhecido; um reservatório de capacidade nula
+só pode fornecer o que cai nesse dia; um reservatório de capacidade ilimitada satisfaz a procura
+sempre que a oferta média a excede, e o potencial é então a totalidade da fração satisfazível. A
+suíte afirma cada uma destas soluções dentro da tolerância numérica. Como o valor esperado vem da
+dedução, e não de uma execução anterior do programa, um erro não se pode esconder em ambos.
 
 ---
 
-## A divergência total
+## Um caso que se confere à mão
 
-<!-- tabela: Divergência medida entre as duas versões, por conjunto de casos -->
-| Conjunto | Erro médio absoluto | Viés | Erro máximo | ≤ 5 pp |
-| :--- | ---: | ---: | ---: | ---: |
-| Floripa/Brasília | 2,29 pp | −2,29 pp | 7,43 pp | 97,4% |
-| Manaus/São Paulo | 2,71 pp | −2,71 pp | 10,60 pp | 88,6% |
-
-O viés é sistematicamente negativo nos dois conjuntos, isto é, o Triton estima menos
-economia que o Netuno 4 em praticamente todos os casos. O resultado é esperado, e a
-subseção seguinte decompõe a diferença em suas causas atribuíveis.
-
----
-
-## A decomposição, que é o número que importa
-
-Comparar diretamente o potencial no volume ótimo de um programa com o do outro mistura três
-diferenças de naturezas distintas, e o número resultante não informa qual delas responde
-pelo quê. A decomposição as separa comparando os dois programas em três configurações
-sucessivamente mais controladas, sobre os 2.583 casos de Manaus e São Paulo.
-
-<!-- tabela: Divergência em três configurações sucessivamente mais controladas -->
-| Configuração | Erro médio absoluto | Viés | ≤ 5 pp |
-| :--- | ---: | ---: | ---: |
-| 1. ótimo do Triton contra ótimo do Netuno 4 | 2,71 pp | −2,71 pp | 88,6% |
-| 2. avaliado no volume que o Netuno 4 declarou ótimo | 1,60 pp | −1,60 pp | 96,4% |
-| 3. idem, adotando o descarte por limiar do Netuno 4 | **0,25 pp** | **−0,25 pp** | **100,0%** |
-
-As três configurações usam os mesmos casos, excluídos os nove de referência nula
-tratados adiante. Em cada uma, o Triton estima menos que o Netuno 4 em quase todos
-os casos, e por isso o erro médio absoluto praticamente coincide com o viés.
-
-A atribuição resultante:
-
-<!-- tabela: Atribuição da divergência às suas três fontes -->
-| Fonte da divergência | Contribuição | Natureza |
-| :--- | ---: | :--- |
-| critério de escolha do volume ótimo | 1,11 pp (41%) | diferença de projeto |
-| tratamento do descarte de primeira chuva | 1,36 pp (50%) | diferença metodológica deliberada |
-| **resíduo do balanço hídrico** | **0,25 pp (9%)** | — |
-
-> **Neutralizadas as duas diferenças conhecidas, o motor do Triton reproduz o
-> Netuno 4 com erro médio absoluto de 0,25 ponto percentual e 100% dos casos dentro
-> de 5 pontos.**
->
-> O resíduo é compatível com a precisão de duas casas decimais da própria planilha de
-> referência. É **este** número que verifica o motor. O viés total de 2,71 pp
-> não mede erro: mede a soma de duas decisões de projeto, ambas deliberadas.
+O caso dos dez dias da secção {{n:23}} é pequeno o bastante para se acompanhar com papel e lápis:
+100 m², coeficiente de escoamento 0,85, descarte de 2,0 mm, reservatório de 2 000 L, procura
+pluvial de 80 L/dia, e a chuva de Lisboa de 11 a 20 de dezembro de 2019. O programa dá 6 732 L
+captados, dos quais 4 324 L extravasam, 488 L são consumidos e 1 920 L ficam no reservatório. As
+três saídas somam exatamente a entrada (6 732 − 4 324 − 488 = 1 920), e o resíduo do balanço é
+zero. Repetir dois dias à mão — o dia de 35,7 mm, que capta 2 865 L e extravasa 2 380 L por
+exceder o reservatório, e o dia de 1,2 mm, que fica abaixo da lâmina de descarte e não capta nada —
+é a maneira mais rápida de aprender o que o programa faz com cada regra.
 
 ---
 
-A {{fig:fig25_cascata}} decompõe a divergência total nas três fontes da tabela.
+## Regras de dimensionamento publicadas como referência
 
-![A divergência decomposta até o resíduo](../figuras/fig25_cascata.png)
+As regras práticas de dimensionamento não são exatas, mas delimitam a resposta. A moradia do
+tutorial (150 m², 600 L/dia, 28% satisfazível) foi dimensionada por cinco métodos, e cada volume
+foi depois passado pela simulação diária para obter o potencial que efetivamente entrega, com a
+chuva de Lisboa.
 
-*Figura 42 — A divergência média em relação ao Netuno 4, decomposta. A primeira barra é o total observado; as duas alaranjadas são diferenças de método declaradas, uma de critério de projeto e outra de tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que efetivamente verifica o motor.*
+- regra prática de 6% da procura anual (método alemão): 3 750 L, potencial 16,32%;
+- simulação diária com critério de ganho marginal: 5 000 L, potencial 17,49%;
+- regra prática de 0,05 vezes a precipitação vezes a área (método britânico): 5 500 L, potencial
+  17,85%;
+- diagrama de Rippl mensal: 47 000 L, potencial 26,78%;
+- diagrama de Rippl diário: 51 500 L, potencial 26,92%.
 
----
-
-## As duas diferenças, em detalhe
-
-### O descarte
-
-O Netuno 4 trata a lâmina de descarte como limiar do evento: quando a precipitação do dia
-fica abaixo dela, nada é captado; quando a ultrapassa, capta-se a chuva inteira, sem
-subtração alguma. O manual do Netuno 4 é explícito a respeito, ao afirmar que uma
-precipitação diária abaixo desse valor faz o programa considerar que não houve
-precipitação.
-
-O Triton subtrai a lâmina da precipitação do dia, tratamento fisicamente mais fiel
-porque a água desviada para o dispositivo de autolimpeza efetivamente não chega à
-cisterna. A mudança responde por metade da divergência total medida entre as duas
-versões.
-
-### O critério de volume ótimo
-
-Ambos os programas escolhem o volume ideal por critérios de ganho marginal, mas as
-implementações e as grades de busca diferem entre si, de modo que cada um elege um volume
-distinto e a comparação passa a incluir essa diferença de escolha. Avaliando os dois
-programas no mesmo volume — o que o Netuno 4 declarou ótimo — o viés cai de 2,71
-para 1,60 ponto percentual, o que atribui 41% da diferença total ao critério de escolha.
+Os métodos discordam por um fator superior a treze no volume. A dispersão é o resultado útil. As
+duas regras práticas e a simulação ficam entre 3 750 e 5 500 L; o diagrama de Rippl pede 47 000 a
+51 500 L, porque dimensiona contra o verão seco de Lisboa para garantir o fornecimento, e a curva da
+secção {{n:7}} não satura nesse intervalo. Uma regra que dê um volume muito fora desta gama para as
+mesmas entradas merece uma segunda análise, e a diferença entre o ótimo hidráulico e o volume de
+Rippl é uma decisão de projeto, não um erro de nenhum dos dois.
 
 ---
 
-## Como medir a diferença sem alterar o motor
+## Comparar com outro programa
 
-A emulação da regra antiga é feita transformando a série de precipitação de entrada, e
-não alterando o código do balanço hídrico. A distinção metodológica é essencial: medir a
-divergência com um código modificado validaria um programa que não é o distribuído ao
-usuário, o que anularia o propósito da verificação.
+Comparar com uma ferramenta independente responde a outra pergunta: duas implementações do mesmo
+modelo conceptual concordam? A concordância só se espera quando as decisões de modelação
+coincidem. Duas há que diferem com frequência suficiente para importar.
+
+A primeira é o **descarte das primeiras águas**. Subtrair a lâmina à chuva do dia, como faz o
+Triton, é fisicamente fiel, porque a água desviada nunca chega à cisterna. Algumas ferramentas
+tratam, em vez disso, a lâmina como um limiar do evento: abaixo dele nada se capta, acima dele
+capta-se a chuva inteira. A segunda é o **critério do volume**: as ferramentas escolhem o volume
+ideal por ganho marginal sobre grelhas diferentes, e por isso elegem volumes diferentes. Comparar
+ótimos mistura, pois, a diferença de critério com a diferença de motor; compare potenciais no
+**mesmo** volume.
+
+### Emular uma regra de limiar sem alterar o motor
+
+A regra antiga emula-se transformando a série de precipitação de entrada, e não alterando o código
+do balanço hídrico. Medir uma divergência com código modificado verificaria um programa que não é
+o distribuído ao utilizador.
 
 ```equacao:emulacao
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
@@ -133,41 +93,38 @@ P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
-| `P′` | precipitação transformada, a ser fornecida ao Triton | mm |
+| `P′` | precipitação transformada, a fornecer ao Triton | mm |
 | `P` | precipitação observada no dia | mm |
-| `d_f` | lâmina de descarte de primeiras águas | mm |
+| `d_f` | lâmina de descarte das primeiras águas | mm |
 
-Aplicada essa transformação, o cálculo `P_ef = max(0, P′ − d_f)` do Triton
-reproduz exatamente a semântica de limiar. A medição não corre o risco de validar
-código que não é o distribuído.
+Aplicada esta transformação, o cálculo `P_ef = max(0, P′ − d_f)` do Triton reproduz exatamente a
+semântica do limiar. O programa não tem nenhuma opção que o faça automaticamente; use a
+transformação da série, ou compare com um descarte igual a zero, em que as duas regras coincidem.
 
-> **Uma ressalva de documentação.** O protocolo de verificação interno instrui a
-> usar uma opção automática para essa emulação. Essa opção **não está
-> implementada**. Use a transformação da série, ou compare com descarte igual a zero,
-> em que as duas regras coincidem.
+A {{fig:fig25_cascata}} ilustra como se decompõe, por causas, a divergência total entre dois
+programas, até um resíduo.
+
+![A divergência decomposta até ao resíduo](../figuras/fig25_cascata.png)
+
+*Figura 42 — Decomposição da divergência média entre o programa e uma referência independente. A primeira barra é o total observado; as barras intermédias são diferenças de método declaradas, como o critério do volume ótimo e o tratamento do descarte; a última é o resíduo do balanço hídrico, que é o número que verifica efetivamente o motor.*
 
 ---
 
-## Os casos de referência nula
+## Linhas de referência com resultado nulo
 
-Em parte das linhas, o Netuno 4 exportou zero enquanto o Triton calcula valor
-positivo. A incidência difere muito entre conjuntos: 0,35% em Manaus e São Paulo
-contra 34,98% em Floripa e Brasília.
-
-A disparidade aponta para característica dos **dados de referência** — provavelmente
-o Netuno 4 não encontrou volume ótimo sob o seu próprio critério — e não para erro do
-Triton, que nunca devolve zero nesses casos. São segregados das estatísticas para
-não as dominar.
+As ferramentas de referência exportam por vezes zero onde o Triton calcula um valor positivo,
+tipicamente porque a ferramenta não encontrou um volume ótimo pelo seu próprio critério. Tais
+linhas apontam para uma característica dos **dados de referência**, e não para um erro do programa.
+Mantenha-as à parte das estatísticas, para não deixar que dominem a média.
 
 ---
 
 ## O que declarar num estudo comparativo
 
 - os **dois números**: a divergência total e o resíduo depois da decomposição;
-- as duas diferenças deliberadas, nomeadas;
-- se a comparação foi feita com descarte zero, com emulação de limiar, ou sem
-  neutralização;
+- as diferenças deliberadas de método, nomeadas;
+- se a comparação usou descarte zero, emulação de limiar, ou nenhuma neutralização;
 - a versão de cada programa.
 
-Apresentar apenas a divergência total, sem decompor, sugere um erro de motor que não
-existe.
+Apresentar apenas a divergência total, sem a decompor, sugere um erro de motor que pode não
+existir.

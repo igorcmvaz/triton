@@ -3,35 +3,35 @@
     "name": "triton-project",
     "version": 2
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "metadata": {
-    "project_id": "N5-20261006-115323-6E4A3997",
-    "name": "Didactic case - ten days (spreadsheet verification)",
-    "created_at": "06/10/2026 11:53",
-    "saved_at": "06/10/2026 11:53:23"
+    "project_id": "N5-20261015-212326-A61C7E54",
+    "name": "Manual, section 2.1 - ten worked days (New York)",
+    "created_at": "14/10/2026 00:00",
+    "saved_at": "15/10/2026 21:23:26"
   },
   "rainfall": {
     "source_mode": "custom_file",
-    "climate_city_uf": "SC",
-    "climate_city_name": "Florianópolis",
-    "climate_model": "INM-CM4",
-    "climate_scenario": "HIST",
-    "climate_start_date": "01/01/1980",
-    "climate_end_date": "31/12/2013",
-    "file_name": "",
-    "start_date": "01/01/2020",
+    "climate_city_uf": "USA",
+    "climate_city_name": "New York",
+    "climate_model": "ERA5 reanalysis (Open-Meteo)",
+    "climate_scenario": "Reanalysis",
+    "climate_start_date": "21/09/2018",
+    "climate_end_date": "30/09/2018",
+    "file_name": "NewYork.csv",
+    "start_date": "21/09/2018",
     "total_days": 10,
     "climbra_series": null,
     "precipitation_mm": [
       0.0,
-      12.4,
-      1.6,
+      2.4,
+      1.9,
       0.0,
+      59.8,
+      9.2,
+      5.5,
+      32.9,
       0.0,
-      28.0,
-      5.2,
-      0.0,
-      41.0,
       0.0
     ]
   },
@@ -65,17 +65,18 @@
     },
     "reservoirs_and_pumping": {
       "lower_tank_fixed_l": 2000.0,
-      "lower_tank_max_l": 10000.0,
-      "lower_tank_step_l": 250.0,
+      "lower_tank_max_l": 20000.0,
+      "lower_tank_step_l": 1000.0,
       "lower_tank_mode": 0,
-      "delta_ideal_pct": 5.0,
+      "delta_ideal_pct": 1.0,
+      "phi_operation_rule": null,
       "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
       "pumping_threshold_l": 0.0,
       "supply_arrangement": "pressurizacao",
       "pressurizer_pressure_m": 18.0,
       "pressurizer_starts_per_person_day": 5.05,
-      "pressurizer_model": "komeco_tp820t",
+      "pressurizer_model": "personalizado",
       "pressurizer_point_flow_l_min": 9.0,
       "pressurizer_power_kw": 0.18,
       "pressurizer_flow_l_min": 13.3,
@@ -88,61 +89,45 @@
         "efficiency_pct": 0.0,
         "startup_time_h": 0.03,
         "motor_efficiency": 0.0,
-        "unit_cost": 300.0,
+        "unit_cost": 0.0,
         "manometric_head_m": 0.0
       }
     },
     "financial_and_economic": {
       "analysis_period_years": 20,
-      "tma_monthly_pct": 0.5,
-      "inflation_monthly_pct": 0.35,
+      "tma_monthly_pct": 2.0,
+      "inflation_monthly_pct": 0.2,
       "sewage_mode": 1,
-      "sewage_rate_pct": 100.0,
+      "sewage_rate_pct": 159.0,
+      "sewage_tariffs": [],
+      "sewage_volume_factor": 1.0,
       "water_tax_fixed": 0.0,
       "water_tax_var_pct": 0.0,
       "water_tariffs": [
         [
           0.0,
           0.0,
-          46.34,
-          -1
+          14.914375,
+          -3
         ],
         [
           0.0,
-          10.0,
-          3.08,
-          1
-        ],
-        [
-          10.0,
-          25.0,
-          14.31,
-          1
-        ],
-        [
-          25.0,
-          50.0,
-          19.14,
-          1
-        ],
-        [
-          50.0,
           999999.0,
-          24.08,
+          1.889335,
           1
         ]
       ],
-      "tariff_city_uf": "SC",
-      "tariff_city_name": "Florianópolis",
-      "tariff_vigencia": "",
-      "data_base_estudo": "06/10/2026",
+      "tariff_city_uf": "USA",
+      "tariff_city_name": "New York City",
+      "tariff_vigencia": "01/07/2026",
+      "data_base_estudo": "14/10/2026",
       "tariff_category": "residencial",
-      "elec_city_uf": "SC",
-      "elec_city_name": "Florianópolis",
-      "tariff_escalation_months": 12,
+      "elec_city_uf": "USA",
+      "elec_city_name": "New York City",
+      "tariff_escalation_months": 12.0,
       "water_tariff_escalation_pct": 5.0,
       "sewage_tariff_escalation_pct": 5.0,
-      "elec_tariff": 0.69568,
+      "elec_tariff": 0.0,
       "elec_tax_fixed": 0.0,
       "elec_tax_var_pct": 0.0,
       "elec_tariff_escalation_pct": 5.0
@@ -153,10 +138,11 @@
       "polishing_filter": false,
       "first_flush_system_enabled": false,
       "etap_enabled": true,
+      "precos_de_catalogo": false,
       "chlorine_treatment_enabled": true,
       "chlorine_dose_mg_l": 1.5,
       "chlorine_product_purity": 0.65,
-      "chlorine_cost_per_kg": 25.0,
+      "chlorine_cost_per_kg": 0.0,
       "chlorine_co2_kg_per_kg": 1.72
     },
     "materials_and_typology": {
@@ -186,38 +172,60 @@
       "edge_base_case_l_person_day": 0.0
     },
     "capex_and_opex": {
-      "cost_lower_tank": 1139.9,
+      "cost_lower_tank": 0.0,
       "cost_upper_tank": 0.0,
-      "cost_labor": 3500.0,
-      "cost_piping": 1200.0,
-      "cost_accessories": 1800.0,
+      "cost_labor": 0.0,
+      "cost_piping": 0.0,
+      "cost_accessories": 0.0,
       "capex_do_arranjo": false,
       "mao_de_obra_automatica": false,
       "operational_costs": [
         [
           "Inspeção e limpeza de calhas/pré-filtro",
           12,
-          240.0,
+          0.0,
           0.0
         ],
         [
           "Limpeza e inspeção do reservatório",
           12,
-          320.0,
+          0.0,
           0.0
         ],
         [
           "Manutenção preventiva da motobomba",
           12,
-          180.0,
+          0.0,
           0.0
         ]
       ]
     },
     "global_optimizer_scenarios": []
   },
-  "ui_state": {},
-  "analysis": {},
+  "ui_state": {
+    "project": {
+      "source_mode": "custom_file",
+      "start_date": "21/09/2018",
+      "end_date": "30/09/2018"
+    },
+    "stage3": {
+      "currency_code": "USD"
+    }
+  },
+  "analysis": {
+    "example": "Manual, section 2.1 - ten worked days (New York)",
+    "costs": "This case compares rainfall, demand and tariff; costs of works, pump and maintenance are not set (stage 5). Enter your own to run the economic analysis.",
+    "tariff_entity": "NYC Water Board / NYC DEP",
+    "tariff_validity": "01/07/2026",
+    "tariff_source": "NYC Water Board and NYC Department of Environmental Protection (DEP), Water and Sewer Rates FY2027, in force from 1 July 2026: water US$ 5.35 per CCF (100 ft3 = 2.8316847 m3), sewer 159% of the water charge, minimum charge US$ 0.49 per day.",
+    "tariff_assumptions": [
+      "US$ 5.35 per CCF converted at 1 CCF = 2.8316847 m3 (US$ 1.8894 per m3).",
+      "Sewer = 159% of the water charge (percentage of the water parcel, mode 1).",
+      "The US$ 0.49 per day minimum charge is entered as a monthly floor on the water parcel (US$ 0.49 x 30.4375 days = US$ 14.91 per month); it does not bind at the example's consumption."
+    ],
+    "tariffs_collected_on": "14/10/2026",
+    "rainfall": "NewYork.csv, 21 to 30 September 2018 (ERA5 reanalysis, data/rainfall/LEIA.md)."
+  },
   "bim_layout": {
     "bim_components": [],
     "pipe_runs": [],

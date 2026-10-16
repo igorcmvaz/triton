@@ -10,7 +10,6 @@ import os
 import re
 from triton.core.fracao_atendivel import fracao_para_percentual
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
-import base64
 from html import escape
 from datetime import datetime
 from typing import Dict, Any, Optional

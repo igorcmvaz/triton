@@ -20,7 +20,7 @@ from triton.core.edge_certification import (
     avaliar_agua_edge,
     regra_da_barra_de_agua,
 )
-from typing import Dict, Any, Optional, List
+from typing import Optional, List
 
 
 # Tetos normativos da categoria Water Efficiency do LEED v4 BD+C. Estavam

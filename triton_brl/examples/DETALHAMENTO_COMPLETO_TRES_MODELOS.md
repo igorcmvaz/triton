@@ -1,4 +1,4 @@
-# Detalhamento completo dos três modelos — Triton 1.0.0
+# Detalhamento completo dos três modelos — Triton 0.1.0
 
 > Documento gerado por `python scripts/generate_reference_case_studies.py`. Entradas e resultados vêm dos mesmos objetos usados no estudo de verificação; não edite as tabelas à mão.
 

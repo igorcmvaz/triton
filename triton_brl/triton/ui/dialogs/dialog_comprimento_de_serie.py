@@ -100,12 +100,3 @@ class DialogComprimentoDeSerie(QDialog):
         fechar.clicked.connect(self.accept)
         botoes.addWidget(fechar)
         layout.addLayout(botoes)
-
-    def texto_para_relatorio(self) -> str:
-        """A frase que se copia para um trabalho publicado."""
-        r = self.resultado
-        if r.comprimento_representativo_anos is None:
-            return r.resumo()
-        return (f"{r.resumo()} Critério: {r.confianca_pct:.0f}% das janelas com o mesmo "
-                f"volume ideal ({r.volume_ideal_l:,.0f} L) e potencial dentro de "
-                f"{r.tolerancia_pp:.1f} pontos percentuais.".replace(",", "."))

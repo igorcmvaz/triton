@@ -224,7 +224,7 @@ PIPE_EMISSION_FACTORS_PER_METER: Dict[int, float] = {
 # embalagem. A intensidade por quilo é, portanto, aproximação de ordem de
 # grandeza para uma centrífuga brasileira, e não inventário do produto.
 #
-# Até a versão 1.0.0 beta os valores eram 12, 18, 24, 30, 42 e 55 kg CO2e, dos
+# Antes da versão 0.1.0 beta os valores eram 12, 18, 24, 30, 42 e 55 kg CO2e, dos
 # quais quatro eram extrapolação aritmética do de 1/2 CV. Ficavam de 1,7 a 2,7
 # vezes abaixo destes.
 PUMP_EPD_KG_CO2E_POR_UNIDADE = 10.4       # EPD-GRU-20250340-CBA1-EN, A1-A3, GWP-total

@@ -8,8 +8,15 @@ import pytest
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(RAIZ, "manual"))
 
-import gerar  # noqa: E402
-import gerar_mini_manuais as mini  # noqa: E402
+try:
+    import gerar
+    import gerar_mini_manuais as mini
+except ModuleNotFoundError:
+    pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
+
+from triton.core.edition import get_current_edition
+if get_current_edition() == "INT":
+    pytest.skip("a edição INT não publica mini manuais em português", allow_module_level=True)
 
 
 @pytest.fixture(scope="module")

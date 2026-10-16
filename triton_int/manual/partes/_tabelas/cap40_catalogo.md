@@ -1,24 +1,24 @@
-<!-- tabela: As variáveis que a modulação probabilística pode sortear, com a distribuição de triagem que a tela propõe -->
-| Grupo | Variável | Unidade | Distribuição de triagem | Marcada ao abrir |
+<!-- tabela: The variables that probabilistic modulation can draw, with the screening distribution the screen proposes -->
+| Group | Variable | Unit | Screening distribution | Ticked on opening |
 | :--- | :--- | :--- | :--- | :--- |
-| Demanda | Consumo per capita | L/hab.dia | lognormal, média do projeto, CV de 20% | sim |
-| Demanda | Número de pessoas | pessoas | normal, média do projeto, desvio de 1 pessoa; inteiro de 1 ao dobro | sim |
-| Demanda | Fração não potável interna | % | normal, média do projeto, desvio de 5 pontos; 0 a 100% | sim |
-| Demanda | Demanda externa | L/dia | normal, média do projeto, CV de 30% | não |
-| Captação | Área de captação | m² | normal, média do projeto, CV de 5% | não |
-| Captação | Coeficiente de escoamento | — | triangular, do projeto −0,10 ao projeto +0,05; 0 a 1 | não |
-| Captação | Lâmina de descarte | mm | uniforme, do projeto −1 mm ao projeto +1 mm | não |
-| Chuva | Fator da chuva | × | normal, média 1, desvio de 0,10 | não |
-| Tarifas | Fator das tarifas de água e esgoto | × | normal, média 1, desvio de 0,10 | não |
-| Tarifas | Fator do esgoto | × | normal, média 1, desvio de 0,10 | não |
-| Tarifas | Reajuste tarifário | % por período | normal, média do projeto, desvio de 2 pontos | não |
-| Tarifas | Tarifa de energia | R$/kWh | normal, média do projeto, CV de 10% | não |
-| Tarifas | Reajuste da energia | % por período | normal, média do projeto, desvio de 2 pontos | não |
-| Custos | Fator do investimento | × | lognormal, média 1, desvio de 0,15 | não |
-| Custos | Fator do preço da cisterna | × | lognormal, média 1, desvio de 0,15 | não |
-| Custos | Fator do custeio (O&M) | × | lognormal, média 1, desvio de 0,25 | não |
-| Custos | Inflação do custeio | % ao mês | normal, média do projeto, desvio de 0,10 ponto | não |
-| Fluxo de caixa | Taxa mínima de atratividade | % ao mês | normal, média do projeto, desvio de 0,25 ponto | não |
-| Fluxo de caixa | Período de análise | anos | triangular, do projeto −5 ao projeto +5 anos; inteiro, ao menos 1 | não |
-| Ambiente | Fator da emissão da água potável | × | normal, média 1, desvio de 0,20 | não |
-| Ambiente | Fator da emissão da rede elétrica | × | normal, média 1, desvio de 0,20 | não |
+| Demand | Per capita consumption | L/person/day | lognormal, project mean, CV of 20% | yes |
+| Demand | Number of occupants | occupants | normal, project mean, deviation of 1 occupant; integer from 1 to double | yes |
+| Demand | Indoor non-potable fraction | % | normal, project mean, deviation of 5 points; 0 to 100% | yes |
+| Demand | Outdoor demand | L/day | normal, project mean, CV of 30% | no |
+| Catchment | Catchment area | m² | normal, project mean, CV of 5% | no |
+| Catchment | Runoff coefficient | — | triangular, from project −0.10 to project +0.05; 0 to 1 | no |
+| Catchment | First-flush depth | mm | uniform, from project −1 mm to project +1 mm | no |
+| Rain | Rainfall factor | × | normal, mean 1, deviation of 0.10 | no |
+| Tariffs | Water and sewerage tariff factor | × | normal, mean 1, deviation of 0.10 | no |
+| Tariffs | Sewerage factor | × | normal, mean 1, deviation of 0.10 | no |
+| Tariffs | Tariff escalation | % per period | normal, project mean, deviation of 2 points | no |
+| Tariffs | Energy tariff | currency units/kWh | normal, project mean, CV of 10% | no |
+| Tariffs | Electricity escalation | % per period | normal, project mean, deviation of 2 points | no |
+| Costs | Investment factor | × | lognormal, mean 1, deviation of 0.15 | no |
+| Costs | Cistern price factor | × | lognormal, mean 1, deviation of 0.15 | no |
+| Costs | Running cost factor (O&M) | × | lognormal, mean 1, deviation of 0.25 | no |
+| Costs | Running cost inflation | % per month | normal, project mean, deviation of 0.10 point | no |
+| Cash flow | Minimum attractive rate of return | % per month | normal, project mean, deviation of 0.25 point | no |
+| Cash flow | Analysis period | years | triangular, from project −5 to project +5 years; integer, at least 1 | no |
+| Environment | Potable water emission factor | × | normal, mean 1, deviation of 0.20 | no |
+| Environment | Grid electricity emission factor | × | normal, mean 1, deviation of 0.20 | no |

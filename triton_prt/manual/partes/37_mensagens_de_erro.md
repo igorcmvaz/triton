@@ -1,67 +1,71 @@
 # Mensagens de erro e o que fazer
 
-> O que cada mensagem significa, o que a disparou, e como resolver.
+> O que cada mensagem significa, o que a provocou e como a resolver.
 
-O programa adota uma política deliberada diante de entradas impossíveis: ele as recusa
-em vez de corrigi-las silenciosamente. A razão é que uma área de captação negativa não é
-uma preferência do usuário a ser acomodada, e sim um erro de digitação que precisa ser
-visto por quem o cometeu. ==Corrigir em silêncio produziria um resultado plausível a
-partir de uma entrada errada, que é a pior combinação possível num programa de
-simulação.==
+O programa segue uma política deliberada perante entradas impossíveis: recusa-as em vez de as
+corrigir em silêncio. A razão é que uma área de captação negativa não é uma preferência do
+utilizador a acomodar, mas um erro de digitação que precisa de ser visto por quem o cometeu.
+==Corrigir em silêncio produziria um resultado plausível a partir de uma entrada errada, que é a
+pior combinação possível num programa de simulação.==
+
+> **As mensagens do núcleo de cálculo são emitidas tal como o código as escreve.** As verificações
+> que correm dentro do cálculo levantam as suas mensagens em português, por vezes sem acentos e com
+> um vocabulário que pode diferir do deste manual (por exemplo, «motobomba» onde o manual diz
+> «eletrobomba»). As tabelas abaixo citam cada mensagem com acentos, para facilitar a leitura, e
+> explicam-na em seguida; reconhece-a pelo sentido e pelo nome do campo.
 
 ---
 
 ## Validação física da entrada
 
-As mensagens abaixo são emitidas antes de qualquer cálculo ser iniciado, e todas
-nomeiam o campo responsável e o valor recebido, de modo que a correção não exija procura.
+As mensagens abaixo são emitidas antes de qualquer cálculo começar, e todas nomeiam o campo
+responsável e o valor recebido, de modo que a correção não exija procura.
 
 <!-- tabela: Mensagens de validação física da entrada e a providência de cada uma -->
-| Mensagem | O que a disparou | O que fazer |
+| Mensagem | O que a provocou | O que fazer |
 | :--- | :--- | :--- |
-| «Volume do reservatório inferior negativo» | volume menor que zero | corrija; **zero é válido** e representa o cenário sem sistema |
-| «Volume do reservatório superior negativo» | idem, na caixa elevada | corrija; zero significa sem caixa |
-| «Área de captação negativa» | área menor que zero | corrija; use a projeção horizontal em m² |
-| «Coeficiente de escoamento fora de [0, 1]» | coeficiente negativo ou acima de 1 | acima de 1 a cobertura entregaria mais água do que a chuva traz; telhados usuais ficam entre 0,80 e 0,95 |
-| «Lâmina de descarte negativa» | descarte menor que zero | o descarte retira água da captação, não acrescenta |
-| «Demanda diária negativa» | demanda menor que zero | corrija |
-| «Fração atendível por água pluvial fora de [0, 1]» | fração maior que 1 | informe 0,4 para 40%, e não 40 |
-| «… não é um número finito» | campo que chegou ao cálculo vazio, como texto ou infinito | preencha o campo nomeado com um número |
-| «Modo de descarte desconhecido» | modo diferente de 1, 2 ou 3 | escolha um dos três modos; para não descartar, informe lâmina zero |
-| «Intervalo de descarte inválido» | modo 3 com intervalo menor que 1 dia | informe o intervalo em dias inteiros |
-| «Nível de acionamento da motobomba negativo» | nível menor que zero | corrija; zero significa acionar com a caixa vazia |
+| «Volume do reservatório inferior negativo» | volume menor do que zero | corrija; **zero é válido** e representa o cenário sem sistema |
+| «Volume do reservatório superior negativo» | idem, no reservatório elevado | corrija; zero significa sem reservatório superior |
+| «Área de captação negativa» | área menor do que zero | corrija; use a projeção horizontal em m² |
+| «Coeficiente de escoamento fora de [0, 1]» | coeficiente negativo ou acima de 1 | acima de 1 a cobertura entregaria mais água do que a chuva traz; as coberturas usuais ficam entre 0,80 e 0,95 |
+| «Lâmina de descarte negativa» | descarte menor do que zero | o descarte retira água à captação, não a acrescenta |
+| «Demanda diária negativa» | procura menor do que zero | corrija |
+| «Fração atendível por água pluvial fora de [0, 1]» | fração maior do que 1 | introduza 0,4 para 40%, e não 40 |
+| «… não é um número finito» | campo que chegou ao cálculo vazio, como texto ou infinito | preencha o campo indicado com um número |
+| «Modo de descarte desconhecido» | modo diferente de 1, 2 ou 3 | escolha um dos três modos; para não descartar, introduza uma lâmina zero |
+| «Intervalo de descarte inválido» | modo 3 com um intervalo menor do que 1 dia | introduza o intervalo em dias inteiros |
+| «Nível de acionamento da motobomba negativo» | nível menor do que zero | corrija; zero significa acionar com o reservatório vazio |
 
-> A fração atendível é a mensagem mais frequente, e a regra que a evita é uma só: onde se
-> digita, percentual de 0 a 100; onde se guarda, fração de 0 a 1. A seção {{n:5}}
-> justifica a divisão. Quando a mensagem aparecer, o valor chegou como 40 num lugar que
-> guarda 0,4 — tipicamente um arquivo de parâmetros editado à mão ou uma chamada de
-> automação.
+> A fração atendível é a mensagem mais frequente, e a regra que a evita é uma só: onde se digita,
+> uma percentagem de 0 a 100; onde se guarda, uma fração de 0 a 1. A secção {{n:5}} justifica a
+> divisão. Quando a mensagem surge, o valor chegou como 40 num sítio que guarda 0,4 — tipicamente
+> um ficheiro de parâmetros editado à mão ou uma chamada de automação.
 
 <!-- tabela: Mensagens da fração atendível e a providência de cada uma -->
-| Mensagem | O que a disparou | O que fazer |
+| Mensagem | O que a provocou | O que fazer |
 | :--- | :--- | :--- |
-| «… parece estar em percentual» | fração entre 1 e 100 no arquivo, no vetor semanal, mensal ou diário, ou na automação | informe 0,4 para 40% |
-| «… fora de [0, 100]» | percentual negativo ou acima de 100 na tela, na tabela de cenários, na planilha ou em `--share` | corrija; 40 significa 40% |
-| campo laranja, ou pergunta «Simular mesmo assim?» | percentual entre 0 e 1 | se quis 40%, digite 40; se quis mesmo menos de 1%, confirme |
+| «… parece estar em percentual» | fração entre 1 e 100 no ficheiro, no vetor semanal, mensal ou diário, ou na automação | introduza 0,4 para 40% |
+| «… fora de [0, 100]» | percentagem negativa ou acima de 100 no ecrã, na tabela de cenários, na folha de cálculo ou em `--share` | corrija; 40 significa 40% |
+| campo laranja, ou pergunta «Simular mesmo assim?» | percentagem entre 0 e 1 | se queria 40%, digite 40; se queria mesmo menos de 1%, confirme |
 
 ---
 
 ## Série de precipitação
 
-O programa não distingue um dia seco de um dia sem registro, e por isso não adivinha: uma
-falha na série interrompe o cálculo com a indicação de onde ela está. Preencher a falha,
-ou recortar a série para um período sem falhas, é decisão de quem conduz o estudo, e a
-decisão precisa constar do estudo.
+O programa não distingue um dia seco de um dia sem registo, e por isso não adivinha: uma falha na
+série interrompe o cálculo, com a indicação de onde está. Preencher a falha, ou recortar a série
+para um período sem falhas, é uma decisão de quem conduz o estudo, e a decisão tem de constar do
+estudo.
 
 <!-- tabela: Mensagens de erro da série de precipitação e a providência de cada uma -->
 | Mensagem | Causa | O que fazer |
 | :--- | :--- | :--- |
-| «A série de precipitação está vazia» | arquivo sem nenhuma linha numérica | confira se o arquivo tem uma coluna de valores diários, um por linha |
-| «… dia(s) sem valor numérico, o primeiro no dia N» | falha de registro: linha vazia ou texto no meio da série | preencha as falhas ou recorte a série, e declare o tratamento |
-| «… valor(es) negativo(s), o primeiro de X mm no dia N» | sentinela de falha, como −999 | trate como falha: preencha ou recorte |
+| «A série de precipitação está vazia» | ficheiro sem nenhuma linha numérica | confira se o ficheiro tem uma coluna de valores diários, um por linha |
+| «… dia(s) sem valor numérico, o primeiro no dia N» | falha de registo: linha vazia ou texto a meio da série | preencha as falhas ou recorte a série, e declare o tratamento |
+| «… valor(es) negativo(s), o primeiro de X mm no dia N» | sentinela de falha, como −999 | trate-o como falha: preencha ou recorte |
 
-Uma linha de cabeçalho antes dos dados, como «Data;Precipitação», não é erro: ela é
-ignorada e a leitura começa na primeira linha numérica.
+Uma linha de cabeçalho antes dos dados, como «Data;Precipitação», não é erro: é ignorada e a
+leitura começa na primeira linha numérica.
 
 ---
 
@@ -70,46 +74,45 @@ ignorada e a leitura começa na primeira linha numérica.
 <!-- tabela: Mensagens de erro da varredura de volumes -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | informe o volume máximo em litros |
-| «O passo de varredura deve ser finito e maior que zero» | passo zero ou vazio | informe o passo; ele será arredondado para o múltiplo de 250 L |
+| «O volume máximo da varredura deve ser finito e não negativo» | campo vazio ou negativo | introduza o volume máximo em litros |
+| «O passo de varredura deve ser finito e maior que zero» | passo zero ou vazio | introduza o passo; será arredondado para o múltiplo de 250 L |
 
-Há ainda um aviso que não constitui erro e convém não confundir com um: quando o passo
-de varredura é ajustado para o múltiplo de 250 L, ou quando o limite de quarenta volumes
-obriga a alargá-lo, o programa registra o ajuste e prossegue normalmente. O que esse
-aviso exige do usuário é apenas que ele declare no estudo o passo efetivamente utilizado,
-e não o passo originalmente pedido.
-
----
-
-## Cloração
-
-<!-- tabela: Mensagens de erro dos parâmetros de cloração -->
-| Mensagem | Causa | Solução |
-| :--- | :--- | :--- |
-| «Pureza deve ficar em (0, 1]» | pureza informada como percentual | informe 0,65 para 65%, e não 65 |
-| «A dose não pode ser negativa» | dose menor que zero | corrija |
-| «O fator de emissão não pode ser negativo» | fator de emissão do produto menor que zero | corrija; o fator é por quilo de produto comercial |
+Há ainda um aviso que não é um erro e convém não confundir com um: quando o passo da varredura é
+ajustado para o múltiplo de 250 L, ou quando o limite de quarenta volumes obriga a alargá-lo, o
+programa regista o ajuste e prossegue normalmente. O que esse aviso exige do utilizador é apenas
+que declare no estudo o passo efetivamente utilizado, e não o passo originalmente pedido.
 
 ---
 
-## Análise econômica
+## Cloragem
 
-<!-- tabela: Mensagens de erro da análise econômica e a providência de cada uma -->
+<!-- tabela: Mensagens de erro dos parâmetros de cloragem -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior que zero |
-| «O período de análise deve ser um número inteiro de anos» | período fracionário, zero ou negativo | informe o período em anos inteiros |
-| «… deve ser um número finito e maior que -100%» | reajuste, inflação ou taxa de desconto de −100% ou menos | confira o sinal da taxa |
-| «… parece estar em percentual» | taxa anual informada como 5 numa função que espera fração decimal | informe 0,05 para 5% |
+| «Pureza deve ficar em (0, 1]» | pureza introduzida como percentagem | introduza 0,65 para 65%, e não 65 |
+| «A dose não pode ser negativa» | dose menor do que zero | corrija |
+| «O fator de emissão não pode ser negativo» | fator de emissão do produto menor do que zero | corrija; o fator é por quilograma de produto comercial |
 
-> **Unidade das taxas.** Na interface e no arquivo de projeto, toda taxa é informada em
-> percentual, com a unidade ao lado do campo: a TMA e a inflação em % ao mês (a.m.) ou em
-> % ao ano (a.a.), conforme o botão ao lado, e os reajustes tarifários em % por período
-> de reajuste, cujo comprimento em meses fica no campo vizinho. O projeto grava a TMA e a
-> inflação em % ao mês. A conversão entre mês e ano é composta, (1 + i)^12 − 1, e não uma
-> multiplicação por doze: 1% ao mês equivale a 12,68% ao ano. Na automação, as funções de
-> cálculo anual recebem as taxas como fração decimal, 0,05 para 5%, e recusam um valor que
-> pareça percentual em vez de reinterpretá-lo.
+---
+
+## Análise económica
+
+<!-- tabela: Mensagens de erro da análise económica e a providência de cada uma -->
+| Mensagem | Causa | Solução |
+| :--- | :--- | :--- |
+| «… deve ser um número finito e não negativo» | investimento, tarifa, custo, potência ou volume vazio, negativo ou infinito | a mensagem nomeia o campo; preencha-o com um número igual ou maior do que zero |
+| «O período de análise deve ser um número inteiro de anos» | período fracionário, zero ou negativo | introduza o período em anos inteiros |
+| «… deve ser um número finito e maior que -100%» | atualização, inflação ou taxa de atualização de −100% ou menos | confira o sinal da taxa |
+| «… parece estar em percentual» | taxa anual introduzida como 5 numa função que espera uma fração decimal | introduza 0,05 para 5% |
+
+> **Unidade das taxas.** Na interface e no ficheiro de projeto, toda a taxa é introduzida em
+> percentagem, com a unidade ao lado do campo: a taxa de atualização e a inflação em % por mês ou
+> em % por ano, conforme o botão ao lado, e as atualizações tarifárias em % por período de
+> atualização, cujo comprimento em meses está no campo vizinho. O projeto grava a taxa de
+> atualização e a inflação em % por mês. A conversão entre mês e ano é composta, (1 + i)^12 − 1, e
+> não uma multiplicação por doze: 1% por mês equivale a 12,68% por ano. Na automação, as funções
+> de cálculo anual recebem as taxas como fração decimal, 0,05 para 5%, e recusam um valor que
+> pareça uma percentagem em vez de o reinterpretar.
 
 ---
 
@@ -118,73 +121,71 @@ e não o passo originalmente pedido.
 <!-- tabela: Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
-| «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
-| «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
-| «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
+| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | número de pesos diferente de 3 ou de 7 | introduza um peso por eixo ou um por critério |
+| «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; o peso zero é válido e exclui o critério |
+| «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos a zero | atribua peso a pelo menos um critério |
+| «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente um período de recuperação sem retorno | confira a alternativa indicada antes de decidir |
 
 ---
 
-## Motobomba
+## Eletrobomba
 
-<!-- tabela: Mensagens de erro dos parâmetros da motobomba -->
+<!-- tabela: Mensagens de erro dos parâmetros da eletrobomba -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «Rendimento deve ficar em (0, 1]» | rendimento como percentual no núcleo | use 0,55 para 55% |
-| «Rendimento do motor deve ficar em (0, 1]» | idem, no campo do motor | deixe em branco para o programa adotar a tabela da NBR 17094-2 |
+| «Rendimento deve ficar em (0, 1]» | rendimento como percentagem no núcleo | use 0,55 para 55% |
+| «Rendimento do motor deve ficar em (0, 1]» | idem, no campo do motor | deixe em branco para o programa adotar a sua tabela de rendimentos predefinida |
 
 ---
 
-## Arquivos
+## Ficheiros
 
-<!-- tabela: Situações de erro na leitura e na gravação de arquivos -->
+<!-- tabela: Situações de erro na leitura e na gravação de ficheiros -->
 | Situação | O que acontece | O que fazer |
 | :--- | :--- | :--- |
-| série de chuva ilegível | a leitura é interrompida com mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
-| arquivo `.triton` com JSON inválido | a abertura é interrompida | o arquivo pode estar truncado; recorra à cópia de segurança |
-| seção ausente no arquivo | os campos caem no padrão da classe | esperado ao abrir arquivo de versão anterior; revise a aba correspondente |
-| base climática não instalada | a aba oferece só arquivo próprio | veja a seção {{n:2}} |
+| série de chuva ilegível | a leitura é interrompida com uma mensagem | confira o formato: uma leitura por linha, em mm, coluna única |
+| ficheiro `.triton` com JSON inválido | a abertura é interrompida | o ficheiro pode estar truncado; recorra à cópia de segurança |
+| secção em falta no ficheiro | os campos assumem o valor por omissão da classe | esperado ao abrir um ficheiro de versão anterior; reveja o separador correspondente |
+| base de chuva por concelho não encontrada | o separador oferece só um ficheiro próprio | veja a secção {{n:2}} |
 
 ---
 
 ## Avisos que não interrompem
 
-Os avisos reunidos nesta tabela não impedem o cálculo e não indicam defeito: são
-observações que o programa faz sobre as condições em que o resultado foi produzido. Todas
-elas precisam ser transportadas para o texto do estudo, porque todas afetam a
-interpretação do número e nenhuma delas fica evidente no resultado isolado.
+Os avisos reunidos nesta tabela não impedem o cálculo e não indicam defeito: são observações que o
+programa faz sobre as condições em que o resultado foi produzido. Todas têm de ser transportadas
+para o texto do estudo, porque todas afetam a interpretação do número e nenhuma é evidente no
+resultado isolado.
 
-<!-- tabela: Avisos que não interrompem o cálculo e precisam constar do estudo -->
+<!-- tabela: Avisos que não interrompem o cálculo e têm de constar do estudo -->
 | Aviso | O que significa |
 | :--- | :--- |
-| tipologia não residencial com tarifa residencial | o resultado econômico está **subestimado**; veja a seção {{n:18}} |
-| a classe alvo recomenda filtração fina e ela foi dispensada | decisão registrada no relatório |
-| fator de emissão com rótulo de triagem | o fator não tem fonte primária; declare-o |
-| estrutura tarifária incompleta | a tabela do município tem lacuna; confira contra a resolução |
+| tipologia não residencial com tarifa residencial | o resultado económico está **subestimado**; veja a secção {{n:18}} |
+| a classe-alvo recomenda filtração fina e esta foi dispensada | decisão registada no relatório |
+| fator de emissão com etiqueta de triagem | o fator não tem fonte primária; declare-o |
+| estrutura tarifária incompleta | a estrutura introduzida tem uma lacuna; confira-a com o tarifário publicado |
 | passo de varredura ajustado | o passo efetivo difere do pedido |
-| extrapolação de preço com R² baixo | o volume está fora da tabela de preços e a regressão não é confiável |
+| extrapolação de preço com R² baixo | o volume está fora da tabela de preços e a regressão não é fiável |
 
 ---
 
 ## Quando o resultado parece errado
 
-Antes de suspeitar de defeito no programa, três conferências resolvem a maior parte dos
-casos em que o resultado surpreende, e cada uma delas corresponde a um erro de entrada
-com assinatura própria.
+Antes de suspeitar de um defeito do programa, três conferências resolvem a maior parte dos casos em
+que o resultado surpreende, e cada uma corresponde a um erro de entrada com assinatura própria.
 
-Quando o **potencial sai maior que o esperado**, o suspeito imediato é a fração
-atendível: ela é o teto de todo o resultado, e uma fração generosa demais infla tudo o
-que vem depois sem que nada no relatório denuncie a origem.
+Quando o **potencial sai maior do que o esperado**, o suspeito imediato é a fração satisfazível: é
+o teto de todo o resultado, e uma fração demasiado generosa infla tudo o que vem depois sem que
+nada no relatório denuncie a origem.
 
-Quando o **potencial sai muito menor**, confira a lâmina de descarte. O engano
-correspondente está descrito na seção {{n:33.3}}, e consiste em informar o descarte em
-litros quando o campo pede milímetros — o que descarta, tipicamente, a chuva inteira de
-todos os dias.
+Quando o **potencial sai muito menor**, confira a lâmina de descarte. O engano correspondente está
+descrito na secção {{n:33.3}}, e consiste em introduzir o descarte em litros quando o campo pede
+milímetros — o que descarta, tipicamente, a chuva inteira de todos os dias.
 
-Quando o **retorno do investimento sai absurdo**, em qualquer das duas direções, confira
-o regime tarifário do município. É a causa mais frequente de resultado econômico
-implausível, e a seção {{n:16}} traz o teste que a identifica em dois minutos.
+Quando o **retorno do investimento sai absurdo**, em qualquer das duas direções, confira a
+estrutura tarifária (parte fixa, escalões, saneamento). É a causa mais frequente de um resultado
+económico implausível, e a secção {{n:16}} traz o teste que a identifica em dois minutos.
 
-Vale ainda percorrer as quatro etapas de entrada antes de aceitar qualquer resultado. A
-barra lateral assinala as que permanecem com pendência, e conferir quatro telas custa
-menos tempo que descobrir o engano depois de o relatório estar emitido.
+Vale ainda percorrer as quatro etapas de entrada antes de aceitar qualquer resultado. A barra
+lateral assinala as que continuam com pendência, e conferir quatro ecrãs custa menos tempo do que
+descobrir o engano depois de o relatório estar emitido.

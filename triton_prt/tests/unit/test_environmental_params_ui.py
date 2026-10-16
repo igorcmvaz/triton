@@ -118,7 +118,7 @@ def test_a_justificativa_do_tubo_aparece_no_campo(dialogo):
 def test_a_justificativa_da_bomba_aparece_com_a_fonte(dialogo):
     """O método era um `pass`: existia só para não quebrar os signals.
 
-    Até a 1.0.0 beta a potência de 2 CV era extrapolada e o diálogo avisava. Agora
+    Antes da 0.1.0 beta a potência de 2 CV era extrapolada e o diálogo avisava. Agora
     todas as potências têm massa de catálogo e intensidade de EPD, e a justificativa
     mostra as duas fontes em vez do aviso.
     """

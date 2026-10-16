@@ -92,7 +92,7 @@ and in the CLI.
 | entry point | `main.py` in `triton_int` |
 | build | `python build_exe.py`, inside the folder |
 | folder | `dist/Triton_INT/`, `Triton_INT.exe` |
-| installer | `Triton_INT_Setup_1_0_0.exe` (`/DEdition=INT`) |
+| installer | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) |
 | installation folder | `Triton International` |
 | `.triton` file association | unticked |
 | national databases | none: the package carries no climate or tariff database |

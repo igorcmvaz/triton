@@ -106,8 +106,6 @@ avisos_qt.log
 #   python manual/gerar.py && python manual/gerar_pdf.py
 #   python manual/gerar_mini_manuais.py && python manual/gerar_site.py
 manual/Manual-Triton.pdf.novo
-manual/*.py
-manual/**/*.py
 
 # ---------------------------------------------------------------------------
 # Material de terceiros: usado para escrever o manual, nao redistribuido.
@@ -149,3 +147,21 @@ tarifas/fontes/*
 !tarifas/fontes/procedencia.tsv
 # O banco que reúne esses documentos (scripts/compilar_base_tarifas_fontes.py) também fica fora do Git.
 tarifas/tarifas_fontes.db
+
+# ---------------------------------------------------------------------------
+# Ferramentas de desenvolvimento: ficam no disco do mantenedor, fora do Git.
+# Geradores de dados e de documentos, auditorias, desempenho, QA, coleta e transcrição de tarifas,
+# compilação e divisão das bases, replicação do Netuno 4 e o atualizador tarifário. O programa, o
+# instalador e os testes mantidos não dependem de nada disso (o build_exe.py usa o que existir).
+# ---------------------------------------------------------------------------
+scripts/**/*.py
+tarifas/*.py
+tarifas_portugal/*.py
+docs/gerar_figuras.py
+tests/benchmarking/generate_test_cases.py
+triton/core/tariff_updater/
+# Testes que só existem para essas ferramentas (coleta e transcrição de tarifas).
+tests/unit/test_processar_entrada.py
+tests/unit/test_processo_tarifario.py
+tests/unit/test_registro_de_fontes.py
+tests/unit/test_transcricoes.py

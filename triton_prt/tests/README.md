@@ -10,13 +10,13 @@ Execute os comandos a partir da raiz do repositório, com o ambiente virtual ati
 python -m pip install PySide6 numpy pandas matplotlib openpyxl reportlab numpy-financial pytest pytest-cov
 
 # Ciclo rápido durante o desenvolvimento
-python scripts/qa_runner.py --layer unit --no-cov
+python -m pytest tests/unit -q
 
-# Verificação completa com cobertura
-python scripts/qa_runner.py --layer all
+# Verificação completa
+python -m pytest tests/unit tests/test_essencial.py tests/test_essencial_interface.py tests/integration tests/invariants
 ```
 
-O runner aceita `unit`, `integration`, `invariants`, `ui`, `benchmarking` e `all`. Com cobertura ativa, o relatório navegável é gravado em `reports/coverage/index.html`.
+Cada camada é uma pasta (`unit`, `integration`, `invariants`, `benchmarking`); as telas ficam em `test_essencial_interface.py`. Para a cobertura, acrescente `--cov=triton --cov-report=html`.
 
 ## Qual camada executar
 
@@ -75,7 +75,7 @@ programa está em dois arquivos; o que testa dado, manual e pacote continua nos 
 | --- | --- |
 | Núcleo, sem interface | `test_essencial.py`: invariantes (massa, limites físicos, sentido do VPL, «economizar nunca aumenta a conta»), limites (zero, vazio, extremos) e modos de falha (série com falha, base ausente, download interrompido). Roda na integração contínua, sem Qt |
 | Núcleo, com interface | `test_essencial_interface.py`: telas que levam dado ao cálculo, paridade tela × linha de comando, edições, Modulação Probabilística na tela |
-| Dado com procedência | `unit/test_transcricoes.py`, `test_registro_de_fontes.py`, `test_processo_tarifario.py`, `test_regimes_tarifarios.py`, `test_tariffs_structure.py` e demais: tarifas, fatores e catálogos conferidos contra o documento |
+| Dado com procedência | `unit/test_regimes_tarifarios.py`, `test_tariffs_structure.py` e demais: tarifas, fatores e catálogos conferidos contra o documento |
 | Manual e documentação | `unit/test_manual_confere_com_o_programa.py`, `test_manual_en.py`, `test_o_que_se_comunica.py`, `test_documentation_citations.py` e demais; `invariants/test_coerencia_da_documentacao.py` |
 | Distribuição | `unit/test_empacotamento.py`, `test_instalador.py`, `test_edicoes_documentadas.py`, `test_icones.py`; `invariants/test_declared_dependencies.py`, `test_saida_de_console.py` |
 | Validação contra o Netuno 4 | `benchmarking/test_replicacao_netuno4.py`, `integration/test_batch_validation.py` |

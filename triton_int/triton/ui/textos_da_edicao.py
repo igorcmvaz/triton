@@ -50,13 +50,6 @@ def norma_pluvial(com_ano: bool = False) -> str:
     return ""
 
 
-def norma_curta() -> str:
-    """«NBR 15527» na Brasil, «EN 16941-1» na Portugal; vazia na Internacional."""
-    if usa_dados_do_brasil():
-        return "NBR 15527"
-    return "EN 16941-1" if is_prt_edition() else ""
-
-
 def normas_do_laudo(ingles: bool = False) -> str:
     """O campo «Conformidade Normativa» dos laudos."""
     if usa_dados_do_brasil():

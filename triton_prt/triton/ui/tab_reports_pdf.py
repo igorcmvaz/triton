@@ -9,12 +9,12 @@ from triton.core.edition import rotulo_da_edicao
 import os
 import base64
 from io import BytesIO
-from typing import Optional, List, Dict, Any
+from typing import Optional
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel,
     QPushButton, QTextBrowser, QFileDialog, QMessageBox, QComboBox, QFrame, QSizePolicy
 )
-from PySide6.QtCore import Signal, Qt
+from PySide6.QtCore import Qt
 from triton.ui.translation import tr, get_current_theme, get_current_lang, set_current_lang
 from triton.ui.textos_da_edicao import artefato_de_laudo
 from triton.core.report_generator import save_pdf_report
@@ -1073,12 +1073,6 @@ class TabReportsPdf(QWidget):
         except (ValueError, TypeError):
             return default
 
-    def _safe_int(self, val, default=0):
-        try:
-            return int(val)
-        except (ValueError, TypeError):
-            return default
-
     def get_lca_result(self):
         from triton.core.environmental import empty_environmental_result
         vol = self._project_data.get("lower_vol")
@@ -1180,155 +1174,6 @@ class TabReportsPdf(QWidget):
             catchment_area_m2=self._safe_float(
                 self._project_data.get("area"), 0.0),
         )
-
-    @staticmethod
-    def _linhas_dos_selos_brasileiros(esg, tr) -> list:
-        """AQUA-HQE e Casa Azul são certificações brasileiras: só na Edição Brasil."""
-        from triton.core.edition import usa_dados_do_brasil
-        if not usa_dados_do_brasil():
-            return []
-        return [
-            f"     {tr('AQUA-HQE Residencial')}         : {tr(esg.aqua.performance_level)} — {'; '.join(esg.aqua.itens_atendidos) or tr('nenhum item atendido')}",
-            f"     {tr('Selo Casa Azul + CAIXA')}       : {tr(esg.casa_azul.category)} "
-            f"({str(esg.casa_azul.points_awarded) + ' pts' if esg.casa_azul.points_awarded else esg.casa_azul.pontuacao_faixa if esg.casa_azul.criterion_met else '0 pts'})",
-        ]
-
-    def _update_report_preview_text_legacy(self):
-        self._project_data = self._collect_project_data()
-        d = self._project_data
-        rep_type = self.combo_report_type.currentData() or "economic"
-        report_lang = self.combo_report_lang.currentData() or "pt"
-        from triton.ui.translation import tr as translate
-
-        def tr(text):
-            return translate(text, lang=report_lang)
-
-        def br(v, dec=0, suffix=""):
-            try:
-                s = f"{float(v):,.{dec}f}"
-                return s.replace(',', 'X').replace('.', ',').replace('X', '.') + suffix
-            except Exception:
-                return str(v)
-
-        from triton.core.edition import get_edition_currency_symbol
-        sym = get_edition_currency_symbol()
-        mw = self.window()
-        if mw and hasattr(mw, 'tab_economic'):
-            sym = mw.tab_tanks_simulation.get_currency_symbol().replace("¤", "")
-
-        if rep_type == "economic":
-            title_mode = tr("Relatório Econômico (Clientes)")
-            lines = [
-                "═" * 72,
-                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
-                "═" * 72,
-                "",
-                f"  ┌── {tr('KPIs EXECUTIVOS COMERCIAIS')} ─────────────────────────────────────┐",
-                f"  │  {tr('Volume Recomendado')} : {br(d['lower_vol'],0,' L'):<22} {tr('Economia Potável')} : {br(d['potential_pct'],1,'%')}",
-                f"  │  {tr('VPL (20 anos)')}      : {sym} {br(d['vpl'],2):<19} Payback          : {d['payback_s']} {tr('anos')}",
-                "  └────────────────────────────────────────────────────────────────┘",
-                "",
-                f"  1. {tr('PARÂMETROS DA EDIFICAÇÃO & CHUVA')}",
-                f"     {tr('Cód. Referência')}       : {d['ref_code']}",
-                f"     {tr('Série Pluviométrica')}   : {d['rain_file']}",
-                f"     {tr('Área de Captação')}      : {br(d['area'],1)} m²",
-                f"     {tr('Coef. Escoamento (C)')}  : {br(d['runoff'],2)}",
-                f"     {tr('Descarte First Flush')}  : {br(d['discard'],1)} mm",
-                f"     {tr('Ocupantes')}             : {d['residents']} {tr('pessoas')}",
-                f"     {tr('Demanda per capita')}    : {br(d['demand'],0)} {tr('L/hab/dia')}",
-                "",
-                f"  2. {tr('RESULTADOS DO BALANÇO HÍDRICO')}",
-                f"     {tr('Volume do Reservatório')}       : {br(d['lower_vol'],0)} L",
-                f"     {tr('Economia de Água Potável')}     : {br(d['potential_pct'],1)}%",
-                f"     {tr('Consumo Médio Pluvial')}        : {br(d['pluv_day'],1)} {tr('L/dia')}",
-                f"     {tr('Consumo Médio Potável (Rede)')} : {br(d['potable_day'],1)} {tr('L/dia')}",
-                f"     {tr('Volume Extravasado Médio')}     : {br(d['spill_day'],1)} {tr('L/dia')}",
-                "",
-                f"  3. {tr('VIABILIDADE ECONÔMICA COMERCIAL')}",
-                f"     {tr('CAPEX')}               : {sym} {br(d['capex'],2)}",
-                f"     {tr('Economia 1º Ano')}     : {sym} {br(d['annual_gross'],2)}/{tr('ano')}",
-                f"     {tr('Payback Simples')}     : {d['payback_s']} {tr('anos')}",
-                f"     {tr('Payback Descontado')}  : {d['payback_d']} {tr('anos')}",
-                f"     {tr('VPL (20 anos)')}       : {sym} {br(d['vpl'],2)}",
-                f"     {tr('TIR')}                 : {br(d['tir'],1)}% {tr('a.a.')}",
-                "═" * 72,
-            ]
-        elif rep_type == "environmental":
-            title_mode = tr("Relatório Ambiental & Sustentabilidade ESG (ACV / LCA)")
-            lca = self.get_lca_result()
-            esg = self.get_esg_result()
-            annual_m3 = (d['pluv_day'] * 365.0) / 1000.0
-
-            lines = [
-                "═" * 72,
-                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
-                "═" * 72,
-                "",
-                f"  ┌── {tr('INDICADORES-CHAVE DE MITIGAÇÃO AMBIENTAL & ESG')} ─────────────┐",
-                f"  │  {tr('Carbono Incorporado (ICV)')} : {br(lca.total_embodied_co2_kg,1,' kg CO2e'):<20} {tr('Economia de Água')} : {br(d['potential_pct'],1,'%')}",
-                f"  │  {tr('CO2 Evitado Anual')}         : {br(lca.net_annual_avoided_co2_kg,1,' kg/ano'):<20} {tr('Aproveitamento')}   : {br(annual_m3,1,' m³/ano')}",
-                f"  │  {tr('Saldo Líquido (20 Anos)')}   : {br(lca.lifetime_net_co2_saved_kg,1,' kg CO2e'):<20} {tr('Payback Ecológico')}: {br(lca.environmental_payback_years,1,' anos')}",
-                "  └────────────────────────────────────────────────────────────────┘",
-                "",
-                f"  1. {tr('DESEMPENHO HÍDRICO & BALANÇO DE MASSA')}",
-                f"     {tr('Capacidade do Reservatório')}   : {br(d['lower_vol'],0)} L",
-                f"     {tr('Potencial de Substituição')}    : {br(d['potential_pct'],1)}%",
-                f"     {tr('Volume Pluvial Anual')}         : {br(annual_m3,1)} m³/ano ({br(d['pluv_day'],1)} L/dia)",
-                f"     {tr('Atendimento Hídrico Integral')} : {br(d['sat_full'],1)}% dos dias",
-                "",
-                f"  2. {tr('INVENTÁRIO DO CICLO DE VIDA (ICV / LCA — ISO 14040/14044)')}",
-                f"     {tr('Tubulações')}                   : {br(lca.total_pipes_co2_kg,1)} kg CO2e",
-                f"     {tr('Conjunto Motobomba')}           : {br(lca.pump_embodied_co2_kg,1)} kg CO2e",
-                f"     {tr('Peças e conexões do arranjo 3D')}: {br(sum(i.embodied_co2_kg for i in lca.inventory_items if i.category.startswith('Arranjo 3D')),1)} kg CO2e",
-                f"     {tr('Impacto Fabricação (Total)')}   : {br(lca.total_embodied_co2_kg,1)} kg CO2e",
-                f"     {tr('Operação — Bombeamento')}       : {br(lca.annual_pumping_co2_kg,1)} kg CO2e/ano",
-                f"     {tr('Crédito — Água Evitada')}       : {br(lca.annual_avoided_co2_kg,1)} kg CO2e/ano",
-                "",
-                f"  3. {tr('MATRIZ DE CERTIFICAÇÕES VERDES & ENQUADRAMENTO ESG')}",
-                f"     {tr('LEED v4 BD+C / O+M')}           : {esg.leed.total_leed_we_points} pts ({tr(esg.leed.badge_label)}) — {esg.leed.savings_pct:.1f}% red.",
-                f"     {tr('LEED v5 BD+C, WEc2')}           : {esg.leed_v5.total_pts} / 8 pts ({esg.leed_v5.caminho})",
-                *self._linhas_dos_selos_brasileiros(esg, tr),
-                f"     {tr('EDGE (IFC) — barra de água')} : {br(esg.edge.economia_de_agua_pct,1)}% "
-                f"({tr('atende ao padrão') if esg.edge.atende_o_padrao_de_agua else tr('abaixo do limiar de 20%')})"
-                f" — {tr('WEM14, área de captação')} {br(esg.edge.area_de_captacao_m2,0)} m²",
-                f"     {tr('GRI Standard 303 (Água)')}      : GRI 303-3 / 303-5 ({br(annual_m3,1)} m³ retirados/economizados)",
-                "═" * 72,
-            ]
-        else:
-            title_mode = tr("Relatório de Pesquisa (Acadêmico/Engenharia/ACV)")
-            lca = self.get_lca_result()
-            lines = [
-                "═" * 72,
-                f"  TRITON ({rotulo_da_edicao(curto=True)})  —  {title_mode}  |  Ref: {d['ref_code']}",
-                "═" * 72,
-                "",
-                f"  ┌── {tr('RESUMO TÉCNICO-CIENTÍFICO & ACV')} ─────────────────────────────────┐",
-                f"  │  {tr('Volume Reservatório')}: {br(d['lower_vol'],0,' L'):<22} {tr('Atendimento Hídrico')} : {br(d['sat_full'],1,'%')}",
-                f"  │  {tr('Carbono Fabricação')}: {br(lca.total_embodied_co2_kg,1,' kg'):<22} {tr('CO2 Evitado/Ano')}     : {br(lca.net_annual_avoided_co2_kg,1,' kg')}",
-                f"  │  {tr('Saldo CO2 (20 Anos)')}: {br(lca.lifetime_net_co2_saved_kg,1,' kg'):<22} {tr('Payback ACV')}        : {br(lca.environmental_payback_years,1,' anos')}",
-                "  └────────────────────────────────────────────────────────────────┘",
-                "",
-                f"  1. {tr('CARACTERIZAÇÃO CLIMATOLÓGICA & DEMANDA')}",
-                f"     {tr('Série Climatológica')}   : {d['rain_file']}",
-                f"     {tr('Área Captação (Telhado)')}: {br(d['area'],1)} m²",
-                f"     {tr('Coef. Escoamento C')}    : {br(d['runoff'],2)}",
-                f"     {tr('First Flush Descarte')}   : {br(d['discard'],1)} mm",
-                "",
-                f"  2. {tr('SIMULAÇÃO HIDROLOGICA CONTINUA (MODELO YAS)')}",
-                f"     {tr('Consumo Pluvial')}        : {br(d['pluv_day'],1)} {tr('L/dia')} ({(d['pluv_day']*0.365):.1f} m³/ano)",
-                f"     {tr('Deficit Potável (Rede)')}: {br(d['potable_day'],1)} {tr('L/dia')}",
-                f"     {tr('Extravasamento Médio')}   : {br(d['spill_day'],1)} {tr('L/dia')}",
-                "",
-                f"  3. {tr('ANÁLISE DO CICLO DE VIDA (ACV / LCA SIMPLIFICADA)')}",
-                f"     {tr('Material Reservatório')} : {lca.tank_vol_liters:.0f}L ({lca.total_embodied_co2_kg:.1f} kg CO2e embodied)",
-                f"     {tr('Emissão Bombeamento')}   : {lca.annual_pumping_co2_kg:.1f} kg CO2e/ano",
-                f"     {tr('Emissão Evitada Água')}  : {lca.annual_avoided_co2_kg:.1f} kg CO2e/ano",
-                f"     {tr('Saldo Líquido Anual')}   : {lca.net_annual_avoided_co2_kg:.1f} kg CO2e/ano",
-                f"     {tr('Saldo 20 Anos (Net)')}   : {lca.lifetime_net_co2_saved_kg:.1f} kg CO2e",
-                "═" * 72,
-            ]
-
-        self.txt_preview.setPlainText("\n".join(lines))
 
     def update_report_preview(self):
         """Atualiza a pré-visualização oficial do relatório."""

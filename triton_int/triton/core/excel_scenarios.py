@@ -3,16 +3,15 @@ import os
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 import itertools
 import io
-from dataclasses import dataclass, field
-from typing import List, Dict, Any, Tuple, Optional, Union
+from dataclasses import field
+from typing import List, Dict, Any, Tuple, Union
 import numpy as np
 import pandas as pd
 
 from triton.core.parser import load_precipitation, parse_float, parse_int
 from triton.core.edition import serie_de_exemplo_da_edicao
 from triton.core.fracao_atendivel import percentual_para_fracao, aviso_percentual_pequeno
-from triton.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
-from triton.core.scenarios import ScenarioItem, ScenarioOutput, MultiScenarioMatrixResult
+from triton.core.simulation import run_single_simulation, run_sweep_simulation
 
 def generate_sample_scenario_excel(output_path: str = "cenarios_modelo_triton.xlsx") -> str:
     """

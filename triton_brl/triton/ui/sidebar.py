@@ -6,7 +6,7 @@ Permite trocar de aba com facilidade e exibe o Resumo Expandido do Projeto em te
 import os
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFrame, QButtonGroup
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QFont, QIcon, QPixmap
+from PySide6.QtGui import QPixmap
 
 from triton import APP_VERSION_LABEL
 from triton.ui.translation import tr, get_resource_path, get_current_theme

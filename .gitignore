@@ -15,9 +15,6 @@ manual_fonte/
 # PDFs redundantes gerados dinamicamente para o site offline
 **/manual/site/pdf/
 
-# Scripts geradores do manual (ficam no disco do mantenedor, fora do git)
-**/manual/*.py
-**/manual/**/*.py
 
 # Bancos compilados de fontes e material bruto de terceiros de tarifas
 **/tarifas/tarifas_fontes.db

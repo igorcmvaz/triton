@@ -8,7 +8,7 @@
 Triton is the child of [Netuno](https://sustainability.ufsc.br/): the same calculation engine, with its own name,
 logo, versioning and one edition for each region.
 
-![Version](https://img.shields.io/badge/version-1.0.0-1f497d)
+![Version](https://img.shields.io/badge/version-0.1.0-1f497d)
 ![Python](https://img.shields.io/badge/python-3.12%2B-1f497d)
 [![Zenodo](https://img.shields.io/badge/installers-Zenodo-1f497d)](ZENODO_LINK)
 [![Licence: academic source-available](https://img.shields.io/badge/licence-academic%20source--available-lightgrey)](#licence)
@@ -70,9 +70,9 @@ with a DOI, so that each release can be cited and kept as it was released:
 
 | Edition | Installer |
 |---|---|
-| Brasil (BRL) | `Triton_Setup_1_0_0.exe` |
-| International (INT) | `Triton_INT_Setup_1_0_0.exe` |
-| Portugal (PRT) | `Triton_PRT_Setup_1_0_0.exe` |
+| Brasil (BRL) | `Triton_Setup_0_1_0.exe` |
+| International (INT) | `Triton_INT_Setup_0_1_0.exe` |
+| Portugal (PRT) | `Triton_PRT_Setup_0_1_0.exe` |
 
 Each version of the record holds the installers of all editions, their checksums (SHA-256) and the release notes. The
 source code in this repository is the same one the installers are built from; to build an installer yourself, run

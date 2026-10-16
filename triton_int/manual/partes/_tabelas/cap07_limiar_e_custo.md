@@ -1,16 +1,16 @@
-<!-- tabela: Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
-| Limiar declarado | Volume ideal | Potencial |
+<!-- tabela: Ideal volume obtained with each marginal-gain threshold, for the same project -->
+| Declared threshold | Ideal volume | Potential |
 | ---: | ---: | ---: |
-| 3,0 %/m³ | 3 000 L | 26,48% |
-| 1,0 %/m³ | 4 000 L | 27,12% |
-| 0,5 %/m³ | 5 000 L | 27,47% |
+| 3.0 %/m³ | 3,000 L | 25.99% |
+| 1.0 %/m³ | 4,000 L | 26.83% |
+| 0.5 %/m³ | 5,000 L | 27.24% |
 
-<!-- tabela: Custo e desempenho comparados entre o volume ideal e o volume máximo varrido -->
-| | 4.000 L | 20.000 L |
+<!-- tabela: Cost and performance compared between the ideal volume and the largest volume swept (prices are illustrative, not market prices) -->
+| | 4,000 L | 20,000 L |
 | :--- | ---: | ---: |
-| potencial de economia | 27,12% | 28,00% |
-| preço da cisterna de concreto | R$ 5 304 | R$ 20 607 |
-| massa de concreto | 4 800 kg | 24 000 kg |
-| carbono incorporado do sistema | 858 kg CO₂e | 3 546 kg CO₂e |
-| **razão de preço** | | **3,9×** |
-| **ganho de potencial** | | **+0,88 pontos** |
+| saving potential | 26.83% | 27.98% |
+| concrete cistern price (illustrative, not a market price) | US$ 2,200 | US$ 8,600 |
+| mass of concrete | 4,800 kg | 24,000 kg |
+| embodied carbon of the system | 858 kg CO₂e | 3,546 kg CO₂e |
+| **price ratio** | | **3.9×** |
+| **potential gain** | | **+1.15 points** |

@@ -12,7 +12,7 @@ import sys
 import json
 from typing import List, Tuple, Dict, Any, Optional
 
-from triton.core.tariffs_structure import ESGOTO_PERCENTUAL, ESGOTO_POR_M3, EXPOENTE_DE_CONSUMO
+from triton.core.tariffs_structure import ESGOTO_PERCENTUAL, ESGOTO_POR_M3
 
 _DB_CACHE: Optional[Dict[str, Any]] = None
 

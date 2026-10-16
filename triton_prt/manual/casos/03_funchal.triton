@@ -3,12 +3,12 @@
     "name": "triton-project",
     "version": 2
   },
-  "version": "1.0.0",
+  "version": "0.1.0",
   "metadata": {
-    "project_id": "N5-20261015-085019-8EFA2D9F",
-    "name": "Exemplo - moradia do tutorial no Funchal (ERA5 1991-2020) [custos a informar pelo utilizador]",
+    "project_id": "N5-20261015-235805-AC1CA820",
+    "name": "Manual, secção 3.1 - o mesmo projeto no Funchal",
     "created_at": "15/10/2026 00:00",
-    "saved_at": "15/10/2026 08:50:19"
+    "saved_at": "15/10/2026 23:58:05"
   },
   "rainfall": {
     "source_mode": "custom_file",
@@ -11012,15 +11012,15 @@
       "discard_days_interval": 7
     },
     "reservoirs_and_pumping": {
-      "lower_tank_fixed_l": 2000.0,
+      "lower_tank_fixed_l": 5000.0,
       "lower_tank_max_l": 20000.0,
       "lower_tank_step_l": 1000.0,
-      "lower_tank_mode": 1,
+      "lower_tank_mode": 0,
       "delta_ideal_pct": 1.0,
       "phi_operation_rule": null,
       "upper_tank_vol_l": 0.0,
       "upper_tank_used": false,
-      "pumping_threshold_l": 50.0,
+      "pumping_threshold_l": 0.0,
       "supply_arrangement": "pressurizacao",
       "pressurizer_pressure_m": 18.0,
       "pressurizer_starts_per_person_day": 5.05,
@@ -11201,8 +11201,8 @@
     }
   },
   "analysis": {
-    "exemplo": "Exemplo - moradia do tutorial no Funchal (ERA5 1991-2020) [custos a informar pelo utilizador]",
-    "custos": "Os custos de obra, de bomba e de manutenção não estão definidos: introduza os seus (etapa 5). Até lá, a análise mostra apenas a poupança na fatura.",
+    "exemplo": "Manual, secção 3.1 - o mesmo projeto no Funchal",
+    "custos": "Este caso compara chuva, procura e tarifário; os custos de obra, de bomba e de manutenção não estão definidos (etapa 5). Introduza os seus para fazer a análise económica.",
     "entidades_tarifarias": "Câmara Municipal do Funchal",
     "vigencia_tarifaria": "01/01/2026",
     "fontes_tarifarias": [

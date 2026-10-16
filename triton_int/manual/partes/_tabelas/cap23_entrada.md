@@ -1,17 +1,18 @@
-<!-- tabela: Dados de entrada do caso resolvido de dez dias -->
-| Dado de entrada | Valor |
+<!-- tabela: Input data of the ten-day worked case -->
+| Input | Value |
 | :--- | ---: |
-| área de captação | 100 m² |
-| coeficiente de escoamento | 0,85 |
-| lâmina de descarte | 2,0 mm, em todo evento |
-| demanda total | 200 L/dia |
-| fração atendível por água pluvial | 40% = 80 L/dia |
-| volume do reservatório inferior | 2 000 L |
-| reservatório superior | não há |
+| catchment area | 100 m² |
+| runoff coefficient | 0.85 |
+| first-flush depth | 2.0 mm, at every event |
+| total demand | 200 L/day |
+| fraction suppliable by rainwater | 40% = 80 L/day |
+| lower tank volume | 2,000 L |
+| upper tank | none |
+| rainfall | New York, 21 to 30 September 2018 (ERA5 reanalysis) |
 
-A série de chuva dos dez dias, em milímetros:
+The ten-day rainfall series, in millimetres:
 
-<!-- tabela: Série de precipitação dos dez dias do caso resolvido -->
-| Dia | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+<!-- tabela: Precipitation series of the ten days of the worked case (New York, September 2018) -->
+| Day | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Chuva | 0,0 | 12,4 | 1,6 | 0,0 | 0,0 | 28,0 | 5,2 | 0,0 | 41,0 | 0,0 |
+| Rain | 0.0 | 2.4 | 1.9 | 0.0 | 59.8 | 9.2 | 5.5 | 32.9 | 0.0 | 0.0 |

@@ -4,9 +4,8 @@ from pathlib import Path
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QTextBrowser, QPushButton, QGroupBox
 )
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont
 from triton.ui.translation import tr, get_current_lang, get_current_theme
-from triton import __version__
 
 
 def caminho_do_relatorio(sufixo: str = ""):

@@ -1,9 +1,9 @@
-<!-- tabela: Sensibilidade no volume escolhido: força e sentido da influência de cada variável sorteada sobre os resultados do tutorial -->
-| Variável | ρ com a economia | ρ com o VPL | ρ com o saldo de CO₂ |
+<!-- tabela: Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results -->
+| Variable | ρ with savings | ρ with NPV | ρ with CO₂ balance |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | -0,15 | 0,70 | 0,70 |
-| Consumo per capita | -0,12 | 0,49 | 0,47 |
-| Fração não potável interna | 0,95 | 0,35 | 0,49 |
-| Fator das tarifas de água e esgoto | 0,03 | 0,23 | 0,04 |
-| Fator do investimento | -0,05 | -0,08 | 0,04 |
-| Fator da chuva | 0,08 | 0,01 | 0,03 |
+| Number of occupants | −0.20 | 0.58 | −0.69 |
+| Per capita consumption | −0.16 | 0.42 | −0.47 |
+| Investment factor | −0.06 | −0.39 | −0.04 |
+| Indoor non-potable fraction | 0.92 | 0.39 | −0.49 |
+| Water and sewerage tariff factor | 0.02 | 0.23 | −0.04 |
+| Rainfall factor | 0.10 | 0.01 | −0.05 |

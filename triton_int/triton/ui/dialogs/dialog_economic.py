@@ -18,8 +18,13 @@ from triton.core.economic import run_economic_analysis, calculate_water_bill
 from triton.core.tariff_regimes import resumo_do_regime, validar_estrutura
 from triton.core.tariff_category import incompatibilidade_de_categoria
 from triton.core.tariffs_database import (
-    esgoto_do_municipio, get_available_ufs, get_cities_by_uf, get_city_data,
-    get_total_cities_count, procedencia_tarifaria, rotulo_do_esgoto, search_cities
+    esgoto_do_municipio,
+    get_available_ufs,
+    get_cities_by_uf,
+    get_city_data,
+    procedencia_tarifaria,
+    rotulo_do_esgoto,
+    search_cities,
 )
 from triton.core.tariffs_structure import ESGOTO_POR_FAIXAS, ESGOTO_POR_M3
 from triton.core.economic import esgoto_do_projeto

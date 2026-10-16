@@ -4,27 +4,26 @@
 > from what is intended lets users plan a study with the version they have today, not the one they
 > would like to have.
 
-This section summarises the `ROADMAP.md` at the root of the Triton repository, which covers all three editions and reflects the state of version
-1.0.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
+This section summarises the `ROADMAP.md` at the root of the Triton repository and reflects the state of the
+beta version 0.1.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
 group, with no delivery date. When an item is implemented, it leaves this list and enters the version
 history, with a note on whether it changes the results of studies already done.
 
 The direction comes from two sources. The first is the systematic literature review the group is
-conducting: 762 quantitative studies on the simulation of rainwater harvesting, of which 56 use
-Triton. It shows where published studies omit the operating rule, the definition of reliability and
+conducting on the simulation of rainwater harvesting. It shows where published studies omit the operating rule, the definition of reliability and
 the economic parameters. The second is the program's own issue register, described in the section
 «Known limitations».
 
 ---
 
-## What is already stable in 1.0.0
+## What is already stable in 0.1.0
 
-**Climate series.** 652 Brazilian municipalities with continuous projected series (CLIMBra base,
-CMIP6). **Tariffs.** 652 municipalities with a catalogue of tariffs transcribed from official
-sources. **Water balance.** Daily simulation by the Triton rule, with strict YAS, YBS and the Fewkes
+**Climate series.** Daily series supplied by the user, plus ERA5 example series for New York,
+London and Cape Town. **Tariffs.** Entered by the user, with progressive blocks, fixed charges,
+allowances and escalation. **Water balance.** Daily simulation by the Triton rule, with strict YAS, YBS and the Fewkes
 (2000b) parameter φ as options for a single tank. **Decision.** Multi-criteria by TOPSIS and by
 SMAA-VIKOR. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
-modulation is»). **Editions.** Brazil, International and Portugal.
+modulation is»). **Edition.** International.
 
 ---
 

@@ -1,25 +1,25 @@
 # Triton
 
-## Manual do Usuário — Comece aqui
+## Manual do Utilizador — Comece aqui
 
 Igor Catão Martins Vaz e Enedir Ghisi
 
 Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
-Florianópolis, 2026
+2026
 
 ---
 
 ### Sobre este volume
 
 Este é um dos oito volumes em que o manual do Triton pode ser distribuído, e
-reúne o capítulo 1 (Comece aqui) e o apêndice G do manual completo. Serve para mandar
-só a parte que interessa: o método a um revisor, o tutorial a uma turma, os guias
-a quem já usa o programa.
+reúne o capítulo 1 (Comece aqui) e o apêndice G do manual completo. Serve para enviar
+apenas a parte que interessa: o método a um revisor, o tutorial a uma turma, os guias
+a quem já utiliza o programa.
 
-A numeração das seções e das equações é a mesma do manual completo, de modo que
-uma remissão vale nos dois. Quando o texto remete a uma seção que está em outro
+A numeração das secções e das equações é a mesma do manual completo, de modo que
+uma remissão vale nos dois. Quando o texto remete para uma secção que está noutro
 volume, o nome do volume vem entre parênteses.
 
 | Volume | Conteúdo |
@@ -35,13 +35,13 @@ volume, o nome do volume vem entre parênteses.
 
 ### Como citar
 
-> VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Comece aqui. Versão 1.0.0. Florianópolis: Universidade Federal de Santa
+> VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
+> Comece aqui. Versão 0.1.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
 
-## Sumário
+## Índice
 
 **1 Comece aqui**
 
@@ -60,21 +60,21 @@ Apêndice G — Glossário
 
 ## Lista de figuras
 
-Figura 1 — Componentes de um sistema predial de aproveitamento de água pluvial e percurso da água, da captação ao ponto de consumo
+Figura 1 — Componentes de um sistema predial de aproveitamento de água da chuva e percurso da água, da captação ao ponto de uso
 
 Figura 2 — O mesmo sistema visto em corte
 
 Figura 3 — Destino da precipitação de um dia
 
-Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da seção do balanço diário
+Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da secção do balanço diário
 
 Figura 5 — As seis dimensões de análise e a questão avaliada em cada uma
 
 Figura 6 — Os quatro percursos de leitura do manual
 
-Figura 7 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração
+Figura 7 — Que parte do consumo total a água da chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa esta fração
 
-Figura 8 — As doze etapas do programa, agrupadas por natureza
+Figura 8 — As etapas do programa, agrupadas por natureza
 
 ---
 
@@ -82,11 +82,11 @@ Figura 8 — As doze etapas do programa, agrupadas por natureza
 
 Tabela 1 — Requisitos de sistema para instalar e executar o programa
 
-Tabela 2 — O que muda entre a Edição Brasil e a International Edition
+Tabela 2 — O que a Edição Portugal traz e o que deixa ao utilizador
 
-Tabela 3 — Formatos de arquivo que o programa grava e o conteúdo de cada um
+Tabela 3 — Formatos de ficheiro que o programa grava e o conteúdo de cada um
 
-Tabela 4 — Arquivos de exemplo distribuídos com o programa
+Tabela 4 — Ficheiros de exemplo distribuídos com o programa
 
 Tabela 5 — Percurso de leitura recomendado conforme o objetivo do leitor
 
@@ -106,549 +106,369 @@ Tabela 9 — Grandezas fundamentais do balanço hídrico e relações entre fra�
 
 ---
 
-## 1.1. O que o Triton faz, e o que ele não faz
+## 1.1. O que o Triton faz, e o que não faz
 
-O Triton simula sistemas de aproveitamento de água pluvial em edificações. Dado o
-regime de chuva de um lugar, a cobertura de um edifício e o consumo de quem o ocupa,
-ele responde **quanto de água potável o sistema substitui**, e a que custo, com que
-qualidade e com que impacto de carbono.
+O Triton simula sistemas de aproveitamento de água da chuva em edifícios. Dado o regime de chuva de um lugar, a cobertura de um edifício e o consumo de quem o ocupa, responde **quanta água potável o sistema substitui**, a que custo, com que qualidade e com que impacto de carbono.
 
-Esta seção começa do começo, e por isso as duas subseções iniciais tratam do próprio
-objeto antes de tratarem do programa. Quem já projeta sistemas prediais de água as
-achará elementares e pode ir direto às seis dimensões de análise, que é onde o Triton
-aparece; quem está chegando agora ao assunto encontrará ali o vocabulário que o
-restante do manual usa sem explicar de novo.
+Esta secção começa pelo princípio. As duas primeiras subsecções tratam do próprio objeto, antes do programa. Quem já projeta redes prediais de água acha-as elementares e pode ir direto às seis dimensões de análise, onde o Triton aparece. Quem chega agora ao assunto encontra aí o vocabulário que o resto do manual usa sem o explicar de novo.
 
 ---
 
-### 1.1.1. O que é um sistema de aproveitamento de água pluvial
+### 1.1.1. O que é um sistema de aproveitamento de água da chuva
 
-É um sistema que **coleta a chuva que cai no telhado e a usa no lugar da água da
-rede**, nos usos que não precisam de água potável.
+É um sistema que **recolhe a chuva que cai na cobertura e a usa no lugar da água da rede pública**, nos usos que não exigem água potável.
 
-A ideia é velha e simples. O que ela tem de difícil é uma coisa só: a chuva não cai
-quando você precisa dela. Por isso o sistema precisa de um reservatório, e por isso o
-tamanho desse reservatório é a pergunta central de todo projeto — e deste manual. A Figura 1 apresenta os componentes do sistema e o percurso da água, da captação ao ponto de consumo.
+A ideia é velha e simples. Só uma coisa a torna difícil: a chuva não cai quando é precisa. Por isso o sistema precisa de um reservatório, e por isso o tamanho desse reservatório é a pergunta central de todo o projeto — e deste manual. A Figura 1 mostra os componentes do sistema e o percurso da água, da captação ao ponto de uso.
 
 ![O caminho da água, da cobertura ao ponto de uso](../figuras/fig00_sistema.png)
 
-*Figura 1 — Componentes de um sistema predial de aproveitamento de água pluvial e percurso da água, da captação ao ponto de consumo. O reservatório superior aparece tracejado porque é opcional: em edificação térrea, a motobomba pode pressurizar diretamente os pontos de uso, e o reservatório superior altera o momento da oferta de água, e não o volume disponível.*
+*Figura 1 — Componentes de um sistema predial de aproveitamento de água da chuva e percurso da água, da captação ao ponto de uso. O reservatório superior aparece a tracejado porque é opcional: num edifício de um só piso, a eletrobomba pode pressurizar diretamente os pontos de uso, e o reservatório superior altera o momento em que a água é fornecida, não o volume disponível.*
 
-Seguindo o desenho, da esquerda para a direita:
+Da esquerda para a direita:
 
-**A cobertura** é a área de captação. Vale a **projeção horizontal** do telhado, e não
-a área inclinada, como define o item 3.6 da ABNT NBR 15527:2019 — é a sombra do telhado
-no chão que recebe a chuva. Errar isso é o
-primeiro dos dez enganos da seção 5.1 (volume Enganos, limitações e confiabilidade).
+**A cobertura** é a área de captação. Conta a **projeção horizontal** do telhado, não a área inclinada: é a sombra do telhado no chão que recebe a chuva. Errar aqui é o primeiro dos dez enganos da secção 5.1 (volume Enganos, limitações e confiabilidade).
 
-**As calhas e os condutores** levam a água até a cisterna. O programa não os
-dimensiona; isso é projeto hidráulico, e segue a ABNT NBR 10844.
+**As caleiras e os tubos de queda** levam a água até à cisterna. O programa não os dimensiona. Isso é projeto de drenagem pluvial predial e segue a regulamentação portuguesa aplicável (ver o fim desta secção).
 
-**O dispositivo de descarte da primeira chuva** desvia os primeiros milímetros de
-cada evento, que carreiam a poeira, as folhas e os excrementos de aves acumulados
-na cobertura. É a medida de controle de qualidade de menor custo, e a seção 4.6 (volume Tutorial)
-mostra o quanto ela muda a água que chega ao reservatório.
+**O dispositivo de descarte das primeiras águas** desvia os primeiros milímetros de cada chuvada, que arrastam o pó, as folhas e os dejetos de aves acumulados na cobertura. É a medida de controlo de qualidade mais barata. A secção 4.6 (volume Tutorial) mostra quanto muda a água que chega ao reservatório.
 
-**A cisterna**, ou reservatório inferior, armazena a água captada. Quando o volume
-afluente excede a capacidade, o excedente **extravasa** para a rede de drenagem. Esse
-extravasamento não é desperdício por descuido: é a consequência inevitável de guardar
-um recurso que chega concentrado.
+**A cisterna**, ou reservatório inferior, armazena a água captada. Quando a afluência excede a capacidade, o excedente **extravasa** para a rede de drenagem. Este extravasamento não é desperdício por descuido: é a consequência inevitável de guardar um recurso que chega concentrado.
 
-**A motobomba e o reservatório superior** distribuem a água. Em edificação térrea, a
-motobomba pode pressurizar diretamente os pontos de uso. Em edificações de dois ou mais
-pavimentos, adota-se usualmente reservatório elevado: a água é recalcada até ele e
-distribuída por gravidade.
+**A eletrobomba e o reservatório superior** distribuem a água. Num edifício de um só piso, a eletrobomba pode pressurizar diretamente os pontos de uso. Em edifícios de dois ou mais pisos, costuma adotar-se um reservatório elevado: a água é elevada até ele e distribuída por gravidade.
 
-**Os usos não potáveis** são o destino: bacia sanitária e mictório, lavagem de piso e
-de veículos, irrigação paisagística. Quando a água pluvial não é suficiente, a
-**rede pública** supre o complemento, e o abastecimento não é interrompido.
+**Os usos não potáveis** são o destino: autoclismos e urinóis, lavagem de pavimentos e de veículos, rega de jardins. Quando a água da chuva não chega, a **rede pública** fornece o complemento, e o abastecimento nunca é interrompido.
 
-O diagrama da Figura 1 mostra o encadeamento das peças, que é o que interessa para
-acompanhar o cálculo. Falta a ele, porém, a informação que decide metade das
-dúvidas de projeto: onde cada peça fica em relação às outras, e a que altura. O corte da Figura 2 repõe essa geometria, porque desnível é o que determina se a água
-desce por gravidade ou precisa de bomba, e porque a posição da cisterna em
-relação ao terreno é uma decisão de obra, não de cálculo.
+O diagrama da Figura 1 mostra o encadeamento das peças, que é o que interessa para seguir o cálculo. Falta-lhe a informação que decide metade das dúvidas de projeto: onde fica cada peça em relação às outras, e a que altura. O corte da Figura 2 repõe essa geometria. O desnível decide se a água desce por gravidade ou precisa de bomba, e a posição da cisterna em relação ao terreno é uma decisão de obra, não de cálculo.
 
-![O sistema em corte, com as peças na altura em que de fato ficam](../figuras/fig00d_corte.png)
+![O sistema em corte, com as peças na altura em que realmente ficam](../figuras/fig00d_corte.png)
 
-*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, e não a área inclinada do telhado. A caixa elevada recebe a água recalcada da cisterna e a devolve aos pontos de uso por gravidade; a rede pública a alimenta, com separação atmosférica, suprindo o volume que a água pluvial não atende. O extravasor da cisterna conduz o excedente à rede de drenagem.*
+*Figura 2 — O mesmo sistema visto em corte. A área de captação é a projeção horizontal da cobertura, não a área inclinada do telhado. O reservatório elevado recebe a água elevada da cisterna e devolve-a aos pontos de uso por gravidade; a rede pública alimenta-o, com separação atmosférica, no volume que a água da chuva não cobre. O extravasor da cisterna conduz o excedente à rede de drenagem.*
 
-> **Vocabulário que o manual usa o tempo todo.** *Cisterna* e *reservatório inferior*
-> designam o mesmo componente. *Extravasamento* é o volume excedente que o extravasor
-> conduz à rede de drenagem. *Demanda pluvial* é a parte
-> do consumo que a água de chuva pode atender; *demanda total* é o consumo inteiro da
-> edificação. O apêndice G traz o glossário completo.
+> **Vocabulário que o manual usa o tempo todo.** *Cisterna* e *reservatório inferior* designam o mesmo componente. *Extravasamento* é o volume excedente que o extravasor conduz à rede de drenagem. *Procura pluvial* é a parte do consumo que a água da chuva pode atender; *procura total* é o consumo inteiro do edifício. O apêndice G traz o glossário completo.
 
 ---
 
-### 1.1.2. O que o programa calcula, em um dia
+### 1.1.2. O que o programa calcula, num dia
 
-O programa faz uma conta de entrada e saída, todo dia, para cada dia da série de
-chuva. A Figura 3 mostra como a precipitação de um dia se reparte, e a conta é esta:
+O programa faz uma conta de entradas e saídas, todos os dias, para cada dia da série de chuva. A Figura 3 mostra como a precipitação de um dia se reparte. A conta é esta:
 
 ![Como a chuva de um dia se reparte](../figuras/fig00b_destino.png)
 
-*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermediária entre as regras YAS e YBS, explicada na seção do balanço diário.*
+*Figura 3 — Destino da precipitação de um dia. Cada caixa é uma parcela do balanço, e a soma do volume extravasado, do volume consumido e do volume armazenado é igual ao volume captado. O extravasamento é calculado antes do consumo do dia, e a chuva do dia já pode atender o consumo do dia: uma ordem intermédia entre as regras YAS e YBS, explicada na secção do balanço diário.*
 
 Lendo o desenho:
 
-1. **Desconta-se o descarte.** Com precipitação de 12 mm e descarte de 2 mm, restam 10 mm de precipitação efetiva.
-2. **Converte-se em volume.** Dez milímetros sobre 100 m² de telhado, com coeficiente
-   de escoamento de 0,85, dão 850 litros. A conta é `mm × m² × coeficiente`, e sai
-   direto em litros, porque um milímetro sobre um metro quadrado é exatamente um
-   litro.
-3. **Soma-se ao volume armazenado na cisterna**, e o excedente à capacidade **extravasa**
-   para a rede de drenagem.
-4. **Retira-se o consumo do dia**, até o limite da demanda pluvial.
-5. **O volume remanescente é transferido ao dia seguinte** — e é essa dependência entre
-   dias consecutivos que torna necessária a simulação diária.
+1. **Desconta-se o descarte.** Com 12 mm de precipitação e 2 mm de descarte, restam 10 mm de precipitação efetiva.
+2. **Converte-se em volume.** Dez milímetros sobre 100 m² de telhado, com coeficiente de escoamento de 0,85, dão 850 litros. A conta é `mm × m² × coeficiente` e sai diretamente em litros, porque um milímetro sobre um metro quadrado é exatamente um litro.
+3. **Soma-se ao volume armazenado na cisterna.** O que exceder a capacidade **extravasa** para a rede de drenagem.
+4. **Retira-se o consumo do dia**, até ao limite da procura pluvial.
+5. **O volume remanescente passa para o dia seguinte.** É esta dependência entre dias consecutivos que torna necessária a simulação diária.
 
-Os cinco passos formam um ciclo, e não uma lista: o volume remanescente ao fim do
-quinto passo é exatamente o volume de que o terceiro passo parte no dia seguinte. Essa
-ligação entre um dia e o outro é a única coisa que uma conta feita sobre a média anual
-não consegue reproduzir, e é a razão de a simulação ser diária. A Figura 4 representa essa sequência na notação das equações do balanço diário.
+Os cinco passos formam um ciclo, não uma lista: o volume que sobra no fim do quinto passo é exatamente o volume de que o terceiro parte no dia seguinte. Esta ligação entre um dia e o outro é a única coisa que uma conta sobre a média anual não reproduz, e é a razão de a simulação ser diária. A Figura 4 representa a sequência na notação das equações do balanço diário.
 
 ![A ordem das operações de um dia, e a memória que liga um dia ao seguinte](../figuras/fig00e_balanco_do_dia.png)
 
-*Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da seção do balanço diário. A ligação em roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente V_res,t é o volume inicial do dia seguinte.*
+*Figura 4 — Sequência de operações do balanço diário, na ordem em que o programa as executa, na notação das equações da secção do balanço diário. A ligação a roxo, que contorna o desenho, representa a dependência entre dias consecutivos: o volume remanescente V_res,t é o volume inicial do dia seguinte.*
 
-> **Aprofundamento: por que não basta a média anual.** É tentador dividir a chuva
-> anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e às vezes
-> muito. A razão é que a chuva chega **concentrada**: enche a cisterna num dia,
-> extravasa, e depois falta por duas semanas. A média não representa nem o
-> extravasamento nem o déficit, e ambos reduzem o aproveitamento. A seção 2.1 (volume O método)
-> mostra isso acontecendo numa tabela de dez dias que você pode refazer na planilha,
-> e a seção 4.4 (volume Tutorial) mostra o tamanho do erro.
+> **Aprofundamento: porque não basta a média anual.** É tentador dividir a chuva anual por 365 e fazer a conta de uma vez. O resultado é sempre otimista, e por vezes muito. A chuva chega **concentrada**: enche a cisterna num dia, extravasa, e depois falta durante duas semanas. A média não representa nem o extravasamento nem o défice, e ambos reduzem o aproveitamento. A secção 2.1 (volume O método) mostra isto numa tabela de dez dias que pode refazer numa folha de cálculo, e a secção 4.4 (volume Tutorial) mostra o tamanho do erro.
 
-Repetida ao longo de trinta anos de série, essa conta produz a resposta central do
-programa: o **potencial de economia de água potável**, a fração do consumo total da
-edificação que a chuva conseguiu substituir.
+Repetida ao longo de trinta anos de série, esta conta produz a resposta central do programa: o **potencial de economia de água potável**, a fração do consumo total do edifício que a chuva conseguiu substituir.
 
 ---
 
 ### 1.1.3. As seis dimensões
 
-O volume de água fornecido é a primeira questão de um projeto, mas não a única. O
-programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos distintos (Figura 5).
+O volume de água fornecido é a primeira questão de um projeto, mas não a única. O programa avalia o sistema em seis dimensões, que em geral conduzem a volumes ótimos distintos (Figura 5).
 
 ![As seis dimensões de análise do programa](../figuras/fig26_dimensoes.png)
 
-*Figura 5 — As seis dimensões de análise e a questão avaliada em cada uma. O programa as percorre nessa ordem, e cada uma é tratada numa seção própria do capítulo do método.*
+*Figura 5 — As seis dimensões de análise e a questão avaliada em cada uma. O programa percorre-as por esta ordem, e cada uma é tratada numa secção própria do capítulo do método.*
 
-Cada dimensão tem tratamento próprio no capítulo do método: a técnica nas seções 2.1 (volume O método) a 2.4 (volume O método), a qualidade na 2.5 (volume O método), a econômica na 2.7 (volume O método), a ambiental na 2.8 (volume O método), a certificação na 2.9 (volume O método) e a decisão na 2.10 (volume O método).
+Cada dimensão tem tratamento próprio no capítulo do método: a técnica nas secções 2.1 (volume O método) a 2.4 (volume O método), a qualidade na 2.5 (volume O método), a económica na 2.7 (volume O método), a ambiental na 2.8 (volume O método), a certificação na 2.9 (volume O método) e a decisão na 2.10 (volume O método).
 
 
-A sexta dimensão é a que distingue o programa de uma planilha de cálculo. As cinco
-primeiras produzem resultados **divergentes**: o volume de maior economia de água
-raramente é o de maior retorno financeiro, e nenhum dos dois costuma ser o de melhor
-desempenho ambiental. A decisão multicritério torna explícitos os pesos atribuídos a
-cada critério.
+A sexta dimensão distingue o programa de uma folha de cálculo. As cinco primeiras dão resultados **divergentes**: o volume de maior poupança de água raramente é o de maior retorno financeiro, e nenhum dos dois costuma ser o de melhor desempenho ambiental. A decisão multicritério torna explícitos os pesos atribuídos a cada critério.
 
 ---
 
 ### 1.1.4. O que o programa **não** faz
 
-Começar pelos limites é incomum, e é deliberado. Poupa o tempo de quem abriu o
-programa esperando outra coisa.
+Começar pelos limites é invulgar, e deliberado. Poupa tempo a quem abriu o programa à espera de outra coisa.
 
-**Não dimensiona a instalação hidráulica.** Não calcula traçado, diâmetro por trecho nem declividade da rede. O assistente de motobomba estima o diâmetro e a perda de carga do recalque para selecionar o equipamento, mas não substitui o projeto da instalação; o esquema exportado em DXF é um esquema, e o projeto executivo é do projetista.
+**Não dimensiona a instalação hidráulica.** Não calcula o traçado, o diâmetro de cada troço nem a inclinação da rede. O assistente de eletrobomba estima o diâmetro e a perda de carga da conduta de elevação para escolher o equipamento, mas não substitui o projeto da instalação. O esquema exportado em DXF é um esquema; o projeto de execução é do projetista.
 
-**Não detalha o dispositivo de descarte.** O programa calcula o volume do reservatório de descarte, igual à área de captação vezes a lâmina, e o orça com o separador de folhas; o arranjo das conexões, a purga e a ligação à drenagem são projeto hidráulico à parte.
+**Não detalha o dispositivo de descarte.** O programa calcula o volume do reservatório de descarte, igual à área de captação vezes a lâmina, e orça-o com o separador de folhas. A disposição das ligações, a purga e a ligação à drenagem são projeto hidráulico à parte.
 
-**Não substitui ensaio de qualidade de água.** Ele dimensiona equipamento de
-tratamento a partir de premissas. As constantes do modelo de lavagem da cobertura não
-são calibradas contra medição, e a qualidade resultante é premissa, não resultado.
+**Não substitui ensaios de qualidade da água.** Dimensiona o equipamento de tratamento a partir de premissas. As constantes do modelo de lavagem da cobertura não estão calibradas com medições, e a qualidade resultante é uma premissa, não um resultado.
 
-**Não modela sub-passo horário.** Uma chuva de 40 mm em duas horas e a mesma lâmina
-em vinte e quatro horas dão o mesmo resultado.
+**Não modela o passo horário.** Uma chuva de 40 mm em duas horas e a mesma lâmina em vinte e quatro horas dão o mesmo resultado.
 
-**Não faz inventário completo de ciclo de vida.** A avaliação é de **triagem**, numa
-única categoria de impacto — carbono. Não há eutrofização, acidificação, uso do solo
-nem toxicidade.
+**Não faz o inventário completo do ciclo de vida.** A avaliação é de **triagem**, numa única categoria de impacto — o carbono. Não há eutrofização, acidificação, uso do solo nem toxicidade.
 
-**Não certifica.** Ele mostra onde o projeto se enquadraria. A certificação é
-decidida pelo organismo certificador, com a documentação completa do empreendimento.
+**Não certifica.** Mostra onde o projeto se enquadraria. A certificação cabe ao organismo certificador, com a documentação completa do empreendimento.
 
-**Não conhece o sítio.** Não sabe se o volume cabe no terreno, se há lençol freático
-alto, nem se a estrutura suporta a caixa elevada.
+**Não conhece o local.** Não sabe se o volume cabe no terreno, se o nível freático é alto, nem se a estrutura aguenta o reservatório elevado.
 
-A seção 5.2 (volume Enganos, limitações e confiabilidade) traz a lista completa de limitações conhecidas, com as consequências de
-cada uma.
+A secção 5.2 (volume Enganos, limitações e confiabilidade) traz a lista completa das limitações conhecidas, com as consequências de cada uma.
 
 ---
 
 ### 1.1.5. Para quem serve
 
-O manual atende a quatro perfis de leitor, com percursos de leitura independentes entre si (Figura 6).
+O manual serve quatro perfis de leitor, com percursos de leitura independentes entre si (Figura 6).
 
 
 
 ![Os quatro perfis de leitor e o percurso de cada um](../figuras/fig27_leitores.png)
 
-*Figura 6 — Os quatro percursos de leitura do manual. São independentes entre si, e o manual foi organizado para que cada um possa ser seguido isoladamente.*
+*Figura 6 — Os quatro percursos de leitura do manual. São independentes entre si, e o manual foi organizado para que cada um se possa seguir isoladamente.*
 
-Em números de seção: o estudante segue o capítulo 4, que é o tutorial do começo ao fim; o projetista usa os guias do capítulo 3 e o roteiro da seção 1.3; o pesquisador vai ao método do capítulo 2; e o revisor encontra no capítulo 5 a verificação e os limites declarados.
+Em números de secção: o estudante segue o capítulo 4, o tutorial do princípio ao fim; o projetista usa os guias do capítulo 3 e o roteiro da secção 1.3; o investigador vai ao método do capítulo 2; e o revisor encontra no capítulo 5 a verificação e os limites declarados.
 
 
-Quem está começando agora deve percorrer o capítulo 4 inteiro, na ordem em que
-está escrito. Ele constrói um projeto do zero e o acompanha até a decisão final, e cada
-seção encerra mostrando onde o projeto chegou, de modo que o leitor veja o estudo se
-formando em vez de recebê-lo concluído.
+Quem começa agora deve percorrer o capítulo 4 inteiro, pela ordem em que está escrito. Constrói um projeto de raiz, em Lisboa, e acompanha-o até à decisão final. Cada secção termina a mostrar onde o projeto chegou, para o leitor ver o estudo a formar-se em vez de o receber concluído.
 
 ---
 
-### 1.1.6. O que mudou do Netuno 4
+### 1.1.6. Normas e entidades de referência
 
-O Netuno 4 é o antecessor, publicado em 2014 pelo mesmo grupo. O Triton mantém o
-modelo conceitual — balanço comportamental diário — e acrescenta seis dimensões de
-análise que não existiam.
+A norma europeia de referência para estes sistemas é a EN 16941-1, sobre sistemas de água não potável no local (sistemas de aproveitamento de água da chuva). Cobre o projeto, o dimensionamento, a instalação, a identificação, a colocação em serviço e a manutenção, com exclusão da água para beber e para a preparação de alimentos. A edição de 2018 foi retirada em 22 de março de 2024 (BSI, https://knowledge.bsigroup.com/products/on-site-non-potable-water-systems-systems-for-the-use-of-rainwater, consultado em 16/10/2026). [A COMPLETAR: confirmar o ano da edição em vigor da EN 16941-1 e a transposição para a norma portuguesa NP EN 16941-1, no catálogo do IPQ.]
 
-> **Aprofundamento: as duas diferenças deliberadas de método.** Quem comparar
-> resultados das duas versões precisa declará-las.
->
-> **O tratamento do descarte.** O Netuno 4 trata a lâmina como **limiar do evento**:
-> abaixo dela nada é captado, acima dela capta-se a chuva inteira. O Triton
-> **subtrai** a lâmina, o que é fisicamente mais fiel.
->
-> **O critério de volume ótimo.** As implementações e as grades de busca diferem.
->
-> Juntas, as duas respondem por 91% da divergência medida entre os programas. Sobre
-> 4.050 casos de referência, o Triton estima de 2,3 a 2,7 pontos percentuais menos
-> economia. **Neutralizadas as duas, o motor reproduz o Netuno 4 com erro médio de
-> 0,25 ponto percentual e 100% dos casos dentro de 5 pontos.** A seção 6.1 (volume Correções, bugs e versionamento) traz a
-> decomposição completa.
+Em Portugal, a especificação técnica ETA 0701 da ANQIP (Associação Nacional para a Qualidade nas Instalações Prediais) estabelece critérios para estes sistemas em edifícios, para fins que não o consumo humano. Recomenda o desvio de um volume correspondente a 2 mm de precipitação, e remete o projeto de redes prediais para o Regulamento Geral dos Sistemas Públicos e Prediais de Distribuição de Água e de Drenagem de Águas Residuais (Decreto Regulamentar n.º 23/95, de 23 de agosto). A versão consultada é a 7, com validade indicada de 23/01/2009 a 23/01/2014 (cópia no repositório do IPL, https://repositorio.ipl.pt/bitstreams/27266c84-d607-4ad7-9c68-9b51a215314f/download). [A COMPLETAR: confirmar no sítio da ANQIP a revisão em vigor da ETA 0701, e se o Decreto Regulamentar n.º 23/95 continua em vigor sem alterações relevantes para este uso.]
 
 ---
 
-### 1.1.7. Uma palavra sobre resultados
+### 1.1.7. Uma palavra sobre os resultados
 
-Todo número que o programa produz é **condicional às premissas declaradas**. Ele não
-descobre verdades; ele calcula consequências.
+Todo o número que o programa produz é **condicional às premissas declaradas**. O programa não descobre verdades; calcula consequências.
 
-Por isso o manual insiste tanto em declaração. A seção 4.10 (volume Tutorial) traz a lista do que
-precisa constar num artigo, a seção 5.1 (volume Enganos, limitações e confiabilidade) traz os dez enganos que o programa não
-impede, e a seção 5.2 (volume Enganos, limitações e confiabilidade) traz o que ele não cobre.
+Por isso o manual insiste tanto na declaração. A secção 4.10 (volume Tutorial) traz a lista do que deve constar num artigo, a secção 5.1 (volume Enganos, limitações e confiabilidade) os dez enganos que o programa não impede, e a secção 5.2 (volume Enganos, limitações e confiabilidade) o que ele não cobre.
 
-Um estudo que declara suas premissas e seus limites é mais útil — e mais defensável —
-que um que apresenta um número sozinho.
+Um estudo que declara as suas premissas e os seus limites é mais útil — e mais defensável — do que um que apresenta um número isolado.
 
 ---
 
 ## 1.2. Instalação e primeira execução
 
-> Ao terminar esta seção você terá o programa instalado, aberto, e uma simulação
-> concluída com um resultado que dá para conferir contra este manual.
+> No fim desta secção, tem o programa instalado e aberto, e uma simulação concluída com um resultado que pode conferir contra este manual.
 
 ---
 
-### 1.2.1. O que você precisa
+### 1.2.1. O que é preciso
 
 <!-- tabela: **Tabela 1** — Requisitos de sistema para instalar e executar o programa -->
 | Requisito | O que é preciso |
 | :--- | :--- |
 | sistema | Windows 10 ou 11, 64 bits |
-| espaço em disco | cerca de 1,5 GB, já com a base climática nacional |
-| memória | 4 GB bastam; 8 GB deixam a varredura mais confortável |
-| privilégios | de administrador para instalar para todos os usuários; sem eles, a instalação vai para a pasta do usuário |
+| espaço em disco | cerca de 0,7 GB |
+| memória | 4 GB chegam; 8 GB deixam o varrimento mais folgado |
+| privilégios | de administrador, para instalar para todos os utilizadores; sem eles, a instalação vai para a pasta do utilizador |
 
-Nada além disso precisa ser instalado. O programa é distribuído já montado, com todos os
-componentes de que depende para calcular, e não requer instalação prévia de
-interpretadores, bibliotecas ou pacotes auxiliares. Também não requer conexão com a
-internet para funcionar: tudo o que ele consulta durante uma simulação está no próprio
-computador.
+Não é preciso instalar mais nada. O programa é distribuído já montado, com todos os componentes de que depende para calcular, e não exige a instalação prévia de interpretadores, bibliotecas ou pacotes auxiliares. Também não precisa de ligação à internet: tudo o que consulta durante uma simulação está no próprio computador.
 
 ---
 
-### 1.2.2. As duas edições
+### 1.2.2. A edição
 
-O programa tem duas edições, com instaladores próprios, que podem ficar instaladas lado a
-lado. O selo verde (BRL) ou azul (INT) no alto da barra lateral, o título da janela e o
-rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
+Esta é a Edição Portugal (PRT). Está em português de Portugal, trabalha em euros e traz dados de Portugal: a chuva diária por concelho e os tarifários de água de Lisboa, do Porto e do Funchal. O selo vermelho no topo da barra lateral, o título da janela e o rodapé de cada relatório e de cada exportação dizem de que edição saiu o estudo.
 
-<!-- tabela: **Tabela 2** — O que muda entre a Edição Brasil e a International Edition -->
-| | Edição Brasil (BRL) | International Edition (INT) |
-| :--- | :--- | :--- |
-| instalador | `Triton_Setup_1_0_0.exe` | `Triton_INT_Setup_1_0_0.exe` |
-| idioma ao abrir | português | inglês |
-| chuva | base CLIMBra (652 cidades) ou série própria | série própria |
-| tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
-| energia | tarifa da ANEEL ou digitada; bandeiras tarifárias | digitada |
-| moeda e custos | reais, com preços de referência | euro ao abrir, ou outra moeda escolhida; custos digitados |
-| fator de emissão da rede e da água potável | bases brasileiras (MCTI, rotas por região) | do país do projeto, obrigatórios |
-| certificações e incentivos | LEED, EDGE, AQUA-HQE, Selo Casa Azul, IPTU Verde | LEED, EDGE |
-| etapa 12, Gestor de Tarifas | presente | ausente |
-| etapa 13, Modulação Probabilística | presente | presente |
-| aviso de categoria tarifária não residencial | presente (3.5 (volume Guias de uso)) | ausente: a tarifa já é a digitada |
-| custo da tubulação e da mão de obra | calculado do arranjo, a preços brasileiros | digitado |
-| manual que o programa abre | o português; o inglês nas demais línguas da interface | o inglês |
-| preferências guardadas | `Triton` | `Triton-INT`, separadas da Brasil |
+<!-- tabela: **Tabela 2** — O que a Edição Portugal traz e o que deixa ao utilizador -->
+| | Edição Portugal (PRT) |
+| :--- | :--- |
+| instalador | `Triton_PRT_Setup_0_1_0.exe` |
+| idioma ao abrir | português de Portugal |
+| chuva | base E-OBS por concelho (278 concelhos do Continente) ou série própria; Açores e Madeira só com série própria; série de exemplo do Funchal |
+| tarifas de água, saneamento e resíduos | tarifários de Lisboa, do Porto e do Funchal; nos outros concelhos, digitadas |
+| eletricidade | digitada (o Funchal traz a tarifa da EEM) |
+| moeda e custos | euro, a única oferecida; custos digitados |
+| fator de emissão da rede e da água potável | do local do projeto, obrigatórios |
+| certificações e incentivos | LEED, EDGE, GRI |
+| etapa 12 | Modulação Probabilística |
+| custo da tubagem e da mão de obra | digitado |
+| manual que o programa abre | este manual |
+| preferências guardadas | `Triton-PRT` |
 
-As duas edições calculam exatamente da mesma forma: o balanço diário, o descarte inicial,
-os coeficientes de escoamento, a análise econômica e a avaliação de ciclo de vida são o
-mesmo código. O que a International Edition deixa de fora são **dados** brasileiros, e
-não método. Ao longo deste manual, uma nota «Só na Edição Brasil (BRL)» marca o que a
-International Edition não traz, e uma nota «Na International Edition (INT)» diz como
-seguir nela. As diferenças entre as normas brasileiras que o método segue e a norma
-europeia EN 16941-1:2024 estão listadas, item a item, no documento
-`docs/normas_nbr_x_en16941.md` do repositório.
+O método é o mesmo em qualquer país: o balanço diário, o descarte inicial, os coeficientes de escoamento, a análise económica e a avaliação do ciclo de vida são um só motor. O que muda de país para país são os **dados**. Os custos de obra, de bomba, de tratamento e de manutenção não vêm definidos: dependem do local e do mercado, e o utilizador introduz os seus. Os custos que este manual usa nos casos são **ilustrativos, não são preços de mercado**.
 
-Sem os fatores de emissão do país, a International Edition não calcula a avaliação
-ambiental: um fator brasileiro aplicado a outro país daria um resultado errado sem
-nenhum aviso.
+Sem os fatores de emissão do local, o programa não calcula a avaliação ambiental: um fator de outra rede elétrica daria um resultado errado sem qualquer aviso.
+
+Quando uma exigência de uma norma nacional importa, o manual descreve-a em termos gerais e pede que consulte a norma aplicável ao local do edifício (ver a secção 1.1).
 
 ---
 
 ### 1.2.3. A instalação
 
-1. Execute **`Triton_Setup_1_0_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_1_0_0.exe`**
-   (International Edition). O instalador pergunta se a instalação é para
-   todos os usuários, o que exige administrador, ou só para você.
-2. Escolha o idioma da instalação e leia e aceite a licença (código-fonte acadêmico, uso não comercial).
-3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os
-   exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de
-   idioma espanhol e chinês. Na Edição Brasil, a base climática nacional vai sempre
-   junto, embutida no programa.
-4. Aceite a pasta sugerida, `C:\Program Files\Triton` (Edição Brasil) ou
-   `C:\Program Files\Triton International` (International Edition), ou escolha outra.
-5. Marque, se quiser, **criar ícone na área de trabalho**. A opção **abrir arquivos
-   .triton com o Triton** vem marcada na Edição Brasil: com ela, um duplo clique num
-   projeto o abre diretamente no programa. Na International Edition ela vem desmarcada,
-   para não tomar os arquivos de uma Edição Brasil instalada no mesmo computador.
-6. Ao terminar, o instalador oferece abrir o programa.
+1. Execute **`Triton_PRT_Setup_0_1_0.exe`**. O instalador pergunta se a instalação é para todos os utilizadores, o que exige administrador, ou só para si.
+2. Escolha o idioma da instalação, leia e aceite a licença (código-fonte académico, uso não comercial).
+3. Escolha o tipo de instalação. A **padrão** traz o programa, o manual, os casos, os exemplos e todos os idiomas. A **personalizada** permite desmarcar os pacotes de idioma espanhol e chinês.
+4. Aceite a pasta sugerida, `C:\Program Files\Triton Portugal`, ou escolha outra.
+5. Marque, se quiser, **criar ícone no ambiente de trabalho**. A opção **abrir ficheiros .triton com o Triton** vem desmarcada, para não tomar os ficheiros de outra edição do Triton instalada no mesmo computador; marque-a se quiser abrir um projeto com um duplo clique.
+6. No fim, o instalador oferece-se para abrir o programa.
 
-Depois disso, o menu Iniciar traz dois atalhos: o programa e o seu manual em PDF — este
-documento na Edição Brasil, o manual em inglês na International Edition. Para desinstalar, use *Aplicativos e recursos* do
-Windows, como em qualquer programa; os seus projetos ficam onde foram salvos.
+Depois, o menu Iniciar tem dois atalhos: o programa e o seu manual em PDF (este documento). Para desinstalar, use *Aplicações e funcionalidades* do Windows, como com qualquer programa; os seus projetos ficam onde os guardou.
 
-> **O que o instalador coloca no computador.** O programa, as quatro séries
-> históricas de chuva que acompanham a instalação, os arquivos de exemplo e, na Edição
-> Brasil, a base de tarifas dos 652 municípios e a base climática nacional. Nada é baixado durante o uso: o Triton
-> funciona sem conexão com a internet.
+> **O que o instalador põe no computador.** O programa, a base de chuva diária por concelho (E-OBS), a série de exemplo do Funchal, a base de tarifários, os ficheiros de exemplo e este manual. Nada é transferido durante a utilização: o Triton funciona sem ligação à internet.
 
 ---
 
-### 1.2.4. Onde ficam os seus arquivos
+### 1.2.4. Onde ficam os seus ficheiros
 
-O programa nunca decide por você onde salvar. Cada vez que você grava um projeto, um
-relatório ou uma exportação, ele pergunta a pasta.
+O programa nunca decide por si onde guardar. De cada vez que grava um projeto, um relatório ou uma exportação, pergunta a pasta.
 
-<!-- tabela: **Tabela 3** — Formatos de arquivo que o programa grava e o conteúdo de cada um -->
-| O que você grava | Extensão | Contém |
+<!-- tabela: **Tabela 3** — Formatos de ficheiro que o programa grava e o conteúdo de cada um -->
+| O que grava | Extensão | Contém |
 | :--- | :--- | :--- |
 | projeto | `.triton` | todos os dados de entrada **e a série de chuva** |
 | relatório | `.pdf` | o documento completo do estudo |
-| resultados | `.xlsx`, `.csv` | as tabelas, para planilha |
+| resultados | `.xlsx`, `.csv` | as tabelas, para folha de cálculo |
 | esquema | `.dxf` | o desenho esquemático, para CAD |
 
-Entre esses formatos, o `.triton` é o que realmente importa guardar. Ele é autocontido:
-leva a série de chuva inteira dentro de si, e por isso abre em qualquer outro computador
-mesmo na ausência dos arquivos que lhe deram origem. A exceção é a chuva da base CLIMBra,
-que acompanha o programa: o arquivo guarda a referência da série — cidade, modelo,
-cenário e recorte de datas —, com o número de dias, o total e uma impressão digital
-(SHA-256) dos valores, e o programa a recompõe da base ao abrir o projeto, conferindo a
-impressão. Uma série alterada depois de carregada, ou uma base indisponível ao gravar,
-continua indo inteira para o arquivo. ==É também o arquivo que se anexa a
-um artigo para que outra pessoa reproduza o estudo,== e essa propriedade é o que separa
-um trabalho verificável de um trabalho apenas relatado.
+Destes formatos, o `.triton` é o que mais importa guardar. É autocontido: leva dentro de si a série de chuva e, por isso, abre em qualquer outro computador mesmo sem os ficheiros que lhe deram origem. Uma exceção: a chuva da base E-OBS, que acompanha o programa. O ficheiro guarda a referência da série — concelho e intervalo de datas —, com o número de dias, o total e uma impressão digital (SHA-256) dos valores, e o programa recompõe-na a partir da base ao abrir o projeto, conferindo a impressão. Uma série alterada depois de carregada, ou uma base indisponível ao gravar, continua a ir inteira para o ficheiro. ==É também o ficheiro a anexar a um artigo para que outra pessoa reproduza o estudo,== e é esta propriedade que separa um trabalho verificável de um trabalho apenas relatado.
 
 ---
 
 ### 1.2.5. A base climática
 
-O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
-Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
+O programa traz a chuva diária de 278 concelhos do Continente, extraída da E-OBS v33.0e (Copernicus/KNMI, grelha de 0,1°, 1950 a 2025). A série de um concelho é a média das células da grelha com centro dentro dos seus limites. Os Açores e a Madeira não têm série na base e pedem uma série própria. Aceita ainda qualquer série própria em CSV: precipitação diária em milímetros, um valor por dia, como descreve o apêndice F (volume Apêndices).
 
-> **Só na Edição Brasil (BRL).** A base climática nacional só acompanha a Edição Brasil.
-> Na International Edition, a série de chuva é sempre um arquivo próprio: precipitação
-> diária em milímetros, um valor por dia, como descreve o apêndice F (volume Apêndices).
+A E-OBS é uma grelha interpolada de observações, não um registo de pluviómetro. Serve para estudos e para os exemplos deste manual. Num projeto real, use a série medida no local sempre que a tiver.
 
-Além delas, a Edição Brasil traz a **base climática nacional**: 652 cidades, 19 modelos
-climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto
-CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados num
-único banco, de cerca de 800 MB, que vai embutido no instalador. Não há nada a baixar
-nem a copiar: a base aparece na primeira tela como uma lista de cidades.
-
-O apêndice E (volume Apêndices) descreve a base, e a seção 3.2 (volume Guias de uso) mostra como usar um cenário futuro.
+> **Dados de reanálise no Funchal.** A E-OBS não dá uma série utilizável para o Funchal (faltam dados em 22% dos dias de 1991 a 2020, e o critério admite no máximo 1%). A série de exemplo do Funchal é por isso reanálise ERA5, de uma célula de cerca de 9 km, e pode diferir da média medida na estação.
 
 ---
 
-### 1.2.6. Os arquivos de exemplo
+### 1.2.6. Os ficheiros de exemplo
 
-O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos
-aqui.
+O manual vem acompanhado de projetos prontos, que reproduzem os resultados impressos aqui.
 
-<!-- tabela: **Tabela 4** — Arquivos de exemplo distribuídos com o programa -->
-| Arquivo | Para que serve |
+<!-- tabela: **Tabela 4** — Ficheiros de exemplo distribuídos com o programa -->
+| Ficheiro | Para que serve |
 | :--- | :--- |
-| `casos\01_tutorial_florianopolis.triton` | o projeto que o capítulo 4 constrói, pronto |
-| `casos\03_dez_dias.triton` | o caso didático de dez dias da seção 2.1 (volume O método) |
-| `casos\05_manaus.triton` e os seguintes | o mesmo projeto em outras capitais |
-| `exemplos\*.triton` | três estudos completos: residência, escritório e escola |
+| `casos\01_tutorial_lisboa.triton` | o projeto que o capítulo 4 constrói, pronto |
+| `casos\05_dez_dias.triton` | o caso didático de dez dias da secção 2.1 (volume O método) |
+| `casos\02_porto.triton` e `casos\03_funchal.triton` | a mesma moradia noutras cidades |
+| `exemplos\portugal\*.triton` | três estudos completos: Lisboa, Porto e Funchal |
 
-Eles ficam na pasta do programa. O apêndice J (volume Apêndices) lista os nove casos do manual, com o
-capítulo de cada um e o resultado que produzem.
+Ficam na pasta do programa. O apêndice J (volume Apêndices) lista os dez casos do manual, com o capítulo de cada um e o resultado que produzem.
 
-Convém começar pelo caso de dez dias. Abra-o, execute a simulação e compare o resultado
-com a tabela impressa na seção 2.1 (volume O método). A coincidência entre os dois confirma que a
-instalação corresponde exatamente a este manual; a divergência indica que manual e
-programa são de versões diferentes, e a seção 6.3 (volume Correções, bugs e versionamento) explica como proceder nesse caso.
+Convém começar pelo caso de dez dias. Abra-o, execute a simulação e compare o resultado com a tabela impressa na secção 2.1 (volume O método). Se coincidirem, a instalação corresponde exatamente a este manual. Se divergirem, o manual e o programa são de versões diferentes, e a secção 6.3 (volume Correções, bugs e versionamento) explica o que fazer.
 
 ---
 
 ### 1.2.7. A primeira simulação, em cinco minutos
 
-O programa é organizado em **etapas**, na barra lateral esquerda, na ordem em que se
-trabalha. Para a primeira simulação bastam quatro delas.
+O programa organiza-se em **etapas**, na barra lateral esquerda, pela ordem em que se trabalha. Para a primeira simulação bastam quatro.
 
-1. **Projeto e Chuva.** Escolha a cidade na base climática, ou carregue o arquivo
-   `Florianopolis1.csv` que acompanha o programa. Informe a área de captação de
-   150 m², o coeficiente de escoamento de 0,85 e o descarte de 2,0 mm.
-2. **Edificação e Consumo.** Escolha residencial unifamiliar, 4 moradores, 150 litros
-   por habitante e dia, e fração atendível de 28%.
-3. **Reservatório & Custos.** Informe volume fixo de 4.000 L.
-4. Rode, e vá a **Resultados Técnicos**.
+1. **Projeto e Chuva.** Escolha o concelho de Lisboa na base climática. Indique a área de captação de 150 m², o coeficiente de escoamento de 0,85 e o descarte de 2,0 mm.
+2. **Edificação e Consumo.** Escolha moradia unifamiliar, 4 moradores, 150 litros por habitante e dia, e fração atendível de 28%.
+3. **Reservatório & Custos.** Indique um volume fixo de 3.000 L.
+4. Simule e vá a **Resultados Técnicos**.
 
-Você deve obter potencial de economia próximo de **27%**.
+Deve obter um potencial de economia próximo de **15%** (15,39% com a série de Lisboa).
 
-A seção 4.3 (volume Tutorial) explica o que esse número significa, e a seção 4.4 (volume Tutorial) faz a pergunta
-seguinte: 4.000 L é o volume certo?
+A secção 4.3 (volume Tutorial) explica o que este número significa, e a secção 4.4 (volume Tutorial) faz a pergunta seguinte: serão 3.000 L o volume certo?
 
 ---
 
-### 1.2.8. Se alguma coisa der errado
+### 1.2.8. Se algo correr mal
 
-**O programa não abre.** Verifique se a instalação terminou sem erro e reinstale por
-cima; a reinstalação preserva os seus arquivos, porque eles não ficam na pasta do
-programa.
+**O programa não abre.** Verifique se a instalação terminou sem erros e reinstale por cima; a reinstalação preserva os seus ficheiros, porque não ficam na pasta do programa.
 
-**A lista de cidades está vazia.** A base climática nacional acompanha só a Edição
-Brasil. Na Internacional, use um arquivo de chuva próprio.
+**A lista de concelhos está vazia.** Confirme que a base de chuva (`data\portugal_eobs.db`) está na pasta do programa; se faltar, reinstale. Nos Açores e na Madeira, use um ficheiro de chuva próprio.
 
-**Falta alguma parte do programa, como a volumetria 3D.** Rode, no Prompt de Comando,
-`"C:\Program Files\Triton\Triton.exe" --diagnostico`. O programa lista o que a
-instalação traz: o visualizador 3D, a base climática, o banco tarifário e o manual. Cada
-item sai marcado OK ou FALTA. A lista também fica gravada em `triton_diagnostico.txt`,
-na pasta temporária do Windows. Mande esse arquivo junto com o relato do problema.
+**Falta alguma parte do programa, como a volumetria 3D.** Execute, na Linha de Comandos, `"C:\Program Files\Triton Portugal\Triton_PRT.exe" --diagnostico` (com a pasta predefinida). O programa lista o que a instalação traz: o visualizador 3D, a base de chuva, a base de tarifários e o manual. Cada item sai marcado OK ou FALTA. A lista fica também gravada em `triton_diagnostico.txt`, na pasta temporária do Windows. Envie esse ficheiro com a descrição do problema.
 
-**O resultado não bate com o manual.** Confira, nesta ordem: a série de chuva
-carregada, a área, o coeficiente, a lâmina de descarte, a demanda e a fração
-atendível. Uma divergência de resultado quase sempre é uma divergência de entrada, e a seção 5.1 (volume Enganos, limitações e confiabilidade) lista os enganos mais comuns.
+**O resultado não bate com o manual.** Confira, por esta ordem: a série de chuva carregada, a área, o coeficiente, a lâmina de descarte, a procura e a fração atendível. Uma divergência de resultado é quase sempre uma divergência de entrada, e a secção 5.1 (volume Enganos, limitações e confiabilidade) lista os enganos mais comuns.
 
-**Uma mensagem de erro apareceu.** A seção 6.2 (volume Correções, bugs e versionamento) traz as mensagens do programa, o que
-cada uma significa e o que fazer.
+**Apareceu uma mensagem de erro.** A secção 6.2 (volume Correções, bugs e versionamento) traz as mensagens do programa, o que cada uma significa e o que fazer.
 
 ---
 
 ## 1.3. Por onde começar, conforme o seu objetivo
 
-Este manual reúne cinquenta e quatro seções distribuídas em oito capítulos, e não foi
-concebido para ser lido do começo ao fim. Ele funciona melhor como obra de consulta, em
-que cada leitor entra pelo ponto que corresponde ao que precisa fazer, e esta seção
-existe justamente para indicar esse ponto de entrada.
+Este manual reúne cinquenta e quatro secções em oito capítulos e não foi pensado para se ler do princípio ao fim. Funciona melhor como obra de consulta: cada leitor entra pelo ponto que corresponde ao que precisa de fazer. Esta secção existe para indicar esse ponto de entrada.
 
 ---
 
 ### 1.3.1. Roteiro por objetivo
 
-A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa, com o
-percurso de leitura correspondente a cada um deles.
+A tabela abaixo relaciona os cinco propósitos mais comuns de quem abre o programa com o percurso de leitura de cada um.
 
 <!-- tabela: **Tabela 5** — Percurso de leitura recomendado conforme o objetivo do leitor -->
-| Você quer | Leia |
+| Quer | Leia |
 | :--- | :--- |
-| **aprender a usar** o programa | o capítulo 4 inteiro, seções 4.1 (volume Tutorial) a 4.10 (volume Tutorial), na ordem |
-| **resolver um caso** hoje | as três perguntas abaixo, e depois o guia do capítulo 3 que couber |
-| **publicar** um estudo | o capítulo 2, que traz o método, e a seção 4.10 (volume Tutorial), com a lista de declaração |
-| **revisar** um estudo alheio | o capítulo 5, e os apêndices A (volume Apêndices) e B (volume Apêndices) |
-| **migrar** do Netuno 4 | as seções 3.8 (volume Guias de uso) e 6.1 (volume Correções, bugs e versionamento) |
-| **não errar** | a seção 5.1 (volume Enganos, limitações e confiabilidade), com os dez enganos mais comuns |
+| **aprender a usar** o programa | o capítulo 4 inteiro, secções 4.1 (volume Tutorial) a 4.10 (volume Tutorial), por ordem |
+| **resolver um caso** hoje | as três perguntas abaixo e, depois, o guia do capítulo 3 que servir |
+| **publicar** um estudo | o capítulo 2, que traz o método, e a secção 4.10 (volume Tutorial), com a lista de declaração |
+| **rever** um estudo alheio | o capítulo 5 e os apêndices A (volume Apêndices) e B (volume Apêndices) |
+| **exportar** para CAD, BIM ou folha de cálculo | a secção 3.9 (volume Guias de uso) |
+| **não errar** | a secção 5.1 (volume Enganos, limitações e confiabilidade), com os dez enganos mais comuns |
 
-Quem dispõe de uma hora e nenhuma familiaridade prévia deve ler o tutorial do capítulo
-4. Ele constrói um estudo completo em torno de um único projeto, e cada seção
-encerra mostrando onde esse projeto chegou, de modo que o leitor acompanha a construção
-em vez de receber o resultado pronto.
+Quem tem uma hora e nenhuma familiaridade prévia deve ler o tutorial do capítulo 4. Constrói um estudo completo em torno de um único projeto, em Lisboa, e cada secção termina a mostrar onde o projeto chegou. O leitor acompanha a construção em vez de receber o resultado feito.
 
 ---
 
 ### 1.3.2. As três perguntas que definem um estudo
 
-Antes mesmo de abrir o programa, convém responder a três perguntas, porque elas
-determinam boa parte das decisões subsequentes e porque respondê-las depois costuma
-implicar refazer trabalho.
+Antes de abrir o programa, convém responder a três perguntas. Elas determinam boa parte das decisões seguintes, e responder-lhes depois costuma obrigar a refazer trabalho.
 
-#### 1.3.2.1. Que usos a água pluvial vai atender?
+#### 1.3.2.1. Que usos vai a água da chuva atender?
 
-A resposta define a **fração atendível**, e a fração atendível é o teto de todo o resto:
-um sistema cuja fração é de 28% jamais economizará mais que 28% do consumo total, por
-maior que seja a cisterna e por mais que chova. Nenhuma decisão posterior de projeto
-altera esse limite, razão pela qual ele merece ser estabelecido antes de qualquer outra coisa. A Figura 7 reúne as faixas usuais da fração atendível conforme os usos previstos.
+A resposta define a **fração atendível**, e a fração atendível é o teto de tudo o resto: um sistema com fração de 28% nunca poupará mais de 28% do consumo total, por maior que seja a cisterna e por mais que chova. Nenhuma decisão de projeto posterior altera este limite, e por isso convém fixá-lo primeiro. A Figura 7 reúne as gamas habituais da fração atendível conforme os usos previstos.
 
 ![A fração atendível conforme os usos previstos](../figuras/fig46_atendivel.png)
 
-*Figura 7 — Que parte do consumo total a água de chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa essa fração.*
+*Figura 7 — Que parte do consumo total a água da chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa esta fração.*
 
-Os casos residenciais são tratados na seção 4.2 (volume Tutorial), e o caso comercial na seção 3.5 (volume Guias de uso). A linha tracejada marca os 28% do tutorial, que ficam nos usos que o item 4.1.7 da ABNT NBR 15527:2019 admite.
+Os casos residenciais tratam-se na secção 4.2 (volume Tutorial) e o caso comercial na secção 3.5 (volume Guias de uso). A linha a tracejado marca os 28% do tutorial, que ficam nos usos não potáveis que a orientação sobre águas pluviais em geral admite: autoclismos, lavagens e rega. [A COMPLETAR: citar, com a fonte aberta, o artigo da ETA 0701 da ANQIP (ou da norma portuguesa em vigor) que lista os usos admitidos.]
 
 
 #### 1.3.2.2. Vai comparar volumes ou avaliar um só?
 
-A distinção entre avaliar um volume conhecido e procurar o volume adequado determina o
-modo de simulação e, com ele, o tempo de máquina e a riqueza do resultado.
+A diferença entre avaliar um volume conhecido e procurar o volume adequado determina o modo de simulação e, com ele, o tempo de cálculo e a riqueza do resultado.
 
 <!-- tabela: **Tabela 6** — Escolha entre volume fixo e varredura conforme a pergunta do estudo -->
-| Se você quer | Use | Onde se trata |
+| Se quer | Use | Onde se trata |
 | :--- | :--- | :--- |
-| avaliar uma cisterna que já existe | volume fixo | seção 4.3 (volume Tutorial) |
-| descobrir o volume a comprar | **varredura** | seções 4.4 (volume Tutorial) e 2.2 (volume O método) |
-| escolher entre critérios que discordam | varredura e multicritério | seções 4.9 (volume Tutorial) e 2.10 (volume O método) |
+| avaliar uma cisterna que já existe | volume fixo | secção 4.3 (volume Tutorial) |
+| descobrir o volume a comprar | **varredura** | secções 4.4 (volume Tutorial) e 2.2 (volume O método) |
+| escolher entre critérios que discordam | varredura e multicritério | secções 4.9 (volume Tutorial) e 2.10 (volume O método) |
 
-==A varredura é quase sempre a resposta certa.== Ela custa mais tempo de máquina, na
-ordem de segundos, e produz a curva de retorno decrescente, que é o argumento mais forte
-de que qualquer estudo pode dispor ao justificar um volume.
+==A varredura é quase sempre a resposta certa.== Custa mais tempo de cálculo, da ordem dos segundos, e produz a curva de retorno decrescente, o argumento mais forte de que um estudo dispõe para justificar um volume.
 
 #### 1.3.2.3. Precisa de reservatório superior?
 
-A terceira pergunta é hidráulica, e a resposta depende da altura da edificação e da
-pressão exigida nos pontos de consumo.
+A terceira pergunta é hidráulica. A resposta depende da altura do edifício e da pressão exigida nos pontos de consumo.
 
 <!-- tabela: **Tabela 7** — Critérios hidráulicos para decidir sobre o reservatório superior -->
-| Se a edificação | Então | Onde se trata |
+| Se o edifício | Então | Onde se trata |
 | :--- | :--- | :--- |
-| é térrea e os pontos ficam próximos da cisterna | pressurização direta, sem caixa | seção 4.5 (volume Tutorial) |
-| é sobrado ou prédio | caixa elevada, por **pressão** | seção 4.5 (volume Tutorial) |
-| precisa de reserva contra falta de energia | caixa elevada | seção 4.5 (volume Tutorial) |
+| é térreo e os pontos ficam perto da cisterna | pressurização direta, sem reservatório superior | secção 4.5 (volume Tutorial) |
+| é moradia de dois pisos ou prédio | reservatório superior, por **pressão** | secção 4.5 (volume Tutorial) |
+| precisa de reserva contra falhas de energia | reservatório superior | secção 4.5 (volume Tutorial) |
 
-> A caixa elevada **não aumenta** a economia de água. Mantido o mesmo armazenamento
-> total, ela entrega ligeiramente menos e consome energia de recalque. A decisão de
-> adotá-la deve ser hidráulica, e nunca fundada na expectativa de maior aproveitamento.
+> O reservatório superior **não aumenta** a poupança de água. Com o mesmo armazenamento total, entrega um pouco menos e gasta energia de elevação. A decisão de o adotar deve ser hidráulica, nunca fundada na expectativa de um aproveitamento maior. No tutorial de Lisboa, a diferença é de 0,31 pontos percentuais (secção 4.5 (volume Tutorial)).
 
 ---
 
 ### 1.3.3. A ordem de trabalho no programa
 
-A barra lateral do programa está numerada, e a numeração corresponde à ordem em que se
-trabalha. As quatro primeiras etapas são de entrada de dados, as quatro seguintes apresentam resultados, e as quatro últimas produzem saídas ou dão apoio ao estudo (Figura 8).
+A barra lateral do programa está numerada, e a numeração segue a ordem em que se trabalha. As quatro primeiras etapas são de entrada de dados, as cinco seguintes apresentam resultados, e as restantes produzem saídas ou dão apoio ao estudo (Figura 8).
 
-![As doze etapas do programa, na ordem de trabalho](../figuras/fig28_etapas.png)
+![As etapas do programa, na ordem de trabalho](../figuras/fig28_etapas.png)
 
-*Figura 8 — As doze etapas do programa, agrupadas por natureza. As quatro primeiras são de entrada e precisam ser preenchidas em ordem, porque cada uma consome o que a anterior definiu; as quatro seguintes são leitura de resultados; as últimas quatro produzem saídas ou dão apoio, e podem ser acionadas a qualquer momento.*
+*Figura 8 — As etapas do programa, agrupadas por natureza. As quatro primeiras são de entrada e devem ser preenchidas por ordem, porque cada uma usa o que a anterior definiu; as cinco seguintes são de leitura de resultados; as restantes produzem saídas ou dão apoio, e podem ser usadas a qualquer momento.*
 
-Onde este manual trata cada uma: a etapa 1 na seção 4.1 (volume Tutorial), a 2 na 4.2 (volume Tutorial), a 3 na 4.6 (volume Tutorial), a 4 nas seções 4.3 (volume Tutorial), 4.4 (volume Tutorial) e 4.7 (volume Tutorial), a 5 na 4.3 (volume Tutorial), a 6 na 4.7 (volume Tutorial), a 7 na 4.8 (volume Tutorial), a 8 na 4.9 (volume Tutorial), a 9 na 4.10 (volume Tutorial), a 10 na 3.9 (volume Guias de uso), a 12 na 3.3 (volume Guias de uso) e a 13, a Modulação Probabilística, nas seções 7.1 (volume Modulação probabilística) a 7.5 (volume Modulação probabilística). A etapa 11 é a própria documentação embutida no programa, e não tem seção correspondente aqui. Na International Edition, a etapa 12, o Gestor de Tarifas, não aparece, porque o catálogo tarifário brasileiro não a acompanha.
+Onde este manual trata cada uma: a etapa 1 na secção 4.1 (volume Tutorial), a 2 na 4.2 (volume Tutorial), a 3 na 4.6 (volume Tutorial), a 4 nas secções 4.3 (volume Tutorial), 4.4 (volume Tutorial) e 4.7 (volume Tutorial), a 5 na 4.3 (volume Tutorial), a 6 na 4.7 (volume Tutorial), a 7 na 4.8 (volume Tutorial), a 8 na 4.9 (volume Tutorial), a 9 na 4.10 (volume Tutorial), a 10 na 3.9 (volume Guias de uso) e a 12, a Modulação Probabilística, nas secções 7.1 (volume Modulação probabilística) a 7.5 (volume Modulação probabilística). A etapa 11 é a documentação incorporada no programa e não tem secção correspondente aqui. A Edição Portugal não traz catálogo de tarifários de todos os concelhos, e por isso não tem etapa de gestão de tarifas: os tarifários de Lisboa, do Porto e do Funchal vêm já nos projetos de exemplo, e nos restantes concelhos digita as tarifas do seu projeto na etapa económica. A numeração não tem salto.
 
 
-Convém salvar o projeto ao concluir cada etapa. Os parâmetros do apêndice A (volume Apêndices) são
-gravados e relidos integralmente, e o arquivo resultante é a evidência documental do estudo, tanto
-para quem o refará no futuro quanto para quem o avaliará.
+Convém guardar o projeto no fim de cada etapa. Os parâmetros do apêndice A (volume Apêndices) são gravados e relidos na íntegra, e o ficheiro resultante é a prova documental do estudo, tanto para quem o refizer no futuro como para quem o avaliar.
 
 ---
 
 ### 1.3.4. Antes de publicar
 
-Três leituras são obrigatórias para quem pretende publicar resultados, e nenhuma delas é
-longa. A seção 4.10 (volume Tutorial) traz a lista do que declarar num artigo, acompanhada de um
-parágrafo de método pronto para adaptação. A seção 5.1 (volume Enganos, limitações e confiabilidade) reúne os dez enganos de
-projeto que o programa não tem como impedir. E a seção 5.2 (volume Enganos, limitações e confiabilidade) relaciona as limitações
-conhecidas — das quais interessa ler não todas, mas as que afetam o caso em mãos.
+Três leituras são obrigatórias para quem pretende publicar resultados, e nenhuma é longa. A secção 4.10 (volume Tutorial) traz a lista do que declarar num artigo, com um parágrafo de método pronto a adaptar. A secção 5.1 (volume Enganos, limitações e confiabilidade) reúne os dez enganos de projeto que o programa não consegue impedir. E a secção 5.2 (volume Enganos, limitações e confiabilidade) lista as limitações conhecidas — das quais interessa ler não todas, mas as que afetam o caso em mãos.
 
 O apêndice I (volume Apêndices) condensa as três em fichas de uma página, para consulta rápida.
 
@@ -660,64 +480,43 @@ O apêndice I (volume Apêndices) condensa as três em fichas de uma página, pa
 
 ## Apêndice G — Glossário
 
-Termos técnicos e siglas, com o equivalente em inglês quando ele é usado na
+Termos técnicos e siglas, em português europeu, com o equivalente em inglês quando ele é usado na
 literatura, acompanhados das diretrizes de padronização terminológica do Triton.
 
 ---
 
-**AAC** (*aproveitamento de água de chuva*). Emprego de água precipitada sobre coberturas
-para usos não potáveis em edificações, regulamentado no Brasil pela ABNT NBR 15527:2019.
-Deve-se preferir o termo «aproveitamento» a «reúso», uma vez que a água de chuva captada
-na cobertura é um recurso primário e não um efluente gerado por uso antrópico anterior.
-
-**ABNT**. Associação Brasileira de Normas Técnicas, o organismo que publica as normas
-brasileiras. Uma norma é identificada pela sigla NBR seguida do número e do ano da
-edição, como em ABNT NBR 15527:2019.
+**AAC** (*aproveitamento de água de chuva*). Emprego da água precipitada sobre coberturas
+para usos não potáveis em edifícios; a EN 16941-1 trata os sistemas de utilização de água
+da chuva no local. Prefira-se o termo «aproveitamento» a «reutilização», porque a água de chuva captada
+na cobertura é um recurso primário, e não um efluente gerado por um uso anterior.
 
 **ACV** (*life cycle assessment*). Avaliação de ciclo de vida. Método que contabiliza os
 impactos ambientais de um produto ao longo de toda a sua existência, da extração das
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
 
-**Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
+**Água de chuva** (*rainwater*). Precipitação atmosférica recolhida diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir
-o solo ou galerias públicas. É o termo técnico-normativo oficial consagrado pela ABNT NBR
-15527:2019. Deve-se utilizar rigorosamente «água de chuva» para designar o recurso natural
-e a fonte hídrica captada, evitando a forma coloquial «água da chuva».
+o solo ou as redes públicas. Designa o recurso natural e a fonte hídrica captada; evite-se a
+forma coloquial «água da chuva».
 
 **Água não potável** (*non-potable water*). Água que não se destina ao consumo humano direto,
-mas atende aos padrões de qualidade física, química e microbiológica estabelecidos por
-normas específicas (como a Tabela 1 da ABNT NBR 15527:2019 e a ABNT NBR 16783:2019) para
-usos admitidos: descargas em bacias sanitárias e mictórios, lavagem de veículos, calçadas e
-pisos, irrigação paisagística, lavagem de roupas e torres de resfriamento.
+mas cumpre os requisitos de qualidade exigidos para os usos admitidos: descargas de autoclismos e
+mictórios, lavagem de veículos, pavimentos e roupa, rega de jardins e torres de arrefecimento.
 
 **Água pluvial** (*stormwater*, *pluvial water*). Água de chuva que escoa superficialmente
-por superfícies urbanas ou é conduzida por canalizações e sistemas prediais de drenagem
-(ABNT NBR 10844). No Triton, o termo aplica-se preferencialmente à infraestrutura predial
-e aos componentes de engenharia: *sistema de aproveitamento de água pluvial (SAAP)*, *rede
-pluvial*, *demanda pluvial*, *consumo de água pluvial* e *extravasamento pluvial*.
+por superfícies urbanas ou é conduzida por canalizações e sistemas prediais de drenagem. No Triton,
+o termo aplica-se de preferência à infraestrutura predial e aos componentes de engenharia: *sistema
+de aproveitamento de água pluvial (SAAP)*, *rede pluvial*, *procura pluvial*, *consumo de água pluvial*
+e *extravasamento pluvial*.
 
-**Água potável** (*potable water*, *drinking water*). Água que atende integralmente aos
-padrões de potabilidade definidos pela Portaria GM/MS nº 888/2021 do Ministério da Saúde,
-destinada à ingestão direta, preparação de alimentos e higiene pessoal.
-
-**ANEEL**. Agência Nacional de Energia Elétrica, que homologa as tarifas das
-distribuidoras de energia. O Triton lê delas o preço da energia do bombeamento, e a
-atualização das tarifas é feita a partir dos dados abertos da agência.
-
-**AQUA-HQE**. Referencial de certificação ambiental de edificações, adaptação brasileira
-do francês HQE conduzida pela Fundação Vanzolini. No referencial residencial de 2024, a
-água é tratada no tema «Consumo de água», em itens classificados nos níveis PR, HQE,
-HQE 2 e HQE 3.
+**Água potável** (*potable water*, *drinking water*). Água que cumpre integralmente os
+requisitos de qualidade da água para consumo humano em vigor no local do projeto, destinada à
+ingestão direta, à preparação de alimentos e à higiene pessoal.
 
 **Área de captação** (*catchment area*). Área projetada na **horizontal** da superfície
-impermeável da cobertura onde a água é captada, conforme o item 3.6 da NBR 15527:2019.
-Não é a área inclinada do telhado, nem a área de contribuição da NBR 10844, que serve
-ao dimensionamento de calhas.
-
-**Bandeira tarifária**. Acréscimo ou desconto sobre a tarifa de energia elétrica,
-conforme as condições de geração. Verde, amarela, vermelha 1, vermelha 2, e a
-modalidade branca.
+impermeável da cobertura onde a água é captada. Não é a área inclinada do telhado, nem a área
+de contribuição usada para dimensionar caleiras e tubos de queda.
 
 **BD+C** (*Building Design and Construction*). Família de referenciais do LEED
 para projeto e construção de edificações novas ou em grande reforma. É a família
@@ -727,32 +526,15 @@ tratada neste manual, nas versões 4, 4.1 e 5.
 Representação digital da edificação em que cada componente carrega propriedades além da
 geometria, o que permite compatibilizar projetos de disciplinas diferentes.
 
-**BRL**. Sigla da Edição Brasil do programa, a que traz os dados brasileiros: base
-climática CLIMBra, tarifas de 652 municípios, energia da ANEEL, custos em reais e
-certificações nacionais. A seção 1.2 compara as duas edições.
-
 **CAD** (*computer-aided design*). Desenho assistido por computador. O programa exporta o
 esquema hidráulico em DXF, formato de intercâmbio aceito pelos programas de CAD.
 
-**CAPEX** (*capital expenditure*). Investimento inicial.
+**CAOP** (*Carta Administrativa Oficial de Portugal*). Carta com os limites administrativos oficiais, publicada pela Direção-Geral do Território. A versão CAOP2025 define os limites dos 308 concelhos usados para calcular a série de chuva de cada concelho.
 
-**CASAN**. Companhia Catarinense de Águas e Saneamento, a concessionária de água e esgoto
-de Florianópolis e de boa parte de Santa Catarina. A estrutura tarifária dela é a adotada
-no tutorial deste manual.
+**CAPEX** (*capital expenditure*). Investimento inicial.
 
 **CDD** (*consecutive dry days*). Maior sequência de dias consecutivos com chuva
 abaixo de 1 mm.
-
-**CEDAE**. Companhia Estadual de Águas e Esgotos do Rio de Janeiro. A estrutura tarifária
-dela — conta mínima de 15 m³ (Tarifa 1) e faixas com multiplicadores da tarifa de
-referência — foi herdada pela Águas do Rio, pela Rio+ Saneamento e pela Águas da
-Imperatriz.
-
-**CMIP6**. Sexta fase do *Coupled Model Intercomparison Project*, o exercício
-internacional coordenado que produz as projeções climáticas usadas pelos relatórios do
-IPCC. A base climática do programa deriva dele.
-
-**CLIMBra** (*Climate Change Dataset for Brazil*). Conjunto de dados meteorológicos diários em grade de alta resolução (0,25° × 0,25°, ~28 km) para todo o Brasil, cobrindo 19 modelos climáticos globais do CMIP6 e cenários de emissões SSP2-4.5 e SSP5-8.5. Desenvolvido por Ballarin et al. (2023) na revista [*Scientific Data* (Nature)](https://www.nature.com/articles/s41597-023-01956-z) ([doi:10.1038/s41597-023-01956-z](https://doi.org/10.1038/s41597-023-01956-z)) e disponibilizado publicamente no [*Science Data Bank*](https://doi.org/10.57760/sciencedb.02316) ([doi:10.57760/sciencedb.02316](https://doi.org/10.57760/sciencedb.02316)). As projeções brutas foram corrigidas de viés pelo método *Quantile Delta Mapping* (QDM) utilizando como referência observacional a base de Xavier, King e Scanlon (2016). No Triton, o CLIMBra constitui a Base de dados CLIMBra para 652 cidades brasileiras (série histórica de 1980 a 2013 e projeções futuras contínuas de 2015 a 2100).
 
 **Coeficiente de escoamento** (*runoff coefficient*). Fração da chuva que
 efetivamente chega ao reservatório, descontadas perdas por absorção, evaporação e
@@ -763,42 +545,43 @@ Menor período contínuo em anos de dados diários de chuva necessário para est
 estatisticamente o dimensionamento e o desempenho do sistema (reproduzindo o volume ideal
 e o potencial de economia da série completa sob confiança $\ge 90\%$), segundo a
 metodologia de Geraldi e Ghisi (2017, 2018, 2019). O comprimento necessário não é uma
-constante geográfica fixa: cresce com a fração atendível e com o nível de demanda da edificação.
+constante geográfica fixa: cresce com a fração atendível e com o nível de procura da edificação.
 
-**Confiabilidade temporal** ($C_t$). Percentual de dias em que o sistema atendeu
-plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a demanda pluvial.
+**E-OBS**. Conjunto europeu de dados meteorológicos diários em grelha, construído a partir de observações de estações (projeto ECA&D, serviço Copernicus de alterações climáticas). A Edição Portugal usa a versão v33.0e da precipitação diária, em grelha de 0,1°, de 1950 a 2025, e obtém a série de cada concelho pela média das células dentro do seu limite (apêndice E (volume Apêndices)).
 
-**Confiabilidade volumétrica** ($C_v$). Fração da demanda **pluvial** que o sistema atendeu
+**ERA5**. Reanálise global do Centro Europeu de Previsões Meteorológicas de Médio Prazo (ECMWF), produzida pelo serviço Copernicus de alterações climáticas. Combina um modelo atmosférico com observações e dá uma série contínua em grelha. Usa-se no exemplo do Funchal; é uma média de área, e não um registo de udómetro.
+
+**Fiabilidade temporal** ($C_t$). Percentual de dias em que o sistema atendeu
+plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluvial.
+
+**Fiabilidade volumétrica** ($C_v$). Fração da procura **pluvial** que o sistema atendeu
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
-que tem no denominador a demanda total da edificação.
+que tem no denominador a procura total da edificação.
 
-**CORSAN**. Companhia Riograndense de Saneamento, a concessionária de água e esgoto de boa
-parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
-serviço básico, e não por faixas de consumo.
-
-**CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
-registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
+**CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
+registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
 
-**CV**. Cavalo-vapor, unidade de potência equivalente a 0,7355 kW, corrente no comércio
-de motobombas no Brasil. Uma motobomba de meio CV tem 0,37 kW de potência de eixo.
+**cv**. Cavalo-vapor, unidade de potência equivalente a 0,7355 kW, usada na indicação de
+eletrobombas. Uma eletrobomba de meio cv tem 0,37 kW de potência de eixo.
 
 **CWD** (*consecutive wet days*). Maior sequência de dias consecutivos com chuva
 igual ou superior a 1 mm.
 
-**Demanda estocástica** (*stochastic water demand*). Modelagem do consumo diário de água como
+**IVA**. Imposto sobre o valor acrescentado. Na fatura de água, cada parcela leva a taxa que o respetivo tarifário declara (6% na água de Lisboa e do Porto, 4% no Funchal, este último por confirmar); o programa não fixa nenhuma taxa no código (apêndice D (volume Apêndices)).
+
+**Procura estocástica** (*stochastic water demand*). Modelagem do consumo diário de água como
 variável probabilística que varia dia a dia e entre realizações (Silva e Ghisi, 2016),
-permitindo avaliar a faixa de incerteza do dimensionamento e dos indicadores de desempenho
+permitindo avaliar o escalão de incerteza do dimensionamento e dos indicadores de desempenho
 sob variabilidade real de uso.
 
-**Demanda pluvial** (*pluvial demand*, $D_{pl}$). Parcela da demanda diária de água da
+**Procura pluvial** (*pluvial demand*, $D_{pl}$). Parcela da procura diária de água da
 edificação que pode ser suprida pelo sistema de aproveitamento ($D_{pl,t} = D_{tot,t} \times f$).
 Corresponde aos pontos de consumo não potável interligados à rede pluvial.
 
 **Descarte de primeiras águas** (*first flush*). Lâmina inicial de chuva desviada do
-sistema, que carrega a sujeira depositada na cobertura (mínimo de 2 mm conforme a NBR
-15527:2019). No Triton é **subtraída** da chuva do dia; no Netuno 4 era tratada como
-limiar do evento.
+sistema, que arrasta a sujidade depositada na cobertura (o programa parte de 2 mm, que o utilizador
+deve ajustar à sua cobertura). No Triton é **subtraída** da chuva do dia.
 
 **Disponibilidade**. Regime tarifário em que um valor fixo **soma** por cima do
 consumo medido. Cada metro cúbico economizado desconta.
@@ -810,12 +593,8 @@ referência do qual decorrem as dimensões reais, tabeladas por norma.
 **DXF** (*drawing exchange format*). Formato de intercâmbio de desenhos técnicos, lido
 por praticamente todos os programas de CAD.
 
-**EAU**. Prefixo dos itens do tema «Consumo de água» no referencial AQUA-HQE, do francês
-*eau*, água. Os itens ligados ao aproveitamento pluvial são o EAU.1.2, o EAU.1.3 e o
-EAU.1.5.
-
 **EDGE** (*excellence in design for greater efficiencies*). Referencial de certificação
-da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
+da International Finance Corporation, do Banco Mundial. Mede economia percentagem contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
 
 **EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
@@ -832,7 +611,7 @@ sociais e de governança usado na avaliação de empresas e de empreendimentos. 
 alimenta indicadores ambientais desse conjunto.
 
 **ETAP**. Estação de tratamento de água pluvial. No programa, o conjunto de filtro
-de entrada, desinfecção e filtro de polimento.
+de entrada, desinfeção e filtro de polimento.
 
 **ETCCDI** (*Expert Team on Climate Change Detection and Indices*). Grupo de trabalho
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
@@ -841,12 +620,12 @@ calcula oito.
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
-**Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da demanda
+**Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
 Representa o **teto assintótico intransponível** do potencial de economia de água potável
 ($E_{pot} \le f$): mesmo sob capacidade infinita de armazenamento e precipitação ilimitada,
 a economia de potável nunca ultrapassa a fração atendível, pois o restante ($1 - f$) é
-reservado aos usos nobres e potáveis. Distingue-se da confiabilidade volumétrica ($C_v = E_{pot} / f$),
+reservado aos usos nobres e potáveis. Distingue-se da fiabilidade volumétrica ($C_v = E_{pot} / f$),
 que avalia o atendimento da parcela pluvial.
 
 **Franquia no mínimo**. Regime tarifário em que o valor fixo já inclui um volume de
@@ -858,38 +637,27 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**HQE** (*Haute Qualité Environnementale*). Referencial francês de alta qualidade
-ambiental, base do AQUA-HQE. Designa também os níveis dos itens do referencial: HQE,
-HQE 2 e HQE 3, em ordem crescente de exigência, acima do pré-requisito (PR).
-
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
 *Industry Foundation Classes*, formato aberto de intercâmbio que o programa **não**
-exporta: a exportação BIM do programa é um arquivo JSON de propriedades.
-
-**INT**. Sigla da *International Edition* do programa: abre em inglês e não traz dados
-brasileiros. Tarifas, custos, moeda e fatores de emissão são informados pelo usuário.
+exporta: a exportação BIM do programa é um ficheiro JSON de propriedades.
 
 **IPCC** (*Intergovernmental Panel on Climate Change*). Painel intergovernamental que
 sintetiza o conhecimento científico sobre mudança do clima e organiza os relatórios de
 avaliação a que as projeções climáticas se referem.
 
-**IPTU verde**. Desconto no imposto predial concedido por alguns municípios a edificações
-que adotam medidas de sustentabilidade, entre elas o aproveitamento de água pluvial. O
-percentual e as condições variam por legislação municipal.
-
 **ISO 14040**. Norma internacional que estabelece os princípios e a estrutura da
 avaliação de ciclo de vida. Um inventário conforme a ISO 14040 exige rastreabilidade de
 cada fluxo e revisão crítica externa, requisitos que uma avaliação de triagem não cumpre.
 
-**JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
-por pessoas e por programas. É o formato interno do arquivo `.triton`.
+**JSON** (*JavaScript object notation*). Formato de ficheiro de texto estruturado, legível
+por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
 de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
 produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em R$/m³. Permite confrontar a viabilidade econômica do sistema diretamente
-com a tarifa da concessionária.
+de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
@@ -900,15 +668,12 @@ pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water E
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
 prediais.
 
-**MCTI**. Ministério da Ciência, Tecnologia e Inovação, que publica o fator de emissão
-médio do Sistema Interligado Nacional usado na avaliação ambiental da Edição Brasil.
-
 **Micromedição**. Medição individualizada por unidade habitacional em edifício
 multifamiliar. Informada ao programa como número de economias.
 
 **Manuais do Triton** (*Triton manual suite*). A documentação do programa, montada
 das mesmas fontes em três formatos: o manual completo, oito volumes avulsos, cada um com
-uma parte dele, e o site de documentação. Os volumes servem a quem precisa de uma parte
+uma parte dele, e o sítio Web de documentação. Os volumes servem a quem precisa de uma parte
 só, para consultar ou enviar:
 
 1. **Manual completo**: todos os capítulos e apêndices.
@@ -919,16 +684,16 @@ só, para consultar ou enviar:
 3. **Volume 2 — O método**: as equações, os critérios e as fontes por trás de cada número
    que o programa publica.
    ![Capa do Volume 2 — O Método](../figuras/capas/capa_2-metodo.png)
-4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, demanda variável,
+4. **Volume 3 — Guias de uso**: outras cidades, clima futuro, tarifas, procura variável,
    lote, sensibilidade e exportação.
    ![Capa do Volume 3 — Guias Práticos](../figuras/capas/capa_3-guias.png)
-5. **Volume 4 — Tutorial**: um projeto de residência em Florianópolis, do primeiro dado ao
+5. **Volume 4 — Tutorial**: um projeto de moradia em Lisboa, do primeiro dado ao
    volume recomendado.
    ![Capa do Volume 4 — Tutorial](../figuras/capas/capa_4-tutorial.png)
-6. **Volume 5 — Enganos, limitações e confiabilidade**: os enganos mais comuns, os limites
+6. **Volume 5 — Erros, limitações e fiabilidade**: os erros mais comuns, os limites
    do modelo e como o programa é verificado.
-   ![Capa do Volume 5 — Confiabilidade](../figuras/capas/capa_5-confiabilidade.png)
-7. **Volume 6 — Correções, bugs e versionamento**: o que mudou desde o Netuno 4, as
+   ![Capa do Volume 5 — Fiabilidade](../figuras/capas/capa_5-fiabilidade.png)
+7. **Volume 6 — Correções, erros e versões**: o que mudou entre versões, as
    mensagens de erro e como relatar um problema.
    ![Capa do Volume 6 — Versões](../figuras/capas/capa_6-versoes.png)
 8. **Volume 7 — Modulação probabilística**: o estudo refeito com premissas sorteadas —
@@ -938,46 +703,40 @@ só, para consultar ou enviar:
    climática, formatos, glossário e referências.
    ![Capa do Volume 8 — Apêndices](../figuras/capas/capa_8-apendices.png)
 
-Os PDFs acompanham o programa e abrem pela etapa 9. Documentação; o manual existe também
-em inglês, na íntegra.
-
-**NBR**. Norma Brasileira, publicada pela ABNT. As mais citadas neste manual são a NBR
-15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
-pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
-motores de indução.
+Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
 
-**PB**. Preço-base, em R$/m³, da fórmula exponencial da CORSAN, `PB × Cⁿ`, em que `C` é o
-consumo do mês e `n` o expoente da tabela exponencial para aquele consumo.
+**PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
+`n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
+tarifários transcritos para Portugal não o usam.
 
-**PEAD**. Polietileno de alta densidade, material dos reservatórios plásticos mais
-comuns no mercado brasileiro.
+**PEAD**. Polietileno de alta densidade, material dos reservatórios de plástico mais comuns.
+É o código do material no ficheiro de projeto.
 
 **Piso de pagamento**. Regime tarifário em que a fatura **não fica** abaixo de um
 valor. Diferente de disponibilidade: o piso limita por baixo, a disponibilidade soma
 por cima.
 
 **Potencial de economia de água potável** (*potable water saving potential*, $E_{pot}$).
-Fração da demanda **total** da edificação suprida por água pluvial ($E_{pot} = \sum V_{con} / \sum D_{tot} \times 100\%$).
+Fração da procura **total** da edificação suprida por água pluvial ($E_{pot} = \sum V_{con} / \sum D_{tot} \times 100\%$).
 É o indicador central do programa, limitado superiormente pela fração atendível ($E_{pot} \le f$).
 
 **pp**. Pontos percentuais. Usado para exprimir a diferença entre dois percentuais: de
 35% para 37% vão dois pontos percentuais, e não dois por cento.
-
-**PR**. Pré-requisito: no AQUA-HQE, o nível de item de atendimento obrigatório, abaixo
-dos níveis HQE, HQE 2 e HQE 3.
 
 **PRCPTOT**. Precipitação total anual em dias úmidos.
 
 **PRFV**. Plástico reforçado com fibra de vidro, material de reservatórios de médio e
 grande porte. Aparece no programa sob a designação «fibra».
 
-**PVC**. Policloreto de vinila, material das tubulações prediais de água fria e das
-colunas de desvio do descarte inicial. As dimensões dos tubos soldáveis seguem a ABNT NBR 5648.
+**PRT**. Sigla da Edição Portugal do programa: abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Os custos e os fatores de emissão são indicados pelo utilizador.
+
+**PVC**. Policloreto de vinilo, material das tubagens prediais de água fria e das colunas de
+desvio do descarte inicial.
 
 **R95p**. Soma da precipitação dos dias acima do percentil 95 dos dias úmidos.
 
@@ -985,19 +744,19 @@ colunas de desvio do descarte inicial. As dimensões dos tubos soldáveis seguem
 potência mecânica no eixo. Não inclui o motor.
 
 **Rendimento do motor**. Razão entre a potência mecânica no eixo e a potência
-elétrica consumida da rede. A ABNT NBR 17094-2 manda marcá-lo na placa.
+elétrica consumida da rede.
 
 **RX1day**, **RX5day**. Maior precipitação em um e em cinco dias consecutivos, no
 ano.
 
 **SAAP**. Sistema de aproveitamento de água pluvial. Conjunto integrado de componentes
-prediais — área de captação, condutores, descarte inicial (first flush), estação de
-tratamento (ETAP), cisterna inferior, reservatório superior, grupo motobomba ou pressurizador
-e rede de distribuição independente — concebido para coletar, tratar, armazenar e fornecer
-água não potável em conformidade com a ABNT NBR 15527 e a ABNT NBR 5626.
+prediais — área de captação, condutores, descarte inicial (*first flush*), estação de
+tratamento (ETAP), cisterna inferior, reservatório superior, eletrobomba ou sobrepressor
+e rede de distribuição independente — concebido para recolher, tratar, armazenar e fornecer
+água não potável.
 
-**SB**. Serviço básico: a parcela fixa mensal da fatura de água da CORSAN, somada ao
-resultado da fórmula exponencial.
+**SB**. Serviço básico: a parcela fixa mensal da fatura de água da fórmula exponencial, somada ao
+resultado dessa fórmula.
 
 **SDII** (*simple daily intensity index*). Precipitação média dos dias úmidos.
 
@@ -1007,29 +766,23 @@ chuva é uniforme ao longo do ano.
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
 pesos e devolve a probabilidade de cada alternativa vencer.
 
-**SNIS**. Sistema Nacional de Informações sobre Saneamento, base oficial brasileira de
-indicadores do setor, mantida pelo governo federal. É a origem dos indicadores de
-consumo energético do saneamento usados na avaliação ambiental.
-
-**SSP** (*shared socioeconomic pathways*). Trajetórias socioeconômicas compartilhadas,
+**SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
 Combinam-se com os modelos climáticos para produzir projeções.
-
-**TFDI**. Tarifa fixa de disponibilidade da infraestrutura, nome que algumas
-concessionárias dão à parcela da fatura cobrada independentemente do consumo. Ver
-*Disponibilidade*.
 
 **TIR**. Taxa interna de retorno. A taxa de desconto que zera o valor presente
 líquido.
 
-**TMA**. Taxa mínima de atratividade. A taxa de desconto adotada.
+**taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
 Método de ordenação multicritério de Hwang e Yoon.
 
-**UV**. Radiação ultravioleta, empregada na desinfecção de água por inativação de
+**TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
+
+**UV**. Radiação ultravioleta, empregada na desinfeção de água por inativação de
 microrganismos. Atua apenas no instante da passagem pelo reator e não deixa residual, ao
-contrário da cloração.
+contrário da cloragem.
 
 **VIKOR**. Método de decisão multicritério proposto por Opricovic, que busca uma solução
 de compromisso entre critérios conflitantes. Ver também *SMAA*.
@@ -1039,22 +792,22 @@ a partir do qual o ganho marginal de economia de água potável ($\Delta E_{pot}
 cai abaixo de um limiar declarado (tipicamente $1,0\%/\text{m}^3$ ou $0,5\%/\text{m}^3$).
 Evita o superdimensionamento de reservatórios, assegurando a melhor relação custo-benefício.
 
-**VPL**. Valor presente líquido.
+**VAL**. Valor atual líquido.
 
 **WEM**. Codificação das medidas de eficiência hídrica do EDGE. A WEM14 é o sistema
 de aproveitamento de água pluvial.
 
 **XLSX**. Formato de pasta de trabalho do Microsoft Excel, baseado em XML compactado. É um
-dos formatos de exportação de planilhas e de resultados da linha de comando.
+dos formatos de exportação de folhas de cálculo e de resultados da linha de comando.
 
 **YAS** (*yield after spillage*). Regra de operação em que o extravasamento é
-calculado **antes** da retirada da demanda e, na forma estrita, a retirada do dia sai
+calculado **antes** da retirada da procura e, na forma estrita, a retirada do dia sai
 só do volume guardado na véspera. O programa calcula o extravasamento antes, como a
-YAS, mas deixa a chuva do dia atender a demanda do dia; fica entre a YAS e a YBS
-(seção 2.1 (volume O método)).
+YAS, mas deixa a chuva do dia atender a procura do dia; fica entre a YAS e a YBS
+(secção 2.1 (volume O método)).
 
-**YBS** (*yield before spillage*). Regra de operação em que a demanda é retirada **antes**
-do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e superestima o
+**YBS** (*yield before spillage*). Regra de operação em que a procura é retirada **antes**
+do cálculo do extravasamento. Supõe consumo anterior à chuva do dia e sobrestima o
 aproveitamento; o programa não a adota, e o resultado dele fica entre a YAS e a YBS.
 
 ---
@@ -1070,29 +823,29 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 <!-- tabela: **Tabela 8** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
-| **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
-| **Água pluvial** (*stormwater* / *pluvial water*) | Água de chuva após escoamento superficial urbano ou quando conduzida por canalizações e sistemas prediais de drenagem e armazenamento. Aplica-se à **infraestrutura física** e aos componentes de engenharia. | **Canônico e preferencial** para sistemas, redes e balanço («sistema predial de água pluvial - SAAP», «rede pluvial», «demanda pluvial», «extravasamento pluvial»). | ABNT NBR 10844:1989; ABNT NBR 5626:2020. |
+| **Água de chuva** (*rainwater*) | Precipitação atmosférica recolhida diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou as redes públicas. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canónico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | Prática de redação técnica e científica. |
+| **Água pluvial** (*stormwater* / *pluvial water*) | Água de chuva após escoamento superficial urbano ou quando conduzida por canalizações e sistemas prediais de drenagem e armazenamento. Aplica-se à **infraestrutura física** e aos componentes de engenharia. | **Canónico e preferencial** para sistemas, redes e balanço («sistema predial de água pluvial - SAAP», «rede pluvial», «procura pluvial», «extravasamento pluvial»). | Prática de redação técnica e científica. |
 | **«Água da chuva»** | Expressão coloquial e informal. | **Desaconselhada**. Não deve ser empregada em publicações, textos normativos, relatórios do Triton ou código. | Prática de redação técnica e científica. |
 
-#### G.1.2. 2. Fração Atendível, Demanda Pluvial, Potencial e Confiabilidade
+#### G.1.2. 2. Fração Atendível, Procura Pluvial, Potencial e Fiabilidade
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
 <!-- tabela: **Tabela 9** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
-| **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
-| **Demanda pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
-| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (seção 2.1 (volume O método)) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
-| **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da demanda **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
-| **Confiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da demanda **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
-| **Confiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a demanda pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |
+| **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da procura total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
+| **Procura pluvial** | $D_{pl}$ / `rainwater_demand` | Volume de água requerido pelos pontos não potáveis da edificação em um intervalo de tempo. | $D_{pl,t} = D_{tot,t} \times f$ | Em L/dia ou m³/ano. |
+| **Volume de água pluvial consumido** | $V_{con}$ / `pluvial_consumed` | Volume de água não potável efetivamente suprido pelo reservatório pluvial aos pontos de consumo. | Determinado pelo balanço diário (secção 2.1 (volume O método)) | $V_{con,t} \le D_{pl,t}$ e $V_{con,t} \le S_{t-1} + C_t$. |
+| **Potencial de economia de água potável** | $E_{pot}$ / `potential_potable_savings_pct` | Percentual da procura **total** da edificação economizado pelo aproveitamento pluvial. | $E_{pot} = \frac{\sum V_{con}}{\sum D_{tot}} \times 100\%$ | **Indicador central**. Sempre $E_{pot} \le f$. |
+| **Fiabilidade volumétrica** | $C_v$ / `volumetric_reliability_pct` | Percentual da procura **pluvial** suprido pela água de chuva armazenada. | $C_v = \frac{\sum V_{con}}{\sum D_{pl}} \times 100\%$ | $C_v = \frac{E_{pot}}{f}$. Pode atingir 100% mesmo quando $E_{pot} < 100\%$. |
+| **Fiabilidade temporal** | $C_t$ / `temporal_reliability_pct` | Percentual de dias da série em que a procura pluvial foi 100% atendida ($V_{con,t} = D_{pl,t}$). | $C_t = \frac{N_{dias\_plenos}}{N_{total}} \times 100\%$ | Mede a segurança de abastecimento diário sem suplementação potável. |
 
 #### G.1.3. 3. Síntese de Nomenclatura Recomendada para Artigos e Relatórios
 
-- Utilize **«aproveitamento de água de chuva»** (e não «reúso de água da chuva» — água de chuva não é efluente; seu uso é *aproveitamento*, não *reúso*).
-- Utilize **«área de captação»** para o plano horizontal da cobertura (NBR 15527) e reserve **«área de contribuição»** exclusivamente para o dimensionamento hidráulico de calhas sob vento (NBR 10844).
-- Utilize **«descarte de primeiras águas»** ou *first flush* para a lâmina inicial desviada (mínimo de 2 mm conforme NBR 15527), e não «limiar de descarte».
-- Utilize **«fração atendível»** (e não «demanda relativa» ou «fração de economia») para expressar a partição de usos não potáveis no consumo total.
-- Utilize **«comprimento representativo de série»** para a extensão mínima em anos necessária para estabilização estatística da simulação (método Geraldi & Ghisi).
-- Utilize **«LCOW»** ou **«custo nivelado da água»** para a métrica de custo unitário ao longo do ciclo de vida descontado à TMA.
+- Utilize **«aproveitamento de água de chuva»** (e não «reutilização de água da chuva» — a água de chuva não é um efluente; o seu uso é *aproveitamento*, não *reutilização*).
+- Utilize **«área de captação»** para o plano horizontal da cobertura e reserve **«área de contribuição»** para o dimensionamento hidráulico de caleiras e tubos de queda.
+- Utilize **«descarte de primeiras águas»** ou *first flush* para a lâmina inicial desviada, e não «limiar de descarte».
+- Utilize **«fração atendível»** (e não «procura relativa» ou «fração de economia») para expressar a partição de usos não potáveis no consumo total.
+- Utilize **«comprimento representativo de série»** para a extensão mínima em anos necessária para estabilização estatística da simulação (metodologia de Geraldi e Ghisi).
+- Utilize **«LCOW»** ou **«custo nivelado da água»** para a métrica de custo unitário ao longo do ciclo de vida descontado à taxa de atualização.

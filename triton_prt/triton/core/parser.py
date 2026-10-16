@@ -3,7 +3,6 @@ import os
 import re
 from triton.core.supply_arrangement import arranjo_de
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
-from triton.core.pump_hydraulics import ALTURA_MANOMETRICA_PADRAO_M
 from triton.core.chlorination import (
     DOSE_PADRAO_MG_POR_LITRO,
     FATOR_PADRAO_KG_CO2E_POR_KG_PRODUTO,
@@ -224,7 +223,7 @@ class TritonConfig:
     
     delta_ideal: float = 5.0  # limiar de ganho marginal para o volume ideal, em %/m³
     # Regra operacional do balanço hídrico.
-    # None (padrão) -> regra do Triton, a documentada no manual da 1.0.0: o extravasamento
+    # None (padrão) -> regra do Triton, a documentada no manual da 0.1.0: o extravasamento
     #                  sai antes do consumo e a chuva do dia já atende o consumo do dia.
     # número        -> parâmetro phi do modelo geral de Fewkes (2000b), só para reservatório
     #                  único: 0.0 = YAS estrita, 1.0 = YBS, entre os dois = regra personalizada.
@@ -1145,7 +1144,7 @@ class FormatoDeProjetoDesconhecido(ValueError):
 def _conciliar_fracoes_lidas(cfg) -> Optional[str]:
     """Deixa coerentes as frações lidas de um arquivo, e guarda o retrato.
 
-    Até a versão 1.0.0 a janela principal gravava a fração interna e a demanda
+    Antes da versão 0.1.0 a janela principal gravava a fração interna e a demanda
     externa com os valores padrão (0,35 e 50 L/dia), fossem quais fossem os da
     tela, e a fração total com o valor que a pessoa via. Por isso, quando as três
     discordam e o projeto não declara área de jardim, a demanda externa gravada é

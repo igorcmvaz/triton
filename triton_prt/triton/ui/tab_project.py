@@ -8,7 +8,6 @@ Suporta recorte temporal por intervalo de datas e sincronização automática/in
 
 import os
 from datetime import datetime, timedelta
-import numpy as np
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel, QPushButton, 
@@ -18,15 +17,18 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor, QFont
 
-from triton.core.parser import load_precipitation, parse_float, format_ptbr
+from triton.core.parser import load_precipitation, format_ptbr
 from triton.core.calculator import IndicesCalculator
 from triton.core.tariffs_database import (
     esgoto_do_municipio, get_available_ufs, get_cities_by_uf, get_city_data, procedencia_tarifaria, rotulo_do_esgoto,
 )
 from triton.core.climate_database import (
-    CLIMATE_MODELS, CLIMATE_SCENARIOS, load_national_climate_series, get_climate_file_path,
-    RECORTES_SUGERIDOS, ANOS_MINIMOS_RECOMENDADOS,
-    get_available_climate_cities
+    CLIMATE_MODELS,
+    CLIMATE_SCENARIOS,
+    load_national_climate_series,
+    RECORTES_SUGERIDOS,
+    ANOS_MINIMOS_RECOMENDADOS,
+    get_available_climate_cities,
 )
 from triton.core.edition import usa_dados_do_brasil
 from triton.ui.translation import tr, get_current_theme
@@ -102,7 +104,7 @@ class TabProject(QWidget):
         A base das 652 cidades é distribuída separadamente. Sem ela, a janela
         abria sem chuva nenhuma, e todas as etapas seguintes ficavam sem dados.
         """
-        from triton.core.edition import usa_dados_do_brasil, is_prt_edition, is_int_edition
+        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
         # A base nacional da edição: a CLIMBra na Brasil, a E-OBS na Portugal. Na
         # International não há nenhuma, ainda que a CLIMBra esteja na pasta (rodando do
         # código-fonte): o botão da base fica oculto, e a etapa abria com o painel e a

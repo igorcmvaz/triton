@@ -5,7 +5,7 @@ Captação -> Descarte Inicial (First Flush) -> Reservatório Inferior -> Motobo
 """
 
 from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import Qt, QRectF, QPointF
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPainterPath
 
 

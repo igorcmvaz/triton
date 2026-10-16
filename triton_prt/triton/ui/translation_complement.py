@@ -731,7 +731,7 @@ COMPLEMENTO = {
     'Sexta-feira': ('Friday', 'Viernes', '星期五'),
     'Sincronização Concluída': ('Synchronisation Complete', 'Sincronización completada', '同步完成'),
     'Relatório de Verificação': ('Verification Report', 'Informe de verificación', '验证报告'),
-    'Relatório de Verificação — Triton 1.0.0': ('Verification Report — Triton 1.0.0', 'Informe de verificación — Triton 1.0.0', '验证报告 — Triton 1.0.0'),
+    'Relatório de Verificação — Triton 0.1.0': ('Verification Report — Triton 0.1.0', 'Informe de verificación — Triton 0.1.0', '验证报告 — Triton 0.1.0'),
     'Substituição por Água de Chuva (%):': ('Rainwater Replacement (%):', 'Sustitución por agua de lluvia (%):', '雨水替代率（%）：'),
     'Subtotal Externo:': ('Outdoor Subtotal:', 'Subtotal externo:', '室外小计：'),
     'Subtotal Não-Potável:': ('Non-Potable Subtotal:', 'Subtotal no potable:', '非饮用小计：'),

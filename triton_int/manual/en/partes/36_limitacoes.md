@@ -5,7 +5,7 @@
 > discover them for themselves.
 
 This section derives from the issue register the research group keeps, and reflects the state of
-version 1.0.0. A limitation leaves this list when it is actually resolved, not when it stops being
+the current beta version, 0.1.0. A limitation leaves this list when it is actually resolved, not when it stops being
 mentioned — a distinction that seems obvious and that the documentation of scientific programs often
 does not observe.
 
@@ -39,28 +39,22 @@ device, `A × d_f`, but not its hydraulic arrangement, which requires a design o
 
 ## Limitations of the tariff data
 
-These limitations concern the Brazil Edition catalogue. In the International Edition there is no
-catalogue: the tariff is typed in, and its accuracy is the user's.
+The International Edition has no tariff catalogue: the tariff is typed in, and its accuracy is the
+user's.
 
-**The tariff catalogue covers almost only the residential category.** The 652 municipalities of the
-database carry the residential structure; the non-residential categories only enter with the
-provider's official table, and are currently transcribed in the CORSAN municipalities — commercial
-and public in 34, industrial in 30. Elsewhere, the commercial, industrial and public categories,
-which exist at every utility and are usually more expensive, have to be entered by hand by the user,
-as section {{n:16}} describes. Until they are, a study of a school, shop or factory calculates the
-saving with the residential tariff, and therefore **underestimates** it: the error is conservative
-and its direction is known, but it must be declared. Appendix {{n:D}} shows, municipality by
-municipality, what has already been collected.
+**One structure is entered at a time.** A study of a school, shop or factory calculates the saving
+with whatever structure was typed in. If that is the residential one, the saving is usually
+**underestimated**, because non-residential categories tend to be dearer. The error is conservative
+and its direction is known, but it must be declared. The program warns when the building type is not
+residential; the structure of the right category is then entered as described in section {{n:16}}.
 
-**Five BRK Tocantins municipalities with a decreasing tariff** in the first block, which
-underestimates the bill in the first block.
+**Sewerage charges are approximated.** Sewerage billed by blocks of its own is represented by a single
+percentage of the water bill, or by a fixed value or a price per cubic metre. It is a declared
+approximation.
 
-**Fourteen municipalities with sewage by blocks of their own**, represented by a single percentage.
-It is a declared approximation.
-
-**No social tariff and no water tariff flags.** The low-income class is poorly represented. At
-CASAN, the social tariff is R$ 8.63 against R$ 46.34 for the ordinary availability charge — a
-difference that would invert the conclusion of a study of social housing.
+**No social tariff and no seasonal or scarcity surcharges.** A low-income class, a drought surcharge
+or a seasonal price are not modelled unless the user folds them into the structure entered. For a
+study of social housing the difference can invert the conclusion.
 
 ---
 
@@ -90,8 +84,8 @@ until one is chosen.
 
 ## Limitations of water quality
 
-**Classes 2 to 4 are adaptations of the program**, not of NBR 15527. The matrix of parameters by use
-is a feature of the 2007 version of the standard and did not survive the 2019 revision.
+**Classes 2 to 4 are adaptations of the program**, not classes of a standard. The matrix of
+parameters by use is an internal convention; declare it as such.
 
 **The constants of the roof wash-off model are not calibrated.** The resulting water quality is an
 **assumption**, not a measurement. The program does not replace laboratory testing.
@@ -119,16 +113,14 @@ twenty-year projection fragile. It is the assumption that most moves the economi
 **Six fields are saved in the file and never read.** Among them the **installation month**, so the
 cash flow always starts in month 1.
 
-**Importing a Netuno 4 project does not recognise variable demand**, and silently downgrades it to
-constant. Section {{n:21}} shows how to check.
+
 
 **The pump start-up time, of 108 s per start**, represents the priming time of a pump whose suction
-line has drained, and is applied to **every** start. In the reference case it accounts for 19% of
-the pump's annual consumption. It is conservative.
+line has drained, and is applied to **every** start. It is conservative.
 
-**There is no option to treat the first flush as an event threshold**, as Netuno 4 did, although the
-verification protocol mentions it. To compare the two versions, use a first flush of zero, where the
-two rules coincide.
+**There is no option to treat the first flush as an event threshold**, as some other tools do. To
+compare with such a tool, use a first flush of zero, where the two rules coincide, or the series
+transformation of section {{n:35}}.
 
 ---
 

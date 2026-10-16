@@ -3,18 +3,15 @@ Base CLIMBra dividida por modelo (`data/climbra_<modelo>.db`): descoberta, leitu
 
 Duas frentes:
 - o leitor (`triton/core/climate_database.py`), que roda nas três edições, com bancos sintéticos;
-- os scripts de manutenção da Edição Brasil (`scripts/dividir_base_climbra.py` e
-  `scripts/compilar_base_climbra.py`), que só existem nela e são saltados nas outras.
-
-Se a base real estiver presente (`data/climbra.db` e as partes), compara amostras: a série lida
-das partes tem de ser idêntica à do banco único.
+- a base real da Edição Brasil (`data/climbra_<modelo>.db`, 19 partes): integridade contra o manifesto
+  `data/climbra_partes.json` (é o que a verificação de integração contínua roda) e, se o
+  `data/climbra.db` único estiver no disco, igualdade das séries lidas.
 """
 
-import importlib
+import hashlib
 import json
 import os
 import sqlite3
-import sys
 import zlib
 from pathlib import Path
 
@@ -24,7 +21,6 @@ import pytest
 from triton.core import climate_database as cd
 
 RAIZ = Path(__file__).resolve().parents[2]
-SCRIPTS = RAIZ / "scripts"
 
 CIDADES = ["São Paulo", "Florianópolis", "Belém"]
 MODELOS = ["INM-CM4", "ACCESS-CM2"]
@@ -188,105 +184,6 @@ def test_sem_bancos_nao_ha_caminho(tmp_path, monkeypatch):
         cd.limpar_cache_da_base()
 
 
-# ── Scripts da Edição Brasil ─────────────────────────────────────────────────
-
-def _modulo_do_script(nome):
-    if not (SCRIPTS / f"{nome}.py").is_file():
-        pytest.skip(f"scripts/{nome}.py existe só na Edição Brasil")
-    if str(SCRIPTS) not in sys.path:
-        sys.path.insert(0, str(SCRIPTS))
-    return importlib.import_module(nome)
-
-
-def test_dividir_gera_partes_identicas_ao_banco_unico(tmp_path, pasta_de_bancos):
-    div = _modulo_do_script("dividir_base_climbra")
-    origem = tmp_path / "climbra.db"
-    esperado = _criar_banco(origem, MODELOS, meta={"dtype": "float16", "compiled_at": "2026-01-01T00:00:00",
-                                                    "title": "x", "license": "CC0"})
-    destino = tmp_path / "partes"
-    registros = div.dividir(str(origem), str(destino), verbose=False)
-    assert sorted(r["arquivo"] for r in registros) == sorted(f"climbra_{m}.db" for m in MODELOS)
-    assert div.verificar(str(destino), str(origem), verbose=False) == []
-
-    # metadados da parte
-    conn = sqlite3.connect(str(destino / "climbra_INM-CM4.db"))
-    meta = dict(conn.execute("SELECT key, value FROM climbra_meta"))
-    nomes = {n for (n,) in conn.execute("SELECT name FROM sqlite_master")}
-    conn.close()
-    assert meta["model"] == "INM-CM4" and meta["schema_version"] == "2" and meta["layout"] == "per-model"
-    assert meta["scenarios"] == "HIST,SSP245,SSP585" and meta["total_series"] == str(len(CIDADES) * 3)
-    assert json.loads(meta["periods"])["SSP245"]["end"] == "2100-12-31"
-    assert len(meta["content_sha256"]) == 64
-    assert {"climbra_meta", "climbra_cities", "climbra_series", "idx_climbra_cities_norm"} <= nomes
-
-    # equivalência pelo leitor: copia só as partes para a pasta que ele consulta
-    for arq in destino.glob("climbra_*.db"):
-        (pasta_de_bancos / arq.name).write_bytes(arq.read_bytes())
-    cd.limpar_cache_da_base()
-    assert [Path(p).name for p in cd.get_climate_db_paths()] == sorted(f"climbra_{m}.db" for m in MODELOS)
-    for (c, m, s), arr in esperado.items():
-        assert np.array_equal(_ler(c, m, s), arr.astype(np.float64))
-
-
-def test_verificar_acusa_arquivo_adulterado_e_serie_diferente(tmp_path):
-    div = _modulo_do_script("dividir_base_climbra")
-    origem = tmp_path / "climbra.db"
-    _criar_banco(origem, ["INM-CM4"], meta={"dtype": "float16"})
-    destino = tmp_path / "partes"
-    div.dividir(str(origem), str(destino), verbose=False)
-    parte = destino / "climbra_INM-CM4.db"
-    conn = sqlite3.connect(str(parte))
-    conn.execute("UPDATE climbra_series SET data = ? WHERE city = 'Belém' AND scenario = 'HIST'",
-                 (zlib.compress(np.zeros(DIAS["HIST"], dtype=np.float16).tobytes()),))
-    conn.commit()
-    conn.close()
-    problemas = div.verificar(str(destino), str(origem), verbose=False)
-    texto = "\n".join(problemas)
-    assert "SHA-256 do arquivo" in texto
-    assert "hash do conteúdo" in texto
-    assert "difere da origem" in texto
-
-
-def test_modelo_acima_do_limite_e_dividido_por_cenario(tmp_path, pasta_de_bancos):
-    div = _modulo_do_script("dividir_base_climbra")
-    origem = tmp_path / "climbra.db"
-    esperado = _criar_banco(origem, ["INM-CM4"], meta={"dtype": "float16"})
-    destino = tmp_path / "partes"
-    registros = div.dividir(str(origem), str(destino), limite_mb=0.01, verbose=False)
-    assert sorted(r["arquivo"] for r in registros) == [f"climbra_INM-CM4__{c}.db" for c in sorted(DIAS)]
-    assert not (destino / "climbra_INM-CM4.db").exists()
-    assert div.verificar(str(destino), str(origem), verbose=False) == []
-    for arq in destino.glob("climbra_*.db"):
-        (pasta_de_bancos / arq.name).write_bytes(arq.read_bytes())
-    cd.limpar_cache_da_base()
-    for (c, m, s), arr in esperado.items():
-        assert np.array_equal(_ler(c, m, s), arr.astype(np.float64))
-
-
-def test_compilar_gera_as_partes_direto_dos_csv(tmp_path, pasta_de_bancos):
-    comp = _modulo_do_script("compilar_base_climbra")
-    csv_dir = tmp_path / "csv"
-    csv_dir.mkdir()
-    esperado = {}
-    sufixo = {"HIST": "_Histórico", "SSP245": "_SSP245", "SSP585": "_SSP585"}
-    for m in MODELOS:
-        for c in CIDADES:
-            for s in DIAS:
-                arr = _serie(c, m, s)
-                esperado[(c, m, s)] = arr
-                (csv_dir / f"(Triton){c}_{m}{sufixo[s]}.csv").write_text(
-                    "\n".join(f"{float(v):.1f}".replace(".", ",") for v in arr) + "\n", encoding="utf-8")
-    saida = tmp_path / "saida"
-    registros = comp.compile_partes(str(csv_dir), str(saida), num_workers=1)
-    assert sorted(r["arquivo"] for r in registros) == sorted(f"climbra_{m}.db" for m in MODELOS)
-    assert comp.verify_partes(str(saida)) is True
-    for arq in saida.glob("climbra_*.db"):
-        (pasta_de_bancos / arq.name).write_bytes(arq.read_bytes())
-    cd.limpar_cache_da_base()
-    for (c, m, s), arr in esperado.items():
-        assert np.array_equal(_ler(c, m, s), arr.astype(np.float64))
-
-
 # ── Base real, se estiver no disco ───────────────────────────────────────────
 
 DATA = RAIZ / "data"
@@ -336,3 +233,31 @@ def test_partes_reais_dao_a_mesma_serie_que_o_banco_unico(base_real):
                     assert np.array_equal(lida, esperado), (c, m, s)
     finally:
         unico.close()
+
+
+def test_as_partes_reais_batem_com_o_manifesto():
+    """Íntegras: SHA-256 do arquivo, contagem de séries e limite de 100 MB do GitHub, sem script de apoio."""
+    manifesto_arquivo = DATA / "climbra_partes.json"
+    if not manifesto_arquivo.is_file() or not PARTES_REAIS:
+        pytest.skip("partes data/climbra_<modelo>.db ou manifesto ausentes nesta máquina")
+    manifesto = json.loads(manifesto_arquivo.read_text(encoding="utf-8"))
+    registros = {p["arquivo"]: p for p in manifesto["partes"]}
+    assert sorted(p.name for p in PARTES_REAIS) == sorted(registros), "partes e manifesto não coincidem"
+    assert {p["modelo"] for p in registros.values()} == set(cd.CLIMATE_MODELS)
+    total = 0
+    for parte in PARTES_REAIS:
+        registro = registros[parte.name]
+        assert parte.stat().st_size < 100 * 1024 * 1024, f"{parte.name} passa do limite de 100 MB do GitHub"
+        resumo = hashlib.sha256()
+        with open(parte, "rb") as f:
+            for bloco in iter(lambda: f.read(1 << 20), b""):
+                resumo.update(bloco)
+        assert resumo.hexdigest() == registro["sha256"], f"{parte.name}: SHA-256 difere do manifesto"
+        conn = sqlite3.connect(f"file:{parte.as_posix()}?mode=ro", uri=True)
+        try:
+            series = conn.execute("SELECT COUNT(*) FROM climbra_series").fetchone()[0]
+        finally:
+            conn.close()
+        assert series == registro["series"], f"{parte.name}: {series} séries, o manifesto diz {registro['series']}"
+        total += series
+    assert str(total) == manifesto["origem"]["total_series"]

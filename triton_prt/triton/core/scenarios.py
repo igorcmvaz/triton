@@ -7,7 +7,7 @@ import numpy as np
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from triton.core.parser import load_precipitation
-from triton.core.simulation import run_single_simulation, run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
+from triton.core.simulation import run_sweep_simulation, SingleTankSimulationResult, SweepSimulationResult
 from triton.core.hydrology_defaults import LAMINA_DE_DESCARTE_PADRAO_MM
 
 @dataclass

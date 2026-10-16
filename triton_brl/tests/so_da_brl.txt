@@ -7,10 +7,6 @@
 # --- Banco tarifário brasileiro (brazil_cities_tariffs.json) e as tarifas CASAN/CORSAN ---
 tests/unit/test_tarifa_exponencial.py
 tests/unit/test_categoria_tarifaria.py
-tests/unit/test_processar_entrada.py
-tests/unit/test_processo_tarifario.py
-tests/unit/test_registro_de_fontes.py
-tests/unit/test_transcricoes.py
 tests/unit/test_percentual_de_esgoto.py
 tests/unit/test_regimes_tarifarios.py
 tests/unit/test_tariffs_structure.py

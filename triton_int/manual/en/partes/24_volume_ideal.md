@@ -88,20 +88,20 @@ V_ideal = min { V_i > 0 : Δ(V_i) ≤ Δ_lim }
 When no volume of the grid meets the condition of Equation {{eq:volume_ideal}} — which happens
 when the swept range ends before the curve flattens — the program adopts the largest volume of
 the grid and records that circumstance in the report, so that the reader knows that the optimum
-found is a limit of the search and not a turning point of the curve. The Netuno 4 manual deals
-with the same case in its seventh chapter, and the conduct adopted here is the same.
+found is a limit of the search and not a turning point of the curve.
 
 ### An example, step by step
 
 The sweep table of the tutorial, in section {{n:7}}, lets you redo the calculation by hand.
-Between 3,000 L and 4,000 L the potential rises from 26.48% to 27.12%, that is, 0.64
-percentage points for one more cubic metre. Since 0.64 is below the 1.0 %/m³ threshold, and
-the previous gain, between 2,000 L and 3,000 L, was 1.45 %/m³, the first volume to cross the
-threshold is 4,000 L, and it is the ideal volume.
+Between 3,000 L and 4,000 L the potential rises from 25.99% to 26.83%, that is, 0.84
+percentage points for one more cubic metre. Since 0.84 is below the 1.0 %/m³ threshold, and
+the previous gain, between 2,000 L and 3,000 L, was 1.75 %/m³, the first volume to cross the
+threshold is 4,000 L, and it is the ideal volume. With the looser threshold of 3 %/m³ the ideal
+volume would be 3,000 L (25.99%), and with the stricter 0.5 %/m³ it would be 5,000 L (27.24%).
 
-Notice what happens right after. Between 6,000 L and 8,000 L the potential rises by 0.23
+Notice what happens further on. Between 6,000 L and 8,000 L the potential rises by 0.25
 points, the same as in the previous interval, from 5,000 to 6,000 L, and yet the gain **per
-cubic metre** halves, from 0.23 to 0.11 %/m³, because the interval spans two cubic metres. That
+cubic metre** halves, from 0.24 to 0.13 %/m³, because the interval spans two cubic metres. That
 is why the criterion uses the gain per cubic metre, and not the gain between consecutive points
 of the grid: the latter depends on the step, and the former much less.
 
@@ -127,15 +127,14 @@ marks the volume chosen by each criterion, with the value noted in the chart leg
 
 ---
 
-## Why the program simulates: the standard's empirical methods
+## Why the program simulates: the empirical methods
 
-The first edition of the Brazilian rainwater harvesting standard, ABNT NBR 15527:2007, had in
-its informative Annex A six methods to size the tank: Rippl's, simulation, Azevedo Neto's and
-three practical methods, the German, the English and the Australian. They are still in common
-use in projects and academic work, and it is worth understanding what each one answers before
-comparing them with the program's sweep. The European standard EN 16941-1:2024 has a simplified
-method of the same kind — a number of days of the smaller of annual yield and demand — next to
-the detailed daily simulation.
+Standards and handbooks have long offered a set of methods to size the tank: Rippl's, the
+simulation, and several practical rules, such as the German, the British and the Australian.
+They are still in common use in projects and academic work, and it is worth understanding what
+each one answers before comparing them with the program's sweep. Some standards also have a
+simplified method of the same kind, a number of days of the smaller of annual yield and demand,
+next to the detailed daily simulation.
 
 **Rippl's method** is the mass diagram applied to the tank: it accumulates, period by period,
 the difference between demand and usable rain, and adopts as the volume the largest cumulative
@@ -144,37 +143,36 @@ in the worst dry spell on record, and so it grows with the length of the series 
 resolution: with daily data, dry sequences appear whole; with monthly data, part of them is
 diluted in the monthly mean.
 
-**Azevedo Neto's method** multiplies the mean annual precipitation `P`, in millimetres, the
-collection area `A`, in square metres, and the number of months of little rain `T` by the
-coefficient 0.042, and gives the volume in litres. The result depends entirely on `T`, and in
-cities without a defined dry season, such as Florianópolis, the choice of `T` is arbitrary.
-
 **The practical methods** are rules of thumb. The German one takes 6% of the smaller of annual
-usable rain and annual demand; the English one takes 5% of the product `P × A`; the Australian
-one does a monthly balance by trial until the desired confidence is reached. Neither of the
-first two uses the distribution of rain over time, and the English one does not even use the
-demand.
+usable rain and annual demand; the British one takes 5% of the product `P × A`, with `P` the mean
+annual precipitation and `A` the collection area; the Australian one does a monthly balance by
+trial until the desired confidence is reached. Neither of the first two uses the distribution of
+rain over time, and the British one does not even use the demand.
 
-The table below applies five of these methods to the tutorial project, rounds each volume to a
-multiple of 250 L and simulates, in the program itself, the potential each one produces.
+The table below applies five sizing approaches to the New York tutorial project, rounds each
+volume to a multiple of 250 L and simulates, in the program itself, the potential each one
+produces.
 
 <!-- inclui: _tabelas/cap24_metodos.md -->
 
 The first table shows what the concave curve of section {{n:7}} already announced. The methods
-that size for the worst dry spell, such as Rippl with a daily series, and those that ignore
-demand, such as the English one, lead to tanks of 7 to 14 m³, which deliver less than one
-percentage point more than the 4,000 L of the simulation at two to three times the volume. The
-German method and Rippl with a monthly series get the order of magnitude right in this case,
-but by coincidence: the German method has no way of knowing that the Florianópolis rain is well
-distributed, and would give the same volume for a city with six dry months.
+that size for the worst dry spell, such as Rippl with a daily series (8,000 L), and those that
+ignore demand, such as the British one (8,500 L), lead to tanks of 8 to 8.5 m³, which deliver at
+most 0.95 percentage points more than the 4,000 L of the simulation (27.78% against 26.83%) at
+twice the volume. The German method (3,750 L, 26.66%) and Rippl with a monthly series
+(5,750 L, 27.43%) get the order of magnitude right in this case, but by coincidence: the German
+method has no way of knowing how the rain is distributed, and would give the same volume for a
+city with six dry months.
 
 ==The essential difference is that the empirical methods answer a fixed question, and the
 simulation answers the question the designer declares.== Rippl asks which volume never fails;
-the English method asks what fraction of the rain to store; the sweep with marginal gain asks
-from which volume on the next cubic metre stops paying off. Ghisi (2010) showed, for three cities
-in the state of São Paulo, that the right volume varies greatly with local rain, roof area,
-number of residents and demands, and concluded that sizing tanks by local tradition, without
-simulation, can lead to low-efficiency systems.
+the British method asks what fraction of the rain to store; the sweep with marginal gain asks
+from which volume on the next cubic metre stops paying off. The right volume varies with local
+rain, roof area, number of residents and demands, and sizing tanks by local tradition, without
+simulation, can lead to low-efficiency systems. In the three example cities the sweep happens to
+give the same ideal volume, 4,000 L, but only because the tutorial house is the same in all
+three and the marginal-gain threshold is the same; change the roof, the demand or the threshold
+and the volume moves.
 
 ---
 
@@ -204,9 +202,9 @@ hours; a daily step adds up in a single inflow what, hour by hour, would have co
 out little by little.
 
 The second table calculates the fraction for the volumes of the tutorial sweep. The chosen
-4,000 L cistern has a fraction of 0.015, within the range of the daily model; the 1,000 and
-2,000 L tanks fall below 0.01, and for them the daily result should be read as an
-approximation. Campisano and Modica (2015), who simulated a residential system with daily and
+4,000 L cistern has a fraction of 0.0237, within the range of the daily model; the 1,000 L
+tank (0.0059) falls below 0.01, and for it the daily result should be read as an
+approximation. Fewkes and Butler recommend the hourly step for that volume and the daily step for the others. Campisano and Modica (2015), who simulated a residential system with daily and
 sub-daily steps from measured discharges, reached a complementary conclusion: the daily step is
 reliable for estimating **water saving**, but steps of at most one hour are needed when the
 objective is **stormwater retention**, above all in small tanks with high demand.
@@ -246,8 +244,8 @@ the 5 %/m³ one, is also a choice, and must be declared.
 The ideal volume depends on the sweep step, and it is worth knowing by how much.
 
 A coarse step jumps over the knee of the curve: with a 5,000 L step, the first point assessed
-after zero already has the mean marginal gain of the whole interval, which is high, and the
-second may already be below the threshold. The ideal is shifted upwards.
+after zero already has the mean marginal gain of the whole interval, and the second may already
+be below the threshold. The ideal is shifted upwards.
 
 A fine step resolves the knee better, at the cost of time.
 
@@ -285,29 +283,23 @@ because the answer depends on them, and it returns the verdict in one sentence, 
 frequency table by length.
 
 ==The answer belongs to this project, not to the city.== It is the point the papers do not
-isolate and that the analysis makes visible: the series needed grows with the suppliable
-fraction. In the four thirty-year series that come with the program, with a 100 m² roof, four
-residents and 150 L per person per day:
-
-<!-- tabela: **Table 99** — Representative series length, in years, depending on the suppliable fraction -->
-| Suppliable fraction | Florianópolis | São Paulo | Brasília | Manaus |
-| :--- | ---: | ---: | ---: | ---: |
-| 20% | 2 | 8 | 9 | 16 |
-| 30% | 8 | 18 | 14 | 20 |
-| 40% | 9 | 9 | 20 | 30 |
-| 50% | 24 | 25 | 29 | 30 |
-
-With 20% of the demand met by rain, two years of series are enough in Florianópolis; with 50%,
-24 are needed. The reason is direct: the larger the share to be covered, the more the cistern
+isolate and that the analysis makes visible: the length of series needed depends on how much of
+the demand the rain is asked to supply. The larger the share to be covered, the more the cistern
 depends on rare dry spells, and the longer the series that contains them must be. A short series
-does not get the mean potential wrong — it gets the volume wrong, which is what is bought.
+does not get the mean potential wrong; it gets the volume wrong, which is what is bought.
+
+The program returns the verdict for your project, with its roof, demand and suppliable fraction.
+Run it for each city of a comparison: the three example cities, with thirty years of daily data
+each, are a good test. [A COMPLETAR: the representative series length for New York, London and
+Cape Town has not yet been run for this edition; run the analysis on the three example projects
+and tabulate it here.]
 
 > **Warning: a short series does not become a long one by averaging.** If the analysis says the
 > project needs more years than the series has, the ideal volume calculated is provisional, and
 > that is what is declared in the work. Repeating the simulation with another window of the same
-> data does not solve it: what is missing is record, not processing. EN 16941-1:2024 asks for at
-> least five years of daily data for its detailed method; Triton keeps the Geraldi and Ghisi
-> analysis, which answers for each project instead of fixing a minimum.
+> data does not solve it: what is missing is record, not processing. Some standards fix a
+> minimum number of years of daily data; Triton keeps the Geraldi and Ghisi analysis, which
+> answers for each project instead of fixing a minimum.
 
 ---
 

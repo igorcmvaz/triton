@@ -1,161 +1,100 @@
 # Que qualidade o uso exige
 
-> Ao terminar esta seção o projeto terá uma linha de tratamento definida, e você
-> saberá distinguir o que a norma exige do que o programa recomenda.
+> No fim desta secção, o projeto tem uma linha de tratamento definida, e sabe distinguir o que a norma exige do que o programa recomenda.
 
-Até este ponto o tutorial tratou a água pluvial exclusivamente como volume: quanto se
-capta, quanto se armazena, quanto se consome. A água, porém, é também uma qualidade, e a
-qualidade custa dinheiro — em equipamento na instalação e em insumo todos os meses. Esta
-seção define a classe de qualidade do projeto e dimensiona a linha de tratamento
-correspondente.
+Até aqui, o tutorial tratou a água da chuva apenas como volume: quanto se capta, quanto se armazena, quanto se consome. A água é também uma qualidade, e a qualidade custa dinheiro — em equipamento, na instalação, e em consumíveis, todos os meses. Esta secção define a classe de qualidade do projeto e dimensiona a linha de tratamento correspondente.
 
 ---
 
-## O que a norma diz, e o que ela não diz
+## O que a norma diz, e o que não diz
 
-A ABNT NBR 15527 é a norma brasileira que trata do aproveitamento de água de chuva em
-usos não potáveis. Na edição de 2019, a Tabela 1 fixa três parâmetros mínimos: *E. coli*
-abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e pH entre 6,0 e 9,0 (item 4.6.3). A
-desinfecção fica a critério do projetista (4.6.4); se for por cloro, a norma recomenda
-residual livre entre 0,5 e 2,0 mg/L, com máximo de 5 mg/L (4.6.5), e pede monitoramento
-no mínimo semestral (4.6.7). Cor aparente e coliformes totais, que a edição de 2007
-limitava, saíram da tabela.
+Em Portugal, a ETA 0701 da ANQIP (versão 7; ver a secção {{n:1}}) trata a qualidade em função do uso. Para a rega de zonas verdes e a lavagem de pavimentos, admite que a água da chuva, cumpridas as prescrições de instalação, pode dispensar qualquer tratamento complementar físico-químico ou bacteriológico (item 4.6.3). Para o autoclismo, só admite a água sem tratamento quando respeita, no mínimo, as normas de qualidade das águas balneares (item 4.6.4); se os valores máximos dos parâmetros microbiológicos não forem cumpridos, prevê a desinfeção por ultravioletas, cloro ou outro processo adequado, e recomenda, no caso do cloro, um residual livre entre 0,2 e 0,6 mg/L (item 4.6.5). Os tratamentos básicos que admite são a filtragem, no filtro de montante, e a sedimentação, na cisterna (item 4.6.2). [A COMPLETAR: a versão 7 da ETA 0701 cita o Decreto-Lei n.º 236/98 e a Diretiva 76/160/CEE para as águas balneares; confirmar a legislação hoje em vigor sobre a qualidade das águas balneares e os valores-limite aplicáveis antes de os usar como critério, e confirmar a revisão em vigor da ETA 0701.]
 
-O que a norma vigente **não** faz é dividir os usos não potáveis em classes com exigências
-distintas entre si. Essa divisão existiu na versão de 2007 e não sobreviveu à revisão de
-2019, que optou por um conjunto único de parâmetros aplicável a todos os usos não
-potáveis.
+A norma europeia EN 16941-1 também trata do tema, sem dispensar o cumprimento da regulamentação nacional ou local. [A COMPLETAR: ler a edição em vigor da EN 16941-1 (catálogo do IPQ ou do CEN) e indicar o que fixa para a qualidade da água e a desinfeção, com o número do capítulo.]
 
-O programa, por sua vez, oferece quatro classes, e a razão é prática: descarga de bacia
-e rega de jardim não expõem o usuário da mesma forma, ainda que a norma não os distinga
-({{fig:fig36_classes}}).
+Em geral, uma norma para uso não potável fixa uma lista curta de parâmetros mínimos: um indicador microbiológico como a *E. coli*, a turvação e o pH, e, se houver cloro, um intervalo para o residual livre. A desinfeção fica muitas vezes a critério do projetista, e a monitorização pede-se com uma periodicidade indicada. Verifique a norma aplicável ao local do projeto e introduza os seus limites como critério.
 
-> **Reúso não é aproveitamento.** A ABNT NBR 15575-1:2025, na Tabela 26 do item 18.4.2,
-> traz parâmetros bem mais restritivos para usos não potáveis — ausência de coliformes
-> totais e termotolerantes, cloro residual de 0,5 a 3,0 mg/L, turbidez abaixo de 2,0 uT
-> e cor abaixo de 15 uH —, mas eles valem para o **reúso** de águas servidas. A água de
-> chuva não é reúso: a NBR 15527:2019 distingue os dois termos (itens 3.5 e 3.18), e é a
-> Tabela 1 dela que vale para o aproveitamento pluvial.
+O programa, por seu lado, oferece quatro classes, e a razão é prática: o autoclismo e a rega do jardim não expõem o utilizador da mesma maneira, ainda que uma norma os não distinga ({{fig:fig36_classes}}).
+
+> **Reutilização não é aproveitamento.** Os parâmetros fixados para a **reutilização** de águas residuais tratadas costumam ser muito mais restritivos do que os do aproveitamento da água da chuva: ausência de coliformes, residual de cloro mais alto e turvação mais baixa. A água da chuva não é reutilização, e a tabela que se aplica ao aproveitamento é a da norma da água da chuva, não a da norma de reutilização.
 
 ![As quatro classes de qualidade do programa](../figuras/fig36_classes.png)
 
-*Figura 99 — As quatro classes de qualidade do programa e a situação normativa de cada uma. Apenas a classe 1 corresponde aos parâmetros da ABNT NBR 15527:2019; as classes 2 a 4 são adaptações do programa, adequadas à comparação de tratamentos e impróprias para apresentação como requisito normativo.*
+*Figura 99 — As quatro classes de qualidade do programa e a situação de cada uma. A classe 1 é o conjunto mínimo de referência, com os parâmetros menos exigentes; as classes 2 a 4 são adaptações do programa, adequadas para comparar tratamentos e impróprias para apresentar como exigência normativa.*
 
 
-> **As classes 2 a 4 são adaptações do programa, e não da norma.** O próprio Triton
-> declara isso na tela e no relatório. Num estudo publicado, não as apresente como
-> requisito normativo: apresente-as como critério adotado, e cite a origem.
+> **As classes 2 a 4 são adaptações do programa, não de uma norma.** O próprio Triton o declara no ecrã e no relatório. Num estudo publicado, não as apresente como exigência normativa: apresente-as como critério adotado, e cite a origem.
 
 ---
 
-## A classe recomenda, você decide
+## A classe recomenda, o utilizador decide
 
-Escolher uma classe não impõe equipamento algum ao projeto. A classe expressa uma
-recomendação do programa, fundada na exigência típica do uso pretendido, e a decisão sobre
-adotá-la ou não permanece com quem assina o projeto.
+Escolher uma classe não impõe nenhum equipamento ao projeto. A classe exprime uma recomendação do programa, fundada na exigência típica do uso pretendido, e a decisão de a adotar ou não fica com quem assina o projeto.
 
 <!-- inclui: _tabelas/cap09_etap.md -->
 
-A segunda tabela revela o ponto: sem o filtro de polimento, as quatro classes custam
-exatamente o mesmo. A classe alvo altera uma única coisa, que é se o programa recomenda ou
-não a filtração fina, e o filtro correspondente só entra no orçamento quando o usuário o
-marca explicitamente.
+A segunda tabela revela o ponto: sem o filtro de polimento, as quatro classes custam exatamente o mesmo. A classe-alvo altera uma única coisa, que é se o programa recomenda ou não a filtração fina, e o filtro correspondente só entra no orçamento quando o utilizador o assinala explicitamente.
 
-Quando a classe recomenda o polimento e o usuário o recusa, o programa registra a recusa
-no relatório, em vez de impor o equipamento em silêncio ou de deixar a decisão passar sem
-registro. ==É a conduta correta em qualquer programa de projeto: quem assina decide, e a
-decisão fica documentada para quem vier depois.==
+Quando a classe recomenda o polimento e o utilizador o recusa, o programa regista a recusa no relatório, em vez de impor o equipamento em silêncio ou de deixar a decisão passar sem registo. ==É a conduta correta em qualquer programa de projeto: quem assina decide, e a decisão fica documentada para quem vier depois.==
 
 ---
 
-## A desinfecção
+## A desinfeção
 
-A desinfecção é o estágio de que depende a segurança microbiológica da água armazenada, e
-o programa oferece três tecnologias. A diferença entre elas é grande, tanto em custo
-quanto em comportamento, e o critério que as separa não é a eficácia de desinfecção — as
-três desinfetam — e sim a permanência do efeito.
+A desinfeção é a etapa de que depende a segurança microbiológica da água armazenada, e o programa oferece três tecnologias. A diferença entre elas é grande, em custo e em comportamento, e o critério que as separa não é a eficácia de desinfeção — as três desinfetam — mas a persistência do efeito.
 
-**Cloração por pastilhas.** Um dosador com pastilhas de hipoclorito de cálcio na
-linha. É a opção padrão. Para os 82 m³ do nosso projeto, a linha de tratamento com cloração custa R$ 1.547 de investimento e R$ 47 por ano de custeio, valores que incluem o descarte inicial dimensionado na mesma etapa — R$ 617 de investimento e R$ 40 por ano, como detalha a seção {{n:27}} — e as pastilhas. Deixa **residual** na água, o que protege o
-reservatório e a rede interna contra recontaminação.
+**Cloragem por pastilhas.** Um doseador com pastilhas de hipoclorito de cálcio na linha, numa só etapa. É a opção predefinida. Deixa **residual** na água, o que protege o reservatório e a rede interior contra a recontaminação. A edição não traz catálogo de equipamentos, pelo que o custo da linha é o que indicar na etapa económica, a partir dos seus orçamentos; este manual não cita nenhum preço de equipamento de tratamento.
 
-**Ultravioleta.** Um reator com lâmpada UV. A linha passa a R$ 2.747 de investimento e R$ 263 por ano de custeio, com a lâmpada e a energia do reator. **Não deixa residual**: desinfeta o que
-passa por ele, e nada protege a água depois.
+**Ultravioleta.** Um reator com lâmpada UV, numa segunda etapa a seguir à cloragem. A lâmpada e o reator consomem 37,5 kWh por ano neste projeto. **Não deixa residual**: desinfeta o que passa por ele, e nada protege a água depois.
 
-**Ozonização.** A linha passa a R$ 5.047 de investimento e R$ 247 por ano de custeio. Também sem
-residual.
+**Ozonização.** Também uma segunda etapa a seguir à cloragem, também sem residual.
 
-> **Atenção.** No programa, ultravioleta e ozônio entram como barreira **adicional**
-> à cloração, e não como substitutas. É a prática correta: sem residual, a água
-> tratada volta a se contaminar no percurso até o ponto de uso.
+> **Atenção.** No programa, o ultravioleta e o ozono entram como barreira **adicional** à cloragem, não como substitutos. É a prática correta: sem residual, a água tratada volta a contaminar-se no caminho até ao ponto de uso.
 >
-> Por isso as linhas de UV e ozônio somam o custo do cloro. Quem esperava que trocar
-> cloro por UV **reduzisse** custo verá o contrário.
+> Por isso, as linhas de UV e de ozono somam-se à do cloro em vez de a substituir. Quem esperava que trocar o cloro pelo UV **reduzisse** o custo verá o contrário.
 
-O impacto de carbono acompanha a mesma ordem: 0,4 kg CO₂e por ano com cloração, 6,5 com
-ultravioleta e 15,4 com ozonização, para o volume tratado neste projeto. A diferença
-inteira está na energia elétrica consumida pela lâmpada e pelo gerador de ozônio, já que o
-insumo químico da cloração tem emissão de fabricação modesta frente a isso.
+O impacto de carbono segue a mesma ordem: 0,2 kg CO₂e por ano com cloragem, 18,2 com ultravioleta e 15,2 com ozonização, para o volume tratado neste projeto, com o fator de rede ilustrativo de 0,40 kg CO₂e/kWh. A diferença está toda na eletricidade consumida pela lâmpada e pelo gerador de ozono, já que o consumível químico da cloragem tem uma emissão de fabrico modesta em comparação.
 
 ---
 
 ## O filtro de entrada
 
-Antes de qualquer desinfecção vem o filtro mecânico de entrada, que retira folhas e
-sólidos grosseiros da água antes que ela alcance o reservatório. O programa o dimensiona
-pela área de cobertura, e não pela classe de qualidade pretendida, porque o que esse
-filtro precisa vencer é a vazão de pico da cobertura — grandeza que independe do destino
-final da água.
+Antes de qualquer desinfeção vem o filtro mecânico de entrada, que retira folhas e sólidos grosseiros da água antes de ela chegar ao reservatório. O programa dimensiona-o pela área da cobertura, e não pela classe de qualidade pretendida, porque o que este filtro tem de vencer é o caudal de ponta da cobertura — uma grandeza que não depende do destino final da água.
 
-<!-- tabela: Filtro mecânico de entrada dimensionado pela área de cobertura -->
+<!-- tabela: Filtro mecânico de entrada dimensionado pela área da cobertura -->
 | Cobertura | Filtro | Malha |
 | :--- | :--- | ---: |
 | até 200 m² | vórtex autolimpante DN 100 | 350 µm |
 | até 500 m² | vórtex autolimpante DN 150 | 400 µm |
-| acima | cesto ou ciclônico DN 200 | 500 µm |
+| acima | cesto ou ciclónico DN 200 | 500 µm |
 
-Nossa cobertura de 150 m² fica na primeira faixa.
+A nossa cobertura de 150 m² fica no primeiro escalão. Estes filtros retêm partículas de algumas centenas de micrómetros, muito abaixo de um milímetro; a ETA 0701 recomenda, para o filtro a montante da cisterna, uma malha entre 0,2 mm e 0,8 mm (item 4.4.2).
 
 ---
 
 ## A regra incremental do custo
 
-O investimento da linha de tratamento não é somado por inteiro ao investimento total do
-sistema, e a razão é evitar dupla contagem. O orçamento de um sistema pluvial já reserva
-uma verba genérica de tratamento dentro da rubrica de acessórios, porque nenhum projetista
-orça um sistema sem prever alguma filtragem; somar a linha detalhada por cima dessa verba
-cobraria o tratamento duas vezes. O programa desconta a verba genérica e soma apenas o
-incremento, conforme a Equação {{eq:capex_etap}} formaliza na seção {{n:27}}.
+O investimento na linha de tratamento não se soma por inteiro ao investimento total do sistema, para evitar a dupla contagem. O orçamento de um sistema pluvial já reserva uma verba genérica de tratamento na rubrica dos acessórios, porque nenhum projetista orça um sistema sem prever alguma filtragem; somar a linha detalhada por cima dessa verba cobraria o tratamento duas vezes. O programa desconta a verba genérica e soma só o incremento, como a Equação {{eq:capex_etap}} formaliza na secção {{n:27}}.
 
-O mesmo vale para o custeio: a cloração já é paga na linha de insumos químicos do
-fluxo de caixa, e a linha de tratamento desconta essa parcela para não cobrar o
-hipoclorito duas vezes.
+O mesmo vale para o custo de exploração: a cloragem já se paga na linha de consumíveis químicos do fluxo de caixa, e a linha de tratamento desconta essa parcela para não cobrar duas vezes o hipoclorito.
 
-E na avaliação de ciclo de vida, a linha de tratamento **substitui** o termo de
-cloração em vez de somar a ele. A seção {{n:27}} detalha a regra.
+E na avaliação do ciclo de vida, a linha de tratamento **substitui** o termo da cloragem em vez de se lhe somar. A secção {{n:27}} detalha a regra.
 
 ---
 
 ## A decisão do tutorial
 
-**Classe 1, cloração por pastilhas, sem filtro de polimento.**
+**Classe 1, cloragem por pastilhas, sem filtro de polimento.**
 
-A água vai para a bacia sanitária e a área externa. A classe 1, que reproduz a Tabela 1
-da ABNT NBR 15527:2019 (*E. coli* abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e
-pH entre 6,0 e 9,0), atende os dois, que estão na lista do item 4.1.7 da norma. Um
-projeto que acrescente a máquina de lavar roupa sai dessa lista, e o item 4.1.8 pede que
-o responsável defina e declare o critério de qualidade para ela, como a seção {{n:5}}
-registra. A cloração deixa residual, e o custo é
-o menor dos três. Investimento incremental de R$ 1.197 sobre a verba já prevista, dos quais R$ 617 são o descarte inicial, e R$ 43,45 por ano de custeio: R$ 3,45 de pastilha e R$ 40 de manutenção do descarte.
+A água vai para o autoclismo e para a área exterior. A classe 1, o conjunto mínimo de referência do programa (um limite de *E. coli*, a turvação e o pH, com um intervalo de cloro livre), cobre ambos. Um projeto que acrescente a máquina de lavar roupa sai dos usos que a maioria das normas lista, e o responsável tem de definir e declarar o critério de qualidade para ela, como a secção {{n:5}} regista. A cloragem deixa residual, é a mais simples das três linhas, e tem a energia e o carbono mais baixos: 0,2 kg CO₂e por ano. O descarte inicial dimensiona-se na mesma etapa; a sua câmara é a de 300 L da secção {{n:4}}.
 
-<!-- tabela: Estado do projeto do tutorial após a definição da classe de qualidade -->
+<!-- tabela: Estado do projeto do tutorial depois da definição da classe de qualidade -->
 | Projeto até aqui | |
 | :--- | ---: |
-| volume | 4.000 L |
-| classe de qualidade | 1, normativa |
-| desinfecção | cloração por pastilhas |
+| volume | 5 000 L |
+| classe de qualidade | 1, conjunto mínimo de referência |
+| desinfeção | cloragem por pastilhas |
 | filtro de polimento | não |
-| investimento incremental do tratamento, com o descarte inicial | R$ 1.197 |
+| carbono anual da linha de tratamento | 0,2 kg CO₂e |
 
-Temos volume, arranjo e qualidade. Agora a pergunta que decide se o projeto sai do
-papel.
+Temos volume, arranjo e qualidade. Agora, a pergunta que decide se o projeto sai do papel.

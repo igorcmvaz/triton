@@ -29,6 +29,7 @@ def _ler(*partes):
 
 def _normal(texto):
     """Minúsculas, sem acento e com espaços simples, para comparar mensagens."""
+    texto = re.sub(r"(?m)^\s*>\s*", " ", texto)
     sem = unicodedata.normalize("NFKD", texto)
     sem = "".join(c for c in sem if not unicodedata.combining(c))
     return " ".join(sem.lower().split())
@@ -101,8 +102,13 @@ def test_figura_do_manual_le_a_tabela_do_nucleo():
 
 
 def test_manual_avisa_que_a_ceramica_da_lista_nao_e_o_085_do_tutorial():
-    texto = _ler("manual", "partes", "04_o_projeto_e_a_chuva.md")
-    assert "0,75" in texto and "Personalizado" in texto
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT":
+        texto = _ler("manual", "en", "partes", "04_o_projeto_e_a_chuva.md")
+        assert "0.75" in texto and "Custom" in texto
+    else:
+        texto = _ler("manual", "partes", "04_o_projeto_e_a_chuva.md")
+        assert "0,75" in texto and "Personalizado" in texto
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -187,6 +193,7 @@ def _casos_fora_do_motor():
 
 def test_convencao_das_taxas_e_a_que_o_manual_descreve():
     """Percentual na interface e no arquivo; fração na função anual; mês e ano compostos."""
+    from triton.core.edition import get_current_edition
     from triton.core.economic import run_robust_economic_analysis
     from triton.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
     base = dict(initial_investment=1000.0, annual_water_saved_m3=50.0,
@@ -196,9 +203,14 @@ def test_convencao_das_taxas_e_a_que_o_manual_descreve():
         run_robust_economic_analysis(discount_rate=5.0, **base)
     assert mensal_pct_para_anual_pct(1.0) == pytest.approx(12.6825, abs=1e-4)
     assert anual_pct_para_mensal_pct(mensal_pct_para_anual_pct(0.7)) == pytest.approx(0.7)
-    texto = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
-    assert "a conversao entre mes e ano e composta" in texto
-    assert "12,68% ao ano" in texto
+    if get_current_edition() == "INT":
+        texto = _normal(_ler("manual", "en", "partes", "37_mensagens_de_erro.md"))
+        assert "the conversion between month and year is compound" in texto
+        assert "12.68% a year" in texto
+    else:
+        texto = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
+        assert "a conversao entre mes e ano e composta" in texto
+        assert "12,68% ao ano" in texto or "12,68% por ano" in texto
 
 
 def test_projeto_grava_a_tma_em_percentual_ao_mes():
@@ -281,13 +293,32 @@ def test_campo_em_percentual_fica_laranja_com_valor_de_fracao(qapp):
 
 
 def test_manual_justifica_a_unidade_da_fracao_atendivel():
-    texto = _normal(_ler("manual", "partes", "05_a_edificacao_e_a_demanda.md"))
-    assert "percentual na tela, fracao no arquivo" in texto
-    assert "nunca adivinhada pelo valor" in texto
-    assert "acima de 1 e percentual" in texto
-    erros = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
-    assert "aceitam as duas formas" not in erros
-    assert "simular mesmo assim" in erros
+    from triton.core.edition import get_current_edition
+    ed = get_current_edition()
+    if ed == "INT":
+        texto = _normal(_ler("manual", "en", "partes", "05_a_edificacao_e_a_demanda.md"))
+        assert "percentage on screen, fraction in the file" in texto
+        assert "never guessed from the value" in texto
+        assert "above 1 is a percentage" in texto
+        erros = _normal(_ler("manual", "en", "partes", "37_mensagens_de_erro.md"))
+        assert "accept both forms" not in erros
+        assert "simulate anyway" in erros
+    elif ed == "PRT":
+        texto = _normal(_ler("manual", "partes", "05_a_edificacao_e_a_demanda.md"))
+        assert "percentagem no ecra, fracao no ficheiro" in texto
+        assert "nunca adivinhada pelo valor" in texto
+        assert "acima de 1 e percentagem" in texto
+        erros = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
+        assert "aceitam as duas formas" not in erros
+        assert "simular mesmo assim" in erros
+    else:
+        texto = _normal(_ler("manual", "partes", "05_a_edificacao_e_a_demanda.md"))
+        assert "percentual na tela, fracao no arquivo" in texto
+        assert "nunca adivinhada pelo valor" in texto
+        assert "acima de 1 e percentual" in texto
+        erros = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
+        assert "aceitam as duas formas" not in erros
+        assert "simular mesmo assim" in erros
 
 
 def test_aceitabilidade_smaa_tem_unidade_fixa():
@@ -317,7 +348,11 @@ def test_mensagem_ao_usuario_nao_expoe_nome_interno_de_variavel():
 
 
 def test_toda_mensagem_de_validacao_esta_documentada_no_manual():
-    manual = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT":
+        manual = _normal(_ler("manual", "en", "partes", "37_mensagens_de_erro.md"))
+    else:
+        manual = _normal(_ler("manual", "partes", "37_mensagens_de_erro.md"))
     ausentes, divergentes = [], []
     for disparo, frase in _casos_de_validacao():
         mensagem = _mensagem(disparo)
@@ -476,11 +511,14 @@ def test_citacoes_creditam_os_autores_do_triton():
 
 def test_guia_dos_casos_cita_secoes_que_existem():
     """A coluna de seção do guia dos casos usa a numeração atual do manual."""
+    from triton.core.edition import get_current_edition
     sys.path.insert(0, os.path.join(RAIZ, "manual"))
     from gerar import indice_das_secoes
     validas = set(indice_das_secoes().values())
-    for arquivo in (("manual", "casos", "README.md"),
-                    ("manual", "apendices", "J_arquivos_de_exemplo.md")):
+    apendice_j = (("manual", "en", "apendices", "J_arquivos_de_exemplo.md")
+                  if get_current_edition() == "INT"
+                  else ("manual", "apendices", "J_arquivos_de_exemplo.md"))
+    for arquivo in (("manual", "casos", "README.md"), apendice_j):
         texto = _ler(*arquivo)
         citadas = set(re.findall(r"(?<![\d.,])(\d\.\d{1,2})(?![\d,%])", texto))
         assert citadas, arquivo
@@ -496,20 +534,30 @@ def test_o_manual_cita_o_numero_de_parametros_que_o_projeto_tem():
     com os campos da classe de configuração.
     """
     import dataclasses
+    from triton.core.edition import get_current_edition
     from triton.core.parser import TritonConfig
+    ed = get_current_edition()
     total = len(dataclasses.fields(TritonConfig))
-    pasta = os.path.join(RAIZ, "manual")
+    # Nas edições PRT e INT, os 4 campos de esquemas nacionais exclusivos do Brasil
+    # (AQUA/Procel) ficam fora da listagem da edição (122 - 4 = 118).
+    esperados = {total} if ed == "BRL" else {total, total - 4}
+    pasta = (os.path.join(RAIZ, "manual", "en")
+             if ed == "INT"
+             else os.path.join(RAIZ, "manual"))
+    padrao = (r"There are \*\*(\d{2,3})\*{0,2} (parameters|fields)"
+              if ed == "INT"
+              else r"(?:[Oo]s|São \*\*)(\d{2,3})\*{0,2} (parâmetros|campos)")
     citados = []
     for sub in ("partes", "apendices"):
         for nome in os.listdir(os.path.join(pasta, sub)):
             if not nome.endswith(".md"):
                 continue
             texto = open(os.path.join(pasta, sub, nome), encoding="utf-8").read()
-            for m in re.finditer(r"(?:[Oo]s|São \*\*)(\d{2,3})\*{0,2} (parâmetros|campos)", texto):
+            for m in re.finditer(padrao, texto):
                 citados.append((nome, int(m.group(1))))
     assert citados, "o manual deixou de citar o total de parâmetros"
-    errados = [(nome, n) for nome, n in citados if n != total]
-    assert not errados, (total, errados)
+    errados = [(nome, n) for nome, n in citados if n not in esperados]
+    assert not errados, (esperados, errados)
 
 
 #: Onde o programa descreve o descarte ao usuário: a documentação embutida, o

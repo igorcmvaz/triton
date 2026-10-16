@@ -7,10 +7,6 @@
 # --- Banco tarifário brasileiro (brazil_cities_tariffs.json) e as tarifas CASAN/CORSAN ---
 tests/unit/test_tarifa_exponencial.py
 tests/unit/test_categoria_tarifaria.py
-tests/unit/test_processar_entrada.py
-tests/unit/test_processo_tarifario.py
-tests/unit/test_registro_de_fontes.py
-tests/unit/test_transcricoes.py
 tests/unit/test_percentual_de_esgoto.py
 tests/unit/test_regimes_tarifarios.py
 tests/unit/test_tariffs_structure.py
@@ -23,6 +19,9 @@ tests/integration/test_batch_validation.py
 
 # --- Base climática CLIMBra ---
 tests/unit/test_climate_database.py
+tests/test_essencial.py::test_modelos_pedem_a_base_climbra
+tests/test_essencial.py::test_linha_de_comando_recusa_modelos_com_arquivo_proprio
+tests/test_essencial.py::test_linha_de_comando_sorteia_os_modelos_como_o_nucleo
 
 # --- Séries, estudos e figuras do manual do Brasil (Florianópolis, Brasília, Manaus, São Paulo) ---
 tests/unit/test_figuras_interativas_validacao.py
@@ -105,3 +104,4 @@ tests/test_essencial_interface.py::test_brasil_continua_com_a_etap_e_os_cabecalh
 tests/test_essencial_interface.py::test_o_gestor_mostra_a_formula_e_simula_com_o_motor
 tests/test_essencial_interface.py::test_a_etapa_economica_traz_o_esgoto_por_m3_da_corsan
 tests/test_essencial_interface.py::test_municipio_com_tarifa_por_bairro_oferece_as_alternativas
+tests/test_essencial.py::test_o_vpl_tem_maximo_interior

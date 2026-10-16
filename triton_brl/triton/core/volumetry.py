@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-from .component_geometry import TANK_HEIGHT_RATIO, component_envelope, fallback_volumes, regular_polygon
+from .component_geometry import component_envelope, fallback_volumes, regular_polygon
 from .component_geometry import tank_dimensions_mm  # noqa: F401  (reexportado: parte da API da volumetria)
 from .pipe_network import SYSTEMS_BY_ID, junction_point, segment_distance
 from .plant_3d import _checked_manifest

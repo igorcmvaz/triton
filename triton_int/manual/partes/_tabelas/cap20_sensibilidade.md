@@ -1,8 +1,8 @@
-<!-- tabela: Potencial, valor presente líquido e retorno do projeto fechado do tutorial com cada premissa variada sozinha, do valor baixo ao alto -->
-| Premissa | Baixa | Provável | Alta | Potencial | VPL em 20 anos | Payback descontado |
+<!-- tabela: Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices) -->
+| Assumption | Low | Likely | High | Potential | 20-year NPV (illustrative, not a market price) | Discounted payback |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| reajuste das tarifas de água e esgoto, % ao ano | 3,0 | 5,0 | 7,0 | 27,30% a 27,30% | R$ 860 a R$ 11 360 | 16,8 anos a 10,8 anos |
-| taxa mínima de atratividade, % ao mês | 0,3 | 0,5 | 0,7 | 27,30% a 27,30% | R$ 10 014 a R$ 2 241 | 10,9 anos a 15,5 anos |
-| consumo per capita, L/hab·dia | 120,0 | 150,0 | 180,0 | 27,73% a 26,72% | R$ -51 a R$ 10 723 | 19,6 anos a 9,6 anos |
-| fração atendível, % | 20,0 | 28,0 | 40,0 | 19,91% a 36,96% | R$ -2 532 a R$ 16 058 | não retorna a 7,7 anos |
-| preço da cisterna, % do orçamento | 70,0 | 100,0 | 130,0 | 27,30% a 27,30% | R$ 6 282 a R$ 4 766 | 11,8 anos a 13,7 anos |
+| tariff escalation, water and sewer, % per year | 1.0 | 3.0 | 5.0 | 27.09% to 27.09% | −US$ 3,760 to −US$ 2,093 | no payback to no payback |
+| minimum attractive rate of return, % per month | 0.2 | 0.4 | 0.6 | 27.09% to 27.09% | −US$ 2,149 to −US$ 3,659 | no payback to no payback |
+| per capita consumption, L/person·day | 120.0 | 150.0 | 180.0 | 27.64% to 26.09% | −US$ 3,892 to −US$ 2,282 | no payback to no payback |
+| suppliable fraction, % | 20.0 | 28.0 | 40.0 | 19.84% to 35.26% | −US$ 4,289 to −US$ 1,590 | no payback to no payback |
+| cistern price, % of the budget | 70.0 | 100.0 | 130.0 | 27.09% to 27.09% | −US$ 2,330 to −US$ 3,710 | no payback to no payback |

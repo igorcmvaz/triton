@@ -19,7 +19,7 @@ with the reading path for each one.
 | **solve a case** today | the three questions below, and then the guide of chapter {{c:3}} that fits |
 | **publish** a study | chapter {{c:4}}, which has the method, and section {{n:13}}, with the declaration list |
 | **review** someone else's study | chapter {{c:6}}, and appendices {{n:A}} and {{n:B}} |
-| **migrate** from Netuno 4 | sections {{n:21}} and {{n:35}} |
+| **export** to CAD, BIM or a spreadsheet | section {{n:22}} |
 | **avoid mistakes** | section {{n:33}}, with the ten most common mistakes |
 
 Anyone with an hour and no previous familiarity should read the tutorial of chapter
@@ -49,8 +49,9 @@ fraction depending on the intended uses.
 *Figure 99 — Which part of the total consumption rainwater can supply, depending on the uses the project intends. It is the ceiling of the saving potential: no tank, however large, exceeds this fraction.*
 
 The residential cases are dealt with in section {{n:5}}, and the commercial case in
-section {{n:18}}. The dashed line marks the 28% of the tutorial, which keeps to the uses
-that item 4.1.7 of ABNT NBR 15527:2019 admits.
+section {{n:18}}. The dashed line marks the 28% of the tutorial, which keeps to the
+non-potable uses that rainwater guidance generally admits: toilet flushing, washing and
+irrigation.
 
 
 ### Will you compare volumes or assess just one?
@@ -101,10 +102,10 @@ four produce outputs or support the study ({{fig:fig28_etapas}}).
 Where this manual deals with each one: step 1 in section {{n:4}}, step 2 in {{n:5}},
 step 3 in {{n:9}}, step 4 in sections {{n:6}}, {{n:7}} and {{n:10}}, step 5 in {{n:6}},
 step 6 in {{n:10}}, step 7 in {{n:11}}, step 8 in {{n:12}}, step 9 in {{n:13}}, step 10
-in {{n:22}}, step 12 in {{n:16}} and step 13, Probabilistic Modulation, in sections {{n:40}} to {{n:44}}. Step 11 is the documentation built into the program
-itself, and has no corresponding section here. In the International Edition, step 12,
-the Tariff Manager, does not appear, because the Brazilian tariff catalogue does not
-come with it.
+in {{n:22}} and step 12, Probabilistic Modulation, in sections {{n:40}} to {{n:44}}. Step 11 is the documentation built into the program
+itself, and has no corresponding section here. The International Edition carries no
+tariff catalogue, so it has no tariff-manager step: you type the tariffs of your
+project in the economic step, and the numbering has no gap.
 
 
 It is worth saving the project at the end of each step. The parameters of appendix

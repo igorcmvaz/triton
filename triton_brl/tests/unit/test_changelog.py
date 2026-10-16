@@ -8,13 +8,20 @@ import os
 import re
 import sys
 
+import pytest
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MANUAL = os.path.join(RAIZ, "manual")
 for caminho in (RAIZ, MANUAL):
     if caminho not in sys.path:
         sys.path.insert(0, caminho)
 
-import gerar_changelog as gc  # noqa: E402
+try:
+    import gerar_changelog as gc
+except ModuleNotFoundError:
+    pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
+if not os.path.isfile(gc.CAPITULO):
+    pytest.skip("o capítulo em português do histórico de versões não existe nesta edição", allow_module_level=True)
 from triton import __version__  # noqa: E402
 
 

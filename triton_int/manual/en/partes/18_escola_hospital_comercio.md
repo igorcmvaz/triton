@@ -9,44 +9,28 @@ the economic side, and it must be known before the study starts, not after it is
 
 ## The caveat: the tariff category
 
-Brazilian utilities charge different tariffs depending on the consumer category —
-residential, commercial, industrial and public —, and the non-residential categories usually
-cost twice the residential one or more. In the CASAN table in force in April 2026, for
-example, the first block costs R$ 3.08/m³ for a house and R$ 6.81/m³ for a commercial
-establishment.
+Utilities charge different tariffs depending on the consumer category (residential,
+commercial, industrial, public), and the non-residential categories often cost more than the
+residential one. The program has no catalogue of tariffs: the tariff is always typed in.
+Enter directly the tariff of the category the building is billed in. The three example
+projects carry a **residential** tariff, so they are right for a house and would be the wrong
+tariff for a school, a hotel or a shop.
 
-==These tables exist and are public:== they are in the resolutions of the regulatory agencies
-and on the utilities' own websites. What the program's catalogue records, for the 652
-municipalities, is the residential category of each one, because surveying the four
-categories of every provider would be a job of another order of magnitude. ==The
-non-residential tariff is not missing from the program: it is missing from the catalogue,
-and you can enter it.==
+> **What to do, in five minutes.** Look up your utility's current tariff document, which is
+> usually on its website under «charges» or «tariffs». Find the table of the category of
+> interest. Enter the blocks in the custom mode of the tariff screen, with the corresponding
+> minimum-charge regime. Section {{n:16}} describes each field. Once that is done, the economic
+> result becomes that of your case, and not a residential approximation.
 
-When you choose a non-residential building type, the Brazil Edition **warns** you and says
-in which direction the error goes:
+The two non-residential cases of the manual, the London school and the Cape Town hotel, keep
+the residential tariff of their city and leave the costs at zero: they compare rainfall and
+demand, not money. Take their percentages as water results, and do not read an economic
+conclusion into them.
 
-> The building type chosen is «School», which the utility bills in the Public category. The
-> program's catalogue has only the Residential category, so the water and sewage bill is
-> being calculated with the wrong tariff. The error has a known direction: non-residential
-> categories are more expensive, and therefore the saving and the return are
-> **underestimated**.
-
-> **What to do, in five minutes.** Look up your utility's current tariff resolution, which
-> is usually on its website under «tariffs» or «tariff structure». Find the table of the
-> category of interest. Enter the blocks in the custom mode of step **12. Tariff Manager**,
-> with the corresponding minimum-charge regime. Section {{n:16}} describes each field. Once
-> that is done, the economic result becomes that of your case, and not a residential
-> approximation.
-
-In the International Edition there is no catalogue: the tariff is always typed in, and so
-the program does not show this warning. Enter directly the tariff of the category the
-building is billed in.
-
-There is a consolation in this limitation, and it is methodological: ==the error has a known
-direction and it is conservative.== Non-residential categories are more expensive than the
-residential one, so the real project returns more than the program indicates, and never less.
-A study that declares the limitation therefore presents a feasibility floor — which is a
-defensible position, unlike the reverse.
+Declare which category the tariff belongs to. A study that applies a residential tariff to a
+non-residential building states a limitation, and the direction of the error is usually
+conservative, because non-residential categories tend to be dearer; but that is a property of
+the tariff document, and you must check it in yours.
 
 ---
 
@@ -69,41 +53,41 @@ mistakes described in section {{n:33}}.
 
 ## What changes with each building type
 
-**School.** It is one of the most favourable cases for rainwater harvesting in Brazil, for
-two reasons that add up. The non-potable share of consumption is high, because the toilet
-dominates use and many units have neither showers nor a kitchen. And the roof area per pupil
-is usually large, so supply is rarely the limiting factor.
+**School.** It is a favourable case for rainwater harvesting for two reasons that add up. The
+non-potable share of consumption is high, because the toilet dominates use and many units have
+neither showers nor a kitchen. And the roof area per pupil is usually large, so supply is rarely
+the limiting factor.
 
-Modulation by calendar, however, has an effect that depends on the region, and it is better
-to simulate it than to assume the result. In the Brazilian Southeast and Centre-West, the
-rains concentrate from October to March and the dry season runs from June to August. The July
-break coincides with the dry season, and the cistern gets through the dry period without
-being drawn on; the long holidays from December to February, on the contrary, coincide with
-the peak of the rains, and during that period the cistern fills and overflows unused. In the
-South, where rain is better distributed over the year, the school calendar weighs less.
-Section {{n:17}} shows how to represent the school days, and section {{n:14}} shows how the
-distribution of rain changes from one state capital to another.
+Modulation by calendar, however, has an effect that depends on the climate, and it is better to
+simulate it than to assume the result. The manual's school is in London: 1,200 m² of roof, 300
+pupils, 40 L per pupil per day, 70% suppliable, a demand modulated by day of the week (40 L on
+five days, 20 L and 5 L on the weekend days) and a 30,000 L tank. It yields 12.58%, against
+12.63% for a constant demand of the same annual total (a mean of 9,014.3 L/day). The weekly
+rhythm alone changes almost nothing, because London rain is spread through the year and the
+tank refills during the weekend. A school that closes in a dry season would behave differently,
+and the monthly profile of section {{n:17}} is the tool for that case; the manual has no
+monthly school profile to quote. Section {{n:14}} shows how the distribution of rain changes
+from one city to another.
 
 **Hospital.** The most delicate case. High, continuous consumption, without relevant
 seasonality, which is good for harvesting. But the **quality requirement** is different:
 there are uses that do not admit rainwater under any circumstances, and the cooling tower,
 which would be an ideal use, requires microbiological control against Legionella. Treat the
-quality class with care, and do not use the adapted classes 2 to 4 as if they were a
-normative requirement.
+quality class with care, and do not use the program's classes 2 to 4 as if they were a
+normative requirement: they are criteria adopted by the program, and the requirement of the
+case is set by the health authority and the applicable standard.
 
 **Office and shop.** Demand concentrated on working days, five days out of seven. Modulate by
 week. The non-potable share is high because almost all consumption is toilets, urinals and
-cleaning: Proença and Ghisi (2010), who estimated the end uses of ten office buildings in
-Florianópolis through interviews with the occupants and flow measurements, found 56% to 86%
-of consumption in non-potable uses, and concluded that the toilet should be the first target
-of any saving programme in these buildings. The width of the range is itself a warning: two
-offices in the same city can differ by thirty percentage points, and the suppliable fraction
-of a study should come from the building studied whenever possible.
+cleaning. The suppliable fraction varies a great deal between offices, even within one city, and
+it should come from the building studied whenever possible: measure it, or survey it as
+described below, before taking a value from a reference.
 
 **Hotel.** Strong seasonality, and the case in which monthly modulation matters most. See the
-warning of section {{n:17}} about concentrated demand: a coastal hotel fills up precisely in
-the wettest months and still yields less than a constant demand, because it empties the tank
-in a few days and leaves it idle for the rest of the year.
+Cape Town hotel of section {{n:17}}: with occupancy concentrated in the dry summer, it yields
+9.83% against 10.97% for the same annual demand spread evenly, a loss of 1.14 percentage
+points. A concentrated demand wastes tank capacity, and the loss is larger when the
+concentration falls in the dry season.
 
 ---
 
@@ -117,7 +101,7 @@ building. There are three ways of obtaining it, in decreasing order of reliabili
 representative weeks. It is the only way that produces a number for the building, and not an
 average.
 
-**Survey by interview and flow.** The method of Proença and Ghisi (2010): ask the occupants
+**Survey by interview and flow.** Ask the occupants
 the frequency and duration of each use and multiply by the measured flows of the fixtures. It
 costs little and captures the real behaviour of the building, but it depends on the memory of
 those interviewed.
@@ -125,9 +109,8 @@ those interviewed.
 **Reference value from the literature.** Acceptable in a preliminary study, as long as the
 reference is of the same building type, from the same country and, ideally, from the same
 region. Avoid transposing residential fractions to other building types, and even among
-dwellings the variation is large: in a multi-family residential building in Florianópolis,
-Maykot and Ghisi (2020) found the toilet with only 9.2% of consumption and the washing
-machine with 21.3%, far below the fractions of offices and schools.
+dwellings the variation is large, and the toilet share of a household differs a lot from that
+of an office or a school.
 
 > **Declare the route.** «Suppliable fraction of 60%, measured» and «suppliable fraction of
 > 60%, from a reference» are different studies, and the reader needs to know which of the
@@ -154,7 +137,6 @@ Besides what section {{n:13}} already asks for:
 
 - the **building type** and the unit of consumption adopted;
 - the **origin** of the per capita consumption — measurement, reference or standard;
-- whether the **tariff category** was corrected or remained the residential one of the
-  catalogue, and in the latter case that the economic result is underestimated;
+- the **tariff category** entered, and whether it is the one the building is billed in;
 - the **modulation profile** and its origin;
 - for a hospital, the quality class adopted and what it covers.

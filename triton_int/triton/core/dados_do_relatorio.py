@@ -1,6 +1,6 @@
 """Os resultados que o relatório (PDF/HTML), o JSON e o CAD mostram para um volume.
 
-Até a 1.0.0 a aba de relatórios lia a economia por ``tab_economic.last_econ_res``,
+Antes da 0.1.0 a aba de relatórios lia a economia por ``tab_economic.last_econ_res``,
 atributo que a aba econômica não define: o laudo saía com investimento, VPL e TIR
 iguais a zero, como se calculados. Para volumes fora da varredura, interpolava
 potencial, VPL e investimento entre os volumes vizinhos. E escolhia o volume do
@@ -25,11 +25,6 @@ CHAVES_HIDRICAS = ("potential_pct", "pluv_day", "potable_day", "spill_day", "sat
 CHAVES_ECONOMICAS = ("capex", "annual_gross", "vpl", "tir", "payback_s", "payback_d")
 
 _TOLERANCIA_L = 0.5
-
-
-def texto_nao_calculado(lang: Optional[str] = None) -> str:
-    """«Não calculado», em inglês quando o documento é em inglês."""
-    return NAO_CALCULADO_EN if lang == "en" else NAO_CALCULADO
 
 
 def _mesmo_volume(a: Any, b: Any) -> bool:

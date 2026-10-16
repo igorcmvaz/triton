@@ -81,6 +81,11 @@ def test_a_aba_anuncia_o_manual_completo_nas_duas_linguas():
 
 @pytest.mark.parametrize("arquivo,paginas", _manuais_completos_anunciados())
 def test_o_volume_geral_tambem_confere(arquivo, paginas):
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT" and arquivo == "manual/Manual-Triton.pdf":
+        # A edição internacional publica só o manual em inglês; o PDF em português que sobrou
+        # na pasta é rastro da edição brasileira e não é o que a aba abre.
+        pytest.skip("a edição INT não publica o manual em português")
     reais = _paginas_do_pdf(arquivo)
     if reais is None:
         pytest.skip(f"{arquivo} não foi gerado nesta árvore")
@@ -96,6 +101,10 @@ def test_nenhum_numero_de_paginas_escrito_a_mao_no_volume_geral():
 
 def test_todo_pdf_prometido_existe():
     """Botão que promete um arquivo ausente é o defeito mais visível de todos."""
+    from triton.core.edition import get_current_edition
+    if get_current_edition() == "INT":
+        pytest.skip("a edição INT publica apenas o manual completo em inglês")
     faltam = [a for _, _, a in _volumes_anunciados()
               if not os.path.isfile(os.path.join(RAIZ, a))]
     assert not faltam, "a aba oferece PDFs que não existem: " + ", ".join(faltam)
+

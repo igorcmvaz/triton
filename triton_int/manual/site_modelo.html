@@ -1,5 +1,5 @@
-<title>Documentação do Triton</title>
-<meta name="description" content="Documentação do Triton: tutorial, método, guias e referências do programa de simulação de aproveitamento de água de chuva.">
+<title>Triton documentation</title>
+<meta name="description" content="Triton documentation: tutorial, method, guides and references for the rainwater harvesting simulation program.">
 <link rel="icon" type="image/png" href="img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,7 +66,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 img { max-width: 100%; }
 table { font-size: inherit; }
 
-/* barra superior */
+/* top bar */
 .topo { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
 .topo-in { display: flex; align-items: center; gap: 18px; max-width: 1320px; margin: 0 auto; padding: 10px 20px; }
 .marca { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; min-width: 0; }
@@ -121,7 +121,7 @@ table { font-size: inherit; }
 .versao details .corpo blockquote { margin: 10px 0; padding: 8px 14px; border-left: 3px solid var(--nota-line); background: var(--bg); border-radius: 0 8px 8px 0; }
 .menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 7px; padding: 6px 10px; font: inherit; font-size: 13px; }
 
-/* página inicial */
+/* home page */
 .hero { background: var(--navy); color: var(--navy-ink); position: relative; overflow: hidden; }
 .hero::before { content: ""; position: absolute; inset: 0; background: url("img/capa_completo.jpg") center 42% / cover no-repeat; opacity: 0.55; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--navy) 0%, rgba(11,37,69,0.88) 38%, rgba(11,37,69,0.35) 75%, rgba(11,37,69,0.15) 100%); }
@@ -191,7 +191,7 @@ table { font-size: inherit; }
 .pdfs a i { width: 10px; height: 10px; border-radius: 2px; background: var(--c); display: inline-block; }
 .rodape { max-width: 1320px; margin: 48px auto 0; padding: 24px 20px 40px; border-top: 1px solid var(--line); color: var(--ink3); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
 
-/* páginas de seção */
+/* section pages */
 .doc { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 36px; padding: 0 20px; }
 .lateral { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 58px); align-self: start; max-height: calc(100vh - 70px); overflow: auto; padding: 22px 6px 30px 0; font-size: 13.5px; }
 .lateral .cap { margin-bottom: 14px; }
@@ -243,7 +243,7 @@ table { font-size: inherit; }
 .texto figure.eq { display: flex; align-items: center; justify-content: center; gap: 18px; background: #fff; border-radius: 10px; padding: 8px 12px; border: 1px solid var(--line); overflow-x: auto; }
 .texto figure.eq img { max-height: 90px; }
 .texto figure.eq .eqn { font-family: var(--sans); color: #4a5a6b; font-size: 13px; }
-/* figuras interativas */
+/* interactive figures */
 .fi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px 14px; font-family: var(--sans); font-size: 14px; line-height: 1.45; color: var(--ink); }
 .fi-topo { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .fi-selo { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
@@ -285,10 +285,10 @@ table { font-size: inherit; }
   .fi-corpo.emp .fi-leit { grid-template-columns: 1fr; }
   .fi { padding: 12px; }
   .fi-n { grid-template-columns: 1fr 1fr; }
-  /* No telefone o gráfico mantém a escala de leitura e rola para o lado. */
+  /* On a phone the chart keeps its reading scale and scrolls sideways. */
   .fi-corpo > div:first-child { overflow-x: auto; overscroll-behavior-x: contain; }
   .fi-corpo > div:first-child svg { min-width: 600px; }
-  /* Gráficos de poucos elementos cabem na tela do telefone. */
+  /* Charts with few elements fit the phone screen. */
   .fi-corpo > div:first-child svg.estreito { min-width: 340px; }
   .fi-corpo > div:first-child .fi-leg { position: sticky; left: 0; max-width: calc(100vw - 58px); }
   .fi-tabela { display: block; overflow-x: auto; }
@@ -385,15 +385,15 @@ table { font-size: inherit; }
 
 <header class="topo">
   <div class="topo-in">
-    <a class="marca" href="#/"><img src="img/logo.png" alt=""><span><b>Triton</b><small>Documentação do programa e do método</small></span></a>
-    <a class="selo-versao" id="selo-versao" href="#/versoes" title="O que mudou em cada versão"></a>
-    <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir o sumário">Sumário</button>
-    <nav class="nav" id="nav" aria-label="Principal"></nav>
+    <a class="marca" href="#/"><img src="img/logo.png" alt=""><span><b>Triton</b><small>Documentation of the program and the method</small></span></a>
+    <a class="selo-versao" id="selo-versao" href="#/versoes" title="What changed in each version"></a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-label="Open the contents">Contents</button>
+    <nav class="nav" id="nav" aria-label="Main"></nav>
     <div class="busca">
-      <input id="busca" type="search" placeholder="Buscar no manual" autocomplete="off" aria-label="Buscar no manual">
+      <input id="busca" type="search" placeholder="Search the manual" autocomplete="off" aria-label="Search the manual">
       <div class="resultados" id="resultados" hidden></div>
     </div>
-    <button class="tema" id="tema" type="button" title="Alternar tema claro e escuro">◐</button>
+    <button class="tema" id="tema" type="button" title="Switch between light and dark theme">◐</button>
   </div>
 </header>
 <main id="app"></main>
@@ -403,7 +403,9 @@ table { font-size: inherit; }
 const DADOS = /*__DADOS__*/null;
 const $ = (s, r = document) => r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
-const fmt = (v, d = 0) => Number(v).toLocaleString("pt-BR", {minimumFractionDigits: d, maximumFractionDigits: d});
+const LOCALE = (DADOS.i18n && DADOS.i18n.locale) || "en-GB";
+const MOEDA = (DADOS.i18n && DADOS.i18n.moeda) || "";
+const fmt = (v, d = 0) => Number(v).toLocaleString(LOCALE, {minimumFractionDigits: d, maximumFractionDigits: d});
 const CORES = {};
 DADOS.volumes.forEach(v => { CORES[v.capitulo] = v.cor; });
 const SECOES = [];
@@ -411,11 +413,11 @@ DADOS.capitulos.forEach(c => c.secoes.forEach(s => SECOES.push(Object.assign({ca
 const POR_ID = Object.fromEntries(SECOES.map(s => [s.id, s]));
 const corDe = c => CORES[c.n] || "#4ea8de";
 
-/* navegação principal */
-const NAV = [["Início", "#/"], ["Comece aqui", "#/1.1"], ["Tutorial", "#/4.1"], ["Método", "#/2.1"], ["Guias", "#/3.1"], ["Apêndices", "#/A"]];
+/* main navigation */
+const NAV = [["Home", "#/"], ["Start here", "#/1.1"], ["Tutorial", "#/4.1"], ["Method", "#/2.1"], ["Guides", "#/3.1"], ["Appendices", "#/A"]];
 $("#nav").innerHTML = NAV.map(([t, h]) => `<a href="${h}" data-h="${h}">${t}</a>`).join("");
 
-/* tema */
+/* theme */
 (function () {
   let salvo = null;
   try { salvo = localStorage.getItem("triton-tema"); } catch (e) {}
@@ -432,26 +434,26 @@ $("#nav").innerHTML = NAV.map(([t, h]) => `<a href="${h}" data-h="${h}">${t}</a>
 
 $("#menu-btn").addEventListener("click", () => { const l = $(".lateral"); if (l) l.classList.toggle("aberta"); });
 
-/* busca: seções, subseções, figuras, tabelas e as figuras interativas */
-const semAcento = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+/* search: sections, subsections, figures, tables and the interactive figures */
+const semAcento = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "");
 const TIPOS = {
-  secao: ["seção", "t-secao"], sub: ["nesta seção", "t-sub"], figura: ["figura", "t-figura"],
-  interativa: ["figura interativa", "t-interativa"], tabela: ["tabela", "t-tabela"],
+  secao: ["section", "t-secao"], sub: ["in this section", "t-sub"], figura: ["figure", "t-figura"],
+  interativa: ["interactive figure", "t-interativa"], tabela: ["table", "t-tabela"],
 };
 const INDICE = (DADOS.busca || []).map(i => {
-  // Só a seção tem texto corrido, e ele é o da própria seção, sem cópia.
+  // Only the section has running text, and it is the section's own, with no copy.
   const x = i.t === "secao" ? ((POR_ID[i.id] || {}).texto || "") : "";
   return Object.assign({}, i, {x, nn: semAcento((i.r + " " + i.n).toLowerCase()),
                                xn: semAcento(x.toLowerCase())});
 });
 const PESO = {interativa: 8, secao: 6, figura: 4, tabela: 4, sub: 3};
 const SUGESTOES = [
-  ["Quanta água a minha cobertura capta?", "captação cobertura"],
-  ["Que volume de cisterna escolher?", "volume ideal"],
-  ["Quando o investimento se paga?", "tempo de retorno"],
-  ["A economia de água reduz a fatura?", "regime de mínimo"],
-  ["Quanto carbono o sistema evita?", "carbono ciclo de vida"],
-  ["Que qualidade o uso exige?", "classes de qualidade"],
+  ["How much water does my roof collect?", "catchment area"],
+  ["Which cistern volume should I choose?", "ideal volume"],
+  ["When does the investment pay back?", "payback"],
+  ["Does saving water reduce the bill?", "minimum charge"],
+  ["How much carbon does the system avoid?", "life cycle carbon"],
+  ["What quality does the use require?", "quality classes"],
 ];
 let selecionado = -1;
 
@@ -459,7 +461,7 @@ function destino(i) { return "#/" + i.id + (i.a ? "/" + i.a : ""); }
 
 function sugerir() {
   const caixa = $("#resultados");
-  caixa.innerHTML = `<div class="dica-busca">Procure por assunto, por nome de figura ou por «Tabela 83». Ou comece por uma destas:</div>` +
+  caixa.innerHTML = `<div class="dica-busca">Search by subject, by figure name or by “Table 83”. Or start with one of these:</div>` +
     SUGESTOES.map(([pergunta, termo]) =>
       `<button type="button" class="sugestao" data-q="${esc(termo)}">${esc(pergunta)}</button>`).join("");
   caixa.hidden = false;
@@ -487,7 +489,7 @@ function buscar(q) {
   achados.sort((a, b) => b[0] - a[0] || (PESO[b[1].t] || 0) - (PESO[a[1].t] || 0));
   selecionado = -1;
   if (!achados.length) {
-    caixa.innerHTML = `<div class="vazio">Nada encontrado para «${esc(q)}». A busca cobre o texto das seções, os títulos internos, as figuras e as tabelas.</div>`;
+    caixa.innerHTML = `<div class="vazio">Nothing found for “${esc(q)}”. The search covers the text of the sections, the inner headings, the figures and the tables.</div>`;
     caixa.hidden = false;
     return;
   }
@@ -507,7 +509,7 @@ function buscar(q) {
     });
     const secao = POR_ID[i.id];
     return `<a href="${destino(i)}"><b><span class="selo ${classe}">${rotulo}</span>${esc(i.r)} · ${esc(i.n)}</b>` +
-      `<span>${i.x ? "…" + trecho + "…" : (secao ? "em " + esc(secao.rotulo) + " " + esc(secao.titulo) : "")}</span></a>`;
+      `<span>${i.x ? "…" + trecho + "…" : (secao ? "in " + esc(secao.rotulo) + " " + esc(secao.titulo) : "")}</span></a>`;
   }).join("");
   caixa.hidden = false;
 }
@@ -530,26 +532,26 @@ function fecharBusca() { $("#resultados").hidden = true; $("#busca").value = "";
 document.addEventListener("click", e => { if (!e.target.closest(".busca")) $("#resultados").hidden = true; });
 document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); $("#busca").focus(); } });
 
-/* página inicial */
+/* home page */
 function inicio() {
   const v = DADOS.volumes;
   const interativas = Object.keys(DADOS.onde_interativas || {}).length;
   const fatos = [
-    ["Versão", `<a href="#/versoes" style="color:inherit">${DADOS.versao}</a>`], ["Base climática", "652 cidades"],
-    ["Seções no manual", fmt(DADOS.secoes)], ["Figuras no manual", fmt(DADOS.figuras)],
-    ["Figuras interativas", fmt(interativas)],
-    ["Verificações automáticas", DADOS.testes ? fmt(DADOS.testes) : "—"],
+    ["Version", `<a href="#/versoes" style="color:inherit">${DADOS.versao}</a>`], ["Example cities", "3"],
+    ["Sections in the manual", fmt(DADOS.secoes)], ["Figures in the manual", fmt(DADOS.figuras)],
+    ["Interactive figures", fmt(interativas)],
+    ["Automatic checks", DADOS.testes ? fmt(DADOS.testes) : "—"],
   ];
   const noFluxo = [
-    ["Chuva diária", "série de 30 anos", "2.4", 20, 40],
-    ["Descarte", "primeiras águas", "2.1", 190, 40],
-    ["Cisterna", "balanço YAS, dia a dia", "2.1", 360, 40],
-    ["Consumo pluvial", "até a demanda do dia", "2.1", 530, 40],
-    ["Volume ideal", "varredura e ganho marginal", "2.2", 20, 150],
-    ["Indicadores", "potencial · dias plenos", "2.3", 190, 150],
-    ["Fatura e VPL", "tarifa do município", "2.7", 360, 150],
-    ["Carbono", "ciclo de vida", "2.8", 530, 150],
-    ["Decisão", "TOPSIS · SMAA-VIKOR", "2.10", 700, 95],
+    ["Daily rain", "30-year series", "2.4", 20, 40],
+    ["First flush", "discarded depth", "2.1", 190, 40],
+    ["Cistern", "YAS balance, day by day", "2.1", 360, 40],
+    ["Rainwater use", "up to the day's demand", "2.1", 530, 40],
+    ["Ideal volume", "sweep and marginal gain", "2.2", 20, 150],
+    ["Indicators", "potential · full-supply days", "2.3", 190, 150],
+    ["Bill and NPV", "your local tariff", "2.7", 360, 150],
+    ["Carbon", "life cycle", "2.8", 530, 150],
+    ["Decision", "TOPSIS · SMAA-VIKOR", "2.10", 700, 95],
   ];
   const caixa = (t, s, id, x, y) => `<a class="no" href="#/${id}"><rect x="${x}" y="${y}" width="150" height="52" rx="9"/><text x="${x + 12}" y="${y + 22}">${t}</text><text class="sub" x="${x + 12}" y="${y + 39}">${s}</text></a>`;
   const seta = (x1, y1, x2, y2) => `<path class="seta" d="M${x1} ${y1} L${x2} ${y2}" marker-end="url(#ponta)"/>`;
@@ -557,13 +559,13 @@ function inicio() {
   <section class="hero">
     <div class="hero-in">
       <div>
-        <p class="eyebrow">Programa de simulação · UFSC</p>
-        <h1>Aproveitamento de água de chuva, simulado dia a dia</h1>
-        <p class="lead">O Triton simula o balanço diário de uma cisterna com a série de chuva do lugar e responde quanto de água potável o sistema economiza, quanto custa, quanto carbono evita e que volume escolher. Esta documentação traz o método, o tutorial, os guias e as referências — as mesmas do manual em PDF.</p>
+        <p class="eyebrow">Simulation program · International Edition</p>
+        <h1>Rainwater harvesting, simulated day by day</h1>
+        <p class="lead">Triton simulates the daily balance of a cistern with the rain series of the place and answers how much potable water the system saves, what it costs, how much carbon it avoids and which volume to choose. This documentation carries the method, the tutorial, the guides and the references: the same as the PDF manual.</p>
         <div class="botoes">
-          <a class="botao cheio" href="#/4.1">Começar pelo tutorial</a>
-          <a class="botao" href="#/2.1">Ler o método</a>
-          <a class="botao" href="#/1.3">Por onde começar</a>
+          <a class="botao cheio" href="#/4.1">Start with the tutorial</a>
+          <a class="botao" href="#/2.1">Read the method</a>
+          <a class="botao" href="#/1.3">Where to start</a>
         </div>
       </div>
       <div class="fatos">${fatos.map(([a, b]) => `<div><small>${a}</small><b>${b}</b></div>`).join("")}</div>
@@ -571,30 +573,30 @@ function inicio() {
   </section>
 
   <section class="faixa">
-    <h2>Escolha um caminho</h2>
-    <p class="sub">O manual é distribuído em sete volumes e num livro completo. Cada um abre aqui na primeira seção do capítulo, e existe também em PDF avulso, para mandar só a parte que interessa.</p>
+    <h2>Choose a path</h2>
+    <p class="sub">The manual is organised in eight parts, and the complete book is available as a PDF. Each part opens here at the first section of its chapter.</p>
     <div class="volumes">${v.map((x, k) => {
       const cap = DADOS.capitulos.find(c => c.n === x.capitulo);
       const alvo = cap && cap.secoes[0] ? cap.secoes[0].id : "1.1";
       return `<a class="volume" href="#/${alvo}" style="--c:${x.cor}"><div class="painel" style="background-image:url('img/capa_${x.arquivo}.jpg')"><b style="color:${x.cor}">${String(k + 1).padStart(2, "0")}</b></div><div class="txt"><h3>${esc(x.titulo)}</h3><p>${esc(x.frase)}</p></div></a>`;
-    }).join("")}<a class="volume" href="pdf/Manual-Triton.pdf" target="_blank" rel="noopener" style="--c:#8ecae6"><div class="painel" style="background-image:url('img/capa_completo.jpg')"><b style="color:#8ecae6">PDF</b></div><div class="txt"><h3>Manual completo</h3><p>Os sete volumes num só arquivo, com sumário, índice de figuras e todas as referências.</p></div></a></div>
+    }).join("")}<a class="volume" href="pdf/${esc(DADOS.pdf_completo)}" target="_blank" rel="noopener" style="--c:#8ecae6"><div class="painel" style="background-image:url('img/capa_completo.jpg')"><b style="color:#8ecae6">PDF</b></div><div class="txt"><h3>Complete manual</h3><p>All the parts in one file, with contents, list of figures and every reference.</p></div></a></div>
   </section>
 
   <section class="faixa">
-    <h2>A curva de retorno, ao vivo</h2>
-    <p class="sub">O projeto do tutorial — casa em Florianópolis, 150 m² de cobertura, quatro moradores, 600 L/dia, 30 anos de chuva diária — simulado para cada volume e cada fração atendível. Arraste e veja por que o potencial nunca passa da fração, e por que o metro cúbico a mais rende cada vez menos.</p>
+    <h2>The return curve, live</h2>
+    <p class="sub">The tutorial project — a house in New York, 150 m² of roof, four residents, 600 L/day, 30 years of daily rain — simulated for every volume and every suppliable fraction. Drag and see why the potential never exceeds the fraction, and why each extra cubic metre earns less and less.</p>
     <div class="curva">
-      <div style="position:relative"><svg id="grafico" viewBox="0 0 640 320" role="img" aria-label="Potencial de economia em função do volume da cisterna"></svg></div>
+      <div style="position:relative"><svg id="grafico" viewBox="0 0 640 320" role="img" aria-label="Saving potential as a function of the cistern volume"></svg></div>
       <div class="controles">
-        <div class="controle"><label for="c-fracao">Fração atendível por chuva <output id="o-fracao"></output></label><input id="c-fracao" type="range" min="0" max="${DADOS.curva.fracoes.length - 1}" step="1"></div>
-        <div class="controle"><label for="c-volume">Volume da cisterna <output id="o-volume"></output></label><input id="c-volume" type="range" min="0" max="${DADOS.curva.volumes.length - 1}" step="1"></div>
+        <div class="controle"><label for="c-fracao">Fraction suppliable by rain <output id="o-fracao"></output></label><input id="c-fracao" type="range" min="0" max="${DADOS.curva.fracoes.length - 1}" step="1"></div>
+        <div class="controle"><label for="c-volume">Cistern volume <output id="o-volume"></output></label><input id="c-volume" type="range" min="0" max="${DADOS.curva.volumes.length - 1}" step="1"></div>
         <div class="leituras">
-          <div class="leitura"><small>Potencial de economia</small><b id="l-pot"></b> <span id="l-teto"></span></div>
-          <div class="leitura"><small>Dias de atendimento pleno</small><b id="l-dias"></b></div>
-          <div class="leitura"><small>Extravasamento médio</small><b id="l-extra"></b> <span>L/dia</span></div>
-          <div class="leitura"><small>Ganho do último m³</small><b id="l-ganho"></b> <span>pontos/m³</span></div>
+          <div class="leitura"><small>Saving potential</small><b id="l-pot"></b> <span id="l-teto"></span></div>
+          <div class="leitura"><small>Full-supply days</small><b id="l-dias"></b></div>
+          <div class="leitura"><small>Mean overflow</small><b id="l-extra"></b> <span>L/day</span></div>
+          <div class="leitura"><small>Gain of the last m³</small><b id="l-ganho"></b> <span>points/m³</span></div>
         </div>
-        <p class="nota-curva">Números calculados pelo próprio programa, na montagem desta página. O tutorial usa 28% e 4.000 L; a seção <a href="#/4.4">4.4</a> explica a leitura da curva.</p>
+        <p class="nota-curva">Numbers computed by the program itself when this page was built. The tutorial uses 28% and 4,000 L; section <a href="#/4.4">4.4</a> explains how to read the curve.</p>
       </div>
     </div>
   </section>
@@ -602,13 +604,13 @@ function inicio() {
   ${bulletsInterativas()}
 
   <section class="faixa">
-    <h2>Como o programa calcula</h2>
-    <p class="sub">Do dado de chuva à decisão. Cada etapa leva à seção do método que a descreve.</p>
-    <div class="fluxo"><svg viewBox="0 0 880 225" role="img" aria-label="Fluxo de cálculo do Triton, da chuva diária à decisão multicritério">
+    <h2>How the program calculates</h2>
+    <p class="sub">From the rain data to the decision. Each step leads to the section of the method that describes it.</p>
+    <div class="fluxo"><svg viewBox="0 0 880 225" role="img" aria-label="Calculation flow of Triton, from the daily rain to the multi-criteria decision">
       <defs><marker id="ponta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor" style="fill:var(--ink3)"/></marker></defs>
       ${seta(170, 66, 188, 66)}${seta(340, 66, 358, 66)}${seta(510, 66, 528, 66)}
-      ${seta(435, 92, 435, 118)}<text class="rotulo" x="442" y="110">extravasa</text>
-      ${seta(95, 92, 95, 148)}<text class="rotulo" x="102" y="124">para cada volume</text>
+      ${seta(435, 92, 435, 118)}<text class="rotulo" x="442" y="110">overflows</text>
+      ${seta(95, 92, 95, 148)}<text class="rotulo" x="102" y="124">for each volume</text>
       ${seta(170, 176, 188, 176)}${seta(340, 176, 358, 176)}${seta(510, 176, 528, 176)}
       ${seta(680, 66, 698, 112)}${seta(680, 176, 698, 130)}
       ${noFluxo.map(n => caixa(...n)).join("")}
@@ -616,28 +618,28 @@ function inicio() {
   </section>
 
   <section class="faixa">
-    <h2>Princípios da documentação</h2>
+    <h2>Principles of this documentation</h2>
     <div class="principios">
-      <div class="principio"><h3>Todo número é calculado</h3><p>Tabelas e figuras saem do próprio programa, e cada valor impresso tem uma verificação automática. Uma correção no código não deixa o texto mentindo.</p></div>
-      <div class="principio"><h3>Fonte declarada</h3><p>Normas, fatores de emissão, tarifas e catálogos de fabricante aparecem com a origem, a edição e o item. O que é premissa do programa é dito como premissa.</p></div>
-      <div class="principio"><h3>Uma fonte, três formatos</h3><p>O manual completo, os sete volumes e este site são montados das mesmas partes. A numeração das seções e das equações é a mesma em todos.</p></div>
-      <div class="principio"><h3>Limites às claras</h3><p>O que o modelo não faz — calhas, perda de carga real, amortecimento de cheias — está escrito, com a norma ou a ferramenta que faz.</p></div>
+      <div class="principio"><h3>Every number is computed</h3><p>Tables and figures come from the program itself, and each printed value has an automatic check. A fix in the code does not leave the text lying.</p></div>
+      <div class="principio"><h3>Sources declared</h3><p>Standards, emission factors, tariffs and manufacturer data appear with their origin, edition and item. What is an assumption of the program is said to be an assumption. Costs in the cases are illustrative, not market prices.</p></div>
+      <div class="principio"><h3>One source, two formats</h3><p>The complete PDF manual and this site are built from the same parts. Section and equation numbers are the same in all of them.</p></div>
+      <div class="principio"><h3>Limits stated plainly</h3><p>What the model does not do — gutters, real head loss, flood attenuation — is written down, with the tool that does it.</p></div>
     </div>
   </section>
 
   <section class="faixa">
-    <h2>O manual em PDF</h2>
-    <div class="pdfs"><a href="pdf/Manual-Triton.pdf" target="_blank" rel="noopener" style="--c:#8ecae6"><i></i>Manual completo</a>${v.map(x => `<a href="pdf/Manual-Triton-${x.arquivo}.pdf" target="_blank" rel="noopener" style="--c:${x.cor}"><i></i>${esc(x.titulo)}</a>`).join("")}</div>
+    <h2>The manual as a PDF</h2>
+    <div class="pdfs"><a href="pdf/${esc(DADOS.pdf_completo)}" target="_blank" rel="noopener" style="--c:#8ecae6"><i></i>Complete manual</a></div>
   </section>
   ${rodape()}`;
   iniciarCurva();
 }
 
 function rodape() {
-  return `<footer class="rodape"><span>Igor Catão Martins Vaz e Enedir Ghisi · Grupo de Pesquisa em Ambientes Sustentáveis · Universidade Federal de Santa Catarina</span><span><a href="#/versoes">Triton ${DADOS.versao}</a> · licença acadêmica, uso não comercial · revisão de ${DADOS.revisao}</span></footer>`;
+  return `<footer class="rodape"><span>Igor Catão Martins Vaz and Enedir Ghisi · Sustainable Environments Research Group</span><span><a href="#/versoes">Triton ${DADOS.versao}</a> · academic source-available licence, non-commercial use · revised ${DADOS.revisao}</span></footer>`;
 }
 
-/* a curva */
+/* the curve */
 let fi = 0, vi = 0;
 function iniciarCurva() {
   const C = DADOS.curva;
@@ -677,10 +679,10 @@ function desenharCurva() {
   let s = "";
   for (let p = 0; p <= ymax; p += 10) s += `<line class="grade" x1="${E}" x2="${W - D}" y1="${Y(p)}" y2="${Y(p)}"/><text x="${E - 8}" y="${Y(p) + 4}" text-anchor="end">${p}%</text>`;
   for (let v = 0; v <= xmax; v += 5000) s += `<text x="${X(v)}" y="${H - B + 18}" text-anchor="middle">${fmt(v / 1000)} m³</text>`;
-  s += `<text x="${(E + W - D) / 2}" y="${H - 6}" text-anchor="middle">volume da cisterna</text>`;
+  s += `<text x="${(E + W - D) / 2}" y="${H - 6}" text-anchor="middle">cistern volume</text>`;
   s += `<line class="eixo" x1="${E}" x2="${W - D}" y1="${Y(0)}" y2="${Y(0)}"/>`;
   const teto = f * 100;
-  s += `<line class="teto" x1="${E}" x2="${W - D}" y1="${Y(teto)}" y2="${Y(teto)}"/><text x="${W - D}" y="${Y(teto) - 6}" text-anchor="end">teto: fração atendível de ${fmt(teto)}%</text>`;
+  s += `<line class="teto" x1="${E}" x2="${W - D}" y1="${Y(teto)}" y2="${Y(teto)}"/><text x="${W - D}" y="${Y(teto) - 6}" text-anchor="end">ceiling: suppliable fraction of ${fmt(teto)}%</text>`;
   const pts = linhas.map((l, k) => `${X(C.volumes[k])},${Y(l[0])}`).join(" ");
   s += `<polygon class="area" points="${X(0)},${Y(0)} ${pts} ${X(xmax)},${Y(0)}"/>`;
   s += `<polyline class="serie" points="${pts}"/>`;
@@ -692,7 +694,7 @@ function desenharCurva() {
   $("#o-fracao").textContent = fmt(teto) + "%";
   $("#o-volume").textContent = fmt(C.volumes[vi]) + " L";
   $("#l-pot").textContent = fmt(atual[0], 2) + "%";
-  $("#l-teto").textContent = "de " + fmt(teto) + "%";
+  $("#l-teto").textContent = "of " + fmt(teto) + "%";
   $("#l-dias").textContent = fmt(atual[1], 1) + "%";
   $("#l-extra").textContent = fmt(atual[2]);
   $("#l-ganho").textContent = ganho === null ? "—" : fmt(ganho, 2);
@@ -700,65 +702,65 @@ function desenharCurva() {
 
 /*__INTERATIVAS__*/
 
-/* página de versões */
+/* versions page */
 function paginaVersoes() {
   const versoes = DADOS.versoes || [];
-  const secaoDoManual = SECOES.find(s => s.titulo.toLowerCase().startsWith("histórico de versões"));
+  const secaoDoManual = SECOES.find(s => s.titulo.toLowerCase().startsWith("version history"));
   const corpo = versoes.map((v, i) => `
     <article class="versao">
       <div class="versao-topo">
-        <h3>Versão ${esc(v.versao)}</h3>
+        <h3>Version ${esc(v.versao)}</h3>
         <span class="data">${esc(v.data)}</span>
-        ${i === 0 ? '<span class="atual">versão atual</span>' : ""}
+        ${i === 0 ? '<span class="atual">current version</span>' : ""}
       </div>
       ${v.resumo ? `<p class="resumo">${esc(v.resumo)}</p>` : ""}
       <div class="contagem">
-        <span><b>${fmt(v.altera_resultados)}</b> ${v.altera_resultados === 1 ? "correção que altera resultados" : "correções que alteram resultados"}</span>
-        <span><b>${fmt(v.nao_altera_resultados)}</b> ${v.nao_altera_resultados === 1 ? "correção sem efeito no resultado" : "correções sem efeito no resultado"}</span>
+        <span><b>${fmt(v.altera_resultados)}</b> ${v.altera_resultados === 1 ? "fix that changes results" : "fixes that change results"}</span>
+        <span><b>${fmt(v.nao_altera_resultados)}</b> ${v.nao_altera_resultados === 1 ? "fix with no effect on results" : "fixes with no effect on results"}</span>
       </div>
       ${(v.secoes || []).map((sec, k) => `<details${k === 0 ? " open" : ""}><summary>${esc(sec.titulo)}</summary><div class="corpo">${sec.html}</div></details>`).join("")}
     </article>`).join("");
 
   $("#app").innerHTML = `<div class="doc so-texto" style="--c:var(--accent)">
     <article class="conteudo">
-      <div class="trilha"><a href="#/">Documentação</a> / Versões</div>
-      <h1>O que mudou em cada versão</h1>
-      <div class="chips"><span class="chip">Triton ${esc(DADOS.versao)}</span><span class="chip">${fmt(versoes.length)} ${versoes.length === 1 ? "versão publicada" : "versões publicadas"}</span></div>
-      <p class="sub" style="max-width:74ch">Cada versão traz as mesmas seções: o resumo, as novidades, as correções que
-      alteram resultados de estudos já feitos, as que não alteram e o que mudou na documentação.
-      ==A distinção entre os dois tipos de correção é a que decide se um estudo anterior precisa ser refeito.==
-      Este registro, o arquivo <code>CHANGELOG.md</code> distribuído com o código e o capítulo do manual saem do mesmo texto.</p>
-      <div class="versoes">${corpo || "<p>Nenhuma versão registrada.</p>"}</div>
-      ${secaoDoManual ? `<div class="passos"><a class="prox" href="#/${secaoDoManual.id}"><small>No manual</small>${esc(secaoDoManual.rotulo)} ${esc(secaoDoManual.titulo)}</a></div>` : ""}
+      <div class="trilha"><a href="#/">Documentation</a> / Versions</div>
+      <h1>What changed in each version</h1>
+      <div class="chips"><span class="chip">Triton ${esc(DADOS.versao)}</span><span class="chip">${fmt(versoes.length)} ${versoes.length === 1 ? "version published" : "versions published"}</span></div>
+      <p class="sub" style="max-width:74ch">Each version carries the same sections: the summary, what is new, the fixes that
+      change the results of studies already done, those that do not, and what changed in the documentation.
+      ==The distinction between the two kinds of fix decides whether an earlier study has to be redone.==
+      This record, the <code>CHANGELOG.md</code> file distributed with the code and the manual chapter come from the same text.</p>
+      <div class="versoes">${corpo || "<p>No version recorded.</p>"}</div>
+      ${secaoDoManual ? `<div class="passos"><a class="prox" href="#/${secaoDoManual.id}"><small>In the manual</small>${esc(secaoDoManual.rotulo)} ${esc(secaoDoManual.titulo)}</a></div>` : ""}
     </article>
   </div>${rodape()}`;
   $(".conteudo .sub").innerHTML = $(".conteudo .sub").innerHTML.replace(/==(.+?)==/g, "<mark>$1</mark>");
-  document.title = "Versões · Triton";
+  document.title = "Versions · Triton";
   window.scrollTo(0, 0);
 }
 
-/* página de seção */
+/* section page */
 function secao(id, ancora) {
   const s = POR_ID[id];
   if (!s) { location.hash = "#/"; return; }
   const cap = s.cap, cor = corDe(cap);
   const idx = SECOES.indexOf(s), ant = SECOES[idx - 1], prox = SECOES[idx + 1];
   const vol = DADOS.volumes.find(v => v.capitulo === cap.n);
-  const lateral = DADOS.capitulos.map(c => `<div class="cap" style="--c:${corDe(c)}"><button type="button" aria-expanded="${c === cap}"><i></i>${c.apendice ? "" : c.n + " · "}${esc(c.titulo)}</button><ul${c === cap ? "" : " hidden"}>${c.secoes.map(x => `<li><a href="#/${x.id}" class="${x === s ? "ativo" : ""}">${esc(x.rotulo)} ${esc(x.titulo)}${INTERATIVAS_DA_SECAO[x.id] ? `<b class="marca-i" title="${INTERATIVAS_DA_SECAO[x.id].length} figura(s) interativa(s) nesta seção">interativa</b>` : ""}</a></li>`).join("")}</ul></div>`).join("");
+  const lateral = DADOS.capitulos.map(c => `<div class="cap" style="--c:${corDe(c)}"><button type="button" aria-expanded="${c === cap}"><i></i>${c.apendice ? "" : c.n + " · "}${esc(c.titulo)}</button><ul${c === cap ? "" : " hidden"}>${c.secoes.map(x => `<li><a href="#/${x.id}" class="${x === s ? "ativo" : ""}">${esc(x.rotulo)} ${esc(x.titulo)}${INTERATIVAS_DA_SECAO[x.id] ? `<b class="marca-i" title="${INTERATIVAS_DA_SECAO[x.id].length} interactive figure(s) in this section">interactive</b>` : ""}</a></li>`).join("")}</ul></div>`).join("");
   const daSecao = INTERATIVAS_DA_SECAO[id] || [];
-  const atalhos = daSecao.length ? `<p class="nesta-i"><b>Para experimentar:</b> ${daSecao.map(o =>
-    `<a href="#/${id}/fig-${o.numero}">${esc((FI[o.arquivo] || {}).pergunta || ("Figura " + o.numero))}</a>`).join(" ")}</p>` : "";
-  const nesta = (s.toc.length || daSecao.length) ? `<nav class="nesta" aria-label="Nesta página">${s.toc.length ? `<b>Nesta página</b><ol>${s.toc.map(t => `<li><a href="#/${id}/${t.id}">${esc(t.titulo)}</a></li>`).join("")}</ol>` : ""}${atalhos}</nav>` : "";
+  const atalhos = daSecao.length ? `<p class="nesta-i"><b>To try out:</b> ${daSecao.map(o =>
+    `<a href="#/${id}/fig-${o.numero}">${esc((FI[o.arquivo] || {}).pergunta || ("Figure " + o.numero))}</a>`).join(" ")}</p>` : "";
+  const nesta = (s.toc.length || daSecao.length) ? `<nav class="nesta" aria-label="On this page">${s.toc.length ? `<b>On this page</b><ol>${s.toc.map(t => `<li><a href="#/${id}/${t.id}">${esc(t.titulo)}</a></li>`).join("")}</ol>` : ""}${atalhos}</nav>` : "";
   const tabelas = s.html.replace(/<table>/g, '<div class="tabela"><table>').replace(/<\/table>/g, "</table></div>");
   $("#app").innerHTML = `<div class="doc" style="--c:${cor}">
-    <aside class="lateral" aria-label="Sumário">${lateral}</aside>
+    <aside class="lateral" aria-label="Contents">${lateral}</aside>
     <article class="conteudo">
-      <div class="trilha"><a href="#/">Documentação</a> / ${esc(cap.apendice ? cap.titulo : cap.n + ". " + cap.titulo)}</div>
+      <div class="trilha"><a href="#/">Documentation</a> / ${esc(cap.apendice ? cap.titulo : cap.n + ". " + cap.titulo)}</div>
       <h1><span class="num">${esc(s.rotulo)}</span>${esc(s.titulo)}</h1>
-      <div class="chips">${vol ? `<span class="chip vol">Volume ${esc(vol.titulo)}</span>` : ""}<span class="chip">Triton ${DADOS.versao}</span><span class="chip">Revisão de ${DADOS.revisao}</span></div>
+      <div class="chips">${vol ? `<span class="chip vol">Part: ${esc(vol.titulo)}</span>` : ""}<span class="chip">Triton ${DADOS.versao}</span><span class="chip">Revised ${DADOS.revisao}</span></div>
       ${nesta}
       <div class="texto">${tabelas}</div>
-      <div class="passos">${ant ? `<a href="#/${ant.id}"><small>Anterior</small>${esc(ant.rotulo)} ${esc(ant.titulo)}</a>` : ""}${prox ? `<a class="prox" href="#/${prox.id}"><small>Próxima</small>${esc(prox.rotulo)} ${esc(prox.titulo)}</a>` : ""}</div>
+      <div class="passos">${ant ? `<a href="#/${ant.id}"><small>Previous</small>${esc(ant.rotulo)} ${esc(ant.titulo)}</a>` : ""}${prox ? `<a class="prox" href="#/${prox.id}"><small>Next</small>${esc(prox.rotulo)} ${esc(prox.titulo)}</a>` : ""}</div>
     </article>
   </div>${rodape()}`;
   document.querySelectorAll(".lateral .cap > button").forEach(b => b.addEventListener("click", () => {
@@ -775,7 +777,7 @@ function secao(id, ancora) {
   if (lat) lat.scrollIntoView({block: "center"});
 }
 
-/* rotas */
+/* routes */
 function rota() {
   const h = location.hash.replace(/^#\/?/, "");
   const [id, ancora] = h.split("/");
@@ -786,7 +788,7 @@ function rota() {
   });
   if (id === "versoes") { paginaVersoes(); return; }
   if (!id || id === "interativas") {
-    document.title = "Documentação do Triton"; inicio();
+    document.title = "Triton documentation"; inicio();
     const g = id && document.getElementById("interativas");
     if (g) { g.scrollIntoView({block: "start"}); window.scrollBy(0, -64); } else window.scrollTo(0, 0);
     return;

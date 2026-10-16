@@ -12,7 +12,7 @@
 | Tariffs | Water and sewerage tariff factor | × | normal, mean 1, deviation of 0.10 | no |
 | Tariffs | Sewerage factor | × | normal, mean 1, deviation of 0.10 | no |
 | Tariffs | Tariff escalation | % per period | normal, project mean, deviation of 2 points | no |
-| Tariffs | Energy tariff | R$/kWh | normal, project mean, CV of 10% | no |
+| Tariffs | Energy tariff | currency units/kWh | normal, project mean, CV of 10% | no |
 | Tariffs | Electricity escalation | % per period | normal, project mean, deviation of 2 points | no |
 | Costs | Investment factor | × | lognormal, mean 1, deviation of 0.15 | no |
 | Costs | Cistern price factor | × | lognormal, mean 1, deviation of 0.15 | no |

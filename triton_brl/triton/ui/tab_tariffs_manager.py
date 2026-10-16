@@ -9,19 +9,33 @@ from __future__ import annotations
 import os
 from typing import Dict, Any, List, Optional
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel, QComboBox, QLineEdit,
-    QPushButton, QGroupBox, QTableWidget, QTableWidgetItem, QHeaderView,
-    QDoubleSpinBox, QAbstractSpinBox, QFrame, QMessageBox, QSlider, QSizePolicy
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QGridLayout,
+    QLabel,
+    QComboBox,
+    QPushButton,
+    QGroupBox,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QDoubleSpinBox,
+    QAbstractSpinBox,
+    QFrame,
+    QMessageBox,
+    QSlider,
+    QSizePolicy,
 )
 from PySide6.QtCore import Qt, Signal, QUrl, QLocale
-from PySide6.QtGui import QFont, QDesktopServices, QColor
+from PySide6.QtGui import QDesktopServices
 
 import matplotlib
 matplotlib.use("QtAgg")
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-from triton.ui.translation import tr, get_current_theme
+from triton.ui.translation import tr
 from triton.ui.categorias_tarifarias import preencher_categorias
 from triton.core.economic import calculate_water_bill
 from triton.core.tariff_regimes import EXPONENCIAL, ler_estrutura
@@ -38,7 +52,6 @@ from triton.core.tariffs_database import (
     get_cities_by_uf,
     get_city_data,
     get_city_tariffs_by_category,
-    CATEGORIAS_TARIFARIAS,
 )
 
 

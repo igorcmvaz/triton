@@ -5,7 +5,7 @@
 > e não com a que gostaria de ter.
 
 Esta seção resume o `ROADMAP.md` da raiz do repositório Triton, que vale para as três edições e reflete o estado da versão
-1.0.0. Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
+0.1.0 (beta). Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
 grupo de pesquisa, sem data de entrega. Quando um item é implementado, ele sai daqui e
 entra no histórico de versões, com a indicação de se muda o resultado de estudos já
 feitos.
@@ -18,7 +18,7 @@ do próprio programa, descrito na seção «Limitações conhecidas».
 
 ---
 
-## O que já é estável na 1.0.0
+## O que já é estável na 0.1.0 (beta)
 
 **Série climática.** 652 municípios brasileiros com séries contínuas projetadas (base
 CLIMBra, CMIP6). **Tarifas.** 652 municípios com catálogo de tarifas transcritas de fontes

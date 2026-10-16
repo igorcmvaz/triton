@@ -12,9 +12,9 @@ to know this.
 
 ## Nameplate power is shaft power
 
-ABNT NBR 17094-2:2016 requires the **efficiency** to be marked on the motor's nameplate, as a
-quantity separate from the power. That only makes sense if the nameplate power is the mechanical
-power **at the shaft**.
+Motor standards require the **efficiency** to be marked on the motor's nameplate, as a quantity
+separate from the power. That only makes sense if the nameplate power is the mechanical power
+**at the shaft**.
 
 Hence the chain has two efficiencies, not one:
 
@@ -86,14 +86,14 @@ Q = ( P × η_b ) ÷ ( ρ × g × H )
 **Energy of the start-ups:**
 
 ```equacao:energia_partida
-E_part = ( P × t_part ) ÷ η_m
+E_start = ( P × t_start ) ÷ η_m
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_part` | energy consumed by all the start-ups of the period | kWh |
+| `E_start` | energy consumed by all the start-ups of the period | kWh |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the period | h |
+| `t_start` | total start-up time accumulated in the period | h |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 The pump efficiency is absent from Equation {{eq:energia_partida}} for the physical reason that
@@ -105,24 +105,24 @@ The annual energy of the pump set is the sum of the two parts: that of the actua
 depends on the volume lifted, and that of the start-ups, which depends on the number of starts.
 
 ```equacao:energia_anual
-E_ano = e × V_rec + ( P × t_part ) ÷ η_m
+E_yr = e × V_pump + ( P × t_start ) ÷ η_m
 ```
 
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
-| `E_ano` | electrical energy consumed by the pump set in the year | kWh/year |
+| `E_yr` | electrical energy consumed by the pump set in the year | kWh/year |
 | `e` | specific energy consumption per volume pumped | kWh/m³ |
-| `V_rec` | volume pumped in the year | m³/year |
+| `V_pump` | volume pumped in the year | m³/year |
 | `P` | nameplate power of the pump set, which is shaft power | kW |
-| `t_part` | total start-up time accumulated in the year | h/year |
+| `t_start` | total start-up time accumulated in the year | h/year |
 | `η_m` | efficiency of the electric motor | dimensionless |
 
 ---
 
 The nameplate power of a pump set is the mechanical power at the shaft, not the electrical power
-recorded by the meter ({{fig:fig00k_energia}}). A 0.5 hp (0.37 kW) pump set with a motor of 60.5%
-efficiency draws about 0.61 kW from the mains: calculating the energy with the nameplate power would
-underestimate consumption by about 40%, and the energy running cost is precisely the part that
+recorded by the meter ({{fig:fig00k_energia}}). For illustration, a pump set of 0.37 kW (0.5 hp) at the shaft with a motor
+of 60% efficiency draws about 0.62 kW from the mains: calculating the energy with the nameplate
+power would underestimate consumption by about 40%, and the energy running cost is precisely the part that
 reduces the saving of the system.
 
 ![The chain of efficiencies between the socket and the lifted water](../figuras/fig00k_energia.png)
@@ -144,33 +144,29 @@ level.
 
 ---
 
-## The motor efficiency, when not entered
+## The motor efficiency
 
-Table 13 of ABNT NBR 17094-2:2016 applies, line IR1, two-pole motors — which is what residential pump
-sets are, at 3,450 rpm ({{fig:fig31_motores}}):
+Enter the motor efficiency printed on the nameplate or on the manufacturer's data sheet. It
+is the number that separates the shaft power from the power actually drawn from the mains, and
+it carries over entirely to the energy running cost: between a standard small single-phase motor
+and a high-efficiency one the difference can be several percentage points.
+
+The program has a fallback value for the case in which the efficiency is not entered, a
+conservative figure for small two-pole single-phase motors, which are what residential pump sets
+use. In a published study, do not rely on it: declare the efficiency you used and its origin. If
+your country sets minimum efficiency classes for motors, they are the natural reference for a
+value taken from regulation rather than from the data sheet. Small motors are less efficient than large ones ({{fig:fig31_motores}}).
 
 ![The efficiency of induction motors by power and class](../figuras/fig31_motores.png)
 
-*Figure 99 — Minimum efficiency of two-pole single-phase induction motors, according to Table 13 of ABNT NBR 17094-2:2016. The program adopts class IR1 when the project does not enter the efficiency, as the least demanding and therefore the conservative assumption.*
-
-
-The two values that appear most in building installations are those of half a horsepower, with
-**60.5%** efficiency in class IR1, and of one horsepower, with **69.3%**. The difference between them
-is almost nine percentage points, and it carries over entirely to the energy running cost, because it
-is the efficiency that separates the shaft power from the power actually drawn from the mains.
-
-**IR1** is adopted because it is the normative floor and what is found in off-the-shelf pump sets.
-Anyone with a high-efficiency motor enters the value marked on the nameplate.
-
-For powers not in the table, the standard says to adopt the larger of the two neighbouring
-efficiencies when the power is at the midpoint or above, and the smaller when it is below.
+*Figure 99 — Illustrative efficiency of induction motors by power for a standard and a high-efficiency class: efficiency rises with power. The values are illustrative, not from a standard; use the data sheet of the motor or the classes of the rule that applies in your country.*
 
 ---
 
 ## Why the complete chain matters
 
-The specific consumption of the reference case — half a horsepower, 12 m of manometric head, 82 m³
-pumped and 98 starts per year — is 0.1080 kWh/m³. ==Ignoring the motor efficiency, or deducting the
+The tutorial's pumping to the upper tank, with the complete chain, pumps 59.4 m³ a year in 69
+starts and uses 7.7 kWh a year: 0.13 kWh/m³. ==Ignoring the motor efficiency, or deducting the
 pump efficiency twice, changes that number by tens of percentage points,== and those are precisely the
 two most frequent mistakes in sizing spreadsheets.
 
@@ -186,21 +182,22 @@ When the power, flow rate and manometric head of the pump set are not known, the
 button, in step **4. Reservoir & Costs** and in the economic dialog, estimates the three values and
 selects a commercial model. The wizard follows the usual sizing sequence of a building rising main:
 
-1. **Pumping flow rate.** `Q = V_sup ÷ t_ench`, with the volume of the upper tank and the desired
+1. **Pumping flow rate.** `Q = V_sup ÷ t_fill`, with the volume of the upper tank and the desired
    filling time, 45 minutes by default.
-2. **Economic diameter.** By Forchheimer's formula, `D = 1,3 · (t_op ÷ 24)^0,25 · √Q` (1.3 and 0.25
-   in decimal-point notation), with `D` in metres, `Q` in m³/s and `t_op` the daily operating time,
-   2 h by default. The diameter adopted is the smallest commercial solvent-weld PVC pipe whose internal
-   diameter meets the calculated value, and never smaller than the outlet of the selected pump set;
-   the suction gets one commercial size above the delivery.
+2. **Economic diameter.** By Forchheimer's formula, `D = 1.3 · (t_op ÷ 24)^0.25 · √Q`, with `D` in
+   metres, `Q` in m³/s and `t_op` the daily operating time, 2 h by default. The diameter adopted is the
+   smallest commercial solvent-weld PVC pipe whose internal diameter meets the calculated value, and
+   never smaller than the outlet of the selected pump set; the suction gets one commercial size above the
+   delivery.
 3. **Velocity.** `v = Q ÷ (π · D_i² ÷ 4)`, highlighted when it falls outside the range of 0.6 m/s to
    2.5 m/s.
-4. **Head loss.** By the Hazen-Williams formula, `J = 10,643 · Q^1,852 · C^−1,852 · D_i^−4,87`, with
+4. **Head loss.** By the Hazen-Williams formula, `J = 10.643 · Q^1.852 · C^−1.852 · D_i^−4.87`, with
    `C = 140` for PVC, multiplied by the length of the piping and increased by 30% for the local losses.
 5. **Manometric head and power.** `H_man = H_geo + h_f` and `P = ρ · g · Q · H_man ÷ η`, with a set
    efficiency of 55% by default.
-6. **Selection.** The first model of the internal catalogue whose flow rate, maximum head and power
-   meet the operating point, with the pump curve plotted against the calculated point.
+6. **Selection.** The calculated operating point is compared with the curve of a candidate
+   model, with the pump curve plotted against the calculated point. The manual's cases use
+   generic models, without brand (see below).
 
 The calculated manometric head and head loss go back to the project and feed the energy calculation of
 this section, in place of the fallback value.
@@ -223,9 +220,10 @@ Used when the project does not declare them:
 
 > **In depth: the 108 s start-up time.** It represents the priming time of a self-priming pump whose
 > suction line has drained. In an installation with a foot valve in working order, the line stays
-> primed and the following starts are immediate. In the reference case, start-ups account for 19% of
-> the annual consumption; with a 3 s transient, they would account for 0.5%. The value is
-> conservative and is recorded as an open issue of the program.
+> primed and the following starts are immediate. With the 108 s value, the start-ups can
+> account for a large share of the annual consumption of a pump that starts often; with a 3 s
+> transient they would be negligible. The value is conservative and is recorded as an open issue of
+> the program.
 
 ---
 
@@ -249,7 +247,7 @@ E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
 | :--- | :--- | :--- |
 | `E` | annual energy of the pressure pump | kWh/year |
 | `P` | nameplate power, at the shaft | kW |
-| `η_m` | motor efficiency, from Table 13 of ABNT NBR 17094-2 | dimensionless |
+| `η_m` | motor efficiency, from the data sheet | dimensionless |
 | `V` | rainwater volume consumed | m³/year |
 | `Q_b(H)` | flow rate of the model's curve at the working pressure `H` | m³/h |
 | `Q_p` | flow rate of the point of use | m³/h |
@@ -262,49 +260,48 @@ the point, and the delay of electronic controls enters at each start. The namepl
 the nominal point, and at low flow the motor draws a little less; the estimate tends to overestimate
 the energy, but it ranks the models among themselves.
 
-The default point flow rate is 0.15 L/s, that is, 9 L/min: the design flow rate of a toilet with a
-flushing cistern in Table A.1 of ABNT NBR 5626:1998. The 2020 edition dropped the table and left to the
-design the task of stating the flow rates at the points of use (item 6.7.1); anyone with the toilet
-manufacturer's figure should use it.
+The default point flow rate is 0.15 L/s, that is, 9 L/min, a typical figure for filling a toilet
+cistern; anyone with the toilet manufacturer's figure, or with the flow rates the design rule of
+the building sets for the points of use, should use it.
 
-### The catalogue
+### The generic models
 
-Step **4. Reservoir & Costs** has six residential pressure pumps from five manufacturers, each with the
-flow × pressure curve from its manual, kept among the documents consulted: Komeco TP 820T and TP 825T,
-Cardal Potenza, Jacuzzi AcquaHouse, with a curve tested at the Pump Labelling Laboratory of UNIFEI,
-Syllent Impulse Press and Rowa Max Press 20E. For another model, the «Custom» option asks for the
-nameplate power, the flow rate read on the manufacturer's curve at the working pressure and the
-switch-off delay.
+The manual does not use manufacturers' catalogues. It compares six **generic** pressure pumps,
+named A to F, with illustrative curves that are not those of any product. Each is defined by its
+nameplate power, its control (pressure switch, flow switch or electronic) and its flow × pressure
+curve. For a real model, the «Custom» option asks for the nameplate power, the flow rate read on
+the manufacturer's curve at the working pressure and the switch-off delay.
 
-The table applies the catalogue to the tutorial's direct pressurisation: the 4,000 L cistern without an
+The table applies the six generic models to the tutorial's direct pressurisation: the 4,000 L cistern without an
 upper tank, four residents and the toilet flow rate of 9 L/min.
 
 <!-- inclui: _tabelas/cap28_pressurizadores.md -->
 
 At 18 m head, five of the six models deliver more than the toilet's 9 L/min, and all stay on for the
-same 110 hours a year. What separates them is the power: the 1/4 hp one uses 40 kWh, the 1/2 hp ones,
-67. The sixth, with little more than 7 L/min at 18 m, works almost at the end of its curve, stays on
-longer and also adds ten seconds of delay to each of the 7,373 starts of the year.
+same 109 hours a year. What separates them is the power: Model A, of 0.25 hp, uses 40.0 kWh, and
+the 0.5 hp ones, 66.2 kWh. The sixth, Model E, delivers 7.0 L/min at 18 m, below the point flow
+rate; it works at the end of its curve, stays on for 160 hours and uses 97.6 kWh a year.
 
-At 24 m head the order reverses. The 1/4 hp model drops to 4.4 L/min, and the time switched on doubles;
-three models do not even reach the pressure. The best becomes a 1/2 hp one. ==The rule the table teaches
-is to choose the smallest model that delivers the point's flow rate at the working pressure,== and it is
-what item 6.5.11.12 of ABNT NBR 5626:2020 asks for: that the energy consumption of pumping and
-pressurisation pumps be minimised by the choice of pump, among the alternatives considered. The screen
+At 24 m head the order reverses. Model A, the cheapest to run at 18 m, rises to 250.3 kWh a
+year, because its flow falls and it stays on much longer; Models C and D stay at 66.2 kWh; and
+Models B, E and F do not reach the pressure. The best becomes a 0.5 hp one. ==The rule the table
+teaches is to choose the smallest model that delivers the point's flow rate at the working
+pressure,== and it is what good practice asks for: that the energy consumption of pumping and
+pressurisation be minimised by the choice of pump, among the alternatives considered. The screen
 points to that model and shows the energy of all the others next to it.
 
-> **Two pumps, not one.** Item 6.5.11.2 of the same standard requires at least two pumps, operating
-> independently, in pumping and pressurisation systems. The tutorial follows the standard, and the
-> investment counts the duty pump and the standby. EN 16941-1:2024 asks for a standby pump «if
-> necessary».
+> **Two pumps, not one.** Rules for pumping and pressurisation systems commonly call for at least
+> two pumps, operating independently. The tutorial follows that practice, and the investment
+> counts the duty pump and the standby (two pumps, at an illustrative US$ 250 each, not a market
+> price).
 
 ---
 
 ## Why the energy of pumping to a tank is small, and that of the pressure pump is not
 
 Lifting one cubic metre twelve metres costs about 0.033 kWh of hydraulic energy. With the two
-efficiencies, it comes to 0.11 kWh per cubic metre delivered, and the tutorial's pumping, with the
-start-ups, to 0.13 kWh/m³.
+efficiencies and the start-ups, the tutorial's pumping to the upper tank comes to 0.13 kWh per cubic
+metre (7.7 kWh for 59.4 m³ a year).
 
 Direct pressurisation of the same project uses 0.68 to 1.66 kWh/m³, depending on the model: five to
 thirteen times more. The numbers reproduce a difference the literature had already measured. In the
@@ -318,9 +315,11 @@ studies assume: few starts per year, at the pump's own flow rate. The pressure p
 empirical range because it works as the measured homes do: one start per use, at the flow rate of the
 point.
 
-Even so, the energy is small compared with the saving on the bill. The 40 kWh of the smallest pressure
-pump cost less than thirty reais a year at the tutorial's tariff. The argument that «pumping uses more
-than it saves» does not hold in small buildings, but the choice of arrangement and model can multiply
-the energy part by ten, and it is that part that weighs in the carbon of section {{n:30}}.
+Even so, the energy is small compared with the saving on the bill. At an illustrative electricity
+price of US$ 0.20 per kWh (illustrative, not a market price), the 40.0 kWh of the smallest pressure
+pump cost US$ 8 a year, and even the 250.3 kWh of the same pump at 24 m cost about US$ 50, against an
+annual water saving of US$ 290.53 in the tutorial. The argument that «pumping uses more than it saves»
+does not hold in small buildings, but the choice of arrangement and model can multiply the energy part
+by ten, and it is that part that weighs in the carbon of section {{n:30}}.
 
 In a tall building, with thirty metres of pumping, the calculation changes, and it is worth redoing it.

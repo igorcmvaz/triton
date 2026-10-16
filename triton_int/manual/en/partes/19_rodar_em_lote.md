@@ -61,13 +61,15 @@ below looks bureaucratic at first sight and saves hours of rework, above all whe
 picked up again weeks later.
 
 1. Build the complete project once, in full detail.
-2. Save it with a name that describes the case: `escola_florianopolis_5000.triton`.
+2. Save it with a name that describes the case: `school_london_30000.triton`.
 3. Change **one** thing, and save it under another name.
 4. Run each one, and note the result in a spreadsheet of your own.
 
-The example files of the manual were made this way: `05_manaus.triton`, `06_brasilia.triton`
-and `07_saopaulo.triton` are the same project, with the rainfall series swapped. That is what
-section {{n:14}} compares.
+The example files of the manual were made this way: `01_tutorial_new_york.triton`,
+`02_london.triton` and `03_cape_town.triton` are the same project, with the rainfall series and
+the tariff swapped. That is what section {{n:14}} compares. (Swapping the city swaps two
+things at once; the manual does it on purpose, because the tariff does not change the water
+result, and the water result is what the comparison is about.)
 
 > **Change one thing at a time.** If you change the city and the tariff together, the result
 > changes and there is no way of knowing which of the two moved it. It seems obvious, and it
@@ -82,8 +84,8 @@ A naming convention saves more time than it seems:
 ```
 school_study/
    base.triton
-   city_florianopolis.triton
-   city_manaus.triton
+   city_new_york.triton
+   city_cape_town.triton
    tariff_commercial.triton
    demand_measured.triton
    results.xlsx
@@ -121,7 +123,7 @@ propagation — the program offers a command-line interface, described next.
 Installing the program as a Python package registers the `triton` command, which runs the
 same calculation routines as the graphical interface without opening the window; the Windows
 installer with the graphical interface does not include it. The command line reads `.triton`
-files, projects in structured JSON and the Netuno 4 CSV format, and writes the results in
+files, projects in structured JSON and a legacy semicolon-separated text format, and writes the results in
 text, JSON, CSV, HTML or XLSX. It is the interface suited to reproducible studies, because the
 command itself documents the assumptions changed.
 
@@ -150,30 +152,29 @@ vectors and reports how often each volume wins; `--format` and `--output` set th
 format and file; and `--seed` fixes the seed of the stochastic analyses, so that the result is
 reproducible.
 
-Applied to the tutorial project, `validate` and `run` produce (the command line prints its
-messages in Portuguese — the first one reads «valid project: structure, rain and essential
-assumptions checked»):
+Applied to the tutorial project, `validate` and `run` look like this (the command line prints
+a confirmation in the language of the program's interface):
 
 ```
-triton validate 01_tutorial_florianopolis.triton
-Projeto válido: estrutura, chuva e premissas essenciais verificadas.
+triton validate 04_tutorial_sweep.triton
 
-triton run 01_tutorial_florianopolis.triton --volume 4000 --format json --output r.json
+triton run 04_tutorial_sweep.triton --volume 4000 --format json --output r.json
 ```
 
-The file `r.json` records the provenance — source project, number of days of the series and
-start date — and, for the 4,000 L volume, the saving potential of 27.30%, the rainwater volume
-consumed of 59.8 m³/year, the overflow of 127.5 m³/year and the classification of the days into
-97.3% full, 0.5% partial and 2.2% none.
+The file `r.json` records the provenance (source project, number of days of the series and start
+date) and, for the 4,000 L volume, the saving potential of 26.83% and the classification of the
+days into full, partial and no supply, with 95.3% full days.
 
 The `uncertainty` subcommand draws, in each sample, the precipitation, the catchment area, the
-demand and the investment with a distribution of declared coefficient of variation — by
-default, 10% for precipitation, 0% for area, 10% for demand and 15% for investment, in 200
-samples — and reports the 5%, 50% and 95% percentiles of the saving potential and of the net
-present value, with the probability of the net present value being positive. In the tutorial,
-with 50 samples and 4,000 L, the saving potential lies between 26.8% and 27.6%, with a median of
-27.3%. The range is narrow because the system already works close to the 28% ceiling: a 10%
-variation in rain or demand changes little in a tank that almost never runs dry.
+demand and the investment with a distribution of declared coefficient of variation, and reports
+the 5%, 50% and 95% percentiles of the saving potential and of the net present value, with the
+probability of the net present value being positive. Run it on the tutorial with a modest number
+of samples and a fixed `--seed`, and read the percentiles of the potential as a range, not as a
+single number. Because the tutorial system already works close to the 28% ceiling, a moderate
+variation in rain or demand moves the potential little, whereas the net present value, which in
+the tutorial is negative with the illustrative costs of section {{n:10}}, moves in proportion to
+the investment and the tariff. The probabilistic modulation, described in its own chapters, does the same job from
+the graphical interface.
 
 The `series-length` subcommand does, with no screen time limit, the analysis the sweep step
 offers in the «is the rainfall series long enough?» button, described in section {{n:24}}.

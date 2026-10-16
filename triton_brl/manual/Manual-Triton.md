@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 1.0.0 · revisão de 14/10/2026
+Versão 0.1.0 · revisão de 15/10/2026
 
 ---
 
@@ -19,7 +19,7 @@ Versão 1.0.0 · revisão de 14/10/2026
 | :--- | :--- |
 | **Título** | Triton: manual do usuário |
 | **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |
-| **Edição** | Versão 1.0.0 |
+| **Edição** | Versão 0.1.0 |
 | **Local** | Florianópolis, SC, Brasil |
 | **Editora** | Universidade Federal de Santa Catarina |
 | **Grupo de pesquisa** | Ambientes Sustentáveis |
@@ -31,12 +31,12 @@ Versão 1.0.0 · revisão de 14/10/2026
 **ABNT NBR 6023:2018**
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Versão 1.0.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.
+> Versão 0.1.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.
 
 **Estilo autor-data**
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Triton: manual do usuário*
-> (Versão 1.0.0). Universidade Federal de Santa Catarina.
+> (Versão 0.1.0). Universidade Federal de Santa Catarina.
 
 **BibTeX**
 
@@ -44,7 +44,7 @@ Versão 1.0.0 · revisão de 14/10/2026
 @manual{tritonmanual2026,
   title     = {Triton: manual do usuário},
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  edition   = {Versão 1.0.0},
+  edition   = {Versão 0.1.0},
   address   = {Florianópolis},
   publisher = {Universidade Federal de Santa Catarina},
   year      = {2026}
@@ -681,7 +681,7 @@ Tabela 150 — Avisos que não interrompem o cálculo e precisam constar do estu
 
 Tabela 151 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 152 — Correções que alteram resultados na versão 1.0.0
+Tabela 152 — Correções que alteram resultados na versão 0.1.0
 
 Tabela 153 — Itens previstos para a versão 1.1
 
@@ -1191,7 +1191,7 @@ rodapé de cada relatório e exportação dizem de qual edição saiu o estudo.
 <!-- tabela: **Tabela 2** — O que muda entre a Edição Brasil e a International Edition -->
 | | Edição Brasil (BRL) | International Edition (INT) |
 | :--- | :--- | :--- |
-| instalador | `Triton_Setup_1_0_0.exe` | `Triton_INT_Setup_1_0_0.exe` |
+| instalador | `Triton_Setup_0_1_0.exe` | `Triton_INT_Setup_0_1_0.exe` |
 | idioma ao abrir | português | inglês |
 | chuva | base CLIMBra (652 cidades) ou série própria | série própria |
 | tarifas de água e esgoto | catálogo de 652 municípios ou digitadas | digitadas |
@@ -1223,7 +1223,7 @@ nenhum aviso.
 
 ### 1.2.3. A instalação
 
-1. Execute **`Triton_Setup_1_0_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_1_0_0.exe`**
+1. Execute **`Triton_Setup_0_1_0.exe`** (Edição Brasil) ou **`Triton_INT_Setup_0_1_0.exe`**
    (International Edition). O instalador pergunta se a instalação é para
    todos os usuários, o que exige administrador, ou só para você.
 2. Escolha o idioma da instalação e leia e aceite a licença (código-fonte acadêmico, uso não comercial).
@@ -5095,7 +5095,7 @@ Os R$ 134,89 de 10 m³ são exatamente a «tarifa mínima sem hidrômetro» da t
 CORSAN, 43,39 + 9,15 × 10, o que confere a transcrição. Para o aproveitamento pluvial,
 a consequência é que **toda economia desconta desde o primeiro metro cúbico**, e desconta
 mais onde o expoente é maior: uma residência que desce de 30 para 20 m³ economiza
-R$ 253,81 por mês. A reta usada até a 1.0.0, com esgoto de 70% sobre a conta inteira,
+R$ 253,81 por mês. A reta usada antes da 0.1.0, com esgoto de 70% sobre a conta inteira,
 dava R$ 155,55 para a mesma redução.
 
 No programa, a fórmula entra na mesma tabela de quádruplas, com dois códigos próprios. A
@@ -6508,7 +6508,7 @@ e aparece num campo que não se edita, porque é resultado e não dado. Sem dema
 a total é a própria fração interna: os 28% deste tutorial. É o modo adotado aqui e é
 suficiente para a maior parte dos estudos.
 
-> **Por que a total não se digita.** Até a versão 1.0.0 o campo da fração total era
+> **Por que a total não se digita.** Antes da versão 0.1.0 o campo da fração total era
 > editável, mas a simulação usava a fração interna; e, ao abrir um projeto, a tela voltava
 > a interna para 35% e a externa para zero, quaisquer que fossem as gravadas. Um projeto
 > que declarava 28% era simulado com 35%. Hoje a tela restaura as duas, a total é
@@ -8085,7 +8085,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Triton 1.0.0, com modelo comportamental de base
+> A simulação foi conduzida no Triton 0.1.0, com modelo comportamental de base
 > diária (extravasamento calculado antes da retirada da demanda, com a chuva do dia
 > disponível para o consumo do dia, ordem intermediária entre YAS e YBS), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
@@ -8347,7 +8347,7 @@ reproduzível, por mais correto que o cálculo esteja.
 > usuário a tarefa de descobri-los por conta própria.
 
 Esta seção deriva do registro de pendências que o grupo de pesquisa mantém, e reflete o
-estado da versão 1.0.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+estado da versão 0.1.0 (beta). Uma limitação sai desta lista quando é efetivamente resolvida, e
 não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação de
 programas científicos frequentemente não observa.
 
@@ -9069,9 +9069,10 @@ indica correções e ajustes que não alteram a arquitetura. A passagem do Netun
 o Triton, tratada na seção 6.1, é o único caso de troca do primeiro número na
 história do programa.
 
-A versão 1.0.0 é o primeiro lançamento público do Triton. Os números anteriores a
-ela foram de desenvolvimento, e nunca chegaram a circular; nenhum estudo foi feito com
-eles.
+A versão 0.1.0 é a primeira versão pública do Triton e é um beta: o programa ainda está em
+desenvolvimento, e a numeração sobe (0.2.0, 0.3.0 e assim por diante) até a 1.0.0, que será a
+primeira versão oficial. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
+a circular; nenhum estudo foi feito com eles.
 
 ---
 
@@ -9096,23 +9097,23 @@ mesmo registro.
 <!-- tabela: **Tabela 151** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **1.0.0** | 14 de outubro de 2026 | Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição. | 0 |
+| **0.1.0 (beta)** | 15 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois. | 0 |
 
 ---
 
-### 6.3.3. Versão 1.0.0 — 14 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
 
-> **Em uma frase.** Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com
-> nome, versionamento e repositório próprios para cada edição.
+> **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
+> nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois.
 
 #### 6.3.3.1. Novidades
 
 O Triton é o filho do Netuno. Mantém o motor de simulação, a avaliação de ciclo de vida, a linha de
 tratamento, a decisão multicritério e a modulação probabilística do Netuno 5.0.1, e passa a ser
 distribuído em três programas independentes, um por edição: Brasil, Internacional e Portugal. Cada um
-tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 1.0.0.
+tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 0.1.0, ainda em beta.
 
-O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 1.0.0 já inclui as
+O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 0.1.0 já inclui as
 correções feitas até o Netuno 5.0.1, entre elas a da demanda mensal e semanal igual a zero, e a regra de
 operação de Fewkes (φ) como opção em todos os módulos.
 
@@ -9120,9 +9121,9 @@ Na Edição Brasil, a base de tarifas de 652 municípios traz 617 conferências 
 
 #### 6.3.3.2. Correções que alteram resultados
 
-Nenhuma em relação ao Netuno 5.0.1, de que o Triton 1.0.0 parte.
+Nenhuma em relação ao Netuno 5.0.1, de que o Triton 0.1.0 parte.
 
-<!-- tabela: **Tabela 152** — Correções que alteram resultados na versão 1.0.0 -->
+<!-- tabela: **Tabela 152** — Correções que alteram resultados na versão 0.1.0 -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 
@@ -9269,7 +9270,7 @@ não apenas foi corrigido, como passou a ser vigiado.
 > e não com a que gostaria de ter.
 
 Esta seção resume o `ROADMAP.md` da raiz do repositório Triton, que vale para as três edições e reflete o estado da versão
-1.0.0. Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
+0.1.0 (beta). Nada do que está abaixo da linha «Estável» existe nesta versão: são intenções do
 grupo de pesquisa, sem data de entrega. Quando um item é implementado, ele sai daqui e
 entra no histórico de versões, com a indicação de se muda o resultado de estudos já
 feitos.
@@ -9282,7 +9283,7 @@ do próprio programa, descrito na seção «Limitações conhecidas».
 
 ---
 
-### 6.5.1. O que já é estável na 1.0.0
+### 6.5.1. O que já é estável na 0.1.0 (beta)
 
 **Série climática.** 652 municípios brasileiros com séries contínuas projetadas (base
 CLIMBra, CMIP6). **Tarifas.** 652 municípios com catálogo de tarifas transcritas de fontes

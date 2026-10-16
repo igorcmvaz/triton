@@ -16,7 +16,10 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 MANUAL = os.path.join(RAIZ, "manual")
 sys.path.insert(0, MANUAL)
 
-from escrita_segura import DIVERGENTE, GRAVADO, IGUAL, gravar  # noqa: E402
+try:
+    from escrita_segura import DIVERGENTE, GRAVADO, IGUAL, gravar
+except ModuleNotFoundError:
+    pytest.skip("geradores do manual nao versionados (ficam no disco do mantenedor)", allow_module_level=True)
 
 
 def test_arquivo_novo_e_gravado(tmp_path):

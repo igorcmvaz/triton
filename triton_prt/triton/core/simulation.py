@@ -150,7 +150,7 @@ def _phi_do_projeto(phi: float, upper_tank_used: bool, upper_tank_vol: float) ->
 def nome_regra_operacional(phi: Optional[float]) -> str:
     """Identifica a regra operacional do balanço hídrico.
 
-    ``None`` é a regra do Triton, a que o manual da 1.0.0 documenta: o extravasamento
+    ``None`` é a regra do Triton, a que o manual da 0.1.0 documenta: o extravasamento
     sai antes do consumo, e a chuva do dia já atende o consumo do dia (ordem
     intermediária entre YAS e YBS). Um número é o parâmetro φ do modelo geral de
     Fewkes (2000b): φ = 0 é a YAS estrita (a retirada do dia sai só do que estava

@@ -7,13 +7,10 @@ Inclui:
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Sequence
+from typing import List, Optional, Tuple, Sequence
 import numpy as np
 
-from triton.core.topsis import (
-    TopsisCandidate, TopsisResult, calculate_topsis_scores,
-    CRITERION_KEYS, CRITERION_LABELS, CRITERION_IS_BENEFIT
-)
+from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT
 
 
 @dataclass

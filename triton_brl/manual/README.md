@@ -92,7 +92,7 @@ lá: o pacote, o instalador, a capa do manual, o rodapé do PDF e o site.
 
 Enquanto `pyproject.toml` declarar `Development Status :: 4 - Beta`, o manual escreve
 «(beta)» junto da versão e a regra de citar só a versão atual fica suspensa. O
-lançamento da 1.0.0 saiu desse estado.
+lançamento da 1.0.0, a primeira versão oficial, sairá desse estado.
 
 ## O que não está aqui
 

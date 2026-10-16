@@ -1,14 +1,14 @@
-<!-- tabela: Cost of the treatment line according to the disinfection technology adopted -->
-| Disinfection | CAPEX | Annual running cost | Annual CO₂e |
-| :--- | ---: | ---: | ---: |
-| Tablet chlorination | R$ 1,547 | R$ 43 | 0.2 kg |
-| Chlorination + ultraviolet | R$ 2,747 | R$ 259 | 6.4 kg |
-| Chlorination + ozonation | R$ 5,047 | R$ 243 | 15.2 kg |
-
-<!-- tabela: Fine-filtration recommendation and cost of the line by quality class -->
-| Target class | Fine filtration recommended? | CAPEX without | CAPEX with |
+<!-- tabela: Treatment line by disinfection technology adopted: stages, ultraviolet energy and annual carbon -->
+| Disinfection | Stages | Annual UV energy | Annual CO₂e |
 | :--- | :---: | ---: | ---: |
-| class 1 | no | R$ 1,547 | R$ 1,927 |
-| class 2 | yes | R$ 1,547 | R$ 1,927 |
-| class 3 | yes | R$ 1,547 | R$ 1,927 |
-| class 4 | yes | R$ 1,547 | R$ 2,097 |
+| Tablet chlorination | 1 | 0.0 kWh | 0.2 kg |
+| Chlorination + ultraviolet | 2 | 37.5 kWh | 18.2 kg |
+| Chlorination + ozonation | 2 | 0.0 kWh | 15.2 kg |
+
+<!-- tabela: Fine-filtration recommendation by quality class -->
+| Target class | Fine filtration recommended? |
+| :--- | :---: |
+| class 1 | no |
+| class 2 | yes |
+| class 3 | yes |
+| class 4 | yes |

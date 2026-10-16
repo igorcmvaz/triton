@@ -42,7 +42,7 @@ As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
 ## Instalar e executar
 
 **Instalador para Windows.** Publicado no [Zenodo](../README.md#download), com a soma de verificação SHA-256:
-`Triton_PRT_Setup_1_0_0.exe`. Não precisa de Python.
+`Triton_PRT_Setup_0_1_0.exe`. Não precisa de Python.
 
 **A partir do código** (Python 3.12 ou superior):
 
@@ -70,7 +70,7 @@ Os testes da interface Qt só são recolhidos com o PySide6 instalado.
 ## Construir o instalador
 
 ```bash
-python build_exe.py --installer      # dist/Triton_PRT/ e dist/Triton_PRT_Setup_1_0_0.exe
+python build_exe.py --installer      # dist/Triton_PRT/ e dist/Triton_PRT_Setup_0_1_0.exe
 ```
 
 Requer Python 3.12 ou superior, PyInstaller (`requirements-dev.txt`) e o [Inno Setup 6](https://jrsoftware.org/isinfo.php).

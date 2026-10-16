@@ -20,53 +20,54 @@ annual credit pays off the debt incurred in manufacture. That period is the **ca
 payback**, and it plays in the environmental dimension the same role that the payback
 period plays in the economic one.
 
+> **The factors are illustrative.** The International Edition carries no emission
+> factors: the environmental assessment is not calculated until you enter those of the
+> project's country (appendix {{n:C}}). The tutorial uses two round figures,
+> **0.40 kg CO₂e per kilowatt-hour** of grid electricity and **0.50 kg CO₂e per cubic
+> metre** of mains water avoided. They are illustrative, not data of any country, chosen so
+> that you can follow the method; the shape of the result, not its digits, is the lesson.
+
 For our project, a 4,000 L concrete cistern pumping to a 1,000 L upper tank:
 
-<!-- tabela: Carbon balance of the tutorial project with a concrete cistern -->
+<!-- tabela: Carbon balance of the tutorial project with a concrete cistern (illustrative factors) -->
 | Part | Value |
 | :--- | ---: |
 | carbon embodied in the system | 858 kg CO₂e |
-| emission avoided per year | 20.9 kg CO₂e |
-| annual emission of pumping and treatment | 0.9 kg CO₂e |
-| net annual balance | 20.0 kg CO₂e |
-| **carbon payback** | **42.8 years** |
-| balance at the end of 20 years | **−457 kg CO₂e** |
+| emission avoided per year | 29.7 kg CO₂e |
+| annual emission of pumping and treatment | 3.3 kg CO₂e |
+| net annual balance | 26.4 kg CO₂e |
+| **carbon payback** | **32.5 years** |
+| balance at the end of 20 years | **+330 kg CO₂e** |
 
-It takes almost forty-three years to pay off the carbon debt, against an adopted service
-life of twenty years. ==The system therefore never pays for itself environmentally:==
-when it is decommissioned, it will have emitted 457 kg CO₂e more than it avoided over its
-whole operation.
+It takes thirty-two and a half years to pay off the carbon debt, against an adopted
+service life of twenty years. ==The system therefore does not pay for itself
+environmentally:== when it is decommissioned, it will have emitted 330 kg CO₂e more than
+it avoided over its whole operation.
 
-And that is the result of a project that, financially, pays for itself — which shows,
-with uncomfortable clarity, why the dimensions of analysis must be kept separate until
-the moment of decision.
-
-> **In the International Edition (INT).** The emission factors of this section are Brazilian: the
-> grid factor of the Ministry of Science, Technology and Innovation (MCTI) and the
-> potable water factor by region. In the International Edition they start empty, and the
-> environmental assessment is not calculated until the factors of the project's country
-> are entered (appendix {{n:C}}).
+And the financial result of the same project was negative too, which does not make the
+two verdicts the same: as the next sections show, a change of material alone reverses the
+carbon verdict, while the financial one stays put. That is why the dimensions of analysis
+must be kept separate until the moment of decision.
 
 ---
 
 ## Why the carbon saving is so small
 
-Twenty-one kilograms of CO₂e per year seems little for 60 cubic metres of water saved,
-and it is: the result is equivalent to 0.35 kg CO₂e per cubic metre replaced.
+Thirty kilograms of CO₂e per year seems little for 59 cubic metres of water saved, and
+with these factors it is: 0.50 kg CO₂e per cubic metre replaced, less the energy to pump
+it.
 
 The explanation lies in the nature of the product replaced. Treated water is not a
-carbon-intensive good. Abstracting, treating and distributing water costs, in Brazil,
-between 0.34 and 0.46 kg CO₂e per cubic metre delivered, depending on the region and on
-the make-up of the local electricity mix, and that range is modest compared with that of
-concrete, steel or fuels. Replacing a low-carbon product with another that requires the
-manufacture of a tank therefore does not produce the environmental gain intuition
-suggests.
+carbon-intensive good. Abstracting, treating and distributing water costs a fraction of a
+kilogram of CO₂e per cubic metre delivered, depending on the local electricity mix and
+on the source, and that is modest compared with the carbon of concrete, steel or fuels.
+Replacing a low-carbon product with another that requires the manufacture of a tank
+therefore does not produce the environmental gain intuition suggests.
 
 > **The boundary matters.** The program's factor is per cubic metre **delivered** to the
-> building, not per cubic metre produced at the plant. Distribution losses in Brazil range
-> from 33.9% in the Southeast to 46.9% in the North: producing one cubic metre delivers
-> between 0.53 and 0.66. Using the plant-outlet factor would underestimate the avoided
-> emission by up to a third. Section {{n:30}} gives the details.
+> building, not per cubic metre produced at the plant. Distribution losses mean that one
+> cubic metre produced delivers less than one: using the plant-outlet factor would
+> underestimate the avoided emission. Section {{n:30}} gives the details.
 
 ---
 
@@ -75,7 +76,7 @@ the credit of the avoided water separated ({{fig:fig50_programa_balanco_ambienta
 
 ![The carbon balance over twenty years, by component](../figuras/fig50_programa_balanco_ambiental.png)
 
-*Figure 99 — The chart of the environmental tab for the same project, with a concrete cistern: the parts of the carbon balance over twenty years. The sign follows the convention adopted throughout this chapter: emissions positive, avoided water negative. Figure generated by the program itself.*
+*Figure 99 — The chart of the environmental tab for the same project, with a concrete cistern: the parts of the carbon balance over twenty years, with illustrative factors. The sign follows the convention adopted throughout this chapter: emissions positive, avoided water negative. Figure generated by the program itself.*
 
 ---
 ## The material decides the sign
@@ -93,23 +94,24 @@ reading of an emissions chart intuitive: the line going down is the one improvin
 
 ![Cumulative carbon balance over the service life, by material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figure 99 — Cumulative net emissions of the 4,000 L cistern over the service life, for polyethylene and concrete. The curve starts from the carbon embodied in manufacture, above zero, and goes down with the annual credit of the avoided potable water; polyethylene crosses zero at 16.3 years and ends the service life removing carbon, and concrete does not cross it in the twenty years adopted.*
+*Figure 99 — Cumulative net emissions of the 4,000 L cistern over the service life, for polyethylene and concrete, with illustrative factors. The curve starts from the carbon embodied in manufacture, above zero, and goes down with the annual credit of the avoided potable water; polyethylene crosses zero at 12.4 years and ends the service life removing carbon, and concrete does not cross it in the twenty years adopted (it would at 32.5 years).*
 
 ![Net emissions over twenty years, by cistern material](../figuras/fig04_materiais.png)
 
-*Figure 99 — Net emissions over twenty years of the 4,000 L cistern, by material. In green, a negative value, that is, a net removal; in orange, positive: two of the four materials end their service life having emitted more than they avoided.*
+*Figure 99 — Net emissions over twenty years of the 4,000 L cistern, by material, with illustrative factors. In green, a negative value, that is, a net removal; in orange, positive: two of the four materials end their service life having emitted more than they avoided.*
 
 **The choice of material reverses the result.**
 
-Polyethylene pays off the debt in 16.3 years and ends the twenty years having removed
-74 kg. Concrete takes 42.8 years and ends having emitted 457 kg. Stainless steel also ends
-up emitting, 347 kg. With a 28% suppliable fraction, little water is saved, and only the
-light materials manage to pay for their own manufacture.
+Polyethylene pays off the debt in 12.4 years and ends the twenty years having removed
+200 kg. Glass fibre takes 14.1 years and removes 156 kg. Concrete takes 32.5 years and
+ends having emitted 330 kg. Stainless steel takes 28.4 years and also ends up emitting,
+220 kg. With a 28% suppliable fraction, little water is saved, and only the light
+materials manage to pay for their own manufacture.
 
 And the second table shows the other side of the same coin: in concrete, **the larger the
 cistern, the worse the carbon**. The 2,000 L one closes the twenty years having emitted
-141 kg; the 8,000 L one, 1,119 kg. Each cubic metre of concrete adds 168 kg CO₂e and
-yields less and less water.
+31 kg; the 8,000 L one, 988 kg, and its carbon payback stretches to 56.5 years. The
+extra volume costs carbon in manufacture and yields less and less water.
 
 ---
 ## There is an environmentally optimal volume
@@ -117,21 +119,23 @@ yields less and less water.
 The observation above holds for concrete, but it is a particular case of something more
 general. The embodied carbon grows almost linearly with the volume; the avoided water
 grows with the supply, which saturates. The sum of the two parts has an **interior
-minimum**: there is a volume beyond which each additional litre of storage emits more
+optimum**: there is a volume beyond which each additional litre of storage emits more
 than it avoids. {{fig:fig06b_otimizacao_ambiental}} shows the two curves.
 
 ![Net emissions over twenty years against the cistern volume](../figuras/fig06b_otimizacao_ambiental.png)
 
-*Figure 99 — Net emissions over twenty years against the cistern volume, for (a) polyethylene and (b) concrete, in the tutorial project. In polyethylene the curve has an interior minimum at 1.5 m³ and crosses zero again at around 6 m³: above that volume the system emits more than it avoids. In concrete there is no interior minimum within the range, and the curve is positive throughout.*
+*Figure 99 — Net emissions over twenty years against the cistern volume, for (a) polyethylene and (b) concrete, in the tutorial project, with illustrative factors. In polyethylene (with the 1,000 L upper tank) the balance is best, among the volumes tested, at 2 m³, where it removes 234 kg, and it turns to emission between 8 and 12 m³: above that volume the system emits more than it avoids. In concrete the net emissions are positive from 2 m³ up.*
 
 ==More storage is not monotonically better for the climate.== It is the opposite of what
 common intuition suggests, and it follows from a simple property: the saturation of
 supply. The volume that minimises emissions is not the same as the one that maximises the
 water saving — and section {{n:12}} deals with how to decide between the two.
 
-> **The cheapest is also the best for carbon.** Polyethylene costs R$ 2,526 against
-> R$ 5,304 for concrete, weighs fifty-five times less, and is the material in the table
-> that closes the twenty years with the widest positive margin.
+> **The lightest is also the best for carbon, at about the same price.** At the
+> illustrative prices, polyethylene costs US$ 2,300 against US$ 2,200 for concrete
+> (illustrative, not market prices) — price hardly separates them — but it weighs about
+> fifty-five times less, and it is the material that closes the twenty years with the
+> widest margin among the four.
 >
 > This is not luck. Mass is carbon, and reinforced concrete is by far the most massive
 > material on the list.
@@ -142,14 +146,12 @@ water saving — and section {{n:12}} deals with how to decide between the two.
 
 The table does not condemn concrete. It says that it needs a justification.
 
-- **Longer service life.** The program adopts 20 years for all materials, the minimum
-  design life that Table 25 of ABNT NBR 15575-1:2025 sets for the plumbing system. It is a
-  floor, not a forecast: the standard admits higher values, as long as they are stated in
-  the project (item 14.2.2 of NBR 15575-1). A well-built concrete cistern lasts 40 or 50
-  years; over a 50-year horizon, the 43-year payback is paid off, although without margin.
-  If you adopt a different service life, **declare** it.
-- **Large volumes.** Above 20 m³, polyethylene stops being practical and cast-in-place
-  concrete becomes the only feasible option.
+- **Longer service life.** The program adopts 20 years for all materials. It is a
+  floor, not a forecast: a well-built concrete cistern can last much longer, and over a
+  horizon beyond 33 years the 32.5-year carbon payback is paid off, although without
+  margin. If you adopt a different service life, **declare** it and justify it.
+- **Large volumes.** For very large volumes, factory-made polyethylene tanks stop being
+  practical and cast-in-place concrete may be the only feasible option.
 - **Space restrictions.** A buried concrete cistern adapts to the plot; a polyethylene
   one comes in fixed shapes.
 - **Existing structure.** A concrete tank reused from another purpose has **zero**
@@ -164,28 +166,29 @@ The table does not condemn concrete. It says that it needs a justification.
 It is what a designer would do faced with this table, and it is what makes this tutorial
 honest: a study changes course when the analysis shows the course was wrong.
 
-The switch improves the financial and the environmental result at the same time, without
-changing the saving potential, which is rare:
+The switch costs little and changes the sign of the carbon, without changing the saving
+potential. The financial result stays negative, and a little worse, because the
+polyethylene cistern is US$ 100 dearer at these illustrative prices:
 
-<!-- tabela: Effect of switching from concrete to polyethylene on the three dimensions of analysis -->
-| | Concrete | Polyethylene |
+<!-- tabela: Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price) -->
+| (illustrative, not a market price) | Concrete | Polyethylene |
 | :--- | ---: | ---: |
-| cistern price | R$ 5,304 | R$ 2,526 |
-| total investment | R$ 14,061 | R$ 11,283 |
-| financial payback | 16.3 years | 12.8 years |
-| NPV over 20 years | R$ 2,745 | R$ 5,524 |
-| carbon payback | 42.8 years | 16.3 years |
-| net emissions over 20 years | +457 kg | −74 kg |
+| cistern price | US$ 2,200 | US$ 2,300 |
+| total investment | US$ 6,250 | US$ 6,350 |
+| financial payback | none | none |
+| NPV over 20 years | −US$ 2,920 | −US$ 3,020 |
+| carbon payback | 32.5 years | 12.4 years |
+| net emissions over 20 years | +330 kg | −200 kg |
 
-<!-- tabela: State of the tutorial project after the environmental analysis -->
-| Project so far | |
+<!-- tabela: State of the tutorial project after the environmental analysis (illustrative, not a market price) -->
+| Project so far (illustrative, not a market price) | |
 | :--- | ---: |
 | volume | 4,000 L |
 | **material** | **polyethylene** |
-| investment | R$ 11,283 |
-| NPV | R$ 5,524 |
-| financial payback | 12.8 years |
-| carbon payback | 16.3 years |
+| investment | US$ 6,350 |
+| NPV | −US$ 3,020 |
+| financial payback | none |
+| carbon payback | 12.4 years |
 
 ---
 

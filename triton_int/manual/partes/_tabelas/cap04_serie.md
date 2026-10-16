@@ -1,10 +1,10 @@
-<!-- tabela: Caracterização da série de precipitação de Florianópolis adotada no tutorial -->
-| A série de Florianópolis | Valor |
+<!-- tabela: Characteristics of the New York precipitation series used in the tutorial -->
+| The New York series | Value |
 | :--- | ---: |
-| dias na série | 10 950 |
-| anos | 30,0 |
-| precipitação média anual | 1 795 mm |
-| dias com chuva | 46% |
-| chuva média nos dias chuvosos | 10,6 mm |
-| maior chuva diária | 128,1 mm |
-| dias abaixo da lâmina de descarte | 7% |
+| days in the series | 10,958 |
+| years | 30.0 |
+| mean annual precipitation | 1,125 mm |
+| days with rain | 44% |
+| mean rain on rainy days | 7.1 mm |
+| largest daily rainfall | 128.2 mm |
+| days below the first-flush depth | 17% |

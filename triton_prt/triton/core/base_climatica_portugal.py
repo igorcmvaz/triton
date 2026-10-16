@@ -86,13 +86,6 @@ def concelhos(distrito: Optional[str] = None) -> List[str]:
     return sorted(c for _, c, d, _ in _indice() if distrito is None or d == distrito)
 
 
-def distrito_do_concelho(concelho: str) -> Optional[str]:
-    for _, c, d, _ in _indice():
-        if c == concelho:
-            return d
-    return None
-
-
 def nao_cobertos() -> List[Dict[str, str]]:
     """Concelhos sem série (fora do domínio da E-OBS), com o motivo."""
     with _conectar() as con:

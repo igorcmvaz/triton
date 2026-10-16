@@ -5,10 +5,26 @@ Tabela do Fluxo de Caixa Anual com exportação CSV, e Análise de Sensibilidade
 """
 
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QTabWidget,
-    QFileDialog, QMessageBox, QFrame, QSizePolicy, QDialog, QComboBox,
-    QDoubleSpinBox, QAbstractSpinBox, QCheckBox, QApplication, QSplitter
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QGroupBox,
+    QLabel,
+    QPushButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QTabWidget,
+    QFileDialog,
+    QMessageBox,
+    QFrame,
+    QDialog,
+    QComboBox,
+    QDoubleSpinBox,
+    QAbstractSpinBox,
+    QCheckBox,
+    QApplication,
+    QSplitter,
 )
 from PySide6.QtCore import Qt, Signal, QLocale
 from PySide6.QtGui import QFont, QColor
@@ -16,8 +32,9 @@ from PySide6.QtGui import QFont, QColor
 from triton.core.taxas import mensal_pct_para_anual_fracao, mensal_pct_para_anual_pct
 from triton.core.parser import TritonConfig, parse_float, format_ptbr
 from triton.core.economic import (
-    run_robust_economic_analysis, EconomicAnalysisResult, calculate_effective_tariff,
-    run_sensitivity_analysis
+    run_robust_economic_analysis,
+    calculate_effective_tariff,
+    run_sensitivity_analysis,
 )
 from triton.core.tariff_category import incompatibilidade_de_categoria
 from triton.core.etap_integration import (
@@ -26,8 +43,10 @@ from triton.core.etap_integration import (
     dimensionar_etap_do_projeto,
 )
 from triton.core.cost_estimates import (
-    estimate_preliminary_capex, precos_de_catalogo, default_maintenance_items,
-    MATERIAL_COST_MULTIPLIERS, PIPE_COST_PER_METER, estimate_annual_chlorination_cost,
+    estimate_preliminary_capex,
+    precos_de_catalogo,
+    default_maintenance_items,
+    estimate_annual_chlorination_cost,
     annualize_operational_costs,
 )
 from triton.ui.charts import SensitivityChart, VplVsVolumeChart
@@ -604,48 +623,6 @@ class TabEconomicIntegrated(QWidget):
             if main_win and hasattr(main_win, "config"):
                 main_win.config.econ_lower_tank_vol = float(v)
             self.calculate_economics()
-
-    def _on_material_selection_changed(self):
-        main_win = self.window()
-        if main_win and hasattr(main_win, "config"):
-            cfg = main_win.config
-            if hasattr(self, "combo_lower_mat"):
-                cfg.lower_tank_material = self.combo_lower_mat.currentData()
-            if hasattr(self, "combo_upper_mat"):
-                cfg.upper_tank_material = self.combo_upper_mat.currentData()
-            if hasattr(self, "chk_chlorine"):
-                cfg.chlorine_treatment_enabled = self.chk_chlorine.isChecked()
-            if hasattr(self, "spin_cl_dose"):
-                cfg.chlorine_dose_mg_l = self.spin_cl_dose.value()
-            
-            # Recalcula custos preliminares baseados nos novos materiais
-            upper_used = bool(getattr(cfg, "upper_tank_used", 1))
-            est = estimate_preliminary_capex(
-                cfg.econ_lower_tank_vol, getattr(cfg, "upper_tank_vol", 500.0), upper_used,
-                cfg.pump_power_kw, cfg.pump_count,
-                lower_material=cfg.lower_tank_material, upper_material=cfg.upper_tank_material,
-            catalogo=precos_de_catalogo(cfg)
-        )
-            cfg.cost_lower_tank = est["lower"]
-            cfg.cost_upper_tank = est["upper"]
-            cfg.cost_piping = est["piping"]
-            from triton.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
-            sincronizar_com_o_arranjo(cfg)
-            
-        self.calculate_economics()
-
-    def _on_open_opex_dialog(self):
-        from triton.ui.dialogs import DialogOtherOpCosts
-        cfg = self.get_triton_config()
-        dlg = DialogOtherOpCosts(self, op_costs=cfg.op_costs)
-        if dlg.exec():
-            cfg.op_costs = dlg.op_costs
-            if hasattr(self, "_internal_config") and self._internal_config:
-                self._internal_config.op_costs = dlg.op_costs
-            main_win = self.window()
-            if main_win and hasattr(main_win, "config"):
-                main_win.config.op_costs = dlg.op_costs
-            self.calculate_economics(force=True)
 
     def _on_fiscal_param_changed(self):
         main_win = self.window()

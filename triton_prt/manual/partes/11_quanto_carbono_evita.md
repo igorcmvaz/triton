@@ -1,151 +1,99 @@
 # Quanto carbono evita
 
-> Ao terminar esta seção você terá o balanço de carbono do sistema e uma
-> surpresa: com a cisterna que escolhemos, o projeto **emite mais do que evita** ao
-> longo da vida útil.
+> No fim desta secção, tem o balanço de carbono do sistema e uma surpresa: com a cisterna que escolhemos, o projeto **emite mais do que evita** ao longo da vida útil. E a troca de material, ao contrário do que seria de esperar, não resolve o problema.
 
 ---
 
 ## A conta
 
-Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico que ele
-entrega deixa de ser captado, tratado e bombeado pela concessionária, e essas três
-operações consomem energia. O mesmo sistema, porém, emite carbono em três frentes
-próprias: a fabricação dos seus componentes, a energia consumida no bombeamento interno e
-os insumos de tratamento aplicados à água.
+Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico que entrega deixa de ser captado, tratado e bombeado pela entidade gestora, e estas três operações consomem energia. O mesmo sistema, porém, emite carbono em três frentes próprias: o fabrico dos seus componentes, a energia consumida na bombagem interior e os consumíveis de tratamento aplicados à água.
 
-O saldo ambiental do sistema é a diferença entre o que ele evita e o que ele emite, e a
-pergunta que organiza esta seção é em quantos anos o crédito anual líquido amortiza a
-dívida contraída na fabricação. Esse prazo é o **payback de carbono**, e ele desempenha
-na dimensão ambiental o mesmo papel que o tempo de retorno desempenha na dimensão
-econômica.
+O saldo ambiental do sistema é a diferença entre o que evita e o que emite, e a pergunta que organiza esta secção é em quantos anos o crédito anual líquido amortiza a dívida contraída no fabrico. Esse prazo é o **retorno do carbono**, e desempenha na dimensão ambiental o papel que o período de recuperação desempenha na dimensão económica.
 
-Para o nosso projeto, cisterna de concreto de 4.000 L com recalque para a caixa superior
-de 1.000 L:
+> **Os fatores são ilustrativos.** A Edição Portugal não traz fatores de emissão: a avaliação ambiental não é calculada até introduzir os do local do projeto (apêndice {{n:C}}). O tutorial usa dois números redondos, **0,40 kg CO₂e por quilowatt-hora** de eletricidade da rede e **0,50 kg CO₂e por metro cúbico** de água da rede evitada. São ilustrativos, não são dados de nenhum país, escolhidos para se poder seguir o método; a lição está na forma do resultado, não nos dígitos. [A COMPLETAR: se se quiser fatores portugueses, indicar a fonte oficial aberta (fator de emissão da eletricidade da rede e intensidade carbónica do abastecimento de água em Portugal) e o ano; este manual não os cita.]
 
-<!-- tabela: Balanço de carbono do projeto do tutorial com cisterna de concreto -->
+Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o reservatório superior de 1 000 L:
+
+<!-- tabela: Balanço de carbono do projeto do tutorial com cisterna de betão (fatores ilustrativos) -->
 | Parcela | Valor |
 | :--- | ---: |
-| carbono incorporado no sistema | 858 kg CO₂e |
-| emissão evitada por ano | 20,9 kg CO₂e |
-| emissão anual de bombeamento e tratamento | 0,9 kg CO₂e |
-| saldo líquido anual | 20,0 kg CO₂e |
-| **payback de carbono** | **42,8 anos** |
-| saldo ao fim de 20 anos | **−457 kg CO₂e** |
+| carbono incorporado no sistema | 1 026 kg CO₂e |
+| emissão evitada por ano | 19,6 kg CO₂e |
+| emissão anual de bombagem e tratamento | 2,2 kg CO₂e |
+| saldo líquido anual | 17,4 kg CO₂e |
+| **retorno do carbono** | **59,0 anos** |
+| saldo ao fim de 20 anos | **+678 kg CO₂e** |
 
-São quase quarenta e três anos para amortizar a dívida de carbono, contra uma vida útil adotada
-de vinte anos. ==O sistema, portanto, não chega a se pagar ambientalmente:== ao ser
-desativado, terá emitido 457 kg CO₂e a mais do que evitou ao longo de toda a sua
-operação.
+São 59 anos para amortizar a dívida de carbono, contra uma vida útil adotada de vinte. ==O sistema não se paga, portanto, do ponto de vista ambiental:== quando for desativado, terá emitido 678 kg CO₂e a mais do que evitou durante toda a operação.
 
-E esse é o resultado de um projeto que, do ponto de vista financeiro, se paga — o que
-ilustra com clareza incômoda por que as dimensões de análise precisam ser mantidas
-separadas até o momento da decisão.
-
-> **Na International Edition (INT).** Os fatores de emissão desta seção são brasileiros: o fator
-> da rede do Ministério da Ciência, Tecnologia e Inovação (MCTI) e o fator da água potável
-> por região. Na International Edition, eles começam vazios, e a avaliação ambiental não é
-> calculada até que se informem os fatores do país do projeto (apêndice {{n:C}}).
+E o resultado financeiro do mesmo projeto também foi negativo (secção {{n:10}}). Os dois veredictos coincidem, mas por razões diferentes, e as secções seguintes mostram-no: o carbono é decidido pela massa da cisterna, o dinheiro pela tarifa. É por isso que as dimensões de análise devem ser mantidas separadas até ao momento da decisão.
 
 ---
 
-## Por que a economia de carbono é tão pequena
+## Porque a poupança de carbono é tão pequena
 
-Vinte e um quilogramas de CO₂e por ano parecem pouco para 60 metros cúbicos de água
-poupada, e de fato são: o resultado equivale a 0,35 kg CO₂e por metro cúbico
-substituído.
+Dezanove quilogramas e meio de CO₂e por ano parecem pouco para 39,2 metros cúbicos de água poupada, e com estes fatores são: 0,50 kg CO₂e por metro cúbico substituído, descontada a energia para o bombear.
 
-A explicação está na natureza do produto substituído. Água tratada não é um bem
-intensivo em carbono. Captar, tratar e distribuir a água custa, no Brasil,
-entre 0,34 e 0,46 kg CO₂e por metro cúbico entregue, conforme a região e a composição da matriz elétrica local, e
-essa faixa é modesta quando comparada à de concreto, aço ou combustíveis. Substituir um
-produto de baixa intensidade de carbono por outro que exige fabricação de reservatório
-não produz, portanto, o ganho ambiental que a intuição sugere.
+A explicação está na natureza do produto substituído. A água tratada não é um bem intensivo em carbono. Captar, tratar e distribuir a água custa uma fração de quilograma de CO₂e por metro cúbico entregue, conforme o mix elétrico local e a origem da água, e isso é modesto quando comparado com o carbono do betão, do aço ou dos combustíveis. Substituir um produto de baixa intensidade de carbono por outro que exige o fabrico de um reservatório não produz, portanto, o ganho ambiental que a intuição sugere.
 
-> **A fronteira importa.** O fator do programa é por metro cúbico **entregue** na
-> edificação, e não por metro cúbico produzido na estação. As perdas de distribuição
-> no Brasil vão de 33,9% no Sudeste a 46,9% no Norte: produzir um metro cúbico
-> entrega entre 0,53 e 0,66. Usar o fator de saída de estação subestimaria a
-> emissão evitada em até um terço. A seção {{n:30}} detalha.
+> **A fronteira importa.** O fator do programa é por metro cúbico **entregue** ao edifício, e não por metro cúbico produzido na estação. As perdas na distribuição fazem com que um metro cúbico produzido entregue menos de um: usar o fator à saída da estação subestimaria a emissão evitada. A secção {{n:30}} detalha.
 
 ---
 
-A aba ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de emissão e o crédito da água evitada separados ({{fig:fig50_programa_balanco_ambiental}}).
+O separador ambiental apresenta o mesmo balanço em forma gráfica, com as parcelas de emissão e o crédito da água evitada separados ({{fig:fig50_programa_balanco_ambiental}}).
 
 ![O balanço de carbono em vinte anos, por componente](../figuras/fig50_programa_balanco_ambiental.png)
 
-*Figura 99 — O gráfico da aba ambiental para o mesmo projeto, com cisterna de concreto: as parcelas do balanço de carbono em vinte anos. O sinal segue a convenção adotada em todo este capítulo: emissões positivas, água evitada negativa. Figura gerada pelo próprio programa.*
+*Figura 99 — O gráfico do separador ambiental para o mesmo projeto, com cisterna de betão: as parcelas do balanço de carbono em vinte anos, com fatores ilustrativos. O sinal segue a convenção adotada em todo este capítulo: emissões positivas, água evitada negativa. Figura gerada pelo próprio programa.*
 
 ---
-## O material decide o sinal
+## O material muda a dimensão, não o sinal
 
-A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pesar
-88 kg ou 4.800 kg, conforme o material. A tabela a seguir e a {{fig:fig06_carbono_no_tempo}} mostram a trajetória das emissões líquidas ao longo da vida útil, e a {{fig:fig04_materiais}}, o resultado final de cada material.
+A dívida de carbono está quase toda na cisterna. E uma cisterna de 5 000 L pode pesar 75 kg ou 6 000 kg, conforme o material. A tabela seguinte e a {{fig:fig06_carbono_no_tempo}} mostram a trajetória das emissões líquidas ao longo da vida útil, e a {{fig:fig04_materiais}} o resultado final de cada material.
 
-==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
+==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço do separador ambiental do programa, e a que mantém intuitiva a leitura de um gráfico de emissões: a linha que desce é a que melhora.==
 
 <!-- inclui: _tabelas/cap11_materiais.md -->
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 99 — Emissões líquidas acumuladas da cisterna de 4.000 L ao longo da vida útil, para polietileno e concreto. A curva parte do carbono incorporado na fabricação, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 16,3 anos e encerra a vida útil retirando carbono, e o concreto não o cruza nos vinte anos adotados.*
+*Figura 99 — Emissões líquidas acumuladas da cisterna de 5 000 L ao longo da vida útil, para polietileno e betão, com fatores ilustrativos. A curva parte do carbono incorporado no fabrico, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 20,9 anos, logo depois do horizonte de vinte anos adotado, e o betão aos 59,0 anos.*
 
 ![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 99 — Emissões líquidas em vinte anos da cisterna de 4.000 L, por material. Em verde, valor negativo, isto é, retirada líquida; em laranja, positivo: dois dos quatro materiais encerram a vida útil emitindo mais do que evitaram.*
+*Figura 99 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por material, com fatores ilustrativos. Os quatro materiais encerram a vida útil a emitir mais do que evitaram; o polietileno fica praticamente na fronteira (+15 kg) e o betão, o mais pesado, longe dela (+678 kg).*
 
-**A escolha do material inverte o resultado.**
+**A escolha do material muda a dimensão do problema, mas aqui não inverte o sinal.**
 
-Polietileno paga a dívida em 16,3 anos e termina os vinte anos tendo retirado 74 kg. Concreto leva 42,8 anos e termina emitindo 457 kg. Aço inoxidável também termina emitindo, 347 kg. Com 28% de fração atendível, a água poupada é pouca, e só os materiais leves chegam a pagar a própria fabricação.
+Com a chuva de Lisboa, que dá pouca água poupada, nenhum material paga o próprio fabrico em vinte anos. O polietileno leva 20,9 anos e termina os vinte anos a emitir ainda 15 kg: está praticamente na fronteira. A fibra de vidro leva 24,7 anos e termina com +81 kg. O aço inoxidável leva 51,1 anos e termina com +541 kg. O betão leva 59,0 anos e termina com +678 kg. Com 28% de fração atendível e 39,2 m³ poupados por ano, só os materiais leves chegam perto de pagar o fabrico.
 
-E a segunda tabela mostra o outro lado da mesma moeda: em concreto, **quanto maior a
-cisterna, pior o carbono**. A de 2.000 L fecha os vinte anos emitindo 141 kg; a de
-8.000 L, 1.119 kg. Cada metro cúbico de concreto acrescenta 168 kg CO₂e e
-rende cada vez menos água.
+A segunda tabela mostra o outro lado da mesma moeda: em betão, **quanto maior a cisterna, pior o carbono**. A de 2 000 L fecha os vinte anos a emitir 240 kg; a de 8 000 L, 1 147 kg, e o seu retorno do carbono estica-se até 80,0 anos. Cada metro cúbico de betão acrescenta cerca de 150 kg CO₂e e rende cada vez menos água.
 
 ---
 ## Existe um volume ambientalmente ótimo
 
-A observação acima vale para o concreto, mas ela é um caso particular de algo mais
-geral. O carbono incorporado cresce de forma quase afim com o volume; a água
-evitada cresce com o atendimento, que satura. A soma das duas parcelas tem
-**mínimo interior**: existe um volume a partir do qual cada litro a mais de
-reservação emite mais do que evita. A {{fig:fig06b_otimizacao_ambiental}} mostra as
-duas curvas.
+A observação anterior vale para o betão, mas é um caso particular de algo mais geral. O carbono incorporado cresce de forma quase afim com o volume; a água evitada cresce com o atendimento, que satura. A soma das duas parcelas tem um **mínimo interior**: existe um volume a partir do qual cada litro a mais de armazenamento emite mais do que evita. A {{fig:fig06b_otimizacao_ambiental}} mostra as duas curvas.
 
 ![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
 
-*Figura 99 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) concreto, no projeto do tutorial. Em polietileno a curva tem mínimo interior em 1,5 m³ e volta a cruzar o zero por volta de 6 m³: acima desse volume o sistema passa a emitir mais do que evita. Em concreto não há mínimo interior dentro da faixa, e a curva é positiva em toda ela.*
+*Figura 99 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos. Em polietileno (com o reservatório superior de 1 000 L), o balanço é o melhor, entre os volumes testados, aos 2 000 L, onde retira 25 kg; passa a emissão entre 4 000 e 5 000 L (retira 5 kg aos 4 000 L e emite 15 kg aos 5 000 L) e emite 194 kg aos 12 000 L. Em betão, as emissões líquidas são positivas em toda a gama.*
 
-==Mais reservatório não é monotonicamente melhor para o clima.== É o contrário do que
-a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do
-atendimento. O volume que minimiza as emissões não é o mesmo que maximiza a
-economia de água — e a seção {{n:12}} trata de como decidir entre os dois.
+==Mais armazenamento não é monotonicamente melhor para o clima.== É o contrário do que a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do atendimento. O volume que minimiza as emissões (2 000 L) não é o que maximiza a poupança de água, nem o que o critério do ganho marginal escolheu (5 000 L) — e a secção {{n:12}} trata de como decidir entre eles.
 
-> **O mais barato também é o melhor para o carbono.** Polietileno custa R$ 2.526
-> contra R$ 5.304 do concreto, pesa cinquenta e cinco vezes menos, e é o
-> material da tabela que fecha os vinte anos com a maior folga positiva.
+> **O material mais leve é também o melhor para o carbono, a um preço próximo.** Com os preços ilustrativos, o polietileno custa 2 850 € contra 2 600 € do betão (ilustrativo, não são preços de mercado) — o preço mal os separa —, mas pesa cerca de cinquenta e cinco vezes menos e é o material que fecha os vinte anos com as menores emissões líquidas dos quatro.
 >
-> Isso não é sorte. Massa é carbono, e concreto armado é o material mais massivo da
-> lista por larga margem.
+> Isto não é sorte. Massa é carbono, e o betão armado é, de longe, o material mais maciço da lista.
 
 ---
 
-## Quando o concreto ainda faz sentido
+## Quando o betão ainda faz sentido
 
-A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
+A tabela não condena o betão. Diz que precisa de justificação.
 
-- **Vida útil maior.** O programa adota 20 anos para todos os materiais, a vida útil de
-  projeto mínima que a Tabela 25 da ABNT NBR 15575-1:2025 fixa para o sistema
-  hidrossanitário. É um piso, e não uma previsão: a norma admite valores maiores, desde
-  que explicitados no projeto (item 14.2.2 da NBR 15575-1). Uma cisterna
-  de concreto bem executada dura 40 ou 50 anos; num horizonte de 50 anos, o payback de 43 anos é pago, ainda que sem folga. Se você adotar vida útil diferente, **declare**.
-- **Volumes grandes.** Acima de 20 m³, polietileno deixa de ser prático e o concreto
-  moldado no local passa a ser a única opção viável.
-- **Restrição de espaço.** Cisterna enterrada de concreto se conforma ao terreno; a
-  de polietileno vem em formatos fixos.
-- **Estrutura já existente.** Reservatório de concreto aproveitado de outra
-  finalidade tem carbono incorporado **zero** para efeito deste projeto.
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. [A COMPLETAR: se se quiser fundamentar a vida útil por norma, indicar a fonte portuguesa ou europeia aberta; este manual não cita nenhuma.]
+- **Volumes grandes.** Para volumes muito grandes, os reservatórios de polietileno de fábrica deixam de ser práticos e o betão moldado no local pode ser a única opção viável.
+- **Restrição de espaço.** Uma cisterna enterrada de betão adapta-se ao terreno; a de polietileno vem em formatos fixos.
+- **Estrutura já existente.** Um reservatório de betão reaproveitado de outra finalidade tem carbono incorporado **zero** para efeito deste projeto.
 
 ---
 
@@ -153,47 +101,41 @@ A tabela não condena o concreto. Ela diz que ele precisa de justificativa.
 
 **Trocamos para polietileno.**
 
-É o que um projetista faria diante desta tabela, e é o que faz este tutorial ser
-honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errado.
+É o que um projetista faria perante esta tabela, e é o que torna este tutorial honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errado. A troca não faz o sistema pagar-se, nem em dinheiro nem em carbono, mas faz a diferença onde ela importa:
 
-A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
-
-<!-- tabela: Efeito da troca de concreto por polietileno nas três dimensões de análise -->
-| | Concreto | Polietileno |
+<!-- tabela: Efeito da troca de betão por polietileno nas três dimensões de análise (ilustrativo, não é preço de mercado) -->
+| (ilustrativo, não é preço de mercado) | Betão | Polietileno |
 | :--- | ---: | ---: |
-| preço da cisterna | R$ 5.304 | R$ 2.526 |
-| investimento total | R$ 14.061 | R$ 11.283 |
-| payback financeiro | 16,3 anos | 12,8 anos |
-| VPL em 20 anos | R$ 2.745 | R$ 5.524 |
-| payback de carbono | 42,8 anos | 16,3 anos |
-| emissões líquidas em 20 anos | +457 kg | −74 kg |
+| preço da cisterna | 2 600 € | 2 850 € |
+| investimento total | 6 650 € | 6 900 € |
+| período de recuperação | sem recuperação | sem recuperação |
+| VAL a 20 anos | −5 829 € | −6 079 € |
+| retorno do carbono | 59,0 anos | 20,9 anos |
+| emissões líquidas em 20 anos | +678 kg | +15 kg |
 
-<!-- tabela: Estado do projeto do tutorial após a análise ambiental -->
-| Projeto até aqui | |
+A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o retorno do carbono de 59,0 para 20,9 anos e as emissões líquidas de 678 para 15 kg. O potencial de poupança não muda.
+
+<!-- tabela: Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado) -->
+| Projeto até aqui (ilustrativo, não é preço de mercado) | |
 | :--- | ---: |
-| volume | 4.000 L |
+| volume | 5 000 L |
 | **material** | **polietileno** |
-| investimento | R$ 11.283 |
-| VPL | R$ 5.524 |
-| payback financeiro | 12,8 anos |
-| payback de carbono | 16,3 anos |
+| investimento | 6 900 € |
+| VAL | −6 079 € |
+| período de recuperação | sem recuperação |
+| retorno do carbono | 20,9 anos |
 
 ---
 
 ## O que declarar
 
-A avaliação de ciclo de vida do Triton é de **triagem**, não de inventário completo.
-Todos os fatores padrão têm procedência declarada, mas alguns são aproximações, como o
-da motobomba e o do hipoclorito, e um fator digitado sem fonte recebe rótulo de
-triagem, que o programa exibe. Num estudo publicado:
+A avaliação do ciclo de vida do Triton é de **triagem**, não um inventário completo. Todos os fatores predefinidos têm proveniência declarada, mas alguns são aproximações, como o da eletrobomba e o do hipoclorito, e um fator escrito sem fonte recebe uma etiqueta de triagem, que o programa mostra. Num estudo publicado:
 
 - declare a **fronteira** adotada, água entregue e não produzida;
-- declare a **vida útil** e a justifique;
-- declare quais fatores são aproximações e quais foram informados sem fonte;
+- declare a **vida útil** e justifique-a;
+- declare quais os fatores que são aproximações e quais foram introduzidos sem fonte;
 - declare a **base da rede elétrica** e o ano.
 
-O apêndice {{n:C}} traz a procedência de cada fator, e a seção {{n:30}} explica as sete
-etapas do inventário.
+O apêndice {{n:C}} traz a proveniência de cada fator, e a secção {{n:30}} explica as sete etapas do inventário.
 
-Temos três respostas agora. O potencial diz um volume, o dinheiro diz outro, o
-carbono diz um terceiro. É hora de escolher.
+Temos agora três respostas. O potencial diz um volume, o dinheiro diz outro, o carbono diz um terceiro. É hora de escolher.

@@ -8,7 +8,7 @@ be accommodated, but a typing error that needs to be seen by whoever made it. ==
 it would produce a plausible result from a wrong input, which is the worst possible combination in a
 simulation program.==
 
-> **The messages of the calculation core are in Portuguese, in both editions.** The interface is
+> **The messages of the calculation core are in Portuguese.** The interface is
 > translated, but the checks that run inside the calculation raise their messages in the language
 > they were written in. The tables below quote each message as the program prints it, in
 > Portuguese, followed by its meaning in English in brackets, so that you can recognise it on the
@@ -135,7 +135,7 @@ declare in the study the step actually used, not the step originally requested.
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» (efficiency must be in (0, 1]) | efficiency as a percentage in the core | use 0.55 for 55% |
-| «Rendimento do motor deve ficar em (0, 1]» (motor efficiency must be in (0, 1]) | likewise, in the motor field | leave it blank for the program to adopt the NBR 17094-2 table |
+| «Rendimento do motor deve ficar em (0, 1]» (motor efficiency must be in (0, 1]) | likewise, in the motor field | leave it blank for the program to adopt its default efficiency table |
 
 ---
 
@@ -147,7 +147,7 @@ declare in the study the step actually used, not the step originally requested.
 | unreadable rainfall series | reading stops with a message | check the format: one reading per line, in mm, single column |
 | `.triton` file with invalid JSON | opening stops | the file may be truncated; use the backup copy |
 | section missing in the file | the fields fall back to the class default | expected when opening a file from an earlier version; review the corresponding tab |
-| climate database not installed | the tab offers only a file of your own | see section {{n:2}} |
+| no climate database in this edition | the tab offers only a file of your own | supply the series as described in section {{n:2}} |
 
 ---
 
@@ -164,7 +164,7 @@ the number and none of them is evident in the result on its own.
 | non-residential building type with a residential tariff | the economic result is **underestimated**; see section {{n:18}} |
 | the target class recommends fine filtration and it was declined | decision recorded in the report |
 | emission factor with a screening label | the factor has no primary source; declare it |
-| incomplete tariff structure | the municipality's table has a gap; check it against the resolution |
+| incomplete tariff structure | the structure typed in has a gap; check it against the published tariff |
 | sweep step adjusted | the effective step differs from the one requested |
 | price extrapolation with low R² | the volume is outside the price table and the regression is not reliable |
 
@@ -183,7 +183,7 @@ When the **potential comes out much lower**, check the first-flush depth. The co
 is described in section {{n:33.3}}, and consists in entering the first flush in litres when the
 field asks for millimetres — which discards, typically, the whole rain of every day.
 
-When the **payback comes out absurd**, in either direction, check the municipality's tariff regime.
+When the **payback comes out absurd**, in either direction, check the tariff regime (allowance, minimum charge, availability charge).
 It is the most frequent cause of an implausible economic result, and section {{n:16}} gives the test
 that identifies it in two minutes.
 

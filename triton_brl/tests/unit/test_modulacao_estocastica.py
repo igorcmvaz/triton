@@ -16,7 +16,15 @@ RAIZ = Path(__file__).resolve().parents[2]
 # ---------------------------------------------------------------- modelos climáticos
 
 
-@pytest.mark.parametrize("arquivo, modelos", [("10_modulacao_tutorial.triton", 0), ("11_modulacao_climbra.triton", 19)])
+_caso_09 = RAIZ / "manual" / "casos" / "09_modulacao_tutorial.triton"
+_caso_10 = RAIZ / "manual" / "casos" / "10_modulacao_captacao.triton"
+CASOS_MODULACAO = [
+    (str(_caso_09.name), 0) if _caso_09.exists() else ("10_modulacao_tutorial.triton", 0),
+    (str(_caso_10.name), 0) if _caso_10.exists() else ("11_modulacao_climbra.triton", 19),
+]
+
+
+@pytest.mark.parametrize("arquivo, modelos", CASOS_MODULACAO)
 def test_casos_de_modulacao_abrem_montados_e_centrados_no_projeto(arquivo, modelos):
     """Os exemplos da ferramenta: modulação gravada, N de mil e triagem centrada no projeto relido."""
     b = _load_bundle(str(RAIZ / "manual" / "casos" / arquivo))

@@ -14,11 +14,11 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 
 *Rainfall*
 
-**Trigger.** Project tab: choose a city in the national database or open a CSV file.
+**Trigger.** Project tab: open a rainfall file (CSV), or load a series stored in a project.
 
 **Inputs**
 
-- Daily CSV file, or a city of the CMIP6 database (652 cities, 19 models, historical plus SSP2-4.5 and SSP5-8.5)
+- Daily CSV file, in millimetres per day (the series that ships in `data/rainfall`, or your own)
 - `climate_start_date` and `climate_end_date`, which trim the series
 - `start_date`, the date of the first day of the series
 
@@ -26,7 +26,7 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 
 1. The series becomes a `numpy` vector of millimetres per day; the vector index is the day, and the date only serves to know the weekday and the month.
 2. An incomplete year is dropped on reading, so as not to bias annual totals.
-3. The climate database ships embedded in the Brazil Edition, in `climbra.db`; in the International Edition, which does not include it, the series is always a user file.
+3. The series is always a file of the user: the edition ships three example series in `data/rainfall` (ERA5 reanalysis) and no regional rainfall database.
 
 **Outputs**
 
@@ -425,7 +425,7 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 
 1. The arrangement decides what is pumped. **Pumping to an upper tank**: the volume sent to the upper tank. **Direct pressurisation**: all the rainwater consumed, with the working pressure in place of the head and no start-up energy. **Gravity**: nothing. It is the only source of kWh of the economic analysis and the LCA.
 2. Specific energy `e = ρgH/(η_pump·η_motor)` per m³ pumped, or `P/(Q·η_motor)` when the flow rate is declared.
-3. Nameplate power is shaft power and **already includes** the pump efficiency; that is why `P × hours / η_pump` counts that efficiency twice, and what is missing is to divide by the motor efficiency, from ABNT NBR 17094-2. Four copies of that old formula survived in the program and overestimated consumption by 1.68 times — the worst of them ranked volumes in the multi-criteria decision.
+3. Nameplate power is shaft power and **already includes** the pump efficiency; that is why `P × hours / η_pump` counts that efficiency twice, and what is missing is to divide by the motor efficiency, entered by the user or taken from the typical value for the rated power. Four copies of that old formula survived in the program and overestimated consumption by 1.68 times — the worst of them ranked volumes in the multi-criteria decision.
 4. Start-up energy is added separately, by the number of cycles.
 5. Flow rate and efficiency not entered fall back to typical values **for the chosen power**, not to fixed constants.
 
@@ -456,15 +456,15 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 2. Code **1** or **0**: progressive block, charged only on the volume within it.
 3. Code **−1**, availability charge: a fixed value that **adds** on top of the metered consumption.
 4. Code **−2**, retroactive allowance: up to the allowance volume the fixed value is paid; beyond it, **all** the volume from zero is charged by the blocks.
-5. Code **−3**, payment floor: it does not add, it **bounds from below**. With a floor of R$ 40 and a charged consumption of R$ 55, saving up to R$ 15 reduces nothing — and that is exactly what a rainwater harvesting study needs to see.
-6. Sewage is a percentage of the **water part**, not of the total bill. In Florianópolis it is 100% of the water, which is half the bill.
-7. The six tariff regimes are named and audited in the database of 652 municipalities.
+5. Code **−3**, payment floor: it does not add, it **bounds from below**. With a floor of 40 currency units and a charged consumption of 55, saving up to 15 reduces nothing — and that is exactly what a rainwater harvesting study needs to see.
+6. Sewage is a percentage of the **water part**, not of the total bill: where the sewer charge is 100% of the water charge, it is half the bill.
+7. The six tariff regimes are described in appendix D; the user enters the table of the project.
 
 **Outputs**
 
 - Value of the water and sewage bill per month, for the projection of PROC-18
 
-**Exception.** An empty table falls back to the CASAN structure. An incomplete structure is flagged by the validation gate, which separates errors from warnings.
+**Exception.** An empty table gives a zero bill: the program does not assume a tariff. An incomplete structure is flagged by the validation gate, which separates errors from warnings.
 
 ## PROC-18 — Project the cash flow
 
@@ -479,16 +479,13 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 - running costs: pumping, chlorination, treatment line and declared operating costs
 - `tma`, `inflation`, `analysis_period_years`
 - separate escalations for water, sewage and energy, and the interval between them
-- green property-tax discount (IPTU Verde), when enabled
 
 **Rules**
 
 1. Water and sewage are escalated by **separate** indices, not by the aggregate bill.
 2. Inflation applies only to running costs; tariff escalations apply only to the bill.
 3. The escalation is applied every `tariff_escalation` months, in steps.
-4. The tariff flag adjusts the electricity tariff: yellow, red 1, red 2, or the off-peak discount in the white tariff (Brazil Edition).
-5. The green property-tax discount enters as an annual saving divided by twelve.
-6. The payback is the first month in which the discounted cumulative cash flow crosses zero.
+4. The payback is the first month in which the discounted cumulative cash flow crosses zero.
 
 **Outputs**
 
@@ -521,7 +518,7 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 2. Zero volume **without** rainwater volume is the no-system scenario, and receives no fixed impact for tank, pipe or pump.
 3. The treatment line **replaces** the chlorination term; it does not add to it. Chlorination follows the treatment, not the upper tank.
 4. Upper tank only in the pumping arrangement; pump sets in every arrangement with a pump; energy from PROC-16.
-5. The avoided water is the water **delivered**, not produced: distribution losses in Brazil range from 33.9% in the Southeast to 46.9% in the North, so producing 1 m³ delivers 0.53 to 0.66 m³. The published factor of 0.236 kg CO₂e/m³ is at the plant outlet; per m³ delivered it becomes 0.336 to 0.461 depending on the region. In the International Edition the user enters the factor for the delivered water.
+5. The avoided water is the water **delivered**, not produced: distribution losses mean that producing 1 m³ delivers less than 1 m³, and a factor given at the plant outlet must be converted to the volume delivered. The user enters the emission factor of the water delivered to the building and the factor of the local grid; the edition has no default for either.
 6. The carbon payback is the embodied carbon divided by the net annual saving; without a positive net saving, it returns 999 years instead of infinity.
 
 **Outputs**
@@ -552,17 +549,15 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 
 1. **LEED v4**: WEc1 up to 2 points for outdoor use, WEc2 up to 6 points for indoor use, on the official scale. Without an outdoor demand, WEc1 is zero and says why.
 2. **LEED v5 BD+C** (rating system of November 2025): WEc2 up to 8 points, by Option 1 (whole project, 30% to 65%, +1 with an alternative source) or by the sum of Options 2 (fixtures and fittings, 30% to 40%), 4 (outdoor, 50% and 100%) and 6 (on-site reuse, 2 points), new construction only. SSc3 recorded as not assessed; its reuse point does not exceed the cap of 3.
-3. **AQUA-HQE Residential** (reference of 22/11/2024, Brazil Edition): items EAU.1.2 (HQE, 20% saving), EAU.1.3 (HQE 3, 40%) and EAU.1.5 (HQE 3, existence of a rainwater system).
-4. **Casa Azul + CAIXA** (guide V023, 29/04/2026, Brazil Edition): criterion 3.6 met by the existence of the system; 2, 4 or 5 points depending on the scope of use, only when stated.
-5. **EDGE**: **does not score points**. It measures a percentage against a local base case and compares it with 20%, in three independent bars. The advanced level raises the *energy* bar to 40%, not the water one. The program assesses only the water bar, by measure WEM14, and says that the other two are outside its reach.
-6. Without a declared base case, EDGE uses the modelled demand and warns that the number is a **floor**.
-7. **GRI 303**: avoided withdrawal and circularity rate.
+3. **EDGE**: **does not score points**. It measures a percentage against a local base case and compares it with 20%, in three independent bars. The advanced level raises the *energy* bar to 40%, not the water one. The program assesses only the water bar, by measure WEM14, and says that the other two are outside its reach.
+4. Without a declared base case, EDGE uses the modelled demand and warns that the number is a **floor**.
+5. **GRI 303**: avoided withdrawal and circularity rate.
 
 **Outputs**
 
 - `credit_details`: the credit matrix that feeds the on-screen table and the reports
 - `esg_summary_text`
-- cards for LEED, AQUA, Casa Azul, EDGE and GRI
+- cards for LEED, EDGE and GRI
 
 **Exception.** A null total demand returns zero per cent without dividing by zero.
 
@@ -607,7 +602,7 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 1. JSON format, in named sections.
 2. Reading uses a default value field by field, so an old file keeps opening.
 3. `created_at` and `precip_file` describe the act of saving, not the project: that is why they do not come back.
-4. It is the fifth crossing of the program — the one that crosses **time** rather than modules. Thirty of the 87 fields of the time did not survive the round trip, including the whole treatment-line choice, the manometric head, the tank materials, irrigation and the property tax.
+4. It is the fifth crossing of the program — the one that crosses **time** rather than modules. Thirty of the 87 fields of the time did not survive the round trip, including the whole treatment-line choice, the manometric head, the tank materials and irrigation.
 
 **Outputs**
 

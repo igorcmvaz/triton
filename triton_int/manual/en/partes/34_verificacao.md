@@ -12,9 +12,9 @@ manual, and it was written to be read by those who need to decide whether to tru
 
 ## The suite
 
-The program's verification consists of 1,544 automated tests, spread over 135 files and organised
+The program's verification consists of more than a thousand automated tests, organised
 into five complementary families ({{fig:fig45_suite}}): unit tests, invariant tests, integration
-tests, graphical interface tests and the test that replicates the results of Netuno 4. The
+tests, graphical interface tests and benchmark tests against independent reference results. The
 separation is not merely organisational: each family catches a distinct class of defect, and the
 absence of any of them would leave a flank exposed.
 
@@ -101,7 +101,7 @@ eighty-seven fields of the time did not survive saving and reopening the project
 
 With the writing of this manual a verification family of its own was created, meant to keep the
 document and the program from diverging: **each printed value has a matching assertion**. The
-numbers of section {{n:23}}, those of the whole tutorial and each row of the ten-day table are
+numbers of section {{n:23}}, those of the whole tutorial (New York) and each row of the ten-day table are
 covered, as is the requirement that certain sections declare certain caveats. When the program
 changes, the test fails and points to the page to correct.
 
@@ -110,12 +110,11 @@ documentation of scientific programs.
 
 ---
 
-## Verification against Netuno 4
+## Verification against independent references
 
-The verification extends to the comparison with the previous version of the program, over four
-thousand and fifty reference cases, with the difference broken down by attributable cause. Section
-{{n:35}} presents the result of that comparison and the two deliberate methodological divergences
-that explain it.
+The verification extends to results the program did not produce: the analytical cases above and
+benchmark comparisons against independent reference calculations. Section {{n:35}} presents that
+comparison and what it can and cannot show.
 
 ---
 
@@ -131,7 +130,7 @@ equations implemented adequately represent physical reality, and that requires f
 systems installed, monitored over time and compared with what the simulation predicted.
 
 Triton is verified. The validation of the daily behavioural model rests on the literature of the
-field, not on measurement of its own carried out by this group. ==A study that presented the
+field, not on measurement of its own carried out by the group that develops the program. ==A study that presented the
 program's results as if they were measurements would be making a methodological error.==
 
 ---
@@ -139,8 +138,7 @@ program's results as if they were measurements would be making a methodological 
 ## The verification report in the interface
 
 The **Help → Verification Report** menu opens, inside the program, the verification report of the
-version: the distinction between verification and validation, the kernels exercised, the
-invariants, the analytical cases and the comparison with Netuno 4. It is the reference to cite when
+version: the distinction between verification and validation, the kernels exercised, the invariants, the analytical cases and the benchmark comparison. It is the reference to cite when
 a study needs to declare how the program was verified.
 
 ---
@@ -149,7 +147,7 @@ a study needs to declare how the program was verified.
 
 The suite comes with the program's source code, not with the installation: it is run by the
 research group at every change, before any version is released. What this means for those using the
-installed program is that the version on their machine has passed the 1,544 tests described here,
+installed program is that the version on their machine has passed the tests described here,
 including those that check each number printed in this manual.
 
 > **In depth: checking for yourself.** The source code is public, under an academic source-available licence
