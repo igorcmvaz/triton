@@ -147,7 +147,7 @@ about its tariff document, not a choice. The table below shows how each regime i
 in the calculation of the bill. The three example cities fall in two of them: London and Cape Town
 have an availability charge (a standing charge), and New York has a payment floor in the form of a
 minimum daily charge, which does not bind at the tutorial consumption. The other three regimes are
-supported by the engine and described in section {{n:16}}.
+supported by the engine and described in section {{n:16}} ({{fig:fig33_regimes_base}}).
 
 <!-- tabela: Coding and application of each minimum-charge regime in the calculation of the bill -->
 | Regime | Coding of the blocks | Calculation of the water part | Effect of reducing consumption |

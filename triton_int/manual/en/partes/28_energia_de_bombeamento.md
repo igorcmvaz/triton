@@ -155,11 +155,11 @@ The program has a fallback value for the case in which the efficiency is not ent
 conservative figure for small two-pole single-phase motors, which are what residential pump sets
 use. In a published study, do not rely on it: declare the efficiency you used and its origin. If
 your country sets minimum efficiency classes for motors, they are the natural reference for a
-value taken from regulation rather than from the data sheet.
+value taken from regulation rather than from the data sheet. Small motors are less efficient than large ones ({{fig:fig31_motores}}).
 
 ![The efficiency of induction motors by power and class](../figuras/fig31_motores.png)
 
-*Figure 99 — Minimum efficiency of two-pole single-phase induction motors by power and class, as an example of how motor efficiency rises with power. Use the classes of the rule that applies to your country, or the data sheet.*
+*Figure 99 — Illustrative efficiency of induction motors by power for a standard and a high-efficiency class: efficiency rises with power. The values are illustrative, not from a standard; use the data sheet of the motor or the classes of the rule that applies in your country.*
 
 ---
 

@@ -49,7 +49,7 @@ itself does not.
 
 The following figures show the band between the 5th and 95th percentiles, the median and the
 deterministic study across all volumes. The dotted line marks the chosen volume, and the
-values written are its own.
+values written are its own ({{fig:fig52_modulacao_economia}} and {{fig:fig53_modulacao_vpl}}).
 
 ![Potable water savings by volume in the tutorial example](../figuras/fig52_modulacao_economia.png)
 
@@ -63,7 +63,7 @@ values written are its own.
 
 The frequency table and figure count, in each realisation, which volume would be the
 technical ideal, which would be the economic optimum — the one with the shortest discounted
-payback, the program's criterion (section {{n:12}}) — and which would win TOPSIS. A
+payback, the program's criterion (section {{n:12}}) — and which would win TOPSIS ({{fig:fig54_modulacao_frequencia}}). A
 realisation in which no volume pays back appears as «none pays back» in the economic column.
 
 <!-- inclui: _tabelas/cap43_frequencia.md -->
@@ -79,7 +79,7 @@ the text must say so.
 
 ## What weighs most
 
-Sensitivity is measured by Spearman's (1904) rank correlation between each drawn variable
+Sensitivity ({{fig:fig55_modulacao_sensibilidade}}) is measured by Spearman's (1904) rank correlation between each drawn variable
 and the result at the chosen volume. The coefficient ρ ranges from −1 to 1: the sign gives
 the direction of the effect and the magnitude its strength. Because it uses ranks rather than
 values, it captures non-linear monotonic relations — such as that of the progressive tariff —

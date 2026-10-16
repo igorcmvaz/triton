@@ -284,7 +284,7 @@ Figure 21 — Energy chain of pumping
 
 Figure 22 — (a) Manometric head of a building rising main: geometric difference in level between the water surfaces of the cistern and the upper tank, plus the head losses; (b) energy line along a stretch of pipe, with the continuous friction loss (h_f) and the local losses at a valve and an elbow (h_loc)
 
-Figure 23 — Minimum efficiency of two-pole single-phase induction motors by power and class, as an example of how motor efficiency rises with power
+Figure 23 — Illustrative efficiency of induction motors by power for a standard and a high-efficiency class: efficiency rises with power
 
 Figure 24 — Monthly water and sewage bill of the tutorial project, broken down into parts, without and with the system
 
@@ -1809,7 +1809,7 @@ classification that the percentages of days of full, partial and no supply repor
 2.3 are calculated.
 
 ```equacao:classificacao:9
-pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
+full: V_con,t = D_pl,t ; partial: 0 < V_con,t < D_pl,t ; none: V_con,t = 0
 ```
 
 <!-- tabela: **Table 19** — Variables of Equation 9 -->
@@ -1818,8 +1818,7 @@ pleno: V_con,t = D_pl,t ; parcial: 0 < V_con,t < D_pl,t ; nulo: V_con,t = 0
 | `V_con,t` | rainwater volume consumed on day `t` | L |
 | `D_pl,t` | rainwater demand of day `t` | L |
 
-In the equation, «pleno», «parcial» and «nulo» are the program's labels for full, partial and
-no supply. The comparison of Equation 9 is made with a tolerance of
+In the equation, «full», «partial» and «none» are the three supply classes of a day. The comparison of Equation 9 is made with a tolerance of
 10⁻⁵ L, not by exact equality. The reason is arithmetic, not conceptual: the balance works with
 floating-point numbers, and a difference of the order of the rounding error would classify as
 partial a day that was fully supplied.
@@ -2449,7 +2448,7 @@ are of this kind: the cistern is empty, not slightly short.
 ### 2.3.7. Annual volume saved
 
 ```equacao:volume_poupado:19
-V_poup = ( V_con,med × 365,25 ) ÷ 1000
+V_poup = ( V_con,med × 365.25 ) ÷ 1000
 ```
 
 <!-- tabela: **Table 31** — Variables of Equation 19 -->
@@ -2457,7 +2456,7 @@ V_poup = ( V_con,med × 365,25 ) ÷ 1000
 | :--- | :--- | :--- |
 | `V_poup` | volume of potable water saved per year | m³/year |
 | `V_con,med` | mean daily rainwater consumption | L/day |
-| `365,25` | length of the mean year, including leap years (365.25) | day/year |
+| `365.25` | length of the mean year, including leap years (365.25) | day/year |
 | `1000` | conversion from litres to cubic metres | L/m³ |
 
 **What it measures:** the basis of calculation of the economic analysis and the life cycle
@@ -2541,7 +2540,7 @@ by excluding days of negligible depth, which keeps instrument noise from accumul
 total.
 
 ```equacao:prcptot:21
-PRCPTOT = Σ P_i , para P_i ≥ 1 mm
+PRCPTOT = Σ P_i , for P_i ≥ 1 mm
 ```
 
 <!-- tabela: **Table 34** — Variables of Equation 21 -->
@@ -2558,7 +2557,7 @@ measures how much of the annual total arrives in extreme events, and it is the i
 linked to cistern overflow.
 
 ```equacao:r95p:22
-R95p = Σ P_i , para P_i > q_95
+R95p = Σ P_i , for P_i > q_95
 ```
 
 <!-- tabela: **Table 35** — Variables of Equation 22 -->
@@ -2590,7 +2589,7 @@ The largest five-consecutive-day total of the year. It matters more to rainwater
 RX1day, because a tank fills over a prolonged event and not only at the daily peak.
 
 ```equacao:rx5day:24
-RX5day = max ( Σ P_j ) , para j de i a i + 4
+RX5day = max ( Σ P_j ) , for j from i to i + 4
 ```
 
 <!-- tabela: **Table 37** — Variables of Equation 24 -->
@@ -2607,7 +2606,7 @@ Mean precipitation of the wet days. It separates two regimes the annual total co
 on few days and little rain on many days can produce the same PRCPTOT and very different SDII.
 
 ```equacao:sdii:25
-SDII = PRCPTOT ÷ n_úmidos
+SDII = PRCPTOT ÷ n_wet
 ```
 
 <!-- tabela: **Table 38** — Variables of Equation 25 -->
@@ -2615,7 +2614,7 @@ SDII = PRCPTOT ÷ n_úmidos
 | :--- | :--- | :--- |
 | `SDII` | mean intensity of the wet days | mm/day |
 | `PRCPTOT` | total precipitation of the wet days, from Equation 21 | mm |
-| `n_úmidos` | number of wet days of the year | day |
+| `n_wet` | number of wet days of the year | day |
 
 #### 2.4.1.6. Days of heavy precipitation, R20mm
 
@@ -2640,7 +2639,7 @@ that best predicts the performance of a rainwater system,== because the longest 
 empties the cistern.
 
 ```equacao:cdd:27
-CDD = max ( L ) , com P_i < 1 mm em toda a sequência L
+CDD = max ( L ) , with P_i < 1 mm throughout the sequence L
 ```
 
 <!-- tabela: **Table 40** — Variables of Equation 27 -->
@@ -2656,7 +2655,7 @@ Longest sequence of consecutive days with precipitation equal to or above one mi
 characterises the persistence of rain, and long sequences favour the complete filling of the tank.
 
 ```equacao:cwd:28
-CWD = max ( L ) , com P_i ≥ 1 mm em toda a sequência L
+CWD = max ( L ) , with P_i ≥ 1 mm throughout the sequence L
 ```
 
 <!-- tabela: **Table 41** — Variables of Equation 28 -->
@@ -3171,11 +3170,11 @@ The program has a fallback value for the case in which the efficiency is not ent
 conservative figure for small two-pole single-phase motors, which are what residential pump sets
 use. In a published study, do not rely on it: declare the efficiency you used and its origin. If
 your country sets minimum efficiency classes for motors, they are the natural reference for a
-value taken from regulation rather than from the data sheet.
+value taken from regulation rather than from the data sheet. Small motors are less efficient than large ones (Figure 23).
 
 ![The efficiency of induction motors by power and class](../figuras/fig31_motores.png)
 
-*Figure 23 — Minimum efficiency of two-pole single-phase induction motors by power and class, as an example of how motor efficiency rises with power. Use the classes of the rule that applies to your country, or the data sheet.*
+*Figure 23 — Illustrative efficiency of induction motors by power for a standard and a high-efficiency class: efficiency rises with power. The values are illustrative, not from a standard; use the data sheet of the motor or the classes of the rule that applies in your country.*
 
 ---
 
@@ -3503,7 +3502,7 @@ about its tariff document, not a choice. The table below shows how each regime i
 in the calculation of the bill. The three example cities fall in two of them: London and Cape Town
 have an availability charge (a standing charge), and New York has a payment floor in the form of a
 minimum daily charge, which does not bind at the tutorial consumption. The other three regimes are
-supported by the engine and described in section 3.3.
+supported by the engine and described in section 3.3 (Figure 26).
 
 <!-- tabela: **Table 60** — Coding and application of each minimum-charge regime in the calculation of the bill -->
 | Regime | Coding of the blocks | Calculation of the water part | Effect of reducing consumption |
@@ -8790,7 +8789,7 @@ balance code. Measuring a divergence with modified code would verify a program t
 distributed to the user.
 
 ```equacao:emulacao:53
-P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
+P′ = P + d_f if P ≥ d_f ; P′ = 0 otherwise
 ```
 
 <!-- tabela: **Table 129** — Variables of Equation 53 -->
@@ -9630,7 +9629,7 @@ itself does not.
 
 The following figures show the band between the 5th and 95th percentiles, the median and the
 deterministic study across all volumes. The dotted line marks the chosen volume, and the
-values written are its own.
+values written are its own (Figure 69 and Figure 70).
 
 ![Potable water savings by volume in the tutorial example](../figuras/fig52_modulacao_economia.png)
 
@@ -9644,7 +9643,7 @@ values written are its own.
 
 The frequency table and figure count, in each realisation, which volume would be the
 technical ideal, which would be the economic optimum — the one with the shortest discounted
-payback, the program's criterion (section 4.9) — and which would win TOPSIS. A
+payback, the program's criterion (section 4.9) — and which would win TOPSIS (Figure 71). A
 realisation in which no volume pays back appears as «none pays back» in the economic column.
 
 <!-- tabela: **Table 150** — Frequency with which each volume is chosen in the realisations of the example, by criterion (%) -->
@@ -9683,7 +9682,7 @@ the text must say so.
 
 ### 7.4.5. What weighs most
 
-Sensitivity is measured by Spearman's (1904) rank correlation between each drawn variable
+Sensitivity (Figure 72) is measured by Spearman's (1904) rank correlation between each drawn variable
 and the result at the chosen volume. The coefficient ρ ranges from −1 to 1: the sign gives
 the direction of the effect and the magnitude its strength. Because it uses ranks rather than
 values, it captures non-linear monotonic relations — such as that of the progressive tariff —
