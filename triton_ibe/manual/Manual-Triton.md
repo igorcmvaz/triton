@@ -7,7 +7,7 @@ Igor Catão Martins Vaz e Enedir Ghisi
 Grupo de Pesquisa em Ambientes Sustentáveis
 Universidade Federal de Santa Catarina
 
-Florianópolis, 2026
+2026
 
 Versão 0.1.0 · revisão de 23/10/2026
 
@@ -20,7 +20,6 @@ Versão 0.1.0 · revisão de 23/10/2026
 | **Título** | Triton: manual do utilizador |
 | **Autores** | Igor Catão Martins Vaz; Enedir Ghisi |
 | **Edição** | Triton IBE (Edição Ibérica), versão 0.1.0 |
-| **Local** | Florianópolis, SC, Brasil |
 | **Editora** | Universidade Federal de Santa Catarina |
 | **Grupo de pesquisa** | Ambientes Sustentáveis |
 | **Ano de publicação** | 2026 |
@@ -31,7 +30,7 @@ Versão 0.1.0 · revisão de 23/10/2026
 **ABNT NBR 6023:2018**
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Versão 0.1.0. Florianópolis: Universidade Federal de Santa Catarina, 2026.
+> Versão 0.1.0. [s.l.]: Universidade Federal de Santa Catarina, 2026.
 
 **Estilo autor-data**
 
@@ -45,7 +44,6 @@ Versão 0.1.0 · revisão de 23/10/2026
   title     = {Triton: manual do utilizador},
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
   edition   = {Versão 0.1.0},
-  address   = {Florianópolis},
   publisher = {Universidade Federal de Santa Catarina},
   year      = {2026}
 }

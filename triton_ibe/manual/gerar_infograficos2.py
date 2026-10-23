@@ -445,8 +445,7 @@ def main():
     info_tipologias()
     info_modos()
     info_premissas()
-    info_uf()
-    info_perdas()
+    # info_uf (fig42) e info_perdas (fig43) são dados do Brasil: não saem na edição IBE.
     info_cenarios()
     info_suite()
     info_atendivel()

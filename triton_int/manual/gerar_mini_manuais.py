@@ -68,7 +68,7 @@ FRASES = {
                 "programa publica.",
     "3-guias": "Casos de uso: outras cidades, clima futuro, tarifas, demanda variável, "
                "lote, sensibilidade e exportação.",
-    "4-tutorial": "Um projeto de residência em Florianópolis, do primeiro dado ao volume "
+    "4-tutorial": "Um projeto de residência em Nova York, do primeiro dado ao volume "
                   "recomendado.",
     "5-confiabilidade": "Os enganos mais comuns, os limites do modelo e como o programa é "
                         "verificado.",
@@ -229,7 +229,7 @@ def folha(titulo, chaves, sumario_linhas, capitulos, apendices):
         "Grupo de Pesquisa em Ambientes Sustentáveis",
         "Universidade Federal de Santa Catarina",
         "",
-        "Florianópolis, 2026",
+        "2026",
         "",
         "---",
         "",
@@ -252,7 +252,7 @@ def folha(titulo, chaves, sumario_linhas, capitulos, apendices):
         "### Como citar",
         "",
         "> VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.",
-        f"> {titulo}. Versão {_versao()}. Florianópolis: Universidade Federal de Santa",
+        f"> {titulo}. Versão {_versao()}. [s.l.]: Universidade Federal de Santa",
         "> Catarina, 2026.",
         "",
         "---",

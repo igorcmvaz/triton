@@ -3,7 +3,7 @@
 
 Cada capa tem o mesmo esqueleto — painel azul-marinho no alto, título e créditos
 embaixo — e um desenho próprio no painel, na cor do volume. Os desenhos não são
-decoração inventada: saem da série de Florianópolis e das simulações do tutorial,
+decoração inventada: saem da série de Lisboa (E-OBS, 1991-2020) e das simulações do tutorial,
 as mesmas que alimentam as tabelas e as figuras do texto.
 
 Saída: manual/figuras/capas/capa_<volume>.png, que o gerar_pdf.py põe na página.
@@ -127,23 +127,21 @@ def metodo(cor):
 
 
 def guias(cor):
-    """O regime mensal das quatro capitais, lado a lado, na mesma escala."""
-    from triton.core.parser import load_precipitation
+    """O regime mensal de Lisboa, Porto e Funchal, lado a lado, na mesma escala."""
     fig, ax = _tela()
-    cidades = ("Florianopolis1", "SaoPaulo1", "Brasilia1", "Manaus1")
+    cidades = ("Lisboa", "Porto", "Funchal")
     largura = 0.9
     for c, nome in enumerate(cidades):
-        caminho = os.path.join(os.path.dirname(AQUI), "data", "rainfall", f"{nome}.csv")
-        s = np.asarray(load_precipitation(caminho), dtype=float)[: 30 * 365]
+        s = np.asarray(_serie(nome), dtype=float)[: 30 * 365]
         anos = len(s) // 365
         mensal = s[: anos * 365].reshape(anos, 365)
         limites = np.cumsum([0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31])
         medias = [mensal[:, limites[m]:limites[m + 1]].sum(axis=1).mean() for m in range(12)]
         x0 = c * 13.5
         for m, v in enumerate(medias):
-            ax.bar(x0 + m, v, width=largura, color=cor, alpha=min(1.0, 0.35 + 0.55 * (v / 400.0)))
-    ax.set_xlim(-6, 4 * 13.5 + 4)
-    ax.set_ylim(-360, 700)
+            ax.bar(x0 + m, v, width=largura, color=cor, alpha=min(1.0, 0.35 + 0.55 * (v / 150.0)))
+    ax.set_xlim(-6, 3 * 13.5 + 4)
+    ax.set_ylim(-160, 260)
     _gravar(fig, "3-guias")
 
 

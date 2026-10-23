@@ -425,7 +425,7 @@ TEXTOS = {
     "pt": dict(cabecalho=f"Manual do Triton {VERSAO}", capa="MANUAL DO USUÁRIO",
                grupo="Grupo de Pesquisa em Ambientes Sustentáveis",
                universidade="Universidade Federal de Santa Catarina",
-               rodape=f"Florianópolis · 2026 · Versão {VERSAO}",
+               rodape=f"2026 · Versão {VERSAO}",
                aprofundamento="Aprofundamento", sumario="sumário", apendice="Apêndice",
                assunto="Aproveitamento de água pluvial em edificações"),
     "en": dict(cabecalho=f"Triton User Manual {VERSAO}", capa="USER MANUAL",
@@ -932,7 +932,7 @@ def folha_de_rosto(titulo="Manual do Triton", volume=None):
                   E["capa_sub"]),
         Paragraph("Universidade Federal de Santa Catarina", E["capa_sub"]),
         Spacer(1, 1.2 * cm),
-        Paragraph("Florianópolis, 2026", E["capa_sub"]),
+        Paragraph("2026", E["capa_sub"]),
         PageBreak(),
     ]
 

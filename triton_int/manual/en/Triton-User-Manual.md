@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-10-16
+Version 0.1.0 · revised 2026-10-23
 
 ---
 
