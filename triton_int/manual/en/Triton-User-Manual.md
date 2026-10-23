@@ -6488,7 +6488,7 @@ and appears in a field that cannot be edited, because it is a result and not an 
 Without outdoor demand, the total is the indoor fraction itself: the 28% of this
 tutorial. It is the mode adopted here and it is enough for most studies.
 
-> **Why the total is not typed.** Up to version 1.0.0 the total-fraction field was
+> **Why the total is not typed.** In the earlier development builds the total-fraction field was
 > editable, but the simulation used the indoor fraction; and, when a project was opened,
 > the screen reset the indoor fraction to 35% and the outdoor one to zero, whatever had
 > been saved. A project that declared 28% was simulated with 35%. Today the screen
@@ -8149,7 +8149,7 @@ method.
 
 For our project, the method would read like this:
 
-> The simulation was carried out in Triton 1.0.0, International Edition, with a daily-step
+> The simulation was carried out in Triton 0.1.0, International Edition, with a daily-step
 > behavioural model (overflow calculated before the demand is withdrawn, with the day's
 > rain available for the day's consumption, an order between YAS and YBS), on a
 > 30-year ERA5 reanalysis precipitation series for New York (10,958 days, mean of 1,125

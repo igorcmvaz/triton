@@ -301,7 +301,8 @@ class MainWindow(QMainWindow):
         from triton.core import qualidade_chuva as _q
         if not _q.tem_qualidade():
             return None
-        lingua = "pt" if get_current_lang() == "pt" else "en"
+        _l = get_current_lang()
+        lingua = _l if _l in ("pt", "es", "zh") else "en"
         rotulo = QLabel(_q.linha_de_cobertura(lingua))
         rotulo.setObjectName("linhaDeCobertura")
         rotulo.setWordWrap(True)

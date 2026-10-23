@@ -12,7 +12,7 @@ O idioma do site é escolhido por `--idioma`, como em `gerar.py` e `gerar_pdf.py
   `manual/en/apendices`, montado em memória (num arquivo temporário: o manual
   publicado em `manual/en` não é tocado), e a página usa `site_modelo.html` e
   `site_interativas.js`, escritos em inglês britânico.
-- ``pt-pt`` (edição PRT, ainda não implementado): o mecanismo já está aqui. Falta
+- ``pt-pt`` (edição IBE, ainda não implementado): o mecanismo já está aqui. Falta
   preencher a entrada ``pt-pt`` de ``IDIOMAS`` (rótulos, volumes, pastas, locale,
   moeda), escrever `site_modelo.pt-pt.html` e `site_interativas.pt-pt.js` (os
   textos da página e dos painéis ficam nesses dois arquivos, um par por idioma,
@@ -106,7 +106,7 @@ IDIOMAS = {
         re_secao=r"(\b[Ss]ec(?:ção|ções) |\be |, )(\d+\.\d+(?:\.\d+)*)\b",
         re_apendice=r"\b[Aa]pêndices? [A-J](?:(?:, | e | ou )[A-J])*\b(?![.\w])",
         data_fmt="%d/%m/%Y",
-        historico=None,   # por escrever com o manual PRT
+        historico=None,   # por escrever com o manual IBE
         volumes=[],       # idem
     ),
 }

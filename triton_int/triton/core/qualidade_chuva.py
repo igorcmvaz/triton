@@ -129,6 +129,22 @@ def descricao_dos_niveis(lingua: str = "pt") -> List[str]:
             f"fewer than {N_MINIMO_DE_CELULAS} cells, chosen by centroid, or identical to that of another municipality.",
             f"C: difference from Iberia01 above {f(b['dtot'])} % (total) or {f(b['drx'])} % (extremes). Validate with a local series.",
         ]
+    if lingua == "es":
+        return [
+            f"A: {N_MINIMO_DE_CELULAS} o más celdas de la malla y una diferencia con Iberia01 de hasta {f(a['dtot'])} % en el total "
+            f"y de hasta {f(a['drx'])} % en la precipitación máxima diaria anual.",
+            f"B: diferencia con Iberia01 de hasta {f(b['dtot'])} % (total) y {f(b['drx'])} % (extremos); también reciben B las series con "
+            f"menos de {N_MINIMO_DE_CELULAS} celdas, elegidas por el centroide o idénticas a las de otro municipio.",
+            f"C: diferencia con Iberia01 superior a {f(b['dtot'])} % (total) o {f(b['drx'])} % (extremos). Valide con una serie local.",
+        ]
+    if lingua == "zh":
+        return [
+            f"A：网格单元不少于 {N_MINIMO_DE_CELULAS} 个，且与 Iberia01 的差异在总量上不超过 {f(a['dtot'])} %、"
+            f"在年最大日降水量上不超过 {f(a['drx'])} %。",
+            f"B：与 Iberia01 的差异在总量上不超过 {f(b['dtot'])} %、在极值上不超过 {f(b['drx'])} %；"
+            f"单元少于 {N_MINIMO_DE_CELULAS} 个、按质心选取或与其他市镇序列相同的序列也记为 B。",
+            f"C：与 Iberia01 的差异在总量上超过 {f(b['dtot'])} % 或在极值上超过 {f(b['drx'])} %。请用本地序列验证。",
+        ]
     return [
         f"A: {N_MINIMO_DE_CELULAS} ou mais células da grelha e diferença para o Iberia01 até {f(a['dtot'])} % no total "
         f"e até {f(a['drx'])} % no máximo diário anual.",
@@ -206,14 +222,21 @@ def linha_de_cobertura(lingua: str = "pt") -> str:
     digitados. Sem a tabela (base antiga ou ausente), a linha diz só o que sabe.
     """
     if not tem_qualidade():
-        return ("Coverage: no rainfall quality table in this installation" if lingua == "en"
-                else "Cobertura: sem a tabela de qualidade da chuva nesta instalação")
+        return {"en": "Coverage: no rainfall quality table in this installation",
+                "es": "Cobertura: sin la tabla de calidad de la lluvia en esta instalación",
+                "zh": "覆盖范围：本安装中没有降雨质量表"}.get(lingua, "Cobertura: sem a tabela de qualidade da chuva nesta instalação")
     cont = contagem_por_nivel()
     n = sum(cont.values())
     espanha = metadados_da_qualidade().get("espanha_locais", "0")
     if lingua == "en":
         return (f"Coverage: continental Portugal {n} municipalities (A {cont['A']}, B {cont['B']}, C {cont['C']}); "
                 f"Spain: {espanha} sites")
+    if lingua == "es":
+        return (f"Cobertura: Portugal continental {n} municipios (A {cont['A']}, B {cont['B']}, C {cont['C']}); "
+                f"España: {espanha} sitios")
+    if lingua == "zh":
+        return (f"覆盖范围：葡萄牙大陆 {n} 个市镇（A {cont['A']}、B {cont['B']}、C {cont['C']}）；"
+                f"西班牙：{espanha} 个站点")
     return (f"Cobertura: Portugal continental {n} concelhos (A {cont['A']}, B {cont['B']}, C {cont['C']}); "
             f"Espanha: {espanha} locais")
 
@@ -225,5 +248,11 @@ def texto_da_qualidade(concelho: str, lingua: str = "pt") -> str:
         return ""
     if lingua == "pt":
         return f"Qualidade da chuva em {concelho}: nível {q['nivel']}. {q['motivo']}"
+    if lingua == "es":
+        return (f"Calidad de la lluvia en {concelho}: nivel {q['nivel']} (E-OBS menos Iberia01, 1971–2000: total "
+                f"{q['dtot']:+.1f} %, extremos {q['drx']:+.1f} %; {int(q['n_eff'])} celda(s)).")
+    if lingua == "zh":
+        return (f"{concelho}的降雨质量：{q['nivel']} 级（E-OBS 减 Iberia01，1971–2000 年：总量 "
+                f"{q['dtot']:+.1f} %，极值 {q['drx']:+.1f} %；{int(q['n_eff'])} 个网格单元）。")
     return (f"Rainfall quality for {concelho}: level {q['nivel']} (E-OBS minus Iberia01, 1971–2000: total "
             f"{q['dtot']:+.1f} %, extremes {q['drx']:+.1f} %; {int(q['n_eff'])} cell(s)).")

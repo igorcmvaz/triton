@@ -55,10 +55,9 @@ def _datas(n):
 
 
 def _serie_da_cidade(chave):
-    caminho = RAIZ / "data" / "rainfall" / (chave + ".csv")
-    if not caminho.exists():
-        caminho = RAIZ.parent / "triton_brl" / "data" / "rainfall" / (chave + ".csv")
-    return load_precipitation(str(caminho))[: ANOS_TUTORIAL * 365]
+    # E-OBS por concelho (Lisboa, Porto) ou ERA5 (Funchal), como nas tabelas do manual.
+    # Antes procurava o CSV na pasta da BRL, e a figura saía com cidades do Brasil.
+    return _serie(chave)[: ANOS_TUTORIAL * 365]
 
 
 def _media_mensal(serie):
@@ -316,6 +315,11 @@ def figura_capitais():
                            fontsize=8.6)
     eixos[1][0].set_ylabel("precipitação média (mm/mês)", color=TINTA2,
                            fontsize=8.6)
+    # Três cidades no guia desta edição: o quarto painel fica vazio e é escondido.
+    for ax in list(eixos.ravel())[len(series):]:
+        ax.set_visible(False)
+    if len(series) < 4:
+        eixos[0][1].tick_params(axis="x", labelbottom=True, labelsize=7.0)
 
     fig.tight_layout()
     _salvar(fig, "fig18_capitais.png")

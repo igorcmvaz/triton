@@ -10137,6 +10137,18 @@ Para 148 concelhos a geometria é o motivo de ficarem fora de A (menos de três 
 dos 16 concelhos em C, e Braga, Vila Real e Santarém mais de metade. O nível não é uma nota de exatidão: diz
 onde a base é mais frágil. Em C, valide com uma série local.
 
+**E em Espanha?** O programa ainda não traz nenhum local espanhol: a linha de cobertura diz «Espanha: 0
+locais», e é assim que deve ser lida. Como ensaio, feito fora do programa, aplicou-se a mesma fórmula às 52
+capitais de província (incluindo Ceuta e Melilla). Quarenta e oito têm série e quatro ficam de fora, porque
+estão fora da grelha do Iberia01 ou da E-OBS: Las Palmas de Gran Canaria, Santa Cruz de Tenerife, Ceuta e
+Melilla. O critério de cobertura é, por isso, «48 capitais com série mais quatro exclusões documentadas», e não
+«52 capitais». Cada capital foi tratada como um ponto (a célula da E-OBS mais próxima, a 14 km ou menos), e não
+como a média de um município, que falta (o limite municipal ainda não foi incorporado). Resultado: 39 capitais
+em B e 9 em C, nenhuma em A (a geometria de um só ponto limita o nível a B). As nove em C são Almería, Ávila,
+A Coruña, Cuenca, Donostia/San Sebastián, Palencia, Santander, Segovia e Bilbao: nelas a E-OBS dá entre 20% e
+34% menos chuva no total anual que o Iberia01. Estes resultados não estão na base do programa e não valem como
+nível de nenhum município espanhol.
+
 **Correção opcional.** A edição traz, em ficheiro separado, fatores mensais de correção do total, calibrados
 com o Iberia01 em 1971–2000 (o período de referência que os autores recomendam) e **desligados por defeito**.
 Ligá-los multiplica a chuva de cada mês pelo fator do concelho; o programa regista no projeto que a correção

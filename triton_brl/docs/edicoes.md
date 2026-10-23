@@ -94,7 +94,7 @@ edição sem constar desta tabela.
 | compilação | `python build_exe.py`, dentro de cada pasta | idem | idem |
 | pasta | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | instalador | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
-| pasta de instalação | `Triton` | `Triton International` | `Triton Portugal` |
+| pasta de instalação | `Triton` | `Triton International` | `Triton IBE` |
 | associação dos `.triton` | marcada | desmarcada | desmarcada |
 | base CLIMBra (`data/climbra.db`, ~784 MB) | embutida; o build para se faltar | retirada após o PyInstaller | retirada após o PyInstaller |
 | base E-OBS de Portugal (`data/portugal_eobs.db`, ~6 MB, no git) | retirada após o PyInstaller | retirada após o PyInstaller | embutida; o build para se faltar |

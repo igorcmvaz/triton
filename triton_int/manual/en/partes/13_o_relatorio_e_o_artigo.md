@@ -135,7 +135,7 @@ method.
 
 For our project, the method would read like this:
 
-> The simulation was carried out in Triton 1.0.0, International Edition, with a daily-step
+> The simulation was carried out in Triton 0.1.0, International Edition, with a daily-step
 > behavioural model (overflow calculated before the demand is withdrawn, with the day's
 > rain available for the day's consumption, an order between YAS and YBS), on a
 > 30-year ERA5 reanalysis precipitation series for New York (10,958 days, mean of 1,125

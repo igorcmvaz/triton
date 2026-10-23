@@ -95,7 +95,7 @@ outras e na CLI.
 | compilação | `python build_exe.py`, dentro da pasta |
 | pasta | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | instalador | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
-| pasta de instalação | `Triton Portugal` |
+| pasta de instalação | `Triton IBE` |
 | associação dos `.triton` | desmarcada |
 | base E-OBS de Portugal (`data/portugal_eobs.db`, ~6 MB, no git) | embutida; a compilação para se faltar |
 | fontes brutas de Portugal (`data/portugal/fontes`, ~3 GB, fora do git) | retiradas |

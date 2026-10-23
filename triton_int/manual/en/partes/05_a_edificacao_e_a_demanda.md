@@ -136,7 +136,7 @@ and appears in a field that cannot be edited, because it is a result and not an 
 Without outdoor demand, the total is the indoor fraction itself: the 28% of this
 tutorial. It is the mode adopted here and it is enough for most studies.
 
-> **Why the total is not typed.** Up to version 1.0.0 the total-fraction field was
+> **Why the total is not typed.** In the earlier development builds the total-fraction field was
 > editable, but the simulation used the indoor fraction; and, when a project was opened,
 > the screen reset the indoor fraction to 35% and the outdoor one to zero, whatever had
 > been saved. A project that declared 28% was simulated with 35%. Today the screen

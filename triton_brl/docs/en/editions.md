@@ -92,7 +92,7 @@ without being listed in this table.
 | build | `python build_exe.py`, inside each folder | same | same |
 | folder | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | installer | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
-| installation folder | `Triton` | `Triton International` | `Triton Portugal` |
+| installation folder | `Triton` | `Triton International` | `Triton IBE` |
 | `.triton` file association | ticked | unticked | unticked |
 | CLIMBra database (`data/climbra.db`, ~784 MB) | embedded; the build stops if it is missing | removed after PyInstaller | removed after PyInstaller |
 | Portugal E-OBS database (`data/portugal_eobs.db`, ~6 MB, in git) | removed after PyInstaller | removed after PyInstaller | embedded; the build stops if it is missing |

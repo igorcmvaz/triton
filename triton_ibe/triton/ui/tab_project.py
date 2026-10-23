@@ -880,7 +880,8 @@ class TabProject(QWidget):
             rotulo.setVisible(False)
             return
         from triton.ui.translation import get_current_lang, em_portugues_da_edicao
-        lingua = "pt" if get_current_lang() == "pt" else "en"
+        _l = get_current_lang()
+        lingua = _l if _l in ("pt", "es", "zh") else "en"
         cor = {"A": "#15803d", "B": "#b45309", "C": "#b91c1c"}[q["nivel"]]
         texto = _q.texto_da_qualidade(concelho, lingua)
         legenda = chr(10).join(_q.descricao_dos_niveis(lingua))
