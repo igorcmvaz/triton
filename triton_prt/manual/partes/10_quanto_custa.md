@@ -65,6 +65,36 @@ Os preços dos reservatórios seguem uma regra ilustrativa simples, uma parte fi
 
 ---
 
+## O CAPEX nesta edição: o programa não calcula preços de Portugal
+
+Na Edição Brasil, o investimento de um projeto novo vem preenchido por uma cadeia de cálculo que parte de preços de mercado. **Nesta edição essa cadeia não existe.** Os preços de reservatórios, tubagem, eletrobombas, mão de obra e acessórios ficam a zero, por decisão: não se encontrou fonte oficial aberta para eles e nenhum foi inventado. O programa dimensiona o sistema, calcula a poupança na fatura e a energia, mas o investimento é o que o utilizador introduzir.
+
+<!-- inclui: _tabelas/cap10_custos_estado.md -->
+
+A única coisa que o programa insere sozinho, nesta matéria, é o tarifário de água, saneamento e resíduos de Lisboa, transcrito dos documentos de 2026 (secção {{n:16}}). Tudo o que é preço de obra, de equipamento ou de manutenção, e a tarifa de eletricidade, está por definir.
+
+### O que isto significa para si
+
+Sem os seus valores, o investimento é zero e a análise económica mostra apenas a poupança na fatura de água. O valor atual líquido e o período de recuperação, nessas condições, dizem pouco: não são resultados. A linha de tratamento e o descarte são dimensionados, entram no balanço de carbono, mas não custam nada. Só tem uma análise económica quando introduzir orçamentos reais.
+
+A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e de origem brasileira, com fatores regionais para as unidades federativas do Brasil. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
+
+### Como introduzir os seus valores
+
+Na etapa **4. Reservatório & Custos**, o botão *1. Investimento Inicial (CAPEX)* tem campos para o reservatório superior, a mão de obra, a tubagem e os acessórios; o botão *2. Eletrobomba e Custo de Energia* tem o preço da eletrobomba e a tarifa de eletricidade; e o botão *3. Outros Custos Operacionais* tem as rotinas de manutenção. Introduza ali os valores dos seus orçamentos, com IVA se o investimento for suportado pelo consumidor final.
+
+Há duas limitações a conhecer. O diálogo do CAPEX **não tem campo para o preço da cisterna** e, ao confirmar, repõe esse preço a zero. Enquanto isso não for corrigido, some o preço da cisterna a uma das linhas do diálogo, por exemplo os acessórios, e registe a escolha no relatório, ou escreva o valor no campo `cost_lower_tank` do bloco `capex_and_opex` do ficheiro do projeto e não confirme o diálogo do CAPEX depois disso. O mesmo acontece com o preço do cloro, que só existe no ficheiro do projeto, no bloco `water_quality_and_etap`; em alternativa, acrescente em *3. Outros Custos Operacionais* uma rotina de custo variável por metro cúbico de água de chuva.
+
+Os valores do tutorial deste capítulo são ilustrativos. Não os copie para um estudo real:
+
+<!-- inclui: _tabelas/cap10_custos_ilustrativos.md -->
+
+### Uma tabela de preços de Portugal: planeada, não implementada
+
+O plano é uma tabela opcional, que o utilizador ligaria de propósito, com cinco itens em euros: reservatório por volume, tubagem, eletrobomba, mão de obra e acessórios. Cada preço levaria o endereço da fonte, a data de acesso e a soma de verificação do documento. A tabela não teria indexação nem faixa percentual inventada, recusaria extrapolar fora da faixa de volumes recolhida e mostraria uma tarja vermelha quando os preços tivessem mais de 18 meses. Espanha ficaria vazia até haver recolha. **Nada disto existe no programa.** O que existe é o plano, em `PLANO_AUTOMACAO_TARIFAS_E_CUSTOS_IBE.md`, e o princípio: nenhum preço entra sem documento aberto.
+
+---
+
 ## O resultado
 
 A segunda tabela acima dá os indicadores.
@@ -73,7 +103,7 @@ A segunda tabela acima dá os indicadores.
 
 A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 134,28 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção {{n:20}} varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção {{n:14}} compara as três cidades pelo potencial de poupança, e não pela recuperação.
 
-**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção {{n:8}} a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade.
+**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção {{n:8}} a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
 
 ---
 
@@ -82,6 +112,30 @@ O resultado de um volume isolado diz pouco sem os vizinhos. O separador económi
 ![O valor atual líquido contra o volume do reservatório](../figuras/fig49_programa_vpl.png)
 
 *Figura 99 — O gráfico do separador económico: o valor atual líquido de cada volume da varredura, com o máximo económico e o ótimo técnico marcados. Quando os dois coincidem, o programa assinala-os com um único símbolo. Todos os custos são ilustrativos, não são preços de mercado. Figura gerada pelo próprio programa.*
+
+---
+
+## O que entra no custo de exploração (OPEX)
+
+Também aqui o programa não pré-preenche preços. O custo de exploração de um projeto novo soma a energia da eletrobomba, o cloro, a linha de tratamento e as rotinas de manutenção, e **todos esses preços partem de zero**: a tarifa de eletricidade, o preço do cloro e o custo de cada rotina. As três rotinas de manutenção existem como roteiro, com periodicidade de 12 meses, e o utilizador dá-lhes o custo.
+
+O que o programa calcula sozinho são as quantidades: a energia anual da eletrobomba, pela cadeia da secção {{n:28}}, e os quilogramas de cloro, pela dose e pela pureza da pastilha. O custo é a quantidade vezes o preço que o utilizador introduzir. Com preço zero, o custo é zero, e não um valor omitido.
+
+**As rotinas pesam mais que o resto.** O campo de custo anual que o resumo da análise mostra soma só a energia, o cloro e a linha de tratamento. As rotinas de manutenção entram no fluxo de caixa à parte, no fim de cada período, corrigidas pela inflação. No tutorial, com valores ilustrativos, elas movem o resultado:
+
+<!-- inclui: _tabelas/cap10_custos_peso.md -->
+
+**Energia.** Hoje a tarifa de eletricidade é um campo vazio. O exemplo do Funchal traz 0,1673 €/kWh, a Tarifa Base da Empresa de Eletricidade da Madeira, sem IVA, recolhida num comparador de preços e por isso de fonte secundária; Lisboa e Porto ficam a zero. Para um estudo, use a sua fatura.
+
+Recolheram-se séries públicas que servirão de ponto de partida, mas **ainda não estão ligadas ao programa**: nenhum valor da tabela seguinte é inserido sozinho. O preço do Eurostat é a média de um domicílio inteiro, na banda de 2 500 a 4 999 kWh por ano, e não o preço marginal de uma eletrobomba; a fatura do utilizador prevalece sempre.
+
+<!-- inclui: _tabelas/cap10_custos_series_publicas.md -->
+
+O plano é pré-preencher a tarifa com o valor do Eurostat do país, rotulado como média de um domicílio inteiro e editável, a inflação com o IPCH e a taxa de atualização com uma referência do BCE. **Não está implementado.** O cloro e as manutenções continuarão sem custo até haver fonte aberta para eles, e o índice de custos de construção, que serviria para atualizar preços já recolhidos, ainda nem foi localizado na fonte oficial.
+
+**O que não entra.** O fluxo de caixa não traz reposição de equipamentos ao longo dos 20 anos, valor residual, análises laboratoriais da água nem seguro. Se a eletrobomba ou o filtro forem substituídos no período, acrescente a substituição como uma rotina em *3. Outros Custos Operacionais*.
+
+**Como alterar ou desligar.** As rotinas editam-se, excluem-se ou acrescentam-se no botão *3. Outros Custos Operacionais*. A dose de cloro e o descarte físico escolhem-se na etapa **3. Qualidade & ETAP**. A tarifa e os impostos da eletricidade ficam em *2. Eletrobomba e Custo de Energia*.
 
 ---
 ## O que a projeção assume

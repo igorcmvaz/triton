@@ -912,6 +912,18 @@ def tabela_cidades():
 #: A legenda de cada tabela gerada. Fica aqui, e não no capítulo, porque é aqui
 #: que a tabela nasce; a montagem só lhe acrescenta o número.
 LEGENDAS = {
+    'cap10_custos_estado.md': [
+        'O que um projeto novo da Edição Portugal traz preenchido e o que fica por definir pelo utilizador',
+    ],
+    'cap10_custos_ilustrativos.md': [
+        'Parâmetros ilustrativos do tutorial, que não são preços de mercado, e onde o utilizador os troca pelos seus',
+    ],
+    'cap10_custos_peso.md': [
+        'Efeito das três rotinas de manutenção ilustrativas sobre o custo do resumo e sobre o resultado do tutorial (custos ilustrativos, não são preços de mercado)',
+    ],
+    'cap10_custos_series_publicas.md': [
+        'Séries públicas recolhidas fora do programa, ainda não ligadas a ele, com a data de acesso e o início da soma de verificação',
+    ],
     'cap30_inventario.md': [
         'Inventário de carbono do projeto final do tutorial, item a item, com a parcela de cada componente no carbono incorporado; os valores anuais negativos são créditos (fatores da rede e da água ilustrativos, não são valores medidos)',
     ],
@@ -1074,6 +1086,148 @@ def tabela_inventario():
     return NL.join(L)
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Secção 10 — o que o programa traz de custos na Edição Portugal (quase nada, de propósito)
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Nada aqui é digitado: o estado de um projeto novo sai de ``projeto_novo_da_edicao()``, os parâmetros
+# ilustrativos do tutorial saem das constantes deste ficheiro e as séries públicas saem dos ficheiros JSON
+# que ``coletar_series_publicas.py`` escreve. Para gerar só estas tabelas (sem tocar nas outras, que têm
+# legendas revistas à mão):
+#     python manual/gerar_tabelas.py custos
+
+NOMES_MATERIAL = {'PEAD': 'polietileno', 'CONCRETO': 'betão', 'FIBRA': 'fibra de vidro', 'ACO_INOX': 'aço inoxidável'}
+
+
+def _eur2(v):
+    return eur(v, 2)
+
+
+def tabela_custos_estado():
+    """O que um projeto novo da edição traz preenchido, e o que fica a zero."""
+    import json
+
+    from triton.core.edition import projeto_novo_da_edicao
+
+    cfg = projeto_novo_da_edicao()
+    with open(os.path.join(RAIZ, "triton", "data", "costs_database.json"), encoding="utf-8") as f:
+        base = json.load(f)
+    rotinas = len(cfg.op_costs)
+    periodos = sorted({m for _, m, _, _ in cfg.op_costs})
+    soma_rotinas = sum(c for _, _, c, _ in cfg.op_costs)
+    sim_nao = lambda b: "ligado" if b else "desligado"
+    L = ["| Campo do projeto novo | Valor | O que significa |",
+         "| :--- | ---: | :--- |",
+         f"| cisterna e reservatório superior | {_eur2(cfg.cost_lower_tank + cfg.cost_upper_tank)} | por definir pelo utilizador |",
+         f"| tubagem, acessórios e mão de obra | {_eur2(cfg.cost_piping + cfg.cost_accessories + cfg.cost_labor)} | por definir pelo utilizador |",
+         f"| preço de cada eletrobomba | {_eur2(cfg.pump_unit_cost)} | por definir; o projeto parte de {cfg.pump_count} eletrobombas, serviço e reserva |",
+         f"| tarifa de eletricidade | {n(cfg.elec_tariff, 4)}{NBSP}€/kWh | por definir; sem ela a energia da bomba custa zero |",
+         f"| preço do cloro | {n(cfg.chlorine_cost_per_kg, 2)}{NBSP}€/kg | por definir; sem ele o cloro custa zero |",
+         f"| rotinas de manutenção | {rotinas} rotinas, periodicidade de {' e '.join(str(m) for m in periodos)} meses, {_eur2(soma_rotinas)} no total | os nomes ficam como roteiro; os custos são do utilizador |",
+         f"| orçamento automático do arranjo 3D | {sim_nao(cfg.capex_do_arranjo)} | os preços das peças são em reais, de origem brasileira |",
+         f"| mão de obra automática | {sim_nao(cfg.mao_de_obra_automatica)} | idem |",
+         f"| preços de catálogo (reservatórios, tratamento) | {sim_nao(cfg.precos_de_catalogo)} | a linha de tratamento é dimensionada, mas não custa nada |",
+         f"| base de custos interna (`costs_database.json`) | {len(base['regional_factors_by_uf'])} fatores regionais | valores em {'reais' if base['_metadata']['currency'] == 'BRL' else base['_metadata']['currency']}, de origem brasileira; não são usados nesta edição |",
+         f"| dose de cloro e pureza da pastilha | {n(cfg.chlorine_dose_mg_l, 1)} mg/L e {n(cfg.chlorine_product_purity * 100, 0)}% | parâmetros técnicos, não são preços |",
+         f"| tarifário de água, saneamento e resíduos | {cfg.tariff_city_name}, desde {cfg.tariff_vigencia} | **inserido automaticamente**; transcrito dos documentos de 2026 |",
+         f"| taxa de atualização | {n(cfg.tma, 1)}% ao mês | valor genérico do núcleo, não é dado de Portugal |",
+         f"| inflação dos custos | {n(cfg.inflation, 1)}% ao mês | idem |",
+         f"| atualização das tarifas de água, saneamento e eletricidade | {n(cfg.water_tariff_escalation, 1)}%, {n(cfg.sewage_tariff_escalation, 1)}% e {n(cfg.elec_tariff_escalation, 1)}% ao ano | idem |",
+         ]
+    return NL.join(L)
+
+
+def tabela_custos_ilustrativos():
+    """Os parâmetros ilustrativos do tutorial, com o aviso de que não são preços de mercado."""
+    c = CUSTOS_TUTORIAL
+    L = ["| Parâmetro do tutorial | Valor ilustrativo | Onde o utilizador o troca |",
+         "| :--- | ---: | :--- |",
+         f"| mão de obra e escavação | {_eur2(c['cost_labor'])} | CAPEX, mão de obra |",
+         f"| tubagem | {_eur2(c['cost_piping'])} | CAPEX, tubagens |",
+         f"| acessórios | {_eur2(c['cost_accessories'])} | CAPEX, acessórios |",
+         f"| eletrobomba, por unidade | {_eur2(c['pump_unit_cost'])} | eletrobomba e custo de energia |",
+         f"| tarifa de eletricidade | {n(c['elec_tariff'], 2)}{NBSP}€/kWh | eletrobomba e custo de energia |",
+         f"| cloro, por quilograma de produto | {_eur2(c['chlorine_cost_per_kg'])} | só no ficheiro do projeto |",
+         f"| taxa de atualização | {n(c['tma'], 1)}% ao mês | etapa 4 |",
+         f"| inflação dos custos | {n(c['inflation'], 1)}% ao mês | etapa 4 |",
+         f"| atualização das tarifas | {n(c['water_tariff_escalation'], 1)}% ao ano | etapa 4 |"]
+    for nome, meses, fixo, _ in MANUTENCAO_TUTORIAL:
+        L.append(f"| rotina: {nome[0].lower() + nome[1:]} | {_eur2(fixo)} a cada {meses} meses | outros custos operacionais |")
+    for mat, (base, litro) in PRECO_DO_TANQUE.items():
+        L.append(f"| reservatório de {NOMES_MATERIAL[mat]} | {_eur2(base)} mais {n(litro, 2)}{NBSP}€ por litro | só neste manual; o programa não tem esta regra |")
+    return NL.join(L)
+
+
+def _ultimo(serie):
+    chave = sorted(serie)[-1]
+    return chave, serie[chave]
+
+
+def tabela_custos_series_publicas():
+    """As séries públicas já recolhidas fora do programa, com data de acesso e prova."""
+    import json
+
+    pasta = os.path.join(RAIZ, "..", "..", "validacao_precipitacao_prt", "dados_automaticos")
+    if not os.path.isdir(pasta):
+        return None
+    L = ["| Série pública | Portugal | Espanha | Acesso | SHA-256 (início) |",
+         "| :--- | ---: | ---: | :--- | :--- |"]
+    unidade = {"eurostat_eletricidade_domestica": "€/kWh", "eurostat_preco_eletricidade_sem_impostos": "€/kWh",
+               "eurostat_inflacao_anual": "% ao ano"}
+    rotulo = {"eurostat_eletricidade_domestica": "eletricidade doméstica, com impostos",
+              "eurostat_preco_eletricidade_sem_impostos": "eletricidade doméstica, sem impostos",
+              "eurostat_inflacao_anual": "inflação anual (IPCH)"}
+    for nome in ("eurostat_eletricidade_domestica", "eurostat_preco_eletricidade_sem_impostos", "eurostat_inflacao_anual"):
+        with open(os.path.join(pasta, nome + ".json"), encoding="utf-8") as f:
+            d = json.load(f)
+        pt, es = _ultimo(d["resumo"]["PT"]), _ultimo(d["resumo"]["ES"])
+        casas = 4 if "€" in unidade[nome] else 1
+        L.append(f"| {rotulo[nome]} ({pt[0]}) | {n(pt[1], casas)}{NBSP}{unidade[nome]} | {n(es[1], casas)}{NBSP}{unidade[nome]} "
+                 f"| {d['acesso'][:10]} | `{d['sha256'][:12]}` |")
+    with open(os.path.join(pasta, "bce_taxa_refinanciamento.json"), encoding="utf-8") as f:
+        d = json.load(f)
+    data, valor = _ultimo(d["resumo"]["U2"])
+    L.append(f"| taxa de refinanciamento do BCE ({data}) | {n(valor, 2)}{NBSP}% | zona euro: o mesmo valor | {d['acesso'][:10]} | `{d['sha256'][:12]}` |")
+    return NL.join(L)
+
+
+def tabela_custos_peso():
+    """O peso das rotinas de manutenção ilustrativas no resultado do tutorial."""
+    from triton.core.economic import run_economic_analysis
+
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_projeto())
+    com = _config_economica(VOLUME, "CONCRETO")
+    sem = _config_economica(VOLUME, "CONCRETO")
+    sem.op_costs = []
+    ec, es = run_economic_analysis(com, r), run_economic_analysis(sem, r)
+    por_ano = sum(fixo * 12.0 / meses for _, meses, fixo, _ in com.op_costs)
+    return NL.join([
+        f"| Projeto do tutorial (custos {ILUSTRATIVOS}) | Com as rotinas | Sem rotinas |",
+        "| :--- | ---: | ---: |",
+        f"| rotinas de manutenção por ano | {_eur2(por_ano)} | {_eur2(0.0)} |",
+        f"| custo anual do resumo: energia, cloro e tratamento | {_eur2(ec.annual_opex_brl)} | {_eur2(es.annual_opex_brl)} |",
+        f"| valor atual líquido | {_eur2(ec.vpl)} | {_eur2(es.vpl)} |",
+    ])
+
+
+TABELAS_DE_CUSTOS = (
+    ("cap10_custos_estado.md", tabela_custos_estado),
+    ("cap10_custos_ilustrativos.md", tabela_custos_ilustrativos),
+    ("cap10_custos_peso.md", tabela_custos_peso),
+    ("cap10_custos_series_publicas.md", tabela_custos_series_publicas),
+)
+
+
+def main_custos():
+    """Gera só as tabelas de custos da secção 10 (`python manual/gerar_tabelas.py custos`)."""
+    for nome, fn in TABELAS_DE_CUSTOS:
+        conteudo = fn()
+        if conteudo is None:
+            print(f"  {nome}: fonte ausente nesta máquina; tabela mantida como está")
+            continue
+        escrever(nome, conteudo)
+
+
 def com_legenda(nome, conteudo):
     """Põe a legenda declarada acima de cada tabela do ficheiro, na ordem."""
     fila = list(LEGENDAS.get(nome) or [])
@@ -1129,9 +1283,15 @@ def main():
     ):
         escrever(nome, fn())
 
+    main_custos()
+
     return r
 
 
 if __name__ == "__main__":
-    print("tabelas do manual (Edição Portugal):")
-    main()
+    if "custos" in sys.argv[1:]:
+        print("tabelas de custos do manual (Edição Portugal):")
+        main_custos()
+    else:
+        print("tabelas do manual (Edição Portugal):")
+        main()

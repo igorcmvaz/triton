@@ -42,6 +42,59 @@ são recortes livres da série.
 
 ---
 
+## Quanto confiar na série da E-OBS
+
+Comparámos a E-OBS (versão 33.0e) com o Iberia01, uma grelha de 0,1° feita com uma rede de 3 486 estações
+da Península (AEMET, IPMA e APA), entre 1971 e 2000, célula a célula e dia a dia. Resultado:
+
+- Em Portugal, a E-OBS dá em média 8% menos chuva que o Iberia01 (nos 10% de células mais afastadas, até 18%
+  menos). Na Espanha, entre 10% e 16% menos.
+- Os extremos saem alisados: o percentil 95 dos dias de chuva fica cerca de 9% abaixo em Portugal, e o máximo
+  diário anual, 14% abaixo. Isto tende a subestimar o extravasamento de um reservatório.
+- O calendário dos dias é bom (correlação diária mediana de 0,86 em Portugal).
+
+Em três estações do GHCN-Daily que a E-OBS não usa (Faro, Évora e Castelo Branco), a E-OBS deu 19% a 22%
+menos chuva. São poucas estações, por isso este resultado é preliminar. O Iberia01 termina em 2015 e os seus
+autores avisam que não serve para análise de tendência histórica; por isso este manual não afirma nenhuma
+tendência de longo prazo da chuva.
+
+**Nível de qualidade por concelho.** O programa mostra um nível, A, B ou C, e o motivo. O nível é o pior de
+duas medidas. *Concordância com o Iberia01*: A se a diferença do total anual é de 10% ou menos e a do máximo
+diário anual de 15% ou menos; B se são de 20% e 25% ou menos; C no resto. Falamos de «diferença para o
+Iberia01», e não de «viés»: o Iberia01 é também uma grelha interpolada, não uma medição. *Geometria*: só
+rebaixa até B, quando o concelho tem menos de três células, quando nenhuma célula tem o centro lá dentro ou
+quando a série é igual à de outro concelho.
+
+<!-- tabela: Concelhos de Portugal continental por nível de qualidade da chuva -->
+| Nível | Concelhos | O que significa |
+| :--- | ---: | :--- |
+| A | 45 | três células ou mais e boa concordância com o Iberia01 |
+| B | 159 | concordância razoável, ou poucas células |
+| C | 74 | diferença grande para o Iberia01 |
+
+Para 148 concelhos a geometria é o motivo de ficarem fora de A (menos de três células). O Algarve tem 15
+dos 16 concelhos em C, e Braga, Vila Real e Santarém mais de metade. O nível não é uma nota de exatidão: diz
+onde a base é mais frágil. Em C, valide com uma série local.
+
+**Correção opcional.** A edição traz, em ficheiro separado, fatores mensais de correção do total, calibrados
+com o Iberia01 em 1971–2000 (o período de referência que os autores recomendam) e **desligados por defeito**.
+Ligá-los multiplica a chuva de cada mês pelo fator do concelho; o programa regista no projeto que a correção
+foi usada. Os fatores derivam do Iberia01, que está sob a Open Database License, e por isso seguem sob a
+mesma licença.
+
+**Uso comercial.** A E-OBS é de uso estritamente não comercial em pesquisa e educação. No primeiro arranque o
+programa pergunta o uso pretendido e o laudo repete a licença e a citação.
+
+**Reprodutibilidade.** Cada projeto grava o identificador do pacote de chuva (`PT-EOBS-v33.0e-37fcba20`), a
+versão da E-OBS e o SHA-256 do pacote, e por defeito leva a série dentro do ficheiro. Se reabrir um projeto
+com um pacote diferente, o programa avisa e o laudo regista a mudança.
+
+**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base:
+Portugal continental, 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais. A grelha cobre a Península, mas a
+edição só tem concelhos de Portugal por enquanto.
+
+---
+
 ## A série que vem como ficheiro
 
 Uma série diária acompanha o programa na pasta `data/rainfall`. É uma **reanálise**, e não um registo de
@@ -67,7 +120,7 @@ limite de 1%). A média anual da reanálise pode diferir da média medida na est
 use a série medida.
 
 **Os projetos de exemplo.** Lisboa e Porto usam a base E-OBS por concelho, e o ficheiro do projeto guarda a
-referência da série e a impressão digital dos valores; o programa recompõe-na da base ao abrir. O Funchal traz
+referência da série e a impressão digital dos valores; por defeito a série vai dentro do ficheiro, com o identificador do pacote. O Funchal traz
 a série ERA5 dentro do ficheiro.
 
 ---

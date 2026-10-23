@@ -2541,6 +2541,8 @@ prevalece, como nas outras rubricas.
 
 O último termo segue a regra incremental da seção 2.5 e inclui, quando o dimensionamento físico do descarte está habilitado, o reservatório de descarte inicial e o separador de folhas; o custeio anual desse subsistema entra no custeio da linha de tratamento.
 
+Num projeto novo, cada parcela deste somatório já vem preenchida pelo programa. A seção 4.7 (volume Tutorial), em «Como o CAPEX é calculado automaticamente», mostra a cadeia de cálculo, os parâmetros, a procedência registrada na base e o que conferir.
+
 Os preços de reservatório provêm da base de custos do programa, com procedência
 declarada para cada material. Quando o volume pedido não consta da tabela, o programa
 interpola linearmente entre os pontos vizinhos; quando o volume excede o maior valor
@@ -2571,6 +2573,8 @@ dobra o investimento, e essa não linearidade é parte do motivo de a curva de v
 | ETAP | custeio incremental, sem contar a cloração duas vezes |
 | descarte inicial | manutenção anual do reservatório de descarte e do separador de folhas, quando dimensionados |
 | custos operacionais declarados | lista livre do usuário |
+
+A lista de custos operacionais declarados não começa vazia: o projeto novo traz três rotinas de manutenção, com valor e periodicidade. A seção 4.7 (volume Tutorial), em «O que entra automaticamente no OPEX», lista cada item de partida, a origem e o modo de alterá-lo, e mostra que o campo de custeio anual do resumo não inclui essas rotinas.
 
 A bandeira tarifária ajusta a tarifa de energia conforme a condição de operação do
 sistema elétrico nacional, e o programa aceita as quatro modalidades vigentes: amarela,

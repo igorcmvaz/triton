@@ -109,6 +109,8 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `n_b` | número de eletrobombas instaladas (serviço e reserva) | unidade |
 | `CAPEX_inc` | investimento incremental da linha de tratamento (ETAP) | € |
 
+Nesta edição, as rubricas do CAPEX partem de zero e são introduzidas pelo utilizador: o programa não traz preços de Portugal nem de Espanha. A secção {{n:10}}, em «O CAPEX nesta edição», descreve o estado verdadeiro, como introduzir os valores e o que está apenas planeado.
+
 No caso de estudo do tutorial (Lisboa, cisterna de 5.000 L em polietileno com reservatório superior de 1.000 L), o investimento total ilustrativo ascende a 6.650 €. A {{fig:fig21_investimento}} apresenta a decomposição orçamental por componente.
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
@@ -124,6 +126,8 @@ O custeio operacional anual agrega:
 2. O consumo de reagentes desinfetantes (cloração).
 3. A manutenção periódica da ETAP e do dispositivo de primeiras águas.
 4. Outros custos operacionais declarados pelo utilizador.
+
+Num projeto novo, nenhum destes custos vem preenchido: os preços partem de zero, e as rotinas de manutenção existem só como roteiro. A secção {{n:10}}, em «O que entra no custo de exploração (OPEX)», diz o que é calculado sozinho (as quantidades), o que é do utilizador (os preços) e o que está planeado e não implementado. O campo de custo anual do resumo não inclui as rotinas de manutenção.
 
 ---
 

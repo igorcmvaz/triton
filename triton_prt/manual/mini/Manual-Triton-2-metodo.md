@@ -314,11 +314,13 @@ Tabela 87 — Fatores de emissão dos consumíveis de tratamento
 
 Tabela 88 — Conteúdo da base de precipitação por concelho da Edição Portugal
 
-Tabela 89 — Série de precipitação distribuída com a Edição Portugal
+Tabela 89 — Concelhos de Portugal continental por nível de qualidade da chuva
 
-Tabela 90 — Padronização terminológica de água de chuva e água pluvial
+Tabela 90 — Série de precipitação distribuída com a Edição Portugal
 
-Tabela 91 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 91 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 92 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -2324,6 +2326,8 @@ CAPEX = C_cist + C_sup + C_mo + C_tub + C_ace + ( C_bomba × n_b ) + CAPEX_inc
 | `n_b` | número de eletrobombas instaladas (serviço e reserva) | unidade |
 | `CAPEX_inc` | investimento incremental da linha de tratamento (ETAP) | € |
 
+Nesta edição, as rubricas do CAPEX partem de zero e são introduzidas pelo utilizador: o programa não traz preços de Portugal nem de Espanha. A secção 4.7 (volume Tutorial), em «O CAPEX nesta edição», descreve o estado verdadeiro, como introduzir os valores e o que está apenas planeado.
+
 No caso de estudo do tutorial (Lisboa, cisterna de 5.000 L em polietileno com reservatório superior de 1.000 L), o investimento total ilustrativo ascende a 6.650 €. A Figura 19 apresenta a decomposição orçamental por componente.
 
 ![O investimento aberto por rubrica, em três volumes](../figuras/fig21_investimento.png)
@@ -2339,6 +2343,8 @@ O custeio operacional anual agrega:
 2. O consumo de reagentes desinfetantes (cloração).
 3. A manutenção periódica da ETAP e do dispositivo de primeiras águas.
 4. Outros custos operacionais declarados pelo utilizador.
+
+Num projeto novo, nenhum destes custos vem preenchido: os preços partem de zero, e as rotinas de manutenção existem só como roteiro. A secção 4.7 (volume Tutorial), em «O que entra no custo de exploração (OPEX)», diz o que é calculado sozinho (as quantidades), o que é do utilizador (os preços) e o que está planeado e não implementado. O campo de custo anual do resumo não inclui as rotinas de manutenção.
 
 ---
 
@@ -4229,12 +4235,65 @@ são recortes livres da série.
 
 ---
 
-### E.2. A série que vem como ficheiro
+### E.2. Quanto confiar na série da E-OBS
+
+Comparámos a E-OBS (versão 33.0e) com o Iberia01, uma grelha de 0,1° feita com uma rede de 3 486 estações
+da Península (AEMET, IPMA e APA), entre 1971 e 2000, célula a célula e dia a dia. Resultado:
+
+- Em Portugal, a E-OBS dá em média 8% menos chuva que o Iberia01 (nos 10% de células mais afastadas, até 18%
+  menos). Na Espanha, entre 10% e 16% menos.
+- Os extremos saem alisados: o percentil 95 dos dias de chuva fica cerca de 9% abaixo em Portugal, e o máximo
+  diário anual, 14% abaixo. Isto tende a subestimar o extravasamento de um reservatório.
+- O calendário dos dias é bom (correlação diária mediana de 0,86 em Portugal).
+
+Em três estações do GHCN-Daily que a E-OBS não usa (Faro, Évora e Castelo Branco), a E-OBS deu 19% a 22%
+menos chuva. São poucas estações, por isso este resultado é preliminar. O Iberia01 termina em 2015 e os seus
+autores avisam que não serve para análise de tendência histórica; por isso este manual não afirma nenhuma
+tendência de longo prazo da chuva.
+
+**Nível de qualidade por concelho.** O programa mostra um nível, A, B ou C, e o motivo. O nível é o pior de
+duas medidas. *Concordância com o Iberia01*: A se a diferença do total anual é de 10% ou menos e a do máximo
+diário anual de 15% ou menos; B se são de 20% e 25% ou menos; C no resto. Falamos de «diferença para o
+Iberia01», e não de «viés»: o Iberia01 é também uma grelha interpolada, não uma medição. *Geometria*: só
+rebaixa até B, quando o concelho tem menos de três células, quando nenhuma célula tem o centro lá dentro ou
+quando a série é igual à de outro concelho.
+
+<!-- tabela: **Tabela 89** — Concelhos de Portugal continental por nível de qualidade da chuva -->
+| Nível | Concelhos | O que significa |
+| :--- | ---: | :--- |
+| A | 45 | três células ou mais e boa concordância com o Iberia01 |
+| B | 159 | concordância razoável, ou poucas células |
+| C | 74 | diferença grande para o Iberia01 |
+
+Para 148 concelhos a geometria é o motivo de ficarem fora de A (menos de três células). O Algarve tem 15
+dos 16 concelhos em C, e Braga, Vila Real e Santarém mais de metade. O nível não é uma nota de exatidão: diz
+onde a base é mais frágil. Em C, valide com uma série local.
+
+**Correção opcional.** A edição traz, em ficheiro separado, fatores mensais de correção do total, calibrados
+com o Iberia01 em 1971–2000 (o período de referência que os autores recomendam) e **desligados por defeito**.
+Ligá-los multiplica a chuva de cada mês pelo fator do concelho; o programa regista no projeto que a correção
+foi usada. Os fatores derivam do Iberia01, que está sob a Open Database License, e por isso seguem sob a
+mesma licença.
+
+**Uso comercial.** A E-OBS é de uso estritamente não comercial em pesquisa e educação. No primeiro arranque o
+programa pergunta o uso pretendido e o laudo repete a licença e a citação.
+
+**Reprodutibilidade.** Cada projeto grava o identificador do pacote de chuva (`PT-EOBS-v33.0e-37fcba20`), a
+versão da E-OBS e o SHA-256 do pacote, e por defeito leva a série dentro do ficheiro. Se reabrir um projeto
+com um pacote diferente, o programa avisa e o laudo regista a mudança.
+
+**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base:
+Portugal continental, 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais. A grelha cobre a Península, mas a
+edição só tem concelhos de Portugal por enquanto.
+
+---
+
+### E.3. A série que vem como ficheiro
 
 Uma série diária acompanha o programa na pasta `data/rainfall`. É uma **reanálise**, e não um registo de
 udómetro.
 
-<!-- tabela: **Tabela 89** — Série de precipitação distribuída com a Edição Portugal -->
+<!-- tabela: **Tabela 90** — Série de precipitação distribuída com a Edição Portugal -->
 | Ficheiro | Local | Período | Dias | Chuva média anual | Fonte |
 | :--- | :--- | :--- | ---: | ---: | :--- |
 | `Funchal.csv` | Funchal (32,65° N, 16,90° O, célula de grelha a 323 m de altitude) | 01/01/1991 a 31/12/2020 | 10 958 | cerca de 538 mm | reanálise ERA5, via Open-Meteo |
@@ -4254,12 +4313,12 @@ limite de 1%). A média anual da reanálise pode diferir da média medida na est
 use a série medida.
 
 **Os projetos de exemplo.** Lisboa e Porto usam a base E-OBS por concelho, e o ficheiro do projeto guarda a
-referência da série e a impressão digital dos valores; o programa recompõe-na da base ao abrir. O Funchal traz
+referência da série e a impressão digital dos valores; por defeito a série vai dentro do ficheiro, com o identificador do pacote. O Funchal traz
 a série ERA5 dentro do ficheiro.
 
 ---
 
-### E.3. Usar a sua própria série
+### E.4. Usar a sua própria série
 
 1. Obtenha um registo diário, em milímetros, do serviço meteorológico ou do udómetro mais próximo do local.
    Anote a estação, a distância ao local, o período e a fonte.
@@ -4276,7 +4335,7 @@ de cada concelho da base tem trinta anos na normal 1991-2020.
 
 ---
 
-### E.4. Cenários futuros
+### E.5. Cenários futuros
 
 A Edição Portugal não traz projeções de modelos climáticos. Para estudar um clima futuro, prepare a série
 diária projetada, a partir da fonte que escolher, e carregue-a como qualquer outro ficheiro. O fator de chuva
@@ -4285,7 +4344,7 @@ percentagem declarada. A secção 3.2 (volume Guias de uso) trata da condução 
 
 ---
 
-### E.5. O que declarar num estudo
+### E.6. O que declarar num estudo
 
 - a **fonte** da série (E-OBS v33.0e, estação ou produto de reanálise) e a sua versão;
 - o **local**: o concelho da base, ou, para um udómetro, a distância ao local;
@@ -4639,7 +4698,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 90** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 91** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica recolhida diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou as redes públicas. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canónico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | Prática de redação técnica e científica. |
@@ -4650,7 +4709,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 91** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 92** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da procura total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

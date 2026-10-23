@@ -176,47 +176,83 @@ Tabela 25 — Os seis regimes tarifários e o efeito de cada um sobre a economia
 
 Tabela 26 — Composição do investimento inicial do projeto do tutorial
 
-Tabela 27 — Indicadores econômicos do projeto do tutorial em vinte anos
+Tabela 27 — Rubricas do investimento que o programa calcula sozinho, a regra de cada uma, o parâmetro que a governa e o valor padrão
 
-Tabela 28 — Premissas da projeção econômica e o peso de cada uma no resultado
+Tabela 28 — Preço de reservatório por volume e por material, obtido pela interpolação da tabela do polietileno e pelo fator de cada material
 
-Tabela 29 — Estado do projeto do tutorial após a análise econômica
+Tabela 29 — Motobombas do assistente de dimensionamento, com o preço do catálogo e o preço que a fórmula do estimador daria para a mesma potência
 
-Tabela 30 — Balanço de carbono do projeto do tutorial com cisterna de concreto
+Tabela 30 — Preço por metro dos tubos de PVC por diâmetro nominal, sem e com o acréscimo de 25% de conexões
 
-Tabela 31 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
+Tabela 31 — Peças do arranjo 3D que o programa orça sozinho, com o preço de referência e o destino no investimento
 
-Tabela 32 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
+Tabela 32 — Preço da linha de tratamento e do descarte inicial, conforme o componente e a condição que o escolhe
 
-Tabela 33 — Efeito da troca de concreto por polietileno nas três dimensões de análise
+Tabela 33 — Subsistemas calibrados das cinco tipologias residenciais da base de custos
 
-Tabela 34 — Estado do projeto do tutorial após a análise ambiental
+Tabela 34 — Orçamento calibrado de cada tipologia para uma cisterna de 5.000 L em polietileno, pela função de estimativa calibrada (fora do caminho da interface)
 
-Tabela 35 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
+Tabela 35 — Fator regional de custo por unidade da federação
 
-Tabela 36 — Volume vencedor segundo cada critério isolado
+Tabela 36 — O que a base de custos registra sobre a origem e a data dos próprios números
 
-Tabela 37 — Os sete critérios do multicritério e a direção de preferência de cada um
+Tabela 37 — Constantes que o código usa para orçar e que a base de custos não acompanha com fonte e data
 
-Tabela 38 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
+Tabela 38 — Investimento do projeto do tutorial com os valores digitados e com os valores que o programa calcularia sozinho
 
-Tabela 39 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+Tabela 39 — Indicadores econômicos do projeto do tutorial em vinte anos
 
-Tabela 40 — Padronização terminológica de água de chuva e água pluvial
+Tabela 40 — Itens que entram sozinhos no custeio anual de um projeto novo, com valor padrão, periodicidade, origem e modo de alterar
 
-Tabela 41 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 41 — Efeito das três rotinas de manutenção de partida sobre o custeio do resumo e sobre o resultado do projeto do tutorial
 
-Tabela 42 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 42 — Tarifa de energia da base de municípios
 
-Tabela 43 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 43 — Acréscimo de cada bandeira tarifária sobre a tarifa de energia
 
-Tabela 44 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+Tabela 44 — Premissas da projeção no projeto novo e no tutorial
 
-Tabela 45 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 45 — Perfis de referência que a etapa 4 oferece
 
-Tabela 46 — Os casos de exemplo e o que cada um demonstra
+Tabela 46 — Premissas da projeção econômica e o peso de cada uma no resultado
 
-Tabela 47 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 47 — Estado do projeto do tutorial após a análise econômica
+
+Tabela 48 — Balanço de carbono do projeto do tutorial com cisterna de concreto
+
+Tabela 49 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório
+
+Tabela 50 — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono
+
+Tabela 51 — Efeito da troca de concreto por polietileno nas três dimensões de análise
+
+Tabela 52 — Estado do projeto do tutorial após a análise ambiental
+
+Tabela 53 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise
+
+Tabela 54 — Volume vencedor segundo cada critério isolado
+
+Tabela 55 — Os sete critérios do multicritério e a direção de preferência de cada um
+
+Tabela 56 — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado
+
+Tabela 57 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+
+Tabela 58 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 59 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+
+Tabela 60 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+
+Tabela 61 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+
+Tabela 62 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+
+Tabela 63 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 64 — Os casos de exemplo e o que cada um demonstra
+
+Tabela 65 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -1553,9 +1589,237 @@ interpola; para extrapolar além dela, só o faz se a regressão tiver R² acima
 
 ---
 
-### 4.7.4. O resultado
+### 4.7.4. Como o CAPEX é calculado automaticamente
 
-<!-- tabela: **Tabela 27** — Indicadores econômicos do projeto do tutorial em vinte anos -->
+Num projeto novo da Edição Brasil, o investimento não começa em branco. O programa o preenche com três fontes: a base de custos `triton/data/costs_database.json`, as peças do arranjo 3D e a linha de tratamento que a etapa **3. Qualidade & ETAP** dimensiona. Os valores do tutorial, digitados na etapa econômica, são uma escolha didática. Esta seção diz o que o programa colocaria sozinho, de onde vem cada número e o que você deve conferir antes de confiar nele.
+
+#### 4.7.4.1. A cadeia de cálculo
+
+<!-- tabela: **Tabela 27** — Rubricas do investimento que o programa calcula sozinho, a regra de cada uma, o parâmetro que a governa e o valor padrão -->
+| Rubrica | Como o programa a calcula | Parâmetro | Valor padrão |
+| :--- | :--- | :--- | :--- |
+| cisterna | interpola linearmente a tabela de preços do polietileno pelo volume e multiplica pelo fator do material | `lower_tank_pead_prices`, `material_multipliers` | 9 preços, de 310 L a 15.000 L |
+| caixa superior | a mesma interpolação, na tabela própria da caixa, com o volume da caixa | `upper_tank_pead_prices`, `upper_tank_vol` | 5 preços, de 310 L a 2.000 L; caixa de 500 L |
+| motobombas | custo unitário vezes o número de motobombas; zero no abastecimento por gravidade | `pump_unit_cost`, `pump_count` do projeto | R$ 300,00 por unidade, 2 unidades |
+| tubulação | soma, no arranjo 3D, dos metros de tubo de cada diâmetro vezes o preço por metro, mais curvas, conexões de extremidade e tês | `pipes_cost_per_meter` e as peças de linha do arranjo | 11 diâmetros, de DN 20 a DN 150 |
+| acessórios | soma, no arranjo 3D, do preço de cada peça (registros, válvulas, quadro, sensores, air gap, hidrômetro) e dos cabos de comando | `CATALOGO_DE_PECAS`, que `pecas_do_arranjo` pode sobrescrever | 16 tipos de peça |
+| mão de obra | percentual da soma de cisterna, caixa, motobombas, tubulação e acessórios, com um piso | `labor_percentage`, `MAO_DE_OBRA_MINIMA` | 30% dos materiais, no mínimo R$ 1 400,00 |
+| linha de tratamento e descarte | dimensiona a linha pela classe de qualidade, pelo método de desinfecção e pela área do telhado; soma ao CAPEX só o que excede a verba genérica de filtragem dos acessórios digitados | `size_etap`, `capex_incremental_da_etap` | verba genérica de R$ 350,00 |
+| tubulação e acessórios sem arranjo | estimativa por percentual do preço dos reservatórios, com piso, quando o arranjo não é a fonte | `piping_percentage_fallback`, `accessories_percentage` | tubulação: 18%, piso de R$ 950,00; acessórios: 8%, piso de R$ 500,00 |
+| fator regional | multiplica o total do estimador preliminar; **não entra** no investimento do projeto, porque a interface e a linha de comando usam as parcelas, e não o total | `regional_factors_by_uf` | 27 UFs, de 0,93 a 1,21 |
+
+Lê-se a tabela de cima para baixo, e a soma das rubricas é o investimento da seção 2.7 (volume O método). Um valor digitado na etapa **4. Reservatório & Custos**, botão *1. Investimento Inicial (CAPEX)*, prevalece sobre o automático: ao confirmar, o programa deixa de refazer a tubulação e os acessórios a cada cálculo, e o mesmo vale para a mão de obra. O preço da cisterna é a exceção: o diálogo não tem campo para digitá-lo, e o programa o recalcula da tabela de preços ao confirmar. Para usar a sua cotação, edite a tabela `lower_tank_pead_prices` pelo botão *Base de Custos (JSON)*, salve o arquivo e reabra o diálogo.
+
+**Cisterna e caixa superior.** O preço sai de uma tabela de polietileno por volume. Entre dois volumes tabelados o programa interpola linearmente; acima do maior, extrapola pela reta ajustada à tabela inteira quando o R² passa de 0,90, e nunca devolve menos que o maior preço tabelado. Fibra, concreto e aço não têm tabela própria: são o preço do polietileno vezes um fator único, uma premissa do programa e não uma cotação.
+
+<!-- tabela: **Tabela 28** — Preço de reservatório por volume e por material, obtido pela interpolação da tabela do polietileno e pelo fator de cada material -->
+| Volume | polietileno (tabela) | fibra de vidro | concreto armado | aço inoxidável | Também na tabela da caixa |
+| ---: | ---: | ---: | ---: | ---: | :---: |
+| fator do material | 1,00 | 1,35 | 2,10 | 3,60 | |
+| 310 L | R$ 246,90 | R$ 333,32 | R$ 518,49 | R$ 888,84 | sim |
+| 500 L | R$ 269,90 | R$ 364,37 | R$ 566,79 | R$ 971,64 | sim |
+| 750 L | R$ 459,90 | R$ 620,87 | R$ 965,79 | R$ 1 655,64 | sim |
+| 1.000 L | R$ 459,90 | R$ 620,87 | R$ 965,79 | R$ 1 655,64 | sim |
+| 2.000 L | R$ 1 139,90 | R$ 1 538,87 | R$ 2 393,79 | R$ 4 103,64 | sim |
+| 3.000 L | R$ 2 051,90 | R$ 2 770,07 | R$ 4 308,99 | R$ 7 386,84 | — |
+| 4.000 L (interpolado) | R$ 2 525,90 | R$ 3 409,97 | R$ 5 304,39 | R$ 9 093,24 | — |
+| 5.000 L | R$ 2 999,90 | R$ 4 049,87 | R$ 6 299,79 | R$ 10 799,64 | — |
+| 10.000 L | R$ 5 499,90 | R$ 7 424,86 | R$ 11 549,79 | R$ 19 799,64 | — |
+| 15.000 L | R$ 6 935,00 | R$ 9 362,25 | R$ 14 563,50 | R$ 24 966,00 | — |
+
+**Motobombas.** O projeto novo parte de duas unidades, principal e reserva, ao preço do campo *Custo Unitário da Motobomba*. Há duas outras fontes de preço, que divergem. O assistente de dimensionamento grava o preço do modelo que você escolhe; a fórmula do estimador, usada quando o campo está zerado, dá valores bem menores acima de meio cavalo. Vale o último que entrou no campo.
+
+<!-- tabela: **Tabela 29** — Motobombas do assistente de dimensionamento, com o preço do catálogo e o preço que a fórmula do estimador daria para a mesma potência -->
+| Modelo do assistente | Potência | Vazão nominal | Altura máxima | Preço do assistente | Preço pela fórmula |
+| :--- | ---: | ---: | ---: | ---: | ---: |
+| Schneider BC-98, 0,25 CV | 0,184 kW | 1 800 L/h | 22 m.c.a. | R$ 340,00 | R$ 280,00 |
+| Schneider BC-98, 0,33 CV | 0,245 kW | 2 400 L/h | 26 m.c.a. | R$ 395,00 | R$ 280,00 |
+| Schneider BC-92 S, 0,50 CV | 0,368 kW | 3 600 L/h | 30 m.c.a. | R$ 485,00 | R$ 300,14 |
+| Schneider BC-92 T, 0,75 CV | 0,552 kW | 5 200 L/h | 36 m.c.a. | R$ 690,00 | R$ 398,65 |
+| Schneider BC-21 R, 1,00 CV | 0,736 kW | 7 200 L/h | 42 m.c.a. | R$ 890,00 | R$ 487,58 |
+| Schneider BC-22 R, 1,50 CV | 1,103 kW | 9 800 L/h | 48 m.c.a. | R$ 1 280,00 | R$ 647,20 |
+| Schneider BC-22 R, 2,00 CV | 1,471 kW | 13 500 L/h | 54 m.c.a. | R$ 1 680,00 | R$ 791,70 |
+| Schneider ME-AL, 3,00 CV | 2,206 kW | 16 000 L/h | 68 m.c.a. | R$ 2 450,00 | R$ 1 051,38 |
+
+A fórmula é o maior entre R$ 280,00 e R$ 300,00 × (P ÷ 0,36775 kW)^0,70.
+
+**Tubulação e acessórios.** Com o orçamento do arranjo ligado, que é o padrão do projeto novo, o programa lê o arranjo da Planta 3D. Se você não organizou nenhum, monta o arranjo usual a partir do estudo: volume da cisterna e da caixa, área do telhado, número de motobombas e tipo de abastecimento. Converte o arranjo em quantitativo, com os metros de tubo por diâmetro, as curvas, as conexões, os tês, as peças e os cabos de comando, e orça cada linha. Na varredura de volumes, cada volume tem a sua cisterna e o seu arranjo; um arranjo organizado à mão vale para todos.
+
+<!-- tabela: **Tabela 30** — Preço por metro dos tubos de PVC por diâmetro nominal, sem e com o acréscimo de 25% de conexões -->
+| Diâmetro | Polegadas | Tipo | Preço por metro | Com 25% de conexões |
+| :--- | :--- | :--- | ---: | ---: |
+| DN 20 | 1/2" | soldável | R$ 8,20 | R$ 10,25 |
+| DN 25 | 3/4" | soldável | R$ 11,50 | R$ 14,38 |
+| DN 32 | 1" | soldável | R$ 14,80 | R$ 18,50 |
+| DN 40 | 1 1/4" | soldável | R$ 16,90 | R$ 21,12 |
+| DN 50 | 1 1/2" | soldável | R$ 18,00 | R$ 22,50 |
+| DN 60 | 2" | soldável | R$ 22,80 | R$ 28,50 |
+| DN 75 | 2 1/2" | soldável | R$ 28,00 | R$ 35,00 |
+| DN 85 | 3" | soldável | R$ 32,50 | R$ 40,62 |
+| DN 100 | 4" | pluvial | R$ 38,00 | R$ 47,50 |
+| DN 110 | 4" | soldável | R$ 42,00 | R$ 52,50 |
+| DN 150 | 6" | pluvial | R$ 75,00 | R$ 93,75 |
+
+<!-- tabela: **Tabela 31** — Peças do arranjo 3D que o programa orça sozinho, com o preço de referência e o destino no investimento -->
+| Peça | Preço de referência | Muda com o diâmetro | Onde entra no CAPEX |
+| :--- | ---: | :---: | :--- |
+| Registro de gaveta (bronze) | R$ 75,00 | sim | acessórios |
+| Registro de esfera (PVC) | R$ 25,00 | sim | acessórios |
+| Válvula de retenção (bronze) | R$ 85,00 | sim | acessórios |
+| Válvula solenoide | R$ 140,00 | sim | acessórios |
+| Hidrômetro com cavalete | R$ 160,00 | sim | acessórios |
+| Válvula de pé com crivo | R$ 45,00 | sim | acessórios |
+| Filtro pluvial | R$ 650,00 | não | linha de tratamento, quando a ETAP está ligada; senão, acessórios |
+| Reservatório de descarte com válvula de purga | R$ 180,00 | não | linha de tratamento, quando a ETAP está ligada; senão, acessórios |
+| Sucção flutuante (boia e mangote) | R$ 280,00 | não | acessórios |
+| Freio d'água (entrada calma), DN 100 | R$ 70,00 | não | acessórios |
+| Ladrão sifonado com tela, DN 100 | R$ 110,00 | não | acessórios |
+| Respiro com tela | R$ 40,00 | não | acessórios |
+| Chave de nível (boia elétrica) | R$ 65,00 | não | acessórios |
+| Quadro de comando | R$ 480,00 | não | acessórios |
+| Separação atmosférica (air gap) | R$ 150,00 | não | acessórios |
+| Ponto de consumo não potável com placa | R$ 55,00 | não | acessórios |
+| Curva 90° PVC | R$ 3,00 | sim | tubulação |
+| Conexão de extremidade PVC (luva/adaptador) | R$ 2,50 | sim | tubulação |
+| Tê 90° PVC | R$ 4,50 | sim | tubulação |
+| Cabo PP 3 × 1,5 mm² (por metro) | R$ 6,00 por metro | não | acessórios |
+
+Os preços das peças que mudam com o diâmetro valem para o DN 25.
+
+Os preços das peças são, nas palavras do próprio código, um cenário de referência interno de varejo de 2026: servem para que nada fique de fora e para que a ordem de grandeza esteja certa, e devem ser trocados pelo orçamento da obra. Se você digita outro valor ou altera os comprimentos de tubo no diálogo, o orçamento do arranjo se desliga para essas rubricas e o valor digitado passa a ser o do projeto.
+
+**Mão de obra.** É a fração indicada na tabela da soma de cisterna, caixa, motobombas, tubulação e acessórios, com um piso. Por depender dos materiais, cresce com o volume do reservatório, e a varredura a refaz a cada volume.
+
+**Linha de tratamento e descarte.** O programa dimensiona o filtro de entrada pela área do telhado, o dosador de cloração e, se você os escolhe, o reator ultravioleta, o ozonizador e o filtro de polimento. O reservatório de descarte e o separador de folhas entram quando o descarte físico está habilitado. Com os acessórios digitados, a linha substitui a verba genérica de filtragem que eles já trazem, e só a diferença é investimento novo; com os acessórios do arranjo, o filtro e o descarte já estão fora deles, e a linha entra inteira.
+
+<!-- tabela: **Tabela 32** — Preço da linha de tratamento e do descarte inicial, conforme o componente e a condição que o escolhe -->
+| Componente | Condição | Investimento | Custeio anual |
+| :--- | :--- | ---: | ---: |
+| filtro de entrada | Filtro Autolimpante Vórtex DN 100 (Até 200 m²); telhado de 150 m² | R$ 650,00 | — |
+| filtro de entrada | Filtro Autolimpante Vórtex DN 150 (Até 500 m²); telhado de 300 m² | R$ 1 250,00 | — |
+| filtro de entrada | Filtro Industrial de Cesto / Ciclônico DN 200 (Grandes Telhados); telhado de 600 m² | R$ 2 800,00 | — |
+| dosador de cloração | sempre que a ETAP está ligada | R$ 280,00 | o do cloro, à parte |
+| reator ultravioleta, 25 W | estágio adicional; 120 m³/ano de água de chuva | R$ 1 200,00 | R$ 215,62 |
+| reator ultravioleta, 55 W | estágio adicional; 300 m³/ano de água de chuva | R$ 2 200,00 | R$ 398,38 |
+| ozonizador | estágio adicional | R$ 3 500,00 | R$ 200,00 |
+| filtro de polimento | classes 1 a 3: areia multicamada ou cartucho | R$ 380,00 | R$ 90,00 |
+| filtro de polimento | classe 4: carvão ativado | R$ 550,00 | R$ 150,00 |
+| descarte inicial | 2 mm sobre 100 m²: reservatório de 200 L e separador de folhas | R$ 780,00 | R$ 40,00 |
+| descarte inicial | 2 mm sobre 150 m²: reservatório de 300 L e separador de folhas | R$ 616,90 | R$ 40,00 |
+
+A energia do reator ultravioleta é paga a R$ 0,95 por kWh, valor fixo do módulo de qualidade.
+
+O descarte de 100 m² custa mais que o de 150 m², e a razão é a regra de dimensionamento, não um erro de arredondamento: até 250 L o reservatório é uma coluna de PVC orçada por litro, e acima disso passa a ser um tanque de polietileno da tabela de preços. A descontinuidade é conhecida e está na lista de pendências.
+
+#### 4.7.4.2. A calibração em tipologias e o fator regional
+
+A base traz cinco tipologias residenciais, da casa térrea ao bloco de 128 moradores, cada uma com os subsistemas calibrados. Existe uma função que orça uma tipologia inteira, mas **nem a interface nem a linha de comando a chamam**: o projeto novo é orçado pelo arranjo, e da tipologia só a verba de filtragem da casa térrea entra, no desconto da linha de tratamento.
+
+<!-- tabela: **Tabela 33** — Subsistemas calibrados das cinco tipologias residenciais da base de custos -->
+| Tipologia | Motobombas | Painel elétrico | Sensores e automação | Filtragem | Air gap | Tubulação base | Manutenção anual | Mão de obra mínima |
+| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| UTI: Casa Unifamiliar Térrea (4 hab) | 1 × R$ 301,70 | R$ 180 | R$ 120 | R$ 350 | R$ 150 | R$ 950 | R$ 250 | R$ 1 400 |
+| UTG: Casa Geminada (8 hab) | 1 × R$ 301,70 | R$ 220 | R$ 150 | R$ 400 | R$ 180 | R$ 1 100 | R$ 300 | R$ 1 550 |
+| MSG: Sobrado Multifamiliar Geminado (16 hab, 2 pavimentos) | 1 × R$ 450,00 | R$ 380 | R$ 240 | R$ 550 | R$ 230 | R$ 1 600 | R$ 450 | R$ 1 900 |
+| MFH: Bloco Multifamiliar H (64 hab, 16 aptos, 4 pavimentos) | 2 × R$ 600,00 | R$ 950 | R$ 550 | R$ 1 200 | R$ 450 | R$ 3 800 | R$ 950 | R$ 3 200 |
+| MFL: Bloco Multifamiliar Retangular L (128 hab, 32-48 aptos, 4-8 pavimentos) | 2 × R$ 1 200,00 | R$ 1 600 | R$ 900 | R$ 2 100 | R$ 750 | R$ 6 500 | R$ 1 600 | R$ 4 800 |
+
+<!-- tabela: **Tabela 34** — Orçamento calibrado de cada tipologia para uma cisterna de 5.000 L em polietileno, pela função de estimativa calibrada (fora do caminho da interface) -->
+| Orçamento calibrado, cisterna de 5.000 L em polietileno, SP | Cisterna | Caixa | Motobombas | Tubulação | Acessórios | Mão de obra | Total |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| UTI | R$ 3 000 | R$ 270 | R$ 302 | R$ 1 100 | R$ 800 | R$ 1 641 | R$ 7 113 |
+| UTG | R$ 3 000 | R$ 270 | R$ 302 | R$ 1 250 | R$ 950 | R$ 1 731 | R$ 7 503 |
+| MSG | R$ 3 000 | R$ 270 | R$ 450 | R$ 1 750 | R$ 1 400 | R$ 2 061 | R$ 8 931 |
+| MFH | R$ 3 000 | R$ 270 | R$ 1 200 | R$ 3 950 | R$ 3 150 | R$ 3 471 | R$ 15 041 |
+| MFL | R$ 3 000 | R$ 270 | R$ 2 400 | R$ 6 650 | R$ 5 350 | R$ 5 301 | R$ 22 971 |
+
+O fator regional segue a mesma sorte. A tabela traz um fator por unidade da federação, e o diálogo do CAPEX mostra o da UF da tarifa, mas ele multiplica apenas o total do estimador preliminar, que nenhuma tela usa. No investimento do projeto ele **não tem efeito**, e um teste confere isso.
+
+<!-- tabela: **Tabela 35** — Fator regional de custo por unidade da federação -->
+| UF | Fator | UF | Fator | UF | Fator |
+| :--- | ---: | :--- | ---: | :--- | ---: |
+| AC | 1,17 | MA | 0,96 | RJ | 1,05 |
+| AL | 0,95 | MG | 0,95 | RN | 0,94 |
+| AM | 1,16 | MS | 1,02 | RO | 1,09 |
+| AP | 1,15 | MT | 1,08 | RR | 1,21 |
+| BA | 0,95 | PA | 1,11 | RS | 1,01 |
+| CE | 0,93 | PB | 0,93 | SC | 1,02 |
+| DF | 1,06 | PE | 0,94 | SE | 0,93 |
+| ES | 0,97 | PI | 0,94 | SP | 1,00 |
+| GO | 0,95 | PR | 0,98 | TO | 1,03 |
+
+#### 4.7.4.3. De onde vêm os números, e de quando
+
+A base registra a origem de uma parte pequena dos seus números.
+
+<!-- tabela: **Tabela 36** — O que a base de custos registra sobre a origem e a data dos próprios números -->
+| Registro na base de custos | Conteúdo |
+| :--- | :--- |
+| atualização da base (`updated_at`) | 08/2026 |
+| fontes declaradas (`source_references`) | Valores de mercado Brasil (Fortlev, Acqualimp, Dancor, Schneider, SINAPI Caixa, CUB CBIC, ANEEL) |
+| moeda | BRL |
+| preços de reservatório: fabricante | Fortlev |
+| preços de reservatório: varejista | Copafer (copafer.com.br) |
+| preços de reservatório: coletados em | 09/09/2026 |
+| preços de reservatório: critério | menor preço anunciado por capacidade, uma única marca e um único varejista, no mesmo dia |
+| preços de reservatório: alcance | 310 L a 15.000 L |
+
+Só a tabela de preços do polietileno tem procedência completa: fabricante, varejista, data de coleta e critério. O registro tem ainda uma incoerência: a base diz ter sido atualizada em 08/2026, antes da coleta de 09/09/2026 que a alimenta. As demais rubricas têm a origem nos comentários do código (os códigos SINAPI dos tubos, o cenário de referência das peças) e nenhuma data. Parte delas são constantes soltas no código, fora do registro de fontes:
+
+<!-- tabela: **Tabela 37** — Constantes que o código usa para orçar e que a base de custos não acompanha com fonte e data -->
+| Constante | Valor | Onde está | Fonte registrada |
+| :--- | ---: | :--- | :---: |
+| consumo específico de recalque do orçamento calibrado | 0,45 kWh/m³ | `estimate_calibrated_capex_opex` | não |
+| custo de cloração do orçamento calibrado | R$ 0,05/m³ | `estimate_calibrated_capex_opex` | não |
+| mão de obra | 30% dos materiais | `labor_percentage` | não |
+| acessórios sem arranjo | 8% dos reservatórios | `accessories_percentage` | não |
+| tubulação sem arranjo | 18% da cisterna | `piping_percentage_fallback` | não |
+| conexões sobre o tubo, no orçamento por comprimento | 25% | `compute_pipe_item_cost` | não |
+| volume da caixa no orçamento calibrado | 10% da cisterna | `estimate_calibrated_capex_opex` | não |
+| pisos da tubulação, dos acessórios e da mão de obra | R$ 950, R$ 500 e R$ 1 400 | `estimate_preliminary_capex` | não |
+| preço da energia do reator ultravioleta | R$ 0,95/kWh | `water_quality.py` | não |
+| preços da linha de tratamento e do descarte | tabela anterior | `water_quality.py` | não |
+| multiplicadores de material | 1,35, 2,10, 3,60 | `material_multipliers` | não |
+
+Os dois primeiros valores da tabela pertencem ao orçamento calibrado por tipologia, que a interface não usa; o custeio do projeto vem de outro caminho, descrito na próxima seção. Estão aqui porque quem lê o código os encontra, e porque um teste os congela.
+
+#### 4.7.4.4. Limites de validade
+
+- **Volume.** A tabela do polietileno cobre de 310 L a 15.000 L; a da caixa, de 310 L a 2.000 L. Fora delas o preço é extrapolado.
+- **Material.** O concreto, a fibra e o aço são o polietileno vezes um fator: servem para comparar materiais, não para orçar uma obra.
+- **Data.** Os preços são nominais, de setembro de 2026, e o programa não os corrige pela inflação.
+- **Obra.** O custo de escavação, de laje e de reaterro de uma cisterna enterrada não é calculado por tipo de solo; está dentro da mão de obra percentual.
+- **Uso.** A base é calibrada para residências e blocos residenciais. Para escola, hospital ou indústria, trate o resultado como ordem de grandeza.
+
+#### 4.7.4.5. O que você deve conferir
+
+1. O preço da cisterna contra uma cotação do seu fornecedor, pela tabela da base.
+2. O arranjo da Planta 3D: o orçamento é do arranjo, e um arranjo que não é o seu dá um orçamento que não é o seu.
+3. A mão de obra, que é um percentual e não um orçamento.
+4. O preço da motobomba, que depende de quem o gravou por último.
+5. Se há linha de tratamento além da cloração, e se o descarte está habilitado.
+
+#### 4.7.4.6. O mesmo projeto, digitado e calculado
+
+<!-- tabela: **Tabela 38** — Investimento do projeto do tutorial com os valores digitados e com os valores que o programa calcularia sozinho -->
+| Rubrica | Digitado no tutorial | Calculado sozinho |
+| :--- | ---: | ---: |
+| cisterna de concreto de 4.000 L | R$ 5 304,39 | R$ 5 304,39 |
+| caixa superior de 1.000 L em polietileno | R$ 459,90 | R$ 459,90 |
+| duas motobombas | R$ 600,00 | R$ 600,00 |
+| mão de obra | R$ 3 500,00 | R$ 3 365,78 |
+| tubulação | R$ 1 200,00 | R$ 1 677,62 |
+| acessórios | R$ 1 800,00 | R$ 3 177,37 |
+| linha de tratamento e descarte (incremento) | R$ 1 196,90 | R$ 1 546,90 |
+| **investimento total** | **R$ 14 061,19** | **R$ 16 131,96** |
+
+O programa, sozinho, chega a R$ 16.131,96 para o projeto do tutorial, contra os R$ 14.061,19 da tabela digitada. A cisterna, a caixa e as motobombas coincidem; a diferença vem da tubulação, dos acessórios e do descarte, que o arranjo 3D orça peça a peça e o tutorial tinha como verba. O arranjo é a conta mais completa e a mais cara, e o resultado do projeto muda com ela.
+
+---
+
+### 4.7.5. O resultado
+
+<!-- tabela: **Tabela 39** — Indicadores econômicos do projeto do tutorial em vinte anos -->
 | Indicador | Valor |
 | :--- | ---: |
 | valor presente líquido | R$ 2.745 |
@@ -1569,7 +1833,7 @@ limita a economia a menos de cinco metros cúbicos por mês, e a cisterna de con
 que é a mais cara por litro depois do aço inoxidável. A seção 4.8 mostra que a troca
 do material muda a conta.
 
-**O custeio é pequeno:** R$ 48,82 por ano, dos quais R$ 3,45 de pastilha de cloro, R$ 40 de manutenção do descarte e R$ 5,36 de energia do recalque, os 7,7 kWh por ano da seção 4.5. A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo declarado na etapa **4. Reservatório & Custos**: recalque, pressurização direta ou gravidade.
+**O custeio é pequeno:** R$ 48,82 por ano, dos quais R$ 3,45 de pastilha de cloro, R$ 40 de manutenção do descarte e R$ 5,36 de energia do recalque, os 7,7 kWh por ano da seção 4.5. A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo declarado na etapa **4. Reservatório & Custos**: recalque, pressurização direta ou gravidade. Esse número não inclui as três rotinas de manutenção de partida, que somam R$ 740,00 por ano e entram no fluxo de caixa à parte; a seção seguinte mostra o peso delas.
 
 ---
 
@@ -1580,11 +1844,97 @@ O resultado de um volume isolado diz pouco sem os vizinhos. A aba econômica rep
 *Figura 15 — O gráfico da aba econômica: o valor presente líquido de cada volume da varredura, com cisterna de concreto, com o máximo econômico e o ótimo técnico marcados. Quando os dois coincidem, o programa os marca com um único símbolo. Figura gerada pelo próprio programa.*
 
 ---
-### 4.7.5. O que a projeção assume
+
+### 4.7.6. O que entra automaticamente no OPEX
+
+Num projeto novo, o custeio também vem preenchido. O programa soma, mês a mês, a energia da motobomba, a cloração, a linha de tratamento, as rotinas de manutenção e, quando habilitado, o benefício do IPTU Verde. Cada item abaixo tem valor de partida, e todos podem ser alterados ou desligados.
+
+<!-- tabela: **Tabela 40** — Itens que entram sozinhos no custeio anual de um projeto novo, com valor padrão, periodicidade, origem e modo de alterar -->
+| Item | Valor padrão | Periodicidade | Origem | Como alterar ou desligar |
+| :--- | :--- | :--- | :--- | :--- |
+| Inspeção e limpeza de calhas/pré-filtro | R$ 240,00 por evento | a cada 12 meses | padrão do projeto novo; os mesmos três valores estão em `default_maintenance_items` | botão «3. Outros Custos Operacionais»: editar, excluir ou acrescentar |
+| Limpeza e inspeção do reservatório | R$ 320,00 por evento | a cada 12 meses | padrão do projeto novo; os mesmos três valores estão em `default_maintenance_items` | botão «3. Outros Custos Operacionais»: editar, excluir ou acrescentar |
+| Manutenção preventiva da motobomba | R$ 180,00 por evento | a cada 12 meses | padrão do projeto novo; os mesmos três valores estão em `default_maintenance_items` | botão «3. Outros Custos Operacionais»: editar, excluir ou acrescentar |
+| cloração | 1,5 mg/L de cloro ativo, pastilha a 65%, R$ 25,00 por kg de produto: 0,00231 kg e R$ 0,0577 por m³ | contínua, proporcional ao volume pluvial aproveitado | `Cloracao` (`chlorination.py`) e `chlorine_cost_per_kg` | dose e desinfetante na etapa «3. Qualidade & ETAP»; o preço do quilograma só pelo arquivo do projeto |
+| descarte inicial | R$ 40,00 por ano (reservatório de descarte e separador de folhas) | anual | `size_first_flush_system` | caixa do descarte físico na etapa «3. Qualidade & ETAP» |
+| energia da motobomba | R$ 0,6957 por kWh, bandeira verde, impostos de 0% | contínua, proporcional à energia anual da motobomba | tarifa B1 residencial do município na base ANEEL, ou o padrão do projeto | botão «2. Motobomba e Custo de Energia»: cidade, tarifa, impostos; bandeira na etapa econômica |
+| IPTU Verde | desligado | anual | opção do município na base de tarifas | caixa na etapa econômica |
+
+**As rotinas de manutenção pesam mais que o resto.** São três, com R$ 740,00 por ano no total, cobradas ao fim de cada período de 12 meses e corrigidas pela inflação. O campo de custeio anual que o resumo da análise mostra soma só a energia, o cloro e a linha de tratamento, e por isso os R$ 48,82 do tutorial não incluem as rotinas, que entram no fluxo de caixa à parte. No tutorial elas decidem o resultado:
+
+<!-- tabela: **Tabela 41** — Efeito das três rotinas de manutenção de partida sobre o custeio do resumo e sobre o resultado do projeto do tutorial -->
+| Projeto do tutorial | Com as rotinas de partida | Sem rotinas |
+| :--- | ---: | ---: |
+| rotinas de manutenção por ano | R$ 740,00 | R$ 0,00 |
+| custeio anual do resumo: energia, cloro e linha de tratamento | R$ 48,82 | R$ 48,82 |
+| valor presente líquido | R$ 2 745,40 | R$ 15 029,04 |
+| payback descontado | 16,3 anos | 9,2 anos |
+
+**A energia.** A tarifa vem da base de municípios, que traz a tarifa B1 residencial da ANEEL para cada um. Ela **não inclui** ICMS, PIS/Pasep, Cofins, COSIP nem bandeira, e o campo de imposto sobre a conta de energia começa em zero. Quem quer a tarifa que o medidor cobra deve informar o imposto e escolher a bandeira. A energia da motobomba é reajustada pelo reajuste de energia, e não pela inflação.
+
+<!-- tabela: **Tabela 42** — Tarifa de energia da base de municípios -->
+| A tarifa de energia da base | Valor |
+| :--- | ---: |
+| municípios com tarifa de energia | 652 |
+| distribuidoras | 58 |
+| menor tarifa | R$ 0,6176/kWh |
+| mediana | R$ 0,8423/kWh |
+| maior tarifa | R$ 1,0611/kWh |
+| municípios cuja tarifa vem de um ato já expirado | 140 |
+| valor padrão do projeto novo | R$ 0,6957/kWh |
+
+<!-- tabela: **Tabela 43** — Acréscimo de cada bandeira tarifária sobre a tarifa de energia -->
+| Bandeira tarifária | Acréscimo sobre a tarifa |
+| :--- | ---: |
+| verde | R$ 0,00000/kWh |
+| amarela | R$ 0,01885/kWh |
+| vermelha, patamar 1 | R$ 0,04463/kWh |
+| vermelha, patamar 2 | R$ 0,07877/kWh |
+| branca | desconto de 15% da tarifa, fora de ponta |
+
+**As premissas da projeção.** O projeto novo carrega valores de partida para a taxa mínima de atratividade, a inflação e os reajustes. A etapa 4 oferece perfis de referência, que preenchem os campos sem fixá-los.
+
+<!-- tabela: **Tabela 44** — Premissas da projeção no projeto novo e no tutorial -->
+| Premissa | Padrão do projeto novo | Valor do tutorial |
+| :--- | ---: | ---: |
+| taxa mínima de atratividade | 2,00% ao mês (26,8% ao ano) | 0,50% ao mês |
+| inflação dos custos | 0,20% ao mês (2,4% ao ano) | 0,35% ao mês |
+| reajuste da tarifa de água | 5,0% ao ano | 5,0% ao ano |
+| reajuste da tarifa de esgoto | 5,0% ao ano | 5,0% ao ano |
+| reajuste da tarifa de energia | 5,0% ao ano | 5,0% ao ano |
+| intervalo de reajuste | 12 meses | 12 meses |
+| período de análise | 20 anos | 20 anos |
+
+<!-- tabela: **Tabela 45** — Perfis de referência que a etapa 4 oferece -->
+| Perfis de referência da etapa 4 | Taxa |
+| :--- | ---: |
+| inflação: IPCA | 4,5% ao ano |
+| inflação: INPC | 4,5% ao ano |
+| inflação: IGP-DI | 5,0% ao ano |
+| inflação: IGP-M | 5,0% ao ano |
+| taxa mínima de atratividade: real (IPCA + spread) | 6,0% ao ano |
+| taxa mínima de atratividade: neutra de mercado | 10,0% ao ano |
+| taxa mínima de atratividade: custo de capital conservador | 12,0% ao ano |
+| taxa mínima de atratividade: taxa Selic / Custo de oportunidade atual | 14,0% ao ano |
+| taxa mínima de atratividade: capital próprio com risco / Comercial | 16,0% ao ano |
+| reajuste: Sem projeção | água e esgoto 0,0%; energia 0,0% ao ano |
+| reajuste: Referência de planejamento 2025 | água e esgoto 4,5%; energia 3,5% ao ano |
+| reajuste: Referência regulatória | água e esgoto 5,0%; energia 6,0% ao ano |
+| reajuste: Cenário inflacionário moderado | água e esgoto 6,5%; energia 7,5% ao ano |
+| reajuste: Escalada de escassez hídrica | água e esgoto 8,5%; energia 9,0% ao ano |
+
+A taxa mínima de atratividade de partida, de 2% ao mês, é muito maior que a do tutorial e que os perfis de referência. Defina a sua antes de ler o valor presente líquido.
+
+**O que não entra.** O fluxo de caixa não traz reposição de equipamentos ao longo dos 20 anos, valor residual, análises laboratoriais da água nem seguro. Se a bomba ou o filtro serão trocados no período, acrescente a troca como uma rotina em *3. Outros Custos Operacionais*.
+
+**Como desligar ou alterar.** As rotinas se editam, excluem ou acrescentam no botão *3. Outros Custos Operacionais*, que também restaura as três de referência. A dose do cloro e o descarte físico se escolhem na etapa **3. Qualidade & ETAP**; o preço do quilograma de cloro não tem campo na interface e só muda no arquivo do projeto, no bloco `water_quality_and_etap`. A tarifa e os impostos da energia ficam em *2. Motobomba e Custo de Energia*, e a bandeira na etapa econômica.
+
+---
+### 4.7.7. O que a projeção assume
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
-<!-- tabela: **Tabela 28** — Premissas da projeção econômica e o peso de cada uma no resultado -->
+<!-- tabela: **Tabela 46** — Premissas da projeção econômica e o peso de cada uma no resultado -->
 | Premissa | Valor adotado | Onde ela pesa |
 | :--- | ---: | :--- |
 | taxa mínima de atratividade | 0,5% ao mês | desconta o fluxo; quanto maior, pior o VPL |
@@ -1605,9 +1955,9 @@ adotado e mostra a sensibilidade — a seção 3.7 (volume Guias de uso) ensina 
 
 ---
 
-### 4.7.6. O que temos até aqui
+### 4.7.8. O que temos até aqui
 
-<!-- tabela: **Tabela 29** — Estado do projeto do tutorial após a análise econômica -->
+<!-- tabela: **Tabela 47** — Estado do projeto do tutorial após a análise econômica -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L, concreto |
@@ -1648,7 +1998,7 @@ econômica.
 Para o nosso projeto, cisterna de concreto de 4.000 L com recalque para a caixa superior
 de 1.000 L:
 
-<!-- tabela: **Tabela 30** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
+<!-- tabela: **Tabela 48** — Balanço de carbono do projeto do tutorial com cisterna de concreto -->
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 858 kg CO₂e |
@@ -1709,7 +2059,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 
 ==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço da aba ambiental do programa, e a que mantém a leitura intuitiva de um gráfico de emissões: a linha que desce é a que melhora.==
 
-<!-- tabela: **Tabela 31** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
+<!-- tabela: **Tabela 49** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório -->
 | Material da cisterna | Massa | Carbono incorporado | Payback de carbono | Emissões líquidas em 20 anos | Preço |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polietileno (PEAD) | 88 kg | 327 kg CO₂e | 16,3 anos | -74 kg | R$ 2 526 |
@@ -1717,7 +2067,7 @@ A dívida de carbono está quase toda na cisterna. E cisterna de 4.000 L pode pe
 | Fibra de vidro | 57 kg | 371 kg CO₂e | 18,5 anos | -30 kg | R$ 3 410 |
 | Aço inoxidável | 152 kg | 748 kg CO₂e | 37,3 anos | 347 kg | R$ 9 093 |
 
-<!-- tabela: **Tabela 32** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
+<!-- tabela: **Tabela 50** — Efeito do volume da cisterna de concreto sobre as emissões líquidas de carbono -->
 | Volume em concreto | Payback de carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
 | 2 000 L | 27,4 anos | 141 kg CO₂e |
@@ -1797,7 +2147,7 @@ honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errad
 
 A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o potencial de economia, o que é raro:
 
-<!-- tabela: **Tabela 33** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
+<!-- tabela: **Tabela 51** — Efeito da troca de concreto por polietileno nas três dimensões de análise -->
 | | Concreto | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | R$ 5.304 | R$ 2.526 |
@@ -1807,7 +2157,7 @@ A troca melhora ao mesmo tempo o resultado financeiro e o ambiental, sem mudar o
 | payback de carbono | 42,8 anos | 16,3 anos |
 | emissões líquidas em 20 anos | +457 kg | −74 kg |
 
-<!-- tabela: **Tabela 34** — Estado do projeto do tutorial após a análise ambiental -->
+<!-- tabela: **Tabela 52** — Estado do projeto do tutorial após a análise ambiental -->
 | Projeto até aqui | |
 | :--- | ---: |
 | volume | 4.000 L |
@@ -1855,7 +2205,7 @@ receberam três respostas que não coincidem. Essa discordância não é defeito
 nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
 diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
 
-<!-- tabela: **Tabela 35** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
+<!-- tabela: **Tabela 53** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise -->
 | Volume | Potencial | VPL | Payback | Saldo de carbono em 20 anos | Investimento |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 000 L | 23,30% | R$ 3 228 | 13,9 anos | 121 kg | R$ 9 217 |
@@ -1866,7 +2216,7 @@ diferentes e têm comportamentos diferentes em relação ao volume do reservató
 | 8 000 L | 27,94% | R$ 4 245 | 14,6 anos | -59 kg | R$ 13 257 |
 | 12 000 L | 28,00% | R$ 2 737 | 16,5 anos | -200 kg | R$ 14 831 |
 
-<!-- tabela: **Tabela 36** — Volume vencedor segundo cada critério isolado -->
+<!-- tabela: **Tabela 54** — Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume que vence |
 | :--- | ---: |
 | maior potencial de economia | 12 000 L |
@@ -1897,7 +2247,7 @@ métodos multicritério vêm preencher.
 
 O programa usa TOPSIS sobre **sete critérios**:
 
-<!-- tabela: **Tabela 37** — Os sete critérios do multicritério e a direção de preferência de cada um -->
+<!-- tabela: **Tabela 55** — Os sete critérios do multicritério e a direção de preferência de cada um -->
 | Critério | Direção |
 | :--- | :--- |
 | potencial de economia | maximizar |
@@ -1946,7 +2296,7 @@ A aba de decisão apresenta o escore de cada volume candidato (Figura 20).
 
 A tabela a seguir mostra o que acontece ao deslocar o peso.
 
-<!-- tabela: **Tabela 38** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
+<!-- tabela: **Tabela 56** — Volume escolhido pelo TOPSIS conforme a dimensão que recebe peso dominante, e o segundo colocado -->
 | Peso dominante | Volume | Segundo colocado |
 | :--- | ---: | ---: |
 | pesos iguais | 4 000 L | 5 000 L |
@@ -2002,7 +2352,7 @@ vez de supor que concordem sempre.
 
 ### 4.9.5. O projeto, fechado
 
-<!-- tabela: **Tabela 39** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
+<!-- tabela: **Tabela 57** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Triton · residência unifamiliar em Florianópolis | |
 | :--- | ---: |
 | série de precipitação | Florianópolis, 30 anos, 1.795 mm/ano |
@@ -2623,7 +2973,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 40** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 58** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -2634,7 +2984,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 41** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 59** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -2664,7 +3014,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 42** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 60** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -2685,7 +3035,7 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 43** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 61** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 (volume Enganos, limitações e confiabilidade) |
@@ -2703,7 +3053,7 @@ enganos. Seção 5.2 (volume Enganos, limitações e confiabilidade), as limita�
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 44** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 62** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -2720,7 +3070,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 45** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 63** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -2783,7 +3133,7 @@ da base ao abrir.
 
 ### J.1. Os casos do manual
 
-<!-- tabela: **Tabela 46** — Os casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 64** — Os casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.triton` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -2805,7 +3155,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 47** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 65** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.triton` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |

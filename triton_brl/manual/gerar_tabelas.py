@@ -780,6 +780,54 @@ def tabela_cidades():
 #: A legenda de cada tabela gerada. Fica aqui, e não no capítulo, porque é aqui
 #: que a tabela nasce; a montagem só lhe acrescenta o número.
 LEGENDAS = {
+    'cap10_capex_cadeia.md': [
+        'Rubricas do investimento que o programa calcula sozinho, a regra de cada uma, o parâmetro que a governa e o valor padrão',
+    ],
+    'cap10_capex_reservatorios.md': [
+        'Preço de reservatório por volume e por material, obtido pela interpolação da tabela do polietileno e pelo fator de cada material',
+    ],
+    'cap10_capex_tubos.md': [
+        'Preço por metro dos tubos de PVC por diâmetro nominal, sem e com o acréscimo de 25% de conexões',
+    ],
+    'cap10_capex_pecas.md': [
+        'Peças do arranjo 3D que o programa orça sozinho, com o preço de referência e o destino no investimento',
+    ],
+    'cap10_capex_bombas.md': [
+        'Motobombas do assistente de dimensionamento, com o preço do catálogo e o preço que a fórmula do estimador daria para a mesma potência',
+    ],
+    'cap10_capex_etap.md': [
+        'Preço da linha de tratamento e do descarte inicial, conforme o componente e a condição que o escolhe',
+    ],
+    'cap10_capex_tipologias.md': [
+        'Subsistemas calibrados das cinco tipologias residenciais da base de custos',
+        'Orçamento calibrado de cada tipologia para uma cisterna de 5.000 L em polietileno, pela função de estimativa calibrada (fora do caminho da interface)',
+    ],
+    'cap10_capex_regional.md': [
+        'Fator regional de custo por unidade da federação',
+    ],
+    'cap10_capex_procedencia.md': [
+        'O que a base de custos registra sobre a origem e a data dos próprios números',
+    ],
+    'cap10_capex_constantes.md': [
+        'Constantes que o código usa para orçar e que a base de custos não acompanha com fonte e data',
+    ],
+    'cap10_capex_exemplo.md': [
+        'Investimento do projeto do tutorial com os valores digitados e com os valores que o programa calcularia sozinho',
+    ],
+    'cap10_opex_itens.md': [
+        'Itens que entram sozinhos no custeio anual de um projeto novo, com valor padrão, periodicidade, origem e modo de alterar',
+    ],
+    'cap10_opex_energia.md': [
+        'Tarifa de energia da base de municípios',
+        'Acréscimo de cada bandeira tarifária sobre a tarifa de energia',
+    ],
+    'cap10_opex_peso.md': [
+        'Efeito das três rotinas de manutenção de partida sobre o custeio do resumo e sobre o resultado do projeto do tutorial',
+    ],
+    'cap10_opex_premissas.md': [
+        'Premissas da projeção no projeto novo e no tutorial',
+        'Perfis de referência que a etapa 4 oferece',
+    ],
     'cap30_inventario.md': [
         'Inventário de carbono do projeto fechado do tutorial, item a item, com a parcela de cada componente no carbono incorporado; valores anuais negativos são crédito',
     ],
@@ -945,6 +993,426 @@ def tabela_inventario():
     return NL.join(L)
 
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Seção 10 — como o CAPEX é calculado sozinho e o que entra sozinho no custeio
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# Nada aqui é digitado: cada número sai de triton/data/costs_database.json, das constantes de
+# triton/core (cost_estimates, quantitativo_do_arranjo, water_quality, chlorination, parser) ou de
+# uma chamada às próprias funções de cálculo. Quem muda um preço no programa muda a tabela, e o
+# teste tests/unit/test_manual_capex_opex.py confere os dois lados.
+#
+# Como rodar só estas tabelas (sem regerar as demais, que têm legendas revisadas à mão):
+#     python manual/gerar_tabelas.py custos
+
+def _rs(v, casas=2):
+    return f"R$ {br(v, casas)}"
+
+
+def _data_iso(texto):
+    """«2026-09-09» → «09/09/2026»; «2026-08» → «08/2026»."""
+    partes = str(texto).split("-")
+    return "/".join(reversed(partes))
+
+
+def _pct(v, casas=0):
+    return f"{br(v * 100.0, casas)}%"
+
+
+def tabela_capex_cadeia():
+    """A cadeia do CAPEX automático: rubrica, regra, parâmetro e valor padrão."""
+    from triton.core import cost_estimates as ce
+    from triton.core.parser import TritonConfig
+    from triton.core.quantitativo_do_arranjo import CATALOGO_DE_PECAS
+
+    cfg = TritonConfig()
+    inf, sup = ce.LOWER_TANK_PRICE_TABLE, ce.UPPER_TANK_PRICE_TABLE
+    pisos = ce.estimate_preliminary_capex(100.0, 0.0, False)   # reservatório mínimo: só os pisos aparecem
+    fatores = list(ce.REGIONAL_FACTORS_BY_UF.values())
+    return NL.join([
+        "| Rubrica | Como o programa a calcula | Parâmetro | Valor padrão |",
+        "| :--- | :--- | :--- | :--- |",
+        "| cisterna | interpola linearmente a tabela de preços do polietileno pelo volume e multiplica pelo fator do material "
+        "| `lower_tank_pead_prices`, `material_multipliers` "
+        f"| {len(inf)} preços, de {vol_br(inf[0][0])} a {vol_br(inf[-1][0])} |",
+        "| caixa superior | a mesma interpolação, na tabela própria da caixa, com o volume da caixa "
+        "| `upper_tank_pead_prices`, `upper_tank_vol` "
+        f"| {len(sup)} preços, de {vol_br(sup[0][0])} a {vol_br(sup[-1][0])}; caixa de {vol_br(cfg.upper_tank_vol)} |",
+        "| motobombas | custo unitário vezes o número de motobombas; zero no abastecimento por gravidade "
+        "| `pump_unit_cost`, `pump_count` do projeto "
+        f"| {_rs(cfg.pump_unit_cost)} por unidade, {cfg.pump_count} unidades |",
+        "| tubulação | soma, no arranjo 3D, dos metros de tubo de cada diâmetro vezes o preço por metro, mais curvas, conexões de extremidade e tês "
+        "| `pipes_cost_per_meter` e as peças de linha do arranjo "
+        f"| {len(ce.PIPE_COST_PER_METER)} diâmetros, de DN {min(ce.PIPE_COST_PER_METER)} a DN {max(ce.PIPE_COST_PER_METER)} |",
+        "| acessórios | soma, no arranjo 3D, do preço de cada peça (registros, válvulas, quadro, sensores, air gap, hidrômetro) e dos cabos de comando "
+        "| `CATALOGO_DE_PECAS`, que `pecas_do_arranjo` pode sobrescrever "
+        f"| {len(CATALOGO_DE_PECAS)} tipos de peça |",
+        "| mão de obra | percentual da soma de cisterna, caixa, motobombas, tubulação e acessórios, com um piso "
+        "| `labor_percentage`, `MAO_DE_OBRA_MINIMA` "
+        f"| {_pct(ce.LABOR_PCT)} dos materiais, no mínimo {_rs(ce.MAO_DE_OBRA_MINIMA)} |",
+        "| linha de tratamento e descarte | dimensiona a linha pela classe de qualidade, pelo método de desinfecção e pela área do telhado; "
+        "soma ao CAPEX só o que excede a verba genérica de filtragem dos acessórios digitados "
+        "| `size_etap`, `capex_incremental_da_etap` "
+        f"| verba genérica de {_rs(ce.verba_generica_de_tratamento_brl())} |",
+        "| tubulação e acessórios sem arranjo | estimativa por percentual do preço dos reservatórios, com piso, quando o arranjo não é a fonte "
+        "| `piping_percentage_fallback`, `accessories_percentage` "
+        f"| tubulação: {_pct(ce.PIPING_PCT)}, piso de {_rs(pisos['piping'])}; acessórios: {_pct(ce.ACCESSORIES_PCT)}, piso de {_rs(pisos['accessories'])} |",
+        "| fator regional | multiplica o total do estimador preliminar; **não entra** no investimento do projeto, porque a interface e a linha de comando usam as parcelas, e não o total "
+        "| `regional_factors_by_uf` "
+        f"| {len(fatores)} UFs, de {br(min(fatores), 2)} a {br(max(fatores), 2)} |",
+    ])
+
+
+def tabela_capex_reservatorios():
+    """Preço de reservatório por volume e por material, lido da tabela e do multiplicador."""
+    from triton.core import cost_estimates as ce
+
+    materiais = (("PEAD", "polietileno (tabela)"), ("FIBRA", "fibra de vidro"),
+                 ("CONCRETO", "concreto armado"), ("ACO_INOX", "aço inoxidável"))
+    volumes = sorted({v for v, _ in ce.LOWER_TANK_PRICE_TABLE} | {VOLUME})
+    limite_caixa = max(v for v, _ in ce.UPPER_TANK_PRICE_TABLE)
+    tabelados = {v for v, _ in ce.LOWER_TANK_PRICE_TABLE}
+    L = ["| Volume | " + " | ".join(r for _, r in materiais) + " | Também na tabela da caixa |",
+         "| ---: | " + " | ".join("---:" for _ in materiais) + " | :---: |",
+         "| fator do material | " + " | ".join(br(ce.MATERIAL_COST_MULTIPLIERS[m], 2) for m, _ in materiais) + " | |"]
+    for v in volumes:
+        nota = "" if v in tabelados else " (interpolado)"
+        celulas = [_rs(ce.estimate_tank_price(v, m, ce.LOWER_TANK_PRICE_TABLE)) for m, _ in materiais]
+        L.append(f"| {vol_br(v)}{nota} | " + " | ".join(celulas) + f" | {'sim' if v <= limite_caixa else '—'} |")
+    return NL.join(L)
+
+
+def tabela_capex_tubos():
+    """Preço por metro de cada diâmetro, sem e com os 25% de conexões do orçamento por comprimento."""
+    from triton.core import cost_estimates as ce
+
+    L = ["| Diâmetro | Polegadas | Tipo | Preço por metro | Com 25% de conexões |",
+         "| :--- | :--- | :--- | ---: | ---: |"]
+    for p in ce.COMMERCIAL_PIPES_CAPEX:
+        dn = p["dn"]
+        L.append(f"| DN {dn} | {p['pol']} | {p['category'].replace('soldavel', 'soldável')} | {_rs(ce.PIPE_COST_PER_METER[dn])} "
+                 f"| {_rs(ce.compute_pipe_item_cost(dn, 1.0, include_fittings=True))} |")
+    return NL.join(L)
+
+
+def tabela_capex_pecas():
+    """As peças do arranjo 3D que o programa orça sozinho, com preço e regra de escala."""
+    from triton.core.quantitativo_do_arranjo import CABO, CATALOGO_DE_PECAS, CONEXAO, CURVA, TE, _DN_REFERENCIA
+
+    L = ["| Peça | Preço de referência | Muda com o diâmetro | Onde entra no CAPEX |",
+         "| :--- | ---: | :---: | :--- |"]
+    for tipo, p in CATALOGO_DE_PECAS.items():
+        destino = ("linha de tratamento, quando a ETAP está ligada; senão, acessórios"
+                   if tipo in ("filtro_pluvial", "first_flush") else "acessórios")
+        L.append(f"| {p.nome} | {_rs(p.preco_brl)} | {'sim' if p.escala_pelo_dn else 'não'} | {destino} |")
+    for p, un in ((CURVA, ""), (CONEXAO, ""), (TE, ""), (CABO, " por metro")):
+        L.append(f"| {p.nome} | {_rs(p.preco_brl)}{un} | {'sim' if p.escala_pelo_dn else 'não'} "
+                 f"| {'tubulação' if p is not CABO else 'acessórios'} |")
+    L += ["", f"Os preços das peças que mudam com o diâmetro valem para o DN {br(_DN_REFERENCIA, 0)}."]
+    return NL.join(L)
+
+
+def tabela_capex_bombas():
+    """Motobombas: preço do assistente de dimensionamento e preço da fórmula do estimador."""
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    from triton.core import cost_estimates as ce
+    from triton.ui.dialogs.pump_wizard_dialog import PUMP_CATALOG
+
+    L = ["| Modelo do assistente | Potência | Vazão nominal | Altura máxima | Preço do assistente | Preço pela fórmula |",
+         "| :--- | ---: | ---: | ---: | ---: | ---: |"]
+    for m in PUMP_CATALOG:
+        formula = ce.estimate_preliminary_capex(5000.0, 500.0, True, m["kw"], 1)["pump_unit"]
+        L.append(f"| {m['brand']}, {br(m['cv'], 2)} CV | {br(m['kw'], 3)} kW | {br(m['flow_lh'], 0)} L/h "
+                 f"| {br(m['max_h'], 0)} m.c.a. | {_rs(m['cost'])} | {_rs(formula)} |")
+    p = ce.PUMP_PARAMS
+    L += ["", f"A fórmula é o maior entre {_rs(p['min_cost'])} e "
+              f"{_rs(p['base_cost'])} × (P ÷ {br(p['base_power_kw'], 5)} kW)^{br(p['power_exponent'], 2)}."]
+    return NL.join(L)
+
+
+def tabela_capex_etap():
+    """Preços da linha de tratamento e do descarte, obtidos pelo dimensionamento."""
+    from triton.core.water_quality import ENERGY_PRICE_BRL_PER_KWH, size_etap, size_first_flush_system
+
+    cloro = size_etap(roof_area_m2=150.0, annual_pluvial_consumed_m3=120.0)
+    L = ["| Componente | Condição | Investimento | Custeio anual |",
+         "| :--- | :--- | ---: | ---: |"]
+    for area in (150.0, 300.0, 600.0):
+        r = size_etap(roof_area_m2=area, annual_pluvial_consumed_m3=120.0)
+        L.append(f"| filtro de entrada | {r.pre_filter_type}; telhado de {br(area, 0)} m² | {_rs(r.pre_filter_capex)} | — |")
+    L.append(f"| dosador de cloração | sempre que a ETAP está ligada | {_rs(cloro.disinfection_capex)} | o do cloro, à parte |")
+    for m3 in (120.0, 300.0):
+        r = size_etap(roof_area_m2=150.0, annual_pluvial_consumed_m3=m3, disinfection_choice="uv")
+        L.append(f"| reator ultravioleta, {br(r.uv_power_watts, 0)} W | estágio adicional; {br(m3, 0)} m³/ano de água de chuva "
+                 f"| {_rs(r.disinfection_capex - cloro.disinfection_capex)} "
+                 f"| {_rs(r.disinfection_opex_yr - r.annual_chlorine_cost_brl)} |")
+    r = size_etap(roof_area_m2=150.0, annual_pluvial_consumed_m3=120.0, disinfection_choice="ozonio")
+    L.append(f"| ozonizador | estágio adicional | {_rs(r.disinfection_capex - cloro.disinfection_capex)} "
+             f"| {_rs(r.disinfection_opex_yr - r.annual_chlorine_cost_brl)} |")
+    for classe, rotulo in (("classe_1", "classes 1 a 3: areia multicamada ou cartucho"), ("classe_4", "classe 4: carvão ativado")):
+        r = size_etap(target_class_id=classe, roof_area_m2=150.0, annual_pluvial_consumed_m3=120.0, include_polishing_filter=True)
+        L.append(f"| filtro de polimento | {rotulo} | {_rs(r.polishing_capex)} | {_rs(r.polishing_annual_opex)} |")
+    for area, mm in ((100.0, 2.0), (150.0, 2.0)):
+        d = size_first_flush_system(discard_mm=mm, roof_area_m2=area)
+        L.append(f"| descarte inicial | {br(mm, 0)} mm sobre {br(area, 0)} m²: reservatório de {br(d.diverter_volume_liters, 0)} L e separador de folhas "
+                 f"| {_rs(d.first_flush_total_capex)} | {_rs(d.first_flush_annual_opex)} |")
+    L += ["", f"A energia do reator ultravioleta é paga a {_rs(ENERGY_PRICE_BRL_PER_KWH)} por kWh, valor fixo do módulo de qualidade."]
+    return NL.join(L)
+
+
+def tabela_capex_tipologias():
+    """As cinco tipologias: subsistemas calibrados e o orçamento calibrado de referência."""
+    from triton.core import cost_estimates as ce
+
+    L = ["| Tipologia | Motobombas | Painel elétrico | Sensores e automação | Filtragem | Air gap | Tubulação base | Manutenção anual | Mão de obra mínima |",
+         "| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for cod, c in ce.TYPOLOGY_COST_CONFIGS.items():
+        L.append(f"| {cod}: {c['name']} | {c['pump_count']} × {_rs(c['pump_unit_cost'])} | {_rs(c['electrical_panel_cost'], 0)} "
+                 f"| {_rs(c['sensors_automation_cost'], 0)} | {_rs(c['treatment_filtration_cost'], 0)} | {_rs(c['air_gap_supplement_cost'], 0)} "
+                 f"| {_rs(c['pipes_base_cost'], 0)} | {_rs(c['maint_base_annual'], 0)} | {_rs(c['min_labor_cost'], 0)} |")
+    L += ["", f"| Orçamento calibrado, cisterna de {vol_br(5000)} em polietileno, SP | Cisterna | Caixa | Motobombas | Tubulação | Acessórios | Mão de obra | Total |",
+          "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for cod in ce.TYPOLOGY_COST_CONFIGS:
+        r = ce.estimate_calibrated_capex_opex(typology=cod, volume_l=5000.0, uf="SP")
+        L.append(f"| {cod} | {_rs(r['c_inf'], 0)} | {_rs(r['c_sup'], 0)} | {_rs(r['c_pump'], 0)} | {_rs(r['c_pipes'], 0)} "
+                 f"| {_rs(r['c_accessories_total'], 0)} | {_rs(r['labor_cost'], 0)} | {_rs(r['capex_total_brl'], 0)} |")
+    return NL.join(L)
+
+
+def tabela_capex_regional():
+    """Os 27 fatores regionais, em três colunas de pares."""
+    from triton.core import cost_estimates as ce
+
+    itens = sorted(ce.REGIONAL_FACTORS_BY_UF.items())
+    linhas = ["| UF | Fator | UF | Fator | UF | Fator |", "| :--- | ---: | :--- | ---: | :--- | ---: |"]
+    por_linha = 3
+    n_linhas = -(-len(itens) // por_linha)
+    for i in range(n_linhas):
+        celulas = []
+        for j in range(por_linha):
+            k = i + j * n_linhas
+            celulas += [itens[k][0], br(itens[k][1], 2)] if k < len(itens) else ["", ""]
+        linhas.append("| " + " | ".join(celulas) + " |")
+    return NL.join(linhas)
+
+
+def tabela_capex_procedencia():
+    """O que a base registra sobre a origem e a data dos próprios números."""
+    from triton.core import cost_estimates as ce
+
+    db = ce.load_costs_database()
+    meta, proc = db["_metadata"], db["_procedencia_precos_reservatorio"]
+    return NL.join([
+        "| Registro na base de custos | Conteúdo |",
+        "| :--- | :--- |",
+        f"| atualização da base (`updated_at`) | {_data_iso(meta['updated_at'])} |",
+        f"| fontes declaradas (`source_references`) | {meta['source_references']} |",
+        f"| moeda | {meta['currency']} |",
+        f"| preços de reservatório: fabricante | {proc['fabricante']} |",
+        f"| preços de reservatório: varejista | {proc['varejista']} |",
+        f"| preços de reservatório: coletados em | {_data_iso(proc['coletado_em'])} |",
+        "| preços de reservatório: critério | menor preço anunciado por capacidade, uma única marca e um único varejista, no mesmo dia |",
+        f"| preços de reservatório: alcance | {vol_br(ce.LOWER_TANK_PRICE_TABLE[0][0])} a {vol_br(ce.LOWER_TANK_PRICE_TABLE[-1][0])} |",
+    ])
+
+
+def tabela_opex_itens():
+    """O que entra sozinho no custeio de um projeto novo: valor, periodicidade, origem e como mudar."""
+    from triton.core.chlorination import Cloracao
+    from triton.core.edition import projeto_novo_da_edicao
+    from triton.core.water_quality import size_first_flush_system
+
+    cfg = projeto_novo_da_edicao()
+    cl = Cloracao(dose_mg_por_litro=cfg.chlorine_dose_mg_l, pureza=cfg.chlorine_product_purity)
+    descarte = size_first_flush_system(discard_mm=2.0, roof_area_m2=150.0)
+    L = ["| Item | Valor padrão | Periodicidade | Origem | Como alterar ou desligar |",
+         "| :--- | :--- | :--- | :--- | :--- |"]
+    for nome, meses, fixo, var in cfg.op_costs:
+        L.append(f"| {nome} | {_rs(fixo)} por evento | a cada {meses} meses | padrão do projeto novo; os mesmos três valores estão em `default_maintenance_items` | "
+                 "botão «3. Outros Custos Operacionais»: editar, excluir ou acrescentar |")
+    L.append(f"| cloração | {br(cfg.chlorine_dose_mg_l, 1)} mg/L de cloro ativo, pastilha a {_pct(cfg.chlorine_product_purity)}, "
+             f"{_rs(cfg.chlorine_cost_per_kg)} por kg de produto: {br(cl.produto_kg_por_m3, 5)} kg e "
+             f"{_rs(cl.produto_kg_por_m3 * cfg.chlorine_cost_per_kg, 4)} por m³ | contínua, proporcional ao volume pluvial aproveitado "
+             "| `Cloracao` (`chlorination.py`) e `chlorine_cost_per_kg` | dose e desinfetante na etapa «3. Qualidade & ETAP»; o preço do quilograma só pelo arquivo do projeto |")
+    L.append(f"| descarte inicial | {_rs(descarte.first_flush_annual_opex)} por ano (reservatório de descarte e separador de folhas) "
+             "| anual | `size_first_flush_system` | caixa do descarte físico na etapa «3. Qualidade & ETAP» |")
+    L.append(f"| energia da motobomba | {_rs(cfg.elec_tariff, 4)} por kWh, bandeira verde, impostos de {br(cfg.elec_tax_var, 0)}% "
+             "| contínua, proporcional à energia anual da motobomba "
+             "| tarifa B1 residencial do município na base ANEEL, ou o padrão do projeto | botão «2. Motobomba e Custo de Energia»: cidade, tarifa, impostos; bandeira na etapa econômica |")
+    L.append(f"| IPTU Verde | {'ligado' if cfg.iptu_green_enabled else 'desligado'} | anual | opção do município na base de tarifas | caixa na etapa econômica |")
+    return NL.join(L)
+
+
+def tabela_opex_energia():
+    """A tarifa de energia: a base de 652 municípios e as bandeiras, lidas dos dados e do motor."""
+    import json
+    import statistics
+
+    from triton.core.economic import run_economic_analysis
+    from triton.core.parser import TritonConfig
+    from triton.core.pump_energy import compute_annual_pump_energy
+
+    caminho = os.path.join(os.path.dirname(AQUI), "triton", "data", "brazil_cities_tariffs.json")
+    with open(caminho, encoding="utf-8") as f:
+        base = json.load(f)
+    cidades = base["cities"].values()
+    valores = [c["energia_r_kwh"] for c in cidades if c.get("energia_r_kwh", 0) > 0]
+    expirados = sum(1 for c in cidades if c.get("status_energia") == "EXPIRED_ANEEL_REF")
+    distribuidoras = {c.get("distribuidora_energia") for c in cidades}
+    padrao = TritonConfig().elec_tariff
+
+    # Os acréscimos das bandeiras não são constantes importáveis: saem do motor, pela diferença do custeio.
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_projeto())
+    acrescimo = {}
+    for bandeira in ("verde", "amarela", "vermelha_1", "vermelha_2", "branca"):
+        cfg = _config_economica(VOLUME, "CONCRETO")
+        cfg.tariff_flag = bandeira
+        acrescimo[bandeira] = (run_economic_analysis(cfg, r).annual_opex_brl,
+                               compute_annual_pump_energy(cfg, r).annual_kwh)
+    base_opex, kwh = acrescimo["verde"]
+    ad = {b: (v[0] - base_opex) / v[1] for b, v in acrescimo.items()}
+
+    return NL.join([
+        "| A tarifa de energia da base | Valor |",
+        "| :--- | ---: |",
+        f"| municípios com tarifa de energia | {len(valores)} |",
+        f"| distribuidoras | {len(distribuidoras)} |",
+        f"| menor tarifa | {_rs(min(valores), 4)}/kWh |",
+        f"| mediana | {_rs(statistics.median(valores), 4)}/kWh |",
+        f"| maior tarifa | {_rs(max(valores), 4)}/kWh |",
+        f"| municípios cuja tarifa vem de um ato já expirado | {expirados} |",
+        f"| valor padrão do projeto novo | {_rs(padrao, 4)}/kWh |",
+        "",
+        "| Bandeira tarifária | Acréscimo sobre a tarifa |",
+        "| :--- | ---: |",
+        f"| verde | {_rs(ad['verde'], 5)}/kWh |",
+        f"| amarela | {_rs(ad['amarela'], 5)}/kWh |",
+        f"| vermelha, patamar 1 | {_rs(ad['vermelha_1'], 5)}/kWh |",
+        f"| vermelha, patamar 2 | {_rs(ad['vermelha_2'], 5)}/kWh |",
+        f"| branca | desconto de {_pct(-ad['branca'] / padrao_tarifa_tutorial(), 0)} da tarifa, fora de ponta |",
+    ])
+
+
+def padrao_tarifa_tutorial():
+    """Tarifa de energia da configuração econômica do tutorial (a mesma usada na tabela das bandeiras)."""
+    return _config_economica(VOLUME, "CONCRETO").elec_tariff
+
+
+def tabela_opex_premissas():
+    """As premissas de projeção: padrão do projeto novo, valor do tutorial e perfis de referência."""
+    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+    from triton.core.edition import projeto_novo_da_edicao
+    from triton.ui.tab_tanks_simulation import TabTanksSimulation as Tab
+
+    novo = projeto_novo_da_edicao()
+    tut = _config_economica(VOLUME, "CONCRETO")
+
+    def anual(mensal_pct):
+        return ((1 + mensal_pct / 100.0) ** 12 - 1) * 100.0
+
+    L = ["| Premissa | Padrão do projeto novo | Valor do tutorial |",
+         "| :--- | ---: | ---: |",
+         f"| taxa mínima de atratividade | {br(novo.tma, 2)}% ao mês ({br(anual(novo.tma), 1)}% ao ano) | {br(tut.tma, 2)}% ao mês |",
+         f"| inflação dos custos | {br(novo.inflation, 2)}% ao mês ({br(anual(novo.inflation), 1)}% ao ano) | {br(tut.inflation, 2)}% ao mês |",
+         f"| reajuste da tarifa de água | {br(novo.water_tariff_escalation, 1)}% ao ano | {br(tut.water_tariff_escalation, 1)}% ao ano |",
+         f"| reajuste da tarifa de esgoto | {br(novo.sewage_tariff_escalation, 1)}% ao ano | {br(tut.sewage_tariff_escalation, 1)}% ao ano |",
+         f"| reajuste da tarifa de energia | {br(novo.elec_tariff_escalation, 1)}% ao ano | {br(tut.elec_tariff_escalation, 1)}% ao ano |",
+         f"| intervalo de reajuste | {br(novo.tariff_escalation, 0)} meses | {br(tut.tariff_escalation, 0)} meses |",
+         f"| período de análise | {novo.analysis_period_years} anos | {tut.analysis_period_years} anos |",
+         "",
+         "| Perfis de referência da etapa 4 | Taxa |",
+         "| :--- | ---: |"]
+    for rotulo, dado in Tab._perfis_de_inflacao(None):
+        if dado.get("annual_rate") is not None:
+            L.append(f"| inflação: {rotulo.split(' — ')[0].replace('Referência ', '')} | {br(dado['annual_rate'], 1)}% ao ano |")
+    for rotulo, taxa in Tab._perfis_de_tma(None):
+        if taxa is not None:
+            curto = rotulo.split(' — ')[0].replace('Referência ', '')
+            L.append(f"| taxa mínima de atratividade: {curto[0].lower() + curto[1:]} | {br(taxa, 1)}% ao ano |")
+    for rotulo, valores in Tab._perfis_de_reajuste(None):
+        if valores is not None:
+            _, agua, energia = valores
+            L.append(f"| reajuste: {rotulo.split(' — ')[0].replace('projecao', 'projeção')} | água e esgoto {br(agua, 1)}%; energia {br(energia, 1)}% ao ano |")
+    return NL.join(L)
+
+
+def tabela_opex_peso():
+    """O peso das rotinas de manutenção de partida no resultado do tutorial."""
+    from triton.core.economic import run_economic_analysis
+
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_projeto())
+    com = _config_economica(VOLUME, "CONCRETO")
+    sem = _config_economica(VOLUME, "CONCRETO")
+    sem.op_costs = []
+    ec, es = run_economic_analysis(com, r), run_economic_analysis(sem, r)
+    por_ano = sum(fixo * 12.0 / meses for _, meses, fixo, _ in com.op_costs)
+    return NL.join([
+        "| Projeto do tutorial | Com as rotinas de partida | Sem rotinas |",
+        "| :--- | ---: | ---: |",
+        f"| rotinas de manutenção por ano | {_rs(por_ano)} | {_rs(0.0)} |",
+        f"| custeio anual do resumo: energia, cloro e linha de tratamento | {_rs(ec.annual_opex_brl)} | {_rs(es.annual_opex_brl)} |",
+        f"| valor presente líquido | {_rs(ec.vpl)} | {_rs(es.vpl)} |",
+        f"| payback descontado | {br(ec.payback_years, 1)} anos | {br(es.payback_years, 1)} anos |",
+    ])
+
+
+def tabela_capex_constantes():
+    """Constantes do código que não têm registro de fonte na base: o valor e onde estão."""
+    from triton.core import cost_estimates as ce
+    from triton.core.water_quality import ENERGY_PRICE_BRL_PER_KWH
+
+    cal = ce.estimate_calibrated_capex_opex(typology="UTI", volume_l=5000.0, uf="SP", energy_tariff_kwh=1.0)
+    fator_conexoes = ce.compute_pipe_item_cost(32, 1.0, include_fittings=True) / ce.compute_pipe_item_cost(32, 1.0, include_fittings=False)
+    pisos = ce.estimate_preliminary_capex(100.0, 0.0, False)
+    L = ["| Constante | Valor | Onde está | Fonte registrada |",
+         "| :--- | ---: | :--- | :---: |",
+         f"| consumo específico de recalque do orçamento calibrado | {br(cal['opex_energy_per_m3_brl'], 2)} kWh/m³ | `estimate_calibrated_capex_opex` | não |",
+         f"| custo de cloração do orçamento calibrado | {_rs(cal['opex_chlorine_per_m3_brl'], 2)}/m³ | `estimate_calibrated_capex_opex` | não |",
+         f"| mão de obra | {_pct(ce.LABOR_PCT)} dos materiais | `labor_percentage` | não |",
+         f"| acessórios sem arranjo | {_pct(ce.ACCESSORIES_PCT)} dos reservatórios | `accessories_percentage` | não |",
+         f"| tubulação sem arranjo | {_pct(ce.PIPING_PCT)} da cisterna | `piping_percentage_fallback` | não |",
+         f"| conexões sobre o tubo, no orçamento por comprimento | {_pct(fator_conexoes - 1.0)} | `compute_pipe_item_cost` | não |",
+         f"| volume da caixa no orçamento calibrado | {_pct(cal['volume_sup_l'] / cal['volume_l'])} da cisterna | `estimate_calibrated_capex_opex` | não |",
+         f"| pisos da tubulação, dos acessórios e da mão de obra | {_rs(pisos['piping'], 0)}, {_rs(pisos['accessories'], 0)} e {_rs(pisos['labor'], 0)} | `estimate_preliminary_capex` | não |",
+         f"| preço da energia do reator ultravioleta | {_rs(ENERGY_PRICE_BRL_PER_KWH)}/kWh | `water_quality.py` | não |",
+         "| preços da linha de tratamento e do descarte | tabela anterior | `water_quality.py` | não |",
+         "| multiplicadores de material | " + ", ".join(br(ce.MATERIAL_COST_MULTIPLIERS[m], 2) for m in ("FIBRA", "CONCRETO", "ACO_INOX"))
+         + " | `material_multipliers` | não |"]
+    return NL.join(L)
+
+
+def tabela_capex_exemplo():
+    """O projeto do tutorial, com o CAPEX digitado e com o CAPEX que o programa calcularia sozinho."""
+    from triton.core.economic import run_economic_analysis
+    from triton.core.etap_integration import capex_incremental_da_etap
+    from triton.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
+
+    r = run_single_simulation(precip_data=_serie(), lower_tank_vol=VOLUME, **_config_projeto())
+    digitado = _config_economica(VOLUME, "CONCRETO")
+    auto = _config_economica(VOLUME, "CONCRETO")
+    auto.capex_do_arranjo = True
+    auto.mao_de_obra_automatica = True
+    auto.cost_piping = auto.cost_accessories = auto.cost_labor = 0.0
+    auto.econ_lower_tank_vol = VOLUME
+    sincronizar_com_o_arranjo(auto)
+
+    def linhas(cfg):
+        bombas = cfg.pump_unit_cost * cfg.pump_count
+        etap = capex_incremental_da_etap(cfg, sim_result=r)
+        return [cfg.cost_lower_tank, cfg.cost_upper_tank, bombas, cfg.cost_labor, cfg.cost_piping,
+                cfg.cost_accessories, etap]
+
+    a, b = linhas(digitado), linhas(auto)
+    rotulos = ("cisterna de concreto de 4.000 L", "caixa superior de 1.000 L em polietileno", "duas motobombas",
+               "mão de obra", "tubulação", "acessórios", "linha de tratamento e descarte (incremento)")
+    L = ["| Rubrica | Digitado no tutorial | Calculado sozinho |", "| :--- | ---: | ---: |"]
+    for rot, x, y in zip(rotulos, a, b):
+        L.append(f"| {rot} | {_rs(x)} | {_rs(y)} |")
+    L.append(f"| **investimento total** | **{_rs(run_economic_analysis(digitado, r).capex_total)}** "
+             f"| **{_rs(run_economic_analysis(auto, r).capex_total)}** |")
+    return NL.join(L)
+
+
 def com_legenda(nome, conteudo):
     """Põe a legenda declarada acima de cada tabela do arquivo, na ordem."""
     fila = list(LEGENDAS.get(nome) or [])
@@ -958,6 +1426,35 @@ def com_legenda(nome, conteudo):
         saida.append(linha)
         anterior = linha
     return NL.join(saida)
+
+
+#: As tabelas da seção 10 sobre o CAPEX calculado sozinho e o custeio inserido sozinho.
+TABELAS_DE_CUSTOS = (
+    ("cap10_capex_cadeia.md", tabela_capex_cadeia),
+    ("cap10_capex_reservatorios.md", tabela_capex_reservatorios),
+    ("cap10_capex_tubos.md", tabela_capex_tubos),
+    ("cap10_capex_pecas.md", tabela_capex_pecas),
+    ("cap10_capex_bombas.md", tabela_capex_bombas),
+    ("cap10_capex_etap.md", tabela_capex_etap),
+    ("cap10_capex_tipologias.md", tabela_capex_tipologias),
+    ("cap10_capex_regional.md", tabela_capex_regional),
+    ("cap10_capex_procedencia.md", tabela_capex_procedencia),
+    ("cap10_capex_constantes.md", tabela_capex_constantes),
+    ("cap10_capex_exemplo.md", tabela_capex_exemplo),
+    ("cap10_opex_itens.md", tabela_opex_itens),
+    ("cap10_opex_energia.md", tabela_opex_energia),
+    ("cap10_opex_premissas.md", tabela_opex_premissas),
+    ("cap10_opex_peso.md", tabela_opex_peso),
+)
+
+
+def main_custos():
+    """Gera só as tabelas de custos da seção 10 (`python manual/gerar_tabelas.py custos`)."""
+    os.environ["TRITON_EDITION"] = "BRL"
+    for nome, fn in TABELAS_DE_CUSTOS:
+        caminho = os.path.join(SAIDA, nome)
+        gravar(caminho, com_legenda(os.path.basename(caminho), fn()) + NL)
+        print(f"  {os.path.relpath(caminho, AQUI)}")
 
 
 def main():
@@ -1014,9 +1511,15 @@ def main():
         gravar(caminho, com_legenda(os.path.basename(caminho), fn()) + NL)
         print(f"  {os.path.relpath(caminho, AQUI)}")
 
+    main_custos()
+
     return r
 
 
 if __name__ == "__main__":
-    print("tabelas do manual:")
-    main()
+    if "custos" in sys.argv[1:]:
+        print("tabelas de custos do manual:")
+        main_custos()
+    else:
+        print("tabelas do manual:")
+        main()

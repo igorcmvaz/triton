@@ -628,6 +628,23 @@ def _bloco_do_concelho(nome, d, fontes):
     return L
 
 
+def _confianca_por_concelho():
+    """A secção «Confiança dos valores tarifários por concelho» (verde, amarelo, cinza, por serviço).
+
+    Vem de ``tarifas_portugal/procedencia_pt.py``, ferramenta de desenvolvimento que fica fora do Git:
+    sem ela, a secção é omitida (e o apêndice D não a perde se o ficheiro já a tiver: ``gravar`` não desfaz
+    revisão feita à mão). Os dados são ``entidades.json``, ``fontes/FONTES.tsv`` e ``portugal_tarifarios.json``.
+    """
+    pasta = os.path.join(BASE, "tarifas_portugal")
+    if not os.path.isfile(os.path.join(pasta, "procedencia_pt.py")) or not os.path.isfile(os.path.join(pasta, "entidades.json")):
+        return []
+    import importlib.util
+    espec = importlib.util.spec_from_file_location("procedencia_pt", os.path.join(pasta, "procedencia_pt.py"))
+    modulo = importlib.util.module_from_spec(espec)
+    espec.loader.exec_module(modulo)
+    return modulo.texto_manual()
+
+
 def apendice_d():
     caminho = os.path.join(PKG, "data", "portugal_tarifarios.json")
     if not os.path.exists(caminho):
@@ -732,8 +749,8 @@ def apendice_d():
           "<!-- tabela: Concelhos com documento tarifário recolhido e ainda por transcrever -->",
           "| Concelho | Entidade | Documento |", "| :--- | :--- | :--- |"]
     L += [f"| {c} | {e} | {doc} |" for c, e, doc in RECOLHIDOS]
-    L += ["",
-          "## Introduzir o seu tarifário", "",
+    L += [""] + _confianca_por_concelho()
+    L += ["## Introduzir o seu tarifário", "",
           "1. Obtenha o documento tarifário em vigor da sua entidade gestora e anote a data.",
           "2. Introduza os escalões, as tarifas fixas, o IVA e a regra do saneamento na janela de tarifário (etapa 5).",
           "3. Confira a fatura que o programa calcula com uma fatura real do edifício.",

@@ -176,45 +176,53 @@ Tabela 25 — Os seis regimes tarifários e o efeito de cada um sobre a poupanç
 
 Tabela 26 — Composição do investimento inicial do projeto do tutorial (ilustrativo, não é preço de mercado)
 
-Tabela 27 — Premissas da projeção económica e o peso de cada uma no resultado
+Tabela 27 — O que um projeto novo da Edição Portugal traz preenchido e o que fica por definir pelo utilizador
 
-Tabela 28 — Estado do projeto do tutorial depois da análise económica (ilustrativo, não é preço de mercado)
+Tabela 28 — Parâmetros ilustrativos do tutorial, que não são preços de mercado, e onde o utilizador os troca pelos seus
 
-Tabela 29 — Balanço de carbono do projeto do tutorial com cisterna de betão (fatores ilustrativos)
+Tabela 29 — Efeito das três rotinas de manutenção ilustrativas sobre o custo do resumo e sobre o resultado do tutorial (custos ilustrativos, não são preços de mercado)
 
-Tabela 30 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório (os preços são ilustrativos, não são preços de mercado)
+Tabela 30 — Séries públicas recolhidas fora do programa, ainda não ligadas a ele, com a data de acesso e o início da soma de verificação
 
-Tabela 31 — Efeito do volume da cisterna de betão nas emissões líquidas de carbono
+Tabela 31 — Premissas da projeção económica e o peso de cada uma no resultado
 
-Tabela 32 — Efeito da troca de betão por polietileno nas três dimensões de análise (ilustrativo, não é preço de mercado)
+Tabela 32 — Estado do projeto do tutorial depois da análise económica (ilustrativo, não é preço de mercado)
 
-Tabela 33 — Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado)
+Tabela 33 — Balanço de carbono do projeto do tutorial com cisterna de betão (fatores ilustrativos)
 
-Tabela 34 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado)
+Tabela 34 — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório (os preços são ilustrativos, não são preços de mercado)
 
-Tabela 35 — Volume vencedor segundo cada critério isolado
+Tabela 35 — Efeito do volume da cisterna de betão nas emissões líquidas de carbono
 
-Tabela 36 — Os sete critérios do multicritério e o sentido de preferência de cada um
+Tabela 36 — Efeito da troca de betão por polietileno nas três dimensões de análise (ilustrativo, não é preço de mercado)
 
-Tabela 37 — Volume escolhido pelo TOPSIS conforme a dimensão com peso dominante, e o segundo classificado
+Tabela 37 — Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado)
 
-Tabela 38 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
+Tabela 38 — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado)
 
-Tabela 39 — Padronização terminológica de água de chuva e água pluvial
+Tabela 39 — Volume vencedor segundo cada critério isolado
 
-Tabela 40 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 40 — Os sete critérios do multicritério e o sentido de preferência de cada um
 
-Tabela 41 — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um
+Tabela 41 — Volume escolhido pelo TOPSIS conforme a dimensão com peso dominante, e o segundo classificado
 
-Tabela 42 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 42 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
 
-Tabela 43 — Ficha de consulta: os seis regimes tarifários e o efeito de poupar
+Tabela 43 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 44 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 44 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 45 — Os casos de exemplo e o que cada um demonstra
+Tabela 45 — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um
 
-Tabela 46 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 46 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+
+Tabela 47 — Ficha de consulta: os seis regimes tarifários e o efeito de poupar
+
+Tabela 48 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 49 — Os casos de exemplo e o que cada um demonstra
+
+Tabela 50 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -401,7 +409,7 @@ A repartição adotada no tutorial está representada na Figura 5, com os usos q
 
 Somando os dois usos que a chuva atende, chega-se aos 28% do tutorial. É um valor conservador para uma moradia sem jardim grande, e é conservador de propósito: limita-se aos usos que a orientação sobre águas pluviais admite com mais facilidade.
 
-> **A máquina de lavar roupa é uma escolha que o tutorial não faz.** A ETA 0701 da ANQIP (versão 7) inclui a lavagem em máquinas de lavar roupa entre os usos possíveis da água da chuva, ao lado das descargas de autoclismo, da lavagem de pavimentos e automóveis, da rega de zonas verdes e de outros usos (torres de arrefecimento, redes de incêndio, AVAC). Para a máquina de lavar sem tratamento específico, o item 4.6.6 só a admite quando a água de lavagem atinge pelo menos 55 °C, e pede um microfiltro de malha mínima de 100 µm. O uso na máquina é comum na literatura e na prática, e por isso muitos estudos trabalham com frações atendíveis maiores do que a deste tutorial. O tutorial **não** o adota: a máquina fica com a água potável, e a fração atendível fica nos 28% do autoclismo e dos usos exteriores. Um projeto que inclua a lavagem de roupa tem de declarar essa escolha e o critério de qualidade adotado, e confrontá-la com a norma em vigor no local do edifício. [A COMPLETAR: confirmar a revisão em vigor da ETA 0701 e o que a EN 16941-1 diz sobre a lavagem de roupa.]
+> **A máquina de lavar roupa é uma escolha que o tutorial não faz.** A ETA 0701 da ANQIP (versão 12) inclui a lavagem em máquinas de lavar roupa entre os usos possíveis da água da chuva, ao lado das descargas de autoclismo, da lavagem de pavimentos e automóveis, da rega de zonas verdes e de outros usos (torres de arrefecimento, redes de incêndio, AVAC). Para a máquina de lavar sem tratamento específico, o item 4.6.6 só a admite quando a água de lavagem atinge pelo menos 55 °C, e pede um microfiltro de malha mínima de 100 µm. O uso na máquina é comum na literatura e na prática, e por isso muitos estudos trabalham com frações atendíveis maiores do que a deste tutorial. O tutorial **não** o adota: a máquina fica com a água potável, e a fração atendível fica nos 28% do autoclismo e dos usos exteriores. Um projeto que inclua a lavagem de roupa tem de declarar essa escolha e o critério de qualidade adotado, e confrontá-la com a norma em vigor no local do edifício. [A COMPLETAR: confirmar a revisão em vigor da ETA 0701 e o que a EN 16941-1 diz sobre a lavagem de roupa.]
 
 ![A repartição do consumo numa moradia, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
 
@@ -1089,7 +1097,72 @@ Os preços dos reservatórios seguem uma regra ilustrativa simples, uma parte fi
 
 ---
 
-### 4.7.4. O resultado
+### 4.7.4. O CAPEX nesta edição: o programa não calcula preços de Portugal
+
+Na Edição Brasil, o investimento de um projeto novo vem preenchido por uma cadeia de cálculo que parte de preços de mercado. **Nesta edição essa cadeia não existe.** Os preços de reservatórios, tubagem, eletrobombas, mão de obra e acessórios ficam a zero, por decisão: não se encontrou fonte oficial aberta para eles e nenhum foi inventado. O programa dimensiona o sistema, calcula a poupança na fatura e a energia, mas o investimento é o que o utilizador introduzir.
+
+<!-- tabela: **Tabela 27** — O que um projeto novo da Edição Portugal traz preenchido e o que fica por definir pelo utilizador -->
+| Campo do projeto novo | Valor | O que significa |
+| :--- | ---: | :--- |
+| cisterna e reservatório superior | 0,00 € | por definir pelo utilizador |
+| tubagem, acessórios e mão de obra | 0,00 € | por definir pelo utilizador |
+| preço de cada eletrobomba | 0,00 € | por definir; o projeto parte de 2 eletrobombas, serviço e reserva |
+| tarifa de eletricidade | 0,0000 €/kWh | por definir; sem ela a energia da bomba custa zero |
+| preço do cloro | 0,00 €/kg | por definir; sem ele o cloro custa zero |
+| rotinas de manutenção | 3 rotinas, periodicidade de 12 meses, 0,00 € no total | os nomes ficam como roteiro; os custos são do utilizador |
+| orçamento automático do arranjo 3D | desligado | os preços das peças são em reais, de origem brasileira |
+| mão de obra automática | desligado | idem |
+| preços de catálogo (reservatórios, tratamento) | desligado | a linha de tratamento é dimensionada, mas não custa nada |
+| base de custos interna (`costs_database.json`) | 27 fatores regionais | valores em reais, de origem brasileira; não são usados nesta edição |
+| dose de cloro e pureza da pastilha | 1,5 mg/L e 65% | parâmetros técnicos, não são preços |
+| tarifário de água, saneamento e resíduos | Lisboa, desde 01/01/2026 | **inserido automaticamente**; transcrito dos documentos de 2026 |
+| taxa de atualização | 2,0% ao mês | valor genérico do núcleo, não é dado de Portugal |
+| inflação dos custos | 0,2% ao mês | idem |
+| atualização das tarifas de água, saneamento e eletricidade | 5,0%, 5,0% e 5,0% ao ano | idem |
+
+A única coisa que o programa insere sozinho, nesta matéria, é o tarifário de água, saneamento e resíduos de Lisboa, transcrito dos documentos de 2026 (secção 3.3 (volume Guias de uso)). Tudo o que é preço de obra, de equipamento ou de manutenção, e a tarifa de eletricidade, está por definir.
+
+#### 4.7.4.1. O que isto significa para si
+
+Sem os seus valores, o investimento é zero e a análise económica mostra apenas a poupança na fatura de água. O valor atual líquido e o período de recuperação, nessas condições, dizem pouco: não são resultados. A linha de tratamento e o descarte são dimensionados, entram no balanço de carbono, mas não custam nada. Só tem uma análise económica quando introduzir orçamentos reais.
+
+A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e de origem brasileira, com fatores regionais para as unidades federativas do Brasil. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
+
+#### 4.7.4.2. Como introduzir os seus valores
+
+Na etapa **4. Reservatório & Custos**, o botão *1. Investimento Inicial (CAPEX)* tem campos para o reservatório superior, a mão de obra, a tubagem e os acessórios; o botão *2. Eletrobomba e Custo de Energia* tem o preço da eletrobomba e a tarifa de eletricidade; e o botão *3. Outros Custos Operacionais* tem as rotinas de manutenção. Introduza ali os valores dos seus orçamentos, com IVA se o investimento for suportado pelo consumidor final.
+
+Há duas limitações a conhecer. O diálogo do CAPEX **não tem campo para o preço da cisterna** e, ao confirmar, repõe esse preço a zero. Enquanto isso não for corrigido, some o preço da cisterna a uma das linhas do diálogo, por exemplo os acessórios, e registe a escolha no relatório, ou escreva o valor no campo `cost_lower_tank` do bloco `capex_and_opex` do ficheiro do projeto e não confirme o diálogo do CAPEX depois disso. O mesmo acontece com o preço do cloro, que só existe no ficheiro do projeto, no bloco `water_quality_and_etap`; em alternativa, acrescente em *3. Outros Custos Operacionais* uma rotina de custo variável por metro cúbico de água de chuva.
+
+Os valores do tutorial deste capítulo são ilustrativos. Não os copie para um estudo real:
+
+<!-- tabela: **Tabela 28** — Parâmetros ilustrativos do tutorial, que não são preços de mercado, e onde o utilizador os troca pelos seus -->
+| Parâmetro do tutorial | Valor ilustrativo | Onde o utilizador o troca |
+| :--- | ---: | :--- |
+| mão de obra e escavação | 1 500,00 € | CAPEX, mão de obra |
+| tubagem | 600,00 € | CAPEX, tubagens |
+| acessórios | 800,00 € | CAPEX, acessórios |
+| eletrobomba, por unidade | 250,00 € | eletrobomba e custo de energia |
+| tarifa de eletricidade | 0,20 €/kWh | eletrobomba e custo de energia |
+| cloro, por quilograma de produto | 8,00 € | só no ficheiro do projeto |
+| taxa de atualização | 0,4% ao mês | etapa 4 |
+| inflação dos custos | 0,2% ao mês | etapa 4 |
+| atualização das tarifas | 3,0% ao ano | etapa 4 |
+| rotina: inspeção e limpeza das caleiras e do pré-filtro | 20,00 € a cada 12 meses | outros custos operacionais |
+| rotina: limpeza e inspeção da cisterna | 40,00 € a cada 12 meses | outros custos operacionais |
+| rotina: manutenção preventiva da bomba | 30,00 € a cada 12 meses | outros custos operacionais |
+| reservatório de polietileno | 100,00 € mais 0,55 € por litro | só neste manual; o programa não tem esta regra |
+| reservatório de betão | 600,00 € mais 0,40 € por litro | só neste manual; o programa não tem esta regra |
+| reservatório de fibra de vidro | 120,00 € mais 0,65 € por litro | só neste manual; o programa não tem esta regra |
+| reservatório de aço inoxidável | 300,00 € mais 2,00 € por litro | só neste manual; o programa não tem esta regra |
+
+#### 4.7.4.3. Uma tabela de preços de Portugal: planeada, não implementada
+
+O plano é uma tabela opcional, que o utilizador ligaria de propósito, com cinco itens em euros: reservatório por volume, tubagem, eletrobomba, mão de obra e acessórios. Cada preço levaria o endereço da fonte, a data de acesso e a soma de verificação do documento. A tabela não teria indexação nem faixa percentual inventada, recusaria extrapolar fora da faixa de volumes recolhida e mostraria uma tarja vermelha quando os preços tivessem mais de 18 meses. Espanha ficaria vazia até haver recolha. **Nada disto existe no programa.** O que existe é o plano, em `PLANO_AUTOMACAO_TARIFAS_E_CUSTOS_IBE.md`, e o princípio: nenhum preço entra sem documento aberto.
+
+---
+
+### 4.7.5. O resultado
 
 A segunda tabela acima dá os indicadores.
 
@@ -1097,7 +1170,7 @@ A segunda tabela acima dá os indicadores.
 
 A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 134,28 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção 3.7 (volume Guias de uso) varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção 3.1 (volume Guias de uso) compara as três cidades pelo potencial de poupança, e não pela recuperação.
 
-**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção 4.5 a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade.
+**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção 4.5 a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
 
 ---
 
@@ -1108,11 +1181,46 @@ O resultado de um volume isolado diz pouco sem os vizinhos. O separador económi
 *Figura 15 — O gráfico do separador económico: o valor atual líquido de cada volume da varredura, com o máximo económico e o ótimo técnico marcados. Quando os dois coincidem, o programa assinala-os com um único símbolo. Todos os custos são ilustrativos, não são preços de mercado. Figura gerada pelo próprio programa.*
 
 ---
-### 4.7.5. O que a projeção assume
+
+### 4.7.6. O que entra no custo de exploração (OPEX)
+
+Também aqui o programa não pré-preenche preços. O custo de exploração de um projeto novo soma a energia da eletrobomba, o cloro, a linha de tratamento e as rotinas de manutenção, e **todos esses preços partem de zero**: a tarifa de eletricidade, o preço do cloro e o custo de cada rotina. As três rotinas de manutenção existem como roteiro, com periodicidade de 12 meses, e o utilizador dá-lhes o custo.
+
+O que o programa calcula sozinho são as quantidades: a energia anual da eletrobomba, pela cadeia da secção 2.6 (volume O método), e os quilogramas de cloro, pela dose e pela pureza da pastilha. O custo é a quantidade vezes o preço que o utilizador introduzir. Com preço zero, o custo é zero, e não um valor omitido.
+
+**As rotinas pesam mais que o resto.** O campo de custo anual que o resumo da análise mostra soma só a energia, o cloro e a linha de tratamento. As rotinas de manutenção entram no fluxo de caixa à parte, no fim de cada período, corrigidas pela inflação. No tutorial, com valores ilustrativos, elas movem o resultado:
+
+<!-- tabela: **Tabela 29** — Efeito das três rotinas de manutenção ilustrativas sobre o custo do resumo e sobre o resultado do tutorial (custos ilustrativos, não são preços de mercado) -->
+| Projeto do tutorial (custos ilustrativos, não são preços de mercado) | Com as rotinas | Sem rotinas |
+| :--- | ---: | ---: |
+| rotinas de manutenção por ano | 90,00 € | 0,00 € |
+| custo anual do resumo: energia, cloro e tratamento | 1,75 € | 1,75 € |
+| valor atual líquido | −5 828,77 € | −4 418,13 € |
+
+**Energia.** Hoje a tarifa de eletricidade é um campo vazio. O exemplo do Funchal traz 0,1673 €/kWh, a Tarifa Base da Empresa de Eletricidade da Madeira, sem IVA, recolhida num comparador de preços e por isso de fonte secundária; Lisboa e Porto ficam a zero. Para um estudo, use a sua fatura.
+
+Recolheram-se séries públicas que servirão de ponto de partida, mas **ainda não estão ligadas ao programa**: nenhum valor da tabela seguinte é inserido sozinho. O preço do Eurostat é a média de um domicílio inteiro, na banda de 2 500 a 4 999 kWh por ano, e não o preço marginal de uma eletrobomba; a fatura do utilizador prevalece sempre.
+
+<!-- tabela: **Tabela 30** — Séries públicas recolhidas fora do programa, ainda não ligadas a ele, com a data de acesso e o início da soma de verificação -->
+| Série pública | Portugal | Espanha | Acesso | SHA-256 (início) |
+| :--- | ---: | ---: | :--- | :--- |
+| eletricidade doméstica, com impostos (2026-S1) | 0,2367 €/kWh | 0,2509 €/kWh | 2026-10-22 | `b92782d29f15` |
+| eletricidade doméstica, sem impostos (2026-S1) | 0,1576 €/kWh | 0,1782 €/kWh | 2026-10-22 | `c9ad0130f1ef` |
+| inflação anual (IPCH) (2025) | 2,2 % ao ano | 2,7 % ao ano | 2026-10-22 | `ad3c84f4b19c` |
+| taxa de refinanciamento do BCE (2026-09-16) | 2,65 % | zona euro: o mesmo valor | 2026-10-22 | `0dedb876aea5` |
+
+O plano é pré-preencher a tarifa com o valor do Eurostat do país, rotulado como média de um domicílio inteiro e editável, a inflação com o IPCH e a taxa de atualização com uma referência do BCE. **Não está implementado.** O cloro e as manutenções continuarão sem custo até haver fonte aberta para eles, e o índice de custos de construção, que serviria para atualizar preços já recolhidos, ainda nem foi localizado na fonte oficial.
+
+**O que não entra.** O fluxo de caixa não traz reposição de equipamentos ao longo dos 20 anos, valor residual, análises laboratoriais da água nem seguro. Se a eletrobomba ou o filtro forem substituídos no período, acrescente a substituição como uma rotina em *3. Outros Custos Operacionais*.
+
+**Como alterar ou desligar.** As rotinas editam-se, excluem-se ou acrescentam-se no botão *3. Outros Custos Operacionais*. A dose de cloro e o descarte físico escolhem-se na etapa **3. Qualidade & ETAP**. A tarifa e os impostos da eletricidade ficam em *2. Eletrobomba e Custo de Energia*.
+
+---
+### 4.7.7. O que a projeção assume
 
 Vinte anos são muito tempo, e a projeção depende de premissas que convém declarar:
 
-<!-- tabela: **Tabela 27** — Premissas da projeção económica e o peso de cada uma no resultado -->
+<!-- tabela: **Tabela 31** — Premissas da projeção económica e o peso de cada uma no resultado -->
 | Premissa | Valor adotado | Onde pesa |
 | :--- | ---: | :--- |
 | taxa de atualização | 0,4% ao mês | desconta o fluxo; quanto maior, pior o VAL |
@@ -1130,9 +1238,9 @@ A atualização da tarifa é a premissa mais frágil da lista. Três por cento a
 
 ---
 
-### 4.7.6. O que temos até aqui
+### 4.7.8. O que temos até aqui
 
-<!-- tabela: **Tabela 28** — Estado do projeto do tutorial depois da análise económica (ilustrativo, não é preço de mercado) -->
+<!-- tabela: **Tabela 32** — Estado do projeto do tutorial depois da análise económica (ilustrativo, não é preço de mercado) -->
 | Projeto até aqui (ilustrativo, não é preço de mercado) | |
 | :--- | ---: |
 | volume | 5 000 L, betão |
@@ -1164,7 +1272,7 @@ O saldo ambiental do sistema é a diferença entre o que evita e o que emite, e 
 
 Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o reservatório superior de 1 000 L:
 
-<!-- tabela: **Tabela 29** — Balanço de carbono do projeto do tutorial com cisterna de betão (fatores ilustrativos) -->
+<!-- tabela: **Tabela 33** — Balanço de carbono do projeto do tutorial com cisterna de betão (fatores ilustrativos) -->
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 1 026 kg CO₂e |
@@ -1203,7 +1311,7 @@ A dívida de carbono está quase toda na cisterna. E uma cisterna de 5 000 L pod
 
 ==Em todo este capítulo, **positivo emite e negativo retira**. É a convenção do gráfico de balanço do separador ambiental do programa, e a que mantém intuitiva a leitura de um gráfico de emissões: a linha que desce é a que melhora.==
 
-<!-- tabela: **Tabela 30** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório (os preços são ilustrativos, não são preços de mercado) -->
+<!-- tabela: **Tabela 34** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório (os preços são ilustrativos, não são preços de mercado) -->
 | Material da cisterna | Massa | Carbono incorporado | Retorno do carbono | Emissões líquidas em 20 anos | Preço (ilustrativo, não é preço de mercado) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polietileno (PEAD) | 110 kg | 363 kg CO₂e | 20,9 anos | 15 kg | 2 850 € |
@@ -1211,7 +1319,7 @@ A dívida de carbono está quase toda na cisterna. E uma cisterna de 5 000 L pod
 | Fibra de vidro | 75 kg | 429 kg CO₂e | 24,7 anos | 81 kg | 3 370 € |
 | Aço inoxidável | 190 kg | 889 kg CO₂e | 51,1 anos | 541 kg | 10 300 € |
 
-<!-- tabela: **Tabela 31** — Efeito do volume da cisterna de betão nas emissões líquidas de carbono -->
+<!-- tabela: **Tabela 35** — Efeito do volume da cisterna de betão nas emissões líquidas de carbono -->
 | Volume em betão | Retorno do carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
 | 2 000 L | 37,1 anos | 240 kg CO₂e |
@@ -1267,7 +1375,7 @@ A tabela não condena o betão. Diz que precisa de justificação.
 
 É o que um projetista faria perante esta tabela, e é o que torna este tutorial honesto: um estudo muda de rumo quando a análise mostra que o rumo estava errado. A troca não faz o sistema pagar-se, nem em dinheiro nem em carbono, mas faz a diferença onde ela importa:
 
-<!-- tabela: **Tabela 32** — Efeito da troca de betão por polietileno nas três dimensões de análise (ilustrativo, não é preço de mercado) -->
+<!-- tabela: **Tabela 36** — Efeito da troca de betão por polietileno nas três dimensões de análise (ilustrativo, não é preço de mercado) -->
 | (ilustrativo, não é preço de mercado) | Betão | Polietileno |
 | :--- | ---: | ---: |
 | preço da cisterna | 2 600 € | 2 850 € |
@@ -1279,7 +1387,7 @@ A tabela não condena o betão. Diz que precisa de justificação.
 
 A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o retorno do carbono de 59,0 para 20,9 anos e as emissões líquidas de 678 para 15 kg. O potencial de poupança não muda.
 
-<!-- tabela: **Tabela 33** — Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado) -->
+<!-- tabela: **Tabela 37** — Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado) -->
 | Projeto até aqui (ilustrativo, não é preço de mercado) | |
 | :--- | ---: |
 | volume | 5 000 L |
@@ -1316,7 +1424,7 @@ Temos agora três respostas. O potencial diz um volume, o dinheiro diz outro, o 
 
 As secções anteriores deste tutorial fizeram ao mesmo projeto três perguntas distintas — quanta água entrega, quanto dinheiro rende e quanto carbono evita — e receberam três respostas que não coincidem. Esta discordância não é defeito da análise nem inconsistência dos dados: mostra que os três critérios medem coisas diferentes e se comportam de maneira diferente em relação ao volume do reservatório.
 
-<!-- tabela: **Tabela 34** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado) -->
+<!-- tabela: **Tabela 38** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado) -->
 | Volume | Potencial | VAL (ilustrativo, não é preço de mercado) | Período de recuperação | Saldo de carbono em 20 anos | Investimento (ilustrativo, não é preço de mercado) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 000 L | 11,91% | −4 548 € | sem recuperação | 9 kg | 4 700 € |
@@ -1327,7 +1435,7 @@ As secções anteriores deste tutorial fizeram ao mesmo projeto três perguntas 
 | 8 000 L | 19,65% | −7 611 € | sem recuperação | −87 kg | 8 550 € |
 | 12 000 L | 21,43% | −9 694 € | sem recuperação | −194 kg | 10 750 € |
 
-<!-- tabela: **Tabela 35** — Volume vencedor segundo cada critério isolado -->
+<!-- tabela: **Tabela 39** — Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume vencedor |
 | :--- | ---: |
 | maior potencial de poupança | 12 000 L |
@@ -1349,7 +1457,7 @@ A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
 O programa usa o TOPSIS sobre **sete critérios**:
 
-<!-- tabela: **Tabela 36** — Os sete critérios do multicritério e o sentido de preferência de cada um -->
+<!-- tabela: **Tabela 40** — Os sete critérios do multicritério e o sentido de preferência de cada um -->
 | Critério | Sentido |
 | :--- | :--- |
 | potencial de economia | maximizar |
@@ -1385,7 +1493,7 @@ O separador de decisão apresenta o escore de cada volume candidato (Figura 20).
 
 A tabela seguinte mostra o que acontece ao deslocar o peso.
 
-<!-- tabela: **Tabela 37** — Volume escolhido pelo TOPSIS conforme a dimensão com peso dominante, e o segundo classificado -->
+<!-- tabela: **Tabela 41** — Volume escolhido pelo TOPSIS conforme a dimensão com peso dominante, e o segundo classificado -->
 | Peso dominante | Volume | Segundo classificado |
 | :--- | ---: | ---: |
 | pesos iguais | 5 000 L | 4 000 L |
@@ -1422,7 +1530,7 @@ A concordância, porém, não está garantida em nenhum outro caso, e é por iss
 
 ### 4.9.5. O projeto, fechado
 
-<!-- tabela: **Tabela 38** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
+<!-- tabela: **Tabela 42** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Triton · moradia unifamiliar em Lisboa (custos ilustrativos, não são preços de mercado) | |
 | :--- | ---: |
 | série de precipitação | Lisboa, 30 anos, 719 mm/ano |
@@ -1911,7 +2019,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 39** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 43** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica recolhida diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou as redes públicas. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canónico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | Prática de redação técnica e científica. |
@@ -1922,7 +2030,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 40** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 44** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da procura total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -1952,7 +2060,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 41** — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um -->
+<!-- tabela: **Tabela 45** — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um -->
 | # | Passo | O que se decide nele | Secção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -1972,7 +2080,7 @@ do computador.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 42** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 46** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 (volume Enganos, limitações e confiabilidade) |
@@ -1990,7 +2098,7 @@ do computador.
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 43** — Ficha de consulta: os seis regimes tarifários e o efeito de poupar -->
+<!-- tabela: **Tabela 47** — Ficha de consulta: os seis regimes tarifários e o efeito de poupar -->
 | Regime | Ao poupar |
 | :--- | :--- |
 | sem mínimo | cada m³ desconta |
@@ -2010,7 +2118,7 @@ progressivos (apêndice D (volume Apêndices)).
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 44** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 48** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | procura **total** | quanto do consumo de água potável cai |
@@ -2080,7 +2188,7 @@ introduza os seus próprios custos na etapa 5.
 
 ### J.1. Os casos do manual
 
-<!-- tabela: **Tabela 45** — Os casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 49** — Os casos de exemplo e o que cada um demonstra -->
 | Ficheiro | Secção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_lisboa.triton` | 4.1 a 4.10 | o projeto fechado do tutorial em Lisboa: cisterna de 5.000 L em polietileno e elevação para um reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado) |
@@ -2101,7 +2209,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 46** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 50** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Ficheiro | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |

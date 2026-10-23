@@ -150,19 +150,27 @@ Tabela 24 — Contas mensais de conferência do tarifário do Porto
 
 Tabela 25 — Concelhos com documento tarifário recolhido e ainda por transcrever
 
-Tabela 26 — Formatos que o programa lê e onde cada um é carregado
+Tabela 26 — Estados de confiança dos valores tarifários e respetivos critérios
 
-Tabela 27 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 27 — Concelhos e serviços por estado de confiança dos valores tarifários
 
-Tabela 28 — As sete secções do ficheiro de projeto e o que cada uma guarda
+Tabela 28 — Concelhos por distrito e estado de confiança dos valores tarifários
 
-Tabela 29 — Localização dos ficheiros do programa e dos ficheiros do utilizador
+Tabela 29 — Concelhos com tarifário transcrito e o estado de cada serviço
 
-Tabela 30 — Compatibilidade entre versões do ficheiro de projeto
+Tabela 30 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 31 — Padronização terminológica de água de chuva e água pluvial
+Tabela 31 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 32 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 32 — As sete secções do ficheiro de projeto e o que cada uma guarda
+
+Tabela 33 — Localização dos ficheiros do programa e dos ficheiros do utilizador
+
+Tabela 34 — Compatibilidade entre versões do ficheiro de projeto
+
+Tabela 35 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 36 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -2004,7 +2012,84 @@ tarifário à mão. O tarifário de Bragança, em vigor, continua por obter.
 | Guarda | Câmara Municipal da Guarda | edital n.º 16/2026 |
 | Vila Real | ADIN e Câmara Municipal | tarifas 2026 e resíduos 2026 |
 
-### D.7. Introduzir o seu tarifário
+### D.7. Confiança dos valores tarifários por concelho
+
+Nem todos os tarifários valem o mesmo. O Triton IBE traz transcritos 3 dos 280 concelhos que cobre (278 de Portugal continental, mais Funchal e Ponta Delgada), e para os restantes o utilizador introduz o tarifário do projeto. Para cada concelho, e para cada um dos três serviços (água, saneamento e resíduos urbanos), o programa de manutenção atribui um de três estados, com o motivo escrito.
+
+Em Portugal a água, o saneamento de águas residuais e os resíduos urbanos são muitas vezes de entidades diferentes (em Lisboa, a EPAL fornece a água e a Câmara trata do saneamento e dos resíduos; no Porto, a Águas e Energia do Porto trata da água e do saneamento, e a EMAP dos resíduos). Por isso o estado é dado por serviço, cada um com a sua entidade e o seu documento. O saneamento cobra-se por escalões sobre uma fração do volume de água, o IVA vem de cada documento, a taxa de recursos hídricos (TRH) é uma parcela própria e a tarifa fixa depende do calibre do contador. Só se avalia o utilizador doméstico.
+
+#### D.7.1. A escala e os critérios
+
+<!-- tabela: **Tabela 26** — Estados de confiança dos valores tarifários e respetivos critérios -->
+| Estado | Critério |
+| :--- | :--- |
+| 🟢 verde, verificado | Documento oficial arquivado com URL e SHA-256; `confirmado_em` há menos de 12 meses; transcrição conferida com as contas impressas; verificação independente registada em `verificado_por` (fatura real com tolerância de ±0,05 €, ou segunda leitura por uma pessoa diferente do transcritor; um modelo de IA nunca conta); e nenhuma pendência com efeito acima de 1 % na conta de 10 m³. |
+| 🟡 amarelo, a validar | Há documento oficial arquivado ou transcrito, mas falta algum dos requisitos do verde: transcrição, conferência, reconfirmação nos últimos 12 meses, verificação independente, ou há pendência com efeito acima de 1 %. |
+| ⚪ cinza, sem dado | Sem documento oficial arquivado, entidade gestora por identificar, ou dado ruim. O programa não traz tarifário e a ficha da ERSAR indica onde o procurar. |
+
+O estado do concelho é verde quando os três serviços são verdes, cinza quando são todos cinza, e amarelo nos restantes casos. **Não há verde sem verificação independente**: a transcrição feita por quem leu o documento prova a aritmética, não a leitura. Uma **pendência** é uma hipótese que o documento não resolve (o IVA aplicado, um valor que não vem impresso, a leitura de uma tabela); cada uma traz o efeito estimado na conta de 10 m³ e, acima de 1 %, impede o verde.
+
+#### D.7.2. Situação em 23/10/2026
+
+<!-- tabela: **Tabela 27** — Concelhos e serviços por estado de confiança dos valores tarifários -->
+| Estado | Concelhos | Água | Saneamento | Resíduos |
+| :--- | ---: | ---: | ---: | ---: |
+| 🟢 verde, verificado | 0 | 0 | 0 | 0 |
+| 🟡 amarelo, a validar | 42 | 42 | 42 | 11 |
+| ⚪ cinza, sem dado | 238 | 238 | 238 | 269 |
+| **total** | **280** | **280** | **280** | **280** |
+
+Por distrito (e região autónoma), com o estado do concelho:
+
+<!-- tabela: **Tabela 28** — Concelhos por distrito e estado de confiança dos valores tarifários -->
+| Distrito | 🟢 verde | 🟡 amarelo | ⚪ cinza | Total |
+| :--- | ---: | ---: | ---: | ---: |
+| Aveiro | 0 | 10 | 9 | 19 |
+| Beja | 0 | 1 | 13 | 14 |
+| Braga | 0 | 1 | 13 | 14 |
+| Bragança | 0 | 3 | 9 | 12 |
+| Castelo Branco | 0 | 1 | 10 | 11 |
+| Coimbra | 0 | 1 | 16 | 17 |
+| Évora | 0 | 1 | 13 | 14 |
+| Faro | 0 | 1 | 15 | 16 |
+| Guarda | 0 | 1 | 13 | 14 |
+| Leiria | 0 | 1 | 15 | 16 |
+| Lisboa | 0 | 1 | 15 | 16 |
+| Portalegre | 0 | 1 | 14 | 15 |
+| Porto | 0 | 1 | 17 | 18 |
+| Região Autónoma da Madeira | 0 | 1 | 0 | 1 |
+| Região Autónoma dos Açores | 0 | 1 | 0 | 1 |
+| Santarém | 0 | 1 | 20 | 21 |
+| Setúbal | 0 | 1 | 12 | 13 |
+| Viana do Castelo | 0 | 7 | 3 | 10 |
+| Vila Real | 0 | 6 | 8 | 14 |
+| Viseu | 0 | 1 | 23 | 24 |
+
+A tabela concelho a concelho (entidade gestora de cada serviço, estado de cada serviço, vigência, o que falta e a ligação ao documento ou à ficha tarifária da ERSAR) acompanha o programa em `tarifas_portugal/CONFIANCA_POR_CONCELHO.csv`, em formato aberto.
+
+Os concelhos transcritos:
+
+<!-- tabela: **Tabela 29** — Concelhos com tarifário transcrito e o estado de cada serviço -->
+| Concelho | Água | Saneamento | Resíduos | O que falta |
+| :--- | :--- | :--- | :--- | :--- |
+| Funchal | 🟡 | 🟡 | 🟡 | em todos os serviços com documento: sem verificação independente (fatura real ±0,05 € ou segunda leitura por outra pessoa); pendência (efeito não quantificável): a tabela não diz se o preço do escalão atingido vale por faixa ou para todo o volume; água: pendência (efeito de 2,30 % na conta): Taxa de Recursos Hídricos não impressa no documento (tratada como zero); ordem de grandeza: a TRH da água do Porto, 0,0392 €/m³, pesaria cerca de 2,3 % na conta de 10 m³; saneamento: pendência (efeito não quantificável): o 1.º escalão (0 a 5 m³) do saneamento e dos resíduos não tem valor impresso e foi tratado como zero; pendência (efeito de 2,30 % na conta): Taxa de Recursos Hídricos não impressa no documento (tratada como zero); ordem de grandeza: a TRH da água do Porto, 0,0392 €/m³, pesaria cerca de 2,3 % na conta de 10 m³; resíduos: pendência (efeito não quantificável): o 1.º escalão (0 a 5 m³) do saneamento e dos resíduos não tem valor impresso e foi tratado como zero |
+| Lisboa | 🟡 | 🟡 | 🟡 | em todos os serviços com documento: sem verificação independente (fatura real ±0,05 € ou segunda leitura por outra pessoa); saneamento: pendência (efeito de 2,59 % na conta): IVA do saneamento e dos resíduos tratado como 0 % (os documentos não cobram IVA; posição contestada pela Provedora de Justiça); com 6 % a conta de 10 m³ sobe 2,59 %; resíduos: pendência (efeito de 2,59 % na conta): IVA do saneamento e dos resíduos tratado como 0 % (os documentos não cobram IVA; posição contestada pela Provedora de Justiça); com 6 % a conta de 10 m³ sobe 2,59 % |
+| Porto | 🟡 | 🟡 | ⚪ | em todos os serviços com documento: sem verificação independente (fatura real ±0,05 € ou segunda leitura por outra pessoa); água: pendência (efeito de 1,96 % na conta): tarifa de disponibilidade da água lida por inferência do layout (0,1242 €/dia; a outra leitura, 0,1367 €/dia, subiria a conta de 10 m³ 1,96 %); resíduos: entidade EMAP: sem documento arquivado |
+
+#### D.7.3. Como ler o estado
+
+1. Procure o concelho do projeto. A entidade gestora de cada serviço vem da ficha tarifária da ERSAR (e, no Funchal e em Ponta Delgada, do próprio documento); quando nenhuma fonte a indica, a tabela diz «a identificar».
+2. Leia o estado de cada serviço, não só o do concelho: um concelho amarelo pode ter a água documentada e os resíduos sem dado.
+3. Leia «o que falta». É a lista do que o utilizador deve verificar antes de apoiar uma conclusão económica.
+4. Confira a vigência. Os tarifários portugueses mudam em regra todos os anos, em janeiro ou nos primeiros meses, e um tarifário com mais de 12 meses pode já ter sido substituído.
+
+#### D.7.4. O que fazer em concelhos amarelos e cinzentos
+
+- **Cinza.** Obtenha o tarifário em vigor da entidade gestora de cada serviço (a ficha da ERSAR indica a entidade e o ano), introduza os escalões, as tarifas fixas, o IVA e a regra do saneamento na janela de tarifário (etapa 5) e confira a fatura que o programa calcula com uma fatura real do edifício.
+- **Amarelo.** O valor tem documento oficial por trás, mas não foi verificado de modo independente. Confira a conta com uma fatura real e, se o programa lhe der um valor diferente por mais de 0,05 €, use o da fatura.
+- **Em qualquer estado diferente de verde.** Declare no estudo a entidade gestora, a data de vigência e o estado de confiança, e acompanhe o resultado económico de uma análise de sensibilidade à tarifa.
+
+### D.8. Introduzir o seu tarifário
 
 1. Obtenha o documento tarifário em vigor da sua entidade gestora e anote a data.
 2. Introduza os escalões, as tarifas fixas, o IVA e a regra do saneamento na janela de tarifário (etapa 5).
@@ -2021,7 +2106,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 26** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 30** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -2045,7 +2130,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 27** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 31** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | todos os parâmetros e a série de chuva | Guardar projeto |
@@ -2074,7 +2159,7 @@ programa.
 
 Ele tem sete secções:
 
-<!-- tabela: **Tabela 28** — As sete secções do ficheiro de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 32** — As sete secções do ficheiro de projeto e o que cada uma guarda -->
 | Secção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -2097,7 +2182,7 @@ O apêndice A (volume Apêndices) lista todos os parâmetros, com o nome exato d
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 29** — Localização dos ficheiros do programa e dos ficheiros do utilizador -->
+<!-- tabela: **Tabela 33** — Localização dos ficheiros do programa e dos ficheiros do utilizador -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Triton` |
@@ -2116,7 +2201,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada do que é s
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 30** — Compatibilidade entre versões do ficheiro de projeto -->
+<!-- tabela: **Tabela 34** — Compatibilidade entre versões do ficheiro de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o valor por defeito |
@@ -2474,7 +2559,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 31** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 35** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica recolhida diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou as redes públicas. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canónico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | Prática de redação técnica e científica. |
@@ -2485,7 +2570,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 32** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 36** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da procura total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
