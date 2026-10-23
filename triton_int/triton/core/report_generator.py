@@ -152,6 +152,17 @@ def _registro_profissional(is_en: bool = False, tipo: str = "executivo") -> str:
     return _ed.registro_profissional(is_en, tipo)
 
 
+def _rodape_da_chuva(project_data: Dict[str, Any], is_en: bool = False) -> str:
+    """Licença, citação, nível de qualidade e cobertura da chuva E-OBS, no fecho de todo laudo da edição IBE/PRT.
+
+    Vazio nas outras edições. O conteúdo vem de ``triton.core.licenca_eobs.rodape_do_laudo``.
+    """
+    from triton.core.licenca_eobs import rodape_do_laudo
+    texto = rodape_do_laudo((project_data or {}).get("audit_context") or {}, is_en)
+    return (f"<div class='rodape-da-chuva' style='font-size:7.5pt;color:#475569;margin:8px 0 4px 0;line-height:1.35;'>"
+            f"{texto}</div>") if texto else ""
+
+
 def _rodape_cidade() -> str:
     """O local de emissão na capa do dossiê: «Florianópolis – SC» só na Brasil."""
     return "Florianópolis – SC<br/>" if _brasil() else ""
@@ -640,7 +651,7 @@ def generate_executive_html_report(project_data: Dict[str, Any], sim_result: Opt
             </tr>
         </table>
 
-        <table class="footer-table">
+        {_rodape_da_chuva(project_data, is_en)}<table class="footer-table">
             <tr>
                 <td style="width: 55%;">
                     <div><b>{tr('Grupo de Pesquisa em Ambientes Sustentáveis | UFSC')}</b></div>
@@ -1196,7 +1207,7 @@ def generate_environmental_html_report(
             </p>
         </div>
 
-        <table class="footer-table">
+        {_rodape_da_chuva(project_data, is_en)}<table class="footer-table">
             <tr>
                 <td style="width: 50%;">
                     <div><b>{'Grupo de Pesquisa em Ambientes Sustentáveis | UFSC' if not is_en else 'Sustainable Environments Research Group | UFSC'}</b></div>
@@ -2637,7 +2648,7 @@ li {{ margin-bottom: 2px; }}
         </p>
     </div>
 
-    <div class='footer-sig'>
+    {_rodape_da_chuva(project_data, is_en)}<div class='footer-sig'>
         <div>
             <b>{_credito_do_grupo(is_en, com_ufsc=False) + " (UFSC)"}</b><br/>
             {APP_VERSION_LABEL} Engine · {_edicao()} — {t('prepared')}

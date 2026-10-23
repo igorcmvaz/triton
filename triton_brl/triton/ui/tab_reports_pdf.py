@@ -485,6 +485,20 @@ class TabReportsPdf(QWidget):
         return "E-OBS" if is_prt_edition() else "Série observada"
 
     @staticmethod
+    def _acrescentar_procedencia_da_chuva(audit: dict, cfg) -> None:
+        """Edição IBE/PRT: o concelho, a procedência do pacote E-OBS e se a série é do utilizador.
+
+        O rodapé do laudo (licença, citação, nível de qualidade e cobertura) lê estas chaves em
+        ``triton.core.licenca_eobs.rodape_do_laudo``. Nas outras edições nada é acrescentado.
+        """
+        from triton.core.edition import usa_dados_de_portugal
+        if not usa_dados_de_portugal():
+            return
+        audit["climate_city_name"] = str(getattr(cfg, "climate_city_name", "") or "")
+        audit["chuva_serie_propria"] = (getattr(cfg, "climate_source_mode", "") or "") == "custom_file"
+        audit["chuva_procedencia"] = dict(getattr(cfg, "chuva_procedencia", None) or {})
+
+    @staticmethod
     def _periodo_climatico(cfg) -> str:
         """«início a fim» na Brasil (como sempre); fora dela, com travessão, que vale em qualquer idioma."""
         from triton.core.edition import usa_dados_do_brasil
@@ -986,6 +1000,7 @@ class TabReportsPdf(QWidget):
                 "tariff_location": self._juntar_locais(
                     getattr(cfg, "tariff_city_name", ""), getattr(cfg, "tariff_city_uf", "")) or "-",
             }
+            self._acrescentar_procedencia_da_chuva(data["audit_context"], cfg)
             self._marcar_custos_em_branco(data, cfg, mw)
             up_vol = float(getattr(cfg, "upper_tank_vol", 0.0) or 0.0)
             if up_vol <= 0:

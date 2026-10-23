@@ -73,7 +73,11 @@ def _indice() -> Tuple[Tuple[str, str, str, str], ...]:
 
 
 def disponivel() -> bool:
-    return caminho_da_base() is not None
+    """A base está instalada e a licença da E-OBS não a desligou (ver triton/core/licenca_eobs.py)."""
+    if caminho_da_base() is None:
+        return False
+    from triton.core import licenca_eobs
+    return not licenca_eobs.e_obs_bloqueada()
 
 
 def distritos() -> List[str]:
@@ -98,6 +102,17 @@ def metadados() -> Dict[str, str]:
         return dict(con.execute("SELECT chave, valor FROM metadados"))
 
 
+def pacote() -> Dict[str, str]:
+    """Identificação do pacote de chuva instalado: ``pacote_id``, ``versao_eobs``, ``sha256_pacote``, ``qualidade_versao``.
+
+    Vêm de ``metadados``. O SHA-256 é o do conteúdo da tabela ``series`` (as séries por concelho),
+    de modo que acrescentar tabelas de qualidade não muda o pacote, e mudar uma série muda. Chave
+    ausente (base anterior ao registo do pacote) volta como texto vazio.
+    """
+    meta = metadados()
+    return {k: meta.get(k, "") for k in ("pacote_id", "versao_eobs", "sha256_pacote", "qualidade_versao")}
+
+
 def _data(texto: Optional[str], padrao: datetime) -> datetime:
     from triton.core.climate_database import parse_date_str
     return parse_date_str(texto, padrao) if texto else padrao
@@ -111,6 +126,10 @@ def carregar_serie(concelho: str, inicio: Optional[str] = None,
     identificador)``. Dia sem dado em todas as células do concelho vem como NaN: o motor o
     recusa como falha, em vez de tratá-lo como dia seco.
     """
+    from triton.core import licenca_eobs
+    if licenca_eobs.e_obs_bloqueada():
+        raise licenca_eobs.LicencaEObsBloqueada(
+            "A base E-OBS está desligada neste computador (uso comercial declarado): carregue a série de chuva do seu projeto.")
     with _conectar() as con:
         linha = con.execute("SELECT inicio, dias, dados, dtmn FROM series WHERE concelho = ?", (concelho,)).fetchone()
     if linha is None:

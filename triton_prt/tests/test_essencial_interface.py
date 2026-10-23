@@ -976,6 +976,18 @@ _ARQUIVO_PARIDADE_INTERFACE_CLI = str(_TESTES / 'integration/test_paridade_inter
 PARIDADE_INTERFACE_CLI_RAIZ = Path(_ARQUIVO_PARIDADE_INTERFACE_CLI).resolve().parents[2]
 
 
+def _caso_do_manual(raiz, *nomes):
+    """O primeiro caso do manual que existe nesta edição (cada edição tem os seus casos e nomes)."""
+    pasta = Path(raiz) / 'manual' / 'casos'
+    for nome in nomes:
+        if (pasta / nome).exists():
+            return pasta / nome
+    return pasta / nomes[0]
+
+
+_VARREDURA = ('02_tutorial_varredura.triton', '04_tutorial_sweep.triton', '04_tutorial_varredura.triton')
+_ESCOLA = ('08_escola_semanal.triton', '07_school_weekly.triton', '07_escola_semanal.triton')
+
 PROJETOS = sorted((PARIDADE_INTERFACE_CLI_RAIZ / 'manual' / 'casos').glob('*.triton')) + sorted((PARIDADE_INTERFACE_CLI_RAIZ / 'examples').glob('estudo_caso_*.triton')) + [PARIDADE_INTERFACE_CLI_RAIZ / 'examples' / 'exemplo_quatro_criterios.triton']
 
 
@@ -1055,7 +1067,7 @@ def test_projeto_distribuido(caminho):
 
 def test_alteracao_feita_na_tela_e_gravada(tmp_path, _sem_dialogos):
     """Fração interna e demanda externa digitadas na tela chegam iguais à linha de comando."""
-    w = _abrir(PARIDADE_INTERFACE_CLI_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton')
+    w = _abrir(_caso_do_manual(PARIDADE_INTERFACE_CLI_RAIZ, *_VARREDURA))
     try:
         tb = w.tab_building
         tb.txt_non_potable_indoor_share_simple.setText('30')
@@ -1071,7 +1083,7 @@ def test_alteracao_feita_na_tela_e_gravada(tmp_path, _sem_dialogos):
 
 def test_modo_diario(tmp_path):
     """Demanda diária: a série do arquivo manda nos dois caminhos."""
-    d = json.loads((PARIDADE_INTERFACE_CLI_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton').read_text(encoding='utf-8'))
+    d = json.loads((_caso_do_manual(PARIDADE_INTERFACE_CLI_RAIZ, *_VARREDURA)).read_text(encoding='utf-8'))
     n = len(d['rainfall']['precipitation_mm']) if 'precipitation_mm' in d.get('rainfall', {}) else 3650
     mod = d['inputs'].setdefault('demand_modulation', {})
     mod.update(demand_mode='daily', daily_demands=[150.0 if i % 7 < 5 else 190.0 for i in range(n)], daily_residents=[4] * n, daily_shares=[0.28] * n)
@@ -1540,7 +1552,7 @@ _ARQUIVO_MODULACAO_ESTOCASTICA_UI = str(_TESTES / 'ui/test_modulacao_estocastica
 MODULACAO_ESTOCASTICA_UI_RAIZ = Path(_ARQUIVO_MODULACAO_ESTOCASTICA_UI).resolve().parents[2]
 
 
-MODULACAO_ESTOCASTICA_UI_CASO = MODULACAO_ESTOCASTICA_UI_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+MODULACAO_ESTOCASTICA_UI_CASO = _caso_do_manual(MODULACAO_ESTOCASTICA_UI_RAIZ, *_VARREDURA)
 
 
 @pytest.fixture(scope='module')
@@ -1685,7 +1697,7 @@ def test_trocar_para_a_climbra_na_etapa_1_libera_os_modelos(modulacao_estocastic
 def test_abrir_projeto_sem_modulacao_gravada_recentra_os_cartoes(modulacao_estocastica_ui_janela):
     """Os cartões partiam da tela vazia do início: a lognormal do per capita ficava com média 0."""
     t = modulacao_estocastica_ui_janela.tab_modulacao_estocastica
-    outro = MODULACAO_ESTOCASTICA_UI_RAIZ / 'manual' / 'casos' / '08_escola_semanal.triton'
+    outro = _caso_do_manual(MODULACAO_ESTOCASTICA_UI_RAIZ, *_ESCOLA)
     modulacao_estocastica_ui_janela.on_load_simulation(str(outro))
     cfg = modulacao_estocastica_ui_janela.config_do_estudo()
     for chave in ('per_capita_l_dia', 'pessoas', 'fracao_nao_potavel_pct'):
@@ -1972,7 +1984,7 @@ _ARQUIVO_FRACOES_NA_INTERFACE = str(_TESTES / 'ui/test_fracoes_na_interface.py')
 FRACOES_NA_INTERFACE_RAIZ = Path(_ARQUIVO_FRACOES_NA_INTERFACE).resolve().parents[2]
 
 
-FRACOES_NA_INTERFACE_CASO = FRACOES_NA_INTERFACE_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+FRACOES_NA_INTERFACE_CASO = _caso_do_manual(FRACOES_NA_INTERFACE_RAIZ, *_VARREDURA)
 
 
 @pytest.fixture(scope='module')
@@ -2036,7 +2048,7 @@ _ARQUIVO_PROJETO_CLIMBRA_UI = str(_TESTES / 'ui/test_projeto_climbra_ui.py')
 PROJETO_CLIMBRA_UI_RAIZ = Path(_ARQUIVO_PROJETO_CLIMBRA_UI).resolve().parents[2]
 
 
-PROJETO_CLIMBRA_UI_CASO = PROJETO_CLIMBRA_UI_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+PROJETO_CLIMBRA_UI_CASO = _caso_do_manual(PROJETO_CLIMBRA_UI_RAIZ, *_VARREDURA)
 
 
 @pytest.fixture

@@ -42,17 +42,23 @@ def test_nenhuma_marca_fica_sem_destino(volumes):
         assert "{{" not in texto, titulo
 
 
+def _titulo_da_secao(chave):
+    """O título que o próprio capítulo traz (a edição portuguesa escreve «bombagem»; a brasileira, «bombeamento»)."""
+    with open(os.path.join(RAIZ, "manual", "partes", chave + ".md"), encoding="utf-8") as f:
+        return f.readline().lstrip("# ").strip()
+
+
 def test_a_numeracao_das_secoes_e_a_do_manual_completo(volumes):
     numeros = gerar.indice_das_secoes()
     metodo = volumes["O método"]
-    assert f"## {numeros['28_energia_de_bombeamento']}. Energia de bombeamento" in metodo
+    assert f"## {numeros['28_energia_de_bombeamento']}. {_titulo_da_secao('28_energia_de_bombeamento')}" in metodo
     tutorial = volumes["Tutorial"]
-    assert f"## {numeros['07_escolher_o_volume']}. Escolher o volume" in tutorial
+    assert f"## {numeros['07_escolher_o_volume']}. {_titulo_da_secao('07_escolher_o_volume')}" in tutorial
 
 
 def test_remissao_para_outro_volume_diz_qual(volumes):
     tutorial = volumes["Tutorial"]
-    assert re.search(r"seção \d+\.\d+ \(volume O método\)", tutorial)
+    assert re.search(r"sec?ção \d+\.\d+ \(volume O método\)", tutorial)
     assert "(volume Tutorial)" not in tutorial
 
 

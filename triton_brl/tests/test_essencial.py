@@ -1013,7 +1013,10 @@ _ARQUIVO_TRES_FRACOES = str(_TESTES / 'unit/test_tres_fracoes.py')
 TRES_FRACOES_RAIZ = Path(_ARQUIVO_TRES_FRACOES).resolve().parents[2]
 
 
-TRES_FRACOES_CASO = TRES_FRACOES_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+_c_sweep = TRES_FRACOES_RAIZ / 'manual' / 'casos' / '04_tutorial_sweep.triton'
+_c_varr = TRES_FRACOES_RAIZ / 'manual' / 'casos' / '04_tutorial_varredura.triton'
+_c_antigo = TRES_FRACOES_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
+TRES_FRACOES_CASO = _c_sweep if _c_sweep.exists() else (_c_varr if _c_varr.exists() else _c_antigo)
 
 
 def test_total_derivada_da_interna_e_da_externa():
@@ -2599,7 +2602,10 @@ _ARQUIVO_CAPEX_POR_VOLUME_NA_CLI = str(_TESTES / 'unit/test_capex_por_volume_na_
 CAPEX_POR_VOLUME_NA_CLI_RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_ARQUIVO_CAPEX_POR_VOLUME_NA_CLI))))
 
 
-CAPEX_POR_VOLUME_NA_CLI_CASO = os.path.join(CAPEX_POR_VOLUME_NA_CLI_RAIZ, 'manual', 'casos', '02_tutorial_varredura.triton')
+_c_sw = os.path.join(CAPEX_POR_VOLUME_NA_CLI_RAIZ, 'manual', 'casos', '04_tutorial_sweep.triton')
+_c_va = os.path.join(CAPEX_POR_VOLUME_NA_CLI_RAIZ, 'manual', 'casos', '04_tutorial_varredura.triton')
+_c_an = os.path.join(CAPEX_POR_VOLUME_NA_CLI_RAIZ, 'manual', 'casos', '02_tutorial_varredura.triton')
+CAPEX_POR_VOLUME_NA_CLI_CASO = _c_sw if os.path.exists(_c_sw) else (_c_va if os.path.exists(_c_va) else _c_an)
 
 
 def load_project_file(caminho):
@@ -5341,9 +5347,10 @@ _ARQUIVO_MODULACAO_ESTOCASTICA = str(_TESTES / 'unit/test_modulacao_estocastica.
 MODULACAO_ESTOCASTICA_RAIZ = Path(_ARQUIVO_MODULACAO_ESTOCASTICA).resolve().parents[2]
 
 
+_c_sw = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '04_tutorial_sweep.triton'
 _caso_04 = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '04_tutorial_varredura.triton'
 _caso_02 = MODULACAO_ESTOCASTICA_RAIZ / 'manual' / 'casos' / '02_tutorial_varredura.triton'
-MODULACAO_ESTOCASTICA_CASO = _caso_04 if _caso_04.exists() else _caso_02
+MODULACAO_ESTOCASTICA_CASO = _c_sw if _c_sw.exists() else (_caso_04 if _caso_04.exists() else _caso_02)
 
 
 @pytest.fixture(scope='module')
@@ -6306,7 +6313,9 @@ def test_projeto_com_chuva_da_e_obs_guarda_referencia_e_relê_igual_na_cli(tmp_p
     destino = tmp_path / 'faro.triton'
     export_triton_json(cfg, str(destino), precip_data=serie)
     chuva = json.loads(destino.read_text(encoding='utf-8'))['rainfall']
-    assert chuva['precipitation_mm'] == [] and chuva['climbra_series']['origem'] == 'E-OBS (Portugal)'
+    # Chuva E-OBS: a referência e o pacote são gravados e, por padrão, a série vai junto (reprodutibilidade).
+    assert chuva['climbra_series']['origem'] == 'E-OBS (Portugal)' and len(chuva['precipitation_mm']) == len(serie)
+    assert chuva['pacote_chuva']['pacote_id'] == pt.metadados()['pacote_id']
     proj = load_triton_project(str(destino))
     assert proj.get('chuva_da_climbra') and not proj.get('aviso_chuva')
     assert np.array_equal(proj['precip_data'], serie) and len(serie) == 3652

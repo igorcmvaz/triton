@@ -65,27 +65,25 @@ def test_o_numero_de_paginas_anunciado_e_o_do_pdf(volume, paginas, arquivo):
 
 
 def _manuais_completos_anunciados():
-    """O dicionário PAGINAS_DO_MANUAL_COMPLETO da aba, lido do código pelo mesmo motivo."""
+    """O dicionário PAGINAS_POR_EDICAO da aba, lido do código pelo mesmo motivo, na edição ativa."""
+    from triton.core.edition import get_current_edition
     fonte = open(ABA, encoding="utf-8").read()
     for no in ast.walk(ast.parse(fonte)):
         if isinstance(no, ast.Assign) and any(
-                getattr(alvo, "id", None) == "PAGINAS_DO_MANUAL_COMPLETO" for alvo in no.targets):
-            return sorted(ast.literal_eval(no.value).items())
-    raise AssertionError("a aba não declara PAGINAS_DO_MANUAL_COMPLETO")
+                getattr(alvo, "id", None) == "PAGINAS_POR_EDICAO" for alvo in no.targets):
+            return sorted(ast.literal_eval(no.value).get(get_current_edition(), {}).items())
+    raise AssertionError("a aba não declara PAGINAS_POR_EDICAO")
 
 
-def test_a_aba_anuncia_o_manual_completo_nas_duas_linguas():
-    assert [a for a, _ in _manuais_completos_anunciados()] == [
-        "manual/Manual-Triton.pdf", "manual/en/Triton-User-Manual.pdf"]
+def test_a_aba_anuncia_o_manual_completo_da_edicao():
+    """Cada edição publica um manual: o inglês na INT, o português na BRL e na PRT."""
+    from triton.core.edition import get_current_edition
+    esperado = "manual/en/Triton-User-Manual.pdf" if get_current_edition() == "INT" else "manual/Manual-Triton.pdf"
+    assert [a for a, _ in _manuais_completos_anunciados()] == [esperado]
 
 
 @pytest.mark.parametrize("arquivo,paginas", _manuais_completos_anunciados())
 def test_o_volume_geral_tambem_confere(arquivo, paginas):
-    from triton.core.edition import get_current_edition
-    if get_current_edition() == "INT" and arquivo == "manual/Manual-Triton.pdf":
-        # A edição internacional publica só o manual em inglês; o PDF em português que sobrou
-        # na pasta é rastro da edição brasileira e não é o que a aba abre.
-        pytest.skip("a edição INT não publica o manual em português")
     reais = _paginas_do_pdf(arquivo)
     if reais is None:
         pytest.skip(f"{arquivo} não foi gerado nesta árvore")

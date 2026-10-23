@@ -95,6 +95,10 @@ class MainWindow(QMainWindow):
         from triton import get_kebab_filename
         self.get_kebab_filename = get_kebab_filename
         self.setWindowTitle(tr(APP_TITLE))
+        from triton.core.edition import usa_dados_de_portugal as _pt_ed, get_edition_title as _titulo
+        if _pt_ed():
+            # Edição IBE/PRT: o título leva a linha de cobertura lida do banco de chuva.
+            self.setWindowTitle(_titulo())
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
         # Projeto novo da edição: na Brasil, os padrões históricos (tubulação e acessórios do arranjo
@@ -289,6 +293,23 @@ class MainWindow(QMainWindow):
             restart_app()
 
 
+    def _criar_linha_de_cobertura(self):
+        """A linha «Cobertura: ...» da tela inicial da edição IBE/PRT, lida do banco; None nas outras edições."""
+        from triton.core.edition import usa_dados_de_portugal
+        if not usa_dados_de_portugal():
+            return None
+        from triton.core import qualidade_chuva as _q
+        if not _q.tem_qualidade():
+            return None
+        lingua = "pt" if get_current_lang() == "pt" else "en"
+        rotulo = QLabel(_q.linha_de_cobertura(lingua))
+        rotulo.setObjectName("linhaDeCobertura")
+        rotulo.setWordWrap(True)
+        rotulo.setToolTip(chr(10).join(_q.descricao_dos_niveis(lingua)))
+        rotulo.setStyleSheet("font-size: 11px; font-weight: 600; color: #475569; padding: 4px 30px; "
+                             "background-color: #f1f5f9; border-bottom: 1px solid #e2e8f0;")
+        return rotulo
+
     def init_ui(self):
         central_widget = QWidget(self)
         main_layout = QHBoxLayout(central_widget)
@@ -332,6 +353,9 @@ class MainWindow(QMainWindow):
         btn_simulate.clicked.connect(lambda: self.on_step_changed(3))
         header_layout.addWidget(btn_simulate)
         workspace_layout.addWidget(workspace_header)
+        self.lbl_cobertura = self._criar_linha_de_cobertura()
+        if self.lbl_cobertura is not None:
+            workspace_layout.addWidget(self.lbl_cobertura)
 
         # 3. QStackedWidget com as 11 Etapas
         self.stack = QStackedWidget(self)
@@ -752,6 +776,10 @@ class MainWindow(QMainWindow):
         cfg.project_id = getattr(self.config, 'project_id', 'N5-PROJ')
         cfg.created_at = getattr(self.config, 'created_at', '')
         cfg.project_name = project_name
+        # A procedência da chuva E-OBS (pacote, SHA-256 e histórico de mudanças) segue com o estudo.
+        procedencia = getattr(self.config, 'chuva_procedencia', None)
+        if procedencia:
+            cfg.chuva_procedencia = procedencia
 
         b_cfg = self.tab_building.get_building_config()
         cfg.area = b_cfg.get('area', 100.0)

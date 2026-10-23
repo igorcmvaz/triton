@@ -6313,7 +6313,9 @@ def test_projeto_com_chuva_da_e_obs_guarda_referencia_e_relê_igual_na_cli(tmp_p
     destino = tmp_path / 'faro.triton'
     export_triton_json(cfg, str(destino), precip_data=serie)
     chuva = json.loads(destino.read_text(encoding='utf-8'))['rainfall']
-    assert chuva['precipitation_mm'] == [] and chuva['climbra_series']['origem'] == 'E-OBS (Portugal)'
+    # Chuva E-OBS: a referência e o pacote são gravados e, por padrão, a série vai junto (reprodutibilidade).
+    assert chuva['climbra_series']['origem'] == 'E-OBS (Portugal)' and len(chuva['precipitation_mm']) == len(serie)
+    assert chuva['pacote_chuva']['pacote_id'] == pt.metadados()['pacote_id']
     proj = load_triton_project(str(destino))
     assert proj.get('chuva_da_climbra') and not proj.get('aviso_chuva')
     assert np.array_equal(proj['precip_data'], serie) and len(serie) == 3652

@@ -25,6 +25,7 @@ International recebe a resposta neutra a todas.
 | `triton/core/dados_do_relatorio.py` | dados dos laudos que dependem da edição: normas, registro profissional e entidade que abastece o local |
 | `triton/core/diagnostico.py` | a base CLIMBra «não se aplica» fora da Brasil; o diagnóstico diz a edição |
 | `triton/core/edition.py` | a edição ativa, o rótulo, o idioma, a moeda e o manual; as fábricas `configuracao_da_edicao`, `projeto_novo_da_edicao`, `tarifa_de_agua_de_reserva` e `serie_de_exemplo_da_edicao`; `neutralizar_para_a_internacional` zera tarifas, energia, motobomba, cloro, manutenções, IPTU Verde e a localidade do projeto novo |
+| `triton/core/licenca_eobs.py` | só na Portugal (IBE/PRT): aviso de licença da E-OBS, escolha de uso lembrada, bloqueio atrás de constante desligada e rodapé de licença e citação dos laudos |
 | `triton/core/environmental_justifications.py` | justificativas da ACV sem fabricantes, normas e inventários nacionais fora da Brasil |
 | `triton/core/esg_certifications.py` | síntese ESG e matriz de créditos só com as certificações internacionais fora da Brasil |
 | `triton/core/parser.py` | o leitor de `.triton` e de CSV parte de `configuracao_da_edicao()`: o que o arquivo não traz cai no padrão histórico (BRL) ou no neutro (INT e PRT) |

@@ -193,7 +193,16 @@ class FirstRunLangDialog(QDialog):
 def check_first_run_language():
     """
     Se o idioma ainda não estiver configurado nos registros, exibe o modal de seleção.
+    Na edição com a base E-OBS (IBE/PRT), pergunta também, uma vez por instalação, o uso dos dados.
     """
+    _escolher_idioma_na_primeira_vez()
+    from triton.core.edition import usa_dados_de_portugal
+    if usa_dados_de_portugal():
+        from triton.ui.dialogs.dialog_licenca_eobs import perguntar_uso_se_necessario
+        perguntar_uso_se_necessario()
+
+
+def _escolher_idioma_na_primeira_vez():
     if not is_language_set():
         from triton.core.edition import is_int_edition
         if is_int_edition():

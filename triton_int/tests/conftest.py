@@ -38,7 +38,7 @@ import sys
 
 import pytest
 
-_SINONIMOS = {"POR": "PRT"}
+_SINONIMOS = {"POR": "PRT", "IBE": "PRT"}
 _PASTAS = {"triton_brl": "BRL", "triton_int": "INT", "triton_prt": "PRT"}
 
 

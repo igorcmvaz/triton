@@ -306,6 +306,14 @@ class TabProject(QWidget):
         self.lbl_date_range_info.setStyleSheet(f"font-size: 11px; font-weight: bold; color: {'#93c5fd' if is_dark else '#0369a1'}; padding: 4px;")
         lay_pnat.addWidget(self.lbl_date_range_info)
 
+        # Nível de qualidade da chuva do concelho (A, B ou C) e o seu motivo: só a edição com a base
+        # E-OBS por concelho (ver triton/core/qualidade_chuva.py).
+        self.lbl_qualidade_chuva = QLabel()
+        self.lbl_qualidade_chuva.setWordWrap(True)
+        self.lbl_qualidade_chuva.setTextFormat(Qt.RichText)
+        self.lbl_qualidade_chuva.setVisible(False)
+        lay_pnat.addWidget(self.lbl_qualidade_chuva)
+
         lay_rain.addWidget(self.panel_national)
 
         # ── PAINEL B: IMPORTAÇÃO DE ARQUIVO MANUAL ──
@@ -835,12 +843,51 @@ class TabProject(QWidget):
 
             # Sincroniza tarifas automaticamente com a cidade selecionada
             self.sync_tariffs_for_city(uf_code, city_name)
+            self._mostrar_qualidade_da_chuva(city_name, scenario_key)
 
             self.update_tables()
             self.project_updated.emit()
 
         except Exception as e:
             self.lbl_date_range_info.setText(f"⚠️ {str(e)}")
+            self._mostrar_qualidade_da_chuva("", "")
+
+    def _mostrar_qualidade_da_chuva(self, concelho: str, scenario_key: str):
+        """Nível A/B/C da chuva do concelho e o motivo, abaixo do recorte (só a base E-OBS por concelho).
+
+        O texto vem do banco (tabela ``qualidade``); os limiares, de triton/core/qualidade_chuva.py.
+        Série carregada de novo da base: a procedência do pacote passa a ser a do pacote instalado.
+        """
+        rotulo = self.lbl_qualidade_chuva
+        if not getattr(self, "_base_portugal", False):
+            rotulo.setVisible(False)
+            return
+        from triton.core import base_climatica_portugal as _pt
+        from triton.core import qualidade_chuva as _q
+        if concelho and scenario_key == _pt.CENARIO_EOBS:
+            cfg = self._get_config()
+            anterior = getattr(cfg, "chuva_procedencia", None) or {}
+            try:
+                atual = _pt.pacote()
+            except Exception:
+                atual = {}
+            if atual.get("pacote_id"):
+                # A série acaba de sair do pacote instalado; o histórico de mudanças fica.
+                cfg.chuva_procedencia = {**atual, "registrado": True, "mudou": False, "aviso": "", "nota": "",
+                                         "serie_incorporada": False, "historico": list(anterior.get("historico") or [])}
+        q = _q.qualidade_do_concelho(concelho) if concelho and scenario_key == _pt.CENARIO_EOBS else None
+        if not q:
+            rotulo.setVisible(False)
+            return
+        from triton.ui.translation import get_current_lang, em_portugues_da_edicao
+        lingua = "pt" if get_current_lang() == "pt" else "en"
+        cor = {"A": "#15803d", "B": "#b45309", "C": "#b91c1c"}[q["nivel"]]
+        texto = _q.texto_da_qualidade(concelho, lingua)
+        legenda = chr(10).join(_q.descricao_dos_niveis(lingua))
+        rotulo.setText(f"<span style='color:{cor}; font-weight:bold;'>{em_portugues_da_edicao(texto)}</span>")
+        rotulo.setToolTip(em_portugues_da_edicao(legenda) if lingua == "pt" else legenda)
+        rotulo.setStyleSheet("font-size: 11px; padding: 4px; background-color: transparent;")
+        rotulo.setVisible(True)
 
     def sync_tariffs_for_city(self, uf_code: str, city_name: str):
         cfg = self._get_config()
@@ -884,12 +931,16 @@ class TabProject(QWidget):
             self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> --")
             self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> --")
             self.lbl_t_reg.setToolTip("")
+            self.lbl_t_audit.setVisible(False)
             self.lbl_tariff_status.setText(tr("⚪ Concelho ainda sem tarifário transcrito: informe a tarifa em «Editar»"))
             self.lbl_tariff_status.setStyleSheet("font-size: 11px; font-weight: bold; color: #64748b; background-color: transparent;")
             return
         self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> {d['entidades']}")
         self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> {d.get('vigencia', '--')}")
         self.lbl_t_reg.setToolTip("\n".join([tr("Fontes:")] + d.get("fontes", []) + [""] + d.get("notas", [])))
+        # Procedência e confiança do tarifário (campo «procedencia» do JSON), onde o Brasil mostra a auditoria.
+        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {_tp.procedencia(city_name)}")
+        self.lbl_t_audit.setVisible(True)
         if self._tariff_is_customized:
             self.lbl_tariff_status.setText(tr("✏️ Tarifas Customizadas pelo Usuário"))
             self.lbl_tariff_status.setStyleSheet("font-size: 11px; font-weight: bold; color: #eab308; background-color: transparent;")

@@ -10,3 +10,12 @@ tests/test_essencial.py::test_esgoto_por_escaloes_sobrevive_ao_arquivo_e_entra_n
 tests/unit/test_tarifarios_porto_funchal.py
 tests/test_essencial_interface.py::test_janela_da_portugal
 tests/test_essencial_interface.py::test_etapa_1_da_portugal_carrega_a_serie_do_concelho
+
+# --- Procedência e confiança dos tarifários por concelho (tarifas_portugal/entidades.json, CONFIANCA_POR_CONCELHO.csv) ---
+tests/unit/test_procedencia_tarifaria_pt.py
+
+# --- Qualidade da chuva, reprodutibilidade, licença da E-OBS e linha de cobertura (edição IBE/PRT; tarefas B a E) ---
+tests/unit/test_qualidade_chuva_prt.py
+tests/unit/test_reprodutibilidade_eobs_prt.py
+tests/unit/test_licenca_eobs_prt.py
+tests/unit/test_ibe_interface_prt.py

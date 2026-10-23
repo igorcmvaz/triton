@@ -281,6 +281,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "triton.ui.portugues_de_portugal",
         # A base E-OBS da Portugal é importada só dentro das funções da etapa 1 e do parser.
         "triton.core.base_climatica_portugal",
+        "triton.core.licenca_eobs",
+        "triton.ui.dialogs.dialog_licenca_eobs",
         "triton.core.dados_do_relatorio",
         "triton.ui.moeda_na_interface",
     ]

@@ -13,6 +13,8 @@ import re
 import subprocess
 import webbrowser
 
+from triton.core.edition import get_current_edition
+
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
     QStackedWidget, QTextBrowser, QFrame, QPushButton, QScrollArea, QSizePolicy,
@@ -82,10 +84,13 @@ def open_url_in_browser(url: str):
 
 #: Páginas de cada manual completo, que a aba anuncia; `test_acervo_de_manuais` confere
 #: contra os PDFs.
-PAGINAS_DO_MANUAL_COMPLETO = {
-    "manual/Manual-Triton.pdf": 292,
-    "manual/en/Triton-User-Manual.pdf": 459,
+#: As páginas dependem da edição (cada edição publica um manual): o literal fica igual nas três.
+PAGINAS_POR_EDICAO = {
+    "BRL": {"manual/Manual-Triton.pdf": 473},
+    "INT": {"manual/en/Triton-User-Manual.pdf": 287},
+    "PRT": {"manual/Manual-Triton.pdf": 298},
 }
+PAGINAS_DO_MANUAL_COMPLETO = PAGINAS_POR_EDICAO.get(get_current_edition(), {})
 
 
 def caminho_do_manual_completo() -> str:

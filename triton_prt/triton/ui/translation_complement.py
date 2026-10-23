@@ -23,6 +23,7 @@ COMPLEMENTO = {
     'Entidades gestoras:': ('Managing entities:', 'Entidades gestoras:', '管理实体：'),
     'Vigência:': ('In force since:', 'Vigencia:', '生效日期：'),
     'Fontes:': ('Sources:', 'Fuentes:', '来源：'),
+    'Procedência:': ('Provenance:', 'Procedencia:', '来源与可信度：'),
     '⚪ Concelho ainda sem tarifário transcrito: informe a tarifa em «Editar»': ('⚪ Municipality without a transcribed tariff yet: enter the tariff under «Edit»', '⚪ Municipio aún sin tarifa transcrita: introduzca la tarifa en «Editar»', '⚪ 该市镇尚无转录收费表：请在「编辑」中输入收费'),
     '🟢 Tarifário transcrito dos documentos oficiais': ('🟢 Tariff transcribed from the official documents', '🟢 Tarifa transcrita de los documentos oficiales', '🟢 收费表转录自官方文件'),
     'Por escalões do tarifário': ("By the tariff's tiers", 'Por los tramos de la tarifa', '按收费表分档'),

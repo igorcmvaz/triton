@@ -908,6 +908,93 @@ def _referencia_climbra(config: TritonConfig, precip_data) -> Optional[dict]:
             **impressao_da_serie(precip_data)}
 
 
+#: A origem que a referência da série traz quando a chuva é a da base E-OBS (Portugal).
+ORIGEM_EOBS = "E-OBS (Portugal)"
+
+
+def _chuva_e_eobs(config: TritonConfig) -> bool:
+    """A chuva do projeto diz vir da base E-OBS por concelho (cenário «EOBS» na base nacional)."""
+    from triton.core.base_climatica_portugal import CENARIO_EOBS
+    return ((getattr(config, "climate_source_mode", "") or "") == "national_db"
+            and (getattr(config, "climate_scenario", "") or "") == CENARIO_EOBS)
+
+
+def _pacote_atual_da_eobs() -> dict:
+    """pacote_id, versão da E-OBS e SHA-256 do pacote instalado; vazio sem a base."""
+    from triton.core import base_climatica_portugal as _pt
+    try:
+        return _pt.pacote() if _pt.disponivel() else {}
+    except Exception:
+        return {}
+
+
+_CHAVES_DO_PACOTE = ("pacote_id", "versao_eobs", "sha256_pacote", "qualidade_versao")
+
+
+def _pacote_para_gravar(config: TritonConfig, precip_data, referencia: Optional[dict], incorporada: bool) -> Optional[dict]:
+    """O bloco ``rainfall.pacote_chuva`` do arquivo: de que pacote da E-OBS vem a série gravada.
+
+    Série igual à da base instalada: o pacote instalado. Série diferente (a incorporada de um
+    pacote antigo, reaberta e salva de novo): o pacote que o projeto já registrava, para a
+    procedência não se perder. Sem uma coisa nem outra, nada é gravado (não se inventa pacote).
+    """
+    anterior = getattr(config, "chuva_procedencia", None) or {}
+    if referencia is not None:
+        origem = _pacote_atual_da_eobs()
+    elif anterior.get("pacote_id"):
+        origem = {k: anterior.get(k, "") for k in _CHAVES_DO_PACOTE}
+    else:
+        return None
+    if not origem.get("pacote_id"):
+        return None
+    return {"origem": ORIGEM_EOBS, **{k: origem.get(k, "") for k in _CHAVES_DO_PACOTE},
+            "serie_incorporada": bool(incorporada), "historico": list(anterior.get("historico") or [])}
+
+
+def _procedencia_da_chuva(rainfall: dict, incorporada: bool, serie_do_pacote_atual: bool) -> Optional[dict]:
+    """O que o projeto aberto sabe da procedência da chuva E-OBS, e se o pacote mudou.
+
+    ``incorporada``: a série usada é a que o arquivo traz. ``serie_do_pacote_atual``: a série
+    usada saiu da base instalada agora (recomposta pela referência). Devolve None quando a
+    chuva do projeto não é da E-OBS (um projeto da BRL nunca tem efeito aqui).
+    """
+    from datetime import date
+    ref = rainfall.get("climbra_series") or {}
+    gravado = dict(rainfall.get("pacote_chuva") or {})
+    if ref.get("origem") != ORIGEM_EOBS and gravado.get("origem") != ORIGEM_EOBS:
+        return None
+    atual = _pacote_atual_da_eobs()
+    historico = list(gravado.get("historico") or [])
+    proc = {"registrado": bool(gravado.get("pacote_id")), "mudou": False, "serie_incorporada": bool(incorporada),
+            "pacote_atual": atual, "aviso": "", "nota": "",
+            **{k: gravado.get(k, "") for k in _CHAVES_DO_PACOTE}}
+    if not proc["registrado"]:
+        proc["nota"] = ("Pacote de chuva não registado no projeto (gravado antes do registo do pacote da E-OBS): "
+                        "não é possível confirmar que a série é a do pacote em uso.")
+        if serie_do_pacote_atual and atual:
+            proc.update({k: atual.get(k, "") for k in _CHAVES_DO_PACOTE})
+    elif atual and atual.get("sha256_pacote") != gravado.get("sha256_pacote"):
+        proc["mudou"] = True
+        antigo = f"{gravado.get('pacote_id')} (SHA-256 {str(gravado.get('sha256_pacote', ''))[:8]})"
+        novo = f"{atual.get('pacote_id')} (SHA-256 {str(atual.get('sha256_pacote', ''))[:8]})"
+        if incorporada and not serie_do_pacote_atual:
+            proc["aviso"] = (f"O pacote de chuva da E-OBS mudou desde que o projeto foi gravado: gravado {antigo}, "
+                             f"instalado {novo}. O estudo usa a série incorporada no projeto (a do pacote gravado), "
+                             f"que reproduz os resultados anteriores. Para usar o pacote instalado, volte a escolher o "
+                             f"concelho na Etapa 1.")
+            tipo = "serie_incorporada_de_outro_pacote"
+        else:
+            proc["aviso"] = (f"O pacote de chuva da E-OBS mudou desde que o projeto foi gravado: gravado {antigo}, "
+                             f"instalado {novo}. A série foi recomposta do pacote instalado e pode diferir da do "
+                             f"estudo original; os resultados podem não se reproduzir.")
+            tipo = "serie_recomposta_de_outro_pacote"
+            proc.update({k: atual.get(k, "") for k in _CHAVES_DO_PACOTE})
+        historico.append({"em": date.today().isoformat(), "tipo": tipo,
+                          "gravado": gravado.get("pacote_id"), "instalado": atual.get("pacote_id")})
+    proc["historico"] = historico
+    return proc
+
+
 def export_triton_json(
     config: TritonConfig,
     file_path: str,
@@ -917,6 +1004,7 @@ def export_triton_json(
     ui_state: Optional[dict] = None,
     analysis: Optional[dict] = None,
     bim_layout: Optional[dict] = None,
+    incorporar_serie: Optional[bool] = None,
 ) -> str:
     """
     Exporta o projeto completo e autocontido do Triton em JSON (.triton / .json).
@@ -943,6 +1031,15 @@ def export_triton_json(
         precip_list = []
     else:
         precip_list = np.asarray(precip_data).tolist() if precip_data is not None else []
+    # Chuva da E-OBS: o arquivo grava também de que pacote ela vem (pacote_id, versão e SHA-256) e,
+    # por padrão, a própria série, para o estudo se reproduzir mesmo que o pacote da base mude.
+    # ``incorporar_serie=False`` (ou ``config.incorporar_serie_eobs = False``) grava só a referência.
+    pacote_chuva = None
+    if _chuva_e_eobs(config) and precip_data is not None and len(precip_data):
+        incorporar = incorporar_serie if incorporar_serie is not None else getattr(config, "incorporar_serie_eobs", True)
+        if referencia_climbra is not None and incorporar:
+            precip_list = np.asarray(precip_data).tolist()
+        pacote_chuva = _pacote_para_gravar(config, precip_data, referencia_climbra, bool(precip_list))
     
     data = {
         "schema": {"name": "triton-project", "version": 2},
@@ -965,6 +1062,7 @@ def export_triton_json(
             "start_date": getattr(config, 'start_date', '01/01/1980'),
             "total_days": referencia_climbra["dias"] if referencia_climbra else len(precip_list),
             "climbra_series": referencia_climbra,
+            **({"pacote_chuva": pacote_chuva} if pacote_chuva else {}),
             "precipitation_mm": precip_list
         },
         "inputs": {
@@ -1236,6 +1334,16 @@ def load_triton_project(file_path: str) -> dict:
             p_list = rainfall.get("precipitation_mm", [])
             if p_list:
                 res["precip_data"] = np.array(p_list, dtype=np.float64)
+                if ORIGEM_EOBS in ((rainfall.get("climbra_series") or {}).get("origem"),
+                                   (rainfall.get("pacote_chuva") or {}).get("origem")):
+                    # Chuva da E-OBS gravada com a série: a tela a trata como a da base nacional.
+                    res["chuva_da_climbra"] = True
+                    proc = _procedencia_da_chuva(rainfall, incorporada=True, serie_do_pacote_atual=False)
+                    if proc is not None:
+                        res["chuva_procedencia"] = proc
+                        cfg.chuva_procedencia = proc
+                        if proc["aviso"]:
+                            res["aviso_chuva"] = proc["aviso"]
             elif rainfall.get("climbra_series"):
                 ref = rainfall["climbra_series"]
                 try:
@@ -1253,6 +1361,13 @@ def load_triton_project(file_path: str) -> dict:
                             f"a base mudou desde a gravação do projeto.")
                     res["precip_data"] = serie
                     res["chuva_da_climbra"] = True
+                    proc = _procedencia_da_chuva(rainfall, incorporada=False, serie_do_pacote_atual=True)
+                    if proc is not None:
+                        res["chuva_procedencia"] = proc
+                        cfg.chuva_procedencia = proc
+                        if proc["aviso"]:
+                            # O aviso da mudança de pacote continua além do da impressão da série.
+                            res["aviso_chuva"] = (res["aviso_chuva"] + "\n\n" if res.get("aviso_chuva") else "") + proc["aviso"]
 
             # Building & Demand
             b = inputs.get("building_and_demand", {})

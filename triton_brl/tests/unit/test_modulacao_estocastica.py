@@ -16,11 +16,17 @@ RAIZ = Path(__file__).resolve().parents[2]
 # ---------------------------------------------------------------- modelos climáticos
 
 
-_caso_09 = RAIZ / "manual" / "casos" / "09_modulacao_tutorial.triton"
-_caso_10 = RAIZ / "manual" / "casos" / "10_modulacao_captacao.triton"
+_caso_09_en = RAIZ / "manual" / "casos" / "09_modulation_tutorial.triton"
+_caso_09_pt = RAIZ / "manual" / "casos" / "09_modulacao_tutorial.triton"
+_c09 = _caso_09_en if _caso_09_en.exists() else _caso_09_pt
+
+_caso_10_en = RAIZ / "manual" / "casos" / "10_modulation_catchment.triton"
+_caso_10_pt = RAIZ / "manual" / "casos" / "10_modulacao_captacao.triton"
+_c10 = _caso_10_en if _caso_10_en.exists() else _caso_10_pt
+
 CASOS_MODULACAO = [
-    (str(_caso_09.name), 0) if _caso_09.exists() else ("10_modulacao_tutorial.triton", 0),
-    (str(_caso_10.name), 0) if _caso_10.exists() else ("11_modulacao_climbra.triton", 19),
+    (str(_c09.name), 0) if _c09.exists() else ("10_modulacao_tutorial.triton", 0),
+    (str(_c10.name), 0) if _c10.exists() else ("11_modulacao_climbra.triton", 19),
 ]
 
 

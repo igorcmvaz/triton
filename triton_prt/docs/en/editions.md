@@ -22,6 +22,7 @@ The question every screen asks before offering a national datum is `usa_dados_do
 | `triton/core/dados_do_relatorio.py` | report data that depends on the edition: standards, professional registration and the entity that supplies the site |
 | `triton/core/diagnostico.py` | the CLIMBra database «does not apply» outside Brazil; the diagnosis states the edition |
 | `triton/core/edition.py` | the active edition, label, language, currency and manual; the factories `configuracao_da_edicao`, `projeto_novo_da_edicao`, `tarifa_de_agua_de_reserva` and `serie_de_exemplo_da_edicao`; `neutralizar_para_a_internacional` clears the tariffs, electricity, pump, chlorine, maintenance, green-tax incentive and locality of a new project |
+| `triton/core/licenca_eobs.py` | Portugal only (IBE/PRT): E-OBS licence notice, remembered choice of use, blocking behind a constant that is off, and the licence and citation footer of the reports |
 | `triton/core/environmental_justifications.py` | LCA rationale without national manufacturers, standards and inventories outside Brazil |
 | `triton/core/esg_certifications.py` | ESG summary and credit matrix with the international certifications only outside Brazil |
 | `triton/core/parser.py` | the `.triton` and CSV reader starts from `configuracao_da_edicao()`: what the file does not carry falls back to the historical default (BRL) or the neutral one (INT and PRT) |

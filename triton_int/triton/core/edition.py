@@ -27,7 +27,8 @@ EDICOES = (EDITION_BRL, EDITION_INT, EDITION_PRT)
 ENV_VAR_EDITION = "TRITON_EDITION"
 
 #: «POR» foi o código da Edição Portugal antes de ela passar a PRT; projetos e scripts antigos ainda o usam.
-_SINONIMOS = {"POR": EDITION_PRT}
+#: «IBE» é o nome novo da edição (Península Ibérica); o valor interno e o nome da pasta continuam «PRT».
+_SINONIMOS = {"POR": EDITION_PRT, "IBE": EDITION_PRT}
 
 
 def _normalizar(codigo) -> str:
@@ -47,7 +48,7 @@ def set_current_edition(edition: str) -> None:
     """Define a edição ativa ('BRL', 'INT' ou 'PRT')."""
     ed = _normalizar(edition)
     if ed not in EDICOES:
-        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'PRT' (aceita também 'POR', o código antigo).")
+        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'PRT' (aceita também 'POR', o código antigo, e 'IBE', o nome novo da PRT).")
     os.environ[ENV_VAR_EDITION] = ed
 
 
@@ -209,7 +210,16 @@ def get_edition_title() -> str:
     """Título da janela principal: o título do programa e a edição ativa."""
     from triton import APP_TITLE
 
-    return f"{APP_TITLE} — {rotulo_da_edicao()}"
+    titulo = f"{APP_TITLE} — {rotulo_da_edicao()}"
+    if usa_dados_de_portugal():
+        # A linha de cobertura é lida do banco de chuva (nunca digitada); sem o banco, o título não a leva.
+        try:
+            from triton.core import qualidade_chuva as _q
+            if _q.tem_qualidade():
+                titulo += f" — {_q.linha_de_cobertura()}"
+        except Exception:
+            pass
+    return titulo
 
 
 #: Na Edição Portugal a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).
