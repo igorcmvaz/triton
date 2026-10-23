@@ -1263,12 +1263,19 @@ def test_o_percentual_de_esgoto_rege_a_economia_total(propagacao_de_entradas_jan
     sem = _econ(cfg).annual_water_savings_brl
     cfg.sewage_rate = 100.0
     com = _econ(cfg).annual_water_savings_brl
-    assert com == pytest.approx(2 * sem, rel=1e-06)
+    # O esgoto a 100 % dobra a poupança da água; um imposto variável sobre a água (o IVA dos
+    # tarifários de Portugal) incide só na parcela da água e entra na razão: (2 + t) / (1 + t).
+    t = float(getattr(cfg, 'water_tax_var', 0.0) or 0.0) / 100.0
+    assert com == pytest.approx((2 + t) / (1 + t) * sem, rel=1e-06)
 
 
 def test_a_rota_de_agua_rege_a_emissao_evitada():
     from triton.core import water_supply_routes as rotas
-    baixa = _propagacao_de_entradas_acv(potable_water_co2_kg_m3=rotas.co2_evitado_por_m3('vaz_2025_sudeste'))
+    from triton.core.edition import usa_dados_do_brasil
+    # A rota de rede mais limpa do catálogo: a macrorregião Sudeste (SNIS) é do Brasil; fora dele,
+    # a rede convencional do catálogo geral.
+    rota_limpa = 'vaz_2025_sudeste' if usa_dados_do_brasil() else 'convencional_br'
+    baixa = _propagacao_de_entradas_acv(potable_water_co2_kg_m3=rotas.co2_evitado_por_m3(rota_limpa))
     alta = _propagacao_de_entradas_acv(potable_water_co2_kg_m3=rotas.co2_evitado_por_m3('dessalinizacao_termica'))
     assert alta.annual_avoided_co2_kg > 20 * baixa.annual_avoided_co2_kg
     assert alta.environmental_payback_years < baixa.environmental_payback_years
@@ -1289,12 +1296,19 @@ def test_o_material_do_reservatorio_rege_o_carbono_incorporado():
 def test_dobrar_o_aproveitamento_move_todos_os_modulos(propagacao_de_entradas_janela):
     """A verificação de fecho: um sistema que aproveita o dobro tem de aparecer
     diferente em todos os módulos de saída, e nos sentidos certos."""
+    from triton.core.edition import usa_dados_do_brasil
+    brasil = usa_dados_do_brasil()
+    if not brasil:
+        # Fora da Brasil o projeto novo parte sem tarifa nem fator de emissão da água (o usuário os
+        # informa); aqui entram valores de ensaio, para o dobro do aproveitamento aparecer nos módulos.
+        propagacao_de_entradas_janela.config.water_tariffs = [[0.0, 999999.0, 5.0, 1]]
     pouco, muito = (_simulacao(200.0), _simulacao(600.0))
     e_pouco, e_muito = (_econ(propagacao_de_entradas_janela.config, pouco), _econ(propagacao_de_entradas_janela.config, muito))
     assert e_muito.annual_water_savings_brl > e_pouco.annual_water_savings_brl
     assert e_muito.vpl > e_pouco.vpl
-    a_pouco = _propagacao_de_entradas_acv(annual_water_saved_m3=pouco.annual_pluvial_consumed_m3)
-    a_muito = _propagacao_de_entradas_acv(annual_water_saved_m3=muito.annual_pluvial_consumed_m3)
+    fator_da_agua = {} if brasil else {'potable_water_co2_kg_m3': 0.35}
+    a_pouco = _propagacao_de_entradas_acv(annual_water_saved_m3=pouco.annual_pluvial_consumed_m3, **fator_da_agua)
+    a_muito = _propagacao_de_entradas_acv(annual_water_saved_m3=muito.annual_pluvial_consumed_m3, **fator_da_agua)
     assert a_muito.annual_avoided_co2_kg > a_pouco.annual_avoided_co2_kg
     assert a_muito.environmental_payback_years < a_pouco.environmental_payback_years
 
@@ -1634,7 +1648,9 @@ def test_modelos_climaticos_ficam_inativos_com_arquivo_proprio(modulacao_estocas
     assert len(t.checks_modelos) == 19
     assert not any((c.isEnabled() for c in t.checks_modelos.values()))
     assert t.parametros().modelos_climaticos == []
-    assert 'arquivo próprio' in t.lbl_modelos.text()
+    from triton.core.edition import usa_dados_de_portugal
+    # Na IBE a chuva do projeto é a E-OBS (uma só série por concelho), e não um arquivo próprio.
+    assert ('E-OBS' if usa_dados_de_portugal() else 'arquivo próprio') in t.lbl_modelos.text()
 
 
 def test_modelos_marcados_entram_no_sorteio_e_na_tabela_4(modulacao_estocastica_ui_janela, monkeypatch):
@@ -2024,7 +2040,12 @@ def test_interface_e_linha_de_comando_dao_o_mesmo_potencial(fracoes_na_interface
     r = sim.last_sweep_result.results_by_volume
     pares = r.items() if isinstance(r, dict) else [(x.lower_tank_vol, x) for x in r]
     por_volume = {int(v): x.potential_potable_savings_pct for v, x in pares}
-    assert por_volume[4000] == pytest.approx(27.12, abs=0.005)
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        assert por_volume[4000] == pytest.approx(27.12, abs=0.005)
+    else:
+        # O 27,12 % é do tutorial do Brasil; o de cada edição é o que a linha de comando dá ao mesmo projeto.
+        assert por_volume[4000] == pytest.approx(_rodar_cli(FRACOES_NA_INTERFACE_CASO)['potencial'][4000], abs=0.01)
 
 
 def test_gravar_e_reabrir_preserva_as_fracoes(fracoes_na_interface_janela, tmp_path, fracoes_na_interface_monkeypatch_module):
@@ -2300,8 +2321,18 @@ def ui_flow_qapp():
     yield app
 
 
+def _informa_os_fatores_do_pais(janela):
+    """Fora da Brasil a ACV só roda com o fator da rede e o da água potável informados pelo usuário
+    (``faltam_fatores_do_pais``); na Brasil eles já vêm preenchidos e nada muda."""
+    from triton.core.edition import usa_dados_do_brasil
+    if not usa_dados_do_brasil():
+        janela.tab_environmental.txt_grid_co2.setText('0.2')
+        janela.tab_environmental.txt_potable_co2.setText('0.35')
+
+
 def test_full_ui_flow(ui_flow_qapp):
     window = MainWindow()
+    _informa_os_fatores_do_pais(window)
     assert window is not None
     window.txt_workspace_project.setText('Residencial Horizonte')
     assert window.config.project_name == 'Residencial Horizonte'
@@ -2526,6 +2557,7 @@ def test_technical_only_simulation_clears_and_hides_economic_environmental_topsi
     monkeypatch.setattr(QMessageBox, 'information', lambda *args, **kwargs: None)
     monkeypatch.setattr(QMessageBox, 'warning', lambda *args, **kwargs: None)
     main_win = MainWindow()
+    _informa_os_fatores_do_pais(main_win)
     dummy_precip = np.array([0.0, 15.0, 30.0, 0.0, 5.0, 25.0, 0.0] * 52)
     main_win.tab_project.precip_data = dummy_precip
     main_win.sync_project_state()
@@ -2646,8 +2678,10 @@ def test_national_climate_and_tariff_integration_flow(national_climate_flow_qapp
 def test_a_janela_nova_parte_do_arranjo(qapp):
     from triton.ui.main_window import MainWindow
     janela = MainWindow()
-    assert janela.config.capex_do_arranjo is True
-    assert janela.config.mao_de_obra_automatica is True
+    from triton.core.edition import usa_dados_do_brasil
+    # CAPEX e mão de obra do arranjo (catálogos em reais) só no projeto novo da Brasil.
+    assert janela.config.capex_do_arranjo is usa_dados_do_brasil()
+    assert janela.config.mao_de_obra_automatica is usa_dados_do_brasil()
     janela.bim_layout = generate_study_layout({'lower_vol': 6000, 'area': 120})
     assert janela.config.bim_layout is janela.bim_layout or janela.config.bim_layout == janela.bim_layout
     janela.close()
@@ -2766,7 +2800,7 @@ def test_brasil_continua_com_a_etap_e_os_cabecalhos_em_reais(qapp, brasil):
         janela.close()
 
 
-def test_preco_e_fator_zero_da_etap_nao_viram_os_da_brasil():
+def test_preco_e_fator_zero_da_etap_nao_viram_os_da_brasil(monkeypatch):
     """`or 25.0` transformava o cloro a preço zero em R$ 25,00/kg; fator da rede zero virava o do MCTI."""
     from types import SimpleNamespace
     from triton.core.etap_integration import dimensionar_etap_do_projeto
@@ -2774,6 +2808,11 @@ def test_preco_e_fator_zero_da_etap_nao_viram_os_da_brasil():
     zero = dimensionar_etap_do_projeto(SimpleNamespace(chlorine_cost_per_kg=0.0, grid_co2_factor_kg_kwh=0.0, **base),
                                        annual_pluvial_m3=100.0)
     assert zero.custo_anual_do_cloro == 0.0
+    from triton.core.edition import usa_dados_do_brasil
+    if not usa_dados_do_brasil():
+        # Fora da Brasil a base padrão da rede vale zero (o usuário informa a dele): sem um padrão
+        # diferente de zero, «ausente» e «zero informado» não se distinguem. Ensaia-se com um padrão.
+        monkeypatch.setattr('triton.core.water_quality.fator_co2eq', lambda base='': 0.2)
     mcti = dimensionar_etap_do_projeto(SimpleNamespace(chlorine_cost_per_kg=0.0, **base), annual_pluvial_m3=100.0)
     assert zero.co2e_anual < mcti.co2e_anual
 

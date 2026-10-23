@@ -5519,7 +5519,13 @@ def test_cada_variavel_move_o_resultado_no_sentido_esperado(estudo, chave, valor
         r = run_analysis(c, precip, 'all')
         t = next((x for x in r['technical']['alternatives'] if x['lower_tank_volume_l'] == 4000))
         e = next((x for x in r['economic']['alternatives'] if x['lower_tank_volume_l'] == 4000))
-        return {'economia': t['potable_savings_pct'], 'vpl': e['npv_brl']}[grandeza]
+        return {'economia': t['potable_savings_pct'], 'vpl': e['npv_brl'], 'chuva': t['annual_rainwater_m3']}[grandeza]
+    from triton.core.edition import usa_dados_do_brasil
+    if chave == 'demanda_externa_l_dia' and not usa_dados_do_brasil():
+        # A economia em % é relativa à demanda total: num clima seco (Lisboa) o reservatório de 4 m³
+        # já está curto, a demanda extra é mal atendida e o percentual cai, embora a chuva
+        # aproveitada suba. O sentido físico que vale em qualquer clima é o do volume aproveitado.
+        grandeza = 'chuva'
     antes, depois = (no_volume(M.aplicar_amostra(cfg, {})), no_volume(M.aplicar_amostra(cfg, {chave: novo})))
     assert (depois - antes) * sentido > 0
 

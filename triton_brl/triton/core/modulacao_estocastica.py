@@ -525,7 +525,13 @@ def classes_por_decil(x: Sequence[float]) -> List[str]:
 
 
 def pode_sortear_modelos(cfg) -> bool:
-    """A chuva do projeto vem da base CLIMBra (só ela tem os 19 modelos para a mesma cidade)."""
+    """A chuva do projeto vem da base CLIMBra (só ela tem os 19 modelos para a mesma cidade).
+
+    Na IBE o modo «base nacional» é a E-OBS, com uma só série por concelho: não há modelos a sortear.
+    """
+    from triton.core.edition import EDITION_IBE, get_current_edition
+    if get_current_edition() == EDITION_IBE:
+        return False
     return (getattr(cfg, "climate_source_mode", "national_db") or "national_db") == "national_db"
 
 

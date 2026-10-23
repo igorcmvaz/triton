@@ -774,6 +774,12 @@ class TabModulacaoEstocastica(QWidget):
         self.btn_todos_modelos.setEnabled(pode)
         self.btn_nenhum_modelo.setEnabled(pode)
         if not pode:
+            from triton.core.edition import usa_dados_de_portugal
+            if usa_dados_de_portugal():
+                self.lbl_modelos.setText(tr(
+                    "A chuva deste projeto vem da base E-OBS, com uma só série por concelho. O sorteio entre "
+                    "modelos pede a base CLIMBra, que só a Edição Brasil traz."))
+                return
             self.lbl_modelos.setText(tr(
                 "A chuva deste projeto vem de um arquivo próprio. O sorteio entre modelos pede a base CLIMBra "
                 "(Etapa 1), que tem as 19 séries para a mesma cidade."))

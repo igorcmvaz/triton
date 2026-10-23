@@ -22,6 +22,8 @@ tests/unit/test_climate_database.py
 tests/test_essencial.py::test_modelos_pedem_a_base_climbra
 tests/test_essencial.py::test_linha_de_comando_recusa_modelos_com_arquivo_proprio
 tests/test_essencial.py::test_linha_de_comando_sorteia_os_modelos_como_o_nucleo
+tests/test_essencial_interface.py::test_trocar_para_a_climbra_na_etapa_1_libera_os_modelos
+tests/test_essencial_interface.py::test_gravar_e_reabrir_com_a_climbra
 
 # --- Séries, estudos e figuras do manual do Brasil (Florianópolis, Brasília, Manaus, São Paulo) ---
 tests/unit/test_figuras_interativas_validacao.py
@@ -52,6 +54,10 @@ tests/unit/test_funcoes_orfas.py::test_a_busca_avisa_quando_nao_encontra
 tests/unit/test_manual_confere_com_o_programa.py::test_o_historico_cita_a_conferencia_atual_da_base
 tests/unit/test_manual_confere_com_o_programa.py::test_as_cidades_do_guia_14
 tests/unit/test_manual_confere_com_o_programa.py::test_os_regimes_tarifarios_do_guia_16_e_do_apendice_D
+
+# --- Registro tarifário de Florianópolis (get_city_data, categorias coletadas), que INT e IBE não trazem ---
+tests/test_essencial_interface.py::TestTariffsMultiCategoryAndTab::test_categoria_coletada_usa_a_tabela_dela
+tests/test_essencial_interface.py::TestTariffsMultiCategoryAndTab::test_categoria_sem_tabela_coletada_nao_e_estimada
 
 # --- Casos do manual e estudos de exemplo do Brasil ---
 tests/unit/test_projeto_sobrevive_ao_arquivo.py::test_todo_caso_do_manual_abre_e_traz_a_chuva_dentro
