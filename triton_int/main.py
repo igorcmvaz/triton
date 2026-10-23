@@ -71,7 +71,7 @@ def main():
     from triton.core.edition import get_edition_title, rotulo_da_edicao, set_current_edition
 
     arg_parser = argparse.ArgumentParser(add_help=False)
-    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "prt", "por", "BRL", "INT", "PRT", "POR"], default=None)
+    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "prt", "por", "ibe", "BRL", "INT", "PRT", "POR", "IBE"], default=None)
     arg_parser.add_argument("--diagnostico", action="store_true")
     parsed_args, remaining = arg_parser.parse_known_args()
     if parsed_args.edition:
