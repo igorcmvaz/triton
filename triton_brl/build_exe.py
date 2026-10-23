@@ -102,7 +102,7 @@ def build_manual(base_dir: Path, com_ingles: bool = False) -> bool:
         ("site de documentação", "manual/gerar_site.py"),
     ]
     if com_ingles:
-        # O manual em inglês é só da Internacional (manual/en); a Brasil e a Portugal não o têm.
+        # O manual em inglês é só da Internacional (manual/en); a Brasil e a Ibérica não o têm.
         etapas += [
             ("tabelas em inglês", "manual/en/traduzir_tabelas.py"),
             ("apêndices em inglês", "manual/en/apendices_en.py"),
@@ -148,7 +148,7 @@ def entradas_do_pacote(base_dir: Path, edicao: str) -> list:
             return True
         if (nome.startswith("climbra_") and nome.endswith((".db", ".json"))) and edicao != "brl":
             return True
-        return nome == "portugal_eobs.db" and edicao != "prt"
+        return nome == "portugal_eobs.db" and edicao != "ibe"
 
     tarifas_de_terceiros = {rel.name for rel in SO_DOCUMENTOS_DE_TERCEIROS if rel.parts[0] == "tarifas"}
     entradas = filhos("data", "data", pular_data)
@@ -174,7 +174,7 @@ def entradas_do_pacote(base_dir: Path, edicao: str) -> list:
         ("manual/site", "manual/site"),
     ]
     if edicao == "int":
-        # O manual em inglês é o que a Internacional abre; a Brasil e a Portugal não têm manual/en.
+        # O manual em inglês é o que a Internacional abre; a Brasil e a Ibérica não têm manual/en.
         entradas.append(("manual/en/Triton-User-Manual.pdf", "manual/en"))
     return entradas
 
@@ -326,7 +326,7 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
 
 
         remover_base_climatica_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
-        remover_dados_de_portugal_fora_da_prt(dist_dir, getattr(args, "edicao", "brl"))
+        remover_dados_de_portugal_fora_da_ibe(dist_dir, getattr(args, "edicao", "brl"))
         remover_tarifas_fora_da_brl(dist_dir, getattr(args, "edicao", "brl"))
         podar_caminhos_excessivos_para_inno_setup(dist_dir)
 
@@ -413,7 +413,7 @@ def build_inno_setup(base_dir: Path, edicao: str = "brl") -> bool:
     res = subprocess.run([str(iscc), f"/DMyAppVersion={versao}", f"/DEdition={edicao.upper()}", str(iss_script)],
                          cwd=base_dir)
     if res.returncode == 0:
-        prefixo = {"int": "Triton_INT_Setup_", "prt": "Triton_PRT_Setup_"}.get(edicao, "Triton_Setup_")
+        prefixo = {"int": "Triton_INT_Setup_", "ibe": "Triton_IBE_Setup_"}.get(edicao, "Triton_Setup_")
         nome = f"{prefixo}{versao.replace('.', '_')}.exe"
         print(f"\n[SUCESSO] Instalador gerado em: dist/{nome}")
         if edicao == "brl":
@@ -454,7 +454,7 @@ def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list
     if edicao == "brl":
         # a base CLIMBra só vai na Brasil: um banco por modelo
         esperados += [pasta / "_internal" / "data" / f"climbra_{m}.db" for m in modelos_climbra()]
-    if edicao == "prt":
+    if edicao == "ibe":
         esperados.append(pasta / "_internal" / BASE_PORTUGAL)  # a base E-OBS só vai na Portugal
     return [str(p) for p in esperados if not (base_dir / p).exists()]
 
@@ -481,7 +481,7 @@ def partes_da_base_climatica(raiz: Path) -> list:
     return [raiz / "data" / f"climbra_{modelo}.db" for modelo in modelos_climbra()]
 
 
-#: A base E-OBS por concelho da Edição Portugal (triton/core/base_climatica_portugal.py), versionada em
+#: A base E-OBS por concelho da Edição Ibérica (triton/core/base_climatica_portugal.py), versionada em
 #: data/portugal_eobs.db. As fontes brutas (E-OBS, CAOP; 3 GB) ficam em data/portugal, no disco do
 #: mantenedor, e não vão em nenhum pacote.
 BASE_PORTUGAL = Path("data") / "portugal_eobs.db"
@@ -560,7 +560,7 @@ def remover_base_climatica_fora_da_brl(dist_dir: Path, edicao: str) -> None:
                 print(f"[*] Removido da edição {edicao.upper()}: {alvo}")
 
 
-def remover_dados_de_portugal_fora_da_prt(dist_dir: Path, edicao: str) -> None:
+def remover_dados_de_portugal_fora_da_ibe(dist_dir: Path, edicao: str) -> None:
     """As fontes brutas saem de todas as edições; a base E-OBS fica só na Portugal."""
     for base in [dist_dir, dist_dir / "_internal"]:
         fontes = base / FONTES_DE_PORTUGAL
@@ -568,18 +568,18 @@ def remover_dados_de_portugal_fora_da_prt(dist_dir: Path, edicao: str) -> None:
             shutil.rmtree(fontes, ignore_errors=True)
             print(f"[*] Removido do pacote: {fontes}")
         db = base / BASE_PORTUGAL
-        if edicao != "prt" and db.exists():
+        if edicao != "ibe" and db.exists():
             db.unlink()
             print(f"[*] Removido da edição {edicao.upper()}: {db}")
 
 
 def garantir_base_portugal(base_dir: Path) -> bool:
-    """A Edição Portugal sai com a base E-OBS por concelho embutida, ou não sai."""
+    """A Edição Ibérica sai com a base E-OBS por concelho embutida, ou não sai."""
     db = base_dir / BASE_PORTUGAL
     if db.is_file() and db.stat().st_size > 0:
         print(f"[+] Base E-OBS de Portugal embutida: {BASE_PORTUGAL} ({db.stat().st_size / 1e6:.1f} MB)")
         return True
-    print(f"[ERRO] A Edição Portugal embute a base E-OBS, e {BASE_PORTUGAL} não foi encontrado.")
+    print(f"[ERRO] A Edição Ibérica embute a base E-OBS, e {BASE_PORTUGAL} não foi encontrado.")
     print("        Ela é versionada no repositório. Para um pacote de teste sem a base, use --sem-base-climatica.")
     return False
 
@@ -608,7 +608,7 @@ def garantir_base_climatica(base_dir: Path) -> bool:
 EDICOES = {
     "brl": ("main.py", "Triton"),
     "int": ("main.py", "Triton_INT"),
-    "prt": ("main.py", "Triton_PRT"),
+    "ibe": ("main.py", "Triton_IBE"),
 }
 
 
@@ -621,8 +621,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Compilador oficial do Triton para Windows (PyInstaller + Inno Setup)"
     )
-    parser.add_argument("--edition", choices=["brl", "int", "prt", "por", "both", "all"], default="brl",
-                        help="Edição a compilar: 'brl' (Brasil, padrão), 'int' (Internacional), 'prt' (Portugal), "
+    parser.add_argument("--edition", choices=["brl", "int", "ibe", "prt", "por", "both", "all"], default="brl",
+                        help="Edição a compilar: 'brl' (Brasil, padrão), 'int' (Internacional), 'ibe' (Ibérica; 'prt' e 'por' são nomes antigos dela), "
                              "'both' (BRL e INT) ou 'all' (as três)")
     parser.add_argument("--name", default=None, help="Nome do executável (padrão: conforme a edição)")
     parser.add_argument("--clean", action="store_true", help="Limpa as pastas build/ e dist/ antes de compilar")
@@ -631,15 +631,15 @@ def main():
     parser.add_argument("--installer", action="store_true", help="Compila automaticamente o instalador Inno Setup após o build")
     parser.add_argument("--sem-manual", action="store_true", help="Não regera o manual antes de empacotar")
     parser.add_argument("--sem-base-climatica", action="store_true",
-                        help="Compila a Brasil sem exigir os bancos data/climbra_<modelo>.db e a Portugal sem data/portugal_eobs.db "
+                        help="Compila a Brasil sem exigir os bancos data/climbra_<modelo>.db e a Ibérica sem data/portugal_eobs.db "
                              "(só para testes; não gera instalador)")
 
     parser.add_argument("--ignorar-git", action="store_true",
                         help="Compila mesmo com a pasta atrás do origin/main (não recomendado)")
 
     args = parser.parse_args()
-    if args.edition == "por":          # código antigo da Edição Portugal
-        args.edition = "prt"
+    if args.edition in ("prt", "por"):   # nomes antigos da Edição Ibérica
+        args.edition = "ibe"
     base_dir = Path(__file__).resolve().parent
 
     if not conferir_a_pasta(base_dir, args.ignorar_git):
@@ -651,7 +651,7 @@ def main():
         if args.clean:
             clean_build_dirs(base_dir)
 
-        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "prt"]}.get(args.edition, [args.edition])
+        edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "ibe"]}.get(args.edition, [args.edition])
 
         # O manual entra no pacote, e por isso é gerado antes dele.
         if not args.sem_manual and not build_manual(base_dir, com_ingles="int" in edicoes):
@@ -667,7 +667,7 @@ def main():
 
         if "brl" in edicoes and not args.sem_base_climatica and not garantir_base_climatica(base_dir):
             sys.exit(1)
-        if "prt" in edicoes and not args.sem_base_climatica and not garantir_base_portugal(base_dir):
+        if "ibe" in edicoes and not args.sem_base_climatica and not garantir_base_portugal(base_dir):
             sys.exit(1)
 
         for edicao in edicoes:
@@ -679,9 +679,9 @@ def main():
             print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
             success = build_pyinstaller(ed_args, base_dir)
             if success and args.installer:
-                if ed_args.name != nome or (edicao in ("brl", "prt") and args.sem_base_climatica):
+                if ed_args.name != nome or (edicao in ("brl", "ibe") and args.sem_base_climatica):
                     print(f"[AVISO] Instalador não gerado: o setup_script.iss empacota dist/{nome}"
-                          + {"brl": " com a base CLIMBra", "prt": " com a base E-OBS"}.get(edicao, "") + ".")
+                          + {"brl": " com a base CLIMBra", "ibe": " com a base E-OBS"}.get(edicao, "") + ".")
                 else:
                     build_inno_setup(base_dir, edicao)
     finally:

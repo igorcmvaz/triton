@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Aviso de licença da E-OBS: o texto, a escolha de uso lembrada e o bloqueio atrás de constante (D1).
 
-Em qualquer edição, sem o banco. Os caminhos que dependem da base estão em ``test_licenca_eobs_prt.py``.
+Em qualquer edição, sem o banco. Os caminhos que dependem da base estão em ``test_licenca_eobs_ibe.py``.
 """
 import os
 import re
@@ -55,7 +55,7 @@ def test_a_escolha_e_lembrada_e_so_aceita_dois_valores():
 
 
 def test_so_a_edicao_com_a_e_obs_pergunta_e_so_ate_haver_escolha(monkeypatch):
-    monkeypatch.setenv("TRITON_EDITION", "PRT")
+    monkeypatch.setenv("TRITON_EDITION", "IBE")
     assert L.precisa_perguntar(Armazem()) is True
     assert L.precisa_perguntar(Armazem("pesquisa")) is False
     assert L.precisa_perguntar(Armazem("comercial")) is False
@@ -83,7 +83,7 @@ def test_o_rodape_do_laudo_so_existe_na_edicao_com_a_e_obs(monkeypatch):
     for ed in ("BRL", "INT"):
         monkeypatch.setenv("TRITON_EDITION", ed)
         assert L.rodape_do_laudo({"climate_city_name": "Lisboa"}) == ""
-    monkeypatch.setenv("TRITON_EDITION", "PRT")
+    monkeypatch.setenv("TRITON_EDITION", "IBE")
     html = L.rodape_do_laudo({"chuva_serie_propria": True})
     assert "Chuva: série fornecida pelo utilizador." in html and "Cobertura:" in html
     assert "uso restrito" not in html                       # série própria: a restrição da E-OBS não se aplica

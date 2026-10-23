@@ -21,7 +21,7 @@ PROCURADOS = (
     "icon.ico",
     "triton_brl.png",
     "triton_int.png",
-    "triton_prt.png",
+    "triton_ibe.png",
     "triton.png",
     "icon.png",
     "Triton2.png",

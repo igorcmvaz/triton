@@ -1,0 +1,19 @@
+﻿INSTALAÇÃO CONCLUÍDA COM SUCESSO!
+
+O Triton — Edição Ibérica foi instalado no seu computador e está pronto a
+utilizar.
+
+LEMBRETES IMPORTANTES:
+1. Foi criado um atalho no menu Iniciar. O atalho no ambiente de trabalho e a
+   associação dos ficheiros .triton são opcionais e foram propostos durante a
+   instalação.
+2. Se utilizar o Triton num trabalho académico, cite-o conforme a cláusula 4 da
+   licença (LICENSE.md, na pasta do programa).
+
+CONTACTOS:
+Para comunicar erros, enviar sugestões ou esclarecer dúvidas metodológicas:
+  - E-mail: igor.catao@posgrad.ufsc.br
+
+Responsáveis: Profs. Enedir Ghisi e Igor Catão
+
+Obrigado por utilizar o Triton!

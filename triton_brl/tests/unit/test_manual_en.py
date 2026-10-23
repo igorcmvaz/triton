@@ -32,7 +32,7 @@ except ModuleNotFoundError:
 from triton.core.edition import get_current_edition  # noqa: E402
 
 if get_current_edition() != "BRL":
-    pytest.skip("so a BRL traduz o manual do portugues; INT escreve em ingles e PRT em portugues de Portugal", allow_module_level=True)
+    pytest.skip("so a BRL traduz o manual do portugues; INT escreve em ingles e IBE em portugues de Portugal", allow_module_level=True)
 
 
 def _ler(caminho):
@@ -121,7 +121,7 @@ def test_a_internacional_abre_o_manual_ingles_em_qualquer_lingua(edicao):
 
 def test_a_brasil_e_a_portugal_so_tem_o_manual_em_portugues(edicao):
     """Só a Internacional tem `manual/en`: nas outras duas, qualquer língua da interface abre o PT."""
-    for sigla in ("BRL", "PRT"):
+    for sigla in ("BRL", "IBE"):
         ed = edicao(sigla)
         for lingua in ("pt", "pt_pt", "en", "es", "zh"):
             assert ed.manual_do_usuario(lingua) == ed.MANUAL_PT, (sigla, lingua)

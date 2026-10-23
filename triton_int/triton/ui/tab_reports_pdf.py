@@ -166,10 +166,10 @@ class TabReportsPdf(QWidget):
         row_controls.addWidget(lbl_lang)
 
         self.combo_report_lang = QComboBox()
-        from triton.core.edition import is_prt_edition as _prt, usa_dados_do_brasil as _brl
-        # O laudo em português é o da edição: do Brasil na BRL, de Portugal na PRT; a Internacional
+        from triton.core.edition import is_ibe_edition as _ibe, usa_dados_do_brasil as _brl
+        # O laudo em português é o da edição: do Brasil na BRL, de Portugal na IBE; a Internacional
         # não cita país. O inglês é «US» só na Brasil (o texto de lá segue o formato brasileiro).
-        if _prt():
+        if _ibe():
             self.combo_report_lang.addItem(tr("🇵🇹 Português (Portugal)"), "pt")
         elif _brl():
             self.combo_report_lang.addItem(tr("🇧🇷 Português (Brasil)"), "pt")
@@ -468,7 +468,7 @@ class TabReportsPdf(QWidget):
 
     @staticmethod
     def _etiqueta_da_edicao() -> str:
-        """«-INT» ou «-PRT» no nome sugerido do laudo; nada na Brasil (o nome de sempre)."""
+        """«-INT» ou «-IBE» no nome sugerido do laudo; nada na Brasil (o nome de sempre)."""
         from triton.core.edition import rotulo_da_edicao, usa_dados_do_brasil
         return "" if usa_dados_do_brasil() else "-" + rotulo_da_edicao(curto=True)
 
@@ -476,17 +476,17 @@ class TabReportsPdf(QWidget):
     def _base_climatica(cfg) -> str:
         """A base da série de chuva. O modelo e o cenário (CLIMBra) só valem na Brasil; na Portugal a base é a
         E-OBS; na Internacional a série é a do arquivo do usuário e o laudo não inventa modelo."""
-        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
+        from triton.core.edition import is_ibe_edition, usa_dados_do_brasil
         if usa_dados_do_brasil():
             return " · ".join(filter(None, [
                 str(getattr(cfg, "climate_model", "") or ""),
                 str(getattr(cfg, "climate_scenario", "") or ""),
             ])) or "Série observada"
-        return "E-OBS" if is_prt_edition() else "Série observada"
+        return "E-OBS" if is_ibe_edition() else "Série observada"
 
     @staticmethod
     def _acrescentar_procedencia_da_chuva(audit: dict, cfg) -> None:
-        """Edição IBE/PRT: o concelho, a procedência do pacote E-OBS e se a série é do utilizador.
+        """Edição IBE: o concelho, a procedência do pacote E-OBS e se a série é do utilizador.
 
         O rodapé do laudo (licença, citação, nível de qualidade e cobertura) lê estas chaves em
         ``triton.core.licenca_eobs.rodape_do_laudo``. Nas outras edições nada é acrescentado.
@@ -529,8 +529,8 @@ class TabReportsPdf(QWidget):
         Na Portugal a série vem da base E-OBS por concelho e o «arquivo» é o código do concelho
         («1106»): o laudo diz o nome do local («Lisboa (E-OBS)»), e não o código.
         """
-        from triton.core.edition import is_prt_edition
-        if not is_prt_edition():
+        from triton.core.edition import is_ibe_edition
+        if not is_ibe_edition():
             return ""
         cfg = getattr(mw, "config", None)
         nome = str(getattr(cfg, "climate_city_name", "") or "").strip()

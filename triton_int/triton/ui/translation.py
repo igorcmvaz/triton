@@ -10,10 +10,9 @@ _runtime_theme = None
 
 def _preferencias() -> QSettings:
     """Preferências separadas por edição: instaladas lado a lado, não dividem idioma."""
-    from triton.core.edition import get_current_edition
+    from triton.core.edition import abrir_preferencias
 
-    sufixo = {"INT": "-INT", "PRT": "-PRT"}.get(get_current_edition(), "")
-    return QSettings("UFSC", "Triton" + sufixo)
+    return abrir_preferencias()
 
 
 def _idioma_padrao() -> str:
@@ -58,10 +57,10 @@ def get_resource_path(relative_path):
 
 
 def _variante_portugal() -> bool:
-    """Na Edição Portugal, o português da interface é o de Portugal (ver portugues_de_portugal)."""
-    from triton.core.edition import is_prt_edition
+    """Na Edição Ibérica, o português da interface é o de Portugal (ver portugues_de_portugal)."""
+    from triton.core.edition import is_ibe_edition
 
-    return is_prt_edition()
+    return is_ibe_edition()
 
 
 def em_portugues_da_edicao(texto: str) -> str:
@@ -111,7 +110,7 @@ class FirstRunLangDialog(QDialog):
             os.path.join("icons", "icon.ico"),
             os.path.join("icons", "triton_brl.png"),
             os.path.join("icons", "triton_int.png"),
-            os.path.join("icons", "triton_prt.png"),
+            os.path.join("icons", "triton_ibe.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "Triton2.png"),
@@ -132,7 +131,7 @@ class FirstRunLangDialog(QDialog):
         for icone_rel in (
             os.path.join("icons", "triton_brl.png"),
             os.path.join("icons", "triton_int.png"),
-            os.path.join("icons", "triton_prt.png"),
+            os.path.join("icons", "triton_ibe.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "triton.ico"),
@@ -193,7 +192,7 @@ class FirstRunLangDialog(QDialog):
 def check_first_run_language():
     """
     Se o idioma ainda não estiver configurado nos registros, exibe o modal de seleção.
-    Na edição com a base E-OBS (IBE/PRT), pergunta também, uma vez por instalação, o uso dos dados.
+    Na edição com a base E-OBS (IBE), pergunta também, uma vez por instalação, o uso dos dados.
     """
     _escolher_idioma_na_primeira_vez()
     from triton.core.edition import usa_dados_de_portugal
@@ -2368,7 +2367,7 @@ for _fonte, (_en, _es, _zh) in _COMPLEMENTO.items():
     _CHINESE_DICTIONARY.setdefault(_fonte, _zh)
 
 
-# Textos neutros das edições INT e PRT (rodada 4): estes SUBSTITUEM o que o catálogo tiver para a
+# Textos neutros das edições INT e IBE (rodada 4): estes SUBSTITUEM o que o catálogo tiver para a
 # mesma chave, porque reescrevem frases que citavam normas e índices do Brasil.
 from triton.ui.translation_neutralidade import COMPLEMENTO_NEUTRO as _COMPLEMENTO_NEUTRO  # noqa: E402
 

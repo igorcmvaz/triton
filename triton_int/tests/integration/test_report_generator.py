@@ -52,7 +52,7 @@ def test_generate_executive_html_report():
 
     html = generate_executive_html_report(project_data)
     assert isinstance(html, str)
-    # Na Edição Portugal o laudo é «Relatório» (português de Portugal)
+    # Na Edição Ibérica o laudo é «Relatório» (português de Portugal)
     assert "Laudo Técnico Executivo" in html or "Relatório Técnico Executivo" in html
     assert "NET-TEST-001" in html
     assert "5.000 L" in html or "5000" in html

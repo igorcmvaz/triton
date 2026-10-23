@@ -303,7 +303,7 @@ def test_manual_justifica_a_unidade_da_fracao_atendivel():
         erros = _normal(_ler("manual", "en", "partes", "37_mensagens_de_erro.md"))
         assert "accept both forms" not in erros
         assert "simulate anyway" in erros
-    elif ed == "PRT":
+    elif ed == "IBE":
         texto = _normal(_ler("manual", "partes", "05_a_edificacao_e_a_demanda.md"))
         assert "percentagem no ecra, fracao no ficheiro" in texto
         assert "nunca adivinhada pelo valor" in texto
@@ -538,7 +538,7 @@ def test_o_manual_cita_o_numero_de_parametros_que_o_projeto_tem():
     from triton.core.parser import TritonConfig
     ed = get_current_edition()
     total = len(dataclasses.fields(TritonConfig))
-    # Nas edições PRT e INT, os 4 campos de esquemas nacionais exclusivos do Brasil
+    # Nas edições IBE e INT, os 4 campos de esquemas nacionais exclusivos do Brasil
     # (AQUA/Procel) ficam fora da listagem da edição (122 - 4 = 118).
     esperados = {total} if ed == "BRL" else {total, total - 4}
     pasta = (os.path.join(RAIZ, "manual", "en")

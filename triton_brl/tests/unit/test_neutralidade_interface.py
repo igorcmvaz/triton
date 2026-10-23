@@ -2,7 +2,7 @@
 """Neutralidade da interface por edição (rodada 4): varre os textos das 13 abas.
 
 O pacote `triton/` é o mesmo nas três edições; o que é do Brasil só aparece na BRL e o que é de
-Portugal só na PRT. Este teste abre a janela principal (fora da tela), percorre as 13 etapas, as
+Portugal só na IBE. Este teste abre a janela principal (fora da tela), percorre as 13 etapas, as
 abas internas e o menu, coleta todo texto que o usuário pode ler (rótulos, botões, itens de lista,
 dicas, cabeçalhos de tabela, textos longos) e procura os termos do Brasil de
 `auditoria/ESPECIFICACAO_DE_NEUTRALIDADE.md`.
@@ -290,7 +290,7 @@ def idioma_restaurado():
 
 @pytest.mark.parametrize("idioma", ["en", "pt", "es", "zh"])
 def test_fora_da_brasil_a_interface_nao_fala_do_brasil(qapp, idioma_restaurado, idioma):
-    """INT e PRT: nenhum termo do Brasil em nenhuma das 13 etapas, em nenhum idioma."""
+    """INT e IBE: nenhum termo do Brasil em nenhuma das 13 etapas, em nenhum idioma."""
     from triton.core.edition import usa_dados_do_brasil
     if usa_dados_do_brasil():
         pytest.skip("a Edição Brasil mantém o que é do Brasil")
@@ -325,7 +325,7 @@ def test_na_brasil_nao_ha_portugal(qapp, idioma_restaurado):
     _com_idioma("pt")
     janela = _abrir(qapp)
     try:
-        # «Portugal» aparece na lista de idiomas e em «Edição Portugal»? Não: a BRL não os oferece.
+        # «Portugal» aparece na lista de idiomas e em «Edição Ibérica»? Não: a BRL não os oferece.
         ruins = [r for r in ocorrencias(coletar_textos(janela), _PADRAO_PORTUGAL)
                  if r[1].lower() not in ("porto", "iva")]
         assert not ruins, ruins[:15]
@@ -334,8 +334,8 @@ def test_na_brasil_nao_ha_portugal(qapp, idioma_restaurado):
 
 
 def test_portugal_fala_portugues_de_portugal(qapp, idioma_restaurado):
-    """PRT em português: sem o vocabulário do Brasil (o glossário vale para todo o texto)."""
-    if _edicao() != "PRT":
+    """IBE em português: sem o vocabulário do Brasil (o glossário vale para todo o texto)."""
+    if _edicao() != "IBE":
         pytest.skip("só na Portugal")
     _com_idioma("pt")
     janela = _abrir(qapp)
@@ -461,7 +461,7 @@ def test_a_ajuda_da_cli_fora_da_brasil_nao_traz_o_estudo_do_brasil(capsys, monke
         assert not _PADRAO_BRASIL.search(ajuda), _PADRAO_BRASIL.search(ajuda).group(0)
 
 
-@pytest.mark.parametrize("edicao", ["INT", "PRT"])
+@pytest.mark.parametrize("edicao", ["INT", "IBE"])
 def test_o_filtro_da_documentacao_tira_so_o_que_cita_o_brasil(edicao):
     from triton.core import edition
     from triton.ui.textos_da_edicao import sem_brasil_no_html
@@ -523,6 +523,6 @@ if __name__ == "__main__":
             print(f"{o}\t{t}")
     else:
         for nome, padrao in (("BRASIL", _PADRAO_BRASIL), ("PORTUGAL", _PADRAO_PORTUGAL),
-                             ("PT-BR", _PADRAO_PT_BR if _edicao() == "PRT" else re.compile(r"(?!x)x"))):
+                             ("PT-BR", _PADRAO_PT_BR if _edicao() == "IBE" else re.compile(r"(?!x)x"))):
             for o, t, x in ocorrencias(achados, padrao):
                 print(f"{nome}\t{o}\t[{t}]\t{x[:160]}")

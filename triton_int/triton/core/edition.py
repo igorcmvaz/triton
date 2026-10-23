@@ -1,4 +1,4 @@
-"""Edições do Triton: Brasil (BRL), Internacional (INT) e Portugal (PRT).
+"""Edições do Triton: Brasil (BRL), Internacional (INT) e Ibérica (IBE).
 
 As três edições partem do mesmo código. A Brasil traz os dados brasileiros
 auditados: base climática CLIMBra, tarifas de 652 municípios, energia da ANEEL,
@@ -9,9 +9,11 @@ emissão informados por ele, e só as certificações internacionais (LEED, EDGE
 `usa_dados_do_brasil` é a pergunta que cada tela faz antes de oferecer um dado
 brasileiro.
 
-A Portugal parte do núcleo neutro e fala português de Portugal, em euros; os dados
-portugueses (precipitação E-OBS por concelho, tarifários das entidades gestoras) entram
-por `usa_dados_de_portugal`, à medida que são coletados e conferidos.
+A Ibérica (Triton IBE, Península Ibérica) parte do núcleo neutro e fala português de
+Portugal, em euros; hoje só os concelhos de Portugal têm dados (precipitação E-OBS por
+concelho, tarifários das entidades gestoras), que entram por `usa_dados_de_portugal`, e a
+linha de cobertura diz «Espanha: 0 locais». A edição chamou-se «Ibérica (IBE)» (e antes
+«POR»): esses códigos continuam aceitos e viram «IBE».
 """
 
 from __future__ import annotations
@@ -21,14 +23,16 @@ import re
 
 EDITION_BRL = "BRL"
 EDITION_INT = "INT"
-EDITION_PRT = "PRT"
-EDICOES = (EDITION_BRL, EDITION_INT, EDITION_PRT)
+EDITION_IBE = "IBE"
+#: Nome antigo da edição, mantido porque outros módulos e projetos antigos o importam; vale «IBE».
+EDITION_PRT = EDITION_IBE
+EDICOES = (EDITION_BRL, EDITION_INT, EDITION_IBE)
 
 ENV_VAR_EDITION = "TRITON_EDITION"
 
-#: «POR» foi o código da Edição Portugal antes de ela passar a PRT; projetos e scripts antigos ainda o usam.
-#: «IBE» é o nome novo da edição (Península Ibérica); o valor interno e o nome da pasta continuam «PRT».
-_SINONIMOS = {"POR": EDITION_PRT, "IBE": EDITION_PRT}
+#: «POR» e «PRT» foram os códigos da edição (Portugal) antes de ela passar a Ibérica («IBE»);
+#: projetos, variáveis de ambiente e scripts antigos ainda os usam e abrem como a IBE, igual.
+_SINONIMOS = {"POR": EDITION_IBE, "PRT": EDITION_IBE}
 
 
 def _normalizar(codigo) -> str:
@@ -37,7 +41,7 @@ def _normalizar(codigo) -> str:
 
 
 def get_current_edition() -> str:
-    """Retorna o código da edição ativa ('BRL', 'INT' ou 'PRT'). Padrão: 'BRL'."""
+    """Retorna o código da edição ativa ('BRL', 'INT' ou 'IBE'). Padrão: 'BRL'."""
     val = _normalizar(os.environ.get(ENV_VAR_EDITION, EDITION_BRL))
     if val in EDICOES:
         return val
@@ -45,10 +49,10 @@ def get_current_edition() -> str:
 
 
 def set_current_edition(edition: str) -> None:
-    """Define a edição ativa ('BRL', 'INT' ou 'PRT')."""
+    """Define a edição ativa ('BRL', 'INT' ou 'IBE'; 'PRT' e 'POR' são aceitos e gravam 'IBE')."""
     ed = _normalizar(edition)
     if ed not in EDICOES:
-        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'PRT' (aceita também 'POR', o código antigo, e 'IBE', o nome novo da PRT).")
+        raise ValueError(f"Edição inválida: {edition}. Escolha 'BRL', 'INT' ou 'IBE' (aceita também 'PRT' e 'POR', os códigos antigos da IBE).")
     os.environ[ENV_VAR_EDITION] = ed
 
 
@@ -62,9 +66,38 @@ def is_int_edition() -> bool:
     return get_current_edition() == EDITION_INT
 
 
-def is_prt_edition() -> bool:
-    """Verifica se a edição Portugal está ativa."""
-    return get_current_edition() == EDITION_PRT
+def is_ibe_edition() -> bool:
+    """Verifica se a edição Ibérica (IBE, antes «Ibérica (IBE)») está ativa."""
+    return get_current_edition() == EDITION_IBE
+
+
+#: Nome antigo de ``is_ibe_edition``; continua válido porque muitos módulos e testes o usam.
+is_prt_edition = is_ibe_edition
+
+
+def nome_das_preferencias() -> str:
+    """Nome da aplicação nas preferências (QSettings) da edição: instaladas lado a lado, não dividem idioma."""
+    return {EDITION_INT: "Triton-INT", EDITION_IBE: "Triton-IBE"}.get(get_current_edition(), "Triton")
+
+
+#: Nome que as preferências da IBE tinham quando ela se chamava «Ibérica (IBE)».
+_PREFERENCIAS_ANTIGAS_DA_IBE = "Triton-IBE"
+
+
+def abrir_preferencias():
+    """``QSettings`` da edição ativa (organização «UFSC»); precisa de PySide6.
+
+    Na IBE, quem usava a edição quando ela se chamava «PRT» tinha idioma e escolha de licença em
+    «Triton-IBE»: na primeira abertura com o nome novo, essas chaves são copiadas (nada é apagado).
+    """
+    from PySide6.QtCore import QSettings
+
+    novas = QSettings("UFSC", nome_das_preferencias())
+    if is_ibe_edition() and not novas.allKeys():
+        antigas = QSettings("UFSC", _PREFERENCIAS_ANTIGAS_DA_IBE)
+        for chave in antigas.allKeys():
+            novas.setValue(chave, antigas.value(chave))
+    return novas
 
 
 def usa_dados_do_brasil() -> bool:
@@ -73,8 +106,8 @@ def usa_dados_do_brasil() -> bool:
 
 
 def usa_dados_de_portugal() -> bool:
-    """Precipitação por concelho e tarifários portugueses aparecem só na PRT."""
-    return is_prt_edition()
+    """Precipitação por concelho e tarifários portugueses aparecem só na IBE."""
+    return is_ibe_edition()
 
 
 #: O manual completo em cada língua, relativo à raiz do programa.
@@ -94,11 +127,11 @@ def manual_do_usuario(idioma: str = "") -> str:
 
 
 def rotulo_da_edicao(curto: bool = False) -> str:
-    """«Edição Brasil (BRL)», «International Edition (INT)» ou «Edição Portugal (PRT)»."""
+    """«Edição Brasil (BRL)», «International Edition (INT)» ou «Edição Ibérica (IBE)»."""
     if is_int_edition():
         return "INT" if curto else "International Edition (INT)"
-    if is_prt_edition():
-        return "PRT" if curto else "Edição Portugal (PRT)"
+    if is_ibe_edition():
+        return "IBE" if curto else "Edição Ibérica (IBE)"
     return "BRL" if curto else "Edição Brasil (BRL)"
 
 
@@ -127,7 +160,7 @@ def neutralizar_para_a_internacional(config) -> None:
     # A ETAP continua dimensionada, mas os preços de catálogo dela são em reais.
     config.precos_de_catalogo = False
     config.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in (config.op_costs or [])]
-    if is_prt_edition():
+    if is_ibe_edition():
         from triton.core import base_climatica_portugal as _pt
         config.climate_source_mode = "national_db"
         config.climate_city_uf = _pt.DISTRITO_PADRAO
@@ -211,6 +244,8 @@ def get_edition_title() -> str:
     from triton import APP_TITLE
 
     titulo = f"{APP_TITLE} — {rotulo_da_edicao()}"
+    if is_ibe_edition():
+        titulo = f"{APP_TITLE} IBE — {rotulo_da_edicao()}"   # o nome do produto: Triton IBE
     if usa_dados_de_portugal():
         # A linha de cobertura é lida do banco de chuva (nunca digitada); sem o banco, o título não a leva.
         try:
@@ -222,14 +257,14 @@ def get_edition_title() -> str:
     return titulo
 
 
-#: Na Edição Portugal a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).
+#: Na Edição Ibérica a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).
 MOEDA_DE_PORTUGAL = "\u20ac"
 MOEDA_DA_INTERNACIONAL = ""
 
 
 def get_edition_currency_symbol() -> str:
     """Retorna o símbolo monetário padrão da edição: real na Brasil, euro na Portugal e neutro na International (U-21)."""
-    if is_prt_edition():
+    if is_ibe_edition():
         return MOEDA_DE_PORTUGAL
     if is_int_edition():
         return MOEDA_DA_INTERNACIONAL
@@ -238,7 +273,7 @@ def get_edition_currency_symbol() -> str:
 
 def serie_de_exemplo_da_edicao() -> str:
     """Nome do arquivo CSV de precipitação de exemplo para a edição ativa."""
-    if is_prt_edition():
+    if is_ibe_edition():
         return "Funchal.csv"
     if is_int_edition():
         return "NewYork.csv"
@@ -257,7 +292,7 @@ def cenarios_de_exemplo_da_edicao() -> list:
             {"nome": "Residence London, 4 residents", "serie": "London.csv", "area": 150, "moradores": 4, "demanda": 120, "percentual": 50},
             {"nome": "School Cape Town", "serie": "CapeTown.csv", "area": 300, "moradores": 10, "demanda": 50, "percentual": 30},
         ]
-    if is_prt_edition():
+    if is_ibe_edition():
         return [
             {"nome": "Moradia no Funchal, 3 residentes", "serie": "Funchal.csv", "area": 100, "moradores": 3, "demanda": 100, "percentual": 40},
         ]
@@ -270,7 +305,7 @@ def cenarios_de_exemplo_da_edicao() -> list:
 
 def cidade_de_exemplo_da_edicao() -> str:
     """Nome legível da localidade da série de exemplo."""
-    if is_prt_edition():
+    if is_ibe_edition():
         return "Funchal, Portugal"
     if is_int_edition():
         return "New York, USA"

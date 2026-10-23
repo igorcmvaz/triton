@@ -2,7 +2,7 @@
 """Os projetos de exemplo da edição: abrem, simulam, poupam água e cobram o que o tarifário imprime.
 
 INT: Nova York, Londres e Cidade do Cabo (``examples/*.triton``).
-PRT: Lisboa, Porto e Funchal (``examples/portugal/*.triton``).
+IBE: Lisboa, Porto e Funchal (``examples/portugal/*.triton``).
 
 O arquivo é o mesmo nas três edições; cada bloco pula-se fora da sua edição (e a BRL pula os dois,
 porque os exemplos dela são outros). As contas esperadas saem **à mão**, com ``Decimal``, dos números
@@ -35,9 +35,9 @@ so_int = pytest.mark.skipif(
     reason="exemplos da Edição International")
 so_prt = pytest.mark.skipif(
     EDICAO != EDITION_PRT or not (PRT_EXEMPLOS / "lisboa.triton").is_file(),
-    reason="exemplos da Edição Portugal")
+    reason="exemplos da Edição Ibérica")
 
-#: O que não pode aparecer num exemplo da INT (Brasil e Portugal) ou da PRT (Brasil).
+#: O que não pode aparecer num exemplo da INT (Brasil e Portugal) ou da IBE (Brasil).
 TERMOS_DO_BRASIL = ("Florianópolis", "Florianopolis", "Brasília", "Manaus", "São Paulo", "R$", "CASAN", "CELESC",
                     "CLIMBra", "SABESP", "ANEEL", "NBR", "IPTU", "Selic")
 TERMOS_DE_PORTUGAL = ("Lisboa", "Porto", "Funchal", "EPAL", "E-OBS", "ERSAR")
@@ -172,7 +172,7 @@ def test_o_exemplo_da_int_nao_traz_brasil_nem_portugal(cidade):
 
 
 # ---------------------------------------------------------------------------------------------
-# PRT: contas à mão (números impressos nos tarifários de 2026; IVA conforme a nota de cada um)
+# IBE: contas à mão (números impressos nos tarifários de 2026; IVA conforme a nota de cada um)
 # ---------------------------------------------------------------------------------------------
 
 def _lisboa_a_mao(m3: D) -> D:

@@ -1,9 +1,9 @@
-"""O texto-fonte do manual de INT e de PRT não traz material de outra edição.
+"""O texto-fonte do manual de INT e de IBE não traz material de outra edição.
 
-INT: inglês neutro, nada do Brasil nem de Portugal. PRT: nada do Brasil. A BRL não é
+INT: inglês neutro, nada do Brasil nem de Portugal. IBE: nada do Brasil. A BRL não é
 conferida (o manual dela é brasileiro). A UFSC aparece como afiliação dos autores e é
 permitida. O teste olha o texto-fonte (`manual/en/partes` e `manual/en/apendices` na INT;
-`manual/partes` e `manual/apendices` na PRT), não os PDFs.
+`manual/partes` e `manual/apendices` na IBE), não os PDFs.
 """
 import os
 import re
@@ -23,7 +23,7 @@ PERMITIDO = ["Federal University of Santa Catarina", "Universidade Federal de Sa
 EDICAO = get_current_edition()
 if EDICAO == "INT":
     PASTAS, PROIBIDOS = ["en/partes", "en/apendices"], BRASIL + PORTUGAL
-elif EDICAO == "PRT":
+elif EDICAO == "IBE":
     PASTAS, PROIBIDOS = ["partes", "apendices"], BRASIL
 else:
     pytest.skip("a BRL nao tem restricao de conteudo no manual", allow_module_level=True)

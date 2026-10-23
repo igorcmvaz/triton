@@ -829,13 +829,13 @@ class TabTanksSimulation(QWidget):
     MOEDAS_DA_INTERNACIONAL = _MOEDAS_DA_INTERNACIONAL
 
     def _preencher_moedas_da_edicao(self):
-        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
+        from triton.core.edition import is_ibe_edition, usa_dados_do_brasil
         simbolos = dict(self.MOEDAS)
         # Brasil: só o real; Portugal: só o euro; International: sem moeda predefinida (U-21),
         # com «sem moeda definida (¤)» à frente e as demais à escolha. O real não é oferecido.
         if usa_dados_do_brasil():
             codigos = ("BRL",)
-        elif is_prt_edition():
+        elif is_ibe_edition():
             codigos = ("EUR",)
         else:
             codigos = self.MOEDAS_DA_INTERNACIONAL
@@ -852,15 +852,15 @@ class TabTanksSimulation(QWidget):
         if len(codigos) == 1:
             self.combo_currency.setToolTip(
                 tr("Na Edição Brasil a moeda é o real.") if usa_dados_do_brasil()
-                else tr("Na Edição Portugal a moeda é o euro."))
+                else tr("Na Edição Ibérica a moeda é o euro."))
         else:
             self.combo_currency.setToolTip(tr(
                 "Escolha a moeda do projeto: todos os valores informados e calculados passam a usá-la. "
                 "Sem escolha, aparece o sinal genérico de moeda (¤)."))
 
     def get_currency_code(self) -> str:
-        from triton.core.edition import is_prt_edition, usa_dados_do_brasil
-        padrao = "BRL" if usa_dados_do_brasil() else ("EUR" if is_prt_edition() else "XXX")
+        from triton.core.edition import is_ibe_edition, usa_dados_do_brasil
+        padrao = "BRL" if usa_dados_do_brasil() else ("EUR" if is_ibe_edition() else "XXX")
         if not hasattr(self, "combo_currency"):
             return padrao
         return self.combo_currency.currentData() or padrao

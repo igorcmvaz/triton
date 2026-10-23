@@ -141,15 +141,15 @@ def test_o_instalador_confere_a_base_climbra_no_pacote(tmp_path):
 
 
 def test_a_edicao_internacional_sai_sem_a_base_climbra(tmp_path):
-    """A CLIMBra cobre só o Brasil: as partes vão na BRL e saem do pacote da INT e da PRT."""
+    """A CLIMBra cobre só o Brasil: as partes vão na BRL e saem do pacote da INT e da IBE."""
     b = _build_exe()
-    for edicao in ("brl", "int", "prt"):
+    for edicao in ("brl", "int", "ibe"):
         _criar_partes(tmp_path / edicao / "_internal" / "data", b, unico=True)
         b.remover_base_climatica_fora_da_brl(tmp_path / edicao, edicao)
     brl = tmp_path / "brl" / "_internal" / "data"
     assert all(p.exists() for p in b.partes_da_base_climatica(tmp_path / "brl" / "_internal"))
     assert not (brl / "climbra.db").exists()          # as partes bastam: o banco único seria o mesmo conteúdo em dobro
-    for edicao in ("int", "prt"):
+    for edicao in ("int", "ibe"):
         sobra = [p.name for p in (tmp_path / edicao / "_internal" / "data").iterdir() if p.name.startswith("climbra")]
         assert sobra == [], sobra
 
@@ -199,15 +199,15 @@ def test_o_pacote_nao_copia_o_que_nao_pode_ir(tmp_path):
         arquivo = tmp_path / rel
         arquivo.parent.mkdir(parents=True, exist_ok=True)
         arquivo.write_bytes(b"x")
-    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "prt")}
+    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "ibe")}
     for e, itens in por_edicao.items():
         for proibido in ("data/simulation_outputs", "data/brazilSHP", "data/portugal", "data/climbra.db",
                          "tarifas/fontes", "tarifas/entrada", "tarifas/tarifas_fontes.db", "additional_material/documentation"):
             assert proibido not in itens, (e, proibido)
         assert "data/languages" in itens and "additional_material/cad_bim" in itens
     assert {"data/climbra_KACE.db", "data/climbra_partes.json", "tarifas/transcricoes"} <= por_edicao["brl"]
-    assert "data/portugal_eobs.db" not in por_edicao["brl"] and "data/portugal_eobs.db" in por_edicao["prt"]
-    for e in ("int", "prt"):
+    assert "data/portugal_eobs.db" not in por_edicao["brl"] and "data/portugal_eobs.db" in por_edicao["ibe"]
+    for e in ("int", "ibe"):
         assert not [i for i in por_edicao[e] if i.startswith(("data/climbra", "tarifas"))], e
     assert "data/portugal_eobs.db" not in por_edicao["int"]
 
@@ -219,12 +219,12 @@ def test_so_a_internacional_leva_o_manual_ingles(tmp_path):
         arquivo = tmp_path / rel
         arquivo.parent.mkdir(parents=True, exist_ok=True)
         arquivo.write_bytes(b"%PDF")
-    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "prt")}
+    por_edicao = {e: {o for o, _d in b.entradas_do_pacote(tmp_path, e)} for e in ("brl", "int", "ibe")}
     assert "manual/en/Triton-User-Manual.pdf" in por_edicao["int"]
-    for e in ("brl", "prt"):
+    for e in ("brl", "ibe"):
         assert not [i for i in por_edicao[e] if i.startswith("manual/en")], e
         assert "manual/Manual-Triton.pdf" in por_edicao[e]
     # a conferência do instalador também só espera o manual inglês na Internacional
     esperado = {e: [f for f in b.verificar_pasta_para_instalador(tmp_path, e) if "Triton-User-Manual" in f]
-                for e in ("brl", "int", "prt")}
-    assert esperado["int"] and not esperado["brl"] and not esperado["prt"]
+                for e in ("brl", "int", "ibe")}
+    assert esperado["int"] and not esperado["brl"] and not esperado["ibe"]

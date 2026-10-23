@@ -65,13 +65,13 @@ def diagnosticar(argumentos_qt) -> int:
 
 
 def main():
-    # Edição (--edition brl|int|prt); o main.py de cada pasta fixa a edição pela variável
+    # Edição (--edition brl|int|ibe; prt e por são nomes antigos da ibe); o main.py de cada pasta fixa a edição pela variável
     # de ambiente TRITON_EDITION. Os demais argumentos seguem para o Qt.
     import argparse
     from triton.core.edition import get_edition_title, rotulo_da_edicao, set_current_edition
 
     arg_parser = argparse.ArgumentParser(add_help=False)
-    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "prt", "por", "ibe", "BRL", "INT", "PRT", "POR", "IBE"], default=None)
+    arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "ibe", "prt", "por", "BRL", "INT", "IBE", "PRT", "POR"], default=None)
     arg_parser.add_argument("--diagnostico", action="store_true")
     parsed_args, remaining = arg_parser.parse_known_args()
     if parsed_args.edition:
@@ -90,7 +90,7 @@ def main():
         os.path.join("icons", "icon.ico"),
         os.path.join("icons", "triton_brl.png"),
         os.path.join("icons", "triton_int.png"),
-        os.path.join("icons", "triton_prt.png"),
+        os.path.join("icons", "triton_ibe.png"),
         os.path.join("icons", "triton.png"),
         os.path.join("icons", "icon.png"),
         os.path.join("icons", "Triton2.png"),

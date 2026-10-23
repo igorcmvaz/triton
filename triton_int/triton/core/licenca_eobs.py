@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Licença da E-OBS na edição IBE/PRT: o aviso do primeiro arranque, a escolha de uso e o rodapé do laudo.
+"""Licença da E-OBS na edição IBE: o aviso do primeiro arranque, a escolha de uso e o rodapé do laudo.
 
 A chuva da edição vem da E-OBS (ECA&D/Copernicus), de uso estritamente não comercial em pesquisa e
 educação. A licença não trata da redistribuição de produtos derivados (``LICENCAS_DOS_DADOS.md``);
@@ -69,9 +69,9 @@ class LicencaEObsBloqueada(RuntimeError):
 def _armazem():
     """A configuração do utilizador (QSettings da edição); None sem PySide6."""
     try:
-        from PySide6.QtCore import QSettings
         # o mesmo par organização/aplicação das preferências da edição (triton/ui/translation.py)
-        return QSettings("UFSC", "Triton-PRT")
+        from triton.core.edition import abrir_preferencias
+        return abrir_preferencias()
     except Exception:
         return None
 
@@ -127,7 +127,7 @@ def texto_depois_da_escolha(uso: str) -> str:
 # ── Rodapé do laudo ──────────────────────────────────────────────────────────────────────────
 
 def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
-    """As linhas de texto que fecham todo laudo da edição IBE/PRT; vazio nas outras edições.
+    """As linhas de texto que fecham todo laudo da edição IBE; vazio nas outras edições.
 
     ``auditoria`` é o ``audit_context`` do laudo: ``chuva_serie_propria`` (a série não é da E-OBS),
     ``climate_city_name`` (o concelho) e ``chuva_procedencia`` (a procedência gravada no projeto).

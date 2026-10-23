@@ -8,7 +8,7 @@ do gerador. Uma segunda parte **congela** as constantes que o código traz fora 
 (0,45 kWh/m³, R$ 0,05/m³, 30% de mão de obra, 8% de acessórios): a Brasil não pode mudar de
 comportamento sem que alguém decida e atualize o manual.
 
-O arquivo é IDÊNTICO nas três edições. BRL e PRT rodam o próprio conjunto; a INT salta (o manual
+O arquivo é IDÊNTICO nas três edições. BRL e IBE rodam o próprio conjunto; a INT salta (o manual
 inglês dela ainda não trata do assunto).
 """
 
@@ -390,7 +390,7 @@ def test_numeros_do_texto_corrido_e_do_exemplo(gerador):
 
 # ═══════════════════════════════ PORTUGAL ═══════════════════════════════
 
-prt = pytest.mark.skipif(EDICAO != "PRT", reason="conjunto da Edição Portugal")
+prt = pytest.mark.skipif(EDICAO != "IBE", reason="conjunto da Edição Ibérica")
 
 
 @pytest.fixture(scope="module")

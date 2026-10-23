@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Traduções dos textos neutros das edições INT e PRT (rodada 4 da auditoria).
+"""Traduções dos textos neutros das edições INT e IBE (rodada 4 da auditoria).
 
 Cada chave é o texto-fonte em português; o valor traz inglês, espanhol e chinês. Em
 ``translation.py`` estas entradas **substituem** as do catálogo principal quando a chave é a
@@ -11,7 +11,7 @@ deixava em português (UI-14).
 COMPLEMENTO_NEUTRO = {
     # ── Moeda (decisão U-21: a Internacional não tem moeda predefinida) ──────────────────────
     'Moeda não definida (¤)': ('Currency not set (¤)', 'Moneda no definida (¤)', '未设置货币（¤）'),
-    'Na Edição Portugal a moeda é o euro.': ('In the Portugal Edition the currency is the euro.', 'En la Edición Portugal la moneda es el euro.', '葡萄牙版的货币为欧元。'),
+    'Na Edição Ibérica a moeda é o euro.': ('In the Iberian Edition the currency is the euro.', 'En la Edición Ibérica la moneda es el euro.', '伊比利亚版的货币为欧元。'),
     'Escolha a moeda do projeto: todos os valores informados e calculados passam a usá-la. Sem escolha, aparece o sinal genérico de moeda (¤).':
         ('Choose the project currency: every value you enter and every result uses it. Until you choose, the generic currency sign (¤) is shown.',
          'Elija la moneda del proyecto: todos los valores introducidos y calculados la usan. Sin elección, se muestra el signo genérico de moneda (¤).',

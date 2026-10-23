@@ -21,9 +21,9 @@ abstract: >-
   economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS and SMAA-VIKOR).
   Developed by the Sustainable Environments Research Group (GPAS) at the Federal University of Santa Catarina (UFSC),
   as the successor of Netuno 4.
-  Three editions share one calculation engine and one version number: Brasil (BRL), International (INT) and Portugal (PRT).
+  Three editions share one calculation engine and one version number: Brasil (BRL), International (INT) and Ibérica (IBE).
   The Brasil edition adds Brazilian rainfall (CLIMBra), audited tariffs of 652 municipalities and costs in reais;
-  the International edition is region-neutral; the Portugal edition adds E-OBS rainfall by municipality and Portuguese tariffs in euros.
+  the International edition is region-neutral; the Iberian edition (Triton IBE, Iberian Peninsula) adds E-OBS rainfall by municipality and Portuguese tariffs in euros; today only Portuguese municipalities have data (Spain: 0 sites).
 keywords:
   - rainwater-harvesting
   - water-conservation

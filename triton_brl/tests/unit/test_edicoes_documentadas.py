@@ -10,7 +10,7 @@ import os
 import re
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-PERGUNTA = re.compile(r"\b(usa_dados_do_brasil|usa_dados_de_portugal|is_int_edition|is_brl_edition|is_prt_edition)\(\)")
+PERGUNTA = re.compile(r"\b(usa_dados_do_brasil|usa_dados_de_portugal|is_int_edition|is_brl_edition|is_ibe_edition|is_prt_edition)\(\)")
 MAPAS = (os.path.join(RAIZ, "docs", "edicoes.md"), os.path.join(RAIZ, "docs", "en", "editions.md"))
 
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Aviso de licença da E-OBS, no primeiro arranque da edição IBE/PRT (uma vez por instalação).
+"""Aviso de licença da E-OBS, no primeiro arranque da edição IBE (uma vez por instalação).
 
 Duas respostas, sem terceira por defeito: «uso de pesquisa ou educação» e «uso comercial». A escolha
 fica na configuração do utilizador (``triton.core.licenca_eobs``). Os textos estão em português de

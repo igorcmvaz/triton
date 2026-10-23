@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Nível de qualidade (A, B ou C) da chuva por concelho da edição IBE/PRT.
+"""Nível de qualidade (A, B ou C) da chuva por concelho da edição IBE.
 
 Uma só fórmula, num só lugar. O banco (``data/portugal_eobs.db``, tabela ``qualidade``), a
 interface, o laudo e o manual leem os limiares deste módulo; nenhum outro arquivo repete

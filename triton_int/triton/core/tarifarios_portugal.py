@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tarifários transcritos da Edição Portugal (``triton/data/portugal_tarifarios.json``).
+"""Tarifários transcritos da Edição Ibérica (``triton/data/portugal_tarifarios.json``).
 
 Cada concelho traz a água (tarifa fixa e escalões), o saneamento (por escalões sobre o volume
 recolhido, ou como parcela por m³), as demais parcelas da fatura e o IVA de cada uma, com as
@@ -21,7 +21,7 @@ _ARQUIVO = os.path.join(os.path.dirname(__file__), "..", "data", "portugal_tarif
 
 @lru_cache(maxsize=1)
 def carregar() -> Dict[str, dict]:
-    # Só a Edição Portugal traz o arquivo; nas demais, nenhum concelho e nenhum erro.
+    # Só a Edição Ibérica traz o arquivo; nas demais, nenhum concelho e nenhum erro.
     if not os.path.isfile(_ARQUIVO):
         return {}
     with open(_ARQUIVO, encoding="utf-8") as f:
@@ -161,7 +161,7 @@ def estado_do_concelho(por_servico: Dict[str, tuple]) -> str:
 def procedencia(concelho: str) -> str:
     """De onde vem o tarifário do concelho e quanto confiar nele, numa linha, para as telas.
 
-    Vazio se o concelho não tem tarifário transcrito (ou fora da Edição Portugal, onde não há o arquivo).
+    Vazio se o concelho não tem tarifário transcrito (ou fora da Edição Ibérica, onde não há o arquivo).
     """
     d = carregar().get(concelho)
     p = (d or {}).get("procedencia")

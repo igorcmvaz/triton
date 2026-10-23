@@ -94,7 +94,7 @@ def _tarifas() -> Verificacao:
 
 
 def _dados_de_portugal() -> Verificacao:
-    """Base E-OBS por concelho e tarifários transcritos: só na Edição Portugal."""
+    """Base E-OBS por concelho e tarifários transcritos: só na Edição Ibérica."""
     from triton.core.edition import rotulo_da_edicao, usa_dados_de_portugal
 
     nome = "Dados de Portugal (E-OBS e tarifários)"

@@ -43,7 +43,7 @@ def test_os_avisos_de_terceiros_vao_com_o_programa_e_cobrem_as_dependencias():
     # A atribuição de dados vale só para a edição que leva o dado.
     edicao = RAIZ.name.rsplit("_", 1)[-1].upper()
     assert ("CLIMBra" in avisos) == (edicao == "BRL")
-    assert ("E-OBS" in avisos) == (edicao == "PRT")
+    assert ("E-OBS" in avisos) == (edicao == "IBE")
 
 
 def test_a_licenca_e_instalada_com_o_programa():
@@ -70,7 +70,7 @@ def test_os_nomes_do_instalador_batem_com_o_build():
     for edicao, (_script, nome) in build_exe.EDICOES.items():
         assert f'"{nome}.exe"' in ISS, f"{nome}.exe não está no setup_script.iss ({edicao})"
         assert f'"dist\\{nome}"' in ISS, f"dist\\{nome} não está no setup_script.iss ({edicao})"
-        prefixo = {"int": "Triton_INT_Setup_", "prt": "Triton_PRT_Setup_"}.get(edicao, "Triton_Setup_")
+        prefixo = {"int": "Triton_INT_Setup_", "ibe": "Triton_IBE_Setup_"}.get(edicao, "Triton_Setup_")
         assert f'"{prefixo}"' in ISS
 
 

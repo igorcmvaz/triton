@@ -68,14 +68,14 @@ class Sidebar(QWidget):
         v_title.addWidget(lbl_sub)
         # Selo da edição: a Brasil traz os dados brasileiros; a Internacional, não; a
         # Portugal, os portugueses à medida que são conferidos.
-        from triton.core.edition import is_int_edition, is_prt_edition, rotulo_da_edicao
+        from triton.core.edition import is_int_edition, is_ibe_edition, rotulo_da_edicao
         self.lbl_edicao = QLabel(rotulo_da_edicao())
         self.lbl_edicao.setObjectName("selo_edicao")
         if is_int_edition():
             dica = tr("Edição Internacional: tarifas, custos, moeda e fator de emissão informados pelo usuário.")
             cor = "background-color: #1d4ed8; color: #ffffff;"
-        elif is_prt_edition():
-            dica = tr("Edição Portugal: precipitação por concelho (E-OBS), tarifários das entidades gestoras "
+        elif is_ibe_edition():
+            dica = tr("Edição Ibérica (hoje com dados de Portugal): precipitação por concelho (E-OBS), tarifários das entidades gestoras "
                       "e valores em euros.")
             cor = "background-color: #b91c1c; color: #ffffff;"
         else:

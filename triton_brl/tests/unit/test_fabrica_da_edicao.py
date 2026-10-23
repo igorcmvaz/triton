@@ -33,7 +33,7 @@ def _texto_de_valores(cfg) -> str:
     return " | ".join(str(v) for k, v in asdict(cfg).items() if isinstance(v, str))
 
 
-@pytest.mark.parametrize("edicao", ["BRL", "INT", "PRT"])
+@pytest.mark.parametrize("edicao", ["BRL", "INT", "IBE"])
 def test_o_tritonconfig_cru_traz_os_padroes_historicos_em_qualquer_edicao(monkeypatch, edicao):
     """O motor e os testes dele usam o ``TritonConfig()`` cru: ele não depende da edição."""
     monkeypatch.setenv("TRITON_EDITION", "BRL")
@@ -56,7 +56,7 @@ def test_na_brl_a_fabrica_devolve_exatamente_o_tritonconfig(monkeypatch):
     assert _comparavel(novo) == _comparavel(esperado)
 
 
-@pytest.mark.parametrize("edicao", ["INT", "PRT"])
+@pytest.mark.parametrize("edicao", ["INT", "IBE"])
 def test_fora_da_brl_a_fabrica_nao_traz_preco_tarifa_nem_cidade_do_brasil(monkeypatch, edicao):
     monkeypatch.setenv("TRITON_EDITION", edicao)
     cfg = E.configuracao_da_edicao()
@@ -80,7 +80,7 @@ def test_na_internacional_nao_ha_localidade_climatica_predefinida(monkeypatch):
 
 
 def test_em_portugal_o_projeto_novo_parte_de_lisboa_na_e_obs(monkeypatch):
-    monkeypatch.setenv("TRITON_EDITION", "PRT")
+    monkeypatch.setenv("TRITON_EDITION", "IBE")
     from triton.core import base_climatica_portugal as pt
     cfg = E.projeto_novo_da_edicao()
     assert cfg.climate_source_mode == "national_db"
@@ -105,7 +105,7 @@ def _projeto_minimo(tmp_path, fe=None, co=None):
     return str(caminho)
 
 
-@pytest.mark.parametrize("edicao", ["INT", "PRT"])
+@pytest.mark.parametrize("edicao", ["INT", "IBE"])
 def test_o_leitor_de_projeto_preenche_o_que_falta_com_o_neutro_da_edicao(tmp_path, monkeypatch, edicao):
     monkeypatch.setenv("TRITON_EDITION", edicao)
     cfg = load_triton_project(_projeto_minimo(tmp_path))["config"]
@@ -124,7 +124,7 @@ def test_na_brl_o_leitor_continua_a_preencher_com_o_historico(tmp_path, monkeypa
     assert cfg.precos_de_catalogo is True
 
 
-@pytest.mark.parametrize("edicao", ["BRL", "INT", "PRT"])
+@pytest.mark.parametrize("edicao", ["BRL", "INT", "IBE"])
 def test_o_que_o_usuario_grava_vale_em_qualquer_edicao_mesmo_igual_ao_padrao_historico(tmp_path, monkeypatch, edicao):
     """A neutralização por heurística zerava a tarifa de 0,6957 digitada pelo usuário: não pode."""
     monkeypatch.setenv("TRITON_EDITION", edicao)
@@ -143,7 +143,7 @@ def test_projeto_gravado_e_relido_nao_muda_em_nenhuma_edicao(tmp_path, monkeypat
     cfg = TritonConfig()
     destino = tmp_path / "ida_e_volta.triton"
     export_triton_json(cfg, str(destino), precip_data=np.zeros(30))
-    for edicao in ("BRL", "INT", "PRT"):
+    for edicao in ("BRL", "INT", "IBE"):
         monkeypatch.setenv("TRITON_EDITION", edicao)
         lido = load_triton_project(str(destino))["config"]
         for campo in ("elec_tariff", "pump_unit_cost", "chlorine_cost_per_kg", "water_tariffs",
@@ -158,11 +158,11 @@ def test_a_configuracao_tem_todos_os_campos_do_dataclass_sem_hook_de_edicao():
 
 
 def test_as_listas_por_edicao_apontam_para_testes_que_existem():
-    """Uma entrada velha em so_da_brl.txt / so_da_prt.txt deixaria um teste fora da execução sem ninguém ver."""
+    """Uma entrada velha em so_da_brl.txt / so_da_ibe.txt deixaria um teste fora da execução sem ninguém ver."""
     import re
     pasta = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     raiz = os.path.dirname(pasta)
-    for lista in ("so_da_brl.txt", "so_da_prt.txt"):
+    for lista in ("so_da_brl.txt", "so_da_ibe.txt"):
         caminho = os.path.join(pasta, lista)
         if not os.path.isfile(caminho):
             continue

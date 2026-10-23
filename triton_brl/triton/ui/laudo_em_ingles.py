@@ -12,7 +12,7 @@ Regra de manutenção: o teste ``tests/unit/test_laudos_em_ingles.py`` gera os t
 e falha se sobrar português; acrescente aqui a tradução do trecho que ele apontar.
 
 Este módulo também traz ``laudo_em_portugal``, o ajuste de vocabulário do laudo em português da
-Edição Portugal (o glossário da interface não cobre palavras de laudo como «laudo» e «edificação»).
+Edição Ibérica (o glossário da interface não cobre palavras de laudo como «laudo» e «edificação»).
 """
 
 from __future__ import annotations

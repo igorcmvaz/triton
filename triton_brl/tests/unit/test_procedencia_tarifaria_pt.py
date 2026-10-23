@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Procedência e confiança dos tarifários portugueses, por concelho e serviço (Edição Portugal).
+"""Procedência e confiança dos tarifários portugueses, por concelho e serviço (Edição Ibérica).
 
-Só vale na PRT (``tests/so_da_prt.txt``; fora dela o arquivo é saltado). O esquema é o do consenso do
+Só vale na IBE (``tests/so_da_ibe.txt``; fora dela o arquivo é saltado). O esquema é o do consenso do
 debate IBE: três estados (verde, amarelo, cinza) por concelho e por serviço (água, saneamento, resíduos).
 Garante, sobre ``tarifas_portugal/`` (``entidades.json``, ``CONFIANCA_POR_CONCELHO.csv``,
 ``fontes/FONTES.tsv``) e o campo ``procedencia`` de ``portugal_tarifarios.json``, que:
@@ -28,7 +28,7 @@ import pytest
 
 from triton.core.edition import usa_dados_de_portugal
 
-pytestmark = pytest.mark.skipif(not usa_dados_de_portugal(), reason="só vale na Edição Portugal")
+pytestmark = pytest.mark.skipif(not usa_dados_de_portugal(), reason="só vale na Edição Ibérica")
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TARIFAS = os.path.join(RAIZ, "tarifas_portugal")

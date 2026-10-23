@@ -7,11 +7,11 @@
 ; versão lida de triton/__init__.py. Para compilar à mão:
 ;   ISCC /DMyAppVersion=0.1.0 setup_script.iss                 (Edição Brasil)
 ;   ISCC /DMyAppVersion=0.1.0 /DEdition=INT setup_script.iss   (International Edition)
-;   ISCC /DMyAppVersion=0.1.0 /DEdition=PRT setup_script.iss   (Edição Portugal)
+;   ISCC /DMyAppVersion=0.1.0 /DEdition=IBE setup_script.iss   (Edição Ibérica, IBE)
 ;
 ; As três edições têm AppId, pasta, atalhos e associação próprios: instalam-se
 ; lado a lado. A Brasil empacota dist\Triton; a Internacional, dist\Triton_INT; a
-; Portugal, dist\Triton_PRT.
+; Portugal, dist\Triton_IBE.
 ;
 ; Bases climáticas embutidas (só nas edições a que pertencem):
 ;  - Brasil: a base CLIMBra compilada, um banco por modelo CMIP6 (data\climbra_<modelo>.db,
@@ -39,15 +39,15 @@
   #define ExcluirIcones "CLIMBra.*"
   #define ManualPdf "_internal\manual\en\Triton-User-Manual.pdf"
   #define ManualLink "Triton User Manual"
-#elif Edition == "PRT"
-  #define MyAppName "Triton — Edição Portugal"
-  #define MyAppDir "Triton Portugal"
-  #define MyAppExeName "Triton_PRT.exe"
-  #define DistDir "dist\Triton_PRT"
-  #define ProgId "Triton.Projeto.PRT"
+#elif Edition == "IBE"
+  #define MyAppName "Triton IBE — Edição Ibérica"
+  #define MyAppDir "Triton IBE"
+  #define MyAppExeName "Triton_IBE.exe"
+  #define DistDir "dist\Triton_IBE"
+  #define ProgId "Triton.Projeto.IBE"
   #define AppGuid "{{D8490C72-38B2-5531-8669-4234542A0979}"
-  #define SetupName "Triton_PRT_Setup_"
-  #define CoreDesc "Aplicação Triton (Edição Portugal: português de Portugal, valores em euros), manual, casos e exemplos"
+  #define SetupName "Triton_IBE_Setup_"
+  #define CoreDesc "Aplicação Triton (Edição Ibérica: português de Portugal, valores em euros), manual, casos e exemplos"
   #define AssocFlags "; Flags: unchecked"
   #define ExcluirBases "*\climbra.db,*\climbra_*.db,*\climbra_partes.json"
   #define ExcluirIcones "CLIMBra.*"

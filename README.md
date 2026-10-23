@@ -32,9 +32,9 @@ logo, versioning and one edition for each region.
       <sub><code>triton_int/</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="triton_prt"><img src="triton_prt/icons/triton_prt.png" width="140" alt="Triton Portugal"></a><br>
-      <h3>Portugal (PRT)</h3>
-      <sub><code>triton_prt/</code></sub>
+      <a href="triton_ibe"><img src="triton_ibe/icons/triton_ibe.png" width="140" alt="Triton IBE"></a><br>
+      <h3>Ibérica (IBE) · Triton IBE</h3>
+      <sub><code>triton_ibe/</code></sub>
     </td>
   </tr>
   <tr>
@@ -47,14 +47,15 @@ logo, versioning and one edition for each region.
       York, London and Cape Town.
     </td>
     <td valign="top">
-      European rainfall (E-OBS) by municipality, Portuguese water tariffs, costs in euros and European Portuguese.
+      Iberian Peninsula edition. Today only Portugal has data: European rainfall (E-OBS) by municipality (278 municipalities;
+      Spain: 0 sites), Portuguese water tariffs, costs in euros and European Portuguese.
       Worked examples for Lisbon, Porto and Funchal.
     </td>
   </tr>
   <tr>
     <td align="center"><a href="triton_brl/README.md">README (pt)</a> · <a href="triton_brl/docs/en/README.md">README (en)</a></td>
     <td align="center"><a href="triton_int/README.md">README (pt)</a> · <a href="triton_int/docs/en/README.md">README (en)</a></td>
-    <td align="center"><a href="triton_prt/README.md">README (pt)</a> · <a href="triton_prt/docs/en/README.md">README (en)</a></td>
+    <td align="center"><a href="triton_ibe/README.md">README (pt)</a> · <a href="triton_ibe/docs/en/README.md">README (en)</a></td>
   </tr>
 </table>
 
@@ -72,7 +73,7 @@ with a DOI, so that each release can be cited and kept as it was released:
 |---|---|
 | Brasil (BRL) | `Triton_Setup_0_1_0.exe` |
 | International (INT) | `Triton_INT_Setup_0_1_0.exe` |
-| Portugal (PRT) | `Triton_PRT_Setup_0_1_0.exe` |
+| Ibérica (IBE) | `Triton_IBE_Setup_0_1_0.exe` |
 
 Each version of the record holds the installers of all editions, their checksums (SHA-256) and the release notes. The
 source code in this repository is the same one the installers are built from; to build an installer yourself, run
@@ -93,7 +94,7 @@ source code in this repository is the same one the installers are built from; to
 To run from source (the installers are on [Zenodo](#download)):
 
 ```bash
-cd triton_int                 # or triton_brl / triton_prt
+cd triton_int                 # or triton_brl / triton_ibe
 pip install -r requirements.txt
 python main.py
 ```
@@ -101,9 +102,9 @@ python main.py
 To run the tests of one edition (the edition is set by `TRITON_EDITION`):
 
 ```bash
-cd triton_brl                 # or triton_int / triton_prt
+cd triton_brl                 # or triton_int / triton_ibe
 pip install -r requirements.txt -r requirements-dev.txt
-TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, PRT for the others
+TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, IBE for the others
 # Windows PowerShell: $env:TRITON_EDITION = "BRL"; python -m pytest tests/unit tests/test_essencial.py
 ```
 

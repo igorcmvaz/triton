@@ -626,7 +626,7 @@ def _fator_de_rede_de_partida() -> float:
     """O fator da rede quando o projeto não o declara: o do Brasil na Brasil, zero nas outras edições.
 
     Nas outras edições o usuário informa o fator da rede do seu local; gravar 0,085 (o do
-    sistema interligado brasileiro) num modelo de INT ou PRT seria dar-lhe um dado de outro país.
+    sistema interligado brasileiro) num modelo de INT ou IBE seria dar-lhe um dado de outro país.
     """
     return valor_de_partida_da_edicao(grid_factor_default())
 

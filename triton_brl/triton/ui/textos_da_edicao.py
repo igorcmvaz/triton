@@ -3,7 +3,7 @@
 
 O pacote `triton/` é o mesmo nas três edições. O que é do Brasil (normas ABNT, SINAPI, MCTI,
 CREA, perfis IPCA/Selic, fabricantes brasileiros) só aparece na Edição Brasil (BRL); a
-Internacional (INT) não cita país nem norma nacional; a Portugal (PRT) cita só o que é de
+Internacional (INT) não cita país nem norma nacional; a Ibérica (IBE) cita só o que é de
 Portugal ou da União Europeia. Este módulo reúne as variantes num só lugar, para que as
 telas e os laudos perguntem «qual é o texto desta edição?» em vez de espalhar ``if``.
 
@@ -21,7 +21,7 @@ from __future__ import annotations
 import re
 
 from triton.core.edition import (
-    is_prt_edition, usa_dados_do_brasil,
+    is_ibe_edition, usa_dados_do_brasil,
     sem_norma_do_brasil, sem_marcas_do_brasil,
     TERMOS_DO_BRASIL, PADRAO_DO_BRASIL, _AUTORIA, cita_o_brasil, _MARCAS_DO_BRASIL,
 )
@@ -34,7 +34,7 @@ def por_edicao(brl, internacional, portugal=None):
     """O valor da edição ativa; sem ``portugal``, a Portugal usa o da Internacional."""
     if usa_dados_do_brasil():
         return brl
-    if is_prt_edition():
+    if is_ibe_edition():
         return internacional if portugal is None else portugal
     return internacional
 
@@ -45,7 +45,7 @@ def norma_pluvial(com_ano: bool = False) -> str:
     """A norma de aproveitamento de água de chuva da edição; vazia onde não há referência segura."""
     if usa_dados_do_brasil():
         return "ABNT NBR 15527:2019" if com_ano else "ABNT NBR 15527"
-    if is_prt_edition():
+    if is_ibe_edition():
         return "EN 16941-1"
     return ""
 
@@ -54,7 +54,7 @@ def normas_do_laudo(ingles: bool = False) -> str:
     """O campo «Conformidade Normativa» dos laudos."""
     if usa_dados_do_brasil():
         return "ABNT NBR 15527:2019 & NBR 5626"
-    if is_prt_edition():
+    if is_ibe_edition():
         return "EN 16941-1 e regulamentação nacional aplicável" if not ingles else "EN 16941-1 and applicable national regulations"
     return "Normas e regulamentos aplicáveis no local do projeto" if not ingles else "Standards and regulations applicable at the project site"
 
@@ -68,7 +68,7 @@ def registro_profissional(ingles: bool = False, tipo: str = "executivo") -> str:
             else "Professional Engineering / Environmental Board Registration",
             "pesquisa": "CREA / Matrícula Acadêmica / Registro Profissional",
         }.get(tipo, "CREA / Registro Profissional")
-    if is_prt_edition():
+    if is_ibe_edition():
         return "Ordem profissional / Número de membro" if not ingles else "Professional order / Membership number"
     return "Professional registration / Licence number" if ingles else "Registro profissional / Número de licença"
 
@@ -143,7 +143,7 @@ def sem_norma_do_brasil(texto: str, idioma: str | None = None) -> str:
 #
 # O núcleo escreve os nomes dos equipamentos em português (e alguns levam o volume no meio da
 # frase). Para o inglês, as frases abaixo são trocadas de dentro para fora, da mais longa para a
-# mais curta; o espanhol e o chinês caem no inglês. O português da Edição Portugal passa pelo
+# mais curta; o espanhol e o chinês caem no inglês. O português da Edição Ibérica passa pelo
 # glossário. Texto sem frase conhecida volta como veio.
 
 _DESCRITIVOS_EN = {
@@ -466,7 +466,7 @@ def html_da_edicao(html: str, idioma: str | None = None) -> str:
     if not html or usa_dados_do_brasil():
         return html
     html = sem_brasil_no_html(html)
-    if is_prt_edition():
+    if is_ibe_edition():
         if idioma is None:
             from triton.ui.translation import get_current_lang
             idioma = get_current_lang()

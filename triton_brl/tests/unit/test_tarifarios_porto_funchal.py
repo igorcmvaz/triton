@@ -11,7 +11,7 @@ Git (``tarifas_portugal/fontes/``):
 
 As contas de conferência são refeitas com ``Decimal`` e a aritmética escrita aqui, sem passar
 por nenhum código do Triton: assim o teste não repete o erro do código que verifica.
-Só a Edição Portugal traz os tarifários; os testes estão em ``tests/so_da_prt.txt`` (arquivo inteiro).
+Só a Edição Ibérica traz os tarifários; os testes estão em ``tests/so_da_ibe.txt`` (arquivo inteiro).
 """
 
 from decimal import Decimal as D

@@ -3,9 +3,9 @@
 
 - BRL: o laudo em português sai exatamente como saía antes da neutralização (impressão digital do
   texto, calculada no commit ce458c3, a BRL anterior ao WIP de neutralização).
-- INT e PRT: nenhum termo do Brasil em nenhum idioma, a partir de projeto neutro, gerado em memória.
+- INT e IBE: nenhum termo do Brasil em nenhum idioma, a partir de projeto neutro, gerado em memória.
 - Laudo em inglês: sem palavras-guia em português, nas três edições.
-- PRT: português de Portugal. INT sem moeda escolhida: sem «R$», «BRL» nem símbolo inventado.
+- IBE: português de Portugal. INT sem moeda escolhida: sem «R$», «BRL» nem símbolo inventado.
 - DXF, SVG e planilhas sem NBR, ABNT, CELESC nem «R$» fora da Brasil.
 """
 
@@ -26,7 +26,7 @@ from triton.core.edition import usa_dados_do_brasil  # noqa: E402
 #: de verdade rodam só lá.
 so_na_brl = pytest.mark.skipif(not usa_dados_do_brasil(), reason="exige os dados da Edição Brasil")
 
-EDICOES = ("INT", "PRT")
+EDICOES = ("INT", "IBE")
 TIPOS = ("economic", "environmental", "research")
 IDIOMAS = ("pt", "en", "es", "zh")
 
@@ -131,7 +131,7 @@ def test_brl_mantem_normas_e_entidades_do_brasil(monkeypatch):
         assert termo in texto, termo
 
 
-# ── INT e PRT sem o Brasil ───────────────────────────────────────────────────────────────────
+# ── INT e IBE sem o Brasil ───────────────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize("edicao", EDICOES)
 @pytest.mark.parametrize("lang", IDIOMAS)
@@ -156,7 +156,7 @@ def test_justificativas_de_acv_sem_termo_do_brasil(monkeypatch, edicao):
 
 # ── Laudo em inglês de verdade ───────────────────────────────────────────────────────────────
 
-@pytest.mark.parametrize("edicao", ("BRL", "INT", "PRT"))
+@pytest.mark.parametrize("edicao", ("BRL", "INT", "IBE"))
 @pytest.mark.parametrize("tipo", TIPOS)
 def test_laudo_em_ingles_sem_palavras_em_portugues(monkeypatch, edicao, tipo):
     if edicao == "BRL" and not usa_dados_do_brasil():
@@ -199,12 +199,12 @@ def test_norma_da_internacional_e_generica_e_a_de_portugal_e_en_16941(monkeypatc
     texto = _texto(_laudo("economic", "en"))
     assert "applicable at the project site, to be stated by the responsible engineer" in texto
     assert not re.search(r"\b(EN|ISO|NP)\s*\d{3,}", texto)
-    monkeypatch.setenv("TRITON_EDITION", "PRT")
+    monkeypatch.setenv("TRITON_EDITION", "IBE")
     assert "EN 16941-1" in _texto(_laudo("economic", "pt"))
 
 
 def test_portugal_em_portugues_de_portugal(monkeypatch):
-    monkeypatch.setenv("TRITON_EDITION", "PRT")
+    monkeypatch.setenv("TRITON_EDITION", "IBE")
     for tipo in TIPOS:
         html = _laudo(tipo, "pt", _dados(moeda="€"))
         texto = _texto(html)
@@ -212,7 +212,7 @@ def test_portugal_em_portugues_de_portugal(monkeypatch):
         for brasileiro in ("Laudo", "laudo", "Edificação", "Concessionária", "usuário", "Premissas", "Economia Potável"):
             assert brasileiro not in texto, (tipo, brasileiro)
     assert "Relatório Técnico Executivo" in _texto(_laudo("economic", "pt", _dados(moeda="€")))
-    assert "Portugal Edition (PRT)" in _texto(_laudo("economic", "en", _dados(moeda="€")))
+    assert "Iberian Edition (IBE)" in _texto(_laudo("economic", "en", _dados(moeda="€")))
 
 
 def test_data_do_laudo_em_ingles_fora_da_brasil_e_iso(monkeypatch):
@@ -220,12 +220,12 @@ def test_data_do_laudo_em_ingles_fora_da_brasil_e_iso(monkeypatch):
     assert re.search(r"Issued:\s*\d{4}-\d{2}-\d{2}", _texto(_laudo("economic", "en")))
 
 
-# ── Custos em branco (exemplos de INT e PRT não trazem custos locais) ─────────────────────────
+# ── Custos em branco (exemplos de INT e IBE não trazem custos locais) ─────────────────────────
 
 @pytest.mark.parametrize("edicao,lang,frase", (
     ("INT", "en", "Investment, maintenance and electricity costs were not informed: the economic result shows only the "
                   "savings on the water bill; payback and NPV are not meaningful until costs are entered"),
-    ("PRT", "pt", "Os custos de investimento, manutenção e eletricidade não foram indicados"),
+    ("IBE", "pt", "Os custos de investimento, manutenção e eletricidade não foram indicados"),
 ))
 @pytest.mark.parametrize("tipo", ("economic", "research", "environmental"))
 def test_custos_em_branco_sao_avisados_e_nao_viram_resultado(monkeypatch, edicao, lang, frase, tipo):
@@ -332,7 +332,7 @@ def test_nomes_sugeridos_levam_a_edicao_e_nao_ficam_em_portugues(monkeypatch):
     assert nome_sugerido("projeto_triton") == "projeto_triton"
 
 
-@pytest.mark.parametrize("edicao", ("INT", "PRT"))
+@pytest.mark.parametrize("edicao", ("INT", "IBE"))
 def test_volumetria_3d_sem_norma_do_brasil(monkeypatch, edicao):
     monkeypatch.setenv("TRITON_EDITION", edicao)
     from triton.core.study_layout import generate_study_layout

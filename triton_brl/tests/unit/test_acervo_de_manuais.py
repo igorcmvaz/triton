@@ -76,7 +76,7 @@ def _manuais_completos_anunciados():
 
 
 def test_a_aba_anuncia_o_manual_completo_da_edicao():
-    """Cada edição publica um manual: o inglês na INT, o português na BRL e na PRT."""
+    """Cada edição publica um manual: o inglês na INT, o português na BRL e na IBE."""
     from triton.core.edition import get_current_edition
     esperado = "manual/en/Triton-User-Manual.pdf" if get_current_edition() == "INT" else "manual/Manual-Triton.pdf"
     assert [a for a, _ in _manuais_completos_anunciados()] == [esperado]

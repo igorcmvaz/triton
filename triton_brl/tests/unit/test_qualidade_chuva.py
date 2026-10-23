@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Nível de qualidade da chuva (A, B, C): a fórmula única, em qualquer edição (sem o banco).
 
-Os testes que leem o banco de Portugal estão em ``test_qualidade_chuva_prt.py`` (só a PRT).
+Os testes que leem o banco de Portugal estão em ``test_qualidade_chuva_ibe.py`` (só a IBE).
 """
 import itertools
 import json
@@ -132,8 +132,8 @@ def test_a_chuva_fora_da_edicao_com_o_banco_nao_tem_dado_de_portugal():
     """Em INT e BRL não há dado de Portugal: nem o banco, nem a tabela, nem a linha de cobertura inventada."""
     from triton.core import base_climatica_portugal as pt
     from triton.core.edition import get_current_edition
-    if get_current_edition() == "PRT":
-        pytest.skip("a PRT traz o banco")
+    if get_current_edition() == "IBE":
+        pytest.skip("a IBE traz o banco")
     assert pt.caminho_da_base() is None and not pt.disponivel()
     assert not os.path.exists(os.path.join(RAIZ, "data", "portugal_eobs.db"))
     assert not Q.tem_qualidade() and Q.qualidade_do_concelho("Lisboa") is None and Q.contagem_por_nivel() == {}

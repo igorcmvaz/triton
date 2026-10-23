@@ -6229,7 +6229,7 @@ def test_forchheimer_calculation_and_materials_list(tmp_path):
 
 
 # ==================================================================================================
-# Edições: português de Portugal (Edição PRT)
+# Edições: português de Portugal (Edição IBE)
 # ==================================================================================================
 
 @pytest.mark.parametrize('brasil, portugal', [
@@ -6259,9 +6259,9 @@ def test_glossario_de_portugal_respeita_a_fronteira_de_palavra(texto):
 
 def test_edicao_portugal_pede_dados_de_portugal_e_nao_do_brasil(monkeypatch):
     from triton.core import edition as E
-    monkeypatch.setenv('TRITON_EDITION', 'PRT')
-    assert E.is_prt_edition() and E.usa_dados_de_portugal() and not E.usa_dados_do_brasil()
-    assert E.rotulo_da_edicao() == 'Edição Portugal (PRT)' and E.rotulo_da_edicao(curto=True) == 'PRT'
+    monkeypatch.setenv('TRITON_EDITION', 'IBE')
+    assert E.is_ibe_edition() and E.usa_dados_de_portugal() and not E.usa_dados_do_brasil()
+    assert E.rotulo_da_edicao() == 'Edição Ibérica (IBE)' and E.rotulo_da_edicao(curto=True) == 'IBE'
     assert E.get_edition_currency_symbol() == '€'
     assert E.manual_do_usuario('pt') == E.MANUAL_PT
     monkeypatch.setenv('TRITON_EDITION', 'XYZ')
@@ -6271,7 +6271,7 @@ def test_edicao_portugal_pede_dados_de_portugal_e_nao_do_brasil(monkeypatch):
 
 
 # ---------------------------------------------------------------------------
-# Edição Portugal: base E-OBS por concelho (data/portugal_eobs.db)
+# Edição Ibérica: base E-OBS por concelho (data/portugal_eobs.db)
 # ---------------------------------------------------------------------------
 
 def _base_portugal():
@@ -6323,7 +6323,7 @@ def test_projeto_com_chuva_da_e_obs_guarda_referencia_e_relê_igual_na_cli(tmp_p
 
 
 # ---------------------------------------------------------------------------
-# Edição Portugal: a fatura (água, saneamento, resíduos, TRH, IVA) nos campos do motor
+# Edição Ibérica: a fatura (água, saneamento, resíduos, TRH, IVA) nos campos do motor
 # ---------------------------------------------------------------------------
 
 def _fatura_sintetica():
@@ -6597,7 +6597,7 @@ def test_laudo_ambiental_so_mostra_selos_brasileiros_na_brasil(monkeypatch):
     from triton.core.report_service import generate_report_html
     monkeypatch.setenv('TRITON_EDITION', 'BRL')
     assert 'AQUA-HQE Residencial' in generate_report_html("environmental", {}, lang="pt")
-    for edicao in ('INT', 'PRT'):
+    for edicao in ('INT', 'IBE'):
         monkeypatch.setenv('TRITON_EDITION', edicao)
         html = generate_report_html("environmental", {}, lang="pt")
         assert 'AQUA-HQE Residencial' not in html and 'Casa Azul + CAIXA' not in html, edicao

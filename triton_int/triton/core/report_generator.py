@@ -52,7 +52,7 @@ def _edicao() -> str:
 
     rotulo = rotulo_da_edicao()
     if get_current_lang() == "en":
-        return {"Edição Portugal (PRT)": "Portugal Edition (PRT)", "Edição Brasil (BRL)": "Brazil Edition (BRL)"}.get(rotulo, rotulo)
+        return {"Edição Ibérica (IBE)": "Iberian Edition (IBE)", "Edição Brasil (BRL)": "Brazil Edition (BRL)"}.get(rotulo, rotulo)
     return rotulo
 
 
@@ -62,10 +62,10 @@ def _edicao() -> str:
 
 def _normas_do_laudo(is_en: bool = False) -> str:
     """O campo «Conformidade Normativa»: Brasil como sempre; Portugal EN 16941-1; Internacional sem norma citada."""
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if _brasil():
         return _ed.normas_do_laudo(is_en)
-    if is_prt_edition():
+    if is_ibe_edition():
         return ("EN 16941-1 and applicable national regulations" if is_en
                 else "EN 16941-1 e regulamentação nacional aplicável")
     return ("Codes and standards applicable at the project site, to be stated by the responsible engineer" if is_en
@@ -85,7 +85,7 @@ def _credito_do_grupo(is_en: bool = False, com_ufsc: bool = True) -> str:
 
 
 def _aviso_de_custos(project_data: Dict[str, Any], is_en: bool = False) -> str:
-    """Aviso de custos em branco (INT e PRT): investimento, manutenção e eletricidade não informados.
+    """Aviso de custos em branco (INT e IBE): investimento, manutenção e eletricidade não informados.
 
     Os exemplos das edições Internacional e Portugal não trazem custos locais, e o programa não os
     inventa. Sem eles, a economia é só a da conta de água: payback e VPL não têm sentido, e o laudo
@@ -96,11 +96,11 @@ def _aviso_de_custos(project_data: Dict[str, Any], is_en: bool = False) -> str:
     capex = _numero_ou_none((project_data or {}).get("capex"))
     if not ((project_data or {}).get("custos_nao_informados") or not capex):
         return ""
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if is_en:
         return ("Investment, maintenance and electricity costs were not informed: the economic result shows only the savings "
                 "on the water bill; payback and NPV are not meaningful until costs are entered.")
-    if is_prt_edition():
+    if is_ibe_edition():
         return ("Os custos de investimento, manutenção e eletricidade não foram indicados: o resultado económico mostra apenas "
                 "a poupança na fatura da água; o período de retorno e o VAL não têm significado até que os custos sejam introduzidos.")
     return ("Os custos de investimento, manutenção e eletricidade não foram informados: o resultado econômico mostra apenas "
@@ -108,14 +108,14 @@ def _aviso_de_custos(project_data: Dict[str, Any], is_en: bool = False) -> str:
 
 
 def _aviso_de_rede(project_data: Dict[str, Any], is_en: bool = False) -> str:
-    """Aviso de fator de emissão da rede elétrica em branco (INT e PRT)."""
+    """Aviso de fator de emissão da rede elétrica em branco (INT e IBE)."""
     if _brasil() or not (project_data or {}).get("fator_rede_nao_informado"):
         return ""
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if is_en:
         return ("The grid emission factor was not informed: the emissions from pumping electricity are not meaningful "
                 "until it is entered.")
-    if is_prt_edition():
+    if is_ibe_edition():
         return ("O fator de emissão da rede elétrica não foi indicado: as emissões da eletricidade de bombagem não têm "
                 "significado até que seja introduzido.")
     return ("O fator de emissão da rede elétrica não foi informado: as emissões da eletricidade de bombeamento não têm "
@@ -153,7 +153,7 @@ def _registro_profissional(is_en: bool = False, tipo: str = "executivo") -> str:
 
 
 def _rodape_da_chuva(project_data: Dict[str, Any], is_en: bool = False) -> str:
-    """Licença, citação, nível de qualidade e cobertura da chuva E-OBS, no fecho de todo laudo da edição IBE/PRT.
+    """Licença, citação, nível de qualidade e cobertura da chuva E-OBS, no fecho de todo laudo da edição IBE.
 
     Vazio nas outras edições. O conteúdo vem de ``triton.core.licenca_eobs.rodape_do_laudo``.
     """
@@ -176,11 +176,11 @@ def _norma_do_cabecalho(prefixo: str = "", sufixo: str = "") -> str:
 
 def _frase_da_norma(is_en: bool, contexto: str) -> str:
     """Trecho de frase que cita a base normativa do dossiê, por edição e idioma."""
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if _brasil():
         pt = {"diretrizes": "as diretrizes da norma ABNT NBR 15527:2019", "parametros": "a norma ABNT NBR 15527:2019"}
         en = {"diretrizes": "ABNT NBR 15527:2019 guidelines", "parametros": "ABNT NBR 15527:2019"}
-    elif is_prt_edition():
+    elif is_ibe_edition():
         pt = {"diretrizes": "as diretrizes da norma EN 16941-1", "parametros": "a norma EN 16941-1"}
         en = {"diretrizes": "EN 16941-1 guidelines", "parametros": "EN 16941-1"}
     else:
@@ -192,10 +192,10 @@ def _frase_da_norma(is_en: bool, contexto: str) -> str:
 
 
 def _referencia_norma_li(is_en: bool = False) -> str:
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if _brasil():
         return "<li><b>ABNT NBR 15527:2019</b> — Aproveitamento de água de chuva de coberturas para fins não potáveis — Requisitos.</li>"
-    if is_prt_edition():
+    if is_ibe_edition():
         return ("<li><b>EN 16941-1</b> — " + ("On-site non-potable water systems — Part 1: Systems for the use of rainwater."
                 if is_en else "Sistemas locais de água não potável — Parte 1: sistemas de aproveitamento de água da chuva.") + "</li>")
     return ""
@@ -212,7 +212,7 @@ def _referencia_grid_li(is_en: bool = False) -> str:
 
 
 def _aviso_responsabilidade_ambiental(is_en: bool = False) -> str:
-    from triton.core.edition import is_prt_edition
+    from triton.core.edition import is_ibe_edition
     if _brasil():
         if is_en:
             return ("This environmental report was generated by Triton following ABNT NBR 15527:2019 and ISO 14040/14044 guidelines. "
@@ -222,11 +222,11 @@ def _aviso_responsabilidade_ambiental(is_en: bool = False) -> str:
                 "(ACV simplificada). Os fatores de emissão adotados representam cenários médios de triagem de engenharia e devem ser "
                 "validados pelo(a) especialista ambiental e projetista responsável de acordo com as EPDs dos fornecedores e matriz regional da concessionária.")
     if is_en:
-        base = "EN 16941-1 and ISO 14040/14044 guidelines" if is_prt_edition() else "the applicable technical standards and the ISO 14040/14044 guidelines"
+        base = "EN 16941-1 and ISO 14040/14044 guidelines" if is_ibe_edition() else "the applicable technical standards and the ISO 14040/14044 guidelines"
         return (f"This environmental report was generated by Triton following {base}. Emission factors represent screening "
                 "engineering scenarios and must be validated by the responsible environmental professional against supplier EPDs "
                 "and the parameters of the local grid and water supply.")
-    base = "da norma EN 16941-1 e da ISO 14040/14044" if is_prt_edition() else "das normas técnicas aplicáveis e da ISO 14040/14044"
+    base = "da norma EN 16941-1 e da ISO 14040/14044" if is_ibe_edition() else "das normas técnicas aplicáveis e da ISO 14040/14044"
     return (f"Este laudo ambiental foi gerado pelo Triton seguindo as diretrizes {base} (ACV simplificada). Os fatores de emissão "
             "adotados representam cenários médios de triagem de engenharia e devem ser validados pelo(a) especialista ambiental e "
             "projetista responsável de acordo com as EPDs dos fornecedores e os parâmetros da rede elétrica e do abastecimento locais.")
@@ -239,12 +239,12 @@ def _localize_report_markup(html: str) -> str:
         html = _translate_composite(html, _SPANISH_PHRASES)
     elif lang == "zh":
         html = _translate_composite(html, _CHINESE_PHRASES)
-    from triton.core.edition import is_prt_edition
-    if is_prt_edition() and lang == "pt":
+    from triton.core.edition import is_ibe_edition
+    if is_ibe_edition() and lang == "pt":
         # Na Portugal o laudo em português é o de Portugal: vocabulário do glossário da interface.
         from triton.ui.portugues_de_portugal import para_portugal
         html = laudo_em_portugal(para_portugal(html))
-    return html.replace('lang="pt-BR"', f'lang="{"pt-PT" if (is_prt_edition() and lang == "pt") else lang}"')
+    return html.replace('lang="pt-BR"', f'lang="{"pt-PT" if (is_ibe_edition() and lang == "pt") else lang}"')
 
 
 def _moeda(project_data: Dict[str, Any]) -> str:
@@ -1990,7 +1990,7 @@ def generate_research_html_report(
     current_year = datetime.now().year
 
     html = f"""<!DOCTYPE html>
-<html lang='{'pt-PT' if (lang == 'pt' and not _brasil() and _ed.is_prt_edition()) else lang}'>
+<html lang='{'pt-PT' if (lang == 'pt' and not _brasil() and _ed.is_ibe_edition()) else lang}'>
 <head>
 <meta charset='UTF-8'>
 <title>{t('title')} - Triton</title>

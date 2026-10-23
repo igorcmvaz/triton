@@ -104,7 +104,7 @@ class TabProject(QWidget):
         A base das 652 cidades é distribuída separadamente. Sem ela, a janela
         abria sem chuva nenhuma, e todas as etapas seguintes ficavam sem dados.
         """
-        from triton.core.edition import usa_dados_do_brasil, is_prt_edition
+        from triton.core.edition import usa_dados_do_brasil, is_ibe_edition
         # A base nacional da edição: a CLIMBra na Brasil, a E-OBS na Portugal. Na
         # International não há nenhuma, ainda que a CLIMBra esteja na pasta (rodando do
         # código-fonte): o botão da base fica oculto, e a etapa abria com o painel e a
@@ -133,7 +133,7 @@ class TabProject(QWidget):
                 "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. "
                 "Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil."
             )
-        elif is_prt_edition():
+        elif is_ibe_edition():
             aviso = tr(
                 "Base E-OBS indisponível: aberta a série de exemplo do Funchal. "
                 "Carregue a série diária de chuva do seu concelho."
@@ -611,7 +611,7 @@ class TabProject(QWidget):
         self.init_climate_and_tariff_ui()
 
     def _preparar_painel_portugal(self):
-        """Na Edição Portugal: distritos e concelhos, e a E-OBS como única série (observada)."""
+        """Na Edição Ibérica: distritos e concelhos, e a E-OBS como única série (observada)."""
         from triton.core import base_climatica_portugal as _pt
         self.lbl_climate_uf.setText(f"<b>{tr('Distrito / ilha:')}</b>")
         self.lbl_climate_city.setText(f"<b>{tr('Concelho:')}</b>")
@@ -924,7 +924,7 @@ class TabProject(QWidget):
         self.update_tariff_location_preview()
 
     def _preview_portugal(self, city_name: str):
-        """O quadro do tarifário na Edição Portugal: entidades, vigência e fontes."""
+        """O quadro do tarifário na Edição Ibérica: entidades, vigência e fontes."""
         from triton.core import tarifarios_portugal as _tp
         d = _tp.carregar().get(city_name)
         if d is None:

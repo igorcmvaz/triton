@@ -1,9 +1,9 @@
 """
 Configuração global do Pytest para a suíte do Triton.
 
-Este arquivo é IDÊNTICO nas três edições (triton_brl, triton_int, triton_prt): a edição
+Este arquivo é IDÊNTICO nas três edições (triton_brl, triton_int, triton_ibe): a edição
 vem da variável TRITON_EDITION e, se ela não estiver definida, do nome da pasta em que a
-suíte está (`triton_brl` -> BRL, `triton_int` -> INT, `triton_prt` -> PRT; qualquer outro
+suíte está (`triton_brl` -> BRL, `triton_int` -> INT, `triton_ibe` -> IBE; qualquer outro
 nome -> BRL, o padrão do programa). Assim `python -m pytest` dentro de uma pasta de edição
 testa aquela edição, com ou sem a variável.
 
@@ -24,7 +24,7 @@ Dois arquivos de texto, ao lado deste, dizem o que só faz sentido com os dados 
 
 - ``so_da_brl.txt``: depende de dado brasileiro (banco de 652 municípios, CLIMBra, CASAN...).
   Fora da BRL, é saltado.
-- ``so_da_prt.txt``: depende de dado de Portugal (tarifários, base E-OBS). Fora da PRT, é saltado.
+- ``so_da_ibe.txt``: depende de dado de Portugal (tarifários, base E-OBS). Fora da IBE, é saltado.
 
 Cada linha é um arquivo inteiro (``tests/unit/x.py``, que nem é importado) ou um teste
 (``tests/unit/x.py::test_y``, ``tests/x.py::Classe::test_y``; vale também para as variantes
@@ -38,8 +38,8 @@ import sys
 
 import pytest
 
-_SINONIMOS = {"POR": "PRT", "IBE": "PRT"}
-_PASTAS = {"triton_brl": "BRL", "triton_int": "INT", "triton_prt": "PRT"}
+_SINONIMOS = {"POR": "IBE", "PRT": "IBE"}
+_PASTAS = {"triton_brl": "BRL", "triton_int": "INT", "triton_ibe": "IBE"}
 
 
 def _edicao_da_suite() -> str:
@@ -135,7 +135,7 @@ TESTES_QUE_EXIGEM_BASE_CLIMATICA = {
 
 _PASTA = os.path.dirname(os.path.abspath(__file__))
 #: Nome do arquivo de lista -> a edição que tem os dados.
-LISTAS_POR_EDICAO = {"so_da_brl.txt": "BRL", "so_da_prt.txt": "PRT"}
+LISTAS_POR_EDICAO = {"so_da_brl.txt": "BRL", "so_da_ibe.txt": "IBE"}
 
 
 def ler_lista(nome_do_arquivo: str):

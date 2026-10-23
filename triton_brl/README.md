@@ -193,7 +193,7 @@ python build_exe.py --clean --onefile
 # Compilação com geração automática do instalador Inno Setup (.exe):
 python build_exe.py --clean --installer
 
-# Outras edições (dist/Triton_INT/, dist/Triton_PRT/), cada uma no seu repositório de código:
+# Outras edições (dist/Triton_INT/, dist/Triton_IBE/), cada uma no seu repositório de código:
 python build_exe.py --edition int         # só faz sentido a partir de triton_int/
 python build_exe.py --edition all --clean # as três
 ```

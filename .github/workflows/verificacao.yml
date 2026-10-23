@@ -1,6 +1,6 @@
 name: Verificação
 
-# Um repositório, três edições (triton_brl, triton_int, triton_prt). Cada edição roda a
+# Um repositório, três edições (triton_brl, triton_int, triton_ibe). Cada edição roda a
 # própria suíte, na própria pasta. A suíte numérica roda sem a stack gráfica (ver
 # tests/conftest.py). A matriz com e sem `numba` existe porque o programa alterna entre
 # dois kernels de balanço hídrico conforme a biblioteca esteja instalada: sem ela, a
@@ -32,11 +32,11 @@ jobs:
       run:
         working-directory: ${{ matrix.dir }}
     env:
-      TRITON_EDITION: ${{ fromJSON('{"triton_brl":"BRL","triton_int":"INT","triton_prt":"PRT"}')[matrix.dir] }}
+      TRITON_EDITION: ${{ fromJSON('{"triton_brl":"BRL","triton_int":"INT","triton_ibe":"IBE"}')[matrix.dir] }}
     strategy:
       fail-fast: false
       matrix:
-        dir: [triton_brl, triton_int, triton_prt]
+        dir: [triton_brl, triton_int, triton_ibe]
         python: ["3.12", "3.13"]
         kernel: [python, jit]
         exclude:

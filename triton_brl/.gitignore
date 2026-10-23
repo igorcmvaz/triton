@@ -133,7 +133,7 @@ tarifas/entrada/*
 !tarifas/entrada/LEIAME.md
 
 
-# Edição Portugal: fontes brutas (E-OBS, CAOP), vários GB; só a base derivada vai no programa
+# Edição Ibérica (IBE): fontes brutas (E-OBS, CAOP), vários GB; só a base derivada vai no programa
 data/portugal/fontes/
 tarifas_portugal/fontes/_fora_do_tema/
 tarifas_portugal/fontes/_secundarios/

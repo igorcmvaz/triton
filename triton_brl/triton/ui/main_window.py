@@ -97,7 +97,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(tr(APP_TITLE))
         from triton.core.edition import usa_dados_de_portugal as _pt_ed, get_edition_title as _titulo
         if _pt_ed():
-            # Edição IBE/PRT: o título leva a linha de cobertura lida do banco de chuva.
+            # Edição IBE: o título leva a linha de cobertura lida do banco de chuva.
             self.setWindowTitle(_titulo())
         self.resize(1280, 760)
         self.setMinimumSize(900, 600)
@@ -116,7 +116,7 @@ class MainWindow(QMainWindow):
             os.path.join("icons", "icon.ico"),
             os.path.join("icons", "triton_brl.png"),
             os.path.join("icons", "triton_int.png"),
-            os.path.join("icons", "triton_prt.png"),
+            os.path.join("icons", "triton_ibe.png"),
             os.path.join("icons", "triton.png"),
             os.path.join("icons", "icon.png"),
             os.path.join("icons", "Triton2.png"),
@@ -294,7 +294,7 @@ class MainWindow(QMainWindow):
 
 
     def _criar_linha_de_cobertura(self):
-        """A linha «Cobertura: ...» da tela inicial da edição IBE/PRT, lida do banco; None nas outras edições."""
+        """A linha «Cobertura: ...» da tela inicial da edição IBE, lida do banco; None nas outras edições."""
         from triton.core.edition import usa_dados_de_portugal
         if not usa_dados_de_portugal():
             return None

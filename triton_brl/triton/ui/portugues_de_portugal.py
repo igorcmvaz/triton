@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Português de Portugal para a Edição Portugal (PRT).
+"""Português de Portugal para a Edição Ibérica (IBE).
 
-O catálogo da interface é escrito em português do Brasil. Na Edição Portugal, o mesmo
+O catálogo da interface é escrito em português do Brasil. Na Edição Ibérica, o mesmo
 texto passa por este glossário, que troca o vocabulário — e não a gramática — pelo de
 Portugal: VPL por VAL, arquivo por ficheiro, usuário por utilizador, esgoto por
 saneamento. A troca respeita a fronteira de palavra e a caixa (minúscula, inicial

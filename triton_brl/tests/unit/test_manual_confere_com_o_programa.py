@@ -18,7 +18,7 @@ sempre: o conjunto de testes sai da edição ativa (`TRITON_EDITION`).
 - **BRL**: o conjunto original (tutorial de Florianópolis, texto em português), sem mudança.
 - **INT**: o conjunto `test_int_*`, no fim do arquivo (tutorial de Nova York, Londres e Cidade
   do Cabo, custos ilustrativos, texto em inglês); o resto é saltado, exceto os `NEUTROS`.
-- **PRT**: o conjunto `test_prt_*`, no fim do arquivo (tutorial de Lisboa, Porto e Funchal, custos
+- **IBE**: o conjunto `test_prt_*`, no fim do arquivo (tutorial de Lisboa, Porto e Funchal, custos
   ilustrativos em euros, texto em português de Portugal); o resto é saltado, exceto os `NEUTROS`.
 """
 
@@ -48,7 +48,7 @@ NEUTROS = {
 
 @pytest.fixture(autouse=True)
 def _conjunto_da_edicao(request):
-    """Escolhe o conjunto de testes pela edição: BRL o original, INT os `test_int_*`, PRT os `test_prt_*`."""
+    """Escolhe o conjunto de testes pela edição: BRL o original, INT os `test_int_*`, IBE os `test_prt_*`."""
     nome = request.node.name.split("[")[0]
     if EDICAO == "BRL":
         if nome.startswith(("test_int_", "test_prt_")):
@@ -58,7 +58,7 @@ def _conjunto_da_edicao(request):
             pytest.skip("conjunto da Edição Brasil; a INT usa os test_int_* (fim do arquivo)")
     else:
         if not nome.startswith("test_prt_") and nome not in NEUTROS:
-            pytest.skip("conjunto da Edição Brasil; a PRT usa os test_prt_* (fim do arquivo)")
+            pytest.skip("conjunto da Edição Brasil; a IBE usa os test_prt_* (fim do arquivo)")
 
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -1733,7 +1733,7 @@ def test_int_os_casos_de_modulacao_abrem_com_a_modulacao_montada():
 
 
 def test_int_os_casos_e_as_tabelas_nao_trazem_nada_do_brasil_nem_de_portugal():
-    """Nenhum arquivo de caso, README, resultado ou tabela da INT cita cidade, norma ou moeda da BRL/PRT."""
+    """Nenhum arquivo de caso, README, resultado ou tabela da INT cita cidade, norma ou moeda da BRL/IBE."""
     achados = []
     arquivos = [os.path.join(INT_CASOS, f) for f in sorted(os.listdir(INT_CASOS))
                 if f.endswith((".triton", ".json", ".md", ".csv"))]
@@ -1795,10 +1795,10 @@ def test_int_o_capitulo_cita_os_numeros_do_programa(arquivo):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Edição Portugal (PRT): Lisboa, Porto e Funchal
+# Edição Ibérica (IBE): Lisboa, Porto e Funchal
 # ══════════════════════════════════════════════════════════════════════════════
 #
-# O tutorial da PRT é a mesma casa (150 m², 4 residentes, 150 L/hab·dia, 28% não potável) em Lisboa,
+# O tutorial da IBE é a mesma casa (150 m², 4 residentes, 150 L/hab·dia, 28% não potável) em Lisboa,
 # com a chuva E-OBS por concelho (normal 1991-2020, `data/portugal_eobs.db`) e o tarifário transcrito
 # em `triton/data/portugal_tarifarios.json`; o Porto (E-OBS) e o Funchal (ERA5, `data/rainfall/Funchal.csv`)
 # são as cidades de comparação. Os custos são ILUSTRATIVOS (euros, números redondos declarados em
@@ -1830,7 +1830,7 @@ PRT_CUSTOS = dict(cost_labor=1500.0, cost_piping=600.0, cost_accessories=800.0, 
                   sewage_tariff_escalation=3.0, elec_tariff_escalation=3.0)
 PRT_PRECO_DO_TANQUE = {"PEAD": (100.0, 0.55), "CONCRETO": (600.0, 0.40)}   # base + por litro, ilustrativo
 PRT_FATOR_REDE, PRT_FATOR_AGUA = 0.40, 0.50                                # kg CO2e, ilustrativos
-#: Termos do Brasil que não podem aparecer nos ficheiros de caso e nas tabelas da PRT.
+#: Termos do Brasil que não podem aparecer nos ficheiros de caso e nas tabelas da IBE.
 PRT_TERMOS_PROIBIDOS = ("Florianópolis", "Florianopolis", "Manaus", "Brasília", "São Paulo", "CLIMBra",
                         "CMIP6", "CASAN", "R$", "NBR", "Netuno", "Santa Catarina", "IPTU", "SABESP")
 
@@ -1924,7 +1924,7 @@ def _prt_lido(caminho):
 def _prt_capitulo(arquivo):
     """Capítulo em português de Portugal com as tabelas incluídas; salta se o texto ainda cita o Brasil.
 
-    O texto da PRT é escrito à parte (`manual/partes`). Enquanto o capítulo ainda cita algo do Brasil
+    O texto da IBE é escrito à parte (`manual/partes`). Enquanto o capítulo ainda cita algo do Brasil
     (`PRT_TERMOS_PROIBIDOS`: cidades, CLIMBra, R$, NBR...), as asserções sobre o que ele cita ficam
     saltadas; assim que o capítulo deixa de o citar e passa a falar de Lisboa, elas valem.
     """
@@ -1939,7 +1939,7 @@ def _prt_capitulo(arquivo):
     texto = _prt_normalizado(chr(10).join(saida))
     ainda = [x for x in PRT_TERMOS_PROIBIDOS if x in texto]
     if ainda:
-        pytest.skip(f"{arquivo} ainda não foi reapoiado nas cidades da PRT (cita {', '.join(ainda[:3])})")
+        pytest.skip(f"{arquivo} ainda não foi reapoiado nas cidades da IBE (cita {', '.join(ainda[:3])})")
     return texto
 
 
@@ -2351,7 +2351,7 @@ def test_prt_os_casos_de_modulacao_abrem_com_a_modulacao_montada():
 
 
 def test_prt_os_casos_e_as_tabelas_nao_trazem_nada_do_brasil():
-    """Nenhum ficheiro de caso, README, resultado ou tabela da PRT cita cidade, norma ou moeda da BRL."""
+    """Nenhum ficheiro de caso, README, resultado ou tabela da IBE cita cidade, norma ou moeda da BRL."""
     achados = []
     arquivos = [os.path.join(PRT_CASOS, f) for f in sorted(os.listdir(PRT_CASOS))
                 if f.endswith((".triton", ".json", ".md", ".csv"))]

@@ -11,7 +11,7 @@ modelos). Os relatórios impressos pela análise seguem o idioma do código-font
 
 from __future__ import annotations
 
-from triton.core.edition import is_int_edition, is_prt_edition
+from triton.core.edition import is_int_edition, is_ibe_edition
 
 _EN = {
     'Triton CLI: simulação, economia, ACV, TOPSIS e automação reproduzível.':
@@ -115,7 +115,7 @@ def t(texto: str) -> str:
     """O texto da edição ativa: o original na Brasil, o inglês na Internacional, o glossário na Portugal."""
     if is_int_edition():
         return _EN.get(texto, texto)
-    if is_prt_edition():
+    if is_ibe_edition():
         from triton.ui.portugues_de_portugal import para_portugal
         return para_portugal(texto)
     return texto
