@@ -161,7 +161,7 @@ referência), `tmp/`, e os laudos gerados em `reports/` (exceto `reports/exemplo
 ## 🚀 Instalação e Execução
 
 ### Pré-requisitos
-- Para usar: o instalador `.exe` para Windows já traz tudo, sem Python.
+- Para usar sem Python: o instalador `.exe` para Windows (traz tudo) ainda não está publicado; até lá, rode a partir do código.
 - Para desenvolver ou rodar a partir do código: Python 3.12 ou superior (o código usa a sintaxe de f-strings do 3.12).
 
 ### 1. Instalação em Modo de Desenvolvimento

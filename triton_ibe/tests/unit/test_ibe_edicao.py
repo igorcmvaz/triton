@@ -60,8 +60,9 @@ def test_o_nome_ibe_e_o_visivel_e_nao_sobra_portugal_pt_no_rotulo(monkeypatch):
     assert "PRT" not in E.rotulo_da_edicao() and "Portugal" not in E.rotulo_da_edicao()
 
 
-def test_edicao_invalida_continua_a_cair_na_brl(monkeypatch):
+def test_edicao_invalida_cai_na_edicao_da_pasta(monkeypatch):
+    """Valor desconhecido: a edição da pasta (BRL na Brasil, como antes; INT e IBE nas suas)."""
     monkeypatch.setenv("TRITON_EDITION", "XYZ")
-    assert E.get_current_edition() == "BRL"
+    assert E.get_current_edition() == E.edicao_da_instalacao()
     with pytest.raises(ValueError):
         E.set_current_edition("XYZ")

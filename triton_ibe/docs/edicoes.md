@@ -47,6 +47,7 @@ negativa; a Edição Ibérica recebe a resposta neutra a `usa_dados_do_brasil()`
 | :--- | :--- |
 | `triton/cli.py` | `init`, `init-catalog` e o modelo de planilha partem da fábrica da edição (`configuracao_da_edicao`) e da série de exemplo dela; fora da Brasil, sem tarifa, preço, IPTU Verde nem fator de rede de partida; `compare-mass` e `run-vaz-study` (replicação do Brasil) só na Brasil; a ajuda sai em inglês (INT) ou português de Ibérica (IBE) |
 | `triton/cli_textos.py` | textos da ajuda e das mensagens da linha de comando por edição (inglês na International, glossário de Portugal na Portugal) |
+| `triton/core/cost_estimates.py` | banco de custos: fora da Brasil o arquivo `costs_database.json` não traz preços e o estimador devolve zero (o usuário informa os custos) |
 | `triton/core/bibliography.py` | a lista de referências deixa de fora, fora da Brasil, os registros que citam normas, bases e fabricantes brasileiros |
 | `triton/core/cad_exporter.py` | selo e camadas do desenho técnico (DXF e SVG) sem norma nacional fora da Brasil |
 | `triton/core/dados_do_relatorio.py` | dados dos laudos que dependem da edição: normas, registro profissional e entidade que abastece o local |

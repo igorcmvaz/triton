@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Base de precipitação diária por concelho da Edição Ibérica (IBE).
 
-A base (``data/portugal_eobs.db``) é compilada por ``scripts/compilar_base_eobs_portugal.py``
+A base (``data/portugal_eobs.db``) é compilada por ``scripts/dados/compilar_base_eobs_portugal.py`` (na pasta da IBE)
 a partir da E-OBS v33.0e (grade de 0,1°, 1950–2025) e dos limites da CAOP2025: a série de
 cada concelho é a média das células da grade com centro dentro do município. Os Açores
 ficam fora do domínio da E-OBS e aparecem como não cobertos, sem série emprestada.

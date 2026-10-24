@@ -19,6 +19,7 @@ The question every screen asks before offering a national datum is `usa_dados_do
 | :--- | :--- |
 | `triton/cli.py` | `init`, `init-catalog` and the scenario spreadsheet template start from the edition factory (`configuracao_da_edicao`) and its sample series; outside Brazil there is no preset tariff, price, green-tax incentive or grid factor; `compare-mass` and `run-vaz-study` (replication of the Brazilian study) exist only in the Brazil Edition; the help is in English (INT) or European Portuguese (IBE) |
 | `triton/cli_textos.py` | help and message texts of the command line by edition (English in the International Edition, the Portugal glossary in the Iberian Edition) |
+| `triton/core/cost_estimates.py` | cost bank: outside the Brazil Edition `costs_database.json` carries no prices and the estimator returns zero (the user enters the costs) |
 | `triton/core/bibliography.py` | outside Brazil the reference list leaves out the records that cite Brazilian standards, databases and manufacturers |
 | `triton/core/cad_exporter.py` | title block and layers of the technical drawing (DXF and SVG) without a national standard outside Brazil |
 | `triton/core/dados_do_relatorio.py` | report data that depends on the edition: standards, professional registration and the entity that supplies the site |
