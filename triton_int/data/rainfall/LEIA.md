@@ -1,13 +1,13 @@
-# Séries de chuva de exemplo (INT)
+# Example rainfall series (INT)
 
-| Arquivo | Local | Período | Fonte |
+| File | Location | Period | Source |
 |---|---|---|---|
-| `NewYork.csv` | Nova York (ponto de grade de Manhattan, 40,81 N, 74,02 O) | 01/01/1991 a 31/12/2020, 10.958 dias | Open-Meteo, reanálise ERA5 |
-| `London.csv` | Londres (51,49 N, 0,16 O) | idem | idem |
-| `CapeTown.csv` | Cidade do Cabo (33,99 S, 18,43 L) | idem | idem |
+| `NewYork.csv` | New York (grid point in Manhattan, 40.81 N, 74.02 W) | 01/01/1991 to 31/12/2020, 10,958 days | Open-Meteo, ERA5 reanalysis |
+| `London.csv` | London (51.49 N, 0.16 W) | same | same |
+| `CapeTown.csv` | Cape Town (33.99 S, 18.43 E) | same | same |
 
-Formato: um valor por linha, precipitação diária em milímetros, sem data (a data inicial vem do projeto: 01/01/1991).
+Format: one value per line, daily precipitation in millimetres, no date (the start date, 01/01/1991, comes from the project).
 
-São dados de **reanálise** (ponto de grade de cerca de 9 km), não de pluviógrafo: servem de exemplo e de ponto de partida; para um projeto real, use a série medida do local.
+These are **reanalysis** data (a grid point of about 9 km), not rain-gauge records. They serve as examples and starting points; for a real project, use the series measured at the site.
 
-Atribuição: dados meteorológicos de Open-Meteo.com (licença CC BY 4.0), baseados na reanálise ERA5 do ECMWF (Copernicus Climate Change Service: Hersbach et al., 2020, *Q. J. R. Meteorol. Soc.* 146, 1999-2049). Obtidos em 14/10/2026 pela API de arquivo (`archive-api.open-meteo.com`).
+Attribution: weather data from Open-Meteo.com (CC BY 4.0), based on the ECMWF ERA5 reanalysis (Copernicus Climate Change Service: Hersbach et al., 2020, *Q. J. R. Meteorol. Soc.* 146, 1999-2049). Retrieved on 14/10/2026 from the archive API (`archive-api.open-meteo.com`).

@@ -119,7 +119,7 @@ Madeira e Açores não entram pela grelha: só com a série da estação (decis�
 - **Documentos tarifários** (tarifários e editais de EPAL, Câmara Municipal de Lisboa, Águas e Energia do Porto, Câmara Municipal do Funchal e outras entidades): cada um com URL de origem e SHA-256 em `FONTES.tsv` e em `examples/LEIA.md`. São documentos de terceiros, **não se redistribuem** (ficam no disco do mantenedor); o Git leva o registo.
 - **Entidade gestora por concelho**: índice «Pesquisa por concelho» da ERSAR (https://www.ersar.pt/docs/pesquisa-tarifa-concelho/tarifa-concelho.json), 2 331 registos de 2024 a 2026, 278 concelhos continentais; acedido em 23/10/2026, SHA-256 `20057b868191dda9f465d7652d3f80eb05cd490a8430d532a232c1f98a701fad`.
 - **Licença ERSAR** (avisos legais, https://www.ersar.pt/pt_avisos-legais.html): os materiais podem ser copiados ou distribuídos com a referência ao documento original em www.ersar.pt e o aviso «© ERSAR AAAA. Todos os direitos reservados». **Não é licença aberta**; obras derivadas não são tratadas. Os ficheiros derivados citam a ERSAR.
-- Os valores dos tarifários municipais são preços públicos regulados; a licença de reutilização dos sítios das entidades não foi verificada caso a caso.
+- Os valores dos tarifários municipais são preços públicos regulados. Termos de reutilização dos sítios das entidades (consulta de 24/10/2026): **Águas e Energia do Porto** (https://www.aguasdoporto.pt/): o rodapé só traz a linha «© Águas e Energia do Porto, EM 2014 - 2026» e ligações de privacidade e cookies; não se encontrou aviso legal nem termos de reutilização, logo nada autoriza nem proíbe expressamente a reprodução. **EPAL**: a página de aviso legal tentada devolveu 404. **Câmara Municipal de Lisboa, Câmara Municipal do Funchal e restantes entidades:** [A COMPLETAR]. Por isso os documentos não são redistribuídos e o Git leva só os valores transcritos, o URL e o SHA-256.
 
 ### Cobertura e período
 
@@ -202,3 +202,4 @@ Ferramentas do mantenedor (fora do Git): `importar_ersar.py` (índice da ERSAR e
 - Tabela `qualidade`: contém diferenças percentuais agregadas derivadas do Iberia01 (ODbL); não foi decidido se exige a ODbL.
 - `data/rainfall/LEIA.md`, sobre os exemplos, ainda cita o Funchal como exemplo ERA5, enquanto a decisão para as ilhas é série da estação.
 - Textos do manual e do aviso da E-OBS a rever antes da primeira distribuição.
+- Termos de reutilização dos sítios das entidades dos tarifários: ver §4 (Porto sem termos encontrados; as restantes [A COMPLETAR]).

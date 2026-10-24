@@ -59,7 +59,7 @@ Por região: as cinco macrorregiões e as 27 UF têm cobertura completa (todos o
 | Tamanho | 2,13 MiB no total |
 | Uso | Séries dos exemplos e dos casos do manual; carregadas por `triton/core/parser.py` (`data/rainfall/`) |
 
-Atenção: `triton/core/bibliography.py` registra como origem destas séries o BDMEP do INMET (acesso em 08/09/2026). A comparação acima mostra que são séries CLIMBra. A referência do INMET precisa ser revista pelo mantenedor (§9).
+Correção de 24/10/2026: `triton/core/bibliography.py` registrava o BDMEP do INMET como origem destas séries. A comparação acima mostra que são séries CLIMBra, e a nota da referência `inmet_bdmep` foi reescrita para dizer isso (o INMET fica como referência de séries medidas, não como origem dos arquivos).
 
 ## 4. Tarifas de água, esgoto e energia
 
@@ -78,7 +78,8 @@ Atenção: `triton/core/bibliography.py` registra como origem destas séries o B
 
 - **Saneamento.** Estruturas tarifárias lidas das páginas, resoluções e tabelas dos prestadores e das agências reguladoras (CAESB/ADASA, CASAN/ARESC, SANEPAR/AGEPAR, SABESP/ARSESP, CORSAN/AGERGS e outras), cada uma com URL no `tarifas/fontes/REGISTRO.md` e em `fonte_url`/`fonte_documento` do município. Referência nacional: SINISA (https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/saneamento/sinisa/resultados-sinisa) e lista positiva da Tarifa Social da ANA, para conferir prestadores.
 - **Energia.** Base aberta «Tarifas de aplicação das distribuidoras de energia elétrica» da ANEEL (https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e/resource/fcf2906c-7c32-4b9b-a637-054e7a5234f4), consultada em 24/08/2026. Valores em R$/kWh **sem** ICMS, PIS/Pasep, Cofins, COSIP nem bandeiras.
-- **Licença.** O repositório contém os números (fatos públicos regulados) e as referências, não os documentos: os PDF e páginas de terceiros ficam só no disco do mantenedor (`.gitignore`) e **não se redistribuem**. A licença de reutilização do conjunto aberto da ANEEL e dos portais dos prestadores não foi verificada neste repositório; o uso é de transcrição de valores públicos com a fonte citada. Para publicar a base tarifária como conjunto de dados à parte, conferir esses termos antes.
+- **Licença da base ANEEL.** A página do conjunto «Tarifas de aplicação das distribuidoras de energia elétrica» declara a **Licença Aberta para Bases de Dados (ODbL) do Open Data Commons** (https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e, acesso em 24/10/2026). A ODbL exige atribuição e que uma base derivada de uso público seja oferecida também em ODbL: os valores de energia do `brazil_cities_tariffs.json` (R$/kWh por distribuidora) são extraídos dessa base; se o JSON for publicado como conjunto de dados à parte, a atribuição à ANEEL e a oferta em ODbL precisam ser decididas. [A COMPLETAR: decisão do mantenedor sobre a ODbL para o JSON.]
+- **Licença.** O repositório contém os números (fatos públicos regulados) e as referências, não os documentos: os PDF e páginas de terceiros ficam só no disco do mantenedor (`.gitignore`) e **não se redistribuem**. A licença de reutilização dos portais dos prestadores e das agências não foi verificada um a um [A COMPLETAR]; o uso é de transcrição de valores públicos com a fonte citada.
 
 ### Cobertura, resolução e período
 
@@ -141,7 +142,13 @@ Municípios por UF e grau de confiança (banco de 05/10/2026):
 
 Particularidades: os 5 municípios de grau C estão no Tocantins; o Amazonas e o Rio de Janeiro concentram os B (11 de 12 e 18 de 37). A CORSAN, a COMUSA e o DMAE de Porto Alegre cobram por fórmula exponencial (36 municípios, `regime_tarifario` = `exponencial`), representada por expoentes transcritos. O banco registra 185 denominações de prestador de saneamento; a SABESP atende 76 municípios, a COPASA 47 e a EMBASA 41.
 
-Divergência a conhecer: o `PANORAMA_TARIFAS_E_CONFIABILIDADE.md` (corte de 24/08/2026) traz 620 municípios A e 32 B na confiança global e 74 energias expiradas; o banco de 05/10/2026 traz 584 A, 63 B, 5 C e 140 energias expiradas. Vale o banco, que é o que o programa lê; o panorama é uma fotografia anterior e deve ser regerado (§9).
+**Por que o panorama e o banco diferem** (verificado cruzando o `catalogo_tarifas_auditado_652.xlsx`, corte de 24/08/2026, com o `brazil_cities_tariffs.json`, de 05/10/2026):
+
+- O `confianca_grau` do banco acompanha o componente **saneamento**, e não o grau global do panorama (620 A / 32 B é o global; o saneamento era 586 A / 66 B em 24/08). Em 05/10 o saneamento é 584 A / 63 B / 5 C: 3 municípios subiram de B para A com os documentos transcritos depois do corte, e os 5 de Tocantins passaram de A (95 pontos) para C (55 pontos), porque a estrutura tarifária deles ficou «a conferir».
+- Os **valores de energia são idênticos** nos dois (0 diferenças nos 652). Só mudou o rótulo: 66 municípios cuja resolução ANEEL terminava entre 26 e 28/08/2026 (fim de vigência posterior ao corte de 24/08) aparecem como `EXPIRED_ANEEL_REF` no banco; somados aos 74 já expirados em 24/08 (42 da Equatorial Pará, 30 da CELESC e 2 da Sulgipe), dão os 140.
+- Vale o banco, que é o que o programa lê. O panorama é a fotografia de 24/08/2026; uma nota de atualização foi acrescentada ao topo dele.
+
+O `tarifas/catalogo_tarifas_auditado_652.csv` traz só o cabeçalho (274 bytes, sem linhas); a versão completa do catálogo é o `.xlsx`. [A COMPLETAR: regerar o CSV.]
 
 ### Carregamento, atualização e reprodução
 
@@ -153,13 +160,13 @@ Divergência a conhecer: o `PANORAMA_TARIFAS_E_CONFIABILIDADE.md` (corte de 24/0
 
 | Conjunto | Fonte e licença | Observação |
 | :--- | :--- | :--- |
-| Fator de emissão da rede elétrica (`fatores_emissao_rede_mcti.json`) | MCTI/SIRENE, «Fatores de emissão de CO₂ para inventários corporativos» (https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao), arquivo `Inventario_2026_janjul.xlsx`, recuperado em 08/09/2026, SHA-256 `e447b0f5421425778b1d47dbf92d6eb44cd598cffbb3ed6cf73febe37c919ac2` (arquivado em `data/fontes_externas/`). Licença: não verificada | Série de **CO₂ apenas**, não CO₂-equivalente; geração do SIN, sem perdas nem cadeia a montante. Declare o ano do fator (`docs/procedencia_fatores_co2.md`) |
+| Fator de emissão da rede elétrica (`fatores_emissao_rede_mcti.json`) | MCTI/SIRENE, «Fatores de emissão de CO₂ para inventários corporativos» (https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao), arquivo `Inventario_2026_janjul.xlsx`, recuperado em 08/09/2026, SHA-256 `e447b0f5421425778b1d47dbf92d6eb44cd598cffbb3ed6cf73febe37c919ac2` (arquivado em `data/fontes_externas/`). Licença: a página (acesso em 24/10/2026) diz que todo o conteúdo do site está sob Creative Commons Atribuição-SemDerivações 3.0 (CC BY-ND 3.0), mas não afirma que isso vale para os arquivos de dados. A cópia do arquivo é fiel; a série extraída para o JSON pode contar como derivação. [A COMPLETAR: confirmar com o MCTI se o JSON extraído é aceitável.] | Série de **CO₂ apenas**, não CO₂-equivalente; geração do SIN, sem perdas nem cadeia a montante. Declare o ano do fator (`docs/procedencia_fatores_co2.md`) |
 | Custos de referência (`costs_database.json`) | Catálogo interno do projeto, 2026-08, em reais, regionalizado por UF; só vale quando o projeto liga os preços de catálogo | Substitua pelos preços do seu fornecedor |
 | Rotas de produção de água (`rotas_producao_agua.json`) | Do projeto (`docs/rotas_de_producao_de_agua.md`) | O fator evitado por m³ depende da rota substituída |
 | Resultados do Netuno 4 (`data/simulation_outputs/`) | Planilhas exportadas pelo Netuno 4 (referência de validação da replicação, duas planilhas que somam os 4.050 casos e três arquivos de teste do leitor). Licença de redistribuição: não documentada | Servem à replicação (`docs/protocolo_netuno4.md`); o manual e as demais saídas do Netuno 4 não vão no repositório |
 | Visualizador 3D (`triton/data/volumetria/`) | Céu «Quarry» do Poly Haven (CC0 1.0); three.js 0.186.1 (MIT) | `LICENCAS.md` na pasta |
 | Exemplos, relatórios e figuras do manual | Geradas pelo projeto, sob a licença do Triton (`LICENSE.md`) | Os relatórios de exemplo são PDF gerados pelo programa |
-| Logotipo CLIMBra (`icons/CLIMBra.*`) | Licença não verificada | Só nesta edição |
+| Logotipo CLIMBra (`icons/CLIMBra.*`) | [A COMPLETAR] Licença do logotipo não encontrada; o CLIMBra é CC0, mas isso não foi confirmado para o logotipo | Só nesta edição |
 
 ## 6. Limites de tamanho e verificação
 
@@ -179,9 +186,9 @@ Cite o CLIMBra (Ballarin et al., 2023) ao usar a base climática, a fonte de cad
 
 ## 9. Pendências conhecidas
 
-- Referência de origem das séries `data/rainfall/` no `bibliography.py` (INMET/BDMEP) não coincide com a origem verificada (CLIMBra).
-- Metadado das partes cita «Scientific Data, 10, art. 48»; `AVISOS_DE_TERCEIROS.txt` e este documento citam «10, 47». Confirmar no artigo; corrigir exige regerar as partes, por isso não foi alterado.
+- **Resolvido em 24/10/2026:** origem das séries `data/rainfall/` (CLIMBra, não INMET) corrigida no `bibliography.py`; artigo do CLIMBra confirmado como Scientific Data 10, art. 47 (Crossref, doi 10.1038/s41597-023-01956-z, 20/01/2023) e corrigido no `bibliography.py`, na aba de documentação e nos scripts de compilação.
+- O metadado `source_article` **dentro das 19 partes** ainda diz «Nature Scientific Data, 10, art. 48». Corrigi-lo mudaria os 19 arquivos (e o histórico do Git ganharia outros ~785 MiB); fica para a próxima regeração, e os scripts já gravam 47. O `content_sha256` das séries não muda.
 - `docs/base_climatica_climbra.md` ainda descreve o `climbra.db` único e «~1,1 GB»; vale este documento e `scripts/README.md`.
-- Panorama tarifário (24/08/2026) desatualizado em relação ao banco (05/10/2026).
-- Licenças não verificadas: base aberta da ANEEL, arquivo MCTI/SIRENE, planilhas do Netuno 4, logotipo CLIMBra.
-- `tarifas/transcricoes/.cobertura_cache.json` é um cache gerado e está rastreado; pode sair do Git.
+- Panorama tarifário: explicado acima e com nota de atualização; os números completos (global, por componente) não foram regerados. [A COMPLETAR]
+- Licenças pendentes: planilhas do Netuno 4, logotipo CLIMBra, portais dos prestadores; decisões sobre ODbL (ANEEL) e CC BY-ND (MCTI).
+- `tarifas/transcricoes/.cobertura_cache.json` (cache gerado) saiu do controle de versão e entrou no `.gitignore`.

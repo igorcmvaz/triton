@@ -155,6 +155,9 @@ tarifas/tarifas_fontes.db
 # instalador e os testes mantidos não dependem de nada disso (o build_exe.py usa o que existir).
 # ---------------------------------------------------------------------------
 scripts/**/*.py
+# ...exceto os que reproduzem a base climática versionada (partes data/climbra_<modelo>.db)
+!scripts/dividir_base_climbra.py
+!scripts/compilar_base_climbra.py
 tarifas/*.py
 tarifas_portugal/*.py
 docs/gerar_figuras.py
@@ -172,3 +175,6 @@ install_*.log
 avisos_qt.log
 .coverage
 .coverage.*
+
+# Cache gerado pelo auditor de cobertura das transcrições (regerável)
+tarifas/transcricoes/.cobertura_cache.json

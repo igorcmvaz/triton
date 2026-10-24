@@ -1671,7 +1671,7 @@ class TabDocumentation(QWidget):
             <ul style='font-size: 12px; line-height: 1.6;'>
                 <li><b>Metodologia de Correção:</b> Séries em grade de 0,25° (~28 km) corrigidas estatisticamente pelo método <i>Quantile Delta Mapping</i> (QDM), calibradas contra o conjunto observacional diário de Xavier, King e Scanlon (2016).</li>
                 <li><b>Horizontes Temporais:</b> Série histórica simulada contínua de 1980 a 2013 (12.419 dias) e projeções futuras ininterruptas de 2015 a 2100 (31.411 dias), com atalhos de recortes de 30 anos (2021–2050, 2041–2070 e 2071–2100).</li>
-                <li><b>Artigo na Nature Scientific Data:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Scientific Data 10, art. 48 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
+                <li><b>Artigo na Nature Scientific Data:</b> BALLARIN, A. S. et al. <i>CLIMBra - Climate Change Dataset for Brazil</i>. Scientific Data 10, art. 47 (2023). <a href='https://doi.org/10.1038/s41597-023-01956-z' style='color:#0284c7;'>doi:10.1038/s41597-023-01956-z</a></li>
                 <li><b>Repositório de Dados Abertos:</b> Science Data Bank (licença pública CC0). <a href='https://doi.org/10.57760/sciencedb.02316' style='color:#0284c7;'>doi:10.57760/sciencedb.02316</a></li>
             </ul>
 

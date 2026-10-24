@@ -62,7 +62,7 @@ The three example projects share one building and differ in city, currency and t
 | Cape Town | City of Cape Town, Tariffs 2026/27, domestic, non-indigent | taken as 01/07/2026 (inferred) | stepped water and sanitation tariffs, VAT included |
 
 - **Licence.** Published prices are facts; the utilities' documents are not redistributed. The licence of each utility's website was not checked.
-- **Source record.** Document URL and SHA-256 were **not recorded** when the examples were built. This is an open item (§8); the figures cannot be traced to a stored copy of the document.
+- **Status: illustrative.** The tariffs are labelled as illustrative in `examples/LEIA.md`. Document URL and SHA-256 were **not recorded** when the examples were built, so the figures cannot be traced to a stored copy of the document. [A COMPLETAR: URL, access date and SHA-256 of each document, to be added by the maintainer.] Do not use them for a real project.
 - **Quality.** Each tariff has been checked by hand against the printed bill, once. There is no independent second check. The effective dates for London and Cape Town are inferred and flagged in the example notes. Two assumptions to confirm are listed in `examples/LEIA.md` (minimum charge scope in New York; sewer volume basis in London).
 - **Not set, on purpose.** Costs of works, pump, treatment and maintenance, the electricity tariff and the grid emission factor are zero or unset in the examples. No official source was used for them. Payback and NPV shown for the examples are therefore not results.
 
@@ -87,6 +87,6 @@ The three example projects share one building and differ in city, currency and t
 
 ## 8. Known open items
 
-- Example tariffs: document URL and SHA-256 not recorded; London and Cape Town effective dates inferred.
-- `data/rainfall/LEIA.md` is written in Portuguese and should be rewritten in English for this edition.
+- Example tariffs: document URL and SHA-256 not recorded [A COMPLETAR]; London and Cape Town effective dates inferred.
+- `data/rainfall/LEIA.md` was rewritten in English on 24/10/2026.
 - `triton/data/costs_database.json` is a core file that is not neutral in its own content; this edition does not apply it, but the file still ships with the package.

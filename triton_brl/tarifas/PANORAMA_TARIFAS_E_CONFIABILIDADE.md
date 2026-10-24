@@ -1,5 +1,7 @@
 # Panorama nacional das tarifas e da confiabilidade
 
+> **Nota de atualização (24/10/2026).** Este panorama é a fotografia de **24/08/2026** (grau global, 60% saneamento + 40% energia). O banco que o programa lê (`triton/data/brazil_cities_tariffs.json`, atualizado em 05/10/2026) traz o grau do componente **saneamento**: 584 A, 63 B e 5 C (os 5 de Tocantins caíram de A para C com a estrutura «a conferir»; 3 municípios subiram de B para A com documentos transcritos depois do corte). Os valores de energia são os mesmos; 66 referências ANEEL cuja vigência terminou entre 26 e 28/08/2026 passaram a `EXPIRED_ANEEL_REF` (140 no total). Detalhe em `docs/DADOS.md`. Os quadros abaixo não foram regerados.
+
 Data de corte: **24 de agosto de 2026**. Universo: **652 municípios** e **3.604 registros tarifários detalhados**.
 
 ## Resultado executivo

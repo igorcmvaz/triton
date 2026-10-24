@@ -31,6 +31,8 @@ saving and the water bill.
 
 ## Tariffs (collected on 14/10/2026)
 
+**Status: illustrative.** These tariffs are published prices transcribed so that the examples run and the tests have bills to recompute. They are **not** a verified tariff database: the document URL and SHA-256 were not recorded at collection, so none of the figures below can be traced to a stored copy. [A COMPLETAR: the maintainer is to add, for each utility, the document URL, the access date and the SHA-256 of the file.] Do not use them for a real project; enter the tariff of your own utility.
+
 The figures were read from the official tariff documents of each utility and entered as printed.
 Document URL and SHA-256 hash: **not recorded** (they were not supplied when the examples were built;
 to be added by the maintainer next to each source below).

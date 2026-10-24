@@ -8,6 +8,8 @@ por `triton/`: rodam por fora, sobre o projeto. Rode-as a partir desta pasta
 os scripts neutros (`qa_runner.py`, `bench_kernels.py`, `gerar_avisos_de_terceiros.py`)
 e os da própria região.
 
+**Exceção rastreada.** `dividir_base_climbra.py` e `compilar_base_climbra.py` estão no Git (exceção no `.gitignore`), porque reproduzem as partes versionadas da base CLIMBra. Testado em 24/10/2026: `dividir_base_climbra.py --modelo KACE --destino <pasta temporária>` regera `climbra_KACE.db` com o mesmo tamanho (45.105.152 bytes) e o mesmo `content_sha256` da parte do repositório; as partes existentes não foram alteradas.
+
 ## Base climática CLIMBra
 
 A base compilada é um banco SQLite **por modelo CMIP6**, `data/climbra_<modelo>.db`
@@ -44,7 +46,7 @@ reordenar os bytes do float16 antes do zlib **piora** 4% a 6%; LZMA ganha 5,6% e
 outro formato. Nenhuma justifica mudar o blob; a divisão por modelo já basta.
 
 **Se uma parte passar do limite.** `dividir_base_climbra.py` divide sozinho o modelo por cenário
-(`climbra_<modelo>__HIST.db`, `__SSP245.db`, `__SSP585.db`) quando passa de `--limite-mb` (passe `--limite-mb 50`, o limite do projeto; o padrão histórico do script é 95);
+(`climbra_<modelo>__HIST.db`, `__SSP245.db`, `__SSP585.db`) quando passa de `--limite-mb` (o padrão é 50, o limite do projeto);
 `--por-cenario` força. O leitor (`triton/core/climate_database.py`) entende os dois nomes. Com
 `--dtype float32` as partes ficam bem maiores e essa divisão passa a valer.
 
