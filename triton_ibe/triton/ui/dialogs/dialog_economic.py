@@ -369,6 +369,8 @@ class DialogTariffs(QDialog):
         # O catálogo de 652 municípios é brasileiro: na Internacional, a tarifa é digitada.
         from triton.core.edition import usa_dados_do_brasil
         gb_city.setVisible(usa_dados_do_brasil())
+        # O aviso de auditoria («652 municípios», com contato) é do catálogo brasileiro: fora dele nunca aparece.
+        self.box_disclaimer.setVisible(usa_dados_do_brasil())
 
         # ── BLOCO 2: FAIXAS DE TARIFA DE ÁGUA ──
         lay.addWidget(QLabel(tr("<b>Faixas de tarifa de água potável (por unidade habitacional):</b>")))

@@ -2,11 +2,9 @@
   "version": "0.1.0",
   "project_name": "Projeto Modelo Triton",
   "location": {
-    "city": "Florianópolis",
-    "state": "SC",
-    "country": "Brasil",
-    "latitude": -27.5954,
-    "longitude": -48.548
+    "city": "Lisboa",
+    "state": "Lisboa",
+    "country": "Portugal"
   },
   "building": {
     "type": "residential",
@@ -25,16 +23,17 @@
     "pump_efficiency_pct": 65.0
   },
   "economic_parameters": {
-    "water_tariff_structure": "casan",
-    "water_base_tariff_r_m3": 7.5,
-    "water_fixed_monthly_r": 35.0,
-    "sewage_pct": 100.0,
-    "electricity_tariff_r_kwh": 0.75,
+    "water_tariff_structure": "custom",
+    "water_base_tariff_per_m3": 0.0,
+    "water_fixed_monthly": 0.0,
+    "sewage_pct": 0.0,
+    "electricity_tariff_per_kwh": 0.0,
     "analysis_period_years": 20,
     "discount_rate_annual_pct": 6.0,
     "water_inflation_annual_pct": 4.5,
     "energy_inflation_annual_pct": 5.0,
-    "system_capex_r": 8500.0,
+    "system_capex": 0.0,
     "annual_maintenance_pct": 1.5
-  }
+  },
+  "note": "Apenas a estrutura: tarifas, custos e fatores de emissão são introduzidos pelo utilizador, na moeda do projeto."
 }

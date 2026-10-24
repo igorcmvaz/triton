@@ -78,6 +78,48 @@ except ImportError:
     TEM_INTERFACE_GRAFICA = False
 
 
+# --- banco de custos do motor, nas edições sem preços -------------------------------------------
+
+def _banco_de_referencia_do_motor() -> None:
+    """Fora da Brasil, o motor é testado com o banco de custos de referência embutido no código.
+
+    Os pacotes da Internacional e da Ibérica distribuem ``triton/data/costs_database.json`` sem preços,
+    sem moeda e sem fatores regionais; o dimensionamento de custos do motor (interpolação das tabelas,
+    regressão, tipologias, fatores por UF) continua sendo verificado aqui contra os valores de referência
+    de ``cost_estimates`` (``_DEFAULT_*``), que a Brasil também lê do arquivo. O arquivo distribuído é
+    verificado por ``tests/unit/test_banco_de_custos_neutro.py``, que não passa por este banco.
+    Roda antes de qualquer teste importar ``cost_estimates``, para que todos vejam a mesma tabela.
+    """
+    if EDICAO == "BRL":
+        return
+    from triton.core import cost_estimates as ce
+
+    referencia = {
+        "regional_factors_by_uf": dict(ce._DEFAULT_REGIONAL_FACTORS),
+        "lower_tank_pead_prices": [list(r) for r in ce._DEFAULT_LOWER_TANK_PRICES],
+        "upper_tank_pead_prices": [list(r) for r in ce._DEFAULT_UPPER_TANK_PRICES],
+        "material_multipliers": dict(ce._DEFAULT_MATERIAL_MULTIPLIERS),
+        "pipes_cost_per_meter": dict(ce._DEFAULT_PIPE_COST_PER_METER),
+        "chlorine_cost_per_kg": ce._DEFAULT_CHLORINE_COST_PER_KG,
+        "pump_cost_parameters": {"base_cost": 300.0, "base_power_kw": 0.36775, "power_exponent": 0.70, "min_cost": 280.0},
+        "labor_percentage": 0.30,
+        "accessories_percentage": 0.08,
+        "piping_percentage_fallback": 0.18,
+        "typology_subsystems_configs": ce._DEFAULT_TYPOLOGY_CONFIGS,
+        "default_maintenance_items": [
+            {"name": "Inspeção e limpeza de calhas/pré-filtro", "period_months": 12, "fixed_cost": 240.0, "variable_cost_per_m3": 0.0},
+            {"name": "Limpeza e higienização do reservatório", "period_months": 12, "fixed_cost": 320.0, "variable_cost_per_m3": 0.0},
+            {"name": "Manutenção preventiva da motobomba", "period_months": 12, "fixed_cost": 180.0,
+             "variable_cost_per_m3": 0.0, "requires_upper_tank": True},
+        ],
+    }
+    ce.load_costs_database = lambda: referencia
+    ce._refresh_runtime_constants()
+
+
+_banco_de_referencia_do_motor()
+
+
 # Módulos que exercitam a interface desktop, direta ou indiretamente (via triton.ui).
 # Mantido explícito, e não por descoberta automática, para que a exclusão de um
 # módulo da execução mínima seja sempre uma decisão visível em revisão.

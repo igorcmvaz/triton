@@ -169,8 +169,48 @@ _DEFAULT_TYPOLOGY_CONFIGS: Dict[str, Dict[str, Any]] = {
 }
 
 
+def _banco_neutro() -> Dict[str, Any]:
+    """O banco de custos sem preços, moeda nem fatores regionais: o de recurso fora da Edição Brasil.
+
+    É a estrutura do arquivo ``costs_database.json`` das edições Internacional e Ibérica: as capacidades
+    dos reservatórios, os diâmetros de tubo e os multiplicadores de material ficam; todo valor
+    monetário é zero, e o usuário informa os do seu projeto.
+    """
+    def zera(tabela):
+        return [(v, 0.0) for v, _ in tabela]
+
+    tipologias = {
+        codigo: {k: (0.0 if ("cost" in k or k == "maint_base_annual") else v)
+                 for k, v in cfg.items() if k != "description"}
+        for codigo, cfg in _DEFAULT_TYPOLOGY_CONFIGS.items()
+    }
+    return {
+        "regional_factors_by_uf": {},
+        "lower_tank_pead_prices": zera(_DEFAULT_LOWER_TANK_PRICES),
+        "upper_tank_pead_prices": zera(_DEFAULT_UPPER_TANK_PRICES),
+        "material_multipliers": dict(_DEFAULT_MATERIAL_MULTIPLIERS),
+        "pipes_cost_per_meter": {dn: 0.0 for dn in _DEFAULT_PIPE_COST_PER_METER},
+        "chlorine_cost_per_kg": 0.0,
+        "pump_cost_parameters": {"base_cost": 0.0, "base_power_kw": 0.36775, "power_exponent": 0.70, "min_cost": 0.0},
+        "labor_percentage": 0.30,
+        "accessories_percentage": 0.08,
+        "piping_percentage_fallback": 0.18,
+        "typology_subsystems_configs": tipologias,
+        "default_maintenance_items": [
+            {"name": "Inspeção e limpeza de calhas/pré-filtro", "period_months": 12, "fixed_cost": 0.0, "variable_cost_per_m3": 0.0},
+            {"name": "Limpeza e higienização do reservatório", "period_months": 12, "fixed_cost": 0.0, "variable_cost_per_m3": 0.0},
+            {"name": "Manutenção preventiva da motobomba", "period_months": 12, "fixed_cost": 0.0,
+             "variable_cost_per_m3": 0.0, "requires_upper_tank": True},
+        ],
+    }
+
+
 def load_costs_database() -> Dict[str, Any]:
-    """Carrega os dados de custo do arquivo JSON com fallback seguro."""
+    """Carrega os dados de custo do arquivo JSON com fallback seguro.
+
+    Se o arquivo faltar ou estiver ilegível, a Brasil cai nos valores embutidos (em reais) e as demais
+    edições, num banco neutro, sem preço nenhum: nunca o preço de outra região.
+    """
     if COSTS_FILE_PATH.is_file():
         try:
             with open(COSTS_FILE_PATH, "r", encoding="utf-8") as f:
@@ -178,6 +218,9 @@ def load_costs_database() -> Dict[str, Any]:
                 return data
         except Exception:
             pass
+    from triton.core.edition import usa_dados_do_brasil
+    if not usa_dados_do_brasil():
+        return _banco_neutro()
     return {
         "regional_factors_by_uf": _DEFAULT_REGIONAL_FACTORS,
         "lower_tank_pead_prices": _DEFAULT_LOWER_TANK_PRICES,
@@ -589,6 +632,15 @@ def preco_da_cisterna_do_volume(cfg: Any, volume_l: float) -> float:
     )["lower"])
 
 
+def banco_tem_precos() -> bool:
+    """O banco de custos carregado traz algum preço? Nas edições sem catálogo (arquivo neutro), não.
+
+    Sem preços, o estimador não inventa os pisos de tubulação, acessórios e mão de obra: tudo sai zero
+    e o custo é o que o projeto informa.
+    """
+    return any(float(p) > 0.0 for _, p in LOWER_TANK_PRICE_TABLE) or any(float(p) > 0.0 for _, p in UPPER_TANK_PRICE_TABLE)
+
+
 def estimate_preliminary_capex(
     lower_volume_l: float,
     upper_volume_l: float,
@@ -610,7 +662,7 @@ def estimate_preliminary_capex(
     Mantém total retrocompatibilidade com chamadas existentes do Triton e permite
     especificação de tipologia e UF para aplicação dos custos calibrados de engenharia.
     """
-    if lower_volume_l <= 0 or not catalogo:
+    if lower_volume_l <= 0 or not catalogo or not banco_tem_precos():
         return {
             "lower": 0.0, "upper": 0.0, "pump_unit": 0.0, "pump": 0.0,
             "piping": 0.0, "accessories": 0.0, "labor": 0.0,

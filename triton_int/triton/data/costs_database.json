@@ -1,98 +1,70 @@
 {
   "_metadata": {
-    "description": "Base de dados de custos de referência para pré-dimensionamento de aproveitamento de água de chuva (Triton)",
-    "updated_at": "2026-08",
-    "source_references": "Valores de referência do catálogo interno; só são usados quando o projeto liga os preços de catálogo. Substitua pelos do seu fornecedor.",
-    "currency": "BRL",
-    "notes": "Parâmetros calibrados para as 5 tipologias residenciais (UTI, UTG, MSG, MFH, MFL) e regionalizados para as 27 UFs."
+    "description": "Estrutura neutra do banco de custos do Triton: sem preços, sem moeda e sem fatores regionais.",
+    "updated_at": "2026-10",
+    "source_references": "Nenhum preço de referência é distribuído nesta edição. Os custos (obra, bomba, manutenção, cloro) são informados pelo usuário, na moeda do projeto, na etapa econômica.",
+    "currency": "",
+    "notes": "Os valores monetários estão zerados e não há fatores regionais por UF nesta edição. Permanecem a estrutura do arquivo, as capacidades dos reservatórios, os diâmetros de tubo, as potências das bombas, os multiplicadores relativos de material e as rotinas de manutenção (nome e periodicidade)."
   },
-  "regional_factors_by_uf": {
-    "AC": 1.17,
-    "AL": 0.95,
-    "AM": 1.16,
-    "AP": 1.15,
-    "BA": 0.95,
-    "CE": 0.93,
-    "DF": 1.06,
-    "ES": 0.97,
-    "GO": 0.95,
-    "MA": 0.96,
-    "MG": 0.95,
-    "MS": 1.02,
-    "MT": 1.08,
-    "PA": 1.11,
-    "PB": 0.93,
-    "PE": 0.94,
-    "PI": 0.94,
-    "PR": 0.98,
-    "RJ": 1.05,
-    "RN": 0.94,
-    "RO": 1.09,
-    "RR": 1.21,
-    "RS": 1.01,
-    "SC": 1.02,
-    "SE": 0.93,
-    "SP": 1.0,
-    "TO": 1.03
-  },
+  "regional_factors_by_uf": {},
   "lower_tank_pead_prices": [
     [
       310.0,
-      246.9
+      0.0
     ],
     [
       500.0,
-      269.9
+      0.0
     ],
     [
       750.0,
-      459.9
+      0.0
     ],
     [
       1000.0,
-      459.9
+      0.0
     ],
     [
       2000.0,
-      1139.9
+      0.0
     ],
     [
       3000.0,
-      2051.9
+      0.0
     ],
     [
       5000.0,
-      2999.9
+      0.0
     ],
     [
       10000.0,
-      5499.9
+      0.0
     ],
     [
       15000.0,
-      6935.0
+      0.0
     ]
   ],
   "upper_tank_pead_prices": [
     [
       310.0,
-      246.9
+      0.0
     ],
     [
       500.0,
-      269.9
+      0.0
     ],
     [
       750.0,
-      459.9
+      0.0
     ],
     [
       1000.0,
-      459.9
+      0.0
     ],
     [
       2000.0,
-      1139.9
+      0.0
     ]
   ],
   "material_multipliers": {
@@ -103,133 +75,119 @@
     "ACO_INOX": 3.6
   },
   "pipes_cost_per_meter": {
-    "20": 8.2,
-    "25": 11.5,
-    "32": 14.8,
-    "40": 16.9,
-    "50": 18.0,
-    "60": 22.8,
-    "75": 28.0,
-    "85": 32.5,
-    "100": 38.0,
-    "110": 42.0,
-    "150": 75.0
+    "20": 0.0,
+    "25": 0.0,
+    "32": 0.0,
+    "40": 0.0,
+    "50": 0.0,
+    "60": 0.0,
+    "75": 0.0,
+    "85": 0.0,
+    "100": 0.0,
+    "110": 0.0,
+    "150": 0.0
   },
-  "chlorine_cost_per_kg": 25.0,
+  "chlorine_cost_per_kg": 0.0,
   "pump_cost_parameters": {
-    "base_cost": 300.0,
+    "base_cost": 0.0,
     "base_power_kw": 0.36775,
     "power_exponent": 0.7,
-    "min_cost": 280.0
+    "min_cost": 0.0
   },
   "labor_percentage": 0.3,
   "accessories_percentage": 0.08,
   "piping_percentage_fallback": 0.18,
   "typology_subsystems_configs": {
     "UTI": {
-      "name": "Casa Unifamiliar Térrea (4 hab)",
+      "name": "Moradia unifamiliar de um piso (4 residentes)",
       "pump_power_kw": 0.37,
       "pump_count": 1,
-      "pump_unit_cost": 301.7,
-      "pump_cost_total": 301.7,
-      "electrical_panel_cost": 180.0,
-      "sensors_automation_cost": 120.0,
-      "treatment_filtration_cost": 350.0,
-      "air_gap_supplement_cost": 150.0,
-      "pipes_base_cost": 950.0,
-      "maint_base_annual": 250.0,
-      "min_labor_cost": 1400.0,
-      "description": "Bomba periférica 0.5 CV, chave contatora e disjuntor, 2 boias de nível, filtro residencial autolimpante, ramal PVC 25 mm."
+      "pump_unit_cost": 0.0,
+      "pump_cost_total": 0.0,
+      "electrical_panel_cost": 0.0,
+      "sensors_automation_cost": 0.0,
+      "treatment_filtration_cost": 0.0,
+      "air_gap_supplement_cost": 0.0,
+      "pipes_base_cost": 0.0,
+      "maint_base_annual": 0.0,
+      "min_labor_cost": 0.0
     },
     "UTG": {
-      "name": "Casa Geminada (8 hab)",
+      "name": "Moradia geminada (8 residentes)",
       "pump_power_kw": 0.37,
       "pump_count": 1,
-      "pump_unit_cost": 301.7,
-      "pump_cost_total": 301.7,
-      "electrical_panel_cost": 220.0,
-      "sensors_automation_cost": 150.0,
-      "treatment_filtration_cost": 400.0,
-      "air_gap_supplement_cost": 180.0,
-      "pipes_base_cost": 1100.0,
-      "maint_base_annual": 300.0,
-      "min_labor_cost": 1550.0,
-      "description": "Bomba 0.5 CV, quadro compacto, 2 boias elétricas, filtro autolimpante, tubulação recalque DN 32 mm."
+      "pump_unit_cost": 0.0,
+      "pump_cost_total": 0.0,
+      "electrical_panel_cost": 0.0,
+      "sensors_automation_cost": 0.0,
+      "treatment_filtration_cost": 0.0,
+      "air_gap_supplement_cost": 0.0,
+      "pipes_base_cost": 0.0,
+      "maint_base_annual": 0.0,
+      "min_labor_cost": 0.0
     },
     "MSG": {
-      "name": "Sobrado Multifamiliar Geminado (16 hab, 2 pavimentos)",
+      "name": "Moradia multifamiliar geminada de dois pisos (16 residentes)",
       "pump_power_kw": 0.55,
       "pump_count": 1,
-      "pump_unit_cost": 450.0,
-      "pump_cost_total": 450.0,
-      "electrical_panel_cost": 380.0,
-      "sensors_automation_cost": 240.0,
-      "treatment_filtration_cost": 550.0,
-      "air_gap_supplement_cost": 230.0,
-      "pipes_base_cost": 1600.0,
-      "maint_base_annual": 450.0,
-      "min_labor_cost": 1900.0,
-      "description": "Bomba centrífuga 0.75 CV, quadro com relé térmico, 3 sensores de nível, dosador de pastilhas de cloro, prumada vertical 2 pavimentos DN 32/40 mm."
+      "pump_unit_cost": 0.0,
+      "pump_cost_total": 0.0,
+      "electrical_panel_cost": 0.0,
+      "sensors_automation_cost": 0.0,
+      "treatment_filtration_cost": 0.0,
+      "air_gap_supplement_cost": 0.0,
+      "pipes_base_cost": 0.0,
+      "maint_base_annual": 0.0,
+      "min_labor_cost": 0.0
     },
     "MFH": {
-      "name": "Bloco Multifamiliar H (64 hab, 16 aptos, 4 pavimentos)",
+      "name": "Bloco multifamiliar H (64 residentes, 16 fogos, 4 pisos)",
       "pump_power_kw": 0.75,
       "pump_count": 2,
-      "pump_unit_cost": 600.0,
-      "pump_cost_total": 1200.0,
-      "electrical_panel_cost": 950.0,
-      "sensors_automation_cost": 550.0,
-      "treatment_filtration_cost": 1200.0,
-      "air_gap_supplement_cost": 450.0,
-      "pipes_base_cost": 3800.0,
-      "maint_base_annual": 950.0,
-      "min_labor_cost": 3200.0,
-      "description": "Sistema de recalque duplo 1+1 (2x 1.0 CV), quadro com alternador automático de bombas e falta de fase, 4 sensores de nível, filtro vortex inox alta vazão, barrilete DN 50 mm, 2 a 4 prumadas de reuso em shaft."
+      "pump_unit_cost": 0.0,
+      "pump_cost_total": 0.0,
+      "electrical_panel_cost": 0.0,
+      "sensors_automation_cost": 0.0,
+      "treatment_filtration_cost": 0.0,
+      "air_gap_supplement_cost": 0.0,
+      "pipes_base_cost": 0.0,
+      "maint_base_annual": 0.0,
+      "min_labor_cost": 0.0
     },
     "MFL": {
-      "name": "Bloco Multifamiliar Retangular L (128 hab, 32-48 aptos, 4-8 pavimentos)",
+      "name": "Bloco multifamiliar retangular L (128 residentes, 32 a 48 fogos, 4 a 8 pisos)",
       "pump_power_kw": 1.5,
       "pump_count": 2,
-      "pump_unit_cost": 1200.0,
-      "pump_cost_total": 2400.0,
-      "electrical_panel_cost": 1600.0,
-      "sensors_automation_cost": 900.0,
-      "treatment_filtration_cost": 2100.0,
-      "air_gap_supplement_cost": 750.0,
-      "pipes_base_cost": 6500.0,
-      "maint_base_annual": 1600.0,
-      "min_labor_cost": 4800.0,
-      "description": "Sistema de pressurização/recalque duplo 1+1 multiestágio (2x 2.0 CV), painel de comando predial automatizado com alternador e alarme, automação multinível com solenoide para reposição potável via air gap NBR 5626, estação de filtragem dupla inox, barrilete DN 60/75 mm, 4 a 8 prumadas verticais dedicadas em shafts para todos os blocos."
+      "pump_unit_cost": 0.0,
+      "pump_cost_total": 0.0,
+      "electrical_panel_cost": 0.0,
+      "sensors_automation_cost": 0.0,
+      "treatment_filtration_cost": 0.0,
+      "air_gap_supplement_cost": 0.0,
+      "pipes_base_cost": 0.0,
+      "maint_base_annual": 0.0,
+      "min_labor_cost": 0.0
     }
   },
   "default_maintenance_items": [
     {
       "name": "Inspeção e limpeza de calhas/pré-filtro",
       "period_months": 12,
-      "fixed_cost": 240.0,
+      "fixed_cost": 0.0,
       "variable_cost_per_m3": 0.0
     },
     {
       "name": "Limpeza e higienização do reservatório",
       "period_months": 12,
-      "fixed_cost": 320.0,
+      "fixed_cost": 0.0,
       "variable_cost_per_m3": 0.0
     },
     {
       "name": "Manutenção preventiva da motobomba",
       "period_months": 12,
-      "fixed_cost": 180.0,
+      "fixed_cost": 0.0,
       "variable_cost_per_m3": 0.0,
       "requires_upper_tank": true
     }
-  ],
-  "_procedencia_precos_reservatorio": {
-    "fabricante": "Fortlev",
-    "varejista": "Copafer (copafer.com.br)",
-    "coletado_em": "2026-09-09",
-    "criterio": "Menor preco anunciado por capacidade, uma unica marca e um unico varejista, coletados no mesmo dia. A tabela anterior misturava Fortlev e Acqualimp, o que produzia preco decrescente com o volume entre 1.750 e 2.000 L.",
-    "tratamento": "Maximo corrente sobre os precos brutos, para garantir monotonicidade. Afeta apenas os 1.000 L, cujo preco anunciado (R$ 438,38) era promocional e ficava abaixo do de 750 L (R$ 459,90). Superestimar o investimento e o erro conservador.",
-    "alcance": "310 a 15.000 L, que e o alcance da evidencia. Acima disso o produto usual nao e polietileno rotomoldado, e sim fibra de vidro ou concreto: a extrapolacao usa a regressao linear ajustada sobre esta tabela, em get_tank_linear_regression.",
-    "observacao": "Preco de varejo e ruidoso: promocoes, frete e regiao mudam o valor. O que a tabela garante e a forma da curva e a ordem de grandeza, nao a cotacao do dia."
-  }
+  ]
 }

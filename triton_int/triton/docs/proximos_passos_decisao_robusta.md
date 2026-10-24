@@ -17,8 +17,8 @@ Este documento é um roteiro técnico. Ele não altera a metodologia da versão 
 | Balanço diário | Implementado por alternativa (modelo YAS) | Entradas determinísticas | Propagar incerteza e testar erro estrutural |
 | Grade de volumes | Até 40 capacidades positivas; passo múltiplo de 250 L | Grade regular, salvo o máximo terminal | Refinamento adaptativo opcional perto das regiões relevantes |
 | Ganho marginal | Implementado com intervalo real entre pontos | Sensível à discretização | Mostrar estabilidade em diferentes passos |
-| Tarifas municipais | 652 municípios brasileiros auditados (água, esgoto e energia ANEEL) | Dados regulatórios homologados com impostos inclusos | Atualização automática periódica via API das agências |
-| Engenharia de custos | Orçamento paramétrico SINAPI (tubulações PVC DN 50-150 mm) e fatores regionais por UF | 27 fatores estaduais SINAPI/CUB | Orçamentação detalhada por composição local do usuário |
+| Tarifas | Água, esgoto e energia informadas pelo usuário (esta edição não distribui catálogo de tarifas) | Dados do usuário, com os impostos que ele paga | Catálogos de tarifas por região, onde houver fonte aberta |
+| Engenharia de custos | Custos de obra, bomba e manutenção informados pelo usuário, na moeda do projeto | Sem catálogo de preços nem fatores regionais distribuídos | Orçamentação detalhada por composição local do usuário |
 | Economia | Fluxo nominal, VPL, TIR, paybacks e LCOW | Premissas pontuais calibradas | Distribuições, correlações e risco de inviabilidade |
 | ACV | Sincronização física de materiais/tubos e inventário paramétrico | Fatores de triagem com fronteira simplificada | Qualidade dos dados, faixas e cenários de fim de vida |
 | TOPSIS | Ranking, distâncias e gaps por critério | Compensatório e dependente dos pesos/conjunto | Comparar Pareto, arrependimento e aceitabilidade |

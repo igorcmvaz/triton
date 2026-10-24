@@ -676,6 +676,7 @@ def main():
             ed_args.name = args.name or nome
             ed_args.main_script = base_dir / script
             ed_args.edicao = edicao
+            gravar_marcador_da_edicao(base_dir, edicao)
             print(f"\n>>> Compilando a edição {edicao.upper()} ({ed_args.name}) <<<")
             success = build_pyinstaller(ed_args, base_dir)
             if success and args.installer:
@@ -748,6 +749,21 @@ def restaurar_gerados(base_dir: Path, limpos_antes: set) -> None:
     if sujos:
         _git(base_dir, "checkout", "--", *sujos)
         print(f"[*] Restaurados {len(sujos)} arquivo(s) versionado(s) que o build regerou (manual, site, changelog).")
+
+
+def gravar_marcador_da_edicao(base_dir: Path, edicao: str) -> None:
+    """Grava em triton/data/edicao_padrao.txt a edição compilada (nada na Brasil).
+
+    É o arquivo que ``triton.core.edition`` lê quando ``TRITON_EDITION`` não está definida: o
+    comando ``triton`` e ``python -m triton.cli`` rodam como a edição da pasta ou do pacote. Cada pasta
+    de edição já o traz versionado; regravar aqui garante o acerto se uma pasta compilar outra edição.
+    ``triton/data`` entra inteira no pacote (``--add-data``), e o marcador vai junto.
+    """
+    marcador = base_dir / "triton" / "data" / "edicao_padrao.txt"
+    if edicao in ("int", "ibe"):
+        marcador.write_text(edicao.upper() + "\n", encoding="utf-8")
+    elif marcador.exists():
+        marcador.unlink()
 
 
 def gravar_revisao(base_dir: Path) -> None:

@@ -25,5 +25,5 @@ Esta pasta reúne todos os arquivos de template e modelos estruturados utilizado
 ### 2. Simulação em Lote via CLI
 Execute no terminal:
 ```bash
-python triton/cli.py batch --scenarios templates/template_cenarios_simulacao.csv --city "Florianópolis" --uf "SC"
+python -m triton.cli batch examples/triton-cli-scenarios.csv --base examples/triton-cli-template.triton
 ```

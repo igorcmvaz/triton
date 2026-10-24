@@ -6,12 +6,12 @@
   "version": "0.1.0",
   "metadata": {
     "project_id": "N5-CLI-TEMPLATE",
-    "name": "Modelo CLI Triton",
+    "name": "Triton CLI template (New York example; enter your own costs, tariffs and emission factors)",
     "created_at": "12/08/2026 00:00"
   },
   "rainfall": {
-    "file_name": "Florianopolis1.csv",
-    "start_date": "01/01/2002",
+    "file_name": "NewYork.csv",
+    "start_date": "01/01/1991",
     "total_days": 0,
     "precipitation_mm": []
   },
@@ -26,7 +26,7 @@
       "demand_type": 0,
       "demand_monthly": [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
       "use_variable": true,
-      "rainwater_share": 0.40
+      "rainwater_share": 0.4
     },
     "rainfall_discard": {
       "discard_mm": 1.0,
@@ -49,7 +49,7 @@
         "flow_rate_l_h": 2280.0,
         "efficiency_pct": 55.0,
         "startup_time_h": 0.03,
-        "unit_cost": 300.0
+        "unit_cost": 0.0
       }
     },
     "financial_and_economic": {
@@ -57,23 +57,35 @@
       "tma_monthly_pct": 2.0,
       "inflation_monthly_pct": 0.2,
       "sewage_mode": 1,
-      "sewage_rate_pct": 100.0,
+      "sewage_rate_pct": 159.0,
       "water_tax_fixed": 0.0,
       "water_tax_var_pct": 0.0,
       "tariff_escalation_months": 12,
       "water_tariff_escalation_pct": 5.0,
       "sewage_tariff_escalation_pct": 5.0,
-      "elec_tariff": 1.0,
+      "elec_tariff": 0.0,
       "elec_tax_fixed": 0.0,
       "elec_tax_var_pct": 0.0,
-      "elec_tariff_escalation_pct": 5.0
+      "elec_tariff_escalation_pct": 5.0,
+      "sewage_tariffs": [],
+      "sewage_volume_factor": 1.0,
+      "water_tariffs": [
+        [0.0, 0.0, 14.914375, -3],
+        [0.0, 999999.0, 1.889335, 1]
+      ],
+      "tariff_city_uf": "USA",
+      "tariff_city_name": "New York City",
+      "tariff_vigencia": "01/07/2026",
+      "tariff_category": "residencial",
+      "elec_city_uf": "USA",
+      "elec_city_name": "New York City"
     },
     "capex_and_opex": {
-      "cost_lower_tank": 2500.0,
-      "cost_upper_tank": 380.0,
-      "cost_labor": 1500.0,
-      "cost_piping": 950.0,
-      "cost_accessories": 500.0
+      "cost_lower_tank": 0.0,
+      "cost_upper_tank": 0.0,
+      "cost_labor": 0.0,
+      "cost_piping": 0.0,
+      "cost_accessories": 0.0
     }
   },
   "analysis": {
@@ -81,15 +93,24 @@
     "environmental": {
       "lower_material_key": "PEAD",
       "upper_material_key": "PEAD",
-      "grid_co2_factor_kg_kwh": 0.085,
-      "potable_water_co2_kg_m3": 0.35,
+      "grid_co2_factor_kg_kwh": 0.0,
+      "potable_water_co2_kg_m3": 0.0,
       "chemical_treatment_co2_m3": 0.02,
       "system_lifespan_years": 20,
       "pipes": [
-        {"diameter_mm": 100, "length_m": 20},
-        {"diameter_mm": 50, "length_m": 15}
+        {
+          "diameter_mm": 100,
+          "length_m": 20
+        },
+        {
+          "diameter_mm": 50,
+          "length_m": 15
+        }
       ],
-      "pump": {"power_cv": 0.5, "specific_kwh_per_m3": 0.40}
+      "pump": {
+        "power_cv": 0.5,
+        "specific_kwh_per_m3": 0.4
+      }
     }
   },
   "ui_state": {}

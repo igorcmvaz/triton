@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 
 EDITION_BRL = "BRL"
 EDITION_INT = "INT"
@@ -40,12 +41,32 @@ def _normalizar(codigo) -> str:
     return _SINONIMOS.get(cod, cod)
 
 
+#: Marcador da edição desta instalação: um arquivo de uma linha («INT», «IBE») em ``triton/data``, que
+#: cada pasta de edição rastreia por conta própria (o código de ``triton/`` é o mesmo nas três). Sem
+#: ele, vale a Brasil. A variável de ambiente ``TRITON_EDITION`` sempre prevalece sobre o marcador.
+ARQUIVO_DA_EDICAO_PADRAO = Path(__file__).resolve().parent.parent / "data" / "edicao_padrao.txt"
+
+
+def edicao_da_instalacao() -> str:
+    """A edição gravada no marcador desta pasta ou instalação; «BRL» se não houver marcador legível."""
+    try:
+        val = _normalizar(ARQUIVO_DA_EDICAO_PADRAO.read_text(encoding="utf-8-sig").splitlines()[0])
+    except (OSError, IndexError):
+        return EDITION_BRL
+    return val if val in EDICOES else EDITION_BRL
+
+
 def get_current_edition() -> str:
-    """Retorna o código da edição ativa ('BRL', 'INT' ou 'IBE'). Padrão: 'BRL'."""
-    val = _normalizar(os.environ.get(ENV_VAR_EDITION, EDITION_BRL))
+    """Retorna o código da edição ativa ('BRL', 'INT' ou 'IBE').
+
+    Vale ``TRITON_EDITION`` se estiver definida e válida; senão, a edição da pasta ou da instalação
+    (``edicao_padrao.txt``); senão, 'BRL'. Assim ``python -m triton.cli`` e o comando ``triton``
+    rodam como a edição que os trouxe, sem variável de ambiente.
+    """
+    val = _normalizar(os.environ.get(ENV_VAR_EDITION, ""))
     if val in EDICOES:
         return val
-    return EDITION_BRL
+    return edicao_da_instalacao()
 
 
 def set_current_edition(edition: str) -> None:

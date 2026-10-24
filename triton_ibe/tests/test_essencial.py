@@ -6271,7 +6271,7 @@ def test_edicao_portugal_pede_dados_de_portugal_e_nao_do_brasil(monkeypatch):
     assert E.get_edition_currency_symbol() == '€'
     assert E.manual_do_usuario('pt') == E.MANUAL_PT
     monkeypatch.setenv('TRITON_EDITION', 'XYZ')
-    assert E.get_current_edition() == 'BRL'  # edição desconhecida cai na Brasil, como antes
+    assert E.get_current_edition() == E.edicao_da_instalacao()  # edição desconhecida: a da pasta (BRL, na Brasil, como antes)
     with pytest.raises(ValueError):
         E.set_current_edition('ESP')
 

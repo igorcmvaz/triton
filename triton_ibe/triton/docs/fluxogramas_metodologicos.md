@@ -175,7 +175,7 @@ O limite de 40 se refere às capacidades positivas; 0 L é a referência adicion
 
 ## 6. Modelo econômico-financeiro
 
-O modelo calcula custos e receitas para cada capacidade da varredura. A economia na fatura é calculada pela diferença real entre a fatura sem e com o aproveitamento pluvial, considerando as faixas de progressividade tarifária, alíquota de esgoto e parcela fixa homologadas para os 652 municípios brasileiros cadastrados. Todos os valores de tarifas, CAPEX e OPEX consideram tributos e impostos inclusos.
+O modelo calcula custos e receitas para cada capacidade da varredura. A economia na fatura é calculada pela diferença real entre a fatura sem e com o aproveitamento pluvial, considerando as faixas de progressividade tarifária, alíquota de esgoto e parcela fixa informadas pelo usuário para o seu local. Todos os valores de tarifas, CAPEX e OPEX consideram tributos e impostos inclusos.
 
 ```mermaid
 flowchart LR
@@ -183,7 +183,7 @@ flowchart LR
         V[("Capacidade e material")] --> CI["Cisterna inferior<br/>interpolação da tabela × μmaterial"]
         U[("Reservatório superior")] --> CS["Custo superior"]
         B[("Potência e quantidade")] --> CB["Custo das bombas"]
-        T[("DN 50, 75, 100, 150 mm<br/>e comprimentos reais")] --> CT["Rede de tubos SINAPI<br/>1,25 · Σ (Ld · cd)"]
+        T[("DN 50, 75, 100, 150 mm<br/>e comprimentos reais")] --> CT["Rede de tubos (preço por metro informado)<br/>1,25 · Σ (Ld · cd)"]
         CI --> CA["Acessórios e automação<br/>painel, sensores e air gap"]
         CS --> CA
         CI --> MO["Mão de obra especializada<br/>max(piso; 30% materiais)"]
@@ -191,7 +191,7 @@ flowchart LR
         CB --> MO
         CT --> MO
         CA --> MO
-        UF[("Fator Regional UF<br/>55% mat + 30% MO + 15% frete")] --> REG["CAPEX_UF = f_UF · (Cmat + Clabor)"]
+        UF[("Fator regional<br/>(1,00 se não informado)")] --> REG["CAPEX_reg = f_reg · (Cmat + Clabor)"]
         CI --> REG
         CS --> REG
         CB --> REG
@@ -201,20 +201,20 @@ flowchart LR
     end
 
     subgraph OP["Operação anual (OPEX)"]
-        Q[("Água pluvial usada")] --> OM["Manutenção anual =<br/>Cmaint,base · f_UF"]
+        Q[("Água pluvial usada")] --> OM["Manutenção anual =<br/>Cmaint,base · f_reg"]
         Q --> CL["Cloração =<br/>m³ · dose / 1000 · preço_kg"]
-        E[("Energia por alternativa<br/>0,45 kWh/m³ ou curva")] --> CE["Custo elétrico =<br/>kWh · Tarifa B1 ANEEL da UF"]
+        E[("Energia por alternativa<br/>0,45 kWh/m³ ou curva")] --> CE["Custo elétrico =<br/>kWh · tarifa de eletricidade informada"]
     end
 
-    subgraph REV["Economia tarifária evitada (652 cidades)"]
-        DT[("Demanda total e tabela<br/>progressiva da cidade/UF")] --> FS["Fatura sem aproveitamento<br/>água + αesgoto"]
+    subgraph REV["Economia tarifária evitada"]
+        DT[("Demanda total e tabela<br/>progressiva informada")] --> FS["Fatura sem aproveitamento<br/>água + αesgoto"]
         Q --> FC["Fatura com aproveitamento<br/>água + αesgoto"]
         DT --> FC
         FS --> DF["Economia anual = 12 · (Fbase − Fresidual)"]
         FC --> DF
     end
 
-    REG --> CF["FC₀ = −CAPEX_UF"]
+    REG --> CF["FC₀ = −CAPEX_reg"]
     OM --> FY["FCₜ = Economia anual<br/>− energia − manutenção − cloro"]
     CL --> FY
     CE --> FY
@@ -224,7 +224,7 @@ flowchart LR
     IND --> O(["VPL, TIR,<br/>payback simples, descontado e LCOW"])
 ```
 
-O custo de tubulações é computado diretamente pelas composições oficiais SINAPI para PVC esgoto/água predial (DN 50: R$ 18,50/m; DN 75: R$ 28,00/m; DN 100: R$ 35,00/m; DN 150: R$ 68,00/m + 25% conexões/registros). Os comprimentos informados são automaticamente sincronizados com o módulo de Análise de Ciclo de Vida (ACV/CO2e). Na alternativa de `0 L`, o programa adota a referência sem sistema: CAPEX e OPEX associados são nulos.
+O custo de tubulações é o preço por metro que o usuário informa para cada DN, com 25% de conexões e registros. Os comprimentos informados são automaticamente sincronizados com o módulo de Análise de Ciclo de Vida (ACV/CO2e). Na alternativa de `0 L`, o programa adota a referência sem sistema: CAPEX e OPEX associados são nulos.
 
 ## 7. Cloração: cálculo implementado e limite sanitário
 

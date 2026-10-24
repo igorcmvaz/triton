@@ -22,7 +22,7 @@ Prefira `.triton` com `--embed-rainfall` quando o estudo precisar ser reproduzid
 
 ```powershell
 # 1. Crie um projeto portátil, incorporando a chuva diária.
-python -m triton.cli init .\projeto.triton --rainfall Florianopolis1.csv --embed-rainfall
+python -m triton.cli init .\projeto.triton --rainfall Funchal.csv --embed-rainfall
 
 # 2. Valide o arquivo antes de calcular.
 python -m triton.cli validate .\projeto.triton

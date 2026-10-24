@@ -111,3 +111,6 @@ tests/test_essencial_interface.py::test_o_gestor_mostra_a_formula_e_simula_com_o
 tests/test_essencial_interface.py::test_a_etapa_economica_traz_o_esgoto_por_m3_da_corsan
 tests/test_essencial_interface.py::test_municipio_com_tarifa_por_bairro_oferece_as_alternativas
 tests/test_essencial.py::test_o_vpl_tem_maximo_interior
+
+# --- Banco de custos: a procedência dos preços de reservatório só existe no arquivo da Brasil (INT e IBE distribuem o banco sem preços) ---
+tests/unit/test_precos_de_reservatorio.py::test_o_banco_declara_de_onde_vieram_os_precos
