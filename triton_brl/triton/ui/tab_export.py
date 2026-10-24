@@ -5,6 +5,7 @@ arquivos de projeto, templates de cenários e desenhos técnicos em formato CAD 
 """
 
 import os
+from triton.core.numero import para_float
 import json
 from pathlib import Path
 from PySide6.QtWidgets import (
@@ -489,7 +490,7 @@ class TabExport(QWidget):
                 data["upper_vol"] = float(mw.config.upper_tank_vol)
             elif mw and hasattr(mw, "tab_tanks_simulation") and hasattr(mw.tab_tanks_simulation, "txt_upper_vol"):
                 try:
-                    data["upper_vol"] = float(mw.tab_tanks_simulation.txt_upper_vol.text().replace(',', '.'))
+                    data["upper_vol"] = para_float(mw.tab_tanks_simulation.txt_upper_vol.text())
                 except Exception:
                     pass
         # O que faltar no relatório (área, descarte...) vem do projeto, pela mesma

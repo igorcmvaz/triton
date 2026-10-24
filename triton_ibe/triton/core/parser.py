@@ -46,8 +46,13 @@ def parse_float(val: Any, default: float = 0.0) -> float:
                 # en-US: 1,234.56 -> 1234.56
                 s = s.replace(',', '')
         elif ',' in s:
-            # 1234,56 -> 1234.56
-            s = s.replace(',', '.')
+            from triton.core.numero import usa_ponto_decimal, _MILHAR_EN
+            if usa_ponto_decimal() and _MILHAR_EN.match(s):
+                # convenção en (Internacional em inglês): «4,000» é quatro mil, nunca 4,0
+                s = s.replace(',', '')
+            else:
+                # 1234,56 -> 1234.56
+                s = s.replace(',', '.')
         parsed = float(s)
         return parsed if math.isfinite(parsed) else default
     except (ValueError, TypeError):
@@ -67,18 +72,10 @@ def parse_int(val: Any, default: int = 0) -> int:
         return default
 
 def format_ptbr(val: Union[float, int], decimals: int = 2, thousands: bool = True) -> str:
-    """Formats a number in Brazilian style: dot for thousands, comma for decimals (ex: 1.234,56)."""
-    if val is None:
-        return "-"
-    try:
-        val_f = float(val)
-        if thousands:
-            s = f"{val_f:,.{decimals}f}".replace(',', 'X').replace('.', ',').replace('X', '.')
-        else:
-            s = f"{val_f:.{decimals}f}".replace('.', ',')
-        return s
-    except Exception:
-        return str(val)
+    """O número no formato da interface: «1.234,56» (pt/es, e a BRL em qualquer idioma) ou «1,234.56»
+    (en/zh fora da BRL). O nome ficou pelas ~170 chamadas; a regra está em ``triton.core.numero``."""
+    from triton.core.numero import formatar
+    return formatar(val, decimals, thousands)
 
 def load_precipitation(file_path: str) -> np.ndarray:
     """

@@ -5,6 +5,7 @@ dimensionamento paramétrico de filtros autolimpantes, dosagem de cloro, reatore
 """
 
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
+from triton.core.numero import normalizar, ptbr
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -422,7 +423,7 @@ class TabWaterQuality(QWidget):
 
     def on_discard_changed(self):
         try:
-            val = parse_float(self.txt_discard.text().replace(',', '.'))
+            val = parse_float(normalizar(self.txt_discard.text()))
             self.config.discard = max(0.0, val)
             self.recalculate_all()
             self.water_quality_updated.emit()
@@ -545,7 +546,7 @@ class TabWaterQuality(QWidget):
 
     def _dinheiro(self, valor: float, sufixo: str = "") -> str:
         texto = f"{self._moeda()} {valor:,.2f}{un(sufixo)}"
-        return texto.replace(',', 'X').replace('.', ',').replace('X', '.')
+        return ptbr(texto)
 
     def _fator_da_rede(self):
         """Fator da rede para a energia do reator UV.
@@ -566,7 +567,7 @@ class TabWaterQuality(QWidget):
         discard_val = getattr(self.config, 'discard', LAMINA_DE_DESCARTE_PADRAO_MM)
         if self.main_window and hasattr(self.main_window, 'tab_project') and hasattr(self.main_window.tab_project, 'txt_discard'):
             try:
-                discard_val = parse_float(self.main_window.tab_project.txt_discard.text().replace(',', '.'), discard_val)
+                discard_val = parse_float(normalizar(self.main_window.tab_project.txt_discard.text()), discard_val)
             except Exception:
                 pass
         self.config.discard = max(0.0, discard_val)
@@ -574,7 +575,7 @@ class TabWaterQuality(QWidget):
         roof_area = getattr(self.config, 'area', 100.0)
         if self.main_window and hasattr(self.main_window, 'tab_building') and hasattr(self.main_window.tab_building, 'txt_area'):
             try:
-                roof_area = parse_float(self.main_window.tab_building.txt_area.text().replace(',', '.'), roof_area)
+                roof_area = parse_float(normalizar(self.main_window.tab_building.txt_area.text()), roof_area)
             except Exception:
                 pass
 
@@ -606,7 +607,7 @@ class TabWaterQuality(QWidget):
         # 2. Dimensionamento ETAP
         class_id = self.combo_class.currentData() or "classe_1"
         disinf_method = self.combo_disinf.currentData() or "cloro"
-        dose_cl = parse_float(self.txt_cl_dose.text().replace(',', '.'),
+        dose_cl = parse_float(normalizar(self.txt_cl_dose.text()),
                               getattr(self.config, 'chlorine_dose_mg_l', 1.5))
         include_pol = self.chk_polishing.isChecked()
 
@@ -689,12 +690,12 @@ class TabWaterQuality(QWidget):
                 # memória usava R$ 38,00/kg e 65% fixos, e divergia do custeio.
                 cost_yr = comm_kg_yr * preco_kg
 
-                self.lbl_cl_calc_demand.setText(tr('{0:,.1f} m³/ano ({1:,.0f} L/dia)').format(vol_pluv_m3, vol_pluv_l_dia).replace(',', 'X').replace('.', ',').replace('X', '.'))
+                self.lbl_cl_calc_demand.setText(ptbr(tr('{0:,.1f} m³/ano ({1:,.0f} L/dia)').format(vol_pluv_m3, vol_pluv_l_dia)))
                 self.lbl_cl_calc_dose.setText(tr('{0:.2f} mg/L (ou g/m³ de Cl₂ ativo)').format(dose_cl))
                 self.lbl_cl_calc_active.setText(tr('{0:.3f} kg Cl₂ ativo/ano').format(active_kg_yr))
                 self.lbl_cl_calc_commercial.setText(tr('{0:.2f} kg pastilhas/ano ({1:.0f} g/mês)').format(comm_kg_yr, comm_kg_yr*1000/12))
                 self.lbl_cl_calc_daily.setText(tr('{0:.2f} g Cl₂ ativo/dia').format(daily_g_day))
-                self.lbl_cl_calc_cost.setText(tr('R$ {0:,.2f}/ano (base R$ {1:,.2f}/kg)').format(cost_yr, preco_kg).replace(',', 'X').replace('.', ',').replace('X', '.').replace('R$', self._moeda()))
+                self.lbl_cl_calc_cost.setText(ptbr(tr('R$ {0:,.2f}/ano (base R$ {1:,.2f}/kg)').format(cost_yr, preco_kg)).replace('R$', self._moeda()))
                 
                 if dose_cl < 0.5:
                     self.lbl_cl_calc_norm.setText(tr(por_edicao("<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente conforme NBR 15527.</span>", "<span style='color: #ea580c;'>⚠️ Dosagem baixa (< 0,5 mg/L). Risco de residual livre insuficiente.</span>")).format())

@@ -34,7 +34,11 @@ def _safe_float(val: Any, default: float = 0.0) -> float:
         return default
     try:
         if isinstance(val, str):
-            val = val.replace(".", "").replace(",", ".") if val.count(",") == 1 and val.count(".") > 1 else val.replace(",", ".").strip()
+            from triton.core.numero import usa_ponto_decimal, normalizar
+            if usa_ponto_decimal():
+                val = normalizar(val)
+            else:
+                val = val.replace(".", "").replace(",", ".") if val.count(",") == 1 and val.count(".") > 1 else val.replace(",", ".").strip()
         return float(val)
     except (ValueError, TypeError):
         return default

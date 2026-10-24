@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QHeaderView, QScrollArea, QCheckBox, QTabWidget, QDialog, QFormLayout,
     QMessageBox, QTextBrowser
 )
+from triton.core.numero import decimal, normalizar, para_float, para_float_milhar
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor
 
@@ -501,7 +502,7 @@ class LCAParametersDialog(QDialog):
             return
 
         try:
-            fator_da_rede = float(str(self.txt_grid_co2.text()).replace(",", "."))
+            fator_da_rede = para_float(str(self.txt_grid_co2.text()))
         except ValueError:
             fator_da_rede = grid_factor_default()
 
@@ -651,7 +652,7 @@ class LCAParametersDialog(QDialog):
         if not isinstance(getattr(self, "txt_pump_co2", None), JustifiedLineEdit):
             return
         try:
-            cv = float(str(self.txt_pump_cv.text()).replace(",", "."))
+            cv = para_float(str(self.txt_pump_cv.text()))
         except (ValueError, AttributeError):
             cv = 0.5
 
@@ -742,7 +743,7 @@ class LCAParametersDialog(QDialog):
             )
             return
         try:
-            if any(float(field.text().replace(',', '.')) < 0 for field in pipe_fields):
+            if any(para_float(field.text()) < 0 for field in pipe_fields):
                 raise ValueError
         except ValueError:
             QMessageBox.warning(
@@ -794,7 +795,7 @@ class LCAParametersDialog(QDialog):
         # estado dela, de onde `get_config` as le.
         try:
             te._pureza_do_cloro = max(0.01, min(1.0,
-                float(str(self.txt_chlorine_purity.text()).replace(',', '.'))))
+                para_float(str(self.txt_chlorine_purity.text()))))
         except ValueError:
             te._pureza_do_cloro = PUREZA_PADRAO_DO_CLORO
         te._base_do_fator_da_rede = self.cmb_base_rede.currentData() or BASE_PADRAO_DA_REDE
@@ -804,7 +805,7 @@ class LCAParametersDialog(QDialog):
         if cfg and hasattr(cfg, "set_pipe_length"):
             def _parse_len(txt):
                 try:
-                    return max(0.0, float(txt.replace('.', '').replace(',', '.')))
+                    return max(0.0, para_float_milhar(txt))
                 except ValueError:
                     return 0.0
             for dn, txt_f in self.txt_pipes_m.items():
@@ -845,8 +846,9 @@ class TabEnvironmental(QWidget):
         top_bar = QHBoxLayout()
         lbl_step_title = QLabel(tr("Desempenho ambiental e ESG"))
         lbl_step_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 700; color: #133c32;")
-        top_bar.addWidget(lbl_step_title)
-        top_bar.addSpacing(15)
+        # O título tem linha própria: ao lado do botão longo da ACV ele era cortado em janelas de 1500 px.
+        lbl_step_title.setMinimumWidth(lbl_step_title.sizeHint().width())
+        main_layout.addWidget(lbl_step_title)
 
         lbl_vol_sel = QLabel(tr("Referência (ótimo ambiental):"))
         lbl_vol_sel.setStyleSheet(f"font-weight: bold; color: {heading};")
@@ -928,11 +930,19 @@ class TabEnvironmental(QWidget):
             tr("Fonte de Dados / Referência")
         ])
         header = self.table_icv.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        # As colunas 1 e 2 se ajustavam ao conteúdo e deixavam às três de dados menos de 60 px: cabeçalhos cortados
+        # («orporad», «ano) [-»). Agora as duas primeiras têm largura própria, as de dados repartem o resto, o
+        # cabeçalho quebra em duas linhas e há uma largura mínima por coluna.
+        header.setSectionResizeMode(0, QHeaderView.Interactive)
+        header.setSectionResizeMode(1, QHeaderView.Interactive)
+        self.table_icv.setColumnWidth(0, 240)
+        self.table_icv.setColumnWidth(1, 200)
         header.setSectionResizeMode(2, QHeaderView.Stretch)
         header.setSectionResizeMode(3, QHeaderView.Stretch)
         header.setSectionResizeMode(4, QHeaderView.Stretch)
+        header.setMinimumSectionSize(120)
+        header.setDefaultAlignment(Qt.AlignCenter | Qt.TextWordWrap)
+        header.setFixedHeight(50)
         self.table_icv.setMinimumHeight(170)
 
         lay_icv.addWidget(self.table_icv)
@@ -1189,7 +1199,7 @@ class TabEnvironmental(QWidget):
         if ts:
             upper_used = ts.combo_upper_mode.currentIndex() != 2
             try:
-                upper_vol = float(ts.txt_upper_vol.text().replace(",", "."))
+                upper_vol = para_float(ts.txt_upper_vol.text())
             except ValueError:
                 pass
 
@@ -1224,7 +1234,7 @@ class TabEnvironmental(QWidget):
         if hasattr(self, 'txt_edge_base'):
             base_edge = float(getattr(cfg, 'edge_base_case_l_person_day', 0.0) or 0.0)
             if base_edge > 0.0 and not self.txt_edge_base.text().strip():
-                self.txt_edge_base.setText(f"{base_edge:g}".replace(".", ","))
+                self.txt_edge_base.setText(decimal(f"{base_edge:g}"))
 
         # Sincroniza sempre os comprimentos de tubulação do CAPEX / projeto
         if hasattr(cfg, "get_pipe_length"):
@@ -1401,7 +1411,7 @@ class TabEnvironmental(QWidget):
     def get_config(self) -> EnvironmentalConfig:
         def parse_f(txt, def_v):
             try:
-                return float(txt.replace(',', '.'))
+                return para_float(txt)
             except Exception:
                 return def_v
 
@@ -1529,7 +1539,7 @@ class TabEnvironmental(QWidget):
         campo = getattr(self, 'txt_edge_base', None)
         if campo is None:
             return None
-        texto = campo.text().strip().replace(',', '.')
+        texto = normalizar(campo.text().strip())
         if not texto:
             return None
         try:
@@ -1561,7 +1571,7 @@ class TabEnvironmental(QWidget):
             return False
         for campo in (self.txt_grid_co2, self.txt_potable_co2):
             try:
-                if float(campo.text().replace(",", ".")) <= 0:
+                if para_float(campo.text()) <= 0:
                     return True
             except ValueError:
                 return True

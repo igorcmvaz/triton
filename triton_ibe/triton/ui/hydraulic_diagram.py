@@ -5,6 +5,7 @@ Captação -> Descarte Inicial (First Flush) -> Reservatório Inferior -> Motobo
 """
 
 from PySide6.QtWidgets import QWidget
+from triton.core.numero import milhar
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPainterPath
 
@@ -142,7 +143,7 @@ class HydraulicDiagramWidget(QWidget):
         painter.drawText(tank_x + 8, tank_y + 18, tr("Res. Inferior"))
         painter.setFont(font_bold)
         painter.setPen(QColor("#059669"))
-        painter.drawText(tank_x + 8, tank_y + 35, f"{self.lower_vol_l:,.0f} {tr('Litros')}".replace(',', '.'))
+        painter.drawText(tank_x + 8, tank_y + 35, milhar(f"{self.lower_vol_l:,.0f} {tr('Litros')}"))
 
         use_w = 90
         use_h = 55

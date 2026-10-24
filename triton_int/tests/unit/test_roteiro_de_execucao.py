@@ -257,3 +257,64 @@ def test_cli_diz_onde_gravou_na_lingua_da_edicao(tmp_path, monkeypatch, capsys):
     esperado = {"BRL": "Resultado salvo em:", "INT": "Result saved to:", "IBE": "Resultado guardado em:"}[get_current_edition()]
     assert esperado in texto, texto
     assert saida.is_file()
+
+
+# ── Segunda rodada: rotinas de manutenção, cabeçalhos cortados, textos residuais ────────────
+
+@sem_exemplo
+def test_apagar_as_rotinas_nao_traz_de_volta_custo_de_outra_regiao(janela_pt):
+    """Sem rotinas, a Etapa 6 repovoava a lista com os custos de referência em reais, também na INT e na IBE."""
+    economica = janela_pt.tab_economic
+    cfg = economica._internal_config
+    cfg.op_costs = []
+    novo = economica.get_triton_config()
+    assert novo.op_costs, "as rotinas voltam (nome e periodicidade)"
+    custos = [(fixo, variavel) for _n, _m, fixo, variavel in novo.op_costs]
+    if usa_dados_do_brasil():
+        assert any(f > 0 for f, _v in custos), "na BRL os custos de referência continuam"
+    else:
+        assert all(f == 0 and v == 0 for f, v in custos), custos
+
+
+@sem_exemplo
+def test_titulo_e_cabecalhos_nao_sao_cortados_em_1500_px(_app, _sem_dialogos):
+    from PySide6.QtWidgets import QLabel
+    anterior = T._runtime_language
+    T._runtime_language = "pt"
+    try:
+        from triton.ui.main_window import MainWindow
+        w = MainWindow()
+        w.resize(1500, 950)
+        w.show()
+        w.on_load_simulation(str(EXEMPLO))
+        for etapa, titulo in ((5, "Economia e viabilidade financeira"), (6, "Desempenho ambiental e ESG")):
+            w.on_step_changed(etapa)
+            _app.processEvents()
+            alvo = T.tr(titulo)
+            rotulo = next(l for l in w.stack.widget(etapa).findChildren(QLabel) if l.text() == alvo)
+            assert rotulo.width() >= rotulo.sizeHint().width(), f"título cortado na etapa {etapa + 1}"
+        tabela = w.tab_environmental.table_icv
+        cab = tabela.horizontalHeader()
+        assert all(cab.sectionSize(i) >= 120 for i in range(tabela.columnCount())), [cab.sectionSize(i) for i in range(5)]
+    finally:
+        T._runtime_language = anterior
+
+
+@pytest.mark.parametrize("idioma", ["es", "zh"])
+def test_descricao_do_descarte_nao_fica_em_duas_linguas(idioma):
+    texto = "Reservatório Estanque de Descarte em PEAD Rotomoldado (300 L) com Extravasor Superior, Boia Flutuante de Vedação e Purga Lenta Calibrada"
+    saida = T.tr(texto, lang=idioma)
+    assert "Reservatório" not in saida and "Extravasor" not in saida and "Boia" not in saida, saida
+    assert "300 L" in saida
+
+
+@sem_exemplo
+def test_procedencia_do_tarifario_ibe_em_ingles():
+    if get_current_edition() != "IBE":
+        pytest.skip("só a IBE tem o tarifário por concelho")
+    from triton.core import tarifarios_portugal as tp
+    from triton.ui.textos_da_edicao import traduz_descritivo
+    with _idioma("en"):
+        saida = traduz_descritivo(tp.procedencia("Lisboa"))
+    assert "documentos oficiais" not in saida and "entidades gestoras" not in saida, saida
+    assert "official documents" in saida

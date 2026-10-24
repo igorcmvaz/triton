@@ -4,6 +4,7 @@ Interface moderna com navegação por Sidebar em 6 Etapas, Live Preview e Sem Po
 """
 
 import os
+from triton.core.numero import para_float
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -91,6 +92,9 @@ class MainWindow(QMainWindow):
         self.config.bim_layout = dict(valor or {})
 
     def __init__(self):
+        # Antes de criar a janela: ela e as abas (spin boxes, validadores) herdam o QLocale padrão ao nascer.
+        from triton.core.numero import aplicar_locale
+        aplicar_locale()
         super().__init__()
         from triton import get_kebab_filename
         self.get_kebab_filename = get_kebab_filename
@@ -419,7 +423,7 @@ class MainWindow(QMainWindow):
             # Etapa 5: Resultados Tecnicos — atualiza KPIs e graficos ao entrar
             ts = self.tab_tanks_simulation
             try:
-                threshold = float(ts.txt_delta_ideal.text().replace(',', '.'))
+                threshold = para_float(ts.txt_delta_ideal.text())
             except Exception:
                 threshold = 1.0
             self.tab_charts.update_charts_data(
@@ -537,7 +541,7 @@ class MainWindow(QMainWindow):
         if sweep_res or single_res:
             threshold = 1.0
             try:
-                threshold = float(self.tab_tanks_simulation.txt_delta_ideal.text().replace(',', '.'))
+                threshold = para_float(self.tab_tanks_simulation.txt_delta_ideal.text())
             except Exception:
                 pass
             self.tab_charts.update_charts_data(

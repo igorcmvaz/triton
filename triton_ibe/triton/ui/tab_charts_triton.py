@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
     QScrollArea, QFrame, QTabWidget
 )
+from triton.core.numero import para_float
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
@@ -237,8 +238,8 @@ class TabChartsTriton(QWidget):
 
             upper_used = main_win.tab_tanks_simulation.combo_upper_mode.currentIndex() != 2 if (main_win and hasattr(main_win, "tab_tanks_simulation")) else True
             try:
-                pump_thresh_pct = float(main_win.tab_tanks_simulation.txt_pump_thresh_pct.text().replace(",", ".")) if main_win and hasattr(main_win, "tab_tanks_simulation") else 10.0
-                upper_vol = float(main_win.tab_tanks_simulation.txt_upper_vol.text().replace(",", ".")) if main_win and hasattr(main_win, "tab_tanks_simulation") else 500.0
+                pump_thresh_pct = para_float(main_win.tab_tanks_simulation.txt_pump_thresh_pct.text()) if main_win and hasattr(main_win, "tab_tanks_simulation") else 10.0
+                upper_vol = para_float(main_win.tab_tanks_simulation.txt_upper_vol.text()) if main_win and hasattr(main_win, "tab_tanks_simulation") else 500.0
             except Exception:
                 pump_thresh_pct = 10.0; upper_vol = 500.0
             pump_thresh_vol = (upper_vol * (pump_thresh_pct / 100.0)) if upper_used else 0.0

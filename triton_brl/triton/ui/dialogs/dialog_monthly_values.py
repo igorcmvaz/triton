@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QPushButton, 
     QTableWidget, QTableWidgetItem, QHeaderView
 )
+from triton.core.numero import decimal
 from PySide6.QtGui import QColor, QFont
 from triton.ui.translation import tr, get_current_theme
 
@@ -67,14 +68,14 @@ class DialogMonthlyValues(QDialog):
                 st = monthly_stats.get(r + 1, {'pot_pct': 0.0, 'pluvial': 0.0, 'potable': 0.0, 'spilled': 0.0, 'comp': 0.0, 'parc': 0.0, 'null': 0.0, 'rec': 0.0})
                 
                 table.setItem(r, 0, QTableWidgetItem(m_name))
-                table.setItem(r, 1, QTableWidgetItem(f"{st['pot_pct']:.2f}".replace('.', ',')))
-                table.setItem(r, 2, QTableWidgetItem(f"{st['pluvial']:.2f}".replace('.', ',')))
-                table.setItem(r, 3, QTableWidgetItem(f"{st['potable']:.2f}".replace('.', ',')))
-                table.setItem(r, 4, QTableWidgetItem(f"{st['spilled']:.2f}".replace('.', ',')))
-                table.setItem(r, 5, QTableWidgetItem(f"{st['comp']:.2f}".replace('.', ',')))
-                table.setItem(r, 6, QTableWidgetItem(f"{st['parc']:.2f}".replace('.', ',')))
-                table.setItem(r, 7, QTableWidgetItem(f"{st['null']:.2f}".replace('.', ',')))
-                table.setItem(r, 8, QTableWidgetItem(f"{st['rec']:.2f}".replace('.', ',')))
+                table.setItem(r, 1, QTableWidgetItem(decimal(f"{st['pot_pct']:.2f}")))
+                table.setItem(r, 2, QTableWidgetItem(decimal(f"{st['pluvial']:.2f}")))
+                table.setItem(r, 3, QTableWidgetItem(decimal(f"{st['potable']:.2f}")))
+                table.setItem(r, 4, QTableWidgetItem(decimal(f"{st['spilled']:.2f}")))
+                table.setItem(r, 5, QTableWidgetItem(decimal(f"{st['comp']:.2f}")))
+                table.setItem(r, 6, QTableWidgetItem(decimal(f"{st['parc']:.2f}")))
+                table.setItem(r, 7, QTableWidgetItem(decimal(f"{st['null']:.2f}")))
+                table.setItem(r, 8, QTableWidgetItem(decimal(f"{st['rec']:.2f}")))
 
                 sum_pot_pct += st['pot_pct']
                 sum_pluv += st['pluvial']
@@ -102,14 +103,14 @@ class DialogMonthlyValues(QDialog):
             avg_rec = sum_rec / 12.0
 
             vals_med = [
-                f"{avg_pot_pct:.2f}".replace('.', ','),
-                f"{avg_pluv:.2f}".replace('.', ','),
-                f"{avg_pot:.2f}".replace('.', ','),
-                f"{avg_spill:.2f}".replace('.', ','),
-                f"{avg_comp:.2f}".replace('.', ','),
-                f"{avg_parc:.2f}".replace('.', ','),
-                f"{avg_null:.2f}".replace('.', ','),
-                f"{avg_rec:.2f}".replace('.', ',')
+                decimal(f"{avg_pot_pct:.2f}"),
+                decimal(f"{avg_pluv:.2f}"),
+                decimal(f"{avg_pot:.2f}"),
+                decimal(f"{avg_spill:.2f}"),
+                decimal(f"{avg_comp:.2f}"),
+                decimal(f"{avg_parc:.2f}"),
+                decimal(f"{avg_null:.2f}"),
+                decimal(f"{avg_rec:.2f}")
             ]
             for c_idx, val_str in enumerate(vals_med):
                 item = QTableWidgetItem(val_str)

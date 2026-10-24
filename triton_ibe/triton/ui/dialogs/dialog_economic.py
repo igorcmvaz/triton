@@ -1,4 +1,5 @@
 import math
+from triton.core.numero import decimal, milhar, normalizar, normalizar_milhar, para_float, para_float_milhar, ptbr
 from PySide6.QtWidgets import (
     QWidget, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel, 
     QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, 
@@ -121,7 +122,7 @@ class DialogLowerTankVol(QDialog):
             if self.radio_opt.isChecked() and self.optimal_vol:
                 self.vol = float(self.optimal_vol)
             else:
-                self.vol = float(self.txt_vol.text().replace(',', '.'))
+                self.vol = para_float(self.txt_vol.text())
             self.accept()
         except ValueError:
             QMessageBox.critical(self, tr("Erro"), tr("Insira um volume válido."))
@@ -438,7 +439,7 @@ class DialogTariffs(QDialog):
 
         esg_val = getattr(self.config, 'sewage_rate', 100.0 if is_brl else 0.0)
         casas = 2 if esg_mode == ESGOTO_POR_M3 else 1
-        esg_val_str = f"{esg_val:.{casas}f}".replace('.', ',') if (esg_val > 0 or is_brl) else ""
+        esg_val_str = decimal(f"{esg_val:.{casas}f}") if (esg_val > 0 or is_brl) else ""
         self.txt_esg_val = QLineEdit(esg_val_str)
         self.txt_esg_val.setFixedWidth(100)
 
@@ -460,12 +461,12 @@ class DialogTariffs(QDialog):
         _tax_fix = float(getattr(self.config, "water_tax_fixed", 0.0) or 0.0)
         _tax_var = float(getattr(self.config, "water_tax_var", 0.0) or 0.0)
         lay_imp.addWidget(QLabel(tr("Imposto fixo (R$/mês):")))
-        self.txt_tax_fix = QLineEdit(f"{_tax_fix:.2f}".replace(".", ","))
+        self.txt_tax_fix = QLineEdit(decimal(f"{_tax_fix:.2f}"))
         self.txt_tax_fix.setFixedWidth(90)
         lay_imp.addWidget(self.txt_tax_fix)
         lay_imp.addSpacing(18)
         lay_imp.addWidget(QLabel(tr("Imposto variável (%):")))
-        self.txt_tax_var = QLineEdit(f"{_tax_var:.2f}".replace(".", ","))
+        self.txt_tax_var = QLineEdit(decimal(f"{_tax_var:.2f}"))
         self.txt_tax_var.setFixedWidth(90)
         lay_imp.addWidget(self.txt_tax_var)
         lay_imp.addStretch()
@@ -818,7 +819,7 @@ class DialogTariffs(QDialog):
         modo, valor = esgoto_do_municipio(data)
         (self.radio_esg_m3 if modo == ESGOTO_POR_M3 else self.radio_esg_var).setChecked(True)
         casas = 2 if modo == ESGOTO_POR_M3 else 1
-        self.txt_esg_val.setText(f"{valor:.{casas}f}".replace('.', ','))
+        self.txt_esg_val.setText(decimal(f"{valor:.{casas}f}"))
         self.update_esg_checks()
 
         # 3. Vigência da tabela: os reajustes contam dela
@@ -869,7 +870,7 @@ class DialogTariffs(QDialog):
             else:
                 vol_str = f"{max_v:.0f}" if max_v < 900 else f"{min_v:.0f}"
                 cost_str = f"{tr('Custo variável')} ({self._sym}/m³)"
-            val_str = f"{val:.{casas}f}".replace('.', ',')
+            val_str = decimal(f"{val:.{casas}f}")
 
             self.table.setItem(r, 1, QTableWidgetItem(vol_str))
             self.table.setItem(r, 2, QTableWidgetItem(cost_str))
@@ -916,7 +917,7 @@ class DialogTariffs(QDialog):
             vols = []
             for r in range(n):
                 item = self.table.item(r, 1)
-                txt = item.text().replace(',', '.').strip() if item else ""
+                txt = normalizar(item.text()).strip() if item else ""
                 try:
                     val = float(txt)
                 except ValueError:
@@ -972,7 +973,7 @@ class DialogTariffs(QDialog):
         self.table.insertRow(r)
         self.table.setItem(r, 1, QTableWidgetItem("20"))
         self.table.setItem(r, 2, QTableWidgetItem(f"{tr('Custo variável')} ({self._sym}/m³)"))
-        self.table.setItem(r, 3, QTableWidgetItem("5,00"))
+        self.table.setItem(r, 3, QTableWidgetItem(decimal("5.00")))
         self.update_table_intervals()
 
     def on_rem_row(self):
@@ -987,8 +988,8 @@ class DialogTariffs(QDialog):
             prev_max = 0.0
             prev_exp = 0.0
             for r in range(self.table.rowCount()):
-                v_str = self.table.item(r, 1).text().replace(',', '.').strip() if self.table.item(r, 1) else "0"
-                val_str = self.table.item(r, 3).text().replace(',', '.').strip() if self.table.item(r, 3) else "0"
+                v_str = normalizar(self.table.item(r, 1).text()).strip() if self.table.item(r, 1) else "0"
+                val_str = normalizar(self.table.item(r, 3).text()).strip() if self.table.item(r, 3) else "0"
                 c_type_str = self.table.item(r, 2).text().lower() if self.table.item(r, 2) else ""
 
                 v_val = float(v_str) if v_str else 0.0
@@ -1020,11 +1021,11 @@ class DialogTariffs(QDialog):
                                        else ESGOTO_POR_M3 if self.radio_esg_m3.isChecked()
                                        else ESGOTO_POR_FAIXAS if self.radio_esg_faixas.isChecked() else 1)
             if not self.radio_esg_faixas.isChecked():
-                self.config.sewage_rate = float(self.txt_esg_val.text().replace(',', '.'))
+                self.config.sewage_rate = para_float(self.txt_esg_val.text())
             # Estes dois ja foram zerados aqui, apagando o que o arquivo
             # do projeto ou a linha de comando tivessem declarado.
             def _num(campo, padrao=0.0):
-                t = campo.text().strip().replace(".", "").replace(",", ".")
+                t = normalizar_milhar(campo.text().strip())
                 try:
                     return max(0.0, float(t)) if t else padrao
                 except ValueError:
@@ -1141,12 +1142,12 @@ class DialogWaterEstimates(QDialog):
             m_sav_list.append(msav)
 
             table.setItem(r, 0, QTableWidgetItem(months_pt[r]))
-            table.setItem(r, 1, QTableWidgetItem(f"{p_day:.1f}".replace('.', ',')))
-            table.setItem(r, 2, QTableWidgetItem(f"{pot_day:.1f}".replace('.', ',')))
+            table.setItem(r, 1, QTableWidgetItem(decimal(f"{p_day:.1f}")))
+            table.setItem(r, 2, QTableWidgetItem(decimal(f"{pot_day:.1f}")))
             table.setItem(r, 3, QTableWidgetItem(f"{p_month:.0f}"))
-            table.setItem(r, 4, QTableWidgetItem(f"{bw:.2f}".replace('.', ',')))
-            table.setItem(r, 5, QTableWidgetItem(f"{bwth:.2f}".replace('.', ',')))
-            table.setItem(r, 6, QTableWidgetItem(f"{msav:.2f}".replace('.', ',')))
+            table.setItem(r, 4, QTableWidgetItem(decimal(f"{bw:.2f}")))
+            table.setItem(r, 5, QTableWidgetItem(decimal(f"{bwth:.2f}")))
+            table.setItem(r, 6, QTableWidgetItem(decimal(f"{msav:.2f}")))
 
         # Linha Média (Linha 12)
         it_m = QTableWidgetItem(tr("Média"))
@@ -1163,12 +1164,12 @@ class DialogWaterEstimates(QDialog):
         avg_sav = sum(m_sav_list) / 12.0
 
         vals_med = [
-            f"{avg_p_day:.1f}".replace('.', ','),
-            f"{avg_pot_day:.1f}".replace('.', ','),
+            decimal(f"{avg_p_day:.1f}"),
+            decimal(f"{avg_pot_day:.1f}"),
             f"{avg_p_m:.0f}",
-            f"{avg_bw:.2f}".replace('.', ','),
-            f"{avg_bwth:.2f}".replace('.', ','),
-            f"{avg_sav:.2f}".replace('.', ',')
+            decimal(f"{avg_bw:.2f}"),
+            decimal(f"{avg_bwth:.2f}"),
+            decimal(f"{avg_sav:.2f}")
         ]
         for c_idx, val_str in enumerate(vals_med):
             it = QTableWidgetItem(val_str)
@@ -1198,19 +1199,19 @@ class DialogWaterEstimates(QDialog):
         it_p_tot.setForeground(fg_color)
         table.setItem(13, 3, it_p_tot)
 
-        it_bw_tot = QTableWidgetItem(f"{tot_bw:.2f}".replace('.', ','))
+        it_bw_tot = QTableWidgetItem(decimal(f"{tot_bw:.2f}"))
         it_bw_tot.setFont(font_bold)
         it_bw_tot.setBackground(green_bg)
         it_bw_tot.setForeground(fg_color)
         table.setItem(13, 4, it_bw_tot)
 
-        it_bwth_tot = QTableWidgetItem(f"{tot_bwth:.2f}".replace('.', ','))
+        it_bwth_tot = QTableWidgetItem(decimal(f"{tot_bwth:.2f}"))
         it_bwth_tot.setFont(font_bold)
         it_bwth_tot.setBackground(green_bg)
         it_bwth_tot.setForeground(fg_color)
         table.setItem(13, 5, it_bwth_tot)
 
-        it_sav_tot = QTableWidgetItem(f"{tot_sav:.2f}".replace('.', ','))
+        it_sav_tot = QTableWidgetItem(decimal(f"{tot_sav:.2f}"))
         it_sav_tot.setFont(font_bold)
         it_sav_tot.setBackground(green_bg)
         it_sav_tot.setForeground(fg_color)
@@ -1272,7 +1273,7 @@ class DialogInitialCosts(QDialog):
                 widget = txt
             if widget is None:
                 return default
-            val = widget.text().strip().replace('.', '').replace(',', '.')
+            val = normalizar_milhar(widget.text().strip())
             try:
                 return max(0.0, float(val))
             except ValueError:
@@ -1439,7 +1440,7 @@ class DialogInitialCosts(QDialog):
 
             lbl_name = QLabel(f"{p['label']}:")
             lbl_name.setStyleSheet("font-weight: 500;")
-            txt_pipe = QLineEdit(f"{self.config.get_pipe_length(dn):.1f}".replace('.', ','))
+            txt_pipe = QLineEdit(decimal(f"{self.config.get_pipe_length(dn):.1f}"))
             txt_pipe.setMinimumWidth(60)
             txt_pipe.setMaximumWidth(90)
             txt_pipe.textChanged.connect(self._on_pipes_changed)
@@ -1492,10 +1493,10 @@ class DialogInitialCosts(QDialog):
         est_lower, est_upper, est_labor, est_piping, est_acc = self._estimate_costs()
         is_brl = (self._sym == "R$")
 
-        upper_val = f"{self.config.cost_upper_tank:.2f}".replace('.', ',') if self.config.cost_upper_tank > 0 else (f"{est_upper:.2f}".replace('.', ',') if is_brl else "")
-        labor_val = f"{self.config.cost_labor:.2f}".replace('.', ',') if self.config.cost_labor > 0 else (f"{est_labor:.2f}".replace('.', ',') if is_brl else "")
-        piping_val = f"{self.config.cost_piping:.2f}".replace('.', ',') if self.config.cost_piping > 0 else (f"{est_piping:.2f}".replace('.', ',') if is_brl else "")
-        acc_val = f"{self.config.cost_accessories:.2f}".replace('.', ',') if self.config.cost_accessories > 0 else (f"{est_acc:.2f}".replace('.', ',') if is_brl else "")
+        upper_val = decimal(f"{self.config.cost_upper_tank:.2f}") if self.config.cost_upper_tank > 0 else (decimal(f"{est_upper:.2f}") if is_brl else "")
+        labor_val = decimal(f"{self.config.cost_labor:.2f}") if self.config.cost_labor > 0 else (decimal(f"{est_labor:.2f}") if is_brl else "")
+        piping_val = decimal(f"{self.config.cost_piping:.2f}") if self.config.cost_piping > 0 else (decimal(f"{est_piping:.2f}") if is_brl else "")
+        acc_val = decimal(f"{self.config.cost_accessories:.2f}") if self.config.cost_accessories > 0 else (decimal(f"{est_acc:.2f}") if is_brl else "")
 
         grid = QGridLayout()
         grid.setVerticalSpacing(6)
@@ -1504,7 +1505,7 @@ class DialogInitialCosts(QDialog):
         def add_row(row, label, txt_field, est_val):
             grid.addWidget(QLabel(label), row, 0)
             grid.addWidget(txt_field, row, 1)
-            lbl_est = QLabel(f"(est. R$ {est_val:,.0f})".replace(',', 'X').replace('.', ',').replace('X', '.') if is_brl else "")
+            lbl_est = QLabel(ptbr(f"(est. R$ {est_val:,.0f})") if is_brl else "")
             lbl_est.setStyleSheet("color: #a1a1aa; font-size: 11px;" if is_dark else "color: #64748b; font-size: 11px;")
             grid.addWidget(lbl_est, row, 2)
             return lbl_est
@@ -1578,7 +1579,7 @@ class DialogInitialCosts(QDialog):
 
         est_lower, est_upper, est_labor, est_piping, est_acc = self._estimate_costs()
         is_brl = (self._sym == "R$")
-        def _fmt_est(v): return f"(est. R$ {v:,.0f})".replace(',', 'X').replace('.', ',').replace('X', '.') if is_brl else ""
+        def _fmt_est(v): return ptbr(f"(est. R$ {v:,.0f})") if is_brl else ""
         if hasattr(self, "lbl_pipe_network_total"):
             self.lbl_pipe_network_total.setText(f"⚡ {tr(subtotal_de_tubulacoes())} {self._sym} {format_ptbr(est_piping, 2)}")
         if hasattr(self, "lbl_est_piping"):
@@ -1586,13 +1587,13 @@ class DialogInitialCosts(QDialog):
         if hasattr(self, "lbl_est_labor"):
             self.lbl_est_labor.setText(_fmt_est(est_labor))
         if is_brl and hasattr(self, "txt_piping"):
-            self.txt_piping.setText(f"{est_piping:.2f}".replace('.', ','))
+            self.txt_piping.setText(decimal(f"{est_piping:.2f}"))
         self._update_total()
 
     def _on_material_changed(self):
         est_lower, est_upper, est_labor, est_piping, est_acc = self._estimate_costs()
         is_brl = (self._sym == "R$")
-        def _fmt_est(v): return f"(est. R$ {v:,.0f})".replace(',', 'X').replace('.', ',').replace('X', '.') if is_brl else ""
+        def _fmt_est(v): return ptbr(f"(est. R$ {v:,.0f})") if is_brl else ""
         if hasattr(self, "lbl_est_upper"):
             self.lbl_est_upper.setText(_fmt_est(est_upper))
         if hasattr(self, "lbl_est_labor"):
@@ -1607,7 +1608,7 @@ class DialogInitialCosts(QDialog):
         self.table_lower_costs.setRowCount(len(self._lower_volumes))
         for row, volume in enumerate(self._lower_volumes):
             lower_cost = self._estimate_costs(lower_volume=volume)[0]
-            volume_item = QTableWidgetItem(f"{volume:,.0f}".replace(',', '.'))
+            volume_item = QTableWidgetItem(milhar(f"{volume:,.0f}"))
             cost_item = QTableWidgetItem(f"{self._sym} {format_ptbr(lower_cost, 2)}")
             volume_item.setTextAlignment(Qt.AlignCenter)
             cost_item.setTextAlignment(Qt.AlignCenter)
@@ -1618,7 +1619,7 @@ class DialogInitialCosts(QDialog):
         val = line_edit.text().strip()
         is_dark = get_current_theme() == "dark"
         try:
-            v = float(val.replace('.', '').replace(',', '.'))
+            v = para_float_milhar(val)
             if v >= 0:
                 if is_dark:
                     line_edit.setStyleSheet("QLineEdit { background-color: #1c1c1f; border: 1px solid #3f3f46; color: #ffffff; }")
@@ -1636,7 +1637,7 @@ class DialogInitialCosts(QDialog):
         try:
             fixed_total = 0.0
             for t in [self.txt_upper, self.txt_labor, self.txt_piping, self.txt_accessories]:
-                val_str = t.text().strip().replace('.', '').replace(',', '.')
+                val_str = normalizar_milhar(t.text().strip())
                 if val_str:
                     fixed_total += float(val_str)
             totals = [
@@ -1660,7 +1661,7 @@ class DialogInitialCosts(QDialog):
     def _reset_estimates(self):
         est_lower, est_upper, est_labor, est_piping, est_acc = self._estimate_costs()
         is_brl = (self._sym == "R$")
-        def _fmt(v): return f"{v:.2f}".replace('.', ',') if is_brl else ""
+        def _fmt(v): return decimal(f"{v:.2f}") if is_brl else ""
         self.txt_upper.setText(_fmt(est_upper))
         self.txt_labor.setText(_fmt(est_labor))
         self.txt_piping.setText(_fmt(est_piping))
@@ -1678,7 +1679,7 @@ class DialogInitialCosts(QDialog):
     def on_accept(self):
         try:
             def _parse_val(txt):
-                v_str = txt.text().strip().replace('.', '').replace(',', '.')
+                v_str = normalizar_milhar(txt.text().strip())
                 return float(v_str) if v_str else 0.0
             self.config.lower_tank_material = self.combo_lower_mat.currentData()
             self.config.upper_tank_material = self.combo_upper_mat.currentData()
@@ -1875,7 +1876,7 @@ class DialogElectricity(QDialog):
 
         lay_p.addWidget(QLabel(tr("Potência unitária:")))
         row_p = QHBoxLayout()
-        self.txt_power = QLineEdit(f"{(self.config.pump_power_kw / 0.735499):.2f}".replace('.', ','))
+        self.txt_power = QLineEdit(decimal(f"{(self.config.pump_power_kw / 0.735499):.2f}"))
         self.combo_power_unit = QComboBox()
         self.combo_power_unit.addItems(["CV", "W", "kW", "HP"])
         row_p.addWidget(self.txt_power)
@@ -1883,7 +1884,7 @@ class DialogElectricity(QDialog):
         lay_p.addLayout(row_p)
 
         lay_p.addWidget(QLabel(tr("Rendimento (%):")))
-        self.txt_eff = QLineEdit(f"{self.config.pump_efficiency:.1f}".replace('.', ','))
+        self.txt_eff = QLineEdit(decimal(f"{self.config.pump_efficiency:.1f}"))
         self.txt_eff.setToolTip(tr(
             "Rendimento da BOMBA, isto é, da parte hidráulica. Não inclui o motor: a potência de placa é a mecânica no eixo, e o rendimento do motor é campo à parte."))
         lay_p.addWidget(self.txt_eff)
@@ -1892,13 +1893,13 @@ class DialogElectricity(QDialog):
         lay_p.addWidget(QLabel(tr(rotulo_rendimento_do_motor())))
         _mot = float(getattr(self.config, 'pump_motor_efficiency', 0.0) or 0.0)
         self.txt_motor_eff = QLineEdit(
-            f"{_mot:.1f}".replace('.', ',') if _mot > 0 else "")
+            decimal(f"{_mot:.1f}") if _mot > 0 else "")
         self.txt_motor_eff.setPlaceholderText(tr("Ex: 60,5 para meio CV"))
         self.txt_motor_eff.setToolTip(tr(dica_rendimento_do_motor()))
         lay_p.addWidget(self.txt_motor_eff)
 
         lay_p.addWidget(QLabel(tr("Vazão nominal (litros/hora):")))
-        self.txt_flow = QLineEdit(f"{self.config.pump_flow_rate:.0f}".replace('.', ','))
+        self.txt_flow = QLineEdit(decimal(f"{self.config.pump_flow_rate:.0f}"))
         lay_p.addWidget(self.txt_flow)
 
         lay_p.addWidget(QLabel(tr("Tempo de partida (segundos):")))
@@ -1906,8 +1907,8 @@ class DialogElectricity(QDialog):
         lay_p.addWidget(self.txt_startup)
 
         is_brl = (self._sym == "R$")
-        unit_cost_str = f"{self.config.pump_unit_cost:.2f}".replace('.', ',') if (self.config.pump_unit_cost > 0 or is_brl) else ""
-        elec_tariff_str = f"{self.config.elec_tariff:.4f}".replace('.', ',') if (self.config.elec_tariff > 0 or is_brl) else ""
+        unit_cost_str = decimal(f"{self.config.pump_unit_cost:.2f}") if (self.config.pump_unit_cost > 0 or is_brl) else ""
+        elec_tariff_str = decimal(f"{self.config.elec_tariff:.4f}") if (self.config.elec_tariff > 0 or is_brl) else ""
 
         lay_p.addWidget(QLabel(f"{tr('Custo Unitário da Motobomba')} ({self._sym}):"))
         self.txt_unit_cost = QLineEdit(unit_cost_str)
@@ -1923,10 +1924,10 @@ class DialogElectricity(QDialog):
         _e_var = float(getattr(self.config, "elec_tax_var", 0.0) or 0.0)
         _e_fix = float(getattr(self.config, "elec_tax_fixed", 0.0) or 0.0)
         lay_p.addWidget(QLabel(tr("Imposto variável sobre a conta de energia (%):")))
-        self.txt_elec_tax_var = QLineEdit(f"{_e_var:.2f}".replace(".", ","))
+        self.txt_elec_tax_var = QLineEdit(decimal(f"{_e_var:.2f}"))
         lay_p.addWidget(self.txt_elec_tax_var)
         lay_p.addWidget(QLabel(tr("Imposto fixo sobre a conta de energia (R$/mês):")))
-        self.txt_elec_tax_fix = QLineEdit(f"{_e_fix:.2f}".replace(".", ","))
+        self.txt_elec_tax_fix = QLineEdit(decimal(f"{_e_fix:.2f}"))
         lay_p.addWidget(self.txt_elec_tax_fix)
 
         self.chk_backup_pump = QCheckBox(tr("Considerar motobomba de reserva"))
@@ -2006,7 +2007,7 @@ class DialogElectricity(QDialog):
         if city_val and city_val != "CUSTOM":
             self.apply_elec_city()
         elif self.config.elec_tariff > 0:
-            self.txt_elec_tariff.setText(f"{self.config.elec_tariff:.4f}".replace('.', ','))
+            self.txt_elec_tariff.setText(decimal(f"{self.config.elec_tariff:.4f}"))
 
     def populate_elec_cities_for_current_uf(self, select_city=None):
         uf_code = self.combo_elec_uf.currentData() or "CUSTOM"
@@ -2104,14 +2105,14 @@ class DialogElectricity(QDialog):
 
         e_kwh = data.get('energia_r_kwh', 0.0)
         if e_kwh > 0:
-            self.txt_elec_tariff.setText(f"{e_kwh:.4f}".replace('.', ','))
+            self.txt_elec_tariff.setText(decimal(f"{e_kwh:.4f}"))
 
     def on_accept(self):
         try:
             def _parse_val(txt):
-                v_str = txt.text().strip().replace('.', '').replace(',', '.')
+                v_str = normalizar_milhar(txt.text().strip())
                 return float(v_str) if v_str else 0.0
-            p_val = float(self.txt_power.text().replace(',', '.'))
+            p_val = para_float(self.txt_power.text())
             unit = self.combo_power_unit.currentText()
             if unit == "CV":
                 p_kw = p_val * 0.735499
@@ -2123,15 +2124,15 @@ class DialogElectricity(QDialog):
                 p_kw = p_val
 
             self.config.pump_power_kw = p_kw
-            self.config.pump_efficiency = float(self.txt_eff.text().replace(',', '.'))
-            _mot_txt = self.txt_motor_eff.text().strip().replace(',', '.')
+            self.config.pump_efficiency = para_float(self.txt_eff.text())
+            _mot_txt = normalizar(self.txt_motor_eff.text().strip())
             try:
                 self.config.pump_motor_efficiency = max(0.0, min(100.0, float(_mot_txt))) \
                     if _mot_txt else 0.0
             except ValueError:
                 self.config.pump_motor_efficiency = 0.0
-            self.config.pump_flow_rate = float(self.txt_flow.text().replace(',', '.'))
-            self.config.pump_startup_time_h = float(self.txt_startup.text().replace(',', '.')) / 3600.0
+            self.config.pump_flow_rate = para_float(self.txt_flow.text())
+            self.config.pump_startup_time_h = para_float(self.txt_startup.text()) / 3600.0
             self.config.pump_unit_cost = _parse_val(self.txt_unit_cost)
             self.config.elec_tariff = _parse_val(self.txt_elec_tariff)
             self.config.elec_tax_fixed = max(0.0, _parse_val(self.txt_elec_tax_fix))
@@ -2159,11 +2160,11 @@ class DialogElectricity(QDialog):
         if dlg.exec():
             p = dlg.selected_pump_data
             if p:
-                self.txt_power.setText(f"{p['cv']:.2f}".replace('.', ','))
+                self.txt_power.setText(decimal(f"{p['cv']:.2f}"))
                 self.combo_power_unit.setCurrentText("CV")
-                self.txt_flow.setText(f"{p['flow_lh']:.0f}".replace('.', ','))
-                self.txt_eff.setText(f"{p['efficiency']:.1f}".replace('.', ','))
-                self.txt_unit_cost.setText(f"{p['cost']:.2f}".replace('.', ','))
+                self.txt_flow.setText(decimal(f"{p['flow_lh']:.0f}"))
+                self.txt_eff.setText(decimal(f"{p['efficiency']:.1f}"))
+                self.txt_unit_cost.setText(decimal(f"{p['cost']:.2f}"))
                 if hasattr(self.config, "update_pump_pipes") and "suction_dn" in p and "recalque_dn" in p:
                     self.config.update_pump_pipes(
                         p["suction_dn"], p["recalque_dn"],
@@ -2171,7 +2172,7 @@ class DialogElectricity(QDialog):
                     )
                     if hasattr(self, "txt_pipes"):
                         for dn_pipe, txt_p in self.txt_pipes.items():
-                            txt_p.setText(f"{self.config.get_pipe_length(dn_pipe):.1f}".replace('.', ','))
+                            txt_p.setText(decimal(f"{self.config.get_pipe_length(dn_pipe):.1f}"))
                     if hasattr(self, "_on_pipes_changed"):
                         self._on_pipes_changed()
 
@@ -2236,14 +2237,14 @@ class DialogOtherOpCosts(QDialog):
         lay.addWidget(gb_type)
 
         is_brl = (self._sym == "R$")
-        linear_val = "200,00" if is_brl else ""
+        linear_val = decimal("200.00") if is_brl else ""
 
         lay.addWidget(QLabel(f"{tr('Coeficiente linear')} ({self._sym})"))
         self.txt_linear = QLineEdit(linear_val)
         lay.addWidget(self.txt_linear)
 
         lay.addWidget(QLabel(f"{tr('Coeficiente angular')} ({self._sym}/m³)"))
-        self.txt_angular = QLineEdit("0,00")
+        self.txt_angular = QLineEdit(decimal("0.00"))
         lay.addWidget(self.txt_angular)
 
         is_dark = get_current_theme() == "dark"
@@ -2313,15 +2314,15 @@ class DialogOtherOpCosts(QDialog):
             name, period, fix_c, var_c = item
             self.table.setItem(r, 0, QTableWidgetItem(str(name)))
             self.table.setItem(r, 1, QTableWidgetItem(f"{period}m"))
-            self.table.setItem(r, 2, QTableWidgetItem(f"{fix_c:.2f}".replace('.', ',')))
-            self.table.setItem(r, 3, QTableWidgetItem(f"{var_c:.2f}".replace('.', ',')))
+            self.table.setItem(r, 2, QTableWidgetItem(decimal(f"{fix_c:.2f}")))
+            self.table.setItem(r, 3, QTableWidgetItem(decimal(f"{var_c:.2f}")))
 
     def on_add(self):
         try:
             name = self.txt_name.text().strip() or tr("Custo Operacional")
             period = int(self.txt_period.text())
-            fix_c = float(self.txt_linear.text().replace(',', '.'))
-            var_c = float(self.txt_angular.text().replace(',', '.')) if self.radio_var.isChecked() else 0.0
+            fix_c = para_float(self.txt_linear.text())
+            var_c = para_float(self.txt_angular.text()) if self.radio_var.isChecked() else 0.0
             self.op_costs.append((name, period, fix_c, var_c))
             self.refresh_table()
         except ValueError:
@@ -2402,13 +2403,13 @@ class DialogCashFlow(QDialog):
             for r, item in enumerate(self.econ_res.monthly_cash_flows):
                 self.table.setItem(r, 0, QTableWidgetItem(str(item.month)))
                 self.table.setItem(r, 1, QTableWidgetItem(str(item.year)))
-                self.table.setItem(r, 2, QTableWidgetItem(f"{item.water_bill_without_pluvial:.2f}".replace('.', ',')))
-                self.table.setItem(r, 3, QTableWidgetItem(f"{item.water_bill_with_pluvial:.2f}".replace('.', ',')))
-                self.table.setItem(r, 4, QTableWidgetItem(f"{item.water_savings:.2f}".replace('.', ',')))
-                self.table.setItem(r, 5, QTableWidgetItem(f"{item.pump_cost:.2f}".replace('.', ',')))
-                self.table.setItem(r, 6, QTableWidgetItem(f"{item.om_cost:.2f}".replace('.', ',')))
-                self.table.setItem(r, 7, QTableWidgetItem(f"{item.net_savings:.2f}".replace('.', ',')))
-                self.table.setItem(r, 8, QTableWidgetItem(f"{item.cumulative_discounted:.2f}".replace('.', ',')))
+                self.table.setItem(r, 2, QTableWidgetItem(decimal(f"{item.water_bill_without_pluvial:.2f}")))
+                self.table.setItem(r, 3, QTableWidgetItem(decimal(f"{item.water_bill_with_pluvial:.2f}")))
+                self.table.setItem(r, 4, QTableWidgetItem(decimal(f"{item.water_savings:.2f}")))
+                self.table.setItem(r, 5, QTableWidgetItem(decimal(f"{item.pump_cost:.2f}")))
+                self.table.setItem(r, 6, QTableWidgetItem(decimal(f"{item.om_cost:.2f}")))
+                self.table.setItem(r, 7, QTableWidgetItem(decimal(f"{item.net_savings:.2f}")))
+                self.table.setItem(r, 8, QTableWidgetItem(decimal(f"{item.cumulative_discounted:.2f}")))
         else:
             cols = [tr("Mês"), tr("Ano"), tr("Investimento / Custos (R$)"), tr("Economia Líquida (R$)"), tr("Acumulado Descontado (R$)")]
             self.table.setColumnCount(len(cols))
@@ -2418,16 +2419,16 @@ class DialogCashFlow(QDialog):
             # Mês 0: Investimento Inicial
             self.table.setItem(0, 0, QTableWidgetItem("0"))
             self.table.setItem(0, 1, QTableWidgetItem("0"))
-            self.table.setItem(0, 2, QTableWidgetItem(f"{self.econ_res.capex_total:.2f}".replace('.', ',')))
-            self.table.setItem(0, 3, QTableWidgetItem(f"{-self.econ_res.capex_total:.2f}".replace('.', ',')))
-            self.table.setItem(0, 4, QTableWidgetItem(f"{-self.econ_res.capex_total:.2f}".replace('.', ',')))
+            self.table.setItem(0, 2, QTableWidgetItem(decimal(f"{self.econ_res.capex_total:.2f}")))
+            self.table.setItem(0, 3, QTableWidgetItem(decimal(f"{-self.econ_res.capex_total:.2f}")))
+            self.table.setItem(0, 4, QTableWidgetItem(decimal(f"{-self.econ_res.capex_total:.2f}")))
 
             for r, item in enumerate(self.econ_res.monthly_cash_flows):
                 self.table.setItem(r + 1, 0, QTableWidgetItem(str(item.month)))
                 self.table.setItem(r + 1, 1, QTableWidgetItem(str(item.year)))
-                self.table.setItem(r + 1, 2, QTableWidgetItem(f"{(item.pump_cost + item.om_cost):.2f}".replace('.', ',')))
-                self.table.setItem(r + 1, 3, QTableWidgetItem(f"{item.net_savings:.2f}".replace('.', ',')))
-                self.table.setItem(r + 1, 4, QTableWidgetItem(f"{item.cumulative_discounted:.2f}".replace('.', ',')))
+                self.table.setItem(r + 1, 2, QTableWidgetItem(decimal(f"{(item.pump_cost + item.om_cost):.2f}")))
+                self.table.setItem(r + 1, 3, QTableWidgetItem(decimal(f"{item.net_savings:.2f}")))
+                self.table.setItem(r + 1, 4, QTableWidgetItem(decimal(f"{item.cumulative_discounted:.2f}")))
 
 
 class DialogEconomicAnalysis(QDialog):
@@ -2503,7 +2504,7 @@ class DialogEconomicAnalysis(QDialog):
         grid_p.addWidget(self.txt_years, 0, 1)
 
         grid_p.addWidget(QLabel(tr("Inflação (% ao mês):")), 1, 0)
-        self.txt_inflation = QLineEdit(f"{self.config.inflation:.2f}".replace('.', ','))
+        self.txt_inflation = QLineEdit(decimal(f"{self.config.inflation:.2f}"))
         grid_p.addWidget(self.txt_inflation, 1, 1)
 
         grid_p.addWidget(QLabel(tr("Período de reajuste (meses):")), 2, 0)
@@ -2511,7 +2512,7 @@ class DialogEconomicAnalysis(QDialog):
         grid_p.addWidget(self.txt_escalation, 2, 1)
 
         grid_p.addWidget(QLabel(tr("Taxa mínima de atratividade (% ao mês):")), 3, 0)
-        self.txt_tma = QLineEdit(f"{self.config.tma:.2f}".replace('.', ','))
+        self.txt_tma = QLineEdit(decimal(f"{self.config.tma:.2f}"))
         grid_p.addWidget(self.txt_tma, 3, 1)
 
         grid_p.addWidget(QLabel(tr("Mês de instalação:")), 4, 0)
@@ -2599,9 +2600,9 @@ class DialogEconomicAnalysis(QDialog):
 
         try:
             self.config.analysis_period_years = int(self.txt_years.text())
-            self.config.inflation = float(self.txt_inflation.text().replace(',', '.'))
-            self.config.tma = float(self.txt_tma.text().replace(',', '.'))
-            self.config.tariff_escalation = float(self.txt_escalation.text().replace(',', '.'))
+            self.config.inflation = para_float(self.txt_inflation.text())
+            self.config.tma = para_float(self.txt_tma.text())
+            self.config.tariff_escalation = para_float(self.txt_escalation.text())
 
             self.last_econ_res = run_economic_analysis(self.config, self.sim_result)
 

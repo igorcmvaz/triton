@@ -7,6 +7,7 @@ e catálogo de motobombas com bocais compatíveis: na Edição Brasil, modelos c
 """
 
 import math
+from triton.core.numero import milhar
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
     QDoubleSpinBox, QSpinBox, QComboBox, QPushButton, QMessageBox, QFrame,
@@ -605,7 +606,7 @@ class PumpSelectionWizardDialog(QDialog):
         q_rec_lh = upper_v / fill_t_h if fill_t_h > 0 else upper_v
         q_rec_m3h = q_rec_lh / 1000.0
         q_rec_m3s = q_rec_m3h / 3600.0
-        self.lbl_qmin.setText(f"{q_rec_lh:,.0f} L/h ({q_rec_m3h:.2f} m³/h)".replace(',', '.'))
+        self.lbl_qmin.setText(milhar(f"{q_rec_lh:,.0f} L/h ({q_rec_m3h:.2f} m³/h)"))
 
         # 2. Diâmetro Econômico Teórico (Fórmula de Forchheimer):
         # D = 1.3 * (t / 24)^0.25 * sqrt(Q)
@@ -749,7 +750,7 @@ class PumpSelectionWizardDialog(QDialog):
 
         upper_v = self.spin_upper_vol.value()
         self.lbl_pump_power.setText(f"{p_data['kw']:.3f} kW ({p_data['cv']} CV)")
-        self.lbl_pump_flow.setText(f"{p_data['flow_lh']:,.0f} L/h".replace(',', '.'))
+        self.lbl_pump_flow.setText(milhar(f"{p_data['flow_lh']:,.0f} L/h"))
         self.lbl_pump_threads.setText(tr('Sucção {0}  ×  Recalque {1}').format(p_data.get('bocal_suc', '--'), p_data.get('bocal_rec', '--')))
         self.lbl_pump_cost.setText(f"R$ {p_data['cost']:.2f}" if self._com_precos else "—")
         self.lbl_pump_maxh.setText(f"{p_data['max_h']:.1f} mca")
@@ -812,7 +813,7 @@ class PumpSelectionWizardDialog(QDialog):
             energy_kwh = (rec_pump["kw"] * runtime_h_year) / eta if eta > 0 else 0
             cost_energy = energy_kwh * tarifa_kwh
 
-            self.table_sweep.setItem(r, 0, QTableWidgetItem(f"{vol:,.0f} L".replace(',', '.')))
+            self.table_sweep.setItem(r, 0, QTableWidgetItem(milhar(f"{vol:,.0f} L")))
             self.table_sweep.setItem(r, 1, QTableWidgetItem(f"{q_nec_lh:.0f} L/h"))
             self.table_sweep.setItem(r, 2, QTableWidgetItem(f"DN {dn_rec_eff} (Rec) / DN {dn_suc_eff} (Suc)"))
             self.table_sweep.setItem(r, 3, QTableWidgetItem(rec_pump["brand"] if rec_pump in PUMP_CATALOG else tr(rec_pump["brand"])))

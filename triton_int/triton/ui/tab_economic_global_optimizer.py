@@ -5,6 +5,7 @@ aplicando a Otimização Multi-Critério TOPSIS com Seletor de Relevância / Pes
 """
 
 import numpy as np
+from triton.core.numero import decimal, milhar
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel, QPushButton,
     QTableWidget, QTableWidgetItem, QHeaderView, QComboBox, QDoubleSpinBox, QSpinBox,
@@ -470,7 +471,7 @@ class TabEconomicGlobalOptimizer(QWidget):
             samples = self.get_smaa_num_simulations()
             v_val = self.get_vikor_v_param()
             self.lbl_weight_validation.setText(
-                tr('✓ {0:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val).replace(",", ".")
+                milhar(tr('✓ {0:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val))
             )
             self.lbl_weight_validation.setStyleSheet(
                 "font-size: 10px; font-weight: bold; color: #047857;"
@@ -479,12 +480,12 @@ class TabEconomicGlobalOptimizer(QWidget):
         total = self.spin_w_tech.value() + self.spin_w_fin.value() + self.spin_w_env.value()
         valid = total > 0
         if not valid:
-            message = f"⚠ {tr('Pesos inválidos')}: 0,0%"
+            message = f"⚠ {tr('Pesos inválidos')}: {format_ptbr(0, 1)}%"
         elif abs(total - 100.0) < 0.05:
             message = f"✓ {tr('Soma dos pesos')}: {total:.1f}%"
         else:
             message = f"ℹ {tr('Soma dos pesos')}: {total:.1f}% — {tr('normalizada automaticamente')}"
-        self.lbl_weight_validation.setText(message.replace(".", ","))
+        self.lbl_weight_validation.setText(decimal(message))
         self.lbl_weight_validation.setStyleSheet(
             f"font-size: 10px; font-weight: bold; color: {'#047857' if valid else '#b91c1c'};"
         )
@@ -817,7 +818,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         if selected_method == "smaa_vikor":
             self.last_mcdm_result = smaa_res
             best_mcdm_row = smaa_res.best_index
-            mcdm_label_title = f"🎲 Ótimo SMAA-VIKOR ({smaa_samples:,} simulações)".replace(",", ".")
+            mcdm_label_title = milhar(f"🎲 Ótimo SMAA-VIKOR ({smaa_samples:,} simulações)")
             for r, (acc, rk) in enumerate(zip(smaa_res.first_rank_acceptabilities, smaa_res.ranks)):
                 item_score = QTableWidgetItem(f"{acc*100:.1f}%")
                 item_score.setTextAlignment(Qt.AlignCenter)
@@ -865,7 +866,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         if smaa_res:
             best_sma = smaa_res.best_candidate
             self.lbl_best_vikor.setText(
-                tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples).replace(",", ".")
+                milhar(tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples))
             )
 
         if topsis_res:
@@ -915,7 +916,7 @@ class TabEconomicGlobalOptimizer(QWidget):
 
                 # Frase montada com o catálogo (en/es/zh) e só números já formatados: o ``.replace(",", ".")``
                 # global que existia trocava também as vírgulas do texto e as decimais do VPL («2.428.94»).
-                _milhar = lambda n: f"{n:,}".replace(",", ".")
+                _milhar = lambda n: milhar(f"{n:,}")
                 tradeoff_msg = tr(
                     "O método TOPSIS ({0}) recomenda a cisterna de {1} L (Score: {2}), enquanto o método VIKOR "
                     "(SMAA-VIKOR estocástico, {3} simulações) recomenda a cisterna de {4} L (aceitabilidade de 1º lugar: {5}%). "

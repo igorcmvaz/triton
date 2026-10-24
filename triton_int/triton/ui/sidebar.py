@@ -4,6 +4,7 @@ Permite trocar de aba com facilidade e exibe o Resumo Expandido do Projeto em te
 """
 
 import os
+from triton.core.numero import milhar
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFrame, QButtonGroup
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QPixmap
@@ -311,7 +312,7 @@ class Sidebar(QWidget):
         def optimum_text(label, value):
             if value is None:
                 return f"{label} -- L"
-            return f"{label} {float(value):,.0f} L".replace(',', '.')
+            return milhar(f"{label} {float(value):,.0f} L")
 
         self.lbl_sum_opt_tech.setText(optimum_text(f"💧 {tr('Ótimo técnico:')}", technical_opt_vol))
         self.lbl_sum_opt_econ.setText(optimum_text(f"💵 {tr('Ótimo econômico:')}", economic_opt_vol))

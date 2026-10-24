@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, 
     QLineEdit, QPushButton, QRadioButton, QButtonGroup, QMessageBox
 )
+from triton.core.numero import decimal, para_float
 from triton.ui.translation import tr
 
 
@@ -58,16 +59,16 @@ class DialogUpperTank(QDialog):
         layout.addWidget(gb_mode)
 
         layout.addWidget(QLabel(tr("Volume do reservatório superior (litros)")))
-        init_vol_str = f"{self.upper_tank_vol:.1f}".replace('.', ',') if self.upper_tank_mode != 2 else "0"
+        init_vol_str = decimal(f"{self.upper_tank_vol:.1f}") if self.upper_tank_mode != 2 else "0"
         self.txt_vol = QLineEdit(init_vol_str)
         layout.addWidget(self.txt_vol)
 
         self.radio_thresh_liters = QRadioButton(tr("Volume no reservatório superior abaixo do qual há recalque (litros)"))
-        thresh_lit_str = f"{self.thresh_val:.1f}".replace('.', ',') if self.thresh_mode == 0 else f"{(self.upper_tank_vol * (self.thresh_val / 100.0)):.1f}".replace('.', ',')
+        thresh_lit_str = decimal(f"{self.thresh_val:.1f}") if self.thresh_mode == 0 else decimal(f"{(self.upper_tank_vol * (self.thresh_val / 100.0)):.1f}")
         self.txt_thresh_liters = QLineEdit(thresh_lit_str)
 
         self.radio_thresh_pct = QRadioButton(tr("Percentual do volume do reservatório superior abaixo do qual há recalque"))
-        thresh_pct_str = f"{self.thresh_val:.1f}".replace('.', ',') if self.thresh_mode == 1 else "10"
+        thresh_pct_str = decimal(f"{self.thresh_val:.1f}") if self.thresh_mode == 1 else "10"
         self.txt_thresh_pct = QLineEdit(thresh_pct_str)
 
         self.bg_thresh = QButtonGroup(self)
@@ -134,7 +135,7 @@ class DialogUpperTank(QDialog):
         self.txt_thresh_pct.setEnabled(has_tank and (thresh_mode == 1))
 
         if mode == 0:
-            self.txt_vol.setText(f"{self.daily_pluvial_demand:.1f}".replace('.', ','))
+            self.txt_vol.setText(decimal(f"{self.daily_pluvial_demand:.1f}"))
         elif mode == 2:
             self.txt_vol.setText("0")
             self.txt_thresh_liters.setText("0")
@@ -144,7 +145,7 @@ class DialogUpperTank(QDialog):
         if self.bg_mode.checkedId() == 2:
             return
         try:
-            vol = float(self.txt_vol.text().replace(',', '.'))
+            vol = para_float(self.txt_vol.text())
             if vol > 0:
                 self.upper_tank_vol = vol
                 self.recalc_thresholds()
@@ -155,11 +156,11 @@ class DialogUpperTank(QDialog):
         if not self.txt_thresh_liters.hasFocus() or self.bg_mode.checkedId() == 2 or self.bg_thresh.checkedId() != 0:
             return
         try:
-            lit = float(self.txt_thresh_liters.text().replace(',', '.'))
+            lit = para_float(self.txt_thresh_liters.text())
             if self.upper_tank_vol > 0:
                 pct = (lit / self.upper_tank_vol) * 100.0
                 self.txt_thresh_pct.blockSignals(True)
-                self.txt_thresh_pct.setText(f"{pct:.1f}".replace('.', ','))
+                self.txt_thresh_pct.setText(decimal(f"{pct:.1f}"))
                 self.txt_thresh_pct.blockSignals(False)
         except ValueError:
             pass
@@ -168,11 +169,11 @@ class DialogUpperTank(QDialog):
         if not self.txt_thresh_pct.hasFocus() or self.bg_mode.checkedId() == 2 or self.bg_thresh.checkedId() != 1:
             return
         try:
-            pct = float(self.txt_thresh_pct.text().replace(',', '.'))
+            pct = para_float(self.txt_thresh_pct.text())
             if self.upper_tank_vol > 0:
                 lit = self.upper_tank_vol * (pct / 100.0)
                 self.txt_thresh_liters.blockSignals(True)
-                self.txt_thresh_liters.setText(f"{lit:.1f}".replace('.', ','))
+                self.txt_thresh_liters.setText(decimal(f"{lit:.1f}"))
                 self.txt_thresh_liters.blockSignals(False)
         except ValueError:
             pass
@@ -182,16 +183,16 @@ class DialogUpperTank(QDialog):
             return
         try:
             if self.bg_thresh.checkedId() == 0:
-                lit = float(self.txt_thresh_liters.text().replace(',', '.'))
+                lit = para_float(self.txt_thresh_liters.text())
                 pct = (lit / self.upper_tank_vol) * 100.0
                 self.txt_thresh_pct.blockSignals(True)
-                self.txt_thresh_pct.setText(f"{pct:.1f}".replace('.', ','))
+                self.txt_thresh_pct.setText(decimal(f"{pct:.1f}"))
                 self.txt_thresh_pct.blockSignals(False)
             else:
-                pct = float(self.txt_thresh_pct.text().replace(',', '.'))
+                pct = para_float(self.txt_thresh_pct.text())
                 lit = self.upper_tank_vol * (pct / 100.0)
                 self.txt_thresh_liters.blockSignals(True)
-                self.txt_thresh_liters.setText(f"{lit:.1f}".replace('.', ','))
+                self.txt_thresh_liters.setText(decimal(f"{lit:.1f}"))
                 self.txt_thresh_liters.blockSignals(False)
         except ValueError:
             pass
@@ -207,7 +208,7 @@ class DialogUpperTank(QDialog):
             return
 
         try:
-            vol = float(self.txt_vol.text().replace(',', '.'))
+            vol = para_float(self.txt_vol.text())
             if vol <= 0:
                 raise ValueError()
         except ValueError:
@@ -217,7 +218,7 @@ class DialogUpperTank(QDialog):
         thresh_mode = self.bg_thresh.checkedId()
         if thresh_mode == 0:
             try:
-                lit = float(self.txt_thresh_liters.text().replace(',', '.'))
+                lit = para_float(self.txt_thresh_liters.text())
                 if lit < 0 or lit > vol:
                     raise ValueError()
                 val = lit
@@ -226,7 +227,7 @@ class DialogUpperTank(QDialog):
                 return
         else:
             try:
-                pct = float(self.txt_thresh_pct.text().replace(',', '.'))
+                pct = para_float(self.txt_thresh_pct.text())
                 if pct < 0 or pct > 100:
                     raise ValueError()
                 val = pct

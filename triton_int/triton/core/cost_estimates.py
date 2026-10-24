@@ -679,6 +679,16 @@ def estimate_preliminary_capex(
     }
 
 
+def rotinas_de_referencia(cfg: Any, upper_used: bool = True) -> list:
+    """As rotinas de manutenção de referência do projeto: nomes e periodicidades sempre; os custos (em reais)
+    só com o catálogo do Brasil. Fora dele ficam a custo zero, para o usuário informar: apagar todas as rotinas
+    não traz de volta o preço de outra região (a interface, a CLI e o diálogo seguem a mesma regra)."""
+    itens = default_maintenance_items(upper_used)
+    if not precos_de_catalogo(cfg):
+        itens = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in itens]
+    return itens
+
+
 def default_maintenance_items(upper_used: bool = True) -> list:
     """Rotinas anuais de referência carregadas a partir da base de custos."""
     db = load_costs_database()

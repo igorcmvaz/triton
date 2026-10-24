@@ -2536,3 +2536,42 @@ _CHINESE_DICTIONARY.update({
     "Regra do Triton: extravasa antes do consumo e a chuva do dia atende o dia": "Triton 规则：先溢流后取水，当日降雨可满足当日用水",
     "Regra Operacional φ": "运行调度规则 φ",
 })
+
+
+# Roteiro de execução (24/10/2026): trechos de textos montados pelo núcleo que a composição es/zh deixava em português.
+_SPANISH_PHRASES.update({
+    "Reservatório Estanque de Descarte em PEAD Rotomoldado": "Depósito estanco de descarte de PEAD rotomoldeado",
+    "com Extravasor Superior, Boia Flutuante de Vedação e Purga Lenta Calibrada": "con rebosadero superior, boya flotante de sellado y purga lenta calibrada",
+    "Coluna Vertical de Desvio em PVC Rígido": "Columna vertical de desvío de PVC rígido",
+    "com Conexões, Cap Roscado de Inspeção e Válvula de Purga Lenta": "con conexiones, tapa roscada de inspección y válvula de purga lenta",
+    "Separador de Folhas e Gradeamento Autolimpante": "Separador de hojas y rejilla autolimpiante",
+    "Tela Inox 304, malha": "malla de acero inoxidable 304, abertura",
+    "Rigoroso / Alta Eficiência": "Riguroso / Alta eficiencia",
+    "documentos oficiais das entidades gestoras, vigência": "documentos oficiales de las entidades gestoras, vigencia",
+    "SEM conferência com as contas impressas": "SIN cotejo con las facturas impresas",
+    "conferido com as contas impressas": "cotejado con las facturas impresas",
+    "sem verificação independente (fatura real ou segunda leitura humana)": "sin verificación independiente (factura real o segunda lectura humana)",
+    "pendência(s) com efeito acima de 1 % por confirmar": "pendiente(s) con efecto superior al 1 % por confirmar",
+    "em falta: ": "falta: ", "amarelo:": "amarillo:", "verde:": "verde:", "cinza:": "gris:",
+    "água 🟡": "agua 🟡", "saneamento 🟡": "saneamiento 🟡", "resíduos 🟡": "residuos 🟡",
+    "água 🟢": "agua 🟢", "saneamento 🟢": "saneamiento 🟢", "resíduos 🟢": "residuos 🟢",
+    "água ⚪": "agua ⚪", "saneamento ⚪": "saneamiento ⚪", "resíduos ⚪": "residuos ⚪",
+})
+_CHINESE_PHRASES.update({
+    "Reservatório Estanque de Descarte em PEAD Rotomoldado": "高密度聚乙烯滚塑密闭弃流水箱",
+    "com Extravasor Superior, Boia Flutuante de Vedação e Purga Lenta Calibrada": "带顶部溢流口、浮球密封及校准缓排装置",
+    "Coluna Vertical de Desvio em PVC Rígido": "硬质 PVC 竖向分流柱",
+    "com Conexões, Cap Roscado de Inspeção e Válvula de Purga Lenta": "含管件、螺纹检查盖及缓排阀",
+    "Separador de Folhas e Gradeamento Autolimpante": "自清洁树叶分离器与格栅",
+    "Tela Inox 304, malha": "304 不锈钢网，孔径",
+    "Rigoroso / Alta Eficiência": "严格 / 高效率",
+    "documentos oficiais das entidades gestoras, vigência": "管理实体官方文件，生效日期",
+    "SEM conferência com as contas impressas": "未与已印账单核对",
+    "conferido com as contas impressas": "已与已印账单核对",
+    "sem verificação independente (fatura real ou segunda leitura humana)": "无独立核验（实际账单或他人二次审读）",
+    "pendência(s) com efeito acima de 1 % por confirmar": "项待确认事项影响超过 1 %",
+    "em falta: ": "缺少：", "amarelo:": "黄色：", "verde:": "绿色：", "cinza:": "灰色：",
+    "água 🟡": "水 🟡", "saneamento 🟡": "排水 🟡", "resíduos 🟡": "废弃物 🟡",
+    "água 🟢": "水 🟢", "saneamento 🟢": "排水 🟢", "resíduos 🟢": "废弃物 🟢",
+    "água ⚪": "水 ⚪", "saneamento ⚪": "排水 ⚪", "resíduos ⚪": "废弃物 ⚪",
+})

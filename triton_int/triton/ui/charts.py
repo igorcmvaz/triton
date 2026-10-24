@@ -8,6 +8,7 @@ Gráficos 2x2 com Identidade Visual UFSC Sustentável:
 """
 
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QLabel, QComboBox, QScrollArea, QFrame, QSizePolicy, QDialog, QFormLayout, QDialogButtonBox, QCheckBox
+from triton.core.numero import milhar
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib import rcParams
@@ -638,7 +639,7 @@ class TOPSISComparisonChart(TritonBaseChart):
             y_label = tr("Aceitabilidade de 1º Lugar — SMAA-VIKOR (%)")
             val_fmt = lambda s: f"{s:.1f}%"
             annot_best_label = tr("Ótimo SMAA-VIKOR")
-            samples_str = f" ({res.num_simulations:,} simulações)".replace(",", ".") if hasattr(res, "num_simulations") else ""
+            samples_str = milhar(f" ({res.num_simulations:,} simulações)") if hasattr(res, "num_simulations") else ""
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.1f}%{samples_str})"
 
             # Eixo Y como múltiplo de 20 imediatamente superior ao maior valor
@@ -955,7 +956,7 @@ class VplVsVolumeChart(TritonBaseChart):
         ax.set_xlabel(tr("Volume do Reservatório (Litros)"), color=text_color, fontsize=8.5, fontweight='bold')
         from matplotlib.ticker import FuncFormatter, MaxNLocator
         ax.xaxis.set_major_locator(MaxNLocator(nbins=6, integer=True))
-        ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f"{int(x):,}".replace(",", ".")))
+        ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: milhar(f"{int(x):,}")))
         ax.tick_params(axis='x', colors=text_color, labelsize=8.5, pad=4)
         ax.tick_params(axis='y', colors=text_color, labelsize=8)
         ax.grid(True, linestyle=':', alpha=0.6, color=grid_color)

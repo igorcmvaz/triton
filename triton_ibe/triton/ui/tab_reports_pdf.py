@@ -6,6 +6,7 @@ Suporta exportação em dois formatos estruturais:
 """
 
 from triton.core.edition import rotulo_da_edicao
+from triton.core.numero import milhar, normalizar, normalizar_milhar, para_float, usa_ponto_decimal
 import os
 import base64
 from io import BytesIO
@@ -554,17 +555,17 @@ class TabReportsPdf(QWidget):
             return None
         t = text.split('(')[0].replace('L', '').replace('l', '').strip()
         if '.' in t and ',' in t:
-            t = t.replace('.', '').replace(',', '.')
+            t = normalizar_milhar(t)
         elif '.' in t:
             parts = t.split('.')
-            if len(parts[-1]) == 3 and len(parts) > 1:
+            if len(parts[-1]) == 3 and len(parts) > 1 and not usa_ponto_decimal():
                 t = t.replace('.', '')
         elif ',' in t:
             parts = t.split(',')
             if len(parts[-1]) == 3 and len(parts) > 1:
                 t = t.replace(',', '')
             else:
-                t = t.replace(',', '.')
+                t = normalizar(t)
         try:
             val = float(t)
             return val if val >= 0 else None
@@ -752,7 +753,7 @@ class TabReportsPdf(QWidget):
                         tags.append(tr("Recomendado TOPSIS"))
 
                 tag_str = f" ({' & '.join(tags)})" if tags else ""
-                label = f"{v:,.0f} L{tag_str}".replace(',', '.')
+                label = milhar(f"{v:,.0f} L{tag_str}")
                 self.combo_volume.addItem(label, v)
 
             # Define qual volume selecionar inicialmente
@@ -783,7 +784,7 @@ class TabReportsPdf(QWidget):
                 if idx >= 0:
                     self.combo_volume.setCurrentIndex(idx)
                 else:
-                    label = f"{target_to_select:,.0f} L".replace(',', '.')
+                    label = milhar(f"{target_to_select:,.0f} L")
                     self.combo_volume.setEditText(label)
         finally:
             self._populating_volumes = False
@@ -815,7 +816,7 @@ class TabReportsPdf(QWidget):
             try:
                 disc = tp.txt_discard.text().strip()
                 if disc and disc != "-":
-                    data["discard"] = float(disc.replace(',', '.'))
+                    data["discard"] = para_float(disc)
             except Exception:
                 pass
 
@@ -828,8 +829,8 @@ class TabReportsPdf(QWidget):
                     val = w.text().strip()
                     if val and val != "-":
                         try:
-                            data[key] = int(float(val.replace(',', '.'))) if key == "residents" \
-                                        else float(val.replace(',', '.'))
+                            data[key] = int(para_float(val)) if key == "residents" \
+                                        else para_float(val)
                         except Exception:
                             pass
             # O campo da tela é percentual; o que segue para relatório e desenho é fração.
@@ -1006,12 +1007,12 @@ class TabReportsPdf(QWidget):
             if up_vol <= 0:
                 if mw and hasattr(mw, "tab_tanks_simulation") and hasattr(mw.tab_tanks_simulation, "txt_upper_vol"):
                     try:
-                        up_vol = float(mw.tab_tanks_simulation.txt_upper_vol.text().replace(',', '.'))
+                        up_vol = para_float(mw.tab_tanks_simulation.txt_upper_vol.text())
                     except Exception:
                         pass
                 elif mw and hasattr(mw, "tab_environmental") and hasattr(mw.tab_environmental, "txt_upper_vol"):
                     try:
-                        up_vol = float(mw.tab_environmental.txt_upper_vol.text().replace(',', '.'))
+                        up_vol = para_float(mw.tab_environmental.txt_upper_vol.text())
                     except Exception:
                         pass
             data["upper_vol"] = up_vol

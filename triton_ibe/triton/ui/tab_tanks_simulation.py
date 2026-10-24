@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QScrollArea,
     QApplication,
 )
+from triton.core.numero import decimal, para_float
 from PySide6.QtCore import Signal, Qt, QTimer
 from triton.core.taxas import anual_pct_para_mensal_pct, mensal_pct_para_anual_pct
 from triton.core.fracao_atendivel import validar_fracao
@@ -211,7 +212,7 @@ class TabTanksSimulation(QWidget):
         self.txt_pressurizer_point_flow.textChanged.connect(self._on_supply_changed)
         grid_pr.addWidget(self.txt_pressurizer_point_flow, 2, 1)
         grid_pr.addWidget(QLabel(tr("Acionamentos por pessoa por dia:")), 3, 0)
-        self.txt_pressurizer_starts = QLineEdit("5,05")
+        self.txt_pressurizer_starts = QLineEdit(decimal("5.05"))
         self.txt_pressurizer_starts.setToolTip(tr(
             "5,05 descargas por pessoa por dia (Mayer, DeOreo et al., 1999), multiplicadas "
             "pelos moradores. Some 0,37 se a máquina de lavar roupa usar água de chuva. "
@@ -220,13 +221,13 @@ class TabTanksSimulation(QWidget):
         grid_pr.addWidget(self.txt_pressurizer_starts, 3, 1)
         self.lbl_pr_power = QLabel(tr("Potência de placa (kW):"))
         grid_pr.addWidget(self.lbl_pr_power, 4, 0)
-        self.txt_pressurizer_power = QLineEdit("0,18")
+        self.txt_pressurizer_power = QLineEdit(decimal("0.18"))
         self.txt_pressurizer_power.setToolTip(tr(dica_potencia_de_placa()))
         self.txt_pressurizer_power.textChanged.connect(self._on_supply_changed)
         grid_pr.addWidget(self.txt_pressurizer_power, 4, 1)
         self.lbl_pr_flow = QLabel(tr("Vazão na pressão de trabalho (L/min):"))
         grid_pr.addWidget(self.lbl_pr_flow, 5, 0)
-        self.txt_pressurizer_flow = QLineEdit("13,3")
+        self.txt_pressurizer_flow = QLineEdit(decimal("13.3"))
         self.txt_pressurizer_flow.setToolTip(tr(
             "Leia na curva vazão × pressão do fabricante, na pressão de trabalho informada acima."))
         self.txt_pressurizer_flow.textChanged.connect(self._on_supply_changed)
@@ -552,13 +553,13 @@ class TabTanksSimulation(QWidget):
 
     def is_valid_number(self, v):
         try:
-            return float(v.replace(",", ".")) > 0
+            return para_float(v) > 0
         except ValueError:
             return False
 
     def is_valid_pump_threshold(self, v):
         try:
-            return 0.0 <= float(v.replace(",", ".")) <= 100.0
+            return 0.0 <= para_float(v) <= 100.0
         except ValueError:
             return False
 
@@ -572,7 +573,7 @@ class TabTanksSimulation(QWidget):
 
     def is_valid_phi(self, v):
         try:
-            return 0.0 <= float(v.replace(",", ".")) <= 1.0
+            return 0.0 <= para_float(v) <= 1.0
         except ValueError:
             return False
 
@@ -606,7 +607,7 @@ class TabTanksSimulation(QWidget):
 
     def is_valid_econ_number(self, v):
         try:
-            float(v.replace(",", "."))
+            para_float(v)
             return True
         except ValueError:
             return False
@@ -968,7 +969,7 @@ class TabTanksSimulation(QWidget):
         cfg.upper_tank_used = 1 if up_mode != 2 else 0
         self.write_supply_to_config(cfg)
         try:
-            cfg.upper_tank_vol = float(self.txt_upper_vol.text().replace(",", "."))
+            cfg.upper_tank_vol = para_float(self.txt_upper_vol.text())
         except ValueError:
             cfg.upper_tank_vol = 500.0
         dlg = DialogInitialCosts(self, config=cfg, evaluated_volumes=evaluated_volumes)
@@ -1369,7 +1370,7 @@ class TabTanksSimulation(QWidget):
 
         # Se houver reservatório superior configurado
         try:
-            upper_vol = float(self.txt_upper_vol.text().replace(',', '.'))
+            upper_vol = para_float(self.txt_upper_vol.text())
         except Exception:
             upper_vol = 0.0
         sweep_from_upper = upper_vol * 10.0 if self.combo_upper_mode.currentIndex() != 2 else 0.0

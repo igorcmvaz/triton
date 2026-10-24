@@ -5,6 +5,7 @@ Simulador de Custos em Tempo Real e Discriminação de Disponibilidade.
 """
 
 from __future__ import annotations
+from triton.core.numero import normalizar, para_float
 
 import os
 from typing import Dict, Any, List, Optional
@@ -193,7 +194,8 @@ class TabTariffsManager(QWidget):
         p_layout.setContentsMargins(0, 0, 0, 0)
         p_layout.setSpacing(6)
 
-        pt_locale = QLocale(QLocale.Portuguese, QLocale.Brazil)
+        from triton.core.numero import locale_da_interface
+        pt_locale = locale_da_interface()
         p_layout.addWidget(QLabel(tr("Tarifa Fixa / Disp. (R$/mês):")), 0, 0)
         self.spin_fixed_water = QDoubleSpinBox()
         self.spin_fixed_water.setLocale(pt_locale)
@@ -558,10 +560,10 @@ class TabTariffsManager(QWidget):
         faixas = []
         for r in range(self.table_tiers.rowCount()):
             try:
-                inf = float(self.table_tiers.item(r, 0).text().replace(',', '.'))
-                sup_str = self.table_tiers.item(r, 1).text().replace(',', '.')
+                inf = para_float(self.table_tiers.item(r, 0).text())
+                sup_str = normalizar(self.table_tiers.item(r, 1).text())
                 sup = 999999.0 if ">" in sup_str else float(sup_str)
-                rate = float(self.table_tiers.item(r, 2).text().replace(',', '.'))
+                rate = para_float(self.table_tiers.item(r, 2).text())
                 t_tipo = self._tipo_do_rotulo(self.table_tiers.item(r, 3).text(), sup)
                 faixas.append([inf, sup, rate, t_tipo])
             except Exception:

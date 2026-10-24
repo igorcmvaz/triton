@@ -11,6 +11,7 @@ segundos. O modo exaustivo fica na linha de comando (`triton series-length`).
 """
 
 from __future__ import annotations
+from triton.core.numero import decimal, milhar
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -52,9 +53,9 @@ class DialogComprimentoDeSerie(QDialog):
             "a até {tolerancia} pontos percentuais do potencial; o comprimento "
             "representativo é o menor que alcança {confianca}% de janelas semelhantes e "
             "se mantém nos comprimentos maiores."
-        ).format(volume=f"{r.volume_ideal_l:,.0f}".replace(",", "."),
-                 potencial=f"{r.potencial_no_ideal_pct:.2f}".replace(".", ","),
-                 tolerancia=f"{r.tolerancia_pp:.1f}".replace(".", ","),
+        ).format(volume=milhar(f"{r.volume_ideal_l:,.0f}"),
+                 potencial=decimal(f"{r.potencial_no_ideal_pct:.2f}"),
+                 tolerancia=decimal(f"{r.tolerancia_pp:.1f}"),
                  confianca=f"{r.confianca_pct:.0f}"))
         premissas.setWordWrap(True)
         premissas.setStyleSheet("font-size: 12px; color: #64748b;")
@@ -72,7 +73,7 @@ class DialogComprimentoDeSerie(QDialog):
         for linha, (anos, frequencia) in enumerate(itens):
             for coluna, texto in enumerate((
                     str(anos), str(r.janelas_por_comprimento[anos]),
-                    f"{frequencia:.1f}%".replace(".", ","))):
+                    decimal(f"{frequencia:.1f}%"))):
                 item = QTableWidgetItem(texto)
                 item.setTextAlignment(Qt.AlignCenter)
                 if anos == r.comprimento_representativo_anos:

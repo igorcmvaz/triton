@@ -26,6 +26,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QSplitter,
 )
+from triton.core.numero import decimal, milhar
 from PySide6.QtCore import Qt, Signal, QLocale
 from PySide6.QtGui import QFont, QColor
 
@@ -46,6 +47,7 @@ from triton.core.cost_estimates import (
     estimate_preliminary_capex,
     precos_de_catalogo,
     default_maintenance_items,
+    rotinas_de_referencia,
     estimate_annual_chlorination_cost,
     annualize_operational_costs,
 )
@@ -152,7 +154,9 @@ class TabEconomicIntegrated(QWidget):
         top_bar = QHBoxLayout()
         lbl_title = QLabel(tr("Economia e viabilidade financeira"))
         lbl_title.setStyleSheet("font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 700; color: #133c32;")
-        top_bar.addWidget(lbl_title)
+        # O título tem linha própria: ao lado do seletor, do ótimo e do botão ele era cortado em janelas de 1500 px.
+        lbl_title.setMinimumWidth(lbl_title.sizeHint().width())
+        layout.addWidget(lbl_title)
         top_bar.addStretch()
 
         # Seletor de Volume para Análise
@@ -219,7 +223,8 @@ class TabEconomicIntegrated(QWidget):
         lay_mat = QVBoxLayout(sub_tab_materials)
         lay_mat.setSpacing(8)
 
-        pt_locale = QLocale(QLocale.Portuguese, QLocale.Brazil)
+        from triton.core.numero import locale_da_interface
+        pt_locale = locale_da_interface()
 
         # Barra de Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL
         gb_fiscal = QGroupBox(tr("🌿 Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL"))
@@ -538,7 +543,7 @@ class TabEconomicIntegrated(QWidget):
         if cfg.cost_labor       <= 0: cfg.cost_labor       = estimates["labor"]
         if cfg.pump_unit_cost   <= 0: cfg.pump_unit_cost   = estimates["pump_unit"]
         if not cfg.op_costs:
-            cfg.op_costs = default_maintenance_items(upper_used)
+            cfg.op_costs = rotinas_de_referencia(cfg, upper_used)
         # Tubulação e acessórios saem do arranjo 3D, e não das verbas acima.
         from triton.core.quantitativo_do_arranjo import sincronizar_com_o_arranjo
         sincronizar_com_o_arranjo(cfg)
@@ -600,11 +605,11 @@ class TabEconomicIntegrated(QWidget):
             # Pré-identifica o volume com maior potencial / maior VPL estimado
             for item in sw_tech.results_by_volume:
                 v = item.lower_tank_vol
-                self.combo_active_volume.addItem(f"{v:,.0f} L".replace(',', '.'), v)
+                self.combo_active_volume.addItem(milhar(f"{v:,.0f} L"), v)
         else:
             single = getattr(ts, "last_single_result", None)
             v = single.lower_tank_vol if single else 4000.0
-            self.combo_active_volume.addItem(f"{v:,.0f} L".replace(',', '.'), v)
+            self.combo_active_volume.addItem(milhar(f"{v:,.0f} L"), v)
             
         # Sincroniza índice atual com a configuração ou melhor VPL
         cfg = getattr(main_win, "config", None)
@@ -799,7 +804,7 @@ class TabEconomicIntegrated(QWidget):
         total_capex = _capex_do_volume(lower_vol, annual_saved_m3 or None)
 
         # Atualiza título do painel de indicadores com o volume efetivo
-        self.gb_res.setTitle(tr("📊 Indicadores de Viabilidade Econômica") + " — " + tr("Cisterna de {0} L").format(f"{lower_vol:,.0f}".replace(',', '.')))
+        self.gb_res.setTitle(tr("📊 Indicadores de Viabilidade Econômica") + " — " + tr("Cisterna de {0} L").format(milhar(f"{lower_vol:,.0f}")))
 
 
         if r_sel is not None:
@@ -1093,7 +1098,7 @@ class TabEconomicIntegrated(QWidget):
                         "total_costs": (capex_v + econ_v.total_opex_brl) if v_vol > 0 else 0.0,
                     }
 
-                    it0 = QTableWidgetItem(f"{v_vol:,.0f} L".replace(",", "."))
+                    it0 = QTableWidgetItem(milhar(f"{v_vol:,.0f} L"))
                     it0.setTextAlignment(Qt.AlignCenter)
                     self.table_vpl_volumes.setItem(row, 0, it0)
 
@@ -1213,10 +1218,10 @@ class TabEconomicIntegrated(QWidget):
         bg_iptu = QColor("#f0fdf4")
         fg_iptu = QColor("#15803d")
 
-        from triton.core.cost_estimates import default_maintenance_items
-        raw_maint = list(cfg.op_costs) if getattr(cfg, "op_costs", None) else default_maintenance_items(upper_used)
+        from triton.core.cost_estimates import rotinas_de_referencia
+        raw_maint = list(cfg.op_costs) if getattr(cfg, "op_costs", None) else rotinas_de_referencia(cfg, upper_used)
         if not raw_maint:
-            raw_maint = default_maintenance_items(upper_used)
+            raw_maint = rotinas_de_referencia(cfg, upper_used)
 
         if lower_vol <= 0:
             fixed_rows = [
@@ -1251,7 +1256,7 @@ class TabEconomicIntegrated(QWidget):
 
             pipe_desc_list = [f"{float(l):.0f}m DN{d}" for d, l in (cfg.pipes_list or []) if float(l) > 0]
             tot_pipe_m = cfg.total_pipe_length() if hasattr(cfg, "total_pipe_length") else sum(float(l) for _, l in (cfg.pipes_list or []))
-            pipe_qty_str = f"{tot_pipe_m:,.0f} m lineares".replace(',', '.')
+            pipe_qty_str = milhar(f"{tot_pipe_m:,.0f} m lineares")
             pipe_spec_str = f"PVC ({', '.join(pipe_desc_list)})" if pipe_desc_list else "PVC Rígido"
 
             if iptu_enabled:
@@ -1348,7 +1353,7 @@ class TabEconomicIntegrated(QWidget):
             it2.setTextAlignment(Qt.AlignCenter)
             self.table_mat_impact.setItem(i, 2, it2)
 
-            capex_text = f"{curr_sym} {format_ptbr(r[3], 2)}" if r[3] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} 0,00")
+            capex_text = f"{curr_sym} {format_ptbr(r[3], 2)}" if r[3] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} {format_ptbr(0, 2)}")
             it3 = QTableWidgetItem(capex_text)
             it3.setToolTip(capex_text)
             it3.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -1367,7 +1372,7 @@ class TabEconomicIntegrated(QWidget):
                     self.table_mat_impact.item(i, 0).setForeground(fg_iptu)
                     self.table_mat_impact.item(i, 0).setFont(font_bold)
             else:
-                opex_text = f"{curr_sym} {format_ptbr(r[4], 2)}/{tr('ano')}" if r[4] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} 0,00")
+                opex_text = f"{curr_sym} {format_ptbr(r[4], 2)}/{tr('ano')}" if r[4] > 0 else ("—" if i == iptu_row_idx else f"{curr_sym} {format_ptbr(0, 2)}")
                 it4 = QTableWidgetItem(opex_text)
                 it4.setToolTip(opex_text)
                 it4.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -1451,20 +1456,20 @@ class TabEconomicIntegrated(QWidget):
                 for cf in self.last_result.annual_cash_flows:
                     linha = [
                         cf.year,
-                        f"{cf.initial_investment:.2f}".replace('.', ','),
-                        f"{cf.water_saved_m3:.2f}".replace('.', ','),
-                        f"{cf.water_tariff_readjusted:.2f}".replace('.', ','),
-                        f"{cf.gross_water_savings_brl:.2f}".replace('.', ','),
-                        f"{cf.gross_sewage_savings_brl:.2f}".replace('.', ','),
-                        f"{getattr(cf, 'iptu_green_savings_brl', 0.0):.2f}".replace('.', ','),
-                        f"{cf.total_gross_savings_brl:.2f}".replace('.', ','),
-                        f"{cf.pump_energy_cost_brl:.2f}".replace('.', ','),
-                        f"{cf.om_cost_brl:.2f}".replace('.', ','),
-                        f"{getattr(cf, 'chlorine_cost_brl', 0.0):.2f}".replace('.', ','),
-                        f"{cf.net_cash_flow_nominal_brl:.2f}".replace('.', ','),
-                        f"{cf.discount_factor:.4f}".replace('.', ','),
-                        f"{cf.discounted_cash_flow_brl:.2f}".replace('.', ','),
-                        f"{cf.cumulative_discounted_cash_flow_brl:.2f}".replace('.', ',')
+                        decimal(f"{cf.initial_investment:.2f}"),
+                        decimal(f"{cf.water_saved_m3:.2f}"),
+                        decimal(f"{cf.water_tariff_readjusted:.2f}"),
+                        decimal(f"{cf.gross_water_savings_brl:.2f}"),
+                        decimal(f"{cf.gross_sewage_savings_brl:.2f}"),
+                        decimal(f"{getattr(cf, 'iptu_green_savings_brl', 0.0):.2f}"),
+                        decimal(f"{cf.total_gross_savings_brl:.2f}"),
+                        decimal(f"{cf.pump_energy_cost_brl:.2f}"),
+                        decimal(f"{cf.om_cost_brl:.2f}"),
+                        decimal(f"{getattr(cf, 'chlorine_cost_brl', 0.0):.2f}"),
+                        decimal(f"{cf.net_cash_flow_nominal_brl:.2f}"),
+                        decimal(f"{cf.discount_factor:.4f}"),
+                        decimal(f"{cf.discounted_cash_flow_brl:.2f}"),
+                        decimal(f"{cf.cumulative_discounted_cash_flow_brl:.2f}")
                     ]
                     if not brasil:
                         del linha[6]

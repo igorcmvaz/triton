@@ -7,6 +7,8 @@ Suporta recorte temporal por intervalo de datas e sincronização automática/in
 """
 
 import os
+from triton.ui.textos_da_edicao import traduz_descritivo
+from triton.core.numero import milhar, normalizar, para_float
 from datetime import datetime, timedelta
 
 from PySide6.QtWidgets import (
@@ -836,8 +838,8 @@ class TabProject(QWidget):
             if years_sel < ANOS_MINIMOS_RECOMENDADOS:
                 aviso = (f"<br/>⚠️ {tr('Recorte com menos de dez anos: o resultado passa a depender do trecho escolhido. Declare a limitação ou amplie o período.')}")
             self.lbl_date_range_info.setText(
-                f"ℹ️ {tr('Série Completa')}: {years_tot:.0f} {tr('anos')} ({tot_days:,} {tr('dias')}) | "
-                f"{tr('Período Selecionado para Simulação')}: <b>{years_sel:.1f} {tr('anos')} ({sel_days:,} {tr('dias de')} {eff_start} {tr('a')} {eff_end})</b>".replace(',', '.')
+                milhar(f"ℹ️ {tr('Série Completa')}: {years_tot:.0f} {tr('anos')} ({tot_days:,} {tr('dias')}) | "
+                f"{tr('Período Selecionado para Simulação')}: <b>{years_sel:.1f} {tr('anos')} ({sel_days:,} {tr('dias de')} {eff_start} {tr('a')} {eff_end})</b>")
                 + aviso
             )
 
@@ -940,7 +942,7 @@ class TabProject(QWidget):
         self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> {d.get('vigencia', '--')}")
         self.lbl_t_reg.setToolTip("\n".join([tr("Fontes:")] + d.get("fontes", []) + [""] + d.get("notas", [])))
         # Procedência e confiança do tarifário (campo «procedencia» do JSON), onde o Brasil mostra a auditoria.
-        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {_tp.procedencia(city_name)}")
+        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {traduz_descritivo(_tp.procedencia(city_name))}")
         self.lbl_t_audit.setVisible(True)
         if self._tariff_is_customized:
             self.lbl_tariff_status.setText(tr("✏️ Tarifas Customizadas pelo Usuário"))
@@ -1078,7 +1080,7 @@ class TabProject(QWidget):
                 return False
         else:
             try:
-                v = float(val.replace(',', '.'))
+                v = para_float(val)
                 if v >= 0:
                     widget.setStyleSheet(f"QLineEdit, DatePickerLineEdit {{ background-color: {bg_valid}; border: 1px solid {border_valid}; color: {text_valid}; }}")
                     return True
@@ -1133,7 +1135,7 @@ class TabProject(QWidget):
     def get_discard_days(self) -> int:
         if hasattr(self, 'txt_discard_days'):
             try:
-                return max(1, int(float(self.txt_discard_days.text().replace(',', '.'))))
+                return max(1, int(para_float(self.txt_discard_days.text())))
             except Exception:
                 return 7
         return 7
@@ -1290,7 +1292,7 @@ class TabProject(QWidget):
         # até o usuário declarar a lâmina que mediu.
         discard_valid = True
         discard_mm = LAMINA_DE_DESCARTE_PADRAO_MM
-        val_txt = self.txt_discard.text().strip().replace(',', '.')
+        val_txt = normalizar(self.txt_discard.text().strip())
         if val_txt and val_txt != "-":
             try:
                 lida = float(val_txt)
@@ -1339,13 +1341,13 @@ class TabProject(QWidget):
             avg_eff_annual = (sum_p - total_discard) / years
             disc_pct = (total_discard / sum_p * 100.0) if sum_p > 0 else 0.0
             self.lbl_stats.setText(
-                tr('{0}: {1:,} {2} ({3:.1f} {4}) | {5}: {6:.1f} mm/ano | {7}: {8:.1f} mm/ano ({9:.1f}%) | {10}: {11:.1f} mm/ano').format(tr('Registros'), total_days, tr('dias'), years, tr('anos'), tr('Chuva Bruta'), avg_annual, tr('Descarte'), avg_discard_annual, disc_pct, tr('Chuva Efetiva'), avg_eff_annual).replace(',', '.')
+                milhar(tr('{0}: {1:,} {2} ({3:.1f} {4}) | {5}: {6:.1f} mm/ano | {7}: {8:.1f} mm/ano ({9:.1f}%) | {10}: {11:.1f} mm/ano').format(tr('Registros'), total_days, tr('dias'), years, tr('anos'), tr('Chuva Bruta'), avg_annual, tr('Descarte'), avg_discard_annual, disc_pct, tr('Chuva Efetiva'), avg_eff_annual))
             )
         else:
             self.lbl_stats.setText(
-                f"{tr('Registros')}: {total_days:,} {tr('dias')} ({years:.1f} {tr('anos')}) | "
+                milhar(f"{tr('Registros')}: {total_days:,} {tr('dias')} ({years:.1f} {tr('anos')}) | "
                 f"{tr('Precipitação Média Anual')}: {avg_annual:.1f} mm | "
-                f"{tr('Máximo Diário')}: {max_p:.1f} mm".replace(',', '.')
+                f"{tr('Máximo Diário')}: {max_p:.1f} mm")
             )
 
         for r in range(show_count):
@@ -1384,9 +1386,9 @@ class TabProject(QWidget):
 
             if not discard_valid:
                 if rain_p == 0.0:
-                    item_disc.setText("0,0 mm")
+                    item_disc.setText(f"{format_ptbr(0, 1)} mm")
                     item_disc.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
-                    item_eff.setText("0,0 mm")
+                    item_eff.setText(f"{format_ptbr(0, 1)} mm")
                     item_eff.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
                     item_status.setText(tr("Sem chuva (0,0 mm)"))
                     item_status.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
@@ -1397,9 +1399,9 @@ class TabProject(QWidget):
                     item_status.setBackground(QColor("#713f12" if is_dark else "#fef08a"))
                     item_status.setForeground(QColor("#fef9c3" if is_dark else "#854d0e"))
             elif rain_p == 0.0:
-                item_disc.setText("0,0 mm")
+                item_disc.setText(f"{format_ptbr(0, 1)} mm")
                 item_disc.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
-                item_eff.setText("0,0 mm")
+                item_eff.setText(f"{format_ptbr(0, 1)} mm")
                 item_eff.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
                 item_status.setText(tr("Sem chuva (0,0 mm)"))
                 item_status.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
@@ -1415,7 +1417,7 @@ class TabProject(QWidget):
                     item_disc.setBackground(QColor("#7f1d1d" if is_dark else "#fee2e2"))
                     item_disc.setForeground(QColor("#fecaca" if is_dark else "#991b1b"))
                     item_disc.setFont(QFont("Segoe UI", 9, QFont.Bold))
-                    item_eff.setText("0,0 mm")
+                    item_eff.setText(f"{format_ptbr(0, 1)} mm")
                     item_eff.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
 
                     item_status.setText(f"❌ {tr('Chuva 100% descartada')} ({format_ptbr(rain_p, 1)} mm ≤ {tr('Descarte')} {format_ptbr(discard_mm, 1)} mm)")
@@ -1438,7 +1440,7 @@ class TabProject(QWidget):
             else:
                 disc_val = 0.0
                 eff_rain = rain_p
-                item_disc.setText("0,0 mm")
+                item_disc.setText(f"{format_ptbr(0, 1)} mm")
                 item_disc.setForeground(QColor("#a1a1aa" if is_dark else "#64748b"))
 
                 item_eff.setText(f"{format_ptbr(eff_rain, 1)} mm")

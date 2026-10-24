@@ -27,23 +27,9 @@ def _brasil() -> bool:
 
 
 def format_ptbr(val, decimals: int = 2, thousands: bool = True) -> str:
-    """O número do laudo no separador do idioma.
-
-    Português e espanhol: ponto de milhar e vírgula decimal («1.234,56»). Fora da Edição Brasil, o
-    inglês e o chinês usam a vírgula de milhar e o ponto decimal («1,234.56»). Na Brasil nada
-    muda: o laudo em inglês dela segue o formato brasileiro.
-    """
-    if val is None:
-        return "-"
-    if not _brasil() and get_current_lang() in ("en", "zh"):
-        try:
-            v = float(val)
-            return f"{v:,.{decimals}f}" if thousands else f"{v:.{decimals}f}"
-        except Exception:
-            return str(val)
+    """O número do laudo no separador do idioma (regra única em ``triton.core.numero``): «1.234,56» em
+    português e espanhol e na BRL em qualquer idioma; «1,234.56» em inglês e chinês fora da BRL."""
     return _format_ptbr_do_nucleo(val, decimals, thousands)
-
-
 
 
 def _edicao() -> str:
@@ -295,7 +281,11 @@ def _numero_ou_none(valor: Any) -> Optional[float]:
         if texto in ("", "-", "--"):
             return None
         try:
-            v = float(texto.replace(".", "").replace(",", ".")) if "," in texto else float(texto)
+            from triton.core.numero import usa_ponto_decimal, para_float
+            if usa_ponto_decimal():
+                v = para_float(texto)
+            else:
+                v = float(texto.replace(".", "").replace(",", ".")) if "," in texto else float(texto)
         except ValueError:
             return None
     return v if v == v and v not in (float("inf"), float("-inf")) else None
@@ -1328,7 +1318,8 @@ def generate_research_html_report(
     def number(value, default=0.0):
         try:
             if isinstance(value, str):
-                value = value.strip().replace('.', '').replace(',', '.')
+                from triton.core.numero import normalizar_milhar
+                value = normalizar_milhar(value.strip())
             return float(value)
         except (TypeError, ValueError):
             return default
@@ -1380,7 +1371,8 @@ def generate_research_html_report(
     def number(value, default=0.0):
         try:
             if isinstance(value, str):
-                value = value.strip().replace('.', '').replace(',', '.')
+                from triton.core.numero import normalizar_milhar
+                value = normalizar_milhar(value.strip())
             return float(value)
         except (TypeError, ValueError):
             return default

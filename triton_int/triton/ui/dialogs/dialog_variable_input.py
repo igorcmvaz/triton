@@ -3,6 +3,7 @@ Diálogo para entrada de dados variáveis de demanda ou moradores (1:1 com o Net
 """
 
 import numpy as np
+from triton.core.numero import decimal, para_float
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, 
     QLineEdit, QPushButton, QRadioButton, QFileDialog, 
@@ -104,7 +105,7 @@ class DialogVariableInput(QDialog):
             for r in range(12):
                 self.table.setItem(r, 0, QTableWidgetItem(months_pt[r]))
                 val = self.values[r] if r < len(self.values) else self.default_val
-                self.table.setItem(r, 1, QTableWidgetItem(f"{val:.1f}".replace('.', ',')))
+                self.table.setItem(r, 1, QTableWidgetItem(decimal(f"{val:.1f}")))
         else:
             self.table.setHorizontalHeaderLabels([tr("Dia"), self.col_title])
             try:
@@ -115,7 +116,7 @@ class DialogVariableInput(QDialog):
             self.table.setRowCount(n_days)
             for r in range(n_days):
                 self.table.setItem(r, 0, QTableWidgetItem(str(r + 1)))
-                self.table.setItem(r, 1, QTableWidgetItem(f"{self.default_val:.1f}".replace('.', ',')))
+                self.table.setItem(r, 1, QTableWidgetItem(decimal(f"{self.default_val:.1f}")))
 
     def on_load_file(self):
         file_path, _ = QFileDialog.getOpenFileName(
@@ -128,7 +129,7 @@ class DialogVariableInput(QDialog):
                     self.table.setRowCount(len(arr))
                     for r, val in enumerate(arr):
                         self.table.setItem(r, 0, QTableWidgetItem(str(r + 1)))
-                        self.table.setItem(r, 1, QTableWidgetItem(f"{val:.1f}".replace('.', ',')))
+                        self.table.setItem(r, 1, QTableWidgetItem(decimal(f"{val:.1f}")))
             except Exception as e:
                 QMessageBox.critical(self, tr("Erro"), f"{tr('Falha ao ler arquivo')}:\n{str(e)}")
 
@@ -137,7 +138,7 @@ class DialogVariableInput(QDialog):
             res = []
             for r in range(self.table.rowCount()):
                 item = self.table.item(r, 1)
-                val = float(item.text().replace(',', '.')) if item else self.default_val
+                val = para_float(item.text()) if item else self.default_val
                 res.append(val)
             self.values = res
             self.accept()

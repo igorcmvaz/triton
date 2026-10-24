@@ -34,7 +34,9 @@ The regional editions share this engine and the version number, and add data for
 - **Outputs.** Executive report, environmental audit and technical dossier in PDF; spreadsheet, CAD
   (DXF) and BIM exports; 3D plant and glTF/HTML models of the piping.
 
-Everything in the interface and in the reports follows the language and currency of the project. The
+The interface and the reports follow the language and currency of the project. The interface is complete in
+English and Portuguese and largely translated into Spanish and Chinese; the reports are complete in English and
+Portuguese, and in Spanish and Chinese they are only partly translated (some sentences stay in Portuguese). The
 precipitation series comes from a file you choose (CSV with daily values), from a template, or from the
 examples.
 

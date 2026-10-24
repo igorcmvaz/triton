@@ -9,6 +9,7 @@ andamento; quem recusa uma organização inválida é a exportação.
 """
 
 from __future__ import annotations
+from triton.core.numero import normalizar, para_float
 
 import re
 from html import escape
@@ -45,7 +46,7 @@ def parse_origin(text: str) -> Optional[Any]:
         return None
     match = _NUMBER_TRIPLE.match(text)
     if match:
-        x, y, z = (float(value.replace(",", ".")) for value in match.groups())
+        x, y, z = (para_float(value) for value in match.groups())
         return {"x": x, "y": y, "z": z}
     return text
 
@@ -343,8 +344,8 @@ class PipeRunsDialog(QDialog):
             items.append({
                 "instance_id": self._text(table, row, 0),
                 "type_id": table.cellWidget(row, 1).currentData(),
-                "position_mm": {k: self._text(table, row, c).replace(",", ".") or "0" for c, k in ((2, "x"), (3, "y"), (4, "z"))},
-                "rotation_deg": self._text(table, row, 5).replace(",", ".") or "0",
+                "position_mm": {k: normalizar(self._text(table, row, c)) or "0" for c, k in ((2, "x"), (3, "y"), (4, "z"))},
+                "rotation_deg": normalizar(self._text(table, row, 5)) or "0",
                 "level": self._text(table, row, 6) or "Nível 0",
                 "parameters": dict(params.get(row, {})),
             })
@@ -357,7 +358,7 @@ class PipeRunsDialog(QDialog):
             runs.append({
                 "run_id": self._text(table, row, 0),
                 "system": table.cellWidget(row, 1).currentData(),
-                "dn_mm": self._text(table, row, 2).replace(",", ".") or None,
+                "dn_mm": normalizar(self._text(table, row, 2)) or None,
                 "material": self._text(table, row, 3) or "PVC",
                 "start": parse_origin(self._text(table, row, 4)),
                 "route": self._text(table, row, 5),

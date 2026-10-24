@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QLineEdit, QFileDialog, QTableWidget, QTableWidgetItem, QMessageBox, QHeaderView, 
     QTabWidget, QFrame, QComboBox, QCheckBox, QScrollArea, QDoubleSpinBox, QSizePolicy
 )
+from triton.core.numero import decimal, milhar, para_float
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor
 
@@ -930,7 +931,7 @@ class TabBuilding(QWidget):
 
     def is_valid_number(self, val_str):
         try:
-            return float(val_str.replace(',', '.')) >= 0
+            return para_float(val_str) >= 0
         except ValueError:
             return False
 
@@ -1020,7 +1021,7 @@ class TabBuilding(QWidget):
             self.sp_garden_area.setValue(tpl["garden_area"])
             self.combo_garden_rate.setCurrentIndex(tpl["garden_rate_idx"])
             self.sp_wash_external.setValue(tpl["wash_external"])
-            self.txt_irr_rain_threshold.setText(f"{tpl['irr_rain_thresh']:.1f}".replace('.', ','))
+            self.txt_irr_rain_threshold.setText(decimal(f"{tpl['irr_rain_thresh']:.1f}"))
             self.chk_irr_potable_backup.setChecked(tpl["irr_potable_backup"])
             if "default_residents" in tpl:
                 self.txt_residents.setText(str(tpl["default_residents"]))
@@ -1262,13 +1263,13 @@ class TabBuilding(QWidget):
 
             if d_val > 0 and res_val > 0:
                 self.lbl_simple_tot_demand.setText(
-                    f"💧 {tr('Demanda:')} {tot_combined:,.0f} L/d ({tot_indoor:,.0f} int + {ext_l:,.0f} ext)".replace(',', '.')
+                    milhar(f"💧 {tr('Demanda:')} {tot_combined:,.0f} L/d ({tot_indoor:,.0f} int + {ext_l:,.0f} ext)")
                 )
                 self.lbl_simple_month_vol.setText(
                     tr('📦 {0} {1:.1f} m³/mês (🔵 {2:.0f}% pot / 🟢 {3:.0f}% não-pot)').format(tr('Consumo Mensal:'), month_tot_m3, pot_pct, non_pot_pct)
                 )
                 self.lbl_simple_pluvial_demand.setText(
-                    f"🌧️ {tr('Alvo Pluvial:')} {pluvial_target:,.0f} L/d ({global_share_pct:.0f}%)".replace(',', '.')
+                    milhar(f"🌧️ {tr('Alvo Pluvial:')} {pluvial_target:,.0f} L/d ({global_share_pct:.0f}%)")
                 )
             else:
                 self.lbl_simple_tot_demand.setText(tr('💧 {0} -- L/dia').format(tr('Demanda Total:')))
@@ -1288,14 +1289,12 @@ class TabBuilding(QWidget):
 
         if hasattr(self, "lbl_discretized_balance"):
             if d_val > 0 and res_val > 0:
-                txt = (
-                    f"<b>{tr('Balanço Geral de Usos (Dia Seco):')}</b> &nbsp;"
+                txt = milhar(f"<b>{tr('Balanço Geral de Usos (Dia Seco):')}</b> &nbsp;"
                     f"🔵 {tr('Potável Interno:')} <b>{pot_l:,.0f} L/dia ({pot_pct:.0f}%)</b> &nbsp;•&nbsp; "
                     f"🟢 {tr('Não-Potável Interno:')} <b>{non_pot_l:,.0f} L/dia ({non_pot_pct:.0f}%)</b> &nbsp;•&nbsp; "
                     f"🌿 {tr('Irrigação Seca:')} <b>{irr_l:,.0f} L/dia</b> &nbsp;•&nbsp; "
                     f"🌊 <b>{tr('Demanda Total:')} {tot_combined_dry_l:,.0f} L/dia ({month_m3_adv:.1f} m³/mês)</b> &nbsp;•&nbsp; "
-                    f"🌧️ {tr('Fração Pluvial Total:')} <b>{share_pct:.1f}%</b>"
-                ).replace(',', '.')
+                    f"🌧️ {tr('Fração Pluvial Total:')} <b>{share_pct:.1f}%</b>")
             else:
                 txt = f"<b>{tr('Balanço Geral de Usos (Dia Seco):')}</b> &nbsp;{tr('Preencha os dados de consumo e ocupantes para visualizar o balanço.')}"
             self.lbl_discretized_balance.setText(txt)
@@ -1313,7 +1312,7 @@ class TabBuilding(QWidget):
         val = self.combo_runoff.currentData()
         if val == -1.0:
             try:
-                return float(self.txt_custom_runoff.text().replace(',', '.'))
+                return para_float(self.txt_custom_runoff.text())
             except ValueError:
                 return 0.75
         return float(val) if val is not None else 0.75
@@ -1349,7 +1348,7 @@ class TabBuilding(QWidget):
             self.table_weekly.setItem(r, 2, QTableWidgetItem(res_val))
             self.table_weekly.setItem(r, 3, QTableWidgetItem(share_val))
             try:
-                tot = float(d_val.replace(',', '.')) * float(res_val.replace(',', '.')) * (float(share_val.replace(',', '.'))/100.0)
+                tot = para_float(d_val) * para_float(res_val) * (para_float(share_val)/100.0)
                 self.table_weekly.setItem(r, 4, QTableWidgetItem(f"{tot:.1f}"))
             except Exception:
                 self.table_weekly.setItem(r, 4, QTableWidgetItem("-"))
@@ -1362,9 +1361,9 @@ class TabBuilding(QWidget):
             return
         if col in (1, 2, 3):
             try:
-                d = float(self.table_weekly.item(row, 1).text().replace(',', '.'))
-                r = float(self.table_weekly.item(row, 2).text().replace(',', '.'))
-                s = float(self.table_weekly.item(row, 3).text().replace(',', '.')) / 100.0
+                d = para_float(self.table_weekly.item(row, 1).text())
+                r = para_float(self.table_weekly.item(row, 2).text())
+                s = para_float(self.table_weekly.item(row, 3).text()) / 100.0
                 tot = d * r * s
                 self._assinalar_celula_percentual(self.table_weekly, row)
                 self.table_weekly.blockSignals(True)
@@ -1385,7 +1384,7 @@ class TabBuilding(QWidget):
             self.table_monthly.setItem(r, 2, QTableWidgetItem(res_val))
             self.table_monthly.setItem(r, 3, QTableWidgetItem(share_val))
             try:
-                tot = float(d_val.replace(',', '.')) * float(res_val.replace(',', '.')) * (float(share_val.replace(',', '.'))/100.0)
+                tot = para_float(d_val) * para_float(res_val) * (para_float(share_val)/100.0)
                 self.table_monthly.setItem(r, 4, QTableWidgetItem(f"{tot:.1f}"))
             except Exception:
                 self.table_monthly.setItem(r, 4, QTableWidgetItem("-"))
@@ -1398,9 +1397,9 @@ class TabBuilding(QWidget):
             return
         if col in (1, 2, 3):
             try:
-                d = float(self.table_monthly.item(row, 1).text().replace(',', '.'))
-                r = float(self.table_monthly.item(row, 2).text().replace(',', '.'))
-                s = float(self.table_monthly.item(row, 3).text().replace(',', '.')) / 100.0
+                d = para_float(self.table_monthly.item(row, 1).text())
+                r = para_float(self.table_monthly.item(row, 2).text())
+                s = para_float(self.table_monthly.item(row, 3).text()) / 100.0
                 tot = d * r * s
                 self._assinalar_celula_percentual(self.table_monthly, row)
                 self.table_monthly.blockSignals(True)
@@ -1474,9 +1473,9 @@ class TabBuilding(QWidget):
                     if len(parts) >= 5:
                         day_lbl = parts[0].strip()
                         dt_lbl = parts[1].strip()
-                        d_val = float(parts[2].replace(",", "."))
-                        res_val = int(float(parts[3].replace(",", ".")))
-                        sh_val = float(parts[4].replace(",", "."))
+                        d_val = para_float(parts[2])
+                        res_val = int(para_float(parts[3]))
+                        sh_val = para_float(parts[4])
                         tot_l = d_val * res_val * (sh_val / 100.0)
                         rows.append((f"{day_lbl} ({dt_lbl})", d_val, res_val, sh_val, tot_l))
         except Exception as e:
@@ -1512,7 +1511,7 @@ class TabBuilding(QWidget):
             non_pot_pct = parse_float(self.txt_non_potable_indoor_share_simple.text(), 35.0) if hasattr(self, "txt_non_potable_indoor_share_simple") else parse_float(self.txt_share.text(), 40.0)
             if d > 0 and r > 0:
                 tot = (d * r * (non_pot_pct / 100.0)) + ext_l
-                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
+                self.lbl_tot_pluvial.setText(milhar(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot)))
             else:
                 self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 1:  # Avançado
@@ -1521,37 +1520,37 @@ class TabBuilding(QWidget):
             s = parse_float(self.txt_share.text(), 0.0) / 100.0
             if d > 0 and r > 0:
                 tot = d * r * s
-                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot).replace(',', '.'))
+                self.lbl_tot_pluvial.setText(milhar(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Alvo:'), tot)))
             else:
                 self.lbl_tot_pluvial.setText(tr('{0} -- L/dia').format(tr('Demanda Pluvial Alvo:')))
         elif idx == 2:  # Semanal
             tots = []
             for row in range(7):
                 try:
-                    d = float(self.table_weekly.item(row, 1).text().replace(',', '.'))
-                    res = float(self.table_weekly.item(row, 2).text().replace(',', '.'))
-                    sh = float(self.table_weekly.item(row, 3).text().replace(',', '.')) / 100.0
+                    d = para_float(self.table_weekly.item(row, 1).text())
+                    res = para_float(self.table_weekly.item(row, 2).text())
+                    sh = para_float(self.table_weekly.item(row, 3).text()) / 100.0
                     tots.append(d * res * sh)
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Semanal:'), avg).replace(',', '.'))
+            self.lbl_tot_pluvial.setText(milhar(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Semanal:'), avg)))
         elif idx == 3:  # Mensal
             tots = []
             for row in range(12):
                 try:
-                    d = float(self.table_monthly.item(row, 1).text().replace(',', '.'))
-                    res = float(self.table_monthly.item(row, 2).text().replace(',', '.'))
-                    sh = float(self.table_monthly.item(row, 3).text().replace(',', '.')) / 100.0
+                    d = para_float(self.table_monthly.item(row, 1).text())
+                    res = para_float(self.table_monthly.item(row, 2).text())
+                    sh = para_float(self.table_monthly.item(row, 3).text()) / 100.0
                     tots.append(d * res * sh)
                 except Exception:
                     pass
             avg = sum(tots)/len(tots) if tots else 0.0
-            self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Mensal:'), avg).replace(',', '.'))
+            self.lbl_tot_pluvial.setText(milhar(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Mensal:'), avg)))
         elif idx == 4:  # Diária
             if self.daily_custom_series:
                 avg = sum(r[4] for r in self.daily_custom_series) / len(self.daily_custom_series)
-                self.lbl_tot_pluvial.setText(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Diária:'), avg).replace(',', '.'))
+                self.lbl_tot_pluvial.setText(milhar(tr('{0} {1:,.1f} L/dia').format(tr('Demanda Pluvial Média Diária:'), avg)))
             else:
                 self.lbl_tot_pluvial.setText(tr("Demanda Pluvial: -- L/dia"))
 
@@ -1691,9 +1690,9 @@ class TabBuilding(QWidget):
             w_d, w_r, w_s = [], [], []
             for row in range(7):
                 try:
-                    w_d.append(float(self.table_weekly.item(row, 1).text().replace(',', '.')))
-                    w_r.append(int(float(self.table_weekly.item(row, 2).text().replace(',', '.'))))
-                    w_s.append(float(self.table_weekly.item(row, 3).text().replace(',', '.')) / 100.0)
+                    w_d.append(para_float(self.table_weekly.item(row, 1).text()))
+                    w_r.append(int(para_float(self.table_weekly.item(row, 2).text())))
+                    w_s.append(para_float(self.table_weekly.item(row, 3).text()) / 100.0)
                 except Exception:
                     w_d.append(demand_val); w_r.append(int(residents_val)); w_s.append(non_pot_in_share)
             cfg["weekly_demands"] = w_d
@@ -1704,9 +1703,9 @@ class TabBuilding(QWidget):
             m_d, m_r, m_s = [], [], []
             for row in range(12):
                 try:
-                    m_d.append(float(self.table_monthly.item(row, 1).text().replace(',', '.')))
-                    m_r.append(int(float(self.table_monthly.item(row, 2).text().replace(',', '.'))))
-                    m_s.append(float(self.table_monthly.item(row, 3).text().replace(',', '.')) / 100.0)
+                    m_d.append(para_float(self.table_monthly.item(row, 1).text()))
+                    m_r.append(int(para_float(self.table_monthly.item(row, 2).text())))
+                    m_s.append(para_float(self.table_monthly.item(row, 3).text()) / 100.0)
                 except Exception:
                     m_d.append(demand_val); m_r.append(int(residents_val)); m_s.append(non_pot_in_share)
             cfg["monthly_demands"] = m_d
@@ -1767,7 +1766,7 @@ class TabBuilding(QWidget):
                         break
                 if not matched:
                     self.combo_runoff.setCurrentIndex(self.combo_runoff.count() - 1)
-                    self.txt_custom_runoff.setText(f"{r_val:.2f}".replace('.', ','))
+                    self.txt_custom_runoff.setText(decimal(f"{r_val:.2f}"))
                     self.txt_custom_runoff.show()
 
             # Restaura aparelhos se presentes
@@ -1786,7 +1785,7 @@ class TabBuilding(QWidget):
                     self.combo_garden_rate.setCurrentIndex(int(cfg["garden_rate_idx"]))
                 self.sp_wash_external.setValue(float(cfg.get("wash_external", 35.0)))
                 if "irrigation_rain_threshold_mm" in cfg:
-                    self.txt_irr_rain_threshold.setText(f"{float(cfg['irrigation_rain_threshold_mm']):.1f}".replace('.', ','))
+                    self.txt_irr_rain_threshold.setText(decimal(f"{float(cfg['irrigation_rain_threshold_mm']):.1f}"))
                 if "irrigation_potable_backup" in cfg:
                     self.chk_irr_potable_backup.setChecked(bool(cfg["irrigation_potable_backup"]))
 
