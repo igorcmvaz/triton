@@ -69,8 +69,8 @@ estatística; não transforma um modelo ruim num modelo bom.
 
 > **Base compactada e embarcada no programa:** os 37.164 arquivos de texto do CLIMBra
 > (que originalmente ocupam cerca de 6,5 GB em formato CSV descompactado) foram consolidados
-> e comprimidos pelo Triton em um banco de dados SQLite binário de alta performance
-> (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
+> e comprimidos pelo Triton em bancos de dados SQLite binários de alta performance, um por
+> modelo (`climbra_<modelo>.db`). Esses bancos ficam integrados ao executável e ao instalador, permitindo consultas
 > instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
 > sem a necessidade de downloads externos volumosos. Os CSV originais não são distribuídos
 > nem precisam ser instalados.

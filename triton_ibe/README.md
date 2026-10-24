@@ -39,6 +39,31 @@ As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
 - **Resultados.** Relatório executivo, auditoria ambiental e dossiê técnico em PDF; exportação para folha de
   cálculo, CAD (DXF) e BIM; planta 3D e modelos glTF/HTML da tubagem.
 
+## Estado da versão 0.1.0
+
+**Pronto.** O balanço diário, o varrimento de volumes, a economia (escalões, VAL, TIR, período de recuperação),
+a avaliação do ciclo de vida, a linha de tratamento, as certificações, a decisão multicritério, a modulação
+probabilística, os laudos (PDF), a folha de cálculo, as exportações DXF/glTF/BIM, o manual completo e a
+documentação de cada conjunto de dados. A chuva E-OBS de 278 concelhos de Portugal continental tem nível de
+qualidade A, B ou C (45, 159 e 74); Lisboa, Porto e Funchal têm tarifário transcrito e exemplo completo.
+
+**Cobertura e o que falta.**
+
+| Área | Estado na versão 0.1.0 |
+| :--- | :--- |
+| Chuva, Portugal continental | pronta: 278 concelhos, com nível A (45), B (159) ou C (74) |
+| Chuva, ilhas | sem série na base (30 concelhos); o Funchal usa uma reanálise ERA5 |
+| Chuva, Espanha | 0 locais |
+| Tarifários | Lisboa, Porto e Funchal transcritos; nenhum concelho em verde |
+| Preços e CAPEX | partem de zero e são do utilizador; o programa não traz preços de Portugal |
+| Fator de emissão da rede | sem valor até o utilizador o indicar |
+| Correção de escala da chuva | não faz parte desta versão |
+
+**Limitações conhecidas.** A licença da E-OBS é de uso não comercial em investigação e educação e omissa quanto à
+redistribuição; o diálogo do CAPEX não tem campo para o preço da cisterna (o manual dá o contorno); o espanhol e o
+chinês estão traduzidos em parte. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_LANCAMENTO_0.1.0.md)
+e no [histórico de versões](CHANGELOG.md).
+
 ## Instalar e executar
 
 **Instalador para Windows.** Publicado no [Zenodo](../README.md#download), com a soma de verificação SHA-256:
@@ -78,9 +103,12 @@ O pacote leva a base `data/portugal_eobs.db` (6 MB), que se gera com `scripts/co
 partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver o `scripts/README.md`). Para um pacote de teste
 sem a base: `--sem-base-climatica`.
 
+**Requisitos.** Windows para o instalador (as verificações desta versão foram feitas em Windows); Python 3.12 ou superior e os pacotes de `requirements.txt` para executar a partir do código.
+
 ## Documentação
 
 - [Manual do utilizador (PDF)](manual/Manual-Triton.pdf)
+- [Notas de lançamento 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e [histórico de versões](CHANGELOG.md)
 - [Guia de início](docs/en/getting-started.md), [modelo](docs/en/model.md), [verificação](docs/en/verification.md)
   e [as três edições](docs/en/editions.md) (em inglês)
 - [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)

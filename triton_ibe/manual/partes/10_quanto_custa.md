@@ -67,7 +67,7 @@ Os preços dos reservatórios seguem uma regra ilustrativa simples, uma parte fi
 
 ## O CAPEX nesta edição: o programa não calcula preços de Portugal
 
-Na Edição Brasil, o investimento de um projeto novo vem preenchido por uma cadeia de cálculo que parte de preços de mercado. **Nesta edição essa cadeia não existe.** Os preços de reservatórios, tubagem, eletrobombas, mão de obra e acessórios ficam a zero, por decisão: não se encontrou fonte oficial aberta para eles e nenhum foi inventado. O programa dimensiona o sistema, calcula a poupança na fatura e a energia, mas o investimento é o que o utilizador introduzir.
+Noutras edições do Triton, o investimento de um projeto novo vem preenchido por uma cadeia de cálculo que parte de preços de mercado. **Nesta edição essa cadeia não existe.** Os preços de reservatórios, tubagem, eletrobombas, mão de obra e acessórios ficam a zero, por decisão: não se encontrou fonte oficial aberta para eles e nenhum foi inventado. O programa dimensiona o sistema, calcula a poupança na fatura e a energia, mas o investimento é o que o utilizador introduzir.
 
 <!-- inclui: _tabelas/cap10_custos_estado.md -->
 
@@ -77,7 +77,7 @@ A única coisa que o programa insere sozinho, nesta matéria, é o tarifário de
 
 Sem os seus valores, o investimento é zero e a análise económica mostra apenas a poupança na fatura de água. O valor atual líquido e o período de recuperação, nessas condições, dizem pouco: não são resultados. A linha de tratamento e o descarte são dimensionados, entram no balanço de carbono, mas não custam nada. Só tem uma análise económica quando introduzir orçamentos reais.
 
-A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e de origem brasileira, com fatores regionais para as unidades federativas do Brasil. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
+A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e não são de Portugal nem de Espanha, com fatores regionais de outro país. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
 
 ### Como introduzir os seus valores
 

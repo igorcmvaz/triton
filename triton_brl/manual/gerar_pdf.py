@@ -977,7 +977,7 @@ CAPA_COMPLETA = dict(
     cor="#8ecae6", numero=None, titulo="Manual do Triton",
     frase="Simulação de sistemas de aproveitamento de água pluvial em edificações: "
           "o método, o tutorial, os guias e as referências, num volume só.",
-    conteudo="Edição completa · seis capítulos e dez apêndices",
+    conteudo="Edição completa · sete capítulos e dez apêndices",
 )
 
 

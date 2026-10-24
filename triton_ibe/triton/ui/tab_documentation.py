@@ -86,9 +86,9 @@ def open_url_in_browser(url: str):
 #: contra os PDFs.
 #: As páginas dependem da edição (cada edição publica um manual): o literal fica igual nas três.
 PAGINAS_POR_EDICAO = {
-    "BRL": {"manual/Manual-Triton.pdf": 473},
-    "INT": {"manual/en/Triton-User-Manual.pdf": 287},
-    "IBE": {"manual/Manual-Triton.pdf": 299},
+    "BRL": {"manual/Manual-Triton.pdf": 476},
+    "INT": {"manual/en/Triton-User-Manual.pdf": 293},
+    "IBE": {"manual/Manual-Triton.pdf": 302},
 }
 PAGINAS_DO_MANUAL_COMPLETO = PAGINAS_POR_EDICAO.get(get_current_edition(), {})
 

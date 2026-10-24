@@ -192,8 +192,10 @@ The same arrangement feeds the cost and the carbon. The program takes off, part 
 - each part of the manifest, by type;
 - the metres of control cable.
 
-Each item receives a price and a mass. The price goes to the CAPEX: pipes and fittings under
-*Piping*, parts and cables under *Accessories*. The mass, times the material factor, goes to
+Each item has a mass and, in an edition that carries a price list, a price that goes to the
+CAPEX: pipes and fittings under *Piping*, parts and cables under *Accessories*. **In the
+International Edition the layout sets no prices**: piping and accessories are the values you type
+in the economic step (section {{n:10}}). The mass, times the material factor, goes to
 the LCA in stage A1–A3. Cistern, upper tank and pump set already have their own line in both
 analyses and are not counted again. The filter and the first flush enter the CAPEX through the
 treatment line, when it is active, and the LCA through the first-flush subsystem, when it is
@@ -207,14 +209,11 @@ against the values the analyses used. The same sheet also checks whether the arr
 consistent with the project: an arrangement organised by hand can fall behind when the project
 changes the supply or the number of pumps, and the divergence shows up there.
 
-The prices and masses of the parts are a reference scenario, not a quotation. They are in
-`costs_database.json`, under the `pecas_do_arranjo` key, and can be changed there. In the
-economic step, the designer can also type other piping and accessory values: from then on the
-program uses the typed values. A new project starts from the arrangement. An old file keeps
-the costs it already declared. The reference prices of the cost
-database are not applied in the International Edition: the costs are typed in, in the currency
-of the project, and the manual's own cases use round figures stated as illustrative, not market
-prices.
+The masses and the reference prices of the parts are a scenario, not a quotation or a
+measurement. They are in `costs_database.json`, under the `pecas_do_arranjo` key. The reference
+prices of the cost database are not applied in the International Edition: the costs, including
+those of piping and accessories, are typed in the economic step, in the currency of the project,
+and the manual's own cases use round figures stated as illustrative, not market prices.
 
 ---
 

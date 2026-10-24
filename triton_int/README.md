@@ -38,6 +38,22 @@ Everything in the interface and in the reports follows the language and currency
 precipitation series comes from a file you choose (CSV with daily values), from a template, or from the
 examples.
 
+## Status of version 0.1.0
+
+**Ready.** The daily water balance, volume sweep, economics (block tariffs, NPV, IRR, payback), life-cycle
+assessment, treatment line, certification scoring, multi-criteria ranking, probabilistic modulation, reports
+(PDF), spreadsheet, DXF/glTF/BIM exports, the manual in English and the documentation of every dataset.
+Three worked examples open and run end to end.
+
+**Not there, by design.** Regional rainfall databases, climate projections, tariff and cost catalogues, emission
+factors and national standards: you supply them. A new project starts with every cost at zero, an empty water
+tariff and a zero grid emission factor; until you enter your own values, payback and net present value say little.
+
+**Known limitations.** The three example tariffs are illustrative and were not traced to stored copies of the
+documents; the example rainfall is a reanalysis grid cell, not a gauge record; the CAPEX dialog has no field for
+the cistern price (the manual gives the way round); Spanish and Chinese are partly translated. The full list is
+in the [release notes](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and the [changelog](CHANGELOG.md).
+
 ## Install and run
 
 **Windows installer.** Published on [Zenodo](../README.md#download), together with its SHA-256 checksum:
@@ -75,9 +91,12 @@ python build_exe.py --installer      # dist/Triton_INT/ and dist/Triton_INT_Setu
 It needs Python 3.12 or later, PyInstaller (`requirements-dev.txt`) and [Inno Setup 6](https://jrsoftware.org/isinfo.php).
 The package carries no regional database.
 
+**Requirements.** Windows for the installer (the checks of this version were made on Windows); Python 3.12 or later and the packages in `requirements.txt` to run from source.
+
 ## Documentation
 
 - [User manual (PDF)](manual/en/Triton-User-Manual.pdf)
+- [Release notes 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and [changelog](CHANGELOG.md)
 - [Getting started](docs/en/getting-started.md), [model](docs/en/model.md), [verification](docs/en/verification.md)
   and [the three editions](docs/en/editions.md)
 - [Data: what ships, sources, licences and quality](docs/DADOS.md)

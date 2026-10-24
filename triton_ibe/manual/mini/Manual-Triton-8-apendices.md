@@ -149,31 +149,35 @@ Tabela 39 — Concelhos de Portugal continental por nível de qualidade da chuva
 
 Tabela 40 — Série de precipitação distribuída com a Edição Ibérica
 
-Tabela 41 — Formatos que o programa lê e onde cada um é carregado
+Tabela 41 — Cobertura geográfica da Edição Ibérica nesta versão
 
-Tabela 42 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 42 — Os conjuntos de dados da Edição Ibérica, a fonte e a licença
 
-Tabela 43 — As sete secções do ficheiro de projeto e o que cada uma guarda
+Tabela 43 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 44 — Localização dos ficheiros do programa e dos ficheiros do utilizador
+Tabela 44 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 45 — Compatibilidade entre versões do ficheiro de projeto
+Tabela 45 — As sete secções do ficheiro de projeto e o que cada uma guarda
 
-Tabela 46 — Padronização terminológica de água de chuva e água pluvial
+Tabela 46 — Localização dos ficheiros do programa e dos ficheiros do utilizador
 
-Tabela 47 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 47 — Compatibilidade entre versões do ficheiro de projeto
 
-Tabela 48 — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um
+Tabela 48 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 49 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 49 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 50 — Ficha de consulta: os seis regimes tarifários e o efeito de poupar
+Tabela 50 — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um
 
-Tabela 51 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 51 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 52 — Os casos de exemplo e o que cada um demonstra
+Tabela 52 — Ficha de consulta: os seis regimes tarifários e o efeito de poupar
 
-Tabela 53 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 53 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 54 — Os casos de exemplo e o que cada um demonstra
+
+Tabela 55 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -1764,11 +1768,11 @@ A Coruña, Cuenca, Donostia/San Sebastián, Palencia, Santander, Segovia e Bilba
 34% menos chuva no total anual que o Iberia01. Estes resultados não estão na base do programa e não valem como
 nível de nenhum município espanhol.
 
-**Correção opcional.** A edição traz, em ficheiro separado, fatores mensais de correção do total, calibrados
-com o Iberia01 em 1971–2000 (o período de referência que os autores recomendam) e **desligados por defeito**.
-Ligá-los multiplica a chuva de cada mês pelo fator do concelho; o programa regista no projeto que a correção
-foi usada. Os fatores derivam do Iberia01, que está sob a Open Database License, e por isso seguem sob a
-mesma licença.
+**Correção de escala: não incluída.** Estudou-se uma correção mensal do total, calibrada com o Iberia01 em
+1971–2000 (o período de referência que os autores recomendam), mas **ela não faz parte desta versão**: o
+pacote não traz nem o código nem o ficheiro dos fatores. Se vier a ser distribuída, os fatores irão num ficheiro
+separado, sob a Open Database License do Iberia01, e ficará desligada por defeito. Até lá, nos concelhos de
+nível C, valide a série com uma série local ou carregue a sua.
 
 **Uso comercial.** A E-OBS é de uso estritamente não comercial em pesquisa e educação. No primeiro arranque o
 programa pergunta o uso pretendido e o laudo repete a licença e a citação.
@@ -1849,6 +1853,70 @@ percentagem declarada. A secção 3.2 (volume Guias de uso) trata da condução 
 - o número de **anos** de dados;
 - a citação e o reconhecimento exigidos pela E-OBS, e, para a ERA5, a atribuição à Open-Meteo.
 
+
+---
+
+### E.7. Particularidades de região e país
+
+A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibérica, mas **esta versão só traz dados de Portugal**. Esta secção diz o que existe, o que falta e o que é próprio do país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
+
+<!-- tabela: **Tabela 41** — Cobertura geográfica da Edição Ibérica nesta versão -->
+| Território | Chuva no programa | Tarifário no programa |
+| :--- | :--- | :--- |
+| Portugal continental | 278 concelhos, série E-OBS de 1950 a 2025, com nível de qualidade A, B ou C | Lisboa e Porto transcritos; os restantes concelhos digitados pelo utilizador |
+| Madeira (11 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | Funchal transcrito |
+| Açores (19 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | nenhum transcrito (Ponta Delgada consta do registo de entidades) |
+| Espanha | **0 locais** | nenhum |
+
+**Portugal continental.** Os 278 concelhos têm uma série diária de chuva, calculada a partir da grelha E-OBS de 0,1° (cerca de 10 km); a série de um concelho é uma média de área e suaviza as chuvadas intensas. Cada concelho traz um nível de qualidade (A, B ou C), explicado na secção anterior e resumido abaixo.
+
+**Ilhas.** A Madeira e os Açores não entram pela grelha. Os Açores ficam a oeste de 25° O, fora do domínio da E-OBS; na Madeira, todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020. A decisão do projeto é que as ilhas só entram com a série de uma estação. O Funchal é uma exceção rotulada: o exemplo usa uma reanálise ERA5, por ser a única série de ilha distribuída, e o laudo diz que a série é própria, sem nível A, B ou C.
+
+**Espanha.** O programa **ainda não traz nenhum local espanhol**, e a linha de cobertura diz «Espanha: 0 locais». O que existe é um ensaio, feito fora do programa, com as 52 capitais de província: 39 em nível B, 9 em C e 4 sem série. Para ter um pacote por município falta o limite municipal (CNIG, compatível com a licença CC-BY 4.0, confirmado em 23/10/2026) e uma decisão sobre a licença da E-OBS para redistribuição. Os tarifários e os custos de Espanha também não existem.
+
+**Licença da chuva.** A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
+
+**Níveis de qualidade da chuva.** O nível é o pior de duas medidas: a diferença entre a E-OBS e o Iberia01 (total anual e máximo diário anual, em 1971–2000) e a geometria da série (poucas células, método do centroide ou série repetida de outro concelho). Nos 278 concelhos, 45 são A, 159 são B e 74 são C. A diferença média do total anual, sobre os 278 concelhos, é de −10,1% (a E-OBS dá menos chuva; o −8% da secção anterior é a média célula a célula em Portugal): −3,1% em A, −7,1% em B e −20,7% em C. Os C concentram-se no distrito de Faro (15 dos 16 concelhos), em Santarém (11), Braga (10), Vila Real (8) e Porto (7). O nível não é uma nota de exatidão: diz onde a base é mais frágil, e em C convém validar com uma série local.
+
+**Tarifários e entidades gestoras.** Em Portugal, a fatura soma três serviços, cada um com a sua entidade gestora e o seu tarifário: água, saneamento e resíduos urbanos. A ERSAR, a entidade reguladora, publica a ficha tarifária por concelho; o programa usa-a para indicar a entidade de cada serviço em 280 concelhos (os 278 do Continente, mais o Funchal e Ponta Delgada), com 316 entidades. Só Lisboa, Porto e Funchal têm o tarifário transcrito (vigência de 01/01/2026); nos restantes, o utilizador digita-o, e a ficha da ERSAR indica onde o procurar (apêndice D).
+
+**Confiança tarifária.** Cada concelho e cada serviço tem um estado: verde (documento arquivado com endereço e SHA-256, reconfirmado há menos de 12 meses, transcrição conferida e verificação independente), amarelo (há documento, mas falta algum requisito do verde) ou cinzento (sem documento, entidade por identificar ou dado ruim). Em 23/10/2026: **0 verdes**, 42 amarelos e 238 cinzentos na água e no saneamento (nos resíduos, 11 amarelos e 269 cinzentos). Nenhum concelho é verde porque nenhuma verificação independente está registada, o que não quer dizer que os valores de Lisboa, Porto e Funchal estejam errados: foram conferidos à mão com as faturas impressas nos documentos.
+
+**Normas e entidades de referência.** A norma europeia de referência é a EN 16941-1 (sistemas de água não potável no local), e em Portugal a especificação técnica ETA 0701 da ANQIP trata o aproveitamento de águas pluviais em edifícios; a secção 1.1 (volume Comece aqui) e a secção 4.6 (volume Tutorial) dizem o que o manual verificou de cada uma. As referências a rever antes de citar estão marcadas nessas secções: a edição da EN 16941-1 em vigor e a sua transposição para a norma portuguesa, e a revisão em vigor da ETA 0701. O programa não avalia a conformidade com nenhuma delas.
+
+**Moeda e IVA.** Os valores são em euros. A taxa de IVA depende do serviço e da entidade, e o programa trata-a em cada tarifário transcrito: no Funchal, o IVA de 4% não está confirmado, e em Lisboa o adicional da Câmara e o saneamento e os resíduos foram tratados sem IVA, como declara o tarifário.
+
+**Fator de emissão da rede.** A edição não traz série oficial: o fator é zero até o utilizador indicar o da rede do projeto. As fontes portuguesas e espanholas avaliadas (APA, MITECO, REE) não estão incorporadas.
+
+---
+
+### E.8. Descrição dos dados e sua qualidade
+
+Esta secção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum ficheiro rastreado do repositório passa de 50 MiB; o maior ficheiro de dados é `data/portugal_eobs.db`, com 5,74 MiB.
+
+<!-- tabela: **Tabela 42** — Os conjuntos de dados da Edição Ibérica, a fonte e a licença -->
+| Conjunto | O que é | Fonte e licença |
+| :--- | :--- | :--- |
+| Chuva por concelho | base SQLite `portugal_eobs.db` (5,74 MiB): 278 séries diárias, de 01/01/1950 a 31/12/2025 (27 759 dias) | E-OBS v33.0e (ECA&D / Copernicus): só uso não comercial em investigação e educação; limites dos concelhos da CAOP 2025 (Direção-Geral do Território, cc-by) |
+| Série do Funchal | `data/rainfall/Funchal.csv` (0,04 MiB), 10 958 dias, de 01/01/1991 a 31/12/2020 | reanálise ERA5 via Open-Meteo; CC BY 4.0 |
+| Tarifários transcritos | Lisboa, Porto e Funchal (`portugal_tarifarios.json`) | documentos oficiais das entidades, com endereço e SHA-256 registados |
+| Entidade gestora, confiança e proveniência | 280 concelhos (`tarifas_portugal/`, 0,75 MiB) | índice da ERSAR (avisos legais: citar a fonte, sem licença aberta) |
+| Fatores de emissão, custos e rotas de produção de água | ficheiros do núcleo (0,02 MiB) | do projeto; sem valor local |
+
+**Chuva: o que a base é.** O pacote é identificado por `PT-EOBS-v33.0e-37fcba20`, com o SHA-256 da E-OBS, da CAOP e do próprio pacote nos metadados da base, e cada projeto grava esse identificador. Nos 278 concelhos da base não há nenhum dia em falta; o critério de entrada é rejeitar o concelho com mais de 1% de dias sem dado em 1991–2020. A média anual vai de 485 mm (num concelho do distrito de Faro) a 1994 mm (no distrito de Viana do Castelo), e a média dos concelhos é de 908 mm. Setenta e um concelhos têm uma só célula, 20 usam a célula mais próxima do centroide e 14 repetem a série de outro concelho.
+
+**Chuva: o que a base não é.** A E-OBS é um produto interpolado, e não um registo de pluviómetro. Comparada com o Iberia01 (uma grelha feita com uma rede mais densa de estações) em 1971–2000, dá menos chuva e alisa os extremos; por isso o manual não afirma nenhuma tendência de longo prazo da chuva. O Iberia01 só serve aqui de referência para o nível de qualidade (licença ODbL; a tabela `qualidade` guarda diferenças percentuais agregadas derivadas dele, e ainda não está decidido se isso exige a ODbL). No Funchal, a reanálise ERA5 tem uma média anual de cerca de 538 mm, que pode diferir da medida na estação.
+
+**Tarifas: o que há.** O programa lê só o tarifário transcrito de Lisboa, Porto e Funchal. Os documentos oficiais em que ele se baseia (cada um com endereço de origem e SHA-256 em `tarifas_portugal/fontes/FONTES.tsv`, recolhidos em 07/10/2026) não se redistribuem: o Git leva só o registo e os valores transcritos. As pendências de cada tarifário estão em `examples/LEIA.md`; entre elas, o IVA do Funchal, a leitura por inferência da disponibilidade de água no Porto e a vigência de mais de 12 meses de Beja, Évora, Ponta Delgada e Bragança.
+
+**Eletricidade.** Só o exemplo do Funchal traz tarifa: 0,1673 €/kWh (Empresa de Eletricidade da Madeira, sem IVA), de uma fonte secundária (um comparador de preços, atualizado em 20/02/2025), a confirmar na EEM ou na ERSE.
+
+**Exemplos.** Os resultados económicos dos exemplos **não são resultados**: os custos de obra, bomba, tratamento e manutenção ficam a zero, porque nenhuma fonte oficial aberta foi usada para eles (secção 4.7 (volume Tutorial)).
+
+**O que declarar.** Ao usar a base, cite Cornes et al. (2018) e repita o reconhecimento exigido pela E-OBS; para a série do Funchal, a atribuição à Open-Meteo (CC BY 4.0) e a Hersbach et al. (2020); para os tarifários, a ERSAR («Fonte: ERSAR, www.ersar.pt. © ERSAR 2026. Todos os direitos reservados.») e a entidade do documento.
+
+**Pendências conhecidas.** A licença da E-OBS para redistribuir a base derivada é omissa, e a decisão é da UFSC; os termos de reutilização dos sítios das entidades gestoras não foram encontrados (Águas e Energia do Porto) ou não foram verificados (as restantes); o texto do aviso da E-OBS e partes deste manual precisam de revisão antes da primeira distribuição. Estas pendências estão registadas em `docs/DADOS.md`.
+
 ---
 
 ## Apêndice F — Ficheiros, pastas e formatos
@@ -1859,7 +1927,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 41** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 43** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -1883,7 +1951,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 42** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 44** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | todos os parâmetros e a série de chuva | Guardar projeto |
@@ -1912,7 +1980,7 @@ programa.
 
 Ele tem sete secções:
 
-<!-- tabela: **Tabela 43** — As sete secções do ficheiro de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 45** — As sete secções do ficheiro de projeto e o que cada uma guarda -->
 | Secção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -1935,7 +2003,7 @@ O apêndice A lista todos os parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 44** — Localização dos ficheiros do programa e dos ficheiros do utilizador -->
+<!-- tabela: **Tabela 46** — Localização dos ficheiros do programa e dos ficheiros do utilizador -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Triton` |
@@ -1954,7 +2022,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada do que é s
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 45** — Compatibilidade entre versões do ficheiro de projeto -->
+<!-- tabela: **Tabela 47** — Compatibilidade entre versões do ficheiro de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o valor por defeito |
@@ -2314,7 +2382,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 46** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 48** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica recolhida diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou as redes públicas. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canónico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | Prática de redação técnica e científica. |
@@ -2325,7 +2393,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 47** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 49** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da procura total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -2574,7 +2642,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 48** — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um -->
+<!-- tabela: **Tabela 50** — Ficha de consulta: os dez passos de um estudo completo e a secção que trata de cada um -->
 | # | Passo | O que se decide nele | Secção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 (volume Tutorial) |
@@ -2594,7 +2662,7 @@ do computador.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 49** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 51** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 (volume Enganos, limitações e confiabilidade) |
@@ -2612,7 +2680,7 @@ do computador.
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 50** — Ficha de consulta: os seis regimes tarifários e o efeito de poupar -->
+<!-- tabela: **Tabela 52** — Ficha de consulta: os seis regimes tarifários e o efeito de poupar -->
 | Regime | Ao poupar |
 | :--- | :--- |
 | sem mínimo | cada m³ desconta |
@@ -2632,7 +2700,7 @@ progressivos (apêndice D).
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 51** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 53** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | procura **total** | quanto do consumo de água potável cai |
@@ -2702,7 +2770,7 @@ introduza os seus próprios custos na etapa 5.
 
 ### J.1. Os casos do manual
 
-<!-- tabela: **Tabela 52** — Os casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 54** — Os casos de exemplo e o que cada um demonstra -->
 | Ficheiro | Secção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_lisboa.triton` | 4.1 a 4.10 | o projeto fechado do tutorial em Lisboa: cisterna de 5.000 L em polietileno e elevação para um reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado) |
@@ -2723,7 +2791,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 53** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 55** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Ficheiro | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |

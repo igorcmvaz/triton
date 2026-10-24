@@ -411,8 +411,8 @@ estatística; não transforma um modelo ruim num modelo bom.
 
 > **Base compactada e embarcada no programa:** os 37.164 arquivos de texto do CLIMBra
 > (que originalmente ocupam cerca de 6,5 GB em formato CSV descompactado) foram consolidados
-> e comprimidos pelo Triton em um banco de dados SQLite binário de alta performance
-> (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
+> e comprimidos pelo Triton em bancos de dados SQLite binários de alta performance, um por
+> modelo (`climbra_<modelo>.db`). Esses bancos ficam integrados ao executável e ao instalador, permitindo consultas
 > instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
 > sem a necessidade de downloads externos volumosos. Os CSV originais não são distribuídos
 > nem precisam ser instalados.
@@ -7762,6 +7762,12 @@ edição, como em ABNT NBR 15527:2019.
 impactos ambientais de um produto ao longo de toda a sua existência, da extração das
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
+
+**MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
+
+**RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
 
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir

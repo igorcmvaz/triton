@@ -638,6 +638,12 @@ impactos ambientais de um produto ao longo de toda a sua existência, da extraç
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
 
+**MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
+
+**RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir
 o solo ou galerias públicas. É o termo técnico-normativo oficial consagrado pela ABNT NBR

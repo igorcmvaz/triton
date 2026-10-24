@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 0.1.0 · revisão de 23/10/2026
+Versão 0.1.0 · revisão de 24/10/2026
 
 ---
 
@@ -819,33 +819,37 @@ Tabela 219 — As estruturas de cobrança direta e de parcela fixa por faixa
 
 Tabela 220 — Conteúdo da base climática nacional
 
-Tabela 221 — Séries históricas de precipitação distribuídas com o programa
+Tabela 221 — Séries de precipitação de exemplo distribuídas com o programa
 
-Tabela 222 — Formatos que o programa lê e onde cada um é carregado
+Tabela 222 — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026)
 
-Tabela 223 — Formatos que o programa escreve e onde cada um é gerado
+Tabela 223 — Os conjuntos de dados da Edição Brasil, a fonte e a licença
 
-Tabela 224 — As sete seções do arquivo de projeto e o que cada uma guarda
+Tabela 224 — Formatos que o programa lê e onde cada um é carregado
 
-Tabela 225 — Localização dos arquivos do programa e dos arquivos do usuário
+Tabela 225 — Formatos que o programa escreve e onde cada um é gerado
 
-Tabela 226 — Compatibilidade entre versões do arquivo de projeto
+Tabela 226 — As sete seções do arquivo de projeto e o que cada uma guarda
 
-Tabela 227 — Padronização terminológica de água de chuva e água pluvial
+Tabela 227 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 228 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 228 — Compatibilidade entre versões do arquivo de projeto
 
-Tabela 229 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
+Tabela 229 — Padronização terminológica de água de chuva e água pluvial
 
-Tabela 230 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
+Tabela 230 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
-Tabela 231 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
+Tabela 231 — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um
 
-Tabela 232 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+Tabela 232 — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada
 
-Tabela 233 — Os casos de exemplo e o que cada um demonstra
+Tabela 233 — Ficha de consulta: os seis regimes tarifários e o efeito da economia
 
-Tabela 234 — Resultado que cada caso de exemplo produz ao ser relido e simulado
+Tabela 234 — Ficha de consulta: os indicadores e a pergunta que cada um responde
+
+Tabela 235 — Os casos de exemplo e o que cada um demonstra
+
+Tabela 236 — Resultado que cada caso de exemplo produz ao ser relido e simulado
 
 ---
 
@@ -1314,8 +1318,8 @@ um trabalho verificável de um trabalho apenas relatado.
 
 ### 1.2.5. A base climática
 
-O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
-Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
+O programa traz doze séries de exemplo prontas para uso — três para cada uma de Florianópolis,
+Brasília, Manaus e São Paulo, recortes do CLIMBra — e aceita qualquer série própria em CSV.
 
 > **Só na Edição Brasil (BRL).** A base climática nacional só acompanha a Edição Brasil.
 > Na International Edition, a série de chuva é sempre um arquivo próprio: precipitação
@@ -1323,8 +1327,8 @@ Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
 
 Além delas, a Edição Brasil traz a **base climática nacional**: 652 cidades, 19 modelos
 climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto
-CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados num
-único banco, de cerca de 800 MB, que vai embutido no instalador. Não há nada a baixar
+CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados em
+19 bancos, um por modelo, de 40 a 43 MiB cada (785 MiB ao todo), que vão embutidos no instalador. Não há nada a baixar
 nem a copiar: a base aparece na primeira tela como uma lista de cidades.
 
 O apêndice E descreve a base, e a seção 3.2 mostra como usar um cenário futuro.
@@ -4763,8 +4767,8 @@ estatística; não transforma um modelo ruim num modelo bom.
 
 > **Base compactada e embarcada no programa:** os 37.164 arquivos de texto do CLIMBra
 > (que originalmente ocupam cerca de 6,5 GB em formato CSV descompactado) foram consolidados
-> e comprimidos pelo Triton em um banco de dados SQLite binário de alta performance
-> (`climbra.db`). Esse banco fica integrado ao executável e ao instalador, permitindo consultas
+> e comprimidos pelo Triton em bancos de dados SQLite binários de alta performance, um por
+> modelo (`climbra_<modelo>.db`). Esses bancos ficam integrados ao executável e ao instalador, permitindo consultas
 > instantâneas (< 1 ms por série) e execução imediata para qualquer uma das 652 cidades
 > sem a necessidade de downloads externos volumosos. Os CSV originais não são distribuídos
 > nem precisam ser instalados.
@@ -9464,14 +9468,35 @@ mesmo registro.
 
 O Triton é o filho do Netuno. Mantém o motor de simulação, a avaliação de ciclo de vida, a linha de
 tratamento, a decisão multicritério e a modulação probabilística do Netuno 5.0.1, e passa a ser
-distribuído em três programas independentes, um por edição: Brasil, Internacional e Portugal. Cada um
+distribuído em três programas independentes, um por edição: Brasil, Internacional e Ibérica. Cada um
 tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 0.1.0, ainda em beta.
 
 O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 0.1.0 já inclui as
 correções feitas até o Netuno 5.0.1, entre elas a da demanda mensal e semanal igual a zero, e a regra de
 operação de Fewkes (φ) como opção em todos os módulos.
 
-Na Edição Brasil, a base de tarifas de 652 municípios traz 617 conferências de conta, das quais 241 corrigidas, registradas em `tarifas/transcricoes/ALTERACOES.md`.
+**O que a Edição Brasil traz nesta versão.**
+
+- **Chuva.** A base CLIMBra para 652 municípios, 19 modelos do CMIP6 e três simulações (histórica, SSP2-4.5 e SSP5-8.5): 37.164 séries diárias, em 19 bancos, um por modelo (785,1 MiB, cada um abaixo de 50 MiB), com o SHA-256 de cada parte em `data/climbra_partes.json`.
+- **Tarifas.** Água e esgoto de 652 municípios, por prestador, com 617 conferências de conta (241 corrigidas) e grau de confiança por município: 584 de grau A, 63 de B e 5 de C. Energia B1 da ANEEL por distribuidora. As conferências estão registradas em `tarifas/transcricoes/ALTERACOES.md`.
+- **Custos.** O CAPEX e o OPEX de um projeto novo são calculados automaticamente a partir do catálogo de referência, em reais (seção 4.7); o usuário pode digitar os seus valores.
+- **Normas.** A ABNT NBR 15527:2019 no que ela fixa (seção 4.6), e a comparação com a EN 16941-1:2024 em `docs/normas_nbr_x_en16941.md`.
+- **Documentação.** O manual completo em português do Brasil, o site de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
+
+**O que a versão ainda não tem.**
+
+- Série de chuva **medida**: as séries da base e as dos exemplos são do CLIMBra, isto é, modeladas e com correção de viés, e não registros de pluviômetro.
+- Tarifa de energia com tributos e bandeiras: o valor é o da B1 sem ICMS, PIS/Pasep, Cofins, COSIP nem bandeira, e 140 municípios têm a referência de energia expirada (guardam o último valor oficial, marcado).
+- Estrutura tarifária conferida nos cinco municípios do Tocantins (grau C).
+- Fonte e data registradas para todos os preços de referência do CAPEX: só os preços de reservatório as têm.
+
+**Limitações conhecidas.**
+
+- O custo anual que o resumo da análise mostra soma só a energia, o cloro e a linha de tratamento; as rotinas de manutenção entram no fluxo de caixa à parte (seção 4.7).
+- Em espanhol e em chinês, a interface está traduzida em parte e os laudos saem com trechos em português; o português e o inglês estão completos.
+- Em janelas estreitas, alguns cabeçalhos de tabela aparecem cortados.
+- A licença de reutilização dos portais dos prestadores, a das planilhas do Netuno 4 e a do logotipo do CLIMBra não foram verificadas; a base aberta da ANEEL declara a ODbL e o fator do MCTI/SIRENE, o CC BY-ND 3.0 para o site. As decisões do mantenedor estão em `docs/DADOS.md`.
+- O metadado `source_article` dentro das 19 partes do CLIMBra ainda diz «art. 48»; o artigo é Scientific Data 10, art. 47. O texto corrigido está no programa e na documentação, e as partes serão regeradas quando houver outra razão.
 
 #### 6.3.3.2. Correções que alteram resultados
 
@@ -9484,6 +9509,10 @@ Nenhuma em relação ao Netuno 5.0.1, de que o Triton 0.1.0 parte.
 #### 6.3.3.3. Correções que não alteram resultados
 
 O nome, o logo, o pacote (`triton`) e a extensão dos arquivos de projeto (`.triton`) mudaram; o cálculo não.
+
+#### 6.3.3.4. Documentação
+
+O manual ganhou as seções «Particularidades de região e país» e «Descrição dos dados e sua qualidade» no apêndice E, e o texto sobre a base CLIMBra passou a descrever os 19 bancos por modelo e a origem das séries de exemplo (recortes do CLIMBra, e não do INMET).
 
 ---
 
@@ -17241,7 +17270,7 @@ Três prestadores cobram todo o volume pelo preço da faixa em que cai o consumo
 | simulações por cidade e modelo | 3: histórica, SSP2-4.5 e SSP5-8.5 |
 | total de séries temporais | 37.164 séries |
 | formato original descompactado | ~6,5 GB (CSVs) |
-| formato compilado do Triton | Banco SQLite comprimido (`climbra.db`) |
+| formato compilado do Triton | 19 bancos SQLite comprimidos, um por modelo (`climbra_<modelo>.db`, 785,1 MiB no total) |
 
 Cada série é um registro diário contínuo de precipitação, em milímetros, para uma combinação de
 cidade, modelo e simulação: 652 cidades × 19 modelos × 3 simulações dão as 37.164
@@ -17258,11 +17287,13 @@ de 360 dias, têm um dia a menos no fim de cada série, o que não afeta o recor
 
 Para evitar a manipulação morosa de dezenas de milhares de arquivos de texto e viabilizar
 a distribuição direta no instalador e executável do Triton, as 37.164 séries foram
-compiladas e indexadas em um banco de dados **SQLite de alta eficiência** (`climbra.db`), com
-compressão binária por série via `zlib`.
+compiladas e indexadas em bancos de dados **SQLite de alta eficiência**, com compressão
+binária por série via `zlib`. Há um banco por modelo (`climbra_<modelo>.db`, de 39,98 a
+43,02 MiB cada, 785,1 MiB ao todo), de modo que nenhum arquivo versionado passa de 50 MiB.
+O arquivo `data/climbra_partes.json` registra o SHA-256 de cada parte.
 
 - **Velocidade de acesso:** O acesso indexado no banco leva **menos de 1 milissegundo** por série, contra dezenas de milissegundos na abertura e parse de arquivos CSV em disco.
-- **Transparência:** O motor de dados climáticos do Triton prioriza o banco compilado e recorre automaticamente à pasta de arquivos `.csv` soltos se o banco não for encontrado.
+- **Transparência:** O motor de dados climáticos do Triton prioriza as partes compiladas e recorre automaticamente à pasta de arquivos `.csv` soltos se elas não forem encontradas. O banco único antigo (`climbra.db`) ainda é lido, se existir, mas não acompanha o repositório.
 - **Portabilidade:** Permite ao instalador do Triton fornecer a base nacional pronta para uso sem exigir download manual e descompactação de 6,5 GB pelo usuário.
 
 ---
@@ -17274,12 +17305,13 @@ As duas trajetórias socioeconômicas compartilhadas do CMIP6 disponíveis na ba
 
 ---
 
-### E.4. As séries históricas que acompanham o programa
+### E.4. As séries de exemplo que acompanham o programa
 
-Independentes da base CMIP6, quatro séries históricas longas acompanham a
-instalação, na pasta `data/rainfall` do programa:
+Doze séries de exemplo acompanham a instalação, na pasta `data/rainfall` do programa,
+três para cada uma de quatro cidades. **Cada uma é um recorte do CLIMBra** (um município,
+um modelo e um cenário), e não um registro de pluviômetro:
 
-<!-- tabela: **Tabela 221** — Séries históricas de precipitação distribuídas com o programa -->
+<!-- tabela: **Tabela 221** — Séries de precipitação de exemplo distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -17287,8 +17319,11 @@ instalação, na pasta `data/rainfall` do programa:
 | Manaus | 3 |
 | São Paulo | 3 |
 
-A série de Florianópolis usada no tutorial tem 86 anos; os trinta primeiros anos
-somam 1.795 mm anuais médios, com chuva em 46% dos dias.
+Os sufixos 1, 2 e 3 não seguem uma regra única; o modelo e o cenário de cada arquivo estão
+em `docs/DADOS.md`. A série de Florianópolis usada no tutorial (`Florianopolis1`) é do modelo
+GFDL-CM4 no cenário SSP5-8.5 e tem 86 anos; os trinta primeiros somam 1.795 mm anuais médios,
+com chuva em 46% dos dias. Como toda série modelada, ela serve de exemplo e de ponto de
+partida: para um projeto real, use a série medida no local.
 
 ---
 
@@ -17304,6 +17339,65 @@ somam 1.795 mm anuais médios, com chuva em 46% dos dias.
 A seção 3.2 trata da condução do estudo com cenários futuros, e alerta para o erro de
 escolher o modelo pelo resultado.
 
+
+---
+
+### E.6. Particularidades de região e país
+
+A Edição Brasil é a única que traz dados do Brasil, e os traz de ponta a ponta: chuva, tarifas, fator de emissão da rede e normas. Esta seção reúne o que muda de uma região para outra e o que é próprio do país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
+
+**Recorte territorial.** O programa cobre 652 municípios, nas 27 unidades da federação (26 estados e o Distrito Federal) e nas cinco macrorregiões, entre eles todas as capitais. São os mesmos 652 na base climática e no banco tarifário (conferidos por nome normalizado). A cobertura acompanha a população, e não o território: São Paulo tem 137 municípios, o Distrito Federal e Roraima têm um cada.
+
+**Clima.** A base é o CLIMBra (Ballarin et al., 2023), com 19 modelos do CMIP6, três simulações por modelo (histórica, SSP2-4.5 e SSP5-8.5) e uma série por município. A cobertura é completa nas cinco macrorregiões e nas 27 UF: todo município tem as 57 séries (19 modelos × 3 simulações). A grade original é de 0,25° (cerca de 28 km), de modo que a série de um município é uma média de área. São séries **modeladas**, com correção de viés, e não registros de pluviômetro: a seção 3.2 trata de como escolher modelo, cenário e janela.
+
+**Tarifas por concessionária.** No Brasil, a tarifa de água e esgoto é do prestador (uma companhia estadual, um serviço municipal ou uma empresa privada), e não do município. O banco registra 185 denominações de prestador: a SABESP atende 76 dos 652 municípios, a COPASA 47 e a EMBASA 41. A CORSAN, a COMUSA e o DMAE de Porto Alegre cobram por fórmula exponencial (36 municípios), um dos seis regimes do apêndice D. A tarifa de energia da bomba é a residencial B1 da distribuidora de cada município, lida da base aberta da ANEEL, em R$/kWh **sem** ICMS, PIS/Pasep, Cofins, COSIP nem bandeiras tarifárias; para 140 municípios a referência está expirada (a distribuidora não tem ato vigente na base), e o banco guarda o último valor oficial e o marca.
+
+**Confiança tarifária por região.** Cada município tem um grau de confiança, de A a D (apêndice D); o grau do banco acompanha o componente de saneamento. Em 05/10/2026:
+
+<!-- tabela: **Tabela 222** — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026) -->
+| Região | Municípios | A | B | C |
+| :--- | ---: | ---: | ---: | ---: |
+| Centro-Oeste | 44 | 40 | 4 | 0 |
+| Nordeste | 173 | 172 | 1 | 0 |
+| Norte | 71 | 53 | 13 | 5 |
+| Sudeste | 255 | 212 | 43 | 0 |
+| Sul | 109 | 107 | 2 | 0 |
+| **Brasil** | **652** | **584** | **63** | **5** |
+
+Os cinco municípios de grau C estão no Tocantins, onde a estrutura tarifária ficou «a conferir»; o Amazonas e o Rio de Janeiro concentram os de grau B (11 de 12 e 18 de 37). A tabela por unidade da federação está em `docs/DADOS.md`. **Confira sempre o município do seu projeto**: o grau diz quanta evidência existe, e não que a tarifa esteja certa hoje.
+
+**Normas brasileiras.** O programa segue a ABNT NBR 15527:2019 (aproveitamento de água de chuva) no que ela fixa: área de captação como projeção horizontal (item 3.6), volume disponível com o fator de captação (4.1.6), a lista de sete usos admitidos (4.1.7), o estudo exigido para qualquer outro uso (4.1.8), o descarte de 2 mm na falta de dado local (4.1.5) e os parâmetros mínimos de qualidade da Tabela 1 (*E. coli* abaixo de 200 por 100 mL, turbidez abaixo de 5,0 uT e pH de 6 a 9). As classes de qualidade 2 a 4 do programa são **adaptações do programa**, e não da NBR 15527. O arranjo cita também a NBR 5626 (separação atmosférica e bombas). A comparação com a norma europeia EN 16941-1:2024, item a item, está em `docs/normas_nbr_x_en16941.md`.
+
+**Fator de emissão da rede.** O programa traz a série de CO₂ do SIN do MCTI/SIRENE (inventários de 2026): é só CO₂, e não CO₂-equivalente, e não inclui perdas nem a cadeia a montante. Declare o ano do fator (`docs/procedencia_fatores_co2.md`).
+
+**Moeda e certificações.** Os custos são em reais. As certificações avaliadas incluem as brasileiras (AQUA-HQE e Selo Casa Azul + CAIXA), descritas na seção 2.9.
+
+---
+
+### E.7. Descrição dos dados e sua qualidade
+
+Esta seção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum arquivo rastreado do repositório passa de 50 MiB; o maior é `data/climbra_KACE.db`, com 43,02 MiB.
+
+<!-- tabela: **Tabela 223** — Os conjuntos de dados da Edição Brasil, a fonte e a licença -->
+| Conjunto | O que é | Fonte e licença |
+| :--- | :--- | :--- |
+| Base climática | 19 arquivos SQLite (`climbra_<modelo>.db`), 785,1 MiB no total, 37.164 séries diárias de precipitação | CLIMBra, Ballarin et al. (2023); CC0 1.0 |
+| Séries dos exemplos | 12 arquivos CSV em `data/rainfall` (quatro cidades, três cada), 2,13 MiB | recortes do CLIMBra; CC0 1.0 |
+| Banco tarifário | 652 municípios, faixas de água e esgoto, parcela fixa, regime, prestador, vigência, energia B1, grau de confiança (`brazil_cities_tariffs.json`, 5,37 MiB) | valores públicos dos prestadores, das agências e da ANEEL, transcritos; a base aberta da ANEEL declara a ODbL |
+| Fator de emissão da rede | série de CO₂ do SIN (`fatores_emissao_rede_mcti.json`) | MCTI/SIRENE |
+| Custos de referência | catálogo interno de 2026-08, em reais, por UF | do projeto; vale só se o projeto liga os preços de catálogo |
+| Resultados do Netuno 4 | duas planilhas (4.050 casos), para validar a replicação | referência de validação; licença de redistribuição não documentada |
+
+**Chuva: o que a base é e o que não é.** Cada série é contínua, sem dias faltantes, e o Triton não preenche falhas nem recalcula a qualidade: ela é a do artigo do CLIMBra. O único tratamento do Triton é a compactação (float16 e zlib), cuja diferença no balanço diário é de 0,000045%. A integridade das 19 partes é conferida por SHA-256 contra `data/climbra_partes.json`. O período é de 01/01/1980 a 31/12/2013 na simulação histórica (12.419 dias) e de 01/01/2015 a 31/12/2100 nas projeções (31.411 dias); três modelos (HadGEM3-GC31-LL, KACE e UKESM1-0-LL) têm um dia a menos.
+
+**Tarifas: o que há e quanto confiar.** O banco guarda os números, e não os documentos: os PDF e páginas dos prestadores ficam no disco do mantenedor e não se redistribuem; cada registro traz o endereço da fonte e a vigência. As vigências do saneamento são de 2026 em 382 municípios, 2025 em 162 e 2024 em 63. A confiança (A a D) pesa 60% do saneamento e 40% da energia. Pelo critério de procedência, 299 municípios têm as quatro categorias documentadas, 161 só a residencial, 136 têm documento com mais de 12 meses (a renovar), 8 foram auditados sem documento guardado e 48 estão a confirmar. Nenhum valor é preenchido por vizinhança: o município sem documento próprio guarda a melhor referência e fica marcado.
+
+**Os exemplos.** As doze séries de `data/rainfall` são recortes do CLIMBra, com modelo e cenário próprios (a do tutorial, `Florianopolis1`, é do modelo GFDL-CM4 no cenário SSP5-8.5), e não registros de pluviômetro. Servem de exemplo e de ponto de partida; para um projeto real, use a série medida no local.
+
+**O que declarar.** Ao usar a base, cite o CLIMBra (Ballarin et al., 2023), a fonte da tarifa (campo `fonte_url` do município) e o Triton. O que declarar num estudo está no fim deste apêndice.
+
+**Pendências conhecidas.** A licença de reutilização dos portais de cada prestador não foi verificada um a um; a base aberta da ANEEL declara a ODbL, e a decisão sobre o JSON derivado é do mantenedor; o fator do MCTI está sob CC BY-ND 3.0 no site, sem afirmação de que isso valha para os arquivos; a licença das planilhas do Netuno 4 e a do logotipo do CLIMBra não estão documentadas. Estas pendências estão registradas em `docs/DADOS.md`.
+
 ---
 
 ## Apêndice F — Arquivos, pastas e formatos
@@ -17314,7 +17408,7 @@ Tudo o que o programa lê e escreve, e onde cada coisa fica.
 
 ### F.1. O que o programa lê
 
-<!-- tabela: **Tabela 222** — Formatos que o programa lê e onde cada um é carregado -->
+<!-- tabela: **Tabela 224** — Formatos que o programa lê e onde cada um é carregado -->
 | Formato | Extensão | O que é | Onde se carrega |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | um estudo completo, com a chuva dentro | Abrir projeto |
@@ -17338,7 +17432,7 @@ não enviesar os totais anuais.
 
 ### F.2. O que o programa escreve
 
-<!-- tabela: **Tabela 223** — Formatos que o programa escreve e onde cada um é gerado -->
+<!-- tabela: **Tabela 225** — Formatos que o programa escreve e onde cada um é gerado -->
 | Formato | Extensão | O que leva | Onde se gera |
 | :--- | :--- | :--- | :--- |
 | projeto | `.triton` | todos os parâmetros e a série de chuva | Salvar projeto |
@@ -17367,7 +17461,7 @@ programa.
 
 Ele tem sete seções:
 
-<!-- tabela: **Tabela 224** — As sete seções do arquivo de projeto e o que cada uma guarda -->
+<!-- tabela: **Tabela 226** — As sete seções do arquivo de projeto e o que cada uma guarda -->
 | Seção | O que guarda |
 | :--- | :--- |
 | `metadata` | nome do projeto, identificador e datas |
@@ -17390,7 +17484,7 @@ O apêndice A lista todos os parâmetros, com o nome exato de cada campo.
 
 ### F.4. Onde ficam as coisas
 
-<!-- tabela: **Tabela 225** — Localização dos arquivos do programa e dos arquivos do usuário -->
+<!-- tabela: **Tabela 227** — Localização dos arquivos do programa e dos arquivos do usuário -->
 | O que | Onde |
 | :--- | :--- |
 | o programa | `C:\Program Files\Triton` |
@@ -17409,7 +17503,7 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ### F.5. Compatibilidade entre versões
 
-<!-- tabela: **Tabela 226** — Compatibilidade entre versões do arquivo de projeto -->
+<!-- tabela: **Tabela 228** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -17445,6 +17539,12 @@ edição, como em ABNT NBR 15527:2019.
 impactos ambientais de um produto ao longo de toda a sua existência, da extração das
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
+
+**MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
+
+**RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
 
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir
@@ -17834,7 +17934,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 227** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 229** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -17845,7 +17945,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 228** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 230** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |
@@ -18162,7 +18262,7 @@ do computador.
 
 ### I.1. Ficha 1 — O fluxo de um estudo completo
 
-<!-- tabela: **Tabela 229** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
+<!-- tabela: **Tabela 231** — Ficha de consulta: os dez passos de um estudo completo e a seção que trata de cada um -->
 | # | Passo | O que se decide nele | Seção |
 | ---: | :--- | :--- | ---: |
 | 1 | Projeto e chuva | série, área, coeficiente, descarte | 4.1 |
@@ -18183,7 +18283,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.2. Ficha 2 — As armadilhas, em uma linha cada
 
-<!-- tabela: **Tabela 230** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
+<!-- tabela: **Tabela 232** — Ficha de consulta: as dez armadilhas de projeto e onde cada uma é tratada -->
 | Armadilha | Onde |
 | :--- | :--- |
 | área **inclinada** em vez da projeção horizontal | 5.1.1 |
@@ -18201,7 +18301,7 @@ enganos. Seção 5.2, as limitações que afetam o seu caso.
 
 ### I.3. Ficha 3 — Os seis regimes tarifários
 
-<!-- tabela: **Tabela 231** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
+<!-- tabela: **Tabela 233** — Ficha de consulta: os seis regimes tarifários e o efeito da economia -->
 | Regime | Ao economizar | Municípios |
 | :--- | :--- | ---: |
 | sem mínimo | cada m³ desconta | 165 |
@@ -18218,7 +18318,7 @@ compare com uma fatura real. Se só um bater, o regime está errado.
 
 ### I.4. Ficha 4 — Os indicadores, e o que cada um responde
 
-<!-- tabela: **Tabela 232** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
+<!-- tabela: **Tabela 234** — Ficha de consulta: os indicadores e a pergunta que cada um responde -->
 | Indicador | Denominador | Responde |
 | :--- | :--- | :--- |
 | potencial de economia | demanda **total** | quanto do consumo de água potável cai |
@@ -18281,7 +18381,7 @@ da base ao abrir.
 
 ### J.1. Os casos do manual
 
-<!-- tabela: **Tabela 233** — Os casos de exemplo e o que cada um demonstra -->
+<!-- tabela: **Tabela 235** — Os casos de exemplo e o que cada um demonstra -->
 | Arquivo | Seção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_florianopolis.triton` | 4.1 a 4.10 | o projeto fechado do tutorial: cisterna de 4.000 L em polietileno e recalque para caixa superior de 1.000 L |
@@ -18303,7 +18403,7 @@ que foi relido, e não a configuração que o gerou. É a diferença que
 importa: um parâmetro que não sobreviva à gravação aparece aqui como
 número errado, em vez de passar despercebido.
 
-<!-- tabela: **Tabela 234** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
+<!-- tabela: **Tabela 236** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Arquivo | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_florianopolis.triton` | volume fixo | 4.000 L | 27,30% | 163,8 L/dia |

@@ -18,7 +18,7 @@ O **Triton** é uma plataforma computacional avançada desenvolvida pelo **Grupo
 O programa sai em três edições, do mesmo código e com o mesmo motor de cálculo e número de versão (ver o
 [README do repositório](../README.md)). A **Edição Brasil** traz os dados brasileiros auditados: base
 climática CLIMBra (652 cidades, CMIP6, 19 modelos), tarifas de água e esgoto de 652 municípios com procedência
-por documento, energia da ANEEL, custos em reais, fatores de emissão do MCTI e as certificações e incentivos
+por documento, energia da ANEEL, custos de referência em reais, fatores de emissão do MCTI e as certificações e incentivos
 nacionais (AQUA-HQE, Selo Casa Azul, IPTU Verde). Os recursos 2 e 3 abaixo, a base climática nacional e os
 fatores brasileiros são desta edição. O mapa do que cada edição mostra, onde está no código e o que vai em cada
 pacote está em [`docs/edicoes.md`](docs/edicoes.md).
@@ -38,9 +38,9 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
    - Tarifas residenciais de energia elétrica B1 homologadas pela ANEEL por distribuidora.
    - Premissa de desembolso real: tributos e impostos inclusos nos cálculos de economia tarifária.
 
-3. **Engenharia de Custos Paramétrica e Fatores Regionais SINAPI / CUB (27 UFs; Edição Brasil):**
-   - Composições paramétricas SINAPI para tubulações (DN 50, 75, 100 e 150 mm), conexões, registros e filtros.
-   - Ponderação regional por estado (55% materiais, 30% mão de obra, 15% logística).
+3. **Engenharia de Custos Paramétrica (Edição Brasil):**
+   - Catálogo de referência em reais para tubulações (DN 50, 75, 100 e 150 mm), conexões, registros, filtros e reservatórios; só os preços de reservatório têm fonte e data registradas, e o usuário pode digitar os seus valores.
+   - Tabela de fatores regionais por UF: existe e é testada, mas hoje não altera o investimento do projeto (manual, seção 10).
    - Fluxo de caixa completo: CAPEX, OPEX anual, VPL líquido, TIR, Payback Simples e Descontado, e LCOW.
 
 4. **Avaliação Simplificada de Ciclo de Vida (ACV / Pegada de Carbono):**
@@ -68,9 +68,28 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ---
 
+## Estado da versão 0.1.0
+
+**Pronto.** Balanço diário, dimensionamento, economia com a base tarifária de 652 municípios, ACV, linha de
+tratamento, certificações, decisão multicritério, modulação probabilística, laudos em PDF, exportações CAD/BIM, o
+manual completo e a documentação de cada conjunto de dados. A base CLIMBra (652 municípios, 19 modelos, 37.164
+séries) vai embutida em 19 arquivos, um por modelo, todos abaixo de 50 MiB.
+
+**Ainda não há.** Chuva medida (as séries da base e as dos exemplos são do CLIMBra, isto é, modeladas); tarifa de
+energia com tributos e bandeiras; fonte e data para todos os preços de referência do CAPEX (só os de reservatório as
+têm); estrutura tarifária conferida nos 5 municípios do Tocantins (grau C).
+
+**Limitações conhecidas.** 140 municípios com a referência de energia expirada; custo anual do resumo sem as rotinas
+de manutenção (entram no fluxo de caixa à parte); espanhol e chinês traduzidos em parte; algumas licenças de dados
+por verificar. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e no
+[histórico de versões](CHANGELOG.md).
+
+---
+
 ## 📚 Documentação e Artigos Técnicos
 
 - [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — a Edição Internacional publica o manual em inglês
+- [Notas de lançamento 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e [histórico de versões](CHANGELOG.md)
 - [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
 - [As duas edições, Brasil e International](docs/edicoes.md)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)

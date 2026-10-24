@@ -455,8 +455,8 @@ um trabalho verificável de um trabalho apenas relatado.
 
 ### 1.2.5. A base climática
 
-O programa traz quatro séries históricas longas prontas para uso — Florianópolis,
-Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
+O programa traz doze séries de exemplo prontas para uso — três para cada uma de Florianópolis,
+Brasília, Manaus e São Paulo, recortes do CLIMBra — e aceita qualquer série própria em CSV.
 
 > **Só na Edição Brasil (BRL).** A base climática nacional só acompanha a Edição Brasil.
 > Na International Edition, a série de chuva é sempre um arquivo próprio: precipitação
@@ -464,8 +464,8 @@ Brasília, Manaus e São Paulo — e aceita qualquer série própria em CSV.
 
 Além delas, a Edição Brasil traz a **base climática nacional**: 652 cidades, 19 modelos
 climáticos do CMIP6 e 2 cenários futuros, SSP2-4.5 e SSP5-8.5, extraída do conjunto
-CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados num
-único banco, de cerca de 800 MB, que vai embutido no instalador. Não há nada a baixar
+CLIMBra. Os arquivos originais somam cerca de 6,5 GB. O programa os traz compactados em
+19 bancos, um por modelo, de 40 a 43 MiB cada (785 MiB ao todo), que vão embutidos no instalador. Não há nada a baixar
 nem a copiar: a base aparece na primeira tela como uma lista de cidades.
 
 O apêndice E (volume Apêndices) descreve a base, e a seção 3.2 (volume Guias de uso) mostra como usar um cenário futuro.
@@ -678,6 +678,12 @@ edição, como em ABNT NBR 15527:2019.
 impactos ambientais de um produto ao longo de toda a sua existência, da extração das
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
+
+**MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
+
+**RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
 
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir

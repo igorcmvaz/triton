@@ -110,7 +110,7 @@ python manual/gerar.py                # junta tudo em manual/Manual-Triton.md
 ```
 
 O plano editorial completo, com as páginas por capítulo e o que já existe escrito no
-repositório, está em [`docs/plano_do_manual.md`](../docs/plano_do_manual.md).
+repositório, está em [`docs/plano_do_manual.html`](../docs/plano_do_manual.html).
 
 ## Convenções de escrita
 

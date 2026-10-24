@@ -96,8 +96,9 @@ US$ 6,250, split as follows (every value illustrative, not a market price):
 The tank prices follow a simple illustrative rule, a fixed part plus a part per litre,
 different for each material: polyethylene 100 + 0.55 per litre, concrete 600 + 0.40,
 glass fibre 120 + 0.65 and stainless steel 300 + 2.00. A 4,000 L concrete cistern is
-therefore 600 + 1,600 = 2,200. These are not catalogue prices; in a real study you
-replace them with quotations.
+therefore 600 + 1,600 = 2,200. These are not catalogue prices, and **the program does not
+apply this rule**: it is the way the author arrived at the figures typed into the tutorial
+project. In a real study you replace them with quotations.
 
 **The first-flush chamber.** The first flush is not only the depth subtracted from the
 rain: it is a physical component, with a cost. Step **3. Quality & Treatment** sizes it by
@@ -105,6 +106,74 @@ default, and in the tutorial the 2 mm depth over 150 m² needs a 300 L chamber. 
 illustrative budget its cost sits inside the accessories line. A study that leaves the
 first flush out of the budget, while subtracting it from the rain, looks more feasible
 than the system that gets built. Section {{n:27}} details the sizing.
+
+---
+
+## CAPEX in this edition: what you enter and what the program calculates
+
+The International Edition carries no price list, so **it does not calculate an investment from
+prices**. It sizes the system, calculates the saving on the bill, the pumping energy and the
+quantity of chlorine, and multiplies those quantities by the prices you type. The investment is
+the sum of the values you enter. Nothing in the cost chain is filled in on your behalf, and no
+price was invented to fill the gap.
+
+The table shows what a new project contains, read from the program.
+
+<!-- tabela: What a new project of the International Edition contains, and what is left for you to enter -->
+| Field of the new project | Starting value | What it means |
+| :--- | ---: | :--- |
+| lower tank (cistern) and upper tank | 0.00 | to be entered by you |
+| piping, accessories and labour | 0.00 | to be entered by you |
+| price of each pump set | 0.00 | to be entered by you; the project starts with 2 pump sets, duty and standby |
+| electricity tariff | 0.0000 per kWh | to be entered by you; with no tariff, the pump energy costs nothing |
+| water and sewer tariff | none | to be entered by you (section {{n:16}}); with no tariff, the bill is zero |
+| price of chlorine | 0.00 per kg | to be entered by you; with no price, chlorine costs nothing |
+| maintenance routines | 3 routines, every 12 months, 0.00 in total | the names stay as a checklist; the costs are yours |
+| automatic budget of the 3D layout | off | the program does not price the parts of the layout |
+| automatic labour | off | the program does not estimate labour as a share of the materials |
+| catalogue prices (tanks, treatment line) | off | the treatment line is sized but adds no cost |
+| chlorine dose and tablet purity | 1.5 mg/L and 65% | technical parameters, not prices |
+| minimum attractive rate of return | 2.0% per month | generic starting value of the program, not data of any country |
+| cost inflation | 0.2% per month | likewise |
+| escalation of the water, sewer and electricity tariffs | 5.0%, 5.0% and 5.0% per year | likewise |
+| analysis period | 20 years | the service life adopted; declare and justify it |
+
+**What this means for you.** Without your values the investment is zero, and the economic
+analysis shows only the saving on the water bill, and only after you enter a tariff. The net
+present value and the payback, in those conditions, say little: they are not results. The treatment
+line and the first flush are sized, and enter the carbon balance, but they cost nothing until you
+price them in the investment. You have an economic analysis when you enter real quotations and the
+tariff you pay.
+
+The internal cost file (`costs_database.json`) exists in every edition of the program, but its
+values are those of one particular region and currency. In this edition it is switched off: no
+calculation uses it, and it should not be taken as a price reference for your project.
+
+### How to enter your values
+
+In step **4. Reservoir & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
+tank, labour, piping and accessories; the button *2. Motor Pump & Energy Cost* has the price of the
+pump set and the electricity tariff; the button *3. Other Operational Costs* has the maintenance
+routines; and the button *4. Water and Sewage Tariffs* has the tariff. Enter the values of your
+own quotations, with the taxes you will pay if the investment is borne by the final consumer, in
+the currency of the project.
+
+Three limitations of this version are worth knowing.
+
+- **The cistern price has no field in the CAPEX dialog.** On confirming, the dialog sets that price
+  back to zero. Until it is corrected, add the price of the cistern to one of the lines of the dialog,
+  for example the accessories, and say so in the report; or write the value in the field
+  `cost_lower_tank` of the block `capex_and_opex` of the project file, and do not confirm the CAPEX
+  dialog afterwards.
+- **One cistern price serves every volume of the sweep.** With no price list, the program cannot
+  scale the price with the volume: the price you enter is used as it stands for each volume
+  analysed, and in the volume sweep for all of them. The net present value curve against the volume
+  ({{fig:fig49_programa_vpl}}) then shows how the saving changes with the volume against a fixed
+  cistern price. To compare volumes on cost, run the project once per volume, each with its own
+  quotation.
+- **The price of chlorine has no field in the interface.** It exists only in the project file, in
+  the block `water_quality_and_etap`, as `chlorine_cost_per_kg`. Alternatively, add in *3. Other
+  Operational Costs* a routine with a variable cost per cubic metre of rainwater.
 
 ---
 
@@ -126,10 +195,12 @@ taken alone, produces a payback in this case. Only the tutorial carries costs, s
 section {{n:14}} compares the three cities on saving potential, not on payback.
 
 **The running cost is small:** US$ 2.63 per year, of which US$ 1.54 is pumping energy, the
-7.7 kWh per year of section {{n:8}} at an illustrative US$ 0.20 per kilowatt-hour. The
+7.7 kWh per year of section {{n:8}} at an illustrative US$ 0.20 per kilowatt-hour, and US$ 1.10
+is chlorine, 0.14 kg of product per year at an illustrative US$ 8 per kilogram. The
 energy comes from the same function that feeds the environmental assessment, according to
 the arrangement declared in step **4. Reservoir & Costs**: pumping to an upper tank,
-direct pressurisation or gravity.
+direct pressurisation or gravity. This figure does not include the three maintenance routines of
+US$ 90 per year, which enter the cash flow separately; the next section shows how much they weigh.
 
 ---
 
@@ -141,6 +212,55 @@ same place ({{fig:fig49_programa_vpl}}).
 ![The net present value against the tank volume](../figuras/fig49_programa_vpl.png)
 
 *Figure 99 — The chart of the economic tab: the net present value of each volume of the sweep, with the economic maximum and the technical optimum marked. When the two coincide, the program marks them with a single symbol. All costs are illustrative, not market prices. Figure generated by the program itself.*
+
+---
+
+## What goes into the running cost (OPEX)
+
+Here too the program fills in no price. The running cost of a new project adds the energy of the
+pump, the chlorine, the cost of the treatment line and the maintenance routines, and **every
+one of those prices starts at zero**: the electricity tariff, the price of chlorine and the cost of
+each routine. The three routines exist as a checklist, with a period of 12 months, and you give
+them a cost.
+
+<!-- tabela: Where each part of the running cost comes from in the International Edition -->
+| Part of the running cost | What the program calculates | What you supply | Illustrative in the tutorial |
+| :--- | :--- | :--- | :--- |
+| pump energy | the annual energy of the pump set, from the chain of section {{n:28}} | electricity tariff, taxes on it, annual escalation | US$ 0.20 per kWh |
+| chlorine | the kilograms of product per year, from the dose, the purity of the tablet and the rainwater volume used | price per kilogram (project file only) | US$ 8 per kg |
+| treatment line | the sizing: class, disinfection, filter, first-flush chamber | the price of the equipment, inside the investment | none: catalogue prices are off |
+| maintenance routines | the month in which each falls due (every 12 months, from month 12) | a fixed cost and, if you wish, a cost per cubic metre | US$ 20, 40 and 30 per year |
+
+The program calculates only the **quantities**: the annual energy of the pump set, by the chain of
+section {{n:28}}, and the kilograms of chlorine, by the dose and the purity of the tablet. The cost is
+the quantity times the price you enter. With a price of zero the cost is zero, and not a
+figure left out.
+
+**The routines weigh more than the rest.** The annual running cost that the summary of the analysis
+shows adds only the energy, the chlorine and the treatment line. The routines enter the cash flow
+separately, in months 12, 24, 36 and so on, corrected for inflation. In the tutorial, with illustrative
+values, they move the result:
+
+<!-- tabela: Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices) -->
+| Tutorial project (illustrative costs, not market prices) | With the routines | Without the routines |
+| :--- | ---: | ---: |
+| maintenance routines per year | US$ 90.00 | US$ 0.00 |
+| annual running cost in the summary: energy, chlorine and treatment | US$ 2.63 | US$ 2.63 |
+| net present value | −US$ 2,919.90 | −US$ 1,509.27 |
+
+**Energy.** The electricity tariff starts empty. Use your own bill. The tutorial's US$ 0.20 per
+kilowatt-hour is a round number chosen to follow the method, not a tariff of any country.
+
+**What does not enter.** The cash flow has no replacement of equipment over the 20 years, no
+residual value, no laboratory analysis of the water and no insurance. If the pump or the filter is
+replaced within the period, add the replacement as a routine in *3. Other Operational Costs*.
+
+**How to change or switch off.** Routines are edited, deleted or added with the button *3. Other
+Operational Costs*. Set the cost of a routine you do not want to zero rather than deleting every
+routine: with an empty list, the economic step may restore a starting list whose costs are
+reference values of the program's internal file, not yours. The dose of chlorine and the physical
+first flush are chosen in step **3. Quality & Treatment**. The electricity tariff and its taxes are in
+*2. Motor Pump & Energy Cost*.
 
 ---
 ## What the projection assumes

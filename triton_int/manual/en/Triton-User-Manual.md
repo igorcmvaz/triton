@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-10-23
+Version 0.1.0 · revised 2026-10-24
 
 ---
 
@@ -620,159 +620,171 @@ Table 115 — The six tariff regimes and the effect of each one on the saving
 
 Table 116 — Make-up of the initial investment of the tutorial project (illustrative, not a market price)
 
-Table 117 — Assumptions of the economic projection and the weight of each one in the result
+Table 117 — What a new project of the International Edition contains, and what is left for you to enter
 
-Table 118 — State of the tutorial project after the economic analysis (illustrative, not a market price)
+Table 118 — Where each part of the running cost comes from in the International Edition
 
-Table 119 — Carbon balance of the tutorial project with a concrete cistern (illustrative factors)
+Table 119 — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices)
 
-Table 120 — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices)
+Table 120 — Assumptions of the economic projection and the weight of each one in the result
 
-Table 121 — Effect of the concrete cistern volume on the net carbon emissions
+Table 121 — State of the tutorial project after the economic analysis (illustrative, not a market price)
 
-Table 122 — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price)
+Table 122 — Carbon balance of the tutorial project with a concrete cistern (illustrative factors)
 
-Table 123 — State of the tutorial project after the environmental analysis (illustrative, not a market price)
+Table 123 — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices)
 
-Table 124 — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices)
+Table 124 — Effect of the concrete cistern volume on the net carbon emissions
 
-Table 125 — Winning volume under each criterion taken alone
+Table 125 — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price)
 
-Table 126 — The seven multi-criteria criteria and the direction of preference of each one
+Table 126 — State of the tutorial project after the environmental analysis (illustrative, not a market price)
 
-Table 127 — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up
+Table 127 — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices)
 
-Table 128 — Summary of the tutorial project, with all the parameters and results
+Table 128 — Winning volume under each criterion taken alone
 
-Table 129 — Variables of Equation 53
+Table 129 — The seven multi-criteria criteria and the direction of preference of each one
 
-Table 130 — Physical input validation messages and the action for each one
+Table 130 — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up
 
-Table 131 — Suppliable fraction messages and the action for each one
+Table 131 — Summary of the tutorial project, with all the parameters and results
 
-Table 132 — Precipitation series error messages and the action for each one
+Table 132 — Variables of Equation 53
 
-Table 133 — Volume sweep error messages
+Table 133 — Physical input validation messages and the action for each one
 
-Table 134 — Chlorination parameter error messages
+Table 134 — Suppliable fraction messages and the action for each one
 
-Table 135 — Economic analysis error messages and the action for each one
+Table 135 — Precipitation series error messages and the action for each one
 
-Table 136 — Multi-criteria decision error messages and the action for each one
+Table 136 — Volume sweep error messages
 
-Table 137 — Pump set parameter error messages
+Table 137 — Chlorination parameter error messages
 
-Table 138 — Error situations when reading and saving files
+Table 138 — Economic analysis error messages and the action for each one
 
-Table 139 — Warnings that do not stop the calculation and must be stated in the study
+Table 139 — Multi-criteria decision error messages and the action for each one
 
-Table 140 — **Table 99** — Overview of the published versions
+Table 140 — Pump set parameter error messages
 
-Table 141 — Fixes that change results in version 0.1.0
+Table 141 — Error situations when reading and saving files
 
-Table 142 — Items planned for version 1.1
+Table 142 — Warnings that do not stop the calculation and must be stated in the study
 
-Table 143 — Items planned for version 2.0
+Table 143 — **Table 99** — Overview of the published versions
 
-Table 144 — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes
+Table 144 — Fixes that change results in version 0.1.0
 
-Table 145 — What each economic and environmental variable does in the calculation, and what it does not touch
+Table 145 — Items planned for version 1.1
 
-Table 146 — The four distributions the tool offers, their parameters and when to use each
+Table 146 — Items planned for version 2.0
 
-Table 147 — The variables drawn in the tutorial example: declared distribution and statistics of the realisations
+Table 147 — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes
 
-Table 148 — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price)
+Table 148 — What each economic and environmental variable does in the calculation, and what it does not touch
 
-Table 149 — Probabilities at the chosen volume, with the Wilson 95% confidence interval
+Table 149 — The four distributions the tool offers, their parameters and when to use each
 
-Table 150 — Frequency with which each volume is chosen in the realisations of the example, by criterion (%)
+Table 150 — The variables drawn in the tutorial example: declared distribution and statistics of the realisations
 
-Table 151 — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results
+Table 151 — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price)
 
-Table 152 — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles)
+Table 152 — Probabilities at the chosen volume, with the Wilson 95% confidence interval
 
-Table 153 — Project parameters: identification
+Table 153 — Frequency with which each volume is chosen in the realisations of the example, by criterion (%)
 
-Table 154 — Project parameters: rainfall
+Table 154 — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results
 
-Table 155 — Project parameters: catchment
+Table 155 — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles)
 
-Table 156 — Project parameters: building
+Table 156 — Project parameters: identification
 
-Table 157 — Project parameters: demand
+Table 157 — Project parameters: rainfall
 
-Table 158 — Project parameters: irrigation
+Table 158 — Project parameters: catchment
 
-Table 159 — Project parameters: water quality
+Table 159 — Project parameters: building
 
-Table 160 — Project parameters: tanks
+Table 160 — Project parameters: demand
 
-Table 161 — Project parameters: pump set
+Table 161 — Project parameters: irrigation
 
-Table 162 — Project parameters: piping
+Table 162 — Project parameters: water quality
 
-Table 163 — Project parameters: investment
+Table 163 — Project parameters: tanks
 
-Table 164 — Project parameters: operation
+Table 164 — Project parameters: pump set
 
-Table 165 — Project parameters: tariffs
+Table 165 — Project parameters: piping
 
-Table 166 — Project parameters: energy
+Table 166 — Project parameters: investment
 
-Table 167 — Project parameters: financial
+Table 167 — Project parameters: operation
 
-Table 168 — Project parameters: certifications
+Table 168 — Project parameters: tariffs
 
-Table 169 — Project parameters: other
+Table 169 — Project parameters: energy
 
-Table 170 — Emission factors that the user supplies, and what to declare for each
+Table 170 — Project parameters: financial
 
-Table 171 — Emission factors of the tank materials, with mass and boundary
+Table 171 — Project parameters: certifications
 
-Table 172 — Reference recorded in the program for each tank-material factor, and its status
+Table 172 — Project parameters: other
 
-Table 173 — Emission factors of the treatment consumables
+Table 173 — Emission factors that the user supplies, and what to declare for each
 
-Table 174 — The block codes of the water tariff table
+Table 174 — Emission factors of the tank materials, with mass and boundary
 
-Table 175 — The four ways of entering the sewage charge
+Table 175 — Reference recorded in the program for each tank-material factor, and its status
 
-Table 176 — The six tariff regimes and what happens when saving
+Table 176 — Emission factors of the treatment consumables
 
-Table 177 — Tariff structure of the New York example
+Table 177 — The block codes of the water tariff table
 
-Table 178 — Tariff structure of the London example
+Table 178 — The four ways of entering the sewage charge
 
-Table 179 — Tariff structure of the Cape Town example
+Table 179 — The six tariff regimes and what happens when saving
 
-Table 180 — Rainfall series distributed with the International Edition
+Table 180 — Tariff structure of the New York example
 
-Table 181 — Formats the program reads and where each one is loaded
+Table 181 — Tariff structure of the London example
 
-Table 182 — Formats the program writes and where each one is generated
+Table 182 — Tariff structure of the Cape Town example
 
-Table 183 — The seven sections of the project file and what each one holds
+Table 183 — Rainfall series distributed with the International Edition
 
-Table 184 — Location of the program's files and of the user's files
+Table 184 — What the user supplies in the International Edition, and what happens without it
 
-Table 185 — Compatibility between versions of the project file
+Table 185 — The worked examples of the International Edition: rainfall, currency and tariff structure
 
-Table 186 — Terminology for rainwater and stormwater
+Table 186 — Example rainfall series of the International Edition: description and quality
 
-Table 187 — Fundamental quantities of the water balance and relations between fraction and potential
+Table 187 — Formats the program reads and where each one is loaded
 
-Table 188 — Reference sheet: the ten steps of a complete study and the section that deals with each one
+Table 188 — Formats the program writes and where each one is generated
 
-Table 189 — Reference sheet: the ten design pitfalls and where each one is dealt with
+Table 189 — The seven sections of the project file and what each one holds
 
-Table 190 — Reference sheet: the six tariff regimes and the effect of saving
+Table 190 — Location of the program's files and of the user's files
 
-Table 191 — Reference sheet: the indicators and the question each one answers
+Table 191 — Compatibility between versions of the project file
 
-Table 192 — The example cases and what each one demonstrates
+Table 192 — Terminology for rainwater and stormwater
 
-Table 193 — Result each example case produces when reread and simulated
+Table 193 — Fundamental quantities of the water balance and relations between fraction and potential
+
+Table 194 — Reference sheet: the ten steps of a complete study and the section that deals with each one
+
+Table 195 — Reference sheet: the ten design pitfalls and where each one is dealt with
+
+Table 196 — Reference sheet: the six tariff regimes and the effect of saving
+
+Table 197 — Reference sheet: the indicators and the question each one answers
+
+Table 198 — The example cases and what each one demonstrates
+
+Table 199 — Result each example case produces when reread and simulated
 
 ---
 
@@ -3536,43 +3548,34 @@ CAPEX = C_cist + C_sup + C_lab + C_pipe + C_acc + ( C_pump × n_b ) + CAPEX_inc
 | `CAPEX` | total initial investment of the system | currency |
 | `C_cist` | cost of the lower tank | currency |
 | `C_sup` | cost of the upper tank, when there is one | currency |
-| `C_lab` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
-| `C_pipe` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
-| `C_acc` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
+| `C_lab` | cost of installation labour | currency |
+| `C_pipe` | cost of the piping | currency |
+| `C_acc` | cost of the accessories | currency |
 | `C_pump` | unit cost of the pump set | currency |
 | `n_b` | number of pump sets, including the standby when there is one | unit |
 | `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | currency |
 
-In a new project, `C_pipe` and `C_acc` are not allowances: they come from the **bill of quantities
-of the 3D layout** (section 3.9). Each metre of pipe, each bend, each end fitting, each part —
-valves, check and foot valves, solenoid, water meter, level switches, control panel, inlet
-calming device, floating suction, vents, overflow, air gap, point of use — and each metre of
-control cable has a price, and the sum is what enters here. Cistern, upper tank and pump set have
-terms of their own; the inlet filter and the first flush enter through the treatment line when it
-sizes them. The designer can type other values in the economic step; the project then uses the
-typed ones, and the audit spreadsheet records the change. Projects saved before this rule keep the
-costs they declare.
-
-The labour of a new project is also recalculated at each run: a percentage of the sum of cistern,
-upper tank, pump sets, piping and accessories, with a floor. In the manual's tutorial the labour is
-a round figure of US$ 1,500, illustrative, not a market price. It thus grows with the tank: in the volume sweep, each volume has its own
-cistern, its own usual layout and its own labour. Previously, labour was fixed once, on generic
-allowances for piping and accessories, and was the same for all volumes. A value typed in the
-economic step prevails, as in the other items.
+In this edition a new project starts with every term at zero: the program carries no price list,
+so `C_cist`, `C_sup`, `C_lab`, `C_pipe`, `C_acc` and `C_pump` are the values you type in the economic
+step, and `CAPEX_inc` is zero until the treatment line is priced. The bill of quantities of the 3D
+layout (section 3.9) does not set prices in this edition: the automatic budget of the layout
+and the automatic labour are off. The manual's tutorial uses round figures, stated as illustrative,
+not market prices. Section 4.7 lists what a new project contains and what is left for you to
+enter.
 
 The last term follows the incremental rule of section 2.5 and includes, when the physical
 sizing of the first flush is enabled, the first-flush chamber and the leaf separator; the annual
 running cost of that subsystem enters the running cost of the treatment line.
 
-Tank prices are typed in, as a fixed part plus a price per litre for each material. In the
-manual's tutorial the figures are round numbers, illustrative and not market prices: polyethylene
-100 plus 0.55 per litre, concrete 600 plus 0.40, fibreglass 120 plus 0.65 and stainless steel 300 plus
-2.00, in US$. With them a 4,000 L polyethylene cistern costs US$ 2,300 and a concrete one US$ 2,200;
-with the labour, the piping, the accessories and the two pumps, the investment of the tutorial is
-US$ 6,250 (illustrative, not a market price). When the requested volume is not in the table, the program interpolates linearly between the
-neighbouring points; when the volume exceeds the largest tabulated value, extrapolation is only
-done if the regression over the known points has a coefficient of determination above 0.90, and
-the program warns when that criterion is not met, instead of extrapolating silently.
+Tank prices are typed in. For the tutorial the author used a simple rule, a fixed part plus a
+price per litre for each material, with round figures that are illustrative and not market prices:
+polyethylene 100 plus 0.55 per litre, concrete 600 plus 0.40, fibreglass 120 plus 0.65 and
+stainless steel 300 plus 2.00, in US$. With it a 4,000 L polyethylene cistern costs US$ 2,300 and a
+concrete one US$ 2,200; with the labour, the piping, the accessories and the two pumps, the
+investment of the tutorial is US$ 6,250 (illustrative, not a market price). The program does not
+apply this rule or any price table: the cistern price you type is used as it stands for the volume
+analysed and, in the volume sweep, for every volume, so the program neither interpolates nor
+extrapolates a price. Section 4.7 explains the consequence for the volume curve.
 
 ---
 
@@ -6070,8 +6073,10 @@ The same arrangement feeds the cost and the carbon. The program takes off, part 
 - each part of the manifest, by type;
 - the metres of control cable.
 
-Each item receives a price and a mass. The price goes to the CAPEX: pipes and fittings under
-*Piping*, parts and cables under *Accessories*. The mass, times the material factor, goes to
+Each item has a mass and, in an edition that carries a price list, a price that goes to the
+CAPEX: pipes and fittings under *Piping*, parts and cables under *Accessories*. **In the
+International Edition the layout sets no prices**: piping and accessories are the values you type
+in the economic step (section 4.7). The mass, times the material factor, goes to
 the LCA in stage A1–A3. Cistern, upper tank and pump set already have their own line in both
 analyses and are not counted again. The filter and the first flush enter the CAPEX through the
 treatment line, when it is active, and the LCA through the first-flush subsystem, when it is
@@ -6085,14 +6090,11 @@ against the values the analyses used. The same sheet also checks whether the arr
 consistent with the project: an arrangement organised by hand can fall behind when the project
 changes the supply or the number of pumps, and the divergence shows up there.
 
-The prices and masses of the parts are a reference scenario, not a quotation. They are in
-`costs_database.json`, under the `pecas_do_arranjo` key, and can be changed there. In the
-economic step, the designer can also type other piping and accessory values: from then on the
-program uses the typed values. A new project starts from the arrangement. An old file keeps
-the costs it already declared. The reference prices of the cost
-database are not applied in the International Edition: the costs are typed in, in the currency
-of the project, and the manual's own cases use round figures stated as illustrative, not market
-prices.
+The masses and the reference prices of the parts are a scenario, not a quotation or a
+measurement. They are in `costs_database.json`, under the `pecas_do_arranjo` key. The reference
+prices of the cost database are not applied in the International Edition: the costs, including
+those of piping and accessories, are typed in the economic step, in the currency of the project,
+and the manual's own cases use round figures stated as illustrative, not market prices.
 
 ---
 
@@ -7488,8 +7490,9 @@ US$ 6,250, split as follows (every value illustrative, not a market price):
 The tank prices follow a simple illustrative rule, a fixed part plus a part per litre,
 different for each material: polyethylene 100 + 0.55 per litre, concrete 600 + 0.40,
 glass fibre 120 + 0.65 and stainless steel 300 + 2.00. A 4,000 L concrete cistern is
-therefore 600 + 1,600 = 2,200. These are not catalogue prices; in a real study you
-replace them with quotations.
+therefore 600 + 1,600 = 2,200. These are not catalogue prices, and **the program does not
+apply this rule**: it is the way the author arrived at the figures typed into the tutorial
+project. In a real study you replace them with quotations.
 
 **The first-flush chamber.** The first flush is not only the depth subtracted from the
 rain: it is a physical component, with a cost. Step **3. Quality & Treatment** sizes it by
@@ -7500,7 +7503,75 @@ than the system that gets built. Section 2.5 details the sizing.
 
 ---
 
-### 4.7.4. The result
+### 4.7.4. CAPEX in this edition: what you enter and what the program calculates
+
+The International Edition carries no price list, so **it does not calculate an investment from
+prices**. It sizes the system, calculates the saving on the bill, the pumping energy and the
+quantity of chlorine, and multiplies those quantities by the prices you type. The investment is
+the sum of the values you enter. Nothing in the cost chain is filled in on your behalf, and no
+price was invented to fill the gap.
+
+The table shows what a new project contains, read from the program.
+
+<!-- tabela: **Table 117** — What a new project of the International Edition contains, and what is left for you to enter -->
+| Field of the new project | Starting value | What it means |
+| :--- | ---: | :--- |
+| lower tank (cistern) and upper tank | 0.00 | to be entered by you |
+| piping, accessories and labour | 0.00 | to be entered by you |
+| price of each pump set | 0.00 | to be entered by you; the project starts with 2 pump sets, duty and standby |
+| electricity tariff | 0.0000 per kWh | to be entered by you; with no tariff, the pump energy costs nothing |
+| water and sewer tariff | none | to be entered by you (section 3.3); with no tariff, the bill is zero |
+| price of chlorine | 0.00 per kg | to be entered by you; with no price, chlorine costs nothing |
+| maintenance routines | 3 routines, every 12 months, 0.00 in total | the names stay as a checklist; the costs are yours |
+| automatic budget of the 3D layout | off | the program does not price the parts of the layout |
+| automatic labour | off | the program does not estimate labour as a share of the materials |
+| catalogue prices (tanks, treatment line) | off | the treatment line is sized but adds no cost |
+| chlorine dose and tablet purity | 1.5 mg/L and 65% | technical parameters, not prices |
+| minimum attractive rate of return | 2.0% per month | generic starting value of the program, not data of any country |
+| cost inflation | 0.2% per month | likewise |
+| escalation of the water, sewer and electricity tariffs | 5.0%, 5.0% and 5.0% per year | likewise |
+| analysis period | 20 years | the service life adopted; declare and justify it |
+
+**What this means for you.** Without your values the investment is zero, and the economic
+analysis shows only the saving on the water bill, and only after you enter a tariff. The net
+present value and the payback, in those conditions, say little: they are not results. The treatment
+line and the first flush are sized, and enter the carbon balance, but they cost nothing until you
+price them in the investment. You have an economic analysis when you enter real quotations and the
+tariff you pay.
+
+The internal cost file (`costs_database.json`) exists in every edition of the program, but its
+values are those of one particular region and currency. In this edition it is switched off: no
+calculation uses it, and it should not be taken as a price reference for your project.
+
+#### 4.7.4.1. How to enter your values
+
+In step **4. Reservoir & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
+tank, labour, piping and accessories; the button *2. Motor Pump & Energy Cost* has the price of the
+pump set and the electricity tariff; the button *3. Other Operational Costs* has the maintenance
+routines; and the button *4. Water and Sewage Tariffs* has the tariff. Enter the values of your
+own quotations, with the taxes you will pay if the investment is borne by the final consumer, in
+the currency of the project.
+
+Three limitations of this version are worth knowing.
+
+- **The cistern price has no field in the CAPEX dialog.** On confirming, the dialog sets that price
+  back to zero. Until it is corrected, add the price of the cistern to one of the lines of the dialog,
+  for example the accessories, and say so in the report; or write the value in the field
+  `cost_lower_tank` of the block `capex_and_opex` of the project file, and do not confirm the CAPEX
+  dialog afterwards.
+- **One cistern price serves every volume of the sweep.** With no price list, the program cannot
+  scale the price with the volume: the price you enter is used as it stands for each volume
+  analysed, and in the volume sweep for all of them. The net present value curve against the volume
+  (Figure 58) then shows how the saving changes with the volume against a fixed
+  cistern price. To compare volumes on cost, run the project once per volume, each with its own
+  quotation.
+- **The price of chlorine has no field in the interface.** It exists only in the project file, in
+  the block `water_quality_and_etap`, as `chlorine_cost_per_kg`. Alternatively, add in *3. Other
+  Operational Costs* a routine with a variable cost per cubic metre of rainwater.
+
+---
+
+### 4.7.5. The result
 
 The second table above gives the indicators.
 
@@ -7518,10 +7589,12 @@ taken alone, produces a payback in this case. Only the tutorial carries costs, s
 section 3.1 compares the three cities on saving potential, not on payback.
 
 **The running cost is small:** US$ 2.63 per year, of which US$ 1.54 is pumping energy, the
-7.7 kWh per year of section 4.5 at an illustrative US$ 0.20 per kilowatt-hour. The
+7.7 kWh per year of section 4.5 at an illustrative US$ 0.20 per kilowatt-hour, and US$ 1.10
+is chlorine, 0.14 kg of product per year at an illustrative US$ 8 per kilogram. The
 energy comes from the same function that feeds the environmental assessment, according to
 the arrangement declared in step **4. Reservoir & Costs**: pumping to an upper tank,
-direct pressurisation or gravity.
+direct pressurisation or gravity. This figure does not include the three maintenance routines of
+US$ 90 per year, which enter the cash flow separately; the next section shows how much they weigh.
 
 ---
 
@@ -7535,11 +7608,60 @@ same place (Figure 58).
 *Figure 58 — The chart of the economic tab: the net present value of each volume of the sweep, with the economic maximum and the technical optimum marked. When the two coincide, the program marks them with a single symbol. All costs are illustrative, not market prices. Figure generated by the program itself.*
 
 ---
-### 4.7.5. What the projection assumes
+
+### 4.7.6. What goes into the running cost (OPEX)
+
+Here too the program fills in no price. The running cost of a new project adds the energy of the
+pump, the chlorine, the cost of the treatment line and the maintenance routines, and **every
+one of those prices starts at zero**: the electricity tariff, the price of chlorine and the cost of
+each routine. The three routines exist as a checklist, with a period of 12 months, and you give
+them a cost.
+
+<!-- tabela: **Table 118** — Where each part of the running cost comes from in the International Edition -->
+| Part of the running cost | What the program calculates | What you supply | Illustrative in the tutorial |
+| :--- | :--- | :--- | :--- |
+| pump energy | the annual energy of the pump set, from the chain of section 2.6 | electricity tariff, taxes on it, annual escalation | US$ 0.20 per kWh |
+| chlorine | the kilograms of product per year, from the dose, the purity of the tablet and the rainwater volume used | price per kilogram (project file only) | US$ 8 per kg |
+| treatment line | the sizing: class, disinfection, filter, first-flush chamber | the price of the equipment, inside the investment | none: catalogue prices are off |
+| maintenance routines | the month in which each falls due (every 12 months, from month 12) | a fixed cost and, if you wish, a cost per cubic metre | US$ 20, 40 and 30 per year |
+
+The program calculates only the **quantities**: the annual energy of the pump set, by the chain of
+section 2.6, and the kilograms of chlorine, by the dose and the purity of the tablet. The cost is
+the quantity times the price you enter. With a price of zero the cost is zero, and not a
+figure left out.
+
+**The routines weigh more than the rest.** The annual running cost that the summary of the analysis
+shows adds only the energy, the chlorine and the treatment line. The routines enter the cash flow
+separately, in months 12, 24, 36 and so on, corrected for inflation. In the tutorial, with illustrative
+values, they move the result:
+
+<!-- tabela: **Table 119** — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices) -->
+| Tutorial project (illustrative costs, not market prices) | With the routines | Without the routines |
+| :--- | ---: | ---: |
+| maintenance routines per year | US$ 90.00 | US$ 0.00 |
+| annual running cost in the summary: energy, chlorine and treatment | US$ 2.63 | US$ 2.63 |
+| net present value | −US$ 2,919.90 | −US$ 1,509.27 |
+
+**Energy.** The electricity tariff starts empty. Use your own bill. The tutorial's US$ 0.20 per
+kilowatt-hour is a round number chosen to follow the method, not a tariff of any country.
+
+**What does not enter.** The cash flow has no replacement of equipment over the 20 years, no
+residual value, no laboratory analysis of the water and no insurance. If the pump or the filter is
+replaced within the period, add the replacement as a routine in *3. Other Operational Costs*.
+
+**How to change or switch off.** Routines are edited, deleted or added with the button *3. Other
+Operational Costs*. Set the cost of a routine you do not want to zero rather than deleting every
+routine: with an empty list, the economic step may restore a starting list whose costs are
+reference values of the program's internal file, not yours. The dose of chlorine and the physical
+first flush are chosen in step **3. Quality & Treatment**. The electricity tariff and its taxes are in
+*2. Motor Pump & Energy Cost*.
+
+---
+### 4.7.7. What the projection assumes
 
 Twenty years is a long time, and the projection depends on assumptions worth declaring:
 
-<!-- tabela: **Table 117** — Assumptions of the economic projection and the weight of each one in the result -->
+<!-- tabela: **Table 120** — Assumptions of the economic projection and the weight of each one in the result -->
 | Assumption | Value adopted | Where it weighs |
 | :--- | ---: | :--- |
 | minimum attractive rate of return | 0.4% per month | discounts the flow; the higher, the worse the NPV |
@@ -7562,9 +7684,9 @@ value adopted and shows the sensitivity — section 3.7 teaches how.
 
 ---
 
-### 4.7.6. What we have so far
+### 4.7.8. What we have so far
 
-<!-- tabela: **Table 118** — State of the tutorial project after the economic analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 121** — State of the tutorial project after the economic analysis (illustrative, not a market price) -->
 | Project so far (illustrative, not a market price) | |
 | :--- | ---: |
 | volume | 4,000 L, concrete |
@@ -7611,7 +7733,7 @@ period plays in the economic one.
 
 For our project, a 4,000 L concrete cistern pumping to a 1,000 L upper tank:
 
-<!-- tabela: **Table 119** — Carbon balance of the tutorial project with a concrete cistern (illustrative factors) -->
+<!-- tabela: **Table 122** — Carbon balance of the tutorial project with a concrete cistern (illustrative factors) -->
 | Part | Value |
 | :--- | ---: |
 | carbon embodied in the system | 858 kg CO₂e |
@@ -7672,7 +7794,7 @@ the final result of each material.
 of the balance chart of the program's environmental tab, and the one that keeps the
 reading of an emissions chart intuitive: the line going down is the one improving.==
 
-<!-- tabela: **Table 120** — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices) -->
+<!-- tabela: **Table 123** — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices) -->
 | Cistern material | Mass | Embodied carbon | Carbon payback | Net emissions over 20 years | Price (illustrative, not a market price) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polyethylene (HDPE) | 88 kg | 327 kg CO₂e | 12.4 years | −200 kg | US$ 2,300 |
@@ -7680,7 +7802,7 @@ reading of an emissions chart intuitive: the line going down is the one improvin
 | Glass fibre | 57 kg | 371 kg CO₂e | 14.1 years | −156 kg | US$ 2,720 |
 | Stainless steel | 152 kg | 748 kg CO₂e | 28.4 years | 220 kg | US$ 8,300 |
 
-<!-- tabela: **Table 121** — Effect of the concrete cistern volume on the net carbon emissions -->
+<!-- tabela: **Table 124** — Effect of the concrete cistern volume on the net carbon emissions -->
 | Concrete volume | Carbon payback | Net emissions over 20 years |
 | ---: | ---: | ---: |
 | 2,000 L | 21.3 years | 31 kg CO₂e |
@@ -7766,7 +7888,7 @@ The switch costs little and changes the sign of the carbon, without changing the
 potential. The financial result stays negative, and a little worse, because the
 polyethylene cistern is US$ 100 dearer at these illustrative prices:
 
-<!-- tabela: **Table 122** — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 125** — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price) -->
 | (illustrative, not a market price) | Concrete | Polyethylene |
 | :--- | ---: | ---: |
 | cistern price | US$ 2,200 | US$ 2,300 |
@@ -7776,7 +7898,7 @@ polyethylene cistern is US$ 100 dearer at these illustrative prices:
 | carbon payback | 32.5 years | 12.4 years |
 | net emissions over 20 years | +330 kg | −200 kg |
 
-<!-- tabela: **Table 123** — State of the tutorial project after the environmental analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 126** — State of the tutorial project after the environmental analysis (illustrative, not a market price) -->
 | Project so far (illustrative, not a market price) | |
 | :--- | ---: |
 | volume | 4,000 L |
@@ -7823,7 +7945,7 @@ and received three answers that do not coincide. This disagreement is not a defe
 analysis or an inconsistency in the data: it shows that the three criteria measure
 different things and behave differently with respect to the tank volume.
 
-<!-- tabela: **Table 124** — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
+<!-- tabela: **Table 127** — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
 | Volume | Potential | NPV (illustrative, not a market price) | Payback | 20-year carbon balance | Investment (illustrative, not a market price) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1,000 L | 21.57% | −US$ 2,338 | no payback | 196 kg | US$ 4,700 |
@@ -7834,7 +7956,7 @@ different things and behave differently with respect to the tank volume.
 | 8,000 L | 27.79% | −US$ 5,098 | no payback | 72 kg | US$ 8,550 |
 | 12,000 L | 27.96% | −US$ 7,269 | no payback | −66 kg | US$ 10,750 |
 
-<!-- tabela: **Table 125** — Winning volume under each criterion taken alone -->
+<!-- tabela: **Table 128** — Winning volume under each criterion taken alone -->
 | Single criterion | Winning volume |
 | :--- | ---: |
 | highest saving potential | 12,000 L |
@@ -7866,7 +7988,7 @@ multi-criteria methods fill.
 
 The program uses TOPSIS over **seven criteria**:
 
-<!-- tabela: **Table 126** — The seven multi-criteria criteria and the direction of preference of each one -->
+<!-- tabela: **Table 129** — The seven multi-criteria criteria and the direction of preference of each one -->
 | Criterion | Direction |
 | :--- | :--- |
 | saving potential | maximise |
@@ -7914,7 +8036,7 @@ The decision tab shows the score of each candidate volume (Figure 63).
 
 The table below shows what happens when the weight is shifted.
 
-<!-- tabela: **Table 127** — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up -->
+<!-- tabela: **Table 130** — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up -->
 | Dominant weight | Volume | Runner-up |
 | :--- | ---: | ---: |
 | equal weights | 4,000 L | 5,000 L |
@@ -7981,7 +8103,7 @@ assuming they always agree.
 
 ### 4.9.5. The project, closed
 
-<!-- tabela: **Table 128** — Summary of the tutorial project, with all the parameters and results -->
+<!-- tabela: **Table 131** — Summary of the tutorial project, with all the parameters and results -->
 | Triton · single-family house in New York (costs illustrative, not market prices) | |
 | :--- | ---: |
 | precipitation series | New York, 30 years, 1,125 mm/year |
@@ -8792,7 +8914,7 @@ distributed to the user.
 P′ = P + d_f if P ≥ d_f ; P′ = 0 otherwise
 ```
 
-<!-- tabela: **Table 129** — Variables of Equation 53 -->
+<!-- tabela: **Table 132** — Variables of Equation 53 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `P′` | transformed precipitation, to be supplied to Triton | mm |
@@ -8856,7 +8978,7 @@ simulation program.==
 The messages below are raised before any calculation starts, and all of them name the field
 responsible and the value received, so that the correction does not require a search.
 
-<!-- tabela: **Table 130** — Physical input validation messages and the action for each one -->
+<!-- tabela: **Table 133** — Physical input validation messages and the action for each one -->
 | Message | What triggered it | What to do |
 | :--- | :--- | :--- |
 | «Volume do reservatório inferior negativo» (negative lower tank volume) | volume below zero | correct it; **zero is valid** and represents the no-system scenario |
@@ -8876,7 +8998,7 @@ responsible and the value received, so that the correction does not require a se
 > Section 4.2 justifies the split. When the message appears, the value arrived as 40 in a place
 > that stores 0.4 — typically a hand-edited parameter file or an automation call.
 
-<!-- tabela: **Table 131** — Suppliable fraction messages and the action for each one -->
+<!-- tabela: **Table 134** — Suppliable fraction messages and the action for each one -->
 | Message | What triggered it | What to do |
 | :--- | :--- | :--- |
 | «… parece estar em percentual» (… seems to be a percentage) | fraction between 1 and 100 in the file, in the weekly, monthly or daily vector, or in automation | enter 0.4 for 40% |
@@ -8892,7 +9014,7 @@ gap in the series stops the calculation, saying where it is. Filling the gap, or
 to a period without gaps, is a decision for whoever conducts the study, and the decision must be
 stated in the study.
 
-<!-- tabela: **Table 132** — Precipitation series error messages and the action for each one -->
+<!-- tabela: **Table 135** — Precipitation series error messages and the action for each one -->
 | Message | Cause | What to do |
 | :--- | :--- | :--- |
 | «A série de precipitação está vazia» (the precipitation series is empty) | file with no numeric line | check that the file has a column of daily values, one per line |
@@ -8906,7 +9028,7 @@ reading starts at the first numeric line.
 
 ### 6.2.3. Sweep
 
-<!-- tabela: **Table 133** — Volume sweep error messages -->
+<!-- tabela: **Table 136** — Volume sweep error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «O volume máximo da varredura deve ser finito e não negativo» (the maximum sweep volume must be finite and non-negative) | empty or negative field | enter the maximum volume in litres |
@@ -8921,7 +9043,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.4. Chlorination
 
-<!-- tabela: **Table 134** — Chlorination parameter error messages -->
+<!-- tabela: **Table 137** — Chlorination parameter error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» (purity must be in (0, 1]) | purity entered as a percentage | enter 0.65 for 65%, not 65 |
@@ -8932,7 +9054,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.5. Economic analysis
 
-<!-- tabela: **Table 135** — Economic analysis error messages and the action for each one -->
+<!-- tabela: **Table 138** — Economic analysis error messages and the action for each one -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «… deve ser um número finito e não negativo» (… must be a finite, non-negative number) | investment, tariff, cost, power or volume empty, negative or infinite | the message names the field; fill it in with a number equal to or greater than zero |
@@ -8954,7 +9076,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.6. Multi-criteria decision
 
-<!-- tabela: **Table 136** — Multi-criteria decision error messages and the action for each one -->
+<!-- tabela: **Table 139** — Multi-criteria decision error messages and the action for each one -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» (enter 3 dimension weights or 7 TOPSIS criterion weights) | number of weights other than 3 or 7 | enter one weight per dimension or one per criterion |
@@ -8966,7 +9088,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.7. Pump set
 
-<!-- tabela: **Table 137** — Pump set parameter error messages -->
+<!-- tabela: **Table 140** — Pump set parameter error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» (efficiency must be in (0, 1]) | efficiency as a percentage in the core | use 0.55 for 55% |
@@ -8976,7 +9098,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.8. Files
 
-<!-- tabela: **Table 138** — Error situations when reading and saving files -->
+<!-- tabela: **Table 141** — Error situations when reading and saving files -->
 | Situation | What happens | What to do |
 | :--- | :--- | :--- |
 | unreadable rainfall series | reading stops with a message | check the format: one reading per line, in mm, single column |
@@ -8993,7 +9115,7 @@ are remarks the program makes about the conditions under which the result was pr
 need to be carried over into the text of the study, because all of them affect the interpretation of
 the number and none of them is evident in the result on its own.
 
-<!-- tabela: **Table 139** — Warnings that do not stop the calculation and must be stated in the study -->
+<!-- tabela: **Table 142** — Warnings that do not stop the calculation and must be stated in the study -->
 | Warning | What it means |
 | :--- | :--- |
 | non-residential building type with a residential tariff | the economic result is **underestimated**; see section 3.5 |
@@ -9072,11 +9194,11 @@ one-sentence summary, the new features, the fixes that alter results, those that
 changed in the documentation. Sections with no content in that version simply do not appear.
 
 The same list is distributed with the code, in the `CHANGELOG.md` file at the root of the
-repository, and feeds the versions page of the documentation site.  It is not written three times:
-all three come from this section, and an automatic check refuses the build if they diverge. Those
-following the program through the repository, the site or the manual read the same record.
+repository, and feeds the versions page of the documentation site.  It is written here first,
+and the maintainers keep the other two equal to it. Those following the program through the
+repository, the site or the manual read the same record.
 
-<!-- tabela: **Table 140** — **Table 99** — Overview of the published versions -->
+<!-- tabela: **Table 143** — **Table 99** — Overview of the published versions -->
 | Version | Date | What it brought | Fixes that change results |
 | :--- | :--- | :--- | ---: |
 | **0.1.0 (beta)** | October 2026 | First beta of Triton, with its own name, versioning and repository for each edition. | 0 |
@@ -9095,17 +9217,43 @@ assessment, the treatment line, the multi-criteria decision and the probabilisti
 the first version of the International Edition, which has its own repository, logo and numbering.
 The Fewkes operating rule (φ) is available as an option in every module.
 
+**What the International Edition brings in this version.**
+
+- **A region-neutral program.** It ships no regional rainfall database, no tariff catalogue, no cost catalogue and no emission-factor series, and it applies no national standard and no predefined currency. You supply the rainfall series of the site, the tariffs, the costs and the currency.
+- **Three worked examples.** New York, London and Cape Town, with one building and three rainfall series (ERA5 reanalysis via Open-Meteo, 1991 to 2020, CC BY 4.0) and three tariff structures, each checked by hand against its printed bill.
+- **The analysis chain.** Daily water balance, volume sweep and ideal volume, economic analysis with block tariffs and six tariff regimes, life-cycle assessment, treatment line, certification scoring, multi-criteria ranking, reports in PDF and spreadsheet, CAD and BIM exports.
+- **Documentation.** The complete manual in English, an offline site, short volumes and `docs/DADOS.md`, which describes every dataset with its source, licence and quality.
+
+**What this version does not have.**
+
+- **Regional data.** No rainfall database, no climate projections, no tariff catalogue.
+- **Prices.** The program does not calculate an investment from prices. Cistern, tank, piping, accessories, labour, pump and maintenance costs start at zero, and so do the electricity tariff and the price of chlorine; the water tariff is empty. Section 4.7 says what a new project contains and what you enter.
+- **Emission factors.** The grid factor is zero until you enter the factor of your grid.
+- **Verified example tariffs.** The three example tariffs are illustrative.
+
+**Known limitations.**
+
+- The address of each tariff document, its access date and its checksum were not recorded when the examples were built, so the figures cannot be traced to a stored copy; the effective dates of the London and Cape Town tariffs are inferred. The payback and the net present value shown for the example projects are not results.
+- The example rainfall series are reanalysis grid cells of about 9 km, not rain-gauge records.
+- The CAPEX dialog has no field for the cistern price and sets it back to zero on confirming; section 4.7 gives the way round. With no price list, the cistern price you enter applies to every volume of the volume sweep. The price of chlorine can be set only in the project file.
+- In Spanish and Chinese the interface is partly translated, and the reports in those languages contain passages in another language; English is complete.
+- The life-cycle steps warn that country factors are missing, by design.
+
 #### 6.3.3.2. Fixes that change results
 
 None: this is the first beta, and there is no earlier version to correct.
 
-<!-- tabela: **Table 141** — Fixes that change results in version 0.1.0 -->
+<!-- tabela: **Table 144** — Fixes that change results in version 0.1.0 -->
 | What was corrected | Effect on the result |
 | :--- | :--- |
 
 #### 6.3.3.3. Fixes that do not change results
 
 None.
+
+#### 6.3.3.4. Documentation
+
+The manual gained the sections «CAPEX in this edition», «What goes into the running cost (OPEX)», «Regional and national particulars» and «Description of the data and how far to trust it».
 
 ---
 
@@ -9254,7 +9402,7 @@ modulation is»). **Edition.** International.
 
 ### 6.5.2. Version 1.1: consolidation and reliability
 
-<!-- tabela: **Table 142** — Items planned for version 1.1 -->
+<!-- tabela: **Table 145** — Items planned for version 1.1 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | International Edition | Global rainfall providers | ERA5-Land and NOAA GHCN-Daily reanalyses |
@@ -9271,7 +9419,7 @@ modulation is»). **Edition.** International.
 
 ### 6.5.3. Version 2.0: methodological frontier
 
-<!-- tabela: **Table 143** — Items planned for version 2.0 -->
+<!-- tabela: **Table 146** — Items planned for version 2.0 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | System physics | Hourly time step | Hourly model with rain-gauge data |
@@ -9368,7 +9516,7 @@ per capita consumption, number of occupants and non-potable fraction — because
 most uncertain in a new project and the ones the literature shows to move the result (Silva
 and Ghisi, 2016). The others keep the study value until the user ticks them.
 
-<!-- tabela: **Table 144** — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes -->
+<!-- tabela: **Table 147** — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes -->
 | Group | Variable | Unit | Screening distribution | Ticked on opening |
 | :--- | :--- | :--- | :--- | :--- |
 | Demand | Per capita consumption | L/person/day | lognormal, project mean, CV of 20% | yes |
@@ -9418,7 +9566,7 @@ inflation, electricity tariff, period — **replace** the project value by the d
 represents a cost 15% above the estimate. The table states what each one acts on and what
 it leaves out.
 
-<!-- tabela: **Table 145** — What each economic and environmental variable does in the calculation, and what it does not touch -->
+<!-- tabela: **Table 148** — What each economic and environmental variable does in the calculation, and what it does not touch -->
 | Variable | Acts on | Does not touch |
 | :--- | :--- | :--- |
 | Water and sewerage tariff factor | every monetary value of the water structure — bands, fixed charge, minimum bill, base price of the exponential curve — and sewerage charged in currency units (fixed or per m³) | the exponent of the exponential curve; sewerage as a % of water, which already follows the water |
@@ -9456,7 +9604,7 @@ dry spells, run the study once with each alternative series and compare.
 
 Each ticked variable receives a distribution and its parameters:
 
-<!-- tabela: **Table 146** — The four distributions the tool offers, their parameters and when to use each -->
+<!-- tabela: **Table 149** — The four distributions the tool offers, their parameters and when to use each -->
 | Distribution | Parameters | When to use |
 | :--- | :--- | :--- |
 | normal | mean and standard deviation | symmetric uncertainty around a likely value |
@@ -9579,7 +9727,7 @@ distribution and the sample statistics. It is the first to read, because it conf
 the distributions produced what was intended — the sample mean should be close to the
 declared mean, and the interval between P5 and P95 should be plausible for the building.
 
-<!-- tabela: **Table 147** — The variables drawn in the tutorial example: declared distribution and statistics of the realisations -->
+<!-- tabela: **Table 150** — The variables drawn in the tutorial example: declared distribution and statistics of the realisations -->
 | Variable | In the study | Distribution | Mean | Standard deviation | P5 | P95 |
 | :--- | ---: | :--- | ---: | ---: | ---: | ---: |
 | Per capita consumption (L/person/day) | 150.0 | lognormal (150.0; 30.0) | 149.1 | 29.4 | 105.3 | 202.6 |
@@ -9595,7 +9743,7 @@ The second table summarises the volume the study chose — the TOPSIS winner of 
 — comparing the deterministic study with the mean, standard deviation, coefficient of
 variation and percentiles of the realisations.
 
-<!-- tabela: **Table 148** — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price) -->
+<!-- tabela: **Table 151** — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price) -->
 | Quantity | Deterministic study | Mean | Standard deviation | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Potable water savings (%) | 27.2 | 26.8 | 4.5 | 16.9 | 18.9 | 26.9 | 34.6 |
@@ -9613,7 +9761,7 @@ favourable ones, and the base case is optimistic.
 The discounted payback only exists when the investment pays back; the table computes it over
 the realisations in which that happens, and the screen states how many there were.
 
-<!-- tabela: **Table 149** — Probabilities at the chosen volume, with the Wilson 95% confidence interval -->
+<!-- tabela: **Table 152** — Probabilities at the chosen volume, with the Wilson 95% confidence interval -->
 | Event | Probability (%) | 95% CI, lower bound (%) | 95% CI, upper bound (%) |
 | :--- | ---: | ---: | ---: |
 | the investment pays back (NPV > 0) | 6.8 | 5.4 | 8.5 |
@@ -9646,7 +9794,7 @@ technical ideal, which would be the economic optimum — the one with the shorte
 payback, the program's criterion (section 4.9) — and which would win TOPSIS (Figure 71). A
 realisation in which no volume pays back appears as «none pays back» in the economic column.
 
-<!-- tabela: **Table 150** — Frequency with which each volume is chosen in the realisations of the example, by criterion (%) -->
+<!-- tabela: **Table 153** — Frequency with which each volume is chosen in the realisations of the example, by criterion (%) -->
 | Volume (m³) | Technical ideal | Economic optimum (payback) | TOPSIS winner |
 | :--- | ---: | ---: | ---: |
 | 1 | 0 | 0 | 0 |
@@ -9688,7 +9836,7 @@ the direction of the effect and the magnitude its strength. Because it uses rank
 values, it captures non-linear monotonic relations — such as that of the progressive tariff —
 and is not distorted by extreme realisations.
 
-<!-- tabela: **Table 151** — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results -->
+<!-- tabela: **Table 154** — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results -->
 | Variable | ρ with savings | ρ with NPV | ρ with CO₂ balance |
 | :--- | ---: | ---: | ---: |
 | Number of occupants | −0.20 | 0.58 | −0.69 |
@@ -9719,7 +9867,7 @@ total variance. Continuous variables are grouped in deciles, the number of occup
 the climate model by their own values. η² estimates the first-order sensitivity index
 (Saltelli et al., 2008), ranges from 0 to 1 and also captures non-monotonic relations.
 
-<!-- tabela: **Table 152** — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles) -->
+<!-- tabela: **Table 155** — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles) -->
 | Source of uncertainty | η² of savings | η² of NPV | η² of CO₂ balance |
 | :--- | ---: | ---: | ---: |
 | Number of occupants | 0.06 | 0.41 | 0.51 |
@@ -9859,7 +10007,7 @@ editions. They have no effect in this one and are not listed.
 
 3 parameters.
 
-<!-- tabela: **Table 153** — Project parameters: identification -->
+<!-- tabela: **Table 156** — Project parameters: identification -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | New Triton project | — | Export, Main window, Reports | Automation, CAD and BIM, Reports, Spreadsheets |
@@ -9870,7 +10018,7 @@ editions. They have no effect in this one and are not listed.
 
 9 parameters.
 
-<!-- tabela: **Table 154** — Project parameters: rainfall -->
+<!-- tabela: **Table 157** — Project parameters: rainfall -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Main window, Project | Automation, Scenarios, Spreadsheets |
@@ -9891,7 +10039,7 @@ Notes from the code:
 
 7 parameters.
 
-<!-- tabela: **Table 155** — Project parameters: catchment -->
+<!-- tabela: **Table 158** — Project parameters: catchment -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | — | mm | Charts, Documentation, Environmental, Main window, Project, Quality, Reports | Automation, CAD and BIM, LCA, Reports, Scenarios, Spreadsheets, Treatment line |
@@ -9915,7 +10063,7 @@ Notes from the code:
 
 2 parameters.
 
-<!-- tabela: **Table 156** — Project parameters: building -->
+<!-- tabela: **Table 159** — Project parameters: building -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | units | Building, Environmental | Automation, Economic |
@@ -9929,7 +10077,7 @@ Notes from the code:
 
 17 parameters.
 
-<!-- tabela: **Table 157** — Project parameters: demand -->
+<!-- tabela: **Table 160** — Project parameters: demand -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | code | — | — |
@@ -9962,7 +10110,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 158** — Project parameters: irrigation -->
+<!-- tabela: **Table 161** — Project parameters: irrigation -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 0 | L/day | Building, Environmental, Main window, Reports | Automation, Daily balance |
@@ -9981,7 +10129,7 @@ Notes from the code:
 
 9 parameters.
 
-<!-- tabela: **Table 159** — Project parameters: water quality -->
+<!-- tabela: **Table 162** — Project parameters: water quality -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Environmental, Quality | Automation, LCA, Treatment line |
@@ -10005,7 +10153,7 @@ Notes from the code:
 
 12 parameters.
 
-<!-- tabela: **Table 160** — Project parameters: tanks -->
+<!-- tabela: **Table 163** — Project parameters: tanks -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Economic, Environmental, Export, Main window, Optimiser, Pump wizard, Reports, Sweep, Tariffs and costs, Upper tank | Automation, CAD and BIM, Daily balance, Multi-criteria, Prices, Scenarios, Spreadsheets |
@@ -10037,7 +10185,7 @@ Notes from the code:
 
 18 parameters.
 
-<!-- tabela: **Table 161** — Project parameters: pump set -->
+<!-- tabela: **Table 164** — Project parameters: pump set -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Main window, Sweep | Automation, Daily balance, Scenarios, Spreadsheets |
@@ -10073,7 +10221,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 162** — Project parameters: piping -->
+<!-- tabela: **Table 165** — Project parameters: piping -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Economic, Tariffs and costs | Automation, LCA |
@@ -10082,7 +10230,7 @@ Notes from the code:
 
 3 parameters.
 
-<!-- tabela: **Table 163** — Project parameters: investment -->
+<!-- tabela: **Table 166** — Project parameters: investment -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
@@ -10093,7 +10241,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 164** — Project parameters: operation -->
+<!-- tabela: **Table 167** — Project parameters: operation -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
@@ -10102,7 +10250,7 @@ Notes from the code:
 
 17 parameters.
 
-<!-- tabela: **Table 165** — Project parameters: tariffs -->
+<!-- tabela: **Table 168** — Project parameters: tariffs -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | no | — | Project | — |
@@ -10139,7 +10287,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 166** — Project parameters: energy -->
+<!-- tabela: **Table 169** — Project parameters: energy -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | custom | — | Main window, Project, Tariffs and costs | — |
@@ -10156,7 +10304,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 167** — Project parameters: financial -->
+<!-- tabela: **Table 170** — Project parameters: financial -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0.2 | % per month | Documentation, Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
@@ -10174,7 +10322,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 168** — Project parameters: certifications -->
+<!-- tabela: **Table 171** — Project parameters: certifications -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/person·day | Environmental | — |
@@ -10183,7 +10331,7 @@ Notes from the code:
 
 6 parameters.
 
-<!-- tabela: **Table 169** — Project parameters: other -->
+<!-- tabela: **Table 172** — Project parameters: other -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `phi_operation_rule` | — | — | Main window, Sweep | Automation, Daily balance, Spreadsheets |
@@ -10880,7 +11028,7 @@ The International Edition separates the factors in two kinds.
 
 ### C.1. User-supplied factors
 
-<!-- tabela: **Table 170** — Emission factors that the user supplies, and what to declare for each -->
+<!-- tabela: **Table 173** — Emission factors that the user supplies, and what to declare for each -->
 | Factor | Unit | Default | What to declare |
 | :--- | :--- | :--- | :--- |
 | electricity grid | kg CO₂e/kWh | none (empty) | source, **year**, whether it is CO₂ or CO₂e, and whether it covers generation only or also losses and upstream fuel |
@@ -10900,7 +11048,7 @@ assessment needs the latter.
 
 ### C.2. Tank materials
 
-<!-- tabela: **Table 171** — Emission factors of the tank materials, with mass and boundary -->
+<!-- tabela: **Table 174** — Emission factors of the tank materials, with mass and boundary -->
 | Material | Mass per useful m³ | Factor | Boundary |
 | :--- | ---: | ---: | :--- |
 | high-density polyethylene | 22 kg/m³ | 1.612 kg CO₂e/kg | cradle to gate |
@@ -10912,7 +11060,7 @@ The mass per useful cubic metre is what converts tank volume into mass of materi
 not the factor, that makes concrete dominate the inventory: 1,200 kg per cubic metre against 22 for
 polyethylene. The masses are geometric scenarios of the program, not the weight of a product.
 
-<!-- tabela: **Table 172** — Reference recorded in the program for each tank-material factor, and its status -->
+<!-- tabela: **Table 175** — Reference recorded in the program for each tank-material factor, and its status -->
 | Material | Reference recorded in the program | Status |
 | :--- | :--- | :--- |
 | polyethylene | Franklin Associates for the American Chemistry Council (October 2020), *Cradle-to-Gate Life Cycle Analysis of High-Density Polyethylene (HDPE) Resin*, Table 6: 1,612 kg CO₂e per 1,000 kg of resin (TRACI 2.1, IPCC 2013 GWP-100, United States scope) | recorded; re-verification pending |
@@ -10947,7 +11095,7 @@ Status of both references: recorded in the program, re-verification pending.
 
 ### C.4. Treatment consumables
 
-<!-- tabela: **Table 173** — Emission factors of the treatment consumables -->
+<!-- tabela: **Table 176** — Emission factors of the treatment consumables -->
 | Consumable | Factor |
 | :--- | ---: |
 | calcium hypochlorite tablet at 65% | 1.72 kg CO₂e/kg of product |
@@ -10995,7 +11143,7 @@ with the edition.
 Each row of the water tariff table is a quadruple `(minimum, maximum, value, code)`, in
 m³ per month and currency per m³ (or currency per month for the fixed codes).
 
-<!-- tabela: **Table 174** — The block codes of the water tariff table -->
+<!-- tabela: **Table 177** — The block codes of the water tariff table -->
 | Code | Meaning |
 | ---: | :--- |
 | 1 or 0 | progressive block: charged only on the volume inside it |
@@ -11007,7 +11155,7 @@ The effect of each code on the bill is drawn in section 2.7, and is not repeated
 
 ### D.2. The sewage part
 
-<!-- tabela: **Table 175** — The four ways of entering the sewage charge -->
+<!-- tabela: **Table 178** — The four ways of entering the sewage charge -->
 | Mode | The sewage charge is |
 | ---: | :--- |
 | 0 | a fixed amount |
@@ -11023,7 +11171,7 @@ escalation is entered separately for water, sewage and energy (appendix A).
 The program classifies a water tariff table into one of six regimes. The regime tells you
 what saving water is worth, which is what a rainwater harvesting study needs to see.
 
-<!-- tabela: **Table 176** — The six tariff regimes and what happens when saving -->
+<!-- tabela: **Table 179** — The six tariff regimes and what happens when saving -->
 | Regime | Structure | What happens when saving |
 | :--- | :--- | :--- |
 | **No minimum** | Progressive blocks only. | Each m³ saved reduces the bill. |
@@ -11052,7 +11200,7 @@ Currency USD; effective 01/07/2026 (as stated by the maintainers; confirm).
 
 NYC Water Board and NYC Department of Environmental Protection (DEP), Water and Sewer Rates FY2027, in force from 1 July 2026: water US$ 5.35 per CCF (100 ft3 = 2.8316847 m3), sewer 159% of the water charge, minimum charge US$ 0.49 per day.
 
-<!-- tabela: **Table 177** — Tariff structure of the New York example -->
+<!-- tabela: **Table 180** — Tariff structure of the New York example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 14.9144 | -3 |
@@ -11071,7 +11219,7 @@ Currency GBP; effective 01/04/2026 (as stated by the maintainers; confirm).
 
 Thames Water, charges 2026-27, metered household: water GBP 2.7346 per m3 and wastewater GBP 1.4721 per m3; standing charges GBP 66.87 per year (water) and GBP 128.13 per year (wastewater; GBP 80.43 with the surface-water drainage rebate). No VAT on household water and sewerage.
 
-<!-- tabela: **Table 178** — Tariff structure of the London example -->
+<!-- tabela: **Table 181** — Tariff structure of the London example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 5.5725 | -1 |
@@ -11091,7 +11239,7 @@ Currency ZAR; effective 01/07/2026 (as stated by the maintainers; confirm).
 
 City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91. Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65, sanitation R 56.66 (total R 160.31).
 
-<!-- tabela: **Table 179** — Tariff structure of the Cape Town example -->
+<!-- tabela: **Table 182** — Tariff structure of the Cape Town example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 103.65 | -1 |
@@ -11125,7 +11273,8 @@ Assumptions made when entering it:
 
 > **The International Edition ships no regional climate database.** The rainfall series of a project
 > is always a file of the user (section 4.1). Three example series come with the program, so that
-> the manual's cases can be reproduced.
+> the manual's cases can be reproduced. The last two sections of this appendix set out the
+> particulars of the edition and describe the data it ships and how far to trust them.
 
 ---
 
@@ -11134,7 +11283,7 @@ Assumptions made when entering it:
 Three daily series are installed in the program's `data/rainfall` folder. They are **reanalysis**
 data, not rain-gauge records.
 
-<!-- tabela: **Table 180** — Rainfall series distributed with the International Edition -->
+<!-- tabela: **Table 183** — Rainfall series distributed with the International Edition -->
 | File | Place | Period | Days | Mean annual rain | Source |
 | :--- | :--- | :--- | ---: | ---: | :--- |
 | `NewYork.csv` | New York (grid point over Manhattan, 40.81 N, 74.02 W) | 01/01/1991 to 31/12/2020 | 10,958 | 1,125 mm | ERA5 reanalysis via Open-Meteo |
@@ -11192,6 +11341,112 @@ wetter series by a declared percentage. Section 3.2 deals with conducting the st
 - for a projection, the model, the scenario and the window, and the method used to correct bias;
 - the number of **years** of data.
 
+
+---
+
+### E.5. Regional and national particulars
+
+The International Edition is neutral on purpose. It ships **no regional rainfall database, no tariff
+catalogue, no cost catalogue and no emission-factor series**, and it applies no national standard,
+no national tariff structure and no predefined currency. Everything that changes from one country
+or region to another is entered by you, and the program calculates with what you enter.
+
+<!-- tabela: **Table 184** — What the user supplies in the International Edition, and what happens without it -->
+| You supply | Where in the program | Without it |
+| :--- | :--- | :--- |
+| the daily rainfall series of the site (CSV, TXT or DAT; one value per line, in millimetres) | step 1, climate source «own file» | the simulation cannot run |
+| the water and sewer tariffs, in the currency you choose | economic inputs, button *4. Water and Sewage Tariffs* | the water bill is zero, and the economic analysis shows nothing |
+| the costs of works, pump, treatment and maintenance | step 4 and the economic inputs | costs are zero, so payback and net present value say little (section 4.7) |
+| the electricity tariff | button *2. Motor Pump & Energy Cost* | the pump energy costs nothing |
+| the grid emission factor and the emission factor of the potable water you replace | life-cycle inputs | the life-cycle assessment credits no avoided emissions |
+
+**Standards.** The program does not decide which standard applies to your project. Quality
+requirements, permitted uses, the first-flush depth and the maintenance interval are set by the
+standard or regulation of the place where the system is built. Look it up, enter its limits as the
+quality criterion (section 4.6) and cite it in the study. The four quality classes of the program
+are a comparison scale, not the text of a standard.
+
+**Currency and units.** There is no predefined currency: choose it in the economic step, and every
+value in the project is read in that currency. Volumes are in cubic metres and litres, depths in
+millimetres. A tariff published in other units is converted when entered: the New York example, for
+instance, publishes its water charge per hundred cubic feet, and the project records it per cubic
+metre.
+
+**The three worked examples.** The edition carries three cities so that it opens with something to run,
+and each is one end of a different tariff structure.
+
+<!-- tabela: **Table 185** — The worked examples of the International Edition: rainfall, currency and tariff structure -->
+| City | Currency | Mean annual rainfall | Tariff structure |
+| :--- | :--- | ---: | :--- |
+| New York | US$ | 1,125 mm | water at a single rate, sewer at 159% of the water charge, minimum daily charge |
+| London | £ | 649 mm | volumetric water and wastewater charges plus standing charges |
+| Cape Town | R | 495 mm | stepped blocks for water and for sanitation, with monthly standing charges |
+
+The three share one building, so that the results compare. They are examples, not a database of
+those cities: their rainfall is a reanalysis grid cell and their tariffs are illustrative (next
+section).
+
+---
+
+### E.6. Description of the data and how far to trust it
+
+This section summarises the data the edition ships. The full inventory, with sizes, licences,
+source addresses and the way to reproduce each item, is in `docs/DADOS.md` of the repository, and
+every figure below is the one given there.
+
+**What ships.** Three daily rainfall series, three example projects with their tariffs, the reports
+made from them, a few reference files of the core, the 3D viewer and the manual. The largest data
+file is 0.04 MiB. No tracked file of the repository exceeds 50 MiB.
+
+<!-- tabela: **Table 186** — Example rainfall series of the International Edition: description and quality -->
+| Field | New York | London | Cape Town |
+| :--- | :--- | :--- | :--- |
+| file | `NewYork.csv` | `London.csv` | `CapeTown.csv` |
+| location (grid point) | 40.81° N, 74.02° W | 51.49° N, 0.16° W | 33.99° S, 18.43° E |
+| mean annual rainfall | 1,125 mm | 649 mm | 495 mm |
+| days | 10,958 | 10,958 | 10,958 |
+| missing values | none | none | none |
+| period | 01/01/1991 to 31/12/2020 | same | same |
+
+**Rainfall: source, licence and quality.** The series are daily precipitation from the ERA5
+reanalysis, taken at one grid cell of about 9 km through the Open-Meteo archive interface and
+retrieved on 14/10/2026. Licence: CC BY 4.0, with attribution (weather data from Open-Meteo.com,
+based on the ERA5 reanalysis of the Copernicus Climate Change Service; Hersbach et al., 2020,
+*Quarterly Journal of the Royal Meteorological Society*, 146, 1999-2049). Redistribution is allowed
+with that attribution. A reanalysis cell is not a rain-gauge record: it smooths intense showers and
+overstates the days of light rain. The program does not fill gaps, so a series with missing values
+must be completed by you before use. For a real design, use the series measured at the site.
+
+**Example tariffs: illustrative, not verified.** The prices were read from each utility's published
+tariff and entered as printed: New York from the NYC Water Board and the city's Department of
+Environmental Protection, FY2027 rates, in force from 01/07/2026; London from Thames Water, charges
+2026-27 for a metered household, taken as starting on 01/04/2026; Cape Town from the City of Cape
+Town, Tariffs 2026/27 for a domestic, non-indigent customer, taken as starting on 01/07/2026. For the
+last two the effective date is inferred, not printed. Each tariff was checked by hand, once,
+against the bill it produces (for 18 m³ per month: US$ 88.08, £ 91.97 and R 1,252.32), and an
+automatic test recomputes those bills. There is no independent second check. The address of each
+document, the access date and a checksum of the file were not recorded when the examples were
+built, so the figures cannot be traced to a stored copy of the document. **Use them to learn the
+method, never for a real project:** enter the tariff of your own utility.
+
+**What is left at zero, on purpose.** The costs of works, pump, treatment and maintenance, the
+electricity tariff and the grid emission factor are zero or unset in the examples, because no
+official source was used for them. The payback and the net present value shown for the three
+example projects are therefore **not results**. The tutorial of the manual uses round, illustrative
+figures, labelled as such wherever they appear.
+
+**Reference files of the core.** Three small files ship with the program, none of which supplies a
+value to your project: `costs_database.json` holds reference-cost parameters that this edition
+does not apply (costs start at zero and you enter your own); `rotas_producao_agua.json` lists
+routes by which potable water is produced, with the emission avoided per cubic metre when rainwater
+replaces it, and you declare the route you replace; `fatores_emissao_rede_padrao.json` is an empty
+template, so the grid factor is zero until you enter the factor of the grid that supplies the
+project.
+
+**How to cite and attribute.** Cite the weather data as above whenever a study uses the example
+series. The sky map of the 3D viewer is the «Quarry» map of Poly Haven (CC0 1.0) and the viewer
+library is three.js (MIT).
+
 ---
 
 ## Appendix F — Files, folders and formats
@@ -11202,7 +11457,7 @@ Everything the program reads and writes, and where each thing is kept.
 
 ### F.1. What the program reads
 
-<!-- tabela: **Table 181** — Formats the program reads and where each one is loaded -->
+<!-- tabela: **Table 187** — Formats the program reads and where each one is loaded -->
 | Format | Extension | What it is | Where it is loaded |
 | :--- | :--- | :--- | :--- |
 | project | `.triton` | a complete study, with the rain inside | Open Project |
@@ -11226,7 +11481,7 @@ totals.
 
 ### F.2. What the program writes
 
-<!-- tabela: **Table 182** — Formats the program writes and where each one is generated -->
+<!-- tabela: **Table 188** — Formats the program writes and where each one is generated -->
 | Format | Extension | What it carries | Where it is generated |
 | :--- | :--- | :--- | :--- |
 | project | `.triton` | all the parameters and the rainfall series | Save Project |
@@ -11254,7 +11509,7 @@ deliberate: a published study needs to be inspectable without the program.
 
 It has seven sections:
 
-<!-- tabela: **Table 183** — The seven sections of the project file and what each one holds -->
+<!-- tabela: **Table 189** — The seven sections of the project file and what each one holds -->
 | Section | What it holds |
 | :--- | :--- |
 | `metadata` | project name, identifier and dates |
@@ -11276,7 +11531,7 @@ Appendix A lists all the parameters, with the exact name of each field.
 
 ### F.4. Where things are kept
 
-<!-- tabela: **Table 184** — Location of the program's files and of the user's files -->
+<!-- tabela: **Table 190** — Location of the program's files and of the user's files -->
 | What | Where |
 | :--- | :--- |
 | the program | `C:\Program Files\Triton` |
@@ -11293,7 +11548,7 @@ reinstalling or updating the program deletes nothing of yours.
 
 ### F.5. Compatibility between versions
 
-<!-- tabela: **Table 185** — Compatibility between versions of the project file -->
+<!-- tabela: **Table 191** — Compatibility between versions of the project file -->
 | Situation | What happens |
 | :--- | :--- |
 | project from an earlier version | opens; new fields take the default |
@@ -11587,7 +11842,7 @@ related terms that are often confused.
 
 #### G.1.1. 1. Rainwater and stormwater
 
-<!-- tabela: **Table 186** — Terminology for rainwater and stormwater -->
+<!-- tabela: **Table 192** — Terminology for rainwater and stormwater -->
 | Term | Definition and context of use | Status in Triton |
 | :--- | :--- | :--- |
 | *rainwater* | Precipitation collected directly on the roof (roof or waterproofed slab), before it reaches the ground or drains. It refers to the **water source** and the resource collected. | **Canonical and preferred**, also for systems, networks and the balance («rainwater network», «rainwater demand»). |
@@ -11597,7 +11852,7 @@ related terms that are often confused.
 
 To avoid the mathematical and conceptual ambiguities often found in the literature:
 
-<!-- tabela: **Table 187** — Fundamental quantities of the water balance and relations between fraction and potential -->
+<!-- tabela: **Table 193** — Fundamental quantities of the water balance and relations between fraction and potential -->
 | Quantity | Symbol / Code | Definition | Formula | Relation / Ceiling |
 | :--- | :--- | :--- | :--- | :--- |
 | **Suppliable fraction** | $f$ / `rainwater_share` | Share of the building's total demand corresponding to non-potable points of use that can be connected to the harvesting system. | $f = D_{pl} / D_{tot}$ | Design parameter ($0 \le f \le 1$). It is the **asymptotic ceiling** of $E_{pot}$. |
@@ -11829,7 +12084,7 @@ computer.
 
 ### I.1. Sheet 1 — The flow of a complete study
 
-<!-- tabela: **Table 188** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
+<!-- tabela: **Table 194** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
 | # | Step | What is decided in it | Section |
 | ---: | :--- | :--- | ---: |
 | 1 | Project and rain | series, area, coefficient, first flush | 4.1 |
@@ -11850,7 +12105,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.2. Sheet 2 — The pitfalls, one line each
 
-<!-- tabela: **Table 189** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
+<!-- tabela: **Table 195** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
 | Pitfall | Where |
 | :--- | :--- |
 | **sloping** area instead of the horizontal projection | 5.1.1 |
@@ -11868,7 +12123,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.3. Sheet 3 — The six tariff regimes
 
-<!-- tabela: **Table 190** — Reference sheet: the six tariff regimes and the effect of saving -->
+<!-- tabela: **Table 196** — Reference sheet: the six tariff regimes and the effect of saving -->
 | Regime | When saving |
 | :--- | :--- |
 | no minimum | every m³ earns a discount |
@@ -11888,7 +12143,7 @@ The International Edition has no tariff catalogue: the regime is the one of the 
 
 ### I.4. Sheet 4 — The indicators, and what each one answers
 
-<!-- tabela: **Table 191** — Reference sheet: the indicators and the question each one answers -->
+<!-- tabela: **Table 197** — Reference sheet: the indicators and the question each one answers -->
 | Indicator | Denominator | Answers |
 | :--- | :--- | :--- |
 | saving potential | **total** demand | how much potable water consumption falls |
@@ -11956,7 +12211,7 @@ enter your own costs in stage 5.
 
 ### J.1. The cases of the manual
 
-<!-- tabela: **Table 192** — The example cases and what each one demonstrates -->
+<!-- tabela: **Table 198** — The example cases and what each one demonstrates -->
 | File | Section | What it demonstrates |
 | :--- | :--- | :--- |
 | `01_tutorial_new_york.triton` | 4.1 to 4.10 | the closed tutorial project in New York: a 4,000 L polyethylene cistern and a pumped feed to a 1,000 L upper tank (illustrative costs, not market prices) |
@@ -11976,7 +12231,7 @@ The values below are obtained by **rereading the saved file** and simulating wha
 configuration that generated it. That is the difference that matters: a parameter that does not
 survive saving shows up here as a wrong number, instead of going unnoticed.
 
-<!-- tabela: **Table 193** — Result each example case produces when reread and simulated -->
+<!-- tabela: **Table 199** — Result each example case produces when reread and simulated -->
 | File | Mode | Volume | Potential | Rainwater consumed |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_new_york.triton` | fixed volume | 4,000 L | 27.09% | 162.6 L/day |

@@ -180,43 +180,34 @@ CAPEX = C_cist + C_sup + C_lab + C_pipe + C_acc + ( C_pump × n_b ) + CAPEX_inc
 | `CAPEX` | total initial investment of the system | currency |
 | `C_cist` | cost of the lower tank | currency |
 | `C_sup` | cost of the upper tank, when there is one | currency |
-| `C_lab` | cost of installation labour: in a new project, a percentage of the materials, with a floor | currency |
-| `C_pipe` | cost of the piping: pipes, bends and fittings of the 3D layout | currency |
-| `C_acc` | cost of the accessories: the parts of the 3D layout, one by one, and the control cables | currency |
+| `C_lab` | cost of installation labour | currency |
+| `C_pipe` | cost of the piping | currency |
+| `C_acc` | cost of the accessories | currency |
 | `C_pump` | unit cost of the pump set | currency |
 | `n_b` | number of pump sets, including the standby when there is one | unit |
 | `CAPEX_inc` | incremental investment of the treatment line, including the first flush when sized | currency |
 
-In a new project, `C_pipe` and `C_acc` are not allowances: they come from the **bill of quantities
-of the 3D layout** (section {{n:22}}). Each metre of pipe, each bend, each end fitting, each part —
-valves, check and foot valves, solenoid, water meter, level switches, control panel, inlet
-calming device, floating suction, vents, overflow, air gap, point of use — and each metre of
-control cable has a price, and the sum is what enters here. Cistern, upper tank and pump set have
-terms of their own; the inlet filter and the first flush enter through the treatment line when it
-sizes them. The designer can type other values in the economic step; the project then uses the
-typed ones, and the audit spreadsheet records the change. Projects saved before this rule keep the
-costs they declare.
-
-The labour of a new project is also recalculated at each run: a percentage of the sum of cistern,
-upper tank, pump sets, piping and accessories, with a floor. In the manual's tutorial the labour is
-a round figure of US$ 1,500, illustrative, not a market price. It thus grows with the tank: in the volume sweep, each volume has its own
-cistern, its own usual layout and its own labour. Previously, labour was fixed once, on generic
-allowances for piping and accessories, and was the same for all volumes. A value typed in the
-economic step prevails, as in the other items.
+In this edition a new project starts with every term at zero: the program carries no price list,
+so `C_cist`, `C_sup`, `C_lab`, `C_pipe`, `C_acc` and `C_pump` are the values you type in the economic
+step, and `CAPEX_inc` is zero until the treatment line is priced. The bill of quantities of the 3D
+layout (section {{n:22}}) does not set prices in this edition: the automatic budget of the layout
+and the automatic labour are off. The manual's tutorial uses round figures, stated as illustrative,
+not market prices. Section {{n:10}} lists what a new project contains and what is left for you to
+enter.
 
 The last term follows the incremental rule of section {{n:27}} and includes, when the physical
 sizing of the first flush is enabled, the first-flush chamber and the leaf separator; the annual
 running cost of that subsystem enters the running cost of the treatment line.
 
-Tank prices are typed in, as a fixed part plus a price per litre for each material. In the
-manual's tutorial the figures are round numbers, illustrative and not market prices: polyethylene
-100 plus 0.55 per litre, concrete 600 plus 0.40, fibreglass 120 plus 0.65 and stainless steel 300 plus
-2.00, in US$. With them a 4,000 L polyethylene cistern costs US$ 2,300 and a concrete one US$ 2,200;
-with the labour, the piping, the accessories and the two pumps, the investment of the tutorial is
-US$ 6,250 (illustrative, not a market price). When the requested volume is not in the table, the program interpolates linearly between the
-neighbouring points; when the volume exceeds the largest tabulated value, extrapolation is only
-done if the regression over the known points has a coefficient of determination above 0.90, and
-the program warns when that criterion is not met, instead of extrapolating silently.
+Tank prices are typed in. For the tutorial the author used a simple rule, a fixed part plus a
+price per litre for each material, with round figures that are illustrative and not market prices:
+polyethylene 100 plus 0.55 per litre, concrete 600 plus 0.40, fibreglass 120 plus 0.65 and
+stainless steel 300 plus 2.00, in US$. With it a 4,000 L polyethylene cistern costs US$ 2,300 and a
+concrete one US$ 2,200; with the labour, the piping, the accessories and the two pumps, the
+investment of the tutorial is US$ 6,250 (illustrative, not a market price). The program does not
+apply this rule or any price table: the cistern price you type is used as it stands for the volume
+analysed and, in the volume sweep, for every volume, so the program neither interpolates nor
+extrapolates a price. Section {{n:10}} explains the consequence for the volume curve.
 
 ---
 
