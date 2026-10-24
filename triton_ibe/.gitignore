@@ -143,3 +143,10 @@ tests/unit/test_processar_entrada.py
 tests/unit/test_processo_tarifario.py
 tests/unit/test_registro_de_fontes.py
 tests/unit/test_transcricoes.py
+
+# Logs de build e de instalação, e arquivos de cobertura (regeráveis; nunca versionar)
+build_log.txt
+install_*.log
+avisos_qt.log
+.coverage
+.coverage.*

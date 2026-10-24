@@ -1,7 +1,7 @@
 {
   "schema_version": "2",
   "gerado_em": "2026-10-15T01:34:57",
-  "limite_github_mb": 100,
+  "limite_github_mb": 50,
   "origem": {
     "arquivo": "climbra.db",
     "bytes": 821805056,

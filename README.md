@@ -108,6 +108,10 @@ TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, 
 # Windows PowerShell: $env:TRITON_EDITION = "BRL"; python -m pytest tests/unit tests/test_essencial.py
 ```
 
+## Data
+
+Each edition documents its data (source, licence, coverage, period, gaps, quality and size): [Brazil](triton_brl/docs/DADOS.md) (Portuguese), [International](triton_int/docs/DADOS.md) (English) and [Iberian](triton_ibe/docs/DADOS.md) (European Portuguese). No tracked file exceeds 50 MiB; `python scripts/verificar_tamanhos.py` checks it and the GitHub workflow runs it.
+
 ## Cite
 
 If you use Triton in academic work, you must cite it (clause 4 of the licence):
@@ -129,7 +133,7 @@ work that uses its results. The full terms are in `LICENSE.md` inside each editi
 ## Notes
 
 - The Brasil edition's climate database is versioned as one SQLite file per CMIP6 model,
-  `triton_brl/data/climbra_<model>.db` (19 files of 40 to 44 MB, 785 MB in all, each below GitHub's 100 MB limit). The
+  `triton_brl/data/climbra_<model>.db` (19 files of 40 to 43 MiB, 785 MiB in all, each below the project limit of 50 MiB, which is stricter than GitHub's 100 MiB). The
   single 820 MB `climbra.db` of earlier builds is not in Git; the program still reads it if present. See
   [`triton_brl/scripts/README.md`](triton_brl/scripts/README.md).
 - «Netuno 1» to «Netuno 4» are the previous programme, kept as history in the manuals and in the comparisons.

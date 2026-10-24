@@ -38,13 +38,13 @@ cenários (1.956 séries por modelo; 12.418 ou 12.419 dias no histórico, 31.410
 Cada modelo ocupa de 39,98 MB (IPSL-CM6A-LR) a 43,02 MB (KACE), a soma é 785,1 MB, abaixo dos 821,8 MB do
 banco único. Os cerca de 37 MB a menos vêm, provavelmente, do espaço ocioso nas páginas do banco único
 (inseridas fora da ordem da chave, sem `VACUUM`); cada parte é gravada em ordem e passa por `VACUUM`. As 19
-tabelas de cidades repetidas custam menos de 0,5 MB no total. Limites do GitHub: aviso a partir de 50 MB, recusa acima de 100 MB por arquivo; a maior
-parte tem 43 MB. Compressão alternativa testada em 300 séries do INM-CM4: nível 9 do zlib ganha 0,9%;
+tabelas de cidades repetidas custam menos de 0,5 MB no total. Limites: o GitHub avisa a partir de 50 MiB e recusa acima de 100 MiB por arquivo; o projeto adota 50 MiB
+(`scripts/verificar_tamanhos.py` na raiz do repositório, ligado à CI). A maior parte tem 43,02 MiB (KACE). Compressão alternativa testada em 300 séries do INM-CM4: nível 9 do zlib ganha 0,9%;
 reordenar os bytes do float16 antes do zlib **piora** 4% a 6%; LZMA ganha 5,6% e custa leitura mais lenta e
 outro formato. Nenhuma justifica mudar o blob; a divisão por modelo já basta.
 
 **Se uma parte passar do limite.** `dividir_base_climbra.py` divide sozinho o modelo por cenário
-(`climbra_<modelo>__HIST.db`, `__SSP245.db`, `__SSP585.db`) quando passa de `--limite-mb` (padrão 95);
+(`climbra_<modelo>__HIST.db`, `__SSP245.db`, `__SSP585.db`) quando passa de `--limite-mb` (passe `--limite-mb 50`, o limite do projeto; o padrão histórico do script é 95);
 `--por-cenario` força. O leitor (`triton/core/climate_database.py`) entende os dois nomes. Com
 `--dtype float32` as partes ficam bem maiores e essa divisão passa a valer.
 

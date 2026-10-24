@@ -80,6 +80,7 @@ The package carries no regional database.
 - [User manual (PDF)](manual/en/Triton-User-Manual.pdf)
 - [Getting started](docs/en/getting-started.md), [model](docs/en/model.md), [verification](docs/en/verification.md)
   and [the three editions](docs/en/editions.md)
+- [Data: what ships, sources, licences and quality](docs/DADOS.md)
 - [Command-line guide](infos_licenses/CLI_USAGE.md)
 
 ## Repository layout

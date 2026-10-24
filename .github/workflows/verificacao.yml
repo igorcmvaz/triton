@@ -84,8 +84,8 @@ jobs:
 
   # A base CLIMBra (um banco por modelo, data/climbra_<modelo>.db) está no Git. Este job confere que
   # os 19 arquivos estão íntegros (SHA-256 do manifesto data/climbra_partes.json, contagem de séries) e
-  # que nenhum passa do limite de 100 MB do GitHub. Sem script de apoio: é o teste
-  # test_as_partes_reais_batem_com_o_manifesto, do mesmo arquivo que cobre o leitor das partes.
+  # que nenhum passa do limite do projeto (50 MiB; o do GitHub é 100 MiB). Sem script de apoio: é o
+  # teste test_as_partes_reais_batem_com_o_manifesto, do mesmo arquivo que cobre o leitor das partes.
   base-climatica:
     name: Base CLIMBra (BRL)
     runs-on: ubuntu-latest
@@ -109,3 +109,18 @@ jobs:
           pip install numpy pandas openpyxl pytest
       - name: Conferir as partes
         run: python -m pytest tests/unit/test_climbra_particionada.py -k "reais" -p no:cacheprovider
+
+  # Nenhum arquivo rastreado passa de 50 MiB (limite do projeto, mais rígido que os 100 MiB do GitHub).
+  # Roda scripts/verificar_tamanhos.py, que imprime o resumo por pasta e falha se algum arquivo passar.
+  # Checkout completo (sem sparse): o script mede os arquivos da árvore inteira, as três edições.
+  tamanhos:
+    name: Tamanho dos arquivos rastreados
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Verificar tamanhos
+        run: python scripts/verificar_tamanhos.py --limite-mib 50 --aviso-mib 45

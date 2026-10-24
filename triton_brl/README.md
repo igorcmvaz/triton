@@ -71,6 +71,7 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 ## 📚 Documentação e Artigos Técnicos
 
 - [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — a Edição Internacional publica o manual em inglês
+- [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
 - [As duas edições, Brasil e International](docs/edicoes.md)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
 - [Relatório de Verificação e Validação](docs/verificacao_e_validacao.md)
@@ -127,7 +128,7 @@ triton_brl/
 ```
 
 A base climática compilada está **no Git**: um banco SQLite por modelo CMIP6, `data/climbra_<modelo>.db`
-(19 arquivos de 40 a 44 MB, 785 MB no total, abaixo do limite de 100 MB por arquivo do GitHub), mais o manifesto
+(19 arquivos de 40 a 43 MiB, 785 MiB no total, abaixo do limite de 50 MiB por arquivo do projeto, mais rígido que os 100 MiB do GitHub), mais o manifesto
 `data/climbra_partes.json`. O programa as lê direto e, se existir, ainda lê o `data/climbra.db` único das versões
 anteriores (~820 MB, fora do Git). Como foram geradas, divididas e verificadas: [`scripts/README.md`](scripts/README.md).
 

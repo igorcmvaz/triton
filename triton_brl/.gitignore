@@ -58,8 +58,8 @@ Triton future files for 652 cities/
 Triton_future_files_split/
 
 # Base climática compilada: um banco por modelo, data/climbra_<modelo>.db (40 a 44 MB cada,
-# 19 arquivos, ~785 MB), VERSIONADOS. O GitHub avisa a partir de 50 MB e recusa acima de 100 MB
-# por arquivo, e nenhuma parte chega perto (ver scripts/README.md). Não os apague nem os
+# 19 arquivos, ~785 MB), VERSIONADOS. O GitHub avisa a partir de 50 MiB e recusa acima de 100 MiB
+# por arquivo; o projeto adota 50 MiB e a maior parte tem 43 MiB (ver scripts/README.md). Não os apague nem os
 # regere sem necessidade: cada regeração grava no histórico outra cópia de ~785 MB.
 # O climbra.db ÚNICO das versões antigas (~820 MB) passa do limite e fica fora do Git; o
 # programa ainda o lê, e scripts/dividir_base_climbra.py o converte nas partes.
@@ -165,3 +165,10 @@ tests/unit/test_processar_entrada.py
 tests/unit/test_processo_tarifario.py
 tests/unit/test_registro_de_fontes.py
 tests/unit/test_transcricoes.py
+
+# Logs de build e de instalação, e arquivos de cobertura (regeráveis; nunca versionar)
+build_log.txt
+install_*.log
+avisos_qt.log
+.coverage
+.coverage.*

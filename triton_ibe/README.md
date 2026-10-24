@@ -83,6 +83,7 @@ sem a base: `--sem-base-climatica`.
 - [Manual do utilizador (PDF)](manual/Manual-Triton.pdf)
 - [Guia de início](docs/en/getting-started.md), [modelo](docs/en/model.md), [verificação](docs/en/verification.md)
   e [as três edições](docs/en/editions.md) (em inglês)
+- [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
 - [Metodologia](docs/metodologia.md) e [verificação e validação](docs/verificacao_e_validacao.md)
 - [Guia da linha de comandos](infos_licenses/CLI_USAGE.md)
 
