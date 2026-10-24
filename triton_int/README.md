@@ -58,8 +58,9 @@ in the [release notes](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and the [changelog](CH
 
 ## Install and run
 
-**Windows installer.** Published on [Zenodo](../README.md#download), together with its SHA-256 checksum:
-`Triton_INT_Setup_0_1_0.exe`. No Python is needed.
+**Windows installer.** Not published yet, and not code-signed. When it exists it will be listed in the
+[repository README](../README.md#download) with its SHA-256 checksum (`Triton_INT_Setup_0_1_0.exe`). No Python is
+needed. Until then, run from source.
 
 **From source** (Python 3.12 or later):
 

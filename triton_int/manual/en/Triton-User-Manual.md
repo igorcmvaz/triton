@@ -1258,9 +1258,9 @@ The manual comes with ready-made projects that reproduce the results printed her
 <!-- tabela: **Table 4** — Example files distributed with the program -->
 | File | What it is for |
 | :--- | :--- |
-| `casos_tutorial_new_york.triton` | the project that chapter 4 builds, ready |
-| `casos_ten_days.triton` | the ten-day teaching case of section 2.1 |
-| `casos_london.triton` and `casos_cape_town.triton` | the same building in other cities |
+| `manual\casos\01_tutorial_new_york.triton` | the project that chapter 4 builds, ready |
+| `manual\casos\05_ten_days.triton` | the ten-day teaching case of section 2.1 |
+| `manual\casos\02_london.triton` and `manual\casos\03_cape_town.triton` | the same building in other cities |
 | `examples\*.triton` | three complete studies: New York, London and Cape Town |
 
 They are in the program folder. Appendix J lists the ten cases of the manual,
@@ -2226,9 +2226,7 @@ does not get the mean potential wrong; it gets the volume wrong, which is what i
 
 The program returns the verdict for your project, with its roof, demand and suppliable fraction.
 Run it for each city of a comparison: the three example cities, with thirty years of daily data
-each, are a good test. [A COMPLETAR: the representative series length for New York, London and
-Cape Town has not yet been run for this edition; run the analysis on the three example projects
-and tabulate it here.]
+each, are a good test. Not computed in this version: the representative series length for New York, London and Cape Town; run the analysis on the three example projects to obtain it.
 
 > **Warning: a short series does not become a long one by averaging.** If the analysis says the
 > project needs more years than the series has, the ideal volume calculated is provisional, and
@@ -9201,20 +9199,19 @@ repository, the site or the manual read the same record.
 <!-- tabela: **Table 143** — **Table 99** — Overview of the published versions -->
 | Version | Date | What it brought | Fixes that change results |
 | :--- | :--- | :--- | ---: |
-| **0.1.0 (beta)** | October 2026 | First beta of Triton, with its own name, versioning and repository for each edition. | 0 |
+| **0.1.0 (beta)** | October 2026 | First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering. | 0 |
 
 ---
 
 ### 6.3.3. Version 0.1.0 (beta) — October 2026
 
-> **In one sentence.** First beta of Triton, with its own name, versioning and repository for
-> each edition.
+> **In one sentence.** First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering.
 
 #### 6.3.3.1. What is new
 
 Triton simulates rainwater harvesting day by day and carries the simulation engine, the life-cycle
 assessment, the treatment line, the multi-criteria decision and the probabilistic modulation. This is
-the first version of the International Edition, which has its own repository, logo and numbering.
+the first version of the International Edition, which has its own name and logo and shares the repository and version numbering with the other editions.
 The Fewkes operating rule (φ) is available as an option in every module.
 
 **What the International Edition brings in this version.**

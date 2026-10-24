@@ -4,7 +4,7 @@
 O que há de novo em cada versão é escrito só em
 `manual/partes/38_historico_de_versoes.md`, no modelo:
 
-    ## Versão 0.1.0 — 15 de outubro de 2026
+    ## Versão 0.1.0 — 24 de outubro de 2026
 
     > **Em uma frase.** o resumo que aparece no panorama e no site
 

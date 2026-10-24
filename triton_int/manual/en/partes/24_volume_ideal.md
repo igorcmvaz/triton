@@ -290,9 +290,7 @@ does not get the mean potential wrong; it gets the volume wrong, which is what i
 
 The program returns the verdict for your project, with its roof, demand and suppliable fraction.
 Run it for each city of a comparison: the three example cities, with thirty years of daily data
-each, are a good test. [A COMPLETAR: the representative series length for New York, London and
-Cape Town has not yet been run for this edition; run the analysis on the three example projects
-and tabulate it here.]
+each, are a good test. Not computed in this version: the representative series length for New York, London and Cape Town; run the analysis on the three example projects to obtain it.
 
 > **Warning: a short series does not become a long one by averaging.** If the analysis says the
 > project needs more years than the series has, the ideal volume calculated is provisional, and

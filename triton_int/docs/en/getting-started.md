@@ -8,7 +8,7 @@ in [`model.md`](model.md).
 
 ## 1. Install
 
-Triton needs **Python 3.10 or later**. Check what you have:
+Triton needs **Python 3.12 or later**. Check what you have:
 
 ```bash
 python --version
@@ -18,58 +18,52 @@ python --version
 
 ```bash
 git clone https://github.com/igorcmvaz/triton.git
-cd triton
-pip install -e .
+cd triton/triton_int
+pip install -r requirements.txt
+python main.py                      # graphical interface
+python -m triton.cli --help         # command line
 ```
 
-This registers two commands on your path: `triton-gui` for the desktop application and
-`triton` for the command line.
-
 To work on the code, or to run the test suite, install the development dependencies as
-well:
+well and run the suite of the edition:
 
 ```bash
 pip install -r requirements-dev.txt
-pytest
+TRITON_EDITION=INT python -m pytest tests/unit tests/test_essencial.py
 ```
 
-### From the Windows installer
+(On Windows PowerShell: `$env:TRITON_EDITION = "INT"; python -m pytest tests/unit tests/test_essencial.py`.)
 
-Releases ship a signed Windows installer that bundles Python and every dependency. It
-needs no Python installation. Download it from the repository releases page and run it;
-the software is installed under *Program Files* and appears in the start menu.
+### Windows installer
 
-The Brazil edition ships with the national climate base embedded: the 37,164 CLIMBra CSV
-files (about 6.5 GB) compiled into a single database of about 800 MB. There is nothing
-else to download. The International edition ships without it and works with your own
-precipitation series, tariffs, costs and emission factors; everything that differs between
-the two editions is listed in [`editions.md`](editions.md).
+There is no published installer yet. When the release is published, the installer
+(`Triton_INT_Setup_0_1_0.exe`) will be listed on the release page with its SHA-256 checksum. It
+is **not code-signed**, so Windows may warn that the publisher is unknown. Until then, run from
+source as above.
+
+The International Edition ships without any regional database. It works with your own
+precipitation series, tariffs, costs and emission factors; three example series (New York,
+London and Cape Town, in `data/rainfall/`) let you try it at once. Everything that differs
+between the editions is listed in [`editions.md`](editions.md).
 
 ---
 
 ## 2. First run
 
 ```bash
-triton-gui
+python main.py
 ```
 
-On the first launch the software asks for an interface language: Portuguese, English or
-Chinese. The choice can be changed at any time; changing it restarts the application.
+The interface opens in English. The language (English, Portuguese, Spanish or Chinese) can be
+changed at any time; changing it restarts the application.
 
-The window has a sidebar of stages on the left and the working area on the right. The
-stages are sequential by data dependency, not by rigidity: changing the building
-invalidates the simulation that used it, and the software says so rather than silently
-keeping a stale result.
-
-| Stage | What you declare |
-| :--- | :--- |
-| 1 · Project | location, precipitation series, first-flush discard depth |
-| 2 · Building | catchment area, occupants, non-potable demand |
-| 3 · Simulation | the range of tank capacities to sweep |
-| 4 · Quality | use class and treatment train |
-| 5 · Economic | costs, tariffs, financial premises |
-| 6 · Environmental | emission factors and the assessment horizon |
-| 7 · Report | the final document and the exports |
+The window has a sidebar of steps on the left and the working area on the right: you start at
+**1. Project & Rainfall**, then **2. Building & Demand**, **3. Quality & Treatment** and
+**4. Reservoir & Costs**, and go on to the economic, environmental and export steps. The steps
+follow the order of the data dependencies: changing the building invalidates the simulation that
+used it, and the software says so rather than silently keeping a stale result. The user manual
+(`manual/en/Triton-User-Manual.pdf`, opened from the Documentation tab) describes every step, and
+**File > Open** loads the worked examples in `examples/` (New York, London, Cape Town).
 
 ---
 
@@ -78,7 +72,7 @@ keeping a stale result.
 Everything else has a documented default. These five do not:
 
 1. **A daily precipitation series** — two columns, date and depth in millimetres, as CSV.
-   Or a municipality from the embedded climate base (in editions that ship with one).
+   
 2. **Catchment area**, in square metres, *in horizontal projection* — not the sloped area
    of the roof. Rain falls vertically; using the sloped area overestimates the yield.
 3. **Runoff coefficient** — the fraction of rainfall that reaches the tank. The default is
@@ -96,6 +90,9 @@ whenever you have it.
 
 The command line does everything the interface does, and it is what you want for a study
 that must be reproducible.
+
+The commands below use the `triton` command, which `pip install -e .` registers; without that
+install, write `python -m triton.cli` instead.
 
 **Create a project template.**
 
@@ -167,8 +164,8 @@ triton batch scenarios.xlsx --analysis all --format csv --output batch.csv
 ```
 
 **Factorial studies.** Combine building premises with a climate catalogue, run a folder of
-project files, or drive a sweep from a spreadsheet. These are what produce a national
-study: the same building across 652 municipalities, with one command.
+project files, or drive a sweep from a spreadsheet. These are what produce a multi-city
+study: the same building across many climates, with one command.
 
 ```bash
 triton stochastic-demand study.triton

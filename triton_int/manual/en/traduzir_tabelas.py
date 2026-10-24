@@ -99,7 +99,7 @@ LEGENDAS = {
 
 #: Whole cells (bold markers removed before lookup) and the loose text lines.
 CELULAS = {
-    "Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição.": "First official release of Triton, a program derived from Netuno 5.0.1, with its own name, versioning and repository for each edition.",
+    "Primeiro lançamento oficial do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição.": "First official release of Triton, a program derived from Netuno 5.0.1, with its own name for each edition, in the same repository and with the same version numbering.",
     "Corrige a demanda mensal e semanal igual a zero, que o programa trocava pela demanda padrão, e acrescenta a regra de operação de Fewkes como opção, em todos os módulos.": "Fixes monthly and weekly demand equal to zero, which the program replaced with the default demand, and adds the Fewkes operating rule as an option, in every module.",
     # cap40 a cap43, modulação probabilística
     'Tarifas': 'Tariffs',

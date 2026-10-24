@@ -144,6 +144,17 @@ tests/unit/test_processo_tarifario.py
 tests/unit/test_registro_de_fontes.py
 tests/unit/test_transcricoes.py
 
+# Reprodutibilidade dos dados da edição IBE: estes scripts ficam no Git por exceção (ver scripts/dados/LEIA.md).
+!scripts/acrescentar_qualidade_ao_banco.py
+!scripts/dados/*.py
+!tarifas_portugal/importar_ersar.py
+!tarifas_portugal/procedencia_pt.py
+!tarifas_portugal/monitorar_tarifas.py
+scripts/dados/dados_brutos/
+scripts/dados/prototipo/
+scripts/dados/dados_automaticos/*
+!scripts/dados/dados_automaticos/capitais_provincia_es.json
+
 # Logs de build e de instalação, e arquivos de cobertura (regeráveis; nunca versionar)
 build_log.txt
 install_*.log

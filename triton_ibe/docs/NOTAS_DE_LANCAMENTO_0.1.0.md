@@ -1,6 +1,6 @@
 # Triton IBE, Edição Ibérica: notas de lançamento da versão 0.1.0
 
-Versão 0.1.0 (beta), 15 de outubro de 2026. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
+Versão 0.1.0 (beta), 24 de outubro de 2026. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
 **Em resumo: esta versão só tem dados de Portugal.** A edição chama-se Ibérica porque foi desenhada para a Península Ibérica, mas a Espanha tem 0 locais no programa.
 
@@ -12,7 +12,7 @@ O Triton dimensiona sistemas de aproveitamento de água da chuva em edifícios. 
 
 | | |
 | :--- | :--- |
-| Instalador para Windows | `Triton_IBE_Setup_0_1_0.exe`, publicado no Zenodo com a soma SHA-256. Não precisa de Python. [A COMPLETAR: endereço do registo no Zenodo e SHA-256 do instalador, depois da publicação] |
+| Instalador para Windows | `Triton_IBE_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital). O endereço do registo no Zenodo e o SHA-256 serão indicados na publicação do release. Não precisa de Python. Até lá, execute a partir do código. |
 | A partir do código | Python 3.12 ou superior; `pip install -r requirements.txt`; `python main.py` (interface) ou `python -m triton.cli --help` (linha de comandos) |
 | Espaço | A base de chuva embutida tem 5,74 MiB; a edição rastreada soma cerca de 62 MiB, dos quais 41,6 MiB são o manual |
 

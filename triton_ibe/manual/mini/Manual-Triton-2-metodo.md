@@ -1221,9 +1221,7 @@ o que se compra.
 
 O programa devolve o veredicto para o seu projeto, com a sua cobertura, a sua procura e a sua
 fração suprível. Execute-o para cada cidade de uma comparação: as três cidades de exemplo, com
-trinta anos de dados diários cada uma, são um bom teste. [A COMPLETAR: o comprimento de série
-representativo para Lisboa, Porto e Funchal ainda não foi calculado para esta edição; correr a
-análise nos três projetos de exemplo e tabelar aqui.]
+trinta anos de dados diários cada uma, são um bom teste. Não calculado nesta versão: o comprimento de série representativo para Lisboa, Porto e Funchal; corra a análise nos três projetos de exemplo para o obter.
 
 > **Atenção: uma série curta não se torna longa por tirar médias.** Se a análise disser que o
 > projeto precisa de mais anos do que a série tem, o volume ideal calculado é provisório, e é isso
@@ -2696,9 +2694,7 @@ retém o acréscimo de escoamento em relação à cobertura natural do terreno. 
 este crédito, porque depende do escoamento de todo o terreno, e não só da cobertura; a matriz de
 critérios regista-o como não avaliado.
 
-[A COMPLETAR: confirmar, no texto vigente do *LEED v4.1 BD+C* e do *LEED v5 BD+C Rating System*, os
-limiares e as pontuações dos créditos WEc1, WEc2 (v4) e WEc2 (v5), e o crédito SSc3. A página
-<https://www.usgbc.org/leed> confirma o sistema, as versões e os níveis, mas não os créditos.]
+Não verificado nesta versão: os limiares e as pontuações dos créditos WEc1, WEc2 (v4) e WEc2 (v5) e do crédito SSc3 no texto vigente do *LEED v4.1 BD+C* e do *LEED v5 BD+C Rating System*. A página <https://www.usgbc.org/leed> confirma o sistema, as versões e os níveis, mas não os créditos.
 
 ---
 
@@ -2733,8 +2729,7 @@ quadrados.
 > que declara essa limitação no relatório. Afirmar que um projeto é EDGE Certified dispondo de um
 > terço da evidência necessária seria irresponsável.
 
-[A COMPLETAR: confirmar com o guia da medida WEM14 da aplicação EDGE a definição da medida e o
-dado de entrada; a página de certificação não a descreve.]
+Não verificado nesta versão: a definição da medida WEM14 e o seu dado de entrada no guia da aplicação EDGE; a página de certificação não a descreve.
 
 ---
 
@@ -2748,8 +2743,7 @@ resultados do programa: o GRI 303-3, que reporta a captação evitada em metros 
 acumulada ao longo do período, e o GRI 303-5, que exprime a taxa de circularidade hídrica do
 empreendimento.
 
-[A COMPLETAR: confirmar, no texto do GRI 303:2018, a redação exata das divulgações 303-3 e 303-5; a
-página consultada apresenta o projeto da norma, não as divulgações.]
+Não verificado nesta versão: a redação exata das divulgações 303-3 e 303-5 no texto do GRI 303:2018; a página consultada apresenta o projeto da norma, não as divulgações.
 
 ---
 
@@ -2767,22 +2761,18 @@ de A+ a D nos chuveiros. A especificação técnica ANQIP ETA 0701, de sistemas 
 águas pluviais em edifícios (SAAP), é a referência portuguesa de projeto para usos não potáveis; a
 certificação da instalação rege-se por uma especificação própria, a ETA 0702.
 
-[A COMPLETAR: as indicações sobre a ETA 0701 e a ETA 0702 vêm de documentos de versões antigas
-(validade 2009 a 2014) obtidos por pesquisa; confirmar na ANQIP a versão vigente de ambas, o
-âmbito da certificação do SAAP e as classes em vigor da etiqueta de eficiência hídrica.]
+Não verificado nesta versão: a versão vigente da ETA 0701 e da ETA 0702, o âmbito da certificação do SAAP e as classes em vigor da etiqueta de eficiência hídrica; as indicações acima vêm de documentos de versões antigas (validade 2009 a 2014).
 
 **LiderA.** Sistema voluntário que orienta e certifica ambientes construídos sustentáveis, com
 vinte áreas e uma escala de classes de A++ a E (<https://lidera.info>, consultado a 16 de outubro de
 2026).
 
-[A COMPLETAR: critérios e indicadores de água do LiderA (a página inicial não os lista; ver as
-especificações da versão 4 no mesmo sítio).]
+Não verificado nesta versão: os critérios e indicadores de água do LiderA (a página inicial não os lista).
 
 **BREEAM.** Método de avaliação da sustentabilidade do ambiente construído, associado ao grupo BRE
 (<https://breeam.com>, consultado a 16 de outubro de 2026).
 
-[A COMPLETAR: critérios de água do BREEAM aplicáveis ao aproveitamento pluvial, níveis de
-classificação e versão aplicável em Portugal; a página consultada não os apresenta.]
+Não verificado nesta versão: os critérios de água do BREEAM aplicáveis ao aproveitamento pluvial, os níveis de classificação e a versão aplicável em Portugal; a página consultada não os apresenta.
 
 **Level(s).** Quadro europeu voluntário de indicadores de sustentabilidade de edifícios de
 escritórios e residenciais, do Centro Comum de Investigação da Comissão Europeia. O indicador 3.1,
@@ -2791,7 +2781,7 @@ de projeto que inclui o aproveitamento de águas pluviais e a reutilização de 
 (manual do utilizador, versão 1.1, janeiro de 2021:
 <https://susproc.jrc.ec.europa.eu/product-bureau/sites/default/files/2021-01/UM3_Indicator_3.1_v1.1_31pp.pdf>).
 
-[A COMPLETAR: confirmar se existe versão mais recente do manual do indicador 3.1.]
+Não verificado nesta versão: se existe versão mais recente do manual do indicador 3.1.
 
 > **Declare-o no estudo.** O enquadramento só é defensável com a versão vigente do referencial à
 > mão, e o programa não substitui essa verificação.

@@ -1167,7 +1167,7 @@ def tabela_custos_series_publicas():
     """As séries públicas já recolhidas fora do programa, com data de acesso e prova."""
     import json
 
-    pasta = os.path.join(RAIZ, "..", "..", "validacao_precipitacao_prt", "dados_automaticos")
+    pasta = os.environ.get("TRITON_IBE_AUTOMATICOS") or os.path.join(RAIZ, "scripts", "dados", "dados_automaticos")
     if not os.path.isdir(pasta):
         return None
     L = ["| Série pública | Portugal | Espanha | Acesso | SHA-256 (início) |",

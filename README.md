@@ -10,7 +10,7 @@ logo, versioning and one edition for each region.
 
 ![Version](https://img.shields.io/badge/version-0.1.0-1f497d)
 ![Python](https://img.shields.io/badge/python-3.12%2B-1f497d)
-[![Zenodo](https://img.shields.io/badge/installers-Zenodo-1f497d)](ZENODO_LINK)
+![Installers](https://img.shields.io/badge/installers-in%20preparation-lightgrey)
 [![Licence: academic source-available](https://img.shields.io/badge/licence-academic%20source--available-lightgrey)](#licence)
 
 </div>
@@ -64,20 +64,19 @@ tests, manual and Windows installer, so you only need the one you use.
 
 ## Download
 
-The Windows installers are **not** in this repository. All three editions are published in a single Zenodo record,
-with a DOI, so that each release can be cited and kept as it was released:
+The Windows installers are **not** in this repository, and they are not published yet. They will be released
+in a single Zenodo record, so that each release can be cited and kept as it was released. This README will
+link to that record, with the installers' SHA-256 checksums, when it exists. Installers are not code-signed.
+Until then, run Triton from the source code (see [Quick start](#quick-start)).
 
-**[Triton on Zenodo](ZENODO_LINK)**
-
-| Edition | Installer |
+| Edition | Installer (when published) |
 |---|---|
 | Brasil (BRL) | `Triton_Setup_0_1_0.exe` |
 | International (INT) | `Triton_INT_Setup_0_1_0.exe` |
 | Ibérica (IBE) | `Triton_IBE_Setup_0_1_0.exe` |
 
-Each version of the record holds the installers of all editions, their checksums (SHA-256) and the release notes. The
-source code in this repository is the same one the installers are built from; to build an installer yourself, run
-`python build_exe.py --installer` inside the edition folder.
+The source code in this repository is the same one the installers are built from; to build an installer yourself,
+run `python build_exe.py --installer` inside the edition folder.
 
 ## What Triton does
 
@@ -91,7 +90,7 @@ source code in this repository is the same one the installers are built from; to
 
 ## Quick start
 
-To run from source (the installers are on [Zenodo](#download)):
+To run from source (the installers are not published yet, see [Download](#download)):
 
 ```bash
 cd triton_int                 # or triton_brl / triton_ibe
@@ -116,9 +115,9 @@ Each edition documents its data (source, licence, coverage, period, gaps, qualit
 
 If you use Triton in academic work, you must cite it (clause 4 of the licence):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings.* Federal University of Santa Catarina (UFSC), Florianópolis, Brazil.
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings.* Federal University of Santa Catarina (UFSC).
 
-Machine-readable metadata is in [`CITATION.cff`](CITATION.cff); the Zenodo DOI will be added to it with the first release.
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff); the DOI will be assigned when the release is published.
 
 ## Roadmap
 

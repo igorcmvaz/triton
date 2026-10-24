@@ -679,11 +679,25 @@ impactos ambientais de um produto ao longo de toda a sua existência, da extraç
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
 
+**COSIP**. Contribuição para o Custeio do Serviço de Iluminação Pública, cobrada pelos municípios na fatura de energia elétrica. A tarifa B1 da base não a inclui.
+
+**GFDL-CM4**. Modelo climático do Geophysical Fluid Dynamics Laboratory (NOAA), um dos modelos do CMIP6 de que a base CLIMBra traz séries.
+
+**ICMS**. Imposto sobre Circulação de Mercadorias e Serviços, estadual, que incide sobre a energia elétrica. A tarifa B1 da base não o inclui.
+
+**KACE**. Modelo climático KACE-1-0-G, do Serviço Meteorológico da Coreia (KMA), um dos modelos do CMIP6 da base CLIMBra; usa calendário de 360 dias.
+
 **MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
 
 **OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
 
+**PIS**. PIS/Pasep, contribuição federal que incide, com a Cofins, sobre a fatura de energia elétrica. A tarifa B1 da base não a inclui.
+
 **RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**SHA-256**. Função de resumo criptográfico (hash) de 256 bits. O programa a usa para registrar a identidade de cada arquivo de dados e de cada documento de fonte, de modo que uma alteração seja detectável.
+
+**SIRENE**. Sistema de Registro Nacional de Emissões, do MCTI, que publica o fator médio de emissão da rede elétrica brasileira.
 
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir

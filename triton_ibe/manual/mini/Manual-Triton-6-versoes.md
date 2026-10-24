@@ -488,21 +488,19 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 12** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.1.0** | 15 de outubro de 2026 | Primeira versão beta do Triton, com nome, numeração e repositório próprios para cada edição. | 0 |
+| **0.1.0** | 24 de outubro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 24 de outubro de 2026
 
-> **Numa frase.** Primeira versão beta do Triton, com nome, numeração e repositório próprios para
-> cada edição.
+> **Numa frase.** Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração.
 
 #### 6.3.3.1. Novidades
 
 O Triton simula o aproveitamento de águas pluviais dia a dia e inclui o motor de simulação, a
 avaliação de ciclo de vida, a linha de tratamento, a decisão multicritério e a modulação
-probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem repositório, logótipo e
-numeração próprios, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
+probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
 e os valores em euros. A regra de operação de Fewkes (φ) está disponível como opção em todos os
 módulos.
 

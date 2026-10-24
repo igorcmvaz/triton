@@ -300,9 +300,7 @@ o que se compra.
 
 O programa devolve o veredicto para o seu projeto, com a sua cobertura, a sua procura e a sua
 fração suprível. Execute-o para cada cidade de uma comparação: as três cidades de exemplo, com
-trinta anos de dados diários cada uma, são um bom teste. [A COMPLETAR: o comprimento de série
-representativo para Lisboa, Porto e Funchal ainda não foi calculado para esta edição; correr a
-análise nos três projetos de exemplo e tabelar aqui.]
+trinta anos de dados diários cada uma, são um bom teste. Não calculado nesta versão: o comprimento de série representativo para Lisboa, Porto e Funchal; corra a análise nos três projetos de exemplo para o obter.
 
 > **Atenção: uma série curta não se torna longa por tirar médias.** Se a análise disser que o
 > projeto precisa de mais anos do que a série tem, o volume ideal calculado é provisório, e é isso

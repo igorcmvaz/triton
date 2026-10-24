@@ -52,14 +52,13 @@ repository, the site or the manual read the same record.
 
 ## Version 0.1.0 (beta) — October 2026
 
-> **In one sentence.** First beta of Triton, with its own name, versioning and repository for
-> each edition.
+> **In one sentence.** First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering.
 
 ### What is new
 
 Triton simulates rainwater harvesting day by day and carries the simulation engine, the life-cycle
 assessment, the treatment line, the multi-criteria decision and the probabilistic modulation. This is
-the first version of the International Edition, which has its own repository, logo and numbering.
+the first version of the International Edition, which has its own name and logo and shares the repository and version numbering with the other editions.
 The Fewkes operating rule (φ) is available as an option in every module.
 
 **What the International Edition brings in this version.**

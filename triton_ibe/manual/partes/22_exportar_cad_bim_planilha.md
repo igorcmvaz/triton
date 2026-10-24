@@ -111,9 +111,7 @@ requisitos habituais, a verificar nesses documentos e na regulamentação em vig
 - bombagem de acordo com as regras de abastecimento de água a edifícios, que em regra pedem uma
   bomba de reserva.
 
-[A COMPLETAR: cores, inscrições, distâncias de separação e requisitos de bombagem exatos da ETA
-0701 (versão 12) e da EN 16941-1, e do regulamento nacional de distribuição predial de água; não
-foram lidos nesta revisão. Ver `auditoria/pendencias_manual_prt_cap16-30.md`.]
+Não verificado nesta versão: as cores, inscrições, distâncias de separação e requisitos de bombagem exatos da ETA 0701 (versão 12), da EN 16941-1 e do regulamento nacional de distribuição predial de água, que não foram lidos.
 
 O que o programa **não** dimensiona:
 

@@ -1,0 +1,9 @@
+﻿estacao,independente,fonte,dias,pbias,r,kge_mensal,dias1mm_est,dias1mm_fonte,p95_est,p95_fonte
+Faro,sim,CPC,5216,-3.8,0.92,0.72,16.7,18.1,37.1,30.6
+Évora,sim,CPC,3322,4.7,0.9,0.66,33.1,36.2,29.0,25.5
+Castelo Branco,sim,CPC,3437,2.7,0.92,0.72,35.3,37.9,35.1,31.3
+Coimbra,?,CPC,3792,6.4,0.89,,42.4,44.3,27.8,27.4
+Lisboa,nao,CPC,10719,-24.1,0.66,0.65,20.4,20.5,34.2,23.7
+Porto,nao,CPC,7300,-8.9,0.59,0.84,28.7,30.0,33.9,28.5
+Beja,nao,CPC,8213,-5.1,0.62,0.89,20.2,21.3,25.5,23.0
+Bragança,nao,CPC,8166,-7.9,0.65,0.83,28.1,27.6,28.0,24.7

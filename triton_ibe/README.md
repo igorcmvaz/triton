@@ -13,8 +13,9 @@ multicritério (TOPSIS e SMAA-VIKOR).
 Esta é a **Edição Ibérica** (**Triton IBE**, Península Ibérica; chamou-se Edição Portugal, PRT). Abre em português de Portugal, trabalha em euros e, por agora, só traz dados portugueses (Portugal 278 concelhos; Espanha: 0 locais). Os projetos e os scripts que ainda dizem `PRT` ou `POR` continuam a funcionar: abrem como IBE.
 
 - **Precipitação E-OBS por concelho**, 1950 a 2025 (E-OBS v33.0e, grelha de 0,1°, limites CAOP 2025): 278 dos
-  308 concelhos têm série; os restantes ficam de fora por terem mais de 1% de dias sem dado em 1991–2020. Para
-  esses locais usa-se uma série do próprio utilizador.
+  308 concelhos têm série. Os 30 restantes são ilhas e ficam de fora: os 19 dos Açores estão fora do domínio da
+  E-OBS e os 11 da Madeira têm mais de 1% de dias sem dado em 1991–2020. Para esses locais usa-se uma série do
+  próprio utilizador.
 - **Tarifários de água e saneamento** de Lisboa, Porto e Funchal, com a entidade gestora, a vigência e a fonte
   de cada valor.
 - **Exemplos completos** para Lisboa, Porto e Funchal.
@@ -66,8 +67,9 @@ e no [histórico de versões](CHANGELOG.md).
 
 ## Instalar e executar
 
-**Instalador para Windows.** Publicado no [Zenodo](../README.md#download), com a soma de verificação SHA-256:
-`Triton_IBE_Setup_0_1_0.exe`. Não precisa de Python.
+**Instalador para Windows.** Ainda não está publicado (nem tem assinatura digital). Quando existir, será
+indicado no [README do repositório](../README.md#download) com a soma de verificação SHA-256
+(`Triton_IBE_Setup_0_1_0.exe`). Não precisa de Python. Até lá, execute a partir do código.
 
 **A partir do código** (Python 3.12 ou superior):
 
@@ -99,8 +101,8 @@ python build_exe.py --installer      # dist/Triton_IBE/ e dist/Triton_IBE_Setup_
 ```
 
 Requer Python 3.12 ou superior, PyInstaller (`requirements-dev.txt`) e o [Inno Setup 6](https://jrsoftware.org/isinfo.php).
-O pacote leva a base `data/portugal_eobs.db` (6 MB), que se gera com `scripts/compilar_base_eobs_portugal.py` a
-partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver o `scripts/README.md`). Para um pacote de teste
+O pacote leva a base `data/portugal_eobs.db` (6 MB), que se gera com `scripts/dados/compilar_base_eobs_portugal.py` a
+partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver `scripts/dados/LEIA.md`). Para um pacote de teste
 sem a base: `--sem-base-climatica`.
 
 **Requisitos.** Windows para o instalador (as verificações desta versão foram feitas em Windows); Python 3.12 ou superior e os pacotes de `requirements.txt` para executar a partir do código.

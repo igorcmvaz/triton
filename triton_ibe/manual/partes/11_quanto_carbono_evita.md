@@ -10,7 +10,7 @@ Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico q
 
 O saldo ambiental do sistema é a diferença entre o que evita e o que emite, e a pergunta que organiza esta secção é em quantos anos o crédito anual líquido amortiza a dívida contraída no fabrico. Esse prazo é o **retorno do carbono**, e desempenha na dimensão ambiental o papel que o período de recuperação desempenha na dimensão económica.
 
-> **Os fatores são ilustrativos.** A Edição Ibérica não traz fatores de emissão: a avaliação ambiental não é calculada até introduzir os do local do projeto (apêndice {{n:C}}). O tutorial usa dois números redondos, **0,40 kg CO₂e por quilowatt-hora** de eletricidade da rede e **0,50 kg CO₂e por metro cúbico** de água da rede evitada. São ilustrativos, não são dados de nenhum país, escolhidos para se poder seguir o método; a lição está na forma do resultado, não nos dígitos. [A COMPLETAR: se se quiser fatores portugueses, indicar a fonte oficial aberta (fator de emissão da eletricidade da rede e intensidade carbónica do abastecimento de água em Portugal) e o ano; este manual não os cita.]
+> **Os fatores são ilustrativos.** A Edição Ibérica não traz fatores de emissão: a avaliação ambiental não é calculada até introduzir os do local do projeto (apêndice {{n:C}}). O tutorial usa dois números redondos, **0,40 kg CO₂e por quilowatt-hora** de eletricidade da rede e **0,50 kg CO₂e por metro cúbico** de água da rede evitada. São ilustrativos, não são dados de nenhum país, escolhidos para se poder seguir o método; a lição está na forma do resultado, não nos dígitos. Este manual não cita fatores portugueses: quem os introduzir deve indicar a fonte oficial aberta e o ano do fator de emissão da eletricidade da rede e da intensidade carbónica do abastecimento de água.
 
 Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o reservatório superior de 1 000 L:
 
@@ -90,7 +90,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 A tabela não condena o betão. Diz que precisa de justificação.
 
-- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. [A COMPLETAR: se se quiser fundamentar a vida útil por norma, indicar a fonte portuguesa ou europeia aberta; este manual não cita nenhuma.]
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
 - **Volumes grandes.** Para volumes muito grandes, os reservatórios de polietileno de fábrica deixam de ser práticos e o betão moldado no local pode ser a única opção viável.
 - **Restrição de espaço.** Uma cisterna enterrada de betão adapta-se ao terreno; a de polietileno vem em formatos fixos.
 - **Estrutura já existente.** Um reservatório de betão reaproveitado de outra finalidade tem carbono incorporado **zero** para efeito deste projeto.

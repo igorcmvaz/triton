@@ -121,9 +121,9 @@ The manual comes with ready-made projects that reproduce the results printed her
 <!-- tabela: Example files distributed with the program -->
 | File | What it is for |
 | :--- | :--- |
-| `casos_tutorial_new_york.triton` | the project that chapter {{c:2}} builds, ready |
-| `casos_ten_days.triton` | the ten-day teaching case of section {{n:23}} |
-| `casos_london.triton` and `casos_cape_town.triton` | the same building in other cities |
+| `manual\casos\01_tutorial_new_york.triton` | the project that chapter {{c:2}} builds, ready |
+| `manual\casos\05_ten_days.triton` | the ten-day teaching case of section {{n:23}} |
+| `manual\casos\02_london.triton` and `manual\casos\03_cape_town.triton` | the same building in other cities |
 | `examples\*.triton` | three complete studies: New York, London and Cape Town |
 
 They are in the program folder. Appendix {{n:J}} lists the ten cases of the manual,

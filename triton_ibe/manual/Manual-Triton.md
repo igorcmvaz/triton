@@ -27,10 +27,10 @@ Versão 0.1.0 · revisão de 24/10/2026
 
 ### Como citar
 
-**ABNT NBR 6023:2018**
+**Referência completa**
 
-> VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Versão 0.1.0. [s.l.]: Universidade Federal de Santa Catarina, 2026.
+> Vaz, Igor Catão Martins; Ghisi, Enedir. *Triton: manual do utilizador*.
+> Versão 0.1.0. Universidade Federal de Santa Catarina, 2026.
 
 **Estilo autor-data**
 
@@ -1027,9 +1027,9 @@ Quem começa agora deve percorrer o capítulo 4 inteiro, pela ordem em que está
 
 ### 1.1.6. Normas e entidades de referência
 
-A norma europeia de referência para estes sistemas é a EN 16941-1, sobre sistemas de água não potável no local (sistemas de aproveitamento de água da chuva). Cobre o projeto, o dimensionamento, a instalação, a identificação, a colocação em serviço e a manutenção, com exclusão da água para beber e para a preparação de alimentos. A edição de 2018 foi retirada em 22 de março de 2024 (BSI, https://knowledge.bsigroup.com/products/on-site-non-potable-water-systems-systems-for-the-use-of-rainwater, consultado em 16/10/2026). [A COMPLETAR: confirmar o ano da edição em vigor da EN 16941-1 e a transposição para a norma portuguesa NP EN 16941-1, no catálogo do IPQ.]
+A norma europeia de referência para estes sistemas é a EN 16941-1, sobre sistemas de água não potável no local (sistemas de aproveitamento de água da chuva). Cobre o projeto, o dimensionamento, a instalação, a identificação, a colocação em serviço e a manutenção, com exclusão da água para beber e para a preparação de alimentos. A edição de 2018 foi retirada em 22 de março de 2024 (BSI, https://knowledge.bsigroup.com/products/on-site-non-potable-water-systems-systems-for-the-use-of-rainwater, consultado em 16/10/2026). Não verificado nesta versão: o ano da edição em vigor da EN 16941-1 e a transposição para a norma portuguesa NP EN 16941-1 (catálogo do IPQ).
 
-Em Portugal, a especificação técnica ETA 0701 da ANQIP (Associação Nacional para a Qualidade nas Instalações Prediais) estabelece critérios para estes sistemas em edifícios, para fins que não o consumo humano. Recomenda o desvio de um volume correspondente a 2 mm de precipitação, e remete o projeto de redes prediais para o Regulamento Geral dos Sistemas Públicos e Prediais de Distribuição de Água e de Drenagem de Águas Residuais (Decreto Regulamentar n.º 23/95, de 23 de agosto). A versão consultada é a 7, com validade indicada de 23/01/2009 a 23/01/2014 (cópia no repositório do IPL, https://repositorio.ipl.pt/bitstreams/27266c84-d607-4ad7-9c68-9b51a215314f/download). [A COMPLETAR: confirmar no sítio da ANQIP a revisão em vigor da ETA 0701, e se o Decreto Regulamentar n.º 23/95 continua em vigor sem alterações relevantes para este uso.]
+Em Portugal, a especificação técnica ETA 0701 da ANQIP (Associação Nacional para a Qualidade nas Instalações Prediais) estabelece critérios para estes sistemas em edifícios, para fins que não o consumo humano. Recomenda o desvio de um volume correspondente a 2 mm de precipitação, e remete o projeto de redes prediais para o Regulamento Geral dos Sistemas Públicos e Prediais de Distribuição de Água e de Drenagem de Águas Residuais (Decreto Regulamentar n.º 23/95, de 23 de agosto). A versão consultada é a 7, com validade indicada de 23/01/2009 a 23/01/2014 (cópia no repositório do IPL, https://repositorio.ipl.pt/bitstreams/27266c84-d607-4ad7-9c68-9b51a215314f/download). Não verificado nesta versão: a revisão em vigor da ETA 0701 no sítio da ANQIP e se o Decreto Regulamentar n.º 23/95 mantém a redação aplicável a este uso.
 
 ---
 
@@ -1215,7 +1215,7 @@ A resposta define a **fração atendível**, e a fração atendível é o teto d
 
 *Figura 7 — Que parte do consumo total a água da chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa esta fração.*
 
-Os casos residenciais tratam-se na secção 4.2 e o caso comercial na secção 3.5. A linha a tracejado marca os 28% do tutorial, que ficam nos usos não potáveis que a orientação sobre águas pluviais em geral admite: autoclismos, lavagens e rega. [A COMPLETAR: citar, com a fonte aberta, o artigo da ETA 0701 da ANQIP (ou da norma portuguesa em vigor) que lista os usos admitidos.]
+Os casos residenciais tratam-se na secção 4.2 e o caso comercial na secção 3.5. A linha a tracejado marca os 28% do tutorial, que ficam nos usos não potáveis que a orientação sobre águas pluviais em geral admite: autoclismos, lavagens e rega. Não verificado nesta versão: o artigo da ETA 0701 (ou da norma portuguesa em vigor) que lista os usos admitidos; confirme-o no texto vigente.
 
 
 #### 1.3.2.2. Vai comparar volumes ou avaliar um só?
@@ -2056,9 +2056,7 @@ o que se compra.
 
 O programa devolve o veredicto para o seu projeto, com a sua cobertura, a sua procura e a sua
 fração suprível. Execute-o para cada cidade de uma comparação: as três cidades de exemplo, com
-trinta anos de dados diários cada uma, são um bom teste. [A COMPLETAR: o comprimento de série
-representativo para Lisboa, Porto e Funchal ainda não foi calculado para esta edição; correr a
-análise nos três projetos de exemplo e tabelar aqui.]
+trinta anos de dados diários cada uma, são um bom teste. Não calculado nesta versão: o comprimento de série representativo para Lisboa, Porto e Funchal; corra a análise nos três projetos de exemplo para o obter.
 
 > **Atenção: uma série curta não se torna longa por tirar médias.** Se a análise disser que o
 > projeto precisa de mais anos do que a série tem, o volume ideal calculado é provisório, e é isso
@@ -3531,9 +3529,7 @@ retém o acréscimo de escoamento em relação à cobertura natural do terreno. 
 este crédito, porque depende do escoamento de todo o terreno, e não só da cobertura; a matriz de
 critérios regista-o como não avaliado.
 
-[A COMPLETAR: confirmar, no texto vigente do *LEED v4.1 BD+C* e do *LEED v5 BD+C Rating System*, os
-limiares e as pontuações dos créditos WEc1, WEc2 (v4) e WEc2 (v5), e o crédito SSc3. A página
-<https://www.usgbc.org/leed> confirma o sistema, as versões e os níveis, mas não os créditos.]
+Não verificado nesta versão: os limiares e as pontuações dos créditos WEc1, WEc2 (v4) e WEc2 (v5) e do crédito SSc3 no texto vigente do *LEED v4.1 BD+C* e do *LEED v5 BD+C Rating System*. A página <https://www.usgbc.org/leed> confirma o sistema, as versões e os níveis, mas não os créditos.
 
 ---
 
@@ -3568,8 +3564,7 @@ quadrados.
 > que declara essa limitação no relatório. Afirmar que um projeto é EDGE Certified dispondo de um
 > terço da evidência necessária seria irresponsável.
 
-[A COMPLETAR: confirmar com o guia da medida WEM14 da aplicação EDGE a definição da medida e o
-dado de entrada; a página de certificação não a descreve.]
+Não verificado nesta versão: a definição da medida WEM14 e o seu dado de entrada no guia da aplicação EDGE; a página de certificação não a descreve.
 
 ---
 
@@ -3583,8 +3578,7 @@ resultados do programa: o GRI 303-3, que reporta a captação evitada em metros 
 acumulada ao longo do período, e o GRI 303-5, que exprime a taxa de circularidade hídrica do
 empreendimento.
 
-[A COMPLETAR: confirmar, no texto do GRI 303:2018, a redação exata das divulgações 303-3 e 303-5; a
-página consultada apresenta o projeto da norma, não as divulgações.]
+Não verificado nesta versão: a redação exata das divulgações 303-3 e 303-5 no texto do GRI 303:2018; a página consultada apresenta o projeto da norma, não as divulgações.
 
 ---
 
@@ -3602,22 +3596,18 @@ de A+ a D nos chuveiros. A especificação técnica ANQIP ETA 0701, de sistemas 
 águas pluviais em edifícios (SAAP), é a referência portuguesa de projeto para usos não potáveis; a
 certificação da instalação rege-se por uma especificação própria, a ETA 0702.
 
-[A COMPLETAR: as indicações sobre a ETA 0701 e a ETA 0702 vêm de documentos de versões antigas
-(validade 2009 a 2014) obtidos por pesquisa; confirmar na ANQIP a versão vigente de ambas, o
-âmbito da certificação do SAAP e as classes em vigor da etiqueta de eficiência hídrica.]
+Não verificado nesta versão: a versão vigente da ETA 0701 e da ETA 0702, o âmbito da certificação do SAAP e as classes em vigor da etiqueta de eficiência hídrica; as indicações acima vêm de documentos de versões antigas (validade 2009 a 2014).
 
 **LiderA.** Sistema voluntário que orienta e certifica ambientes construídos sustentáveis, com
 vinte áreas e uma escala de classes de A++ a E (<https://lidera.info>, consultado a 16 de outubro de
 2026).
 
-[A COMPLETAR: critérios e indicadores de água do LiderA (a página inicial não os lista; ver as
-especificações da versão 4 no mesmo sítio).]
+Não verificado nesta versão: os critérios e indicadores de água do LiderA (a página inicial não os lista).
 
 **BREEAM.** Método de avaliação da sustentabilidade do ambiente construído, associado ao grupo BRE
 (<https://breeam.com>, consultado a 16 de outubro de 2026).
 
-[A COMPLETAR: critérios de água do BREEAM aplicáveis ao aproveitamento pluvial, níveis de
-classificação e versão aplicável em Portugal; a página consultada não os apresenta.]
+Não verificado nesta versão: os critérios de água do BREEAM aplicáveis ao aproveitamento pluvial, os níveis de classificação e a versão aplicável em Portugal; a página consultada não os apresenta.
 
 **Level(s).** Quadro europeu voluntário de indicadores de sustentabilidade de edifícios de
 escritórios e residenciais, do Centro Comum de Investigação da Comissão Europeia. O indicador 3.1,
@@ -3626,7 +3616,7 @@ de projeto que inclui o aproveitamento de águas pluviais e a reutilização de 
 (manual do utilizador, versão 1.1, janeiro de 2021:
 <https://susproc.jrc.ec.europa.eu/product-bureau/sites/default/files/2021-01/UM3_Indicator_3.1_v1.1_31pp.pdf>).
 
-[A COMPLETAR: confirmar se existe versão mais recente do manual do indicador 3.1.]
+Não verificado nesta versão: se existe versão mais recente do manual do indicador 3.1.
 
 > **Declare-o no estudo.** O enquadramento só é defensável com a versão vigente do referencial à
 > mão, e o programa não substitui essa verificação.
@@ -3985,7 +3975,7 @@ Dito de outro modo: no Funchal acerta-se quase o mesmo volume que no Porto e col
 
 > **Pergunta a que este guia responde:** o sistema que dimensiono hoje ainda serve em 2060?
 
-> **As suas projeções.** A Edição Ibérica não traz base de projeções climáticas. A base E-OBS que acompanha o programa é observada (1950 a 2025) e não contém futuro. O método deste guia aplica-se tal como está a séries projetadas que carregue como ficheiros de chuva: por exemplo, séries diárias com correção de viés de um serviço climático nacional ou de um estudo de regionalização. O guia diz o que pedir a essas séries e como compará-las. O sítio do Instituto Português do Mar e da Atmosfera (IPMA, https://www.ipma.pt, consultado em 16/10/2026) tem uma ligação para o «Portal do Clima». [A COMPLETAR: abrir o Portal do Clima e confirmar se disponibiliza séries diárias de precipitação projetada para Portugal, com que modelos, cenários e resolução, e em que condições de utilização; este manual não afirma nada sobre o seu conteúdo.]
+> **As suas projeções.** A Edição Ibérica não traz base de projeções climáticas. A base E-OBS que acompanha o programa é observada (1950 a 2025) e não contém futuro. O método deste guia aplica-se tal como está a séries projetadas que carregue como ficheiros de chuva: por exemplo, séries diárias com correção de viés de um serviço climático nacional ou de um estudo de regionalização. O guia diz o que pedir a essas séries e como compará-las. O sítio do Instituto Português do Mar e da Atmosfera (IPMA, https://www.ipma.pt, consultado em 16/10/2026) tem uma ligação para o «Portal do Clima». Não verificado nesta versão: o conteúdo do Portal do Clima (séries diárias de precipitação projetada, modelos, cenários, resolução e condições de utilização); este manual não afirma nada sobre ele.
 
 Um reservatório de água da chuva dura trinta anos ou mais, e a chuva que cairá sobre o edifício durante esse período não será a mesma que caiu no passado recente. Dimensionar um sistema de vida longa só sobre a série histórica supõe, implicitamente, um clima estacionário — uma suposição que as projeções disponíveis não sustentam. O Triton não pode fornecer as projeções para o seu local, mas corre o mesmo projeto sobre qualquer série que lhe dê, para que o dimensionamento possa incorporar esta questão de forma explícita.
 
@@ -4052,7 +4042,7 @@ Três condutas são defensáveis perante esta dispersão, apresentadas aqui por 
 
 ### 3.2.5. O que as três cidades sugerem sobre um clima futuro
 
-Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas tendem a concordar num ponto: a mudança no total anual de chuva importa menos do que a mudança na sua **distribuição**. A secção 3.1 mostra o mesmo no espaço: Lisboa tem 60% da chuva do Porto e uma razão de 47,3 entre o mês mais e o menos chuvoso, contra 9,8 no Porto, e o seu potencial é de 17,49% contra 22,04% com o mesmo reservatório de 5 000 L. Um clima futuro com estiagens mais longas comporta-se, para o reservatório, como uma mudança de cidade, e um reservatório adequado hoje pode precisar de ser maior para dar a mesma fiabilidade. [A COMPLETAR: se se quiser apoiar esta afirmação em literatura, indicar estudos sobre aproveitamento pluvial sob projeções climáticas com fonte aberta (DOI); este manual não os cita.]
+Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas tendem a concordar num ponto: a mudança no total anual de chuva importa menos do que a mudança na sua **distribuição**. A secção 3.1 mostra o mesmo no espaço: Lisboa tem 60% da chuva do Porto e uma razão de 47,3 entre o mês mais e o menos chuvoso, contra 9,8 no Porto, e o seu potencial é de 17,49% contra 22,04% com o mesmo reservatório de 5 000 L. Um clima futuro com estiagens mais longas comporta-se, para o reservatório, como uma mudança de cidade, e um reservatório adequado hoje pode precisar de ser maior para dar a mesma fiabilidade. Este manual não cita estudos específicos; quem queira apoiar esta afirmação em literatura deve indicar estudos com fonte aberta (DOI).
 
 ---
 
@@ -5313,9 +5303,7 @@ requisitos habituais, a verificar nesses documentos e na regulamentação em vig
 - bombagem de acordo com as regras de abastecimento de água a edifícios, que em regra pedem uma
   bomba de reserva.
 
-[A COMPLETAR: cores, inscrições, distâncias de separação e requisitos de bombagem exatos da ETA
-0701 (versão 12) e da EN 16941-1, e do regulamento nacional de distribuição predial de água; não
-foram lidos nesta revisão. Ver `auditoria/pendencias_manual_prt_cap16-30.md`.]
+Não verificado nesta versão: as cores, inscrições, distâncias de separação e requisitos de bombagem exatos da ETA 0701 (versão 12), da EN 16941-1 e do regulamento nacional de distribuição predial de água, que não foram lidos.
 
 O que o programa **não** dimensiona:
 
@@ -5520,7 +5508,7 @@ O projeto do tutorial adota 150 m² de área de captação, e este é o primeiro
 
 A área de captação é a **projeção horizontal** da cobertura, não a área inclinada do telhado. Um telhado com 30% de inclinação sobre uma planta de 150 m² tem cerca de 157 m² de superfície de telha e capta, ainda assim, os mesmos 150 m² de chuva: a precipitação cai na vertical, e o que encontra é a sombra da cobertura projetada no chão. A ETA 0701 da ANQIP define-a assim: a projeção em planta do local onde é recolhida a água da chuva. É esta área `A` que entra na equação da disponibilidade.
 
-> **Área de captação não é área de contribuição.** O dimensionamento de caleiras e tubos de queda usa outra área, para outro fim. Para dimensionar a drenagem pelo caudal de ponta de uma chuvada curta e intensa, acrescentam-se à projeção os acréscimos devidos à inclinação da cobertura e às paredes que intercetam a chuva empurrada pelo vento. Essa área sobrestima o volume que a cobertura capta ao longo do ano. No Triton, indique a projeção horizontal; a área de contribuição fica para o projeto das caleiras, que o programa não faz. A ETA 0701 remete as caleiras e os tubos de queda para o Regulamento Geral português ou para a norma europeia EN 12056-3. [A COMPLETAR: confirmar no texto do Decreto Regulamentar n.º 23/95 (Diário da República) os artigos aplicáveis ao cálculo de caudais pluviais antes de os citar por número.]
+> **Área de captação não é área de contribuição.** O dimensionamento de caleiras e tubos de queda usa outra área, para outro fim. Para dimensionar a drenagem pelo caudal de ponta de uma chuvada curta e intensa, acrescentam-se à projeção os acréscimos devidos à inclinação da cobertura e às paredes que intercetam a chuva empurrada pelo vento. Essa área sobrestima o volume que a cobertura capta ao longo do ano. No Triton, indique a projeção horizontal; a área de contribuição fica para o projeto das caleiras, que o programa não faz. A ETA 0701 remete as caleiras e os tubos de queda para o Regulamento Geral português ou para a norma europeia EN 12056-3. Não verificado nesta versão: os artigos do Decreto Regulamentar n.º 23/95 aplicáveis ao cálculo de caudais pluviais, que por isso não se citam por número.
 
 > **Atenção.** Usar a área inclinada sobrestima a captação na razão `1/cos(inclinação)`. Num telhado de 30% dá 4,4% a mais de água que não existe. Em telhados mais inclinados, o erro cresce depressa.
 
@@ -5539,7 +5527,7 @@ O tutorial escreve 0,85 no campo do coeficiente. O programa, por seu lado, abre 
 
 A origem do 0,85 merece rigor, porque é citado com frequência como coeficiente de escoamento e não o é. Em Portugal, a ETA 0701 da ANQIP escreve o volume anual aproveitável como o produto da precipitação média anual, da área de captação, de um coeficiente de escoamento inicial da cobertura `C` e da eficiência hidráulica da filtragem `ηf`. Recomenda `C` = 0,8 para coberturas impermeáveis (telha, betão, etc.), 0,6 para coberturas planas com gravilha, 0,3 para coberturas verdes extensivas e 0,5 para as intensivas, e admite `ηf` = 0,9 em filtros com manutenção e limpeza regulares (itens 4.3.1 a 4.3.3 da versão 7). O 0,85 do tutorial é, assim, um valor redondo entre estes, e não um valor de norma. O Triton tem um só campo para a fração da chuva que chega à cisterna e modela o descarte à parte, em milímetros. Escrever aí um valor que já inclua a perda do escoamento inicial e aplicar também o descarte de 2 mm conta essa perda duas vezes. Num estudo, declare o valor adotado no campo, a sua origem e o descarte, e não atribua a uma norma um coeficiente que ela não fixa.
 
-> **A norma europeia.** A EN 16941-1 também escreve o rendimento da captação como produto de um coeficiente da superfície da cobertura e de uma eficiência do filtro. [A COMPLETAR: confirmar, na edição em vigor da EN 16941-1 (catálogo do IPQ ou do CEN), os valores tabelados antes de os citar; o manual não os reproduz.] O Triton mantém a sua lista de coeficientes e o descarte inicial; para se aproximar de uma norma, escreva o produto como valor personalizado e ajuste a lâmina de descarte.
+> **A norma europeia.** A EN 16941-1 também escreve o rendimento da captação como produto de um coeficiente da superfície da cobertura e de uma eficiência do filtro. Não verificado nesta versão: os valores tabelados da edição em vigor da EN 16941-1, que o manual não reproduz. O Triton mantém a sua lista de coeficientes e o descarte inicial; para se aproximar de uma norma, escreva o produto como valor personalizado e ajuste a lâmina de descarte.
 
 O coeficiente de escoamento representa a fração da chuva incidente que chega, de facto, à cisterna, e a diferença até à unidade é o que se perde no caminho. As perdas têm quatro origens: a absorção pelo material da cobertura, a evaporação na superfície aquecida, o salpico para fora da caleira e a molhagem inicial da telha em cada nova chuvada. A Figura 46 mostra o coeficiente que o programa atribui a cada material de cobertura.
 
@@ -5634,7 +5622,7 @@ A repartição adotada no tutorial está representada na Figura 48, com os usos 
 
 Somando os dois usos que a chuva atende, chega-se aos 28% do tutorial. É um valor conservador para uma moradia sem jardim grande, e é conservador de propósito: limita-se aos usos que a orientação sobre águas pluviais admite com mais facilidade.
 
-> **A máquina de lavar roupa é uma escolha que o tutorial não faz.** A ETA 0701 da ANQIP (versão 12) inclui a lavagem em máquinas de lavar roupa entre os usos possíveis da água da chuva, ao lado das descargas de autoclismo, da lavagem de pavimentos e automóveis, da rega de zonas verdes e de outros usos (torres de arrefecimento, redes de incêndio, AVAC). Para a máquina de lavar sem tratamento específico, o item 4.6.6 só a admite quando a água de lavagem atinge pelo menos 55 °C, e pede um microfiltro de malha mínima de 100 µm. O uso na máquina é comum na literatura e na prática, e por isso muitos estudos trabalham com frações atendíveis maiores do que a deste tutorial. O tutorial **não** o adota: a máquina fica com a água potável, e a fração atendível fica nos 28% do autoclismo e dos usos exteriores. Um projeto que inclua a lavagem de roupa tem de declarar essa escolha e o critério de qualidade adotado, e confrontá-la com a norma em vigor no local do edifício. [A COMPLETAR: confirmar a revisão em vigor da ETA 0701 e o que a EN 16941-1 diz sobre a lavagem de roupa.]
+> **A máquina de lavar roupa é uma escolha que o tutorial não faz.** A ETA 0701 da ANQIP (versão 12) inclui a lavagem em máquinas de lavar roupa entre os usos possíveis da água da chuva, ao lado das descargas de autoclismo, da lavagem de pavimentos e automóveis, da rega de zonas verdes e de outros usos (torres de arrefecimento, redes de incêndio, AVAC). Para a máquina de lavar sem tratamento específico, o item 4.6.6 só a admite quando a água de lavagem atinge pelo menos 55 °C, e pede um microfiltro de malha mínima de 100 µm. O uso na máquina é comum na literatura e na prática, e por isso muitos estudos trabalham com frações atendíveis maiores do que a deste tutorial. O tutorial **não** o adota: a máquina fica com a água potável, e a fração atendível fica nos 28% do autoclismo e dos usos exteriores. Um projeto que inclua a lavagem de roupa tem de declarar essa escolha e o critério de qualidade adotado, e confrontá-la com a norma em vigor no local do edifício. Não verificado nesta versão: a revisão em vigor da ETA 0701 e o que a EN 16941-1 diz sobre a lavagem de roupa.
 
 ![A repartição do consumo numa moradia, e a parte que a chuva pode atender](../figuras/fig00c_fracao.png)
 
@@ -6038,7 +6026,7 @@ Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: a **grav
 | pressurização direta | todo o volume pluvial consumido, pela pressão de trabalho | só as eletrobombas |
 | gravidade | nenhuma | nenhuma |
 
-Na pressurização direta, a etapa 4 pede o modelo do sobrepressor, escolhido num catálogo de seis modelos genéricos de referência, de A a F, cada um com uma curva caudal × pressão ilustrativa (nenhum é um produto real), a pressão de trabalho e o caudal do ponto de uso. O sobrepressor liga a cada descarga, 5,05 por pessoa e por dia segundo o levantamento de usos finais de Mayer et al. (1999), e fica ligado enquanto o autoclismo acoplado enche, ao ritmo da torneira de bóia. A energia é esse tempo vezes a potência elétrica. No tutorial, a uma pressão de 18 m, o menor modelo gastaria 26,1 kWh por ano, cerca de cinco vezes os 5,1 kWh da elevação; a secção 2.6 explica porquê e mostra que o modelo escolhido pesa mais do que a pressão. [A COMPLETAR: confirmar a referência de Mayer et al. (1999) e o valor de 5,05 descargas por pessoa e por dia numa fonte aberta.]
+Na pressurização direta, a etapa 4 pede o modelo do sobrepressor, escolhido num catálogo de seis modelos genéricos de referência, de A a F, cada um com uma curva caudal × pressão ilustrativa (nenhum é um produto real), a pressão de trabalho e o caudal do ponto de uso. O sobrepressor liga a cada descarga, 5,05 por pessoa e por dia segundo o levantamento de usos finais de Mayer et al. (1999), e fica ligado enquanto o autoclismo acoplado enche, ao ritmo da torneira de bóia. A energia é esse tempo vezes a potência elétrica. No tutorial, a uma pressão de 18 m, o menor modelo gastaria 26,1 kWh por ano, cerca de cinco vezes os 5,1 kWh da elevação; a secção 2.6 explica porquê e mostra que o modelo escolhido pesa mais do que a pressão. Não verificado nesta versão: o valor de 5,05 descargas por pessoa e por dia e a referência de Mayer et al. (1999) numa fonte aberta; uma consulta de 24/10/2026 não o confirmou.
 
 A elevação para um reservatório elevado tem três vantagens práticas reais. A eletrobomba liga poucas vezes por dia, em vez de dezenas, o que prolonga a vida do equipamento; a pressão nos pontos de consumo é constante, porque decorre da altura da coluna de água e não do funcionamento da bomba; e há reserva disponível durante uma falha de energia. ==Nenhuma destas três vantagens é poupança de água==, e é justamente essa a confusão que a secção desfaz.
 
@@ -6134,9 +6122,9 @@ Até aqui, o tutorial tratou a água da chuva apenas como volume: quanto se capt
 
 ### 4.6.1. O que a norma diz, e o que não diz
 
-Em Portugal, a ETA 0701 da ANQIP (versão 7; ver a secção 1.1) trata a qualidade em função do uso. Para a rega de zonas verdes e a lavagem de pavimentos, admite que a água da chuva, cumpridas as prescrições de instalação, pode dispensar qualquer tratamento complementar físico-químico ou bacteriológico (item 4.6.3). Para o autoclismo, só admite a água sem tratamento quando respeita, no mínimo, as normas de qualidade das águas balneares (item 4.6.4); se os valores máximos dos parâmetros microbiológicos não forem cumpridos, prevê a desinfeção por ultravioletas, cloro ou outro processo adequado, e recomenda, no caso do cloro, um residual livre entre 0,2 e 0,6 mg/L (item 4.6.5). Os tratamentos básicos que admite são a filtragem, no filtro de montante, e a sedimentação, na cisterna (item 4.6.2). [A COMPLETAR: a versão 7 da ETA 0701 cita o Decreto-Lei n.º 236/98 e a Diretiva 76/160/CEE para as águas balneares; confirmar a legislação hoje em vigor sobre a qualidade das águas balneares e os valores-limite aplicáveis antes de os usar como critério, e confirmar a revisão em vigor da ETA 0701.]
+Em Portugal, a ETA 0701 da ANQIP (versão 7; ver a secção 1.1) trata a qualidade em função do uso. Para a rega de zonas verdes e a lavagem de pavimentos, admite que a água da chuva, cumpridas as prescrições de instalação, pode dispensar qualquer tratamento complementar físico-químico ou bacteriológico (item 4.6.3). Para o autoclismo, só admite a água sem tratamento quando respeita, no mínimo, as normas de qualidade das águas balneares (item 4.6.4); se os valores máximos dos parâmetros microbiológicos não forem cumpridos, prevê a desinfeção por ultravioletas, cloro ou outro processo adequado, e recomenda, no caso do cloro, um residual livre entre 0,2 e 0,6 mg/L (item 4.6.5). Os tratamentos básicos que admite são a filtragem, no filtro de montante, e a sedimentação, na cisterna (item 4.6.2). Não verificado nesta versão: a legislação hoje em vigor sobre a qualidade das águas balneares (a versão 7 da ETA 0701 cita o Decreto-Lei n.º 236/98 e a Diretiva 76/160/CEE), os valores-limite aplicáveis e a revisão em vigor da ETA 0701; confirme-os antes de os usar como critério.
 
-A norma europeia EN 16941-1 também trata do tema, sem dispensar o cumprimento da regulamentação nacional ou local. [A COMPLETAR: ler a edição em vigor da EN 16941-1 (catálogo do IPQ ou do CEN) e indicar o que fixa para a qualidade da água e a desinfeção, com o número do capítulo.]
+A norma europeia EN 16941-1 também trata do tema, sem dispensar o cumprimento da regulamentação nacional ou local. Não verificado nesta versão: o que a edição em vigor da EN 16941-1 fixa para a qualidade da água e a desinfeção.
 
 Em geral, uma norma para uso não potável fixa uma lista curta de parâmetros mínimos: um indicador microbiológico como a *E. coli*, a turvação e o pH, e, se houver cloro, um intervalo para o residual livre. A desinfeção fica muitas vezes a critério do projetista, e a monitorização pede-se com uma periodicidade indicada. Verifique a norma aplicável ao local do projeto e introduza os seus limites como critério.
 
@@ -6281,7 +6269,7 @@ O resultado merece atenção. O sistema poupa 3,27 m³ por mês e a fatura baixa
 
 A fatura de Lisboa soma três tarifários. A água é da EPAL, com IVA a 6% e o adicional da Câmara Municipal de Lisboa. O saneamento e os resíduos urbanos são tarifários da Câmara. Os três estão transcritos em `triton/data/portugal_tarifarios.json` a partir dos documentos de 2026: EPAL, *Preços de venda de água* (https://www.epal.pt/EPAL/docs/default-source/clientes/pre%c3%a7os-2026.pdf?sfvrsn=0), e Câmara Municipal de Lisboa, tarifários do saneamento e dos resíduos urbanos (https://www.lisboa.pt/fileadmin/portal/municipio/organizacao/financas/taxas/tarifario_saneamento_2026.pdf e https://www.lisboa.pt/fileadmin/portal/municipio/organizacao/financas/taxas/tarifario_residuos_urbanos_2026.pdf; recolhidos em 07/10/2026). Com 10 m³ por mês, a fatura completa é de 25,87 €.
 
-Há dúvidas por resolver no tratamento do IVA do saneamento e dos resíduos, e o adicional da Câmara vem impresso na tabela da EPAL sem indicar se leva IVA (ver `examples/LEIA.md`). O programa trata-os sem IVA. [A COMPLETAR: confirmar com a EPAL e com a Câmara Municipal de Lisboa o tratamento do IVA nestas parcelas.]
+Há dúvidas por resolver no tratamento do IVA do saneamento e dos resíduos, e o adicional da Câmara vem impresso na tabela da EPAL sem indicar se leva IVA (ver `examples/LEIA.md`). O programa trata-os sem IVA. Não verificado nesta versão: o tratamento do IVA nestas parcelas junto da EPAL e da Câmara Municipal de Lisboa.
 
 Nem todas as entidades gestoras adotam a mesma estrutura, e a diferença decide a viabilidade de projetos inteiros. O programa distingue seis regimes.
 
@@ -6422,7 +6410,7 @@ O que o programa calcula sozinho são as quantidades: a energia anual da eletrob
 | custo anual do resumo: energia, cloro e tratamento | 1,75 € | 1,75 € |
 | valor atual líquido | −5 828,77 € | −4 418,13 € |
 
-**Energia.** Hoje a tarifa de eletricidade é um campo vazio. O exemplo do Funchal traz 0,1673 €/kWh, a Tarifa Base da Empresa de Eletricidade da Madeira, sem IVA, recolhida num comparador de preços e por isso de fonte secundária; Lisboa e Porto ficam a zero. Para um estudo, use a sua fatura.
+**Energia.** Hoje a tarifa de eletricidade é um campo vazio. O exemplo do Funchal traz 0,1673 €/kWh, a Tarifa Base da Empresa de Eletricidade da Madeira, sem IVA, recolhida num comparador de preços (atualizado em 20/02/2025) e por isso de **fonte secundária, a amarelo**: não foi confirmada na EEM nem na ERSE; Lisboa e Porto ficam a zero. Para um estudo, use a sua fatura.
 
 Recolheram-se séries públicas que servirão de ponto de partida, mas **ainda não estão ligadas ao programa**: nenhum valor da tabela seguinte é inserido sozinho. O preço do Eurostat é a média de um domicílio inteiro, na banda de 2 500 a 4 999 kWh por ano, e não o preço marginal de uma eletrobomba; a fatura do utilizador prevalece sempre.
 
@@ -6493,7 +6481,7 @@ Um sistema de aproveitamento pluvial evita emissões porque cada metro cúbico q
 
 O saldo ambiental do sistema é a diferença entre o que evita e o que emite, e a pergunta que organiza esta secção é em quantos anos o crédito anual líquido amortiza a dívida contraída no fabrico. Esse prazo é o **retorno do carbono**, e desempenha na dimensão ambiental o papel que o período de recuperação desempenha na dimensão económica.
 
-> **Os fatores são ilustrativos.** A Edição Ibérica não traz fatores de emissão: a avaliação ambiental não é calculada até introduzir os do local do projeto (apêndice C). O tutorial usa dois números redondos, **0,40 kg CO₂e por quilowatt-hora** de eletricidade da rede e **0,50 kg CO₂e por metro cúbico** de água da rede evitada. São ilustrativos, não são dados de nenhum país, escolhidos para se poder seguir o método; a lição está na forma do resultado, não nos dígitos. [A COMPLETAR: se se quiser fatores portugueses, indicar a fonte oficial aberta (fator de emissão da eletricidade da rede e intensidade carbónica do abastecimento de água em Portugal) e o ano; este manual não os cita.]
+> **Os fatores são ilustrativos.** A Edição Ibérica não traz fatores de emissão: a avaliação ambiental não é calculada até introduzir os do local do projeto (apêndice C). O tutorial usa dois números redondos, **0,40 kg CO₂e por quilowatt-hora** de eletricidade da rede e **0,50 kg CO₂e por metro cúbico** de água da rede evitada. São ilustrativos, não são dados de nenhum país, escolhidos para se poder seguir o método; a lição está na forma do resultado, não nos dígitos. Este manual não cita fatores portugueses: quem os introduzir deve indicar a fonte oficial aberta e o ano do fator de emissão da eletricidade da rede e da intensidade carbónica do abastecimento de água.
 
 Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o reservatório superior de 1 000 L:
 
@@ -6587,7 +6575,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 A tabela não condena o betão. Diz que precisa de justificação.
 
-- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. [A COMPLETAR: se se quiser fundamentar a vida útil por norma, indicar a fonte portuguesa ou europeia aberta; este manual não cita nenhuma.]
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
 - **Volumes grandes.** Para volumes muito grandes, os reservatórios de polietileno de fábrica deixam de ser práticos e o betão moldado no local pode ser a única opção viável.
 - **Restrição de espaço.** Uma cisterna enterrada de betão adapta-se ao terreno; a de polietileno vem em formatos fixos.
 - **Estrutura já existente.** Um reservatório de betão reaproveitado de outra finalidade tem carbono incorporado **zero** para efeito deste projeto.
@@ -7809,21 +7797,19 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 140** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.1.0** | 15 de outubro de 2026 | Primeira versão beta do Triton, com nome, numeração e repositório próprios para cada edição. | 0 |
+| **0.1.0** | 24 de outubro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 24 de outubro de 2026
 
-> **Numa frase.** Primeira versão beta do Triton, com nome, numeração e repositório próprios para
-> cada edição.
+> **Numa frase.** Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração.
 
 #### 6.3.3.1. Novidades
 
 O Triton simula o aproveitamento de águas pluviais dia a dia e inclui o motor de simulação, a
 avaliação de ciclo de vida, a linha de tratamento, a decisão multicritério e a modulação
-probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem repositório, logótipo e
-numeração próprios, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
+probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
 e os valores em euros. A regra de operação de Fewkes (φ) está disponível como opção em todos os
 módulos.
 

@@ -34,7 +34,7 @@ A resposta define a **fração atendível**, e a fração atendível é o teto d
 
 *Figura 99 — Que parte do consumo total a água da chuva pode atender, conforme os usos que o projeto prevê. É o teto do potencial de economia: nenhum reservatório, por maior que seja, ultrapassa esta fração.*
 
-Os casos residenciais tratam-se na secção {{n:5}} e o caso comercial na secção {{n:18}}. A linha a tracejado marca os 28% do tutorial, que ficam nos usos não potáveis que a orientação sobre águas pluviais em geral admite: autoclismos, lavagens e rega. [A COMPLETAR: citar, com a fonte aberta, o artigo da ETA 0701 da ANQIP (ou da norma portuguesa em vigor) que lista os usos admitidos.]
+Os casos residenciais tratam-se na secção {{n:5}} e o caso comercial na secção {{n:18}}. A linha a tracejado marca os 28% do tutorial, que ficam nos usos não potáveis que a orientação sobre águas pluviais em geral admite: autoclismos, lavagens e rega. Não verificado nesta versão: o artigo da ETA 0701 (ou da norma portuguesa em vigor) que lista os usos admitidos; confirme-o no texto vigente.
 
 
 ### Vai comparar volumes ou avaliar um só?

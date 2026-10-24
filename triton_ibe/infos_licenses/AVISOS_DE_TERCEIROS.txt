@@ -7859,3 +7859,39 @@ fornecedores de dados do projeto ECA&D (https://www.ecad.eu). Cornes, R. C. et a
 ensemble version of the E-OBS temperature and precipitation data sets. Journal of Geophysical
 Research: Atmospheres 123, 9391–9409. doi:10.1029/2017JD028200.
 Concelhos: Carta Administrativa Oficial de Portugal (CAOP), Direção-Geral do Território.
+
+==============================================================================
+DADOS DE TERCEIROS DISTRIBUÍDOS COM ESTA EDIÇÃO
+==============================================================================
+
+Os dados de terceiros mantêm as suas licenças (cláusula 11 do LICENSE.md). A fonte, a licença e as restrições de
+cada conjunto estão em docs/DADOS.md.
+
+E-OBS (data/portugal_eobs.db): licença do produto E-OBS, https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products:
+uso estritamente não comercial, em investigação e educação; a licença não trata da redistribuição nem de
+produtos derivados (ver docs/DADOS.md, §8, e a decisão pendente da UFSC). Reconhecimento exigido: «We
+acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.eu) and the Copernicus Climate
+Change Service, and the data providers in the ECA&D project (https://www.ecad.eu)». Cornes, R. C. et al.
+(2018), doi:10.1029/2017JD028200.
+
+Iberia01 (referência de comparação do nível de qualidade A/B/C; a tabela `qualidade` do banco guarda diferenças
+percentuais derivadas dele): Herrera et al. (2019), doi:10.20350/digitalCSIC/8641, DIGITAL.CSIC 10261/183071.
+Licença declarada pelo mantenedor: Open Database License (ODbL), com direitos sobre os conteúdos individuais sob
+a Database Contents License; não foi possível confirmá-la em linha nesta versão. Se a ODbL se aplicar à tabela
+`qualidade`, exige atribuição e partilha nas mesmas condições; a decisão está pendente (docs/DADOS.md).
+
+CAOP 2025 (limites dos concelhos): Direção-Geral do Território, licença cc-by no registo oficial em dados.gov.pt.
+
+Série de exemplo do Funchal (data/rainfall/Funchal.csv): dados meteorológicos de Open-Meteo.com, em Creative
+Commons Attribution 4.0 International (CC BY 4.0), a partir da reanálise ERA5 do Copernicus Climate Change
+Service (C3S); o Open-Meteo pede que se dê o crédito adequado, se ligue à licença e se indique se houve
+alterações. Termos lidos em 24/10/2026: https://open-meteo.com/en/terms e https://open-meteo.com/en/licence.
+Hersbach, H. et al. (2020). The ERA5 global reanalysis. Q. J. R. Meteorol. Soc. 146, 1999-2049. O Open-Meteo
+limita a API gratuita ao uso não comercial.
+
+Tarifários e entidades gestoras: valores públicos regulados transcritos dos documentos oficiais de cada
+entidade, com URL e SHA-256 em tarifas_portugal/fontes/FONTES.tsv; os documentos não são redistribuídos. A
+tarifa de eletricidade do Funchal vem de um comparador (fonte secundária, ver docs/DADOS.md). Índice de
+entidades gestoras: ERSAR, www.ersar.pt, «© ERSAR 2026. Todos os direitos reservados» (aviso legal em
+https://www.ersar.pt/pt_avisos-legais.html: cópia ou distribuição com referência ao documento original; não é
+licença aberta).

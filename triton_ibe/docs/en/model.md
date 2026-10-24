@@ -3,7 +3,7 @@
 This document states what Triton computes, with the equations, the conventions and the
 boundary of each one. It is the English counterpart of
 [`../metodologia.md`](../metodologia.md), which carries the same model in full together
-with the Brazilian data sources.
+with the Portuguese data sources.
 
 Every statement of a limit here is deliberate. A model is only usable if what it does not
 represent is as legible as what it does.
@@ -40,7 +40,7 @@ fires:
 
 `d` is a **depth** in millimetres, not the hydraulic volume of the physical first-flush
 device, which is `A × d` litres and must be sized separately. When it is not declared, `d`
-defaults to **2.0 mm**, the reference standard value (e.g. ABNT NBR 15527 in Brazil or recommended practice).
+defaults to **2.0 mm**, the reference standard value (the value commonly recommended in practice; declare the depth measured on the actual roof whenever you have it).
 
 > **A deliberate difference from Netuno 4.** Netuno 4 treated `d` as an event threshold,
 > capturing `P_t` in full whenever `P_t ≥ d`. Triton subtracts the depth, which is

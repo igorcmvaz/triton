@@ -10,9 +10,8 @@ authors:
     given-names: Enedir
     affiliation: "Universidade Federal de Santa Catarina"
 version: "0.1.0"
-date-released: "2026-10-15"
-# O DOI do registro no Zenodo entra aqui quando existir (um só registro para os instaladores das três edições):
-# doi: 10.5281/zenodo.XXXXXXX
+date-released: "2026-10-24"
+# DOI será atribuído na publicação do release (um só registro para os instaladores das três edições).
 license-url: https://github.com/igorcmvaz/triton/blob/main/triton_brl/LICENSE.md
 url: "https://github.com/igorcmvaz/triton"
 repository-code: "https://github.com/igorcmvaz/triton"

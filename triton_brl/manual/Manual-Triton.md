@@ -9455,14 +9455,14 @@ mesmo registro.
 <!-- tabela: **Tabela 169** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.1.0** (beta) | 15 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois. | 0 |
+| **0.1.0** (beta) | 24 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 24 de outubro de 2026
 
 > **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
-> nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois.
+> nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois.
 
 #### 6.3.3.1. Novidades
 
@@ -9478,7 +9478,7 @@ operação de Fewkes (φ) como opção em todos os módulos.
 **O que a Edição Brasil traz nesta versão.**
 
 - **Chuva.** A base CLIMBra para 652 municípios, 19 modelos do CMIP6 e três simulações (histórica, SSP2-4.5 e SSP5-8.5): 37.164 séries diárias, em 19 bancos, um por modelo (785,1 MiB, cada um abaixo de 50 MiB), com o SHA-256 de cada parte em `data/climbra_partes.json`.
-- **Tarifas.** Água e esgoto de 652 municípios, por prestador, com 617 conferências de conta (241 corrigidas) e grau de confiança por município: 584 de grau A, 63 de B e 5 de C. Energia B1 da ANEEL por distribuidora. As conferências estão registradas em `tarifas/transcricoes/ALTERACOES.md`.
+- **Tarifas.** Água e esgoto de 652 municípios, por prestador, com 617 conferências de conta, das quais 241 corrigidas, e grau de confiança por município: 584 de grau A, 63 de B e 5 de C. Energia B1 da ANEEL por distribuidora. As conferências estão registradas em `tarifas/transcricoes/ALTERACOES.md`.
 - **Custos.** O CAPEX e o OPEX de um projeto novo são calculados automaticamente a partir do catálogo de referência, em reais (seção 4.7); o usuário pode digitar os seus valores.
 - **Normas.** A ABNT NBR 15527:2019 no que ela fixa (seção 4.6), e a comparação com a EN 16941-1:2024 em `docs/normas_nbr_x_en16941.md`.
 - **Documentação.** O manual completo em português do Brasil, o site de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
@@ -17540,11 +17540,25 @@ impactos ambientais de um produto ao longo de toda a sua existência, da extraç
 matérias-primas ao descarte. A do programa é de **triagem**, e não um inventário completo
 conforme a ISO 14040.
 
+**COSIP**. Contribuição para o Custeio do Serviço de Iluminação Pública, cobrada pelos municípios na fatura de energia elétrica. A tarifa B1 da base não a inclui.
+
+**GFDL-CM4**. Modelo climático do Geophysical Fluid Dynamics Laboratory (NOAA), um dos modelos do CMIP6 de que a base CLIMBra traz séries.
+
+**ICMS**. Imposto sobre Circulação de Mercadorias e Serviços, estadual, que incide sobre a energia elétrica. A tarifa B1 da base não o inclui.
+
+**KACE**. Modelo climático KACE-1-0-G, do Serviço Meteorológico da Coreia (KMA), um dos modelos do CMIP6 da base CLIMBra; usa calendário de 360 dias.
+
 **MS**. Mato Grosso do Sul, unidade da federação; aparece nas tabelas de custo por estado.
 
 **OPEX** (*operational expenditure*). Custo anual de operação e manutenção: energia da bomba, cloro, manutenções periódicas e troca de componentes. Entra na análise econômica ao lado do CAPEX.
 
+**PIS**. PIS/Pasep, contribuição federal que incide, com a Cofins, sobre a fatura de energia elétrica. A tarifa B1 da base não a inclui.
+
 **RS**. Rio Grande do Sul, unidade da federação; aparece nas tabelas de custo por estado.
+
+**SHA-256**. Função de resumo criptográfico (hash) de 256 bits. O programa a usa para registrar a identidade de cada arquivo de dados e de cada documento de fonte, de modo que uma alteração seja detectável.
+
+**SIRENE**. Sistema de Registro Nacional de Emissões, do MCTI, que publica o fator médio de emissão da rede elétrica brasileira.
 
 **Água de chuva** (*rainwater*). Precipitação atmosférica coletada diretamente em
 superfícies impermeáveis de cobertura (telhados e lajes impermeabilizadas), antes de atingir

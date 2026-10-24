@@ -545,14 +545,14 @@ mesmo registro.
 <!-- tabela: **Tabela 16** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.1.0** (beta) | 15 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois. | 0 |
+| **0.1.0** (beta) | 24 de outubro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 15 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 24 de outubro de 2026
 
 > **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
-> nome, versionamento e repositório próprios para cada edição; a 1.0.0, a primeira oficial, virá depois.
+> nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois.
 
 #### 6.3.3.1. Novidades
 
@@ -568,7 +568,7 @@ operação de Fewkes (φ) como opção em todos os módulos.
 **O que a Edição Brasil traz nesta versão.**
 
 - **Chuva.** A base CLIMBra para 652 municípios, 19 modelos do CMIP6 e três simulações (histórica, SSP2-4.5 e SSP5-8.5): 37.164 séries diárias, em 19 bancos, um por modelo (785,1 MiB, cada um abaixo de 50 MiB), com o SHA-256 de cada parte em `data/climbra_partes.json`.
-- **Tarifas.** Água e esgoto de 652 municípios, por prestador, com 617 conferências de conta (241 corrigidas) e grau de confiança por município: 584 de grau A, 63 de B e 5 de C. Energia B1 da ANEEL por distribuidora. As conferências estão registradas em `tarifas/transcricoes/ALTERACOES.md`.
+- **Tarifas.** Água e esgoto de 652 municípios, por prestador, com 617 conferências de conta, das quais 241 corrigidas, e grau de confiança por município: 584 de grau A, 63 de B e 5 de C. Energia B1 da ANEEL por distribuidora. As conferências estão registradas em `tarifas/transcricoes/ALTERACOES.md`.
 - **Custos.** O CAPEX e o OPEX de um projeto novo são calculados automaticamente a partir do catálogo de referência, em reais (seção 4.7 (volume Tutorial)); o usuário pode digitar os seus valores.
 - **Normas.** A ABNT NBR 15527:2019 no que ela fixa (seção 4.6 (volume Tutorial)), e a comparação com a EN 16941-1:2024 em `docs/normas_nbr_x_en16941.md`.
 - **Documentação.** O manual completo em português do Brasil, o site de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.

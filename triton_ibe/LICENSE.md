@@ -45,7 +45,7 @@ Os Licenciantes outorgam ao Usuário uma licença pessoal, não exclusiva, intra
 ### CLÁUSULA 4 — REQUISITO DE CITAÇÃO ACADÊMICA OBRIGATÓRIA
 Como condição essencial e indissociável da concessão de uso gratuito prevista na Cláusula 1:
 1. Qualquer trabalho acadêmico (artigo científico, comunicação em congresso, tese de doutorado, dissertação de mestrado, trabalho de conclusão de curso, monografia), relatório técnico pericial, laudo de dimensionamento ou publicação que utilize simulações, resultados, curvas, metodologias ou dados fornecidos pelo Triton **deve, obrigatoriamente, conter a citação formal da publicação seminal indicada no arquivo `CITATION.cff` e na documentação oficial**, no seguinte padrão (ou equivalente das normas ABNT / APA):
-   > **Vaz, I. C. M., & Ghisi, E. (2026). Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações. Universidade Federal de Santa Catarina (UFSC), Florianópolis, Brasil.**
+   > **Vaz, I. C. M., & Ghisi, E. (2026). Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações. Universidade Federal de Santa Catarina (UFSC).**
 2. A omissão deliberada da citação acadêmica constitui desvio de conduta científica e infração contratual aos termos deste instrumento.
 
 ---
@@ -86,6 +86,10 @@ Como condição essencial e indissociável da concessão de uso gratuito previst
 1. **Uso Nominativo e Informativo de Tarifas Públicas:** Os nomes de concessionárias e prestadores públicos ou concedidos de serviços de água e esgoto (incluindo, exemplificativamente, CASAN, SABESP, COPASA, CORSAN, CEDAE, SANEPAR, EMBASA, CAESB, entre outros) são mencionados no Triton exclusivamente com finalidade **nominativa, fática e descritiva**, ao amparo do art. 132, inciso IV, da Lei Federal nº 9.279/1996 e da Lei Federal nº 12.527/2011, com o único propósito de identificar a origem e a aplicabilidade das tarifas públicas homologadas por órgãos reguladores do Estado;
 2. **Inexistência de Associação com Prestadores:** A citação desses prestadores não implica, sob hipótese alguma, existência de sociedade, afiliação, representação comercial, patrocínio ou endosso mútuo entre as referidas concessionárias e os Licenciantes;
 3. **Dados de Fabricantes de Equipamentos e Motobombas:** Quaisquer menções a modelos, catálogos ou fabricantes de equipamentos e motobombas destinam-se exclusivamente à rastreabilidade de parâmetros físicos (como massa em kg e rendimento mecânico) para fins de modelagem científica e Avaliação do Ciclo de Vida (ACV), constituindo citação bibliográfica descritiva de dados técnicos de acesso público, sem conotação publicitária ou preferência comercial.
+
+### CLÁUSULA 11 — DADOS DE TERCEIROS MANTÊM AS SUAS LICENÇAS
+1. As cláusulas anteriores, em especial os direitos reservados sobre as «bibliotecas de dados» (Cláusula 9), aplicam-se apenas ao que os Licenciantes criaram. **Os dados de terceiros distribuídos com o Triton ou lidos por ele (por exemplo, séries de precipitação, limites administrativos, tarifários e documentos oficiais) mantêm as licenças e as condições dos seus titulares**, que prevalecem sobre este instrumento no que a eles diz respeito, e esta Licença não as amplia nem as reduz;
+2. As fontes, as licenças e as restrições de cada conjunto de dados estão indicadas no arquivo `docs/DADOS.md` de cada edição e nos avisos de terceiros em `infos_licenses/AVISOS_DE_TERCEIROS.txt`. Algumas restringem o uso a fins não comerciais (por exemplo, a E-OBS, na Edição Ibérica) ou exigem atribuição e partilha nas mesmas condições; cabe ao Usuário cumpri-las.
 
 ---
 ---
@@ -131,7 +135,7 @@ The User is strictly prohibited from engaging in any of the following activities
 ### SECTION 4 — MANDATORY ACADEMIC CITATION
 As a material condition precedent to the free permissions granted under Section 1:
 1. Any scientific article, conference paper, doctoral dissertation, master's thesis, undergraduate capstone project, forensic engineering report, or technical document utilizing simulation outputs, data, charts, or methods from Triton **must formally and explicitly cite the seminal publication designated in the repository's `CITATION.cff` and official documentation**, following standard international conventions:
-   > **Vaz, I. C. M., & Ghisi, E. (2026). Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings. Federal University of Santa Catarina (UFSC), Florianópolis, Brazil.**
+   > **Vaz, I. C. M., & Ghisi, E. (2026). Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings. Federal University of Santa Catarina (UFSC).**
 2. Failure to attribute credit constitutes academic misconduct and a material breach of this contractual license.
 
 ---
@@ -172,3 +176,9 @@ As a material condition precedent to the free permissions granted under Section 
 1. **Nominative Reference to Public Water Utilities:** All references to public and regional water and sanitation utilities (e.g., CASAN, SABESP, COPASA, CORSAN, CEDAE, SANEPAR, EMBASA, CAESB, among others) are made strictly for **nominative, descriptive, and factual identification** of publicly published, legally mandated tariff structures, under Brazilian Law No. 9.279/1996 (art. 132, IV) and international nominative fair use principles;
 2. **No Endorsement or Association:** Mention of such utilities does not imply any partnership, sponsorship, commercial affiliation, or endorsement between the utility companies and the Triton project;
 3. **Equipment and Pump Manufacturers:** Technical citations of equipment manufacturers or product weights are provided solely as academic bibliographic sources for physical parameter verification and Life Cycle Assessment (LCA) inventories, without commercial preference or promotional intent.
+
+---
+
+### SECTION 11 — THIRD-PARTY DATA KEEP THEIR OWN LICENCES
+1. The preceding sections, in particular the rights reserved over the "databases" (Section 9), apply only to what the Licensors created. **Third-party data distributed with Triton or read by it (for example rainfall series, administrative boundaries, tariffs and official documents) keep the licences and conditions of their owners**, which prevail over this instrument as far as that data are concerned; this License neither widens nor narrows them;
+2. The source, licence and restrictions of each dataset are stated in the `docs/DADOS.md` file of each edition and in the third-party notices in `infos_licenses/AVISOS_DE_TERCEIROS.txt`. Some restrict use to non-commercial purposes (for example E-OBS, in the Iberian Edition) or require attribution and share-alike; it is the User's duty to comply with them.

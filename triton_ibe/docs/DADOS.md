@@ -32,7 +32,7 @@ Os dados de **tarifas** e de **pluviometria** estão em ficheiros separados entr
 | Fonte | E-OBS v33.0e, precipitação diária (RR), média do conjunto, grelha de 0,1° (ECA&D / Copernicus). https://surfobs.climate.copernicus.eu/dataaccess/access_eobs.php. Citação: Cornes, R. C. et al. (2018), J. Geophys. Res. Atmos. 123(17), 9391-9409, doi:10.1029/2017JD028200 |
 | Limites dos concelhos | CAOP 2025, Direção-Geral do Território (Aviso n.º 3502/2026/2, DR 2.ª série n.º 34, de 18/02/2026) |
 | Rastreio | `metadados`: `pacote_id` PT-EOBS-v33.0e-37fcba20, `sha256_pacote` 37fcba2091965e4235f3f69251b1dd483aff200f41e65f5914d4270f6992041d, `sha256_eobs` 053ada85a200880debfcea04b21f7e2b44830b29e101ec3579830124aaa8b58b e os SHA-256 dos quatro GeoPackage da CAOP. SHA-256 do ficheiro `portugal_eobs.db`: `1dd28da75c94c83195963ab020a2d721c1e66a0b4a950d6b31f8a6f2da993c8d` |
-| Licença | **E-OBS e ECA&D: «strictly for use in non-commercial research and education projects only»**; os resultados científicos devem ser publicados em literatura aberta; citar Cornes et al. (2018) e o reconhecimento do UERRA, do Copernicus e do ECA&D (licença do produto E-OBS, https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products). **A licença não trata da redistribuição nem de produtos derivados**: risco baixo a moderado, não eliminado (nenhum pedido ao KNMI foi feito). CAOP 2025: cc-by no registo oficial da DGT em dados.gov.pt; o texto da licença na página da DGT não foi encontrado. Fonte: `LICENCAS_DOS_DADOS.md`, 23/10/2026 |
+| Licença | **E-OBS e ECA&D: «strictly for use in non-commercial research and education projects only»**; os resultados científicos devem ser publicados em literatura aberta; citar Cornes et al. (2018) e o reconhecimento do UERRA, do Copernicus e do ECA&D (licença do produto E-OBS, https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products). **A licença não trata da redistribuição nem de produtos derivados**: risco baixo a moderado, não eliminado (nenhum pedido ao KNMI foi feito). CAOP 2025: cc-by no registo oficial da DGT em dados.gov.pt; o texto da licença na página da DGT não foi encontrado. Fonte: `scripts/dados/resultados/LICENCAS_DOS_DADOS.md`, 23/10/2026 |
 | Restrição no programa | No primeiro arranque o programa mostra o aviso da licença e pede o uso (investigação/educação ou comercial); a declaração fica registada nos laudos. Por defeito não bloqueia a E-OBS (`BLOQUEAR_E_OBS_EM_USO_COMERCIAL = False`, `triton/core/licenca_eobs.py`). Para uso comercial: carregar a série própria. O texto do aviso ainda precisa de revisão da UFSC |
 | Cobertura | 278 concelhos do Continente (todos). **Não cobertos: 30**, as ilhas: 11 na Madeira (4 com 22% de dias sem dado em 1991–2020, 3 com 32%, 4 com 93%, contra o limite de 1%) e 19 nos Açores (fora do domínio da E-OBS, a oeste de 25° O) |
 | Resolução | Grelha de 0,1° (cerca de 10 km). 71 concelhos têm uma só célula; 20 usam a célula mais próxima do centroide; 14 repetem a série de outro concelho (partilham a mesma célula) |
@@ -41,7 +41,7 @@ Os dados de **tarifas** e de **pluviometria** estão em ficheiros separados entr
 | Média anual | de 485 mm (menor valor, num concelho do distrito de Faro) a 1994 mm (maior, no distrito de Viana do Castelo); média dos concelhos 908 mm |
 | Tamanho | 5,74 MiB (`series` 278, `nao_cobertos` 30, `qualidade` 278, `metadados` 18 linhas) |
 | Carregamento | `triton/core/base_climatica_portugal.py`: `data/portugal_eobs.db` (ou o ficheiro indicado em `TRITON_PORTUGAL_DB`; no programa instalado, em `_internal/data/`); o instalador leva só esta base |
-| Reprodução | `scripts/compilar_base_eobs_portugal.py` (ficheiros E-OBS e CAOP, cerca de 3 GB, fora do Git) gera a base; `scripts/acrescentar_qualidade_ao_banco.py` acrescenta a tabela `qualidade`. Ferramentas do mantenedor, descritas em `scripts/README.md` |
+| Reprodução | No Git: `scripts/dados/compilar_base_eobs_portugal.py` (ficheiros E-OBS e CAOP, cerca de 3 GB, fora do Git) gera a base e `scripts/acrescentar_qualidade_ao_banco.py` acrescenta a tabela `qualidade`; os passos, as variáveis de ambiente e a conferência estão em `scripts/dados/LEIA.md`. **Reproduzido em 24/10/2026**: com a E-OBS v33.0e e a CAOP 2025 originais, os dois passos dão um ficheiro com o mesmo SHA-256 (`1dd28da7…3c8`) que o do repositório, com 278 séries, 30 não cobertos e A 45, B 159, C 74 (Python 3.13, numpy, xarray, geopandas, shapely) |
 
 ### Nível de qualidade A, B ou C
 
@@ -75,7 +75,7 @@ Resultado nos 278 concelhos: **A 45, B 159, C 74**. A diferença média do total
 | Viseu | 24 | 5 | 17 | 2 | 778–1531 |
 | **Continente** | **278** | **45** | **159** | **74** | 485–1994 |
 
-(O protótipo de validação, fora do repositório, deu A 68, B 111 e C 99 com um primeiro conjunto de limiares; vale a base do programa, a tabela acima.)
+(A coluna `nivel` de `tests/dados_ibe/qualidade_prototipo.csv` vem de um primeiro conjunto de limiares, que dava A 68, B 111 e C 99; não vale. Vale o nível que o programa calcula com `triton/core/qualidade_chuva.py` sobre as diferenças `dtot` e `drx` desse ficheiro, a tabela acima.)
 
 ### Iberia01 e a correção de escala
 
@@ -83,7 +83,7 @@ O Iberia01 v1.0 (CSIC, DIGITAL.CSIC 10261/183071; Herrera et al., 2019, doi:10.2
 
 ### Espanha
 
-A Espanha está fora do pacote desta versão. Foram ensaiadas as 52 capitais de província (fora do repositório, `validacao_precipitacao_prt/qualidade_espanha_capitais.csv`): 39 em nível B, 9 em C e 4 sem série. O pacote por região para Espanha depende dos limites municipais do CNIG (compatível com CC-BY 4.0, confirmado em 23/10/2026) e de uma decisão sobre a licença da E-OBS para redistribuição.
+A Espanha está fora do pacote desta versão. Foram ensaiadas as 52 capitais de província (`scripts/dados/resultados/qualidade_espanha_capitais.csv`, gerado por `scripts/dados/construir_espanha_capitais.py`): 39 em nível B, 9 em C e 4 sem série. O pacote por região para Espanha depende dos limites municipais do CNIG (compatível com CC-BY 4.0, confirmado em 23/10/2026) e de uma decisão sobre a licença da E-OBS para redistribuição.
 
 ### Ilhas
 
@@ -119,7 +119,7 @@ Madeira e Açores não entram pela grelha: só com a série da estação (decis�
 - **Documentos tarifários** (tarifários e editais de EPAL, Câmara Municipal de Lisboa, Águas e Energia do Porto, Câmara Municipal do Funchal e outras entidades): cada um com URL de origem e SHA-256 em `FONTES.tsv` e em `examples/LEIA.md`. São documentos de terceiros, **não se redistribuem** (ficam no disco do mantenedor); o Git leva o registo.
 - **Entidade gestora por concelho**: índice «Pesquisa por concelho» da ERSAR (https://www.ersar.pt/docs/pesquisa-tarifa-concelho/tarifa-concelho.json), 2 331 registos de 2024 a 2026, 278 concelhos continentais; acedido em 23/10/2026, SHA-256 `20057b868191dda9f465d7652d3f80eb05cd490a8430d532a232c1f98a701fad`.
 - **Licença ERSAR** (avisos legais, https://www.ersar.pt/pt_avisos-legais.html): os materiais podem ser copiados ou distribuídos com a referência ao documento original em www.ersar.pt e o aviso «© ERSAR AAAA. Todos os direitos reservados». **Não é licença aberta**; obras derivadas não são tratadas. Os ficheiros derivados citam a ERSAR.
-- Os valores dos tarifários municipais são preços públicos regulados. Termos de reutilização dos sítios das entidades (consulta de 24/10/2026): **Águas e Energia do Porto** (https://www.aguasdoporto.pt/): o rodapé só traz a linha «© Águas e Energia do Porto, EM 2014 - 2026» e ligações de privacidade e cookies; não se encontrou aviso legal nem termos de reutilização, logo nada autoriza nem proíbe expressamente a reprodução. **EPAL**: a página de aviso legal tentada devolveu 404. **Câmara Municipal de Lisboa, Câmara Municipal do Funchal e restantes entidades:** [A COMPLETAR]. Por isso os documentos não são redistribuídos e o Git leva só os valores transcritos, o URL e o SHA-256.
+- Os valores dos tarifários municipais são preços públicos regulados. Termos de reutilização dos sítios das entidades (consulta de 24/10/2026): **Águas e Energia do Porto** (https://www.aguasdoporto.pt/): o rodapé só traz a linha «© Águas e Energia do Porto, EM 2014 - 2026» e ligações de privacidade e cookies; não se encontrou aviso legal nem termos de reutilização, logo nada autoriza nem proíbe expressamente a reprodução. **EPAL**: a página de aviso legal tentada devolveu 404. **Câmara Municipal de Lisboa, Câmara Municipal do Funchal e restantes entidades:** não verificado nesta versão (os termos de reutilização dos seus sítios não foram lidos). Por isso os documentos não são redistribuídos e o Git leva só os valores transcritos, o URL e o SHA-256.
 
 ### Cobertura e período
 
@@ -167,17 +167,17 @@ Particularidades e pendências (`tarifas_portugal/PROCEDENCIA_LEIA.md`, `example
 - Porto: a disponibilidade de água do utilizador doméstico foi lida por inferência do layout; a TRH das águas residuais não foi incluída.
 - Lisboa: o «Adicional C.M. Lisboa» foi tratado sem IVA; saneamento e resíduos sem IVA, como declara o tarifário.
 - Vigência com mais de 12 meses: Beja, Évora, Ponta Delgada e Bragança (2021).
-- Eletricidade, só no Funchal: 0,1673 €/kWh (EEM, 6,90 kVA, sem IVA), de uma **fonte secundária** (comparador luzegas.pt, atualizada a 20/02/2025); a confirmar na EEM ou na ERSE.
+- Eletricidade, só no Funchal: 0,1673 €/kWh (EEM, 6,90 kVA, sem IVA). **Fonte secundária, estado amarelo:** vem do comparador luzegas.pt (atualizada a 20/02/2025), não de um documento primário da EEM ou da ERSE, e é mais antiga do que o resto do exemplo. Não foi verificada na EEM nem na ERSE. O valor está no exemplo `funchal.triton` e no manual (rotulado como fonte secundária); para um projeto real, introduza a tarifa do seu contrato.
 
 ### Atualização e reprodução
 
-Ferramentas do mantenedor (fora do Git): `importar_ersar.py` (índice da ERSAR e `FONTES.tsv`), `procedencia_pt.py` (calcula `CONFIANCA_POR_CONCELHO`), `monitorar_tarifas.py` (vigia os URLs, uma vez por ano, sem agendamento). Passos em `tarifas_portugal/PROCEDENCIA_LEIA.md`. Teste: `TRITON_EDITION=IBE python -m pytest tests/unit/test_procedencia_tarifaria_pt.py`.
+Ferramentas (no Git, em `tarifas_portugal/`): `importar_ersar.py` (índice da ERSAR e `FONTES.tsv`), `procedencia_pt.py` (calcula `CONFIANCA_POR_CONCELHO`), `monitorar_tarifas.py` (vigia os URLs, uma vez por ano, sem agendamento). Os documentos de terceiros que elas lêem (`tarifas_portugal/fontes/<entidade>/`) não estão no Git. Passos em `tarifas_portugal/PROCEDENCIA_LEIA.md`. Teste: `TRITON_EDITION=IBE python -m pytest tests/unit/test_procedencia_tarifaria_pt.py`.
 
 ## 5. Outros dados
 
 | Conjunto | Estado |
 | :--- | :--- |
-| Fator de emissão da rede elétrica (`fatores_emissao_rede_padrao.json`) | **Sem valor**: a edição não traz série oficial; o fator é 0 até o utilizador indicar o da rede do projeto. As fontes portuguesas e espanholas (APA, MITECO, REE) foram avaliadas e não estão incorporadas; APA e MITECO sem licença expressa, REE com reutilização não autorizada no aviso geral (`LICENCAS_DOS_DADOS.md`) |
+| Fator de emissão da rede elétrica (`fatores_emissao_rede_padrao.json`) | **Sem valor**: a edição não traz série oficial; o fator é 0 até o utilizador indicar o da rede do projeto. As fontes portuguesas e espanholas (APA, MITECO, REE) foram avaliadas e não estão incorporadas; APA e MITECO sem licença expressa, REE com reutilização não autorizada no aviso geral (`scripts/dados/resultados/LICENCAS_DOS_DADOS.md`) |
 | Custos de referência (`costs_database.json`) | Ficheiro do núcleo; esta edição não aplica preços de catálogo: custos de obra, bomba, tratamento e manutenção ficam a zero nos exemplos, para o utilizador indicar os seus |
 | Rotas de produção de água (`rotas_producao_agua.json`) | Do projeto; o fator evitado por m³ depende da rota substituída e deve ser indicado pelo utilizador |
 | Exemplos (`examples/portugal/*.triton`) e relatórios (`reports/exemplos/`) | Gerados pelo projeto; os resultados económicos dos exemplos **não são resultados** (custos a zero) |
@@ -202,4 +202,28 @@ Ferramentas do mantenedor (fora do Git): `importar_ersar.py` (índice da ERSAR e
 - Tabela `qualidade`: contém diferenças percentuais agregadas derivadas do Iberia01 (ODbL); não foi decidido se exige a ODbL.
 - `data/rainfall/LEIA.md`, sobre os exemplos, ainda cita o Funchal como exemplo ERA5, enquanto a decisão para as ilhas é série da estação.
 - Textos do manual e do aviso da E-OBS a rever antes da primeira distribuição.
-- Termos de reutilização dos sítios das entidades dos tarifários: ver §4 (Porto sem termos encontrados; as restantes [A COMPLETAR]).
+- Termos de reutilização dos sítios das entidades dos tarifários: ver §4 (Porto sem termos encontrados; as restantes não verificadas).
+- Decisões do titular sobre a E-OBS e a ODbL: ver §9.
+
+## 9. Decisões pendentes do titular (registo de 24/10/2026)
+
+Estas duas decisões **não foram tomadas**. Pertencem ao titular dos direitos do software (UFSC/GPAS, na pessoa do responsável pelo projeto). Fica aqui o estado, o risco e a recomendação, para que a decisão seja tomada e registada antes de o repositório ficar público.
+
+### 9.1 E-OBS: redistribuição da base derivada
+
+- **Facto.** A licença do produto E-OBS (https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products) permite o uso «strictly for use in non-commercial research and education projects only». **Não trata da redistribuição nem de produtos derivados.** Nenhum pedido foi feito ao KNMI.
+- **Situação.** O repositório distribui `data/portugal_eobs.db` (séries médias por concelho derivadas da E-OBS) e o instalador também o leva. A licença do software (`LICENSE.md`) permite o uso por projetistas individuais, o que pode incluir uso profissional; a E-OBS não.
+- **Mecanismo no programa.** No primeiro arranque o programa mostra o aviso da licença e pede o uso (investigação/educação ou comercial); a declaração fica nos laudos. A constante `BLOQUEAR_E_OBS_EM_USO_COMERCIAL` (`triton/core/licenca_eobs.py`) está em **`False`**: o programa avisa, mas não bloqueia.
+- **Opções.** (a) manter a base e o aviso (risco baixo a moderado, não eliminado); (b) pôr `BLOQUEAR_E_OBS_EM_USO_COMERCIAL = True`, de modo que quem declara uso comercial só possa carregar a série própria; (c) perguntar ao KNMI/ECA&D se a redistribuição da base derivada é permitida; (d) retirar a base do Git e do instalador e distribuir só o script de reprodução.
+- **Recomendação do agente (não é decisão):** bloquear (opção b), e, se o titular quiser eliminar o risco, perguntar ao KNMI (opção c) antes da publicação do repositório.
+- **Decisão do titular:** PENDENTE.
+
+### 9.2 Tabela `qualidade` e a ODbL do Iberia01
+
+- **Facto.** A tabela `qualidade` de `data/portugal_eobs.db` guarda, por concelho, diferenças percentuais agregadas (`dtot`, `drx`) entre a E-OBS e o Iberia01 em 1971–2000. O Iberia01 v1.0 está sob a Open Database License (ODbL), segundo o mantenedor; **a licença não pôde ser confirmada em linha nesta versão** (o repositório DIGITAL.CSIC bloqueou o pedido automático).
+- **Questão.** Se a tabela `qualidade` é uma «base derivada» do Iberia01 no sentido da ODbL, exige atribuição e partilha nas mesmas condições (a base derivada de uso público tem de ser oferecida também em ODbL). Se é apenas um «produced work» ou um resultado agregado, exige atribuição. Esta leitura jurídica não foi feita.
+- **Estado.** A atribuição ao Iberia01 está nos avisos de terceiros (`infos_licenses/AVISOS_DE_TERCEIROS.txt`). A correção de escala derivada do Iberia01 não faz parte da versão.
+- **Opções.** (a) tratar a tabela como derivada e oferecê-la em ODbL (separando-a num ficheiro à parte); (b) manter só a atribuição e registar o fundamento; (c) retirar a tabela do pacote e deixar só o nível A/B/C calculado, sem os valores do Iberia01.
+- **Recomendação do agente (não é decisão):** confirmar a licença na fonte e, na dúvida, seguir (a) ou (c). O titular decide.
+- **Decisão do titular:** PENDENTE.
+
