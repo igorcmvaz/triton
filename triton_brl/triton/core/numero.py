@@ -22,11 +22,21 @@ import re
 _MILHAR_EN = re.compile(r"^[+-]?\d{1,3}(,\d{3})+(\.\d*)?$")
 
 
+_provedor_do_idioma = []
+
+
+def registrar_idioma(funcao) -> None:
+    """A interface diz aqui como saber o idioma atual (``triton.ui.translation`` se registra ao ser importada).
+    O núcleo não importa a interface: sem ela registrada (CLI mínima, CI sem Qt), o idioma é o português."""
+    _provedor_do_idioma[:] = [funcao]
+
+
 def _idioma() -> str:
+    if not _provedor_do_idioma:
+        return "pt"
     try:
-        from triton.ui.translation import get_current_lang
-        return get_current_lang()
-    except Exception:  # sem PySide6 (CLI mínima, CI sem interface): português
+        return _provedor_do_idioma[0]()
+    except Exception:
         return "pt"
 
 

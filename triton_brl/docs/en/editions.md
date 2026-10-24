@@ -58,6 +58,7 @@ the International one (neutral core), except where the table says otherwise.
 | `triton/core/environmental_justifications.py` | LCA rationale without national manufacturers, standards and inventories outside Brazil |
 | `triton/core/esg_certifications.py` | ESG summary and credit matrix with the international certifications only outside Brazil |
 | `triton/core/parser.py` | the `.triton` and CSV reader starts from `configuracao_da_edicao()`: what the file does not carry falls back to the historical default (BRL) or the neutral one (INT and IBE) |
+| `triton/core/numero.py` | numeric convention of the interface: decimal comma and dotted thousands in Portuguese and Spanish and in the BRL edition; decimal point and comma thousands in English and Chinese outside the BRL edition (showing and reading numbers both go through it) |
 | `triton/core/report_generator.py` | reports without national certifications, standards and references outside Brazil |
 | `triton/core/tariff_category.py` | no tariff-category warning (there is no catalogue) |
 | `triton/ui/dialogs/dialog_economic.py` | no municipality selector for tariff and electricity; piping-cost guide and billing regime without a national reference |

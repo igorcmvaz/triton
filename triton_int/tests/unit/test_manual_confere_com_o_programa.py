@@ -1084,6 +1084,7 @@ SIGLAS_DISPENSADAS = {
     # próprio manual, que não precisam de verbete.
     "PDF", "HTML", "GB", "SC", "PI", "AM", "DF", "SP", "UF", "CAIXA", "CNPJ",
     "GPL", "UFSC", "IBGE", "YAS", "SMAA-VIKOR",
+    "DADOS",  # nome do arquivo docs/DADOS.md, citado nas seções de dados, não sigla
     "TP",  # modelo de pressurizador citado (Komeco TP 820), não sigla
     "GHISI",  # sobrenome em caixa alta nas referências, não sigla
     "MIX",  # nome do periódico MIX Sustentável, não sigla a definir

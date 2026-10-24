@@ -29,6 +29,7 @@ International recebe a resposta neutra a todas.
 | `triton/core/environmental_justifications.py` | justificativas da ACV sem fabricantes, normas e inventários nacionais fora da Brasil |
 | `triton/core/esg_certifications.py` | síntese ESG e matriz de créditos só com as certificações internacionais fora da Brasil |
 | `triton/core/parser.py` | o leitor de `.triton` e de CSV parte de `configuracao_da_edicao()`: o que o arquivo não traz cai no padrão histórico (BRL) ou no neutro (INT e IBE) |
+| `triton/core/numero.py` | convenção numérica da interface: vírgula decimal e ponto de milhar em português e espanhol e na BRL; ponto decimal e vírgula de milhar em inglês e chinês fora da BRL (ler e mostrar passam por aqui) |
 | `triton/core/report_generator.py` | laudos sem certificações, normas e referências nacionais fora da Brasil |
 | `triton/core/tariff_category.py` | sem aviso de categoria tarifária (não há catálogo) |
 | `triton/ui/dialogs/dialog_economic.py` | sem o seletor de município da tarifa e da energia; guia de custos de tubulação e regime de cobrança sem referência nacional |

@@ -2575,3 +2575,8 @@ _CHINESE_PHRASES.update({
     "água 🟢": "水 🟢", "saneamento 🟢": "排水 🟢", "resíduos 🟢": "废弃物 🟢",
     "água ⚪": "水 ⚪", "saneamento ⚪": "排水 ⚪", "resíduos ⚪": "废弃物 ⚪",
 })
+
+
+# O núcleo (triton.core.numero) não importa a interface: ela diz a ele como ler o idioma atual.
+from triton.core import numero as _numero  # noqa: E402
+_numero.registrar_idioma(get_current_lang)
