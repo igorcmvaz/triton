@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Signal, Qt
 
-from triton.ui.translation import tr, get_current_theme
+from triton.ui.translation import tr, get_current_theme, un
 from triton.ui.textos_da_edicao import (
     descricao_da_qualidade,
     titulo_classe_de_uso,
@@ -109,7 +109,7 @@ class TabWaterQuality(QWidget):
         grid_cards = QGridLayout()
         grid_cards.setSpacing(10)
 
-        self.card_vol_disc = self._create_metric_card(tr("Volume Descartado Estimado"), "-- m³/ano", "#0284c7")
+        self.card_vol_disc = self._create_metric_card(tr("Volume Descartado Estimado"), un("-- m³/ano"), "#0284c7")
         self.card_rem_solids = self._create_metric_card(tr("Remoção Sólidos Grosseiros"), "-- %", "#059669")
         self.card_rem_turb = self._create_metric_card(tr("Remoção Turbidez / Fuligem"), "-- %", "#059669")
         self.card_rem_bact = self._create_metric_card(tr("Remoção Carga Bacteriológica"), "-- %", "#059669")
@@ -369,7 +369,7 @@ class TabWaterQuality(QWidget):
         self.card_ff_capex = self._create_metric_card(tr("Descarte 1ª Água (CAPEX)"), "R$ --", "#0284c7")
         self.card_etap_capex = self._create_metric_card(tr("Investimento Total ETAP"), "R$ --", "#0d9488")
         self.card_etap_opex = self._create_metric_card(tr("Insumos Anuais (OPEX)"), "R$ --/ano", "#e11d48")
-        self.card_etap_co2 = self._create_metric_card(tr("Emissões Anuais Insumos"), "-- kg CO2e/ano", "#059669")
+        self.card_etap_co2 = self._create_metric_card(tr("Emissões Anuais Insumos"), un("-- kg CO2e/ano"), "#059669")
 
         lay_sum.addWidget(self.card_ff_capex)
         lay_sum.addWidget(self.card_etap_capex)
@@ -544,7 +544,7 @@ class TabWaterQuality(QWidget):
         return get_edition_currency_symbol()
 
     def _dinheiro(self, valor: float, sufixo: str = "") -> str:
-        texto = f"{self._moeda()} {valor:,.2f}{sufixo}"
+        texto = f"{self._moeda()} {valor:,.2f}{un(sufixo)}"
         return texto.replace(',', 'X').replace('.', ',').replace('X', '.')
 
     def _fator_da_rede(self):
@@ -595,7 +595,7 @@ class TabWaterQuality(QWidget):
             roof_runoff_coeff=getattr(self.config, 'runoff_coeff', COEFICIENTE_DE_ESCOAMENTO_PADRAO),
         )
 
-        self._set_card_value(self.card_vol_disc, f"{ff_res.annual_discard_volume_m3:.1f} m³/ano")
+        self._set_card_value(self.card_vol_disc, un(f"{ff_res.annual_discard_volume_m3:.1f} m³/ano"))
         self._set_card_value(self.card_rem_solids, f"{ff_res.removal_coarse_solids_pct:.1f} %")
         self._set_card_value(self.card_rem_turb, f"{ff_res.removal_turbidity_pct:.1f} %")
         self._set_card_value(self.card_rem_bact, f"{ff_res.removal_bacteria_pct:.1f} %")
@@ -669,7 +669,7 @@ class TabWaterQuality(QWidget):
         self._set_card_value(self.card_etap_capex, _preco(etap_res.total_etap_capex))
         self._set_card_value(self.card_etap_opex, self._dinheiro(
             etap_res.total_etap_annual_opex if com_precos else etap_res.annual_chlorine_cost_brl, "/ano"))
-        self._set_card_value(self.card_etap_co2, f"{etap_res.total_etap_co2e_kg_yr:.1f} kg CO2e/ano")
+        self._set_card_value(self.card_etap_co2, un(f"{etap_res.total_etap_co2e_kg_yr:.1f} kg CO2e/ano"))
 
         # Atualiza a memória de cálculo do cloro
         if hasattr(self, 'gb_cl_calc'):

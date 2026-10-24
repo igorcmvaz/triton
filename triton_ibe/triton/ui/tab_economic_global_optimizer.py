@@ -727,7 +727,7 @@ class TabEconomicGlobalOptimizer(QWidget):
             env_pb = env_data.get("environmental_payback_years", 999.0)
 
             # Preenchimento da Tabela
-            opt_label = f"Opção {row+1} ({v_vol:.0f} L)"
+            opt_label = f"{tr('Opção')} {row+1} ({v_vol:.0f} L)"
             item_name = QTableWidgetItem(opt_label)
             item_name.setFlags(item_name.flags() & ~Qt.ItemIsEditable)
             self.table.setItem(row, 0, item_name)
@@ -853,9 +853,8 @@ class TabEconomicGlobalOptimizer(QWidget):
             weights_desc = tr("pesos iguais: 33,3% Técnico, 33,3% Econômico, 33,4% Ambiental")
             weights_short = tr("pesos iguais")
         else:
-            weights_desc = (
-                f"pesos ponderados: {weights[0]*100:.1f}% Técnico, {weights[1]*100:.1f}% Econômico, {weights[2]*100:.1f}% Ambiental"
-            )
+            weights_desc = tr("pesos ponderados: {0}% Técnico, {1}% Econômico, {2}% Ambiental").format(
+                f"{weights[0]*100:.1f}", f"{weights[1]*100:.1f}", f"{weights[2]*100:.1f}")
             weights_short = f"{weights[0]*100:.0f}/{weights[1]*100:.0f}/{weights[2]*100:.0f}%"
 
         if topsis_res:
@@ -914,14 +913,18 @@ class TabEconomicGlobalOptimizer(QWidget):
                 vik_vol = smaa_res.best_candidate.lower_tank_vol if smaa_res else best["vol"]
                 vik_acc = (smaa_res.first_rank_acceptabilities[smaa_res.best_index] * 100.0) if smaa_res else 0.0
 
-                tradeoff_msg = (
-                    f"💡 {tr('Conclusão da Decisão Multicritério')}: "
-                    f"O método TOPSIS ({weights_desc}) recomenda a cisterna de {top_vol:.0f} L (Score: {top_score:.2f}), "
-                    f"enquanto o método VIKOR (SMAA-VIKOR estocástico, {smaa_samples:,} simulações) recomenda a cisterna de {vik_vol:.0f} L "
-                    f"(aceitabilidade de 1º lugar: {vik_acc:.1f}%). "
-                    f"A alternativa selecionada na tabela ({best['vol']:.0f} L) proporciona {curr_sym} {format_ptbr(extra_vpl, 2)} a mais de VPL e {best['co2']:.0f} kg de CO2e evitado em relação à menor cisterna ({smallest['vol']:.0f} L)."
-                ).replace(",", ".")
-                # A frase é montada em português, fora do catálogo: na Portugal, VPL vira VAL.
+                # Frase montada com o catálogo (en/es/zh) e só números já formatados: o ``.replace(",", ".")``
+                # global que existia trocava também as vírgulas do texto e as decimais do VPL («2.428.94»).
+                _milhar = lambda n: f"{n:,}".replace(",", ".")
+                tradeoff_msg = tr(
+                    "O método TOPSIS ({0}) recomenda a cisterna de {1} L (Score: {2}), enquanto o método VIKOR "
+                    "(SMAA-VIKOR estocástico, {3} simulações) recomenda a cisterna de {4} L (aceitabilidade de 1º lugar: {5}%). "
+                    "A alternativa selecionada na tabela ({6} L) proporciona {7} {8} a mais de VPL e {9} kg de CO2e evitado "
+                    "em relação à menor cisterna ({10} L)."
+                ).format(
+                    weights_desc, f"{top_vol:.0f}", f"{top_score:.2f}", _milhar(smaa_samples), f"{vik_vol:.0f}", f"{vik_acc:.1f}",
+                    f"{best['vol']:.0f}", curr_sym, format_ptbr(extra_vpl, 2), f"{best['co2']:.0f}", f"{smallest['vol']:.0f}")
+                # Em português a frase não passa pelo catálogo da Portugal: na IBE, VPL vira VAL.
                 from triton.ui.translation import em_portugues_da_edicao
                 self.lbl_tradeoff_desc.setText(em_portugues_da_edicao(tradeoff_msg))
 

@@ -222,7 +222,7 @@ class TabChartsTriton(QWidget):
             self.val_daily_demand.setText(tr('{0} L/dia').format(format_ptbr(tot_demand * share, 0)))
             self.val_opt_vol.setText(f"{format_ptbr(opt_v, 0)} L" if opt_v else "--")
             phi_label = getattr(res, "operation_rule_name", "") or "Triton"
-            self.val_phi_rule.setText(phi_label)
+            self.val_phi_rule.setText(tr(phi_label))
 
             # KPIs da motobomba
             cfg_kw = 0.36775; cfg_elec = 1.0; cfg_eff = 55.0

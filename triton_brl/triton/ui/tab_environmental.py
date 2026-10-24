@@ -17,7 +17,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor
 
-from triton.ui.translation import tr, get_current_theme, get_current_lang
+from triton.ui.translation import tr, get_current_theme, get_current_lang, un
 from triton.ui.textos_da_edicao import traduz_descritivo
 from triton.core.parser import format_ptbr
 from triton.core.environmental import (
@@ -891,7 +891,7 @@ class TabEnvironmental(QWidget):
         grid_kpi.setSpacing(8)
 
         self.card_emb_co2 = self._create_kpi_card(tr("Emissão Incorporada Total"), "-- kg", tr("Fabricação de Materiais (+kg)"), "#0284c7", is_dark)
-        self.card_ann_avoided = self._create_kpi_card(tr("CO2 Evitado Anualmente"), "-- kg/ano", tr("Retirada da Rede (-kg/ano)"), "#059669", is_dark)
+        self.card_ann_avoided = self._create_kpi_card(tr("CO2 Evitado Anualmente"), un("-- kg/ano"), tr("Retirada da Rede (-kg/ano)"), "#059669", is_dark)
         self.card_env_pb = self._create_kpi_card(tr("Payback Ambiental"), "-- anos", tr("Recuperação do CO2"), "#d97706", is_dark)
         self.card_net_20yr = self._create_kpi_card(tr("Saldo Líquido em 20 Anos"), "-- kg", tr("Balanço Final (- Retirada / + Emissão)"), "#16a34a", is_dark)
         self.card_opt_vol = self._create_kpi_card(tr("Volume Ótimo Ambiental"), "-- L", tr("Maior Retirada de CO2"), "#6366f1", is_dark)
@@ -989,7 +989,7 @@ class TabEnvironmental(QWidget):
         self.card_leed = self._create_kpi_card(tr("Selo LEED (v4 e v5 WE)"), "--", tr("Máximo de 8 pontos possíveis"), "#16a34a", is_dark)
         self.card_aqua = self._create_kpi_card(tr("Processo AQUA-HQE (Gestão da Água)"), "--", tr("Categoria 4 — Desempenho"), "#0284c7", is_dark)
         self.card_casa_azul = self._create_kpi_card(tr("Selo Casa Azul CAIXA"), "--", tr("Critério de Conservação"), "#0ea5e9", is_dark)
-        self.card_gri = self._create_kpi_card(tr("GRI 303: Água Evitada da Rede"), "-- m³/ano", tr("Pegada Hídrica Preservada"), "#059669", is_dark)
+        self.card_gri = self._create_kpi_card(tr("GRI 303: Água Evitada da Rede"), un("-- m³/ano"), tr("Pegada Hídrica Preservada"), "#059669", is_dark)
         self.card_edge = self._create_kpi_card(
             tr("EDGE (IFC): Barra de Água"), "--%",
             tr("Limiar de 20% — o EDGE não pontua"), "#b45309", is_dark)
@@ -1382,7 +1382,7 @@ class TabEnvironmental(QWidget):
         self._last_lca_result = None
         self._last_sweep_lca = None
         self._update_kpi(self.card_emb_co2, "-- kg")
-        self._update_kpi(self.card_ann_avoided, "-- kg/ano")
+        self._update_kpi(self.card_ann_avoided, un("-- kg/ano"))
         self._update_kpi(self.card_env_pb, "--")
         self._update_kpi(self.card_net_20yr, "-- kg")
         self._update_kpi(self.card_opt_vol, "-- L")
@@ -1636,7 +1636,7 @@ class TabEnvironmental(QWidget):
 
         self._update_kpi(self.card_emb_co2, f"+{format_ptbr(lca_res.total_embodied_co2_kg, 0)} kg")
         ann_av = lca_res.net_annual_avoided_co2_kg
-        ann_av_str = f"-{format_ptbr(ann_av, 0)} kg/ano" if ann_av >= 0 else f"+{format_ptbr(abs(ann_av), 0)} kg/ano"
+        ann_av_str = un(f"-{format_ptbr(ann_av, 0)} kg/ano" if ann_av >= 0 else f"+{format_ptbr(abs(ann_av), 0)} kg/ano")
         self._update_kpi(self.card_ann_avoided, ann_av_str)
         
         pb_val = lca_res.environmental_payback_years
@@ -1823,7 +1823,7 @@ class TabEnvironmental(QWidget):
                    else esg_res.casa_azul.pontuacao_faixa if esg_res.casa_azul.criterion_met else "0 pts")
             self._update_kpi(self.card_casa_azul, f"{tr(esg_res.casa_azul.category)} ({pts})")
         if hasattr(self, 'card_gri'):
-            self._update_kpi(self.card_gri, f"{format_ptbr(esg_res.annual_potable_saved_m3, 0)} m³/ano")
+            self._update_kpi(self.card_gri, un(f"{format_ptbr(esg_res.annual_potable_saved_m3, 0)} m³/ano"))
         if hasattr(self, 'card_edge'):
             e = esg_res.edge
             self._update_kpi(

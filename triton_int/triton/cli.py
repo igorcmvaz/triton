@@ -280,7 +280,7 @@ def _load_bundle(project_file: str) -> Dict[str, Any]:
             raise ValueError("JSON inválido: esperado schema.name = 'triton-project'. Use `triton.cli init` para criar um modelo.")
         bundle = load_triton_project(str(path))
         if bundle.get("aviso_fracoes"):
-            print(f"Aviso: {bundle['aviso_fracoes']}", file=sys.stderr)
+            print(f"{_t('Aviso:')} {bundle['aviso_fracoes']}", file=sys.stderr)
         explicit_analysis = bundle.get("analysis", {}) or {}
         legacy_analysis = _analysis_from_ui_state(bundle.get("ui_state", {}))
         # Campos explícitos do schema mais novo sempre vencem o estado legado.
@@ -389,7 +389,7 @@ def _run_technical(cfg: TritonConfig, precip: Any, volume: Optional[float] = Non
     # interna, e vice-versa; ver triton/core/fracao_atendivel.py.
     aviso = conciliar_fracoes(cfg)
     if aviso:
-        print(f"Aviso: {aviso}", file=sys.stderr)
+        print(f"{_t('Aviso:')} {aviso}", file=sys.stderr)
     b_cfg = {
         "area": cfg.area,
         "runoff": cfg.runoff_coeff,
@@ -1003,7 +1003,7 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
                 pd.DataFrame([prov]).to_excel(writer, sheet_name="provenance", index=False)
         except ImportError as exc:
             raise RuntimeError("A exportação XLSX requer pandas e openpyxl instalados.") from exc
-    print(f"Resultado salvo em: {target.resolve()}")
+    print(f"{_t('Resultado salvo em:')} {target.resolve()}")
 
 
 def _template_analysis() -> Dict[str, Any]:
@@ -1112,7 +1112,7 @@ def _run_batch(args: argparse.Namespace) -> None:
         raise ValueError("Nenhum cenário válido foi encontrado no arquivo.")
     for scenario in scenarios:
         for aviso in scenario.get("avisos", []):
-            print(f"aviso: {aviso}", file=sys.stderr)
+            print(f"{_t('Aviso:').lower()} {aviso}", file=sys.stderr)
     base_bundle = _load_bundle(args.base) if args.base else {"config": configuracao_da_edicao(), "analysis": {}}
     base_cfg = base_bundle["config"]
     base_analysis = base_bundle.get("analysis", {}) or {}
@@ -1150,7 +1150,7 @@ def _run_batch(args: argparse.Namespace) -> None:
         if not args.output:
             raise ValueError("--output é obrigatório para exportar o lote")
         Path(args.output).write_text(_json_dump(combined), encoding="utf-8")
-        print(f"Resultado salvo em: {Path(args.output).resolve()}")
+        print(f"{_t('Resultado salvo em:')} {Path(args.output).resolve()}")
     else:
         flat = []
         for report in reports:
@@ -1280,11 +1280,11 @@ def _write_matrix_outputs(output_dir: str, summaries: List[Dict[str, Any]], alte
         f"<div class='hero'><h1>Triton — matriz consolidada</h1><p>{len(summaries)} combinações de premissas e climas</p></div>"
         f"<div class='cards'><div class='card'><b>Combinações</b><br>{len(summaries)}</div><div class='card'><b>Alternativas avaliadas</b><br>{len(alternatives)}</div></div>"
         f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>", encoding="utf-8")
-    print("Saídas consolidadas:", target.resolve())
-    print("- triton-matriz-resumo.csv (uma decisão por combinação)")
-    print("- triton-matriz-alternativas.csv (todos os volumes)")
-    print("- triton-matriz-detalhado.json (resultados auditáveis completos)")
-    print("- triton-matriz-painel.html (visualização consolidada)")
+    print(_t("Saídas consolidadas:"), target.resolve())
+    print(_t("- triton-matriz-resumo.csv (uma decisão por combinação)"))
+    print(_t("- triton-matriz-alternativas.csv (todos os volumes)"))
+    print(_t("- triton-matriz-detalhado.json (resultados auditáveis completos)"))
+    print(_t("- triton-matriz-painel.html (visualização consolidada)"))
 
 
 def _run_matrix(args: argparse.Namespace) -> None:
@@ -1475,7 +1475,7 @@ def _emit(texto: str, destino: Optional[str]) -> None:
         return
     alvo = Path(destino)
     alvo.write_text(texto + "\n", encoding="utf-8")
-    print(f"Resultado salvo em: {alvo.resolve()}")
+    print(f"{_t('Resultado salvo em:')} {alvo.resolve()}")
 
 
 def _parametros_de_simulacao(cfg) -> Dict[str, Any]:
@@ -1649,7 +1649,7 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
             writer = csv.DictWriter(stream, fieldnames=campos, delimiter=";")
             writer.writeheader()
             writer.writerows(dados["amostras"])
-        print(f"Amostras salvas em: {Path(args.output).resolve()}")
+        print(f"{_t('Amostras salvas em:')} {Path(args.output).resolve()}")
         return
 
     def br(x, casas=0):
@@ -1823,7 +1823,7 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
             writer.writeheader(); writer.writerows(samples)
     else:
         raise ValueError("A análise de incerteza suporta os formatos text, json e csv")
-    print(f"Resultado salvo em: {target.resolve()}")
+    print(f"{_t('Resultado salvo em:')} {target.resolve()}")
 
 
 MASS_TEST_CASES = [

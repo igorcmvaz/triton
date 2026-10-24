@@ -52,7 +52,8 @@ from triton.core.cost_estimates import (
 from triton.ui.charts import SensitivityChart, VplVsVolumeChart
 from triton.core.edition import usa_dados_do_brasil
 from triton.ui.textos_da_edicao import por_edicao
-from triton.ui.translation import tr, get_current_lang, get_current_theme
+from triton.ui.translation import tr, get_current_lang, get_current_theme, un
+from triton.ui.textos_da_edicao import traduz_descritivo
 import csv
 
 
@@ -798,7 +799,7 @@ class TabEconomicIntegrated(QWidget):
         total_capex = _capex_do_volume(lower_vol, annual_saved_m3 or None)
 
         # Atualiza título do painel de indicadores com o volume efetivo
-        self.gb_res.setTitle(tr("📊 Indicadores de Viabilidade Econômica") + f" — Cisterna de {lower_vol:,.0f} L".replace(',', '.'))
+        self.gb_res.setTitle(tr("📊 Indicadores de Viabilidade Econômica") + " — " + tr("Cisterna de {0} L").format(f"{lower_vol:,.0f}".replace(',', '.')))
 
 
         if r_sel is not None:
@@ -1280,7 +1281,7 @@ class TabEconomicIntegrated(QWidget):
                 (tr("Reservatório Superior"), tr(up_mat) if upper_used else tr("Desabilitado"), f"{cfg.upper_tank_vol:,.0f} L" if upper_used else "-", cfg.cost_upper_tank if upper_used else 0.0, 0.0),
                 (tr("Tubulações e Conexões"), pipe_spec_str, pipe_qty_str, tub_v + acc_v, 0.0),
                 (tr("Motobomba de Recalque"), f"{pump_cv:.2f} CV ({cfg.pump_count}x)", f"{cfg.pump_flow_rate:,.0f} L/h" if upper_used else "-", cfg.pump_unit_cost * cfg.pump_count if com_bomba else 0.0, ann_pump_cost),
-                (tr("Cloração / Desinfecção"), f"Cloro Ativo ({cfg.chlorine_dose_mg_l:.1f} mg/L)" if cfg.chlorine_treatment_enabled else tr("Inativo"), f"{ann_cl2_kg:.2f} kg/ano", 0.0, ann_cl2_cost),
+                (tr("Cloração / Desinfecção"), f"{tr('Cloro Ativo')} ({cfg.chlorine_dose_mg_l:.1f} mg/L)" if cfg.chlorine_treatment_enabled else tr("Inativo"), un(f"{ann_cl2_kg:.2f} kg/ano"), 0.0, ann_cl2_cost),
             ]
 
             if getattr(cfg, 'etap_enabled', True):
@@ -1289,10 +1290,10 @@ class TabEconomicIntegrated(QWidget):
                 etap_o_inc = opex_anual_incremental_da_etap(cfg)
                 ff_info = ""
                 if etap_p.resultado.first_flush and etap_p.resultado.first_flush.diverter_volume_liters > 0:
-                    ff_info = f" + Descarte {etap_p.resultado.first_flush.diverter_volume_liters:.0f} L"
+                    ff_info = f" + {tr('Descarte')} {etap_p.resultado.first_flush.diverter_volume_liters:.0f} L"
                 fixed_rows.append((
                     tr("Linha de Tratamento (ETAP) & Descarte"),
-                    f"{tr(etap_p.resultado.target_quality_class)}{ff_info}",
+                    f"{traduz_descritivo(etap_p.resultado.target_quality_class)}{ff_info}",
                     f"{etap_p.resultado.disinfection_method.upper()}",
                     etap_c_inc,
                     etap_o_inc,

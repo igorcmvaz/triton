@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -74,6 +75,27 @@ def em_portugues_da_edicao(texto: str) -> str:
         return texto
     from triton.ui.portugues_de_portugal import para_portugal
     return para_portugal(texto)
+
+
+_UNIDADES_POR_IDIOMA = {
+    "en": (("ano", "year"), ("dia", "day"), ("mês", "month")),
+    "es": (("ano", "año"), ("dia", "día"), ("mês", "mes")),
+    "zh": (("ano", "年"), ("dia", "日"), ("mês", "月")),
+}
+
+
+def un(texto: str) -> str:
+    """As unidades «/ano», «/dia» e «/mês» de um texto montado em português, no idioma da interface.
+
+    Valores e cartões saem de f-strings («{x:.1f} m³/ano») que não passam por ``tr``; em português
+    o texto volta como veio (a Brasil não muda).
+    """
+    if not texto or not isinstance(texto, str):
+        return texto
+    lang = get_current_lang()
+    for fonte, alvo in _UNIDADES_POR_IDIOMA.get(lang, ()):
+        texto = re.sub(r"/" + fonte + r"(?!\w)", "/" + alvo, texto)
+    return texto
 
 
 def get_available_languages():

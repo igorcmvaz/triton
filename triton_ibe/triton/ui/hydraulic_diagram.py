@@ -50,7 +50,7 @@ class HydraulicDiagramWidget(QWidget):
         font_small = QFont("Segoe UI", 8)
         font_title = QFont("Segoe UI", 9, QFont.Bold)
 
-        from triton.ui.translation import tr
+        from triton.ui.translation import tr, un
         # ---------------------------------------------------------------------
         # TOP BAR: TÍTULO E BADGE DE ECONOMIA (SEM SOBREPOSIÇÃO)
         # ---------------------------------------------------------------------
@@ -231,4 +231,4 @@ class HydraulicDiagramWidget(QWidget):
         painter.setFont(font_bold)
         painter.drawText(use_x + 6, use_y + 20, tr("Pontos de Uso"))
         painter.setFont(font_small)
-        painter.drawText(use_x + 6, use_y + 36, f"{self.pluvial_demand_l_day:.0f} L/dia")
+        painter.drawText(use_x + 6, use_y + 36, un(f"{self.pluvial_demand_l_day:.0f} L/dia"))

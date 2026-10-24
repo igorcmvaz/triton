@@ -14,6 +14,14 @@ from __future__ import annotations
 from triton.core.edition import is_int_edition, is_ibe_edition
 
 _EN = {
+    'Resultado salvo em:': 'Result saved to:',
+    'Aviso:': 'Warning:',
+    'Saídas consolidadas:': 'Consolidated outputs:',
+    '- triton-matriz-resumo.csv (uma decisão por combinação)': '- triton-matriz-resumo.csv (one decision per combination)',
+    '- triton-matriz-alternativas.csv (todos os volumes)': '- triton-matriz-alternativas.csv (all volumes)',
+    '- triton-matriz-detalhado.json (resultados auditáveis completos)': '- triton-matriz-detalhado.json (full auditable results)',
+    '- triton-matriz-painel.html (visualização consolidada)': '- triton-matriz-painel.html (consolidated view)',
+    'Amostras salvas em:': 'Samples saved to:',
     'Triton CLI: simulação, economia, ACV, TOPSIS e automação reproduzível.':
         'Triton CLI: simulation, economics, LCA, TOPSIS and reproducible automation.',
     'Simula; padrão técnico compatível com o legado': 'Simulates; technical analysis by default (legacy-compatible)',

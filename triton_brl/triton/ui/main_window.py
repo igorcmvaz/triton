@@ -693,6 +693,8 @@ class MainWindow(QMainWindow):
             cfg.bim_layout = proj.get("bim_layout") or {"bim_components": [], "pipe_runs": [], "building_volume": {}}
             self.config = cfg
             self.txt_workspace_project.setText(getattr(cfg, "project_name", "Novo projeto Triton"))
+            # O cursor volta ao início: com o texto longo, o campo mostrava só o fim do nome.
+            self.txt_workspace_project.setCursorPosition(0)
 
             if hasattr(self, 'tab_economic'):
                 self.tab_economic._internal_config = cfg
