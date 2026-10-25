@@ -431,7 +431,7 @@ def test_prt_a_tabela_do_estado_do_projeto_novo():
     with open(os.path.join(RAIZ, "triton", "data", "costs_database.json"), encoding="utf-8") as f:
         base = json.load(f)
     assert _numeros(_celula_com(linhas, "base de custos interna")[1])[0] == len(base["regional_factors_by_uf"])
-    assert base["_metadata"]["currency"] == "BRL"   # o texto diz «em reais, de origem brasileira»
+    assert base["_metadata"]["currency"] == ""   # o arquivo da IBE só traz a estrutura, sem moeda
 
 
 @prt

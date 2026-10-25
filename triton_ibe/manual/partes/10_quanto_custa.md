@@ -77,7 +77,7 @@ A única coisa que o programa insere sozinho, nesta matéria, é o tarifário de
 
 Sem os seus valores, o investimento é zero e a análise económica mostra apenas a poupança na fatura de água. O valor atual líquido e o período de recuperação, nessas condições, dizem pouco: não são resultados. A linha de tratamento e o descarte são dimensionados, entram no balanço de carbono, mas não custam nada. Só tem uma análise económica quando introduzir orçamentos reais.
 
-A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e não são de Portugal nem de Espanha, com fatores regionais de outro país. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
+A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas nesta só traz a estrutura: sem preços, sem moeda e sem fatores regionais (os valores em reais e os fatores por estado são os da edição do Brasil). Nesta edição não é usado em nenhum cálculo; os custos são os que o utilizador introduz.
 
 ### Como introduzir os seus valores
 

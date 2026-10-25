@@ -145,9 +145,9 @@ line and the first flush are sized, and enter the carbon balance, but they cost 
 price them in the investment. You have an economic analysis when you enter real quotations and the
 tariff you pay.
 
-The internal cost file (`costs_database.json`) exists in every edition of the program, but its
-values are those of one particular region and currency. In this edition it is switched off: no
-calculation uses it, and it should not be taken as a price reference for your project.
+The internal cost file (`costs_database.json`) exists in every edition of the program, but in
+this one it holds only the structure: no prices, no currency and no regional factors. No
+calculation uses it; the costs are the ones you enter.
 
 ### How to enter your values
 

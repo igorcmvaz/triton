@@ -165,8 +165,8 @@ example projects are therefore **not results**. The tutorial of the manual uses 
 figures, labelled as such wherever they appear.
 
 **Reference files of the core.** Three small files ship with the program, none of which supplies a
-value to your project: `costs_database.json` holds reference-cost parameters that this edition
-does not apply (costs start at zero and you enter your own); `rotas_producao_agua.json` lists
+value to your project: `costs_database.json` holds only the cost-file structure, with no prices, currency or regional
+factors (costs start at zero and you enter your own); `rotas_producao_agua.json` lists
 routes by which potable water is produced, with the emission avoided per cubic metre when rainwater
 replaces it, and you declare the route you replace; `fatores_emissao_rede_padrao.json` is an empty
 template, so the grid factor is zero until you enter the factor of the grid that supplies the

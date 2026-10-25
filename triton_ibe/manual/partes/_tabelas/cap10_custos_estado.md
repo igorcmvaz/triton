@@ -10,7 +10,7 @@
 | orçamento automático do arranjo 3D | desligado | os preços das peças são em reais, de origem brasileira |
 | mão de obra automática | desligado | idem |
 | preços de catálogo (reservatórios, tratamento) | desligado | a linha de tratamento é dimensionada, mas não custa nada |
-| base de custos interna (`costs_database.json`) | 27 fatores regionais | valores em reais, de origem brasileira; não são usados nesta edição |
+| base de custos interna (`costs_database.json`) | 0 fatores regionais | só a estrutura, sem preços nem moeda; não é usada nesta edição |
 | dose de cloro e pureza da pastilha | 1,5 mg/L e 65% | parâmetros técnicos, não são preços |
 | tarifário de água, saneamento e resíduos | Lisboa, desde 01/01/2026 | **inserido automaticamente**; transcrito dos documentos de 2026 |
 | taxa de atualização | 2,0% ao mês | valor genérico do núcleo, não é dado de Portugal |
