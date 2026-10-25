@@ -12,7 +12,7 @@ O Triton dimensiona sistemas de aproveitamento de água da chuva em edifícios. 
 
 | | |
 | :--- | :--- |
-| Instalador para Windows | `Triton_IBE_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital). O endereço do registo no Zenodo e o SHA-256 serão indicados na publicação do release. Não precisa de Python. Até lá, execute a partir do código. |
+| Instalador para Windows | `Triton_IBE_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital). Compilação local de 25/10/2026: 278.2 MiB, SHA-256 `0add5c5993db7f2d97d2aa6a5267647f6dbcdfde62f5a4c7f91ca0b74d6ecace`. O hash do instalador publicado, como o endereço do registo no Zenodo, será indicado na publicação do release (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. Até lá, execute a partir do código. |
 | A partir do código | Python 3.12 ou superior; `pip install -r requirements.txt`; `python main.py` (interface) ou `python -m triton.cli --help` (linha de comandos) |
 | Espaço | A base de chuva embutida tem 5,74 MiB; a edição rastreada soma cerca de 62 MiB, dos quais 41,6 MiB são o manual |
 

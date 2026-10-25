@@ -12,7 +12,7 @@ Triton sizes rainwater harvesting systems for buildings. It runs a daily water b
 
 | | |
 | :--- | :--- |
-| Windows installer | `Triton_INT_Setup_0_1_0.exe`, not published yet, and not code-signed. The Zenodo record address and the installer SHA-256 will be given when the release is published. No Python needed. Until then, run from source. |
+| Windows installer | `Triton_INT_Setup_0_1_0.exe`, not published yet, and not code-signed. Local build of 25 Oct 2026: 268.4 MiB, SHA-256 `28ee7c901ae156d574a957729761986ceaf0a859efb91d49c72a7d59a058e3c3`. The hash of the published installer and the Zenodo record address will be given when the release is published (the installer is not bit-for-bit reproducible: each build records the date). No Python needed. Until then, run from source. |
 | From source | Python 3.12 or later; `pip install -r requirements.txt`; `python main.py` (interface) or `python -m triton.cli --help` (command line) |
 | Size | The tracked edition totals about 43 MiB, 28 MiB of which is the manual; the data files together are under 3 MiB |
 
