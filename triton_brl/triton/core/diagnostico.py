@@ -111,7 +111,11 @@ def _dados_de_portugal() -> Verificacao:
 
 def _manual() -> Verificacao:
     raiz = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    pdf = os.path.join(raiz, "manual", "Manual-Triton.pdf")
+    from triton.core.edition import is_int_edition
+
+    # A Internacional abre o manual em inglês (manual/en); as outras, o português.
+    pdf = os.path.join(raiz, "manual", "en", "Triton-User-Manual.pdf") if is_int_edition() \
+        else os.path.join(raiz, "manual", "Manual-Triton.pdf")
     return ("Manual em PDF", os.path.isfile(pdf), pdf)
 
 

@@ -401,8 +401,12 @@ def conferir_cobertura(q: Quantitativo) -> List[str]:
     if abs(total_tubos - tubos_itens) > 0.01:
         faltam.append(f"tubos: {total_tubos:.3f} m no arranjo e {tubos_itens:.3f} m no quantitativo")
     proprios = set(DESTINO_PROPRIO.values()) | {_LINHA_DA_ETAP, _LINHA_DO_DESCARTE}
+    from triton.core.cost_estimates import banco_tem_precos
+
+    # Nas edições sem catálogo de preços (banco neutro), o custo zero é o desenho, não uma lacuna.
+    exige_custo = banco_tem_precos()
     for i in q.itens:
-        if i.no_capex not in proprios and i.custo_brl <= 0:
+        if exige_custo and i.no_capex not in proprios and i.custo_brl <= 0:
             faltam.append(f"{i.item} sem custo no CAPEX")
         if i.na_acv not in proprios and i.co2e_kg <= 0:
             faltam.append(f"{i.item} sem carbono na ACV")

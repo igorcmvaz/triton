@@ -70,7 +70,7 @@ def clean_build_dirs(base_dir: Path):
                 print(f"[!] Aviso ao limpar {folder}/: {exc}")
 
 
-def build_manual(base_dir: Path, com_ingles: bool = False) -> bool:
+def build_manual(base_dir: Path, com_ingles: bool = False, so_ingles: bool = False) -> bool:
     """Monta o manual e compõe o PDF antes de empacotar.
 
     O PDF é derivado: sai do Markdown, que sai dos capítulos, das tabelas e das
@@ -101,6 +101,10 @@ def build_manual(base_dir: Path, com_ingles: bool = False) -> bool:
         ("mini manuais", "manual/gerar_mini_manuais.py"),
         ("site de documentação", "manual/gerar_site.py"),
     ]
+    if so_ingles:
+        # A Internacional não tem o manual em português (manual/partes): a montagem, o changelog, as capas, o
+        # PDF e os mini manuais em português não se aplicam, e a montagem em português deixava lixo na pasta.
+        etapas = [e for e in etapas if e[0] not in ("apêndices", "montagem", "changelog", "capas", "PDF", "mini manuais")]
     if com_ingles:
         # O manual em inglês é só da Internacional (manual/en); a Brasil e a Ibérica não o têm.
         etapas += [
@@ -654,7 +658,7 @@ def main():
         edicoes = {"both": ["brl", "int"], "all": ["brl", "int", "ibe"]}.get(args.edition, [args.edition])
 
         # O manual entra no pacote, e por isso é gerado antes dele.
-        if not args.sem_manual and not build_manual(base_dir, com_ingles="int" in edicoes):
+        if not args.sem_manual and not build_manual(base_dir, com_ingles="int" in edicoes, so_ingles=edicoes == ["int"]):
             print("[AVISO] O manual não foi regerado; o pacote levará a versão anterior.")
 
         # As licenças de terceiros saem das versões instaladas aqui, as mesmas que vão no pacote. O gerador
@@ -727,7 +731,7 @@ def conferir_a_pasta(base_dir: Path, ignorar: bool = False) -> bool:
 def arquivos_versionados_limpos(base_dir: Path) -> set:
     """Arquivos versionados sem alteração antes do build: os únicos que ele pode restaurar."""
     try:
-        alterados = _git(base_dir, "diff", "--name-only", "HEAD").stdout.split()
+        alterados = _git(base_dir, "diff", "--name-only", "--relative", "HEAD").stdout.split()
         todos = _git(base_dir, "ls-files").stdout.split("\n")
     except OSError:
         return set()
@@ -743,7 +747,7 @@ def restaurar_gerados(base_dir: Path, limpos_antes: set) -> None:
     if not limpos_antes:
         return
     try:
-        sujos = [f for f in _git(base_dir, "diff", "--name-only", "HEAD").stdout.split() if f in limpos_antes]
+        sujos = [f for f in _git(base_dir, "diff", "--name-only", "--relative", "HEAD").stdout.split() if f in limpos_antes]
     except OSError:
         return
     if sujos:

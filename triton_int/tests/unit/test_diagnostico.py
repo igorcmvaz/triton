@@ -29,3 +29,23 @@ def test_falta_do_visualizador_reprova_o_pacote(monkeypatch, tmp_path):
     itens = diagnostico.verificacoes()
     assert "Volumetria 3D (WebGL)" in diagnostico.faltam_obrigatorios(itens)
     assert "[FALTA] Volumetria 3D (WebGL)" in diagnostico.relatorio(itens)
+
+
+def test_banco_neutro_nao_reprova_o_arranjo_por_custo_zero(monkeypatch):
+    """Nas edições INT/IBE o arquivo de custos distribuído não traz preços: custo zero não é lacuna."""
+    import triton.core.cost_estimates as ce
+    from triton.core.quantitativo_do_arranjo import conferir_cobertura, levantar
+    from triton.core.study_layout import generate_study_layout
+
+    layout = generate_study_layout({"lower_vol": 5000, "area": 150, "pump_count": 2})
+    monkeypatch.setattr(ce, "PIPE_COST_PER_METER", {dn: 0.0 for dn in ce.PIPE_COST_PER_METER})
+    monkeypatch.setattr(ce, "banco_tem_precos", lambda: False)
+    assert not [f for f in conferir_cobertura(levantar(layout)) if "sem custo" in f]
+    monkeypatch.setattr(ce, "banco_tem_precos", lambda: True)
+    assert [f for f in conferir_cobertura(levantar(layout)) if "sem custo" in f]
+
+
+def test_o_diagnostico_procura_o_manual_da_edicao():
+    from triton.core.edition import is_int_edition
+    detalhe = diagnostico._manual()[2]
+    assert ("Triton-User-Manual.pdf" in detalhe) == is_int_edition()
