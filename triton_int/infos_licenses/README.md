@@ -176,10 +176,10 @@ Um modelo editável está disponível em [examples/triton-cli-template.triton](.
 
 ```powershell
 # Referencia uma chuva existente no diretório data/rainfall
-python -m triton.cli init .\meu-projeto.triton --rainfall Florianopolis1.csv
+python -m triton.cli init .\meu-projeto.triton --rainfall NewYork.csv
 
 # Incorpora a série diária de chuva ao próprio arquivo .triton
-python -m triton.cli init .\meu-projeto-autocontido.triton --rainfall Florianopolis1.csv --embed-rainfall
+python -m triton.cli init .\meu-projeto-autocontido.triton --rainfall NewYork.csv --embed-rainfall
 ```
 
 O comando `run` preserva o comportamento técnico tradicional. Use `analyze` para aplicar as análises econômica, ambiental e TOPSIS às mesmas alternativas de reservatório, sem trocar de arquivo ou recalcular parâmetros em fluxos separados.

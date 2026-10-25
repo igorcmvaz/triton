@@ -1113,7 +1113,7 @@ Noutras edições do Triton, o investimento de um projeto novo vem preenchido po
 | orçamento automático do arranjo 3D | desligado | os preços das peças são em reais, de origem brasileira |
 | mão de obra automática | desligado | idem |
 | preços de catálogo (reservatórios, tratamento) | desligado | a linha de tratamento é dimensionada, mas não custa nada |
-| base de custos interna (`costs_database.json`) | 27 fatores regionais | valores em reais, de origem brasileira; não são usados nesta edição |
+| base de custos interna (`costs_database.json`) | 0 fatores regionais | só a estrutura, sem preços nem moeda; não é usada nesta edição |
 | dose de cloro e pureza da pastilha | 1,5 mg/L e 65% | parâmetros técnicos, não são preços |
 | tarifário de água, saneamento e resíduos | Lisboa, desde 01/01/2026 | **inserido automaticamente**; transcrito dos documentos de 2026 |
 | taxa de atualização | 2,0% ao mês | valor genérico do núcleo, não é dado de Portugal |
@@ -1126,7 +1126,7 @@ A única coisa que o programa insere sozinho, nesta matéria, é o tarifário de
 
 Sem os seus valores, o investimento é zero e a análise económica mostra apenas a poupança na fatura de água. O valor atual líquido e o período de recuperação, nessas condições, dizem pouco: não são resultados. A linha de tratamento e o descarte são dimensionados, entram no balanço de carbono, mas não custam nada. Só tem uma análise económica quando introduzir orçamentos reais.
 
-A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas os seus valores são em reais e não são de Portugal nem de Espanha, com fatores regionais de outro país. Nesta edição está desligada: não é usada em nenhum cálculo, e não deve ser tomada como referência de preços europeus.
+A base de custos interna do programa (`costs_database.json`) existe nas três edições, mas nesta só traz a estrutura: sem preços, sem moeda e sem fatores regionais (os valores em reais e os fatores por estado são os da edição do Brasil). Nesta edição não é usado em nenhum cálculo; os custos são os que o utilizador introduz.
 
 #### 4.7.4.2. Como introduzir os seus valores
 

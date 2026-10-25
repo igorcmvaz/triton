@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 Florianópolis, 2026
 
-Versão 0.1.0 · revisão de 24/10/2026
+Versão 0.1.0 · revisão de 25/10/2026
 
 ---
 
