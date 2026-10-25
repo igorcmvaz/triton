@@ -1,6 +1,6 @@
 # Triton, International Edition (INT): release notes for version 0.1.0
 
-Version 0.1.0 (beta), 24 October 2026. This is the first version of Triton and the first of the International Edition. These notes say what the version brings, what it does not, what is known not to be perfect and what was not verified. The datasets are described in [`DADOS.md`](DADOS.md); the full history is in [`../CHANGELOG.md`](../CHANGELOG.md); the manual is [`../manual/en/Triton-User-Manual.pdf`](../manual/en/Triton-User-Manual.pdf).
+Version 0.1.0 (beta), release date to be set. This is the first version of Triton and the first of the International Edition. These notes say what the version brings, what it does not, what is known not to be perfect and what was not verified. The datasets are described in [`DADOS.md`](DADOS.md); the full history is in [`../CHANGELOG.md`](../CHANGELOG.md); the manual is [`../manual/en/Triton-User-Manual.pdf`](../manual/en/Triton-User-Manual.pdf).
 
 **In short: this edition is region-neutral.** It ships no regional rainfall, tariff, cost or emission-factor data. You supply them. Three worked examples (New York, London, Cape Town) are included so that the program opens with something to run.
 
@@ -12,7 +12,7 @@ Triton sizes rainwater harvesting systems for buildings. It runs a daily water b
 
 | | |
 | :--- | :--- |
-| Windows installer | `Triton_INT_Setup_0_1_0.exe`, not published yet, and not code-signed. Local build of 25 Oct 2026: 268.4 MiB, SHA-256 `28ee7c901ae156d574a957729761986ceaf0a859efb91d49c72a7d59a058e3c3`. The hash of the published installer and the Zenodo record address will be given when the release is published (the installer is not bit-for-bit reproducible: each build records the date). No Python needed. Until then, run from source. |
+| Windows installer | `Triton_INT_Setup_0_1_0.exe`, not published yet, and not code-signed; the repository is private at this stage and the Zenodo DOI has not been created yet. Local build of 25 Oct 2026: 268.4 MiB, SHA-256 `28ee7c901ae156d574a957729761986ceaf0a859efb91d49c72a7d59a058e3c3`. The hash of the published installer and the Zenodo record address will be given when the release is published (the installer is not bit-for-bit reproducible: each build records the date). No Python needed. Until then, run from source. |
 | From source | Python 3.12 or later; `pip install -r requirements.txt`; `python main.py` (interface) or `python -m triton.cli --help` (command line) |
 | Size | The tracked edition totals about 43 MiB, 28 MiB of which is the manual; the data files together are under 3 MiB |
 

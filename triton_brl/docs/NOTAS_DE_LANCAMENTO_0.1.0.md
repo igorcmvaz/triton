@@ -1,6 +1,6 @@
 # Triton, Edição Brasil (BRL): notas de lançamento da versão 0.1.0
 
-Versão 0.1.0 (beta), 24 de outubro de 2026. É a primeira versão do Triton e a primeira da Edição Brasil. Este documento diz o que a versão traz, o que ela não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
+Versão 0.1.0 (beta), data de lançamento a definir. É a primeira versão do Triton e a primeira da Edição Brasil. Este documento diz o que a versão traz, o que ela não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
 ## O que é
 
@@ -10,7 +10,7 @@ O Triton dimensiona sistemas de aproveitamento de água da chuva em edificaçõe
 
 | | |
 | :--- | :--- |
-| Instalador para Windows | `Triton_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital). Compilação local de 25/10/2026: 859.3 MiB, SHA-256 `9f04b541aec0f6efcb83fd2adfdfe126a5e3e26bf511d9779f58a98f4b22e89a`. O hash do instalador publicado, como o endereço do registro no Zenodo, será indicado na publicação do release (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. Até lá, execute a partir do código. |
+| Instalador para Windows | `Triton_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital); o repositório é privado nesta fase e o DOI do Zenodo ainda não foi criado. Compilação local de 25/10/2026: 859.3 MiB, SHA-256 `9f04b541aec0f6efcb83fd2adfdfe126a5e3e26bf511d9779f58a98f4b22e89a`. O hash do instalador publicado, como o endereço do registro no Zenodo, será indicado na publicação do release (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. Até lá, execute a partir do código. |
 | A partir do código | Python 3.12 ou superior; `pip install -r requirements.txt`; `python main.py` (interface) ou `python -m triton.cli --help` (linha de comando) |
 | Espaço | A base climática embutida tem 785,1 MiB (19 arquivos); o repositório rastreado soma cerca de 872 MiB nesta pasta |
 
@@ -44,7 +44,7 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## Dados e licenças em uma linha
 
-CLIMBra: CC0 1.0. Tarifas: valores públicos transcritos, com a fonte de cada um; os documentos dos prestadores não se redistribuem. Base aberta da ANEEL: ODbL (a decisão sobre o JSON derivado é do mantenedor). Fator de emissão do MCTI/SIRENE: o site declara CC BY-ND 3.0, sem dizer que vale para os arquivos. Resultados do Netuno 4 e logotipo do CLIMBra: licença não documentada. As pendências estão em [`DADOS.md`](DADOS.md), seção 9.
+CLIMBra: CC0 1.0. Tarifas: valores públicos transcritos, com a fonte de cada um; os documentos dos prestadores não se redistribuem. Base aberta da ANEEL: ODbL; o titular aprovou, em 25/10/2026, o uso do JSON extraído, com a atribuição à ANEEL. Fator de emissão do MCTI/SIRENE: o site declara CC BY-ND 3.0; uso do JSON extraído aprovado pelo titular na mesma data, com atribuição. Resultados do Netuno 4 e logotipo do CLIMBra: mantidos, com «autorização dos criadores, registrada pelo titular em 25/10/2026» (sem documento anexo). Detalhes em [`DADOS.md`](DADOS.md), seção 9.
 
 ## O que foi verificado e o que não foi
 

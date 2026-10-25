@@ -16,6 +16,8 @@ python --version
 
 ### From source
 
+The repository is private at this stage: ask the maintainers for access (sustainability@contato.ufsc.br).
+
 ```bash
 git clone https://github.com/igorcmvaz/triton.git
 cd triton
@@ -223,7 +225,7 @@ recommendation; the criterion is part of the result.
 
 ## 8. Reporting a problem
 
-Open an issue at [github.com/igorcmvaz/triton](https://github.com/igorcmvaz/triton) and
+The repository is private at this stage, so send the report to the maintainers (sustainability@contato.ufsc.br) and
 attach the `.triton` project file and the precipitation series. The project file carries
 every premise, so the two together are enough for anyone to reproduce what you saw.
 

@@ -71,7 +71,7 @@ e no [histórico de versões](CHANGELOG.md).
 indicado no [README do repositório](../README.md#download) com a soma de verificação SHA-256
 (`Triton_IBE_Setup_0_1_0.exe`). Não precisa de Python. Até lá, execute a partir do código.
 
-**A partir do código** (Python 3.12 ou superior):
+**A partir do código** (Python 3.12 ou superior; o repositório é privado nesta fase):
 
 ```bash
 cd triton_ibe

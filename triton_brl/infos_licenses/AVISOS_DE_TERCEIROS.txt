@@ -7874,16 +7874,16 @@ Tarifas de energia elétrica (valores por distribuidora em triton/data/brazil_ci
 da base «Tarifas de aplicação das distribuidoras de energia elétrica» da ANEEL, que declara a Licença Aberta
 para Bases de Dados (ODbL) do Open Data Commons na página do conjunto
 (https://dadosabertos.aneel.gov.br/dataset/5a583f3e-1646-4f67-bf0f-69db4203e89e, acesso em 24/10/2026).
-A ODbL exige atribuição e que uma base derivada de uso público seja oferecida também em ODbL; a decisão sobre o
-alcance dessa condição para o arquivo derivado está registada em docs/DADOS.md.
+A ODbL exige atribuição e que uma base derivada de uso público seja oferecida também em ODbL; o titular aprovou, em 25/10/2026, o uso do
+JSON extraído, com esta atribuição (docs/DADOS.md).
 
 Fatores de emissão da rede elétrica (triton/data/fatores_emissao_rede_mcti.json): MCTI/SIRENE, «Fatores de emissão
 de CO2 para inventários corporativos». O sítio do MCTI declara CC BY-ND 3.0 para o seu conteúdo (acesso em
-24/10/2026); não afirma que valha para os arquivos de dados. Ver docs/DADOS.md.
+24/10/2026); não afirma que valha para os arquivos de dados. O titular aprovou, em 25/10/2026, o uso do JSON extraído, com atribuição ao MCTI/SIRENE (docs/DADOS.md).
 
 Tarifas de água e esgoto dos 652 municípios: valores públicos regulados transcritos dos documentos dos prestadores
 e das agências, com a fonte citada; os documentos de terceiros não são redistribuídos. A licença de reutilização
 dos portais não foi verificada um a um (docs/DADOS.md).
 
-Resultados do Netuno 4 (data/simulation_outputs/): programa anterior do mesmo grupo; a licença de redistribuição
-das planilhas não está documentada (docs/DADOS.md).
+Resultados do Netuno 4 (data/simulation_outputs/) e logotipo do CLIMBra (icons/CLIMBra.*): mantidos com «autorização dos criadores,
+registrada pelo titular em 25/10/2026» (sem documento anexo; docs/DADOS.md).

@@ -62,7 +62,7 @@ in the [release notes](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and the [changelog](CH
 [repository README](../README.md#download) with its SHA-256 checksum (`Triton_INT_Setup_0_1_0.exe`). No Python is
 needed. Until then, run from source.
 
-**From source** (Python 3.12 or later):
+**From source** (Python 3.12 or later; the repository is private at this stage):
 
 ```bash
 cd triton_int

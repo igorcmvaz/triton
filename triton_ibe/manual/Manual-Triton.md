@@ -7816,14 +7816,14 @@ módulos.
 **O que a Edição Ibérica traz nesta versão.**
 
 - **Chuva.** A precipitação diária de 278 concelhos de Portugal continental, de 1950 a 2025, calculada a partir da grelha E-OBS v33.0e, numa base de 5,74 MiB identificada por `PT-EOBS-v33.0e-37fcba20` e por SHA-256. Cada concelho tem um nível de qualidade, A, B ou C: 45 de nível A, 159 de B e 74 de C.
-- **Licença da chuva.** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos.
+- **Licença da chuva.** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
 - **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256 registados; a entidade gestora de cada serviço em 280 concelhos, a partir da ERSAR; e um estado de confiança por concelho e por serviço.
 - **Valores e língua.** Euros, IVA tratado em cada tarifário, português europeu na interface, nos laudos e no manual.
 - **Documentação.** O manual completo, o sítio de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
 
 **O que a versão ainda não tem.**
 
-- **Espanha.** Nenhum local: a linha de cobertura diz «Espanha: 0 locais». Há um ensaio com as 52 capitais de província (39 em nível B, 9 em C, 4 sem série), feito fora do programa; falta o limite municipal e a decisão sobre a licença da E-OBS para redistribuição.
+- **Espanha.** Nenhum local: a linha de cobertura diz «Espanha: 0 locais». Há um ensaio com as 52 capitais de província (39 em nível B, 9 em C, 4 sem série), feito fora do programa; falta o limite municipal e a licença da E-OBS, que limita o uso à investigação e à educação.
 - **Ilhas.** Os 30 concelhos da Madeira e dos Açores não têm série na base (os Açores estão fora do domínio da E-OBS e a Madeira falha em mais de 1% dos dias). O exemplo do Funchal usa uma reanálise ERA5, e não nível A, B ou C.
 - **Tarifários nos restantes concelhos.** Só três estão transcritos; nenhum concelho está em verde, porque falta a verificação independente (42 amarelos e 238 cinzentos na água e no saneamento).
 - **Preços e CAPEX.** O programa não calcula preços de Portugal: reservatórios, tubagem, eletrobombas, mão de obra e manutenção partem de zero, e a tarifa de eletricidade e o preço do cloro também. Os resultados económicos dos exemplos não são resultados.
@@ -7832,7 +7832,7 @@ módulos.
 
 **Limitações conhecidas.**
 
-- A licença da E-OBS é omissa quanto à redistribuição da base derivada; a decisão é da UFSC. O aviso da licença só existe em português europeu, e o texto ainda precisa de revisão.
+- A licença da E-OBS é omissa quanto à redistribuição da base derivada; por decisão do titular (25/10/2026) o uso comercial é bloqueado e avisado, e quem usa a chuva E-OBS assume o uso não comercial. A tabela de qualidade, derivada do Iberia01 (ODbL), vai para um ficheiro separado sob a ODbL, com atribuição. O aviso da licença só existe em português europeu, e o texto ainda precisa de revisão.
 - O diálogo do CAPEX não tem campo para o preço da cisterna e repõe-no a zero ao confirmar; a secção 4.7 dá o contorno.
 - Em espanhol e em chinês, a interface está traduzida em parte (as traduções do nível de qualidade da chuva não foram revistas por um falante nativo) e os laudos saem com trechos em português; o português e o inglês estão completos.
 - Em inglês, alguns textos do catálogo da linha de tratamento e a proveniência do tarifário aparecem em português.
@@ -10271,7 +10271,7 @@ A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibéri
 
 **Ilhas.** A Madeira e os Açores não entram pela grelha. Os Açores ficam a oeste de 25° O, fora do domínio da E-OBS; na Madeira, todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020. A decisão do projeto é que as ilhas só entram com a série de uma estação. O Funchal é uma exceção rotulada: o exemplo usa uma reanálise ERA5, por ser a única série de ilha distribuída, e o laudo diz que a série é própria, sem nível A, B ou C.
 
-**Espanha.** O programa **ainda não traz nenhum local espanhol**, e a linha de cobertura diz «Espanha: 0 locais». O que existe é um ensaio, feito fora do programa, com as 52 capitais de província: 39 em nível B, 9 em C e 4 sem série. Para ter um pacote por município falta o limite municipal (CNIG, compatível com a licença CC-BY 4.0, confirmado em 23/10/2026) e uma decisão sobre a licença da E-OBS para redistribuição. Os tarifários e os custos de Espanha também não existem.
+**Espanha.** O programa **ainda não traz nenhum local espanhol**, e a linha de cobertura diz «Espanha: 0 locais». O que existe é um ensaio, feito fora do programa, com as 52 capitais de província: 39 em nível B, 9 em C e 4 sem série. Para ter um pacote por município falta o limite municipal (CNIG, compatível com a licença CC-BY 4.0, confirmado em 23/10/2026) e a licença da E-OBS, que limita o uso à investigação e à educação. Os tarifários e os custos de Espanha também não existem.
 
 **Licença da chuva.** A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
 
@@ -10314,7 +10314,7 @@ Esta secção resume os dados que a edição traz. O inventário completo, com t
 
 **O que declarar.** Ao usar a base, cite Cornes et al. (2018) e repita o reconhecimento exigido pela E-OBS; para a série do Funchal, a atribuição à Open-Meteo (CC BY 4.0) e a Hersbach et al. (2020); para os tarifários, a ERSAR («Fonte: ERSAR, www.ersar.pt. © ERSAR 2026. Todos os direitos reservados.») e a entidade do documento.
 
-**Pendências conhecidas.** A licença da E-OBS para redistribuir a base derivada é omissa, e a decisão é da UFSC; os termos de reutilização dos sítios das entidades gestoras não foram encontrados (Águas e Energia do Porto) ou não foram verificados (as restantes); o texto do aviso da E-OBS e partes deste manual precisam de revisão antes da primeira distribuição. Estas pendências estão registadas em `docs/DADOS.md`.
+**Pendências conhecidas.** A licença da E-OBS para redistribuir a base derivada é omissa; por decisão do titular (25/10/2026), o uso comercial é bloqueado e avisado, e a tabela de qualidade, derivada do Iberia01 (ODbL), vai para um ficheiro separado sob a ODbL, com atribuição; os termos de reutilização dos sítios das entidades gestoras não foram encontrados (Águas e Energia do Porto) ou não foram verificados (as restantes); o texto do aviso da E-OBS e partes deste manual precisam de revisão antes da primeira distribuição. Estas pendências estão registadas em `docs/DADOS.md`.
 
 ---
 

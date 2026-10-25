@@ -64,6 +64,8 @@ tests, manual and Windows installer, so you only need the one you use.
 
 ## Download
 
+*The repository is private at this stage; it will be made public later, and these links will then work.*
+
 The Windows installers are **not** in this repository, and they are not published yet. They will be released
 in a single Zenodo record, so that each release can be cited and kept as it was released. This README will
 link to that record, with the installers' SHA-256 checksums, when it exists. Installers are not code-signed.

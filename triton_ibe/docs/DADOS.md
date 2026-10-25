@@ -198,32 +198,32 @@ Ferramentas (no Git, em `tarifas_portugal/`): `importar_ersar.py` (índice da ER
 
 ## 8. Pendências conhecidas
 
-- Licença da E-OBS para redistribuir a base derivada (omissa): decisão da UFSC e, se se quiser eliminar o risco, pergunta ao KNMI.
-- Tabela `qualidade`: contém diferenças percentuais agregadas derivadas do Iberia01 (ODbL); não foi decidido se exige a ODbL.
+- Licença da E-OBS para redistribuir a base derivada (omissa): uso comercial bloqueado e avisado por decisão do titular (§9.1); a pergunta ao KNMI continua opcional.
+- Tabela `qualidade`: derivada do Iberia01 (ODbL); por decisão do titular vai para um ficheiro separado sob a ODbL, com atribuição (§9.2); a separação ainda não está feita no pacote.
 - `data/rainfall/LEIA.md`, sobre os exemplos, ainda cita o Funchal como exemplo ERA5, enquanto a decisão para as ilhas é série da estação.
 - Textos do manual e do aviso da E-OBS a rever antes da primeira distribuição.
 - Termos de reutilização dos sítios das entidades dos tarifários: ver §4 (Porto sem termos encontrados; as restantes não verificadas).
-- Decisões do titular sobre a E-OBS e a ODbL: ver §9.
+- Decisões do titular sobre a E-OBS e a ODbL: ver §9 (decididas em 25/10/2026).
 
-## 9. Decisões pendentes do titular (registo de 24/10/2026)
+## 9. Decisões do titular (25/10/2026)
 
-Estas duas decisões **não foram tomadas**. Pertencem ao titular dos direitos do software (UFSC/GPAS, na pessoa do responsável pelo projeto). Fica aqui o estado, o risco e a recomendação, para que a decisão seja tomada e registada antes de o repositório ficar público.
+O titular dos direitos do software (UFSC/GPAS) decidiu as duas questões que estavam pendentes. Princípio: segurança jurídica, com avisos de «não pode ser usado comercialmente» onde houver dúvida.
 
-### 9.1 E-OBS: redistribuição da base derivada
+### 9.1 E-OBS: uso comercial bloqueado e avisado
 
 - **Facto.** A licença do produto E-OBS (https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products) permite o uso «strictly for use in non-commercial research and education projects only». **Não trata da redistribuição nem de produtos derivados.** Nenhum pedido foi feito ao KNMI.
-- **Situação.** O repositório distribui `data/portugal_eobs.db` (séries médias por concelho derivadas da E-OBS) e o instalador também o leva. A licença do software (`LICENSE.md`) permite o uso por projetistas individuais, o que pode incluir uso profissional; a E-OBS não.
-- **Mecanismo no programa.** No primeiro arranque o programa mostra o aviso da licença e pede o uso (investigação/educação ou comercial); a declaração fica nos laudos. A constante `BLOQUEAR_E_OBS_EM_USO_COMERCIAL` (`triton/core/licenca_eobs.py`) está em **`False`**: o programa avisa, mas não bloqueia.
-- **Opções.** (a) manter a base e o aviso (risco baixo a moderado, não eliminado); (b) pôr `BLOQUEAR_E_OBS_EM_USO_COMERCIAL = True`, de modo que quem declara uso comercial só possa carregar a série própria; (c) perguntar ao KNMI/ECA&D se a redistribuição da base derivada é permitida; (d) retirar a base do Git e do instalador e distribuir só o script de reprodução.
-- **Recomendação do agente (não é decisão):** bloquear (opção b), e, se o titular quiser eliminar o risco, perguntar ao KNMI (opção c) antes da publicação do repositório.
-- **Decisão do titular:** PENDENTE.
+- **Decisão.** (a) O uso comercial da chuva E-OBS fica **bloqueado** no programa (`BLOQUEAR_E_OBS_EM_USO_COMERCIAL` passa a `True`: quem declara uso comercial só pode carregar a série própria). (b) Os relatórios indicam, **em vermelho e em tamanho grande, que a chuva E-OBS não pode ser usada comercialmente**, possivelmente como marca de água. (c) Quem usar a base assume o uso não comercial; o titular não responde por uso comercial.
+- **Estado da implementação.** A decisão é do titular; a mudança no código (constante, aviso vermelho nos relatórios, marca de água) é feita à parte e é conferida pelos testes da edição. Até lá, vale o aviso do primeiro arranque descrito na §2.
+- **Não decidido:** perguntar ao KNMI/ECA&D se a redistribuição da base derivada é permitida (continua sendo uma opção para eliminar o risco).
 
 ### 9.2 Tabela `qualidade` e a ODbL do Iberia01
 
-- **Facto.** A tabela `qualidade` de `data/portugal_eobs.db` guarda, por concelho, diferenças percentuais agregadas (`dtot`, `drx`) entre a E-OBS e o Iberia01 em 1971–2000. O Iberia01 v1.0 está sob a Open Database License (ODbL), segundo o mantenedor; **a licença não pôde ser confirmada em linha nesta versão** (o repositório DIGITAL.CSIC bloqueou o pedido automático).
-- **Questão.** Se a tabela `qualidade` é uma «base derivada» do Iberia01 no sentido da ODbL, exige atribuição e partilha nas mesmas condições (a base derivada de uso público tem de ser oferecida também em ODbL). Se é apenas um «produced work» ou um resultado agregado, exige atribuição. Esta leitura jurídica não foi feita.
-- **Estado.** A atribuição ao Iberia01 está nos avisos de terceiros (`infos_licenses/AVISOS_DE_TERCEIROS.txt`). A correção de escala derivada do Iberia01 não faz parte da versão.
-- **Opções.** (a) tratar a tabela como derivada e oferecê-la em ODbL (separando-a num ficheiro à parte); (b) manter só a atribuição e registar o fundamento; (c) retirar a tabela do pacote e deixar só o nível A/B/C calculado, sem os valores do Iberia01.
-- **Recomendação do agente (não é decisão):** confirmar a licença na fonte e, na dúvida, seguir (a) ou (c). O titular decide.
-- **Decisão do titular:** PENDENTE.
+- **Facto.** A tabela `qualidade` guarda, por concelho, diferenças percentuais agregadas (`dtot`, `drx`) entre a E-OBS e o Iberia01 em 1971–2000. O Iberia01 v1.0 está sob a Open Database License (ODbL), segundo o mantenedor; **a licença não pôde ser confirmada em linha** (o repositório DIGITAL.CSIC bloqueou o pedido automático).
+- **Decisão.** A tabela `qualidade` (derivada do Iberia01) passa para um **ficheiro separado, sob a ODbL, com atribuição** ao Iberia01 (Herrera et al., 2019, doi:10.20350/digitalCSIC/8641): «Contains information from Iberia01, made available under the Open Database License». O banco de séries `portugal_eobs.db` fica sem ela.
+- **Estado da implementação.** A separação do ficheiro é feita à parte (código e scripts); até lá, a tabela ainda está dentro de `data/portugal_eobs.db` (SHA-256 acima).
 
+### 9.3 Outros registos de 25/10/2026
+
+- **Repositório:** privado nesta fase; o README não promete ligação pública.
+- **DOI do Zenodo:** ainda não criado. **Data de lançamento:** a definir pelo titular.
+- **Eletricidade do Funchal:** fonte secundária, estado amarelo (§4); mantida e rotulada.

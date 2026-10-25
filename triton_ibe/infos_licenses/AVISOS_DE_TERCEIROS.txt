@@ -7869,7 +7869,7 @@ cada conjunto estão em docs/DADOS.md.
 
 E-OBS (data/portugal_eobs.db): licença do produto E-OBS, https://ecds.ecmwf.int/licences/licence-to-use-E-OBS-products:
 uso estritamente não comercial, em investigação e educação; a licença não trata da redistribuição nem de
-produtos derivados (ver docs/DADOS.md, §8, e a decisão pendente da UFSC). Reconhecimento exigido: «We
+produtos derivados (ver docs/DADOS.md, §9). Decisão do titular, 25/10/2026: o uso comercial da chuva E-OBS é bloqueado e avisado nos relatórios, e quem a usa assume o uso não comercial. Reconhecimento exigido: «We
 acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.eu) and the Copernicus Climate
 Change Service, and the data providers in the ECA&D project (https://www.ecad.eu)». Cornes, R. C. et al.
 (2018), doi:10.1029/2017JD028200.
@@ -7877,8 +7877,8 @@ Change Service, and the data providers in the ECA&D project (https://www.ecad.eu
 Iberia01 (referência de comparação do nível de qualidade A/B/C; a tabela `qualidade` do banco guarda diferenças
 percentuais derivadas dele): Herrera et al. (2019), doi:10.20350/digitalCSIC/8641, DIGITAL.CSIC 10261/183071.
 Licença declarada pelo mantenedor: Open Database License (ODbL), com direitos sobre os conteúdos individuais sob
-a Database Contents License; não foi possível confirmá-la em linha nesta versão. Se a ODbL se aplicar à tabela
-`qualidade`, exige atribuição e partilha nas mesmas condições; a decisão está pendente (docs/DADOS.md).
+a Database Contents License; não foi possível confirmá-la em linha nesta versão. Decisão do titular, 25/10/2026: a tabela
+`qualidade` vai para um ficheiro separado sob a ODbL, com a atribuição «Contains information from Iberia01, made available under the Open Database License».
 
 CAOP 2025 (limites dos concelhos): Direção-Geral do Território, licença cc-by no registo oficial em dados.gov.pt.
 

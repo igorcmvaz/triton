@@ -585,7 +585,7 @@ operação de Fewkes (φ) como opção em todos os módulos.
 - O custo anual que o resumo da análise mostra soma só a energia, o cloro e a linha de tratamento; as rotinas de manutenção entram no fluxo de caixa à parte (seção 4.7 (volume Tutorial)).
 - Em espanhol e em chinês, a interface está traduzida em parte e os laudos saem com trechos em português; o português e o inglês estão completos.
 - Em janelas estreitas, alguns cabeçalhos de tabela aparecem cortados.
-- A licença de reutilização dos portais dos prestadores, a das planilhas do Netuno 4 e a do logotipo do CLIMBra não foram verificadas; a base aberta da ANEEL declara a ODbL e o fator do MCTI/SIRENE, o CC BY-ND 3.0 para o site. As decisões do mantenedor estão em `docs/DADOS.md`.
+- A licença de reutilização dos portais dos prestadores, a das planilhas do Netuno 4 e a do logotipo do CLIMBra não foram verificadas; a base aberta da ANEEL declara a ODbL e o fator do MCTI/SIRENE, o CC BY-ND 3.0 para o site. Em 25/10/2026 o titular aprovou o uso dos JSON extraídos da ANEEL e do MCTI/SIRENE, com atribuição, e manteve as planilhas do Netuno 4 e o logotipo do CLIMBra, com a autorização dos criadores registada pelo titular (sem documento anexo); ver `docs/DADOS.md`.
 - O metadado `source_article` dentro das 19 partes do CLIMBra ainda diz «art. 48»; o artigo é Scientific Data 10, art. 47. O texto corrigido está no programa e na documentação, e as partes serão regeradas quando houver outra razão.
 
 #### 6.3.3.2. Correções que alteram resultados
