@@ -102,9 +102,12 @@ def build_manual(base_dir: Path, com_ingles: bool = False, so_ingles: bool = Fal
         ("site de documentação", "manual/gerar_site.py"),
     ]
     if so_ingles:
-        # A Internacional não tem o manual em português (manual/partes): a montagem, o changelog, as capas, o
-        # PDF e os mini manuais em português não se aplicam, e a montagem em português deixava lixo na pasta.
-        etapas = [e for e in etapas if e[0] not in ("apêndices", "montagem", "changelog", "capas", "PDF", "mini manuais")]
+        # A Internacional não tem o manual em português (manual/partes), de onde a cadeia parte: as tabelas
+        # em inglês são traduzidas das portuguesas, e a montagem em português deixava lixo na pasta. O manual
+        # inglês (manual/en) é regerado pelo mantenedor (gerar.py/gerar_pdf.py --idioma en) e versionado:
+        # o pacote leva o PDF do commit.
+        print("    Internacional: o pacote leva o manual em inglês versionado (manual/en/Triton-User-Manual.pdf).")
+        return True
     if com_ingles:
         # O manual em inglês é só da Internacional (manual/en); a Brasil e a Ibérica não o têm.
         etapas += [
@@ -765,7 +768,7 @@ def gravar_marcador_da_edicao(base_dir: Path, edicao: str) -> None:
     """
     marcador = base_dir / "triton" / "data" / "edicao_padrao.txt"
     if edicao in ("int", "ibe"):
-        marcador.write_text(edicao.upper() + "\n", encoding="utf-8")
+        marcador.write_text(edicao.upper() + "\n", encoding="utf-8", newline="\n")
     elif marcador.exists():
         marcador.unlink()
 
