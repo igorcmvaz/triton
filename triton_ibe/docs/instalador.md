@@ -3,7 +3,7 @@
 O instalador é gerado em duas etapas: o PyInstaller compila o programa na pasta
 `dist\Triton`, e o Inno Setup 6 empacota essa pasta em `dist\Triton_Setup_<versão>.exe`.
 O script `build_exe.py` faz as duas. Isto vale para a Edição Brasil; a International
-segue os mesmos passos com `build_exe.py`, dentro de `triton_int` (seção «A base climática» abaixo, e o mapa
+segue os mesmos passos com `build_exe.py`, dentro de `triton_int` (secção «A base climática» abaixo, e o mapa
 das edições em [`edicoes.md`](edicoes.md)).
 
 ## Pré-requisitos
@@ -39,13 +39,13 @@ Para compilar só o instalador, com `dist\Triton` já pronto:
 
 | Item | Comportamento |
 | :--- | :--- |
-| pasta | `C:\Program Files\Triton`, ou a pasta do usuário se a instalação for feita sem administrador (o instalador pergunta) |
+| pasta | `C:\Program Files\Triton`, ou a pasta do utilizador se a instalação for feita sem administrador (o instalador pergunta) |
 | licença | o texto de `LICENSE.md` (código-fonte disponível para fins acadêmicos), na página de licença e instalado na pasta do programa, com as licenças de terceiros (`AVISOS_DE_TERCEIROS.txt`) |
 | idiomas do instalador | português, inglês e espanhol |
 | componentes | programa (na Edição Brasil, com a base CLIMBra compilada e a pasta `tarifas` sem a `entrada`), manual, casos e exemplos (obrigatório); pacotes de idioma espanhol e chinês |
 | atalhos | Menu Iniciar (programa e manual em PDF); área de trabalho, opcional |
-| arquivos `.triton` | associados ao programa, opcional e marcado por padrão: o duplo clique abre o projeto |
-| desinstalação | remove a pasta do programa e o `avisos_qt.log` que ele cria; os projetos do usuário ficam onde foram salvos |
+| ficheiros `.triton` | associados ao programa, opcional e marcado por padrão: o duplo clique abre o projeto |
+| desinstalação | remove a pasta do programa e o `avisos_qt.log` que ele cria; os projetos do utilizador ficam onde foram salvos |
 
 ## A base climática
 
@@ -75,13 +75,13 @@ de gerar um instalador sem a base. A conferência anterior ao Inno Setup também
 `dist\Triton\_internal\data\climbra.db`. A opção `--sem-base-climatica` compila um
 pacote de teste sem a base e não gera instalador.
 
-Os CSV brutos (cerca de 6,5 GB em 37.164 arquivos) não são distribuídos: o banco
+Os CSV brutos (cerca de 6,2 GB em 37.164 ficheiros) não são distribuídos: o banco
 contém todas as séries, e os CSV só servem para recompilá-lo. Por isso o instalador não
 oferece o componente da base em CSV. Para desenvolvimento, a base pode ficar fora da
 pasta do programa, com as variáveis de ambiente `TRITON_CLIMBRA_DB` (o banco) ou
 `TRITON_CLIMATE_DATA_DIR` (a pasta de CSV, lida só quando não há banco).
 
-Rodando do código-fonte sem a base, a Etapa 1 abre com a série de exemplo de
+A executar do código-fonte sem a base, a Etapa 1 abre com a série de exemplo de
 Florianópolis e avisa que a base não está instalada.
 
 ## O código que vai no pacote
@@ -92,11 +92,11 @@ Antes de compilar, o `build_exe.py` confere a pasta:
   é interrompido por alterações locais, e a pasta fica na versão anterior sem aviso.
   Rode `git stash` e `git pull` e compile de novo. A opção `--ignorar-git` passa por
   cima da conferência.
-- **Commit compilado:** fica gravado no arquivo `revisao.json`, na pasta `triton/data` (criado pelo build e fora do git). O `--diagnostico`
+- **Commit compilado:** fica gravado no ficheiro `revisao.json`, na pasta `triton/data` (criado pelo build e fora do git). O `--diagnostico`
   mostra esse commit, e avisa quando havia alterações locais não commitadas.
 - **`.spec` do PyInstaller:** vai para `build/`, e não sobrescreve o `Triton.spec`
   versionado.
-- **Arquivos regerados pelo build:** o manual, o site, o changelog e os avisos de
+- **Ficheiros regerados pelo build:** o manual, o site, o changelog e os avisos de
   terceiros voltam ao estado do commit depois do empacotamento. Assim o próximo
   `git pull` não para. Alterações suas, feitas antes do build, não são tocadas.
 
@@ -120,5 +120,5 @@ instalada, `Triton.exe --diagnostico` mostra o mesmo relatório e o grava em
 - **Ajuda → Manual** abre o PDF.
 - **Ajuda → Relatório de Verificação Técnica e Computacional** abre o relatório.
 - Um duplo clique num `.triton` de `casos` abre o projeto e reproduz o número do
-  apêndice de arquivos de exemplo do manual.
+  apêndice de ficheiros de exemplo do manual.
 - Com a base instalada, a etapa 1 lista as 652 cidades.

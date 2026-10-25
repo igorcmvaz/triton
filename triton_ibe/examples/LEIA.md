@@ -11,10 +11,9 @@ de 2 mm, abastecimento por sobrepressor, varrimento de volumes até 20 000 L em 
 | `portugal/porto.triton` | Porto | E-OBS v33.0e, concelho do Porto, 1991–2020 (1199 mm/ano) | 01/01/2026 |
 | `portugal/funchal.triton` | Funchal | `data/rainfall/Funchal.csv`, reanálise ERA5 (538 mm/ano) | 01/01/2026 |
 
-Os projetos são gerados por `scripts/gerar_exemplos_prt.py` (mesmas entradas, mesmos ficheiros) e
-conferidos por `tests/unit/test_exemplos_da_edicao.py`, que refaz à mão cada fatura com os números impressos
+Os projetos estão versionados tal como foram gerados; o gerador (`scripts/gerar_exemplo_portugal.py`) fica no disco do mantenedor, fora do Git, e não é público. Conferem-no por `tests/unit/test_exemplos_da_edicao.py`, que refaz à mão cada fatura com os números impressos
 nos tarifários. Os relatórios dos três exemplos (executivo, ambiental/ESG e dossiê técnico; PDF, em português
-de Portugal) estão em `reports/exemplos/<cidade>/`, feitos por `scripts/gerar_relatorios_exemplo.py`.
+de Portugal) estão em `reports/exemplos/<cidade>/`, feitos com o gerador de relatórios do programa (o script que os produz em lote também não é público).
 
 **Os custos não estão definidos.** Custos de obra, de bomba, de tratamento e de manutenção ficam a zero: dependem
 do local e do mercado, e não se usou fonte oficial para eles. Introduza os seus na etapa 5. Até lá, a análise

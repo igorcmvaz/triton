@@ -48,7 +48,7 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 - Em inglês, alguns textos do catálogo da linha de tratamento e a proveniência do tarifário aparecem em português.
 - Tarifários: o IVA do Funchal não está confirmado; a disponibilidade de água do Porto foi lida por inferência do layout; Beja, Évora, Ponta Delgada e Bragança têm vigência de mais de 12 meses. A tarifa de eletricidade do Funchal (0,1673 €/kWh) vem de uma fonte secundária.
 - Os termos de reutilização dos sítios das entidades gestoras não foram verificados (no do Porto não se encontrou nenhum).
-- A EN 16941-1 (edição em vigor e transposição portuguesa) e a ETA 0701 da ANQIP (revisão em vigor) estão marcadas no manual como «a completar».
+- A EN 16941-1 (edição em vigor e transposição portuguesa) e a ETA 0701 da ANQIP (revisão em vigor) ficam no manual como «não verificado nesta versão».
 
 ## Dados e licenças numa linha
 
@@ -58,7 +58,9 @@ E-OBS: só uso não comercial em investigação e educação (citar Cornes et al
 
 Verificado: os exemplos de Lisboa, Porto e Funchal abrem, percorrem as 13 etapas, recalculam a economia e a decisão, geram os três laudos e a folha de auditoria, gravam o `.triton` e reabrem-no com o mesmo resultado; a linha de comandos funciona; os quatro idiomas abrem sem erro; o nível de qualidade da chuva e o aviso da licença da E-OBS aparecem na etapa 1 e nos laudos.
 
-Não verificado: a janela com ecrã real (a verificação foi em modo sem ecrã), a volumetria 3D em WebGL, a regeração dos instaladores com o nome definitivo e a impressão dos PDFs.
+Verificado em 25/10/2026, no instalador e no programa congelado desta compilação: o instalador (nome definitivo) foi executado em modo silencioso numa pasta temporária, instalou, o programa instalado correu `--diagnostico` e `cli validate`/`cli run` com resultados numéricos iguais aos do código-fonte, e desinstalou-se sem deixar a pasta. O congelado correu também com o PATH reduzido, fora do repositório. SHA-256 dos ficheiros testados: instalador `0add5c5993db7f2d97d2aa6a5267647f6dbcdfde62f5a4c7f91ca0b74d6ecace`; programa `34b7fdba2bd6c6dc38ebd77a6221c4dd0ebac23c549b5a391e74f89fd9564152`. Os instaladores **não são reprodutíveis bit a bit** (cada compilação grava a data e a revisão): o hash vale para estes ficheiros, e o instalador a publicar tem de ser medido de novo.
+
+Não verificado: a janela com ecrã real (a verificação foi em modo sem ecrã); a janela abriu e parou no diálogo da licença da E-OBS, sem chegar à janela principal, a volumetria 3D em WebGL, a impressão dos PDFs, uma máquina limpa real (máquina virtual sem Python), o Windows Defender/SmartScreen, a assinatura de código, a instalação para todos os utilizadores, a associação dos ficheiros `.triton` e os atalhos do menu Iniciar.
 
 ## Comunicar um problema
 

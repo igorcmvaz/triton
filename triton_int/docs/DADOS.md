@@ -25,9 +25,9 @@ The International Edition is the region-neutral core. It ships **no regional rai
 | Core reference files | `triton/data/costs_database.json`, `rotas_producao_agua.json`, `fatores_emissao_rede_padrao.json` | JSON | 0.02 MiB | yes | project material; see §5 |
 | 3D viewer (sky map and script) | `triton/data/volumetria/` | HDR, JS | 2.1 MiB | yes | CC0 1.0 (sky), MIT (three.js) |
 | Language packs | `data/languages/` | JSON | under 1 KiB | yes | project material |
-| Manual (PDF, offline site, figures) | `manual/` | PDF, HTML, PNG | 28.3 MiB (453 files) | yes | project material |
+| Manual (PDF, offline site, figures) | `manual/` | PDF, HTML, PNG | 28.4 MiB (453 files) | yes | project material |
 
-The tracked edition totals 42.6 MiB. Rainfall and tariff data live in separate files (`data/rainfall/` and `examples/`), and there is no climate-projection database in this edition.
+The tracked edition totals 42.8 MiB. Rainfall and tariff data live in separate files (`data/rainfall/` and `examples/`), and there is no climate-projection database in this edition.
 
 ## 3. Example rainfall series (`data/rainfall/`)
 
@@ -70,13 +70,13 @@ The three example projects share one building and differ in city, currency and t
 
 | File | What it is | Status in this edition |
 | :--- | :--- | :--- |
-| `triton/data/costs_database.json` | Reference-cost parameters used by the core | No catalogue price is applied: costs start at zero and the user enters their own |
+| `triton/data/costs_database.json` | Reference-cost parameters used by the core | Neutral in this edition: every price is zero and there is no currency or regional factor; costs start at zero and the user enters their own |
 | `triton/data/rotas_producao_agua.json` | Routes by which potable water is produced, with the emission avoided per m³ when rainwater replaces it | The avoided emission depends on the route replaced; the user declares it |
 | `triton/data/fatores_emissao_rede_padrao.json` | Empty template | Grid factor is 0 until the user enters the factor for the project's grid |
 
 ## 6. Size limits and checks
 
-- Limit: 50 MiB per tracked file. Largest file in this edition: `manual/en/Triton-User-Manual.pdf`, 6.49 MiB. Data files together: under 3 MiB.
+- Limit: 50 MiB per tracked file. Largest file in this edition: `manual/en/Triton-User-Manual.pdf`, 6.51 MiB. Data files together: under 3 MiB.
 - Check: `python scripts/verificar_tamanhos.py` (from the repository root) and `tests/unit/test_tamanho_dos_dados.py`.
 - Adding your own large series: keep it outside the repository, or split it, so that no tracked file passes the limit.
 
@@ -89,4 +89,3 @@ The three example projects share one building and differ in city, currency and t
 
 - Example tariffs: document URL and SHA-256 not recorded (not verified in this version); London and Cape Town effective dates inferred.
 - `data/rainfall/LEIA.md` was rewritten in English on 24/10/2026.
-- `triton/data/costs_database.json` is a core file that is not neutral in its own content; this edition does not apply it, but the file still ships with the package.

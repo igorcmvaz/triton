@@ -12,7 +12,7 @@ Tamanhos em MiB (1 MiB = 1.048.576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Séries de chuva dos exemplos | `data/rainfall/*.csv` | CSV, um valor diário por linha | 2,13 MiB (12 arquivos) | sim | CC0 1.0 (recortes do CLIMBra) |
 | Banco tarifário (652 municípios) | `triton/data/brazil_cities_tariffs.json` | JSON | 5,37 MiB | sim | valores públicos transcritos; ver §4 |
 | Catálogo e faixas auditadas | `tarifas/catalogo_tarifas_auditado_652.*`, `tarifas/tarifas_detalhadas_auditadas.csv` | CSV, XLSX | 5,5 MiB | sim | idem |
-| Transcrições e registro de fontes | `tarifas/transcricoes/` (156 arquivos), `tarifas/fontes/{registro.json,REGISTRO.md,procedencia.tsv}` | JSON, Markdown, TSV | 1,6 MiB | sim | idem |
+| Transcrições e registro de fontes | `tarifas/transcricoes/` (155 arquivos), `tarifas/fontes/{registro.json,REGISTRO.md,procedencia.tsv}` | JSON, Markdown, TSV | 1,6 MiB | sim | idem |
 | Documentos oficiais de terceiros (PDF, HTML) | `tarifas/fontes/<prestador>/` | PDF, HTML | 202 MB | **não** (disco do mantenedor) | de terceiros; não se redistribui |
 | Banco que reúne esses documentos | `tarifas/tarifas_fontes.db` | SQLite | 104 MB | **não** | de terceiros |
 | Fator de emissão da rede (MCTI/SIRENE) | `triton/data/fatores_emissao_rede_mcti.json`, `data/fontes_externas/…xlsx` | JSON, XLSX | 0,02 MiB | sim | ver §5 |
@@ -20,9 +20,9 @@ Tamanhos em MiB (1 MiB = 1.048.576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Resultados oficiais do Netuno 4 (validação) | `data/simulation_outputs/` | CSV | 0,28 MiB | sim | ver §5 |
 | Exemplos e relatórios de exemplo | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,71 MiB e 8,02 MiB | sim | do projeto |
 | Visualizador 3D (HDR e JS) | `triton/data/volumetria/` | HDR, JS | 2,1 MiB | sim | CC0 (céu) e MIT (three.js) |
-| Manual (PDF, site, figuras) | `manual/` | PDF, HTML, PNG | 53,1 MiB (456 arquivos) | sim | do projeto |
+| Manual (PDF, site, figuras) | `manual/` | PDF, HTML, PNG | 53,3 MiB (456 arquivos) | sim | do projeto |
 
-Ficam **de fora do Git** (e do instalador) o banco único antigo `data/climbra.db` (784 MiB, passaria do limite; o leitor ainda o aceita), os 6,24 GB de CSV originais do CLIMBra, `dist/`, `build/` e os registros de compilação.
+Ficam **de fora do Git** (e do instalador) o banco único antigo `data/climbra.db` (784 MiB, passaria do limite; o leitor ainda o aceita), os 6,24 GB de CSV originais do CLIMBra (medida em disco; os textos que dizem «~6,5 GB» arredondam por excesso), `dist/`, `build/` e os registros de compilação.
 
 Os dados de **tarifas** e de **pluviometria** estão em arquivos separados entre si e separados da base CLIMBra: a chuva dos exemplos fica em `data/rainfall/`, as tarifas em `triton/data/` e `tarifas/`, a base climática em `data/climbra_*.db`.
 
@@ -170,7 +170,7 @@ O `tarifas/catalogo_tarifas_auditado_652.csv` traz só o cabeçalho (274 bytes, 
 
 ## 6. Limites de tamanho e verificação
 
-- Limite: 50 MiB por arquivo rastreado. Maior arquivo da edição: 43,02 MiB (`climbra_KACE.db`). A edição rastreada soma 871,7 MiB: 785,1 MiB de clima e 86,6 MiB do resto, dos quais 53,1 MiB são o manual.
+- Limite: 50 MiB por arquivo rastreado. Maior arquivo da edição: 43,02 MiB (`climbra_KACE.db`). A edição rastreada soma 872,0 MiB: 785,1 MiB de clima e 86,8 MiB do resto, dos quais 53,3 MiB são o manual.
 - Conferência: `python scripts/verificar_tamanhos.py` (da raiz do repositório) e `tests/unit/test_tamanho_dos_dados.py`.
 - O repositório inteiro tem cerca de 976 MiB rastreados e o `.git`, 1,4 GB (as 19 partes respondem por 785 MiB). O plano de lançamento sem inflar o histórico (publicar as partes como *release assets* nas próximas versões e não regerá-las sem necessidade) não faz parte do repositório; é decisão do mantenedor.
 

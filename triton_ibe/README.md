@@ -80,6 +80,9 @@ python main.py                      # interface gráfica
 python -m triton.cli --help         # linha de comandos
 ```
 
+**Abrir um exemplo.** Com o programa aberto, use **Ficheiro > Abrir** e escolha `examples/portugal/lisboa.triton` (ou `porto.triton`, `funchal.triton`).
+O manual (`manual/Manual-Triton.pdf`) explica as 13 etapas a partir daí.
+
 Opcional: `pip install -e ".[acelerado]"` instala o `numba`, que acelera estudos em lote (os resultados são
 os mesmos).
 

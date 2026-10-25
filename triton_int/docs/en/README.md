@@ -11,7 +11,7 @@ delivers in potable water saved, money and life-cycle carbon. It then ranks the 
 multi-criteria decision analysis (TOPSIS and SMAA-VIKOR).
 
 It is developed by the Sustainable Environments Research Group (*Grupo de Pesquisa em Ambientes
-Sustentáveis*, GPAS) at the Federal University of Santa Catarina (UFSC), and succeeds Netuno 4.
+Sustentáveis*, GPAS) at the Federal University of Santa Catarina (UFSC), and succeeds the Netuno programme (Netuno 4 is the reference of its validation).
 
 This is the **International Edition (INT)**: the region-neutral core. It carries no regional
 rainfall database, tariff catalogue, cost database or emission factors. You supply the rainfall

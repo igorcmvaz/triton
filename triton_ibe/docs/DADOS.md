@@ -20,7 +20,7 @@ Tamanhos em MiB (1 MiB = 1 048 576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Fatores de emissão, custos, rotas de produção de água | `triton/data/*.json` | JSON | 0,02 MiB | sim | do projeto; sem valor local (§4) |
 | Exemplos (Lisboa, Porto, Funchal) e relatórios de exemplo | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,15 MiB e 5,33 MiB | sim | do projeto |
 | Visualizador 3D (HDR e JS) | `triton/data/volumetria/` | HDR, JS | 2,1 MiB | sim | CC0 (céu) e MIT (three.js) |
-| Manual (PDF, sítio, figuras) | `manual/` | PDF, HTML, PNG | 41,6 MiB (445 ficheiros) | sim | do projeto |
+| Manual (PDF, sítio, figuras) | `manual/` | PDF, HTML, PNG | 41,7 MiB (445 ficheiros) | sim | do projeto |
 
 Os dados de **tarifas** e de **pluviometria** estão em ficheiros separados entre si: a chuva em `data/`, as tarifas em `triton/data/` e `tarifas_portugal/`. Esta edição não leva a base CLIMBra (só a Edição Brasil).
 
@@ -178,14 +178,14 @@ Ferramentas (no Git, em `tarifas_portugal/`): `importar_ersar.py` (índice da ER
 | Conjunto | Estado |
 | :--- | :--- |
 | Fator de emissão da rede elétrica (`fatores_emissao_rede_padrao.json`) | **Sem valor**: a edição não traz série oficial; o fator é 0 até o utilizador indicar o da rede do projeto. As fontes portuguesas e espanholas (APA, MITECO, REE) foram avaliadas e não estão incorporadas; APA e MITECO sem licença expressa, REE com reutilização não autorizada no aviso geral (`scripts/dados/resultados/LICENCAS_DOS_DADOS.md`) |
-| Custos de referência (`costs_database.json`) | Ficheiro do núcleo; esta edição não aplica preços de catálogo: custos de obra, bomba, tratamento e manutenção ficam a zero nos exemplos, para o utilizador indicar os seus |
+| Custos de referência (`costs_database.json`) | Ficheiro do núcleo, neutro nesta edição (preços a zero, sem moeda nem fatores regionais); não há preços de catálogo: custos de obra, bomba, tratamento e manutenção ficam a zero nos exemplos, para o utilizador indicar os seus |
 | Rotas de produção de água (`rotas_producao_agua.json`) | Do projeto; o fator evitado por m³ depende da rota substituída e deve ser indicado pelo utilizador |
 | Exemplos (`examples/portugal/*.triton`) e relatórios (`reports/exemplos/`) | Gerados pelo projeto; os resultados económicos dos exemplos **não são resultados** (custos a zero) |
 | Visualizador 3D | Céu «Quarry» do Poly Haven (CC0 1.0) e three.js (MIT), em `triton/data/volumetria/LICENCAS.md` |
 
 ## 6. Limites de tamanho e verificação
 
-- Limite: 50 MiB por ficheiro rastreado. Maior ficheiro de dados: 5,74 MiB. A edição rastreada soma 61,9 MiB, dos quais 41,6 MiB são o manual.
+- Limite: 50 MiB por ficheiro rastreado. Maior ficheiro de dados: 5,74 MiB. A edição rastreada soma 62,7 MiB, dos quais 41,7 MiB são o manual.
 - Verificação: `python scripts/verificar_tamanhos.py` (da raiz) e `tests/unit/test_tamanho_dos_dados.py`.
 - Atualização anual da chuva: acrescentar o ano novo à E-OBS, regenerar `portugal_eobs.db` e recalcular `qualidade`; a base continua muito abaixo do limite.
 

@@ -2,7 +2,7 @@
 
 Feito em 23/10/2026, na branch `feature/ibe-qualidade` (sem commit, sem push). A edição continua a chamar-se `triton_ibe` / `IBE` no código; a troca do nome é uma etapa à parte.
 
-## O esquema (consenso do debate IBE, `auditoria/debate_ibe/rodada2_*`)
+## O esquema (consenso do debate interno da IBE, de 23/10/2026; o registo do debate não é público)
 
 Três estados, por concelho **e por serviço** (água, saneamento, resíduos urbanos), só para o utilizador doméstico.
 

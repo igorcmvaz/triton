@@ -2,7 +2,7 @@
 """Acrescenta a tabela `qualidade` e as chaves de `metadados` ao banco de chuva da edição IBE/PRT.
 
 Entrada: `qualidade_prototipo.csv` (colunas uid, n, metodo, dtot, drx, ...; E-OBS menos Iberia01,
-1971-2000), produzido por `validacao_precipitacao_prt/construir_banco_ibe.py`. A série repetida
+1971-2000), produzido por `scripts/dados/construir_banco_ibe.py`. A série repetida
 (um concelho com a série de outro) é derivada das próprias séries do banco, por SHA-256 da série
 descomprimida; com `--prototipo ibe_prototipo.db` confere-se que o conjunto de células
 (`unidade_ponto`) dá os mesmos concelhos.

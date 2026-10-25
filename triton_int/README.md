@@ -71,6 +71,9 @@ python main.py                      # graphical interface
 python -m triton.cli --help         # command line
 ```
 
+**Open an example.** With the program open, use **File > Open** and choose `examples/new_york.triton` (or `london.triton`, `cape_town.triton`).
+The manual (`manual/en/Triton-User-Manual.pdf`) explains the 13 steps from there.
+
 Optional: `pip install -e ".[acelerado]"` installs `numba`, which speeds up batch studies (the results are
 the same).
 

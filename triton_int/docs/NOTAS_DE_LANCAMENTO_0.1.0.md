@@ -39,7 +39,6 @@ The checks for this version were made on Windows. The licence is academic source
 - The CAPEX dialog has no field for the cistern price and sets it back to zero on confirming; section 10 of the manual gives the way round. With no price list, the cistern price you enter applies to every volume of the volume sweep. The price of chlorine can be set only in the project file.
 - In Spanish and Chinese the interface is partly translated, and the reports in those languages contain passages in another language; English is complete.
 - The life-cycle steps warn that country factors are missing, by design.
-- `triton/data/costs_database.json`, a core file, carries reference-cost parameters of one particular region and currency. This edition does not apply it, but the file still ships with the package.
 
 ## Data and licences in one line
 
@@ -49,7 +48,9 @@ Example rainfall: Open-Meteo / ERA5, CC BY 4.0, attribution required. Example ta
 
 Verified: the three example projects open, run through the 13 steps, recompute the economics and the decision, produce the three reports and the audit spreadsheet, save the `.triton` file and reopen it with the same result; the command line works; the four interface languages open without error; the New York, London and Cape Town bills are recomputed by automatic tests.
 
-Not verified: the window on a real display (the checks used an off-screen display), the WebGL 3D view, rebuilding the installers under the final name, and printing the PDFs.
+Verified on 25 Oct 2026, on the installer and the frozen program of this build: the installer (final name) was run silently into a temporary folder, installed, the installed program ran `--diagnostico` and `cli validate`/`cli run` with numerical results equal to those of the source code, and it uninstalled cleanly. The frozen program also ran with a reduced PATH, away from the repository. SHA-256 of the files tested: installer `28ee7c901ae156d574a957729761986ceaf0a859efb91d49c72a7d59a058e3c3`; program `a9e0c49c808c388be928d256b99bc19df933f7b3bd98c4f048738c7714fa667e`. The installers are **not bit-for-bit reproducible** (each build records the date and the revision): the hash holds for these files, and the installer to be published must be measured again.
+
+Not verified: the window on a real display beyond its title (the window opened and stayed responsive for 30 s; the checks otherwise used an off-screen display), the WebGL 3D view, printing the PDFs, a real clean machine (a virtual machine without Python), Windows Defender/SmartScreen, code signing, an all-users installation, the `.triton` file association and the Start-menu shortcuts.
 
 ## Report a problem
 

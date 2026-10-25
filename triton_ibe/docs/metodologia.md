@@ -14,13 +14,13 @@ não devem ser lidos.
   detalhamento do que depende do volume da cisterna.
 
 > **Premissas, não normas.** Valores de custos, tarifas, doses de cloro e fatores
-> ambientais são premissas editáveis pelo usuário. O software não os transforma em
+> ambientais são premissas editáveis pelo utilizador. O software não os transforma em
 > valores normativos, e nenhum resultado substitui medição, certificação, projeto
 > executivo ou revisão profissional das condições locais.
 
 ---
 
-O Triton é um modelo de apoio à decisão com passo diário. Suas saídas são condicionais às entradas; custos automáticos e fatores ambientais são **valores de triagem editáveis**, não cotações, normas de dimensionamento ou constantes universais. O arquivo `.triton` registra as premissas necessárias à reprodução do cenário.
+O Triton é um modelo de apoio à decisão com passo diário. Suas saídas são condicionais às entradas; custos automáticos e fatores ambientais são **valores de triagem editáveis**, não cotações, normas de dimensionamento ou constantes universais. O ficheiro `.triton` regista as premissas necessárias à reprodução do cenário.
 
 ## 1. Chuva efetiva e captação
 
@@ -52,7 +52,7 @@ O parâmetro `df` é uma **lâmina** (mm), não o volume hidráulico do disposit
 
 ## 2. Demanda e balanço diário
 
-A demanda tem duas parcelas. A interna é `Din,t = N × q`, em que `N` é o número de usuários e `q` a demanda per capita; se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A externa (rega, lavagem de áreas externas) é um volume diário `Qex`, suspenso nos dias em que a chuva atinge o limiar (2 mm por padrão): `Dex,t = Qex` se `Pt < Plim`, e zero nos demais. A demanda total é `Dtot,t = Din,t + Dex,t`.
+A demanda tem duas parcelas. A interna é `Din,t = N × q`, em que `N` é o número de utilizadores e `q` a demanda per capita; se houver perfil mensal, o multiplicador do mês é aplicado ao respectivo dia. A externa (rega, lavagem de áreas externas) é um volume diário `Qex`, suspenso nos dias em que a chuva atinge o limiar (2 mm por padrão): `Dex,t = Qex` se `Pt < Plim`, e zero nos demais. A demanda total é `Dtot,t = Din,t + Dex,t`.
 
 A solicitação pluvial é `Dpl,t = fin × Din,t + Dex,t`, em que `fin` é a fração não potável do consumo **interno**. A fração atendível **total**,
 
@@ -60,7 +60,7 @@ A solicitação pluvial é `Dpl,t = fin × Din,t + Dex,t`, em que `fin` é a fra
 f = (fin × Din + Qex) / (Din + Qex)
 ```
 
-é derivada das duas e não é dado de entrada: a interface a mostra num campo que não se edita, e o arquivo a grava para leitura. Sem demanda externa, `f = fin`. Alterar `f` pela linha de comando (`--share`, `--set rainwater_share=…`) recalcula `fin`, mantida a externa; alterar `fin` ou `Qex` recalcula `f`; alterar as duas de forma incoerente é recusado. A regra fica em `triton/core/fracao_atendivel.py`.
+é derivada das duas e não é dado de entrada: a interface a mostra num campo que não se edita, e o ficheiro a grava para leitura. Sem demanda externa, `f = fin`. Alterar `f` pela linha de comando (`--share`, `--set rainwater_share=…`) recalcula `fin`, mantida a externa; alterar `fin` ou `Qex` recalcula `f`; alterar as duas de forma incoerente é recusado. A regra fica em `triton/core/fracao_atendivel.py`.
 
 No reservatório inferior, o programa limita o estoque e calcula o extravasamento **antes** de retirar a demanda, como na regra *Yield After Spillage* (YAS), mas a chuva do próprio dia já pode atender a demanda do dia:
 
@@ -88,7 +88,7 @@ enquanto teto(Vmáx / ΔV) > 40: ΔV = 2 × ΔV
 grade = {0, ΔV, 2ΔV, ...} ∪ {Vmáx}
 ```
 
-Assim, o passo efetivo é sempre múltiplo de 250 L e há no máximo 40 capacidades positivas; 0 L é uma referência adicional sem cisterna. O volume máximo informado pelo usuário nunca é descartado. Se ele não for múltiplo do passo efetivo, é incluído como último candidato e somente o intervalo terminal fica menor. O ganho marginal desse ponto usa o `ΔV` real entre as duas capacidades, não o passo nominal. A interface informa qualquer ajuste e grava o passo efetivo; o resultado interno e a CLI também devolvem `requested_step_l`, `effective_step_l` e `step_adjusted`.
+Assim, o passo efetivo é sempre múltiplo de 250 L e há no máximo 40 capacidades positivas; 0 L é uma referência adicional sem cisterna. O volume máximo informado pelo utilizador nunca é descartado. Se ele não for múltiplo do passo efetivo, é incluído como último candidato e somente o intervalo terminal fica menor. O ganho marginal desse ponto usa o `ΔV` real entre as duas capacidades, não o passo nominal. A interface informa qualquer ajuste e grava o passo efetivo; o resultado interno e a CLI também devolvem `requested_step_l`, `effective_step_l` e `step_adjusted`.
 
 Na sugestão climática, `Vmáx,bruto = 8 × SDII × A × C` é arredondado para baixo ao múltiplo de 250 L, de modo que a sugestão não ultrapasse essa referência de triagem. Essa sugestão não é uma norma de dimensionamento e pode ser substituída pelo intervalo definido pelo pesquisador.
 
@@ -126,7 +126,7 @@ E = P × [(Vrecalcado / Q) + (Npartidas × tpartida)] / η
 
 `P` está em kW, `Vrecalcado/Q` e `tpartida` em horas e `η` é o rendimento global em fração. Se não houver reservatório superior, a energia de recalque é zero.
 
-A cloração usa uma dose aplicada informada pelo usuário:
+A cloração usa uma dose aplicada informada pelo utilizador:
 
 ```text
 mCl2,ativo (kg/ano) = Vtratado (m³/ano) × dose (mg/L) / 1000
@@ -142,7 +142,7 @@ metade da divergência que separava o módulo ambiental do de qualidade até a
 revisão que precedeu o lançamento. A cadeia está em `triton/core/chlorination.py`, e os três módulos
 — ambiental, econômico e de qualidade — partem dela.
 
-Essa conta estima **massa aplicada em cloro equivalente**, não a demanda de cloro da água. Demanda de cloro é a diferença entre dose aplicada e residual após tempo de contato, e exige ensaio com a água da fonte, definição do residual-alvo, pH, turbidez, matéria orgânica, tempo de contato e protocolo sanitário aplicável. Portanto, a dose padrão serve apenas para cenário econômico/ambiental e não prescreve tratamento.
+Essa conta estima **massa aplicada em cloro equivalente**, não a demanda de cloro da água. Demanda de cloro é a diferença entre dose aplicada e residual após tempo de contacto, e exige ensaio com a água da fonte, definição do residual-alvo, pH, turbidez, matéria orgânica, tempo de contacto e protocolo sanitário aplicável. Portanto, a dose padrão serve apenas para cenário econômico/ambiental e não prescreve tratamento.
 
 ## 6. Economia
 
@@ -202,7 +202,7 @@ São **sete** os critérios avaliados, quatro de benefício e três de custo:
 | CO₂ de ciclo de vida | custo |
 | Água potável consumida | custo |
 
-> Esta seção já descreveu **três** critérios — água pluvial consumida,
+> Esta secção já descreveu **três** critérios — água pluvial consumida,
 > VPL e CO₂e líquido evitado. O motor (`triton/core/topsis.py`) já usava sete; a
 > documentação é que estava defasada.
 

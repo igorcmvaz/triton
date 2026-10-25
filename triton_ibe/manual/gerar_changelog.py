@@ -13,7 +13,7 @@ O que há de novo em cada versão é escrito só em
     ### Correções que não alteram resultados
     ### Documentação
 
-Deste arquivo saem três coisas, e por isso elas não podem divergir:
+Deste ficheiro saem três coisas, e por isso elas não podem divergir:
 
 1. `CHANGELOG.md`, na raiz, para quem acompanha o programa pelo código;
 2. `manual/partes/_tabelas/cap38_versoes.md`, o panorama que o próprio capítulo
@@ -44,17 +44,17 @@ SAIDA = os.path.join(RAIZ, "CHANGELOG.md")
 TABELA = os.path.join(AQUI, "partes", "_tabelas", "cap38_versoes.md")
 NL = chr(10)
 
-#: As seções que uma entrada de versão pode ter, na ordem em que aparecem.
+#: As secções que uma entrada de versão pode ter, na ordem em que aparecem.
 SECOES = ("Novidades", "Correções que alteram resultados",
           "Correções que não alteram resultados", "Documentação")
 
 CABECALHO = f"""# O que há de novo em cada versão do Triton
 
-Este arquivo é **gerado** do capítulo de histórico do manual do usuário
+Este ficheiro é **gerado** do capítulo de histórico do manual do utilizador
 (`manual/partes/38_historico_de_versoes.md`) por `manual/gerar_changelog.py`.
 Não o edite à mão: escreva no manual, regere, e os dois ficam iguais.
 
-Cada versão traz as mesmas seções: o resumo em uma frase, as novidades, **as
+Cada versão traz as mesmas secções: o resumo em uma frase, as novidades, **as
 correções que alteram resultados de estudos já feitos**, as que não alteram e o
 que mudou na documentação. A distinção entre os dois tipos de correção é a que
 mais importa para quem publica com o programa: uma correção de cálculo obriga a
@@ -70,7 +70,7 @@ def entradas(texto: str) -> List[str]:
     partes = re.split(r"^## (?=Versão \d)", texto, flags=re.M)[1:]
     blocos = []
     for parte in partes:
-        # A entrada termina onde começa a próxima seção que não é de versão.
+        # A entrada termina onde começa a próxima secção que não é de versão.
         corte = re.search(r"^## (?!Versão \d)", parte, flags=re.M)
         blocos.append(("## " + (parte[: corte.start()] if corte else parte)).rstrip())
     return blocos
@@ -86,14 +86,14 @@ def _texto_limpo(bloco: str) -> str:
 
 
 def _quantas_linhas(corpo: str) -> int:
-    """Quantas linhas de tabela a seção traz — o tamanho da lista, sem contar cabeçalho."""
+    """Quantas linhas de tabela a secção traz — o tamanho da lista, sem contar cabeçalho."""
     linhas = [l for l in corpo.split(NL) if l.strip().startswith("|")]
     uteis = [l for l in linhas if not re.match(r"^\|[\s:\-|]+\|$", l.strip())]
     return max(0, len(uteis) - 1)
 
 
 def entradas_estruturadas(texto: Optional[str] = None) -> List[Dict[str, object]]:
-    """Cada versão como dado: número, data, resumo e as seções que ela traz.
+    """Cada versão como dado: número, data, resumo e as secções que ela traz.
 
     É o que a página de versões do site consome, e o que o panorama do manual
     conta. Nenhum destes números é digitado à mão.

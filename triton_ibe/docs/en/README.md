@@ -11,7 +11,7 @@ delivers in potable water saved, money and life-cycle carbon. It then ranks the 
 multi-criteria decision analysis (TOPSIS and SMAA-VIKOR).
 
 It is developed by the Sustainable Environments Research Group (*Grupo de Pesquisa em Ambientes
-Sustentáveis*, GPAS) at the Federal University of Santa Catarina (UFSC), and succeeds Netuno 4.
+Sustentáveis*, GPAS) at the Federal University of Santa Catarina (UFSC), and succeeds the Netuno programme (Netuno 4 is the reference of its validation).
 
 This is the **Iberian Edition (IBE, Triton IBE)**. It opens in European Portuguese and works in euros.
 For now it carries data for Portugal only (Spain: no sites). It brings E-OBS daily rainfall for 278 of the

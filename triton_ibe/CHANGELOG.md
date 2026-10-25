@@ -1,10 +1,10 @@
 # O que há de novo em cada versão do Triton
 
-Este arquivo é **gerado** do capítulo de histórico do manual do usuário
+Este ficheiro é **gerado** do capítulo de histórico do manual do utilizador
 (`manual/partes/38_historico_de_versoes.md`) por `manual/gerar_changelog.py`.
 Não o edite à mão: escreva no manual, regere, e os dois ficam iguais.
 
-Cada versão traz as mesmas seções: o resumo em uma frase, as novidades, **as
+Cada versão traz as mesmas secções: o resumo em uma frase, as novidades, **as
 correções que alteram resultados de estudos já feitos**, as que não alteram e o
 que mudou na documentação. A distinção entre os dois tipos de correção é a que
 mais importa para quem publica com o programa: uma correção de cálculo obriga a

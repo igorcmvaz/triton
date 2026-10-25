@@ -559,7 +559,7 @@ mesmo registro.
 O Triton é o filho do Netuno. Mantém o motor de simulação, a avaliação de ciclo de vida, a linha de
 tratamento, a decisão multicritério e a modulação probabilística do Netuno 5.0.1, e passa a ser
 distribuído em três programas independentes, um por edição: Brasil, Internacional e Ibérica. Cada um
-tem repositório, logo e numeração próprios, e esta é a primeira versão de todos: 0.1.0, ainda em beta.
+tem nome e logo próprios e todos compartilham o repositório e a numeração; esta é a primeira versão de todos: 0.1.0, ainda em beta.
 
 O histórico do Netuno (versões 5.0.0 e 5.0.1) continua no manual do Netuno. O Triton 0.1.0 já inclui as
 correções feitas até o Netuno 5.0.1, entre elas a da demanda mensal e semanal igual a zero, e a regra de

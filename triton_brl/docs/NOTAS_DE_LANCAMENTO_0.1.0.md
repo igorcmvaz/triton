@@ -50,7 +50,9 @@ CLIMBra: CC0 1.0. Tarifas: valores públicos transcritos, com a fonte de cada um
 
 Verificado: os projetos de exemplo da edição abrem, percorrem as 13 etapas, recalculam a economia e a decisão, geram os três laudos e a planilha de auditoria, gravam o `.triton` e o reabrem com o mesmo resultado; a linha de comando (`validate`, `run`, `analyze`, `init`, `matrix`) funciona; os quatro idiomas abrem sem erro; os números impressos no manual são conferidos por testes automáticos contra o programa.
 
-Não verificado: a janela com tela real (a verificação foi em modo sem tela), a volumetria 3D em WebGL, a regeração dos instaladores com o nome definitivo e a impressão dos PDFs.
+Verificado em 25/10/2026, no instalador e no programa congelado desta compilação: o instalador (nome definitivo) foi executado em modo silencioso numa pasta temporária, instalou, o programa instalado correu `--diagnostico` e `cli validate`/`cli run` com resultados numéricos iguais aos do código-fonte, e desinstalou-se sem deixar a pasta. O congelado correu também com o PATH reduzido, fora do repositório. SHA-256 dos arquivos testados: instalador `9f04b541aec0f6efcb83fd2adfdfe126a5e3e26bf511d9779f58a98f4b22e89a`; programa `6a66e7a34f8ccecb7ece94801831685512df780a39803be7b9bb17e756c1f35f`. Os instaladores **não são reprodutíveis bit a bit** (cada compilação grava a data e a revisão): o hash vale para estes arquivos, e o instalador a publicar tem de ser medido de novo.
+
+Não verificado: a janela com tela real (a verificação foi em modo sem tela); a janela do programa BRL instalado não chegou a ser aberta, a volumetria 3D em WebGL, a impressão dos PDFs, uma máquina limpa real (máquina virtual sem Python), o Windows Defender/SmartScreen, a assinatura de código, a instalação para todos os utilizadores, a associação dos arquivos `.triton` e os atalhos do menu Iniciar.
 
 ## Relatar um problema
 

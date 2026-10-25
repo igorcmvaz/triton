@@ -19,7 +19,7 @@ abstract: >-
   Software for the design and simulation of rainwater harvesting systems in buildings: daily water balance (Yield-After-Spill),
   economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS and SMAA-VIKOR).
   Developed by the Sustainable Environments Research Group (GPAS) at the Federal University of Santa Catarina (UFSC),
-  as the successor of Netuno 4.
+  as the successor of the Netuno programme (Netuno 4 is the reference of its validation).
   International Edition: region-neutral, with rainfall, tariffs, costs and currency supplied by the user.
 keywords:
   - rainwater-harvesting

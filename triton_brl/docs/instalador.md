@@ -75,7 +75,7 @@ de gerar um instalador sem a base. A conferência anterior ao Inno Setup também
 `dist\Triton\_internal\data\climbra.db`. A opção `--sem-base-climatica` compila um
 pacote de teste sem a base e não gera instalador.
 
-Os CSV brutos (cerca de 6,5 GB em 37.164 arquivos) não são distribuídos: o banco
+Os CSV brutos (cerca de 6,2 GB em 37.164 arquivos) não são distribuídos: o banco
 contém todas as séries, e os CSV só servem para recompilá-lo. Por isso o instalador não
 oferece o componente da base em CSV. Para desenvolvimento, a base pode ficar fora da
 pasta do programa, com as variáveis de ambiente `TRITON_CLIMBRA_DB` (o banco) ou
