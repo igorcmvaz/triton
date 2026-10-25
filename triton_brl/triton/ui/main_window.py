@@ -840,10 +840,13 @@ class MainWindow(QMainWindow):
                 else:
                     # série de arquivo fora da Brasil: sem cidade, modelo nem cenário da CLIMBra
                     # (voltavam ao padrão do TritonConfig, INM-CM4/HIST)
-                    cfg.climate_city_uf = chuva.get("climate_uf") or ""
-                    cfg.climate_city_name = chuva.get("climate_city") or ""
-                    cfg.climate_model = chuva.get("climate_model") or ""
-                    cfg.climate_scenario = chuva.get("climate_scenario") or ""
+                    # (os combos da Etapa 1 são os da CLIMBra, escondidos: valem os descritores do projeto aberto,
+                    # como «ERA5 (Open-Meteo)», que os laudos e o crédito da série leem)
+                    previo = getattr(self, "config", None)
+                    cfg.climate_city_uf = getattr(previo, "climate_city_uf", "") or ""
+                    cfg.climate_city_name = getattr(previo, "climate_city_name", "") or ""
+                    cfg.climate_model = getattr(previo, "climate_model", "") or ""
+                    cfg.climate_scenario = getattr(previo, "climate_scenario", "") or ""
                 cfg.climate_start_date = chuva.get("start_date") or cfg.climate_start_date
                 cfg.climate_end_date = chuva.get("end_date") or cfg.climate_end_date
             if hasattr(self.tab_project, 'get_tariff_location'):

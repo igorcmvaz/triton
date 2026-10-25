@@ -55,10 +55,20 @@ class ResultadoDoComprimento:
         return (self.comprimento_representativo_anos is not None
                 and self.anos_da_serie >= self.comprimento_representativo_anos)
 
-    def resumo(self) -> str:
-        """Uma frase para a tela e para o relatório."""
+    def resumo(self, ingles: bool = False) -> str:
+        """Uma frase para a tela e para o relatório (``ingles``: a versão em inglês, com o número da edição)."""
         anos = self.anos_da_serie
         rep = self.comprimento_representativo_anos
+        if ingles:
+            from triton.core.numero import formatar
+            if rep is None:
+                return (f"The series has {anos} years and does not stabilise within itself: even the longest length "
+                        f"tested does not reproduce the result in {self.confianca_pct:.0f}% of the windows. "
+                        f"Treat the ideal volume of {formatar(self.volume_ideal_l, 0)} L as provisional.")
+            if anos >= rep:
+                return f"The series has {anos} years and {rep} are enough for this project: it is representative."
+            return (f"The series has {anos} years, and this project needs {rep} to stabilise. "
+                    f"The ideal volume may change with more data.")
         if rep is None:
             return (f"A série tem {anos} anos e não estabiliza dentro dela: nem o maior "
                     f"comprimento testado reproduz o resultado em {self.confianca_pct:.0f}% "

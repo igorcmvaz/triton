@@ -33,7 +33,9 @@ def registrar_idioma(funcao) -> None:
 
 def _idioma() -> str:
     if not _provedor_do_idioma:
-        return "pt"
+        # CLI sem interface: a Internacional é em inglês (convenção «1,234.56»); as demais, em português.
+        from triton.core.edition import is_int_edition
+        return "en" if is_int_edition() else "pt"
     try:
         return _provedor_do_idioma[0]()
     except Exception:

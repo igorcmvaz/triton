@@ -126,6 +126,21 @@ def texto_depois_da_escolha(uso: str) -> str:
 
 # ── Rodapé do laudo ──────────────────────────────────────────────────────────────────────────
 
+def credito_da_serie_de_exemplo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
+    """Crédito CC BY 4.0 das séries de exemplo da reanálise ERA5 obtidas pelo Open-Meteo; vazio para as demais.
+
+    Vale pelo modelo climático gravado no projeto («ERA5 (Open-Meteo)»), nas edições sem a base do Brasil.
+    """
+    modelo = str((auditoria or {}).get("climate_model") or "").upper()
+    if "ERA5" not in modelo and "OPEN-METEO" not in modelo:
+        return ""
+    if ingles:
+        return ("Rainfall: weather data from Open-Meteo.com (CC BY 4.0), based on the ERA5 reanalysis of the Copernicus "
+                "Climate Change Service (Hersbach et al., 2020).")
+    return ("Chuva: dados meteorológicos de Open-Meteo.com (CC BY 4.0), a partir da reanálise ERA5 do Copernicus "
+            "Climate Change Service (Hersbach et al., 2020).")
+
+
 def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
     """As linhas de texto que fecham todo laudo da edição IBE; vazio nas outras edições.
 
@@ -134,15 +149,18 @@ def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = F
     Devolve HTML simples, já escapado, uma linha por ``<br/>``.
     """
     from html import escape
-    from triton.core.edition import usa_dados_de_portugal
-    if not usa_dados_de_portugal():
-        return ""
-    from triton.core import qualidade_chuva as _q
+    from triton.core.edition import usa_dados_de_portugal, usa_dados_do_brasil
     aud = auditoria or {}
+    credito = credito_da_serie_de_exemplo(aud, ingles)
+    if not usa_dados_de_portugal():
+        return escape(credito) if credito and not usa_dados_do_brasil() else ""
+    from triton.core import qualidade_chuva as _q
     proc = aud.get("chuva_procedencia") or {}
     linhas = []
     if aud.get("chuva_serie_propria"):
         linhas.append("Rainfall: series supplied by the user." if ingles else "Chuva: série fornecida pelo utilizador.")
+        if credito:
+            linhas.append(credito)
     else:
         pid = proc.get("pacote_id") or ""
         sha = str(proc.get("sha256_pacote") or "")[:8]

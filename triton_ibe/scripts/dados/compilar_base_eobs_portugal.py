@@ -199,6 +199,14 @@ def aplicar_completude(caminho: Path = None) -> list:
 
 
 if __name__ == "__main__":
+    import argparse
+    _ap = argparse.ArgumentParser(
+        description="Compila data/portugal_eobs.db (precipitação diária por concelho, E-OBS v33.0e e CAOP2025). "
+                    "Os ficheiros de origem (cerca de 3 GB) ficam fora do Git; ver scripts/dados/LEIA.md e _caminhos.py.")
+    _ap.add_argument("--saida", metavar="BANCO.db", help="escreve noutro ficheiro, sem substituir o banco do repositório")
+    _ap.add_argument("--so-completude", action="store_true",
+                     help="só aplica o critério de completude (1 %% de dias sem dado em 1991-2020) na base pronta")
+    _ap.parse_args()
     if "--so-completude" not in sys.argv:
         main()
     for nome, motivo in aplicar_completude():

@@ -492,7 +492,9 @@ class TabReportsPdf(QWidget):
         O rodapé do laudo (licença, citação, nível de qualidade e cobertura) lê estas chaves em
         ``triton.core.licenca_eobs.rodape_do_laudo``. Nas outras edições nada é acrescentado.
         """
-        from triton.core.edition import usa_dados_de_portugal
+        from triton.core.edition import usa_dados_de_portugal, usa_dados_do_brasil
+        if not usa_dados_do_brasil():
+            audit["climate_model"] = str(getattr(cfg, "climate_model", "") or "")   # crédito das séries ERA5
         if not usa_dados_de_portugal():
             return
         audit["climate_city_name"] = str(getattr(cfg, "climate_city_name", "") or "")

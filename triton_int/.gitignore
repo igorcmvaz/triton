@@ -127,6 +127,7 @@ tarifas_portugal/fontes/_secundarios/
 # instalador e os testes mantidos não dependem de nada disso (o build_exe.py usa o que existir).
 # ---------------------------------------------------------------------------
 scripts/**/*.py
+!scripts/gerar_relatorios_exemplo.py
 tarifas/*.py
 tarifas_portugal/*.py
 docs/gerar_figuras.py

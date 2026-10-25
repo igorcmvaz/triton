@@ -71,4 +71,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    argparse.ArgumentParser(
+        description="Chuva e nível de qualidade (A/B/C) das 52 capitais de província da Espanha, a partir da E-OBS e do "
+                    "Iberia01. Sem argumentos: lê os ficheiros netCDF indicados em _caminhos.py (fora do Git) e escreve "
+                    "resultados/qualidade_espanha_capitais.csv."
+    ).parse_args()
+    try:
+        main()
+    except (FileNotFoundError, OSError) as erro:
+        sys.exit(f"Falta uma fonte de dados ou não foi possível lê-la: {erro}\nVer scripts/dados/LEIA.md e _caminhos.py.")

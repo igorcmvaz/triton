@@ -796,6 +796,37 @@ def _environmental_row(cfg: TritonConfig, result: SingleTankSimulationResult, an
     }, lca
 
 
+def _so_o_nome(origem: Any) -> str:
+    """Só o nome do arquivo do projeto: o caminho absoluto da máquina de quem rodou não vai na saída."""
+    texto = str(origem or "")
+    return Path(texto.replace("\\", "/")).name if texto else ""
+
+
+def _procedencia_da_chuva(cfg: TritonConfig) -> Dict[str, Any]:
+    """Fonte, crédito e licença da chuva do projeto, para o JSON e o HTML do CLI (vazio na Brasil, que não muda).
+
+    O mesmo conteúdo do rodapé dos laudos (``licenca_eobs.rodape_do_laudo``): na IBE, E-OBS com a licença,
+    a citação, o nível de qualidade e a cobertura; nas séries ERA5 de exemplo, o crédito CC BY.
+    """
+    from html import unescape
+    from triton.core.edition import is_int_edition, usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        return {}
+    from triton.core.licenca_eobs import rodape_do_laudo
+    auditoria = {
+        "climate_model": str(getattr(cfg, "climate_model", "") or ""),
+        "climate_city_name": str(getattr(cfg, "climate_city_name", "") or ""),
+        "chuva_serie_propria": (getattr(cfg, "climate_source_mode", "") or "") == "custom_file",
+        "chuva_procedencia": dict(getattr(cfg, "chuva_procedencia", None) or {}),
+    }
+    linhas = [unescape(l) for l in rodape_do_laudo(auditoria, ingles=is_int_edition()).split("<br/>") if l.strip()]
+    fonte = {"climate_model": auditoria["climate_model"], "climate_scenario": str(getattr(cfg, "climate_scenario", "") or ""),
+             "climate_city": auditoria["climate_city_name"]}
+    if linhas:
+        fonte["credit_and_licence"] = linhas
+    return {k: v for k, v in fonte.items() if v}
+
+
 def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical", volume: Optional[float] = None,
                  weights: Tuple[float, float, float] = PESOS_PADRAO,
                  environmental: Optional[Dict[str, Any]] = None, source: str = "",
@@ -810,9 +841,12 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
     output: Dict[str, Any] = {
         "schema": {"name": "triton-analysis", "version": 2},
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "provenance": {"source_project": source, "rainfall_days": len(precip), "start_date": cfg.start_date},
+        "provenance": {"source_project": _so_o_nome(source), "rainfall_days": len(precip), "start_date": cfg.start_date},
         "technical": {"summary": technical_summary, "alternatives": [_technical_row(row) for row in technical_results]},
     }
+    fonte_da_chuva = _procedencia_da_chuva(cfg)
+    if fonte_da_chuva:
+        output["provenance"]["rainfall_source"] = fonte_da_chuva
     if analysis_type == "technical":
         return output
     economic_rows, economic_results = zip(*[
@@ -934,6 +968,18 @@ def _flat_rows(report: Dict[str, Any]) -> List[Dict[str, Any]]:
     return list(rows.values())
 
 
+def _html_da_fonte_da_chuva(report: Dict[str, Any]) -> str:
+    """Parágrafos com a fonte da chuva, o crédito e a licença (quando a procedência os traz)."""
+    from html import escape
+    fonte = (report.get("provenance") or {}).get("rainfall_source") or {}
+    if not fonte:
+        return ""
+    cabecalho = " · ".join(escape(str(fonte[k])) for k in ("climate_city", "climate_model", "climate_scenario") if fonte.get(k))
+    linhas = [f"<p>{cabecalho}</p>"] if cabecalho else []
+    linhas += [f"<p style='font-size:12px'>{escape(l)}</p>" for l in fonte.get("credit_and_licence", [])]
+    return "".join(linhas)
+
+
 def _render_html(report: Dict[str, Any]) -> str:
     rows = _flat_rows(report)
     columns = sorted({key for row in rows for key in row})
@@ -944,6 +990,7 @@ def _render_html(report: Dict[str, Any]) -> str:
             "th{background:#0284c7;color:white}td,th{padding:8px;border:1px solid #cbd5e1;text-align:right}th:first-child,td:first-child{text-align:left}</style>"
             f"<h1>Triton — relatório de análise</h1><p>Gerado: {report['generated_at_utc']}</p>"
             + (f"<p>Valores monetários em: {_simbolo(report)}</p>" if "economic" in report else "")
+            + _html_da_fonte_da_chuva(report)
             + f"<table><thead><tr>{header}</tr></thead><tbody>{body}</tbody></table>")
 
 
@@ -1468,6 +1515,29 @@ def _run_project_matrix(args: argparse.Namespace) -> None:
     _write_matrix_outputs(args.output_dir, summaries, alternatives, detailed)
 
 
+def _n(valor: Any, casas: int = 0, legado: Optional[str] = None) -> str:
+    """Número no texto dos estudos: na Brasil, o texto que sempre saiu (``legado``); nas outras edições, a
+    convenção da edição e do idioma (``triton.core.numero``): «3,000» na Internacional, «3.000» na Ibérica."""
+    if usa_dados_do_brasil() and legado is not None:
+        return legado
+    from triton.core.numero import formatar
+    return formatar(valor, casas)
+
+
+def _resumo_de_percentis(valor: Any) -> str:
+    """Os percentis do estudo de incerteza: na Brasil, como sempre (o objeto impresso); fora, número a número."""
+    if usa_dados_do_brasil() or not isinstance(valor, (list, tuple, dict)):
+        return str(valor)
+    itens = valor.values() if isinstance(valor, dict) else valor
+    return "[" + ", ".join(_n(v, 2) if isinstance(v, (int, float)) else str(v) for v in itens) + "]"
+
+
+def _L(pt: str, en: str) -> str:
+    """O texto em inglês na Internacional; nas outras edições, o original em português."""
+    from triton.core.edition import is_int_edition
+    return en if is_int_edition() else pt
+
+
 def _emit(texto: str, destino: Optional[str]) -> None:
     """Imprime na tela, ou grava no arquivo pedido."""
     if not destino:
@@ -1533,15 +1603,22 @@ def _run_series_length(args: argparse.Namespace) -> None:
                    for a, f in sorted(resultado.frequencia_por_comprimento.items())]
         texto = "\n".join(linhas)
     else:
-        linhas = [resultado.resumo(), "",
-                  f"Volume ideal com a série inteira: {resultado.volume_ideal_l:,.0f} L".replace(",", "."),
-                  f"Potencial nesse volume: {resultado.potencial_no_ideal_pct:.2f}%",
-                  f"Critério: {resultado.confianca_pct:.0f}% das janelas com o mesmo volume ideal "
-                  f"e potencial dentro de {resultado.tolerancia_pp:.1f} pontos", ""]
-        linhas.append("anos  janelas  resultados semelhantes")
+        from triton.core.edition import is_int_edition
+        vi = resultado.volume_ideal_l
+        linhas = [resultado.resumo(ingles=is_int_edition()), "",
+                  _L("Volume ideal com a série inteira: ", "Ideal volume with the whole series: ")
+                  + f"{_n(vi, 0, f'{vi:,.0f}'.replace(',', '.'))} L",
+                  _L("Potencial nesse volume: ", "Potential at that volume: ")
+                  + f"{_n(resultado.potencial_no_ideal_pct, 2, f'{resultado.potencial_no_ideal_pct:.2f}')}%",
+                  _L(f"Critério: {resultado.confianca_pct:.0f}% das janelas com o mesmo volume ideal "
+                     f"e potencial dentro de {_n(resultado.tolerancia_pp, 1, f'{resultado.tolerancia_pp:.1f}')} pontos",
+                     f"Criterion: {resultado.confianca_pct:.0f}% of the windows with the same ideal volume "
+                     f"and potential within {_n(resultado.tolerancia_pp, 1, f'{resultado.tolerancia_pp:.1f}')} points"), ""]
+        linhas.append(_L("anos  janelas  resultados semelhantes", "years  windows  similar results"))
         for anos_, freq in sorted(resultado.frequencia_por_comprimento.items()):
             marca = " <-" if anos_ == resultado.comprimento_representativo_anos else ""
-            linhas.append(f"{anos_:>4}  {resultado.janelas_por_comprimento[anos_]:>7}  {freq:>6.1f}%{marca}")
+            freq_txt = _n(freq, 1, f"{freq:.1f}")
+            linhas.append(f"{anos_:>4}  {resultado.janelas_por_comprimento[anos_]:>7}  {freq_txt:>6}%{marca}")
         texto = "\n".join(linhas)
     _emit(texto, args.output)
 
@@ -1609,9 +1686,11 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
 
     if args.list_variables:
         for v in CATALOGO.values():
-            print(f"{v.chave:<24} {v.grupo:<14} {v.rotulo} ({v.unidade}){' — ligada por padrão' if v.padrao else ''}")
+            unidade = v.unidade if usa_dados_do_brasil() else _t(v.unidade).replace("R$", _L("moeda", "currency"))
+            print(f"{v.chave:<24} {_t(v.grupo):<14} {_t(v.rotulo)} ({unidade})"
+                  f"{_L(' — ligada por padrão', ' - on by default') if v.padrao else ''}")
         from triton.core.climate_database import CLIMATE_MODELS
-        print(f"\nModelos climáticos (--climate-models): {', '.join(CLIMATE_MODELS)}")
+        print(_L("\nModelos climáticos (--climate-models): ", "\nClimate models (--climate-models): ") + ", ".join(CLIMATE_MODELS))
         return
     if not args.file:
         raise ValueError("Informe o projeto (ou use --list-variables).")
@@ -1629,7 +1708,7 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
 
     def progresso(feitas: int, total: int) -> None:
         if args.format == "text" and not args.quiet:
-            print(f"\r{feitas}/{total} realizações", end="", file=sys.stderr, flush=True)
+            print(f"\r{feitas}/{total} " + _L("realizações", "realisations"), end="", file=sys.stderr, flush=True)
 
     dados = simular(cfg, precipitation, parametros, amostras=amostras, semente=semente,
                     ao_progredir=progresso, pesos=weights, ambiental=analysis_cfg.get("environmental"))
@@ -1653,35 +1732,49 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
         return
 
     def br(x, casas=0):
-        return "—" if x is None else f"{x:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        legado = "—" if x is None else f"{x:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        return _n(x, casas, legado)
     ref = dados["volume_de_referencia_l"]
     linha = next((v for v in dados["por_volume"] if v["volume_l"] == ref), None)
     # Moeda do projeto (o «R$» era fixo, também em projeto em euro).
     rs = (_moeda_do_bundle(bundle) or {}).get("symbol") or "(moeda do projeto)"
-    texto = [f"Modulação probabilística: {dados['realizacoes_feitas']} realizações, semente {dados['semente']}",
-             f"Volume de referência (escolhido pelo estudo): {br(ref)} L"]
+    texto = [_L(f"Modulação probabilística: {dados['realizacoes_feitas']} realizações, semente {dados['semente']}",
+                f"Probabilistic modulation: {dados['realizacoes_feitas']} realisations, seed {dados['semente']}"),
+             _L("Volume de referência (escolhido pelo estudo): ", "Reference volume (chosen by the study): ") + f"{br(ref)} L"]
     if linha:
         p, v = linha["potencial_pct"], linha["vpl_brl"]
-        texto += [f"Potencial de economia: caso-base {br(linha['base']['potencial_pct'], 1)}%, "
-                  f"P5–P50–P95 {br(p['p5'], 1)}–{br(p['p50'], 1)}–{br(p['p95'], 1)}%",
-                  f"VPL: caso-base {rs} {br(linha['base']['vpl_brl'])}; P5 {rs} {br(v['p5'])}, mediana {rs} {br(v['p50'])}, "
-                  f"P95 {rs} {br(v['p95'])}; P(VPL > 0) = {br(linha['prob_vpl_positivo_pct'], 0)}%"]
-    texto.append("Variáveis sorteadas: " + ", ".join(CATALOGO[k].rotulo for k in dados["variaveis_ativas"]))
+        texto += [_L(f"Potencial de economia: caso-base {br(linha['base']['potencial_pct'], 1)}%, "
+                     f"P5–P50–P95 {br(p['p5'], 1)}–{br(p['p50'], 1)}–{br(p['p95'], 1)}%",
+                     f"Savings potential: base case {br(linha['base']['potencial_pct'], 1)}%, "
+                     f"P5–P50–P95 {br(p['p5'], 1)}–{br(p['p50'], 1)}–{br(p['p95'], 1)}%"),
+                  _L(f"VPL: caso-base {rs} {br(linha['base']['vpl_brl'])}; P5 {rs} {br(v['p5'])}, mediana {rs} {br(v['p50'])}, "
+                     f"P95 {rs} {br(v['p95'])}; P(VPL > 0) = {br(linha['prob_vpl_positivo_pct'], 0)}%",
+                     f"NPV: base case {rs} {br(linha['base']['vpl_brl'])}; P5 {rs} {br(v['p5'])}, median {rs} {br(v['p50'])}, "
+                     f"P95 {rs} {br(v['p95'])}; P(NPV > 0) = {br(linha['prob_vpl_positivo_pct'], 0)}%")]
+    texto.append(_L("Variáveis sorteadas: ", "Sampled variables: ") + ", ".join(_t(CATALOGO[k].rotulo) for k in dados["variaveis_ativas"]))
     if dados.get("por_modelo"):
         eta = dados["sensibilidade_modelo_eta2"]
-        texto.append(f"Modelo climático sorteado entre {len(dados['por_modelo'])}; η² com o VPL "
-                     f"{br(eta.get('vpl_brl'), 2)}, com o potencial {br(eta.get('potencial_pct'), 2)}")
+        texto.append(_L(f"Modelo climático sorteado entre {len(dados['por_modelo'])}; η² com o VPL "
+                        f"{br(eta.get('vpl_brl'), 2)}, com o potencial {br(eta.get('potencial_pct'), 2)}",
+                        f"Climate model drawn from {len(dados['por_modelo'])}; η² with the NPV "
+                        f"{br(eta.get('vpl_brl'), 2)}, with the potential {br(eta.get('potencial_pct'), 2)}"))
         for m in dados["por_modelo"]:
-            texto.append(f"  {m['modelo']}: {m['realizacoes']} realizações, potencial médio "
-                         f"{br(m['potencial_pct']['media'], 1)}%, VPL médio {rs} {br(m['vpl_brl']['media'])}")
+            texto.append(_L(f"  {m['modelo']}: {m['realizacoes']} realizações, potencial médio "
+                            f"{br(m['potencial_pct']['media'], 1)}%, VPL médio {rs} {br(m['vpl_brl']['media'])}",
+                            f"  {m['modelo']}: {m['realizacoes']} realisations, mean potential "
+                            f"{br(m['potencial_pct']['media'], 1)}%, mean NPV {rs} {br(m['vpl_brl']['media'])}"))
     for nome, rho in sorted(dados["sensibilidade_spearman"].items(),
                             key=lambda kv: -abs(kv[1]["vpl_brl"] or 0.0)):
-        texto.append(f"  ρ de Spearman com o VPL, {CATALOGO[nome].rotulo}: {br(rho['vpl_brl'], 2)}")
-    for chave, rotulo in (("ideal_tecnico", "Ideal técnico"), ("otimo_economico", "Ótimo econômico (payback)"),
-                          ("vencedor_topsis", "Vencedor TOPSIS")):
+        texto.append(_L(f"  ρ de Spearman com o VPL, {CATALOGO[nome].rotulo}: {br(rho['vpl_brl'], 2)}",
+                        f"  Spearman ρ with the NPV, {_t(CATALOGO[nome].rotulo)}: {br(rho['vpl_brl'], 2)}"))
+    for chave, rotulo in (("ideal_tecnico", _L("Ideal técnico", "Technical ideal")),
+                          ("otimo_economico", _L("Ótimo econômico (payback)", "Economic optimum (payback)")),
+                          ("vencedor_topsis", _L("Vencedor TOPSIS", "TOPSIS winner"))):
         freq = dados["frequencia_pct"][chave]
+        nenhum = _L("nenhum", "none")
         texto.append(f"{rotulo}: " + ", ".join(
-            (f"{k} L {br(f, 0)}%" if k != "nenhum" else f"nenhum {br(f, 0)}%") for k, f in freq.items()))
+            (f"{_n(float(k), 0, k) if k.replace('.', '', 1).isdigit() else k} L {br(f, 0)}%" if k != "nenhum" else f"{nenhum} {br(f, 0)}%")
+            for k, f in freq.items()))
     _emit("\n".join(texto), args.output)
 
 
@@ -1723,24 +1816,42 @@ def _run_stochastic_demand(args: argparse.Namespace) -> None:
         texto = json.dumps(dados, ensure_ascii=False, indent=2)
     else:
         p = dados["potencial_pct"]
+        def f2(x):
+            return _n(x, 2, f"{x:.2f}")
+
+        def f1(x):
+            return _n(x, 1, f"{x:.1f}")
+
+        def f0(x):
+            return _n(x, 0, f"{x:,.0f}".replace(",", "."))
+
+        d_ = dados["dias_plenos_pct"]
+        e_ = dados["extravasado_l_dia"]
         linhas = [
-            f"Volume analisado: {dados['volume_l']:,.0f} L".replace(",", "."),
-            f"Demanda média: {perfil.media_l_dia:,.0f} L/dia".replace(",", "."),
-            f"Sorteio: {args.samples} realizações, {perfil.distribuicao}, "
-            f"CV diário de {perfil.cv_pct:.0f}%, incerteza da média de "
-            f"{perfil.incerteza_da_media_pct:.0f}%, ausência em {perfil.probabilidade_de_ausencia_pct:.0f}% dos dias",
+            _L("Volume analisado: ", "Volume analysed: ") + f"{f0(dados['volume_l'])} L",
+            _L("Demanda média: ", "Mean demand: ") + f"{f0(perfil.media_l_dia)} L/{_L('dia', 'day')}",
+            _L(f"Sorteio: {args.samples} realizações, {perfil.distribuicao}, "
+               f"CV diário de {perfil.cv_pct:.0f}%, incerteza da média de "
+               f"{perfil.incerteza_da_media_pct:.0f}%, ausência em {perfil.probabilidade_de_ausencia_pct:.0f}% dos dias",
+               f"Draw: {args.samples} realisations, {perfil.distribuicao}, "
+               f"daily CV of {perfil.cv_pct:.0f}%, uncertainty of the mean of "
+               f"{perfil.incerteza_da_media_pct:.0f}%, absence on {perfil.probabilidade_de_ausencia_pct:.0f}% of the days"),
             "",
-            f"Potencial de economia   determinístico {dados['deterministico']['potencial_pct']:.2f}%"
-            f"   sorteado {p['p5']:.2f}% a {p['p95']:.2f}% (mediana {p['p50']:.2f}%)",
-            f"Dias plenamente atendidos  {dados['dias_plenos_pct']['p5']:.1f}% a {dados['dias_plenos_pct']['p95']:.1f}%",
-            f"Extravasamento médio       {dados['extravasado_l_dia']['p5']:.0f} a "
-            f"{dados['extravasado_l_dia']['p95']:.0f} L/dia",
+            _L(f"Potencial de economia   determinístico {f2(dados['deterministico']['potencial_pct'])}%"
+               f"   sorteado {f2(p['p5'])}% a {f2(p['p95'])}% (mediana {f2(p['p50'])}%)",
+               f"Savings potential   deterministic {f2(dados['deterministico']['potencial_pct'])}%"
+               f"   sampled {f2(p['p5'])}% to {f2(p['p95'])}% (median {f2(p['p50'])}%)"),
+            _L(f"Dias plenamente atendidos  {f1(d_['p5'])}% a {f1(d_['p95'])}%",
+               f"Days fully supplied  {f1(d_['p5'])}% to {f1(d_['p95'])}%"),
+            _L(f"Extravasamento médio       {f0(e_['p5'])} a {f0(e_['p95'])} L/dia",
+               f"Mean overflow       {f0(e_['p5'])} to {f0(e_['p95'])} L/day"),
         ]
         if "volume_ideal" in dados:
             vi = dados["volume_ideal"]["volume_ideal_l"]
-            distintos = ", ".join(f"{v:,.0f}".replace(",", ".") for v in dados["volume_ideal"]["volumes_distintos"])
-            linhas += ["", f"Volume ideal por realização: {vi['p5']:,.0f} a {vi['p95']:,.0f} L".replace(",", "."),
-                       f"Volumes eleitos: {distintos} L"]
+            distintos = ", ".join(f0(v) for v in dados["volume_ideal"]["volumes_distintos"])
+            linhas += ["", _L(f"Volume ideal por realização: {f0(vi['p5'])} a {f0(vi['p95'])} L",
+                              f"Ideal volume per realisation: {f0(vi['p5'])} to {f0(vi['p95'])} L"),
+                       _L("Volumes eleitos: ", "Volumes chosen: ") + f"{distintos} L"]
         texto = "\n".join(linhas)
     _emit(texto, args.output)
 
@@ -1806,11 +1917,15 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
     output = {"schema": {"name": "triton-uncertainty", "version": 1},
               "generated_at_utc": datetime.now(timezone.utc).isoformat(), "summary": summary, "samples": samples}
     if args.format == "text":
-        print(f"=== Triton | incerteza Monte Carlo | {args.samples} amostras ===")
-        print(f"Volume analisado: {volume:.0f} L")
-        print(f"Economia potável (%), P05/P50/P95: {summary['potable_savings_pct']}")
+        print(_L(f"=== Triton | incerteza Monte Carlo | {args.samples} amostras ===",
+                 f"=== Triton | Monte Carlo uncertainty | {args.samples} samples ==="))
+        print(_L("Volume analisado: ", "Volume analysed: ") + f"{_n(volume, 0, f'{volume:.0f}')} L")
+        print(_L("Economia potável (%), P05/P50/P95: ", "Potable savings (%), P05/P50/P95: ")
+              + f"{_resumo_de_percentis(summary['potable_savings_pct'])}")
         if "npv_brl" in summary:
-            print(f"VPL, P05/P50/P95: {summary['npv_brl']} | P(VPL > 0): {summary['probability_npv_positive_pct']:.1f}%")
+            prob = summary["probability_npv_positive_pct"]
+            print(_L("VPL", "NPV") + f", P05/P50/P95: {_resumo_de_percentis(summary['npv_brl'])} | "
+                  + _L("P(VPL > 0)", "P(NPV > 0)") + f": {_n(prob, 1, f'{prob:.1f}')}%")
         return
     if not args.output:
         raise ValueError("--output é obrigatório para exportar a análise de incerteza")
